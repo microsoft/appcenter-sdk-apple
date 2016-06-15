@@ -6,6 +6,29 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		6E2838F71D11F23A003BC667 /* AvalancheCrashes Universal */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 6E2838FA1D11F23A003BC667 /* Build configuration list for PBXAggregateTarget "AvalancheCrashes Universal" */;
+			buildPhases = (
+			);
+			dependencies = (
+			);
+			name = "AvalancheCrashes Universal";
+			productName = "AvalancheCrashes Universal";
+		};
+		6E2838FB1D11F25E003BC667 /* AvalancheCore Universal */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 6E2838FC1D11F25E003BC667 /* Build configuration list for PBXAggregateTarget "AvalancheCore Universal" */;
+			buildPhases = (
+			);
+			dependencies = (
+			);
+			name = "AvalancheCore Universal";
+			productName = "AvalancheCore Universal";
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		6E2838C61D11D800003BC667 /* AvalancheCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E2838C51D11D800003BC667 /* AvalancheCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E2838CD1D11D800003BC667 /* AvalancheCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E2838C21D11D800003BC667 /* AvalancheCore.framework */; };
@@ -253,6 +276,12 @@
 					6E2838E71D11D826003BC667 = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
+					6E2838F71D11F23A003BC667 = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
+					6E2838FB1D11F25E003BC667 = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
 				};
 			};
 			buildConfigurationList = 6E2838BA1D11D7CB003BC667 /* Build configuration list for PBXProject "AvalancheSDK-iOS" */;
@@ -269,8 +298,10 @@
 			targets = (
 				6E2838C11D11D800003BC667 /* AvalancheCore */,
 				6E2838CB1D11D800003BC667 /* AvalancheCoreTests */,
+				6E2838FB1D11F25E003BC667 /* AvalancheCore Universal */,
 				6E2838DE1D11D826003BC667 /* AvalancheCrashes */,
 				6E2838E71D11D826003BC667 /* AvalancheCrashesTests */,
+				6E2838F71D11F23A003BC667 /* AvalancheCrashes Universal */,
 			);
 		};
 /* End PBXProject section */
@@ -765,6 +796,34 @@
 			};
 			name = Release;
 		};
+		6E2838F81D11F23A003BC667 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		6E2838F91D11F23A003BC667 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		6E2838FD1D11F25E003BC667 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		6E2838FE1D11F25E003BC667 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -784,6 +843,7 @@
 				6E2838D61D11D800003BC667 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6E2838D71D11D800003BC667 /* Build configuration list for PBXNativeTarget "AvalancheCoreTests" */ = {
 			isa = XCConfigurationList;
@@ -792,6 +852,7 @@
 				6E2838D91D11D800003BC667 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6E2838F01D11D826003BC667 /* Build configuration list for PBXNativeTarget "AvalancheCrashes" */ = {
 			isa = XCConfigurationList;
@@ -800,12 +861,30 @@
 				6E2838F21D11D826003BC667 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6E2838F31D11D826003BC667 /* Build configuration list for PBXNativeTarget "AvalancheCrashesTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6E2838F41D11D826003BC667 /* Debug */,
 				6E2838F51D11D826003BC667 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6E2838FA1D11F23A003BC667 /* Build configuration list for PBXAggregateTarget "AvalancheCrashes Universal" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6E2838F81D11F23A003BC667 /* Debug */,
+				6E2838F91D11F23A003BC667 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		6E2838FC1D11F25E003BC667 /* Build configuration list for PBXAggregateTarget "AvalancheCore Universal" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6E2838FD1D11F25E003BC667 /* Debug */,
+				6E2838FE1D11F25E003BC667 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
