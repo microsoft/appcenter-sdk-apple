@@ -7,6 +7,7 @@
 //
 
 #import "AVAFeaturePrivate.h"
+#import "AVACorePrivate.h"
 
 @implementation AVAFeature
 
@@ -30,7 +31,7 @@
 }
 
 - (void)startFeature {
-  NSLog(@"Feature started");
+  AVALogVerbose(@"AVAFeature: Feature started");
 }
 
 @end

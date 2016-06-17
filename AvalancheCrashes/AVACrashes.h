@@ -11,6 +11,4 @@
 
 @interface AVACrashes : AVAFeature
 
-+ (BOOL)hasCrashes;
-
 @end

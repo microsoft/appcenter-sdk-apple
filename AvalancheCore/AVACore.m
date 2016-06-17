@@ -31,7 +31,7 @@
 - (void)useFeatures:(NSArray<Class> *)features identifier:(NSString *)identifier {
   
   if (self.featuresStarted) {
-    // LOG: Method can only be called once
+    AVALogWarning(@"SDK has already been started. You can call `useFeature` only once.");
     return;
   }
   
@@ -46,6 +46,18 @@
   }
   
   _featuresStarted = YES;
+}
+
++ (AVALogLevel)logLevel {
+  return AVALogger.currentLogLevel;
+}
+
++ (void)setLogLevel:(AVALogLevel)logLevel {
+  AVALogger.currentLogLevel = logLevel;
+}
+
++ (void)setLogHandler:(AVALogHandler)logHandler {
+  [AVALogger setLogHandler:logHandler];
 }
 
 @end

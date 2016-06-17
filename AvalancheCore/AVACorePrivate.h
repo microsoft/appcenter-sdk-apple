@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "AVACore.h"
+#import "AVALoggerPrivate.h"
 
 @class AVAFeature;
 @interface AVACore ()

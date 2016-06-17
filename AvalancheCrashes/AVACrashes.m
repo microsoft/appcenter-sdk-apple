@@ -7,15 +7,12 @@
 //
 
 #import "AVACrashes.h"
+#import "AVALogger.h"
 
 @implementation AVACrashes
 
 - (void)startFeature {
-  NSLog(@"Crashes started");
-}
-
-+ (BOOL)hasCrashes {
-  return YES;
+  AVALogVerbose(@"AVACrashes: Started crash module");
 }
 
 @end

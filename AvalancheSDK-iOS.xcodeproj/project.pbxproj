@@ -48,6 +48,11 @@
 		6E28391C1D121664003BC667 /* AVACrashes.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E28391A1D121664003BC667 /* AVACrashes.m */; };
 		6E2839201D12214F003BC667 /* AVACrashesPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E28391E1D12214F003BC667 /* AVACrashesPrivate.h */; };
 		6E28395C1D122F62003BC667 /* AvalancheCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E2838C21D11D800003BC667 /* AvalancheCore.framework */; };
+		6EF768801D146E3F003B372C /* AVALogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF7687E1D146E3F003B372C /* AVALogger.h */; };
+		6EF768811D146E3F003B372C /* AVALogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF7687F1D146E3F003B372C /* AVALogger.m */; };
+		6EF768841D146E7D003B372C /* AVAConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF768821D146E7D003B372C /* AVAConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6EF768881D147138003B372C /* AVALoggerPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF768861D147138003B372C /* AVALoggerPrivate.h */; };
+		6EF7688A1D14B37F003B372C /* AVALogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF7687E1D146E3F003B372C /* AVALogger.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,6 +101,10 @@
 		6E2839191D121664003BC667 /* AVACrashes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVACrashes.h; sourceTree = "<group>"; };
 		6E28391A1D121664003BC667 /* AVACrashes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVACrashes.m; sourceTree = "<group>"; };
 		6E28391E1D12214F003BC667 /* AVACrashesPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVACrashesPrivate.h; sourceTree = "<group>"; };
+		6EF7687E1D146E3F003B372C /* AVALogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVALogger.h; sourceTree = "<group>"; };
+		6EF7687F1D146E3F003B372C /* AVALogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVALogger.m; sourceTree = "<group>"; };
+		6EF768821D146E7D003B372C /* AVAConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAConstants.h; sourceTree = "<group>"; };
+		6EF768861D147138003B372C /* AVALoggerPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVALoggerPrivate.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,6 +167,7 @@
 		6E2838C41D11D800003BC667 /* AvalancheCore */ = {
 			isa = PBXGroup;
 			children = (
+				6EF7687D1D146E1D003B372C /* Helper */,
 				6E2838C51D11D800003BC667 /* AvalancheCore.h */,
 				6E2838C71D11D800003BC667 /* Info.plist */,
 				6E2839071D1210C6003BC667 /* AVACore.h */,
@@ -200,6 +210,17 @@
 			path = AvalancheCrashesTests;
 			sourceTree = "<group>";
 		};
+		6EF7687D1D146E1D003B372C /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				6EF768821D146E7D003B372C /* AVAConstants.h */,
+				6EF768861D147138003B372C /* AVALoggerPrivate.h */,
+				6EF7687E1D146E3F003B372C /* AVALogger.h */,
+				6EF7687F1D146E3F003B372C /* AVALogger.m */,
+			);
+			name = Helper;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -208,9 +229,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E2839091D1210C6003BC667 /* AVACore.h in Headers */,
+				6EF768801D146E3F003B372C /* AVALogger.h in Headers */,
 				6E2838C61D11D800003BC667 /* AvalancheCore.h in Headers */,
+				6EF768881D147138003B372C /* AVALoggerPrivate.h in Headers */,
 				6E2839111D121185003BC667 /* AVAFeature.h in Headers */,
 				6E2839151D1212C3003BC667 /* AVAFeaturePrivate.h in Headers */,
+				6EF768841D146E7D003B372C /* AVAConstants.h in Headers */,
 				6E28390D1D1210DB003BC667 /* AVACorePrivate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -220,6 +244,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E2838F61D11DA72003BC667 /* AvalancheCrashes.h in Headers */,
+				6EF7688A1D14B37F003B372C /* AVALogger.h in Headers */,
 				6E28391B1D121664003BC667 /* AVACrashes.h in Headers */,
 				6E2839201D12214F003BC667 /* AVACrashesPrivate.h in Headers */,
 			);
@@ -417,6 +442,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E28390A1D1210C6003BC667 /* AVACore.m in Sources */,
+				6EF768811D146E3F003B372C /* AVALogger.m in Sources */,
 				6E2839121D121185003BC667 /* AVAFeature.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
