@@ -29,6 +29,8 @@
 
 @interface AVAFeature : NSObject
 
++ (void)resume;
++ (void)stop;
 + (void)setServerURL:(NSString *)serverURL;
 + (void)setIdentifier:(NSString *)identifier;
 

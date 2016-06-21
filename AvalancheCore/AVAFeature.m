@@ -26,4 +26,13 @@
   AVALogVerbose(@"AVAFeature: Feature started");
 }
 
+
++ (void)resume {
+  
+}
+
++ (void)stop {
+  
+}
+
 @end
