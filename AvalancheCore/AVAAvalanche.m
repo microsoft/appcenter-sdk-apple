@@ -1,18 +1,10 @@
-//
-//  AVACore.m
-//  AvalancheSDK-iOS
-//
-//  Created by Christoph Wendt on 6/15/16.
-//
-//
-
-#import "AVACorePrivate.h"
+#import "AVAAvalanchePrivate.h"
 #import "AVAFeaturePrivate.h"
 
-@implementation AVACore
+@implementation AVAAvalanche
 
 + (id)sharedInstance {
-  static AVACore *sharedInstance = nil;
+  static AVAAvalanche *sharedInstance = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
     sharedInstance = [[self alloc] init];
@@ -41,6 +33,7 @@
     if (!feature.identifier) {
       feature.identifier = identifier;
     }
+    feature.delegate = self;
     [self.features addObject:feature];
     [feature startFeature];
   }

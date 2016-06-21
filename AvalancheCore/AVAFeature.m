@@ -7,7 +7,7 @@
 //
 
 #import "AVAFeaturePrivate.h"
-#import "AVACorePrivate.h"
+#import "AVAAvalanchePrivate.h"
 
 @implementation AVAFeature
 
