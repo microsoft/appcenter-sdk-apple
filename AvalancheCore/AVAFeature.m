@@ -1,11 +1,3 @@
-//
-//  AVAFeature.m
-//  AvalancheSDK-iOS
-//
-//  Created by Christoph Wendt on 6/15/16.
-//
-//
-
 #import "AVAFeaturePrivate.h"
 #import "AVAAvalanchePrivate.h"
 
