@@ -3,7 +3,7 @@
 
 @implementation AVAFeature
 
-# pragma mark - BITModule methods
+# pragma mark - AVAModule methods
 
 + (id)sharedInstance {
   static id sharedInstance = nil;
