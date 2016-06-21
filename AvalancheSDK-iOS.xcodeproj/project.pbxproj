@@ -32,6 +32,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		6E1518A31D18BF5700CC68DE /* AVAAvalancheDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E1518A21D18BF5700CC68DE /* AVAAvalancheDelegate.h */; };
 		6E2838C61D11D800003BC667 /* AvalancheCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E2838C51D11D800003BC667 /* AvalancheCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E2838CD1D11D800003BC667 /* AvalancheCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E2838C21D11D800003BC667 /* AvalancheCore.framework */; };
 		6E2838D21D11D800003BC667 /* AvalancheCoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2838D11D11D800003BC667 /* AvalancheCoreTests.m */; };
@@ -80,6 +81,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6E1518A21D18BF5700CC68DE /* AVAAvalancheDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAAvalancheDelegate.h; sourceTree = "<group>"; };
 		6E2838C21D11D800003BC667 /* AvalancheCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AvalancheCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E2838C51D11D800003BC667 /* AvalancheCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AvalancheCore.h; sourceTree = "<group>"; };
 		6E2838C71D11D800003BC667 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 				6E28390F1D121185003BC667 /* AVAFeature.h */,
 				6E2839101D121185003BC667 /* AVAFeature.m */,
 				6E2839131D1212C3003BC667 /* AVAFeaturePrivate.h */,
+				6E1518A21D18BF5700CC68DE /* AVAAvalancheDelegate.h */,
 			);
 			path = AvalancheCore;
 			sourceTree = "<group>";
@@ -235,6 +238,7 @@
 				6E2839111D121185003BC667 /* AVAFeature.h in Headers */,
 				6E2839151D1212C3003BC667 /* AVAFeaturePrivate.h in Headers */,
 				6EF768841D146E7D003B372C /* AVAConstants.h in Headers */,
+				6E1518A31D18BF5700CC68DE /* AVAAvalancheDelegate.h in Headers */,
 				6E28390D1D1210DB003BC667 /* AVAAvalanchePrivate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
