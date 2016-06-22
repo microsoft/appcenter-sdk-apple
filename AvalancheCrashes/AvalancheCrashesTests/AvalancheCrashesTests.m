@@ -2,8 +2,8 @@
 //  AvalancheCrashesTests.m
 //  AvalancheCrashesTests
 //
-//  Created by Christoph Wendt on 6/15/16.
-//
+//  Created by Christoph Wendt on 6/21/16.
+//  Copyright © 2016 Microsoft. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>
