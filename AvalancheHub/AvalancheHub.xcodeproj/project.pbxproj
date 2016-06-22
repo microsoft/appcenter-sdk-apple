@@ -146,7 +146,7 @@
 				6E4B055A1D1A16F800E236BC /* AVALogger.m */,
 				6E4B055B1D1A16F800E236BC /* AVALoggerPrivate.h */,
 			);
-			name = Helper;
+			path = Helper;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -490,6 +490,7 @@
 				6E4B05211D1A132300E236BC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6E4B05221D1A132300E236BC /* Build configuration list for PBXNativeTarget "AvalancheHubTests" */ = {
 			isa = XCConfigurationList;
@@ -498,6 +499,7 @@
 				6E4B05241D1A132300E236BC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6E4B056E1D1A17E200E236BC /* Build configuration list for PBXAggregateTarget "Fat Framework" */ = {
 			isa = XCConfigurationList;
@@ -506,6 +508,7 @@
 				6E4B05701D1A17E200E236BC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
