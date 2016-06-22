@@ -14,7 +14,6 @@
 				6E4B056C1D1A17B100E236BC /* Create Fat Framework */,
 			);
 			dependencies = (
-				6E4B057F1D1A1B8A00E236BC /* PBXTargetDependency */,
 			);
 			name = "Fat Framework";
 			productName = "Fat Framework";
@@ -36,13 +35,6 @@
 
 /* Begin PBXContainerItemProxy section */
 		6E4B053B1D1A136300E236BC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6E4B05261D1A136300E236BC /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 6E4B052E1D1A136300E236BC;
-			remoteInfo = AvalancheCrashes;
-		};
-		6E4B057E1D1A1B8A00E236BC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6E4B05261D1A136300E236BC /* Project object */;
 			proxyType = 1;
@@ -270,7 +262,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "FMK_NAME=AvalancheCrashes\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos/${FMK_NAME}.framework\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator/${FMK_NAME}.framework\nUNIVERSAL_DIR=${WRK_DIR}/iphoneuniversal\nFRAMEWORK=${UNIVERSAL_DIR}/${FMK_NAME}.framework\nPRODUCT_DIR=../Products\n\n# //////////////////////////////\n# Building Universal Framework\n# //////////////////////////////\n\n# Building both architectures.\nxcodebuild -project \"${PROJECT_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphoneos\nxcodebuild -project \"${PROJECT_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphonesimulator\n\n# Cleaning old folder for universal build\nrm -rf \"${UNIVERSAL_DIR}\"\nmkdir \"${UNIVERSAL_DIR}\"\nmkdir \"${FRAMEWORK}\"\n\n# Copy files from device build to universal archiv\ncp -r \"${DEVICE_DIR}/\" \"${FRAMEWORK}/\"\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/${FMK_NAME}\" \"${SIMULATOR_DIR}/${FMK_NAME}\" -output \"${FRAMEWORK}/${FMK_NAME}\"\n\ncp -r \"${UNIVERSAL_DIR}/\" \"${PRODUCT_DIR}\"\n\nrm -r \"${WRK_DIR}\"";
+			shellScript = "FMK_NAME=AvalancheCrashes\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=../build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos/${FMK_NAME}.framework\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator/${FMK_NAME}.framework\nUNIVERSAL_DIR=${WRK_DIR}/iphoneuniversal\nFRAMEWORK=${UNIVERSAL_DIR}/${FMK_NAME}.framework\nPRODUCT_DIR=../Products\n\n# //////////////////////////////\n# Building Universal Framework\n# //////////////////////////////\n\n# Building both architectures.\nxcodebuild -project \"${PROJECT_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphoneos BUILD_DIR=${WRK_DIR}\nxcodebuild -project \"${PROJECT_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphonesimulator BUILD_DIR=${WRK_DIR}\n\n# Cleaning old folder for universal build\nrm -rf \"${UNIVERSAL_DIR}\"\nmkdir \"${UNIVERSAL_DIR}\"\nmkdir \"${FRAMEWORK}\"\n\n# Copy files from device build to universal archiv\ncp -r \"${DEVICE_DIR}/\" \"${FRAMEWORK}/\"\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/${FMK_NAME}\" \"${SIMULATOR_DIR}/${FMK_NAME}\" -output \"${FRAMEWORK}/${FMK_NAME}\"\n\ncp -r \"${UNIVERSAL_DIR}/\" \"${PRODUCT_DIR}\"\n\n#rm -r \"${WRK_DIR}\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -298,11 +290,6 @@
 			isa = PBXTargetDependency;
 			target = 6E4B052E1D1A136300E236BC /* AvalancheCrashes */;
 			targetProxy = 6E4B053B1D1A136300E236BC /* PBXContainerItemProxy */;
-		};
-		6E4B057F1D1A1B8A00E236BC /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 6E4B052E1D1A136300E236BC /* AvalancheCrashes */;
-			targetProxy = 6E4B057E1D1A1B8A00E236BC /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -482,6 +469,7 @@
 				6E4B05451D1A136300E236BC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6E4B05461D1A136300E236BC /* Build configuration list for PBXNativeTarget "AvalancheCrashesTests" */ = {
 			isa = XCConfigurationList;
@@ -490,6 +478,7 @@
 				6E4B05481D1A136300E236BC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6E4B05691D1A17AC00E236BC /* Build configuration list for PBXAggregateTarget "Fat Framework" */ = {
 			isa = XCConfigurationList;
@@ -498,6 +487,7 @@
 				6E4B056B1D1A17AC00E236BC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

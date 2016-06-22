@@ -2,9 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:AvalancheCrashes/AvalancheCrashes.xcodeproj">
+      location = "group:AvalancheHub/AvalancheHub.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:AvalancheHub/AvalancheHub.xcodeproj">
+      location = "group:AvalancheCrashes/AvalancheCrashes.xcodeproj">
    </FileRef>
 </Workspace>
