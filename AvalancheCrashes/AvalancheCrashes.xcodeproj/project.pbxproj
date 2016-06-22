@@ -28,9 +28,10 @@
 		6E4B05631D1A173000E236BC /* AVACrashes.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E4B05601D1A173000E236BC /* AVACrashes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E4B05641D1A173000E236BC /* AVACrashes.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E4B05611D1A173000E236BC /* AVACrashes.m */; };
 		6E4B05651D1A173000E236BC /* AVACrashesPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E4B05621D1A173000E236BC /* AVACrashesPrivate.h */; };
-		6E4B057D1D1A1AE400E236BC /* AVAFeature.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E4B057C1D1A1AE400E236BC /* AVAFeature.h */; };
-		6E4B05831D1A1BD400E236BC /* AvalancheHub.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E4B05821D1A1BD400E236BC /* AvalancheHub.framework */; settings = {ATTRIBUTES = (Required, ); }; };
-		6E4B05851D1A1CD400E236BC /* AVALogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E4B05841D1A1CD400E236BC /* AVALogger.h */; };
+		6E4B057D1D1A1AE400E236BC /* AVAFeature.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E4B057C1D1A1AE400E236BC /* AVAFeature.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6E4B05851D1A1CD400E236BC /* AVALogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E4B05841D1A1CD400E236BC /* AVALogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6E4B05871D1A224000E236BC /* AVAConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E4B05861D1A224000E236BC /* AVAConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6E4B05911D1A250600E236BC /* AvalancheHub.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E4B05901D1A250600E236BC /* AvalancheHub.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,8 +62,9 @@
 		6E4B05611D1A173000E236BC /* AVACrashes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVACrashes.m; sourceTree = "<group>"; };
 		6E4B05621D1A173000E236BC /* AVACrashesPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVACrashesPrivate.h; sourceTree = "<group>"; };
 		6E4B057C1D1A1AE400E236BC /* AVAFeature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AVAFeature.h; path = ../../AvalancheHub/AvalancheHub/AVAFeature.h; sourceTree = "<group>"; };
-		6E4B05821D1A1BD400E236BC /* AvalancheHub.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AvalancheHub.framework; path = "../../../../Library/Developer/Xcode/DerivedData/AvalancheSDK-fmjfvtjmjpzcjlckyomguyyiubsd/Build/Products/Debug-iphonesimulator/AvalancheHub.framework"; sourceTree = "<group>"; };
 		6E4B05841D1A1CD400E236BC /* AVALogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AVALogger.h; path = ../../AvalancheHub/AvalancheHub/AVALogger.h; sourceTree = "<group>"; };
+		6E4B05861D1A224000E236BC /* AVAConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AVAConstants.h; path = ../../AvalancheHub/AvalancheHub/AVAConstants.h; sourceTree = "<group>"; };
+		6E4B05901D1A250600E236BC /* AvalancheHub.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AvalancheHub.framework; path = "../../../../Library/Developer/Xcode/DerivedData/AvalancheSDK-fmjfvtjmjpzcjlckyomguyyiubsd/Build/Products/Debug-iphonesimulator/AvalancheHub.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,7 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E4B05831D1A1BD400E236BC /* AvalancheHub.framework in Frameworks */,
+				6E4B05911D1A250600E236BC /* AvalancheHub.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -131,6 +133,7 @@
 			children = (
 				6E4B05841D1A1CD400E236BC /* AVALogger.h */,
 				6E4B057C1D1A1AE400E236BC /* AVAFeature.h */,
+				6E4B05861D1A224000E236BC /* AVAConstants.h */,
 			);
 			name = Shared;
 			sourceTree = "<group>";
@@ -138,7 +141,7 @@
 		6E4B05791D1A199700E236BC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				6E4B05821D1A1BD400E236BC /* AvalancheHub.framework */,
+				6E4B05901D1A250600E236BC /* AvalancheHub.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -151,6 +154,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E4B05331D1A136300E236BC /* AvalancheCrashes.h in Headers */,
+				6E4B05871D1A224000E236BC /* AVAConstants.h in Headers */,
 				6E4B05631D1A173000E236BC /* AVACrashes.h in Headers */,
 				6E4B05851D1A1CD400E236BC /* AVALogger.h in Headers */,
 				6E4B057D1D1A1AE400E236BC /* AVAFeature.h in Headers */,
@@ -266,7 +270,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "FMK_NAME=AvalancheCrashes\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos/${FMK_NAME}.framework\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator/${FMK_NAME}.framework\nUNIVERSAL_DIR=${WRK_DIR}/iphoneuniversal\nFRAMEWORK=${UNIVERSAL_DIR}/${FMK_NAME}.framework\nPRODUCT_DIR=products\n\n# //////////////////////////////\n# Building Universal Framework\n# //////////////////////////////\n\n# Building both architectures.\nxcodebuild -project \"${PROJECT_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphoneos\nxcodebuild -project \"${PROJECT_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphonesimulator\n\n# Cleaning old folder for universal build\nrm -rf \"${UNIVERSAL_DIR}\"\nmkdir \"${UNIVERSAL_DIR}\"\nmkdir \"${FRAMEWORK}\"\n\n# Copy files from device build to universal archiv\ncp -r \"${DEVICE_DIR}/\" \"${FRAMEWORK}/\"\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/${FMK_NAME}\" \"${SIMULATOR_DIR}/${FMK_NAME}\" -output \"${FRAMEWORK}/${FMK_NAME}\"\n\ncp -r \"${UNIVERSAL_DIR}/\" \"${PRODUCT_DIR}\"\n\nrm -r \"${WRK_DIR}\"";
+			shellScript = "FMK_NAME=AvalancheCrashes\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos/${FMK_NAME}.framework\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator/${FMK_NAME}.framework\nUNIVERSAL_DIR=${WRK_DIR}/iphoneuniversal\nFRAMEWORK=${UNIVERSAL_DIR}/${FMK_NAME}.framework\nPRODUCT_DIR=../Products\n\n# //////////////////////////////\n# Building Universal Framework\n# //////////////////////////////\n\n# Building both architectures.\nxcodebuild -project \"${PROJECT_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphoneos\nxcodebuild -project \"${PROJECT_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphonesimulator\n\n# Cleaning old folder for universal build\nrm -rf \"${UNIVERSAL_DIR}\"\nmkdir \"${UNIVERSAL_DIR}\"\nmkdir \"${FRAMEWORK}\"\n\n# Copy files from device build to universal archiv\ncp -r \"${DEVICE_DIR}/\" \"${FRAMEWORK}/\"\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/${FMK_NAME}\" \"${SIMULATOR_DIR}/${FMK_NAME}\" -output \"${FRAMEWORK}/${FMK_NAME}\"\n\ncp -r \"${UNIVERSAL_DIR}/\" \"${PRODUCT_DIR}\"\n\nrm -r \"${WRK_DIR}\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 

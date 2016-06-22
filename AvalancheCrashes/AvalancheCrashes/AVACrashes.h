@@ -26,7 +26,7 @@
  */
 
 #import <UIKit/UIKit.h>
-@import AvalancheHub;
+#import <AvalancheHub/AvalancheHub.h>
 
 @interface AVACrashes : AVAFeature
 
