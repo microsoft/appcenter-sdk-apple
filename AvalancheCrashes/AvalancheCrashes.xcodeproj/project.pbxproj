@@ -27,9 +27,9 @@
 		6E4B05631D1A173000E236BC /* AVACrashes.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E4B05601D1A173000E236BC /* AVACrashes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E4B05641D1A173000E236BC /* AVACrashes.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E4B05611D1A173000E236BC /* AVACrashes.m */; };
 		6E4B05651D1A173000E236BC /* AVACrashesPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E4B05621D1A173000E236BC /* AVACrashesPrivate.h */; };
-		6E4B057D1D1A1AE400E236BC /* AVAFeature.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E4B057C1D1A1AE400E236BC /* AVAFeature.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6E4B05851D1A1CD400E236BC /* AVALogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E4B05841D1A1CD400E236BC /* AVALogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6E4B05871D1A224000E236BC /* AVAConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E4B05861D1A224000E236BC /* AVAConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6E4B057D1D1A1AE400E236BC /* AVAFeature.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E4B057C1D1A1AE400E236BC /* AVAFeature.h */; };
+		6E4B05851D1A1CD400E236BC /* AVALogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E4B05841D1A1CD400E236BC /* AVALogger.h */; };
+		6E4B05871D1A224000E236BC /* AVAConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E4B05861D1A224000E236BC /* AVAConstants.h */; };
 		6E4B05911D1A250600E236BC /* AvalancheHub.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E4B05901D1A250600E236BC /* AvalancheHub.framework */; };
 /* End PBXBuildFile section */
 
