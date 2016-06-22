@@ -26,7 +26,6 @@
   AVALogVerbose(@"AVAFeature: Feature started");
 }
 
-
 + (void)resume {
   
 }
