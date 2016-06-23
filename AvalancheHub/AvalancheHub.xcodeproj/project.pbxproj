@@ -27,15 +27,16 @@
 		6E4B051B1D1A132300E236BC /* AvalancheHubTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E4B051A1D1A132300E236BC /* AvalancheHubTests.m */; };
 		6E4B05501D1A16C300E236BC /* AVAAvalanche.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E4B05491D1A16C300E236BC /* AVAAvalanche.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E4B05511D1A16C300E236BC /* AVAAvalanche.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E4B054A1D1A16C300E236BC /* AVAAvalanche.m */; };
-		6E4B05521D1A16C300E236BC /* AVAAvalancheDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E4B054B1D1A16C300E236BC /* AVAAvalancheDelegate.h */; };
-		6E4B05531D1A16C300E236BC /* AVAAvalanchePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E4B054C1D1A16C300E236BC /* AVAAvalanchePrivate.h */; };
-		6E4B05541D1A16C300E236BC /* AVAFeature.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E4B054D1D1A16C300E236BC /* AVAFeature.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6E4B05551D1A16C300E236BC /* AVAFeature.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E4B054E1D1A16C300E236BC /* AVAFeature.m */; };
-		6E4B05561D1A16C300E236BC /* AVAFeaturePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E4B054F1D1A16C300E236BC /* AVAFeaturePrivate.h */; };
 		6E4B055C1D1A16F800E236BC /* AVAConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E4B05581D1A16F800E236BC /* AVAConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E4B055D1D1A16F800E236BC /* AVALogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E4B05591D1A16F800E236BC /* AVALogger.h */; };
 		6E4B055E1D1A16F800E236BC /* AVALogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E4B055A1D1A16F800E236BC /* AVALogger.m */; };
-		6E4B055F1D1A16F800E236BC /* AVALoggerPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E4B055B1D1A16F800E236BC /* AVALoggerPrivate.h */; };
+		6E4B055F1D1A16F800E236BC /* AVALogger+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E4B055B1D1A16F800E236BC /* AVALogger+Private.h */; };
+		E82E1B421D1C6B3400D281C1 /* AvalancheHub+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = E82E1B411D1C6B3400D281C1 /* AvalancheHub+Internal.h */; };
+		E82E1B481D1C6CAD00D281C1 /* AVAAvalanche+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = E82E1B431D1C6CAD00D281C1 /* AVAAvalanche+Private.h */; };
+		E82E1B491D1C6CAD00D281C1 /* AVAAvalancheDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = E82E1B441D1C6CAD00D281C1 /* AVAAvalancheDelegate.h */; };
+		E82E1B531D1C905400D281C1 /* AVAFeature.h in Headers */ = {isa = PBXBuildFile; fileRef = E82E1B501D1C905400D281C1 /* AVAFeature.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E82E1B541D1C905400D281C1 /* AVAFeature.m in Sources */ = {isa = PBXBuildFile; fileRef = E82E1B511D1C905400D281C1 /* AVAFeature.m */; };
+		E82E1B551D1C905400D281C1 /* AVAFeature+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = E82E1B521D1C905400D281C1 /* AVAFeature+Private.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,15 +65,16 @@
 		6E4B051C1D1A132300E236BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6E4B05491D1A16C300E236BC /* AVAAvalanche.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAAvalanche.h; sourceTree = "<group>"; };
 		6E4B054A1D1A16C300E236BC /* AVAAvalanche.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAAvalanche.m; sourceTree = "<group>"; };
-		6E4B054B1D1A16C300E236BC /* AVAAvalancheDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAAvalancheDelegate.h; sourceTree = "<group>"; };
-		6E4B054C1D1A16C300E236BC /* AVAAvalanchePrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAAvalanchePrivate.h; sourceTree = "<group>"; };
-		6E4B054D1D1A16C300E236BC /* AVAFeature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAFeature.h; sourceTree = "<group>"; };
-		6E4B054E1D1A16C300E236BC /* AVAFeature.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAFeature.m; sourceTree = "<group>"; };
-		6E4B054F1D1A16C300E236BC /* AVAFeaturePrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAFeaturePrivate.h; sourceTree = "<group>"; };
 		6E4B05581D1A16F800E236BC /* AVAConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAConstants.h; sourceTree = "<group>"; };
 		6E4B05591D1A16F800E236BC /* AVALogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVALogger.h; sourceTree = "<group>"; };
 		6E4B055A1D1A16F800E236BC /* AVALogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVALogger.m; sourceTree = "<group>"; };
-		6E4B055B1D1A16F800E236BC /* AVALoggerPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVALoggerPrivate.h; sourceTree = "<group>"; };
+		6E4B055B1D1A16F800E236BC /* AVALogger+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AVALogger+Private.h"; sourceTree = "<group>"; };
+		E82E1B411D1C6B3400D281C1 /* AvalancheHub+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AvalancheHub+Internal.h"; sourceTree = "<group>"; };
+		E82E1B431D1C6CAD00D281C1 /* AVAAvalanche+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AVAAvalanche+Private.h"; sourceTree = "<group>"; };
+		E82E1B441D1C6CAD00D281C1 /* AVAAvalancheDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAAvalancheDelegate.h; sourceTree = "<group>"; };
+		E82E1B501D1C905400D281C1 /* AVAFeature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AVAFeature.h; path = AvalancheHub/AVAFeature.h; sourceTree = SOURCE_ROOT; };
+		E82E1B511D1C905400D281C1 /* AVAFeature.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AVAFeature.m; path = AvalancheHub/AVAFeature.m; sourceTree = SOURCE_ROOT; };
+		E82E1B521D1C905400D281C1 /* AVAFeature+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AVAFeature+Private.h"; path = "AvalancheHub/AVAFeature+Private.h"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,16 +117,14 @@
 		6E4B050D1D1A132300E236BC /* AvalancheHub */ = {
 			isa = PBXGroup;
 			children = (
-				6E4B05571D1A16DF00E236BC /* Helper */,
-				6E4B050E1D1A132300E236BC /* AvalancheHub.h */,
 				6E4B05491D1A16C300E236BC /* AVAAvalanche.h */,
 				6E4B054A1D1A16C300E236BC /* AVAAvalanche.m */,
-				6E4B054B1D1A16C300E236BC /* AVAAvalancheDelegate.h */,
-				6E4B054C1D1A16C300E236BC /* AVAAvalanchePrivate.h */,
-				6E4B054D1D1A16C300E236BC /* AVAFeature.h */,
-				6E4B054E1D1A16C300E236BC /* AVAFeature.m */,
-				6E4B054F1D1A16C300E236BC /* AVAFeaturePrivate.h */,
+				E82E1B501D1C905400D281C1 /* AVAFeature.h */,
+				E82E1B511D1C905400D281C1 /* AVAFeature.m */,
+				E82E1B521D1C905400D281C1 /* AVAFeature+Private.h */,
+				6E4B050E1D1A132300E236BC /* AvalancheHub.h */,
 				6E4B05101D1A132300E236BC /* Info.plist */,
+				E82E1B401D1C6AD200D281C1 /* Internal */,
 			);
 			path = AvalancheHub;
 			sourceTree = "<group>";
@@ -144,9 +144,20 @@
 				6E4B05581D1A16F800E236BC /* AVAConstants.h */,
 				6E4B05591D1A16F800E236BC /* AVALogger.h */,
 				6E4B055A1D1A16F800E236BC /* AVALogger.m */,
-				6E4B055B1D1A16F800E236BC /* AVALoggerPrivate.h */,
+				6E4B055B1D1A16F800E236BC /* AVALogger+Private.h */,
 			);
-			name = Helper;
+			path = Helper;
+			sourceTree = "<group>";
+		};
+		E82E1B401D1C6AD200D281C1 /* Internal */ = {
+			isa = PBXGroup;
+			children = (
+				E82E1B431D1C6CAD00D281C1 /* AVAAvalanche+Private.h */,
+				E82E1B441D1C6CAD00D281C1 /* AVAAvalancheDelegate.h */,
+				E82E1B411D1C6B3400D281C1 /* AvalancheHub+Internal.h */,
+				6E4B05571D1A16DF00E236BC /* Helper */,
+			);
+			path = Internal;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -157,14 +168,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E4B050F1D1A132300E236BC /* AvalancheHub.h in Headers */,
+				E82E1B531D1C905400D281C1 /* AVAFeature.h in Headers */,
 				6E4B055D1D1A16F800E236BC /* AVALogger.h in Headers */,
-				6E4B05531D1A16C300E236BC /* AVAAvalanchePrivate.h in Headers */,
-				6E4B05561D1A16C300E236BC /* AVAFeaturePrivate.h in Headers */,
-				6E4B05521D1A16C300E236BC /* AVAAvalancheDelegate.h in Headers */,
-				6E4B05541D1A16C300E236BC /* AVAFeature.h in Headers */,
+				E82E1B491D1C6CAD00D281C1 /* AVAAvalancheDelegate.h in Headers */,
 				6E4B055C1D1A16F800E236BC /* AVAConstants.h in Headers */,
-				6E4B055F1D1A16F800E236BC /* AVALoggerPrivate.h in Headers */,
+				6E4B055F1D1A16F800E236BC /* AVALogger+Private.h in Headers */,
 				6E4B05501D1A16C300E236BC /* AVAAvalanche.h in Headers */,
+				E82E1B421D1C6B3400D281C1 /* AvalancheHub+Internal.h in Headers */,
+				E82E1B551D1C905400D281C1 /* AVAFeature+Private.h in Headers */,
+				E82E1B481D1C6CAD00D281C1 /* AVAAvalanche+Private.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -276,7 +288,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "FMK_NAME=AvalancheHub\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=../build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos/${FMK_NAME}.framework\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator/${FMK_NAME}.framework\nUNIVERSAL_DIR=${WRK_DIR}/iphoneuniversal\nFRAMEWORK=${UNIVERSAL_DIR}/${FMK_NAME}.framework\nPRODUCT_DIR=../Products\n\n# //////////////////////////////\n# Building Universal Framework\n# //////////////////////////////\n\n# Building both architectures.\nxcodebuild -project \"${PROJECT_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphoneos BUILD_DIR=${WRK_DIR}\nxcodebuild -project \"${PROJECT_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphonesimulator BUILD_DIR=${WRK_DIR}\n\n# Cleaning old folder for universal build\nrm -rf \"${UNIVERSAL_DIR}\"\nmkdir \"${UNIVERSAL_DIR}\"\nmkdir \"${FRAMEWORK}\"\n\n# Copy files from device build to universal archiv\ncp -r \"${DEVICE_DIR}/\" \"${FRAMEWORK}/\"\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/${FMK_NAME}\" \"${SIMULATOR_DIR}/${FMK_NAME}\" -output \"${FRAMEWORK}/${FMK_NAME}\"\n\ncp -r \"${UNIVERSAL_DIR}/\" \"${PRODUCT_DIR}\"\n\n#rm -r \"${WRK_DIR}\"";
+			shellScript = "../scripts/build-universal-framework.sh";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -287,7 +299,7 @@
 			files = (
 				6E4B05511D1A16C300E236BC /* AVAAvalanche.m in Sources */,
 				6E4B055E1D1A16F800E236BC /* AVALogger.m in Sources */,
-				6E4B05551D1A16C300E236BC /* AVAFeature.m in Sources */,
+				E82E1B541D1C905400D281C1 /* AVAFeature.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

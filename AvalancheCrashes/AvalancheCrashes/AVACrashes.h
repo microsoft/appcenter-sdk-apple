@@ -4,7 +4,7 @@
  * All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person
- * obtaining a copy of this software and associated documentation
+ * obtaining a copy of this software and associated documentationAvalancheHub+Internal
  * files (the "Software"), to deal in the Software without
  * restriction, including without limitation the rights to use,
  * copy, modify, merge, publish, distribute, sublicense, and/or sell
@@ -25,8 +25,14 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import <UIKit/UIKit.h>
-#import "AVAFeature.h"
+// TODO REMOVE
+//#import <Foundation/Foundation.h>
+//#import "AvalancheHub+Internal.h"
+
+//#import "AvalancheHub+Internal.h"
+
+#import <AvalancheHub/AVAFeature.h>
+//@class AVAFeature;
 
 @interface AVACrashes : AVAFeature
 

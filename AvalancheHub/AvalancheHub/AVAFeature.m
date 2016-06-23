@@ -1,5 +1,5 @@
-#import "AVAFeaturePrivate.h"
-#import "AVAAvalanchePrivate.h"
+#import "AVAFeature.h"
+#import "AVAAvalanche+Private.h"
 
 @implementation AVAFeature
 
@@ -25,7 +25,6 @@
 - (void)startFeature {
   AVALogVerbose(@"AVAFeature: Feature started");
 }
-
 
 + (void)resume {
   

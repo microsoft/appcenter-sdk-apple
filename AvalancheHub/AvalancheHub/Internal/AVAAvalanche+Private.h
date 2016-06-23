@@ -25,16 +25,17 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import "AVAFeature.h"
+#import <Foundation/Foundation.h>
+#import "AVAAvalanche.h"
+#import "AVALogger+Private.h"
 #import "AVAAvalancheDelegate.h"
 
-@interface AVAFeature ()
+@class AVAFeature;
 
+@interface AVAAvalanche () <AVAAvalancheDelegate>
+
+@property (nonatomic, strong) NSMutableArray<AVAFeature *> *features;
 @property (nonatomic, copy) NSString *identifier;
-@property (nonatomic, copy) NSString *serverURL;
-@property (nonatomic, weak) id<AVAAvalancheDelegate> delegate;
-
-+ (id)sharedInstance;
-- (void)startFeature;
+@property BOOL featuresStarted;
 
 @end
