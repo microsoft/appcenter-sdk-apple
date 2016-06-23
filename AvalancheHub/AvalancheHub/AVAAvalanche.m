@@ -1,5 +1,5 @@
-#import "AVAAvalanchePrivate.h"
-#import "AVAFeaturePrivate.h"
+#import "AVAAvalanche+Private.h"
+#import "AVAFeature+Private.h"
 
 @implementation AVAAvalanche
 

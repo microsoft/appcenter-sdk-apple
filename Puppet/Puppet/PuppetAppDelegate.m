@@ -16,8 +16,6 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-  
-  
   // Initialize Avalanche SDK
   [AVAAvalanche setLogLevel:AVALogLevelVerbose];
   [AVAAvalanche useFeatures:@[[AVACrashes class]]];
