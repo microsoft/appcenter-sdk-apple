@@ -2,7 +2,7 @@
 //  AvalancheHubTests.m
 //  AvalancheHubTests
 //
-//  Created by Christoph Wendt on 6/21/16.
+//  Created by Christoph Wendt on 6/23/16.
 //  Copyright © 2016 Microsoft. All rights reserved.
 //
 

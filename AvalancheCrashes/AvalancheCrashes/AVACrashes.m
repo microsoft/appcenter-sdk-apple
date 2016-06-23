@@ -1,5 +1,5 @@
 #import "AVACrashes.h"
-#import "AVALogger.h"
+#import "AvalancheHub+Internal.h"
 
 @implementation AVACrashes
 
