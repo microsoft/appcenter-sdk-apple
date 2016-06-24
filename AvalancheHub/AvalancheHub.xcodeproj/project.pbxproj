@@ -146,7 +146,7 @@
 				6E4B055A1D1A16F800E236BC /* AVALogger.m */,
 				6E4B055B1D1A16F800E236BC /* AVALoggerPrivate.h */,
 			);
-			name = Helper;
+			path = Helper;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -27,9 +27,6 @@
 		6E4B05631D1A173000E236BC /* AVACrashes.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E4B05601D1A173000E236BC /* AVACrashes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E4B05641D1A173000E236BC /* AVACrashes.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E4B05611D1A173000E236BC /* AVACrashes.m */; };
 		6E4B05651D1A173000E236BC /* AVACrashesPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E4B05621D1A173000E236BC /* AVACrashesPrivate.h */; };
-		6E4B057D1D1A1AE400E236BC /* AVAFeature.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E4B057C1D1A1AE400E236BC /* AVAFeature.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6E4B05851D1A1CD400E236BC /* AVALogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E4B05841D1A1CD400E236BC /* AVALogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6E4B05871D1A224000E236BC /* AVAConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E4B05861D1A224000E236BC /* AVAConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E4B05911D1A250600E236BC /* AvalancheHub.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E4B05901D1A250600E236BC /* AvalancheHub.framework */; };
 /* End PBXBuildFile section */
 
@@ -53,9 +50,6 @@
 		6E4B05601D1A173000E236BC /* AVACrashes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVACrashes.h; sourceTree = "<group>"; };
 		6E4B05611D1A173000E236BC /* AVACrashes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVACrashes.m; sourceTree = "<group>"; };
 		6E4B05621D1A173000E236BC /* AVACrashesPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVACrashesPrivate.h; sourceTree = "<group>"; };
-		6E4B057C1D1A1AE400E236BC /* AVAFeature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AVAFeature.h; path = ../../AvalancheHub/AvalancheHub/AVAFeature.h; sourceTree = "<group>"; };
-		6E4B05841D1A1CD400E236BC /* AVALogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AVALogger.h; path = ../../AvalancheHub/AvalancheHub/AVALogger.h; sourceTree = "<group>"; };
-		6E4B05861D1A224000E236BC /* AVAConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AVAConstants.h; path = ../../AvalancheHub/AvalancheHub/AVAConstants.h; sourceTree = "<group>"; };
 		6E4B05901D1A250600E236BC /* AvalancheHub.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AvalancheHub.framework; path = "../../../../Library/Developer/Xcode/DerivedData/AvalancheSDK-fmjfvtjmjpzcjlckyomguyyiubsd/Build/Products/Debug-iphonesimulator/AvalancheHub.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -101,7 +95,6 @@
 		6E4B05311D1A136300E236BC /* AvalancheCrashes */ = {
 			isa = PBXGroup;
 			children = (
-				6E4B05721D1A185800E236BC /* Shared */,
 				6E4B05321D1A136300E236BC /* AvalancheCrashes.h */,
 				6E4B05601D1A173000E236BC /* AVACrashes.h */,
 				6E4B05611D1A173000E236BC /* AVACrashes.m */,
@@ -120,16 +113,6 @@
 			path = AvalancheCrashesTests;
 			sourceTree = "<group>";
 		};
-		6E4B05721D1A185800E236BC /* Shared */ = {
-			isa = PBXGroup;
-			children = (
-				6E4B05841D1A1CD400E236BC /* AVALogger.h */,
-				6E4B057C1D1A1AE400E236BC /* AVAFeature.h */,
-				6E4B05861D1A224000E236BC /* AVAConstants.h */,
-			);
-			name = Shared;
-			sourceTree = "<group>";
-		};
 		6E4B05791D1A199700E236BC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -146,10 +129,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E4B05331D1A136300E236BC /* AvalancheCrashes.h in Headers */,
-				6E4B05871D1A224000E236BC /* AVAConstants.h in Headers */,
 				6E4B05631D1A173000E236BC /* AVACrashes.h in Headers */,
-				6E4B05851D1A1CD400E236BC /* AVALogger.h in Headers */,
-				6E4B057D1D1A1AE400E236BC /* AVAFeature.h in Headers */,
 				6E4B05651D1A173000E236BC /* AVACrashesPrivate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -397,6 +377,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.avalanche.AvalancheCrashes;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../AvalancheHub/AvalancheHub/Helper\"";
 			};
 			name = Debug;
 		};
@@ -413,6 +394,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.avalanche.AvalancheCrashes;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../AvalancheHub/AvalancheHub/Helper\"";
 			};
 			name = Release;
 		};
