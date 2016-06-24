@@ -6,6 +6,20 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		6E04017D1D1CAC710051BCFA /* Fat Framework */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 6E0401801D1CAC710051BCFA /* Build configuration list for PBXAggregateTarget "Fat Framework" */;
+			buildPhases = (
+				6E0401811D1CAC770051BCFA /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = "Fat Framework";
+			productName = "Fat Framework";
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		6E04014D1D1C99AC0051BCFA /* AVAFeature.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0401461D1C99AC0051BCFA /* AVAFeature.m */; };
 		6E04014E1D1C99AC0051BCFA /* AVALogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E04014A1D1C99AC0051BCFA /* AVALogger.m */; };
@@ -64,6 +78,10 @@
 		6E04015E1D1C9DF40051BCFA /* AvalancheHubTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AvalancheHubTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E0401601D1C9DF40051BCFA /* AvalancheHubTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AvalancheHubTests.m; sourceTree = "<group>"; };
 		6E0401621D1C9DF40051BCFA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6E0401831D1CAD810051BCFA /* buildnumber.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = buildnumber.xcconfig; sourceTree = "<group>"; };
+		6E0401841D1CAD810051BCFA /* AvalancheHub.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = AvalancheHub.xcconfig; sourceTree = "<group>"; };
+		6E0401851D1CAD810051BCFA /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		6E0401861D1CAD810051BCFA /* release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = release.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +131,7 @@
 				6E0401451D1C99AC0051BCFA /* AVAFeature.h */,
 				6E0401461D1C99AC0051BCFA /* AVAFeature.m */,
 				6E0401421D1C99AC0051BCFA /* Internals */,
+				6E0401821D1CAD810051BCFA /* Support */,
 			);
 			path = AvalancheHub;
 			sourceTree = "<group>";
@@ -146,6 +165,17 @@
 				6E0401621D1C9DF40051BCFA /* Info.plist */,
 			);
 			path = AvalancheHubTests;
+			sourceTree = "<group>";
+		};
+		6E0401821D1CAD810051BCFA /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				6E0401831D1CAD810051BCFA /* buildnumber.xcconfig */,
+				6E0401841D1CAD810051BCFA /* AvalancheHub.xcconfig */,
+				6E0401851D1CAD810051BCFA /* module.modulemap */,
+				6E0401861D1CAD810051BCFA /* release.xcconfig */,
+			);
+			path = Support;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -222,6 +252,9 @@
 					6E04015D1D1C9DF40051BCFA = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
+					6E04017D1D1CAC710051BCFA = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
 				};
 			};
 			buildConfigurationList = 6E0400FE1D1C98220051BCFA /* Build configuration list for PBXProject "AvalancheHub" */;
@@ -238,6 +271,7 @@
 			targets = (
 				6E0401021D1C98220051BCFA /* AvalancheHub */,
 				6E04015D1D1C9DF40051BCFA /* AvalancheHubTests */,
+				6E04017D1D1CAC710051BCFA /* Fat Framework */,
 			);
 		};
 /* End PBXProject section */
@@ -251,6 +285,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6E0401811D1CAC770051BCFA /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=AvalancheHub\nFMK_VERSION=A\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../Products\nZIP_FOLDER=AvalancheHub\nTEMP_DIR=${PRODUCTS_DIR}/${ZIP_FOLDER}\nINSTALL_DIR=${TEMP_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator\n\n# //////////////////////////////\n# Building Core Framework\n# //////////////////////////////\n\n# Building both architectures.\nxcodebuild -project \"AvalancheHub.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphoneos\nxcodebuild -project \"AvalancheHub.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${TEMP_DIR}\" ]\nthen\nrm -rf \"${TEMP_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\nmkdir -p \"${INSTALL_DIR}/Versions\"\nmkdir -p \"${INSTALL_DIR}/Versions/${FMK_VERSION}\"\nmkdir -p \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Headers\"\n\n# Creates the internal links.\n# It MUST uses relative path, otherwise will not work when the folder is copied/moved.\nln -s \"${FMK_VERSION}\" \"${INSTALL_DIR}/Versions/Current\"\nln -s \"Versions/Current/Headers\" \"${INSTALL_DIR}/Headers\"\nln -s \"Versions/Current/${FMK_NAME}\" \"${INSTALL_DIR}/${FMK_NAME}\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Support/module.modulemap\" \"${INSTALL_DIR}/Modules/\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}//build/Release-iphoneos/include/AvalancheHub/\" \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Headers/\"\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" \"${SIMULATOR_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/Versions/${FMK_VERSION}/${FMK_NAME}\"\n\n#rm -r \"${WRK_DIR}\"";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		6E0400FF1D1C98220051BCFA /* Sources */ = {
@@ -284,8 +334,10 @@
 /* Begin XCBuildConfiguration section */
 		6E04010A1D1C98220051BCFA /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6E0401831D1CAD810051BCFA /* buildnumber.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(AVA_ARM_ARCHS)";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -296,12 +348,13 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = NO;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -319,17 +372,21 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				VALID_ARCHS = "$(BIT_ARM_ARCHS)";
 			};
 			name = Debug;
 		};
 		6E04010B1D1C98220051BCFA /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6E0401861D1CAD810051BCFA /* release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				AVA_ARM_ARCHS = "armv7 armv7s arm64";
+				AVA_SIM_ARCHS = "x86_64 i386";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -340,12 +397,13 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = NO;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -357,32 +415,58 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = "$(BIT_ARM_ARCHS)";
 			};
 			name = Release;
 		};
 		6E04010D1D1C98220051BCFA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"ARCHS[sdk=iphonesimulator*]" = "$(AVA_SIM_ARCHS)";
+				AVA_ARM_ARCHS = "armv7 armv7s arm64";
+				AVA_SIM_ARCHS = "x86_64 i386";
+				BUILD_NUMBER = 1;
+				DEAD_CODE_STRIPPING = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_CFLAGS = "$(AVALANCHE_WARNING_FLAGS)";
 				OTHER_LDFLAGS = "-ObjC";
-				PRIVATE_HEADERS_FOLDER_PATH = Headers;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.avalanche.AvalancheHub;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = Headers;
+				PUBLIC_HEADERS_FOLDER_PATH = include/AvalancheHub;
 				SKIP_INSTALL = YES;
+				VALID_ARCHS = "$(AVA_ARM_ARCHS)";
+				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(AVA_SIM_ARCHS)";
 			};
 			name = Debug;
 		};
 		6E04010E1D1C98220051BCFA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(AVA_ARM_ARCHS)";
+				"ARCHS[sdk=iphonesimulator*]" = "$(AVA_SIM_ARCHS)";
+				AVA_ARM_ARCHS = "armv7 armv7s arm64";
+				AVA_SIM_ARCHS = "x86_64 i386";
+				BUILD_NUMBER = 1;
+				DEAD_CODE_STRIPPING = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_CFLAGS = "$(AVALANCHE_WARNING_FLAGS)";
+				"OTHER_CFLAGS[sdk=iphoneos*]" = "$(AVALANCHE_WARNING_FLAGS)";
+				"OTHER_CFLAGS[sdk=iphonesimulator*]" = (
+					"$(AVALANCHE_WARNING_FLAGS)",
+					"-fembed-bitcode",
+				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRIVATE_HEADERS_FOLDER_PATH = Headers;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.avalanche.AvalancheHub;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = Headers;
+				PUBLIC_HEADERS_FOLDER_PATH = include/AvalancheHub;
 				SKIP_INSTALL = YES;
+				VALIDATE_PRODUCT = NO;
+				VALID_ARCHS = "$(AVA_ARM_ARCHS)";
+				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(AVA_SIM_ARCHS)";
 			};
 			name = Release;
 		};
@@ -402,6 +486,20 @@
 				INFOPLIST_FILE = AvalancheHubTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.avalanche.AvalancheHubTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		6E04017E1D1CAC710051BCFA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		6E04017F1D1CAC710051BCFA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -432,6 +530,15 @@
 			buildConfigurations = (
 				6E0401671D1C9DF40051BCFA /* Debug */,
 				6E0401681D1C9DF40051BCFA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6E0401801D1CAC710051BCFA /* Build configuration list for PBXAggregateTarget "Fat Framework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6E04017E1D1CAC710051BCFA /* Debug */,
+				6E04017F1D1CAC710051BCFA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
