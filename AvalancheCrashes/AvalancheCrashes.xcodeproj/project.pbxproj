@@ -13,7 +13,19 @@
 		6E0401761D1C9E750051BCFA /* AVACrashes.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E04014F1D1C9A4F0051BCFA /* AVACrashes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E0401771D1C9EBE0051BCFA /* AvalancheHub+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401591D1C9D7F0051BCFA /* AvalancheHub+Internal.h */; };
 		6E0401781D1C9EBE0051BCFA /* AVACrashesPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401521D1C9A4F0051BCFA /* AVACrashesPrivate.h */; };
+		6E37296B1D1DE7EC00F1E4AE /* AvalancheCrashesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E37296A1D1DE7EC00F1E4AE /* AvalancheCrashesTests.m */; };
+		6E37296D1D1DE7EC00F1E4AE /* libAvalancheCrashes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E0401331D1C98690051BCFA /* libAvalancheCrashes.a */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		6E37296E1D1DE7EC00F1E4AE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E04012B1D1C98690051BCFA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6E0401321D1C98690051BCFA;
+			remoteInfo = AvalancheCrashes;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		6E0401311D1C98690051BCFA /* CopyFiles */ = {
@@ -35,6 +47,9 @@
 		6E0401501D1C9A4F0051BCFA /* AVACrashes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVACrashes.m; sourceTree = "<group>"; };
 		6E0401521D1C9A4F0051BCFA /* AVACrashesPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVACrashesPrivate.h; sourceTree = "<group>"; };
 		6E0401591D1C9D7F0051BCFA /* AvalancheHub+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "AvalancheHub+Internal.h"; path = "../../../AvalancheHub/AvalancheHub/Internals/AvalancheHub+Internal.h"; sourceTree = "<group>"; };
+		6E3729681D1DE7EC00F1E4AE /* AvalancheCrashesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AvalancheCrashesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E37296A1D1DE7EC00F1E4AE /* AvalancheCrashesTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AvalancheCrashesTests.m; sourceTree = "<group>"; };
+		6E37296C1D1DE7EC00F1E4AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,6 +60,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6E3729651D1DE7EC00F1E4AE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6E37296D1D1DE7EC00F1E4AE /* libAvalancheCrashes.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -52,6 +75,7 @@
 			isa = PBXGroup;
 			children = (
 				6E0401351D1C98690051BCFA /* AvalancheCrashes */,
+				6E3729691D1DE7EC00F1E4AE /* AvalancheCrashesTests */,
 				6E0401341D1C98690051BCFA /* Products */,
 			);
 			sourceTree = "<group>";
@@ -60,6 +84,7 @@
 			isa = PBXGroup;
 			children = (
 				6E0401331D1C98690051BCFA /* libAvalancheCrashes.a */,
+				6E3729681D1DE7EC00F1E4AE /* AvalancheCrashesTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -82,6 +107,15 @@
 				6E0401521D1C9A4F0051BCFA /* AVACrashesPrivate.h */,
 			);
 			path = Internals;
+			sourceTree = "<group>";
+		};
+		6E3729691D1DE7EC00F1E4AE /* AvalancheCrashesTests */ = {
+			isa = PBXGroup;
+			children = (
+				6E37296A1D1DE7EC00F1E4AE /* AvalancheCrashesTests.m */,
+				6E37296C1D1DE7EC00F1E4AE /* Info.plist */,
+			);
+			path = AvalancheCrashesTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -119,6 +153,24 @@
 			productReference = 6E0401331D1C98690051BCFA /* libAvalancheCrashes.a */;
 			productType = "com.apple.product-type.library.static";
 		};
+		6E3729671D1DE7EC00F1E4AE /* AvalancheCrashesTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6E3729721D1DE7EC00F1E4AE /* Build configuration list for PBXNativeTarget "AvalancheCrashesTests" */;
+			buildPhases = (
+				6E3729641D1DE7EC00F1E4AE /* Sources */,
+				6E3729651D1DE7EC00F1E4AE /* Frameworks */,
+				6E3729661D1DE7EC00F1E4AE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6E37296F1D1DE7EC00F1E4AE /* PBXTargetDependency */,
+			);
+			name = AvalancheCrashesTests;
+			productName = AvalancheCrashesTests;
+			productReference = 6E3729681D1DE7EC00F1E4AE /* AvalancheCrashesTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -129,6 +181,9 @@
 				ORGANIZATIONNAME = Microsoft;
 				TargetAttributes = {
 					6E0401321D1C98690051BCFA = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
+					6E3729671D1DE7EC00F1E4AE = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
 				};
@@ -146,9 +201,20 @@
 			projectRoot = "";
 			targets = (
 				6E0401321D1C98690051BCFA /* AvalancheCrashes */,
+				6E3729671D1DE7EC00F1E4AE /* AvalancheCrashesTests */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		6E3729661D1DE7EC00F1E4AE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		6E04012F1D1C98690051BCFA /* Sources */ = {
@@ -159,7 +225,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6E3729641D1DE7EC00F1E4AE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6E37296B1D1DE7EC00F1E4AE /* AvalancheCrashesTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		6E37296F1D1DE7EC00F1E4AE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6E0401321D1C98690051BCFA /* AvalancheCrashes */;
+			targetProxy = 6E37296E1D1DE7EC00F1E4AE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		6E04013A1D1C98690051BCFA /* Debug */ = {
@@ -268,6 +350,26 @@
 			};
 			name = Release;
 		};
+		6E3729701D1DE7EC00F1E4AE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = AvalancheCrashesTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.avalanche.AvalancheCrashesTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		6E3729711D1DE7EC00F1E4AE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = AvalancheCrashesTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.avalanche.AvalancheCrashesTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -288,6 +390,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		6E3729721D1DE7EC00F1E4AE /* Build configuration list for PBXNativeTarget "AvalancheCrashesTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6E3729701D1DE7EC00F1E4AE /* Debug */,
+				6E3729711D1DE7EC00F1E4AE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
