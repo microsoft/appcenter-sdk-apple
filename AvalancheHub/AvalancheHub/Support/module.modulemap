@@ -1,5 +1,5 @@
-framework module HockeyCore {
-  umbrella header "BITHockeyCore.h"
+framework module AvalancheHub {
+  umbrella header "AvalancheHub.h"
   
   export *
   module * { export * }
