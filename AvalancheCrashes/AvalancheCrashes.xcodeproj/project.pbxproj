@@ -473,6 +473,7 @@
 				6E3729711D1DE7EC00F1E4AE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6E3729781D1DE83200F1E4AE /* Build configuration list for PBXAggregateTarget "Fat Framework" */ = {
 			isa = XCConfigurationList;
@@ -481,6 +482,7 @@
 				6E37297A1D1DE83200F1E4AE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
