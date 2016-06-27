@@ -436,7 +436,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.avalanche.AvalancheHub;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = include/AvalancheHub;
+				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SKIP_INSTALL = YES;
 				VALID_ARCHS = "$(AVA_ARM_ARCHS)";
 				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(AVA_SIM_ARCHS)";
@@ -462,7 +462,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.avalanche.AvalancheHub;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = include/AvalancheHub;
+				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SKIP_INSTALL = YES;
 				VALIDATE_PRODUCT = NO;
 				VALID_ARCHS = "$(AVA_ARM_ARCHS)";

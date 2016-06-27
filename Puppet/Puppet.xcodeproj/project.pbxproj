@@ -53,6 +53,13 @@
 			remoteGlobalIDString = 6E0401321D1C98690051BCFA;
 			remoteInfo = AvalancheCrashes;
 		};
+		E8DF1C2B1D21A8F5006310CF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E82E1B7C1D1CA62900D281C1 /* AvalancheCrashes.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6E3729681D1DE7EC00F1E4AE;
+			remoteInfo = AvalancheCrashesTests;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -137,6 +144,7 @@
 			isa = PBXGroup;
 			children = (
 				E82E1B811D1CA62900D281C1 /* libAvalancheCrashes.a */,
+				E8DF1C2C1D21A8F5006310CF /* AvalancheCrashesTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -234,6 +242,13 @@
 			fileType = wrapper.cfbundle;
 			path = AvalancheHubTests.xctest;
 			remoteRef = E82E1B891D1CA63000D281C1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		E8DF1C2C1D21A8F5006310CF /* AvalancheCrashesTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = AvalancheCrashesTests.xctest;
+			remoteRef = E8DF1C2B1D21A8F5006310CF /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -387,7 +402,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = MehrdadM.Puppet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "$(TARGET_BUILD_DIR)/Headers";
+				USER_HEADER_SEARCH_PATHS = "$(TARGET_BUILD_DIR)/include/AvalancheHub $(TARGET_BUILD_DIR)/include/AvalancheCrashes";
 			};
 			name = Debug;
 		};
@@ -399,7 +414,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = MehrdadM.Puppet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "$(TARGET_BUILD_DIR)/Headers";
+				USER_HEADER_SEARCH_PATHS = "$(TARGET_BUILD_DIR)/include/AvalancheHub $(TARGET_BUILD_DIR)/include/AvalancheCrashes";
 			};
 			name = Release;
 		};
