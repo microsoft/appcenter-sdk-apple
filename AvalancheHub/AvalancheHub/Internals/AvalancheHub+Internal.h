@@ -1,7 +1,6 @@
-#ifndef AvalancheHub_Internal_h
-#define AvalancheHub_Internal_h
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ */
 
 #import "Utils/AVALogger.h"
-#import "AVAConstants.h"
-
-#endif /* AvalancheHub_Internal_h */
+#import "AVAAvalancheDelegate.h"

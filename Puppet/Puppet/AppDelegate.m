@@ -8,8 +8,8 @@
 
 #import "AppDelegate.h"
 
-@import AvalancheHub;
-@import AvalancheCrashes;
+#import "AvalancheHub.h"
+#import "AvalancheCrashes.h"
 
 @interface AppDelegate ()
 
