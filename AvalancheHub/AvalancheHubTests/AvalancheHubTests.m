@@ -2,11 +2,12 @@
 //  AvalancheHubTests.m
 //  AvalancheHubTests
 //
-//  Created by Christoph Wendt on 6/23/16.
+//  Created by Christoph Wendt on 6/28/16.
 //  Copyright © 2016 Microsoft. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>
+#import <OCHamcrestIOS/OCHamcrestIOS.h>
 
 @interface AvalancheHubTests : XCTestCase
 
@@ -25,8 +26,13 @@
 }
 
 - (void)testExample {
-    // This is an example of a functional test case.
-    // Use XCTAssert and related functions to verify your tests produce the correct results.
+  
+}
+
+- (void)testOCHamcrest {
+  NSString* aString = @"Test String";
+  NSString* bString = @"Test String";
+  assertThat(aString, equalTo(bString));
 }
 
 - (void)testPerformanceExample {

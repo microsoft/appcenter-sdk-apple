@@ -2,11 +2,12 @@
 //  AvalancheCrashesTests.m
 //  AvalancheCrashesTests
 //
-//  Created by Christoph Wendt on 6/24/16.
+//  Created by Christoph Wendt on 6/28/16.
 //  Copyright © 2016 Microsoft. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>
+#import <OCHamcrestIOS/OCHamcrestIOS.h>
 
 @interface AvalancheCrashesTests : XCTestCase
 
@@ -22,6 +23,12 @@
 - (void)tearDown {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
     [super tearDown];
+}
+
+- (void)testOCHamcrest {
+  NSString* aString = @"Test String";
+  NSString* bString = @"Test String";
+  assertThat(aString, equalTo(bString));
 }
 
 - (void)testExample {
