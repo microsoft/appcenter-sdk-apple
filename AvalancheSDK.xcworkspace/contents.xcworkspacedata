@@ -8,6 +8,9 @@
       location = "group:AvalancheCrashes/AvalancheCrashes.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:Demo/Demo.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:Puppet/Puppet.xcodeproj">
    </FileRef>
 </Workspace>
