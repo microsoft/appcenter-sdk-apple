@@ -35,6 +35,7 @@
 		6E0401721D1C9E460051BCFA /* AVALogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401491D1C99AC0051BCFA /* AVALogger.h */; };
 		6E0401731D1C9E460051BCFA /* AVALoggerPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E04014B1D1C99AC0051BCFA /* AVALoggerPrivate.h */; };
 		6E171ADC1D22F6ED000DC480 /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171ADB1D22F6ED000DC480 /* OCHamcrestIOS.framework */; };
+		6E171B1F1D22FC2E000DC480 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171B131D22FC2E000DC480 /* libOCMock.a */; };
 		6E23957B1D22EF4F00E543C8 /* AvalancheHubTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E23957A1D22EF4F00E543C8 /* AvalancheHubTests.m */; };
 		6E23957D1D22EF4F00E543C8 /* libAvalancheHub.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E0401031D1C98220051BCFA /* libAvalancheHub.a */; };
 /* End PBXBuildFile section */
@@ -81,6 +82,17 @@
 		6E0401851D1CAD810051BCFA /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		6E0401861D1CAD810051BCFA /* release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = release.xcconfig; sourceTree = "<group>"; };
 		6E171ADB1D22F6ED000DC480 /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrestIOS.framework; path = ../../Vendor/OCHamcrest/OCHamcrestIOS.framework; sourceTree = "<group>"; };
+		6E171B131D22FC2E000DC480 /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOCMock.a; sourceTree = "<group>"; };
+		6E171B151D22FC2E000DC480 /* NSNotificationCenter+OCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNotificationCenter+OCMAdditions.h"; sourceTree = "<group>"; };
+		6E171B161D22FC2E000DC480 /* OCMArg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMArg.h; sourceTree = "<group>"; };
+		6E171B171D22FC2E000DC480 /* OCMConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMConstraint.h; sourceTree = "<group>"; };
+		6E171B181D22FC2E000DC480 /* OCMFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMFunctions.h; sourceTree = "<group>"; };
+		6E171B191D22FC2E000DC480 /* OCMLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMLocation.h; sourceTree = "<group>"; };
+		6E171B1A1D22FC2E000DC480 /* OCMMacroState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMMacroState.h; sourceTree = "<group>"; };
+		6E171B1B1D22FC2E000DC480 /* OCMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMock.h; sourceTree = "<group>"; };
+		6E171B1C1D22FC2E000DC480 /* OCMockObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMockObject.h; sourceTree = "<group>"; };
+		6E171B1D1D22FC2E000DC480 /* OCMRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMRecorder.h; sourceTree = "<group>"; };
+		6E171B1E1D22FC2E000DC480 /* OCMStubRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMStubRecorder.h; sourceTree = "<group>"; };
 		6E2395781D22EF4F00E543C8 /* AvalancheHubTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AvalancheHubTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E23957A1D22EF4F00E543C8 /* AvalancheHubTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AvalancheHubTests.m; sourceTree = "<group>"; };
 		6E23957C1D22EF4F00E543C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -98,6 +110,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6E171B1F1D22FC2E000DC480 /* libOCMock.a in Frameworks */,
 				6E23957D1D22EF4F00E543C8 /* libAvalancheHub.a in Frameworks */,
 				6E171ADC1D22F6ED000DC480 /* OCHamcrestIOS.framework in Frameworks */,
 			);
@@ -172,6 +185,33 @@
 			path = Support;
 			sourceTree = "<group>";
 		};
+		6E171B121D22FC2E000DC480 /* OCMock */ = {
+			isa = PBXGroup;
+			children = (
+				6E171B131D22FC2E000DC480 /* libOCMock.a */,
+				6E171B141D22FC2E000DC480 /* OCMock */,
+			);
+			name = OCMock;
+			path = ../../Vendor/OCMock;
+			sourceTree = "<group>";
+		};
+		6E171B141D22FC2E000DC480 /* OCMock */ = {
+			isa = PBXGroup;
+			children = (
+				6E171B151D22FC2E000DC480 /* NSNotificationCenter+OCMAdditions.h */,
+				6E171B161D22FC2E000DC480 /* OCMArg.h */,
+				6E171B171D22FC2E000DC480 /* OCMConstraint.h */,
+				6E171B181D22FC2E000DC480 /* OCMFunctions.h */,
+				6E171B191D22FC2E000DC480 /* OCMLocation.h */,
+				6E171B1A1D22FC2E000DC480 /* OCMMacroState.h */,
+				6E171B1B1D22FC2E000DC480 /* OCMock.h */,
+				6E171B1C1D22FC2E000DC480 /* OCMockObject.h */,
+				6E171B1D1D22FC2E000DC480 /* OCMRecorder.h */,
+				6E171B1E1D22FC2E000DC480 /* OCMStubRecorder.h */,
+			);
+			path = OCMock;
+			sourceTree = "<group>";
+		};
 		6E2395791D22EF4F00E543C8 /* AvalancheHubTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -185,6 +225,7 @@
 		6E2395831D22EF5F00E543C8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6E171B121D22FC2E000DC480 /* OCMock */,
 				6E171ADB1D22F6ED000DC480 /* OCHamcrestIOS.framework */,
 			);
 			name = Frameworks;
@@ -504,12 +545,13 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/AvalancheHubTests",
-					"\"$(SRCROOT)/../Vendor/**",
+					"\"$(SRCROOT)/../Vendor\"/**",
 				);
-				HEADER_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				INFOPLIST_FILE = AvalancheHubTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -530,12 +572,13 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/AvalancheHubTests",
-					"\"$(SRCROOT)/../Vendor/**",
+					"\"$(SRCROOT)/../Vendor\"/**",
 				);
-				HEADER_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				INFOPLIST_FILE = AvalancheHubTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",

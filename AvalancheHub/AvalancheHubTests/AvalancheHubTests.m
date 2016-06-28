@@ -8,6 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
+#import <OCMock/OCMock.h>
 
 @interface AvalancheHubTests : XCTestCase
 
@@ -27,6 +28,12 @@
 
 - (void)testExample {
   
+}
+
+- (void)testOCMock {
+  NSString *aString = OCMClassMock([NSString class]);
+  OCMStub([aString lowercaseString]).andReturn(@"LOWER HELLO");
+  XCTAssertEqual(@"LOWER HELLO", [aString lowercaseString]);
 }
 
 - (void)testOCHamcrest {

@@ -8,6 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
+#import <OCMock/OCMock.h>
 
 @interface AvalancheCrashesTests : XCTestCase
 
@@ -23,6 +24,12 @@
 - (void)tearDown {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
     [super tearDown];
+}
+
+- (void)testOCMock {
+  NSString *aString = OCMClassMock([NSString class]);
+  OCMStub([aString lowercaseString]).andReturn(@"LOWER HELLO");
+  XCTAssertEqual(@"LOWER HELLO", [aString lowercaseString]);
 }
 
 - (void)testOCHamcrest {
