@@ -13,8 +13,8 @@
 		6E2307E31D22083C0031C598 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6E2307E11D22083C0031C598 /* Main.storyboard */; };
 		6E2307E51D22083C0031C598 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E2307E41D22083C0031C598 /* Assets.xcassets */; };
 		6E2307E81D22083C0031C598 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6E2307E61D22083C0031C598 /* LaunchScreen.storyboard */; };
-		6E2307F41D2208730031C598 /* AvalancheCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E2307F11D2208730031C598 /* AvalancheCrashes.framework */; };
-		6E2307F51D2208730031C598 /* AvalancheHub.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E2307F31D2208730031C598 /* AvalancheHub.framework */; };
+		6E23080A1D2212130031C598 /* AvalancheCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E2308081D2212130031C598 /* AvalancheCrashes.framework */; };
+		6E23080B1D2212130031C598 /* AvalancheHub.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E2308091D2212130031C598 /* AvalancheHub.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,8 +28,8 @@
 		6E2307E41D22083C0031C598 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6E2307E71D22083C0031C598 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6E2307E91D22083C0031C598 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6E2307F11D2208730031C598 /* AvalancheCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AvalancheCrashes.framework; sourceTree = "<group>"; };
-		6E2307F31D2208730031C598 /* AvalancheHub.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AvalancheHub.framework; sourceTree = "<group>"; };
+		6E2308081D2212130031C598 /* AvalancheCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AvalancheCrashes.framework; path = Vendor/AvalancheCrashes.framework; sourceTree = "<group>"; };
+		6E2308091D2212130031C598 /* AvalancheHub.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AvalancheHub.framework; path = Vendor/AvalancheHub.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,8 +37,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E2307F51D2208730031C598 /* AvalancheHub.framework in Frameworks */,
-				6E2307F41D2208730031C598 /* AvalancheCrashes.framework in Frameworks */,
+				6E23080B1D2212130031C598 /* AvalancheHub.framework in Frameworks */,
+				6E23080A1D2212130031C598 /* AvalancheCrashes.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,28 +89,10 @@
 		6E2307EF1D2208670031C598 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
-				6E2307F01D2208730031C598 /* AvalancheCrashes */,
-				6E2307F21D2208730031C598 /* AvalancheHub */,
+				6E2308081D2212130031C598 /* AvalancheCrashes.framework */,
+				6E2308091D2212130031C598 /* AvalancheHub.framework */,
 			);
 			name = Vendor;
-			sourceTree = "<group>";
-		};
-		6E2307F01D2208730031C598 /* AvalancheCrashes */ = {
-			isa = PBXGroup;
-			children = (
-				6E2307F11D2208730031C598 /* AvalancheCrashes.framework */,
-			);
-			name = AvalancheCrashes;
-			path = ../Products/AvalancheCrashes;
-			sourceTree = "<group>";
-		};
-		6E2307F21D2208730031C598 /* AvalancheHub */ = {
-			isa = PBXGroup;
-			children = (
-				6E2307F31D2208730031C598 /* AvalancheHub.framework */,
-			);
-			name = AvalancheHub;
-			path = ../Products/AvalancheHub;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -299,7 +281,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Vendor/AvalancheCrashes",
+					"$(PROJECT_DIR)/Vendor/AvalancheHub",
+					"$(PROJECT_DIR)/Vendor",
+				);
 				INFOPLIST_FILE = Demo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.avalanche.Demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -310,7 +299,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Vendor/AvalancheCrashes",
+					"$(PROJECT_DIR)/Vendor/AvalancheHub",
+					"$(PROJECT_DIR)/Vendor",
+				);
 				INFOPLIST_FILE = Demo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.avalanche.Demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
