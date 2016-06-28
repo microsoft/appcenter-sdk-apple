@@ -7,6 +7,8 @@
 //
 
 #import "AppDelegate.h"
+@import AvalancheHub;
+@import AvalancheCrashes;
 
 @interface AppDelegate ()
 
@@ -17,6 +19,11 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   // Override point for customization after application launch.
+  
+  // Start Avalanche SDK
+  [AVAAvalanche setLogLevel:AVALogLevelVerbose];
+  [AVAAvalanche useFeatures:@[[AVACrashes class]]];
+  
   return YES;
 }
 
