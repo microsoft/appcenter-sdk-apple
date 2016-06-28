@@ -24,8 +24,6 @@
 		6E04014D1D1C99AC0051BCFA /* AVAFeature.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0401461D1C99AC0051BCFA /* AVAFeature.m */; };
 		6E04014E1D1C99AC0051BCFA /* AVALogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E04014A1D1C99AC0051BCFA /* AVALogger.m */; };
 		6E0401571D1C9AAA0051BCFA /* AVAAvalanche.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0401561D1C9AAA0051BCFA /* AVAAvalanche.m */; };
-		6E0401611D1C9DF40051BCFA /* AvalancheHubTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0401601D1C9DF40051BCFA /* AvalancheHubTests.m */; };
-		6E0401631D1C9DF40051BCFA /* libAvalancheHub.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E0401031D1C98220051BCFA /* libAvalancheHub.a */; };
 		6E04016A1D1C9E1F0051BCFA /* AVAAvalanche.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401551D1C9AAA0051BCFA /* AVAAvalanche.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E04016B1D1C9E1F0051BCFA /* AVAConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E04013F1D1C99AC0051BCFA /* AVAConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E04016C1D1C9E1F0051BCFA /* AvalancheHub.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401401D1C99AC0051BCFA /* AvalancheHub.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -36,10 +34,15 @@
 		6E0401711D1C9E460051BCFA /* AVAFeaturePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401471D1C99AC0051BCFA /* AVAFeaturePrivate.h */; };
 		6E0401721D1C9E460051BCFA /* AVALogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401491D1C99AC0051BCFA /* AVALogger.h */; };
 		6E0401731D1C9E460051BCFA /* AVALoggerPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E04014B1D1C99AC0051BCFA /* AVALoggerPrivate.h */; };
+		6E171ADC1D22F6ED000DC480 /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171ADB1D22F6ED000DC480 /* OCHamcrestIOS.framework */; };
+		6E171B1F1D22FC2E000DC480 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171B131D22FC2E000DC480 /* libOCMock.a */; };
+		6E171B2D1D22FF40000DC480 /* libOHHTTPStubs.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171B231D22FF40000DC480 /* libOHHTTPStubs.a */; };
+		6E23957B1D22EF4F00E543C8 /* AvalancheHubTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E23957A1D22EF4F00E543C8 /* AvalancheHubTests.m */; };
+		6E23957D1D22EF4F00E543C8 /* libAvalancheHub.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E0401031D1C98220051BCFA /* libAvalancheHub.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		6E0401641D1C9DF40051BCFA /* PBXContainerItemProxy */ = {
+		6E23957E1D22EF4F00E543C8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6E0400FB1D1C98220051BCFA /* Project object */;
 			proxyType = 1;
@@ -75,13 +78,34 @@
 		6E0401551D1C9AAA0051BCFA /* AVAAvalanche.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAAvalanche.h; sourceTree = "<group>"; };
 		6E0401561D1C9AAA0051BCFA /* AVAAvalanche.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAAvalanche.m; sourceTree = "<group>"; };
 		6E0401581D1C9CFB0051BCFA /* AvalancheHub+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AvalancheHub+Internal.h"; sourceTree = "<group>"; };
-		6E04015E1D1C9DF40051BCFA /* AvalancheHubTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AvalancheHubTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		6E0401601D1C9DF40051BCFA /* AvalancheHubTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AvalancheHubTests.m; sourceTree = "<group>"; };
-		6E0401621D1C9DF40051BCFA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6E0401831D1CAD810051BCFA /* buildnumber.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = buildnumber.xcconfig; sourceTree = "<group>"; };
 		6E0401841D1CAD810051BCFA /* AvalancheHub.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = AvalancheHub.xcconfig; sourceTree = "<group>"; };
 		6E0401851D1CAD810051BCFA /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		6E0401861D1CAD810051BCFA /* release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = release.xcconfig; sourceTree = "<group>"; };
+		6E171ADB1D22F6ED000DC480 /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrestIOS.framework; path = ../../Vendor/OCHamcrest/OCHamcrestIOS.framework; sourceTree = "<group>"; };
+		6E171B131D22FC2E000DC480 /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOCMock.a; sourceTree = "<group>"; };
+		6E171B151D22FC2E000DC480 /* NSNotificationCenter+OCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNotificationCenter+OCMAdditions.h"; sourceTree = "<group>"; };
+		6E171B161D22FC2E000DC480 /* OCMArg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMArg.h; sourceTree = "<group>"; };
+		6E171B171D22FC2E000DC480 /* OCMConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMConstraint.h; sourceTree = "<group>"; };
+		6E171B181D22FC2E000DC480 /* OCMFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMFunctions.h; sourceTree = "<group>"; };
+		6E171B191D22FC2E000DC480 /* OCMLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMLocation.h; sourceTree = "<group>"; };
+		6E171B1A1D22FC2E000DC480 /* OCMMacroState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMMacroState.h; sourceTree = "<group>"; };
+		6E171B1B1D22FC2E000DC480 /* OCMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMock.h; sourceTree = "<group>"; };
+		6E171B1C1D22FC2E000DC480 /* OCMockObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMockObject.h; sourceTree = "<group>"; };
+		6E171B1D1D22FC2E000DC480 /* OCMRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMRecorder.h; sourceTree = "<group>"; };
+		6E171B1E1D22FC2E000DC480 /* OCMStubRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMStubRecorder.h; sourceTree = "<group>"; };
+		6E171B231D22FF40000DC480 /* libOHHTTPStubs.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOHHTTPStubs.a; sourceTree = "<group>"; };
+		6E171B251D22FF40000DC480 /* Compatibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Compatibility.h; sourceTree = "<group>"; };
+		6E171B261D22FF40000DC480 /* NSURLRequest+HTTPBodyTesting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURLRequest+HTTPBodyTesting.h"; sourceTree = "<group>"; };
+		6E171B271D22FF40000DC480 /* OHHTTPStubs+Mocktail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OHHTTPStubs+Mocktail.h"; sourceTree = "<group>"; };
+		6E171B281D22FF40000DC480 /* OHHTTPStubs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OHHTTPStubs.h; sourceTree = "<group>"; };
+		6E171B291D22FF40000DC480 /* OHHTTPStubsResponse+HTTPMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OHHTTPStubsResponse+HTTPMessage.h"; sourceTree = "<group>"; };
+		6E171B2A1D22FF40000DC480 /* OHHTTPStubsResponse+JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OHHTTPStubsResponse+JSON.h"; sourceTree = "<group>"; };
+		6E171B2B1D22FF40000DC480 /* OHHTTPStubsResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OHHTTPStubsResponse.h; sourceTree = "<group>"; };
+		6E171B2C1D22FF40000DC480 /* OHPathHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OHPathHelpers.h; sourceTree = "<group>"; };
+		6E2395781D22EF4F00E543C8 /* AvalancheHubTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AvalancheHubTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E23957A1D22EF4F00E543C8 /* AvalancheHubTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AvalancheHubTests.m; sourceTree = "<group>"; };
+		6E23957C1D22EF4F00E543C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,11 +116,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6E04015B1D1C9DF40051BCFA /* Frameworks */ = {
+		6E2395751D22EF4F00E543C8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E0401631D1C9DF40051BCFA /* libAvalancheHub.a in Frameworks */,
+				6E171B1F1D22FC2E000DC480 /* libOCMock.a in Frameworks */,
+				6E23957D1D22EF4F00E543C8 /* libAvalancheHub.a in Frameworks */,
+				6E171B2D1D22FF40000DC480 /* libOHHTTPStubs.a in Frameworks */,
+				6E171ADC1D22F6ED000DC480 /* OCHamcrestIOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -107,7 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				6E0401051D1C98220051BCFA /* AvalancheHub */,
-				6E04015F1D1C9DF40051BCFA /* AvalancheHubTests */,
+				6E2395791D22EF4F00E543C8 /* AvalancheHubTests */,
 				6E0401041D1C98220051BCFA /* Products */,
 			);
 			sourceTree = "<group>";
@@ -116,7 +143,7 @@
 			isa = PBXGroup;
 			children = (
 				6E0401031D1C98220051BCFA /* libAvalancheHub.a */,
-				6E04015E1D1C9DF40051BCFA /* AvalancheHubTests.xctest */,
+				6E2395781D22EF4F00E543C8 /* AvalancheHubTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -158,15 +185,6 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
-		6E04015F1D1C9DF40051BCFA /* AvalancheHubTests */ = {
-			isa = PBXGroup;
-			children = (
-				6E0401601D1C9DF40051BCFA /* AvalancheHubTests.m */,
-				6E0401621D1C9DF40051BCFA /* Info.plist */,
-			);
-			path = AvalancheHubTests;
-			sourceTree = "<group>";
-		};
 		6E0401821D1CAD810051BCFA /* Support */ = {
 			isa = PBXGroup;
 			children = (
@@ -176,6 +194,78 @@
 				6E0401861D1CAD810051BCFA /* release.xcconfig */,
 			);
 			path = Support;
+			sourceTree = "<group>";
+		};
+		6E171B121D22FC2E000DC480 /* OCMock */ = {
+			isa = PBXGroup;
+			children = (
+				6E171B131D22FC2E000DC480 /* libOCMock.a */,
+				6E171B141D22FC2E000DC480 /* OCMock */,
+			);
+			name = OCMock;
+			path = ../../Vendor/OCMock;
+			sourceTree = "<group>";
+		};
+		6E171B141D22FC2E000DC480 /* OCMock */ = {
+			isa = PBXGroup;
+			children = (
+				6E171B151D22FC2E000DC480 /* NSNotificationCenter+OCMAdditions.h */,
+				6E171B161D22FC2E000DC480 /* OCMArg.h */,
+				6E171B171D22FC2E000DC480 /* OCMConstraint.h */,
+				6E171B181D22FC2E000DC480 /* OCMFunctions.h */,
+				6E171B191D22FC2E000DC480 /* OCMLocation.h */,
+				6E171B1A1D22FC2E000DC480 /* OCMMacroState.h */,
+				6E171B1B1D22FC2E000DC480 /* OCMock.h */,
+				6E171B1C1D22FC2E000DC480 /* OCMockObject.h */,
+				6E171B1D1D22FC2E000DC480 /* OCMRecorder.h */,
+				6E171B1E1D22FC2E000DC480 /* OCMStubRecorder.h */,
+			);
+			path = OCMock;
+			sourceTree = "<group>";
+		};
+		6E171B221D22FF40000DC480 /* OHHTTPStubs */ = {
+			isa = PBXGroup;
+			children = (
+				6E171B231D22FF40000DC480 /* libOHHTTPStubs.a */,
+				6E171B241D22FF40000DC480 /* OHHTTPStubs */,
+			);
+			name = OHHTTPStubs;
+			path = ../../Vendor/OHHTTPStubs;
+			sourceTree = "<group>";
+		};
+		6E171B241D22FF40000DC480 /* OHHTTPStubs */ = {
+			isa = PBXGroup;
+			children = (
+				6E171B251D22FF40000DC480 /* Compatibility.h */,
+				6E171B261D22FF40000DC480 /* NSURLRequest+HTTPBodyTesting.h */,
+				6E171B271D22FF40000DC480 /* OHHTTPStubs+Mocktail.h */,
+				6E171B281D22FF40000DC480 /* OHHTTPStubs.h */,
+				6E171B291D22FF40000DC480 /* OHHTTPStubsResponse+HTTPMessage.h */,
+				6E171B2A1D22FF40000DC480 /* OHHTTPStubsResponse+JSON.h */,
+				6E171B2B1D22FF40000DC480 /* OHHTTPStubsResponse.h */,
+				6E171B2C1D22FF40000DC480 /* OHPathHelpers.h */,
+			);
+			path = OHHTTPStubs;
+			sourceTree = "<group>";
+		};
+		6E2395791D22EF4F00E543C8 /* AvalancheHubTests */ = {
+			isa = PBXGroup;
+			children = (
+				6E2395831D22EF5F00E543C8 /* Frameworks */,
+				6E23957A1D22EF4F00E543C8 /* AvalancheHubTests.m */,
+				6E23957C1D22EF4F00E543C8 /* Info.plist */,
+			);
+			path = AvalancheHubTests;
+			sourceTree = "<group>";
+		};
+		6E2395831D22EF5F00E543C8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6E171B221D22FF40000DC480 /* OHHTTPStubs */,
+				6E171B121D22FC2E000DC480 /* OCMock */,
+				6E171ADB1D22F6ED000DC480 /* OCHamcrestIOS.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -219,22 +309,22 @@
 			productReference = 6E0401031D1C98220051BCFA /* libAvalancheHub.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		6E04015D1D1C9DF40051BCFA /* AvalancheHubTests */ = {
+		6E2395771D22EF4F00E543C8 /* AvalancheHubTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6E0401661D1C9DF40051BCFA /* Build configuration list for PBXNativeTarget "AvalancheHubTests" */;
+			buildConfigurationList = 6E2395801D22EF4F00E543C8 /* Build configuration list for PBXNativeTarget "AvalancheHubTests" */;
 			buildPhases = (
-				6E04015A1D1C9DF40051BCFA /* Sources */,
-				6E04015B1D1C9DF40051BCFA /* Frameworks */,
-				6E04015C1D1C9DF40051BCFA /* Resources */,
+				6E2395741D22EF4F00E543C8 /* Sources */,
+				6E2395751D22EF4F00E543C8 /* Frameworks */,
+				6E2395761D22EF4F00E543C8 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				6E0401651D1C9DF40051BCFA /* PBXTargetDependency */,
+				6E23957F1D22EF4F00E543C8 /* PBXTargetDependency */,
 			);
 			name = AvalancheHubTests;
 			productName = AvalancheHubTests;
-			productReference = 6E04015E1D1C9DF40051BCFA /* AvalancheHubTests.xctest */;
+			productReference = 6E2395781D22EF4F00E543C8 /* AvalancheHubTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -249,10 +339,10 @@
 					6E0401021D1C98220051BCFA = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
-					6E04015D1D1C9DF40051BCFA = {
+					6E04017D1D1CAC710051BCFA = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
-					6E04017D1D1CAC710051BCFA = {
+					6E2395771D22EF4F00E543C8 = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
 				};
@@ -270,14 +360,14 @@
 			projectRoot = "";
 			targets = (
 				6E0401021D1C98220051BCFA /* AvalancheHub */,
-				6E04015D1D1C9DF40051BCFA /* AvalancheHubTests */,
 				6E04017D1D1CAC710051BCFA /* Fat Framework */,
+				6E2395771D22EF4F00E543C8 /* AvalancheHubTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		6E04015C1D1C9DF40051BCFA /* Resources */ = {
+		6E2395761D22EF4F00E543C8 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -313,21 +403,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6E04015A1D1C9DF40051BCFA /* Sources */ = {
+		6E2395741D22EF4F00E543C8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E0401611D1C9DF40051BCFA /* AvalancheHubTests.m in Sources */,
+				6E23957B1D22EF4F00E543C8 /* AvalancheHubTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		6E0401651D1C9DF40051BCFA /* PBXTargetDependency */ = {
+		6E23957F1D22EF4F00E543C8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 6E0401021D1C98220051BCFA /* AvalancheHub */;
-			targetProxy = 6E0401641D1C9DF40051BCFA /* PBXContainerItemProxy */;
+			targetProxy = 6E23957E1D22EF4F00E543C8 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -470,26 +560,6 @@
 			};
 			name = Release;
 		};
-		6E0401671D1C9DF40051BCFA /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = AvalancheHubTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.avalanche.AvalancheHubTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		6E0401681D1C9DF40051BCFA /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = AvalancheHubTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.avalanche.AvalancheHubTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
 		6E04017E1D1CAC710051BCFA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -501,6 +571,60 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		6E2395811D22EF4F00E543C8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_INT_CONVERSION = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/AvalancheHubTests",
+					"\"$(SRCROOT)/../Vendor\"/**",
+				);
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
+				INFOPLIST_FILE = AvalancheHubTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					Foundation,
+					"-ObjC",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.avalanche.AvalancheHubTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "";
+			};
+			name = Debug;
+		};
+		6E2395821D22EF4F00E543C8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_INT_CONVERSION = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/AvalancheHubTests",
+					"\"$(SRCROOT)/../Vendor\"/**",
+				);
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
+				INFOPLIST_FILE = AvalancheHubTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					Foundation,
+					"-ObjC",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.avalanche.AvalancheHubTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Release;
 		};
@@ -525,20 +649,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6E0401661D1C9DF40051BCFA /* Build configuration list for PBXNativeTarget "AvalancheHubTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				6E0401671D1C9DF40051BCFA /* Debug */,
-				6E0401681D1C9DF40051BCFA /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		6E0401801D1CAC710051BCFA /* Build configuration list for PBXAggregateTarget "Fat Framework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6E04017E1D1CAC710051BCFA /* Debug */,
 				6E04017F1D1CAC710051BCFA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6E2395801D22EF4F00E543C8 /* Build configuration list for PBXNativeTarget "AvalancheHubTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6E2395811D22EF4F00E543C8 /* Debug */,
+				6E2395821D22EF4F00E543C8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

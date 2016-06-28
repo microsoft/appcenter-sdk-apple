@@ -2,11 +2,15 @@
 //  AvalancheCrashesTests.m
 //  AvalancheCrashesTests
 //
-//  Created by Christoph Wendt on 6/24/16.
+//  Created by Christoph Wendt on 6/28/16.
 //  Copyright © 2016 Microsoft. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>
+#import <OCHamcrestIOS/OCHamcrestIOS.h>
+#import <OCMock/OCMock.h>
+#import <OHHTTPStubs/OHHTTPStubs.h>
+#import <OHHTTPStubs/OHPathHelpers.h>
 
 @interface AvalancheCrashesTests : XCTestCase
 
@@ -22,6 +26,29 @@
 - (void)tearDown {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
     [super tearDown];
+}
+
+- (void)testOCMock {
+  NSString *aString = OCMClassMock([NSString class]);
+  OCMStub([aString lowercaseString]).andReturn(@"LOWER HELLO");
+  XCTAssertEqual(@"LOWER HELLO", [aString lowercaseString]);
+}
+
+- (void)testOCHamcrest {
+  NSString* aString = @"Test String";
+  NSString* bString = @"Test String";
+  assertThat(aString, equalTo(bString));
+}
+
+- (void)testOHHTTPStubs {
+  [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+    return [request.URL.host isEqualToString:@"mywebservice.com"];
+  } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
+    // Stub it with our "wsresponse.json" stub file (which is in same bundle as self)
+    NSString* fixture = OHPathForFile(@"wsresponse.json", self.class);
+    return [OHHTTPStubsResponse responseWithFileAtPath:fixture
+                                            statusCode:200 headers:@{@"Content-Type":@"application/json"}];
+  }];
 }
 
 - (void)testExample {
