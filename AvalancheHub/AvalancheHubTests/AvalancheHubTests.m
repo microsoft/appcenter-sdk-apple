@@ -9,6 +9,8 @@
 #import <XCTest/XCTest.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
+#import <OHHTTPStubs/OHHTTPStubs.h>
+#import <OHHTTPStubs/OHPathHelpers.h>
 
 @interface AvalancheHubTests : XCTestCase
 
@@ -40,6 +42,17 @@
   NSString* aString = @"Test String";
   NSString* bString = @"Test String";
   assertThat(aString, equalTo(bString));
+}
+
+- (void)testOHHTTPStubs {
+  [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+    return [request.URL.host isEqualToString:@"mywebservice.com"];
+  } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
+    // Stub it with our "wsresponse.json" stub file (which is in same bundle as self)
+    NSString* fixture = OHPathForFile(@"wsresponse.json", self.class);
+    return [OHHTTPStubsResponse responseWithFileAtPath:fixture
+                                            statusCode:200 headers:@{@"Content-Type":@"application/json"}];
+  }];
 }
 
 - (void)testPerformanceExample {
