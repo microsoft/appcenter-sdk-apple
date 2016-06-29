@@ -31,7 +31,6 @@
 
 @interface AVALog : NSObject
 
-
 @property(nonatomic) NSString* type;
 /* Corresponds to the number of milliseconds elapsed between the time the request is sent and the time the log is emitted. 
  */

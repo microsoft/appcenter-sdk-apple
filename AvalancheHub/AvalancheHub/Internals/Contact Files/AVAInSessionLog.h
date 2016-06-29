@@ -32,11 +32,6 @@
 
 @interface AVAInSessionLog : AVALog
 
-
-@property(nonatomic) NSString* type;
-/* Corresponds to the number of milliseconds elapsed between the time the request is sent and the time the log is emitted. 
- */
-@property(nonatomic) NSNumber* toffset;
 /* Additional key/value pair parameters.  [optional]
  */
 @property(nonatomic) NSDictionary<NSString*, NSString*>* properties;
