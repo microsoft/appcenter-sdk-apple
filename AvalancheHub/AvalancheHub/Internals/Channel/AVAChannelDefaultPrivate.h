@@ -27,6 +27,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, nullable) dispatch_source_t timerSource;
 
 /**
+ *  A queue which makes adding new items thread safe.
+ */
+@property (nonatomic, strong) dispatch_queue_t dataItemsOperations;
+
+/**
  *  A counter that keeps tracks of the number of log items added to the queue.
  */
 @property (nonatomic, assign) NSUInteger itemsCount;

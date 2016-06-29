@@ -7,6 +7,8 @@
 #import "AVASender.h"
 #import "AVAStorage.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  Defines a channel which manages a queue of log items.
  */
@@ -22,7 +24,7 @@
  *
  *  @return the telemetry context
  */
-- (instancetype)initWithSender:(id<AVASender>)sender storage:(id<AVASender>) storage;
+- (instancetype)initWithSender:(id<AVASender>)sender storage:(id<AVAStorage>) storage;
 
 /**
  * Enqueues a new log item.
@@ -32,3 +34,5 @@
 - (void)enqueueItem:(id<AVALog>) item;
 
 @end
+
+NS_ASSUME_NONNULL_END
