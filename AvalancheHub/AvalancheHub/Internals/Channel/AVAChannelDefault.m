@@ -11,6 +11,9 @@ static NSInteger const AVADefaultFlushInterval = 15;
 
 @implementation AVAChannelDefault 
 
+@synthesize batchSize = _batchSize;
+@synthesize flushInterval = _flushInterval;
+
 #pragma mark - Initialisation
 
 - (instancetype)init {

@@ -14,6 +14,20 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @protocol AVAChannel <NSObject>
 
+/*
+ * Threshold after which the queue will be flushed.
+ *
+ * Default: 50
+ */
+@property (nonatomic) NSUInteger batchSize;
+
+/*
+ * Interval for flushing the queue.
+ *
+ * Default: 15
+ */
+@property (nonatomic, assign) NSInteger flushInterval;
+
 @required
 
 /**
@@ -32,6 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
  * param item The log item that should be enqueued
  */
 - (void)enqueueItem:(id<AVALog>) item;
+
 
 @end
 

@@ -36,20 +36,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, assign) NSUInteger itemsCount;
 
-/*
- * Threshold after which the queue will be flushed.
- *
- * Default: 50
- */
-@property (nonatomic) NSUInteger batchSize;
-
-/*
- * Interval for flushing the queue.
- *
- * Default: 15
- */
-@property (nonatomic, assign) NSInteger flushInterval;
-
 @end
 
 NS_ASSUME_NONNULL_END
