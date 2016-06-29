@@ -36,6 +36,26 @@ static NSInteger const AVADefaultFlushInterval = 15;
 
 - (void)enqueueItem:(id<AVALog>) item {
   
+  if (!item) {
+    AVALogWarning(@"WARNING: TelemetryItem was nil.");
+    return;
+  }
+  
+  __weak typeof(self) weakSelf = self;
+  dispatch_async(self.dataItemsOperations, ^{
+    typeof(self) strongSelf = weakSelf;
+    
+    // TODO: Pass object to storage
+    
+    if (strongSelf->_itemsCount >= self.batchSize) {
+      
+      // TODO: Get batch from storage and forward it to sender
+      
+    } else if (strongSelf->_itemsCount == 1) {
+
+      // TODO: Start timer
+    }
+  });
 }
 
 @end
