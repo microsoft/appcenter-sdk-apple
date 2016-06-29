@@ -7,6 +7,8 @@ build/
 DerivedData/
 Products/
 Demo/Vendor
+Documentation/DocsAvalanche/Generated
+Documentation/DocsCrashes/Generated
 
 ## Various settings
 *.pbxuser
