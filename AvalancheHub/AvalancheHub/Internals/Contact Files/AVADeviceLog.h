@@ -30,7 +30,7 @@
 @protocol AVADeviceLog
 @end
 
-@interface AVADeviceLog : AVALog
+@interface AVADeviceLog : NSObject <AVALog>
 
 @property(nonatomic) NSString* sdkVersion;
 /* Device model (example: iPad2,3).  

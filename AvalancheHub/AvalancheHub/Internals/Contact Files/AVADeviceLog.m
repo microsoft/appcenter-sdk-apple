@@ -2,6 +2,9 @@
 
 @implementation AVADeviceLog
 
+@synthesize type;
+@synthesize toffset;
+
 - (instancetype)init {
   self = [super init];
   if (self) {

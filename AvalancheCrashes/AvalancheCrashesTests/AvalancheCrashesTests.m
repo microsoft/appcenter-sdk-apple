@@ -1,11 +1,3 @@
-//
-//  AvalancheCrashesTests.m
-//  AvalancheCrashesTests
-//
-//  Created by Christoph Wendt on 6/28/16.
-//  Copyright © 2016 Microsoft. All rights reserved.
-//
-
 #import <XCTest/XCTest.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>

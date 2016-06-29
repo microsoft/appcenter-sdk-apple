@@ -30,7 +30,7 @@
 @protocol AVAInSessionLog
 @end
 
-@interface AVAInSessionLog : AVALog
+@interface AVAInSessionLog : NSObject <AVALog>
 
 /* Additional key/value pair parameters.  [optional]
  */
