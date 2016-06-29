@@ -63,6 +63,14 @@ static NSInteger const AVADefaultFlushInterval = 15;
   _itemsCount = 0;
 }
 
+- (NSUInteger)batchSize {
+  if(_batchSize <= 0){
+    return AVADefaultBatchSize;
+  }
+  return _batchSize;
+}
+
+#pragma mark - Timer
 
 - (void)startTimer {
   if(self.flushInterval <= 0) {
