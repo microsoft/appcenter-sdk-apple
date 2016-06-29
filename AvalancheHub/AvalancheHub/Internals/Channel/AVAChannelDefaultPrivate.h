@@ -2,12 +2,13 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-
 #import "AVAChannelDefault.h"
 #import "AVASender.h"
 #import "AVAStorage.h"
 
 NS_ASSUME_NONNULL_BEGIN
+
+typedef void(^completionBlock)(BOOL);
 
 @interface AVAChannelDefault ()
 
@@ -35,6 +36,14 @@ NS_ASSUME_NONNULL_BEGIN
  *  A counter that keeps tracks of the number of log items added to the queue.
  */
 @property (nonatomic, assign) NSUInteger itemsCount;
+
+/**
+ * Enqueues a new log item.
+ *
+ * param item The log item that should be enqueued
+ * param completion A completion block that gets called after the item was enqueued
+ */
+- (void)enqueueItem:(id<AVALog>)item withCompletion:(nullable completionBlock)completion;
 
 @end
 

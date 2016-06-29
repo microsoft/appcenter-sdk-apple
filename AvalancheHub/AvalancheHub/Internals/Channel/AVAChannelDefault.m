@@ -6,10 +6,10 @@
 #import "AvalancheHub+Internal.h"
 
 static char *const AVADataItemsOperationsQueue = "com.microsoft.avalanche.ChannelQueue";
-static NSInteger const AVADefaultBatchSize  = 50;
-static NSInteger const AVADefaultFlushInterval = 15;
+static NSUInteger const AVADefaultBatchSize  = 50;
+static float const AVADefaultFlushInterval = 15.0;
 
-@implementation AVAChannelDefault 
+@implementation AVAChannelDefault
 
 @synthesize batchSize = _batchSize;
 @synthesize flushInterval = _flushInterval;
@@ -27,7 +27,7 @@ static NSInteger const AVADefaultFlushInterval = 15;
   return self;
 }
 
-- (instancetype)initWithSender:(id<AVASender>)sender storage:(id<AVAStorage>) storage {
+- (instancetype)initWithSender:(id<AVASender>)sender storage:(id<AVAStorage>)storage {
   if (self = [self init]) {
     _sender = sender;
     _storage = storage;
@@ -37,8 +37,11 @@ static NSInteger const AVADefaultFlushInterval = 15;
 
 #pragma mark - Managing queue
 
-- (void)enqueueItem:(id<AVALog>) item {
-  
+- (void)enqueueItem:(id<AVALog>)item {
+  [self enqueueItem:item withCompletion:nil];
+}
+
+- (void)enqueueItem:(id<AVALog>)item withCompletion:(completionBlock)completion {
   if (!item) {
     AVALogWarning(@"WARNING: TelemetryItem was nil.");
     return;
@@ -49,6 +52,9 @@ static NSInteger const AVADefaultFlushInterval = 15;
     typeof(self) strongSelf = weakSelf;
     
     // TODO: Pass object to storage
+    _itemsCount += 1;
+    
+    if (completion) completion(YES);
     
     if (strongSelf->_itemsCount >= self.batchSize) {
       [strongSelf flushQueue];
@@ -72,7 +78,7 @@ static NSInteger const AVADefaultFlushInterval = 15;
 
 #pragma mark - Timer
 
-- (void)startTimer {
+- (void)startTimer{
   if(self.flushInterval <= 0) {
     return;
   }
@@ -88,7 +94,6 @@ static NSInteger const AVADefaultFlushInterval = 15;
       [strongSelf flushQueue];
     }
     [strongSelf resetTimer];
-
   });
   dispatch_resume(self.timerSource);
 }

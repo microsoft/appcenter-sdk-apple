@@ -24,9 +24,9 @@ NS_ASSUME_NONNULL_BEGIN
 /*
  * Interval for flushing the queue.
  *
- * Default: 15
+ * Default: 15.0
  */
-@property (nonatomic, assign) NSInteger flushInterval;
+@property (nonatomic) float flushInterval;
 
 @required
 
@@ -38,15 +38,14 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return the telemetry context
  */
-- (instancetype)initWithSender:(id<AVASender>)sender storage:(id<AVAStorage>) storage;
+- (instancetype)initWithSender:(id<AVASender>)sender storage:(id<AVAStorage>)storage;
 
 /**
  * Enqueues a new log item.
  *
  * param item The log item that should be enqueued
  */
-- (void)enqueueItem:(id<AVALog>) item;
-
+- (void)enqueueItem:(id<AVALog>)item;
 
 @end
 
