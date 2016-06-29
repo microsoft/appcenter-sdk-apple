@@ -51,14 +51,18 @@ static NSInteger const AVADefaultFlushInterval = 15;
     // TODO: Pass object to storage
     
     if (strongSelf->_itemsCount >= self.batchSize) {
-      
       [strongSelf flushQueue];
     } else if (strongSelf->_itemsCount == 1) {
-
       [strongSelf startTimer];
     }
   });
 }
+
+- (void)flushQueue {
+  // TODO: Get batch from storage and forward it to sender
+  _itemsCount = 0;
+}
+
 
 - (void)startTimer {
   [self resetTimer];
@@ -70,7 +74,6 @@ static NSInteger const AVADefaultFlushInterval = 15;
     typeof(self) strongSelf = weakSelf;
     
     if (strongSelf->_itemsCount > 0) {
-      
       [strongSelf flushQueue];
     }
     [strongSelf resetTimer];
@@ -86,9 +89,6 @@ static NSInteger const AVADefaultFlushInterval = 15;
   }
 }
 
-- (void)flushQueue {
-  // TODO: Get batch from storage and forward it to sender
-  _itemsCount = 0;
-}
+
 
 @end
