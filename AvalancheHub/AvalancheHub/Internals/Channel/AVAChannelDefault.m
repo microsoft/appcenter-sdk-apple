@@ -52,13 +52,43 @@ static NSInteger const AVADefaultFlushInterval = 15;
     
     if (strongSelf->_itemsCount >= self.batchSize) {
       
-      // TODO: Get batch from storage and forward it to sender
-      
+      [strongSelf flushQueue];
     } else if (strongSelf->_itemsCount == 1) {
 
-      // TODO: Start timer
+      [strongSelf startTimer];
     }
   });
+}
+
+- (void)startTimer {
+  [self resetTimer];
+  
+  self.timerSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, self.dataItemsOperations);
+  dispatch_source_set_timer(self.timerSource, dispatch_walltime(NULL, NSEC_PER_SEC * self.flushInterval), 1ull * NSEC_PER_SEC, 1ull * NSEC_PER_SEC);
+  __weak typeof(self) weakSelf = self;
+  dispatch_source_set_event_handler(self.timerSource, ^{
+    typeof(self) strongSelf = weakSelf;
+    
+    if (strongSelf->_itemsCount > 0) {
+      
+      [strongSelf flushQueue];
+    }
+    [strongSelf resetTimer];
+
+  });
+  dispatch_resume(self.timerSource);
+}
+
+- (void)resetTimer {
+  if (self.timerSource) {
+    dispatch_source_cancel(self.timerSource);
+    self.timerSource = nil;
+  }
+}
+
+- (void)flushQueue {
+  // TODO: Get batch from storage and forward it to sender
+  _itemsCount = 0;
 }
 
 @end
