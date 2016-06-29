@@ -65,6 +65,9 @@ static NSInteger const AVADefaultFlushInterval = 15;
 
 
 - (void)startTimer {
+  if(self.flushInterval <= 0) {
+    return;
+  }
   [self resetTimer];
   
   self.timerSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, self.dataItemsOperations);
