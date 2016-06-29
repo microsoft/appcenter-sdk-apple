@@ -32,13 +32,6 @@
 
 @interface AVADeviceLog : AVALog
 
-
-@property(nonatomic) NSString* type;
-/* Corresponds to the number of milliseconds elapsed between the time the request is sent and the time the log is emitted. 
- */
-@property(nonatomic) NSNumber* toffset;
-/* Version of the SDK.  
- */
 @property(nonatomic) NSString* sdkVersion;
 /* Device model (example: iPad2,3).  
  */
