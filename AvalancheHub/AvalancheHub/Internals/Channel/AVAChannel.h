@@ -2,10 +2,10 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import <Foundation/Foundation.h>
 #import "AVALog.h"
 #import "AVASender.h"
 #import "AVAStorage.h"
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -19,26 +19,28 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Default: 50
  */
-@property (nonatomic) NSUInteger batchSize;
+@property(nonatomic) NSUInteger batchSize;
 
 /*
  * Interval for flushing the queue.
  *
  * Default: 15.0
  */
-@property (nonatomic) float flushInterval;
+@property(nonatomic) float flushInterval;
 
 @required
 
 /**
  *  Initializes a new BITChannel instance.
  *
- *  @param sender a sender instance that is used to send batches of log items to the backend
+ *  @param sender a sender instance that is used to send batches of log items to
+ * the backend
  *  @param storage a storage instance to store and read enqueued log items
  *
  *  @return the telemetry context
  */
-- (instancetype)initWithSender:(id<AVASender>)sender storage:(id<AVAStorage>)storage;
+- (instancetype)initWithSender:(id<AVASender>)sender
+                       storage:(id<AVAStorage>)storage;
 
 /**
  * Enqueues a new log item.
