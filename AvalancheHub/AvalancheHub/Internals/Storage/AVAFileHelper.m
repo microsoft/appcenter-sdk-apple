@@ -1,4 +1,5 @@
 #import "AVAFileHelper.h"
+#import "AVALogger.h"
 
 @interface AVAFileHelper ()
 
@@ -31,6 +32,32 @@
   }
 }
 
+- (BOOL)createDirectoryAtPath:(NSString *)directoryPath {
+  NSURL *directoryURL = [NSURL fileURLWithPath:directoryPath];
+  if (directoryURL) {
+    NSError *error = nil;
+    
+    if ([self.fileManager createDirectoryAtURL:directoryURL withIntermediateDirectories:YES attributes:nil error:&error]) {
+      return YES;
+    } else {
+      AVALogError(@"ERROR: %@", error.localizedDescription);
+    }
+  }
+  return NO;
+}
+
+- (BOOL)disableBackupForDirectoryURL:(NSURL *)directoryURL {
+  NSError *error = nil;
+  if (![directoryURL setResourceValue:@YES
+                               forKey:NSURLIsExcludedFromBackupKey
+                                error:&error]) {
+    AVALogError(@"ERROR: Error excluding %@ from backup %@", directoryURL.lastPathComponent, error.localizedDescription);
+    return NO;
+  } else {
+    return YES;
+  }
+}
+
 #pragma mark - File I/O
 
 + (BOOL)appendData:(NSData *)data toFileWithPath:(NSString *)filePath {
@@ -38,7 +65,6 @@
 }
 
 + (BOOL)deleteFileWithPath:(NSString *)filePath {
-
   return YES;
 }
 
