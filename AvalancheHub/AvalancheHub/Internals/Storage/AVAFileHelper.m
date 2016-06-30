@@ -65,6 +65,15 @@
 #pragma mark - File I/O
 
 + (BOOL)appendData:(NSData *)data toFileWithPath:(NSString *)filePath {
+  if (!data || !filePath) {
+    return NO;
+  }
+
+  NSFileHandle *file = [NSFileHandle fileHandleForWritingAtPath:filePath];
+  if (file) {
+    [file seekToEndOfFile];
+    [file writeData:data];
+  }
   return YES;
 }
 
