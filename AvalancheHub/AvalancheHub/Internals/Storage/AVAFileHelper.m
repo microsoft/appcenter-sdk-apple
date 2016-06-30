@@ -40,8 +40,11 @@
   NSURL *directoryURL = [NSURL fileURLWithPath:directoryPath];
   if (directoryURL) {
     NSError *error = nil;
-    
-    if ([self.fileManager createDirectoryAtURL:directoryURL withIntermediateDirectories:YES attributes:nil error:&error]) {
+
+    if ([self.fileManager createDirectoryAtURL:directoryURL
+                   withIntermediateDirectories:YES
+                                    attributes:nil
+                                         error:&error]) {
       return YES;
     } else {
       AVALogError(@"ERROR: %@", error.localizedDescription);
@@ -55,7 +58,8 @@
   if (![directoryURL setResourceValue:@YES
                                forKey:NSURLIsExcludedFromBackupKey
                                 error:&error]) {
-    AVALogError(@"ERROR: Error excluding %@ from backup %@", directoryURL.lastPathComponent, error.localizedDescription);
+    AVALogError(@"ERROR: Error excluding %@ from backup %@",
+                directoryURL.lastPathComponent, error.localizedDescription);
     return NO;
   } else {
     return YES;
@@ -108,7 +112,26 @@
 
 + (NSArray *)fileNamesForDirectory:(NSString *)directoryPath
                  withFileExtension:(NSString *)fileExtension {
-  return nil;
+  if (!directoryPath || !fileExtension) {
+    return nil;
+  }
+
+  NSError *error;
+  ;
+  NSArray *filteredFiles;
+  NSArray *allFiles =
+      [self.fileManager contentsOfDirectoryAtPath:directoryPath error:&error];
+  if (error) {
+    AVALogError(@"ERROR: Couldn't read %@-files for directory %@: %@",
+                fileExtension, directoryPath, error.localizedDescription);
+  } else {
+    NSString *ext = [fileExtension lowercaseString];
+    NSPredicate *extensionFilter =
+        [NSPredicate predicateWithFormat:@"self ENDSWITH '%@'", ext];
+    filteredFiles = [allFiles filteredArrayUsingPredicate:extensionFilter];
+  }
+
+  return filteredFiles;
 }
 
 @end
