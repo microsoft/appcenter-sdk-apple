@@ -78,7 +78,19 @@
 }
 
 + (BOOL)deleteFileWithPath:(NSString *)filePath {
-  return YES;
+  if (!filePath) {
+    return NO;
+  }
+
+  NSError *error = nil;
+  if ([self.fileManager removeItemAtPath:filePath error:&error]) {
+    AVALogError(@"ERROR: Error deleting file %@: %@", filePath,
+                error.localizedDescription);
+    return NO;
+  } else {
+    AVALogVerbose(@"VERBOSE: File %@: has been successfully deleted", filePath);
+    return YES;
+  }
 }
 
 + (NSData *)dataForFileWithPath:(NSString *)filePath {
