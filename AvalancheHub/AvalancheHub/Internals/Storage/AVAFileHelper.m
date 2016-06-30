@@ -24,6 +24,10 @@
   [self.sharedInstance setFileManager:fileManager];
 }
 
++ (NSFileManager *)fileManager {
+  return [self.sharedInstance fileManager];
+}
+
 - (NSFileManager *)fileManager {
   if (_fileManager) {
     return _fileManager;

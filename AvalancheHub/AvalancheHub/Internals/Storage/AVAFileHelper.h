@@ -10,6 +10,14 @@
 @interface AVAFileHelper : NSObject
 
 /**
+ * Returns the `NSFileManager` instance used for reading and writing
+ * directories.
+ *
+ * @returns
+ */
++ (NSFileManager *)fileManager;
+
+/**
  * Sets a custom `NSFileManager` instance. By default, the `defaultManager` will
  * be used.
  *
