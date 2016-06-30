@@ -94,7 +94,16 @@
 }
 
 + (NSData *)dataForFileWithPath:(NSString *)filePath {
-  return nil;
+  if (!filePath) {
+    return nil;
+  }
+
+  NSData *data;
+  NSFileHandle *file = [NSFileHandle fileHandleForReadingAtPath:filePath];
+  if (file) {
+    data = [file readDataToEndOfFile];
+  }
+  return data;
 }
 
 + (NSArray *)fileNamesForDirectory:(NSString *)directoryPath
