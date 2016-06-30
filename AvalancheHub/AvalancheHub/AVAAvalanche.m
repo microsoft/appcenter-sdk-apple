@@ -23,8 +23,14 @@
     return;
   }
   
-  // Set app ID
+  if ([self.appId length] == 0) {
+    AVALogError(@"ERROR: AppId is invalid");
+    return;
+  }
+  
+  // Set app ID and UUID
   self.appId = appId;
+  self.uuid = [[NSUUID UUID] UUIDString];
 
   [features enumerateObjectsUsingBlock:^(Class  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
     AVAFeature *feature = [obj sharedInstance];
@@ -54,8 +60,13 @@
   return self.appId;
 }
 
-- (NSString*)getUUID{
-  return [[NSUUID UUID] UUIDString];
+- (NSString*)getUUID {
+  return self.uuid;
+}
+
+- (NSString*)getApiVersion {
+  // TODO
+  return @"2016-09-01";
 }
 
 @end

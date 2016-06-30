@@ -6,8 +6,19 @@
 #import "AVASender.h"
 #import "AVAChannelDelegate.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface AVAHttpSender : NSObject<AVASender>
 
 @property (nonatomic, weak) id<AVAChannelDelegate> delegate;
 
+
+/**
+ *	BaseURL to which relative paths are appended.
+ */
+@property (nonatomic, strong, readonly) NSString* baseURL;
+
+@property (nonatomic, strong) dispatch_queue_t senderBatcheQueue;
+
 @end
+NS_ASSUME_NONNULL_END
