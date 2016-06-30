@@ -13,7 +13,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   // Start Avalanche SDK
   [AVAAvalanche setLogLevel:AVALogLevelVerbose];
-  [AVAAvalanche useFeatures:@[[AVACrashes class]]];
+  [AVAAvalanche useFeatures:@[[AVACrashes class]] withAppId:@"puppetId"];
   return YES;
 }
 

@@ -15,9 +15,8 @@
  *
  * param features Description of parameter
  */
-+ (void)useFeatures:(NSArray<Class> *)features;
 
-+ (void)useFeatures:(NSArray<Class> *)features identifier:(NSString *)identifier;
++ (void)useFeatures:(NSArray<Class> *)features withAppId:(NSString *)appId;
 
 + (AVALogLevel)logLevel;
 + (void)setLogLevel:(AVALogLevel)logLevel;

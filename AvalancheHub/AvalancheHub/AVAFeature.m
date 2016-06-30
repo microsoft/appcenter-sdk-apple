@@ -14,25 +14,20 @@
   return sharedInstance;
 }
 
-+ (void)setServerURL:(NSString *)serverURL {
-  [[self sharedInstance] setServerURL:serverURL];
-}
-
-+ (void)setIdentifier:(NSString *)identifier {
-  [[self sharedInstance] setIdentifier:identifier];
-}
-
 - (void)startFeature {
   AVALogVerbose(@"AVAFeature: Feature started");
 }
 
-
-+ (void)resume {
++ (void)enable {
   
 }
 
-+ (void)stop {
++ (void)disable {
   
+}
+
++ (BOOL)isEnabled {
+  return YES;
 }
 
 @end

@@ -12,7 +12,10 @@
 @interface AVAAvalanche () <AVAAvalancheDelegate>
 
 @property (nonatomic, strong) NSMutableArray<AVAFeature *> *features;
-@property (nonatomic, copy) NSString *identifier;
+@property (nonatomic, copy) NSString *appId;
 @property BOOL featuresStarted;
+
+- (NSString*)getAppId;
+- (NSString*)getUUID;
 
 @end

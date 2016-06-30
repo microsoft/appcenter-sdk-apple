@@ -218,7 +218,7 @@
 				6E0401431D1C99AC0051BCFA /* AVAAvalancheDelegate.h */,
 				6E0401441D1C99AC0051BCFA /* AVAAvalanchePrivate.h */,
 				6E0401471D1C99AC0051BCFA /* AVAFeaturePrivate.h */,
-				6E171B511D234717000DC480 /* Contact Files */,
+				6E171B511D234717000DC480 /* Model */,
 				6E0401481D1C99AC0051BCFA /* Utils */,
 			);
 			path = Internals;
@@ -297,7 +297,7 @@
 			path = OHHTTPStubs;
 			sourceTree = "<group>";
 		};
-		6E171B511D234717000DC480 /* Contact Files */ = {
+		6E171B511D234717000DC480 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				6E171B521D234717000DC480 /* AVADeviceLog.h */,
@@ -308,7 +308,7 @@
 				6E171B581D234717000DC480 /* AVALogContainer.h */,
 				6E171B591D234717000DC480 /* AVALogContainer.m */,
 			);
-			path = "Contact Files";
+			path = Model;
 			sourceTree = "<group>";
 		};
 		6E2395791D22EF4F00E543C8 /* AvalancheHubTests */ = {
@@ -816,6 +816,7 @@
 				6E6BFC331D234FAE00DF7617 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
