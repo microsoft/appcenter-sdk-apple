@@ -1,11 +1,3 @@
-//
-//  ViewController.m
-//  Demo
-//
-//  Created by Christoph Wendt on 6/27/16.
-//  Copyright © 2016 Microsoft. All rights reserved.
-//
-
 #import "ViewController.h"
 
 @interface ViewController ()

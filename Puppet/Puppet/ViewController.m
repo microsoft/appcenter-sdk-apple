@@ -1,11 +1,3 @@
-//
-//  ViewController.m
-//  Puppet
-//
-//  Created by Mehrdad Mozafari on 6/23/16.
-//  Copyright © 2016 Mehrdad Mozafari. All rights reserved.
-//
-
 #import "ViewController.h"
 
 @interface ViewController ()

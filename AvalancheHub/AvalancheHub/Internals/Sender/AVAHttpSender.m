@@ -1,11 +1,8 @@
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
+#import "AVAHttpSender.h"
 
-#import <UIKit/UIKit.h>
-
-@interface ViewController : UIViewController
-
+@implementation AVAHttpSender
 
 @end
-
