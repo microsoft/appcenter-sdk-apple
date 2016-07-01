@@ -88,12 +88,12 @@
 
   NSError *error = nil;
   if ([self.fileManager removeItemAtPath:filePath error:&error]) {
+    AVALogVerbose(@"VERBOSE: File %@: has been successfully deleted", filePath);
+    return YES;
+  } else {
     AVALogError(@"ERROR: Error deleting file %@: %@", filePath,
                 error.localizedDescription);
     return NO;
-  } else {
-    AVALogVerbose(@"VERBOSE: File %@: has been successfully deleted", filePath);
-    return YES;
   }
 }
 
@@ -117,7 +117,6 @@
   }
 
   NSError *error;
-  ;
   NSArray *filteredFiles;
   NSArray *allFiles =
       [self.fileManager contentsOfDirectoryAtPath:directoryPath error:&error];
@@ -125,9 +124,8 @@
     AVALogError(@"ERROR: Couldn't read %@-files for directory %@: %@",
                 fileExtension, directoryPath, error.localizedDescription);
   } else {
-    NSString *ext = [fileExtension lowercaseString];
-    NSPredicate *extensionFilter =
-        [NSPredicate predicateWithFormat:@"self ENDSWITH '%@'", ext];
+    NSPredicate *extensionFilter = [NSPredicate
+        predicateWithFormat:@"self ENDSWITH[cd]  %@", fileExtension];
     filteredFiles = [allFiles filteredArrayUsingPredicate:extensionFilter];
   }
 
