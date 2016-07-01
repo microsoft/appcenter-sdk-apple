@@ -31,7 +31,7 @@
  * @param data the data that should be written to disk
  * @param filePath the absolute path to the file
  *
- * @return true if writing data to the given file was succesful
+ * @return true if writing data to the given file was successful
  */
 + (BOOL)appendData:(NSData *)data toFileWithPath:(NSString *)filePath;
 
