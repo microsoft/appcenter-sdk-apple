@@ -40,7 +40,7 @@
  *
  * @param filePath the absolute path to the file
  *
- * @return true if deleting the file was succesful
+ * @return true if deleting the file was successful
  */
 + (BOOL)deleteFileWithPath:(NSString *)filePath;
 
