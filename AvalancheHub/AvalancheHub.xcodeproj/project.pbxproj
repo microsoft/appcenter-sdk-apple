@@ -62,6 +62,7 @@
 		6E5D8A801D25B91F00C033B1 /* AVAFileHelperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E5D8A7F1D25B91F00C033B1 /* AVAFileHelperTests.m */; };
 		6E6BFC441D23606C00DF7617 /* AVAChannelDefaultPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E6BFC421D23606C00DF7617 /* AVAChannelDefaultPrivate.h */; };
 		6EB1F40E1D2443B7005F9F99 /* AVAChannelDefaultTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB1F40D1D2443B7005F9F99 /* AVAChannelDefaultTests.m */; };
+		E829E4231D25C8BA00F19DA1 /* AVAHttpSenderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E829E4221D25C8BA00F19DA1 /* AVAHttpSenderTests.m */; };
 		E84B8E2E1D2351DB006FD231 /* AVAChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E2B1D2351DB006FD231 /* AVAChannel.h */; };
 		E84B8E2F1D2351DB006FD231 /* AVAChannelDefault.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E2C1D2351DB006FD231 /* AVAChannelDefault.h */; };
 		E84B8E301D2351DB006FD231 /* AVAChannelDefault.m in Sources */ = {isa = PBXBuildFile; fileRef = E84B8E2D1D2351DB006FD231 /* AVAChannelDefault.m */; };
@@ -149,6 +150,8 @@
 		6E5D8A7F1D25B91F00C033B1 /* AVAFileHelperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAFileHelperTests.m; sourceTree = "<group>"; };
 		6E6BFC421D23606C00DF7617 /* AVAChannelDefaultPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAChannelDefaultPrivate.h; sourceTree = "<group>"; };
 		6EB1F40D1D2443B7005F9F99 /* AVAChannelDefaultTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAChannelDefaultTests.m; sourceTree = "<group>"; };
+		E829E4221D25C8BA00F19DA1 /* AVAHttpSenderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAHttpSenderTests.m; sourceTree = "<group>"; };
+		E829E4241D25D07600F19DA1 /* AVAConstants+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AVAConstants+Internal.h"; sourceTree = "<group>"; };
 		E84B8E2B1D2351DB006FD231 /* AVAChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAChannel.h; sourceTree = "<group>"; };
 		E84B8E2C1D2351DB006FD231 /* AVAChannelDefault.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAChannelDefault.h; sourceTree = "<group>"; };
 		E84B8E2D1D2351DB006FD231 /* AVAChannelDefault.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAChannelDefault.m; sourceTree = "<group>"; };
@@ -236,6 +239,7 @@
 				6E0401491D1C99AC0051BCFA /* AVALogger.h */,
 				6E04014A1D1C99AC0051BCFA /* AVALogger.m */,
 				6E04014B1D1C99AC0051BCFA /* AVALoggerPrivate.h */,
+				E829E4241D25D07600F19DA1 /* AVAConstants+Internal.h */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -325,6 +329,7 @@
 				6E23957C1D22EF4F00E543C8 /* Info.plist */,
 				6EB1F40D1D2443B7005F9F99 /* AVAChannelDefaultTests.m */,
 				6E5D8A7F1D25B91F00C033B1 /* AVAFileHelperTests.m */,
+				E829E4221D25C8BA00F19DA1 /* AVAHttpSenderTests.m */,
 			);
 			path = AvalancheHubTests;
 			sourceTree = "<group>";
@@ -547,6 +552,7 @@
 			files = (
 				6EB1F40E1D2443B7005F9F99 /* AVAChannelDefaultTests.m in Sources */,
 				6E5D8A801D25B91F00C033B1 /* AVAFileHelperTests.m in Sources */,
+				E829E4231D25C8BA00F19DA1 /* AVAHttpSenderTests.m in Sources */,
 				6E23957B1D22EF4F00E543C8 /* AvalancheHubTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

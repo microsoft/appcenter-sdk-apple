@@ -16,8 +16,8 @@
 @property (nonatomic, retain) NSString *uuid;
 @property BOOL featuresStarted;
 
-- (NSString*)getAppId;
-- (NSString*)getUUID;
-- (NSString*)getApiVersion;
+- (NSString*)appId;
+- (NSString*)UUID;
+- (NSString*)apiVersion;
 
 @end

@@ -20,5 +20,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) dispatch_queue_t senderBatcheQueue;
 
+/**
+ *	Request header parameters.
+ */
+@property (nonatomic, strong) NSDictionary* headerParam;
+
+
 @end
 NS_ASSUME_NONNULL_END

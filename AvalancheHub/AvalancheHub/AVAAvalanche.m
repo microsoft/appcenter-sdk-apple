@@ -23,7 +23,7 @@
     return;
   }
   
-  if ([self.appId length] == 0) {
+  if ([appId length] == 0) {
     AVALogError(@"ERROR: AppId is invalid");
     return;
   }
@@ -56,15 +56,15 @@
   [AVALogger setLogHandler:logHandler];
 }
 
-- (NSString*)getAppId {
-  return self.appId;
+- (NSString*)appId {
+  return _appId;
 }
 
-- (NSString*)getUUID {
-  return self.uuid;
+- (NSString*)UUID {
+  return _uuid;
 }
 
-- (NSString*)getApiVersion {
+- (NSString*)apiVersion {
   // TODO
   return @"2016-09-01";
 }

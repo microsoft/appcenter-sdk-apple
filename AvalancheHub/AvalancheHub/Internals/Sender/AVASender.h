@@ -4,16 +4,9 @@
 
 #import <Foundation/Foundation.h>
 #import "AVALogContainer.h"
+#import "AVAConstants+Internal.h"
 
-typedef NS_ENUM(NSInteger, AVASendPriority) {
-  AVASendPriorityDefault,
-  AVASendPriorityLow,
-  AVASendPriorityHight,
-  AVASendPriorityBackground
-};
-
-typedef void (^SendAsyncCompletionHandler)(NSError* error);
-
+typedef void (^AVASendAsyncCompletionHandler)(NSError* error, NSUInteger statusCode, NSString* batchId);
 @protocol AVASender <NSObject>
 
 @required
@@ -29,10 +22,12 @@ typedef void (^SendAsyncCompletionHandler)(NSError* error);
  *
  * @param logs Batched log
  * @param queue Queue for dispatching the completion handler
+ * @param priority Send priority
  * @param handler Completion handler
  */
 -(NSNumber*)sendLogsAsync:(AVALogContainer*)logs
             callbackQueue:(dispatch_queue_t)callbackQueue
-        completionHandler:(SendAsyncCompletionHandler)handler;
+                 priority:(AVASendPriority)priority
+        completionHandler:(AVASendAsyncCompletionHandler)handler;
 
 @end
