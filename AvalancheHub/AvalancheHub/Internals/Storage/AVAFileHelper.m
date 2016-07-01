@@ -36,18 +36,29 @@
   }
 }
 
-- (BOOL)createDirectoryAtPath:(NSString *)directoryPath {
-  NSURL *directoryURL = [NSURL fileURLWithPath:directoryPath];
-  if (directoryURL) {
++ (BOOL)createDirectoryAtPath:(NSString *)directoryPath {
+  if (directoryPath) {
     NSError *error = nil;
-
-    if ([self.fileManager createDirectoryAtURL:directoryURL
-                   withIntermediateDirectories:YES
-                                    attributes:nil
-                                         error:&error]) {
+    if([self.fileManager createDirectoryAtPath:directoryPath withIntermediateDirectories:YES attributes:nil error:&error]){
       return YES;
     } else {
-      AVALogError(@"ERROR: %@", error.localizedDescription);
+      AVALogError(@"ERROR: Couldn't create directory at path %@: %@", directoryPath, error.localizedDescription);
+    }
+  }
+  return NO;
+}
+
++ (BOOL)createFileAtPath:(NSString *)filePath {
+  if (filePath) {
+    NSString *directoryPath = [filePath stringByDeletingLastPathComponent];
+    if(![self.fileManager fileExistsAtPath:directoryPath isDirectory:YES]) {
+      [self createDirectoryAtPath:directoryPath];
+    }
+  
+    if([self.fileManager createFileAtPath:filePath contents:[NSData new] attributes:nil]) {
+      return YES;
+    } else {
+      AVALogError(@"ERROR: Couldn't create new file at path %@", filePath);
     }
   }
   return NO;
@@ -73,6 +84,11 @@
     return NO;
   }
 
+  BOOL isDir;
+  if(![self.fileManager fileExistsAtPath:filePath isDirectory:&isDir] && !isDir) {
+    [self createFileAtPath:filePath];
+  }
+  
   NSFileHandle *file = [NSFileHandle fileHandleForWritingAtPath:filePath];
   if (file) {
     [file seekToEndOfFile];
@@ -88,12 +104,12 @@
 
   NSError *error = nil;
   if ([self.fileManager removeItemAtPath:filePath error:&error]) {
+    AVALogVerbose(@"VERBOSE: File %@: has been successfully deleted", filePath);
+    return YES;
+  } else {
     AVALogError(@"ERROR: Error deleting file %@: %@", filePath,
                 error.localizedDescription);
     return NO;
-  } else {
-    AVALogVerbose(@"VERBOSE: File %@: has been successfully deleted", filePath);
-    return YES;
   }
 }
 
@@ -117,7 +133,6 @@
   }
 
   NSError *error;
-  ;
   NSArray *filteredFiles;
   NSArray *allFiles =
       [self.fileManager contentsOfDirectoryAtPath:directoryPath error:&error];
@@ -125,9 +140,8 @@
     AVALogError(@"ERROR: Couldn't read %@-files for directory %@: %@",
                 fileExtension, directoryPath, error.localizedDescription);
   } else {
-    NSString *ext = [fileExtension lowercaseString];
-    NSPredicate *extensionFilter =
-        [NSPredicate predicateWithFormat:@"self ENDSWITH '%@'", ext];
+    NSPredicate *extensionFilter = [NSPredicate
+        predicateWithFormat:@"self ENDSWITH[cd]  %@", fileExtension];
     filteredFiles = [allFiles filteredArrayUsingPredicate:extensionFilter];
   }
 
