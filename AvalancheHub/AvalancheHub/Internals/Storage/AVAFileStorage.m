@@ -3,7 +3,7 @@
 #import "AVAFileStorage.h"
 
 static NSString *const kAVALogsDirectory = @"com.microsoft.avalanche/logs";
-static NSString *const kAVAFileExtension = @".ava";
+static NSString *const kAVAFileExtension = @"ava";
 
 @implementation AVAFileStorage
 
@@ -67,12 +67,12 @@ static NSString *const kAVAFileExtension = @".ava";
   return logsId;
 }
 
-- (NSString *)filePathForStorageKey:(NSString *)storageKey
-                             logsId:(NSString *)logsId {
-  NSString *fileName =
-      [logsId stringByAppendingPathComponent:kAVAFileExtension];
+- (NSString *)filePathForStorageKey:(nonnull NSString *)storageKey
+                             logsId:(nonnull NSString *)logsId {
+  NSString *fileName = [logsId stringByAppendingPathExtension:kAVAFileExtension];
   NSString *filePath =
-      [self.baseDirectoryPath stringByAppendingString:fileName];
+      [[self.baseDirectoryPath stringByAppendingPathComponent:storageKey] stringByAppendingPathComponent:fileName];
+  
   return filePath;
 }
 

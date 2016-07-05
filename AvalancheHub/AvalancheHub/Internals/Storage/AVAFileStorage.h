@@ -21,6 +21,17 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong)
     NSMutableDictionary<NSString *, AVAStorageBucket *> *buckets;
 
+/**
+ * Returns the file path to a log file based on its id and storage key.
+ *
+ * @param storageKey A storage key which identifies the group/priority of the log file
+ * @param logsId The internal Id of the file
+ *
+ * @return the file path
+ */
+- (NSString *)filePathForStorageKey:(NSString *)storageKey
+                             logsId:(NSString *)logsId;
+
 @end
 
 NS_ASSUME_NONNULL_END
