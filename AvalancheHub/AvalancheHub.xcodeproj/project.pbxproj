@@ -45,6 +45,8 @@
 		6E0401711D1C9E460051BCFA /* AVAFeaturePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401471D1C99AC0051BCFA /* AVAFeaturePrivate.h */; };
 		6E0401721D1C9E460051BCFA /* AVALogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401491D1C99AC0051BCFA /* AVALogger.h */; };
 		6E0401731D1C9E460051BCFA /* AVALoggerPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E04014B1D1C99AC0051BCFA /* AVALoggerPrivate.h */; };
+		6E0CD69E1D27198A0045FE8C /* AVAStorageBucket.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0CD69C1D27198A0045FE8C /* AVAStorageBucket.h */; };
+		6E0CD69F1D27198A0045FE8C /* AVAStorageBucket.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0CD69D1D27198A0045FE8C /* AVAStorageBucket.m */; };
 		6E171ADC1D22F6ED000DC480 /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171ADB1D22F6ED000DC480 /* OCHamcrestIOS.framework */; };
 		6E171B1F1D22FC2E000DC480 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171B131D22FC2E000DC480 /* libOCMock.a */; };
 		6E171B2D1D22FF40000DC480 /* libOHHTTPStubs.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171B231D22FF40000DC480 /* libOHHTTPStubs.a */; };
@@ -124,6 +126,8 @@
 		6E0401841D1CAD810051BCFA /* AvalancheHub.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = AvalancheHub.xcconfig; sourceTree = "<group>"; };
 		6E0401851D1CAD810051BCFA /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		6E0401861D1CAD810051BCFA /* release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = release.xcconfig; sourceTree = "<group>"; };
+		6E0CD69C1D27198A0045FE8C /* AVAStorageBucket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAStorageBucket.h; sourceTree = "<group>"; };
+		6E0CD69D1D27198A0045FE8C /* AVAStorageBucket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAStorageBucket.m; sourceTree = "<group>"; };
 		6E171ADB1D22F6ED000DC480 /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrestIOS.framework; path = ../../Vendor/OCHamcrest/OCHamcrestIOS.framework; sourceTree = "<group>"; };
 		6E171B131D22FC2E000DC480 /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOCMock.a; sourceTree = "<group>"; };
 		6E171B151D22FC2E000DC480 /* NSNotificationCenter+OCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNotificationCenter+OCMAdditions.h"; sourceTree = "<group>"; };
@@ -391,6 +395,8 @@
 				E84B8E381D235246006FD231 /* AVAStorage.h */,
 				6E2BA1AD1D2499F9002D7B88 /* AVAFileHelper.h */,
 				6E2BA1AE1D2499F9002D7B88 /* AVAFileHelper.m */,
+				6E0CD69C1D27198A0045FE8C /* AVAStorageBucket.h */,
+				6E0CD69D1D27198A0045FE8C /* AVAStorageBucket.m */,
 			);
 			path = Storage;
 			sourceTree = "<group>";
@@ -427,6 +433,7 @@
 				E8010E681D2DD4EF0035196F /* AVAEventLog.h in Headers */,
 				6E04016A1D1C9E1F0051BCFA /* AVAAvalanche.h in Headers */,
 				E84B8E3B1D235273006FD231 /* AVAChannelDelegate.h in Headers */,
+				6E0CD69E1D27198A0045FE8C /* AVAStorageBucket.h in Headers */,
 				6E04016B1D1C9E1F0051BCFA /* AVAConstants.h in Headers */,
 				E84B8E391D235246006FD231 /* AVAStorage.h in Headers */,
 				6E04016C1D1C9E1F0051BCFA /* AvalancheHub.h in Headers */,
@@ -589,6 +596,7 @@
 				6E04014D1D1C99AC0051BCFA /* AVAFeature.m in Sources */,
 				6E171B5D1D234717000DC480 /* AVAEndSessionLog.m in Sources */,
 				E88EBBED1D2C612E007E7785 /* AVAAbstractLog.m in Sources */,
+				6E0CD69F1D27198A0045FE8C /* AVAStorageBucket.m in Sources */,
 				6E171B5B1D234717000DC480 /* AVADeviceLog.m in Sources */,
 				E8010E6B1D2DD4EF0035196F /* AVALogWithProperties.m in Sources */,
 			);
