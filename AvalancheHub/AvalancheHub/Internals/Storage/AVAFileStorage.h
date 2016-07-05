@@ -8,7 +8,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface AVAStorageDefault : NSObject <AVAStorage>
+typedef void (^enqueueCompletionBlock)(BOOL);
+
+@interface AVAFileStorage : NSObject <AVAStorage>
 
 /**
  * The directory for saving SDK related files within the app's folder.

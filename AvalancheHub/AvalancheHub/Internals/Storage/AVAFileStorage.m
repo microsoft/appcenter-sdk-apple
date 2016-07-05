@@ -1,11 +1,11 @@
 #import "AVAFileHelper.h"
 #import "AVALogger.h"
-#import "AVAStorageDefault.h"
+#import "AVAFileStorage.h"
 
 static NSString *const kAVALogsDirectory = @"com.microsoft.avalanche/logs";
 static NSString *const kAVAFileExtension = @".ava";
 
-@implementation AVAStorageDefault
+@implementation AVAFileStorage
 
 - (void)saveLog:(id<AVALog>)log withStorageKey:(NSString *)storageKey {
   // TODO: Serialize item

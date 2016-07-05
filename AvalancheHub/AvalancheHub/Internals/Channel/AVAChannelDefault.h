@@ -9,6 +9,8 @@
 #import "AVASender.h"
 #import "AVAStorage.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 typedef void (^enqueueCompletionBlock)(BOOL);
 
 /**
@@ -58,3 +60,5 @@ typedef void (^enqueueCompletionBlock)(BOOL);
      withCompletion:(nullable enqueueCompletionBlock)completion;
 
 @end
+
+NS_ASSUME_NONNULL_END
