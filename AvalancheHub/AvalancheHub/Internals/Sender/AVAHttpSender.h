@@ -18,13 +18,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, strong, readonly) NSString* baseURL;
 
-@property (nonatomic, strong) dispatch_queue_t senderBatcheQueue;
-
 /**
  *	Request header parameters.
  */
 @property (nonatomic, strong) NSDictionary* headerParam;
 
+// Methods
++ (BOOL)isRecoverableError:(NSURLResponse*)response;
 
 @end
 NS_ASSUME_NONNULL_END

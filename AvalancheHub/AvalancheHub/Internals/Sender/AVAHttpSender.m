@@ -9,7 +9,8 @@
 #import "AVAConstants+Internal.h"
 
 static NSUInteger requestId = 0;
-static NSMutableSet * queuedRequests = nil;
+static NSMutableSet* queuedRequests = nil;
+static NSTimeInterval kRequestTimeout = 60.0;
 
 // Request keys
 static NSString* const kApiPath = @"/logs";
@@ -37,6 +38,7 @@ static NSString* const kContentType = @"Content-Type";
 - (NSURLSession *)session {
   if (!_session) {
     NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    sessionConfiguration.timeoutIntervalForRequest = kRequestTimeout;
     _session = [NSURLSession sessionWithConfiguration:sessionConfiguration];
   }
   return _session;
@@ -69,14 +71,10 @@ static NSString* const kContentType = @"Content-Type";
   
   NSNumber* requestId = [AVAHttpSender queueRequest];
   NSURLSessionDataTask *task = [self.session dataTaskWithRequest:request
-                                          completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                                            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
-                                            NSInteger statusCode = httpResponse.statusCode;
-
+                                          completionHandler:^(NSData* data, NSURLResponse* response, NSError* error) {
+                                            
                                             // Retry
-                                            if (statusCode == 408 ||
-                                                statusCode == 429 ||
-                                                statusCode == 500) {
+                                            if ([AVAHttpSender isRecoverableError:response]) {
                                               // TODO retry
                                             }
                                             
@@ -84,7 +82,11 @@ static NSString* const kContentType = @"Content-Type";
                                             else {
                                               dispatch_async(callbackQueue, ^{
                                                 // TODO: internal house keeping
-                                                handler(error, statusCode, batchId);
+                                                NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+                                                NSInteger code = httpResponse.statusCode;
+                                                
+                                                // Completion with error
+                                                handler(error, code, batchId);
                                               });
                                             }
                                           }];
@@ -134,6 +136,13 @@ static NSString* const kContentType = @"Content-Type";
   [request setHTTPShouldHandleCookies:NO];
 
   return request;
+}
+
++ (BOOL)isRecoverableError:(NSURLResponse*)response {
+  NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+  NSInteger code = httpResponse.statusCode;
+  
+  return code >= 500 || code == 408 || code == 429;
 }
 
 #pragma mark - Helper

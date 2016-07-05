@@ -31,6 +31,7 @@
   // Set app ID and UUID
   self.appId = appId;
   self.uuid = [[NSUUID UUID] UUIDString];
+  self.apiVersion = @"2016-09-01"; // TODO add util funciton
 
   [features enumerateObjectsUsingBlock:^(Class  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
     AVAFeature *feature = [obj sharedInstance];
@@ -66,7 +67,7 @@
 
 - (NSString*)apiVersion {
   // TODO
-  return @"2016-09-01";
+  return _apiVersion;
 }
 
 @end
