@@ -62,6 +62,23 @@
   OCMVerify([fileHelperMock appendData:logData toFileWithPath:currentFilePath]);
 }
 
+- (void)testRequestingCurrentFileWillAddItToBlockedFilesAndCreateNewCurrentFile {
+  
+  // If
+  NSString *storageKey = @"TestDirectory";
+  id fileHelperMock = OCMClassMock([AVAFileHelper class]);
+  [_sut saveLog:[NSData new] withStorageKey:storageKey];
+  assertThat(_sut.buckets[storageKey].blockedFiles, isEmpty());
+  assertThat(_sut.buckets[storageKey].availableFiles, isEmpty());
+  
+  // When
+  [_sut loadLogsForStorageKey:storageKey withCompletion:nil];
+  
+  // Verify
+  assertThatInteger(_sut.buckets[storageKey].blockedFiles.count, equalToInteger(1));
+  assertThat(_sut.buckets[storageKey].availableFiles, isEmpty());
+}
+
 #pragma mark - Helper
 
 - (NSString *)filePathForLogWithId:(NSString *)logsId storageKey:(NSString *)storageKey {

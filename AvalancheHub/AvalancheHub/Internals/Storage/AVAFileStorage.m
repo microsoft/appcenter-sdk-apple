@@ -23,7 +23,8 @@ static NSString *const kAVAFileExtension = @"ava";
 - (void)saveLog:(id<AVALog>)log withStorageKey:(NSString *)storageKey {
   // TODO: Serialize item
   NSData *logData = [NSData new];
-  NSString *filePath = [self currentFilePathForStorageKey:storageKey];
+  AVAStorageBucket *bucket = [self bucketForStorageKey:storageKey];
+  NSString *filePath = bucket.currentFilePath;
   [AVAFileHelper appendData:logData toFileWithPath:filePath];
 }
 
@@ -42,25 +43,25 @@ static NSString *const kAVAFileExtension = @"ava";
 - (void)loadLogsForStorageKey:(NSString *)storageKey
                withCompletion:(nullable loadDataCompletionBlock)completion {
   // Read data from current file
-  NSString *filePath = [self currentFilePathForStorageKey:storageKey];
+  AVAStorageBucket *bucket = [self bucketForStorageKey:storageKey];
+  NSString *filePath = bucket.currentFilePath;
   NSData *logsData = [AVAFileHelper dataForFileWithPath:filePath];
-
+  
+  // Change status of the file to `blocked`
+  [bucket.blockedFiles addObject:bucket.currentLogsId];
+  NSString *logsId = bucket.currentLogsId;
+  
   // Renew file for upcoming events
-  NSString *logsId = [self renewFilePathForStorageKey:storageKey];
-
+  [self renewFilePathForStorageKey:storageKey];
+  
   // Return data and batch id
   // TODO: Deserialize data
-  completion(nil, logsId);
+  if(completion) {
+    completion(nil, logsId);
+  }
 }
 
 #pragma mark - Helper
-
-- (NSString *)currentFilePathForStorageKey:(NSString *)storageKey {
-  AVAStorageBucket *bucket = [self bucketForStorageKey:storageKey];
-  NSString *filePath = bucket.currentFilePath;
-
-  return filePath;
-}
 
 - (AVAStorageBucket *)createNewBucketForStorageKey:(NSString *)storageKey {
   AVAStorageBucket *bucket = [AVAStorageBucket new];
@@ -79,13 +80,12 @@ static NSString *const kAVAFileExtension = @"ava";
   return bucket;
 }
 
-- (NSString *)renewFilePathForStorageKey:(NSString *)storageKey {
+- (void)renewFilePathForStorageKey:(NSString *)storageKey {
   AVAStorageBucket *bucket = [self bucketForStorageKey:storageKey];
   NSString *logsId = [[NSUUID UUID] UUIDString];
   NSString *filePath = [self filePathForStorageKey:storageKey logsId:logsId];
   bucket.currentFilePath = filePath;
-
-  return logsId;
+  bucket.currentLogsId = logsId;
 }
 
 - (NSString *)filePathForStorageKey:(nonnull NSString *)storageKey

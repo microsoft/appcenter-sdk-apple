@@ -9,6 +9,11 @@ NS_ASSUME_NONNULL_BEGIN
 @interface AVAStorageBucket : NSObject
 
 /**
+ * The Id for the current batch.
+ */
+@property(nonatomic, copy) NSString *currentLogsId;
+
+/**
  * The path to a file which contains events for the current batch.
  */
 @property(nonatomic, copy) NSString *currentFilePath;
