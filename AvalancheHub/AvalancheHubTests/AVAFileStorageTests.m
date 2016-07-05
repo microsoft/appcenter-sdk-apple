@@ -4,6 +4,7 @@
 #import <OCMock/OCMock.h>
 
 #import "AVAFileStorage.h"
+#import "AVAFileHelper.h"
 
 @interface AVAFileStorageTests : XCTestCase
 
@@ -35,11 +36,8 @@
   // If
   NSString *storageKey = @"TestDirectory";
   NSString *logsId = @"TestId";
-  
-  NSString *expectedLogFilePath = [NSString stringWithFormat:@"com.microsoft.avalanche/logs/%@/%@.ava", storageKey, logsId];
-  NSString *documentsDir = [NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject];
-  NSString *expected = [documentsDir stringByAppendingPathComponent:expectedLogFilePath];
-  
+  NSString *expected = [self filePathForLogWithId:logsId storageKey:storageKey];
+
   // When
   NSString *actual = [_sut filePathForStorageKey:storageKey logsId:logsId];
   
@@ -47,6 +45,31 @@
   assertThat(actual, equalTo(expected));
 }
 
+- (void)testSavingFirstFileCreatesNewBucket {
+  
+  // If
+  NSString *storageKey = @"TestDirectory";
+  id fileHelperMock = OCMClassMock([AVAFileHelper class]);
+  NSData *logData = [NSData new];
+  assertThat(_sut.buckets[storageKey], nilValue());
+  
+  // When
+  [_sut saveLog:logData withStorageKey:storageKey];
+  
+  // Verify
+  NSString *currentFilePath = _sut.buckets[storageKey].currentFilePath;
+  assertThat(currentFilePath, containsSubstring(storageKey));
+  OCMVerify([fileHelperMock appendData:logData toFileWithPath:currentFilePath]);
+}
 
+#pragma mark - Helper
+
+- (NSString *)filePathForLogWithId:(NSString *)logsId storageKey:(NSString *)storageKey {
+  NSString *logFilePath = [NSString stringWithFormat:@"com.microsoft.avalanche/logs/%@/%@.ava", storageKey, logsId];
+  NSString *documentsDir = [NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject];
+  NSString *path = [documentsDir stringByAppendingPathComponent:logFilePath];
+  
+  return path;
+}
 
 @end

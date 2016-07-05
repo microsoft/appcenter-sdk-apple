@@ -7,6 +7,19 @@ static NSString *const kAVAFileExtension = @"ava";
 
 @implementation AVAFileStorage
 
+@synthesize fileCountLimit;
+
+#pragma mark - Initialisation
+
+- (instancetype)init {
+  if (self = [super init]) {
+    _buckets = [NSMutableDictionary<NSString *, AVAStorageBucket *> new];
+  }
+  return self;
+}
+
+#pragma mark - Public
+
 - (void)saveLog:(id<AVALog>)log withStorageKey:(NSString *)storageKey {
   // TODO: Serialize item
   NSData *logData = [NSData new];
@@ -49,10 +62,18 @@ static NSString *const kAVAFileExtension = @"ava";
   return filePath;
 }
 
+- (AVAStorageBucket *)createNewBucketForStorageKey:(NSString *)storageKey {
+  AVAStorageBucket *bucket = [AVAStorageBucket new];
+  self.buckets[storageKey] = bucket;
+  [self renewFilePathForStorageKey:storageKey];
+  
+  return bucket;
+}
+
 - (AVAStorageBucket *)bucketForStorageKey:(NSString *)storageKey {
   AVAStorageBucket *bucket = self.buckets[storageKey];
   if (!bucket) {
-    self.buckets[storageKey] = [AVAStorageBucket new];
+    bucket = [self createNewBucketForStorageKey:storageKey];
   }
 
   return bucket;
@@ -60,7 +81,7 @@ static NSString *const kAVAFileExtension = @"ava";
 
 - (NSString *)renewFilePathForStorageKey:(NSString *)storageKey {
   AVAStorageBucket *bucket = [self bucketForStorageKey:storageKey];
-  NSString *logsId = [NSUUID UUID];
+  NSString *logsId = [[NSUUID UUID] UUIDString];
   NSString *filePath = [self filePathForStorageKey:storageKey logsId:logsId];
   bucket.currentFilePath = filePath;
 
