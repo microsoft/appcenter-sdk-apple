@@ -39,10 +39,14 @@
 + (BOOL)createDirectoryAtPath:(NSString *)directoryPath {
   if (directoryPath) {
     NSError *error = nil;
-    if([self.fileManager createDirectoryAtPath:directoryPath withIntermediateDirectories:YES attributes:nil error:&error]){
+    if ([self.fileManager createDirectoryAtPath:directoryPath
+                    withIntermediateDirectories:YES
+                                     attributes:nil
+                                          error:&error]) {
       return YES;
     } else {
-      AVALogError(@"ERROR: Couldn't create directory at path %@: %@", directoryPath, error.localizedDescription);
+      AVALogError(@"ERROR: Couldn't create directory at path %@: %@",
+                  directoryPath, error.localizedDescription);
     }
   }
   return NO;
@@ -51,11 +55,13 @@
 + (BOOL)createFileAtPath:(NSString *)filePath {
   if (filePath) {
     NSString *directoryPath = [filePath stringByDeletingLastPathComponent];
-    if(![self.fileManager fileExistsAtPath:directoryPath isDirectory:YES]) {
+    if (![self.fileManager fileExistsAtPath:directoryPath isDirectory:YES]) {
       [self createDirectoryAtPath:directoryPath];
     }
-  
-    if([self.fileManager createFileAtPath:filePath contents:[NSData new] attributes:nil]) {
+
+    if ([self.fileManager createFileAtPath:filePath
+                                  contents:[NSData new]
+                                attributes:nil]) {
       return YES;
     } else {
       AVALogError(@"ERROR: Couldn't create new file at path %@", filePath);
@@ -85,10 +91,11 @@
   }
 
   BOOL isDir;
-  if(![self.fileManager fileExistsAtPath:filePath isDirectory:&isDir] && !isDir) {
+  if (![self.fileManager fileExistsAtPath:filePath isDirectory:&isDir] &&
+      !isDir) {
     [self createFileAtPath:filePath];
   }
-  
+
   NSFileHandle *file = [NSFileHandle fileHandleForWritingAtPath:filePath];
   if (file) {
     [file seekToEndOfFile];
