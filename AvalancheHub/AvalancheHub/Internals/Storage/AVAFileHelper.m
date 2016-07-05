@@ -56,7 +56,7 @@
   if (filePath) {
     NSString *directoryPath = [filePath stringByDeletingLastPathComponent];
     BOOL isDir;
-    if (![self.fileManager fileExistsAtPath:directoryPath isDirectory:&isDir] && isDir) {
+    if (![self.fileManager fileExistsAtPath:directoryPath isDirectory:&isDir]) {
       [self createDirectoryAtPath:directoryPath];
     }
 
@@ -92,8 +92,7 @@
   }
 
   BOOL isDir;
-  if (![self.fileManager fileExistsAtPath:filePath isDirectory:&isDir] &&
-      !isDir) {
+  if (![self.fileManager fileExistsAtPath:filePath isDirectory:&isDir]) {
     [self createFileAtPath:filePath];
   }
 

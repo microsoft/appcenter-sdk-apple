@@ -66,8 +66,8 @@
   
   // If
   NSString *storageKey = @"TestDirectory";
-  id fileHelperMock = OCMClassMock([AVAFileHelper class]);
-  [_sut saveLog:[NSData new] withStorageKey:storageKey];
+  NSData *logData = [NSData new];
+  [_sut saveLog:logData withStorageKey:storageKey];
   assertThat(_sut.buckets[storageKey].blockedFiles, isEmpty());
   assertThat(_sut.buckets[storageKey].availableFiles, isEmpty());
   
@@ -77,6 +77,63 @@
   // Verify
   assertThatInteger(_sut.buckets[storageKey].blockedFiles.count, equalToInteger(1));
   assertThat(_sut.buckets[storageKey].availableFiles, isEmpty());
+}
+
+- (void)testRequestingCurrentFileWillCallFileHelperMethod {
+  
+  // If
+  NSString *storageKey = @"TestDirectory";
+  id fileHelperMock = OCMClassMock([AVAFileHelper class]);
+  
+  // When
+  __block NSString *batchId;
+  [_sut loadLogsForStorageKey:storageKey withCompletion:^(NSArray<NSObject<AVALog> *> *logs,
+                                                          NSString *logsId) {
+    batchId = logsId;
+  }];
+  
+  // Verify
+  NSString *filePath = [self filePathForLogWithId:batchId storageKey:storageKey];
+  OCMVerify([fileHelperMock dataForFileWithPath:filePath]);
+}
+
+- (void)testDeleteFileRemovesLogsIdFromBlockedFilesList {
+  
+  // If
+  NSString *storageKey = @"TestDirectory";
+  [_sut saveLog:[NSData new] withStorageKey:storageKey];
+  __block NSString *batchId;
+  [_sut loadLogsForStorageKey:storageKey withCompletion:^(NSArray<NSObject<AVALog> *> *logs,
+                                                          NSString *logsId) {
+    batchId = logsId;
+  }];
+  assertThatInteger(_sut.buckets[storageKey].blockedFiles.count, equalToInteger(1));
+  
+  // When
+  [_sut deleteLogsForId:batchId withStorageKey:storageKey];
+  
+  // Verify
+  assertThatInteger(_sut.buckets[storageKey].blockedFiles.count, equalToInteger(0));
+}
+
+- (void)testDeleteFileWillCallFileHelperMethod {
+  
+  // If
+  NSString *storageKey = @"TestDirectory";
+  id fileHelperMock = OCMClassMock([AVAFileHelper class]);
+  [_sut saveLog:[NSData new] withStorageKey:storageKey];
+  __block NSString *batchId;
+  [_sut loadLogsForStorageKey:storageKey withCompletion:^(NSArray<NSObject<AVALog> *> *logs,
+                                                          NSString *logsId) {
+    batchId = logsId;
+  }];
+  
+  // When
+  [_sut deleteLogsForId:batchId withStorageKey:storageKey];
+  
+  // Verify
+  NSString *filePath = [self filePathForLogWithId:batchId storageKey:storageKey];
+  OCMVerify([fileHelperMock deleteFileWithPath:filePath]);
 }
 
 #pragma mark - Helper
