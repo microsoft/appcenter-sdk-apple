@@ -6,6 +6,9 @@
 #import "AVALogContainer.h"
 #import <Foundation/Foundation.h>
 
+typedef void (^loadDataCompletionBlock)(NSArray<NSObject<AVALog> *> *,
+                                        NSString *);
+
 /**
  Defines the storage component which is responsible for file i/o and file
  management.
@@ -48,8 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @return a list of logs
  */
 - (void)loadLogsForStorageKey:(NSString *)storageKey
-               withCompletion:(void (^)(NSArray<NSObject<AVALog> *> *,
-                                        NSString *))completion;
+               withCompletion:(nullable loadDataCompletionBlock)completion;
 
 @end
 

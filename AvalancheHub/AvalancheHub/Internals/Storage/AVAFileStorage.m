@@ -27,8 +27,7 @@ static NSString *const kAVAFileExtension = @".ava";
 }
 
 - (void)loadLogsForStorageKey:(NSString *)storageKey
-               withCompletion:(void (^)(NSArray<NSObject<AVALog> *> *,
-                                        NSString *))completion {
+               withCompletion:(nullable loadDataCompletionBlock)completion {
   // Read data from current file
   NSString *filePath = [self currentFilePathForStorageKey:storageKey];
   NSData *logsData = [AVAFileHelper dataForFileWithPath:filePath];
