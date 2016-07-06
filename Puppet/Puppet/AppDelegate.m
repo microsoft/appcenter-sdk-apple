@@ -2,6 +2,7 @@
 
 #import "AvalancheHub.h"
 #import "AvalancheCrashes.h"
+#import "AvalancheAnalytics.h"
 
 @interface AppDelegate ()
 
@@ -13,7 +14,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   // Start Avalanche SDK
   [AVAAvalanche setLogLevel:AVALogLevelVerbose];
-  [AVAAvalanche useFeatures:@[[AVACrashes class]] withAppId:@"puppetId"];
+  [AVAAvalanche useFeatures:@[[AVAAnalytics class], [AVACrashes class]] withAppId:@"puppetId"];
   return YES;
 }
 

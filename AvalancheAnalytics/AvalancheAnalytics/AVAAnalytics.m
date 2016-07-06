@@ -2,10 +2,10 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "AVACrashes.h"
+#import "AVAAnalytics.h"
 #import "AvalancheHub+Internal.h"
 
-@implementation AVACrashes
+@implementation AVAAnalytics
 
 + (id)sharedInstance {
   static id sharedInstance = nil;
@@ -16,8 +16,8 @@
   return sharedInstance;
 }
 
-- (void)startFeature {
-  AVALogVerbose(@"AVACrashes: Started crash module");
+- (void)startFeature {  
+  AVALogVerbose(@"AVAAnalytics: Started analytics module");
 }
 
 @end
