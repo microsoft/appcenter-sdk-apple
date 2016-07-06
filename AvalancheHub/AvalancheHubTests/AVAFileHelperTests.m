@@ -51,6 +51,40 @@
   assertThat(expected, equalTo(actual));
 }
 
+- (void)testStorageSubDirectoriesAreExcludedDromBackupButAppSupportFolderIsNotAffected {
+  
+  // Explicitly do not exclude app support folder from backups
+  NSError *getResourceError = nil;
+  NSNumber *resourveValue = nil;
+  NSString *appSupportPath = [NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject];
+  XCTAssertTrue([[NSURL fileURLWithPath:appSupportPath] setResourceValue:@NO
+                                                                  forKey:NSURLIsExcludedFromBackupKey
+                                                                   error:&getResourceError]);
+  
+  // Create first file and verify that subdirectory is excluded from backups
+  getResourceError = nil;
+  resourveValue = nil;
+  NSString *subDirectory = @"testDirectory";
+  NSString *extension = @"ava";
+  NSString *fileName = @"1";
+  NSString *filePath = [AVAStorageTestHelper filePathForLogWithId:fileName extension:extension storageKey:subDirectory];
+
+  [AVAFileHelper appendData:[NSData new] toFileWithPath:filePath];
+  NSString *storagePath = [AVAStorageTestHelper storageDirForStorageKey:subDirectory];
+  [[NSURL fileURLWithPath:storagePath] getResourceValue:&resourveValue
+                                                    forKey:NSURLIsExcludedFromBackupKey
+                                                     error:&getResourceError];
+  XCTAssertNil(getResourceError);
+  XCTAssertEqual(resourveValue, @YES);
+  
+  // Verify that app support folder still isn't excluded
+  [[NSURL fileURLWithPath:appSupportPath] getResourceValue:&resourveValue
+                                                 forKey:NSURLIsExcludedFromBackupKey
+                                                  error:&getResourceError];
+  XCTAssertNil(getResourceError);
+  XCTAssertEqual(resourveValue, @NO);
+}
+
 - (void)testOnlyExistingFileNamesWithExtensionInDirAreReturned {
 
   // If

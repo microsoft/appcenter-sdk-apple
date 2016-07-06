@@ -43,6 +43,7 @@
                     withIntermediateDirectories:YES
                                      attributes:nil
                                           error:&error]) {
+      [self disableBackupForDirectoryPath:directoryPath];
       return YES;
     } else {
       AVALogError(@"ERROR: Couldn't create directory at path %@: %@",
@@ -71,13 +72,15 @@
   return NO;
 }
 
-- (BOOL)disableBackupForDirectoryURL:(NSURL *)directoryURL {
++ (BOOL)disableBackupForDirectoryPath:(nonnull NSString *)directoryPath {
   NSError *error = nil;
-  if (![directoryURL setResourceValue:@YES
-                               forKey:NSURLIsExcludedFromBackupKey
-                                error:&error]) {
-    AVALogError(@"ERROR: Error excluding %@ from backup %@",
-                directoryURL.lastPathComponent, error.localizedDescription);
+  NSURL *url = [NSURL fileURLWithPath:directoryPath];
+  if (!url ||
+      ![url setResourceValue:@YES
+                      forKey:NSURLIsExcludedFromBackupKey
+                       error:&error]) {
+    AVALogError(@"ERROR: Error excluding %@ from backup %@", directoryPath,
+                error.localizedDescription);
     return NO;
   } else {
     return YES;
