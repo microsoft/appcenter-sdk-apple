@@ -135,24 +135,36 @@
 
 + (NSArray *)fileNamesForDirectory:(NSString *)directoryPath
                  withFileExtension:(NSString *)fileExtension {
+  
   if (!directoryPath || !fileExtension) {
     return nil;
   }
 
   NSError *error;
-  NSArray *filteredFiles;
   NSArray *allFiles =
       [self.fileManager contentsOfDirectoryAtPath:directoryPath error:&error];
   if (error) {
     AVALogError(@"ERROR: Couldn't read %@-files for directory %@: %@",
                 fileExtension, directoryPath, error.localizedDescription);
-  } else {
+    return nil;
+  }else {
     NSPredicate *extensionFilter = [NSPredicate
-        predicateWithFormat:@"self ENDSWITH[cd]  %@", fileExtension];
-    filteredFiles = [allFiles filteredArrayUsingPredicate:extensionFilter];
+                                    predicateWithFormat:@"self ENDSWITH[cd]  %@", fileExtension];
+    NSArray *filteredFiles = [allFiles filteredArrayUsingPredicate:extensionFilter];
+    filteredFiles = [self removeExtensionFromFileNamesInArray:filteredFiles];
+    return filteredFiles;
   }
+}
 
-  return filteredFiles;
++ (NSArray *)removeExtensionFromFileNamesInArray:(NSArray *)fileNames {
+  NSMutableArray *sanitizedFileNames = [NSMutableArray new];
+  for (NSString *fileName in fileNames) {
+    NSString *prefix = [fileName stringByDeletingPathExtension];
+    if(prefix) {
+      [sanitizedFileNames addObject:prefix];
+    }
+  }
+  return [NSArray arrayWithArray:sanitizedFileNames];
 }
 
 @end

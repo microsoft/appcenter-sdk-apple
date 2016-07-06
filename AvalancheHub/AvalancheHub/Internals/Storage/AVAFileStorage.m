@@ -65,6 +65,11 @@ static NSString *const kAVAFileExtension = @"ava";
 
 - (AVAStorageBucket *)createNewBucketForStorageKey:(NSString *)storageKey {
   AVAStorageBucket *bucket = [AVAStorageBucket new];
+  NSString *storageDirectory = [self directoryPathForStorageKey:storageKey];
+  NSArray *existingFileNames = [AVAFileHelper fileNamesForDirectory:storageDirectory withFileExtension:kAVAFileExtension];
+  if(existingFileNames) {
+    [bucket.availableFiles addObjectsFromArray:existingFileNames];
+  }
   self.buckets[storageKey] = bucket;
   [self renewFilePathForStorageKey:storageKey];
   
@@ -88,11 +93,18 @@ static NSString *const kAVAFileExtension = @"ava";
   bucket.currentLogsId = logsId;
 }
 
+- (NSString *)directoryPathForStorageKey:(nonnull NSString *)storageKey {
+  NSString *filePath =
+  [self.baseDirectoryPath stringByAppendingPathComponent:storageKey];
+  
+  return filePath;
+}
+
 - (NSString *)filePathForStorageKey:(nonnull NSString *)storageKey
                              logsId:(nonnull NSString *)logsId {
   NSString *fileName = [logsId stringByAppendingPathExtension:kAVAFileExtension];
   NSString *filePath =
-      [[self.baseDirectoryPath stringByAppendingPathComponent:storageKey] stringByAppendingPathComponent:fileName];
+      [[self directoryPathForStorageKey:storageKey] stringByAppendingPathComponent:fileName];
   
   return filePath;
 }

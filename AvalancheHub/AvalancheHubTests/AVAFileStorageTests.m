@@ -62,6 +62,23 @@
   OCMVerify([fileHelperMock appendData:logData toFileWithPath:currentFilePath]);
 }
 
+- (void)testCreatingNewBucketsWillLoadExistingFiles {
+  
+  // If
+  NSString *logsId = @"test123";
+  NSString *storageKey = @"TestDirectory";
+  [self createLogFileWithId:logsId forStorageKey:storageKey];
+  assertThat(_sut.buckets[storageKey], nilValue());
+  
+  // When
+  [_sut saveLog:[NSData new] withStorageKey:storageKey];
+  
+  // Verify
+  AVAStorageBucket *bucket = _sut.buckets[storageKey];
+  assertThatInteger(bucket.availableFiles.count, equalToInteger(1));
+  assertThat(bucket.availableFiles[0], equalTo(logsId));
+}
+
 - (void)testRequestingCurrentFileWillAddItToBlockedFilesAndCreateNewCurrentFile {
   
   // If
