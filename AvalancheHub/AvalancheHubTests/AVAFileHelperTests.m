@@ -4,6 +4,7 @@
 #import <XCTest/XCTest.h>
 
 #import "AVAFileHelper.h"
+#import "AVAStorageTestHelper.h"
 
 @interface AVAFileHelperTests : XCTestCase
 
@@ -19,7 +20,7 @@
 
 - (void)tearDown {
   [AVAFileHelper setFileManager:nil];
-  [self resetTestDirectory];
+  [AVAStorageTestHelper resetLogsDirectory];
   [super tearDown];
 }
 
@@ -53,19 +54,21 @@
 - (void)testOnlyExistingFileNamesWithExtensionInDirAreReturned {
 
   // If
-  NSInteger filesCount = 5;
-  NSString *extension = @".test";
-  NSString *directory = [self testDirectory];
+  NSString *subDirectory = @"testDirectory";
+  NSString *extension = @"ava";
+  NSString *fileName1 = @"1";
+  NSString *fileName2 = @"2";
+  [AVAStorageTestHelper createLogFileWithId:fileName1 data:[NSData new] extension:extension storageKey:subDirectory];
+  [AVAStorageTestHelper createLogFileWithId:fileName2 data:[NSData new] extension:extension storageKey:subDirectory];
 
   // Create files with searched extension
-  NSArray *expected = [self createTestFilesOfCount:filesCount
-                                     withExtension:extension
-                                       inDirectory:directory];
+  NSArray *expected = [NSArray arrayWithObjects:fileName1, fileName2, nil];
 
   // Create files with different extension
-  [self createTestFilesOfCount:3 withExtension:@".foo" inDirectory:directory];
+  [AVAStorageTestHelper createLogFileWithId:@"foobar" data:[NSData new] extension:@"foo" storageKey:subDirectory];
 
   // When
+  NSString *directory = [[AVAStorageTestHelper filePathForLogWithId:fileName1 extension:extension storageKey:subDirectory] stringByDeletingLastPathComponent];
   NSArray *actual = [AVAFileHelper fileNamesForDirectory:directory
                                        withFileExtension:extension];
 
@@ -77,13 +80,10 @@
 
   // If
   id fileManagerMock = OCMClassMock([NSFileManager class]);
-  NSString *extension = @".test";
-  NSString *directory = [self testDirectory];
-  [self createTestFilesOfCount:0 withExtension:extension inDirectory:directory];
 
   // When
   NSArray *actual =
-      [AVAFileHelper fileNamesForDirectory:nil withFileExtension:extension];
+      [AVAFileHelper fileNamesForDirectory:nil withFileExtension:@"ava"];
 
   // Then
   assertThat(actual, nilValue());
@@ -96,12 +96,11 @@
 - (void)testDeletingExistingFileReturnsYes {
 
   // If
-  NSString *extension = @".test";
-  NSString *directory = [self testDirectory];
-  [self createTestFilesOfCount:1 withExtension:extension inDirectory:directory];
-  NSString *filePath = [directory
-      stringByAppendingPathComponent:[NSString
-                                         stringWithFormat:@"0%@", extension]];
+  NSString *fileName = @"0";
+  NSString *subDirectory = @"testDirectory";
+  NSString *extension = @"ava";
+  [AVAStorageTestHelper createLogFileWithId:fileName data:[NSData new] extension:extension storageKey:subDirectory];
+  NSString *filePath = [AVAStorageTestHelper filePathForLogWithId:fileName extension:extension storageKey:subDirectory];
 
   // When
   BOOL success = [AVAFileHelper deleteFileWithPath:filePath];
@@ -113,9 +112,7 @@
 - (void)testDeletingUnexistingFileReturnsNo {
 
   // If
-  NSString *filePath = [[self testDirectory]
-      stringByAppendingPathComponent:[NSString
-                                         stringWithFormat:@"0%@", @".test"]];
+  NSString *filePath = [AVAStorageTestHelper filePathForLogWithId:@"0" extension:@"awa" storageKey:@"testDirectory"];
 
   // When
   BOOL success = [AVAFileHelper deleteFileWithPath:filePath];
@@ -142,13 +139,13 @@
 - (void)testReadingExistingFileReturnsCorrectContent {
 
   // If
-  NSString *extension = @".test";
-  NSString *directory = [self testDirectory];
-  [self createTestFilesOfCount:1 withExtension:extension inDirectory:directory];
-  NSString *filePath = [directory
-      stringByAppendingPathComponent:[NSString
-                                         stringWithFormat:@"0%@", extension]];
+  NSString *fileName = @"0";
+  NSString *subDirectory = @"testDirectory";
+  NSString *extension = @"ava";
   NSData *expected = [@"0" dataUsingEncoding:NSUTF8StringEncoding];
+  [AVAStorageTestHelper createLogFileWithId:fileName data:expected extension:extension storageKey:subDirectory];
+  NSString *filePath = [AVAStorageTestHelper filePathForLogWithId:fileName extension:extension storageKey:subDirectory];
+  
 
   // When
   NSData *actual = [AVAFileHelper dataForFileWithPath:filePath];
@@ -160,7 +157,7 @@
 - (void)testReadingUnexistingFileReturnsNil {
 
   // If
-  NSString *directory = [self testDirectory];
+  NSString *directory = [AVAStorageTestHelper logsDir];
   NSString *filePath = [directory stringByAppendingPathComponent:@"0.test"];
 
   // When
@@ -173,14 +170,14 @@
 - (void)testSuccessfullyAppendingDataToFileWorksCorrectly {
 
   // If
-  NSString *extension = @".test";
-  NSString *directory = [self testDirectory];
-  [self createTestFilesOfCount:1 withExtension:extension inDirectory:directory];
-  NSString *filePath = [directory
-      stringByAppendingPathComponent:[NSString
-                                         stringWithFormat:@"0%@", extension]];
+  NSString *fileName = @"0";
+  NSString *subDirectory = @"testDirectory";
+  NSString *extension = @"ava";
+  NSData *oldData = [@"0" dataUsingEncoding:NSUTF8StringEncoding];
   NSData *newData = [@"123456789" dataUsingEncoding:NSUTF8StringEncoding];
   NSData *expected = [@"0123456789" dataUsingEncoding:NSUTF8StringEncoding];
+  [AVAStorageTestHelper createLogFileWithId:fileName data:oldData extension:extension storageKey:subDirectory];
+  NSString *filePath = [AVAStorageTestHelper filePathForLogWithId:fileName extension:extension storageKey:subDirectory];
 
   // When
   NSData *actual;
@@ -195,11 +192,10 @@
 - (void)testAppendingDataToUnexistingDirWillCreateDirAndFile {
 
   // If
-  NSString *extension = @".test";
-  NSString *directory = [self testDirectory];
-  NSString *filePath = [directory
-      stringByAppendingPathComponent:[NSString
-                                         stringWithFormat:@"0%@", extension]];
+  NSString *fileName = @"0";
+  NSString *subDirectory = @"testDirectory";
+  NSString *extension = @"ava";
+  NSString *filePath = [AVAStorageTestHelper filePathForLogWithId:fileName extension:extension storageKey:subDirectory];
   NSData *expected = [@"123456789" dataUsingEncoding:NSUTF8StringEncoding];
 
   // When
@@ -212,46 +208,6 @@
   assertThat(expected, equalTo(actual));
 }
 
-#pragma mark - Helper
-
-- (NSString *)testDirectory {
-  NSString *testPath =
-      [NSTemporaryDirectory() stringByAppendingPathComponent:@"testDirectory"];
-  return testPath;
-}
-
-- (void)resetTestDirectory {
-  [[NSFileManager defaultManager] removeItemAtPath:[self testDirectory]
-                                             error:nil];
-}
-
-- (void)createTestDirectory {
-  NSError *error;
-  [[NSFileManager defaultManager] createDirectoryAtPath:[self testDirectory]
-                            withIntermediateDirectories:YES
-                                             attributes:nil
-                                                  error:&error];
-}
-
-- (NSArray *)createTestFilesOfCount:(NSInteger)count
-                      withExtension:(NSString *)extension
-                        inDirectory:(NSString *)directory {
-  NSMutableArray *fileNames = [NSMutableArray new];
-  [self createTestDirectory];
-
-  for (int i = 0; i < count; i++) {
-    NSData *data = [[NSString stringWithFormat:@"%d", i]
-        dataUsingEncoding:NSUTF8StringEncoding];
-    NSString *fileName = [NSString stringWithFormat:@"%i%@", i, extension];
-    NSString *filePath = [directory stringByAppendingPathComponent:fileName];
-
-    if ([[NSFileManager defaultManager] createFileAtPath:filePath
-                                                contents:data
-                                              attributes:nil]) {
-      [fileNames addObject:fileName];
-    }
-  }
-  return fileNames;
-}
+// TODO: Test that Documents directory is excluded from backup
 
 @end

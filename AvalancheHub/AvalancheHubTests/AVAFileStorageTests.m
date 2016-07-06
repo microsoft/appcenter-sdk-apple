@@ -5,6 +5,7 @@
 
 #import "AVAFileStorage.h"
 #import "AVAFileHelper.h"
+#import "AVAStorageTestHelper.h"
 
 @interface AVAFileStorageTests : XCTestCase
 
@@ -23,6 +24,7 @@
 
 - (void)tearDown {
   [super tearDown];
+  [AVAStorageTestHelper resetLogsDirectory];
 }
 
 #pragma mark - Tests
@@ -36,7 +38,7 @@
   // If
   NSString *storageKey = @"TestDirectory";
   NSString *logsId = @"TestId";
-  NSString *expected = [self filePathForLogWithId:logsId storageKey:storageKey];
+  NSString *expected = [AVAStorageTestHelper filePathForLogWithId:logsId extension:@"ava" storageKey:storageKey];
 
   // When
   NSString *actual = [_sut filePathForStorageKey:storageKey logsId:logsId];
@@ -67,7 +69,7 @@
   // If
   NSString *logsId = @"test123";
   NSString *storageKey = @"TestDirectory";
-  [self createLogFileWithId:logsId forStorageKey:storageKey];
+  [AVAStorageTestHelper createLogFileWithId:logsId data:@"" extension:@"ava" storageKey:storageKey];
   assertThat(_sut.buckets[storageKey], nilValue());
   
   // When
@@ -110,7 +112,7 @@
   }];
   
   // Verify
-  NSString *filePath = [self filePathForLogWithId:batchId storageKey:storageKey];
+  NSString *filePath = [AVAStorageTestHelper filePathForLogWithId:batchId extension:@"ava" storageKey:storageKey];
   OCMVerify([fileHelperMock dataForFileWithPath:filePath]);
 }
 
@@ -149,18 +151,8 @@
   [_sut deleteLogsForId:batchId withStorageKey:storageKey];
   
   // Verify
-  NSString *filePath = [self filePathForLogWithId:batchId storageKey:storageKey];
+  NSString *filePath = [AVAStorageTestHelper filePathForLogWithId:batchId extension:@"ava" storageKey:storageKey];
   OCMVerify([fileHelperMock deleteFileWithPath:filePath]);
-}
-
-#pragma mark - Helper
-
-- (NSString *)filePathForLogWithId:(NSString *)logsId storageKey:(NSString *)storageKey {
-  NSString *logFilePath = [NSString stringWithFormat:@"com.microsoft.avalanche/logs/%@/%@.ava", storageKey, logsId];
-  NSString *documentsDir = [NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject];
-  NSString *path = [documentsDir stringByAppendingPathComponent:logFilePath];
-  
-  return path;
 }
 
 @end
