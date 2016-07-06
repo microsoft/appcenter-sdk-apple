@@ -26,13 +26,14 @@
   // Set app ID
   self.appId = appId;
 
-  for (Class featureClass in features) {
-    AVAFeature *feature = [featureClass sharedInstance];
-  
+  [features enumerateObjectsUsingBlock:^(Class  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    AVAFeature *feature = [obj sharedInstance];
+    
+    // Set delgate
     feature.delegate = self;
     [self.features addObject:feature];
     [feature startFeature];
-  }
+  }];
   
   _featuresStarted = YES;
 }

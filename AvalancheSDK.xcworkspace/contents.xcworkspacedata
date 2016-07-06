@@ -5,12 +5,15 @@
       location = "group:AvalancheHub/AvalancheHub.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:AvalancheAnalytics/AvalancheAnalytics.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:AvalancheCrashes/AvalancheCrashes.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Demo/Demo.xcodeproj">
+      location = "group:Puppet/Puppet.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Puppet/Puppet.xcodeproj">
+      location = "group:Demo/Demo.xcodeproj">
    </FileRef>
 </Workspace>

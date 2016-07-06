@@ -6,12 +6,9 @@
 # pragma mark - AVAModule methods
 
 + (id)sharedInstance {
-  static id sharedInstance = nil;
-  static dispatch_once_t onceToken;
-  dispatch_once(&onceToken, ^{
-    sharedInstance = [[self alloc] init];
-  });
-  return sharedInstance;
+  [NSException raise:NSInternalInconsistencyException format:@"You must override %@ in a subclass",
+  NSStringFromSelector(_cmd)];
+  return nil;
 }
 
 - (void)startFeature {

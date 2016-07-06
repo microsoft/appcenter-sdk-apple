@@ -15,6 +15,7 @@
 		E82E1B721D1CA58D00D281C1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E82E1B701D1CA58D00D281C1 /* LaunchScreen.storyboard */; };
 		E82E1B8F1D1CA65D00D281C1 /* libAvalancheCrashes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E82E1B811D1CA62900D281C1 /* libAvalancheCrashes.a */; };
 		E82E1B901D1CA65D00D281C1 /* libAvalancheHub.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E82E1B881D1CA63000D281C1 /* libAvalancheHub.a */; };
+		E85548081D2D6C9D002DF6E2 /* libAvalancheAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E85548031D2D6C8D002DF6E2 /* libAvalancheAnalytics.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,27 @@
 			remoteGlobalIDString = 6E0401321D1C98690051BCFA;
 			remoteInfo = AvalancheCrashes;
 		};
+		E85548021D2D6C8D002DF6E2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E85547FB1D2D6C8D002DF6E2 /* AvalancheAnalytics.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E85547C01D2D6253002DF6E2;
+			remoteInfo = AvalancheAnalytics;
+		};
+		E85548041D2D6C8D002DF6E2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E85547FB1D2D6C8D002DF6E2 /* AvalancheAnalytics.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E85547D51D2D6723002DF6E2;
+			remoteInfo = AvalancheAnalyticsTests;
+		};
+		E85548061D2D6C98002DF6E2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E85547FB1D2D6C8D002DF6E2 /* AvalancheAnalytics.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = E85547BF1D2D6253002DF6E2;
+			remoteInfo = AvalancheAnalytics;
+		};
 		E8DF1C2B1D21A8F5006310CF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E82E1B7C1D1CA62900D281C1 /* AvalancheCrashes.xcodeproj */;
@@ -75,6 +97,7 @@
 		E82E1B731D1CA58D00D281C1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E82E1B7C1D1CA62900D281C1 /* AvalancheCrashes.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AvalancheCrashes.xcodeproj; path = ../../AvalancheCrashes/AvalancheCrashes.xcodeproj; sourceTree = "<group>"; };
 		E82E1B821D1CA63000D281C1 /* AvalancheHub.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AvalancheHub.xcodeproj; path = ../../AvalancheHub/AvalancheHub.xcodeproj; sourceTree = "<group>"; };
+		E85547FB1D2D6C8D002DF6E2 /* AvalancheAnalytics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AvalancheAnalytics.xcodeproj; path = ../../AvalancheAnalytics/AvalancheAnalytics.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +105,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E85548081D2D6C9D002DF6E2 /* libAvalancheAnalytics.a in Frameworks */,
 				E82E1B8F1D1CA65D00D281C1 /* libAvalancheCrashes.a in Frameworks */,
 				E82E1B901D1CA65D00D281C1 /* libAvalancheHub.a in Frameworks */,
 			);
@@ -134,6 +158,7 @@
 		E82E1B7B1D1CA61000D281C1 /* Avalanche */ = {
 			isa = PBXGroup;
 			children = (
+				E85547FB1D2D6C8D002DF6E2 /* AvalancheAnalytics.xcodeproj */,
 				E82E1B821D1CA63000D281C1 /* AvalancheHub.xcodeproj */,
 				E82E1B7C1D1CA62900D281C1 /* AvalancheCrashes.xcodeproj */,
 			);
@@ -158,6 +183,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		E85547FC1D2D6C8D002DF6E2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E85548031D2D6C8D002DF6E2 /* libAvalancheAnalytics.a */,
+				E85548051D2D6C8D002DF6E2 /* AvalancheAnalyticsTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -172,6 +206,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				E85548071D2D6C98002DF6E2 /* PBXTargetDependency */,
 				E82E1B8C1D1CA65600D281C1 /* PBXTargetDependency */,
 				E82E1B8E1D1CA65600D281C1 /* PBXTargetDependency */,
 			);
@@ -206,6 +241,10 @@
 			productRefGroup = E82E1B601D1CA58D00D281C1 /* Products */;
 			projectDirPath = "";
 			projectReferences = (
+				{
+					ProductGroup = E85547FC1D2D6C8D002DF6E2 /* Products */;
+					ProjectRef = E85547FB1D2D6C8D002DF6E2 /* AvalancheAnalytics.xcodeproj */;
+				},
 				{
 					ProductGroup = E82E1B7D1D1CA62900D281C1 /* Products */;
 					ProjectRef = E82E1B7C1D1CA62900D281C1 /* AvalancheCrashes.xcodeproj */;
@@ -242,6 +281,20 @@
 			fileType = wrapper.cfbundle;
 			path = AvalancheHubTests.xctest;
 			remoteRef = E82E1B891D1CA63000D281C1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		E85548031D2D6C8D002DF6E2 /* libAvalancheAnalytics.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libAvalancheAnalytics.a;
+			remoteRef = E85548021D2D6C8D002DF6E2 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		E85548051D2D6C8D002DF6E2 /* AvalancheAnalyticsTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = AvalancheAnalyticsTests.xctest;
+			remoteRef = E85548041D2D6C8D002DF6E2 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		E8DF1C2C1D21A8F5006310CF /* AvalancheCrashesTests.xctest */ = {
@@ -289,6 +342,11 @@
 			isa = PBXTargetDependency;
 			name = AvalancheCrashes;
 			targetProxy = E82E1B8D1D1CA65600D281C1 /* PBXContainerItemProxy */;
+		};
+		E85548071D2D6C98002DF6E2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AvalancheAnalytics;
+			targetProxy = E85548061D2D6C98002DF6E2 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -402,7 +460,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = MehrdadM.Puppet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "$(TARGET_BUILD_DIR)/include/AvalancheHub $(TARGET_BUILD_DIR)/include/AvalancheCrashes";
+				USER_HEADER_SEARCH_PATHS = "$(TARGET_BUILD_DIR)/include/AvalancheHub $(TARGET_BUILD_DIR)/include/AvalancheCrashes $(TARGET_BUILD_DIR)/include/AvalancheAnalytics";
 			};
 			name = Debug;
 		};
@@ -414,7 +472,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = MehrdadM.Puppet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "$(TARGET_BUILD_DIR)/include/AvalancheHub $(TARGET_BUILD_DIR)/include/AvalancheCrashes";
+				USER_HEADER_SEARCH_PATHS = "$(TARGET_BUILD_DIR)/include/AvalancheHub $(TARGET_BUILD_DIR)/include/AvalancheCrashes $(TARGET_BUILD_DIR)/include/AvalancheAnalytics";
 			};
 			name = Release;
 		};
