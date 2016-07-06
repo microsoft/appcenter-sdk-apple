@@ -1,15 +1,17 @@
-#import "AVAInSessionLog.h"
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ */
 
-@implementation AVAInSessionLog
+#import "AVAEndSessionLog.h"
 
-@synthesize type;
-@synthesize toffset;
+static NSString* const kAVATypeEndSession = @"EndSession";
+
+@implementation AVAEndSessionLog
 
 - (instancetype)init {
   self = [super init];
   if (self) {
-    // initialize property's default value, if any
-    
+    self.type = kAVATypeEndSession;
   }
   return self;
 }
@@ -23,6 +25,18 @@
 
   NSArray *optionalProperties = @[@"properties", ];
   return [optionalProperties containsObject:propertyName];
+}
+
+- (void)write:(NSMutableDictionary*)dic {
+  [super write:dic];
+}
+
+- (void)read:(NSDictionary*)obj{
+  [super read:obj];
+}
+
+- (BOOL)isValid {
+  return [super isValid];
 }
 
 @end

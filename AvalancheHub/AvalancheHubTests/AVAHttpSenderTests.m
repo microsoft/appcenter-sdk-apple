@@ -1,14 +1,10 @@
-//
-//  AVAHttpSenderTests.m
-//  AvalancheHub
-//
-//  Created by Mehrdad Mozafari on 6/30/16.
-//  Copyright © 2016 Microsoft. All rights reserved.
-//
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ */
 
 #import <XCTest/XCTest.h>
 #import "AVAHttpSender.h"
-#import "AVAInSessionLog.h"
+#import "AVAEndSessionLog.h"
 #import "AVADeviceLog.h"
 #import "AVALogContainer.h"
 #import "AvalancheHub+Internal.h"
@@ -83,14 +79,14 @@ static NSString* const kBaseUrl = @"https://test.com";
 
   AVALogContainer* logContainer = [[AVALogContainer alloc] init];
 
-  AVAInSessionLog* log1 = [[AVAInSessionLog alloc] init];
-  log1.sid = @"sessionId1";
-  
+  AVAEndSessionLog* log1 = [[AVAEndSessionLog alloc] init];
+  log1.sid = [NSUUID UUID];
+
   AVADeviceLog* log2 = [[AVADeviceLog alloc] init];
   log2.sdkVersion = @"1.0.0";
-  
+
   logContainer.logs = (NSArray<AVALog>*)@[log1, log2];
-  
+
     __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Response 200"];
   [_sut sendLogsAsync:logContainer callbackQueue:dispatch_get_main_queue() priority:AVASendPriorityDefault completionHandler:^(NSError *error, NSUInteger statusCode, NSString *batchId) {
     AVALogVerbose(@"%@", [error localizedDescription]);
