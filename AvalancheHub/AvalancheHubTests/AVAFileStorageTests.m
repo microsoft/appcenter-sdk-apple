@@ -69,7 +69,7 @@
   // If
   NSString *logsId = @"test123";
   NSString *storageKey = @"TestDirectory";
-  [AVAStorageTestHelper createLogFileWithId:logsId data:@"" extension:@"ava" storageKey:storageKey];
+  [AVAStorageTestHelper createLogFileWithId:logsId data:[NSData new] extension:@"ava" storageKey:storageKey];
   assertThat(_sut.buckets[storageKey], nilValue());
   
   // When

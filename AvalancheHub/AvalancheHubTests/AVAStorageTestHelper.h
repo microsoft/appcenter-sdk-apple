@@ -3,8 +3,14 @@
 @interface AVAStorageTestHelper : NSObject
 
 + (NSString *)logsDir;
-+ (NSString *)filePathForLogWithId:(NSString *)logsId extension:(NSString *)extension storageKey:(NSString *)storageKey;
-+ (void)createLogFileWithId:(NSString *)logsId data:(NSData *)data extension:(NSString *)extension storageKey:(NSString *)storageKey;
++ (NSString *)storageDirForStorageKey:(NSString *)storageKey;
++ (NSString *)filePathForLogWithId:(NSString *)logsId
+                         extension:(NSString *)extension
+                        storageKey:(NSString *)storageKey;
++ (void)createLogFileWithId:(NSString *)logsId
+                       data:(NSData *)data
+                  extension:(NSString *)extension
+                 storageKey:(NSString *)storageKey;
 + (void)createDirectoryAtPath:(NSString *)directoryPath;
 + (void)resetLogsDirectory;
 

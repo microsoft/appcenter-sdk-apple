@@ -20,7 +20,7 @@
   return sharedInstance;
 }
 
-+ (void)setFileManager:(NSFileManager *)fileManager {
++ (void)setFileManager:(nullable NSFileManager *)fileManager {
   [self.sharedInstance setFileManager:fileManager];
 }
 

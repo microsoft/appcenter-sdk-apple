@@ -8,8 +8,12 @@
   return [documentsDir stringByAppendingPathComponent:logsPath];
 }
 
++ (NSString *)storageDirForStorageKey:(NSString *)storageKey {
+  return [[self logsDir] stringByAppendingPathComponent:storageKey];
+}
+
 + (void)createLogFileWithId:(NSString *)logsId data:(NSData *)data extension:(NSString *)extension storageKey:(NSString *)storageKey {
-  NSString *storagePath = [[self logsDir] stringByAppendingPathComponent:storageKey];
+  NSString *storagePath = [self storageDirForStorageKey:storageKey];
   if(![[NSFileManager defaultManager] fileExistsAtPath:storagePath]) {
     [self createDirectoryAtPath:storagePath];
   }

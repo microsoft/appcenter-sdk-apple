@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param fileManager the `NSFileManager` instance to use
  */
-+ (void)setFileManager:(NSFileManager *)fileManager;
++ (void)setFileManager:(nullable NSFileManager *)fileManager;
 
 /**
  * Appends data to a file with the given file name.

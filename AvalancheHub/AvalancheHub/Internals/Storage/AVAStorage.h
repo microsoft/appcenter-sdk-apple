@@ -6,6 +6,8 @@
 #import "AVALogContainer.h"
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 typedef void (^loadDataCompletionBlock)(NSArray<NSObject<AVALog> *> *,
                                         NSString *);
 
@@ -14,8 +16,6 @@ typedef void (^loadDataCompletionBlock)(NSArray<NSObject<AVALog> *> *,
  management.
  */
 @protocol AVAStorage <NSObject>
-
-NS_ASSUME_NONNULL_BEGIN
 
 /*
  * Defines the maximum count of app logs on the file system.
