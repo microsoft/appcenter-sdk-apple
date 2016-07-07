@@ -5,4 +5,3 @@
 #import "AVALogger.h"
 
 FOUNDATION_EXPORT AVALogHandler const defaultLogHandler;
-

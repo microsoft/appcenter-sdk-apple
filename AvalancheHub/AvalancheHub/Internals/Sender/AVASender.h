@@ -2,11 +2,13 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import <Foundation/Foundation.h>
-#import "AVALogContainer.h"
 #import "AVAConstants+Internal.h"
+#import "AVALogContainer.h"
+#import <Foundation/Foundation.h>
 
-typedef void (^AVASendAsyncCompletionHandler)(NSError* error, NSUInteger statusCode, NSString* batchId);
+typedef void (^AVASendAsyncCompletionHandler)(NSError *error,
+                                              NSUInteger statusCode,
+                                              NSString *batchId);
 @protocol AVASender <NSObject>
 
 @required
@@ -15,7 +17,7 @@ typedef void (^AVASendAsyncCompletionHandler)(NSError* error, NSUInteger statusC
  *
  * @param url Base url
  */
-- (id)initWithBaseUrl:(NSString*)url;
+- (id)initWithBaseUrl:(NSString *)url;
 
 /**
  * Send logs in batch
@@ -25,9 +27,9 @@ typedef void (^AVASendAsyncCompletionHandler)(NSError* error, NSUInteger statusC
  * @param priority Send priority
  * @param handler Completion handler
  */
--(NSNumber*)sendLogsAsync:(AVALogContainer*)logs
-            callbackQueue:(dispatch_queue_t)callbackQueue
-                 priority:(AVASendPriority)priority
-        completionHandler:(AVASendAsyncCompletionHandler)handler;
+- (NSNumber *)sendLogsAsync:(AVALogContainer *)logs
+              callbackQueue:(dispatch_queue_t)callbackQueue
+                   priority:(AVASendPriority)priority
+          completionHandler:(AVASendAsyncCompletionHandler)handler;
 
 @end

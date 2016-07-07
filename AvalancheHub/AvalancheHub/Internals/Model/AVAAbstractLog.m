@@ -3,12 +3,12 @@
  */
 
 #import "AVAAbstractLog.h"
-#import "AVALogger.h"
 #import "AVALogUtils.h"
+#import "AVALogger.h"
 
-static NSString* const kAVASID = @"sid";
-static NSString* const kAVAToffset = @"toffset";
-static NSString* const kAVAType = @"type";
+static NSString *const kAVASID = @"sid";
+static NSString *const kAVAToffset = @"toffset";
+static NSString *const kAVAType = @"type";
 
 @implementation AVAAbstractLog
 
@@ -16,15 +16,15 @@ static NSString* const kAVAType = @"type";
 @synthesize toffset;
 @synthesize sid;
 
-- (void)write:(NSMutableDictionary*)dic {
+- (void)write:(NSMutableDictionary *)dic {
   dic[kAVAType] = self.type;
   dic[kAVAToffset] = self.toffset;
   dic[kAVASID] = [self.sid UUIDString];
 }
 
-- (void)read:(NSDictionary*)obj{
+- (void)read:(NSDictionary *)obj {
   if ([obj[kAVAType] isEqualToString:[self type]]) {
-    
+
     AVALogError(@"ERROR: invalid object");
     return;
   }
@@ -36,11 +36,9 @@ static NSString* const kAVAType = @"type";
 
 - (BOOL)isValid {
   BOOL isValid = YES;
-  
+
   // Is valid
-  isValid =  (!self.type ||
-              !self.sid ||
-              !self.toffset);
+  isValid = (!self.type || !self.sid || !self.toffset);
   return isValid;
 }
 

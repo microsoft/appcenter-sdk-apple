@@ -6,9 +6,4 @@
 
 @implementation AVALogUtils
 
-+ (BOOL)checkNotNull:(NSString*)key withValue:(id)value {
- 
-  return NO;
-}
-
 @end

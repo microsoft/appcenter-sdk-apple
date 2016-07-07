@@ -2,15 +2,15 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "AVAEndSessionLog.h"
+#import "AVAEventLog.h"
 
-static NSString *const kAVATypeEndSession = @"EndSession";
+static NSString *const kAVATypeEvent = @"Event";
 
-@implementation AVAEndSessionLog
+@implementation AVAEventLog
 
 - (instancetype)init {
   if (self = [super init]) {
-    self.type = kAVATypeEndSession;
+    self.type = kAVATypeEvent;
   }
   return self;
 }
