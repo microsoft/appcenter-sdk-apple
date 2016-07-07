@@ -18,11 +18,11 @@ typedef void (^loadDataCompletionBlock)(NSArray<NSObject<AVALog> *> *,
 @protocol AVAStorage <NSObject>
 
 /*
- * Defines the maximum count of app logs on the file system.
+ * Defines the maximum count of app logs per storage key on the file system.
  *
- * Default: 300
+ * Default: 50
  */
-@property(nonatomic) NSUInteger fileCountLimit;
+@property(nonatomic) NSUInteger bucketFileCountLimit;
 
 @required
 
@@ -52,6 +52,15 @@ typedef void (^loadDataCompletionBlock)(NSArray<NSObject<AVALog> *> *,
  */
 - (void)loadLogsForStorageKey:(NSString *)storageKey
                withCompletion:(nullable loadDataCompletionBlock)completion;
+
+/**
+ * Determines if the maximum number of files has been reached.
+ *
+ * param storageKey The key used for grouping
+ *
+ * @return YES, if the maximum number of files has been reached
+ */
+- (BOOL)maxFileCountReachedForStorageKey:(NSString *) storageKey;
 
 @end
 

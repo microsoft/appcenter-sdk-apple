@@ -5,16 +5,18 @@
 
 static NSString *const kAVALogsDirectory = @"com.microsoft.avalanche/logs";
 static NSString *const kAVAFileExtension = @"ava";
+static NSUInteger const AVADefaultBucketFileCountLimit = 50;
 
 @implementation AVAFileStorage
 
-@synthesize fileCountLimit;
+@synthesize bucketFileCountLimit = _bucketFileCountLimit;
 
 #pragma mark - Initialisation
 
 - (instancetype)init {
   if (self = [super init]) {
     _buckets = [NSMutableDictionary<NSString *, AVAStorageBucket *> new];
+    _bucketFileCountLimit = AVADefaultBucketFileCountLimit;
   }
   return self;
 }
@@ -57,6 +59,12 @@ static NSString *const kAVAFileExtension = @"ava";
   if(completion) {
     completion(nil, file.fileId);
   }
+}
+
+- (BOOL)maxFileCountReachedForStorageKey:(NSString *) storageKey {
+  AVAStorageBucket *bucket = self.buckets[storageKey];
+  NSUInteger filesCount = bucket.availableFiles.count + bucket.blockedFiles.count;
+  return (filesCount >= self.bucketFileCountLimit);
 }
 
 #pragma mark - Helper
