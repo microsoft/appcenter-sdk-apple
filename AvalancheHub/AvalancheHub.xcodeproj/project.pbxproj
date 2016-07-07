@@ -65,6 +65,7 @@
 		6E363AF21D2C84EA0079043D /* AVAStorageTestHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E363AF11D2C84EA0079043D /* AVAStorageTestHelper.m */; };
 		6E40D4631D2700000046D85B /* AVAFileStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E40D4611D2700000046D85B /* AVAFileStorage.h */; };
 		6E40D4641D2700000046D85B /* AVAFileStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E40D4621D2700000046D85B /* AVAFileStorage.m */; };
+		6E58E2B71D2F12A70039D062 /* AVAStorageBucketTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E58E2B61D2F12A70039D062 /* AVAStorageBucketTests.m */; };
 		6E5D8A801D25B91F00C033B1 /* AVAFileHelperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E5D8A7F1D25B91F00C033B1 /* AVAFileHelperTests.m */; };
 		6E7E3B781D2DCEBD0019EA6D /* AVAFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E7E3B761D2DCEBD0019EA6D /* AVAFile.h */; };
 		6E7E3B791D2DCEBD0019EA6D /* AVAFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7E3B771D2DCEBD0019EA6D /* AVAFile.m */; };
@@ -171,6 +172,7 @@
 		6E363AF11D2C84EA0079043D /* AVAStorageTestHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAStorageTestHelper.m; sourceTree = "<group>"; };
 		6E40D4611D2700000046D85B /* AVAFileStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAFileStorage.h; sourceTree = "<group>"; };
 		6E40D4621D2700000046D85B /* AVAFileStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAFileStorage.m; sourceTree = "<group>"; };
+		6E58E2B61D2F12A70039D062 /* AVAStorageBucketTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAStorageBucketTests.m; sourceTree = "<group>"; };
 		6E5D8A7F1D25B91F00C033B1 /* AVAFileHelperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAFileHelperTests.m; sourceTree = "<group>"; };
 		6E7E3B761D2DCEBD0019EA6D /* AVAFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAFile.h; sourceTree = "<group>"; };
 		6E7E3B771D2DCEBD0019EA6D /* AVAFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAFile.m; sourceTree = "<group>"; };
@@ -378,6 +380,7 @@
 				E829E4221D25C8BA00F19DA1 /* AVAHttpSenderTests.m */,
 				E88EBBFA1D2C8CC7007E7785 /* AVAModelTests.m */,
 				6E363AE41D2C2C320079043D /* AVAFileStorageTests.m */,
+				6E58E2B61D2F12A70039D062 /* AVAStorageBucketTests.m */,
 			);
 			path = AvalancheHubTests;
 			sourceTree = "<group>";
@@ -635,6 +638,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6E58E2B71D2F12A70039D062 /* AVAStorageBucketTests.m in Sources */,
 				6E363AE51D2C2C320079043D /* AVAFileStorageTests.m in Sources */,
 				6EB1F40E1D2443B7005F9F99 /* AVAChannelDefaultTests.m in Sources */,
 				6E5D8A801D25B91F00C033B1 /* AVAFileHelperTests.m in Sources */,
