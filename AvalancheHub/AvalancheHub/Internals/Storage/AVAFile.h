@@ -22,14 +22,20 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *fileId;
 
 /**
+ * The path to the file.
+ */
+@property (nonatomic, copy) NSString *filePath;
+
+/**
  * Returns a new `AVAFile` instance with a given file id and creation date.
  *
+ * @param filePath the path to the file
  * @param fileId a unique file identifier
  * @param creationDate the creation date of the file
  *
  * @return a new `AVAFile` instance
  */
-- (instancetype)initWithFileId:(NSString *)fileId creationDate:(NSDate *)creationDate;
+- (instancetype)initWithPath:(NSString *)filePath fileId:(NSString *)fileId creationDate:(NSDate *)creationDate;
 
 @end
 

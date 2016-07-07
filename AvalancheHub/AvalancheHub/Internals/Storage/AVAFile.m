@@ -2,10 +2,11 @@
 
 @implementation AVAFile
 
-- (instancetype)initWithFileId:(NSString *)fileId creationDate:(NSDate *)creationDate {
+- (instancetype)initWithPath:(NSString *)filePath fileId:(NSString *)fileId creationDate:(NSDate *)creationDate {
   if (self = [super init]) {
-    _creationDate = creationDate;
+    _filePath = filePath;
     _fileId = fileId;
+    _creationDate = creationDate;
   }
   return self;
 }

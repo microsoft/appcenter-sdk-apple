@@ -1,6 +1,7 @@
 #import "AVAFileHelper.h"
 #import "AVALogger.h"
 #import "AVAFileStorage.h"
+#import "AVAFile.h"
 
 static NSString *const kAVALogsDirectory = @"com.microsoft.avalanche/logs";
 static NSString *const kAVAFileExtension = @"ava";
@@ -24,40 +25,37 @@ static NSString *const kAVAFileExtension = @"ava";
   // TODO: Serialize item
   NSData *logData = [NSData new];
   AVAStorageBucket *bucket = [self bucketForStorageKey:storageKey];
-  NSString *filePath = bucket.currentFilePath;
-  [AVAFileHelper appendData:logData toFileWithPath:filePath];
+  [AVAFileHelper appendData:logData toFile:bucket.currentFile];
 }
 
 - (void)deleteLogsForId:(NSString *)logsId
          withStorageKey:(NSString *)storageKey {
-  NSString *filePath = [self filePathForStorageKey:storageKey logsId:logsId];
-
-  // Remove file from in memory list
-  [AVAFileHelper deleteFileWithPath:filePath];
-
-  // Delete file from disk
-  AVAStorageBucket *bucket = [self bucketForStorageKey:storageKey];
-  [bucket.blockedFiles removeObject:logsId];
+  AVAStorageBucket *bucket = self.buckets[storageKey];
+  AVAFile *file = [bucket fileWithId:logsId];
+  
+  if(file) {
+    [AVAFileHelper deleteFile:file];
+    [bucket.blockedFiles removeObject:file];
+  }
 }
 
 - (void)loadLogsForStorageKey:(NSString *)storageKey
                withCompletion:(nullable loadDataCompletionBlock)completion {
   // Read data from current file
   AVAStorageBucket *bucket = [self bucketForStorageKey:storageKey];
-  NSString *filePath = bucket.currentFilePath;
-  NSData *logsData = [AVAFileHelper dataForFileWithPath:filePath];
+  AVAFile *file = bucket.currentFile;
+  NSData *logsData = [AVAFileHelper dataForFile:file];
   
   // Change status of the file to `blocked`
-  [bucket.blockedFiles addObject:bucket.currentLogsId];
-  NSString *logsId = bucket.currentLogsId;
+  [bucket.blockedFiles addObject:file];
   
   // Renew file for upcoming events
-  [self renewFilePathForStorageKey:storageKey];
+  [self renewCurrentFileForStorageKey:storageKey];
   
-  // Return data and batch id
+  // Return data and file id
   // TODO: Deserialize data
   if(completion) {
-    completion(nil, logsId);
+    completion(nil, file.fileId);
   }
 }
 
@@ -66,12 +64,13 @@ static NSString *const kAVAFileExtension = @"ava";
 - (AVAStorageBucket *)createNewBucketForStorageKey:(NSString *)storageKey {
   AVAStorageBucket *bucket = [AVAStorageBucket new];
   NSString *storageDirectory = [self directoryPathForStorageKey:storageKey];
-  NSArray *existingFileNames = [AVAFileHelper fileNamesForDirectory:storageDirectory withFileExtension:kAVAFileExtension];
-  if(existingFileNames) {
-    [bucket.availableFiles addObjectsFromArray:existingFileNames];
+  NSArray *existingFiles = [AVAFileHelper filesForDirectory:storageDirectory withFileExtension:kAVAFileExtension];
+  if(existingFiles) {
+    [bucket.availableFiles addObjectsFromArray:existingFiles];
+    [bucket sortAvailableFilesByCreationDate];
   }
   self.buckets[storageKey] = bucket;
-  [self renewFilePathForStorageKey:storageKey];
+  [self renewCurrentFileForStorageKey:storageKey];
   
   return bucket;
 }
@@ -85,12 +84,13 @@ static NSString *const kAVAFileExtension = @"ava";
   return bucket;
 }
 
-- (void)renewFilePathForStorageKey:(NSString *)storageKey {
+- (void)renewCurrentFileForStorageKey:(NSString *)storageKey {
   AVAStorageBucket *bucket = [self bucketForStorageKey:storageKey];
-  NSString *logsId = [[NSUUID UUID] UUIDString];
-  NSString *filePath = [self filePathForStorageKey:storageKey logsId:logsId];
-  bucket.currentFilePath = filePath;
-  bucket.currentLogsId = logsId;
+  NSDate *creationDate = [NSDate date];
+  NSString *fileId = [[NSUUID UUID] UUIDString];
+  NSString *filePath = [self filePathForStorageKey:storageKey logsId:fileId];
+  AVAFile *file = [[AVAFile alloc] initWithPath:filePath fileId:fileId creationDate:creationDate];
+  bucket.currentFile = file;
 }
 
 - (NSString *)directoryPathForStorageKey:(nonnull NSString *)storageKey {

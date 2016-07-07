@@ -36,6 +36,108 @@
   }
 }
 
+#pragma mark - File I/O
+
++ (BOOL)appendData:(NSData *)data toFile:(AVAFile *)file {
+  if (!data || !file.filePath) {
+    return NO;
+  }
+
+  BOOL isDir;
+  if (![self.fileManager fileExistsAtPath:file.filePath isDirectory:&isDir]) {
+    [self createFileAtPath:file.filePath];
+  }
+
+  NSFileHandle *fileHandle = [NSFileHandle fileHandleForWritingAtPath:file.filePath];
+  if (fileHandle) {
+    [fileHandle seekToEndOfFile];
+    [fileHandle writeData:data];
+  }
+  return YES;
+}
+
++ (BOOL)deleteFile:(AVAFile *)file {
+  if (!file.filePath) {
+    return NO;
+  }
+
+  NSError *error = nil;
+  if ([self.fileManager removeItemAtPath:file.filePath error:&error]) {
+    AVALogVerbose(@"VERBOSE: File %@: has been successfully deleted", file.filePath);
+    return YES;
+  } else {
+    AVALogError(@"ERROR: Error deleting file %@: %@", file.filePath,
+                error.localizedDescription);
+    return NO;
+  }
+}
+
++ (NSData *)dataForFile:(AVAFile *)file {
+  if (!file.filePath) {
+    return nil;
+  }
+
+  NSData *data;
+  NSFileHandle *fileHandle = [NSFileHandle fileHandleForReadingAtPath:file.filePath];
+  if (fileHandle) {
+    data = [fileHandle readDataToEndOfFile];
+  }
+  return data;
+}
+
++ (NSArray<AVAFile *> *)filesForDirectory:(NSString *)directoryPath
+                       withFileExtension:(NSString *)fileExtension {
+  if (!directoryPath || !fileExtension) {
+    return nil;
+  }
+
+  NSMutableArray<AVAFile *> *files;
+  NSError *error;
+  NSArray *allFiles =
+      [self.fileManager contentsOfDirectoryAtPath:directoryPath error:&error];
+  if (error) {
+    AVALogError(@"ERROR: Couldn't read %@-files for directory %@: %@",
+                fileExtension, directoryPath, error.localizedDescription);
+    return nil;
+  } else {
+    NSPredicate *extensionFilter = [NSPredicate
+        predicateWithFormat:@"self ENDSWITH[cd] %@", fileExtension];
+    NSArray *filteredFiles =
+        [allFiles filteredArrayUsingPredicate:extensionFilter];
+
+    files = [NSMutableArray new];
+    for (NSString *fileName in filteredFiles) {
+      NSString *filePath =
+          [directoryPath stringByAppendingPathComponent:fileName];
+      NSString *fileId = [fileName stringByDeletingLastPathComponent];
+      NSDate *creationDate = [self creationDateForFileAtPath:filePath];
+      AVAFile *file = [[AVAFile alloc] initWithPath:filePath
+                                             fileId:fileId
+                                       creationDate:creationDate];
+      [files addObject:file];
+    }
+
+    return files;
+  }
+}
+
+#pragma mark - Helpers
+
++ (NSDate *)creationDateForFileAtPath:(NSString *)filePath {
+  NSError *error;
+  NSDate *creationDate;
+  NSDictionary *attributes =
+      [self.fileManager attributesOfItemAtPath:filePath error:&error];
+  if (!error) {
+    creationDate = attributes[NSFileCreationDate];
+  } else {
+    AVALogWarning(@"Warning: Couldn't read creation date of file %@: %@",
+                  filePath, error.localizedDescription);
+  }
+
+  return creationDate;
+}
+
 + (BOOL)createDirectoryAtPath:(NSString *)directoryPath {
   if (directoryPath) {
     NSError *error = nil;
@@ -60,7 +162,7 @@
     if (![self.fileManager fileExistsAtPath:directoryPath isDirectory:&isDir]) {
       [self createDirectoryAtPath:directoryPath];
     }
-
+    
     if ([self.fileManager createFileAtPath:filePath
                                   contents:[NSData new]
                                 attributes:nil]) {
@@ -79,95 +181,12 @@
       ![url setResourceValue:@YES
                       forKey:NSURLIsExcludedFromBackupKey
                        error:&error]) {
-    AVALogError(@"ERROR: Error excluding %@ from backup %@", directoryPath,
-                error.localizedDescription);
-    return NO;
-  } else {
-    return YES;
-  }
-}
-
-#pragma mark - File I/O
-
-+ (BOOL)appendData:(NSData *)data toFileWithPath:(NSString *)filePath {
-  if (!data || !filePath) {
-    return NO;
-  }
-
-  BOOL isDir;
-  if (![self.fileManager fileExistsAtPath:filePath isDirectory:&isDir]) {
-    [self createFileAtPath:filePath];
-  }
-
-  NSFileHandle *file = [NSFileHandle fileHandleForWritingAtPath:filePath];
-  if (file) {
-    [file seekToEndOfFile];
-    [file writeData:data];
-  }
-  return YES;
-}
-
-+ (BOOL)deleteFileWithPath:(NSString *)filePath {
-  if (!filePath) {
-    return NO;
-  }
-
-  NSError *error = nil;
-  if ([self.fileManager removeItemAtPath:filePath error:&error]) {
-    AVALogVerbose(@"VERBOSE: File %@: has been successfully deleted", filePath);
-    return YES;
-  } else {
-    AVALogError(@"ERROR: Error deleting file %@: %@", filePath,
-                error.localizedDescription);
-    return NO;
-  }
-}
-
-+ (NSData *)dataForFileWithPath:(NSString *)filePath {
-  if (!filePath) {
-    return nil;
-  }
-
-  NSData *data;
-  NSFileHandle *file = [NSFileHandle fileHandleForReadingAtPath:filePath];
-  if (file) {
-    data = [file readDataToEndOfFile];
-  }
-  return data;
-}
-
-+ (NSArray *)fileNamesForDirectory:(NSString *)directoryPath
-                 withFileExtension:(NSString *)fileExtension {
-  
-  if (!directoryPath || !fileExtension) {
-    return nil;
-  }
-
-  NSError *error;
-  NSArray *allFiles =
-      [self.fileManager contentsOfDirectoryAtPath:directoryPath error:&error];
-  if (error) {
-    AVALogError(@"ERROR: Couldn't read %@-files for directory %@: %@",
-                fileExtension, directoryPath, error.localizedDescription);
-    return nil;
-  }else {
-    NSPredicate *extensionFilter = [NSPredicate
-                                    predicateWithFormat:@"self ENDSWITH[cd]  %@", fileExtension];
-    NSArray *filteredFiles = [allFiles filteredArrayUsingPredicate:extensionFilter];
-    filteredFiles = [self removeExtensionFromFileNamesInArray:filteredFiles];
-    return filteredFiles;
-  }
-}
-
-+ (NSArray *)removeExtensionFromFileNamesInArray:(NSArray *)fileNames {
-  NSMutableArray *sanitizedFileNames = [NSMutableArray new];
-  for (NSString *fileName in fileNames) {
-    NSString *prefix = [fileName stringByDeletingPathExtension];
-    if(prefix) {
-      [sanitizedFileNames addObject:prefix];
-    }
-  }
-  return [NSArray arrayWithArray:sanitizedFileNames];
+        AVALogError(@"ERROR: Error excluding %@ from backup %@", directoryPath,
+                    error.localizedDescription);
+        return NO;
+      } else {
+        return YES;
+      }
 }
 
 @end
