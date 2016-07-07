@@ -65,7 +65,9 @@
   getResourceError = nil;
   resourveValue = nil;
   NSString *subDirectory = @"testDirectory";
-  AVAFile *file = [AVAStorageTestHelper createFileWithId:@"1" data:[NSData new] extension:@"ava" storageKey:subDirectory creationDate:[NSDate date]];
+  NSString *fileId = @"fileId";
+  NSString *filePath = [AVAStorageTestHelper filePathForLogWithId:fileId extension:@"ava" storageKey:subDirectory];
+  AVAFile *file = [[AVAFile alloc] initWithPath:filePath fileId:fileId creationDate:[NSDate date]];
   
   [AVAFileHelper appendData:[NSData new] toFile:file];
   NSString *storagePath = [AVAStorageTestHelper storageDirForStorageKey:subDirectory];
@@ -106,7 +108,7 @@
   for(int i = 0; i<actual.count; i++) {
     assertThat(actual[i].filePath, equalTo(expected[i].filePath));
     assertThat(actual[i].fileId, equalTo(expected[i].fileId));
-    assertThat(actual[i].creationDate, equalTo(expected[i].creationDate));
+    assertThat(actual[i].creationDate.description, equalTo(expected[i].creationDate.description));
   }
   
 }

@@ -94,7 +94,7 @@
   NSMutableArray<AVAFile *> *files;
   NSError *error;
   NSArray *allFiles =
-      [self.fileManager contentsOfDirectoryAtPath:directoryPath error:&error];
+      [[NSFileManager defaultManager] contentsOfDirectoryAtPath:directoryPath error:&error];
   if (error) {
     AVALogError(@"ERROR: Couldn't read %@-files for directory %@: %@",
                 fileExtension, directoryPath, error.localizedDescription);
@@ -109,7 +109,7 @@
     for (NSString *fileName in filteredFiles) {
       NSString *filePath =
           [directoryPath stringByAppendingPathComponent:fileName];
-      NSString *fileId = [fileName stringByDeletingLastPathComponent];
+      NSString *fileId = [fileName stringByDeletingPathExtension];
       NSDate *creationDate = [self creationDateForFileAtPath:filePath];
       AVAFile *file = [[AVAFile alloc] initWithPath:filePath
                                              fileId:fileId

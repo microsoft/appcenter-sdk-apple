@@ -71,9 +71,8 @@
 - (void)testCreatingNewBucketsWillLoadExistingFiles {
   
   // If
-  NSString *logsId = @"test123";
   NSString *storageKey = @"TestDirectory";
-  AVAFile *file = [AVAStorageTestHelper createFileWithId:logsId data:[NSData new] extension:@"ava" storageKey:storageKey creationDate:[NSDate date]];
+  AVAFile *expected = [AVAStorageTestHelper createFileWithId:@"test123" data:[NSData new] extension:@"ava" storageKey:storageKey creationDate:[NSDate date]];
   assertThat(_sut.buckets[storageKey], nilValue());
   
   // When
@@ -81,8 +80,11 @@
   
   // Verify
   AVAStorageBucket *bucket = _sut.buckets[storageKey];
+  AVAFile *actual = bucket.availableFiles[0];
   assertThatInteger(bucket.availableFiles.count, equalToInteger(1));
-  assertThat(bucket.availableFiles[0], equalTo(file));
+  assertThat(actual.filePath, equalTo(expected.filePath));
+  assertThat(actual.fileId, equalTo(expected.fileId));
+  assertThat(actual.creationDate.description, equalTo(expected.creationDate.description));
 }
 
 - (void)testRequestingCurrentFileWillAddItToBlockedFilesAndCreateNewCurrentFile {
@@ -100,26 +102,6 @@
   // Verify
   assertThatInteger(_sut.buckets[storageKey].blockedFiles.count, equalToInteger(1));
   assertThat(_sut.buckets[storageKey].availableFiles, isEmpty());
-}
-
-- (void)testRequestingCurrentFileWillCallFileHelperMethod {
-  
-  // If
-  NSString *storageKey = @"TestDirectory";
-  AVAFile *currentFile = [AVAStorageTestHelper createFileWithId:@"id" data:[NSData new] extension:@"ava" storageKey:storageKey creationDate:[NSDate date]];
-  _sut.buckets[storageKey].currentFile = currentFile;
-  id fileHelperMock = OCMClassMock([AVAFileHelper class]);
-  
-  // When
-  __block NSString *fileId;
-  [_sut loadLogsForStorageKey:storageKey withCompletion:^(NSArray<NSObject<AVALog> *> *logs,
-                                                          NSString *logsId) {
-    fileId = logsId;
-  }];
-  
-  // Verify
-  assertThat(fileId, equalTo(currentFile.fileId));
-  OCMVerify([fileHelperMock dataForFile:currentFile]);
 }
 
 - (void)testDeleteFileRemovesLogsIdFromBlockedFilesList {
@@ -143,13 +125,13 @@
 
 - (void)testDeleteFileWillCallFileHelperMethod {
   
-  // If
+  // If: Create bucket, mock current file and load data of current file
+    id fileHelperMock = OCMClassMock([AVAFileHelper class]);
   NSString *storageKey = @"TestDirectory";
+  
+  [_sut saveLog:[NSData new] withStorageKey:storageKey];
   AVAFile *currentFile = [AVAStorageTestHelper createFileWithId:@"id" data:[NSData new] extension:@"ava" storageKey:storageKey creationDate:[NSDate date]];
   _sut.buckets[storageKey].currentFile = currentFile;
-  
-  id fileHelperMock = OCMClassMock([AVAFileHelper class]);
-  [_sut saveLog:[NSData new] withStorageKey:storageKey];
   __block NSString *batchId;
   [_sut loadLogsForStorageKey:storageKey withCompletion:^(NSArray<NSObject<AVALog> *> *logs,
                                                           NSString *logsId) {
