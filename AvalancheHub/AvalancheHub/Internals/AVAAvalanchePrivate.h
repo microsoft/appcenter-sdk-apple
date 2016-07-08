@@ -13,9 +13,12 @@
 
 @property (nonatomic, strong) NSMutableArray<AVAFeature *> *features;
 @property (nonatomic, copy) NSString *appId;
+@property (nonatomic, retain) NSString *uuid;
+@property (nonatomic, retain) NSString *apiVersion;
 @property BOOL featuresStarted;
 
-- (NSString*)getAppId;
-- (NSString*)getUUID;
+- (NSString*)appId;
+- (NSString*)UUID;
+- (NSString*)apiVersion;
 
 @end

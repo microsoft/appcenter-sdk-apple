@@ -2,12 +2,28 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import <Foundation/Foundation.h>
-#import "AVASender.h"
 #import "AVAChannelDelegate.h"
+#import "AVASender.h"
+#import <Foundation/Foundation.h>
 
-@interface AVAHttpSender : NSObject<AVASender>
+NS_ASSUME_NONNULL_BEGIN
 
-@property (nonatomic, weak) id<AVAChannelDelegate> delegate;
+@interface AVAHttpSender : NSObject <AVASender>
+
+@property(nonatomic, weak) id<AVAChannelDelegate> delegate;
+
+/**
+ *	BaseURL to which relative paths are appended.
+ */
+@property(nonatomic, strong, readonly) NSString *baseURL;
+
+/**
+ *	Request header parameters.
+ */
+@property(nonatomic, strong) NSDictionary *headerParam;
+
+// Methods
++ (BOOL)isRecoverableError:(NSURLResponse *)response;
 
 @end
+NS_ASSUME_NONNULL_END
