@@ -5,7 +5,6 @@
 #import <UIKit/UIKit.h>
 #import "AVAFeature.h"
 
-@interface AVACrashes: NSObject <AVAFeature>
+@interface AVAAnalytics : NSObject <AVAFeature>
 
 @end
- 

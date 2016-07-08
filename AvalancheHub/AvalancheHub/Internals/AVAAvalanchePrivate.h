@@ -9,13 +9,14 @@
 #import "AVAChannel.h"
 #import "AVASender.h"
 #import "AVAStorage.h"
+#import "AVAFeaturePrivate.h"
 
 @class AVAFeature;
 
 @interface AVAAvalanche () <AVAAvalancheDelegate>
 
 @property (nonatomic, strong) id<AVAChannel> channel;
-@property (nonatomic, strong) NSMutableArray<AVAFeature *> *features;
+@property (nonatomic, strong) NSMutableArray<NSObject<AVAFeaturePrivate> *> *features;
 @property (nonatomic, copy) NSString *appId;
 @property (nonatomic, retain) NSString *uuid;
 @property (nonatomic, retain) NSString *apiVersion;

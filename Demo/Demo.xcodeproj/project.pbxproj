@@ -13,8 +13,9 @@
 		6E2307E31D22083C0031C598 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6E2307E11D22083C0031C598 /* Main.storyboard */; };
 		6E2307E51D22083C0031C598 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E2307E41D22083C0031C598 /* Assets.xcassets */; };
 		6E2307E81D22083C0031C598 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6E2307E61D22083C0031C598 /* LaunchScreen.storyboard */; };
-		6E23080A1D2212130031C598 /* AvalancheCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E2308081D2212130031C598 /* AvalancheCrashes.framework */; };
-		6E23080B1D2212130031C598 /* AvalancheHub.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E2308091D2212130031C598 /* AvalancheHub.framework */; };
+		6E407A1E1D2F5AF80033A76C /* AvalancheCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E407A1C1D2F5AF80033A76C /* AvalancheCrashes.framework */; };
+		6E407A1F1D2F5AF80033A76C /* AvalancheHub.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E407A1D1D2F5AF80033A76C /* AvalancheHub.framework */; };
+		6E407A251D2F64750033A76C /* AvalancheAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E407A241D2F64750033A76C /* AvalancheAnalytics.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,8 +29,9 @@
 		6E2307E41D22083C0031C598 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6E2307E71D22083C0031C598 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6E2307E91D22083C0031C598 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6E2308081D2212130031C598 /* AvalancheCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AvalancheCrashes.framework; path = Vendor/AvalancheCrashes.framework; sourceTree = "<group>"; };
-		6E2308091D2212130031C598 /* AvalancheHub.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AvalancheHub.framework; path = Vendor/AvalancheHub.framework; sourceTree = "<group>"; };
+		6E407A1C1D2F5AF80033A76C /* AvalancheCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AvalancheCrashes.framework; path = Vendor/AvalancheCrashes.framework; sourceTree = "<group>"; };
+		6E407A1D1D2F5AF80033A76C /* AvalancheHub.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AvalancheHub.framework; path = Vendor/AvalancheHub.framework; sourceTree = "<group>"; };
+		6E407A241D2F64750033A76C /* AvalancheAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AvalancheAnalytics.framework; path = Vendor/AvalancheAnalytics.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,8 +39,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E23080B1D2212130031C598 /* AvalancheHub.framework in Frameworks */,
-				6E23080A1D2212130031C598 /* AvalancheCrashes.framework in Frameworks */,
+				6E407A1F1D2F5AF80033A76C /* AvalancheHub.framework in Frameworks */,
+				6E407A251D2F64750033A76C /* AvalancheAnalytics.framework in Frameworks */,
+				6E407A1E1D2F5AF80033A76C /* AvalancheCrashes.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,8 +92,9 @@
 		6E2307EF1D2208670031C598 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
-				6E2308081D2212130031C598 /* AvalancheCrashes.framework */,
-				6E2308091D2212130031C598 /* AvalancheHub.framework */,
+				6E407A241D2F64750033A76C /* AvalancheAnalytics.framework */,
+				6E407A1C1D2F5AF80033A76C /* AvalancheCrashes.framework */,
+				6E407A1D1D2F5AF80033A76C /* AvalancheHub.framework */,
 			);
 			name = Vendor;
 			sourceTree = "<group>";
@@ -332,6 +336,7 @@
 				6E2307EE1D22083C0031C598 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

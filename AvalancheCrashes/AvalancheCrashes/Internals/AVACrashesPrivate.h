@@ -3,7 +3,8 @@
  */
 
 #import "AVACrashes.h"
+#import "Internals/AVAFeaturePrivate.h"
 
-@interface AVACrashes ()
+@interface AVACrashes () <AVAFeaturePrivate>
 
 @end

@@ -5,7 +5,7 @@
 #import <UIKit/UIKit.h>
 #import "AVAFeature.h"
 
-@interface AVAAnalytics : AVAFeature
+@interface AVAAnalytics : NSObject <AVAFeature>
 
 + (void)sendLog:(NSString*)log;
 

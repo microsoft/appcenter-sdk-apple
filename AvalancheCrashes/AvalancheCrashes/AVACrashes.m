@@ -7,6 +7,8 @@
 
 @implementation AVACrashes
 
+@synthesize delegate = _delegate;
+
 + (id)sharedInstance {
   static id sharedInstance = nil;
   static dispatch_once_t onceToken;
@@ -18,6 +20,22 @@
 
 - (void)startFeature {
   AVALogVerbose(@"AVACrashes: Started crash module");
+}
+
+- (void)setDelegate:(id<AVAAvalancheDelegate>) delegate {
+  _delegate = delegate;
+}
+
++ (void)enable {
+  
+}
+
++ (void)disable {
+  
+}
+
++ (BOOL)isEnabled {
+  return YES;
 }
 
 @end

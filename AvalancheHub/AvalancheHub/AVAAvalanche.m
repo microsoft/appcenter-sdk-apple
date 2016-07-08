@@ -39,14 +39,14 @@ static NSString* const kAVABaseUrl = @"https://microsoft.com";
   self.apiVersion = @"2016-09-01"; // TODO add util funciton
   [self initializePipeline];
   
-  [features enumerateObjectsUsingBlock:^(Class  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-    AVAFeature *feature = [obj sharedInstance];
+  for(Class obj in features) {
+    id<AVAFeaturePrivate> feature = [obj sharedInstance];
     
     // Set delgate
     feature.delegate = self;
     [self.features addObject:feature];
     [feature startFeature];
-  }];
+  }
   
   _featuresStarted = YES;
 }

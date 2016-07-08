@@ -3,7 +3,8 @@
  */
 
 #import "AVAAnalytics.h"
+#import "Internals/AVAFeaturePrivate.h"
 
-@interface AVAAnalytics()
+@interface AVAAnalytics() <AVAFeaturePrivate>
 
 @end
