@@ -27,9 +27,12 @@ typedef void (^AVASendAsyncCompletionHandler)(NSError *error,
  * @param priority Send priority
  * @param handler Completion handler
  */
-- (NSNumber *)sendLogsAsync:(AVALogContainer *)logs
+- (NSNumber *)sendAsync:(AVALogContainer *)logs
               callbackQueue:(dispatch_queue_t)callbackQueue
-                   priority:(AVASendPriority)priority
+                   priority:(float)priority
           completionHandler:(AVASendAsyncCompletionHandler)handler;
+
+- (NSNumber *)sendAsync:(AVALogContainer *)logs
+      completionHandler:(AVASendAsyncCompletionHandler)handler;
 
 @end

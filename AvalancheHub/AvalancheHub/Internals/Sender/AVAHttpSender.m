@@ -45,19 +45,26 @@ static NSString *const kContentType = @"Content-Type";
   return _session;
 }
 
-- (NSNumber *)sendLogsAsync:(AVALogContainer *)logs
-              callbackQueue:(dispatch_queue_t)callbackQueue
-                   priority:(AVASendPriority)priority
-          completionHandler:(AVASendAsyncCompletionHandler)handler {
+- (NSNumber *)sendAsync:(AVALogContainer *)logs
+      completionHandler:(AVASendAsyncCompletionHandler)handler {
 
-  NSString *batchId = @"TODO:logs.batchId";
+  return [self sendAsync:logs
+           callbackQueue:dispatch_get_main_queue()
+                priority:NSURLSessionTaskPriorityDefault
+       completionHandler:handler];
+}
 
-  // Verify parameters
-  if (!logs) {
-    // TODO Verify assert
-    NSParameterAssert(logs);
+- (NSNumber *)sendAsync:(AVALogContainer *)container
+          callbackQueue:(dispatch_queue_t)callbackQueue
+               priority:(float)priority
+      completionHandler:(AVASendAsyncCompletionHandler)handler {
+
+  NSString *batchId = container.batchId;
+
+  // Verify container
+  if (!container || ![container isValid]) {
     NSDictionary *userInfo = @{
-      NSLocalizedDescriptionKey : @"Missing required parameter 'logs'"
+      NSLocalizedDescriptionKey : @"Invalid parameter 'logs'"
     };
     NSError *error =
         [NSError errorWithDomain:kAVADefaultApiErrorDomain
@@ -65,12 +72,12 @@ static NSString *const kContentType = @"Content-Type";
                         userInfo:userInfo];
     AVALogError(@"%@", [error localizedDescription]);
     handler(error, kAVADefaultApiMissingParamErrorCode, batchId);
-
+  
     return nil;
   }
 
   // Create the request
-  NSURLRequest *request = [self createRequest:logs];
+  NSURLRequest *request = [self createRequest:container];
 
   if (!request)
     return nil;
@@ -98,6 +105,9 @@ static NSString *const kContentType = @"Content-Type";
             });
           }
         }];
+
+  // Set task priority
+  task.priority = priority;
   [task resume];
 
   // TODO

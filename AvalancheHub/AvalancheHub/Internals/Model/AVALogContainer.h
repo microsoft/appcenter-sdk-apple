@@ -29,4 +29,9 @@
  */
 - (NSString *)serializeLog;
 
+/**
+ * Is valid container
+ */
+- (BOOL)isValid;
+
 @end
