@@ -2,7 +2,7 @@
 #import "AVALogger.h"
 #import "AVAFileStorage.h"
 #import "AVAFile.h"
-#import "AVAAbstractLog.h"
+#import "AVAEventLog.h"
 
 static NSString *const kAVALogsDirectory = @"com.microsoft.avalanche/logs";
 static NSString *const kAVAFileExtension = @"ava";
@@ -51,7 +51,8 @@ static NSUInteger const AVADefaultBucketFileCountLimit = 50;
   NSData *logData = [AVAFileHelper dataForFile:file];
   NSDictionary *logDict = [NSKeyedUnarchiver unarchiveObjectWithData:logData];
   
-  AVAAbstractLog* log = [AVAAbstractLog new];
+  // TODO: need to add a util funciton/log factory helper
+  id<AVALog> log = [AVAEventLog new];
   [log read:logDict];
   NSArray<AVALog> *logArray = [NSArray<AVALog> arrayWithObject:log];
   
@@ -131,6 +132,8 @@ static NSUInteger const AVADefaultBucketFileCountLimit = 50;
       _baseDirectoryPath =
           [appSupportPath stringByAppendingPathComponent:kAVALogsDirectory];
     }
+    
+    AVALogVerbose(@"Storage Path:\n%@", _baseDirectoryPath);
   }
 
   return _baseDirectoryPath;

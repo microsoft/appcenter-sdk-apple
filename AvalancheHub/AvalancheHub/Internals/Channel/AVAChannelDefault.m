@@ -81,9 +81,11 @@ static NSString* const kAVAStorageKey = @"storageKey";
     
     AVALogContainer* container = [[AVALogContainer alloc] initWithBatchId:batchId andLogs:logArray];
     
+    AVALogVerbose(@"INFO:Sending log %@", [container serializeLog]);
+    
     [self.sender sendAsync:container completionHandler:^(NSError *error, NSUInteger statusCode, NSString *batchId) {
       
-      AVALogVerbose(@"log sent with error:%@ with statusCode:%ld", [error localizedDescription], statusCode);
+      AVALogVerbose(@"INFO:HTTP response received with the status code:%ld", statusCode);
     }];
   }];
 }

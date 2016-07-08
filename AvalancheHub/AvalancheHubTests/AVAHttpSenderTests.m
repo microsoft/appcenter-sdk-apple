@@ -169,16 +169,13 @@ static NSString* const kBaseUrl = @"https://test.com";
 #pragma mark - Test Helpers
 
 - (AVALogContainer *)createLogContainerWithId:(NSString *)batchId {
-
-  AVALogContainer* logContainer = [[AVALogContainer alloc] initWithBatchId:batchId];
-  
   AVAEndSessionLog* log1 = [[AVAEndSessionLog alloc] init];
   log1.sid = [NSUUID UUID];
   
   AVADeviceLog* log2 = [[AVADeviceLog alloc] init];
   log2.sdkVersion = @"1.0.0";
   
-  logContainer.logs = (NSArray<AVALog>*)@[log1, log2];
+  AVALogContainer* logContainer = [[AVALogContainer alloc] initWithBatchId:batchId andLogs:(NSArray<AVALog>*)@[log1, log2]];
   return logContainer;
 }
 

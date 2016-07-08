@@ -86,4 +86,8 @@ static NSString* const kAVABaseUrl = @"https://microsoft.com";
   [self.channel enqueueItem:log];
 }
 
+- (NSString *)getSessionId {
+  return [self UUID];
+}
+
 @end

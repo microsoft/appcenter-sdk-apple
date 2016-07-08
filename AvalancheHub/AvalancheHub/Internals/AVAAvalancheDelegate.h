@@ -8,5 +8,6 @@
 @protocol AVAAvalancheDelegate <NSObject>
 
 - (void)send:(id<AVALog>)log;
+- (NSString *)getSessionId;
 
 @end

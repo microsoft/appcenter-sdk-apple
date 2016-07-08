@@ -4,7 +4,6 @@
 
 #import "AVAAnalyticsPrivate.h"
 #import "AvalancheHub+Internal.h"
-#import "AVAEventLog.h"
 
 @implementation AVAAnalytics
 
@@ -48,7 +47,9 @@
   // Set log
   AVAEventLog *log = [[AVAEventLog alloc] init];
   log.name = name;
-  log.sid = [NSUUID UUID];
+  log.sid = [[NSUUID alloc] initWithUUIDString:[self.delegate getSessionId]];
+  log.toffset = [NSNumber numberWithInteger:[[NSDate date] timeIntervalSince1970]];
+  log._id = [NSUUID UUID];
   
   [self.delegate send:log];
 }

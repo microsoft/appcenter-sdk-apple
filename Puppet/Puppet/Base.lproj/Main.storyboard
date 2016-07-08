@@ -3,7 +3,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -15,22 +14,27 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Avalanche iOS Puppet" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ewS-W2-s7z">
-                                <rect key="frame" x="43" y="34" width="247" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Avalanche iOS Puppet" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ewS-W2-s7z">
+                                <rect key="frame" x="84" y="47" width="247" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="c7e-9p-X0h"/>
+                                    <constraint firstAttribute="width" constant="247" id="u2V-cS-qp1"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="268-eh-FaK">
-                                <rect key="frame" x="116" y="274" width="174" height="52"/>
+                                <rect key="frame" x="120" y="406" width="174" height="52"/>
                                 <color key="backgroundColor" red="1" green="0.85607945809999997" blue="0.1917582592" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="174" id="FVt-Wj-zIK"/>
+                                    <constraint firstAttribute="width" constant="174" id="HJb-Yc-tsy"/>
+                                    <constraint firstAttribute="height" constant="52" id="fNz-aG-Z8o"/>
                                 </constraints>
-                                <state key="normal" title="Magic Button"/>
+                                <state key="normal" title="Send Log"/>
                                 <connections>
                                     <action selector="onButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="OfO-OA-QO8"/>
                                 </connections>
@@ -38,9 +42,12 @@
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="268-eh-FaK" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="15" id="XIj-ec-rij"/>
+                            <constraint firstItem="ewS-W2-s7z" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="27" id="2Rr-vX-LJQ"/>
+                            <constraint firstItem="ewS-W2-s7z" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="30g-VH-aI1"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="268-eh-FaK" secondAttribute="bottom" constant="284" id="XtO-rv-ar4"/>
                         </constraints>
                     </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

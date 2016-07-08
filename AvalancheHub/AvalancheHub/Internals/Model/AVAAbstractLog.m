@@ -26,7 +26,7 @@ static NSString *const kAVAType = @"type";
 }
 
 - (void)read:(NSDictionary *)obj {
-  if ([obj[kAVAType] isEqualToString:[self type]]) {
+  if (![obj[kAVAType] isEqualToString:[self type]]) {
 
     AVALogError(@"ERROR: invalid object");
     return;
