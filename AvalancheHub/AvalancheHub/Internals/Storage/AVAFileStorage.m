@@ -2,6 +2,7 @@
 #import "AVALogger.h"
 #import "AVAFileStorage.h"
 #import "AVAFile.h"
+#import "AVAEventLog.h"
 
 static NSString *const kAVALogsDirectory = @"com.microsoft.avalanche/logs";
 static NSString *const kAVAFileExtension = @"ava";
@@ -24,8 +25,9 @@ static NSUInteger const AVADefaultBucketFileCountLimit = 50;
 #pragma mark - Public
 
 - (void)saveLog:(id<AVALog>)log withStorageKey:(NSString *)storageKey {
-  // TODO: Serialize item
-  NSData *logData = [NSData new];
+  NSMutableDictionary *logDict = [NSMutableDictionary new];
+  [log write:logDict];
+  NSData *logData = [NSKeyedArchiver archivedDataWithRootObject:logDict];
   AVAStorageBucket *bucket = [self bucketForStorageKey:storageKey];
   [AVAFileHelper appendData:logData toFile:bucket.currentFile];
 }
@@ -46,7 +48,11 @@ static NSUInteger const AVADefaultBucketFileCountLimit = 50;
   // Read data from current file
   AVAStorageBucket *bucket = [self bucketForStorageKey:storageKey];
   AVAFile *file = bucket.currentFile;
-  NSData *logsData = [AVAFileHelper dataForFile:file];
+  NSData *logData = [AVAFileHelper dataForFile:file];
+  NSDictionary *logDict = [NSKeyedUnarchiver unarchiveObjectWithData:logData];
+  AVAEventLog *log = [AVAEventLog new];
+  [log read:logDict];
+  NSArray<AVALog> *logArray = [NSArray<AVALog> arrayWithObject:log];
   
   // Change status of the file to `blocked`
   [bucket.blockedFiles addObject:file];
@@ -54,10 +60,8 @@ static NSUInteger const AVADefaultBucketFileCountLimit = 50;
   // Renew file for upcoming events
   [self renewCurrentFileForStorageKey:storageKey];
   
-  // Return data and file id
-  // TODO: Deserialize data
   if(completion) {
-    completion(nil, file.fileId);
+    completion(logArray, file.fileId);
   }
 }
 
