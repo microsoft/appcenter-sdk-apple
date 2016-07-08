@@ -2,7 +2,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "AVAChannelDefaultPrivate.h"
+#import "AVAChannelDefault.h"
 #import "AvalancheHub+Internal.h"
 
 static char *const AVADataItemsOperationsQueue =
@@ -45,7 +45,7 @@ static float const AVADefaultFlushInterval = 15.0;
 }
 
 - (void)enqueueItem:(id<AVALog>)item
-     withCompletion:(completionBlock)completion {
+     withCompletion:(enqueueCompletionBlock)completion {
   if (!item) {
     AVALogWarning(@"WARNING: TelemetryItem was nil.");
     return;

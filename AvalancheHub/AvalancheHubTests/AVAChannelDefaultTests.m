@@ -3,7 +3,7 @@
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
 
-#import "AVAChannelDefaultPrivate.h"
+#import "AVAChannelDefault.h"
 #import "AVADeviceLog.h"
 
 @interface AVAChannelDefaultTests : XCTestCase
