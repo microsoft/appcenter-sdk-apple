@@ -43,6 +43,7 @@
 		6E171AF01D22F841000DC480 /* libAvalancheHub.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171AEF1D22F841000DC480 /* libAvalancheHub.a */; };
 		6E171B111D22FABA000DC480 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171B051D22FABA000DC480 /* libOCMock.a */; };
 		6E171B391D22FF6B000DC480 /* libOHHTTPStubs.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171B2F1D22FF6B000DC480 /* libOHHTTPStubs.a */; };
+		6E407A211D2F5B600033A76C /* AVAFeature.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E407A201D2F5B600033A76C /* AVAFeature.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -112,6 +113,7 @@
 		6E3729801D1DE93800F1E4AE /* buildnumber.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = buildnumber.xcconfig; sourceTree = "<group>"; };
 		6E3729811D1DE93800F1E4AE /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		6E3729821D1DE93800F1E4AE /* release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = release.xcconfig; sourceTree = "<group>"; };
+		6E407A201D2F5B600033A76C /* AVAFeature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AVAFeature.h; path = ../../AvalancheHub/AvalancheHub/AVAFeature.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,6 +160,7 @@
 		6E0401351D1C98690051BCFA /* AvalancheCrashes */ = {
 			isa = PBXGroup;
 			children = (
+				6E407A201D2F5B600033A76C /* AVAFeature.h */,
 				6E0401361D1C98690051BCFA /* AvalancheCrashes.h */,
 				6E04014F1D1C9A4F0051BCFA /* AVACrashes.h */,
 				6E0401501D1C9A4F0051BCFA /* AVACrashes.m */,
@@ -270,6 +273,7 @@
 				6E0401751D1C9E750051BCFA /* AvalancheCrashes.h in Headers */,
 				6E0401761D1C9E750051BCFA /* AVACrashes.h in Headers */,
 				6E0401771D1C9EBE0051BCFA /* AvalancheHub+Internal.h in Headers */,
+				6E407A211D2F5B600033A76C /* AVAFeature.h in Headers */,
 				6E0401781D1C9EBE0051BCFA /* AVACrashesPrivate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -665,6 +669,7 @@
 				6E6BFC381D23504F00DF7617 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

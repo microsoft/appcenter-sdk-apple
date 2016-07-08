@@ -4,10 +4,6 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol AVAFeature<NSObject>
-
-+ (void)enable;
-+ (void)disable;
-+ (BOOL)isEnabled;
-
-@end
+#import "AVAAvalanche.h"
+#import "AVAConstants.h"
+#import "AVAFeature.h"

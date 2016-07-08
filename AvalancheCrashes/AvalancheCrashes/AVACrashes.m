@@ -2,10 +2,12 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "AVACrashes.h"
+#import "AVACrashesPrivate.h"
 #import "AvalancheHub+Internal.h"
 
 @implementation AVACrashes
+
+@synthesize delegate = _delegate;
 
 + (id)sharedInstance {
   static id sharedInstance = nil;
@@ -18,6 +20,10 @@
 
 - (void)startFeature {
   AVALogVerbose(@"AVACrashes: Started crash module");
+}
+
+- (void)setDelegate:(id<AVAAvalancheDelegate>) delegate {
+  _delegate = delegate;
 }
 
 @end

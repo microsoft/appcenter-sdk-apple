@@ -5,7 +5,7 @@
 #import "AVAFeature.h"
 #import "AVAAvalancheDelegate.h"
 
-@interface AVAFeature ()
+@protocol AVAFeaturePrivate <NSObject>
 
 @property (nonatomic, weak) id<AVAAvalancheDelegate> delegate;
 

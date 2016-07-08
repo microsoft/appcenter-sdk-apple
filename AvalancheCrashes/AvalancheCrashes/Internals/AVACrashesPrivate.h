@@ -25,6 +25,9 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-@interface AVACrashes ()
+#import "AVACrashes.h"
+#import "Internals/AVAFeaturePrivate.h"
+
+@interface AVACrashes () <AVAFeaturePrivate>
 
 @end

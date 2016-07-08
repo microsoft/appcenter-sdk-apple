@@ -32,6 +32,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		6E407A231D2F63C50033A76C /* AVAFeature.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E407A221D2F63C50033A76C /* AVAFeature.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E85547C61D2D6253002DF6E2 /* AVAAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E85547C51D2D6253002DF6E2 /* AVAAnalytics.m */; };
 		E85547D81D2D6723002DF6E2 /* AvalancheAnalyticsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E85547D71D2D6723002DF6E2 /* AvalancheAnalyticsTests.m */; };
 		E85547DA1D2D6723002DF6E2 /* libAvalancheAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E85547C01D2D6253002DF6E2 /* libAvalancheAnalytics.a */; };
@@ -64,6 +65,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6E407A221D2F63C50033A76C /* AVAFeature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AVAFeature.h; path = ../../AvalancheHub/AvalancheHub/AVAFeature.h; sourceTree = "<group>"; };
 		E85547C01D2D6253002DF6E2 /* libAvalancheAnalytics.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAvalancheAnalytics.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E85547C31D2D6253002DF6E2 /* AVAAnalytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AVAAnalytics.h; sourceTree = "<group>"; };
 		E85547C51D2D6253002DF6E2 /* AVAAnalytics.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AVAAnalytics.m; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 			isa = PBXGroup;
 			children = (
 				E85547CC1D2D63EF002DF6E2 /* AvalancheAnalytics.h */,
+				6E407A221D2F63C50033A76C /* AVAFeature.h */,
 				E85547C31D2D6253002DF6E2 /* AVAAnalytics.h */,
 				E85547C51D2D6253002DF6E2 /* AVAAnalytics.m */,
 				E85547CD1D2D64B0002DF6E2 /* Internals */,
@@ -167,6 +170,7 @@
 				E85547F91D2D6A9B002DF6E2 /* AvalancheHub+Internal.h in Headers */,
 				E85547F71D2D6A7D002DF6E2 /* AvalancheAnalytics.h in Headers */,
 				E85547FA1D2D6A9E002DF6E2 /* AVAAnalyticsPrivate.h in Headers */,
+				6E407A231D2F63C50033A76C /* AVAFeature.h in Headers */,
 				E85547F81D2D6A7D002DF6E2 /* AVAAnalytics.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -500,6 +504,7 @@
 				E85547DF1D2D6723002DF6E2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E85547E51D2D681F002DF6E2 /* Build configuration list for PBXAggregateTarget "Fat Framework" */ = {
 			isa = XCConfigurationList;
@@ -508,6 +513,7 @@
 				E85547E71D2D681F002DF6E2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E85547EA1D2D68C5002DF6E2 /* Build configuration list for PBXAggregateTarget "Jazzy Docs" */ = {
 			isa = XCConfigurationList;
@@ -516,6 +522,7 @@
 				E85547EC1D2D68C5002DF6E2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

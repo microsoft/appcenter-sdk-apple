@@ -2,10 +2,12 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "AVAAnalytics.h"
+#import "AVAAnalyticsPrivate.h"
 #import "AvalancheHub+Internal.h"
 
 @implementation AVAAnalytics
+
+@synthesize delegate = _delegate;
 
 + (id)sharedInstance {
   static id sharedInstance = nil;
@@ -18,6 +20,10 @@
 
 - (void)startFeature {  
   AVALogVerbose(@"AVAAnalytics: Started analytics module");
+}
+
+- (void)setDelegate:(id<AVAAvalancheDelegate>) delegate {
+  _delegate = delegate;
 }
 
 @end

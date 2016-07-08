@@ -2,6 +2,9 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-@interface AVAAnalytics()
+#import "AVAAnalytics.h"
+#import "Internals/AVAFeaturePrivate.h"
+
+@interface AVAAnalytics() <AVAFeaturePrivate>
 
 @end
