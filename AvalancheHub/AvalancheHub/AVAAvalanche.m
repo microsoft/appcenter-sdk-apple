@@ -1,5 +1,8 @@
 #import "AVAAvalanchePrivate.h"
 #import "AVAFeaturePrivate.h"
+#import "AVAChannelDefault.h"
+#import "AVAHttpSender.h"
+#import "AVAFileStorage.h"
 
 @implementation AVAAvalanche
 
@@ -32,7 +35,8 @@
   self.appId = appId;
   self.uuid = [[NSUUID UUID] UUIDString];
   self.apiVersion = @"2016-09-01"; // TODO add util funciton
-
+  [self initializePipeline];
+  
   [features enumerateObjectsUsingBlock:^(Class  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
     AVAFeature *feature = [obj sharedInstance];
     
@@ -43,6 +47,12 @@
   }];
   
   _featuresStarted = YES;
+}
+
+- (void)initializePipeline {
+  AVAHttpSender *sender = [[AVAHttpSender alloc] initWithBaseUrl:@"http://myEndpoint.com"];
+  AVAFileStorage *storage = [[AVAFileStorage alloc] init];
+  _channel = [[AVAChannelDefault alloc] initWithSender:sender storage:storage];
 }
 
 + (AVALogLevel)logLevel {

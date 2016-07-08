@@ -628,7 +628,7 @@
 				6E04014D1D1C99AC0051BCFA /* AVAFeature.m in Sources */,
 				6E171B5D1D234717000DC480 /* AVAEndSessionLog.m in Sources */,
 				E88EBBED1D2C612E007E7785 /* AVAAbstractLog.m in Sources */,
-				6E40D4641D2700000046D85B /* AVAStorageDefault.m in Sources */,
+				6E40D4641D2700000046D85B /* AVAFileStorage.m in Sources */,
 				6E40D4641D2700000046D85B /* AVAFileStorage.m in Sources */,
 				6E0CD69F1D27198A0045FE8C /* AVAStorageBucket.m in Sources */,
 				6E171B5B1D234717000DC480 /* AVADeviceLog.m in Sources */,
