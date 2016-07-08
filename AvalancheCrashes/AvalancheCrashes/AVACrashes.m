@@ -2,7 +2,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "AVACrashes.h"
+#import "AVACrashesPrivate.h"
 #import "AvalancheHub+Internal.h"
 
 @implementation AVACrashes

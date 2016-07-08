@@ -8,7 +8,7 @@
 static char *const AVADataItemsOperationsQueue =
     "com.microsoft.avalanche.ChannelQueue";
 static NSUInteger const AVADefaultBatchSize = 50;
-static float const AVADefaultFlushInterval = 15.0;
+static float const AVADefaultFlushInterval = 3.0;
 static NSString* const kAVAStorageKey = @"storageKey";
 
 @implementation AVAChannelDefault
@@ -79,8 +79,7 @@ static NSString* const kAVAStorageKey = @"storageKey";
   
   [self.storage loadLogsForStorageKey:kAVAStorageKey withCompletion:^(NSArray<AVALog> * _Nonnull logArray, NSString * _Nonnull batchId) {
     
-    AVALogContainer* container = [[AVALogContainer alloc] initWithBatchId:batchId];
-    container.logs = logArray;
+    AVALogContainer* container = [[AVALogContainer alloc] initWithBatchId:batchId andLogs:logArray];
     
     [self.sender sendAsync:container completionHandler:^(NSError *error, NSUInteger statusCode, NSString *batchId) {
       

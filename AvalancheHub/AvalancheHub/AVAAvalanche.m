@@ -4,6 +4,8 @@
 #import "AVAHttpSender.h"
 #import "AVAFileStorage.h"
 
+static NSString* const kAVABaseUrl = @"https://microsoft.com";
+
 @implementation AVAAvalanche
 
 + (id)sharedInstance {
@@ -50,7 +52,7 @@
 }
 
 - (void)initializePipeline {
-  AVAHttpSender *sender = [[AVAHttpSender alloc] initWithBaseUrl:@"http://myEndpoint.com"];
+  AVAHttpSender *sender = [[AVAHttpSender alloc] initWithBaseUrl:kAVABaseUrl];
   AVAFileStorage *storage = [[AVAFileStorage alloc] init];
   _channel = [[AVAChannelDefault alloc] initWithSender:sender storage:storage];
 }
@@ -78,6 +80,10 @@
 - (NSString*)apiVersion {
   // TODO
   return _apiVersion;
+}
+
+- (void)send:(id<AVALog>)log {
+  [self.channel enqueueItem:log];
 }
 
 @end

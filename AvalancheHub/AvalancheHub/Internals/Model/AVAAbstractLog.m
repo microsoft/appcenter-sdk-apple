@@ -17,9 +17,12 @@ static NSString *const kAVAType = @"type";
 @synthesize sid;
 
 - (void)write:(NSMutableDictionary *)dic {
-  dic[kAVAType] = self.type;
-  dic[kAVAToffset] = self.toffset;
-  dic[kAVASID] = [self.sid UUIDString];
+  if (self.type)
+    dic[kAVAType] = self.type;
+  if (self.toffset)
+    dic[kAVAToffset] = self.toffset;
+  if (self.sid)
+    dic[kAVASID] = [self.sid UUIDString];
 }
 
 - (void)read:(NSDictionary *)obj {
@@ -31,7 +34,8 @@ static NSString *const kAVAType = @"type";
 
   // Set properties
   self.toffset = obj[kAVAToffset];
-  self.sid = obj[kAVASID];
+  // TODO:
+  self.sid = [[NSUUID alloc] initWithUUIDString:obj[kAVASID]];
 }
 
 - (BOOL)isValid {

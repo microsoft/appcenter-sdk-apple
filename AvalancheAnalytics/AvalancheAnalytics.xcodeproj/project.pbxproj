@@ -39,6 +39,12 @@
 		E85547F81D2D6A7D002DF6E2 /* AVAAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547C31D2D6253002DF6E2 /* AVAAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E85547F91D2D6A9B002DF6E2 /* AvalancheHub+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547CF1D2D6521002DF6E2 /* AvalancheHub+Internal.h */; };
 		E85547FA1D2D6A9E002DF6E2 /* AVAAnalyticsPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547CE1D2D64F0002DF6E2 /* AVAAnalyticsPrivate.h */; };
+		E8A8D1981D2F40ED0022931E /* AVAEndSessionLog.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A8D1931D2F40ED0022931E /* AVAEndSessionLog.m */; };
+		E8A8D1991D2F40ED0022931E /* AVAEventLog.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A8D1951D2F40ED0022931E /* AVAEventLog.m */; };
+		E8A8D19A1D2F40ED0022931E /* AVAPageLog.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A8D1971D2F40ED0022931E /* AVAPageLog.m */; };
+		E8A8D19E1D2F442B0022931E /* AVAEndSessionLog.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A8D1931D2F40ED0022931E /* AVAEndSessionLog.m */; };
+		E8A8D19F1D2F442B0022931E /* AVAEventLog.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A8D1951D2F40ED0022931E /* AVAEventLog.m */; };
+		E8A8D1A01D2F442B0022931E /* AVAPageLog.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A8D1971D2F40ED0022931E /* AVAPageLog.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +83,12 @@
 		E85547E11D2D6792002DF6E2 /* buildnumber.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = buildnumber.xcconfig; sourceTree = "<group>"; };
 		E85547E21D2D6792002DF6E2 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		E85547E31D2D6792002DF6E2 /* release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = release.xcconfig; sourceTree = "<group>"; };
+		E8A8D1921D2F40ED0022931E /* AVAEndSessionLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAEndSessionLog.h; sourceTree = "<group>"; };
+		E8A8D1931D2F40ED0022931E /* AVAEndSessionLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAEndSessionLog.m; sourceTree = "<group>"; };
+		E8A8D1941D2F40ED0022931E /* AVAEventLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAEventLog.h; sourceTree = "<group>"; };
+		E8A8D1951D2F40ED0022931E /* AVAEventLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAEventLog.m; sourceTree = "<group>"; };
+		E8A8D1961D2F40ED0022931E /* AVAPageLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAPageLog.h; sourceTree = "<group>"; };
+		E8A8D1971D2F40ED0022931E /* AVAPageLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAPageLog.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +143,7 @@
 		E85547CD1D2D64B0002DF6E2 /* Internals */ = {
 			isa = PBXGroup;
 			children = (
+				E8A8D1911D2F40ED0022931E /* Model */,
 				E85547CF1D2D6521002DF6E2 /* AvalancheHub+Internal.h */,
 				E85547CE1D2D64F0002DF6E2 /* AVAAnalyticsPrivate.h */,
 			);
@@ -155,6 +168,19 @@
 				E85547D91D2D6723002DF6E2 /* Info.plist */,
 			);
 			path = AvalancheAnalyticsTests;
+			sourceTree = "<group>";
+		};
+		E8A8D1911D2F40ED0022931E /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E8A8D1921D2F40ED0022931E /* AVAEndSessionLog.h */,
+				E8A8D1931D2F40ED0022931E /* AVAEndSessionLog.m */,
+				E8A8D1941D2F40ED0022931E /* AVAEventLog.h */,
+				E8A8D1951D2F40ED0022931E /* AVAEventLog.m */,
+				E8A8D1961D2F40ED0022931E /* AVAPageLog.h */,
+				E8A8D1971D2F40ED0022931E /* AVAPageLog.m */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -297,7 +323,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E8A8D19E1D2F442B0022931E /* AVAEndSessionLog.m in Sources */,
 				E85547C61D2D6253002DF6E2 /* AVAAnalytics.m in Sources */,
+				E8A8D1A01D2F442B0022931E /* AVAPageLog.m in Sources */,
+				E8A8D19F1D2F442B0022931E /* AVAEventLog.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -305,7 +334,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E8A8D1981D2F40ED0022931E /* AVAEndSessionLog.m in Sources */,
 				E85547D81D2D6723002DF6E2 /* AvalancheAnalyticsTests.m in Sources */,
+				E8A8D19A1D2F40ED0022931E /* AVAPageLog.m in Sources */,
+				E8A8D1991D2F40ED0022931E /* AVAEventLog.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -500,6 +532,7 @@
 				E85547DF1D2D6723002DF6E2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E85547E51D2D681F002DF6E2 /* Build configuration list for PBXAggregateTarget "Fat Framework" */ = {
 			isa = XCConfigurationList;
@@ -508,6 +541,7 @@
 				E85547E71D2D681F002DF6E2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E85547EA1D2D68C5002DF6E2 /* Build configuration list for PBXAggregateTarget "Jazzy Docs" */ = {
 			isa = XCConfigurationList;
@@ -516,6 +550,7 @@
 				E85547EC1D2D68C5002DF6E2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -2,8 +2,9 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "AVAAnalytics.h"
+#import "AVAAnalyticsPrivate.h"
 #import "AvalancheHub+Internal.h"
+#import "AVAEventLog.h"
 
 @implementation AVAAnalytics
 
@@ -18,6 +19,20 @@
 
 - (void)startFeature {  
   AVALogVerbose(@"AVAAnalytics: Started analytics module");
+}
+
++ (void)sendLog:(NSString*)log {
+  [[self sharedInstance] sendLog:log];
+}
+
+- (void)sendLog:(NSString*)name {
+
+  // Set log
+  AVAEventLog *log = [[AVAEventLog alloc] init];
+  log.name = name;
+  log.sid = [NSUUID UUID];
+  
+  [self.delegate send:log];
 }
 
 @end

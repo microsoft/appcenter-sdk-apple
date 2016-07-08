@@ -4,7 +4,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "AVALogWithProperties.h"
+#import "AvalancheHub+Internal.h"
 
 @interface AVAPageLog : AVALogWithProperties
 

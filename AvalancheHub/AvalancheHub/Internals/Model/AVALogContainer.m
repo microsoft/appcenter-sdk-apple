@@ -6,9 +6,10 @@
 
 @implementation AVALogContainer
 
-- (id)initWithBatchId:(NSString *)batchId {
+- (id)initWithBatchId:(NSString *)batchId andLogs:(NSArray<AVALog>*)logs {
   if (self = [super init]) {
     self.batchId = batchId;
+    self.logs = logs;
   }
   return self;
 }

@@ -2,7 +2,7 @@
 #import "AVALogger.h"
 #import "AVAFileStorage.h"
 #import "AVAFile.h"
-#import "AVAEventLog.h"
+#import "AVAAbstractLog.h"
 
 static NSString *const kAVALogsDirectory = @"com.microsoft.avalanche/logs";
 static NSString *const kAVAFileExtension = @"ava";
@@ -50,7 +50,8 @@ static NSUInteger const AVADefaultBucketFileCountLimit = 50;
   AVAFile *file = bucket.currentFile;
   NSData *logData = [AVAFileHelper dataForFile:file];
   NSDictionary *logDict = [NSKeyedUnarchiver unarchiveObjectWithData:logData];
-  AVAEventLog *log = [AVAEventLog new];
+  
+  AVAAbstractLog* log = [AVAAbstractLog new];
   [log read:logDict];
   NSArray<AVALog> *logArray = [NSArray<AVALog> arrayWithObject:log];
   
