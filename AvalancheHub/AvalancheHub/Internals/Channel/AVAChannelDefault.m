@@ -9,6 +9,7 @@ static char *const AVADataItemsOperationsQueue =
     "com.microsoft.avalanche.ChannelQueue";
 static NSUInteger const AVADefaultBatchSize = 50;
 static float const AVADefaultFlushInterval = 15.0;
+static NSString* const kAVAStorageKey = @"storageKey";
 
 @implementation AVAChannelDefault
 
@@ -57,7 +58,10 @@ static float const AVADefaultFlushInterval = 15.0;
 
     // TODO: Pass object to storage
     _itemsCount += 1;
-
+    
+    // save log
+    [self.storage saveLog:item withStorageKey:kAVAStorageKey];
+    
     if (completion)
       completion(YES);
 
@@ -72,6 +76,17 @@ static float const AVADefaultFlushInterval = 15.0;
 - (void)flushQueue {
   // TODO: Get batch from storage and forward it to sender
   _itemsCount = 0;
+  
+  [self.storage loadLogsForStorageKey:kAVAStorageKey withCompletion:^(NSArray<AVALog> * _Nonnull logArray, NSString * _Nonnull batchId) {
+    
+    AVALogContainer* container = [[AVALogContainer alloc] initWithBatchId:batchId];
+    container.logs = logArray;
+    
+    [self.sender sendAsync:container completionHandler:^(NSError *error, NSUInteger statusCode, NSString *batchId) {
+      
+      AVALogVerbose(@"log sent with error:%@ with statusCode:%ld", [error localizedDescription], statusCode);
+    }];
+  }];
 }
 
 - (NSUInteger)batchSize {

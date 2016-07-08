@@ -8,8 +8,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void (^loadDataCompletionBlock)(NSArray<NSObject<AVALog> *> *,
-                                        NSString *);
+typedef void (^loadDataCompletionBlock)(NSArray<AVALog> * logArray,
+                                        NSString *batchId);
 
 /**
  Defines the storage component which is responsible for file i/o and file
