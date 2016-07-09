@@ -14,7 +14,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   // Start Avalanche SDK
   [AVAAvalanche setLogLevel:AVALogLevelVerbose];
-  [AVAAvalanche useFeatures:@[[AVAAnalytics class], [AVACrashes class]] withAppId:@"puppetId"];
+  [AVAAvalanche useFeatures:@[[AVAAnalytics class], [AVACrashes class]] withAppKey:@"puppetAppKey"];
   return YES;
 }
 

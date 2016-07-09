@@ -15,15 +15,20 @@
 
 @interface AVAAvalanche () <AVAAvalancheDelegate>
 
-@property (nonatomic, strong) id<AVAChannel> channel;
-@property (nonatomic, strong) NSMutableArray<NSObject<AVAFeaturePrivate> *> *features;
-@property (nonatomic, copy) NSString *appId;
-@property (nonatomic, retain) NSString *uuid;
-@property (nonatomic, retain) NSString *apiVersion;
+@property (nonatomic) id<AVAChannel> channel;
+@property (nonatomic) NSMutableArray<NSObject<AVAFeaturePrivate> *> *features;
+@property (nonatomic, copy) NSString *appKey;
+@property (nonatomic) NSUUID *sid;
+@property (nonatomic) NSUUID *installId;
+@property (nonatomic) NSString *apiVersion;
+@property (nonatomic) NSDate *lastLogSent;
+@property (nonatomic) NSDate *lastActivityPaused;
 @property BOOL featuresStarted;
 
-- (NSString*)appId;
-- (NSString*)UUID;
+- (NSString*)appKey;
+- (NSUUID*)sid;
+- (NSUUID*)installId;
 - (NSString*)apiVersion;
+- (void)setInstallId;
 
 @end

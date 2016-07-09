@@ -47,7 +47,6 @@
   // Set log
   AVAEventLog *log = [[AVAEventLog alloc] init];
   log.name = name;
-  log.sid = [[NSUUID alloc] initWithUUIDString:[self.delegate getSessionId]];
   log.toffset = [NSNumber numberWithInteger:[[NSDate date] timeIntervalSince1970]];
   log._id = [NSUUID UUID];
   

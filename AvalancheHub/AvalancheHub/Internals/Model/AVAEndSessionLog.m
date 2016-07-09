@@ -4,7 +4,7 @@
 
 #import "AVAEndSessionLog.h"
 
-static NSString *const kAVATypeEndSession = @"EndSession";
+static NSString *const kAVATypeEndSession = @"endSession";
 
 @implementation AVAEndSessionLog
 

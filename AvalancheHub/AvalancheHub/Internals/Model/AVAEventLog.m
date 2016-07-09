@@ -4,7 +4,7 @@
 
 #import "AVAEventLog.h"
 
-static NSString *const kAVATypeEvent = @"Event";
+static NSString *const kAVATypeEvent = @"event";
 
 static NSString *const kAVAId = @"id";
 static NSString *const kAVAName = @"name";

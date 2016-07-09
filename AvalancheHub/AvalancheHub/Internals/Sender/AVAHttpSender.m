@@ -121,8 +121,8 @@ static NSString *const kContentType = @"Content-Type";
 
     _headerParam = @{
       kContentType : kContentTypeJSON,
-      kAppId : [[AVAAvalanche sharedInstance] appId],
-      kInstallID : [[AVAAvalanche sharedInstance] UUID],
+      kAppId : [[AVAAvalanche sharedInstance] appKey],
+      kInstallID : [[[AVAAvalanche sharedInstance] installId] UUIDString],
     };
   }
 

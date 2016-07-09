@@ -4,7 +4,7 @@
 
 #import "AVAPageLog.h"
 
-static NSString *const kAVATypePage = @"Page";
+static NSString *const kAVATypePage = @"page";
 
 @implementation AVAPageLog
 
@@ -23,7 +23,7 @@ static NSString *const kAVATypePage = @"Page";
 
 - (void)read:(NSDictionary *)obj {
   [super read:obj];
-  
+
   // TODO
 }
 
