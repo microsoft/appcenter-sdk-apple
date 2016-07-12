@@ -2,8 +2,9 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "AVAFile.h"
 #import <Foundation/Foundation.h>
+#import "AVALog.h"
+#import "AVAFile.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -16,6 +17,11 @@ NS_ASSUME_NONNULL_BEGIN
  * The file instance representing the current file used for adding new logs.
  */
 @property(nonatomic, strong) AVAFile *currentFile;
+
+/**
+ * A in-memory list of all items that have been added to the current batch.
+ */
+@property(nonatomic, strong) NSMutableArray<AVALog> *currentLogs;
 
 /**
  * A list of file names that are currently used by other components.

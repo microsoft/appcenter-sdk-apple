@@ -6,6 +6,7 @@
   if (self = [super init]) {
     _availableFiles = [NSMutableArray new];
     _blockedFiles = [NSMutableArray new];
+    _currentLogs = [NSMutableArray<AVALog> new];
   }
   return self;
 }
