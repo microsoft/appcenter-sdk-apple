@@ -7,6 +7,7 @@
 #import "AVAFileHelper.h"
 #import "AVAStorageTestHelper.h"
 #import "AVAFile.h"
+#import "AVAEventLog.h"
 
 @interface AVAFileStorageTests : XCTestCase
 
@@ -20,7 +21,7 @@
 
 - (void)setUp {
   [super setUp];
-  _sut = [AVAFileStorage new];
+  self.sut = [AVAFileStorage new];
 }
 
 - (void)tearDown {
@@ -42,7 +43,7 @@
   NSString *expected = [AVAStorageTestHelper filePathForLogWithId:logsId extension:@"ava" storageKey:storageKey];
 
   // When
-  NSString *actual = [_sut filePathForStorageKey:storageKey logsId:logsId];
+  NSString *actual = [self.sut filePathForStorageKey:storageKey logsId:logsId];
   
   // Then
   assertThat(actual, equalTo(expected));
@@ -53,33 +54,36 @@
   // If
   NSString *storageKey = @"TestDirectory";
   id fileHelperMock = OCMClassMock([AVAFileHelper class]);
-  NSData *logData = [NSData new];
-  assertThat(_sut.buckets[storageKey], nilValue());
+  AVAEventLog *log = [AVAEventLog new];
+  AVAStorageBucket *bucket = self.sut.buckets[storageKey];
+  assertThat(bucket, nilValue());
   
   // When
-  [_sut saveLog:logData withStorageKey:storageKey];
+  [self.sut saveLog:log withStorageKey:storageKey];
   
   // Verify
-  AVAFile *currentFile = _sut.buckets[storageKey].currentFile;
-  assertThat(currentFile, notNilValue());
-  assertThat(currentFile.creationDate, notNilValue());
-  assertThat(currentFile.fileId, notNilValue());
-  
-  OCMVerify([fileHelperMock appendData:logData toFile:currentFile]);
+  AVAStorageBucket *actualBucket = self.sut.buckets[storageKey];
+  AVAFile *actualCurrentFile = actualBucket.currentFile;
+  assertThat(actualCurrentFile, notNilValue());
+  assertThat(actualBucket.currentLogs, hasItem(log));
+  assertThat(actualCurrentFile.creationDate, notNilValue());
+  assertThat(actualCurrentFile.fileId, notNilValue());
+  OCMVerify([fileHelperMock writeData:[NSKeyedArchiver archivedDataWithRootObject:actualBucket.currentLogs] toFile:actualCurrentFile]);
 }
 
 - (void)testCreatingNewBucketsWillLoadExistingFiles {
   
   // If
   NSString *storageKey = @"TestDirectory";
+  AVAEventLog *log = [AVAEventLog new];
   AVAFile *expected = [AVAStorageTestHelper createFileWithId:@"test123" data:[NSData new] extension:@"ava" storageKey:storageKey creationDate:[NSDate date]];
-  assertThat(_sut.buckets[storageKey], nilValue());
+  assertThat(self.sut.buckets[storageKey], nilValue());
   
   // When
-  [_sut saveLog:[NSData new] withStorageKey:storageKey];
+  [self.sut saveLog:log withStorageKey:storageKey];
   
   // Verify
-  AVAStorageBucket *bucket = _sut.buckets[storageKey];
+  AVAStorageBucket *bucket = self.sut.buckets[storageKey];
   AVAFile *actual = bucket.availableFiles[0];
   assertThatInteger(bucket.availableFiles.count, equalToInteger(1));
   assertThat(actual.filePath, equalTo(expected.filePath));
@@ -91,36 +95,50 @@
   
   // If
   NSString *storageKey = @"TestDirectory";
-  NSData *logData = [NSData new];
-  [_sut saveLog:logData withStorageKey:storageKey];
-  assertThat(_sut.buckets[storageKey].blockedFiles, isEmpty());
-  assertThat(_sut.buckets[storageKey].availableFiles, isEmpty());
+  [self.sut saveLog:[AVAEventLog new] withStorageKey:storageKey];
+  assertThat(self.sut.buckets[storageKey].blockedFiles, isEmpty());
+  assertThat(self.sut.buckets[storageKey].availableFiles, isEmpty());
   
   // When
-  [_sut loadLogsForStorageKey:storageKey withCompletion:nil];
+  [self.sut loadLogsForStorageKey:storageKey withCompletion:nil];
   
   // Verify
-  assertThatInteger(_sut.buckets[storageKey].blockedFiles.count, equalToInteger(1));
-  assertThat(_sut.buckets[storageKey].availableFiles, isEmpty());
+  assertThatInteger(self.sut.buckets[storageKey].blockedFiles.count, equalToInteger(1));
+  assertThat(self.sut.buckets[storageKey].availableFiles, isEmpty());
+}
+
+- (void)testRequestingCurrentFileWillEmptyCurrentLogs {
+  
+  // If
+  NSString *storageKey = @"directory";
+  AVAEventLog *log = [AVAEventLog new];
+  [self.sut saveLog:log withStorageKey:storageKey];
+  assertThatInteger(self.sut.buckets[storageKey].currentLogs.count, equalToInteger(1));
+  
+  // When
+  [self.sut loadLogsForStorageKey:storageKey withCompletion:nil];
+  
+  // Verify
+  assertThat(self.sut.buckets[storageKey].currentLogs, isEmpty());
 }
 
 - (void)testDeleteFileRemovesLogsIdFromBlockedFilesList {
   
   // If
   NSString *storageKey = @"TestDirectory";
-  [_sut saveLog:[NSData new] withStorageKey:storageKey];
+  [self.sut saveLog:[AVAEventLog new] withStorageKey:storageKey];
   __block NSString *batchId;
-  [_sut loadLogsForStorageKey:storageKey withCompletion:^(NSArray<NSObject<AVALog> *> *logs,
+  [self.sut loadLogsForStorageKey:storageKey withCompletion:^(NSArray<NSObject<AVALog> *> *logs,
                                                           NSString *logsId) {
     batchId = logsId;
   }];
-  assertThatInteger(_sut.buckets[storageKey].blockedFiles.count, equalToInteger(1));
+  assertThatInteger(self.sut.buckets[storageKey].blockedFiles.count, equalToInteger(1));
   
   // When
-  [_sut deleteLogsForId:batchId withStorageKey:storageKey];
+  [self.sut deleteLogsForId:batchId withStorageKey:storageKey];
   
   // Verify
-  assertThatInteger(_sut.buckets[storageKey].blockedFiles.count, equalToInteger(0));
+  assertThatInteger(self.sut.buckets[storageKey].blockedFiles.count, equalToInteger(0));
 }
 
 - (void)testDeleteFileWillCallFileHelperMethod {
@@ -129,17 +147,17 @@
     id fileHelperMock = OCMClassMock([AVAFileHelper class]);
   NSString *storageKey = @"TestDirectory";
   
-  [_sut saveLog:[NSData new] withStorageKey:storageKey];
+  [self.sut saveLog:[AVAEventLog new] withStorageKey:storageKey];
   AVAFile *currentFile = [AVAStorageTestHelper createFileWithId:@"id" data:[NSData new] extension:@"ava" storageKey:storageKey creationDate:[NSDate date]];
-  _sut.buckets[storageKey].currentFile = currentFile;
+  self.sut.buckets[storageKey].currentFile = currentFile;
   __block NSString *batchId;
-  [_sut loadLogsForStorageKey:storageKey withCompletion:^(NSArray<NSObject<AVALog> *> *logs,
+  [self.sut loadLogsForStorageKey:storageKey withCompletion:^(NSArray<NSObject<AVALog> *> *logs,
                                                           NSString *logsId) {
     batchId = logsId;
   }];
   
   // When
-  [_sut deleteLogsForId:batchId withStorageKey:storageKey];
+  [self.sut deleteLogsForId:batchId withStorageKey:storageKey];
   
   // Verify
   OCMVerify([fileHelperMock deleteFile:currentFile]);
