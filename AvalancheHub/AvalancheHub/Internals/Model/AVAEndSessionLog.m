@@ -26,6 +26,12 @@ static NSString *const kAVATypeEndSession = @"endSession";
   return [super isValid];
 }
 
++ (BOOL)propertyIsOptional:(NSString *)propertyName {
+  
+  NSArray *optionalProperties = @[];
+  return [optionalProperties containsObject:propertyName];
+}
+
 #pragma mark - NSCoding
 
 - (instancetype)initWithCoder:(NSCoder *)coder {

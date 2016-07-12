@@ -57,4 +57,10 @@
   return isValid;
 }
 
++ (BOOL)propertyIsOptional:(NSString *)propertyName {
+  
+  NSArray *optionalProperties = @[];
+  return [optionalProperties containsObject:propertyName];
+}
+
 @end

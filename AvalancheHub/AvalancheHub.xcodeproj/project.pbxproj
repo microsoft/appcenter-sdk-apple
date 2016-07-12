@@ -358,22 +358,17 @@
 		6E171B511D234717000DC480 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				6E3E2CA51D358C2100B1EE50 /* Analytics */,
 				E88EBBF61D2C717D007E7785 /* Utils */,
 				6E3E2C9D1D35701000B1EE50 /* AVALog.h */,
 				E88EBBEA1D2C612E007E7785 /* AVAAbstractLog.h */,
 				E88EBBEB1D2C612E007E7785 /* AVAAbstractLog.m */,
 				6E171B521D234717000DC480 /* AVADeviceLog.h */,
 				6E171B531D234717000DC480 /* AVADeviceLog.m */,
-				E8A8D1A71D2F92540022931E /* AVAEndSessionLog.h */,
-				E8A8D1A81D2F92540022931E /* AVAEndSessionLog.m */,
-				E8A8D1A91D2F92540022931E /* AVAEventLog.h */,
-				E8A8D1AA1D2F92540022931E /* AVAEventLog.m */,
 				6E171B581D234717000DC480 /* AVALogContainer.h */,
 				6E171B591D234717000DC480 /* AVALogContainer.m */,
 				E8010E661D2DD4EF0035196F /* AVALogWithProperties.h */,
 				E8010E671D2DD4EF0035196F /* AVALogWithProperties.m */,
-				E8A8D1A31D2F914F0022931E /* AVAPageLog.h */,
-				E8A8D1A41D2F914F0022931E /* AVAPageLog.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -416,6 +411,19 @@
 				6E363AF11D2C84EA0079043D /* AVAStorageTestHelper.m */,
 			);
 			name = Helper;
+			sourceTree = "<group>";
+		};
+		6E3E2CA51D358C2100B1EE50 /* Analytics */ = {
+			isa = PBXGroup;
+			children = (
+				E8A8D1A71D2F92540022931E /* AVAEndSessionLog.h */,
+				E8A8D1A81D2F92540022931E /* AVAEndSessionLog.m */,
+				E8A8D1A91D2F92540022931E /* AVAEventLog.h */,
+				E8A8D1AA1D2F92540022931E /* AVAEventLog.m */,
+				E8A8D1A31D2F914F0022931E /* AVAPageLog.h */,
+				E8A8D1A41D2F914F0022931E /* AVAPageLog.m */,
+			);
+			name = Analytics;
 			sourceTree = "<group>";
 		};
 		E84B8E221D234EBB006FD231 /* Sender */ = {

@@ -39,6 +39,12 @@ NSString *const kAVAType = @"type";
   return isValid;
 }
 
++ (BOOL)propertyIsOptional:(NSString *)propertyName {
+  
+  NSArray *optionalProperties = @[@"properties", ];
+  return [optionalProperties containsObject:propertyName];
+}
+
 #pragma mark - NSCoding
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
