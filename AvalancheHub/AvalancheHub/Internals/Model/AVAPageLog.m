@@ -15,20 +15,26 @@ static NSString *const kAVATypePage = @"page";
   return self;
 }
 
-- (void)write:(NSMutableDictionary *)dic {
-  [super write:dic];
-  
-  // TODO
-}
-
-- (void)read:(NSDictionary *)obj {
-  [super read:obj];
-
-  // TODO
+- (NSMutableDictionary *)serializeToDictionary {
+  NSMutableDictionary *dict = [super serializeToDictionary];
+  return dict;
 }
 
 - (BOOL)isValid {
   return [super isValid];
+}
+
+#pragma mark - NSCoding
+
+- (instancetype)initWithCoder:(NSCoder *)coder {
+  self = [super init];
+  if(self) {
+  }
+  
+  return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
 }
 
 @end

@@ -15,16 +15,26 @@ static NSString *const kAVATypeEndSession = @"endSession";
   return self;
 }
 
-- (void)write:(NSMutableDictionary *)dic {
-  [super write:dic];
-}
-
-- (void)read:(NSDictionary *)obj {
-  [super read:obj];
+- (NSMutableDictionary *)serializeToDictionary {
+  NSMutableDictionary *dict = [super serializeToDictionary];
+  return dict;
 }
 
 - (BOOL)isValid {
   return [super isValid];
+}
+
+#pragma mark - NSCoding
+
+- (instancetype)initWithCoder:(NSCoder *)coder {
+  self = [super init];
+  if(self) {
+  }
+  
+  return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
 }
 
 @end

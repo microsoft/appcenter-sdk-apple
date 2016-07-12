@@ -6,7 +6,6 @@
 
 @protocol AVALog
 
-
 /**
  * Log type.
  */
@@ -26,8 +25,19 @@
  */
 @property(nonatomic) NSUUID *sid;
 
-- (void)read:(NSDictionary *)obj;
-- (void)write:(NSMutableDictionary *)dic;
+/**
+ * Checks if the object's values are valid.
+ *
+ * return YES, if the object is valid
+ */
 - (BOOL)isValid;
+
+@required
+/**
+ * Checks if the object's values are valid.
+ *
+ * return YES, if the object is valid
+ */
+- (NSMutableDictionary *)serializeToDictionary;
 
 @end

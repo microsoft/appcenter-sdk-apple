@@ -10,20 +10,15 @@ static NSString *const kAVAProperties = @"properties";
 
 @implementation AVALogWithProperties
 
-@synthesize properties;
+@synthesize properties = _properties;
 
-- (void)write:(NSMutableDictionary *)dic {
-  [super write:dic];
-
-  // Set properties
-  if (self.properties)
-    dic[kAVAProperties] = self.properties;
-}
-
-- (void)read:(NSDictionary *)obj {
-  [super read:obj];
-
-  self.properties = obj[kAVAProperties];
+- (NSMutableDictionary *)serializeToDictionary {
+  NSMutableDictionary *dict = [super serializeToDictionary];
+  
+  if (self.properties) {
+    dict[kAVAProperties] = self.properties;
+  }
+  return dict;
 }
 
 - (BOOL)isValid {
@@ -31,6 +26,21 @@ static NSString *const kAVAProperties = @"properties";
 
   isValid = (!self.properties || [super isValid]);
   return isValid;
+}
+
+#pragma mark - NSCoding
+
+- (instancetype)initWithCoder:(NSCoder *)coder {
+  self = [super init];
+  if(self) {
+    _properties = [coder decodeObjectForKey:kAVAProperties];
+  }
+  
+  return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+  [coder encodeObject:self.properties forKey:kAVAProperties];
 }
 
 @end

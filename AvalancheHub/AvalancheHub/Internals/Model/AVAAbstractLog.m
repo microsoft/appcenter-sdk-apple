@@ -12,30 +12,23 @@ static NSString *const kAVAType = @"type";
 
 @implementation AVAAbstractLog
 
-@synthesize type;
-@synthesize toffset;
-@synthesize sid;
+@synthesize type = _type;
+@synthesize toffset = _toffset;
+@synthesize sid = _sid;
 
-- (void)write:(NSMutableDictionary *)dic {
-  if (self.type)
-    dic[kAVAType] = self.type;
-  if (self.toffset)
-    dic[kAVAToffset] = self.toffset;
-  if (self.sid)
-    dic[kAVASID] = [self.sid UUIDString];
-}
-
-- (void)read:(NSDictionary *)obj {
-  if (![obj[kAVAType] isEqualToString:[self type]]) {
-
-    AVALogError(@"ERROR: invalid object");
-    return;
+- (NSMutableDictionary *)serializeToDictionary {
+  NSMutableDictionary *dict = [NSMutableDictionary new];
+  
+  if (self.type) {
+    dict[kAVAType] = self.type;
   }
-
-  // Set properties
-  self.toffset = obj[kAVAToffset];
-  // TODO:
-  self.sid = [[NSUUID alloc] initWithUUIDString:obj[kAVASID]];
+  if (self.toffset) {
+    dict[kAVAToffset] = self.toffset;
+  }
+  if (self.sid) {
+    dict[kAVASID] = [self.sid UUIDString];
+  }
+  return dict;
 }
 
 - (BOOL)isValid {
@@ -44,6 +37,24 @@ static NSString *const kAVAType = @"type";
   // Is valid
   isValid = (!self.type || !self.sid || !self.toffset);
   return isValid;
+}
+
+#pragma mark - NSCoding
+
+- (instancetype)initWithCoder:(NSCoder *)coder {
+  self = [super init];
+  if(self) {
+    _type = [coder decodeObjectForKey:kAVAType];
+    _toffset = [coder decodeObjectForKey:kAVAToffset];
+    _sid = [coder decodeObjectForKey:kAVASID];
+  }
+  return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+  [coder encodeObject:self.type forKey:kAVAType];
+  [coder encodeObject:self.toffset forKey:kAVAToffset];
+  [coder encodeObject:self.sid forKey:kAVASID];
 }
 
 @end

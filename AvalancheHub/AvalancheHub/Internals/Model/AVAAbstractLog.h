@@ -5,6 +5,6 @@
 #import "AVALog.h"
 #import <Foundation/Foundation.h>
 
-@interface AVAAbstractLog : NSObject <AVALog>
+@interface AVAAbstractLog : NSObject <AVALog, NSCoding>
 
 @end
