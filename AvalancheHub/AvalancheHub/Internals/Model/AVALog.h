@@ -23,7 +23,7 @@
  * is not necessarily an analytics session, it can be used to only track
  * crashes.
  */
-@property(nonatomic) NSUUID *sid;
+@property(nonatomic) NSString *sid;
 
 /**
  * Checks if the object's values are valid.

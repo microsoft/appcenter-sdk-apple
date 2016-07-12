@@ -8,7 +8,7 @@
 
 static NSString *const kAVASID = @"sid";
 static NSString *const kAVAToffset = @"toffset";
-static NSString *const kAVAType = @"type";
+NSString *const kAVAType = @"type";
 
 @implementation AVAAbstractLog
 
@@ -26,7 +26,7 @@ static NSString *const kAVAType = @"type";
     dict[kAVAToffset] = self.toffset;
   }
   if (self.sid) {
-    dict[kAVASID] = [self.sid UUIDString];
+    dict[kAVASID] = self.sid;
   }
   return dict;
 }
