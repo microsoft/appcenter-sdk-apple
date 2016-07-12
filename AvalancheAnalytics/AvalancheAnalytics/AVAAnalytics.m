@@ -26,11 +26,7 @@
   _delegate = delegate;
 }
 
-+ (void)enable {
-  
-}
-
-+ (void)disable {
++ (void)setEnable:(BOOL)isEnabled {
   
 }
 
@@ -38,19 +34,23 @@
   return YES;
 }
 
-+ (void)sendLog:(NSString*)log {
-  [[self sharedInstance] sendLog:log];
++ (void)sendEventLog:(NSString*)log {
+  [[self sharedInstance] sendEventLog:log];
 }
 
-- (void)sendLog:(NSString*)name {
+- (void)sendEventLog:(NSString*)name {
 
-  // Set log
-  AVAEventLog *log = [[AVAEventLog alloc] init];
-  log.name = name;
-  log.toffset = [NSNumber numberWithInteger:[[NSDate date] timeIntervalSince1970]];
-  log._id = [NSUUID UUID];
-  
-  [self.delegate send:log];
+  // Send async
+  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    // Set log
+    AVAEventLog *log = [[AVAEventLog alloc] init];
+    log.name = name;
+    log.toffset = [NSNumber numberWithInteger:[[NSDate date] timeIntervalSince1970]];
+    log.eventId = [NSUUID UUID];
+
+    // Send log to core module
+    [self.delegate feature:self didCreateLog:log];
+  });
 }
 
 @end

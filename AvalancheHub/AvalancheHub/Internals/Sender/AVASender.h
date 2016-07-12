@@ -6,6 +6,8 @@
 #import "AVALogContainer.h"
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 typedef void (^AVASendAsyncCompletionHandler)(NSError *error,
                                               NSUInteger statusCode,
                                               NSString *batchId);
@@ -16,8 +18,10 @@ typedef void (^AVASendAsyncCompletionHandler)(NSError *error,
  * Initialize the Sender
  *
  * @param url Base url
+ * @param headers Http headers
+ * @param queryStrings array of query strings
  */
-- (id)initWithBaseUrl:(NSString *)url;
+- (id)initWithBaseUrl:(NSString *)baseUrl headers:(NSDictionary *)headers queryStrings:(NSDictionary*)queryStrings;
 
 /**
  * Send logs in batch
@@ -32,7 +36,15 @@ typedef void (^AVASendAsyncCompletionHandler)(NSError *error,
                    priority:(float)priority
           completionHandler:(AVASendAsyncCompletionHandler)handler;
 
+
+/**
+ * Send logs in batch
+ *
+ * @param logs Batched log
+ * @param handler Completion handler
+ */
 - (NSNumber *)sendAsync:(AVALogContainer *)logs
       completionHandler:(AVASendAsyncCompletionHandler)handler;
 
 @end
+NS_ASSUME_NONNULL_END

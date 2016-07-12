@@ -6,11 +6,19 @@
 #import "AVAUtils.h"
 #import "AVASettings.h"
 
-static NSString* const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azure.com:8081";
-static NSString* const kAVAAPIVersion = @"1.0.0-preview20160901";
 static NSString* const kAVAInstallId = @"AVAInstallId";
 static NSTimeInterval const kAVASessionTimeOut = 20;
 
+// Http Headers + Query string
+static NSString *const kAVAAppKeyKey = @"App-Key";
+static NSString *const kAVAInstallIDKey = @"Install-ID";
+static NSString *const kAVAContentType = @"application/json";
+static NSString *const kAVAContentTypeKey = @"Content-Type";
+static NSString* const kAVAAPIVersion = @"1.0.0-preview20160901";
+static NSString* const kAVAAPIVersionKey = @"api-version";
+
+// Base URL
+static NSString* const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azure.com:8081";
 
 @implementation AVAAvalanche
 
@@ -35,7 +43,7 @@ static NSTimeInterval const kAVASessionTimeOut = 20;
   }
   
   if ([appKey length] == 0) {
-    AVALogError(@"ERROR: AppId is invalid");
+    AVALogError(@"ERROR: AppKey is invalid");
     return;
   }
   
@@ -61,7 +69,18 @@ static NSTimeInterval const kAVASessionTimeOut = 20;
 }
 
 - (void)initializePipeline {
-  AVAHttpSender *sender = [[AVAHttpSender alloc] initWithBaseUrl:kAVABaseUrl];
+  
+  // Construct the http header
+  NSDictionary *headers = @{
+                   kAVAContentTypeKey : kAVAContentType,
+                   kAVAAppKeyKey : _appKey,
+                   kAVAInstallIDKey : [_installId UUIDString]
+                   };
+  // Construct the query parameters
+  NSDictionary *queryStrings = @{ kAVAAPIVersionKey : kAVAAPIVersion };
+  AVAHttpSender *sender = [[AVAHttpSender alloc] initWithBaseUrl:kAVABaseUrl headers:headers queryStrings:queryStrings];
+  
+  // Init storage
   AVAFileStorage *storage = [[AVAFileStorage alloc] init];
   _channel = [[AVAChannelDefault alloc] initWithSender:sender storage:storage];
 }
@@ -94,8 +113,8 @@ static NSTimeInterval const kAVASessionTimeOut = 20;
   return _apiVersion;
 }
 
-- (void)send:(id<AVALog>)log {
-  // TODO
+- (void)feature:(id)feature didCreateLog:(id<AVALog>)log {
+  // TODO: Persist sid
   // Use fabs(absolute) since last sent time was in past and the delta is negative.
   if (log.sid == nil || (fabs([self.lastLogSent timeIntervalSinceNow]) >= kAVASessionTimeOut /* && fabs([self.lastActivityPaused timeIntervalSinceNow]) >= kAVASessionTimeOut */)) {
     self.sid = [NSUUID UUID];

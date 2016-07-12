@@ -26,12 +26,8 @@
   _delegate = delegate;
 }
 
-+ (void)enable {
-  
-}
++ (void)setEnable:(BOOL)isEnabled {
 
-+ (void)disable {
-  
 }
 
 + (BOOL)isEnabled {

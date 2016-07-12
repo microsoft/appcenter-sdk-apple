@@ -8,7 +8,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void (^loadDataCompletionBlock)(NSArray<AVALog> * logArray,
+typedef void (^AVALoadDataCompletionBlock)(NSArray<AVALog> * logArray,
                                         NSString *batchId);
 
 /**
@@ -51,7 +51,7 @@ typedef void (^loadDataCompletionBlock)(NSArray<AVALog> * logArray,
  * @return a list of logs
  */
 - (void)loadLogsForStorageKey:(NSString *)storageKey
-               withCompletion:(nullable loadDataCompletionBlock)completion;
+               withCompletion:(nullable AVALoadDataCompletionBlock)completion;
 
 /**
  * Determines if the maximum number of files has been reached.

@@ -21,8 +21,8 @@ static NSString *const kAVAName = @"name";
 - (void)write:(NSMutableDictionary *)dic {
   [super write:dic];
   
-  if (self._id)
-    dic[kAVAId] = [self._id UUIDString];
+  if (self.eventId)
+    dic[kAVAId] = [self.eventId UUIDString];
   
   if (self.name)
     dic[kAVAName] = self.name;
@@ -33,7 +33,7 @@ static NSString *const kAVAName = @"name";
   
   // Set properties
   self.name = obj[kAVAName];
-  self._id = [[NSUUID alloc] initWithUUIDString:obj[kAVAId]];
+  self.eventId = [[NSUUID alloc] initWithUUIDString:obj[kAVAId]];
 }
 
 - (BOOL)isValid {

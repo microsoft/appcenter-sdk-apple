@@ -134,7 +134,6 @@
 		E85547CD1D2D64B0002DF6E2 /* Internals */ = {
 			isa = PBXGroup;
 			children = (
-				E8A8D1911D2F40ED0022931E /* Model */,
 				E85547CF1D2D6521002DF6E2 /* AvalancheHub+Internal.h */,
 				E85547CE1D2D64F0002DF6E2 /* AVAAnalyticsPrivate.h */,
 			);
@@ -159,13 +158,6 @@
 				E85547D91D2D6723002DF6E2 /* Info.plist */,
 			);
 			path = AvalancheAnalyticsTests;
-			sourceTree = "<group>";
-		};
-		E8A8D1911D2F40ED0022931E /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

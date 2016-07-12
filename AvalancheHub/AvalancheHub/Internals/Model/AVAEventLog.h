@@ -10,7 +10,7 @@
 
 /** Unique identifier for this event.
  */
-@property(nonatomic) NSUUID *_id;
+@property(nonatomic) NSUUID *eventId;
 
 /** Name of the event.
  */

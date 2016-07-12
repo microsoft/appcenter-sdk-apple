@@ -7,6 +7,6 @@
 
 @protocol AVAAvalancheDelegate <NSObject>
 
-- (void)send:(id<AVALog>)log;
+- (void)feature:(id)feature didCreateLog:(id<AVALog>)log;
 
 @end

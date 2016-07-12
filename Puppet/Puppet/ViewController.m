@@ -18,7 +18,7 @@
 
 - (IBAction)onButtonTapped:(id)sender {
   
-  [AVAAnalytics sendLog:@"finally"];
+  [AVAAnalytics sendEventLog:@"finally"];
 }
 
 @end

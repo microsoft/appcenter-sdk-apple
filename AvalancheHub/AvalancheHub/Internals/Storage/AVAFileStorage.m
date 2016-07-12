@@ -44,7 +44,7 @@ static NSUInteger const AVADefaultBucketFileCountLimit = 50;
 }
 
 - (void)loadLogsForStorageKey:(NSString *)storageKey
-               withCompletion:(nullable loadDataCompletionBlock)completion {
+               withCompletion:(nullable AVALoadDataCompletionBlock)completion {
   // Read data from current file
   AVAStorageBucket *bucket = [self bucketForStorageKey:storageKey];
   AVAFile *file = bucket.currentFile;

@@ -13,14 +13,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, weak) id<AVAChannelDelegate> delegate;
 
 /**
- *	BaseURL to which relative paths are appended.
+ *	Send Url
  */
-@property(nonatomic, strong, readonly) NSString *baseURL;
+@property(nonatomic, strong, readonly) NSURL *sendURL;
 
 /**
  *	Request header parameters.
  */
-@property(nonatomic, strong) NSDictionary *headerParam;
+@property(nonatomic, strong) NSDictionary *httpHeaders;
 
 // Methods
 + (BOOL)isRecoverableError:(NSURLResponse *)response;
