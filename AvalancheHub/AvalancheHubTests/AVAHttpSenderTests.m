@@ -151,7 +151,7 @@ static NSString* const kAVAAppKey = @"mockAppKey";
 
 - (AVALogContainer *)createLogContainerWithId:(NSString *)batchId {
   AVAEndSessionLog* log1 = [[AVAEndSessionLog alloc] init];
-  log1.sid = [NSUUID UUID];
+  log1.sid = [[NSUUID UUID] UUIDString];
   
   AVADeviceLog* log2 = [[AVADeviceLog alloc] init];
   log2.sdkVersion = @"1.0.0";

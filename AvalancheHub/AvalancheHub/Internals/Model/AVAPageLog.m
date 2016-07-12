@@ -6,17 +6,25 @@
 
 static NSString *const kAVATypePage = @"page";
 
+static NSString *const kAVAName = @"name";
+
 @implementation AVAPageLog
+
+@synthesize type = _type;
 
 - (instancetype)init {
   if (self = [super init]) {
-    self.type = kAVATypePage;
+    _type = kAVATypePage;
   }
   return self;
 }
 
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [super serializeToDictionary];
+  
+  if (self.name) {
+    dict[kAVAName] = self.name;
+  }
   return dict;
 }
 
@@ -27,14 +35,19 @@ static NSString *const kAVATypePage = @"page";
 #pragma mark - NSCoding
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
-  self = [super init];
+  self = [super initWithCoder:coder];
   if(self) {
+    _type = [coder decodeObjectForKey:kAVAType];
+    _name = [coder decodeObjectForKey:kAVAName];
   }
   
   return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
+  [super encodeWithCoder:coder];
+  [coder encodeObject:self.type forKey:kAVAType];
+  [coder encodeObject:self.name forKey:kAVAName];
 }
 
 @end

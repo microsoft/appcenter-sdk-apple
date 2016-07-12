@@ -3,15 +3,15 @@
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
 
-#import "AVAEventLog.h"
+#import "AVAPageLog.h"
 
-@interface AVAEventLogTests : XCTestCase
+@interface AVAPageLogTests : XCTestCase
 
-@property (nonatomic, strong) AVAEventLog *sut;
+@property (nonatomic, strong) AVAPageLog *sut;
 
 @end
 
-@implementation AVAEventLogTests
+@implementation AVAPageLogTests
 
 @synthesize sut = _sut;
 
@@ -19,7 +19,7 @@
 
 - (void)setUp {
   [super setUp];
-  _sut = [AVAEventLog new];
+  _sut = [AVAPageLog new];
 }
 
 - (void)tearDown {
@@ -28,18 +28,16 @@
 
 #pragma mark - Tests
 
-- (void)testSerializingEventToDictionaryWorks {
-
+- (void)testSerializingPageToDictionaryWorks {
+  
   // If
-  NSString *typeName = @"event";
-  NSString *eventId = [[NSUUID UUID] UUIDString];
-  NSString *eventName = @"eventName";
+  NSString *typeName = @"page";
+  NSString *pageName = @"pageName";
   NSString *sessionId = @"1234567890";
   NSNumber *tOffset = @(3);
   NSDictionary *properties = @{@"Key": @"Value"};
   
-  self.sut.eventId = eventId;
-  self.sut.name = eventName;
+  self.sut.name = pageName;
   self.sut.toffset = tOffset;
   self.sut.sid = sessionId;
   self.sut.properties = properties;
@@ -49,8 +47,7 @@
   
   // Then
   assertThat(actual, notNilValue());
-  assertThat(actual[@"id"], equalTo(eventId));
-  assertThat(actual[@"name"], equalTo(eventName));
+  assertThat(actual[@"name"], equalTo(pageName));
   assertThat(actual[@"sid"], equalTo(sessionId));
   assertThat(actual[@"toffset"], equalTo(tOffset));
   assertThat(actual[@"type"], equalTo(typeName));
@@ -60,15 +57,13 @@
 - (void)testNSCodingSerializationAndDeserializationWorks {
   
   // If
-  NSString *typeName = @"event";
-  NSString *eventId = [[NSUUID UUID] UUIDString];
-  NSString *eventName = @"eventName";
+  NSString *typeName = @"page";
+  NSString *pageName = @"pageName";
   NSString *sessionId = @"1234567890";
   NSNumber *tOffset = @(3);
   NSDictionary *properties = @{@"Key": @"Value"};
   
-  self.sut.eventId = eventId;
-  self.sut.name = eventName;
+  self.sut.name = pageName;
   self.sut.toffset = tOffset;
   self.sut.sid = sessionId;
   self.sut.properties = properties;
@@ -79,15 +74,14 @@
   
   // Then
   assertThat(actual, notNilValue());
-  assertThat(actual, instanceOf([AVAEventLog class]));
+  assertThat(actual, instanceOf([AVAPageLog class]));
   
-  AVAEventLog *actualEvent = actual;
-  assertThat(actualEvent.name, equalTo(eventName));
-  assertThat(actualEvent.eventId, equalTo(eventId));
-  assertThat(actualEvent.toffset, equalTo(tOffset));
-  assertThat(actualEvent.type, equalTo(typeName));
-  assertThat(actualEvent.sid, equalTo(sessionId));
-  assertThat(actualEvent.properties, equalTo(properties));
+  AVAPageLog *actualPage = actual;
+  assertThat(actualPage.name, equalTo(pageName));
+  assertThat(actualPage.toffset, equalTo(tOffset));
+  assertThat(actualPage.type, equalTo(typeName));
+  assertThat(actualPage.sid, equalTo(sessionId));
+  assertThat(actualPage.properties, equalTo(properties));
 }
 
 @end

@@ -31,7 +31,7 @@ static NSString *const kAVAProperties = @"properties";
 #pragma mark - NSCoding
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
-  self = [super init];
+  self = [super initWithCoder:coder];
   if(self) {
     _properties = [coder decodeObjectForKey:kAVAProperties];
   }
@@ -40,6 +40,7 @@ static NSString *const kAVAProperties = @"properties";
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
+  [super encodeWithCoder:coder];
   [coder encodeObject:self.properties forKey:kAVAProperties];
 }
 

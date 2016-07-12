@@ -8,9 +8,11 @@ static NSString *const kAVATypeEndSession = @"endSession";
 
 @implementation AVAEndSessionLog
 
+@synthesize type = _type;
+
 - (instancetype)init {
   if (self = [super init]) {
-    self.type = kAVATypeEndSession;
+    _type = kAVATypeEndSession;
   }
   return self;
 }
@@ -27,14 +29,17 @@ static NSString *const kAVATypeEndSession = @"endSession";
 #pragma mark - NSCoding
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
-  self = [super init];
+  self = [super initWithCoder:coder];
   if(self) {
+    _type = [coder decodeObjectForKey:kAVAType];
   }
   
   return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
+  [super encodeWithCoder:coder];
+  [coder encodeObject:self.type forKey:kAVAType];
 }
 
 @end

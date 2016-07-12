@@ -39,8 +39,9 @@ static NSString *const kAVAName = @"name";
 #pragma mark - NSCoding
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
-  self = [super init];
+  self = [super initWithCoder:coder];
   if(self) {
+    _type = [coder decodeObjectForKey:kAVAType];
     _eventId = [coder decodeObjectForKey:kAVAId];
     _name = [coder decodeObjectForKey:kAVAName];
   }
@@ -49,6 +50,8 @@ static NSString *const kAVAName = @"name";
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
+  [super encodeWithCoder:coder];
+  [coder encodeObject:self.type forKey:kAVAType];
   [coder encodeObject:self.eventId forKey:kAVAId];
   [coder encodeObject:self.name forKey:kAVAName];
 }

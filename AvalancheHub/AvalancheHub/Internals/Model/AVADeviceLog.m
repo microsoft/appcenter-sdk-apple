@@ -25,6 +25,8 @@ static NSString *const kAVAAppNamespace = @"appNamespace";
 
 @implementation AVADeviceLog
 
+@synthesize type = _type;
+
 @synthesize sdkVersion = _sdkVersion;
 @synthesize wrapperSdkVersion = _wrapperSdkVersion;
 @synthesize wrapperSdkName = _wrapperSdkName;
@@ -44,7 +46,7 @@ static NSString *const kAVAAppNamespace = @"appNamespace";
 
 - (instancetype)init {
   if (self = [super init]) {
-    self.type = kAVATypeDevice;
+    _type = kAVATypeDevice;
   }
   return self;
 }
@@ -117,7 +119,7 @@ static NSString *const kAVAAppNamespace = @"appNamespace";
 #pragma mark - NSCoding
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
-  self = [super init];
+  self = [super initWithCoder:coder];
   if(self) {
     _sdkVersion = [coder decodeObjectForKey:kAVASdkVersion];
     _wrapperSdkVersion = [coder decodeObjectForKey:kAVAWrapperSdkVersion];
@@ -140,6 +142,7 @@ static NSString *const kAVAAppNamespace = @"appNamespace";
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
+  [super encodeWithCoder:coder];
   [coder encodeObject:self.sdkVersion forKey:kAVASdkVersion];
   [coder encodeObject:self.wrapperSdkVersion forKey:kAVAWrapperSdkVersion];
   [coder encodeObject:self.wrapperSdkName forKey:kAVAWrapperSdkName];
