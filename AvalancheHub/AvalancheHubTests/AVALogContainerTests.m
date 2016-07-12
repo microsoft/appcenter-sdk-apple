@@ -4,8 +4,8 @@
 
 #import <XCTest/XCTest.h>
 #import "AVALogContainer.h"
-#import "AVAEndSessionLog.h"
 #import "AVADeviceLog.h"
+#import "AVAAbstractLog.h"
 
 @interface AVALogContainerTests : XCTestCase
 
@@ -18,11 +18,11 @@
   // If
   AVALogContainer* logContainer = [[AVALogContainer alloc] init];
   
-  AVAEndSessionLog* log1 = [[AVAEndSessionLog alloc] init];
+  AVAAbstractLog* log1 = [[AVAAbstractLog alloc] init];
   log1.sid = [[NSUUID UUID] UUIDString];
   log1.toffset = [NSNumber numberWithInteger:[[NSDate date] timeIntervalSince1970]];
   
-  AVAEndSessionLog* log2 = [[AVAEndSessionLog alloc] init];
+  AVAAbstractLog* log2 = [[AVAAbstractLog alloc] init];
   log2.sid = [[NSUUID UUID] UUIDString];
   log2.toffset = [NSNumber numberWithInteger:[[NSDate date] timeIntervalSince1970]];
 

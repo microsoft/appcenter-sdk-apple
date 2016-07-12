@@ -50,7 +50,6 @@ NSString *const kAVAType = @"type";
 - (instancetype)initWithCoder:(NSCoder *)coder {
   self = [super init];
   if(self) {
-    _type = [coder decodeObjectForKey:kAVAType];
     _toffset = [coder decodeObjectForKey:kAVAToffset];
     _sid = [coder decodeObjectForKey:kAVASID];
   }
@@ -58,7 +57,6 @@ NSString *const kAVAType = @"type";
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
-  [coder encodeObject:self.type forKey:kAVAType];
   [coder encodeObject:self.toffset forKey:kAVAToffset];
   [coder encodeObject:self.sid forKey:kAVASID];
 }

@@ -3,11 +3,11 @@
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
 
+#import "AVAAbstractLog.h"
 #import "AVAFileStorage.h"
 #import "AVAFileHelper.h"
 #import "AVAStorageTestHelper.h"
 #import "AVAFile.h"
-#import "AVAEventLog.h"
 
 @interface AVAFileStorageTests : XCTestCase
 
@@ -54,7 +54,7 @@
   // If
   NSString *storageKey = @"TestDirectory";
   id fileHelperMock = OCMClassMock([AVAFileHelper class]);
-  AVAEventLog *log = [AVAEventLog new];
+  AVAAbstractLog *log = [AVAAbstractLog new];
   AVAStorageBucket *bucket = self.sut.buckets[storageKey];
   assertThat(bucket, nilValue());
   
@@ -75,7 +75,7 @@
   
   // If
   NSString *storageKey = @"TestDirectory";
-  AVAEventLog *log = [AVAEventLog new];
+  AVAAbstractLog *log = [AVAAbstractLog new];
   AVAFile *expected = [AVAStorageTestHelper createFileWithId:@"test123" data:[NSData new] extension:@"ava" storageKey:storageKey creationDate:[NSDate date]];
   assertThat(self.sut.buckets[storageKey], nilValue());
   
@@ -95,7 +95,7 @@
   
   // If
   NSString *storageKey = @"TestDirectory";
-  [self.sut saveLog:[AVAEventLog new] withStorageKey:storageKey];
+  [self.sut saveLog:[AVAAbstractLog new] withStorageKey:storageKey];
   assertThat(self.sut.buckets[storageKey].blockedFiles, isEmpty());
   assertThat(self.sut.buckets[storageKey].availableFiles, isEmpty());
   
@@ -111,7 +111,7 @@
   
   // If
   NSString *storageKey = @"directory";
-  AVAEventLog *log = [AVAEventLog new];
+  AVAAbstractLog *log = [AVAAbstractLog new];
   [self.sut saveLog:log withStorageKey:storageKey];
   assertThatInteger(self.sut.buckets[storageKey].currentLogs.count, equalToInteger(1));
   
@@ -126,7 +126,7 @@
   
   // If
   NSString *storageKey = @"TestDirectory";
-  [self.sut saveLog:[AVAEventLog new] withStorageKey:storageKey];
+  [self.sut saveLog:[AVAAbstractLog new] withStorageKey:storageKey];
   __block NSString *batchId;
   [self.sut loadLogsForStorageKey:storageKey withCompletion:^(NSArray<NSObject<AVALog> *> *logs,
                                                           NSString *logsId) {
@@ -147,7 +147,7 @@
     id fileHelperMock = OCMClassMock([AVAFileHelper class]);
   NSString *storageKey = @"TestDirectory";
   
-  [self.sut saveLog:[AVAEventLog new] withStorageKey:storageKey];
+  [self.sut saveLog:[AVAAbstractLog new] withStorageKey:storageKey];
   AVAFile *currentFile = [AVAStorageTestHelper createFileWithId:@"id" data:[NSData new] extension:@"ava" storageKey:storageKey creationDate:[NSDate date]];
   self.sut.buckets[storageKey].currentFile = currentFile;
   __block NSString *batchId;

@@ -106,6 +106,7 @@ static NSString *const kAVACarrierCountry = @"carrierCountry";
 - (instancetype)initWithCoder:(NSCoder *)coder {
   self = [super initWithCoder:coder];
   if (self) {
+    _type = [coder decodeObjectForKey:kAVAType];
     _sdkVersion = [coder decodeObjectForKey:kAVASdkVersion];
     _model = [coder decodeObjectForKey:kAVAModel];
     _oemName = [coder decodeObjectForKey:kAVAOemName];
@@ -124,6 +125,7 @@ static NSString *const kAVACarrierCountry = @"carrierCountry";
 
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
+  [coder encodeObject:self.type forKey:kAVAType];
   [coder encodeObject:self.sdkVersion forKey:kAVASdkVersion];
   [coder encodeObject:self.model forKey:kAVAModel];
   [coder encodeObject:self.oemName forKey:kAVAOemName];

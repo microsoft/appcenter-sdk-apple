@@ -4,7 +4,6 @@
 
 #import <XCTest/XCTest.h>
 #import "AVAHttpSender.h"
-#import "AVAEndSessionLog.h"
 #import "AVALogContainer.h"
 #import "AvalancheHub+Internal.h"
 
@@ -150,7 +149,7 @@ static NSString* const kAVAAppKey = @"mockAppKey";
 #pragma mark - Test Helpers
 
 - (AVALogContainer *)createLogContainerWithId:(NSString *)batchId {
-  AVAEndSessionLog* log1 = [[AVAEndSessionLog alloc] init];
+  AVAAbstractLog* log1 = [[AVAAbstractLog alloc] init];
   log1.sid = [[NSUUID UUID] UUIDString];
   
   AVADeviceLog* log2 = [[AVADeviceLog alloc] init];
