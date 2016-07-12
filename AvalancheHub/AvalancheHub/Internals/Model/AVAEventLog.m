@@ -11,33 +11,46 @@ static NSString *const kAVAName = @"name";
 
 @implementation AVAEventLog
 
+@synthesize type = _type;
+
 - (instancetype)init {
   if (self = [super init]) {
-    self.type = kAVATypeEvent;
+     _type= kAVATypeEvent;
   }
   return self;
 }
 
-- (void)write:(NSMutableDictionary *)dic {
-  [super write:dic];
+- (NSMutableDictionary *)serializeToDictionary {
+  NSMutableDictionary *dict = [super serializeToDictionary];
   
-  if (self.eventId)
-    dic[kAVAId] = [self.eventId UUIDString];
-  
-  if (self.name)
-    dic[kAVAName] = self.name;
-}
-
-- (void)read:(NSDictionary *)obj {
-  [super read:obj];
-  
-  // Set properties
-  self.name = obj[kAVAName];
-  self.eventId = [[NSUUID alloc] initWithUUIDString:obj[kAVAId]];
+  if (self.eventId) {
+    dict[kAVAId] = self.eventId;
+  }
+  if (self.name) {
+    dict[kAVAName] = self.name;
+  }
+  return dict;
 }
 
 - (BOOL)isValid {
   return [super isValid];
+}
+
+#pragma mark - NSCoding
+
+- (instancetype)initWithCoder:(NSCoder *)coder {
+  self = [super init];
+  if(self) {
+    _eventId = [coder decodeObjectForKey:kAVAId];
+    _name = [coder decodeObjectForKey:kAVAName];
+  }
+  
+  return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+  [coder encodeObject:self.eventId forKey:kAVAId];
+  [coder encodeObject:self.name forKey:kAVAName];
 }
 
 @end

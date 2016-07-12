@@ -10,7 +10,7 @@
 
 /** Unique identifier for this event.
  */
-@property(nonatomic) NSUUID *eventId;
+@property(nonatomic) NSString *eventId;
 
 /** Name of the event.
  */
