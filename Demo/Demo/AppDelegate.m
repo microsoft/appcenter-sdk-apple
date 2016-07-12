@@ -1,8 +1,9 @@
 #import "AppDelegate.h"
 
-@import AvalancheHub;
+
 @import AvalancheCrashes;
 @import AvalancheAnalytics;
+@import AvalancheHub;
 
 @interface AppDelegate ()
 
@@ -16,7 +17,7 @@
   
   // Start Avalanche SDK
   [AVAAvalanche setLogLevel:AVALogLevelVerbose];
-  [AVAAvalanche useFeatures:@[[AVACrashes class], [AVAAnalytics class]] withAppId:@"hdhd"];
+  [AVAAvalanche useFeatures:@[[AVACrashes class], [AVAAnalytics class]] withAppKey:@"AppKey"];
   
   return YES;
 }

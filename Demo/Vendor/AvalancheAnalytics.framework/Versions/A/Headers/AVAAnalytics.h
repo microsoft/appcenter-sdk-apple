@@ -7,4 +7,6 @@
 
 @interface AVAAnalytics : NSObject <AVAFeature>
 
++ (void)sendEventLog:(NSString*)log;
+
 @end

@@ -6,8 +6,7 @@
 
 @protocol AVAFeature<NSObject>
 
-+ (void)enable;
-+ (void)disable;
++ (void)setEnable:(BOOL)isEnabled;
 + (BOOL)isEnabled;
 
 @end
