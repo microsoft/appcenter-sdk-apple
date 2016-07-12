@@ -3,14 +3,9 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "AvalancheHub+Internal.h"
 
-#import "AVALogWithProperties.h"
-
-@interface AVAEventLog : AVALogWithProperties
-
-/** Unique identifier for this event.
- */
-@property(nonatomic) NSString *eventId;
+@interface AVAPageLog : AVALogWithProperties
 
 /** Name of the event.
  */
