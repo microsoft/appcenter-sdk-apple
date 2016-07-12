@@ -38,7 +38,7 @@
 
 #pragma mark - File I/O
 
-+ (BOOL)appendData:(NSData *)data toFile:(AVAFile *)file {
++ (BOOL)writeData:(NSData *)data toFile:(AVAFile *)file {
   if (!data || !file.filePath) {
     return NO;
   }
@@ -48,12 +48,18 @@
     [self createFileAtPath:file.filePath];
   }
 
-  NSFileHandle *fileHandle = [NSFileHandle fileHandleForWritingAtPath:file.filePath];
-  if (fileHandle) {
-    [fileHandle seekToEndOfFile];
-    [fileHandle writeData:data];
+  NSError *error;
+  if ([data writeToFile:file.filePath
+                options:NSDataWritingAtomic
+                  error:&error]) {
+    AVALogVerbose(@"VERBOSE: File %@: has been successfully written",
+                  file.filePath);
+    return YES;
+  } else {
+    AVALogError(@"ERROR: Error writing file %@: %@", file.filePath,
+                error.localizedDescription);
+    return NO;
   }
-  return YES;
 }
 
 + (BOOL)deleteFile:(AVAFile *)file {
@@ -61,9 +67,10 @@
     return NO;
   }
 
-  NSError *error = nil;
+  NSError *error;
   if ([self.fileManager removeItemAtPath:file.filePath error:&error]) {
-    AVALogVerbose(@"VERBOSE: File %@: has been successfully deleted", file.filePath);
+    AVALogVerbose(@"VERBOSE: File %@: has been successfully deleted",
+                  file.filePath);
     return YES;
   } else {
     AVALogError(@"ERROR: Error deleting file %@: %@", file.filePath,
@@ -77,16 +84,21 @@
     return nil;
   }
 
-  NSData *data;
-  NSFileHandle *fileHandle = [NSFileHandle fileHandleForReadingAtPath:file.filePath];
-  if (fileHandle) {
-    data = [fileHandle readDataToEndOfFile];
+  NSError *error;
+  NSData *data =
+      [NSData dataWithContentsOfFile:file.filePath options:nil error:&error];
+  if (error) {
+    AVALogError(@"ERROR: Error writing file %@: %@", file.filePath,
+                error.localizedDescription);
+  } else {
+    AVALogVerbose(@"VERBOSE: File %@: has been successfully written",
+                  file.filePath);
   }
   return data;
 }
 
 + (NSArray<AVAFile *> *)filesForDirectory:(NSString *)directoryPath
-                       withFileExtension:(NSString *)fileExtension {
+                        withFileExtension:(NSString *)fileExtension {
   if (!directoryPath || !fileExtension) {
     return nil;
   }
@@ -94,7 +106,8 @@
   NSMutableArray<AVAFile *> *files;
   NSError *error;
   NSArray *allFiles =
-      [[NSFileManager defaultManager] contentsOfDirectoryAtPath:directoryPath error:&error];
+      [[NSFileManager defaultManager] contentsOfDirectoryAtPath:directoryPath
+                                                          error:&error];
   if (error) {
     AVALogError(@"ERROR: Couldn't read %@-files for directory %@: %@",
                 fileExtension, directoryPath, error.localizedDescription);
@@ -162,7 +175,7 @@
     if (![self.fileManager fileExistsAtPath:directoryPath isDirectory:&isDir]) {
       [self createDirectoryAtPath:directoryPath];
     }
-    
+
     if ([self.fileManager createFileAtPath:filePath
                                   contents:[NSData new]
                                 attributes:nil]) {
@@ -181,12 +194,12 @@
       ![url setResourceValue:@YES
                       forKey:NSURLIsExcludedFromBackupKey
                        error:&error]) {
-        AVALogError(@"ERROR: Error excluding %@ from backup %@", directoryPath,
-                    error.localizedDescription);
-        return NO;
-      } else {
-        return YES;
-      }
+    AVALogError(@"ERROR: Error excluding %@ from backup %@", directoryPath,
+                error.localizedDescription);
+    return NO;
+  } else {
+    return YES;
+  }
 }
 
 @end
