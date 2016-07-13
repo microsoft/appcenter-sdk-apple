@@ -3,9 +3,9 @@
  */
 
 #import <Foundation/Foundation.h>
+@class AVADeviceLog;
 
 @protocol AVALog
-
 
 /**
  * Log type.
@@ -24,10 +24,27 @@
  * is not necessarily an analytics session, it can be used to only track
  * crashes.
  */
-@property(nonatomic) NSUUID *sid;
+@property(nonatomic) NSString *sid;
 
-- (void)read:(NSDictionary *)obj;
-- (void)write:(NSMutableDictionary *)dic;
+/**
+ * Device characteristics associated to this log.
+ */
+@property(nonatomic) AVADeviceLog *device;
+
+/**
+ * Checks if the object's values are valid.
+ *
+ * return YES, if the object is valid
+ */
 - (BOOL)isValid;
+
+@required
+
+/**
+ * Checks if the object's values are valid.
+ *
+ * return YES, if the object is valid
+ */
+- (NSMutableDictionary *)serializeToDictionary;
 
 @end

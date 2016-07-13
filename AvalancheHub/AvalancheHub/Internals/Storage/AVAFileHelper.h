@@ -29,14 +29,14 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)setFileManager:(nullable NSFileManager *)fileManager;
 
 /**
- * Appends data to a file.
+ * Writes data to a file.
  *
  * @param data the data that should be written to disk
  * @param file the file metadata representing the target file
  *
  * @return true if writing data to the given file was successful
  */
-+ (BOOL)appendData:(NSData *)data toFile:(AVAFile *)file;
++ (BOOL)writeData:(NSData *)data toFile:(AVAFile *)file;
 
 /**
  * Delete a file.

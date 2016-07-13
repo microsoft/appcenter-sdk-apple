@@ -4,6 +4,7 @@
 
 #import "AVAAnalyticsPrivate.h"
 #import "AvalancheHub+Internal.h"
+#import "AVAEventLog.h"
 
 @implementation AVAAnalytics
 
@@ -46,7 +47,7 @@
     AVAEventLog *log = [[AVAEventLog alloc] init];
     log.name = name;
     log.toffset = [NSNumber numberWithInteger:[[NSDate date] timeIntervalSince1970]];
-    log.eventId = [NSUUID UUID];
+    log.eventId = [[NSUUID UUID] UUIDString];
 
     // Send log to core module
     [self.delegate feature:self didCreateLog:log];

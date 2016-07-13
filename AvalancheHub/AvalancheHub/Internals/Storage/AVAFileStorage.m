@@ -1,8 +1,7 @@
-#import "AVAFileHelper.h"
-#import "AVALogger.h"
-#import "AVAFileStorage.h"
 #import "AVAFile.h"
-#import "AVAEventLog.h"
+#import "AVAFileHelper.h"
+#import "AVAFileStorage.h"
+#import "AVALogger.h"
 
 static NSString *const kAVALogsDirectory = @"com.microsoft.avalanche/logs";
 static NSString *const kAVAFileExtension = @"ava";
@@ -25,19 +24,20 @@ static NSUInteger const AVADefaultBucketFileCountLimit = 50;
 #pragma mark - Public
 
 - (void)saveLog:(id<AVALog>)log withStorageKey:(NSString *)storageKey {
-  NSMutableDictionary *logDict = [NSMutableDictionary new];
-  [log write:logDict];
-  NSData *logData = [NSKeyedArchiver archivedDataWithRootObject:logDict];
+
   AVAStorageBucket *bucket = [self bucketForStorageKey:storageKey];
-  [AVAFileHelper appendData:logData toFile:bucket.currentFile];
+  [bucket.currentLogs addObject:log];
+  NSData *logsData =
+      [NSKeyedArchiver archivedDataWithRootObject:bucket.currentLogs];
+  [AVAFileHelper writeData:logsData toFile:bucket.currentFile];
 }
 
 - (void)deleteLogsForId:(NSString *)logsId
          withStorageKey:(NSString *)storageKey {
   AVAStorageBucket *bucket = self.buckets[storageKey];
   AVAFile *file = [bucket fileWithId:logsId];
-  
-  if(file) {
+
+  if (file) {
     [AVAFileHelper deleteFile:file];
     [bucket.blockedFiles removeObject:file];
   }
@@ -49,27 +49,23 @@ static NSUInteger const AVADefaultBucketFileCountLimit = 50;
   AVAStorageBucket *bucket = [self bucketForStorageKey:storageKey];
   AVAFile *file = bucket.currentFile;
   NSData *logData = [AVAFileHelper dataForFile:file];
-  NSDictionary *logDict = [NSKeyedUnarchiver unarchiveObjectWithData:logData];
-  
-  // TODO: need to add a util funciton/log factory helper
-  id<AVALog> log = [AVAEventLog new];
-  [log read:logDict];
-  NSArray<AVALog> *logArray = [NSArray<AVALog> arrayWithObject:log];
-  
+  NSArray<AVALog> *logs = [NSKeyedUnarchiver unarchiveObjectWithData:logData];
+
   // Change status of the file to `blocked`
   [bucket.blockedFiles addObject:file];
-  
+
   // Renew file for upcoming events
   [self renewCurrentFileForStorageKey:storageKey];
-  
-  if(completion) {
-    completion(logArray, file.fileId);
+
+  if (completion) {
+    completion(logs, file.fileId);
   }
 }
 
-- (BOOL)maxFileCountReachedForStorageKey:(NSString *) storageKey {
+- (BOOL)maxFileCountReachedForStorageKey:(NSString *)storageKey {
   AVAStorageBucket *bucket = self.buckets[storageKey];
-  NSUInteger filesCount = bucket.availableFiles.count + bucket.blockedFiles.count;
+  NSUInteger filesCount =
+      bucket.availableFiles.count + bucket.blockedFiles.count;
   return (filesCount >= self.bucketFileCountLimit);
 }
 
@@ -78,14 +74,15 @@ static NSUInteger const AVADefaultBucketFileCountLimit = 50;
 - (AVAStorageBucket *)createNewBucketForStorageKey:(NSString *)storageKey {
   AVAStorageBucket *bucket = [AVAStorageBucket new];
   NSString *storageDirectory = [self directoryPathForStorageKey:storageKey];
-  NSArray *existingFiles = [AVAFileHelper filesForDirectory:storageDirectory withFileExtension:kAVAFileExtension];
-  if(existingFiles) {
+  NSArray *existingFiles = [AVAFileHelper filesForDirectory:storageDirectory
+                                          withFileExtension:kAVAFileExtension];
+  if (existingFiles) {
     [bucket.availableFiles addObjectsFromArray:existingFiles];
     [bucket sortAvailableFilesByCreationDate];
   }
   self.buckets[storageKey] = bucket;
   [self renewCurrentFileForStorageKey:storageKey];
-  
+
   return bucket;
 }
 
@@ -103,23 +100,27 @@ static NSUInteger const AVADefaultBucketFileCountLimit = 50;
   NSDate *creationDate = [NSDate date];
   NSString *fileId = [[NSUUID UUID] UUIDString];
   NSString *filePath = [self filePathForStorageKey:storageKey logsId:fileId];
-  AVAFile *file = [[AVAFile alloc] initWithPath:filePath fileId:fileId creationDate:creationDate];
+  AVAFile *file = [[AVAFile alloc] initWithPath:filePath
+                                         fileId:fileId
+                                   creationDate:creationDate];
   bucket.currentFile = file;
+  [bucket.currentLogs removeAllObjects];
 }
 
 - (NSString *)directoryPathForStorageKey:(nonnull NSString *)storageKey {
   NSString *filePath =
-  [self.baseDirectoryPath stringByAppendingPathComponent:storageKey];
-  
+      [self.baseDirectoryPath stringByAppendingPathComponent:storageKey];
+
   return filePath;
 }
 
 - (NSString *)filePathForStorageKey:(nonnull NSString *)storageKey
                              logsId:(nonnull NSString *)logsId {
-  NSString *fileName = [logsId stringByAppendingPathExtension:kAVAFileExtension];
-  NSString *filePath =
-      [[self directoryPathForStorageKey:storageKey] stringByAppendingPathComponent:fileName];
-  
+  NSString *fileName =
+      [logsId stringByAppendingPathExtension:kAVAFileExtension];
+  NSString *filePath = [[self directoryPathForStorageKey:storageKey]
+      stringByAppendingPathComponent:fileName];
+
   return filePath;
 }
 
@@ -132,7 +133,7 @@ static NSUInteger const AVADefaultBucketFileCountLimit = 50;
       _baseDirectoryPath =
           [appSupportPath stringByAppendingPathComponent:kAVALogsDirectory];
     }
-    
+
     AVALogVerbose(@"Storage Path:\n%@", _baseDirectoryPath);
   }
 

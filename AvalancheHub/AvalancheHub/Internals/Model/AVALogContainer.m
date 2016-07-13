@@ -16,17 +16,15 @@
 
 - (NSString *)serializeLog {
 
-  NSString *jsonString = nil;
-
+  NSString *jsonString;
   NSMutableArray *jsonArray = [NSMutableArray array];
 
   [self.logs enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx,
                                           BOOL *_Nonnull stop) {
-    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [obj write:dic];
-
-    // Add to JSON array
-    [jsonArray addObject:dic];
+    NSMutableDictionary *dict = [obj serializeToDictionary];
+    if(dict) {
+      [jsonArray addObject:dict];
+    }
   }];
 
   NSError *error;
@@ -58,4 +56,5 @@
   }];
   return isValid;
 }
+
 @end
