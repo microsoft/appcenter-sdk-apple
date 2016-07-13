@@ -36,12 +36,6 @@ static NSString *const kAVAName = @"name";
   return [super isValid];
 }
 
-+ (BOOL)propertyIsOptional:(NSString *)propertyName {
-  
-  NSArray *optionalProperties = @[@"properties", ];
-  return [optionalProperties containsObject:propertyName];
-}
-
 #pragma mark - NSCoding
 
 - (instancetype)initWithCoder:(NSCoder *)coder {

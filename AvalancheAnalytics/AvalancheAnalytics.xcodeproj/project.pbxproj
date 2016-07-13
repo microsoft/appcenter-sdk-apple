@@ -99,6 +99,7 @@
 		6E0684571D35A5FD00A8CC6C /* OHHTTPStubsResponse+JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OHHTTPStubsResponse+JSON.h"; sourceTree = "<group>"; };
 		6E0684581D35A5FD00A8CC6C /* OHHTTPStubsResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OHHTTPStubsResponse.h; sourceTree = "<group>"; };
 		6E0684591D35A5FD00A8CC6C /* OHPathHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OHPathHelpers.h; sourceTree = "<group>"; };
+		6E0684601D35BD9A00A8CC6C /* AVAConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AVAConstants.h; path = ../../AvalancheHub/AvalancheHub/AVAConstants.h; sourceTree = "<group>"; };
 		6E3E2CC31D359D5E00B1EE50 /* AVAEndSessionLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAEndSessionLog.h; sourceTree = "<group>"; };
 		6E3E2CC41D359D5E00B1EE50 /* AVAEndSessionLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAEndSessionLog.m; sourceTree = "<group>"; };
 		6E3E2CC51D359D5E00B1EE50 /* AVAEventLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAEventLog.h; sourceTree = "<group>"; };
@@ -277,6 +278,7 @@
 		E85547D61D2D6723002DF6E2 /* AvalancheAnalyticsTests */ = {
 			isa = PBXGroup;
 			children = (
+				6E0684601D35BD9A00A8CC6C /* AVAConstants.h */,
 				6E0684361D35A39300A8CC6C /* Frameworks */,
 				6E3E2CCF1D359F3300B1EE50 /* AVAEndSessionLogTests.m */,
 				6E3E2CD01D359F3300B1EE50 /* AVAEventLogTests.m */,

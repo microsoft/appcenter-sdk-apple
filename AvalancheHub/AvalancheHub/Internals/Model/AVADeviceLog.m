@@ -95,12 +95,6 @@ static NSString *const kAVACarrierCountry = @"carrierCountry";
   return isValid;
 }
 
-+ (BOOL)propertyIsOptional:(NSString *)propertyName {
-
-  NSArray *optionalProperties = @[];
-  return [optionalProperties containsObject:propertyName];
-}
-
 #pragma mark - NSCoding
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
