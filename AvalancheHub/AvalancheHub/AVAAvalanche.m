@@ -1,13 +1,13 @@
 #import "AVAAvalanchePrivate.h"
 #import "AVAFeaturePrivate.h"
 #import "AVAChannelDefault.h"
+#import "AVAChannelSessionDecorator.h"
 #import "AVAHttpSender.h"
 #import "AVAFileStorage.h"
 #import "AVAUtils.h"
 #import "AVASettings.h"
 
 static NSString* const kAVAInstallId = @"AVAInstallId";
-static NSTimeInterval const kAVASessionTimeOut = 20;
 
 // Http Headers + Query string
 static NSString *const kAVAAppKeyKey = @"App-Key";
@@ -82,7 +82,10 @@ static NSString* const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azu
   
   // Init storage
   AVAFileStorage *storage = [[AVAFileStorage alloc] init];
-  _channel = [[AVAChannelDefault alloc] initWithSender:sender storage:storage];
+  
+  // Create channel
+  AVAChannelDefault *defaultChannel = [[AVAChannelDefault alloc] initWithSender:sender storage:storage];
+  _channel = [[AVAChannelSessionDecorator alloc] initWithChannel:defaultChannel];
 }
 
 + (AVALogLevel)logLevel {
@@ -101,10 +104,6 @@ static NSString* const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azu
   return _appKey;
 }
 
-- (NSUUID*)sid {
-  return _sid;
-}
-
 - (NSUUID*)installId {
   return _installId;
 }
@@ -114,18 +113,7 @@ static NSString* const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azu
 }
 
 - (void)feature:(id)feature didCreateLog:(id<AVALog>)log {
-  // TODO: Persist sid
-  // Use fabs(absolute) since last sent time was in past and the delta is negative.
-  if (log.sid == nil || (fabs([self.lastLogSent timeIntervalSinceNow]) >= kAVASessionTimeOut /* && fabs([self.lastActivityPaused timeIntervalSinceNow]) >= kAVASessionTimeOut */)) {
-    self.sid = [NSUUID UUID];
-  }
-
-  // Set the session id
-  log.sid = self.sid;
   [self.channel enqueueItem:log];
-  
-  // Cache the sent time
-  self.lastLogSent = [NSDate date];
 }
 
 - (void)setInstallId {
