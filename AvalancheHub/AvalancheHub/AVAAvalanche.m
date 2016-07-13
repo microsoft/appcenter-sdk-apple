@@ -1,11 +1,12 @@
 #import "AVAAvalanchePrivate.h"
+#import "AVAChannelDefault.h"
 #import "AVAFeaturePrivate.h"
 #import "AVAChannelDefault.h"
 #import "AVAChannelSessionDecorator.h"
-#import "AVAHttpSender.h"
 #import "AVAFileStorage.h"
-#import "AVAUtils.h"
+#import "AVAHttpSender.h"
 #import "AVASettings.h"
+#import "AVAUtils.h"
 
 static NSString* const kAVAInstallId = @"AVAInstallId";
 
@@ -14,11 +15,12 @@ static NSString *const kAVAAppKeyKey = @"App-Key";
 static NSString *const kAVAInstallIDKey = @"Install-ID";
 static NSString *const kAVAContentType = @"application/json";
 static NSString *const kAVAContentTypeKey = @"Content-Type";
-static NSString* const kAVAAPIVersion = @"1.0.0-preview20160901";
-static NSString* const kAVAAPIVersionKey = @"api-version";
+static NSString *const kAVAAPIVersion = @"1.0.0-preview20160901";
+static NSString *const kAVAAPIVersionKey = @"api-version";
 
 // Base URL
-static NSString* const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azure.com:8081";
+static NSString *const kAVABaseUrl =
+    @"http://avalanche-perf.westus.cloudapp.azure.com:8081";
 
 @implementation AVAAvalanche
 
@@ -36,29 +38,30 @@ static NSString* const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azu
 }
 
 - (void)useFeatures:(NSArray<Class> *)features withAppKey:(NSString *)appKey {
-  
+
   if (self.featuresStarted) {
-    AVALogWarning(@"SDK has already been started. You can call `useFeature` only once.");
+    AVALogWarning(
+        @"SDK has already been started. You can call `useFeature` only once.");
     return;
   }
-  
+
   if ([appKey length] == 0) {
     AVALogError(@"ERROR: AppKey is invalid");
     return;
   }
-  
+
   // Set app ID and UUID
   self.appKey = appKey;
   self.apiVersion = kAVAAPIVersion;
-  
+
   // Set install Id
   [self setInstallId];
 
   [self initializePipeline];
 
-  for(Class obj in features) {
+  for (Class obj in features) {
     id<AVAFeaturePrivate> feature = [obj sharedInstance];
-    
+
     // Set delegate
     feature.delegate = self;
     [self.features addObject:feature];
@@ -69,17 +72,19 @@ static NSString* const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azu
 }
 
 - (void)initializePipeline {
-  
+
   // Construct the http header
   NSDictionary *headers = @{
-                   kAVAContentTypeKey : kAVAContentType,
-                   kAVAAppKeyKey : _appKey,
-                   kAVAInstallIDKey : [_installId UUIDString]
-                   };
+    kAVAContentTypeKey : kAVAContentType,
+    kAVAAppKeyKey : _appKey,
+    kAVAInstallIDKey : _installId
+  };
   // Construct the query parameters
-  NSDictionary *queryStrings = @{ kAVAAPIVersionKey : kAVAAPIVersion };
-  AVAHttpSender *sender = [[AVAHttpSender alloc] initWithBaseUrl:kAVABaseUrl headers:headers queryStrings:queryStrings];
-  
+  NSDictionary *queryStrings = @{kAVAAPIVersionKey : kAVAAPIVersion};
+  AVAHttpSender *sender = [[AVAHttpSender alloc] initWithBaseUrl:kAVABaseUrl
+                                                         headers:headers
+                                                    queryStrings:queryStrings];
+
   // Init storage
   AVAFileStorage *storage = [[AVAFileStorage alloc] init];
   
@@ -100,15 +105,15 @@ static NSString* const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azu
   [AVALogger setLogHandler:logHandler];
 }
 
-- (NSString*)appKey {
+- (NSString *)appKey {
   return _appKey;
 }
 
-- (NSUUID*)installId {
+- (NSString *)installId {
   return _installId;
 }
 
-- (NSString*)apiVersion {
+- (NSString *)apiVersion {
   return _apiVersion;
 }
 
@@ -126,14 +131,14 @@ static NSString* const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azu
 
   // Use the persisted install id
   if ([installIdString length] > 0) {
-    self.installId = [[NSUUID alloc] initWithUUIDString:installIdString];
+    self.installId = installIdString;
   } else {
-    
+
     // Create a new random install id
-    self.installId = [NSUUID UUID];
-    
+    self.installId = [[NSUUID UUID] UUIDString];
+
     // Persist the install ID string
-    [kAVASettings setObject:[self.installId UUIDString]  forKey:kAVAInstallId];
+    [kAVASettings setObject:self.installId forKey:kAVAInstallId];
     [kAVASettings synchronize];
   }
 }

@@ -18,7 +18,7 @@
 @property (nonatomic) id<AVAChannel> channel;
 @property (nonatomic) NSMutableArray<NSObject<AVAFeaturePrivate> *> *features;
 @property (nonatomic, copy) NSString *appKey;
-@property (nonatomic) NSUUID *installId;
+@property (nonatomic) NSString *installId;
 @property (nonatomic) NSString *apiVersion;
 @property BOOL featuresStarted;
 

@@ -69,7 +69,7 @@
   NSString *filePath = [AVAStorageTestHelper filePathForLogWithId:fileId extension:@"ava" storageKey:subDirectory];
   AVAFile *file = [[AVAFile alloc] initWithPath:filePath fileId:fileId creationDate:[NSDate date]];
   
-  [AVAFileHelper appendData:[NSData new] toFile:file];
+  [AVAFileHelper writeData:[NSData new] toFile:file];
   NSString *storagePath = [AVAStorageTestHelper storageDirForStorageKey:subDirectory];
   [[NSURL fileURLWithPath:storagePath] getResourceValue:&resourveValue
                                                     forKey:NSURLIsExcludedFromBackupKey
@@ -202,22 +202,20 @@
   assertThat(actual, nilValue());
 }
 
-- (void)testSuccessfullyAppendingDataToFileWorksCorrectly {
+- (void)testSuccessfullyWritingDataItemsToFileWorksCorrectly {
 
   // If
-  NSData *oldData = [@"0" dataUsingEncoding:NSUTF8StringEncoding];
-  NSData *newData = [@"123456789" dataUsingEncoding:NSUTF8StringEncoding];
-  NSData *expected = [@"0123456789" dataUsingEncoding:NSUTF8StringEncoding];
-  AVAFile *file = [AVAStorageTestHelper createFileWithId:@"0" data:oldData extension:@"ava" storageKey:@"testDirectory" creationDate:[NSDate date]];
+  NSArray *items = @[@"1", @"2"];
+  NSData *expected = [NSKeyedArchiver archivedDataWithRootObject:items];
+  NSString *filePath = [AVAStorageTestHelper filePathForLogWithId:@"0" extension:@"ava" storageKey:@"directory"];
+  AVAFile *file = [[AVAFile alloc]initWithPath:filePath fileId:@"0" creationDate:[NSDate date]];
 
   // When
-  NSData *actual;
-  if ([AVAFileHelper appendData:newData toFile:file]) {
-    actual = [AVAFileHelper dataForFile:file];
-  }
-
+  BOOL success = [AVAFileHelper writeData:expected toFile:file];
+  
   // Then
-  assertThat(expected, equalTo(actual));
+  assertThatBool(success, isTrue());
+  assertThat(expected, equalTo([NSData dataWithContentsOfFile:filePath]));
 }
 
 - (void)testAppendingDataToUnexistingDirWillCreateDirAndFile {
@@ -230,7 +228,7 @@
 
   // When
   NSData *actual;
-  if ([AVAFileHelper appendData:expected toFile:file]) {
+  if ([AVAFileHelper writeData:expected toFile:file]) {
     actual = [AVAFileHelper dataForFile:file];
   }
 

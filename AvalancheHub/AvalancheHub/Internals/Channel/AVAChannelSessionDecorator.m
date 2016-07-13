@@ -28,7 +28,7 @@ static NSTimeInterval const kAVASessionTimeOut = 20;
 /**
  * Current session id.
  */
-@property(nonatomic) NSUUID *sid;
+@property(nonatomic) NSString *sid;
 
 /**
  *  Observer for event UIApplicationDidEnterBackgroundNotification
@@ -98,8 +98,8 @@ static NSTimeInterval const kAVASessionTimeOut = 20;
 
   // Check if new session id is required
   if (self.sid == nil || [self hasSessionTimedOut]) {
-    self.sid = [NSUUID UUID];
-    AVALogVerbose(@"INFO:new session ID: %@", [self.sid UUIDString]);
+    self.sid = [[NSUUID UUID] UUIDString];
+    AVALogVerbose(@"INFO:new session ID: %@", self.sid);
   }
   item.sid = self.sid;
   item.toffset =

@@ -5,37 +5,36 @@
 #import "AVAAbstractLog.h"
 #import "AVALogUtils.h"
 #import "AVALogger.h"
+#import "AVADeviceLog.h"
 
 static NSString *const kAVASID = @"sid";
 static NSString *const kAVAToffset = @"toffset";
-static NSString *const kAVAType = @"type";
+static NSString *const kAVADevice = @"device";
+NSString *const kAVAType = @"type";
 
 @implementation AVAAbstractLog
 
-@synthesize type;
-@synthesize toffset;
-@synthesize sid;
+@synthesize type = _type;
+@synthesize toffset = _toffset;
+@synthesize sid = _sid;
+@synthesize device = _device;
 
-- (void)write:(NSMutableDictionary *)dic {
-  if (self.type)
-    dic[kAVAType] = self.type;
-  if (self.toffset)
-    dic[kAVAToffset] = self.toffset;
-  if (self.sid)
-    dic[kAVASID] = [self.sid UUIDString];
-}
-
-- (void)read:(NSDictionary *)obj {
-  if (![obj[kAVAType] isEqualToString:[self type]]) {
-
-    AVALogError(@"ERROR: invalid object");
-    return;
+- (NSMutableDictionary *)serializeToDictionary {
+  NSMutableDictionary *dict = [NSMutableDictionary new];
+  
+  if (self.type) {
+    dict[kAVAType] = self.type;
   }
-
-  // Set properties
-  self.toffset = obj[kAVAToffset];
-  // TODO:
-  self.sid = [[NSUUID alloc] initWithUUIDString:obj[kAVASID]];
+  if (self.toffset) {
+    dict[kAVAToffset] = self.toffset;
+  }
+  if (self.sid) {
+    dict[kAVASID] = self.sid;
+  }
+  if (self.device) {
+    dict[kAVADevice] = [self.device serializeToDictionary];
+  }
+  return dict;
 }
 
 - (BOOL)isValid {
@@ -44,6 +43,24 @@ static NSString *const kAVAType = @"type";
   // Is valid
   isValid = (!self.type || !self.sid || !self.toffset);
   return isValid;
+}
+
+#pragma mark - NSCoding
+
+- (instancetype)initWithCoder:(NSCoder *)coder {
+  self = [super init];
+  if(self) {
+    _toffset = [coder decodeObjectForKey:kAVAToffset];
+    _sid = [coder decodeObjectForKey:kAVASID];
+    _device = [coder decodeObjectForKey:kAVADevice];
+  }
+  return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+  [coder encodeObject:self.toffset forKey:kAVAToffset];
+  [coder encodeObject:self.sid forKey:kAVASID];
+  [coder encodeObject:self.device forKey:kAVADevice];
 }
 
 @end
