@@ -47,7 +47,7 @@
     AVAEventLog *log = [[AVAEventLog alloc] init];
     log.name = name;
     log.toffset = [NSNumber numberWithInteger:[[NSDate date] timeIntervalSince1970]];
-    log.eventId = [[NSUUID UUID] UUIDString];
+    log.eventId = kAVAUUIDString;
 
     // Send log to core module
     [self.delegate feature:self didCreateLog:log];

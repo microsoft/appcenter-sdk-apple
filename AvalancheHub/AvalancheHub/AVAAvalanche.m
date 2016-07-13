@@ -1,13 +1,14 @@
 #import "AVAAvalanchePrivate.h"
 #import "AVAChannelDefault.h"
 #import "AVAFeaturePrivate.h"
+#import "AVAChannelDefault.h"
+#import "AVAChannelSessionDecorator.h"
 #import "AVAFileStorage.h"
 #import "AVAHttpSender.h"
 #import "AVASettings.h"
 #import "AVAUtils.h"
 
-static NSString *const kAVAInstallId = @"AVAInstallId";
-static NSTimeInterval const kAVASessionTimeOut = 20;
+static NSString* const kAVAInstallId = @"AVAInstallId";
 
 // Http Headers + Query string
 static NSString *const kAVAAppKeyKey = @"App-Key";
@@ -86,7 +87,10 @@ static NSString *const kAVABaseUrl =
 
   // Init storage
   AVAFileStorage *storage = [[AVAFileStorage alloc] init];
-  _channel = [[AVAChannelDefault alloc] initWithSender:sender storage:storage];
+  
+  // Create channel
+  AVAChannelDefault *defaultChannel = [[AVAChannelDefault alloc] initWithSender:sender storage:storage];
+  _channel = [[AVAChannelSessionDecorator alloc] initWithChannel:defaultChannel];
 }
 
 + (AVALogLevel)logLevel {
@@ -105,10 +109,6 @@ static NSString *const kAVABaseUrl =
   return _appKey;
 }
 
-- (NSString *)sid {
-  return _sid;
-}
-
 - (NSString *)installId {
   return _installId;
 }
@@ -118,21 +118,7 @@ static NSString *const kAVABaseUrl =
 }
 
 - (void)feature:(id)feature didCreateLog:(id<AVALog>)log {
-  // TODO: Persist sid
-  // Use fabs(absolute) since last sent time was in past and the delta is
-  // negative.
-  if (log.sid == nil ||
-      (fabs([self.lastLogSent timeIntervalSinceNow]) >=
-       kAVASessionTimeOut /* && fabs([self.lastActivityPaused timeIntervalSinceNow]) >= kAVASessionTimeOut */)) {
-    self.sid = [[NSUUID UUID] UUIDString];
-  }
-
-  // Set the session id
-  log.sid = self.sid;
   [self.channel enqueueItem:log];
-
-  // Cache the sent time
-  self.lastLogSent = [NSDate date];
 }
 
 - (void)setInstallId {
@@ -149,7 +135,7 @@ static NSString *const kAVABaseUrl =
   } else {
 
     // Create a new random install id
-    self.installId = [[NSUUID UUID] UUIDString];
+    self.installId = kAVAUUIDString;
 
     // Persist the install ID string
     [kAVASettings setObject:self.installId forKey:kAVAInstallId];

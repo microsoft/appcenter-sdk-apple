@@ -79,20 +79,43 @@ static NSString *const kAVAAppNamespace = @"appNamespace";
 
 - (BOOL)isValid {
   BOOL isValid =
-  (!self.sdkVersion || !self.wrapperSdkVersion || !self.wrapperSdkName ||
-   !self.model || !self.oemName || !self.osName || !self.osVersion ||
-   !self.osApiLevel || !self.locale || !self.timeZoneOffset ||
-   !self.screenSize || !self.appVersion || !self.carrierName ||
-   !self.carrierCountry || !self.appBuild || !self.appNamespace);
+      (!self.sdkVersion || !self.wrapperSdkVersion || !self.wrapperSdkName ||
+       !self.model || !self.oemName || !self.osName || !self.osVersion ||
+       !self.osApiLevel || !self.locale || !self.timeZoneOffset ||
+       !self.screenSize || !self.appVersion || !self.carrierName ||
+       !self.carrierCountry || !self.appBuild || !self.appNamespace);
 
   return isValid;
+}
+
+- (BOOL)isEqual:(AVADeviceLog *)device {
+
+  if (!device)
+    return NO;
+
+  return ((!self.sdkVersion && !device.sdkVersion) || [self.sdkVersion isEqualToString:device.sdkVersion]) &&
+         ((!self.wrapperSdkVersion && !device.wrapperSdkVersion) ||[self.wrapperSdkVersion isEqualToString:device.wrapperSdkVersion]) &&
+         ((!self.wrapperSdkName && !device.wrapperSdkName) || [self.wrapperSdkName isEqualToString:device.wrapperSdkName]) &&
+         ((!self.model && !device.model) || [self.model isEqualToString:device.model]) &&
+         ((!self.oemName && !device.oemName) || [self.oemName isEqualToString:device.oemName]) &&
+         ((!self.osName && !device.osName) || [self.osName isEqualToString:device.osName]) &&
+         ((!self.osVersion && !device.osVersion) || [self.osVersion isEqualToString:device.osVersion]) &&
+         ((!self.osApiLevel && !device.osApiLevel) || [self.osApiLevel isEqualToNumber:device.osApiLevel]) &&
+         ((!self.locale && !device.locale) || [self.locale isEqualToString:device.locale]) &&
+         ((!self.timeZoneOffset && !device.timeZoneOffset) || [self.timeZoneOffset isEqualToNumber:device.timeZoneOffset]) &&
+         ((!self.screenSize && !device.screenSize) || [self.screenSize isEqualToString:device.screenSize]) &&
+         ((!self.appVersion && !device.appVersion) || [self.appVersion isEqualToString:device.appVersion]) &&
+         ((!self.carrierName && !device.carrierName) || [self.carrierName isEqualToString:device.carrierName]) &&
+         ((!self.carrierCountry && !device.carrierCountry) || [self.carrierCountry isEqualToString:device.carrierCountry]) &&
+         ((!self.appBuild && !device.appBuild) || [self.appBuild isEqualToString:device.appBuild]) &&
+         ((!self.appNamespace && !device.appNamespace) || [self.appNamespace isEqualToString:device.appNamespace]);
 }
 
 #pragma mark - NSCoding
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
   self = [super init];
-  if(self) {
+  if (self) {
     if (self) {
       _sdkVersion = [coder decodeObjectForKey:kAVASdkVersion];
       _wrapperSdkVersion = [coder decodeObjectForKey:kAVAWrapperSdkVersion];

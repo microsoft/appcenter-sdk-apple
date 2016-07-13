@@ -2,6 +2,7 @@
 #import "AVAFileHelper.h"
 #import "AVAFileStorage.h"
 #import "AVALogger.h"
+#import "AVAUtils.h"
 
 static NSString *const kAVALogsDirectory = @"com.microsoft.avalanche/logs";
 static NSString *const kAVAFileExtension = @"ava";
@@ -98,7 +99,7 @@ static NSUInteger const AVADefaultBucketFileCountLimit = 50;
 - (void)renewCurrentFileForStorageKey:(NSString *)storageKey {
   AVAStorageBucket *bucket = [self bucketForStorageKey:storageKey];
   NSDate *creationDate = [NSDate date];
-  NSString *fileId = [[NSUUID UUID] UUIDString];
+  NSString *fileId = kAVAUUIDString;
   NSString *filePath = [self filePathForStorageKey:storageKey logsId:fileId];
   AVAFile *file = [[AVAFile alloc] initWithPath:filePath
                                          fileId:fileId

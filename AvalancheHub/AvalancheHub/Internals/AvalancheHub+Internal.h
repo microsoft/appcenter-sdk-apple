@@ -12,3 +12,4 @@
 #import "Model/AVALog.h"
 #import "Model/AVALogContainer.h"
 #import "Model/AVALogWithProperties.h"
+#import "Utils/AVAUtils.h"
