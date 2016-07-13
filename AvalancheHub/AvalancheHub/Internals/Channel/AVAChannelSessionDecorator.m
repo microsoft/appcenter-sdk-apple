@@ -66,17 +66,6 @@ static NSTimeInterval const kAVASessionTimeOut = 20;
 
 #pragma mark - Initialization
 
-- (instancetype)initWithSender:(id<AVASender>)sender
-                       storage:(id<AVAStorage>)storage {
-  if (self = [self init]) {
-    _sessionTimeout = kAVASessionTimeOut;
-
-    // Register for foregroung/background events
-    [self registerObservers];
-  }
-  return self;
-}
-
 - (instancetype)initWithChannel:(id<AVAChannel>)channel {
   if (self = [self init]) {
     _channel = channel;
@@ -105,8 +94,8 @@ static NSTimeInterval const kAVASessionTimeOut = 20;
   item.toffset =
       [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]];
 
-  // TODO
-  // item.device = [DeviceUtil getDeviceInfo];
+  // Set device log
+  item.device = [self getDeviceLog];
   [self.channel enqueueItem:item];
 
   // Cache the queue timestamp
@@ -167,6 +156,13 @@ static NSTimeInterval const kAVASessionTimeOut = 20;
 
 - (void)applicationWillEnterForeground {
   self.lastResumedTime = [NSDate date];
+}
+
+- (AVADeviceLog *)getDeviceLog {
+  // TODO use util funciton
+  AVADeviceLog *device = [[AVADeviceLog alloc] init];
+  
+  return device;
 }
 
 @end

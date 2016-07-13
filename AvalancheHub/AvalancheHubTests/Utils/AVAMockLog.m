@@ -11,16 +11,9 @@ static NSString *const kAVATypeMockLog = @"mockLog";
   return self;
 }
 
-- (void)write:(NSMutableDictionary *)dic {
-  [super write:dic];
-}
-
-- (void)read:(NSDictionary *)obj {
-  [super read:obj];
-}
-
-- (BOOL)isValid {
-  return [super isValid];
+- (NSMutableDictionary *)serializeToDictionary {
+  NSMutableDictionary *dict = [super serializeToDictionary];
+  return dict;
 }
 
 @end

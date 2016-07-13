@@ -366,8 +366,8 @@
 		6E2395791D22EF4F00E543C8 /* AvalancheHubTests */ = {
 			isa = PBXGroup;
 			children = (
-				6E363AEF1D2C84D60079043D /* Helper */,
 				6E2395831D22EF5F00E543C8 /* Frameworks */,
+				6E363AEF1D2C84D60079043D /* Utils */,
 				6E23957C1D22EF4F00E543C8 /* Info.plist */,
 				6EB1F40D1D2443B7005F9F99 /* AVAChannelDefaultTests.m */,
 				6E5D8A7F1D25B91F00C033B1 /* AVAFileHelperTests.m */,
@@ -392,7 +392,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		6E363AEF1D2C84D60079043D /* Helper */ = {
+		6E363AEF1D2C84D60079043D /* Utils */ = {
 			isa = PBXGroup;
 			children = (
 				6E363AF01D2C84EA0079043D /* AVAStorageTestHelper.h */,
@@ -400,7 +400,7 @@
 				E88D17041D35B6B500A5EA57 /* AVAMockLog.h */,
 				E88D17051D35B6B500A5EA57 /* AVAMockLog.m */,
 			);
-			name = Helper;
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		E84B8E221D234EBB006FD231 /* Sender */ = {

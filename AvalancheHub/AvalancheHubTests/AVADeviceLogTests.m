@@ -1,13 +1,13 @@
 #import <Foundation/Foundation.h>
-#import <XCTest/XCTest.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
+#import <XCTest/XCTest.h>
 
 #import "AVADeviceLog.h"
 
 @interface AVADeviceLogTests : XCTestCase
 
-@property (nonatomic, strong) AVADeviceLog *sut;
+@property(nonatomic, strong) AVADeviceLog *sut;
 
 @end
 
@@ -29,7 +29,7 @@
 #pragma mark - Tests
 
 - (void)testSerializingDeviceToDictionaryWorks {
-  
+
   // If
   NSString *sdkVersion = @"3.0.1";
   NSString *model = @"iPhone 7.2";
@@ -43,7 +43,7 @@
   NSString *appVersion = @"3.4.5 (34)";
   NSString *carrierName = @"T-Mobile";
   NSString *carrierCountry = @"United States";
-  
+
   self.sut.sdkVersion = sdkVersion;
   self.sut.model = model;
   self.sut.oemName = oemName;
@@ -56,10 +56,10 @@
   self.sut.appVersion = appVersion;
   self.sut.carrierName = carrierName;
   self.sut.carrierCountry = carrierCountry;
-  
+
   // When
   NSMutableDictionary *actual = [self.sut serializeToDictionary];
-  
+
   // Then
   assertThat(actual, notNilValue());
   assertThat(actual[@"sdkVersion"], equalTo(sdkVersion));
@@ -77,7 +77,7 @@
 }
 
 - (void)testNSCodingSerializationAndDeserializationWorks {
-  
+
   // If
   NSString *sdkVersion = @"3.0.1";
   NSString *model = @"iPhone 7.2";
@@ -91,7 +91,7 @@
   NSString *appVersion = @"3.4.5 (34)";
   NSString *carrierName = @"T-Mobile";
   NSString *carrierCountry = @"United States";
-  
+
   self.sut.sdkVersion = sdkVersion;
   self.sut.model = model;
   self.sut.oemName = oemName;
@@ -104,15 +104,16 @@
   self.sut.appVersion = appVersion;
   self.sut.carrierName = carrierName;
   self.sut.carrierCountry = carrierCountry;
-  
+
   // When
-  NSData *serializedEvent = [NSKeyedArchiver archivedDataWithRootObject:self.sut];
+  NSData *serializedEvent =
+      [NSKeyedArchiver archivedDataWithRootObject:self.sut];
   id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedEvent];
-  
+
   // Then
   assertThat(actual, notNilValue());
   assertThat(actual, instanceOf([AVADeviceLog class]));
-  
+
   AVADeviceLog *actualDevice = actual;
   assertThat(actualDevice.sdkVersion, equalTo(sdkVersion));
   assertThat(actualDevice.model, equalTo(model));
@@ -128,5 +129,47 @@
   assertThat(actualDevice.carrierCountry, equalTo(carrierCountry));
 }
 
-@end
+- (void)testIsEqual {
 
+  // If
+  NSString *sdkVersion = @"3.0.1";
+  NSString *model = @"iPhone 7.2";
+  NSString *oemName = @"Apple";
+  NSString *osName = @"iOS";
+  NSString *osVersion = @"9.3.20";
+  NSNumber *osApiLevel = @(320);
+  NSString *locale = @"US-EN";
+  NSNumber *timeZoneOffset = @(9);
+  NSString *screenSize = @"750x1334";
+  NSString *appVersion = @"3.4.5 (34)";
+  NSString *carrierName = @"T-Mobile";
+  NSString *carrierCountry = @"United States";
+
+  self.sut.sdkVersion = sdkVersion;
+  self.sut.model = model;
+  self.sut.oemName = oemName;
+  self.sut.osName = osName;
+  self.sut.osVersion = osVersion;
+  self.sut.osApiLevel = osApiLevel;
+  self.sut.locale = locale;
+  self.sut.timeZoneOffset = timeZoneOffset;
+  self.sut.screenSize = screenSize;
+  self.sut.appVersion = appVersion;
+  self.sut.carrierName = carrierName;
+  self.sut.carrierCountry = carrierCountry;
+
+  // When
+  NSData *serializedEvent =
+      [NSKeyedArchiver archivedDataWithRootObject:self.sut];
+  id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedEvent];
+  AVADeviceLog *actualDevice = actual;
+
+  // then
+  XCTAssertTrue([self.sut isEqual:actualDevice]);
+  
+  
+  self.sut.carrierCountry = @"newCarrierCountry";
+  XCTAssertFalse([self.sut isEqual:actualDevice]);
+}
+
+@end
