@@ -11,26 +11,6 @@ static NSTimeInterval const kAVASessionTimeOut = 20;
 @interface AVAChannelSessionDecorator ()
 
 /**
- *  Timestamp of the last queued log.
- */
-@property(nonatomic) NSDate *lastQueuedLogTime;
-
-/**
- *  Timestamp of the last time that the app entered foreground.
- */
-@property(nonatomic) NSDate *lastResumedTime;
-
-/**
- *  Timestamp of the last time that the app entered background.
- */
-@property(nonatomic) NSDate *lastPausedTime;
-
-/**
- * Current session id.
- */
-@property(nonatomic) NSString *sid;
-
-/**
  *  Observer for event UIApplicationDidEnterBackgroundNotification
  */
 @property(nonatomic, strong) id<NSObject> appWillEnterForegroundObserver;
@@ -41,9 +21,9 @@ static NSTimeInterval const kAVASessionTimeOut = 20;
 @property(nonatomic, strong) id<NSObject> appDidEnterBackgroundObserver;
 
 /**
- *  Check if current session has timed out.
+ *  Check if current session has timed out
  *
- *  @return YES if current session has timed out, NO otherwise.
+ *  @return YES if current session has timed out, NO otherwise
  */
 - (BOOL)hasSessionTimedOut;
 
@@ -77,17 +57,13 @@ static NSTimeInterval const kAVASessionTimeOut = 20;
   return self;
 }
 
-- (void)setSessionTimeout:(NSTimeInterval)timeout {
-  _sessionTimeout = timeout;
-}
-
 #pragma mark - Managing queue
 
 - (void)enqueueItem:(id<AVALog>)item {
 
   // Check if new session id is required
   if (self.sid == nil || [self hasSessionTimedOut]) {
-    self.sid = [[NSUUID UUID] UUIDString];
+    _sid = kAVAUUIDString;
     AVALogVerbose(@"INFO:new session ID: %@", self.sid);
   }
   item.sid = self.sid;

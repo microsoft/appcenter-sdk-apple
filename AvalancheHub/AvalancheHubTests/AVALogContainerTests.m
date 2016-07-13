@@ -19,12 +19,12 @@
   AVALogContainer *logContainer = [[AVALogContainer alloc] init];
 
   AVAAbstractLog *log1 = [[AVAAbstractLog alloc] init];
-  log1.sid = [[NSUUID UUID] UUIDString];
+  log1.sid = kAVAUUIDString;
   log1.toffset =
       [NSNumber numberWithInteger:[[NSDate date] timeIntervalSince1970]];
 
   AVAAbstractLog *log2 = [[AVAAbstractLog alloc] init];
-  log2.sid = [[NSUUID UUID] UUIDString];
+  log2.sid = kAVAUUIDString;
   log2.toffset =
       [NSNumber numberWithInteger:[[NSDate date] timeIntervalSince1970]];
 

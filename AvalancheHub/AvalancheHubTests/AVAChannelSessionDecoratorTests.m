@@ -41,6 +41,8 @@ NSTimeInterval const kAVATestSessionTimeout = 5.0;
 
   NSString *expectedSid;
   AVADeviceLog *expectedDevice;
+  
+  // Verify the creation of sid and device log
   {
     AVAMockLog *mockLog = [[AVAMockLog alloc] init];
     [_sut enqueueItem:mockLog];

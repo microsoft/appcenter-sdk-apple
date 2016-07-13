@@ -10,7 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- * Channel decorator, adding session and device semantic to the logs.
+ * Channel decorator, adding session and device semantic to the logs
  */
 @interface AVAChannelSessionDecorator
     : NSObject <AVAChannel, AVAChannelDelegate>
@@ -26,11 +26,31 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) NSTimeInterval sessionTimeout;
 
 /**
- *  Initialize the channel decorator.
+ *  Timestamp of the last queued log
+ */
+@property(nonatomic) NSDate *lastQueuedLogTime;
+
+/**
+ *  Timestamp of the last time that the app entered foreground
+ */
+@property(nonatomic) NSDate *lastResumedTime;
+
+/**
+ *  Timestamp of the last time that the app entered background
+ */
+@property(nonatomic) NSDate *lastPausedTime;
+
+/**
+ * Current session id
+ */
+@property(nonatomic) NSString *sid;
+
+/**
+ *  Initialize the channel decorator
  *
- *  @param channel Channel to be decorated.
+ *  @param channel Channel to be decorated
  *
- *  @return instance of class.
+ *  @return instance of class
  */
 - (instancetype)initWithChannel:(id<AVAChannel>)channel;
 

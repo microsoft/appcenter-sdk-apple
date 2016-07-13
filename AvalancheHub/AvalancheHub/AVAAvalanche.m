@@ -135,7 +135,7 @@ static NSString *const kAVABaseUrl =
   } else {
 
     // Create a new random install id
-    self.installId = [[NSUUID UUID] UUIDString];
+    self.installId = kAVAUUIDString;
 
     // Persist the install ID string
     [kAVASettings setObject:self.installId forKey:kAVAInstallId];

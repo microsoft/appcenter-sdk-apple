@@ -33,7 +33,7 @@
 
   // If
   NSString *typeName = @"event";
-  NSString *eventId = [[NSUUID UUID] UUIDString];
+  NSString *eventId = kAVAUUIDString;
   NSString *eventName = @"eventName";
   AVADeviceLog *device = [AVADeviceLog new];
   NSString *sessionId = @"1234567890";
@@ -65,7 +65,7 @@
   
   // If
   NSString *typeName = @"event";
-  NSString *eventId = [[NSUUID UUID] UUIDString];
+  NSString *eventId = kAVAUUIDString;
   NSString *eventName = @"eventName";
   AVADeviceLog *device = [AVADeviceLog new];
   NSString *sessionId = @"1234567890";

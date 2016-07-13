@@ -10,6 +10,6 @@
 #define kAVASettings [AVASettings shared]
 #define kAVADevice [UIDevice currentDevice]
 #define kAVAApplication [UIApplication sharedApplication]
-#define kAVAUUID [NSUUID UUID]
+#define kAVAUUIDString [[NSUUID UUID] UUIDString]
 
 #endif /* AVAUtils_h */

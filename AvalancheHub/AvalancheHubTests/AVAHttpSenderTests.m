@@ -28,7 +28,7 @@ static NSString *const kAVAAppKey = @"mockAppKey";
   NSDictionary *headers = @{
     @"Content-Type" : @"application/json",
     @"App-Key" : @"myUnitTestAppKey",
-    @"Install-ID" : [[NSUUID UUID] UUIDString]
+    @"Install-ID" : kAVAUUIDString
   };
 
   NSDictionary *queryStrings = @{ @"api-version" : @"1.0.0-preview20160901" };
@@ -178,7 +178,7 @@ static NSString *const kAVAAppKey = @"mockAppKey";
 
 - (AVALogContainer *)createLogContainerWithId:(NSString *)batchId {
   AVAAbstractLog *log1 = [[AVAAbstractLog alloc] init];
-  log1.sid = [[NSUUID UUID] UUIDString];
+  log1.sid = kAVAUUIDString;
 
   AVADeviceLog *log2 = [[AVADeviceLog alloc] init];
   log2.sdkVersion = @"1.0.0";
