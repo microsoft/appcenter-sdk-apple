@@ -2,8 +2,9 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "AVALog.h"
 #import <Foundation/Foundation.h>
+
+#import "AVALog.h"
 
 FOUNDATION_EXPORT NSString *const kAVAType;
 

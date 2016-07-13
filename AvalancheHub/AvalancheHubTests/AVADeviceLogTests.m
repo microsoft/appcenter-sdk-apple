@@ -31,9 +31,6 @@
 - (void)testSerializingDeviceToDictionaryWorks {
   
   // If
-  NSString *typeName = @"device";
-  NSString *sessionId = @"1234567890";
-  NSNumber *tOffset = @(3);
   NSString *sdkVersion = @"3.0.1";
   NSString *model = @"iPhone 7.2";
   NSString *oemName = @"Apple";
@@ -47,8 +44,6 @@
   NSString *carrierName = @"T-Mobile";
   NSString *carrierCountry = @"United States";
   
-  self.sut.toffset = tOffset;
-  self.sut.sid = sessionId;
   self.sut.sdkVersion = sdkVersion;
   self.sut.model = model;
   self.sut.oemName = oemName;
@@ -67,9 +62,6 @@
   
   // Then
   assertThat(actual, notNilValue());
-  assertThat(actual[@"sid"], equalTo(sessionId));
-  assertThat(actual[@"toffset"], equalTo(tOffset));
-  assertThat(actual[@"type"], equalTo(typeName));
   assertThat(actual[@"sdkVersion"], equalTo(sdkVersion));
   assertThat(actual[@"model"], equalTo(model));
   assertThat(actual[@"oemName"], equalTo(oemName));
@@ -87,9 +79,6 @@
 - (void)testNSCodingSerializationAndDeserializationWorks {
   
   // If
-  NSString *typeName = @"device";
-  NSString *sessionId = @"1234567890";
-  NSNumber *tOffset = @(3);
   NSString *sdkVersion = @"3.0.1";
   NSString *model = @"iPhone 7.2";
   NSString *oemName = @"Apple";
@@ -103,8 +92,6 @@
   NSString *carrierName = @"T-Mobile";
   NSString *carrierCountry = @"United States";
   
-  self.sut.toffset = tOffset;
-  self.sut.sid = sessionId;
   self.sut.sdkVersion = sdkVersion;
   self.sut.model = model;
   self.sut.oemName = oemName;
@@ -127,10 +114,6 @@
   assertThat(actual, instanceOf([AVADeviceLog class]));
   
   AVADeviceLog *actualDevice = actual;
-  assertThat(actualDevice.toffset, equalTo(tOffset));
-  assertThat(actualDevice.type, equalTo(typeName));
-  assertThat(actualDevice.sid, equalTo(sessionId));
-  
   assertThat(actualDevice.sdkVersion, equalTo(sdkVersion));
   assertThat(actualDevice.model, equalTo(model));
   assertThat(actualDevice.oemName, equalTo(oemName));

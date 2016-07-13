@@ -5,9 +5,11 @@
 #import "AVAAbstractLog.h"
 #import "AVALogUtils.h"
 #import "AVALogger.h"
+#import "AVADeviceLog.h"
 
 static NSString *const kAVASID = @"sid";
 static NSString *const kAVAToffset = @"toffset";
+static NSString *const kAVADevice = @"device";
 NSString *const kAVAType = @"type";
 
 @implementation AVAAbstractLog
@@ -15,6 +17,7 @@ NSString *const kAVAType = @"type";
 @synthesize type = _type;
 @synthesize toffset = _toffset;
 @synthesize sid = _sid;
+@synthesize device = _device;
 
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [NSMutableDictionary new];
@@ -27,6 +30,9 @@ NSString *const kAVAType = @"type";
   }
   if (self.sid) {
     dict[kAVASID] = self.sid;
+  }
+  if (self.device) {
+    dict[kAVADevice] = [self.device serializeToDictionary];
   }
   return dict;
 }
@@ -46,6 +52,7 @@ NSString *const kAVAType = @"type";
   if(self) {
     _toffset = [coder decodeObjectForKey:kAVAToffset];
     _sid = [coder decodeObjectForKey:kAVASID];
+    _device = [coder decodeObjectForKey:kAVADevice];
   }
   return self;
 }
@@ -53,6 +60,7 @@ NSString *const kAVAType = @"type";
 - (void)encodeWithCoder:(NSCoder *)coder {
   [coder encodeObject:self.toffset forKey:kAVAToffset];
   [coder encodeObject:self.sid forKey:kAVASID];
+  [coder encodeObject:self.device forKey:kAVADevice];
 }
 
 @end

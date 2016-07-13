@@ -8,9 +8,17 @@
 @protocol AVADeviceLog
 @end
 
-@interface AVADeviceLog : AVAAbstractLog
+@interface AVADeviceLog : NSObject <NSCoding>
 
+/* Version of the SDK.
+ */
 @property(nonatomic) NSString* sdkVersion;
+/* Version of the wrapper SDK. When the SDK is embedding another base SDK (for example Xamarin.Android wraps Android), the Xamarin specific version is populated into this field while sdkVersion refers to the original Android SDK.  [optional]
+ */
+@property(nonatomic) NSString* wrapperSdkVersion;
+/* Name of the wrapper SDK (examples: Xamarin, Cordova).  [optional]
+ */
+@property(nonatomic) NSString* wrapperSdkName;
 /* Device model (example: iPad2,3).
  */
 @property(nonatomic) NSString* model;
@@ -35,7 +43,7 @@
 /* Screen size of the device in pixels (example: 640x480).
  */
 @property(nonatomic) NSString* screenSize;
-/* Application version name.
+/* Application version name, e.g. 1.1.0
  */
 @property(nonatomic) NSString* appVersion;
 /* Carrier name (for mobile devices).  [optional]
@@ -44,5 +52,18 @@
 /* Carrier country code (for mobile devices).  [optional]
  */
 @property(nonatomic) NSString* carrierCountry;
+/* The app's build number, e.g. 42.
+ */
+@property(nonatomic) NSString* appBuild;
+/* The bundle identifier, package identifier, or namespace, depending on what the individual plattforms use,  .e.g com.microsoft.example.  [optional]
+ */
+@property(nonatomic) NSString* appNamespace;
+
+/**
+ * Checks if the object's values are valid.
+ *
+ * return YES, if the object is valid
+ */
+- (NSMutableDictionary *)serializeToDictionary;
 
 @end
