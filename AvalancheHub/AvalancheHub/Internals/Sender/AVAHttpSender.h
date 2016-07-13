@@ -2,15 +2,12 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "AVAChannelDelegate.h"
 #import "AVASender.h"
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface AVAHttpSender : NSObject <AVASender>
-
-@property(nonatomic, weak) id<AVAChannelDelegate> delegate;
 
 /**
  *	Send Url

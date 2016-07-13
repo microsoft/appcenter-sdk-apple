@@ -6,8 +6,8 @@
 #import "AVAAvalanche.h"
 #import "AVALoggerPrivate.h"
 #import "AVAAvalancheDelegate.h"
+#import "AVALogManager.h"
 #import "AVASessionTrackerDelegate.h"
-#import "AVAChannel.h"
 #import "AVASender.h"
 #import "AVAStorage.h"
 #import "AVAFeaturePrivate.h"
@@ -17,7 +17,7 @@
 
 @interface AVAAvalanche () <AVAAvalancheDelegate, AVASessionTrackerDelegate>
 
-@property (nonatomic) id<AVAChannel> channel;
+@property (nonatomic) id<AVALogManager> channel;
 @property (nonatomic) NSMutableArray<NSObject<AVAFeaturePrivate> *> *features;
 @property (nonatomic, copy) NSString *appKey;
 @property (nonatomic) NSString *installId;

@@ -74,6 +74,9 @@
 		E84B8E2E1D2351DB006FD231 /* AVAChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E2B1D2351DB006FD231 /* AVAChannel.h */; };
 		E84B8E2F1D2351DB006FD231 /* AVAChannelDefault.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E2C1D2351DB006FD231 /* AVAChannelDefault.h */; };
 		E84B8E301D2351DB006FD231 /* AVAChannelDefault.m in Sources */ = {isa = PBXBuildFile; fileRef = E84B8E2D1D2351DB006FD231 /* AVAChannelDefault.m */; };
+		E84B8E2E1D2351DB006FD231 /* AVALogManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E2B1D2351DB006FD231 /* AVALogManager.h */; };
+		E84B8E2F1D2351DB006FD231 /* AVALogManagerDefault.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E2C1D2351DB006FD231 /* AVALogManagerDefault.h */; };
+		E84B8E301D2351DB006FD231 /* AVALogManagerDefault.m in Sources */ = {isa = PBXBuildFile; fileRef = E84B8E2D1D2351DB006FD231 /* AVALogManagerDefault.m */; };
 		E84B8E321D235209006FD231 /* AVASender.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E311D235209006FD231 /* AVASender.h */; };
 		E84B8E351D235226006FD231 /* AVAHttpSender.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E331D235226006FD231 /* AVAHttpSender.h */; };
 		E84B8E361D235226006FD231 /* AVAHttpSender.m in Sources */ = {isa = PBXBuildFile; fileRef = E84B8E341D235226006FD231 /* AVAHttpSender.m */; };
@@ -184,6 +187,9 @@
 		E84B8E2B1D2351DB006FD231 /* AVAChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAChannel.h; sourceTree = "<group>"; };
 		E84B8E2C1D2351DB006FD231 /* AVAChannelDefault.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAChannelDefault.h; sourceTree = "<group>"; };
 		E84B8E2D1D2351DB006FD231 /* AVAChannelDefault.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAChannelDefault.m; sourceTree = "<group>"; };
+		E84B8E2B1D2351DB006FD231 /* AVALogManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVALogManager.h; sourceTree = "<group>"; };
+		E84B8E2C1D2351DB006FD231 /* AVALogManagerDefault.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVALogManagerDefault.h; sourceTree = "<group>"; };
+		E84B8E2D1D2351DB006FD231 /* AVALogManagerDefault.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVALogManagerDefault.m; sourceTree = "<group>"; };
 		E84B8E311D235209006FD231 /* AVASender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVASender.h; sourceTree = "<group>"; };
 		E84B8E331D235226006FD231 /* AVAHttpSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAHttpSender.h; sourceTree = "<group>"; };
 		E84B8E341D235226006FD231 /* AVAHttpSender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAHttpSender.m; sourceTree = "<group>"; };
@@ -443,6 +449,9 @@
 				E84B8E2C1D2351DB006FD231 /* AVAChannelDefault.h */,
 				E84B8E2D1D2351DB006FD231 /* AVAChannelDefault.m */,
 				E84B8E3A1D235273006FD231 /* AVAChannelDelegate.h */,
+				E84B8E2B1D2351DB006FD231 /* AVALogManager.h */,
+				E84B8E2C1D2351DB006FD231 /* AVALogManagerDefault.h */,
+				E84B8E2D1D2351DB006FD231 /* AVALogManagerDefault.m */,
 			);
 			path = Channel;
 			sourceTree = "<group>";
@@ -491,9 +500,11 @@
 				E84B8E321D235209006FD231 /* AVASender.h in Headers */,
 				6E0401721D1C9E460051BCFA /* AVALogger.h in Headers */,
 				E84B8E2E1D2351DB006FD231 /* AVAChannel.h in Headers */,
+				E84B8E2E1D2351DB006FD231 /* AVALogManager.h in Headers */,
 				6E2BA1AF1D2499F9002D7B88 /* AVAFileHelper.h in Headers */,
 				6E0401731D1C9E460051BCFA /* AVALoggerPrivate.h in Headers */,
 				E84B8E2F1D2351DB006FD231 /* AVAChannelDefault.h in Headers */,
+				E84B8E2F1D2351DB006FD231 /* AVALogManagerDefault.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

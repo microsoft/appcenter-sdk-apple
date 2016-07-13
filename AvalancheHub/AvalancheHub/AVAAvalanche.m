@@ -1,5 +1,5 @@
 #import "AVAAvalanchePrivate.h"
-#import "AVAChannelDefault.h"
+#import "AVALogManagerDefault.h"
 #import "AVAFeaturePrivate.h"
 #import "AVAChannelDefault.h"
 #import "AVAFileStorage.h"
@@ -92,9 +92,7 @@ static NSString *const kAVABaseUrl =
 
   // Init storage
   AVAFileStorage *storage = [[AVAFileStorage alloc] init];
-  
-  // Create channel
-  _channel = [[AVAChannelDefault alloc] initWithSender:sender storage:storage];
+  _channel = [[AVALogManagerDefault alloc] initWithSender:sender storage:storage];
 }
 
 + (AVALogLevel)logLevel {

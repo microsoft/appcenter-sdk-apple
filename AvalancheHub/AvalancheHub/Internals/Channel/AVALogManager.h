@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Defines a channel which manages a queue of log items.
  */
-@protocol AVAChannel <NSObject>
+@protocol AVALogManager <NSObject>
 
 /*
  * Threshold after which the queue will be flushed.
@@ -28,8 +28,19 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic) float flushInterval;
 
-
 @required
+
+/**
+ *  Initializes a new `AVALogManager` instance.
+ *
+ *  @param sender a sender instance that is used to send batches of log items to
+ * the backend
+ *  @param storage a storage instance to store and read enqueued log items
+ *
+ *  @return the telemetry context
+ */
+- (instancetype)initWithSender:(id<AVASender>)sender
+                       storage:(id<AVAStorage>)storage;
 
 /**
  * Enqueues a new log item.

@@ -2,16 +2,16 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "AVAChannelDefault.h"
+#import "AVALogManagerDefault.h"
 #import "AvalancheHub+Internal.h"
 
 static char *const AVADataItemsOperationsQueue =
-    "com.microsoft.avalanche.ChannelQueue";
+    "com.microsoft.avalanche.LogManagerQueue";
 static NSUInteger const AVADefaultBatchSize = 50;
 static float const AVADefaultFlushInterval = 3.0;
 static NSString* const kAVAStorageKey = @"storageKey";
 
-@implementation AVAChannelDefault
+@implementation AVALogManagerDefault
 
 @synthesize batchSize = _batchSize;
 @synthesize flushInterval = _flushInterval;
