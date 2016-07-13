@@ -3,12 +3,12 @@
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
 
-#import "AVALogManagerDefault.h"
+#import "AVAChannelDefault.h"
 #import "AVAAbstractLog.h"
 
 @interface AVAChannelDefaultTests : XCTestCase
 
-@property(nonatomic, strong) AVALogManagerDefault *sut;
+@property(nonatomic, strong) AVAChannelDefault *sut;
 
 @end
 
@@ -20,7 +20,7 @@
   [super setUp];
   
   // TODO: Use mocks once protocols are available
-  _sut = [AVALogManagerDefault new];
+  _sut = [AVAChannelDefault new];
 }
 
 - (void)tearDown {
