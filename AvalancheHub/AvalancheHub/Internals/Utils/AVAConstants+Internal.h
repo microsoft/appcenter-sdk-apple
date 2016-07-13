@@ -18,6 +18,7 @@ typedef NS_ENUM(NSInteger, AVASendPriority) {
   AVASendPriorityBackground
 };
 
+#define kAVASendPriorityNames [NSArray arrayWithObjects:@"AVASendPriorityDefault", @"AVASendPriorityHight", @"AVASendPriorityBackground", nil]
 
 typedef NS_ENUM(NSInteger, AVAHTTPCodesNo) {
   // Informational
