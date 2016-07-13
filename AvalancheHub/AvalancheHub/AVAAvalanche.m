@@ -92,7 +92,7 @@ static NSString *const kAVABaseUrl =
 
   // Init storage
   AVAFileStorage *storage = [[AVAFileStorage alloc] init];
-  _channel = [[AVALogManagerDefault alloc] initWithSender:sender storage:storage];
+  _logManager = [[AVALogManagerDefault alloc] initWithSender:sender storage:storage channels:@[]];
 }
 
 + (AVALogLevel)logLevel {
@@ -119,19 +119,22 @@ static NSString *const kAVABaseUrl =
   return _apiVersion;
 }
 
-#pragma mark AVAFeature delegate callback
+- (void)feature:(id)feature didCreateLog:(id<AVALog>)log withPriority:(AVASendPriority)priority {
+  // TODO: Persist sid
+  // Use fabs(absolute) since last sent time was in past and the delta is
+  // negative.
+  if (log.sid == nil ||
+      (fabs([self.lastLogSent timeIntervalSinceNow]) >=
+       kAVASessionTimeOut /* && fabs([self.lastActivityPaused timeIntervalSinceNow]) >= kAVASessionTimeOut */)) {
+    self.sid = [[NSUUID UUID] UUIDString];
+  }
 
-- (void)feature:(id)feature didCreateLog:(id<AVALog>)log {
+  // Set the session id
+  log.sid = self.sid;
+  [self.logManager processLog:log withPriority:priority];
 
-  // Set common log info 
-  log.sid = self.sessionTracker.sessionId;
-  log.toffset = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]];
-  log.device = [self getDevice];
-  
-  // Set the last ceated time on the session tracker
-  self.sessionTracker.lastCreatedLogTime = [NSDate date];
-  
-  [self.channel enqueueItem:log];
+  // Cache the sent time
+  self.lastLogSent = [NSDate date];
 }
 
 - (void)setInstallId {

@@ -17,7 +17,7 @@
 
 @interface AVAAvalanche () <AVAAvalancheDelegate, AVASessionTrackerDelegate>
 
-@property (nonatomic) id<AVALogManager> channel;
+@property (nonatomic) id<AVALogManager> logManager;
 @property (nonatomic) NSMutableArray<NSObject<AVAFeaturePrivate> *> *features;
 @property (nonatomic, copy) NSString *appKey;
 @property (nonatomic) NSString *installId;
