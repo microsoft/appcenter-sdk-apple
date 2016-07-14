@@ -6,6 +6,7 @@
 #import "AVADeviceLog.h"
 #import "AVALogContainer.h"
 #import <XCTest/XCTest.h>
+#import "AvalancheHub+Internal.h"
 
 @interface AVALogContainerTests : XCTestCase
 

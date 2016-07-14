@@ -15,6 +15,7 @@ static NSString* const kAVAStorageKey = @"storageKey";
 
 @synthesize batchSize = _batchSize;
 @synthesize flushInterval = _flushInterval;
+@synthesize lastQueuedLogTime = _lastQueuedLogTime;
 
 #pragma mark - Initialisation
 
@@ -52,6 +53,9 @@ static NSString* const kAVAStorageKey = @"storageKey";
     return;
   }
 
+  // Update the queued time
+  _lastQueuedLogTime = [NSDate date];
+  
   __weak typeof(self) weakSelf = self;
   dispatch_async(self.dataItemsOperations, ^{
     typeof(self) strongSelf = weakSelf;
