@@ -33,7 +33,6 @@
 
 - (void)testNewInstanceWasInitialisedCorrectly {
   assertThat(_sut, notNilValue());
-  assertThat(_sut.dataItemsOperations, notNilValue());
   assertThatUnsignedLong(self.sut.itemsCount, equalToInt(0));
 }
 

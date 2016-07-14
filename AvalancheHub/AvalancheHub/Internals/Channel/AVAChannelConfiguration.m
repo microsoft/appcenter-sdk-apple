@@ -30,8 +30,8 @@ static AVAChannelConfiguration *AVAChannelConfigurationBackground;
     if (!AVAChannelConfigurationHigh) {
       AVAChannelConfigurationHigh =
           [[self alloc] initWithPriorityName:@"AVAPriorityHigh"
-                               flushInterval:30.0
-                              batchSizeLimit:50
+                               flushInterval:3.0
+                              batchSizeLimit:1
                          pendingBatchesLimit:6];
     }
     return AVAChannelConfigurationHigh;
@@ -47,11 +47,11 @@ static AVAChannelConfiguration *AVAChannelConfigurationBackground;
     return AVAChannelConfigurationBackground;
 
   default:
-    if (!AVAPriorityDefault) {
+    if (!AVAChannelConfigurationDefault) {
       AVAChannelConfigurationDefault =
-          [[self alloc] initWithPriorityName:@"AVAPriorityHigh"
-                               flushInterval:5.0
-                              batchSizeLimit:1
+          [[self alloc] initWithPriorityName:@"AVAPriorityDefault"
+                               flushInterval:30.0
+                              batchSizeLimit:50
                          pendingBatchesLimit:3];
     }
     return AVAChannelConfigurationDefault;
