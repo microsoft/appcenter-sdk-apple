@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
  * param item The log item that should be enqueued
  * param priority The priority for processing the log
  */
-- (void)processLog:(id<AVALog>)log withPriority:(AVASendPriority)priority;
+- (void)processLog:(id<AVALog>)log withPriority:(AVAPriority)priority;
 
 @end
 

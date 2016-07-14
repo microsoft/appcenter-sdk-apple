@@ -92,7 +92,7 @@ static NSString *const kAVABaseUrl =
                                                     queryStrings:queryStrings];
   AVAFileStorage *storage = [[AVAFileStorage alloc] init];
   
-  AVAChannelDefault *lowPrioChannel = [[AVAChannelDefault alloc] initWithSender:sender storage:storage priority:AVASendPriorityDefault];
+  AVAChannelDefault *lowPrioChannel = [[AVAChannelDefault alloc] initWithSender:sender storage:storage priority:AVAPriorityDefault];
   NSArray<AVAChannel> *channelList = [NSArray<AVAChannel> arrayWithObject:lowPrioChannel];
   _logManager = [[AVALogManagerDefault alloc] initWithChannels:channelList];
 }
@@ -121,7 +121,7 @@ static NSString *const kAVABaseUrl =
   return _apiVersion;
 }
 
-- (void)feature:(id)feature didCreateLog:(id<AVALog>)log withPriority:(AVASendPriority)priority {
+- (void)feature:(id)feature didCreateLog:(id<AVALog>)log withPriority:(AVAPriority)priority {
   // TODO: Persist sid
   // Use fabs(absolute) since last sent time was in past and the delta is
   // negative.

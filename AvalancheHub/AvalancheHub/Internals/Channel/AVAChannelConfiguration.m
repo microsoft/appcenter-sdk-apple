@@ -23,10 +23,10 @@ static AVAChannelConfiguration *AVAChannelConfigurationBackground;
   return self;
 }
 
-+ (instancetype)configurationForPriority:(AVASendPriority)priority {
++ (instancetype)configurationForPriority:(AVAPriority)priority {
   switch (priority) {
 
-  case AVASendPriorityHigh:
+  case AVAPriorityHigh:
     if (!AVAChannelConfigurationHigh) {
       AVAChannelConfigurationHigh =
           [[self alloc] initWithPriorityName:@"AVAPriorityHigh"
@@ -36,7 +36,7 @@ static AVAChannelConfiguration *AVAChannelConfigurationBackground;
     }
     return AVAChannelConfigurationHigh;
 
-  case AVASendPriorityBackground:
+  case AVAPriorityBackground:
     if (!AVAChannelConfigurationBackground) {
       AVAChannelConfigurationBackground =
           [[self alloc] initWithPriorityName:@"AVAPriorityBackground"
@@ -47,7 +47,7 @@ static AVAChannelConfiguration *AVAChannelConfigurationBackground;
     return AVAChannelConfigurationBackground;
 
   default:
-    if (!AVASendPriorityDefault) {
+    if (!AVAPriorityDefault) {
       AVAChannelConfigurationDefault =
           [[self alloc] initWithPriorityName:@"AVAPriorityHigh"
                                flushInterval:5.0

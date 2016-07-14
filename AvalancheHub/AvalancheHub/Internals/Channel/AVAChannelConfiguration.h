@@ -61,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return a fully configured `AVAChannelConfiguration` instance
  */
-+ (instancetype)configurationForPriority:(AVASendPriority)priority;
++ (instancetype)configurationForPriority:(AVAPriority)priority;
 
 @end
 

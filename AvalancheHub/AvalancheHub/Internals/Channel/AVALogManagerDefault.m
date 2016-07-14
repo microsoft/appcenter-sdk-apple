@@ -30,7 +30,7 @@ static char *const AVADataItemsOperationsQueue =
 
 #pragma mark - Process items
 
-- (void)processLog:(id<AVALog>)log withPriority:(AVASendPriority)priority {
+- (void)processLog:(id<AVALog>)log withPriority:(AVAPriority)priority {
   id<AVAChannel> channel = self.channels[@(priority)];
   dispatch_async(self.dataItemsOperations, ^{
     [channel enqueueItem:log];

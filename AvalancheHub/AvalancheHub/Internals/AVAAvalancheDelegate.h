@@ -10,6 +10,6 @@
 
 - (void)feature:(id)feature
    didCreateLog:(id<AVALog>)log
-   withPriority:(AVASendPriority)priority;
+   withPriority:(AVAPriority)priority;
 
 @end

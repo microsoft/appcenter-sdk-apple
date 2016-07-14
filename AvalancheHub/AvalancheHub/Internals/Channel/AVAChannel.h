@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*
  * The `AVASendPriority` value this channel is responsible for.
  */
-@property(nonatomic, readonly) AVASendPriority priority;
+@property(nonatomic, readonly) AVAPriority priority;
 
 @required
 
@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithSender:(id<AVASender>)sender
                        storage:(id<AVAStorage>)storage
-                      priority:(AVASendPriority)priority;
+                      priority:(AVAPriority)priority;
 
 /**
  * Enqueues a new log item.

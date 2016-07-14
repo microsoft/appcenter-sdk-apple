@@ -22,7 +22,7 @@
 
 - (instancetype)initWithSender:(id<AVASender>)sender
                        storage:(id<AVAStorage>)storage
-                      priority:(AVASendPriority)priority {
+                      priority:(AVAPriority)priority {
   if (self = [self init]) {
     _sender = sender;
     _storage = storage;
