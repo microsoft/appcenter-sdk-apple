@@ -1,0 +1,61 @@
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ */
+
+#import "AVAChannelConfiguration.h"
+
+static AVAChannelConfiguration *AVAChannelConfigurationDefault;
+static AVAChannelConfiguration *AVAChannelConfigurationHigh;
+static AVAChannelConfiguration *AVAChannelConfigurationBackground;
+
+@implementation AVAChannelConfiguration
+
+- (id)initWithPriorityName:(NSString *)name
+             flushInterval:(float)flushInterval
+            batchSizeLimit:(NSUInteger)batchSizeLimit
+       pendingBatchesLimit:(NSUInteger)pendingBatchesLimit {
+  if (self = [super init]) {
+    _name = name;
+    _flushInterval = flushInterval;
+    _batchSizeLimit = batchSizeLimit;
+    _pendingBatchesLimit = pendingBatchesLimit;
+  }
+  return self;
+}
+
++ (instancetype)configurationForPriority:(AVASendPriority)priority {
+  switch (priority) {
+
+  case AVASendPriorityHigh:
+    if (!AVAChannelConfigurationHigh) {
+      AVAChannelConfigurationHigh =
+          [[self alloc] initWithPriorityName:@"AVAPriorityHigh"
+                               flushInterval:30.0
+                              batchSizeLimit:50
+                         pendingBatchesLimit:6];
+    }
+    return AVAChannelConfigurationHigh;
+
+  case AVASendPriorityBackground:
+    if (!AVAChannelConfigurationBackground) {
+      AVAChannelConfigurationBackground =
+          [[self alloc] initWithPriorityName:@"AVAPriorityBackground"
+                               flushInterval:60.0
+                              batchSizeLimit:100
+                         pendingBatchesLimit:1];
+    }
+    return AVAChannelConfigurationBackground;
+
+  default:
+    if (!AVASendPriorityDefault) {
+      AVAChannelConfigurationDefault =
+          [[self alloc] initWithPriorityName:@"AVAPriorityHigh"
+                               flushInterval:5.0
+                              batchSizeLimit:1
+                         pendingBatchesLimit:3];
+    }
+    return AVAChannelConfigurationDefault;
+  }
+}
+
+@end
