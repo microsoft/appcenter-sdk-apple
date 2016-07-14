@@ -6,7 +6,8 @@
 #import "AVAHttpSender.h"
 #import "AVASettings.h"
 #import "AVAUtils.h"
-#import "AVADeviceLog.h"
+#import "AVAChannelDefault.h"
+#import "AVAConstants+Internal.h"
 
 static NSString* const kAVAInstallId = @"AVAInstallId";
 
@@ -89,10 +90,11 @@ static NSString *const kAVABaseUrl =
   AVAHttpSender *sender = [[AVAHttpSender alloc] initWithBaseUrl:kAVABaseUrl
                                                          headers:headers
                                                     queryStrings:queryStrings];
-
-  // Init storage
   AVAFileStorage *storage = [[AVAFileStorage alloc] init];
-  _logManager = [[AVALogManagerDefault alloc] initWithSender:sender storage:storage channels:@[]];
+  
+  AVAChannelDefault *lowPrioChannel = [[AVAChannelDefault alloc] initWithSender:sender storage:storage priority:AVASendPriorityDefault];
+  NSArray<AVAChannel> *channelList = [NSArray<AVAChannel> arrayWithObject:lowPrioChannel];
+  _logManager = [[AVALogManagerDefault alloc] initWithChannels:channelList];
 }
 
 + (AVALogLevel)logLevel {

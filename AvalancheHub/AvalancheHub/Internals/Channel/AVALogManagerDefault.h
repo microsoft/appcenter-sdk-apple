@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * A dictionary containing priority keys and their channel.
  */
-@property(nonatomic, strong) NSDictionary<NSString *, id<AVAChannel>> *channels;
+@property(nonatomic, strong) NSDictionary<NSNumber *, id<AVAChannel>> *channels;
 
 @end
 

@@ -21,21 +21,17 @@ static char *const AVADataItemsOperationsQueue =
   return self;
 }
 
-- (instancetype)initWithSender:(id<AVASender>)sender
-                       storage:(id<AVAStorage>)storage
-                      channels:(NSArray<AVAChannel> *)channels {
+- (instancetype)initWithChannels:(NSArray<AVAChannel> *)channels {
   if (self = [self init]) {
     _channels = [self channelDictWithChannels:channels];
   }
-
   return self;
 }
 
 #pragma mark - Process items
 
 - (void)processLog:(id<AVALog>)log withPriority:(AVASendPriority)priority {
-  NSString *key = kAVASendPriorityNames[priority];
-  id<AVAChannel> channel = self.channels[key];
+  id<AVAChannel> channel = self.channels[@(priority)];
   dispatch_async(self.dataItemsOperations, ^{
     [channel enqueueItem:log];
   });
@@ -47,16 +43,9 @@ static char *const AVADataItemsOperationsQueue =
   NSMutableDictionary<NSString *, id<AVAChannel>> *channelsDict =
       [NSMutableDictionary<NSString *, id<AVAChannel>> new];
   for (id<AVAChannel> channel in channels) {
-    NSString *key = kAVASendPriorityNames[channel.priority];
-    channelsDict[key] = channel;
+    channelsDict[@(channel.priority)] = channel;
   }
   return [channelsDict copy];
-}
-
-- (id<AVAChannel>)channelForPriotity:(AVASendPriority)priority {
-  NSString *key = kAVASendPriorityNames[priority];
-  id<AVAChannel> channel = self.channels[key];
-  return channel;
 }
 
 @end
