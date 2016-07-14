@@ -15,20 +15,6 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol AVAChannel <NSObject>
 
 /*
- * Threshold after which the queue will be flushed.
- *
- * Default: 50
- */
-@property(nonatomic) NSUInteger batchSize;
-
-/*
- * Interval for flushing the queue.
- *
- * Default: 15.0
- */
-@property(nonatomic) float flushInterval;
-
-/*
  * The `AVASendPriority` value this channel is responsible for.
  */
 @property(nonatomic, readonly) AVASendPriority priority;
@@ -36,11 +22,12 @@ NS_ASSUME_NONNULL_BEGIN
 @required
 
 /**
- *  Initializes a new `AVALogManager` instance.
+ * Initializes a new `AVALogManager` instance.
  *
- *  @param sender a sender instance that is used to send batches of log items to
+ * @param sender a sender instance that is used to send batches of log items to
  * the backend
- *  @param storage a storage instance to store and read enqueued log items
+ * @param storage a storage instance to store and read enqueued log items
+ * @param priority the priority this channel represents
  *
  *  @return the telemetry context
  */

@@ -7,6 +7,7 @@
 #import "AVASender.h"
 #import "AVAStorage.h"
 #import "AVAChannel.h"
+#import "AVAChannelConfiguration.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -36,9 +37,15 @@ typedef void (^enqueueCompletionBlock)(BOOL);
 @property(nonatomic, assign) NSUInteger itemsCount;
 
 /**
+ * Configuration for this channel containing the flush interval, the subdirectory folder name and the maximum batch size.
+ */
+@property(nonatomic, nonatomic) AVAChannelConfiguration *configuration;
+
+/**
  *  A list used to keep track of batches that have been forwarded to the sender component.
  */
-@property(nonatomic, strong) NSMutableArray *pendingLogsIds;
+@property(nonatomic, copy) NSMutableArray *pendingLogsIds;
+
 
 /**
  * Enqueues a new log item.

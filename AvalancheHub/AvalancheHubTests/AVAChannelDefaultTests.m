@@ -5,6 +5,7 @@
 
 #import "AVAChannelDefault.h"
 #import "AVAAbstractLog.h"
+#import "AVAChannelConfiguration.h"
 
 @interface AVAChannelDefaultTests : XCTestCase
 
@@ -39,8 +40,8 @@
 - (void)testEnqueuingItemsWillIncreaseCounter {
   
   // If
-  self.sut.flushInterval = 0.0;
-  self.sut.batchSize = 10;
+  AVAChannelConfiguration *config = [[AVAChannelConfiguration alloc] initWithPriorityName:@"Prio" flushInterval:0.0 batchSizeLimit:10 pendingBatchesLimit:3];
+  _sut.configuration = config;
   int itemsToAdd = 3;
   XCTestExpectation *expectation = [self expectationWithDescription:@"All items enqueued"];
   
@@ -63,8 +64,8 @@
 - (void)testQueueFlushedAfterBatchSizeReached {
   
   // If
-  self.sut.flushInterval = 0.0;
-  self.sut.batchSize = 3;
+  AVAChannelConfiguration *config = [[AVAChannelConfiguration alloc] initWithPriorityName:@"Prio" flushInterval:0.0 batchSizeLimit:3 pendingBatchesLimit:3];
+  _sut.configuration = config;
   int itemsToAdd = 3;
   XCTestExpectation *expectation = [self expectationWithDescription:@"All items enqueued"];
   
@@ -87,8 +88,8 @@
 - (void)testQueueFlushedAfterTimerFinished {
   
   // If
-  self.sut.flushInterval = 2.5;
-  self.sut.batchSize = 10;
+  AVAChannelConfiguration *config = [[AVAChannelConfiguration alloc] initWithPriorityName:@"Prio" flushInterval:2.5 batchSizeLimit:10 pendingBatchesLimit:3];
+  _sut.configuration = config;
   int itemsToAdd = 3;
     XCTestExpectation *expectation = [self expectationWithDescription:@"First item enqueued"];
   
@@ -98,7 +99,7 @@
       if (i == itemsToAdd) {
         
         // Wait for peiod of flush interval before returning expectation
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.sut.flushInterval * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(config.flushInterval * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
           [expectation fulfill];
         });
         
