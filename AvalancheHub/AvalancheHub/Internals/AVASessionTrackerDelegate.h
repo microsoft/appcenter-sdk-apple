@@ -7,6 +7,6 @@
 @protocol AVASessionTrackerDelegate <NSObject>
 
 @required
-- (void)sessionDidRenewed:(NSString *)sessionId;
+- (void)sessionTracker:(id)sessionTracker didRenewSessionWithId:(NSString *)sessionId;
 
 @end

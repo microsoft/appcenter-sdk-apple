@@ -76,7 +76,7 @@ static NSString *const kAVABaseUrl =
 
   // Init session tracker
   _sessionTracker = [[AVASessionTracker alloc] init];
-  [_sessionTracker start];
+  [self.sessionTracker start];
   
   // Construct the http header
   NSDictionary *headers = @{
@@ -156,7 +156,7 @@ static NSString *const kAVABaseUrl =
 }
 
 #pragma mark - SessionTracker
-- (void)sessionDidRenewed:(NSString *)sessionId {
+- (void)sessionTracker:(id)sessionTracker didRenewSessionWithId:(NSString *)sessionId {
 
   // TODO enquqe start session log
 }

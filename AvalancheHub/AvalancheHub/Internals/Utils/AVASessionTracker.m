@@ -57,7 +57,7 @@ static NSString *const kAVALastEnteredForegroundTime =
     _sid = kAVAUUIDString;
 
     // Call the delegate with the new session id
-    [self.delegate sessionDidRenewed:_sid];
+    [self.delegate sessionTracker:self didRenewSessionWithId:self.sid];
     AVALogVerbose(@"INFO:new session ID: %@", self.sid);
   }
   return self.sid;
