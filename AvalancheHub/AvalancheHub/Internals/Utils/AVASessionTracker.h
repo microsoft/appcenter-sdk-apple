@@ -2,7 +2,6 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "AVAChannel.h"
 #import "AVASessionTrackerDelegate.h"
 #import <Foundation/Foundation.h>
 
@@ -11,9 +10,19 @@
 @property(nonatomic) id<AVASessionTrackerDelegate> delegate;
 
 /**
+ * Current session id
+ */
+@property(nonatomic, readonly) NSString *sessionId;
+
+/**
  *  Session timeout time.
  */
 @property(nonatomic) NSTimeInterval sessionTimeout;
+
+/**
+ * Timestamp of the last created log
+ */
+@property(nonatomic) NSDate *lastCreatedLogTime;
 
 /**
  *  Timestamp of the last time that the app entered foreground
@@ -26,20 +35,6 @@
 @property(nonatomic) NSDate *lastEnteredBackgroundTime;
 
 /**
- *  Channel object
- */
-@property(nonatomic) id<AVAChannel> channel;
-
-/**
- *  Initializer
- *
- *  @param channel instance of channel
- *
- *  @return Instance of the class
- */
-- (instancetype)initWithChannel:(id<AVAChannel>)channel;
-
-/**
  *  Start session tracking
  */
 - (void)start;
@@ -48,12 +43,5 @@
  *  Stop session tracking
  */
 - (void)stop;
-
-/**
- *  Return the current session ID and renew the session if required
- *
- *  @return session id
- */
-- (NSString *)getSessionId;
 
 @end

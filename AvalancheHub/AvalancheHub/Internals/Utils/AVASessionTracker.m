@@ -19,7 +19,7 @@ static NSString *const kAVALastEnteredForegroundTime =
 /**
  * Current session id
  */
-@property(nonatomic) NSString *sid;
+@property(nonatomic, readwrite) NSString *sessionId;
 
 /**
  *  Flag to indicate if session tracking has started or not
@@ -37,9 +37,8 @@ static NSString *const kAVALastEnteredForegroundTime =
 
 @implementation AVASessionTracker
 
-- (instancetype)initWithChannel:(id<AVAChannel>)channel {
+- (instancetype)init{
   if (self = [super init]) {
-    _channel = channel;
     _sessionTimeout = kAVASessionTimeOut;
     
     // Session tracking is not started by default
@@ -50,17 +49,17 @@ static NSString *const kAVALastEnteredForegroundTime =
   return self;
 }
 
-- (NSString *)getSessionId {
+- (NSString *)sessionId {
 
   // Check if new session id is required
-  if (self.sid == nil || [self hasSessionTimedOut]) {
-    _sid = kAVAUUIDString;
+  if (_sessionId == nil || [self hasSessionTimedOut]) {
+    _sessionId = kAVAUUIDString;
 
     // Call the delegate with the new session id
-    [self.delegate sessionTracker:self didRenewSessionWithId:self.sid];
-    AVALogVerbose(@"INFO:new session ID: %@", self.sid);
+    [self.delegate sessionTracker:self didRenewSessionWithId:_sessionId];
+    AVALogVerbose(@"INFO:new session ID: %@", _sessionId);
   }
-  return self.sid;
+  return _sessionId;
 }
 
 - (void)start {
@@ -88,14 +87,18 @@ static NSString *const kAVALastEnteredForegroundTime =
 
 - (BOOL)hasSessionTimedOut {
   NSDate *now = [NSDate date];
-  NSDate *lastQueuedLogTime = [self.channel lastQueuedLogTime];
 
+  // Verify if last time that a log was send is longer than the session timeout time
   BOOL noLogSentForLong =
-      [now timeIntervalSinceDate:lastQueuedLogTime] >= self.sessionTimeout;
+      [now timeIntervalSinceDate:self.lastCreatedLogTime] >= self.sessionTimeout;
+  
+  // Verify if app is currently in the background for a longer time than the session timeout time
   BOOL isBackgroundForLong =
       self.lastEnteredBackgroundTime >= self.lastEnteredForegroundTime &&
       [now timeIntervalSinceDate:self.lastEnteredBackgroundTime] >=
           self.sessionTimeout;
+  
+  // Verify if app was in the background for a longer time than the session timeout time
   BOOL wasBackgroundForLong =
       [self.lastEnteredForegroundTime
           timeIntervalSinceDate:self.lastEnteredBackgroundTime] >=

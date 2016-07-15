@@ -28,10 +28,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic) float flushInterval;
 
-/**
- * Timestamp of the last queued log
- */
-@property(nonatomic) NSDate *lastQueuedLogTime;
 
 @required
 

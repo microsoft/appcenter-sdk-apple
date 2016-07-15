@@ -1,7 +1,6 @@
 #import "OCMock.h"
 #import <XCTest/XCTest.h>
 
-#import "AVAChannelDefault.h"
 #import "AVAMockLog.h"
 #import "AVASessionTracker.h"
 #import "AvalancheHub+Internal.h"
@@ -19,12 +18,7 @@ NSTimeInterval const kAVATestSessionTimeout = 2.0;
 - (void)setUp {
   [super setUp];
 
-  id channelMock = OCMClassMock([AVAChannelDefault class]);
-
-  NSDate *date = [NSDate date];
-  OCMStub([channelMock lastQueuedLogTime]).andReturn(date);
-
-  _sut = [[AVASessionTracker alloc] initWithChannel:channelMock];
+  _sut = [[AVASessionTracker alloc] init];
   [_sut setSessionTimeout:kAVATestSessionTimeout];
   [_sut start];
 }
@@ -48,14 +42,14 @@ NSTimeInterval const kAVATestSessionTimeout = 2.0;
 
   // Verify the creation of sid and device log
   {
-    expectedSid = [_sut getSessionId];
+    expectedSid = _sut.sessionId;
 
     XCTAssertNotNil(expectedSid);
   }
 
   // Verify reuse of the same session id on next get
   {
-    NSString *sid = [_sut getSessionId];
+    NSString *sid = _sut.sessionId;
 
     XCTAssertEqual(expectedSid, sid);
   }
@@ -63,17 +57,21 @@ NSTimeInterval const kAVATestSessionTimeout = 2.0;
 
 // Apps is in foreground for longer than the timeout time, still same session
 - (void)testLongForegroundSession {
-  NSString *expectedSid = [_sut getSessionId];
+  NSString *expectedSid = _sut.sessionId;
+  // mock a log creation
+  _sut.lastCreatedLogTime = [NSDate date];
 
   // Wait for longer than timeout in foreground
   [NSThread sleepForTimeInterval:kAVATestSessionTimeout + 1];
 
-  NSString *sid = [_sut getSessionId];
+  NSString *sid = _sut.sessionId;
   XCTAssertEqual(expectedSid, sid);
 }
 
 - (void)testShortBackgroundSession {
-  NSString *expectedSid = [_sut getSessionId];
+  NSString *expectedSid = _sut.sessionId;
+  // mock a log creation
+  _sut.lastCreatedLogTime = [NSDate date];
 
   // Enter background
   [[NSNotificationCenter defaultCenter]
@@ -88,13 +86,18 @@ NSTimeInterval const kAVATestSessionTimeout = 2.0;
       postNotificationName:UIApplicationWillEnterForegroundNotification
                     object:self];
 
-  NSString *sid = [_sut getSessionId];
+  NSString *sid = _sut.sessionId;
 
   XCTAssertEqual(expectedSid, sid);
 }
 
 - (void)testLongBackgroundSession {
-  NSString *expectedSid = [_sut getSessionId];
+  NSString *expectedSid = _sut.sessionId;
+  // mock a log creation
+  _sut.lastCreatedLogTime = [NSDate date];
+  
+  // mock a log creation
+  _sut.lastCreatedLogTime = [NSDate date];
 
   XCTAssertNotNil(expectedSid);
 
@@ -111,7 +114,7 @@ NSTimeInterval const kAVATestSessionTimeout = 2.0;
       postNotificationName:UIApplicationWillEnterForegroundNotification
                     object:self];
 
-  NSString *sid = [_sut getSessionId];
+  NSString *sid = _sut.sessionId;
   XCTAssertNotEqual(expectedSid, sid);
 }
 
@@ -120,7 +123,9 @@ NSTimeInterval const kAVATestSessionTimeout = 2.0;
   // Stop session tracking
   [_sut stop];
 
-  NSString *expectedSid = [_sut getSessionId];
+  NSString *expectedSid = _sut.sessionId;
+  // mock a log creation
+  _sut.lastCreatedLogTime = [NSDate date];
 
   XCTAssertNotNil(expectedSid);
 
@@ -137,7 +142,7 @@ NSTimeInterval const kAVATestSessionTimeout = 2.0;
       postNotificationName:UIApplicationWillEnterForegroundNotification
                     object:self];
 
-  NSString *sid = [_sut getSessionId];
+  NSString *sid = _sut.sessionId;
   XCTAssertEqual(expectedSid, sid);
 }
 

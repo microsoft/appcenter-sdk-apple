@@ -124,11 +124,14 @@ static NSString *const kAVABaseUrl =
 #pragma mark AVAFeature delegate callback
 
 - (void)feature:(id)feature didCreateLog:(id<AVALog>)log {
-  
+
   // Set common log info 
-  log.sid = [self.sessionTracker getSessionId];
+  log.sid = self.sessionTracker.sessionId;
   log.toffset = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]];
-  log.device = [self getDeviceLog];
+  log.device = [self getDevice];
+  
+  // Set the last ceated time on the session tracker
+  self.sessionTracker.lastCreatedLogTime = [NSDate date];
   
   [self.channel enqueueItem:log];
 }
@@ -163,7 +166,7 @@ static NSString *const kAVABaseUrl =
 
 #pragma mark - private methods
 
-- (AVADeviceLog *)getDeviceLog {
+- (AVADeviceLog *)getDevice {
   // TODO use util funciton
   AVADeviceLog *device = [[AVADeviceLog alloc] init];
   
