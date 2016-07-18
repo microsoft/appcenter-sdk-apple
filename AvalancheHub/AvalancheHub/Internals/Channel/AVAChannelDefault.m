@@ -22,12 +22,13 @@
 
 - (instancetype)initWithSender:(id<AVASender>)sender
                        storage:(id<AVAStorage>)storage
-                      priority:(AVAPriority)priority {
+                      priority:(AVAPriority)priority
+                 configuration:(AVAChannelConfiguration *)configuration {
   if (self = [self init]) {
     _sender = sender;
     _storage = storage;
     _priority = priority;
-    _configuration = [AVAChannelConfiguration configurationForPriority:priority];
+    _configuration = configuration;
   }
   return self;
 }
@@ -84,14 +85,13 @@
                         // block channel for now
                         BOOL isRecoverable = YES;
                         if (isRecoverable) {
-
+                          
+                          // TODO: Remove item from pending
+                          // TODO: Unblock item in persistence
                         } else {
                           [self.storage deleteLogsForId:batchId
                                          withStorageKey:self.configuration.name];
                         }
-                        // TODO: Delete item if neccessary
-                        // TODO: Remove item from pending
-
                       }];
                }
 

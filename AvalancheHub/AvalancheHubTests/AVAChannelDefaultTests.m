@@ -6,6 +6,8 @@
 #import "AVAChannelDefault.h"
 #import "AVAAbstractLog.h"
 #import "AVAChannelConfiguration.h"
+#import "AVASender.h"
+#import "AVAStorage.h"
 
 @interface AVAChannelDefaultTests : XCTestCase
 
@@ -32,15 +34,24 @@
 #pragma mark - Tests
 
 - (void)testNewInstanceWasInitialisedCorrectly {
-  assertThat(_sut, notNilValue());
-  assertThatUnsignedLong(self.sut.itemsCount, equalToInt(0));
+  AVAPriority priority = AVAPriorityHigh;
+  id configMock = OCMClassMock([AVAChannelConfiguration class]);
+  id storageMock = OCMProtocolMock(@protocol(AVAStorage));
+  id senderMock = OCMProtocolMock(@protocol(AVASender));
+  AVAChannelDefault *sut = [[AVAChannelDefault alloc] initWithSender:senderMock storage:storageMock priority:priority configuration:configMock];
+  
+  assertThat(sut, notNilValue());
+  assertThat(sut.configuration, equalTo(configMock));
+  assertThat(sut.sender, equalTo(senderMock));
+  assertThat(sut.storage, equalTo(storageMock));
+  assertThatUnsignedLong(sut.itemsCount, equalToInt(0));
 }
 
 - (void)testEnqueuingItemsWillIncreaseCounter {
   
   // If
   AVAChannelConfiguration *config = [[AVAChannelConfiguration alloc] initWithPriorityName:@"Prio" flushInterval:0.0 batchSizeLimit:10 pendingBatchesLimit:3];
-  _sut.configuration = config;
+  self.sut.configuration = config;
   int itemsToAdd = 3;
   XCTestExpectation *expectation = [self expectationWithDescription:@"All items enqueued"];
   

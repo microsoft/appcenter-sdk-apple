@@ -32,7 +32,7 @@ typedef void (^enqueueCompletionBlock)(BOOL);
 @property(nonatomic, strong, nullable) dispatch_source_t timerSource;
 
 /**
- *  A counter that keeps tracks of the number of log items added to the queue.
+ *  A counter that keeps tracks of the number of logs added to the queue.
  */
 @property(nonatomic, assign) NSUInteger itemsCount;
 

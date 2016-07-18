@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
  layer in order to make the queue crash safe. Once a maximum number of items
  have been enqueued or the internal timer finished running, events will be
  forwarded to the sender. Furthermore, its responsibility is to tell the
- persitence layer what to do with a pending batch based on the status code
+ persistence layer what to do with a pending batch based on the status code
  returned by the sender
  */
 @interface AVALogManagerDefault : NSObject <AVALogManager>

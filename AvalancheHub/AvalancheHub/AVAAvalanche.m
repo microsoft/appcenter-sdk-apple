@@ -1,15 +1,15 @@
 #import "AVAAvalanchePrivate.h"
-#import "AVALogManagerDefault.h"
-#import "AVAFeaturePrivate.h"
 #import "AVAChannelDefault.h"
+#import "AVAChannelSessionDecorator.h"
+#import "AVAConstants+Internal.h"
+#import "AVAFeaturePrivate.h"
 #import "AVAFileStorage.h"
 #import "AVAHttpSender.h"
+#import "AVALogManagerDefault.h"
 #import "AVASettings.h"
 #import "AVAUtils.h"
-#import "AVAChannelDefault.h"
-#import "AVAConstants+Internal.h"
 
-static NSString* const kAVAInstallId = @"AVAInstallId";
+static NSString *const kAVAInstallId = @"AVAInstallId";
 
 // Http Headers + Query string
 static NSString *const kAVAAppKeyKey = @"App-Key";
@@ -90,11 +90,26 @@ static NSString *const kAVABaseUrl =
   AVAHttpSender *sender = [[AVAHttpSender alloc] initWithBaseUrl:kAVABaseUrl
                                                          headers:headers
                                                     queryStrings:queryStrings];
+
+  // Construct storage
   AVAFileStorage *storage = [[AVAFileStorage alloc] init];
-  
-  AVAChannelDefault *lowPrioChannel = [[AVAChannelDefault alloc] initWithSender:sender storage:storage priority:AVAPriorityDefault];
-  NSArray<AVAChannel> *channelList = [NSArray<AVAChannel> arrayWithObject:lowPrioChannel];
-  _logManager = [[AVALogManagerDefault alloc] initWithChannels:channelList];
+
+  // Construct priority channels
+  AVAChannelDefault *defaultPriorityChannel = [[AVAChannelDefault alloc]
+      initWithSender:sender
+             storage:storage
+            priority:AVAPriorityDefault
+       configuration:[AVAChannelConfiguration configurationForPriority:AVAPriorityDefault]];
+  AVAChannelDefault *highPriorityChannel = [[AVAChannelDefault alloc]
+      initWithSender:sender
+             storage:storage
+            priority:AVAPriorityHigh
+       configuration:[AVAChannelConfiguration configurationForPriority:AVAPriorityHigh]];
+  NSArray<AVAChannel> *channels = [NSArray<AVAChannel>
+      arrayWithObjects:defaultPriorityChannel, highPriorityChannel, nil];
+
+  // Construct log manager
+  _logManager = [[AVALogManagerDefault alloc] initWithChannels:channels];
 }
 
 + (AVALogLevel)logLevel {

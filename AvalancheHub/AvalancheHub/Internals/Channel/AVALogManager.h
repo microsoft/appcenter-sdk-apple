@@ -19,19 +19,19 @@ NS_ASSUME_NONNULL_BEGIN
 @required
 
 /**
- *  Initializes a new `AVALogManager` instance.
+ * Initializes a new `AVALogManager` instance.
  *
- * @param channels A list with channels, each representing a specific priority
+ * @param channels A list with channels, each representing a specific priority.
  *
- *  @return the telemetry context
+ * @return the telemetry context.
  */
 - (instancetype)initWithChannels:(NSArray<AVAChannel> *)channels;
 
 /**
  * Triggers processing of a new log item.
  *
- * param item The log item that should be enqueued
- * param priority The priority for processing the log
+ * param item The log item that should be enqueued.
+ * param priority The priority for processing the log.
  */
 - (void)processLog:(id<AVALog>)log withPriority:(AVAPriority)priority;
 

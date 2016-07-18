@@ -35,16 +35,14 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Initializes new `AVAChannelConfiguration' instance based on given settings.
  *
- * @param name the name used by the channel to determine the subdirectory for
- * persisting new logs
- * @param flushInterval the interval after which a new batch will be forwarded
- * to the sender component
- * @param batchSizeLimit the maximum number of logs after which a new batch will
- * be forwarded to the sender component
- * @param pendingBatchesLimit the maximum number of batches that have currently
- * been forwarded to the sender component
+ * @param name The name used by the channel to determine a group of logs.
+ * @param flushInterval The interval after which a new batch will be finished.
+ * @param batchSizeLimit The maximum number of logs after which a new batch will
+ * be finished.
+ * @param pendingBatchesLimit The maximum number of batches that have currently
+ * been forwarded to another component.
  *
- * @return a fully configured `AVAChannelConfiguration` instance
+ * @return a fully configured `AVAChannelConfiguration` instance.
  */
 - (id)initWithPriorityName:(NSString *)name
              flushInterval:(float)flushInterval
@@ -59,7 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param priority the enum value which determines which configurations to us
  * as presets.
  *
- * @return a fully configured `AVAChannelConfiguration` instance
+ * @return a fully configured `AVAChannelConfiguration` instance.
  */
 + (instancetype)configurationForPriority:(AVAPriority)priority;
 

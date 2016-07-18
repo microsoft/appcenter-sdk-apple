@@ -41,7 +41,8 @@
   AVAChannelDefault *channel = [[AVAChannelDefault alloc]
       initWithSender:OCMProtocolMock(@protocol(AVASender))
              storage:OCMProtocolMock(@protocol(AVAStorage))
-            priority:priority];
+            priority:priority
+       configuration:OCMClassMock([AVAChannelConfiguration class])];
   id channelMock = OCMPartialMock(channel);
   NSArray<AVAChannel> *channels =
       [NSArray<AVAChannel> arrayWithObject:channelMock];
@@ -59,23 +60,24 @@
 }
 
 - (void)testProcessingLogWontBeForwardedIfNoChannelForPriorityExists {
-  
+
   // If
   AVAPriority priority = AVAPriorityDefault;
   AVAChannelDefault *channel = [[AVAChannelDefault alloc]
-                                initWithSender:OCMProtocolMock(@protocol(AVASender))
-                                storage:OCMProtocolMock(@protocol(AVAStorage))
-                                priority:priority];
+      initWithSender:OCMProtocolMock(@protocol(AVASender))
+             storage:OCMProtocolMock(@protocol(AVAStorage))
+            priority:priority
+       configuration:OCMClassMock([AVAChannelConfiguration class])];
   id channelMock = OCMPartialMock(channel);
   NSArray<AVAChannel> *channels =
-  [NSArray<AVAChannel> arrayWithObject:channelMock];
+      [NSArray<AVAChannel> arrayWithObject:channelMock];
   AVALogManagerDefault *sut =
-  [[AVALogManagerDefault alloc] initWithChannels:channels];
+      [[AVALogManagerDefault alloc] initWithChannels:channels];
   AVAAbstractLog *log = [AVAAbstractLog new];
-  
+
   // When
   [sut processLog:log withPriority:AVAPriorityHigh];
-  
+
   // Then
   dispatch_sync(sut.dataItemsOperations, ^{
     OCMVerify([[channelMock reject] enqueueItem:log]);
