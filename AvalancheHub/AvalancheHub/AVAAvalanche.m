@@ -1,6 +1,5 @@
 #import "AVAAvalanchePrivate.h"
 #import "AVAChannelDefault.h"
-#import "AVAChannelSessionDecorator.h"
 #import "AVAConstants+Internal.h"
 #import "AVAFeaturePrivate.h"
 #import "AVAFileStorage.h"
@@ -8,6 +7,7 @@
 #import "AVALogManagerDefault.h"
 #import "AVASettings.h"
 #import "AVAUtils.h"
+#import "AVADeviceLog.h"
 
 static NSString *const kAVAInstallId = @"AVAInstallId";
 
@@ -136,24 +136,6 @@ static NSString *const kAVABaseUrl =
   return _apiVersion;
 }
 
-- (void)feature:(id)feature didCreateLog:(id<AVALog>)log withPriority:(AVAPriority)priority {
-  // TODO: Persist sid
-  // Use fabs(absolute) since last sent time was in past and the delta is
-  // negative.
-  if (log.sid == nil ||
-      (fabs([self.lastLogSent timeIntervalSinceNow]) >=
-       kAVASessionTimeOut /* && fabs([self.lastActivityPaused timeIntervalSinceNow]) >= kAVASessionTimeOut */)) {
-    self.sid = [[NSUUID UUID] UUIDString];
-  }
-
-  // Set the session id
-  log.sid = self.sid;
-  [self.logManager processLog:log withPriority:priority];
-
-  // Cache the sent time
-  self.lastLogSent = [NSDate date];
-}
-
 - (void)setInstallId {
   if (_installId)
     return;
@@ -177,6 +159,22 @@ static NSString *const kAVABaseUrl =
 }
 
 #pragma mark - SessionTracker
+
+- (void)feature:(id)feature didCreateLog:(id<AVALog>)log withPriority:(AVAPriority)priority {
+  
+  // Set common log info
+  log.sid = self.sessionTracker.sessionId;
+  log.toffset = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]];
+  log.device = [self getDevice];
+  
+  // Set the last ceated time on the session tracker
+  self.sessionTracker.lastCreatedLogTime = [NSDate date];
+  
+  [self.logManager processLog:log withPriority:priority];
+}
+
+#pragma mark - AVASessionTrackerDelegate
+
 - (void)sessionTracker:(id)sessionTracker didRenewSessionWithId:(NSString *)sessionId {
 
   // TODO enquqe start session log
