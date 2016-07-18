@@ -51,7 +51,6 @@ static NSString* const kAVAStorageKey = @"storageKey";
     AVALogWarning(@"WARNING: TelemetryItem was nil.");
     return;
   }
-
   __weak typeof(self) weakSelf = self;
   dispatch_async(self.dataItemsOperations, ^{
     typeof(self) strongSelf = weakSelf;

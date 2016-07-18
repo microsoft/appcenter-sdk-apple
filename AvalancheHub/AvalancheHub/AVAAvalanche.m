@@ -2,11 +2,11 @@
 #import "AVAChannelDefault.h"
 #import "AVAFeaturePrivate.h"
 #import "AVAChannelDefault.h"
-#import "AVAChannelSessionDecorator.h"
 #import "AVAFileStorage.h"
 #import "AVAHttpSender.h"
 #import "AVASettings.h"
 #import "AVAUtils.h"
+#import "AVADeviceLog.h"
 
 static NSString* const kAVAInstallId = @"AVAInstallId";
 
@@ -45,7 +45,8 @@ static NSString *const kAVABaseUrl =
     return;
   }
 
-  if ([appKey length] == 0) {
+  // Validate App key
+  if ([appKey length] == 0 || ![[NSUUID alloc] initWithUUIDString:appKey]) {
     AVALogError(@"ERROR: AppKey is invalid");
     return;
   }
@@ -53,7 +54,7 @@ static NSString *const kAVABaseUrl =
   // Set app ID and UUID
   self.appKey = appKey;
   self.apiVersion = kAVAAPIVersion;
-
+  
   // Set install Id
   [self setInstallId];
 
@@ -73,6 +74,10 @@ static NSString *const kAVABaseUrl =
 
 - (void)initializePipeline {
 
+  // Init session tracker
+  _sessionTracker = [[AVASessionTracker alloc] init];
+  [self.sessionTracker start];
+  
   // Construct the http header
   NSDictionary *headers = @{
     kAVAContentTypeKey : kAVAContentType,
@@ -89,8 +94,7 @@ static NSString *const kAVABaseUrl =
   AVAFileStorage *storage = [[AVAFileStorage alloc] init];
   
   // Create channel
-  AVAChannelDefault *defaultChannel = [[AVAChannelDefault alloc] initWithSender:sender storage:storage];
-  _channel = [[AVAChannelSessionDecorator alloc] initWithChannel:defaultChannel];
+  _channel = [[AVAChannelDefault alloc] initWithSender:sender storage:storage];
 }
 
 + (AVALogLevel)logLevel {
@@ -117,7 +121,18 @@ static NSString *const kAVABaseUrl =
   return _apiVersion;
 }
 
+#pragma mark AVAFeature delegate callback
+
 - (void)feature:(id)feature didCreateLog:(id<AVALog>)log {
+
+  // Set common log info 
+  log.sid = self.sessionTracker.sessionId;
+  log.toffset = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]];
+  log.device = [self getDevice];
+  
+  // Set the last ceated time on the session tracker
+  self.sessionTracker.lastCreatedLogTime = [NSDate date];
+  
   [self.channel enqueueItem:log];
 }
 
@@ -141,6 +156,21 @@ static NSString *const kAVABaseUrl =
     [kAVASettings setObject:self.installId forKey:kAVAInstallId];
     [kAVASettings synchronize];
   }
+}
+
+#pragma mark - SessionTracker
+- (void)sessionTracker:(id)sessionTracker didRenewSessionWithId:(NSString *)sessionId {
+
+  // TODO enquqe start session log
+}
+
+#pragma mark - private methods
+
+- (AVADeviceLog *)getDevice {
+  // TODO use util funciton
+  AVADeviceLog *device = [[AVADeviceLog alloc] init];
+  
+  return device;
 }
 
 @end

@@ -7,6 +7,7 @@
 
 #define mustOverride() NSAssert(NO, @"Method '%@' must be overriden in a subclass", NSStringFromSelector(_cmd))
 #define kAVAUserDefaults [NSUserDefaults standardUserDefaults]
+#define kAVANotificationCenter [NSNotificationCenter defaultCenter]
 #define kAVASettings [AVASettings shared]
 #define kAVADevice [UIDevice currentDevice]
 #define kAVAApplication [UIApplication sharedApplication]
