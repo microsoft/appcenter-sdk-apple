@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface AVAChannelConfiguration : NSObject
 
 /*
- * A readble name for this priority.
+ * A readable name for this priority.
  */
 @property(nonatomic, copy, readonly) NSString *name;
 
