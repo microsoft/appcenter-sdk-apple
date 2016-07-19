@@ -5,36 +5,29 @@
 #import "AVAChannelDefault.h"
 #import "AvalancheHub+Internal.h"
 
-static char *const AVADataItemsOperationsQueue =
-    "com.microsoft.avalanche.ChannelQueue";
-static NSUInteger const AVADefaultBatchSize = 50;
-static float const AVADefaultFlushInterval = 3.0;
-static NSString* const kAVAStorageKey = @"storageKey";
-
 @implementation AVAChannelDefault
 
-@synthesize batchSize = _batchSize;
-@synthesize flushInterval = _flushInterval;
+@synthesize configuration = _configuration;
 
 #pragma mark - Initialisation
 
 - (instancetype)init {
   if (self = [super init]) {
     _itemsCount = 0;
-    _batchSize = AVADefaultBatchSize;
-    _flushInterval = AVADefaultFlushInterval;
-    dispatch_queue_t serialQueue = dispatch_queue_create(
-        AVADataItemsOperationsQueue, DISPATCH_QUEUE_SERIAL);
-    _dataItemsOperations = serialQueue;
+    _pendingLogsIds = [NSMutableArray new];
   }
   return self;
 }
 
 - (instancetype)initWithSender:(id<AVASender>)sender
-                       storage:(id<AVAStorage>)storage {
+                       storage:(id<AVAStorage>)storage
+                 configuration:(AVAChannelConfiguration *)configuration
+                 callbackQueue:(dispatch_queue_t)callbackQueue {
   if (self = [self init]) {
     _sender = sender;
     _storage = storage;
+    _configuration = configuration;
+    _callbackQueue = callbackQueue;
   }
   return self;
 }
@@ -51,64 +44,74 @@ static NSString* const kAVAStorageKey = @"storageKey";
     AVALogWarning(@"WARNING: TelemetryItem was nil.");
     return;
   }
-  __weak typeof(self) weakSelf = self;
-  dispatch_async(self.dataItemsOperations, ^{
-    typeof(self) strongSelf = weakSelf;
+  _itemsCount += 1;
+  [self.storage saveLog:item withStorageKey:self.configuration.name];
 
-    // TODO: Pass object to storage
-    _itemsCount += 1;
-    
-    // save log
-    [self.storage saveLog:item withStorageKey:kAVAStorageKey];
-    
-    if (completion)
-      completion(YES);
+  if (completion)
+    completion(YES);
 
-    if (strongSelf->_itemsCount >= self.batchSize) {
-      [strongSelf flushQueue];
-    } else if (strongSelf->_itemsCount == 1) {
-      [strongSelf startTimer];
-    }
-  });
+  if (self.itemsCount >= self.configuration.batchSizeLimit) {
+    [self flushQueue];
+  } else if (self.itemsCount == 1) {
+    [self startTimer];
+  }
 }
 
 - (void)flushQueue {
-  // TODO: Get batch from storage and forward it to sender
   _itemsCount = 0;
-  
-  [self.storage loadLogsForStorageKey:kAVAStorageKey withCompletion:^(NSArray<AVALog> * _Nonnull logArray, NSString * _Nonnull batchId) {
-    
-    AVALogContainer* container = [[AVALogContainer alloc] initWithBatchId:batchId andLogs:logArray];
-    
-    AVALogVerbose(@"INFO:Sending log %@", [container serializeLog]);
-    
-    [self.sender sendAsync:container completionHandler:^(NSError *error, NSUInteger statusCode, NSString *batchId) {
-      
-      AVALogVerbose(@"INFO:HTTP response received with the status code:%ld", statusCode);
-    }];
-  }];
-}
+  [self.storage
+      loadLogsForStorageKey:self.configuration.name
+             withCompletion:^(NSArray<AVALog> *_Nonnull logArray,
+                              NSString *_Nonnull batchId) {
 
-- (NSUInteger)batchSize {
-  if (_batchSize <= 0) {
-    return AVADefaultBatchSize;
-  }
-  return _batchSize;
+               if (self.pendingLogsIds.count <
+                   self.configuration.pendingBatchesLimit) {
+                 [self.pendingLogsIds addObject:batchId];
+                 AVALogContainer *container =
+                     [[AVALogContainer alloc] initWithBatchId:batchId
+                                                      andLogs:logArray];
+
+                 AVALogVerbose(@"INFO:Sending log %@",
+                               [container serializeLog]);
+
+                 [self.sender sendAsync:container
+                          callbackQueue:self.callbackQueue
+                      completionHandler:^(NSError *error, NSUInteger statusCode,
+                                          NSString *batchId) {
+                        AVALogVerbose(@"INFO:HTTP response received with the "
+                                      @"status code:%ld",
+                                      statusCode);
+                        [self.pendingLogsIds removeObject:batchId];
+                        // TODO: Check if status code is recoverable. if so
+                        // block channel for now
+                        BOOL isRecoverable = NO;
+                        if (isRecoverable) {
+
+                          // TODO: Remove item from pending
+                          // TODO: Unblock item in persistence
+                        } else {
+                          [self.storage
+                              deleteLogsForId:batchId
+                               withStorageKey:self.configuration.name];
+                        }
+                      }];
+               }
+
+             }];
 }
 
 #pragma mark - Timer
 
 - (void)startTimer {
-  if (self.flushInterval <= 0) {
-    return;
-  }
   [self resetTimer];
 
-  self.timerSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0,
-                                            self.dataItemsOperations);
+  dispatch_queue_t queue =
+      dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+  self.timerSource =
+      dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
   dispatch_source_set_timer(
       self.timerSource,
-      dispatch_walltime(NULL, NSEC_PER_SEC * self.flushInterval),
+      dispatch_walltime(NULL, NSEC_PER_SEC * self.configuration.flushInterval),
       1ull * NSEC_PER_SEC, 1ull * NSEC_PER_SEC);
   __weak typeof(self) weakSelf = self;
   dispatch_source_set_event_handler(self.timerSource, ^{

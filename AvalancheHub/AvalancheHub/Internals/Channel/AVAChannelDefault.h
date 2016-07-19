@@ -4,69 +4,55 @@
 
 #import <Foundation/Foundation.h>
 
-#import "AVAChannel.h"
-#import "AVAChannelDelegate.h"
 #import "AVASender.h"
 #import "AVAStorage.h"
+#import "AVAChannel.h"
+#import "AVAChannelConfiguration.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 typedef void (^enqueueCompletionBlock)(BOOL);
 
-/**
- A channel which manages a queue of log items. All items will be immediately
- passed to the persistence layer in order to make the queue crash safe. Once a
- maximum number of items have been enqueued or the internal timer finished
- running, events will be forwarded to the sender. Furthermore, its
- responsibility is to tell the persitence layer what to do with a pending batch
- based on the status code returned by the sender
- */
-@interface AVAChannelDefault : NSObject <AVAChannel, AVAChannelDelegate>
+@interface AVAChannelDefault : NSObject <AVAChannel>
 
 /**
- *  A sender instance that is used to send batches of log items to the backend.
+ * A queue on which the handler is called on.
+ */
+@property(nonatomic, strong) dispatch_queue_t callbackQueue;
+
+/**
+ * A sender instance that is used to send batches of log items to the backend.
  */
 @property(nonatomic, strong, nullable) id<AVASender> sender;
 
 /**
- *  A storage instance to store and read enqueued log items.
+ * A storage instance to store and read enqueued log items.
  */
 @property(nonatomic, strong, nullable) id<AVAStorage> storage;
 
 /**
- *  A timer source which is used to flush the queue after a certain amount of
+ * A timer source which is used to flush the queue after a certain amount of
  * time.
  */
 @property(nonatomic, strong, nullable) dispatch_source_t timerSource;
 
 /**
- *  A queue which makes adding new items thread safe.
- */
-@property(nonatomic, strong) dispatch_queue_t dataItemsOperations;
-
-/**
- *  A counter that keeps tracks of the number of log items added to the queue.
+ * A counter that keeps tracks of the number of logs added to the queue.
  */
 @property(nonatomic, assign) NSUInteger itemsCount;
 
 /**
- *  Initializes a new BITChannel instance.
- *
- *  @param sender a sender instance that is used to send batches of log items to
- * the backend
- *  @param storage a storage instance to store and read enqueued log items
- *
- *  @return the telemetry context
+ *  A list used to keep track of batches that have been forwarded to the sender component.
  */
-- (instancetype)initWithSender:(id<AVASender>)sender
-                       storage:(id<AVAStorage>)storage;
+@property(nonatomic, copy) NSMutableArray *pendingLogsIds;
+
 
 /**
  * Enqueues a new log item.
  *
- * param item The log item that should be enqueued
- * param completion A completion block that gets called after the item was
- * enqueued
+ * @param item The log item that should be enqueued.
+ * @param completion A completion block that gets called after the item was
+ * enqueued.
  */
 - (void)enqueueItem:(id<AVALog>)item
      withCompletion:(nullable enqueueCompletionBlock)completion;

@@ -50,7 +50,7 @@
     log.eventId = kAVAUUIDString;
 
     // Send log to core module
-    [self.delegate feature:self didCreateLog:log];
+    [self.delegate feature:self didCreateLog:log withPriority:AVAPriorityDefault];
   });
 }
 
