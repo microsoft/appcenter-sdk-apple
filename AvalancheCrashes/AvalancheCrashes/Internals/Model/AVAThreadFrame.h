@@ -1,13 +1,20 @@
-//
-//  AVAThreadFrame.h
-//  AvalancheCrashes
-//
-//  Created by Christoph Wendt on 7/19/16.
-//  Copyright © 2016 Microsoft. All rights reserved.
-//
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ */
 
 #import <Foundation/Foundation.h>
+#import "AvalancheHub+Internal.h"
 
-@interface AVAThreadFrame : NSObject
+@interface AVAThreadFrame : NSObject <AVASerializableObject>
+
+/* Frame address [optional]
+ */
+@property(nonatomic) NSString* address;
+/* Frame symbol [optional]
+ */
+@property(nonatomic) NSString* symbol;
+/* Registers [optional]
+ */
+@property(nonatomic) NSDictionary<NSString*, NSString*>* registers;
 
 @end

@@ -32,10 +32,6 @@ static NSString *const kAVAName = @"name";
   return dict;
 }
 
-- (BOOL)isValid {
-  return [super isValid];
-}
-
 #pragma mark - NSCoding
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
