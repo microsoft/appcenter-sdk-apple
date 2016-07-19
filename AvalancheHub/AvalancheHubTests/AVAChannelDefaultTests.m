@@ -38,10 +38,10 @@
   id configMock = OCMClassMock([AVAChannelConfiguration class]);
   id storageMock = OCMProtocolMock(@protocol(AVAStorage));
   id senderMock = OCMProtocolMock(@protocol(AVASender));
-  AVAChannelDefault *sut =
-      [[AVAChannelDefault alloc] initWithSender:senderMock
-                                        storage:storageMock
-                                  configuration:configMock];
+  AVAChannelDefault *sut = [[AVAChannelDefault alloc] initWithSender:senderMock
+                                                             storage:storageMock
+                                                       configuration:configMock
+                                                       callbackQueue:nil];
 
   assertThat(sut, notNilValue());
   assertThat(sut.configuration, equalTo(configMock));

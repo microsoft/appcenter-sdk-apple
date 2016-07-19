@@ -2,11 +2,11 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
+#import "AVAChannelConfiguration.h"
+#import "AVAConstants+Internal.h"
 #import "AVALog.h"
 #import "AVASender.h"
 #import "AVAStorage.h"
-#import "AVAConstants+Internal.h"
-#import "AVAChannelConfiguration.h"
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -30,12 +30,14 @@ NS_ASSUME_NONNULL_BEGIN
  * the backend.
  * @param storage A storage instance to store and read enqueued log items.
  * @param configuration The configuration used by this channel.
+ * @param callbackQueue A queue on which the handler is called on.
  *
  * @return A new `AVAChannelDefault` instance.
  */
 - (instancetype)initWithSender:(id<AVASender>)sender
                        storage:(id<AVAStorage>)storage
-                 configuration:(AVAChannelConfiguration *)configuration;
+                 configuration:(AVAChannelConfiguration *)configuration
+                 callbackQueue:(dispatch_queue_t)callbackQueue;
 
 /**
  * Enqueues a new log item.

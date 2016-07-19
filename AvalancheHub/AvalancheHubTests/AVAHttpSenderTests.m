@@ -85,6 +85,7 @@ static NSString *const kAVAAppKey = @"mockAppKey";
   __weak XCTestExpectation *expectation =
       [self expectationWithDescription:@"HTTP Response 200"];
   [_sut sendAsync:container
+          callbackQueue:dispatch_get_main_queue()
       completionHandler:^(NSError *error, NSUInteger statusCode,
                           NSString *batchId) {
 
@@ -125,6 +126,7 @@ static NSString *const kAVAAppKey = @"mockAppKey";
   __weak XCTestExpectation *expectation =
       [self expectationWithDescription:@"HTTP Network Down"];
   [_sut sendAsync:container
+          callbackQueue:dispatch_get_main_queue()
       completionHandler:^(NSError *error, NSUInteger statusCode,
                           NSString *batchId) {
 
@@ -150,6 +152,7 @@ static NSString *const kAVAAppKey = @"mockAppKey";
   __weak XCTestExpectation *expectation =
       [self expectationWithDescription:@"HTTP Network Down"];
   [_sut sendAsync:container
+          callbackQueue:dispatch_get_main_queue()
       completionHandler:^(NSError *error, NSUInteger statusCode,
                           NSString *batchId) {
 

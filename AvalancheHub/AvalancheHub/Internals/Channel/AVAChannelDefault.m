@@ -21,11 +21,13 @@
 
 - (instancetype)initWithSender:(id<AVASender>)sender
                        storage:(id<AVAStorage>)storage
-                 configuration:(AVAChannelConfiguration *)configuration {
+                 configuration:(AVAChannelConfiguration *)configuration
+                 callbackQueue:(dispatch_queue_t)callbackQueue {
   if (self = [self init]) {
     _sender = sender;
     _storage = storage;
     _configuration = configuration;
+    _callbackQueue = callbackQueue;
   }
   return self;
 }
@@ -62,7 +64,8 @@
              withCompletion:^(NSArray<AVALog> *_Nonnull logArray,
                               NSString *_Nonnull batchId) {
 
-               if (self.pendingLogsIds.count < self.configuration.pendingBatchesLimit) {
+               if (self.pendingLogsIds.count <
+                   self.configuration.pendingBatchesLimit) {
                  [self.pendingLogsIds addObject:batchId];
                  AVALogContainer *container =
                      [[AVALogContainer alloc] initWithBatchId:batchId
@@ -72,6 +75,7 @@
                                [container serializeLog]);
 
                  [self.sender sendAsync:container
+                          callbackQueue:self.callbackQueue
                       completionHandler:^(NSError *error, NSUInteger statusCode,
                                           NSString *batchId) {
                         AVALogVerbose(@"INFO:HTTP response received with the "
@@ -80,14 +84,15 @@
                         [self.pendingLogsIds removeObject:batchId];
                         // TODO: Check if status code is recoverable. if so
                         // block channel for now
-                        BOOL isRecoverable = YES;
+                        BOOL isRecoverable = NO;
                         if (isRecoverable) {
-                          
+
                           // TODO: Remove item from pending
                           // TODO: Unblock item in persistence
                         } else {
-                          [self.storage deleteLogsForId:batchId
-                                         withStorageKey:self.configuration.name];
+                          [self.storage
+                              deleteLogsForId:batchId
+                               withStorageKey:self.configuration.name];
                         }
                       }];
                }

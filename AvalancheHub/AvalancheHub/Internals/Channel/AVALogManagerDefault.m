@@ -53,7 +53,7 @@ static char *const AVADataItemsOperationsQueue =
   if (configuration) {
     channel = [[AVAChannelDefault alloc] initWithSender:self.sender
                                                 storage:self.storage
-                                          configuration:configuration];
+                                          configuration:configuration callbackQueue:self.dataItemsOperations];
     self.channels[@(priority)] = channel;
   }
   return channel;
