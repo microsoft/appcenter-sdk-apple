@@ -23,27 +23,30 @@ static NSString *const kAVAApiPath = @"/logs";
 
 @implementation AVAHttpSender
 
-- (id)initWithBaseUrl:(NSString *)baseUrl headers:(NSDictionary *)headers queryStrings:(NSDictionary*)queryStrings {
+- (id)initWithBaseUrl:(NSString *)baseUrl
+              headers:(NSDictionary *)headers
+         queryStrings:(NSDictionary *)queryStrings {
   if (self = [super init]) {
-    
+
     // Set the request queue
     queuedRequests = [[NSMutableSet alloc] init];
     _httpHeaders = headers;
 
     // Construct the URL string with the query string
     NSString *urlString = [baseUrl stringByAppendingString:kAVAApiPath];
-    NSURLComponents *components = [NSURLComponents componentsWithString:urlString];
-    NSMutableArray* queryItemArray = [NSMutableArray array];
+    NSURLComponents *components =
+        [NSURLComponents componentsWithString:urlString];
+    NSMutableArray *queryItemArray = [NSMutableArray array];
 
     // Set query parameter
-    [queryStrings enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-      NSURLQueryItem *queryItem = [NSURLQueryItem
-                                   queryItemWithName:key
-                                   value:obj];
+    [queryStrings enumerateKeysAndObjectsUsingBlock:^(
+                      id _Nonnull key, id _Nonnull obj, BOOL *_Nonnull stop) {
+      NSURLQueryItem *queryItem =
+          [NSURLQueryItem queryItemWithName:key value:obj];
       [queryItemArray addObject:queryItem];
     }];
     components.queryItems = queryItemArray;
-    
+
     // Set send URL
     _sendURL = components.URL;
   }
@@ -60,79 +63,70 @@ static NSString *const kAVAApiPath = @"/logs";
   return _session;
 }
 
-- (NSNumber *)sendAsync:(AVALogContainer *)logs
-      completionHandler:(AVASendAsyncCompletionHandler)handler {
-
-  return [self sendAsync:logs
-           callbackQueue:dispatch_get_main_queue()
-                priority:NSURLSessionTaskPriorityDefault
-       completionHandler:handler];
-}
-
 - (NSNumber *)sendAsync:(AVALogContainer *)container
           callbackQueue:(dispatch_queue_t)callbackQueue
-               priority:(float)priority
       completionHandler:(AVASendAsyncCompletionHandler)handler {
 
+  if (!callbackQueue) {
+    callbackQueue = dispatch_get_main_queue();
+  }
+
   NSString *batchId = container.batchId;
-  
+
   // Verify container
   if (!container || ![container isValid]) {
     NSDictionary *userInfo = @{
-                               NSLocalizedDescriptionKey : @"Invalid parameter 'logs'"
-                               };
+      NSLocalizedDescriptionKey : @"Invalid parameter 'logs'"
+    };
     NSError *error =
-    [NSError errorWithDomain:kAVADefaultApiErrorDomain
-                        code:kAVADefaultApiMissingParamErrorCode
-                    userInfo:userInfo];
+        [NSError errorWithDomain:kAVADefaultApiErrorDomain
+                            code:kAVADefaultApiMissingParamErrorCode
+                        userInfo:userInfo];
     AVALogError(@"%@", [error localizedDescription]);
     handler(error, kAVADefaultApiMissingParamErrorCode, batchId);
-    
+
     return nil;
   }
-  
+
   // Create the request
   NSURLRequest *request = [self createRequest:container];
-  
+
   if (!request)
     return nil;
-  
+
   NSNumber *requestId = [AVAHttpSender queueRequest];
   NSURLSessionDataTask *task = [self.session
-                                dataTaskWithRequest:request
-                                completionHandler:^(NSData *data, NSURLResponse *response,
-                                                    NSError *error) {
-                                  // Retry
-                                  if ([AVAHttpSender isRecoverableError:response]) {
-                                    // TODO retry
-                                  }
-                                  
-                                  // Callback to Channel
-                                  else {
-                                    dispatch_async(callbackQueue, ^{
-                                      // TODO: internal house keeping
-                                      NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-                                      NSInteger code = httpResponse.statusCode;
-                                      
-                                      // Completion with error
-                                      handler(error, code, batchId);
-                                    });
-                                  }
-                                }];
+      dataTaskWithRequest:request
+        completionHandler:^(NSData *data, NSURLResponse *response,
+                            NSError *error) {
+          // Retry
+          if ([AVAHttpSender isRecoverableError:response]) {
+            // TODO retry
+          }
+
+          // Callback to Channel
+          else {
+            dispatch_async(callbackQueue, ^{
+              // TODO: internal house keeping
+              NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+              NSInteger code = httpResponse.statusCode;
+
+              // Completion with error
+              handler(error, code, batchId);
+            });
+          }
+        }];
   // Set task priority
-  task.priority = priority;
   [task resume];
-  
+
   // TODO
   return requestId;
 }
 
 #pragma mark - URL Session Helper
 
-
 - (NSURLRequest *)createRequest:(AVALogContainer *)logContainer {
-  NSMutableURLRequest *request =
-      [NSMutableURLRequest requestWithURL:_sendURL];
+  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:_sendURL];
 
   // Set method
   request.HTTPMethod = @"POST";

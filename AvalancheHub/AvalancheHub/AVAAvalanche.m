@@ -1,14 +1,15 @@
 #import "AVAAvalanchePrivate.h"
 #import "AVAChannelDefault.h"
+#import "AVAConstants+Internal.h"
 #import "AVAFeaturePrivate.h"
-#import "AVAChannelDefault.h"
 #import "AVAFileStorage.h"
 #import "AVAHttpSender.h"
+#import "AVALogManagerDefault.h"
 #import "AVASettings.h"
 #import "AVAUtils.h"
 #import "AVADeviceLog.h"
 
-static NSString* const kAVAInstallId = @"AVAInstallId";
+static NSString *const kAVAInstallId = @"AVAInstallId";
 
 // Http Headers + Query string
 static NSString *const kAVAAppKeyKey = @"App-Key";
@@ -90,11 +91,11 @@ static NSString *const kAVABaseUrl =
                                                          headers:headers
                                                     queryStrings:queryStrings];
 
-  // Init storage
+  // Construct storage
   AVAFileStorage *storage = [[AVAFileStorage alloc] init];
-  
-  // Create channel
-  _channel = [[AVAChannelDefault alloc] initWithSender:sender storage:storage];
+
+  // Construct log manager
+  _logManager = [[AVALogManagerDefault alloc] initWithSender:sender storage:storage];
 }
 
 + (AVALogLevel)logLevel {
@@ -121,21 +122,6 @@ static NSString *const kAVABaseUrl =
   return _apiVersion;
 }
 
-#pragma mark AVAFeature delegate callback
-
-- (void)feature:(id)feature didCreateLog:(id<AVALog>)log {
-
-  // Set common log info 
-  log.sid = self.sessionTracker.sessionId;
-  log.toffset = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]];
-  log.device = [self getDevice];
-  
-  // Set the last ceated time on the session tracker
-  self.sessionTracker.lastCreatedLogTime = [NSDate date];
-  
-  [self.channel enqueueItem:log];
-}
-
 - (void)setInstallId {
   if (_installId)
     return;
@@ -159,6 +145,22 @@ static NSString *const kAVABaseUrl =
 }
 
 #pragma mark - SessionTracker
+
+- (void)feature:(id)feature didCreateLog:(id<AVALog>)log withPriority:(AVAPriority)priority {
+  
+  // Set common log info
+  log.sid = self.sessionTracker.sessionId;
+  log.toffset = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]];
+  log.device = [self getDevice];
+  
+  // Set the last ceated time on the session tracker
+  self.sessionTracker.lastCreatedLogTime = [NSDate date];
+  
+  [self.logManager processLog:log withPriority:priority];
+}
+
+#pragma mark - AVASessionTrackerDelegate
+
 - (void)sessionTracker:(id)sessionTracker didRenewSessionWithId:(NSString *)sessionId {
 
   // TODO enquqe start session log

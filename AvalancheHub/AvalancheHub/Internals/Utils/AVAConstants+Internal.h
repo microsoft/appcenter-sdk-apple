@@ -10,14 +10,11 @@ static NSString* const kAVADefaultApiErrorDomain = @"AVADefaultApiErrorDomain";
 static NSInteger const kAVADefaultApiMissingParamErrorCode = 234513;
 static NSInteger const kAVAHttpErrorCodeMissingParameter = 422;
 
-
-
-typedef NS_ENUM(NSInteger, AVASendPriority) {
-  AVASendPriorityDefault,
-  AVASendPriorityHight,
-  AVASendPriorityBackground
+typedef NS_ENUM(NSInteger, AVAPriority) {
+  AVAPriorityDefault,
+  AVAPriorityHigh,
+  AVAPriorityBackground
 };
-
 
 typedef NS_ENUM(NSInteger, AVAHTTPCodesNo) {
   // Informational

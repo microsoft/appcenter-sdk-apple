@@ -3,8 +3,11 @@
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
+#import "AVAAbstractLog.h"
+#import "AVAChannelConfiguration.h"
 #import "AVAChannelDefault.h"
-#import "AVADeviceLog.h"
+#import "AVASender.h"
+#import "AVAStorage.h"
 
 @interface AVAChannelDefaultTests : XCTestCase
 
@@ -32,44 +35,51 @@
 #pragma mark - Tests
 
 - (void)testNewInstanceWasInitialisedCorrectly {
-  assertThat(_sut, notNilValue());
-  assertThat(_sut.dataItemsOperations, notNilValue());
-  assertThatUnsignedLong(self.sut.itemsCount, equalToInt(0));
+  id configMock = OCMClassMock([AVAChannelConfiguration class]);
+  id storageMock = OCMProtocolMock(@protocol(AVAStorage));
+  id senderMock = OCMProtocolMock(@protocol(AVASender));
+  AVAChannelDefault *sut = [[AVAChannelDefault alloc] initWithSender:senderMock
+                                                             storage:storageMock
+                                                       configuration:configMock
+                                                       callbackQueue:nil];
+
+  assertThat(sut, notNilValue());
+  assertThat(sut.configuration, equalTo(configMock));
+  assertThat(sut.sender, equalTo(senderMock));
+  assertThat(sut.storage, equalTo(storageMock));
+  assertThatUnsignedLong(sut.itemsCount, equalToInt(0));
 }
 
 - (void)testEnqueuingItemsWillIncreaseCounter {
 
   // If
-  self.sut.flushInterval = 0.0;
-  self.sut.batchSize = 10;
+  AVAChannelConfiguration *config =
+      [[AVAChannelConfiguration alloc] initWithPriorityName:@"Prio"
+                                              flushInterval:0.0
+                                             batchSizeLimit:10
+                                        pendingBatchesLimit:3];
+  self.sut.configuration = config;
   int itemsToAdd = 3;
-  XCTestExpectation *expectation =
-      [self expectationWithDescription:@"All items enqueued"];
 
   // When
   for (int i = 1; i <= itemsToAdd; i++) {
 
-    [self.sut enqueueItem:[AVADeviceLog new]
-           withCompletion:^(BOOL success) {
-             if (i == itemsToAdd) {
-               [expectation fulfill];
-             }
-           }];
+    [self.sut enqueueItem:[AVAAbstractLog new]];
   }
 
   // Then
-  [self waitForExpectationsWithTimeout:1
-                               handler:^(NSError *error) {
-                                 assertThatUnsignedLong(self.sut.itemsCount,
-                                                        equalToInt(itemsToAdd));
-                               }];
+  assertThatUnsignedLong(self.sut.itemsCount, equalToInt(itemsToAdd));
 }
 
 - (void)testQueueFlushedAfterBatchSizeReached {
 
   // If
-  self.sut.flushInterval = 0.0;
-  self.sut.batchSize = 3;
+  AVAChannelConfiguration *config =
+      [[AVAChannelConfiguration alloc] initWithPriorityName:@"Prio"
+                                              flushInterval:0.0
+                                             batchSizeLimit:3
+                                        pendingBatchesLimit:3];
+  _sut.configuration = config;
   int itemsToAdd = 3;
   XCTestExpectation *expectation =
       [self expectationWithDescription:@"All items enqueued"];
@@ -77,7 +87,7 @@
   // When
   for (int i = 1; i <= itemsToAdd; i++) {
 
-    [self.sut enqueueItem:[AVADeviceLog new]
+    [self.sut enqueueItem:[AVAAbstractLog new]
            withCompletion:^(BOOL success) {
              if (i == itemsToAdd) {
                [expectation fulfill];
@@ -96,21 +106,25 @@
 - (void)testQueueFlushedAfterTimerFinished {
 
   // If
-  self.sut.flushInterval = 2.5;
-  self.sut.batchSize = 10;
+  AVAChannelConfiguration *config =
+      [[AVAChannelConfiguration alloc] initWithPriorityName:@"Prio"
+                                              flushInterval:2.5
+                                             batchSizeLimit:10
+                                        pendingBatchesLimit:3];
+  _sut.configuration = config;
   int itemsToAdd = 3;
   XCTestExpectation *expectation =
       [self expectationWithDescription:@"First item enqueued"];
 
   // When
   for (int i = 1; i <= itemsToAdd; i++) {
-    [self.sut enqueueItem:[AVADeviceLog new]
+    [self.sut enqueueItem:[AVAAbstractLog new]
            withCompletion:^(BOOL success) {
              if (i == itemsToAdd) {
 
                // Wait for peiod of flush interval before returning expectation
                dispatch_after(dispatch_time(DISPATCH_TIME_NOW,
-                                            (int64_t)(self.sut.flushInterval *
+                                            (int64_t)(config.flushInterval *
                                                       NSEC_PER_SEC)),
                               dispatch_get_main_queue(), ^{
                                 [expectation fulfill];
