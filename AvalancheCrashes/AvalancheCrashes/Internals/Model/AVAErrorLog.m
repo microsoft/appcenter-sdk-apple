@@ -4,6 +4,8 @@
 
 #import "AVAErrorLog.h"
 
+static NSString *const kAVATypeError = @"error";
+
 static NSString *const kAVAId = @"id";
 static NSString *const kAVAProcess = @"process";
 static NSString *const kAVAProcessId = @"processId";
@@ -22,6 +24,15 @@ static NSString *const kAVAExceptions = @"exceptions";
 static NSString *const kAVABinaries = @"binaries";
 
 @implementation AVAErrorLog
+
+@synthesize type = _type;
+
+- (instancetype)init {
+  if (self = [super init]) {
+    _type= kAVATypeError;
+  }
+  return self;
+}
 
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [super serializeToDictionary];
@@ -82,6 +93,7 @@ static NSString *const kAVABinaries = @"binaries";
 - (instancetype)initWithCoder:(NSCoder *)coder {
   self = [super initWithCoder:coder];
   if(self) {
+    _type = [coder decodeObjectForKey:kAVAType];
     _crashId = [coder decodeObjectForKey:kAVAId];
     _process = [coder decodeObjectForKey:kAVAProcess];
     _processId = [coder decodeObjectForKey:kAVAProcessId];
@@ -104,6 +116,7 @@ static NSString *const kAVABinaries = @"binaries";
 
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
+  [coder encodeObject:self.type forKey:kAVAType];
   [coder encodeObject:self.crashId forKey:kAVAId];
   [coder encodeObject:self.process forKey:kAVAProcess];
   [coder encodeObject:self.processId forKey:kAVAProcessId];

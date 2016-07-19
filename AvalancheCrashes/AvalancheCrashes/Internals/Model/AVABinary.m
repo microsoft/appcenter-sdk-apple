@@ -9,7 +9,7 @@ static NSString *const kAVAStartAddress = @"startAddress";
 static NSString *const kAVAEndAddress = @"endAddress";
 static NSString *const kAVAName = @"name";
 static NSString *const kAVAArchitecture = @"architecture";
-static NSString *const kAVAPath = @"architecture";
+static NSString *const kAVAPath = @"path";
 
 @implementation AVABinary
 
