@@ -57,7 +57,7 @@
   // When
   NSMutableArray *expected =
       [NSMutableArray arrayWithObjects:file1, file2, file3, nil];
-  [_sut sortAvailableFilesByCreationDate];
+  [self.sut sortAvailableFilesByCreationDate];
 
   // Then
   assertThat(_sut.availableFiles, equalTo(expected));
@@ -93,7 +93,7 @@
       [[AVAFile alloc] initWithPath:@"6"
                              fileId:@"6"
                        creationDate:[NSDate dateWithTimeIntervalSinceNow:3]];
-  _sut.blockedFiles = [NSMutableArray
+  self.sut.blockedFiles = [NSMutableArray
       arrayWithObjects:blockedFile1, blockedFile2, blockedFile3, nil];
 
   // When
@@ -120,7 +120,7 @@
       [[AVAFile alloc] initWithPath:@"3"
                              fileId:@"3"
                        creationDate:[NSDate dateWithTimeIntervalSinceNow:3]];
-  _sut.availableFiles = [NSMutableArray
+  self.sut.availableFiles = [NSMutableArray
       arrayWithObjects:availableFile1, availableFile2, availableFile3, nil];
 
   // When
@@ -128,6 +128,30 @@
 
   // Then
   assertThat(actual, nilValue());
+}
+
+- (void)testRemovingFileRemovesItFromBlockedAndAvailableList {
+
+  // If
+  AVAFile *file1 =
+      [[AVAFile alloc] initWithPath:@"1"
+                             fileId:@"1"
+                       creationDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+  AVAFile *file2 =
+  [[AVAFile alloc] initWithPath:@"2"
+                         fileId:@"2"
+                   creationDate:[NSDate dateWithTimeIntervalSinceNow:2]];
+  self.sut.availableFiles = [NSMutableArray arrayWithObjects:file1, file2, nil];
+  self.sut.blockedFiles = [NSMutableArray arrayWithObjects:file2, file1, nil];
+  
+  // When
+  [self.sut removeFile:file1];
+
+  // Then
+  assertThat(self.sut.availableFiles, hasCountOf(1));
+  assertThat(self.sut.availableFiles, isNot(hasItem(file1)));
+  assertThat(self.sut.blockedFiles, hasCountOf(1));
+  assertThat(self.sut.blockedFiles, isNot(hasItem(file1)));
 }
 
 @end
