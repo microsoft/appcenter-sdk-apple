@@ -40,29 +40,33 @@ static NSUInteger const AVADefaultBucketFileCountLimit = 50;
 
   if (file) {
     [AVAFileHelper deleteFile:file];
-    [bucket.blockedFiles removeObject:file];
+    [bucket removeFile:file];
   }
 }
 
 - (void)loadLogsForStorageKey:(NSString *)storageKey
                withCompletion:(nullable AVALoadDataCompletionBlock)completion {
-  // Read data from current file
   NSArray<AVALog> *logs;
   NSString *fileId;
   AVAStorageBucket *bucket = [self bucketForStorageKey:storageKey];
+
+  // Drop oldest files if needed
+  if ([self maxFileCountReachedForStorageKey:storageKey]) {
+    AVAFile *oldestFile = [bucket.availableFiles lastObject];
+    [self deleteLogsForId:oldestFile.fileId withStorageKey:storageKey];
+  }
   
+  // Get data of oldest file
   if (bucket.availableFiles.count > 0) {
     AVAFile *file = bucket.availableFiles.lastObject;
     fileId = file.fileId;
     NSData *logData = [AVAFileHelper dataForFile:file];
     logs = [NSKeyedUnarchiver unarchiveObjectWithData:logData];
-    
-    // Change status of the file to `blocked`
     [bucket.blockedFiles addObject:file];
     [bucket.availableFiles removeLastObject];
   }
-  
-  // Renew file for upcoming events
+
+  // Make current file available and create new current file
   [bucket.availableFiles insertObject:bucket.currentFile atIndex:0];
   [self renewCurrentFileForStorageKey:storageKey];
 
