@@ -8,6 +8,7 @@
 #import "AVASettings.h"
 #import "AVAUtils.h"
 #import "AVADeviceLog.h"
+#import "AVAStartSessionLog.h"
 
 static NSString *const kAVAInstallId = @"AVAInstallId";
 
@@ -77,6 +78,7 @@ static NSString *const kAVABaseUrl =
 
   // Init session tracker
   _sessionTracker = [[AVASessionTracker alloc] init];
+  self.sessionTracker.delegate = self;
   [self.sessionTracker start];
   
   // Construct the http header
@@ -149,10 +151,8 @@ static NSString *const kAVABaseUrl =
 - (void)feature:(id)feature didCreateLog:(id<AVALog>)log withPriority:(AVAPriority)priority {
   
   // Set common log info
-  log.sid = self.sessionTracker.sessionId;
-  log.toffset = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]];
-  log.device = [self getDevice];
-  
+  [self setCommonLogInfo:log];
+
   // Set the last ceated time on the session tracker
   self.sessionTracker.lastCreatedLogTime = [NSDate date];
   
@@ -163,10 +163,23 @@ static NSString *const kAVABaseUrl =
 
 - (void)sessionTracker:(id)sessionTracker didRenewSessionWithId:(NSString *)sessionId {
 
-  // TODO enquqe start session log
+  // Create a start session log
+  AVAStartSessionLog *log = [[AVAStartSessionLog alloc] init];
+  [self setCommonLogInfo:log];
+
+  // Send log
+  [self.logManager processLog:log withPriority:AVAPriorityDefault];
 }
 
+
 #pragma mark - private methods
+
+- (void)setCommonLogInfo:(id<AVALog>)log {
+  // Set common log info
+  log.sid = self.sessionTracker.sessionId;
+  log.toffset = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]];
+  log.device = [self getDevice];
+}
 
 - (AVADeviceLog *)getDevice {
   // TODO use util funciton

@@ -79,6 +79,9 @@
 		E8010E6A1D2DD4EF0035196F /* AVALogWithProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = E8010E661D2DD4EF0035196F /* AVALogWithProperties.h */; };
 		E8010E6B1D2DD4EF0035196F /* AVALogWithProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = E8010E671D2DD4EF0035196F /* AVALogWithProperties.m */; };
 		E829E4231D25C8BA00F19DA1 /* AVAHttpSenderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E829E4221D25C8BA00F19DA1 /* AVAHttpSenderTests.m */; };
+		E83E812B1D3EABAE00421B13 /* AVAStartSessionLog.h in Headers */ = {isa = PBXBuildFile; fileRef = E83E81291D3EABAE00421B13 /* AVAStartSessionLog.h */; };
+		E83E812C1D3EABAE00421B13 /* AVAStartSessionLog.m in Sources */ = {isa = PBXBuildFile; fileRef = E83E812A1D3EABAE00421B13 /* AVAStartSessionLog.m */; };
+		E83E81301D3EB31A00421B13 /* AVAStartSessionLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E83E812F1D3EB31A00421B13 /* AVAStartSessionLogTests.m */; };
 		E84B8E2E1D2351DB006FD231 /* AVALogManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E2B1D2351DB006FD231 /* AVALogManager.h */; };
 		E84B8E2F1D2351DB006FD231 /* AVALogManagerDefault.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E2C1D2351DB006FD231 /* AVALogManagerDefault.h */; };
 		E84B8E301D2351DB006FD231 /* AVALogManagerDefault.m in Sources */ = {isa = PBXBuildFile; fileRef = E84B8E2D1D2351DB006FD231 /* AVALogManagerDefault.m */; };
@@ -197,6 +200,9 @@
 		E8010E671D2DD4EF0035196F /* AVALogWithProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVALogWithProperties.m; sourceTree = "<group>"; };
 		E829E4221D25C8BA00F19DA1 /* AVAHttpSenderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAHttpSenderTests.m; sourceTree = "<group>"; };
 		E829E4241D25D07600F19DA1 /* AVAConstants+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AVAConstants+Internal.h"; sourceTree = "<group>"; };
+		E83E81291D3EABAE00421B13 /* AVAStartSessionLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAStartSessionLog.h; sourceTree = "<group>"; };
+		E83E812A1D3EABAE00421B13 /* AVAStartSessionLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAStartSessionLog.m; sourceTree = "<group>"; };
+		E83E812F1D3EB31A00421B13 /* AVAStartSessionLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAStartSessionLogTests.m; sourceTree = "<group>"; };
 		E84B8E2B1D2351DB006FD231 /* AVALogManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVALogManager.h; sourceTree = "<group>"; };
 		E84B8E2C1D2351DB006FD231 /* AVALogManagerDefault.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVALogManagerDefault.h; sourceTree = "<group>"; };
 		E84B8E2D1D2351DB006FD231 /* AVALogManagerDefault.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVALogManagerDefault.m; sourceTree = "<group>"; };
@@ -377,6 +383,8 @@
 				E88EBBF61D2C717D007E7785 /* Utils */,
 				6E3E2C9D1D35701000B1EE50 /* AVALog.h */,
 				E88EBBEA1D2C612E007E7785 /* AVAAbstractLog.h */,
+				E83E81291D3EABAE00421B13 /* AVAStartSessionLog.h */,
+				E83E812A1D3EABAE00421B13 /* AVAStartSessionLog.m */,
 				E88EBBEB1D2C612E007E7785 /* AVAAbstractLog.m */,
 				6E171B521D234717000DC480 /* AVADeviceLog.h */,
 				6E171B531D234717000DC480 /* AVADeviceLog.m */,
@@ -394,6 +402,7 @@
 				6E2395831D22EF5F00E543C8 /* Frameworks */,
 				6E363AEF1D2C84D60079043D /* Utils */,
 				6E23957C1D22EF4F00E543C8 /* Info.plist */,
+				E83E812F1D3EB31A00421B13 /* AVAStartSessionLogTests.m */,
 				E88D17171D3845E200A5EA57 /* AVASessionTrackerTests.m */,
 				6EB1F40D1D2443B7005F9F99 /* AVAChannelDefaultTests.m */,
 				6E5D8A7F1D25B91F00C033B1 /* AVAFileHelperTests.m */,
@@ -493,6 +502,7 @@
 			files = (
 				E88D17131D371E5E00A5EA57 /* AVASessionTracker.h in Headers */,
 				E8A8D1EB1D3057A90022931E /* AVASettings.h in Headers */,
+				E83E812B1D3EABAE00421B13 /* AVAStartSessionLog.h in Headers */,
 				6E04016A1D1C9E1F0051BCFA /* AVAAvalanche.h in Headers */,
 				E84B8E3B1D235273006FD231 /* AVAChannelDelegate.h in Headers */,
 				6E0CD69E1D27198A0045FE8C /* AVAStorageBucket.h in Headers */,
@@ -670,6 +680,7 @@
 				E8010E6B1D2DD4EF0035196F /* AVALogWithProperties.m in Sources */,
 				E8A8D1EC1D3057A90022931E /* AVASettings.m in Sources */,
 				6E7E3B791D2DCEBD0019EA6D /* AVAFile.m in Sources */,
+				E83E812C1D3EABAE00421B13 /* AVAStartSessionLog.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -680,6 +691,7 @@
 				6E58E2B71D2F12A70039D062 /* AVAStorageBucketTests.m in Sources */,
 				E89E6A331D39992C00CAA2CD /* AVASessionTrackerHelper.m in Sources */,
 				6E363AE51D2C2C320079043D /* AVAFileStorageTests.m in Sources */,
+				E83E81301D3EB31A00421B13 /* AVAStartSessionLogTests.m in Sources */,
 				6E3E2CC11D3596AE00B1EE50 /* AVADeviceLogTests.m in Sources */,
 				E88D17181D3845E200A5EA57 /* AVASessionTrackerTests.m in Sources */,
 				6EB1F40E1D2443B7005F9F99 /* AVAChannelDefaultTests.m in Sources */,

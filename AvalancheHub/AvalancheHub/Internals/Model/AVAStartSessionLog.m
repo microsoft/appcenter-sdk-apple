@@ -2,11 +2,11 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "AVAEndSessionLog.h"
+#import "AVAStartSessionLog.h"
 
-static NSString *const kAVATypeEndSession = @"endSession";
+static NSString *const kAVATypeEndSession = @"startSession";
 
-@implementation AVAEndSessionLog
+@implementation AVAStartSessionLog
 
 @synthesize type = _type;
 
