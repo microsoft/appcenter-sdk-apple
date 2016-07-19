@@ -6,6 +6,8 @@
 #import "AVADeviceLog.h"
 #import "AVADeviceTracker.h"
 #import "AVAUtils.h"
+#import <CoreTelephony/CTCarrier.h>
+#import <CoreTelephony/CTTelephonyNetworkInfo.h>
 #import <UIKit/UIKit.h>
 #import <sys/sysctl.h>
 
@@ -46,6 +48,7 @@ ava_info_t avalanche_library_info __attribute__((section("__TEXT,__bit_ios,regul
 - (void)refresh {
   AVADeviceLog *newDevice = [[AVADeviceLog alloc] init];
   NSBundle *appBundle = [NSBundle mainBundle];
+  CTCarrier *carrier = [[[CTTelephonyNetworkInfo alloc] init] subscriberCellularProvider];
 
   // Collect device characteristics
   newDevice.sdkVersion = [self sdkVersion:avalanche_library_info.ava_version];
@@ -57,7 +60,10 @@ ava_info_t avalanche_library_info __attribute__((section("__TEXT,__bit_ios,regul
   newDevice.timeZoneOffset = [self timeZoneOffset:[NSTimeZone localTimeZone]];
   newDevice.screenSize = [self screenSize];
   newDevice.appVersion = [self appVersion:appBundle];
+  newDevice.carrierCountry = [self carrierCountry:carrier];
+  newDevice.carrierName = [self carrierName:carrier];
   newDevice.appBuild = [self appBuild:appBundle];
+  newDevice.appNamespace = [self appNamespace:appBundle];
 
   // Set the new device info
   self.device = newDevice;
@@ -147,6 +153,28 @@ ava_info_t avalanche_library_info __attribute__((section("__TEXT,__bit_ios,regul
 }
 
 /**
+ *  Get the network carrier name.
+ *
+ *  @param carrier Network carrier.
+ *
+ *  @return The network carrier name as an NSString.
+ */
+- (NSString *)carrierName:(CTCarrier *)carrier {
+  return ([carrier.carrierName length] > 0) ? carrier.carrierName : nil;
+}
+
+/**
+ *  Get the network carrier country.
+ *
+ *  @param carrier Network carrier.
+ *
+ *  @return The network carrier country as an NSString.
+ */
+- (NSString *)carrierCountry:(CTCarrier *)carrier {
+  return ([carrier.isoCountryCode length] > 0) ? carrier.isoCountryCode : nil;
+}
+
+/**
  *  Get the application version.
  *
  *  @param appBundle Application main bundle.
@@ -166,6 +194,17 @@ ava_info_t avalanche_library_info __attribute__((section("__TEXT,__bit_ios,regul
  */
 - (NSString *)appBuild:(NSBundle *)appBundle {
   return [appBundle infoDictionary][@"CFBundleVersion"];
+}
+
+/**
+ *  Get the application bundle ID.
+ *
+ *  @param appBundle Application main bundle.
+ *
+ *  @return The application bundle ID as an NSString.
+ */
+- (NSString *)appNamespace:(NSBundle *)appBundle {
+  return [appBundle bundleIdentifier];
 }
 
 @end

@@ -1,10 +1,10 @@
+#import "AVADeviceLog.h"
+#import "AVADeviceTracker.h"
+#import <CoreTelephony/CTCarrier.h>
 #import <Foundation/Foundation.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
-
-#import "AVADeviceLog.h"
-#import "AVADeviceTracker.h"
 
 static NSString *const kAVADeviceManufacturerTest = @"Apple";
 
@@ -24,8 +24,11 @@ static NSString *const kAVADeviceManufacturerTest = @"Apple";
 - (NSString *)locale:(NSLocale *)deviceLocale;
 - (NSNumber *)timeZoneOffset:(NSTimeZone *)timeZone;
 - (NSString *)screenSize;
+- (NSString *)carrierName:(CTCarrier *)carrier;
+- (NSString *)carrierCountry:(CTCarrier *)carrier;
 - (NSString *)appVersion:(NSBundle *)appBundle;
 - (NSString *)appBuild:(NSBundle *)appBundle;
+- (NSString *)appNamespace:(NSBundle *)appBundle;
 
 @end
 
@@ -69,6 +72,13 @@ static NSString *const kAVADeviceManufacturerTest = @"Apple";
   assertThat(self.deviceTracker.device.timeZoneOffset, notNilValue());
 
   assertThat(self.deviceTracker.device.screenSize, notNilValue());
+
+  // Can't access carrier name and country in test context but it's optional and in that case it has to be nil.
+  assertThat(self.deviceTracker.device.carrierCountry, nilValue());
+  assertThat(self.deviceTracker.device.carrierName, nilValue());
+
+  // Can't access a valid main bundle from test context so we can't test for App namespace (bundle ID), version and
+  // build.
 }
 
 - (void)testSDKVersion {
@@ -160,6 +170,60 @@ static NSString *const kAVADeviceManufacturerTest = @"Apple";
   assertThatInteger([screenSize length], greaterThan(@(0)));
 }
 
+- (void)testCarrierName {
+
+  // If
+  NSString *expected = @"MobileParadise";
+  CTCarrier *carrierMock = OCMClassMock([CTCarrier class]);
+  OCMStub([carrierMock carrierName]).andReturn(expected);
+
+  // When
+  NSString *carrierName = [self.deviceTracker carrierName:carrierMock];
+
+  // Then
+  assertThat(carrierName, is(expected));
+}
+
+- (void)testNoCarrierName {
+
+  // If
+  CTCarrier *carrierMock = OCMClassMock([CTCarrier class]);
+  OCMStub([carrierMock carrierName]).andReturn(nil);
+
+  // When
+  NSString *carrierName = [self.deviceTracker carrierName:carrierMock];
+
+  // Then
+  assertThat(carrierName, nilValue());
+}
+
+- (void)testCarrierCountry {
+
+  // If
+  NSString *expected = @"US";
+  CTCarrier *carrierMock = OCMClassMock([CTCarrier class]);
+  OCMStub([carrierMock isoCountryCode]).andReturn(expected);
+
+  // When
+  NSString *carrierCountry = [self.deviceTracker carrierCountry:carrierMock];
+
+  // Then
+  assertThat(carrierCountry, is(expected));
+}
+
+- (void)testNoCarrierCountry {
+
+  // If
+  CTCarrier *carrierMock = OCMClassMock([CTCarrier class]);
+  OCMStub([carrierMock isoCountryCode]).andReturn(nil);
+
+  // When
+  NSString *carrierCountry = [self.deviceTracker carrierCountry:carrierMock];
+
+  // Then
+  assertThat(carrierCountry, nilValue());
+}
+
 - (void)testAppVersion {
 
   // If
@@ -188,6 +252,20 @@ static NSString *const kAVADeviceManufacturerTest = @"Apple";
 
   // Then
   assertThat(appBuild, is(expected));
+}
+
+- (void)testAppNamespace {
+
+  // If
+  NSString *expected = @"com.microsoft.test.app";
+  NSBundle *bundleMock = OCMClassMock([NSBundle class]);
+  OCMStub([bundleMock bundleIdentifier]).andReturn(expected);
+
+  // When
+  NSString *appNamespace = [self.deviceTracker appNamespace:bundleMock];
+
+  // Then
+  assertThat(appNamespace, is(expected));
 }
 
 @end
