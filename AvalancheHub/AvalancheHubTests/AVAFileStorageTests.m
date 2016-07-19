@@ -222,8 +222,8 @@
   // Verify
   assertThatInteger(bucket.availableFiles.count, equalToInteger(1));
   assertThatInteger(bucket.blockedFiles.count, equalToInteger(1));
-  assertThat(currentFile, isIn(bucket.availableFiles));
-  assertThat(availableFile, isIn(bucket.blockedFiles));
+  assertThat(bucket.availableFiles, hasItem(currentFile));
+  assertThat(bucket.blockedFiles, hasItem(availableFile));
 }
 
 - (void)testLoadBatchWillCreateNewCurrentFile {
@@ -266,7 +266,48 @@
 
   // Verify
   assertThatInteger(bucket.availableFiles.count, equalToInteger(1));
-  assertThat(currentFile, isIn(bucket.availableFiles));
+  assertThat(bucket.availableFiles, hasItem(currentFile));
+}
+
+- (void)testLoadFileWillDeleteOldestFileIfFileLimitHasBeenReached {
+  
+  // If
+  NSString *storageKey = @"TestDirectory";
+  self.sut.buckets[storageKey] = [AVAStorageBucket new];
+  AVAStorageBucket *bucket = self.sut.buckets[storageKey];
+  
+  AVAFile *availableFile1 =
+  [[AVAFile alloc] initWithPath:@"1"
+                         fileId:@"1"
+                   creationDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+  AVAFile *availableFile2 =
+  [[AVAFile alloc] initWithPath:@"2"
+                         fileId:@"2"
+                   creationDate:[NSDate dateWithTimeIntervalSinceNow:3]];
+  AVAFile *availableFile3 =
+  [[AVAFile alloc] initWithPath:@"3"
+                         fileId:@"3"
+                   creationDate:[NSDate dateWithTimeIntervalSinceNow:5]];
+  bucket.availableFiles = [NSMutableArray<AVAFile *>
+                           arrayWithObjects:availableFile1, availableFile2, availableFile3, nil];
+  self.sut.bucketFileCountLimit = bucket.availableFiles.count;
+  AVAFile *currentFile = [[AVAFile alloc] initWithPath:@"333"
+                                                fileId:@"333"
+                                          creationDate:[NSDate date]];
+  bucket.currentFile = currentFile;
+
+  
+  // When
+  [self.sut loadLogsForStorageKey:storageKey
+                   withCompletion:^(NSArray<NSObject<AVALog> *> *logs,
+                                    NSString *logsId){
+                   }];
+  
+  // Verify
+  assertThatInteger(bucket.availableFiles.count, equalToInteger(2));
+  assertThat(bucket.availableFiles, containsInRelativeOrder(@[currentFile, availableFile1]));
+  assertThat(bucket.blockedFiles, containsInRelativeOrder(@[availableFile2]));
+  
 }
 
 @end
