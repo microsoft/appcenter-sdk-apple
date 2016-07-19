@@ -131,9 +131,4 @@ static NSString *const kAVASessionIdKey = @"kAVASessionId";
   return device;
 }
 
-- (void)setLastCreatedLogTime:(NSDate *)date {
-  if (date)
-    _lastCreatedLogTime = date;
-}
-
 @end

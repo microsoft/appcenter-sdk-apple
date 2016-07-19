@@ -22,7 +22,7 @@
 /**
  * Timestamp of the last created log
  */
-@property(nonatomic) NSDate *lastCreatedLogTime;
+@property(atomic) NSDate *lastCreatedLogTime;
 
 /**
  *  Timestamp of the last time that the app entered foreground
