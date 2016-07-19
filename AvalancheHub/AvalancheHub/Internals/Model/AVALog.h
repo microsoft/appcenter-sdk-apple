@@ -3,6 +3,7 @@
  */
 
 #import <Foundation/Foundation.h>
+
 @class AVADeviceLog;
 
 @protocol AVALog
@@ -37,14 +38,5 @@
  * return YES, if the object is valid
  */
 - (BOOL)isValid;
-
-@required
-
-/**
- * Checks if the object's values are valid.
- *
- * return YES, if the object is valid
- */
-- (NSMutableDictionary *)serializeToDictionary;
 
 @end

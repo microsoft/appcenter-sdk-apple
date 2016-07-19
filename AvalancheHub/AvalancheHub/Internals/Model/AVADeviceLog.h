@@ -5,10 +5,7 @@
 #import "AVAAbstractLog.h"
 #import <Foundation/Foundation.h>
 
-@protocol AVADeviceLog
-@end
-
-@interface AVADeviceLog : NSObject <NSCoding>
+@interface AVADeviceLog : NSObject <AVASerializableObject>
 
 /* Version of the SDK.
  */
@@ -58,13 +55,6 @@
 /* The bundle identifier, package identifier, or namespace, depending on what the individual plattforms use,  .e.g com.microsoft.example.  [optional]
  */
 @property(nonatomic) NSString* appNamespace;
-
-/**
- * Checks if the object's values are valid.
- *
- * return YES, if the object is valid
- */
-- (NSMutableDictionary *)serializeToDictionary;
 
 /**
  *  Is equal to another device log

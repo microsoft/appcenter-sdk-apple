@@ -109,6 +109,7 @@
 		6E3E2CD01D359F3300B1EE50 /* AVAEventLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAEventLogTests.m; sourceTree = "<group>"; };
 		6E3E2CD11D359F3300B1EE50 /* AVAPageLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAPageLogTests.m; sourceTree = "<group>"; };
 		6E407A221D2F63C50033A76C /* AVAFeature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AVAFeature.h; path = ../../AvalancheHub/AvalancheHub/AVAFeature.h; sourceTree = "<group>"; };
+		6E7D5C7D1D3EA0C1009EC9AC /* AVAConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AVAConstants.h; path = ../../AvalancheHub/AvalancheHub/AVAConstants.h; sourceTree = "<group>"; };
 		E85547C01D2D6253002DF6E2 /* libAvalancheAnalytics.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAvalancheAnalytics.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E85547C31D2D6253002DF6E2 /* AVAAnalytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AVAAnalytics.h; sourceTree = "<group>"; };
 		E85547C51D2D6253002DF6E2 /* AVAAnalytics.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AVAAnalytics.m; sourceTree = "<group>"; };
@@ -277,6 +278,7 @@
 		E85547D61D2D6723002DF6E2 /* AvalancheAnalyticsTests */ = {
 			isa = PBXGroup;
 			children = (
+				6E7D5C7D1D3EA0C1009EC9AC /* AVAConstants.h */,
 				6E0684361D35A39300A8CC6C /* Frameworks */,
 				6E3E2CCF1D359F3300B1EE50 /* AVAEndSessionLogTests.m */,
 				6E3E2CD01D359F3300B1EE50 /* AVAEventLogTests.m */,
