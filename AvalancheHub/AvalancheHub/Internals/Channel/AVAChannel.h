@@ -17,26 +17,24 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol AVAChannel <NSObject>
 
 /*
- * The `AVASendPriority` value this channel is responsible for.
+ * The configuration used by this channel.
  */
-@property(nonatomic, readonly) AVAPriority priority;
+@property(nonatomic, strong) AVAChannelConfiguration *configuration;
 
 @required
 
 /**
- * Initializes a new `AVALogManager` instance.
+ * Initializes a new `AVAChannelDefault` instance.
  *
  * @param sender A sender instance that is used to send batches of log items to
  * the backend.
  * @param storage A storage instance to store and read enqueued log items.
- * @param priority The priority this channel represents.
- * @param priority The configuration used by this channel.
+ * @param configuration The configuration used by this channel.
  *
- *  @return the telemetry context.
+ * @return A new `AVAChannelDefault` instance.
  */
 - (instancetype)initWithSender:(id<AVASender>)sender
                        storage:(id<AVAStorage>)storage
-                      priority:(AVAPriority)priority
                  configuration:(AVAChannelConfiguration *)configuration;
 
 /**

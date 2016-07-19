@@ -37,11 +37,6 @@ typedef void (^enqueueCompletionBlock)(BOOL);
 @property(nonatomic, assign) NSUInteger itemsCount;
 
 /**
- * Configuration for this channel containing the flush interval, the subdirectory folder name and the maximum batch size.
- */
-@property(nonatomic, nonatomic) AVAChannelConfiguration *configuration;
-
-/**
  *  A list used to keep track of batches that have been forwarded to the sender component.
  */
 @property(nonatomic, copy) NSMutableArray *pendingLogsIds;

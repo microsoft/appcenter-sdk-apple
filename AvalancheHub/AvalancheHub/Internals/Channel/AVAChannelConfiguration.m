@@ -10,10 +10,10 @@ static AVAChannelConfiguration *AVAChannelConfigurationBackground;
 
 @implementation AVAChannelConfiguration
 
-- (id)initWithPriorityName:(NSString *)name
-             flushInterval:(float)flushInterval
-            batchSizeLimit:(NSUInteger)batchSizeLimit
-       pendingBatchesLimit:(NSUInteger)pendingBatchesLimit {
+- (instancetype)initWithPriorityName:(NSString *)name
+                       flushInterval:(float)flushInterval
+                      batchSizeLimit:(NSUInteger)batchSizeLimit
+                 pendingBatchesLimit:(NSUInteger)pendingBatchesLimit {
   if (self = [super init]) {
     _name = name;
     _flushInterval = flushInterval;

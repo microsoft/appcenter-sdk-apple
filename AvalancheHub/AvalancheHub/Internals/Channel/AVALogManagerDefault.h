@@ -23,6 +23,16 @@ NS_ASSUME_NONNULL_BEGIN
 @interface AVALogManagerDefault : NSObject <AVALogManager>
 
 /**
+ *  A sender instance that is used to send batches of log items to the backend.
+ */
+@property(nonatomic, strong, nullable) id<AVASender> sender;
+
+/**
+ *  A storage instance to store and read enqueued log items.
+ */
+@property(nonatomic, strong, nullable) id<AVAStorage> storage;
+
+/**
  *  A queue which makes adding new items thread safe.
  */
 @property(nonatomic, strong) dispatch_queue_t dataItemsOperations;
@@ -30,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * A dictionary containing priority keys and their channel.
  */
-@property(nonatomic, copy) NSDictionary<NSNumber *, id<AVAChannel>> *channels;
+@property(nonatomic, copy) NSMutableDictionary<NSNumber *, id<AVAChannel>> *channels;
 
 @end
 

@@ -21,11 +21,14 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Initializes a new `AVALogManager` instance.
  *
- * @param channels A list with channels, each representing a specific priority.
+ * @param sender A sender instance that is used to send batches of log items to
+ * the backend.
+ * @param storage A storage instance to store and read enqueued log items.
  *
- * @return the telemetry context.
+ * @return A new `AVALogManager` instance.
  */
-- (instancetype)initWithChannels:(NSArray<AVAChannel> *)channels;
+- (instancetype)initWithSender:(id<AVASender>)sender
+                       storage:(id<AVAStorage>)storage;
 
 /**
  * Triggers processing of a new log item.

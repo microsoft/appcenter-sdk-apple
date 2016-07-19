@@ -8,7 +8,6 @@
 @implementation AVAChannelDefault
 
 @synthesize configuration = _configuration;
-@synthesize priority = _priority;
 
 #pragma mark - Initialisation
 
@@ -22,12 +21,10 @@
 
 - (instancetype)initWithSender:(id<AVASender>)sender
                        storage:(id<AVAStorage>)storage
-                      priority:(AVAPriority)priority
                  configuration:(AVAChannelConfiguration *)configuration {
   if (self = [self init]) {
     _sender = sender;
     _storage = storage;
-    _priority = priority;
     _configuration = configuration;
   }
   return self;

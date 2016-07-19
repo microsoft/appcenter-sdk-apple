@@ -44,10 +44,10 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return a fully configured `AVAChannelConfiguration` instance.
  */
-- (id)initWithPriorityName:(NSString *)name
-             flushInterval:(float)flushInterval
-            batchSizeLimit:(NSUInteger)batchSizeLimit
-       pendingBatchesLimit:(NSUInteger)pendingBatchesLimit;
+- (instancetype)initWithPriorityName:(NSString *)name
+                       flushInterval:(float)flushInterval
+                      batchSizeLimit:(NSUInteger)batchSizeLimit
+                 pendingBatchesLimit:(NSUInteger)pendingBatchesLimit;
 
 /**
  * Initializes and configures a predefined `AVAChannelConfiguration' instance

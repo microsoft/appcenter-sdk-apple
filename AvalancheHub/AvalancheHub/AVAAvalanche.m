@@ -94,22 +94,8 @@ static NSString *const kAVABaseUrl =
   // Construct storage
   AVAFileStorage *storage = [[AVAFileStorage alloc] init];
 
-  // Construct priority channels
-  AVAChannelDefault *defaultPriorityChannel = [[AVAChannelDefault alloc]
-      initWithSender:sender
-             storage:storage
-            priority:AVAPriorityDefault
-       configuration:[AVAChannelConfiguration configurationForPriority:AVAPriorityDefault]];
-  AVAChannelDefault *highPriorityChannel = [[AVAChannelDefault alloc]
-      initWithSender:sender
-             storage:storage
-            priority:AVAPriorityHigh
-       configuration:[AVAChannelConfiguration configurationForPriority:AVAPriorityHigh]];
-  NSArray<AVAChannel> *channels = [NSArray<AVAChannel>
-      arrayWithObjects:defaultPriorityChannel, highPriorityChannel, nil];
-
   // Construct log manager
-  _logManager = [[AVALogManagerDefault alloc] initWithChannels:channels];
+  _logManager = [[AVALogManagerDefault alloc] initWithSender:sender storage:storage];
 }
 
 + (AVALogLevel)logLevel {
