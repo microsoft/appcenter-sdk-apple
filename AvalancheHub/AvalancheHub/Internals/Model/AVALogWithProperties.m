@@ -21,13 +21,6 @@ static NSString *const kAVAProperties = @"properties";
   return dict;
 }
 
-- (BOOL)isValid {
-  BOOL isValid = YES;
-
-  isValid = (!self.properties || [super isValid]);
-  return isValid;
-}
-
 #pragma mark - NSCoding
 
 - (instancetype)initWithCoder:(NSCoder *)coder {

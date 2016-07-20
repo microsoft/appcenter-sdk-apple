@@ -23,6 +23,7 @@
 @property (nonatomic) NSString *installId;
 @property (nonatomic) NSString *apiVersion;
 @property BOOL featuresStarted;
+@property BOOL isEnabled;
 @property (nonatomic) AVASessionTracker *sessionTracker;
 
 - (NSString*)appKey;

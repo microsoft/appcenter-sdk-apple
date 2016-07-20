@@ -14,6 +14,11 @@
 
 #pragma mark - view controller
 
+- (void)viewDidLoad {
+  [super viewDidLoad];
+  self.title = @"Analytics";
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
   if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
     return YES;
@@ -22,20 +27,40 @@
   }
 }
 
-
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-  // Return the number of sections.
-  return 1;
-}
-
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  // Return the number of rows in the section.
   return 2;
 }
 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+  
+  switch (section) {
+    // Actions
+    case 0: {
+      return 4;
+    }
+    // Settings
+    case 1: {
+      return 1;
+    }
+    default:
+      return 0;
+  }
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+  switch (section) {
+    case 0: {
+      return @"Actions";
+    }
+    case 1: {
+        return @"Settings";
+    }
+    default:
+      return 0;
+  }
+}
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -47,25 +72,56 @@
     cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
   }
   
-  cell.accessoryType = UITableViewCellAccessoryNone;
-  // Configure the cell...
-  switch (indexPath.row) {
+  switch ([indexPath section]) {
     case 0: {
-      cell.textLabel.text = NSLocalizedString(@"Track Event", @"");
+      
+      // Configure action cell...
+      switch (indexPath.row) {
+        case 0: {
+          cell.textLabel.text = NSLocalizedString(@"Track Event", @"");
+          break;
+        }
+          
+        case 1: {
+          cell.textLabel.text = NSLocalizedString(@"Track Event with Properties", @"");
+          break;
+        }
+          
+        case 2: {
+          cell.textLabel.text = NSLocalizedString(@"Track Page", @"");
+          break;
+        }
+          
+        case 3: {
+          cell.textLabel.text = NSLocalizedString(@"Track Page with Properties", @"");
+          break;
+        }
+          
+        default:
+          break;
+      }
+      
       break;
     }
-      
     case 1: {
-      cell.textLabel.text = NSLocalizedString(@"Track Page", @"");
+      // Configure setting cell...
+      switch (indexPath.row) {
+        case 0: {
+          cell.textLabel.text = NSLocalizedString(@"Feature Enabled", @"");
+          cell.userInteractionEnabled = NO;
+          break;
+        }
+          
+        default:
+          break;
+      }
       break;
     }
       
     default:
       break;
   }
-  
-  cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-  
+
   return cell;
 }
 
@@ -75,14 +131,47 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   [tableView deselectRowAtIndexPath:indexPath animated:YES];
   
-  switch (indexPath.row) {
+  switch ([indexPath section]) {
     case 0: {
-        [AVAAnalytics sendEventLog:@"finally"];
+      
+      // Actions
+      switch (indexPath.row) {
+        case 0: {
+          [AVAAnalytics trackEvent:@"myEvent" withProperties:nil];
+          break;
+        }
+        case 1: {
+          NSDictionary *properties = @{@"gender" : @"male", @"age" : @(20), @"title" : @"SDE"};
+          [AVAAnalytics trackEvent:@"myEvent" withProperties:properties];
+          break;
+        }
+        case 2: {
+          [AVAAnalytics trackPage:@"myPage" withProperties:nil];
+          break;
+        }
+          
+        case 3: {
+          NSDictionary *properties = @{@"gender" : @"female", @"age" : @(28), @"title" : @"PM"};
+          [AVAAnalytics trackPage:@"myPage" withProperties:properties];
+          break;
+        }
+        default:
+          break;
+      }
+      
       break;
     }
-
+      // Settings
     case 1: {
-
+    
+      switch (indexPath.row) {
+        case 0: {
+          // TODO
+          break;
+        }
+        default:
+          break;
+      }
       break;
     }
       

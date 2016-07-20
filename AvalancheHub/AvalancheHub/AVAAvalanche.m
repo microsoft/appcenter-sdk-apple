@@ -38,7 +38,18 @@ static NSString *const kAVABaseUrl =
 + (void)useFeatures:(NSArray<Class> *)features withAppKey:(NSString *)appKey {
   [[self sharedInstance] useFeatures:features withAppKey:appKey];
 }
++ (void)setEnabled:(BOOL)isEnabled {
+  [[self sharedInstance] setEnabled:isEnabled];
+}
 
+#pragma mark - private methods
+
+- (id)init {
+  if (self = [super init]) {
+    _features = [NSMutableArray new];
+  }
+  return self;
+}
 - (void)useFeatures:(NSArray<Class> *)features withAppKey:(NSString *)appKey {
 
   if (self.featuresStarted) {
@@ -70,8 +81,16 @@ static NSString *const kAVABaseUrl =
     [self.features addObject:feature];
     [feature startFeature];
   }
-
   _featuresStarted = YES;
+}
+
+- (void)setEnabled:(BOOL)isEnabled {
+  
+  // Set enable/disable on all features
+  for (id<AVAFeaturePrivate> feature in self.features) {
+    [feature setEnabled:isEnabled];
+  }
+  _isEnabled = isEnabled;
 }
 
 - (void)initializePipeline {
@@ -155,7 +174,6 @@ static NSString *const kAVABaseUrl =
 
   // Set the last ceated time on the session tracker
   self.sessionTracker.lastCreatedLogTime = [NSDate date];
-  
   [self.logManager processLog:log withPriority:priority];
 }
 
