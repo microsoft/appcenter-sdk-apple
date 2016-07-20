@@ -43,6 +43,8 @@
 		6E171B111D22FABA000DC480 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171B051D22FABA000DC480 /* libOCMock.a */; };
 		6E171B391D22FF6B000DC480 /* libOHHTTPStubs.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171B2F1D22FF6B000DC480 /* libOHHTTPStubs.a */; };
 		6E407A211D2F5B600033A76C /* AVAFeature.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E407A201D2F5B600033A76C /* AVAFeature.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6E73FE641D3FE263008CDC15 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E73FE631D3FE263008CDC15 /* CrashReporter.framework */; };
+		6E73FE651D3FE263008CDC15 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E73FE631D3FE263008CDC15 /* CrashReporter.framework */; };
 		6E7D5C671D3E9321009EC9AC /* AVABinary.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E7D5C651D3E9321009EC9AC /* AVABinary.h */; };
 		6E7D5C681D3E9321009EC9AC /* AVABinary.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C661D3E9321009EC9AC /* AVABinary.m */; };
 		6E7D5C6B1D3E9332009EC9AC /* AVAErrorLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E7D5C691D3E9332009EC9AC /* AVAErrorLog.h */; };
@@ -127,6 +129,7 @@
 		6E3729811D1DE93800F1E4AE /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		6E3729821D1DE93800F1E4AE /* release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = release.xcconfig; sourceTree = "<group>"; };
 		6E407A201D2F5B600033A76C /* AVAFeature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AVAFeature.h; path = ../../AvalancheHub/AvalancheHub/AVAFeature.h; sourceTree = "<group>"; };
+		6E73FE631D3FE263008CDC15 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = Vendor/CrashReporter.framework; sourceTree = "<group>"; };
 		6E7D5C651D3E9321009EC9AC /* AVABinary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVABinary.h; sourceTree = "<group>"; };
 		6E7D5C661D3E9321009EC9AC /* AVABinary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVABinary.m; sourceTree = "<group>"; };
 		6E7D5C691D3E9332009EC9AC /* AVAErrorLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAErrorLog.h; sourceTree = "<group>"; };
@@ -150,6 +153,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6E73FE641D3FE263008CDC15 /* CrashReporter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -158,6 +162,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E171AF01D22F841000DC480 /* libAvalancheHub.a in Frameworks */,
+				6E73FE651D3FE263008CDC15 /* CrashReporter.framework in Frameworks */,
 				6E171B111D22FABA000DC480 /* libOCMock.a in Frameworks */,
 				6E171B391D22FF6B000DC480 /* libOHHTTPStubs.a in Frameworks */,
 				6E171AE61D22F781000DC480 /* libAvalancheCrashes.a in Frameworks */,
@@ -173,6 +178,7 @@
 			children = (
 				6E0401351D1C98690051BCFA /* AvalancheCrashes */,
 				6E171AE21D22F781000DC480 /* AvalancheCrashesTests */,
+				6E73FE581D3FD80F008CDC15 /* Vendor */,
 				6E0401341D1C98690051BCFA /* Products */,
 			);
 			sourceTree = "<group>";
@@ -296,6 +302,14 @@
 				6E3729821D1DE93800F1E4AE /* release.xcconfig */,
 			);
 			path = Support;
+			sourceTree = "<group>";
+		};
+		6E73FE581D3FD80F008CDC15 /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+				6E73FE631D3FE263008CDC15 /* CrashReporter.framework */,
+			);
+			name = Vendor;
 			sourceTree = "<group>";
 		};
 		6E7D5C641D3E92B1009EC9AC /* Model */ = {
@@ -584,6 +598,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				"ARCHS[sdk=iphonesimulator*]" = "$(AVA_SIM_ARCHS)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Vendor",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.avalanche.AvalancheCrashes;
@@ -599,6 +617,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				"ARCHS[sdk=iphonesimulator*]" = "$(AVA_SIM_ARCHS)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Vendor",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.avalanche.AvalancheCrashes;
@@ -614,7 +636,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../Vendor\"/**",
+					"$(PROJECT_DIR)/Vendor",
+				);
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				INFOPLIST_FILE = AvalancheCrashesTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -635,7 +660,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../Vendor\"/**",
+					"$(PROJECT_DIR)/Vendor",
+				);
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				INFOPLIST_FILE = AvalancheCrashesTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
