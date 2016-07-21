@@ -3,7 +3,6 @@
  */
 
 #import "AVADeviceLog.h"
-#import <Foundation/Foundation.h>
 
 /**
  *  Provide and keep track of device log based on collected characteristics.

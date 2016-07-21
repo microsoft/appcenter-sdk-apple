@@ -1,5 +1,6 @@
 #import "AVADeviceLog.h"
 #import "AVADeviceTracker.h"
+#import "AVADeviceTrackerPrivate.h"
 #import <CoreTelephony/CTCarrier.h>
 #import <Foundation/Foundation.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
@@ -9,26 +10,6 @@
 static NSString *const kAVADeviceManufacturerTest = @"Apple";
 
 @interface AVADeviceHelperTests : XCTestCase
-
-@end
-
-/**
- *  Expose private methods for testing.
- */
-@interface AVADeviceTracker (Tests)
-
-- (NSString *)sdkVersion:(const char[])version;
-- (NSString *)deviceModel;
-- (NSString *)osName:(UIDevice *)device;
-- (NSString *)osVersion:(UIDevice *)device;
-- (NSString *)locale:(NSLocale *)deviceLocale;
-- (NSNumber *)timeZoneOffset:(NSTimeZone *)timeZone;
-- (NSString *)screenSize;
-- (NSString *)carrierName:(CTCarrier *)carrier;
-- (NSString *)carrierCountry:(CTCarrier *)carrier;
-- (NSString *)appVersion:(NSBundle *)appBundle;
-- (NSString *)appBuild:(NSBundle *)appBundle;
-- (NSString *)appNamespace:(NSBundle *)appBundle;
 
 @end
 

@@ -3,13 +3,9 @@
  */
 
 #import "AVAConstants+Internal.h"
-#import "AVADeviceLog.h"
 #import "AVADeviceTracker.h"
+#import "AVADeviceTrackerPrivate.h"
 #import "AVAUtils.h"
-#import <CoreTelephony/CTCarrier.h>
-#import <CoreTelephony/CTTelephonyNetworkInfo.h>
-#import <UIKit/UIKit.h>
-#import <sys/sysctl.h>
 
 // SDK versioning struct
 typedef struct {
@@ -30,63 +26,66 @@ ava_info_t avalanche_library_info __attribute__((section("__TEXT,__bit_ios,regul
 
 @implementation AVADeviceTracker : NSObject
 
+@synthesize device = _device;
+
 /**
  *  Get the current device log.
  */
 - (AVADeviceLog *)device {
+  @synchronized(self) {
 
-  // Lazy creation.
-  if (!_device) {
-    [self refresh];
+    // Lazy creation.
+    if (!_device) {
+      [self refresh];
+    }
+    return _device;
   }
-  return _device;
+}
+
+/**
+ *  Set the current device log.
+ */
+- (void)setDevice:(AVADeviceLog *)aDevice {
+  @synchronized(self) {
+    _device = aDevice;
+  }
 }
 
 /**
  *  Refresh device characteristics.
  */
 - (void)refresh {
-  AVADeviceLog *newDevice = [[AVADeviceLog alloc] init];
-  NSBundle *appBundle = [NSBundle mainBundle];
-  CTCarrier *carrier = [[[CTTelephonyNetworkInfo alloc] init] subscriberCellularProvider];
+  @synchronized(self) {
+    AVADeviceLog *newDevice = [[AVADeviceLog alloc] init];
+    NSBundle *appBundle = [NSBundle mainBundle];
+    CTCarrier *carrier = [[[CTTelephonyNetworkInfo alloc] init] subscriberCellularProvider];
 
-  // Collect device characteristics
-  newDevice.sdkVersion = [self sdkVersion:avalanche_library_info.ava_version];
-  newDevice.model = [self deviceModel];
-  newDevice.oemName = kAVADeviceManufacturer;
-  newDevice.osName = [self osName:kAVADevice];
-  newDevice.osVersion = [self osVersion:kAVADevice];
-  newDevice.locale = [self locale:kAVALocale];
-  newDevice.timeZoneOffset = [self timeZoneOffset:[NSTimeZone localTimeZone]];
-  newDevice.screenSize = [self screenSize];
-  newDevice.appVersion = [self appVersion:appBundle];
-  newDevice.carrierCountry = [self carrierCountry:carrier];
-  newDevice.carrierName = [self carrierName:carrier];
-  newDevice.appBuild = [self appBuild:appBundle];
-  newDevice.appNamespace = [self appNamespace:appBundle];
+    // Collect device characteristics
+    newDevice.sdkVersion = [self sdkVersion:avalanche_library_info.ava_version];
+    newDevice.model = [self deviceModel];
+    newDevice.oemName = kAVADeviceManufacturer;
+    newDevice.osName = [self osName:kAVADevice];
+    newDevice.osVersion = [self osVersion:kAVADevice];
+    newDevice.locale = [self locale:kAVALocale];
+    newDevice.timeZoneOffset = [self timeZoneOffset:[NSTimeZone localTimeZone]];
+    newDevice.screenSize = [self screenSize];
+    newDevice.appVersion = [self appVersion:appBundle];
+    newDevice.carrierCountry = [self carrierCountry:carrier];
+    newDevice.carrierName = [self carrierName:carrier];
+    newDevice.appBuild = [self appBuild:appBundle];
+    newDevice.appNamespace = [self appNamespace:appBundle];
 
-  // Set the new device info
-  self.device = newDevice;
+    // Set the new device info
+    _device = newDevice;
+  }
 }
 
 #pragma mark - Helpers
 
-/**
- *  Get the SDK version.
- *
- *  @param  version SDK version as const char.
- *
- *  @return The SDK version as an NSString.
- */
 - (NSString *)sdkVersion:(const char[])version {
   return [NSString stringWithUTF8String:version];
 }
 
-/**
- *  Get device model.
- *
- *  @return The device model as an NSString.
- */
 - (NSString *)deviceModel {
   size_t size;
   sysctlbyname("hw.machine", NULL, &size, NULL, 0);
@@ -97,112 +96,44 @@ ava_info_t avalanche_library_info __attribute__((section("__TEXT,__bit_ios,regul
   return model;
 }
 
-/**
- *  Get the OS name.
- *
- *  @param device Current UIDevice.
- *
- *  @return The OS name as an NSString.
- */
 - (NSString *)osName:(UIDevice *)device {
   return device.systemName;
 }
 
-/**
- *  Get the OS version.
- *
- *  @param device Current UIDevice.
- *
- *  @return The OS version as an NSString.
- */
 - (NSString *)osVersion:(UIDevice *)device {
   return device.systemVersion;
 }
 
-/**
- *  Get the device current locale.
- *
- *  @param locale Device current locale.
- *
- *  @return The device current locale as an NSString.
- */
 - (NSString *)locale:(NSLocale *)currentLocale {
   return [currentLocale objectForKey:NSLocaleIdentifier];
 }
 
-/**
- *  Get the device current timezone offset (UTC as reference).
- *
- *  @param timeZone Device timezone.
- *
- *  @return The device current timezone offset as an NSNumber.
- */
 - (NSNumber *)timeZoneOffset:(NSTimeZone *)timeZone {
   return @([timeZone secondsFromGMT] / 60);
 }
 
-/**
- *  Get the renedered screen size.
- *
- *  @return The size of the screen as an NSString with format "HeightxWidth".
- */
 - (NSString *)screenSize {
   CGFloat scale = [UIScreen mainScreen].scale;
   CGSize screenSize = [UIScreen mainScreen].bounds.size;
   return [NSString stringWithFormat:@"%dx%d", (int)(screenSize.height * scale), (int)(screenSize.width * scale)];
 }
 
-/**
- *  Get the network carrier name.
- *
- *  @param carrier Network carrier.
- *
- *  @return The network carrier name as an NSString.
- */
 - (NSString *)carrierName:(CTCarrier *)carrier {
   return ([carrier.carrierName length] > 0) ? carrier.carrierName : nil;
 }
 
-/**
- *  Get the network carrier country.
- *
- *  @param carrier Network carrier.
- *
- *  @return The network carrier country as an NSString.
- */
 - (NSString *)carrierCountry:(CTCarrier *)carrier {
   return ([carrier.isoCountryCode length] > 0) ? carrier.isoCountryCode : nil;
 }
 
-/**
- *  Get the application version.
- *
- *  @param appBundle Application main bundle.
- *
- *  @return The application version as an NSString.
- */
 - (NSString *)appVersion:(NSBundle *)appBundle {
   return [appBundle infoDictionary][@"CFBundleShortVersionString"];
 }
 
-/**
- *  Get the application build.
- *
- *  @param appBundle Application main bundle.
- *
- *  @return The application build as an NSString.
- */
 - (NSString *)appBuild:(NSBundle *)appBundle {
   return [appBundle infoDictionary][@"CFBundleVersion"];
 }
 
-/**
- *  Get the application bundle ID.
- *
- *  @param appBundle Application main bundle.
- *
- *  @return The application bundle ID as an NSString.
- */
 - (NSString *)appNamespace:(NSBundle *)appBundle {
   return [appBundle bundleIdentifier];
 }
