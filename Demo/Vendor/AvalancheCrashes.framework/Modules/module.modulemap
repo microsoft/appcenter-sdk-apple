@@ -5,4 +5,6 @@ framework module AvalancheCrashes {
   module * { export * }
   
   link framework "Foundation"
+  link "c++"
+  link "z"
 }

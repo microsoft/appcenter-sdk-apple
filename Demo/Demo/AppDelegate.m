@@ -17,7 +17,7 @@
   
   // Start Avalanche SDK
   [AVAAvalanche setLogLevel:AVALogLevelVerbose];
-  [AVAAvalanche useFeatures:@[[AVACrashes class], [AVAAnalytics class]] withAppKey:@"AppKey"];
+  [AVAAvalanche useFeatures:@[[AVACrashes class], [AVAAnalytics class]] withAppKey:[[NSUUID UUID] UUIDString]];
   
   return YES;
 }
