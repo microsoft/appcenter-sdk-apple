@@ -45,6 +45,12 @@
 		6E407A211D2F5B600033A76C /* AVAFeature.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E407A201D2F5B600033A76C /* AVAFeature.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E73FE641D3FE263008CDC15 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E73FE631D3FE263008CDC15 /* CrashReporter.framework */; };
 		6E73FE651D3FE263008CDC15 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E73FE631D3FE263008CDC15 /* CrashReporter.framework */; };
+		6E73FE6A1D402F79008CDC15 /* AVACrashCXXExceptionHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E73FE681D402F79008CDC15 /* AVACrashCXXExceptionHandler.h */; };
+		6E73FE6B1D402F79008CDC15 /* AVACrashCXXExceptionHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6E73FE691D402F79008CDC15 /* AVACrashCXXExceptionHandler.mm */; };
+		6E73FE6F1D4032AB008CDC15 /* AVACrashesHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E73FE6D1D4032AB008CDC15 /* AVACrashesHelper.h */; };
+		6E73FE701D4032AB008CDC15 /* AVACrashesHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E73FE6E1D4032AB008CDC15 /* AVACrashesHelper.m */; };
+		6E73FE731D4059E7008CDC15 /* AVACrashCXXExceptionWrapperException.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E73FE711D4059E7008CDC15 /* AVACrashCXXExceptionWrapperException.h */; };
+		6E73FE741D4059E7008CDC15 /* AVACrashCXXExceptionWrapperException.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E73FE721D4059E7008CDC15 /* AVACrashCXXExceptionWrapperException.m */; };
 		6E7D5C671D3E9321009EC9AC /* AVABinary.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E7D5C651D3E9321009EC9AC /* AVABinary.h */; };
 		6E7D5C681D3E9321009EC9AC /* AVABinary.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C661D3E9321009EC9AC /* AVABinary.m */; };
 		6E7D5C6B1D3E9332009EC9AC /* AVAErrorLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E7D5C691D3E9332009EC9AC /* AVAErrorLog.h */; };
@@ -130,6 +136,12 @@
 		6E3729821D1DE93800F1E4AE /* release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = release.xcconfig; sourceTree = "<group>"; };
 		6E407A201D2F5B600033A76C /* AVAFeature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AVAFeature.h; path = ../../AvalancheHub/AvalancheHub/AVAFeature.h; sourceTree = "<group>"; };
 		6E73FE631D3FE263008CDC15 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = Vendor/CrashReporter.framework; sourceTree = "<group>"; };
+		6E73FE681D402F79008CDC15 /* AVACrashCXXExceptionHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVACrashCXXExceptionHandler.h; sourceTree = "<group>"; };
+		6E73FE691D402F79008CDC15 /* AVACrashCXXExceptionHandler.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AVACrashCXXExceptionHandler.mm; sourceTree = "<group>"; };
+		6E73FE6D1D4032AB008CDC15 /* AVACrashesHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVACrashesHelper.h; sourceTree = "<group>"; };
+		6E73FE6E1D4032AB008CDC15 /* AVACrashesHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVACrashesHelper.m; sourceTree = "<group>"; };
+		6E73FE711D4059E7008CDC15 /* AVACrashCXXExceptionWrapperException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVACrashCXXExceptionWrapperException.h; sourceTree = "<group>"; };
+		6E73FE721D4059E7008CDC15 /* AVACrashCXXExceptionWrapperException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVACrashCXXExceptionWrapperException.m; sourceTree = "<group>"; };
 		6E7D5C651D3E9321009EC9AC /* AVABinary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVABinary.h; sourceTree = "<group>"; };
 		6E7D5C661D3E9321009EC9AC /* AVABinary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVABinary.m; sourceTree = "<group>"; };
 		6E7D5C691D3E9332009EC9AC /* AVAErrorLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAErrorLog.h; sourceTree = "<group>"; };
@@ -208,9 +220,14 @@
 		6E0401511D1C9A4F0051BCFA /* Internals */ = {
 			isa = PBXGroup;
 			children = (
-				6E7D5C641D3E92B1009EC9AC /* Model */,
+				6E73FE711D4059E7008CDC15 /* AVACrashCXXExceptionWrapperException.h */,
+				6E73FE721D4059E7008CDC15 /* AVACrashCXXExceptionWrapperException.m */,
+				6E73FE681D402F79008CDC15 /* AVACrashCXXExceptionHandler.h */,
+				6E73FE691D402F79008CDC15 /* AVACrashCXXExceptionHandler.mm */,
 				6E0401591D1C9D7F0051BCFA /* AvalancheHub+Internal.h */,
 				6E0401521D1C9A4F0051BCFA /* AVACrashesPrivate.h */,
+				6E7D5C641D3E92B1009EC9AC /* Model */,
+				6E73FE6C1D403286008CDC15 /* Utils */,
 			);
 			path = Internals;
 			sourceTree = "<group>";
@@ -312,6 +329,15 @@
 			name = Vendor;
 			sourceTree = "<group>";
 		};
+		6E73FE6C1D403286008CDC15 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				6E73FE6D1D4032AB008CDC15 /* AVACrashesHelper.h */,
+				6E73FE6E1D4032AB008CDC15 /* AVACrashesHelper.m */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		6E7D5C641D3E92B1009EC9AC /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -341,10 +367,13 @@
 				6E0401761D1C9E750051BCFA /* AVACrashes.h in Headers */,
 				6E7D5C771D3E9395009EC9AC /* AVAThreadFrame.h in Headers */,
 				6E7D5C731D3E9381009EC9AC /* AVAThread.h in Headers */,
+				6E73FE6F1D4032AB008CDC15 /* AVACrashesHelper.h in Headers */,
 				6E7D5C6F1D3E9346009EC9AC /* AVAException.h in Headers */,
 				6E0401771D1C9EBE0051BCFA /* AvalancheHub+Internal.h in Headers */,
 				6E407A211D2F5B600033A76C /* AVAFeature.h in Headers */,
+				6E73FE731D4059E7008CDC15 /* AVACrashCXXExceptionWrapperException.h in Headers */,
 				6E7D5C6B1D3E9332009EC9AC /* AVAErrorLog.h in Headers */,
+				6E73FE6A1D402F79008CDC15 /* AVACrashCXXExceptionHandler.h in Headers */,
 				6E0401781D1C9EBE0051BCFA /* AVACrashesPrivate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -476,11 +505,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6E73FE6B1D402F79008CDC15 /* AVACrashCXXExceptionHandler.mm in Sources */,
 				6E7D5C701D3E9346009EC9AC /* AVAException.m in Sources */,
+				6E73FE741D4059E7008CDC15 /* AVACrashCXXExceptionWrapperException.m in Sources */,
 				6E7D5C6C1D3E9332009EC9AC /* AVAErrorLog.m in Sources */,
 				6E7D5C781D3E9395009EC9AC /* AVAThreadFrame.m in Sources */,
 				6E7D5C741D3E9381009EC9AC /* AVAThread.m in Sources */,
 				6E0401541D1C9A4F0051BCFA /* AVACrashes.m in Sources */,
+				6E73FE701D4032AB008CDC15 /* AVACrashesHelper.m in Sources */,
 				6E7D5C681D3E9321009EC9AC /* AVABinary.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -13,6 +13,8 @@ static char *const AVADataItemsOperationsQueue =
 
 #pragma mark - Initialisation
 
+// TODO: Channels need to be passed in, otherwise e.g. old crashes will never been send out.
+
 - (instancetype)init {
   if (self = [super init]) {
     dispatch_queue_t serialQueue = dispatch_queue_create(
