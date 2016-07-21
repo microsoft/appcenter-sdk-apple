@@ -179,6 +179,7 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
     
     // TODO: Send and clean next crash report
     PLCrashReport *report = [self nextCrashReport];
+    AVALogVerbose(@"[AVACrashes] VERBOSE: Crash report found: %@ ", report.debugDescription);
   }
 }
 
@@ -241,6 +242,7 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
     NSArray *dirArray = [self.fileManager contentsOfDirectoryAtPath:self.crashesDir error:&error];
     
     for (NSString *file in dirArray) {
+      persitedCrashReports = [NSMutableArray new];
       NSString *filePath = [self.crashesDir stringByAppendingPathComponent:file];
       NSDictionary *fileAttributes = [self.fileManager attributesOfItemAtPath:filePath error:&error];
       
