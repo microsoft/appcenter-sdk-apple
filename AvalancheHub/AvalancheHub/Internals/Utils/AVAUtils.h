@@ -12,5 +12,5 @@
 #define kAVADevice [UIDevice currentDevice]
 #define kAVAApplication [UIApplication sharedApplication]
 #define kAVAUUIDString [[NSUUID UUID] UUIDString]
-
+#define kAVALocale [NSLocale currentLocale]
 #endif /* AVAUtils_h */

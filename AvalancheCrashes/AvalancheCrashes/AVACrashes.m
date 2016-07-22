@@ -39,6 +39,7 @@ uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInfo *info) {
 @implementation AVACrashes
 
 @synthesize delegate = _delegate;
+@synthesize isEnabled = _isEnabled;
 
 #pragma mark - Module initialization
 
@@ -53,6 +54,7 @@ uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInfo *info) {
 
 - (instancetype)init {
   if ((self = [super init])) {
+    _isEnabled = YES;
     _fileManager = [[NSFileManager alloc] init];
     _crashFiles = [[NSMutableArray alloc] init];
     _crashesDir = [AVACrashesHelper crashesDir];
@@ -78,10 +80,11 @@ uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInfo *info) {
 }
 
 + (void)setEnable:(BOOL)isEnabled {
+  [[self sharedInstance] setEnabled:isEnabled];
 }
 
 + (BOOL)isEnabled {
-  return YES;
+  return [[self sharedInstance] isEnabled];
 }
 
 #pragma mark - Crash reporter configuration

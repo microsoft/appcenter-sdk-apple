@@ -8,6 +8,7 @@
 @protocol AVAFeaturePrivate <NSObject>
 
 @property (nonatomic, weak) id<AVAAvalancheDelegate> delegate;
+@property (setter=setEnabled:) BOOL isEnabled;
 
 + (id)sharedInstance;
 - (void)startFeature;

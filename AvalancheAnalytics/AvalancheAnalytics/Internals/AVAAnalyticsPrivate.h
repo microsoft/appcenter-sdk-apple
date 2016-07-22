@@ -7,4 +7,8 @@
 
 @interface AVAAnalytics() <AVAFeaturePrivate>
 
+@property (nonatomic) BOOL autoPageTrackingEnabled;
+
++ (id)sharedInstance;
+
 @end

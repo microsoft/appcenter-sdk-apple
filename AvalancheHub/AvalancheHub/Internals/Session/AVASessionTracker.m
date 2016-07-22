@@ -9,10 +9,9 @@
 #import <UIKit/UIKit.h>
 
 static NSTimeInterval const kAVASessionTimeOut = 20;
-static NSString *const kAVALastEnteredBackgroundKey =
-    @"kAVALastEnteredBackgroundKey";
-static NSString *const kAVALastEnteredForegroundTime =
-    @"kAVALastEnteredForegroundTime";
+static NSString *const kAVASessionIdKey = @"kAVASessionId";
+static NSString *const kAVALastEnteredBackgroundKey = @"kAVALastEnteredBackgroundKey";
+static NSString *const kAVALastEnteredForegroundTime = @"kAVALastEnteredForegroundTime";
 
 @interface AVASessionTracker ()
 
@@ -37,14 +36,12 @@ static NSString *const kAVALastEnteredForegroundTime =
 
 @implementation AVASessionTracker
 
-- (instancetype)init{
+- (instancetype)init {
   if (self = [super init]) {
     _sessionTimeout = kAVASessionTimeOut;
-    
+
     // Session tracking is not started by default
     _started = NO;
-
-    // TODO: restore persisted values
   }
   return self;
 }
@@ -55,6 +52,10 @@ static NSString *const kAVALastEnteredForegroundTime =
   if (_sessionId == nil || [self hasSessionTimedOut]) {
     _sessionId = kAVAUUIDString;
 
+    // Persist the session id
+    [kAVASettings setObject:_sessionId forKey:kAVASessionIdKey];
+    [kAVASettings synchronize];
+
     // Call the delegate with the new session id
     [self.delegate sessionTracker:self didRenewSessionWithId:_sessionId];
     AVALogVerbose(@"INFO:new session ID: %@", _sessionId);
@@ -64,7 +65,8 @@ static NSString *const kAVALastEnteredForegroundTime =
 
 - (void)start {
   if (!_started) {
-    [kAVANotificationCenter addObserver:self selector:@selector(applicationDidEnterBackground)
+    [kAVANotificationCenter addObserver:self
+                               selector:@selector(applicationDidEnterBackground)
                                    name:UIApplicationDidEnterBackgroundNotification
                                  object:nil];
     [kAVANotificationCenter addObserver:self
@@ -88,45 +90,29 @@ static NSString *const kAVALastEnteredForegroundTime =
 - (BOOL)hasSessionTimedOut {
   NSDate *now = [NSDate date];
 
-  // Verify if last time that a log was send is longer than the session timeout time
-  BOOL noLogSentForLong =
-      [now timeIntervalSinceDate:self.lastCreatedLogTime] >= self.sessionTimeout;
-  
-  // Verify if app is currently in the background for a longer time than the session timeout time
+  // Verify if last time that a log was send is longer than the session timeout
+  // time
+  BOOL noLogSentForLong = [now timeIntervalSinceDate:self.lastCreatedLogTime] >= self.sessionTimeout;
+
+  // Verify if app is currently in the background for a longer time than the
   BOOL isBackgroundForLong =
-      self.lastEnteredBackgroundTime >= self.lastEnteredForegroundTime &&
-      [now timeIntervalSinceDate:self.lastEnteredBackgroundTime] >=
-          self.sessionTimeout;
-  
-  // Verify if app was in the background for a longer time than the session timeout time
+      (self.lastEnteredBackgroundTime && self.lastEnteredForegroundTime) &&
+      ([self.lastEnteredBackgroundTime compare:self.lastEnteredForegroundTime] == NSOrderedDescending) &&
+      ([now timeIntervalSinceDate:self.lastEnteredBackgroundTime] >= self.sessionTimeout);
+
+  // Verify if app was in the background for a longer time than the session
+  // timeout time
   BOOL wasBackgroundForLong =
-      [self.lastEnteredForegroundTime
-          timeIntervalSinceDate:self.lastEnteredBackgroundTime] >=
-      self.sessionTimeout;
+      [self.lastEnteredForegroundTime timeIntervalSinceDate:self.lastEnteredBackgroundTime] >= self.sessionTimeout;
   return noLogSentForLong && (isBackgroundForLong || wasBackgroundForLong);
 }
 
 - (void)applicationDidEnterBackground {
   self.lastEnteredBackgroundTime = [NSDate date];
-
-  // TODO Persist the time
-  // [kAVASettings setObject:self.lastEnteredBackgroundTime
-  // forKey:kAVALastEnteredBackgroundKey];
 }
 
 - (void)applicationWillEnterForeground {
   self.lastEnteredForegroundTime = [NSDate date];
-
-  // TODO Persist the time
-  // [kAVASettings lastEnteredForegroundTime
-  // forKey:kAVALastEnteredForegroundKey];
-}
-
-- (AVADeviceLog *)getDeviceLog {
-  // TODO use util function
-  AVADeviceLog *device = [[AVADeviceLog alloc] init];
-
-  return device;
 }
 
 @end

@@ -4,11 +4,12 @@
 
 #import "AVAHttpSender.h"
 #import "AVALogContainer.h"
+#import "AVAMockLog.h"
 #import "AvalancheHub+Internal.h"
-#import <XCTest/XCTest.h>
 
 #import "OCMock.h"
 #import "OHHTTPStubs.h"
+#import <XCTest/XCTest.h>
 
 static NSTimeInterval const kAVATestTimeout = 5.0;
 static NSString *const kAVABaseUrl = @"https://test.com";
@@ -105,7 +106,7 @@ static NSString *const kAVAAppKey = @"mockAppKey";
                                }];
 }
 
-- (void)testNetworkDown {
+- (void)testNetworkkDown {
 
   // Stub response
   [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
@@ -180,11 +181,21 @@ static NSString *const kAVAAppKey = @"mockAppKey";
 #pragma mark - Test Helpers
 
 - (AVALogContainer *)createLogContainerWithId:(NSString *)batchId {
-  AVAAbstractLog *log1 = [[AVAAbstractLog alloc] init];
-  log1.sid = kAVAUUIDString;
 
-  AVADeviceLog *log2 = [[AVADeviceLog alloc] init];
-  log2.sdkVersion = @"1.0.0";
+  AVADeviceLog *device = [[AVADeviceLog alloc] init];
+  device.sdkVersion = @"1.0.0";
+
+  AVAMockLog *log1 = [[AVAMockLog alloc] init];
+  log1.sid = kAVAUUIDString;
+  log1.toffset =
+      [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]];
+  log1.device = device;
+
+  AVAMockLog *log2 = [[AVAMockLog alloc] init];
+  log2.sid = kAVAUUIDString;
+  log2.toffset =
+      [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]];
+  log2.device = device;
 
   AVALogContainer *logContainer = [[AVALogContainer alloc]
       initWithBatchId:batchId
