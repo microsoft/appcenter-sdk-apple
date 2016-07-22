@@ -166,37 +166,41 @@ static NSString *const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azu
 
 - (void)feature:(id)feature didCreateLog:(id<AVALog>)log withPriority:(AVAPriority)priority {
 
-  // Set common log info
-  [self setCommonLogInfo:log];
-
-  // Set the last ceated time on the session tracker
-  self.sessionTracker.lastCreatedLogTime = [NSDate date];
-  [self.logManager processLog:log withPriority:priority];
+  // Set common log info and send log
+  [self setCommonLogInfo:log withSessionId:self.sessionTracker.sessionId];
+  [self sendLog:log withPriority:AVAPriorityDefault];
 }
 
 #pragma mark - AVASessionTrackerDelegate
 
 - (void)sessionTracker:(id)sessionTracker didRenewSessionWithId:(NSString *)sessionId {
-
   // Refresh device characteristics
   [self.deviceTracker refresh];
 
   // Create a start session log
   AVAStartSessionLog *log = [[AVAStartSessionLog alloc] init];
-  [self setCommonLogInfo:log];
-
+  [self setCommonLogInfo:log withSessionId:sessionId];
+  
   // Send log
-  [self.logManager processLog:log withPriority:AVAPriorityDefault];
+  [self sendLog:log withPriority:AVAPriorityDefault];
 }
 
 
 #pragma mark - private methods
 
-- (void)setCommonLogInfo:(id<AVALog>)log {
+- (void)setCommonLogInfo:(id<AVALog>)log withSessionId:(NSString *)sessionId {
   // Set common log info
-  log.sid = self.sessionTracker.sessionId;
+  log.sid = sessionId;
   log.toffset = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]];
   log.device = self.deviceTracker.device;
+}
+
+- (void)sendLog:(id<AVALog>)log withPriority:(AVAPriority)priority {
+  // Set the last ceated time on the session tracker
+  self.sessionTracker.lastCreatedLogTime = [NSDate date];
+
+  // Send log
+  [self.logManager processLog:log withPriority:AVAPriorityDefault];
 }
 
 @end
