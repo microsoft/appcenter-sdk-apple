@@ -65,6 +65,14 @@
 		6E7D5C8A1D3EC504009EC9AC /* AVAExceptionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C891D3EC504009EC9AC /* AVAExceptionTests.m */; };
 		6E7D5C8D1D3EC6C4009EC9AC /* AVAErrorLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C8C1D3EC6C4009EC9AC /* AVAErrorLogTests.m */; };
 		6EC99A151D41517B0016C325 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A141D41517B0016C325 /* CrashReporter.framework */; };
+		6EC99A2E1D4166C50016C325 /* AVACrashesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC99A2D1D4166C50016C325 /* AVACrashesTests.m */; };
+		6EC99A371D416CCF0016C325 /* live_report_empty.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A301D416CCF0016C325 /* live_report_empty.plcrash */; };
+		6EC99A381D416CCF0016C325 /* live_report_exception.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A311D416CCF0016C325 /* live_report_exception.plcrash */; };
+		6EC99A391D416CCF0016C325 /* live_report_exception_marketing.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A321D416CCF0016C325 /* live_report_exception_marketing.plcrash */; };
+		6EC99A3A1D416CCF0016C325 /* live_report_signal.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A331D416CCF0016C325 /* live_report_signal.plcrash */; };
+		6EC99A3B1D416CCF0016C325 /* live_report_signal_marketing.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A341D416CCF0016C325 /* live_report_signal_marketing.plcrash */; };
+		6EC99A3C1D416CCF0016C325 /* live_report_xamarin.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A351D416CCF0016C325 /* live_report_xamarin.plcrash */; };
+		6EC99A3D1D416CCF0016C325 /* log_report_xamarin in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A361D416CCF0016C325 /* log_report_xamarin */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -157,6 +165,14 @@
 		6E7D5C891D3EC504009EC9AC /* AVAExceptionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAExceptionTests.m; sourceTree = "<group>"; };
 		6E7D5C8C1D3EC6C4009EC9AC /* AVAErrorLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAErrorLogTests.m; sourceTree = "<group>"; };
 		6EC99A141D41517B0016C325 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = ../Vendor/PLCrashReporter/CrashReporter.framework; sourceTree = "<group>"; };
+		6EC99A2D1D4166C50016C325 /* AVACrashesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVACrashesTests.m; sourceTree = "<group>"; };
+		6EC99A301D416CCF0016C325 /* live_report_empty.plcrash */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = live_report_empty.plcrash; sourceTree = "<group>"; };
+		6EC99A311D416CCF0016C325 /* live_report_exception.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_exception.plcrash; sourceTree = "<group>"; };
+		6EC99A321D416CCF0016C325 /* live_report_exception_marketing.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_exception_marketing.plcrash; sourceTree = "<group>"; };
+		6EC99A331D416CCF0016C325 /* live_report_signal.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_signal.plcrash; sourceTree = "<group>"; };
+		6EC99A341D416CCF0016C325 /* live_report_signal_marketing.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_signal_marketing.plcrash; sourceTree = "<group>"; };
+		6EC99A351D416CCF0016C325 /* live_report_xamarin.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_xamarin.plcrash; sourceTree = "<group>"; };
+		6EC99A361D416CCF0016C325 /* log_report_xamarin */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = log_report_xamarin; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -225,7 +241,6 @@
 				6E0401591D1C9D7F0051BCFA /* AvalancheHub+Internal.h */,
 				6E0401521D1C9A4F0051BCFA /* AVACrashesPrivate.h */,
 				6E7D5C641D3E92B1009EC9AC /* Model */,
-				6E73FE6C1D403286008CDC15 /* Utils */,
 			);
 			path = Internals;
 			sourceTree = "<group>";
@@ -233,6 +248,7 @@
 		6E171AE21D22F781000DC480 /* AvalancheCrashesTests */ = {
 			isa = PBXGroup;
 			children = (
+				6EC99A2F1D416CCF0016C325 /* Fixtures */,
 				6E7D5C811D3EC06C009EC9AC /* AVAConstants.h */,
 				6E171AEC1D22F7AB000DC480 /* Frameworks */,
 				6E171AE51D22F781000DC480 /* Info.plist */,
@@ -241,6 +257,7 @@
 				6E7D5C861D3EC332009EC9AC /* AVAThreadFrameTests.m */,
 				6E7D5C891D3EC504009EC9AC /* AVAExceptionTests.m */,
 				6E7D5C8C1D3EC6C4009EC9AC /* AVAErrorLogTests.m */,
+				6EC99A2D1D4166C50016C325 /* AVACrashesTests.m */,
 			);
 			path = AvalancheCrashesTests;
 			sourceTree = "<group>";
@@ -311,6 +328,7 @@
 		6E37297E1D1DE93800F1E4AE /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				6E73FE6C1D403286008CDC15 /* Utils */,
 				6E37297F1D1DE93800F1E4AE /* AvalancheCrashes.xcconfig */,
 				6E3729801D1DE93800F1E4AE /* buildnumber.xcconfig */,
 				6E3729811D1DE93800F1E4AE /* module.modulemap */,
@@ -325,7 +343,8 @@
 				6E73FE6D1D4032AB008CDC15 /* AVACrashesHelper.h */,
 				6E73FE6E1D4032AB008CDC15 /* AVACrashesHelper.m */,
 			);
-			path = Utils;
+			name = Utils;
+			path = ../Internals/Utils;
 			sourceTree = "<group>";
 		};
 		6E7D5C641D3E92B1009EC9AC /* Model */ = {
@@ -351,6 +370,20 @@
 				6EC99A141D41517B0016C325 /* CrashReporter.framework */,
 			);
 			name = Vendor;
+			sourceTree = "<group>";
+		};
+		6EC99A2F1D416CCF0016C325 /* Fixtures */ = {
+			isa = PBXGroup;
+			children = (
+				6EC99A301D416CCF0016C325 /* live_report_empty.plcrash */,
+				6EC99A311D416CCF0016C325 /* live_report_exception.plcrash */,
+				6EC99A321D416CCF0016C325 /* live_report_exception_marketing.plcrash */,
+				6EC99A331D416CCF0016C325 /* live_report_signal.plcrash */,
+				6EC99A341D416CCF0016C325 /* live_report_signal_marketing.plcrash */,
+				6EC99A351D416CCF0016C325 /* live_report_xamarin.plcrash */,
+				6EC99A361D416CCF0016C325 /* log_report_xamarin */,
+			);
+			path = Fixtures;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -464,6 +497,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6EC99A391D416CCF0016C325 /* live_report_exception_marketing.plcrash in Resources */,
+				6EC99A3A1D416CCF0016C325 /* live_report_signal.plcrash in Resources */,
+				6EC99A3C1D416CCF0016C325 /* live_report_xamarin.plcrash in Resources */,
+				6EC99A3D1D416CCF0016C325 /* log_report_xamarin in Resources */,
+				6EC99A3B1D416CCF0016C325 /* live_report_signal_marketing.plcrash in Resources */,
+				6EC99A371D416CCF0016C325 /* live_report_empty.plcrash in Resources */,
+				6EC99A381D416CCF0016C325 /* live_report_exception.plcrash in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -519,6 +559,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6EC99A2E1D4166C50016C325 /* AVACrashesTests.m in Sources */,
 				6E7D5C8A1D3EC504009EC9AC /* AVAExceptionTests.m in Sources */,
 				6E7D5C871D3EC332009EC9AC /* AVAThreadFrameTests.m in Sources */,
 				6E7D5C841D3EC0F7009EC9AC /* AVAThreadTests.m in Sources */,
@@ -666,10 +707,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../Vendor\"/**",
-					"$(PROJECT_DIR)/Vendor",
-				);
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				INFOPLIST_FILE = AvalancheCrashesTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -683,6 +721,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.avalanche.AvalancheCrashesTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../AvalancheHub/AvalancheHub\"";
 			};
 			name = Debug;
 		};
@@ -690,10 +729,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../Vendor\"/**",
-					"$(PROJECT_DIR)/Vendor",
-				);
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				INFOPLIST_FILE = AvalancheCrashesTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -707,6 +743,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.avalanche.AvalancheCrashesTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../AvalancheHub/AvalancheHub\"";
 			};
 			name = Release;
 		};
