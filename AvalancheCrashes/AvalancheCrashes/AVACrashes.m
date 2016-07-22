@@ -6,6 +6,8 @@
 #import "AVACrashesHelper.h"
 #import "AVACrashesPrivate.h"
 #import "AvalancheHub+Internal.h"
+#import "AVAErrorLog.h"
+#import "AVAErrorLogFormatter.h"
 
 static NSString *const kAVAAnalyzerFilename = @"AVACrashes.analyzer";
 
@@ -201,21 +203,30 @@ uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInfo *info) {
   NSError *error = NULL;
   AVAPLCrashReport *report;
 
-  if ([self.crashFiles count] > 0) {
-
+  NSArray *tempCrashesFiles = [NSArray arrayWithArray:self.crashFiles];
+  for(NSString *filePath in tempCrashesFiles) {
     // we start sending always with the oldest pending one
-    NSString *filename = [self.crashFiles objectAtIndex:0];
-    NSData *crashFileData = [NSData dataWithContentsOfFile:filename];
-
+    NSData *crashFileData = [NSData dataWithContentsOfFile:filePath];
     if ([crashFileData length] > 0) {
       report =
-          [[AVAPLCrashReport alloc] initWithData:crashFileData error:&error];
+      [[AVAPLCrashReport alloc] initWithData:crashFileData error:&error];
+      AVAErrorLog *log = [AVAErrorLogFormatter errorLogFromCrashReport:report];
+      [self.delegate feature:self didCreateLog:log withPriority:AVAPriorityHigh];
+      [self deleteCrashReportWithFilePath:filePath];
+      [self.crashFiles removeObject:filePath];
     }
   }
   return report;
 }
 
 #pragma mark - Helper
+
+- (void)deleteCrashReportWithFilePath:(NSString *)filePath {
+  NSError *error = NULL;
+  if ([self.fileManager fileExistsAtPath:filePath]) {
+    [self.fileManager removeItemAtPath:filePath error:&error];
+  }
+}
 
 - (void)persistLatestCrashReport {
   NSError *error = NULL;

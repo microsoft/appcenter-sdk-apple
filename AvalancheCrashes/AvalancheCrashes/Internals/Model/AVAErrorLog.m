@@ -3,6 +3,7 @@
  */
 
 #import "AVAErrorLog.h"
+#import "AVAThread.h"
 
 static NSString *const kAVATypeError = @"error";
 
@@ -77,13 +78,21 @@ static NSString *const kAVABinaries = @"binaries";
     dict[kAVAFatal] = self.fatal;
   }
   if (self.threads) {
-    dict[kAVAThreads] = self.threads;
+    NSMutableArray *threadsArray = [NSMutableArray array];
+    for (AVAThread *thread in self.threads) {
+      [threadsArray addObject:[thread serializeToDictionary]];
+    }
+    dict[kAVAThreads] = threadsArray;
   }
   if (self.exceptions) {
     dict[kAVAExceptions] = self.exceptions;
   }
   if (self.binaries) {
-    dict[kAVABinaries] = self.binaries;
+    NSMutableArray *binariesArray = [NSMutableArray array];
+    for (AVAThread *binary in self.threads) {
+      [binariesArray addObject:[binary serializeToDictionary]];
+    }
+    dict[kAVABinaries] = binariesArray;
   }
   return dict;
 }
