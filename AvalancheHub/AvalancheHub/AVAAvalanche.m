@@ -21,8 +21,7 @@ static NSString *const kAVAAPIVersion = @"1.0.0-preview20160901";
 static NSString *const kAVAAPIVersionKey = @"api-version";
 
 // Base URL
-static NSString *const kAVABaseUrl =
-    @"http://avalanche-perf.westus.cloudapp.azure.com:8081";
+static NSString *const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azure.com:8081";
 
 @implementation AVAAvalanche
 
@@ -53,8 +52,7 @@ static NSString *const kAVABaseUrl =
 - (void)useFeatures:(NSArray<Class> *)features withAppKey:(NSString *)appKey {
 
   if (self.featuresStarted) {
-    AVALogWarning(
-        @"SDK has already been started. You can call `useFeature` only once.");
+    AVALogWarning(@"SDK has already been started. You can call `useFeatures` only once.");
     return;
   }
 
@@ -67,7 +65,7 @@ static NSString *const kAVABaseUrl =
   // Set app ID and UUID
   self.appKey = appKey;
   self.apiVersion = kAVAAPIVersion;
-  
+
   // Set install Id
   [self setInstallId];
 
@@ -95,22 +93,21 @@ static NSString *const kAVABaseUrl =
 
 - (void)initializePipeline {
 
+  // Init device tracker
+  _deviceTracker = [[AVADeviceTracker alloc] init];
+
   // Init session tracker
   _sessionTracker = [[AVASessionTracker alloc] init];
   self.sessionTracker.delegate = self;
   [self.sessionTracker start];
-  
-  // Construct the http header
-  NSDictionary *headers = @{
-    kAVAContentTypeKey : kAVAContentType,
-    kAVAAppKeyKey : _appKey,
-    kAVAInstallIDKey : _installId
-  };
+
+  // Construct http headers
+  NSDictionary *headers =
+      @{kAVAContentTypeKey : kAVAContentType, kAVAAppKeyKey : _appKey, kAVAInstallIDKey : _installId};
+
   // Construct the query parameters
   NSDictionary *queryStrings = @{kAVAAPIVersionKey : kAVAAPIVersion};
-  AVAHttpSender *sender = [[AVAHttpSender alloc] initWithBaseUrl:kAVABaseUrl
-                                                         headers:headers
-                                                    queryStrings:queryStrings];
+  AVAHttpSender *sender = [[AVAHttpSender alloc] initWithBaseUrl:kAVABaseUrl headers:headers queryStrings:queryStrings];
 
   // Construct storage
   AVAFileStorage *storage = [[AVAFileStorage alloc] init];
@@ -168,7 +165,7 @@ static NSString *const kAVABaseUrl =
 #pragma mark - SessionTracker
 
 - (void)feature:(id)feature didCreateLog:(id<AVALog>)log withPriority:(AVAPriority)priority {
-  
+
   // Set common log info
   [self setCommonLogInfo:log];
 
@@ -180,6 +177,9 @@ static NSString *const kAVABaseUrl =
 #pragma mark - AVASessionTrackerDelegate
 
 - (void)sessionTracker:(id)sessionTracker didRenewSessionWithId:(NSString *)sessionId {
+
+  // Refresh device characteristics
+  [self.deviceTracker refresh];
 
   // Create a start session log
   AVAStartSessionLog *log = [[AVAStartSessionLog alloc] init];
@@ -196,14 +196,7 @@ static NSString *const kAVABaseUrl =
   // Set common log info
   log.sid = self.sessionTracker.sessionId;
   log.toffset = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]];
-  log.device = [self getDevice];
-}
-
-- (AVADeviceLog *)getDevice {
-  // TODO use util funciton
-  AVADeviceLog *device = [[AVADeviceLog alloc] init];
-  
-  return device;
+  log.device = self.deviceTracker.device;
 }
 
 @end

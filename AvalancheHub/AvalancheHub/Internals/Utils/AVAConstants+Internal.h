@@ -4,17 +4,17 @@
 
 #ifndef AVAConstants_Internal_h
 #define AVAConstants_Internal_h
+#import <Foundation/Foundation.h>
+
+// Device manufacturer
+static NSString *const kAVADeviceManufacturer = @"Apple";
 
 // API Error
-static NSString* const kAVADefaultApiErrorDomain = @"AVADefaultApiErrorDomain";
+static NSString *const kAVADefaultApiErrorDomain = @"AVADefaultApiErrorDomain";
 static NSInteger const kAVADefaultApiMissingParamErrorCode = 234513;
 static NSInteger const kAVAHttpErrorCodeMissingParameter = 422;
 
-typedef NS_ENUM(NSInteger, AVAPriority) {
-  AVAPriorityDefault,
-  AVAPriorityHigh,
-  AVAPriorityBackground
-};
+typedef NS_ENUM(NSInteger, AVAPriority) { AVAPriorityDefault, AVAPriorityHigh, AVAPriorityBackground };
 
 typedef NS_ENUM(NSInteger, AVAHTTPCodesNo) {
   // Informational
@@ -22,7 +22,7 @@ typedef NS_ENUM(NSInteger, AVAHTTPCodesNo) {
   AVAHTTPCodesNo100Continue = 100,
   AVAHTTPCodesNo101SwitchingProtocols = 101,
   AVAHTTPCodesNo102Processing = 102,
-  
+
   // Success
   AVAHTTPCodesNo2XXSuccessUnknown = 2,
   AVAHTTPCodesNo200OK = 200,
@@ -35,7 +35,7 @@ typedef NS_ENUM(NSInteger, AVAHTTPCodesNo) {
   AVAHTTPCodesNo207MultiStatus = 207,
   AVAHTTPCodesNo208AlreadyReported = 208,
   AVAHTTPCodesNo209IMUsed = 209,
-  
+
   // Redirection
   AVAHTTPCodesNo3XXSuccessUnknown = 3,
   AVAHTTPCodesNo300MultipleChoices = 300,
@@ -47,7 +47,7 @@ typedef NS_ENUM(NSInteger, AVAHTTPCodesNo) {
   AVAHTTPCodesNo306SwitchProxy = 306,
   AVAHTTPCodesNo307TemporaryRedirect = 307,
   AVAHTTPCodesNo308PermanentRedirect = 308,
-  
+
   // Client error
   AVAHTTPCodesNo4XXSuccessUnknown = 4,
   AVAHTTPCodesNo400BadRequest = 400,
@@ -91,8 +91,7 @@ typedef NS_ENUM(NSInteger, AVAHTTPCodesNo) {
   AVAHTTPCodesNo496NoCertNginx = 496,
   AVAHTTPCodesNo497HTTPToHTTPSNginx = 497,
   AVAHTTPCodesNo499ClientClosedRequestNginx = 499,
-  
-  
+
   // Server error
   AVAHTTPCodesNo5XXSuccessUnknown = 5,
   AVAHTTPCodesNo500InternalServerError = 500,
@@ -111,6 +110,5 @@ typedef NS_ENUM(NSInteger, AVAHTTPCodesNo) {
   AVAHTTPCodesNo598NetworkReadTimeoutErrorUnknown = 598,
   AVAHTTPCodesNo599NetworkConnectTimeoutErrorUnknown = 599
 };
-
 
 #endif /* AVAConstants_Internal_h */

@@ -10,6 +10,8 @@
 
 static NSTimeInterval const kAVASessionTimeOut = 20;
 static NSString *const kAVASessionIdKey = @"kAVASessionId";
+static NSString *const kAVALastEnteredBackgroundKey = @"kAVALastEnteredBackgroundKey";
+static NSString *const kAVALastEnteredForegroundTime = @"kAVALastEnteredForegroundTime";
 
 @interface AVASessionTracker ()
 
@@ -63,30 +65,22 @@ static NSString *const kAVASessionIdKey = @"kAVASessionId";
 
 - (void)start {
   if (!_started) {
-    [kAVANotificationCenter
-        addObserver:self
-           selector:@selector(applicationDidEnterBackground)
-               name:UIApplicationDidEnterBackgroundNotification
-             object:nil];
-    [kAVANotificationCenter
-        addObserver:self
-           selector:@selector(applicationWillEnterForeground)
-               name:UIApplicationWillEnterForegroundNotification
-             object:nil];
+    [kAVANotificationCenter addObserver:self
+                               selector:@selector(applicationDidEnterBackground)
+                                   name:UIApplicationDidEnterBackgroundNotification
+                                 object:nil];
+    [kAVANotificationCenter addObserver:self
+                               selector:@selector(applicationWillEnterForeground)
+                                   name:UIApplicationWillEnterForegroundNotification
+                                 object:nil];
     _started = YES;
   }
 }
 
 - (void)stop {
   if (_started) {
-    [kAVANotificationCenter
-        removeObserver:self
-                  name:UIApplicationDidEnterBackgroundNotification
-                object:nil];
-    [kAVANotificationCenter
-        removeObserver:self
-                  name:UIApplicationWillEnterForegroundNotification
-                object:nil];
+    [kAVANotificationCenter removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [kAVANotificationCenter removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
   }
   _started = NO;
 }
@@ -98,22 +92,18 @@ static NSString *const kAVASessionIdKey = @"kAVASessionId";
 
   // Verify if last time that a log was send is longer than the session timeout
   // time
-  BOOL noLogSentForLong = [now timeIntervalSinceDate:self.lastCreatedLogTime] >=
-                          self.sessionTimeout;
+  BOOL noLogSentForLong = [now timeIntervalSinceDate:self.lastCreatedLogTime] >= self.sessionTimeout;
 
   // Verify if app is currently in the background for a longer time than the
   BOOL isBackgroundForLong =
-  (self.lastEnteredBackgroundTime && self.lastEnteredForegroundTime) &&
-  ([self.lastEnteredBackgroundTime compare:self.lastEnteredForegroundTime] == NSOrderedDescending) &&
-  ([now timeIntervalSinceDate:self.lastEnteredBackgroundTime] >=
-  self.sessionTimeout);
-    
+      (self.lastEnteredBackgroundTime && self.lastEnteredForegroundTime) &&
+      ([self.lastEnteredBackgroundTime compare:self.lastEnteredForegroundTime] == NSOrderedDescending) &&
+      ([now timeIntervalSinceDate:self.lastEnteredBackgroundTime] >= self.sessionTimeout);
+
   // Verify if app was in the background for a longer time than the session
   // timeout time
   BOOL wasBackgroundForLong =
-      [self.lastEnteredForegroundTime
-          timeIntervalSinceDate:self.lastEnteredBackgroundTime] >=
-      self.sessionTimeout;
+      [self.lastEnteredForegroundTime timeIntervalSinceDate:self.lastEnteredBackgroundTime] >= self.sessionTimeout;
   return noLogSentForLong && (isBackgroundForLong || wasBackgroundForLong);
 }
 
@@ -123,12 +113,6 @@ static NSString *const kAVASessionIdKey = @"kAVASessionId";
 
 - (void)applicationWillEnterForeground {
   self.lastEnteredForegroundTime = [NSDate date];
-}
-
-- (AVADeviceLog *)getDeviceLog {
-  // TODO use util function
-  AVADeviceLog *device = [[AVADeviceLog alloc] init];
-  return device;
 }
 
 @end
