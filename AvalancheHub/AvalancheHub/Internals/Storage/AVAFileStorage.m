@@ -25,8 +25,23 @@ static NSUInteger const AVADefaultBucketFileCountLimit = 50;
 #pragma mark - Public
 
 - (void)saveLog:(id<AVALog>)log withStorageKey:(NSString *)storageKey {
-
+  if (!log) {
+    return;
+  }
+  
   AVAStorageBucket *bucket = [self bucketForStorageKey:storageKey];
+  if(bucket.currentLogs.count == 0 ) {
+    
+    // Drop oldest files if needed
+    if ([self maxFileCountReachedForStorageKey:storageKey]) {
+      AVAFile *oldestFile = [bucket.availableFiles lastObject];
+      [self deleteLogsForId:oldestFile.fileId withStorageKey:storageKey];
+    }
+    
+    // Make current file available and create new current file
+    [bucket.availableFiles insertObject:bucket.currentFile atIndex:0];
+  }
+  
   [bucket.currentLogs addObject:log];
   NSData *logsData =
       [NSKeyedArchiver archivedDataWithRootObject:bucket.currentLogs];
@@ -49,12 +64,8 @@ static NSUInteger const AVADefaultBucketFileCountLimit = 50;
   NSArray<AVALog> *logs;
   NSString *fileId;
   AVAStorageBucket *bucket = [self bucketForStorageKey:storageKey];
-
-  // Drop oldest files if needed
-  if ([self maxFileCountReachedForStorageKey:storageKey]) {
-    AVAFile *oldestFile = [bucket.availableFiles lastObject];
-    [self deleteLogsForId:oldestFile.fileId withStorageKey:storageKey];
-  }
+  
+  [self renewCurrentFileForStorageKey:storageKey];
   
   // Get data of oldest file
   if (bucket.availableFiles.count > 0) {
@@ -65,10 +76,6 @@ static NSUInteger const AVADefaultBucketFileCountLimit = 50;
     [bucket.blockedFiles addObject:file];
     [bucket.availableFiles removeLastObject];
   }
-
-  // Make current file available and create new current file
-  [bucket.availableFiles insertObject:bucket.currentFile atIndex:0];
-  [self renewCurrentFileForStorageKey:storageKey];
 
   if (completion) {
     completion(logs, fileId);
@@ -104,7 +111,7 @@ static NSUInteger const AVADefaultBucketFileCountLimit = 50;
   if (!bucket) {
     bucket = [self createNewBucketForStorageKey:storageKey];
   }
-
+  
   return bucket;
 }
 
