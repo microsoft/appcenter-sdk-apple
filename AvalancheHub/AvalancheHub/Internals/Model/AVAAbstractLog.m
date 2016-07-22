@@ -41,7 +41,8 @@ NSString *const kAVAType = @"type";
   BOOL isValid = YES;
 
   // Is valid
-  isValid = (!self.type || !self.sid || !self.toffset);
+  if (!self.type || !self.sid || !self.toffset  || !self.device)
+    isValid = NO;
   return isValid;
 }
 

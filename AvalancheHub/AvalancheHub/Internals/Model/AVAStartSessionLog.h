@@ -5,6 +5,6 @@
 #import <Foundation/Foundation.h>
 #import "AvalancheHub+Internal.h"
 
-@interface AVAEndSessionLog : AVAAbstractLog
+@interface AVAStartSessionLog : AVAAbstractLog
 
 @end

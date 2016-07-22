@@ -2,11 +2,11 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "AVAEndSessionLog.h"
+#import "AVAStartSessionLog.h"
 
-static NSString *const kAVATypeEndSession = @"endSession";
+static NSString *const kAVATypeEndSession = @"startSession";
 
-@implementation AVAEndSessionLog
+@implementation AVAStartSessionLog
 
 @synthesize type = _type;
 
@@ -22,18 +22,13 @@ static NSString *const kAVATypeEndSession = @"endSession";
   return dict;
 }
 
-- (BOOL)isValid {
-  return [super isValid];
-}
-
 #pragma mark - NSCoding
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
   self = [super initWithCoder:coder];
-  if(self) {
+  if (self) {
     _type = [coder decodeObjectForKey:kAVAType];
   }
-  
   return self;
 }
 

@@ -8,6 +8,7 @@
 @implementation AVACrashes
 
 @synthesize delegate = _delegate;
+@synthesize isEnabled = _isEnabled;
 
 + (id)sharedInstance {
   static id sharedInstance = nil;
@@ -16,6 +17,13 @@
     sharedInstance = [[self alloc] init];
   });
   return sharedInstance;
+}
+
+- (id)init {
+  if (self = [super init]) {
+    _isEnabled = YES;
+  }
+  return self;
 }
 
 - (void)startFeature {
@@ -27,11 +35,18 @@
 }
 
 + (void)setEnable:(BOOL)isEnabled {
-
+  [[self sharedInstance] setEnable:isEnabled];
 }
 
 + (BOOL)isEnabled {
-  return YES;
+  return [[self sharedInstance] isEnabled];
+}
+- (void)setEnable:(BOOL)isEnabled {
+  _isEnabled = isEnabled;
+}
+
+- (BOOL)isEnabled {
+  return _isEnabled;
 }
 
 @end

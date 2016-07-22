@@ -28,7 +28,10 @@ static NSString *const kAVAName = @"name";
   return dict;
 }
 
-- (BOOL)isValid {
+- (BOOL)isValid {  
+  if (!self.name)
+    return NO;
+
   return [super isValid];
 }
 

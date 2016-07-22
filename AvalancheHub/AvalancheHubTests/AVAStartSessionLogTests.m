@@ -1,18 +1,18 @@
 #import <Foundation/Foundation.h>
-#import <XCTest/XCTest.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
+#import <XCTest/XCTest.h>
 
-#import "AVAEndSessionLog.h"
-#import "AvalancheHub+Internal.h"
+#import "AVAStartSessionLog.h"
 
-@interface AVAEndSessionLogTests : XCTestCase
 
-@property (nonatomic, strong) AVAEndSessionLog *sut;
+@interface AVAStartSessionLogTests : XCTestCase
+
+@property (nonatomic, strong) AVAStartSessionLog *sut;
 
 @end
 
-@implementation AVAEndSessionLogTests
+@implementation AVAStartSessionLogTests
 
 @synthesize sut = _sut;
 
@@ -20,7 +20,7 @@
 
 - (void)setUp {
   [super setUp];
-  _sut = [AVAEndSessionLog new];
+  _sut = [AVAStartSessionLog new];
 }
 
 - (void)tearDown {
@@ -33,7 +33,7 @@
   
   // If
   AVADeviceLog *device = [AVADeviceLog new];
-  NSString *typeName = @"endSession";
+  NSString *typeName = @"startSession";
   NSString *sessionId = @"1234567890";
   NSNumber *tOffset = @(3);
   
@@ -55,7 +55,7 @@
   
   // If
   AVADeviceLog *device = [AVADeviceLog new];
-  NSString *typeName = @"endSession";
+  NSString *typeName = @"startSession";
   NSString *sessionId = @"1234567890";
   NSNumber *tOffset = @(3);
   
@@ -69,9 +69,9 @@
   
   // Then
   assertThat(actual, notNilValue());
-  assertThat(actual, instanceOf([AVAEndSessionLog class]));
+  assertThat(actual, instanceOf([AVAStartSessionLog class]));
   
-  AVAEndSessionLog *actualSession = actual;
+  AVAStartSessionLog *actualSession = actual;
   assertThat(actualSession.device, notNilValue());
   assertThat(actualSession.toffset, equalTo(tOffset));
   assertThat(actualSession.type, equalTo(typeName));

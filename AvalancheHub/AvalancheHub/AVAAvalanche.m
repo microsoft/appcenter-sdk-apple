@@ -1,13 +1,14 @@
 #import "AVAAvalanchePrivate.h"
 #import "AVAChannelDefault.h"
 #import "AVAConstants+Internal.h"
-#import "AVADeviceLog.h"
 #import "AVAFeaturePrivate.h"
 #import "AVAFileStorage.h"
 #import "AVAHttpSender.h"
 #import "AVALogManagerDefault.h"
 #import "AVASettings.h"
 #import "AVAUtils.h"
+#import "AVADeviceLog.h"
+#import "AVAStartSessionLog.h"
 
 static NSString *const kAVAInstallId = @"AVAInstallId";
 
@@ -36,7 +37,18 @@ static NSString *const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azu
 + (void)useFeatures:(NSArray<Class> *)features withAppKey:(NSString *)appKey {
   [[self sharedInstance] useFeatures:features withAppKey:appKey];
 }
++ (void)setEnabled:(BOOL)isEnabled {
+  [[self sharedInstance] setEnabled:isEnabled];
+}
 
+#pragma mark - private methods
+
+- (id)init {
+  if (self = [super init]) {
+    _features = [NSMutableArray new];
+  }
+  return self;
+}
 - (void)useFeatures:(NSArray<Class> *)features withAppKey:(NSString *)appKey {
 
   if (self.featuresStarted) {
@@ -67,8 +79,16 @@ static NSString *const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azu
     [self.features addObject:feature];
     [feature startFeature];
   }
-
   _featuresStarted = YES;
+}
+
+- (void)setEnabled:(BOOL)isEnabled {
+  
+  // Set enable/disable on all features
+  for (id<AVAFeaturePrivate> feature in self.features) {
+    [feature setEnabled:isEnabled];
+  }
+  _isEnabled = isEnabled;
 }
 
 - (void)initializePipeline {
@@ -78,6 +98,7 @@ static NSString *const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azu
 
   // Init session tracker
   _sessionTracker = [[AVASessionTracker alloc] init];
+  self.sessionTracker.delegate = self;
   [self.sessionTracker start];
 
   // Construct http headers
@@ -146,13 +167,10 @@ static NSString *const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azu
 - (void)feature:(id)feature didCreateLog:(id<AVALog>)log withPriority:(AVAPriority)priority {
 
   // Set common log info
-  log.sid = self.sessionTracker.sessionId;
-  log.toffset = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]];
-  log.device = self.deviceTracker.device;
+  [self setCommonLogInfo:log];
 
   // Set the last ceated time on the session tracker
   self.sessionTracker.lastCreatedLogTime = [NSDate date];
-
   [self.logManager processLog:log withPriority:priority];
 }
 
@@ -163,7 +181,22 @@ static NSString *const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azu
   // Refresh device characteristics
   [self.deviceTracker refresh];
 
-  // TODO enqueu start session log
+  // Create a start session log
+  AVAStartSessionLog *log = [[AVAStartSessionLog alloc] init];
+  [self setCommonLogInfo:log];
+
+  // Send log
+  [self.logManager processLog:log withPriority:AVAPriorityDefault];
+}
+
+
+#pragma mark - private methods
+
+- (void)setCommonLogInfo:(id<AVALog>)log {
+  // Set common log info
+  log.sid = self.sessionTracker.sessionId;
+  log.toffset = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]];
+  log.device = self.deviceTracker.device;
 }
 
 @end

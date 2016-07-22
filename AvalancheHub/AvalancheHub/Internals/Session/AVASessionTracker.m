@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 static NSTimeInterval const kAVASessionTimeOut = 20;
+static NSString *const kAVASessionIdKey = @"kAVASessionId";
 static NSString *const kAVALastEnteredBackgroundKey = @"kAVALastEnteredBackgroundKey";
 static NSString *const kAVALastEnteredForegroundTime = @"kAVALastEnteredForegroundTime";
 
@@ -41,8 +42,6 @@ static NSString *const kAVALastEnteredForegroundTime = @"kAVALastEnteredForegrou
 
     // Session tracking is not started by default
     _started = NO;
-
-    // TODO: restore persisted values
   }
   return self;
 }
@@ -52,6 +51,10 @@ static NSString *const kAVALastEnteredForegroundTime = @"kAVALastEnteredForegrou
   // Check if new session id is required
   if (_sessionId == nil || [self hasSessionTimedOut]) {
     _sessionId = kAVAUUIDString;
+
+    // Persist the session id
+    [kAVASettings setObject:_sessionId forKey:kAVASessionIdKey];
+    [kAVASettings synchronize];
 
     // Call the delegate with the new session id
     [self.delegate sessionTracker:self didRenewSessionWithId:_sessionId];
@@ -87,14 +90,18 @@ static NSString *const kAVALastEnteredForegroundTime = @"kAVALastEnteredForegrou
 - (BOOL)hasSessionTimedOut {
   NSDate *now = [NSDate date];
 
-  // Verify if last time that a log was send is longer than the session timeout time
+  // Verify if last time that a log was send is longer than the session timeout
+  // time
   BOOL noLogSentForLong = [now timeIntervalSinceDate:self.lastCreatedLogTime] >= self.sessionTimeout;
 
-  // Verify if app is currently in the background for a longer time than the session timeout time
-  BOOL isBackgroundForLong = self.lastEnteredBackgroundTime >= self.lastEnteredForegroundTime &&
-                             [now timeIntervalSinceDate:self.lastEnteredBackgroundTime] >= self.sessionTimeout;
+  // Verify if app is currently in the background for a longer time than the
+  BOOL isBackgroundForLong =
+      (self.lastEnteredBackgroundTime && self.lastEnteredForegroundTime) &&
+      ([self.lastEnteredBackgroundTime compare:self.lastEnteredForegroundTime] == NSOrderedDescending) &&
+      ([now timeIntervalSinceDate:self.lastEnteredBackgroundTime] >= self.sessionTimeout);
 
-  // Verify if app was in the background for a longer time than the session timeout time
+  // Verify if app was in the background for a longer time than the session
+  // timeout time
   BOOL wasBackgroundForLong =
       [self.lastEnteredForegroundTime timeIntervalSinceDate:self.lastEnteredBackgroundTime] >= self.sessionTimeout;
   return noLogSentForLong && (isBackgroundForLong || wasBackgroundForLong);
@@ -102,18 +109,10 @@ static NSString *const kAVALastEnteredForegroundTime = @"kAVALastEnteredForegrou
 
 - (void)applicationDidEnterBackground {
   self.lastEnteredBackgroundTime = [NSDate date];
-
-  // TODO Persist the time
-  // [kAVASettings setObject:self.lastEnteredBackgroundTime
-  // forKey:kAVALastEnteredBackgroundKey];
 }
 
 - (void)applicationWillEnterForeground {
   self.lastEnteredForegroundTime = [NSDate date];
-
-  // TODO Persist the time
-  // [kAVASettings lastEnteredForegroundTime
-  // forKey:kAVALastEnteredForegroundKey];
 }
 
 @end

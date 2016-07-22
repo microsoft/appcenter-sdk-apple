@@ -1,11 +1,13 @@
-#import "OCMock.h"
+#import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
+#import <OCHamcrestIOS/OCHamcrestIOS.h>
 
 #import "AVAMockLog.h"
 #import "AVASessionTracker.h"
 #import "AvalancheHub+Internal.h"
+#import "AVASessionTrackerHelper.h"
 
-NSTimeInterval const kAVATestSessionTimeout = 2.0;
+NSTimeInterval const kAVATestSessionTimeout = 1.5;
 
 @interface AVASessionTrackerTests : XCTestCase
 
@@ -21,19 +23,14 @@ NSTimeInterval const kAVATestSessionTimeout = 2.0;
   _sut = [[AVASessionTracker alloc] init];
   [_sut setSessionTimeout:kAVATestSessionTimeout];
   [_sut start];
+  
+  [AVASessionTrackerHelper simulateDidEnterBackgroundNotification];
+  [NSThread sleepForTimeInterval:0.1];
+  [AVASessionTrackerHelper simulateWillEnterForegroundNotification];
 }
 
 - (void)tearDown {
-  // Put teardown code here. This method is called after the invocation of each
-  // test method in the class.
   [super tearDown];
-}
-
-- (void)testPerformanceExample {
-  // This is an example of a performance test case.
-  [self measureBlock:^{
-      // Put the code you want to measure the time of here.
-  }];
 }
 
 - (void)testSession {
@@ -74,17 +71,13 @@ NSTimeInterval const kAVATestSessionTimeout = 2.0;
   _sut.lastCreatedLogTime = [NSDate date];
 
   // Enter background
-  [[NSNotificationCenter defaultCenter]
-      postNotificationName:UIApplicationDidEnterBackgroundNotification
-                    object:self];
-
+  [AVASessionTrackerHelper simulateDidEnterBackgroundNotification];
+  
   // Wait for shorter than the timeout time in background
   [NSThread sleepForTimeInterval:kAVATestSessionTimeout - 1];
 
   // Enter foreground
-  [[NSNotificationCenter defaultCenter]
-      postNotificationName:UIApplicationWillEnterForegroundNotification
-                    object:self];
+  [AVASessionTrackerHelper simulateWillEnterForegroundNotification];
 
   NSString *sid = _sut.sessionId;
 
@@ -102,18 +95,14 @@ NSTimeInterval const kAVATestSessionTimeout = 2.0;
   XCTAssertNotNil(expectedSid);
 
   // Enter background
-  [[NSNotificationCenter defaultCenter]
-      postNotificationName:UIApplicationDidEnterBackgroundNotification
-                    object:self];
-
+  [AVASessionTrackerHelper simulateDidEnterBackgroundNotification];
+  
   // Wait for longer than the timeout time in background
   [NSThread sleepForTimeInterval:kAVATestSessionTimeout + 1];
-
+  
   // Enter foreground
-  [[NSNotificationCenter defaultCenter]
-      postNotificationName:UIApplicationWillEnterForegroundNotification
-                    object:self];
-
+  [AVASessionTrackerHelper simulateWillEnterForegroundNotification];
+   
   NSString *sid = _sut.sessionId;
   XCTAssertNotEqual(expectedSid, sid);
 }
@@ -130,20 +119,40 @@ NSTimeInterval const kAVATestSessionTimeout = 2.0;
   XCTAssertNotNil(expectedSid);
 
   // Enter background
-  [[NSNotificationCenter defaultCenter]
-      postNotificationName:UIApplicationDidEnterBackgroundNotification
-                    object:self];
-
+  [AVASessionTrackerHelper simulateDidEnterBackgroundNotification];
+  
   // Wait for longer than the timeout time in background
   [NSThread sleepForTimeInterval:kAVATestSessionTimeout + 1];
-
-  // Enter foreground
+  
   [[NSNotificationCenter defaultCenter]
-      postNotificationName:UIApplicationWillEnterForegroundNotification
-                    object:self];
+   postNotificationName:UIApplicationWillEnterForegroundNotification
+   object:self];
+  
 
   NSString *sid = _sut.sessionId;
   XCTAssertEqual(expectedSid, sid);
+}
+
+- (void)testTooLongInBackground {
+  NSString *expectedSid = _sut.sessionId;
+  
+  XCTAssertNotNil(expectedSid);
+  
+  [AVASessionTrackerHelper simulateWillEnterForegroundNotification];
+  
+  [NSThread sleepForTimeInterval:1];
+  // Enter background
+  [AVASessionTrackerHelper simulateDidEnterBackgroundNotification];
+
+  // mock a log creation while app is in background
+  _sut.lastCreatedLogTime = [NSDate date];
+  
+  [NSThread sleepForTimeInterval:kAVATestSessionTimeout + 1];
+  
+  //_sut.lastCreatedLogTime = [NSDate date];
+  
+  NSString *sid = _sut.sessionId;
+  XCTAssertNotEqual(expectedSid, sid);
 }
 
 @end
