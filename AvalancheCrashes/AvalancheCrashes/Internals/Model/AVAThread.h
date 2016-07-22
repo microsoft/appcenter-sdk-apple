@@ -16,6 +16,6 @@
 @property(nonatomic) NSNumber* threadId;
 /* Thread frames.
  */
-@property(nonatomic) NSArray<AVAThreadFrame *>* frames;
+@property(nonatomic) NSMutableArray<AVAThreadFrame *>* frames;
 
 @end
