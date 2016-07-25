@@ -38,8 +38,7 @@
   [self enqueueItem:item withCompletion:nil];
 }
 
-- (void)enqueueItem:(id<AVALog>)item
-     withCompletion:(enqueueCompletionBlock)completion {
+- (void)enqueueItem:(id<AVALog>)item withCompletion:(enqueueCompletionBlock)completion {
   if (!item) {
     AVALogWarning(@"WARNING: TelemetryItem was nil.");
     return;
@@ -59,45 +58,37 @@
 
 - (void)flushQueue {
   _itemsCount = 0;
-  [self.storage
-      loadLogsForStorageKey:self.configuration.name
-             withCompletion:^(NSArray<AVALog> *_Nonnull logArray,
-                              NSString *_Nonnull batchId) {
+  [self.storage loadLogsForStorageKey:self.configuration.name
+                       withCompletion:^(NSArray<AVALog> *_Nonnull logArray, NSString *_Nonnull batchId) {
 
-               if (self.pendingLogsIds.count <
-                   self.configuration.pendingBatchesLimit) {
-                 [self.pendingLogsIds addObject:batchId];
-                 AVALogContainer *container =
-                     [[AVALogContainer alloc] initWithBatchId:batchId
-                                                      andLogs:logArray];
+                         if (self.pendingLogsIds.count < self.configuration.pendingBatchesLimit) {
+                           [self.pendingLogsIds addObject:batchId];
+                           AVALogContainer *container =
+                               [[AVALogContainer alloc] initWithBatchId:batchId andLogs:logArray];
 
-                 AVALogVerbose(@"INFO:Sending log %@",
-                               [container serializeLog]);
+                           AVALogVerbose(@"INFO:Sending log %@", [container serializeLog]);
 
-                 [self.sender sendAsync:container
-                          callbackQueue:self.callbackQueue
-                      completionHandler:^(NSError *error, NSUInteger statusCode,
-                                          NSString *batchId) {
-                        AVALogVerbose(@"INFO:HTTP response received with the "
-                                      @"status code:%ld",
-                                      statusCode);
-                        [self.pendingLogsIds removeObject:batchId];
-                        // TODO: Check if status code is recoverable. if so
-                        // block channel for now
-                        BOOL isRecoverable = NO;
-                        if (isRecoverable) {
+                           [self.sender sendAsync:container
+                                    callbackQueue:self.callbackQueue
+                                completionHandler:^(NSError *error, NSUInteger statusCode, NSString *batchId) {
+                                  AVALogVerbose(@"INFO:HTTP response received with the "
+                                                @"status code:%ld",
+                                                statusCode);
+                                  [self.pendingLogsIds removeObject:batchId];
+                                  // TODO: Check if status code is recoverable. if so
+                                  // block channel for now
+                                  BOOL isRecoverable = NO;
+                                  if (isRecoverable) {
 
-                          // TODO: Remove item from pending
-                          // TODO: Unblock item in persistence
-                        } else {
-                          [self.storage
-                              deleteLogsForId:batchId
-                               withStorageKey:self.configuration.name];
-                        }
-                      }];
-               }
+                                    // TODO: Remove item from pending
+                                    // TODO: Unblock item in persistence
+                                  } else {
+                                    [self.storage deleteLogsForId:batchId withStorageKey:self.configuration.name];
+                                  }
+                                }];
+                         }
 
-             }];
+                       }];
 }
 
 #pragma mark - Timer
@@ -105,14 +96,10 @@
 - (void)startTimer {
   [self resetTimer];
 
-  dispatch_queue_t queue =
-      dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-  self.timerSource =
-      dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
-  dispatch_source_set_timer(
-      self.timerSource,
-      dispatch_walltime(NULL, NSEC_PER_SEC * self.configuration.flushInterval),
-      1ull * NSEC_PER_SEC, 1ull * NSEC_PER_SEC);
+  dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+  self.timerSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
+  dispatch_source_set_timer(self.timerSource, dispatch_walltime(NULL, NSEC_PER_SEC * self.configuration.flushInterval),
+                            1ull * NSEC_PER_SEC, 1ull * NSEC_PER_SEC);
   __weak typeof(self) weakSelf = self;
   dispatch_source_set_event_handler(self.timerSource, ^{
     typeof(self) strongSelf = weakSelf;
