@@ -31,4 +31,13 @@
   _availableFiles = [sortedBatches mutableCopy];
 }
 
+- (void)removeFile:(AVAFile *)file {
+  if ([self.availableFiles containsObject:file]) {
+    [self.availableFiles removeObject:file];
+  }
+  if ([self.blockedFiles containsObject:file]) {
+    [self.blockedFiles removeObject:file];
+  }
+}
+
 @end
