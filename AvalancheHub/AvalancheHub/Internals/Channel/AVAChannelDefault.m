@@ -72,8 +72,8 @@
                                     callbackQueue:self.callbackQueue
                                 completionHandler:^(NSError *error, NSUInteger statusCode, NSString *batchId) {
                                   AVALogVerbose(@"INFO:HTTP response received with the "
-                                                @"status code:%ld",
-                                                statusCode);
+                                                @"status code:%lu",
+                                                (unsigned long)statusCode);
                                   [self.pendingLogsIds removeObject:batchId];
                                   // TODO: Check if status code is recoverable. if so
                                   // block channel for now
