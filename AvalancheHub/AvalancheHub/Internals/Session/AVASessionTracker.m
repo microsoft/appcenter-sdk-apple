@@ -102,7 +102,9 @@ static NSString *const kAVALastEnteredForegroundTime = @"kAVALastEnteredForegrou
   // Verify if app was in the background for a longer time than the session
   // timeout time
   BOOL wasBackgroundForLong =
-      [self.lastEnteredForegroundTime timeIntervalSinceDate:self.lastEnteredBackgroundTime] >= self.sessionTimeout;
+      (self.lastEnteredBackgroundTime)
+          ? [self.lastEnteredForegroundTime timeIntervalSinceDate:self.lastEnteredBackgroundTime] >= self.sessionTimeout
+          : false;
   return noLogSentForLong && (isBackgroundForLong || wasBackgroundForLong);
 }
 
