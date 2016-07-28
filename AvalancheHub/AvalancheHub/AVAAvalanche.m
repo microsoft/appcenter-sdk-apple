@@ -23,6 +23,8 @@ static NSString *const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azu
 
 @implementation AVAAvalanche
 
+@synthesize installId = _installId;
+
 + (id)sharedInstance {
   static AVAAvalanche *sharedInstance = nil;
   static dispatch_once_t onceToken;
@@ -59,8 +61,6 @@ static NSString *const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azu
 }
 
 #pragma mark - private
-
-@synthesize installId = _installId;
 
 - (id)init {
   if (self = [super init]) {
