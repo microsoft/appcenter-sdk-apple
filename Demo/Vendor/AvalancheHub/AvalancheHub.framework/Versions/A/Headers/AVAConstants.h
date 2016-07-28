@@ -3,6 +3,7 @@
  */
 #ifndef AVA_Constants_h
 #define AVA_Constants_h
+#import <Foundation/Foundation.h>
 
 /**
  *  Log Levels
@@ -30,8 +31,8 @@ typedef NS_ENUM(NSUInteger, AVALogLevel) {
   AVALogLevelVerbose = 4
 };
 
-typedef NSString *(^AVALogMessageProvider)(void);
-typedef void (^AVALogHandler)(AVALogMessageProvider messageProvider, AVALogLevel logLevel, const char *file, const char *function, uint line);
+typedef NSString * (^AVALogMessageProvider)(void);
+typedef void (^AVALogHandler)(AVALogMessageProvider messageProvider, AVALogLevel logLevel, const char *file,
+                              const char *function, uint line);
 
 #endif
-
