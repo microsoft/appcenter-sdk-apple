@@ -87,6 +87,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		384959D81D4972DA008F6B3A /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		E82E1B5F1D1CA58D00D281C1 /* Puppet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Puppet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E82E1B631D1CA58D00D281C1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E82E1B651D1CA58D00D281C1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -206,6 +207,7 @@
 				E89E6A291D396D7900CAA2CD /* AVACrashReportsViewController.m */,
 				E89E6A2A1D396D7900CAA2CD /* AVAMainViewController.h */,
 				E89E6A2B1D396D7900CAA2CD /* AVAMainViewController.m */,
+				384959D81D4972DA008F6B3A /* Constants.h */,
 			);
 			name = Classes;
 			sourceTree = "<group>";

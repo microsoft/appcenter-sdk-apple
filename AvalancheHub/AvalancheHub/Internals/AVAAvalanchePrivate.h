@@ -14,6 +14,9 @@
 #import "AVAStorage.h"
 #import <Foundation/Foundation.h>
 
+// Install Id key in persisted storage.
+static NSString *const kAVAInstallIdKey = @"AVAInstallId";
+
 @class AVAFeature;
 
 @interface AVAAvalanche () <AVAAvalancheDelegate, AVASessionTrackerDelegate>
@@ -21,7 +24,7 @@
 @property(nonatomic) id<AVALogManager> logManager;
 @property(nonatomic) NSMutableArray<NSObject<AVAFeaturePrivate> *> *features;
 @property(nonatomic, copy) NSString *appKey;
-@property(nonatomic) NSString *installId;
+@property(nonatomic, readonly) NSUUID *installId;
 @property(nonatomic) NSString *apiVersion;
 @property BOOL featuresStarted;
 @property BOOL isEnabled;
@@ -29,8 +32,6 @@
 @property(nonatomic) AVADeviceTracker *deviceTracker;
 
 - (NSString *)appKey;
-- (NSUUID *)installId;
 - (NSString *)apiVersion;
-- (void)setInstallId;
 
 @end
