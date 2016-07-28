@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E85547E41D2D681F002DF6E2"
-               BuildableName = "Fat Framework"
-               BlueprintName = "Fat Framework"
+               BlueprintIdentifier = "E85547BF1D2D6253002DF6E2"
+               BuildableName = "libAvalancheAnalytics.a"
+               BlueprintName = "AvalancheAnalytics"
                ReferencedContainer = "container:AvalancheAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -28,7 +28,26 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "E85547D41D2D6723002DF6E2"
+               BuildableName = "AvalancheAnalyticsTests.xctest"
+               BlueprintName = "AvalancheAnalyticsTests"
+               ReferencedContainer = "container:AvalancheAnalytics.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "E85547BF1D2D6253002DF6E2"
+            BuildableName = "libAvalancheAnalytics.a"
+            BlueprintName = "AvalancheAnalytics"
+            ReferencedContainer = "container:AvalancheAnalytics.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -45,9 +64,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E85547E41D2D681F002DF6E2"
-            BuildableName = "Fat Framework"
-            BlueprintName = "Fat Framework"
+            BlueprintIdentifier = "E85547BF1D2D6253002DF6E2"
+            BuildableName = "libAvalancheAnalytics.a"
+            BlueprintName = "AvalancheAnalytics"
             ReferencedContainer = "container:AvalancheAnalytics.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -63,9 +82,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E85547E41D2D681F002DF6E2"
-            BuildableName = "Fat Framework"
-            BlueprintName = "Fat Framework"
+            BlueprintIdentifier = "E85547BF1D2D6253002DF6E2"
+            BuildableName = "libAvalancheAnalytics.a"
+            BlueprintName = "AvalancheAnalytics"
             ReferencedContainer = "container:AvalancheAnalytics.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
