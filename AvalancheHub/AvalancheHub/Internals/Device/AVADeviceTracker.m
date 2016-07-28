@@ -7,22 +7,16 @@
 #import "AVADeviceTrackerPrivate.h"
 #import "AVAUtils.h"
 
-// SDK versioning struct
+// SDK versioning struct.
 typedef struct {
   uint8_t info_version;
   const char ava_version[16];
   const char ava_build[16];
 } ava_info_t;
 
-// SDK versioning
+// SDK versioning.
 ava_info_t avalanche_library_info __attribute__((section("__TEXT,__bit_ios,regular,no_dead_strip"))) = {
     .info_version = 1, .ava_version = AVALANCHE_C_VERSION, .ava_build = AVALANCHE_C_BUILD};
-
-@interface AVADeviceTracker ()
-
-@property(nonatomic, readwrite) AVADeviceLog *device;
-
-@end
 
 @implementation AVADeviceTracker : NSObject
 
@@ -43,16 +37,7 @@ ava_info_t avalanche_library_info __attribute__((section("__TEXT,__bit_ios,regul
 }
 
 /**
- *  Set the current device log.
- */
-- (void)setDevice:(AVADeviceLog *)aDevice {
-  @synchronized(self) {
-    _device = aDevice;
-  }
-}
-
-/**
- *  Refresh device characteristics.
+ *  Refresh device properties.
  */
 - (void)refresh {
   @synchronized(self) {
@@ -60,7 +45,7 @@ ava_info_t avalanche_library_info __attribute__((section("__TEXT,__bit_ios,regul
     NSBundle *appBundle = [NSBundle mainBundle];
     CTCarrier *carrier = [[[CTTelephonyNetworkInfo alloc] init] subscriberCellularProvider];
 
-    // Collect device characteristics
+    // Collect device properties.
     newDevice.sdkVersion = [self sdkVersion:avalanche_library_info.ava_version];
     newDevice.model = [self deviceModel];
     newDevice.oemName = kAVADeviceManufacturer;
@@ -75,7 +60,7 @@ ava_info_t avalanche_library_info __attribute__((section("__TEXT,__bit_ios,regul
     newDevice.appBuild = [self appBuild:appBundle];
     newDevice.appNamespace = [self appNamespace:appBundle];
 
-    // Set the new device info
+    // Set the new device info.
     _device = newDevice;
   }
 }
