@@ -128,7 +128,8 @@ static NSString *const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azu
 
   // Construct the query parameters.
   NSDictionary *queryStrings = @{kAVAAPIVersionKey : kAVAAPIVersion};
-  AVAHttpSender *sender = [[AVAHttpSender alloc] initWithBaseUrl:kAVABaseUrl headers:headers queryStrings:queryStrings];
+  
+  AVAHttpSender *sender = [[AVAHttpSender alloc] initWithBaseUrl:kAVABaseUrl headers:headers queryStrings:queryStrings reachability:[AVA_Reachability reachabilityForInternetConnection]];
 
   // Construct storage.
   AVAFileStorage *storage = [[AVAFileStorage alloc] init];

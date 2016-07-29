@@ -70,7 +70,7 @@
 
                            [self.sender sendAsync:container
                                     callbackQueue:self.callbackQueue
-                                completionHandler:^(NSError *error, NSUInteger statusCode, NSString *batchId) {
+                                completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
                                   AVALogVerbose(@"INFO:HTTP response received with the "
                                                 @"status code:%lu",
                                                 (unsigned long)statusCode);

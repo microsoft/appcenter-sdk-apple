@@ -3,6 +3,7 @@
  */
 
 #import "AVASender.h"
+#import "AVASenderCall.h"
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -15,12 +16,19 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong, readonly) NSURL *sendURL;
 
 /**
- *	Request header parameters.
+ *	Request header parameters
  */
 @property(nonatomic, strong) NSDictionary *httpHeaders;
 
-// Methods
-+ (BOOL)isRecoverableError:(NSURLResponse *)response;
+/**
+ *  Pending http calls
+ */
+@property(atomic, strong) NSMutableDictionary<NSString *, AVASenderCall *> *pendingCalls;
+
+/**
+ *  Reachability library
+ */
+@property(nonatomic) AVA_Reachability *reachability;
 
 @end
 NS_ASSUME_NONNULL_END
