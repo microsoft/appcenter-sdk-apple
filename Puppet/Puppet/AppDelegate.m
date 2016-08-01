@@ -4,6 +4,9 @@
 #import "AvalancheHub.h"
 #import "Constants.h"
 
+#import "AVAErrorAttachment.h"
+#import "AVAPublicErrorLog.h"
+
 @interface AppDelegate ()
 
 @end
@@ -14,7 +17,27 @@
 
   // Start Avalanche SDK.
   [AVAAvalanche setLogLevel:AVALogLevelVerbose];
-  [AVAAvalanche useFeatures:@[ [AVAAnalytics class], [AVACrashes class] ] withAppKey:[[NSUUID UUID] UUIDString]];
+  [AVAAvalanche useFeatures:@[[AVAAnalytics class], [AVACrashes class] ] withAppKey:[[NSUUID UUID] UUIDString]];
+  
+  [AVACrashes setErrorLoggingDelegate:self];
+  
+  [AVACrashes setAlertViewHandler: ^() {
+      NSString *exceptionReason = [AVACrashes lastSessionCrashDetails].crashReason;
+      UIAlertView *customAlertView = [[UIAlertView alloc] initWithTitle: @"Oh no! The App crashed"
+                                                                message: nil
+                                                               delegate: self
+                                                      cancelButtonTitle: @"Don't send"
+                                                      otherButtonTitles: @"Send", @"Always send", nil];
+      if (exceptionReason) {
+        customAlertView.message = @"We would like to send a crash report to the developers. Please enter a short description of what happened:";
+        customAlertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+      } else {
+        customAlertView.message = @"We would like to send a crash report to the developers";
+      }
+      
+      [customAlertView show];
+  }];
+
 
   // Print the install Id.
   NSLog(@"%@ Install Id: %@", kPUPLogTag, [[AVAAvalanche installId] UUIDString]);
@@ -49,6 +72,51 @@
 - (void)applicationWillTerminate:(UIApplication *)application {
   // Called when the application is about to terminate. Save data if appropriate. See also
   // applicationDidEnterBackground:.
+}
+
+- (AVAErrorAttachment *) attachmentForErrorReporting: (AVACrashes *)crashes forErrorReport:(AVAPublicErrorLog *)errorLog {
+  
+  return [AVAErrorAttachment new];
+}
+
+- (void)errorReportingWillSend:(AVACrashes *)crashes {
+  
+}
+
+- (BOOL)errorReporting:(AVACrashes *)crashes considerErrorReport:(AVAPublicErrorLog *)errorLog {
+  
+  if([errorLog.crashReason isEqualToString:@"something"]) {
+    return false;
+  }
+  else {
+    return true;
+
+  }
+}
+
+- (void)errorReporting:(AVACrashes *)crashes didFailSendingErrorLog:(AVAPublicErrorLog *)errorLog {
+  
+}
+
+- (void)errorReporting:(AVACrashes *)crashes didSucceedSendingErrorLog:(AVAPublicErrorLog *)errorLog {
+  
+}
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+  if (alertView.alertViewStyle != UIAlertViewStyleDefault) {
+//    crashMetaData.userDescription = [alertView textFieldAtIndex:0].text;
+  }
+  switch (buttonIndex) {
+    case 0:
+      [AVACrashes handleUserInput:AVAErrorLoggingUserInputDontSend];
+      break;
+    case 1:
+      [AVACrashes handleUserInput:AVAErrorLoggingUserInputSend];
+      break;
+    case 2:
+      [AVACrashes handleUserInput:AVAErrorLoggingUserInputAlwaysSend];
+      break;
+  }
 }
 
 @end
