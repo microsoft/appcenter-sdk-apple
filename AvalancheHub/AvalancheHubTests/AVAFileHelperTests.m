@@ -284,6 +284,4 @@
   assertThat(expected, equalTo(actual));
 }
 
-// TODO: Test that Documents directory is excluded from backup
-
 @end

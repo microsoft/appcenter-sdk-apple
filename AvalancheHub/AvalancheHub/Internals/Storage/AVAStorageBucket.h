@@ -48,6 +48,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)sortAvailableFilesByCreationDate;
 
+/**
+ * Removes the given file from the bucket's internal available or blocked list.
+ *
+ *  @param file The file to delete.
+ */
+- (void)removeFile:(AVAFile *)file;
+
 @end
 
 NS_ASSUME_NONNULL_END

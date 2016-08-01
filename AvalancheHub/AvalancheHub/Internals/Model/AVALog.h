@@ -30,7 +30,7 @@
 @property(nonatomic) NSString *sid;
 
 /**
- * Device characteristics associated to this log.
+ * Device properties associated to this log.
  */
 @property(nonatomic) AVADeviceLog *device;
 

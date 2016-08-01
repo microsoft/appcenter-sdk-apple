@@ -90,8 +90,7 @@ static NSString *const kAVALastEnteredForegroundTime = @"kAVALastEnteredForegrou
 - (BOOL)hasSessionTimedOut {
   NSDate *now = [NSDate date];
 
-  // Verify if last time that a log was send is longer than the session timeout
-  // time
+  // Verify if last time that a log was sent is longer than the session timeout time
   BOOL noLogSentForLong = [now timeIntervalSinceDate:self.lastCreatedLogTime] >= self.sessionTimeout;
 
   // Verify if app is currently in the background for a longer time than the
@@ -103,7 +102,9 @@ static NSString *const kAVALastEnteredForegroundTime = @"kAVALastEnteredForegrou
   // Verify if app was in the background for a longer time than the session
   // timeout time
   BOOL wasBackgroundForLong =
-      [self.lastEnteredForegroundTime timeIntervalSinceDate:self.lastEnteredBackgroundTime] >= self.sessionTimeout;
+      (self.lastEnteredBackgroundTime)
+          ? [self.lastEnteredForegroundTime timeIntervalSinceDate:self.lastEnteredBackgroundTime] >= self.sessionTimeout
+          : false;
   return noLogSentForLong && (isBackgroundForLong || wasBackgroundForLong);
 }
 

@@ -1,0 +1,8 @@
+framework module AvalancheAnalytics {
+  umbrella header "AvalancheAnalytics.h"
+  
+  export *
+  module * { export * }
+  
+  link framework "Foundation"
+}

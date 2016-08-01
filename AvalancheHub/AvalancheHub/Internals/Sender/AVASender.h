@@ -7,9 +7,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void (^AVASendAsyncCompletionHandler)(NSError *error,
-                                              NSUInteger statusCode,
-                                              NSString *batchId);
+typedef void (^AVASendAsyncCompletionHandler)(NSError *error, NSUInteger statusCode, NSString *batchId);
 @protocol AVASender <NSObject>
 
 @required
@@ -20,7 +18,9 @@ typedef void (^AVASendAsyncCompletionHandler)(NSError *error,
  * @param headers Http headers
  * @param queryStrings array of query strings
  */
-- (id)initWithBaseUrl:(NSString *)baseUrl headers:(NSDictionary *)headers queryStrings:(NSDictionary*)queryStrings;
+- (id)initWithBaseUrl:(NSString *)baseUrl headers:(NSDictionary *)headers queryStrings:(NSDictionary *)queryStrings;
+
+NS_ASSUME_NONNULL_END
 
 /**
  * Send logs in batch
@@ -29,9 +29,8 @@ typedef void (^AVASendAsyncCompletionHandler)(NSError *error,
  * @param queue Queue for dispatching the completion handler
  * @param handler Completion handler
  */
-- (NSNumber *)sendAsync:(AVALogContainer *)logs
-              callbackQueue:(dispatch_queue_t)callbackQueue
-          completionHandler:(AVASendAsyncCompletionHandler)handler;
+- (nullable NSNumber *)sendAsync:(nonnull AVALogContainer *)logs
+                   callbackQueue:(nullable dispatch_queue_t)callbackQueue
+               completionHandler:(nonnull AVASendAsyncCompletionHandler)handler;
 
 @end
-NS_ASSUME_NONNULL_END

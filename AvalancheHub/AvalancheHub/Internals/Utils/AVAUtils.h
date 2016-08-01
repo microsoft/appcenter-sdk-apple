@@ -12,5 +12,6 @@
 #define kAVADevice [UIDevice currentDevice]
 #define kAVAApplication [UIApplication sharedApplication]
 #define kAVAUUIDString [[NSUUID UUID] UUIDString]
+#define kAVAUUIDFromString(uuidString) [[NSUUID alloc] initWithUUIDString:uuidString]
 #define kAVALocale [NSLocale currentLocale]
 #endif /* AVAUtils_h */

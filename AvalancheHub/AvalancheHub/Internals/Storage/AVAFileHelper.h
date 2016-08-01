@@ -48,15 +48,6 @@ NS_ASSUME_NONNULL_BEGIN
 + (BOOL)deleteFile:(AVAFile *)file;
 
 /**
- * Returns the content of a file.
- *
- * @param file the file metadata representing the target file
- *
- * @return the content data of the file
- */
-+ (NSData *)dataForFile:(AVAFile *)file;
-
-/**
  * Returns all file metadata of a given directory.
  *
  * @param directoryPath the absolute path to the directory
@@ -65,9 +56,17 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return a list with file metadata
  */
-+ (NSArray<AVAFile *> *)filesForDirectory:(NSString *)directoryPath
-                        withFileExtension:(NSString *)fileExtension;
-
-@end
++ (NSArray<AVAFile *> *)filesForDirectory:(NSString *)directoryPath withFileExtension:(NSString *)fileExtension;
 
 NS_ASSUME_NONNULL_END
+
+/**
+ * Returns the content of a file.
+ *
+ * @param file the file metadata representing the target file
+ *
+ * @return the content data of the file
+ */
++ (nullable NSData *)dataForFile:(nonnull AVAFile *)file;
+
+@end

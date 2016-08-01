@@ -1,0 +1,10 @@
+framework module AvalancheCrashes {
+  umbrella header "AvalancheCrashes.h"
+  
+  export *
+  module * { export * }
+  
+  link framework "Foundation"
+  link "c++"
+  link "z"
+}

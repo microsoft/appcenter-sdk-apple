@@ -9,10 +9,6 @@
 
 static NSString *const kAVADeviceManufacturerTest = @"Apple";
 
-@interface AVADeviceHelperTests : XCTestCase
-
-@end
-
 @interface AVADeviceTrackerTests : XCTestCase
 
 @property(nonatomic, strong) AVADeviceTracker *deviceTracker;
@@ -23,6 +19,8 @@ static NSString *const kAVADeviceManufacturerTest = @"Apple";
 
 - (void)setUp {
   [super setUp];
+
+  // System Under Test.
   self.deviceTracker = [[AVADeviceTracker alloc] init];
 }
 
