@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
 
-@class AVAPublicErrorLog;
+@class AVAErrorReport;
 @class AVACrashes;
 @class AVAErrorAttachment;
 
@@ -8,15 +8,16 @@
 
 @optional
 
-- (AVAErrorAttachment *) attachmentForErrorReporting: (AVACrashes *)crashes forErrorReport:(AVAPublicErrorLog *)errorLog;
+- (BOOL)errorReporting:(AVACrashes *)crashes shouldProcess:(AVAErrorReport *)errorReport;
+
+- (AVAErrorAttachment *) attachmentWithErrorReporting: (AVACrashes *)crashes forErrorReport:(AVAErrorReport *)errorReport;
 
 - (void)errorReportingWillSend:(AVACrashes *)crashes;
 
-- (BOOL)errorReporting:(AVACrashes *)crashes considerErrorReport:(AVAPublicErrorLog *)errorLog;
 
-- (void)errorReporting:(AVACrashes *)crashes didFailSendingErrorLog:(AVAPublicErrorLog *)errorLog;
+- (void)errorReporting:(AVACrashes *)crashes didFailSending:(AVAErrorReport *)errorReport withError:(NSError *)error;
 
-- (void)errorReporting:(AVACrashes *)crashes didSucceedSendingErrorLog:(AVAPublicErrorLog *)errorLog;
+- (void)errorReporting:(AVACrashes *)crashes didSucceedSending:(AVAErrorReport *)errorReport;
 
 
 @end

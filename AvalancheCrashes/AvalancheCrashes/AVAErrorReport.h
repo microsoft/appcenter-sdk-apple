@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface AVAPublicErrorLog : NSObject
+@interface AVAErrorReport : NSObject
 
 @property (nonatomic, copy, readonly) NSString *crashReason;
 

@@ -6,8 +6,8 @@
 //  Copyright © 2016 Microsoft. All rights reserved.
 //
 
-#import "AVAPublicErrorLog.h"
+#import "AVAErrorReport.h"
 
-@implementation AVAPublicErrorLog
+@implementation AVAErrorReport
 
 @end

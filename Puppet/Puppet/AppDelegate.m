@@ -5,7 +5,7 @@
 #import "Constants.h"
 
 #import "AVAErrorAttachment.h"
-#import "AVAPublicErrorLog.h"
+#import "AVAErrorReport.h"
 
 @interface AppDelegate ()
 
@@ -19,23 +19,23 @@
   [AVAAvalanche setLogLevel:AVALogLevelVerbose];
   [AVAAvalanche useFeatures:@[[AVAAnalytics class], [AVACrashes class] ] withAppKey:[[NSUUID UUID] UUIDString]];
   
-  [AVACrashes setErrorLoggingDelegate:self];
+  [AVACrashes setErrorLoggingDelegate:self]; //TODO rename to setDelegate:
   
-  [AVACrashes setAlertViewHandler: ^() {
-      NSString *exceptionReason = [AVACrashes lastSessionCrashDetails].crashReason;
-      UIAlertView *customAlertView = [[UIAlertView alloc] initWithTitle: @"Oh no! The App crashed"
-                                                                message: nil
-                                                               delegate: self
-                                                      cancelButtonTitle: @"Don't send"
-                                                      otherButtonTitles: @"Send", @"Always send", nil];
-      if (exceptionReason) {
-        customAlertView.message = @"We would like to send a crash report to the developers. Please enter a short description of what happened:";
-        customAlertView.alertViewStyle = UIAlertViewStylePlainTextInput;
-      } else {
-        customAlertView.message = @"We would like to send a crash report to the developers";
-      }
-      
-      [customAlertView show];
+  [AVACrashes setErrorReportHandler: ^() {
+    NSString *exceptionReason = [AVACrashes lastSessionCrashDetails].crashReason;
+    UIAlertView *customAlertView = [[UIAlertView alloc] initWithTitle: @"Oh no! The App crashed"
+                                                              message: nil
+                                                             delegate: self
+                                                    cancelButtonTitle: @"Don't send"
+                                                    otherButtonTitles: @"Send", nil];
+    if (exceptionReason) {
+      customAlertView.message = @"We would like to send a crash report to the developers. Please enter a short description of what happened:";
+      customAlertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+    } else {
+      customAlertView.message = @"We would like to send a crash report to the developers";
+    }
+    
+    [customAlertView show];
   }];
 
 
@@ -74,47 +74,47 @@
   // applicationDidEnterBackground:.
 }
 
-- (AVAErrorAttachment *) attachmentForErrorReporting: (AVACrashes *)crashes forErrorReport:(AVAPublicErrorLog *)errorLog {
-  
-  return [AVAErrorAttachment new];
-}
+//TODO talk to andreas and lukas about this again
 
-- (void)errorReportingWillSend:(AVACrashes *)crashes {
+- (BOOL)errorReporting:(AVACrashes *)crashes shouldProcess:(AVAErrorReport *)errorReport {
   
-}
-
-- (BOOL)errorReporting:(AVACrashes *)crashes considerErrorReport:(AVAPublicErrorLog *)errorLog {
-  
-  if([errorLog.crashReason isEqualToString:@"something"]) {
+  if([errorReport.crashReason isEqualToString:@"something"]) {
     return false;
   }
   else {
     return true;
-
+    
   }
 }
 
-- (void)errorReporting:(AVACrashes *)crashes didFailSendingErrorLog:(AVAPublicErrorLog *)errorLog {
+- (AVAErrorAttachment *) attachmentWithErrorReporting: (AVACrashes *)crashes forErrorReport:(AVAErrorReport *)errorLog {
+  
+  return [AVAErrorAttachment new];
+}
+
+- (void) errorReportingWillSend:(AVACrashes *)crashes {
   
 }
 
-- (void)errorReporting:(AVACrashes *)crashes didSucceedSendingErrorLog:(AVAPublicErrorLog *)errorLog {
-  
+- (void)errorReporting:(AVACrashes *)crashes didFailSending:(AVAErrorReport *)errorLog withError:(NSError *)error {
 }
+
+- (void)errorReporting:(AVACrashes *)crashes didSucceedSending:(AVAErrorReport *)errorLog {
+}
+
+
+
+
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
   if (alertView.alertViewStyle != UIAlertViewStyleDefault) {
-//    crashMetaData.userDescription = [alertView textFieldAtIndex:0].text;
   }
   switch (buttonIndex) {
     case 0:
       [AVACrashes handleUserInput:AVAErrorLoggingUserInputDontSend];
       break;
-    case 1:
+    default:
       [AVACrashes handleUserInput:AVAErrorLoggingUserInputSend];
-      break;
-    case 2:
-      [AVACrashes handleUserInput:AVAErrorLoggingUserInputAlwaysSend];
       break;
   }
 }

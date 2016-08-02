@@ -5,7 +5,7 @@
 #import <UIKit/UIKit.h>
 #import "AVAFeature.h"
 
-@class AVAPublicErrorLog;
+@class AVAErrorReport;
 
 /**
  * Custom block that handles the alert that prompts the user whether he wants to send crash reports
@@ -43,11 +43,6 @@ typedef NS_ENUM(NSUInteger, AVAErrorLoggingUserInput) {
    *  User wants the crash report to be sent
    */
   AVAErrorLoggingUserInputSend = 1,
-  /**
-   *  User chose to always send crash reports
-   */
-  AVAErrorLoggingUserInputAlwaysSend = 2
-  
 };
 
 @protocol AVAErrorLoggingDelegate;
@@ -115,7 +110,7 @@ typedef NS_ENUM(NSUInteger, AVAErrorLoggingUserInput) {
  @warning Block needs to call the `[BITCrashManager handleUserInput:withUserProvidedMetaData:]` method!
  
  */
-+ (void)setAlertViewHandler:(AVAAlertViewHandler)alertViewHandler;
++ (void)setErrorReportHandler:(_Nonnull AVAAlertViewHandler)alertViewHandler;
 
 
 /**
@@ -134,7 +129,7 @@ typedef NS_ENUM(NSUInteger, AVAErrorLoggingUserInput) {
  * Provides details about the crash that occurred in the last app session
  */
 
-+ (AVAPublicErrorLog *)lastSessionCrashDetails;
++ (AVAErrorReport * _Nullable) lastSessionCrashDetails;
 
 
 /**
@@ -148,7 +143,7 @@ typedef NS_ENUM(NSUInteger, AVAErrorLoggingUserInput) {
 @property (nonatomic, weak, nullable) id<AVAErrorLoggingDelegate> errorLoggingDelegate;
 
 
-+ (void)setErrorLoggingDelegate:(id <AVAErrorLoggingDelegate>) errorLoggingDelegate;
++ (void)setErrorLoggingDelegate:(_Nullable id <AVAErrorLoggingDelegate>) errorLoggingDelegate;
 
 @end
  

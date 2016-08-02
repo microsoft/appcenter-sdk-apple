@@ -43,6 +43,47 @@ uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInfo *info) {
 @synthesize delegate = _delegate;
 @synthesize isEnabled = _isEnabled;
 
++ (BOOL)isDebuggerAttached {
+  //TODO actual implementation
+  return NO;
+}
+
++ (void)generateTestCrash {
+  //TODO actual implementation
+
+}
+
++ (BOOL)hasCrashedInLastSession {
+  //TODO actual implementation
+
+  return NO;
+}
+
++ (void)setErrorReportHandler:(_Nonnull AVAAlertViewHandler)alertViewHandler {
+  //TODO actual implementation
+
+
+}
+
++ (BOOL)handleUserInput:(AVAErrorLoggingUserInput)userInput {
+  //TODO actual implementation
+
+  return NO;
+}
+
++ (AVAErrorReport *_Nullable)lastSessionCrashDetails {
+  //TODO actual implementation
+
+  return nil;
+}
+
++ (void)setErrorLoggingDelegate:(_Nullable id <AVAErrorLoggingDelegate>)errorLoggingDelegate {
+  //TODO actual implementation
+
+
+}
+
+
 #pragma mark - Module initialization
 
 + (id)sharedInstance {
