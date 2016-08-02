@@ -115,7 +115,8 @@ completionHandler:(AVASendAsyncCompletionHandler)handler {
   // Check if call has already been created(retry scenario).
   id<AVASenderCall> call = self.pendingCalls[batchId];
   if (call == nil) {
-    call = [[AVARetriableCall alloc] initWithSender:self];
+    call = [[AVARetriableCall alloc] init];
+    call.delegate = self;
     call.logContainer = container;
     call.callbackQueue = callbackQueue;
     call.completionHandler = handler;

@@ -11,7 +11,7 @@
 /**
  *  Call delegate.
  */
-@property(nonatomic) id<AVASenderCallDelegate> delegate;
+@property(nonatomic, weak) id<AVASenderCallDelegate> delegate;
 
 /**
  *  Is call currently being processed.

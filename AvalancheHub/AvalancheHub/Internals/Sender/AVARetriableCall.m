@@ -10,7 +10,6 @@ static NSUInteger kAVAMaxRetryCount = 3;
 
 @property(nonatomic) NSArray *retryIntervals;
 
-@property(nonatomic, strong, nullable) id<AVASender> sender;
 @end
 
 @implementation AVARetriableCall
@@ -21,15 +20,14 @@ static NSUInteger kAVAMaxRetryCount = 3;
 @synthesize logContainer = _logContainer;
 @synthesize delegate = _delegate;
 
-- (id)initWithSender:(id<AVASender>)sender {
+- (id)init{
   if (self = [super init]) {
-    _sender = sender;
-
     // Intervals are: 10 sec, 5 min, 20 min.
     _retryIntervals = @[ @(10), @(5 * 60), @(20 * 60) ];
   }
   return self;
 }
+
 - (BOOL)hasReachedMaxRetries {
   return self.retryCount >= kAVAMaxRetryCount;
 }
@@ -59,7 +57,7 @@ static NSUInteger kAVAMaxRetryCount = 3;
     typeof(self) strongSelf = weakSelf;
 
     // do send
-    [self.sender sendCallAsync:self];
+    [self.delegate sendCallAsync:self];
     [strongSelf resetTimer];
   });
   dispatch_resume(self.timerSource);
@@ -92,7 +90,7 @@ static NSUInteger kAVAMaxRetryCount = 3;
   else {
 
     // Remove call from sender.
-    [self.sender callCompletedWithId:self.logContainer.batchId];
+    [sender callCompletedWithId:self.logContainer.batchId];
 
     // call completion async.
     dispatch_async(self.callbackQueue, ^{

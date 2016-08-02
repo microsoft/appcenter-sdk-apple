@@ -19,15 +19,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) NSUInteger retryCount;
 
 /**
- *  Initializer.
- *
- *  @param sender Sender object.
- *
- *  @return Class instance.
- */
-- (id)initWithSender:(id<AVASender>)sender;
-
-/**
  *  Indicate if has reached the max retried.
  *
  *  @return YES if max retry has reached, NO otherwise.
