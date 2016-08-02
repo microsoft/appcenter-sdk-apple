@@ -141,7 +141,6 @@ completionHandler:(AVASendAsyncCompletionHandler)handler {
   NetworkStatus newConnectionStatus = [self.reachability currentReachabilityStatus];
 
   if (newConnectionStatus == NotReachable) {
-
     // Cancel all the tasks
     [self.session getAllTasksWithCompletionHandler:^(NSArray<__kindof NSURLSessionTask *> *_Nonnull tasks) {
       [tasks

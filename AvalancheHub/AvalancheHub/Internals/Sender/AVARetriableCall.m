@@ -72,7 +72,7 @@ static NSUInteger kAVAMaxRetryCount = 3;
   }
 }
 
-- (void)resetRetryCount {
+- (void)resetRetry {
   _retryCount = 0;
   [self resetTimer];
 }
@@ -80,7 +80,8 @@ static NSUInteger kAVAMaxRetryCount = 3;
 - (void)sender:(id<AVASenderCallDelegate>)sender callCompletedWithError:(NSError *)error status:(NSUInteger)statusCode {
 
   if ([AVASenderUtils isNoInternetConnectionError:error] || [AVASenderUtils isRequestCanceledError:error]) {
-    // Ignore. Will retry, once the connection is established again
+    // Reset the retry count, will retry once the connection is established again
+    [self resetRetry];
     _isProcessing = NO;
   }
   // Retry
