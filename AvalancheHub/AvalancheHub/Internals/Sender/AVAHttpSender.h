@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Pending http calls
  */
-@property(atomic, strong) NSMutableDictionary<NSString *, AVASenderCall *> *pendingCalls;
+@property(atomic, strong) NSMutableDictionary<NSString *, id<AVASenderCall>> *pendingCalls;
 
 /**
  *  Reachability library

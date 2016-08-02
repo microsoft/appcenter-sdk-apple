@@ -1,15 +1,16 @@
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
-
 #import "AVALogContainer.h"
+#import "AVASenderCall.h"
+#import "AVASenderCallDelegate.h"
+#import "AVASenderUtils.h"
 #import "AVA_Reachability.h"
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void (^AVASendAsyncCompletionHandler)(NSString *batchId, NSError *error, NSUInteger statusCode);
-@protocol AVASender <NSObject>
+@protocol AVASender <NSObject, AVASenderCallDelegate>
 /**
  * Initialize the Sender
  *
@@ -35,5 +36,6 @@ typedef void (^AVASendAsyncCompletionHandler)(NSString *batchId, NSError *error,
 - (void)sendAsync:(nonnull AVALogContainer *)logs
     callbackQueue:(nullable dispatch_queue_t)callbackQueue
 completionHandler:(nonnull AVASendAsyncCompletionHandler)handler;
+
 @end
 NS_ASSUME_NONNULL_END

@@ -4,6 +4,7 @@
 
 #import "AVAAvalanchePrivate.h"
 #import "AVAHttpSender.h"
+#import "AVARetriableCall.h"
 #import "AVASenderUtils.h"
 #import "AVAUtils.h"
 
@@ -62,7 +63,7 @@ static NSString *const kAVAApiPath = @"/logs";
   return _session;
 }
 
-- (void)sendCallAsync:(AVASenderCall *)call {
+- (void)sendCallAsync:(id<AVASenderCall>)call {
   if (!call)
     return;
 
@@ -78,30 +79,12 @@ static NSString *const kAVAApiPath = @"/logs";
       dataTaskWithRequest:request
         completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
 
-          NSInteger statusCode = [AVASenderUtils getstatusCode:response];
+          NSInteger statusCode = [AVASenderUtils getStatusCode:response];
           AVALogVerbose(@"INFO:HTTP response received with the status code:%lu", (unsigned long)statusCode);
 
-          if ([AVASenderUtils isNoInternetConnectionError:error] || [AVASenderUtils isRequestCanceledError:error]) {
-            // Ignore. Will retry, once the connection is established again
-            call.isProcessing = NO;
-            return;
-          }
-          // Retry
-          else if ([AVASenderUtils isRecoverableError:statusCode]) {
-            if (call) {
-              if ([call hasReachedMaxRetries]) {
-                [self callCompleted:call error:error status:statusCode];
-              } else {
-                // Increment count
-                call.retryCount++;
-                [self sendCallAsync:call];
-              }
-            }
-          }
-          // Callback to Channel
-          else {
-            [self callCompleted:call error:error status:statusCode];
-          }
+          // Call handles the completion
+          if (call)
+            [call sender:self callCompletedWithError:error status:statusCode];
         }];
 
   // TODO: Set task priority
@@ -130,9 +113,9 @@ completionHandler:(AVASendAsyncCompletionHandler)handler {
     callbackQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
 
   // Check if call has already been created(retry scenario)
-  AVASenderCall *call = self.pendingCalls[batchId];
+  id<AVASenderCall> call = self.pendingCalls[batchId];
   if (call == nil) {
-    call = [[AVASenderCall alloc] init];
+    call = [[AVARetriableCall alloc] initWithSender:self];
     call.logContainer = container;
     call.callbackQueue = callbackQueue;
     call.completionHandler = handler;
@@ -143,20 +126,14 @@ completionHandler:(AVASendAsyncCompletionHandler)handler {
   [self sendCallAsync:call];
 }
 
-- (void)callCompleted:(AVASenderCall *)call error:(NSError *)error status:(NSUInteger)statusCode {
-  if (!call) {
+- (void)callCompletedWithId:(NSString *)callId {
+  if (!callId) {
     AVALogWarning(@"[Sender] WARNING: call object is invalid");
     return;
   }
 
-  NSString *batchId = call.logContainer.batchId;
-  [self.pendingCalls removeObjectForKey:batchId];
-  AVALogVerbose(@"[Sender] INFO: Removed batch id:%@ from pendingCalls:%@", batchId, [self.pendingCalls description]);
-  
-  // call completion async
-  dispatch_async(call.callbackQueue, ^{
-    call.completionHandler(batchId, error, statusCode);
-  });
+  [self.pendingCalls removeObjectForKey:callId];
+  AVALogVerbose(@"[Sender] INFO: Removed batch id:%@ from pendingCalls:%@", callId, [self.pendingCalls description]);
 }
 
 - (void)networkStateChanged:(NSNotificationCenter *)notification {
@@ -174,7 +151,7 @@ completionHandler:(AVASendAsyncCompletionHandler)handler {
 
       // Set pending calls to not processing
       [self.pendingCalls.allValues
-          enumerateObjectsUsingBlock:^(AVASenderCall *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
+          enumerateObjectsUsingBlock:^(id<AVASenderCall> _Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
             obj.isProcessing = NO;
           }];
     }];
@@ -182,7 +159,7 @@ completionHandler:(AVASendAsyncCompletionHandler)handler {
 
     // Send all pending calls if not already being processed
     [self.pendingCalls.allValues
-        enumerateObjectsUsingBlock:^(AVASenderCall *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
+        enumerateObjectsUsingBlock:^(id<AVASenderCall> _Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
           if (!obj.isProcessing)
             [self sendCallAsync:obj];
         }];

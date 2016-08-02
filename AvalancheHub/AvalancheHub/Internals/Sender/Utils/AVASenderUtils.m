@@ -10,7 +10,7 @@
   return statusCode >= 500 || statusCode == 408 || statusCode == 429;
 }
 
-+ (NSInteger)getstatusCode:(NSURLResponse *)response {
++ (NSInteger)getStatusCode:(NSURLResponse *)response {
   NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
   return httpResponse.statusCode;
 }

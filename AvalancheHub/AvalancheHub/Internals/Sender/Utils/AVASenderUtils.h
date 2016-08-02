@@ -4,6 +4,8 @@
 
 #import <Foundation/Foundation.h>
 
+typedef void (^AVASendAsyncCompletionHandler)(NSString *batchId, NSError *error, NSUInteger statusCode);
+
 @interface AVASenderUtils : NSObject
 
 /**
@@ -22,7 +24,7 @@
  *
  *  @return status code
  */
-+ (NSInteger)getstatusCode:(NSURLResponse *)response;
++ (NSInteger)getStatusCode:(NSURLResponse *)response;
 
 /**
  *  Indicate if error is due to no internet connection
