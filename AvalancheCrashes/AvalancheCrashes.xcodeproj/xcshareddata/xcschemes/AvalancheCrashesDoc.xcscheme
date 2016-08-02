@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6E3729771D1DE83200F1E4AE"
-               BuildableName = "Fat Framework"
-               BlueprintName = "Fat Framework"
+               BlueprintIdentifier = "6E6BFC361D23504F00DF7617"
+               BuildableName = "AvalancheCrashesDoc"
+               BlueprintName = "AvalancheCrashesDoc"
                ReferencedContainer = "container:AvalancheCrashes.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,9 +45,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6E3729771D1DE83200F1E4AE"
-            BuildableName = "Fat Framework"
-            BlueprintName = "Fat Framework"
+            BlueprintIdentifier = "6E6BFC361D23504F00DF7617"
+            BuildableName = "AvalancheCrashesDoc"
+            BlueprintName = "AvalancheCrashesDoc"
             ReferencedContainer = "container:AvalancheCrashes.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -63,9 +63,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6E3729771D1DE83200F1E4AE"
-            BuildableName = "Fat Framework"
-            BlueprintName = "Fat Framework"
+            BlueprintIdentifier = "6E6BFC361D23504F00DF7617"
+            BuildableName = "AvalancheCrashesDoc"
+            BlueprintName = "AvalancheCrashesDoc"
             ReferencedContainer = "container:AvalancheCrashes.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

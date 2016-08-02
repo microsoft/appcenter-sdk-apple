@@ -7,26 +7,27 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		6E04017D1D1CAC710051BCFA /* Fat Framework */ = {
+		6E04017D1D1CAC710051BCFA /* AvalancheHubFramework */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 6E0401801D1CAC710051BCFA /* Build configuration list for PBXAggregateTarget "Fat Framework" */;
+			buildConfigurationList = 6E0401801D1CAC710051BCFA /* Build configuration list for PBXAggregateTarget "AvalancheHubFramework" */;
 			buildPhases = (
 				6E0401811D1CAC770051BCFA /* ShellScript */,
 			);
 			dependencies = (
 			);
-			name = "Fat Framework";
+			name = AvalancheHubFramework;
 			productName = "Fat Framework";
 		};
-		6E6BFC311D234FAE00DF7617 /* Jazzy Docs */ = {
+		6E6BFC311D234FAE00DF7617 /* AvalancheHubDoc */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 6E6BFC341D234FAE00DF7617 /* Build configuration list for PBXAggregateTarget "Jazzy Docs" */;
+			buildConfigurationList = 6E6BFC341D234FAE00DF7617 /* Build configuration list for PBXAggregateTarget "AvalancheHubDoc" */;
 			buildPhases = (
 				6E6BFC351D234FBF00DF7617 /* ShellScript */,
 			);
 			dependencies = (
+				386352EF1D5114F200D0D450 /* PBXTargetDependency */,
 			);
-			name = "Jazzy Docs";
+			name = AvalancheHubDoc;
 			productName = "Jazzy Docs";
 		};
 /* End PBXAggregateTarget section */
@@ -110,6 +111,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		386352EE1D5114F200D0D450 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E0400FB1D1C98220051BCFA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6E04017D1D1CAC710051BCFA;
+			remoteInfo = "Fat Framework";
+		};
 		6E23957E1D22EF4F00E543C8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6E0400FB1D1C98220051BCFA /* Project object */;
@@ -642,9 +650,9 @@
 			projectRoot = "";
 			targets = (
 				6E0401021D1C98220051BCFA /* AvalancheHub */,
-				6E04017D1D1CAC710051BCFA /* Fat Framework */,
+				6E04017D1D1CAC710051BCFA /* AvalancheHubFramework */,
 				6E2395771D22EF4F00E543C8 /* AvalancheHubTests */,
-				6E6BFC311D234FAE00DF7617 /* Jazzy Docs */,
+				6E6BFC311D234FAE00DF7617 /* AvalancheHubDoc */,
 			);
 		};
 /* End PBXProject section */
@@ -742,6 +750,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		386352EF1D5114F200D0D450 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6E04017D1D1CAC710051BCFA /* AvalancheHubFramework */;
+			targetProxy = 386352EE1D5114F200D0D450 /* PBXContainerItemProxy */;
+		};
 		6E23957F1D22EF4F00E543C8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 6E0401021D1C98220051BCFA /* AvalancheHub */;
@@ -991,7 +1004,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6E0401801D1CAC710051BCFA /* Build configuration list for PBXAggregateTarget "Fat Framework" */ = {
+		6E0401801D1CAC710051BCFA /* Build configuration list for PBXAggregateTarget "AvalancheHubFramework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6E04017E1D1CAC710051BCFA /* Debug */,
@@ -1009,7 +1022,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6E6BFC341D234FAE00DF7617 /* Build configuration list for PBXAggregateTarget "Jazzy Docs" */ = {
+		6E6BFC341D234FAE00DF7617 /* Build configuration list for PBXAggregateTarget "AvalancheHubDoc" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6E6BFC321D234FAE00DF7617 /* Debug */,

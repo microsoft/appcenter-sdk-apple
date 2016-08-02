@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E85547E91D2D68C5002DF6E2"
-               BuildableName = "Jazzy Docs"
-               BlueprintName = "Jazzy Docs"
+               BuildableName = "AvalancheAnalyticsDoc"
+               BlueprintName = "AvalancheAnalyticsDoc"
                ReferencedContainer = "container:AvalancheAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -46,8 +46,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E85547E91D2D68C5002DF6E2"
-            BuildableName = "Jazzy Docs"
-            BlueprintName = "Jazzy Docs"
+            BuildableName = "AvalancheAnalyticsDoc"
+            BlueprintName = "AvalancheAnalyticsDoc"
             ReferencedContainer = "container:AvalancheAnalytics.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -64,8 +64,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E85547E91D2D68C5002DF6E2"
-            BuildableName = "Jazzy Docs"
-            BlueprintName = "Jazzy Docs"
+            BuildableName = "AvalancheAnalyticsDoc"
+            BlueprintName = "AvalancheAnalyticsDoc"
             ReferencedContainer = "container:AvalancheAnalytics.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

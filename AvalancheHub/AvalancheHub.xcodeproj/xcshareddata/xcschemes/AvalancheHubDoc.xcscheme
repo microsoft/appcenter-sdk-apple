@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E85547E41D2D681F002DF6E2"
-               BuildableName = "Fat Framework"
-               BlueprintName = "Fat Framework"
-               ReferencedContainer = "container:AvalancheAnalytics.xcodeproj">
+               BlueprintIdentifier = "6E6BFC311D234FAE00DF7617"
+               BuildableName = "AvalancheHubDoc"
+               BlueprintName = "AvalancheHubDoc"
+               ReferencedContainer = "container:AvalancheHub.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,10 +45,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E85547E41D2D681F002DF6E2"
-            BuildableName = "Fat Framework"
-            BlueprintName = "Fat Framework"
-            ReferencedContainer = "container:AvalancheAnalytics.xcodeproj">
+            BlueprintIdentifier = "6E6BFC311D234FAE00DF7617"
+            BuildableName = "AvalancheHubDoc"
+            BlueprintName = "AvalancheHubDoc"
+            ReferencedContainer = "container:AvalancheHub.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -63,10 +63,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E85547E41D2D681F002DF6E2"
-            BuildableName = "Fat Framework"
-            BlueprintName = "Fat Framework"
-            ReferencedContainer = "container:AvalancheAnalytics.xcodeproj">
+            BlueprintIdentifier = "6E6BFC311D234FAE00DF7617"
+            BuildableName = "AvalancheHubDoc"
+            BlueprintName = "AvalancheHubDoc"
+            ReferencedContainer = "container:AvalancheHub.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

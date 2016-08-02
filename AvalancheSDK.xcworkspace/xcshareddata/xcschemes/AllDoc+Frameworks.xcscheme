@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6E0401021D1C98220051BCFA"
-               BuildableName = "libAvalancheHub.a"
-               BlueprintName = "AvalancheHub"
-               ReferencedContainer = "container:../AvalancheHub/AvalancheHub.xcodeproj">
+               BlueprintIdentifier = "6E6BFC311D234FAE00DF7617"
+               BuildableName = "AvalancheHubDoc"
+               BlueprintName = "AvalancheHubDoc"
+               ReferencedContainer = "container:AvalancheHub/AvalancheHub.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -28,10 +28,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E85547BF1D2D6253002DF6E2"
-               BuildableName = "libAvalancheAnalytics.a"
-               BlueprintName = "AvalancheAnalytics"
-               ReferencedContainer = "container:AvalancheAnalytics.xcodeproj">
+               BlueprintIdentifier = "E85547E91D2D68C5002DF6E2"
+               BuildableName = "AvalancheAnalyticsDoc"
+               BlueprintName = "AvalancheAnalyticsDoc"
+               ReferencedContainer = "container:AvalancheAnalytics/AvalancheAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -42,10 +42,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6E0401321D1C98690051BCFA"
-               BuildableName = "libAvalancheCrashes.a"
-               BlueprintName = "AvalancheCrashes"
-               ReferencedContainer = "container:../AvalancheCrashes/AvalancheCrashes.xcodeproj">
+               BlueprintIdentifier = "6E6BFC361D23504F00DF7617"
+               BuildableName = "AvalancheCrashesDoc"
+               BlueprintName = "AvalancheCrashesDoc"
+               ReferencedContainer = "container:AvalancheCrashes/AvalancheCrashes.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -56,44 +56,14 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6E2395771D22EF4F00E543C8"
-               BuildableName = "AvalancheHubTests.xctest"
-               BlueprintName = "AvalancheHubTests"
-               ReferencedContainer = "container:../AvalancheHub/AvalancheHub.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6E171AE01D22F781000DC480"
-               BuildableName = "AvalancheCrashesTests.xctest"
-               BlueprintName = "AvalancheCrashesTests"
-               ReferencedContainer = "container:../AvalancheCrashes/AvalancheCrashes.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E85547D41D2D6723002DF6E2"
-               BuildableName = "AvalancheAnalyticsTests.xctest"
-               BlueprintName = "AvalancheAnalyticsTests"
-               ReferencedContainer = "container:AvalancheAnalytics.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6E0401021D1C98220051BCFA"
-            BuildableName = "libAvalancheHub.a"
-            BlueprintName = "AvalancheHub"
-            ReferencedContainer = "container:../AvalancheHub/AvalancheHub.xcodeproj">
+            BlueprintIdentifier = "6E6BFC311D234FAE00DF7617"
+            BuildableName = "AvalancheHubDoc"
+            BlueprintName = "AvalancheHubDoc"
+            ReferencedContainer = "container:AvalancheHub/AvalancheHub.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -112,10 +82,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6E0401021D1C98220051BCFA"
-            BuildableName = "libAvalancheHub.a"
-            BlueprintName = "AvalancheHub"
-            ReferencedContainer = "container:../AvalancheHub/AvalancheHub.xcodeproj">
+            BlueprintIdentifier = "6E6BFC311D234FAE00DF7617"
+            BuildableName = "AvalancheHubDoc"
+            BlueprintName = "AvalancheHubDoc"
+            ReferencedContainer = "container:AvalancheHub/AvalancheHub.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -130,10 +100,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6E0401021D1C98220051BCFA"
-            BuildableName = "libAvalancheHub.a"
-            BlueprintName = "AvalancheHub"
-            ReferencedContainer = "container:../AvalancheHub/AvalancheHub.xcodeproj">
+            BlueprintIdentifier = "6E6BFC311D234FAE00DF7617"
+            BuildableName = "AvalancheHubDoc"
+            BlueprintName = "AvalancheHubDoc"
+            ReferencedContainer = "container:AvalancheHub/AvalancheHub.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

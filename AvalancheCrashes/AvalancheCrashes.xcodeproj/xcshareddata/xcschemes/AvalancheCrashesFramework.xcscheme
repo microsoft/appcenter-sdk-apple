@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6E6BFC361D23504F00DF7617"
-               BuildableName = "Jazzy Docs"
-               BlueprintName = "Jazzy Docs"
+               BlueprintIdentifier = "6E3729771D1DE83200F1E4AE"
+               BuildableName = "AvalancheCrashesFramework"
+               BlueprintName = "AvalancheCrashesFramework"
                ReferencedContainer = "container:AvalancheCrashes.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,9 +45,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6E6BFC361D23504F00DF7617"
-            BuildableName = "Jazzy Docs"
-            BlueprintName = "Jazzy Docs"
+            BlueprintIdentifier = "6E3729771D1DE83200F1E4AE"
+            BuildableName = "AvalancheCrashesFramework"
+            BlueprintName = "AvalancheCrashesFramework"
             ReferencedContainer = "container:AvalancheCrashes.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -63,9 +63,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6E6BFC361D23504F00DF7617"
-            BuildableName = "Jazzy Docs"
-            BlueprintName = "Jazzy Docs"
+            BlueprintIdentifier = "6E3729771D1DE83200F1E4AE"
+            BuildableName = "AvalancheCrashesFramework"
+            BlueprintName = "AvalancheCrashesFramework"
             ReferencedContainer = "container:AvalancheCrashes.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
