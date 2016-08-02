@@ -11,22 +11,22 @@ NS_ASSUME_NONNULL_BEGIN
 @interface AVAHttpSender : NSObject <AVASender>
 
 /**
- *	Send Url
+ *	Send Url.
  */
 @property(nonatomic, strong, readonly) NSURL *sendURL;
 
 /**
- *	Request header parameters
+ *	Request header parameters.
  */
 @property(nonatomic, strong) NSDictionary *httpHeaders;
 
 /**
- *  Pending http calls
+ *  Pending http calls.
  */
 @property(atomic, strong) NSMutableDictionary<NSString *, id<AVASenderCall>> *pendingCalls;
 
 /**
- *  Reachability library
+ *  Reachability library.
  */
 @property(nonatomic) AVA_Reachability *reachability;
 

@@ -9,16 +9,16 @@
 @protocol AVASenderCallDelegate <NSObject>
 
 /**
- *  Send call
+ *  Send call.
  *
  *  @param call Call object.
  */
 - (void)sendCallAsync:(id<AVASenderCall>)call;
 
 /**
- *  Call completed callback
+ *  Call completed callback.
  *
- *  @param callId call id
+ *  @param callId call id.
  */
 - (void)callCompletedWithId:(NSString *)callId;
 

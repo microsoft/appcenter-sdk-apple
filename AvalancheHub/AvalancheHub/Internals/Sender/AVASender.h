@@ -12,12 +12,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol AVASender <NSObject, AVASenderCallDelegate>
 /**
- * Initialize the Sender
+ * Initialize the Sender.
  *
- * @param url Base url
- * @param headers Http headers
- * @param queryStrings array of query strings
- * @param reachability network reachability helper
+ * @param url Base url.
+ * @param headers Http headers.
+ * @param queryStrings array of query strings.
+ * @param reachability network reachability helper.
  */
 
 - (id)initWithBaseUrl:(NSString *)baseUrl
@@ -26,11 +26,11 @@ NS_ASSUME_NONNULL_BEGIN
          reachability:(AVA_Reachability *)reachability;
 
 /**
- * Send logs in batch
+ * Send logs in batch.
  *
- * @param logContainer Batch of logs
- * @param queue Queue for dispatching the completion handler
- * @param handler Completion handler
+ * @param logContainer Batch of logs.
+ * @param queue Queue for dispatching the completion handler.
+ * @param handler Completion handler.
  */
 
 - (void)sendAsync:(nonnull AVALogContainer *)logs
