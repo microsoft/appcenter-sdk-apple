@@ -30,7 +30,7 @@
   AVALogVerbose(@"AVACrashes: Started crash module");
 }
 
-- (void)setDelegate:(id<AVAAvalancheDelegate>) delegate {
+- (void)setDelegate:(id<AVAAvalancheDelegate>)delegate {
   _delegate = delegate;
 }
 
