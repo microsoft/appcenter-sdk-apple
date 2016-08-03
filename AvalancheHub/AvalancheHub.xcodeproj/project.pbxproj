@@ -33,13 +33,10 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		381C91DF1D3DB654004512F1 /* AVASessionTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 381C91DC1D3DB654004512F1 /* AVASessionTracker.h */; };
-		381C91E11D3DB654004512F1 /* AVASessionTrackerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 381C91DE1D3DB654004512F1 /* AVASessionTrackerDelegate.h */; };
 		381C91E91D3DB65D004512F1 /* AVADeviceTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 381C91E51D3DB65D004512F1 /* AVADeviceTracker.h */; };
 		381C91EA1D3DB65D004512F1 /* AVADeviceTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 381C91E61D3DB65D004512F1 /* AVADeviceTracker.m */; };
 		384959D51D491D4F008F6B3A /* AVAAvalancheTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 384959D41D491D4F008F6B3A /* AVAAvalancheTest.m */; };
 		385FC0551D37EBD700A1799F /* AVADeviceTrackerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 385FC0541D37EBD700A1799F /* AVADeviceTrackerTests.m */; };
-		38CD622E1D3EADF90038A85C /* AVASessionTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 381C91DD1D3DB654004512F1 /* AVASessionTracker.m */; };
 		6E04014E1D1C99AC0051BCFA /* AVALogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E04014A1D1C99AC0051BCFA /* AVALogger.m */; };
 		6E0401571D1C9AAA0051BCFA /* AVAAvalanche.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0401561D1C9AAA0051BCFA /* AVAAvalanche.m */; };
 		6E04016A1D1C9E1F0051BCFA /* AVAAvalanche.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401551D1C9AAA0051BCFA /* AVAAvalanche.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -149,9 +146,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		381C91DC1D3DB654004512F1 /* AVASessionTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVASessionTracker.h; sourceTree = "<group>"; };
-		381C91DD1D3DB654004512F1 /* AVASessionTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVASessionTracker.m; sourceTree = "<group>"; };
-		381C91DE1D3DB654004512F1 /* AVASessionTrackerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVASessionTrackerDelegate.h; sourceTree = "<group>"; };
 		381C91E51D3DB65D004512F1 /* AVADeviceTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVADeviceTracker.h; sourceTree = "<group>"; };
 		381C91E61D3DB65D004512F1 /* AVADeviceTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVADeviceTracker.m; sourceTree = "<group>"; };
 		384959D41D491D4F008F6B3A /* AVAAvalancheTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAAvalancheTest.m; sourceTree = "<group>"; };
@@ -285,16 +279,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		381C91DB1D3DB654004512F1 /* Session */ = {
-			isa = PBXGroup;
-			children = (
-				381C91DC1D3DB654004512F1 /* AVASessionTracker.h */,
-				381C91DD1D3DB654004512F1 /* AVASessionTracker.m */,
-				381C91DE1D3DB654004512F1 /* AVASessionTrackerDelegate.h */,
-			);
-			path = Session;
-			sourceTree = "<group>";
-		};
 		381C91E21D3DB65D004512F1 /* Device */ = {
 			isa = PBXGroup;
 			children = (
@@ -346,7 +330,6 @@
 				E84B8E241D234EC7006FD231 /* Channel */,
 				E84B8E231D234EC1006FD231 /* Storage */,
 				E84B8E221D234EBB006FD231 /* Sender */,
-				381C91DB1D3DB654004512F1 /* Session */,
 				6E0401581D1C9CFB0051BCFA /* AvalancheHub+Internal.h */,
 				6E0401431D1C99AC0051BCFA /* AVAAvalancheDelegate.h */,
 				6E0401441D1C99AC0051BCFA /* AVAAvalanchePrivate.h */,
@@ -438,8 +421,6 @@
 				E88EBBF61D2C717D007E7785 /* Utils */,
 				6E3E2C9D1D35701000B1EE50 /* AVALog.h */,
 				E88EBBEA1D2C612E007E7785 /* AVAAbstractLog.h */,
-				E83E81291D3EABAE00421B13 /* AVAStartSessionLog.h */,
-				E83E812A1D3EABAE00421B13 /* AVAStartSessionLog.m */,
 				E88EBBEB1D2C612E007E7785 /* AVAAbstractLog.m */,
 				6E171B521D234717000DC480 /* AVADeviceLog.h */,
 				6E171B531D234717000DC480 /* AVADeviceLog.m */,
@@ -588,7 +569,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				381C91DF1D3DB654004512F1 /* AVASessionTracker.h in Headers */,
 				E8A8D1EB1D3057A90022931E /* AVASettings.h in Headers */,
 				E8831A9A1D41A58600931F11 /* AVADeviceTrackerPrivate.h in Headers */,
 				E80EB1071D50273700C9003F /* AVARetriableCall.h in Headers */,
@@ -775,11 +755,9 @@
 				6E0CD69F1D27198A0045FE8C /* AVAStorageBucket.m in Sources */,
 				E83283C71D46C62E000B029E /* AVA_Reachability.m in Sources */,
 				6E171B5B1D234717000DC480 /* AVADeviceLog.m in Sources */,
-				38CD622E1D3EADF90038A85C /* AVASessionTracker.m in Sources */,
 				E8010E6B1D2DD4EF0035196F /* AVALogWithProperties.m in Sources */,
 				E8A8D1EC1D3057A90022931E /* AVASettings.m in Sources */,
 				6E7E3B791D2DCEBD0019EA6D /* AVAFile.m in Sources */,
-				E83E812C1D3EABAE00421B13 /* AVAStartSessionLog.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

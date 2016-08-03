@@ -3,8 +3,6 @@
  */
 
 #import "AVASessionTracker.h"
-#import "AVASettings.h"
-#import "AVAUtils.h"
 #import "AvalancheHub+Internal.h"
 #import <UIKit/UIKit.h>
 
