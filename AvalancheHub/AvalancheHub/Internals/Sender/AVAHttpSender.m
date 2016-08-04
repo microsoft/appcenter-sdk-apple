@@ -2,17 +2,15 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "AVAAvalanche.h"
 #import "AVAAvalanchePrivate.h"
-#import "AVAConstants+Internal.h"
 #import "AVAHttpSender.h"
-#import "AVALogContainer.h"
+#import "AVARetriableCall.h"
+#import "AVASenderUtils.h"
+#import "AVAUtils.h"
 
-static NSUInteger requestId = 0;
-static NSMutableSet *queuedRequests = nil;
 static NSTimeInterval kRequestTimeout = 60.0;
 
-// API Path
+// API Path.
 static NSString *const kAVAApiPath = @"/logs";
 
 @interface AVAHttpSender ()
@@ -25,102 +23,154 @@ static NSString *const kAVAApiPath = @"/logs";
 
 - (id)initWithBaseUrl:(NSString *)baseUrl
               headers:(NSDictionary *)headers
-         queryStrings:(NSDictionary *)queryStrings {
+         queryStrings:(NSDictionary *)queryStrings
+         reachability:(AVA_Reachability *)reachability {
   if (self = [super init]) {
-
-    // Set the request queue
-    queuedRequests = [[NSMutableSet alloc] init];
     _httpHeaders = headers;
+    _pendingCalls = [NSMutableDictionary new];
+    _reachability = reachability;
 
-    // Construct the URL string with the query string
+    // Construct the URL string with the query string.
     NSString *urlString = [baseUrl stringByAppendingString:kAVAApiPath];
-    NSURLComponents *components =
-        [NSURLComponents componentsWithString:urlString];
+    NSURLComponents *components = [NSURLComponents componentsWithString:urlString];
     NSMutableArray *queryItemArray = [NSMutableArray array];
 
-    // Set query parameter
-    [queryStrings enumerateKeysAndObjectsUsingBlock:^(
-                      id _Nonnull key, id _Nonnull obj, BOOL *_Nonnull stop) {
-      NSURLQueryItem *queryItem =
-          [NSURLQueryItem queryItemWithName:key value:obj];
+    // Set query parameter.
+    [queryStrings enumerateKeysAndObjectsUsingBlock:^(id _Nonnull key, id _Nonnull obj, BOOL *_Nonnull stop) {
+      NSURLQueryItem *queryItem = [NSURLQueryItem queryItemWithName:key value:obj];
       [queryItemArray addObject:queryItem];
     }];
     components.queryItems = queryItemArray;
 
-    // Set send URL
+    // Set send URL.
     _sendURL = components.URL;
+
+    [kAVANotificationCenter addObserver:self
+                               selector:@selector(networkStateChanged:)
+                                   name:kAVAReachabilityChangedNotification
+                                 object:nil];
+    [self.reachability startNotifier];
   }
   return self;
 }
 
 - (NSURLSession *)session {
   if (!_session) {
-    NSURLSessionConfiguration *sessionConfiguration =
-        [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
     sessionConfiguration.timeoutIntervalForRequest = kRequestTimeout;
     _session = [NSURLSession sessionWithConfiguration:sessionConfiguration];
   }
   return _session;
 }
 
-- (NSNumber *)sendAsync:(AVALogContainer *)container
-          callbackQueue:(dispatch_queue_t)callbackQueue
-      completionHandler:(AVASendAsyncCompletionHandler)handler {
+- (void)sendCallAsync:(id<AVASenderCall>)call {
+  if (!call)
+    return;
 
-  if (!callbackQueue) {
-    callbackQueue = dispatch_get_main_queue();
-  }
-
-  NSString *batchId = container.batchId;
-
-  // Verify container
-  if (!container || ![container isValid]) {
-    NSDictionary *userInfo = @{
-      NSLocalizedDescriptionKey : @"Invalid parameter 'logs'"
-    };
-    NSError *error =
-        [NSError errorWithDomain:kAVADefaultApiErrorDomain
-                            code:kAVADefaultApiMissingParamErrorCode
-                        userInfo:userInfo];
-    AVALogError(@"%@", [error localizedDescription]);
-    handler(error, kAVADefaultApiMissingParamErrorCode, batchId);
-
-    return nil;
-  }
-
-  // Create the request
-  NSURLRequest *request = [self createRequest:container];
+  // Create the request.
+  NSURLRequest *request = [self createRequest:call.logContainer];
 
   if (!request)
-    return nil;
+    return;
 
-  NSNumber *requestId = [AVAHttpSender queueRequest];
+  call.isProcessing = YES;
+
   NSURLSessionDataTask *task = [self.session
       dataTaskWithRequest:request
-        completionHandler:^(NSData *data, NSURLResponse *response,
-                            NSError *error) {
-          // Retry
-          if ([AVAHttpSender isRecoverableError:response]) {
-            // TODO retry
-          }
+        completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
 
-          // Callback to Channel
-          else {
-            dispatch_async(callbackQueue, ^{
-              // TODO: internal house keeping
-              NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-              NSInteger code = httpResponse.statusCode;
+          NSInteger statusCode = [AVASenderUtils getStatusCode:response];
+          AVALogVerbose(@"INFO:HTTP response received with the status code:%lu", (unsigned long)statusCode);
 
-              // Completion with error
-              handler(error, code, batchId);
-            });
-          }
+          // Call handles the completion.
+          if (call)
+            [call sender:self callCompletedWithError:error status:statusCode];
         }];
-  // Set task priority
-  [task resume];
 
-  // TODO
-  return requestId;
+  // TODO: Set task priority.
+  [task resume];
+}
+
+- (void)sendAsync:(AVALogContainer *)container
+    callbackQueue:(dispatch_queue_t)callbackQueue
+completionHandler:(AVASendAsyncCompletionHandler)handler {
+  NSString *batchId = container.batchId;
+  AVALogVerbose(@"[Sender] INFO: Sending log for batch ID %@", batchId);
+
+  // Verify container.
+  if (!container || ![container isValid]) {
+
+    NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : @"Invalid parameter'" };
+    NSError *error =
+        [NSError errorWithDomain:kAVADefaultApiErrorDomain code:kAVADefaultApiMissingParamErrorCode userInfo:userInfo];
+    AVALogError(@"[Sender] ERROR: %@", [error localizedDescription]);
+    handler(batchId, error, kAVADefaultApiMissingParamErrorCode);
+    return;
+  }
+
+  // Set a default queue.
+  if (!callbackQueue)
+    callbackQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+
+  // Check if call has already been created(retry scenario).
+  id<AVASenderCall> call = self.pendingCalls[batchId];
+  if (call == nil) {
+    call = [[AVARetriableCall alloc] init];
+    call.delegate = self;
+    call.logContainer = container;
+    call.callbackQueue = callbackQueue;
+    call.completionHandler = handler;
+
+    // Store call in calls array.
+    self.pendingCalls[batchId] = call;
+  }
+  [self sendCallAsync:call];
+}
+
+- (void)callCompletedWithId:(NSString *)callId {
+  if (!callId) {
+    AVALogWarning(@"[Sender] WARNING: call object is invalid");
+    return;
+  }
+
+  [self.pendingCalls removeObjectForKey:callId];
+  AVALogVerbose(@"[Sender] INFO: Removed batch id:%@ from pendingCalls:%@", callId, [self.pendingCalls description]);
+}
+
+- (void)networkStateChanged:(NSNotificationCenter *)notification {
+  // Retrieve current network status.
+  NetworkStatus newConnectionStatus = [self.reachability currentReachabilityStatus];
+
+  if (newConnectionStatus == NotReachable) {
+    
+    // Cancel all the tasks.
+    [self.session getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> * _Nonnull dataTasks, NSArray<NSURLSessionUploadTask *> * _Nonnull uploadTasks, NSArray<NSURLSessionDownloadTask *> * _Nonnull downloadTasks) {
+      [dataTasks
+       enumerateObjectsUsingBlock:^(__kindof NSURLSessionTask *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
+         [obj cancel];
+       }];
+    }];
+    
+    // Set pending calls to not processing.
+    [self.pendingCalls.allValues
+     enumerateObjectsUsingBlock:^(id<AVASenderCall> _Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
+       obj.isProcessing = NO;
+     }];
+
+  } else {
+
+    // Send all pending calls if not already being processed.
+    [self.pendingCalls.allValues
+        enumerateObjectsUsingBlock:^(id<AVASenderCall> _Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
+          if (!obj.isProcessing)
+            [self sendCallAsync:obj];
+        }];
+  }
+}
+
+- (void)updatePendingCalls:(BOOL)isProcessing {
+  
+  
 }
 
 #pragma mark - URL Session Helper
@@ -128,42 +178,20 @@ static NSString *const kAVAApiPath = @"/logs";
 - (NSURLRequest *)createRequest:(AVALogContainer *)logContainer {
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:_sendURL];
 
-  // Set method
+  // Set method.
   request.HTTPMethod = @"POST";
 
-  // Set Header params
+  // Set Header params.
   request.allHTTPHeaderFields = _httpHeaders;
 
-  // Set body
+  // Set body.
   NSString *jsonString = [logContainer serializeLog];
   request.HTTPBody = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
 
-  // Always disable cookies
+  // Always disable cookies.
   [request setHTTPShouldHandleCookies:NO];
 
   return request;
-}
-
-+ (BOOL)isRecoverableError:(NSURLResponse *)response {
-  NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-  NSInteger code = httpResponse.statusCode;
-
-  return code >= 500 || code == 408 || code == 429;
-}
-
-#pragma mark - Helper
-
-+ (NSNumber *)queueRequest {
-  NSNumber *requestId = [[self class] nextRequestId];
-  AVALogVerbose(@"added %@ to request queue", requestId);
-  [queuedRequests addObject:requestId];
-  return requestId;
-}
-
-+ (NSNumber *)nextRequestId {
-  @synchronized(self) {
-    return @(++requestId);
-  }
 }
 
 @end

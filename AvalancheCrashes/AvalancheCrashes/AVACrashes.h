@@ -2,8 +2,8 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import <UIKit/UIKit.h>
 #import "AVAFeature.h"
+#import <UIKit/UIKit.h>
 
 @class AVAErrorReport;
 
@@ -48,7 +48,7 @@ typedef NS_ENUM(NSUInteger, AVAErrorLoggingUserInput) {
 @protocol AVAErrorLoggingDelegate;
 
 
-@interface AVACrashes: NSObject <AVAFeature>
+@interface AVACrashes : NSObject <AVAFeature>
 
 /**
  Indicates if the app crash in the previous session
@@ -146,4 +146,3 @@ typedef NS_ENUM(NSUInteger, AVAErrorLoggingUserInput) {
 + (void)setErrorLoggingDelegate:(_Nullable id <AVAErrorLoggingDelegate>) errorLoggingDelegate;
 
 @end
- 

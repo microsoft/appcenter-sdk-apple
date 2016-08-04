@@ -6,6 +6,7 @@
 #import "AVALogContainer.h"
 #import "AVAMockLog.h"
 #import "AvalancheHub+Internal.h"
+#import "AVA_Reachability.h"
 
 #import "OCMock.h"
 #import "OHHTTPStubs.h"
@@ -33,10 +34,13 @@ static NSString *const kAVAAppKey = @"mockAppKey";
   };
 
   NSDictionary *queryStrings = @{ @"api-version" : @"1.0.0-preview20160901" };
+  
+  id reachabilityMock = OCMClassMock([AVA_Reachability class]);
   // sut: System under test
   _sut = [[AVAHttpSender alloc] initWithBaseUrl:kAVABaseUrl
                                         headers:headers
-                                   queryStrings:queryStrings];
+                                   queryStrings:queryStrings
+                                   reachability:reachabilityMock];
 }
 
 - (void)tearDown {
@@ -87,8 +91,7 @@ static NSString *const kAVAAppKey = @"mockAppKey";
       [self expectationWithDescription:@"HTTP Response 200"];
   [_sut sendAsync:container
           callbackQueue:dispatch_get_main_queue()
-      completionHandler:^(NSError *error, NSUInteger statusCode,
-                          NSString *batchId) {
+      completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
 
         XCTAssertNil(error);
         XCTAssertEqual(containerId, batchId);
@@ -106,8 +109,8 @@ static NSString *const kAVAAppKey = @"mockAppKey";
                                }];
 }
 
-- (void)testNetworkkDown {
-
+- (void)testNetworkDown {
+  
   // Stub response
   [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
     return YES; // All requests
@@ -124,26 +127,41 @@ static NSString *const kAVAAppKey = @"mockAppKey";
   NSString *containerId = @"1";
   AVALogContainer *container = [self createLogContainerWithId:containerId];
 
-  __weak XCTestExpectation *expectation =
-      [self expectationWithDescription:@"HTTP Network Down"];
   [_sut sendAsync:container
           callbackQueue:dispatch_get_main_queue()
-      completionHandler:^(NSError *error, NSUInteger statusCode,
-                          NSString *batchId) {
+      completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
 
-        XCTAssertNotNil(error);
-        XCTAssertEqual(error.domain, NSURLErrorDomain);
-        XCTAssertEqual(error.code, kCFURLErrorNotConnectedToInternet);
-        [expectation fulfill];
+        // Callback should not get called
+        XCTAssertTrue(NO);
       }];
 
-  [self waitForExpectationsWithTimeout:kAVATestTimeout
-                               handler:^(NSError *_Nullable error) {
-                                 if (error) {
-                                   XCTFail(@"Expectation Failed with error: %@",
-                                           error);
-                                 }
-                               }];
+  XCTAssertEqual([self.sut.pendingCalls count], 1);
+}
+
+- (void)testInvalidContainer {
+  
+  
+  AVAMockLog *log1 = [[AVAMockLog alloc] init];
+  log1.sid = kAVAUUIDString;
+  log1.toffset =
+  [NSNumber numberWithInteger:[[NSDate date] timeIntervalSince1970]];
+  
+  // Log does not have device info, therefore, it's an invalid log
+  AVALogContainer *container = [[AVALogContainer alloc]
+                                initWithBatchId: @"1"
+                                andLogs:(NSArray<AVALog> *)@[ log1 ]];
+  
+  [_sut sendAsync:container
+    callbackQueue:dispatch_get_main_queue()
+completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
+  
+  
+  
+  XCTAssertEqual(error.domain, kAVADefaultApiErrorDomain);
+  XCTAssertEqual(error.code, kAVADefaultApiMissingParamErrorCode);
+}];
+  
+  XCTAssertEqual([self.sut.pendingCalls count], 0);
 }
 
 - (void)testNilContainer {
@@ -154,8 +172,7 @@ static NSString *const kAVAAppKey = @"mockAppKey";
       [self expectationWithDescription:@"HTTP Network Down"];
   [_sut sendAsync:container
           callbackQueue:dispatch_get_main_queue()
-      completionHandler:^(NSError *error, NSUInteger statusCode,
-                          NSString *batchId) {
+      completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
 
         XCTAssertNotNil(error);
         [expectation fulfill];
@@ -171,12 +188,6 @@ static NSString *const kAVAAppKey = @"mockAppKey";
                                }];
 }
 
-- (void)testPerformanceExample {
-  // This is an example of a performance test case.
-  [self measureBlock:^{
-      // Put the code you want to measure the time of here.
-  }];
-}
 
 #pragma mark - Test Helpers
 
@@ -188,13 +199,13 @@ static NSString *const kAVAAppKey = @"mockAppKey";
   AVAMockLog *log1 = [[AVAMockLog alloc] init];
   log1.sid = kAVAUUIDString;
   log1.toffset =
-      [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]];
+      [NSNumber numberWithInteger:[[NSDate date] timeIntervalSince1970]];
   log1.device = device;
 
   AVAMockLog *log2 = [[AVAMockLog alloc] init];
   log2.sid = kAVAUUIDString;
   log2.toffset =
-      [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]];
+      [NSNumber numberWithInteger:[[NSDate date] timeIntervalSince1970]];
   log2.device = device;
 
   AVALogContainer *logContainer = [[AVALogContainer alloc]

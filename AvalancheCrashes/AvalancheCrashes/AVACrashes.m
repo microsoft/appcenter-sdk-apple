@@ -122,6 +122,10 @@ uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInfo *info) {
   }
 }
 
+- (void)setDelegate:(id<AVAAvalancheDelegate>)delegate {
+  _delegate = delegate;
+}
+
 + (void)setEnable:(BOOL)isEnabled {
   [[self sharedInstance] setEnabled:isEnabled];
 }

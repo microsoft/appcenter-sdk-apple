@@ -6,8 +6,7 @@
 build/
 DerivedData/
 Products/
-Documentation/DocsAvalanche/Generated
-Documentation/DocsCrashes/Generated
+Documentation/**/Generated
 
 ## Various settings
 *.pbxuser

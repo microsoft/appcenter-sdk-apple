@@ -4,20 +4,21 @@ sdk: iphonesimulator
 
 theme: ../Themes/apple
 
-module: Avalanche
+module: Analytics
 module_version: 1.0.0
 author: Microsoft Corp
 author_url: http://www.microsoft.com
 
-readme: Guides/Avalanche.md
+readme: Guides/Analytics.md
 documentation: ../Guides/[^index]*.md
 custom_categories:
   - name: Guides
     children:
     - Installation
 
-umbrella_header: ../../Products/AvalancheHub/AvalancheHub.framework/Headers/AvalancheHub.h
-framework_root: ../../Products/AvalancheHub/
+umbrella_header: ../../Products/AvalancheAnalytics/AvalancheAnalytics.framework/Headers/AvalancheAnalytics.h
+framework_root: ../../Products/AvalancheAnalytics
+exclude: ../../Products/AvalancheAnalytics/AvalancheAnalytics.framework/Headers/AVAFeature.h
 
 root_url: http://test.com/sdk/ios/1.0.0
 github_url: https://github.com/Microsoft/AvalancheSDK-iOS

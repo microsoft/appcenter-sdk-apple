@@ -15,21 +15,24 @@
   return self;
 }
 
-- (NSString *)serializeLog {
+- (NSString *)serializeLog {  
+  return [self serializeLogWithPrettyPrinting:NO];
+}
 
+- (NSString *)serializeLogWithPrettyPrinting:(BOOL)prettyPrint {
   NSString *jsonString;
   NSMutableArray *jsonArray = [NSMutableArray array];
-
   [self.logs enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
     NSMutableDictionary *dict = [obj serializeToDictionary];
     if (dict) {
       [jsonArray addObject:dict];
     }
   }];
-
+  
   NSError *error;
-  NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jsonArray options:0 error:&error];
-
+  NSJSONWritingOptions printOptions = prettyPrint ? NSJSONWritingPrettyPrinted : 0;
+  NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jsonArray options:printOptions error:&error];
+  
   if (!jsonData) {
     NSLog(@"Got an error: %@", error);
   } else {

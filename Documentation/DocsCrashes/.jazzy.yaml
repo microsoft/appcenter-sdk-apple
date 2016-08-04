@@ -16,8 +16,9 @@ custom_categories:
     children:
     - Installation
 
-umbrella_header: ../../AvalancheCrashes/AvalancheCrashes/AvalancheCrashes.h
-framework_root: ../../AvalancheCrashes
+umbrella_header: ../../Products/AvalancheCrashes/AvalancheCrashes.framework/Headers/AvalancheCrashes.h
+framework_root: ../../Products/AvalancheCrashes
+exclude: ../../Products/AvalancheCrashes/AvalancheCrashes.framework/Headers/AVAFeature.h
 
 root_url: http://test.com/sdk/ios/1.0.0
 github_url: https://github.com/Microsoft/AvalancheSDK-iOS
