@@ -31,6 +31,15 @@
 - (NSString *)serializeLog;
 
 /**
+ *  Serialize logs into a JSON string.
+ *
+ *  @param prettyPrint boolean indicates pretty printing.
+ *
+ *  @return serialized string.
+ */
+- (NSString *)serializeLogWithPrettyPrinting:(BOOL)prettyPrint;
+
+/**
  * Is valid container
  */
 - (BOOL)isValid;

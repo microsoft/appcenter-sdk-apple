@@ -35,8 +35,9 @@
   NSString *pageName = @"pageName";
   AVADeviceLog *device = [AVADeviceLog new];
   NSString *sessionId = @"1234567890";
-  NSNumber *tOffset = @(3);
   NSDictionary *properties = @{@"Key": @"Value"};
+  NSTimeInterval createTime = [[NSDate date] timeIntervalSince1970];
+  NSNumber *tOffset = @(createTime);
   
   self.sut.name = pageName;
   self.sut.device = device;
@@ -52,9 +53,12 @@
   assertThat(actual[@"name"], equalTo(pageName));
   assertThat(actual[@"device"], notNilValue());
   assertThat(actual[@"sid"], equalTo(sessionId));
-  assertThat(actual[@"toffset"], equalTo(tOffset));
   assertThat(actual[@"type"], equalTo(typeName));
   assertThat(actual[@"properties"], equalTo(properties));
+  assertThat(actual[@"device"], notNilValue());
+  NSTimeInterval seralizedToffset = [actual[@"toffset"] integerValue];
+  NSTimeInterval actualToffset = [[NSDate date] timeIntervalSince1970] - createTime;
+  assertThat(@(seralizedToffset), lessThan(@(actualToffset)));
 }
 
 - (void)testNSCodingSerializationAndDeserializationWorks {

@@ -36,6 +36,7 @@ static NSUInteger kAVAMaxRetryCount = 3;
   if (retryCount >= self.retryIntervals.count)
     return 0;
 
+  // Create a random delay.
   NSTimeInterval delay = [self.retryIntervals[retryCount] doubleValue] / 2;
   delay += arc4random_uniform(delay);
 
@@ -45,18 +46,17 @@ static NSUInteger kAVAMaxRetryCount = 3;
 - (void)startTimer {
   [self resetTimer];
 
+  // Create queue.
   dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
   self.timerSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
-
   self.retryCount++;
-
   int64_t delta = NSEC_PER_SEC * [self delayForRetryCount:self.retryCount];
   dispatch_source_set_timer(self.timerSource, dispatch_walltime(NULL, delta), 1ull * NSEC_PER_SEC, 1ull * NSEC_PER_SEC);
   __weak typeof(self) weakSelf = self;
   dispatch_source_set_event_handler(self.timerSource, ^{
     typeof(self) strongSelf = weakSelf;
 
-    // do send
+    // Do send.
     [self.delegate sendCallAsync:self];
     [strongSelf resetTimer];
   });
@@ -76,23 +76,25 @@ static NSUInteger kAVAMaxRetryCount = 3;
 }
 
 - (void)sender:(id<AVASenderCallDelegate>)sender callCompletedWithError:(NSError *)error status:(NSUInteger)statusCode {
-
   if ([AVASenderUtils isNoInternetConnectionError:error] || [AVASenderUtils isRequestCanceledError:error]) {
+    
     // Reset the retry count, will retry once the connection is established again.
     [self resetRetry];
     _isProcessing = NO;
   }
-  // Retry
+  
+  // Retry.
   else if ([AVASenderUtils isRecoverableError:statusCode] && ![self hasReachedMaxRetries]) {
     [self startTimer];
   }
+  
   // Callback to Channel.
   else {
-
+    
     // Remove call from sender.
     [sender callCompletedWithId:self.logContainer.batchId];
 
-    // call completion async.
+    // Call completion async.
     dispatch_async(self.callbackQueue, ^{
       self.completionHandler(self.logContainer.batchId, error, statusCode);
     });

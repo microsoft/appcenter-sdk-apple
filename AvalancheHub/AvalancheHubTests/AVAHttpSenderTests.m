@@ -109,7 +109,7 @@ static NSString *const kAVAAppKey = @"mockAppKey";
                                }];
 }
 
-- (void)testNetworkkDown {
+- (void)testNetworkDown {
   
   // Stub response
   [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
@@ -136,6 +136,32 @@ static NSString *const kAVAAppKey = @"mockAppKey";
       }];
 
   XCTAssertEqual([self.sut.pendingCalls count], 1);
+}
+
+- (void)testInvalidContainer {
+  
+  
+  AVAMockLog *log1 = [[AVAMockLog alloc] init];
+  log1.sid = kAVAUUIDString;
+  log1.toffset =
+  [NSNumber numberWithInteger:[[NSDate date] timeIntervalSince1970]];
+  
+  // Log does not have device info, therefore, it's an invalid log
+  AVALogContainer *container = [[AVALogContainer alloc]
+                                initWithBatchId: @"1"
+                                andLogs:(NSArray<AVALog> *)@[ log1 ]];
+  
+  [_sut sendAsync:container
+    callbackQueue:dispatch_get_main_queue()
+completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
+  
+  
+  
+  XCTAssertEqual(error.domain, kAVADefaultApiErrorDomain);
+  XCTAssertEqual(error.code, kAVADefaultApiMissingParamErrorCode);
+}];
+  
+  XCTAssertEqual([self.sut.pendingCalls count], 0);
 }
 
 - (void)testNilContainer {
@@ -173,13 +199,13 @@ static NSString *const kAVAAppKey = @"mockAppKey";
   AVAMockLog *log1 = [[AVAMockLog alloc] init];
   log1.sid = kAVAUUIDString;
   log1.toffset =
-      [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]];
+      [NSNumber numberWithInteger:[[NSDate date] timeIntervalSince1970]];
   log1.device = device;
 
   AVAMockLog *log2 = [[AVAMockLog alloc] init];
   log2.sid = kAVAUUIDString;
   log2.toffset =
-      [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]];
+      [NSNumber numberWithInteger:[[NSDate date] timeIntervalSince1970]];
   log2.device = device;
 
   AVALogContainer *logContainer = [[AVALogContainer alloc]

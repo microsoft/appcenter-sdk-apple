@@ -26,7 +26,11 @@ NSString *const kAVAType = @"type";
     dict[kAVAType] = self.type;
   }
   if (self.toffset) {
-    dict[kAVAToffset] = self.toffset;
+    
+    // Set the toffset relative to current time. The toffset need to be up to date.
+    NSInteger now = [[NSDate date] timeIntervalSince1970];
+    NSInteger relativeTime = now - [self.toffset integerValue];
+    dict[kAVAToffset] = @(relativeTime);
   }
   if (self.sid) {
     dict[kAVASID] = self.sid;
