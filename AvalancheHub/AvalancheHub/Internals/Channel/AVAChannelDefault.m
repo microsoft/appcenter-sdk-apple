@@ -66,25 +66,18 @@
                            AVALogContainer *container =
                                [[AVALogContainer alloc] initWithBatchId:batchId andLogs:logArray];
 
-                           AVALogVerbose(@"INFO:Sending log %@", [container serializeLog]);
+                           AVALogVerbose(@"INFO:Sending log %@", [container serializeLogWithPrettyPrinting:YES]);
 
                            [self.sender sendAsync:container
                                     callbackQueue:self.callbackQueue
-                                completionHandler:^(NSError *error, NSUInteger statusCode, NSString *batchId) {
+                                completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
                                   AVALogVerbose(@"INFO:HTTP response received with the "
                                                 @"status code:%lu",
                                                 (unsigned long)statusCode);
-                                  [self.pendingLogsIds removeObject:batchId];
-                                  // TODO: Check if status code is recoverable. if so
-                                  // block channel for now
-                                  BOOL isRecoverable = NO;
-                                  if (isRecoverable) {
 
-                                    // TODO: Remove item from pending
-                                    // TODO: Unblock item in persistence
-                                  } else {
-                                    [self.storage deleteLogsForId:batchId withStorageKey:self.configuration.name];
-                                  }
+                                  // Remove from pending log and storage.
+                                  [self.pendingLogsIds removeObject:batchId];
+                                  [self.storage deleteLogsForId:batchId withStorageKey:self.configuration.name];
                                 }];
                          }
 

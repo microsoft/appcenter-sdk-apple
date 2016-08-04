@@ -128,7 +128,8 @@ static NSString *const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azu
 
   // Construct the query parameters.
   NSDictionary *queryStrings = @{kAVAAPIVersionKey : kAVAAPIVersion};
-  AVAHttpSender *sender = [[AVAHttpSender alloc] initWithBaseUrl:kAVABaseUrl headers:headers queryStrings:queryStrings];
+  
+  AVAHttpSender *sender = [[AVAHttpSender alloc] initWithBaseUrl:kAVABaseUrl headers:headers queryStrings:queryStrings reachability:[AVA_Reachability reachabilityForInternetConnection]];
 
   // Construct storage.
   AVAFileStorage *storage = [[AVAFileStorage alloc] init];
@@ -172,7 +173,7 @@ static NSString *const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azu
 
   // Set common log info.
   log.sid = sessionId;
-  log.toffset = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]];
+  log.toffset = [NSNumber numberWithInteger:[[NSDate date] timeIntervalSince1970]];
   log.device = self.deviceTracker.device;
 }
 
@@ -204,7 +205,7 @@ static NSString *const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azu
   // Create a start session log.
   AVAStartSessionLog *log = [[AVAStartSessionLog alloc] init];
   [self setCommonLogInfo:log withSessionId:sessionId];
-
+  
   // Send log.
   [self sendLog:log withPriority:AVAPriorityDefault];
 }

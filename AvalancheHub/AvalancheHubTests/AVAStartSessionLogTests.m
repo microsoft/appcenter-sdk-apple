@@ -35,7 +35,8 @@
   AVADeviceLog *device = [AVADeviceLog new];
   NSString *typeName = @"startSession";
   NSString *sessionId = @"1234567890";
-  NSNumber *tOffset = @(3);
+  NSTimeInterval createTime = [[NSDate date] timeIntervalSince1970];
+  NSNumber *tOffset = @(createTime);
   
   self.sut.device = device;
   self.sut.toffset = tOffset;
@@ -46,9 +47,11 @@
   
   // Then
   assertThat(actual, notNilValue());
-  assertThat(actual[@"device"], notNilValue());
-  assertThat(actual[@"toffset"], equalTo(tOffset));
   assertThat(actual[@"type"], equalTo(typeName));
+  assertThat(actual[@"device"], notNilValue());
+  NSTimeInterval seralizedToffset = [actual[@"toffset"] integerValue];
+  NSTimeInterval actualToffset = [[NSDate date] timeIntervalSince1970] - createTime;
+  assertThat(@(seralizedToffset), lessThan(@(actualToffset)));
 }
 
 - (void)testNSCodingSerializationAndDeserializationWorks {
