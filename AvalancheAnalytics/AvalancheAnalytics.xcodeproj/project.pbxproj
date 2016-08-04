@@ -7,26 +7,27 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		E85547E41D2D681F002DF6E2 /* Fat Framework */ = {
+		E85547E41D2D681F002DF6E2 /* AvalancheAnalyticsFramework */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = E85547E51D2D681F002DF6E2 /* Build configuration list for PBXAggregateTarget "Fat Framework" */;
+			buildConfigurationList = E85547E51D2D681F002DF6E2 /* Build configuration list for PBXAggregateTarget "AvalancheAnalyticsFramework" */;
 			buildPhases = (
 				E85547E81D2D6827002DF6E2 /* ShellScript */,
 			);
 			dependencies = (
 			);
-			name = "Fat Framework";
+			name = AvalancheAnalyticsFramework;
 			productName = "Fat Framework";
 		};
-		E85547E91D2D68C5002DF6E2 /* Jazzy Docs */ = {
+		E85547E91D2D68C5002DF6E2 /* AvalancheAnalyticsDoc */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = E85547EA1D2D68C5002DF6E2 /* Build configuration list for PBXAggregateTarget "Jazzy Docs" */;
+			buildConfigurationList = E85547EA1D2D68C5002DF6E2 /* Build configuration list for PBXAggregateTarget "AvalancheAnalyticsDoc" */;
 			buildPhases = (
-				E85547ED1D2D68CF002DF6E2 /* ShellScript */,
+				E85547ED1D2D68CF002DF6E2 /* Run Script */,
 			);
 			dependencies = (
+				386352E41D51047400D0D450 /* PBXTargetDependency */,
 			);
-			name = "Jazzy Docs";
+			name = AvalancheAnalyticsDoc;
 			productName = "Jazzy Docs";
 		};
 /* End PBXAggregateTarget section */
@@ -55,6 +56,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		386352E31D51047400D0D450 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E85547E41D2D681F002DF6E2;
+			remoteInfo = "Fat Framework";
+		};
 		E85547DB1D2D6723002DF6E2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
@@ -390,8 +398,8 @@
 			targets = (
 				E85547BF1D2D6253002DF6E2 /* AvalancheAnalytics */,
 				E85547D41D2D6723002DF6E2 /* AvalancheAnalyticsTests */,
-				E85547E41D2D681F002DF6E2 /* Fat Framework */,
-				E85547E91D2D68C5002DF6E2 /* Jazzy Docs */,
+				E85547E41D2D681F002DF6E2 /* AvalancheAnalyticsFramework */,
+				E85547E91D2D68C5002DF6E2 /* AvalancheAnalyticsDoc */,
 			);
 		};
 /* End PBXProject section */
@@ -420,18 +428,19 @@
 			shellPath = /bin/sh;
 			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=AvalancheAnalytics\nFMK_VERSION=A\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../Products\nZIP_FOLDER=${FMK_NAME}\nTEMP_DIR=${PRODUCTS_DIR}/${ZIP_FOLDER}\nINSTALL_DIR=${TEMP_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator\n\n# //////////////////////////////\n# Building Core Framework\n# //////////////////////////////\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphoneos\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${TEMP_DIR}\" ]\nthen\nrm -rf \"${TEMP_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\nmkdir -p \"${INSTALL_DIR}/Versions\"\nmkdir -p \"${INSTALL_DIR}/Versions/${FMK_VERSION}\"\nmkdir -p \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Headers\"\n\n# Creates the internal links.\n# It MUST uses relative path, otherwise will not work when the folder is copied/moved.\nln -s \"${FMK_VERSION}\" \"${INSTALL_DIR}/Versions/Current\"\nln -s \"Versions/Current/Headers\" \"${INSTALL_DIR}/Headers\"\nln -s \"Versions/Current/${FMK_NAME}\" \"${INSTALL_DIR}/${FMK_NAME}\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Support/module.modulemap\" \"${INSTALL_DIR}/Modules/\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Headers/\"\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" \"${SIMULATOR_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/Versions/${FMK_VERSION}/${FMK_NAME}\"\n\n#rm -r \"${WRK_DIR}\"";
 		};
-		E85547ED1D2D68CF002DF6E2 /* ShellScript */ = {
+		E85547ED1D2D68CF002DF6E2 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Run Script";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "jazzy --config ../Documentation/DocsCrashes/.jazzy.yaml -e ../AvalancheHub/AvalancheHub/AVAFeature.h";
+			shellScript = "jazzy --config ../Documentation/DocsAnalytics/.jazzy.yaml";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -459,6 +468,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		386352E41D51047400D0D450 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E85547E41D2D681F002DF6E2 /* AvalancheAnalyticsFramework */;
+			targetProxy = 386352E31D51047400D0D450 /* PBXContainerItemProxy */;
+		};
 		E85547DC1D2D6723002DF6E2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = E85547BF1D2D6253002DF6E2 /* AvalancheAnalytics */;
@@ -659,7 +673,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E85547E51D2D681F002DF6E2 /* Build configuration list for PBXAggregateTarget "Fat Framework" */ = {
+		E85547E51D2D681F002DF6E2 /* Build configuration list for PBXAggregateTarget "AvalancheAnalyticsFramework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E85547E61D2D681F002DF6E2 /* Debug */,
@@ -668,7 +682,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E85547EA1D2D68C5002DF6E2 /* Build configuration list for PBXAggregateTarget "Jazzy Docs" */ = {
+		E85547EA1D2D68C5002DF6E2 /* Build configuration list for PBXAggregateTarget "AvalancheAnalyticsDoc" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E85547EB1D2D68C5002DF6E2 /* Debug */,
