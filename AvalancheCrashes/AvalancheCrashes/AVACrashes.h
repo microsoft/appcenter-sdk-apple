@@ -110,7 +110,7 @@ typedef NS_ENUM(NSUInteger, AVAErrorLoggingUserInput) {
  @warning Block needs to call the `[BITCrashManager handleUserInput:withUserProvidedMetaData:]` method!
  
  */
-+ (void)setUserConfirmationHandler:(_Nonnull AVAUserConfirmationHandler)userConfirmationHandler;
++ (void)setUserConfirmationHandler:(_Nullable AVAUserConfirmationHandler)userConfirmationHandler;
 
 
 /**
