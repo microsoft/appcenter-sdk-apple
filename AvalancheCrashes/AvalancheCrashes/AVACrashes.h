@@ -10,7 +10,7 @@
 /**
  * Custom block that handles the alert that prompts the user whether he wants to send crash reports
  */
-typedef void(^AVAAlertViewHandler)();
+typedef void(^AVAUserConfirmationHandler)(NSArray<AVAErrorReport *> * _Nonnull errorReports);
 
 
 /**
@@ -110,7 +110,7 @@ typedef NS_ENUM(NSUInteger, AVAErrorLoggingUserInput) {
  @warning Block needs to call the `[BITCrashManager handleUserInput:withUserProvidedMetaData:]` method!
  
  */
-+ (void)setErrorReportHandler:(_Nonnull AVAAlertViewHandler)alertViewHandler;
++ (void)setUserConfirmationHandler:(_Nonnull AVAUserConfirmationHandler)userConfirmationHandler;
 
 
 /**

@@ -7,6 +7,7 @@
 #import "AVAAbstractLog.h"
 #import <Foundation/Foundation.h>
 
+//TODO rename to AVADevice
 @interface AVADeviceLog : NSObject <AVASerializableObject>
 
 /* Version of the SDK.

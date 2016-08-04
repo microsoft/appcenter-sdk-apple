@@ -75,7 +75,7 @@
 		6EC99A3D1D416CCF0016C325 /* log_report_xamarin in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A361D416CCF0016C325 /* log_report_xamarin */; };
 		B2E39BE71D4FDD9700DDF9DC /* AVABinaryAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = B2E39BE21D4FDD9700DDF9DC /* AVABinaryAttachment.h */; };
 		B2E39BE81D4FDD9700DDF9DC /* AVABinaryAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = B2E39BE31D4FDD9700DDF9DC /* AVABinaryAttachment.m */; };
-		B2E39BE91D4FDD9700DDF9DC /* AVAErrorAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = B2E39BE41D4FDD9700DDF9DC /* AVAErrorAttachment.h */; };
+		B2E39BE91D4FDD9700DDF9DC /* AVAErrorAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = B2E39BE41D4FDD9700DDF9DC /* AVAErrorAttachment.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B2E39BEA1D4FDD9700DDF9DC /* AVAErrorAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = B2E39BE51D4FDD9700DDF9DC /* AVAErrorAttachment.m */; };
 		B2E39BEB1D4FDD9700DDF9DC /* AVAErrorLoggingDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = B2E39BE61D4FDD9700DDF9DC /* AVAErrorLoggingDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B2E39BF21D500BFE00DDF9DC /* AVAErrorReport.h in Headers */ = {isa = PBXBuildFile; fileRef = B2E39BF01D500BFE00DDF9DC /* AVAErrorReport.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -428,17 +428,17 @@
 				6E0401761D1C9E750051BCFA /* AVACrashes.h in Headers */,
 				6E407A211D2F5B600033A76C /* AVAFeature.h in Headers */,
 				B2E39BF21D500BFE00DDF9DC /* AVAErrorReport.h in Headers */,
+				B2E39BE91D4FDD9700DDF9DC /* AVAErrorAttachment.h in Headers */,
 				6E0401751D1C9E750051BCFA /* AvalancheCrashes.h in Headers */,
 				B2F375091D41AD5100F07032 /* AVAErrorLogFormatter.h in Headers */,
 				6E7D5C6B1D3E9332009EC9AC /* AVAErrorLog.h in Headers */,
 				B2E39BEB1D4FDD9700DDF9DC /* AVAErrorLoggingDelegate.h in Headers */,
 				6E7D5C771D3E9395009EC9AC /* AVAThreadFrame.h in Headers */,
-				B2E39BE91D4FDD9700DDF9DC /* AVAErrorAttachment.h in Headers */,
+				B2E39BE71D4FDD9700DDF9DC /* AVABinaryAttachment.h in Headers */,
 				6E7D5C731D3E9381009EC9AC /* AVAThread.h in Headers */,
 				6E73FE6F1D4032AB008CDC15 /* AVACrashesHelper.h in Headers */,
 				6E7D5C6F1D3E9346009EC9AC /* AVAException.h in Headers */,
 				6E0401771D1C9EBE0051BCFA /* AvalancheHub+Internal.h in Headers */,
-				B2E39BE71D4FDD9700DDF9DC /* AVABinaryAttachment.h in Headers */,
 				6E73FE731D4059E7008CDC15 /* AVACrashCXXExceptionWrapperException.h in Headers */,
 				6E73FE6A1D402F79008CDC15 /* AVACrashCXXExceptionHandler.h in Headers */,
 				6E0401781D1C9EBE0051BCFA /* AVACrashesPrivate.h in Headers */,

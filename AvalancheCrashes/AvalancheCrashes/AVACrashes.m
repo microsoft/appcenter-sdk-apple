@@ -59,7 +59,7 @@ uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInfo *info) {
   return NO;
 }
 
-+ (void)setErrorReportHandler:(_Nonnull AVAAlertViewHandler)alertViewHandler {
++ (void)setUserConfirmationHandler:(_Nonnull AVAUserConfirmationHandler)userConfitmationHandler {
   //TODO actual implementation
 
 

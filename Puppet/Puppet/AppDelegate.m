@@ -21,8 +21,14 @@
   
   [AVACrashes setErrorLoggingDelegate:self]; //TODO rename to setDelegate:
   
-  [AVACrashes setErrorReportHandler: ^() {
-    NSString *exceptionReason = [AVACrashes lastSessionCrashDetails].crashReason;
+  [AVACrashes setUserConfirmationHandler: ^(NSArray<AVAErrorReport *> *errorLogs) {
+    NSString *exceptionReason = [AVACrashes lastSessionCrashDetails].exceptionReason;
+    
+    //or something like
+    
+    NSString *foo = [errorLogs firstObject].exceptionReason;
+    //Do something with foo
+    
     UIAlertView *customAlertView = [[UIAlertView alloc] initWithTitle: @"Oh no! The App crashed"
                                                               message: nil
                                                              delegate: self
@@ -78,7 +84,7 @@
 
 - (BOOL)errorReporting:(AVACrashes *)crashes shouldProcess:(AVAErrorReport *)errorReport {
   
-  if([errorReport.crashReason isEqualToString:@"something"]) {
+  if([errorReport.exceptionReason isEqualToString:@"something"]) {
     return false;
   }
   else {
