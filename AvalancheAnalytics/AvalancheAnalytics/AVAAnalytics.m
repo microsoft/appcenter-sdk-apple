@@ -27,14 +27,14 @@
 - (id)init {
   if (self = [super init]) {
     
-    // Init session tracker.
-    _sessionTracker = [[AVASessionTracker alloc] init];
-    self.sessionTracker.delegate = self;
-    [self.sessionTracker start];
-
     // Set defaults.
     _isEnabled = YES;
     _autoPageTrackingEnabled = YES;
+
+    // Init session tracker.
+    _sessionTracker = [[AVASessionTracker alloc] init];
+    _sessionTracker.delegate = self;
+    [self.sessionTracker start];
   }
   return self;
 }
