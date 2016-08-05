@@ -166,7 +166,7 @@ static NSString *const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azu
     log.sid = self.sessionId;
   
   // Set common log info.
-  log.sid = sessionId;
+  log.sid = _sessionId;
   log.toffset = [NSNumber numberWithInteger:[[NSDate date] timeIntervalSince1970]];
   log.device = self.deviceTracker.device;
 }
