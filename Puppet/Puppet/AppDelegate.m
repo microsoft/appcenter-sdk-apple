@@ -108,19 +108,18 @@
 - (void)errorReporting:(AVACrashes *)crashes didSucceedSending:(AVAErrorReport *)errorLog {
 }
 
-
-
-
-
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
   if (alertView.alertViewStyle != UIAlertViewStyleDefault) {
   }
   switch (buttonIndex) {
     case 0:
-      [AVACrashes handleUserInput:AVAErrorLoggingUserInputDontSend];
+      [AVACrashes notifyWithUserConfirmation:AVAUserConfirmationDontSend];
+      break;
+    case 1:
+      [AVACrashes notifyWithUserConfirmation:AVAUserConfirmationAlways];
       break;
     default:
-      [AVACrashes handleUserInput:AVAErrorLoggingUserInputSend];
+      [AVACrashes notifyWithUserConfirmation:AVAUserConfirmationDontSend];
       break;
   }
 }
