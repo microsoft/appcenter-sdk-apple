@@ -1,13 +1,13 @@
 #import <Foundation/Foundation.h>
-#import <XCTest/XCTest.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
+#import <XCTest/XCTest.h>
 
 #import "AVAPageLog.h"
 
 @interface AVAPageLogTests : XCTestCase
 
-@property (nonatomic, strong) AVAPageLog *sut;
+@property(nonatomic, strong) AVAPageLog *sut;
 
 @end
 
@@ -29,25 +29,25 @@
 #pragma mark - Tests
 
 - (void)testSerializingPageToDictionaryWorks {
-  
+
   // If
   NSString *typeName = @"page";
   NSString *pageName = @"pageName";
   AVADeviceLog *device = [AVADeviceLog new];
   NSString *sessionId = @"1234567890";
-  NSDictionary *properties = @{@"Key": @"Value"};
+  NSDictionary *properties = @{ @"Key" : @"Value" };
   NSTimeInterval createTime = [[NSDate date] timeIntervalSince1970];
   NSNumber *tOffset = @(createTime);
-  
+
   self.sut.name = pageName;
   self.sut.device = device;
   self.sut.toffset = tOffset;
   self.sut.sid = sessionId;
   self.sut.properties = properties;
-  
+
   // When
   NSMutableDictionary *actual = [self.sut serializeToDictionary];
-  
+
   // Then
   assertThat(actual, notNilValue());
   assertThat(actual[@"name"], equalTo(pageName));
@@ -62,29 +62,29 @@
 }
 
 - (void)testNSCodingSerializationAndDeserializationWorks {
-  
+
   // If
   NSString *typeName = @"page";
   NSString *pageName = @"pageName";
   AVADeviceLog *device = [AVADeviceLog new];
   NSString *sessionId = @"1234567890";
   NSNumber *tOffset = @(3);
-  NSDictionary *properties = @{@"Key": @"Value"};
-  
+  NSDictionary *properties = @{ @"Key" : @"Value" };
+
   self.sut.name = pageName;
   self.sut.device = device;
   self.sut.toffset = tOffset;
   self.sut.sid = sessionId;
   self.sut.properties = properties;
-  
+
   // When
   NSData *serializedEvent = [NSKeyedArchiver archivedDataWithRootObject:self.sut];
   id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedEvent];
-  
+
   // Then
   assertThat(actual, notNilValue());
   assertThat(actual, instanceOf([AVAPageLog class]));
-  
+
   AVAPageLog *actualPage = actual;
   assertThat(actualPage.name, equalTo(pageName));
   assertThat(actualPage.device, notNilValue());

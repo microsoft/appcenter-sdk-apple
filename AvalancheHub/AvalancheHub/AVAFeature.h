@@ -4,7 +4,7 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol AVAFeature<NSObject>
+@protocol AVAFeature <NSObject>
 
 /**
  *  Enable feature

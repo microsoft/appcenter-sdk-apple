@@ -4,8 +4,8 @@
 
 + (NSString *)logsDir {
   NSString *logsPath = @"com.microsoft.avalanche/logs";
-  NSString *documentsDir = [NSSearchPathForDirectoriesInDomains(
-      NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject];
+  NSString *documentsDir =
+      [NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject];
   return [documentsDir stringByAppendingPathComponent:logsPath];
 }
 
@@ -19,7 +19,7 @@
   NSString *fileName = [logsId stringByAppendingPathExtension:extension];
   NSString *logFilePath = [storageKey stringByAppendingPathComponent:fileName];
   NSString *logsPath = [self logsDir];
-  
+
   return [logsPath stringByAppendingPathComponent:logFilePath];
 }
 
@@ -33,16 +33,10 @@
     [self createDirectoryAtPath:storagePath];
   }
 
-  NSString *filePath = [self filePathForLogWithId:logsId
-                                        extension:extension
-                                       storageKey:storageKey];
-  [[NSFileManager defaultManager] createFileAtPath:filePath
-                                          contents:data
-                                        attributes:nil];
+  NSString *filePath = [self filePathForLogWithId:logsId extension:extension storageKey:storageKey];
+  [[NSFileManager defaultManager] createFileAtPath:filePath contents:data attributes:nil];
 
-  AVAFile *file = [[AVAFile alloc] initWithPath:filePath
-                                         fileId:logsId
-                                   creationDate:creationDate];
+  AVAFile *file = [[AVAFile alloc] initWithPath:filePath fileId:logsId creationDate:creationDate];
 
   return file;
 }

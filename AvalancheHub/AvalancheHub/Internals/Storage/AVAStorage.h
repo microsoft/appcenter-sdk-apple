@@ -8,8 +8,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void (^AVALoadDataCompletionBlock)(NSArray<AVALog> * logArray,
-                                        NSString *batchId);
+typedef void (^AVALoadDataCompletionBlock)(NSArray<AVALog> *logArray, NSString *batchId);
 
 /**
  Defines the storage component which is responsible for file i/o and file
@@ -40,8 +39,7 @@ typedef void (^AVALoadDataCompletionBlock)(NSArray<AVALog> * logArray,
  * param log The log item that should be written to disk
  * param storageKey The key used for grouping
  */
-- (void)deleteLogsForId:(NSString *)logsId
-         withStorageKey:(NSString *)storageKey;
+- (void)deleteLogsForId:(NSString *)logsId withStorageKey:(NSString *)storageKey;
 
 /**
  * Returns the most recent logs for a given storage key.
@@ -50,8 +48,7 @@ typedef void (^AVALoadDataCompletionBlock)(NSArray<AVALog> * logArray,
  *
  * @return a list of logs
  */
-- (void)loadLogsForStorageKey:(NSString *)storageKey
-               withCompletion:(nullable AVALoadDataCompletionBlock)completion;
+- (void)loadLogsForStorageKey:(NSString *)storageKey withCompletion:(nullable AVALoadDataCompletionBlock)completion;
 
 /**
  * Determines if the maximum number of files has been reached.
@@ -60,7 +57,7 @@ typedef void (^AVALoadDataCompletionBlock)(NSArray<AVALog> * logArray,
  *
  * @return YES, if the maximum number of files has been reached
  */
-- (BOOL)maxFileCountReachedForStorageKey:(NSString *) storageKey;
+- (BOOL)maxFileCountReachedForStorageKey:(NSString *)storageKey;
 
 @end
 

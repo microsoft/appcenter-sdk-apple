@@ -14,7 +14,7 @@
 
 static NSTimeInterval const kAVATestTimeout = 5.0;
 static NSString *const kAVABaseUrl = @"https://test.com";
-static NSString *const kAVAAppKey = @"mockAppKey";
+static NSString *const kAVAAppSecret = @"mockAppSecret";
 
 @interface AVAHttpSenderTests : XCTestCase
 
@@ -29,7 +29,7 @@ static NSString *const kAVAAppKey = @"mockAppKey";
 
   NSDictionary *headers = @{
     @"Content-Type" : @"application/json",
-    @"App-Key" : @"myUnitTestAppKey",
+    @"App-Secret" : @"myUnitTestAppSecret",
     @"Install-ID" : kAVAUUIDString
   };
 

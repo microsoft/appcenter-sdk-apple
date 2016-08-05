@@ -18,8 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * A dictionary containing file names and their status for certain storage keys.
  */
-@property(nonatomic, strong)
-    NSMutableDictionary<NSString *, AVAStorageBucket *> *buckets;
+@property(nonatomic, strong) NSMutableDictionary<NSString *, AVAStorageBucket *> *buckets;
 
 /**
  * Returns the file path to a log file based on its id and storage key.
@@ -30,8 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return the file path
  */
-- (NSString *)filePathForStorageKey:(NSString *)storageKey
-                             logsId:(NSString *)logsId;
+- (NSString *)filePathForStorageKey:(NSString *)storageKey logsId:(NSString *)logsId;
 
 /**
  * Returns the bucket for a given storage key or creates a new one if it doesn't exist, yet.

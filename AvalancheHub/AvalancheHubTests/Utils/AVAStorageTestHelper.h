@@ -5,9 +5,7 @@
 
 + (NSString *)logsDir;
 + (NSString *)storageDirForStorageKey:(NSString *)storageKey;
-+ (NSString *)filePathForLogWithId:(NSString *)logsId
-                         extension:(NSString *)extension
-                        storageKey:(NSString *)storageKey;
++ (NSString *)filePathForLogWithId:(NSString *)logsId extension:(NSString *)extension storageKey:(NSString *)storageKey;
 + (AVAFile *)createFileWithId:(NSString *)logsId
                          data:(NSData *)data
                     extension:(NSString *)extension
@@ -17,3 +15,4 @@
 + (void)resetLogsDirectory;
 
 @end
+  

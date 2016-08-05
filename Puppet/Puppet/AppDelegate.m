@@ -17,7 +17,7 @@
 
   // Start Avalanche SDK.
   [AVAAvalanche setLogLevel:AVALogLevelVerbose];
-  [AVAAvalanche useFeatures:@[[AVAAnalytics class], [AVACrashes class] ] withAppKey:[[NSUUID UUID] UUIDString]];
+  [AVAAvalanche start:@[ [AVAAnalytics class], [AVACrashes class] ] withAppSecret:[[NSUUID UUID] UUIDString]];
   
   [AVACrashes setErrorLoggingDelegate:self]; //TODO rename to setDelegate:
   
@@ -43,7 +43,6 @@
     
     [customAlertView show];
   }];
-
 
   // Print the install Id.
   NSLog(@"%@ Install Id: %@", kPUPLogTag, [[AVAAvalanche installId] UUIDString]);

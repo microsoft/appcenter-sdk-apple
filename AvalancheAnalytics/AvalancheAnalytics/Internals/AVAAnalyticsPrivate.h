@@ -3,11 +3,17 @@
  */
 
 #import "AVAAnalytics.h"
+#import "AVASessionTracker.h"
 #import "Internals/AVAFeaturePrivate.h"
 
-@interface AVAAnalytics() <AVAFeaturePrivate>
+@interface AVAAnalytics () <AVAFeaturePrivate, AVASessionTrackerDelegate>
 
-@property (nonatomic) BOOL autoPageTrackingEnabled;
+/**
+ *  Session tracking component
+ */
+@property(nonatomic) AVASessionTracker *sessionTracker;
+
+@property(nonatomic) BOOL autoPageTrackingEnabled;
 
 + (id)sharedInstance;
 

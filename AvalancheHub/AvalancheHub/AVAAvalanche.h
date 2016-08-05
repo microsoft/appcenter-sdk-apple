@@ -11,42 +11,43 @@
 @interface AVAAvalanche : NSObject
 
 /**
- * Returns the singleton instance of AvalancheHub
+ * Returns the singleton instance of AvalancheHub.
  */
 + (id)sharedInstance;
 
 /**
- * Description of method.
+ *  Start the sdk
  *
- * param features Description of parameter
+ *  @param features  array of features to be used.
+ *  @param appSecret application secret.
  */
-+ (void)useFeatures:(NSArray<Class> *)features withAppKey:(NSString *)appKey;
++ (void)start:(NSArray<Class> *)features withAppSecret:(NSString *)appSecret;
 
 /**
- *  Enable/Disable all features
+ *  Enable/Disable all features.
  *
- *  @param isEnabled is enabled
+ *  @param isEnabled is enabled.
  */
 + (void)setEnabled:(BOOL)isEnabled;
 
 /**
- *  Get log level
+ *  Get log level.
  *
- *  @return log level
+ *  @return log level.
  */
 + (AVALogLevel)logLevel;
 
 /**
- *  Set log level
+ *  Set log level.
  *
- *  @param logLevel the log level
+ *  @param logLevel the log level.
  */
 + (void)setLogLevel:(AVALogLevel)logLevel;
 
 /**
- *  Set log level handler
+ *  Set log level handler.
  *
- *  @param logHandler handler
+ *  @param logHandler handler.
  */
 + (void)setLogHandler:(AVALogHandler)logHandler;
 

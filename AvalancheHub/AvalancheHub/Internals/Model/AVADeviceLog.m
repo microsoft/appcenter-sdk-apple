@@ -78,12 +78,10 @@ static NSString *const kAVAAppNamespace = @"appNamespace";
 }
 
 - (BOOL)isValid {
-  BOOL isValid =
-      (!self.sdkVersion || !self.wrapperSdkVersion || !self.wrapperSdkName ||
-       !self.model || !self.oemName || !self.osName || !self.osVersion ||
-       !self.osApiLevel || !self.locale || !self.timeZoneOffset ||
-       !self.screenSize || !self.appVersion || !self.carrierName ||
-       !self.carrierCountry || !self.appBuild || !self.appNamespace);
+  BOOL isValid = (!self.sdkVersion || !self.wrapperSdkVersion || !self.wrapperSdkName || !self.model || !self.oemName ||
+                  !self.osName || !self.osVersion || !self.osApiLevel || !self.locale || !self.timeZoneOffset ||
+                  !self.screenSize || !self.appVersion || !self.carrierName || !self.carrierCountry || !self.appBuild ||
+                  !self.appNamespace);
 
   return isValid;
 }

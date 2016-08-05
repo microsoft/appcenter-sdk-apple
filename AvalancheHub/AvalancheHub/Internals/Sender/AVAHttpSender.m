@@ -142,20 +142,22 @@ completionHandler:(AVASendAsyncCompletionHandler)handler {
   NetworkStatus newConnectionStatus = [self.reachability currentReachabilityStatus];
 
   if (newConnectionStatus == NotReachable) {
-    
+
     // Cancel all the tasks.
-    [self.session getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> * _Nonnull dataTasks, NSArray<NSURLSessionUploadTask *> * _Nonnull uploadTasks, NSArray<NSURLSessionDownloadTask *> * _Nonnull downloadTasks) {
+    [self.session getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> *_Nonnull dataTasks,
+                                                  NSArray<NSURLSessionUploadTask *> *_Nonnull uploadTasks,
+                                                  NSArray<NSURLSessionDownloadTask *> *_Nonnull downloadTasks) {
       [dataTasks
-       enumerateObjectsUsingBlock:^(__kindof NSURLSessionTask *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
-         [obj cancel];
-       }];
+          enumerateObjectsUsingBlock:^(__kindof NSURLSessionTask *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
+            [obj cancel];
+          }];
     }];
-    
+
     // Set pending calls to not processing.
     [self.pendingCalls.allValues
-     enumerateObjectsUsingBlock:^(id<AVASenderCall> _Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
-       obj.isProcessing = NO;
-     }];
+        enumerateObjectsUsingBlock:^(id<AVASenderCall> _Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
+          obj.isProcessing = NO;
+        }];
 
   } else {
 
@@ -169,8 +171,6 @@ completionHandler:(AVASendAsyncCompletionHandler)handler {
 }
 
 - (void)updatePendingCalls:(BOOL)isProcessing {
-  
-  
 }
 
 #pragma mark - URL Session Helper
