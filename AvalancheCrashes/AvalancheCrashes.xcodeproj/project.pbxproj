@@ -197,7 +197,6 @@
 		B2E39BE61D4FDD9700DDF9DC /* AVAErrorLoggingDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAErrorLoggingDelegate.h; sourceTree = "<group>"; };
 		B2E39BF01D500BFE00DDF9DC /* AVAErrorReport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAErrorReport.h; sourceTree = "<group>"; };
 		B2E39BF11D500BFE00DDF9DC /* AVAErrorReport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAErrorReport.m; sourceTree = "<group>"; };
-		B2E39BF41D500C8100DDF9DC /* AVAPublicErrorLogPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AVAPublicErrorLogPrivate.h; path = ../AVAPublicErrorLogPrivate.h; sourceTree = "<group>"; };
 		B2F375071D41AD5100F07032 /* AVAErrorLogFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAErrorLogFormatter.h; sourceTree = "<group>"; };
 		B2F375081D41AD5100F07032 /* AVAErrorLogFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAErrorLogFormatter.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -275,7 +274,6 @@
 				6E73FE691D402F79008CDC15 /* AVACrashCXXExceptionHandler.mm */,
 				6E0401591D1C9D7F0051BCFA /* AvalancheHub+Internal.h */,
 				6E0401521D1C9A4F0051BCFA /* AVACrashesPrivate.h */,
-				B2E39BF41D500C8100DDF9DC /* AVAPublicErrorLogPrivate.h */,
 				6E7D5C641D3E92B1009EC9AC /* Model */,
 			);
 			path = Internals;
