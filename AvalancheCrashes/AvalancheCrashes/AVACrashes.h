@@ -34,15 +34,19 @@ typedef NS_ENUM(NSUInteger, AVAErrorLogSetting) {
 /**
  * Crash Manager alert user input
  */
-typedef NS_ENUM(NSUInteger, AVAErrorLoggingUserInput) {
+typedef NS_ENUM(NSUInteger, AVAUserConfirmation) {
   /**
    *  User chose not to send the crash report
    */
-  AVAErrorLoggingUserInputDontSend = 0,
+  AVAUserConfirmationDontSend = 0,
   /**
    *  User wants the crash report to be sent
    */
-  AVAErrorLoggingUserInputSend = 1,
+  AVAUserConfirmationSend = 1,
+  /**
+   * User wants to send all error logs
+   **/
+  AVAUserConfirmationAlways = 2
 };
 
 @protocol AVAErrorLoggingDelegate;
@@ -123,7 +127,7 @@ typedef NS_ENUM(NSUInteger, AVAErrorLoggingUserInput) {
  
  @see AVAErrorLoggingUserInput
  */
-+ (BOOL)handleUserInput:(AVAErrorLoggingUserInput)userInput;
++ (void)notifyWithUserConfirmation:(AVAUserConfirmation)userConfirmation;
 
 /**
  * Provides details about the crash that occurred in the last app session

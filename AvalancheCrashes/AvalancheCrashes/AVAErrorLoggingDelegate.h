@@ -14,7 +14,6 @@
 
 - (void)errorReportingWillSend:(AVACrashes *)crashes;
 
-
 - (void)errorReporting:(AVACrashes *)crashes didFailSending:(AVAErrorReport *)errorReport withError:(NSError *)error;
 
 - (void)errorReporting:(AVACrashes *)crashes didSucceedSending:(AVAErrorReport *)errorReport;

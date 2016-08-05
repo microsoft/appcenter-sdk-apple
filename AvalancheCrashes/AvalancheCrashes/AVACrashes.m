@@ -61,14 +61,10 @@ uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInfo *info) {
 
 + (void)setUserConfirmationHandler:(_Nullable AVAUserConfirmationHandler)userConfitmationHandler {
   //TODO actual implementation
-
-
 }
 
-+ (BOOL)handleUserInput:(AVAErrorLoggingUserInput)userInput {
++ (void)notifyWithUserConfirmation:(AVAUserConfirmation)userConfirmation {
   //TODO actual implementation
-
-  return NO;
 }
 
 + (AVAErrorReport *_Nullable)lastSessionCrashDetails {
