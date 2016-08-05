@@ -112,7 +112,7 @@ uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInfo *info) {
     [self persistLatestCrashReport];
   }
 
-  _crashFiles = [self persitedCrashReports];
+  _crashFiles = [self persistedCrashReports];
   if (self.crashFiles.count > 0) {
     [self startDelayedCrashProcessing];
   }
@@ -122,7 +122,7 @@ uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInfo *info) {
   _delegate = delegate;
 }
 
-+ (void)setEnable:(BOOL)isEnabled {
++ (void)setEnabled:(BOOL)isEnabled {
   [[self sharedInstance] setEnabled:isEnabled];
 }
 
@@ -163,7 +163,7 @@ uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInfo *info) {
      handler was set up afterwards and can show a debug warning log message,
      that the dev has to make sure the "newer" error handler doesn't exit the
      process itself, because then all subsequent handlers would never be
-     invoked. Note: ANY error handler setup BEFORE HockeySDK initialization
+     invoked. Note: ANY error handler setup BEFORE SDK initialization
      will not be processed!
      */
     NSUncaughtExceptionHandler *initialHandler =
@@ -302,14 +302,14 @@ uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInfo *info) {
       }
     }
 
-    // Purge the report mark the end of the routine
+    // Purge the report mark at the end of the routine
     [self removeAnalyzerFile];
   }
 
   [self.plCrashReporter purgePendingCrashReport];
 }
 
-- (NSMutableArray *)persitedCrashReports {
+- (NSMutableArray *)persistedCrashReports {
   NSMutableArray *persitedCrashReports = [NSMutableArray new];
   if ([self.fileManager fileExistsAtPath:self.crashesDir]) {
     NSError *error;

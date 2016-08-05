@@ -43,8 +43,8 @@
   _delegate = delegate;
 }
 
-+ (void)setEnable:(BOOL)isEnabled {
-  [[self sharedInstance] setEnable:isEnabled];
++ (void)setEnabled:(BOOL)isEnabled {
+  [[self sharedInstance] setEnabled:isEnabled];
 }
 
 + (BOOL)isEnabled {
@@ -106,7 +106,7 @@
   });
 }
 
-- (void)setEnable:(BOOL)isEnabled {
+- (void)setEnabled:(BOOL)isEnabled {
   _isEnabled = isEnabled;
 }
 
