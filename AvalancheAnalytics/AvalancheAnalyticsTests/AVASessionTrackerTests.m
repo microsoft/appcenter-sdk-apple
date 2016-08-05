@@ -1,8 +1,6 @@
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
-
-#import "AVAMockLog.h"
 #import "AVASessionTracker.h"
 #import "AvalancheHub+Internal.h"
 #import "AVASessionTrackerHelper.h"
