@@ -1,7 +1,7 @@
 #import "AVAAvalanchePrivate.h"
 #import "AVAChannelDefault.h"
 #import "AVAConstants+Internal.h"
-#import "AVADeviceLog.h"
+#import "AVADevice.h"
 #import "AVAFeaturePrivate.h"
 #import "AVAFileStorage.h"
 #import "AVAHttpSender.h"

@@ -3,7 +3,7 @@
  */
 
 #import <Foundation/Foundation.h>
-@class AVADeviceLog;
+@class AVADevice;
 
 @protocol AVALog
 
@@ -29,7 +29,7 @@
 /**
  * Device properties associated to this log.
  */
-@property(nonatomic) AVADeviceLog *device;
+@property(nonatomic) AVADevice *device;
 
 /**
  * Checks if the object's values are valid.

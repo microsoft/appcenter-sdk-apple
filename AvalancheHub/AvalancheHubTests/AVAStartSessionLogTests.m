@@ -32,7 +32,7 @@
 - (void)testSerializingSessionToDictionaryWorks {
   
   // If
-  AVADeviceLog *device = [AVADeviceLog new];
+  AVADevice *device = [AVADevice new];
   NSString *typeName = @"startSession";
   NSString *sessionId = @"1234567890";
   NSTimeInterval createTime = [[NSDate date] timeIntervalSince1970];
@@ -57,7 +57,7 @@
 - (void)testNSCodingSerializationAndDeserializationWorks {
   
   // If
-  AVADeviceLog *device = [AVADeviceLog new];
+  AVADevice *device = [AVADevice new];
   NSString *typeName = @"startSession";
   NSString *sessionId = @"1234567890";
   NSNumber *tOffset = @(3);

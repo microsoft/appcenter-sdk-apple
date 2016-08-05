@@ -5,7 +5,7 @@
 #import "AVAAbstractLog.h"
 #import "AVALogUtils.h"
 #import "AVALogger.h"
-#import "AVADeviceLog.h"
+#import "AVADevice.h"
 
 static NSString *const kAVASID = @"sid";
 static NSString *const kAVAToffset = @"toffset";

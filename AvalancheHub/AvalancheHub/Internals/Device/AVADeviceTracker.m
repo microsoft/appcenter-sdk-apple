@@ -25,7 +25,7 @@ ava_info_t avalanche_library_info __attribute__((section("__TEXT,__bit_ios,regul
 /**
  *  Get the current device log.
  */
-- (AVADeviceLog *)device {
+- (AVADevice *)device {
   @synchronized(self) {
 
     // Lazy creation.
@@ -41,7 +41,7 @@ ava_info_t avalanche_library_info __attribute__((section("__TEXT,__bit_ios,regul
  */
 - (void)refresh {
   @synchronized(self) {
-    AVADeviceLog *newDevice = [[AVADeviceLog alloc] init];
+    AVADevice *newDevice = [[AVADevice alloc] init];
     NSBundle *appBundle = [NSBundle mainBundle];
     CTCarrier *carrier = [[[CTTelephonyNetworkInfo alloc] init] subscriberCellularProvider];
 

@@ -5,10 +5,10 @@
 #import "AVAAbstractLog.h"
 #import <Foundation/Foundation.h>
 
-@protocol AVADeviceLog
+@protocol AVADevice
 @end
 
-@interface AVADeviceLog : NSObject <NSCoding>
+@interface AVADevice : NSObject <NSCoding>
 
 /* Version of the SDK.
  */
@@ -73,6 +73,6 @@
  *
  *  @return Return YES if equsl and NO if not equal
  */
-- (BOOL)isEqual:(AVADeviceLog*)device;
+- (BOOL)isEqual:(AVADevice*)device;
 
 @end

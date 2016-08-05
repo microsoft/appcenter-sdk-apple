@@ -8,7 +8,7 @@
 
 // Log files
 #import "Model/AVAAbstractLog.h"
-#import "Model/AVADeviceLog.h"
+#import "Model/AVADevice.h"
 #import "Model/AVALog.h"
 #import "Model/AVALogContainer.h"
 #import "Model/AVALogWithProperties.h"
