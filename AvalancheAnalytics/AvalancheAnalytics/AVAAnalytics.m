@@ -2,12 +2,12 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
+#import "AVAAnalyticsCategory.h"
 #import "AVAAnalyticsPrivate.h"
-#import "AvalancheHub+Internal.h"
 #import "AVAEventLog.h"
 #import "AVAPageLog.h"
 #import "AVAStartSessionLog.h"
-#import "AVAAnalyticsCategory.h"
+#import "AvalancheHub+Internal.h"
 
 @implementation AVAAnalytics
 
@@ -26,7 +26,7 @@
 
 - (id)init {
   if (self = [super init]) {
-    
+
     // Set defaults.
     _isEnabled = YES;
     _autoPageTrackingEnabled = YES;
@@ -47,7 +47,7 @@
   AVALogVerbose(@"AVAAnalytics: Started analytics module");
 }
 
-- (void)setDelegate:(id<AVAAvalancheDelegate>) delegate {
+- (void)setDelegate:(id<AVAAvalancheDelegate>)delegate {
   _delegate = delegate;
 }
 
@@ -59,11 +59,11 @@
   return [[self sharedInstance] isEnabled];
 }
 
-+ (void)trackEvent:(NSString*)eventName withProperties:(NSDictionary *)properties {
-   [[self sharedInstance] trackEvent:eventName withProperties:properties];
++ (void)trackEvent:(NSString *)eventName withProperties:(NSDictionary *)properties {
+  [[self sharedInstance] trackEvent:eventName withProperties:properties];
 }
 
-+ (void)trackPage:(NSString*)pageName withProperties:(NSDictionary *)properties {
++ (void)trackPage:(NSString *)pageName withProperties:(NSDictionary *)properties {
   [[self sharedInstance] trackPage:pageName withProperties:properties];
 }
 
@@ -77,7 +77,7 @@
 
 #pragma mark - private methods
 
-- (void)trackEvent:(NSString*)eventName withProperties:(NSDictionary *)properties {
+- (void)trackEvent:(NSString *)eventName withProperties:(NSDictionary *)properties {
   if (![self isEnabled])
     return;
 
@@ -96,13 +96,13 @@
   });
 }
 
-- (void)trackPage:(NSString*)pageName withProperties:(NSDictionary *)properties {
+- (void)trackPage:(NSString *)pageName withProperties:(NSDictionary *)properties {
   if (![self isEnabled])
     return;
 
   // Send async
   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-    
+
     // Create and set properties of the event log
     AVAPageLog *log = [[AVAPageLog alloc] init];
     log.name = pageName;
@@ -131,27 +131,27 @@
 }
 
 - (void)sendLog:(id<AVALog>)log withPriority:(AVAPriority)priority {
-  
+
   // Set session ID
   log.sid = self.sessionTracker.sessionId;
-  
+
   // Send log to core module.
   [self.delegate feature:self didCreateLog:log withPriority:priority];
-  
+
   // Set last log created time on the session tracker.
   self.sessionTracker.lastCreatedLogTime = [NSDate date];
 }
 
 - (void)sessionTracker:(id)sessionTracker didRenewSessionWithId:(NSString *)sessionId {
-  
+
   // Forward session renewal to core module.
   [self.delegate sessionTracker:self didRenewSessionWithId:sessionId];
-  
+
   // Create a start session log.
   AVAStartSessionLog *log = [[AVAStartSessionLog alloc] init];
-  
+
   log.sid = sessionId;
-  
+
   // Send log to core module.
   [self.delegate feature:self didCreateLog:log withPriority:AVAPriorityDefault];
 }

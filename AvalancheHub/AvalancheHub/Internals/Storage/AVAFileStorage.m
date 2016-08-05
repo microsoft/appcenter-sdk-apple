@@ -28,28 +28,26 @@ static NSUInteger const AVADefaultBucketFileCountLimit = 50;
   if (!log) {
     return;
   }
-  
+
   AVAStorageBucket *bucket = [self bucketForStorageKey:storageKey];
-  if(bucket.currentLogs.count == 0 ) {
-    
+  if (bucket.currentLogs.count == 0) {
+
     // Drop oldest files if needed
     if ([self maxFileCountReachedForStorageKey:storageKey]) {
       AVAFile *oldestFile = [bucket.availableFiles lastObject];
       [self deleteLogsForId:oldestFile.fileId withStorageKey:storageKey];
     }
-    
+
     // Make current file available and create new current file
     [bucket.availableFiles insertObject:bucket.currentFile atIndex:0];
   }
-  
+
   [bucket.currentLogs addObject:log];
-  NSData *logsData =
-      [NSKeyedArchiver archivedDataWithRootObject:bucket.currentLogs];
+  NSData *logsData = [NSKeyedArchiver archivedDataWithRootObject:bucket.currentLogs];
   [AVAFileHelper writeData:logsData toFile:bucket.currentFile];
 }
 
-- (void)deleteLogsForId:(NSString *)logsId
-         withStorageKey:(NSString *)storageKey {
+- (void)deleteLogsForId:(NSString *)logsId withStorageKey:(NSString *)storageKey {
   AVAStorageBucket *bucket = self.buckets[storageKey];
   AVAFile *file = [bucket fileWithId:logsId];
 
@@ -59,14 +57,13 @@ static NSUInteger const AVADefaultBucketFileCountLimit = 50;
   }
 }
 
-- (void)loadLogsForStorageKey:(NSString *)storageKey
-               withCompletion:(nullable AVALoadDataCompletionBlock)completion {
+- (void)loadLogsForStorageKey:(NSString *)storageKey withCompletion:(nullable AVALoadDataCompletionBlock)completion {
   NSArray<AVALog> *logs;
   NSString *fileId;
   AVAStorageBucket *bucket = [self bucketForStorageKey:storageKey];
-  
+
   [self renewCurrentFileForStorageKey:storageKey];
-  
+
   // Get data of oldest file
   if (bucket.availableFiles.count > 0) {
     AVAFile *file = bucket.availableFiles.lastObject;
@@ -84,8 +81,7 @@ static NSUInteger const AVADefaultBucketFileCountLimit = 50;
 
 - (BOOL)maxFileCountReachedForStorageKey:(NSString *)storageKey {
   AVAStorageBucket *bucket = self.buckets[storageKey];
-  NSUInteger filesCount =
-      bucket.availableFiles.count + bucket.blockedFiles.count;
+  NSUInteger filesCount = bucket.availableFiles.count + bucket.blockedFiles.count;
   return (filesCount >= self.bucketFileCountLimit);
 }
 
@@ -94,8 +90,7 @@ static NSUInteger const AVADefaultBucketFileCountLimit = 50;
 - (AVAStorageBucket *)createNewBucketForStorageKey:(NSString *)storageKey {
   AVAStorageBucket *bucket = [AVAStorageBucket new];
   NSString *storageDirectory = [self directoryPathForStorageKey:storageKey];
-  NSArray *existingFiles = [AVAFileHelper filesForDirectory:storageDirectory
-                                          withFileExtension:kAVAFileExtension];
+  NSArray *existingFiles = [AVAFileHelper filesForDirectory:storageDirectory withFileExtension:kAVAFileExtension];
   if (existingFiles) {
     [bucket.availableFiles addObjectsFromArray:existingFiles];
     [bucket sortAvailableFilesByCreationDate];
@@ -111,7 +106,7 @@ static NSUInteger const AVADefaultBucketFileCountLimit = 50;
   if (!bucket) {
     bucket = [self createNewBucketForStorageKey:storageKey];
   }
-  
+
   return bucket;
 }
 
@@ -120,38 +115,31 @@ static NSUInteger const AVADefaultBucketFileCountLimit = 50;
   NSDate *creationDate = [NSDate date];
   NSString *fileId = kAVAUUIDString;
   NSString *filePath = [self filePathForStorageKey:storageKey logsId:fileId];
-  AVAFile *file = [[AVAFile alloc] initWithPath:filePath
-                                         fileId:fileId
-                                   creationDate:creationDate];
+  AVAFile *file = [[AVAFile alloc] initWithPath:filePath fileId:fileId creationDate:creationDate];
   bucket.currentFile = file;
   [bucket.currentLogs removeAllObjects];
 }
 
 - (NSString *)directoryPathForStorageKey:(nonnull NSString *)storageKey {
-  NSString *filePath =
-      [self.baseDirectoryPath stringByAppendingPathComponent:storageKey];
+  NSString *filePath = [self.baseDirectoryPath stringByAppendingPathComponent:storageKey];
 
   return filePath;
 }
 
-- (NSString *)filePathForStorageKey:(nonnull NSString *)storageKey
-                             logsId:(nonnull NSString *)logsId {
-  NSString *fileName =
-      [logsId stringByAppendingPathExtension:kAVAFileExtension];
-  NSString *filePath = [[self directoryPathForStorageKey:storageKey]
-      stringByAppendingPathComponent:fileName];
+- (NSString *)filePathForStorageKey:(nonnull NSString *)storageKey logsId:(nonnull NSString *)logsId {
+  NSString *fileName = [logsId stringByAppendingPathExtension:kAVAFileExtension];
+  NSString *filePath = [[self directoryPathForStorageKey:storageKey] stringByAppendingPathComponent:fileName];
 
   return filePath;
 }
 
 - (NSString *)baseDirectoryPath {
   if (!_baseDirectoryPath) {
-    NSString *appSupportPath = [[NSSearchPathForDirectoriesInDomains(
-        NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject]
-        stringByStandardizingPath];
+    NSString *appSupportPath =
+        [[NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject]
+            stringByStandardizingPath];
     if (appSupportPath) {
-      _baseDirectoryPath =
-          [appSupportPath stringByAppendingPathComponent:kAVALogsDirectory];
+      _baseDirectoryPath = [appSupportPath stringByAppendingPathComponent:kAVALogsDirectory];
     }
 
     AVALogVerbose(@"Storage Path:\n%@", _baseDirectoryPath);

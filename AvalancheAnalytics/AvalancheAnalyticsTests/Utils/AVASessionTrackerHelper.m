@@ -9,17 +9,13 @@
 
 @implementation AVASessionTrackerHelper
 
-+ (void) simulateDidEnterBackgroundNotification {
-  [[NSNotificationCenter defaultCenter]
-   postNotificationName:UIApplicationDidEnterBackgroundNotification
-   object:self];
++ (void)simulateDidEnterBackgroundNotification {
+  [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidEnterBackgroundNotification object:self];
 }
 
-+ (void) simulateWillEnterForegroundNotification {
++ (void)simulateWillEnterForegroundNotification {
   // Enter foreground
-  [[NSNotificationCenter defaultCenter]
-   postNotificationName:UIApplicationWillEnterForegroundNotification
-   object:self];
+  [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillEnterForegroundNotification object:self];
 }
 
 @end

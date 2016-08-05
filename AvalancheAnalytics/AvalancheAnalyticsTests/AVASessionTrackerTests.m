@@ -1,9 +1,9 @@
+#import "AVASessionTracker.h"
+#import "AVASessionTrackerHelper.h"
+#import "AvalancheHub+Internal.h"
+#import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import "AVASessionTracker.h"
-#import "AvalancheHub+Internal.h"
-#import "AVASessionTrackerHelper.h"
 
 NSTimeInterval const kAVATestSessionTimeout = 1.5;
 
@@ -21,7 +21,7 @@ NSTimeInterval const kAVATestSessionTimeout = 1.5;
   _sut = [[AVASessionTracker alloc] init];
   [_sut setSessionTimeout:kAVATestSessionTimeout];
   [_sut start];
-  
+
   [AVASessionTrackerHelper simulateDidEnterBackgroundNotification];
   [NSThread sleepForTimeInterval:0.1];
   [AVASessionTrackerHelper simulateWillEnterForegroundNotification];
@@ -70,7 +70,7 @@ NSTimeInterval const kAVATestSessionTimeout = 1.5;
 
   // Enter background
   [AVASessionTrackerHelper simulateDidEnterBackgroundNotification];
-  
+
   // Wait for shorter than the timeout time in background
   [NSThread sleepForTimeInterval:kAVATestSessionTimeout - 1];
 
@@ -86,7 +86,7 @@ NSTimeInterval const kAVATestSessionTimeout = 1.5;
   NSString *expectedSid = _sut.sessionId;
   // mock a log creation
   _sut.lastCreatedLogTime = [NSDate date];
-  
+
   // mock a log creation
   _sut.lastCreatedLogTime = [NSDate date];
 
@@ -94,13 +94,13 @@ NSTimeInterval const kAVATestSessionTimeout = 1.5;
 
   // Enter background
   [AVASessionTrackerHelper simulateDidEnterBackgroundNotification];
-  
+
   // Wait for longer than the timeout time in background
   [NSThread sleepForTimeInterval:kAVATestSessionTimeout + 1];
-  
+
   // Enter foreground
   [AVASessionTrackerHelper simulateWillEnterForegroundNotification];
-   
+
   NSString *sid = _sut.sessionId;
   XCTAssertNotEqual(expectedSid, sid);
 }
@@ -118,14 +118,11 @@ NSTimeInterval const kAVATestSessionTimeout = 1.5;
 
   // Enter background
   [AVASessionTrackerHelper simulateDidEnterBackgroundNotification];
-  
+
   // Wait for longer than the timeout time in background
   [NSThread sleepForTimeInterval:kAVATestSessionTimeout + 1];
-  
-  [[NSNotificationCenter defaultCenter]
-   postNotificationName:UIApplicationWillEnterForegroundNotification
-   object:self];
-  
+
+  [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillEnterForegroundNotification object:self];
 
   NSString *sid = _sut.sessionId;
   XCTAssertEqual(expectedSid, sid);
@@ -133,22 +130,22 @@ NSTimeInterval const kAVATestSessionTimeout = 1.5;
 
 - (void)testTooLongInBackground {
   NSString *expectedSid = _sut.sessionId;
-  
+
   XCTAssertNotNil(expectedSid);
-  
+
   [AVASessionTrackerHelper simulateWillEnterForegroundNotification];
-  
+
   [NSThread sleepForTimeInterval:1];
   // Enter background
   [AVASessionTrackerHelper simulateDidEnterBackgroundNotification];
 
   // mock a log creation while app is in background
   _sut.lastCreatedLogTime = [NSDate date];
-  
+
   [NSThread sleepForTimeInterval:kAVATestSessionTimeout + 1];
-  
+
   //_sut.lastCreatedLogTime = [NSDate date];
-  
+
   NSString *sid = _sut.sessionId;
   XCTAssertNotEqual(expectedSid, sid);
 }

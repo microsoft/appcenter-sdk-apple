@@ -4,10 +4,10 @@
 
 #import <Foundation/Foundation.h>
 
+#import "AVAChannel.h"
 #import "AVALogManager.h"
 #import "AVASender.h"
 #import "AVAStorage.h"
-#import "AVAChannel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

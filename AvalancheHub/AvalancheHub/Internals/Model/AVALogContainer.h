@@ -23,7 +23,7 @@
  * batchID Unique batch Id
  * logs Array of logs
  */
-- (id)initWithBatchId:(NSString *)batchId andLogs:(NSArray<AVALog>*)logs;
+- (id)initWithBatchId:(NSString *)batchId andLogs:(NSArray<AVALog> *)logs;
 
 /**
  * Serialize logs into a JSON string

@@ -14,17 +14,17 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The creation date of the file.
  */
-@property (nonatomic, strong) NSDate *creationDate;
+@property(nonatomic, strong) NSDate *creationDate;
 
 /**
  * The unique identifier for this file.
  */
-@property (nonatomic, copy) NSString *fileId;
+@property(nonatomic, copy) NSString *fileId;
 
 /**
  * The path to the file.
  */
-@property (nonatomic, copy) NSString *filePath;
+@property(nonatomic, copy) NSString *filePath;
 
 /**
  * Returns a new `AVAFile` instance with a given file id and creation date.

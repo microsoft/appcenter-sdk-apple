@@ -5,14 +5,15 @@
 static AVALogLevel _currentLogLevel = AVALogLevelWarning;
 static AVALogHandler currentLogHandler;
 
-AVALogHandler defaultLogHandler = ^(AVALogMessageProvider messageProvider, AVALogLevel logLevel, const char *file, const char *function, uint line) {
-  if (messageProvider) {
-    if (_currentLogLevel < logLevel) {
-      return;
-    }
-    NSLog((@"[Avalanche SDK] %s/%d %@"), function, line, messageProvider());
-  }
-};
+AVALogHandler defaultLogHandler =
+    ^(AVALogMessageProvider messageProvider, AVALogLevel logLevel, const char *file, const char *function, uint line) {
+      if (messageProvider) {
+        if (_currentLogLevel < logLevel) {
+          return;
+        }
+        NSLog((@"[Avalanche SDK] %s/%d %@"), function, line, messageProvider());
+      }
+    };
 
 + (void)initialize {
   currentLogHandler = defaultLogHandler;
@@ -30,7 +31,11 @@ AVALogHandler defaultLogHandler = ^(AVALogMessageProvider messageProvider, AVALo
   currentLogHandler = logHandler;
 }
 
-+ (void)logMessage:(AVALogMessageProvider)messageProvider level:(AVALogLevel)loglevel file:(const char *)file function:(const char *)function line:(uint)line {
++ (void)logMessage:(AVALogMessageProvider)messageProvider
+             level:(AVALogLevel)loglevel
+              file:(const char *)file
+          function:(const char *)function
+              line:(uint)line {
   if (currentLogHandler) {
     currentLogHandler(messageProvider, loglevel, file, function, line);
   }

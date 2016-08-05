@@ -21,15 +21,15 @@ static NSString *const kAVAInstallIdKey = @"AVAInstallId";
 
 @property(nonatomic) id<AVALogManager> logManager;
 @property(nonatomic) NSMutableArray<NSObject<AVAFeaturePrivate> *> *features;
-@property(nonatomic, copy) NSString *appKey;
+@property(nonatomic, copy) NSString *appSecret;
 @property(nonatomic, readonly) NSUUID *installId;
 @property(nonatomic) NSString *apiVersion;
 @property BOOL featuresStarted;
 @property BOOL isEnabled;
 @property(nonatomic) AVADeviceTracker *deviceTracker;
-@property (nonatomic) NSString* sessionId;
+@property(nonatomic) NSString *sessionId;
 
-- (NSString *)appKey;
+- (NSString *)appSecret;
 - (NSString *)apiVersion;
 
 @end

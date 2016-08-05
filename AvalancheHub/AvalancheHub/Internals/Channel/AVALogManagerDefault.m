@@ -6,8 +6,7 @@
 #import "AVALogManagerDefault.h"
 #import "AvalancheHub+Internal.h"
 
-static char *const AVADataItemsOperationsQueue =
-    "com.microsoft.avalanche.LogManagerQueue";
+static char *const AVADataItemsOperationsQueue = "com.microsoft.avalanche.LogManagerQueue";
 
 @implementation AVALogManagerDefault
 
@@ -15,16 +14,14 @@ static char *const AVADataItemsOperationsQueue =
 
 - (instancetype)init {
   if (self = [super init]) {
-    dispatch_queue_t serialQueue = dispatch_queue_create(
-        AVADataItemsOperationsQueue, DISPATCH_QUEUE_SERIAL);
+    dispatch_queue_t serialQueue = dispatch_queue_create(AVADataItemsOperationsQueue, DISPATCH_QUEUE_SERIAL);
     _dataItemsOperations = serialQueue;
     _channels = [NSMutableDictionary<NSNumber *, id<AVAChannel>> new];
   }
   return self;
 }
 
-- (instancetype)initWithSender:(id<AVASender>)sender
-                       storage:(id<AVAStorage>)storage {
+- (instancetype)initWithSender:(id<AVASender>)sender storage:(id<AVAStorage>)storage {
   if (self = [self init]) {
     _sender = sender;
     _storage = storage;
@@ -48,12 +45,12 @@ static char *const AVADataItemsOperationsQueue =
 
 - (id<AVAChannel>)createChannelForPriority:(AVAPriority)priority {
   AVAChannelDefault *channel;
-  AVAChannelConfiguration *configuration =
-      [AVAChannelConfiguration configurationForPriority:priority];
+  AVAChannelConfiguration *configuration = [AVAChannelConfiguration configurationForPriority:priority];
   if (configuration) {
     channel = [[AVAChannelDefault alloc] initWithSender:self.sender
                                                 storage:self.storage
-                                          configuration:configuration callbackQueue:self.dataItemsOperations];
+                                          configuration:configuration
+                                          callbackQueue:self.dataItemsOperations];
     self.channels[@(priority)] = channel;
   }
   return channel;

@@ -6,7 +6,7 @@
 
 @interface AVASessionTrackerHelper : NSObject
 
-+ (void) simulateDidEnterBackgroundNotification;
-+ (void) simulateWillEnterForegroundNotification;
++ (void)simulateDidEnterBackgroundNotification;
++ (void)simulateWillEnterForegroundNotification;
 
 @end

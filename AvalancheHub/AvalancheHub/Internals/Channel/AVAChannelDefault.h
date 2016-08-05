@@ -4,10 +4,10 @@
 
 #import <Foundation/Foundation.h>
 
-#import "AVASender.h"
-#import "AVAStorage.h"
 #import "AVAChannel.h"
 #import "AVAChannelConfiguration.h"
+#import "AVASender.h"
+#import "AVAStorage.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -46,7 +46,6 @@ typedef void (^enqueueCompletionBlock)(BOOL);
  */
 @property(nonatomic, copy) NSMutableArray *pendingLogsIds;
 
-
 /**
  * Enqueues a new log item.
  *
@@ -54,8 +53,7 @@ typedef void (^enqueueCompletionBlock)(BOOL);
  * @param completion A completion block that gets called after the item was
  * enqueued.
  */
-- (void)enqueueItem:(id<AVALog>)item
-     withCompletion:(nullable enqueueCompletionBlock)completion;
+- (void)enqueueItem:(id<AVALog>)item withCompletion:(nullable enqueueCompletionBlock)completion;
 
 @end
 

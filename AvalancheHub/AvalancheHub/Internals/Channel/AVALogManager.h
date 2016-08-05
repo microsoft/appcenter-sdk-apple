@@ -3,10 +3,10 @@
  */
 
 #import "AVAChannel.h"
+#import "AVAConstants+Internal.h"
 #import "AVALog.h"
 #import "AVASender.h"
 #import "AVAStorage.h"
-#import "AVAConstants+Internal.h"
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -27,8 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A new `AVALogManager` instance.
  */
-- (instancetype)initWithSender:(id<AVASender>)sender
-                       storage:(id<AVAStorage>)storage;
+- (instancetype)initWithSender:(id<AVASender>)sender storage:(id<AVAStorage>)storage;
 
 /**
  * Triggers processing of a new log item.

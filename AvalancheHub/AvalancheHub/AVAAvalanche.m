@@ -6,7 +6,7 @@
 #import "AVAUtils.h"
 
 // Http Headers + Query string.
-static NSString *const kAVAHeaderAppKeyKey = @"App-Key";
+static NSString *const kAVAHeaderAppSecretKey = @"App-Secret";
 static NSString *const kAVAHeaderInstallIDKey = @"Install-ID";
 static NSString *const kAVAContentType = @"application/json";
 static NSString *const kAVAContentTypeKey = @"Content-Type";
@@ -31,8 +31,8 @@ static NSString *const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azu
 
 #pragma mark - public
 
-+ (void)useFeatures:(NSArray<Class> *)features withAppKey:(NSString *)appKey {
-  [[self sharedInstance] useFeatures:features withAppKey:appKey];
++ (void)start:(NSArray<Class> *)features withAppSecret:(NSString *)appSecret {
+  [[self sharedInstance] start:features withAppSecret:appSecret];
 }
 
 + (void)setEnabled:(BOOL)isEnabled {
@@ -64,18 +64,18 @@ static NSString *const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azu
   return self;
 }
 
-- (void)useFeatures:(NSArray<Class> *)features withAppKey:(NSString *)appKey {
+- (void)start:(NSArray<Class> *)features withAppSecret:(NSString *)appSecret {
   if (self.featuresStarted) {
-    AVALogWarning(@"SDK has already been started. You can call `useFeatures` only once.");
+    AVALogWarning(@"SDK has already been started. You can call `start` only once.");
     return;
   }
 
-  // Validate and set the app key.
-  if ([appKey length] == 0 || ![[NSUUID alloc] initWithUUIDString:appKey]) {
-    AVALogError(@"ERROR: AppKey is invalid");
+  // Validate and set the app secret.
+  if ([appSecret length] == 0 || ![[NSUUID alloc] initWithUUIDString:appSecret]) {
+    AVALogError(@"ERROR: AppSecret is invalid");
     return;
   }
-  self.appKey = appKey;
+  self.appSecret = appSecret;
 
   // Set backend API version.
   self.apiVersion = kAVAAPIVersion;
@@ -112,14 +112,17 @@ static NSString *const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azu
   // Construct http headers.
   NSDictionary *headers = @{
     kAVAContentTypeKey : kAVAContentType,
-    kAVAHeaderAppKeyKey : _appKey,
+    kAVAHeaderAppSecretKey : _appSecret,
     kAVAHeaderInstallIDKey : [self.installId UUIDString]
   };
 
   // Construct the query parameters.
   NSDictionary *queryStrings = @{kAVAAPIVersionKey : kAVAAPIVersion};
-  
-  AVAHttpSender *sender = [[AVAHttpSender alloc] initWithBaseUrl:kAVABaseUrl headers:headers queryStrings:queryStrings reachability:[AVA_Reachability reachabilityForInternetConnection]];
+
+  AVAHttpSender *sender = [[AVAHttpSender alloc] initWithBaseUrl:kAVABaseUrl
+                                                         headers:headers
+                                                    queryStrings:queryStrings
+                                                    reachability:[AVA_Reachability reachabilityForInternetConnection]];
 
   // Construct storage.
   AVAFileStorage *storage = [[AVAFileStorage alloc] init];
@@ -128,8 +131,8 @@ static NSString *const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azu
   _logManager = [[AVALogManagerDefault alloc] initWithSender:sender storage:storage];
 }
 
-- (NSString *)appKey {
-  return _appKey;
+- (NSString *)appSecret {
+  return _appSecret;
 }
 
 - (NSString *)apiVersion {
@@ -159,12 +162,12 @@ static NSString *const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azu
   }
 }
 
-- (void)setCommonLogInfo:(id<AVALog>)log{
+- (void)setCommonLogInfo:(id<AVALog>)log {
 
   // If session id exists, use it.
-  if(log.sid == nil && self.sessionId)
+  if (log.sid == nil && self.sessionId)
     log.sid = self.sessionId;
-  
+
   // Set common log info.
   log.sid = _sessionId;
   log.toffset = [NSNumber numberWithInteger:[[NSDate date] timeIntervalSince1970]];

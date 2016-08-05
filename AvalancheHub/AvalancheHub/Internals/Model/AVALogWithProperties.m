@@ -14,7 +14,7 @@ static NSString *const kAVAProperties = @"properties";
 
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [super serializeToDictionary];
-  
+
   if (self.properties) {
     dict[kAVAProperties] = self.properties;
   }
@@ -25,10 +25,10 @@ static NSString *const kAVAProperties = @"properties";
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
   self = [super initWithCoder:coder];
-  if(self) {
+  if (self) {
     _properties = [coder decodeObjectForKey:kAVAProperties];
   }
-  
+
   return self;
 }
 

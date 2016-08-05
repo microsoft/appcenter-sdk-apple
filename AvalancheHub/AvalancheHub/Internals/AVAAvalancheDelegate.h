@@ -15,9 +15,7 @@
  *  @param log      the log
  *  @param priority the log priority
  */
-- (void)feature:(id)feature
-   didCreateLog:(id<AVALog>)log
-   withPriority:(AVAPriority)priority;
+- (void)feature:(id)feature didCreateLog:(id<AVALog>)log withPriority:(AVAPriority)priority;
 
 /**
  *  Session tracking callback.
