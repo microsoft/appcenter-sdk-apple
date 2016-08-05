@@ -55,7 +55,7 @@
   
   AVAThread *thread = [AVAThread new];
   thread.threadId = threadId;
-  thread.frames = frames;
+  thread.frames = [NSMutableArray arrayWithArray:frames];
 
   return thread;
 }
