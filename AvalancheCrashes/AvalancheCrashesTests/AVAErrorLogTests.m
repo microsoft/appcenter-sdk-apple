@@ -21,6 +21,9 @@
 
   // If
   AVAErrorLog *sut = [self errorLog];
+  NSTimeInterval createTime = [[NSDate date] timeIntervalSince1970];
+  NSNumber *tOffset = @(createTime);
+  sut.toffset = tOffset;
 
   // When
   NSMutableDictionary *actual = [sut serializeToDictionary];
@@ -40,12 +43,13 @@
   assertThat(actual[@"exceptionAddress"], equalTo(sut.exceptionAddress));
   assertThat(actual[@"exceptionReason"], equalTo(sut.exceptionReason));
   assertThat(actual[@"fatal"], equalTo(sut.fatal));
-  assertThat(actual[@"threads"], equalTo(sut.threads));
   assertThat(actual[@"exceptions"], equalTo(sut.exceptions));
-  assertThat(actual[@"binaries"], equalTo(sut.binaries));
+  //TODO add assert for binaries and threads?
   assertThat(actual[@"type"], equalTo(@"error"));
   assertThat(actual[@"device"], notNilValue());
-  assertThat(actual[@"toffset"], equalTo(sut.toffset));
+  NSTimeInterval seralizedToffset = [actual[@"toffset"] integerValue];
+  NSTimeInterval actualToffset = [[NSDate date] timeIntervalSince1970] - createTime;
+  assertThat(@(seralizedToffset), lessThan(@(actualToffset)));
   assertThat(actual[@"properties"], equalTo(sut.properties));
 }
 
