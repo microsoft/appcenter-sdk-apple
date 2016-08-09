@@ -33,7 +33,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		38118DC21D42D6630091B3BF /* AVAFeature.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 38118DC11D42D6630091B3BF /* AVAFeature.h */; };
+		38D4BBA31D5A9962001A30A0 /* AVAFeature.h in Headers */ = {isa = PBXBuildFile; fileRef = 38D4BBA21D5A9962001A30A0 /* AVAFeature.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E0401541D1C9A4F0051BCFA /* AVACrashes.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0401501D1C9A4F0051BCFA /* AVACrashes.m */; };
 		6E0401751D1C9E750051BCFA /* AvalancheCrashes.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401361D1C98690051BCFA /* AvalancheCrashes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E0401761D1C9E750051BCFA /* AVACrashes.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E04014F1D1C9A4F0051BCFA /* AVACrashes.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -71,7 +71,6 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
-				38118DC21D42D6630091B3BF /* AVAFeature.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
@@ -87,7 +86,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		38118DC11D42D6630091B3BF /* AVAFeature.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AVAFeature.h; path = ../AvalancheHub/AvalancheHub/AVAFeature.h; sourceTree = "<group>"; };
+		38D4BBA21D5A9962001A30A0 /* AVAFeature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AVAFeature.h; path = ../AvalancheHub/AvalancheHub/AVAFeature.h; sourceTree = "<group>"; };
 		6E0401331D1C98690051BCFA /* libAvalancheCrashes.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAvalancheCrashes.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E0401361D1C98690051BCFA /* AvalancheCrashes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AvalancheCrashes.h; sourceTree = "<group>"; };
 		6E04014F1D1C9A4F0051BCFA /* AVACrashes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVACrashes.h; sourceTree = "<group>"; };
@@ -151,7 +150,7 @@
 		6E04012A1D1C98690051BCFA = {
 			isa = PBXGroup;
 			children = (
-				38118DC11D42D6630091B3BF /* AVAFeature.h */,
+				38D4BBA21D5A9962001A30A0 /* AVAFeature.h */,
 				6E0401351D1C98690051BCFA /* AvalancheCrashes */,
 				6E171AE21D22F781000DC480 /* AvalancheCrashesTests */,
 				6E0401341D1C98690051BCFA /* Products */,
@@ -282,6 +281,7 @@
 				6E0401751D1C9E750051BCFA /* AvalancheCrashes.h in Headers */,
 				6E0401761D1C9E750051BCFA /* AVACrashes.h in Headers */,
 				6E0401771D1C9EBE0051BCFA /* AvalancheHub+Internal.h in Headers */,
+				38D4BBA31D5A9962001A30A0 /* AVAFeature.h in Headers */,
 				6E0401781D1C9EBE0051BCFA /* AVACrashesPrivate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
