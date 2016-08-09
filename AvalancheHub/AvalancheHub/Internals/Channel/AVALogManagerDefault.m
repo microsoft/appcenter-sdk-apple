@@ -10,13 +10,15 @@ static char *const AVADataItemsOperationsQueue = "com.microsoft.avalanche.LogMan
 
 @implementation AVALogManagerDefault
 
-#pragma mark - Initialisation
+#pragma mark - Initialization
 
 - (instancetype)init {
   if (self = [super init]) {
     dispatch_queue_t serialQueue = dispatch_queue_create(AVADataItemsOperationsQueue, DISPATCH_QUEUE_SERIAL);
     _dataItemsOperations = serialQueue;
     _channels = [NSMutableDictionary<NSNumber *, id<AVAChannel>> new];
+    _listeners = [NSMutableArray<id<AVALogManagerListener>> new];
+    _deviceTracker = [[AVADeviceTracker alloc] init];
   }
   return self;
 }
@@ -29,13 +31,37 @@ static char *const AVADataItemsOperationsQueue = "com.microsoft.avalanche.LogMan
   return self;
 }
 
+#pragma mark - Listener
+
+- (void)addListener:(id <AVALogManagerListener>)listener {
+  
+  // Check if listener is not already added.
+  if (![self.listeners containsObject:listener])
+    [self.listeners addObject:listener];
+}
+
+- (void)removeListener:(id <AVALogManagerListener>)listener {
+  [self.listeners removeObject:listener];
+}
+
 #pragma mark - Process items
 
 - (void)processLog:(id<AVALog>)log withPriority:(AVAPriority)priority {
+  
+  // Notify listeners.
+  [self.listeners enumerateObjectsUsingBlock:^(id<AVALogManagerListener>  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    [obj onProcessingLog:log withPriority:priority];
+  }];
+  
   id<AVAChannel> channel = [self.channels objectForKey:@(priority)];
   if (!channel) {
     channel = [self createChannelForPriority:priority];
   }
+  
+  // Set common log info.
+  log.toffset = [NSNumber numberWithInteger:[[NSDate date] timeIntervalSince1970]];
+  log.device = self.deviceTracker.device;
+  
   dispatch_async(self.dataItemsOperations, ^{
     [channel enqueueItem:log];
   });

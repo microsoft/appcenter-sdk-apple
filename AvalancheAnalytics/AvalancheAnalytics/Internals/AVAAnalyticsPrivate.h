@@ -6,7 +6,7 @@
 #import "AVASessionTracker.h"
 #import "Internals/AVAFeaturePrivate.h"
 
-@interface AVAAnalytics () <AVAFeaturePrivate, AVASessionTrackerDelegate>
+@interface AVAAnalytics () <AVAFeaturePrivate>
 
 /**
  *  Session tracking component

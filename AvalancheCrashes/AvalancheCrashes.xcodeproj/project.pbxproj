@@ -45,6 +45,7 @@
 		6E171AF01D22F841000DC480 /* libAvalancheHub.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171AEF1D22F841000DC480 /* libAvalancheHub.a */; };
 		6E171B111D22FABA000DC480 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171B051D22FABA000DC480 /* libOCMock.a */; };
 		6E171B391D22FF6B000DC480 /* libOHHTTPStubs.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171B2F1D22FF6B000DC480 /* libOHHTTPStubs.a */; };
+		E8AEE9861D59744D00C0FF6C /* AVALogManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E8AEE9851D59744D00C0FF6C /* AVALogManager.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -122,6 +123,7 @@
 		6E3729801D1DE93800F1E4AE /* buildnumber.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = buildnumber.xcconfig; sourceTree = "<group>"; };
 		6E3729811D1DE93800F1E4AE /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		6E3729821D1DE93800F1E4AE /* release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = release.xcconfig; sourceTree = "<group>"; };
+		E8AEE9851D59744D00C0FF6C /* AVALogManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AVALogManager.h; path = ../AvalancheHub/AvalancheHub/Internals/Channel/AVALogManager.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,7 +152,8 @@
 		6E04012A1D1C98690051BCFA = {
 			isa = PBXGroup;
 			children = (
-				38D4BBA21D5A9962001A30A0 /* AVAFeature.h */,
+				E8AEE9851D59744D00C0FF6C /* AVALogManager.h */,
+				38118DC11D42D6630091B3BF /* AVAFeature.h */,
 				6E0401351D1C98690051BCFA /* AvalancheCrashes */,
 				6E171AE21D22F781000DC480 /* AvalancheCrashesTests */,
 				6E0401341D1C98690051BCFA /* Products */,
@@ -278,6 +281,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E8AEE9861D59744D00C0FF6C /* AVALogManager.h in Headers */,
 				6E0401751D1C9E750051BCFA /* AvalancheCrashes.h in Headers */,
 				6E0401761D1C9E750051BCFA /* AVACrashes.h in Headers */,
 				6E0401771D1C9EBE0051BCFA /* AvalancheHub+Internal.h in Headers */,
