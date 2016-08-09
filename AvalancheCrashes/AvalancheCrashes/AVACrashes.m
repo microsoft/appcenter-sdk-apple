@@ -9,6 +9,7 @@
 
 @synthesize delegate = _delegate;
 @synthesize isEnabled = _isEnabled;
+@synthesize logManger = _logManger;
 
 + (id)sharedInstance {
   static id sharedInstance = nil;
@@ -47,6 +48,10 @@
 
 - (BOOL)isEnabled {
   return _isEnabled;
+}
+
+- (void)onLogManagerReady:(id<AVALogManager>)logManger {
+  _logManger = logManger;
 }
 
 @end

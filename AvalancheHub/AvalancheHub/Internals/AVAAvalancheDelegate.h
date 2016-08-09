@@ -17,12 +17,4 @@
  */
 - (void)feature:(id)feature didCreateLog:(id<AVALog>)log withPriority:(AVAPriority)priority;
 
-/**
- *  Session tracking callback.
- *
- *  @param sessionTracker session tracker object.
- *  @param sessionId      new session id.
- */
-- (void)sessionTracker:(id)sessionTracker didRenewSessionWithId:(NSString *)sessionId;
-
 @end
