@@ -10,4 +10,10 @@
 
 @implementation AVAErrorReport
 
+- (BOOL)isAppKill {
+  //TODO add implementation
+  return YES;
+}
+
+
 @end

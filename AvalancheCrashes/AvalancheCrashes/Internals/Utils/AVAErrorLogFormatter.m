@@ -231,10 +231,15 @@ NSString *const AVAXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
   NSNumber *codeType = nil;
   for (AVAPLCrashReportBinaryImageInfo *image in report.images) {
     //TODO: (bereimol) use non-deprecated stuff
+    //use this instead.
+    //the NEW new schema will have fields for this
+    //long cpuType = report.systemInfo.processorInfo.type;
+//    long cpuSubType = report.systemInfo.processorInfo.subtype;
     codeType = @(image.codeType.type) ?:
     legacyTypes[@(report.systemInfo.architecture)] ?:
     [NSString stringWithFormat:@"Unknown (%d)",
      report.systemInfo.architecture];
+    
     
     
     /* Stop immediately if code type was discovered */
