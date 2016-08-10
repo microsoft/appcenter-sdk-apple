@@ -85,7 +85,6 @@
   if (![self isEnabled])
     return;
 
-  while (YES) {
   // Send async
   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 
@@ -99,7 +98,6 @@
     // Send log to core module
     [self sendLog:log withPriority:AVAPriorityDefault];
   });
-  }
 }
 
 - (void)trackPage:(NSString *)pageName withProperties:(NSDictionary *)properties {
