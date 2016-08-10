@@ -5,22 +5,20 @@
 #import "AVACrashCXXExceptionWrapperException.h"
 #import "AVACrashesHelper.h"
 #import "AVACrashesPrivate.h"
-#import "AvalancheHub+Internal.h"
 #import "AVAErrorLog.h"
 #import "AVAErrorLogFormatter.h"
+#import "AvalancheHub+Internal.h"
 
 static NSString *const kAVAAnalyzerFilename = @"AVACrashes.analyzer";
 
 #pragma mark - Callbacks Setup
 
-static AVACrashesCallbacks avaCrashCallbacks = {.context = NULL,
-                                                .handleSignal = NULL};
+static AVACrashesCallbacks avaCrashCallbacks = {.context = NULL, .handleSignal = NULL};
 
 /** Proxy implementation for PLCrashReporter to keep our interface stable while
  *  this can change.
  */
-static void plcr_post_crash_callback(siginfo_t *info, ucontext_t *uap,
-                                     void *context) {
+static void plcr_post_crash_callback(siginfo_t *info, ucontext_t *uap, void *context) {
   if (avaCrashCallbacks.handleSignal != NULL) {
     avaCrashCallbacks.handleSignal(context);
   }
@@ -32,12 +30,10 @@ static PLCrashReporterCallbacks plCrashCallbacks = {
 /**
  * C++ Exception Handler
  */
-static void
-uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInfo *info) {
+static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInfo *info) {
   // This relies on a LOT of sneaky internal knowledge of how PLCR works and
   // should not be considered a long-term solution.
-  NSGetUncaughtExceptionHandler()([[AVACrashCXXExceptionWrapperException alloc]
-      initWithCXXExceptionInfo:info]);
+  NSGetUncaughtExceptionHandler()([[AVACrashCXXExceptionWrapperException alloc] initWithCXXExceptionInfo:info]);
   abort();
 }
 
@@ -47,37 +43,36 @@ uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInfo *info) {
 @synthesize isEnabled = _isEnabled;
 
 + (BOOL)isDebuggerAttached {
-  //TODO actual implementation
+  // TODO actual implementation
   return NO;
 }
 
 + (void)generateTestCrash {
-  //TODO actual implementation
-
+  // TODO actual implementation
 }
 
 + (BOOL)hasCrashedInLastSession {
-  //TODO actual implementation
+  // TODO actual implementation
 
   return NO;
 }
 
 + (void)setUserConfirmationHandler:(_Nullable AVAUserConfirmationHandler)userConfitmationHandler {
-  //TODO actual implementation
+  // TODO actual implementation
 }
 
 + (void)notifyWithUserConfirmation:(AVAUserConfirmation)userConfirmation {
-  //TODO actual implementation
+  // TODO actual implementation
 }
 
 + (AVAErrorReport *_Nullable)lastSessionCrashDetails {
-  //TODO actual implementation
+  // TODO actual implementation
 
   return nil;
 }
 
-+ (void)setErrorLoggingDelegate:(_Nullable id <AVAErrorLoggingDelegate>)errorLoggingDelegate {
-  //TODO actual implementation
++ (void)setErrorLoggingDelegate:(_Nullable id<AVAErrorLoggingDelegate>)errorLoggingDelegate {
+  // TODO actual implementation
 }
 
 #pragma mark - Module initialization
@@ -97,8 +92,7 @@ uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInfo *info) {
     _fileManager = [[NSFileManager alloc] init];
     _crashFiles = [[NSMutableArray alloc] init];
     _crashesDir = [AVACrashesHelper crashesDir];
-    _analyzerInProgressFile =
-        [_crashesDir stringByAppendingPathComponent:kAVAAnalyzerFilename];
+    _analyzerInProgressFile = [_crashesDir stringByAppendingPathComponent:kAVAAnalyzerFilename];
   }
   return self;
 }
@@ -133,13 +127,10 @@ uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInfo *info) {
 #pragma mark - Crash reporter configuration
 
 - (void)configureCrashReporter {
-  PLCrashReporterSignalHandlerType signalHandlerType =
-      PLCrashReporterSignalHandlerTypeBSD;
-  PLCrashReporterSymbolicationStrategy symbolicationStrategy =
-      PLCrashReporterSymbolicationStrategyNone;
-  AVAPLCrashReporterConfig *config = [[AVAPLCrashReporterConfig alloc]
-      initWithSignalHandlerType:signalHandlerType
-          symbolicationStrategy:symbolicationStrategy];
+  PLCrashReporterSignalHandlerType signalHandlerType = PLCrashReporterSignalHandlerTypeBSD;
+  PLCrashReporterSymbolicationStrategy symbolicationStrategy = PLCrashReporterSymbolicationStrategyNone;
+  AVAPLCrashReporterConfig *config = [[AVAPLCrashReporterConfig alloc] initWithSignalHandlerType:signalHandlerType
+                                                                           symbolicationStrategy:symbolicationStrategy];
   _plCrashReporter = [[AVAPLCrashReporter alloc] initWithConfiguration:config];
 
   /**
@@ -166,47 +157,36 @@ uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInfo *info) {
      * invoked. Note: ANY error handler setup BEFORE SDK initialization
      * will not be processed!
      */
-    NSUncaughtExceptionHandler *initialHandler =
-        NSGetUncaughtExceptionHandler();
+    NSUncaughtExceptionHandler *initialHandler = NSGetUncaughtExceptionHandler();
 
     NSError *error = NULL;
     [self.plCrashReporter setCrashCallbacks:&plCrashCallbacks];
     if (![self.plCrashReporter enableCrashReporterAndReturnError:&error])
-      AVALogError(@"[AVACrashes] ERROR: Could not enable crash reporter: %@",
-                  [error localizedDescription]);
-    NSUncaughtExceptionHandler *currentHandler =
-        NSGetUncaughtExceptionHandler();
+      AVALogError(@"[AVACrashes] ERROR: Could not enable crash reporter: %@", [error localizedDescription]);
+    NSUncaughtExceptionHandler *currentHandler = NSGetUncaughtExceptionHandler();
     if (currentHandler && currentHandler != initialHandler) {
       self.exceptionHandler = currentHandler;
 
-      AVALogDebug(
-          @"[AVACrashes] INFO: Exception handler successfully initialized.");
+      AVALogDebug(@"[AVACrashes] INFO: Exception handler successfully initialized.");
     } else {
       AVALogError(@"[AVACrashes] ERROR: Exception handler could not be "
                   @"set. Make sure there is no other exception "
                   @"handler set up!");
     }
-    [AVACrashUncaughtCXXExceptionHandlerManager
-        addCXXExceptionHandler:uncaught_cxx_exception_handler];
+    [AVACrashUncaughtCXXExceptionHandlerManager addCXXExceptionHandler:uncaught_cxx_exception_handler];
   }
 }
 
 #pragma mark - Crash processing
 
 - (void)startDelayedCrashProcessing {
-  [NSObject
-      cancelPreviousPerformRequestsWithTarget:self
-                                     selector:@selector(startCrashProcessing)
-                                       object:nil];
-  [self performSelector:@selector(startCrashProcessing)
-             withObject:nil
-             afterDelay:0.5];
+  [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(startCrashProcessing) object:nil];
+  [self performSelector:@selector(startCrashProcessing) withObject:nil afterDelay:0.5];
 }
 
 - (void)startCrashProcessing {
   if (![AVACrashesHelper isAppExtension] &&
-      [[UIApplication sharedApplication] applicationState] !=
-          UIApplicationStateActive) {
+      [[UIApplication sharedApplication] applicationState] != UIApplicationStateActive) {
     return;
   }
 
@@ -216,8 +196,7 @@ uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInfo *info) {
   if (self.exceptionHandler) {
 
     // Get the current top level error handler
-    NSUncaughtExceptionHandler *currentHandler =
-        NSGetUncaughtExceptionHandler();
+    NSUncaughtExceptionHandler *currentHandler = NSGetUncaughtExceptionHandler();
 
     /* If the top level error handler differs from our own, then at least
      * another one was added.
@@ -236,8 +215,7 @@ uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInfo *info) {
 
     // TODO: Send and clean next crash report
     PLCrashReport *report = [self nextCrashReport];
-    AVALogVerbose(@"[AVACrashes] VERBOSE: Crash report found: %@ ",
-                  report.debugDescription);
+    AVALogVerbose(@"[AVACrashes] VERBOSE: Crash report found: %@ ", report.debugDescription);
   }
 }
 
@@ -246,12 +224,11 @@ uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInfo *info) {
   AVAPLCrashReport *report;
 
   NSArray *tempCrashesFiles = [NSArray arrayWithArray:self.crashFiles];
-  for(NSString *filePath in tempCrashesFiles) {
+  for (NSString *filePath in tempCrashesFiles) {
     // we start sending always with the oldest pending one
     NSData *crashFileData = [NSData dataWithContentsOfFile:filePath];
     if ([crashFileData length] > 0) {
-      report =
-      [[AVAPLCrashReport alloc] initWithData:crashFileData error:&error];
+      report = [[AVAPLCrashReport alloc] initWithData:crashFileData error:&error];
       AVAErrorLog *log = [AVAErrorLogFormatter errorLogFromCrashReport:report];
       [self.delegate feature:self didCreateLog:log withPriority:AVAPriorityHigh];
       [self deleteCrashReportWithFilePath:filePath];
@@ -280,24 +257,18 @@ uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInfo *info) {
     [self createAnalyzerFile];
 
     // Try loading the crash report
-    NSData *crashData = [[NSData alloc]
-        initWithData:[self.plCrashReporter
-                         loadPendingCrashReportDataAndReturnError:&error]];
-    NSString *cacheFilename = [NSString
-        stringWithFormat:@"%.0f", [NSDate timeIntervalSinceReferenceDate]];
+    NSData *crashData =
+        [[NSData alloc] initWithData:[self.plCrashReporter loadPendingCrashReportDataAndReturnError:&error]];
+    NSString *cacheFilename = [NSString stringWithFormat:@"%.0f", [NSDate timeIntervalSinceReferenceDate]];
 
     if (crashData == nil) {
-      AVALogError(@"[AVACrashes] ERROR: Could not load crash report: %@",
-                  error);
+      AVALogError(@"[AVACrashes] ERROR: Could not load crash report: %@", error);
     } else {
 
       // Get data of PLCrashReport and write it to SDK directory
-      AVAPLCrashReport *report =
-          [[AVAPLCrashReport alloc] initWithData:crashData error:&error];
+      AVAPLCrashReport *report = [[AVAPLCrashReport alloc] initWithData:crashData error:&error];
       if (report) {
-        [crashData writeToFile:[self.crashesDir
-                                   stringByAppendingPathComponent:cacheFilename]
-                    atomically:YES];
+        [crashData writeToFile:[self.crashesDir stringByAppendingPathComponent:cacheFilename] atomically:YES];
       } else {
         AVALogWarning(@"[AVACrashes] WARNING: Could not parse crash report");
       }
@@ -314,21 +285,15 @@ uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInfo *info) {
   NSMutableArray *persitedCrashReports = [NSMutableArray new];
   if ([self.fileManager fileExistsAtPath:self.crashesDir]) {
     NSError *error;
-    NSArray *dirArray =
-        [self.fileManager contentsOfDirectoryAtPath:self.crashesDir
-                                              error:&error];
+    NSArray *dirArray = [self.fileManager contentsOfDirectoryAtPath:self.crashesDir error:&error];
 
     for (NSString *file in dirArray) {
-      NSString *filePath =
-          [self.crashesDir stringByAppendingPathComponent:file];
-      NSDictionary *fileAttributes =
-          [self.fileManager attributesOfItemAtPath:filePath error:&error];
+      NSString *filePath = [self.crashesDir stringByAppendingPathComponent:file];
+      NSDictionary *fileAttributes = [self.fileManager attributesOfItemAtPath:filePath error:&error];
 
-      if ([[fileAttributes objectForKey:NSFileType]
-              isEqualToString:NSFileTypeRegular] &&
-          [[fileAttributes objectForKey:NSFileSize] intValue] > 0 &&
-          ![file hasSuffix:@".DS_Store"] && ![file hasSuffix:@".analyzer"] &&
-          ![file hasSuffix:@".plist"] && ![file hasSuffix:@".data"] &&
+      if ([[fileAttributes objectForKey:NSFileType] isEqualToString:NSFileTypeRegular] &&
+          [[fileAttributes objectForKey:NSFileSize] intValue] > 0 && ![file hasSuffix:@".DS_Store"] &&
+          ![file hasSuffix:@".analyzer"] && ![file hasSuffix:@".plist"] && ![file hasSuffix:@".data"] &&
           ![file hasSuffix:@".meta"] && ![file hasSuffix:@".desc"]) {
         [persitedCrashReports addObject:filePath];
       }
@@ -340,19 +305,15 @@ uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInfo *info) {
 - (void)removeAnalyzerFile {
   if ([self.fileManager fileExistsAtPath:self.analyzerInProgressFile]) {
     NSError *error = nil;
-    if (![self.fileManager removeItemAtPath:self.analyzerInProgressFile
-                                      error:&error]) {
-      AVALogError(@"[AVACrashes] ERROR: Couldn't remove analzer file at %@: ",
-                  self.analyzerInProgressFile);
+    if (![self.fileManager removeItemAtPath:self.analyzerInProgressFile error:&error]) {
+      AVALogError(@"[AVACrashes] ERROR: Couldn't remove analzer file at %@: ", self.analyzerInProgressFile);
     }
   }
 }
 
 - (void)createAnalyzerFile {
   if (![self.fileManager fileExistsAtPath:self.analyzerInProgressFile]) {
-    [self.fileManager createFileAtPath:self.analyzerInProgressFile
-                              contents:nil
-                            attributes:nil];
+    [self.fileManager createFileAtPath:self.analyzerInProgressFile contents:nil attributes:nil];
   }
 }
 

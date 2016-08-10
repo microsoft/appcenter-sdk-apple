@@ -7,23 +7,21 @@
 @implementation AVABinaryAttachment
 
 - (instancetype)initWithFilename:(NSString *)filename
-            attachmentData:(NSData *)data
-                     contentType:(NSString *)contentType
-{
+                  attachmentData:(NSData *)data
+                     contentType:(NSString *)contentType {
   if (self = [super init]) {
     _filename = filename;
     _data = data;
-    
+
     if (contentType) {
       _contentType = contentType;
     } else {
       _contentType = @"application/octet-stream";
     }
   }
-  
+
   return self;
 }
-
 
 #pragma mark - NSCoder
 

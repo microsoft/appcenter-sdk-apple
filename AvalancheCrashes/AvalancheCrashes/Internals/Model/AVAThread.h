@@ -2,8 +2,8 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import <Foundation/Foundation.h>
 #import "AvalancheHub+Internal.h"
+#import <Foundation/Foundation.h>
 
 @class AVAThreadFrame;
 
@@ -11,10 +11,10 @@
 
 /* Thread number.
  */
-@property(nonatomic) NSNumber* threadId;
+@property(nonatomic) NSNumber *threadId;
 
 /* Thread frames.
  */
-@property(nonatomic) NSMutableArray<AVAThreadFrame *>* frames;
+@property(nonatomic) NSMutableArray<AVAThreadFrame *> *frames;
 
 @end

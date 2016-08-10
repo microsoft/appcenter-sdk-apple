@@ -14,7 +14,7 @@ static NSString *const kAVAInnerExceptions = @"innerExceptions";
 
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [NSMutableDictionary new];
-  
+
   if (self.exceptionId) {
     dict[kAVAId] = self.exceptionId;
   }
@@ -37,7 +37,7 @@ static NSString *const kAVAInnerExceptions = @"innerExceptions";
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
   self = [super init];
-  if(self) {
+  if (self) {
     _exceptionId = [coder decodeObjectForKey:kAVAId];
     _reason = [coder decodeObjectForKey:kAVAReason];
     _language = [coder decodeObjectForKey:kAVALanguage];

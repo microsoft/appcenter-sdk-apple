@@ -11,7 +11,7 @@ static NSString *const kAVAFrames = @"frames";
 
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [NSMutableDictionary new];
-  
+
   if (self.threadId) {
     dict[kAVAId] = self.threadId;
   }
@@ -25,7 +25,7 @@ static NSString *const kAVAFrames = @"frames";
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
   self = [super init];
-  if(self) {
+  if (self) {
     _threadId = [coder decodeObjectForKey:kAVAId];
     _frames = [coder decodeObjectForKey:kAVAFrames];
   }

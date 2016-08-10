@@ -15,7 +15,7 @@ static NSString *const kAVAPath = @"path";
 
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [NSMutableDictionary new];
-  
+
   if (self.binaryId) {
     dict[kAVAId] = self.binaryId;
   }
@@ -41,7 +41,7 @@ static NSString *const kAVAPath = @"path";
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
   self = [super init];
-  if(self) {
+  if (self) {
     _binaryId = [coder decodeObjectForKey:kAVAId];
     _startAddress = [coder decodeObjectForKey:kAVAStartAddress];
     _endAddress = [coder decodeObjectForKey:kAVAEndAddress];

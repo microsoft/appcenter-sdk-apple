@@ -15,12 +15,11 @@
 /**
  * Text attachment, e.g. a user's mail address.
  */
-@property (nonatomic) NSString *textAttachment;
+@property(nonatomic) NSString *textAttachment;
 
 /**
  * A binary attachment, can be anything, e.g. a db dump.
  */
-@property (nonatomic, readwrite) AVABinaryAttachment *attachmentFile;
-
+@property(nonatomic, readwrite) AVABinaryAttachment *attachmentFile;
 
 @end

@@ -12,7 +12,7 @@ static NSString *const kAVARegisters = @"registers";
 
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [NSMutableDictionary new];
-  
+
   if (self.address) {
     dict[kAVAAddress] = self.address;
   }
@@ -29,12 +29,12 @@ static NSString *const kAVARegisters = @"registers";
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
   self = [super init];
-  if(self) {
+  if (self) {
     _address = [coder decodeObjectForKey:kAVAAddress];
     _symbol = [coder decodeObjectForKey:kAVASymbol];
     _registers = [coder decodeObjectForKey:kAVARegisters];
   }
-  
+
   return self;
 }
 

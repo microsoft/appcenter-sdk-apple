@@ -30,14 +30,14 @@ static NSString *const kAVABinaries = @"binaries";
 
 - (instancetype)init {
   if (self = [super init]) {
-    _type= kAVATypeError;
+    _type = kAVATypeError;
   }
   return self;
 }
 
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [super serializeToDictionary];
-  
+
   if (self.crashId) {
     dict[kAVAId] = self.crashId;
   }
@@ -101,7 +101,7 @@ static NSString *const kAVABinaries = @"binaries";
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
   self = [super initWithCoder:coder];
-  if(self) {
+  if (self) {
     _type = [coder decodeObjectForKey:kAVAType];
     _crashId = [coder decodeObjectForKey:kAVAId];
     _process = [coder decodeObjectForKey:kAVAProcess];

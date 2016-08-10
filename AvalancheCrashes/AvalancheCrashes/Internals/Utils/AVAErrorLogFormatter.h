@@ -7,7 +7,7 @@
 /**
  *  Error logging error domain
  */
-typedef NS_ENUM (NSInteger, AVABinaryImageType) {
+typedef NS_ENUM(NSInteger, AVABinaryImageType) {
   /**
    *  App binary
    */
@@ -25,6 +25,5 @@ typedef NS_ENUM (NSInteger, AVABinaryImageType) {
 @interface AVAErrorLogFormatter : NSObject
 
 + (AVAErrorLog *)errorLogFromCrashReport:(PLCrashReport *)report;
-
 
 @end
