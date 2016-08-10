@@ -1,10 +1,6 @@
-//
-//  AVAPublicErrorLog.h
-//  AvalancheCrashes
-//
-//  Created by Benjamin Reimold on 8/1/16.
-//  Copyright © 2016 Microsoft. All rights reserved.
-//
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ */
 
 #import <Foundation/Foundation.h>
 
@@ -78,7 +74,7 @@
 /**
  Indicates if the app was killed while being in foreground from the iOS
  
- If `[BITCrashManager enableAppNotTerminatingCleanlyDetection]` is enabled, use this on startup
+ If `[AVACrashes enableAppNotTerminatingCleanlyDetection]` is enabled, use this on startup
  to check if the app starts the first time after it was killed by iOS in the previous session.
  
  This can happen if it consumed too much memory or the watchdog killed the app because it
@@ -90,8 +86,8 @@
  @warning This property only has a correct value, once `[BITHockeyManager startManager]` was
  invoked! In addition, it is automatically disabled while a debugger session is active!
  
- @see `[BITCrashManager enableAppNotTerminatingCleanlyDetection]`
- @see `[BITCrashManager didReceiveMemoryWarningInLastSession]`
+ @see `[AVACrashes enableAppNotTerminatingCleanlyDetection]`
+ @see `[AVACrashes didReceiveMemoryWarningInLastSession]`
  
  @return YES if the details represent an app kill instead of a crash
  */

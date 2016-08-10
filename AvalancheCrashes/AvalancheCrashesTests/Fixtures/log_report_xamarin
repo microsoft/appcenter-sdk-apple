@@ -18,7 +18,7 @@ Exception Codes: #0 at 0x9c54572
 Crashed Thread:  0
 
 Application Specific Information:
-*** Terminating app due to uncaught exception 'System.AggregateException', reason: 'System.AggregateException: This is an aggregate exception with 2 inner exceptions. ---> HockeySDKXamarinDemo.TestHockeyAppException: This is the first basic exception.'
+*** Terminating app due to uncaught exception 'System.AggregateException', reason: 'System.AggregateException: This is an aggregate exception with 2 inner exceptions. ---> HockeySDKXamarinDemo.TestAppHubException: This is the first basic exception.'
 
 Xamarin Exception Stack:
   at HockeySDKXamarinDemo.TestPage.ThrowAggregateException (System.Object sender, System.EventArgs e) [0x0000d] in /Users/myUser/Documents/Workspace/HockeySDK-XamarinDemo/HockeySDK-XamarinDemo/TestPage.cs:105 
@@ -31,9 +31,9 @@ Xamarin Exception Stack:
   at UIKit.UIApplication.Main (System.String[] args, IntPtr principal, IntPtr delegate) [0x00005] in /Users/builder/data/lanes/3051/5f11db87/source/maccore/src/UIKit/UIApplication.cs:77 
   at UIKit.UIApplication.Main (System.String[] args, System.String principalClassName, System.String delegateClassName) [0x0001c] in /Users/builder/data/lanes/3051/5f11db87/source/maccore/src/UIKit/UIApplication.cs:60 
   at HockeySDKXamarinDemo.Application.Main (System.String[] args) [0x00008] in /Users/myUser/Documents/Workspace/HockeySDK-XamarinDemo/iOS/Main.cs:17 
----> (Inner Exception #0) HockeySDKXamarinDemo.TestHockeyAppException: This is the first basic exception.
+---> (Inner Exception #0) HockeySDKXamarinDemo.TestAppHubException: This is the first basic exception.
   at HockeySDKXamarinDemo.TestPage.ThrowAggregateException (System.Object sender, System.EventArgs e) [0x0000d] in /Users/myUser/Documents/Workspace/HockeySDK-XamarinDemo/HockeySDK-XamarinDemo/TestPage.cs:105 <---
----> (Inner Exception #1) HockeySDKXamarinDemo.TestHockeyAppException: This is the second basic exception.
+---> (Inner Exception #1) HockeySDKXamarinDemo.TestAppHubException: This is the second basic exception.
   at HockeySDKXamarinDemo.TestPage.ThrowAggregateException (System.Object sender, System.EventArgs e) [0x00028] in /Users/myUser/Documents/Workspace/HockeySDK-XamarinDemo/HockeySDK-XamarinDemo/TestPage.cs:114 <---
 
 Last Exception Backtrace:

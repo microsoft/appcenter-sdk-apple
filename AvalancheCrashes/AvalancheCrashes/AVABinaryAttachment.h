@@ -1,10 +1,6 @@
-//
-//  AVABinaryAttachment.h
-//  AvalancheCrashes
-//
-//  Created by Benjamin Reimold on 8/1/16.
-//  Copyright © 2016 Microsoft. All rights reserved.
-//
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ */
 
 #import <Foundation/Foundation.h>
 
@@ -28,9 +24,9 @@
 /**
  Create an AVABinaryAttachment instance with a given filename and NSData object
  
- @param filename             The filename the attachment should get. If nil will get a automatically generated filename
+ @param filename The filename the attachment should get. If nil will get a automatically generated filename
  @param data The attachment data as NSData. The instance will be ignore if this is set to nil!
- @param contentType          The content type of your data as MIME type. If nil will be set to "application/octet-stream"
+ @param contentType The content type of your data as MIME type. If nil will be set to "application/octet-stream"
  
  @return An instance of AVABinaryAttachment.
  */

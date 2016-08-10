@@ -55,7 +55,7 @@ typedef NS_ENUM(NSUInteger, AVAUserConfirmation) {
 @interface AVACrashes : NSObject <AVAFeature>
 
 /**
- Indicates if the app crash in the previous session
+ Indicates if the app crashed in the previous session
  
  Use this on startup, to check if the app starts the first time after it crashed
  previously. You can use this also to disable specific events, like asking

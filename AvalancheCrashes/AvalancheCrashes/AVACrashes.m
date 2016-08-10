@@ -221,14 +221,14 @@ uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInfo *info) {
 
     // If the top level error handler differs from our own, then at least
     // another one was added.
-    // This could cause exception crashes not to be reported to HockeyApp. See
+    // This could cause exception crashes not to be reported to AppHub. See
     // log message for details.
     if (self.exceptionHandler != currentHandler) {
       AVALogWarning(@"[AVACrashes] WARNING: Another exception handler was "
                     @"added. If this invokes any kind exit() after processing "
                     @"the exception, which causes any subsequent error "
                     @"handler not to be invoked, these crashes will NOT be "
-                    @"reported to HockeyApp!");
+                    @"reported to AppHub!");
     }
   }
   if (!self.sendingInProgress && self.crashFiles.count > 0) {
