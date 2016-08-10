@@ -21,12 +21,12 @@ static NSUInteger const kAVAMaxSessionHistoryCount = 5;
 @property(nonatomic, readwrite) NSString *sessionId;
 
 /**
- *  Flag to indicate if session tracking has started or not
+ *  Flag to indicate if session tracking has started or not.
  */
 @property(nonatomic) BOOL started;
 
 /**
- *  Check if current session has timed out
+ *  Check if current session has timed out.
  *
  *  @return YES if current session has timed out, NO otherwise
  */
@@ -120,7 +120,7 @@ static NSUInteger const kAVAMaxSessionHistoryCount = 5;
   @synchronized(self) {
     NSDate *now = [NSDate date];
   
-    // Verify if last time that a log was sent is longer than the session timeout time
+    // Verify if last time that a log was sent is longer than the session timeout time.
     BOOL noLogSentForLong = [now timeIntervalSinceDate:self.lastCreatedLogTime] >= self.sessionTimeout;
 
     // Verify if app is currently in the background for a longer time than the
@@ -130,7 +130,7 @@ static NSUInteger const kAVAMaxSessionHistoryCount = 5;
         ([now timeIntervalSinceDate:self.lastEnteredBackgroundTime] >= self.sessionTimeout);
 
     // Verify if app was in the background for a longer time than the session
-    // timeout time
+    // timeout time.
     BOOL wasBackgroundForLong = (self.lastEnteredBackgroundTime)
                                     ? [self.lastEnteredForegroundTime
                                           timeIntervalSinceDate:self.lastEnteredBackgroundTime] >= self.sessionTimeout
@@ -151,7 +151,7 @@ static NSUInteger const kAVAMaxSessionHistoryCount = 5;
 
 - (void)onProcessingLog:(id<AVALog>)log withPriority:(AVAPriority)priority {
 
-  // Start session log is create in this method, therefore, skip in order to avoid infinite loop.
+  // Start session log is created in this method, therefore, skip in order to avoid infinite loop.
   if ([((NSObject *)log) isKindOfClass:[AVAStartSessionLog class]])
     return;
 
@@ -164,7 +164,7 @@ static NSUInteger const kAVAMaxSessionHistoryCount = 5;
         }];
   }
 
-  // If log is not corollated to a past session,
+  // If log is not corollated to a past session.
   if (log.sid == nil) {
     log.sid = self.sessionId;
   }
