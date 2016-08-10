@@ -44,8 +44,8 @@ NSString *const kAVAType = @"type";
 - (BOOL)isValid {
   BOOL isValid = YES;
 
-  // Is valid
-  if (!self.type || !self.sid || !self.toffset || !self.device)
+  // Is valid (session id can be nil).
+  if (!self.type || !self.toffset || !self.device)
     isValid = NO;
   return isValid;
 }

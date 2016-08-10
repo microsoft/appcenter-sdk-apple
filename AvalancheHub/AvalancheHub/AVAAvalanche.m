@@ -90,6 +90,9 @@ static NSString *const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azu
     // Set delegate.
     feature.delegate = self;
     [self.features addObject:feature];
+    
+    // Set log manager.
+    [feature onLogManagerReady:self.logManager];
     [feature startFeature];
   }
   _featuresStarted = YES;
@@ -105,10 +108,6 @@ static NSString *const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azu
 }
 
 - (void)initializePipeline {
-
-  // Init device tracker.
-  _deviceTracker = [[AVADeviceTracker alloc] init];
-
   // Construct http headers.
   NSDictionary *headers = @{
     kAVAContentTypeKey : kAVAContentType,
@@ -162,29 +161,10 @@ static NSString *const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azu
   }
 }
 
-- (void)setCommonLogInfo:(id<AVALog>)log {
-
-  // If session id exists, use it.
-  if (log.sid == nil && self.sessionId)
-    log.sid = self.sessionId;
-
-  // Set common log info.
-  log.sid = _sessionId;
-  log.toffset = [NSNumber numberWithInteger:[[NSDate date] timeIntervalSince1970]];
-  log.device = self.deviceTracker.device;
-}
-
 #pragma mark - AVAAvalancheDelegate
 
 - (void)feature:(id)feature didCreateLog:(id<AVALog>)log withPriority:(AVAPriority)priority {
-
-  // Set common log info and send log.
-  [self setCommonLogInfo:log];
   [self.logManager processLog:log withPriority:priority];
-}
-
-- (void)sessionTracker:(id)sessionTracker didRenewSessionWithId:(NSString *)sessionId {
-  _sessionId = sessionId;
 }
 
 @end

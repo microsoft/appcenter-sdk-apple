@@ -3,13 +3,15 @@
  */
 
 #import "AVASessionTracker.h"
+#import "AVAStartSessionLog.h"
 #import "AvalancheHub+Internal.h"
 #import <UIKit/UIKit.h>
 
 static NSTimeInterval const kAVASessionTimeOut = 20;
-static NSString *const kAVASessionIdKey = @"kAVASessionId";
+static NSString *const kAVAPastSessionsKey = @"kAVAPastSessionsKey";
 static NSString *const kAVALastEnteredBackgroundKey = @"kAVALastEnteredBackgroundKey";
 static NSString *const kAVALastEnteredForegroundTime = @"kAVALastEnteredForegroundTime";
+static NSUInteger const kAVAMaxSessionHistoryCount = 5;
 
 @interface AVASessionTracker ()
 
@@ -19,12 +21,12 @@ static NSString *const kAVALastEnteredForegroundTime = @"kAVALastEnteredForegrou
 @property(nonatomic, readwrite) NSString *sessionId;
 
 /**
- *  Flag to indicate if session tracking has started or not
+ *  Flag to indicate if session tracking has started or not.
  */
 @property(nonatomic) BOOL started;
 
 /**
- *  Check if current session has timed out
+ *  Check if current session has timed out.
  *
  *  @return YES if current session has timed out, NO otherwise
  */
@@ -38,7 +40,21 @@ static NSString *const kAVALastEnteredForegroundTime = @"kAVALastEnteredForegrou
   if (self = [super init]) {
     _sessionTimeout = kAVASessionTimeOut;
 
-    // Session tracking is not started by default
+    // Restore past sessions from NSUserDefaults.
+    NSData *sessions = [kAVASettings objectForKey:kAVAPastSessionsKey];
+    if (sessions != nil) {
+      NSArray *arrayFromData = [NSKeyedUnarchiver unarchiveObjectWithData:sessions];
+
+      // If array is not nil, create a mutable version.
+      if (arrayFromData)
+        _pastSessions = [NSMutableArray arrayWithArray:arrayFromData];
+    }
+
+    // Create new array.
+    if (_pastSessions == nil)
+      _pastSessions = [NSMutableArray<AVASessionHistoryInfo *> new];
+
+    // Session tracking is not started by default.
     _started = NO;
   }
   return self;
@@ -46,17 +62,31 @@ static NSString *const kAVALastEnteredForegroundTime = @"kAVALastEnteredForegrou
 
 - (NSString *)sessionId {
 
-  // Check if new session id is required
+  // Check if new session id is required.
   if (_sessionId == nil || [self hasSessionTimedOut]) {
     _sessionId = kAVAUUIDString;
 
-    // Persist the session id
-    [kAVASettings setObject:_sessionId forKey:kAVASessionIdKey];
-    [kAVASettings synchronize];
+    // Record session.
+    AVASessionHistoryInfo *sessionInfo = [[AVASessionHistoryInfo alloc] init];
+    sessionInfo.sessionId = _sessionId;
+    sessionInfo.toffset = [NSNumber numberWithInteger:[[NSDate date] timeIntervalSince1970]];
 
-    // Call the delegate with the new session id
-    [self.delegate sessionTracker:self didRenewSessionWithId:_sessionId];
+    // Insert at the beginning of the list.
+    [self.pastSessions insertObject:sessionInfo atIndex:0];
+
+    // Remove last item if reached max limit.
+    if ([self.pastSessions count] > kAVAMaxSessionHistoryCount)
+      [self.pastSessions removeLastObject];
+
+    // Persist the session history in NSData format.
+    [kAVASettings setObject:[NSKeyedArchiver archivedDataWithRootObject:self.pastSessions] forKey:kAVAPastSessionsKey];
+    [kAVASettings synchronize];
     AVALogVerbose(@"INFO:new session ID: %@", _sessionId);
+
+    // Create a start session log.
+    AVAStartSessionLog *log = [[AVAStartSessionLog alloc] init];
+    log.sid = _sessionId;
+    [self.delegate sessionTracker:self processLog:log withPriority:AVAPriorityDefault];
   }
   return _sessionId;
 }
@@ -86,24 +116,27 @@ static NSString *const kAVALastEnteredForegroundTime = @"kAVALastEnteredForegrou
 #pragma mark - private methods
 
 - (BOOL)hasSessionTimedOut {
-  NSDate *now = [NSDate date];
 
-  // Verify if last time that a log was sent is longer than the session timeout time
-  BOOL noLogSentForLong = [now timeIntervalSinceDate:self.lastCreatedLogTime] >= self.sessionTimeout;
+  @synchronized(self) {
+    NSDate *now = [NSDate date];
+  
+    // Verify if last time that a log was sent is longer than the session timeout time.
+    BOOL noLogSentForLong = [now timeIntervalSinceDate:self.lastCreatedLogTime] >= self.sessionTimeout;
 
-  // Verify if app is currently in the background for a longer time than the
-  BOOL isBackgroundForLong =
-      (self.lastEnteredBackgroundTime && self.lastEnteredForegroundTime) &&
-      ([self.lastEnteredBackgroundTime compare:self.lastEnteredForegroundTime] == NSOrderedDescending) &&
-      ([now timeIntervalSinceDate:self.lastEnteredBackgroundTime] >= self.sessionTimeout);
+    // Verify if app is currently in the background for a longer time than the
+    BOOL isBackgroundForLong =
+        (self.lastEnteredBackgroundTime && self.lastEnteredForegroundTime) &&
+        ([self.lastEnteredBackgroundTime compare:self.lastEnteredForegroundTime] == NSOrderedDescending) &&
+        ([now timeIntervalSinceDate:self.lastEnteredBackgroundTime] >= self.sessionTimeout);
 
-  // Verify if app was in the background for a longer time than the session
-  // timeout time
-  BOOL wasBackgroundForLong =
-      (self.lastEnteredBackgroundTime)
-          ? [self.lastEnteredForegroundTime timeIntervalSinceDate:self.lastEnteredBackgroundTime] >= self.sessionTimeout
-          : false;
-  return noLogSentForLong && (isBackgroundForLong || wasBackgroundForLong);
+    // Verify if app was in the background for a longer time than the session
+    // timeout time.
+    BOOL wasBackgroundForLong = (self.lastEnteredBackgroundTime)
+                                    ? [self.lastEnteredForegroundTime
+                                          timeIntervalSinceDate:self.lastEnteredBackgroundTime] >= self.sessionTimeout
+                                    : false;
+    return noLogSentForLong && (isBackgroundForLong || wasBackgroundForLong);
+  }
 }
 
 - (void)applicationDidEnterBackground {
@@ -112,6 +145,33 @@ static NSString *const kAVALastEnteredForegroundTime = @"kAVALastEnteredForegrou
 
 - (void)applicationWillEnterForeground {
   self.lastEnteredForegroundTime = [NSDate date];
+}
+
+#pragma mark - AVALogManagerListener
+
+- (void)onProcessingLog:(id<AVALog>)log withPriority:(AVAPriority)priority {
+
+  // Start session log is created in this method, therefore, skip in order to avoid infinite loop.
+  if ([((NSObject *)log) isKindOfClass:[AVAStartSessionLog class]])
+    return;
+
+  if (log.toffset != nil) {
+    [self.pastSessions
+        enumerateObjectsUsingBlock:^(AVASessionHistoryInfo *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
+          if ([log.toffset compare:obj.toffset] == NSOrderedDescending) {
+            log.sid = obj.sessionId;
+            stop = YES;
+          }
+        }];
+  }
+
+  // If log is not corollated to a past session.
+  if (log.sid == nil) {
+    log.sid = self.sessionId;
+  }
+
+  // Update time stamp.
+  _lastCreatedLogTime = [NSDate date];
 }
 
 @end
