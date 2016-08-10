@@ -1,10 +1,7 @@
 //
-//  AVAErrorAttachment.h
-//  AvalancheCrashes
-//
-//  Created by Benjamin Reimold on 8/1/16.
-//  Copyright © 2016 Microsoft. All rights reserved.
-//
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ */
 
 #import <Foundation/Foundation.h>
 
