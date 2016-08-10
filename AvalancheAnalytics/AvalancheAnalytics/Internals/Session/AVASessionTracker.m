@@ -160,6 +160,7 @@ static NSUInteger const kAVAMaxSessionHistoryCount = 5;
         enumerateObjectsUsingBlock:^(AVASessionHistoryInfo *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
           if ([log.toffset compare:obj.toffset] == NSOrderedDescending) {
             log.sid = obj.sessionId;
+            stop = YES;
           }
         }];
   }

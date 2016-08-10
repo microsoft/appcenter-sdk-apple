@@ -7,6 +7,10 @@
 static NSString *const kAVASessionIdKey = @"kAVASessionIdKey";
 static NSString *const kAVAToffsetKey = @"kAVAToffsetKey";
 
+/**
+ This class is used to associate session id with the timestamp that it was created.
+ */
+
 @implementation AVASessionHistoryInfo
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
