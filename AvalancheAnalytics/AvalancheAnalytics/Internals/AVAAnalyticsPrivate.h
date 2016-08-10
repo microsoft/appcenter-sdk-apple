@@ -5,6 +5,7 @@
 #import "AVAAnalytics.h"
 #import "AVASessionTracker.h"
 #import "Internals/AVAFeaturePrivate.h"
+#import "AVASessionTrackerDelegate.h"
 
 @interface AVAAnalytics () <AVAFeaturePrivate, AVASessionTrackerDelegate>
 

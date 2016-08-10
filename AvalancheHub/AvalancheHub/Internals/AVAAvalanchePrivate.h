@@ -4,7 +4,6 @@
 
 #import "AVAAvalanche.h"
 #import "AVAAvalancheDelegate.h"
-#import "AVADeviceTracker.h"
 #import "AVAFeaturePrivate.h"
 #import "AVALogManager.h"
 #import "AVALoggerPrivate.h"
@@ -26,8 +25,6 @@ static NSString *const kAVAInstallIdKey = @"AVAInstallId";
 @property(nonatomic) NSString *apiVersion;
 @property BOOL featuresStarted;
 @property BOOL isEnabled;
-@property(nonatomic) AVADeviceTracker *deviceTracker;
-@property(nonatomic) NSString *sessionId;
 
 - (NSString *)appSecret;
 - (NSString *)apiVersion;

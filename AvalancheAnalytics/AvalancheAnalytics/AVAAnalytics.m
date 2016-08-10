@@ -6,7 +6,6 @@
 #import "AVAAnalyticsPrivate.h"
 #import "AVAEventLog.h"
 #import "AVAPageLog.h"
-#import "AVAStartSessionLog.h"
 #import "AvalancheHub+Internal.h"
 
 @implementation AVAAnalytics
@@ -14,6 +13,7 @@
 @synthesize delegate = _delegate;
 @synthesize isEnabled = _isEnabled;
 @synthesize autoPageTrackingEnabled = _autoPageTrackingEnabled;
+@synthesize logManger = _logManger;
 
 + (id)sharedInstance {
   static id sharedInstance = nil;
@@ -40,6 +40,10 @@
 }
 
 - (void)startFeature {
+  
+  // Add listener to log manager.
+  [self.logManger addListener:_sessionTracker];
+
   // Enabled auto page tracking
   if (self.autoPageTrackingEnabled) {
     [AVAAnalyticsCategory activateCategory];
@@ -116,6 +120,7 @@
 
 - (void)setEnabled:(BOOL)isEnabled {
   _isEnabled = isEnabled;
+  isEnabled ? [self.logManger addListener:self.sessionTracker] : [self.logManger removeListener:self.sessionTracker];
 }
 
 - (BOOL)isEnabled {
@@ -131,29 +136,16 @@
 }
 
 - (void)sendLog:(id<AVALog>)log withPriority:(AVAPriority)priority {
-
-  // Set session ID
-  log.sid = self.sessionTracker.sessionId;
-
   // Send log to core module.
-  [self.delegate feature:self didCreateLog:log withPriority:priority];
-
-  // Set last log created time on the session tracker.
-  self.sessionTracker.lastCreatedLogTime = [NSDate date];
+  [self.logManger processLog:log withPriority:priority];
 }
 
-- (void)sessionTracker:(id)sessionTracker didRenewSessionWithId:(NSString *)sessionId {
+- (void)sessionTracker:(id)sessionTracker processLog:(id<AVALog>)log withPriority:(AVAPriority)priority {
+  [self sendLog:log withPriority:priority];
+}
 
-  // Forward session renewal to core module.
-  [self.delegate sessionTracker:self didRenewSessionWithId:sessionId];
-
-  // Create a start session log.
-  AVAStartSessionLog *log = [[AVAStartSessionLog alloc] init];
-
-  log.sid = sessionId;
-
-  // Send log to core module.
-  [self.delegate feature:self didCreateLog:log withPriority:AVAPriorityDefault];
+- (void)onLogManagerReady:(id<AVALogManager>)logManger {
+  _logManger = logManger;
 }
 
 @end

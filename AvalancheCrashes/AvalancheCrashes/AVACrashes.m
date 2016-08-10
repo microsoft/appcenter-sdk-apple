@@ -41,6 +41,7 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
 
 @synthesize delegate = _delegate;
 @synthesize isEnabled = _isEnabled;
+@synthesize logManger = _logManger;
 
 + (BOOL)isDebuggerAttached {
   // TODO actual implementation
@@ -315,6 +316,10 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
   if (![self.fileManager fileExistsAtPath:self.analyzerInProgressFile]) {
     [self.fileManager createFileAtPath:self.analyzerInProgressFile contents:nil attributes:nil];
   }
+}
+
+- (void)onLogManagerReady:(id<AVALogManager>)logManger {
+  _logManger = logManger;
 }
 
 @end

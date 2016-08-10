@@ -2,11 +2,16 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
+#import "AVASessionHistoryInfo.h"
 #import "AVASessionTrackerDelegate.h"
+#import "AvalancheHub+Internal.h"
 #import <Foundation/Foundation.h>
 
-@interface AVASessionTracker : NSObject
+@interface AVASessionTracker : NSObject <AVALogManagerListener>
 
+/**
+ *  Session tracker delegate.
+ */
 @property(nonatomic) id<AVASessionTrackerDelegate> delegate;
 
 /**
@@ -22,7 +27,7 @@
 /**
  * Timestamp of the last created log
  */
-@property(atomic) NSDate *lastCreatedLogTime;
+@property(nonatomic) NSDate *lastCreatedLogTime;
 
 /**
  *  Timestamp of the last time that the app entered foreground
@@ -33,6 +38,11 @@
  *  Timestamp of the last time that the app entered background
  */
 @property(nonatomic) NSDate *lastEnteredBackgroundTime;
+
+/**
+ *  Sorted array of session histories.
+ */
+@property(nonatomic) NSMutableArray<AVASessionHistoryInfo *> *pastSessions;
 
 /**
  *  Start session tracking
