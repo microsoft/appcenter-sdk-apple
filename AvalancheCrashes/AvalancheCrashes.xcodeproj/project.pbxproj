@@ -192,8 +192,8 @@
 		6EC99A361D416CCF0016C325 /* log_report_xamarin */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = log_report_xamarin; sourceTree = "<group>"; };
 		B2E39BE21D4FDD9700DDF9DC /* AVABinaryAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AVABinaryAttachment.h; path = ../../AVABinaryAttachment.h; sourceTree = "<group>"; };
 		B2E39BE31D4FDD9700DDF9DC /* AVABinaryAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AVABinaryAttachment.m; path = ../../AVABinaryAttachment.m; sourceTree = "<group>"; };
-		B2E39BE41D4FDD9700DDF9DC /* AVAErrorAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAErrorAttachment.h; sourceTree = "<group>"; };
-		B2E39BE51D4FDD9700DDF9DC /* AVAErrorAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAErrorAttachment.m; sourceTree = "<group>"; };
+		B2E39BE41D4FDD9700DDF9DC /* AVAErrorAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AVAErrorAttachment.h; path = ../../AVAErrorAttachment.h; sourceTree = "<group>"; };
+		B2E39BE51D4FDD9700DDF9DC /* AVAErrorAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AVAErrorAttachment.m; path = ../../AVAErrorAttachment.m; sourceTree = "<group>"; };
 		B2E39BE61D4FDD9700DDF9DC /* AVAErrorLoggingDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAErrorLoggingDelegate.h; sourceTree = "<group>"; };
 		B2E39BF01D500BFE00DDF9DC /* AVAErrorReport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AVAErrorReport.h; path = ../../AVAErrorReport.h; sourceTree = "<group>"; };
 		B2E39BF11D500BFE00DDF9DC /* AVAErrorReport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AVAErrorReport.m; path = ../../AVAErrorReport.m; sourceTree = "<group>"; };
@@ -247,8 +247,6 @@
 		6E0401351D1C98690051BCFA /* AvalancheCrashes */ = {
 			isa = PBXGroup;
 			children = (
-				B2E39BE41D4FDD9700DDF9DC /* AVAErrorAttachment.h */,
-				B2E39BE51D4FDD9700DDF9DC /* AVAErrorAttachment.m */,
 				B2E39BE61D4FDD9700DDF9DC /* AVAErrorLoggingDelegate.h */,
 				6E407A201D2F5B600033A76C /* AVAFeature.h */,
 				6E0401361D1C98690051BCFA /* AvalancheCrashes.h */,
@@ -385,6 +383,8 @@
 				6E7D5C661D3E9321009EC9AC /* AVABinary.m */,
 				B2E39BE21D4FDD9700DDF9DC /* AVABinaryAttachment.h */,
 				B2E39BE31D4FDD9700DDF9DC /* AVABinaryAttachment.m */,
+				B2E39BE41D4FDD9700DDF9DC /* AVAErrorAttachment.h */,
+				B2E39BE51D4FDD9700DDF9DC /* AVAErrorAttachment.m */,
 				6E7D5C691D3E9332009EC9AC /* AVAErrorLog.h */,
 				6E7D5C6A1D3E9332009EC9AC /* AVAErrorLog.m */,
 				6E7D5C6D1D3E9346009EC9AC /* AVAException.h */,

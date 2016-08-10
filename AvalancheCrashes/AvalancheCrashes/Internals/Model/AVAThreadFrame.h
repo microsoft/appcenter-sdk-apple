@@ -7,15 +7,15 @@
 
 @interface AVAThreadFrame : NSObject <AVASerializableObject>
 
-/* Frame address [optional]
+/* Frame address [optional].
  */
 @property(nonatomic) NSString* address;
 
-/* Frame symbol [optional]
+/* Frame symbol [optional].
  */
 @property(nonatomic) NSString* symbol;
 
-/* Registers [optional]
+/* Registers [optional].
  */
 @property(nonatomic) NSDictionary<NSString*, NSString*>* registers;
 

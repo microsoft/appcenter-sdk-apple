@@ -28,17 +28,18 @@ static pthread_key_t _AVACrashCXXExceptionInfoTSDKey = 0;
 
 extern "C" void LIBCXXABI_NORETURN __cxa_throw(void *exception_object, std::type_info *tinfo, void (*dest)(void *))
 {
-  // Purposely do not take a lock in this function. The aim is to be as fast as
-  // possible. While we could really use some of the info set up by the real
-  // __cxa_throw, if we call through we never get control back - the function is
-  // noreturn and jumps to landing pads. Most of the stuff in __cxxabiv1 also
-  // won't work yet. We therefore have to do these checks by hand.
-
-  // The technique for distinguishing Objective-C exceptions is based on the
-  // implementation of objc_exception_throw(). It's weird, but it's fast. The
-  // explicit symbol load and NULL checks should guard against the
-  // implementation changing in a future version. (Or not existing in an earlier
-  // version).
+  /**
+   * Purposely do not take a lock in this function. The aim is to be as fast as
+   * possible. While we could really use some of the info set up by the real
+   * __cxa_throw, if we call through we never get control back - the function is
+   * noreturn and jumps to landing pads. Most of the stuff in __cxxabiv1 also
+   * won't work yet. We therefore have to do these checks by hand.
+   *
+   * The technique for distinguishing Objective-C exceptions is based on the
+   * implementation of objc_exception_throw(). It's weird, but it's fast. The
+   * explicit symbol load and NULL checks should guard against the
+   * implementation changing in a future version. (Or not existing in an earlier version).
+   */
   
   typedef void (*cxa_throw_func)(void *, std::type_info *, void (*)(void *)) LIBCXXABI_NORETURN;
   static dispatch_once_t predicate = 0;
@@ -50,17 +51,21 @@ extern "C" void LIBCXXABI_NORETURN __cxa_throw(void *exception_object, std::type
     __real_objc_ehtype_vtable = reinterpret_cast<const void **>(dlsym(RTLD_DEFAULT, "objc_ehtype_vtable"));
   });
   
-  // Actually check for Objective-C exceptions.
+  /**
+   *   Actually check for Objective-C exceptions.
+   */
   if (tinfo && __real_objc_ehtype_vtable && // Guard from an ABI change
       *reinterpret_cast<void **>(tinfo) == __real_objc_ehtype_vtable + 2) {
     goto callthrough;
   }
   
-  // Any other exception that came here has to be C++, since Objective-C is the
-  // only (known) runtime that hijacks the C++ ABI this way. We need to save off
-  // a backtrace.
-  // Invariant: If the terminate handler is installed, the TSD key must also be
-  // initialized.
+  /**
+   * Any other exception that came here has to be C++, since Objective-C is the
+   * only (known) runtime that hijacks the C++ ABI this way. We need to save off
+   * a backtrace.
+   * Invariant: If the terminate handler is installed, the TSD key must also be
+   * initialized.
+   */
   if (_AVACrashIsOurTerminateHandlerInstalled) {
     AVACrashCXXExceptionTSInfo *info = static_cast<AVACrashCXXExceptionTSInfo *>(pthread_getspecific(_AVACrashCXXExceptionInfoTSDKey));
       
@@ -93,8 +98,7 @@ static inline void AVACrashIterateExceptionHandlers_unlocked(const AVACrashUncau
   }
 }
 
-static void AVACrashUncaughtCXXTerminateHandler(void)
-{
+static void AVACrashUncaughtCXXTerminateHandler(void) {
   AVACrashUncaughtCXXExceptionInfo info = {
     .exception = nullptr,
     .exception_type_name = nullptr,
@@ -115,8 +119,10 @@ static void AVACrashUncaughtCXXTerminateHandler(void)
         info.exception_frames_count = recorded_info->num_frames - 1;
         info.exception_frames = &recorded_info->call_stack[1];
       } else {
-        // There's no backtrace, grab this function's trace instead. Probably
-        // means the exception came from a dynamically loaded library.
+        /**
+         * There's no backtrace, grab this function's trace instead. Probably
+         * means the exception came from a dynamically loaded library.
+         */
         void *frames[128] = { nullptr };
       
         info.exception_frames_count = backtrace(&frames[0], sizeof(frames) / sizeof(frames[0])) - 1;
@@ -159,12 +165,13 @@ static void AVACrashUncaughtCXXTerminateHandler(void)
   }
 }
 
-+ (void)addCXXExceptionHandler:(AVACrashUncaughtCXXExceptionHandler)handler
-{
++ (void)addCXXExceptionHandler:(AVACrashUncaughtCXXExceptionHandler)handler {
   static dispatch_once_t key_predicate = 0;
   
-  // This only EVER has to be done once, since we don't delete the TSD later
-  // (there's no reason to delete it).
+  /**
+   * This only EVER has to be done once, since we don't delete the TSD later
+   * (there's no reason to delete it).
+   */
   dispatch_once(&key_predicate, ^ {
     pthread_key_create(&_AVACrashCXXExceptionInfoTSDKey, free);
   });
@@ -178,8 +185,7 @@ static void AVACrashUncaughtCXXTerminateHandler(void)
   } OSSpinLockUnlock(&_AVACrashCXXExceptionHandlingLock);
 }
 
-+ (void)removeCXXExceptionHandler:(AVACrashUncaughtCXXExceptionHandler)handler
-{
++ (void)removeCXXExceptionHandler:(AVACrashUncaughtCXXExceptionHandler)handler {
   OSSpinLockLock(&_AVACrashCXXExceptionHandlingLock); {
     auto i = std::find(_AVACrashUncaughtExceptionHandlerList.begin(), _AVACrashUncaughtExceptionHandlerList.end(), handler);
   

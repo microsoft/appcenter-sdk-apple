@@ -7,32 +7,32 @@
 @interface AVAErrorReport : NSObject
 
 /**
- *  UUID for the crash report
+ *  UUID for the crash report.
  */
-@property (nonatomic, readonly, strong) NSString *incidentIdentifier;
+@property (nonatomic, readonly) NSString *incidentIdentifier;
 
 /**
- *  UUID for the app installation on the device
+ *  UUID for the app installation on the device.
  */
-@property (nonatomic, readonly, strong) NSString *reporterKey;
+@property (nonatomic, readonly) NSString *reporterKey;
 
 /**
- *  Signal that caused the crash
+ *  Signal that caused the crash.
  */
-@property (nonatomic, readonly, strong) NSString *signal;
+@property (nonatomic, readonly) NSString *signal;
 
 /**
- *  Exception name that triggered the crash, nil if the crash was not caused by an exception
+ *  Exception name that triggered the crash, nil if the crash was not caused by an exception.
  */
-@property (nonatomic, readonly, strong) NSString *exceptionName;
+@property (nonatomic, readonly) NSString *exceptionName;
 
 /**
- *  Exception reason, nil if the crash was not caused by an exception
+ *  Exception reason, nil if the crash was not caused by an exception.
  */
-@property (nonatomic, readonly, strong) NSString *exceptionReason;
+@property (nonatomic, readonly) NSString *exceptionReason;
 
 /**
- *  Date and time the app started, nil if unknown
+ *  Date and time the app started, nil if unknown.
  */
 @property (nonatomic, readonly, strong) NSDate *appStartTime;
 
@@ -44,17 +44,17 @@
 /**
  *  Operation System version string the app was running on when it crashed.
  */
-@property (nonatomic, readonly, strong) NSString *osVersion;
+@property (nonatomic, readonly) NSString *osVersion;
 
 /**
- *  Operation System build string the app was running on when it crashed
+ *  Operation System build string the app was running on when it crashed.
  *
  *  This may be unavailable.
  */
 @property (nonatomic, readonly, strong) NSString *osBuild;
 
 /**
- *  CFBundleShortVersionString value of the app that crashed
+ *  CFBundleShortVersionString value of the app that crashed.
  *
  *  Can be `nil` if the crash was captured with an older version of the SDK
  *  or if the app doesn't set the value.
@@ -62,24 +62,24 @@
 @property (nonatomic, readonly, strong) NSString *appVersion;
 
 /**
- *  CFBundleVersion value of the app that crashed
+ *  CFBundleVersion value of the app that crashed.
  */
 @property (nonatomic, readonly, strong) NSString *appBuild;
 
 /**
- *  Identifier of the app process that crashed
+ *  Identifier of the app process that crashed.
  */
 @property (nonatomic, readonly, assign) NSUInteger appProcessIdentifier;
 
 /**
- Indicates if the app was killed while being in foreground from the iOS
+ Indicates if the app was killed while being in foreground from the iOS.
  
  If `[AVACrashes enableAppNotTerminatingCleanlyDetection]` is enabled, use this on startup
  to check if the app starts the first time after it was killed by iOS in the previous session.
  
  This can happen if it consumed too much memory or the watchdog killed the app because it
  took too long to startup or blocks the main thread for too long, or other reasons. See Apple
- documentation: https://developer.apple.com/library/ios/qa/qa1693/_index.html
+ documentation: https://developer.apple.com/library/ios/qa/qa1693/_index.html.
  
  See `[BITCrashManager enableAppNotTerminatingCleanlyDetection]` for more details about which kind of kills can be detected.
  

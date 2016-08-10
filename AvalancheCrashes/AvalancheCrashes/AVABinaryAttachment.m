@@ -12,7 +12,6 @@
 {
   if (self = [super init]) {
     _filename = filename;
-    
     _data = data;
     
     if (contentType) {
@@ -20,7 +19,6 @@
     } else {
       _contentType = @"application/octet-stream";
     }
-    
   }
   
   return self;

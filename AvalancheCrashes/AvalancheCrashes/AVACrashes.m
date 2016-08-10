@@ -16,8 +16,9 @@ static NSString *const kAVAAnalyzerFilename = @"AVACrashes.analyzer";
 static AVACrashesCallbacks avaCrashCallbacks = {.context = NULL,
                                                 .handleSignal = NULL};
 
-// Proxy implementation for PLCrashReporter to keep our interface stable while
-// this can change
+/** Proxy implementation for PLCrashReporter to keep our interface stable while
+ *  this can change.
+ */
 static void plcr_post_crash_callback(siginfo_t *info, ucontext_t *uap,
                                      void *context) {
   if (avaCrashCallbacks.handleSignal != NULL) {
@@ -28,7 +29,9 @@ static void plcr_post_crash_callback(siginfo_t *info, ucontext_t *uap,
 static PLCrashReporterCallbacks plCrashCallbacks = {
     .version = 0, .context = NULL, .handleSignal = plcr_post_crash_callback};
 
-// C++ Exception Handler
+/**
+ * C++ Exception Handler
+ */
 static void
 uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInfo *info) {
   // This relies on a LOT of sneaky internal knowledge of how PLCR works and
@@ -75,10 +78,7 @@ uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInfo *info) {
 
 + (void)setErrorLoggingDelegate:(_Nullable id <AVAErrorLoggingDelegate>)errorLoggingDelegate {
   //TODO actual implementation
-
-
 }
-
 
 #pragma mark - Module initialization
 
@@ -155,16 +155,16 @@ uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInfo *info) {
   } else {
 
     /**
-     Multiple exception handlers can be set, but we can only query the top
-     level error handler (uncaught exception handler). To check if
-     PLCrashReporter's error handler is successfully added, we compare the top
-     level one that is set before and the one after PLCrashReporter sets up
-     its own. With delayed processing we can then check if another error
-     handler was set up afterwards and can show a debug warning log message,
-     that the dev has to make sure the "newer" error handler doesn't exit the
-     process itself, because then all subsequent handlers would never be
-     invoked. Note: ANY error handler setup BEFORE SDK initialization
-     will not be processed!
+     * Multiple exception handlers can be set, but we can only query the top
+     * level error handler (uncaught exception handler). To check if
+     * PLCrashReporter's error handler is successfully added, we compare the top
+     * level one that is set before and the one after PLCrashReporter sets up
+     * its own. With delayed processing we can then check if another error
+     * handler was set up afterwards and can show a debug warning log message,
+     * that the dev has to make sure the "newer" error handler doesn't exit the
+     * process itself, because then all subsequent handlers would never be
+     * invoked. Note: ANY error handler setup BEFORE SDK initialization
+     * will not be processed!
      */
     NSUncaughtExceptionHandler *initialHandler =
         NSGetUncaughtExceptionHandler();
@@ -219,10 +219,11 @@ uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInfo *info) {
     NSUncaughtExceptionHandler *currentHandler =
         NSGetUncaughtExceptionHandler();
 
-    // If the top level error handler differs from our own, then at least
-    // another one was added.
-    // This could cause exception crashes not to be reported to AppHub. See
-    // log message for details.
+    /* If the top level error handler differs from our own, then at least
+     * another one was added.
+     * This could cause exception crashes not to be reported to AppHub. See
+     * log message for details.
+     */
     if (self.exceptionHandler != currentHandler) {
       AVALogWarning(@"[AVACrashes] WARNING: Another exception handler was "
                     @"added. If this invokes any kind exit() after processing "
