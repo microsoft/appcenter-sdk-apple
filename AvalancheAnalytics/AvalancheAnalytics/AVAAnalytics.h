@@ -3,14 +3,13 @@
  */
 
 #import "AVAFeature.h"
-#import "AVASessionTrackerDelegate.h"
 
 #import <UIKit/UIKit.h>
 
 /**
  *  Avalanche analytics feature.
  */
-@interface AVAAnalytics : NSObject <AVAFeature, AVASessionTrackerDelegate>
+@interface AVAAnalytics : NSObject <AVAFeature>
 
 /**
  *  Track an event.
