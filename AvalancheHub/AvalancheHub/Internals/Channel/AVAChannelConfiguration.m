@@ -28,31 +28,28 @@ static AVAChannelConfiguration *AVAChannelConfigurationBackground;
 
   case AVAPriorityHigh:
     if (!AVAChannelConfigurationHigh) {
-      AVAChannelConfigurationHigh =
-          [[self alloc] initWithPriorityName:@"AVAPriorityHigh"
-                               flushInterval:3.0
-                              batchSizeLimit:1
-                         pendingBatchesLimit:6];
+      AVAChannelConfigurationHigh = [[self alloc] initWithPriorityName:@"AVAPriorityHigh"
+                                                         flushInterval:3.0
+                                                        batchSizeLimit:1
+                                                   pendingBatchesLimit:6];
     }
     return AVAChannelConfigurationHigh;
 
   case AVAPriorityBackground:
     if (!AVAChannelConfigurationBackground) {
-      AVAChannelConfigurationBackground =
-          [[self alloc] initWithPriorityName:@"AVAPriorityBackground"
-                               flushInterval:60.0
-                              batchSizeLimit:100
-                         pendingBatchesLimit:1];
+      AVAChannelConfigurationBackground = [[self alloc] initWithPriorityName:@"AVAPriorityBackground"
+                                                               flushInterval:60.0
+                                                              batchSizeLimit:100
+                                                         pendingBatchesLimit:1];
     }
     return AVAChannelConfigurationBackground;
 
   default:
     if (!AVAChannelConfigurationDefault) {
-      AVAChannelConfigurationDefault =
-          [[self alloc] initWithPriorityName:@"AVAPriorityDefault"
-                               flushInterval:30.0
-                              batchSizeLimit:50
-                         pendingBatchesLimit:3];
+      AVAChannelConfigurationDefault = [[self alloc] initWithPriorityName:@"AVAPriorityDefault"
+                                                            flushInterval:30.0
+                                                           batchSizeLimit:50
+                                                      pendingBatchesLimit:3];
     }
     return AVAChannelConfigurationDefault;
   }

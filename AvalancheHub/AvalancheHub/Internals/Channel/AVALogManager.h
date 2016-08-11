@@ -2,11 +2,8 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "AVAChannel.h"
-#import "AVALog.h"
-#import "AVASender.h"
-#import "AVAStorage.h"
-#import "AVAConstants+Internal.h"
+#import "../Model/AVALog.h"
+#import "AVALogManagerListener.h"
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -16,20 +13,22 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @protocol AVALogManager <NSObject>
 
-@required
+@optional
+/**
+ *  Add listener.
+ *
+ *  @param listener listener.
+ */
+- (void)addListener:(id <AVALogManagerListener>)listener;
 
 /**
- * Initializes a new `AVALogManager` instance.
+ *  Remove listener.
  *
- * @param sender A sender instance that is used to send batches of log items to
- * the backend.
- * @param storage A storage instance to store and read enqueued log items.
- *
- * @return A new `AVALogManager` instance.
+ *  @param listener listener.
  */
-- (instancetype)initWithSender:(id<AVASender>)sender
-                       storage:(id<AVAStorage>)storage;
+- (void)removeListener:(id <AVALogManagerListener>)listener;
 
+@required
 /**
  * Triggers processing of a new log item.
  *

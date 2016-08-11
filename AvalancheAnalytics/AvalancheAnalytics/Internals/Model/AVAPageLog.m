@@ -21,14 +21,14 @@ static NSString *const kAVAName = @"name";
 
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [super serializeToDictionary];
-  
+
   if (self.name) {
     dict[kAVAName] = self.name;
   }
   return dict;
 }
 
-- (BOOL)isValid {  
+- (BOOL)isValid {
   if (!self.name)
     return NO;
 
@@ -39,11 +39,11 @@ static NSString *const kAVAName = @"name";
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
   self = [super initWithCoder:coder];
-  if(self) {
+  if (self) {
     _type = [coder decodeObjectForKey:kAVAType];
     _name = [coder decodeObjectForKey:kAVAName];
   }
-  
+
   return self;
 }
 

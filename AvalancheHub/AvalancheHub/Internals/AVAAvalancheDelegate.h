@@ -8,8 +8,13 @@
 
 @protocol AVAAvalancheDelegate <NSObject>
 
-- (void)feature:(id)feature
-   didCreateLog:(id<AVALog>)log
-   withPriority:(AVAPriority)priority;
+/**
+ *  Track a log send from a feature.
+ *
+ *  @param feature  the log creator
+ *  @param log      the log
+ *  @param priority the log priority
+ */
+- (void)feature:(id)feature didCreateLog:(id<AVALog>)log withPriority:(AVAPriority)priority;
 
 @end

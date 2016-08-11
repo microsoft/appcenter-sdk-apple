@@ -21,12 +21,12 @@ NSString *const kAVAType = @"type";
 
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [NSMutableDictionary new];
-  
+
   if (self.type) {
     dict[kAVAType] = self.type;
   }
   if (self.toffset) {
-    
+
     // Set the toffset relative to current time. The toffset need to be up to date.
     NSInteger now = [[NSDate date] timeIntervalSince1970];
     NSInteger relativeTime = now - [self.toffset integerValue];
@@ -44,8 +44,8 @@ NSString *const kAVAType = @"type";
 - (BOOL)isValid {
   BOOL isValid = YES;
 
-  // Is valid
-  if (!self.type || !self.sid || !self.toffset  || !self.device)
+  // Is valid (session id can be nil).
+  if (!self.type || !self.toffset || !self.device)
     isValid = NO;
   return isValid;
 }
@@ -54,7 +54,7 @@ NSString *const kAVAType = @"type";
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
   self = [super init];
-  if(self) {
+  if (self) {
     _toffset = [coder decodeObjectForKey:kAVAToffset];
     _sid = [coder decodeObjectForKey:kAVASID];
     _device = [coder decodeObjectForKey:kAVADevice];

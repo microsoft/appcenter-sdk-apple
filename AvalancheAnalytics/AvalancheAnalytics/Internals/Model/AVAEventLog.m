@@ -15,14 +15,14 @@ static NSString *const kAVAName = @"name";
 
 - (instancetype)init {
   if (self = [super init]) {
-     _type= kAVATypeEvent;
+    _type = kAVATypeEvent;
   }
   return self;
 }
 
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [super serializeToDictionary];
-  
+
   if (self.eventId) {
     dict[kAVAId] = self.eventId;
   }
@@ -36,12 +36,12 @@ static NSString *const kAVAName = @"name";
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
   self = [super initWithCoder:coder];
-  if(self) {
+  if (self) {
     _type = [coder decodeObjectForKey:kAVAType];
     _eventId = [coder decodeObjectForKey:kAVAId];
     _name = [coder decodeObjectForKey:kAVAName];
   }
-  
+
   return self;
 }
 

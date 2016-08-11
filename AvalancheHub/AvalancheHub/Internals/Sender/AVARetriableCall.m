@@ -20,7 +20,7 @@ static NSUInteger kAVAMaxRetryCount = 3;
 @synthesize logContainer = _logContainer;
 @synthesize delegate = _delegate;
 
-- (id)init{
+- (id)init {
   if (self = [super init]) {
     // Intervals are: 10 sec, 5 min, 20 min.
     _retryIntervals = @[ @(10), @(5 * 60), @(20 * 60) ];
@@ -77,20 +77,20 @@ static NSUInteger kAVAMaxRetryCount = 3;
 
 - (void)sender:(id<AVASenderCallDelegate>)sender callCompletedWithError:(NSError *)error status:(NSUInteger)statusCode {
   if ([AVASenderUtils isNoInternetConnectionError:error] || [AVASenderUtils isRequestCanceledError:error]) {
-    
+
     // Reset the retry count, will retry once the connection is established again.
     [self resetRetry];
     _isProcessing = NO;
   }
-  
+
   // Retry.
   else if ([AVASenderUtils isRecoverableError:statusCode] && ![self hasReachedMaxRetries]) {
     [self startTimer];
   }
-  
+
   // Callback to Channel.
   else {
-    
+
     // Remove call from sender.
     [sender callCompletedWithId:self.logContainer.batchId];
 

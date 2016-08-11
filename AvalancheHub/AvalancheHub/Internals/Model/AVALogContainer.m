@@ -14,7 +14,7 @@
   return self;
 }
 
-- (NSString *)serializeLog {  
+- (NSString *)serializeLog {
   return [self serializeLogWithPrettyPrinting:NO];
 }
 
@@ -27,11 +27,11 @@
       [jsonArray addObject:dict];
     }
   }];
-  
+
   NSError *error;
   NSJSONWritingOptions printOptions = prettyPrint ? NSJSONWritingPrettyPrinted : 0;
   NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jsonArray options:printOptions error:&error];
-  
+
   if (!jsonData) {
     NSLog(@"Got an error: %@", error);
   } else {
