@@ -3,6 +3,7 @@
  */
 
 #import "AVALogContainer.h"
+#import "AVASerializableObject.h"
 
 @implementation AVALogContainer
 

@@ -5,13 +5,13 @@
 
 #import "AVADevice.h"
 
-@interface AVADeviceLogTests : XCTestCase
+@interface AVADeviceTests : XCTestCase
 
 @property(nonatomic, strong) AVADevice *sut;
 
 @end
 
-@implementation AVADeviceLogTests
+@implementation AVADeviceTests
 
 @synthesize sut = _sut;
 
