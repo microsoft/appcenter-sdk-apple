@@ -1,14 +1,14 @@
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
+ *
+ * OpenAPI spec version: 1.0.0-preview20160708
  */
 
 #import "AVAAbstractLog.h"
 #import <Foundation/Foundation.h>
 
-@protocol AVADeviceLog
-@end
-
-@interface AVADeviceLog : NSObject <NSCoding>
+//TODO rename to AVADevice
+@interface AVADeviceLog : NSObject <AVASerializableObject>
 
 /* Version of the SDK.
  */
@@ -61,13 +61,6 @@
  * com.microsoft.example.  [optional]
  */
 @property(nonatomic) NSString *appNamespace;
-
-/**
- * Checks if the object's values are valid.
- *
- * return YES, if the object is valid
- */
-- (NSMutableDictionary *)serializeToDictionary;
 
 /**
  *  Is equal to another device log

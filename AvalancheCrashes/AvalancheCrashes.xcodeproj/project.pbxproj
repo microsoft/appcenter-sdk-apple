@@ -39,13 +39,52 @@
 		6E0401761D1C9E750051BCFA /* AVACrashes.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E04014F1D1C9A4F0051BCFA /* AVACrashes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E0401771D1C9EBE0051BCFA /* AvalancheHub+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401591D1C9D7F0051BCFA /* AvalancheHub+Internal.h */; };
 		6E0401781D1C9EBE0051BCFA /* AVACrashesPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401521D1C9A4F0051BCFA /* AVACrashesPrivate.h */; };
-		6E171AE41D22F781000DC480 /* AvalancheCrashesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E171AE31D22F781000DC480 /* AvalancheCrashesTests.m */; };
 		6E171AE61D22F781000DC480 /* libAvalancheCrashes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E0401331D1C98690051BCFA /* libAvalancheCrashes.a */; };
 		6E171AEE1D22F7BE000DC480 /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171AED1D22F7BE000DC480 /* OCHamcrestIOS.framework */; };
 		6E171AF01D22F841000DC480 /* libAvalancheHub.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171AEF1D22F841000DC480 /* libAvalancheHub.a */; };
 		6E171B111D22FABA000DC480 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171B051D22FABA000DC480 /* libOCMock.a */; };
 		6E171B391D22FF6B000DC480 /* libOHHTTPStubs.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171B2F1D22FF6B000DC480 /* libOHHTTPStubs.a */; };
+		6E73FE6A1D402F79008CDC15 /* AVACrashCXXExceptionHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E73FE681D402F79008CDC15 /* AVACrashCXXExceptionHandler.h */; };
+
 		E8AEE9861D59744D00C0FF6C /* AVALogManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E8AEE9851D59744D00C0FF6C /* AVALogManager.h */; };
+		6E73FE6B1D402F79008CDC15 /* AVACrashCXXExceptionHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6E73FE691D402F79008CDC15 /* AVACrashCXXExceptionHandler.mm */; };
+		6E73FE6F1D4032AB008CDC15 /* AVACrashesHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E73FE6D1D4032AB008CDC15 /* AVACrashesHelper.h */; };
+		6E73FE701D4032AB008CDC15 /* AVACrashesHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E73FE6E1D4032AB008CDC15 /* AVACrashesHelper.m */; };
+		6E73FE731D4059E7008CDC15 /* AVACrashCXXExceptionWrapperException.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E73FE711D4059E7008CDC15 /* AVACrashCXXExceptionWrapperException.h */; };
+		6E73FE741D4059E7008CDC15 /* AVACrashCXXExceptionWrapperException.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E73FE721D4059E7008CDC15 /* AVACrashCXXExceptionWrapperException.m */; };
+		6E7D5C671D3E9321009EC9AC /* AVABinary.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E7D5C651D3E9321009EC9AC /* AVABinary.h */; };
+		6E7D5C681D3E9321009EC9AC /* AVABinary.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C661D3E9321009EC9AC /* AVABinary.m */; };
+		6E7D5C6B1D3E9332009EC9AC /* AVAErrorLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E7D5C691D3E9332009EC9AC /* AVAErrorLog.h */; };
+		6E7D5C6C1D3E9332009EC9AC /* AVAErrorLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C6A1D3E9332009EC9AC /* AVAErrorLog.m */; };
+		6E7D5C6F1D3E9346009EC9AC /* AVAException.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E7D5C6D1D3E9346009EC9AC /* AVAException.h */; };
+		6E7D5C701D3E9346009EC9AC /* AVAException.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C6E1D3E9346009EC9AC /* AVAException.m */; };
+		6E7D5C731D3E9381009EC9AC /* AVAThread.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E7D5C711D3E9381009EC9AC /* AVAThread.h */; };
+		6E7D5C741D3E9381009EC9AC /* AVAThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C721D3E9381009EC9AC /* AVAThread.m */; };
+		6E7D5C771D3E9395009EC9AC /* AVAThreadFrame.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E7D5C751D3E9395009EC9AC /* AVAThreadFrame.h */; };
+		6E7D5C781D3E9395009EC9AC /* AVAThreadFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C761D3E9395009EC9AC /* AVAThreadFrame.m */; };
+		6E7D5C801D3EAEB5009EC9AC /* AVABinaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C7F1D3EAEB5009EC9AC /* AVABinaryTests.m */; };
+		6E7D5C841D3EC0F7009EC9AC /* AVAThreadTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C831D3EC0F7009EC9AC /* AVAThreadTests.m */; };
+		6E7D5C871D3EC332009EC9AC /* AVAThreadFrameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C861D3EC332009EC9AC /* AVAThreadFrameTests.m */; };
+		6E7D5C8A1D3EC504009EC9AC /* AVAExceptionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C891D3EC504009EC9AC /* AVAExceptionTests.m */; };
+		6E7D5C8D1D3EC6C4009EC9AC /* AVAErrorLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C8C1D3EC6C4009EC9AC /* AVAErrorLogTests.m */; };
+		6EC99A151D41517B0016C325 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A141D41517B0016C325 /* CrashReporter.framework */; };
+		6EC99A2E1D4166C50016C325 /* AVACrashesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC99A2D1D4166C50016C325 /* AVACrashesTests.m */; };
+		6EC99A371D416CCF0016C325 /* live_report_empty.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A301D416CCF0016C325 /* live_report_empty.plcrash */; };
+		6EC99A381D416CCF0016C325 /* live_report_exception.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A311D416CCF0016C325 /* live_report_exception.plcrash */; };
+		6EC99A391D416CCF0016C325 /* live_report_exception_marketing.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A321D416CCF0016C325 /* live_report_exception_marketing.plcrash */; };
+		6EC99A3A1D416CCF0016C325 /* live_report_signal.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A331D416CCF0016C325 /* live_report_signal.plcrash */; };
+		6EC99A3B1D416CCF0016C325 /* live_report_signal_marketing.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A341D416CCF0016C325 /* live_report_signal_marketing.plcrash */; };
+		6EC99A3C1D416CCF0016C325 /* live_report_xamarin.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A351D416CCF0016C325 /* live_report_xamarin.plcrash */; };
+		6EC99A3D1D416CCF0016C325 /* log_report_xamarin in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A361D416CCF0016C325 /* log_report_xamarin */; };
+		B2E39BE71D4FDD9700DDF9DC /* AVABinaryAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = B2E39BE21D4FDD9700DDF9DC /* AVABinaryAttachment.h */; };
+		B2E39BE81D4FDD9700DDF9DC /* AVABinaryAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = B2E39BE31D4FDD9700DDF9DC /* AVABinaryAttachment.m */; };
+		B2E39BE91D4FDD9700DDF9DC /* AVAErrorAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = B2E39BE41D4FDD9700DDF9DC /* AVAErrorAttachment.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B2E39BEA1D4FDD9700DDF9DC /* AVAErrorAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = B2E39BE51D4FDD9700DDF9DC /* AVAErrorAttachment.m */; };
+		B2E39BEB1D4FDD9700DDF9DC /* AVAErrorLoggingDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = B2E39BE61D4FDD9700DDF9DC /* AVAErrorLoggingDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B2E39BF21D500BFE00DDF9DC /* AVAErrorReport.h in Headers */ = {isa = PBXBuildFile; fileRef = B2E39BF01D500BFE00DDF9DC /* AVAErrorReport.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B2E39BF31D500BFE00DDF9DC /* AVAErrorReport.m in Sources */ = {isa = PBXBuildFile; fileRef = B2E39BF11D500BFE00DDF9DC /* AVAErrorReport.m */; };
+		B2F375091D41AD5100F07032 /* AVAErrorLogFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = B2F375071D41AD5100F07032 /* AVAErrorLogFormatter.h */; };
+		B2F3750A1D41AD5100F07032 /* AVAErrorLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F375081D41AD5100F07032 /* AVAErrorLogFormatter.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,12 +107,12 @@
 /* Begin PBXCopyFilesBuildPhase section */
 		6E0401311D1C98690051BCFA /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 8;
+			buildActionMask = 2147483647;
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 		6E171AF31D22F999000DC480 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -95,7 +134,6 @@
 		6E0401521D1C9A4F0051BCFA /* AVACrashesPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVACrashesPrivate.h; sourceTree = "<group>"; };
 		6E0401591D1C9D7F0051BCFA /* AvalancheHub+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "AvalancheHub+Internal.h"; path = "../../../AvalancheHub/AvalancheHub/Internals/AvalancheHub+Internal.h"; sourceTree = "<group>"; };
 		6E171AE11D22F781000DC480 /* AvalancheCrashesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AvalancheCrashesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		6E171AE31D22F781000DC480 /* AvalancheCrashesTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AvalancheCrashesTests.m; sourceTree = "<group>"; };
 		6E171AE51D22F781000DC480 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6E171AED1D22F7BE000DC480 /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrestIOS.framework; path = ../../Vendor/OCHamcrest/OCHamcrestIOS.framework; sourceTree = "<group>"; };
 		6E171AEF1D22F841000DC480 /* libAvalancheHub.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAvalancheHub.a; path = "../../../../../Library/Developer/Xcode/DerivedData/AvalancheSDK-gjtjaobzkdgbqkdiexolxdrcgdjg/Build/Products/Debug-iphonesimulator/libAvalancheHub.a"; sourceTree = "<group>"; };
@@ -123,7 +161,47 @@
 		6E3729801D1DE93800F1E4AE /* buildnumber.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = buildnumber.xcconfig; sourceTree = "<group>"; };
 		6E3729811D1DE93800F1E4AE /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		6E3729821D1DE93800F1E4AE /* release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = release.xcconfig; sourceTree = "<group>"; };
-		E8AEE9851D59744D00C0FF6C /* AVALogManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AVALogManager.h; path = ../AvalancheHub/AvalancheHub/Internals/Channel/AVALogManager.h; sourceTree = "<group>"; };
+		6E73FE681D402F79008CDC15 /* AVACrashCXXExceptionHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVACrashCXXExceptionHandler.h; sourceTree = "<group>"; };
+		6E73FE691D402F79008CDC15 /* AVACrashCXXExceptionHandler.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AVACrashCXXExceptionHandler.mm; sourceTree = "<group>"; };
+		6E73FE6D1D4032AB008CDC15 /* AVACrashesHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVACrashesHelper.h; sourceTree = "<group>"; };
+		6E73FE6E1D4032AB008CDC15 /* AVACrashesHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVACrashesHelper.m; sourceTree = "<group>"; };
+		6E73FE711D4059E7008CDC15 /* AVACrashCXXExceptionWrapperException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVACrashCXXExceptionWrapperException.h; sourceTree = "<group>"; };
+		6E73FE721D4059E7008CDC15 /* AVACrashCXXExceptionWrapperException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVACrashCXXExceptionWrapperException.m; sourceTree = "<group>"; };
+		6E7D5C651D3E9321009EC9AC /* AVABinary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVABinary.h; sourceTree = "<group>"; };
+		6E7D5C661D3E9321009EC9AC /* AVABinary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVABinary.m; sourceTree = "<group>"; };
+		6E7D5C691D3E9332009EC9AC /* AVAErrorLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAErrorLog.h; sourceTree = "<group>"; };
+		6E7D5C6A1D3E9332009EC9AC /* AVAErrorLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAErrorLog.m; sourceTree = "<group>"; };
+		6E7D5C6D1D3E9346009EC9AC /* AVAException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAException.h; sourceTree = "<group>"; };
+		6E7D5C6E1D3E9346009EC9AC /* AVAException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAException.m; sourceTree = "<group>"; };
+		6E7D5C711D3E9381009EC9AC /* AVAThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAThread.h; sourceTree = "<group>"; };
+		6E7D5C721D3E9381009EC9AC /* AVAThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAThread.m; sourceTree = "<group>"; };
+E8AEE9851D59744D00C0FF6C /* AVALogManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AVALogManager.h; path = ../AvalancheHub/AvalancheHub/Internals/Channel/AVALogManager.h; sourceTree = "<group>"; };
+		6E7D5C751D3E9395009EC9AC /* AVAThreadFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAThreadFrame.h; sourceTree = "<group>"; };
+		6E7D5C761D3E9395009EC9AC /* AVAThreadFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAThreadFrame.m; sourceTree = "<group>"; };
+		6E7D5C7F1D3EAEB5009EC9AC /* AVABinaryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVABinaryTests.m; sourceTree = "<group>"; };
+		6E7D5C811D3EC06C009EC9AC /* AVAConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AVAConstants.h; path = ../../AvalancheHub/AvalancheHub/AVAConstants.h; sourceTree = "<group>"; };
+		6E7D5C831D3EC0F7009EC9AC /* AVAThreadTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAThreadTests.m; sourceTree = "<group>"; };
+		6E7D5C861D3EC332009EC9AC /* AVAThreadFrameTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAThreadFrameTests.m; sourceTree = "<group>"; };
+		6E7D5C891D3EC504009EC9AC /* AVAExceptionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAExceptionTests.m; sourceTree = "<group>"; };
+		6E7D5C8C1D3EC6C4009EC9AC /* AVAErrorLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAErrorLogTests.m; sourceTree = "<group>"; };
+		6EC99A141D41517B0016C325 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = ../Vendor/PLCrashReporter/CrashReporter.framework; sourceTree = "<group>"; };
+		6EC99A2D1D4166C50016C325 /* AVACrashesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVACrashesTests.m; sourceTree = "<group>"; };
+		6EC99A301D416CCF0016C325 /* live_report_empty.plcrash */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = live_report_empty.plcrash; sourceTree = "<group>"; };
+		6EC99A311D416CCF0016C325 /* live_report_exception.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_exception.plcrash; sourceTree = "<group>"; };
+		6EC99A321D416CCF0016C325 /* live_report_exception_marketing.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_exception_marketing.plcrash; sourceTree = "<group>"; };
+		6EC99A331D416CCF0016C325 /* live_report_signal.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_signal.plcrash; sourceTree = "<group>"; };
+		6EC99A341D416CCF0016C325 /* live_report_signal_marketing.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_signal_marketing.plcrash; sourceTree = "<group>"; };
+		6EC99A351D416CCF0016C325 /* live_report_xamarin.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_xamarin.plcrash; sourceTree = "<group>"; };
+		6EC99A361D416CCF0016C325 /* log_report_xamarin */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = log_report_xamarin; sourceTree = "<group>"; };
+		B2E39BE21D4FDD9700DDF9DC /* AVABinaryAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AVABinaryAttachment.h; path = ../../AVABinaryAttachment.h; sourceTree = "<group>"; };
+		B2E39BE31D4FDD9700DDF9DC /* AVABinaryAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AVABinaryAttachment.m; path = ../../AVABinaryAttachment.m; sourceTree = "<group>"; };
+		B2E39BE41D4FDD9700DDF9DC /* AVAErrorAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AVAErrorAttachment.h; path = ../../AVAErrorAttachment.h; sourceTree = "<group>"; };
+		B2E39BE51D4FDD9700DDF9DC /* AVAErrorAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AVAErrorAttachment.m; path = ../../AVAErrorAttachment.m; sourceTree = "<group>"; };
+		B2E39BE61D4FDD9700DDF9DC /* AVAErrorLoggingDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAErrorLoggingDelegate.h; sourceTree = "<group>"; };
+		B2E39BF01D500BFE00DDF9DC /* AVAErrorReport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AVAErrorReport.h; path = ../../AVAErrorReport.h; sourceTree = "<group>"; };
+		B2E39BF11D500BFE00DDF9DC /* AVAErrorReport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AVAErrorReport.m; path = ../../AVAErrorReport.m; sourceTree = "<group>"; };
+		B2F375071D41AD5100F07032 /* AVAErrorLogFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAErrorLogFormatter.h; sourceTree = "<group>"; };
+		B2F375081D41AD5100F07032 /* AVAErrorLogFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAErrorLogFormatter.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +209,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6EC99A151D41517B0016C325 /* CrashReporter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -156,6 +235,7 @@
 				38118DC11D42D6630091B3BF /* AVAFeature.h */,
 				6E0401351D1C98690051BCFA /* AvalancheCrashes */,
 				6E171AE21D22F781000DC480 /* AvalancheCrashesTests */,
+				6EC99A221D4151C60016C325 /* Vendor */,
 				6E0401341D1C98690051BCFA /* Products */,
 			);
 			sourceTree = "<group>";
@@ -172,10 +252,12 @@
 		6E0401351D1C98690051BCFA /* AvalancheCrashes */ = {
 			isa = PBXGroup;
 			children = (
+				B2E39BE61D4FDD9700DDF9DC /* AVAErrorLoggingDelegate.h */,
 				6E0401361D1C98690051BCFA /* AvalancheCrashes.h */,
 				6E04014F1D1C9A4F0051BCFA /* AVACrashes.h */,
 				6E0401501D1C9A4F0051BCFA /* AVACrashes.m */,
 				6E0401511D1C9A4F0051BCFA /* Internals */,
+				6E73FE6C1D403286008CDC15 /* Utils */,
 				6E37297E1D1DE93800F1E4AE /* Support */,
 			);
 			path = AvalancheCrashes;
@@ -184,8 +266,13 @@
 		6E0401511D1C9A4F0051BCFA /* Internals */ = {
 			isa = PBXGroup;
 			children = (
+				6E73FE711D4059E7008CDC15 /* AVACrashCXXExceptionWrapperException.h */,
+				6E73FE721D4059E7008CDC15 /* AVACrashCXXExceptionWrapperException.m */,
+				6E73FE681D402F79008CDC15 /* AVACrashCXXExceptionHandler.h */,
+				6E73FE691D402F79008CDC15 /* AVACrashCXXExceptionHandler.mm */,
 				6E0401591D1C9D7F0051BCFA /* AvalancheHub+Internal.h */,
 				6E0401521D1C9A4F0051BCFA /* AVACrashesPrivate.h */,
+				6E7D5C641D3E92B1009EC9AC /* Model */,
 			);
 			path = Internals;
 			sourceTree = "<group>";
@@ -193,9 +280,16 @@
 		6E171AE21D22F781000DC480 /* AvalancheCrashesTests */ = {
 			isa = PBXGroup;
 			children = (
+				6EC99A2F1D416CCF0016C325 /* Fixtures */,
+				6E7D5C811D3EC06C009EC9AC /* AVAConstants.h */,
 				6E171AEC1D22F7AB000DC480 /* Frameworks */,
-				6E171AE31D22F781000DC480 /* AvalancheCrashesTests.m */,
 				6E171AE51D22F781000DC480 /* Info.plist */,
+				6E7D5C7F1D3EAEB5009EC9AC /* AVABinaryTests.m */,
+				6E7D5C831D3EC0F7009EC9AC /* AVAThreadTests.m */,
+				6E7D5C861D3EC332009EC9AC /* AVAThreadFrameTests.m */,
+				6E7D5C891D3EC504009EC9AC /* AVAExceptionTests.m */,
+				6E7D5C8C1D3EC6C4009EC9AC /* AVAErrorLogTests.m */,
+				6EC99A2D1D4166C50016C325 /* AVACrashesTests.m */,
 			);
 			path = AvalancheCrashesTests;
 			sourceTree = "<group>";
@@ -274,6 +368,63 @@
 			path = Support;
 			sourceTree = "<group>";
 		};
+		6E73FE6C1D403286008CDC15 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				B2F375071D41AD5100F07032 /* AVAErrorLogFormatter.h */,
+				B2F375081D41AD5100F07032 /* AVAErrorLogFormatter.m */,
+				6E73FE6D1D4032AB008CDC15 /* AVACrashesHelper.h */,
+				6E73FE6E1D4032AB008CDC15 /* AVACrashesHelper.m */,
+			);
+			name = Utils;
+			path = Internals/Utils;
+			sourceTree = "<group>";
+		};
+		6E7D5C641D3E92B1009EC9AC /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				6E7D5C651D3E9321009EC9AC /* AVABinary.h */,
+				6E7D5C661D3E9321009EC9AC /* AVABinary.m */,
+				B2E39BE21D4FDD9700DDF9DC /* AVABinaryAttachment.h */,
+				B2E39BE31D4FDD9700DDF9DC /* AVABinaryAttachment.m */,
+				B2E39BE41D4FDD9700DDF9DC /* AVAErrorAttachment.h */,
+				B2E39BE51D4FDD9700DDF9DC /* AVAErrorAttachment.m */,
+				6E7D5C691D3E9332009EC9AC /* AVAErrorLog.h */,
+				6E7D5C6A1D3E9332009EC9AC /* AVAErrorLog.m */,
+				6E7D5C6D1D3E9346009EC9AC /* AVAException.h */,
+				6E7D5C6E1D3E9346009EC9AC /* AVAException.m */,
+				B2E39BF01D500BFE00DDF9DC /* AVAErrorReport.h */,
+				B2E39BF11D500BFE00DDF9DC /* AVAErrorReport.m */,
+				6E7D5C711D3E9381009EC9AC /* AVAThread.h */,
+				6E7D5C721D3E9381009EC9AC /* AVAThread.m */,
+				6E7D5C751D3E9395009EC9AC /* AVAThreadFrame.h */,
+				6E7D5C761D3E9395009EC9AC /* AVAThreadFrame.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		6EC99A221D4151C60016C325 /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+				6EC99A141D41517B0016C325 /* CrashReporter.framework */,
+			);
+			name = Vendor;
+			sourceTree = "<group>";
+		};
+		6EC99A2F1D416CCF0016C325 /* Fixtures */ = {
+			isa = PBXGroup;
+			children = (
+				6EC99A301D416CCF0016C325 /* live_report_empty.plcrash */,
+				6EC99A311D416CCF0016C325 /* live_report_exception.plcrash */,
+				6EC99A321D416CCF0016C325 /* live_report_exception_marketing.plcrash */,
+				6EC99A331D416CCF0016C325 /* live_report_signal.plcrash */,
+				6EC99A341D416CCF0016C325 /* live_report_signal_marketing.plcrash */,
+				6EC99A351D416CCF0016C325 /* live_report_xamarin.plcrash */,
+				6EC99A361D416CCF0016C325 /* log_report_xamarin */,
+			);
+			path = Fixtures;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -282,9 +433,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				E8AEE9861D59744D00C0FF6C /* AVALogManager.h in Headers */,
-				6E0401751D1C9E750051BCFA /* AvalancheCrashes.h in Headers */,
+				6E7D5C671D3E9321009EC9AC /* AVABinary.h in Headers */,
 				6E0401761D1C9E750051BCFA /* AVACrashes.h in Headers */,
+				B2E39BF21D500BFE00DDF9DC /* AVAErrorReport.h in Headers */,
+				B2E39BE91D4FDD9700DDF9DC /* AVAErrorAttachment.h in Headers */,
+				6E0401751D1C9E750051BCFA /* AvalancheCrashes.h in Headers */,
+				B2F375091D41AD5100F07032 /* AVAErrorLogFormatter.h in Headers */,
+				6E7D5C6B1D3E9332009EC9AC /* AVAErrorLog.h in Headers */,
+				B2E39BEB1D4FDD9700DDF9DC /* AVAErrorLoggingDelegate.h in Headers */,
+				6E7D5C771D3E9395009EC9AC /* AVAThreadFrame.h in Headers */,
+				B2E39BE71D4FDD9700DDF9DC /* AVABinaryAttachment.h in Headers */,
+				6E7D5C731D3E9381009EC9AC /* AVAThread.h in Headers */,
+				6E73FE6F1D4032AB008CDC15 /* AVACrashesHelper.h in Headers */,
+				6E7D5C6F1D3E9346009EC9AC /* AVAException.h in Headers */,
 				6E0401771D1C9EBE0051BCFA /* AvalancheHub+Internal.h in Headers */,
+				6E73FE731D4059E7008CDC15 /* AVACrashCXXExceptionWrapperException.h in Headers */,
+				6E73FE6A1D402F79008CDC15 /* AVACrashCXXExceptionHandler.h in Headers */,
 				38D4BBA31D5A9962001A30A0 /* AVAFeature.h in Headers */,
 				6E0401781D1C9EBE0051BCFA /* AVACrashesPrivate.h in Headers */,
 			);
@@ -378,6 +542,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6EC99A391D416CCF0016C325 /* live_report_exception_marketing.plcrash in Resources */,
+				6EC99A3A1D416CCF0016C325 /* live_report_signal.plcrash in Resources */,
+				6EC99A3C1D416CCF0016C325 /* live_report_xamarin.plcrash in Resources */,
+				6EC99A3D1D416CCF0016C325 /* log_report_xamarin in Resources */,
+				6EC99A3B1D416CCF0016C325 /* live_report_signal_marketing.plcrash in Resources */,
+				6EC99A371D416CCF0016C325 /* live_report_empty.plcrash in Resources */,
+				6EC99A381D416CCF0016C325 /* live_report_exception.plcrash in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -395,7 +566,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=AvalancheCrashes\nFMK_VERSION=A\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../Products\nZIP_FOLDER=${FMK_NAME}\nTEMP_DIR=${PRODUCTS_DIR}/${ZIP_FOLDER}\nINSTALL_DIR=${TEMP_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator\n\n# //////////////////////////////\n# Building Core Framework\n# //////////////////////////////\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphoneos\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${TEMP_DIR}\" ]\nthen\nrm -rf \"${TEMP_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\nmkdir -p \"${INSTALL_DIR}/Versions\"\nmkdir -p \"${INSTALL_DIR}/Versions/${FMK_VERSION}\"\nmkdir -p \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Headers\"\n\n# Creates the internal links.\n# It MUST uses relative path, otherwise will not work when the folder is copied/moved.\nln -s \"${FMK_VERSION}\" \"${INSTALL_DIR}/Versions/Current\"\nln -s \"Versions/Current/Headers\" \"${INSTALL_DIR}/Headers\"\nln -s \"Versions/Current/${FMK_NAME}\" \"${INSTALL_DIR}/${FMK_NAME}\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Support/module.modulemap\" \"${INSTALL_DIR}/Modules/\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Headers/\"\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" \"${SIMULATOR_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/Versions/${FMK_VERSION}/${FMK_NAME}\"\n\n#rm -r \"${WRK_DIR}\"";
+			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=AvalancheCrashes\nFMK_VERSION=A\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../Products\nZIP_FOLDER=${FMK_NAME}\nTEMP_DIR=${PRODUCTS_DIR}/${ZIP_FOLDER}\nINSTALL_DIR=${TEMP_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator\n\n# //////////////////////////////\n# Building Core Framework\n# //////////////////////////////\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphoneos\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${TEMP_DIR}\" ]\nthen\nrm -rf \"${TEMP_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\nmkdir -p \"${INSTALL_DIR}/Versions\"\nmkdir -p \"${INSTALL_DIR}/Versions/${FMK_VERSION}\"\nmkdir -p \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Headers\"\n\n# Creates the internal links.\n# It MUST uses relative path, otherwise will not work when the folder is copied/moved.\nln -s \"${FMK_VERSION}\" \"${INSTALL_DIR}/Versions/Current\"\nln -s \"Versions/Current/Headers\" \"${INSTALL_DIR}/Headers\"\nln -s \"Versions/Current/${FMK_NAME}\" \"${INSTALL_DIR}/${FMK_NAME}\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Support/module.modulemap\" \"${INSTALL_DIR}/Modules/\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Headers/\"\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" \"${SIMULATOR_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/Versions/${FMK_VERSION}/${FMK_NAME}\"\n\n# Combine the CrashReporter static library into a new Hockey static library file if they are not already present and copy the public headers too\nif [ -z $(otool -L \"${INSTALL_DIR}/Versions/${FMK_VERSION}/${FMK_NAME}\" | grep 'libCrashReporter') ]\nthen\nlibtool -static -o \"${INSTALL_DIR}/Versions/${FMK_VERSION}/${FMK_NAME}\" \"${INSTALL_DIR}/Versions/${FMK_VERSION}/${FMK_NAME}\" \"${SRCROOT}/../Vendor/PLCrashReporter/CrashReporter.framework/Versions/A/CrashReporter\"\nfi\n\nrm -r \"${WRK_DIR}\"";
 		};
 		6E6BFC3A1D23505600DF7617 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -417,7 +588,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6E73FE6B1D402F79008CDC15 /* AVACrashCXXExceptionHandler.mm in Sources */,
+				6E7D5C701D3E9346009EC9AC /* AVAException.m in Sources */,
+				B2E39BEA1D4FDD9700DDF9DC /* AVAErrorAttachment.m in Sources */,
+				6E73FE741D4059E7008CDC15 /* AVACrashCXXExceptionWrapperException.m in Sources */,
+				6E7D5C6C1D3E9332009EC9AC /* AVAErrorLog.m in Sources */,
+				6E7D5C781D3E9395009EC9AC /* AVAThreadFrame.m in Sources */,
+				6E7D5C741D3E9381009EC9AC /* AVAThread.m in Sources */,
+				B2E39BE81D4FDD9700DDF9DC /* AVABinaryAttachment.m in Sources */,
 				6E0401541D1C9A4F0051BCFA /* AVACrashes.m in Sources */,
+				B2F3750A1D41AD5100F07032 /* AVAErrorLogFormatter.m in Sources */,
+				6E73FE701D4032AB008CDC15 /* AVACrashesHelper.m in Sources */,
+				6E7D5C681D3E9321009EC9AC /* AVABinary.m in Sources */,
+				B2E39BF31D500BFE00DDF9DC /* AVAErrorReport.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -425,7 +608,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E171AE41D22F781000DC480 /* AvalancheCrashesTests.m in Sources */,
+				6EC99A2E1D4166C50016C325 /* AVACrashesTests.m in Sources */,
+				6E7D5C8A1D3EC504009EC9AC /* AVAExceptionTests.m in Sources */,
+				6E7D5C871D3EC332009EC9AC /* AVAThreadFrameTests.m in Sources */,
+				6E7D5C841D3EC0F7009EC9AC /* AVAThreadTests.m in Sources */,
+				6E7D5C801D3EAEB5009EC9AC /* AVABinaryTests.m in Sources */,
+				6E7D5C8D1D3EC6C4009EC9AC /* AVAErrorLogTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -535,6 +723,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				"ARCHS[sdk=iphonesimulator*]" = "$(AVA_SIM_ARCHS)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../Vendor\"/**",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.avalanche.AvalancheCrashes;
@@ -550,6 +742,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				"ARCHS[sdk=iphonesimulator*]" = "$(AVA_SIM_ARCHS)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../Vendor\"/**",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.avalanche.AvalancheCrashes;
@@ -579,6 +775,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.avalanche.AvalancheCrashesTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../AvalancheHub/AvalancheHub\"";
 			};
 			name = Debug;
 		};
@@ -600,6 +797,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.avalanche.AvalancheCrashesTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../AvalancheHub/AvalancheHub\"";
 			};
 			name = Release;
 		};
