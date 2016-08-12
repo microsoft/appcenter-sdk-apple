@@ -111,7 +111,7 @@
   NSArray<AVAException *> *exceptions =
   [NSArray arrayWithObject:[AVAException new]];
   NSArray<AVABinary *> *binaries = [NSArray arrayWithObject:[AVABinary new]];
-  AVADeviceLog *device = [AVADeviceLog new];
+  AVADevice *device = [AVADevice new];
   NSString *sessionId = @"1234567890";
   NSNumber *tOffset = @(3);
   NSDictionary *properties = @{ @"Key" : @"Value" };

@@ -44,7 +44,7 @@
 }
 
 - (void)testStartingManagerWritesLastCrashReportToCrashesDir {
-  
+  //TODO reset the emulator before this runs
   assertThat(self.sut.crashFiles, hasCountOf(0));
   assertThatBool([self copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
   

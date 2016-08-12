@@ -2,7 +2,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "AVADeviceLog.h"
+#import "AVADevice.h"
 
 /**
  *  Provide and keep track of device log based on collected properties.
@@ -12,7 +12,7 @@
 /**
  *  Current device log.
  */
-@property(nonatomic, readonly) AVADeviceLog *device;
+@property(nonatomic, readonly) AVADevice *device;
 
 /**
  *  Refresh properties.

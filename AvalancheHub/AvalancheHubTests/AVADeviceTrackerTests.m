@@ -1,4 +1,4 @@
-#import "AVADeviceLog.h"
+#import "AVADevice.h"
 #import "AVADeviceTracker.h"
 #import "AVADeviceTrackerPrivate.h"
 #import <CoreTelephony/CTCarrier.h>
