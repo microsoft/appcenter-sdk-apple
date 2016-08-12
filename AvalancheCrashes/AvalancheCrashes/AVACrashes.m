@@ -49,8 +49,14 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
 }
 
 + (void)generateTestCrash {
-  // TODO actual implementation
-}
+  if ([AVAEnvironmentHelper currentAppEnvironment] != AVAEnvironmentAppStore) {
+    
+    if ([self isDebuggerAttached]) {
+      AVALogWarning(@"[AVACrashes] WARNING: The debugger is attached. The following crash cannot be detected by the SDK!");
+    }
+    
+    __builtin_trap();
+  }}
 
 + (BOOL)hasCrashedInLastSession {
   // TODO actual implementation
