@@ -43,7 +43,7 @@
 		6E04016B1D1C9E1F0051BCFA /* AVAConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E04013F1D1C99AC0051BCFA /* AVAConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E04016C1D1C9E1F0051BCFA /* AvalancheHub.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401401D1C99AC0051BCFA /* AvalancheHub.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E04016D1D1C9E460051BCFA /* AvalancheHub+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401581D1C9CFB0051BCFA /* AvalancheHub+Internal.h */; };
-		6E04016E1D1C9E460051BCFA /* AVAAvalancheDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401431D1C99AC0051BCFA /* AVAAvalancheDelegate.h */;  };
+		6E04016E1D1C9E460051BCFA /* AVAAvalancheDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401431D1C99AC0051BCFA /* AVAAvalancheDelegate.h */; };
 		6E04016F1D1C9E460051BCFA /* AVAAvalanchePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401441D1C99AC0051BCFA /* AVAAvalanchePrivate.h */; };
 		6E0401701D1C9E460051BCFA /* AVAFeature.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401451D1C99AC0051BCFA /* AVAFeature.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E0401711D1C9E460051BCFA /* AVAFeaturePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401471D1C99AC0051BCFA /* AVAFeaturePrivate.h */; };
@@ -417,7 +417,6 @@
 				6E3E2C9D1D35701000B1EE50 /* AVALog.h */,
 				6E7D5C791D3E94F8009EC9AC /* AVASerializableObject.h */,
 				E83E81291D3EABAE00421B13 /* AVAStartSessionLog.h */,
-				E83E812A1D3EABAE00421B13 /* AVAStartSessionLog.m */,
 				E88EBBEA1D2C612E007E7785 /* AVAAbstractLog.h */,
 				E88EBBEB1D2C612E007E7785 /* AVAAbstractLog.m */,
 				6E171B521D234717000DC480 /* AVADevice.h */,
@@ -835,7 +834,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -878,7 +877,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
