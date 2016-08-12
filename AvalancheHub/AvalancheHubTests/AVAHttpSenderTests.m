@@ -193,7 +193,7 @@ completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
 
 - (AVALogContainer *)createLogContainerWithId:(NSString *)batchId {
 
-  AVADeviceLog *device = [[AVADeviceLog alloc] init];
+  AVADevice *device = [[AVADevice alloc] init];
   device.sdkVersion = @"1.0.0";
 
   AVAMockLog *log1 = [[AVAMockLog alloc] init];

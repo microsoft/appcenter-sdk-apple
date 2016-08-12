@@ -2,7 +2,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "AVADeviceLog.h"
+#import "AVADevice.h"
 
 static NSString *const kAVASdkVersion = @"sdkVersion";
 static NSString *const kAVAWrapperSdkVersion = @"wrapperSdkVersion";
@@ -21,7 +21,7 @@ static NSString *const kAVACarrierCountry = @"carrierCountry";
 static NSString *const kAVAAppBuild = @"appBuild";
 static NSString *const kAVAAppNamespace = @"appNamespace";
 
-@implementation AVADeviceLog
+@implementation AVADevice
 
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [NSMutableDictionary new];
@@ -86,7 +86,7 @@ static NSString *const kAVAAppNamespace = @"appNamespace";
   return isValid;
 }
 
-- (BOOL)isEqual:(AVADeviceLog *)device {
+- (BOOL)isEqual:(AVADevice *)device {
 
   if (!device)
     return NO;

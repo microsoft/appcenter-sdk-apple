@@ -8,7 +8,7 @@
 #import <Foundation/Foundation.h>
 
 //TODO rename to AVADevice
-@interface AVADeviceLog : NSObject <AVASerializableObject>
+@interface AVADevice : NSObject <AVASerializableObject>
 
 /* Version of the SDK.
  */
@@ -69,6 +69,6 @@
  *
  *  @return Return YES if equsl and NO if not equal
  */
-- (BOOL)isEqual:(AVADeviceLog *)device;
+- (BOOL)isEqual:(AVADevice *)device;
 
 @end

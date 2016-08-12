@@ -3,15 +3,15 @@
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
-#import "AVADeviceLog.h"
+#import "AVADevice.h"
 
-@interface AVADeviceLogTests : XCTestCase
+@interface AVADeviceTests : XCTestCase
 
-@property(nonatomic, strong) AVADeviceLog *sut;
+@property(nonatomic, strong) AVADevice *sut;
 
 @end
 
-@implementation AVADeviceLogTests
+@implementation AVADeviceTests
 
 @synthesize sut = _sut;
 
@@ -19,7 +19,7 @@
 
 - (void)setUp {
   [super setUp];
-  _sut = [AVADeviceLog new];
+  _sut = [AVADevice new];
 }
 
 - (void)tearDown {
@@ -112,9 +112,9 @@
 
   // Then
   assertThat(actual, notNilValue());
-  assertThat(actual, instanceOf([AVADeviceLog class]));
+  assertThat(actual, instanceOf([AVADevice class]));
 
-  AVADeviceLog *actualDevice = actual;
+  AVADevice *actualDevice = actual;
   assertThat(actualDevice.sdkVersion, equalTo(sdkVersion));
   assertThat(actualDevice.model, equalTo(model));
   assertThat(actualDevice.oemName, equalTo(oemName));
@@ -162,7 +162,7 @@
   NSData *serializedEvent =
       [NSKeyedArchiver archivedDataWithRootObject:self.sut];
   id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedEvent];
-  AVADeviceLog *actualDevice = actual;
+  AVADevice *actualDevice = actual;
 
   // then
   XCTAssertTrue([self.sut isEqual:actualDevice]);

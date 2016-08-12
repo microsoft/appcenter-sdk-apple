@@ -35,7 +35,7 @@
   NSString *typeName = @"event";
   NSString *eventId = kAVAUUIDString;
   NSString *eventName = @"eventName";
-  AVADeviceLog *device = [AVADeviceLog new];
+  AVADevice *device = [AVADevice new];
   NSString *sessionId = @"1234567890";
   NSDictionary *properties = @{ @"Key" : @"Value" };
   NSTimeInterval createTime = [[NSDate date] timeIntervalSince1970];
@@ -71,7 +71,7 @@
   NSString *typeName = @"event";
   NSString *eventId = kAVAUUIDString;
   NSString *eventName = @"eventName";
-  AVADeviceLog *device = [AVADeviceLog new];
+  AVADevice *device = [AVADevice new];
   NSString *sessionId = @"1234567890";
   NSNumber *tOffset = @(3);
   NSDictionary *properties = @{ @"Key" : @"Value" };
