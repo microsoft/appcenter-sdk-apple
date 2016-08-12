@@ -3,7 +3,7 @@
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
-#import "AVABinary.h"
+#import "AVAAppleBinary.h"
 #import "AVAErrorLog.h"
 #import "AVAException.h"
 #import "AVAThread.h"
@@ -110,7 +110,7 @@
   NSArray<AVAThread *> *threads = [NSArray arrayWithObject:[AVAThread new]];
   NSArray<AVAException *> *exceptions =
   [NSArray arrayWithObject:[AVAException new]];
-  NSArray<AVABinary *> *binaries = [NSArray arrayWithObject:[AVABinary new]];
+  NSArray<AVAAppleBinary *> *binaries = [NSArray arrayWithObject:[AVAAppleBinary new]];
   AVADevice *device = [AVADevice new];
   NSString *sessionId = @"1234567890";
   NSNumber *tOffset = @(3);

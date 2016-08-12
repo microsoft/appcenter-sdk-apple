@@ -49,7 +49,7 @@
 #define SEL_NAME_SECT "__cstring"
 #endif
 
-#import "AVABinary.h"
+#import "AVAAppleBinary.h"
 #import "AVAErrorLog.h"
 #import "AVAThread.h"
 #import "AVAThreadFrame.h"
@@ -461,7 +461,7 @@ NSString *const AVAXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
    * the base address */
   for (AVAPLCrashReportBinaryImageInfo *imageInfo in
        [report.images sortedArrayUsingFunction:bit_binaryImageSort context:nil]) {
-    AVABinary *binary = [AVABinary new];
+    AVAAppleBinary *binary = [AVAAppleBinary new];
 
     binary.binaryId = (imageInfo.hasImageUUID) ? imageInfo.imageUUID : unknownString;
 

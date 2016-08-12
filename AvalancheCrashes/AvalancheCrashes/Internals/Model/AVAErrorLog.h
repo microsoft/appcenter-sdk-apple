@@ -5,7 +5,7 @@
 #import "AvalancheHub+Internal.h"
 #import <Foundation/Foundation.h>
 
-@class AVAThread, AVABinary, AVAException;
+@class AVAThread, AVAAppleBinary, AVAException;
 
 @interface AVAErrorLog : AVALogWithProperties
 
@@ -72,6 +72,6 @@
 /* Binaries associated to the crash with their associated addresses (used only
  * on iOS to symbolicate the stacktrace). [optional]
  */
-@property(nonatomic) NSArray<AVABinary *> *binaries;
+@property(nonatomic) NSArray<AVAAppleBinary *> *binaries;
 
 @end

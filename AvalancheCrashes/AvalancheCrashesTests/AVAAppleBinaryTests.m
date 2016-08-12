@@ -3,20 +3,20 @@
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
-#import "AVABinary.h"
+#import "AVAAppleBinary.h"
 
-@interface AVABinaryTests : XCTestCase
+@interface AVAAppleBinaryTests : XCTestCase
 
 @end
 
-@implementation AVABinaryTests
+@implementation AVAAppleBinaryTests
 
 #pragma mark - Tests
 
 - (void)testSerializingBinaryToDictionaryWorks {
   
   // If
-  AVABinary *sut = [self binary];
+  AVAAppleBinary *sut = [self binary];
   
   // When
   NSMutableDictionary *actual = [sut serializeToDictionary];
@@ -27,14 +27,16 @@
   assertThat(actual[@"startAddress"], equalTo(sut.startAddress));
   assertThat(actual[@"endAddress"], equalTo(sut.endAddress));
   assertThat(actual[@"name"], equalTo(sut.name));
-  assertThat(actual[@"architecture"], equalTo(sut.architecture));
   assertThat(actual[@"path"], equalTo(sut.path));
+  assertThat(actual[@"cpuType"], equalTo(sut.cpuType));
+  assertThat(actual[@"cpuSubType"], equalTo(sut.cpuSubType));
+
 }
 
 - (void)testNSCodingSerializationAndDeserializationWorks {
   
   // If
-  AVABinary *sut = [self binary];
+  AVAAppleBinary *sut = [self binary];
 
   // When
   NSData *serializedEvent =
@@ -43,34 +45,37 @@
   
   // Then
   assertThat(actual, notNilValue());
-  assertThat(actual, instanceOf([AVABinary class]));
+  assertThat(actual, instanceOf([AVAAppleBinary class]));
   
-  AVABinary *actualBinary = actual;
+  AVAAppleBinary *actualBinary = actual;
   assertThat(actualBinary.binaryId, equalTo(sut.binaryId));
   assertThat(actualBinary.startAddress, equalTo(sut.startAddress));
   assertThat(actualBinary.endAddress, equalTo(sut.endAddress));
   assertThat(actualBinary.name, equalTo(sut.name));
-  assertThat(actualBinary.architecture, equalTo(sut.architecture));
   assertThat(actualBinary.path, equalTo(sut.path));
+  assertThat(actualBinary.cpuType, equalTo(sut.cpuType));
+  assertThat(actualBinary.cpuSubType, equalTo(sut.cpuSubType));
 }
 
 #pragma mark - Helper
 
-- (AVABinary *)binary {
+- (AVAAppleBinary *)binary {
   NSString *binaryId = @"binaryId";
   NSString *startAddress = @"startAddress";
   NSString *endAddress = @"endAddress";
   NSString *name = @"name";
-  NSString *architecture = @"architecture";
   NSString *path = @"path";
+  NSNumber *cpuType = @12;
+  NSNumber *cpuSubTybe = @23;
   
-  AVABinary *binary = [AVABinary new];
+  AVAAppleBinary *binary = [AVAAppleBinary new];
   binary.binaryId = binaryId;
   binary.startAddress = startAddress;
   binary.endAddress = endAddress;
   binary.name = name;
-  binary.architecture = architecture;
   binary.path = path;
+  binary.cpuType = cpuType;
+  binary.cpuSubType = cpuSubTybe;
   
   return binary;
 }

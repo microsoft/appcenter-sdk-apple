@@ -5,7 +5,7 @@
 #import "AvalancheHub+Internal.h"
 #import <Foundation/Foundation.h>
 
-@interface AVABinary : NSObject <AVASerializableObject>
+@interface AVAAppleBinary : NSObject <AVASerializableObject>
 
 /**
  * The binary id.
@@ -28,13 +28,19 @@
 @property(nonatomic) NSString *name;
 
 /**
- * The binary's architecture.
- */
-@property(nonatomic) NSString *architecture;
-
-/**
  * The path to the binary.
  */
 @property(nonatomic) NSString *path;
+
+/**
+ * The binary's cpuType.
+ */
+@property(nonatomic) NSNumber *cpuType;
+
+/**
+ * The binary's cpuSubType.
+ */
+@property(nonatomic) NSNumber *cpuSubType;
+
 
 @end
