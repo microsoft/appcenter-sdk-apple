@@ -4,7 +4,7 @@
 #import <XCTest/XCTest.h>
 
 #import "AVAAppleBinary.h"
-#import "AVAErrorLog.h"
+#import "AVAAppleErrorLog.h"
 #import "AVAException.h"
 #import "AVAThread.h"
 #import "AvalancheHub+Internal.h"
@@ -20,7 +20,7 @@
 - (void)testSerializingEventToDictionaryWorks {
 
   // If
-  AVAErrorLog *sut = [self errorLog];
+  AVAAppleErrorLog *sut = [self errorLog];
   NSTimeInterval createTime = [[NSDate date] timeIntervalSince1970];
   NSNumber *tOffset = @(createTime);
   sut.toffset = tOffset;
@@ -31,20 +31,24 @@
   // Then
   assertThat(actual, notNilValue());
   assertThat(actual[@"id"], equalTo(sut.crashId));
-  assertThat(actual[@"process"], equalTo(sut.process));
   assertThat(actual[@"processId"], equalTo(sut.processId));
-  assertThat(actual[@"parentProcess"], equalTo(sut.parentProcess));
+  assertThat(actual[@"processName"], equalTo(sut.processName));
   assertThat(actual[@"parentProcessId"], equalTo(sut.parentProcessId));
-  assertThat(actual[@"crashThread"], equalTo(sut.crashThread));
-  assertThat(actual[@"applicationPath"], equalTo(sut.applicationPath));
-  assertThat(actual[@"appLaunchTOffset"], equalTo(sut.appLaunchTOffset));
-  assertThat(actual[@"exceptionType"], equalTo(sut.exceptionType));
-  assertThat(actual[@"exceptionCode"], equalTo(sut.exceptionCode));
-  assertThat(actual[@"exceptionAddress"], equalTo(sut.exceptionAddress));
-  assertThat(actual[@"exceptionReason"], equalTo(sut.exceptionReason));
+  assertThat(actual[@"parentProcessName"], equalTo(sut.parentProcessName));
+  assertThat(actual[@"errorThreadId"], equalTo(sut.errorThreadId));
+  assertThat(actual[@"errorThreadName"], equalTo(sut.errorThreadName));
   assertThat(actual[@"fatal"], equalTo(sut.fatal));
-  assertThat(actual[@"exceptions"], equalTo(sut.exceptions));
-  //TODO add assert for binaries and threads?
+  assertThat(actual[@"appLaunchTOffset"], equalTo(sut.appLaunchTOffset));
+  assertThat(actual[@"cpuType"], equalTo(sut.cpuType));
+  assertThat(actual[@"cpuSubType"], equalTo(sut.cpuSubType));
+  assertThat(actual[@"applicationPath"], equalTo(sut.applicationPath));
+  assertThat(actual[@"osExceptionType"], equalTo(sut.osExceptionType));
+  assertThat(actual[@"osExceptionCode"], equalTo(sut.osExceptionCode));
+  assertThat(actual[@"osExceptionAddress"], equalTo(sut.osExceptionAddress));
+  assertThat(actual[@"exceptionType"], equalTo(sut.exceptionType));
+  assertThat(actual[@"exceptionReason"], equalTo(sut.exceptionReason));
+  assertThat(actual[@"registers"], equalTo(sut.registers));
+  // TODO add assert for binaries and threads?
   assertThat(actual[@"type"], equalTo(@"error"));
   assertThat(actual[@"device"], notNilValue());
   NSTimeInterval seralizedToffset = [actual[@"toffset"] integerValue];
@@ -56,33 +60,36 @@
 - (void)testNSCodingSerializationAndDeserializationWorks {
 
   // If
-  AVAErrorLog *sut = [self errorLog];
+  AVAAppleErrorLog *sut = [self errorLog];
 
   // When
-  NSData *serializedEvent =
-      [NSKeyedArchiver archivedDataWithRootObject:sut];
+  NSData *serializedEvent = [NSKeyedArchiver archivedDataWithRootObject:sut];
   id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedEvent];
 
   // Then
   assertThat(actual, notNilValue());
-  assertThat(actual, instanceOf([AVAErrorLog class]));
+  assertThat(actual, instanceOf([AVAAppleErrorLog class]));
 
-  AVAErrorLog *actualError = actual;
+  AVAAppleErrorLog *actualError = actual;
   assertThat(actualError.crashId, equalTo(sut.crashId));
-  assertThat(actualError.process, equalTo(sut.process));
   assertThat(actualError.processId, equalTo(sut.processId));
-  assertThat(actualError.parentProcess, equalTo(sut.parentProcess));
+  assertThat(actualError.processName, equalTo(sut.processName));
   assertThat(actualError.parentProcessId, equalTo(sut.parentProcessId));
-  assertThat(actualError.crashThread, equalTo(sut.crashThread));
-  assertThat(actualError.applicationPath, equalTo(sut.applicationPath));
-  assertThat(actualError.appLaunchTOffset, equalTo(sut.appLaunchTOffset));
-  assertThat(actualError.exceptionType, equalTo(sut.exceptionType));
-  assertThat(actualError.exceptionCode, equalTo(sut.exceptionCode));
-  assertThat(actualError.exceptionAddress, equalTo(sut.exceptionAddress));
-  assertThat(actualError.exceptionReason, equalTo(sut.exceptionReason));
+  assertThat(actualError.parentProcessName, equalTo(sut.parentProcessName));
+  assertThat(actualError.errorThreadId, equalTo(sut.errorThreadId));
+  assertThat(actualError.errorThreadName, equalTo(sut.errorThreadName));
   assertThat(actualError.fatal, equalTo(sut.fatal));
+  assertThat(actualError.appLaunchTOffset, equalTo(sut.appLaunchTOffset));
+  assertThat(actualError.cpuType, equalTo(sut.cpuType));
+  assertThat(actualError.cpuSubType, equalTo(sut.cpuSubType));
+  assertThat(actualError.applicationPath, equalTo(sut.applicationPath));
+  assertThat(actualError.osExceptionType, equalTo(sut.osExceptionType));
+  assertThat(actualError.osExceptionCode, equalTo(sut.osExceptionCode));
+  assertThat(actualError.osExceptionAddress, equalTo(sut.osExceptionAddress));
+  assertThat(actualError.exceptionType, equalTo(sut.exceptionType));
+  assertThat(actualError.exceptionReason, equalTo(sut.exceptionReason));
+  assertThatInteger(actualError.registers.count, equalToInteger(1));
   assertThatInteger(actualError.threads.count, equalToInteger(1));
-  assertThatInteger(actualError.exceptions.count, equalToInteger(1));
   assertThat(actualError.type, equalTo(sut.type));
   assertThat(actualError.sid, equalTo(sut.sid));
   assertThat(actualError.device, equalTo(sut.device));
@@ -92,51 +99,60 @@
 
 #pragma mark - Helper
 
-- (AVAErrorLog *)errorLog {
-  AVAErrorLog *errorLog = [AVAErrorLog new];
+- (AVAAppleErrorLog *)errorLog {
+  AVAAppleErrorLog *errorLog = [AVAAppleErrorLog new];
   NSString *crashId = @"crashId";
-  NSString *process = @"process";
   NSNumber *processId = @(12);
-  NSString *parentProcess = @"parentProcess";
+  NSString *processName = @"processName";
+  NSString *parentProcessName = @"parentProcessName";
   NSNumber *parentProcessId = @(13);
-  NSNumber *crashThread = @(4);
-  NSString *applicationPath = @"applicationPath";
-  NSNumber *appLaunchTOffset = @(134);
-  NSString *exceptionType = @"exceptionType";
-  NSString *exceptionCode = @"exceptionCode";
-  NSString *exceptionAddress = @"exceptionAddress";
-  NSString *exceptionReason = @"exceptionReason";
+  NSNumber *errorThreadId = @(4);
+  NSString *errorThreadName = @"errorThreadName";
   NSNumber *fatal = @(4);
+  NSNumber *appLaunchTOffset = @(134);
+  NSNumber *cpuType = @(2);
+  NSNumber *cpuSubType = @(3);
+  NSString *applicationPath = @"applicationPath";
+  NSString *osExceptionType = @"osExceptionType";
+  NSString *osExceptionCode = @"osExceptionCode";
+  NSString *osExceptionAddress = @"osExceptionAddress";
+  NSString *exceptionType = @"exceptionType";
+  NSString *exceptionReason = @"exceptionReason";
+  NSDictionary *registers = @{ @"Register1" : @"ValueRegister1" };
+
   NSArray<AVAThread *> *threads = [NSArray arrayWithObject:[AVAThread new]];
-  NSArray<AVAException *> *exceptions =
-  [NSArray arrayWithObject:[AVAException new]];
   NSArray<AVAAppleBinary *> *binaries = [NSArray arrayWithObject:[AVAAppleBinary new]];
   AVADevice *device = [AVADevice new];
+  
   NSString *sessionId = @"1234567890";
   NSNumber *tOffset = @(3);
   NSDictionary *properties = @{ @"Key" : @"Value" };
-  
+
   errorLog.crashId = crashId;
-  errorLog.process = process;
   errorLog.processId = processId;
-  errorLog.parentProcess = parentProcess;
+  errorLog.processName = processName;
   errorLog.parentProcessId = parentProcessId;
-  errorLog.crashThread = crashThread;
-  errorLog.applicationPath = applicationPath;
-  errorLog.appLaunchTOffset = appLaunchTOffset;
-  errorLog.exceptionType = exceptionType;
-  errorLog.exceptionCode = exceptionCode;
-  errorLog.exceptionAddress = exceptionAddress;
-  errorLog.exceptionReason = exceptionReason;
+  errorLog.parentProcessName = parentProcessName;
+  errorLog.errorThreadId = errorThreadId;
+  errorLog.errorThreadName = errorThreadName;
   errorLog.fatal = fatal;
+  errorLog.appLaunchTOffset = appLaunchTOffset;
+  errorLog.cpuType = cpuType;
+  errorLog.cpuSubType = cpuSubType;
+  errorLog.applicationPath = applicationPath;
+  errorLog.osExceptionType = osExceptionType;
+  errorLog.osExceptionCode = osExceptionCode;
+  errorLog.osExceptionAddress = osExceptionAddress;
+  errorLog.exceptionType = exceptionType;
+  errorLog.exceptionReason = exceptionReason;
+  errorLog.registers = registers;
   errorLog.threads = threads;
-  errorLog.exceptions = exceptions;
   errorLog.binaries = binaries;
   errorLog.sid = sessionId;
   errorLog.device = device;
   errorLog.toffset = tOffset;
   errorLog.properties = properties;
-  
+
   return errorLog;
 }
 

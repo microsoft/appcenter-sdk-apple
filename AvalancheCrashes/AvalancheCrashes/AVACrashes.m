@@ -5,7 +5,7 @@
 #import "AVACrashCXXExceptionWrapperException.h"
 #import "AVACrashesHelper.h"
 #import "AVACrashesPrivate.h"
-#import "AVAErrorLog.h"
+#import "AVAAppleErrorLog.h"
 #import "AVAErrorLogFormatter.h"
 #import "AvalancheHub+Internal.h"
 
@@ -230,7 +230,7 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
     NSData *crashFileData = [NSData dataWithContentsOfFile:filePath];
     if ([crashFileData length] > 0) {
       report = [[AVAPLCrashReport alloc] initWithData:crashFileData error:&error];
-      AVAErrorLog *log = [AVAErrorLogFormatter errorLogFromCrashReport:report];
+      AVAAppleErrorLog *log = [AVAErrorLogFormatter errorLogFromCrashReport:report];
       [self.delegate feature:self didCreateLog:log withPriority:AVAPriorityHigh];
       [self deleteCrashReportWithFilePath:filePath];
       [self.crashFiles removeObject:filePath];

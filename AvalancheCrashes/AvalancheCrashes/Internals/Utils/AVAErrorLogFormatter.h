@@ -1,7 +1,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class AVAErrorLog;
+@class AVAAppleErrorLog;
 @class PLCrashReport;
 
 /**
@@ -24,6 +24,6 @@ typedef NS_ENUM(NSInteger, AVABinaryImageType) {
 
 @interface AVAErrorLogFormatter : NSObject
 
-+ (AVAErrorLog *)errorLogFromCrashReport:(PLCrashReport *)report;
++ (AVAAppleErrorLog *)errorLogFromCrashReport:(PLCrashReport *)report;
 
 @end

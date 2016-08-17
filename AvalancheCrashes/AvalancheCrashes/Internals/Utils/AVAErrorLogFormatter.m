@@ -50,7 +50,7 @@
 #endif
 
 #import "AVAAppleBinary.h"
-#import "AVAErrorLog.h"
+#import "AVAAppleErrorLog.h"
 #import "AVAThread.h"
 #import "AVAThreadFrame.h"
 
@@ -198,7 +198,7 @@ NSString *const AVAXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
  *
  * @return Returns the formatted result on success, or nil if an error occurs.
  */
-+ (AVAErrorLog *)errorLogFromCrashReport:(AVAPLCrashReport *)report {
++ (AVAAppleErrorLog *)errorLogFromCrashReport:(AVAPLCrashReport *)report {
 
   // Map to Apple-style code type, and mark whether architecture is LP64
   // (64-bit)
@@ -216,7 +216,7 @@ NSString *const AVAXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
     }
   }
 
-  AVAErrorLog *errorLog =
+  AVAAppleErrorLog *errorLog =
       [self errorLogFromCrashReport:report codeType:codeType is64bit:is64bit crashedThread:crashedThread];
   errorLog.threads = [self extractThreadsFromReport:report is64bit:is64bit addresses:&addresses];
   errorLog.binaries = [self extractBinaryImagesFromReport:report addresses:addresses codeType:codeType is64bit:is64bit];
@@ -330,11 +330,11 @@ NSString *const AVAXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
   return formattedThreads;
 }
 
-+ (AVAErrorLog *)errorLogFromCrashReport:(AVAPLCrashReport *)report
++ (AVAAppleErrorLog *)errorLogFromCrashReport:(AVAPLCrashReport *)report
                                 codeType:(NSNumber *)codeType
                                  is64bit:(boolean_t)is64bit
                            crashedThread:(AVAPLCrashReportThreadInfo *)crashedThread {
-  AVAErrorLog *errorLog = [AVAErrorLog new];
+  AVAAppleErrorLog *errorLog = [AVAAppleErrorLog new];
   /* Application and process info */
   {
     errorLog.crashId =
@@ -350,16 +350,16 @@ NSString *const AVAXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
     //    crashHeaders.applicationBuild =
     //    report.applicationInfo.applicationVersion;
 
-    errorLog.process = unknownString;
+    errorLog.processName = unknownString;
     errorLog.processId = nil;
-    errorLog.parentProcess = unknownString;
+    errorLog.parentProcessName = unknownString;
     errorLog.parentProcessId = nil;
     errorLog.applicationPath = unknownString;
 
     // Process information was not available in earlier crash report versions
     if (report.hasProcessInfo) {
       // Process Name
-      errorLog.process = report.processInfo.processName ?: errorLog.process;
+      errorLog.processName = report.processInfo.processName ?: errorLog.processName;
 
       // PID
       errorLog.processId = @(report.processInfo.processID);
@@ -377,7 +377,7 @@ NSString *const AVAXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
 
       /* Parent Process Name */
       if (report.processInfo.parentProcessName != nil) {
-        errorLog.parentProcess = report.processInfo.parentProcessName;
+        errorLog.parentProcessName = report.processInfo.parentProcessName;
       }
       /* Parent Process ID */
       errorLog.parentProcessId = @(report.processInfo.parentProcessID);
@@ -385,12 +385,12 @@ NSString *const AVAXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
   }
 
   /* Exception code */
-  errorLog.exceptionAddress = [NSString stringWithFormat:@"0x%" PRIx64, report.signalInfo.address];
-  errorLog.exceptionCode = report.signalInfo.code;
+  errorLog.osExceptionAddress = [NSString stringWithFormat:@"0x%" PRIx64, report.signalInfo.address];//TODO check with ANdreas
+  errorLog.osExceptionCode = report.signalInfo.code; //TODO check with ANdreas
   errorLog.exceptionReason = nil;
   errorLog.exceptionType = report.signalInfo.name;
 
-  errorLog.crashThread = @(crashedThread.threadNumber);
+  errorLog.errorThreadId = @(crashedThread.threadNumber); //TODO check with ANdreas
 
   /* Uncaught Exception */
   if (report.hasExceptionInfo) {
@@ -398,7 +398,7 @@ NSString *const AVAXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
         [NSString stringWithFormat:@"*** Terminating app due to uncaught exception %@: %@",
                                    report.exceptionInfo.exceptionName, report.exceptionInfo.exceptionReason];
 
-    // TODO: (bereimol) check if this still works for XamarinSDK
+    // TODO: Change to new Xamarin Schema.
 
     // Check if exception data contains xamarin stacktrace in order to determine
     // report version
