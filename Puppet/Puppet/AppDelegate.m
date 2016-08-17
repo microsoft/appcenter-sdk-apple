@@ -18,29 +18,27 @@
   // Start Avalanche SDK.
   [AVAAvalanche setLogLevel:AVALogLevelVerbose];
   [AVAAvalanche start:@[ [AVAAnalytics class], [AVACrashes class] ] withAppSecret:[[NSUUID UUID] UUIDString]];
-  
-  [AVACrashes setErrorLoggingDelegate:self]; //TODO rename to setDelegate:
-  
-  [AVACrashes setUserConfirmationHandler: ^(NSArray<AVAErrorReport *> *errorLogs) {
+
+  [AVACrashes setErrorLoggingDelegate:self]; // TODO rename to setDelegate:
+
+  [AVACrashes setUserConfirmationHandler:^() {
+    // This is possible in here, in case the dev wants to check about the last crash.
     NSString *exceptionReason = [AVACrashes lastSessionCrashDetails].exceptionReason;
-    
-    //or something like
-    
-    NSString *foo = [errorLogs firstObject].exceptionReason;
-    //Do something with foo
-    
-    UIAlertView *customAlertView = [[UIAlertView alloc] initWithTitle: @"Oh no! The App crashed"
-                                                              message: nil
-                                                             delegate: self
-                                                    cancelButtonTitle: @"Don't send"
-                                                    otherButtonTitles: @"Send", nil];
+
+    // In most cases, just show the alert or a ViewController.
+    UIAlertView *customAlertView = [[UIAlertView alloc] initWithTitle:@"Oh no! The App crashed"
+                                                              message:nil
+                                                             delegate:self
+                                                    cancelButtonTitle:@"Don't send"
+                                                    otherButtonTitles:@"Send", nil];
     if (exceptionReason) {
-      customAlertView.message = @"We would like to send a crash report to the developers. Please enter a short description of what happened:";
+      customAlertView.message =
+          @"We would like to send a crash report to the developers. Please enter a short description of what happened:";
       customAlertView.alertViewStyle = UIAlertViewStylePlainTextInput;
     } else {
       customAlertView.message = @"We would like to send a crash report to the developers";
     }
-    
+
     [customAlertView show];
   }];
 
@@ -79,26 +77,23 @@
   // applicationDidEnterBackground:.
 }
 
-//TODO talk to andreas and lukas about this again
+// TODO talk to andreas and lukas about this again
 
 - (BOOL)errorReporting:(AVACrashes *)crashes shouldProcess:(AVAErrorReport *)errorReport {
-  
-  if([errorReport.exceptionReason isEqualToString:@"something"]) {
+
+  if ([errorReport.exceptionReason isEqualToString:@"something"]) {
     return false;
-  }
-  else {
+  } else {
     return true;
-    
   }
 }
 
-- (AVAErrorAttachment *) attachmentWithErrorReporting: (AVACrashes *)crashes forErrorReport:(AVAErrorReport *)errorLog {
-  
+- (AVAErrorAttachment *)attachmentWithErrorReporting:(AVACrashes *)crashes forErrorReport:(AVAErrorReport *)errorLog {
+
   return [AVAErrorAttachment new];
 }
 
-- (void) errorReportingWillSend:(AVACrashes *)crashes {
-  
+- (void)errorReportingWillSend:(AVACrashes *)crashes {
 }
 
 - (void)errorReporting:(AVACrashes *)crashes didFailSending:(AVAErrorReport *)errorLog withError:(NSError *)error {
@@ -111,15 +106,15 @@
   if (alertView.alertViewStyle != UIAlertViewStyleDefault) {
   }
   switch (buttonIndex) {
-    case 0:
-      [AVACrashes notifyWithUserConfirmation:AVAUserConfirmationDontSend];
-      break;
-    case 1:
-      [AVACrashes notifyWithUserConfirmation:AVAUserConfirmationAlways];
-      break;
-    default:
-      [AVACrashes notifyWithUserConfirmation:AVAUserConfirmationDontSend];
-      break;
+  case 0:
+    [AVACrashes notifyWithUserConfirmation:AVAUserConfirmationDontSend];
+    break;
+  case 1:
+    [AVACrashes notifyWithUserConfirmation:AVAUserConfirmationAlways];
+    break;
+  default:
+    [AVACrashes notifyWithUserConfirmation:AVAUserConfirmationDontSend];
+    break;
   }
 }
 

@@ -72,7 +72,7 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
   return nil;
 }
 
-+ (void)setErrorLoggingDelegate:(_Nullable id<AVAErrorLoggingDelegate>)errorLoggingDelegate {
++ (void)setErrorLoggingDelegate:(_Nullable id<AVAErrorReportingDelegate>)errorLoggingDelegate {
   // TODO actual implementation
 }
 

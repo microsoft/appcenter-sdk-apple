@@ -4,12 +4,10 @@
 
 #import <UIKit/UIKit.h>
 
-#import "AVAErrorLoggingDelegate.h"
+#import "AVAErrorReportingDelegate.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, AVAErrorLoggingDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, AVAErrorReportingDelegate>
 
-@property (strong, nonatomic) UIWindow *window;
-
+@property(strong, nonatomic) UIWindow *window;
 
 @end
-

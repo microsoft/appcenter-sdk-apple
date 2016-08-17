@@ -4,7 +4,7 @@
 @class AVACrashes;
 @class AVAErrorAttachment;
 
-@protocol AVAErrorLoggingDelegate <NSObject>
+@protocol AVAErrorReportingDelegate <NSObject>
 
 @optional
 
@@ -32,14 +32,15 @@
 /**
  * Callback method that will be called before each error will be send to the
  * server.
- * @param instance of AVACrashes.
+ * @param errorReporting The instance of AVACrashes.
+ * @param errorReport The error report that will be sent.
  */
-- (void)errorReportingWillSend:(AVACrashes *)errorReporting;
+- (void)errorReporting:(AVACrashes *)errorReporting willSendErrorReport:(AVAErrorReport *)errorReport;
 
 /**
  * Callback that will be called for each single error report if all retries have
  * been used and sending an error has failed.
- * @param errorReporting the instance of AVACrashes.
+ * @param errorReporting The instance of AVACrashes.
  * @param errorReport The error report that couldn't be send.
  * @param error The error object.
  */

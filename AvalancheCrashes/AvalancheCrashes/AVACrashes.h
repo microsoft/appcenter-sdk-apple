@@ -11,7 +11,7 @@
  * Custom block that handles the alert that prompts the user whether he wants to
  * send crash reports
  */
-typedef void (^AVAUserConfirmationHandler)(NSArray<AVAErrorReport *> *_Nonnull errorReports);
+typedef void (^AVAUserConfirmationHandler)();
 
 /**
  * Error Logging status.
@@ -49,7 +49,7 @@ typedef NS_ENUM(NSUInteger, AVAUserConfirmation) {
   AVAUserConfirmationAlways = 2
 };
 
-@protocol AVAErrorLoggingDelegate;
+@protocol AVAErrorReportingDelegate;
 
 @interface AVACrashes : NSObject <AVAFeature>
 
@@ -164,8 +164,8 @@ typedef NS_ENUM(NSUInteger, AVAUserConfirmation) {
  *
  * @see AVAErrorLoggingDelegate
  */
-@property(nonatomic, weak, nullable) id<AVAErrorLoggingDelegate> errorLoggingDelegate;
+@property(nonatomic, weak, nullable) id<AVAErrorReportingDelegate> errorLoggingDelegate;
 
-+ (void)setErrorLoggingDelegate:(_Nullable id<AVAErrorLoggingDelegate>)errorLoggingDelegate;
++ (void)setErrorLoggingDelegate:(_Nullable id<AVAErrorReportingDelegate>)errorLoggingDelegate;
 
 @end

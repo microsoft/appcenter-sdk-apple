@@ -19,14 +19,14 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param listener listener.
  */
-- (void)addListener:(id <AVALogManagerListener>)listener;
+- (void)addListener:(id<AVALogManagerListener>)listener;
 
 /**
  *  Remove listener.
  *
  *  @param listener listener.
  */
-- (void)removeListener:(id <AVALogManagerListener>)listener;
+- (void)removeListener:(id<AVALogManagerListener>)listener;
 
 @required
 /**
