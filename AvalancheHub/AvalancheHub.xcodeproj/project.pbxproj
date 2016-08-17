@@ -893,7 +893,7 @@
 				AVA_SIM_ARCHS = "x86_64 i386";
 				BUILD_NUMBER = 1;
 				DEAD_CODE_STRIPPING = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_CFLAGS = "$(AVALANCHE_WARNING_FLAGS)";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.avalanche.AvalancheHub;
@@ -914,7 +914,7 @@
 				AVA_SIM_ARCHS = "x86_64 i386";
 				BUILD_NUMBER = 1;
 				DEAD_CODE_STRIPPING = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_CFLAGS = "$(AVALANCHE_WARNING_FLAGS)";
 				"OTHER_CFLAGS[sdk=iphoneos*]" = "$(AVALANCHE_WARNING_FLAGS)";
 				"OTHER_CFLAGS[sdk=iphonesimulator*]" = (
@@ -958,7 +958,7 @@
 				);
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				INFOPLIST_FILE = AvalancheHubTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				OTHER_LDFLAGS = (
@@ -985,7 +985,7 @@
 				);
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				INFOPLIST_FILE = AvalancheHubTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				OTHER_LDFLAGS = (
