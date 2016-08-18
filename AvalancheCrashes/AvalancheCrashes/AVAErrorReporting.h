@@ -51,7 +51,7 @@ typedef NS_ENUM(NSUInteger, AVAUserConfirmation) {
 
 @protocol AVAErrorLoggingDelegate;
 
-@interface AVACrashes : NSObject <AVAFeature>
+@interface AVAErrorReporting : NSObject <AVAFeature>
 
 /**
  * Indicates if the app crashed in the previous session

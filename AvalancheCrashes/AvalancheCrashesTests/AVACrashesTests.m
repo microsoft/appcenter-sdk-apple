@@ -7,7 +7,7 @@
 
 @interface AVACrashesTests : XCTestCase
 
-@property(nonatomic, strong) AVACrashes *sut;
+@property(nonatomic, strong) AVAErrorReporting *sut;
 
 @end
 
@@ -17,7 +17,7 @@
 
 - (void)setUp {
   [super setUp];
-  self.sut = [AVACrashes new];
+  self.sut = [AVAErrorReporting new];
 }
 
 - (void)tearDown {

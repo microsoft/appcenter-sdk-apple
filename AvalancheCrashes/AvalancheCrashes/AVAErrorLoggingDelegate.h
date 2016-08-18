@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 
 @class AVAErrorReport;
-@class AVACrashes;
+@class AVAErrorReporting;
 @class AVAErrorAttachment;
 
 @protocol AVAErrorLoggingDelegate <NSObject>
@@ -17,7 +17,7 @@
  * @return YES if the SDK should process the crash, NO if you don't want it to
  * be sent to the server.
  */
-- (BOOL)errorReporting:(AVACrashes *)errorReporting shouldProcess:(AVAErrorReport *)errorReport;
+- (BOOL)errorReporting:(AVAErrorReporting *)errorReporting shouldProcess:(AVAErrorReport *)errorReport;
 
 /**
  * Create an AVAErrorAttachment that will be attached to the error report.
@@ -26,7 +26,7 @@
  * @return instance of AVAErrorAttachment for custom data that the dev wants to
  * attach to the error.
  */
-- (AVAErrorAttachment *)attachmentWithErrorReporting:(AVACrashes *)errorReporting
+- (AVAErrorAttachment *)attachmentWithErrorReporting:(AVAErrorReporting *)errorReporting
                                       forErrorReport:(AVAErrorReport *)errorReport;
 
 /**
@@ -34,7 +34,7 @@
  * server.
  * @param instance of AVACrashes.
  */
-- (void)errorReportingWillSend:(AVACrashes *)errorReporting;
+- (void)errorReportingWillSend:(AVAErrorReporting *)errorReporting;
 
 /**
  * Callback that will be called for each single error report if all retries have
@@ -43,7 +43,7 @@
  * @param errorReport The error report that couldn't be send.
  * @param error The error object.
  */
-- (void)errorReporting:(AVACrashes *)errorReporting
+- (void)errorReporting:(AVAErrorReporting *)errorReporting
         didFailSending:(AVAErrorReport *)errorReport
              withError:(NSError *)error;
 
@@ -53,6 +53,6 @@
  * @param errorReporting the instance of AVACrashes.
  * @param errorReport The error report that was successfully sent.
  */
-- (void)errorReporting:(AVACrashes *)errorReporting didSucceedSending:(AVAErrorReport *)errorReport;
+- (void)errorReporting:(AVAErrorReporting *)errorReporting didSucceedSending:(AVAErrorReport *)errorReport;
 
 @end

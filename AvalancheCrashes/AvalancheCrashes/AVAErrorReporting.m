@@ -9,7 +9,7 @@
 #import "AVAErrorLogFormatter.h"
 #import "AvalancheHub+Internal.h"
 
-static NSString *const kAVAAnalyzerFilename = @"AVACrashes.analyzer";
+static NSString *const kAVAAnalyzerFilename = @"AVAErrorReporting.analyzer";
 
 #pragma mark - Callbacks Setup
 
@@ -37,7 +37,7 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
   abort();
 }
 
-@implementation AVACrashes
+@implementation AVAErrorReporting
 
 @synthesize delegate = _delegate;
 @synthesize isEnabled = _isEnabled;
@@ -52,7 +52,7 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
   if ([AVAEnvironmentHelper currentAppEnvironment] != AVAEnvironmentAppStore) {
     
     if ([self isDebuggerAttached]) {
-      AVALogWarning(@"[AVACrashes] WARNING: The debugger is attached. The following crash cannot be detected by the SDK!");
+      AVALogWarning(@"[AVAErrorReporting] WARNING: The debugger is attached. The following crash cannot be detected by the SDK!");
     }
     
     __builtin_trap();
@@ -105,7 +105,7 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
 }
 
 - (void)startFeature {
-  AVALogVerbose(@"[AVACrashes] VERBOSE: Started crash module");
+  AVALogVerbose(@"[AVAErrorReporting] VERBOSE: Started crash module");
 
   [self configureCrashReporter];
 
@@ -147,7 +147,7 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
    handler type is set.
    */
   if ([AVACrashesHelper isDebuggerAttached]) {
-    AVALogWarning(@"[AVACrashes] WARNING: Detecting crashes is NOT "
+    AVALogWarning(@"[AVAErrorReporting] WARNING: Detecting crashes is NOT "
                   @"enabled due to running the app with a debugger "
                   @"attached.");
   } else {
@@ -169,14 +169,14 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
     NSError *error = NULL;
     [self.plCrashReporter setCrashCallbacks:&plCrashCallbacks];
     if (![self.plCrashReporter enableCrashReporterAndReturnError:&error])
-      AVALogError(@"[AVACrashes] ERROR: Could not enable crash reporter: %@", [error localizedDescription]);
+      AVALogError(@"[AVAErrorReporting] ERROR: Could not enable crash reporter: %@", [error localizedDescription]);
     NSUncaughtExceptionHandler *currentHandler = NSGetUncaughtExceptionHandler();
     if (currentHandler && currentHandler != initialHandler) {
       self.exceptionHandler = currentHandler;
 
-      AVALogDebug(@"[AVACrashes] INFO: Exception handler successfully initialized.");
+      AVALogDebug(@"[AVAErrorReporting] INFO: Exception handler successfully initialized.");
     } else {
-      AVALogError(@"[AVACrashes] ERROR: Exception handler could not be "
+      AVALogError(@"[AVAErrorReporting] ERROR: Exception handler could not be "
                   @"set. Make sure there is no other exception "
                   @"handler set up!");
     }
@@ -197,7 +197,7 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
     return;
   }
 
-  AVALogDebug(@"[AVACrashes] INFO: Start delayed CrashManager processing");
+  AVALogDebug(@"[AVAErrorReporting] INFO: Start delayed CrashManager processing");
 
   // Was our own exception handler successfully added?
   if (self.exceptionHandler) {
@@ -211,7 +211,7 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
      * log message for details.
      */
     if (self.exceptionHandler != currentHandler) {
-      AVALogWarning(@"[AVACrashes] WARNING: Another exception handler was "
+      AVALogWarning(@"[AVAErrorReporting] WARNING: Another exception handler was "
                     @"added. If this invokes any kind exit() after processing "
                     @"the exception, which causes any subsequent error "
                     @"handler not to be invoked, these crashes will NOT be "
@@ -222,7 +222,7 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
 
     // TODO: Send and clean next crash report
     PLCrashReport *report = [self nextCrashReport];
-    AVALogVerbose(@"[AVACrashes] VERBOSE: Crash report found: %@ ", report.debugDescription);
+    AVALogVerbose(@"[AVAErrorReporting] VERBOSE: Crash report found: %@ ", report.debugDescription);
   }
 }
 
@@ -269,7 +269,7 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
     NSString *cacheFilename = [NSString stringWithFormat:@"%.0f", [NSDate timeIntervalSinceReferenceDate]];
 
     if (crashData == nil) {
-      AVALogError(@"[AVACrashes] ERROR: Could not load crash report: %@", error);
+      AVALogError(@"[AVAErrorReporting] ERROR: Could not load crash report: %@", error);
     } else {
 
       // Get data of PLCrashReport and write it to SDK directory
@@ -277,7 +277,7 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
       if (report) {
         [crashData writeToFile:[self.crashesDir stringByAppendingPathComponent:cacheFilename] atomically:YES];
       } else {
-        AVALogWarning(@"[AVACrashes] WARNING: Could not parse crash report");
+        AVALogWarning(@"[AVAErrorReporting] WARNING: Could not parse crash report");
       }
     }
 
@@ -313,7 +313,7 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
   if ([self.fileManager fileExistsAtPath:self.analyzerInProgressFile]) {
     NSError *error = nil;
     if (![self.fileManager removeItemAtPath:self.analyzerInProgressFile error:&error]) {
-      AVALogError(@"[AVACrashes] ERROR: Couldn't remove analzer file at %@: ", self.analyzerInProgressFile);
+      AVALogError(@"[AVAErrorReporting] ERROR: Couldn't remove analzer file at %@: ", self.analyzerInProgressFile);
     }
   }
 }

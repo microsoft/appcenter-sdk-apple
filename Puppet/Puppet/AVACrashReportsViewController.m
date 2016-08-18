@@ -1,5 +1,5 @@
 #import "AVACrashReportsViewController.h"
-#import "AVACrashes.h"
+#import "AVAErrorReporting.h"
 
 @interface AVACrashReportsViewController ()
 
@@ -28,7 +28,7 @@
 }
 
 - (void)generateTestCrash {
-  [AVACrashes generateTestCrash];
+  [AVAErrorReporting generateTestCrash];
 }
 
 #pragma mark - Table view data source

@@ -2,11 +2,11 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "AVACrashes.h"
+#import "AVAErrorReporting.h"
 #import "Internals/AVAFeaturePrivate.h"
 #import <CrashReporter/CrashReporter.h>
 
-@interface AVACrashes () <AVAFeaturePrivate>
+@interface AVAErrorReporting () <AVAFeaturePrivate>
 
 /**
  * Prototype of a callback function used to execute additional user code. Called

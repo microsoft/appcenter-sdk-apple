@@ -81,7 +81,7 @@ NSString *ava_crashesDir(void);
     name[3] = getpid();
 
     if (sysctl(name, 4, &info, &info_size, NULL, 0) == -1) {
-      NSLog(@"[AVACrashes] ERROR: Checking for a running debugger via sysctl() "
+      NSLog(@"[AVAErrorReporting] ERROR: Checking for a running debugger via sysctl() "
             @"failed.");
       debuggerIsAttached = false;
     }

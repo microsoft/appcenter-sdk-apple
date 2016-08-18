@@ -4,4 +4,4 @@
 
 #import <Foundation/Foundation.h>
 
-#import "AVACrashes.h"
+#import "AVAErrorReporting.h"
