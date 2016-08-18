@@ -5,7 +5,7 @@
 
 #import "AVAAppleBinary.h"
 #import "AVAAppleErrorLog.h"
-#import "AVAException.h"
+#import "AVAAppleException.h"
 #import "AVAThread.h"
 #import "AvalancheHub+Internal.h"
 

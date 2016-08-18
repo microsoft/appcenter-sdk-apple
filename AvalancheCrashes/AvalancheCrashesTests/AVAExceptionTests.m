@@ -3,7 +3,7 @@
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
-#import "AVAException.h"
+#import "AVAAppleException.h"
 #import "AVAThreadFrame.h"
 
 @interface AVAExceptionsTests : XCTestCase
@@ -17,24 +17,22 @@
 - (void)testSerializingBinaryToDictionaryWorks {
   
   // If
-  AVAException *sut = [self exception];
+  AVAAppleException *sut = [self exception];
   
   // When
   NSMutableDictionary *actual = [sut serializeToDictionary];
   
   // Then
   assertThat(actual, notNilValue());
-  assertThat(actual[@"id"], equalTo(sut.exceptionId));
+  assertThat(actual[@"type"], equalTo(sut.type));
   assertThat(actual[@"reason"], equalTo(sut.reason));
-  assertThat(actual[@"language"], equalTo(sut.language));
   assertThat(actual[@"frames"], equalTo(sut.frames));
-  assertThat(actual[@"innerExceptions"], equalTo(sut.innerExceptions));
 }
 
 - (void)testNSCodingSerializationAndDeserializationWorks {
   
   // If
-  AVAException *sut = [self exception];
+  AVAAppleException *sut = [self exception];
   
   // When
   NSData *serializedEvent =
@@ -43,31 +41,25 @@
   
   // Then
   assertThat(actual, notNilValue());
-  assertThat(actual, instanceOf([AVAException class]));
+  assertThat(actual, instanceOf([AVAAppleException class]));
   
-  AVAException *actualException = actual;
-  assertThat(actualException.exceptionId, equalTo(sut.exceptionId));
+  AVAAppleException *actualException = actual;
+  assertThat(actualException.type, equalTo(sut.type));
   assertThat(actualException.reason, equalTo(sut.reason));
-  assertThat(actualException.language, equalTo(sut.language));
   assertThatInteger(actualException.frames.count, equalToInteger(1));
-  assertThatInteger(actualException.innerExceptions.count, equalToInteger(1));
 }
 
 #pragma mark - Helper
 
-- (AVAException *)exception {
-  NSNumber *exceptionId = @(12);
+- (AVAAppleException *)exception {
+  NSString *type = @"exceptionType";
   NSString *reason = @"reason";
-  NSString *language = @"language";
   NSArray<AVAThreadFrame *>* frames = [NSArray arrayWithObject:[AVAThreadFrame new]];
-  NSArray<AVAException *>* innerExceptions = [NSArray arrayWithObject:[AVAException new]];
   
-  AVAException *exception = [AVAException new];
-  exception.exceptionId = exceptionId;
+  AVAAppleException *exception = [AVAAppleException new];
+  exception.type = type;
   exception.reason = reason;
-  exception.language = language;
   exception.frames = frames;
-  exception.innerExceptions = innerExceptions;
   
   return exception;
 }

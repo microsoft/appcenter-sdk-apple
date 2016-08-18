@@ -5,7 +5,7 @@
 #import "AvalancheHub+Internal.h"
 #import <Foundation/Foundation.h>
 
-@class AVAThread, AVAAppleBinary, AVAException;
+@class AVAThread, AVAAppleBinary, AVAAppleException;
 
 @interface AVAAppleErrorLog : AVALogWithProperties
 
