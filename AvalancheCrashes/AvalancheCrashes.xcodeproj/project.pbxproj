@@ -56,10 +56,10 @@
 		6E7D5C6C1D3E9332009EC9AC /* AVAAppleErrorLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C6A1D3E9332009EC9AC /* AVAAppleErrorLog.m */; };
 		6E7D5C6F1D3E9346009EC9AC /* AVAAppleException.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E7D5C6D1D3E9346009EC9AC /* AVAAppleException.h */; };
 		6E7D5C701D3E9346009EC9AC /* AVAAppleException.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C6E1D3E9346009EC9AC /* AVAAppleException.m */; };
-		6E7D5C731D3E9381009EC9AC /* AVAThread.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E7D5C711D3E9381009EC9AC /* AVAThread.h */; };
-		6E7D5C741D3E9381009EC9AC /* AVAThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C721D3E9381009EC9AC /* AVAThread.m */; };
-		6E7D5C771D3E9395009EC9AC /* AVAThreadFrame.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E7D5C751D3E9395009EC9AC /* AVAThreadFrame.h */; };
-		6E7D5C781D3E9395009EC9AC /* AVAThreadFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C761D3E9395009EC9AC /* AVAThreadFrame.m */; };
+		6E7D5C731D3E9381009EC9AC /* AVAAppleThread.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E7D5C711D3E9381009EC9AC /* AVAAppleThread.h */; };
+		6E7D5C741D3E9381009EC9AC /* AVAAppleThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C721D3E9381009EC9AC /* AVAAppleThread.m */; };
+		6E7D5C771D3E9395009EC9AC /* AVAAppleStackFrame.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E7D5C751D3E9395009EC9AC /* AVAAppleStackFrame.h */; };
+		6E7D5C781D3E9395009EC9AC /* AVAAppleStackFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C761D3E9395009EC9AC /* AVAAppleStackFrame.m */; };
 		6E7D5C801D3EAEB5009EC9AC /* AVAAppleBinaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C7F1D3EAEB5009EC9AC /* AVAAppleBinaryTests.m */; };
 		6E7D5C841D3EC0F7009EC9AC /* AVAThreadTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C831D3EC0F7009EC9AC /* AVAThreadTests.m */; };
 		6E7D5C871D3EC332009EC9AC /* AVAThreadFrameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C861D3EC332009EC9AC /* AVAThreadFrameTests.m */; };
@@ -174,10 +174,10 @@
 		6E7D5C6A1D3E9332009EC9AC /* AVAAppleErrorLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAAppleErrorLog.m; sourceTree = "<group>"; };
 		6E7D5C6D1D3E9346009EC9AC /* AVAAppleException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAAppleException.h; sourceTree = "<group>"; };
 		6E7D5C6E1D3E9346009EC9AC /* AVAAppleException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAAppleException.m; sourceTree = "<group>"; };
-		6E7D5C711D3E9381009EC9AC /* AVAThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAThread.h; sourceTree = "<group>"; };
-		6E7D5C721D3E9381009EC9AC /* AVAThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAThread.m; sourceTree = "<group>"; };
-		6E7D5C751D3E9395009EC9AC /* AVAThreadFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAThreadFrame.h; sourceTree = "<group>"; };
-		6E7D5C761D3E9395009EC9AC /* AVAThreadFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAThreadFrame.m; sourceTree = "<group>"; };
+		6E7D5C711D3E9381009EC9AC /* AVAAppleThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAAppleThread.h; sourceTree = "<group>"; };
+		6E7D5C721D3E9381009EC9AC /* AVAAppleThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAAppleThread.m; sourceTree = "<group>"; };
+		6E7D5C751D3E9395009EC9AC /* AVAAppleStackFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAAppleStackFrame.h; sourceTree = "<group>"; };
+		6E7D5C761D3E9395009EC9AC /* AVAAppleStackFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAAppleStackFrame.m; sourceTree = "<group>"; };
 		6E7D5C7F1D3EAEB5009EC9AC /* AVAAppleBinaryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAAppleBinaryTests.m; sourceTree = "<group>"; };
 		6E7D5C811D3EC06C009EC9AC /* AVAConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AVAConstants.h; path = ../../AvalancheHub/AvalancheHub/AVAConstants.h; sourceTree = "<group>"; };
 		6E7D5C831D3EC0F7009EC9AC /* AVAThreadTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAThreadTests.m; sourceTree = "<group>"; };
@@ -399,10 +399,10 @@
 				6E7D5C6E1D3E9346009EC9AC /* AVAAppleException.m */,
 				B2E39BF01D500BFE00DDF9DC /* AVAErrorReport.h */,
 				B2E39BF11D500BFE00DDF9DC /* AVAErrorReport.m */,
-				6E7D5C711D3E9381009EC9AC /* AVAThread.h */,
-				6E7D5C721D3E9381009EC9AC /* AVAThread.m */,
-				6E7D5C751D3E9395009EC9AC /* AVAThreadFrame.h */,
-				6E7D5C761D3E9395009EC9AC /* AVAThreadFrame.m */,
+				6E7D5C711D3E9381009EC9AC /* AVAAppleThread.h */,
+				6E7D5C721D3E9381009EC9AC /* AVAAppleThread.m */,
+				6E7D5C751D3E9395009EC9AC /* AVAAppleStackFrame.h */,
+				6E7D5C761D3E9395009EC9AC /* AVAAppleStackFrame.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -446,9 +446,9 @@
 				B2B10B641D5D0E840020D9A6 /* AVAAbstractErrorLog.h in Headers */,
 				6E7D5C6B1D3E9332009EC9AC /* AVAAppleErrorLog.h in Headers */,
 				B2E39BEB1D4FDD9700DDF9DC /* AVAErrorLoggingDelegate.h in Headers */,
-				6E7D5C771D3E9395009EC9AC /* AVAThreadFrame.h in Headers */,
+				6E7D5C771D3E9395009EC9AC /* AVAAppleStackFrame.h in Headers */,
 				B2E39BE71D4FDD9700DDF9DC /* AVABinaryAttachment.h in Headers */,
-				6E7D5C731D3E9381009EC9AC /* AVAThread.h in Headers */,
+				6E7D5C731D3E9381009EC9AC /* AVAAppleThread.h in Headers */,
 				6E73FE6F1D4032AB008CDC15 /* AVACrashesHelper.h in Headers */,
 				6E7D5C6F1D3E9346009EC9AC /* AVAAppleException.h in Headers */,
 				6E0401771D1C9EBE0051BCFA /* AvalancheHub+Internal.h in Headers */,
@@ -599,8 +599,8 @@
 				B2E39BEA1D4FDD9700DDF9DC /* AVAErrorAttachment.m in Sources */,
 				6E73FE741D4059E7008CDC15 /* AVACrashCXXExceptionWrapperException.m in Sources */,
 				6E7D5C6C1D3E9332009EC9AC /* AVAAppleErrorLog.m in Sources */,
-				6E7D5C781D3E9395009EC9AC /* AVAThreadFrame.m in Sources */,
-				6E7D5C741D3E9381009EC9AC /* AVAThread.m in Sources */,
+				6E7D5C781D3E9395009EC9AC /* AVAAppleStackFrame.m in Sources */,
+				6E7D5C741D3E9381009EC9AC /* AVAAppleThread.m in Sources */,
 				B2E39BE81D4FDD9700DDF9DC /* AVABinaryAttachment.m in Sources */,
 				6E0401541D1C9A4F0051BCFA /* AVACrashes.m in Sources */,
 				B2F3750A1D41AD5100F07032 /* AVAErrorLogFormatter.m in Sources */,

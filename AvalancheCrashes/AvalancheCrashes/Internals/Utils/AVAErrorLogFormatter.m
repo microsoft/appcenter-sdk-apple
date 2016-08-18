@@ -51,8 +51,8 @@
 
 #import "AVAAppleBinary.h"
 #import "AVAAppleErrorLog.h"
-#import "AVAThread.h"
-#import "AVAThreadFrame.h"
+#import "AVAAppleThread.h"
+#import "AVAAppleStackFrame.h"
 
 static NSString *unknownString = @"???";
 
@@ -275,7 +275,7 @@ NSString *const AVAXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
       [report.exceptionInfo.stackFrames count] > 0) {
     AVAPLCrashReportExceptionInfo *exception = report.exceptionInfo;
 
-    AVAThread *threadData = [AVAThread new];
+    AVAAppleThread *threadData = [AVAAppleThread new];
     threadData.threadId = @(-1);
 
     /* Write out the frames. In raw reports, Apple writes this out as a simple
@@ -283,7 +283,7 @@ NSString *const AVAXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
      * post-processed report, Apple writes this out as full frame entries. We
      * use the latter format. */
     for (AVAPLCrashReportStackFrameInfo *frameInfo in exception.stackFrames) {
-      AVAThreadFrame *frame = [AVAThreadFrame new];
+      AVAAppleStackFrame *frame = [AVAAppleStackFrame new];
       frame.address = formatted_address_matching_architecture(frameInfo.instructionPointer, is64bit);
       [*addresses addObject:@(frameInfo.instructionPointer)];
       [threadData.frames addObject:frame];
@@ -293,11 +293,11 @@ NSString *const AVAXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
 
   /* Threads */
   for (AVAPLCrashReportThreadInfo *thread in report.threads) {
-    AVAThread *threadData = [AVAThread new];
+    AVAAppleThread *threadData = [AVAAppleThread new];
     threadData.threadId = @(thread.threadNumber);
 
     for (AVAPLCrashReportStackFrameInfo *frameInfo in thread.stackFrames) {
-      AVAThreadFrame *frame = [AVAThreadFrame new];
+      AVAAppleStackFrame *frame = [AVAAppleStackFrame new];
       frame.address = formatted_address_matching_architecture(frameInfo.instructionPointer, is64bit);
       [*addresses addObject:@(frameInfo.instructionPointer)];
       [threadData.frames addObject:frame];
@@ -316,11 +316,12 @@ NSString *const AVAXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
 
           formattedRegValue = formatted_address_matching_architecture(registerInfo.registerValue, is64bit);
 
-          if (threadData.frames.count > 0) {
-            AVAThreadFrame *threadFrame = threadData.frames[0];
-            threadFrame.registers = @{formattedRegName : formattedRegValue};
-            [*addresses addObject:@(registerInfo.registerValue)];
-          }
+          //TODO add to registers
+//          if (threadData.frames.count > 0) {
+//            AVAAppleStackFrame *stackFrame = threadData.frames[0];
+//            stackFrame.registers = @{formattedRegName : formattedRegValue};
+//            [*addresses addObject:@(registerInfo.registerValue)];
+//          }
           break;
         }
       }

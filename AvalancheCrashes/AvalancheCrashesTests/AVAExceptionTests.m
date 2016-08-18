@@ -4,7 +4,7 @@
 #import <XCTest/XCTest.h>
 
 #import "AVAAppleException.h"
-#import "AVAThreadFrame.h"
+#import "AVAAppleStackFrame.h"
 
 @interface AVAExceptionsTests : XCTestCase
 
@@ -54,7 +54,7 @@
 - (AVAAppleException *)exception {
   NSString *type = @"exceptionType";
   NSString *reason = @"reason";
-  NSArray<AVAThreadFrame *>* frames = [NSArray arrayWithObject:[AVAThreadFrame new]];
+  NSArray<AVAAppleStackFrame *>* frames = [NSArray arrayWithObject:[AVAAppleStackFrame new]];
   
   AVAAppleException *exception = [AVAAppleException new];
   exception.type = type;

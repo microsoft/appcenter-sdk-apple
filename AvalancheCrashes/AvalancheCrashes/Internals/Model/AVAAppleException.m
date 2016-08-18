@@ -13,7 +13,7 @@ static NSString *const kAVAFrames = @"frames";
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [NSMutableDictionary new];
 
-  if(self.type) {
+  if (self.type) {
     dict[kAVAExceptionType] = self.type;
   }
   if (self.reason) {

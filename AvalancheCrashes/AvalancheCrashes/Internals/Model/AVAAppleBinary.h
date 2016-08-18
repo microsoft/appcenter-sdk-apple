@@ -42,5 +42,4 @@
  */
 @property(nonatomic) NSNumber *cpuSubType;
 
-
 @end

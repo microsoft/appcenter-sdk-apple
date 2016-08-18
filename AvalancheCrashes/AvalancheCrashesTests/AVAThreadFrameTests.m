@@ -3,20 +3,20 @@
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
-#import "AVAThreadFrame.h"
+#import "AVAAppleStackFrame.h"
 
-@interface AVAThreadFrameTests : XCTestCase
+@interface AVAAppleStackFrameTests : XCTestCase
 
 @end
 
-@implementation AVAThreadFrameTests
+@implementation AVAAppleStackFrameTests
 
 #pragma mark - Tests
 
 - (void)testSerializingBinaryToDictionaryWorks {
   
   // If
-  AVAThreadFrame *sut = [self threadFrame];
+  AVAAppleStackFrame *sut = [self stackFrame];
   
   // When
   NSMutableDictionary *actual = [sut serializeToDictionary];
@@ -25,13 +25,12 @@
   assertThat(actual, notNilValue());
   assertThat(actual[@"address"], equalTo(sut.address));
   assertThat(actual[@"symbol"], equalTo(sut.symbol));
-  assertThat(actual[@"registers"], equalTo(sut.registers));
 }
 
 - (void)testNSCodingSerializationAndDeserializationWorks {
   
   // If
-  AVAThreadFrame *sut = [self threadFrame];
+  AVAAppleStackFrame *sut = [self stackFrame];
   
   // When
   NSData *serializedEvent =
@@ -40,25 +39,22 @@
   
   // Then
   assertThat(actual, notNilValue());
-  assertThat(actual, instanceOf([AVAThreadFrame class]));
+  assertThat(actual, instanceOf([AVAAppleStackFrame class]));
   
-  AVAThreadFrame *actualThreadFrame = actual;
+  AVAAppleStackFrame *actualThreadFrame = actual;
   assertThat(actualThreadFrame.address, equalTo(sut.address));
   assertThat(actualThreadFrame.symbol, equalTo(sut.symbol));
-  assertThat(actualThreadFrame.registers, equalTo(sut.registers));
 }
 
 #pragma mark - Helper
 
-- (AVAThreadFrame *)threadFrame {
+- (AVAAppleStackFrame *)stackFrame {
   NSString *address = @"address";
   NSString *symbol = @"symbol";
-  NSDictionary<NSString*, NSString*>* registers = [NSDictionary dictionaryWithObject:@"Value" forKey:@"Key"];
   
-  AVAThreadFrame *threadFrame = [AVAThreadFrame new];
+  AVAAppleStackFrame *threadFrame = [AVAAppleStackFrame new];
   threadFrame.address = address;
   threadFrame.symbol = symbol;
-  threadFrame.registers = registers;
   
   return threadFrame;
 }

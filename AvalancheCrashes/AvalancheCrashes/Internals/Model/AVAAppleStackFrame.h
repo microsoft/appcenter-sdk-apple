@@ -5,18 +5,16 @@
 #import "AvalancheHub+Internal.h"
 #import <Foundation/Foundation.h>
 
-@interface AVAThreadFrame : NSObject <AVASerializableObject>
+@interface AVAAppleStackFrame : NSObject <AVASerializableObject>
 
-/* Frame address [optional].
+/*
+ * Frame address.
  */
 @property(nonatomic) NSString *address;
 
-/* Frame symbol [optional].
+/*
+ * Frame symbol.
  */
 @property(nonatomic) NSString *symbol;
-
-/* Registers [optional].
- */
-@property(nonatomic) NSDictionary<NSString *, NSString *> *registers;
 
 @end

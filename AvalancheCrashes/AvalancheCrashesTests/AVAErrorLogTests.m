@@ -6,7 +6,7 @@
 #import "AVAAppleBinary.h"
 #import "AVAAppleErrorLog.h"
 #import "AVAAppleException.h"
-#import "AVAThread.h"
+#import "AVAAppleThread.h"
 #import "AvalancheHub+Internal.h"
 
 @interface AVAErrorLogTests : XCTestCase
@@ -120,7 +120,7 @@
   NSString *exceptionReason = @"exceptionReason";
   NSDictionary *registers = @{ @"Register1" : @"ValueRegister1" };
 
-  NSArray<AVAThread *> *threads = [NSArray arrayWithObject:[AVAThread new]];
+  NSArray<AVAAppleThread *> *threads = [NSArray arrayWithObject:[AVAAppleThread new]];
   NSArray<AVAAppleBinary *> *binaries = [NSArray arrayWithObject:[AVAAppleBinary new]];
   AVADevice *device = [AVADevice new];
   

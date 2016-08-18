@@ -2,13 +2,13 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "AVAThreadFrame.h"
+#import "AVAAppleStackFrame.h"
 
 static NSString *const kAVAAddress = @"address";
 static NSString *const kAVASymbol = @"symbol";
 static NSString *const kAVARegisters = @"registers";
 
-@implementation AVAThreadFrame
+@implementation AVAAppleStackFrame
 
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [NSMutableDictionary new];
@@ -19,9 +19,7 @@ static NSString *const kAVARegisters = @"registers";
   if (self.symbol) {
     dict[kAVASymbol] = self.symbol;
   }
-  if (self.registers) {
-    dict[kAVARegisters] = self.registers;
-  }
+
   return dict;
 }
 
@@ -32,7 +30,6 @@ static NSString *const kAVARegisters = @"registers";
   if (self) {
     _address = [coder decodeObjectForKey:kAVAAddress];
     _symbol = [coder decodeObjectForKey:kAVASymbol];
-    _registers = [coder decodeObjectForKey:kAVARegisters];
   }
 
   return self;
@@ -41,7 +38,6 @@ static NSString *const kAVARegisters = @"registers";
 - (void)encodeWithCoder:(NSCoder *)coder {
   [coder encodeObject:self.address forKey:kAVAAddress];
   [coder encodeObject:self.symbol forKey:kAVASymbol];
-  [coder encodeObject:self.registers forKey:kAVARegisters];
 }
 
 @end

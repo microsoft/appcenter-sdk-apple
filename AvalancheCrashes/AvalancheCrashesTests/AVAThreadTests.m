@@ -3,8 +3,8 @@
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
-#import "AVAThread.h"
-#import "AVAThreadFrame.h"
+#import "AVAAppleThread.h"
+#import "AVAAppleStackFrame.h"
 
 @interface AVAThreadTests : XCTestCase
 
@@ -17,7 +17,7 @@
 - (void)testSerializingBinaryToDictionaryWorks {
   
   // If
-  AVAThread *sut = [self thread];
+  AVAAppleThread *sut = [self thread];
   
   // When
   NSMutableDictionary *actual = [sut serializeToDictionary];
@@ -31,7 +31,7 @@
 - (void)testNSCodingSerializationAndDeserializationWorks {
   
   // If
-  AVAThread *sut = [self thread];
+  AVAAppleThread *sut = [self thread];
   
   // When
   NSData *serializedEvent =
@@ -40,20 +40,20 @@
   
   // Then
   assertThat(actual, notNilValue());
-  assertThat(actual, instanceOf([AVAThread class]));
+  assertThat(actual, instanceOf([AVAAppleThread class]));
   
-  AVAThread *actualThread = actual;
+  AVAAppleThread *actualThread = actual;
   assertThat(actualThread.threadId, equalTo(sut.threadId));
   assertThatInteger(actualThread.frames.count, equalToInteger(1));
 }
 
 #pragma mark - Helper
 
-- (AVAThread *)thread {
+- (AVAAppleThread *)thread {
   NSNumber *threadId = @(12);
-  NSArray<AVAThreadFrame *> *frames = [NSArray arrayWithObject:[AVAThreadFrame new]];
+  NSArray<AVAAppleStackFrame *> *frames = [NSArray arrayWithObject:[AVAAppleStackFrame new]];
   
-  AVAThread *thread = [AVAThread new];
+  AVAAppleThread *thread = [AVAAppleThread new];
   thread.threadId = threadId;
   thread.frames = [NSMutableArray arrayWithArray:frames];
 

@@ -12,7 +12,6 @@ static NSString *const kAVAPath = @"path";
 static NSString *const kAVACpuType = @"cpuType";
 static NSString *const kAVACpuSubType = @"cpuSubType";
 
-
 @implementation AVAAppleBinary
 
 - (NSMutableDictionary *)serializeToDictionary {
@@ -39,7 +38,7 @@ static NSString *const kAVACpuSubType = @"cpuSubType";
   if (self.cpuSubType) {
     dict[kAVACpuSubType] = self.cpuSubType;
   }
-  
+
   return dict;
 }
 

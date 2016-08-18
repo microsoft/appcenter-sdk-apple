@@ -3,7 +3,7 @@
  */
 
 #import "AVAAppleErrorLog.h"
-#import "AVAThread.h"
+#import "AVAAppleThread.h"
 
 static NSString *const kAVATypeError = @"error";
 
@@ -57,34 +57,34 @@ static NSString *const kAVABinaries = @"binaries";
   if (self.parentProcessName) {
     dict[kAVAParentProcessName] = self.parentProcessName;
   }
-  if(self.errorThreadId) {
+  if (self.errorThreadId) {
     dict[kAVAErrorThreadId] = self.errorThreadId;
   }
-  if(self.errorThreadName) {
+  if (self.errorThreadName) {
     dict[kAVAErrorThreadName] = self.errorThreadName;
   }
-  if(self.fatal) {
+  if (self.fatal) {
     dict[kAVAFatal] = self.fatal;
   }
   if (self.appLaunchTOffset) {
     dict[kAVAAppLaunchTOffset] = self.appLaunchTOffset;
   }
-  if(self.cpuType) {
+  if (self.cpuType) {
     dict[kAVACpuType] = self.cpuType;
   }
-  if(self.cpuSubType) {
+  if (self.cpuSubType) {
     dict[kAVACpuSubType] = self.cpuSubType;
   }
   if (self.applicationPath) {
     dict[kAVAApplicationPath] = self.applicationPath;
   }
-  if(self.osExceptionType) {
+  if (self.osExceptionType) {
     dict[kAVAOsExceptionType] = self.osExceptionType;
   }
-  if(self.osExceptionCode) {
+  if (self.osExceptionCode) {
     dict[kAVAOsExceptionCode] = self.osExceptionCode;
   }
-  if(self.osExceptionAddress) {
+  if (self.osExceptionAddress) {
     dict[kAVAOsExceptionAddress] = self.osExceptionAddress;
   }
   if (self.exceptionType) {
@@ -93,19 +93,19 @@ static NSString *const kAVABinaries = @"binaries";
   if (self.exceptionReason) {
     dict[kAVAExceptionReason] = self.exceptionReason;
   }
-  if(self.registers) {
+  if (self.registers) {
     dict[kAVARegisters] = self.registers;
   }
   if (self.threads) {
     NSMutableArray *threadsArray = [NSMutableArray array];
-    for (AVAThread *thread in self.threads) {
+    for (AVAAppleThread *thread in self.threads) {
       [threadsArray addObject:[thread serializeToDictionary]];
     }
     dict[kAVAThreads] = threadsArray;
   }
   if (self.binaries) {
     NSMutableArray *binariesArray = [NSMutableArray array];
-    for (AVAThread *binary in self.threads) {
+    for (AVAAppleThread *binary in self.threads) {
       [binariesArray addObject:[binary serializeToDictionary]];
     }
     dict[kAVABinaries] = binariesArray;
