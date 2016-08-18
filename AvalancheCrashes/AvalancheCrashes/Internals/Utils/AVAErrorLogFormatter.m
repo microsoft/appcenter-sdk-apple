@@ -51,8 +51,8 @@
 
 #import "AVAAppleBinary.h"
 #import "AVAAppleErrorLog.h"
-#import "AVAAppleThread.h"
 #import "AVAAppleStackFrame.h"
+#import "AVAAppleThread.h"
 
 static NSString *unknownString = @"???";
 
@@ -220,6 +220,7 @@ NSString *const AVAXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
       [self errorLogFromCrashReport:report codeType:codeType is64bit:is64bit crashedThread:crashedThread];
   errorLog.threads = [self extractThreadsFromReport:report is64bit:is64bit addresses:&addresses];
   errorLog.binaries = [self extractBinaryImagesFromReport:report addresses:addresses codeType:codeType is64bit:is64bit];
+  // TODO add registers
 
   return errorLog;
 }
@@ -316,12 +317,12 @@ NSString *const AVAXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
 
           formattedRegValue = formatted_address_matching_architecture(registerInfo.registerValue, is64bit);
 
-          //TODO add to registers
-//          if (threadData.frames.count > 0) {
-//            AVAAppleStackFrame *stackFrame = threadData.frames[0];
-//            stackFrame.registers = @{formattedRegName : formattedRegValue};
-//            [*addresses addObject:@(registerInfo.registerValue)];
-//          }
+          // TODO add to registers
+          //          if (threadData.frames.count > 0) {
+          //            AVAAppleStackFrame *stackFrame = threadData.frames[0];
+          //            stackFrame.registers = @{formattedRegName : formattedRegValue};
+          //            [*addresses addObject:@(registerInfo.registerValue)];
+          //          }
           break;
         }
       }
@@ -332,66 +333,36 @@ NSString *const AVAXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
 }
 
 + (AVAAppleErrorLog *)errorLogFromCrashReport:(AVAPLCrashReport *)report
-                                codeType:(NSNumber *)codeType
-                                 is64bit:(boolean_t)is64bit
-                           crashedThread:(AVAPLCrashReportThreadInfo *)crashedThread {
+                                     codeType:(NSNumber *)codeType
+                                      is64bit:(boolean_t)is64bit
+                                crashedThread:(AVAPLCrashReportThreadInfo *)crashedThread {
+  
   AVAAppleErrorLog *errorLog = [AVAAppleErrorLog new];
   /* Application and process info */
-  {
     errorLog.errorId =
         report.uuidRef ? (NSString *)CFBridgingRelease(CFUUIDCreateString(NULL, report.uuidRef)) : unknownString;
+  
+    errorLog = [self extractProcessInformation: errorLog fromCrashReport:report];
 
-    // TODO: (bereimol) ApplicationIdentifier aka CFBundleIdentifier is missing,
-    // don't need anymore?
-    //    crashHeaders.applicationIdentifier =
-    //    report.applicationInfo.applicationIdentifier;
+  // TODO: (bereimol) ApplicationIdentifier aka CFBundleIdentifier is missing,
+  // don't need anymore?
+  //    crashHeaders.applicationIdentifier =
+  //    report.applicationInfo.applicationIdentifier;
+  
+  // TODO: (bereimol) ApplicationVersion aka CFBundleVersion is missing, don't
+  // need anymore?
+  //    crashHeaders.applicationBuild =
+  //    report.applicationInfo.applicationVersion;
 
-    // TODO: (bereimol) ApplicationVersion aka CFBundleVersion is missing, don't
-    // need anymore?
-    //    crashHeaders.applicationBuild =
-    //    report.applicationInfo.applicationVersion;
-
-    errorLog.processName = unknownString;
-    errorLog.processId = nil;
-    errorLog.parentProcessName = unknownString;
-    errorLog.parentProcessId = nil;
-    errorLog.applicationPath = unknownString;
-
-    // Process information was not available in earlier crash report versions
-    if (report.hasProcessInfo) {
-      // Process Name
-      errorLog.processName = report.processInfo.processName ?: errorLog.processName;
-
-      // PID
-      errorLog.processId = @(report.processInfo.processID);
-
-      /* Process Path */
-      if (report.processInfo.processPath != nil) {
-        NSString *processPath = report.processInfo.processPath;
-
-/* Remove username from the path */
-#if TARGET_OS_SIMULATOR
-        processPath = [self anonymizedProcessPathFromProcessPath:processPath];
-#endif
-        errorLog.applicationPath = processPath;
-      }
-
-      /* Parent Process Name */
-      if (report.processInfo.parentProcessName != nil) {
-        errorLog.parentProcessName = report.processInfo.parentProcessName;
-      }
-      /* Parent Process ID */
-      errorLog.parentProcessId = @(report.processInfo.parentProcessID);
-    }
-  }
-
+  
   /* Exception code */
-  errorLog.osExceptionAddress = [NSString stringWithFormat:@"0x%" PRIx64, report.signalInfo.address];//TODO check with ANdreas
-  errorLog.osExceptionCode = report.signalInfo.code; //TODO check with ANdreas
+  errorLog.osExceptionAddress =
+      [NSString stringWithFormat:@"0x%" PRIx64, report.signalInfo.address]; // TODO check with ANdreas
+  errorLog.osExceptionCode = report.signalInfo.code; // TODO check with ANdreas
   errorLog.exceptionReason = nil;
   errorLog.exceptionType = report.signalInfo.name;
 
-  errorLog.errorThreadId = @(crashedThread.threadNumber); //TODO check with ANdreas
+  errorLog.errorThreadId = @(crashedThread.threadNumber); // TODO check with ANdreas
 
   /* Uncaught Exception */
   if (report.hasExceptionInfo) {
@@ -451,6 +422,46 @@ NSString *const AVAXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
     }
   }
   return errorLog;
+}
+
++ (AVAAppleErrorLog *)extractProcessInformation:(AVAAppleErrorLog *)errorLog fromCrashReport:(AVAPLCrashReport *)crashReport {
+  // Set the defaults first.
+  errorLog.processId = nil;
+  errorLog.processName = unknownString;
+  errorLog.parentProcessName = unknownString;
+  errorLog.parentProcessId = nil;
+  errorLog.applicationPath = unknownString;
+  
+  // Convert AVAPLCrashReport process information.
+  if (crashReport.hasProcessInfo) {
+    errorLog.processId = @(crashReport.processInfo.processID);
+    errorLog.processName = crashReport.processInfo.processName ?: errorLog.processName;
+
+
+    /* Process Path */
+    if (crashReport.processInfo.processPath != nil) {
+      NSString *processPath = crashReport.processInfo.processPath;
+
+      // Remove username from the path
+#if TARGET_OS_SIMULATOR
+      processPath = [self anonymizedProcessPathFromProcessPath:processPath];
+#endif
+      errorLog.applicationPath = processPath;
+    }
+
+    // Parent Process Name
+    if (crashReport.processInfo.parentProcessName != nil) {
+      errorLog.parentProcessName = crashReport.processInfo.parentProcessName;
+    }
+    // Parent Process ID
+    errorLog.parentProcessId = @(crashReport.processInfo.parentProcessID);
+  }
+
+  NSDictionary *properties = @{@"gender" : @"male", @"age" : @"21", @"title" : @"SDE"};
+  //or
+  properties = [NSDictionary dictionaryWithObjectsAndKeys: @"gender", @"male", @"age", @"21", @"title", @"SDE",nil ];
+
+  return nil;
 }
 
 + (NSArray *)extractBinaryImagesFromReport:(AVAPLCrashReport *)report
@@ -548,6 +559,7 @@ NSString *const AVAXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
   }
   return anonymizedProcessPath;
 }
+
 
 //**
 //*  Return the selector string of a given register name

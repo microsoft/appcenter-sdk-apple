@@ -2,7 +2,7 @@
 #import <Foundation/Foundation.h>
 
 @class AVAAppleErrorLog;
-@class PLCrashReport;
+@class AVAPLCrashReport;
 
 /**
  *  Error logging error domain
@@ -24,6 +24,6 @@ typedef NS_ENUM(NSInteger, AVABinaryImageType) {
 
 @interface AVAErrorLogFormatter : NSObject
 
-+ (AVAAppleErrorLog *)errorLogFromCrashReport:(PLCrashReport *)report;
++ (AVAAppleErrorLog *)errorLogFromCrashReport:(AVAPLCrashReport *)report;
 
 @end
