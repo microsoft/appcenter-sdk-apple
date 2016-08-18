@@ -22,7 +22,7 @@ NSString *const kAVACrashKillSignal = @"SIGKILL";
                                 appVersion:(NSString *)appVersion
                                   appBuild:(NSString *)appBuild
                       appProcessIdentifier:(NSUInteger)appProcessIdentifier {
-  
+
   if ((self = [super init])) {
     _incidentIdentifier = incidentIdentifier;
     _reporterKey = reporterKey;

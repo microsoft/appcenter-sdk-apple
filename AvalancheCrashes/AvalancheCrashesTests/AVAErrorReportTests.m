@@ -5,14 +5,13 @@
 
 #import "AVAErrorReportPrivate.h"
 
-
 @interface AVAErrorReportTests : XCTestCase
 
 @end
 
 @implementation AVAErrorReportTests
 
-- (void) initializationWorks {
+- (void)initializationWorks {
   NSString *incidentIdentifier = @"incidentIdentifier";
   NSString *reporterKey = @"reporterKey";
   NSString *signal = @"signal";
@@ -25,20 +24,20 @@
   NSString *appVersion = @"1.0-alpha1";
   NSString *appBuild = @"123";
   NSUInteger processIdentifier = 4;
-  
+
   AVAErrorReport *sut = [[AVAErrorReport alloc] initWithIncidentIdentifier:incidentIdentifier
-                                                       reporterKey:reporterKey
-                                                            signal:signal
-                                                     exceptionName:exceptionName
-                                                   exceptionReason:exceptionReason
-                                                      appStartTime:appStartTime
-                                                      appCrashTime:appCrashTime
-                                                         osVersion:osVersion
-                                                           osBuild:osBuild
-                                                        appVersion:appVersion
-                                                          appBuild:appBuild
-                                              appProcessIdentifier:processIdentifier];
-  
+                                                               reporterKey:reporterKey
+                                                                    signal:signal
+                                                             exceptionName:exceptionName
+                                                           exceptionReason:exceptionReason
+                                                              appStartTime:appStartTime
+                                                                 crashTime:appCrashTime
+                                                                 osVersion:osVersion
+                                                                   osBuild:osBuild
+                                                                appVersion:appVersion
+                                                                  appBuild:appBuild
+                                                      appProcessIdentifier:processIdentifier];
+
   assertThat(sut, notNilValue());
   assertThat(sut.incidentIdentifier, equalTo(incidentIdentifier));
   assertThat(sut.reporterKey, equalTo(reporterKey));
