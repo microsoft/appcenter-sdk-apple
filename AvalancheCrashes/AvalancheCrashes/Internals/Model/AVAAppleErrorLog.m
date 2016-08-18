@@ -42,8 +42,8 @@ static NSString *const kAVABinaries = @"binaries";
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [super serializeToDictionary];
 
-  if (self.crashId) {
-    dict[kAVACrashId] = self.crashId;
+  if (self.errorId) {
+    dict[kAVACrashId] = self.errorId;
   }
   if (self.processId) {
     dict[kAVAProcessId] = self.processId;
@@ -119,7 +119,7 @@ static NSString *const kAVABinaries = @"binaries";
   self = [super initWithCoder:coder];
   if (self) {
     _type = [coder decodeObjectForKey:kAVAType];
-    _crashId = [coder decodeObjectForKey:kAVACrashId];
+    _errorId = [coder decodeObjectForKey:kAVACrashId];
     _processId = [coder decodeObjectForKey:kAVAProcessId];
     _processName = [coder decodeObjectForKey:kAVAProcessName];
     _parentProcessId = [coder decodeObjectForKey:kAVAParentProcessId];
@@ -146,7 +146,7 @@ static NSString *const kAVABinaries = @"binaries";
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
   [coder encodeObject:self.type forKey:kAVAType];
-  [coder encodeObject:self.crashId forKey:kAVACrashId];
+  [coder encodeObject:self.errorId forKey:kAVACrashId];
   [coder encodeObject:self.processId forKey:kAVAProcessId];
   [coder encodeObject:self.processName forKey:kAVAProcessName];
   [coder encodeObject:self.parentProcessId forKey:kAVAParentProcessId];

@@ -338,7 +338,7 @@ NSString *const AVAXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
   AVAAppleErrorLog *errorLog = [AVAAppleErrorLog new];
   /* Application and process info */
   {
-    errorLog.crashId =
+    errorLog.errorId =
         report.uuidRef ? (NSString *)CFBridgingRelease(CFUUIDCreateString(NULL, report.uuidRef)) : unknownString;
 
     // TODO: (bereimol) ApplicationIdentifier aka CFBundleIdentifier is missing,

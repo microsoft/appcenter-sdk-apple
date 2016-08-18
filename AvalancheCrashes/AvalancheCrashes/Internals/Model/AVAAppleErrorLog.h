@@ -12,7 +12,7 @@
 /*
  * Crash identifier.
  */
-@property(nonatomic) NSString *crashId;
+@property(nonatomic) NSString *errorId;
 
 /*
  * Process identifier. [optional]
