@@ -47,6 +47,8 @@
   assertThat(actualException.type, equalTo(sut.type));
   assertThat(actualException.reason, equalTo(sut.reason));
   assertThatInteger(actualException.frames.count, equalToInteger(1));
+  assertThat(actualException.frames.firstObject.address, equalTo(@"frameAddress"));
+  assertThat(actualException.frames.firstObject.symbol, equalTo(@"frameSymbol"));
 }
 
 #pragma mark - Helper
@@ -54,7 +56,10 @@
 - (AVAAppleException *)exception {
   NSString *type = @"exceptionType";
   NSString *reason = @"reason";
-  NSArray<AVAAppleStackFrame *>* frames = [NSArray arrayWithObject:[AVAAppleStackFrame new]];
+  AVAAppleStackFrame *frame = [AVAAppleStackFrame new];
+  frame.address = @"frameAddress";
+  frame.symbol = @"frameSymbol";
+  NSArray<AVAAppleStackFrame *>* frames = [NSArray arrayWithObject:frame];
   
   AVAAppleException *exception = [AVAAppleException new];
   exception.type = type;
