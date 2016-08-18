@@ -17,7 +17,7 @@
 
   // Start Avalanche SDK.
   [AVAAvalanche setLogLevel:AVALogLevelVerbose];
-  [AVAAvalanche start:@[ [AVAAnalytics class], [AVACrashes class] ] withAppSecret:[[NSUUID UUID] UUIDString]];
+  [AVAAvalanche start:[[NSUUID UUID] UUIDString] withFeatures:@[[AVAAnalytics class], [AVACrashes class]]];
 
   [AVACrashes setErrorLoggingDelegate:self]; // TODO rename to setDelegate:
 
