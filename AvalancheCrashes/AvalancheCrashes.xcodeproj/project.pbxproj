@@ -63,7 +63,7 @@
 		6E7D5C801D3EAEB5009EC9AC /* AVAAppleBinaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C7F1D3EAEB5009EC9AC /* AVAAppleBinaryTests.m */; };
 		6E7D5C841D3EC0F7009EC9AC /* AVAAppleThreadTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C831D3EC0F7009EC9AC /* AVAAppleThreadTests.m */; };
 		6E7D5C871D3EC332009EC9AC /* AVAStackFrameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C861D3EC332009EC9AC /* AVAStackFrameTests.m */; };
-		6E7D5C8A1D3EC504009EC9AC /* AVAExceptionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C891D3EC504009EC9AC /* AVAExceptionTests.m */; };
+		6E7D5C8A1D3EC504009EC9AC /* AVAAppleExceptionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C891D3EC504009EC9AC /* AVAAppleExceptionTests.m */; };
 		6EC99A151D41517B0016C325 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A141D41517B0016C325 /* CrashReporter.framework */; };
 		6EC99A2E1D4166C50016C325 /* AVACrashesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC99A2D1D4166C50016C325 /* AVACrashesTests.m */; };
 		6EC99A371D416CCF0016C325 /* live_report_empty.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A301D416CCF0016C325 /* live_report_empty.plcrash */; };
@@ -183,7 +183,7 @@
 		6E7D5C811D3EC06C009EC9AC /* AVAConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AVAConstants.h; path = ../../AvalancheHub/AvalancheHub/AVAConstants.h; sourceTree = "<group>"; };
 		6E7D5C831D3EC0F7009EC9AC /* AVAAppleThreadTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAAppleThreadTests.m; sourceTree = "<group>"; };
 		6E7D5C861D3EC332009EC9AC /* AVAStackFrameTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAStackFrameTests.m; sourceTree = "<group>"; };
-		6E7D5C891D3EC504009EC9AC /* AVAExceptionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAExceptionTests.m; sourceTree = "<group>"; };
+		6E7D5C891D3EC504009EC9AC /* AVAAppleExceptionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAAppleExceptionTests.m; sourceTree = "<group>"; };
 		6EC99A141D41517B0016C325 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = ../Vendor/PLCrashReporter/CrashReporter.framework; sourceTree = "<group>"; };
 		6EC99A2D1D4166C50016C325 /* AVACrashesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVACrashesTests.m; sourceTree = "<group>"; };
 		6EC99A301D416CCF0016C325 /* live_report_empty.plcrash */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = live_report_empty.plcrash; sourceTree = "<group>"; };
@@ -293,7 +293,7 @@
 				6EC99A2D1D4166C50016C325 /* AVACrashesTests.m */,
 				B2F120D41D6546740060DED7 /* AVAErrorAttachment.m */,
 				B2F120D61D65469D0060DED7 /* AVAErrorReportTests.m */,
-				6E7D5C891D3EC504009EC9AC /* AVAExceptionTests.m */,
+				6E7D5C891D3EC504009EC9AC /* AVAAppleExceptionTests.m */,
 				6E7D5C831D3EC0F7009EC9AC /* AVAAppleThreadTests.m */,
 				6E7D5C861D3EC332009EC9AC /* AVAStackFrameTests.m */,
 			);
@@ -617,7 +617,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6EC99A2E1D4166C50016C325 /* AVACrashesTests.m in Sources */,
-				6E7D5C8A1D3EC504009EC9AC /* AVAExceptionTests.m in Sources */,
+				6E7D5C8A1D3EC504009EC9AC /* AVAAppleExceptionTests.m in Sources */,
 				B2F120D71D65469D0060DED7 /* AVAErrorReportTests.m in Sources */,
 				6E7D5C871D3EC332009EC9AC /* AVAStackFrameTests.m in Sources */,
 				6E7D5C841D3EC0F7009EC9AC /* AVAAppleThreadTests.m in Sources */,

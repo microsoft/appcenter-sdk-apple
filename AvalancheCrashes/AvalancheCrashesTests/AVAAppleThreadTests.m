@@ -4,6 +4,7 @@
 #import <XCTest/XCTest.h>
 
 #import "AVAAppleThread.h"
+#import "AVAAppleException.h"
 #import "AVAAppleStackFrame.h"
 
 @interface AVAAppleThreadTests : XCTestCase
@@ -25,10 +26,15 @@
   // Then
   assertThat(actual, notNilValue());
   assertThat(actual[@"id"], equalTo(sut.threadId));
+  assertThat(actual[@"name"], equalTo(sut.name));
+  assertThat(actual[@"lastException"], equalTo(sut.lastException));
   assertThat(actual[@"frames"], equalTo(sut.frames));
 }
 
 - (void)testNSCodingSerializationAndDeserializationWorks {
+  
+  AVAAppleException *exception = [AVAAppleException new];
+
   
   // If
   AVAAppleThread *sut = [self thread];
@@ -44,6 +50,11 @@
   
   AVAAppleThread *actualThread = actual;
   assertThat(actualThread.threadId, equalTo(sut.threadId));
+  assertThat(actualThread.name, equalTo(sut.name));
+  assertThat(actualThread.lastException.type, equalTo(sut.lastException.type));
+  assertThat(actualThread.lastException.reason, equalTo(sut.lastException.reason));
+  assertThatUnsignedInt(actualThread.lastException.frames.count, equalToUnsignedInteger(sut.lastException.frames.count));
+
   assertThatInteger(actualThread.frames.count, equalToInteger(1));
 }
 
@@ -51,10 +62,19 @@
 
 - (AVAAppleThread *)thread {
   NSNumber *threadId = @(12);
+  NSString *name = @"threadName";
+  
+  AVAAppleException *exception = [AVAAppleException new];
+  exception.type = @"exceptionType";
+  exception.reason = @"reason";
+  exception.frames = [NSArray arrayWithObject:[AVAAppleStackFrame new]];
+
   NSArray<AVAAppleStackFrame *> *frames = [NSArray arrayWithObject:[AVAAppleStackFrame new]];
   
   AVAAppleThread *thread = [AVAAppleThread new];
   thread.threadId = threadId;
+  thread.name = name;
+  thread.lastException = exception;
   thread.frames = [NSMutableArray arrayWithArray:frames];
 
   return thread;

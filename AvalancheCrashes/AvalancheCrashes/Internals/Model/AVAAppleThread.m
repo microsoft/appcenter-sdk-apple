@@ -22,7 +22,7 @@ static NSString *const kAVAFrames = @"frames";
     dict[kAVAName] = self.name;
   }
   if(self.lastException) {
-    dict[kAVAName] = self.lastException;
+    dict[kAVALastException] = self.lastException;
   }
   if (self.frames) {
     dict[kAVAFrames] = self.frames;
