@@ -6,11 +6,11 @@
 #import "AVAAppleException.h"
 #import "AVAAppleStackFrame.h"
 
-@interface AVAExceptionsTests : XCTestCase
+@interface AVAAppleExceptionsTests : XCTestCase
 
 @end
 
-@implementation AVAExceptionsTests
+@implementation AVAAppleExceptionsTests
 
 #pragma mark - Tests
 

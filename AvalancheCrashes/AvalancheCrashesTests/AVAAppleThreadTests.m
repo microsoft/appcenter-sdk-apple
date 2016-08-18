@@ -6,11 +6,11 @@
 #import "AVAAppleThread.h"
 #import "AVAAppleStackFrame.h"
 
-@interface AVAThreadTests : XCTestCase
+@interface AVAAppleThreadTests : XCTestCase
 
 @end
 
-@implementation AVAThreadTests
+@implementation AVAAppleThreadTests
 
 #pragma mark - Tests
 

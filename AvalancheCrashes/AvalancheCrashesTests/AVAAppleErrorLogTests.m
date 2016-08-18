@@ -9,11 +9,11 @@
 #import "AVAAppleThread.h"
 #import "AvalancheHub+Internal.h"
 
-@interface AVAErrorLogTests : XCTestCase
+@interface AVAAppleErrorLogTests : XCTestCase
 
 @end
 
-@implementation AVAErrorLogTests
+@implementation AVAAppleErrorLogTests
 
 #pragma mark - Tests
 
