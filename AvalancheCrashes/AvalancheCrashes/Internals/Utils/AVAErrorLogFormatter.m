@@ -343,6 +343,10 @@ NSString *const AVAXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
         report.uuidRef ? (NSString *)CFBridgingRelease(CFUUIDCreateString(NULL, report.uuidRef)) : unknownString;
   
     errorLog = [self extractProcessInformation: errorLog fromCrashReport:report];
+  
+  errorLog.errorThreadId = @(crashedThread.threadNumber); // TODO check with Andreas/Gwynne
+  errorLog.errorThreadId = report.processInfo.processID; // TODO check which version to use
+  errorLog.errorThreadName = report.processInfo.processName; // TODO check with Andreas/Gwynne
 
   // TODO: (bereimol) ApplicationIdentifier aka CFBundleIdentifier is missing,
   // don't need anymore?
@@ -362,7 +366,6 @@ NSString *const AVAXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
   errorLog.exceptionReason = nil;
   errorLog.exceptionType = report.signalInfo.name;
 
-  errorLog.errorThreadId = @(crashedThread.threadNumber); // TODO check with ANdreas
 
   /* Uncaught Exception */
   if (report.hasExceptionInfo) {
