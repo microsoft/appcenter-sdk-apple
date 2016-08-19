@@ -63,9 +63,7 @@ static NSString *const kAVABinaries = @"binaries";
   if (self.errorThreadName) {
     dict[kAVAErrorThreadName] = self.errorThreadName;
   }
-  if (self.fatal) {
-    dict[kAVAFatal] = self.fatal;
-  }
+  dict[kAVAFatal] = self.fatal?  @YES : @NO ;
   if (self.appLaunchTOffset) {
     dict[kAVAAppLaunchTOffset] = self.appLaunchTOffset;
   }
@@ -126,7 +124,7 @@ static NSString *const kAVABinaries = @"binaries";
     _parentProcessName = [coder decodeObjectForKey:kAVAParentProcessName];
     _errorThreadId = [coder decodeObjectForKey:kAVAErrorThreadId];
     _errorThreadName = [coder decodeObjectForKey:kAVAErrorThreadName];
-    _fatal = [coder decodeObjectForKey:kAVAFatal];
+    _fatal = [coder decodeBoolForKey:kAVAFatal];
     _appLaunchTOffset = [coder decodeObjectForKey:kAVAAppLaunchTOffset];
     _cpuType = [coder decodeObjectForKey:kAVACpuType];
     _cpuSubType = [coder decodeObjectForKey:kAVACpuSubType];
@@ -153,7 +151,7 @@ static NSString *const kAVABinaries = @"binaries";
   [coder encodeObject:self.parentProcessName forKey:kAVAParentProcessName];
   [coder encodeObject:self.errorThreadId forKey:kAVAErrorThreadId];
   [coder encodeObject:self.errorThreadName forKey:kAVAErrorThreadName];
-  [coder encodeObject:self.fatal forKey:kAVAFatal];
+  [coder encodeBool:self.fatal forKey:kAVAFatal];
   [coder encodeObject:self.appLaunchTOffset forKey:kAVAAppLaunchTOffset];
   [coder encodeObject:self.cpuType forKey:kAVACpuType];
   [coder encodeObject:self.cpuSubType forKey:kAVACpuSubType];

@@ -345,8 +345,11 @@ NSString *const AVAXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
     errorLog = [self extractProcessInformation: errorLog fromCrashReport:report];
   
   errorLog.errorThreadId = @(crashedThread.threadNumber); // TODO check with Andreas/Gwynne
-  errorLog.errorThreadId = report.processInfo.processID; // TODO check which version to use
+  errorLog.errorThreadId = @(report.processInfo.processID); // TODO check which to use
   errorLog.errorThreadName = report.processInfo.processName; // TODO check with Andreas/Gwynne
+
+  // All errors are fatal for now, until we add support for handled exceptions.
+  errorLog.fatal = YES;
 
   // TODO: (bereimol) ApplicationIdentifier aka CFBundleIdentifier is missing,
   // don't need anymore?

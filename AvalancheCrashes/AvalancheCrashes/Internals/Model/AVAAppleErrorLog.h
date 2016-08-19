@@ -47,7 +47,7 @@
 /*
  * If true, this error report is an application crash.
  */
-@property(nonatomic) NSNumber *fatal;
+@property(nonatomic) BOOL fatal;
 
 /*
  * Corresponds to the number of milliseconds elapsed between the time the app
