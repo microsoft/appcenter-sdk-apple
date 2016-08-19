@@ -35,6 +35,7 @@
 
 #import "AVAErrorLogFormatter.h"
 
+#import "AVAErrorReportingPrivate.h"
 #import <CrashReporter/CrashReporter.h>
 
 #import <Availability.h>
@@ -336,42 +337,55 @@ NSString *const AVAXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
                                      codeType:(NSNumber *)codeType
                                       is64bit:(boolean_t)is64bit
                                 crashedThread:(AVAPLCrashReportThreadInfo *)crashedThread {
-  
+
   AVAAppleErrorLog *errorLog = [AVAAppleErrorLog new];
 
   // Application Path and process info
-    errorLog.errorId =
-        report.uuidRef ? (NSString *)CFBridgingRelease(CFUUIDCreateString(NULL, report.uuidRef)) : unknownString;
-  
-    errorLog = [self extractProcessInformation: errorLog fromCrashReport:report];
+  errorLog.errorId =
+      report.uuidRef ? (NSString *)CFBridgingRelease(CFUUIDCreateString(NULL, report.uuidRef)) : unknownString;
 
-  //Error Thread Info.
+  errorLog = [self extractProcessInformation:errorLog fromCrashReport:report];
+
+  // Error Thread Info.
   errorLog.errorThreadId = @(crashedThread.threadNumber);
-  errorLog.errorThreadName = report.processInfo.processName; // TODO check with Andreas/Gwynne
+
+  // errorLog.errorThreadName won't be used on iOS right now, will be relevant for handled exceptions.
 
   // All errors are fatal for now, until we add support for handled exceptions.
   errorLog.fatal = YES;
-  
-  
 
-  // TODO: (bereimol) ApplicationIdentifier aka CFBundleIdentifier is missing,
-  // don't need anymore?
-  //    crashHeaders.applicationIdentifier =
-  //    report.applicationInfo.applicationIdentifier;
-  
-  // TODO: (bereimol) ApplicationVersion aka CFBundleVersion is missing, don't
-  // need anymore?
-  //    crashHeaders.applicationBuild =
-  //    report.applicationInfo.applicationVersion;
+  // appLaunchTOffset - the difference between crashtime and initialization time, so the "age" of the crashreport before
+  // it's forwarded to the channel.
+  // We don't care about a negative difference (will happen if the user's time on the device changes to a time before
+  // the crashTime and the time the error is processed.
+  NSDate *crashTime = report.systemInfo.timestamp;
+  NSDate *initializationDate = [[AVAErrorReporting sharedInstance] initializationDate];
+  NSTimeInterval difference = [initializationDate timeIntervalSinceDate:crashTime];
+  errorLog.appLaunchTOffset = @(difference);
 
-  
+  // CPU Type and Subtype
+  errorLog.cpuType = @(report.systemInfo.processorInfo.type);
+  errorLog.cpuSubType = @(report.systemInfo.processorInfo.subtype);
+
   /* Exception code */
+
+  // TODO: Check this during testing/crashprobe
+  // HockeyApp didn't use report.exceptionInfo for this field but exception.name in case of an unhandled exception or
+  // the report.signalInfo.name
+  // more so, for BITCrashDetails, we used the exceptionInfo.exceptionName for a field called exceptionName. FYI: Gwynne
+  // has no idea. Andreas will be next ;)
+  errorLog.osExceptionType = report.exceptionInfo.exceptionName ?: report.signalInfo.name;
+
+  errorLog.osExceptionCode = report.signalInfo.code; // TODO check with Andreas
+
   errorLog.osExceptionAddress =
-      [NSString stringWithFormat:@"0x%" PRIx64, report.signalInfo.address]; // TODO check with ANdreas
-  errorLog.osExceptionCode = report.signalInfo.code; // TODO check with ANdreas
+      [NSString stringWithFormat:@"0x%" PRIx64, report.signalInfo.address]; // TODO check with Andreas
+
+  // TODO Check this during testing, too.
+  // Same as above, HA didn't use report.exceptionInfo.exceptionReason but a handled exception
+  errorLog.exceptionReason = report.exceptionInfo.exceptionReason ?: nil;
   errorLog.exceptionReason = nil;
   errorLog.exceptionType = report.signalInfo.name;
-
 
   /* Uncaught Exception */
   if (report.hasExceptionInfo) {
@@ -433,25 +447,25 @@ NSString *const AVAXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
   return errorLog;
 }
 
-+ (AVAAppleErrorLog *)extractProcessInformation:(AVAAppleErrorLog *)errorLog fromCrashReport:(AVAPLCrashReport *)crashReport {
++ (AVAAppleErrorLog *)extractProcessInformation:(AVAAppleErrorLog *)errorLog
+                                fromCrashReport:(AVAPLCrashReport *)crashReport {
   // Set the defaults first.
   errorLog.processId = nil;
   errorLog.processName = unknownString;
   errorLog.parentProcessName = unknownString;
   errorLog.parentProcessId = nil;
   errorLog.applicationPath = unknownString;
-  
+
   // Convert AVAPLCrashReport process information.
   if (crashReport.hasProcessInfo) {
     errorLog.processId = @(crashReport.processInfo.processID);
     errorLog.processName = crashReport.processInfo.processName ?: errorLog.processName;
 
-
     /* Process Path */
     if (crashReport.processInfo.processPath != nil) {
       NSString *processPath = crashReport.processInfo.processPath;
 
-      // Remove username from the path
+// Remove username from the path
 #if TARGET_OS_SIMULATOR
       processPath = [self anonymizedProcessPathFromProcessPath:processPath];
 #endif
@@ -563,7 +577,6 @@ NSString *const AVAXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
   }
   return anonymizedProcessPath;
 }
-
 
 //**
 //*  Return the selector string of a given register name

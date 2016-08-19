@@ -2,12 +2,13 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
+#import "AVAAppleErrorLog.h"
 #import "AVACrashCXXExceptionWrapperException.h"
 #import "AVACrashesHelper.h"
-#import "AVAErrorReportingPrivate.h"
-#import "AVAAppleErrorLog.h"
 #import "AVAErrorLogFormatter.h"
+#import "AVAErrorReportingPrivate.h"
 #import "AvalancheHub+Internal.h"
+#import <CrashReporter/CrashReporter.h>
 
 static NSString *const kAVAAnalyzerFilename = @"AVAErrorReporting.analyzer";
 
@@ -42,6 +43,7 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
 @synthesize delegate = _delegate;
 @synthesize isEnabled = _isEnabled;
 @synthesize logManger = _logManger;
+@synthesize initializationDate = _initializationDate;
 
 + (BOOL)isDebuggerAttached {
   // TODO actual implementation
@@ -50,13 +52,15 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
 
 + (void)generateTestCrash {
   if ([AVAEnvironmentHelper currentAppEnvironment] != AVAEnvironmentAppStore) {
-    
+
     if ([self isDebuggerAttached]) {
-      AVALogWarning(@"[AVAErrorReporting] WARNING: The debugger is attached. The following crash cannot be detected by the SDK!");
+      AVALogWarning(
+          @"[AVAErrorReporting] WARNING: The debugger is attached. The following crash cannot be detected by the SDK!");
     }
-    
+
     __builtin_trap();
-  }}
+  }
+}
 
 + (BOOL)hasCrashedInLastSession {
   // TODO actual implementation
@@ -100,6 +104,7 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
     _crashFiles = [[NSMutableArray alloc] init];
     _crashesDir = [AVACrashesHelper crashesDir];
     _analyzerInProgressFile = [_crashesDir stringByAppendingPathComponent:kAVAAnalyzerFilename];
+    _initializationDate = [NSDate new];
   }
   return self;
 }

@@ -6,6 +6,8 @@
 #import "Internals/AVAFeaturePrivate.h"
 #import <CrashReporter/CrashReporter.h>
 
+@class AVAPLCrashReporter;
+
 @interface AVAErrorReporting () <AVAFeaturePrivate>
 
 /**
@@ -74,5 +76,10 @@ typedef struct AVACrashesCallbacks {
  * A flag that indicates that crashes are currently sent to the backend.
  */
 @property(nonatomic) BOOL sendingInProgress;
+
+/**
+ * The time of initialization, required to calculate offset for crashtime.
+ */
+@property(nonatomic, readonly) NSDate *initializationDate;
 
 @end
