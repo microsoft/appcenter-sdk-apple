@@ -50,8 +50,7 @@
 @property(nonatomic) BOOL fatal;
 
 /*
- * Corresponds to the number of milliseconds elapsed between the time the app
- * was launched and the log was sent. [optional]
+ * Corresponds to the number of milliseconds elapsed between the time the error occurred and the app was launched.
  */
 @property(nonatomic) NSNumber *appLaunchTOffset;
 
