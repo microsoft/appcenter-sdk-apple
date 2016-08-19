@@ -338,18 +338,21 @@ NSString *const AVAXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
                                 crashedThread:(AVAPLCrashReportThreadInfo *)crashedThread {
   
   AVAAppleErrorLog *errorLog = [AVAAppleErrorLog new];
-  /* Application and process info */
+
+  // Application Path and process info
     errorLog.errorId =
         report.uuidRef ? (NSString *)CFBridgingRelease(CFUUIDCreateString(NULL, report.uuidRef)) : unknownString;
   
     errorLog = [self extractProcessInformation: errorLog fromCrashReport:report];
-  
-  errorLog.errorThreadId = @(crashedThread.threadNumber); // TODO check with Andreas/Gwynne
-  errorLog.errorThreadId = @(report.processInfo.processID); // TODO check which to use
+
+  //Error Thread Info.
+  errorLog.errorThreadId = @(crashedThread.threadNumber);
   errorLog.errorThreadName = report.processInfo.processName; // TODO check with Andreas/Gwynne
 
   // All errors are fatal for now, until we add support for handled exceptions.
   errorLog.fatal = YES;
+  
+  
 
   // TODO: (bereimol) ApplicationIdentifier aka CFBundleIdentifier is missing,
   // don't need anymore?
@@ -462,11 +465,6 @@ NSString *const AVAXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
     // Parent Process ID
     errorLog.parentProcessId = @(crashReport.processInfo.parentProcessID);
   }
-
-  NSDictionary *properties = @{@"gender" : @"male", @"age" : @"21", @"title" : @"SDE"};
-  //or
-  properties = [NSDictionary dictionaryWithObjectsAndKeys: @"gender", @"male", @"age", @"21", @"title", @"SDE",nil ];
-
   return nil;
 }
 
