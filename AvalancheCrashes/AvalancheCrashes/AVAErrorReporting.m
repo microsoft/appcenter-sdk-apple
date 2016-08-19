@@ -4,7 +4,7 @@
 
 #import "AVACrashCXXExceptionWrapperException.h"
 #import "AVACrashesHelper.h"
-#import "AVACrashesPrivate.h"
+#import "AVAErrorReportingPrivate.h"
 #import "AVAAppleErrorLog.h"
 #import "AVAErrorLogFormatter.h"
 #import "AvalancheHub+Internal.h"

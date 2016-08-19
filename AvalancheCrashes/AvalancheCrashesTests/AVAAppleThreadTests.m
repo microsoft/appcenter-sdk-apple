@@ -32,10 +32,6 @@
 }
 
 - (void)testNSCodingSerializationAndDeserializationWorks {
-  
-  AVAAppleException *exception = [AVAAppleException new];
-
-  
   // If
   AVAAppleThread *sut = [self thread];
   

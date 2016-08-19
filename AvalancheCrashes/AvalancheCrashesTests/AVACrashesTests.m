@@ -3,7 +3,7 @@
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
-#import "AVACrashesPrivate.h"
+#import "AVAErrorReportingPrivate.h"
 
 @interface AVACrashesTests : XCTestCase
 
