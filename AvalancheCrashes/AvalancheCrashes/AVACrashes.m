@@ -88,11 +88,19 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
 #pragma mark - AVAFeature Protocol
 
 + (void)setEnabled:(BOOL)isEnabled {
-  [[self sharedInstance] setEnabled:isEnabled];
+  if ([AVAAvalanche sharedInstance].featuresStarted) {
+    [[self sharedInstance] setEnabled:isEnabled];
+  } else {
+    [[self sharedInstance] logSDKNotInitializedError];
+  }
 }
 
 + (BOOL)isEnabled {
-  return [[self sharedInstance] isEnabled];
+  if ([AVAAvalanche sharedInstance].featuresStarted) {
+    return [[self sharedInstance] isEnabled];
+  } else {
+    return NO;
+  }
 }
 
 - (void)logSDKNotInitializedError {
