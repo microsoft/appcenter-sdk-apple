@@ -17,13 +17,15 @@
 
   // Start Avalanche SDK.
   [AVAAvalanche setLogLevel:AVALogLevelVerbose];
-  [AVAAvalanche start:@[ [AVAAnalytics class], [AVACrashes class] ] withAppSecret:[[NSUUID UUID] UUIDString]];
+  [AVAAvalanche start:[[NSUUID UUID] UUIDString] withFeatures:@[[AVAAnalytics class], [AVACrashes class]]];
 
   [AVACrashes setErrorLoggingDelegate:self]; // TODO rename to setDelegate:
 
   [AVACrashes setUserConfirmationHandler:^() {
     // This is possible in here, in case the dev wants to check about the last crash.
     NSString *exceptionReason = [AVACrashes lastSessionCrashDetails].exceptionReason;
+
+    // or something like
 
     // In most cases, just show the alert or a ViewController.
     UIAlertView *customAlertView = [[UIAlertView alloc] initWithTitle:@"Oh no! The App crashed"

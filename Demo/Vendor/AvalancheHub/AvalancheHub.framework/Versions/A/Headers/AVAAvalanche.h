@@ -18,10 +18,10 @@
 /**
  *  Start the sdk
  *
- *  @param features  array of features to be used.
  *  @param appSecret application secret.
+ *  @param features  array of features to be used.
  */
-+ (void)start:(NSArray<Class> *)features withAppSecret:(NSString *)appSecret;
++ (void)start:(NSString *)appSecret withFeatures:(NSArray<Class> *)features;
 
 /**
  *  Enable/Disable all features.
