@@ -13,7 +13,7 @@
 /**
  * Returns the singleton instance of AvalancheHub.
  */
-+ (id)sharedInstance;
++ (instancetype)sharedInstance;
 
 /**
  *  Start the sdk
