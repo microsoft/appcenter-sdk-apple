@@ -52,6 +52,7 @@
 
 #import "AVAAppleBinary.h"
 #import "AVAAppleErrorLog.h"
+#import "AVAAppleException.h"
 #import "AVAAppleStackFrame.h"
 #import "AVAAppleThread.h"
 
@@ -221,7 +222,6 @@ NSString *const AVAXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
       [self errorLogFromCrashReport:report codeType:codeType is64bit:is64bit crashedThread:crashedThread];
   errorLog.threads = [self extractThreadsFromReport:report is64bit:is64bit addresses:&addresses];
   errorLog.binaries = [self extractBinaryImagesFromReport:report addresses:addresses codeType:codeType is64bit:is64bit];
-  // TODO add registers
 
   return errorLog;
 }
@@ -238,11 +238,7 @@ NSString *const AVAXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
   /* Attempt to derive the code type from the binary images */
   NSNumber *codeType = nil;
   for (AVAPLCrashReportBinaryImageInfo *image in report.images) {
-    // TODO: (bereimol) use non-deprecated stuff
-    // use this instead.
-    // the NEW new schema will have fields for this
-    // long cpuType = report.systemInfo.processorInfo.type;
-    //    long cpuSubType = report.systemInfo.processorInfo.subtype;
+    // TODO: (bereimol) use non-deprecated stuff, will mean we have to adjust logic for codeType and 64 bit detection.
     codeType =
         @(image.codeType.type) ?: legacyTypes[@(report.systemInfo.architecture)]
                                       ?: [NSString stringWithFormat:@"Unknown (%d)", report.systemInfo.architecture];
@@ -266,10 +262,10 @@ NSString *const AVAXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
   return boolNumber.boolValue;
 }
 
-+ (NSArray *)extractThreadsFromReport:(AVAPLCrashReport *)report
-                              is64bit:(BOOL)is64bit
-                            addresses:(NSMutableArray **)addresses {
-  NSMutableArray *formattedThreads = [NSMutableArray array];
++ (NSArray<AVAAppleThread *> *)extractThreadsFromReport:(AVAPLCrashReport *)report
+                                                is64bit:(BOOL)is64bit
+                                              addresses:(NSMutableArray **)addresses {
+  NSMutableArray<AVAAppleThread *> *formattedThreads = [NSMutableArray array];
 
   /* If an exception stack trace is available, output an Apple-compatible
    * backtrace. */
@@ -277,8 +273,10 @@ NSString *const AVAXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
       [report.exceptionInfo.stackFrames count] > 0) {
     AVAPLCrashReportExceptionInfo *exception = report.exceptionInfo;
 
-    AVAAppleThread *threadData = [AVAAppleThread new];
-    threadData.threadId = @(-1);
+    // TODO: move stackframe parsing for an exception somewhere else, maybe to the errorLog generation?!
+
+    AVAAppleThread *exceptionThread = [AVAAppleThread new];
+    exceptionThread.threadId = @(-1);
 
     /* Write out the frames. In raw reports, Apple writes this out as a simple
      * list of PCs. In the minimally
@@ -287,10 +285,26 @@ NSString *const AVAXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
     for (AVAPLCrashReportStackFrameInfo *frameInfo in exception.stackFrames) {
       AVAAppleStackFrame *frame = [AVAAppleStackFrame new];
       frame.address = formatted_address_matching_architecture(frameInfo.instructionPointer, is64bit);
+
+      // TODO we're mutating the addresses-Object again here
       [*addresses addObject:@(frameInfo.instructionPointer)];
-      [threadData.frames addObject:frame];
+
+      [exceptionThread.frames addObject:frame];
     }
-    [formattedThreads addObject:threadData];
+
+    AVAAppleException *lastException = [AVAAppleException new];
+    lastException.reason = exception.exceptionReason;
+    lastException.frames = exceptionThread.frames;
+
+    lastException = report.exceptionInfo.exceptionName ?: report.signalInfo.name;
+    // TODO what about an "exceptionCode"?
+    //    errorLog.osExceptionCode = report.signalInfo.code;
+    exceptionThread.lastException = lastException;
+
+    // Don't forget to add the thread to the array of threads!
+    [formattedThreads addObject:exceptionThread];
+
+    // TODO add AppleException to ErrorLog?!
   }
 
   /* Threads */
@@ -312,18 +326,24 @@ NSString *const AVAXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
         NSString *regName = registerInfo.registerName;
 
         // Currently we only need "lr"
+        // TODO check if we still only need the LR register
         if ([regName isEqualToString:@"lr"]) {
           NSString *formattedRegName = [NSString stringWithFormat:@"%s", [regName UTF8String]];
           NSString *formattedRegValue = @"";
 
           formattedRegValue = formatted_address_matching_architecture(registerInfo.registerValue, is64bit);
 
-          // TODO add to registers
-          //          if (threadData.frames.count > 0) {
-          //            AVAAppleStackFrame *stackFrame = threadData.frames[0];
-          //            stackFrame.registers = @{formattedRegName : formattedRegValue};
-          //            [*addresses addObject:@(registerInfo.registerValue)];
-          //          }
+          if (threadData.frames.count > 0) {
+            AVAAppleStackFrame *stackFrame = threadData.frames[0];
+            stackFrame.address = formattedRegValue;
+            stackFrame.symbol = formattedRegName;
+            // TODO check with Andreas and Gwynne if that's correct.
+            // Hockey used to have this:
+            //                      stackFrame.registers = @{formattedRegName : formattedRegValue};
+            // TODO this is actually pretty bad. The method mutates the list of addresses but this is nowhere
+            // documented and we should make this more obvious.
+            [*addresses addObject:@(registerInfo.registerValue)];
+          }
           break;
         }
       }
@@ -482,11 +502,11 @@ NSString *const AVAXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
   return nil;
 }
 
-+ (NSArray *)extractBinaryImagesFromReport:(AVAPLCrashReport *)report
-                                 addresses:(NSArray *)addresses
-                                  codeType:(NSNumber *)codeType
-                                   is64bit:(boolean_t)is64bit {
-  NSMutableArray *binaryImages = [NSMutableArray array];
++ (NSArray<AVAAppleBinary *> *)extractBinaryImagesFromReport:(AVAPLCrashReport *)report
+                                                   addresses:(NSArray *)addresses
+                                                    codeType:(NSNumber *)codeType
+                                                     is64bit:(boolean_t)is64bit {
+  NSMutableArray<AVAAppleBinary *> *binaryImages = [NSMutableArray array];
   /* Images. The iPhone crash report format sorts these in ascending order, by
    * the base address */
   for (AVAPLCrashReportBinaryImageInfo *imageInfo in
@@ -527,12 +547,9 @@ NSString *const AVAXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
 
       /* Fetch the UUID if it exists */
       binary.binaryId = (imageInfo.hasImageUUID) ? imageInfo.imageUUID : unknownString;
-
-      // TODO: (bereimol) add CPU arch
-
       /* Determine the architecture string */
-      //      binary.cpuType = codeType;
-      //      binary.cpuSubType = @(imageInfo.codeType.subtype);
+      binary.cpuType = codeType;
+      binary.cpuSubType = @(imageInfo.codeType.subtype);
 
       [binaryImages addObject:binary];
     }
