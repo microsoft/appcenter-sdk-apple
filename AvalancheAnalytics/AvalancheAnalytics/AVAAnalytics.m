@@ -4,9 +4,11 @@
 
 #import "AVAAnalyticsCategory.h"
 #import "AVAAnalyticsPrivate.h"
+#import "AVAAvalanche.h"
 #import "AVAEventLog.h"
 #import "AVAPageLog.h"
 #import "AvalancheHub+Internal.h"
+#import "Internals/AVAAvalanchePrivate.h"
 
 @implementation AVAAnalytics
 
@@ -40,7 +42,7 @@
 }
 
 - (void)startFeature {
-  
+
   // Add listener to log manager.
   [self.logManger addListener:_sessionTracker];
 
@@ -55,28 +57,66 @@
   _delegate = delegate;
 }
 
+#pragma mark - AVAFeature
+
 + (void)setEnabled:(BOOL)isEnabled {
-  [[self sharedInstance] setEnabled:isEnabled];
+  if ([AVAAvalanche sharedInstance].featuresStarted) {
+    [[self sharedInstance] setEnabled:isEnabled];
+  } else {
+    [[self sharedInstance] logSDKNotInitializedError];
+  }
 }
 
 + (BOOL)isEnabled {
-  return [[self sharedInstance] isEnabled];
+  if ([AVAAvalanche sharedInstance].featuresStarted) {
+    return [[self sharedInstance] isEnabled];
+  } else {
+    [[self sharedInstance] logSDKNotInitializedError];
+    return NO;
+  }
 }
 
+- (void)logSDKNotInitializedError {
+  AVALogError(@"[AVAAnalytics] ERROR: SonomaSDK hasn't been initialized. You need to call [AVAAvalanche "
+              @"start:YOUR_APP_SECRET withFeatures:LIST_OF_FEATURES] first.");
+  ;
+}
+
+#pragma mark - Other Public Methods
+
 + (void)trackEvent:(NSString *)eventName withProperties:(NSDictionary *)properties {
-  [[self sharedInstance] trackEvent:eventName withProperties:properties];
+  if ([AVAAvalanche sharedInstance].featuresStarted) {
+    [[self sharedInstance] trackEvent:eventName withProperties:properties];
+  } else {
+    [[self sharedInstance] logSDKNotInitializedError];
+  }
 }
 
 + (void)trackPage:(NSString *)pageName withProperties:(NSDictionary *)properties {
-  [[self sharedInstance] trackPage:pageName withProperties:properties];
+  if ([AVAAvalanche sharedInstance].featuresStarted) {
+
+    [[self sharedInstance] trackPage:pageName withProperties:properties];
+  } else {
+    [[self sharedInstance] logSDKNotInitializedError];
+  }
 }
 
 + (void)setAutoPageTrackingEnabled:(BOOL)isEnabled {
-  [[self sharedInstance] setAutoPageTrackingEnabled:isEnabled];
+  if ([AVAAvalanche sharedInstance].featuresStarted) {
+
+    [[self sharedInstance] setAutoPageTrackingEnabled:isEnabled];
+  } else {
+    [[self sharedInstance] logSDKNotInitializedError];
+  }
 }
 
 + (BOOL)isAutoPageTrackingEnabled {
-  return [[self sharedInstance] isAutoPageTrackingEnabled];
+  if ([AVAAvalanche sharedInstance].featuresStarted) {
+    return [[self sharedInstance] isAutoPageTrackingEnabled];
+  } else {
+    [[self sharedInstance] logSDKNotInitializedError];
+    return NO;
+  }
 }
 
 #pragma mark - private methods

@@ -6,9 +6,7 @@
 #import "AVAAvalancheDelegate.h"
 #import "AVAFeaturePrivate.h"
 #import "AVALogManager.h"
-#import "AVALoggerPrivate.h"
-#import "AVASender.h"
-#import "AVAStorage.h"
+#import "AvalancheHub+Internal.h"
 #import <Foundation/Foundation.h>
 
 // Install Id key in persisted storage.

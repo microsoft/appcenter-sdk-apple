@@ -8,6 +8,7 @@
 #import "AVAErrorLog.h"
 #import "AVAErrorLogFormatter.h"
 #import "AvalancheHub+Internal.h"
+#import "Internals/AVAAvalanchePrivate.h"
 
 static NSString *const kAVAAnalyzerFilename = @"AVACrashes.analyzer";
 
@@ -42,45 +43,6 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
 @synthesize delegate = _delegate;
 @synthesize isEnabled = _isEnabled;
 @synthesize logManger = _logManger;
-
-+ (BOOL)isDebuggerAttached {
-  // TODO actual implementation
-  return NO;
-}
-
-+ (void)generateTestCrash {
-  if ([AVAEnvironmentHelper currentAppEnvironment] != AVAEnvironmentAppStore) {
-    
-    if ([self isDebuggerAttached]) {
-      AVALogWarning(@"[AVACrashes] WARNING: The debugger is attached. The following crash cannot be detected by the SDK!");
-    }
-    
-    __builtin_trap();
-  }}
-
-+ (BOOL)hasCrashedInLastSession {
-  // TODO actual implementation
-
-  return NO;
-}
-
-+ (void)setUserConfirmationHandler:(_Nullable AVAUserConfirmationHandler)userConfitmationHandler {
-  // TODO actual implementation
-}
-
-+ (void)notifyWithUserConfirmation:(AVAUserConfirmation)userConfirmation {
-  // TODO actual implementation
-}
-
-+ (AVAErrorReport *_Nullable)lastSessionCrashDetails {
-  // TODO actual implementation
-
-  return nil;
-}
-
-+ (void)setErrorLoggingDelegate:(_Nullable id<AVAErrorLoggingDelegate>)errorLoggingDelegate {
-  // TODO actual implementation
-}
 
 #pragma mark - Module initialization
 
@@ -123,12 +85,66 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
   _delegate = delegate;
 }
 
+#pragma mark - AVAFeature Protocol
+
 + (void)setEnabled:(BOOL)isEnabled {
   [[self sharedInstance] setEnabled:isEnabled];
 }
 
 + (BOOL)isEnabled {
   return [[self sharedInstance] isEnabled];
+}
+
+- (void)logSDKNotInitializedError {
+  AVALogError(@"[AVACrashes] ERROR: SonomaSDK hasn't been initialized. You need to call [AVAAvalanche "
+              @"start:YOUR_APP_SECRET withFeatures:LIST_OF_FEATURES] first.");
+}
+
+#pragma mark - Public Methods
+
++ (BOOL)isDebuggerAttached {
+  // TODO actual implementation
+  return NO;
+}
+
++ (void)generateTestCrash {
+  if ([AVAAvalanche sharedInstance].featuresStarted) {
+    if ([AVAEnvironmentHelper currentAppEnvironment] != AVAEnvironmentAppStore) {
+
+      if ([self isDebuggerAttached]) {
+        AVALogWarning(
+            @"[AVACrashes] Error: The debugger is attached. The following crash cannot be detected by the SDK!");
+      }
+
+      __builtin_trap();
+    }
+  } else {
+    [[self sharedInstance] logSDKNotInitializedError];
+  }
+}
+
++ (BOOL)hasCrashedInLastSession {
+  // TODO actual implementation
+
+  return NO;
+}
+
++ (void)setUserConfirmationHandler:(_Nullable AVAUserConfirmationHandler)userConfitmationHandler {
+  // TODO actual implementation
+}
+
++ (void)notifyWithUserConfirmation:(AVAUserConfirmation)userConfirmation {
+  // TODO actual implementation
+}
+
++ (AVAErrorReport *_Nullable)lastSessionCrashDetails {
+  // TODO actual implementation
+
+  return nil;
+}
+
++ (void)setErrorLoggingDelegate:(_Nullable id<AVAErrorLoggingDelegate>)errorLoggingDelegate {
+  // TODO actual implementation
 }
 
 #pragma mark - Crash reporter configuration
