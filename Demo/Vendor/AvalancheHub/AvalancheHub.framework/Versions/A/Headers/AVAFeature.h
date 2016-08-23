@@ -7,14 +7,14 @@
 @protocol AVAFeature <NSObject>
 
 /**
- *  Enable feature
+ *  Enable feature.
  *
- *  @param isEnabled is featured enabled or not
+ *  @param isEnabled is featured enabled or not.
  */
-+ (void)setEnable:(BOOL)isEnabled;
++ (void)setEnabled:(BOOL)isEnabled;
 
 /**
- *  Is feature enabled
+ *  Is feature enabled.
  *
  *  @return is enabled
  */

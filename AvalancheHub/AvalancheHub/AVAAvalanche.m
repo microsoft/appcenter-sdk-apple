@@ -31,8 +31,8 @@ static NSString *const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azu
 
 #pragma mark - public
 
-+ (void)start:(NSArray<Class> *)features withAppSecret:(NSString *)appSecret {
-  [[self sharedInstance] start:features withAppSecret:appSecret];
++ (void)start:(NSString *)appSecret withFeatures:(NSArray<Class> *)features {
+  [[self sharedInstance] start:appSecret withFeatures:features];
 }
 
 + (void)setEnabled:(BOOL)isEnabled {
@@ -64,7 +64,7 @@ static NSString *const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azu
   return self;
 }
 
-- (void)start:(NSArray<Class> *)features withAppSecret:(NSString *)appSecret {
+- (void)start:(NSString *)appSecret withFeatures:(NSArray<Class> *)features {
   if (self.featuresStarted) {
     AVALogWarning(@"SDK has already been started. You can call `start` only once.");
     return;
