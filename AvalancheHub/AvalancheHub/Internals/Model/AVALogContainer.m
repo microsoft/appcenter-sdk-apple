@@ -50,13 +50,7 @@
   __block BOOL isValid = YES;
   [self.logs enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
     if (![obj isValid]) {
-
-// Ignoring analyzer false positive, stop is not read from this block but is still used by enumerateObjectsUsingBlock to
-// stop the enumeration while set to true.
-#ifndef __clang_analyzer__
-      stop = YES;
-#endif
-
+      *stop = YES;
       isValid = NO;
       return;
     }

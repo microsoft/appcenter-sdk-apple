@@ -119,7 +119,7 @@ static NSUInteger const kAVAMaxSessionHistoryCount = 5;
 
   @synchronized(self) {
     NSDate *now = [NSDate date];
-  
+
     // Verify if last time that a log was sent is longer than the session timeout time.
     BOOL noLogSentForLong = [now timeIntervalSinceDate:self.lastCreatedLogTime] >= self.sessionTimeout;
 
@@ -160,12 +160,12 @@ static NSUInteger const kAVAMaxSessionHistoryCount = 5;
         enumerateObjectsUsingBlock:^(AVASessionHistoryInfo *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
           if ([log.toffset compare:obj.toffset] == NSOrderedDescending) {
             log.sid = obj.sessionId;
-            stop = YES;
+            *stop = YES;
           }
         }];
   }
 
-  // If log is not corollated to a past session.
+  // If log is not correlated to a past session.
   if (log.sid == nil) {
     log.sid = self.sessionId;
   }

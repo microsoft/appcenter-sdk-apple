@@ -1,5 +1,5 @@
 #import "AVAAvalanche.h"
-#import "AVAAvalanchePrivate.h"
+#import "AVAAvalancheInternal.h"
 #import "AVAUtils.h"
 #import <Foundation/Foundation.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>

@@ -3,7 +3,8 @@
  */
 
 #import "AVAAvalancheDelegate.h"
-#import "AVAFeaturePrivate.h"
+#import "AVAFeatureAbstractInternal.h"
+#import "AVAFeatureInternal.h"
 #import "Utils/AVALogger.h"
 
 // Log files
