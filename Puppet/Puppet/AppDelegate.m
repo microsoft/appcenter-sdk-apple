@@ -17,9 +17,7 @@
 
   // Start Avalanche SDK.
   [AVAAvalanche setLogLevel:AVALogLevelVerbose];
-  [AVAAvalanche start:@[ [AVAAnalytics class], [AVACrashes class] ] withAppSecret:[[NSUUID UUID] UUIDString]];
-
-  [AVAAvalanche setEnabled:YES];
+  [AVAAvalanche start:[[NSUUID UUID] UUIDString] withFeatures:@[ [AVAAnalytics class], [AVACrashes class] ]];
 
   [AVACrashes setErrorLoggingDelegate:self]; // TODO rename to setDelegate:
 
@@ -29,7 +27,10 @@
     // or something like
 
     NSString *foo = [errorLogs firstObject].exceptionReason;
-    // Do something with foo
+    if (foo) {
+      // Do something with exceptionReason
+      NSLog(@"%@", foo);
+    }
 
     UIAlertView *customAlertView = [[UIAlertView alloc] initWithTitle:@"Oh no! The App crashed"
                                                               message:nil

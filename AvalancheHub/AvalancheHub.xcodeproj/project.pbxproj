@@ -88,6 +88,8 @@
 		6EB1F40E1D2443B7005F9F99 /* AVAChannelDefaultTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB1F40D1D2443B7005F9F99 /* AVAChannelDefaultTests.m */; };
 		6EF628F41D371B1600CAFF64 /* AVAChannelConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF628F21D371B1600CAFF64 /* AVAChannelConfiguration.h */; };
 		6EF628F51D371B1600CAFF64 /* AVAChannelConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF628F31D371B1600CAFF64 /* AVAChannelConfiguration.m */; };
+		B22FC2B61D5E51A20007CD80 /* AVAEnvironmentHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = B22FC2B41D5E51A20007CD80 /* AVAEnvironmentHelper.h */; };
+		B22FC2B71D5E51A20007CD80 /* AVAEnvironmentHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B22FC2B51D5E51A20007CD80 /* AVAEnvironmentHelper.m */; };
 		E8010E6A1D2DD4EF0035196F /* AVALogWithProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = E8010E661D2DD4EF0035196F /* AVALogWithProperties.h */; };
 		E8010E6B1D2DD4EF0035196F /* AVALogWithProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = E8010E671D2DD4EF0035196F /* AVALogWithProperties.m */; };
 		E80EB1071D50273700C9003F /* AVARetriableCall.h in Headers */ = {isa = PBXBuildFile; fileRef = E80EB1051D50273700C9003F /* AVARetriableCall.h */; };
@@ -228,6 +230,8 @@
 		6EB1F40D1D2443B7005F9F99 /* AVAChannelDefaultTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAChannelDefaultTests.m; sourceTree = "<group>"; };
 		6EF628F21D371B1600CAFF64 /* AVAChannelConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAChannelConfiguration.h; sourceTree = "<group>"; };
 		6EF628F31D371B1600CAFF64 /* AVAChannelConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAChannelConfiguration.m; sourceTree = "<group>"; };
+		B22FC2B41D5E51A20007CD80 /* AVAEnvironmentHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAEnvironmentHelper.h; sourceTree = "<group>"; };
+		B22FC2B51D5E51A20007CD80 /* AVAEnvironmentHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAEnvironmentHelper.m; sourceTree = "<group>"; };
 		E8010E661D2DD4EF0035196F /* AVALogWithProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVALogWithProperties.h; sourceTree = "<group>"; };
 		E8010E671D2DD4EF0035196F /* AVALogWithProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVALogWithProperties.m; sourceTree = "<group>"; };
 		E80EB1051D50273700C9003F /* AVARetriableCall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVARetriableCall.h; sourceTree = "<group>"; };
@@ -355,6 +359,8 @@
 			children = (
 				E8A8D1E91D3057A90022931E /* AVASettings.h */,
 				E8A8D1EA1D3057A90022931E /* AVASettings.m */,
+				B22FC2B41D5E51A20007CD80 /* AVAEnvironmentHelper.h */,
+				B22FC2B51D5E51A20007CD80 /* AVAEnvironmentHelper.m */,
 				E88D170D1D36BB1700A5EA57 /* AVAUtils.h */,
 				6E0401491D1C99AC0051BCFA /* AVALogger.h */,
 				6E04014A1D1C99AC0051BCFA /* AVALogger.m */,
@@ -586,6 +592,7 @@
 				6E04016A1D1C9E1F0051BCFA /* AVAAvalanche.h in Headers */,
 				387C75811D6270A300D68CC1 /* AVAFeatureAbstractInternal.h in Headers */,
 				E84B8E3B1D235273006FD231 /* AVAChannelDelegate.h in Headers */,
+				B22FC2B61D5E51A20007CD80 /* AVAEnvironmentHelper.h in Headers */,
 				6E0CD69E1D27198A0045FE8C /* AVAStorageBucket.h in Headers */,
 				387C76DA1D677EC100D68CC1 /* AVAFeatureAbstractPrivate.h in Headers */,
 				E8753D6E1D4BE53F00241513 /* AVASenderUtils.h in Headers */,
@@ -760,6 +767,7 @@
 				E84B8E361D235226006FD231 /* AVAHttpSender.m in Sources */,
 				E84B8E301D2351DB006FD231 /* AVALogManagerDefault.m in Sources */,
 				E8753D6F1D4BE53F00241513 /* AVASenderUtils.m in Sources */,
+				B22FC2B71D5E51A20007CD80 /* AVAEnvironmentHelper.m in Sources */,
 				E88EBBED1D2C612E007E7785 /* AVAAbstractLog.m in Sources */,
 				381C91EA1D3DB65D004512F1 /* AVADeviceTracker.m in Sources */,
 				6E40D4641D2700000046D85B /* AVAFileStorage.m in Sources */,
@@ -854,7 +862,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -897,7 +905,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -913,7 +921,7 @@
 				AVA_SIM_ARCHS = "x86_64 i386";
 				BUILD_NUMBER = 1;
 				DEAD_CODE_STRIPPING = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_CFLAGS = "$(AVALANCHE_WARNING_FLAGS)";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.avalanche.AvalancheHub;
@@ -934,7 +942,7 @@
 				AVA_SIM_ARCHS = "x86_64 i386";
 				BUILD_NUMBER = 1;
 				DEAD_CODE_STRIPPING = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_CFLAGS = "$(AVALANCHE_WARNING_FLAGS)";
 				"OTHER_CFLAGS[sdk=iphoneos*]" = "$(AVALANCHE_WARNING_FLAGS)";
 				"OTHER_CFLAGS[sdk=iphonesimulator*]" = (
@@ -978,7 +986,7 @@
 				);
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				INFOPLIST_FILE = AvalancheHubTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				OTHER_LDFLAGS = (
@@ -1005,7 +1013,7 @@
 				);
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				INFOPLIST_FILE = AvalancheHubTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				OTHER_LDFLAGS = (

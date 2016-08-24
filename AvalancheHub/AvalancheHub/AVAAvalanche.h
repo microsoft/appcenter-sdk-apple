@@ -13,10 +13,10 @@
 /**
  *  Start the SDK
  *
- *  @param features  array of features to be used.
  *  @param appSecret application secret.
+ *  @param features  array of features to be used.
  */
-+ (void)start:(NSArray<Class> *)features withAppSecret:(NSString *)appSecret;
++ (void)start:(NSString *)appSecret withFeatures:(NSArray<Class> *)features;
 
 /**
  *  Enable or disable the SDK as a whole. In addition to the core resources, it will also enable or disable all
