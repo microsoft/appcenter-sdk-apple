@@ -52,13 +52,15 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
 
 + (void)generateTestCrash {
   if ([AVAEnvironmentHelper currentAppEnvironment] != AVAEnvironmentAppStore) {
-
     if ([self isDebuggerAttached]) {
       AVALogWarning(
           @"[AVAErrorReporting] WARNING: The debugger is attached. The following crash cannot be detected by the SDK!");
     }
 
     __builtin_trap();
+  } else {
+    AVALogWarning(@"[AVAErrorReporting] WARNING: generateTestCrash was just called in an App Store environment. The call will "
+                  @"be ignored");
   }
 }
 
