@@ -10,6 +10,10 @@
 #import "AvalancheHub+Internal.h"
 #import "Internals/AVAAvalanchePrivate.h"
 
+/**
+ *  Feature name.
+ */
+static NSString *const kAVAFeatureName = @"Crash";
 static NSString *const kAVAAnalyzerFilename = @"AVACrashes.analyzer";
 
 #pragma mark - Callbacks Setup
@@ -39,32 +43,6 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
 }
 
 @implementation AVACrashes
-
-@synthesize delegate = _delegate;
-@synthesize isEnabled = _isEnabled;
-@synthesize logManger = _logManger;
-
-#pragma mark - Module initialization
-
-+ (id)sharedInstance {
-  static id sharedInstance = nil;
-  static dispatch_once_t onceToken;
-  dispatch_once(&onceToken, ^{
-    sharedInstance = [[self alloc] init];
-  });
-  return sharedInstance;
-}
-
-- (instancetype)init {
-  if ((self = [super init])) {
-    _isEnabled = YES;
-    _fileManager = [[NSFileManager alloc] init];
-    _crashFiles = [[NSMutableArray alloc] init];
-    _crashesDir = [AVACrashesHelper crashesDir];
-    _analyzerInProgressFile = [_crashesDir stringByAppendingPathComponent:kAVAAnalyzerFilename];
-  }
-  return self;
-}
 
 - (void)startFeature {
   AVALogVerbose(@"[AVACrashes] VERBOSE: Started crash module");
@@ -153,6 +131,48 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
 
 + (void)setErrorLoggingDelegate:(_Nullable id<AVAErrorLoggingDelegate>)errorLoggingDelegate {
   // TODO actual implementation
+}
+
+#pragma mark - Module initialization
+
+- (instancetype)init {
+  if ((self = [super init])) {
+    _fileManager = [[NSFileManager alloc] init];
+    _crashFiles = [[NSMutableArray alloc] init];
+    _crashesDir = [AVACrashesHelper crashesDir];
+    _analyzerInProgressFile = [_crashesDir stringByAppendingPathComponent:kAVAAnalyzerFilename];
+  }
+  return self;
+}
+
+#pragma mark - AVAFeatureInternal
+
++ (id)sharedInstance {
+  static id sharedInstance = nil;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    sharedInstance = [[self alloc] init];
+  });
+  return sharedInstance;
+}
+
+- (void)startFeature {
+  AVALogVerbose(@"[AVACrashes] VERBOSE: Started crash module");
+
+  [self configureCrashReporter];
+
+  if ([self.plCrashReporter hasPendingCrashReport]) {
+    [self persistLatestCrashReport];
+  }
+
+  _crashFiles = [self persistedCrashReports];
+  if (self.crashFiles.count > 0) {
+    [self startDelayedCrashProcessing];
+  }
+}
+
+- (NSString *)featureName {
+  return kAVAFeatureName;
 }
 
 #pragma mark - Crash reporter configuration
@@ -346,10 +366,6 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
   if (![self.fileManager fileExistsAtPath:self.analyzerInProgressFile]) {
     [self.fileManager createFileAtPath:self.analyzerInProgressFile contents:nil attributes:nil];
   }
-}
-
-- (void)onLogManagerReady:(id<AVALogManager>)logManger {
-  _logManger = logManger;
 }
 
 @end

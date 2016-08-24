@@ -4,19 +4,24 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ *  Protocol declaring features logic.
+ */
 @protocol AVAFeature <NSObject>
 
 /**
- *  Enable feature.
+ *  Enable/disable this feature.
  *
- *  @param isEnabled is featured enabled or not.
+ *  @param isEnabled whether this feature is enabled or not.
+ *  @see isEnabled
  */
 + (void)setEnabled:(BOOL)isEnabled;
 
 /**
- *  Is feature enabled.
+ *  Is this feature enabled.
  *
- *  @return is enabled
+ *  @return a boolean whether this feature is enabled or not.
+ *  @see setEnabled:
  */
 + (BOOL)isEnabled;
 

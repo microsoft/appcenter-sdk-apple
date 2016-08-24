@@ -2,35 +2,29 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
+#import "AVAAnalytics.h"
 #import "AVAAnalyticsCategory.h"
 #import "AVAAnalyticsPrivate.h"
 #import "AVAAvalanche.h"
 #import "AVAEventLog.h"
 #import "AVAPageLog.h"
 #import "AvalancheHub+Internal.h"
-#import "Internals/AVAAvalanchePrivate.h"
+
+/**
+ *  Feature name.
+ */
+static NSString *const kAVAFeatureName = @"Analytics";
 
 @implementation AVAAnalytics
 
-@synthesize delegate = _delegate;
-@synthesize isEnabled = _isEnabled;
 @synthesize autoPageTrackingEnabled = _autoPageTrackingEnabled;
-@synthesize logManger = _logManger;
 
-+ (id)sharedInstance {
-  static id sharedInstance = nil;
-  static dispatch_once_t onceToken;
-  dispatch_once(&onceToken, ^{
-    sharedInstance = [[self alloc] init];
-  });
-  return sharedInstance;
-}
+#pragma mark - Module initialization
 
 - (id)init {
   if (self = [super init]) {
 
     // Set defaults.
-    _isEnabled = YES;
     _autoPageTrackingEnabled = YES;
 
     // Init session tracker.
@@ -39,6 +33,17 @@
     [self.sessionTracker start];
   }
   return self;
+}
+
+#pragma mark - AVAFeatureInternal
+
++ (id)sharedInstance {
+  static id sharedInstance = nil;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    sharedInstance = [[self alloc] init];
+  });
+  return sharedInstance;
 }
 
 - (void)startFeature {
@@ -53,16 +58,17 @@
   AVALogVerbose(@"AVAAnalytics: Started analytics module");
 }
 
-- (void)setDelegate:(id<AVAAvalancheDelegate>)delegate {
-  _delegate = delegate;
+- (NSString *)featureName {
+  return kAVAFeatureName;
 }
 
-#pragma mark - AVAFeature
+#pragma mark - AVAFeatureAbstract
 
-+ (void)setEnabled:(BOOL)isEnabled {
+- (void)setEnabled:(BOOL)isEnabled {
   if ([AVAAvalanche sharedInstance].featuresStarted) {
-    [[self sharedInstance] setEnabled:isEnabled];
-  } else {
+  isEnabled ? [self.logManger addListener:self.sessionTracker] : [self.logManger removeListener:self.sessionTracker];
+  [super setEnabled:isEnabled];
+} else {
     [[self sharedInstance] logSDKNotInitializedError];
   }
 }
@@ -82,7 +88,7 @@
   ;
 }
 
-#pragma mark - Other Public Methods
+#pragma mark - Mondule methods
 
 + (void)trackEvent:(NSString *)eventName withProperties:(NSDictionary *)properties {
   if ([AVAAvalanche sharedInstance].featuresStarted) {
@@ -141,7 +147,7 @@
 }
 
 - (void)trackPage:(NSString *)pageName withProperties:(NSDictionary *)properties {
-  if (![self isEnabled])
+  if (![super isEnabled])
     return;
 
   // Send async
@@ -158,15 +164,6 @@
   });
 }
 
-- (void)setEnabled:(BOOL)isEnabled {
-  _isEnabled = isEnabled;
-  isEnabled ? [self.logManger addListener:self.sessionTracker] : [self.logManger removeListener:self.sessionTracker];
-}
-
-- (BOOL)isEnabled {
-  return _isEnabled;
-}
-
 - (void)setAutoPageTrackingEnabled:(BOOL)isEnabled {
   _autoPageTrackingEnabled = isEnabled;
 }
@@ -176,16 +173,15 @@
 }
 
 - (void)sendLog:(id<AVALog>)log withPriority:(AVAPriority)priority {
+
   // Send log to core module.
   [self.logManger processLog:log withPriority:priority];
 }
 
+#pragma mark - AVASessionTracker
+
 - (void)sessionTracker:(id)sessionTracker processLog:(id<AVALog>)log withPriority:(AVAPriority)priority {
   [self sendLog:log withPriority:priority];
-}
-
-- (void)onLogManagerReady:(id<AVALogManager>)logManger {
-  _logManger = logManger;
 }
 
 @end

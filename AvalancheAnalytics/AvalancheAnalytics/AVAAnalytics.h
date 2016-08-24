@@ -2,14 +2,13 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "AVAFeature.h"
-
+#import "AVAFeatureAbstract.h"
 #import <UIKit/UIKit.h>
 
 /**
  *  Avalanche analytics feature.
  */
-@interface AVAAnalytics : NSObject <AVAFeature>
+@interface AVAAnalytics : AVAFeatureAbstract
 
 /**
  *  Track an event.
