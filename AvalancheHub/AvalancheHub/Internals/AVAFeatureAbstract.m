@@ -5,7 +5,7 @@
 #import "AVAFeatureAbstract.h"
 #import "AVAFeatureAbstractInternal.h"
 #import "AVAFeatureAbstractPrivate.h"
-#import "AVASettings.h"
+#import "AVAUserDefaults.h"
 #import "AVAUtils.h"
 #import "AvalancheHub+Internal.h"
 #import "AVAAvalancheInternal.h"
@@ -17,10 +17,10 @@
 @synthesize delegate = _delegate;
 
 - (instancetype)init {
-  return [self initWithStorage:kAVASettings andName:[self featureName]];
+  return [self initWithStorage:kAVAUserDefaults andName:[self featureName]];
 }
 
-- (instancetype)initWithStorage:(AVASettings *)storage andName:(NSString *)name {
+- (instancetype)initWithStorage:(AVAUserDefaults *)storage andName:(NSString *)name {
   if (self = [super init]) {
 
     // Construct the storage key.

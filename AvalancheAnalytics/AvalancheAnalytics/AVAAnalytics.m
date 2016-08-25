@@ -84,7 +84,7 @@ static NSString *const kAVAFeatureName = @"Analytics";
   }
 }
 
-#pragma mark - Mondule methods
+#pragma mark - Module methods
 
 + (void)trackEvent:(NSString *)eventName withProperties:(NSDictionary *)properties {
   if ([[self sharedInstance] sdkInitialized]) {
@@ -119,7 +119,7 @@ static NSString *const kAVAFeatureName = @"Analytics";
   }
 }
 
-#pragma mark - private methods
+#pragma mark - Private methods
 
 - (void)trackEvent:(NSString *)eventName withProperties:(NSDictionary *)properties {
   if (![self isEnabled])

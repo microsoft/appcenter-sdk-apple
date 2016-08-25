@@ -115,8 +115,8 @@
 		E88EBBED1D2C612E007E7785 /* AVAAbstractLog.m in Sources */ = {isa = PBXBuildFile; fileRef = E88EBBEB1D2C612E007E7785 /* AVAAbstractLog.m */; };
 		E88EBBF91D2C717D007E7785 /* AVALogUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E88EBBF81D2C717D007E7785 /* AVALogUtils.m */; };
 		E88EBBFB1D2C8CC7007E7785 /* AVALogContainerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E88EBBFA1D2C8CC7007E7785 /* AVALogContainerTests.m */; };
-		E8A8D1EB1D3057A90022931E /* AVASettings.h in Headers */ = {isa = PBXBuildFile; fileRef = E8A8D1E91D3057A90022931E /* AVASettings.h */; };
-		E8A8D1EC1D3057A90022931E /* AVASettings.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A8D1EA1D3057A90022931E /* AVASettings.m */; };
+		E8A8D1EB1D3057A90022931E /* AVAUserDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = E8A8D1E91D3057A90022931E /* AVAUserDefaults.h */; };
+		E8A8D1EC1D3057A90022931E /* AVAUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A8D1EA1D3057A90022931E /* AVAUserDefaults.m */; };
 		E8AEE9821D5970A400C0FF6C /* AVALogManagerListener.h in Headers */ = {isa = PBXBuildFile; fileRef = E8AEE9811D5970A400C0FF6C /* AVALogManagerListener.h */; };
 		E8E48F951D50FF4300A8C1B0 /* AVASenderCallDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = E8E48F941D50FF4300A8C1B0 /* AVASenderCallDelegate.h */; };
 /* End PBXBuildFile section */
@@ -260,8 +260,8 @@
 		E88EBBF71D2C717D007E7785 /* AVALogUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVALogUtils.h; sourceTree = "<group>"; };
 		E88EBBF81D2C717D007E7785 /* AVALogUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVALogUtils.m; sourceTree = "<group>"; };
 		E88EBBFA1D2C8CC7007E7785 /* AVALogContainerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVALogContainerTests.m; sourceTree = "<group>"; };
-		E8A8D1E91D3057A90022931E /* AVASettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AVASettings.h; path = ../Model/Utils/AVASettings.h; sourceTree = "<group>"; };
-		E8A8D1EA1D3057A90022931E /* AVASettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AVASettings.m; path = ../Model/Utils/AVASettings.m; sourceTree = "<group>"; };
+		E8A8D1E91D3057A90022931E /* AVAUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AVAUserDefaults.h; path = ../Model/Utils/AVAUserDefaults.h; sourceTree = "<group>"; };
+		E8A8D1EA1D3057A90022931E /* AVAUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AVAUserDefaults.m; path = ../Model/Utils/AVAUserDefaults.m; sourceTree = "<group>"; };
 		E8AEE9811D5970A400C0FF6C /* AVALogManagerListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVALogManagerListener.h; sourceTree = "<group>"; };
 		E8E48F941D50FF4300A8C1B0 /* AVASenderCallDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVASenderCallDelegate.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -357,8 +357,6 @@
 		6E0401481D1C99AC0051BCFA /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				E8A8D1E91D3057A90022931E /* AVASettings.h */,
-				E8A8D1EA1D3057A90022931E /* AVASettings.m */,
 				B22FC2B41D5E51A20007CD80 /* AVAEnvironmentHelper.h */,
 				B22FC2B51D5E51A20007CD80 /* AVAEnvironmentHelper.m */,
 				E88D170D1D36BB1700A5EA57 /* AVAUtils.h */,
@@ -539,6 +537,8 @@
 				6E0CD69D1D27198A0045FE8C /* AVAStorageBucket.m */,
 				6E7E3B761D2DCEBD0019EA6D /* AVAFile.h */,
 				6E7E3B771D2DCEBD0019EA6D /* AVAFile.m */,
+				E8A8D1E91D3057A90022931E /* AVAUserDefaults.h */,
+				E8A8D1EA1D3057A90022931E /* AVAUserDefaults.m */,
 			);
 			path = Storage;
 			sourceTree = "<group>";
@@ -584,7 +584,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E8A8D1EB1D3057A90022931E /* AVASettings.h in Headers */,
+				E8A8D1EB1D3057A90022931E /* AVAUserDefaults.h in Headers */,
 				E8831A9A1D41A58600931F11 /* AVADeviceTrackerPrivate.h in Headers */,
 				E80EB1071D50273700C9003F /* AVARetriableCall.h in Headers */,
 				6E04016E1D1C9E460051BCFA /* AVAAvalancheDelegate.h in Headers */,
@@ -778,7 +778,7 @@
 				E83283C71D46C62E000B029E /* AVA_Reachability.m in Sources */,
 				6E171B5B1D234717000DC480 /* AVADevice.m in Sources */,
 				E8010E6B1D2DD4EF0035196F /* AVALogWithProperties.m in Sources */,
-				E8A8D1EC1D3057A90022931E /* AVASettings.m in Sources */,
+				E8A8D1EC1D3057A90022931E /* AVAUserDefaults.m in Sources */,
 				6E7E3B791D2DCEBD0019EA6D /* AVAFile.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

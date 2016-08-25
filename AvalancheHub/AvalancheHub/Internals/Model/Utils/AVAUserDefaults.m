@@ -3,40 +3,40 @@
  */
 
 #import "AVALogger.h"
-#import "AVASettings.h"
+#import "AVAUserDefaults.h"
 #import "AVAUtils.h"
 
-static NSString *const kAESettingsTs = @"_ts";
+static NSString *const kAVAUserDefaultsTs = @"_ts";
 
-@implementation AVASettings
+@implementation AVAUserDefaults
 
 + (instancetype)shared {
-  static AVASettings *sharedInstance = nil;
+  static AVAUserDefaults *sharedInstance = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
-    sharedInstance = [[AVASettings alloc] init];
+    sharedInstance = [[AVAUserDefaults alloc] init];
   });
   return sharedInstance;
 }
 
 - (id)objectForKey:(NSString *)key {
-  return [kAVAUserDefaults objectForKey:key];
+  return [[NSUserDefaults standardUserDefaults] objectForKey:key];
 }
 
 - (void)setObject:(__nullable id)o forKey:(NSString *)key {
-  [kAVAUserDefaults setObject:o forKey:key];
+  [[NSUserDefaults standardUserDefaults] setObject:o forKey:key];
 }
 
 - (void)removeObjectForKey:(NSString *)key {
-  [kAVAUserDefaults removeObjectForKey:key];
+  [[NSUserDefaults standardUserDefaults] removeObjectForKey:key];
 }
 
 - (NSDictionary *)updateDictionary:(NSDictionary *)dict forKey:(NSString *)key expiration:(float)expiration {
   NSMutableDictionary *update = [[NSMutableDictionary alloc] initWithDictionary:dict];
 
   /* Get from local store */
-  NSDictionary *store = [kAVAUserDefaults dictionaryForKey:key];
-  CFAbsoluteTime ts = [store[kAESettingsTs] floatValue];
+  NSDictionary *store = [[NSUserDefaults standardUserDefaults] dictionaryForKey:key];
+  CFAbsoluteTime ts = [store[kAVAUserDefaultsTs] floatValue];
   AVALogVerbose(@"Settings:store[%@]=%@", key, store);
 
   /* Force update if timestamp expiration is reached */
@@ -61,10 +61,10 @@ static NSString *const kAESettingsTs = @"_ts";
     [d addEntriesFromDictionary:update];
 
     /* Set new timestamp */
-    d[kAESettingsTs] = @(CFAbsoluteTimeGetCurrent());
+    d[kAVAUserDefaultsTs] = @(CFAbsoluteTimeGetCurrent());
 
     /* Save */
-    [kAVAUserDefaults setObject:d forKey:key];
+    [[NSUserDefaults standardUserDefaults] setObject:d forKey:key];
   }
 
   return update;
@@ -84,7 +84,7 @@ static NSString *const kAESettingsTs = @"_ts";
 }
 
 - (void)synchronize {
-  [kAVAUserDefaults synchronize];
+  [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 @end

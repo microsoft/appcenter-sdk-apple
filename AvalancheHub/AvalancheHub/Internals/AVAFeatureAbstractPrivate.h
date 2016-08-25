@@ -2,7 +2,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "AVASettings.h"
+#import "AVAUserDefaults.h"
 #import <Foundation/Foundation.h>
 
 /**
@@ -18,7 +18,7 @@
 /**
  *  Storage used for persistence.
  */
-@property(nonatomic, readwrite) AVASettings *storage;
+@property(nonatomic, readwrite) AVAUserDefaults *storage;
 
 /**
  *  (For testing only) Create a feature with the given storage and name.
@@ -28,6 +28,6 @@
  *
  *  @return A feature with common logic already implemented.
  */
-- (instancetype)initWithStorage:(AVASettings *)storage andName:(NSString *)name;
+- (instancetype)initWithStorage:(AVAUserDefaults *)storage andName:(NSString *)name;
 
 @end
