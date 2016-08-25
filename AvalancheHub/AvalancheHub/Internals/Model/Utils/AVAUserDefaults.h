@@ -8,7 +8,7 @@
  * Persistent settings, a wrapper around NSUserDefaults capable of
  * updating object or dictionary (including expiration)
  */
-@interface AVASettings : NSObject
+@interface AVAUserDefaults : NSObject
 
 /**
  * @return the shared settings.
@@ -22,14 +22,14 @@
  * @param key a unique key to identify the value.
  * @param expiration maximum time (in seconds) to keep dict values in the cache.
  */
-- (NSDictionary*)updateDictionary:(NSDictionary*)dict forKey:(NSString*)key expiration:(float)expiration;
+- (NSDictionary *)updateDictionary:(NSDictionary *)dict forKey:(NSString *)key expiration:(float)expiration;
 
 /**
  * Updates a dictionary in the settings, returning what was actually updated (no expiration).
  * @param dict the dictionary to update
  * @param key a unique key to identify the value
  */
-- (NSDictionary*)updateDictionary:(NSDictionary*)dict forKey:(NSString*)key;
+- (NSDictionary *)updateDictionary:(NSDictionary *)dict forKey:(NSString *)key;
 
 /**
  * Updates an object in the settings, returning YES if object was updated, NO otherwise.
@@ -38,14 +38,14 @@
  * @param key a unique key to identify the value.
  * @param expiration maximum time (in seconds) to keep object in the cache.
  */
-- (BOOL)updateObject:(id)o forKey:(NSString*)key expiration:(float)expiration;
+- (BOOL)updateObject:(id)o forKey:(NSString *)key expiration:(float)expiration;
 
 /**
  * Updates an object in the settings, returning YES if object was updated, NO otherwise.
  * @param o the object to update.
  * @param key a unique key to identify the value.
  */
-- (BOOL)updateObject:(id)o forKey:(NSString*)key;
+- (BOOL)updateObject:(id)o forKey:(NSString *)key;
 
 /**
  * Updates an object in the settings, returning YES if object was updated, NO otherwise.
@@ -54,20 +54,20 @@
  * @param key a unique key to identify the value.
  * @param expiration maximum time (in seconds) to keep object in the cache.
  */
-- (id)objectForKey:(NSString*)key;
+- (id)objectForKey:(NSString *)key;
 
 /**
  * Sets the value of the specified key in the settings.
  * @param o the object to set.
  * @param key a unique key to identify the value.
  */
-- (void)setObject:(id)o forKey:(NSString*)key;
+- (void)setObject:(id)o forKey:(NSString *)key;
 
 /**
  * Removes a value from the settings.
  * @param key the key to remove.
  */
-- (void)removeObjectForKey:(NSString*)key;
+- (void)removeObjectForKey:(NSString *)key;
 
 /**
  * Writes any modifications to the persistent domains to disk and updates

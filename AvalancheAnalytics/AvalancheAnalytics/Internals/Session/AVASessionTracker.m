@@ -41,7 +41,7 @@ static NSUInteger const kAVAMaxSessionHistoryCount = 5;
     _sessionTimeout = kAVASessionTimeOut;
 
     // Restore past sessions from NSUserDefaults.
-    NSData *sessions = [kAVASettings objectForKey:kAVAPastSessionsKey];
+    NSData *sessions = [kAVAUserDefaults objectForKey:kAVAPastSessionsKey];
     if (sessions != nil) {
       NSArray *arrayFromData = [NSKeyedUnarchiver unarchiveObjectWithData:sessions];
 
@@ -79,8 +79,8 @@ static NSUInteger const kAVAMaxSessionHistoryCount = 5;
       [self.pastSessions removeLastObject];
 
     // Persist the session history in NSData format.
-    [kAVASettings setObject:[NSKeyedArchiver archivedDataWithRootObject:self.pastSessions] forKey:kAVAPastSessionsKey];
-    [kAVASettings synchronize];
+    [kAVAUserDefaults setObject:[NSKeyedArchiver archivedDataWithRootObject:self.pastSessions] forKey:kAVAPastSessionsKey];
+    [kAVAUserDefaults synchronize];
     AVALogVerbose(@"INFO:new session ID: %@", _sessionId);
 
     // Create a start session log.

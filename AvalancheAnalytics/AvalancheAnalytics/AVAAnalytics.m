@@ -68,7 +68,7 @@ static NSString *const kAVAFeatureName = @"Analytics";
   [super setEnabled:isEnabled];
 }
 
-#pragma mark - Mondule methods
+#pragma mark - Module methods
 
 + (void)trackEvent:(NSString *)eventName withProperties:(NSDictionary *)properties {
   [[self sharedInstance] trackEvent:eventName withProperties:properties];
@@ -86,7 +86,7 @@ static NSString *const kAVAFeatureName = @"Analytics";
   return [[self sharedInstance] isAutoPageTrackingEnabled];
 }
 
-#pragma mark - private methods
+#pragma mark - Private methods
 
 - (void)trackEvent:(NSString *)eventName withProperties:(NSDictionary *)properties {
   if (![self isEnabled])

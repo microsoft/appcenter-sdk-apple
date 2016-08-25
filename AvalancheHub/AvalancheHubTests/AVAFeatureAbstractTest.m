@@ -1,7 +1,7 @@
 #import "AVAFeatureAbstract.h"
 #import "AVAFeatureAbstractInternal.h"
 #import "AVAFeatureAbstractPrivate.h"
-#import "AVASettings.h"
+#import "AVAUserDefaults.h"
 #import "AVAUtils.h"
 #import <Foundation/Foundation.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
@@ -25,13 +25,13 @@
   [super setUp];
 
   // Set up the mocked storage.
-  self.settingsMock = OCMPartialMock(kAVASettings);
+  self.settingsMock = OCMPartialMock(kAVAUserDefaults);
 
   // System Under Test.
   self.abstractFeature = [[AVAFeatureAbstract alloc] initWithStorage:self.settingsMock andName:@"Test"];
 
   // Clean storage.
-  [(AVASettings *)self.settingsMock setObject:nil forKey:self.abstractFeature.isEnabledKey];
+  [(AVAUserDefaults *)self.settingsMock setObject:nil forKey:self.abstractFeature.isEnabledKey];
 }
 
 - (void)tearDown {

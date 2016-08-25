@@ -2,7 +2,7 @@
 #import "AVAFileStorage.h"
 #import "AVAHttpSender.h"
 #import "AVALogManagerDefault.h"
-#import "AVASettings.h"
+#import "AVAUserDefaults.h"
 #import "AVAUtils.h"
 
 // Http Headers + Query string.
@@ -117,8 +117,8 @@ static NSString *const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azu
     if ([self isEnabled] != isEnabled) {
 
       // Persist the enabled status.
-      [kAVASettings setObject:[NSNumber numberWithBool:isEnabled] forKey:kAVAHubIsEnabledKey];
-      [kAVASettings synchronize];
+      [kAVAUserDefaults setObject:[NSNumber numberWithBool:isEnabled] forKey:kAVAHubIsEnabledKey];
+      [kAVAUserDefaults synchronize];
     }
   }
 }
@@ -129,7 +129,7 @@ static NSString *const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azu
      *  Get isEnabled value from persistence.
      * No need to cache the value in a property, user settings already have their cache mechanism.
      */
-    NSNumber *isEnabledNumber = [kAVASettings objectForKey:kAVAHubIsEnabledKey];
+    NSNumber *isEnabledNumber = [kAVAUserDefaults objectForKey:kAVAHubIsEnabledKey];
 
     // Return the persisted value otherwise it's enabled by default.
     return (isEnabledNumber) ? [isEnabledNumber boolValue] : YES;
@@ -172,7 +172,7 @@ static NSString *const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azu
     if (!_installId) {
 
       // Check if install Id has already been persisted.
-      NSString *savedInstallId = [kAVASettings objectForKey:kAVAInstallIdKey];
+      NSString *savedInstallId = [kAVAUserDefaults objectForKey:kAVAInstallIdKey];
       if (savedInstallId) {
         _installId = kAVAUUIDFromString(savedInstallId);
       }
@@ -182,8 +182,8 @@ static NSString *const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azu
         _installId = [NSUUID UUID];
 
         // Persist the install Id string.
-        [kAVASettings setObject:[_installId UUIDString] forKey:kAVAInstallIdKey];
-        [kAVASettings synchronize];
+        [kAVAUserDefaults setObject:[_installId UUIDString] forKey:kAVAInstallIdKey];
+        [kAVAUserDefaults synchronize];
       }
     }
     return _installId;
