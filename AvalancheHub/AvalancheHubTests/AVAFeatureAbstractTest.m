@@ -7,6 +7,7 @@
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
+#import "AVAAvalanche.h"
 
 @interface AVAFeatureAbstractTest : XCTestCase
 
@@ -123,6 +124,14 @@
 
   // Also check that the sut did access the persistence.
   OCMVerify([self.settingsMock objectForKey:[OCMArg any]]);
+}
+
+- (void)testCanBeUsed {
+  assertThatBool(  [self.abstractFeature canBeUsed], isFalse());
+  
+  [AVAAvalanche start:[[NSUUID UUID] UUIDString] withFeatures:nil];
+
+  assertThatBool(  [self.abstractFeature canBeUsed], isTrue());
 }
 
 @end

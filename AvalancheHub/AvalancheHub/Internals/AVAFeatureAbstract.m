@@ -10,6 +10,7 @@
 #import "AvalancheHub+Internal.h"
 #import "AVAAvalancheInternal.h"
 
+static NSString *const kAVAFeatureAbstractString = @"AVAFeatureAbstract";
 
 @implementation AVAFeatureAbstract
 
@@ -42,6 +43,11 @@
     }
   }
 }
+
+- (NSString *)featureName {
+  return kAVAFeatureAbstractString;
+}
+
 
 - (BOOL)isEnabled {
   @synchronized(self) {
