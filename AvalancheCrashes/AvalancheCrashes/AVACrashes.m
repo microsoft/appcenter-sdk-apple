@@ -7,8 +7,7 @@
 #import "AVACrashesPrivate.h"
 #import "AVAErrorLog.h"
 #import "AVAErrorLogFormatter.h"
-#import "AvalancheHub+Internal.h"
-#import "Internals/AVAAvalanchePrivate.h"
+#import "AVAAvalancheInternal.h"
 
 /**
  *  Feature name.
@@ -44,46 +43,22 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
 
 @implementation AVACrashes
 
-- (void)startFeature {
-  AVALogVerbose(@"[AVACrashes] VERBOSE: Started crash module");
-
-  [self configureCrashReporter];
-
-  if ([self.plCrashReporter hasPendingCrashReport]) {
-    [self persistLatestCrashReport];
-  }
-
-  _crashFiles = [self persistedCrashReports];
-  if (self.crashFiles.count > 0) {
-    [self startDelayedCrashProcessing];
-  }
-}
-
-- (void)setDelegate:(id<AVAAvalancheDelegate>)delegate {
-  _delegate = delegate;
-}
-
 #pragma mark - AVAFeature Protocol
 
 + (void)setEnabled:(BOOL)isEnabled {
-  if ([AVAAvalanche sharedInstance].featuresStarted) {
+  if ([[self sharedInstance] sdkInitialized]) {
     [[self sharedInstance] setEnabled:isEnabled];
   } else {
-    [[self sharedInstance] logSDKNotInitializedError];
+    [[self sharedInstance] logSDKNotInitializedError:@"AVACrashes"];
   }
 }
 
 + (BOOL)isEnabled {
-  if ([AVAAvalanche sharedInstance].featuresStarted) {
+  if ([[self sharedInstance] sdkInitialized]) {
     return [[self sharedInstance] isEnabled];
   } else {
     return NO;
   }
-}
-
-- (void)logSDKNotInitializedError {
-  AVALogError(@"[AVACrashes] ERROR: SonomaSDK hasn't been initialized. You need to call [AVAAvalanche "
-              @"start:YOUR_APP_SECRET withFeatures:LIST_OF_FEATURES] first.");
 }
 
 #pragma mark - Public Methods
@@ -105,7 +80,7 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
       __builtin_trap();
     }
   } else {
-    [[self sharedInstance] logSDKNotInitializedError];
+    [[self sharedInstance] logSDKNotInitializedError:@"AVACrashes"];
   }
 }
 
@@ -147,7 +122,7 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
 
 #pragma mark - AVAFeatureInternal
 
-+ (id)sharedInstance {
++ (instancetype)sharedInstance {
   static id sharedInstance = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{

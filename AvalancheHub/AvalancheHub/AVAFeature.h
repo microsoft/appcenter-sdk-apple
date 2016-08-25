@@ -25,9 +25,4 @@
  */
 + (BOOL)isEnabled;
 
-/**
- * Log an error in case the SDK hasn't been initialized properly.
- */
-- (void)logSDKNotInitializedError;
-
 @end

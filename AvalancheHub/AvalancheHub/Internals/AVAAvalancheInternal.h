@@ -24,9 +24,9 @@ static NSString *const kAVAInstallIdKey = @"AVAInstallId";
 @property BOOL featuresStarted;
 
 /**
- * Returns the singleton instance of AvalancheHub.
+ * Returns the singleton instance of AvalancheHub. 
  */
-+ (id)sharedInstance;
++ (instancetype)sharedInstance;
 - (NSString *)appSecret;
 - (NSString *)apiVersion;
 

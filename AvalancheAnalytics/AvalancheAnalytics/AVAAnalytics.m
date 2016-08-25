@@ -6,6 +6,8 @@
 #import "AVAAnalyticsCategory.h"
 #import "AVAAnalyticsPrivate.h"
 #import "AVAAvalanche.h"
+#import "AVAAvalancheInternal.h"
+
 #import "AVAEventLog.h"
 #import "AVAPageLog.h"
 #import "AvalancheHub+Internal.h"
@@ -21,7 +23,7 @@ static NSString *const kAVAFeatureName = @"Analytics";
 
 #pragma mark - Module initialization
 
-- (id)init {
+- (instancetype)init {
   if (self = [super init]) {
 
     // Set defaults.
@@ -37,7 +39,7 @@ static NSString *const kAVAFeatureName = @"Analytics";
 
 #pragma mark - AVAFeatureInternal
 
-+ (id)sharedInstance {
++ (instancetype)sharedInstance {
   static id sharedInstance = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
@@ -65,62 +67,54 @@ static NSString *const kAVAFeatureName = @"Analytics";
 #pragma mark - AVAFeatureAbstract
 
 - (void)setEnabled:(BOOL)isEnabled {
-  if ([AVAAvalanche sharedInstance].featuresStarted) {
+  if ([self sdkInitialized]) {
   isEnabled ? [self.logManger addListener:self.sessionTracker] : [self.logManger removeListener:self.sessionTracker];
   [super setEnabled:isEnabled];
 } else {
-    [[self sharedInstance] logSDKNotInitializedError];
+  [self  logSDKNotInitializedError:@"AVAAnalytics"];
   }
 }
 
 + (BOOL)isEnabled {
-  if ([AVAAvalanche sharedInstance].featuresStarted) {
+  if ([[self sharedInstance] sdkInitialized]) {
     return [[self sharedInstance] isEnabled];
   } else {
-    [[self sharedInstance] logSDKNotInitializedError];
+    [[self sharedInstance] logSDKNotInitializedError:@"AVAAnalytics"];
     return NO;
   }
-}
-
-- (void)logSDKNotInitializedError {
-  AVALogError(@"[AVAAnalytics] ERROR: SonomaSDK hasn't been initialized. You need to call [AVAAvalanche "
-              @"start:YOUR_APP_SECRET withFeatures:LIST_OF_FEATURES] first.");
-  ;
 }
 
 #pragma mark - Mondule methods
 
 + (void)trackEvent:(NSString *)eventName withProperties:(NSDictionary *)properties {
-  if ([AVAAvalanche sharedInstance].featuresStarted) {
+  if ([[self sharedInstance] sdkInitialized]) {
     [[self sharedInstance] trackEvent:eventName withProperties:properties];
   } else {
-    [[self sharedInstance] logSDKNotInitializedError];
+    [[self sharedInstance] logSDKNotInitializedError:@"AVAAnalytics"];
   }
 }
 
 + (void)trackPage:(NSString *)pageName withProperties:(NSDictionary *)properties {
-  if ([AVAAvalanche sharedInstance].featuresStarted) {
-
+  if ([[self sharedInstance] sdkInitialized]) {
     [[self sharedInstance] trackPage:pageName withProperties:properties];
   } else {
-    [[self sharedInstance] logSDKNotInitializedError];
+    [[self sharedInstance] logSDKNotInitializedError:@"AVAAnalytics"];
   }
 }
 
 + (void)setAutoPageTrackingEnabled:(BOOL)isEnabled {
-  if ([AVAAvalanche sharedInstance].featuresStarted) {
-
+  if ([[self sharedInstance] sdkInitialized]) {
     [[self sharedInstance] setAutoPageTrackingEnabled:isEnabled];
   } else {
-    [[self sharedInstance] logSDKNotInitializedError];
+    [[self sharedInstance] logSDKNotInitializedError:@"AVAAnalytics"];
   }
 }
 
 + (BOOL)isAutoPageTrackingEnabled {
-  if ([AVAAvalanche sharedInstance].featuresStarted) {
+  if ([[self sharedInstance] sdkInitialized]) {
     return [[self sharedInstance] isAutoPageTrackingEnabled];
   } else {
-    [[self sharedInstance] logSDKNotInitializedError];
+    [[self sharedInstance] logSDKNotInitializedError:@"AVAAnalytics"];
     return NO;
   }
 }

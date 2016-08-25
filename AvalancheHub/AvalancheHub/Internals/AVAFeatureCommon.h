@@ -56,4 +56,16 @@
  */
 - (NSString *)featureName;
 
+/**
+ * Log an SDK not initialized error message for the feature
+ * @param the featurename
+ */
+- (void)logSDKNotInitializedError:(NSString *)featureName;
+
+/**
+ * Check if the SDK has been properly initialized
+ * @return a BOOL to indicate proper initializatopn of the SDK.
+ */
+- (BOOL)sdkInitialized;
+
 @end

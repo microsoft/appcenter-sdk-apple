@@ -7,6 +7,9 @@
 #import "AVAFeatureAbstractPrivate.h"
 #import "AVASettings.h"
 #import "AVAUtils.h"
+#import "AvalancheHub+Internal.h"
+#import "AVAAvalancheInternal.h"
+
 
 @implementation AVAFeatureAbstract
 
@@ -42,7 +45,6 @@
 
 - (BOOL)isEnabled {
   @synchronized(self) {
-
     /**
      *  Get isEnabled value from persistence.
      * No need to cache the value in a property, user settings already have their cache mechanism.
@@ -56,6 +58,17 @@
 
 - (void)onLogManagerReady:(id<AVALogManager>)logManger {
   self.logManger = logManger;
+}
+
+- (void)logSDKNotInitializedError:(NSString *)featureName {
+  if(featureName) {
+  AVALogError(@"[%@] ERROR: SonomaSDK hasn't been initialized. You need to call [AVAAvalanche "
+              @"start:YOUR_APP_SECRET withFeatures:LIST_OF_FEATURES] first.", featureName);
+  }
+}
+
+- (BOOL)sdkInitialized {
+  return [AVAAvalanche sharedInstance].featuresStarted;
 }
 
 #pragma mark : - AVAFeature
