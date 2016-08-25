@@ -67,19 +67,16 @@ static NSString *const kAVAFeatureName = @"Analytics";
 #pragma mark - AVAFeatureAbstract
 
 - (void)setEnabled:(BOOL)isEnabled {
-  if ([self sdkInitialized]) {
+  if ([self canBeUsed]) {
   isEnabled ? [self.logManger addListener:self.sessionTracker] : [self.logManger removeListener:self.sessionTracker];
   [super setEnabled:isEnabled];
-} else {
-  [self  logSDKNotInitializedError:@"AVAAnalytics"];
-  }
+}
 }
 
 + (BOOL)isEnabled {
-  if ([[self sharedInstance] sdkInitialized]) {
+  if ([[self sharedInstance] canBeUsed]) {
     return [[self sharedInstance] isEnabled];
   } else {
-    [[self sharedInstance] logSDKNotInitializedError:@"AVAAnalytics"];
     return NO;
   }
 }
@@ -87,34 +84,27 @@ static NSString *const kAVAFeatureName = @"Analytics";
 #pragma mark - Module methods
 
 + (void)trackEvent:(NSString *)eventName withProperties:(NSDictionary *)properties {
-  if ([[self sharedInstance] sdkInitialized]) {
+  if ([[self sharedInstance] canBeUsed]) {
     [[self sharedInstance] trackEvent:eventName withProperties:properties];
-  } else {
-    [[self sharedInstance] logSDKNotInitializedError:@"AVAAnalytics"];
   }
 }
 
 + (void)trackPage:(NSString *)pageName withProperties:(NSDictionary *)properties {
-  if ([[self sharedInstance] sdkInitialized]) {
+  if ([[self sharedInstance] canBeUsed]) {
     [[self sharedInstance] trackPage:pageName withProperties:properties];
-  } else {
-    [[self sharedInstance] logSDKNotInitializedError:@"AVAAnalytics"];
   }
 }
 
 + (void)setAutoPageTrackingEnabled:(BOOL)isEnabled {
-  if ([[self sharedInstance] sdkInitialized]) {
+  if ([[self sharedInstance] canBeUsed]) {
     [[self sharedInstance] setAutoPageTrackingEnabled:isEnabled];
-  } else {
-    [[self sharedInstance] logSDKNotInitializedError:@"AVAAnalytics"];
   }
 }
 
 + (BOOL)isAutoPageTrackingEnabled {
-  if ([[self sharedInstance] sdkInitialized]) {
+  if ([[self sharedInstance] canBeUsed]) {
     return [[self sharedInstance] isAutoPageTrackingEnabled];
   } else {
-    [[self sharedInstance] logSDKNotInitializedError:@"AVAAnalytics"];
     return NO;
   }
 }

@@ -60,15 +60,13 @@
   self.logManger = logManger;
 }
 
-- (void)logSDKNotInitializedError:(NSString *)featureName {
-  if(featureName) {
-  AVALogError(@"[%@] ERROR: SonomaSDK hasn't been initialized. You need to call [AVAAvalanche "
-              @"start:YOUR_APP_SECRET withFeatures:LIST_OF_FEATURES] first.", featureName);
-  }
-}
-
-- (BOOL)sdkInitialized {
-  return [AVAAvalanche sharedInstance].featuresStarted;
+- (BOOL)canBeUsed {
+  BOOL canBeUsed =  [AVAAvalanche sharedInstance].featuresStarted;
+  if(!canBeUsed) {
+      AVALogError(@"[%@] ERROR: SonomaSDK hasn't been initialized. You need to call [AVAAvalanche "
+                  @"start:YOUR_APP_SECRET withFeatures:LIST_OF_FEATURES] first.", [self featureName]);
+    }
+  return canBeUsed;
 }
 
 #pragma mark : - AVAFeature

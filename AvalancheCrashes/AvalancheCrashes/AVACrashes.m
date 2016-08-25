@@ -46,15 +46,13 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
 #pragma mark - AVAFeature Protocol
 
 + (void)setEnabled:(BOOL)isEnabled {
-  if ([[self sharedInstance] sdkInitialized]) {
+  if ([[self sharedInstance] canBeUsed]) {
     [[self sharedInstance] setEnabled:isEnabled];
-  } else {
-    [[self sharedInstance] logSDKNotInitializedError:@"AVACrashes"];
   }
 }
 
 + (BOOL)isEnabled {
-  if ([[self sharedInstance] sdkInitialized]) {
+  if ([[self sharedInstance] canBeUsed]) {
     return [[self sharedInstance] isEnabled];
   } else {
     return NO;
@@ -69,7 +67,7 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
 }
 
 + (void)generateTestCrash {
-  if ([AVAAvalanche sharedInstance].featuresStarted) {
+  if ([[self sharedInstance] canBeUsed]) {
     if ([AVAEnvironmentHelper currentAppEnvironment] != AVAEnvironmentAppStore) {
 
       if ([self isDebuggerAttached]) {
@@ -79,8 +77,6 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
 
       __builtin_trap();
     }
-  } else {
-    [[self sharedInstance] logSDKNotInitializedError:@"AVACrashes"];
   }
 }
 
