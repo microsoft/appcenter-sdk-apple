@@ -10,6 +10,10 @@
 #import "AvalancheHub+Internal.h"
 #import <CrashReporter/CrashReporter.h>
 
+/**
+ *  Feature name.
+ */
+static NSString *const kAVAFeatureName = @"ErrorReporting";
 static NSString *const kAVAAnalyzerFilename = @"AVAErrorReporting.analyzer";
 
 #pragma mark - Callbacks Setup
@@ -41,7 +45,6 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
 @implementation AVAErrorReporting
 
 @synthesize delegate = _delegate;
-@synthesize isEnabled = _isEnabled;
 @synthesize logManger = _logManger;
 @synthesize initializationDate = _initializationDate;
 
@@ -90,18 +93,8 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
 
 #pragma mark - Module initialization
 
-+ (id)sharedInstance {
-  static id sharedInstance = nil;
-  static dispatch_once_t onceToken;
-  dispatch_once(&onceToken, ^{
-    sharedInstance = [[self alloc] init];
-  });
-  return sharedInstance;
-}
-
 - (instancetype)init {
   if ((self = [super init])) {
-    _isEnabled = YES;
     _fileManager = [[NSFileManager alloc] init];
     _crashFiles = [[NSMutableArray alloc] init];
     _crashesDir = [AVACrashesHelper crashesDir];
@@ -109,6 +102,25 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
     _initializationDate = [NSDate new];
   }
   return self;
+}
+
+#pragma mark - AVAFeatureAbstract
+
+- (void)setEnabled:(BOOL)isEnabled {
+  //TODO do something here?!
+//  isEnabled ? [self.logManger addListener:self.sessionTracker] : [self.logManger removeListener:self.sessionTracker];
+  [super setEnabled:isEnabled];
+}
+
+#pragma mark - AVAFeatureInternal
+
++ (id)sharedInstance {
+  static id sharedInstance = nil;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    sharedInstance = [[self alloc] init];
+  });
+  return sharedInstance;
 }
 
 - (void)startFeature {
@@ -126,16 +138,8 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
   }
 }
 
-- (void)setDelegate:(id<AVAAvalancheDelegate>)delegate {
-  _delegate = delegate;
-}
-
-+ (void)setEnabled:(BOOL)isEnabled {
-  [[self sharedInstance] setEnabled:isEnabled];
-}
-
-+ (BOOL)isEnabled {
-  return [[self sharedInstance] isEnabled];
+- (NSString *)featureName {
+  return kAVAFeatureName;
 }
 
 #pragma mark - Crash reporter configuration
@@ -329,10 +333,6 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
   if (![self.fileManager fileExistsAtPath:self.analyzerInProgressFile]) {
     [self.fileManager createFileAtPath:self.analyzerInProgressFile contents:nil attributes:nil];
   }
-}
-
-- (void)onLogManagerReady:(id<AVALogManager>)logManger {
-  _logManger = logManger;
 }
 
 @end

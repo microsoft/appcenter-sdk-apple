@@ -7,3 +7,4 @@
 #import "AVAAvalanche.h"
 #import "AVAConstants.h"
 #import "AVAFeature.h"
+#import "AVAFeatureAbstract.h"

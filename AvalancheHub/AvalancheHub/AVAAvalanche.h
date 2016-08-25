@@ -11,24 +11,29 @@
 @interface AVAAvalanche : NSObject
 
 /**
- * Returns the singleton instance of AvalancheHub.
- */
-+ (id)sharedInstance;
-
-/**
- *  Start the sdk
+ *  Start the SDK
  *
- *  @param features  array of features to be used.
  *  @param appSecret application secret.
+ *  @param features  array of features to be used.
  */
-+ (void)start:(NSArray<Class> *)features withAppSecret:(NSString *)appSecret;
++ (void)start:(NSString *)appSecret withFeatures:(NSArray<Class> *)features;
 
 /**
- *  Enable/Disable all features.
+ *  Enable or disable the SDK as a whole. In addition to the core resources, it will also enable or disable all
+ * registered features.
  *
- *  @param isEnabled is enabled.
+ *  @param isEnabled true to enable, false to disable.
+ *  @see isEnabled
  */
 + (void)setEnabled:(BOOL)isEnabled;
+
+/**
+ *  Check whether the SDK is enabled or not as a whole.
+ *
+ *  @return true if enabled, false otherwise.
+ *  @see setEnabled:
+ */
++ (BOOL)isEnabled;
 
 /**
  *  Get log level.
