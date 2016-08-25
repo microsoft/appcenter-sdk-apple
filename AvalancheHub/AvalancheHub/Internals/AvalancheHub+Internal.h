@@ -3,7 +3,8 @@
  */
 
 #import "AVAAvalancheDelegate.h"
-#import "AVAFeaturePrivate.h"
+#import "AVAFeatureAbstractInternal.h"
+#import "AVAFeatureInternal.h"
 #import "Utils/AVALogger.h"
 
 // Log files
@@ -12,7 +13,7 @@
 #import "Model/AVALog.h"
 #import "Model/AVALogContainer.h"
 #import "Model/AVALogWithProperties.h"
-#import "Model/Utils/AVASettings.h"
+#import "Model/Utils/AVAUserDefaults.h"
 #import "Utils/AVAUtils.h"
 
 // Environment Helper

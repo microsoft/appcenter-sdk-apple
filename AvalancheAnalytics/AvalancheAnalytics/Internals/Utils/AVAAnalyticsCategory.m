@@ -2,8 +2,8 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
+#import "AVAAnalytics.h"
 #import "AVAAnalyticsCategory.h"
-#import "AVAAnalyticsPrivate.h"
 #import <objc/runtime.h>
 
 @implementation UIViewController (PageViewLogging)

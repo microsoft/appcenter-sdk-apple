@@ -3,10 +3,10 @@
  */
 
 #import "AVACrashes.h"
-#import "Internals/AVAFeaturePrivate.h"
+#import "AVAFeatureInternal.h"
 #import <CrashReporter/CrashReporter.h>
 
-@interface AVACrashes () <AVAFeaturePrivate>
+@interface AVACrashes () <AVAFeatureInternal>
 
 /**
  * Prototype of a callback function used to execute additional user code. Called

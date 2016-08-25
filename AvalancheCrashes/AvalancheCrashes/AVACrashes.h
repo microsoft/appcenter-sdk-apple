@@ -2,7 +2,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "AVAFeature.h"
+#import "AVAFeatureAbstract.h"
 #import <UIKit/UIKit.h>
 
 @class AVAErrorReport;
@@ -51,7 +51,7 @@ typedef NS_ENUM(NSUInteger, AVAUserConfirmation) {
 
 @protocol AVAErrorLoggingDelegate;
 
-@interface AVACrashes : NSObject <AVAFeature>
+@interface AVACrashes : AVAFeatureAbstract
 
 /**
  * Indicates if the app crashed in the previous session

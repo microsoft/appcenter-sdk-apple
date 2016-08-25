@@ -1,17 +1,20 @@
-#import "AVAAvalanchePrivate.h"
+#import "AVAAvalancheInternal.h"
 #import "AVAFileStorage.h"
 #import "AVAHttpSender.h"
 #import "AVALogManagerDefault.h"
-#import "AVASettings.h"
+#import "AVAUserDefaults.h"
 #import "AVAUtils.h"
 
 // Http Headers + Query string.
 static NSString *const kAVAHeaderAppSecretKey = @"App-Secret";
 static NSString *const kAVAHeaderInstallIDKey = @"Install-ID";
+static NSString *const kAVAHeaderContentTypeKey = @"Content-Type";
 static NSString *const kAVAContentType = @"application/json";
-static NSString *const kAVAContentTypeKey = @"Content-Type";
 static NSString *const kAVAAPIVersion = @"1.0.0-preview20160901";
 static NSString *const kAVAAPIVersionKey = @"api-version";
+
+// Storage keys
+static NSString *const kAVAHubIsEnabledKey = @"kAVAHubIsEnabledKey";
 
 // Base URL for HTTP backend API calls.
 static NSString *const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azure.com:8081";
@@ -37,6 +40,10 @@ static NSString *const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azu
 
 + (void)setEnabled:(BOOL)isEnabled {
   [[self sharedInstance] setEnabled:isEnabled];
+}
+
++ (BOOL)isEnabled {
+  return [[self sharedInstance] isEnabled];
 }
 
 + (NSUUID *)installId {
@@ -85,12 +92,12 @@ static NSString *const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azu
 
   // Init requested features.
   for (Class obj in features) {
-    id<AVAFeaturePrivate> feature = [obj sharedInstance];
+    id<AVAFeatureInternal> feature = [obj sharedInstance];
 
     // Set delegate.
     feature.delegate = self;
     [self.features addObject:feature];
-    
+
     // Set log manager.
     [feature onLogManagerReady:self.logManager];
     [feature startFeature];
@@ -99,18 +106,40 @@ static NSString *const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azu
 }
 
 - (void)setEnabled:(BOOL)isEnabled {
+  @synchronized(self) {
 
-  // Set enable/disable on all features.
-  for (id<AVAFeaturePrivate> feature in self.features) {
-    [feature setEnabled:isEnabled];
+    // Force enable/disable on all features.
+    for (id<AVAFeatureInternal> feature in self.features) {
+      [feature setEnabled:isEnabled];
+    }
+
+    // Update the enabled status if needed.
+    if ([self isEnabled] != isEnabled) {
+
+      // Persist the enabled status.
+      [kAVAUserDefaults setObject:[NSNumber numberWithBool:isEnabled] forKey:kAVAHubIsEnabledKey];
+      [kAVAUserDefaults synchronize];
+    }
   }
-  _isEnabled = isEnabled;
+}
+
+- (BOOL)isEnabled {
+  @synchronized(self) {
+    /**
+     *  Get isEnabled value from persistence.
+     * No need to cache the value in a property, user settings already have their cache mechanism.
+     */
+    NSNumber *isEnabledNumber = [kAVAUserDefaults objectForKey:kAVAHubIsEnabledKey];
+
+    // Return the persisted value otherwise it's enabled by default.
+    return (isEnabledNumber) ? [isEnabledNumber boolValue] : YES;
+  }
 }
 
 - (void)initializePipeline {
   // Construct http headers.
   NSDictionary *headers = @{
-    kAVAContentTypeKey : kAVAContentType,
+    kAVAHeaderContentTypeKey : kAVAContentType,
     kAVAHeaderAppSecretKey : _appSecret,
     kAVAHeaderInstallIDKey : [self.installId UUIDString]
   };
@@ -143,7 +172,7 @@ static NSString *const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azu
     if (!_installId) {
 
       // Check if install Id has already been persisted.
-      NSString *savedInstallId = [kAVASettings objectForKey:kAVAInstallIdKey];
+      NSString *savedInstallId = [kAVAUserDefaults objectForKey:kAVAInstallIdKey];
       if (savedInstallId) {
         _installId = kAVAUUIDFromString(savedInstallId);
       }
@@ -153,8 +182,8 @@ static NSString *const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azu
         _installId = [NSUUID UUID];
 
         // Persist the install Id string.
-        [kAVASettings setObject:[_installId UUIDString] forKey:kAVAInstallIdKey];
-        [kAVASettings synchronize];
+        [kAVAUserDefaults setObject:[_installId UUIDString] forKey:kAVAInstallIdKey];
+        [kAVAUserDefaults synchronize];
       }
     }
     return _installId;
