@@ -49,7 +49,8 @@ static NSString *const kAVAFeatureName = @"Analytics";
 }
 
 - (void)startFeature {
-
+  [super startFeature];
+  
   // Add listener to log manager.
   [self.logManger addListener:_sessionTracker];
 

@@ -112,6 +112,8 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
 }
 
 - (void)startFeature {
+  [super startFeature];
+
   AVALogVerbose(@"[AVACrashes] VERBOSE: Started crash module");
 
   [self configureCrashReporter];

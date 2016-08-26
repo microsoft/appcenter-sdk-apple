@@ -27,6 +27,7 @@ static NSString *const kAVAFeatureAbstractString = @"AVAFeatureAbstract";
     // Construct the storage key.
     _isEnabledKey = [NSString stringWithFormat:@"kAVA%@IsEnabledKey", name];
     _storage = storage;
+    _featureInitialised = YES;
   }
   return self;
 }
@@ -66,7 +67,7 @@ static NSString *const kAVAFeatureAbstractString = @"AVAFeatureAbstract";
 }
 
 - (BOOL)canBeUsed {
-  BOOL canBeUsed = [AVAAvalanche sharedInstance].featuresStarted;
+  BOOL canBeUsed = [AVAAvalanche sharedInstance].sdkStarted && self.featureInitialised;
   if (!canBeUsed) {
     AVALogError(@"[%@] ERROR: SonomaSDK hasn't been initialized. You need to call [AVAAvalanche "
                 @"start:YOUR_APP_SECRET withFeatures:LIST_OF_FEATURES] first.",
@@ -76,6 +77,10 @@ static NSString *const kAVAFeatureAbstractString = @"AVAFeatureAbstract";
 }
 
 #pragma mark : - AVAFeature
+
+- (void) startFeature {
+  self.featureInitialised = YES;
+}
 
 + (void)setEnabled:(BOOL)isEnabled {
   if ([[self sharedInstance] canBeUsed]) {

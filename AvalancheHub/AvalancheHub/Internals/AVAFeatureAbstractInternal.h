@@ -16,6 +16,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface AVAFeatureAbstract () <AVAFeatureCommon>
 
+/**
+ *  flag that indicates if a feature has been initialised.
+ */
+@property BOOL featureInitialised;
+
+
 #pragma mark - Module initialization
 
 /**

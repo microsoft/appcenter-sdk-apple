@@ -29,5 +29,4 @@
  *  @return A feature with common logic already implemented.
  */
 - (instancetype)initWithStorage:(AVAUserDefaults *)storage andName:(NSString *)name;
-
 @end
