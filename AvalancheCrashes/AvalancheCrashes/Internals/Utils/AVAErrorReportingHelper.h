@@ -4,7 +4,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface AVACrashesHelper : NSObject
+@interface AVAErrorReportingHelper : NSObject
 
 /**
  * Returns the directory for storing and reading crash reports for this app.

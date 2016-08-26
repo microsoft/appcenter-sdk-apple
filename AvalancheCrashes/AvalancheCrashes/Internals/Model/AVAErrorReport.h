@@ -75,7 +75,7 @@
 /**
  Indicates if the app was killed while being in foreground from the iOS.
 
- If `[AVACrashes enableAppNotTerminatingCleanlyDetection]` is enabled, use this
+ If `[AVAErrorReporting enableAppNotTerminatingCleanlyDetection]` is enabled, use this
  on startup
  to check if the app starts the first time after it was killed by iOS in the
  previous session.
@@ -94,8 +94,8 @@
  invoked! In addition, it is automatically disabled while a debugger session is
  active!
 
- @see `[AVACrashes enableAppNotTerminatingCleanlyDetection]`
- @see `[AVACrashes didReceiveMemoryWarningInLastSession]`
+ @see `[AVAErrorReporting enableAppNotTerminatingCleanlyDetection]`
+ @see `[AVAErrorReporting didReceiveMemoryWarningInLastSession]`
 
  @return YES if the details represent an app kill instead of a crash
  */

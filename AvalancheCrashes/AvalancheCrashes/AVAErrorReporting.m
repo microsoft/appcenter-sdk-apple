@@ -4,7 +4,7 @@
 
 #import "AVAAppleErrorLog.h"
 #import "AVACrashCXXExceptionWrapperException.h"
-#import "AVACrashesHelper.h"
+#import "AVAErrorReportingHelper.h"
 #import "AVAErrorLogFormatter.h"
 #import "AVAErrorReportingPrivate.h"
 #import "AvalancheHub+Internal.h"
@@ -97,7 +97,7 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
   if ((self = [super init])) {
     _fileManager = [[NSFileManager alloc] init];
     _crashFiles = [[NSMutableArray alloc] init];
-    _crashesDir = [AVACrashesHelper crashesDir];
+    _crashesDir = [AVAErrorReportingHelper crashesDir];
     _analyzerInProgressFile = [_crashesDir stringByAppendingPathComponent:kAVAAnalyzerFilename];
     _initializationDate = [NSDate new];
   }
@@ -157,7 +157,7 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
    the following part when a debugger is attached no matter which signal
    handler type is set.
    */
-  if ([AVACrashesHelper isDebuggerAttached]) {
+  if ([AVAErrorReportingHelper isDebuggerAttached]) {
     AVALogWarning(@"[AVAErrorReporting] WARNING: Detecting crashes is NOT "
                   @"enabled due to running the app with a debugger "
                   @"attached.");
@@ -203,7 +203,7 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
 }
 
 - (void)startCrashProcessing {
-  if (![AVACrashesHelper isAppExtension] &&
+  if (![AVAErrorReportingHelper isAppExtension] &&
       [[UIApplication sharedApplication] applicationState] != UIApplicationStateActive) {
     return;
   }

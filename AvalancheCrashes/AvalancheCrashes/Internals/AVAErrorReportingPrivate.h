@@ -23,7 +23,7 @@
 typedef void (*AVACrashesPostCrashSignalCallback)(void *context);
 
 /**
- * This structure contains callbacks supported by `AVACrashes` to allow the host
+ * This structure contains callbacks supported by `AVAErrorReporting` to allow the host
  * application to perform
  * additional tasks prior to program termination after a crash has occurred.
  *

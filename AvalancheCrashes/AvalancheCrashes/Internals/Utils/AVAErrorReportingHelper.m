@@ -2,12 +2,12 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "AVACrashesHelper.h"
+#import "AVAErrorReportingHelper.h"
 #import <sys/sysctl.h>
 
 static NSString *const kAVACrashesDirectory = @"com.microsoft.avalanche/crashes";
 
-@interface AVACrashesHelper ()
+@interface AVAErrorReportingHelper ()
 
 BOOL ava_isDebuggerAttached(void);
 BOOL ava_isRunningInAppExtension(void);
@@ -15,7 +15,7 @@ NSString *ava_crashesDir(void);
 
 @end
 
-@implementation AVACrashesHelper
+@implementation AVAErrorReportingHelper
 
 #pragma mark - Public
 
