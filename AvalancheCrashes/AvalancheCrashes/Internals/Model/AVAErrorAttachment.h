@@ -12,16 +12,19 @@
 /**
  * Text attachment, e.g. a user's mail address.
  */
-@property(nonatomic) NSString *textAttachment;
+@property(nonatomic, nullable) NSString *textAttachment;
 
 /**
  * A binary attachment, can be anything, e.g. a db dump.
  */
-@property(nonatomic, readwrite) AVABinaryAttachment *attachmentFile;
+@property(nonatomic, nullable) AVABinaryAttachment *attachmentFile;
 
-+ (nonnull ErrorAttachment *)attachmentWithText:(nonnull NSString *)text;
-+ (nonnull ErrorAttachment *)attachmentWithBinaryData:(nonnull NSData *)data filename:(nonnull NSString *)filename mimeType:(nonnull NSString *)mimeType;
-+ (nonnull ErrorAttachment *)attachmentWithText:(nonnull NSString *)text andBinaryData:(nonnull NSData *)data filename:(nonnull NSString *)filename mimeType:(nonnull NSString *)mimeType;
-+ (nonnull ErrorAttachment *)attachmentWithURL:(nonnull NSURL *)file mimeType:(nullable NSString *)mimeType;
++ (nonnull AVAErrorAttachment *)attachmentWithText:(nonnull NSString *)text;
+
++ (nonnull AVAErrorAttachment *)attachmentWithBinaryData:(nonnull NSData *)data filename:(nonnull NSString *)filename mimeType:(nonnull NSString *)mimeType;
+
++ (nonnull AVAErrorAttachment *)attachmentWithText:(nonnull NSString *)text andBinaryData:(nonnull NSData *)data filename:(nonnull NSString *)filename mimeType:(nonnull NSString *)mimeType;
+
++ (nonnull AVAErrorAttachment *)attachmentWithURL:(nonnull NSURL *)file mimeType:(nullable NSString *)mimeType;
 
 @end

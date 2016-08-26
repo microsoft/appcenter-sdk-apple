@@ -296,7 +296,7 @@ NSString *const AVAXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
     lastException.reason = exception.exceptionReason;
     lastException.frames = exceptionThread.frames;
 
-    lastException = report.exceptionInfo.exceptionName ?: report.signalInfo.name;
+    lastException.type = report.exceptionInfo.exceptionName ?: report.signalInfo.name;
     // TODO what about an "exceptionCode"?
     //    errorLog.osExceptionCode = report.signalInfo.code;
     exceptionThread.lastException = lastException;
@@ -396,7 +396,7 @@ NSString *const AVAXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
   // has no idea. Andreas will be next ;)
   errorLog.osExceptionType = report.exceptionInfo.exceptionName ?: report.signalInfo.name;
 
-  errorLog.osExceptionCode = report.signalInfo.code; // TODO check with Andreas
+  errorLog.osExceptionCode = report.signalInfo.code; // TODO check with Andreas/Gwynne
 
   errorLog.osExceptionAddress =
       [NSString stringWithFormat:@"0x%" PRIx64, report.signalInfo.address]; // TODO check with Andreas

@@ -248,7 +248,7 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
     if ([crashFileData length] > 0) {
       report = [[AVAPLCrashReport alloc] initWithData:crashFileData error:&error];
       AVAAppleErrorLog *log = [AVAErrorLogFormatter errorLogFromCrashReport:report];
-      [self.delegate feature:self didCreateLog:log withPriority:AVAPriorityHigh];
+      [self.delegate feature:self didCreateLog:log withPriority:AVAPriorityHigh]; //TODO work on this part!!!
       [self deleteCrashReportWithFilePath:filePath];
       [self.crashFiles removeObject:filePath];
     }

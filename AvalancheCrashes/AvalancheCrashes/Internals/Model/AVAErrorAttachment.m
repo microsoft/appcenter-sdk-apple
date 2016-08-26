@@ -6,25 +6,31 @@
 
 @implementation AVAErrorAttachment
 
-+ (nonnull ErrorAttachment *)attachmentWithText:(nonnull NSString *)text {
++ (nonnull AVAErrorAttachment *)attachmentWithText:(nonnull NSString *)text {
   // TODO add implementation
+  return [AVAErrorAttachment new];
 }
 
-+ (nonnull ErrorAttachment *)attachmentWithBinaryData:(nonnull NSData *)data
++ (nonnull AVAErrorAttachment *)attachmentWithBinaryData:(nonnull NSData *)data
                                              filename:(nonnull NSString *)filename
                                              mimeType:(nonnull NSString *)mimeType {
   // TODO add implementation
+  return [AVAErrorAttachment new];
+
 }
 
-+ (nonnull ErrorAttachment *)attachmentWithText:(nonnull NSString *)text
++ (nonnull AVAErrorAttachment *)attachmentWithText:(nonnull NSString *)text
                                   andBinaryData:(nonnull NSData *)data
                                        filename:(nonnull NSString *)filename
                                        mimeType:(nonnull NSString *)mimeType {
   // TODO add implementation
+  return [AVAErrorAttachment new];
+
 }
 
-+ (nonnull ErrorAttachment *)attachmentWithURL:(nonnull NSURL *)file mimeType:(nullable NSString *)mimeType {
++ (nonnull AVAErrorAttachment *)attachmentWithURL:(nonnull NSURL *)file mimeType:(nullable NSString *)mimeType {
   // TODO add implementation
+  return [AVAErrorAttachment new];
 }
 
 @end
