@@ -5,13 +5,13 @@
 
 #import "AVAErrorReportingPrivate.h"
 
-@interface AVACrashesTests : XCTestCase
+@interface AVAErrorReportingTests : XCTestCase
 
 @property(nonatomic, strong) AVAErrorReporting *sut;
 
 @end
 
-@implementation AVACrashesTests
+@implementation AVAErrorReportingTests
 
 #pragma mark - Houskeeping
 

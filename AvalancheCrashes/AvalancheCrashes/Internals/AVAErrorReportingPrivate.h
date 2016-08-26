@@ -17,20 +17,20 @@
  *
  * @param context The API client's supplied context value.
  *
- * @see `AVACrashesCallbacks`
- * @see `[AVACrashes setCrashCallbacks:]`
+ * @see `AVAErrorReportingCallbacks`
+ * @see `[AVAErrorReporting setCrashCallbacks:]`
  */
-typedef void (*AVACrashesPostCrashSignalCallback)(void *context);
+typedef void (*AVAErrorReportingPostCrashSignalCallback)(void *context);
 
 /**
  * This structure contains callbacks supported by `AVAErrorReporting` to allow the host
  * application to perform
  * additional tasks prior to program termination after a crash has occurred.
  *
- * @see `AVACrashesPostCrashSignalCallback`
- * @see `[AVACrashes setCrashCallbacks:]`
+ * @see `AVAErrorReportingPostCrashSignalCallback`
+ * @see `[AVAErrorReporting setCrashCallbacks:]`
  */
-typedef struct AVACrashesCallbacks {
+typedef struct AVAErrorReportingCallbacks {
 
   /** An arbitrary user-supplied context value. This value may be NULL. */
   void *context;
@@ -38,8 +38,8 @@ typedef struct AVACrashesCallbacks {
   /**
    * The callback used to report caught signal information.
    */
-  AVACrashesPostCrashSignalCallback handleSignal;
-} AVACrashesCallbacks;
+  AVAErrorReportingPostCrashSignalCallback handleSignal;
+} AVAErrorReportingCallbacks;
 
 /**
  * A list containing all crash files that currently stored on disk for this app.

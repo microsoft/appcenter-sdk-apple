@@ -5,7 +5,7 @@
 #import "AVAErrorReportingHelper.h"
 #import <sys/sysctl.h>
 
-static NSString *const kAVACrashesDirectory = @"com.microsoft.avalanche/crashes";
+static NSString *const kAVAErrorReportingDirectory = @"com.microsoft.avalanche/crashes";
 
 @interface AVAErrorReportingHelper ()
 
@@ -28,7 +28,7 @@ NSString *ava_crashesDir(void);
 
     // temporary directory for crashes grabbed from PLCrashReporter
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-    crashesDir = [[paths objectAtIndex:0] stringByAppendingPathComponent:kAVACrashesDirectory];
+    crashesDir = [[paths objectAtIndex:0] stringByAppendingPathComponent:kAVAErrorReportingDirectory];
 
     if (![fileManager fileExistsAtPath:crashesDir]) {
       NSDictionary *attributes =

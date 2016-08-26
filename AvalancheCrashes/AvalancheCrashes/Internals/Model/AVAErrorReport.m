@@ -5,7 +5,7 @@
 #import "AVAErrorReport.h"
 #import "AVAErrorReportPrivate.h"
 
-NSString *const kAVACrashKillSignal = @"SIGKILL";
+NSString *const kAVAErrorReportKillSignal = @"SIGKILL";
 
 @implementation AVAErrorReport
 
@@ -44,7 +44,7 @@ NSString *const kAVACrashKillSignal = @"SIGKILL";
 - (BOOL)isAppKill {
   BOOL result = NO;
 
-  if (_signal && [[_signal uppercaseString] isEqualToString:kAVACrashKillSignal])
+  if (_signal && [[_signal uppercaseString] isEqualToString:kAVAErrorReportKillSignal])
     result = YES;
 
   return result;

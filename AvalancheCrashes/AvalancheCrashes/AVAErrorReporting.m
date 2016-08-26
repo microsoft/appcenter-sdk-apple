@@ -18,14 +18,14 @@ static NSString *const kAVAAnalyzerFilename = @"AVAErrorReporting.analyzer";
 
 #pragma mark - Callbacks Setup
 
-static AVACrashesCallbacks avaCrashCallbacks = {.context = NULL, .handleSignal = NULL};
+static AVAErrorReportingCallbacks avaErrorReportingCallbacks = {.context = NULL, .handleSignal = NULL};
 
 /** Proxy implementation for PLCrashReporter to keep our interface stable while
  *  this can change.
  */
 static void plcr_post_crash_callback(siginfo_t *info, ucontext_t *uap, void *context) {
-  if (avaCrashCallbacks.handleSignal != NULL) {
-    avaCrashCallbacks.handleSignal(context);
+  if (avaErrorReportingCallbacks.handleSignal != NULL) {
+    avaErrorReportingCallbacks.handleSignal(context);
   }
 }
 
