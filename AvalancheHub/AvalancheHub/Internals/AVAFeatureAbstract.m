@@ -2,13 +2,13 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
+#import "AVAAvalancheInternal.h"
 #import "AVAFeatureAbstract.h"
 #import "AVAFeatureAbstractInternal.h"
 #import "AVAFeatureAbstractPrivate.h"
 #import "AVAUserDefaults.h"
 #import "AVAUtils.h"
 #import "AvalancheHub+Internal.h"
-#import "AVAAvalancheInternal.h"
 
 static NSString *const kAVAFeatureAbstractString = @"AVAFeatureAbstract";
 
@@ -48,7 +48,6 @@ static NSString *const kAVAFeatureAbstractString = @"AVAFeatureAbstract";
   return kAVAFeatureAbstractString;
 }
 
-
 - (BOOL)isEnabled {
   @synchronized(self) {
     /**
@@ -67,22 +66,29 @@ static NSString *const kAVAFeatureAbstractString = @"AVAFeatureAbstract";
 }
 
 - (BOOL)canBeUsed {
-  BOOL canBeUsed =  [AVAAvalanche sharedInstance].featuresStarted;
-  if(!canBeUsed) {
-      AVALogError(@"[%@] ERROR: SonomaSDK hasn't been initialized. You need to call [AVAAvalanche "
-                  @"start:YOUR_APP_SECRET withFeatures:LIST_OF_FEATURES] first.", [self featureName]);
-    }
+  BOOL canBeUsed = [AVAAvalanche sharedInstance].featuresStarted;
+  if (!canBeUsed) {
+    AVALogError(@"[%@] ERROR: SonomaSDK hasn't been initialized. You need to call [AVAAvalanche "
+                @"start:YOUR_APP_SECRET withFeatures:LIST_OF_FEATURES] first.",
+                [self featureName]);
+  }
   return canBeUsed;
 }
 
 #pragma mark : - AVAFeature
 
 + (void)setEnabled:(BOOL)isEnabled {
-  [[self sharedInstance] setEnabled:isEnabled];
+  if ([[self sharedInstance] canBeUsed]) {
+    [[self sharedInstance] setEnabled:isEnabled];
+  }
 }
 
 + (BOOL)isEnabled {
-  return [[self sharedInstance] isEnabled];
+  if ([[self sharedInstance] canBeUsed]) {
+    return [[self sharedInstance] isEnabled];
+  } else {
+    return NO;
+  }
 }
 
 @end

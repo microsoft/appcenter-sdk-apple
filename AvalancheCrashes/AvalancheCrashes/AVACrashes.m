@@ -2,12 +2,12 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
+#import "AVAAvalancheInternal.h"
 #import "AVACrashCXXExceptionWrapperException.h"
 #import "AVACrashesHelper.h"
 #import "AVACrashesPrivate.h"
 #import "AVAErrorLog.h"
 #import "AVAErrorLogFormatter.h"
-#import "AVAAvalancheInternal.h"
 
 /**
  *  Feature name.
@@ -42,22 +42,6 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
 }
 
 @implementation AVACrashes
-
-#pragma mark - AVAFeature Protocol
-
-+ (void)setEnabled:(BOOL)isEnabled {
-  if ([[self sharedInstance] canBeUsed]) {
-    [[self sharedInstance] setEnabled:isEnabled];
-  }
-}
-
-+ (BOOL)isEnabled {
-  if ([[self sharedInstance] canBeUsed]) {
-    return [[self sharedInstance] isEnabled];
-  } else {
-    return NO;
-  }
-}
 
 #pragma mark - Public Methods
 

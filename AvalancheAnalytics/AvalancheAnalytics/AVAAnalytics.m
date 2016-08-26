@@ -68,16 +68,8 @@ static NSString *const kAVAFeatureName = @"Analytics";
 
 - (void)setEnabled:(BOOL)isEnabled {
   if ([self canBeUsed]) {
-  isEnabled ? [self.logManger addListener:self.sessionTracker] : [self.logManger removeListener:self.sessionTracker];
-  [super setEnabled:isEnabled];
-}
-}
-
-+ (BOOL)isEnabled {
-  if ([[self sharedInstance] canBeUsed]) {
-    return [[self sharedInstance] isEnabled];
-  } else {
-    return NO;
+    isEnabled ? [self.logManger addListener:self.sessionTracker] : [self.logManger removeListener:self.sessionTracker];
+    [super setEnabled:isEnabled];
   }
 }
 
