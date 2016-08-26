@@ -1,3 +1,4 @@
+#import "AVAAvalanche.h"
 #import "AVAFeatureAbstract.h"
 #import "AVAFeatureAbstractInternal.h"
 #import "AVAFeatureAbstractPrivate.h"
@@ -7,7 +8,6 @@
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
-#import "AVAAvalanche.h"
 
 @interface AVAFeatureAbstractTest : XCTestCase
 
@@ -127,11 +127,11 @@
 }
 
 - (void)testCanBeUsed {
-  assertThatBool(  [self.abstractFeature canBeUsed], isFalse());
-  
+  assertThatBool([self.abstractFeature canBeUsed], isFalse());
+
   [AVAAvalanche start:[[NSUUID UUID] UUIDString] withFeatures:nil];
 
-  assertThatBool(  [self.abstractFeature canBeUsed], isTrue());
+  assertThatBool([self.abstractFeature canBeUsed], isTrue());
 }
 
 @end

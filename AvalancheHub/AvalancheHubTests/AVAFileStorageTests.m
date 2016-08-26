@@ -40,9 +40,7 @@
   // If
   NSString *storageKey = @"TestDirectory";
   NSString *logsId = @"TestId";
-  NSString *expected = [AVAStorageTestHelper filePathForLogWithId:logsId
-                                                        extension:@"ava"
-                                                       storageKey:storageKey];
+  NSString *expected = [AVAStorageTestHelper filePathForLogWithId:logsId extension:@"ava" storageKey:storageKey];
 
   // When
   NSString *actual = [self.sut filePathForStorageKey:storageKey logsId:logsId];
@@ -70,10 +68,8 @@
   assertThat(actualBucket.currentLogs, hasItem(log));
   assertThat(actualCurrentFile.creationDate, notNilValue());
   assertThat(actualCurrentFile.fileId, notNilValue());
-  OCMVerify([fileHelperMock
-      writeData:[NSKeyedArchiver
-                    archivedDataWithRootObject:actualBucket.currentLogs]
-         toFile:actualCurrentFile]);
+  OCMVerify([fileHelperMock writeData:[NSKeyedArchiver archivedDataWithRootObject:actualBucket.currentLogs]
+                               toFile:actualCurrentFile]);
 }
 
 - (void)testCreatingNewBucketsWillLoadExistingFiles {
@@ -96,34 +92,33 @@
   AVAFile *actual = bucket.availableFiles.lastObject;
   assertThat(actual.filePath, equalTo(expected.filePath));
   assertThat(actual.fileId, equalTo(expected.fileId));
-  assertThat(actual.creationDate.description,
-             equalTo(expected.creationDate.description));
+  assertThat(actual.creationDate.description, equalTo(expected.creationDate.description));
 }
 
 - (void)testSaveFirstLogOfABatchWillNotAddItToCurrentFileIfItIsNil {
-  
+
   // If
   NSString *storageKey = @"TestDirectory";
   AVAAbstractLog *log = nil;
   AVAStorageBucket *bucket = [self.sut bucketForStorageKey:storageKey];
-  
+
   // When
   [self.sut saveLog:log withStorageKey:storageKey];
-  
+
   // Verify
   assertThat(bucket.currentLogs, isEmpty());
 }
 
 - (void)testSaveFirstLogOfABatchWillAddCurrentFileToAvailableList {
-  
+
   // If
   NSString *storageKey = @"TestDirectory";
   AVAAbstractLog *log = [AVAAbstractLog new];
   assertThat(self.sut.buckets[storageKey], nilValue());
-  
+
   // When
   [self.sut saveLog:log withStorageKey:storageKey];
-  
+
   // Verify
   AVAStorageBucket *bucket = self.sut.buckets[storageKey];
   AVAFile *expected = bucket.currentFile;
@@ -133,35 +128,28 @@
 }
 
 - (void)testSaveFirstLogOfBatchWillDeleteOldestFileIfFileLimitHasBeenReached {
-  
+
   // If
   NSString *storageKey = @"TestDirectory";
   AVAStorageBucket *bucket = [self.sut bucketForStorageKey:storageKey];
-  
+
   AVAFile *availableFile1 =
-  [[AVAFile alloc] initWithPath:@"1"
-                         fileId:@"1"
-                   creationDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+      [[AVAFile alloc] initWithPath:@"1" fileId:@"1" creationDate:[NSDate dateWithTimeIntervalSinceNow:1]];
   AVAFile *availableFile2 =
-  [[AVAFile alloc] initWithPath:@"2"
-                         fileId:@"2"
-                   creationDate:[NSDate dateWithTimeIntervalSinceNow:3]];
+      [[AVAFile alloc] initWithPath:@"2" fileId:@"2" creationDate:[NSDate dateWithTimeIntervalSinceNow:3]];
   AVAFile *availableFile3 =
-  [[AVAFile alloc] initWithPath:@"3"
-                         fileId:@"3"
-                   creationDate:[NSDate dateWithTimeIntervalSinceNow:5]];
-  bucket.availableFiles = [NSMutableArray<AVAFile *>
-                           arrayWithObjects:availableFile1, availableFile2, availableFile3, nil];
+      [[AVAFile alloc] initWithPath:@"3" fileId:@"3" creationDate:[NSDate dateWithTimeIntervalSinceNow:5]];
+  bucket.availableFiles =
+      [NSMutableArray<AVAFile *> arrayWithObjects:availableFile1, availableFile2, availableFile3, nil];
   self.sut.bucketFileCountLimit = bucket.availableFiles.count;
   AVAAbstractLog *log = [AVAAbstractLog new];
-  
-  
+
   // When
   [self.sut saveLog:log withStorageKey:storageKey];
-  
+
   // Verify
   assertThatInteger(bucket.availableFiles.count, equalToInteger(3));
-  assertThat(bucket.availableFiles, containsInRelativeOrder(@[bucket.currentFile, availableFile1, availableFile2]));
+  assertThat(bucket.availableFiles, containsInRelativeOrder(@[ bucket.currentFile, availableFile1, availableFile2 ]));
 }
 
 - (void)testDeleteFileRemovesLogsIdFromBlockedFilesList {
@@ -171,17 +159,14 @@
   NSString *batchId = @"12345";
   self.sut.buckets[storageKey] = [AVAStorageBucket new];
   AVAStorageBucket *bucket = self.sut.buckets[storageKey];
-  AVAFile *blockedFile = [[AVAFile alloc] initWithPath:@"333"
-                                                fileId:batchId
-                                          creationDate:[NSDate date]];
+  AVAFile *blockedFile = [[AVAFile alloc] initWithPath:@"333" fileId:batchId creationDate:[NSDate date]];
   bucket.blockedFiles = [NSMutableArray arrayWithObject:blockedFile];
 
   // When
   [self.sut deleteLogsForId:batchId withStorageKey:storageKey];
 
   // Verify
-  assertThatInteger(self.sut.buckets[storageKey].blockedFiles.count,
-                    equalToInteger(0));
+  assertThatInteger(self.sut.buckets[storageKey].blockedFiles.count, equalToInteger(0));
 }
 
 - (void)testDeleteFileWillCallFileHelperMethod {
@@ -192,9 +177,7 @@
   NSString *batchId = @"12345";
   self.sut.buckets[storageKey] = [AVAStorageBucket new];
   AVAStorageBucket *bucket = self.sut.buckets[storageKey];
-  AVAFile *availableFile = [[AVAFile alloc] initWithPath:@"333"
-                                                  fileId:batchId
-                                            creationDate:[NSDate date]];
+  AVAFile *availableFile = [[AVAFile alloc] initWithPath:@"333" fileId:batchId creationDate:[NSDate date]];
   bucket.availableFiles = [NSMutableArray arrayWithObject:availableFile];
 
   // When
@@ -205,17 +188,16 @@
 }
 
 - (void)testLoadBatchWillEmptyCurrentLogs {
-  
+
   // If
   NSString *storageKey = @"directory";
   AVAAbstractLog *log = [AVAAbstractLog new];
   [self.sut saveLog:log withStorageKey:storageKey];
-  assertThatInteger(self.sut.buckets[storageKey].currentLogs.count,
-                    equalToInteger(1));
-  
+  assertThatInteger(self.sut.buckets[storageKey].currentLogs.count, equalToInteger(1));
+
   // When
   [self.sut loadLogsForStorageKey:storageKey withCompletion:nil];
-  
+
   // Verify
   assertThat(self.sut.buckets[storageKey].currentLogs, isEmpty());
 }
@@ -228,29 +210,20 @@
   AVAStorageBucket *bucket = self.sut.buckets[storageKey];
 
   AVAFile *availableFile1 =
-      [[AVAFile alloc] initWithPath:@"1"
-                             fileId:@"1"
-                       creationDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+      [[AVAFile alloc] initWithPath:@"1" fileId:@"1" creationDate:[NSDate dateWithTimeIntervalSinceNow:1]];
   AVAFile *availableFile2 =
-      [[AVAFile alloc] initWithPath:@"2"
-                             fileId:@"2"
-                       creationDate:[NSDate dateWithTimeIntervalSinceNow:3]];
+      [[AVAFile alloc] initWithPath:@"2" fileId:@"2" creationDate:[NSDate dateWithTimeIntervalSinceNow:3]];
   AVAFile *availableFile3 =
-      [[AVAFile alloc] initWithPath:@"3"
-                             fileId:@"3"
-                       creationDate:[NSDate dateWithTimeIntervalSinceNow:5]];
-  bucket.availableFiles = [NSMutableArray<AVAFile *>
-      arrayWithObjects:availableFile1, availableFile2, availableFile3, nil];
-  AVAFile *currentFile = [[AVAFile alloc] initWithPath:@"333"
-                                                fileId:@"333"
-                                          creationDate:[NSDate date]];
+      [[AVAFile alloc] initWithPath:@"3" fileId:@"3" creationDate:[NSDate dateWithTimeIntervalSinceNow:5]];
+  bucket.availableFiles =
+      [NSMutableArray<AVAFile *> arrayWithObjects:availableFile1, availableFile2, availableFile3, nil];
+  AVAFile *currentFile = [[AVAFile alloc] initWithPath:@"333" fileId:@"333" creationDate:[NSDate date]];
   bucket.currentFile = currentFile;
 
   // When
   __block NSString *batchId;
   [self.sut loadLogsForStorageKey:storageKey
-                   withCompletion:^(NSArray<NSObject<AVALog> *> *logs,
-                                    NSString *logsId) {
+                   withCompletion:^(NSArray<NSObject<AVALog> *> *logs, NSString *logsId) {
                      batchId = logsId;
                    }];
 
@@ -266,16 +239,12 @@
   AVAStorageBucket *bucket = self.sut.buckets[storageKey];
 
   AVAFile *availableFile =
-      [[AVAFile alloc] initWithPath:@"1"
-                             fileId:@"1"
-                       creationDate:[NSDate dateWithTimeIntervalSinceNow:1]];
-  bucket.availableFiles =
-      [NSMutableArray<AVAFile *> arrayWithObject:availableFile];
+      [[AVAFile alloc] initWithPath:@"1" fileId:@"1" creationDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+  bucket.availableFiles = [NSMutableArray<AVAFile *> arrayWithObject:availableFile];
 
   // When
   [self.sut loadLogsForStorageKey:storageKey
-                   withCompletion:^(NSArray<NSObject<AVALog> *> *logs,
-                                    NSString *logsId){
+                   withCompletion:^(NSArray<NSObject<AVALog> *> *logs, NSString *logsId){
                    }];
 
   // Verify
@@ -290,15 +259,12 @@
   NSString *storageKey = @"TestDirectory";
   self.sut.buckets[storageKey] = [AVAStorageBucket new];
   AVAStorageBucket *bucket = self.sut.buckets[storageKey];
-  AVAFile *currentFile = [[AVAFile alloc] initWithPath:@"333"
-                                                fileId:@"333"
-                                          creationDate:[NSDate date]];
+  AVAFile *currentFile = [[AVAFile alloc] initWithPath:@"333" fileId:@"333" creationDate:[NSDate date]];
   bucket.currentFile = currentFile;
 
   // When
   [self.sut loadLogsForStorageKey:storageKey
-                   withCompletion:^(NSArray<NSObject<AVALog> *> *logs,
-                                    NSString *logsId){
+                   withCompletion:^(NSArray<NSObject<AVALog> *> *logs, NSString *logsId){
                    }];
 
   // Verify
