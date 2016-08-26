@@ -33,9 +33,7 @@
   NSDate *creationDate = [NSDate dateWithTimeIntervalSinceNow:18];
 
   // When
-  _sut = [[AVAFile alloc] initWithPath:filePath
-                                fileId:fileId
-                          creationDate:creationDate];
+  _sut = [[AVAFile alloc] initWithPath:filePath fileId:fileId creationDate:creationDate];
 
   // Then
   assertThat(_sut, notNilValue());

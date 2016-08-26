@@ -2,12 +2,12 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
+#import "AVAAvalancheInternal.h"
 #import "AVACrashCXXExceptionWrapperException.h"
 #import "AVACrashesHelper.h"
 #import "AVACrashesPrivate.h"
 #import "AVAErrorLog.h"
 #import "AVAErrorLogFormatter.h"
-#import "AvalancheHub+Internal.h"
 
 /**
  *  Feature name.
@@ -43,20 +43,26 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
 
 @implementation AVACrashes
 
+#pragma mark - Public Methods
+
 + (BOOL)isDebuggerAttached {
   // TODO actual implementation
   return NO;
 }
 
 + (void)generateTestCrash {
-  if ([AVAEnvironmentHelper currentAppEnvironment] != AVAEnvironmentAppStore) {
-    
-    if ([self isDebuggerAttached]) {
-      AVALogWarning(@"[AVACrashes] WARNING: The debugger is attached. The following crash cannot be detected by the SDK!");
+  if ([[self sharedInstance] canBeUsed]) {
+    if ([AVAEnvironmentHelper currentAppEnvironment] != AVAEnvironmentAppStore) {
+
+      if ([self isDebuggerAttached]) {
+        AVALogWarning(
+            @"[AVACrashes] Error: The debugger is attached. The following crash cannot be detected by the SDK!");
+      }
+
+      __builtin_trap();
     }
-    
-    __builtin_trap();
-  }}
+  }
+}
 
 + (BOOL)hasCrashedInLastSession {
   // TODO actual implementation
@@ -96,7 +102,7 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
 
 #pragma mark - AVAFeatureInternal
 
-+ (id)sharedInstance {
++ (instancetype)sharedInstance {
   static id sharedInstance = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
@@ -106,6 +112,8 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
 }
 
 - (void)startFeature {
+  [super startFeature];
+
   AVALogVerbose(@"[AVACrashes] VERBOSE: Started crash module");
 
   [self configureCrashReporter];

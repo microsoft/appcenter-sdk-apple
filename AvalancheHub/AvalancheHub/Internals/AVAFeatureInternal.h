@@ -20,11 +20,6 @@
 + (instancetype)sharedInstance;
 
 /**
- *  Start this feature.
- */
-- (void)startFeature;
-
-/**
  *  Feature unique name.
  *
  *  @return feature unique name.

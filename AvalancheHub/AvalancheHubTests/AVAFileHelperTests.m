@@ -56,40 +56,32 @@
   // Explicitly do not exclude app support folder from backups
   NSError *getResourceError = nil;
   NSNumber *resourveValue = nil;
-  NSString *appSupportPath = [NSSearchPathForDirectoriesInDomains(
-      NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject];
-  XCTAssertTrue([[NSURL fileURLWithPath:appSupportPath]
-      setResourceValue:@NO
-                forKey:NSURLIsExcludedFromBackupKey
-                 error:&getResourceError]);
+  NSString *appSupportPath =
+      [NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject];
+  XCTAssertTrue([[NSURL fileURLWithPath:appSupportPath] setResourceValue:@NO
+                                                                  forKey:NSURLIsExcludedFromBackupKey
+                                                                   error:&getResourceError]);
 
   // Create first file and verify that subdirectory is excluded from backups
   getResourceError = nil;
   resourveValue = nil;
   NSString *subDirectory = @"testDirectory";
   NSString *fileId = @"fileId";
-  NSString *filePath = [AVAStorageTestHelper filePathForLogWithId:fileId
-                                                        extension:@"ava"
-                                                       storageKey:subDirectory];
-  AVAFile *file = [[AVAFile alloc] initWithPath:filePath
-                                         fileId:fileId
-                                   creationDate:[NSDate date]];
+  NSString *filePath = [AVAStorageTestHelper filePathForLogWithId:fileId extension:@"ava" storageKey:subDirectory];
+  AVAFile *file = [[AVAFile alloc] initWithPath:filePath fileId:fileId creationDate:[NSDate date]];
 
   [AVAFileHelper writeData:[NSData new] toFile:file];
-  NSString *storagePath =
-      [AVAStorageTestHelper storageDirForStorageKey:subDirectory];
-  [[NSURL fileURLWithPath:storagePath]
-      getResourceValue:&resourveValue
-                forKey:NSURLIsExcludedFromBackupKey
-                 error:&getResourceError];
+  NSString *storagePath = [AVAStorageTestHelper storageDirForStorageKey:subDirectory];
+  [[NSURL fileURLWithPath:storagePath] getResourceValue:&resourveValue
+                                                 forKey:NSURLIsExcludedFromBackupKey
+                                                  error:&getResourceError];
   XCTAssertNil(getResourceError);
   XCTAssertEqual(resourveValue, @YES);
 
   // Verify that app support folder still isn't excluded
-  [[NSURL fileURLWithPath:appSupportPath]
-      getResourceValue:&resourveValue
-                forKey:NSURLIsExcludedFromBackupKey
-                 error:&getResourceError];
+  [[NSURL fileURLWithPath:appSupportPath] getResourceValue:&resourveValue
+                                                    forKey:NSURLIsExcludedFromBackupKey
+                                                     error:&getResourceError];
   XCTAssertNil(getResourceError);
   XCTAssertEqual(resourveValue, @NO);
 }
@@ -121,18 +113,15 @@
                             creationDate:[NSDate date]];
 
   // When
-  NSString *directory =
-      [AVAStorageTestHelper storageDirForStorageKey:subDirectory];
-  NSArray<AVAFile *> *actual =
-      [AVAFileHelper filesForDirectory:directory withFileExtension:extension];
+  NSString *directory = [AVAStorageTestHelper storageDirForStorageKey:subDirectory];
+  NSArray<AVAFile *> *actual = [AVAFileHelper filesForDirectory:directory withFileExtension:extension];
 
   // Then
   assertThatInteger(actual.count, equalToInteger(expected.count));
   for (int i = 0; i < actual.count; i++) {
     assertThat(actual[i].filePath, equalTo(expected[i].filePath));
     assertThat(actual[i].fileId, equalTo(expected[i].fileId));
-    assertThat(actual[i].creationDate.description,
-               equalTo(expected[i].creationDate.description));
+    assertThat(actual[i].creationDate.description, equalTo(expected[i].creationDate.description));
   }
 }
 
@@ -142,15 +131,12 @@
   id fileManagerMock = OCMClassMock([NSFileManager class]);
 
   // When
-  NSArray *actual =
-      [AVAFileHelper filesForDirectory:nil withFileExtension:@"ava"];
+  NSArray *actual = [AVAFileHelper filesForDirectory:nil withFileExtension:@"ava"];
 
   // Then
   assertThat(actual, nilValue());
-  OCMReject([fileManagerMock
-      contentsOfDirectoryAtPath:[OCMArg any]
-                          error:((NSError __autoreleasing **)
-                                     [OCMArg anyPointer])]);
+  OCMReject(
+      [fileManagerMock contentsOfDirectoryAtPath:[OCMArg any] error:((NSError __autoreleasing **)[OCMArg anyPointer])]);
 }
 
 - (void)testDeletingExistingFileReturnsYes {
@@ -175,12 +161,8 @@
   NSString *subDirectory = @"testDirectory";
   NSString *extension = @"ava";
   NSString *fileName = @"foo";
-  NSString *filePath = [AVAStorageTestHelper filePathForLogWithId:fileName
-                                                        extension:extension
-                                                       storageKey:subDirectory];
-  AVAFile *file = [[AVAFile alloc] initWithPath:filePath
-                                         fileId:fileName
-                                   creationDate:[NSDate date]];
+  NSString *filePath = [AVAStorageTestHelper filePathForLogWithId:fileName extension:extension storageKey:subDirectory];
+  AVAFile *file = [[AVAFile alloc] initWithPath:filePath fileId:fileName creationDate:[NSDate date]];
 
   // When
   BOOL success = [AVAFileHelper deleteFile:file];
@@ -205,9 +187,7 @@
 
   // Then
   assertThatBool(success, isFalse());
-  OCMReject([fileManagerMock
-      removeItemAtPath:[OCMArg any]
-                 error:((NSError __autoreleasing **)[OCMArg anyPointer])]);
+  OCMReject([fileManagerMock removeItemAtPath:[OCMArg any] error:((NSError __autoreleasing **)[OCMArg anyPointer])]);
 }
 
 - (void)testReadingExistingFileReturnsCorrectContent {
@@ -246,12 +226,8 @@
   // If
   NSArray *items = @[ @"1", @"2" ];
   NSData *expected = [NSKeyedArchiver archivedDataWithRootObject:items];
-  NSString *filePath = [AVAStorageTestHelper filePathForLogWithId:@"0"
-                                                        extension:@"ava"
-                                                       storageKey:@"directory"];
-  AVAFile *file = [[AVAFile alloc] initWithPath:filePath
-                                         fileId:@"0"
-                                   creationDate:[NSDate date]];
+  NSString *filePath = [AVAStorageTestHelper filePathForLogWithId:@"0" extension:@"ava" storageKey:@"directory"];
+  AVAFile *file = [[AVAFile alloc] initWithPath:filePath fileId:@"0" creationDate:[NSDate date]];
 
   // When
   BOOL success = [AVAFileHelper writeData:expected toFile:file];
@@ -266,13 +242,9 @@
   // If
   NSString *fileName = @"0";
   NSString *filePath =
-      [AVAStorageTestHelper filePathForLogWithId:fileName
-                                       extension:@"ava"
-                                      storageKey:@"testDirectory"];
+      [AVAStorageTestHelper filePathForLogWithId:fileName extension:@"ava" storageKey:@"testDirectory"];
   NSData *expected = [@"123456789" dataUsingEncoding:NSUTF8StringEncoding];
-  AVAFile *file = [[AVAFile alloc] initWithPath:filePath
-                                         fileId:fileName
-                                   creationDate:[NSDate date]];
+  AVAFile *file = [[AVAFile alloc] initWithPath:filePath fileId:fileName creationDate:[NSDate date]];
 
   // When
   NSData *actual;

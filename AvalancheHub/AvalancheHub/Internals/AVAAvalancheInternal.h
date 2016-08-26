@@ -6,9 +6,7 @@
 #import "AVAAvalancheDelegate.h"
 #import "AVAFeatureInternal.h"
 #import "AVALogManager.h"
-#import "AVALoggerPrivate.h"
-#import "AVASender.h"
-#import "AVAStorage.h"
+#import "AvalancheHub+Internal.h"
 #import <Foundation/Foundation.h>
 
 // Install Id key in persisted storage.
@@ -23,12 +21,12 @@ static NSString *const kAVAInstallIdKey = @"AVAInstallId";
 @property(nonatomic, copy) NSString *appSecret;
 @property(nonatomic, readonly) NSUUID *installId;
 @property(nonatomic) NSString *apiVersion;
-@property BOOL featuresStarted;
+@property BOOL sdkStarted;
 
 /**
  * Returns the singleton instance of AvalancheHub.
  */
-+ (id)sharedInstance;
++ (instancetype)sharedInstance;
 - (NSString *)appSecret;
 - (NSString *)apiVersion;
 

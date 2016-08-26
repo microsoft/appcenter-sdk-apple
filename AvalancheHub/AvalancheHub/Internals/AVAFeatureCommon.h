@@ -56,4 +56,17 @@
  */
 - (NSString *)featureName;
 
+/**
+ * Check if the SDK has been properly initialized and the feature can be used. Logs an error in case it wasn't.
+ * @return a BOOL to indicate proper initialization of the SDK.
+ */
+- (BOOL)canBeUsed;
+
+
+/**
+ * Start this feature. Also sets the flag that indicates that a feature has been started.
+ */
+- (void)startFeature;
+
+
 @end

@@ -5,6 +5,9 @@
 #import "AVAAnalytics.h"
 #import "AVAAnalyticsCategory.h"
 #import "AVAAnalyticsPrivate.h"
+#import "AVAAvalanche.h"
+#import "AVAAvalancheInternal.h"
+
 #import "AVAEventLog.h"
 #import "AVAPageLog.h"
 #import "AvalancheHub+Internal.h"
@@ -20,7 +23,7 @@ static NSString *const kAVAFeatureName = @"Analytics";
 
 #pragma mark - Module initialization
 
-- (id)init {
+- (instancetype)init {
   if (self = [super init]) {
 
     // Set defaults.
@@ -36,7 +39,7 @@ static NSString *const kAVAFeatureName = @"Analytics";
 
 #pragma mark - AVAFeatureInternal
 
-+ (id)sharedInstance {
++ (instancetype)sharedInstance {
   static id sharedInstance = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
@@ -46,7 +49,8 @@ static NSString *const kAVAFeatureName = @"Analytics";
 }
 
 - (void)startFeature {
-
+  [super startFeature];
+  
   // Add listener to log manager.
   [self.logManger addListener:_sessionTracker];
 
@@ -64,26 +68,38 @@ static NSString *const kAVAFeatureName = @"Analytics";
 #pragma mark - AVAFeatureAbstract
 
 - (void)setEnabled:(BOOL)isEnabled {
-  isEnabled ? [self.logManger addListener:self.sessionTracker] : [self.logManger removeListener:self.sessionTracker];
-  [super setEnabled:isEnabled];
+  if ([self canBeUsed]) {
+    isEnabled ? [self.logManger addListener:self.sessionTracker] : [self.logManger removeListener:self.sessionTracker];
+    [super setEnabled:isEnabled];
+  }
 }
 
 #pragma mark - Module methods
 
 + (void)trackEvent:(NSString *)eventName withProperties:(NSDictionary *)properties {
-  [[self sharedInstance] trackEvent:eventName withProperties:properties];
+  if ([[self sharedInstance] canBeUsed]) {
+    [[self sharedInstance] trackEvent:eventName withProperties:properties];
+  }
 }
 
 + (void)trackPage:(NSString *)pageName withProperties:(NSDictionary *)properties {
-  [[self sharedInstance] trackPage:pageName withProperties:properties];
+  if ([[self sharedInstance] canBeUsed]) {
+    [[self sharedInstance] trackPage:pageName withProperties:properties];
+  }
 }
 
 + (void)setAutoPageTrackingEnabled:(BOOL)isEnabled {
-  [[self sharedInstance] setAutoPageTrackingEnabled:isEnabled];
+  if ([[self sharedInstance] canBeUsed]) {
+    [[self sharedInstance] setAutoPageTrackingEnabled:isEnabled];
+  }
 }
 
 + (BOOL)isAutoPageTrackingEnabled {
-  return [[self sharedInstance] isAutoPageTrackingEnabled];
+  if ([[self sharedInstance] canBeUsed]) {
+    return [[self sharedInstance] isAutoPageTrackingEnabled];
+  } else {
+    return NO;
+  }
 }
 
 #pragma mark - Private methods

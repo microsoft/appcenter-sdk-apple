@@ -5,8 +5,8 @@
 #import "AVAHttpSender.h"
 #import "AVALogContainer.h"
 #import "AVAMockLog.h"
-#import "AvalancheHub+Internal.h"
 #import "AVA_Reachability.h"
+#import "AvalancheHub+Internal.h"
 
 #import "OCMock.h"
 #import "OHHTTPStubs.h"
@@ -34,7 +34,7 @@ static NSString *const kAVAAppSecret = @"mockAppSecret";
   };
 
   NSDictionary *queryStrings = @{ @"api-version" : @"1.0.0-preview20160901" };
-  
+
   id reachabilityMock = OCMClassMock([AVA_Reachability class]);
   // sut: System under test
   _sut = [[AVAHttpSender alloc] initWithBaseUrl:kAVABaseUrl
@@ -54,16 +54,12 @@ static NSString *const kAVAAppSecret = @"mockAppSecret";
     return YES;
   }
       withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        NSData *stubData =
-            [@"Avalanche Response" dataUsingEncoding:NSUTF8StringEncoding];
-        return [OHHTTPStubsResponse responseWithData:stubData
-                                          statusCode:200
-                                             headers:nil];
+        NSData *stubData = [@"Avalanche Response" dataUsingEncoding:NSUTF8StringEncoding];
+        return [OHHTTPStubsResponse responseWithData:stubData statusCode:200 headers:nil];
       }]
       .name = @"httpStub_200";
 
-  [OHHTTPStubs onStubActivation:^(NSURLRequest *_Nonnull request,
-                                  id<OHHTTPStubsDescriptor> _Nonnull stub,
+  [OHHTTPStubs onStubActivation:^(NSURLRequest *_Nonnull request, id<OHHTTPStubsDescriptor> _Nonnull stub,
                                   OHHTTPStubsResponse *_Nonnull responseStub) {
     NSLog(@"%@ stubbed by %@.", request.URL, stub.name);
   }];
@@ -76,19 +72,15 @@ static NSString *const kAVAAppSecret = @"mockAppSecret";
     return YES;
   }
       withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        NSData *stubData =
-            [@"Avalanche Response" dataUsingEncoding:NSUTF8StringEncoding];
-        return [OHHTTPStubsResponse responseWithData:stubData
-                                          statusCode:AVAHTTPCodesNo200OK
-                                             headers:nil];
+        NSData *stubData = [@"Avalanche Response" dataUsingEncoding:NSUTF8StringEncoding];
+        return [OHHTTPStubsResponse responseWithData:stubData statusCode:AVAHTTPCodesNo200OK headers:nil];
       }]
       .name = @"httpStub_200";
 
   NSString *containerId = @"1";
   AVALogContainer *container = [self createLogContainerWithId:containerId];
 
-  __weak XCTestExpectation *expectation =
-      [self expectationWithDescription:@"HTTP Response 200"];
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Response 200"];
   [_sut sendAsync:container
           callbackQueue:dispatch_get_main_queue()
       completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
@@ -103,23 +95,20 @@ static NSString *const kAVAAppSecret = @"mockAppSecret";
   [self waitForExpectationsWithTimeout:kAVATestTimeout
                                handler:^(NSError *_Nullable error) {
                                  if (error) {
-                                   XCTFail(@"Expectation Failed with error: %@",
-                                           error);
+                                   XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
 }
 
 - (void)testNetworkDown {
-  
+
   // Stub response
   [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
     return YES; // All requests
   }
       withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         NSError *notConnectedError =
-            [NSError errorWithDomain:NSURLErrorDomain
-                                code:kCFURLErrorNotConnectedToInternet
-                            userInfo:nil];
+            [NSError errorWithDomain:NSURLErrorDomain code:kCFURLErrorNotConnectedToInternet userInfo:nil];
         return [OHHTTPStubsResponse responseWithError:notConnectedError];
       }]
       .name = @"httpStub_NetworkDown";
@@ -139,28 +128,22 @@ static NSString *const kAVAAppSecret = @"mockAppSecret";
 }
 
 - (void)testInvalidContainer {
-  
-  
+
   AVAMockLog *log1 = [[AVAMockLog alloc] init];
   log1.sid = kAVAUUIDString;
-  log1.toffset =
-  [NSNumber numberWithInteger:[[NSDate date] timeIntervalSince1970]];
-  
+  log1.toffset = [NSNumber numberWithInteger:[[NSDate date] timeIntervalSince1970]];
+
   // Log does not have device info, therefore, it's an invalid log
-  AVALogContainer *container = [[AVALogContainer alloc]
-                                initWithBatchId: @"1"
-                                andLogs:(NSArray<AVALog> *)@[ log1 ]];
-  
+  AVALogContainer *container = [[AVALogContainer alloc] initWithBatchId:@"1" andLogs:(NSArray<AVALog> *)@[ log1 ]];
+
   [_sut sendAsync:container
-    callbackQueue:dispatch_get_main_queue()
-completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
-  
-  
-  
-  XCTAssertEqual(error.domain, kAVADefaultApiErrorDomain);
-  XCTAssertEqual(error.code, kAVADefaultApiMissingParamErrorCode);
-}];
-  
+          callbackQueue:dispatch_get_main_queue()
+      completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
+
+        XCTAssertEqual(error.domain, kAVADefaultApiErrorDomain);
+        XCTAssertEqual(error.code, kAVADefaultApiMissingParamErrorCode);
+      }];
+
   XCTAssertEqual([self.sut.pendingCalls count], 0);
 }
 
@@ -168,8 +151,7 @@ completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
 
   AVALogContainer *container = nil;
 
-  __weak XCTestExpectation *expectation =
-      [self expectationWithDescription:@"HTTP Network Down"];
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Network Down"];
   [_sut sendAsync:container
           callbackQueue:dispatch_get_main_queue()
       completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
@@ -182,12 +164,10 @@ completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
   [self waitForExpectationsWithTimeout:kAVATestTimeout
                                handler:^(NSError *_Nullable error) {
                                  if (error) {
-                                   XCTFail(@"Expectation Failed with error: %@",
-                                           error);
+                                   XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
 }
-
 
 #pragma mark - Test Helpers
 
@@ -198,19 +178,16 @@ completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
 
   AVAMockLog *log1 = [[AVAMockLog alloc] init];
   log1.sid = kAVAUUIDString;
-  log1.toffset =
-      [NSNumber numberWithInteger:[[NSDate date] timeIntervalSince1970]];
+  log1.toffset = [NSNumber numberWithInteger:[[NSDate date] timeIntervalSince1970]];
   log1.device = device;
 
   AVAMockLog *log2 = [[AVAMockLog alloc] init];
   log2.sid = kAVAUUIDString;
-  log2.toffset =
-      [NSNumber numberWithInteger:[[NSDate date] timeIntervalSince1970]];
+  log2.toffset = [NSNumber numberWithInteger:[[NSDate date] timeIntervalSince1970]];
   log2.device = device;
 
-  AVALogContainer *logContainer = [[AVALogContainer alloc]
-      initWithBatchId:batchId
-              andLogs:(NSArray<AVALog> *)@[ log1, log2 ]];
+  AVALogContainer *logContainer =
+      [[AVALogContainer alloc] initWithBatchId:batchId andLogs:(NSArray<AVALog> *)@[ log1, log2 ]];
   return logContainer;
 }
 

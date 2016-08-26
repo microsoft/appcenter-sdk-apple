@@ -23,7 +23,7 @@ static NSString *const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azu
 
 @synthesize installId = _installId;
 
-+ (id)sharedInstance {
++ (instancetype)sharedInstance {
   static AVAAvalanche *sharedInstance = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
@@ -64,7 +64,7 @@ static NSString *const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azu
 
 #pragma mark - private
 
-- (id)init {
+- (instancetype)init {
   if (self = [super init]) {
     _features = [NSMutableArray new];
   }
@@ -72,7 +72,7 @@ static NSString *const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azu
 }
 
 - (void)start:(NSString *)appSecret withFeatures:(NSArray<Class> *)features {
-  if (self.featuresStarted) {
+  if (self.sdkStarted) {
     AVALogWarning(@"SDK has already been started. You can call `start` only once.");
     return;
   }
@@ -102,7 +102,7 @@ static NSString *const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azu
     [feature onLogManagerReady:self.logManager];
     [feature startFeature];
   }
-  _featuresStarted = YES;
+  _sdkStarted = YES;
 }
 
 - (void)setEnabled:(BOOL)isEnabled {

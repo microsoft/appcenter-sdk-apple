@@ -23,8 +23,7 @@
   id storageMock = OCMProtocolMock(@protocol(AVAStorage));
 
   // When
-  AVALogManagerDefault *sut =
-      [[AVALogManagerDefault alloc] initWithSender:senderMock storage:storageMock];
+  AVALogManagerDefault *sut = [[AVALogManagerDefault alloc] initWithSender:senderMock storage:storageMock];
 
   // Then
   assertThat(sut, notNilValue());
@@ -38,7 +37,8 @@
 
   // If
   AVAPriority priority = AVAPriorityDefault;
-  AVALogManagerDefault *sut = [[AVALogManagerDefault alloc] initWithSender:OCMProtocolMock(@protocol(AVASender)) storage:OCMProtocolMock(@protocol(AVAStorage))];
+  AVALogManagerDefault *sut = [[AVALogManagerDefault alloc] initWithSender:OCMProtocolMock(@protocol(AVASender))
+                                                                   storage:OCMProtocolMock(@protocol(AVAStorage))];
   AVAAbstractLog *log = [AVAAbstractLog new];
   assertThat(sut.channels, isEmpty());
 
