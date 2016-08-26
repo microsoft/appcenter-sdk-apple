@@ -239,7 +239,7 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
   if (!self.sendingInProgress && self.crashFiles.count > 0) {
 
     // TODO: Send and clean next crash report
-    PLCrashReport *report = [self nextCrashReport];
+    AVAPLCrashReport *report = [self nextCrashReport];
     AVALogVerbose(@"[AVAErrorReporting] VERBOSE: Crash report found: %@ ", report.debugDescription);
   }
 }
