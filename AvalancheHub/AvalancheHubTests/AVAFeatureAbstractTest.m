@@ -9,6 +9,31 @@
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
+@interface AVAFeatureAbstractImplementation : AVAFeatureAbstract
+
+@end
+
+@implementation AVAFeatureAbstractImplementation
+
++ (instancetype)sharedInstance {
+  static id sharedInstance = nil;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    sharedInstance = [[self alloc] init];
+  });
+  return sharedInstance;
+}
+
+- (void) startFeature {
+  [super startFeature];
+}
+
+- (NSString *)featureName {
+  return @"AVAFeatureAbstractImplementation";
+}
+
+@end
+
 @interface AVAFeatureAbstractTest : XCTestCase
 
 @property(nonatomic) id settingsMock;
@@ -16,7 +41,7 @@
 /**
  *  System Under test
  */
-@property(nonatomic) AVAFeatureAbstract *abstractFeature;
+@property(nonatomic) AVAFeatureAbstractImplementation *abstractFeature;
 
 @end
 
@@ -29,7 +54,7 @@
   self.settingsMock = OCMPartialMock(kAVAUserDefaults);
 
   // System Under Test.
-  self.abstractFeature = [[AVAFeatureAbstract alloc] initWithStorage:self.settingsMock andName:@"Test"];
+  self.abstractFeature = [[AVAFeatureAbstractImplementation alloc] initWithStorage:self.settingsMock];
 
   // Clean storage.
   [(AVAUserDefaults *)self.settingsMock setObject:nil forKey:self.abstractFeature.isEnabledKey];
@@ -127,11 +152,14 @@
 }
 
 - (void)testCanBeUsed {
-  assertThatBool([self.abstractFeature canBeUsed], isFalse());
+  
+//  AVAFeatureAbstractImplementation *sut = [AVAFeatureAbstractImplementation new];
+  
+  assertThatBool([[AVAFeatureAbstractImplementation sharedInstance] canBeUsed], isFalse());
 
-  [AVAAvalanche start:[[NSUUID UUID] UUIDString] withFeatures:nil];
+  [AVAAvalanche start:[[NSUUID UUID] UUIDString] withFeatures:@[[AVAFeatureAbstractImplementation class]]];
 
-  assertThatBool([self.abstractFeature canBeUsed], isTrue());
+  assertThatBool([[AVAFeatureAbstractImplementation sharedInstance] canBeUsed], isTrue());
 }
 
 @end

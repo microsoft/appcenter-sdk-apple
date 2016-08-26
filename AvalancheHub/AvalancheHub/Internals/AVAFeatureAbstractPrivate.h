@@ -21,12 +21,11 @@
 @property(nonatomic, readwrite) AVAUserDefaults *storage;
 
 /**
- *  (For testing only) Create a feature with the given storage and name.
+ *  (For testing only) Create a feature with the given storage.
  *
  *  @param storage storage to persist data.
- *  @param name unique name of the feature.
  *
  *  @return A feature with common logic already implemented.
  */
-- (instancetype)initWithStorage:(AVAUserDefaults *)storage andName:(NSString *)name;
+- (instancetype)initWithStorage:(AVAUserDefaults *)storage;
 @end

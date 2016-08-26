@@ -10,24 +10,20 @@
 #import "AVAUtils.h"
 #import "AvalancheHub+Internal.h"
 
-static NSString *const kAVAFeatureAbstractString = @"AVAFeatureAbstract";
-
 @implementation AVAFeatureAbstract
 
 @synthesize logManger = _logManager;
 @synthesize delegate = _delegate;
 
 - (instancetype)init {
-  return [self initWithStorage:kAVAUserDefaults andName:[self featureName]];
+  return [self initWithStorage:kAVAUserDefaults];
 }
 
-- (instancetype)initWithStorage:(AVAUserDefaults *)storage andName:(NSString *)name {
+- (instancetype)initWithStorage:(AVAUserDefaults *)storage {
   if (self = [super init]) {
 
-    // Construct the storage key.
-    _isEnabledKey = [NSString stringWithFormat:@"kAVA%@IsEnabledKey", name];
+    _isEnabledKey = [NSString stringWithFormat:@"kAVA%@IsEnabledKey", [self featureName]];
     _storage = storage;
-    _featureInitialised = YES;
   }
   return self;
 }
@@ -43,10 +39,6 @@ static NSString *const kAVAFeatureAbstractString = @"AVAFeatureAbstract";
       [self.storage synchronize];
     }
   }
-}
-
-- (NSString *)featureName {
-  return kAVAFeatureAbstractString;
 }
 
 - (BOOL)isEnabled {
