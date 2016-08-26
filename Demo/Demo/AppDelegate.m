@@ -3,7 +3,7 @@
 #import <Foundation/Foundation.h>
 
 @import AvalancheHub;
-@import AvalancheCrashes;
+@import AvalancheErrorReporting;
 @import AvalancheAnalytics;
 
 @interface AppDelegate ()

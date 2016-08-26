@@ -7,27 +7,27 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		6E3729771D1DE83200F1E4AE /* AvalancheCrashesFramework */ = {
+		6E3729771D1DE83200F1E4AE /* AvalancheErrorReportingFramework */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 6E3729781D1DE83200F1E4AE /* Build configuration list for PBXAggregateTarget "AvalancheCrashesFramework" */;
+			buildConfigurationList = 6E3729781D1DE83200F1E4AE /* Build configuration list for PBXAggregateTarget "AvalancheErrorReportingFramework" */;
 			buildPhases = (
 				6E37297B1D1DE85000F1E4AE /* ShellScript */,
 			);
 			dependencies = (
 			);
-			name = AvalancheCrashesFramework;
+			name = AvalancheErrorReportingFramework;
 			productName = "Fat Framework";
 		};
-		6E6BFC361D23504F00DF7617 /* AvalancheCrashesDoc */ = {
+		6E6BFC361D23504F00DF7617 /* AvalancheErrorReportingDoc */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 6E6BFC391D23504F00DF7617 /* Build configuration list for PBXAggregateTarget "AvalancheCrashesDoc" */;
+			buildConfigurationList = 6E6BFC391D23504F00DF7617 /* Build configuration list for PBXAggregateTarget "AvalancheErrorReportingDoc" */;
 			buildPhases = (
 				6E6BFC3A1D23505600DF7617 /* ShellScript */,
 			);
 			dependencies = (
 				386352E61D51105800D0D450 /* PBXTargetDependency */,
 			);
-			name = AvalancheCrashesDoc;
+			name = AvalancheErrorReportingDoc;
 			productName = "Jazzy Docs";
 		};
 /* End PBXAggregateTarget section */
@@ -36,11 +36,11 @@
 		387C77071D6CC41100D68CC1 /* AVAFeatureAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C77061D6CC41100D68CC1 /* AVAFeatureAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38D4BBA31D5A9962001A30A0 /* AVAFeature.h in Headers */ = {isa = PBXBuildFile; fileRef = 38D4BBA21D5A9962001A30A0 /* AVAFeature.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E0401541D1C9A4F0051BCFA /* AVAErrorReporting.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0401501D1C9A4F0051BCFA /* AVAErrorReporting.m */; };
-		6E0401751D1C9E750051BCFA /* AvalancheCrashes.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401361D1C98690051BCFA /* AvalancheCrashes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6E0401751D1C9E750051BCFA /* AvalancheErrorReporting.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401361D1C98690051BCFA /* AvalancheErrorReporting.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E0401761D1C9E750051BCFA /* AVAErrorReporting.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E04014F1D1C9A4F0051BCFA /* AVAErrorReporting.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E0401771D1C9EBE0051BCFA /* AvalancheHub+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401591D1C9D7F0051BCFA /* AvalancheHub+Internal.h */; };
 		6E0401781D1C9EBE0051BCFA /* AVAErrorReportingPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401521D1C9A4F0051BCFA /* AVAErrorReportingPrivate.h */; };
-		6E171AE61D22F781000DC480 /* libAvalancheCrashes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E0401331D1C98690051BCFA /* libAvalancheCrashes.a */; };
+		6E171AE61D22F781000DC480 /* libAvalancheErrorReporting.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E0401331D1C98690051BCFA /* libAvalancheErrorReporting.a */; };
 		6E171AEE1D22F7BE000DC480 /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171AED1D22F7BE000DC480 /* OCHamcrestIOS.framework */; };
 		6E171AF01D22F841000DC480 /* libAvalancheHub.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171AEF1D22F841000DC480 /* libAvalancheHub.a */; };
 		6E171B111D22FABA000DC480 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171B051D22FABA000DC480 /* libOCMock.a */; };
@@ -131,13 +131,13 @@
 /* Begin PBXFileReference section */
 		387C77061D6CC41100D68CC1 /* AVAFeatureAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AVAFeatureAbstract.h; path = ../AvalancheHub/AvalancheHub/AVAFeatureAbstract.h; sourceTree = "<group>"; };
 		38D4BBA21D5A9962001A30A0 /* AVAFeature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AVAFeature.h; path = ../AvalancheHub/AvalancheHub/AVAFeature.h; sourceTree = "<group>"; };
-		6E0401331D1C98690051BCFA /* libAvalancheCrashes.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAvalancheCrashes.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		6E0401361D1C98690051BCFA /* AvalancheCrashes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AvalancheCrashes.h; sourceTree = "<group>"; };
+		6E0401331D1C98690051BCFA /* libAvalancheErrorReporting.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAvalancheErrorReporting.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E0401361D1C98690051BCFA /* AvalancheErrorReporting.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AvalancheErrorReporting.h; sourceTree = "<group>"; };
 		6E04014F1D1C9A4F0051BCFA /* AVAErrorReporting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAErrorReporting.h; sourceTree = "<group>"; };
 		6E0401501D1C9A4F0051BCFA /* AVAErrorReporting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAErrorReporting.m; sourceTree = "<group>"; };
 		6E0401521D1C9A4F0051BCFA /* AVAErrorReportingPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAErrorReportingPrivate.h; sourceTree = "<group>"; };
 		6E0401591D1C9D7F0051BCFA /* AvalancheHub+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "AvalancheHub+Internal.h"; path = "../../../AvalancheHub/AvalancheHub/Internals/AvalancheHub+Internal.h"; sourceTree = "<group>"; };
-		6E171AE11D22F781000DC480 /* AvalancheCrashesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AvalancheCrashesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E171AE11D22F781000DC480 /* AvalancheErrorReporting.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AvalancheErrorReporting.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E171AE51D22F781000DC480 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6E171AED1D22F7BE000DC480 /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrestIOS.framework; path = ../../Vendor/OCHamcrest/OCHamcrestIOS.framework; sourceTree = "<group>"; };
 		6E171AEF1D22F841000DC480 /* libAvalancheHub.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAvalancheHub.a; path = "../../../../../Library/Developer/Xcode/DerivedData/AvalancheSDK-gjtjaobzkdgbqkdiexolxdrcgdjg/Build/Products/Debug-iphonesimulator/libAvalancheHub.a"; sourceTree = "<group>"; };
@@ -161,7 +161,7 @@
 		6E171B361D22FF6B000DC480 /* OHHTTPStubsResponse+JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OHHTTPStubsResponse+JSON.h"; sourceTree = "<group>"; };
 		6E171B371D22FF6B000DC480 /* OHHTTPStubsResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OHHTTPStubsResponse.h; sourceTree = "<group>"; };
 		6E171B381D22FF6B000DC480 /* OHPathHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OHPathHelpers.h; sourceTree = "<group>"; };
-		6E37297F1D1DE93800F1E4AE /* AvalancheCrashes.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = AvalancheCrashes.xcconfig; sourceTree = "<group>"; };
+		6E37297F1D1DE93800F1E4AE /* AvalancheErrorReporting.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = AvalancheErrorReporting.xcconfig; sourceTree = "<group>"; };
 		6E3729801D1DE93800F1E4AE /* buildnumber.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = buildnumber.xcconfig; sourceTree = "<group>"; };
 		6E3729811D1DE93800F1E4AE /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		6E3729821D1DE93800F1E4AE /* release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = release.xcconfig; sourceTree = "<group>"; };
@@ -227,7 +227,7 @@
 				6E171AF01D22F841000DC480 /* libAvalancheHub.a in Frameworks */,
 				6E171B111D22FABA000DC480 /* libOCMock.a in Frameworks */,
 				6E171B391D22FF6B000DC480 /* libOHHTTPStubs.a in Frameworks */,
-				6E171AE61D22F781000DC480 /* libAvalancheCrashes.a in Frameworks */,
+				6E171AE61D22F781000DC480 /* libAvalancheErrorReporting.a in Frameworks */,
 				6E171AEE1D22F7BE000DC480 /* OCHamcrestIOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -250,8 +250,8 @@
 		6E0401341D1C98690051BCFA /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6E0401331D1C98690051BCFA /* libAvalancheCrashes.a */,
-				6E171AE11D22F781000DC480 /* AvalancheCrashesTests.xctest */,
+				6E0401331D1C98690051BCFA /* libAvalancheErrorReporting.a */,
+				6E171AE11D22F781000DC480 /* AvalancheErrorReporting.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -260,7 +260,7 @@
 			isa = PBXGroup;
 			children = (
 				B2E39BE61D4FDD9700DDF9DC /* AVAErrorLoggingDelegate.h */,
-				6E0401361D1C98690051BCFA /* AvalancheCrashes.h */,
+				6E0401361D1C98690051BCFA /* AvalancheErrorReporting.h */,
 				6E04014F1D1C9A4F0051BCFA /* AVAErrorReporting.h */,
 				6E0401501D1C9A4F0051BCFA /* AVAErrorReporting.m */,
 				6E0401511D1C9A4F0051BCFA /* Internals */,
@@ -369,7 +369,7 @@
 		6E37297E1D1DE93800F1E4AE /* Support */ = {
 			isa = PBXGroup;
 			children = (
-				6E37297F1D1DE93800F1E4AE /* AvalancheCrashes.xcconfig */,
+				6E37297F1D1DE93800F1E4AE /* AvalancheErrorReporting.xcconfig */,
 				6E3729801D1DE93800F1E4AE /* buildnumber.xcconfig */,
 				6E3729811D1DE93800F1E4AE /* module.modulemap */,
 				6E3729821D1DE93800F1E4AE /* release.xcconfig */,
@@ -447,7 +447,7 @@
 				6E7D5C671D3E9321009EC9AC /* AVAAppleBinary.h in Headers */,
 				6E0401761D1C9E750051BCFA /* AVAErrorReporting.h in Headers */,
 				B2F120E41D657CF10060DED7 /* AVAErrorReport.h in Headers */,
-				6E0401751D1C9E750051BCFA /* AvalancheCrashes.h in Headers */,
+				6E0401751D1C9E750051BCFA /* AvalancheErrorReporting.h in Headers */,
 				B2F375091D41AD5100F07032 /* AVAErrorLogFormatter.h in Headers */,
 				B2F120E71D657F4F0060DED7 /* AVAErrorReportPrivate.h in Headers */,
 				6E7D5C6B1D3E9332009EC9AC /* AVAAppleErrorLog.h in Headers */,
@@ -469,9 +469,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		6E0401321D1C98690051BCFA /* AvalancheCrashes */ = {
+		6E0401321D1C98690051BCFA /* AvalancheErrorReporting */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6E04013C1D1C98690051BCFA /* Build configuration list for PBXNativeTarget "AvalancheCrashes" */;
+			buildConfigurationList = 6E04013C1D1C98690051BCFA /* Build configuration list for PBXNativeTarget "AvalancheErrorReporting" */;
 			buildPhases = (
 				6E04012F1D1C98690051BCFA /* Sources */,
 				6E0401301D1C98690051BCFA /* Frameworks */,
@@ -482,14 +482,14 @@
 			);
 			dependencies = (
 			);
-			name = AvalancheCrashes;
+			name = AvalancheErrorReporting;
 			productName = AvalancheCrashes;
-			productReference = 6E0401331D1C98690051BCFA /* libAvalancheCrashes.a */;
+			productReference = 6E0401331D1C98690051BCFA /* libAvalancheErrorReporting.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		6E171AE01D22F781000DC480 /* AvalancheCrashesTests */ = {
+		6E171AE01D22F781000DC480 /* AvalancheErrorReportingTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6E171AE91D22F781000DC480 /* Build configuration list for PBXNativeTarget "AvalancheCrashesTests" */;
+			buildConfigurationList = 6E171AE91D22F781000DC480 /* Build configuration list for PBXNativeTarget "AvalancheErrorReportingTests" */;
 			buildPhases = (
 				6E171ADD1D22F781000DC480 /* Sources */,
 				6E171ADE1D22F781000DC480 /* Frameworks */,
@@ -501,9 +501,9 @@
 			dependencies = (
 				6E171AE81D22F781000DC480 /* PBXTargetDependency */,
 			);
-			name = AvalancheCrashesTests;
+			name = AvalancheErrorReportingTests;
 			productName = AvalancheCrashesTests;
-			productReference = 6E171AE11D22F781000DC480 /* AvalancheCrashesTests.xctest */;
+			productReference = 6E171AE11D22F781000DC480 /* AvalancheErrorReporting.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -529,7 +529,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 6E04012E1D1C98690051BCFA /* Build configuration list for PBXProject "AvalancheCrashes" */;
+			buildConfigurationList = 6E04012E1D1C98690051BCFA /* Build configuration list for PBXProject "AvalancheErrorReporting" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -541,10 +541,10 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6E0401321D1C98690051BCFA /* AvalancheCrashes */,
-				6E3729771D1DE83200F1E4AE /* AvalancheCrashesFramework */,
-				6E171AE01D22F781000DC480 /* AvalancheCrashesTests */,
-				6E6BFC361D23504F00DF7617 /* AvalancheCrashesDoc */,
+				6E0401321D1C98690051BCFA /* AvalancheErrorReporting */,
+				6E3729771D1DE83200F1E4AE /* AvalancheErrorReportingFramework */,
+				6E171AE01D22F781000DC480 /* AvalancheErrorReportingTests */,
+				6E6BFC361D23504F00DF7617 /* AvalancheErrorReportingDoc */,
 			);
 		};
 /* End PBXProject section */
@@ -578,7 +578,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=AvalancheCrashes\nFMK_VERSION=A\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../Products\nZIP_FOLDER=${FMK_NAME}\nTEMP_DIR=${PRODUCTS_DIR}/${ZIP_FOLDER}\nINSTALL_DIR=${TEMP_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator\n\n# //////////////////////////////\n# Building Core Framework\n# //////////////////////////////\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphoneos\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${TEMP_DIR}\" ]\nthen\nrm -rf \"${TEMP_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\nmkdir -p \"${INSTALL_DIR}/Versions\"\nmkdir -p \"${INSTALL_DIR}/Versions/${FMK_VERSION}\"\nmkdir -p \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Headers\"\n\n# Creates the internal links.\n# It MUST uses relative path, otherwise will not work when the folder is copied/moved.\nln -s \"${FMK_VERSION}\" \"${INSTALL_DIR}/Versions/Current\"\nln -s \"Versions/Current/Headers\" \"${INSTALL_DIR}/Headers\"\nln -s \"Versions/Current/${FMK_NAME}\" \"${INSTALL_DIR}/${FMK_NAME}\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Support/module.modulemap\" \"${INSTALL_DIR}/Modules/\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Headers/\"\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" \"${SIMULATOR_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/Versions/${FMK_VERSION}/${FMK_NAME}\"\n\n# Combine the CrashReporter static library into a new Hockey static library file if they are not already present and copy the public headers too\nif [ -z $(otool -L \"${INSTALL_DIR}/Versions/${FMK_VERSION}/${FMK_NAME}\" | grep 'libCrashReporter') ]\nthen\nlibtool -static -o \"${INSTALL_DIR}/Versions/${FMK_VERSION}/${FMK_NAME}\" \"${INSTALL_DIR}/Versions/${FMK_VERSION}/${FMK_NAME}\" \"${SRCROOT}/../Vendor/PLCrashReporter/CrashReporter.framework/Versions/A/CrashReporter\"\nfi\n\nrm -r \"${WRK_DIR}\"";
+			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=AvalancheErrorReporting\nFMK_VERSION=A\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../Products\nZIP_FOLDER=${FMK_NAME}\nTEMP_DIR=${PRODUCTS_DIR}/${ZIP_FOLDER}\nINSTALL_DIR=${TEMP_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator\n\n# //////////////////////////////\n# Building Core Framework\n# //////////////////////////////\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphoneos\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${TEMP_DIR}\" ]\nthen\nrm -rf \"${TEMP_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\nmkdir -p \"${INSTALL_DIR}/Versions\"\nmkdir -p \"${INSTALL_DIR}/Versions/${FMK_VERSION}\"\nmkdir -p \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Headers\"\n\n# Creates the internal links.\n# It MUST uses relative path, otherwise will not work when the folder is copied/moved.\nln -s \"${FMK_VERSION}\" \"${INSTALL_DIR}/Versions/Current\"\nln -s \"Versions/Current/Headers\" \"${INSTALL_DIR}/Headers\"\nln -s \"Versions/Current/${FMK_NAME}\" \"${INSTALL_DIR}/${FMK_NAME}\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Support/module.modulemap\" \"${INSTALL_DIR}/Modules/\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Headers/\"\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" \"${SIMULATOR_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/Versions/${FMK_VERSION}/${FMK_NAME}\"\n\n# Combine the CrashReporter static library into a new Hockey static library file if they are not already present and copy the public headers too\nif [ -z $(otool -L \"${INSTALL_DIR}/Versions/${FMK_VERSION}/${FMK_NAME}\" | grep 'libCrashReporter') ]\nthen\nlibtool -static -o \"${INSTALL_DIR}/Versions/${FMK_VERSION}/${FMK_NAME}\" \"${INSTALL_DIR}/Versions/${FMK_VERSION}/${FMK_NAME}\" \"${SRCROOT}/../Vendor/PLCrashReporter/CrashReporter.framework/Versions/A/CrashReporter\"\nfi\n\nrm -r \"${WRK_DIR}\"";
 		};
 		6E6BFC3A1D23505600DF7617 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -636,12 +636,12 @@
 /* Begin PBXTargetDependency section */
 		386352E61D51105800D0D450 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 6E3729771D1DE83200F1E4AE /* AvalancheCrashesFramework */;
+			target = 6E3729771D1DE83200F1E4AE /* AvalancheErrorReportingFramework */;
 			targetProxy = 386352E51D51105800D0D450 /* PBXContainerItemProxy */;
 		};
 		6E171AE81D22F781000DC480 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 6E0401321D1C98690051BCFA /* AvalancheCrashes */;
+			target = 6E0401321D1C98690051BCFA /* AvalancheErrorReporting */;
 			targetProxy = 6E171AE71D22F781000DC480 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -743,8 +743,8 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.avalanche.AvalancheCrashes;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.avalanche.AvalancheErrorReporting;
+				PRODUCT_NAME = AvalancheErrorReporting;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SKIP_INSTALL = YES;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../AvalancheHub/AvalancheHub\"/**";
@@ -762,8 +762,8 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.avalanche.AvalancheCrashes;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.avalanche.AvalancheErrorReporting;
+				PRODUCT_NAME = AvalancheErrorReporting;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SKIP_INSTALL = YES;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../AvalancheHub/AvalancheHub\"/**";
@@ -777,7 +777,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
-				INFOPLIST_FILE = AvalancheCrashesTests/Info.plist;
+				INFOPLIST_FILE = AvalancheErrorReportingTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
@@ -787,8 +787,8 @@
 					Foundation,
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.avalanche.AvalancheCrashesTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.avalanche.AvalancheErrorReportingTests;
+				PRODUCT_NAME = AvalancheErrorReporting;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../AvalancheHub/AvalancheHub\"/**";
 			};
 			name = Debug;
@@ -799,7 +799,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
-				INFOPLIST_FILE = AvalancheCrashesTests/Info.plist;
+				INFOPLIST_FILE = AvalancheErrorReportingTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
@@ -809,8 +809,8 @@
 					Foundation,
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.avalanche.AvalancheCrashesTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.avalanche.AvalancheErrorReportingTests;
+				PRODUCT_NAME = AvalancheErrorReporting;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../AvalancheHub/AvalancheHub\"/**";
 			};
 			name = Release;
@@ -818,14 +818,14 @@
 		6E3729791D1DE83200F1E4AE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = AvalancheErrorReporting;
 			};
 			name = Debug;
 		};
 		6E37297A1D1DE83200F1E4AE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = AvalancheErrorReporting;
 			};
 			name = Release;
 		};
@@ -835,7 +835,7 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				OTHER_CFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = AvalancheErrorReporting;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../AvalancheHub/AvalancheHub\"";
 				VALID_ARCHS = "";
 			};
@@ -846,7 +846,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
 				OTHER_CFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = AvalancheErrorReporting;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../AvalancheHub/AvalancheHub\"";
 				VALID_ARCHS = "";
 			};
@@ -855,7 +855,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6E04012E1D1C98690051BCFA /* Build configuration list for PBXProject "AvalancheCrashes" */ = {
+		6E04012E1D1C98690051BCFA /* Build configuration list for PBXProject "AvalancheErrorReporting" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6E04013A1D1C98690051BCFA /* Debug */,
@@ -864,7 +864,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6E04013C1D1C98690051BCFA /* Build configuration list for PBXNativeTarget "AvalancheCrashes" */ = {
+		6E04013C1D1C98690051BCFA /* Build configuration list for PBXNativeTarget "AvalancheErrorReporting" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6E04013D1D1C98690051BCFA /* Debug */,
@@ -873,7 +873,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6E171AE91D22F781000DC480 /* Build configuration list for PBXNativeTarget "AvalancheCrashesTests" */ = {
+		6E171AE91D22F781000DC480 /* Build configuration list for PBXNativeTarget "AvalancheErrorReportingTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6E171AEA1D22F781000DC480 /* Debug */,
@@ -882,7 +882,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6E3729781D1DE83200F1E4AE /* Build configuration list for PBXAggregateTarget "AvalancheCrashesFramework" */ = {
+		6E3729781D1DE83200F1E4AE /* Build configuration list for PBXAggregateTarget "AvalancheErrorReportingFramework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6E3729791D1DE83200F1E4AE /* Debug */,
@@ -891,7 +891,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6E6BFC391D23504F00DF7617 /* Build configuration list for PBXAggregateTarget "AvalancheCrashesDoc" */ = {
+		6E6BFC391D23504F00DF7617 /* Build configuration list for PBXAggregateTarget "AvalancheErrorReportingDoc" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6E6BFC371D23504F00DF7617 /* Debug */,

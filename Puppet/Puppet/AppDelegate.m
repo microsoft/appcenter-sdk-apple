@@ -1,6 +1,6 @@
 #import "AppDelegate.h"
 #import "AvalancheAnalytics.h"
-#import "AvalancheCrashes.h"
+#import "AvalancheErrorReporting.h"
 #import "AvalancheHub.h"
 #import "Constants.h"
 

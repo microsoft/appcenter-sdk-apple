@@ -1,5 +1,5 @@
-framework module AvalancheCrashes {
-  umbrella header "AvalancheCrashes.h"
+framework module AvalancheErrorReporting {
+  umbrella header "AvalancheErrorReporting.h"
   
   export *
   module * { export * }

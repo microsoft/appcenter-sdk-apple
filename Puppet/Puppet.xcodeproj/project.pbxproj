@@ -507,7 +507,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = MehrdadM.Puppet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../AvalancheHub/AvalancheHub/** $(SRCROOT)/../AvalancheAnalytics/AvalancheAnalytics/** $(SRCROOT)/../AvalancheCrashes/AvalancheCrashes/**";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../AvalancheHub/AvalancheHub/** $(SRCROOT)/../AvalancheAnalytics/AvalancheAnalytics/** $(SRCROOT)/../AvalancheErrorReporting/AvalancheErrorReporting/**";
 			};
 			name = Debug;
 		};
@@ -525,7 +525,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = MehrdadM.Puppet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../AvalancheHub/AvalancheHub/** $(SRCROOT)/../AvalancheAnalytics/AvalancheAnalytics/** $(SRCROOT)/../AvalancheCrashes/AvalancheCrashes/**";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../AvalancheHub/AvalancheHub/** $(SRCROOT)/../AvalancheAnalytics/AvalancheAnalytics/** $(SRCROOT)/../AvalancheErrorReporting/AvalancheErrorReporting/**";
 			};
 			name = Release;
 		};
