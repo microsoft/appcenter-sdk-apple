@@ -11,7 +11,7 @@
 
 #pragma mark - Initialisation
 
-+ (id)sharedInstance {
++ (instancetype)sharedInstance {
   static AVAFileHelper *sharedInstance = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{

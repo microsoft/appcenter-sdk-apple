@@ -106,8 +106,7 @@
   self.sut.carrierCountry = carrierCountry;
 
   // When
-  NSData *serializedEvent =
-      [NSKeyedArchiver archivedDataWithRootObject:self.sut];
+  NSData *serializedEvent = [NSKeyedArchiver archivedDataWithRootObject:self.sut];
   id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedEvent];
 
   // Then
@@ -159,15 +158,13 @@
   self.sut.carrierCountry = carrierCountry;
 
   // When
-  NSData *serializedEvent =
-      [NSKeyedArchiver archivedDataWithRootObject:self.sut];
+  NSData *serializedEvent = [NSKeyedArchiver archivedDataWithRootObject:self.sut];
   id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedEvent];
   AVADevice *actualDevice = actual;
 
   // then
   XCTAssertTrue([self.sut isEqual:actualDevice]);
-  
-  
+
   self.sut.carrierCountry = @"newCarrierCountry";
   XCTAssertFalse([self.sut isEqual:actualDevice]);
 }

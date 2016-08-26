@@ -15,4 +15,3 @@
 + (void)resetLogsDirectory;
 
 @end
-  

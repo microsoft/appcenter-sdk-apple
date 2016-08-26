@@ -11,6 +11,11 @@
 @interface AVAAvalanche : NSObject
 
 /**
+ * Returns the singleton instance of AvalancheHub.
+ */
++ (instancetype)sharedInstance;
+
+/**
  *  Start the SDK
  *
  *  @param appSecret application secret.

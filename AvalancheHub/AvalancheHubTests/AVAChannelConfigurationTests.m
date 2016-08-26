@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
-#import <XCTest/XCTest.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
+#import <XCTest/XCTest.h>
 
 #import "AVAChannelConfiguration.h"
 #import "AVAConstants+Internal.h"
@@ -15,16 +15,19 @@
 #pragma mark - Tests
 
 - (void)testNewInstanceWasInitialisedCorrectly {
-  
+
   // If
   NSString *name = @"FooBar";
   NSUInteger batchSizeLimit = 10;
   NSUInteger pendingBatchesLimit = 20;
   float flushInterval = 9.9;
-  
+
   // When
-  AVAChannelConfiguration *sut = [[AVAChannelConfiguration alloc] initWithPriorityName:name flushInterval:flushInterval batchSizeLimit:batchSizeLimit pendingBatchesLimit:pendingBatchesLimit];
-  
+  AVAChannelConfiguration *sut = [[AVAChannelConfiguration alloc] initWithPriorityName:name
+                                                                         flushInterval:flushInterval
+                                                                        batchSizeLimit:batchSizeLimit
+                                                                   pendingBatchesLimit:pendingBatchesLimit];
+
   // Then
   assertThat(sut, notNilValue());
   assertThat(sut.name, equalTo(name));
@@ -37,7 +40,7 @@
 
   // When
   AVAChannelConfiguration *sut = [AVAChannelConfiguration configurationForPriority:AVAPriorityDefault];
-  
+
   // Then
   assertThat(sut, notNilValue());
   assertThat(sut.name, equalTo(@"AVAPriorityDefault"));
@@ -47,10 +50,10 @@
 }
 
 - (void)testClassWillReturnCorrectConfigurationForGivenHighPriority {
-  
+
   // When
   AVAChannelConfiguration *sut = [AVAChannelConfiguration configurationForPriority:AVAPriorityHigh];
-  
+
   // Then
   assertThat(sut, notNilValue());
   assertThat(sut.name, equalTo(@"AVAPriorityHigh"));
@@ -60,10 +63,10 @@
 }
 
 - (void)testClassWillReturnCorrectConfigurationForGivenBackgroundPriority {
-  
+
   // When
   AVAChannelConfiguration *sut = [AVAChannelConfiguration configurationForPriority:AVAPriorityBackground];
-  
+
   // Then
   assertThat(sut, notNilValue());
   assertThat(sut.name, equalTo(@"AVAPriorityBackground"));
@@ -73,17 +76,17 @@
 }
 
 - (void)testRequestingSamePredefinedConfigurationMultipleTimesReturnsSameObject {
-  
+
   // If
-  NSArray *priorities = @[@(AVAPriorityHigh), @(AVAPriorityDefault), @(AVAPriorityBackground)];
-  
-  for(NSNumber *priority in priorities) {
+  NSArray *priorities = @[ @(AVAPriorityHigh), @(AVAPriorityDefault), @(AVAPriorityBackground) ];
+
+  for (NSNumber *priority in priorities) {
     AVAPriority prio = priority.integerValue;
-    
+
     // When
     AVAChannelConfiguration *sut1 = [AVAChannelConfiguration configurationForPriority:prio];
     AVAChannelConfiguration *sut2 = [AVAChannelConfiguration configurationForPriority:prio];
-    
+
     // Then
     assertThat(sut2, equalTo(sut1));
   }
