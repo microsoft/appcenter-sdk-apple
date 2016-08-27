@@ -8,7 +8,7 @@
       location = "group:AvalancheAnalytics/AvalancheAnalytics.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:/Users/benny/Repositories/MS/AvalancheSDK-iOS/AvalancheCrashes/AvalancheErrorReporting.xcodeproj">
+      location = "group:AvalancheErrorReporting/AvalancheErrorReporting.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Puppet/Puppet.xcodeproj">

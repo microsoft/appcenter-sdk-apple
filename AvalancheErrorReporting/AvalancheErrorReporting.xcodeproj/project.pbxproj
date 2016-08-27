@@ -103,7 +103,7 @@
 			containerPortal = 6E04012B1D1C98690051BCFA /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 6E0401321D1C98690051BCFA;
-			remoteInfo = AvalancheCrashes;
+			remoteInfo = AvalancheErrorReporting;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -240,8 +240,8 @@
 			children = (
 				387C77061D6CC41100D68CC1 /* AVAFeatureAbstract.h */,
 				E8AEE9851D59744D00C0FF6C /* AVALogManager.h */,
-				6E0401351D1C98690051BCFA /* AvalancheCrashes */,
-				6E171AE21D22F781000DC480 /* AvalancheCrashesTests */,
+				6E0401351D1C98690051BCFA /* AvalancheErrorReporting */,
+				6E171AE21D22F781000DC480 /* AvalancheErrorReportingTests */,
 				6EC99A221D4151C60016C325 /* Vendor */,
 				6E0401341D1C98690051BCFA /* Products */,
 			);
@@ -256,7 +256,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		6E0401351D1C98690051BCFA /* AvalancheCrashes */ = {
+		6E0401351D1C98690051BCFA /* AvalancheErrorReporting */ = {
 			isa = PBXGroup;
 			children = (
 				B2E39BE61D4FDD9700DDF9DC /* AVAErrorLoggingDelegate.h */,
@@ -267,7 +267,7 @@
 				6E73FE6C1D403286008CDC15 /* Utils */,
 				6E37297E1D1DE93800F1E4AE /* Support */,
 			);
-			path = AvalancheCrashes;
+			path = AvalancheErrorReporting;
 			sourceTree = "<group>";
 		};
 		6E0401511D1C9A4F0051BCFA /* Internals */ = {
@@ -284,7 +284,7 @@
 			path = Internals;
 			sourceTree = "<group>";
 		};
-		6E171AE21D22F781000DC480 /* AvalancheCrashesTests */ = {
+		6E171AE21D22F781000DC480 /* AvalancheErrorReportingTests */ = {
 			isa = PBXGroup;
 			children = (
 				6EC99A2F1D416CCF0016C325 /* Fixtures */,
@@ -300,7 +300,7 @@
 				B2F120D61D65469D0060DED7 /* AVAErrorReportTests.m */,
 				6E7D5C861D3EC332009EC9AC /* AVAAppleStackFrameTests.m */,
 			);
-			path = AvalancheCrashesTests;
+			path = AvalancheErrorReportingTests;
 			sourceTree = "<group>";
 		};
 		6E171AEC1D22F7AB000DC480 /* Frameworks */ = {
@@ -483,7 +483,7 @@
 			dependencies = (
 			);
 			name = AvalancheErrorReporting;
-			productName = AvalancheCrashes;
+			productName = AvalancheErrorReporting;
 			productReference = 6E0401331D1C98690051BCFA /* libAvalancheErrorReporting.a */;
 			productType = "com.apple.product-type.library.static";
 		};
@@ -502,7 +502,7 @@
 				6E171AE81D22F781000DC480 /* PBXTargetDependency */,
 			);
 			name = AvalancheErrorReportingTests;
-			productName = AvalancheCrashesTests;
+			productName = AvalancheErrorReportingTests;
 			productReference = 6E171AE11D22F781000DC480 /* AvalancheErrorReporting.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
@@ -591,7 +591,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "jazzy --config ../Documentation/DocsCrashes/.jazzy.yaml";
+			shellScript = "jazzy --config ../Documentation/DocsErrorReporting/.jazzy.yaml";
 		};
 /* End PBXShellScriptBuildPhase section */
 

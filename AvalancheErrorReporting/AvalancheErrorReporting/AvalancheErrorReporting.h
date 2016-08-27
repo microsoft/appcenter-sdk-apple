@@ -5,3 +5,4 @@
 #import <Foundation/Foundation.h>
 
 #import "AVAErrorReporting.h"
+#import "AVAErrorLoggingDelegate.h"
