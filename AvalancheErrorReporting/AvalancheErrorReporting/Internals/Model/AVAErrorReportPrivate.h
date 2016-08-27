@@ -4,7 +4,7 @@
 
 #import "AVAErrorReport.h"
 
-extern NSString *const __attribute__((unused)) kAVACrashKillSignal;
+extern NSString *const __attribute__((unused)) kAVAErrorReportKillSignal;
 
 @interface AVAErrorReport ()
 

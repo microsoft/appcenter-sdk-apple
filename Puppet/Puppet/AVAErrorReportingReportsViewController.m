@@ -1,11 +1,11 @@
-#import "AVACrashReportsViewController.h"
+#import "AVAErrorReportingReportsViewController.h"
 #import "AVAErrorReporting.h"
 
-@interface AVACrashReportsViewController ()
+@interface AVAErrorReportingReportsViewController ()
 
 @end
 
-@implementation AVACrashReportsViewController
+@implementation AVAErrorReportingReportsViewController
 
 - (void)viewDidLoad {
   [super viewDidLoad];

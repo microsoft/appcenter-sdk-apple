@@ -1,4 +1,4 @@
-#import "AVACrashCXXExceptionHandler.h"
+#import "AVAErrorReportingCXXExceptionHandler.h"
 #import <cxxabi.h>
 #import <dlfcn.h>
 #import <exception>
@@ -10,20 +10,20 @@
 #import <typeinfo>
 #import <vector>
 
-typedef std::vector<AVACrashUncaughtCXXExceptionHandler> AVACrashUncaughtCXXExceptionHandlerList;
+typedef std::vector<AVAErrorReportingUncaughtCXXExceptionHandler> AVAErrorReportingUncaughtCXXExceptionHandlerList;
 typedef struct {
   void *exception_object;
   uintptr_t call_stack[128];
   uint32_t num_frames;
-} AVACrashCXXExceptionTSInfo;
+} AVAErrorReportingCXXExceptionTSInfo;
 
-static bool _AVACrashIsOurTerminateHandlerInstalled = false;
-static std::terminate_handler _AVACrashOriginalTerminateHandler = nullptr;
-static AVACrashUncaughtCXXExceptionHandlerList _AVACrashUncaughtExceptionHandlerList;
-static OSSpinLock _AVACrashCXXExceptionHandlingLock = OS_SPINLOCK_INIT;
-static pthread_key_t _AVACrashCXXExceptionInfoTSDKey = 0;
+static bool _AVAErrorReportingIsOurTerminateHandlerInstalled = false;
+static std::terminate_handler _AVAErrorReportingOriginalTerminateHandler = nullptr;
+static AVAErrorReportingUncaughtCXXExceptionHandlerList _AVAErrorReportingUncaughtExceptionHandlerList;
+static OSSpinLock _AVAErrorReportingCXXExceptionHandlingLock = OS_SPINLOCK_INIT;
+static pthread_key_t _AVAErrorReportingCXXExceptionInfoTSDKey = 0;
 
-@implementation AVACrashUncaughtCXXExceptionHandlerManager
+@implementation AVAErrorReportingUncaughtCXXExceptionHandlerManager
 
 extern "C" void LIBCXXABI_NORETURN __cxa_throw(void *exception_object, std::type_info *tinfo, void (*dest)(void *)) {
   /**
@@ -65,13 +65,13 @@ extern "C" void LIBCXXABI_NORETURN __cxa_throw(void *exception_object, std::type
    * Invariant: If the terminate handler is installed, the TSD key must also be
    * initialized.
    */
-  if (_AVACrashIsOurTerminateHandlerInstalled) {
-    AVACrashCXXExceptionTSInfo *info =
-        static_cast<AVACrashCXXExceptionTSInfo *>(pthread_getspecific(_AVACrashCXXExceptionInfoTSDKey));
+  if (_AVAErrorReportingIsOurTerminateHandlerInstalled) {
+    AVAErrorReportingCXXExceptionTSInfo *info =
+        static_cast<AVAErrorReportingCXXExceptionTSInfo *>(pthread_getspecific(_AVAErrorReportingCXXExceptionInfoTSDKey));
 
     if (!info) {
-      info = reinterpret_cast<AVACrashCXXExceptionTSInfo *>(calloc(1, sizeof(AVACrashCXXExceptionTSInfo)));
-      pthread_setspecific(_AVACrashCXXExceptionInfoTSDKey, info);
+      info = reinterpret_cast<AVAErrorReportingCXXExceptionTSInfo *>(calloc(1, sizeof(AVAErrorReportingCXXExceptionTSInfo)));
+      pthread_setspecific(_AVAErrorReportingCXXExceptionInfoTSDKey, info);
     }
     info->exception_object = exception_object;
     // XXX: All significant time in this call is spent right here.
@@ -92,14 +92,14 @@ callthrough:
 }
 
 __attribute__((always_inline)) static inline void
-AVACrashIterateExceptionHandlers_unlocked(const AVACrashUncaughtCXXExceptionInfo &info) {
-  for (const auto &handler : _AVACrashUncaughtExceptionHandlerList) {
+AVAErrorReportingIterateExceptionHandlers_unlocked(const AVAErrorReportingUncaughtCXXExceptionInfo &info) {
+  for (const auto &handler : _AVAErrorReportingUncaughtExceptionHandlerList) {
     handler(&info);
   }
 }
 
-static void AVACrashUncaughtCXXTerminateHandler(void) {
-  AVACrashUncaughtCXXExceptionInfo info = {
+static void AVAErrorReportingUncaughtCXXTerminateHandler(void) {
+  AVAErrorReportingUncaughtCXXExceptionInfo info = {
       .exception = nullptr,
       .exception_type_name = nullptr,
       .exception_message = nullptr,
@@ -108,14 +108,14 @@ static void AVACrashUncaughtCXXTerminateHandler(void) {
   };
   auto p = std::current_exception();
 
-  OSSpinLockLock(&_AVACrashCXXExceptionHandlingLock);
+  OSSpinLockLock(&_AVAErrorReportingCXXExceptionHandlingLock);
   {
     if (p) { // explicit operator bool
       info.exception = reinterpret_cast<const void *>(&p);
       info.exception_type_name = __cxxabiv1::__cxa_current_exception_type()->name();
 
-      AVACrashCXXExceptionTSInfo *recorded_info =
-          reinterpret_cast<AVACrashCXXExceptionTSInfo *>(pthread_getspecific(_AVACrashCXXExceptionInfoTSDKey));
+      AVAErrorReportingCXXExceptionTSInfo *recorded_info =
+          reinterpret_cast<AVAErrorReportingCXXExceptionTSInfo *>(pthread_getspecific(_AVAErrorReportingCXXExceptionInfoTSDKey));
 
       if (recorded_info) {
         info.exception_frames_count = recorded_info->num_frames - 1;
@@ -135,42 +135,42 @@ static void AVACrashUncaughtCXXTerminateHandler(void) {
         std::rethrow_exception(p);
       } catch (const std::exception &e) { // C++ exception.
         info.exception_message = e.what();
-        AVACrashIterateExceptionHandlers_unlocked(info);
+        AVAErrorReportingIterateExceptionHandlers_unlocked(info);
       } catch (const std::exception *e) { // C++ exception by pointer.
         info.exception_message = e->what();
-        AVACrashIterateExceptionHandlers_unlocked(info);
+        AVAErrorReportingIterateExceptionHandlers_unlocked(info);
       } catch (const std::string &e) { // C++ string as exception.
         info.exception_message = e.c_str();
-        AVACrashIterateExceptionHandlers_unlocked(info);
+        AVAErrorReportingIterateExceptionHandlers_unlocked(info);
       } catch (const std::string *e) { // C++ string pointer as exception.
         info.exception_message = e->c_str();
-        AVACrashIterateExceptionHandlers_unlocked(info);
+        AVAErrorReportingIterateExceptionHandlers_unlocked(info);
       } catch (const char *e) { // Plain string as exception.
         info.exception_message = e;
-        AVACrashIterateExceptionHandlers_unlocked(info);
+        AVAErrorReportingIterateExceptionHandlers_unlocked(info);
       } catch (id e) { // Objective-C exception. Pass it on to Foundation.
-        OSSpinLockUnlock(&_AVACrashCXXExceptionHandlingLock);
-        if (_AVACrashOriginalTerminateHandler != nullptr) {
-          _AVACrashOriginalTerminateHandler();
+        OSSpinLockUnlock(&_AVAErrorReportingCXXExceptionHandlingLock);
+        if (_AVAErrorReportingOriginalTerminateHandler != nullptr) {
+          _AVAErrorReportingOriginalTerminateHandler();
         }
         return;
       } catch (...) { // Any other kind of exception. No message.
-        AVACrashIterateExceptionHandlers_unlocked(info);
+        AVAErrorReportingIterateExceptionHandlers_unlocked(info);
       }
     }
   }
-  OSSpinLockUnlock(&_AVACrashCXXExceptionHandlingLock); // In case terminate is
+  OSSpinLockUnlock(&_AVAErrorReportingCXXExceptionHandlingLock); // In case terminate is
                                                         // called reentrantly by
                                                         // pasing it on
 
-  if (_AVACrashOriginalTerminateHandler != nullptr) {
-    _AVACrashOriginalTerminateHandler();
+  if (_AVAErrorReportingOriginalTerminateHandler != nullptr) {
+    _AVAErrorReportingOriginalTerminateHandler();
   } else {
     abort();
   }
 }
 
-+ (void)addCXXExceptionHandler:(AVACrashUncaughtCXXExceptionHandler)handler {
++ (void)addCXXExceptionHandler:(AVAErrorReportingUncaughtCXXExceptionHandler)handler {
   static dispatch_once_t key_predicate = 0;
 
   /**
@@ -178,44 +178,44 @@ static void AVACrashUncaughtCXXTerminateHandler(void) {
    * (there's no reason to delete it).
    */
   dispatch_once(&key_predicate, ^{
-    pthread_key_create(&_AVACrashCXXExceptionInfoTSDKey, free);
+    pthread_key_create(&_AVAErrorReportingCXXExceptionInfoTSDKey, free);
   });
 
-  OSSpinLockLock(&_AVACrashCXXExceptionHandlingLock);
+  OSSpinLockLock(&_AVAErrorReportingCXXExceptionHandlingLock);
   {
-    if (!_AVACrashIsOurTerminateHandlerInstalled) {
-      _AVACrashOriginalTerminateHandler = std::set_terminate(AVACrashUncaughtCXXTerminateHandler);
-      _AVACrashIsOurTerminateHandlerInstalled = true;
+    if (!_AVAErrorReportingIsOurTerminateHandlerInstalled) {
+      _AVAErrorReportingOriginalTerminateHandler = std::set_terminate(AVAErrorReportingUncaughtCXXTerminateHandler);
+      _AVAErrorReportingIsOurTerminateHandlerInstalled = true;
     }
-    _AVACrashUncaughtExceptionHandlerList.push_back(handler);
+    _AVAErrorReportingUncaughtExceptionHandlerList.push_back(handler);
   }
-  OSSpinLockUnlock(&_AVACrashCXXExceptionHandlingLock);
+  OSSpinLockUnlock(&_AVAErrorReportingCXXExceptionHandlingLock);
 }
 
-+ (void)removeCXXExceptionHandler:(AVACrashUncaughtCXXExceptionHandler)handler {
-  OSSpinLockLock(&_AVACrashCXXExceptionHandlingLock);
++ (void)removeCXXExceptionHandler:(AVAErrorReportingUncaughtCXXExceptionHandler)handler {
+  OSSpinLockLock(&_AVAErrorReportingCXXExceptionHandlingLock);
   {
     auto i =
-        std::find(_AVACrashUncaughtExceptionHandlerList.begin(), _AVACrashUncaughtExceptionHandlerList.end(), handler);
+        std::find(_AVAErrorReportingUncaughtExceptionHandlerList.begin(), _AVAErrorReportingUncaughtExceptionHandlerList.end(), handler);
 
-    if (i != _AVACrashUncaughtExceptionHandlerList.end()) {
-      _AVACrashUncaughtExceptionHandlerList.erase(i);
+    if (i != _AVAErrorReportingUncaughtExceptionHandlerList.end()) {
+      _AVAErrorReportingUncaughtExceptionHandlerList.erase(i);
     }
 
-    if (_AVACrashIsOurTerminateHandlerInstalled) {
-      if (_AVACrashUncaughtExceptionHandlerList.empty()) {
-        std::terminate_handler previous_handler = std::set_terminate(_AVACrashOriginalTerminateHandler);
+    if (_AVAErrorReportingIsOurTerminateHandlerInstalled) {
+      if (_AVAErrorReportingUncaughtExceptionHandlerList.empty()) {
+        std::terminate_handler previous_handler = std::set_terminate(_AVAErrorReportingOriginalTerminateHandler);
 
-        if (previous_handler != AVACrashUncaughtCXXTerminateHandler) {
+        if (previous_handler != AVAErrorReportingUncaughtCXXTerminateHandler) {
           std::set_terminate(previous_handler);
         } else {
-          _AVACrashIsOurTerminateHandlerInstalled = false;
-          _AVACrashOriginalTerminateHandler = nullptr;
+          _AVAErrorReportingIsOurTerminateHandlerInstalled = false;
+          _AVAErrorReportingOriginalTerminateHandler = nullptr;
         }
       }
     }
   }
-  OSSpinLockUnlock(&_AVACrashCXXExceptionHandlingLock);
+  OSSpinLockUnlock(&_AVAErrorReportingCXXExceptionHandlingLock);
 }
 
 @end

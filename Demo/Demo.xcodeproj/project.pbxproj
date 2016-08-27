@@ -291,7 +291,6 @@
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Vendor",
 					"$(PROJECT_DIR)/../Products/**",
 				);
 				INFOPLIST_FILE = Demo/Info.plist;
@@ -310,7 +309,6 @@
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Vendor",
 					"$(PROJECT_DIR)/../Products/**",
 				);
 				INFOPLIST_FILE = Demo/Info.plist;

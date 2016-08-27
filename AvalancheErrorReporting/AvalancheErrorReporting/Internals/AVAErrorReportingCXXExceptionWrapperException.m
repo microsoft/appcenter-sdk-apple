@@ -2,13 +2,13 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "AVACrashCXXExceptionWrapperException.h"
+#import "AVAErrorReportingCXXExceptionWrapperException.h"
 
-@implementation AVACrashCXXExceptionWrapperException {
-  const AVACrashUncaughtCXXExceptionInfo *_info;
+@implementation AVAErrorReportingCXXExceptionWrapperException {
+  const AVAErrorReportingUncaughtCXXExceptionInfo *_info;
 }
 
-- (instancetype)initWithCXXExceptionInfo:(const AVACrashUncaughtCXXExceptionInfo *)info {
+- (instancetype)initWithCXXExceptionInfo:(const AVAErrorReportingUncaughtCXXExceptionInfo *)info {
   extern char *__cxa_demangle(const char *mangled_name, char *output_buffer, size_t *length, int *status);
   char *demangled_name = &__cxa_demangle ? __cxa_demangle(info->exception_type_name ?: "", NULL, NULL, NULL) : NULL;
 

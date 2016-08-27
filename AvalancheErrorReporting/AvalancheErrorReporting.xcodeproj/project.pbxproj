@@ -45,12 +45,12 @@
 		6E171AF01D22F841000DC480 /* libAvalancheHub.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171AEF1D22F841000DC480 /* libAvalancheHub.a */; };
 		6E171B111D22FABA000DC480 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171B051D22FABA000DC480 /* libOCMock.a */; };
 		6E171B391D22FF6B000DC480 /* libOHHTTPStubs.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171B2F1D22FF6B000DC480 /* libOHHTTPStubs.a */; };
-		6E73FE6A1D402F79008CDC15 /* AVACrashCXXExceptionHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E73FE681D402F79008CDC15 /* AVACrashCXXExceptionHandler.h */; };
-		6E73FE6B1D402F79008CDC15 /* AVACrashCXXExceptionHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6E73FE691D402F79008CDC15 /* AVACrashCXXExceptionHandler.mm */; };
+		6E73FE6A1D402F79008CDC15 /* AVAErrorReportingCXXExceptionHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E73FE681D402F79008CDC15 /* AVAErrorReportingCXXExceptionHandler.h */; };
+		6E73FE6B1D402F79008CDC15 /* AVAErrorReportingCXXExceptionHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6E73FE691D402F79008CDC15 /* AVAErrorReportingCXXExceptionHandler.mm */; };
 		6E73FE6F1D4032AB008CDC15 /* AVAErrorReportingHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E73FE6D1D4032AB008CDC15 /* AVAErrorReportingHelper.h */; };
 		6E73FE701D4032AB008CDC15 /* AVAErrorReportingHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E73FE6E1D4032AB008CDC15 /* AVAErrorReportingHelper.m */; };
-		6E73FE731D4059E7008CDC15 /* AVACrashCXXExceptionWrapperException.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E73FE711D4059E7008CDC15 /* AVACrashCXXExceptionWrapperException.h */; };
-		6E73FE741D4059E7008CDC15 /* AVACrashCXXExceptionWrapperException.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E73FE721D4059E7008CDC15 /* AVACrashCXXExceptionWrapperException.m */; };
+		6E73FE731D4059E7008CDC15 /* AVAErrorReportingCXXExceptionWrapperException.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E73FE711D4059E7008CDC15 /* AVAErrorReportingCXXExceptionWrapperException.h */; };
+		6E73FE741D4059E7008CDC15 /* AVAErrorReportingCXXExceptionWrapperException.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E73FE721D4059E7008CDC15 /* AVAErrorReportingCXXExceptionWrapperException.m */; };
 		6E7D5C671D3E9321009EC9AC /* AVAAppleBinary.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E7D5C651D3E9321009EC9AC /* AVAAppleBinary.h */; };
 		6E7D5C681D3E9321009EC9AC /* AVAAppleBinary.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C661D3E9321009EC9AC /* AVAAppleBinary.m */; };
 		6E7D5C6B1D3E9332009EC9AC /* AVAAppleErrorLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E7D5C691D3E9332009EC9AC /* AVAAppleErrorLog.h */; };
@@ -165,12 +165,12 @@
 		6E3729801D1DE93800F1E4AE /* buildnumber.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = buildnumber.xcconfig; sourceTree = "<group>"; };
 		6E3729811D1DE93800F1E4AE /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		6E3729821D1DE93800F1E4AE /* release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = release.xcconfig; sourceTree = "<group>"; };
-		6E73FE681D402F79008CDC15 /* AVACrashCXXExceptionHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVACrashCXXExceptionHandler.h; sourceTree = "<group>"; };
-		6E73FE691D402F79008CDC15 /* AVACrashCXXExceptionHandler.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AVACrashCXXExceptionHandler.mm; sourceTree = "<group>"; };
+		6E73FE681D402F79008CDC15 /* AVAErrorReportingCXXExceptionHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAErrorReportingCXXExceptionHandler.h; sourceTree = "<group>"; };
+		6E73FE691D402F79008CDC15 /* AVAErrorReportingCXXExceptionHandler.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AVAErrorReportingCXXExceptionHandler.mm; sourceTree = "<group>"; };
 		6E73FE6D1D4032AB008CDC15 /* AVAErrorReportingHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAErrorReportingHelper.h; sourceTree = "<group>"; };
 		6E73FE6E1D4032AB008CDC15 /* AVAErrorReportingHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAErrorReportingHelper.m; sourceTree = "<group>"; };
-		6E73FE711D4059E7008CDC15 /* AVACrashCXXExceptionWrapperException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVACrashCXXExceptionWrapperException.h; sourceTree = "<group>"; };
-		6E73FE721D4059E7008CDC15 /* AVACrashCXXExceptionWrapperException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVACrashCXXExceptionWrapperException.m; sourceTree = "<group>"; };
+		6E73FE711D4059E7008CDC15 /* AVAErrorReportingCXXExceptionWrapperException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAErrorReportingCXXExceptionWrapperException.h; sourceTree = "<group>"; };
+		6E73FE721D4059E7008CDC15 /* AVAErrorReportingCXXExceptionWrapperException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAErrorReportingCXXExceptionWrapperException.m; sourceTree = "<group>"; };
 		6E7D5C651D3E9321009EC9AC /* AVAAppleBinary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAAppleBinary.h; sourceTree = "<group>"; };
 		6E7D5C661D3E9321009EC9AC /* AVAAppleBinary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAAppleBinary.m; sourceTree = "<group>"; };
 		6E7D5C691D3E9332009EC9AC /* AVAAppleErrorLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAAppleErrorLog.h; sourceTree = "<group>"; };
@@ -273,10 +273,10 @@
 		6E0401511D1C9A4F0051BCFA /* Internals */ = {
 			isa = PBXGroup;
 			children = (
-				6E73FE711D4059E7008CDC15 /* AVACrashCXXExceptionWrapperException.h */,
-				6E73FE721D4059E7008CDC15 /* AVACrashCXXExceptionWrapperException.m */,
-				6E73FE681D402F79008CDC15 /* AVACrashCXXExceptionHandler.h */,
-				6E73FE691D402F79008CDC15 /* AVACrashCXXExceptionHandler.mm */,
+				6E73FE711D4059E7008CDC15 /* AVAErrorReportingCXXExceptionWrapperException.h */,
+				6E73FE721D4059E7008CDC15 /* AVAErrorReportingCXXExceptionWrapperException.m */,
+				6E73FE681D402F79008CDC15 /* AVAErrorReportingCXXExceptionHandler.h */,
+				6E73FE691D402F79008CDC15 /* AVAErrorReportingCXXExceptionHandler.mm */,
 				6E0401591D1C9D7F0051BCFA /* AvalancheHub+Internal.h */,
 				6E0401521D1C9A4F0051BCFA /* AVAErrorReportingPrivate.h */,
 				6E7D5C641D3E92B1009EC9AC /* Model */,
@@ -459,8 +459,8 @@
 				6E7D5C6F1D3E9346009EC9AC /* AVAAppleException.h in Headers */,
 				387C77071D6CC41100D68CC1 /* AVAFeatureAbstract.h in Headers */,
 				6E0401771D1C9EBE0051BCFA /* AvalancheHub+Internal.h in Headers */,
-				6E73FE731D4059E7008CDC15 /* AVACrashCXXExceptionWrapperException.h in Headers */,
-				6E73FE6A1D402F79008CDC15 /* AVACrashCXXExceptionHandler.h in Headers */,
+				6E73FE731D4059E7008CDC15 /* AVAErrorReportingCXXExceptionWrapperException.h in Headers */,
+				6E73FE6A1D402F79008CDC15 /* AVAErrorReportingCXXExceptionHandler.h in Headers */,
 				38D4BBA31D5A9962001A30A0 /* AVAFeature.h in Headers */,
 				6E0401781D1C9EBE0051BCFA /* AVAErrorReportingPrivate.h in Headers */,
 			);
@@ -601,10 +601,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				B2F120E51D657CF10060DED7 /* AVAErrorReport.m in Sources */,
-				6E73FE6B1D402F79008CDC15 /* AVACrashCXXExceptionHandler.mm in Sources */,
+				6E73FE6B1D402F79008CDC15 /* AVAErrorReportingCXXExceptionHandler.mm in Sources */,
 				6E7D5C701D3E9346009EC9AC /* AVAAppleException.m in Sources */,
 				B2F120E31D657CF10060DED7 /* AVAErrorAttachment.m in Sources */,
-				6E73FE741D4059E7008CDC15 /* AVACrashCXXExceptionWrapperException.m in Sources */,
+				6E73FE741D4059E7008CDC15 /* AVAErrorReportingCXXExceptionWrapperException.m in Sources */,
 				6E7D5C6C1D3E9332009EC9AC /* AVAAppleErrorLog.m in Sources */,
 				6E7D5C781D3E9395009EC9AC /* AVAAppleStackFrame.m in Sources */,
 				6E7D5C741D3E9381009EC9AC /* AVAAppleThread.m in Sources */,

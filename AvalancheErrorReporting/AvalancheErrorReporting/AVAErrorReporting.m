@@ -4,7 +4,7 @@
 
 #import "AVAAvalancheInternal.h"
 #import "AVAAppleErrorLog.h"
-#import "AVACrashCXXExceptionWrapperException.h"
+#import "AVAErrorReportingCXXExceptionWrapperException.h"
 #import "AVAErrorReportingHelper.h"
 #import "AVAErrorLogFormatter.h"
 #import "AVAErrorReportingPrivate.h"
@@ -36,10 +36,10 @@ static PLCrashReporterCallbacks plCrashCallbacks = {
 /**
  * C++ Exception Handler
  */
-static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInfo *info) {
+static void uncaught_cxx_exception_handler(const AVAErrorReportingUncaughtCXXExceptionInfo *info) {
   // This relies on a LOT of sneaky internal knowledge of how PLCR works and
   // should not be considered a long-term solution.
-  NSGetUncaughtExceptionHandler()([[AVACrashCXXExceptionWrapperException alloc] initWithCXXExceptionInfo:info]);
+  NSGetUncaughtExceptionHandler()([[AVAErrorReportingCXXExceptionWrapperException alloc] initWithCXXExceptionInfo:info]);
   abort();
 }
 
@@ -61,7 +61,7 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
     if ([AVAEnvironmentHelper currentAppEnvironment] != AVAEnvironmentAppStore) {
       if ([self isDebuggerAttached]) {
         AVALogWarning(
-            @"[AVACrashes] Error: The debugger is attached. The following crash cannot be detected by the SDK!");
+            @"[AVAErrorReporting] Error: The debugger is attached. The following crash cannot be detected by the SDK!");
       }
 
       __builtin_trap();
@@ -198,7 +198,7 @@ static void uncaught_cxx_exception_handler(const AVACrashUncaughtCXXExceptionInf
                   @"set. Make sure there is no other exception "
                   @"handler set up!");
     }
-    [AVACrashUncaughtCXXExceptionHandlerManager addCXXExceptionHandler:uncaught_cxx_exception_handler];
+    [AVAErrorReportingUncaughtCXXExceptionHandlerManager addCXXExceptionHandler:uncaught_cxx_exception_handler];
   }
 }
 
