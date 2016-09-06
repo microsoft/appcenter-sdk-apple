@@ -6,18 +6,23 @@
 
 static NSString *const kAVALogsDirectory = @"com.microsoft.avalanche/logs";
 static NSString *const kAVAFileExtension = @"ava";
-static NSUInteger const AVADefaultBucketFileCountLimit = 50;
+// FIXME Need a different storage such as database to make it work properly.
+//       For now, persistence will maintain up to 350 logs and remove the oldest 50 logs in a file.
+static NSUInteger const AVADefaultFileCountLimit = 7;
+static NSUInteger const AVADefaultLogCountLimit = 50;
 
 @implementation AVAFileStorage
 
 @synthesize bucketFileCountLimit = _bucketFileCountLimit;
+@synthesize bucketFileLogCountLimit = _bucketFileLogCountLimit;
 
 #pragma mark - Initialisation
 
 - (instancetype)init {
   if (self = [super init]) {
     _buckets = [NSMutableDictionary<NSString *, AVAStorageBucket *> new];
-    _bucketFileCountLimit = AVADefaultBucketFileCountLimit;
+    _bucketFileCountLimit = AVADefaultFileCountLimit;
+    _bucketFileLogCountLimit = AVADefaultLogCountLimit;
   }
   return self;
 }
@@ -30,10 +35,16 @@ static NSUInteger const AVADefaultBucketFileCountLimit = 50;
   }
 
   AVAStorageBucket *bucket = [self bucketForStorageKey:storageKey];
+
+  if (bucket.currentLogs.count >= self.bucketFileLogCountLimit) {
+    [bucket.currentLogs removeAllObjects];
+    [self renewCurrentFileForStorageKey:storageKey];
+  }
+
   if (bucket.currentLogs.count == 0) {
 
     // Drop oldest files if needed
-    if ([self maxFileCountReachedForStorageKey:storageKey]) {
+    if (bucket.availableFiles.count >= self.bucketFileCountLimit) {
       AVAFile *oldestFile = [bucket.availableFiles lastObject];
       [self deleteLogsForId:oldestFile.fileId withStorageKey:storageKey];
     }
@@ -77,12 +88,6 @@ static NSUInteger const AVADefaultBucketFileCountLimit = 50;
   if (completion) {
     completion(logs, fileId);
   }
-}
-
-- (BOOL)maxFileCountReachedForStorageKey:(NSString *)storageKey {
-  AVAStorageBucket *bucket = self.buckets[storageKey];
-  NSUInteger filesCount = bucket.availableFiles.count + bucket.blockedFiles.count;
-  return (filesCount >= self.bucketFileCountLimit);
 }
 
 #pragma mark - Helper
