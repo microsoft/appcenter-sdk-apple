@@ -48,6 +48,20 @@
                ReferencedContainer = "container:AvalancheErrorReporting/AvalancheErrorReporting.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "6E171AE01D22F781000DC480"
+               BuildableName = "AvalancheErrorReporting.xctest"
+               BlueprintName = "AvalancheErrorReportingTests"
+               ReferencedContainer = "container:AvalancheErrorReporting/AvalancheErrorReporting.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -64,16 +78,6 @@
                BuildableName = "AvalancheHubTests.xctest"
                BlueprintName = "AvalancheHubTests"
                ReferencedContainer = "container:AvalancheHub/AvalancheHub.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6E171AE01D22F781000DC480"
-               BuildableName = "AvalancheErrorReportingTests.xctest"
-               BlueprintName = "AvalancheErrorReportingTests"
-               ReferencedContainer = "container:AvalancheErrorReporting/AvalancheErrorReporting.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
