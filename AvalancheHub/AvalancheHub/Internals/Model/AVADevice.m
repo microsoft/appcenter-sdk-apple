@@ -11,6 +11,7 @@ static NSString *const kAVAModel = @"model";
 static NSString *const kAVAOemName = @"oemName";
 static NSString *const kAVAOsName = @"osName";
 static NSString *const kAVAOsVersion = @"osVersion";
+static NSString *const kAVAOsBuild = @"osBuild";
 static NSString *const kAVAOsApiLevel = @"osApiLevel";
 static NSString *const kAVALocale = @"locale";
 static NSString *const kAVATimeZoneOffset = @"timeZoneOffset";
@@ -47,6 +48,9 @@ static NSString *const kAVAAppNamespace = @"appNamespace";
   if (self.osVersion) {
     dict[kAVAOsVersion] = self.osVersion;
   }
+  if (self.osBuild) {
+    dict[kAVAOsBuild] = self.osVersion;
+  }
   if (self.osApiLevel) {
     dict[kAVAOsApiLevel] = self.osApiLevel;
   }
@@ -79,9 +83,9 @@ static NSString *const kAVAAppNamespace = @"appNamespace";
 
 - (BOOL)isValid {
   BOOL isValid = (!self.sdkVersion || !self.wrapperSdkVersion || !self.wrapperSdkName || !self.model || !self.oemName ||
-                  !self.osName || !self.osVersion || !self.osApiLevel || !self.locale || !self.timeZoneOffset ||
-                  !self.screenSize || !self.appVersion || !self.carrierName || !self.carrierCountry || !self.appBuild ||
-                  !self.appNamespace);
+                  !self.osName || !self.osVersion || !self.osBuild || !self.osApiLevel || !self.locale ||
+                  !self.timeZoneOffset || !self.screenSize || !self.appVersion || !self.carrierName ||
+                  !self.carrierCountry || !self.appBuild || !self.appNamespace);
 
   return isValid;
 }
@@ -91,38 +95,27 @@ static NSString *const kAVAAppNamespace = @"appNamespace";
   if (!device)
     return NO;
 
-  return ((!self.sdkVersion && !device.sdkVersion) ||
-          [self.sdkVersion isEqualToString:device.sdkVersion]) &&
+  return ((!self.sdkVersion && !device.sdkVersion) || [self.sdkVersion isEqualToString:device.sdkVersion]) &&
          ((!self.wrapperSdkVersion && !device.wrapperSdkVersion) ||
           [self.wrapperSdkVersion isEqualToString:device.wrapperSdkVersion]) &&
          ((!self.wrapperSdkName && !device.wrapperSdkName) ||
           [self.wrapperSdkName isEqualToString:device.wrapperSdkName]) &&
-         ((!self.model && !device.model) ||
-          [self.model isEqualToString:device.model]) &&
-         ((!self.oemName && !device.oemName) ||
-          [self.oemName isEqualToString:device.oemName]) &&
-         ((!self.osName && !device.osName) ||
-          [self.osName isEqualToString:device.osName]) &&
-         ((!self.osVersion && !device.osVersion) ||
-          [self.osVersion isEqualToString:device.osVersion]) &&
-         ((!self.osApiLevel && !device.osApiLevel) ||
-          [self.osApiLevel isEqualToNumber:device.osApiLevel]) &&
-         ((!self.locale && !device.locale) ||
-          [self.locale isEqualToString:device.locale]) &&
+         ((!self.model && !device.model) || [self.model isEqualToString:device.model]) &&
+         ((!self.oemName && !device.oemName) || [self.oemName isEqualToString:device.oemName]) &&
+         ((!self.osName && !device.osName) || [self.osName isEqualToString:device.osName]) &&
+         ((!self.osVersion && !device.osVersion) || [self.osVersion isEqualToString:device.osVersion]) &&
+         ((!self.osBuild && !device.osBuild) || [self.osBuild isEqualToString:device.osBuild]) &&
+         ((!self.osApiLevel && !device.osApiLevel) || [self.osApiLevel isEqualToNumber:device.osApiLevel]) &&
+         ((!self.locale && !device.locale) || [self.locale isEqualToString:device.locale]) &&
          ((!self.timeZoneOffset && !device.timeZoneOffset) ||
           [self.timeZoneOffset isEqualToNumber:device.timeZoneOffset]) &&
-         ((!self.screenSize && !device.screenSize) ||
-          [self.screenSize isEqualToString:device.screenSize]) &&
-         ((!self.appVersion && !device.appVersion) ||
-          [self.appVersion isEqualToString:device.appVersion]) &&
-         ((!self.carrierName && !device.carrierName) ||
-          [self.carrierName isEqualToString:device.carrierName]) &&
+         ((!self.screenSize && !device.screenSize) || [self.screenSize isEqualToString:device.screenSize]) &&
+         ((!self.appVersion && !device.appVersion) || [self.appVersion isEqualToString:device.appVersion]) &&
+         ((!self.carrierName && !device.carrierName) || [self.carrierName isEqualToString:device.carrierName]) &&
          ((!self.carrierCountry && !device.carrierCountry) ||
           [self.carrierCountry isEqualToString:device.carrierCountry]) &&
-         ((!self.appBuild && !device.appBuild) ||
-          [self.appBuild isEqualToString:device.appBuild]) &&
-         ((!self.appNamespace && !device.appNamespace) ||
-          [self.appNamespace isEqualToString:device.appNamespace]);
+         ((!self.appBuild && !device.appBuild) || [self.appBuild isEqualToString:device.appBuild]) &&
+         ((!self.appNamespace && !device.appNamespace) || [self.appNamespace isEqualToString:device.appNamespace]);
 }
 
 #pragma mark - NSCoding
@@ -137,6 +130,7 @@ static NSString *const kAVAAppNamespace = @"appNamespace";
     _oemName = [coder decodeObjectForKey:kAVAOemName];
     _osName = [coder decodeObjectForKey:kAVAOsName];
     _osVersion = [coder decodeObjectForKey:kAVAOsVersion];
+    _osBuild = [coder decodeObjectForKey:kAVAOsBuild];
     _osApiLevel = [coder decodeObjectForKey:kAVAOsApiLevel];
     _locale = [coder decodeObjectForKey:kAVALocale];
     _timeZoneOffset = [coder decodeObjectForKey:kAVATimeZoneOffset];
@@ -158,6 +152,7 @@ static NSString *const kAVAAppNamespace = @"appNamespace";
   [coder encodeObject:self.oemName forKey:kAVAOemName];
   [coder encodeObject:self.osName forKey:kAVAOsName];
   [coder encodeObject:self.osVersion forKey:kAVAOsVersion];
+  [coder encodeObject:self.osBuild forKey:kAVAOsBuild];
   [coder encodeObject:self.osApiLevel forKey:kAVAOsApiLevel];
   [coder encodeObject:self.locale forKey:kAVALocale];
   [coder encodeObject:self.timeZoneOffset forKey:kAVATimeZoneOffset];

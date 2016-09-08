@@ -1,6 +1,6 @@
 #import "AppDelegate.h"
 #import "AvalancheAnalytics.h"
-#import "AvalancheCrashes.h"
+#import "AvalancheErrorReporting.h"
 #import "AvalancheHub.h"
 #import "Constants.h"
 
@@ -17,12 +17,12 @@
 
   // Start Avalanche SDK.
   [AVAAvalanche setLogLevel:AVALogLevelVerbose];
-  [AVAAvalanche start:[[NSUUID UUID] UUIDString] withFeatures:@[ [AVAAnalytics class], [AVACrashes class] ]];
+  [AVAAvalanche start:[[NSUUID UUID] UUIDString] withFeatures:@[ [AVAAnalytics class], [AVAErrorReporting class] ]];
 
-  [AVACrashes setErrorLoggingDelegate:self]; // TODO rename to setDelegate:
+  [AVAErrorReporting setErrorLoggingDelegate:self]; // TODO rename to setDelegate:
 
-  [AVACrashes setUserConfirmationHandler:^(NSArray<AVAErrorReport *> *errorLogs) {
-    NSString *exceptionReason = [AVACrashes lastSessionCrashDetails].exceptionReason;
+  [AVAErrorReporting setUserConfirmationHandler:^(NSArray<AVAErrorReport *> *errorLogs) {
+    NSString *exceptionReason = [AVAErrorReporting lastSessionCrashDetails].exceptionReason;
 
     // or something like
 
@@ -85,7 +85,7 @@
 
 // TODO talk to andreas and lukas about this again
 
-- (BOOL)errorReporting:(AVACrashes *)crashes shouldProcess:(AVAErrorReport *)errorReport {
+- (BOOL)errorReporting:(AVAErrorReporting *)crashes shouldProcess:(AVAErrorReport *)errorReport {
 
   if ([errorReport.exceptionReason isEqualToString:@"something"]) {
     return false;
@@ -94,18 +94,18 @@
   }
 }
 
-- (AVAErrorAttachment *)attachmentWithErrorReporting:(AVACrashes *)crashes forErrorReport:(AVAErrorReport *)errorLog {
+- (AVAErrorAttachment *)attachmentWithErrorReporting:(AVAErrorReporting *)crashes forErrorReport:(AVAErrorReport *)errorLog {
 
   return [AVAErrorAttachment new];
 }
 
-- (void)errorReportingWillSend:(AVACrashes *)crashes {
+- (void)errorReportingWillSend:(AVAErrorReporting *)crashes {
 }
 
-- (void)errorReporting:(AVACrashes *)crashes didFailSending:(AVAErrorReport *)errorLog withError:(NSError *)error {
+- (void)errorReporting:(AVAErrorReporting *)crashes didFailSending:(AVAErrorReport *)errorLog withError:(NSError *)error {
 }
 
-- (void)errorReporting:(AVACrashes *)crashes didSucceedSending:(AVAErrorReport *)errorLog {
+- (void)errorReporting:(AVAErrorReporting *)crashes didSucceedSending:(AVAErrorReport *)errorLog {
 }
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
@@ -113,13 +113,13 @@
   }
   switch (buttonIndex) {
   case 0:
-    [AVACrashes notifyWithUserConfirmation:AVAUserConfirmationDontSend];
+    [AVAErrorReporting notifyWithUserConfirmation:AVAUserConfirmationDontSend];
     break;
   case 1:
-    [AVACrashes notifyWithUserConfirmation:AVAUserConfirmationAlways];
+    [AVAErrorReporting notifyWithUserConfirmation:AVAUserConfirmationAlways];
     break;
   default:
-    [AVACrashes notifyWithUserConfirmation:AVAUserConfirmationDontSend];
+    [AVAErrorReporting notifyWithUserConfirmation:AVAUserConfirmationDontSend];
     break;
   }
 }

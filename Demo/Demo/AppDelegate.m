@@ -3,7 +3,7 @@
 #import <Foundation/Foundation.h>
 
 @import AvalancheHub;
-@import AvalancheCrashes;
+@import AvalancheErrorReporting;
 @import AvalancheAnalytics;
 
 @interface AppDelegate ()
@@ -17,7 +17,7 @@
 
   // Start Avalanche SDK
   [AVAAvalanche setLogLevel:AVALogLevelVerbose];
-  [AVAAvalanche start:[[NSUUID UUID] UUIDString] withFeatures:@[[AVAAnalytics class], [AVACrashes class]]];
+  [AVAAvalanche start:[[NSUUID UUID] UUIDString] withFeatures:@[[AVAAnalytics class], [AVAErrorReporting class]]];
 
   // Print the install Id.
   NSLog(@"%@ Install Id: %@", kDEMLogTag, [[AVAAvalanche installId] UUIDString]);
