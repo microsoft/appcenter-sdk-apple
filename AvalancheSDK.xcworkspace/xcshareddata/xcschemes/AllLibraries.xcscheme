@@ -43,9 +43,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6E0401321D1C98690051BCFA"
-               BuildableName = "libAvalancheCrashes.a"
-               BlueprintName = "AvalancheCrashes"
-               ReferencedContainer = "container:AvalancheCrashes/AvalancheCrashes.xcodeproj">
+               BuildableName = "libAvalancheErrorReporting.a"
+               BlueprintName = "AvalancheErrorReporting"
+               ReferencedContainer = "container:AvalancheErrorReporting/AvalancheErrorReporting.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -71,9 +71,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6E171AE01D22F781000DC480"
-               BuildableName = "AvalancheCrashesTests.xctest"
-               BlueprintName = "AvalancheCrashesTests"
-               ReferencedContainer = "container:AvalancheCrashes/AvalancheCrashes.xcodeproj">
+               BuildableName = "AvalancheErrorReportingTests.xctest"
+               BlueprintName = "AvalancheErrorReportingTests"
+               ReferencedContainer = "container:AvalancheErrorReporting/AvalancheErrorReporting.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference

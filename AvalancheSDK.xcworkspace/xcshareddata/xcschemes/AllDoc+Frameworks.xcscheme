@@ -45,7 +45,7 @@
                BlueprintIdentifier = "6E6BFC361D23504F00DF7617"
                BuildableName = "AvalancheErrorReportingDoc"
                BlueprintName = "AvalancheErrorReportingDoc"
-               ReferencedContainer = "container:AvalancheCrashes/AvalancheErrorReporting.xcodeproj">
+               ReferencedContainer = "container:AvalancheErrorReporting/AvalancheErrorReporting.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

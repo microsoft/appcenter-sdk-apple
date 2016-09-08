@@ -5,7 +5,7 @@
 #import "AVAErrorReportingHelper.h"
 #import <sys/sysctl.h>
 
-static NSString *const kAVAErrorReportingDirectory = @"com.microsoft.avalanche/crashes";
+static NSString *const kAVAErrorReportingDirectory = @"com.microsoft.avalanche/errorreporting";
 
 @interface AVAErrorReportingHelper ()
 

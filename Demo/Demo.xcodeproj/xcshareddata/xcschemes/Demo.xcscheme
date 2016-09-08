@@ -43,9 +43,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6E3729771D1DE83200F1E4AE"
-               BuildableName = "AvalancheCrashesFramework"
-               BlueprintName = "AvalancheCrashesFramework"
-               ReferencedContainer = "container:../AvalancheCrashes/AvalancheCrashes.xcodeproj">
+               BuildableName = "AvalancheErrorReportingFramework"
+               BlueprintName = "AvalancheErrorReportingFramework"
+               ReferencedContainer = "container:../AvalancheErrorReporting/AvalancheErrorReporting.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
