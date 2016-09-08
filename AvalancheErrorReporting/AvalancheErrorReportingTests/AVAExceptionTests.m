@@ -3,21 +3,21 @@
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
-#import "AVAAppleException.h"
-#import "AVAAppleStackFrame.h"
+#import "AVAException.h"
+#import "AVAStackFrame.h"
 
-@interface AVAAppleExceptionsTests : XCTestCase
+@interface AVAExceptionsTests : XCTestCase
 
 @end
 
-@implementation AVAAppleExceptionsTests
+@implementation AVAExceptionsTests
 
 #pragma mark - Tests
 
 - (void)testSerializingBinaryToDictionaryWorks {
   
   // If
-  AVAAppleException *sut = [self exception];
+  AVAException *sut = [self exception];
   
   // When
   NSMutableDictionary *actual = [sut serializeToDictionary];
@@ -26,13 +26,12 @@
   assertThat(actual, notNilValue());
   assertThat(actual[@"type"], equalTo(sut.type));
   assertThat(actual[@"reason"], equalTo(sut.reason));
-  assertThat(actual[@"frames"], equalTo(sut.frames));
 }
 
 - (void)testNSCodingSerializationAndDeserializationWorks {
   
   // If
-  AVAAppleException *sut = [self exception];
+  AVAException *sut = [self exception];
   
   // When
   NSData *serializedEvent =
@@ -41,27 +40,27 @@
   
   // Then
   assertThat(actual, notNilValue());
-  assertThat(actual, instanceOf([AVAAppleException class]));
+  assertThat(actual, instanceOf([AVAException class]));
   
-  AVAAppleException *actualException = actual;
+  AVAException *actualException = actual;
   assertThat(actualException.type, equalTo(sut.type));
   assertThat(actualException.reason, equalTo(sut.reason));
   assertThatInteger(actualException.frames.count, equalToInteger(1));
   assertThat(actualException.frames.firstObject.address, equalTo(@"frameAddress"));
-  assertThat(actualException.frames.firstObject.symbol, equalTo(@"frameSymbol"));
+  assertThat(actualException.frames.firstObject.code, equalTo(@"frameSymbol"));
 }
 
 #pragma mark - Helper
 
-- (AVAAppleException *)exception {
+- (AVAException *)exception {
   NSString *type = @"exceptionType";
   NSString *reason = @"reason";
-  AVAAppleStackFrame *frame = [AVAAppleStackFrame new];
+  AVAStackFrame *frame = [AVAStackFrame new];
   frame.address = @"frameAddress";
-  frame.symbol = @"frameSymbol";
-  NSArray<AVAAppleStackFrame *>* frames = [NSArray arrayWithObject:frame];
+  frame.code = @"frameSymbol";
+  NSArray<AVAStackFrame *>* frames = [NSArray arrayWithObject:frame];
   
-  AVAAppleException *exception = [AVAAppleException new];
+  AVAException *exception = [AVAException new];
   exception.type = type;
   exception.reason = reason;
   exception.frames = frames;

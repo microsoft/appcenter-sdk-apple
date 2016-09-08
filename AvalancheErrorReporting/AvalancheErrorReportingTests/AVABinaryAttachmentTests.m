@@ -2,14 +2,14 @@
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <XCTest/XCTest.h>
 
-#import "AVABinaryAttachment.h"
+#import "AVAErrorBinaryAttachment.h"
 
-@interface AVABinaryAttachmentTests : XCTestCase
+@interface AVAErrorBinaryAttachmentTests : XCTestCase
 
 @end
 
 
-@implementation AVABinaryAttachmentTests
+@implementation AVAErrorBinaryAttachmentTests
 
 #pragma mark - Tests
 
@@ -18,9 +18,9 @@
   NSData *data = [NSData new];
   NSString *contentType = @"image/jpeg";
   
-  AVABinaryAttachment *sut = [[AVABinaryAttachment alloc] initWithFilename:fileName attachmentData: data contentType:contentType];
+  AVAErrorBinaryAttachment *sut = [[AVAErrorBinaryAttachment alloc] initWithFileName:fileName attachmentData:data contentType:contentType];
   assertThat(sut, notNilValue());
-  assertThat(sut.filename, equalTo(fileName));
+  assertThat(sut.fileName, equalTo(fileName));
   assertThat(sut.data, equalTo(data));
   assertThat(sut.contentType, equalTo(contentType));
 }

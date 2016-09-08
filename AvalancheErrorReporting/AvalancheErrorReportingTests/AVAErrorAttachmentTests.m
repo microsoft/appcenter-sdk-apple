@@ -4,7 +4,7 @@
 #import <XCTest/XCTest.h>
 
 #import "AVAErrorAttachment.h"
-#import "AVABinaryAttachment.h"
+#import "AVAErrorBinaryAttachment.h"
 
 @interface AVAErrorAttachmentTests : XCTestCase
 
@@ -21,12 +21,12 @@
   NSString *fileName = @"binaryAttachmentFileName";
   NSData *data = [NSData new];
   NSString *contentType = @"image/jpeg";
-  AVABinaryAttachment *binaryAttachment = [[AVABinaryAttachment alloc] initWithFilename:fileName attachmentData: data contentType:contentType];
-  sut.attachmentFile = binaryAttachment;
+  AVAErrorBinaryAttachment *binaryAttachment = [[AVAErrorBinaryAttachment alloc] initWithFileName:fileName attachmentData:data contentType:contentType];
+  sut.binaryAttachment = binaryAttachment;
   
   assertThat(sut, notNilValue());
   assertThat(sut.textAttachment, equalTo(textAttachment));
-  assertThat(sut.attachmentFile, equalTo(binaryAttachment));
+  assertThat(sut.binaryAttachment, equalTo(binaryAttachment));
 }
 
 @end

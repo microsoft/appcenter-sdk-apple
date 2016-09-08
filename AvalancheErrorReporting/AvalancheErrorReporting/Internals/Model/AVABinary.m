@@ -2,17 +2,17 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "AVAAppleBinary.h"
+#import "AVABinary.h"
 
 static NSString *const kAVAId = @"id";
 static NSString *const kAVAStartAddress = @"startAddress";
 static NSString *const kAVAEndAddress = @"endAddress";
 static NSString *const kAVAName = @"name";
 static NSString *const kAVAPath = @"path";
-static NSString *const kAVACpuType = @"cpuType";
-static NSString *const kAVACpuSubType = @"cpuSubType";
+static NSString *const kAVAPrimaryArchitectureId = @"primaryArchitectureId";
+static NSString *const kAVAArchitectureVariantId = @"architectureVariantId";
 
-@implementation AVAAppleBinary
+@implementation AVABinary
 
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [NSMutableDictionary new];
@@ -32,11 +32,11 @@ static NSString *const kAVACpuSubType = @"cpuSubType";
   if (self.path) {
     dict[kAVAPath] = self.path;
   }
-  if (self.cpuType) {
-    dict[kAVACpuType] = self.cpuType;
+  if (self.primaryArchitectureId) {
+    dict[kAVAPrimaryArchitectureId] = self.primaryArchitectureId;
   }
-  if (self.cpuSubType) {
-    dict[kAVACpuSubType] = self.cpuSubType;
+  if (self.architectureVariantId) {
+    dict[kAVAArchitectureVariantId] = self.architectureVariantId;
   }
 
   return dict;
@@ -52,8 +52,8 @@ static NSString *const kAVACpuSubType = @"cpuSubType";
     _endAddress = [coder decodeObjectForKey:kAVAEndAddress];
     _name = [coder decodeObjectForKey:kAVAName];
     _path = [coder decodeObjectForKey:kAVAPath];
-    _cpuType = [coder decodeObjectForKey:kAVACpuType];
-    _cpuSubType = [coder decodeObjectForKey:kAVACpuSubType];
+    _primaryArchitectureId = [coder decodeObjectForKey:kAVAPrimaryArchitectureId];
+    _architectureVariantId = [coder decodeObjectForKey:kAVAArchitectureVariantId];
   }
   return self;
 }
@@ -64,8 +64,8 @@ static NSString *const kAVACpuSubType = @"cpuSubType";
   [coder encodeObject:self.endAddress forKey:kAVAEndAddress];
   [coder encodeObject:self.name forKey:kAVAName];
   [coder encodeObject:self.path forKey:kAVAPath];
-  [coder encodeObject:self.cpuType forKey:kAVACpuType];
-  [coder encodeObject:self.cpuSubType forKey:kAVACpuSubType];
+  [coder encodeObject:self.primaryArchitectureId forKey:kAVAPrimaryArchitectureId];
+  [coder encodeObject:self.architectureVariantId forKey:kAVAArchitectureVariantId];
 }
 
 @end

@@ -4,20 +4,24 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "AvalancheHub+Internal.h"
 
-@class AVABinaryAttachment;
+@class AVAErrorBinaryAttachment;
 
-@interface AVAErrorAttachment : NSObject
+/*
+ * Attachment for error log.
+ */
+@interface AVAErrorAttachment : NSObject <AVASerializableObject>
 
 /**
- * Text attachment, e.g. a user's mail address.
+ * Plain text attachment [optional].
  */
 @property(nonatomic, nullable) NSString *textAttachment;
 
 /**
- * A binary attachment, can be anything, e.g. a db dump.
+ * Binary attachment [optional].
  */
-@property(nonatomic, nullable) AVABinaryAttachment *attachmentFile;
+@property(nonatomic, nullable) AVAErrorBinaryAttachment *binaryAttachment;
 
 + (nonnull AVAErrorAttachment *)attachmentWithText:(nonnull NSString *)text;
 

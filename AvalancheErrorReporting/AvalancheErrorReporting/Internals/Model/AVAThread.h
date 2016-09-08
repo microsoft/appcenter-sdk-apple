@@ -5,10 +5,10 @@
 #import "AvalancheHub+Internal.h"
 #import <Foundation/Foundation.h>
 
-@class AVAAppleStackFrame;
-@class AVAAppleException;
+@class AVAStackFrame;
+@class AVAException;
 
-@interface AVAAppleThread : NSObject <AVASerializableObject>
+@interface AVAThread : NSObject <AVASerializableObject>
 
 /*
  * Thread identifier.
@@ -21,13 +21,14 @@
 @property(nonatomic) NSString* name;
 
 /*
- * The last exception backtrace.
- */
-@property(nonatomic) AVAAppleException* lastException;
-
-/*
  * Stack frames.
  */
-@property(nonatomic) NSMutableArray<AVAAppleStackFrame *> *frames;
+@property(nonatomic) NSMutableArray<AVAStackFrame *> *frames;
+
+/*
+ * The last exception backtrace.
+ */
+@property(nonatomic) AVAException* exception;
+
 
 @end

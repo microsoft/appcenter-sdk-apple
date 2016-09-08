@@ -4,110 +4,72 @@
 
 #import "AvalancheHub+Internal.h"
 #import <Foundation/Foundation.h>
+#import "AVAAbstractErrorLog.h"
 
-@class AVAAppleThread, AVAAppleBinary, AVAAppleException;
-
-@interface AVAAppleErrorLog : AVALogWithProperties
-
-/*
- * Crash identifier.
- */
-@property(nonatomic) NSString *errorId;
+@class AVAThread, AVABinary;
 
 /*
- * Process identifier. [optional]
+ * Error log for Apple platforms.
  */
-@property(nonatomic) NSNumber *processId;
+@interface AVAAppleErrorLog : AVAAbstractErrorLog
 
 /*
- * Name of the process that crashes. [optional]
+ * CPU primary architecture.
  */
-@property(nonatomic) NSString *processName;
+@property(nonatomic, nonnull) NSNumber *primaryArchitectureId;
 
 /*
- * Parent's process identifier. [optional]
+ * CPU architecture variant [optional].
  */
-@property(nonatomic) NSNumber *parentProcessId;
-
-/*
- * Name of the parent's process. [optional]
- */
-@property(nonatomic) NSString *parentProcessName;
-
-/*
- * Error thread identifier. [optional]
- */
-@property(nonatomic) NSNumber *errorThreadId;
-
-/*
- * Error thread name. [optional]
- */
-@property(nonatomic) NSString *errorThreadName;
-
-/*
- * If true, this error report is an application crash.
- */
-@property(nonatomic) BOOL fatal;
-
-/*
- * Corresponds to the number of milliseconds elapsed between the time the error occurred and the app was launched.
- */
-@property(nonatomic) NSNumber *appLaunchTOffset;
-
-/*
- * CPU type.
- */
-@property(nonatomic) NSNumber *cpuType;
-
-/*
- * CPU sub type. [optional]
- */
-@property(nonatomic) NSNumber *cpuSubType;
+@property(nonatomic, nullable) NSNumber *architectureVariantId;
 
 /*
  * Path to the application.
  */
-@property(nonatomic) NSString *applicationPath;
+@property(nonatomic, nonnull) NSString *applicationPath;
 
 /*
  * OS exception type.
  */
-@property(nonatomic) NSString *osExceptionType;
+@property(nonatomic, nonnull) NSString *osExceptionType;
 
 /*
  * OS exception code.
  */
-@property(nonatomic) NSString *osExceptionCode;
+@property(nonatomic, nonnull) NSString *osExceptionCode;
 
 /*
  * OS exception address.
  */
-@property(nonatomic) NSString *osExceptionAddress;
+@property(nonatomic, nonnull) NSString *osExceptionAddress;
 
 /*
- * Exception type. [optional]
+ * Exception type [optional].
  */
-@property(nonatomic) NSString *exceptionType;
+@property(nonatomic, nullable) NSString *exceptionType;
 
 /*
- * Exception reason. [optional]
+ * Exception reason [optional].
  */
-@property(nonatomic) NSString *exceptionReason;
+@property(nonatomic, nullable) NSString *exceptionReason;
+
+/*
+ * Thread stack frames associated to the error [optional].
+ */
+@property(nonatomic, nullable) NSArray<AVAThread *> *threads;
+
+/*
+ * Binaries associated to the error [optional].
+ */
+@property(nonatomic, nullable) NSArray<AVABinary *> *binaries;
 
 /*
  * Registers. [optional]
  */
-@property(nonatomic) NSDictionary<NSString *, NSString *> *registers;
+@property(nonatomic, nullable) NSDictionary<NSString *, NSString *> *registers;
 
-/*
- * Thread stacktraces associated to the crash. [optional]
- */
-@property(nonatomic) NSArray<AVAAppleThread *> *threads;
 
-/*
- * Binaries associated to the crash with their associated addresses (used only
- * on iOS to symbolicate the stacktrace). [optional]
- */
-@property(nonatomic) NSArray<AVAAppleBinary *> *binaries;
+
+
 
 @end

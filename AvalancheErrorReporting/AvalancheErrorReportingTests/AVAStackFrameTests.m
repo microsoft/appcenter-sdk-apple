@@ -3,20 +3,20 @@
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
-#import "AVAAppleStackFrame.h"
+#import "AVAStackFrame.h"
 
-@interface AVAAppleStackFrameTests : XCTestCase
+@interface AVAStackFrameTests : XCTestCase
 
 @end
 
-@implementation AVAAppleStackFrameTests
+@implementation AVAStackFrameTests
 
 #pragma mark - Tests
 
 - (void)testSerializingBinaryToDictionaryWorks {
   
   // If
-  AVAAppleStackFrame *sut = [self stackFrame];
+  AVAStackFrame *sut = [self stackFrame];
   
   // When
   NSMutableDictionary *actual = [sut serializeToDictionary];
@@ -24,13 +24,13 @@
   // Then
   assertThat(actual, notNilValue());
   assertThat(actual[@"address"], equalTo(sut.address));
-  assertThat(actual[@"symbol"], equalTo(sut.symbol));
+  assertThat(actual[@"code"], equalTo(sut.code));
 }
 
 - (void)testNSCodingSerializationAndDeserializationWorks {
   
   // If
-  AVAAppleStackFrame *sut = [self stackFrame];
+  AVAStackFrame *sut = [self stackFrame];
   
   // When
   NSData *serializedEvent =
@@ -39,22 +39,22 @@
   
   // Then
   assertThat(actual, notNilValue());
-  assertThat(actual, instanceOf([AVAAppleStackFrame class]));
+  assertThat(actual, instanceOf([AVAStackFrame class]));
   
-  AVAAppleStackFrame *actualThreadFrame = actual;
+  AVAStackFrame *actualThreadFrame = actual;
   assertThat(actualThreadFrame.address, equalTo(sut.address));
-  assertThat(actualThreadFrame.symbol, equalTo(sut.symbol));
+  assertThat(actualThreadFrame.code, equalTo(sut.code));
 }
 
 #pragma mark - Helper
 
-- (AVAAppleStackFrame *)stackFrame {
+- (AVAStackFrame *)stackFrame {
   NSString *address = @"address";
-  NSString *symbol = @"symbol";
+  NSString *code = @"code";
   
-  AVAAppleStackFrame *threadFrame = [AVAAppleStackFrame new];
+  AVAStackFrame *threadFrame = [AVAStackFrame new];
   threadFrame.address = address;
-  threadFrame.symbol = symbol;
+  threadFrame.code = code;
   
   return threadFrame;
 }
