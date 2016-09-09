@@ -2,7 +2,7 @@
 
 @implementation AVALogger
 
-static AVALogLevel _currentLogLevel = AVALogLevelWarning;
+static AVALogLevel _currentLogLevel = AVALogLevelAssert;
 static AVALogHandler currentLogHandler;
 
 AVALogHandler defaultLogHandler =

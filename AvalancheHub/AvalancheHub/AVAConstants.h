@@ -14,21 +14,25 @@ typedef NS_ENUM(NSUInteger, AVALogLevel) {
    */
   AVALogLevelNone = 0,
   /**
-   *  Only errors will be logged
+   * Only critical errors will be logged
    */
-  AVALogLevelError = 1,
+  AVALogLevelAssert = 1,
+  /**
+   *  Errors will be logged
+   */
+  AVALogLevelError = 2,
   /**
    *  Errors and warnings will be logged
    */
-  AVALogLevelWarning = 2,
+  AVALogLevelWarning = 3,
   /**
    *  Debug information will be logged
    */
-  AVALogLevelDebug = 3,
+  AVALogLevelDebug = 4,
   /**
    *  Logging will be very chatty
    */
-  AVALogLevelVerbose = 4
+  AVALogLevelVerbose = 5
 };
 
 typedef NSString * (^AVALogMessageProvider)(void);
