@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:/Users/benny/Repositories/MS/AvalancheSDK-iOS/Sonoma/Sonoma.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/benny/Repositories/MS/AvalancheSDK-iOS/SonomaAnalytics/SonomaAnalytics.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/benny/Repositories/MS/AvalancheSDK-iOS/SonomaCrashes/SonomaCrashes.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Puppet/Puppet.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Demo/Demo.xcodeproj">
+   </FileRef>
+</Workspace>
