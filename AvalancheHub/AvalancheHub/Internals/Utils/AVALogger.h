@@ -7,6 +7,10 @@
 
 #define AVALog(_level, _message)                                                                                       \
   [AVALogger logMessage:_message level:_level file:__FILE__ function:__PRETTY_FUNCTION__ line:__LINE__]
+#define AVALogAssert(format, ...)                                                                                      \
+  AVALog(AVALogLevelAssert, (^{                                                                                        \
+           return [NSString stringWithFormat:(format), ##__VA_ARGS__];                                                 \
+         }))
 #define AVALogError(format, ...)                                                                                       \
   AVALog(AVALogLevelError, (^{                                                                                         \
            return [NSString stringWithFormat:(format), ##__VA_ARGS__];                                                 \
