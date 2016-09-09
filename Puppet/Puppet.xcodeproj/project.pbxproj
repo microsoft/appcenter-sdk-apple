@@ -16,13 +16,26 @@
 		E82E1B721D1CA58D00D281C1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E82E1B701D1CA58D00D281C1 /* LaunchScreen.storyboard */; };
 		E82E1B8F1D1CA65D00D281C1 /* libAvalancheErrorReporting.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E82E1B811D1CA62900D281C1 /* libAvalancheErrorReporting.a */; };
 		E82E1B901D1CA65D00D281C1 /* libAvalancheHub.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E82E1B881D1CA63000D281C1 /* libAvalancheHub.a */; };
-		E85548081D2D6C9D002DF6E2 /* libAvalancheAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E85548031D2D6C8D002DF6E2 /* libAvalancheAnalytics.a */; };
 		E89E6A2C1D396D7900CAA2CD /* AVAErrorReportingReportsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89E6A291D396D7900CAA2CD /* AVAErrorReportingReportsViewController.m */; };
 		E89E6A2D1D396D7900CAA2CD /* AVAMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89E6A2B1D396D7900CAA2CD /* AVAMainViewController.m */; };
 		E89E6A301D39704900CAA2CD /* AVAAnalyticsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89E6A2F1D39704900CAA2CD /* AVAAnalyticsViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		B2EC5A091D83563900E44D06 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E85547FB1D2D6C8D002DF6E2 /* SonomaAnalytics.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E85547C01D2D6253002DF6E2;
+			remoteInfo = SonomaAnalytics;
+		};
+		B2EC5A0B1D83563900E44D06 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E85547FB1D2D6C8D002DF6E2 /* SonomaAnalytics.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E85547D51D2D6723002DF6E2;
+			remoteInfo = SonomaAnalyticsTests;
+		};
 		E82E1B801D1CA62900D281C1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E82E1B7C1D1CA62900D281C1 /* AvalancheErrorReporting.xcodeproj */;
@@ -58,27 +71,6 @@
 			remoteGlobalIDString = 6E0401321D1C98690051BCFA;
 			remoteInfo = AvalancheErrorReporting;
 		};
-		E85548021D2D6C8D002DF6E2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E85547FB1D2D6C8D002DF6E2 /* AvalancheAnalytics.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = E85547C01D2D6253002DF6E2;
-			remoteInfo = AvalancheAnalytics;
-		};
-		E85548041D2D6C8D002DF6E2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E85547FB1D2D6C8D002DF6E2 /* AvalancheAnalytics.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = E85547D51D2D6723002DF6E2;
-			remoteInfo = AvalancheAnalyticsTests;
-		};
-		E85548061D2D6C98002DF6E2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E85547FB1D2D6C8D002DF6E2 /* AvalancheAnalytics.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = E85547BF1D2D6253002DF6E2;
-			remoteInfo = AvalancheAnalytics;
-		};
 		E8DF1C2B1D21A8F5006310CF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E82E1B7C1D1CA62900D281C1 /* AvalancheErrorReporting.xcodeproj */;
@@ -103,7 +95,7 @@
 		E82E1B731D1CA58D00D281C1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E82E1B7C1D1CA62900D281C1 /* AvalancheErrorReporting.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AvalancheErrorReporting.xcodeproj; path = ../../AvalancheErrorReporting/AvalancheErrorReporting.xcodeproj; sourceTree = "<group>"; };
 		E82E1B821D1CA63000D281C1 /* AvalancheHub.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AvalancheHub.xcodeproj; path = ../../AvalancheHub/AvalancheHub.xcodeproj; sourceTree = "<group>"; };
-		E85547FB1D2D6C8D002DF6E2 /* AvalancheAnalytics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AvalancheAnalytics.xcodeproj; path = ../../AvalancheAnalytics/AvalancheAnalytics.xcodeproj; sourceTree = "<group>"; };
+		E85547FB1D2D6C8D002DF6E2 /* SonomaAnalytics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SonomaAnalytics.xcodeproj; path = ../../AvalancheAnalytics/SonomaAnalytics.xcodeproj; sourceTree = "<group>"; };
 		E89E6A281D396D7900CAA2CD /* AVAErrorReportingReportsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAErrorReportingReportsViewController.h; sourceTree = "<group>"; };
 		E89E6A291D396D7900CAA2CD /* AVAErrorReportingReportsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAErrorReportingReportsViewController.m; sourceTree = "<group>"; };
 		E89E6A2A1D396D7900CAA2CD /* AVAMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAMainViewController.h; sourceTree = "<group>"; };
@@ -119,7 +111,6 @@
 			files = (
 				6EC99A281D4152FA0016C325 /* libc++.tbd in Frameworks */,
 				6EC99A211D4151A00016C325 /* CrashReporter.framework in Frameworks */,
-				E85548081D2D6C9D002DF6E2 /* libAvalancheAnalytics.a in Frameworks */,
 				E82E1B8F1D1CA65D00D281C1 /* libAvalancheErrorReporting.a in Frameworks */,
 				E82E1B901D1CA65D00D281C1 /* libAvalancheHub.a in Frameworks */,
 			);
@@ -134,6 +125,15 @@
 				6EC99A201D4151A00016C325 /* CrashReporter.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B2EC5A031D83563900E44D06 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B2EC5A0A1D83563900E44D06 /* libSonomaAnalytics.a */,
+				B2EC5A0C1D83563900E44D06 /* SonomaAnalyticsTests.xctest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		E82E1B561D1CA58D00D281C1 = {
@@ -180,7 +180,7 @@
 		E82E1B7B1D1CA61000D281C1 /* Avalanche */ = {
 			isa = PBXGroup;
 			children = (
-				E85547FB1D2D6C8D002DF6E2 /* AvalancheAnalytics.xcodeproj */,
+				E85547FB1D2D6C8D002DF6E2 /* SonomaAnalytics.xcodeproj */,
 				E82E1B821D1CA63000D281C1 /* AvalancheHub.xcodeproj */,
 				E82E1B7C1D1CA62900D281C1 /* AvalancheErrorReporting.xcodeproj */,
 			);
@@ -201,15 +201,6 @@
 			children = (
 				E82E1B881D1CA63000D281C1 /* libAvalancheHub.a */,
 				E82E1B8A1D1CA63000D281C1 /* AvalancheHubTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		E85547FC1D2D6C8D002DF6E2 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				E85548031D2D6C8D002DF6E2 /* libAvalancheAnalytics.a */,
-				E85548051D2D6C8D002DF6E2 /* AvalancheAnalyticsTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -244,7 +235,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				E85548071D2D6C98002DF6E2 /* PBXTargetDependency */,
 				E82E1B8C1D1CA65600D281C1 /* PBXTargetDependency */,
 				E82E1B8E1D1CA65600D281C1 /* PBXTargetDependency */,
 			);
@@ -281,16 +271,16 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = E85547FC1D2D6C8D002DF6E2 /* Products */;
-					ProjectRef = E85547FB1D2D6C8D002DF6E2 /* AvalancheAnalytics.xcodeproj */;
-				},
-				{
 					ProductGroup = E82E1B7D1D1CA62900D281C1 /* Products */;
 					ProjectRef = E82E1B7C1D1CA62900D281C1 /* AvalancheErrorReporting.xcodeproj */;
 				},
 				{
 					ProductGroup = E82E1B831D1CA63000D281C1 /* Products */;
 					ProjectRef = E82E1B821D1CA63000D281C1 /* AvalancheHub.xcodeproj */;
+				},
+				{
+					ProductGroup = B2EC5A031D83563900E44D06 /* Products */;
+					ProjectRef = E85547FB1D2D6C8D002DF6E2 /* SonomaAnalytics.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -301,6 +291,20 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		B2EC5A0A1D83563900E44D06 /* libSonomaAnalytics.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSonomaAnalytics.a;
+			remoteRef = B2EC5A091D83563900E44D06 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B2EC5A0C1D83563900E44D06 /* SonomaAnalyticsTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SonomaAnalyticsTests.xctest;
+			remoteRef = B2EC5A0B1D83563900E44D06 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		E82E1B811D1CA62900D281C1 /* libAvalancheErrorReporting.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -320,20 +324,6 @@
 			fileType = wrapper.cfbundle;
 			path = AvalancheHubTests.xctest;
 			remoteRef = E82E1B891D1CA63000D281C1 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		E85548031D2D6C8D002DF6E2 /* libAvalancheAnalytics.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libAvalancheAnalytics.a;
-			remoteRef = E85548021D2D6C8D002DF6E2 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		E85548051D2D6C8D002DF6E2 /* AvalancheAnalyticsTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = AvalancheAnalyticsTests.xctest;
-			remoteRef = E85548041D2D6C8D002DF6E2 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		E8DF1C2C1D21A8F5006310CF /* AvalancheErrorReporting.xctest */ = {
@@ -383,11 +373,6 @@
 			isa = PBXTargetDependency;
 			name = AvalancheErrorReporting;
 			targetProxy = E82E1B8D1D1CA65600D281C1 /* PBXContainerItemProxy */;
-		};
-		E85548071D2D6C98002DF6E2 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = AvalancheAnalytics;
-			targetProxy = E85548061D2D6C98002DF6E2 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

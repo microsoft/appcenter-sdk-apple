@@ -16,8 +16,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
   // Start Avalanche SDK.
-  [AVAAvalanche setLogLevel:AVALogLevelVerbose];
-  [AVAAvalanche start:[[NSUUID UUID] UUIDString] withFeatures:@[ [AVAAnalytics class], [AVAErrorReporting class] ]];
+  [SNMSonoma setLogLevel:AVALogLevelVerbose];
+  [SNMSonoma start:[[NSUUID UUID] UUIDString] withFeatures:@[ [AVAAnalytics class], [AVAErrorReporting class] ]];
 
   [AVAErrorReporting setErrorLoggingDelegate:self]; // TODO rename to setDelegate:
 
@@ -49,7 +49,7 @@
   }];
 
   // Print the install Id.
-  NSLog(@"%@ Install Id: %@", kPUPLogTag, [[AVAAvalanche installId] UUIDString]);
+  NSLog(@"%@ Install Id: %@", kPUPLogTag, [[SNMSonoma installId] UUIDString]);
   return YES;
 }
 

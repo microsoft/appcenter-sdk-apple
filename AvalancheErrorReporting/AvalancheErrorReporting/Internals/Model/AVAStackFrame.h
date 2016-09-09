@@ -2,10 +2,10 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "AvalancheHub+Internal.h"
+#import "Sonoma+Internal.h"
 #import <Foundation/Foundation.h>
 
-@interface AVAStackFrame : NSObject <AVASerializableObject>
+@interface SNMStackFrame : NSObject <SNMSerializableObject>
 
 /*
  * Frame address [optional].

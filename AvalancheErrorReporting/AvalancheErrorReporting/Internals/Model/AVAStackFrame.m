@@ -2,37 +2,37 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "AVAStackFrame.h"
+#import "SNMStackFrame.h"
 
-static NSString *const kAVAAddress = @"address";
-static NSString *const kAVACode = @"code";
-static NSString *const kAVAClassName = @"className";
-static NSString *const kAVAMethodName = @"methodName";
-static NSString *const kAVALineNumber = @"lineNumber";
-static NSString *const kAVAFileName = @"fileName";
+static NSString *const kSNMAddress = @"address";
+static NSString *const kSNMCode = @"code";
+static NSString *const kSNMClassName = @"className";
+static NSString *const kSNMMethodName = @"methodName";
+static NSString *const kSNMLineNumber = @"lineNumber";
+static NSString *const kSNMFileName = @"fileName";
 
-@implementation AVAStackFrame
+@implementation SNMStackFrame
 
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [NSMutableDictionary new];
 
   if (self.address) {
-    dict[kAVAAddress] = self.address;
+    dict[kSNMAddress] = self.address;
   }
   if (self.code) {
-    dict[kAVACode] = self.code;
+    dict[kSNMCode] = self.code;
   }
   if (self.className) {
-    dict[kAVAClassName] = self.className;
+    dict[kSNMClassName] = self.className;
   }
   if (self.methodName) {
-    dict[kAVAMethodName] = self.methodName;
+    dict[kSNMMethodName] = self.methodName;
   }
   if (self.lineNumber) {
-    dict[kAVALineNumber] = self.lineNumber;
+    dict[kSNMLineNumber] = self.lineNumber;
   }
   if (self.fileName) {
-    dict[kAVAFileName] = self.fileName;
+    dict[kSNMFileName] = self.fileName;
   }
   return dict;
 }
@@ -42,24 +42,24 @@ static NSString *const kAVAFileName = @"fileName";
 - (instancetype)initWithCoder:(NSCoder *)coder {
   self = [super init];
   if (self) {
-    _address = [coder decodeObjectForKey:kAVAAddress];
-    _code = [coder decodeObjectForKey:kAVACode];
-    _className = [coder decodeObjectForKey:kAVAClassName];
-    _methodName = [coder decodeObjectForKey:kAVAMethodName];
-    _lineNumber = [coder decodeObjectForKey:kAVALineNumber];
-    _fileName = [coder decodeObjectForKey:kAVAFileName];
+    _address = [coder decodeObjectForKey:kSNMAddress];
+    _code = [coder decodeObjectForKey:kSNMCode];
+    _className = [coder decodeObjectForKey:kSNMClassName];
+    _methodName = [coder decodeObjectForKey:kSNMMethodName];
+    _lineNumber = [coder decodeObjectForKey:kSNMLineNumber];
+    _fileName = [coder decodeObjectForKey:kSNMFileName];
   }
 
   return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
-  [coder encodeObject:self.address forKey:kAVAAddress];
-  [coder encodeObject:self.code forKey:kAVACode];
-  [coder encodeObject:self.className forKey:kAVAClassName];
-  [coder encodeObject:self.methodName forKey:kAVAMethodName];
-  [coder encodeObject:self.lineNumber forKey:kAVALineNumber];
-  [coder encodeObject:self.fileName forKey:kAVAFileName];
+  [coder encodeObject:self.address forKey:kSNMAddress];
+  [coder encodeObject:self.code forKey:kSNMCode];
+  [coder encodeObject:self.className forKey:kSNMClassName];
+  [coder encodeObject:self.methodName forKey:kSNMMethodName];
+  [coder encodeObject:self.lineNumber forKey:kSNMLineNumber];
+  [coder encodeObject:self.fileName forKey:kSNMFileName];
 }
 
 @end

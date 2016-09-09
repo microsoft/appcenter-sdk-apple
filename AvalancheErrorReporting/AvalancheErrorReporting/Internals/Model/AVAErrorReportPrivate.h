@@ -2,11 +2,11 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "AVAErrorReport.h"
+#import "SNMErrorReport.h"
 
-extern NSString *const __attribute__((unused)) kAVAErrorReportKillSignal;
+extern NSString *const __attribute__((unused)) kSNMErrorReportKillSignal;
 
-@interface AVAErrorReport ()
+@interface SNMErrorReport ()
 
 - (instancetype)initWithIncidentIdentifier:(NSString *)incidentIdentifier
                                reporterKey:(NSString *)reporterKey

@@ -16,11 +16,11 @@
   // Override point for customization after application launch.
 
   // Start Avalanche SDK
-  [AVAAvalanche setLogLevel:AVALogLevelVerbose];
-  [AVAAvalanche start:[[NSUUID UUID] UUIDString] withFeatures:@[[AVAAnalytics class], [AVAErrorReporting class]]];
+  [SNMSonoma setLogLevel:AVALogLevelVerbose];
+  [SNMSonoma start:[[NSUUID UUID] UUIDString] withFeatures:@[[AVAAnalytics class], [AVAErrorReporting class]]];
 
   // Print the install Id.
-  NSLog(@"%@ Install Id: %@", kDEMLogTag, [[AVAAvalanche installId] UUIDString]);
+  NSLog(@"%@ Install Id: %@", kDEMLogTag, [[SNMSonoma installId] UUIDString]);
   return YES;
 }
 

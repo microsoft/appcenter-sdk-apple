@@ -1,5 +1,5 @@
-framework module AvalancheAnalytics {
-  umbrella header "AvalancheAnalytics.h"
+framework module SonomaAnalytics {
+  umbrella header "SonomaAnalytics.h"
   
   export *
   module * { export * }
