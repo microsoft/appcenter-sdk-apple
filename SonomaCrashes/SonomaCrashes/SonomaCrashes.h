@@ -5,4 +5,4 @@
 #import <Foundation/Foundation.h>
 
 #import "SNMCrashes.h"
-#import "AVACrashesDelegate.h"
+#import "SNMCrashesDelegate.h"

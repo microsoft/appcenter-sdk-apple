@@ -3,16 +3,16 @@
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
-#import "AVAEventLog.h"
+#import "SNMEventLog.h"
 #import "Sonoma+Internal.h"
 
-@interface AVAEventLogTests : XCTestCase
+@interface SNMEventLogTests : XCTestCase
 
-@property(nonatomic, strong) AVAEventLog *sut;
+@property(nonatomic, strong) SNMEventLog *sut;
 
 @end
 
-@implementation AVAEventLogTests
+@implementation SNMEventLogTests
 
 @synthesize sut = _sut;
 
@@ -20,7 +20,7 @@
 
 - (void)setUp {
   [super setUp];
-  _sut = [AVAEventLog new];
+  _sut = [SNMEventLog new];
 }
 
 - (void)tearDown {
@@ -33,9 +33,9 @@
 
   // If
   NSString *typeName = @"event";
-  NSString *eventId = kAVAUUIDString;
+  NSString *eventId = kSNMUUIDString;
   NSString *eventName = @"eventName";
-  AVADevice *device = [AVADevice new];
+  SNMDevice *device = [SNMDevice new];
   NSString *sessionId = @"1234567890";
   NSDictionary *properties = @{ @"Key" : @"Value" };
   NSTimeInterval createTime = [[NSDate date] timeIntervalSince1970];
@@ -69,9 +69,9 @@
 
   // If
   NSString *typeName = @"event";
-  NSString *eventId = kAVAUUIDString;
+  NSString *eventId = kSNMUUIDString;
   NSString *eventName = @"eventName";
-  AVADevice *device = [AVADevice new];
+  SNMDevice *device = [SNMDevice new];
   NSString *sessionId = @"1234567890";
   NSNumber *tOffset = @(3);
   NSDictionary *properties = @{ @"Key" : @"Value" };
@@ -89,9 +89,9 @@
 
   // Then
   assertThat(actual, notNilValue());
-  assertThat(actual, instanceOf([AVAEventLog class]));
+  assertThat(actual, instanceOf([SNMEventLog class]));
 
-  AVAEventLog *actualEvent = actual;
+  SNMEventLog *actualEvent = actual;
   assertThat(actualEvent.name, equalTo(eventName));
   assertThat(actualEvent.eventId, equalTo(eventId));
   assertThat(actualEvent.device, notNilValue());

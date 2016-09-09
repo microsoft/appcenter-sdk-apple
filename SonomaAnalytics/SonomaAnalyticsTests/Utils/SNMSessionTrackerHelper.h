@@ -4,7 +4,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface AVASessionTrackerHelper : NSObject
+@interface SNMSessionTrackerHelper : NSObject
 
 + (void)simulateDidEnterBackgroundNotification;
 + (void)simulateWillEnterForegroundNotification;

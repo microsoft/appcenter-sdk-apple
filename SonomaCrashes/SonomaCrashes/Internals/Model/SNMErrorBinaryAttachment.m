@@ -4,9 +4,9 @@
 
 #import "SNMErrorBinaryAttachment.h"
 
-static NSString *const kAVAFilename = @"fileName";
-static NSString *const kAVAData = @"data";
-static NSString *const kAVAContentType = @"contentType";
+static NSString *const kSNMFilename = @"fileName";
+static NSString *const kSNMData = @"data";
+static NSString *const kSNMContentType = @"contentType";
 
 
 @implementation SNMErrorBinaryAttachment
@@ -32,13 +32,13 @@ static NSString *const kAVAContentType = @"contentType";
   NSMutableDictionary *dict = [NSMutableDictionary new];
   
   if (self.fileName) {
-    dict[kAVAFilename] = self.fileName;
+    dict[kSNMFilename] = self.fileName;
   }
   if(self.data) {
-    dict[kAVAData] = self.data;
+    dict[kSNMData] = self.data;
   }
   if(self.contentType) {
-    dict[kAVAContentType] = self.contentType;
+    dict[kSNMContentType] = self.contentType;
   }
   
   return dict;
@@ -47,19 +47,19 @@ static NSString *const kAVAContentType = @"contentType";
 #pragma mark - NSCoding
 - (void)encodeWithCoder:(NSCoder *)encoder {
   if (self.fileName) {
-    [encoder encodeObject:self.fileName forKey:kAVAFilename];
+    [encoder encodeObject:self.fileName forKey:kSNMFilename];
   }
   if (self.data) {
-    [encoder encodeObject:self.data forKey:kAVAData];
+    [encoder encodeObject:self.data forKey:kSNMData];
   }
-  [encoder encodeObject:self.contentType forKey:kAVAContentType];
+  [encoder encodeObject:self.contentType forKey:kSNMContentType];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)decoder {
   if ((self = [super init])) {
-    _fileName = [decoder decodeObjectForKey:kAVAFilename];
-    _data = [decoder decodeObjectForKey:kAVAData];
-    _contentType = [decoder decodeObjectForKey:kAVAContentType];
+    _fileName = [decoder decodeObjectForKey:kSNMFilename];
+    _data = [decoder decodeObjectForKey:kSNMData];
+    _contentType = [decoder decodeObjectForKey:kSNMContentType];
   }
   return self;
 }

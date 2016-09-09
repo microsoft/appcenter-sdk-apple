@@ -2,12 +2,12 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "AVASessionTrackerHelper.h"
+#import "SNMSessionTrackerHelper.h"
 #import <UIKit/UIKit.h>
 
 #import <Foundation/Foundation.h>
 
-@implementation AVASessionTrackerHelper
+@implementation SNMSessionTrackerHelper
 
 + (void)simulateDidEnterBackgroundNotification {
   [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidEnterBackgroundNotification object:self];

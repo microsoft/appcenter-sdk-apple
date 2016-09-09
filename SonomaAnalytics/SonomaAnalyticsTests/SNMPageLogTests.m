@@ -3,15 +3,15 @@
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
-#import "AVAStartSessionLog.h"
+#import "SNMPageLog.h"
 
-@interface AVAStartSessionLogTests : XCTestCase
+@interface SNMPageLogTests : XCTestCase
 
-@property(nonatomic, strong) AVAStartSessionLog *sut;
+@property(nonatomic, strong) SNMPageLog *sut;
 
 @end
 
-@implementation AVAStartSessionLogTests
+@implementation SNMPageLogTests
 
 @synthesize sut = _sut;
 
@@ -19,7 +19,7 @@
 
 - (void)setUp {
   [super setUp];
-  _sut = [AVAStartSessionLog new];
+  _sut = [SNMPageLog new];
 }
 
 - (void)tearDown {
@@ -28,25 +28,33 @@
 
 #pragma mark - Tests
 
-- (void)testSerializingSessionToDictionaryWorks {
+- (void)testSerializingPageToDictionaryWorks {
 
   // If
-  AVADevice *device = [AVADevice new];
-  NSString *typeName = @"startSession";
+  NSString *typeName = @"page";
+  NSString *pageName = @"pageName";
+  SNMDevice *device = [SNMDevice new];
   NSString *sessionId = @"1234567890";
+  NSDictionary *properties = @{ @"Key" : @"Value" };
   NSTimeInterval createTime = [[NSDate date] timeIntervalSince1970];
   NSNumber *tOffset = @(createTime);
 
+  self.sut.name = pageName;
   self.sut.device = device;
   self.sut.toffset = tOffset;
   self.sut.sid = sessionId;
+  self.sut.properties = properties;
 
   // When
   NSMutableDictionary *actual = [self.sut serializeToDictionary];
 
   // Then
   assertThat(actual, notNilValue());
+  assertThat(actual[@"name"], equalTo(pageName));
+  assertThat(actual[@"device"], notNilValue());
+  assertThat(actual[@"sid"], equalTo(sessionId));
   assertThat(actual[@"type"], equalTo(typeName));
+  assertThat(actual[@"properties"], equalTo(properties));
   assertThat(actual[@"device"], notNilValue());
   NSTimeInterval seralizedToffset = [actual[@"toffset"] integerValue];
   NSTimeInterval actualToffset = [[NSDate date] timeIntervalSince1970] - createTime;
@@ -56,14 +64,18 @@
 - (void)testNSCodingSerializationAndDeserializationWorks {
 
   // If
-  AVADevice *device = [AVADevice new];
-  NSString *typeName = @"startSession";
+  NSString *typeName = @"page";
+  NSString *pageName = @"pageName";
+  SNMDevice *device = [SNMDevice new];
   NSString *sessionId = @"1234567890";
   NSNumber *tOffset = @(3);
+  NSDictionary *properties = @{ @"Key" : @"Value" };
 
+  self.sut.name = pageName;
   self.sut.device = device;
   self.sut.toffset = tOffset;
   self.sut.sid = sessionId;
+  self.sut.properties = properties;
 
   // When
   NSData *serializedEvent = [NSKeyedArchiver archivedDataWithRootObject:self.sut];
@@ -71,13 +83,15 @@
 
   // Then
   assertThat(actual, notNilValue());
-  assertThat(actual, instanceOf([AVAStartSessionLog class]));
+  assertThat(actual, instanceOf([SNMPageLog class]));
 
-  AVAStartSessionLog *actualSession = actual;
-  assertThat(actualSession.device, notNilValue());
-  assertThat(actualSession.toffset, equalTo(tOffset));
-  assertThat(actualSession.type, equalTo(typeName));
-  assertThat(actualSession.sid, equalTo(sessionId));
+  SNMPageLog *actualPage = actual;
+  assertThat(actualPage.name, equalTo(pageName));
+  assertThat(actualPage.device, notNilValue());
+  assertThat(actualPage.toffset, equalTo(tOffset));
+  assertThat(actualPage.type, equalTo(typeName));
+  assertThat(actualPage.sid, equalTo(sessionId));
+  assertThat(actualPage.properties, equalTo(properties));
 }
 
 @end

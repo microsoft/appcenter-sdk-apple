@@ -61,12 +61,7 @@
 		6E7D5C741D3E9381009EC9AC /* SNMThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C721D3E9381009EC9AC /* SNMThread.m */; };
 		6E7D5C771D3E9395009EC9AC /* SNMStackFrame.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E7D5C751D3E9395009EC9AC /* SNMStackFrame.h */; };
 		6E7D5C781D3E9395009EC9AC /* SNMStackFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C761D3E9395009EC9AC /* SNMStackFrame.m */; };
-		6E7D5C801D3EAEB5009EC9AC /* SNMBinaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C7F1D3EAEB5009EC9AC /* SNMBinaryTests.m */; };
-		6E7D5C841D3EC0F7009EC9AC /* SNMThreadTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C831D3EC0F7009EC9AC /* SNMThreadTests.m */; };
-		6E7D5C871D3EC332009EC9AC /* SNMStackFrameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C861D3EC332009EC9AC /* SNMStackFrameTests.m */; };
-		6E7D5C8A1D3EC504009EC9AC /* SNMExceptionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C891D3EC504009EC9AC /* SNMExceptionTests.m */; };
 		6EC99A151D41517B0016C325 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A141D41517B0016C325 /* CrashReporter.framework */; };
-		6EC99A2E1D4166C50016C325 /* SNMCrashesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC99A2D1D4166C50016C325 /* SNMCrashesTests.m */; };
 		6EC99A371D416CCF0016C325 /* live_report_empty.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A301D416CCF0016C325 /* live_report_empty.plcrash */; };
 		6EC99A381D416CCF0016C325 /* live_report_exception.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A311D416CCF0016C325 /* live_report_exception.plcrash */; };
 		6EC99A391D416CCF0016C325 /* live_report_exception_marketing.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A321D416CCF0016C325 /* live_report_exception_marketing.plcrash */; };
@@ -77,9 +72,14 @@
 		B2CD3BF91D80EE49000A8A91 /* SNMAbstractErrorLog.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD3BF71D80EE49000A8A91 /* SNMAbstractErrorLog.h */; };
 		B2CD3BFA1D80EE49000A8A91 /* SNMAbstractErrorLog.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD3BF81D80EE49000A8A91 /* SNMAbstractErrorLog.m */; };
 		B2E39BEB1D4FDD9700DDF9DC /* SNMCrashesDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = B2E39BE61D4FDD9700DDF9DC /* SNMCrashesDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B2F120D31D6546560060DED7 /* SNMBinaryAttachmentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120D21D6546560060DED7 /* SNMBinaryAttachmentTests.m */; };
-		B2F120D51D6546740060DED7 /* SNMErrorAttachmentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120D41D6546740060DED7 /* SNMErrorAttachmentTests.m */; };
-		B2F120D71D65469D0060DED7 /* SNMErrorReportTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120D61D65469D0060DED7 /* SNMErrorReportTests.m */; };
+		B2EDE6A81D837E6100D612CC /* SNMBinaryAttachmentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2EDE69F1D837E6100D612CC /* SNMBinaryAttachmentTests.m */; };
+		B2EDE6A91D837E6100D612CC /* SNMBinaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2EDE6A01D837E6100D612CC /* SNMBinaryTests.m */; };
+		B2EDE6AA1D837E6100D612CC /* SNMErrorAttachmentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2EDE6A11D837E6100D612CC /* SNMErrorAttachmentTests.m */; };
+		B2EDE6AB1D837E6100D612CC /* SNMErrorReportingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2EDE6A21D837E6100D612CC /* SNMErrorReportingTests.m */; };
+		B2EDE6AC1D837E6100D612CC /* SNMErrorReportTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2EDE6A31D837E6100D612CC /* SNMErrorReportTests.m */; };
+		B2EDE6AD1D837E6100D612CC /* SNMExceptionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2EDE6A41D837E6100D612CC /* SNMExceptionTests.m */; };
+		B2EDE6AE1D837E6100D612CC /* SNMStackFrameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2EDE6A51D837E6100D612CC /* SNMStackFrameTests.m */; };
+		B2EDE6AF1D837E6100D612CC /* SNMThreadTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2EDE6A61D837E6100D612CC /* SNMThreadTests.m */; };
 		B2F120E01D657CF10060DED7 /* SNMErrorBinaryAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = B2F120DA1D657CF10060DED7 /* SNMErrorBinaryAttachment.h */; };
 		B2F120E11D657CF10060DED7 /* SNMErrorBinaryAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120DB1D657CF10060DED7 /* SNMErrorBinaryAttachment.m */; };
 		B2F120E21D657CF10060DED7 /* SNMErrorAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = B2F120DC1D657CF10060DED7 /* SNMErrorAttachment.h */; };
@@ -140,7 +140,6 @@
 		6E0401521D1C9A4F0051BCFA /* SNMCrashesPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMCrashesPrivate.h; sourceTree = "<group>"; };
 		6E0401591D1C9D7F0051BCFA /* Sonoma+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Sonoma+Internal.h"; path = "../../../Sonoma/Sonoma/Internals/Sonoma+Internal.h"; sourceTree = "<group>"; };
 		6E171AE11D22F781000DC480 /* SonomaCrashes.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SonomaCrashes.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		6E171AE51D22F781000DC480 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6E171AED1D22F7BE000DC480 /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrestIOS.framework; path = ../../Vendor/OCHamcrest/OCHamcrestIOS.framework; sourceTree = "<group>"; };
 		6E171AEF1D22F841000DC480 /* libSonoma.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSonoma.a; path = "../../../../../Library/Developer/Xcode/DerivedData/SonomaSDK-gjtjaobzkdgbqkdiexolxdrcgdjg/Build/Products/Debug-iphonesimulator/libSonoma.a"; sourceTree = "<group>"; };
 		6E171B051D22FABA000DC480 /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOCMock.a; sourceTree = "<group>"; };
@@ -183,13 +182,8 @@
 		6E7D5C721D3E9381009EC9AC /* SNMThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMThread.m; sourceTree = "<group>"; };
 		6E7D5C751D3E9395009EC9AC /* SNMStackFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMStackFrame.h; sourceTree = "<group>"; };
 		6E7D5C761D3E9395009EC9AC /* SNMStackFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMStackFrame.m; sourceTree = "<group>"; };
-		6E7D5C7F1D3EAEB5009EC9AC /* SNMBinaryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMBinaryTests.m; sourceTree = "<group>"; };
 		6E7D5C811D3EC06C009EC9AC /* SNMConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SNMConstants.h; path = ../../Sonoma/Sonoma/SNMConstants.h; sourceTree = "<group>"; };
-		6E7D5C831D3EC0F7009EC9AC /* SNMThreadTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMThreadTests.m; sourceTree = "<group>"; };
-		6E7D5C861D3EC332009EC9AC /* SNMStackFrameTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMStackFrameTests.m; sourceTree = "<group>"; };
-		6E7D5C891D3EC504009EC9AC /* SNMExceptionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMExceptionTests.m; sourceTree = "<group>"; };
 		6EC99A141D41517B0016C325 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = ../Vendor/PLCrashReporter/CrashReporter.framework; sourceTree = "<group>"; };
-		6EC99A2D1D4166C50016C325 /* SNMCrashesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMCrashesTests.m; sourceTree = "<group>"; };
 		6EC99A301D416CCF0016C325 /* live_report_empty.plcrash */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = live_report_empty.plcrash; sourceTree = "<group>"; };
 		6EC99A311D416CCF0016C325 /* live_report_exception.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_exception.plcrash; sourceTree = "<group>"; };
 		6EC99A321D416CCF0016C325 /* live_report_exception_marketing.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_exception_marketing.plcrash; sourceTree = "<group>"; };
@@ -199,10 +193,16 @@
 		6EC99A361D416CCF0016C325 /* log_report_xamarin */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = log_report_xamarin; sourceTree = "<group>"; };
 		B2CD3BF71D80EE49000A8A91 /* SNMAbstractErrorLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMAbstractErrorLog.h; sourceTree = "<group>"; };
 		B2CD3BF81D80EE49000A8A91 /* SNMAbstractErrorLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMAbstractErrorLog.m; sourceTree = "<group>"; };
+		B2E13A301D837F7A00AE27DF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
 		B2E39BE61D4FDD9700DDF9DC /* SNMCrashesDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMCrashesDelegate.h; sourceTree = "<group>"; };
-		B2F120D21D6546560060DED7 /* SNMBinaryAttachmentTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMBinaryAttachmentTests.m; sourceTree = "<group>"; };
-		B2F120D41D6546740060DED7 /* SNMErrorAttachmentTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMErrorAttachmentTests.m; sourceTree = "<group>"; };
-		B2F120D61D65469D0060DED7 /* SNMErrorReportTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMErrorReportTests.m; sourceTree = "<group>"; };
+		B2EDE69F1D837E6100D612CC /* SNMBinaryAttachmentTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SNMBinaryAttachmentTests.m; path = SonomaCrashesTest/SNMBinaryAttachmentTests.m; sourceTree = SOURCE_ROOT; };
+		B2EDE6A01D837E6100D612CC /* SNMBinaryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SNMBinaryTests.m; path = SonomaCrashesTest/SNMBinaryTests.m; sourceTree = SOURCE_ROOT; };
+		B2EDE6A11D837E6100D612CC /* SNMErrorAttachmentTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SNMErrorAttachmentTests.m; path = SonomaCrashesTest/SNMErrorAttachmentTests.m; sourceTree = SOURCE_ROOT; };
+		B2EDE6A21D837E6100D612CC /* SNMErrorReportingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SNMErrorReportingTests.m; path = SonomaCrashesTest/SNMErrorReportingTests.m; sourceTree = SOURCE_ROOT; };
+		B2EDE6A31D837E6100D612CC /* SNMErrorReportTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SNMErrorReportTests.m; path = SonomaCrashesTest/SNMErrorReportTests.m; sourceTree = SOURCE_ROOT; };
+		B2EDE6A41D837E6100D612CC /* SNMExceptionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SNMExceptionTests.m; path = SonomaCrashesTest/SNMExceptionTests.m; sourceTree = SOURCE_ROOT; };
+		B2EDE6A51D837E6100D612CC /* SNMStackFrameTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SNMStackFrameTests.m; path = SonomaCrashesTest/SNMStackFrameTests.m; sourceTree = SOURCE_ROOT; };
+		B2EDE6A61D837E6100D612CC /* SNMThreadTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SNMThreadTests.m; path = SonomaCrashesTest/SNMThreadTests.m; sourceTree = SOURCE_ROOT; };
 		B2F120DA1D657CF10060DED7 /* SNMErrorBinaryAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMErrorBinaryAttachment.h; sourceTree = "<group>"; };
 		B2F120DB1D657CF10060DED7 /* SNMErrorBinaryAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMErrorBinaryAttachment.m; sourceTree = "<group>"; };
 		B2F120DC1D657CF10060DED7 /* SNMErrorAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMErrorAttachment.h; sourceTree = "<group>"; };
@@ -295,17 +295,16 @@
 				6EC99A2F1D416CCF0016C325 /* Fixtures */,
 				6E7D5C811D3EC06C009EC9AC /* SNMConstants.h */,
 				6E171AEC1D22F7AB000DC480 /* Frameworks */,
-				6E171AE51D22F781000DC480 /* Info.plist */,
-				6E7D5C7F1D3EAEB5009EC9AC /* SNMBinaryTests.m */,
-				6E7D5C891D3EC504009EC9AC /* SNMExceptionTests.m */,
-				6E7D5C831D3EC0F7009EC9AC /* SNMThreadTests.m */,
-				B2F120D21D6546560060DED7 /* SNMBinaryAttachmentTests.m */,
-				6EC99A2D1D4166C50016C325 /* SNMCrashesTests.m */,
-				B2F120D41D6546740060DED7 /* SNMErrorAttachmentTests.m */,
-				B2F120D61D65469D0060DED7 /* SNMErrorReportTests.m */,
-				6E7D5C861D3EC332009EC9AC /* SNMStackFrameTests.m */,
+				B2EDE69F1D837E6100D612CC /* SNMBinaryAttachmentTests.m */,
+				B2EDE6A01D837E6100D612CC /* SNMBinaryTests.m */,
+				B2EDE6A11D837E6100D612CC /* SNMErrorAttachmentTests.m */,
+				B2EDE6A21D837E6100D612CC /* SNMErrorReportingTests.m */,
+				B2EDE6A31D837E6100D612CC /* SNMErrorReportTests.m */,
+				B2EDE6A41D837E6100D612CC /* SNMExceptionTests.m */,
+				B2EDE6A51D837E6100D612CC /* SNMStackFrameTests.m */,
+				B2EDE6A61D837E6100D612CC /* SNMThreadTests.m */,
+				B2E13A301D837F7A00AE27DF /* Info.plist */,
 			);
-			name = SonomaCrashesTests;
 			path = SonomaCrashesTests;
 			sourceTree = "<group>";
 		};
@@ -630,14 +629,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6EC99A2E1D4166C50016C325 /* SNMCrashesTests.m in Sources */,
-				6E7D5C8A1D3EC504009EC9AC /* SNMExceptionTests.m in Sources */,
-				B2F120D71D65469D0060DED7 /* SNMErrorReportTests.m in Sources */,
-				6E7D5C871D3EC332009EC9AC /* SNMStackFrameTests.m in Sources */,
-				6E7D5C841D3EC0F7009EC9AC /* SNMThreadTests.m in Sources */,
-				6E7D5C801D3EAEB5009EC9AC /* SNMBinaryTests.m in Sources */,
-				B2F120D31D6546560060DED7 /* SNMBinaryAttachmentTests.m in Sources */,
-				B2F120D51D6546740060DED7 /* SNMErrorAttachmentTests.m in Sources */,
+				B2EDE6AD1D837E6100D612CC /* SNMExceptionTests.m in Sources */,
+				B2EDE6AC1D837E6100D612CC /* SNMErrorReportTests.m in Sources */,
+				B2EDE6AF1D837E6100D612CC /* SNMThreadTests.m in Sources */,
+				B2EDE6AE1D837E6100D612CC /* SNMStackFrameTests.m in Sources */,
+				B2EDE6AB1D837E6100D612CC /* SNMErrorReportingTests.m in Sources */,
+				B2EDE6A81D837E6100D612CC /* SNMBinaryAttachmentTests.m in Sources */,
+				B2EDE6A91D837E6100D612CC /* SNMBinaryTests.m in Sources */,
+				B2EDE6AA1D837E6100D612CC /* SNMErrorAttachmentTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

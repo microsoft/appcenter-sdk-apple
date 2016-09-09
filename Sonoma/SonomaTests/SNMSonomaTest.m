@@ -10,19 +10,19 @@ static NSString *const kSNMInstallIdStringExample = @"F18499DA-5C3D-4F05-B4E8-D8
 // NSUUID can return this nullified InstallId while creating a UUID from a nil string, we want to avoid this.
 static NSString *const kSNMNullifiedInstallIdString = @"00000000-0000-0000-0000-000000000000";
 
-@interface SNMSNMlancheTest : XCTestCase
+@interface SNMSonomaTest : XCTestCase
 
-@property(nonatomic) SNMSonoma *SNMlancheHub;
+@property(nonatomic) SNMSonoma *sonoma;
 
 @end
 
-@implementation SNMSNMlancheTest
+@implementation SNMSonomaTest
 
 - (void)setUp {
   [super setUp];
 
   // System Under Test.
-  self.SNMlancheHub = [[SNMSonoma alloc] init];
+  self.sonoma = [[SNMSonoma alloc] init];
 }
 
 - (void)tearDown {
@@ -38,7 +38,7 @@ static NSString *const kSNMNullifiedInstallIdString = @"00000000-0000-0000-0000-
   [[NSUserDefaults standardUserDefaults] removeObjectForKey:kSNMInstallIdKey];
 
   // When
-  NSUUID *installId = self.SNMlancheHub.installId;
+  NSUUID *installId = self.sonoma.installId;
   NSString *installIdString = [installId UUIDString];
 
   // Then
@@ -55,7 +55,7 @@ static NSString *const kSNMNullifiedInstallIdString = @"00000000-0000-0000-0000-
   [[NSUserDefaults standardUserDefaults] setObject:kSNMInstallIdStringExample forKey:kSNMInstallIdKey];
 
   // When
-  NSUUID *installId = self.SNMlancheHub.installId;
+  NSUUID *installId = self.sonoma.installId;
 
   // Then
   assertThat(installId, is(kSNMUUIDFromString(kSNMInstallIdStringExample)));
@@ -69,7 +69,7 @@ static NSString *const kSNMNullifiedInstallIdString = @"00000000-0000-0000-0000-
   [[NSUserDefaults standardUserDefaults] setObject:kSNMUUIDFromString(@"42") forKey:kSNMInstallIdKey];
 
   // When
-  NSUUID *installId = self.SNMlancheHub.installId;
+  NSUUID *installId = self.sonoma.installId;
   NSString *installIdString = [installId UUIDString];
 
   // Then
@@ -87,7 +87,7 @@ static NSString *const kSNMNullifiedInstallIdString = @"00000000-0000-0000-0000-
   [[NSUserDefaults standardUserDefaults] removeObjectForKey:kSNMInstallIdKey];
 
   // When
-  NSUUID *installId1 = self.SNMlancheHub.installId;
+  NSUUID *installId1 = self.sonoma.installId;
   NSString *installId1String = [installId1 UUIDString];
 
   // Then
@@ -98,7 +98,7 @@ static NSString *const kSNMNullifiedInstallIdString = @"00000000-0000-0000-0000-
 
   // When
   // Second pick
-  NSUUID *installId2 = self.SNMlancheHub.installId;
+  NSUUID *installId2 = self.sonoma.installId;
 
   // Then
   assertThat(installId1, is(installId2));
@@ -112,9 +112,9 @@ static NSString *const kSNMNullifiedInstallIdString = @"00000000-0000-0000-0000-
   [[NSUserDefaults standardUserDefaults] removeObjectForKey:kSNMInstallIdKey];
 
   // When
-  NSUUID *installId1 = self.SNMlancheHub.installId;
-  self.SNMlancheHub = [[SNMSonoma alloc] init];
-  NSUUID *installId2 = self.SNMlancheHub.installId;
+  NSUUID *installId1 = self.sonoma.installId;
+  self.sonoma = [[SNMSonoma alloc] init];
+  NSUUID *installId2 = self.sonoma.installId;
 
   // Then
   assertThat(installId1, is(installId2));

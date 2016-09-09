@@ -1,5 +1,5 @@
-#import "AVASessionTracker.h"
-#import "AVASessionTrackerHelper.h"
+#import "SNMSessionTracker.h"
+#import "SNMSessionTrackerHelper.h"
 #import "Sonoma+Internal.h"
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
@@ -9,22 +9,22 @@ NSTimeInterval const kSNMTestSessionTimeout = 1.5;
 
 @interface SNMSessionTrackerTests : XCTestCase
 
-@property(nonatomic) AVASessionTracker *sut;
+@property(nonatomic) SNMSessionTracker *sut;
 
 @end
 
-@implementation AVASessionTrackerTests
+@implementation SNMSessionTrackerTests
 
 - (void)setUp {
   [super setUp];
 
-  _sut = [[AVASessionTracker alloc] init];
-  [_sut setSessionTimeout:kAVATestSessionTimeout];
+  _sut = [[SNMSessionTracker alloc] init];
+  [_sut setSessionTimeout:kSNMTestSessionTimeout];
   [_sut start];
 
-  [AVASessionTrackerHelper simulateDidEnterBackgroundNotification];
+  [SNMSessionTrackerHelper simulateDidEnterBackgroundNotification];
   [NSThread sleepForTimeInterval:0.1];
-  [AVASessionTrackerHelper simulateWillEnterForegroundNotification];
+  [SNMSessionTrackerHelper simulateWillEnterForegroundNotification];
 }
 
 - (void)tearDown {
