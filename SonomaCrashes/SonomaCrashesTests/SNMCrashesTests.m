@@ -3,21 +3,21 @@
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
-#import "SNMErrorReportingPrivate.h"
+#import "SNMCrashesPrivate.h"
 
-@interface SNMErrorReportingTests : XCTestCase
+@interface SNMCrashesTests : XCTestCase
 
-@property(nonatomic, strong) SNMErrorReporting *sut;
+@property(nonatomic, strong) SNMCrashes *sut;
 
 @end
 
-@implementation SNMErrorReportingTests
+@implementation SNMCrashesTests
 
 #pragma mark - Houskeeping
 
 - (void)setUp {
   [super setUp];
-  self.sut = [SNMErrorReporting new];
+  self.sut = [SNMCrashes new];
 }
 
 - (void)tearDown {

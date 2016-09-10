@@ -274,7 +274,7 @@
 			children = (
 				E8AEE97F1D596C8B00C0FF6C /* SNMLogManager.h */,
 				E85547C21D2D6253002DF6E2 /* Analytics */,
-				E85547D61D2D6723002DF6E2 /* SonomaAnalyticsTests */,
+				E85547D61D2D6723002DF6E2 /* AnalyticsTests */,
 				E85547C11D2D6253002DF6E2 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -324,7 +324,7 @@
 			path = Support;
 			sourceTree = "<group>";
 		};
-		E85547D61D2D6723002DF6E2 /* SonomaAnalyticsTests */ = {
+		E85547D61D2D6723002DF6E2 /* AnalyticsTests */ = {
 			isa = PBXGroup;
 			children = (
 				E815912F1D526C22003D5F3C /* Utils */,
@@ -335,6 +335,7 @@
 				6E3E2CD11D359F3300B1EE50 /* SNMPageLogTests.m */,
 				E85547D91D2D6723002DF6E2 /* Info.plist */,
 			);
+			name = AnalyticsTests;
 			path = SonomaAnalyticsTests;
 			sourceTree = "<group>";
 		};

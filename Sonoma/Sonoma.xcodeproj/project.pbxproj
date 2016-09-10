@@ -332,7 +332,6 @@
 				6E0401421D1C99AC0051BCFA /* Internals */,
 				6E0401821D1CAD810051BCFA /* Support */,
 			);
-			name = Sonoma;
 			path = Sonoma;
 			sourceTree = "<group>";
 		};
@@ -472,7 +471,6 @@
 				384959D41D491D4F008F6B3A /* SNMSonomaTest.m */,
 				387C75951D64EE1900D68CC1 /* SNMFeatureAbstractTest.m */,
 			);
-			name = SonomaTests;
 			path = SonomaTests;
 			sourceTree = "<group>";
 		};
@@ -589,12 +587,13 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6E04016A1D1C9E1F0051BCFA /* SNMSonoma.h in Headers */,
 				E8A8D1EB1D3057A90022931E /* SNMUserDefaults.h in Headers */,
 				E8831A9A1D41A58600931F11 /* SNMDeviceTrackerPrivate.h in Headers */,
+				6E0401701D1C9E460051BCFA /* SNMFeature.h in Headers */,
 				E80EB1071D50273700C9003F /* SNMRetriableCall.h in Headers */,
 				6E04016E1D1C9E460051BCFA /* SNMSonomaDelegate.h in Headers */,
 				387C758F1D64E50800D68CC1 /* SNMFeatureCommon.h in Headers */,
-				6E04016A1D1C9E1F0051BCFA /* SNMSonoma.h in Headers */,
 				387C75811D6270A300D68CC1 /* SNMFeatureAbstractInternal.h in Headers */,
 				E84B8E3B1D235273006FD231 /* SNMChannelDelegate.h in Headers */,
 				B22FC2B61D5E51A20007CD80 /* SNMEnvironmentHelper.h in Headers */,
@@ -624,7 +623,6 @@
 				6E171B5A1D234717000DC480 /* SNMDevice.h in Headers */,
 				6EF628F41D371B1600CAFF64 /* SNMChannelConfiguration.h in Headers */,
 				6E04016F1D1C9E460051BCFA /* SNMSonomaInternal.h in Headers */,
-				6E0401701D1C9E460051BCFA /* SNMFeature.h in Headers */,
 				6E0401711D1C9E460051BCFA /* SNMFeatureInternal.h in Headers */,
 				E88D170E1D36BB1700A5EA57 /* SNMUtils.h in Headers */,
 				E84B8E321D235209006FD231 /* SNMSender.h in Headers */,
@@ -881,8 +879,6 @@
 			baseConfigurationReference = 6E0401861D1CAD810051BCFA /* release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				SNM_ARM_ARCHS = "armv7 armv7s arm64";
-				SNM_SIM_ARCHS = "x86_64 i386";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -914,6 +910,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SNM_ARM_ARCHS = "armv7 armv7s arm64";
+				SNM_SIM_ARCHS = "x86_64 i386";
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = "$(BIT_ARM_ARCHS)";
 			};
@@ -923,8 +921,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				"ARCHS[sdk=iphonesimulator*]" = "$(SNM_SIM_ARCHS)";
-				SNM_ARM_ARCHS = "armv7 armv7s arm64";
-				SNM_SIM_ARCHS = "x86_64 i386";
 				BUILD_NUMBER = 1;
 				DEAD_CODE_STRIPPING = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -934,6 +930,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SKIP_INSTALL = YES;
+				SNM_ARM_ARCHS = "armv7 armv7s arm64";
+				SNM_SIM_ARCHS = "x86_64 i386";
 				VALID_ARCHS = "$(SNM_ARM_ARCHS)";
 				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(SNM_SIM_ARCHS)";
 			};
@@ -944,8 +942,6 @@
 			buildSettings = {
 				ARCHS = "$(SNM_ARM_ARCHS)";
 				"ARCHS[sdk=iphonesimulator*]" = "$(SNM_SIM_ARCHS)";
-				SNM_ARM_ARCHS = "armv7 armv7s arm64";
-				SNM_SIM_ARCHS = "x86_64 i386";
 				BUILD_NUMBER = 1;
 				DEAD_CODE_STRIPPING = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -960,6 +956,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SKIP_INSTALL = YES;
+				SNM_ARM_ARCHS = "armv7 armv7s arm64";
+				SNM_SIM_ARCHS = "x86_64 i386";
 				VALIDATE_PRODUCT = NO;
 				VALID_ARCHS = "$(SNM_ARM_ARCHS)";
 				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(SNM_SIM_ARCHS)";

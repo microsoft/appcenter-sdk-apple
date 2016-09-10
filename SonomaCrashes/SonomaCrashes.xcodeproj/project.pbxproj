@@ -33,18 +33,12 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		387C77071D6CC41100D68CC1 /* SNMFeatureAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C77061D6CC41100D68CC1 /* SNMFeatureAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38D4BBA31D5A9962001A30A0 /* SNMFeature.h in Headers */ = {isa = PBXBuildFile; fileRef = 38D4BBA21D5A9962001A30A0 /* SNMFeature.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E0401541D1C9A4F0051BCFA /* SNMCrashes.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0401501D1C9A4F0051BCFA /* SNMCrashes.m */; };
 		6E0401751D1C9E750051BCFA /* SonomaCrashes.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401361D1C98690051BCFA /* SonomaCrashes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E0401761D1C9E750051BCFA /* SNMCrashes.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E04014F1D1C9A4F0051BCFA /* SNMCrashes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E0401771D1C9EBE0051BCFA /* Sonoma+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401591D1C9D7F0051BCFA /* Sonoma+Internal.h */; };
 		6E0401781D1C9EBE0051BCFA /* SNMCrashesPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401521D1C9A4F0051BCFA /* SNMCrashesPrivate.h */; };
-		6E171AE61D22F781000DC480 /* libSonomaCrashes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E0401331D1C98690051BCFA /* libSonomaCrashes.a */; };
-		6E171AEE1D22F7BE000DC480 /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171AED1D22F7BE000DC480 /* OCHamcrestIOS.framework */; };
-		6E171AF01D22F841000DC480 /* libSonoma.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171AEF1D22F841000DC480 /* libSonoma.a */; };
-		6E171B111D22FABA000DC480 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171B051D22FABA000DC480 /* libOCMock.a */; };
-		6E171B391D22FF6B000DC480 /* libOHHTTPStubs.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171B2F1D22FF6B000DC480 /* libOHHTTPStubs.a */; };
 		6E73FE6A1D402F79008CDC15 /* SNMCrashesCXXExceptionHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E73FE681D402F79008CDC15 /* SNMCrashesCXXExceptionHandler.h */; };
 		6E73FE6B1D402F79008CDC15 /* SNMCrashesCXXExceptionHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6E73FE691D402F79008CDC15 /* SNMCrashesCXXExceptionHandler.mm */; };
 		6E73FE6F1D4032AB008CDC15 /* SNMCrashesHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E73FE6D1D4032AB008CDC15 /* SNMCrashesHelper.h */; };
@@ -62,24 +56,19 @@
 		6E7D5C771D3E9395009EC9AC /* SNMStackFrame.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E7D5C751D3E9395009EC9AC /* SNMStackFrame.h */; };
 		6E7D5C781D3E9395009EC9AC /* SNMStackFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C761D3E9395009EC9AC /* SNMStackFrame.m */; };
 		6EC99A151D41517B0016C325 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A141D41517B0016C325 /* CrashReporter.framework */; };
-		6EC99A371D416CCF0016C325 /* live_report_empty.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A301D416CCF0016C325 /* live_report_empty.plcrash */; };
-		6EC99A381D416CCF0016C325 /* live_report_exception.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A311D416CCF0016C325 /* live_report_exception.plcrash */; };
-		6EC99A391D416CCF0016C325 /* live_report_exception_marketing.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A321D416CCF0016C325 /* live_report_exception_marketing.plcrash */; };
-		6EC99A3A1D416CCF0016C325 /* live_report_signal.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A331D416CCF0016C325 /* live_report_signal.plcrash */; };
-		6EC99A3B1D416CCF0016C325 /* live_report_signal_marketing.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A341D416CCF0016C325 /* live_report_signal_marketing.plcrash */; };
-		6EC99A3C1D416CCF0016C325 /* live_report_xamarin.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A351D416CCF0016C325 /* live_report_xamarin.plcrash */; };
-		6EC99A3D1D416CCF0016C325 /* log_report_xamarin in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A361D416CCF0016C325 /* log_report_xamarin */; };
+		B2BA19181D83863C00F53BFA /* libSonomaCrashes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E0401331D1C98690051BCFA /* libSonomaCrashes.a */; };
+		B2BA19401D8386FB00F53BFA /* libSonoma.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B2BA193F1D8386FB00F53BFA /* libSonoma.a */; };
+		B2BA194D1D8388E100F53BFA /* SNMBinaryAttachmentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2BA19441D8388E100F53BFA /* SNMBinaryAttachmentTests.m */; };
+		B2BA194E1D8388E100F53BFA /* SNMBinaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2BA19451D8388E100F53BFA /* SNMBinaryTests.m */; };
+		B2BA194F1D8388E100F53BFA /* SNMErrorAttachmentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2BA19461D8388E100F53BFA /* SNMErrorAttachmentTests.m */; };
+		B2BA19501D8388E100F53BFA /* SNMCrashesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2BA19471D8388E100F53BFA /* SNMCrashesTests.m */; };
+		B2BA19511D8388E100F53BFA /* SNMErrorReportTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2BA19481D8388E100F53BFA /* SNMErrorReportTests.m */; };
+		B2BA19521D8388E100F53BFA /* SNMExceptionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2BA19491D8388E100F53BFA /* SNMExceptionTests.m */; };
+		B2BA19531D8388E100F53BFA /* SNMStackFrameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2BA194A1D8388E100F53BFA /* SNMStackFrameTests.m */; };
+		B2BA19541D8388E100F53BFA /* SNMThreadTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2BA194B1D8388E100F53BFA /* SNMThreadTests.m */; };
 		B2CD3BF91D80EE49000A8A91 /* SNMAbstractErrorLog.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD3BF71D80EE49000A8A91 /* SNMAbstractErrorLog.h */; };
 		B2CD3BFA1D80EE49000A8A91 /* SNMAbstractErrorLog.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD3BF81D80EE49000A8A91 /* SNMAbstractErrorLog.m */; };
 		B2E39BEB1D4FDD9700DDF9DC /* SNMCrashesDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = B2E39BE61D4FDD9700DDF9DC /* SNMCrashesDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B2EDE6A81D837E6100D612CC /* SNMBinaryAttachmentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2EDE69F1D837E6100D612CC /* SNMBinaryAttachmentTests.m */; };
-		B2EDE6A91D837E6100D612CC /* SNMBinaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2EDE6A01D837E6100D612CC /* SNMBinaryTests.m */; };
-		B2EDE6AA1D837E6100D612CC /* SNMErrorAttachmentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2EDE6A11D837E6100D612CC /* SNMErrorAttachmentTests.m */; };
-		B2EDE6AB1D837E6100D612CC /* SNMErrorReportingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2EDE6A21D837E6100D612CC /* SNMErrorReportingTests.m */; };
-		B2EDE6AC1D837E6100D612CC /* SNMErrorReportTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2EDE6A31D837E6100D612CC /* SNMErrorReportTests.m */; };
-		B2EDE6AD1D837E6100D612CC /* SNMExceptionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2EDE6A41D837E6100D612CC /* SNMExceptionTests.m */; };
-		B2EDE6AE1D837E6100D612CC /* SNMStackFrameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2EDE6A51D837E6100D612CC /* SNMStackFrameTests.m */; };
-		B2EDE6AF1D837E6100D612CC /* SNMThreadTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2EDE6A61D837E6100D612CC /* SNMThreadTests.m */; };
 		B2F120E01D657CF10060DED7 /* SNMErrorBinaryAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = B2F120DA1D657CF10060DED7 /* SNMErrorBinaryAttachment.h */; };
 		B2F120E11D657CF10060DED7 /* SNMErrorBinaryAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120DB1D657CF10060DED7 /* SNMErrorBinaryAttachment.m */; };
 		B2F120E21D657CF10060DED7 /* SNMErrorAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = B2F120DC1D657CF10060DED7 /* SNMErrorAttachment.h */; };
@@ -100,7 +89,7 @@
 			remoteGlobalIDString = 6E3729771D1DE83200F1E4AE;
 			remoteInfo = "Fat Framework";
 		};
-		6E171AE71D22F781000DC480 /* PBXContainerItemProxy */ = {
+		B2BA19191D83863C00F53BFA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6E04012B1D1C98690051BCFA /* Project object */;
 			proxyType = 1;
@@ -119,19 +108,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6E171AF31D22F999000DC480 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		387C77061D6CC41100D68CC1 /* SNMFeatureAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SNMFeatureAbstract.h; path = ../Sonoma/Sonoma/SNMFeatureAbstract.h; sourceTree = "<group>"; };
 		38D4BBA21D5A9962001A30A0 /* SNMFeature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SNMFeature.h; path = ../Sonoma/Sonoma/SNMFeature.h; sourceTree = "<group>"; };
 		6E0401331D1C98690051BCFA /* libSonomaCrashes.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSonomaCrashes.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E0401361D1C98690051BCFA /* SonomaCrashes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SonomaCrashes.h; sourceTree = "<group>"; };
@@ -139,29 +118,6 @@
 		6E0401501D1C9A4F0051BCFA /* SNMCrashes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMCrashes.m; sourceTree = "<group>"; };
 		6E0401521D1C9A4F0051BCFA /* SNMCrashesPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMCrashesPrivate.h; sourceTree = "<group>"; };
 		6E0401591D1C9D7F0051BCFA /* Sonoma+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Sonoma+Internal.h"; path = "../../../Sonoma/Sonoma/Internals/Sonoma+Internal.h"; sourceTree = "<group>"; };
-		6E171AE11D22F781000DC480 /* SonomaCrashes.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SonomaCrashes.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		6E171AED1D22F7BE000DC480 /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrestIOS.framework; path = ../../Vendor/OCHamcrest/OCHamcrestIOS.framework; sourceTree = "<group>"; };
-		6E171AEF1D22F841000DC480 /* libSonoma.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSonoma.a; path = "../../../../../Library/Developer/Xcode/DerivedData/SonomaSDK-gjtjaobzkdgbqkdiexolxdrcgdjg/Build/Products/Debug-iphonesimulator/libSonoma.a"; sourceTree = "<group>"; };
-		6E171B051D22FABA000DC480 /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOCMock.a; sourceTree = "<group>"; };
-		6E171B071D22FABA000DC480 /* NSNotificationCenter+OCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNotificationCenter+OCMAdditions.h"; sourceTree = "<group>"; };
-		6E171B081D22FABA000DC480 /* OCMArg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMArg.h; sourceTree = "<group>"; };
-		6E171B091D22FABA000DC480 /* OCMConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMConstraint.h; sourceTree = "<group>"; };
-		6E171B0A1D22FABA000DC480 /* OCMFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMFunctions.h; sourceTree = "<group>"; };
-		6E171B0B1D22FABA000DC480 /* OCMLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMLocation.h; sourceTree = "<group>"; };
-		6E171B0C1D22FABA000DC480 /* OCMMacroState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMMacroState.h; sourceTree = "<group>"; };
-		6E171B0D1D22FABA000DC480 /* OCMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMock.h; sourceTree = "<group>"; };
-		6E171B0E1D22FABA000DC480 /* OCMockObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMockObject.h; sourceTree = "<group>"; };
-		6E171B0F1D22FABA000DC480 /* OCMRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMRecorder.h; sourceTree = "<group>"; };
-		6E171B101D22FABA000DC480 /* OCMStubRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMStubRecorder.h; sourceTree = "<group>"; };
-		6E171B2F1D22FF6B000DC480 /* libOHHTTPStubs.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOHHTTPStubs.a; sourceTree = "<group>"; };
-		6E171B311D22FF6B000DC480 /* Compatibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Compatibility.h; sourceTree = "<group>"; };
-		6E171B321D22FF6B000DC480 /* NSURLRequest+HTTPBodyTesting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURLRequest+HTTPBodyTesting.h"; sourceTree = "<group>"; };
-		6E171B331D22FF6B000DC480 /* OHHTTPStubs+Mocktail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OHHTTPStubs+Mocktail.h"; sourceTree = "<group>"; };
-		6E171B341D22FF6B000DC480 /* OHHTTPStubs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OHHTTPStubs.h; sourceTree = "<group>"; };
-		6E171B351D22FF6B000DC480 /* OHHTTPStubsResponse+HTTPMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OHHTTPStubsResponse+HTTPMessage.h"; sourceTree = "<group>"; };
-		6E171B361D22FF6B000DC480 /* OHHTTPStubsResponse+JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OHHTTPStubsResponse+JSON.h"; sourceTree = "<group>"; };
-		6E171B371D22FF6B000DC480 /* OHHTTPStubsResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OHHTTPStubsResponse.h; sourceTree = "<group>"; };
-		6E171B381D22FF6B000DC480 /* OHPathHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OHPathHelpers.h; sourceTree = "<group>"; };
 		6E37297F1D1DE93800F1E4AE /* SonomaCrashes.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = SonomaCrashes.xcconfig; sourceTree = "<group>"; };
 		6E3729801D1DE93800F1E4AE /* buildnumber.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = buildnumber.xcconfig; sourceTree = "<group>"; };
 		6E3729811D1DE93800F1E4AE /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
@@ -182,27 +138,21 @@
 		6E7D5C721D3E9381009EC9AC /* SNMThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMThread.m; sourceTree = "<group>"; };
 		6E7D5C751D3E9395009EC9AC /* SNMStackFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMStackFrame.h; sourceTree = "<group>"; };
 		6E7D5C761D3E9395009EC9AC /* SNMStackFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMStackFrame.m; sourceTree = "<group>"; };
-		6E7D5C811D3EC06C009EC9AC /* SNMConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SNMConstants.h; path = ../../Sonoma/Sonoma/SNMConstants.h; sourceTree = "<group>"; };
 		6EC99A141D41517B0016C325 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = ../Vendor/PLCrashReporter/CrashReporter.framework; sourceTree = "<group>"; };
-		6EC99A301D416CCF0016C325 /* live_report_empty.plcrash */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = live_report_empty.plcrash; sourceTree = "<group>"; };
-		6EC99A311D416CCF0016C325 /* live_report_exception.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_exception.plcrash; sourceTree = "<group>"; };
-		6EC99A321D416CCF0016C325 /* live_report_exception_marketing.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_exception_marketing.plcrash; sourceTree = "<group>"; };
-		6EC99A331D416CCF0016C325 /* live_report_signal.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_signal.plcrash; sourceTree = "<group>"; };
-		6EC99A341D416CCF0016C325 /* live_report_signal_marketing.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_signal_marketing.plcrash; sourceTree = "<group>"; };
-		6EC99A351D416CCF0016C325 /* live_report_xamarin.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_xamarin.plcrash; sourceTree = "<group>"; };
-		6EC99A361D416CCF0016C325 /* log_report_xamarin */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = log_report_xamarin; sourceTree = "<group>"; };
+		B2BA19131D83863C00F53BFA /* SonomaCrashesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SonomaCrashesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B2BA19171D83863C00F53BFA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B2BA193F1D8386FB00F53BFA /* libSonoma.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSonoma.a; path = "../../../../Library/Developer/Xcode/DerivedData/SonomaSDK-bejybwpxabwlvnbhebycpbzsyldf/Build/Products/Debug-iphonesimulator/libSonoma.a"; sourceTree = "<group>"; };
+		B2BA19441D8388E100F53BFA /* SNMBinaryAttachmentTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMBinaryAttachmentTests.m; sourceTree = "<group>"; };
+		B2BA19451D8388E100F53BFA /* SNMBinaryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMBinaryTests.m; sourceTree = "<group>"; };
+		B2BA19461D8388E100F53BFA /* SNMErrorAttachmentTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMErrorAttachmentTests.m; sourceTree = "<group>"; };
+		B2BA19471D8388E100F53BFA /* SNMCrashesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMCrashesTests.m; sourceTree = "<group>"; };
+		B2BA19481D8388E100F53BFA /* SNMErrorReportTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMErrorReportTests.m; sourceTree = "<group>"; };
+		B2BA19491D8388E100F53BFA /* SNMExceptionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMExceptionTests.m; sourceTree = "<group>"; };
+		B2BA194A1D8388E100F53BFA /* SNMStackFrameTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMStackFrameTests.m; sourceTree = "<group>"; };
+		B2BA194B1D8388E100F53BFA /* SNMThreadTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMThreadTests.m; sourceTree = "<group>"; };
 		B2CD3BF71D80EE49000A8A91 /* SNMAbstractErrorLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMAbstractErrorLog.h; sourceTree = "<group>"; };
 		B2CD3BF81D80EE49000A8A91 /* SNMAbstractErrorLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMAbstractErrorLog.m; sourceTree = "<group>"; };
-		B2E13A301D837F7A00AE27DF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
 		B2E39BE61D4FDD9700DDF9DC /* SNMCrashesDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMCrashesDelegate.h; sourceTree = "<group>"; };
-		B2EDE69F1D837E6100D612CC /* SNMBinaryAttachmentTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SNMBinaryAttachmentTests.m; path = SonomaCrashesTest/SNMBinaryAttachmentTests.m; sourceTree = SOURCE_ROOT; };
-		B2EDE6A01D837E6100D612CC /* SNMBinaryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SNMBinaryTests.m; path = SonomaCrashesTest/SNMBinaryTests.m; sourceTree = SOURCE_ROOT; };
-		B2EDE6A11D837E6100D612CC /* SNMErrorAttachmentTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SNMErrorAttachmentTests.m; path = SonomaCrashesTest/SNMErrorAttachmentTests.m; sourceTree = SOURCE_ROOT; };
-		B2EDE6A21D837E6100D612CC /* SNMErrorReportingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SNMErrorReportingTests.m; path = SonomaCrashesTest/SNMErrorReportingTests.m; sourceTree = SOURCE_ROOT; };
-		B2EDE6A31D837E6100D612CC /* SNMErrorReportTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SNMErrorReportTests.m; path = SonomaCrashesTest/SNMErrorReportTests.m; sourceTree = SOURCE_ROOT; };
-		B2EDE6A41D837E6100D612CC /* SNMExceptionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SNMExceptionTests.m; path = SonomaCrashesTest/SNMExceptionTests.m; sourceTree = SOURCE_ROOT; };
-		B2EDE6A51D837E6100D612CC /* SNMStackFrameTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SNMStackFrameTests.m; path = SonomaCrashesTest/SNMStackFrameTests.m; sourceTree = SOURCE_ROOT; };
-		B2EDE6A61D837E6100D612CC /* SNMThreadTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SNMThreadTests.m; path = SonomaCrashesTest/SNMThreadTests.m; sourceTree = SOURCE_ROOT; };
 		B2F120DA1D657CF10060DED7 /* SNMErrorBinaryAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMErrorBinaryAttachment.h; sourceTree = "<group>"; };
 		B2F120DB1D657CF10060DED7 /* SNMErrorBinaryAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMErrorBinaryAttachment.m; sourceTree = "<group>"; };
 		B2F120DC1D657CF10060DED7 /* SNMErrorAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMErrorAttachment.h; sourceTree = "<group>"; };
@@ -224,15 +174,12 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6E171ADE1D22F781000DC480 /* Frameworks */ = {
+		B2BA19101D83863C00F53BFA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E171AF01D22F841000DC480 /* libSonoma.a in Frameworks */,
-				6E171B111D22FABA000DC480 /* libOCMock.a in Frameworks */,
-				6E171B391D22FF6B000DC480 /* libOHHTTPStubs.a in Frameworks */,
-				6E171AE61D22F781000DC480 /* libSonomaCrashes.a in Frameworks */,
-				6E171AEE1D22F7BE000DC480 /* OCHamcrestIOS.framework in Frameworks */,
+				B2BA19401D8386FB00F53BFA /* libSonoma.a in Frameworks */,
+				B2BA19181D83863C00F53BFA /* libSonomaCrashes.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -242,12 +189,12 @@
 		6E04012A1D1C98690051BCFA = {
 			isa = PBXGroup;
 			children = (
-				387C77061D6CC41100D68CC1 /* SNMFeatureAbstract.h */,
 				E8AEE9851D59744D00C0FF6C /* SNMLogManager.h */,
 				6E0401351D1C98690051BCFA /* Crashes */,
-				6E171AE21D22F781000DC480 /* SonomaCrashesTests */,
 				6EC99A221D4151C60016C325 /* Vendor */,
+				B2BA19141D83863C00F53BFA /* SonomaCrashesTests */,
 				6E0401341D1C98690051BCFA /* Products */,
+				B2BA193E1D8386FB00F53BFA /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -255,7 +202,7 @@
 			isa = PBXGroup;
 			children = (
 				6E0401331D1C98690051BCFA /* libSonomaCrashes.a */,
-				6E171AE11D22F781000DC480 /* SonomaCrashes.xctest */,
+				B2BA19131D83863C00F53BFA /* SonomaCrashesTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -287,88 +234,6 @@
 				6E7D5C641D3E92B1009EC9AC /* Model */,
 			);
 			path = Internals;
-			sourceTree = "<group>";
-		};
-		6E171AE21D22F781000DC480 /* SonomaCrashesTests */ = {
-			isa = PBXGroup;
-			children = (
-				6EC99A2F1D416CCF0016C325 /* Fixtures */,
-				6E7D5C811D3EC06C009EC9AC /* SNMConstants.h */,
-				6E171AEC1D22F7AB000DC480 /* Frameworks */,
-				B2EDE69F1D837E6100D612CC /* SNMBinaryAttachmentTests.m */,
-				B2EDE6A01D837E6100D612CC /* SNMBinaryTests.m */,
-				B2EDE6A11D837E6100D612CC /* SNMErrorAttachmentTests.m */,
-				B2EDE6A21D837E6100D612CC /* SNMErrorReportingTests.m */,
-				B2EDE6A31D837E6100D612CC /* SNMErrorReportTests.m */,
-				B2EDE6A41D837E6100D612CC /* SNMExceptionTests.m */,
-				B2EDE6A51D837E6100D612CC /* SNMStackFrameTests.m */,
-				B2EDE6A61D837E6100D612CC /* SNMThreadTests.m */,
-				B2E13A301D837F7A00AE27DF /* Info.plist */,
-			);
-			path = SonomaCrashesTests;
-			sourceTree = "<group>";
-		};
-		6E171AEC1D22F7AB000DC480 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				6E171AEF1D22F841000DC480 /* libSonoma.a */,
-				6E171B2E1D22FF6B000DC480 /* OHHTTPStubs */,
-				6E171B041D22FABA000DC480 /* OCMock */,
-				6E171AED1D22F7BE000DC480 /* OCHamcrestIOS.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		6E171B041D22FABA000DC480 /* OCMock */ = {
-			isa = PBXGroup;
-			children = (
-				6E171B051D22FABA000DC480 /* libOCMock.a */,
-				6E171B061D22FABA000DC480 /* OCMock */,
-			);
-			name = OCMock;
-			path = ../../Vendor/OCMock;
-			sourceTree = "<group>";
-		};
-		6E171B061D22FABA000DC480 /* OCMock */ = {
-			isa = PBXGroup;
-			children = (
-				6E171B071D22FABA000DC480 /* NSNotificationCenter+OCMAdditions.h */,
-				6E171B081D22FABA000DC480 /* OCMArg.h */,
-				6E171B091D22FABA000DC480 /* OCMConstraint.h */,
-				6E171B0A1D22FABA000DC480 /* OCMFunctions.h */,
-				6E171B0B1D22FABA000DC480 /* OCMLocation.h */,
-				6E171B0C1D22FABA000DC480 /* OCMMacroState.h */,
-				6E171B0D1D22FABA000DC480 /* OCMock.h */,
-				6E171B0E1D22FABA000DC480 /* OCMockObject.h */,
-				6E171B0F1D22FABA000DC480 /* OCMRecorder.h */,
-				6E171B101D22FABA000DC480 /* OCMStubRecorder.h */,
-			);
-			path = OCMock;
-			sourceTree = "<group>";
-		};
-		6E171B2E1D22FF6B000DC480 /* OHHTTPStubs */ = {
-			isa = PBXGroup;
-			children = (
-				6E171B2F1D22FF6B000DC480 /* libOHHTTPStubs.a */,
-				6E171B301D22FF6B000DC480 /* OHHTTPStubs */,
-			);
-			name = OHHTTPStubs;
-			path = ../../Vendor/OHHTTPStubs;
-			sourceTree = "<group>";
-		};
-		6E171B301D22FF6B000DC480 /* OHHTTPStubs */ = {
-			isa = PBXGroup;
-			children = (
-				6E171B311D22FF6B000DC480 /* Compatibility.h */,
-				6E171B321D22FF6B000DC480 /* NSURLRequest+HTTPBodyTesting.h */,
-				6E171B331D22FF6B000DC480 /* OHHTTPStubs+Mocktail.h */,
-				6E171B341D22FF6B000DC480 /* OHHTTPStubs.h */,
-				6E171B351D22FF6B000DC480 /* OHHTTPStubsResponse+HTTPMessage.h */,
-				6E171B361D22FF6B000DC480 /* OHHTTPStubsResponse+JSON.h */,
-				6E171B371D22FF6B000DC480 /* OHHTTPStubsResponse.h */,
-				6E171B381D22FF6B000DC480 /* OHPathHelpers.h */,
-			);
-			path = OHHTTPStubs;
 			sourceTree = "<group>";
 		};
 		6E37297E1D1DE93800F1E4AE /* Support */ = {
@@ -428,18 +293,28 @@
 			name = Vendor;
 			sourceTree = "<group>";
 		};
-		6EC99A2F1D416CCF0016C325 /* Fixtures */ = {
+		B2BA19141D83863C00F53BFA /* SonomaCrashesTests */ = {
 			isa = PBXGroup;
 			children = (
-				6EC99A301D416CCF0016C325 /* live_report_empty.plcrash */,
-				6EC99A311D416CCF0016C325 /* live_report_exception.plcrash */,
-				6EC99A321D416CCF0016C325 /* live_report_exception_marketing.plcrash */,
-				6EC99A331D416CCF0016C325 /* live_report_signal.plcrash */,
-				6EC99A341D416CCF0016C325 /* live_report_signal_marketing.plcrash */,
-				6EC99A351D416CCF0016C325 /* live_report_xamarin.plcrash */,
-				6EC99A361D416CCF0016C325 /* log_report_xamarin */,
+				B2BA19441D8388E100F53BFA /* SNMBinaryAttachmentTests.m */,
+				B2BA19451D8388E100F53BFA /* SNMBinaryTests.m */,
+				B2BA19461D8388E100F53BFA /* SNMErrorAttachmentTests.m */,
+				B2BA19471D8388E100F53BFA /* SNMCrashesTests.m */,
+				B2BA19481D8388E100F53BFA /* SNMErrorReportTests.m */,
+				B2BA19491D8388E100F53BFA /* SNMExceptionTests.m */,
+				B2BA194A1D8388E100F53BFA /* SNMStackFrameTests.m */,
+				B2BA194B1D8388E100F53BFA /* SNMThreadTests.m */,
+				B2BA19171D83863C00F53BFA /* Info.plist */,
 			);
-			path = Fixtures;
+			path = SonomaCrashesTests;
+			sourceTree = "<group>";
+		};
+		B2BA193E1D8386FB00F53BFA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B2BA193F1D8386FB00F53BFA /* libSonoma.a */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -465,7 +340,6 @@
 				6E73FE6F1D4032AB008CDC15 /* SNMCrashesHelper.h in Headers */,
 				6E7D5C6F1D3E9346009EC9AC /* SNMException.h in Headers */,
 				B2CD3BF91D80EE49000A8A91 /* SNMAbstractErrorLog.h in Headers */,
-				387C77071D6CC41100D68CC1 /* SNMFeatureAbstract.h in Headers */,
 				6E0401771D1C9EBE0051BCFA /* Sonoma+Internal.h in Headers */,
 				6E73FE731D4059E7008CDC15 /* SNMCrashesCXXExceptionWrapperException.h in Headers */,
 				6E73FE6A1D402F79008CDC15 /* SNMCrashesCXXExceptionHandler.h in Headers */,
@@ -495,23 +369,22 @@
 			productReference = 6E0401331D1C98690051BCFA /* libSonomaCrashes.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		6E171AE01D22F781000DC480 /* SonomaCrashesTests */ = {
+		B2BA19121D83863C00F53BFA /* SonomaCrashesTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6E171AE91D22F781000DC480 /* Build configuration list for PBXNativeTarget "SonomaCrashesTests" */;
+			buildConfigurationList = B2BA191D1D83863C00F53BFA /* Build configuration list for PBXNativeTarget "SonomaCrashesTests" */;
 			buildPhases = (
-				6E171ADD1D22F781000DC480 /* Sources */,
-				6E171ADE1D22F781000DC480 /* Frameworks */,
-				6E171ADF1D22F781000DC480 /* Resources */,
-				6E171AF31D22F999000DC480 /* CopyFiles */,
+				B2BA190F1D83863C00F53BFA /* Sources */,
+				B2BA19101D83863C00F53BFA /* Frameworks */,
+				B2BA19111D83863C00F53BFA /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				6E171AE81D22F781000DC480 /* PBXTargetDependency */,
+				B2BA191A1D83863C00F53BFA /* PBXTargetDependency */,
 			);
 			name = SonomaCrashesTests;
 			productName = SonomaCrashesTests;
-			productReference = 6E171AE11D22F781000DC480 /* SonomaCrashes.xctest */;
+			productReference = B2BA19131D83863C00F53BFA /* SonomaCrashesTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -526,14 +399,15 @@
 					6E0401321D1C98690051BCFA = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
-					6E171AE01D22F781000DC480 = {
-						CreatedOnToolsVersion = 7.3.1;
-					};
 					6E3729771D1DE83200F1E4AE = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
 					6E6BFC361D23504F00DF7617 = {
 						CreatedOnToolsVersion = 7.3.1;
+					};
+					B2BA19121D83863C00F53BFA = {
+						CreatedOnToolsVersion = 8.0;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -551,24 +425,17 @@
 			targets = (
 				6E0401321D1C98690051BCFA /* SonomaCrashes */,
 				6E3729771D1DE83200F1E4AE /* SonomaCrashesFramework */,
-				6E171AE01D22F781000DC480 /* SonomaCrashesTests */,
 				6E6BFC361D23504F00DF7617 /* SonomaCrashesDoc */,
+				B2BA19121D83863C00F53BFA /* SonomaCrashesTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		6E171ADF1D22F781000DC480 /* Resources */ = {
+		B2BA19111D83863C00F53BFA /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6EC99A391D416CCF0016C325 /* live_report_exception_marketing.plcrash in Resources */,
-				6EC99A3A1D416CCF0016C325 /* live_report_signal.plcrash in Resources */,
-				6EC99A3C1D416CCF0016C325 /* live_report_xamarin.plcrash in Resources */,
-				6EC99A3D1D416CCF0016C325 /* log_report_xamarin in Resources */,
-				6EC99A3B1D416CCF0016C325 /* live_report_signal_marketing.plcrash in Resources */,
-				6EC99A371D416CCF0016C325 /* live_report_empty.plcrash in Resources */,
-				6EC99A381D416CCF0016C325 /* live_report_exception.plcrash in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -625,18 +492,18 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6E171ADD1D22F781000DC480 /* Sources */ = {
+		B2BA190F1D83863C00F53BFA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B2EDE6AD1D837E6100D612CC /* SNMExceptionTests.m in Sources */,
-				B2EDE6AC1D837E6100D612CC /* SNMErrorReportTests.m in Sources */,
-				B2EDE6AF1D837E6100D612CC /* SNMThreadTests.m in Sources */,
-				B2EDE6AE1D837E6100D612CC /* SNMStackFrameTests.m in Sources */,
-				B2EDE6AB1D837E6100D612CC /* SNMErrorReportingTests.m in Sources */,
-				B2EDE6A81D837E6100D612CC /* SNMBinaryAttachmentTests.m in Sources */,
-				B2EDE6A91D837E6100D612CC /* SNMBinaryTests.m in Sources */,
-				B2EDE6AA1D837E6100D612CC /* SNMErrorAttachmentTests.m in Sources */,
+				B2BA19511D8388E100F53BFA /* SNMErrorReportTests.m in Sources */,
+				B2BA19501D8388E100F53BFA /* SNMCrashesTests.m in Sources */,
+				B2BA19541D8388E100F53BFA /* SNMThreadTests.m in Sources */,
+				B2BA194F1D8388E100F53BFA /* SNMErrorAttachmentTests.m in Sources */,
+				B2BA194E1D8388E100F53BFA /* SNMBinaryTests.m in Sources */,
+				B2BA19531D8388E100F53BFA /* SNMStackFrameTests.m in Sources */,
+				B2BA194D1D8388E100F53BFA /* SNMBinaryAttachmentTests.m in Sources */,
+				B2BA19521D8388E100F53BFA /* SNMExceptionTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -648,10 +515,10 @@
 			target = 6E3729771D1DE83200F1E4AE /* SonomaCrashesFramework */;
 			targetProxy = 386352E51D51105800D0D450 /* PBXContainerItemProxy */;
 		};
-		6E171AE81D22F781000DC480 /* PBXTargetDependency */ = {
+		B2BA191A1D83863C00F53BFA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 6E0401321D1C98690051BCFA /* SonomaCrashes */;
-			targetProxy = 6E171AE71D22F781000DC480 /* PBXContainerItemProxy */;
+			targetProxy = B2BA19191D83863C00F53BFA /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -780,50 +647,6 @@
 			};
 			name = Release;
 		};
-		6E171AEA1D22F781000DC480 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
-				INFOPLIST_FILE = SonomaCrashesTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-framework",
-					Foundation,
-					"-ObjC",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.sonoma.SonomaCrashesTests;
-				PRODUCT_NAME = SonomaCrashes;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Sonoma/Sonoma\"/**";
-			};
-			name = Debug;
-		};
-		6E171AEB1D22F781000DC480 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
-				INFOPLIST_FILE = SonomaCrashesTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-framework",
-					Foundation,
-					"-ObjC",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.sonoma.SonomaCrashesTests;
-				PRODUCT_NAME = SonomaCrashes;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Sonoma/Sonoma\"/**";
-			};
-			name = Release;
-		};
 		6E3729791D1DE83200F1E4AE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -861,6 +684,42 @@
 			};
 			name = Release;
 		};
+		B2BA191B1D83863C00F53BFA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
+				INFOPLIST_FILE = SonomaCrashesTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.sonoma.SonomaCrashesTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		B2BA191C1D83863C00F53BFA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
+				INFOPLIST_FILE = SonomaCrashesTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.sonoma.SonomaCrashesTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -882,15 +741,6 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6E171AE91D22F781000DC480 /* Build configuration list for PBXNativeTarget "SonomaCrashesTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				6E171AEA1D22F781000DC480 /* Debug */,
-				6E171AEB1D22F781000DC480 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		6E3729781D1DE83200F1E4AE /* Build configuration list for PBXAggregateTarget "SonomaCrashesFramework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -905,6 +755,15 @@
 			buildConfigurations = (
 				6E6BFC371D23504F00DF7617 /* Debug */,
 				6E6BFC381D23504F00DF7617 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B2BA191D1D83863C00F53BFA /* Build configuration list for PBXNativeTarget "SonomaCrashesTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B2BA191B1D83863C00F53BFA /* Debug */,
+				B2BA191C1D83863C00F53BFA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

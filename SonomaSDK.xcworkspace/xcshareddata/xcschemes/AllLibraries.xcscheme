@@ -56,8 +56,8 @@
             buildForAnalyzing = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6E171AE01D22F781000DC480"
-               BuildableName = "SonomaCrashes.xctest"
+               BlueprintIdentifier = "B2309C971D83847100CB8B4A"
+               BuildableName = "SonomaCrashesTests.xctest"
                BlueprintName = "SonomaCrashesTests"
                ReferencedContainer = "container:SonomaCrashes/SonomaCrashes.xcodeproj">
             </BuildableReference>

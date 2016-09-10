@@ -2,13 +2,13 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:/Users/benny/Repositories/MS/AvalancheSDK-iOS/Sonoma/Sonoma.xcodeproj">
+      location = "group:Sonoma/Sonoma.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:/Users/benny/Repositories/MS/AvalancheSDK-iOS/SonomaAnalytics/SonomaAnalytics.xcodeproj">
+      location = "group:SonomaAnalytics/SonomaAnalytics.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:/Users/benny/Repositories/MS/AvalancheSDK-iOS/SonomaCrashes/SonomaCrashes.xcodeproj">
+      location = "group:SonomaCrashes/SonomaCrashes.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Puppet/Puppet.xcodeproj">
