@@ -15,7 +15,7 @@ typedef struct {
 } SNM_info_t;
 
 // SDK versioning.
-SNM_info_t SNMlanche_library_info __attribute__((section("__TEXT,__bit_ios,regular,no_dead_strip"))) = {
+SNM_info_t SonomaCore_library_info __attribute__((section("__TEXT,__bit_ios,regular,no_dead_strip"))) = {
     .info_version = 1, .SNM_version = SONOMA_C_VERSION, .SNM_build = SONOMA_C_BUILD};
 
 @implementation SNMDeviceTracker : NSObject
@@ -46,7 +46,7 @@ SNM_info_t SNMlanche_library_info __attribute__((section("__TEXT,__bit_ios,regul
     CTCarrier *carrier = [[[CTTelephonyNetworkInfo alloc] init] subscriberCellularProvider];
 
     // Collect device properties.
-    newDevice.sdkVersion = [self sdkVersion:SNMlanche_library_info.SNM_version];
+    newDevice.sdkVersion = [self sdkVersion:SonomaCore_library_info.SNM_version];
     newDevice.model = [self deviceModel];
     newDevice.oemName = kSNMDeviceManufacturer;
     newDevice.osName = [self osName:kSNMDevice];

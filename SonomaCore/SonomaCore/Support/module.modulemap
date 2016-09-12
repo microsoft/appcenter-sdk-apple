@@ -1,4 +1,4 @@
-framework module Sonoma {
+framework module SonomaCore {
   umbrella header "Sonoma.h"
   
   export *

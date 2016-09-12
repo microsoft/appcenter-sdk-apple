@@ -6,7 +6,7 @@
 #import <UIKit/UIKit.h>
 
 /**
- *  SNMlanche analytics feature.
+ *  SMNSonoma analytics feature.
  */
 @interface SNMAnalytics : SNMFeatureAbstract
 

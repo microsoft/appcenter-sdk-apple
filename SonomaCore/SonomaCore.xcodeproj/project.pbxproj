@@ -7,27 +7,27 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		6E04017D1D1CAC710051BCFA /* SonomaFramework */ = {
+		6E04017D1D1CAC710051BCFA /* SonomaCoreFramework */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 6E0401801D1CAC710051BCFA /* Build configuration list for PBXAggregateTarget "SonomaFramework" */;
+			buildConfigurationList = 6E0401801D1CAC710051BCFA /* Build configuration list for PBXAggregateTarget "SonomaCoreFramework" */;
 			buildPhases = (
 				6E0401811D1CAC770051BCFA /* ShellScript */,
 			);
 			dependencies = (
 			);
-			name = SonomaFramework;
+			name = SonomaCoreFramework;
 			productName = "Fat Framework";
 		};
-		6E6BFC311D234FAE00DF7617 /* SonomaDoc */ = {
+		6E6BFC311D234FAE00DF7617 /* SonomaCoreDoc */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 6E6BFC341D234FAE00DF7617 /* Build configuration list for PBXAggregateTarget "SonomaDoc" */;
+			buildConfigurationList = 6E6BFC341D234FAE00DF7617 /* Build configuration list for PBXAggregateTarget "SonomaCoreDoc" */;
 			buildPhases = (
 				6E6BFC351D234FBF00DF7617 /* ShellScript */,
 			);
 			dependencies = (
 				386352EF1D5114F200D0D450 /* PBXTargetDependency */,
 			);
-			name = SonomaDoc;
+			name = SonomaCoreDoc;
 			productName = "Jazzy Docs";
 		};
 /* End PBXAggregateTarget section */
@@ -67,7 +67,7 @@
 		6E171B5B1D234717000DC480 /* SNMDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E171B531D234717000DC480 /* SNMDevice.m */; };
 		6E171B601D234717000DC480 /* SNMLogContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E171B581D234717000DC480 /* SNMLogContainer.h */; };
 		6E171B611D234717000DC480 /* SNMLogContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E171B591D234717000DC480 /* SNMLogContainer.m */; };
-		6E23957D1D22EF4F00E543C8 /* libSonoma.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E0401031D1C98220051BCFA /* libSonoma.a */; };
+		6E23957D1D22EF4F00E543C8 /* libSonomaCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E0401031D1C98220051BCFA /* libSonomaCore.a */; };
 		6E2BA1AF1D2499F9002D7B88 /* SNMFileHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E2BA1AD1D2499F9002D7B88 /* SNMFileHelper.h */; };
 		6E2BA1B01D2499F9002D7B88 /* SNMFileHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2BA1AE1D2499F9002D7B88 /* SNMFileHelper.m */; };
 		6E363AE51D2C2C320079043D /* SNMFileStorageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E363AE41D2C2C320079043D /* SNMFileStorageTests.m */; };
@@ -135,7 +135,7 @@
 			containerPortal = 6E0400FB1D1C98220051BCFA /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 6E0401021D1C98220051BCFA;
-			remoteInfo = SonomaHub;
+			remoteInfo = SonomaCore;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -162,7 +162,7 @@
 		387C75951D64EE1900D68CC1 /* SNMFeatureAbstractTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMFeatureAbstractTest.m; sourceTree = "<group>"; };
 		387C76D91D677EC100D68CC1 /* SNMFeatureAbstractPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMFeatureAbstractPrivate.h; sourceTree = "<group>"; };
 		387C76FC1D6C9CF100D68CC1 /* SNMFeatureAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMFeatureAbstract.h; sourceTree = "<group>"; };
-		6E0401031D1C98220051BCFA /* libSonoma.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSonoma.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E0401031D1C98220051BCFA /* libSonomaCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSonomaCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E04013F1D1C99AC0051BCFA /* SNMConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMConstants.h; sourceTree = "<group>"; };
 		6E0401401D1C99AC0051BCFA /* Sonoma.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sonoma.h; sourceTree = "<group>"; };
 		6E0401431D1C99AC0051BCFA /* SNMSonomaDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMSonomaDelegate.h; sourceTree = "<group>"; };
@@ -176,7 +176,7 @@
 		6E0401561D1C9AAA0051BCFA /* SNMSonoma.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMSonoma.m; sourceTree = "<group>"; };
 		6E0401581D1C9CFB0051BCFA /* Sonoma+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Sonoma+Internal.h"; sourceTree = "<group>"; };
 		6E0401831D1CAD810051BCFA /* buildnumber.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = buildnumber.xcconfig; sourceTree = "<group>"; };
-		6E0401841D1CAD810051BCFA /* Sonoma.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Sonoma.xcconfig; sourceTree = "<group>"; };
+		6E0401841D1CAD810051BCFA /* SonomaCore.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = SonomaCore.xcconfig; sourceTree = "<group>"; };
 		6E0401851D1CAD810051BCFA /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		6E0401861D1CAD810051BCFA /* release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = release.xcconfig; sourceTree = "<group>"; };
 		6E0684611D36BC8D00A8CC6C /* SNMChannelDefault.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMChannelDefault.h; sourceTree = "<group>"; };
@@ -209,7 +209,7 @@
 		6E171B531D234717000DC480 /* SNMDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMDevice.m; sourceTree = "<group>"; };
 		6E171B581D234717000DC480 /* SNMLogContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMLogContainer.h; sourceTree = "<group>"; };
 		6E171B591D234717000DC480 /* SNMLogContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMLogContainer.m; sourceTree = "<group>"; };
-		6E2395781D22EF4F00E543C8 /* SonomaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SonomaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E2395781D22EF4F00E543C8 /* SonomaCore.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SonomaCore.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E23957C1D22EF4F00E543C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6E2BA1AD1D2499F9002D7B88 /* SNMFileHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMFileHelper.h; sourceTree = "<group>"; };
 		6E2BA1AE1D2499F9002D7B88 /* SNMFileHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMFileHelper.m; sourceTree = "<group>"; };
@@ -281,7 +281,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E171B1F1D22FC2E000DC480 /* libOCMock.a in Frameworks */,
-				6E23957D1D22EF4F00E543C8 /* libSonoma.a in Frameworks */,
+				6E23957D1D22EF4F00E543C8 /* libSonomaCore.a in Frameworks */,
 				6E171B2D1D22FF40000DC480 /* libOHHTTPStubs.a in Frameworks */,
 				6E171ADC1D22F6ED000DC480 /* OCHamcrestIOS.framework in Frameworks */,
 			);
@@ -303,8 +303,8 @@
 		6E0400FA1D1C98220051BCFA = {
 			isa = PBXGroup;
 			children = (
-				6E0401051D1C98220051BCFA /* Sonoma */,
-				6E2395791D22EF4F00E543C8 /* SonomaTests */,
+				6E0401051D1C98220051BCFA /* SonomaCore */,
+				6E2395791D22EF4F00E543C8 /* SonomaCoreTests */,
 				6E0401041D1C98220051BCFA /* Products */,
 			);
 			sourceTree = "<group>";
@@ -313,13 +313,13 @@
 		6E0401041D1C98220051BCFA /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6E0401031D1C98220051BCFA /* libSonoma.a */,
-				6E2395781D22EF4F00E543C8 /* SonomaTests.xctest */,
+				6E0401031D1C98220051BCFA /* libSonomaCore.a */,
+				6E2395781D22EF4F00E543C8 /* SonomaCore.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		6E0401051D1C98220051BCFA /* Sonoma */ = {
+		6E0401051D1C98220051BCFA /* SonomaCore */ = {
 			isa = PBXGroup;
 			children = (
 				6E0401401D1C99AC0051BCFA /* Sonoma.h */,
@@ -332,7 +332,7 @@
 				6E0401421D1C99AC0051BCFA /* Internals */,
 				6E0401821D1CAD810051BCFA /* Support */,
 			);
-			path = Sonoma;
+			path = SonomaCore;
 			sourceTree = "<group>";
 		};
 		6E0401421D1C99AC0051BCFA /* Internals */ = {
@@ -373,10 +373,10 @@
 		6E0401821D1CAD810051BCFA /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				6E0401841D1CAD810051BCFA /* SonomaCore.xcconfig */,
 				6E0401831D1CAD810051BCFA /* buildnumber.xcconfig */,
-				6E0401841D1CAD810051BCFA /* Sonoma.xcconfig */,
-				6E0401851D1CAD810051BCFA /* module.modulemap */,
 				6E0401861D1CAD810051BCFA /* release.xcconfig */,
+				6E0401851D1CAD810051BCFA /* module.modulemap */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -451,7 +451,7 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		6E2395791D22EF4F00E543C8 /* SonomaTests */ = {
+		6E2395791D22EF4F00E543C8 /* SonomaCoreTests */ = {
 			isa = PBXGroup;
 			children = (
 				6E2395831D22EF5F00E543C8 /* Frameworks */,
@@ -471,7 +471,7 @@
 				384959D41D491D4F008F6B3A /* SNMSonomaTest.m */,
 				387C75951D64EE1900D68CC1 /* SNMFeatureAbstractTest.m */,
 			);
-			path = SonomaTests;
+			path = SonomaCoreTests;
 			sourceTree = "<group>";
 		};
 		6E2395831D22EF5F00E543C8 /* Frameworks */ = {
@@ -639,9 +639,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		6E0401021D1C98220051BCFA /* Sonoma */ = {
+		6E0401021D1C98220051BCFA /* SonomaCore */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6E04010C1D1C98220051BCFA /* Build configuration list for PBXNativeTarget "Sonoma" */;
+			buildConfigurationList = 6E04010C1D1C98220051BCFA /* Build configuration list for PBXNativeTarget "SonomaCore" */;
 			buildPhases = (
 				6E0400FF1D1C98220051BCFA /* Sources */,
 				6E0401001D1C98220051BCFA /* Frameworks */,
@@ -652,14 +652,14 @@
 			);
 			dependencies = (
 			);
-			name = Sonoma;
-			productName = Sonoma;
-			productReference = 6E0401031D1C98220051BCFA /* libSonoma.a */;
+			name = SonomaCore;
+			productName = SonomaCore;
+			productReference = 6E0401031D1C98220051BCFA /* libSonomaCore.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		6E2395771D22EF4F00E543C8 /* SonomaTests */ = {
+		6E2395771D22EF4F00E543C8 /* SonomaCoreTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6E2395801D22EF4F00E543C8 /* Build configuration list for PBXNativeTarget "SonomaTests" */;
+			buildConfigurationList = 6E2395801D22EF4F00E543C8 /* Build configuration list for PBXNativeTarget "SonomaCoreTests" */;
 			buildPhases = (
 				6E2395741D22EF4F00E543C8 /* Sources */,
 				6E2395751D22EF4F00E543C8 /* Frameworks */,
@@ -670,9 +670,9 @@
 			dependencies = (
 				6E23957F1D22EF4F00E543C8 /* PBXTargetDependency */,
 			);
-			name = SonomaTests;
+			name = SonomaCoreTests;
 			productName = SonomaTests;
-			productReference = 6E2395781D22EF4F00E543C8 /* SonomaTests.xctest */;
+			productReference = 6E2395781D22EF4F00E543C8 /* SonomaCore.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -698,7 +698,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 6E0400FE1D1C98220051BCFA /* Build configuration list for PBXProject "Sonoma" */;
+			buildConfigurationList = 6E0400FE1D1C98220051BCFA /* Build configuration list for PBXProject "SonomaCore" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -710,10 +710,10 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6E0401021D1C98220051BCFA /* Sonoma */,
-				6E04017D1D1CAC710051BCFA /* SonomaFramework */,
-				6E2395771D22EF4F00E543C8 /* SonomaTests */,
-				6E6BFC311D234FAE00DF7617 /* SonomaDoc */,
+				6E0401021D1C98220051BCFA /* SonomaCore */,
+				6E04017D1D1CAC710051BCFA /* SonomaCoreFramework */,
+				6E2395771D22EF4F00E543C8 /* SonomaCoreTests */,
+				6E6BFC311D234FAE00DF7617 /* SonomaCoreDoc */,
 			);
 		};
 /* End PBXProject section */
@@ -740,7 +740,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=Sonoma\nFMK_VERSION=A\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../Products\nZIP_FOLDER=${FMK_NAME}\nTEMP_DIR=${PRODUCTS_DIR}/${ZIP_FOLDER}\nINSTALL_DIR=${TEMP_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator\n\n# //////////////////////////////\n# Building Core Framework\n# //////////////////////////////\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphoneos\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${TEMP_DIR}\" ]\nthen\nrm -rf \"${TEMP_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\nmkdir -p \"${INSTALL_DIR}/Versions\"\nmkdir -p \"${INSTALL_DIR}/Versions/${FMK_VERSION}\"\nmkdir -p \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Headers\"\n\n# Creates the internal links.\n# It MUST uses relative path, otherwise will not work when the folder is copied/moved.\nln -s \"${FMK_VERSION}\" \"${INSTALL_DIR}/Versions/Current\"\nln -s \"Versions/Current/Headers\" \"${INSTALL_DIR}/Headers\"\nln -s \"Versions/Current/${FMK_NAME}\" \"${INSTALL_DIR}/${FMK_NAME}\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Support/module.modulemap\" \"${INSTALL_DIR}/Modules/\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Headers/\"\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" \"${SIMULATOR_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/Versions/${FMK_VERSION}/${FMK_NAME}\"\n\nrm -r \"${WRK_DIR}\"";
+			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=SonomaCore\nFMK_VERSION=A\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../Products\nZIP_FOLDER=${FMK_NAME}\nTEMP_DIR=${PRODUCTS_DIR}/${ZIP_FOLDER}\nINSTALL_DIR=${TEMP_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator\n\n# //////////////////////////////\n# Building Core Framework\n# //////////////////////////////\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphoneos\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${TEMP_DIR}\" ]\nthen\nrm -rf \"${TEMP_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\nmkdir -p \"${INSTALL_DIR}/Versions\"\nmkdir -p \"${INSTALL_DIR}/Versions/${FMK_VERSION}\"\nmkdir -p \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Headers\"\n\n# Creates the internal links.\n# It MUST uses relative path, otherwise will not work when the folder is copied/moved.\nln -s \"${FMK_VERSION}\" \"${INSTALL_DIR}/Versions/Current\"\nln -s \"Versions/Current/Headers\" \"${INSTALL_DIR}/Headers\"\nln -s \"Versions/Current/${FMK_NAME}\" \"${INSTALL_DIR}/${FMK_NAME}\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Support/module.modulemap\" \"${INSTALL_DIR}/Modules/\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Headers/\"\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" \"${SIMULATOR_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/Versions/${FMK_VERSION}/${FMK_NAME}\"\n\nrm -r \"${WRK_DIR}\"";
 		};
 		6E6BFC351D234FBF00DF7617 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -753,7 +753,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "jazzy --config ../Documentation/DocsSonoma/.jazzy.yaml";
+			shellScript = "jazzy --config ../Documentation/DocsSonomaCore/.jazzy.yaml";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -815,12 +815,12 @@
 /* Begin PBXTargetDependency section */
 		386352EF1D5114F200D0D450 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 6E04017D1D1CAC710051BCFA /* SonomaFramework */;
+			target = 6E04017D1D1CAC710051BCFA /* SonomaCoreFramework */;
 			targetProxy = 386352EE1D5114F200D0D450 /* PBXContainerItemProxy */;
 		};
 		6E23957F1D22EF4F00E543C8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 6E0401021D1C98220051BCFA /* Sonoma */;
+			target = 6E0401021D1C98220051BCFA /* SonomaCore */;
 			targetProxy = 6E23957E1D22EF4F00E543C8 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -926,8 +926,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_CFLAGS = "$(SONOMA_WARNING_FLAGS)";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.sonoma.Sonoma;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.sonoma.SonomaCore;
+				PRODUCT_NAME = SonomaCore;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SKIP_INSTALL = YES;
 				SNM_ARM_ARCHS = "armv7 armv7s arm64";
@@ -952,8 +952,8 @@
 					"-fembed-bitcode",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.sonoma.Sonoma;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.sonoma.SonomaCore;
+				PRODUCT_NAME = SonomaCore;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SKIP_INSTALL = YES;
 				SNM_ARM_ARCHS = "armv7 armv7s arm64";
@@ -967,14 +967,14 @@
 		6E04017E1D1CAC710051BCFA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = SonomaCore;
 			};
 			name = Debug;
 		};
 		6E04017F1D1CAC710051BCFA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = SonomaCore;
 			};
 			name = Release;
 		};
@@ -985,11 +985,11 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/SonomaTests",
+					"$(PROJECT_DIR)/SonomaCoreTests",
 					"\"$(SRCROOT)/../Vendor\"/**",
 				);
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
-				INFOPLIST_FILE = SonomaTests/Info.plist;
+				INFOPLIST_FILE = SonomaCoreTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
@@ -999,8 +999,8 @@
 					Foundation,
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.sonoma.SonomaTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.sonoma.SonomaCoreTests;
+				PRODUCT_NAME = SonomaCore;
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Debug;
@@ -1012,11 +1012,11 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/SonomaTests",
+					"$(PROJECT_DIR)/SonomaCoreTests",
 					"\"$(SRCROOT)/../Vendor\"/**",
 				);
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
-				INFOPLIST_FILE = SonomaTests/Info.plist;
+				INFOPLIST_FILE = SonomaCoreTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
@@ -1026,8 +1026,8 @@
 					Foundation,
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.sonoma.SonomaTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.sonoma.SonomaCoreTests;
+				PRODUCT_NAME = SonomaCore;
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Release;
@@ -1035,21 +1035,21 @@
 		6E6BFC321D234FAE00DF7617 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = SonomaCore;
 			};
 			name = Debug;
 		};
 		6E6BFC331D234FAE00DF7617 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = SonomaCore;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6E0400FE1D1C98220051BCFA /* Build configuration list for PBXProject "Sonoma" */ = {
+		6E0400FE1D1C98220051BCFA /* Build configuration list for PBXProject "SonomaCore" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6E04010A1D1C98220051BCFA /* Debug */,
@@ -1058,7 +1058,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6E04010C1D1C98220051BCFA /* Build configuration list for PBXNativeTarget "Sonoma" */ = {
+		6E04010C1D1C98220051BCFA /* Build configuration list for PBXNativeTarget "SonomaCore" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6E04010D1D1C98220051BCFA /* Debug */,
@@ -1067,7 +1067,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6E0401801D1CAC710051BCFA /* Build configuration list for PBXAggregateTarget "SonomaFramework" */ = {
+		6E0401801D1CAC710051BCFA /* Build configuration list for PBXAggregateTarget "SonomaCoreFramework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6E04017E1D1CAC710051BCFA /* Debug */,
@@ -1076,7 +1076,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6E2395801D22EF4F00E543C8 /* Build configuration list for PBXNativeTarget "SonomaTests" */ = {
+		6E2395801D22EF4F00E543C8 /* Build configuration list for PBXNativeTarget "SonomaCoreTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6E2395811D22EF4F00E543C8 /* Debug */,
@@ -1085,7 +1085,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6E6BFC341D234FAE00DF7617 /* Build configuration list for PBXAggregateTarget "SonomaDoc" */ = {
+		6E6BFC341D234FAE00DF7617 /* Build configuration list for PBXAggregateTarget "SonomaCoreDoc" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6E6BFC321D234FAE00DF7617 /* Debug */,

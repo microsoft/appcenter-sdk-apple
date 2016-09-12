@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6E04017D1D1CAC710051BCFA"
-               BuildableName = "SonomaFramework"
-               BlueprintName = "SonomaFramework"
-               ReferencedContainer = "container:../Sonoma/Sonoma.xcodeproj">
+               BuildableName = "SonomaCoreFramework"
+               BlueprintName = "SonomaCoreFramework"
+               ReferencedContainer = "container:../Sonoma/SonomaCore.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -31,7 +31,7 @@
                BlueprintIdentifier = "E85547E41D2D681F002DF6E2"
                BuildableName = "SonomaAnalyticsFramework"
                BlueprintName = "SonomaAnalyticsFramework"
-               ReferencedContainer = "container:../SonomaAnalytics/SonomaAnalytics.xcodeproj">
+               ReferencedContainer = "container:../AvalancheAnalytics/SonomaAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -45,7 +45,7 @@
                BlueprintIdentifier = "6E3729771D1DE83200F1E4AE"
                BuildableName = "SonomaCrashesFramework"
                BlueprintName = "SonomaCrashesFramework"
-               ReferencedContainer = "container:../SonomaCrashes/SonomaCrashes.xcodeproj">
+               ReferencedContainer = "container:../AvalancheErrorReporting/SonomaCrashes.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -98,7 +98,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6E2307D41D22083C0031C598"
-            BuildableName = "Demo"
+            BuildableName = "Demo.app"
             BlueprintName = "Demo"
             ReferencedContainer = "container:Demo.xcodeproj">
          </BuildableReference>

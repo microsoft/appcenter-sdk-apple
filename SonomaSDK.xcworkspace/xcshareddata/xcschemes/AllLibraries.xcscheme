@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6E0401021D1C98220051BCFA"
-               BuildableName = "libSonoma.a"
-               BlueprintName = "Sonoma"
-               ReferencedContainer = "container:Sonoma/Sonoma.xcodeproj">
+               BuildableName = "libSonomaCore.a"
+               BlueprintName = "SonomaCore"
+               ReferencedContainer = "container:SonomaCore/SonomaCore.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -56,7 +56,7 @@
             buildForAnalyzing = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B2309C971D83847100CB8B4A"
+               BlueprintIdentifier = "B2BA19121D83863C00F53BFA"
                BuildableName = "SonomaCrashesTests.xctest"
                BlueprintName = "SonomaCrashesTests"
                ReferencedContainer = "container:SonomaCrashes/SonomaCrashes.xcodeproj">
@@ -75,9 +75,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6E2395771D22EF4F00E543C8"
-               BuildableName = "SonomaTests.xctest"
-               BlueprintName = "SonomaTests"
-               ReferencedContainer = "container:Sonoma/Sonoma.xcodeproj">
+               BuildableName = "SonomaCore.xctest"
+               BlueprintName = "SonomaCoreTests"
+               ReferencedContainer = "container:SonomaCore/SonomaCore.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
@@ -95,9 +95,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6E0401021D1C98220051BCFA"
-            BuildableName = "libSonoma.a"
-            BlueprintName = "Sonoma"
-            ReferencedContainer = "container:Sonoma/Sonoma.xcodeproj">
+            BuildableName = "libSonomaCore.a"
+            BlueprintName = "SonomaCore"
+            ReferencedContainer = "container:SonomaCore/SonomaCore.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -117,9 +117,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6E0401021D1C98220051BCFA"
-            BuildableName = "libSonoma.a"
-            BlueprintName = "Sonoma"
-            ReferencedContainer = "container:Sonoma/Sonoma.xcodeproj">
+            BuildableName = "libSonomaCore.a"
+            BlueprintName = "SonomaCore"
+            ReferencedContainer = "container:SonomaCore/SonomaCore.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -135,9 +135,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6E0401021D1C98220051BCFA"
-            BuildableName = "libSonoma.a"
-            BlueprintName = "Sonoma"
-            ReferencedContainer = "container:Sonoma/Sonoma.xcodeproj">
+            BuildableName = "libSonomaCore.a"
+            BlueprintName = "SonomaCore"
+            ReferencedContainer = "container:SonomaCore/SonomaCore.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>
