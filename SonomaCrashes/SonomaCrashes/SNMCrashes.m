@@ -225,7 +225,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 
     /* If the top level error handler differs from our own, then at least
      * another one was added.
-     * This could cause exception crashes not to be reported to AppHub. See
+     * This could cause exception crashes not to be reported to Sonoma. See
      * log message for details.
      */
     if (self.exceptionHandler != currentHandler) {
@@ -233,7 +233,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
                     @"added. If this invokes any kind exit() after processing "
                     @"the exception, which causes any subsequent error "
                     @"handler not to be invoked, these crashes will NOT be "
-                    @"reported to AppHub!");
+                    @"reported to Sonoma!");
     }
   }
   if (!self.sendingInProgress && self.crashFiles.count > 0) {

@@ -7,7 +7,7 @@
 //
 
 #import "AVAAnalyticsViewController.h"
-#import "AvalancheAnalytics.h"
+#import "SonomaAnalytics.h"
 
 @implementation AVAAnalyticsViewController
 
@@ -137,22 +137,22 @@
       // Actions
       switch (indexPath.row) {
         case 0: {
-          [AVAAnalytics trackEvent:@"myEvent" withProperties:nil];
+          [SNMAnalytics trackEvent:@"myEvent" withProperties:nil];
           break;
         }
         case 1: {
           NSDictionary *properties = @{@"gender" : @"male", @"age" : @(20), @"title" : @"SDE"};
-          [AVAAnalytics trackEvent:@"myEvent" withProperties:properties];
+          [SNMAnalytics trackEvent:@"myEvent" withProperties:properties];
           break;
         }
         case 2: {
-          [AVAAnalytics trackPage:@"myPage" withProperties:nil];
+          [SNMAnalytics trackPage:@"myPage" withProperties:nil];
           break;
         }
           
         case 3: {
           NSDictionary *properties = @{@"gender" : @"female", @"age" : @(28), @"title" : @"PM"};
-          [AVAAnalytics trackPage:@"myPage" withProperties:properties];
+          [SNMAnalytics trackPage:@"myPage" withProperties:properties];
           break;
         }
         default:
