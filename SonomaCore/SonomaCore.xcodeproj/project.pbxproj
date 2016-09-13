@@ -749,7 +749,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "jazzy --config ../Documentation/DocsAvalanche/.jazzy.yaml";
+			shellScript = "jazzy --config ../Documentation/DocsCore/.jazzy.yaml";
 		};
 /* End PBXShellScriptBuildPhase section */
 
