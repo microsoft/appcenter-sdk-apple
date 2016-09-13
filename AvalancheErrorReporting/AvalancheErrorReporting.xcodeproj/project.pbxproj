@@ -38,11 +38,11 @@
 		6E0401541D1C9A4F0051BCFA /* AVAErrorReporting.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0401501D1C9A4F0051BCFA /* AVAErrorReporting.m */; };
 		6E0401751D1C9E750051BCFA /* AvalancheErrorReporting.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401361D1C98690051BCFA /* AvalancheErrorReporting.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E0401761D1C9E750051BCFA /* AVAErrorReporting.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E04014F1D1C9A4F0051BCFA /* AVAErrorReporting.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6E0401771D1C9EBE0051BCFA /* AvalancheHub+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401591D1C9D7F0051BCFA /* AvalancheHub+Internal.h */; };
+		6E0401771D1C9EBE0051BCFA /* SonomaCore+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401591D1C9D7F0051BCFA /* SonomaCore+Internal.h */; };
 		6E0401781D1C9EBE0051BCFA /* AVAErrorReportingPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401521D1C9A4F0051BCFA /* AVAErrorReportingPrivate.h */; };
 		6E171AE61D22F781000DC480 /* libAvalancheErrorReporting.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E0401331D1C98690051BCFA /* libAvalancheErrorReporting.a */; };
 		6E171AEE1D22F7BE000DC480 /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171AED1D22F7BE000DC480 /* OCHamcrestIOS.framework */; };
-		6E171AF01D22F841000DC480 /* libAvalancheHub.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171AEF1D22F841000DC480 /* libAvalancheHub.a */; };
+		6E171AF01D22F841000DC480 /* libSonomaCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171AEF1D22F841000DC480 /* libSonomaCore.a */; };
 		6E171B111D22FABA000DC480 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171B051D22FABA000DC480 /* libOCMock.a */; };
 		6E171B391D22FF6B000DC480 /* libOHHTTPStubs.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171B2F1D22FF6B000DC480 /* libOHHTTPStubs.a */; };
 		6E73FE6A1D402F79008CDC15 /* AVAErrorReportingCXXExceptionHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E73FE681D402F79008CDC15 /* AVAErrorReportingCXXExceptionHandler.h */; };
@@ -131,18 +131,18 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		387C77061D6CC41100D68CC1 /* AVAFeatureAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AVAFeatureAbstract.h; path = ../AvalancheHub/AvalancheHub/AVAFeatureAbstract.h; sourceTree = "<group>"; };
-		38D4BBA21D5A9962001A30A0 /* AVAFeature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AVAFeature.h; path = ../AvalancheHub/AvalancheHub/AVAFeature.h; sourceTree = "<group>"; };
+		387C77061D6CC41100D68CC1 /* AVAFeatureAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AVAFeatureAbstract.h; path = ../SonomaCore/SonomaCore/AVAFeatureAbstract.h; sourceTree = "<group>"; };
+		38D4BBA21D5A9962001A30A0 /* AVAFeature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AVAFeature.h; path = ../SonomaCore/SonomaCore/AVAFeature.h; sourceTree = "<group>"; };
 		6E0401331D1C98690051BCFA /* libAvalancheErrorReporting.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAvalancheErrorReporting.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E0401361D1C98690051BCFA /* AvalancheErrorReporting.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AvalancheErrorReporting.h; sourceTree = "<group>"; };
 		6E04014F1D1C9A4F0051BCFA /* AVAErrorReporting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAErrorReporting.h; sourceTree = "<group>"; };
 		6E0401501D1C9A4F0051BCFA /* AVAErrorReporting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAErrorReporting.m; sourceTree = "<group>"; };
 		6E0401521D1C9A4F0051BCFA /* AVAErrorReportingPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAErrorReportingPrivate.h; sourceTree = "<group>"; };
-		6E0401591D1C9D7F0051BCFA /* AvalancheHub+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "AvalancheHub+Internal.h"; path = "../../../AvalancheHub/AvalancheHub/Internals/AvalancheHub+Internal.h"; sourceTree = "<group>"; };
+		6E0401591D1C9D7F0051BCFA /* SonomaCore+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "SonomaCore+Internal.h"; path = "../../../SonomaCore/SonomaCore/Internals/SonomaCore+Internal.h"; sourceTree = "<group>"; };
 		6E171AE11D22F781000DC480 /* AvalancheErrorReporting.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AvalancheErrorReporting.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E171AE51D22F781000DC480 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6E171AED1D22F7BE000DC480 /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrestIOS.framework; path = ../../Vendor/OCHamcrest/OCHamcrestIOS.framework; sourceTree = "<group>"; };
-		6E171AEF1D22F841000DC480 /* libAvalancheHub.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAvalancheHub.a; path = "../../../../../Library/Developer/Xcode/DerivedData/AvalancheSDK-gjtjaobzkdgbqkdiexolxdrcgdjg/Build/Products/Debug-iphonesimulator/libAvalancheHub.a"; sourceTree = "<group>"; };
+		6E171AEF1D22F841000DC480 /* libSonomaCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSonomaCore.a; path = "../../../../../Library/Developer/Xcode/DerivedData/AvalancheSDK-gjtjaobzkdgbqkdiexolxdrcgdjg/Build/Products/Debug-iphonesimulator/libSonomaCore.a"; sourceTree = "<group>"; };
 		6E171B051D22FABA000DC480 /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOCMock.a; sourceTree = "<group>"; };
 		6E171B071D22FABA000DC480 /* NSNotificationCenter+OCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNotificationCenter+OCMAdditions.h"; sourceTree = "<group>"; };
 		6E171B081D22FABA000DC480 /* OCMArg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMArg.h; sourceTree = "<group>"; };
@@ -184,7 +184,7 @@
 		6E7D5C751D3E9395009EC9AC /* AVAStackFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAStackFrame.h; sourceTree = "<group>"; };
 		6E7D5C761D3E9395009EC9AC /* AVAStackFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAStackFrame.m; sourceTree = "<group>"; };
 		6E7D5C7F1D3EAEB5009EC9AC /* AVABinaryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVABinaryTests.m; sourceTree = "<group>"; };
-		6E7D5C811D3EC06C009EC9AC /* AVAConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AVAConstants.h; path = ../../AvalancheHub/AvalancheHub/AVAConstants.h; sourceTree = "<group>"; };
+		6E7D5C811D3EC06C009EC9AC /* AVAConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AVAConstants.h; path = ../../SonomaCore/SonomaCore/AVAConstants.h; sourceTree = "<group>"; };
 		6E7D5C831D3EC0F7009EC9AC /* AVAThreadTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAThreadTests.m; sourceTree = "<group>"; };
 		6E7D5C861D3EC332009EC9AC /* AVAStackFrameTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAStackFrameTests.m; sourceTree = "<group>"; };
 		6E7D5C891D3EC504009EC9AC /* AVAExceptionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAExceptionTests.m; sourceTree = "<group>"; };
@@ -212,7 +212,7 @@
 		B2F120E61D657F4F0060DED7 /* AVAErrorReportPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAErrorReportPrivate.h; sourceTree = "<group>"; };
 		B2F375071D41AD5100F07032 /* AVAErrorLogFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAErrorLogFormatter.h; sourceTree = "<group>"; };
 		B2F375081D41AD5100F07032 /* AVAErrorLogFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAErrorLogFormatter.m; sourceTree = "<group>"; };
-		E8AEE9851D59744D00C0FF6C /* AVALogManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AVALogManager.h; path = ../AvalancheHub/AvalancheHub/Internals/Channel/AVALogManager.h; sourceTree = "<group>"; };
+		E8AEE9851D59744D00C0FF6C /* AVALogManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AVALogManager.h; path = ../SonomaCore/SonomaCore/Internals/Channel/AVALogManager.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -228,7 +228,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E171AF01D22F841000DC480 /* libAvalancheHub.a in Frameworks */,
+				6E171AF01D22F841000DC480 /* libSonomaCore.a in Frameworks */,
 				6E171B111D22FABA000DC480 /* libOCMock.a in Frameworks */,
 				6E171B391D22FF6B000DC480 /* libOHHTTPStubs.a in Frameworks */,
 				6E171AE61D22F781000DC480 /* libAvalancheErrorReporting.a in Frameworks */,
@@ -281,7 +281,7 @@
 				6E73FE721D4059E7008CDC15 /* AVAErrorReportingCXXExceptionWrapperException.m */,
 				6E73FE681D402F79008CDC15 /* AVAErrorReportingCXXExceptionHandler.h */,
 				6E73FE691D402F79008CDC15 /* AVAErrorReportingCXXExceptionHandler.mm */,
-				6E0401591D1C9D7F0051BCFA /* AvalancheHub+Internal.h */,
+				6E0401591D1C9D7F0051BCFA /* SonomaCore+Internal.h */,
 				6E0401521D1C9A4F0051BCFA /* AVAErrorReportingPrivate.h */,
 				6E7D5C641D3E92B1009EC9AC /* Model */,
 			);
@@ -310,7 +310,7 @@
 		6E171AEC1D22F7AB000DC480 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				6E171AEF1D22F841000DC480 /* libAvalancheHub.a */,
+				6E171AEF1D22F841000DC480 /* libSonomaCore.a */,
 				6E171B2E1D22FF6B000DC480 /* OHHTTPStubs */,
 				6E171B041D22FABA000DC480 /* OCMock */,
 				6E171AED1D22F7BE000DC480 /* OCHamcrestIOS.framework */,
@@ -465,7 +465,7 @@
 				6E7D5C6F1D3E9346009EC9AC /* AVAException.h in Headers */,
 				B2CD3BF91D80EE49000A8A91 /* AVAAbstractErrorLog.h in Headers */,
 				387C77071D6CC41100D68CC1 /* AVAFeatureAbstract.h in Headers */,
-				6E0401771D1C9EBE0051BCFA /* AvalancheHub+Internal.h in Headers */,
+				6E0401771D1C9EBE0051BCFA /* SonomaCore+Internal.h in Headers */,
 				6E73FE731D4059E7008CDC15 /* AVAErrorReportingCXXExceptionWrapperException.h in Headers */,
 				6E73FE6A1D402F79008CDC15 /* AVAErrorReportingCXXExceptionHandler.h in Headers */,
 				38D4BBA31D5A9962001A30A0 /* AVAFeature.h in Headers */,
@@ -755,7 +755,7 @@
 				PRODUCT_NAME = AvalancheErrorReporting;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../AvalancheHub/AvalancheHub\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../SonomaCore/SonomaCore\"/**";
 				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(AVA_SIM_ARCHS)";
 			};
 			name = Debug;
@@ -774,7 +774,7 @@
 				PRODUCT_NAME = AvalancheErrorReporting;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../AvalancheHub/AvalancheHub\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../SonomaCore/SonomaCore\"/**";
 				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(AVA_SIM_ARCHS)";
 			};
 			name = Release;
@@ -797,7 +797,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.avalanche.AvalancheErrorReportingTests;
 				PRODUCT_NAME = AvalancheErrorReporting;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../AvalancheHub/AvalancheHub\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../SonomaCore/SonomaCore\"/**";
 			};
 			name = Debug;
 		};
@@ -819,7 +819,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.avalanche.AvalancheErrorReportingTests;
 				PRODUCT_NAME = AvalancheErrorReporting;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../AvalancheHub/AvalancheHub\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../SonomaCore/SonomaCore\"/**";
 			};
 			name = Release;
 		};
@@ -844,7 +844,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				OTHER_CFLAGS = "";
 				PRODUCT_NAME = AvalancheErrorReporting;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../AvalancheHub/AvalancheHub\"";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../SonomaCore/SonomaCore\"";
 				VALID_ARCHS = "";
 			};
 			name = Debug;
@@ -855,7 +855,7 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				OTHER_CFLAGS = "";
 				PRODUCT_NAME = AvalancheErrorReporting;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../AvalancheHub/AvalancheHub\"";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../SonomaCore/SonomaCore\"";
 				VALID_ARCHS = "";
 			};
 			name = Release;

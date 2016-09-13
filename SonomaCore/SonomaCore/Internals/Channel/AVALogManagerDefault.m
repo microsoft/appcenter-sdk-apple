@@ -4,7 +4,7 @@
 
 #import "AVAChannelDefault.h"
 #import "AVALogManagerDefault.h"
-#import "AvalancheHub+Internal.h"
+#import "SonomaCore+Internal.h"
 
 static char *const AVADataItemsOperationsQueue = "com.microsoft.avalanche.LogManagerQueue";
 

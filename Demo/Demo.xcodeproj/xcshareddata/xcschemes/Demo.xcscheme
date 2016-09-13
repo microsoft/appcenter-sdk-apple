@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6E04017D1D1CAC710051BCFA"
-               BuildableName = "AvalancheHubFramework"
-               BlueprintName = "AvalancheHubFramework"
-               ReferencedContainer = "container:../AvalancheHub/AvalancheHub.xcodeproj">
+               BuildableName = "SonomaCoreFramework"
+               BlueprintName = "SonomaCoreFramework"
+               ReferencedContainer = "container:../SonomaCore/SonomaCore.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry

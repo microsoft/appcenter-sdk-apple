@@ -11,7 +11,7 @@
 @interface AVAAvalanche : NSObject
 
 /**
- * Returns the singleton instance of AvalancheHub.
+ * Returns the singleton instance of SonomaCore.
  */
 + (instancetype)sharedInstance;
 

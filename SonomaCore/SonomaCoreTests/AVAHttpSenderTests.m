@@ -6,7 +6,7 @@
 #import "AVALogContainer.h"
 #import "AVAMockLog.h"
 #import "AVA_Reachability.h"
-#import "AvalancheHub+Internal.h"
+#import "SonomaCore+Internal.h"
 
 #import "OCMock.h"
 #import "OHHTTPStubs.h"

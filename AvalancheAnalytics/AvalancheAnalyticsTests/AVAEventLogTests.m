@@ -4,7 +4,7 @@
 #import <XCTest/XCTest.h>
 
 #import "AVAEventLog.h"
-#import "AvalancheHub+Internal.h"
+#import "SonomaCore+Internal.h"
 
 @interface AVAEventLogTests : XCTestCase
 

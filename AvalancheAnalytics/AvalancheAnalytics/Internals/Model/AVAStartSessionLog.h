@@ -2,7 +2,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "AvalancheHub+Internal.h"
+#import "SonomaCore+Internal.h"
 #import <Foundation/Foundation.h>
 
 @interface AVAStartSessionLog : AVAAbstractLog

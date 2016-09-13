@@ -2,7 +2,7 @@
 #import "Constants.h"
 #import <Foundation/Foundation.h>
 
-@import AvalancheHub;
+@import SonomaCore;
 @import AvalancheErrorReporting;
 @import AvalancheAnalytics;
 

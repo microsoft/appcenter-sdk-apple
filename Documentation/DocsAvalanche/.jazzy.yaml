@@ -16,8 +16,8 @@ custom_categories:
     children:
     - Installation
 
-umbrella_header: ../../Products/AvalancheHub/AvalancheHub.framework/Headers/AvalancheHub.h
-framework_root: ../../Products/AvalancheHub/
+umbrella_header: ../../Products/SonomaCore/SonomaCore.framework/Headers/SonomaCore.h
+framework_root: ../../Products/SonomaCore/
 
 root_url: http://test.com/sdk/ios/1.0.0
 github_url: https://github.com/Microsoft/AvalancheSDK-iOS

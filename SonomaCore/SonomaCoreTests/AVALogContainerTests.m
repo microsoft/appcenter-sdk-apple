@@ -4,7 +4,7 @@
 
 #import "AVAAbstractLog.h"
 #import "AVALogContainer.h"
-#import "AvalancheHub+Internal.h"
+#import "SonomaCore+Internal.h"
 #import <XCTest/XCTest.h>
 
 @interface AVALogContainerTests : XCTestCase
