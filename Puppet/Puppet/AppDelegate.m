@@ -1,6 +1,6 @@
 #import "AppDelegate.h"
 #import "SonomaAnalytics.h"
-#import "AvalancheErrorReporting.h"
+#import "SonomaCrashes.h"
 #import "SonomaCore.h"
 #import "Constants.h"
 
