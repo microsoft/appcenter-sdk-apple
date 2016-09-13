@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6E04017D1D1CAC710051BCFA"
-               BuildableName = "AvalancheHubFramework"
-               BlueprintName = "AvalancheHubFramework"
-               ReferencedContainer = "container:AvalancheHub.xcodeproj">
+               BlueprintIdentifier = "6E0401021D1C98220051BCFA"
+               BuildableName = "libSonomaCore.a"
+               BlueprintName = "SonomaCore"
+               ReferencedContainer = "container:SonomaCore.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -26,9 +26,29 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      codeCoverageEnabled = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "6E2395771D22EF4F00E543C8"
+               BuildableName = "SonomaCoreTests.xctest"
+               BlueprintName = "SonomaCoreTests"
+               ReferencedContainer = "container:SonomaCore.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "6E0401021D1C98220051BCFA"
+            BuildableName = "libSonomaCore.a"
+            BlueprintName = "SonomaCore"
+            ReferencedContainer = "container:SonomaCore.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -45,30 +65,21 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6E04017D1D1CAC710051BCFA"
-            BuildableName = "AvalancheHubFramework"
-            BlueprintName = "AvalancheHubFramework"
-            ReferencedContainer = "container:AvalancheHub.xcodeproj">
+            BlueprintIdentifier = "6E0401021D1C98220051BCFA"
+            BuildableName = "libSonomaCore.a"
+            BlueprintName = "SonomaCore"
+            ReferencedContainer = "container:SonomaCore.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
-      buildConfiguration = "Release"
+      buildConfiguration = "Debug"
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6E04017D1D1CAC710051BCFA"
-            BuildableName = "AvalancheHubFramework"
-            BlueprintName = "AvalancheHubFramework"
-            ReferencedContainer = "container:AvalancheHub.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

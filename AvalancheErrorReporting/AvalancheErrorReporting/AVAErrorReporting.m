@@ -8,7 +8,7 @@
 #import "AVAErrorReportingHelper.h"
 #import "AVAErrorLogFormatter.h"
 #import "AVAErrorReportingPrivate.h"
-#import "AvalancheHub+Internal.h"
+#import "SonomaCore+Internal.h"
 #import <CrashReporter/CrashReporter.h>
 
 /**

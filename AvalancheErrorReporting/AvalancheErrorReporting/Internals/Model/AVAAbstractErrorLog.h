@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AvalancheHub+Internal.h"
+#import "SonomaCore+Internal.h"
 
 @class AVAErrorAttachment;
 

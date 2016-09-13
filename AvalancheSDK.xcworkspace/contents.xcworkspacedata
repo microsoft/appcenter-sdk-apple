@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:AvalancheHub/AvalancheHub.xcodeproj">
+      location = "group:SonomaCore/SonomaCore.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:AvalancheAnalytics/AvalancheAnalytics.xcodeproj">

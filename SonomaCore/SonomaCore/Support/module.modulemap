@@ -1,5 +1,5 @@
-framework module AvalancheHub {
-  umbrella header "AvalancheHub.h"
+framework module SonomaCore {
+  umbrella header "SonomaCore.h"
   
   export *
   module * { export * }

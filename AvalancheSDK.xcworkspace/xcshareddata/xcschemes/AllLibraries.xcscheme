@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6E0401021D1C98220051BCFA"
-               BuildableName = "libAvalancheHub.a"
-               BlueprintName = "AvalancheHub"
-               ReferencedContainer = "container:AvalancheHub/AvalancheHub.xcodeproj">
+               BuildableName = "libSonomaCore.a"
+               BlueprintName = "SonomaCore"
+               ReferencedContainer = "container:SonomaCore/SonomaCore.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -75,9 +75,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6E2395771D22EF4F00E543C8"
-               BuildableName = "AvalancheHubTests.xctest"
-               BlueprintName = "AvalancheHubTests"
-               ReferencedContainer = "container:AvalancheHub/AvalancheHub.xcodeproj">
+               BuildableName = "SonomaCoreTests.xctest"
+               BlueprintName = "SonomaCoreTests"
+               ReferencedContainer = "container:SonomaCore/SonomaCore.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
@@ -95,9 +95,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6E0401021D1C98220051BCFA"
-            BuildableName = "libAvalancheHub.a"
-            BlueprintName = "AvalancheHub"
-            ReferencedContainer = "container:AvalancheHub/AvalancheHub.xcodeproj">
+            BuildableName = "libSonomaCore.a"
+            BlueprintName = "SonomaCore"
+            ReferencedContainer = "container:SonomaCore/SonomaCore.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -117,9 +117,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6E0401021D1C98220051BCFA"
-            BuildableName = "libAvalancheHub.a"
-            BlueprintName = "AvalancheHub"
-            ReferencedContainer = "container:AvalancheHub/AvalancheHub.xcodeproj">
+            BuildableName = "libSonomaCore.a"
+            BlueprintName = "SonomaCore"
+            ReferencedContainer = "container:SonomaCore/SonomaCore.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -135,9 +135,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6E0401021D1C98220051BCFA"
-            BuildableName = "libAvalancheHub.a"
-            BlueprintName = "AvalancheHub"
-            ReferencedContainer = "container:AvalancheHub/AvalancheHub.xcodeproj">
+            BuildableName = "libSonomaCore.a"
+            BlueprintName = "SonomaCore"
+            ReferencedContainer = "container:SonomaCore/SonomaCore.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

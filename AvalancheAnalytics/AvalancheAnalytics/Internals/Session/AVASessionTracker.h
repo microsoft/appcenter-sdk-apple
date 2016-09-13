@@ -4,7 +4,7 @@
 
 #import "AVASessionHistoryInfo.h"
 #import "AVASessionTrackerDelegate.h"
-#import "AvalancheHub+Internal.h"
+#import "SonomaCore+Internal.h"
 #import <Foundation/Foundation.h>
 
 @interface AVASessionTracker : NSObject <AVALogManagerListener>

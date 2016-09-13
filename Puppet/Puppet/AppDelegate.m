@@ -1,7 +1,7 @@
 #import "AppDelegate.h"
 #import "AvalancheAnalytics.h"
 #import "AvalancheErrorReporting.h"
-#import "AvalancheHub.h"
+#import "SonomaCore.h"
 #import "Constants.h"
 
 #import "AVAErrorAttachment.h"

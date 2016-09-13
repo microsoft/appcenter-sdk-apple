@@ -8,7 +8,7 @@
 #import "AVAFeatureAbstractPrivate.h"
 #import "AVAUserDefaults.h"
 #import "AVAUtils.h"
-#import "AvalancheHub+Internal.h"
+#import "SonomaCore+Internal.h"
 
 @implementation AVAFeatureAbstract
 

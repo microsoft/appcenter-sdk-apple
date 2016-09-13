@@ -3,7 +3,7 @@
  */
 
 #import "AVAChannelDefault.h"
-#import "AvalancheHub+Internal.h"
+#import "SonomaCore+Internal.h"
 
 @implementation AVAChannelDefault
 

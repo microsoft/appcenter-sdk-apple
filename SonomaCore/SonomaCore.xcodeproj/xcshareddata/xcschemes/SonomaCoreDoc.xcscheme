@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6E6BFC311D234FAE00DF7617"
-               BuildableName = "AvalancheHubDoc"
-               BlueprintName = "AvalancheHubDoc"
-               ReferencedContainer = "container:AvalancheHub.xcodeproj">
+               BuildableName = "SonomaCoreDoc"
+               BlueprintName = "SonomaCoreDoc"
+               ReferencedContainer = "container:SonomaCore.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -46,9 +46,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6E6BFC311D234FAE00DF7617"
-            BuildableName = "AvalancheHubDoc"
-            BlueprintName = "AvalancheHubDoc"
-            ReferencedContainer = "container:AvalancheHub.xcodeproj">
+            BuildableName = "SonomaCoreDoc"
+            BlueprintName = "SonomaCoreDoc"
+            ReferencedContainer = "container:SonomaCore.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -64,9 +64,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6E6BFC311D234FAE00DF7617"
-            BuildableName = "AvalancheHubDoc"
-            BlueprintName = "AvalancheHubDoc"
-            ReferencedContainer = "container:AvalancheHub.xcodeproj">
+            BuildableName = "SonomaCoreDoc"
+            BlueprintName = "SonomaCoreDoc"
+            ReferencedContainer = "container:SonomaCore.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

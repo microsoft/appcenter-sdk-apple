@@ -10,7 +10,7 @@
 
 #import "AVAEventLog.h"
 #import "AVAPageLog.h"
-#import "AvalancheHub+Internal.h"
+#import "SonomaCore+Internal.h"
 
 /**
  *  Feature name.

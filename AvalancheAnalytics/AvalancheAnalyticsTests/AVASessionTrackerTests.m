@@ -1,6 +1,6 @@
 #import "AVASessionTracker.h"
 #import "AVASessionTrackerHelper.h"
-#import "AvalancheHub+Internal.h"
+#import "SonomaCore+Internal.h"
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
