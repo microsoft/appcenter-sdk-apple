@@ -21,8 +21,8 @@ framework_root: ../../Products/SonomaAnalytics
 exclude: [../../Products/SonomaAnalytics/SonomaAnalytics.framework/Headers/AVAFeature.h, ../../Products/SonomaAnalytics/SonomaAnalytics.framework/Headers/AVAFeatureAbstract.h]
 
 root_url: http://test.com/sdk/ios/1.0.0
-github_url: https://github.com/Microsoft/AvalancheSDK-iOS
-github_file_prefix: "https://github.com/Microsoft/AvalancheSDK-iOS"
+github_url: https://github.com/Microsoft/Sonoma-SDK-iOS
+github_file_prefix: "https://github.com/Microsoft/Sonoma-SDK-iOS"
 
 skip_undocumented: true
 
