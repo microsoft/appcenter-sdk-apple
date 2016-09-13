@@ -3,7 +3,7 @@
 #import <Foundation/Foundation.h>
 
 @import SonomaCore;
-@import AvalancheErrorReporting;
+@import SonomaCrashes;
 @import SonomaAnalytics;
 
 @interface AppDelegate ()

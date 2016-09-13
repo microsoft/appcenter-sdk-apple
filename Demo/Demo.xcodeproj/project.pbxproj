@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		04CCCA441D88AA86005D8180 /* SonomaCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04CCCA431D88AA86005D8180 /* SonomaCore.framework */; };
 		04CCCA461D88AA93005D8180 /* SonomaAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04CCCA451D88AA93005D8180 /* SonomaAnalytics.framework */; };
-		04CCCA481D88AA9F005D8180 /* AvalancheErrorReporting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04CCCA471D88AA9F005D8180 /* AvalancheErrorReporting.framework */; };
+		04CCCA481D88AA9F005D8180 /* SonomaCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04CCCA471D88AA9F005D8180 /* SonomaCrashes.framework */; };
 		6E2307DA1D22083C0031C598 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2307D91D22083C0031C598 /* main.m */; };
 		6E2307DD1D22083C0031C598 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2307DC1D22083C0031C598 /* AppDelegate.m */; };
 		6E2307E01D22083C0031C598 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2307DF1D22083C0031C598 /* ViewController.m */; };
@@ -21,7 +21,7 @@
 /* Begin PBXFileReference section */
 		04CCCA431D88AA86005D8180 /* SonomaCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SonomaCore.framework; path = ../Products/SonomaCore/SonomaCore.framework; sourceTree = "<group>"; };
 		04CCCA451D88AA93005D8180 /* SonomaAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SonomaAnalytics.framework; path = ../Products/SonomaAnalytics/SonomaAnalytics.framework; sourceTree = "<group>"; };
-		04CCCA471D88AA9F005D8180 /* AvalancheErrorReporting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AvalancheErrorReporting.framework; path = ../Products/AvalancheErrorReporting/AvalancheErrorReporting.framework; sourceTree = "<group>"; };
+		04CCCA471D88AA9F005D8180 /* SonomaCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SonomaCrashes.framework; path = ../Products/SonomaCrashes/SonomaCrashes.framework; sourceTree = "<group>"; };
 		384959E81D49786A008F6B3A /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		6E2307D51D22083C0031C598 /* Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E2307D91D22083C0031C598 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -40,7 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04CCCA481D88AA9F005D8180 /* AvalancheErrorReporting.framework in Frameworks */,
+				04CCCA481D88AA9F005D8180 /* SonomaCrashes.framework in Frameworks */,
 				04CCCA461D88AA93005D8180 /* SonomaAnalytics.framework in Frameworks */,
 				04CCCA441D88AA86005D8180 /* SonomaCore.framework in Frameworks */,
 			);
@@ -52,7 +52,7 @@
 		6E2307CC1D22083C0031C598 = {
 			isa = PBXGroup;
 			children = (
-				04CCCA471D88AA9F005D8180 /* AvalancheErrorReporting.framework */,
+				04CCCA471D88AA9F005D8180 /* SonomaCrashes.framework */,
 				04CCCA451D88AA93005D8180 /* SonomaAnalytics.framework */,
 				04CCCA431D88AA86005D8180 /* SonomaCore.framework */,
 				6E2307EF1D2208670031C598 /* Vendor */,
