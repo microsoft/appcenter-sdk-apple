@@ -7,27 +7,27 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		E85547E41D2D681F002DF6E2 /* AvalancheAnalyticsFramework */ = {
+		E85547E41D2D681F002DF6E2 /* SonomaAnalyticsFramework */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = E85547E51D2D681F002DF6E2 /* Build configuration list for PBXAggregateTarget "AvalancheAnalyticsFramework" */;
+			buildConfigurationList = E85547E51D2D681F002DF6E2 /* Build configuration list for PBXAggregateTarget "SonomaAnalyticsFramework" */;
 			buildPhases = (
 				E85547E81D2D6827002DF6E2 /* ShellScript */,
 			);
 			dependencies = (
 			);
-			name = AvalancheAnalyticsFramework;
+			name = SonomaAnalyticsFramework;
 			productName = "Fat Framework";
 		};
-		E85547E91D2D68C5002DF6E2 /* AvalancheAnalyticsDoc */ = {
+		E85547E91D2D68C5002DF6E2 /* SonomaAnalyticsDoc */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = E85547EA1D2D68C5002DF6E2 /* Build configuration list for PBXAggregateTarget "AvalancheAnalyticsDoc" */;
+			buildConfigurationList = E85547EA1D2D68C5002DF6E2 /* Build configuration list for PBXAggregateTarget "SonomaAnalyticsDoc" */;
 			buildPhases = (
 				E85547ED1D2D68CF002DF6E2 /* Run Script */,
 			);
 			dependencies = (
 				386352E41D51047400D0D450 /* PBXTargetDependency */,
 			);
-			name = AvalancheAnalyticsDoc;
+			name = SonomaAnalyticsDoc;
 			productName = "Jazzy Docs";
 		};
 /* End PBXAggregateTarget section */
@@ -51,8 +51,8 @@
 		E83E81381D3ECF5900421B13 /* AVAAnalyticsCategory.h in Headers */ = {isa = PBXBuildFile; fileRef = E83E81361D3ECF5900421B13 /* AVAAnalyticsCategory.h */; };
 		E83E81391D3ECF5900421B13 /* AVAAnalyticsCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = E83E81371D3ECF5900421B13 /* AVAAnalyticsCategory.m */; };
 		E85547C61D2D6253002DF6E2 /* AVAAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E85547C51D2D6253002DF6E2 /* AVAAnalytics.m */; };
-		E85547DA1D2D6723002DF6E2 /* libAvalancheAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E85547C01D2D6253002DF6E2 /* libAvalancheAnalytics.a */; };
-		E85547F71D2D6A7D002DF6E2 /* AvalancheAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547CC1D2D63EF002DF6E2 /* AvalancheAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E85547DA1D2D6723002DF6E2 /* libSonomaAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E85547C01D2D6253002DF6E2 /* libSonomaAnalytics.a */; };
+		E85547F71D2D6A7D002DF6E2 /* SonomaAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547CC1D2D63EF002DF6E2 /* SonomaAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E85547F81D2D6A7D002DF6E2 /* AVAAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547C31D2D6253002DF6E2 /* AVAAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E85547F91D2D6A9B002DF6E2 /* SonomaCore+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547CF1D2D6521002DF6E2 /* SonomaCore+Internal.h */; };
 		E85547FA1D2D6A9E002DF6E2 /* AVAAnalyticsPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547CE1D2D64F0002DF6E2 /* AVAAnalyticsPrivate.h */; };
@@ -79,7 +79,7 @@
 			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = E85547BF1D2D6253002DF6E2;
-			remoteInfo = AvalancheAnalytics;
+			remoteInfo = SonomaAnalytics;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -132,15 +132,15 @@
 		E81591311D526C3B003D5F3C /* AVASessionTrackerHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVASessionTrackerHelper.m; sourceTree = "<group>"; };
 		E83E81361D3ECF5900421B13 /* AVAAnalyticsCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAAnalyticsCategory.h; sourceTree = "<group>"; };
 		E83E81371D3ECF5900421B13 /* AVAAnalyticsCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAAnalyticsCategory.m; sourceTree = "<group>"; };
-		E85547C01D2D6253002DF6E2 /* libAvalancheAnalytics.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAvalancheAnalytics.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		E85547C01D2D6253002DF6E2 /* libSonomaAnalytics.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSonomaAnalytics.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E85547C31D2D6253002DF6E2 /* AVAAnalytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AVAAnalytics.h; sourceTree = "<group>"; };
 		E85547C51D2D6253002DF6E2 /* AVAAnalytics.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AVAAnalytics.m; sourceTree = "<group>"; };
-		E85547CC1D2D63EF002DF6E2 /* AvalancheAnalytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AvalancheAnalytics.h; sourceTree = "<group>"; };
+		E85547CC1D2D63EF002DF6E2 /* SonomaAnalytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SonomaAnalytics.h; sourceTree = "<group>"; };
 		E85547CE1D2D64F0002DF6E2 /* AVAAnalyticsPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAAnalyticsPrivate.h; sourceTree = "<group>"; };
 		E85547CF1D2D6521002DF6E2 /* SonomaCore+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "SonomaCore+Internal.h"; path = "../../../SonomaCore/SonomaCore/Internals/SonomaCore+Internal.h"; sourceTree = "<group>"; };
-		E85547D51D2D6723002DF6E2 /* AvalancheAnalyticsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AvalancheAnalyticsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E85547D51D2D6723002DF6E2 /* SonomaAnalyticsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SonomaAnalyticsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E85547D91D2D6723002DF6E2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E85547E01D2D6792002DF6E2 /* AvalancheAnalytics.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = AvalancheAnalytics.xcconfig; sourceTree = "<group>"; };
+		E85547E01D2D6792002DF6E2 /* SonomaAnalytics.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = SonomaAnalytics.xcconfig; sourceTree = "<group>"; };
 		E85547E11D2D6792002DF6E2 /* buildnumber.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = buildnumber.xcconfig; sourceTree = "<group>"; };
 		E85547E21D2D6792002DF6E2 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		E85547E31D2D6792002DF6E2 /* release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = release.xcconfig; sourceTree = "<group>"; };
@@ -169,7 +169,7 @@
 				6E06844D1D35A4CA00A8CC6C /* libSonomaCore.a in Frameworks */,
 				6E0684461D35A3C800A8CC6C /* libOCMock.a in Frameworks */,
 				6E06845A1D35A5FD00A8CC6C /* libOHHTTPStubs.a in Frameworks */,
-				E85547DA1D2D6723002DF6E2 /* libAvalancheAnalytics.a in Frameworks */,
+				E85547DA1D2D6723002DF6E2 /* libSonomaAnalytics.a in Frameworks */,
 				6E0684381D35A3B900A8CC6C /* OCHamcrestIOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -276,8 +276,8 @@
 			children = (
 				387C77041D6CC39400D68CC1 /* AVAFeatureAbstract.h */,
 				E8AEE97F1D596C8B00C0FF6C /* AVALogManager.h */,
-				E85547C21D2D6253002DF6E2 /* AvalancheAnalytics */,
-				E85547D61D2D6723002DF6E2 /* AvalancheAnalyticsTests */,
+				E85547C21D2D6253002DF6E2 /* SonomaAnalytics */,
+				E85547D61D2D6723002DF6E2 /* SonomaAnalyticsTests */,
 				E85547C11D2D6253002DF6E2 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -285,22 +285,22 @@
 		E85547C11D2D6253002DF6E2 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E85547C01D2D6253002DF6E2 /* libAvalancheAnalytics.a */,
-				E85547D51D2D6723002DF6E2 /* AvalancheAnalyticsTests.xctest */,
+				E85547C01D2D6253002DF6E2 /* libSonomaAnalytics.a */,
+				E85547D51D2D6723002DF6E2 /* SonomaAnalyticsTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		E85547C21D2D6253002DF6E2 /* AvalancheAnalytics */ = {
+		E85547C21D2D6253002DF6E2 /* SonomaAnalytics */ = {
 			isa = PBXGroup;
 			children = (
-				E85547CC1D2D63EF002DF6E2 /* AvalancheAnalytics.h */,
+				E85547CC1D2D63EF002DF6E2 /* SonomaAnalytics.h */,
 				E85547C31D2D6253002DF6E2 /* AVAAnalytics.h */,
 				E85547C51D2D6253002DF6E2 /* AVAAnalytics.m */,
 				E85547CD1D2D64B0002DF6E2 /* Internals */,
 				E85547D01D2D65AF002DF6E2 /* Support */,
 			);
-			path = AvalancheAnalytics;
+			path = SonomaAnalytics;
 			sourceTree = "<group>";
 		};
 		E85547CD1D2D64B0002DF6E2 /* Internals */ = {
@@ -318,7 +318,7 @@
 		E85547D01D2D65AF002DF6E2 /* Support */ = {
 			isa = PBXGroup;
 			children = (
-				E85547E01D2D6792002DF6E2 /* AvalancheAnalytics.xcconfig */,
+				E85547E01D2D6792002DF6E2 /* SonomaAnalytics.xcconfig */,
 				E85547E11D2D6792002DF6E2 /* buildnumber.xcconfig */,
 				E85547E21D2D6792002DF6E2 /* module.modulemap */,
 				E85547E31D2D6792002DF6E2 /* release.xcconfig */,
@@ -326,7 +326,7 @@
 			path = Support;
 			sourceTree = "<group>";
 		};
-		E85547D61D2D6723002DF6E2 /* AvalancheAnalyticsTests */ = {
+		E85547D61D2D6723002DF6E2 /* SonomaAnalyticsTests */ = {
 			isa = PBXGroup;
 			children = (
 				E815912F1D526C22003D5F3C /* Utils */,
@@ -337,7 +337,7 @@
 				6E3E2CD11D359F3300B1EE50 /* AVAPageLogTests.m */,
 				E85547D91D2D6723002DF6E2 /* Info.plist */,
 			);
-			path = AvalancheAnalyticsTests;
+			path = SonomaAnalyticsTests;
 			sourceTree = "<group>";
 		};
 		E8E48F9B1D515C1F00A8C1B0 /* Session */ = {
@@ -364,7 +364,7 @@
 				6E3E2CCD1D359D5E00B1EE50 /* AVAPageLog.h in Headers */,
 				E8E48FA21D51670100A8C1B0 /* AVAStartSessionLog.h in Headers */,
 				E83E81381D3ECF5900421B13 /* AVAAnalyticsCategory.h in Headers */,
-				E85547F71D2D6A7D002DF6E2 /* AvalancheAnalytics.h in Headers */,
+				E85547F71D2D6A7D002DF6E2 /* SonomaAnalytics.h in Headers */,
 				387C77051D6CC39400D68CC1 /* AVAFeatureAbstract.h in Headers */,
 				E8AEE9801D596C8B00C0FF6C /* AVALogManager.h in Headers */,
 				E85547FA1D2D6A9E002DF6E2 /* AVAAnalyticsPrivate.h in Headers */,
@@ -379,9 +379,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		E85547BF1D2D6253002DF6E2 /* AvalancheAnalytics */ = {
+		E85547BF1D2D6253002DF6E2 /* SonomaAnalytics */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E85547C91D2D6253002DF6E2 /* Build configuration list for PBXNativeTarget "AvalancheAnalytics" */;
+			buildConfigurationList = E85547C91D2D6253002DF6E2 /* Build configuration list for PBXNativeTarget "SonomaAnalytics" */;
 			buildPhases = (
 				E85547BC1D2D6253002DF6E2 /* Sources */,
 				E85547BD1D2D6253002DF6E2 /* Frameworks */,
@@ -392,14 +392,14 @@
 			);
 			dependencies = (
 			);
-			name = AvalancheAnalytics;
-			productName = AvalancheAnalytics;
-			productReference = E85547C01D2D6253002DF6E2 /* libAvalancheAnalytics.a */;
+			name = SonomaAnalytics;
+			productName = SonomaAnalytics;
+			productReference = E85547C01D2D6253002DF6E2 /* libSonomaAnalytics.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		E85547D41D2D6723002DF6E2 /* AvalancheAnalyticsTests */ = {
+		E85547D41D2D6723002DF6E2 /* SonomaAnalyticsTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E85547DD1D2D6723002DF6E2 /* Build configuration list for PBXNativeTarget "AvalancheAnalyticsTests" */;
+			buildConfigurationList = E85547DD1D2D6723002DF6E2 /* Build configuration list for PBXNativeTarget "SonomaAnalyticsTests" */;
 			buildPhases = (
 				E85547D11D2D6723002DF6E2 /* Sources */,
 				E85547D21D2D6723002DF6E2 /* Frameworks */,
@@ -410,9 +410,9 @@
 			dependencies = (
 				E85547DC1D2D6723002DF6E2 /* PBXTargetDependency */,
 			);
-			name = AvalancheAnalyticsTests;
-			productName = AvalancheAnalyticsTests;
-			productReference = E85547D51D2D6723002DF6E2 /* AvalancheAnalyticsTests.xctest */;
+			name = SonomaAnalyticsTests;
+			productName = SonomaAnalyticsTests;
+			productReference = E85547D51D2D6723002DF6E2 /* SonomaAnalyticsTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -438,7 +438,7 @@
 					};
 				};
 			};
-			buildConfigurationList = E85547BB1D2D6253002DF6E2 /* Build configuration list for PBXProject "AvalancheAnalytics" */;
+			buildConfigurationList = E85547BB1D2D6253002DF6E2 /* Build configuration list for PBXProject "SonomaAnalytics" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -450,10 +450,10 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				E85547BF1D2D6253002DF6E2 /* AvalancheAnalytics */,
-				E85547D41D2D6723002DF6E2 /* AvalancheAnalyticsTests */,
-				E85547E41D2D681F002DF6E2 /* AvalancheAnalyticsFramework */,
-				E85547E91D2D68C5002DF6E2 /* AvalancheAnalyticsDoc */,
+				E85547BF1D2D6253002DF6E2 /* SonomaAnalytics */,
+				E85547D41D2D6723002DF6E2 /* SonomaAnalyticsTests */,
+				E85547E41D2D681F002DF6E2 /* SonomaAnalyticsFramework */,
+				E85547E91D2D68C5002DF6E2 /* SonomaAnalyticsDoc */,
 			);
 		};
 /* End PBXProject section */
@@ -480,7 +480,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=AvalancheAnalytics\nFMK_VERSION=A\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../Products\nZIP_FOLDER=${FMK_NAME}\nTEMP_DIR=${PRODUCTS_DIR}/${ZIP_FOLDER}\nINSTALL_DIR=${TEMP_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator\n\n# //////////////////////////////\n# Building Core Framework\n# //////////////////////////////\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphoneos\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${TEMP_DIR}\" ]\nthen\nrm -rf \"${TEMP_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\nmkdir -p \"${INSTALL_DIR}/Versions\"\nmkdir -p \"${INSTALL_DIR}/Versions/${FMK_VERSION}\"\nmkdir -p \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Headers\"\n\n# Creates the internal links.\n# It MUST uses relative path, otherwise will not work when the folder is copied/moved.\nln -s \"${FMK_VERSION}\" \"${INSTALL_DIR}/Versions/Current\"\nln -s \"Versions/Current/Headers\" \"${INSTALL_DIR}/Headers\"\nln -s \"Versions/Current/${FMK_NAME}\" \"${INSTALL_DIR}/${FMK_NAME}\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Support/module.modulemap\" \"${INSTALL_DIR}/Modules/\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Headers/\"\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" \"${SIMULATOR_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/Versions/${FMK_VERSION}/${FMK_NAME}\"\n\n#rm -r \"${WRK_DIR}\"";
+			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=SonomaAnalytics\nFMK_VERSION=A\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../Products\nZIP_FOLDER=${FMK_NAME}\nTEMP_DIR=${PRODUCTS_DIR}/${ZIP_FOLDER}\nINSTALL_DIR=${TEMP_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator\n\n# //////////////////////////////\n# Building Core Framework\n# //////////////////////////////\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphoneos\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${TEMP_DIR}\" ]\nthen\nrm -rf \"${TEMP_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\nmkdir -p \"${INSTALL_DIR}/Versions\"\nmkdir -p \"${INSTALL_DIR}/Versions/${FMK_VERSION}\"\nmkdir -p \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Headers\"\n\n# Creates the internal links.\n# It MUST uses relative path, otherwise will not work when the folder is copied/moved.\nln -s \"${FMK_VERSION}\" \"${INSTALL_DIR}/Versions/Current\"\nln -s \"Versions/Current/Headers\" \"${INSTALL_DIR}/Headers\"\nln -s \"Versions/Current/${FMK_NAME}\" \"${INSTALL_DIR}/${FMK_NAME}\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Support/module.modulemap\" \"${INSTALL_DIR}/Modules/\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Headers/\"\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" \"${SIMULATOR_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/Versions/${FMK_VERSION}/${FMK_NAME}\"\n\n#rm -r \"${WRK_DIR}\"";
 		};
 		E85547ED1D2D68CF002DF6E2 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -530,12 +530,12 @@
 /* Begin PBXTargetDependency section */
 		386352E41D51047400D0D450 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = E85547E41D2D681F002DF6E2 /* AvalancheAnalyticsFramework */;
+			target = E85547E41D2D681F002DF6E2 /* SonomaAnalyticsFramework */;
 			targetProxy = 386352E31D51047400D0D450 /* PBXContainerItemProxy */;
 		};
 		E85547DC1D2D6723002DF6E2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = E85547BF1D2D6253002DF6E2 /* AvalancheAnalytics */;
+			target = E85547BF1D2D6253002DF6E2 /* SonomaAnalytics */;
 			targetProxy = E85547DB1D2D6723002DF6E2 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -652,10 +652,10 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
-				INFOPLIST_FILE = AvalancheAnalyticsTests/Info.plist;
+				INFOPLIST_FILE = SonomaAnalyticsTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
-				PRODUCT_BUNDLE_IDENTIFIER = MehrdadM.AvalancheAnalyticsTests;
+				PRODUCT_BUNDLE_IDENTIFIER = MehrdadM.SonomaAnalyticsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../SonomaCore/SonomaCore\"/**";
 			};
@@ -666,10 +666,10 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
-				INFOPLIST_FILE = AvalancheAnalyticsTests/Info.plist;
+				INFOPLIST_FILE = SonomaAnalyticsTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
-				PRODUCT_BUNDLE_IDENTIFIER = MehrdadM.AvalancheAnalyticsTests;
+				PRODUCT_BUNDLE_IDENTIFIER = MehrdadM.SonomaAnalyticsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../SonomaCore/SonomaCore\"/**";
 			};
@@ -706,7 +706,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		E85547BB1D2D6253002DF6E2 /* Build configuration list for PBXProject "AvalancheAnalytics" */ = {
+		E85547BB1D2D6253002DF6E2 /* Build configuration list for PBXProject "SonomaAnalytics" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E85547C71D2D6253002DF6E2 /* Debug */,
@@ -715,7 +715,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E85547C91D2D6253002DF6E2 /* Build configuration list for PBXNativeTarget "AvalancheAnalytics" */ = {
+		E85547C91D2D6253002DF6E2 /* Build configuration list for PBXNativeTarget "SonomaAnalytics" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E85547CA1D2D6253002DF6E2 /* Debug */,
@@ -724,7 +724,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E85547DD1D2D6723002DF6E2 /* Build configuration list for PBXNativeTarget "AvalancheAnalyticsTests" */ = {
+		E85547DD1D2D6723002DF6E2 /* Build configuration list for PBXNativeTarget "SonomaAnalyticsTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E85547DE1D2D6723002DF6E2 /* Debug */,
@@ -733,7 +733,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E85547E51D2D681F002DF6E2 /* Build configuration list for PBXAggregateTarget "AvalancheAnalyticsFramework" */ = {
+		E85547E51D2D681F002DF6E2 /* Build configuration list for PBXAggregateTarget "SonomaAnalyticsFramework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E85547E61D2D681F002DF6E2 /* Debug */,
@@ -742,7 +742,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E85547EA1D2D68C5002DF6E2 /* Build configuration list for PBXAggregateTarget "AvalancheAnalyticsDoc" */ = {
+		E85547EA1D2D68C5002DF6E2 /* Build configuration list for PBXAggregateTarget "SonomaAnalyticsDoc" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E85547EB1D2D68C5002DF6E2 /* Debug */,

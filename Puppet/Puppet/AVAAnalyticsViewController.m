@@ -7,7 +7,7 @@
 //
 
 #import "AVAAnalyticsViewController.h"
-#import "AvalancheAnalytics.h"
+#import "SonomaAnalytics.h"
 
 @implementation AVAAnalyticsViewController
 

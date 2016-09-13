@@ -1,0 +1,8 @@
+framework module SonomaAnalytics {
+  umbrella header "SonomaAnalytics.h"
+  
+  export *
+  module * { export * }
+  
+  link framework "Foundation"
+}
