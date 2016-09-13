@@ -44,6 +44,7 @@
 		6E3E2CCE1D359D5E00B1EE50 /* SNMPageLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3E2CC81D359D5E00B1EE50 /* SNMPageLog.m */; };
 		6E3E2CD31D359F3300B1EE50 /* SNMEventLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3E2CD01D359F3300B1EE50 /* SNMEventLogTests.m */; };
 		6E3E2CD41D359F3300B1EE50 /* SNMPageLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3E2CD11D359F3300B1EE50 /* SNMPageLogTests.m */; };
+		B2A4DA3B1D885EE5001189EC /* SNMFeatureAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = B2A4DA3A1D885EE5001189EC /* SNMFeatureAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E815912A1D526956003D5F3C /* SNMStartSessionLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E81591291D526956003D5F3C /* SNMStartSessionLogTests.m */; };
 		E815912C1D526A09003D5F3C /* SNMSessionTrackerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E815912B1D526A09003D5F3C /* SNMSessionTrackerTests.m */; };
 		E81591321D526C3B003D5F3C /* SNMSessionTrackerHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = E81591311D526C3B003D5F3C /* SNMSessionTrackerHelper.m */; };
@@ -124,6 +125,7 @@
 		6E3E2CC81D359D5E00B1EE50 /* SNMPageLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMPageLog.m; sourceTree = "<group>"; };
 		6E3E2CD01D359F3300B1EE50 /* SNMEventLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMEventLogTests.m; sourceTree = "<group>"; };
 		6E3E2CD11D359F3300B1EE50 /* SNMPageLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMPageLogTests.m; sourceTree = "<group>"; };
+		B2A4DA3A1D885EE5001189EC /* SNMFeatureAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SNMFeatureAbstract.h; path = ../SonomaCore/SonomaCore/SNMFeatureAbstract.h; sourceTree = "<group>"; };
 		E81591291D526956003D5F3C /* SNMStartSessionLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMStartSessionLogTests.m; sourceTree = "<group>"; };
 		E815912B1D526A09003D5F3C /* SNMSessionTrackerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMSessionTrackerTests.m; sourceTree = "<group>"; };
 		E81591301D526C3B003D5F3C /* SNMSessionTrackerHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMSessionTrackerHelper.h; sourceTree = "<group>"; };
@@ -272,6 +274,7 @@
 		E85547B71D2D6253002DF6E2 = {
 			isa = PBXGroup;
 			children = (
+				B2A4DA3A1D885EE5001189EC /* SNMFeatureAbstract.h */,
 				E8AEE97F1D596C8B00C0FF6C /* SNMLogManager.h */,
 				E85547C21D2D6253002DF6E2 /* Analytics */,
 				E85547D61D2D6723002DF6E2 /* AnalyticsTests */,
@@ -366,6 +369,7 @@
 				E85547F71D2D6A7D002DF6E2 /* SonomaAnalytics.h in Headers */,
 				E8AEE9801D596C8B00C0FF6C /* SNMLogManager.h in Headers */,
 				E85547FA1D2D6A9E002DF6E2 /* SNMAnalyticsPrivate.h in Headers */,
+				B2A4DA3B1D885EE5001189EC /* SNMFeatureAbstract.h in Headers */,
 				E89B33E71D5A526D00FDE8FB /* SNMSessionHistoryInfo.h in Headers */,
 				E85547F81D2D6A7D002DF6E2 /* SNMAnalytics.h in Headers */,
 				6E3E2CCB1D359D5E00B1EE50 /* SNMEventLog.h in Headers */,
