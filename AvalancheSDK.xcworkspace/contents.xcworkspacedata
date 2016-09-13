@@ -5,7 +5,7 @@
       location = "group:SonomaCore/SonomaCore.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:AvalancheAnalytics/AvalancheAnalytics.xcodeproj">
+      location = "group:SonomaAnalytics/SonomaAnalytics.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:AvalancheErrorReporting/AvalancheErrorReporting.xcodeproj">

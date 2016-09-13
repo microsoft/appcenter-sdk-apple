@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E85547E41D2D681F002DF6E2"
-               BuildableName = "AvalancheAnalyticsFramework"
-               BlueprintName = "AvalancheAnalyticsFramework"
-               ReferencedContainer = "container:../AvalancheAnalytics/AvalancheAnalytics.xcodeproj">
+               BuildableName = "SonomaAnalyticsFramework"
+               BlueprintName = "SonomaAnalyticsFramework"
+               ReferencedContainer = "container:../SonomaAnalytics/SonomaAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry

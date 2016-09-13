@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E85547E91D2D68C5002DF6E2"
-               BuildableName = "AvalancheAnalyticsDoc"
-               BlueprintName = "AvalancheAnalyticsDoc"
-               ReferencedContainer = "container:AvalancheAnalytics.xcodeproj">
+               BuildableName = "SonomaAnalyticsDoc"
+               BlueprintName = "SonomaAnalyticsDoc"
+               ReferencedContainer = "container:SonomaAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -46,9 +46,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E85547E91D2D68C5002DF6E2"
-            BuildableName = "AvalancheAnalyticsDoc"
-            BlueprintName = "AvalancheAnalyticsDoc"
-            ReferencedContainer = "container:AvalancheAnalytics.xcodeproj">
+            BuildableName = "SonomaAnalyticsDoc"
+            BlueprintName = "SonomaAnalyticsDoc"
+            ReferencedContainer = "container:SonomaAnalytics.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -64,9 +64,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E85547E91D2D68C5002DF6E2"
-            BuildableName = "AvalancheAnalyticsDoc"
-            BlueprintName = "AvalancheAnalyticsDoc"
-            ReferencedContainer = "container:AvalancheAnalytics.xcodeproj">
+            BuildableName = "SonomaAnalyticsDoc"
+            BlueprintName = "SonomaAnalyticsDoc"
+            ReferencedContainer = "container:SonomaAnalytics.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

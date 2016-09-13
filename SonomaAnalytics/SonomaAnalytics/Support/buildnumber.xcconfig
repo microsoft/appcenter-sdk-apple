@@ -1,4 +1,4 @@
-#include "AvalancheAnalytics.xcconfig"
+#include "SonomaAnalytics.xcconfig"
 
 BUILD_NUMBER = 1
 VERSION_STRING = 0.1.0

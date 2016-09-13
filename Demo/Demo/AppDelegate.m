@@ -4,7 +4,7 @@
 
 @import SonomaCore;
 @import AvalancheErrorReporting;
-@import AvalancheAnalytics;
+@import SonomaAnalytics;
 
 @interface AppDelegate ()
 
