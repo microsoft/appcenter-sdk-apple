@@ -2,7 +2,7 @@
 #import "Constants.h"
 #import <Foundation/Foundation.h>
 
-@import Sonoma;
+@import SonomaCore;
 @import SonomaCrashes;
 @import SonomaAnalytics;
 
@@ -16,7 +16,7 @@
   // Override point for customization after application launch.
 
   // Start Sonoma SDK
-  [SNMSonoma setLogLevel:AVALogLevelVerbose];
+  [SNMSonoma setLogLevel:SNMLogLevelVerbose];
   [SNMSonoma start:[[NSUUID UUID] UUIDString] withFeatures:@[[SNMAnalytics class], [SNMCrashes class]]];
 
   // Print the install Id.

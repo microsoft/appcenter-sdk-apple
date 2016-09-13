@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		6EC99A211D4151A00016C325 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A201D4151A00016C325 /* CrashReporter.framework */; };
 		6EC99A281D4152FA0016C325 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A271D4152FA0016C325 /* libc++.tbd */; };
-		B29F88231D8659940018BCC7 /* libSonoma.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E82E1B881D1CA63000D281C1 /* libSonoma.a */; };
+		B29F88231D8659940018BCC7 /* libSonomaCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E82E1B881D1CA63000D281C1 /* libSonomaCore.a */; };
 		B29F88241D8659940018BCC7 /* libSonomaAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B2EC5A0A1D83563900E44D06 /* libSonomaAnalytics.a */; };
 		B29F88251D8659940018BCC7 /* libSonomaCrashes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E82E1B811D1CA62900D281C1 /* libSonomaCrashes.a */; };
 		E82E1B641D1CA58D00D281C1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E82E1B631D1CA58D00D281C1 /* main.m */; };
@@ -93,7 +93,7 @@
 		6EC99A201D4151A00016C325 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = ../../Vendor/PLCrashReporter/CrashReporter.framework; sourceTree = "<group>"; };
 		6EC99A251D4152EB0016C325 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		6EC99A271D4152FA0016C325 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
-		B21453B31D86565700754076 /* libSonoma.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSonoma.a; path = "../Sonoma/build/Debug-iphoneos/libSonoma.a"; sourceTree = "<group>"; };
+		B21453B31D86565700754076 /* libSonomaCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSonomaCore.a; path = "../Sonoma/build/Debug-iphoneos/libSonomaCore.a"; sourceTree = "<group>"; };
 		B21453B41D86565700754076 /* libSonomaAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSonomaAnalytics.a; path = "../SonomaAnalytics/build/Debug-iphoneos/libSonomaAnalytics.a"; sourceTree = "<group>"; };
 		B21453B51D86565700754076 /* libSonomaCrashes.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSonomaCrashes.a; path = "../SonomaCrashes/build/Debug-iphoneos/libSonomaCrashes.a"; sourceTree = "<group>"; };
 		E82E1B5F1D1CA58D00D281C1 /* Puppet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Puppet.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -121,7 +121,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6EC99A211D4151A00016C325 /* CrashReporter.framework in Frameworks */,
-				B29F88231D8659940018BCC7 /* libSonoma.a in Frameworks */,
+				B29F88231D8659940018BCC7 /* libSonomaCore.a in Frameworks */,
 				B29F88241D8659940018BCC7 /* libSonomaAnalytics.a in Frameworks */,
 				B29F88251D8659940018BCC7 /* libSonomaCrashes.a in Frameworks */,
 				6EC99A281D4152FA0016C325 /* libc++.tbd in Frameworks */,
@@ -142,7 +142,7 @@
 		B21453B21D86565700754076 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				B21453B31D86565700754076 /* libSonoma.a */,
+				B21453B31D86565700754076 /* libSonomaCore.a */,
 				B21453B41D86565700754076 /* libSonomaAnalytics.a */,
 				B21453B51D86565700754076 /* libSonomaCrashes.a */,
 			);
@@ -222,7 +222,7 @@
 		E82E1B831D1CA63000D281C1 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E82E1B881D1CA63000D281C1 /* libSonoma.a */,
+				E82E1B881D1CA63000D281C1 /* libSonomaCore.a */,
 				E82E1B8A1D1CA63000D281C1 /* SonomaTests.xctest */,
 			);
 			name = Products;
@@ -336,10 +336,10 @@
 			remoteRef = E82E1B801D1CA62900D281C1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		E82E1B881D1CA63000D281C1 /* libSonoma.a */ = {
+		E82E1B881D1CA63000D281C1 /* libSonomaCore.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libSonoma.a;
+			path = libSonomaCore.a;
 			remoteRef = E82E1B871D1CA63000D281C1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};

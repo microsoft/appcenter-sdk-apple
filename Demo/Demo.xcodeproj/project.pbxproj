@@ -14,7 +14,7 @@
 		6E2307E51D22083C0031C598 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E2307E41D22083C0031C598 /* Assets.xcassets */; };
 		6E2307E81D22083C0031C598 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6E2307E61D22083C0031C598 /* LaunchScreen.storyboard */; };
 		6E407A1E1D2F5AF80033A76C /* SonomaCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E407A1C1D2F5AF80033A76C /* SonomaCrashes.framework */; };
-		6E407A1F1D2F5AF80033A76C /* Sonoma.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E407A1D1D2F5AF80033A76C /* Sonoma.framework */; };
+		6E407A1F1D2F5AF80033A76C /* SonomaCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E407A1D1D2F5AF80033A76C /* SonomaCore.framework */; };
 		6E407A251D2F64750033A76C /* SonomaAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E407A241D2F64750033A76C /* SonomaAnalytics.framework */; };
 /* End PBXBuildFile section */
 
@@ -31,7 +31,7 @@
 		6E2307E71D22083C0031C598 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6E2307E91D22083C0031C598 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6E407A1C1D2F5AF80033A76C /* SonomaCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SonomaCrashes.framework; path = Vendor/SonomaCrashes.framework; sourceTree = "<group>"; };
-		6E407A1D1D2F5AF80033A76C /* Sonoma.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sonoma.framework; path = Vendor/Sonoma.framework; sourceTree = "<group>"; };
+		6E407A1D1D2F5AF80033A76C /* SonomaCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SonomaCore.framework; path = Vendor/SonomaCore.framework; sourceTree = "<group>"; };
 		6E407A241D2F64750033A76C /* SonomaAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SonomaAnalytics.framework; path = Vendor/SonomaAnalytics.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -40,7 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E407A1F1D2F5AF80033A76C /* Sonoma.framework in Frameworks */,
+				6E407A1F1D2F5AF80033A76C /* SonomaCore.framework in Frameworks */,
 				6E407A251D2F64750033A76C /* SonomaAnalytics.framework in Frameworks */,
 				6E407A1E1D2F5AF80033A76C /* SonomaCrashes.framework in Frameworks */,
 			);
@@ -96,7 +96,7 @@
 			children = (
 				6E407A241D2F64750033A76C /* SonomaAnalytics.framework */,
 				6E407A1C1D2F5AF80033A76C /* SonomaCrashes.framework */,
-				6E407A1D1D2F5AF80033A76C /* Sonoma.framework */,
+				6E407A1D1D2F5AF80033A76C /* SonomaCore.framework */,
 			);
 			name = Vendor;
 			sourceTree = "<group>";

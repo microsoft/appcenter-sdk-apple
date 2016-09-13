@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6E6BFC311D234FAE00DF7617"
-               BuildableName = "SonomaCoreDoc"
-               BlueprintName = "SonomaCoreDoc"
+               BlueprintIdentifier = "6E0401021D1C98220051BCFA"
+               BuildableName = "libSonomaCore.a"
+               BlueprintName = "SonomaCore"
                ReferencedContainer = "container:SonomaCore.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,9 +45,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6E6BFC311D234FAE00DF7617"
-            BuildableName = "SonomaCoreDoc"
-            BlueprintName = "SonomaCoreDoc"
+            BlueprintIdentifier = "6E0401021D1C98220051BCFA"
+            BuildableName = "libSonomaCore.a"
+            BlueprintName = "SonomaCore"
             ReferencedContainer = "container:SonomaCore.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -63,9 +63,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6E6BFC311D234FAE00DF7617"
-            BuildableName = "SonomaCoreDoc"
-            BlueprintName = "SonomaCoreDoc"
+            BlueprintIdentifier = "6E0401021D1C98220051BCFA"
+            BuildableName = "libSonomaCore.a"
+            BlueprintName = "SonomaCore"
             ReferencedContainer = "container:SonomaCore.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
