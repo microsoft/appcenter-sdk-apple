@@ -246,20 +246,25 @@ Once you set up and start the Sonoma SDK to use the Crashes module in your appli
         
 ## 7. Troubleshooting
 
-* How long to wait for Analytics data to appear on the portal?
+* How long to wait for Analytics data to appear on the portal?  
 
-* How long to wait for crashes to appear on the portal?
+* How long to wait for crashes to appear on the portal?   
+  After restarting the app after the crash and with a working internet connection, the crash should appear on the portal within a few minutes. Note that the matching dSYM needs to be uploaded as well.
 
-* Do I need to include all the libraries? Is there anything included by default?  
+* Do I need to include all the libraries? Is there anything included by default?   
   No, you can just include Sonoma modules that interests you. Once you integrate any module, Sonoma Core module will be included by default which contains logic for persistence, forwarding etc.
 
-* Can't see crashes on the portal
-
-* Check if the App Secret used to start the SDK matches the App Secret in Sonoma portal.
+* Can't see crashes on the portal?   
+   * Make sure SDK `start()` API is used correctly and Crashes module is initialzied. Also, you need to restart the app after a crash and our SDK will forward the crash log only after it's restarted.
+   * The user needs to upload the symbols that match the UUID of the build that triggered the crash.
+   * Make sure your device is connected to a working internet.
+   * Check if the App Secret used to start the SDK matches the App Secret in Sonoma portal.
+   * Don't use any other SDK that provides Crash Reporting functionality.
 
 * What data does SDK automatically collect for Analytics?
 
-* What permissions are required for the SDK?
+* What permissions are required for the SDK?   
+  Sonoma iOS SDK requires no permissions to be set in your app.
 
 * Any privacy information tracked by SDK?
 
