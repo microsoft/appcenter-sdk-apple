@@ -5,7 +5,7 @@
 #import "SNMCrashesHelper.h"
 #import <sys/sysctl.h>
 
-static NSString *const kSNMCrashesDirectory = @"com.microsoft.sonoma/errorreporting";
+static NSString *const kSNMCrashesDirectory = @"com.microsoft.sonoma/crashes";
 
 @interface SNMCrashesHelper ()
 

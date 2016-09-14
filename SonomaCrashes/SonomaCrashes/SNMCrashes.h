@@ -49,7 +49,7 @@ typedef NS_ENUM(NSUInteger, SNMUserConfirmation) {
   SNMUserConfirmationAlways = 2
 };
 
-@protocol SNMErrorLoggingDelegate;
+@protocol SNMCrashesDelegate;
 
 @interface SNMCrashes : SNMFeatureAbstract
 
@@ -146,7 +146,7 @@ typedef NS_ENUM(NSUInteger, SNMUserConfirmation) {
  * @return Returns YES if the input is a valid option and successfully triggered
  * further processing of the crash report
  *
- * @see SNMErrorLoggingUserInput
+ * @see SNMUserConfirmation
  */
 + (void)notifyWithUserConfirmation:(SNMUserConfirmation)userConfirmation;
 
@@ -160,12 +160,12 @@ typedef NS_ENUM(NSUInteger, SNMUserConfirmation) {
  * Set the delegate
  *
  * Defines the class that implements the optional protocol
- * `SNMErrorLoggingDelegate`.
+ * `SNMCrashesDelegate`.
  *
- * @see SNMErrorLoggingDelegate
+ * @see SNMCrashesDelegate
  */
-@property(nonatomic, weak, nullable) id<SNMErrorLoggingDelegate> errorLoggingDelegate;
+@property(nonatomic, weak, nullable) id<SNMCrashesDelegate> errorLoggingDelegate;
 
-+ (void)setErrorLoggingDelegate:(_Nullable id<SNMErrorLoggingDelegate>)errorLoggingDelegate;
++ (void)setCrashesDelegate:(_Nullable id<SNMCrashesDelegate>)errorLoggingDelegate;
 
 @end

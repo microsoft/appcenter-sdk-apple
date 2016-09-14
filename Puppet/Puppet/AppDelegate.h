@@ -4,9 +4,9 @@
 
 #import <UIKit/UIKit.h>
 
-#import "SNMErrorLoggingDelegate.h"
+#import "SNMCrashesDelegate.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, SNMErrorLoggingDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, SNMCrashesDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
