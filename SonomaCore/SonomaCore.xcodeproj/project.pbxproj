@@ -35,7 +35,7 @@
 /* Begin PBXBuildFile section */
 		381C91E91D3DB65D004512F1 /* AVADeviceTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 381C91E51D3DB65D004512F1 /* AVADeviceTracker.h */; };
 		381C91EA1D3DB65D004512F1 /* AVADeviceTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 381C91E61D3DB65D004512F1 /* AVADeviceTracker.m */; };
-		384959D51D491D4F008F6B3A /* AVAAvalancheTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 384959D41D491D4F008F6B3A /* AVAAvalancheTest.m */; };
+		384959D51D491D4F008F6B3A /* AVASonomaTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 384959D41D491D4F008F6B3A /* AVASonomaTest.m */; };
 		385FC0551D37EBD700A1799F /* AVADeviceTrackerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 385FC0541D37EBD700A1799F /* AVADeviceTrackerTests.m */; };
 		387C75801D6270A300D68CC1 /* AVAFeatureAbstract.m in Sources */ = {isa = PBXBuildFile; fileRef = 387C757E1D6270A300D68CC1 /* AVAFeatureAbstract.m */; };
 		387C75811D6270A300D68CC1 /* AVAFeatureAbstractInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C757F1D6270A300D68CC1 /* AVAFeatureAbstractInternal.h */; };
@@ -44,13 +44,13 @@
 		387C76DA1D677EC100D68CC1 /* AVAFeatureAbstractPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C76D91D677EC100D68CC1 /* AVAFeatureAbstractPrivate.h */; };
 		387C76FD1D6C9CF100D68CC1 /* AVAFeatureAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C76FC1D6C9CF100D68CC1 /* AVAFeatureAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E04014E1D1C99AC0051BCFA /* AVALogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E04014A1D1C99AC0051BCFA /* AVALogger.m */; };
-		6E0401571D1C9AAA0051BCFA /* AVAAvalanche.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0401561D1C9AAA0051BCFA /* AVAAvalanche.m */; };
-		6E04016A1D1C9E1F0051BCFA /* AVAAvalanche.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401551D1C9AAA0051BCFA /* AVAAvalanche.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6E0401571D1C9AAA0051BCFA /* AVASonoma.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0401561D1C9AAA0051BCFA /* AVASonoma.m */; };
+		6E04016A1D1C9E1F0051BCFA /* AVASonoma.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401551D1C9AAA0051BCFA /* AVASonoma.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E04016B1D1C9E1F0051BCFA /* AVAConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E04013F1D1C99AC0051BCFA /* AVAConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E04016C1D1C9E1F0051BCFA /* SonomaCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401401D1C99AC0051BCFA /* SonomaCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E04016D1D1C9E460051BCFA /* SonomaCore+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401581D1C9CFB0051BCFA /* SonomaCore+Internal.h */; };
-		6E04016E1D1C9E460051BCFA /* AVAAvalancheDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401431D1C99AC0051BCFA /* AVAAvalancheDelegate.h */; };
-		6E04016F1D1C9E460051BCFA /* AVAAvalancheInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401441D1C99AC0051BCFA /* AVAAvalancheInternal.h */; };
+		6E04016E1D1C9E460051BCFA /* AVASonomaDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401431D1C99AC0051BCFA /* AVASonomaDelegate.h */; };
+		6E04016F1D1C9E460051BCFA /* AVASonomaInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401441D1C99AC0051BCFA /* AVASonomaInternal.h */; };
 		6E0401701D1C9E460051BCFA /* AVAFeature.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401451D1C99AC0051BCFA /* AVAFeature.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E0401711D1C9E460051BCFA /* AVAFeatureInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401471D1C99AC0051BCFA /* AVAFeatureInternal.h */; };
 		6E0401721D1C9E460051BCFA /* AVALogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401491D1C99AC0051BCFA /* AVALogger.h */; };
@@ -153,7 +153,7 @@
 /* Begin PBXFileReference section */
 		381C91E51D3DB65D004512F1 /* AVADeviceTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVADeviceTracker.h; sourceTree = "<group>"; };
 		381C91E61D3DB65D004512F1 /* AVADeviceTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVADeviceTracker.m; sourceTree = "<group>"; };
-		384959D41D491D4F008F6B3A /* AVAAvalancheTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAAvalancheTest.m; sourceTree = "<group>"; };
+		384959D41D491D4F008F6B3A /* AVASonomaTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVASonomaTest.m; sourceTree = "<group>"; };
 		385FC0541D37EBD700A1799F /* AVADeviceTrackerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVADeviceTrackerTests.m; sourceTree = "<group>"; };
 		387C757E1D6270A300D68CC1 /* AVAFeatureAbstract.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AVAFeatureAbstract.m; path = Internals/AVAFeatureAbstract.m; sourceTree = "<group>"; };
 		387C757F1D6270A300D68CC1 /* AVAFeatureAbstractInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAFeatureAbstractInternal.h; sourceTree = "<group>"; };
@@ -164,15 +164,15 @@
 		6E0401031D1C98220051BCFA /* libSonomaCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSonomaCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E04013F1D1C99AC0051BCFA /* AVAConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAConstants.h; sourceTree = "<group>"; };
 		6E0401401D1C99AC0051BCFA /* SonomaCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SonomaCore.h; sourceTree = "<group>"; };
-		6E0401431D1C99AC0051BCFA /* AVAAvalancheDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAAvalancheDelegate.h; sourceTree = "<group>"; };
-		6E0401441D1C99AC0051BCFA /* AVAAvalancheInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAAvalancheInternal.h; sourceTree = "<group>"; };
+		6E0401431D1C99AC0051BCFA /* AVASonomaDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVASonomaDelegate.h; sourceTree = "<group>"; };
+		6E0401441D1C99AC0051BCFA /* AVASonomaInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVASonomaInternal.h; sourceTree = "<group>"; };
 		6E0401451D1C99AC0051BCFA /* AVAFeature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAFeature.h; sourceTree = "<group>"; };
 		6E0401471D1C99AC0051BCFA /* AVAFeatureInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAFeatureInternal.h; sourceTree = "<group>"; };
 		6E0401491D1C99AC0051BCFA /* AVALogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVALogger.h; sourceTree = "<group>"; };
 		6E04014A1D1C99AC0051BCFA /* AVALogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVALogger.m; sourceTree = "<group>"; };
 		6E04014B1D1C99AC0051BCFA /* AVALoggerPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVALoggerPrivate.h; sourceTree = "<group>"; };
-		6E0401551D1C9AAA0051BCFA /* AVAAvalanche.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAAvalanche.h; sourceTree = "<group>"; };
-		6E0401561D1C9AAA0051BCFA /* AVAAvalanche.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAAvalanche.m; sourceTree = "<group>"; };
+		6E0401551D1C9AAA0051BCFA /* AVASonoma.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVASonoma.h; sourceTree = "<group>"; };
+		6E0401561D1C9AAA0051BCFA /* AVASonoma.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVASonoma.m; sourceTree = "<group>"; };
 		6E0401581D1C9CFB0051BCFA /* SonomaCore+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SonomaCore+Internal.h"; sourceTree = "<group>"; };
 		6E0401831D1CAD810051BCFA /* buildnumber.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = buildnumber.xcconfig; sourceTree = "<group>"; };
 		6E0401841D1CAD810051BCFA /* SonomaCore.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = SonomaCore.xcconfig; sourceTree = "<group>"; };
@@ -321,8 +321,8 @@
 			isa = PBXGroup;
 			children = (
 				6E0401401D1C99AC0051BCFA /* SonomaCore.h */,
-				6E0401551D1C9AAA0051BCFA /* AVAAvalanche.h */,
-				6E0401561D1C9AAA0051BCFA /* AVAAvalanche.m */,
+				6E0401551D1C9AAA0051BCFA /* AVASonoma.h */,
+				6E0401561D1C9AAA0051BCFA /* AVASonoma.m */,
 				6E04013F1D1C99AC0051BCFA /* AVAConstants.h */,
 				6E0401451D1C99AC0051BCFA /* AVAFeature.h */,
 				387C76FC1D6C9CF100D68CC1 /* AVAFeatureAbstract.h */,
@@ -337,8 +337,8 @@
 			isa = PBXGroup;
 			children = (
 				6E0401581D1C9CFB0051BCFA /* SonomaCore+Internal.h */,
-				6E0401431D1C99AC0051BCFA /* AVAAvalancheDelegate.h */,
-				6E0401441D1C99AC0051BCFA /* AVAAvalancheInternal.h */,
+				6E0401431D1C99AC0051BCFA /* AVASonomaDelegate.h */,
+				6E0401441D1C99AC0051BCFA /* AVASonomaInternal.h */,
 				387C758D1D64DF2500D68CC1 /* AVAFeatureCommon.h */,
 				387C76D91D677EC100D68CC1 /* AVAFeatureAbstractPrivate.h */,
 				387C757F1D6270A300D68CC1 /* AVAFeatureAbstractInternal.h */,
@@ -466,7 +466,7 @@
 				6E3E2CC01D3596AE00B1EE50 /* AVADeviceLogTests.m */,
 				6E48A5A31D3831FE006E8B5F /* AVAChannelConfigurationTests.m */,
 				6E48A5A61D383893006E8B5F /* AVALogManagerDefaultTests.m */,
-				384959D41D491D4F008F6B3A /* AVAAvalancheTest.m */,
+				384959D41D491D4F008F6B3A /* AVASonomaTest.m */,
 				387C75951D64EE1900D68CC1 /* AVAFeatureAbstractTest.m */,
 			);
 			path = SonomaCoreTests;
@@ -587,9 +587,9 @@
 				E8A8D1EB1D3057A90022931E /* AVAUserDefaults.h in Headers */,
 				E8831A9A1D41A58600931F11 /* AVADeviceTrackerPrivate.h in Headers */,
 				E80EB1071D50273700C9003F /* AVARetriableCall.h in Headers */,
-				6E04016E1D1C9E460051BCFA /* AVAAvalancheDelegate.h in Headers */,
+				6E04016E1D1C9E460051BCFA /* AVASonomaDelegate.h in Headers */,
 				387C758F1D64E50800D68CC1 /* AVAFeatureCommon.h in Headers */,
-				6E04016A1D1C9E1F0051BCFA /* AVAAvalanche.h in Headers */,
+				6E04016A1D1C9E1F0051BCFA /* AVASonoma.h in Headers */,
 				387C75811D6270A300D68CC1 /* AVAFeatureAbstractInternal.h in Headers */,
 				E84B8E3B1D235273006FD231 /* AVAChannelDelegate.h in Headers */,
 				B22FC2B61D5E51A20007CD80 /* AVAEnvironmentHelper.h in Headers */,
@@ -617,7 +617,7 @@
 				6E7E3B781D2DCEBD0019EA6D /* AVAFile.h in Headers */,
 				6E171B5A1D234717000DC480 /* AVADevice.h in Headers */,
 				6EF628F41D371B1600CAFF64 /* AVAChannelConfiguration.h in Headers */,
-				6E04016F1D1C9E460051BCFA /* AVAAvalancheInternal.h in Headers */,
+				6E04016F1D1C9E460051BCFA /* AVASonomaInternal.h in Headers */,
 				6E0401701D1C9E460051BCFA /* AVAFeature.h in Headers */,
 				6E0401711D1C9E460051BCFA /* AVAFeatureInternal.h in Headers */,
 				E88D170E1D36BB1700A5EA57 /* AVAUtils.h in Headers */,
@@ -758,7 +758,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E0401571D1C9AAA0051BCFA /* AVAAvalanche.m in Sources */,
+				6E0401571D1C9AAA0051BCFA /* AVASonoma.m in Sources */,
 				6E2BA1B01D2499F9002D7B88 /* AVAFileHelper.m in Sources */,
 				387C75801D6270A300D68CC1 /* AVAFeatureAbstract.m in Sources */,
 				6EF628F51D371B1600CAFF64 /* AVAChannelConfiguration.m in Sources */,
@@ -792,7 +792,7 @@
 				6E3E2CC11D3596AE00B1EE50 /* AVADeviceLogTests.m in Sources */,
 				385FC0551D37EBD700A1799F /* AVADeviceTrackerTests.m in Sources */,
 				6EB1F40E1D2443B7005F9F99 /* AVAChannelDefaultTests.m in Sources */,
-				384959D51D491D4F008F6B3A /* AVAAvalancheTest.m in Sources */,
+				384959D51D491D4F008F6B3A /* AVASonomaTest.m in Sources */,
 				6E5D8A801D25B91F00C033B1 /* AVAFileHelperTests.m in Sources */,
 				E829E4231D25C8BA00F19DA1 /* AVAHttpSenderTests.m in Sources */,
 				6E363AF21D2C84EA0079043D /* AVAStorageTestHelper.m in Sources */,
@@ -922,7 +922,7 @@
 				BUILD_NUMBER = 1;
 				DEAD_CODE_STRIPPING = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				OTHER_CFLAGS = "$(AVALANCHE_WARNING_FLAGS)";
+				OTHER_CFLAGS = "$(SONOMA_WARNING_FLAGS)";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.avalanche.SonomaCore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -943,10 +943,10 @@
 				BUILD_NUMBER = 1;
 				DEAD_CODE_STRIPPING = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				OTHER_CFLAGS = "$(AVALANCHE_WARNING_FLAGS)";
-				"OTHER_CFLAGS[sdk=iphoneos*]" = "$(AVALANCHE_WARNING_FLAGS)";
+				OTHER_CFLAGS = "$(SONOMA_WARNING_FLAGS)";
+				"OTHER_CFLAGS[sdk=iphoneos*]" = "$(SONOMA_WARNING_FLAGS)";
 				"OTHER_CFLAGS[sdk=iphonesimulator*]" = (
-					"$(AVALANCHE_WARNING_FLAGS)",
+					"$(SONOMA_WARNING_FLAGS)",
 					"-fembed-bitcode",
 				);
 				OTHER_LDFLAGS = "-ObjC";

@@ -2,7 +2,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "AVAAvalancheInternal.h"
+#import "AVASonomaInternal.h"
 #import "AVAHttpSender.h"
 #import "AVARetriableCall.h"
 #import "AVASenderUtils.h"

@@ -11,7 +11,7 @@ AVALogHandler defaultLogHandler =
         if (_currentLogLevel < logLevel) {
           return;
         }
-        NSLog((@"[Avalanche SDK] %s/%d %@"), function, line, messageProvider());
+        NSLog((@"[Sonoma SDK] %s/%d %@"), function, line, messageProvider());
       }
     };
 

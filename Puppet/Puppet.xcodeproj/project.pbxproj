@@ -158,7 +158,7 @@
 			isa = PBXGroup;
 			children = (
 				E89E6A271D396D6700CAA2CD /* Classes */,
-				E82E1B7B1D1CA61000D281C1 /* Avalanche */,
+				E82E1B7B1D1CA61000D281C1 /* Sonoma */,
 				6EC99A161D4151890016C325 /* Frameworks */,
 				E82E1B621D1CA58D00D281C1 /* Supporting Files */,
 			);
@@ -177,14 +177,14 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		E82E1B7B1D1CA61000D281C1 /* Avalanche */ = {
+		E82E1B7B1D1CA61000D281C1 /* Sonoma */ = {
 			isa = PBXGroup;
 			children = (
 				E85547FB1D2D6C8D002DF6E2 /* SonomaAnalytics.xcodeproj */,
 				E82E1B821D1CA63000D281C1 /* SonomaCore.xcodeproj */,
 				E82E1B7C1D1CA62900D281C1 /* SonomaCrashes.xcodeproj */,
 			);
-			name = Avalanche;
+			name = Sonoma;
 			sourceTree = "<group>";
 		};
 		E82E1B7D1D1CA62900D281C1 /* Products */ = {

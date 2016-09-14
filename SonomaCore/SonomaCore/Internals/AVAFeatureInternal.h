@@ -2,7 +2,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "AVAAvalancheDelegate.h"
+#import "AVASonomaDelegate.h"
 #import "AVAFeature.h"
 #import "AVAFeatureCommon.h"
 #import "AVALogManager.h"

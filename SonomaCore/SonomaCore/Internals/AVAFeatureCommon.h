@@ -2,7 +2,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "AVAAvalancheDelegate.h"
+#import "AVASonomaDelegate.h"
 #import "AVALogManager.h"
 #import <Foundation/Foundation.h>
 
@@ -12,9 +12,9 @@
 @protocol AVAFeatureCommon <NSObject>
 
 /**
- *  Avalanche delegate.
+ *  Sonoma delegate.
  */
-@property(nonatomic, weak) id<AVAAvalancheDelegate> delegate;
+@property(nonatomic, weak) id<AVASonomaDelegate> delegate;
 
 /**
  *  Log manager.

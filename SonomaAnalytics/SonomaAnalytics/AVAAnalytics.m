@@ -5,8 +5,8 @@
 #import "AVAAnalytics.h"
 #import "AVAAnalyticsCategory.h"
 #import "AVAAnalyticsPrivate.h"
-#import "AVAAvalanche.h"
-#import "AVAAvalancheInternal.h"
+#import "AVASonoma.h"
+#import "AVASonomaInternal.h"
 
 #import "AVAEventLog.h"
 #import "AVAPageLog.h"
