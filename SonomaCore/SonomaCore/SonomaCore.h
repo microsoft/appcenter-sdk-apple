@@ -4,7 +4,8 @@
 
 #import <Foundation/Foundation.h>
 
-#import "AVASonoma.h"
-#import "AVAConstants.h"
-#import "AVAFeature.h"
-#import "AVAFeatureAbstract.h"
+#import "SNMSonoma.h"
+#import "SNMConstants.h"
+#import "SNMFeature.h"
+#import "SNMFeatureAbstract.h"
+

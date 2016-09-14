@@ -17,9 +17,9 @@
 		E82E1B8F1D1CA65D00D281C1 /* libSonomaCrashes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E82E1B811D1CA62900D281C1 /* libSonomaCrashes.a */; };
 		E82E1B901D1CA65D00D281C1 /* libSonomaCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E82E1B881D1CA63000D281C1 /* libSonomaCore.a */; };
 		E85548081D2D6C9D002DF6E2 /* libSonomaAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E85548031D2D6C8D002DF6E2 /* libSonomaAnalytics.a */; };
-		E89E6A2C1D396D7900CAA2CD /* AVAErrorReportingReportsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89E6A291D396D7900CAA2CD /* AVAErrorReportingReportsViewController.m */; };
-		E89E6A2D1D396D7900CAA2CD /* AVAMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89E6A2B1D396D7900CAA2CD /* AVAMainViewController.m */; };
-		E89E6A301D39704900CAA2CD /* AVAAnalyticsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89E6A2F1D39704900CAA2CD /* AVAAnalyticsViewController.m */; };
+		E89E6A2C1D396D7900CAA2CD /* SNMCrashesReportsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89E6A291D396D7900CAA2CD /* SNMCrashesReportsViewController.m */; };
+		E89E6A2D1D396D7900CAA2CD /* SNMMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89E6A2B1D396D7900CAA2CD /* SNMMainViewController.m */; };
+		E89E6A301D39704900CAA2CD /* SNMAnalyticsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89E6A2F1D39704900CAA2CD /* SNMAnalyticsViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -104,12 +104,12 @@
 		E82E1B7C1D1CA62900D281C1 /* SonomaCrashes.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SonomaCrashes.xcodeproj; path = ../../SonomaCrashes/SonomaCrashes.xcodeproj; sourceTree = "<group>"; };
 		E82E1B821D1CA63000D281C1 /* SonomaCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SonomaCore.xcodeproj; path = ../../SonomaCore/SonomaCore.xcodeproj; sourceTree = "<group>"; };
 		E85547FB1D2D6C8D002DF6E2 /* SonomaAnalytics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SonomaAnalytics.xcodeproj; path = ../../SonomaAnalytics/SonomaAnalytics.xcodeproj; sourceTree = "<group>"; };
-		E89E6A281D396D7900CAA2CD /* AVAErrorReportingReportsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAErrorReportingReportsViewController.h; sourceTree = "<group>"; };
-		E89E6A291D396D7900CAA2CD /* AVAErrorReportingReportsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAErrorReportingReportsViewController.m; sourceTree = "<group>"; };
-		E89E6A2A1D396D7900CAA2CD /* AVAMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAMainViewController.h; sourceTree = "<group>"; };
-		E89E6A2B1D396D7900CAA2CD /* AVAMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAMainViewController.m; sourceTree = "<group>"; };
-		E89E6A2E1D39704900CAA2CD /* AVAAnalyticsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAAnalyticsViewController.h; sourceTree = "<group>"; };
-		E89E6A2F1D39704900CAA2CD /* AVAAnalyticsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAAnalyticsViewController.m; sourceTree = "<group>"; };
+		E89E6A281D396D7900CAA2CD /* SNMCrashesReportsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMCrashesReportsViewController.h; sourceTree = "<group>"; };
+		E89E6A291D396D7900CAA2CD /* SNMCrashesReportsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMCrashesReportsViewController.m; sourceTree = "<group>"; };
+		E89E6A2A1D396D7900CAA2CD /* SNMMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMMainViewController.h; sourceTree = "<group>"; };
+		E89E6A2B1D396D7900CAA2CD /* SNMMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMMainViewController.m; sourceTree = "<group>"; };
+		E89E6A2E1D39704900CAA2CD /* SNMAnalyticsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMAnalyticsViewController.h; sourceTree = "<group>"; };
+		E89E6A2F1D39704900CAA2CD /* SNMAnalyticsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMAnalyticsViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -219,12 +219,12 @@
 			children = (
 				E82E1B651D1CA58D00D281C1 /* AppDelegate.h */,
 				E82E1B661D1CA58D00D281C1 /* AppDelegate.m */,
-				E89E6A2E1D39704900CAA2CD /* AVAAnalyticsViewController.h */,
-				E89E6A2F1D39704900CAA2CD /* AVAAnalyticsViewController.m */,
-				E89E6A281D396D7900CAA2CD /* AVAErrorReportingReportsViewController.h */,
-				E89E6A291D396D7900CAA2CD /* AVAErrorReportingReportsViewController.m */,
-				E89E6A2A1D396D7900CAA2CD /* AVAMainViewController.h */,
-				E89E6A2B1D396D7900CAA2CD /* AVAMainViewController.m */,
+				E89E6A2E1D39704900CAA2CD /* SNMAnalyticsViewController.h */,
+				E89E6A2F1D39704900CAA2CD /* SNMAnalyticsViewController.m */,
+				E89E6A281D396D7900CAA2CD /* SNMCrashesReportsViewController.h */,
+				E89E6A291D396D7900CAA2CD /* SNMCrashesReportsViewController.m */,
+				E89E6A2A1D396D7900CAA2CD /* SNMMainViewController.h */,
+				E89E6A2B1D396D7900CAA2CD /* SNMMainViewController.m */,
 				384959D81D4972DA008F6B3A /* Constants.h */,
 			);
 			name = Classes;
@@ -364,9 +364,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				E82E1B671D1CA58D00D281C1 /* AppDelegate.m in Sources */,
-				E89E6A2D1D396D7900CAA2CD /* AVAMainViewController.m in Sources */,
-				E89E6A2C1D396D7900CAA2CD /* AVAErrorReportingReportsViewController.m in Sources */,
-				E89E6A301D39704900CAA2CD /* AVAAnalyticsViewController.m in Sources */,
+				E89E6A2D1D396D7900CAA2CD /* SNMMainViewController.m in Sources */,
+				E89E6A2C1D396D7900CAA2CD /* SNMCrashesReportsViewController.m in Sources */,
+				E89E6A301D39704900CAA2CD /* SNMAnalyticsViewController.m in Sources */,
 				E82E1B641D1CA58D00D281C1 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

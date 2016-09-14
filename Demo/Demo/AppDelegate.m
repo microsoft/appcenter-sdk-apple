@@ -16,11 +16,11 @@
   // Override point for customization after application launch.
 
   // Start Sonoma SDK
-  [AVASonoma setLogLevel:AVALogLevelVerbose];
-  [AVASonoma start:[[NSUUID UUID] UUIDString] withFeatures:@[[AVAAnalytics class], [AVAErrorReporting class]]];
+  [SNMSonoma setLogLevel:SNMLogLevelVerbose];
+  [SNMSonoma start:[[NSUUID UUID] UUIDString] withFeatures:@[[SNMAnalytics class], [SNMCrashes class]]];
 
   // Print the install Id.
-  NSLog(@"%@ Install Id: %@", kDEMLogTag, [[AVASonoma installId] UUIDString]);
+  NSLog(@"%@ Install Id: %@", kDEMLogTag, [[SNMSonoma installId] UUIDString]);
   return YES;
 }
 

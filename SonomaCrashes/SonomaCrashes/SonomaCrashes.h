@@ -4,5 +4,5 @@
 
 #import <Foundation/Foundation.h>
 
-#import "AVAErrorReporting.h"
-#import "AVAErrorLoggingDelegate.h"
+#import "SNMCrashes.h"
+#import "SNMErrorLoggingDelegate.h"

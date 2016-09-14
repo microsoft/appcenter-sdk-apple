@@ -2,22 +2,22 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "AVASonomaDelegate.h"
-#import "AVAFeatureAbstractInternal.h"
-#import "AVAFeatureInternal.h"
-#import "Utils/AVALogger.h"
+#import "SNMSonomaDelegate.h"
+#import "SNMFeatureAbstractInternal.h"
+#import "SNMFeatureInternal.h"
+#import "Utils/SNMLogger.h"
 
 // Log files
-#import "Model/AVAAbstractLog.h"
-#import "Model/AVADevice.h"
-#import "Model/AVALog.h"
-#import "Model/AVALogContainer.h"
-#import "Model/AVALogWithProperties.h"
-#import "Model/Utils/AVAUserDefaults.h"
-#import "Utils/AVAUtils.h"
+#import "Model/SNMAbstractLog.h"
+#import "Model/SNMDevice.h"
+#import "Model/SNMLog.h"
+#import "Model/SNMLogContainer.h"
+#import "Model/SNMLogWithProperties.h"
+#import "Model/Utils/SNMUserDefaults.h"
+#import "Utils/SNMUtils.h"
 
 // Environment Helper
-#import "Utils/AVAEnvironmentHelper.h"
+#import "Utils/SNMEnvironmentHelper.h"
 
 // Channel
-#import "Channel/AVALogManagerListener.h"
+#import "Channel/SNMLogManagerListener.h"

@@ -8,7 +8,7 @@
         <!--Analytics View Controller-->
         <scene sceneID="OWQ-4B-UdT">
             <objects>
-                <tableViewController storyboardIdentifier="analytics" id="GhP-bn-tCW" customClass="AVAAnalyticsViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="analytics" id="GhP-bn-tCW" customClass="SNMAnalyticsViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="lFP-oN-Acu">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -36,7 +36,7 @@
         <!--Error Reporting Reports View Controller-->
         <scene sceneID="Y3h-0l-7rk">
             <objects>
-                <tableViewController storyboardIdentifier="crashes" id="MLz-YP-ZEx" customClass="AVAErrorReportingReportsViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="crashes" id="MLz-YP-ZEx" customClass="SNMCrashesReportsViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="jgs-Mk-uqb">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -64,7 +64,7 @@
         <!--App Hub-->
         <scene sceneID="0ay-6B-23o">
             <objects>
-                <tableViewController storyboardIdentifier="main" id="9Ck-4D-Ozb" customClass="AVAMainViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="main" id="9Ck-4D-Ozb" customClass="SNMMainViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Xq0-wR-0nE">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
