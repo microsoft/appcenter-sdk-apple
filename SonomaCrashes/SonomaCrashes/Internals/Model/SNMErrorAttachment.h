@@ -4,7 +4,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "Sonoma+Internal.h"
+#import "SonomaCore+Internal.h"
 
 @class SNMErrorBinaryAttachment;
 

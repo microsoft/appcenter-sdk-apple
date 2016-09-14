@@ -3,7 +3,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "Sonoma+Internal.h"
+#import "SonomaCore+Internal.h"
 
 /*
  * Binary attachment for error log.
