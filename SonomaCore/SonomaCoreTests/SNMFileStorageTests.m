@@ -89,7 +89,7 @@
 
   // Verify
   SNMStorageBucket *bucket = self.sut.buckets[storageKey];
-  SNMFile *actual = bucket.SNMilableFiles.lastObject;
+  SNMFile *actual = bucket.availableFiles.lastObject;
   assertThat(actual.filePath, equalTo(expected.filePath));
   assertThat(actual.fileId, equalTo(expected.fileId));
   assertThat(actual.creationDate.description, equalTo(expected.creationDate.description));
@@ -109,7 +109,7 @@
   assertThat(bucket.currentLogs, isEmpty());
 }
 
-- (void)testSaveFirstLogOfABatchWillAddCurrentFileToSNMilableList {
+- (void)testSaveFirstLogOfABatchWillAddCurrentFileToAvailableList {
 
   // If
   NSString *storageKey = @"TestDirectory";
@@ -122,9 +122,9 @@
   // Verify
   SNMStorageBucket *bucket = self.sut.buckets[storageKey];
   SNMFile *expected = bucket.currentFile;
-  SNMFile *actual = bucket.SNMilableFiles.lastObject;
+  SNMFile *actual = bucket.availableFiles.lastObject;
   assertThat(actual, equalTo(expected));
-  assertThat(bucket.SNMilableFiles, hasCountOf(1));
+  assertThat(bucket.availableFiles, hasCountOf(1));
 }
 
 - (void)testSaveFirstLogOfBatchWillDeleteOldestFileIfFileLimitHasBeenReached {
@@ -133,23 +133,23 @@
   NSString *storageKey = @"TestDirectory";
   SNMStorageBucket *bucket = [self.sut bucketForStorageKey:storageKey];
 
-  SNMFile *SNMilableFile1 =
+  SNMFile *availableFile1 =
       [[SNMFile alloc] initWithPath:@"1" fileId:@"1" creationDate:[NSDate dateWithTimeIntervalSinceNow:1]];
-  SNMFile *SNMilableFile2 =
+  SNMFile *availableFile2 =
       [[SNMFile alloc] initWithPath:@"2" fileId:@"2" creationDate:[NSDate dateWithTimeIntervalSinceNow:3]];
-  SNMFile *SNMilableFile3 =
+  SNMFile *availableFile3 =
       [[SNMFile alloc] initWithPath:@"3" fileId:@"3" creationDate:[NSDate dateWithTimeIntervalSinceNow:5]];
-  bucket.SNMilableFiles =
-      [NSMutableArray<SNMFile *> arrayWithObjects:SNMilableFile1, SNMilableFile2, SNMilableFile3, nil];
-  self.sut.bucketFileCountLimit = bucket.SNMilableFiles.count;
+  bucket.availableFiles =
+      [NSMutableArray<SNMFile *> arrayWithObjects:availableFile1, availableFile2, availableFile3, nil];
+  self.sut.bucketFileCountLimit = bucket.availableFiles.count;
   SNMAbstractLog *log = [SNMAbstractLog new];
 
   // When
   [self.sut saveLog:log withStorageKey:storageKey];
 
   // Verify
-  assertThatInteger(bucket.SNMilableFiles.count, equalToInteger(3));
-  assertThat(bucket.SNMilableFiles, containsInRelativeOrder(@[ bucket.currentFile, SNMilableFile1, SNMilableFile2 ]));
+  assertThatInteger(bucket.availableFiles.count, equalToInteger(3));
+  assertThat(bucket.availableFiles, containsInRelativeOrder(@[ bucket.currentFile, availableFile1, availableFile2 ]));
 }
 
 - (void)testDeleteFileRemovesLogsIdFromBlockedFilesList {
@@ -177,14 +177,14 @@
   NSString *batchId = @"12345";
   self.sut.buckets[storageKey] = [SNMStorageBucket new];
   SNMStorageBucket *bucket = self.sut.buckets[storageKey];
-  SNMFile *SNMilableFile = [[SNMFile alloc] initWithPath:@"333" fileId:batchId creationDate:[NSDate date]];
-  bucket.SNMilableFiles = [NSMutableArray arrayWithObject:SNMilableFile];
+  SNMFile *availableFile = [[SNMFile alloc] initWithPath:@"333" fileId:batchId creationDate:[NSDate date]];
+  bucket.availableFiles = [NSMutableArray arrayWithObject:availableFile];
 
   // When
   [self.sut deleteLogsForId:batchId withStorageKey:storageKey];
 
   // Verify
-  OCMVerify([fileHelperMock deleteFile:SNMilableFile]);
+  OCMVerify([fileHelperMock deleteFile:availableFile]);
 }
 
 - (void)testLoadBatchWillEmptyCurrentLogs {
@@ -209,14 +209,14 @@
   self.sut.buckets[storageKey] = [SNMStorageBucket new];
   SNMStorageBucket *bucket = self.sut.buckets[storageKey];
 
-  SNMFile *SNMilableFile1 =
+  SNMFile *availableFile1 =
       [[SNMFile alloc] initWithPath:@"1" fileId:@"1" creationDate:[NSDate dateWithTimeIntervalSinceNow:1]];
-  SNMFile *SNMilableFile2 =
+  SNMFile *availableFile2 =
       [[SNMFile alloc] initWithPath:@"2" fileId:@"2" creationDate:[NSDate dateWithTimeIntervalSinceNow:3]];
-  SNMFile *SNMilableFile3 =
+  SNMFile *availableFile3 =
       [[SNMFile alloc] initWithPath:@"3" fileId:@"3" creationDate:[NSDate dateWithTimeIntervalSinceNow:5]];
-  bucket.SNMilableFiles =
-      [NSMutableArray<SNMFile *> arrayWithObjects:SNMilableFile1, SNMilableFile2, SNMilableFile3, nil];
+  bucket.availableFiles =
+      [NSMutableArray<SNMFile *> arrayWithObjects:availableFile1, availableFile2, availableFile3, nil];
   SNMFile *currentFile = [[SNMFile alloc] initWithPath:@"333" fileId:@"333" creationDate:[NSDate date]];
   bucket.currentFile = currentFile;
 
@@ -228,7 +228,7 @@
                    }];
 
   // Verify
-  assertThat(batchId, equalTo(SNMilableFile3.fileId));
+  assertThat(batchId, equalTo(availableFile3.fileId));
 }
 
 - (void)testLoadBatchWillAddItToBlockedFiles {
@@ -238,9 +238,9 @@
   self.sut.buckets[storageKey] = [SNMStorageBucket new];
   SNMStorageBucket *bucket = self.sut.buckets[storageKey];
 
-  SNMFile *SNMilableFile =
+  SNMFile *availableFile =
       [[SNMFile alloc] initWithPath:@"1" fileId:@"1" creationDate:[NSDate dateWithTimeIntervalSinceNow:1]];
-  bucket.SNMilableFiles = [NSMutableArray<SNMFile *> arrayWithObject:SNMilableFile];
+  bucket.availableFiles = [NSMutableArray<SNMFile *> arrayWithObject:availableFile];
 
   // When
   [self.sut loadLogsForStorageKey:storageKey
@@ -248,9 +248,9 @@
                    }];
 
   // Verify
-  assertThatInteger(bucket.SNMilableFiles.count, equalToInteger(0));
+  assertThatInteger(bucket.availableFiles.count, equalToInteger(0));
   assertThatInteger(bucket.blockedFiles.count, equalToInteger(1));
-  assertThat(bucket.blockedFiles, hasItem(SNMilableFile));
+  assertThat(bucket.blockedFiles, hasItem(availableFile));
 }
 
 - (void)testLoadBatchWillCreateNewCurrentFile {

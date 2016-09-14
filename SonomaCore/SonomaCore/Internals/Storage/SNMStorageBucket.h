@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * A list of file names that can be accessed by other components.
  */
-@property(nonatomic, strong) NSMutableArray<SNMFile *> *SNMilableFiles;
+@property(nonatomic, strong) NSMutableArray<SNMFile *> *availableFiles;
 
 /**
  * Returns the file with the given id.
@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
  * Sorts the list of available files by creation date. The most recent file will
  * be at the last index.
  */
-- (void)sortSNMilableFilesByCreationDate;
+- (void)sortAvailableFilesByCreationDate;
 
 /**
  * Removes the given file from the bucket's internal available or blocked list.

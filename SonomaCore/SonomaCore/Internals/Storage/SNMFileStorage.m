@@ -44,13 +44,13 @@ static NSUInteger const SNMDefaultLogCountLimit = 50;
   if (bucket.currentLogs.count == 0) {
 
     // Drop oldest files if needed
-    if (bucket.SNMilableFiles.count >= self.bucketFileCountLimit) {
-      SNMFile *oldestFile = [bucket.SNMilableFiles lastObject];
+    if (bucket.availableFiles.count >= self.bucketFileCountLimit) {
+      SNMFile *oldestFile = [bucket.availableFiles lastObject];
       [self deleteLogsForId:oldestFile.fileId withStorageKey:storageKey];
     }
 
     // Make current file available and create new current file
-    [bucket.SNMilableFiles insertObject:bucket.currentFile atIndex:0];
+    [bucket.availableFiles insertObject:bucket.currentFile atIndex:0];
   }
 
   [bucket.currentLogs addObject:log];
@@ -76,13 +76,13 @@ static NSUInteger const SNMDefaultLogCountLimit = 50;
   [self renewCurrentFileForStorageKey:storageKey];
 
   // Get data of oldest file
-  if (bucket.SNMilableFiles.count > 0) {
-    SNMFile *file = bucket.SNMilableFiles.lastObject;
+  if (bucket.availableFiles.count > 0) {
+    SNMFile *file = bucket.availableFiles.lastObject;
     fileId = file.fileId;
     NSData *logData = [SNMFileHelper dataForFile:file];
     logs = [NSKeyedUnarchiver unarchiveObjectWithData:logData];
     [bucket.blockedFiles addObject:file];
-    [bucket.SNMilableFiles removeLastObject];
+    [bucket.availableFiles removeLastObject];
   }
 
   if (completion) {
@@ -97,8 +97,8 @@ static NSUInteger const SNMDefaultLogCountLimit = 50;
   NSString *storageDirectory = [self directoryPathForStorageKey:storageKey];
   NSArray *existingFiles = [SNMFileHelper filesForDirectory:storageDirectory withFileExtension:kSNMFileExtension];
   if (existingFiles) {
-    [bucket.SNMilableFiles addObjectsFromArray:existingFiles];
-    [bucket sortSNMilableFilesByCreationDate];
+    [bucket.availableFiles addObjectsFromArray:existingFiles];
+      [bucket sortAvailableFilesByCreationDate];
   }
   self.buckets[storageKey] = bucket;
   [self renewCurrentFileForStorageKey:storageKey];
