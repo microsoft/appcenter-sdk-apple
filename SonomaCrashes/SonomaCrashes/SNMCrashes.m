@@ -19,14 +19,14 @@ static NSString *const kSNMAnalyzerFilename = @"SNMCrashes.analyzer";
 
 #pragma mark - Callbacks Setup
 
-static SNMCrashesCallbacks snmErrorReportingCallbacks = {.context = NULL, .handleSignal = NULL};
+static SNMCrashesCallbacks snmCrashesCallbacks = {.context = NULL, .handleSignal = NULL};
 
 /** Proxy implementation for PLCrashReporter to keep our interface stable while
  *  this can change.
  */
 static void plcr_post_crash_callback(siginfo_t *info, ucontext_t *uap, void *context) {
-  if (snmErrorReportingCallbacks.handleSignal != NULL) {
-    snmErrorReportingCallbacks.handleSignal(context);
+  if (snmCrashesCallbacks.handleSignal != NULL) {
+    snmCrashesCallbacks.handleSignal(context);
   }
 }
 
