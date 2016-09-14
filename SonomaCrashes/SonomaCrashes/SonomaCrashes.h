@@ -5,4 +5,4 @@
 #import <Foundation/Foundation.h>
 
 #import "SNMCrashes.h"
-#import "SNMErrorLoggingDelegate.h"
+#import "SNMCrashesDelegate.h"

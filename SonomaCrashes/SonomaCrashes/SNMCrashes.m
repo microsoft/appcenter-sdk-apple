@@ -92,7 +92,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
   return nil;
 }
 
-+ (void)setErrorLoggingDelegate:(_Nullable id<SNMErrorLoggingDelegate>)errorLoggingDelegate {
++ (void)setCrashesDelegate:(_Nullable id<SNMCrashesDelegate>)errorLoggingDelegate {
   // TODO actual implementation
 }
 

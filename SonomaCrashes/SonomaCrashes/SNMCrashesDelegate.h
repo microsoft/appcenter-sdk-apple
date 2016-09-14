@@ -4,7 +4,7 @@
 @class SNMCrashes;
 @class SNMErrorAttachment;
 
-@protocol SNMErrorLoggingDelegate <NSObject>
+@protocol SNMCrashesDelegate <NSObject>
 
 @optional
 

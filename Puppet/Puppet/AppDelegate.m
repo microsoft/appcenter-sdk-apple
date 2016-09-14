@@ -19,7 +19,7 @@
   [SNMSonoma setLogLevel:SNMLogLevelVerbose];
   [SNMSonoma start:[[NSUUID UUID] UUIDString] withFeatures:@[ [SNMAnalytics class], [SNMCrashes class] ]];
 
-  [SNMCrashes setErrorLoggingDelegate:self]; // TODO rename to setDelegate:
+  [SNMCrashes setCrashesDelegate:self]; // TODO rename to setDelegate:
 
   [SNMCrashes setUserConfirmationHandler:^(NSArray<SNMErrorReport *> *errorLogs) {
     NSString *exceptionReason = [SNMCrashes lastSessionCrashDetails].exceptionReason;
