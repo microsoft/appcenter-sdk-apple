@@ -8,7 +8,7 @@
 #import "SNMFeatureAbstractPrivate.h"
 #import "SNMUserDefaults.h"
 #import "SNMUtils.h"
-#import "Sonoma+Internal.h"
+#import "SonomaCore+Internal.h"
 
 @implementation SNMFeatureAbstract
 

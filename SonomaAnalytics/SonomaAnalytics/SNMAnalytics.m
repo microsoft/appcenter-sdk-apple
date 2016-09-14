@@ -10,7 +10,7 @@
 
 #import "SNMEventLog.h"
 #import "SNMPageLog.h"
-#import "Sonoma+Internal.h"
+#import "SonomaCore+Internal.h"
 
 /**
  *  Feature name.

@@ -8,7 +8,7 @@
 #import "SNMCrashesHelper.h"
 #import "SNMErrorLogFormatter.h"
 #import "SNMCrashesPrivate.h"
-#import "Sonoma+Internal.h"
+#import "SonomaCore+Internal.h"
 #import <CrashReporter/CrashReporter.h>
 
 /**

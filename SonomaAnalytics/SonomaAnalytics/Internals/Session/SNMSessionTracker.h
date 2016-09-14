@@ -4,7 +4,7 @@
 
 #import "SNMSessionHistoryInfo.h"
 #import "SNMSessionTrackerDelegate.h"
-#import "Sonoma+Internal.h"
+#import "SonomaCore+Internal.h"
 #import <Foundation/Foundation.h>
 
 @interface SNMSessionTracker : NSObject <SNMLogManagerListener>

@@ -37,7 +37,7 @@
 		6E0401541D1C9A4F0051BCFA /* SNMCrashes.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0401501D1C9A4F0051BCFA /* SNMCrashes.m */; };
 		6E0401751D1C9E750051BCFA /* SonomaCrashes.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401361D1C98690051BCFA /* SonomaCrashes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E0401761D1C9E750051BCFA /* SNMCrashes.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E04014F1D1C9A4F0051BCFA /* SNMCrashes.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6E0401771D1C9EBE0051BCFA /* Sonoma+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401591D1C9D7F0051BCFA /* Sonoma+Internal.h */; };
+		6E0401771D1C9EBE0051BCFA /* SonomaCore+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401591D1C9D7F0051BCFA /* SonomaCore+Internal.h */; };
 		6E0401781D1C9EBE0051BCFA /* SNMCrashesPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401521D1C9A4F0051BCFA /* SNMCrashesPrivate.h */; };
 		6E73FE6A1D402F79008CDC15 /* SNMCrashesCXXExceptionHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E73FE681D402F79008CDC15 /* SNMCrashesCXXExceptionHandler.h */; };
 		6E73FE6B1D402F79008CDC15 /* SNMCrashesCXXExceptionHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6E73FE691D402F79008CDC15 /* SNMCrashesCXXExceptionHandler.mm */; };
@@ -121,7 +121,7 @@
 		6E04014F1D1C9A4F0051BCFA /* SNMCrashes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMCrashes.h; sourceTree = "<group>"; };
 		6E0401501D1C9A4F0051BCFA /* SNMCrashes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMCrashes.m; sourceTree = "<group>"; };
 		6E0401521D1C9A4F0051BCFA /* SNMCrashesPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMCrashesPrivate.h; sourceTree = "<group>"; };
-		6E0401591D1C9D7F0051BCFA /* Sonoma+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Sonoma+Internal.h"; path = "../../../SonomaCore/SonomaCore/Internals/Sonoma+Internal.h"; sourceTree = "<group>"; };
+		6E0401591D1C9D7F0051BCFA /* SonomaCore+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "SonomaCore+Internal.h"; path = "../../../SonomaCore/SonomaCore/Internals/SonomaCore+Internal.h"; sourceTree = "<group>"; };
 		6E37297F1D1DE93800F1E4AE /* SonomaCrashes.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = SonomaCrashes.xcconfig; sourceTree = "<group>"; };
 		6E3729801D1DE93800F1E4AE /* buildnumber.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = buildnumber.xcconfig; sourceTree = "<group>"; };
 		6E3729811D1DE93800F1E4AE /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
@@ -241,7 +241,7 @@
 				6E73FE721D4059E7008CDC15 /* SNMCrashesCXXExceptionWrapperException.m */,
 				6E73FE681D402F79008CDC15 /* SNMCrashesCXXExceptionHandler.h */,
 				6E73FE691D402F79008CDC15 /* SNMCrashesCXXExceptionHandler.mm */,
-				6E0401591D1C9D7F0051BCFA /* Sonoma+Internal.h */,
+				6E0401591D1C9D7F0051BCFA /* SonomaCore+Internal.h */,
 				6E0401521D1C9A4F0051BCFA /* SNMCrashesPrivate.h */,
 				6E7D5C641D3E92B1009EC9AC /* Model */,
 			);
@@ -356,7 +356,7 @@
 				6E7D5C6F1D3E9346009EC9AC /* SNMException.h in Headers */,
 				B2CD3BF91D80EE49000A8A91 /* SNMAbstractErrorLog.h in Headers */,
 				B2A4DA3D1D885FC4001189EC /* SNMFeatureAbstract.h in Headers */,
-				6E0401771D1C9EBE0051BCFA /* Sonoma+Internal.h in Headers */,
+				6E0401771D1C9EBE0051BCFA /* SonomaCore+Internal.h in Headers */,
 				6E73FE731D4059E7008CDC15 /* SNMCrashesCXXExceptionWrapperException.h in Headers */,
 				6E73FE6A1D402F79008CDC15 /* SNMCrashesCXXExceptionHandler.h in Headers */,
 				38D4BBA31D5A9962001A30A0 /* SNMFeature.h in Headers */,

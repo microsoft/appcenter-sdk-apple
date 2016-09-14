@@ -48,7 +48,7 @@
 		6E04016A1D1C9E1F0051BCFA /* SNMSonoma.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401551D1C9AAA0051BCFA /* SNMSonoma.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E04016B1D1C9E1F0051BCFA /* SNMConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E04013F1D1C99AC0051BCFA /* SNMConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E04016C1D1C9E1F0051BCFA /* Sonoma.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401401D1C99AC0051BCFA /* Sonoma.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6E04016D1D1C9E460051BCFA /* Sonoma+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401581D1C9CFB0051BCFA /* Sonoma+Internal.h */; };
+		6E04016D1D1C9E460051BCFA /* SonomaCore+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401581D1C9CFB0051BCFA /* SonomaCore+Internal.h */; };
 		6E04016E1D1C9E460051BCFA /* SNMSonomaDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401431D1C99AC0051BCFA /* SNMSonomaDelegate.h */; };
 		6E04016F1D1C9E460051BCFA /* SNMSonomaInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401441D1C99AC0051BCFA /* SNMSonomaInternal.h */; };
 		6E0401701D1C9E460051BCFA /* SNMFeature.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401451D1C99AC0051BCFA /* SNMFeature.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -174,7 +174,7 @@
 		6E04014B1D1C99AC0051BCFA /* SNMLoggerPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMLoggerPrivate.h; sourceTree = "<group>"; };
 		6E0401551D1C9AAA0051BCFA /* SNMSonoma.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMSonoma.h; sourceTree = "<group>"; };
 		6E0401561D1C9AAA0051BCFA /* SNMSonoma.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMSonoma.m; sourceTree = "<group>"; };
-		6E0401581D1C9CFB0051BCFA /* Sonoma+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Sonoma+Internal.h"; sourceTree = "<group>"; };
+		6E0401581D1C9CFB0051BCFA /* SonomaCore+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SonomaCore+Internal.h"; sourceTree = "<group>"; };
 		6E0401831D1CAD810051BCFA /* buildnumber.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = buildnumber.xcconfig; sourceTree = "<group>"; };
 		6E0401841D1CAD810051BCFA /* SonomaCore.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = SonomaCore.xcconfig; sourceTree = "<group>"; };
 		6E0401851D1CAD810051BCFA /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
@@ -338,7 +338,7 @@
 		6E0401421D1C99AC0051BCFA /* Internals */ = {
 			isa = PBXGroup;
 			children = (
-				6E0401581D1C9CFB0051BCFA /* Sonoma+Internal.h */,
+				6E0401581D1C9CFB0051BCFA /* SonomaCore+Internal.h */,
 				6E0401431D1C99AC0051BCFA /* SNMSonomaDelegate.h */,
 				6E0401441D1C99AC0051BCFA /* SNMSonomaInternal.h */,
 				387C758D1D64DF2500D68CC1 /* SNMFeatureCommon.h */,
@@ -604,7 +604,7 @@
 				E83283C61D46C62E000B029E /* SNM_Reachability.h in Headers */,
 				6E04016B1D1C9E1F0051BCFA /* SNMConstants.h in Headers */,
 				E8010E6A1D2DD4EF0035196F /* SNMLogWithProperties.h in Headers */,
-				6E04016D1D1C9E460051BCFA /* Sonoma+Internal.h in Headers */,
+				6E04016D1D1C9E460051BCFA /* SonomaCore+Internal.h in Headers */,
 				6E0401721D1C9E460051BCFA /* SNMLogger.h in Headers */,
 				6E0684671D36BCD500A8CC6C /* SNMChannel.h in Headers */,
 				387C76FD1D6C9CF100D68CC1 /* SNMFeatureAbstract.h in Headers */,

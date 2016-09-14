@@ -4,7 +4,7 @@
 
 #import "SNMSessionTracker.h"
 #import "SNMStartSessionLog.h"
-#import "Sonoma+Internal.h"
+#import "SonomaCore+Internal.h"
 #import <UIKit/UIKit.h>
 
 static NSTimeInterval const kSNMSessionTimeOut = 20;

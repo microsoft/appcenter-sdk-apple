@@ -6,7 +6,7 @@
 #import "SNMLogContainer.h"
 #import "SNMMockLog.h"
 #import "SNM_Reachability.h"
-#import "Sonoma+Internal.h"
+#import "SonomaCore+Internal.h"
 
 #import "OCMock.h"
 #import "OHHTTPStubs.h"

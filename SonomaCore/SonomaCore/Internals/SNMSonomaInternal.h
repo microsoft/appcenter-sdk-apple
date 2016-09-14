@@ -6,7 +6,7 @@
 #import "SNMSonomaDelegate.h"
 #import "SNMFeatureInternal.h"
 #import "SNMLogManager.h"
-#import "Sonoma+Internal.h"
+#import "SonomaCore+Internal.h"
 #import <Foundation/Foundation.h>
 
 // Install Id key in persisted storage.

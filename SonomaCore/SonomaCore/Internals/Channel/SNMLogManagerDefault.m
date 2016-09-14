@@ -4,7 +4,7 @@
 
 #import "SNMChannelDefault.h"
 #import "SNMLogManagerDefault.h"
-#import "Sonoma+Internal.h"
+#import "SonomaCore+Internal.h"
 
 static char *const SNMDataItemsOperationsQueue = "com.microsoft.sonoma.LogManagerQueue";
 

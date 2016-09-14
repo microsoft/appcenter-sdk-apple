@@ -2,7 +2,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "Sonoma+Internal.h"
+#import "SonomaCore+Internal.h"
 #import <Foundation/Foundation.h>
 
 @protocol SNMSessionTrackerDelegate <NSObject>

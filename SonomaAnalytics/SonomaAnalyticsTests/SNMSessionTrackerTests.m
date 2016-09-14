@@ -1,6 +1,6 @@
 #import "SNMSessionTracker.h"
 #import "SNMSessionTrackerHelper.h"
-#import "Sonoma+Internal.h"
+#import "SonomaCore+Internal.h"
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>

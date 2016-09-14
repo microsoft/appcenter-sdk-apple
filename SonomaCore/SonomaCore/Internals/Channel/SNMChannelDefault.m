@@ -3,7 +3,7 @@
  */
 
 #import "SNMChannelDefault.h"
-#import "Sonoma+Internal.h"
+#import "SonomaCore+Internal.h"
 
 @implementation SNMChannelDefault
 

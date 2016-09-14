@@ -4,7 +4,7 @@
 
 #import "SNMAbstractLog.h"
 #import "SNMLogContainer.h"
-#import "Sonoma+Internal.h"
+#import "SonomaCore+Internal.h"
 #import <XCTest/XCTest.h>
 
 @interface SNMLogContainerTests : XCTestCase
