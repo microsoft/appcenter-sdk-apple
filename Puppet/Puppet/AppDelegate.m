@@ -1,11 +1,11 @@
 #import "AppDelegate.h"
-#import "AvalancheAnalytics.h"
-#import "AvalancheErrorReporting.h"
-#import "AvalancheHub.h"
+#import "SonomaAnalytics.h"
+#import "SonomaCrashes.h"
+#import "Sonoma.h"
 #import "Constants.h"
 
-#import "AVAErrorAttachment.h"
-#import "AVAErrorReport.h"
+#import "SNMErrorAttachment.h"
+#import "SNMErrorReport.h"
 
 @interface AppDelegate ()
 
@@ -15,14 +15,14 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
-  // Start Avalanche SDK.
-  [AVAAvalanche setLogLevel:AVALogLevelVerbose];
-  [AVAAvalanche start:[[NSUUID UUID] UUIDString] withFeatures:@[ [AVAAnalytics class], [AVAErrorReporting class] ]];
+  // Start Sonoma SDK.
+  [SNMSonoma setLogLevel:SNMLogLevelVerbose];
+  [SNMSonoma start:[[NSUUID UUID] UUIDString] withFeatures:@[ [SNMAnalytics class], [SNMCrashes class] ]];
 
-  [AVAErrorReporting setErrorLoggingDelegate:self]; // TODO rename to setDelegate:
+  [SNMCrashes setCrashesDelegate:self]; // TODO rename to setDelegate:
 
-  [AVAErrorReporting setUserConfirmationHandler:^(NSArray<AVAErrorReport *> *errorLogs) {
-    NSString *exceptionReason = [AVAErrorReporting lastSessionCrashDetails].exceptionReason;
+  [SNMCrashes setUserConfirmationHandler:^(NSArray<SNMErrorReport *> *errorLogs) {
+    NSString *exceptionReason = [SNMCrashes lastSessionCrashDetails].exceptionReason;
 
     // or something like
 
@@ -49,7 +49,7 @@
   }];
 
   // Print the install Id.
-  NSLog(@"%@ Install Id: %@", kPUPLogTag, [[AVAAvalanche installId] UUIDString]);
+  NSLog(@"%@ Install Id: %@", kPUPLogTag, [[SNMSonoma installId] UUIDString]);
   return YES;
 }
 
@@ -85,41 +85,38 @@
 
 // TODO talk to andreas and lukas about this again
 
-- (BOOL)errorReporting:(AVAErrorReporting *)crashes shouldProcess:(AVAErrorReport *)errorReport {
+- (BOOL)crashes:(SNMCrashes *)crashes shouldProcess:(SNMErrorReport *)report {
 
-  if ([errorReport.exceptionReason isEqualToString:@"something"]) {
+  if ([report.exceptionReason isEqualToString:@"something"]) {
     return false;
   } else {
     return true;
   }
 }
 
-- (AVAErrorAttachment *)attachmentWithErrorReporting:(AVAErrorReporting *)crashes forErrorReport:(AVAErrorReport *)errorLog {
+- (SNMErrorAttachment *)attachmentWithCrashes:(SNMCrashes *)crashes forErrorReport:(SNMErrorReport *)report {
 
-  return [AVAErrorAttachment new];
+  return [SNMErrorAttachment new];
 }
 
-- (void)errorReportingWillSend:(AVAErrorReporting *)crashes {
+- (void)crashesWillSend:(SNMCrashes *)crashes{
 }
 
-- (void)errorReporting:(AVAErrorReporting *)crashes didFailSending:(AVAErrorReport *)errorLog withError:(NSError *)error {
-}
-
-- (void)errorReporting:(AVAErrorReporting *)crashes didSucceedSending:(AVAErrorReport *)errorLog {
-}
+- (void)crashes:(SNMCrashes *)crashes didSucceedSending:(SNMErrorReport *)errorReport {}
+- (void)crashes:(SNMCrashes *)crashes didFailSending:(SNMErrorReport *)errorReport withError:(NSError *)error{}
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
   if (alertView.alertViewStyle != UIAlertViewStyleDefault) {
   }
   switch (buttonIndex) {
   case 0:
-    [AVAErrorReporting notifyWithUserConfirmation:AVAUserConfirmationDontSend];
+    [SNMCrashes notifyWithUserConfirmation:SNMUserConfirmationDontSend];
     break;
   case 1:
-    [AVAErrorReporting notifyWithUserConfirmation:AVAUserConfirmationAlways];
+    [SNMCrashes notifyWithUserConfirmation:SNMUserConfirmationAlways];
     break;
   default:
-    [AVAErrorReporting notifyWithUserConfirmation:AVAUserConfirmationDontSend];
+    [SNMCrashes notifyWithUserConfirmation:SNMUserConfirmationDontSend];
     break;
   }
 }
