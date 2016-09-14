@@ -67,7 +67,7 @@
   resourveValue = nil;
   NSString *subDirectory = @"testDirectory";
   NSString *fileId = @"fileId";
-  NSString *filePath = [SNMStorageTestHelper filePathForLogWithId:fileId extension:@"ava" storageKey:subDirectory];
+  NSString *filePath = [SNMStorageTestHelper filePathForLogWithId:fileId extension:@"snm" storageKey:subDirectory];
   SNMFile *file = [[SNMFile alloc] initWithPath:filePath fileId:fileId creationDate:[NSDate date]];
 
   [SNMFileHelper writeData:[NSData new] toFile:file];
@@ -90,7 +90,7 @@
 
   // If
   NSString *subDirectory = @"testDirectory";
-  NSString *extension = @"ava";
+  NSString *extension = @"snm";
   SNMFile *file1 = [SNMStorageTestHelper createFileWithId:@"1"
                                                      data:[NSData new]
                                                 extension:extension
@@ -131,7 +131,7 @@
   id fileManagerMock = OCMClassMock([NSFileManager class]);
 
   // When
-  NSArray *actual = [SNMFileHelper filesForDirectory:nil withFileExtension:@"ava"];
+  NSArray *actual = [SNMFileHelper filesForDirectory:nil withFileExtension:@"snm"];
 
   // Then
   assertThat(actual, nilValue());
@@ -144,7 +144,7 @@
   // If
   SNMFile *file = [SNMStorageTestHelper createFileWithId:@"0"
                                                     data:[NSData new]
-                                               extension:@"ava"
+                                               extension:@"snm"
                                               storageKey:@"testDirectory"
                                             creationDate:[NSDate date]];
 
@@ -159,7 +159,7 @@
 
   // If
   NSString *subDirectory = @"testDirectory";
-  NSString *extension = @"ava";
+  NSString *extension = @"snm";
   NSString *fileName = @"foo";
   NSString *filePath = [SNMStorageTestHelper filePathForLogWithId:fileName extension:extension storageKey:subDirectory];
   SNMFile *file = [[SNMFile alloc] initWithPath:filePath fileId:fileName creationDate:[NSDate date]];
@@ -177,7 +177,7 @@
   id fileManagerMock = OCMClassMock([NSFileManager class]);
   SNMFile *file = [SNMStorageTestHelper createFileWithId:@"0"
                                                     data:[NSData new]
-                                               extension:@"ava"
+                                               extension:@"snm"
                                               storageKey:@"testDirectory"
                                             creationDate:[NSDate date]];
   file.filePath = nil;
@@ -196,7 +196,7 @@
   NSData *expected = [@"0" dataUsingEncoding:NSUTF8StringEncoding];
   SNMFile *file = [SNMStorageTestHelper createFileWithId:@"0"
                                                     data:expected
-                                               extension:@"ava"
+                                               extension:@"snm"
                                               storageKey:@"testDirectory"
                                             creationDate:[NSDate date]];
 
@@ -226,7 +226,7 @@
   // If
   NSArray *items = @[ @"1", @"2" ];
   NSData *expected = [NSKeyedArchiver archivedDataWithRootObject:items];
-  NSString *filePath = [SNMStorageTestHelper filePathForLogWithId:@"0" extension:@"ava" storageKey:@"directory"];
+  NSString *filePath = [SNMStorageTestHelper filePathForLogWithId:@"0" extension:@"snm" storageKey:@"directory"];
   SNMFile *file = [[SNMFile alloc] initWithPath:filePath fileId:@"0" creationDate:[NSDate date]];
 
   // When
@@ -242,7 +242,7 @@
   // If
   NSString *fileName = @"0";
   NSString *filePath =
-      [SNMStorageTestHelper filePathForLogWithId:fileName extension:@"ava" storageKey:@"testDirectory"];
+      [SNMStorageTestHelper filePathForLogWithId:fileName extension:@"snm" storageKey:@"testDirectory"];
   NSData *expected = [@"123456789" dataUsingEncoding:NSUTF8StringEncoding];
   SNMFile *file = [[SNMFile alloc] initWithPath:filePath fileId:fileName creationDate:[NSDate date]];
 
