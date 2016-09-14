@@ -5,7 +5,7 @@
 #import "SNMUtils.h"
 
 static NSString *const kSNMLogsDirectory = @"com.microsoft.sonoma/logs";
-static NSString *const kSNMFileExtension = @"ava";
+static NSString *const kSNMFileExtension = @"snm";
 // FIXME Need a different storage such as database to make it work properly.
 //       For now, persistence will maintain up to 350 logs and remove the oldest 50 logs in a file.
 static NSUInteger const SNMDefaultFileCountLimit = 7;
