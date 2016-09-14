@@ -21,12 +21,12 @@
 
   [SNMCrashes setCrashesDelegate:self]; // TODO rename to setDelegate:
 
-  [SNMCrashes setUserConfirmationHandler:^(NSArray<SNMErrorReport *> *errorLogs) {
+  [SNMCrashes setUserConfirmationHandler:^(NSArray<SNMErrorReport *> *report) {
     NSString *exceptionReason = [SNMCrashes lastSessionCrashDetails].exceptionReason;
 
     // or something like
 
-    NSString *foo = [errorLogs firstObject].exceptionReason;
+    NSString *foo = [report firstObject].exceptionReason;
     if (foo) {
       // Do something with exceptionReason
       NSLog(@"%@", foo);
@@ -85,27 +85,27 @@
 
 // TODO talk to andreas and lukas about this again
 
-- (BOOL)errorReporting:(SNMCrashes *)crashes shouldProcess:(SNMErrorReport *)errorReport {
+- (BOOL)crashes:(SNMCrashes *)crashes shouldProcess:(SNMErrorReport *)report {
 
-  if ([errorReport.exceptionReason isEqualToString:@"something"]) {
+  if ([report.exceptionReason isEqualToString:@"something"]) {
     return false;
   } else {
     return true;
   }
 }
 
-- (SNMErrorAttachment *)attachmentWithErrorReporting:(SNMCrashes *)crashes forErrorReport:(SNMErrorReport *)errorLog {
+- (SNMErrorAttachment *)attachmentWithCrashes:(SNMCrashes *)crashes forErrorReport:(SNMErrorReport *)report {
 
   return [SNMErrorAttachment new];
 }
 
-- (void)errorReportingWillSend:(SNMCrashes *)crashes {
+- (void)crashesWillSend:(SNMCrashes *)crashes {
 }
 
-- (void)errorReporting:(SNMCrashes *)crashes didFailSending:(SNMErrorReport *)errorLog withError:(NSError *)error {
+- (void)crashes:(SNMCrashes *)crashes didFailSending:(SNMErrorReport *)report withError:(NSError *)error {
 }
 
-- (void)errorReporting:(SNMCrashes *)crashes didSucceedSending:(SNMErrorReport *)errorLog {
+- (void)crashes:(SNMCrashes *)crashes didSucceedSending:(SNMErrorReport *)report {
 }
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
