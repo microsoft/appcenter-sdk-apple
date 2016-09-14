@@ -2,7 +2,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "AVAAvalancheInternal.h"
+#import "AVASonomaInternal.h"
 #import "AVAFeatureAbstract.h"
 #import "AVAFeatureAbstractInternal.h"
 #import "AVAFeatureAbstractPrivate.h"
@@ -59,9 +59,9 @@
 }
 
 - (BOOL)canBeUsed {
-  BOOL canBeUsed = [AVAAvalanche sharedInstance].sdkStarted && self.featureInitialised;
+  BOOL canBeUsed = [AVASonoma sharedInstance].sdkStarted && self.featureInitialised;
   if (!canBeUsed) {
-    AVALogError(@"[%@] ERROR: SonomaSDK hasn't been initialized. You need to call [AVAAvalanche "
+    AVALogError(@"[%@] ERROR: SonomaSDK hasn't been initialized. You need to call [AVASonoma "
                 @"start:YOUR_APP_SECRET withFeatures:LIST_OF_FEATURES] first.",
                 [self featureName]);
   }

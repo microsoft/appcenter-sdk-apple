@@ -16,7 +16,7 @@ typedef struct {
 
 // SDK versioning.
 ava_info_t avalanche_library_info __attribute__((section("__TEXT,__bit_ios,regular,no_dead_strip"))) = {
-    .info_version = 1, .ava_version = AVALANCHE_C_VERSION, .ava_build = AVALANCHE_C_BUILD};
+    .info_version = 1, .ava_version = SONOMA_C_VERSION, .ava_build = SONOMA_C_BUILD};
 
 @implementation AVADeviceTracker : NSObject
 

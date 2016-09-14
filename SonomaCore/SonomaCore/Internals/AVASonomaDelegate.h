@@ -6,7 +6,7 @@
 #import "Utils/AVAConstants+Internal.h"
 #import <Foundation/Foundation.h>
 
-@protocol AVAAvalancheDelegate <NSObject>
+@protocol AVASonomaDelegate <NSObject>
 
 /**
  *  Track a log send from a feature.

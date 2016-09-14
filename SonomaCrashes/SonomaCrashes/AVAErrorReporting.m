@@ -2,7 +2,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "AVAAvalancheInternal.h"
+#import "AVASonomaInternal.h"
 #import "AVAAppleErrorLog.h"
 #import "AVAErrorReportingCXXExceptionWrapperException.h"
 #import "AVAErrorReportingHelper.h"

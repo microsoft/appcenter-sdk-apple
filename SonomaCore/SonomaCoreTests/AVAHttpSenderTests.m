@@ -54,7 +54,7 @@ static NSString *const kAVAAppSecret = @"mockAppSecret";
     return YES;
   }
       withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        NSData *stubData = [@"Avalanche Response" dataUsingEncoding:NSUTF8StringEncoding];
+        NSData *stubData = [@"Sonoma Response" dataUsingEncoding:NSUTF8StringEncoding];
         return [OHHTTPStubsResponse responseWithData:stubData statusCode:200 headers:nil];
       }]
       .name = @"httpStub_200";
@@ -72,7 +72,7 @@ static NSString *const kAVAAppSecret = @"mockAppSecret";
     return YES;
   }
       withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        NSData *stubData = [@"Avalanche Response" dataUsingEncoding:NSUTF8StringEncoding];
+        NSData *stubData = [@"Sonoma Response" dataUsingEncoding:NSUTF8StringEncoding];
         return [OHHTTPStubsResponse responseWithData:stubData statusCode:AVAHTTPCodesNo200OK headers:nil];
       }]
       .name = @"httpStub_200";

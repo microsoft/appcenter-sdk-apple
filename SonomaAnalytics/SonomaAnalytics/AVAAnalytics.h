@@ -6,7 +6,7 @@
 #import <UIKit/UIKit.h>
 
 /**
- *  Avalanche analytics feature.
+ *  Sonoma analytics feature.
  */
 @interface AVAAnalytics : AVAFeatureAbstract
 

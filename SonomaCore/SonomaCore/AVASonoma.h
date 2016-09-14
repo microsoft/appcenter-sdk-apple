@@ -8,7 +8,7 @@
 /**
  Class comment: Some Introduction
  */
-@interface AVAAvalanche : NSObject
+@interface AVASonoma : NSObject
 
 /**
  * Returns the singleton instance of SonomaCore.

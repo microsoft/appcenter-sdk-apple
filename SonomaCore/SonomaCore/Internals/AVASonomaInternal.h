@@ -2,8 +2,8 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "AVAAvalanche.h"
-#import "AVAAvalancheDelegate.h"
+#import "AVASonoma.h"
+#import "AVASonomaDelegate.h"
 #import "AVAFeatureInternal.h"
 #import "AVALogManager.h"
 #import "SonomaCore+Internal.h"
@@ -14,7 +14,7 @@ static NSString *const kAVAInstallIdKey = @"AVAInstallId";
 
 @class AVAFeature;
 
-@interface AVAAvalanche () <AVAAvalancheDelegate>
+@interface AVASonoma () <AVASonomaDelegate>
 
 @property(nonatomic) id<AVALogManager> logManager;
 @property(nonatomic) NSMutableArray<NSObject<AVAFeatureInternal> *> *features;

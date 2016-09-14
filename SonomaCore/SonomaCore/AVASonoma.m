@@ -1,4 +1,4 @@
-#import "AVAAvalancheInternal.h"
+#import "AVASonomaInternal.h"
 #import "AVAFileStorage.h"
 #import "AVAHttpSender.h"
 #import "AVALogManagerDefault.h"
@@ -19,12 +19,12 @@ static NSString *const kAVAHubIsEnabledKey = @"kAVAHubIsEnabledKey";
 // Base URL for HTTP backend API calls.
 static NSString *const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azure.com:8081";
 
-@implementation AVAAvalanche
+@implementation AVASonoma
 
 @synthesize installId = _installId;
 
 + (instancetype)sharedInstance {
-  static AVAAvalanche *sharedInstance = nil;
+  static AVASonoma *sharedInstance = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
     sharedInstance = [[self alloc] init];
@@ -190,7 +190,7 @@ static NSString *const kAVABaseUrl = @"http://avalanche-perf.westus.cloudapp.azu
   }
 }
 
-#pragma mark - AVAAvalancheDelegate
+#pragma mark - AVASonomaDelegate
 
 - (void)feature:(id)feature didCreateLog:(id<AVALog>)log withPriority:(AVAPriority)priority {
   [self.logManager processLog:log withPriority:priority];

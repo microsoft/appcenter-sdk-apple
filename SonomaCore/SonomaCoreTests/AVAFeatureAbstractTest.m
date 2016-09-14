@@ -1,4 +1,4 @@
-#import "AVAAvalanche.h"
+#import "AVASonoma.h"
 #import "AVAFeatureAbstract.h"
 #import "AVAFeatureAbstractInternal.h"
 #import "AVAFeatureAbstractPrivate.h"
@@ -157,7 +157,7 @@
   
   assertThatBool([[AVAFeatureAbstractImplementation sharedInstance] canBeUsed], isFalse());
 
-  [AVAAvalanche start:[[NSUUID UUID] UUIDString] withFeatures:@[[AVAFeatureAbstractImplementation class]]];
+  [AVASonoma start:[[NSUUID UUID] UUIDString] withFeatures:@[[AVAFeatureAbstractImplementation class]]];
 
   assertThatBool([[AVAFeatureAbstractImplementation sharedInstance] canBeUsed], isTrue());
 }

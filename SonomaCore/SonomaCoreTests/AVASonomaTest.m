@@ -1,5 +1,5 @@
-#import "AVAAvalanche.h"
-#import "AVAAvalancheInternal.h"
+#import "AVASonoma.h"
+#import "AVASonomaInternal.h"
 #import "AVAUtils.h"
 #import <Foundation/Foundation.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
@@ -10,19 +10,19 @@ static NSString *const kAVAInstallIdStringExample = @"F18499DA-5C3D-4F05-B4E8-D8
 // NSUUID can return this nullified InstallId while creating a UUID from a nil string, we want to avoid this.
 static NSString *const kAVANullifiedInstallIdString = @"00000000-0000-0000-0000-000000000000";
 
-@interface AVAAvalancheTest : XCTestCase
+@interface AVASonomaTest : XCTestCase
 
-@property(nonatomic) AVAAvalanche *avalancheHub;
+@property(nonatomic) AVASonoma *sonoma;
 
 @end
 
-@implementation AVAAvalancheTest
+@implementation AVASonomaTest
 
 - (void)setUp {
   [super setUp];
 
   // System Under Test.
-  self.avalancheHub = [[AVAAvalanche alloc] init];
+  self.sonoma = [[AVASonoma alloc] init];
 }
 
 - (void)tearDown {
@@ -38,7 +38,7 @@ static NSString *const kAVANullifiedInstallIdString = @"00000000-0000-0000-0000-
   [[NSUserDefaults standardUserDefaults] removeObjectForKey:kAVAInstallIdKey];
 
   // When
-  NSUUID *installId = self.avalancheHub.installId;
+  NSUUID *installId = self.sonoma.installId;
   NSString *installIdString = [installId UUIDString];
 
   // Then
@@ -55,7 +55,7 @@ static NSString *const kAVANullifiedInstallIdString = @"00000000-0000-0000-0000-
   [[NSUserDefaults standardUserDefaults] setObject:kAVAInstallIdStringExample forKey:kAVAInstallIdKey];
 
   // When
-  NSUUID *installId = self.avalancheHub.installId;
+  NSUUID *installId = self.sonoma.installId;
 
   // Then
   assertThat(installId, is(kAVAUUIDFromString(kAVAInstallIdStringExample)));
@@ -69,7 +69,7 @@ static NSString *const kAVANullifiedInstallIdString = @"00000000-0000-0000-0000-
   [[NSUserDefaults standardUserDefaults] setObject:kAVAUUIDFromString(@"42") forKey:kAVAInstallIdKey];
 
   // When
-  NSUUID *installId = self.avalancheHub.installId;
+  NSUUID *installId = self.sonoma.installId;
   NSString *installIdString = [installId UUIDString];
 
   // Then
@@ -87,7 +87,7 @@ static NSString *const kAVANullifiedInstallIdString = @"00000000-0000-0000-0000-
   [[NSUserDefaults standardUserDefaults] removeObjectForKey:kAVAInstallIdKey];
 
   // When
-  NSUUID *installId1 = self.avalancheHub.installId;
+  NSUUID *installId1 = self.sonoma.installId;
   NSString *installId1String = [installId1 UUIDString];
 
   // Then
@@ -98,7 +98,7 @@ static NSString *const kAVANullifiedInstallIdString = @"00000000-0000-0000-0000-
 
   // When
   // Second pick
-  NSUUID *installId2 = self.avalancheHub.installId;
+  NSUUID *installId2 = self.sonoma.installId;
 
   // Then
   assertThat(installId1, is(installId2));
@@ -112,9 +112,9 @@ static NSString *const kAVANullifiedInstallIdString = @"00000000-0000-0000-0000-
   [[NSUserDefaults standardUserDefaults] removeObjectForKey:kAVAInstallIdKey];
 
   // When
-  NSUUID *installId1 = self.avalancheHub.installId;
-  self.avalancheHub = [[AVAAvalanche alloc] init];
-  NSUUID *installId2 = self.avalancheHub.installId;
+  NSUUID *installId1 = self.sonoma.installId;
+  self.sonoma = [[AVASonoma alloc] init];
+  NSUUID *installId2 = self.sonoma.installId;
 
   // Then
   assertThat(installId1, is(installId2));
