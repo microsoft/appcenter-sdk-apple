@@ -751,7 +751,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.avalanche.SonomaCrashes;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.sonoma.SonomaCrashes;
 				PRODUCT_NAME = SonomaCrashes;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SKIP_INSTALL = YES;
@@ -770,7 +770,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.avalanche.SonomaCrashes;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.sonoma.SonomaCrashes;
 				PRODUCT_NAME = SonomaCrashes;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SKIP_INSTALL = YES;
@@ -795,7 +795,7 @@
 					Foundation,
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.avalanche.SonomaCrashesTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.sonoma.SonomaCrashesTests;
 				PRODUCT_NAME = SonomaCrashes;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../SonomaCore/SonomaCore\"/**";
 			};
@@ -817,7 +817,7 @@
 					Foundation,
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.avalanche.SonomaCrashesTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.sonoma.SonomaCrashesTests;
 				PRODUCT_NAME = SonomaCrashes;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../SonomaCore/SonomaCore\"/**";
 			};

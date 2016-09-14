@@ -15,7 +15,7 @@
 
     // get selectors
     SEL originalSelector = @selector(viewWillAppear:);
-    SEL swizzledSelector = @selector(ava_viewWillAppear:);
+    SEL swizzledSelector = @selector(snm_viewWillAppear:);
 
     Method originalMethod = class_getInstanceMethod(class, originalSelector);
     Method swizzledMethod = class_getInstanceMethod(class, swizzledSelector);
@@ -26,11 +26,11 @@
 
 #pragma mark - Method Swizzling
 
-- (void)ava_viewWillAppear:(BOOL)animated {
-  [self ava_viewWillAppear:animated];
+- (void)snm_viewWillAppear:(BOOL)animated {
+  [self snm_viewWillAppear:animated];
   if ([SNMAnalytics isAutoPageTrackingEnabled]) {
 
-    if (!ava_shouldTrackPageView(self))
+    if (!snm_shouldTrackPageView(self))
       return;
 
     // By default, use class name for the page name
@@ -43,7 +43,7 @@
 
 @end
 
-BOOL ava_shouldTrackPageView(UIViewController *viewController) {
+BOOL snm_shouldTrackPageView(UIViewController *viewController) {
 
   // For container view controllers, auto page tracking is disabled(to avoid
   // noise).
