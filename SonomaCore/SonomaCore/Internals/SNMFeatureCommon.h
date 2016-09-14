@@ -12,7 +12,7 @@
 @protocol SNMFeatureCommon <NSObject>
 
 /**
- *  SNMlanche delegate.
+ *  Sonoma delegate.
  */
 @property(nonatomic, weak) id<SNMSonomaDelegate> delegate;
 

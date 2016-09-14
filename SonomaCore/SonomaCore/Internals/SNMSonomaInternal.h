@@ -24,7 +24,7 @@ static NSString *const kSNMInstallIdKey = @"SNMInstallId";
 @property BOOL sdkStarted;
 
 /**
- * Returns the singleton instance of Sonoma.
+ * Returns the singleton instance of SonomaCore.
  */
 + (instancetype)sharedInstance;
 - (NSString *)appSecret;

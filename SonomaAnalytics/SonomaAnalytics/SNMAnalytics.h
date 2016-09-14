@@ -6,7 +6,7 @@
 #import <UIKit/UIKit.h>
 
 /**
- *  SMNSonoma analytics feature.
+ *  Sonoma analytics feature.
  */
 @interface SNMAnalytics : SNMFeatureAbstract
 
