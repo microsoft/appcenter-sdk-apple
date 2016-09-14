@@ -72,6 +72,7 @@
  */
 @property(nonatomic, readonly, assign) NSUInteger appProcessIdentifier;
 
+// TODO Please review this doc that contains method name which doesn't exist.
 /**
  Indicates if the app was killed while being in foreground from the iOS.
 
@@ -86,7 +87,7 @@
  reasons. See Apple
  documentation: https://developer.apple.com/library/ios/qa/qa1693/_index.html.
 
- See `[BITCrashManager enableAppNotTerminatingCleanlyDetection]` for more
+ See `[SNMCrashes enableAppNotTerminatingCleanlyDetection]` for more
  details about which kind of kills can be detected.
 
  @warning This property only has a correct value, once `[BITHockeyManager
