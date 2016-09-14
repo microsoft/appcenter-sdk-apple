@@ -33,92 +33,92 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		381C91E91D3DB65D004512F1 /* AVADeviceTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 381C91E51D3DB65D004512F1 /* AVADeviceTracker.h */; };
-		381C91EA1D3DB65D004512F1 /* AVADeviceTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 381C91E61D3DB65D004512F1 /* AVADeviceTracker.m */; };
-		384959D51D491D4F008F6B3A /* AVASonomaTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 384959D41D491D4F008F6B3A /* AVASonomaTest.m */; };
-		385FC0551D37EBD700A1799F /* AVADeviceTrackerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 385FC0541D37EBD700A1799F /* AVADeviceTrackerTests.m */; };
-		387C75801D6270A300D68CC1 /* AVAFeatureAbstract.m in Sources */ = {isa = PBXBuildFile; fileRef = 387C757E1D6270A300D68CC1 /* AVAFeatureAbstract.m */; };
-		387C75811D6270A300D68CC1 /* AVAFeatureAbstractInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C757F1D6270A300D68CC1 /* AVAFeatureAbstractInternal.h */; };
-		387C758F1D64E50800D68CC1 /* AVAFeatureCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C758D1D64DF2500D68CC1 /* AVAFeatureCommon.h */; };
-		387C75961D64EE1900D68CC1 /* AVAFeatureAbstractTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 387C75951D64EE1900D68CC1 /* AVAFeatureAbstractTest.m */; };
-		387C76DA1D677EC100D68CC1 /* AVAFeatureAbstractPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C76D91D677EC100D68CC1 /* AVAFeatureAbstractPrivate.h */; };
-		387C76FD1D6C9CF100D68CC1 /* AVAFeatureAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C76FC1D6C9CF100D68CC1 /* AVAFeatureAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6E04014E1D1C99AC0051BCFA /* AVALogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E04014A1D1C99AC0051BCFA /* AVALogger.m */; };
-		6E0401571D1C9AAA0051BCFA /* AVASonoma.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0401561D1C9AAA0051BCFA /* AVASonoma.m */; };
-		6E04016A1D1C9E1F0051BCFA /* AVASonoma.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401551D1C9AAA0051BCFA /* AVASonoma.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6E04016B1D1C9E1F0051BCFA /* AVAConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E04013F1D1C99AC0051BCFA /* AVAConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		381C91E91D3DB65D004512F1 /* SNMDeviceTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 381C91E51D3DB65D004512F1 /* SNMDeviceTracker.h */; };
+		381C91EA1D3DB65D004512F1 /* SNMDeviceTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 381C91E61D3DB65D004512F1 /* SNMDeviceTracker.m */; };
+		384959D51D491D4F008F6B3A /* SNMSonomaTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 384959D41D491D4F008F6B3A /* SNMSonomaTest.m */; };
+		385FC0551D37EBD700A1799F /* SNMDeviceTrackerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 385FC0541D37EBD700A1799F /* SNMDeviceTrackerTests.m */; };
+		387C75801D6270A300D68CC1 /* SNMFeatureAbstract.m in Sources */ = {isa = PBXBuildFile; fileRef = 387C757E1D6270A300D68CC1 /* SNMFeatureAbstract.m */; };
+		387C75811D6270A300D68CC1 /* SNMFeatureAbstractInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C757F1D6270A300D68CC1 /* SNMFeatureAbstractInternal.h */; };
+		387C758F1D64E50800D68CC1 /* SNMFeatureCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C758D1D64DF2500D68CC1 /* SNMFeatureCommon.h */; };
+		387C75961D64EE1900D68CC1 /* SNMFeatureAbstractTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 387C75951D64EE1900D68CC1 /* SNMFeatureAbstractTest.m */; };
+		387C76DA1D677EC100D68CC1 /* SNMFeatureAbstractPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C76D91D677EC100D68CC1 /* SNMFeatureAbstractPrivate.h */; };
+		387C76FD1D6C9CF100D68CC1 /* SNMFeatureAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C76FC1D6C9CF100D68CC1 /* SNMFeatureAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6E04014E1D1C99AC0051BCFA /* SNMLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E04014A1D1C99AC0051BCFA /* SNMLogger.m */; };
+		6E0401571D1C9AAA0051BCFA /* SNMSonoma.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0401561D1C9AAA0051BCFA /* SNMSonoma.m */; };
+		6E04016A1D1C9E1F0051BCFA /* SNMSonoma.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401551D1C9AAA0051BCFA /* SNMSonoma.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6E04016B1D1C9E1F0051BCFA /* SNMConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E04013F1D1C99AC0051BCFA /* SNMConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E04016C1D1C9E1F0051BCFA /* SonomaCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401401D1C99AC0051BCFA /* SonomaCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E04016D1D1C9E460051BCFA /* SonomaCore+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401581D1C9CFB0051BCFA /* SonomaCore+Internal.h */; };
-		6E04016E1D1C9E460051BCFA /* AVASonomaDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401431D1C99AC0051BCFA /* AVASonomaDelegate.h */; };
-		6E04016F1D1C9E460051BCFA /* AVASonomaInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401441D1C99AC0051BCFA /* AVASonomaInternal.h */; };
-		6E0401701D1C9E460051BCFA /* AVAFeature.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401451D1C99AC0051BCFA /* AVAFeature.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6E0401711D1C9E460051BCFA /* AVAFeatureInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401471D1C99AC0051BCFA /* AVAFeatureInternal.h */; };
-		6E0401721D1C9E460051BCFA /* AVALogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401491D1C99AC0051BCFA /* AVALogger.h */; };
-		6E0401731D1C9E460051BCFA /* AVALoggerPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E04014B1D1C99AC0051BCFA /* AVALoggerPrivate.h */; };
-		6E0684631D36BC8D00A8CC6C /* AVAChannelDefault.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0684611D36BC8D00A8CC6C /* AVAChannelDefault.h */; };
-		6E0684641D36BC8D00A8CC6C /* AVAChannelDefault.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0684621D36BC8D00A8CC6C /* AVAChannelDefault.m */; };
-		6E0684671D36BCD500A8CC6C /* AVAChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0684651D36BCD500A8CC6C /* AVAChannel.h */; };
-		6E0CD69E1D27198A0045FE8C /* AVAStorageBucket.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0CD69C1D27198A0045FE8C /* AVAStorageBucket.h */; };
-		6E0CD69F1D27198A0045FE8C /* AVAStorageBucket.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0CD69D1D27198A0045FE8C /* AVAStorageBucket.m */; };
+		6E04016E1D1C9E460051BCFA /* SNMSonomaDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401431D1C99AC0051BCFA /* SNMSonomaDelegate.h */; };
+		6E04016F1D1C9E460051BCFA /* SNMSonomaInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401441D1C99AC0051BCFA /* SNMSonomaInternal.h */; };
+		6E0401701D1C9E460051BCFA /* SNMFeature.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401451D1C99AC0051BCFA /* SNMFeature.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6E0401711D1C9E460051BCFA /* SNMFeatureInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401471D1C99AC0051BCFA /* SNMFeatureInternal.h */; };
+		6E0401721D1C9E460051BCFA /* SNMLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401491D1C99AC0051BCFA /* SNMLogger.h */; };
+		6E0401731D1C9E460051BCFA /* SNMLoggerPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E04014B1D1C99AC0051BCFA /* SNMLoggerPrivate.h */; };
+		6E0684631D36BC8D00A8CC6C /* SNMChannelDefault.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0684611D36BC8D00A8CC6C /* SNMChannelDefault.h */; };
+		6E0684641D36BC8D00A8CC6C /* SNMChannelDefault.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0684621D36BC8D00A8CC6C /* SNMChannelDefault.m */; };
+		6E0684671D36BCD500A8CC6C /* SNMChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0684651D36BCD500A8CC6C /* SNMChannel.h */; };
+		6E0CD69E1D27198A0045FE8C /* SNMStorageBucket.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0CD69C1D27198A0045FE8C /* SNMStorageBucket.h */; };
+		6E0CD69F1D27198A0045FE8C /* SNMStorageBucket.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0CD69D1D27198A0045FE8C /* SNMStorageBucket.m */; };
 		6E171ADC1D22F6ED000DC480 /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171ADB1D22F6ED000DC480 /* OCHamcrestIOS.framework */; };
 		6E171B1F1D22FC2E000DC480 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171B131D22FC2E000DC480 /* libOCMock.a */; };
 		6E171B2D1D22FF40000DC480 /* libOHHTTPStubs.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171B231D22FF40000DC480 /* libOHHTTPStubs.a */; };
-		6E171B5A1D234717000DC480 /* AVADevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E171B521D234717000DC480 /* AVADevice.h */; };
-		6E171B5B1D234717000DC480 /* AVADevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E171B531D234717000DC480 /* AVADevice.m */; };
-		6E171B601D234717000DC480 /* AVALogContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E171B581D234717000DC480 /* AVALogContainer.h */; };
-		6E171B611D234717000DC480 /* AVALogContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E171B591D234717000DC480 /* AVALogContainer.m */; };
+		6E171B5A1D234717000DC480 /* SNMDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E171B521D234717000DC480 /* SNMDevice.h */; };
+		6E171B5B1D234717000DC480 /* SNMDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E171B531D234717000DC480 /* SNMDevice.m */; };
+		6E171B601D234717000DC480 /* SNMLogContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E171B581D234717000DC480 /* SNMLogContainer.h */; };
+		6E171B611D234717000DC480 /* SNMLogContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E171B591D234717000DC480 /* SNMLogContainer.m */; };
 		6E23957D1D22EF4F00E543C8 /* libSonomaCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E0401031D1C98220051BCFA /* libSonomaCore.a */; };
-		6E2BA1AF1D2499F9002D7B88 /* AVAFileHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E2BA1AD1D2499F9002D7B88 /* AVAFileHelper.h */; };
-		6E2BA1B01D2499F9002D7B88 /* AVAFileHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2BA1AE1D2499F9002D7B88 /* AVAFileHelper.m */; };
-		6E363AE51D2C2C320079043D /* AVAFileStorageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E363AE41D2C2C320079043D /* AVAFileStorageTests.m */; };
-		6E363AF21D2C84EA0079043D /* AVAStorageTestHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E363AF11D2C84EA0079043D /* AVAStorageTestHelper.m */; };
-		6E3E2C9E1D35701000B1EE50 /* AVALog.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E3E2C9D1D35701000B1EE50 /* AVALog.h */; };
-		6E3E2CC11D3596AE00B1EE50 /* AVADeviceLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3E2CC01D3596AE00B1EE50 /* AVADeviceLogTests.m */; };
-		6E40D4631D2700000046D85B /* AVAFileStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E40D4611D2700000046D85B /* AVAFileStorage.h */; };
-		6E40D4641D2700000046D85B /* AVAFileStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E40D4621D2700000046D85B /* AVAFileStorage.m */; };
-		6E48A5A41D3831FE006E8B5F /* AVAChannelConfigurationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E48A5A31D3831FE006E8B5F /* AVAChannelConfigurationTests.m */; };
-		6E48A5A71D383893006E8B5F /* AVALogManagerDefaultTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E48A5A61D383893006E8B5F /* AVALogManagerDefaultTests.m */; };
-		6E48A5A81D3856F5006E8B5F /* AVAConstants+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = E829E4241D25D07600F19DA1 /* AVAConstants+Internal.h */; };
-		6E58E2B71D2F12A70039D062 /* AVAStorageBucketTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E58E2B61D2F12A70039D062 /* AVAStorageBucketTests.m */; };
-		6E58E2BE1D2F18DA0039D062 /* AVAFileTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E58E2BD1D2F18DA0039D062 /* AVAFileTests.m */; };
-		6E5D8A801D25B91F00C033B1 /* AVAFileHelperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E5D8A7F1D25B91F00C033B1 /* AVAFileHelperTests.m */; };
-		6E7D5C7B1D3E94F8009EC9AC /* AVASerializableObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E7D5C791D3E94F8009EC9AC /* AVASerializableObject.h */; };
-		6E7E3B781D2DCEBD0019EA6D /* AVAFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E7E3B761D2DCEBD0019EA6D /* AVAFile.h */; };
-		6E7E3B791D2DCEBD0019EA6D /* AVAFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7E3B771D2DCEBD0019EA6D /* AVAFile.m */; };
-		6EB1F40E1D2443B7005F9F99 /* AVAChannelDefaultTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB1F40D1D2443B7005F9F99 /* AVAChannelDefaultTests.m */; };
-		6EF628F41D371B1600CAFF64 /* AVAChannelConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF628F21D371B1600CAFF64 /* AVAChannelConfiguration.h */; };
-		6EF628F51D371B1600CAFF64 /* AVAChannelConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF628F31D371B1600CAFF64 /* AVAChannelConfiguration.m */; };
-		B22FC2B61D5E51A20007CD80 /* AVAEnvironmentHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = B22FC2B41D5E51A20007CD80 /* AVAEnvironmentHelper.h */; };
-		B22FC2B71D5E51A20007CD80 /* AVAEnvironmentHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B22FC2B51D5E51A20007CD80 /* AVAEnvironmentHelper.m */; };
-		E8010E6A1D2DD4EF0035196F /* AVALogWithProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = E8010E661D2DD4EF0035196F /* AVALogWithProperties.h */; };
-		E8010E6B1D2DD4EF0035196F /* AVALogWithProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = E8010E671D2DD4EF0035196F /* AVALogWithProperties.m */; };
-		E80EB1071D50273700C9003F /* AVARetriableCall.h in Headers */ = {isa = PBXBuildFile; fileRef = E80EB1051D50273700C9003F /* AVARetriableCall.h */; };
-		E80EB1081D50273700C9003F /* AVARetriableCall.m in Sources */ = {isa = PBXBuildFile; fileRef = E80EB1061D50273700C9003F /* AVARetriableCall.m */; };
-		E80EB10A1D50278F00C9003F /* AVASenderCall.h in Headers */ = {isa = PBXBuildFile; fileRef = E80EB1091D50278F00C9003F /* AVASenderCall.h */; };
-		E829E4231D25C8BA00F19DA1 /* AVAHttpSenderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E829E4221D25C8BA00F19DA1 /* AVAHttpSenderTests.m */; };
-		E83283C61D46C62E000B029E /* AVA_Reachability.h in Headers */ = {isa = PBXBuildFile; fileRef = E83283C41D46C62E000B029E /* AVA_Reachability.h */; };
-		E83283C71D46C62E000B029E /* AVA_Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = E83283C51D46C62E000B029E /* AVA_Reachability.m */; };
-		E84B8E2E1D2351DB006FD231 /* AVALogManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E2B1D2351DB006FD231 /* AVALogManager.h */; };
-		E84B8E2F1D2351DB006FD231 /* AVALogManagerDefault.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E2C1D2351DB006FD231 /* AVALogManagerDefault.h */; };
-		E84B8E301D2351DB006FD231 /* AVALogManagerDefault.m in Sources */ = {isa = PBXBuildFile; fileRef = E84B8E2D1D2351DB006FD231 /* AVALogManagerDefault.m */; };
-		E84B8E321D235209006FD231 /* AVASender.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E311D235209006FD231 /* AVASender.h */; };
-		E84B8E351D235226006FD231 /* AVAHttpSender.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E331D235226006FD231 /* AVAHttpSender.h */; };
-		E84B8E361D235226006FD231 /* AVAHttpSender.m in Sources */ = {isa = PBXBuildFile; fileRef = E84B8E341D235226006FD231 /* AVAHttpSender.m */; };
-		E84B8E391D235246006FD231 /* AVAStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E381D235246006FD231 /* AVAStorage.h */; };
-		E84B8E3B1D235273006FD231 /* AVAChannelDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E3A1D235273006FD231 /* AVAChannelDelegate.h */; };
-		E8753D6E1D4BE53F00241513 /* AVASenderUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = E8753D6C1D4BE53F00241513 /* AVASenderUtils.h */; };
-		E8753D6F1D4BE53F00241513 /* AVASenderUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E8753D6D1D4BE53F00241513 /* AVASenderUtils.m */; };
-		E8831A9A1D41A58600931F11 /* AVADeviceTrackerPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = E8831A991D41A58600931F11 /* AVADeviceTrackerPrivate.h */; };
-		E88D17061D35B6B500A5EA57 /* AVAMockLog.m in Sources */ = {isa = PBXBuildFile; fileRef = E88D17051D35B6B500A5EA57 /* AVAMockLog.m */; };
-		E88D170E1D36BB1700A5EA57 /* AVAUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = E88D170D1D36BB1700A5EA57 /* AVAUtils.h */; };
-		E88EBBEC1D2C612E007E7785 /* AVAAbstractLog.h in Headers */ = {isa = PBXBuildFile; fileRef = E88EBBEA1D2C612E007E7785 /* AVAAbstractLog.h */; };
-		E88EBBED1D2C612E007E7785 /* AVAAbstractLog.m in Sources */ = {isa = PBXBuildFile; fileRef = E88EBBEB1D2C612E007E7785 /* AVAAbstractLog.m */; };
-		E88EBBF91D2C717D007E7785 /* AVALogUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E88EBBF81D2C717D007E7785 /* AVALogUtils.m */; };
-		E88EBBFB1D2C8CC7007E7785 /* AVALogContainerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E88EBBFA1D2C8CC7007E7785 /* AVALogContainerTests.m */; };
-		E8A8D1EB1D3057A90022931E /* AVAUserDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = E8A8D1E91D3057A90022931E /* AVAUserDefaults.h */; };
-		E8A8D1EC1D3057A90022931E /* AVAUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A8D1EA1D3057A90022931E /* AVAUserDefaults.m */; };
-		E8AEE9821D5970A400C0FF6C /* AVALogManagerListener.h in Headers */ = {isa = PBXBuildFile; fileRef = E8AEE9811D5970A400C0FF6C /* AVALogManagerListener.h */; };
-		E8E48F951D50FF4300A8C1B0 /* AVASenderCallDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = E8E48F941D50FF4300A8C1B0 /* AVASenderCallDelegate.h */; };
+		6E2BA1AF1D2499F9002D7B88 /* SNMFileHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E2BA1AD1D2499F9002D7B88 /* SNMFileHelper.h */; };
+		6E2BA1B01D2499F9002D7B88 /* SNMFileHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2BA1AE1D2499F9002D7B88 /* SNMFileHelper.m */; };
+		6E363AE51D2C2C320079043D /* SNMFileStorageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E363AE41D2C2C320079043D /* SNMFileStorageTests.m */; };
+		6E363AF21D2C84EA0079043D /* SNMStorageTestHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E363AF11D2C84EA0079043D /* SNMStorageTestHelper.m */; };
+		6E3E2C9E1D35701000B1EE50 /* SNMLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E3E2C9D1D35701000B1EE50 /* SNMLog.h */; };
+		6E3E2CC11D3596AE00B1EE50 /* SNMDeviceLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3E2CC01D3596AE00B1EE50 /* SNMDeviceLogTests.m */; };
+		6E40D4631D2700000046D85B /* SNMFileStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E40D4611D2700000046D85B /* SNMFileStorage.h */; };
+		6E40D4641D2700000046D85B /* SNMFileStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E40D4621D2700000046D85B /* SNMFileStorage.m */; };
+		6E48A5A41D3831FE006E8B5F /* SNMChannelConfigurationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E48A5A31D3831FE006E8B5F /* SNMChannelConfigurationTests.m */; };
+		6E48A5A71D383893006E8B5F /* SNMLogManagerDefaultTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E48A5A61D383893006E8B5F /* SNMLogManagerDefaultTests.m */; };
+		6E48A5A81D3856F5006E8B5F /* SNMConstants+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = E829E4241D25D07600F19DA1 /* SNMConstants+Internal.h */; };
+		6E58E2B71D2F12A70039D062 /* SNMStorageBucketTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E58E2B61D2F12A70039D062 /* SNMStorageBucketTests.m */; };
+		6E58E2BE1D2F18DA0039D062 /* SNMFileTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E58E2BD1D2F18DA0039D062 /* SNMFileTests.m */; };
+		6E5D8A801D25B91F00C033B1 /* SNMFileHelperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E5D8A7F1D25B91F00C033B1 /* SNMFileHelperTests.m */; };
+		6E7D5C7B1D3E94F8009EC9AC /* SNMSerializableObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E7D5C791D3E94F8009EC9AC /* SNMSerializableObject.h */; };
+		6E7E3B781D2DCEBD0019EA6D /* SNMFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E7E3B761D2DCEBD0019EA6D /* SNMFile.h */; };
+		6E7E3B791D2DCEBD0019EA6D /* SNMFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7E3B771D2DCEBD0019EA6D /* SNMFile.m */; };
+		6EB1F40E1D2443B7005F9F99 /* SNMChannelDefaultTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB1F40D1D2443B7005F9F99 /* SNMChannelDefaultTests.m */; };
+		6EF628F41D371B1600CAFF64 /* SNMChannelConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF628F21D371B1600CAFF64 /* SNMChannelConfiguration.h */; };
+		6EF628F51D371B1600CAFF64 /* SNMChannelConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF628F31D371B1600CAFF64 /* SNMChannelConfiguration.m */; };
+		B22FC2B61D5E51A20007CD80 /* SNMEnvironmentHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = B22FC2B41D5E51A20007CD80 /* SNMEnvironmentHelper.h */; };
+		B22FC2B71D5E51A20007CD80 /* SNMEnvironmentHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B22FC2B51D5E51A20007CD80 /* SNMEnvironmentHelper.m */; };
+		E8010E6A1D2DD4EF0035196F /* SNMLogWithProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = E8010E661D2DD4EF0035196F /* SNMLogWithProperties.h */; };
+		E8010E6B1D2DD4EF0035196F /* SNMLogWithProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = E8010E671D2DD4EF0035196F /* SNMLogWithProperties.m */; };
+		E80EB1071D50273700C9003F /* SNMRetriableCall.h in Headers */ = {isa = PBXBuildFile; fileRef = E80EB1051D50273700C9003F /* SNMRetriableCall.h */; };
+		E80EB1081D50273700C9003F /* SNMRetriableCall.m in Sources */ = {isa = PBXBuildFile; fileRef = E80EB1061D50273700C9003F /* SNMRetriableCall.m */; };
+		E80EB10A1D50278F00C9003F /* SNMSenderCall.h in Headers */ = {isa = PBXBuildFile; fileRef = E80EB1091D50278F00C9003F /* SNMSenderCall.h */; };
+		E829E4231D25C8BA00F19DA1 /* SNMHttpSenderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E829E4221D25C8BA00F19DA1 /* SNMHttpSenderTests.m */; };
+		E83283C61D46C62E000B029E /* SNM_Reachability.h in Headers */ = {isa = PBXBuildFile; fileRef = E83283C41D46C62E000B029E /* SNM_Reachability.h */; };
+		E83283C71D46C62E000B029E /* SNM_Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = E83283C51D46C62E000B029E /* SNM_Reachability.m */; };
+		E84B8E2E1D2351DB006FD231 /* SNMLogManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E2B1D2351DB006FD231 /* SNMLogManager.h */; };
+		E84B8E2F1D2351DB006FD231 /* SNMLogManagerDefault.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E2C1D2351DB006FD231 /* SNMLogManagerDefault.h */; };
+		E84B8E301D2351DB006FD231 /* SNMLogManagerDefault.m in Sources */ = {isa = PBXBuildFile; fileRef = E84B8E2D1D2351DB006FD231 /* SNMLogManagerDefault.m */; };
+		E84B8E321D235209006FD231 /* SNMSender.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E311D235209006FD231 /* SNMSender.h */; };
+		E84B8E351D235226006FD231 /* SNMHttpSender.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E331D235226006FD231 /* SNMHttpSender.h */; };
+		E84B8E361D235226006FD231 /* SNMHttpSender.m in Sources */ = {isa = PBXBuildFile; fileRef = E84B8E341D235226006FD231 /* SNMHttpSender.m */; };
+		E84B8E391D235246006FD231 /* SNMStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E381D235246006FD231 /* SNMStorage.h */; };
+		E84B8E3B1D235273006FD231 /* SNMChannelDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E3A1D235273006FD231 /* SNMChannelDelegate.h */; };
+		E8753D6E1D4BE53F00241513 /* SNMSenderUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = E8753D6C1D4BE53F00241513 /* SNMSenderUtils.h */; };
+		E8753D6F1D4BE53F00241513 /* SNMSenderUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E8753D6D1D4BE53F00241513 /* SNMSenderUtils.m */; };
+		E8831A9A1D41A58600931F11 /* SNMDeviceTrackerPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = E8831A991D41A58600931F11 /* SNMDeviceTrackerPrivate.h */; };
+		E88D17061D35B6B500A5EA57 /* SNMMockLog.m in Sources */ = {isa = PBXBuildFile; fileRef = E88D17051D35B6B500A5EA57 /* SNMMockLog.m */; };
+		E88D170E1D36BB1700A5EA57 /* SNMUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = E88D170D1D36BB1700A5EA57 /* SNMUtils.h */; };
+		E88EBBEC1D2C612E007E7785 /* SNMAbstractLog.h in Headers */ = {isa = PBXBuildFile; fileRef = E88EBBEA1D2C612E007E7785 /* SNMAbstractLog.h */; };
+		E88EBBED1D2C612E007E7785 /* SNMAbstractLog.m in Sources */ = {isa = PBXBuildFile; fileRef = E88EBBEB1D2C612E007E7785 /* SNMAbstractLog.m */; };
+		E88EBBF91D2C717D007E7785 /* SNMLogUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E88EBBF81D2C717D007E7785 /* SNMLogUtils.m */; };
+		E88EBBFB1D2C8CC7007E7785 /* SNMLogContainerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E88EBBFA1D2C8CC7007E7785 /* SNMLogContainerTests.m */; };
+		E8A8D1EB1D3057A90022931E /* SNMUserDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = E8A8D1E91D3057A90022931E /* SNMUserDefaults.h */; };
+		E8A8D1EC1D3057A90022931E /* SNMUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A8D1EA1D3057A90022931E /* SNMUserDefaults.m */; };
+		E8AEE9821D5970A400C0FF6C /* SNMLogManagerListener.h in Headers */ = {isa = PBXBuildFile; fileRef = E8AEE9811D5970A400C0FF6C /* SNMLogManagerListener.h */; };
+		E8E48F951D50FF4300A8C1B0 /* SNMSenderCallDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = E8E48F941D50FF4300A8C1B0 /* SNMSenderCallDelegate.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -151,38 +151,38 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		381C91E51D3DB65D004512F1 /* AVADeviceTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVADeviceTracker.h; sourceTree = "<group>"; };
-		381C91E61D3DB65D004512F1 /* AVADeviceTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVADeviceTracker.m; sourceTree = "<group>"; };
-		384959D41D491D4F008F6B3A /* AVASonomaTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVASonomaTest.m; sourceTree = "<group>"; };
-		385FC0541D37EBD700A1799F /* AVADeviceTrackerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVADeviceTrackerTests.m; sourceTree = "<group>"; };
-		387C757E1D6270A300D68CC1 /* AVAFeatureAbstract.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AVAFeatureAbstract.m; path = Internals/AVAFeatureAbstract.m; sourceTree = "<group>"; };
-		387C757F1D6270A300D68CC1 /* AVAFeatureAbstractInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAFeatureAbstractInternal.h; sourceTree = "<group>"; };
-		387C758D1D64DF2500D68CC1 /* AVAFeatureCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAFeatureCommon.h; sourceTree = "<group>"; };
-		387C75951D64EE1900D68CC1 /* AVAFeatureAbstractTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAFeatureAbstractTest.m; sourceTree = "<group>"; };
-		387C76D91D677EC100D68CC1 /* AVAFeatureAbstractPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAFeatureAbstractPrivate.h; sourceTree = "<group>"; };
-		387C76FC1D6C9CF100D68CC1 /* AVAFeatureAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAFeatureAbstract.h; sourceTree = "<group>"; };
+		381C91E51D3DB65D004512F1 /* SNMDeviceTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMDeviceTracker.h; sourceTree = "<group>"; };
+		381C91E61D3DB65D004512F1 /* SNMDeviceTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMDeviceTracker.m; sourceTree = "<group>"; };
+		384959D41D491D4F008F6B3A /* SNMSonomaTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMSonomaTest.m; sourceTree = "<group>"; };
+		385FC0541D37EBD700A1799F /* SNMDeviceTrackerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMDeviceTrackerTests.m; sourceTree = "<group>"; };
+		387C757E1D6270A300D68CC1 /* SNMFeatureAbstract.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SNMFeatureAbstract.m; path = Internals/SNMFeatureAbstract.m; sourceTree = "<group>"; };
+		387C757F1D6270A300D68CC1 /* SNMFeatureAbstractInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMFeatureAbstractInternal.h; sourceTree = "<group>"; };
+		387C758D1D64DF2500D68CC1 /* SNMFeatureCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMFeatureCommon.h; sourceTree = "<group>"; };
+		387C75951D64EE1900D68CC1 /* SNMFeatureAbstractTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMFeatureAbstractTest.m; sourceTree = "<group>"; };
+		387C76D91D677EC100D68CC1 /* SNMFeatureAbstractPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMFeatureAbstractPrivate.h; sourceTree = "<group>"; };
+		387C76FC1D6C9CF100D68CC1 /* SNMFeatureAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMFeatureAbstract.h; sourceTree = "<group>"; };
 		6E0401031D1C98220051BCFA /* libSonomaCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSonomaCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		6E04013F1D1C99AC0051BCFA /* AVAConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAConstants.h; sourceTree = "<group>"; };
+		6E04013F1D1C99AC0051BCFA /* SNMConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMConstants.h; sourceTree = "<group>"; };
 		6E0401401D1C99AC0051BCFA /* SonomaCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SonomaCore.h; sourceTree = "<group>"; };
-		6E0401431D1C99AC0051BCFA /* AVASonomaDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVASonomaDelegate.h; sourceTree = "<group>"; };
-		6E0401441D1C99AC0051BCFA /* AVASonomaInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVASonomaInternal.h; sourceTree = "<group>"; };
-		6E0401451D1C99AC0051BCFA /* AVAFeature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAFeature.h; sourceTree = "<group>"; };
-		6E0401471D1C99AC0051BCFA /* AVAFeatureInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAFeatureInternal.h; sourceTree = "<group>"; };
-		6E0401491D1C99AC0051BCFA /* AVALogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVALogger.h; sourceTree = "<group>"; };
-		6E04014A1D1C99AC0051BCFA /* AVALogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVALogger.m; sourceTree = "<group>"; };
-		6E04014B1D1C99AC0051BCFA /* AVALoggerPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVALoggerPrivate.h; sourceTree = "<group>"; };
-		6E0401551D1C9AAA0051BCFA /* AVASonoma.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVASonoma.h; sourceTree = "<group>"; };
-		6E0401561D1C9AAA0051BCFA /* AVASonoma.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVASonoma.m; sourceTree = "<group>"; };
+		6E0401431D1C99AC0051BCFA /* SNMSonomaDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMSonomaDelegate.h; sourceTree = "<group>"; };
+		6E0401441D1C99AC0051BCFA /* SNMSonomaInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMSonomaInternal.h; sourceTree = "<group>"; };
+		6E0401451D1C99AC0051BCFA /* SNMFeature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMFeature.h; sourceTree = "<group>"; };
+		6E0401471D1C99AC0051BCFA /* SNMFeatureInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMFeatureInternal.h; sourceTree = "<group>"; };
+		6E0401491D1C99AC0051BCFA /* SNMLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMLogger.h; sourceTree = "<group>"; };
+		6E04014A1D1C99AC0051BCFA /* SNMLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMLogger.m; sourceTree = "<group>"; };
+		6E04014B1D1C99AC0051BCFA /* SNMLoggerPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMLoggerPrivate.h; sourceTree = "<group>"; };
+		6E0401551D1C9AAA0051BCFA /* SNMSonoma.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMSonoma.h; sourceTree = "<group>"; };
+		6E0401561D1C9AAA0051BCFA /* SNMSonoma.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMSonoma.m; sourceTree = "<group>"; };
 		6E0401581D1C9CFB0051BCFA /* SonomaCore+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SonomaCore+Internal.h"; sourceTree = "<group>"; };
 		6E0401831D1CAD810051BCFA /* buildnumber.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = buildnumber.xcconfig; sourceTree = "<group>"; };
 		6E0401841D1CAD810051BCFA /* SonomaCore.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = SonomaCore.xcconfig; sourceTree = "<group>"; };
 		6E0401851D1CAD810051BCFA /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		6E0401861D1CAD810051BCFA /* release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = release.xcconfig; sourceTree = "<group>"; };
-		6E0684611D36BC8D00A8CC6C /* AVAChannelDefault.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAChannelDefault.h; sourceTree = "<group>"; };
-		6E0684621D36BC8D00A8CC6C /* AVAChannelDefault.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAChannelDefault.m; sourceTree = "<group>"; };
-		6E0684651D36BCD500A8CC6C /* AVAChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAChannel.h; sourceTree = "<group>"; };
-		6E0CD69C1D27198A0045FE8C /* AVAStorageBucket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAStorageBucket.h; sourceTree = "<group>"; };
-		6E0CD69D1D27198A0045FE8C /* AVAStorageBucket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAStorageBucket.m; sourceTree = "<group>"; };
+		6E0684611D36BC8D00A8CC6C /* SNMChannelDefault.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMChannelDefault.h; sourceTree = "<group>"; };
+		6E0684621D36BC8D00A8CC6C /* SNMChannelDefault.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMChannelDefault.m; sourceTree = "<group>"; };
+		6E0684651D36BCD500A8CC6C /* SNMChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMChannel.h; sourceTree = "<group>"; };
+		6E0CD69C1D27198A0045FE8C /* SNMStorageBucket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMStorageBucket.h; sourceTree = "<group>"; };
+		6E0CD69D1D27198A0045FE8C /* SNMStorageBucket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMStorageBucket.m; sourceTree = "<group>"; };
 		6E171ADB1D22F6ED000DC480 /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrestIOS.framework; path = ../../Vendor/OCHamcrest/OCHamcrestIOS.framework; sourceTree = "<group>"; };
 		6E171B131D22FC2E000DC480 /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOCMock.a; sourceTree = "<group>"; };
 		6E171B151D22FC2E000DC480 /* NSNotificationCenter+OCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNotificationCenter+OCMAdditions.h"; sourceTree = "<group>"; };
@@ -204,66 +204,66 @@
 		6E171B2A1D22FF40000DC480 /* OHHTTPStubsResponse+JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OHHTTPStubsResponse+JSON.h"; sourceTree = "<group>"; };
 		6E171B2B1D22FF40000DC480 /* OHHTTPStubsResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OHHTTPStubsResponse.h; sourceTree = "<group>"; };
 		6E171B2C1D22FF40000DC480 /* OHPathHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OHPathHelpers.h; sourceTree = "<group>"; };
-		6E171B521D234717000DC480 /* AVADevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVADevice.h; sourceTree = "<group>"; };
-		6E171B531D234717000DC480 /* AVADevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVADevice.m; sourceTree = "<group>"; };
-		6E171B581D234717000DC480 /* AVALogContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVALogContainer.h; sourceTree = "<group>"; };
-		6E171B591D234717000DC480 /* AVALogContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVALogContainer.m; sourceTree = "<group>"; };
+		6E171B521D234717000DC480 /* SNMDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMDevice.h; sourceTree = "<group>"; };
+		6E171B531D234717000DC480 /* SNMDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMDevice.m; sourceTree = "<group>"; };
+		6E171B581D234717000DC480 /* SNMLogContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMLogContainer.h; sourceTree = "<group>"; };
+		6E171B591D234717000DC480 /* SNMLogContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMLogContainer.m; sourceTree = "<group>"; };
 		6E2395781D22EF4F00E543C8 /* SonomaCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = SonomaCoreTests.xctest; path = SonomaCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E23957C1D22EF4F00E543C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6E2BA1AD1D2499F9002D7B88 /* AVAFileHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAFileHelper.h; sourceTree = "<group>"; };
-		6E2BA1AE1D2499F9002D7B88 /* AVAFileHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAFileHelper.m; sourceTree = "<group>"; };
-		6E363AE41D2C2C320079043D /* AVAFileStorageTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAFileStorageTests.m; sourceTree = "<group>"; };
-		6E363AF01D2C84EA0079043D /* AVAStorageTestHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAStorageTestHelper.h; sourceTree = "<group>"; };
-		6E363AF11D2C84EA0079043D /* AVAStorageTestHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAStorageTestHelper.m; sourceTree = "<group>"; };
-		6E3E2C9D1D35701000B1EE50 /* AVALog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVALog.h; sourceTree = "<group>"; };
-		6E3E2CC01D3596AE00B1EE50 /* AVADeviceLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVADeviceLogTests.m; sourceTree = "<group>"; };
-		6E40D4611D2700000046D85B /* AVAFileStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAFileStorage.h; sourceTree = "<group>"; };
-		6E40D4621D2700000046D85B /* AVAFileStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAFileStorage.m; sourceTree = "<group>"; };
-		6E48A5A31D3831FE006E8B5F /* AVAChannelConfigurationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAChannelConfigurationTests.m; sourceTree = "<group>"; };
-		6E48A5A61D383893006E8B5F /* AVALogManagerDefaultTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVALogManagerDefaultTests.m; sourceTree = "<group>"; };
-		6E58E2B61D2F12A70039D062 /* AVAStorageBucketTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAStorageBucketTests.m; sourceTree = "<group>"; };
-		6E58E2BD1D2F18DA0039D062 /* AVAFileTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAFileTests.m; sourceTree = "<group>"; };
-		6E5D8A7F1D25B91F00C033B1 /* AVAFileHelperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAFileHelperTests.m; sourceTree = "<group>"; };
-		6E7D5C791D3E94F8009EC9AC /* AVASerializableObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVASerializableObject.h; sourceTree = "<group>"; };
-		6E7E3B761D2DCEBD0019EA6D /* AVAFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAFile.h; sourceTree = "<group>"; };
-		6E7E3B771D2DCEBD0019EA6D /* AVAFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAFile.m; sourceTree = "<group>"; };
-		6EB1F40D1D2443B7005F9F99 /* AVAChannelDefaultTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAChannelDefaultTests.m; sourceTree = "<group>"; };
-		6EF628F21D371B1600CAFF64 /* AVAChannelConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAChannelConfiguration.h; sourceTree = "<group>"; };
-		6EF628F31D371B1600CAFF64 /* AVAChannelConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAChannelConfiguration.m; sourceTree = "<group>"; };
-		B22FC2B41D5E51A20007CD80 /* AVAEnvironmentHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAEnvironmentHelper.h; sourceTree = "<group>"; };
-		B22FC2B51D5E51A20007CD80 /* AVAEnvironmentHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAEnvironmentHelper.m; sourceTree = "<group>"; };
-		E8010E661D2DD4EF0035196F /* AVALogWithProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVALogWithProperties.h; sourceTree = "<group>"; };
-		E8010E671D2DD4EF0035196F /* AVALogWithProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVALogWithProperties.m; sourceTree = "<group>"; };
-		E80EB1051D50273700C9003F /* AVARetriableCall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVARetriableCall.h; sourceTree = "<group>"; };
-		E80EB1061D50273700C9003F /* AVARetriableCall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVARetriableCall.m; sourceTree = "<group>"; };
-		E80EB1091D50278F00C9003F /* AVASenderCall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVASenderCall.h; sourceTree = "<group>"; };
-		E829E4221D25C8BA00F19DA1 /* AVAHttpSenderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAHttpSenderTests.m; sourceTree = "<group>"; };
-		E829E4241D25D07600F19DA1 /* AVAConstants+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AVAConstants+Internal.h"; sourceTree = "<group>"; };
-		E83283C41D46C62E000B029E /* AVA_Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVA_Reachability.h; sourceTree = "<group>"; };
-		E83283C51D46C62E000B029E /* AVA_Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVA_Reachability.m; sourceTree = "<group>"; };
-		E84B8E2B1D2351DB006FD231 /* AVALogManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVALogManager.h; sourceTree = "<group>"; };
-		E84B8E2C1D2351DB006FD231 /* AVALogManagerDefault.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVALogManagerDefault.h; sourceTree = "<group>"; };
-		E84B8E2D1D2351DB006FD231 /* AVALogManagerDefault.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVALogManagerDefault.m; sourceTree = "<group>"; };
-		E84B8E311D235209006FD231 /* AVASender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVASender.h; sourceTree = "<group>"; };
-		E84B8E331D235226006FD231 /* AVAHttpSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAHttpSender.h; sourceTree = "<group>"; };
-		E84B8E341D235226006FD231 /* AVAHttpSender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAHttpSender.m; sourceTree = "<group>"; };
-		E84B8E381D235246006FD231 /* AVAStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAStorage.h; sourceTree = "<group>"; };
-		E84B8E3A1D235273006FD231 /* AVAChannelDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAChannelDelegate.h; sourceTree = "<group>"; };
-		E8753D6C1D4BE53F00241513 /* AVASenderUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVASenderUtils.h; sourceTree = "<group>"; };
-		E8753D6D1D4BE53F00241513 /* AVASenderUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVASenderUtils.m; sourceTree = "<group>"; };
-		E8831A991D41A58600931F11 /* AVADeviceTrackerPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVADeviceTrackerPrivate.h; sourceTree = "<group>"; };
-		E88D17041D35B6B500A5EA57 /* AVAMockLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAMockLog.h; sourceTree = "<group>"; };
-		E88D17051D35B6B500A5EA57 /* AVAMockLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAMockLog.m; sourceTree = "<group>"; };
-		E88D170D1D36BB1700A5EA57 /* AVAUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAUtils.h; sourceTree = "<group>"; };
-		E88EBBEA1D2C612E007E7785 /* AVAAbstractLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAAbstractLog.h; sourceTree = "<group>"; };
-		E88EBBEB1D2C612E007E7785 /* AVAAbstractLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAAbstractLog.m; sourceTree = "<group>"; };
-		E88EBBF71D2C717D007E7785 /* AVALogUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVALogUtils.h; sourceTree = "<group>"; };
-		E88EBBF81D2C717D007E7785 /* AVALogUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVALogUtils.m; sourceTree = "<group>"; };
-		E88EBBFA1D2C8CC7007E7785 /* AVALogContainerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVALogContainerTests.m; sourceTree = "<group>"; };
-		E8A8D1E91D3057A90022931E /* AVAUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AVAUserDefaults.h; path = ../Model/Utils/AVAUserDefaults.h; sourceTree = "<group>"; };
-		E8A8D1EA1D3057A90022931E /* AVAUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AVAUserDefaults.m; path = ../Model/Utils/AVAUserDefaults.m; sourceTree = "<group>"; };
-		E8AEE9811D5970A400C0FF6C /* AVALogManagerListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVALogManagerListener.h; sourceTree = "<group>"; };
-		E8E48F941D50FF4300A8C1B0 /* AVASenderCallDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVASenderCallDelegate.h; sourceTree = "<group>"; };
+		6E2BA1AD1D2499F9002D7B88 /* SNMFileHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMFileHelper.h; sourceTree = "<group>"; };
+		6E2BA1AE1D2499F9002D7B88 /* SNMFileHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMFileHelper.m; sourceTree = "<group>"; };
+		6E363AE41D2C2C320079043D /* SNMFileStorageTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMFileStorageTests.m; sourceTree = "<group>"; };
+		6E363AF01D2C84EA0079043D /* SNMStorageTestHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMStorageTestHelper.h; sourceTree = "<group>"; };
+		6E363AF11D2C84EA0079043D /* SNMStorageTestHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMStorageTestHelper.m; sourceTree = "<group>"; };
+		6E3E2C9D1D35701000B1EE50 /* SNMLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMLog.h; sourceTree = "<group>"; };
+		6E3E2CC01D3596AE00B1EE50 /* SNMDeviceLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMDeviceLogTests.m; sourceTree = "<group>"; };
+		6E40D4611D2700000046D85B /* SNMFileStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMFileStorage.h; sourceTree = "<group>"; };
+		6E40D4621D2700000046D85B /* SNMFileStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMFileStorage.m; sourceTree = "<group>"; };
+		6E48A5A31D3831FE006E8B5F /* SNMChannelConfigurationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMChannelConfigurationTests.m; sourceTree = "<group>"; };
+		6E48A5A61D383893006E8B5F /* SNMLogManagerDefaultTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMLogManagerDefaultTests.m; sourceTree = "<group>"; };
+		6E58E2B61D2F12A70039D062 /* SNMStorageBucketTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMStorageBucketTests.m; sourceTree = "<group>"; };
+		6E58E2BD1D2F18DA0039D062 /* SNMFileTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMFileTests.m; sourceTree = "<group>"; };
+		6E5D8A7F1D25B91F00C033B1 /* SNMFileHelperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMFileHelperTests.m; sourceTree = "<group>"; };
+		6E7D5C791D3E94F8009EC9AC /* SNMSerializableObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMSerializableObject.h; sourceTree = "<group>"; };
+		6E7E3B761D2DCEBD0019EA6D /* SNMFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMFile.h; sourceTree = "<group>"; };
+		6E7E3B771D2DCEBD0019EA6D /* SNMFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMFile.m; sourceTree = "<group>"; };
+		6EB1F40D1D2443B7005F9F99 /* SNMChannelDefaultTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMChannelDefaultTests.m; sourceTree = "<group>"; };
+		6EF628F21D371B1600CAFF64 /* SNMChannelConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMChannelConfiguration.h; sourceTree = "<group>"; };
+		6EF628F31D371B1600CAFF64 /* SNMChannelConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMChannelConfiguration.m; sourceTree = "<group>"; };
+		B22FC2B41D5E51A20007CD80 /* SNMEnvironmentHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMEnvironmentHelper.h; sourceTree = "<group>"; };
+		B22FC2B51D5E51A20007CD80 /* SNMEnvironmentHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMEnvironmentHelper.m; sourceTree = "<group>"; };
+		E8010E661D2DD4EF0035196F /* SNMLogWithProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMLogWithProperties.h; sourceTree = "<group>"; };
+		E8010E671D2DD4EF0035196F /* SNMLogWithProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMLogWithProperties.m; sourceTree = "<group>"; };
+		E80EB1051D50273700C9003F /* SNMRetriableCall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMRetriableCall.h; sourceTree = "<group>"; };
+		E80EB1061D50273700C9003F /* SNMRetriableCall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMRetriableCall.m; sourceTree = "<group>"; };
+		E80EB1091D50278F00C9003F /* SNMSenderCall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMSenderCall.h; sourceTree = "<group>"; };
+		E829E4221D25C8BA00F19DA1 /* SNMHttpSenderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMHttpSenderTests.m; sourceTree = "<group>"; };
+		E829E4241D25D07600F19DA1 /* SNMConstants+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SNMConstants+Internal.h"; sourceTree = "<group>"; };
+		E83283C41D46C62E000B029E /* SNM_Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNM_Reachability.h; sourceTree = "<group>"; };
+		E83283C51D46C62E000B029E /* SNM_Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNM_Reachability.m; sourceTree = "<group>"; };
+		E84B8E2B1D2351DB006FD231 /* SNMLogManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMLogManager.h; sourceTree = "<group>"; };
+		E84B8E2C1D2351DB006FD231 /* SNMLogManagerDefault.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMLogManagerDefault.h; sourceTree = "<group>"; };
+		E84B8E2D1D2351DB006FD231 /* SNMLogManagerDefault.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMLogManagerDefault.m; sourceTree = "<group>"; };
+		E84B8E311D235209006FD231 /* SNMSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMSender.h; sourceTree = "<group>"; };
+		E84B8E331D235226006FD231 /* SNMHttpSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMHttpSender.h; sourceTree = "<group>"; };
+		E84B8E341D235226006FD231 /* SNMHttpSender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMHttpSender.m; sourceTree = "<group>"; };
+		E84B8E381D235246006FD231 /* SNMStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMStorage.h; sourceTree = "<group>"; };
+		E84B8E3A1D235273006FD231 /* SNMChannelDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMChannelDelegate.h; sourceTree = "<group>"; };
+		E8753D6C1D4BE53F00241513 /* SNMSenderUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMSenderUtils.h; sourceTree = "<group>"; };
+		E8753D6D1D4BE53F00241513 /* SNMSenderUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMSenderUtils.m; sourceTree = "<group>"; };
+		E8831A991D41A58600931F11 /* SNMDeviceTrackerPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMDeviceTrackerPrivate.h; sourceTree = "<group>"; };
+		E88D17041D35B6B500A5EA57 /* SNMMockLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMMockLog.h; sourceTree = "<group>"; };
+		E88D17051D35B6B500A5EA57 /* SNMMockLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMMockLog.m; sourceTree = "<group>"; };
+		E88D170D1D36BB1700A5EA57 /* SNMUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMUtils.h; sourceTree = "<group>"; };
+		E88EBBEA1D2C612E007E7785 /* SNMAbstractLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMAbstractLog.h; sourceTree = "<group>"; };
+		E88EBBEB1D2C612E007E7785 /* SNMAbstractLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMAbstractLog.m; sourceTree = "<group>"; };
+		E88EBBF71D2C717D007E7785 /* SNMLogUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMLogUtils.h; sourceTree = "<group>"; };
+		E88EBBF81D2C717D007E7785 /* SNMLogUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMLogUtils.m; sourceTree = "<group>"; };
+		E88EBBFA1D2C8CC7007E7785 /* SNMLogContainerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMLogContainerTests.m; sourceTree = "<group>"; };
+		E8A8D1E91D3057A90022931E /* SNMUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SNMUserDefaults.h; path = ../Model/Utils/SNMUserDefaults.h; sourceTree = "<group>"; };
+		E8A8D1EA1D3057A90022931E /* SNMUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SNMUserDefaults.m; path = ../Model/Utils/SNMUserDefaults.m; sourceTree = "<group>"; };
+		E8AEE9811D5970A400C0FF6C /* SNMLogManagerListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMLogManagerListener.h; sourceTree = "<group>"; };
+		E8E48F941D50FF4300A8C1B0 /* SNMSenderCallDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMSenderCallDelegate.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -291,9 +291,9 @@
 		381C91E21D3DB65D004512F1 /* Device */ = {
 			isa = PBXGroup;
 			children = (
-				381C91E51D3DB65D004512F1 /* AVADeviceTracker.h */,
-				381C91E61D3DB65D004512F1 /* AVADeviceTracker.m */,
-				E8831A991D41A58600931F11 /* AVADeviceTrackerPrivate.h */,
+				381C91E51D3DB65D004512F1 /* SNMDeviceTracker.h */,
+				381C91E61D3DB65D004512F1 /* SNMDeviceTracker.m */,
+				E8831A991D41A58600931F11 /* SNMDeviceTrackerPrivate.h */,
 			);
 			path = Device;
 			sourceTree = "<group>";
@@ -321,12 +321,12 @@
 			isa = PBXGroup;
 			children = (
 				6E0401401D1C99AC0051BCFA /* SonomaCore.h */,
-				6E0401551D1C9AAA0051BCFA /* AVASonoma.h */,
-				6E0401561D1C9AAA0051BCFA /* AVASonoma.m */,
-				6E04013F1D1C99AC0051BCFA /* AVAConstants.h */,
-				6E0401451D1C99AC0051BCFA /* AVAFeature.h */,
-				387C76FC1D6C9CF100D68CC1 /* AVAFeatureAbstract.h */,
-				387C757E1D6270A300D68CC1 /* AVAFeatureAbstract.m */,
+				6E0401551D1C9AAA0051BCFA /* SNMSonoma.h */,
+				6E0401561D1C9AAA0051BCFA /* SNMSonoma.m */,
+				6E04013F1D1C99AC0051BCFA /* SNMConstants.h */,
+				6E0401451D1C99AC0051BCFA /* SNMFeature.h */,
+				387C76FC1D6C9CF100D68CC1 /* SNMFeatureAbstract.h */,
+				387C757E1D6270A300D68CC1 /* SNMFeatureAbstract.m */,
 				6E0401421D1C99AC0051BCFA /* Internals */,
 				6E0401821D1CAD810051BCFA /* Support */,
 			);
@@ -337,12 +337,12 @@
 			isa = PBXGroup;
 			children = (
 				6E0401581D1C9CFB0051BCFA /* SonomaCore+Internal.h */,
-				6E0401431D1C99AC0051BCFA /* AVASonomaDelegate.h */,
-				6E0401441D1C99AC0051BCFA /* AVASonomaInternal.h */,
-				387C758D1D64DF2500D68CC1 /* AVAFeatureCommon.h */,
-				387C76D91D677EC100D68CC1 /* AVAFeatureAbstractPrivate.h */,
-				387C757F1D6270A300D68CC1 /* AVAFeatureAbstractInternal.h */,
-				6E0401471D1C99AC0051BCFA /* AVAFeatureInternal.h */,
+				6E0401431D1C99AC0051BCFA /* SNMSonomaDelegate.h */,
+				6E0401441D1C99AC0051BCFA /* SNMSonomaInternal.h */,
+				387C758D1D64DF2500D68CC1 /* SNMFeatureCommon.h */,
+				387C76D91D677EC100D68CC1 /* SNMFeatureAbstractPrivate.h */,
+				387C757F1D6270A300D68CC1 /* SNMFeatureAbstractInternal.h */,
+				6E0401471D1C99AC0051BCFA /* SNMFeatureInternal.h */,
 				E83283C21D46C62E000B029E /* Vendor */,
 				381C91E21D3DB65D004512F1 /* Device */,
 				E84B8E241D234EC7006FD231 /* Channel */,
@@ -357,13 +357,13 @@
 		6E0401481D1C99AC0051BCFA /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				B22FC2B41D5E51A20007CD80 /* AVAEnvironmentHelper.h */,
-				B22FC2B51D5E51A20007CD80 /* AVAEnvironmentHelper.m */,
-				E88D170D1D36BB1700A5EA57 /* AVAUtils.h */,
-				6E0401491D1C99AC0051BCFA /* AVALogger.h */,
-				6E04014A1D1C99AC0051BCFA /* AVALogger.m */,
-				6E04014B1D1C99AC0051BCFA /* AVALoggerPrivate.h */,
-				E829E4241D25D07600F19DA1 /* AVAConstants+Internal.h */,
+				B22FC2B41D5E51A20007CD80 /* SNMEnvironmentHelper.h */,
+				B22FC2B51D5E51A20007CD80 /* SNMEnvironmentHelper.m */,
+				E88D170D1D36BB1700A5EA57 /* SNMUtils.h */,
+				6E0401491D1C99AC0051BCFA /* SNMLogger.h */,
+				6E04014A1D1C99AC0051BCFA /* SNMLogger.m */,
+				6E04014B1D1C99AC0051BCFA /* SNMLoggerPrivate.h */,
+				E829E4241D25D07600F19DA1 /* SNMConstants+Internal.h */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -435,16 +435,16 @@
 			isa = PBXGroup;
 			children = (
 				E88EBBF61D2C717D007E7785 /* Utils */,
-				6E3E2C9D1D35701000B1EE50 /* AVALog.h */,
-				6E7D5C791D3E94F8009EC9AC /* AVASerializableObject.h */,
-				E88EBBEA1D2C612E007E7785 /* AVAAbstractLog.h */,
-				E88EBBEB1D2C612E007E7785 /* AVAAbstractLog.m */,
-				6E171B521D234717000DC480 /* AVADevice.h */,
-				6E171B531D234717000DC480 /* AVADevice.m */,
-				6E171B581D234717000DC480 /* AVALogContainer.h */,
-				6E171B591D234717000DC480 /* AVALogContainer.m */,
-				E8010E661D2DD4EF0035196F /* AVALogWithProperties.h */,
-				E8010E671D2DD4EF0035196F /* AVALogWithProperties.m */,
+				6E3E2C9D1D35701000B1EE50 /* SNMLog.h */,
+				6E7D5C791D3E94F8009EC9AC /* SNMSerializableObject.h */,
+				E88EBBEA1D2C612E007E7785 /* SNMAbstractLog.h */,
+				E88EBBEB1D2C612E007E7785 /* SNMAbstractLog.m */,
+				6E171B521D234717000DC480 /* SNMDevice.h */,
+				6E171B531D234717000DC480 /* SNMDevice.m */,
+				6E171B581D234717000DC480 /* SNMLogContainer.h */,
+				6E171B591D234717000DC480 /* SNMLogContainer.m */,
+				E8010E661D2DD4EF0035196F /* SNMLogWithProperties.h */,
+				E8010E671D2DD4EF0035196F /* SNMLogWithProperties.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -455,19 +455,19 @@
 				6E2395831D22EF5F00E543C8 /* Frameworks */,
 				6E363AEF1D2C84D60079043D /* Utils */,
 				6E23957C1D22EF4F00E543C8 /* Info.plist */,
-				6EB1F40D1D2443B7005F9F99 /* AVAChannelDefaultTests.m */,
-				385FC0541D37EBD700A1799F /* AVADeviceTrackerTests.m */,
-				6E5D8A7F1D25B91F00C033B1 /* AVAFileHelperTests.m */,
-				E829E4221D25C8BA00F19DA1 /* AVAHttpSenderTests.m */,
-				E88EBBFA1D2C8CC7007E7785 /* AVALogContainerTests.m */,
-				6E363AE41D2C2C320079043D /* AVAFileStorageTests.m */,
-				6E58E2B61D2F12A70039D062 /* AVAStorageBucketTests.m */,
-				6E58E2BD1D2F18DA0039D062 /* AVAFileTests.m */,
-				6E3E2CC01D3596AE00B1EE50 /* AVADeviceLogTests.m */,
-				6E48A5A31D3831FE006E8B5F /* AVAChannelConfigurationTests.m */,
-				6E48A5A61D383893006E8B5F /* AVALogManagerDefaultTests.m */,
-				384959D41D491D4F008F6B3A /* AVASonomaTest.m */,
-				387C75951D64EE1900D68CC1 /* AVAFeatureAbstractTest.m */,
+				6EB1F40D1D2443B7005F9F99 /* SNMChannelDefaultTests.m */,
+				385FC0541D37EBD700A1799F /* SNMDeviceTrackerTests.m */,
+				6E5D8A7F1D25B91F00C033B1 /* SNMFileHelperTests.m */,
+				E829E4221D25C8BA00F19DA1 /* SNMHttpSenderTests.m */,
+				E88EBBFA1D2C8CC7007E7785 /* SNMLogContainerTests.m */,
+				6E363AE41D2C2C320079043D /* SNMFileStorageTests.m */,
+				6E58E2B61D2F12A70039D062 /* SNMStorageBucketTests.m */,
+				6E58E2BD1D2F18DA0039D062 /* SNMFileTests.m */,
+				6E3E2CC01D3596AE00B1EE50 /* SNMDeviceLogTests.m */,
+				6E48A5A31D3831FE006E8B5F /* SNMChannelConfigurationTests.m */,
+				6E48A5A61D383893006E8B5F /* SNMLogManagerDefaultTests.m */,
+				384959D41D491D4F008F6B3A /* SNMSonomaTest.m */,
+				387C75951D64EE1900D68CC1 /* SNMFeatureAbstractTest.m */,
 			);
 			path = SonomaCoreTests;
 			sourceTree = "<group>";
@@ -485,10 +485,10 @@
 		6E363AEF1D2C84D60079043D /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				6E363AF01D2C84EA0079043D /* AVAStorageTestHelper.h */,
-				6E363AF11D2C84EA0079043D /* AVAStorageTestHelper.m */,
-				E88D17041D35B6B500A5EA57 /* AVAMockLog.h */,
-				E88D17051D35B6B500A5EA57 /* AVAMockLog.m */,
+				6E363AF01D2C84EA0079043D /* SNMStorageTestHelper.h */,
+				6E363AF11D2C84EA0079043D /* SNMStorageTestHelper.m */,
+				E88D17041D35B6B500A5EA57 /* SNMMockLog.h */,
+				E88D17051D35B6B500A5EA57 /* SNMMockLog.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -504,8 +504,8 @@
 		E83283C31D46C62E000B029E /* Reachability */ = {
 			isa = PBXGroup;
 			children = (
-				E83283C41D46C62E000B029E /* AVA_Reachability.h */,
-				E83283C51D46C62E000B029E /* AVA_Reachability.m */,
+				E83283C41D46C62E000B029E /* SNM_Reachability.h */,
+				E83283C51D46C62E000B029E /* SNM_Reachability.m */,
 			);
 			path = Reachability;
 			sourceTree = "<group>";
@@ -514,13 +514,13 @@
 			isa = PBXGroup;
 			children = (
 				E8753D6B1D4BE4FC00241513 /* Utils */,
-				E84B8E311D235209006FD231 /* AVASender.h */,
-				E84B8E331D235226006FD231 /* AVAHttpSender.h */,
-				E84B8E341D235226006FD231 /* AVAHttpSender.m */,
-				E80EB1091D50278F00C9003F /* AVASenderCall.h */,
-				E80EB1051D50273700C9003F /* AVARetriableCall.h */,
-				E80EB1061D50273700C9003F /* AVARetriableCall.m */,
-				E8E48F941D50FF4300A8C1B0 /* AVASenderCallDelegate.h */,
+				E84B8E311D235209006FD231 /* SNMSender.h */,
+				E84B8E331D235226006FD231 /* SNMHttpSender.h */,
+				E84B8E341D235226006FD231 /* SNMHttpSender.m */,
+				E80EB1091D50278F00C9003F /* SNMSenderCall.h */,
+				E80EB1051D50273700C9003F /* SNMRetriableCall.h */,
+				E80EB1061D50273700C9003F /* SNMRetriableCall.m */,
+				E8E48F941D50FF4300A8C1B0 /* SNMSenderCallDelegate.h */,
 			);
 			path = Sender;
 			sourceTree = "<group>";
@@ -528,17 +528,17 @@
 		E84B8E231D234EC1006FD231 /* Storage */ = {
 			isa = PBXGroup;
 			children = (
-				E84B8E381D235246006FD231 /* AVAStorage.h */,
-				6E2BA1AD1D2499F9002D7B88 /* AVAFileHelper.h */,
-				6E2BA1AE1D2499F9002D7B88 /* AVAFileHelper.m */,
-				6E40D4611D2700000046D85B /* AVAFileStorage.h */,
-				6E40D4621D2700000046D85B /* AVAFileStorage.m */,
-				6E0CD69C1D27198A0045FE8C /* AVAStorageBucket.h */,
-				6E0CD69D1D27198A0045FE8C /* AVAStorageBucket.m */,
-				6E7E3B761D2DCEBD0019EA6D /* AVAFile.h */,
-				6E7E3B771D2DCEBD0019EA6D /* AVAFile.m */,
-				E8A8D1E91D3057A90022931E /* AVAUserDefaults.h */,
-				E8A8D1EA1D3057A90022931E /* AVAUserDefaults.m */,
+				E84B8E381D235246006FD231 /* SNMStorage.h */,
+				6E2BA1AD1D2499F9002D7B88 /* SNMFileHelper.h */,
+				6E2BA1AE1D2499F9002D7B88 /* SNMFileHelper.m */,
+				6E40D4611D2700000046D85B /* SNMFileStorage.h */,
+				6E40D4621D2700000046D85B /* SNMFileStorage.m */,
+				6E0CD69C1D27198A0045FE8C /* SNMStorageBucket.h */,
+				6E0CD69D1D27198A0045FE8C /* SNMStorageBucket.m */,
+				6E7E3B761D2DCEBD0019EA6D /* SNMFile.h */,
+				6E7E3B771D2DCEBD0019EA6D /* SNMFile.m */,
+				E8A8D1E91D3057A90022931E /* SNMUserDefaults.h */,
+				E8A8D1EA1D3057A90022931E /* SNMUserDefaults.m */,
 			);
 			path = Storage;
 			sourceTree = "<group>";
@@ -546,15 +546,15 @@
 		E84B8E241D234EC7006FD231 /* Channel */ = {
 			isa = PBXGroup;
 			children = (
-				E84B8E2B1D2351DB006FD231 /* AVALogManager.h */,
-				E84B8E2C1D2351DB006FD231 /* AVALogManagerDefault.h */,
-				E84B8E2D1D2351DB006FD231 /* AVALogManagerDefault.m */,
-				6E0684651D36BCD500A8CC6C /* AVAChannel.h */,
-				6E0684611D36BC8D00A8CC6C /* AVAChannelDefault.h */,
-				6E0684621D36BC8D00A8CC6C /* AVAChannelDefault.m */,
-				6EF628F21D371B1600CAFF64 /* AVAChannelConfiguration.h */,
-				6EF628F31D371B1600CAFF64 /* AVAChannelConfiguration.m */,
-				E8AEE9811D5970A400C0FF6C /* AVALogManagerListener.h */,
+				E84B8E2B1D2351DB006FD231 /* SNMLogManager.h */,
+				E84B8E2C1D2351DB006FD231 /* SNMLogManagerDefault.h */,
+				E84B8E2D1D2351DB006FD231 /* SNMLogManagerDefault.m */,
+				6E0684651D36BCD500A8CC6C /* SNMChannel.h */,
+				6E0684611D36BC8D00A8CC6C /* SNMChannelDefault.h */,
+				6E0684621D36BC8D00A8CC6C /* SNMChannelDefault.m */,
+				6EF628F21D371B1600CAFF64 /* SNMChannelConfiguration.h */,
+				6EF628F31D371B1600CAFF64 /* SNMChannelConfiguration.m */,
+				E8AEE9811D5970A400C0FF6C /* SNMLogManagerListener.h */,
 			);
 			path = Channel;
 			sourceTree = "<group>";
@@ -562,8 +562,8 @@
 		E8753D6B1D4BE4FC00241513 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				E8753D6C1D4BE53F00241513 /* AVASenderUtils.h */,
-				E8753D6D1D4BE53F00241513 /* AVASenderUtils.m */,
+				E8753D6C1D4BE53F00241513 /* SNMSenderUtils.h */,
+				E8753D6D1D4BE53F00241513 /* SNMSenderUtils.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -571,8 +571,8 @@
 		E88EBBF61D2C717D007E7785 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				E88EBBF71D2C717D007E7785 /* AVALogUtils.h */,
-				E88EBBF81D2C717D007E7785 /* AVALogUtils.m */,
+				E88EBBF71D2C717D007E7785 /* SNMLogUtils.h */,
+				E88EBBF81D2C717D007E7785 /* SNMLogUtils.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -584,51 +584,51 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E8A8D1EB1D3057A90022931E /* AVAUserDefaults.h in Headers */,
-				E8831A9A1D41A58600931F11 /* AVADeviceTrackerPrivate.h in Headers */,
-				E80EB1071D50273700C9003F /* AVARetriableCall.h in Headers */,
-				6E04016E1D1C9E460051BCFA /* AVASonomaDelegate.h in Headers */,
-				387C758F1D64E50800D68CC1 /* AVAFeatureCommon.h in Headers */,
-				6E04016A1D1C9E1F0051BCFA /* AVASonoma.h in Headers */,
-				387C75811D6270A300D68CC1 /* AVAFeatureAbstractInternal.h in Headers */,
-				E84B8E3B1D235273006FD231 /* AVAChannelDelegate.h in Headers */,
-				B22FC2B61D5E51A20007CD80 /* AVAEnvironmentHelper.h in Headers */,
-				6E0CD69E1D27198A0045FE8C /* AVAStorageBucket.h in Headers */,
-				387C76DA1D677EC100D68CC1 /* AVAFeatureAbstractPrivate.h in Headers */,
-				E8753D6E1D4BE53F00241513 /* AVASenderUtils.h in Headers */,
-				E8E48F951D50FF4300A8C1B0 /* AVASenderCallDelegate.h in Headers */,
-				E83283C61D46C62E000B029E /* AVA_Reachability.h in Headers */,
-				6E04016B1D1C9E1F0051BCFA /* AVAConstants.h in Headers */,
-				E8010E6A1D2DD4EF0035196F /* AVALogWithProperties.h in Headers */,
+				E8A8D1EB1D3057A90022931E /* SNMUserDefaults.h in Headers */,
+				E8831A9A1D41A58600931F11 /* SNMDeviceTrackerPrivate.h in Headers */,
+				E80EB1071D50273700C9003F /* SNMRetriableCall.h in Headers */,
+				6E04016E1D1C9E460051BCFA /* SNMSonomaDelegate.h in Headers */,
+				387C758F1D64E50800D68CC1 /* SNMFeatureCommon.h in Headers */,
+				6E04016A1D1C9E1F0051BCFA /* SNMSonoma.h in Headers */,
+				387C75811D6270A300D68CC1 /* SNMFeatureAbstractInternal.h in Headers */,
+				E84B8E3B1D235273006FD231 /* SNMChannelDelegate.h in Headers */,
+				B22FC2B61D5E51A20007CD80 /* SNMEnvironmentHelper.h in Headers */,
+				6E0CD69E1D27198A0045FE8C /* SNMStorageBucket.h in Headers */,
+				387C76DA1D677EC100D68CC1 /* SNMFeatureAbstractPrivate.h in Headers */,
+				E8753D6E1D4BE53F00241513 /* SNMSenderUtils.h in Headers */,
+				E8E48F951D50FF4300A8C1B0 /* SNMSenderCallDelegate.h in Headers */,
+				E83283C61D46C62E000B029E /* SNM_Reachability.h in Headers */,
+				6E04016B1D1C9E1F0051BCFA /* SNMConstants.h in Headers */,
+				E8010E6A1D2DD4EF0035196F /* SNMLogWithProperties.h in Headers */,
 				6E04016D1D1C9E460051BCFA /* SonomaCore+Internal.h in Headers */,
-				6E0401721D1C9E460051BCFA /* AVALogger.h in Headers */,
-				6E0684671D36BCD500A8CC6C /* AVAChannel.h in Headers */,
-				387C76FD1D6C9CF100D68CC1 /* AVAFeatureAbstract.h in Headers */,
-				6E3E2C9E1D35701000B1EE50 /* AVALog.h in Headers */,
-				E84B8E391D235246006FD231 /* AVAStorage.h in Headers */,
-				6E7D5C7B1D3E94F8009EC9AC /* AVASerializableObject.h in Headers */,
-				6E40D4631D2700000046D85B /* AVAFileStorage.h in Headers */,
-				6E0684631D36BC8D00A8CC6C /* AVAChannelDefault.h in Headers */,
-				E8AEE9821D5970A400C0FF6C /* AVALogManagerListener.h in Headers */,
+				6E0401721D1C9E460051BCFA /* SNMLogger.h in Headers */,
+				6E0684671D36BCD500A8CC6C /* SNMChannel.h in Headers */,
+				387C76FD1D6C9CF100D68CC1 /* SNMFeatureAbstract.h in Headers */,
+				6E3E2C9E1D35701000B1EE50 /* SNMLog.h in Headers */,
+				E84B8E391D235246006FD231 /* SNMStorage.h in Headers */,
+				6E7D5C7B1D3E94F8009EC9AC /* SNMSerializableObject.h in Headers */,
+				6E40D4631D2700000046D85B /* SNMFileStorage.h in Headers */,
+				6E0684631D36BC8D00A8CC6C /* SNMChannelDefault.h in Headers */,
+				E8AEE9821D5970A400C0FF6C /* SNMLogManagerListener.h in Headers */,
 				6E04016C1D1C9E1F0051BCFA /* SonomaCore.h in Headers */,
-				E84B8E351D235226006FD231 /* AVAHttpSender.h in Headers */,
-				6E171B601D234717000DC480 /* AVALogContainer.h in Headers */,
-				E88EBBEC1D2C612E007E7785 /* AVAAbstractLog.h in Headers */,
-				6E7E3B781D2DCEBD0019EA6D /* AVAFile.h in Headers */,
-				6E171B5A1D234717000DC480 /* AVADevice.h in Headers */,
-				6EF628F41D371B1600CAFF64 /* AVAChannelConfiguration.h in Headers */,
-				6E04016F1D1C9E460051BCFA /* AVASonomaInternal.h in Headers */,
-				6E0401701D1C9E460051BCFA /* AVAFeature.h in Headers */,
-				6E0401711D1C9E460051BCFA /* AVAFeatureInternal.h in Headers */,
-				E88D170E1D36BB1700A5EA57 /* AVAUtils.h in Headers */,
-				E84B8E321D235209006FD231 /* AVASender.h in Headers */,
-				E84B8E2E1D2351DB006FD231 /* AVALogManager.h in Headers */,
-				E80EB10A1D50278F00C9003F /* AVASenderCall.h in Headers */,
-				6E2BA1AF1D2499F9002D7B88 /* AVAFileHelper.h in Headers */,
-				381C91E91D3DB65D004512F1 /* AVADeviceTracker.h in Headers */,
-				6E0401731D1C9E460051BCFA /* AVALoggerPrivate.h in Headers */,
-				E84B8E2F1D2351DB006FD231 /* AVALogManagerDefault.h in Headers */,
-				6E48A5A81D3856F5006E8B5F /* AVAConstants+Internal.h in Headers */,
+				E84B8E351D235226006FD231 /* SNMHttpSender.h in Headers */,
+				6E171B601D234717000DC480 /* SNMLogContainer.h in Headers */,
+				E88EBBEC1D2C612E007E7785 /* SNMAbstractLog.h in Headers */,
+				6E7E3B781D2DCEBD0019EA6D /* SNMFile.h in Headers */,
+				6E171B5A1D234717000DC480 /* SNMDevice.h in Headers */,
+				6EF628F41D371B1600CAFF64 /* SNMChannelConfiguration.h in Headers */,
+				6E04016F1D1C9E460051BCFA /* SNMSonomaInternal.h in Headers */,
+				6E0401701D1C9E460051BCFA /* SNMFeature.h in Headers */,
+				6E0401711D1C9E460051BCFA /* SNMFeatureInternal.h in Headers */,
+				E88D170E1D36BB1700A5EA57 /* SNMUtils.h in Headers */,
+				E84B8E321D235209006FD231 /* SNMSender.h in Headers */,
+				E84B8E2E1D2351DB006FD231 /* SNMLogManager.h in Headers */,
+				E80EB10A1D50278F00C9003F /* SNMSenderCall.h in Headers */,
+				6E2BA1AF1D2499F9002D7B88 /* SNMFileHelper.h in Headers */,
+				381C91E91D3DB65D004512F1 /* SNMDeviceTracker.h in Headers */,
+				6E0401731D1C9E460051BCFA /* SNMLoggerPrivate.h in Headers */,
+				E84B8E2F1D2351DB006FD231 /* SNMLogManagerDefault.h in Headers */,
+				6E48A5A81D3856F5006E8B5F /* SNMConstants+Internal.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -758,28 +758,28 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E0401571D1C9AAA0051BCFA /* AVASonoma.m in Sources */,
-				6E2BA1B01D2499F9002D7B88 /* AVAFileHelper.m in Sources */,
-				387C75801D6270A300D68CC1 /* AVAFeatureAbstract.m in Sources */,
-				6EF628F51D371B1600CAFF64 /* AVAChannelConfiguration.m in Sources */,
-				6E171B611D234717000DC480 /* AVALogContainer.m in Sources */,
-				6E04014E1D1C99AC0051BCFA /* AVALogger.m in Sources */,
-				E84B8E361D235226006FD231 /* AVAHttpSender.m in Sources */,
-				E84B8E301D2351DB006FD231 /* AVALogManagerDefault.m in Sources */,
-				E8753D6F1D4BE53F00241513 /* AVASenderUtils.m in Sources */,
-				B22FC2B71D5E51A20007CD80 /* AVAEnvironmentHelper.m in Sources */,
-				E88EBBED1D2C612E007E7785 /* AVAAbstractLog.m in Sources */,
-				381C91EA1D3DB65D004512F1 /* AVADeviceTracker.m in Sources */,
-				6E40D4641D2700000046D85B /* AVAFileStorage.m in Sources */,
-				6E0684641D36BC8D00A8CC6C /* AVAChannelDefault.m in Sources */,
-				6E40D4641D2700000046D85B /* AVAFileStorage.m in Sources */,
-				E80EB1081D50273700C9003F /* AVARetriableCall.m in Sources */,
-				6E0CD69F1D27198A0045FE8C /* AVAStorageBucket.m in Sources */,
-				E83283C71D46C62E000B029E /* AVA_Reachability.m in Sources */,
-				6E171B5B1D234717000DC480 /* AVADevice.m in Sources */,
-				E8010E6B1D2DD4EF0035196F /* AVALogWithProperties.m in Sources */,
-				E8A8D1EC1D3057A90022931E /* AVAUserDefaults.m in Sources */,
-				6E7E3B791D2DCEBD0019EA6D /* AVAFile.m in Sources */,
+				6E0401571D1C9AAA0051BCFA /* SNMSonoma.m in Sources */,
+				6E2BA1B01D2499F9002D7B88 /* SNMFileHelper.m in Sources */,
+				387C75801D6270A300D68CC1 /* SNMFeatureAbstract.m in Sources */,
+				6EF628F51D371B1600CAFF64 /* SNMChannelConfiguration.m in Sources */,
+				6E171B611D234717000DC480 /* SNMLogContainer.m in Sources */,
+				6E04014E1D1C99AC0051BCFA /* SNMLogger.m in Sources */,
+				E84B8E361D235226006FD231 /* SNMHttpSender.m in Sources */,
+				E84B8E301D2351DB006FD231 /* SNMLogManagerDefault.m in Sources */,
+				E8753D6F1D4BE53F00241513 /* SNMSenderUtils.m in Sources */,
+				B22FC2B71D5E51A20007CD80 /* SNMEnvironmentHelper.m in Sources */,
+				E88EBBED1D2C612E007E7785 /* SNMAbstractLog.m in Sources */,
+				381C91EA1D3DB65D004512F1 /* SNMDeviceTracker.m in Sources */,
+				6E40D4641D2700000046D85B /* SNMFileStorage.m in Sources */,
+				6E0684641D36BC8D00A8CC6C /* SNMChannelDefault.m in Sources */,
+				6E40D4641D2700000046D85B /* SNMFileStorage.m in Sources */,
+				E80EB1081D50273700C9003F /* SNMRetriableCall.m in Sources */,
+				6E0CD69F1D27198A0045FE8C /* SNMStorageBucket.m in Sources */,
+				E83283C71D46C62E000B029E /* SNM_Reachability.m in Sources */,
+				6E171B5B1D234717000DC480 /* SNMDevice.m in Sources */,
+				E8010E6B1D2DD4EF0035196F /* SNMLogWithProperties.m in Sources */,
+				E8A8D1EC1D3057A90022931E /* SNMUserDefaults.m in Sources */,
+				6E7E3B791D2DCEBD0019EA6D /* SNMFile.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -787,22 +787,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E58E2B71D2F12A70039D062 /* AVAStorageBucketTests.m in Sources */,
-				6E363AE51D2C2C320079043D /* AVAFileStorageTests.m in Sources */,
-				6E3E2CC11D3596AE00B1EE50 /* AVADeviceLogTests.m in Sources */,
-				385FC0551D37EBD700A1799F /* AVADeviceTrackerTests.m in Sources */,
-				6EB1F40E1D2443B7005F9F99 /* AVAChannelDefaultTests.m in Sources */,
-				384959D51D491D4F008F6B3A /* AVASonomaTest.m in Sources */,
-				6E5D8A801D25B91F00C033B1 /* AVAFileHelperTests.m in Sources */,
-				E829E4231D25C8BA00F19DA1 /* AVAHttpSenderTests.m in Sources */,
-				6E363AF21D2C84EA0079043D /* AVAStorageTestHelper.m in Sources */,
-				E88EBBFB1D2C8CC7007E7785 /* AVALogContainerTests.m in Sources */,
-				E88EBBF91D2C717D007E7785 /* AVALogUtils.m in Sources */,
-				387C75961D64EE1900D68CC1 /* AVAFeatureAbstractTest.m in Sources */,
-				6E48A5A41D3831FE006E8B5F /* AVAChannelConfigurationTests.m in Sources */,
-				6E58E2BE1D2F18DA0039D062 /* AVAFileTests.m in Sources */,
-				E88D17061D35B6B500A5EA57 /* AVAMockLog.m in Sources */,
-				6E48A5A71D383893006E8B5F /* AVALogManagerDefaultTests.m in Sources */,
+				6E58E2B71D2F12A70039D062 /* SNMStorageBucketTests.m in Sources */,
+				6E363AE51D2C2C320079043D /* SNMFileStorageTests.m in Sources */,
+				6E3E2CC11D3596AE00B1EE50 /* SNMDeviceLogTests.m in Sources */,
+				385FC0551D37EBD700A1799F /* SNMDeviceTrackerTests.m in Sources */,
+				6EB1F40E1D2443B7005F9F99 /* SNMChannelDefaultTests.m in Sources */,
+				384959D51D491D4F008F6B3A /* SNMSonomaTest.m in Sources */,
+				6E5D8A801D25B91F00C033B1 /* SNMFileHelperTests.m in Sources */,
+				E829E4231D25C8BA00F19DA1 /* SNMHttpSenderTests.m in Sources */,
+				6E363AF21D2C84EA0079043D /* SNMStorageTestHelper.m in Sources */,
+				E88EBBFB1D2C8CC7007E7785 /* SNMLogContainerTests.m in Sources */,
+				E88EBBF91D2C717D007E7785 /* SNMLogUtils.m in Sources */,
+				387C75961D64EE1900D68CC1 /* SNMFeatureAbstractTest.m in Sources */,
+				6E48A5A41D3831FE006E8B5F /* SNMChannelConfigurationTests.m in Sources */,
+				6E58E2BE1D2F18DA0039D062 /* SNMFileTests.m in Sources */,
+				E88D17061D35B6B500A5EA57 /* SNMMockLog.m in Sources */,
+				6E48A5A71D383893006E8B5F /* SNMLogManagerDefaultTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -827,7 +827,7 @@
 			baseConfigurationReference = 6E0401831D1CAD810051BCFA /* buildnumber.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(AVA_ARM_ARCHS)";
+				ARCHS = "$(SNM_ARM_ARCHS)";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -875,8 +875,8 @@
 			baseConfigurationReference = 6E0401861D1CAD810051BCFA /* release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				AVA_ARM_ARCHS = "armv7 armv7s arm64";
-				AVA_SIM_ARCHS = "x86_64 i386";
+				SNM_ARM_ARCHS = "armv7 armv7s arm64";
+				SNM_SIM_ARCHS = "x86_64 i386";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -916,9 +916,9 @@
 		6E04010D1D1C98220051BCFA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"ARCHS[sdk=iphonesimulator*]" = "$(AVA_SIM_ARCHS)";
-				AVA_ARM_ARCHS = "armv7 armv7s arm64";
-				AVA_SIM_ARCHS = "x86_64 i386";
+				"ARCHS[sdk=iphonesimulator*]" = "$(SNM_SIM_ARCHS)";
+				SNM_ARM_ARCHS = "armv7 armv7s arm64";
+				SNM_SIM_ARCHS = "x86_64 i386";
 				BUILD_NUMBER = 1;
 				DEAD_CODE_STRIPPING = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -928,18 +928,18 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SKIP_INSTALL = YES;
-				VALID_ARCHS = "$(AVA_ARM_ARCHS)";
-				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(AVA_SIM_ARCHS)";
+				VALID_ARCHS = "$(SNM_ARM_ARCHS)";
+				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(SNM_SIM_ARCHS)";
 			};
 			name = Debug;
 		};
 		6E04010E1D1C98220051BCFA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(AVA_ARM_ARCHS)";
-				"ARCHS[sdk=iphonesimulator*]" = "$(AVA_SIM_ARCHS)";
-				AVA_ARM_ARCHS = "armv7 armv7s arm64";
-				AVA_SIM_ARCHS = "x86_64 i386";
+				ARCHS = "$(SNM_ARM_ARCHS)";
+				"ARCHS[sdk=iphonesimulator*]" = "$(SNM_SIM_ARCHS)";
+				SNM_ARM_ARCHS = "armv7 armv7s arm64";
+				SNM_SIM_ARCHS = "x86_64 i386";
 				BUILD_NUMBER = 1;
 				DEAD_CODE_STRIPPING = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -955,8 +955,8 @@
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SKIP_INSTALL = YES;
 				VALIDATE_PRODUCT = NO;
-				VALID_ARCHS = "$(AVA_ARM_ARCHS)";
-				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(AVA_SIM_ARCHS)";
+				VALID_ARCHS = "$(SNM_ARM_ARCHS)";
+				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(SNM_SIM_ARCHS)";
 			};
 			name = Release;
 		};
