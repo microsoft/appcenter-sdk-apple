@@ -1,10 +1,6 @@
-//
-//  SNMAbstractErrorLog.h
-//  SonomaCrashes
-//
-//  Created by Benjamin Reimold on 9/7/16.
-//  Copyright © 2016 Microsoft. All rights reserved.
-//
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ */
 
 #import <Foundation/Foundation.h>
 #import "SonomaCore+Internal.h"

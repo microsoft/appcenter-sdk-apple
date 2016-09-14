@@ -12,8 +12,7 @@
 
 /**
  * Prototype of a callback function used to execute additional user code. Called
- * upon completion of crash
- * handling, after the crash report has been written to disk.
+ * upon completion of crash handling, after the crash report has been written to disk.
  *
  * @param context The API client's supplied context value.
  *
@@ -24,8 +23,7 @@ typedef void (*SNMCrashesPostCrashSignalCallback)(void *context);
 
 /**
  * This structure contains callbacks supported by `SNMCrashes` to allow the host
- * application to perform
- * additional tasks prior to program termination after a crash has occurred.
+ * application to perform additional tasks prior to program termination after a crash has occurred.
  *
  * @see `SNMCrashesPostCrashSignalCallback`
  * @see `[SNMCrashes setCrashCallbacks:]`
