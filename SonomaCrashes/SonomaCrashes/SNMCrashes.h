@@ -164,8 +164,8 @@ typedef NS_ENUM(NSUInteger, SNMUserConfirmation) {
  *
  * @see SNMCrashesDelegate
  */
-@property(nonatomic, weak, nullable) id<SNMCrashesDelegate> errorLoggingDelegate;
+@property(nonatomic, weak, nullable) id<SNMCrashesDelegate> crashesDelegate;
 
-+ (void)setCrashesDelegate:(_Nullable id<SNMCrashesDelegate>)errorLoggingDelegate;
++ (void)setCrashesDelegate:(_Nullable id<SNMCrashesDelegate>)crashesDelegate;
 
 @end

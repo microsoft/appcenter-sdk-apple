@@ -14,19 +14,19 @@
 /**
  *  Feature name.
  */
-static NSString *const kSNMFeatureName = @"ErrorReporting";
+static NSString *const kSNMFeatureName = @"Crashes";
 static NSString *const kSNMAnalyzerFilename = @"SNMCrashes.analyzer";
 
 #pragma mark - Callbacks Setup
 
-static SNMCrashesCallbacks avaErrorReportingCallbacks = {.context = NULL, .handleSignal = NULL};
+static SNMCrashesCallbacks snmErrorReportingCallbacks = {.context = NULL, .handleSignal = NULL};
 
 /** Proxy implementation for PLCrashReporter to keep our interface stable while
  *  this can change.
  */
 static void plcr_post_crash_callback(siginfo_t *info, ucontext_t *uap, void *context) {
-  if (avaErrorReportingCallbacks.handleSignal != NULL) {
-    avaErrorReportingCallbacks.handleSignal(context);
+  if (snmErrorReportingCallbacks.handleSignal != NULL) {
+    snmErrorReportingCallbacks.handleSignal(context);
   }
 }
 
@@ -92,7 +92,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
   return nil;
 }
 
-+ (void)setCrashesDelegate:(_Nullable id<SNMCrashesDelegate>)errorLoggingDelegate {
++ (void)setCrashesDelegate:(_Nullable id<SNMCrashesDelegate>)crashesDelegate {
   // TODO actual implementation
 }
 
