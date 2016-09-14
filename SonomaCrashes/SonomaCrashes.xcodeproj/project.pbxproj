@@ -715,6 +715,7 @@
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.sonoma.SonomaCrashesTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../SonomaCore/SonomaCore\"/**";
 			};
 			name = Debug;
 		};
@@ -733,6 +734,7 @@
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.sonoma.SonomaCrashesTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../SonomaCore/SonomaCore\"/**";
 			};
 			name = Release;
 		};
