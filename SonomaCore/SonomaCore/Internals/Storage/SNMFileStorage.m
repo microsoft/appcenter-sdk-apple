@@ -49,7 +49,7 @@ static NSUInteger const SNMDefaultLogCountLimit = 50;
       [self deleteLogsForId:oldestFile.fileId withStorageKey:storageKey];
     }
 
-    // Make current file SNMilable and create new current file
+    // Make current file available and create new current file
     [bucket.SNMilableFiles insertObject:bucket.currentFile atIndex:0];
   }
 

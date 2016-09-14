@@ -30,7 +30,7 @@ extern NSString *kSNMReachabilityChangedNotification;
 + (instancetype)reachabilityWithAddress:(const struct sockaddr *)hostAddress;
 
 /*!
- * Checks whether the default route is SNMilable. Should be used by applications that do not connect to a particular
+ * Checks whether the default route is available. Should be used by applications that do not connect to a particular
  * host.
  */
 + (instancetype)reachabilityForInternetConnection;
@@ -48,7 +48,7 @@ extern NSString *kSNMReachabilityChangedNotification;
 - (NetworkStatus)currentReachabilityStatus;
 
 /*!
- * WWAN may be SNMilable, but not active until a connection has been established. WiFi may require a connection for VPN
+ * WWAN may be available, but not active until a connection has been established. WiFi may require a connection for VPN
  * on Demand.
  */
 - (BOOL)connectionRequired;

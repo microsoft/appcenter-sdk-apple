@@ -43,13 +43,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (SNMFile *)fileWithId:(NSString *)fileId;
 
 /**
- * Sorts the list of SNMilable files by creation date. The most recent file will
+ * Sorts the list of available files by creation date. The most recent file will
  * be at the last index.
  */
 - (void)sortSNMilableFilesByCreationDate;
 
 /**
- * Removes the given file from the bucket's internal SNMilable or blocked list.
+ * Removes the given file from the bucket's internal available or blocked list.
  *
  *  @param file The file to delete.
  */

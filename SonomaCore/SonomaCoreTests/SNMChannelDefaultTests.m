@@ -22,7 +22,7 @@
 - (void)setUp {
   [super setUp];
 
-  // TODO: Use mocks once protocols are SNMilable
+  // TODO: Use mocks once protocols are available
   _sut = [SNMChannelDefault new];
 }
 
