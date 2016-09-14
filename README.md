@@ -212,12 +212,12 @@ Once you set up and start the Sonoma SDK to use the Crashes module in your appli
 
     **Objective-C**
     ```objectivec
-    [SNMSonoma setLogLevel:AVALogLevelVerbose];
+    [SNMSonoma setLogLevel:SNMLogLevelVerbose];
     ```
 
     **Swift**
     ```swift
-    SNMSonoma.setLogLevel(AVALogLevel.Verbose)
+    SNMSonoma.setLogLevel(SNMLogLevel.Verbose)
     ```
 
 * **Get Install Identifier**: The Sonoma SDK creates a UUID for each device once the app is installed. This identifier remains the same for a device when the app is updated and a new one is generated only when the app is re-installed. The following API is useful for debugging purposes:
