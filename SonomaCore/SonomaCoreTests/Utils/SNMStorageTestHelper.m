@@ -3,7 +3,7 @@
 @implementation SNMStorageTestHelper
 
 + (NSString *)logsDir {
-  NSString *logsPath = @"com.microsoft.avalanche/logs";
+  NSString *logsPath = @"com.microsoft.sonoma/logs";
   NSString *documentsDir =
       [NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject];
   return [documentsDir stringByAppendingPathComponent:logsPath];

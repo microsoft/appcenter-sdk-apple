@@ -4,7 +4,7 @@
 #import "SNMLogger.h"
 #import "SNMUtils.h"
 
-static NSString *const kSNMLogsDirectory = @"com.microsoft.avalanche/logs";
+static NSString *const kSNMLogsDirectory = @"com.microsoft.sonoma/logs";
 static NSString *const kSNMFileExtension = @"ava";
 // FIXME Need a different storage such as database to make it work properly.
 //       For now, persistence will maintain up to 350 logs and remove the oldest 50 logs in a file.

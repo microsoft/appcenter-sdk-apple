@@ -5,13 +5,13 @@
 #import "SNMCrashesHelper.h"
 #import <sys/sysctl.h>
 
-static NSString *const kSNMCrashesDirectory = @"com.microsoft.avalanche/errorreporting";
+static NSString *const kSNMCrashesDirectory = @"com.microsoft.sonoma/errorreporting";
 
 @interface SNMCrashesHelper ()
 
-BOOL ava_isDebuggerAttached(void);
-BOOL ava_isRunningInAppExtension(void);
-NSString *ava_crashesDir(void);
+BOOL snm_isDebuggerAttached(void);
+BOOL snm_isRunningInAppExtension(void);
+NSString *snm_crashesDir(void);
 
 @end
 

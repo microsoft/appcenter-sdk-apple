@@ -6,7 +6,7 @@
 #import "SNMLogManagerDefault.h"
 #import "SonomaCore+Internal.h"
 
-static char *const SNMDataItemsOperationsQueue = "com.microsoft.avalanche.LogManagerQueue";
+static char *const SNMDataItemsOperationsQueue = "com.microsoft.sonoma.LogManagerQueue";
 
 @implementation SNMLogManagerDefault
 

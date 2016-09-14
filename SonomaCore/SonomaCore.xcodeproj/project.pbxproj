@@ -924,7 +924,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_CFLAGS = "$(SONOMA_WARNING_FLAGS)";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.avalanche.SonomaCore;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.sonoma.SonomaCore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SKIP_INSTALL = YES;
@@ -950,7 +950,7 @@
 					"-fembed-bitcode",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.avalanche.SonomaCore;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.sonoma.SonomaCore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SKIP_INSTALL = YES;
@@ -995,7 +995,7 @@
 					Foundation,
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.avalanche.SonomaCoreTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.sonoma.SonomaCoreTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "";
 			};
@@ -1022,7 +1022,7 @@
 					Foundation,
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.avalanche.SonomaCoreTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.sonoma.SonomaCoreTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "";
 			};

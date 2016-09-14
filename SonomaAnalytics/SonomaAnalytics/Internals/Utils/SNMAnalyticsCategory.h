@@ -24,6 +24,6 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return YES if should track page, NO otherwise
  */
-BOOL ava_shouldTrackPageView(UIViewController *viewController);
+BOOL snm_shouldTrackPageView(UIViewController *viewController);
 
 NS_ASSUME_NONNULL_END

@@ -10,13 +10,13 @@
 // SDK versioning struct.
 typedef struct {
   uint8_t info_version;
-  const char ava_version[16];
-  const char ava_build[16];
-} ava_info_t;
+  const char snm_version[16];
+  const char snm_build[16];
+} snm_info_t;
 
 // SDK versioning.
-ava_info_t avalanche_library_info __attribute__((section("__TEXT,__bit_ios,regular,no_dead_strip"))) = {
-    .info_version = 1, .ava_version = SONOMA_C_VERSION, .ava_build = SONOMA_C_BUILD};
+snm_info_t sonoma_library_info __attribute__((section("__TEXT,__bit_ios,regular,no_dead_strip"))) = {
+    .info_version = 1, .snm_version = SONOMA_C_VERSION, .snm_build = SONOMA_C_BUILD};
 
 @implementation SNMDeviceTracker : NSObject
 
@@ -46,7 +46,7 @@ ava_info_t avalanche_library_info __attribute__((section("__TEXT,__bit_ios,regul
     CTCarrier *carrier = [[[CTTelephonyNetworkInfo alloc] init] subscriberCellularProvider];
 
     // Collect device properties.
-    newDevice.sdkVersion = [self sdkVersion:avalanche_library_info.ava_version];
+    newDevice.sdkVersion = [self sdkVersion:sonoma_library_info.snm_version];
     newDevice.model = [self deviceModel];
     newDevice.oemName = kSNMDeviceManufacturer;
     newDevice.osName = [self osName:kSNMDevice];
