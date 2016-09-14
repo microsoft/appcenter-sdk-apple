@@ -17,7 +17,7 @@ static NSString *const kSNMAPIVersionKey = @"api-version";
 static NSString *const kSNMHubIsEnabledKey = @"kSNMHubIsEnabledKey";
 
 // Base URL for HTTP backend API calls.
-static NSString *const kSNMBaseUrl = @"http://avalanche-perf.westus.cloudapp.azure.com:8081";
+static NSString *const kSNMBaseUrl = @"http://in-integration.dev.avalanch.es:8081";
 
 @implementation SNMSonoma
 
