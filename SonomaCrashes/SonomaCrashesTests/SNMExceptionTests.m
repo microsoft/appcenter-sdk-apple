@@ -53,7 +53,7 @@
 #pragma mark - Helper
 
 - (SNMException *)exception {
-  NSString *type = @"exceptionType";
+  NSString *type = @"exception_type";
   NSString *reason = @"reason";
   SNMStackFrame *frame = [SNMStackFrame new];
   frame.address = @"frameAddress";
