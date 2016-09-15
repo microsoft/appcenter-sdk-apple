@@ -52,8 +52,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 #pragma mark - Public Methods
 
 + (BOOL)isDebuggerAttached {
-  // TODO actual implementation
-  return NO;
+  return [SNMCrashesHelper isDebuggerAttached];
 }
 
 + (void)generateTestCrash {
