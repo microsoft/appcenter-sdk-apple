@@ -118,7 +118,6 @@ static NSString *const kSNMBaseUrl = @"http://in-integration.dev.avalanch.es:808
 
       // Persist the enabled status.
       [kSNMUserDefaults setObject:[NSNumber numberWithBool:isEnabled] forKey:kSNMHubIsEnabledKey];
-      [kSNMUserDefaults synchronize];
     }
   }
 }
@@ -183,7 +182,6 @@ static NSString *const kSNMBaseUrl = @"http://in-integration.dev.avalanch.es:808
 
         // Persist the install Id string.
         [kSNMUserDefaults setObject:[_installId UUIDString] forKey:kSNMInstallIdKey];
-        [kSNMUserDefaults synchronize];
       }
     }
     return _installId;
