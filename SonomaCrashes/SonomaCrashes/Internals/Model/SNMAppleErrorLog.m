@@ -6,7 +6,7 @@
 #import "SNMThread.h"
 #import "SNMBinary.h"
 
-static NSString *const kSNMTypeError = @"error";
+static NSString *const kSNMTypeError = @"apple_error";
 static NSString *const kSNMPrimaryArchitectureId = @"primary_architecture_id";
 static NSString *const kSNMArchitectureVariantId = @"architecture_variant_id";
 static NSString *const kSNMApplicationPath = @"application_path";
