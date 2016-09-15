@@ -4,12 +4,12 @@
 
 #import <Foundation/Foundation.h>
 
-#import "SNMDeviceTracker.h"
 #import "SNMChannel.h"
+#import "SNMDeviceTracker.h"
 #import "SNMLogManager.h"
+#import "SNMLogManagerListener.h"
 #import "SNMSender.h"
 #import "SNMStorage.h"
-#import "SNMLogManagerListener.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -38,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Array of log manager listeners.
  */
-@property (nonatomic) NSMutableArray<id<SNMLogManagerListener>>* listeners;
+@property(nonatomic) NSMutableArray<id<SNMLogManagerListener>> *listeners;
 
 /**
  *  A sender instance that is used to send batches of log items to the backend.
@@ -64,6 +64,11 @@ NS_ASSUME_NONNULL_BEGIN
  *  Device tracker provides device information.
  */
 @property(nonatomic) SNMDeviceTracker *deviceTracker;
+
+/**
+ *  Clear storage.
+ */
+- (void)clearStorage;
 
 @end
 

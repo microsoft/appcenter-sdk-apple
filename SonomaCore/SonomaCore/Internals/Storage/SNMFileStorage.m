@@ -58,6 +58,21 @@ static NSUInteger const SNMDefaultLogCountLimit = 50;
   [SNMFileHelper writeData:logsData toFile:bucket.currentFile];
 }
 
+- (void)deleteLogsForStorageKey:(NSString *)storageKey {
+
+  // Remove all files from the bucket.
+  SNMStorageBucket *bucket = self.buckets[storageKey];
+  NSArray<SNMFile *> *allFiles = [bucket removeAllFiles];
+
+  // Delete all files.
+  for (SNMFile *file in allFiles) {
+    if (file) {
+      [SNMFileHelper deleteFile:file];
+      [bucket removeFile:file];
+    }
+  }
+}
+
 - (void)deleteLogsForId:(NSString *)logsId withStorageKey:(NSString *)storageKey {
   SNMStorageBucket *bucket = self.buckets[storageKey];
   SNMFile *file = [bucket fileWithId:logsId];

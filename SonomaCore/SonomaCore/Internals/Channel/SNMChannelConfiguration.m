@@ -55,4 +55,12 @@ static SNMChannelConfiguration *SNMChannelConfigurationBackground;
   }
 }
 
++ (NSArray<SNMChannelConfiguration *> *)allConfigurations {
+  return @[
+    [SNMChannelConfiguration configurationForPriority:SNMChannelConfigurationDefault],
+    [SNMChannelConfiguration configurationForPriority:SNMChannelConfigurationHigh],
+    [SNMChannelConfiguration configurationForPriority:SNMChannelConfigurationBackground]
+  ];
+}
+
 @end

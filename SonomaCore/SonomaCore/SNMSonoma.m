@@ -1,7 +1,7 @@
-#import "SNMSonomaInternal.h"
 #import "SNMFileStorage.h"
 #import "SNMHttpSender.h"
 #import "SNMLogManagerDefault.h"
+#import "SNMSonomaInternal.h"
 #import "SNMUserDefaults.h"
 #import "SNMUtils.h"
 
@@ -33,6 +33,8 @@ static NSString *const kSNMBaseUrl = @"http://in-integration.dev.avalanch.es:808
 }
 
 #pragma mark - public
+
+// TODO protect APIs from being called while Core not initialized. That's already done for beacons.
 
 + (void)start:(NSString *)appSecret withFeatures:(NSArray<Class> *)features {
   [[self sharedInstance] start:appSecret withFeatures:features];
@@ -115,6 +117,11 @@ static NSString *const kSNMBaseUrl = @"http://in-integration.dev.avalanch.es:808
 
     // Update the enabled status if needed.
     if ([self isEnabled] != isEnabled) {
+      if (!isEnabled) {
+
+        // Delete any remaining logs. ie: logs from unstarted beacons.
+        [self.logManager clearStorage];
+      }
 
       // Persist the enabled status.
       [kSNMUserDefaults setObject:[NSNumber numberWithBool:isEnabled] forKey:kSNMHubIsEnabledKey];
