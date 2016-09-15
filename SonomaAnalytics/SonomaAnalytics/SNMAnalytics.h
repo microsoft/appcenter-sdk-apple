@@ -14,9 +14,23 @@
  *  Track an event.
  *
  *  @param eventName  event name.
+ */
++ (void)trackEvent:(NSString *)eventName;
+
+/**
+ *  Track an event.
+ *
+ *  @param eventName  event name.
  *  @param properties dictionary of properties.
  */
 + (void)trackEvent:(NSString *)eventName withProperties:(NSDictionary *)properties;
+
+/**
+ *  Track a page.
+ *
+ *  @param eventName  page name.
+ */
++ (void)trackPage:(NSString *)pageName;
 
 /**
  *  Track a page.
