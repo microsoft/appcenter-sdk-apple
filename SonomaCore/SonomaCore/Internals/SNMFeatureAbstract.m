@@ -36,7 +36,6 @@
 
       // Persist the enabled status.
       [self.storage setObject:[NSNumber numberWithBool:isEnabled] forKey:self.isEnabledKey];
-      [self.storage synchronize];
     }
   }
 }
