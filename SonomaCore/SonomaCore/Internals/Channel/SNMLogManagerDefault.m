@@ -35,35 +35,36 @@ static char *const SNMDataItemsOperationsQueue = "com.microsoft.sonoma.LogManage
 
 #pragma mark - Listener
 
-- (void)addListener:(id <SNMLogManagerListener>)listener {
-  
+- (void)addListener:(id<SNMLogManagerListener>)listener {
+
   // Check if listener is not already added.
   if (![self.listeners containsObject:listener])
     [self.listeners addObject:listener];
 }
 
-- (void)removeListener:(id <SNMLogManagerListener>)listener {
+- (void)removeListener:(id<SNMLogManagerListener>)listener {
   [self.listeners removeObject:listener];
 }
 
 #pragma mark - Process items
 
 - (void)processLog:(id<SNMLog>)log withPriority:(SNMPriority)priority {
-  
+
   // Notify listeners.
-  [self.listeners enumerateObjectsUsingBlock:^(id<SNMLogManagerListener>  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-    [obj onProcessingLog:log withPriority:priority];
-  }];
-  
+  [self.listeners
+      enumerateObjectsUsingBlock:^(id<SNMLogManagerListener> _Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
+        [obj onProcessingLog:log withPriority:priority];
+      }];
+
   id<SNMChannel> channel = [self.channels objectForKey:@(priority)];
   if (!channel) {
     channel = [self createChannelForPriority:priority];
   }
-  
+
   // Set common log info.
   log.toffset = [NSNumber numberWithInteger:[[NSDate date] timeIntervalSince1970]];
   log.device = self.deviceTracker.device;
-  
+
   dispatch_async(self.dataItemsOperations, ^{
     [channel enqueueItem:log];
   });
@@ -82,6 +83,14 @@ static char *const SNMDataItemsOperationsQueue = "com.microsoft.sonoma.LogManage
     self.channels[@(priority)] = channel;
   }
   return channel;
+}
+
+#pragma mark - Storage
+
+- (void)clearStorage {
+  for (SNMChannelConfiguration *conf in [SNMChannelConfiguration allConfigurations]) {
+    [self.storage deleteLogsForStorageKey:conf.name];
+  }
 }
 
 @end

@@ -1,8 +1,8 @@
 #import "AppDelegate.h"
-#import "SonomaAnalytics.h"
-#import "SonomaCrashes.h"
-#import "SonomaCore.h"
 #import "Constants.h"
+#import "SonomaAnalytics.h"
+#import "SonomaCore.h"
+#import "SonomaCrashes.h"
 
 #import "SNMErrorAttachment.h"
 #import "SNMErrorReport.h"

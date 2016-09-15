@@ -40,4 +40,18 @@
   }
 }
 
+- (NSArray<SNMFile *> *)removeAllFiles {
+  NSMutableArray *allFiles = [NSMutableArray new];
+
+  // Transfer all available files
+  [allFiles addObjectsFromArray:_availableFiles];
+  [_availableFiles removeAllObjects];
+
+  // Transfer all blocked files
+  [allFiles addObjectsFromArray:_blockedFiles];
+  [_blockedFiles removeAllObjects];
+
+  return [allFiles copy];
+}
+
 @end
