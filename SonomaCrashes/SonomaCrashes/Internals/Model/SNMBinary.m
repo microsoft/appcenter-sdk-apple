@@ -5,12 +5,12 @@
 #import "SNMBinary.h"
 
 static NSString *const kSNMId = @"id";
-static NSString *const kSNMStartAddress = @"startAddress";
-static NSString *const kSNMEndAddress = @"endAddress";
+static NSString *const kSNMStartAddress = @"start_address";
+static NSString *const kSNMEndAddress = @"end_address";
 static NSString *const kSNMName = @"name";
 static NSString *const kSNMPath = @"path";
-static NSString *const kSNMPrimaryArchitectureId = @"primaryArchitectureId";
-static NSString *const kSNMArchitectureVariantId = @"architectureVariantId";
+static NSString *const kSNMPrimaryArchitectureId = @"primary_architecture_id";
+static NSString *const kSNMArchitectureVariantId = @"architecture_variant_id";
 
 @implementation SNMBinary
 
