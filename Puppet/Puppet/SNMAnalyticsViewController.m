@@ -137,7 +137,7 @@
       // Actions
       switch (indexPath.row) {
         case 0: {
-          [SNMAnalytics trackEvent:@"myEvent" withProperties:nil];
+          [SNMAnalytics trackEvent:@"myEvent"];
           break;
         }
         case 1: {
@@ -146,7 +146,7 @@
           break;
         }
         case 2: {
-          [SNMAnalytics trackPage:@"myPage" withProperties:nil];
+          [SNMAnalytics trackPage:@"myPage"];
           break;
         }
           

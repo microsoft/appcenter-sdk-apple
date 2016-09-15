@@ -76,10 +76,18 @@ static NSString *const kSNMFeatureName = @"Analytics";
 
 #pragma mark - Module methods
 
++ (void)trackEvent:(NSString *)eventName {
+  [self trackEvent:eventName withProperties:nil];
+}
+
 + (void)trackEvent:(NSString *)eventName withProperties:(NSDictionary *)properties {
   if ([[self sharedInstance] canBeUsed]) {
     [[self sharedInstance] trackEvent:eventName withProperties:properties];
   }
+}
+
++ (void)trackPage:(NSString *)pageName {
+  [self trackPage:pageName withProperties:nil];
 }
 
 + (void)trackPage:(NSString *)pageName withProperties:(NSDictionary *)properties {
@@ -109,7 +117,7 @@ static NSString *const kSNMFeatureName = @"Analytics";
     return;
 
   // Send async
-  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
 
     // Create and set properties of the event log
     SNMEventLog *log = [[SNMEventLog alloc] init];
@@ -128,7 +136,7 @@ static NSString *const kSNMFeatureName = @"Analytics";
     return;
 
   // Send async
-  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
 
     // Create and set properties of the event log
     SNMPageLog *log = [[SNMPageLog alloc] init];
