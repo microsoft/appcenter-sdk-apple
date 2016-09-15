@@ -1,0 +1,10 @@
+framework module SonomaCrashes {
+  umbrella header "SonomaCrashes.h"
+  
+  export *
+  module * { export * }
+  
+  link framework "Foundation"
+  link "c++"
+  link "z"
+}

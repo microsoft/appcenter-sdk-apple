@@ -14,77 +14,77 @@
 		E82E1B6D1D1CA58D00D281C1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E82E1B6B1D1CA58D00D281C1 /* Main.storyboard */; };
 		E82E1B6F1D1CA58D00D281C1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E82E1B6E1D1CA58D00D281C1 /* Assets.xcassets */; };
 		E82E1B721D1CA58D00D281C1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E82E1B701D1CA58D00D281C1 /* LaunchScreen.storyboard */; };
-		E82E1B8F1D1CA65D00D281C1 /* libAvalancheErrorReporting.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E82E1B811D1CA62900D281C1 /* libAvalancheErrorReporting.a */; };
-		E82E1B901D1CA65D00D281C1 /* libAvalancheHub.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E82E1B881D1CA63000D281C1 /* libAvalancheHub.a */; };
-		E85548081D2D6C9D002DF6E2 /* libAvalancheAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E85548031D2D6C8D002DF6E2 /* libAvalancheAnalytics.a */; };
-		E89E6A2C1D396D7900CAA2CD /* AVAErrorReportingReportsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89E6A291D396D7900CAA2CD /* AVAErrorReportingReportsViewController.m */; };
-		E89E6A2D1D396D7900CAA2CD /* AVAMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89E6A2B1D396D7900CAA2CD /* AVAMainViewController.m */; };
-		E89E6A301D39704900CAA2CD /* AVAAnalyticsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89E6A2F1D39704900CAA2CD /* AVAAnalyticsViewController.m */; };
+		E82E1B8F1D1CA65D00D281C1 /* libSonomaCrashes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E82E1B811D1CA62900D281C1 /* libSonomaCrashes.a */; };
+		E82E1B901D1CA65D00D281C1 /* libSonomaCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E82E1B881D1CA63000D281C1 /* libSonomaCore.a */; };
+		E85548081D2D6C9D002DF6E2 /* libSonomaAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E85548031D2D6C8D002DF6E2 /* libSonomaAnalytics.a */; };
+		E89E6A2C1D396D7900CAA2CD /* SNMCrashesReportsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89E6A291D396D7900CAA2CD /* SNMCrashesReportsViewController.m */; };
+		E89E6A2D1D396D7900CAA2CD /* SNMMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89E6A2B1D396D7900CAA2CD /* SNMMainViewController.m */; };
+		E89E6A301D39704900CAA2CD /* SNMAnalyticsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89E6A2F1D39704900CAA2CD /* SNMAnalyticsViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
 		E82E1B801D1CA62900D281C1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = E82E1B7C1D1CA62900D281C1 /* AvalancheErrorReporting.xcodeproj */;
+			containerPortal = E82E1B7C1D1CA62900D281C1 /* SonomaCrashes.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 6E0401331D1C98690051BCFA;
-			remoteInfo = AvalancheErrorReporting;
+			remoteInfo = SonomaCrashes;
 		};
 		E82E1B871D1CA63000D281C1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = E82E1B821D1CA63000D281C1 /* AvalancheHub.xcodeproj */;
+			containerPortal = E82E1B821D1CA63000D281C1 /* SonomaCore.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 6E0401031D1C98220051BCFA;
-			remoteInfo = AvalancheHub;
+			remoteInfo = SonomaCore;
 		};
 		E82E1B891D1CA63000D281C1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = E82E1B821D1CA63000D281C1 /* AvalancheHub.xcodeproj */;
+			containerPortal = E82E1B821D1CA63000D281C1 /* SonomaCore.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 6E04015E1D1C9DF40051BCFA;
-			remoteInfo = AvalancheHubTests;
+			remoteInfo = SonomaCoreTests;
 		};
 		E82E1B8B1D1CA65600D281C1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = E82E1B821D1CA63000D281C1 /* AvalancheHub.xcodeproj */;
+			containerPortal = E82E1B821D1CA63000D281C1 /* SonomaCore.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = 6E0401021D1C98220051BCFA;
-			remoteInfo = AvalancheHub;
+			remoteInfo = SonomaCore;
 		};
 		E82E1B8D1D1CA65600D281C1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = E82E1B7C1D1CA62900D281C1 /* AvalancheErrorReporting.xcodeproj */;
+			containerPortal = E82E1B7C1D1CA62900D281C1 /* SonomaCrashes.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = 6E0401321D1C98690051BCFA;
-			remoteInfo = AvalancheErrorReporting;
+			remoteInfo = SonomaCrashes;
 		};
 		E85548021D2D6C8D002DF6E2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = E85547FB1D2D6C8D002DF6E2 /* AvalancheAnalytics.xcodeproj */;
+			containerPortal = E85547FB1D2D6C8D002DF6E2 /* SonomaAnalytics.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = E85547C01D2D6253002DF6E2;
-			remoteInfo = AvalancheAnalytics;
+			remoteInfo = SonomaAnalytics;
 		};
 		E85548041D2D6C8D002DF6E2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = E85547FB1D2D6C8D002DF6E2 /* AvalancheAnalytics.xcodeproj */;
+			containerPortal = E85547FB1D2D6C8D002DF6E2 /* SonomaAnalytics.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = E85547D51D2D6723002DF6E2;
-			remoteInfo = AvalancheAnalyticsTests;
+			remoteInfo = SonomaAnalyticsTests;
 		};
 		E85548061D2D6C98002DF6E2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = E85547FB1D2D6C8D002DF6E2 /* AvalancheAnalytics.xcodeproj */;
+			containerPortal = E85547FB1D2D6C8D002DF6E2 /* SonomaAnalytics.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = E85547BF1D2D6253002DF6E2;
-			remoteInfo = AvalancheAnalytics;
+			remoteInfo = SonomaAnalytics;
 		};
 		E8DF1C2B1D21A8F5006310CF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = E82E1B7C1D1CA62900D281C1 /* AvalancheErrorReporting.xcodeproj */;
+			containerPortal = E82E1B7C1D1CA62900D281C1 /* SonomaCrashes.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 6E3729681D1DE7EC00F1E4AE;
-			remoteInfo = AvalancheErrorReportingTests;
+			remoteInfo = SonomaCrashesTests;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -101,15 +101,15 @@
 		E82E1B6E1D1CA58D00D281C1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E82E1B711D1CA58D00D281C1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E82E1B731D1CA58D00D281C1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E82E1B7C1D1CA62900D281C1 /* AvalancheErrorReporting.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AvalancheErrorReporting.xcodeproj; path = ../../AvalancheErrorReporting/AvalancheErrorReporting.xcodeproj; sourceTree = "<group>"; };
-		E82E1B821D1CA63000D281C1 /* AvalancheHub.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AvalancheHub.xcodeproj; path = ../../AvalancheHub/AvalancheHub.xcodeproj; sourceTree = "<group>"; };
-		E85547FB1D2D6C8D002DF6E2 /* AvalancheAnalytics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AvalancheAnalytics.xcodeproj; path = ../../AvalancheAnalytics/AvalancheAnalytics.xcodeproj; sourceTree = "<group>"; };
-		E89E6A281D396D7900CAA2CD /* AVAErrorReportingReportsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAErrorReportingReportsViewController.h; sourceTree = "<group>"; };
-		E89E6A291D396D7900CAA2CD /* AVAErrorReportingReportsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAErrorReportingReportsViewController.m; sourceTree = "<group>"; };
-		E89E6A2A1D396D7900CAA2CD /* AVAMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAMainViewController.h; sourceTree = "<group>"; };
-		E89E6A2B1D396D7900CAA2CD /* AVAMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAMainViewController.m; sourceTree = "<group>"; };
-		E89E6A2E1D39704900CAA2CD /* AVAAnalyticsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVAAnalyticsViewController.h; sourceTree = "<group>"; };
-		E89E6A2F1D39704900CAA2CD /* AVAAnalyticsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVAAnalyticsViewController.m; sourceTree = "<group>"; };
+		E82E1B7C1D1CA62900D281C1 /* SonomaCrashes.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SonomaCrashes.xcodeproj; path = ../../SonomaCrashes/SonomaCrashes.xcodeproj; sourceTree = "<group>"; };
+		E82E1B821D1CA63000D281C1 /* SonomaCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SonomaCore.xcodeproj; path = ../../SonomaCore/SonomaCore.xcodeproj; sourceTree = "<group>"; };
+		E85547FB1D2D6C8D002DF6E2 /* SonomaAnalytics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SonomaAnalytics.xcodeproj; path = ../../SonomaAnalytics/SonomaAnalytics.xcodeproj; sourceTree = "<group>"; };
+		E89E6A281D396D7900CAA2CD /* SNMCrashesReportsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMCrashesReportsViewController.h; sourceTree = "<group>"; };
+		E89E6A291D396D7900CAA2CD /* SNMCrashesReportsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMCrashesReportsViewController.m; sourceTree = "<group>"; };
+		E89E6A2A1D396D7900CAA2CD /* SNMMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMMainViewController.h; sourceTree = "<group>"; };
+		E89E6A2B1D396D7900CAA2CD /* SNMMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMMainViewController.m; sourceTree = "<group>"; };
+		E89E6A2E1D39704900CAA2CD /* SNMAnalyticsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMAnalyticsViewController.h; sourceTree = "<group>"; };
+		E89E6A2F1D39704900CAA2CD /* SNMAnalyticsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMAnalyticsViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,9 +119,9 @@
 			files = (
 				6EC99A281D4152FA0016C325 /* libc++.tbd in Frameworks */,
 				6EC99A211D4151A00016C325 /* CrashReporter.framework in Frameworks */,
-				E85548081D2D6C9D002DF6E2 /* libAvalancheAnalytics.a in Frameworks */,
-				E82E1B8F1D1CA65D00D281C1 /* libAvalancheErrorReporting.a in Frameworks */,
-				E82E1B901D1CA65D00D281C1 /* libAvalancheHub.a in Frameworks */,
+				E85548081D2D6C9D002DF6E2 /* libSonomaAnalytics.a in Frameworks */,
+				E82E1B8F1D1CA65D00D281C1 /* libSonomaCrashes.a in Frameworks */,
+				E82E1B901D1CA65D00D281C1 /* libSonomaCore.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -158,7 +158,7 @@
 			isa = PBXGroup;
 			children = (
 				E89E6A271D396D6700CAA2CD /* Classes */,
-				E82E1B7B1D1CA61000D281C1 /* Avalanche */,
+				E82E1B7B1D1CA61000D281C1 /* Sonoma */,
 				6EC99A161D4151890016C325 /* Frameworks */,
 				E82E1B621D1CA58D00D281C1 /* Supporting Files */,
 			);
@@ -177,21 +177,21 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		E82E1B7B1D1CA61000D281C1 /* Avalanche */ = {
+		E82E1B7B1D1CA61000D281C1 /* Sonoma */ = {
 			isa = PBXGroup;
 			children = (
-				E85547FB1D2D6C8D002DF6E2 /* AvalancheAnalytics.xcodeproj */,
-				E82E1B821D1CA63000D281C1 /* AvalancheHub.xcodeproj */,
-				E82E1B7C1D1CA62900D281C1 /* AvalancheErrorReporting.xcodeproj */,
+				E85547FB1D2D6C8D002DF6E2 /* SonomaAnalytics.xcodeproj */,
+				E82E1B821D1CA63000D281C1 /* SonomaCore.xcodeproj */,
+				E82E1B7C1D1CA62900D281C1 /* SonomaCrashes.xcodeproj */,
 			);
-			name = Avalanche;
+			name = Sonoma;
 			sourceTree = "<group>";
 		};
 		E82E1B7D1D1CA62900D281C1 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E82E1B811D1CA62900D281C1 /* libAvalancheErrorReporting.a */,
-				E8DF1C2C1D21A8F5006310CF /* AvalancheErrorReporting.xctest */,
+				E82E1B811D1CA62900D281C1 /* libSonomaCrashes.a */,
+				E8DF1C2C1D21A8F5006310CF /* SonomaCrashes.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -199,8 +199,8 @@
 		E82E1B831D1CA63000D281C1 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E82E1B881D1CA63000D281C1 /* libAvalancheHub.a */,
-				E82E1B8A1D1CA63000D281C1 /* AvalancheHubTests.xctest */,
+				E82E1B881D1CA63000D281C1 /* libSonomaCore.a */,
+				E82E1B8A1D1CA63000D281C1 /* SonomaCoreTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -208,8 +208,8 @@
 		E85547FC1D2D6C8D002DF6E2 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E85548031D2D6C8D002DF6E2 /* libAvalancheAnalytics.a */,
-				E85548051D2D6C8D002DF6E2 /* AvalancheAnalyticsTests.xctest */,
+				E85548031D2D6C8D002DF6E2 /* libSonomaAnalytics.a */,
+				E85548051D2D6C8D002DF6E2 /* SonomaAnalyticsTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -219,12 +219,12 @@
 			children = (
 				E82E1B651D1CA58D00D281C1 /* AppDelegate.h */,
 				E82E1B661D1CA58D00D281C1 /* AppDelegate.m */,
-				E89E6A2E1D39704900CAA2CD /* AVAAnalyticsViewController.h */,
-				E89E6A2F1D39704900CAA2CD /* AVAAnalyticsViewController.m */,
-				E89E6A281D396D7900CAA2CD /* AVAErrorReportingReportsViewController.h */,
-				E89E6A291D396D7900CAA2CD /* AVAErrorReportingReportsViewController.m */,
-				E89E6A2A1D396D7900CAA2CD /* AVAMainViewController.h */,
-				E89E6A2B1D396D7900CAA2CD /* AVAMainViewController.m */,
+				E89E6A2E1D39704900CAA2CD /* SNMAnalyticsViewController.h */,
+				E89E6A2F1D39704900CAA2CD /* SNMAnalyticsViewController.m */,
+				E89E6A281D396D7900CAA2CD /* SNMCrashesReportsViewController.h */,
+				E89E6A291D396D7900CAA2CD /* SNMCrashesReportsViewController.m */,
+				E89E6A2A1D396D7900CAA2CD /* SNMMainViewController.h */,
+				E89E6A2B1D396D7900CAA2CD /* SNMMainViewController.m */,
 				384959D81D4972DA008F6B3A /* Constants.h */,
 			);
 			name = Classes;
@@ -282,15 +282,15 @@
 			projectReferences = (
 				{
 					ProductGroup = E85547FC1D2D6C8D002DF6E2 /* Products */;
-					ProjectRef = E85547FB1D2D6C8D002DF6E2 /* AvalancheAnalytics.xcodeproj */;
+					ProjectRef = E85547FB1D2D6C8D002DF6E2 /* SonomaAnalytics.xcodeproj */;
 				},
 				{
 					ProductGroup = E82E1B7D1D1CA62900D281C1 /* Products */;
-					ProjectRef = E82E1B7C1D1CA62900D281C1 /* AvalancheErrorReporting.xcodeproj */;
+					ProjectRef = E82E1B7C1D1CA62900D281C1 /* SonomaCrashes.xcodeproj */;
 				},
 				{
 					ProductGroup = E82E1B831D1CA63000D281C1 /* Products */;
-					ProjectRef = E82E1B821D1CA63000D281C1 /* AvalancheHub.xcodeproj */;
+					ProjectRef = E82E1B821D1CA63000D281C1 /* SonomaCore.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -301,45 +301,45 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		E82E1B811D1CA62900D281C1 /* libAvalancheErrorReporting.a */ = {
+		E82E1B811D1CA62900D281C1 /* libSonomaCrashes.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libAvalancheErrorReporting.a;
+			path = libSonomaCrashes.a;
 			remoteRef = E82E1B801D1CA62900D281C1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		E82E1B881D1CA63000D281C1 /* libAvalancheHub.a */ = {
+		E82E1B881D1CA63000D281C1 /* libSonomaCore.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libAvalancheHub.a;
+			path = libSonomaCore.a;
 			remoteRef = E82E1B871D1CA63000D281C1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		E82E1B8A1D1CA63000D281C1 /* AvalancheHubTests.xctest */ = {
+		E82E1B8A1D1CA63000D281C1 /* SonomaCoreTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = AvalancheHubTests.xctest;
+			path = SonomaCoreTests.xctest;
 			remoteRef = E82E1B891D1CA63000D281C1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		E85548031D2D6C8D002DF6E2 /* libAvalancheAnalytics.a */ = {
+		E85548031D2D6C8D002DF6E2 /* libSonomaAnalytics.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libAvalancheAnalytics.a;
+			path = libSonomaAnalytics.a;
 			remoteRef = E85548021D2D6C8D002DF6E2 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		E85548051D2D6C8D002DF6E2 /* AvalancheAnalyticsTests.xctest */ = {
+		E85548051D2D6C8D002DF6E2 /* SonomaAnalyticsTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = AvalancheAnalyticsTests.xctest;
+			path = SonomaAnalyticsTests.xctest;
 			remoteRef = E85548041D2D6C8D002DF6E2 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		E8DF1C2C1D21A8F5006310CF /* AvalancheErrorReporting.xctest */ = {
+		E8DF1C2C1D21A8F5006310CF /* SonomaCrashes.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = AvalancheErrorReporting.xctest;
+			path = SonomaCrashes.xctest;
 			remoteRef = E8DF1C2B1D21A8F5006310CF /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -364,9 +364,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				E82E1B671D1CA58D00D281C1 /* AppDelegate.m in Sources */,
-				E89E6A2D1D396D7900CAA2CD /* AVAMainViewController.m in Sources */,
-				E89E6A2C1D396D7900CAA2CD /* AVAErrorReportingReportsViewController.m in Sources */,
-				E89E6A301D39704900CAA2CD /* AVAAnalyticsViewController.m in Sources */,
+				E89E6A2D1D396D7900CAA2CD /* SNMMainViewController.m in Sources */,
+				E89E6A2C1D396D7900CAA2CD /* SNMCrashesReportsViewController.m in Sources */,
+				E89E6A301D39704900CAA2CD /* SNMAnalyticsViewController.m in Sources */,
 				E82E1B641D1CA58D00D281C1 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -376,17 +376,17 @@
 /* Begin PBXTargetDependency section */
 		E82E1B8C1D1CA65600D281C1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = AvalancheHub;
+			name = SonomaCore;
 			targetProxy = E82E1B8B1D1CA65600D281C1 /* PBXContainerItemProxy */;
 		};
 		E82E1B8E1D1CA65600D281C1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = AvalancheErrorReporting;
+			name = SonomaCrashes;
 			targetProxy = E82E1B8D1D1CA65600D281C1 /* PBXContainerItemProxy */;
 		};
 		E85548071D2D6C98002DF6E2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = AvalancheAnalytics;
+			name = SonomaAnalytics;
 			targetProxy = E85548061D2D6C98002DF6E2 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -507,7 +507,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = MehrdadM.Puppet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../AvalancheHub/AvalancheHub/** $(SRCROOT)/../AvalancheAnalytics/AvalancheAnalytics/** $(SRCROOT)/../AvalancheErrorReporting/AvalancheErrorReporting/**";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../SonomaCore/SonomaCore/** $(SRCROOT)/../SonomaAnalytics/SonomaAnalytics/** $(SRCROOT)/../SonomaCrashes/SonomaCrashes/**";
 			};
 			name = Debug;
 		};
@@ -525,7 +525,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = MehrdadM.Puppet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../AvalancheHub/AvalancheHub/** $(SRCROOT)/../AvalancheAnalytics/AvalancheAnalytics/** $(SRCROOT)/../AvalancheErrorReporting/AvalancheErrorReporting/**";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../SonomaCore/SonomaCore/** $(SRCROOT)/../SonomaAnalytics/SonomaAnalytics/** $(SRCROOT)/../SonomaCrashes/SonomaCrashes/**";
 			};
 			name = Release;
 		};
