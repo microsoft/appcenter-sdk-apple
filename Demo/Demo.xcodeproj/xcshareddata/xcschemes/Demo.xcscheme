@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0730"
+   LastUpgradeVersion = "0800"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "NO"
@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6E04017D1D1CAC710051BCFA"
-               BuildableName = "AvalancheHubFramework"
-               BlueprintName = "AvalancheHubFramework"
-               ReferencedContainer = "container:../AvalancheHub/AvalancheHub.xcodeproj">
+               BuildableName = "SonomaCoreFramework"
+               BlueprintName = "SonomaCoreFramework"
+               ReferencedContainer = "container:../SonomaCore/SonomaCore.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E85547E41D2D681F002DF6E2"
-               BuildableName = "AvalancheAnalyticsFramework"
-               BlueprintName = "AvalancheAnalyticsFramework"
-               ReferencedContainer = "container:../AvalancheAnalytics/AvalancheAnalytics.xcodeproj">
+               BuildableName = "SonomaAnalyticsFramework"
+               BlueprintName = "SonomaAnalyticsFramework"
+               ReferencedContainer = "container:../SonomaAnalytics/SonomaAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -43,9 +43,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6E3729771D1DE83200F1E4AE"
-               BuildableName = "AvalancheErrorReportingFramework"
-               BlueprintName = "AvalancheErrorReportingFramework"
-               ReferencedContainer = "container:../AvalancheErrorReporting/AvalancheErrorReporting.xcodeproj">
+               BuildableName = "SonomaCrashesFramework"
+               BlueprintName = "SonomaCrashesFramework"
+               ReferencedContainer = "container:../SonomaCrashes/SonomaCrashes.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry

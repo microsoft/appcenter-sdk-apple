@@ -16,13 +16,13 @@ custom_categories:
     children:
     - Installation
 
-umbrella_header: ../../Products/AvalancheAnalytics/AvalancheAnalytics.framework/Headers/AvalancheAnalytics.h
-framework_root: ../../Products/AvalancheAnalytics
-exclude: [../../Products/AvalancheAnalytics/AvalancheAnalytics.framework/Headers/AVAFeature.h, ../../Products/AvalancheAnalytics/AvalancheAnalytics.framework/Headers/AVAFeatureAbstract.h]
+umbrella_header: ../../Products/SonomaAnalytics/SonomaAnalytics.framework/Headers/SonomaAnalytics.h
+framework_root: ../../Products/SonomaAnalytics
+exclude: [../../Products/SonomaAnalytics/SonomaAnalytics.framework/Headers/SNMFeature.h, ../../Products/SonomaAnalytics/SonomaAnalytics.framework/Headers/SNMFeatureAbstract.h]
 
 root_url: http://test.com/sdk/ios/1.0.0
-github_url: https://github.com/Microsoft/AvalancheSDK-iOS
-github_file_prefix: "https://github.com/Microsoft/AvalancheSDK-iOS"
+github_url: https://github.com/Microsoft/Sonoma-SDK-iOS
+github_file_prefix: "https://github.com/Microsoft/Sonoma-SDK-iOS"
 
 skip_undocumented: true
 

@@ -4,9 +4,9 @@
 
 #import <UIKit/UIKit.h>
 
-#import "AVAErrorLoggingDelegate.h"
+#import "SNMCrashesDelegate.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, AVAErrorLoggingDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, SNMCrashesDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
