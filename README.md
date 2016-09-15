@@ -60,14 +60,14 @@ To start the Sonoma SDK in your app, follow these steps:
     
     **Objective-C**
     ```objectivec
-    @import Sonoma;
+    @import SonomaCore;
     @import SonomaAnalytics;
     @import SonomaCrashes;
     ```
 
     **Swift**
     ```swift
-    import Sonoma
+    import SonomaCore
     import SonomaAnalytics
     import SonomaCrashes
     ``` 
@@ -148,7 +148,7 @@ Once you set up and start the Sonoma SDK to use the Crashes module in your appli
 
     **Objective-C**
     ```objectivec
-    Sample code here
+    [SNMCrashes generateTestCrash];
     ```
 
     **Swift**
