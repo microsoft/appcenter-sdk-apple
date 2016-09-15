@@ -10,8 +10,8 @@ static NSString *const kSNMHeaderAppSecretKey = @"App-Secret";
 static NSString *const kSNMHeaderInstallIDKey = @"Install-ID";
 static NSString *const kSNMHeaderContentTypeKey = @"Content-Type";
 static NSString *const kSNMContentType = @"application/json";
-static NSString *const kSNMAPIVersion = @"1.0.0-preview20160901";
-static NSString *const kSNMAPIVersionKey = @"api-version";
+static NSString *const kSNMAPIVersion = @"1.0.0-preview20160914";
+static NSString *const kSNMAPIVersionKey = @"api_version";
 
 // Storage keys
 static NSString *const kSNMHubIsEnabledKey = @"kSNMHubIsEnabledKey";

@@ -8,7 +8,7 @@
 
 static NSString *const kSNMThreadId = @"id";
 static NSString *const kSNMName = @"name";
-static NSString *const kSNMStackFrames = @"stackFrames";
+static NSString *const kSNMStackFrames = @"frames";
 static NSString *const kSNMException = @"exception";
 
 
