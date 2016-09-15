@@ -69,10 +69,4 @@
  */
 - (void)removeObjectForKey:(NSString *)key;
 
-/**
- * Writes any modifications to the persistent domains to disk and updates
- * all unmodified persistent domains to what is on disk.
- */
-- (void)synchronize;
-
 @end
