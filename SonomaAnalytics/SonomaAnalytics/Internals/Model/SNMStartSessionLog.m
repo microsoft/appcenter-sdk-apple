@@ -4,7 +4,7 @@
 
 #import "SNMStartSessionLog.h"
 
-static NSString *const kSNMTypeEndSession = @"startSession";
+static NSString *const kSNMTypeEndSession = @"start_session";
 
 @implementation SNMStartSessionLog
 
