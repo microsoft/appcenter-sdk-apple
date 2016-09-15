@@ -504,7 +504,7 @@
 				INFOPLIST_FILE = Puppet/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = MehrdadM.Puppet;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.sonoma.Puppet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../SonomaCore/SonomaCore/** $(SRCROOT)/../SonomaAnalytics/SonomaAnalytics/** $(SRCROOT)/../SonomaCrashes/SonomaCrashes/**";
@@ -522,7 +522,7 @@
 				INFOPLIST_FILE = Puppet/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = MehrdadM.Puppet;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.sonoma.Puppet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../SonomaCore/SonomaCore/** $(SRCROOT)/../SonomaAnalytics/SonomaAnalytics/** $(SRCROOT)/../SonomaCrashes/SonomaCrashes/**";
