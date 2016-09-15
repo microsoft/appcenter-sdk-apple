@@ -499,7 +499,7 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
     // Parent Process ID
     errorLog.parentProcessId = @(crashReport.processInfo.parentProcessID);
   }
-  return nil;
+  return errorLog;
 }
 
 + (NSArray<SNMBinary *> *)extractBinaryImagesFromReport:(SNMPLCrashReport *)report
