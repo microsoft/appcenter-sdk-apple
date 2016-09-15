@@ -62,18 +62,18 @@
 
   // Then
   assertThat(actual, notNilValue());
-  assertThat(actual[@"sdkVersion"], equalTo(sdkVersion));
+  assertThat(actual[@"sdk_version"], equalTo(sdkVersion));
   assertThat(actual[@"model"], equalTo(model));
-  assertThat(actual[@"oemName"], equalTo(oemName));
-  assertThat(actual[@"osName"], equalTo(osName));
-  assertThat(actual[@"osVersion"], equalTo(osVersion));
-  assertThat(actual[@"osApiLevel"], equalTo(osApiLevel));
+  assertThat(actual[@"oem_name"], equalTo(oemName));
+  assertThat(actual[@"os_name"], equalTo(osName));
+  assertThat(actual[@"os_version"], equalTo(osVersion));
+  assertThat(actual[@"os_api_level"], equalTo(osApiLevel));
   assertThat(actual[@"locale"], equalTo(locale));
-  assertThat(actual[@"timeZoneOffset"], equalTo(timeZoneOffset));
-  assertThat(actual[@"screenSize"], equalTo(screenSize));
-  assertThat(actual[@"appVersion"], equalTo(appVersion));
-  assertThat(actual[@"carrierName"], equalTo(carrierName));
-  assertThat(actual[@"carrierCountry"], equalTo(carrierCountry));
+  assertThat(actual[@"time_zone_offset"], equalTo(timeZoneOffset));
+  assertThat(actual[@"screen_size"], equalTo(screenSize));
+  assertThat(actual[@"app_version"], equalTo(appVersion));
+  assertThat(actual[@"carrier_name"], equalTo(carrierName));
+  assertThat(actual[@"carrier_country"], equalTo(carrierCountry));
 }
 
 - (void)testNSCodingSerializationAndDeserializationWorks {

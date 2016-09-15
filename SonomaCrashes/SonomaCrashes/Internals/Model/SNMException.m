@@ -8,7 +8,7 @@
 static NSString *const kSNMExceptionType = @"type";
 static NSString *const kSNMReason = @"reason";
 static NSString *const kSNMFrames = @"frames";
-static NSString *const kSNMInnerExceptions = @"innerExceptions";
+static NSString *const kSNMInnerExceptions = @"inner_exceptions";
 
 @implementation SNMException
 

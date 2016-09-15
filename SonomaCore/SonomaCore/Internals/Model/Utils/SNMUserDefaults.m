@@ -83,8 +83,4 @@ static NSString *const kSNMUserDefaultsTs = @"_ts";
   return [self updateObject:o forKey:key expiration:0.0];
 }
 
-- (void)synchronize {
-  [[NSUserDefaults standardUserDefaults] synchronize];
-}
-
 @end

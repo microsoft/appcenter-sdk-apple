@@ -15,8 +15,8 @@
   NSString *incidentIdentifier = @"incidentIdentifier";
   NSString *reporterKey = @"reporterKey";
   NSString *signal = @"signal";
-  NSString *exceptionName = @"exceptionName";
-  NSString *exceptionReason = @"exceptionReason";
+  NSString *exceptionName = @"exception_name";
+  NSString *exceptionReason = @"exception_reason";
   NSDate *appStartTime = [NSDate new];
   NSDate *appCrashTime = [NSDate dateWithTimeIntervalSinceNow:20];
   NSString *osVersion = @"10.0.1";

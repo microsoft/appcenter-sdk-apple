@@ -4,9 +4,9 @@
 
 #import "SNMErrorBinaryAttachment.h"
 
-static NSString *const kSNMFilename = @"fileName";
+static NSString *const kSNMFilename = @"file_name";
 static NSString *const kSNMData = @"data";
-static NSString *const kSNMContentType = @"contentType";
+static NSString *const kSNMContentType = @"content_type";
 
 
 @implementation SNMErrorBinaryAttachment

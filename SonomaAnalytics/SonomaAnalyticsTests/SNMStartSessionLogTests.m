@@ -32,7 +32,7 @@
 
   // If
   SNMDevice *device = [SNMDevice new];
-  NSString *typeName = @"startSession";
+  NSString *typeName = @"start_session";
   NSString *sessionId = @"1234567890";
   NSTimeInterval createTime = [[NSDate date] timeIntervalSince1970];
   NSNumber *tOffset = @(createTime);
@@ -57,7 +57,7 @@
 
   // If
   SNMDevice *device = [SNMDevice new];
-  NSString *typeName = @"startSession";
+  NSString *typeName = @"start_session";
   NSString *sessionId = @"1234567890";
   NSNumber *tOffset = @(3);
 

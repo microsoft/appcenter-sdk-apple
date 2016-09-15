@@ -4,23 +4,23 @@
 
 #import "SNMDevice.h"
 
-static NSString *const kSNMSdkVersion = @"sdkVersion";
-static NSString *const kSNMWrapperSdkVersion = @"wrapperSdkVersion";
-static NSString *const kSNMWrapperSdkName = @"wrapperSdkName";
+static NSString *const kSNMSdkVersion = @"sdk_version";
+static NSString *const kSNMWrapperSdkVersion = @"wrapper_sdk_version";
+static NSString *const kSNMWrapperSdkName = @"wrapper_sdk_name";
 static NSString *const kSNMModel = @"model";
-static NSString *const kSNMOemName = @"oemName";
-static NSString *const kSNMOsName = @"osName";
-static NSString *const kSNMOsVersion = @"osVersion";
-static NSString *const kSNMOsBuild = @"osBuild";
-static NSString *const kSNMOsApiLevel = @"osApiLevel";
+static NSString *const kSNMOemName = @"oem_name";
+static NSString *const kSNMOsName = @"os_name";
+static NSString *const kSNMOsVersion = @"os_version";
+static NSString *const kSNMOsBuild = @"os_build";
+static NSString *const kSNMOsApiLevel = @"os_api_level";
 static NSString *const kSNMLocale = @"locale";
-static NSString *const kSNMTimeZoneOffset = @"timeZoneOffset";
-static NSString *const kSNMScreenSize = @"screenSize";
-static NSString *const kSNMAppVersion = @"appVersion";
-static NSString *const kSNMCarrierName = @"carrierName";
-static NSString *const kSNMCarrierCountry = @"carrierCountry";
-static NSString *const kSNMAppBuild = @"appBuild";
-static NSString *const kSNMAppNamespace = @"appNamespace";
+static NSString *const kSNMTimeZoneOffset = @"time_zone_offset";
+static NSString *const kSNMScreenSize = @"screen_size";
+static NSString *const kSNMAppVersion = @"app_version";
+static NSString *const kSNMCarrierName = @"carrier_name";
+static NSString *const kSNMCarrierCountry = @"carrier_country";
+static NSString *const kSNMAppBuild = @"app_build";
+static NSString *const kSNMAppNamespace = @"app_namespace";
 
 @implementation SNMDevice
 
