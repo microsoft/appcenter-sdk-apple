@@ -57,10 +57,10 @@
 
 - (SNMThread *)thread {
   NSNumber *threadId = @(12);
-  NSString *name = @"threadName";
+  NSString *name = @"thread_name";
   
   SNMException *exception = [SNMException new];
-  exception.type = @"exceptionType";
+  exception.type = @"exception_type";
   exception.reason = @"reason";
   SNMStackFrame *frame = [self stackFrame];
   exception.frames = [NSArray arrayWithObjects:frame, nil];
