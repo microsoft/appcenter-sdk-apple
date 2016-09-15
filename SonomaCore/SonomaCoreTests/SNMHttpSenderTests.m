@@ -33,7 +33,7 @@ static NSString *const kSNMAppSecret = @"mockAppSecret";
     @"Install-ID" : kSNMUUIDString
   };
 
-  NSDictionary *queryStrings = @{ @"api-version" : @"1.0.0-preview20160901" };
+  NSDictionary *queryStrings = @{ @"api_version" : @"1.0.0-preview20160914" };
 
   id reachabilityMock = OCMClassMock([SNM_Reachability class]);
   // sut: System under test

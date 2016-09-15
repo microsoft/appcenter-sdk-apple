@@ -6,10 +6,10 @@
 
 static NSString *const kSNMAddress = @"address";
 static NSString *const kSNMCode = @"code";
-static NSString *const kSNMClassName = @"className";
-static NSString *const kSNMMethodName = @"methodName";
-static NSString *const kSNMLineNumber = @"lineNumber";
-static NSString *const kSNMFileName = @"fileName";
+static NSString *const kSNMClassName = @"class_name";
+static NSString *const kSNMMethodName = @"method_name";
+static NSString *const kSNMLineNumber = @"line_number";
+static NSString *const kSNMFileName = @"file_name";
 
 @implementation SNMStackFrame
 
