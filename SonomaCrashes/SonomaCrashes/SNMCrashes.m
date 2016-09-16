@@ -72,9 +72,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 }
 
 + (BOOL)hasCrashedInLastSession {
-  // TODO actual implementation
-
-  return NO;
+  return [[self sharedInstance] didCrashInLastSession];
 }
 
 + (void)setUserConfirmationHandler:(_Nullable SNMUserConfirmationHandler)userConfitmationHandler {
@@ -104,6 +102,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
     _crashesDir = [SNMCrashesHelper crashesDir];
     _analyzerInProgressFile = [_crashesDir stringByAppendingPathComponent:kSNMAnalyzerFilename];
     _initializationDate = [NSDate new];
+    _didCrashInLastSession = NO;
   }
   return self;
 }
@@ -135,6 +134,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
   [self configureCrashReporter];
 
   if ([self.plCrashReporter hasPendingCrashReport]) {
+    _didCrashInLastSession = YES;
     [self persistLatestCrashReport];
   }
 
