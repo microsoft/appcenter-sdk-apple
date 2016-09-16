@@ -55,6 +55,10 @@
 #import "SNMException.h"
 #import "SNMStackFrame.h"
 #import "SNMThread.h"
+#import "SNMErrorReport.h"
+#import "SNMErrorReportPrivate.h"
+#import "SNMSonomaInternal.h"
+
 
 static NSString *unknownString = @"???";
 
@@ -224,6 +228,55 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
   errorLog.binaries = [self extractBinaryImagesFromReport:report addresses:addresses codeType:codeType is64bit:is64bit];
 
   return errorLog;
+}
+
+
++ (SNMErrorReport *)createErrorReportFrom:(SNMPLCrashReport *)report {
+  if(!report) {
+    return nil;
+  }
+  
+  SNMErrorReport *errorReport = nil;
+  
+  NSString *incidentIdentifier = @"???";
+  if (report.uuidRef != NULL) {
+    incidentIdentifier = (NSString *) CFBridgingRelease(CFUUIDCreateString(NULL, report.uuidRef));
+  }
+  
+  NSString *reporterKey = [[SNMSonoma installId] UUIDString] ?: @"";
+  NSString *signal = report.signalInfo.name;
+  NSString *exceptionName = report.exceptionInfo.exceptionName;
+  NSString *exceptionReason = report.exceptionInfo.exceptionReason;
+  
+  NSDate *appStartTime = nil;
+  NSDate *crashTime = nil;
+  if ([report.processInfo respondsToSelector:@selector(processStartTime)]) {
+    if (report.systemInfo.timestamp && report.processInfo.processStartTime) {
+      appStartTime = report.processInfo.processStartTime;
+      crashTime =report.systemInfo.timestamp;
+    }
+  }
+  
+  NSString *osVersion = report.systemInfo.operatingSystemVersion;
+  NSString *osBuild = report.systemInfo.operatingSystemBuild;
+  NSString *appVersion = report.applicationInfo.applicationMarketingVersion;
+  NSString *appBuild = report.applicationInfo.applicationVersion;
+  NSUInteger processId = report.processInfo.processID;
+  
+  errorReport = [[SNMErrorReport alloc] initWithIncidentIdentifier:incidentIdentifier
+                                                       reporterKey:reporterKey
+                                                            signal:signal
+                                                     exceptionName:exceptionName
+                                                   exceptionReason:exceptionReason
+                                                      appStartTime:appStartTime
+                                                         crashTime:crashTime
+                                                         osVersion:osVersion
+                                                           osBuild:osBuild
+                                                        appVersion:appVersion
+                                                          appBuild:appBuild
+                                              appProcessIdentifier:processId];
+  
+  return errorReport;
 }
 
 + (NSNumber *)extractCodeTypeFromReport:(const SNMPLCrashReport *)report {
