@@ -53,21 +53,6 @@ typedef NS_ENUM(NSUInteger, SNMUserConfirmation) {
 
 @interface SNMCrashes : SNMFeatureAbstract
 
-/**
- * Indicates if the app crashed in the previous session
- *
- * Use this on startup, to check if the app starts the first time after it
- crashed
- * previously. You can use this also to disable specific events, like asking
- * the user to rate your app.
-
- * @warning This property only has a correct value, once the sdk has been
- properly initialized!
-
- * @see lastSessionCrashDetails //TODO rename
- */
-@property(nonatomic, readonly) BOOL didCrashInLastSession;
-
 ///-----------------------------------------------------------------------------
 /// @name Helper
 ///-----------------------------------------------------------------------------
