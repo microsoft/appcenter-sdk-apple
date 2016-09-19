@@ -293,7 +293,6 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
       // Get data of PLCrashReport and write it to SDK directory
       SNMPLCrashReport *report = [[SNMPLCrashReport alloc] initWithData:crashData error:&error];
       
-      
       if (report) {
         [crashData writeToFile:[self.crashesDir stringByAppendingPathComponent:cacheFilename] atomically:YES];
         _lastSessionCrashReport = [SNMErrorLogFormatter createErrorReportFrom:report];
