@@ -49,8 +49,6 @@ typedef NS_ENUM(NSUInteger, SNMUserConfirmation) {
   SNMUserConfirmationAlways = 2
 };
 
-@protocol SNMCrashesDelegate;
-
 @interface SNMCrashes : SNMFeatureAbstract
 
 ///-----------------------------------------------------------------------------
@@ -95,62 +93,9 @@ typedef NS_ENUM(NSUInteger, SNMUserConfirmation) {
 + (BOOL)hasCrashedInLastSession;
 
 /**
- * Lets you set a custom block which handles showing a custom UI and asking the
- user
- * whether he wants to send the crash report.
- *
- * You can use this to present any kind of user interface which asks the user
- for additional information,
- * e.g. what they did in the app before the app crashed.
- *
- * In addition to this you should always ask your users if they agree to send
- crash reports, send them
- * always or not at all and return the result when calling
- `handleUserInput:withUserProvidedCrashDescription`.
- *
- * @param alertViewHandler A block that is responsible for loading, presenting
- and and dismissing your custom user interface which prompts the user if he
- wants to send crash reports. The block is also responsible for triggering
- further processing of the crash reports.
-
- * @warning Block needs to call the `[BITCrashManager
- handleUserInput:withUserProvidedMetaData:]` method!
- */
-+ (void)setUserConfirmationHandler:(_Nullable SNMUserConfirmationHandler)userConfirmationHandler;
-
-/**
- * Provides an interface to pass user input from a custom alert to a crash
- * report
- *
- * @param userInput Defines the users action wether to send, always send, or not
- * to send the crash report.
- * @param userProvidedMetaData The content of this optional BITCrashMetaData
- * instance will be attached to the crash report and allows to ask the user for
- * e.g. additional comments or info.
- *
- * @return Returns YES if the input is a valid option and successfully triggered
- * further processing of the crash report
- *
- * @see SNMUserConfirmation
- */
-+ (void)notifyWithUserConfirmation:(SNMUserConfirmation)userConfirmation;
-
-/**
  * Provides details about the crash that occurred in the last app session
  */
 
 + (SNMErrorReport *_Nullable)lastSessionCrashReport;
-
-/**
- * Set the delegate
- *
- * Defines the class that implements the optional protocol
- * `SNMCrashesDelegate`.
- *
- * @see SNMCrashesDelegate
- */
-@property(nonatomic, weak, nullable) id<SNMCrashesDelegate> crashesDelegate;
-
-+ (void)setCrashesDelegate:(_Nullable id<SNMCrashesDelegate>)crashesDelegate;
 
 @end
