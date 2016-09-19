@@ -10,7 +10,12 @@
 @interface SNMDevice : NSObject <SNMSerializableObject>
 
 /*
- * Version of the SDK.
+ * Name of the SDK. Consists of the name of the SDK and the platform, e.g. "sonomasdk.ios", "sonomasdk.android"
+ */
+@property(nonatomic) NSString *sdkName;
+
+/*
+ * Version of the SDK in semver format, e.g. "1.2.0" or "0.12.3-alpha.1".
  */
 @property(nonatomic) NSString *sdkVersion;
 
@@ -96,6 +101,22 @@
  * com.microsoft.example.  [optional]
  */
 @property(nonatomic) NSString *appNamespace;
+
+/*
+ * Label that is used to identify application code 'version' released via Live Update beacon running on device
+ */
+@property(nonatomic) NSString *liveUpdateReleaseLabel;
+
+/*
+ * Identifier of environment that current application release belongs to, deployment key then maps to environment like Production, Staging.
+ */
+@property(nonatomic) NSString *liveUpdateDeploymentKey;
+
+/*
+ * Hash of all files (ReactNative or Cordova) deployed to device via LiveUpdate beacon.
+ * Helps identify the Release version on device or need to download updates in future
+ */
+@property(nonatomic) NSString *liveUpdatePackageHash;
 
 /**
  * Is equal to another device log
