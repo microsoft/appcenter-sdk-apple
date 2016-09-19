@@ -243,7 +243,10 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
     incidentIdentifier = (NSString *) CFBridgingRelease(CFUUIDCreateString(NULL, report.uuidRef));
   }
   
+  // There should always be an installId. Leaving the empty string out of paranoia
+  // as [UUID UUID] – used in [SNMSonoma installId] might, in theory, return nil.
   NSString *reporterKey = [[SNMSonoma installId] UUIDString] ?: @"";
+  
   NSString *signal = report.signalInfo.name;
   NSString *exceptionName = report.exceptionInfo.exceptionName;
   NSString *exceptionReason = report.exceptionInfo.exceptionReason;
@@ -253,7 +256,7 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
   if ([report.processInfo respondsToSelector:@selector(processStartTime)]) {
     if (report.systemInfo.timestamp && report.processInfo.processStartTime) {
       appStartTime = report.processInfo.processStartTime;
-      crashTime =report.systemInfo.timestamp;
+      crashTime = report.systemInfo.timestamp;
     }
   }
   
