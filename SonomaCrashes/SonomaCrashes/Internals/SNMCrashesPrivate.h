@@ -91,8 +91,14 @@ typedef struct SNMCrashesCallbacks {
  * @warning This property only has a correct value, once the sdk has been
  properly initialized!
  
- * @see lastSessionCrashDetails //TODO rename
+ * @see lastSessionCrashReport
  */
 @property(nonatomic, readonly) BOOL didCrashInLastSession;
+
+/*
+ * Detail information about the last crash.
+ */
+@property(nonatomic, readonly, getter=getLastSessionCrashReport) SNMErrorReport *lastSessionCrashReport;
+
 
 @end

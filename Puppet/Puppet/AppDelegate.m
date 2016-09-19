@@ -22,7 +22,7 @@
   [SNMCrashes setCrashesDelegate:self]; // TODO rename to setDelegate:
 
   [SNMCrashes setUserConfirmationHandler:^(NSArray<SNMErrorReport *> *report) {
-    NSString *exceptionReason = [SNMCrashes lastSessionCrashDetails].exceptionReason;
+    NSString *exceptionReason = [SNMCrashes lastSessionCrashReport].exceptionReason;
 
     // or something like
 
@@ -48,6 +48,11 @@
     [customAlertView show];
   }];
 
+  if([SNMCrashes hasCrashedInLastSession]) {
+    SNMErrorReport *errorReport = [SNMCrashes lastSessionCrashReport];
+    NSLog(@"We crashed with Signal: %@", errorReport.signal);
+  }
+  
   // Print the install Id.
   NSLog(@"%@ Install Id: %@", kPUPLogTag, [[SNMSonoma installId] UUIDString]);
   return YES;
