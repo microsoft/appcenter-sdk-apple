@@ -88,10 +88,6 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
   return [[self sharedInstance] getLastSessionCrashReport];
 }
 
-+ (void)setCrashesDelegate:(_Nullable id<SNMCrashesDelegate>)crashesDelegate {
-  // TODO actual implementation
-}
-
 #pragma mark - Module initialization
 
 - (instancetype)init {
