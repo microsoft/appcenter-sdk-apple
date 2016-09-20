@@ -83,10 +83,9 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
   // TODO actual implementation
 }
 
-+ (SNMErrorReport *_Nullable)lastSessionCrashDetails {
-  // TODO actual implementation
++ (SNMErrorReport *_Nullable)lastSessionCrashReport {
 
-  return nil;
+  return [[self sharedInstance] getLastSessionCrashReport];
 }
 
 + (void)setCrashesDelegate:(_Nullable id<SNMCrashesDelegate>)crashesDelegate {
@@ -132,13 +131,15 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
   SNMLogVerbose(@"[SNMCrashes] VERBOSE: Started crash module");
 
   [self configureCrashReporter];
-
+  
+  // Get crashes from PLCrashReporter and store them in the intermediate format.
   if ([self.plCrashReporter hasPendingCrashReport]) {
     _didCrashInLastSession = YES;
-    [self persistLatestCrashReport];
+    [self handleLatestCrashReport];
   }
-
   _crashFiles = [self persistedCrashReports];
+  
+  // Process PLCrashReports, this will format the PLCrashReport into our schena and then trigger sending.
   if (self.crashFiles.count > 0) {
     [self startDelayedCrashProcessing];
   }
@@ -271,7 +272,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
   }
 }
 
-- (void)persistLatestCrashReport {
+- (void)handleLatestCrashReport {
   NSError *error = NULL;
 
   // Check if the next call ran successfully the last time
@@ -291,8 +292,10 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 
       // Get data of PLCrashReport and write it to SDK directory
       SNMPLCrashReport *report = [[SNMPLCrashReport alloc] initWithData:crashData error:&error];
+      
       if (report) {
         [crashData writeToFile:[self.crashesDir stringByAppendingPathComponent:cacheFilename] atomically:YES];
+        _lastSessionCrashReport = [SNMErrorLogFormatter createErrorReportFrom:report];
       } else {
         SNMLogWarning(@"[SNMCrashes] WARNING: Could not parse crash report");
       }

@@ -20,7 +20,7 @@ static NSString *const kSNMException = @"exception";
   if (self.threadId) {
     dict[kSNMThreadId] = self.threadId;
   }
-  if(self.name) {
+  if (self.name) {
     dict[kSNMName] = self.name;
   }
   
@@ -32,8 +32,8 @@ static NSString *const kSNMException = @"exception";
     dict[kSNMStackFrames] = framesArray;
   }
   
-  if(self.exception) {
-    dict[kSNMException] = self.exception;
+  if (self.exception) {
+    dict[kSNMException] = [self.exception serializeToDictionary];
   }
  
   return dict;
