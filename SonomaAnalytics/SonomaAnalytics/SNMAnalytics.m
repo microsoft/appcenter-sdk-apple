@@ -117,7 +117,7 @@ static NSString *const kSNMFeatureName = @"Analytics";
     return;
 
   // Send async
-  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 
     // Create and set properties of the event log
     SNMEventLog *log = [[SNMEventLog alloc] init];
@@ -136,7 +136,7 @@ static NSString *const kSNMFeatureName = @"Analytics";
     return;
 
   // Send async
-  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 
     // Create and set properties of the event log
     SNMPageLog *log = [[SNMPageLog alloc] init];
