@@ -290,19 +290,20 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
     @(PLCrashReportArchitectureX86_64) : @(CPU_TYPE_X86_64),
     @(PLCrashReportArchitecturePPC) : @(CPU_TYPE_POWERPC),
   };
-
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
   /* Attempt to derive the code type from the binary images */
   NSNumber *codeType = nil;
   for (SNMPLCrashReportBinaryImageInfo *image in report.images) {
-    // TODO: (bereimol) use non-deprecated stuff, will mean we have to adjust logic for codeType and 64 bit detection.
     codeType =
-        @(image.codeType.type) ?: legacyTypes[@(report.systemInfo.architecture)]
+    @(image.codeType.type) ?: @(report.systemInfo.processorInfo.type) ?: legacyTypes[@(report.systemInfo.architecture)]
                                       ?: [NSString stringWithFormat:@"Unknown (%d)", report.systemInfo.architecture];
 
     /* Stop immediately if code type was discovered */
     if (codeType != nil)
       break;
   }
+#pragma GCC diagnostic pop
   return codeType;
 }
 
