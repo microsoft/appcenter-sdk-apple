@@ -3,13 +3,13 @@
  */
 
 #import "SNMErrorAttachment.h"
+#import "SNMErrorBinaryAttachment.h"
 
 static NSString *const kSNMTextAttachment = @"text_attachment";
 static NSString *const kSNMBinaryAttachment = @"binary_attachment";
 
 
 @implementation SNMErrorAttachment
-
 
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [NSMutableDictionary new];
@@ -22,6 +22,14 @@ static NSString *const kSNMBinaryAttachment = @"binary_attachment";
   }
   
    return dict;
+}
+
+- (BOOL)isEqual:(SNMErrorAttachment *)attachment {
+  if (!attachment)
+    return NO;
+  
+  return ((!self.textAttachment && !attachment.textAttachment) || [self.textAttachment isEqualToString:attachment.textAttachment]) &&
+         ((!self.binaryAttachment && !attachment.binaryAttachment) || [self.binaryAttachment isEqual:attachment.binaryAttachment]);
 }
 
 #pragma mark - NSCoding

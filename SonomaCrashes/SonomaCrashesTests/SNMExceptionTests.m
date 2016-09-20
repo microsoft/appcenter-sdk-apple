@@ -25,7 +25,7 @@
   // Then
   assertThat(actual, notNilValue());
   assertThat(actual[@"type"], equalTo(sut.type));
-  assertThat(actual[@"reason"], equalTo(sut.reason));
+  assertThat(actual[@"message"], equalTo(sut.message));
 }
 
 - (void)testNSCodingSerializationAndDeserializationWorks {
@@ -44,7 +44,7 @@
   
   SNMException *actualException = actual;
   assertThat(actualException.type, equalTo(sut.type));
-  assertThat(actualException.reason, equalTo(sut.reason));
+  assertThat(actualException.message, equalTo(sut.message));
   assertThatInteger(actualException.frames.count, equalToInteger(1));
   assertThat(actualException.frames.firstObject.address, equalTo(@"frameAddress"));
   assertThat(actualException.frames.firstObject.code, equalTo(@"frameSymbol"));
@@ -54,7 +54,7 @@
 
 - (SNMException *)exception {
   NSString *type = @"exception_type";
-  NSString *reason = @"reason";
+  NSString *message = @"message";
   SNMStackFrame *frame = [SNMStackFrame new];
   frame.address = @"frameAddress";
   frame.code = @"frameSymbol";
@@ -62,7 +62,7 @@
   
   SNMException *exception = [SNMException new];
   exception.type = type;
-  exception.reason = reason;
+  exception.message = message;
   exception.frames = frames;
   
   return exception;

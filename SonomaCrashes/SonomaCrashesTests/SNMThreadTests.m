@@ -47,7 +47,7 @@
   assertThat(actualThread.threadId, equalTo(sut.threadId));
   assertThat(actualThread.name, equalTo(sut.name));
   assertThat(actualThread.exception.type, equalTo(sut.exception.type));
-  assertThat(actualThread.exception.reason, equalTo(sut.exception.reason));
+  assertThat(actualThread.exception.message, equalTo(sut.exception.message));
   assertThatUnsignedInt(actualThread.exception.frames.count, equalToUnsignedInteger(sut.exception.frames.count));
 
   assertThatInteger(actualThread.frames.count, equalToInteger(1));
@@ -61,7 +61,7 @@
   
   SNMException *exception = [SNMException new];
   exception.type = @"exception_type";
-  exception.reason = @"reason";
+  exception.message = @"message";
   SNMStackFrame *frame = [self stackFrame];
   exception.frames = [NSArray arrayWithObjects:frame, nil];
   

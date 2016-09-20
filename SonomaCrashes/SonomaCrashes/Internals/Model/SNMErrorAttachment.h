@@ -23,6 +23,15 @@
  */
 @property(nonatomic, nullable) SNMErrorBinaryAttachment *binaryAttachment;
 
+/**
+ * Is equal to another error attachment
+ *
+ * @param attachment Error attachment
+ *
+ * @return Return YES if equal and NO if not equal
+ */
+- (BOOL)isEqual:(nullable SNMErrorAttachment *)attachment;
+
 + (nonnull SNMErrorAttachment *)attachmentWithText:(nonnull NSString *)text;
 
 + (nonnull SNMErrorAttachment *)attachmentWithBinaryData:(nonnull NSData *)data filename:(nonnull NSString *)filename mimeType:(nonnull NSString *)mimeType;
