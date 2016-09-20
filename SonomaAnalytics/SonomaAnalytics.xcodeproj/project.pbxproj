@@ -421,8 +421,9 @@
 		E85547B81D2D6253002DF6E2 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = SNM;
 				LastUpgradeCheck = 0800;
-				ORGANIZATIONNAME = "Mehrdad Mozafari";
+				ORGANIZATIONNAME = Microsoft;
 				TargetAttributes = {
 					E85547BF1D2D6253002DF6E2 = {
 						CreatedOnToolsVersion = 7.3.1;
