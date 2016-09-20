@@ -10,7 +10,7 @@
 @interface SNMDevice : NSObject <SNMSerializableObject>
 
 /*
- * Name of the SDK. Consists of the name of the SDK and the platform, e.g. "sonomasdk.ios", "sonomasdk.android"
+ * Name of the SDK. Consists of the name of the SDK and the platform, e.g. "sonoma.ios", "sonoma.android"
  */
 @property(nonatomic) NSString *sdkName;
 
@@ -123,7 +123,7 @@
  *
  * @param device Device log
  *
- * @return Return YES if equsl and NO if not equal
+ * @return Return YES if equal and NO if not equal
  */
 - (BOOL)isEqual:(SNMDevice *)device;
 
