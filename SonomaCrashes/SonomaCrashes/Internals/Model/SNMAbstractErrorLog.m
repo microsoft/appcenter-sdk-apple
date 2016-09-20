@@ -3,6 +3,7 @@
  */
 
 #import "SNMAbstractErrorLog.h"
+#import "SNMErrorAttachment.h"
 
 static NSString *const kSNMId = @"id";
 static NSString *const kSNMProcessId = @"process_id";
@@ -69,6 +70,29 @@ static NSString *const kSNMArchitecture = @"architecture";
   }
 
   return dict;
+}
+
+- (BOOL)isValid {
+  BOOL isValid = (!self.errorId || !self.processId || !self.processName || !self.appLaunchTOffset);
+
+  return isValid;
+}
+
+- (BOOL)isEqual:(SNMAbstractErrorLog *)errorLog {
+  if (!errorLog)
+    return NO;
+  
+  return ((!self.errorId && !errorLog.errorId) || [self.errorId isEqualToString:errorLog.errorId]) &&
+         ((!self.processId && !errorLog.processId) || [self.processId isEqual:errorLog.processId]) &&
+         ((!self.processName && !errorLog.processName) || [self.processName isEqualToString:errorLog.processName]) &&
+         ((!self.parentProcessId && !errorLog.parentProcessId) || [self.parentProcessId isEqual:errorLog.parentProcessId]) &&
+         ((!self.parentProcessName && !errorLog.parentProcessName) || [self.parentProcessName isEqualToString:errorLog.parentProcessName]) &&
+         ((!self.errorThreadId && !errorLog.errorThreadId) || [self.errorThreadId isEqual:errorLog.errorThreadId]) &&
+         ((!self.errorThreadName && !errorLog.errorThreadName) || [self.errorThreadName isEqualToString:errorLog.errorThreadName]) &&
+         (self.fatal == errorLog.fatal) &&
+         ((!self.appLaunchTOffset && !errorLog.appLaunchTOffset) || [self.appLaunchTOffset isEqual:errorLog.appLaunchTOffset]) &&
+         ((!self.errorAttachment && !errorLog.errorAttachment) || [self.errorAttachment isEqual:errorLog.errorAttachment]) &&
+         ((!self.architecture && !errorLog.architecture) || [self.architecture isEqualToString:errorLog.architecture]);
 }
 
 #pragma mark - NSCoding

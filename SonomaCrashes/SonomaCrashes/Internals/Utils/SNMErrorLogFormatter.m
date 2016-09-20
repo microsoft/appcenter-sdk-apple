@@ -349,7 +349,7 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
     }
 
     SNMException *lastException = [SNMException new];
-    lastException.reason = exception.exceptionReason;
+    lastException.message = exception.exceptionReason;
     lastException.frames = exceptionThread.frames;
 
     lastException.type = report.exceptionInfo.exceptionName ?: report.signalInfo.name;

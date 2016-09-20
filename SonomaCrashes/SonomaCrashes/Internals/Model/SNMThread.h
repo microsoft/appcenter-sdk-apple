@@ -30,5 +30,13 @@
  */
 @property(nonatomic) SNMException* exception;
 
+/**
+ * Is equal to another thread
+ *
+ * @param thread Thread
+ *
+ * @return Return YES if equal and NO if not equal
+ */
+- (BOOL)isEqual:(SNMThread *)thread;
 
 @end
