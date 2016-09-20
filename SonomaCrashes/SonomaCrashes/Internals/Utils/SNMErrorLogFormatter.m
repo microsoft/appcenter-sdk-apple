@@ -368,6 +368,8 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
     SNMThread *threadData = [SNMThread new];
     threadData.threadId = @(thread.threadNumber);
 
+    // TODO frames are missing in crash logs but it is a required field.
+    
     for (SNMPLCrashReportStackFrameInfo *frameInfo in thread.stackFrames) {
       SNMStackFrame *frame = [SNMStackFrame new];
       frame.address = formatted_address_matching_architecture(frameInfo.instructionPointer, is64bit);
@@ -440,6 +442,7 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
   errorLog.appLaunchTOffset = @(difference);
 
   // CPU Type and Subtype
+  // TODO errorLog.architecture is an optional but might need to assign a string. It might be able to be deleted (requires schema update).
   errorLog.primaryArchitectureId = @(report.systemInfo.processorInfo.type);
   errorLog.architectureVariantId = @(report.systemInfo.processorInfo.subtype);
 
@@ -604,6 +607,7 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
       /* Fetch the UUID if it exists */
       binary.binaryId = (imageInfo.hasImageUUID) ? imageInfo.imageUUID : unknownString;
       /* Determine the architecture string */
+      // TODO binary.architecture already exists in AbstractErrorLog. Can be deleted (requires schema update) ?
       binary.primaryArchitectureId = codeType;
       binary.architectureVariantId = @(imageInfo.codeType.subtype);
 
