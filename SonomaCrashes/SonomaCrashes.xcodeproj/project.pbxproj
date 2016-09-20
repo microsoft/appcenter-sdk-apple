@@ -76,7 +76,6 @@
 		6EC99A3D1D416CCF0016C325 /* log_report_xamarin in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A361D416CCF0016C325 /* log_report_xamarin */; };
 		B2CD3BF91D80EE49000A8A91 /* SNMAbstractErrorLog.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD3BF71D80EE49000A8A91 /* SNMAbstractErrorLog.h */; };
 		B2CD3BFA1D80EE49000A8A91 /* SNMAbstractErrorLog.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD3BF81D80EE49000A8A91 /* SNMAbstractErrorLog.m */; };
-		B2E39BEB1D4FDD9700DDF9DC /* SNMCrashesDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = B2E39BE61D4FDD9700DDF9DC /* SNMCrashesDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B2F120D31D6546560060DED7 /* SNMBinaryAttachmentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120D21D6546560060DED7 /* SNMBinaryAttachmentTests.m */; };
 		B2F120D51D6546740060DED7 /* SNMErrorAttachmentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120D41D6546740060DED7 /* SNMErrorAttachmentTests.m */; };
 		B2F120D71D65469D0060DED7 /* SNMErrorReportTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120D61D65469D0060DED7 /* SNMErrorReportTests.m */; };
@@ -199,7 +198,6 @@
 		6EC99A361D416CCF0016C325 /* log_report_xamarin */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = log_report_xamarin; sourceTree = "<group>"; };
 		B2CD3BF71D80EE49000A8A91 /* SNMAbstractErrorLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMAbstractErrorLog.h; sourceTree = "<group>"; };
 		B2CD3BF81D80EE49000A8A91 /* SNMAbstractErrorLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMAbstractErrorLog.m; sourceTree = "<group>"; };
-		B2E39BE61D4FDD9700DDF9DC /* SNMCrashesDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMCrashesDelegate.h; sourceTree = "<group>"; };
 		B2F120D21D6546560060DED7 /* SNMBinaryAttachmentTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMBinaryAttachmentTests.m; sourceTree = "<group>"; };
 		B2F120D41D6546740060DED7 /* SNMErrorAttachmentTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMErrorAttachmentTests.m; sourceTree = "<group>"; };
 		B2F120D61D65469D0060DED7 /* SNMErrorReportTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMErrorReportTests.m; sourceTree = "<group>"; };
@@ -263,7 +261,6 @@
 		6E0401351D1C98690051BCFA /* SonomaCrashes */ = {
 			isa = PBXGroup;
 			children = (
-				B2E39BE61D4FDD9700DDF9DC /* SNMCrashesDelegate.h */,
 				6E0401361D1C98690051BCFA /* SonomaCrashes.h */,
 				6E04014F1D1C9A4F0051BCFA /* SNMCrashes.h */,
 				6E0401501D1C9A4F0051BCFA /* SNMCrashes.m */,
@@ -458,7 +455,6 @@
 				B2F120E71D657F4F0060DED7 /* SNMErrorReportPrivate.h in Headers */,
 				6E7D5C6B1D3E9332009EC9AC /* SNMAppleErrorLog.h in Headers */,
 				B2F120E21D657CF10060DED7 /* SNMErrorAttachment.h in Headers */,
-				B2E39BEB1D4FDD9700DDF9DC /* SNMCrashesDelegate.h in Headers */,
 				6E7D5C771D3E9395009EC9AC /* SNMStackFrame.h in Headers */,
 				6E7D5C731D3E9381009EC9AC /* SNMThread.h in Headers */,
 				6E73FE6F1D4032AB008CDC15 /* SNMCrashesHelper.h in Headers */,
@@ -519,7 +515,8 @@
 		6E04012B1D1C98690051BCFA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0730;
+				CLASSPREFIX = SNM;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = Microsoft;
 				TargetAttributes = {
 					6E0401321D1C98690051BCFA = {
@@ -670,8 +667,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -716,8 +715,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
