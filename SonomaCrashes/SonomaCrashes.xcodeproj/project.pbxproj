@@ -515,6 +515,7 @@
 		6E04012B1D1C98690051BCFA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = SNM;
 				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = Microsoft;
 				TargetAttributes = {
