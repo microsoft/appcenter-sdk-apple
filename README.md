@@ -153,7 +153,7 @@ Once you set up and start the Sonoma SDK to use the Crashes module in your appli
 
     **Swift**
     ```swift
-    Sample code here
+    SNMCrashes.generateTestCrash()
     ```
 
     Note that this API can only be used in test/beta apps and won't work in production apps.
@@ -162,12 +162,12 @@ Once you set up and start the Sonoma SDK to use the Crashes module in your appli
 
     **Objective-C**
     ```objectivec
-    Sample code here
+      [SNMCrashes hasCrashedInLastSession];
     ```
 
     **Swift**
     ```swift
-    Sample code here
+    SNMCrashes.hasCrashedInLastSession()
     ```
 
 * **Details about the last crash:** If your app crashed previously, you can get details about the last crash:
