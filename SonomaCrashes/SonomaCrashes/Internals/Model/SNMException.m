@@ -40,9 +40,7 @@ static NSString *const kSNMInnerExceptions = @"inner_exceptions";
 }
 
 - (BOOL)isValid {
-  BOOL isValid = (!self.type || !self.frames);
-  
-  return isValid;
+  return self.type && self.frames;
 }
 
 - (BOOL)isEqual:(SNMException *)exception {

@@ -98,11 +98,9 @@ static NSString *const kSNMLiveUpdatePackageHash = @"live_update_package_hash";
 }
 
 - (BOOL)isValid {
-  BOOL isValid = (!self.sdkName || !self.sdkVersion || !self.model || !self.oemName ||
-                  !self.osName || !self.osVersion || !self.locale || !self.timeZoneOffset ||
-                  !self.screenSize || !self.appVersion || !self.appBuild);
-
-  return isValid;
+  return self.sdkName && self.sdkVersion && self.model && self.oemName &&
+         self.osName && self.osVersion && self.locale && self.timeZoneOffset &&
+         self.screenSize && self.appVersion && self.appBuild;
 }
 
 - (BOOL)isEqual:(SNMDevice *)device {

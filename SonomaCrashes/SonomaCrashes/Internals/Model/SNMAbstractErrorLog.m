@@ -73,9 +73,7 @@ static NSString *const kSNMArchitecture = @"architecture";
 }
 
 - (BOOL)isValid {
-  BOOL isValid = (!self.errorId || !self.processId || !self.processName || !self.appLaunchTOffset);
-
-  return isValid;
+  return self.errorId && self.processId && self.processName && self.appLaunchTOffset;
 }
 
 - (BOOL)isEqual:(SNMAbstractErrorLog *)errorLog {
