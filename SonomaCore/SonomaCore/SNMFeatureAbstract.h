@@ -3,6 +3,7 @@
  */
 
 #import "SNMFeature.h"
+#import "SNMConstants+Internal.h"
 #import <Foundation/Foundation.h>
 
 /**
@@ -10,4 +11,10 @@
  * This class is intended to be subclassed only not instantiated directly.
  */
 @interface SNMFeatureAbstract : NSObject <SNMFeature>
+
+/**
+ * Get a priority of the feature.
+ */
+- (enum SNMPriority) getPriority;
+
 @end

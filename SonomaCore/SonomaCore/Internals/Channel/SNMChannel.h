@@ -46,6 +46,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)enqueueItem:(id<SNMLog>)item;
 
+/**
+ * Flushes all logs from the storage.
+ */
+- (void)flushQueue;
+
 @end
 
 NS_ASSUME_NONNULL_END

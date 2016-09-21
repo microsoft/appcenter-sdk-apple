@@ -4,6 +4,7 @@
 #import "SNMFeatureAbstractPrivate.h"
 #import "SNMUserDefaults.h"
 #import "SNMUtils.h"
+#import "SNMConstants+Internal.h"
 #import <Foundation/Foundation.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
@@ -30,6 +31,10 @@
 
 - (NSString *)featureName {
   return @"SNMFeatureAbstractImplementation";
+}
+
+- (SNMPriority)getPriority {
+  return SNMPriorityDefault;
 }
 
 @end

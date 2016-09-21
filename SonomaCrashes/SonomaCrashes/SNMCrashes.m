@@ -110,6 +110,10 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
   [super setEnabled:isEnabled];
 }
 
+- (SNMPriority)getPriority {
+  return SNMPriorityHigh;
+}
+
 #pragma mark - SNMFeatureInternal
 
 + (instancetype)sharedInstance {
@@ -251,7 +255,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
     if ([crashFileData length] > 0) {
       report = [[SNMPLCrashReport alloc] initWithData:crashFileData error:&error];
       SNMAppleErrorLog *log = [SNMErrorLogFormatter errorLogFromCrashReport:report];
-      [self.delegate feature:self didCreateLog:log withPriority:SNMPriorityHigh]; //TODO work on this part!!!
+      [self.delegate feature:self didCreateLog:log withPriority:[self getPriority]]; //TODO work on this part!!!
       [self deleteCrashReportWithFilePath:filePath];
       [self.crashFiles removeObject:filePath];
     }

@@ -74,6 +74,10 @@ static NSString *const kSNMFeatureName = @"Analytics";
   }
 }
 
+- (SNMPriority)getPriority {
+  return SNMPriorityDefault;
+}
+
 #pragma mark - Module methods
 
 + (void)trackEvent:(NSString *)eventName {
@@ -127,7 +131,7 @@ static NSString *const kSNMFeatureName = @"Analytics";
       log.properties = properties;
 
     // Send log to core module
-    [self sendLog:log withPriority:SNMPriorityDefault];
+    [self sendLog:log withPriority:[self getPriority]];
   });
 }
 
@@ -145,7 +149,7 @@ static NSString *const kSNMFeatureName = @"Analytics";
       log.properties = properties;
 
     // Send log to core module
-    [self sendLog:log withPriority:SNMPriorityDefault];
+    [self sendLog:log withPriority:[self getPriority]];
   });
 }
 
