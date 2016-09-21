@@ -31,7 +31,8 @@ static NSString *const kSNMLogs = @"logs";
     }
   }];
 
-  NSMutableDictionary *logContainer = [@{kSNMLogs: jsonArray} mutableCopy];
+  NSMutableDictionary *logContainer = [[NSMutableDictionary alloc] init];
+  [logContainer setValue:jsonArray forKey:kSNMLogs];
   
   NSError *error;
   NSJSONWritingOptions printOptions = prettyPrint ? NSJSONWritingPrettyPrinted : 0;
@@ -41,8 +42,6 @@ static NSString *const kSNMLogs = @"logs";
     NSLog(@"Got an error: %@", error);
   } else {
     jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    // TODO Temporary
-//    jsonString = [NSString stringWithFormat: @"{\n\"logs\": %@\n}", jsonString];
   }
   return jsonString;
 }
