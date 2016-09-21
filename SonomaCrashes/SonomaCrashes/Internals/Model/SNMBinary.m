@@ -47,9 +47,7 @@ static NSString *const kSNMArchitectureVariantId = @"architecture_variant_id";
 }
 
 - (BOOL)isValid {
-  BOOL isValid = (!self.binaryId || !self.startAddress || !self.endAddress || !self.name || !self.path);
-  
-  return isValid;
+  return self.binaryId && self.startAddress && self.endAddress && self.name && self.path;
 }
 
 - (BOOL)isEqual:(SNMBinary *)binary {
