@@ -80,11 +80,8 @@ static NSString *const kSNMRegisters = @"registers";
 }
 
 - (BOOL)isValid {
-  BOOL isValid = [super isValid] &&
-                 (!self.primaryArchitectureId || !self.applicationPath || !self.osExceptionType ||
-                  !self.osExceptionCode || !self.osExceptionAddress);
-  
-  return isValid;
+  return [super isValid] && self.primaryArchitectureId && self.applicationPath &&
+                            self.osExceptionType && self.osExceptionCode && self.osExceptionAddress;
 }
 
 - (BOOL)isEqual:(SNMAppleErrorLog *)errorLog {
