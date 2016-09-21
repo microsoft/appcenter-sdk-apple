@@ -2,9 +2,9 @@
 #import "Constants.h"
 #import <Foundation/Foundation.h>
 
-@import AvalancheHub;
-@import AvalancheCrashes;
-@import AvalancheAnalytics;
+@import SonomaCore;
+@import SonomaCrashes;
+@import SonomaAnalytics;
 
 @interface AppDelegate ()
 
@@ -15,12 +15,12 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   // Override point for customization after application launch.
 
-  // Start Avalanche SDK
-  [AVAAvalanche setLogLevel:AVALogLevelVerbose];
-  [AVAAvalanche start:[[NSUUID UUID] UUIDString] withFeatures:@[[AVAAnalytics class], [AVACrashes class]]];
+  // Start Sonoma SDK
+  [SNMSonoma setLogLevel:SNMLogLevelVerbose];
+  [SNMSonoma start:[[NSUUID UUID] UUIDString] withFeatures:@[[SNMAnalytics class], [SNMCrashes class]]];
 
   // Print the install Id.
-  NSLog(@"%@ Install Id: %@", kDEMLogTag, [[AVAAvalanche installId] UUIDString]);
+  NSLog(@"%@ Install Id: %@", kDEMLogTag, [[SNMSonoma installId] UUIDString]);
   return YES;
 }
 
