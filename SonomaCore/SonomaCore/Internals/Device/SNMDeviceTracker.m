@@ -10,13 +10,17 @@
 // SDK versioning struct.
 typedef struct {
   uint8_t info_version;
+  const char snm_name[16];
   const char snm_version[16];
   const char snm_build[16];
 } snm_info_t;
 
 // SDK versioning.
 snm_info_t sonoma_library_info __attribute__((section("__TEXT,__bit_ios,regular,no_dead_strip"))) = {
-    .info_version = 1, .snm_version = SONOMA_C_VERSION, .snm_build = SONOMA_C_BUILD};
+    .info_version = 1,
+    .snm_name = SONOMA_C_NAME,
+    .snm_version = SONOMA_C_VERSION,
+    .snm_build = SONOMA_C_BUILD};
 
 @implementation SNMDeviceTracker : NSObject
 
@@ -46,11 +50,13 @@ snm_info_t sonoma_library_info __attribute__((section("__TEXT,__bit_ios,regular,
     CTCarrier *carrier = [[[CTTelephonyNetworkInfo alloc] init] subscriberCellularProvider];
 
     // Collect device properties.
+    newDevice.sdkName = [self sdkName:sonoma_library_info.snm_name];
     newDevice.sdkVersion = [self sdkVersion:sonoma_library_info.snm_version];
     newDevice.model = [self deviceModel];
     newDevice.oemName = kSNMDeviceManufacturer;
     newDevice.osName = [self osName:kSNMDevice];
     newDevice.osVersion = [self osVersion:kSNMDevice];
+    newDevice.osBuild = [self osBuild];
     newDevice.locale = [self locale:kSNMLocale];
     newDevice.timeZoneOffset = [self timeZoneOffset:[NSTimeZone localTimeZone]];
     newDevice.screenSize = [self screenSize];
@@ -66,6 +72,10 @@ snm_info_t sonoma_library_info __attribute__((section("__TEXT,__bit_ios,regular,
 }
 
 #pragma mark - Helpers
+
+- (NSString *)sdkName:(const char[])name {
+  return [NSString stringWithUTF8String:name];
+}
 
 - (NSString *)sdkVersion:(const char[])version {
   return [NSString stringWithUTF8String:version];
@@ -87,6 +97,16 @@ snm_info_t sonoma_library_info __attribute__((section("__TEXT,__bit_ios,regular,
 
 - (NSString *)osVersion:(UIDevice *)device {
   return device.systemVersion;
+}
+
+- (NSString *)osBuild {
+  size_t size;
+  sysctlbyname("kern.osversion", NULL, &size, NULL, 0);
+  char *machine = malloc(size);
+  sysctlbyname("kern.osversion", machine, &size, NULL, 0);
+  NSString *build = [NSString stringWithCString:machine encoding:NSUTF8StringEncoding];
+  free(machine);
+  return build;
 }
 
 - (NSString *)locale:(NSLocale *)currentLocale {

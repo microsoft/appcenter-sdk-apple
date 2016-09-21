@@ -5,6 +5,8 @@
 #import "SNMLogContainer.h"
 #import "SNMSerializableObject.h"
 
+static NSString *const kSNMLogs = @"logs";
+
 @implementation SNMLogContainer
 
 - (id)initWithBatchId:(NSString *)batchId andLogs:(NSArray<SNMLog> *)logs {
@@ -29,14 +31,18 @@
     }
   }];
 
+  NSMutableDictionary *logContainer = [@{kSNMLogs: jsonArray} mutableCopy];
+  
   NSError *error;
   NSJSONWritingOptions printOptions = prettyPrint ? NSJSONWritingPrettyPrinted : 0;
-  NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jsonArray options:printOptions error:&error];
+  NSData *jsonData = [NSJSONSerialization dataWithJSONObject:logContainer options:printOptions error:&error];
 
   if (!jsonData) {
     NSLog(@"Got an error: %@", error);
   } else {
     jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    // TODO Temporary
+//    jsonString = [NSString stringWithFormat: @"{\n\"logs\": %@\n}", jsonString];
   }
   return jsonString;
 }

@@ -37,6 +37,18 @@ static NSString *const kSNMFileName = @"file_name";
   return dict;
 }
 
+- (BOOL)isEqual:(SNMStackFrame *)frame {
+  if (!frame)
+    return NO;
+  
+  return ((!self.address && !frame.address) || [self.address isEqualToString:frame.address]) &&
+         ((!self.code && !frame.code) || [self.code isEqualToString:frame.code]) &&
+         ((!self.className && !frame.className) || [self.className isEqualToString:frame.className]) &&
+         ((!self.methodName && !frame.methodName) || [self.methodName isEqualToString:frame.methodName]) &&
+         ((!self.lineNumber && !frame.lineNumber) || [self.lineNumber isEqual:frame.lineNumber]) &&
+         ((!self.fileName && !frame.fileName) || [self.fileName isEqualToString:frame.fileName]);
+}
+
 #pragma mark - NSCoding
 
 - (instancetype)initWithCoder:(NSCoder *)coder {

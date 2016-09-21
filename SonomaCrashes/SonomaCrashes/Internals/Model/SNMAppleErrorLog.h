@@ -68,8 +68,13 @@
  */
 @property(nonatomic, nullable) NSDictionary<NSString *, NSString *> *registers;
 
-
-
-
+/**
+ * Is equal to another apple error log
+ *
+ * @param errorLog Apple error log
+ *
+ * @return Return YES if equal and NO if not equal
+ */
+- (BOOL)isEqual:(nullable SNMAppleErrorLog *)errorLog;
 
 @end

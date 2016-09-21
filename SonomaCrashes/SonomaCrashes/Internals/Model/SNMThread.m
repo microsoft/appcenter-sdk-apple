@@ -39,6 +39,22 @@ static NSString *const kSNMException = @"exception";
   return dict;
 }
 
+- (BOOL)isValid {
+  BOOL isValid = (!self.threadId || !self.frames);
+  
+  return isValid;
+}
+
+- (BOOL)isEqual:(SNMThread *)thread {
+  if (!thread)
+    return NO;
+  
+  return ((!self.threadId && !thread.threadId) || [self.threadId isEqual:thread.threadId]) &&
+         ((!self.name && !thread.name) || [self.name isEqualToString:thread.name]) &&
+         ((!self.frames && !thread.frames) || [self.frames isEqualToArray:thread.frames]) &&
+         ((!self.exception && !thread.exception) || [self.exception isEqual:thread.exception]);
+}
+
 #pragma mark - NSCoding
 
 - (instancetype)initWithCoder:(NSCoder *)coder {

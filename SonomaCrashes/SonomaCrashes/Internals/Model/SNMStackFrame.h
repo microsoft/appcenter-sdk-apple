@@ -37,5 +37,13 @@
  */
 @property(nonatomic, nullable) NSString *fileName;
 
+/**
+ * Is equal to another stack frame
+ *
+ * @param frame Stack frame
+ *
+ * @return Return YES if equal and NO if not equal
+ */
+- (BOOL)isEqual:(nullable SNMStackFrame *)frame;
 
 @end
