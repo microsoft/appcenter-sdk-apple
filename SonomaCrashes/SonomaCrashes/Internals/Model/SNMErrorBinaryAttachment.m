@@ -45,9 +45,7 @@ static NSString *const kSNMContentType = @"content_type";
 }
 
 - (BOOL)isValid {
-  BOOL isValid = (!self.contentType || !self.data);
-  
-  return isValid;
+  return self.contentType && self.data;
 }
 
 - (BOOL)isEqual:(SNMErrorBinaryAttachment *)attachment {

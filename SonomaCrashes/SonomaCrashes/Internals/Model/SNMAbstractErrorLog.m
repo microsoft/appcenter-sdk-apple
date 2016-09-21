@@ -73,9 +73,7 @@ static NSString *const kSNMArchitecture = @"architecture";
 }
 
 - (BOOL)isValid {
-  BOOL isValid = (!self.errorId || !self.processId || !self.processName || !self.appLaunchTOffset);
-
-  return isValid;
+  return self.errorId && self.processId && self.processName && self.appLaunchTOffset;
 }
 
 - (BOOL)isEqual:(SNMAbstractErrorLog *)errorLog {
@@ -107,7 +105,7 @@ static NSString *const kSNMArchitecture = @"architecture";
     _parentProcessName = [coder decodeObjectForKey:kSNMParentProcessName];
     _errorThreadId = [coder decodeObjectForKey:kSNMErrorThreadId];
     _errorThreadName = [coder decodeObjectForKey:kSNMErrorThreadName];
-    _fatal = [coder decodeObjectForKey:kSNMFatal];
+    _fatal = [coder decodeBoolForKey:kSNMFatal];
     _appLaunchTOffset = [coder decodeObjectForKey:kSNMAppLaunchTOffset];
     _errorAttachment = [coder decodeObjectForKey:kSNMErrorAttachment];
     _architecture = [coder decodeObjectForKey:kSNMArchitecture];
@@ -124,8 +122,7 @@ static NSString *const kSNMArchitecture = @"architecture";
   [coder encodeObject:self.parentProcessName forKey:kSNMParentProcessName];
   [coder encodeObject:self.errorThreadId forKey:kSNMErrorThreadId];
   [coder encodeObject:self.errorThreadName forKey:kSNMErrorThreadName];
-  NSObject *fatal = self.fatal ? @YES : @NO;
-  [coder encodeObject:fatal forKey:kSNMFatal];
+  [coder encodeBool:self.fatal forKey:kSNMFatal];
   [coder encodeObject:self.appLaunchTOffset forKey:kSNMAppLaunchTOffset];
   [coder encodeObject:self.errorAttachment forKey:kSNMErrorAttachment];
   [coder encodeObject:self.architecture forKey:kSNMArchitecture];
