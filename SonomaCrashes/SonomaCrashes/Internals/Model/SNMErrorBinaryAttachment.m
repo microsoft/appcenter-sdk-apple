@@ -44,7 +44,23 @@ static NSString *const kSNMContentType = @"content_type";
   return dict;
 }
 
+- (BOOL)isValid {
+  BOOL isValid = (!self.contentType || !self.data);
+  
+  return isValid;
+}
+
+- (BOOL)isEqual:(SNMErrorBinaryAttachment *)attachment {
+  if (!attachment)
+    return NO;
+  
+  return ((!self.fileName && !attachment.fileName) || [self.fileName isEqualToString:attachment.fileName]) &&
+         ((!self.data && !attachment.data) || [self.data isEqual:attachment.data]) &&
+         ((!self.contentType && !attachment.contentType) || [self.contentType isEqualToString:attachment.contentType]);
+}
+
 #pragma mark - NSCoding
+
 - (void)encodeWithCoder:(NSCoder *)encoder {
   if (self.fileName) {
     [encoder encodeObject:self.fileName forKey:kSNMFilename];
