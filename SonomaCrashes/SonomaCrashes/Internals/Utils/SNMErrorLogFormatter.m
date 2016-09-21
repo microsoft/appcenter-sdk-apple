@@ -547,7 +547,7 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
 
 // Remove username from the path
 #if TARGET_OS_SIMULATOR
-      processPath = [self anonymizedProcessPathFromProcessPath:processPath];
+      processPath = [self anonymizedPathFromPath:processPath];
 #endif
       errorLog.applicationPath = processPath;
     }
@@ -597,9 +597,7 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
 #endif
       }
 #if TARGET_IPHONE_SIMULATOR
-      if ([imageName length] > 0 && [[imageName substringToIndex:1] isEqualToString:@"~"]) {
-        imageName = [NSString stringWithFormat:@"/Users/USER%@", [imageName substringFromIndex:1]];
-      }
+      imageName = [self anonymizedPathFromPath: imageName];
 #endif
 
       binary.path = imageName;
@@ -637,7 +635,7 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
  *
  *  @return An anonymized string where the real username is replaced by "USER"
  */
-+ (NSString *)anonymizedProcessPathFromProcessPath:(NSString *)processPath {
++ (NSString *)anonymizedPathFromPath:(NSString *)processPath {
 
   NSString *anonymizedProcessPath = [NSString string];
 
