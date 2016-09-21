@@ -635,24 +635,24 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
  *
  *  @return An anonymized string where the real username is replaced by "USER"
  */
-+ (NSString *)anonymizedPathFromPath:(NSString *)processPath {
-
++ (NSString *)anonymizedPathFromPath:(NSString *)path {
+  
   NSString *anonymizedProcessPath = [NSString string];
-
-  if (([processPath length] > 0) && [processPath hasPrefix:@"/Users/"]) {
+  
+  if (([path length] > 0) && [path hasPrefix:@"/Users/"]) {
     NSError *error = nil;
-    NSRegularExpression *regex =
-        [NSRegularExpression regularExpressionWithPattern:@"(/Users/[^/]+/)" options:0 error:&error];
-    anonymizedProcessPath = [regex stringByReplacingMatchesInString:processPath
-                                                            options:0
-                                                              range:NSMakeRange(0, [processPath length])
-                                                       withTemplate:@"/Users/USER/"];
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"(/Users/[^/]+/)" options:0 error:&error];
+    anonymizedProcessPath = [regex stringByReplacingMatchesInString:path options:0 range:NSMakeRange(0, [path length]) withTemplate:@"/Users/USER/"];
     if (error) {
       SNMLogError(@"ERROR: String replacing failed - %@", error.localizedDescription);
     }
   }
+  else if(([path length] > 0) && (![path containsString:@"Users"])) {
+    return path;
+  }
   return anonymizedProcessPath;
 }
+
 
 //**
 //*  Return the selector string of a given register name
