@@ -20,6 +20,8 @@ static NSString *const kSNMFeatureName = @"Analytics";
 @implementation SNMAnalytics
 
 @synthesize autoPageTrackingEnabled = _autoPageTrackingEnabled;
+@synthesize priority = _priority;
+
 
 #pragma mark - Module initialization
 
@@ -32,6 +34,7 @@ static NSString *const kSNMFeatureName = @"Analytics";
     // Init session tracker.
     _sessionTracker = [[SNMSessionTracker alloc] init];
     _sessionTracker.delegate = self;
+    _priority = SNMPriorityDefault;
     [self.sessionTracker start];
   }
   return self;
@@ -119,7 +122,7 @@ static NSString *const kSNMFeatureName = @"Analytics";
       log.properties = properties;
 
     // Send log to core module
-    [self sendLog:log withPriority:SNMPriorityDefault];
+    [self sendLog:log withPriority:self.priority];
   });
 }
 
@@ -137,7 +140,7 @@ static NSString *const kSNMFeatureName = @"Analytics";
       log.properties = properties;
 
     // Send log to core module
-    [self sendLog:log withPriority:SNMPriorityDefault];
+    [self sendLog:log withPriority:self.priority];
   });
 }
 
