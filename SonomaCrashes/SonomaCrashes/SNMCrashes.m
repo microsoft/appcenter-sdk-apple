@@ -48,6 +48,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 @synthesize delegate = _delegate;
 @synthesize logManger = _logManger;
 @synthesize initializationDate = _initializationDate;
+@synthesize priority = _priority;
 
 #pragma mark - Public Methods
 
@@ -105,6 +106,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
     _crashesDir = [SNMCrashesHelper crashesDir];
     _analyzerInProgressFile = [_crashesDir stringByAppendingPathComponent:kSNMAnalyzerFilename];
     _initializationDate = [NSDate new];
+    _priority = SNMPriorityHigh;
   }
   return self;
 }
@@ -255,7 +257,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
     if ([crashFileData length] > 0) {
       report = [[SNMPLCrashReport alloc] initWithData:crashFileData error:&error];
       SNMAppleErrorLog *log = [SNMErrorLogFormatter errorLogFromCrashReport:report];
-      [self.delegate feature:self didCreateLog:log withPriority:SNMPriorityHigh]; //TODO work on this part!!!
+      [self.delegate feature:self didCreateLog:log withPriority:self.priority]; //TODO work on this part!!!
       [self deleteCrashReportWithFilePath:filePath];
       [self.crashFiles removeObject:filePath];
     }
