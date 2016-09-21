@@ -1,11 +1,11 @@
 #import "AppDelegate.h"
-#import "AvalancheAnalytics.h"
-#import "AvalancheCrashes.h"
-#import "AvalancheHub.h"
+#import "SonomaAnalytics.h"
+#import "SonomaCrashes.h"
+#import "SonomaCore.h"
 #import "Constants.h"
 
-#import "AVAErrorAttachment.h"
-#import "AVAErrorReport.h"
+#import "SNMErrorAttachment.h"
+#import "SNMErrorReport.h"
 
 @interface AppDelegate ()
 
@@ -15,18 +15,18 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
-  // Start Avalanche SDK.
-  [AVAAvalanche setLogLevel:AVALogLevelVerbose];
-  [AVAAvalanche start:[[NSUUID UUID] UUIDString] withFeatures:@[ [AVAAnalytics class], [AVACrashes class] ]];
+  // Start Sonoma SDK.
+  [SNMSonoma setLogLevel:SNMLogLevelVerbose];
+  [SNMSonoma start:[[NSUUID UUID] UUIDString] withFeatures:@[ [SNMAnalytics class], [SNMCrashes class] ]];
 
-  [AVACrashes setErrorLoggingDelegate:self]; // TODO rename to setDelegate:
+  [SNMCrashes setCrashesDelegate:self]; // TODO rename to setDelegate:
 
-  [AVACrashes setUserConfirmationHandler:^(NSArray<AVAErrorReport *> *errorLogs) {
-    NSString *exceptionReason = [AVACrashes lastSessionCrashDetails].exceptionReason;
+  [SNMCrashes setUserConfirmationHandler:^(NSArray<SNMErrorReport *> *report) {
+    NSString *exceptionReason = [SNMCrashes lastSessionCrashReport].exceptionReason;
 
     // or something like
 
-    NSString *foo = [errorLogs firstObject].exceptionReason;
+    NSString *foo = [report firstObject].exceptionReason;
     if (foo) {
       // Do something with exceptionReason
       NSLog(@"%@", foo);
@@ -48,8 +48,13 @@
     [customAlertView show];
   }];
 
+  if([SNMCrashes hasCrashedInLastSession]) {
+    SNMErrorReport *errorReport = [SNMCrashes lastSessionCrashReport];
+    NSLog(@"We crashed with Signal: %@", errorReport.signal);
+  }
+  
   // Print the install Id.
-  NSLog(@"%@ Install Id: %@", kPUPLogTag, [[AVAAvalanche installId] UUIDString]);
+  NSLog(@"%@ Install Id: %@", kPUPLogTag, [[SNMSonoma installId] UUIDString]);
   return YES;
 }
 
@@ -85,27 +90,27 @@
 
 // TODO talk to andreas and lukas about this again
 
-- (BOOL)errorReporting:(AVACrashes *)crashes shouldProcess:(AVAErrorReport *)errorReport {
+- (BOOL)crashes:(SNMCrashes *)crashes shouldProcess:(SNMErrorReport *)report {
 
-  if ([errorReport.exceptionReason isEqualToString:@"something"]) {
+  if ([report.exceptionReason isEqualToString:@"something"]) {
     return false;
   } else {
     return true;
   }
 }
 
-- (AVAErrorAttachment *)attachmentWithErrorReporting:(AVACrashes *)crashes forErrorReport:(AVAErrorReport *)errorLog {
+- (SNMErrorAttachment *)attachmentWithCrashes:(SNMCrashes *)crashes forErrorReport:(SNMErrorReport *)report {
 
-  return [AVAErrorAttachment new];
+  return [SNMErrorAttachment new];
 }
 
-- (void)errorReportingWillSend:(AVACrashes *)crashes {
+- (void)crashesWillSend:(SNMCrashes *)crashes {
 }
 
-- (void)errorReporting:(AVACrashes *)crashes didFailSending:(AVAErrorReport *)errorLog withError:(NSError *)error {
+- (void)crashes:(SNMCrashes *)crashes didFailSending:(SNMErrorReport *)report withError:(NSError *)error {
 }
 
-- (void)errorReporting:(AVACrashes *)crashes didSucceedSending:(AVAErrorReport *)errorLog {
+- (void)crashes:(SNMCrashes *)crashes didSucceedSending:(SNMErrorReport *)report {
 }
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
@@ -113,13 +118,13 @@
   }
   switch (buttonIndex) {
   case 0:
-    [AVACrashes notifyWithUserConfirmation:AVAUserConfirmationDontSend];
+    [SNMCrashes notifyWithUserConfirmation:SNMUserConfirmationDontSend];
     break;
   case 1:
-    [AVACrashes notifyWithUserConfirmation:AVAUserConfirmationAlways];
+    [SNMCrashes notifyWithUserConfirmation:SNMUserConfirmationAlways];
     break;
   default:
-    [AVACrashes notifyWithUserConfirmation:AVAUserConfirmationDontSend];
+    [SNMCrashes notifyWithUserConfirmation:SNMUserConfirmationDontSend];
     break;
   }
 }

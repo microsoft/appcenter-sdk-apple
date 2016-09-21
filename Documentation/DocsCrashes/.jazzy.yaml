@@ -16,13 +16,13 @@ custom_categories:
     children:
     - Installation
 
-umbrella_header: ../../Products/AvalancheCrashes/AvalancheCrashes.framework/Headers/AvalancheCrashes.h
-framework_root: ../../Products/AvalancheCrashes
-exclude: [../../Products/AvalancheCrashes/AvalancheCrashes.framework/Headers/AVAFeature.h, ../../Products/AvalancheCrashes/AvalancheCrashes.framework/Headers/AVAFeatureAbstract.h]
+umbrella_header: ../../Products/SonomaCrashes/SonomaCrashes.framework/Headers/SonomaCrashes.h
+framework_root: ../../Products/SonomaCrashes
+exclude: [../../Products/SonomaCrashes/SonomaCrashes.framework/Headers/SNMFeature.h, ../../Products/SonomaCrashes/SonomaCrashes.framework/Headers/SNMFeatureAbstract.h]
 
 root_url: http://test.com/sdk/ios/1.0.0
-github_url: https://github.com/Microsoft/AvalancheSDK-iOS
-github_file_prefix: "https://github.com/Microsoft/AvalancheSDK-iOS"
+github_url: https://github.com/Microsoft/Sonoma-SDK-iOS
+github_file_prefix: "https://github.com/Microsoft/Sonoma-SDK-iOS"
 
 skip_undocumented: true
 
