@@ -46,7 +46,7 @@
   assertThat(sut.name, equalTo(@"SNMPriorityDefault"));
   assertThatUnsignedInteger(sut.batchSizeLimit, equalToUnsignedInteger(50));
   assertThatUnsignedInteger(sut.pendingBatchesLimit, equalToUnsignedInteger(3));
-  assertThatFloat(sut.flushInterval, equalToFloat(30.0));
+  assertThatFloat(sut.flushInterval, equalToFloat(3.0));
 }
 
 - (void)testClassWillReturnCorrectConfigurationForGivenHighPriority {
