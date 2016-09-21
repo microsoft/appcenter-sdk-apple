@@ -40,9 +40,7 @@ static NSString *const kSNMException = @"exception";
 }
 
 - (BOOL)isValid {
-  BOOL isValid = (!self.threadId || !self.frames);
-  
-  return isValid;
+  return self.threadId && self.frames;
 }
 
 - (BOOL)isEqual:(SNMThread *)thread {
