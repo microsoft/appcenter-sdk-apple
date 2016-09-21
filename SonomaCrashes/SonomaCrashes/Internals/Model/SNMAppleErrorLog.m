@@ -79,6 +79,31 @@ static NSString *const kSNMRegisters = @"registers";
   return dict;
 }
 
+- (BOOL)isValid {
+  BOOL isValid = [super isValid] &&
+                 (!self.primaryArchitectureId || !self.applicationPath || !self.osExceptionType ||
+                  !self.osExceptionCode || !self.osExceptionAddress);
+  
+  return isValid;
+}
+
+- (BOOL)isEqual:(SNMAppleErrorLog *)errorLog {
+  if (!errorLog)
+    return NO;
+  
+  return ((!self.primaryArchitectureId && !errorLog.primaryArchitectureId) || [self.primaryArchitectureId isEqual:errorLog.primaryArchitectureId]) &&
+         ((!self.architectureVariantId && !errorLog.architectureVariantId) || [self.architectureVariantId isEqual:errorLog.architectureVariantId]) &&
+         ((!self.applicationPath && !errorLog.applicationPath) || [self.applicationPath isEqualToString:errorLog.applicationPath]) &&
+         ((!self.osExceptionType && !errorLog.osExceptionType) || [self.osExceptionType isEqualToString:errorLog.osExceptionType]) &&
+         ((!self.osExceptionCode && !errorLog.osExceptionCode) || [self.osExceptionCode isEqualToString:errorLog.osExceptionCode]) &&
+         ((!self.osExceptionAddress && !errorLog.osExceptionAddress) || [self.osExceptionAddress isEqualToString:errorLog.osExceptionAddress]) &&
+         ((!self.exceptionType && !errorLog.exceptionType) || [self.exceptionType isEqualToString:errorLog.exceptionType]) &&
+         ((!self.exceptionReason && !errorLog.exceptionReason) || [self.exceptionReason isEqualToString:errorLog.exceptionReason]) &&
+         ((!self.threads && !errorLog.threads) || [self.threads isEqualToArray:errorLog.threads]) &&
+         ((!self.binaries && !errorLog.binaries) || [self.binaries isEqualToArray:errorLog.binaries]) &&
+         ((!self.registers && !errorLog.registers) || [self.registers isEqualToDictionary:errorLog.registers]);
+}
+
 #pragma mark - NSCoding
 
 - (instancetype)initWithCoder:(NSCoder *)coder {

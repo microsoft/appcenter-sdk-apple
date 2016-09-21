@@ -17,7 +17,7 @@
 /*
  * Exception reason.
  */
-@property(nonatomic, nonnull) NSString *reason;
+@property(nonatomic, nonnull) NSString *message;
 
 /*
  * Stack frames [optional].
@@ -30,5 +30,13 @@
  */
 @property(nonatomic, nullable) NSArray<SNMException *> *innerExceptions;
 
+/**
+ * Is equal to another exception
+ *
+ * @param exception Exception
+ *
+ * @return Return YES if equal and NO if not equal
+ */
+- (BOOL)isEqual:(nullable SNMException *)exception;
 
 @end
