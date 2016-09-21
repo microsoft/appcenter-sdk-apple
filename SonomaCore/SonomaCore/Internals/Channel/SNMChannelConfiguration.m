@@ -47,7 +47,7 @@ static SNMChannelConfiguration *SNMChannelConfigurationBackground;
   default:
     if (!SNMChannelConfigurationDefault) {
       SNMChannelConfigurationDefault = [[self alloc] initWithPriorityName:@"SNMPriorityDefault"
-                                                            flushInterval:30.0
+                                                            flushInterval:3.0
                                                            batchSizeLimit:50
                                                       pendingBatchesLimit:3];
     }
