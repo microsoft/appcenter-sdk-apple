@@ -13,6 +13,11 @@
 @protocol SNMFeatureInternal <SNMFeature, SNMFeatureCommon>
 
 /**
+ *  The channel priority for this feature.
+ */
+@property(nonatomic, readonly) SNMPriority priority;
+
+/**
  *  Get the unique instance.
  *
  *  @return unique instance.
