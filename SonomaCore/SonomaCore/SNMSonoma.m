@@ -5,7 +5,8 @@
 #import "SNMUserDefaults.h"
 #import "SNMUtils.h"
 #import <sys/sysctl.h>
-
+#import "SNMLoggerPrivate.h"
+#import "SNMEnvironmentHelper.h"
 
 // Http Headers + Query string.
 static NSString *const kSNMHeaderAppSecretKey = @"App-Secret";
@@ -142,6 +143,12 @@ static NSString *const kSNMBaseUrl = @"http://in-integration.dev.avalanch.es:808
     [feature startFeature];
   }
   _sdkStarted = YES;
+  
+  // If the loglevel hasn't been customized before and we are not running in an app store environment, we set the
+  // default loglevel to SNMLogLevelWarning.
+  if((![SNMLogger isUserDefinedLogLevel]) && ([SNMEnvironmentHelper currentAppEnvironment] == SNMEnvironmentOther)) {
+    [SNMSonoma setLogLevel:SNMLogLevelWarning];
+  }
 }
 
 - (void)setEnabled:(BOOL)isEnabled {
