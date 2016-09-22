@@ -56,17 +56,6 @@ typedef NS_ENUM(NSUInteger, SNMUserConfirmation) {
 ///-----------------------------------------------------------------------------
 
 /**
- *  Detect if a debugger is attached to the app process
- *
- *  This is only invoked once on app startup and can not detect if the debugger
- * is being
- *  attached during runtime!
- *
- *  @return BOOL if the debugger is attached on app startup
- */
-+ (BOOL)isDebuggerAttached;
-
-/**
  * Lets the app crash for easy testing of the SDK.
  *
  * The best way to use this is to trigger the crash with a button action.
