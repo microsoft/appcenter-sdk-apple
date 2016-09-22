@@ -71,6 +71,7 @@
 
 - (void) startFeature {
   self.featureInitialised = YES;
+  
   // Send pending logs if persistence has logs that are not sent yet
   [self.logManger flushPendingLogs:self.priority];
 }
