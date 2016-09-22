@@ -238,6 +238,7 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
   
   SNMErrorReport *errorReport = nil;
   
+  //TODO incidentIdentifier is the errorId and should not fall back to "???" but to a new GUID
   NSString *incidentIdentifier = @"???";
   if (report.uuidRef != NULL) {
     incidentIdentifier = (NSString *) CFBridgingRelease(CFUUIDCreateString(NULL, report.uuidRef));
@@ -393,7 +394,7 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
 
           formattedRegValue = formatted_address_matching_architecture(registerInfo.registerValue, is64bit);
 
-        // TODO Remove
+        // TODO Remove?
           if (thread.frames.count > 0) {
             SNMStackFrame *stackFrame = thread.frames[0];
             stackFrame.address = formattedRegValue;
@@ -511,8 +512,8 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
 
   // Application Path and process info
   errorLog.errorId =
-      report.uuidRef ? (NSString *)CFBridgingRelease(CFUUIDCreateString(NULL, report.uuidRef)) : unknownString;
-
+      report.uuidRef ? (NSString *)CFBridgingRelease(CFUUIDCreateString(NULL, report.uuidRef)) : [[NSUUID UUID] UUIDString];
+  
   errorLog = [self extractProcessInformation:errorLog fromCrashReport:report];
 
   // Error Thread Info.
