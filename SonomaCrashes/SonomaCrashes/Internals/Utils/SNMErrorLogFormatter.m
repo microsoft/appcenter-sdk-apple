@@ -55,6 +55,10 @@
 #import "SNMException.h"
 #import "SNMStackFrame.h"
 #import "SNMThread.h"
+#import "SNMErrorReport.h"
+#import "SNMErrorReportPrivate.h"
+#import "SNMSonomaInternal.h"
+
 
 static NSString *unknownString = @"???";
 
@@ -226,6 +230,58 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
   return errorLog;
 }
 
+
++ (SNMErrorReport *)createErrorReportFrom:(SNMPLCrashReport *)report {
+  if(!report) {
+    return nil;
+  }
+  
+  SNMErrorReport *errorReport = nil;
+  
+  NSString *incidentIdentifier = @"???";
+  if (report.uuidRef != NULL) {
+    incidentIdentifier = (NSString *) CFBridgingRelease(CFUUIDCreateString(NULL, report.uuidRef));
+  }
+  
+  // There should always be an installId. Leaving the empty string out of paranoia
+  // as [UUID UUID] – used in [SNMSonoma installId] might, in theory, return nil.
+  NSString *reporterKey = [[SNMSonoma installId] UUIDString] ?: @"";
+  
+  NSString *signal = report.signalInfo.name;
+  NSString *exceptionName = report.exceptionInfo.exceptionName;
+  NSString *exceptionReason = report.exceptionInfo.exceptionReason;
+  
+  NSDate *appStartTime = nil;
+  NSDate *crashTime = nil;
+  if ([report.processInfo respondsToSelector:@selector(processStartTime)]) {
+    if (report.systemInfo.timestamp && report.processInfo.processStartTime) {
+      appStartTime = report.processInfo.processStartTime;
+      crashTime = report.systemInfo.timestamp;
+    }
+  }
+  
+  NSString *osVersion = report.systemInfo.operatingSystemVersion;
+  NSString *osBuild = report.systemInfo.operatingSystemBuild;
+  NSString *appVersion = report.applicationInfo.applicationMarketingVersion;
+  NSString *appBuild = report.applicationInfo.applicationVersion;
+  NSUInteger processId = report.processInfo.processID;
+  
+  errorReport = [[SNMErrorReport alloc] initWithIncidentIdentifier:incidentIdentifier
+                                                       reporterKey:reporterKey
+                                                            signal:signal
+                                                     exceptionName:exceptionName
+                                                   exceptionReason:exceptionReason
+                                                      appStartTime:appStartTime
+                                                         crashTime:crashTime
+                                                         osVersion:osVersion
+                                                           osBuild:osBuild
+                                                        appVersion:appVersion
+                                                          appBuild:appBuild
+                                              appProcessIdentifier:processId];
+  
+  return errorReport;
+}
+
 + (NSNumber *)extractCodeTypeFromReport:(const SNMPLCrashReport *)report {
   NSDictionary *legacyTypes = @{
     @(PLCrashReportArchitectureARMv6) : @(CPU_TYPE_ARM),
@@ -234,19 +290,20 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
     @(PLCrashReportArchitectureX86_64) : @(CPU_TYPE_X86_64),
     @(PLCrashReportArchitecturePPC) : @(CPU_TYPE_POWERPC),
   };
-
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
   /* Attempt to derive the code type from the binary images */
   NSNumber *codeType = nil;
   for (SNMPLCrashReportBinaryImageInfo *image in report.images) {
-    // TODO: (bereimol) use non-deprecated stuff, will mean we have to adjust logic for codeType and 64 bit detection.
     codeType =
-        @(image.codeType.type) ?: legacyTypes[@(report.systemInfo.architecture)]
+    @(image.codeType.type) ?: @(report.systemInfo.processorInfo.type) ?: legacyTypes[@(report.systemInfo.architecture)]
                                       ?: [NSString stringWithFormat:@"Unknown (%d)", report.systemInfo.architecture];
 
     /* Stop immediately if code type was discovered */
     if (codeType != nil)
       break;
   }
+#pragma GCC diagnostic pop
   return codeType;
 }
 
@@ -293,7 +350,7 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
     }
 
     SNMException *lastException = [SNMException new];
-    lastException.reason = exception.exceptionReason;
+    lastException.message = exception.exceptionReason;
     lastException.frames = exceptionThread.frames;
 
     lastException.type = report.exceptionInfo.exceptionName ?: report.signalInfo.name;
@@ -312,6 +369,8 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
     SNMThread *threadData = [SNMThread new];
     threadData.threadId = @(thread.threadNumber);
 
+    // TODO frames are missing in crash logs but it is a required field.
+    
     for (SNMPLCrashReportStackFrameInfo *frameInfo in thread.stackFrames) {
       SNMStackFrame *frame = [SNMStackFrame new];
       frame.address = formatted_address_matching_architecture(frameInfo.instructionPointer, is64bit);
@@ -384,6 +443,7 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
   errorLog.appLaunchTOffset = @(difference);
 
   // CPU Type and Subtype
+  // TODO errorLog.architecture is an optional but might need to assign a string. It might be able to be deleted (requires schema update).
   errorLog.primaryArchitectureId = @(report.systemInfo.processorInfo.type);
   errorLog.architectureVariantId = @(report.systemInfo.processorInfo.subtype);
 
@@ -499,7 +559,7 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
     // Parent Process ID
     errorLog.parentProcessId = @(crashReport.processInfo.parentProcessID);
   }
-  return nil;
+  return errorLog;
 }
 
 + (NSArray<SNMBinary *> *)extractBinaryImagesFromReport:(SNMPLCrashReport *)report
@@ -548,6 +608,7 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
       /* Fetch the UUID if it exists */
       binary.binaryId = (imageInfo.hasImageUUID) ? imageInfo.imageUUID : unknownString;
       /* Determine the architecture string */
+      // TODO binary.architecture already exists in AbstractErrorLog. Can be deleted (requires schema update) ?
       binary.primaryArchitectureId = codeType;
       binary.architectureVariantId = @(imageInfo.codeType.subtype);
 

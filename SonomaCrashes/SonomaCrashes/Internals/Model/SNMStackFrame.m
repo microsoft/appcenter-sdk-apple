@@ -6,10 +6,10 @@
 
 static NSString *const kSNMAddress = @"address";
 static NSString *const kSNMCode = @"code";
-static NSString *const kSNMClassName = @"className";
-static NSString *const kSNMMethodName = @"methodName";
-static NSString *const kSNMLineNumber = @"lineNumber";
-static NSString *const kSNMFileName = @"fileName";
+static NSString *const kSNMClassName = @"class_name";
+static NSString *const kSNMMethodName = @"method_name";
+static NSString *const kSNMLineNumber = @"line_number";
+static NSString *const kSNMFileName = @"file_name";
 
 @implementation SNMStackFrame
 
@@ -35,6 +35,18 @@ static NSString *const kSNMFileName = @"fileName";
     dict[kSNMFileName] = self.fileName;
   }
   return dict;
+}
+
+- (BOOL)isEqual:(SNMStackFrame *)frame {
+  if (!frame)
+    return NO;
+  
+  return ((!self.address && !frame.address) || [self.address isEqualToString:frame.address]) &&
+         ((!self.code && !frame.code) || [self.code isEqualToString:frame.code]) &&
+         ((!self.className && !frame.className) || [self.className isEqualToString:frame.className]) &&
+         ((!self.methodName && !frame.methodName) || [self.methodName isEqualToString:frame.methodName]) &&
+         ((!self.lineNumber && !frame.lineNumber) || [self.lineNumber isEqual:frame.lineNumber]) &&
+         ((!self.fileName && !frame.fileName) || [self.fileName isEqualToString:frame.fileName]);
 }
 
 #pragma mark - NSCoding

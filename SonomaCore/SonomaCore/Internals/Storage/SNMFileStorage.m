@@ -98,10 +98,10 @@ static NSUInteger const SNMDefaultLogCountLimit = 50;
     logs = [NSKeyedUnarchiver unarchiveObjectWithData:logData];
     [bucket.blockedFiles addObject:file];
     [bucket.availableFiles removeLastObject];
-  }
 
-  if (completion) {
-    completion(logs, fileId);
+    if (completion) {
+      completion(logs, fileId);
+    }
   }
 }
 

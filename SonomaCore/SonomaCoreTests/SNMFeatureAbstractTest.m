@@ -15,6 +15,15 @@
 
 @implementation SNMFeatureAbstractImplementation
 
+@synthesize priority = _priority;
+
+- (instancetype)init {
+  if (self == [super init])
+    _priority = SNMPriorityDefault;
+
+  return self;
+}
+
 + (instancetype)sharedInstance {
   static id sharedInstance = nil;
   static dispatch_once_t onceToken;

@@ -36,6 +36,11 @@
 @property(nonatomic, nonnull) NSString *path;
 
 /**
+ * The architecture.
+ */
+@property(nonatomic, nonnull) NSString *architecture;
+
+/**
  * CPU primary architecture [optional].
  */
 @property(nonatomic, nullable) NSNumber *primaryArchitectureId;
@@ -44,5 +49,14 @@
  * CPU architecture variant [optional].
  */
 @property(nonatomic, nullable) NSNumber *architectureVariantId;
+
+/**
+ * Is equal to another binary
+ *
+ * @param binary Binary
+ *
+ * @return Return YES if equal and NO if not equal
+ */
+- (BOOL)isEqual:(nullable SNMBinary *)binary;
 
 @end

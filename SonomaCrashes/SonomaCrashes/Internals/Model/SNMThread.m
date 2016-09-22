@@ -8,7 +8,7 @@
 
 static NSString *const kSNMThreadId = @"id";
 static NSString *const kSNMName = @"name";
-static NSString *const kSNMStackFrames = @"stackFrames";
+static NSString *const kSNMStackFrames = @"frames";
 static NSString *const kSNMException = @"exception";
 
 
@@ -20,7 +20,7 @@ static NSString *const kSNMException = @"exception";
   if (self.threadId) {
     dict[kSNMThreadId] = self.threadId;
   }
-  if(self.name) {
+  if (self.name) {
     dict[kSNMName] = self.name;
   }
   
@@ -32,11 +32,25 @@ static NSString *const kSNMException = @"exception";
     dict[kSNMStackFrames] = framesArray;
   }
   
-  if(self.exception) {
-    dict[kSNMException] = self.exception;
+  if (self.exception) {
+    dict[kSNMException] = [self.exception serializeToDictionary];
   }
  
   return dict;
+}
+
+- (BOOL)isValid {
+  return self.threadId && self.frames;
+}
+
+- (BOOL)isEqual:(SNMThread *)thread {
+  if (!thread)
+    return NO;
+  
+  return ((!self.threadId && !thread.threadId) || [self.threadId isEqual:thread.threadId]) &&
+         ((!self.name && !thread.name) || [self.name isEqualToString:thread.name]) &&
+         ((!self.frames && !thread.frames) || [self.frames isEqualToArray:thread.frames]) &&
+         ((!self.exception && !thread.exception) || [self.exception isEqual:thread.exception]);
 }
 
 #pragma mark - NSCoding

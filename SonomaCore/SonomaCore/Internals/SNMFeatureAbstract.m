@@ -36,7 +36,6 @@
 
       // Persist the enabled status.
       [self.storage setObject:[NSNumber numberWithBool:isEnabled] forKey:self.isEnabledKey];
-      [self.storage synchronize];
     }
   }
 }
@@ -72,6 +71,9 @@
 
 - (void) startFeature {
   self.featureInitialised = YES;
+  
+  // Send pending logs if persistence has logs that are not sent yet
+  [self.logManger flushPendingLogs:self.priority];
 }
 
 + (void)setEnabled:(BOOL)isEnabled {
