@@ -1,12 +1,12 @@
-#import "SNMSonomaInternal.h"
+#import <sys/sysctl.h>
+#import "SNMEnvironmentHelper.h"
 #import "SNMFileStorage.h"
 #import "SNMHttpSender.h"
+#import "SNMLoggerPrivate.h"
 #import "SNMLogManagerDefault.h"
+#import "SNMSonomaInternal.h"
 #import "SNMUserDefaults.h"
 #import "SNMUtils.h"
-#import <sys/sysctl.h>
-#import "SNMLoggerPrivate.h"
-#import "SNMEnvironmentHelper.h"
 
 // Http Headers + Query string.
 static NSString *const kSNMHeaderAppSecretKey = @"App-Secret";
