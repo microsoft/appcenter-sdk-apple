@@ -108,7 +108,7 @@ static NSString *const kSNMBaseUrl = @"http://in-integration.dev.avalanch.es:808
   
   // If the loglevel hasn't been customized before and we are not running in an app store environment, we set the
   // default loglevel to SNMLogLevelWarning.
-  if((![SNMLogger isUserDefinedLogLevel]) && ([SNMEnvironmentHelper currentAppEnvironment] != SNMEnvironmentAppStore)) {
+  if((![SNMLogger isUserDefinedLogLevel]) && ([SNMEnvironmentHelper currentAppEnvironment] == SNMEnvironmentOther)) {
     [SNMSonoma setLogLevel:SNMLogLevelWarning];
   }
 }
