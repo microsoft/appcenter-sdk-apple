@@ -223,8 +223,7 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
     }
   }
 
-  SNMAppleErrorLog *errorLog =
-      [self errorLogFromCrashReport:report codeType:codeType is64bit:is64bit crashedThread:crashedThread];
+  SNMAppleErrorLog *errorLog = [SNMAppleErrorLog new];
   
   //errodId – used for deduplication in case we sent the same crashreport twice.
   errorLog.errorId = [self errorIdForCrashReport:report];
@@ -245,6 +244,14 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
   // We don't care about a negative difference (will happen if the user's time on the device changes to a time before
   // the crashTime and the time the error is processed).
   errorLog.appLaunchTOffset = [self calculateAppLaunchTOffsetFromReport:report];
+  
+  // CPU Type and Subtype
+  // TODO errorLog.architecture is an optional but might need to assign a string. It might be able to be deleted (requires schema update).
+  errorLog.primaryArchitectureId = @(report.systemInfo.processorInfo.type);
+  errorLog.architectureVariantId = @(report.systemInfo.processorInfo.subtype);
+  
+  errorLog = [self addExceptionInformationTo:errorLog fromCrashReport:report];
+  
   
   errorLog.threads = [self extractThreadsFromReport:report is64bit:is64bit addresses:&addresses];
   errorLog.binaries = [self extractBinaryImagesFromReport:report addresses:addresses codeType:codeType is64bit:is64bit];
@@ -357,7 +364,7 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
 + (SNMAppleErrorLog *)addProcessInfoAndApplicationPathTo:(SNMAppleErrorLog *)errorLog
                                          fromCrashReport:(SNMPLCrashReport *)crashReport {
   // Set the defaults first.
-  errorLog.processId = nil; //TODO check with schema, andreas and stefan
+  errorLog.processId = nil; //TODO What should be the default value for this?!
   errorLog.processName = unknownString;
   errorLog.parentProcessName = unknownString;
   errorLog.parentProcessId = nil;
@@ -394,6 +401,30 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
   NSDate *initializationDate = [[SNMCrashes sharedInstance] initializationDate];
   NSTimeInterval difference = [initializationDate timeIntervalSinceDate:crashTime];
   return @(difference);
+}
+
++ (SNMAppleErrorLog *)addExceptionInformationTo:(SNMAppleErrorLog *)errorLog fromCrashReport:(SNMPLCrashReport *)report {
+  /* Exception code */
+  
+  // TODO: Check this during testing/crashprobe
+  // HockeyApp didn't use report.exceptionInfo for this field but exception.name in case of an unhandled exception or
+  // the report.signalInfo.name
+  // more so, for BITCrashDetails, we used the exceptionInfo.exceptionName for a field called exceptionName. FYI: Gwynne
+  // has no idea. Andreas will be next ;)
+  errorLog.osExceptionType = report.exceptionInfo.exceptionName ?: report.signalInfo.name;
+  
+  errorLog.osExceptionCode = report.signalInfo.code; // TODO check with Andreas/Gwynne
+  
+  errorLog.osExceptionAddress =
+  [NSString stringWithFormat:@"0x%" PRIx64, report.signalInfo.address]; // TODO check with Andreas
+  
+  // TODO Check this during testing, too.
+  // Same as above, HA didn't use report.exceptionInfo.exceptionReason but a handled exception
+  errorLog.exceptionReason = report.exceptionInfo.exceptionReason ?: nil;
+  errorLog.exceptionReason = nil;
+  errorLog.exceptionType = report.signalInfo.name;
+  
+  return errorLog;
 }
 
 + (NSArray<SNMThread *> *)extractThreadsFromReport:(SNMPLCrashReport *)report
@@ -592,72 +623,39 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
   return registers;
 }
 
-+ (SNMAppleErrorLog *)errorLogFromCrashReport:(SNMPLCrashReport *)report
-                                     codeType:(NSNumber *)codeType
-                                      is64bit:(boolean_t)is64bit
-                                crashedThread:(SNMPLCrashReportThreadInfo *)crashedThread {
-
-  SNMAppleErrorLog *errorLog = [SNMAppleErrorLog new];
-
-  // CPU Type and Subtype
-  // TODO errorLog.architecture is an optional but might need to assign a string. It might be able to be deleted (requires schema update).
-  errorLog.primaryArchitectureId = @(report.systemInfo.processorInfo.type);
-  errorLog.architectureVariantId = @(report.systemInfo.processorInfo.subtype);
-
-  /* Exception code */
-
-  // TODO: Check this during testing/crashprobe
-  // HockeyApp didn't use report.exceptionInfo for this field but exception.name in case of an unhandled exception or
-  // the report.signalInfo.name
-  // more so, for BITCrashDetails, we used the exceptionInfo.exceptionName for a field called exceptionName. FYI: Gwynne
-  // has no idea. Andreas will be next ;)
-  errorLog.osExceptionType = report.exceptionInfo.exceptionName ?: report.signalInfo.name;
-
-  errorLog.osExceptionCode = report.signalInfo.code; // TODO check with Andreas/Gwynne
-
-  errorLog.osExceptionAddress =
-      [NSString stringWithFormat:@"0x%" PRIx64, report.signalInfo.address]; // TODO check with Andreas
-
-  // TODO Check this during testing, too.
-  // Same as above, HA didn't use report.exceptionInfo.exceptionReason but a handled exception
-  errorLog.exceptionReason = report.exceptionInfo.exceptionReason ?: nil;
-  errorLog.exceptionReason = nil;
-  errorLog.exceptionType = report.signalInfo.name;
-
++ (NSString *)extractExceptionReasonFromReport:(SNMPLCrashReport *)report ofCrashedThread:(SNMPLCrashReportThreadInfo *)crashedThread is64bit:(BOOL)is64bit {
+  NSString *exceptionReason = @"";
   /* Uncaught Exception */
   if (report.hasExceptionInfo) {
-    errorLog.exceptionReason =
-        [NSString stringWithFormat:@"*** Terminating app due to uncaught exception %@: %@",
-                                   report.exceptionInfo.exceptionName, report.exceptionInfo.exceptionReason];
-
+    exceptionReason =
+    [NSString stringWithFormat:@"*** Terminating app due to uncaught exception %@: %@",
+     report.exceptionInfo.exceptionName, report.exceptionInfo.exceptionReason];
+    
     // TODO: Change to new Xamarin Schema.
-
+    
     // Check if exception data contains xamarin stacktrace in order to determine
     // report version
-    if (report.hasExceptionInfo) {
       NSString *xamarinTrace;
-      NSString *exceptionReason;
-
-      exceptionReason = report.exceptionInfo.exceptionReason;
-      NSInteger xamarinTracePosition = [exceptionReason rangeOfString:SNMXamarinStackTraceDelimiter].location;
+      NSString *xamarinExceptionReason;
+      
+      NSInteger xamarinTracePosition = [xamarinExceptionReason rangeOfString:SNMXamarinStackTraceDelimiter].location;
       if (xamarinTracePosition != NSNotFound) {
         xamarinTrace = [exceptionReason substringFromIndex:xamarinTracePosition];
         xamarinTrace = [xamarinTrace stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         xamarinTrace = [xamarinTrace stringByReplacingOccurrencesOfString:@"<---\n\n--->" withString:@"<---\n--->"];
         exceptionReason = [exceptionReason substringToIndex:xamarinTracePosition];
         exceptionReason =
-            [exceptionReason stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        [exceptionReason stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
       }
-    }
-
+    
   } else if (crashedThread != nil) {
     // try to find the selector in case this was a crash in obj_msgSend
     // we search this whether the crash happened in obj_msgSend or not since we
     // don't have the symbol!
-
+    
     NSString *foundSelector = nil;
-
-// search the registers value for the current arch
+    
+    // search the registers value for the current arch
 #if TARGET_OS_SIMULATOR
     if (is64bit) {
       foundSelector = [[self class] selectorForRegisterWithName:@"rsi" ofThread:crashedThread report:report];
@@ -675,13 +673,14 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
         foundSelector = [[self class] selectorForRegisterWithName:@"r2" ofThread:crashedThread report:report];
     }
 #endif
-
+    
     if (foundSelector) {
-      errorLog.exceptionReason =
-          [NSString stringWithFormat:@"Selector name found in current argument registers: %@\n", foundSelector];
+      exceptionReason =
+      [NSString stringWithFormat:@"Selector name found in current argument registers: %@\n", foundSelector];
     }
   }
-  return errorLog;
+  
+  return exceptionReason;
 }
 
 + (NSArray<SNMBinary *> *)extractBinaryImagesFromReport:(SNMPLCrashReport *)report
