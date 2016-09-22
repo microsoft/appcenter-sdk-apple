@@ -8,7 +8,7 @@ extern NSString *const __attribute__((unused)) kSNMErrorReportKillSignal;
 
 @interface SNMErrorReport ()
 
-- (instancetype)initWithIncidentIdentifier:(NSString *)incidentIdentifier
+- (instancetype)initWithErrorId:(NSString *)errorId
                                reporterKey:(NSString *)reporterKey
                                     signal:(NSString *)signal
                              exceptionName:(NSString *)exceptionName
