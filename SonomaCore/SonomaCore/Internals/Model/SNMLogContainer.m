@@ -42,6 +42,10 @@ static NSString *const kSNMLogs = @"logs";
     NSLog(@"Got an error: %@", error);
   } else {
     jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    // NSJSONSerialization escapes paths by default. We don't need that extra bytes going over the wire, so we replace
+    // them.
+    jsonString = [jsonString stringByReplacingOccurrencesOfString:@"\\/" withString:@"/"];
+
   }
   return jsonString;
 }
