@@ -51,14 +51,10 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 
 #pragma mark - Public Methods
 
-+ (BOOL)isDebuggerAttached {
-  return [SNMCrashesHelper isDebuggerAttached];
-}
-
 + (void)generateTestCrash {
   if ([[self sharedInstance] canBeUsed]) {
     if ([SNMEnvironmentHelper currentAppEnvironment] != SNMEnvironmentAppStore) {
-      if ([self isDebuggerAttached]) {
+      if ([SNMSonoma isDebuggerAttached]) {
         SNMLogWarning(
             @"[SNMCrashes] Error: The debugger is attached. The following crash cannot be detected by the SDK!");
       }
@@ -160,7 +156,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
    the following part when a debugger is attached no matter which signal
    handler type is set.
    */
-  if ([SNMCrashesHelper isDebuggerAttached]) {
+  if ([SNMSonoma isDebuggerAttached]) {
     SNMLogWarning(@"[SNMCrashes] WARNING: Detecting crashes is NOT "
                   @"enabled due to running the app with a debugger "
                   @"attached.");
