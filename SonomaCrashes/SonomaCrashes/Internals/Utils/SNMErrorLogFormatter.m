@@ -369,8 +369,6 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
   for (SNMPLCrashReportThreadInfo *plCrashReporterThread in report.threads) {
     SNMThread *thread = [SNMThread new];
     thread.threadId = @(plCrashReporterThread.threadNumber);
-
-    // TODO frames are missing in crash logs but it is a required field.
     
     for (SNMPLCrashReportStackFrameInfo *plCrashReporterFrameInfo in plCrashReporterThread.stackFrames) {
       SNMStackFrame *frame = [SNMStackFrame new];

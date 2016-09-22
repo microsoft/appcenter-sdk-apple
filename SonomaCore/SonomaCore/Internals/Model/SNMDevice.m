@@ -56,7 +56,7 @@ static NSString *const kSNMLiveUpdatePackageHash = @"live_update_package_hash";
     dict[kSNMOsVersion] = self.osVersion;
   }
   if (self.osBuild) {
-    dict[kSNMOsBuild] = self.osVersion;
+    dict[kSNMOsBuild] = self.osBuild;
   }
   if (self.osApiLevel) {
     dict[kSNMOsApiLevel] = self.osApiLevel;
@@ -99,7 +99,7 @@ static NSString *const kSNMLiveUpdatePackageHash = @"live_update_package_hash";
 
 - (BOOL)isValid {
   return self.sdkName && self.sdkVersion && self.model && self.oemName &&
-         self.osName && self.osVersion && self.locale && self.timeZoneOffset &&
+         self.osName && self.osBuild && self.osVersion && self.locale && self.timeZoneOffset &&
          self.screenSize && self.appVersion && self.appBuild;
 }
 
