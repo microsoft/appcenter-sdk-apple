@@ -37,6 +37,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)processLog:(id<SNMLog>)log withPriority:(SNMPriority)priority;
 
+@required
+/**
+ * Send persisted logs that are not sent in previous session.
+ *
+ * param priority The priority for processing the log.
+ */
+- (void)flushPendingLogs:(SNMPriority)priority;
+
 @end
 
 NS_ASSUME_NONNULL_END
