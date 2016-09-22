@@ -80,7 +80,6 @@ static NSUInteger const kSNMMaxSessionHistoryCount = 5;
 
     // Persist the session history in NSData format.
     [kSNMUserDefaults setObject:[NSKeyedArchiver archivedDataWithRootObject:self.pastSessions] forKey:kSNMPastSessionsKey];
-    [kSNMUserDefaults synchronize];
     SNMLogVerbose(@"INFO:new session ID: %@", _sessionId);
 
     // Create a start session log.

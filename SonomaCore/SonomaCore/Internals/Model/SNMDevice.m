@@ -4,29 +4,36 @@
 
 #import "SNMDevice.h"
 
-static NSString *const kSNMSdkVersion = @"sdkVersion";
-static NSString *const kSNMWrapperSdkVersion = @"wrapperSdkVersion";
-static NSString *const kSNMWrapperSdkName = @"wrapperSdkName";
+static NSString *const kSNMSdkName = @"sdk_name";
+static NSString *const kSNMSdkVersion = @"sdk_version";
+static NSString *const kSNMWrapperSdkVersion = @"wrapper_sdk_version";
+static NSString *const kSNMWrapperSdkName = @"wrapper_sdk_name";
 static NSString *const kSNMModel = @"model";
-static NSString *const kSNMOemName = @"oemName";
-static NSString *const kSNMOsName = @"osName";
-static NSString *const kSNMOsVersion = @"osVersion";
-static NSString *const kSNMOsBuild = @"osBuild";
-static NSString *const kSNMOsApiLevel = @"osApiLevel";
+static NSString *const kSNMOemName = @"oem_name";
+static NSString *const kSNMOsName = @"os_name";
+static NSString *const kSNMOsVersion = @"os_version";
+static NSString *const kSNMOsBuild = @"os_build";
+static NSString *const kSNMOsApiLevel = @"os_api_level";
 static NSString *const kSNMLocale = @"locale";
-static NSString *const kSNMTimeZoneOffset = @"timeZoneOffset";
-static NSString *const kSNMScreenSize = @"screenSize";
-static NSString *const kSNMAppVersion = @"appVersion";
-static NSString *const kSNMCarrierName = @"carrierName";
-static NSString *const kSNMCarrierCountry = @"carrierCountry";
-static NSString *const kSNMAppBuild = @"appBuild";
-static NSString *const kSNMAppNamespace = @"appNamespace";
+static NSString *const kSNMTimeZoneOffset = @"time_zone_offset";
+static NSString *const kSNMScreenSize = @"screen_size";
+static NSString *const kSNMAppVersion = @"app_version";
+static NSString *const kSNMCarrierName = @"carrier_name";
+static NSString *const kSNMCarrierCountry = @"carrier_country";
+static NSString *const kSNMAppBuild = @"app_build";
+static NSString *const kSNMAppNamespace = @"app_namespace";
+static NSString *const kSNMLiveUpdateReleaseLabel = @"live_update_release_label";
+static NSString *const kSNMLiveUpdateDeploymentKey = @"live_update_deployment_key";
+static NSString *const kSNMLiveUpdatePackageHash = @"live_update_package_hash";
 
 @implementation SNMDevice
 
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [NSMutableDictionary new];
 
+  if (self.sdkName) {
+    dict[kSNMSdkName] = self.sdkName;
+  }
   if (self.sdkVersion) {
     dict[kSNMSdkVersion] = self.sdkVersion;
   }
@@ -78,16 +85,22 @@ static NSString *const kSNMAppNamespace = @"appNamespace";
   if (self.appNamespace) {
     dict[kSNMAppNamespace] = self.appNamespace;
   }
+  if (self.liveUpdateReleaseLabel) {
+    dict[kSNMLiveUpdateReleaseLabel] = self.liveUpdateReleaseLabel;
+  }
+  if (self.liveUpdateDeploymentKey) {
+    dict[kSNMLiveUpdateDeploymentKey] = self.liveUpdateDeploymentKey;
+  }
+  if (self.liveUpdatePackageHash) {
+    dict[kSNMLiveUpdatePackageHash] = self.liveUpdatePackageHash;
+  }
   return dict;
 }
 
 - (BOOL)isValid {
-  BOOL isValid = (!self.sdkVersion || !self.wrapperSdkVersion || !self.wrapperSdkName || !self.model || !self.oemName ||
-                  !self.osName || !self.osVersion || !self.osBuild || !self.osApiLevel || !self.locale ||
-                  !self.timeZoneOffset || !self.screenSize || !self.appVersion || !self.carrierName ||
-                  !self.carrierCountry || !self.appBuild || !self.appNamespace);
-
-  return isValid;
+  return self.sdkName && self.sdkVersion && self.model && self.oemName &&
+         self.osName && self.osVersion && self.locale && self.timeZoneOffset &&
+         self.screenSize && self.appVersion && self.appBuild;
 }
 
 - (BOOL)isEqual:(SNMDevice *)device {
@@ -95,7 +108,8 @@ static NSString *const kSNMAppNamespace = @"appNamespace";
   if (!device)
     return NO;
 
-  return ((!self.sdkVersion && !device.sdkVersion) || [self.sdkVersion isEqualToString:device.sdkVersion]) &&
+  return ((!self.sdkName && !device.sdkName) || [self.sdkName isEqualToString:device.sdkName]) &&
+         ((!self.sdkVersion && !device.sdkVersion) || [self.sdkVersion isEqualToString:device.sdkVersion]) &&
          ((!self.wrapperSdkVersion && !device.wrapperSdkVersion) ||
           [self.wrapperSdkVersion isEqualToString:device.wrapperSdkVersion]) &&
          ((!self.wrapperSdkName && !device.wrapperSdkName) ||
@@ -115,7 +129,10 @@ static NSString *const kSNMAppNamespace = @"appNamespace";
          ((!self.carrierCountry && !device.carrierCountry) ||
           [self.carrierCountry isEqualToString:device.carrierCountry]) &&
          ((!self.appBuild && !device.appBuild) || [self.appBuild isEqualToString:device.appBuild]) &&
-         ((!self.appNamespace && !device.appNamespace) || [self.appNamespace isEqualToString:device.appNamespace]);
+         ((!self.appNamespace && !device.appNamespace) || [self.appNamespace isEqualToString:device.appNamespace]) &&
+         ((!self.liveUpdateReleaseLabel && !device.liveUpdateReleaseLabel) || [self.liveUpdateReleaseLabel isEqualToString:device.liveUpdateReleaseLabel]) &&
+         ((!self.liveUpdateDeploymentKey && !device.liveUpdateDeploymentKey) || [self.liveUpdateDeploymentKey isEqualToString:device.liveUpdateDeploymentKey]) &&
+         ((!self.liveUpdatePackageHash && !device.liveUpdatePackageHash) || [self.liveUpdatePackageHash isEqualToString:device.liveUpdatePackageHash]);
 }
 
 #pragma mark - NSCoding
@@ -123,6 +140,7 @@ static NSString *const kSNMAppNamespace = @"appNamespace";
 - (instancetype)initWithCoder:(NSCoder *)coder {
   self = [super init];
   if (self) {
+    _sdkName =[coder decodeObjectForKey:kSNMSdkName];
     _sdkVersion = [coder decodeObjectForKey:kSNMSdkVersion];
     _wrapperSdkVersion = [coder decodeObjectForKey:kSNMWrapperSdkVersion];
     _wrapperSdkName = [coder decodeObjectForKey:kSNMWrapperSdkName];
@@ -140,11 +158,15 @@ static NSString *const kSNMAppNamespace = @"appNamespace";
     _carrierCountry = [coder decodeObjectForKey:kSNMCarrierCountry];
     _appBuild = [coder decodeObjectForKey:kSNMAppBuild];
     _appNamespace = [coder decodeObjectForKey:kSNMAppNamespace];
+    _liveUpdateReleaseLabel = [coder decodeObjectForKey:kSNMLiveUpdateReleaseLabel];
+    _liveUpdateDeploymentKey = [coder decodeObjectForKey:kSNMLiveUpdateDeploymentKey];
+    _liveUpdatePackageHash = [coder decodeObjectForKey:kSNMLiveUpdatePackageHash];
   }
   return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
+  [coder encodeObject:self.sdkName forKey:kSNMSdkName];
   [coder encodeObject:self.sdkVersion forKey:kSNMSdkVersion];
   [coder encodeObject:self.wrapperSdkVersion forKey:kSNMWrapperSdkVersion];
   [coder encodeObject:self.wrapperSdkName forKey:kSNMWrapperSdkName];
@@ -162,6 +184,9 @@ static NSString *const kSNMAppNamespace = @"appNamespace";
   [coder encodeObject:self.carrierCountry forKey:kSNMCarrierCountry];
   [coder encodeObject:self.appBuild forKey:kSNMAppBuild];
   [coder encodeObject:self.appNamespace forKey:kSNMAppNamespace];
+  [coder encodeObject:self.liveUpdateReleaseLabel forKey:kSNMLiveUpdateReleaseLabel];
+  [coder encodeObject:self.liveUpdateDeploymentKey forKey:kSNMLiveUpdateDeploymentKey];
+  [coder encodeObject:self.liveUpdatePackageHash forKey:kSNMLiveUpdatePackageHash];
 }
 
 @end

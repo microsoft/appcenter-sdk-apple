@@ -68,4 +68,12 @@
  */
 + (NSUUID *)installId;
 
+/**
+ * Detect if a debugger is attached to the app process. This is only invoked once on app startup and can not detect
+ * if the debugger is being attached during runtime!
+ *
+ *  @return BOOL if the debugger is attached.
+ */
++ (BOOL)isDebuggerAttached;
+
 @end

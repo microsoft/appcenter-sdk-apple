@@ -259,7 +259,7 @@
 		E82E1B571D1CA58D00D281C1 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Mehrdad Mozafari";
 				TargetAttributes = {
 					E82E1B5E1D1CA58D00D281C1 = {
@@ -285,12 +285,12 @@
 					ProjectRef = E85547FB1D2D6C8D002DF6E2 /* SonomaAnalytics.xcodeproj */;
 				},
 				{
-					ProductGroup = E82E1B7D1D1CA62900D281C1 /* Products */;
-					ProjectRef = E82E1B7C1D1CA62900D281C1 /* SonomaCrashes.xcodeproj */;
-				},
-				{
 					ProductGroup = E82E1B831D1CA63000D281C1 /* Products */;
 					ProjectRef = E82E1B821D1CA63000D281C1 /* SonomaCore.xcodeproj */;
+				},
+				{
+					ProductGroup = E82E1B7D1D1CA62900D281C1 /* Products */;
+					ProjectRef = E82E1B7C1D1CA62900D281C1 /* SonomaCrashes.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -425,8 +425,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -469,8 +471,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -504,7 +508,7 @@
 				INFOPLIST_FILE = Puppet/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = MehrdadM.Puppet;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.sonoma.Puppet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../SonomaCore/SonomaCore/** $(SRCROOT)/../SonomaAnalytics/SonomaAnalytics/** $(SRCROOT)/../SonomaCrashes/SonomaCrashes/**";
@@ -522,7 +526,7 @@
 				INFOPLIST_FILE = Puppet/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = MehrdadM.Puppet;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.sonoma.Puppet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../SonomaCore/SonomaCore/** $(SRCROOT)/../SonomaAnalytics/SonomaAnalytics/** $(SRCROOT)/../SonomaCrashes/SonomaCrashes/**";

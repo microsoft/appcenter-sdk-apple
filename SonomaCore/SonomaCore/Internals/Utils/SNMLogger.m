@@ -4,6 +4,7 @@
 
 static SNMLogLevel _currentLogLevel = SNMLogLevelAssert;
 static SNMLogHandler currentLogHandler;
+static BOOL _isUserDefinedLogLevel = NO;
 
 SNMLogHandler defaultLogHandler =
     ^(SNMLogMessageProvider messageProvider, SNMLogLevel logLevel, const char *file, const char *function, uint line) {
@@ -24,10 +25,12 @@ SNMLogHandler defaultLogHandler =
 }
 
 + (void)setCurrentLogLevel:(SNMLogLevel)currentLogLevel {
+  _isUserDefinedLogLevel = YES;
   _currentLogLevel = currentLogLevel;
 }
 
 + (void)setLogHandler:(SNMLogHandler)logHandler {
+  _isUserDefinedLogLevel = YES;
   currentLogHandler = logHandler;
 }
 
@@ -39,6 +42,14 @@ SNMLogHandler defaultLogHandler =
   if (currentLogHandler) {
     currentLogHandler(messageProvider, loglevel, file, function, line);
   }
+}
+
++ (BOOL)isUserDefinedLogLevel {
+  return _isUserDefinedLogLevel;
+}
+
++ (void)setIsUserDefinedLogLevel:(BOOL)isUserDefinedLogLevel {
+  _isUserDefinedLogLevel = isUserDefinedLogLevel;
 }
 
 @end

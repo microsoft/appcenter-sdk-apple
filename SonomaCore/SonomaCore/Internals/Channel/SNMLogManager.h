@@ -43,6 +43,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)clearStorage;
 
+/**
+ * Send persisted logs that are not sent in previous session.
+ *
+ * param priority The priority for processing the log.
+ */
+- (void)flushPendingLogs:(SNMPriority)priority;
+
 @end
 
 NS_ASSUME_NONNULL_END

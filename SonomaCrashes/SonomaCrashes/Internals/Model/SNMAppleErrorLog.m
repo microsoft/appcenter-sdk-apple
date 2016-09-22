@@ -6,15 +6,15 @@
 #import "SNMThread.h"
 #import "SNMBinary.h"
 
-static NSString *const kSNMTypeError = @"error";
-static NSString *const kSNMPrimaryArchitectureId = @"primaryArchitectureId";
-static NSString *const kSNMArchitectureVariantId = @"architectureVariantId";
-static NSString *const kSNMApplicationPath = @"applicationPath";
-static NSString *const kSNMOsExceptionType = @"osExceptionType";
-static NSString *const kSNMOsExceptionCode = @"osExceptionCode";
-static NSString *const kSNMOsExceptionAddress = @"osExceptionAddress";
-static NSString *const kSNMExceptionType = @"exceptionType";
-static NSString *const kSNMExceptionReason = @"exceptionReason";
+static NSString *const kSNMTypeError = @"apple_error";
+static NSString *const kSNMPrimaryArchitectureId = @"primary_architecture_id";
+static NSString *const kSNMArchitectureVariantId = @"architecture_variant_id";
+static NSString *const kSNMApplicationPath = @"application_path";
+static NSString *const kSNMOsExceptionType = @"os_exception_type";
+static NSString *const kSNMOsExceptionCode = @"os_exception_code";
+static NSString *const kSNMOsExceptionAddress = @"os_exception_address";
+static NSString *const kSNMExceptionType = @"exception_type";
+static NSString *const kSNMExceptionReason = @"exception_reason";
 static NSString *const kSNMThreads = @"threads";
 static NSString *const kSNMBinaries = @"binaries";
 static NSString *const kSNMRegisters = @"registers";
@@ -77,6 +77,28 @@ static NSString *const kSNMRegisters = @"registers";
   }
   
   return dict;
+}
+
+- (BOOL)isValid {
+  return [super isValid] && self.primaryArchitectureId && self.applicationPath &&
+                            self.osExceptionType && self.osExceptionCode && self.osExceptionAddress;
+}
+
+- (BOOL)isEqual:(SNMAppleErrorLog *)errorLog {
+  if (!errorLog)
+    return NO;
+  
+  return ((!self.primaryArchitectureId && !errorLog.primaryArchitectureId) || [self.primaryArchitectureId isEqual:errorLog.primaryArchitectureId]) &&
+         ((!self.architectureVariantId && !errorLog.architectureVariantId) || [self.architectureVariantId isEqual:errorLog.architectureVariantId]) &&
+         ((!self.applicationPath && !errorLog.applicationPath) || [self.applicationPath isEqualToString:errorLog.applicationPath]) &&
+         ((!self.osExceptionType && !errorLog.osExceptionType) || [self.osExceptionType isEqualToString:errorLog.osExceptionType]) &&
+         ((!self.osExceptionCode && !errorLog.osExceptionCode) || [self.osExceptionCode isEqualToString:errorLog.osExceptionCode]) &&
+         ((!self.osExceptionAddress && !errorLog.osExceptionAddress) || [self.osExceptionAddress isEqualToString:errorLog.osExceptionAddress]) &&
+         ((!self.exceptionType && !errorLog.exceptionType) || [self.exceptionType isEqualToString:errorLog.exceptionType]) &&
+         ((!self.exceptionReason && !errorLog.exceptionReason) || [self.exceptionReason isEqualToString:errorLog.exceptionReason]) &&
+         ((!self.threads && !errorLog.threads) || [self.threads isEqualToArray:errorLog.threads]) &&
+         ((!self.binaries && !errorLog.binaries) || [self.binaries isEqualToArray:errorLog.binaries]) &&
+         ((!self.registers && !errorLog.registers) || [self.registers isEqualToDictionary:errorLog.registers]);
 }
 
 #pragma mark - NSCoding

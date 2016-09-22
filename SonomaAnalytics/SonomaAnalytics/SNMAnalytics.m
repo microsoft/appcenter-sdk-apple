@@ -79,10 +79,18 @@ static NSString *const kSNMFeatureName = @"Analytics";
 
 #pragma mark - Module methods
 
++ (void)trackEvent:(NSString *)eventName {
+  [self trackEvent:eventName withProperties:nil];
+}
+
 + (void)trackEvent:(NSString *)eventName withProperties:(NSDictionary *)properties {
   if ([[self sharedInstance] canBeUsed]) {
     [[self sharedInstance] trackEvent:eventName withProperties:properties];
   }
+}
+
++ (void)trackPage:(NSString *)pageName {
+  [self trackPage:pageName withProperties:nil];
 }
 
 + (void)trackPage:(NSString *)pageName withProperties:(NSDictionary *)properties {

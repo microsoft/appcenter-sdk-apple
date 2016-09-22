@@ -24,12 +24,12 @@
   // Then
   assertThat(actual, notNilValue());
   assertThat(actual[@"id"], equalTo(sut.binaryId));
-  assertThat(actual[@"startAddress"], equalTo(sut.startAddress));
-  assertThat(actual[@"endAddress"], equalTo(sut.endAddress));
+  assertThat(actual[@"start_address"], equalTo(sut.startAddress));
+  assertThat(actual[@"end_address"], equalTo(sut.endAddress));
   assertThat(actual[@"name"], equalTo(sut.name));
   assertThat(actual[@"path"], equalTo(sut.path));
-  assertThat(actual[@"primaryArchitectureId"], equalTo(sut.primaryArchitectureId));
-  assertThat(actual[@"architectureVariantId"], equalTo(sut.architectureVariantId));
+  assertThat(actual[@"primary_architecture_id"], equalTo(sut.primaryArchitectureId));
+  assertThat(actual[@"architecture_variant_id"], equalTo(sut.architectureVariantId));
 
 }
 
@@ -60,8 +60,8 @@
 
 - (SNMBinary *)binary {
   NSString *binaryId = @"binaryId";
-  NSString *startAddress = @"startAddress";
-  NSString *endAddress = @"endAddress";
+  NSString *startAddress = @"start_address";
+  NSString *endAddress = @"end_address";
   NSString *name = @"name";
   NSString *path = @"path";
   NSNumber *primaryArchitectureId = @12;

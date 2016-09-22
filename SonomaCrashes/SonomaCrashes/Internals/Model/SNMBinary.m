@@ -5,12 +5,13 @@
 #import "SNMBinary.h"
 
 static NSString *const kSNMId = @"id";
-static NSString *const kSNMStartAddress = @"startAddress";
-static NSString *const kSNMEndAddress = @"endAddress";
+static NSString *const kSNMStartAddress = @"start_address";
+static NSString *const kSNMEndAddress = @"end_address";
 static NSString *const kSNMName = @"name";
 static NSString *const kSNMPath = @"path";
-static NSString *const kSNMPrimaryArchitectureId = @"primaryArchitectureId";
-static NSString *const kSNMArchitectureVariantId = @"architectureVariantId";
+static NSString *const kSNMArchitecture = @"architecture";
+static NSString *const kSNMPrimaryArchitectureId = @"primary_architecture_id";
+static NSString *const kSNMArchitectureVariantId = @"architecture_variant_id";
 
 @implementation SNMBinary
 
@@ -32,6 +33,9 @@ static NSString *const kSNMArchitectureVariantId = @"architectureVariantId";
   if (self.path) {
     dict[kSNMPath] = self.path;
   }
+  if (self.architecture) {
+    dict[kSNMArchitecture] = self.architecture;
+  }
   if (self.primaryArchitectureId) {
     dict[kSNMPrimaryArchitectureId] = self.primaryArchitectureId;
   }
@@ -40,6 +44,24 @@ static NSString *const kSNMArchitectureVariantId = @"architectureVariantId";
   }
 
   return dict;
+}
+
+- (BOOL)isValid {
+  return self.binaryId && self.startAddress && self.endAddress && self.name && self.path;
+}
+
+- (BOOL)isEqual:(SNMBinary *)binary {
+  if (!binary)
+    return NO;
+  
+  return ((!self.binaryId && !binary.binaryId) || [self.binaryId isEqualToString:binary.binaryId]) &&
+  ((!self.startAddress && !binary.startAddress) || [self.startAddress isEqualToString:binary.startAddress]) &&
+  ((!self.endAddress && !binary.endAddress) || [self.endAddress isEqualToString:binary.endAddress]) &&
+  ((!self.name && !binary.name) || [self.name isEqualToString:binary.name]) &&
+  ((!self.path && !binary.path) || [self.path isEqualToString:binary.path]) &&
+  ((!self.architecture && !binary.architecture) || [self.architecture isEqualToString:binary.architecture]) &&
+  ((!self.primaryArchitectureId && !binary.primaryArchitectureId) || [self.primaryArchitectureId isEqual:binary.primaryArchitectureId]) &&
+  ((!self.architectureVariantId && !binary.architectureVariantId) || [self.architectureVariantId isEqual:binary.architectureVariantId]);
 }
 
 #pragma mark - NSCoding
@@ -52,6 +74,7 @@ static NSString *const kSNMArchitectureVariantId = @"architectureVariantId";
     _endAddress = [coder decodeObjectForKey:kSNMEndAddress];
     _name = [coder decodeObjectForKey:kSNMName];
     _path = [coder decodeObjectForKey:kSNMPath];
+    _architecture = [coder decodeObjectForKey:kSNMArchitecture];
     _primaryArchitectureId = [coder decodeObjectForKey:kSNMPrimaryArchitectureId];
     _architectureVariantId = [coder decodeObjectForKey:kSNMArchitectureVariantId];
   }
@@ -64,6 +87,7 @@ static NSString *const kSNMArchitectureVariantId = @"architectureVariantId";
   [coder encodeObject:self.endAddress forKey:kSNMEndAddress];
   [coder encodeObject:self.name forKey:kSNMName];
   [coder encodeObject:self.path forKey:kSNMPath];
+  [coder encodeObject:self.architecture forKey:kSNMArchitecture];
   [coder encodeObject:self.primaryArchitectureId forKey:kSNMPrimaryArchitectureId];
   [coder encodeObject:self.architectureVariantId forKey:kSNMArchitectureVariantId];
 }

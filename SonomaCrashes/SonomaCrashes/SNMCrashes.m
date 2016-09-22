@@ -2,12 +2,12 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "SNMSonomaInternal.h"
 #import "SNMAppleErrorLog.h"
 #import "SNMCrashesCXXExceptionWrapperException.h"
 #import "SNMCrashesHelper.h"
-#import "SNMErrorLogFormatter.h"
 #import "SNMCrashesPrivate.h"
+#import "SNMErrorLogFormatter.h"
+#import "SNMSonomaInternal.h"
 #import "SonomaCore+Internal.h"
 #import <CrashReporter/CrashReporter.h>
 
@@ -52,15 +52,10 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 
 #pragma mark - Public Methods
 
-+ (BOOL)isDebuggerAttached {
-  // TODO actual implementation
-  return NO;
-}
-
 + (void)generateTestCrash {
   if ([[self sharedInstance] canBeUsed]) {
     if ([SNMEnvironmentHelper currentAppEnvironment] != SNMEnvironmentAppStore) {
-      if ([self isDebuggerAttached]) {
+      if ([SNMSonoma isDebuggerAttached]) {
         SNMLogWarning(
             @"[SNMCrashes] Error: The debugger is attached. The following crash cannot be detected by the SDK!");
       }
@@ -74,9 +69,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 }
 
 + (BOOL)hasCrashedInLastSession {
-  // TODO actual implementation
-
-  return NO;
+  return [[self sharedInstance] didCrashInLastSession];
 }
 
 + (void)setUserConfirmationHandler:(_Nullable SNMUserConfirmationHandler)userConfitmationHandler {
@@ -87,14 +80,9 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
   // TODO actual implementation
 }
 
-+ (SNMErrorReport *_Nullable)lastSessionCrashDetails {
-  // TODO actual implementation
++ (SNMErrorReport *_Nullable)lastSessionCrashReport {
 
-  return nil;
-}
-
-+ (void)setCrashesDelegate:(_Nullable id<SNMCrashesDelegate>)crashesDelegate {
-  // TODO actual implementation
+  return [[self sharedInstance] getLastSessionCrashReport];
 }
 
 #pragma mark - Module initialization
@@ -107,6 +95,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
     _analyzerInProgressFile = [_crashesDir stringByAppendingPathComponent:kSNMAnalyzerFilename];
     _initializationDate = [NSDate new];
     _priority = SNMPriorityHigh;
+    _didCrashInLastSession = NO;
   }
   return self;
 }
@@ -114,8 +103,9 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 #pragma mark - SNMFeatureAbstract
 
 - (void)setEnabled:(BOOL)isEnabled {
-  //TODO do something here?!
-//  isEnabled ? [self.logManger addListener:self.sessionTracker] : [self.logManger removeListener:self.sessionTracker];
+  // TODO do something here?!
+  //  isEnabled ? [self.logManger addListener:self.sessionTracker] : [self.logManger
+  //  removeListener:self.sessionTracker];
   [super setEnabled:isEnabled];
 }
 
@@ -137,11 +127,14 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 
   [self configureCrashReporter];
 
+  // Get crashes from PLCrashReporter and store them in the intermediate format.
   if ([self.plCrashReporter hasPendingCrashReport]) {
-    [self persistLatestCrashReport];
+    _didCrashInLastSession = YES;
+    [self handleLatestCrashReport];
   }
-
   _crashFiles = [self persistedCrashReports];
+
+  // Process PLCrashReports, this will format the PLCrashReport into our schena and then trigger sending.
   if (self.crashFiles.count > 0) {
     [self startDelayedCrashProcessing];
   }
@@ -166,7 +159,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
    the following part when a debugger is attached no matter which signal
    handler type is set.
    */
-  if ([SNMCrashesHelper isDebuggerAttached]) {
+  if ([SNMSonoma isDebuggerAttached]) {
     SNMLogWarning(@"[SNMCrashes] WARNING: Detecting crashes is NOT "
                   @"enabled due to running the app with a debugger "
                   @"attached.");
@@ -257,7 +250,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
     if ([crashFileData length] > 0) {
       report = [[SNMPLCrashReport alloc] initWithData:crashFileData error:&error];
       SNMAppleErrorLog *log = [SNMErrorLogFormatter errorLogFromCrashReport:report];
-      [self.delegate feature:self didCreateLog:log withPriority:self.priority]; //TODO work on this part!!!
+      [self.delegate feature:self didCreateLog:log withPriority:self.priority]; // TODO work on this part!!!
       [self deleteCrashReportWithFilePath:filePath];
       [self.crashFiles removeObject:filePath];
     }
@@ -274,7 +267,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
   }
 }
 
-- (void)persistLatestCrashReport {
+- (void)handleLatestCrashReport {
   NSError *error = NULL;
 
   // Check if the next call ran successfully the last time
@@ -294,8 +287,10 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 
       // Get data of PLCrashReport and write it to SDK directory
       SNMPLCrashReport *report = [[SNMPLCrashReport alloc] initWithData:crashData error:&error];
+
       if (report) {
         [crashData writeToFile:[self.crashesDir stringByAppendingPathComponent:cacheFilename] atomically:YES];
+        _lastSessionCrashReport = [SNMErrorLogFormatter createErrorReportFrom:report];
       } else {
         SNMLogWarning(@"[SNMCrashes] WARNING: Could not parse crash report");
       }
