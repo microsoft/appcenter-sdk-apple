@@ -69,6 +69,16 @@ static char *const SNMDataItemsOperationsQueue = "com.microsoft.sonoma.LogManage
   });
 }
 
+- (void) flushPendingLogs:(SNMPriority)priority {
+  id<SNMChannel> channel = [self.channels objectForKey:@(priority)];
+  if (!channel) {
+    channel = [self createChannelForPriority:priority];
+  }
+
+  // TODO Also need to resend blocked files.
+  [channel flushQueue];
+}
+
 #pragma mark - Helpers
 
 - (id<SNMChannel>)createChannelForPriority:(SNMPriority)priority {
