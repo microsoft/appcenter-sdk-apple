@@ -10,7 +10,7 @@ NSString *const kSNMErrorReportKillSignal = @"SIGKILL";
 @implementation SNMErrorReport
 
 
-- (instancetype)initWithIncidentIdentifier:(NSString *)incidentIdentifier
+- (instancetype)initWithErrorId:(NSString *)errorId
                                reporterKey:(NSString *)reporterKey
                                     signal:(NSString *)signal
                              exceptionName:(NSString *)exceptionName
@@ -24,7 +24,7 @@ NSString *const kSNMErrorReportKillSignal = @"SIGKILL";
                       appProcessIdentifier:(NSUInteger)appProcessIdentifier {
 
   if ((self = [super init])) {
-    _incidentIdentifier = incidentIdentifier;
+    _incidentIdentifier = errorId;
     _reporterKey = reporterKey;
     _signal = signal;
     _exceptionName = exceptionName;

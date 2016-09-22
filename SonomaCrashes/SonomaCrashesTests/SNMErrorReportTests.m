@@ -12,7 +12,7 @@
 @implementation SNMErrorReportTests
 
 - (void)initializationWorks {
-  NSString *incidentIdentifier = @"incidentIdentifier";
+  NSString *errorId = @"errorReportId";
   NSString *reporterKey = @"reporterKey";
   NSString *signal = @"signal";
   NSString *exceptionName = @"exception_name";
@@ -25,7 +25,7 @@
   NSString *appBuild = @"123";
   NSUInteger processIdentifier = 4;
 
-  SNMErrorReport *sut = [[SNMErrorReport alloc] initWithIncidentIdentifier:incidentIdentifier
+  SNMErrorReport *sut = [[SNMErrorReport alloc] initWithErrorId:errorId
                                                                reporterKey:reporterKey
                                                                     signal:signal
                                                              exceptionName:exceptionName
@@ -39,7 +39,7 @@
                                                       appProcessIdentifier:processIdentifier];
 
   assertThat(sut, notNilValue());
-  assertThat(sut.incidentIdentifier, equalTo(incidentIdentifier));
+  assertThat(sut.incidentIdentifier, equalTo(errorId));
   assertThat(sut.reporterKey, equalTo(reporterKey));
   assertThat(sut.signal, equalTo(signal));
   assertThat(sut.exceptionName, equalTo(exceptionName));

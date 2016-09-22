@@ -270,13 +270,9 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
   SNMErrorReport *errorReport = nil;
   
   //TODO incidentIdentifier is the errorId and should not fall back to "???" but to a new GUID
-  NSString *incidentIdentifier = @"???";
-  if (report.uuidRef != NULL) {
-    incidentIdentifier = (NSString *) CFBridgingRelease(CFUUIDCreateString(NULL, report.uuidRef));
-  }
-  
+  NSString *errorId = [self errorIdForCrashReport:report];
   // There should always be an installId. Leaving the empty string out of paranoia
-  // as [UUID UUID] – used in [SNMSonoma installId] might, in theory, return nil.
+  // as [UUID UUID] – used in [SNMSonoma installId] – might, in theory, return nil.
   NSString *reporterKey = [[SNMSonoma installId] UUIDString] ?: @"";
   
   NSString *signal = report.signalInfo.name;
@@ -298,7 +294,7 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
   NSString *appBuild = report.applicationInfo.applicationVersion;
   NSUInteger processId = report.processInfo.processID;
   
-  errorReport = [[SNMErrorReport alloc] initWithIncidentIdentifier:incidentIdentifier
+  errorReport = [[SNMErrorReport alloc] initWithErrorId:errorId
                                                        reporterKey:reporterKey
                                                             signal:signal
                                                      exceptionName:exceptionName
