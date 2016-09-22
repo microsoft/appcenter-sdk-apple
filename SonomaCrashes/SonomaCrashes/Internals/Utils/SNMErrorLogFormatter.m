@@ -384,7 +384,7 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
       for (SNMPLCrashReportRegisterInfo *registerInfo in plCrashReporterThread.registers) {
         NSString *regName = registerInfo.registerName;
 
-        // Currently we only use "lr" actively, so we only
+        // Currently we only use "lr" actively.
         // TODO check if we still only need the LR register
 //        if ([regName isEqualToString:@"lr"]) {
           NSString *formattedRegName = [NSString stringWithFormat:@"%s", [regName UTF8String]];
