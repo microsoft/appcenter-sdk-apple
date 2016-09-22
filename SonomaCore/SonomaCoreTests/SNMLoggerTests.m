@@ -1,6 +1,7 @@
 #import <XCTest/XCTest.h>
 #import "SNMLoggerPrivate.h"
 #import "SNMSonoma.h"
+#import "SNMSonomaInternal.h"
 
 @interface SNMLoggerTests : XCTestCase
 
@@ -22,7 +23,9 @@
 - (void)testDefaultLogLevels {
   // Check default loglevel before SNMSonoma was started.
   XCTAssertTrue([SNMLogger currentLogLevel] == SNMLogLevelAssert);
-  
+  // Need to set sdkStarted to NO to make sure the start-logic goes through once, otherwise this test will fail
+  // randomly as other tests might call start:withFeatures, too.
+  [SNMSonoma sharedInstance].sdkStarted = NO;
   [SNMSonoma start:[[NSUUID UUID] UUIDString] withFeatures:nil];
   
   XCTAssertTrue([SNMLogger currentLogLevel] == SNMLogLevelWarning);
