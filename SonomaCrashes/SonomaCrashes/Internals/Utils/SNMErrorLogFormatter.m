@@ -214,6 +214,7 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
   // Gather all addresses for which we need to preserve the binary image
   NSMutableArray *addresses = [NSMutableArray new];
 
+  // Find the crashed thread
   SNMPLCrashReportThreadInfo *crashedThread = nil;
   for (SNMPLCrashReportThreadInfo *thread in report.threads) {
     if (thread.crashed) {
@@ -224,9 +225,32 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
 
   SNMAppleErrorLog *errorLog =
       [self errorLogFromCrashReport:report codeType:codeType is64bit:is64bit crashedThread:crashedThread];
+  
+  //errodId – used for deduplication in case we sent the same crashreport twice.
+  errorLog.errorId = [self errorIdForCrashReport:report];
+  
+  // set applicationpath and process info
+  errorLog = [self addProcessInfoAndApplicationPathTo:errorLog fromCrashReport:report];
+  
+  // Error Thread Info.
+  errorLog.errorThreadId = @(crashedThread.threadNumber);
+  
+  // errorLog.errorThreadName won't be used on iOS right now, will be relevant for handled exceptions.
+  
+  // All errors are fatal for now, until we add support for handled exceptions.
+  errorLog.fatal = YES;
+  
+  // appLaunchTOffset - the difference between crashtime and initialization time, so the "age" of the crashreport before
+  // it's forwarded to the channel.
+  // We don't care about a negative difference (will happen if the user's time on the device changes to a time before
+  // the crashTime and the time the error is processed).
+  errorLog.appLaunchTOffset = [self calculateAppLaunchTOffsetFromReport:report];
+  
   errorLog.threads = [self extractThreadsFromReport:report is64bit:is64bit addresses:&addresses];
   errorLog.binaries = [self extractBinaryImagesFromReport:report addresses:addresses codeType:codeType is64bit:is64bit];
 
+  errorLog.registers = [self extractRegistersFromCrashedThread:crashedThread is64bit:is64bit];
+  
   return errorLog;
 }
 
@@ -285,6 +309,7 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
 
 #pragma mark - Private
 
+#pragma mark - code type and 64bit detection
 + (NSNumber *)extractCodeTypeFromReport:(const SNMPLCrashReport *)report {
   NSDictionary<NSNumber *, NSNumber *> *legacyTypes = @{
                                 @(PLCrashReportArchitectureARMv6) : @(CPU_TYPE_ARM),
@@ -310,7 +335,7 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
 }
 
 + (BOOL)isCodeType64bit:(NSNumber *)codeType {
-  NSDictionary *codeTypesAre64bit = @{
+  NSDictionary<NSNumber *, NSNumber *> *codeTypesAre64bit = @{
     @(CPU_TYPE_ARM) : @NO,
     @(CPU_TYPE_ARM64) : @YES,
     @(CPU_TYPE_X86) : @NO,
@@ -319,6 +344,56 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
   };
   NSNumber *boolNumber = codeTypesAre64bit[codeType];
   return boolNumber.boolValue;
+}
+
+
+#pragma mark - helpers
+
++ (NSString *)errorIdForCrashReport:(SNMPLCrashReport *)report {
+  NSString *errorId = report.uuidRef ? (NSString *)CFBridgingRelease(CFUUIDCreateString(NULL, report.uuidRef)) : [[NSUUID UUID] UUIDString];
+  return errorId;
+}
+
++ (SNMAppleErrorLog *)addProcessInfoAndApplicationPathTo:(SNMAppleErrorLog *)errorLog
+                                         fromCrashReport:(SNMPLCrashReport *)crashReport {
+  // Set the defaults first.
+  errorLog.processId = nil; //TODO check with schema, andreas and stefan
+  errorLog.processName = unknownString;
+  errorLog.parentProcessName = unknownString;
+  errorLog.parentProcessId = nil;
+  errorLog.applicationPath = unknownString;
+  
+  // Convert SNMPLCrashReport process information.
+  if (crashReport.hasProcessInfo) {
+    errorLog.processId = @(crashReport.processInfo.processID);
+    errorLog.processName = crashReport.processInfo.processName ?: errorLog.processName;
+    
+    /* Process Path */
+    if (crashReport.processInfo.processPath != nil) {
+      NSString *processPath = crashReport.processInfo.processPath;
+      
+      // Remove username from the path
+#if TARGET_OS_SIMULATOR
+      processPath = [self anonymizedPathFromPath:processPath];
+#endif
+      errorLog.applicationPath = processPath;
+    }
+    
+    // Parent Process Name
+    if (crashReport.processInfo.parentProcessName != nil) {
+      errorLog.parentProcessName = crashReport.processInfo.parentProcessName;
+    }
+    // Parent Process ID
+    errorLog.parentProcessId = @(crashReport.processInfo.parentProcessID);
+  }
+  return errorLog;
+}
+
++ (NSNumber *)calculateAppLaunchTOffsetFromReport:(SNMPLCrashReport *)report {
+  NSDate *crashTime = report.systemInfo.timestamp;
+  NSDate *initializationDate = [[SNMCrashes sharedInstance] initializationDate];
+  NSTimeInterval difference = [initializationDate timeIntervalSinceDate:crashTime];
+  return @(difference);
 }
 
 + (NSArray<SNMThread *> *)extractThreadsFromReport:(SNMPLCrashReport *)report
@@ -501,6 +576,21 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
 //
 }
 
++ (NSDictionary<NSString *, NSString *>*)extractRegistersFromCrashedThread:(SNMPLCrashReportThreadInfo *)crashedThread is64bit:(BOOL)is64bit {
+  NSMutableDictionary<NSString *, NSString *> *registers = [NSMutableDictionary new];
+
+  for (SNMPLCrashReportRegisterInfo *registerInfo in crashedThread.registers) {
+    NSString *regName = registerInfo.registerName;
+    
+    NSString *formattedRegName = [NSString stringWithFormat:@"%s", [regName UTF8String]];
+    NSString *formattedRegValue = @"";
+    formattedRegValue = formatted_address_matching_architecture(registerInfo.registerValue, is64bit);
+    
+    [registers setObject:formattedRegValue forKey:formattedRegName];
+  }
+  
+  return registers;
+}
 
 + (SNMAppleErrorLog *)errorLogFromCrashReport:(SNMPLCrashReport *)report
                                      codeType:(NSNumber *)codeType
@@ -508,29 +598,6 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
                                 crashedThread:(SNMPLCrashReportThreadInfo *)crashedThread {
 
   SNMAppleErrorLog *errorLog = [SNMAppleErrorLog new];
-
-  // Application Path and process info
-  errorLog.errorId =
-      report.uuidRef ? (NSString *)CFBridgingRelease(CFUUIDCreateString(NULL, report.uuidRef)) : [[NSUUID UUID] UUIDString];
-  
-  errorLog = [self extractProcessInformation:errorLog fromCrashReport:report];
-
-  // Error Thread Info.
-  errorLog.errorThreadId = @(crashedThread.threadNumber);
-
-  // errorLog.errorThreadName won't be used on iOS right now, will be relevant for handled exceptions.
-
-  // All errors are fatal for now, until we add support for handled exceptions.
-  errorLog.fatal = YES;
-
-  // appLaunchTOffset - the difference between crashtime and initialization time, so the "age" of the crashreport before
-  // it's forwarded to the channel.
-  // We don't care about a negative difference (will happen if the user's time on the device changes to a time before
-  // the crashTime and the time the error is processed.
-  NSDate *crashTime = report.systemInfo.timestamp;
-  NSDate *initializationDate = [[SNMCrashes sharedInstance] initializationDate];
-  NSTimeInterval difference = [initializationDate timeIntervalSinceDate:crashTime];
-  errorLog.appLaunchTOffset = @(difference);
 
   // CPU Type and Subtype
   // TODO errorLog.architecture is an optional but might need to assign a string. It might be able to be deleted (requires schema update).
@@ -613,41 +680,6 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
       errorLog.exceptionReason =
           [NSString stringWithFormat:@"Selector name found in current argument registers: %@\n", foundSelector];
     }
-  }
-  return errorLog;
-}
-
-+ (SNMAppleErrorLog *)extractProcessInformation:(SNMAppleErrorLog *)errorLog
-                                fromCrashReport:(SNMPLCrashReport *)crashReport {
-  // Set the defaults first.
-  errorLog.processId = nil; //TODO check with schema, andreas and stefan
-  errorLog.processName = unknownString;
-  errorLog.parentProcessName = unknownString;
-  errorLog.parentProcessId = nil;
-  errorLog.applicationPath = unknownString;
-
-  // Convert SNMPLCrashReport process information.
-  if (crashReport.hasProcessInfo) {
-    errorLog.processId = @(crashReport.processInfo.processID);
-    errorLog.processName = crashReport.processInfo.processName ?: errorLog.processName;
-
-    /* Process Path */
-    if (crashReport.processInfo.processPath != nil) {
-      NSString *processPath = crashReport.processInfo.processPath;
-
-// Remove username from the path
-#if TARGET_OS_SIMULATOR
-      processPath = [self anonymizedPathFromPath:processPath];
-#endif
-      errorLog.applicationPath = processPath;
-    }
-
-    // Parent Process Name
-    if (crashReport.processInfo.parentProcessName != nil) {
-      errorLog.parentProcessName = crashReport.processInfo.parentProcessName;
-    }
-    // Parent Process ID
-    errorLog.parentProcessId = @(crashReport.processInfo.parentProcessID);
   }
   return errorLog;
 }
