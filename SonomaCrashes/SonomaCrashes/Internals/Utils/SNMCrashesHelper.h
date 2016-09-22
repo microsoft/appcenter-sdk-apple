@@ -20,11 +20,4 @@
  */
 + (BOOL)isAppExtension;
 
-/**
- * Determines if the app is running with a debugger attached.
- *
- *  @return YES, if the app is running with a debugger attached.
- */
-+ (BOOL)isDebuggerAttached;
-
 @end
