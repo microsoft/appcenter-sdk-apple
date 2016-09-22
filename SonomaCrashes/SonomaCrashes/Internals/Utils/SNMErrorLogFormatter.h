@@ -1,3 +1,6 @@
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ */
 
 #import <Foundation/Foundation.h>
 
@@ -27,6 +30,6 @@ typedef NS_ENUM(NSInteger, SNMBinaryImageType) {
 
 + (SNMAppleErrorLog *)errorLogFromCrashReport:(SNMPLCrashReport *)report;
 
-+ (SNMErrorReport *) createErrorReportFrom:(SNMPLCrashReport *)report;
++ (SNMErrorReport *)createErrorReportFrom:(SNMPLCrashReport *)report;
 
 @end
