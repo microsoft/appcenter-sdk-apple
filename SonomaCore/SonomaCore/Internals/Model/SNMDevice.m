@@ -6,8 +6,6 @@
 
 static NSString *const kSNMSdkName = @"sdk_name";
 static NSString *const kSNMSdkVersion = @"sdk_version";
-static NSString *const kSNMWrapperSdkVersion = @"wrapper_sdk_version";
-static NSString *const kSNMWrapperSdkName = @"wrapper_sdk_name";
 static NSString *const kSNMModel = @"model";
 static NSString *const kSNMOemName = @"oem_name";
 static NSString *const kSNMOsName = @"os_name";
@@ -22,26 +20,17 @@ static NSString *const kSNMCarrierName = @"carrier_name";
 static NSString *const kSNMCarrierCountry = @"carrier_country";
 static NSString *const kSNMAppBuild = @"app_build";
 static NSString *const kSNMAppNamespace = @"app_namespace";
-static NSString *const kSNMLiveUpdateReleaseLabel = @"live_update_release_label";
-static NSString *const kSNMLiveUpdateDeploymentKey = @"live_update_deployment_key";
-static NSString *const kSNMLiveUpdatePackageHash = @"live_update_package_hash";
 
 @implementation SNMDevice
 
 - (NSMutableDictionary *)serializeToDictionary {
-  NSMutableDictionary *dict = [NSMutableDictionary new];
+  NSMutableDictionary *dict = [super serializeToDictionary];
 
   if (self.sdkName) {
     dict[kSNMSdkName] = self.sdkName;
   }
   if (self.sdkVersion) {
     dict[kSNMSdkVersion] = self.sdkVersion;
-  }
-  if (self.wrapperSdkVersion) {
-    dict[kSNMWrapperSdkVersion] = self.wrapperSdkVersion;
-  }
-  if (self.wrapperSdkName) {
-    dict[kSNMWrapperSdkName] = self.wrapperSdkName;
   }
   if (self.model) {
     dict[kSNMModel] = self.model;
@@ -85,15 +74,6 @@ static NSString *const kSNMLiveUpdatePackageHash = @"live_update_package_hash";
   if (self.appNamespace) {
     dict[kSNMAppNamespace] = self.appNamespace;
   }
-  if (self.liveUpdateReleaseLabel) {
-    dict[kSNMLiveUpdateReleaseLabel] = self.liveUpdateReleaseLabel;
-  }
-  if (self.liveUpdateDeploymentKey) {
-    dict[kSNMLiveUpdateDeploymentKey] = self.liveUpdateDeploymentKey;
-  }
-  if (self.liveUpdatePackageHash) {
-    dict[kSNMLiveUpdatePackageHash] = self.liveUpdatePackageHash;
-  }
   return dict;
 }
 
@@ -105,15 +85,11 @@ static NSString *const kSNMLiveUpdatePackageHash = @"live_update_package_hash";
 
 - (BOOL)isEqual:(SNMDevice *)device {
 
-  if (!device)
+  if (!device || ![super isEqual:device])
     return NO;
 
   return ((!self.sdkName && !device.sdkName) || [self.sdkName isEqualToString:device.sdkName]) &&
          ((!self.sdkVersion && !device.sdkVersion) || [self.sdkVersion isEqualToString:device.sdkVersion]) &&
-         ((!self.wrapperSdkVersion && !device.wrapperSdkVersion) ||
-          [self.wrapperSdkVersion isEqualToString:device.wrapperSdkVersion]) &&
-         ((!self.wrapperSdkName && !device.wrapperSdkName) ||
-          [self.wrapperSdkName isEqualToString:device.wrapperSdkName]) &&
          ((!self.model && !device.model) || [self.model isEqualToString:device.model]) &&
          ((!self.oemName && !device.oemName) || [self.oemName isEqualToString:device.oemName]) &&
          ((!self.osName && !device.osName) || [self.osName isEqualToString:device.osName]) &&
@@ -129,21 +105,16 @@ static NSString *const kSNMLiveUpdatePackageHash = @"live_update_package_hash";
          ((!self.carrierCountry && !device.carrierCountry) ||
           [self.carrierCountry isEqualToString:device.carrierCountry]) &&
          ((!self.appBuild && !device.appBuild) || [self.appBuild isEqualToString:device.appBuild]) &&
-         ((!self.appNamespace && !device.appNamespace) || [self.appNamespace isEqualToString:device.appNamespace]) &&
-         ((!self.liveUpdateReleaseLabel && !device.liveUpdateReleaseLabel) || [self.liveUpdateReleaseLabel isEqualToString:device.liveUpdateReleaseLabel]) &&
-         ((!self.liveUpdateDeploymentKey && !device.liveUpdateDeploymentKey) || [self.liveUpdateDeploymentKey isEqualToString:device.liveUpdateDeploymentKey]) &&
-         ((!self.liveUpdatePackageHash && !device.liveUpdatePackageHash) || [self.liveUpdatePackageHash isEqualToString:device.liveUpdatePackageHash]);
+         ((!self.appNamespace && !device.appNamespace) || [self.appNamespace isEqualToString:device.appNamespace]);
 }
 
 #pragma mark - NSCoding
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
-  self = [super init];
+  self = [super initWithCoder:coder];
   if (self) {
     _sdkName =[coder decodeObjectForKey:kSNMSdkName];
     _sdkVersion = [coder decodeObjectForKey:kSNMSdkVersion];
-    _wrapperSdkVersion = [coder decodeObjectForKey:kSNMWrapperSdkVersion];
-    _wrapperSdkName = [coder decodeObjectForKey:kSNMWrapperSdkName];
     _model = [coder decodeObjectForKey:kSNMModel];
     _oemName = [coder decodeObjectForKey:kSNMOemName];
     _osName = [coder decodeObjectForKey:kSNMOsName];
@@ -158,18 +129,14 @@ static NSString *const kSNMLiveUpdatePackageHash = @"live_update_package_hash";
     _carrierCountry = [coder decodeObjectForKey:kSNMCarrierCountry];
     _appBuild = [coder decodeObjectForKey:kSNMAppBuild];
     _appNamespace = [coder decodeObjectForKey:kSNMAppNamespace];
-    _liveUpdateReleaseLabel = [coder decodeObjectForKey:kSNMLiveUpdateReleaseLabel];
-    _liveUpdateDeploymentKey = [coder decodeObjectForKey:kSNMLiveUpdateDeploymentKey];
-    _liveUpdatePackageHash = [coder decodeObjectForKey:kSNMLiveUpdatePackageHash];
   }
   return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
+  [super encodeWithCoder:coder];
   [coder encodeObject:self.sdkName forKey:kSNMSdkName];
   [coder encodeObject:self.sdkVersion forKey:kSNMSdkVersion];
-  [coder encodeObject:self.wrapperSdkVersion forKey:kSNMWrapperSdkVersion];
-  [coder encodeObject:self.wrapperSdkName forKey:kSNMWrapperSdkName];
   [coder encodeObject:self.model forKey:kSNMModel];
   [coder encodeObject:self.oemName forKey:kSNMOemName];
   [coder encodeObject:self.osName forKey:kSNMOsName];
@@ -184,9 +151,6 @@ static NSString *const kSNMLiveUpdatePackageHash = @"live_update_package_hash";
   [coder encodeObject:self.carrierCountry forKey:kSNMCarrierCountry];
   [coder encodeObject:self.appBuild forKey:kSNMAppBuild];
   [coder encodeObject:self.appNamespace forKey:kSNMAppNamespace];
-  [coder encodeObject:self.liveUpdateReleaseLabel forKey:kSNMLiveUpdateReleaseLabel];
-  [coder encodeObject:self.liveUpdateDeploymentKey forKey:kSNMLiveUpdateDeploymentKey];
-  [coder encodeObject:self.liveUpdatePackageHash forKey:kSNMLiveUpdatePackageHash];
 }
 
 @end
