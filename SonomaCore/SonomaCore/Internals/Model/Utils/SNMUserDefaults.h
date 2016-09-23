@@ -4,6 +4,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  * Persistent settings, a wrapper around NSUserDefaults capable of
  * updating object or dictionary (including expiration)
@@ -68,5 +70,7 @@
  * @param key the key to remove.
  */
 - (void)removeObjectForKey:(NSString *)key;
+
+NS_ASSUME_NONNULL_END
 
 @end

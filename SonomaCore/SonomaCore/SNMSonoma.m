@@ -1,12 +1,13 @@
-#import "SNMSonomaInternal.h"
+#import "SNMConstants+Internal.h"
+#import "SNMEnvironmentHelper.h"
 #import "SNMFileStorage.h"
 #import "SNMHttpSender.h"
 #import "SNMLogManagerDefault.h"
+#import "SNMLoggerPrivate.h"
+#import "SNMSonomaInternal.h"
 #import "SNMUserDefaults.h"
 #import "SNMUtils.h"
 #import <sys/sysctl.h>
-#import "SNMLoggerPrivate.h"
-#import "SNMEnvironmentHelper.h"
 
 // Http Headers + Query string.
 static NSString *const kSNMHeaderAppSecretKey = @"App-Secret";
@@ -15,9 +16,6 @@ static NSString *const kSNMHeaderContentTypeKey = @"Content-Type";
 static NSString *const kSNMContentType = @"application/json";
 static NSString *const kSNMAPIVersion = @"1.0.0-preview20160914";
 static NSString *const kSNMAPIVersionKey = @"api_version";
-
-// Storage keys
-static NSString *const kSNMHubIsEnabledKey = @"kSNMHubIsEnabledKey";
 
 // Base URL for HTTP backend API calls.
 static NSString *const kSNMDefaultBaseUrl = @"http://in-integration.dev.avalanch.es:8081";
@@ -36,6 +34,8 @@ static NSString *const kSNMDefaultBaseUrl = @"http://in-integration.dev.avalanch
 }
 
 #pragma mark - public
+
+// TODO protect APIs from being called while Core not initialized. That's already done for beacons.
 
 + (void)start:(NSString *)appSecret withFeatures:(NSArray<Class> *)features {
   [[self sharedInstance] start:appSecret withFeatures:features];
@@ -80,31 +80,30 @@ static NSString *const kSNMDefaultBaseUrl = @"http://in-integration.dev.avalanch
  */
 + (BOOL)isDebuggerAttached {
   static BOOL debuggerIsAttached = NO;
-  
+
   static dispatch_once_t debuggerPredicate;
   dispatch_once(&debuggerPredicate, ^{
     struct kinfo_proc info;
     size_t info_size = sizeof(info);
     int name[4];
-    
+
     name[0] = CTL_KERN;
     name[1] = KERN_PROC;
     name[2] = KERN_PROC_PID;
     name[3] = getpid();
-    
+
     if (sysctl(name, 4, &info, &info_size, NULL, 0) == -1) {
       NSLog(@"[SNMCrashes] ERROR: Checking for a running debugger via sysctl() "
             @"failed.");
       debuggerIsAttached = false;
     }
-    
+
     if (!debuggerIsAttached && (info.kp_proc.p_flag & P_TRACED) != 0)
       debuggerIsAttached = true;
   });
-  
+
   return debuggerIsAttached;
 }
-
 
 #pragma mark - private
 
@@ -148,10 +147,10 @@ static NSString *const kSNMDefaultBaseUrl = @"http://in-integration.dev.avalanch
     [feature startFeature];
   }
   _sdkStarted = YES;
-  
+
   // If the loglevel hasn't been customized before and we are not running in an app store environment, we set the
   // default loglevel to SNMLogLevelWarning.
-  if((![SNMLogger isUserDefinedLogLevel]) && ([SNMEnvironmentHelper currentAppEnvironment] == SNMEnvironmentOther)) {
+  if ((![SNMLogger isUserDefinedLogLevel]) && ([SNMEnvironmentHelper currentAppEnvironment] == SNMEnvironmentOther)) {
     [SNMSonoma setLogLevel:SNMLogLevelWarning];
   }
 }
@@ -167,14 +166,21 @@ static NSString *const kSNMDefaultBaseUrl = @"http://in-integration.dev.avalanch
 
     // Force enable/disable on all features.
     for (id<SNMFeatureInternal> feature in self.features) {
-      [feature setEnabled:isEnabled];
+      [[feature class] setEnabled:isEnabled];
     }
 
     // Update the enabled status if needed.
     if ([self isEnabled] != isEnabled) {
+      if (!isEnabled) {
+
+        // Delete any remaining logs (e.g., even logs from not started features).
+        for (int priority = 0; priority < kSNMPriorityCount; priority++) {
+          [self.logManager deleteLogsForPriority:priority];
+        }
+      }
 
       // Persist the enabled status.
-      [kSNMUserDefaults setObject:[NSNumber numberWithBool:isEnabled] forKey:kSNMHubIsEnabledKey];
+      [kSNMUserDefaults setObject:[NSNumber numberWithBool:isEnabled] forKey:kSNMCoreIsEnabledKey];
     }
   }
 }
@@ -185,7 +191,7 @@ static NSString *const kSNMDefaultBaseUrl = @"http://in-integration.dev.avalanch
      *  Get isEnabled value from persistence.
      * No need to cache the value in a property, user settings already have their cache mechanism.
      */
-    NSNumber *isEnabledNumber = [kSNMUserDefaults objectForKey:kSNMHubIsEnabledKey];
+    NSNumber *isEnabledNumber = [kSNMUserDefaults objectForKey:kSNMCoreIsEnabledKey];
 
     // Return the persisted value otherwise it's enabled by default.
     return (isEnabledNumber) ? [isEnabledNumber boolValue] : YES;

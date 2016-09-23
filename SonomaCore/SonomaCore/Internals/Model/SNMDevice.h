@@ -1,13 +1,11 @@
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
- *
- * OpenAPI spec version: 1.0.0-preview20160708
  */
 
-#import "SNMAbstractLog.h"
+#import "SNMWrapperSdk.h"
 #import <Foundation/Foundation.h>
 
-@interface SNMDevice : NSObject <SNMSerializableObject>
+@interface SNMDevice : SNMWrapperSdk
 
 /*
  * Name of the SDK. Consists of the name of the SDK and the platform, e.g. "sonoma.ios", "sonoma.android"
@@ -18,18 +16,6 @@
  * Version of the SDK in semver format, e.g. "1.2.0" or "0.12.3-alpha.1".
  */
 @property(nonatomic) NSString *sdkVersion;
-
-/*
- * Version of the wrapper SDK. When the SDK is embedding another base SDK (for example Xamarin.Android wraps Android),
- * the Xamarin specific version is populated into this field while sdkVersion refers to the original Android SDK.
- * [optional]
- */
-@property(nonatomic) NSString *wrapperSdkVersion;
-
-/*
- * Name of the wrapper SDK (examples: Xamarin, Cordova).  [optional]
- */
-@property(nonatomic) NSString *wrapperSdkName;
 
 /*
  * Device model (example: iPad2,3).
@@ -101,22 +87,6 @@
  * com.microsoft.example.  [optional]
  */
 @property(nonatomic) NSString *appNamespace;
-
-/*
- * Label that is used to identify application code 'version' released via Live Update beacon running on device
- */
-@property(nonatomic) NSString *liveUpdateReleaseLabel;
-
-/*
- * Identifier of environment that current application release belongs to, deployment key then maps to environment like Production, Staging.
- */
-@property(nonatomic) NSString *liveUpdateDeploymentKey;
-
-/*
- * Hash of all files (ReactNative or Cordova) deployed to device via LiveUpdate beacon.
- * Helps identify the Release version on device or need to download updates in future
- */
-@property(nonatomic) NSString *liveUpdatePackageHash;
 
 /**
  * Is equal to another device log
