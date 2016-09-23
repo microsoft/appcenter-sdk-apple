@@ -13,6 +13,13 @@
 @protocol SNMFeatureInternal <SNMFeature, SNMFeatureCommon>
 
 /**
+ *  Feature unique key for storage purpose.
+ *  @discussion: IMPORTANT, This string is used to point to the right storage value for this feature.
+ *  Changing this string results in data lost if previous data is not migrated.
+ */
+@property(nonatomic, readonly) NSString *storageKey;
+
+/**
  *  The channel priority for this feature.
  */
 @property(nonatomic, readonly) SNMPriority priority;
@@ -23,12 +30,5 @@
  *  @return unique instance.
  */
 + (instancetype)sharedInstance;
-
-/**
- *  Feature unique name.
- *
- *  @return feature unique name.
- */
-- (NSString *)featureName;
 
 @end

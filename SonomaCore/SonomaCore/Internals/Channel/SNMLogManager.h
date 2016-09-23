@@ -9,7 +9,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- Defines a channel which manages a queue of log items.
+ Defines A log manager which triggers and manages the processing of log items on
+ different channels.
  */
 @protocol SNMLogManager <NSObject>
 
@@ -32,18 +33,24 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Triggers processing of a new log item.
  *
- * param item The log item that should be enqueued.
- * param priority The priority for processing the log.
+ * @param item The log item that should be enqueued.
+ * @param priority The priority for processing the log.
  */
 - (void)processLog:(id<SNMLog>)log withPriority:(SNMPriority)priority;
 
-@required
+/**
+ *  Delete logs from the storage for the given priority.
+ *
+ *  @param priority The priority related to the logs being deleted.
+ */
+- (void)deleteLogsForPriority:(SNMPriority)priority;
+
 /**
  * Send persisted logs that are not sent in previous session.
  *
  * param priority The priority for processing the log.
  */
-- (void)flushPendingLogs:(SNMPriority)priority;
+- (void)flushPendingLogsForPriority:(SNMPriority)priority;
 
 @end
 
