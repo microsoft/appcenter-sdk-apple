@@ -50,7 +50,6 @@
   // Transfer all blocked files
   [allFiles addObjectsFromArray:_blockedFiles];
   [_blockedFiles removeAllObjects];
-
   return [allFiles copy];
 }
 

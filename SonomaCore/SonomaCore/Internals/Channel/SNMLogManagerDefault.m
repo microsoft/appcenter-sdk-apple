@@ -56,10 +56,8 @@ static char *const SNMDataItemsOperationsQueue = "com.microsoft.sonoma.LogManage
         [obj onProcessingLog:log withPriority:priority];
       }];
 
-  id<SNMChannel> channel = [self.channels objectForKey:@(priority)];
-  if (!channel) {
-    channel = [self createChannelForPriority:priority];
-  }
+  // Get the channel.
+  id<SNMChannel> channel = [self channelForPriority:priority];
 
   // Set common log info.
   log.toffset = [NSNumber numberWithInteger:[[NSDate date] timeIntervalSince1970]];
@@ -70,11 +68,8 @@ static char *const SNMDataItemsOperationsQueue = "com.microsoft.sonoma.LogManage
   });
 }
 
-- (void) flushPendingLogs:(SNMPriority)priority {
-  id<SNMChannel> channel = [self.channels objectForKey:@(priority)];
-  if (!channel) {
-    channel = [self createChannelForPriority:priority];
-  }
+- (void) flushPendingLogsForPriority:(SNMPriority)priority {
+  id<SNMChannel> channel = [self channelForPriority:@(priority)];
 
   // TODO Also need to resend blocked files.
   [channel flushQueue];
@@ -95,12 +90,17 @@ static char *const SNMDataItemsOperationsQueue = "com.microsoft.sonoma.LogManage
   return channel;
 }
 
+- (id<SNMChannel>)channelForPriority:(SNMPriority)priority {
+
+  // Return an existing channel or create it.
+  id<SNMChannel> channel = [self.channels objectForKey:@(priority)];
+  return (channel) ? channel : [self createChannelForPriority:priority];
+}
+
 #pragma mark - Storage
 
-- (void)clearStorage {
-  for (SNMChannelConfiguration *conf in [SNMChannelConfiguration allConfigurations]) {
-    [self.storage deleteLogsForStorageKey:conf.name];
-  }
+- (void)deleteLogsForPriority:(SNMPriority)priority {
+  [[self channelForPriority:priority] deleteAllLogs];
 }
 
 @end

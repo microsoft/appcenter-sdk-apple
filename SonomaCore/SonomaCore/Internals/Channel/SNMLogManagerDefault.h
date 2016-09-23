@@ -65,11 +65,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic) SNMDeviceTracker *deviceTracker;
 
-/**
- *  Clear storage.
- */
-- (void)clearStorage;
-
 @end
 
 NS_ASSUME_NONNULL_END

@@ -8,7 +8,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void (^SNMLoadDataCompletionBlock)(NSArray<SNMLog> *logArray, NSString *batchId);
+typedef void (^SNMLoadDataCompletionBlock)(BOOL succeeded, NSArray<SNMLog> *logArray, NSString *batchId);
 
 /**
  Defines the storage component which is responsible for file i/o and file

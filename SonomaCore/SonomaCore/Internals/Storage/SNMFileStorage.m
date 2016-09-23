@@ -71,6 +71,9 @@ static NSUInteger const SNMDefaultLogCountLimit = 50;
       [bucket removeFile:file];
     }
   }
+
+  // Get ready for next time.
+  [self renewCurrentFileForStorageKey:storageKey];
 }
 
 - (void)deleteLogsForId:(NSString *)logsId withStorageKey:(NSString *)storageKey {
@@ -98,10 +101,11 @@ static NSUInteger const SNMDefaultLogCountLimit = 50;
     logs = [NSKeyedUnarchiver unarchiveObjectWithData:logData];
     [bucket.blockedFiles addObject:file];
     [bucket.availableFiles removeLastObject];
+  }
 
-    if (completion) {
-      completion(logs, fileId);
-    }
+  // Load fails if no logs found.
+  if (completion) {
+    completion(logs, logs, fileId);
   }
 }
 

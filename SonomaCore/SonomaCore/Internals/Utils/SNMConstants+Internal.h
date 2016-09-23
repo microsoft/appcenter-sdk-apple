@@ -14,7 +14,9 @@ static NSString *const kSNMDefaultApiErrorDomain = @"SNMDefaultApiErrorDomain";
 static NSInteger const kSNMDefaultApiMissingParamErrorCode = 234513;
 static NSInteger const kSNMHttpErrorCodeMissingParameter = 422;
 
-typedef NS_ENUM(NSInteger, SNMPriority) { SNMPriorityDefault, SNMPriorityHigh, SNMPriorityBackground };
+// Channel priorities, check the kSNMPriorityCount if you add a new value.
+typedef NS_ENUM(NSInteger, SNMPriority) { SNMPriorityDefault, SNMPriorityBackground, SNMPriorityHigh };
+static short const kSNMPriorityCount = SNMPriorityHigh + 1;
 
 typedef NS_ENUM(NSInteger, SNMHTTPCodesNo) {
   // Informational
