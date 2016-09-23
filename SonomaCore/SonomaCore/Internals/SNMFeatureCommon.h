@@ -19,28 +19,23 @@
 /**
  *  Log manager.
  */
-@property(nonatomic) id<SNMLogManager> logManger;
-
-/**
- *  Enable/Disable this feature.
- *
- *  @param isEnabled is this feature enabled or not.
- */
-- (void)setEnabled:(BOOL)isEnabled;
-
-/**
- *  Check whether this feature is enabled or not.
- */
-- (BOOL)isEnabled;
+@property(nonatomic) id<SNMLogManager> logManager;
 
 /**
  *  Triggered while log manager is ready to be used.
  *
- *  @param logManger log manager.
+ *  @param logManager log manager.
  */
-- (void)onLogManagerReady:(id<SNMLogManager>)logManger;
+- (void)onLogManagerReady:(id<SNMLogManager>)logManager;
 
 @optional
+
+/**
+ *  Feature unique key for storage purpose.
+ *  @discussion: IMPORTANT, This string is used to point to the right storage value for this feature.
+ *  Changing this string results in data lost if previous data is not migrated.
+ */
+@property(nonatomic, readonly) NSString *storageKey;
 
 /**
  *  The channel priority for this feature.
@@ -55,23 +50,14 @@
 + (instancetype)sharedInstance;
 
 /**
- *  Feature unique name.
- *
- *  @return feature unique name.
- */
-- (NSString *)featureName;
-
-/**
  * Check if the SDK has been properly initialized and the feature can be used. Logs an error in case it wasn't.
  * @return a BOOL to indicate proper initialization of the SDK.
  */
 - (BOOL)canBeUsed;
 
-
 /**
  * Start this feature. Also sets the flag that indicates that a feature has been started.
  */
 - (void)startFeature;
-
 
 @end

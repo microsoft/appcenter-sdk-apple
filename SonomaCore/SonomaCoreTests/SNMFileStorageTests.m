@@ -223,7 +223,7 @@
   // When
   __block NSString *batchId;
   [self.sut loadLogsForStorageKey:storageKey
-                   withCompletion:^(NSArray<NSObject<SNMLog> *> *logs, NSString *logsId) {
+                   withCompletion:^(BOOL succeeded, NSArray<NSObject<SNMLog> *> *logs, NSString *logsId) {
                      batchId = logsId;
                    }];
 
@@ -244,7 +244,7 @@
 
   // When
   [self.sut loadLogsForStorageKey:storageKey
-                   withCompletion:^(NSArray<NSObject<SNMLog> *> *logs, NSString *logsId){
+                   withCompletion:^(BOOL succeeded, NSArray<NSObject<SNMLog> *> *logs, NSString *logsId){
                    }];
 
   // Verify
@@ -264,7 +264,7 @@
 
   // When
   [self.sut loadLogsForStorageKey:storageKey
-                   withCompletion:^(NSArray<NSObject<SNMLog> *> *logs, NSString *logsId){
+                   withCompletion:^(BOOL succeeded, NSArray<NSObject<SNMLog> *> *logs, NSString *logsId){
                    }];
 
   // Verify

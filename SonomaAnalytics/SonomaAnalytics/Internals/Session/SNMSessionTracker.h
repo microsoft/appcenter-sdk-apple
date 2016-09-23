@@ -15,7 +15,7 @@
 @property(nonatomic) id<SNMSessionTrackerDelegate> delegate;
 
 /**
- * Current session id
+ * Current session id.
  */
 @property(nonatomic, readonly) NSString *sessionId;
 
@@ -25,17 +25,17 @@
 @property(nonatomic) NSTimeInterval sessionTimeout;
 
 /**
- * Timestamp of the last created log
+ * Timestamp of the last created log.
  */
 @property(nonatomic) NSDate *lastCreatedLogTime;
 
 /**
- *  Timestamp of the last time that the app entered foreground
+ *  Timestamp of the last time that the app entered foreground.
  */
 @property(nonatomic) NSDate *lastEnteredForegroundTime;
 
 /**
- *  Timestamp of the last time that the app entered background
+ *  Timestamp of the last time that the app entered background.
  */
 @property(nonatomic) NSDate *lastEnteredBackgroundTime;
 
@@ -45,13 +45,18 @@
 @property(nonatomic) NSMutableArray<SNMSessionHistoryInfo *> *pastSessions;
 
 /**
- *  Start session tracking
+ *  Start session tracking.
  */
 - (void)start;
 
 /**
- *  Stop session tracking
+ *  Stop session tracking.
  */
 - (void)stop;
+
+/**
+ *  Clear cached sessions.
+ */
+- (void)clearSessions;
 
 @end

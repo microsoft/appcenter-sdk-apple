@@ -42,9 +42,14 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Enqueues a new log item.
  *
- * param item The log item that should be enqueued
+ * @param item The log item that should be enqueued.
  */
 - (void)enqueueItem:(id<SNMLog>)item;
+
+/**
+ * Delete all logs from storage.
+ */
+- (void)deleteAllLogs;
 
 /**
  * Flushes all logs from the storage.
