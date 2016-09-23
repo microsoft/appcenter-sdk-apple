@@ -212,15 +212,6 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
   // Gather all addresses for which we need to preserve the binary image
   NSMutableArray *addresses = [NSMutableArray new];
 
-  // Find the crashed thread
-  SNMPLCrashReportThreadInfo *crashedThread = nil;
-  for (SNMPLCrashReportThreadInfo *thread in report.threads) {
-    if (thread.crashed) {
-      crashedThread = thread;
-      break;
-    }
-  }
-
   SNMAppleErrorLog *errorLog = [SNMAppleErrorLog new];
 
   // errodId – used for deduplication in case we sent the same crashreport twice.
@@ -228,6 +219,9 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
 
   // set applicationpath and process info
   errorLog = [self addProcessInfoAndApplicationPathTo:errorLog fromCrashReport:report];
+
+  // Find the crashed thread
+  SNMPLCrashReportThreadInfo *crashedThread = [self findCrashedThreadIn:report];
 
   // Error Thread Info.
   errorLog.errorThreadId = @(crashedThread.threadNumber);
@@ -244,17 +238,20 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
   errorLog.appLaunchTOffset = [self calculateAppLaunchTOffsetFromReport:report];
 
   // CPU Type and Subtype
-  // TODO errorLog.architecture is an optional but might need to assign a string. It might be able to be deleted
-  // (requires schema update).
   errorLog.primaryArchitectureId = @(report.systemInfo.processorInfo.type);
   errorLog.architectureVariantId = @(report.systemInfo.processorInfo.subtype);
+
+  // errorLog.architecture is an optional. The Android SDK will set it while for iOS, the filed will be set
+  // server-side using primaryArchitectureId and architectureVariantId.
 
   errorLog = [self addExceptionInformationTo:errorLog fromCrashReport:report];
 
   errorLog.threads = [self extractThreadsFromReport:report is64bit:is64bit addresses:&addresses];
-  errorLog.binaries = [self extractBinaryImagesFromReport:report addresses:addresses codeType:codeType is64bit:is64bit];
+  errorLog.registers = [self extractRegistersFromCrashedThread:crashedThread addresses:&addresses is64bit:is64bit];
 
-  errorLog.registers = [self extractRegistersFromCrashedThread:crashedThread is64bit:is64bit];
+  // This has to happen last as noth methods above mutate the list of addresses.
+  // TODO: find better solution for this.
+  errorLog.binaries = [self extractBinaryImagesFromReport:report addresses:addresses codeType:codeType is64bit:is64bit];
 
   return errorLog;
 }
@@ -357,7 +354,7 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
 + (SNMAppleErrorLog *)addProcessInfoAndApplicationPathTo:(SNMAppleErrorLog *)errorLog
                                          fromCrashReport:(SNMPLCrashReport *)crashReport {
   // Set the defaults first.
-  errorLog.processId = nil; // TODO What should be the default value for this?!
+  errorLog.processId = @(0);
   errorLog.processName = unknownString;
   errorLog.parentProcessName = unknownString;
   errorLog.parentProcessId = nil;
@@ -389,6 +386,17 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
   return errorLog;
 }
 
++ (SNMPLCrashReportThreadInfo *)findCrashedThreadIn:(SNMPLCrashReport *)report {
+  SNMPLCrashReportThreadInfo *crashedThread;
+  for (SNMPLCrashReportThreadInfo *thread in report.threads) {
+    if (thread.crashed) {
+      crashedThread = thread;
+      break;
+    }
+  }
+  return crashedThread;
+}
+
 + (NSNumber *)calculateAppLaunchTOffsetFromReport:(SNMPLCrashReport *)report {
   NSDate *crashTime = report.systemInfo.timestamp;
   NSDate *initializationDate = [[SNMCrashes sharedInstance] initializationDate];
@@ -398,8 +406,6 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
 
 + (SNMAppleErrorLog *)addExceptionInformationTo:(SNMAppleErrorLog *)errorLog
                                 fromCrashReport:(SNMPLCrashReport *)report {
-  /* Exception code */
-
   // TODO: Check this during testing/crashprobe
   // HockeyApp didn't use report.exceptionInfo for this field but exception.name in case of an unhandled exception or
   // the report.signalInfo.name
@@ -410,12 +416,10 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
   errorLog.osExceptionCode = report.signalInfo.code; // TODO check with Andreas/Gwynne
 
   errorLog.osExceptionAddress =
-      [NSString stringWithFormat:@"0x%" PRIx64, report.signalInfo.address]; // TODO check with Andreas
+      [NSString stringWithFormat:@"0x%" PRIx64, report.signalInfo.address]; // TODO check with Andreas/Gwynne
 
   // TODO Check this during testing, too.
-  // Same as above, HA didn't use report.exceptionInfo.exceptionReason but a handled exception
   errorLog.exceptionReason = report.exceptionInfo.exceptionReason ?: nil;
-  errorLog.exceptionReason = nil;
   errorLog.exceptionType = report.signalInfo.name;
 
   return errorLog;
@@ -426,8 +430,7 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
                                          addresses:(NSMutableArray **)addresses {
   NSMutableArray<SNMThread *> *formattedThreads = [NSMutableArray array];
 
-  /* If an exception stack trace is available, output an Apple-compatible
-   * backtrace. */
+  // If CrashReport contains Exception, add the threads that belong to the exception to the list of threads.
   if (report.exceptionInfo != nil && report.exceptionInfo.stackFrames != nil &&
       [report.exceptionInfo.stackFrames count] > 0) {
     SNMPLCrashReportExceptionInfo *exception = report.exceptionInfo;
@@ -438,8 +441,7 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
     exceptionThread.threadId = @(-1);
 
     /* Write out the frames. In raw reports, Apple writes this out as a simple
-     * list of PCs. In the minimally
-     * post-processed report, Apple writes this out as full frame entries. We
+     * list of PCs. In the minimally post-processed report, Apple writes this out as full frame entries. We
      * use the latter format. */
     for (SNMPLCrashReportStackFrameInfo *frameInfo in exception.stackFrames) {
       SNMStackFrame *frame = [SNMStackFrame new];
@@ -454,19 +456,15 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
     SNMException *lastException = [SNMException new];
     lastException.message = exception.exceptionReason;
     lastException.frames = exceptionThread.frames;
-
     lastException.type = report.exceptionInfo.exceptionName ?: report.signalInfo.name;
-    // TODO what about an "exceptionCode"?
-    // errorLog.osExceptionCode = report.signalInfo.code;
+
     exceptionThread.exception = lastException;
 
     // Don't forget to add the thread to the array of threads!
     [formattedThreads addObject:exceptionThread];
-
-    // TODO add AppleException to ErrorLog?!
   }
 
-  /* Threads */
+  // Get all threads from the report (as opposed to the threads from the exception).
   for (SNMPLCrashReportThreadInfo *plCrashReporterThread in report.threads) {
     SNMThread *thread = [SNMThread new];
     thread.threadId = @(plCrashReporterThread.threadNumber);
@@ -479,33 +477,12 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
       [thread.frames addObject:frame];
     }
 
-    /* Registers*/
-    //    if (plCrashReporterThread.crashed) {
-
     for (SNMPLCrashReportRegisterInfo *registerInfo in plCrashReporterThread.registers) {
-      NSString *regName = registerInfo.registerName;
-
-      // Currently we only use "lr" actively.
-      // TODO check if we still only need the LR register
-      //        if ([regName isEqualToString:@"lr"]) {
-      NSString *formattedRegName = [NSString stringWithFormat:@"%s", [regName UTF8String]];
-      NSString *formattedRegValue = @"";
-
-      formattedRegValue = formatted_address_matching_architecture(registerInfo.registerValue, is64bit);
-
-      // TODO Remove?
-      if (thread.frames.count > 0) {
-        SNMStackFrame *stackFrame = thread.frames[0];
-        stackFrame.address = formattedRegValue;
-        stackFrame.code = formattedRegName;
-        // TODO this is actually pretty bad. The method mutates the list of addresses but this is nowhere
-        // documented and we should make this more obvious.
-        [*addresses addObject:@(registerInfo.registerValue)];
-      }
-      //          break;
-      //        }
+      // TODO this is actually pretty bad. The method mutates the list of addresses but this is nowhere
+      // documented and we should make this more obvious.
+      [*addresses addObject:@(registerInfo.registerValue)];
     }
-    //    }
+
     [formattedThreads addObject:thread];
   }
 
@@ -591,16 +568,10 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
    * UTF-8 is not correctly handled with %s (it depends on the system encoding), but
    * UTF-16 is supported via %S, so we use it here */
   return symbolString;
-
-  //  return [NSString stringWithFormat: @"%-4ld%-35S 0x%0*" PRIx64 " %@\n",
-  //          (long) frameIndex,
-  //          (const uint16_t *)[imageName cStringUsingEncoding: NSUTF16StringEncoding],
-  //          lp64 ? 16 : 8, frameInfo.instructionPointer,
-  //          symbolString];
-  //
 }
 
 + (NSDictionary<NSString *, NSString *> *)extractRegistersFromCrashedThread:(SNMPLCrashReportThreadInfo *)crashedThread
+                                                                  addresses:(NSMutableArray **)addresses
                                                                     is64bit:(BOOL)is64bit {
   NSMutableDictionary<NSString *, NSString *> *registers = [NSMutableDictionary new];
 
@@ -612,6 +583,8 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
     formattedRegValue = formatted_address_matching_architecture(registerInfo.registerValue, is64bit);
 
     [registers setObject:formattedRegValue forKey:formattedRegName];
+
+    [*addresses addObject:@(registerInfo.registerValue)];
   }
 
   return registers;
