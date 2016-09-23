@@ -58,30 +58,32 @@
 
 - (void)flushQueue {
   _itemsCount = 0;
-  [self.storage loadLogsForStorageKey:self.configuration.name
-                       withCompletion:^(NSArray<SNMLog> *_Nonnull logArray, NSString *_Nonnull batchId) {
+  [self.storage
+      loadLogsForStorageKey:self.configuration.name
+             withCompletion:^(BOOL succeeded, NSArray<SNMLog> *_Nullable logArray, NSString *_Nullable batchId) {
 
-                         if (self.pendingLogsIds.count < self.configuration.pendingBatchesLimit) {
-                           [self.pendingLogsIds addObject:batchId];
-                           SNMLogContainer *container =
-                               [[SNMLogContainer alloc] initWithBatchId:batchId andLogs:logArray];
+               // Logs may be deleted from storage before this flush.
+               if (succeeded) {
+                 if (self.pendingLogsIds.count < self.configuration.pendingBatchesLimit) {
+                   [self.pendingLogsIds addObject:batchId];
+                   SNMLogContainer *container = [[SNMLogContainer alloc] initWithBatchId:batchId andLogs:logArray];
 
-                           SNMLogVerbose(@"INFO:Sending log %@", [container serializeLogWithPrettyPrinting:YES]);
+                   SNMLogVerbose(@"INFO:Sending log %@", [container serializeLogWithPrettyPrinting:YES]);
 
-                           [self.sender sendAsync:container
-                                    callbackQueue:self.callbackQueue
-                                completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
-                                  SNMLogVerbose(@"INFO:HTTP response received with the "
-                                                @"status code:%lu",
-                                                (unsigned long)statusCode);
+                   [self.sender sendAsync:container
+                            callbackQueue:self.callbackQueue
+                        completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
+                          SNMLogVerbose(@"INFO:HTTP response received with the "
+                                        @"status code:%lu",
+                                        (unsigned long)statusCode);
 
-                                  // Remove from pending log and storage.
-                                  [self.pendingLogsIds removeObject:batchId];
-                                  [self.storage deleteLogsForId:batchId withStorageKey:self.configuration.name];
-                                }];
-                         }
-
-                       }];
+                          // Remove from pending log and storage.
+                          [self.pendingLogsIds removeObject:batchId];
+                          [self.storage deleteLogsForId:batchId withStorageKey:self.configuration.name];
+                        }];
+                 }
+               }
+             }];
 }
 
 #pragma mark - Timer
@@ -110,6 +112,15 @@
     dispatch_source_cancel(self.timerSource);
     self.timerSource = nil;
   }
+}
+
+#pragma mark - Storage
+
+/**
+ *  Delete all logs from the storage.
+ */
+- (void)deleteAllLogs {
+  [self.storage deleteLogsForStorageKey:self.configuration.name];
 }
 
 @end

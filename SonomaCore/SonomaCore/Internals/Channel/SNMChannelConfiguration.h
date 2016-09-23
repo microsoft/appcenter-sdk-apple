@@ -61,13 +61,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (instancetype)configurationForPriority:(SNMPriority)priority;
 
-/**
- *  Return all available configurations.
- *
- *  @return all available configurations.
- */
-+ (NSArray<SNMChannelConfiguration *> *)allConfigurations;
-
 @end
 
 NS_ASSUME_NONNULL_END
