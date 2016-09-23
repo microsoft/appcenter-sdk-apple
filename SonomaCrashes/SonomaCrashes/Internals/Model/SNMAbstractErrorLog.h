@@ -2,8 +2,8 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import <Foundation/Foundation.h>
 #import "SonomaCore+Internal.h"
+#import <Foundation/Foundation.h>
 
 @class SNMErrorAttachment;
 

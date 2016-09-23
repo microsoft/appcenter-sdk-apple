@@ -3,8 +3,8 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import <Foundation/Foundation.h>
 #import "SonomaCore+Internal.h"
+#import <Foundation/Foundation.h>
 
 @class SNMErrorBinaryAttachment;
 
@@ -34,9 +34,14 @@
 
 + (nonnull SNMErrorAttachment *)attachmentWithText:(nonnull NSString *)text;
 
-+ (nonnull SNMErrorAttachment *)attachmentWithBinaryData:(nonnull NSData *)data filename:(nonnull NSString *)filename mimeType:(nonnull NSString *)mimeType;
++ (nonnull SNMErrorAttachment *)attachmentWithBinaryData:(nonnull NSData *)data
+                                                filename:(nonnull NSString *)filename
+                                                mimeType:(nonnull NSString *)mimeType;
 
-+ (nonnull SNMErrorAttachment *)attachmentWithText:(nonnull NSString *)text andBinaryData:(nonnull NSData *)data filename:(nonnull NSString *)filename mimeType:(nonnull NSString *)mimeType;
++ (nonnull SNMErrorAttachment *)attachmentWithText:(nonnull NSString *)text
+                                     andBinaryData:(nonnull NSData *)data
+                                          filename:(nonnull NSString *)filename
+                                          mimeType:(nonnull NSString *)mimeType;
 
 + (nonnull SNMErrorAttachment *)attachmentWithURL:(nonnull NSURL *)file mimeType:(nullable NSString *)mimeType;
 

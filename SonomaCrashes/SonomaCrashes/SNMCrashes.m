@@ -107,6 +107,8 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 
 - (void)setEnabled:(BOOL)isEnabled {
   // TODO do something here?!
+  //  isEnabled ? [self.logManger addListener:self.sessionTracker] : [self.logManger
+  //  removeListener:self.sessionTracker];
   [super setEnabled:isEnabled];
 }
 

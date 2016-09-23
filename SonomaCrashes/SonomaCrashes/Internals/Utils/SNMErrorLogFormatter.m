@@ -35,10 +35,8 @@
 
 #import "SNMErrorLogFormatter.h"
 
-#import "SNMCrashesPrivate.h"
-#import <CrashReporter/CrashReporter.h>
-
 #import <Availability.h>
+#import <CrashReporter/CrashReporter.h>
 #import <dlfcn.h>
 #import <mach-o/dyld.h>
 #import <mach-o/getsect.h>
@@ -52,13 +50,13 @@
 
 #import "SNMAppleErrorLog.h"
 #import "SNMBinary.h"
-#import "SNMException.h"
-#import "SNMStackFrame.h"
-#import "SNMThread.h"
+#import "SNMCrashesPrivate.h"
 #import "SNMErrorReport.h"
 #import "SNMErrorReportPrivate.h"
+#import "SNMException.h"
 #import "SNMSonomaInternal.h"
-
+#import "SNMStackFrame.h"
+#import "SNMThread.h"
 
 static NSString *unknownString = @"???";
 
@@ -211,308 +209,16 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
   NSNumber *codeType = [self extractCodeTypeFromReport:report];
   BOOL is64bit = [self isCodeType64bit:codeType];
 
-  // Gather all addresses for which we need to preserve the binary image
-  NSMutableArray *addresses = [NSMutableArray new];
-
-  SNMPLCrashReportThreadInfo *crashedThread = nil;
-  for (SNMPLCrashReportThreadInfo *thread in report.threads) {
-    if (thread.crashed) {
-      crashedThread = thread;
-      break;
-    }
-  }
-
-  SNMAppleErrorLog *errorLog =
-      [self errorLogFromCrashReport:report codeType:codeType is64bit:is64bit crashedThread:crashedThread];
-  errorLog.threads = [self extractThreadsFromReport:report is64bit:is64bit addresses:&addresses];
-  errorLog.binaries = [self extractBinaryImagesFromReport:report addresses:addresses codeType:codeType is64bit:is64bit];
-
-  return errorLog;
-}
-
-
-+ (SNMErrorReport *)createErrorReportFrom:(SNMPLCrashReport *)report {
-  if(!report) {
-    return nil;
-  }
-  
-  SNMErrorReport *errorReport = nil;
-  
-  //TODO incidentIdentifier is the errorId and should not fall back to "???" but to a new GUID
-  NSString *incidentIdentifier = @"???";
-  if (report.uuidRef != NULL) {
-    incidentIdentifier = (NSString *) CFBridgingRelease(CFUUIDCreateString(NULL, report.uuidRef));
-  }
-  
-  // There should always be an installId. Leaving the empty string out of paranoia
-  // as [UUID UUID] – used in [SNMSonoma installId] might, in theory, return nil.
-  NSString *reporterKey = [[SNMSonoma installId] UUIDString] ?: @"";
-  
-  NSString *signal = report.signalInfo.name;
-  NSString *exceptionName = report.exceptionInfo.exceptionName;
-  NSString *exceptionReason = report.exceptionInfo.exceptionReason;
-  
-  NSDate *appStartTime = nil;
-  NSDate *crashTime = nil;
-  if ([report.processInfo respondsToSelector:@selector(processStartTime)]) {
-    if (report.systemInfo.timestamp && report.processInfo.processStartTime) {
-      appStartTime = report.processInfo.processStartTime;
-      crashTime = report.systemInfo.timestamp;
-    }
-  }
-  
-  NSString *osVersion = report.systemInfo.operatingSystemVersion;
-  NSString *osBuild = report.systemInfo.operatingSystemBuild;
-  NSString *appVersion = report.applicationInfo.applicationMarketingVersion;
-  NSString *appBuild = report.applicationInfo.applicationVersion;
-  NSUInteger processId = report.processInfo.processID;
-  
-  errorReport = [[SNMErrorReport alloc] initWithIncidentIdentifier:incidentIdentifier
-                                                       reporterKey:reporterKey
-                                                            signal:signal
-                                                     exceptionName:exceptionName
-                                                   exceptionReason:exceptionReason
-                                                      appStartTime:appStartTime
-                                                         crashTime:crashTime
-                                                         osVersion:osVersion
-                                                           osBuild:osBuild
-                                                        appVersion:appVersion
-                                                          appBuild:appBuild
-                                              appProcessIdentifier:processId];
-  
-  return errorReport;
-}
-
-+ (NSNumber *)extractCodeTypeFromReport:(const SNMPLCrashReport *)report {
-  NSDictionary *legacyTypes = @{
-    @(PLCrashReportArchitectureARMv6) : @(CPU_TYPE_ARM),
-    @(PLCrashReportArchitectureARMv7) : @(CPU_TYPE_ARM),
-    @(PLCrashReportArchitectureX86_32) : @(CPU_TYPE_X86),
-    @(PLCrashReportArchitectureX86_64) : @(CPU_TYPE_X86_64),
-    @(PLCrashReportArchitecturePPC) : @(CPU_TYPE_POWERPC),
-  };
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-  /* Attempt to derive the code type from the binary images */
-  NSNumber *codeType = nil;
-  for (SNMPLCrashReportBinaryImageInfo *image in report.images) {
-    codeType =
-    @(image.codeType.type) ?: @(report.systemInfo.processorInfo.type) ?: legacyTypes[@(report.systemInfo.architecture)]
-                                      ?: [NSString stringWithFormat:@"Unknown (%d)", report.systemInfo.architecture];
-
-    /* Stop immediately if code type was discovered */
-    if (codeType != nil)
-      break;
-  }
-#pragma GCC diagnostic pop
-  return codeType;
-}
-
-+ (BOOL)isCodeType64bit:(NSNumber *)codeType {
-  NSDictionary *codeTypesAre64bit = @{
-    @(CPU_TYPE_ARM) : @NO,
-    @(CPU_TYPE_ARM64) : @YES,
-    @(CPU_TYPE_X86) : @NO,
-    @(CPU_TYPE_X86_64) : @YES,
-    @(CPU_TYPE_POWERPC) : @NO,
-  };
-  NSNumber *boolNumber = codeTypesAre64bit[codeType];
-  return boolNumber.boolValue;
-}
-
-+ (NSArray<SNMThread *> *)extractThreadsFromReport:(SNMPLCrashReport *)report
-                                                is64bit:(BOOL)is64bit
-                                              addresses:(NSMutableArray **)addresses {
-  NSMutableArray<SNMThread *> *formattedThreads = [NSMutableArray array];
-
-  /* If an exception stack trace is available, output an Apple-compatible
-   * backtrace. */
-  if (report.exceptionInfo != nil && report.exceptionInfo.stackFrames != nil &&
-      [report.exceptionInfo.stackFrames count] > 0) {
-    SNMPLCrashReportExceptionInfo *exception = report.exceptionInfo;
-
-    // TODO: move stackframe parsing for an exception somewhere else, maybe to the errorLog generation?!
-
-    SNMThread *exceptionThread = [SNMThread new];
-    exceptionThread.threadId = @(-1);
-
-    /* Write out the frames. In raw reports, Apple writes this out as a simple
-     * list of PCs. In the minimally
-     * post-processed report, Apple writes this out as full frame entries. We
-     * use the latter format. */
-    for (SNMPLCrashReportStackFrameInfo *frameInfo in exception.stackFrames) {
-      SNMStackFrame *frame = [SNMStackFrame new];
-      frame.address = formatted_address_matching_architecture(frameInfo.instructionPointer, is64bit);
-
-      // TODO we're mutating the addresses-Object again here
-      [*addresses addObject:@(frameInfo.instructionPointer)];
-
-      [exceptionThread.frames addObject:frame];
-    }
-
-    SNMException *lastException = [SNMException new];
-    lastException.message = exception.exceptionReason;
-    lastException.frames = exceptionThread.frames;
-
-    lastException.type = report.exceptionInfo.exceptionName ?: report.signalInfo.name;
-    // TODO what about an "exceptionCode"?
-    // errorLog.osExceptionCode = report.signalInfo.code;
-    exceptionThread.exception = lastException;
-
-    // Don't forget to add the thread to the array of threads!
-    [formattedThreads addObject:exceptionThread];
-
-    // TODO add AppleException to ErrorLog?!
-  }
-
-  /* Threads */
-  for (SNMPLCrashReportThreadInfo *plCrashReporterThread in report.threads) {
-    SNMThread *thread = [SNMThread new];
-    thread.threadId = @(plCrashReporterThread.threadNumber);
-    
-    for (SNMPLCrashReportStackFrameInfo *plCrashReporterFrameInfo in plCrashReporterThread.stackFrames) {
-      SNMStackFrame *frame = [SNMStackFrame new];
-      frame.address = formatted_address_matching_architecture(plCrashReporterFrameInfo.instructionPointer, is64bit);
-      frame.code = [self formatStackFrame:plCrashReporterFrameInfo report:report lp64:is64bit];
-      [*addresses addObject:@(plCrashReporterFrameInfo.instructionPointer)];
-      [thread.frames addObject:frame];
-    }
-
-    /* Registers*/
-//    if (plCrashReporterThread.crashed) {
-
-      for (SNMPLCrashReportRegisterInfo *registerInfo in plCrashReporterThread.registers) {
-        NSString *regName = registerInfo.registerName;
-
-        // Currently we only use "lr" actively.
-        // TODO check if we still only need the LR register
-//        if ([regName isEqualToString:@"lr"]) {
-          NSString *formattedRegName = [NSString stringWithFormat:@"%s", [regName UTF8String]];
-          NSString *formattedRegValue = @"";
-
-          formattedRegValue = formatted_address_matching_architecture(registerInfo.registerValue, is64bit);
-
-        // TODO Remove?
-          if (thread.frames.count > 0) {
-            SNMStackFrame *stackFrame = thread.frames[0];
-            stackFrame.address = formattedRegValue;
-            stackFrame.code = formattedRegName;
-            // TODO this is actually pretty bad. The method mutates the list of addresses but this is nowhere
-            // documented and we should make this more obvious.
-            [*addresses addObject:@(registerInfo.registerValue)];
-          }
-//          break;
-//        }
-      }
-//    }
-    [formattedThreads addObject:thread];
-  }
-  
-  return formattedThreads;
-}
-
-/**
- * Format a stack frame for display in a thread backtrace.
- *
- * @param frameInfo The stack frame to format
- * @param frameIndex The frame's index
- * @param report The report from which this frame was acquired.
- * @param lp64 If YES, the report was generated by an LP64 system.
- *
- * @return Returns a formatted frame line.
- */
-+ (NSString *) formatStackFrame: (SNMPLCrashReportStackFrameInfo *) frameInfo
-                            report: (SNMPLCrashReport *) report
-                              lp64: (boolean_t) lp64
-{
-  /* Base image address containing instrumentation pointer, offset of the IP from that base
-   * address, and the associated image name */
-  uint64_t baseAddress = 0x0;
-  uint64_t pcOffset = 0x0;
-  NSString *imageName = @"\?\?\?";
-  NSString *symbolString = nil;
-  
-  SNMPLCrashReportBinaryImageInfo *imageInfo = [report imageForAddress: frameInfo.instructionPointer];
-  if (imageInfo != nil) {
-    imageName = [imageInfo.imageName lastPathComponent];
-    baseAddress = imageInfo.imageBaseAddress;
-    pcOffset = frameInfo.instructionPointer - imageInfo.imageBaseAddress;
-  }
-  
-  /* Make sure UTF8/16 characters are handled correctly */
-  NSInteger offset = 0;
-  NSUInteger index = 0;
-  for (index = 0; index < [imageName length]; index++) {
-    NSRange range = [imageName rangeOfComposedCharacterSequenceAtIndex:index];
-    if (range.length > 1) {
-      offset += range.length - 1;
-      index += range.length - 1;
-    }
-    if (index > 32) {
-      imageName = [NSString stringWithFormat:@"%@... ", [imageName substringToIndex:index - 1]];
-      index += 3;
-      break;
-    }
-  }
-  if (index-offset < 36) {
-    imageName = [imageName stringByPaddingToLength:(NSUInteger)(36 + offset) withString:@" " startingAtIndex:0];
-  }
-  
-  /* If symbol info is available, the format used in Apple's reports is Sym + OffsetFromSym. Otherwise,
-   * the format used is imageBaseAddress + offsetToIP */
-  SNMBinaryImageType imageType = [self imageTypeForImagePath:imageInfo.imageName
-                                                             processPath:report.processInfo.processPath];
-  if (frameInfo.symbolInfo != nil && imageType == SNMBinaryImageTypeOther) {
-    NSString *symbolName = frameInfo.symbolInfo.symbolName;
-    
-    /* Apple strips the _ symbol prefix in their reports. Only OS X makes use of an
-     * underscore symbol prefix by default. */
-    if ([symbolName rangeOfString: @"_"].location == 0 && [symbolName length] > 1) {
-      switch (report.systemInfo.operatingSystem) {
-        case PLCrashReportOperatingSystemMacOSX:
-        case PLCrashReportOperatingSystemiPhoneOS:
-        case PLCrashReportOperatingSystemiPhoneSimulator:
-          symbolName = [symbolName substringFromIndex: 1];
-          break;
-          
-        default:
-          NSLog(@"Symbol prefix rules are unknown for this OS!");
-          break;
-      }
-    }
-    
-    uint64_t symOffset = frameInfo.instructionPointer - frameInfo.symbolInfo.startAddress;
-    symbolString = [NSString stringWithFormat: @"%@ + %" PRId64, symbolName, symOffset];
-  } else {
-    symbolString = [NSString stringWithFormat: @"0x%" PRIx64 " + %" PRId64, baseAddress, pcOffset];
-  }
-  
-  /* Note that width specifiers are ignored for %@, but work for C strings.
-   * UTF-8 is not correctly handled with %s (it depends on the system encoding), but
-   * UTF-16 is supported via %S, so we use it here */
-  return symbolString;
-  
-//  return [NSString stringWithFormat: @"%-4ld%-35S 0x%0*" PRIx64 " %@\n",
-//          (long) frameIndex,
-//          (const uint16_t *)[imageName cStringUsingEncoding: NSUTF16StringEncoding],
-//          lp64 ? 16 : 8, frameInfo.instructionPointer,
-//          symbolString];
-//
-}
-
-
-+ (SNMAppleErrorLog *)errorLogFromCrashReport:(SNMPLCrashReport *)report
-                                     codeType:(NSNumber *)codeType
-                                      is64bit:(boolean_t)is64bit
-                                crashedThread:(SNMPLCrashReportThreadInfo *)crashedThread {
-
   SNMAppleErrorLog *errorLog = [SNMAppleErrorLog new];
 
-  // Application Path and process info
-  errorLog.errorId =
-      report.uuidRef ? (NSString *)CFBridgingRelease(CFUUIDCreateString(NULL, report.uuidRef)) : [[NSUUID UUID] UUIDString];
-  
-  errorLog = [self extractProcessInformation:errorLog fromCrashReport:report];
+  // errodId – used for deduplication in case we sent the same crashreport twice.
+  errorLog.errorId = [self errorIdForCrashReport:report];
+
+  // set applicationpath and process info
+  errorLog = [self addProcessInfoAndApplicationPathTo:errorLog fromCrashReport:report];
+
+  // Find the crashed thread
+  SNMPLCrashReportThreadInfo *crashedThread = [self findCrashedThreadIn:report];
 
   // Error Thread Info.
   errorLog.errorThreadId = @(crashedThread.threadNumber);
@@ -525,101 +231,90 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
   // appLaunchTOffset - the difference between crashtime and initialization time, so the "age" of the crashreport before
   // it's forwarded to the channel.
   // We don't care about a negative difference (will happen if the user's time on the device changes to a time before
-  // the crashTime and the time the error is processed.
-  NSDate *crashTime = report.systemInfo.timestamp;
-  NSDate *initializationDate = [[SNMCrashes sharedInstance] initializationDate];
-  NSTimeInterval difference = [initializationDate timeIntervalSinceDate:crashTime];
-  errorLog.appLaunchTOffset = @(difference);
+  // the crashTime and the time the error is processed).
+  errorLog.appLaunchTOffset = [self calculateAppLaunchTOffsetFromReport:report];
 
   // CPU Type and Subtype
-  // TODO errorLog.architecture is an optional but might need to assign a string. It might be able to be deleted (requires schema update).
   errorLog.primaryArchitectureId = @(report.systemInfo.processorInfo.type);
   errorLog.architectureVariantId = @(report.systemInfo.processorInfo.subtype);
 
-  /* Exception code */
+  // errorLog.architecture is an optional. The Android SDK will set it while for iOS, the file will be set
+  // server-side using primaryArchitectureId and architectureVariantId.
 
-  // TODO: Check this during testing/crashprobe
-  // HockeyApp didn't use report.exceptionInfo for this field but exception.name in case of an unhandled exception or
-  // the report.signalInfo.name
-  // more so, for BITCrashDetails, we used the exceptionInfo.exceptionName for a field called exceptionName. FYI: Gwynne
-  // has no idea. Andreas will be next ;)
-  errorLog.osExceptionType = report.exceptionInfo.exceptionName ?: report.signalInfo.name;
+  errorLog = [self addExceptionInformationTo:errorLog fromCrashReport:report];
 
-  errorLog.osExceptionCode = report.signalInfo.code; // TODO check with Andreas/Gwynne
+  errorLog.threads = [self extractThreadsFromReport:report is64bit:is64bit];
+  errorLog.registers = [self extractRegistersFromCrashedThread:crashedThread is64bit:is64bit];
 
-  errorLog.osExceptionAddress =
-      [NSString stringWithFormat:@"0x%" PRIx64, report.signalInfo.address]; // TODO check with Andreas
+  // Gather all addresses for which we need to preserve the binary image.
+  NSArray *addresses = [self addressesFromReport:report];
+  errorLog.binaries = [self extractBinaryImagesFromReport:report addresses:addresses codeType:codeType is64bit:is64bit];
 
-  // TODO Check this during testing, too.
-  // Same as above, HA didn't use report.exceptionInfo.exceptionReason but a handled exception
-  errorLog.exceptionReason = report.exceptionInfo.exceptionReason ?: nil;
-  errorLog.exceptionReason = nil;
-  errorLog.exceptionType = report.signalInfo.name;
-
-  /* Uncaught Exception */
-  if (report.hasExceptionInfo) {
-    errorLog.exceptionReason =
-        [NSString stringWithFormat:@"*** Terminating app due to uncaught exception %@: %@",
-                                   report.exceptionInfo.exceptionName, report.exceptionInfo.exceptionReason];
-
-    // TODO: Change to new Xamarin Schema.
-
-    // Check if exception data contains xamarin stacktrace in order to determine
-    // report version
-    if (report.hasExceptionInfo) {
-      NSString *xamarinTrace;
-      NSString *exceptionReason;
-
-      exceptionReason = report.exceptionInfo.exceptionReason;
-      NSInteger xamarinTracePosition = [exceptionReason rangeOfString:SNMXamarinStackTraceDelimiter].location;
-      if (xamarinTracePosition != NSNotFound) {
-        xamarinTrace = [exceptionReason substringFromIndex:xamarinTracePosition];
-        xamarinTrace = [xamarinTrace stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        xamarinTrace = [xamarinTrace stringByReplacingOccurrencesOfString:@"<---\n\n--->" withString:@"<---\n--->"];
-        exceptionReason = [exceptionReason substringToIndex:xamarinTracePosition];
-        exceptionReason =
-            [exceptionReason stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-      }
-    }
-
-  } else if (crashedThread != nil) {
-    // try to find the selector in case this was a crash in obj_msgSend
-    // we search this whether the crash happened in obj_msgSend or not since we
-    // don't have the symbol!
-
-    NSString *foundSelector = nil;
-
-// search the registers value for the current arch
-#if TARGET_OS_SIMULATOR
-    if (is64bit) {
-      foundSelector = [[self class] selectorForRegisterWithName:@"rsi" ofThread:crashedThread report:report];
-      if (foundSelector == NULL)
-        foundSelector = [[self class] selectorForRegisterWithName:@"rdx" ofThread:crashedThread report:report];
-    } else {
-      foundSelector = [[self class] selectorForRegisterWithName:@"ecx" ofThread:crashedThread report:report];
-    }
-#else
-    if (is64bit) {
-      foundSelector = [[self class] selectorForRegisterWithName:@"x1" ofThread:crashedThread report:report];
-    } else {
-      foundSelector = [[self class] selectorForRegisterWithName:@"r1" ofThread:crashedThread report:report];
-      if (foundSelector == NULL)
-        foundSelector = [[self class] selectorForRegisterWithName:@"r2" ofThread:crashedThread report:report];
-    }
-#endif
-
-    if (foundSelector) {
-      errorLog.exceptionReason =
-          [NSString stringWithFormat:@"Selector name found in current argument registers: %@\n", foundSelector];
-    }
-  }
   return errorLog;
 }
 
-+ (SNMAppleErrorLog *)extractProcessInformation:(SNMAppleErrorLog *)errorLog
-                                fromCrashReport:(SNMPLCrashReport *)crashReport {
++ (SNMErrorReport *)createErrorReportFrom:(SNMPLCrashReport *)report {
+  if (!report) {
+    return nil;
+  }
+
+  SNMErrorReport *errorReport = nil;
+
+  // TODO incidentIdentifier is the errorId and should not fall back to "???" but to a new GUID
+  NSString *errorId = [self errorIdForCrashReport:report];
+  // There should always be an installId. Leaving the empty string out of paranoia
+  // as [UUID UUID] – used in [SNMSonoma installId] – might, in theory, return nil.
+  NSString *reporterKey = [[SNMSonoma installId] UUIDString] ?: @"";
+
+  NSString *signal = report.signalInfo.name;
+  NSString *exceptionName = report.exceptionInfo.exceptionName;
+  NSString *exceptionReason = report.exceptionInfo.exceptionReason;
+
+  NSDate *appStartTime = nil;
+  NSDate *crashTime = nil;
+  if ([report.processInfo respondsToSelector:@selector(processStartTime)]) {
+    if (report.systemInfo.timestamp && report.processInfo.processStartTime) {
+      appStartTime = report.processInfo.processStartTime;
+      crashTime = report.systemInfo.timestamp;
+    }
+  }
+
+  NSString *osVersion = report.systemInfo.operatingSystemVersion;
+  NSString *osBuild = report.systemInfo.operatingSystemBuild;
+  NSString *appVersion = report.applicationInfo.applicationMarketingVersion;
+  NSString *appBuild = report.applicationInfo.applicationVersion;
+  NSUInteger processId = report.processInfo.processID;
+
+  errorReport = [[SNMErrorReport alloc] initWithErrorId:errorId
+                                            reporterKey:reporterKey
+                                                 signal:signal
+                                          exceptionName:exceptionName
+                                        exceptionReason:exceptionReason
+                                           appStartTime:appStartTime
+                                              crashTime:crashTime
+                                              osVersion:osVersion
+                                                osBuild:osBuild
+                                             appVersion:appVersion
+                                               appBuild:appBuild
+                                   appProcessIdentifier:processId];
+
+  return errorReport;
+}
+
+#pragma mark - Private
+
+#pragma mark - Parse SNMPLCrashReport
+
++ (NSString *)errorIdForCrashReport:(SNMPLCrashReport *)report {
+  NSString *errorId = report.uuidRef ? (NSString *)CFBridgingRelease(CFUUIDCreateString(NULL, report.uuidRef))
+                                     : [[NSUUID UUID] UUIDString];
+  return errorId;
+}
+
++ (SNMAppleErrorLog *)addProcessInfoAndApplicationPathTo:(SNMAppleErrorLog *)errorLog
+                                         fromCrashReport:(SNMPLCrashReport *)crashReport {
   // Set the defaults first.
-  errorLog.processId = nil; //TODO check with schema, andreas and stefan
+  errorLog.processId = @(0);
   errorLog.processName = unknownString;
   errorLog.parentProcessName = unknownString;
   errorLog.parentProcessId = nil;
@@ -651,10 +346,249 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
   return errorLog;
 }
 
++ (NSNumber *)calculateAppLaunchTOffsetFromReport:(SNMPLCrashReport *)report {
+  NSDate *crashTime = report.systemInfo.timestamp;
+  NSDate *initializationDate = [[SNMCrashes sharedInstance] initializationDate];
+  NSTimeInterval difference = [initializationDate timeIntervalSinceDate:crashTime];
+  return @(difference);
+}
+
++ (SNMAppleErrorLog *)addExceptionInformationTo:(SNMAppleErrorLog *)errorLog
+                                fromCrashReport:(SNMPLCrashReport *)report {
+  // TODO: Check this during testing/crashprobe
+  // HockeyApp didn't use report.exceptionInfo for this field but exception.name in case of an unhandled exception or
+  // the report.signalInfo.name
+  // more so, for BITCrashDetails, we used the exceptionInfo.exceptionName for a field called exceptionName. FYI: Gwynne
+  // has no idea. Andreas will be next ;)
+  errorLog.osExceptionType = report.exceptionInfo.exceptionName ?: report.signalInfo.name;
+
+  errorLog.osExceptionCode = report.signalInfo.code; // TODO check with Andreas/Gwynne
+
+  errorLog.osExceptionAddress =
+      [NSString stringWithFormat:@"0x%" PRIx64, report.signalInfo.address]; // TODO check with Andreas/Gwynne
+
+  // TODO Check this during testing, too.
+  errorLog.exceptionReason = report.exceptionInfo.exceptionReason ?: nil;
+  errorLog.exceptionType = report.signalInfo.name;
+
+  return errorLog;
+}
+
++ (NSArray<SNMThread *> *)extractThreadsFromReport:(SNMPLCrashReport *)report is64bit:(BOOL)is64bit {
+  NSMutableArray<SNMThread *> *formattedThreads = [NSMutableArray array];
+
+  // If CrashReport contains Exception, add the threads that belong to the exception to the list of threads.
+  if (report.exceptionInfo != nil && report.exceptionInfo.stackFrames != nil &&
+      [report.exceptionInfo.stackFrames count] > 0) {
+    SNMPLCrashReportExceptionInfo *exception = report.exceptionInfo;
+
+    // TODO: move stackframe parsing for an exception somewhere else, maybe to the errorLog generation?!
+
+    SNMThread *exceptionThread = [SNMThread new];
+    exceptionThread.threadId = @(-1);
+
+    /* Write out the frames. In raw reports, Apple writes this out as a simple
+     * list of PCs. In the minimally post-processed report, Apple writes this out as full frame entries. We
+     * use the latter format. */
+    for (SNMPLCrashReportStackFrameInfo *frameInfo in exception.stackFrames) {
+      SNMStackFrame *frame = [SNMStackFrame new];
+      frame.address = formatted_address_matching_architecture(frameInfo.instructionPointer, is64bit);
+      [exceptionThread.frames addObject:frame];
+    }
+
+    SNMException *lastException = [SNMException new];
+    lastException.message = exception.exceptionReason;
+    lastException.frames = exceptionThread.frames;
+    lastException.type = report.exceptionInfo.exceptionName ?: report.signalInfo.name;
+
+    exceptionThread.exception = lastException;
+
+    // Don't forget to add the thread to the array of threads!
+    [formattedThreads addObject:exceptionThread];
+  }
+
+  // Get all threads from the report (as opposed to the threads from the exception).
+  for (SNMPLCrashReportThreadInfo *plCrashReporterThread in report.threads) {
+    SNMThread *thread = [SNMThread new];
+    thread.threadId = @(plCrashReporterThread.threadNumber);
+
+    for (SNMPLCrashReportStackFrameInfo *plCrashReporterFrameInfo in plCrashReporterThread.stackFrames) {
+      SNMStackFrame *frame = [SNMStackFrame new];
+      frame.address = formatted_address_matching_architecture(plCrashReporterFrameInfo.instructionPointer, is64bit);
+      frame.code = [self formatStackFrame:plCrashReporterFrameInfo report:report lp64:is64bit];
+      [thread.frames addObject:frame];
+    }
+
+    [formattedThreads addObject:thread];
+  }
+
+  return formattedThreads;
+}
+
+/**
+ * Format a stack frame for display in a thread backtrace.
+ *
+ * @param frameInfo The stack frame to format
+ * @param frameIndex The frame's index
+ * @param report The report from which this frame was acquired.
+ * @param lp64 If YES, the report was generated by an LP64 system.
+ *
+ * @return Returns a formatted frame line.
+ */
++ (NSString *)formatStackFrame:(SNMPLCrashReportStackFrameInfo *)frameInfo
+                        report:(SNMPLCrashReport *)report
+                          lp64:(boolean_t)lp64 {
+  /* Base image address containing instrumentation pointer, offset of the IP from that base
+   * address, and the associated image name */
+  uint64_t baseAddress = 0x0;
+  uint64_t pcOffset = 0x0;
+  NSString *imageName = @"\?\?\?";
+  NSString *symbolString = nil;
+
+  SNMPLCrashReportBinaryImageInfo *imageInfo = [report imageForAddress:frameInfo.instructionPointer];
+  if (imageInfo != nil) {
+    imageName = [imageInfo.imageName lastPathComponent];
+    baseAddress = imageInfo.imageBaseAddress;
+    pcOffset = frameInfo.instructionPointer - imageInfo.imageBaseAddress;
+  }
+
+  /* Make sure UTF8/16 characters are handled correctly */
+  NSInteger offset = 0;
+  NSUInteger index = 0;
+  for (index = 0; index < [imageName length]; index++) {
+    NSRange range = [imageName rangeOfComposedCharacterSequenceAtIndex:index];
+    if (range.length > 1) {
+      offset += range.length - 1;
+      index += range.length - 1;
+    }
+    if (index > 32) {
+      imageName = [NSString stringWithFormat:@"%@... ", [imageName substringToIndex:index - 1]];
+      index += 3;
+      break;
+    }
+  }
+  if (index - offset < 36) {
+    imageName = [imageName stringByPaddingToLength:(NSUInteger)(36 + offset) withString:@" " startingAtIndex:0];
+  }
+
+  /* If symbol info is available, the format used in Apple's reports is Sym + OffsetFromSym. Otherwise,
+   * the format used is imageBaseAddress + offsetToIP */
+  SNMBinaryImageType imageType =
+      [self imageTypeForImagePath:imageInfo.imageName processPath:report.processInfo.processPath];
+  if (frameInfo.symbolInfo != nil && imageType == SNMBinaryImageTypeOther) {
+    NSString *symbolName = frameInfo.symbolInfo.symbolName;
+
+    /* Apple strips the _ symbol prefix in their reports. Only OS X makes use of an
+     * underscore symbol prefix by default. */
+    if ([symbolName rangeOfString:@"_"].location == 0 && [symbolName length] > 1) {
+      switch (report.systemInfo.operatingSystem) {
+      case PLCrashReportOperatingSystemMacOSX:
+      case PLCrashReportOperatingSystemiPhoneOS:
+      case PLCrashReportOperatingSystemiPhoneSimulator:
+        symbolName = [symbolName substringFromIndex:1];
+        break;
+
+      default:
+        NSLog(@"Symbol prefix rules are unknown for this OS!");
+        break;
+      }
+    }
+
+    uint64_t symOffset = frameInfo.instructionPointer - frameInfo.symbolInfo.startAddress;
+    symbolString = [NSString stringWithFormat:@"%@ + %" PRId64, symbolName, symOffset];
+  } else {
+    symbolString = [NSString stringWithFormat:@"0x%" PRIx64 " + %" PRId64, baseAddress, pcOffset];
+  }
+
+  /* Note that width specifiers are ignored for %@, but work for C strings.
+   * UTF-8 is not correctly handled with %s (it depends on the system encoding), but
+   * UTF-16 is supported via %S, so we use it here */
+  return symbolString;
+}
+
++ (NSDictionary<NSString *, NSString *> *)extractRegistersFromCrashedThread:(SNMPLCrashReportThreadInfo *)crashedThread
+                                                                    is64bit:(BOOL)is64bit {
+  NSMutableDictionary<NSString *, NSString *> *registers = [NSMutableDictionary new];
+
+  for (SNMPLCrashReportRegisterInfo *registerInfo in crashedThread.registers) {
+    NSString *regName = registerInfo.registerName;
+
+    NSString *formattedRegName = [NSString stringWithFormat:@"%s", [regName UTF8String]];
+    NSString *formattedRegValue = @"";
+    formattedRegValue = formatted_address_matching_architecture(registerInfo.registerValue, is64bit);
+
+    [registers setObject:formattedRegValue forKey:formattedRegName];
+  }
+
+  return registers;
+}
+
++ (NSString *)extractExceptionReasonFromReport:(SNMPLCrashReport *)report
+                               ofCrashedThread:(SNMPLCrashReportThreadInfo *)crashedThread
+                                       is64bit:(BOOL)is64bit {
+  NSString *exceptionReason = @"";
+  /* Uncaught Exception */
+  if (report.hasExceptionInfo) {
+    exceptionReason =
+        [NSString stringWithFormat:@"*** Terminating app due to uncaught exception %@: %@",
+                                   report.exceptionInfo.exceptionName, report.exceptionInfo.exceptionReason];
+
+    // TODO: Change to new Xamarin Schema.
+
+    // Check if exception data contains xamarin stacktrace in order to determine
+    // report version
+    NSString *xamarinTrace;
+    NSString *xamarinExceptionReason;
+
+    NSInteger xamarinTracePosition = [xamarinExceptionReason rangeOfString:SNMXamarinStackTraceDelimiter].location;
+    if (xamarinTracePosition != NSNotFound) {
+      xamarinTrace = [exceptionReason substringFromIndex:xamarinTracePosition];
+      xamarinTrace = [xamarinTrace stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+      xamarinTrace = [xamarinTrace stringByReplacingOccurrencesOfString:@"<---\n\n--->" withString:@"<---\n--->"];
+      exceptionReason = [exceptionReason substringToIndex:xamarinTracePosition];
+      exceptionReason =
+          [exceptionReason stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    }
+
+  } else if (crashedThread != nil) {
+    // try to find the selector in case this was a crash in obj_msgSend
+    // we search this whether the crash happened in obj_msgSend or not since we
+    // don't have the symbol!
+
+    NSString *foundSelector = nil;
+
+// search the registers value for the current arch
+#if TARGET_OS_SIMULATOR
+    if (is64bit) {
+      foundSelector = [[self class] selectorForRegisterWithName:@"rsi" ofThread:crashedThread report:report];
+      if (foundSelector == NULL)
+        foundSelector = [[self class] selectorForRegisterWithName:@"rdx" ofThread:crashedThread report:report];
+    } else {
+      foundSelector = [[self class] selectorForRegisterWithName:@"ecx" ofThread:crashedThread report:report];
+    }
+#else
+    if (is64bit) {
+      foundSelector = [[self class] selectorForRegisterWithName:@"x1" ofThread:crashedThread report:report];
+    } else {
+      foundSelector = [[self class] selectorForRegisterWithName:@"r1" ofThread:crashedThread report:report];
+      if (foundSelector == NULL)
+        foundSelector = [[self class] selectorForRegisterWithName:@"r2" ofThread:crashedThread report:report];
+    }
+#endif
+
+    if (foundSelector) {
+      exceptionReason =
+          [NSString stringWithFormat:@"Selector name found in current argument registers: %@\n", foundSelector];
+    }
+  }
+
+  return exceptionReason;
+}
+
 + (NSArray<SNMBinary *> *)extractBinaryImagesFromReport:(SNMPLCrashReport *)report
-                                                   addresses:(NSArray *)addresses
-                                                    codeType:(NSNumber *)codeType
-                                                     is64bit:(boolean_t)is64bit {
+                                              addresses:(NSArray *)addresses
+                                               codeType:(NSNumber *)codeType
+                                                is64bit:(boolean_t)is64bit {
   NSMutableArray<SNMBinary *> *binaryImages = [NSMutableArray array];
   /* Images. The iPhone crash report format sorts these in ascending order, by
    * the base address */
@@ -686,7 +620,7 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
 #endif
       }
 #if TARGET_IPHONE_SIMULATOR
-      imageName = [self anonymizedPathFromPath: imageName];
+      imageName = [self anonymizedPathFromPath:imageName];
 #endif
 
       binary.path = imageName;
@@ -725,23 +659,25 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
  *  @return An anonymized string where the real username is replaced by "USER"
  */
 + (NSString *)anonymizedPathFromPath:(NSString *)path {
-  
+
   NSString *anonymizedProcessPath = [NSString string];
-  
+
   if (([path length] > 0) && [path hasPrefix:@"/Users/"]) {
     NSError *error = nil;
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"(/Users/[^/]+/)" options:0 error:&error];
-    anonymizedProcessPath = [regex stringByReplacingMatchesInString:path options:0 range:NSMakeRange(0, [path length]) withTemplate:@"/Users/USER/"];
+    NSRegularExpression *regex =
+        [NSRegularExpression regularExpressionWithPattern:@"(/Users/[^/]+/)" options:0 error:&error];
+    anonymizedProcessPath = [regex stringByReplacingMatchesInString:path
+                                                            options:0
+                                                              range:NSMakeRange(0, [path length])
+                                                       withTemplate:@"/Users/USER/"];
     if (error) {
       SNMLogError(@"ERROR: String replacing failed - %@", error.localizedDescription);
     }
-  }
-  else if(([path length] > 0) && (![path containsString:@"Users"])) {
+  } else if (([path length] > 0) && (![path containsString:@"Users"])) {
     return path;
   }
   return anonymizedProcessPath;
 }
-
 
 //**
 //*  Return the selector string of a given register name
@@ -816,6 +752,80 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
   }
 
   return imageType;
+}
+
+#pragma mark - Helpers
+
++ (NSNumber *)extractCodeTypeFromReport:(const SNMPLCrashReport *)report {
+  NSDictionary<NSNumber *, NSNumber *> *legacyTypes = @{
+    @(PLCrashReportArchitectureARMv6) : @(CPU_TYPE_ARM),
+    @(PLCrashReportArchitectureARMv7) : @(CPU_TYPE_ARM),
+    @(PLCrashReportArchitectureX86_32) : @(CPU_TYPE_X86),
+    @(PLCrashReportArchitectureX86_64) : @(CPU_TYPE_X86_64),
+    @(PLCrashReportArchitecturePPC) : @(CPU_TYPE_POWERPC),
+  };
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+  /* Attempt to derive the code type from the binary images */
+  NSNumber *codeType = nil;
+  for (SNMPLCrashReportBinaryImageInfo *image in report.images) {
+    codeType = @(image.codeType.type) ?: @(report.systemInfo.processorInfo.type)
+                                             ?: legacyTypes[@(report.systemInfo.architecture)];
+
+    /* Stop immediately if code type was discovered */
+    if (codeType != nil)
+      break;
+  }
+#pragma GCC diagnostic pop
+  return codeType;
+}
+
++ (BOOL)isCodeType64bit:(NSNumber *)codeType {
+  NSDictionary<NSNumber *, NSNumber *> *codeTypesAre64bit = @{
+    @(CPU_TYPE_ARM) : @NO,
+    @(CPU_TYPE_ARM64) : @YES,
+    @(CPU_TYPE_X86) : @NO,
+    @(CPU_TYPE_X86_64) : @YES,
+    @(CPU_TYPE_POWERPC) : @NO,
+  };
+  NSNumber *boolNumber = codeTypesAre64bit[codeType];
+  return boolNumber.boolValue;
+}
+
++ (SNMPLCrashReportThreadInfo *)findCrashedThreadIn:(SNMPLCrashReport *)report {
+  SNMPLCrashReportThreadInfo *crashedThread;
+  for (SNMPLCrashReportThreadInfo *thread in report.threads) {
+    if (thread.crashed) {
+      crashedThread = thread;
+      break;
+    }
+  }
+  return crashedThread;
+}
+
++ (NSArray *)addressesFromReport:(SNMPLCrashReport *)report {
+  NSMutableArray *addresses = [NSMutableArray new];
+
+  if (report.exceptionInfo != nil && report.exceptionInfo.stackFrames != nil &&
+      [report.exceptionInfo.stackFrames count] > 0) {
+    SNMPLCrashReportExceptionInfo *exception = report.exceptionInfo;
+
+    for (SNMPLCrashReportStackFrameInfo *frameInfo in exception.stackFrames) {
+      [addresses addObject:@(frameInfo.instructionPointer)];
+    }
+  }
+
+  for (SNMPLCrashReportThreadInfo *plCrashReporterThread in report.threads) {
+    for (SNMPLCrashReportStackFrameInfo *plCrashReporterFrameInfo in plCrashReporterThread.stackFrames) {
+      [addresses addObject:@(plCrashReporterFrameInfo.instructionPointer)];
+    }
+
+    for (SNMPLCrashReportRegisterInfo *registerInfo in plCrashReporterThread.registers) {
+      [addresses addObject:@(registerInfo.registerValue)];
+    }
+  }
+
+  return addresses;
 }
 
 @end

@@ -87,10 +87,10 @@ typedef struct SNMCrashesCallbacks {
  crashed
  * previously. You can use this also to disable specific events, like asking
  * the user to rate your app.
- 
+
  * @warning This property only has a correct value, once the sdk has been
  properly initialized!
- 
+
  * @see lastSessionCrashReport
  */
 @property(nonatomic, readonly) BOOL didCrashInLastSession;
@@ -99,6 +99,5 @@ typedef struct SNMCrashesCallbacks {
  * Detail information about the last crash.
  */
 @property(nonatomic, readonly, getter=getLastSessionCrashReport) SNMErrorReport *lastSessionCrashReport;
-
 
 @end
