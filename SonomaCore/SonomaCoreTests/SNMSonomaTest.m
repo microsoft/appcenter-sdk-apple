@@ -121,4 +121,15 @@ static NSString *const kSNMNullifiedInstallIdString = @"00000000-0000-0000-0000-
   assertThat([installId1 UUIDString], is([installId2 UUIDString]));
 }
 
+- (void)testSetServerUrl {
+  NSString *fakeUrl = @"http://testUrl:1234";
+  [SNMSonoma setServerUrl:fakeUrl];
+  [SNMSonoma start:[[NSUUID UUID] UUIDString] withFeatures:nil];
+  XCTAssertTrue([[[SNMSonoma sharedInstance] serverUrl] isEqualToString:fakeUrl]);
+}
+
+- (void)testDefaultServerUrl {
+  [SNMSonoma start:[[NSUUID UUID] UUIDString] withFeatures:nil];
+  XCTAssertTrue([[[SNMSonoma sharedInstance] serverUrl] isEqualToString:@"http://in-integration.dev.avalanch.es:8081"]);
+}
 @end
