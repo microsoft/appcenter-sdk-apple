@@ -2,8 +2,8 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "SNMSonomaDelegate.h"
 #import "SNMLogManager.h"
+#import "SNMSonomaDelegate.h"
 #import <Foundation/Foundation.h>
 
 /**
