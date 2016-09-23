@@ -2,6 +2,7 @@
 #import "SNMFeatureAbstract.h"
 #import "SNMFeatureAbstractInternal.h"
 #import "SNMFeatureAbstractPrivate.h"
+#import "SNMLogManagerDefault.h"
 #import "SNMUserDefaults.h"
 #import "SNMUtils.h"
 #import <Foundation/Foundation.h>
@@ -169,6 +170,24 @@
   [SNMSonoma start:[[NSUUID UUID] UUIDString] withFeatures:@[[SNMFeatureAbstractImplementation class]]];
 
   assertThatBool([[SNMFeatureAbstractImplementation sharedInstance] canBeUsed], isTrue());
+}
+
+- (void)testFlushAllLogs {
+  /**
+   *  If
+   */
+  id<SNMLogManager> logManagerMock = OCMClassMock([SNMLogManagerDefault class]);
+  self.abstractFeature.logManger = logManagerMock;
+
+  /**
+   *  When
+   */
+  [self.abstractFeature startFeature];
+  
+  /**
+   *  Then
+   */
+  OCMVerify([logManagerMock flushPendingLogs:self.abstractFeature.priority]);
 }
 
 @end

@@ -75,7 +75,6 @@ static char *const SNMDataItemsOperationsQueue = "com.microsoft.sonoma.LogManage
     channel = [self createChannelForPriority:priority];
   }
 
-  // TODO Also need to resend blocked files.
   [channel flushQueue];
 }
 
