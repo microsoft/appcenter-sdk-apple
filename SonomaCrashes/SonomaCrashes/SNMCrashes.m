@@ -2,12 +2,13 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "SNMSonomaInternal.h"
 #import "SNMAppleErrorLog.h"
 #import "SNMCrashesCXXExceptionWrapperException.h"
+#import "SNMFeatureAbstractProtected.h"
 #import "SNMCrashesHelper.h"
-#import "SNMErrorLogFormatter.h"
 #import "SNMCrashesPrivate.h"
+#import "SNMErrorLogFormatter.h"
+#import "SNMSonomaInternal.h"
 #import "SonomaCore+Internal.h"
 #import <CrashReporter/CrashReporter.h>
 
@@ -46,9 +47,10 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 @implementation SNMCrashes
 
 @synthesize delegate = _delegate;
-@synthesize logManger = _logManger;
+@synthesize logManager = _logManager;
 @synthesize initializationDate = _initializationDate;
 @synthesize priority = _priority;
+@synthesize storageKey = _storageKey;
 
 #pragma mark - Public Methods
 
@@ -89,6 +91,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 
 - (instancetype)init {
   if ((self = [super init])) {
+    _storageKey = kSNMFeatureName;
     _fileManager = [[NSFileManager alloc] init];
     _crashFiles = [[NSMutableArray alloc] init];
     _crashesDir = [SNMCrashesHelper crashesDir];
@@ -103,8 +106,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 #pragma mark - SNMFeatureAbstract
 
 - (void)setEnabled:(BOOL)isEnabled {
-  //TODO do something here?!
-//  isEnabled ? [self.logManger addListener:self.sessionTracker] : [self.logManger removeListener:self.sessionTracker];
+  // TODO do something here?!
   [super setEnabled:isEnabled];
 }
 
@@ -125,22 +127,18 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
   SNMLogVerbose(@"[SNMCrashes] VERBOSE: Started crash module");
 
   [self configureCrashReporter];
-  
+
   // Get crashes from PLCrashReporter and store them in the intermediate format.
   if ([self.plCrashReporter hasPendingCrashReport]) {
     _didCrashInLastSession = YES;
     [self handleLatestCrashReport];
   }
   _crashFiles = [self persistedCrashReports];
-  
+
   // Process PLCrashReports, this will format the PLCrashReport into our schena and then trigger sending.
   if (self.crashFiles.count > 0) {
     [self startDelayedCrashProcessing];
   }
-}
-
-- (NSString *)featureName {
-  return kSNMFeatureName;
 }
 
 #pragma mark - Crash reporter configuration
@@ -249,7 +247,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
     if ([crashFileData length] > 0) {
       report = [[SNMPLCrashReport alloc] initWithData:crashFileData error:&error];
       SNMAppleErrorLog *log = [SNMErrorLogFormatter errorLogFromCrashReport:report];
-      [self.delegate feature:self didCreateLog:log withPriority:self.priority]; //TODO work on this part!!!
+      [self.delegate feature:self didCreateLog:log withPriority:self.priority]; // TODO work on this part!!!
       [self deleteCrashReportWithFilePath:filePath];
       [self.crashFiles removeObject:filePath];
     }
@@ -286,7 +284,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 
       // Get data of PLCrashReport and write it to SDK directory
       SNMPLCrashReport *report = [[SNMPLCrashReport alloc] initWithData:crashData error:&error];
-      
+
       if (report) {
         [crashData writeToFile:[self.crashesDir stringByAppendingPathComponent:cacheFilename] atomically:YES];
         _lastSessionCrashReport = [SNMErrorLogFormatter createErrorReportFrom:report];

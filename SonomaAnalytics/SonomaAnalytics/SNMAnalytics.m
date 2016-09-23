@@ -5,15 +5,15 @@
 #import "SNMAnalytics.h"
 #import "SNMAnalyticsCategory.h"
 #import "SNMAnalyticsPrivate.h"
+#import "SNMFeatureAbstractProtected.h"
 #import "SNMSonoma.h"
 #import "SNMSonomaInternal.h"
-
 #import "SNMEventLog.h"
 #import "SNMPageLog.h"
 #import "SonomaCore+Internal.h"
 
 /**
- *  Feature name.
+ *  Feature storage key name.
  */
 static NSString *const kSNMFeatureName = @"Analytics";
 
@@ -21,12 +21,15 @@ static NSString *const kSNMFeatureName = @"Analytics";
 
 @synthesize autoPageTrackingEnabled = _autoPageTrackingEnabled;
 @synthesize priority = _priority;
-
+@synthesize storageKey = _storageKey;
 
 #pragma mark - Module initialization
 
 - (instancetype)init {
   if (self = [super init]) {
+    
+    // Set storage key
+    _storageKey = kSNMFeatureName;
 
     // Set defaults.
     _autoPageTrackingEnabled = YES;
@@ -53,9 +56,9 @@ static NSString *const kSNMFeatureName = @"Analytics";
 
 - (void)startFeature {
   [super startFeature];
-  
+
   // Add listener to log manager.
-  [self.logManger addListener:_sessionTracker];
+  [self.logManager addListener:_sessionTracker];
 
   // Enabled auto page tracking
   if (self.autoPageTrackingEnabled) {
@@ -64,17 +67,17 @@ static NSString *const kSNMFeatureName = @"Analytics";
   SNMLogVerbose(@"SNMAnalytics: Started analytics module");
 }
 
-- (NSString *)featureName {
-  return kSNMFeatureName;
-}
-
 #pragma mark - SNMFeatureAbstract
 
 - (void)setEnabled:(BOOL)isEnabled {
-  if ([self canBeUsed]) {
-    isEnabled ? [self.logManger addListener:self.sessionTracker] : [self.logManger removeListener:self.sessionTracker];
-    [super setEnabled:isEnabled];
+  if (isEnabled) {
+    [self.sessionTracker start];
+    [self.logManager addListener:self.sessionTracker];
+  } else {
+    [self.logManager removeListener:self.sessionTracker];
+    [self.sessionTracker stop];
   }
+  [super setEnabled:isEnabled];
 }
 
 #pragma mark - Module methods
@@ -163,7 +166,7 @@ static NSString *const kSNMFeatureName = @"Analytics";
 - (void)sendLog:(id<SNMLog>)log withPriority:(SNMPriority)priority {
 
   // Send log to core module.
-  [self.logManger processLog:log withPriority:priority];
+  [self.logManager processLog:log withPriority:priority];
 }
 
 #pragma mark - SNMSessionTracker

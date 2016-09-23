@@ -13,4 +13,5 @@
 #define kSNMUUIDString [[NSUUID UUID] UUIDString]
 #define kSNMUUIDFromString(uuidString) [[NSUUID alloc] initWithUUIDString:uuidString]
 #define kSNMLocale [NSLocale currentLocale]
+#define CLASS_NAME_WITHOUT_PREFIX [NSStringFromClass([self class]) substringFromIndex:3]
 #endif /* SNMUtils_h */

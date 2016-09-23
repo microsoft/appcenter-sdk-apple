@@ -16,7 +16,7 @@ static NSUInteger const kSNMMaxSessionHistoryCount = 5;
 @interface SNMSessionTracker ()
 
 /**
- * Current session id
+ * Current session id.
  */
 @property(nonatomic, readwrite) NSString *sessionId;
 
@@ -28,7 +28,7 @@ static NSUInteger const kSNMMaxSessionHistoryCount = 5;
 /**
  *  Check if current session has timed out.
  *
- *  @return YES if current session has timed out, NO otherwise
+ *  @return YES if current session has timed out, NO otherwise.
  */
 - (BOOL)hasSessionTimedOut;
 
@@ -79,7 +79,8 @@ static NSUInteger const kSNMMaxSessionHistoryCount = 5;
       [self.pastSessions removeLastObject];
 
     // Persist the session history in NSData format.
-    [kSNMUserDefaults setObject:[NSKeyedArchiver archivedDataWithRootObject:self.pastSessions] forKey:kSNMPastSessionsKey];
+    [kSNMUserDefaults setObject:[NSKeyedArchiver archivedDataWithRootObject:self.pastSessions]
+                         forKey:kSNMPastSessionsKey];
     SNMLogVerbose(@"INFO:new session ID: %@", _sessionId);
 
     // Create a start session log.
@@ -110,6 +111,11 @@ static NSUInteger const kSNMMaxSessionHistoryCount = 5;
     [kSNMNotificationCenter removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
   }
   _started = NO;
+}
+
+- (void)clearSessions {
+  self.sessionId = nil;
+  [self.pastSessions removeAllObjects];
 }
 
 #pragma mark - private methods
