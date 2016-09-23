@@ -156,7 +156,7 @@ static NSString *const kSNMDefaultBaseUrl = @"http://in-integration.dev.avalanch
 }
 
 - (void)setServerUrl:(NSString *)serverUrl {
-  @synchronized (self) {
+  @synchronized(self) {
     _serverUrl = serverUrl;
   }
 }

@@ -160,8 +160,8 @@ static void SNMCrashesUncaughtCXXTerminateHandler(void) {
     }
   }
   OSSpinLockUnlock(&_SNMCrashesCXXExceptionHandlingLock); // In case terminate is
-                                                        // called reentrantly by
-                                                        // pasing it on
+                                                          // called reentrantly by
+                                                          // pasing it on
 
   if (_SNMCrashesOriginalTerminateHandler != nullptr) {
     _SNMCrashesOriginalTerminateHandler();
@@ -195,8 +195,8 @@ static void SNMCrashesUncaughtCXXTerminateHandler(void) {
 + (void)removeCXXExceptionHandler:(SNMCrashesUncaughtCXXExceptionHandler)handler {
   OSSpinLockLock(&_SNMCrashesCXXExceptionHandlingLock);
   {
-    auto i =
-        std::find(_SNMCrashesUncaughtExceptionHandlerList.begin(), _SNMCrashesUncaughtExceptionHandlerList.end(), handler);
+    auto i = std::find(_SNMCrashesUncaughtExceptionHandlerList.begin(), _SNMCrashesUncaughtExceptionHandlerList.end(),
+                       handler);
 
     if (i != _SNMCrashesUncaughtExceptionHandlerList.end()) {
       _SNMCrashesUncaughtExceptionHandlerList.erase(i);

@@ -24,7 +24,6 @@
  */
 @property(nonatomic, nullable) NSArray<SNMStackFrame *> *frames;
 
-
 /*
  * Inner exceptions of this exception [optional].
  */
