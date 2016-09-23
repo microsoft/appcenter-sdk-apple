@@ -33,6 +33,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		043316791D9495FF00E7F868 /* SNMWrapperSdk.h in Headers */ = {isa = PBXBuildFile; fileRef = 043316771D9495FF00E7F868 /* SNMWrapperSdk.h */; };
+		0433167A1D9495FF00E7F868 /* SNMWrapperSdk.m in Sources */ = {isa = PBXBuildFile; fileRef = 043316781D9495FF00E7F868 /* SNMWrapperSdk.m */; };
 		381C91E91D3DB65D004512F1 /* SNMDeviceTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 381C91E51D3DB65D004512F1 /* SNMDeviceTracker.h */; };
 		381C91EA1D3DB65D004512F1 /* SNMDeviceTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 381C91E61D3DB65D004512F1 /* SNMDeviceTracker.m */; };
 		384959D51D491D4F008F6B3A /* SNMSonomaTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 384959D41D491D4F008F6B3A /* SNMSonomaTest.m */; };
@@ -152,6 +154,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		043316771D9495FF00E7F868 /* SNMWrapperSdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMWrapperSdk.h; sourceTree = "<group>"; };
+		043316781D9495FF00E7F868 /* SNMWrapperSdk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMWrapperSdk.m; sourceTree = "<group>"; };
 		381C91E51D3DB65D004512F1 /* SNMDeviceTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMDeviceTracker.h; sourceTree = "<group>"; };
 		381C91E61D3DB65D004512F1 /* SNMDeviceTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMDeviceTracker.m; sourceTree = "<group>"; };
 		384959D41D491D4F008F6B3A /* SNMSonomaTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMSonomaTest.m; sourceTree = "<group>"; };
@@ -447,6 +451,8 @@
 				6E171B591D234717000DC480 /* SNMLogContainer.m */,
 				E8010E661D2DD4EF0035196F /* SNMLogWithProperties.h */,
 				E8010E671D2DD4EF0035196F /* SNMLogWithProperties.m */,
+				043316771D9495FF00E7F868 /* SNMWrapperSdk.h */,
+				043316781D9495FF00E7F868 /* SNMWrapperSdk.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -615,6 +621,7 @@
 				E8AEE9821D5970A400C0FF6C /* SNMLogManagerListener.h in Headers */,
 				6E04016C1D1C9E1F0051BCFA /* SonomaCore.h in Headers */,
 				E84B8E351D235226006FD231 /* SNMHttpSender.h in Headers */,
+				043316791D9495FF00E7F868 /* SNMWrapperSdk.h in Headers */,
 				6E171B601D234717000DC480 /* SNMLogContainer.h in Headers */,
 				E88EBBEC1D2C612E007E7785 /* SNMAbstractLog.h in Headers */,
 				6E7E3B781D2DCEBD0019EA6D /* SNMFile.h in Headers */,
@@ -783,6 +790,7 @@
 				6E171B5B1D234717000DC480 /* SNMDevice.m in Sources */,
 				E8010E6B1D2DD4EF0035196F /* SNMLogWithProperties.m in Sources */,
 				E8A8D1EC1D3057A90022931E /* SNMUserDefaults.m in Sources */,
+				0433167A1D9495FF00E7F868 /* SNMWrapperSdk.m in Sources */,
 				6E7E3B791D2DCEBD0019EA6D /* SNMFile.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
