@@ -17,9 +17,6 @@ static NSString *const kSNMContentType = @"application/json";
 static NSString *const kSNMAPIVersion = @"1.0.0-preview20160914";
 static NSString *const kSNMAPIVersionKey = @"api_version";
 
-// Storage keys
-static NSString *const kSNMHubIsEnabledKey = @"kSNMHubIsEnabledKey";
-
 // Base URL for HTTP backend API calls.
 static NSString *const kSNMDefaultBaseUrl = @"http://in-integration.dev.avalanch.es:8081";
 
@@ -159,7 +156,7 @@ static NSString *const kSNMDefaultBaseUrl = @"http://in-integration.dev.avalanch
 }
 
 - (void)setServerUrl:(NSString *)serverUrl {
-  @synchronized (self) {
+  @synchronized(self) {
     _serverUrl = serverUrl;
   }
 }
