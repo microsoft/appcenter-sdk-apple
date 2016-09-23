@@ -3,6 +3,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "SNMConstants+Internal.h"
 
 @protocol SNMLogManagerListener <NSObject>
 

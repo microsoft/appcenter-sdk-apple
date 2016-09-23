@@ -5,11 +5,11 @@
 #import "SNMAnalytics.h"
 #import "SNMAnalyticsCategory.h"
 #import "SNMAnalyticsPrivate.h"
+#import "SNMEventLog.h"
 #import "SNMFeatureAbstractProtected.h"
+#import "SNMPageLog.h"
 #import "SNMSonoma.h"
 #import "SNMSonomaInternal.h"
-#import "SNMEventLog.h"
-#import "SNMPageLog.h"
 #import "SonomaCore+Internal.h"
 
 /**
@@ -21,15 +21,11 @@ static NSString *const kSNMFeatureName = @"Analytics";
 
 @synthesize autoPageTrackingEnabled = _autoPageTrackingEnabled;
 @synthesize priority = _priority;
-@synthesize storageKey = _storageKey;
 
 #pragma mark - Module initialization
 
 - (instancetype)init {
   if (self = [super init]) {
-    
-    // Set storage key
-    _storageKey = kSNMFeatureName;
 
     // Set defaults.
     _autoPageTrackingEnabled = YES;
@@ -37,7 +33,6 @@ static NSString *const kSNMFeatureName = @"Analytics";
     // Init session tracker.
     _sessionTracker = [[SNMSessionTracker alloc] init];
     _sessionTracker.delegate = self;
-    _priority = SNMPriorityDefault;
     [self.sessionTracker start];
   }
   return self;
@@ -65,6 +60,14 @@ static NSString *const kSNMFeatureName = @"Analytics";
     [SNMAnalyticsCategory activateCategory];
   }
   SNMLogVerbose(@"SNMAnalytics: Started analytics module");
+}
+
+- (NSString *)storageKey {
+  return kSNMFeatureName;
+}
+
+- (SNMPriority)priority {
+  return SNMPriorityDefault;
 }
 
 #pragma mark - SNMFeatureAbstract
