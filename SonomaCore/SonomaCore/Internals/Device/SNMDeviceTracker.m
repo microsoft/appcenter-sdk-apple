@@ -100,13 +100,15 @@ snm_info_t sonoma_library_info __attribute__((section("__TEXT,__bit_ios,regular,
 }
 
 - (NSString *)osBuild {
-  size_t size;
-  sysctlbyname("kern.osversion", NULL, &size, NULL, 0);
-  char *machine = malloc(size);
-  sysctlbyname("kern.osversion", machine, &size, NULL, 0);
-  NSString *build = [NSString stringWithCString:machine encoding:NSUTF8StringEncoding];
-  free(machine);
-  return build;
+    size_t size;
+    sysctlbyname("kern.osversion", NULL, &size, NULL, 0);
+    char *answer = (char*)malloc(size);
+    if (answer == NULL)
+      return nil; // returning nil to avoid a possible crash.
+    sysctlbyname("kern.osversion", answer, &size, NULL, 0);
+    NSString *osBuild = [NSString stringWithCString:answer encoding: NSUTF8StringEncoding];
+    free(answer);
+    return osBuild;
 }
 
 - (NSString *)locale:(NSLocale *)currentLocale {
