@@ -232,7 +232,7 @@
   /**
    *  Then
    */
-  OCMVerify([logManagerMock flushPendingLogs:self.abstractFeature.priority]);
+  OCMVerify([logManagerMock flushPendingLogsForPriority:self.abstractFeature.priority]);
 }
 
 @end
