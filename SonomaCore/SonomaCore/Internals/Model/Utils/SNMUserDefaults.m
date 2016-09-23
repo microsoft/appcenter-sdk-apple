@@ -23,7 +23,7 @@ static NSString *const kSNMUserDefaultsTs = @"_ts";
   return [[NSUserDefaults standardUserDefaults] objectForKey:key];
 }
 
-- (void)setObject:(__nullable id)o forKey:(NSString *)key {
+- (void)setObject:(id)o forKey:(NSString *)key {
   [[NSUserDefaults standardUserDefaults] setObject:o forKey:key];
 }
 

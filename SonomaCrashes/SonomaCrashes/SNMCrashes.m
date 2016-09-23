@@ -4,6 +4,7 @@
 
 #import "SNMAppleErrorLog.h"
 #import "SNMCrashesCXXExceptionWrapperException.h"
+#import "SNMFeatureAbstractProtected.h"
 #import "SNMCrashesHelper.h"
 #import "SNMCrashesPrivate.h"
 #import "SNMErrorLogFormatter.h"
@@ -46,9 +47,10 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 @implementation SNMCrashes
 
 @synthesize delegate = _delegate;
-@synthesize logManger = _logManger;
+@synthesize logManager = _logManager;
 @synthesize initializationDate = _initializationDate;
 @synthesize priority = _priority;
+@synthesize storageKey = _storageKey;
 
 #pragma mark - Public Methods
 
@@ -89,6 +91,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 
 - (instancetype)init {
   if ((self = [super init])) {
+    _storageKey = kSNMFeatureName;
     _fileManager = [[NSFileManager alloc] init];
     _crashFiles = [[NSMutableArray alloc] init];
     _crashesDir = [SNMCrashesHelper crashesDir];
@@ -138,10 +141,6 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
   if (self.crashFiles.count > 0) {
     [self startDelayedCrashProcessing];
   }
-}
-
-- (NSString *)featureName {
-  return kSNMFeatureName;
 }
 
 #pragma mark - Crash reporter configuration
