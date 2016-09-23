@@ -222,7 +222,7 @@
    *  If
    */
   id<SNMLogManager> logManagerMock = OCMClassMock([SNMLogManagerDefault class]);
-  self.abstractFeature.logManger = logManagerMock;
+  self.abstractFeature.logManager = logManagerMock;
 
   /**
    *  When
