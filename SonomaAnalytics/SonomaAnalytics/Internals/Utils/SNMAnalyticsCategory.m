@@ -6,6 +6,8 @@
 #import "SNMAnalyticsCategory.h"
 #import <objc/runtime.h>
 
+static NSString *const kSNMViewControllerSuffix = @"ViewController";
+
 @implementation UIViewController (PageViewLogging)
 
 + (void)swizzleViewWillAppear {
@@ -13,7 +15,7 @@
   dispatch_once(&onceToken, ^{
     Class class = [self class];
 
-    // get selectors
+    // Get selectors.
     SEL originalSelector = @selector(viewWillAppear:);
     SEL swizzledSelector = @selector(snm_viewWillAppear:);
 
@@ -33,10 +35,19 @@
     if (!snm_shouldTrackPageView(self))
       return;
 
-    // By default, use class name for the page name
+    // By default, use class name for the page name.
     NSString *pageViewName = NSStringFromClass([self class]);
 
-    // Track page
+    // Remove module name on swift classes.
+    pageViewName = [[pageViewName componentsSeparatedByString:@"."] lastObject];
+
+    // Remove suffix if any.
+    if ([pageViewName hasSuffix:kSNMViewControllerSuffix] &&
+        [pageViewName length] > [kSNMViewControllerSuffix length]) {
+      pageViewName = [pageViewName substringToIndex:[pageViewName length] - [kSNMViewControllerSuffix length]];
+    }
+
+    // Track page.
     [SNMAnalytics trackPage:pageViewName withProperties:nil];
   }
 }
