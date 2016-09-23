@@ -40,7 +40,7 @@ static NSString *const kSNMFileName = @"file_name";
 - (BOOL)isEqual:(SNMStackFrame *)frame {
   if (!frame)
     return NO;
-  
+
   return ((!self.address && !frame.address) || [self.address isEqualToString:frame.address]) &&
          ((!self.code && !frame.code) || [self.code isEqualToString:frame.code]) &&
          ((!self.className && !frame.className) || [self.className isEqualToString:frame.className]) &&

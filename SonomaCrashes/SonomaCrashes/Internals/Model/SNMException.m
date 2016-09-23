@@ -33,7 +33,7 @@ static NSString *const kSNMInnerExceptions = @"inner_exceptions";
     for (SNMException *exception in self.innerExceptions) {
       [exceptionsArray addObject:[exception serializeToDictionary]];
     }
-    dict[kSNMInnerExceptions] = exceptionsArray;    
+    dict[kSNMInnerExceptions] = exceptionsArray;
   }
 
   return dict;
@@ -46,11 +46,12 @@ static NSString *const kSNMInnerExceptions = @"inner_exceptions";
 - (BOOL)isEqual:(SNMException *)exception {
   if (!exception)
     return NO;
-  
+
   return ((!self.type && !exception.type) || [self.type isEqualToString:exception.type]) &&
          ((!self.message && !exception.message) || [self.type isEqualToString:exception.message]) &&
          ((!self.frames && !exception.frames) || [self.frames isEqualToArray:exception.frames]) &&
-         ((!self.innerExceptions && !exception.innerExceptions) || [self.innerExceptions isEqual:exception.innerExceptions]);
+         ((!self.innerExceptions && !exception.innerExceptions) ||
+          [self.innerExceptions isEqual:exception.innerExceptions]);
 }
 
 #pragma mark - NSCoding

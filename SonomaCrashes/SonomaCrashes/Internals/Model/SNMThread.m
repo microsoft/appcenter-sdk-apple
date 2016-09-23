@@ -2,18 +2,16 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "SNMThread.h"
 #import "SNMException.h"
 #import "SNMStackFrame.h"
+#import "SNMThread.h"
 
 static NSString *const kSNMThreadId = @"id";
 static NSString *const kSNMName = @"name";
 static NSString *const kSNMStackFrames = @"frames";
 static NSString *const kSNMException = @"exception";
 
-
 @implementation SNMThread
-
 
 // Initializes a new instance of the class.
 - (instancetype)init {
@@ -22,7 +20,6 @@ static NSString *const kSNMException = @"exception";
   }
   return self;
 }
-
 
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [NSMutableDictionary new];
@@ -33,7 +30,7 @@ static NSString *const kSNMException = @"exception";
   if (self.name) {
     dict[kSNMName] = self.name;
   }
-  
+
   if (self.frames) {
     NSMutableArray *framesArray = [NSMutableArray array];
     for (SNMStackFrame *frame in self.frames) {
@@ -41,11 +38,11 @@ static NSString *const kSNMException = @"exception";
     }
     dict[kSNMStackFrames] = framesArray;
   }
-  
+
   if (self.exception) {
     dict[kSNMException] = [self.exception serializeToDictionary];
   }
- 
+
   return dict;
 }
 
@@ -56,7 +53,7 @@ static NSString *const kSNMException = @"exception";
 - (BOOL)isEqual:(SNMThread *)thread {
   if (!thread)
     return NO;
-  
+
   return ((!self.threadId && !thread.threadId) || [self.threadId isEqual:thread.threadId]) &&
          ((!self.name && !thread.name) || [self.name isEqualToString:thread.name]) &&
          ((!self.frames && !thread.frames) || [self.frames isEqualToArray:thread.frames]) &&
