@@ -209,9 +209,6 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
   NSNumber *codeType = [self extractCodeTypeFromReport:report];
   BOOL is64bit = [self isCodeType64bit:codeType];
 
-  // Gather all addresses for which we need to preserve the binary image
-  NSMutableArray *addresses = [NSMutableArray new];
-
   SNMAppleErrorLog *errorLog = [SNMAppleErrorLog new];
 
   // errodId – used for deduplication in case we sent the same crashreport twice.
@@ -241,16 +238,16 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
   errorLog.primaryArchitectureId = @(report.systemInfo.processorInfo.type);
   errorLog.architectureVariantId = @(report.systemInfo.processorInfo.subtype);
 
-  // errorLog.architecture is an optional. The Android SDK will set it while for iOS, the filed will be set
+  // errorLog.architecture is an optional. The Android SDK will set it while for iOS, the file will be set
   // server-side using primaryArchitectureId and architectureVariantId.
 
   errorLog = [self addExceptionInformationTo:errorLog fromCrashReport:report];
 
-  errorLog.threads = [self extractThreadsFromReport:report is64bit:is64bit addresses:&addresses];
-  errorLog.registers = [self extractRegistersFromCrashedThread:crashedThread addresses:&addresses is64bit:is64bit];
+  errorLog.threads = [self extractThreadsFromReport:report is64bit:is64bit];
+  errorLog.registers = [self extractRegistersFromCrashedThread:crashedThread is64bit:is64bit];
 
-  // This has to happen last as noth methods above mutate the list of addresses.
-  // TODO: find better solution for this.
+  // Gather all addresses for which we need to preserve the binary image.
+  NSArray *addresses = [self addressesFromReport:report];
   errorLog.binaries = [self extractBinaryImagesFromReport:report addresses:addresses codeType:codeType is64bit:is64bit];
 
   return errorLog;
@@ -306,44 +303,7 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
 
 #pragma mark - Private
 
-#pragma mark - code type and 64bit detection
-+ (NSNumber *)extractCodeTypeFromReport:(const SNMPLCrashReport *)report {
-  NSDictionary<NSNumber *, NSNumber *> *legacyTypes = @{
-    @(PLCrashReportArchitectureARMv6) : @(CPU_TYPE_ARM),
-    @(PLCrashReportArchitectureARMv7) : @(CPU_TYPE_ARM),
-    @(PLCrashReportArchitectureX86_32) : @(CPU_TYPE_X86),
-    @(PLCrashReportArchitectureX86_64) : @(CPU_TYPE_X86_64),
-    @(PLCrashReportArchitecturePPC) : @(CPU_TYPE_POWERPC),
-  };
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-  /* Attempt to derive the code type from the binary images */
-  NSNumber *codeType = nil;
-  for (SNMPLCrashReportBinaryImageInfo *image in report.images) {
-    codeType = @(image.codeType.type) ?: @(report.systemInfo.processorInfo.type)
-                                             ?: legacyTypes[@(report.systemInfo.architecture)];
-
-    /* Stop immediately if code type was discovered */
-    if (codeType != nil)
-      break;
-  }
-#pragma GCC diagnostic pop
-  return codeType;
-}
-
-+ (BOOL)isCodeType64bit:(NSNumber *)codeType {
-  NSDictionary<NSNumber *, NSNumber *> *codeTypesAre64bit = @{
-    @(CPU_TYPE_ARM) : @NO,
-    @(CPU_TYPE_ARM64) : @YES,
-    @(CPU_TYPE_X86) : @NO,
-    @(CPU_TYPE_X86_64) : @YES,
-    @(CPU_TYPE_POWERPC) : @NO,
-  };
-  NSNumber *boolNumber = codeTypesAre64bit[codeType];
-  return boolNumber.boolValue;
-}
-
-#pragma mark - helpers
+#pragma mark - Parse SNMPLCrashReport
 
 + (NSString *)errorIdForCrashReport:(SNMPLCrashReport *)report {
   NSString *errorId = report.uuidRef ? (NSString *)CFBridgingRelease(CFUUIDCreateString(NULL, report.uuidRef))
@@ -386,17 +346,6 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
   return errorLog;
 }
 
-+ (SNMPLCrashReportThreadInfo *)findCrashedThreadIn:(SNMPLCrashReport *)report {
-  SNMPLCrashReportThreadInfo *crashedThread;
-  for (SNMPLCrashReportThreadInfo *thread in report.threads) {
-    if (thread.crashed) {
-      crashedThread = thread;
-      break;
-    }
-  }
-  return crashedThread;
-}
-
 + (NSNumber *)calculateAppLaunchTOffsetFromReport:(SNMPLCrashReport *)report {
   NSDate *crashTime = report.systemInfo.timestamp;
   NSDate *initializationDate = [[SNMCrashes sharedInstance] initializationDate];
@@ -425,9 +374,7 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
   return errorLog;
 }
 
-+ (NSArray<SNMThread *> *)extractThreadsFromReport:(SNMPLCrashReport *)report
-                                           is64bit:(BOOL)is64bit
-                                         addresses:(NSMutableArray **)addresses {
++ (NSArray<SNMThread *> *)extractThreadsFromReport:(SNMPLCrashReport *)report is64bit:(BOOL)is64bit {
   NSMutableArray<SNMThread *> *formattedThreads = [NSMutableArray array];
 
   // If CrashReport contains Exception, add the threads that belong to the exception to the list of threads.
@@ -446,10 +393,6 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
     for (SNMPLCrashReportStackFrameInfo *frameInfo in exception.stackFrames) {
       SNMStackFrame *frame = [SNMStackFrame new];
       frame.address = formatted_address_matching_architecture(frameInfo.instructionPointer, is64bit);
-
-      // TODO we're mutating the addresses-Object again here
-      [*addresses addObject:@(frameInfo.instructionPointer)];
-
       [exceptionThread.frames addObject:frame];
     }
 
@@ -473,14 +416,7 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
       SNMStackFrame *frame = [SNMStackFrame new];
       frame.address = formatted_address_matching_architecture(plCrashReporterFrameInfo.instructionPointer, is64bit);
       frame.code = [self formatStackFrame:plCrashReporterFrameInfo report:report lp64:is64bit];
-      [*addresses addObject:@(plCrashReporterFrameInfo.instructionPointer)];
       [thread.frames addObject:frame];
-    }
-
-    for (SNMPLCrashReportRegisterInfo *registerInfo in plCrashReporterThread.registers) {
-      // TODO this is actually pretty bad. The method mutates the list of addresses but this is nowhere
-      // documented and we should make this more obvious.
-      [*addresses addObject:@(registerInfo.registerValue)];
     }
 
     [formattedThreads addObject:thread];
@@ -571,7 +507,6 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
 }
 
 + (NSDictionary<NSString *, NSString *> *)extractRegistersFromCrashedThread:(SNMPLCrashReportThreadInfo *)crashedThread
-                                                                  addresses:(NSMutableArray **)addresses
                                                                     is64bit:(BOOL)is64bit {
   NSMutableDictionary<NSString *, NSString *> *registers = [NSMutableDictionary new];
 
@@ -583,8 +518,6 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
     formattedRegValue = formatted_address_matching_architecture(registerInfo.registerValue, is64bit);
 
     [registers setObject:formattedRegValue forKey:formattedRegName];
-
-    [*addresses addObject:@(registerInfo.registerValue)];
   }
 
   return registers;
@@ -819,6 +752,80 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
   }
 
   return imageType;
+}
+
+#pragma mark - Helpers
+
++ (NSNumber *)extractCodeTypeFromReport:(const SNMPLCrashReport *)report {
+  NSDictionary<NSNumber *, NSNumber *> *legacyTypes = @{
+    @(PLCrashReportArchitectureARMv6) : @(CPU_TYPE_ARM),
+    @(PLCrashReportArchitectureARMv7) : @(CPU_TYPE_ARM),
+    @(PLCrashReportArchitectureX86_32) : @(CPU_TYPE_X86),
+    @(PLCrashReportArchitectureX86_64) : @(CPU_TYPE_X86_64),
+    @(PLCrashReportArchitecturePPC) : @(CPU_TYPE_POWERPC),
+  };
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+  /* Attempt to derive the code type from the binary images */
+  NSNumber *codeType = nil;
+  for (SNMPLCrashReportBinaryImageInfo *image in report.images) {
+    codeType = @(image.codeType.type) ?: @(report.systemInfo.processorInfo.type)
+                                             ?: legacyTypes[@(report.systemInfo.architecture)];
+
+    /* Stop immediately if code type was discovered */
+    if (codeType != nil)
+      break;
+  }
+#pragma GCC diagnostic pop
+  return codeType;
+}
+
++ (BOOL)isCodeType64bit:(NSNumber *)codeType {
+  NSDictionary<NSNumber *, NSNumber *> *codeTypesAre64bit = @{
+    @(CPU_TYPE_ARM) : @NO,
+    @(CPU_TYPE_ARM64) : @YES,
+    @(CPU_TYPE_X86) : @NO,
+    @(CPU_TYPE_X86_64) : @YES,
+    @(CPU_TYPE_POWERPC) : @NO,
+  };
+  NSNumber *boolNumber = codeTypesAre64bit[codeType];
+  return boolNumber.boolValue;
+}
+
++ (SNMPLCrashReportThreadInfo *)findCrashedThreadIn:(SNMPLCrashReport *)report {
+  SNMPLCrashReportThreadInfo *crashedThread;
+  for (SNMPLCrashReportThreadInfo *thread in report.threads) {
+    if (thread.crashed) {
+      crashedThread = thread;
+      break;
+    }
+  }
+  return crashedThread;
+}
+
++ (NSArray *)addressesFromReport:(SNMPLCrashReport *)report {
+  NSMutableArray *addresses = [NSMutableArray new];
+
+  if (report.exceptionInfo != nil && report.exceptionInfo.stackFrames != nil &&
+      [report.exceptionInfo.stackFrames count] > 0) {
+    SNMPLCrashReportExceptionInfo *exception = report.exceptionInfo;
+
+    for (SNMPLCrashReportStackFrameInfo *frameInfo in exception.stackFrames) {
+      [addresses addObject:@(frameInfo.instructionPointer)];
+    }
+  }
+
+  for (SNMPLCrashReportThreadInfo *plCrashReporterThread in report.threads) {
+    for (SNMPLCrashReportStackFrameInfo *plCrashReporterFrameInfo in plCrashReporterThread.stackFrames) {
+      [addresses addObject:@(plCrashReporterFrameInfo.instructionPointer)];
+    }
+
+    for (SNMPLCrashReportRegisterInfo *registerInfo in plCrashReporterThread.registers) {
+      [addresses addObject:@(registerInfo.registerValue)];
+    }
+  }
+
+  return addresses;
 }
 
 @end
