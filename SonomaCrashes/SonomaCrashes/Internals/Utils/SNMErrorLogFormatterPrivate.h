@@ -13,5 +13,4 @@
 
 @end
 
-
 #endif /* SNMErrorLogFormatterPrivate_h */

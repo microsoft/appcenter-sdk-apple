@@ -2,14 +2,13 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import <Foundation/Foundation.h>
 #import "SonomaCore+Internal.h"
+#import <Foundation/Foundation.h>
 
 /*
  * Binary attachment for error log.
  */
 @interface SNMErrorBinaryAttachment : NSObject <SNMSerializableObject>
-
 
 /**
  * The fileName for binary data.
@@ -43,6 +42,8 @@
  *
  * @return An instance of SNMErrorBinaryAttachment.
  */
-- (nonnull instancetype)initWithFileName:(nonnull NSString *)fileName attachmentData:(nonnull NSData *)data contentType:(nullable NSString *)contentType;
+- (nonnull instancetype)initWithFileName:(nonnull NSString *)fileName
+                          attachmentData:(nonnull NSData *)data
+                             contentType:(nullable NSString *)contentType;
 
 @end

@@ -18,7 +18,8 @@
 @property(nonatomic, nullable) NSString *code;
 
 /*
- * The fully qualified name of the Class containing the execution point represented by this stack trace element [optional].
+ * The fully qualified name of the Class containing the execution point represented by this stack trace element
+ * [optional].
  */
 @property(nonatomic, nullable) NSString *className;
 

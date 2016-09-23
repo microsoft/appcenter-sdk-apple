@@ -8,12 +8,11 @@ static NSString *const kSNMFilename = @"file_name";
 static NSString *const kSNMData = @"data";
 static NSString *const kSNMContentType = @"content_type";
 
-
 @implementation SNMErrorBinaryAttachment
 
 - (nonnull instancetype)initWithFileName:(nonnull NSString *)fileName
-                  attachmentData:(nonnull NSData *)data
-                     contentType:(nullable NSString *)contentType {
+                          attachmentData:(nonnull NSData *)data
+                             contentType:(nullable NSString *)contentType {
   if (self = [super init]) {
     _fileName = fileName;
     _data = data;
@@ -30,17 +29,17 @@ static NSString *const kSNMContentType = @"content_type";
 
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [NSMutableDictionary new];
-  
+
   if (self.fileName) {
     dict[kSNMFilename] = self.fileName;
   }
-  if(self.data) {
+  if (self.data) {
     dict[kSNMData] = self.data;
   }
-  if(self.contentType) {
+  if (self.contentType) {
     dict[kSNMContentType] = self.contentType;
   }
-  
+
   return dict;
 }
 
@@ -51,7 +50,7 @@ static NSString *const kSNMContentType = @"content_type";
 - (BOOL)isEqual:(SNMErrorBinaryAttachment *)attachment {
   if (!attachment)
     return NO;
-  
+
   return ((!self.fileName && !attachment.fileName) || [self.fileName isEqualToString:attachment.fileName]) &&
          ((!self.data && !attachment.data) || [self.data isEqual:attachment.data]) &&
          ((!self.contentType && !attachment.contentType) || [self.contentType isEqualToString:attachment.contentType]);

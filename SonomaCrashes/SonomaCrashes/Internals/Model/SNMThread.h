@@ -18,7 +18,7 @@
 /*
  * Thread name. [optional]
  */
-@property(nonatomic) NSString* name;
+@property(nonatomic) NSString *name;
 
 /*
  * Stack frames.
@@ -28,7 +28,7 @@
 /*
  * The last exception backtrace.
  */
-@property(nonatomic) SNMException* exception;
+@property(nonatomic) SNMException *exception;
 
 /**
  * Is equal to another thread
