@@ -24,6 +24,13 @@
 + (void)start:(NSString *)appSecret withFeatures:(NSArray<Class> *)features;
 
 /**
+ *  Change the base URL (schema + authority + port only) used to communicate with the backend.
+ *
+ *  @param serverUrl base URL to use for backend communication.
+ */
++ (void)setServerUrl:(NSString *)serverUrl;
+
+/**
  *  Enable or disable the SDK as a whole. In addition to the core resources, it will also enable or disable all
  * registered features.
  *

@@ -20,7 +20,7 @@ static NSString *const kSNMAPIVersionKey = @"api_version";
 static NSString *const kSNMHubIsEnabledKey = @"kSNMHubIsEnabledKey";
 
 // Base URL for HTTP backend API calls.
-static NSString *const kSNMBaseUrl = @"http://in-integration.dev.avalanch.es:8081";
+static NSString *const kSNMDefaultBaseUrl = @"http://in-integration.dev.avalanch.es:8081";
 
 @implementation SNMSonoma
 
@@ -39,6 +39,10 @@ static NSString *const kSNMBaseUrl = @"http://in-integration.dev.avalanch.es:808
 
 + (void)start:(NSString *)appSecret withFeatures:(NSArray<Class> *)features {
   [[self sharedInstance] start:appSecret withFeatures:features];
+}
+
++ (void)setServerUrl:(NSString *)serverUrl {
+  [[self sharedInstance] setServerUrl:serverUrl];
 }
 
 + (void)setEnabled:(BOOL)isEnabled {
@@ -107,6 +111,7 @@ static NSString *const kSNMBaseUrl = @"http://in-integration.dev.avalanch.es:808
 - (instancetype)init {
   if (self = [super init]) {
     _features = [NSMutableArray new];
+    _serverUrl = kSNMDefaultBaseUrl;
   }
   return self;
 }
@@ -151,6 +156,12 @@ static NSString *const kSNMBaseUrl = @"http://in-integration.dev.avalanch.es:808
   }
 }
 
+- (void)setServerUrl:(NSString *)serverUrl {
+  @synchronized (self) {
+    _serverUrl = serverUrl;
+  }
+}
+
 - (void)setEnabled:(BOOL)isEnabled {
   @synchronized(self) {
 
@@ -192,7 +203,7 @@ static NSString *const kSNMBaseUrl = @"http://in-integration.dev.avalanch.es:808
   // Construct the query parameters.
   NSDictionary *queryStrings = @{kSNMAPIVersionKey : kSNMAPIVersion};
 
-  SNMHttpSender *sender = [[SNMHttpSender alloc] initWithBaseUrl:kSNMBaseUrl
+  SNMHttpSender *sender = [[SNMHttpSender alloc] initWithBaseUrl:self.serverUrl
                                                          headers:headers
                                                     queryStrings:queryStrings
                                                     reachability:[SNM_Reachability reachabilityForInternetConnection]];

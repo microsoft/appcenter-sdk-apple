@@ -19,6 +19,7 @@ static NSString *const kSNMInstallIdKey = @"SNMInstallId";
 @property(nonatomic) id<SNMLogManager> logManager;
 @property(nonatomic) NSMutableArray<NSObject<SNMFeatureInternal> *> *features;
 @property(nonatomic, copy) NSString *appSecret;
+@property(nonatomic) NSString *serverUrl;
 @property(nonatomic, readonly) NSUUID *installId;
 @property(nonatomic) NSString *apiVersion;
 @property BOOL sdkStarted;
@@ -27,6 +28,7 @@ static NSString *const kSNMInstallIdKey = @"SNMInstallId";
  * Returns the singleton instance of SonomaCore.
  */
 + (instancetype)sharedInstance;
+- (NSString *)serverUrl;
 - (NSString *)appSecret;
 - (NSString *)apiVersion;
 
