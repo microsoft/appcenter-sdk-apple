@@ -43,6 +43,11 @@
   NSString *appVersion = @"3.4.5 (34)";
   NSString *carrierName = @"T-Mobile";
   NSString *carrierCountry = @"United States";
+  NSString *wrapperSdkVersion = @"6.7.8";
+  NSString *wrapperSdkName = @"wrapper-sdk";
+  NSString *liveUpdateReleaseLabel = @"live-update-release";
+  NSString *liveUpdateDeploymentKey = @"deployment-key";
+  NSString *liveUpdatePackageHash = @"b10a8db164e0754105b7a99be72e3fe5";
 
   self.sut.sdkVersion = sdkVersion;
   self.sut.model = model;
@@ -56,6 +61,11 @@
   self.sut.appVersion = appVersion;
   self.sut.carrierName = carrierName;
   self.sut.carrierCountry = carrierCountry;
+  self.sut.wrapperSdkVersion = wrapperSdkVersion;
+  self.sut.wrapperSdkName = wrapperSdkName;
+  self.sut.liveUpdateReleaseLabel = liveUpdateReleaseLabel;
+  self.sut.liveUpdateDeploymentKey = liveUpdateDeploymentKey;
+  self.sut.liveUpdatePackageHash = liveUpdatePackageHash;
 
   // When
   NSMutableDictionary *actual = [self.sut serializeToDictionary];
@@ -74,6 +84,11 @@
   assertThat(actual[@"app_version"], equalTo(appVersion));
   assertThat(actual[@"carrier_name"], equalTo(carrierName));
   assertThat(actual[@"carrier_country"], equalTo(carrierCountry));
+  assertThat(actual[@"wrapper_sdk_version"], equalTo(wrapperSdkVersion));
+  assertThat(actual[@"wrapper_sdk_name"], equalTo(wrapperSdkName));
+  assertThat(actual[@"live_update_release_label"], equalTo(liveUpdateReleaseLabel));
+  assertThat(actual[@"live_update_deployment_key"], equalTo(liveUpdateDeploymentKey));
+  assertThat(actual[@"live_update_package_hash"], equalTo(liveUpdatePackageHash));
 }
 
 - (void)testNSCodingSerializationAndDeserializationWorks {
@@ -91,6 +106,11 @@
   NSString *appVersion = @"3.4.5 (34)";
   NSString *carrierName = @"T-Mobile";
   NSString *carrierCountry = @"United States";
+  NSString *wrapperSdkVersion = @"6.7.8";
+  NSString *wrapperSdkName = @"wrapper-sdk";
+  NSString *liveUpdateReleaseLabel = @"live-update-release";
+  NSString *liveUpdateDeploymentKey = @"deployment-key";
+  NSString *liveUpdatePackageHash = @"b10a8db164e0754105b7a99be72e3fe5";
 
   self.sut.sdkVersion = sdkVersion;
   self.sut.model = model;
@@ -104,6 +124,11 @@
   self.sut.appVersion = appVersion;
   self.sut.carrierName = carrierName;
   self.sut.carrierCountry = carrierCountry;
+  self.sut.wrapperSdkVersion = wrapperSdkVersion;
+  self.sut.wrapperSdkName = wrapperSdkName;
+  self.sut.liveUpdateReleaseLabel = liveUpdateReleaseLabel;
+  self.sut.liveUpdateDeploymentKey = liveUpdateDeploymentKey;
+  self.sut.liveUpdatePackageHash = liveUpdatePackageHash;
 
   // When
   NSData *serializedEvent = [NSKeyedArchiver archivedDataWithRootObject:self.sut];
@@ -126,6 +151,11 @@
   assertThat(actualDevice.appVersion, equalTo(appVersion));
   assertThat(actualDevice.carrierName, equalTo(carrierName));
   assertThat(actualDevice.carrierCountry, equalTo(carrierCountry));
+  assertThat(actualDevice.wrapperSdkVersion, equalTo(wrapperSdkVersion));
+  assertThat(actualDevice.wrapperSdkName, equalTo(wrapperSdkName));
+  assertThat(actualDevice.liveUpdateReleaseLabel, equalTo(liveUpdateReleaseLabel));
+  assertThat(actualDevice.liveUpdateDeploymentKey, equalTo(liveUpdateDeploymentKey));
+  assertThat(actualDevice.liveUpdatePackageHash, equalTo(liveUpdatePackageHash));
 }
 
 - (void)testIsEqual {
@@ -143,6 +173,11 @@
   NSString *appVersion = @"3.4.5 (34)";
   NSString *carrierName = @"T-Mobile";
   NSString *carrierCountry = @"United States";
+  NSString *wrapperSdkVersion = @"6.7.8";
+  NSString *wrapperSdkName = @"wrapper-sdk";
+  NSString *liveUpdateReleaseLabel = @"live-update-release";
+  NSString *liveUpdateDeploymentKey = @"deployment-key";
+  NSString *liveUpdatePackageHash = @"b10a8db164e0754105b7a99be72e3fe5";
 
   self.sut.sdkVersion = sdkVersion;
   self.sut.model = model;
@@ -156,6 +191,11 @@
   self.sut.appVersion = appVersion;
   self.sut.carrierName = carrierName;
   self.sut.carrierCountry = carrierCountry;
+  self.sut.wrapperSdkVersion = wrapperSdkVersion;
+  self.sut.wrapperSdkName = wrapperSdkName;
+  self.sut.liveUpdateReleaseLabel = liveUpdateReleaseLabel;
+  self.sut.liveUpdateDeploymentKey = liveUpdateDeploymentKey;
+  self.sut.liveUpdatePackageHash = liveUpdatePackageHash;
 
   // When
   NSData *serializedEvent = [NSKeyedArchiver archivedDataWithRootObject:self.sut];

@@ -55,6 +55,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)removeFile:(SNMFile *)file;
 
+/**
+ * Removes all files from the bucket's internal available or blocked list.
+ *
+ *  @return An array containing the removed files.
+ */
+- (NSArray<SNMFile *> *)removeAllFiles;
+
 @end
 
 NS_ASSUME_NONNULL_END

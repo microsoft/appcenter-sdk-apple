@@ -8,7 +8,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void (^SNMLoadDataCompletionBlock)(NSArray<SNMLog> *logArray, NSString *batchId);
+typedef void (^SNMLoadDataCompletionBlock)(BOOL succeeded, NSArray<SNMLog> *logArray, NSString *batchId);
 
 /**
  Defines the storage component which is responsible for file i/o and file
@@ -41,9 +41,16 @@ typedef void (^SNMLoadDataCompletionBlock)(NSArray<SNMLog> *logArray, NSString *
 - (void)saveLog:(id<SNMLog>)log withStorageKey:(NSString *)storageKey;
 
 /**
- * Writes a log to the file system.
+ * Delete logs related to given storage key from the file system.
  *
- * param log The log item that should be written to disk
+ * param storageKey The key used for grouping
+ */
+- (void)deleteLogsForStorageKey:(NSString *)storageKey;
+
+/**
+ * Delete a log from the file system.
+ *
+ * param log The log item that should be deleted form disk
  * param storageKey The key used for grouping
  */
 - (void)deleteLogsForId:(NSString *)logsId withStorageKey:(NSString *)storageKey;

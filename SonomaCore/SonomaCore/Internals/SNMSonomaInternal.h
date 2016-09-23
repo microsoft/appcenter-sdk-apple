@@ -9,8 +9,10 @@
 #import "SonomaCore+Internal.h"
 #import <Foundation/Foundation.h>
 
-// Install Id key in persisted storage.
+// Persisted storage keys.
 static NSString *const kSNMInstallIdKey = @"SNMInstallId";
+static NSString *const kSNMCoreIsEnabledKey = @"kSNMCoreIsEnabledKey";
+
 
 @class SNMFeature;
 

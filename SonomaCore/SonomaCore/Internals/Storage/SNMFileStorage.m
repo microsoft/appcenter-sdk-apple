@@ -58,6 +58,24 @@ static NSUInteger const SNMDefaultLogCountLimit = 50;
   [SNMFileHelper writeData:logsData toFile:bucket.currentFile];
 }
 
+- (void)deleteLogsForStorageKey:(NSString *)storageKey {
+
+  // Remove all files from the bucket.
+  SNMStorageBucket *bucket = self.buckets[storageKey];
+  NSArray<SNMFile *> *allFiles = [bucket removeAllFiles];
+
+  // Delete all files.
+  for (SNMFile *file in allFiles) {
+    if (file) {
+      [SNMFileHelper deleteFile:file];
+      [bucket removeFile:file];
+    }
+  }
+
+  // Get ready for next time.
+  [self renewCurrentFileForStorageKey:storageKey];
+}
+
 - (void)deleteLogsForId:(NSString *)logsId withStorageKey:(NSString *)storageKey {
   SNMStorageBucket *bucket = self.buckets[storageKey];
   SNMFile *file = [bucket fileWithId:logsId];
@@ -83,10 +101,11 @@ static NSUInteger const SNMDefaultLogCountLimit = 50;
     logs = [NSKeyedUnarchiver unarchiveObjectWithData:logData];
     [bucket.blockedFiles addObject:file];
     [bucket.availableFiles removeLastObject];
+  }
 
-    if (completion) {
-      completion(logs, fileId);
-    }
+  // Load fails if no logs found.
+  if (completion) {
+    completion(logs, logs, fileId);
   }
 }
 
