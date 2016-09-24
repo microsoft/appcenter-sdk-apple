@@ -35,9 +35,7 @@
 
 #import "SNMErrorLogFormatter.h"
 
-#import <Availability.h>
 #import <CrashReporter/CrashReporter.h>
-#import <dlfcn.h>
 #import <mach-o/dyld.h>
 #import <mach-o/getsect.h>
 #import <mach-o/ldsyms.h>
@@ -190,8 +188,6 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
 @implementation SNMErrorLogFormatter
 
-NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
-
 /**
  * Formats the provided report as human-readable text in the given @a
  * textFormat, and return
@@ -241,7 +237,22 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
   // errorLog.architecture is an optional. The Android SDK will set it while for iOS, the file will be set
   // server-side using primaryArchitectureId and architectureVariantId.
 
-  errorLog = [self addExceptionInformationTo:errorLog fromCrashReport:report];
+  // TODO: Check this during testing/crashprobe
+  // HockeyApp didn't use report.exceptionInfo for this field but exception.name in case of an unhandled exception or
+  // the report.signalInfo.name
+  // more so, for BITCrashDetails, we used the exceptionInfo.exceptionName for a field called exceptionName. FYI: Gwynne
+  // has no idea. Andreas will be next ;)
+  errorLog.osExceptionType = report.exceptionInfo.exceptionName ?: report.signalInfo.name;
+
+  errorLog.osExceptionCode = report.signalInfo.code; // TODO check with Andreas/Gwynne
+
+  errorLog.osExceptionAddress =
+      [NSString stringWithFormat:@"0x%" PRIx64, report.signalInfo.address]; // TODO check with Andreas/Gwynne
+
+  errorLog.exceptionReason =
+      [self extractExceptionReasonFromReport:report ofCrashedThread:crashedThread is64bit:is64bit];
+
+  errorLog.exceptionType = report.signalInfo.name;
 
   errorLog.threads = [self extractThreadsFromReport:report is64bit:is64bit];
   errorLog.registers = [self extractRegistersFromCrashedThread:crashedThread is64bit:is64bit];
@@ -353,27 +364,6 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
   return @(difference);
 }
 
-+ (SNMAppleErrorLog *)addExceptionInformationTo:(SNMAppleErrorLog *)errorLog
-                                fromCrashReport:(SNMPLCrashReport *)report {
-  // TODO: Check this during testing/crashprobe
-  // HockeyApp didn't use report.exceptionInfo for this field but exception.name in case of an unhandled exception or
-  // the report.signalInfo.name
-  // more so, for BITCrashDetails, we used the exceptionInfo.exceptionName for a field called exceptionName. FYI: Gwynne
-  // has no idea. Andreas will be next ;)
-  errorLog.osExceptionType = report.exceptionInfo.exceptionName ?: report.signalInfo.name;
-
-  errorLog.osExceptionCode = report.signalInfo.code; // TODO check with Andreas/Gwynne
-
-  errorLog.osExceptionAddress =
-      [NSString stringWithFormat:@"0x%" PRIx64, report.signalInfo.address]; // TODO check with Andreas/Gwynne
-
-  // TODO Check this during testing, too.
-  errorLog.exceptionReason = report.exceptionInfo.exceptionReason ?: nil;
-  errorLog.exceptionType = report.signalInfo.name;
-
-  return errorLog;
-}
-
 + (NSArray<SNMThread *> *)extractThreadsFromReport:(SNMPLCrashReport *)report is64bit:(BOOL)is64bit {
   NSMutableArray<SNMThread *> *formattedThreads = [NSMutableArray array];
 
@@ -381,8 +371,6 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
   if (report.exceptionInfo != nil && report.exceptionInfo.stackFrames != nil &&
       [report.exceptionInfo.stackFrames count] > 0) {
     SNMPLCrashReportExceptionInfo *exception = report.exceptionInfo;
-
-    // TODO: move stackframe parsing for an exception somewhere else, maybe to the errorLog generation?!
 
     SNMThread *exceptionThread = [SNMThread new];
     exceptionThread.threadId = @(-1);
@@ -415,7 +403,7 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
     for (SNMPLCrashReportStackFrameInfo *plCrashReporterFrameInfo in plCrashReporterThread.stackFrames) {
       SNMStackFrame *frame = [SNMStackFrame new];
       frame.address = formatted_address_matching_architecture(plCrashReporterFrameInfo.instructionPointer, is64bit);
-      frame.code = [self formatStackFrame:plCrashReporterFrameInfo report:report lp64:is64bit];
+      frame.code = [self formatStackFrame:plCrashReporterFrameInfo report:report];
       [thread.frames addObject:frame];
     }
 
@@ -435,40 +423,17 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
  *
  * @return Returns a formatted frame line.
  */
-+ (NSString *)formatStackFrame:(SNMPLCrashReportStackFrameInfo *)frameInfo
-                        report:(SNMPLCrashReport *)report
-                          lp64:(boolean_t)lp64 {
++ (NSString *)formatStackFrame:(SNMPLCrashReportStackFrameInfo *)frameInfo report:(SNMPLCrashReport *)report {
   /* Base image address containing instrumentation pointer, offset of the IP from that base
    * address, and the associated image name */
   uint64_t baseAddress = 0x0;
   uint64_t pcOffset = 0x0;
-  NSString *imageName = @"\?\?\?";
   NSString *symbolString = nil;
 
   SNMPLCrashReportBinaryImageInfo *imageInfo = [report imageForAddress:frameInfo.instructionPointer];
   if (imageInfo != nil) {
-    imageName = [imageInfo.imageName lastPathComponent];
     baseAddress = imageInfo.imageBaseAddress;
     pcOffset = frameInfo.instructionPointer - imageInfo.imageBaseAddress;
-  }
-
-  /* Make sure UTF8/16 characters are handled correctly */
-  NSInteger offset = 0;
-  NSUInteger index = 0;
-  for (index = 0; index < [imageName length]; index++) {
-    NSRange range = [imageName rangeOfComposedCharacterSequenceAtIndex:index];
-    if (range.length > 1) {
-      offset += range.length - 1;
-      index += range.length - 1;
-    }
-    if (index > 32) {
-      imageName = [NSString stringWithFormat:@"%@... ", [imageName substringToIndex:index - 1]];
-      index += 3;
-      break;
-    }
-  }
-  if (index - offset < 36) {
-    imageName = [imageName stringByPaddingToLength:(NSUInteger)(36 + offset) withString:@" " startingAtIndex:0];
   }
 
   /* If symbol info is available, the format used in Apple's reports is Sym + OffsetFromSym. Otherwise,
@@ -514,8 +479,7 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
     NSString *regName = registerInfo.registerName;
 
     NSString *formattedRegName = [NSString stringWithFormat:@"%s", [regName UTF8String]];
-    NSString *formattedRegValue = @"";
-    formattedRegValue = formatted_address_matching_architecture(registerInfo.registerValue, is64bit);
+    NSString *formattedRegValue = formatted_address_matching_architecture(registerInfo.registerValue, is64bit);
 
     [registers setObject:formattedRegValue forKey:formattedRegName];
   }
@@ -529,31 +493,10 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
   NSString *exceptionReason = @"";
   /* Uncaught Exception */
   if (report.hasExceptionInfo) {
-    exceptionReason =
-        [NSString stringWithFormat:@"*** Terminating app due to uncaught exception %@: %@",
-                                   report.exceptionInfo.exceptionName, report.exceptionInfo.exceptionReason];
-
-    // TODO: Change to new Xamarin Schema.
-
-    // Check if exception data contains xamarin stacktrace in order to determine
-    // report version
-    NSString *xamarinTrace;
-    NSString *xamarinExceptionReason;
-
-    NSInteger xamarinTracePosition = [xamarinExceptionReason rangeOfString:SNMXamarinStackTraceDelimiter].location;
-    if (xamarinTracePosition != NSNotFound) {
-      xamarinTrace = [exceptionReason substringFromIndex:xamarinTracePosition];
-      xamarinTrace = [xamarinTrace stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-      xamarinTrace = [xamarinTrace stringByReplacingOccurrencesOfString:@"<---\n\n--->" withString:@"<---\n--->"];
-      exceptionReason = [exceptionReason substringToIndex:xamarinTracePosition];
-      exceptionReason =
-          [exceptionReason stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    }
-
+    exceptionReason = [NSString stringWithString:report.exceptionInfo.exceptionReason];
   } else if (crashedThread != nil) {
-    // try to find the selector in case this was a crash in obj_msgSend
-    // we search this whether the crash happened in obj_msgSend or not since we
-    // don't have the symbol!
+    // Try to find the selector in case this was a crash in obj_msgSend.
+    // We search this whether the crash happened in obj_msgSend or not since we don't have the symbol!
 
     NSString *foundSelector = nil;
 
@@ -577,8 +520,7 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
 #endif
 
     if (foundSelector) {
-      exceptionReason =
-          [NSString stringWithFormat:@"Selector name found in current argument registers: %@\n", foundSelector];
+      exceptionReason = foundSelector;
     }
   }
 
@@ -588,7 +530,7 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
 + (NSArray<SNMBinary *> *)extractBinaryImagesFromReport:(SNMPLCrashReport *)report
                                               addresses:(NSArray *)addresses
                                                codeType:(NSNumber *)codeType
-                                                is64bit:(boolean_t)is64bit {
+                                                is64bit:(BOOL)is64bit {
   NSMutableArray<SNMBinary *> *binaryImages = [NSMutableArray array];
   /* Images. The iPhone crash report format sorts these in ascending order, by
    * the base address */
@@ -611,20 +553,43 @@ NSString *const SNMXamarinStackTraceDelimiter = @"Xamarin Exception Stack:";
     if (binaryIsInAddresses || (imageType != SNMBinaryImageTypeOther)) {
 
       /* Remove username from the image path */
-      NSString *imageName = @"";
+      NSString *imagePath = @"";
       if (imageInfo.imageName && [imageInfo.imageName length] > 0) {
 #if TARGET_IPHONE_SIMULATOR
-        imageName = [imageInfo.imageName stringByAbbreviatingWithTildeInPath];
+        imagePath = [imageInfo.imageName stringByAbbreviatingWithTildeInPath];
 #else
-        imageName = imageInfo.imageName;
+        imagePath = imageInfo.imageName;
 #endif
       }
 #if TARGET_IPHONE_SIMULATOR
-      imageName = [self anonymizedPathFromPath:imageName];
+      imagePath = [self anonymizedPathFromPath:imagePath];
 #endif
 
-      binary.path = imageName;
-      binary.name = [imageInfo.imageName lastPathComponent];
+      binary.path = imagePath;
+
+      NSString *imageName = @"\?\?\?";
+      imageName = [imageInfo.imageName lastPathComponent];
+
+      /* Make sure UTF8/16 characters are handled correctly */
+      NSInteger offset = 0;
+      NSUInteger index = 0;
+      for (index = 0; index < [imageName length]; index++) {
+        NSRange range = [imageName rangeOfComposedCharacterSequenceAtIndex:index];
+        if (range.length > 1) {
+          offset += range.length - 1;
+          index += range.length - 1;
+        }
+        if (index > 32) {
+          imageName = [NSString stringWithFormat:@"%@... ", [imageName substringToIndex:index - 1]];
+          index += 3;
+          break;
+        }
+      }
+      if (index - offset < 36) {
+        imageName = [imageName stringByPaddingToLength:(NSUInteger)(36 + offset) withString:@" " startingAtIndex:0];
+      }
+
+      binary.name = imageName;
 
       /* Fetch the UUID if it exists */
       binary.binaryId = (imageInfo.hasImageUUID) ? imageInfo.imageUUID : unknownString;
