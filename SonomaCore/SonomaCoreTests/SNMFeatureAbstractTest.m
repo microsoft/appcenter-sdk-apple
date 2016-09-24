@@ -21,18 +21,6 @@
 
 @implementation SNMFeatureAbstractImplementation
 
-@synthesize priority = _priority;
-@synthesize storageKey = _storageKey;
-
-- (instancetype)init {
-
-  if (self = [super init]) {
-    _priority = SNMPriorityDefault;
-    _storageKey = @"SNMFeatureAbstractImplementation";
-  }
-  return self;
-}
-
 + (instancetype)sharedInstance {
   static id sharedInstance = nil;
   static dispatch_once_t onceToken;
@@ -44,6 +32,14 @@
 
 - (void)startFeature {
   [super startFeature];
+}
+
+- (NSString *)storageKey {
+  return @"SNMFeatureAbstractImplementation";
+}
+
+- (SNMPriority)priority {
+  return SNMPriorityDefault;
 }
 
 @end
