@@ -217,4 +217,22 @@
   assertThatBool((self.abstractFeature.priority == priority), isTrue());
 }
 
+- (void)testFlushPendingLogs {
+  /**
+   *  If
+   */
+  id<SNMLogManager> logManagerMock = OCMClassMock([SNMLogManagerDefault class]);
+  self.abstractFeature.logManager = logManagerMock;
+
+  /**
+   *  When
+   */
+  [self.abstractFeature startFeature];
+  
+  /**
+   *  Then
+   */
+  OCMVerify([logManagerMock flushPendingLogsForPriority:self.abstractFeature.priority]);
+}
+
 @end
