@@ -20,7 +20,6 @@ static NSString *const kSNMFeatureName = @"Analytics";
 @implementation SNMAnalytics
 
 @synthesize autoPageTrackingEnabled = _autoPageTrackingEnabled;
-@synthesize priority = _priority;
 
 #pragma mark - Module initialization
 
