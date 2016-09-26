@@ -37,7 +37,7 @@ The Sonoma SDK is designed with a modular approach – a developer only needs to
 
 Below are the steps on how to integrate the compiled libraries in your Xcode project to setup the Sonoma SDK for your iOS app.
 
-1. Download the [Sonoma iOS SDK](http://bing.com) package which is provided as a zip file.
+1. Download all the [Sonoma iOS SDK](https://github.com/Microsoft/Sonoma-SDK-iOS/releases) frameworks provided as a zip file from the Releases page from our GitHub repo.
 
 2. Unzip the file and you will see different frameworks for each Sonoma service. There is a framework called `SonomaCore`, which is required in the project as it contains the logic for persistence, forwarding etc. 
 
