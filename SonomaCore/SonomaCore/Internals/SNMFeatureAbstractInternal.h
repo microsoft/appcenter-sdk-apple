@@ -17,9 +17,9 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SNMFeatureAbstract () <SNMFeatureCommon>
 
 /**
- *  flag that indicates if a feature has been initialised.
+ *  flag that indicates if a feature has been initialized.
  */
-@property BOOL featureInitialised;
+@property BOOL featureInitialized;
 
 
 #pragma mark - Module initialization

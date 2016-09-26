@@ -6,7 +6,7 @@
 #import <Foundation/Foundation.h>
 
 /**
- Class comment: Some Introduction
+ * Class comment: Some Introduction
  */
 @interface SNMSonoma : NSObject
 
@@ -16,55 +16,76 @@
 + (instancetype)sharedInstance;
 
 /**
- *  Start the SDK
+ * Start the SDK
  *
- *  @param appSecret application secret.
- *  @param features  array of features to be used.
+ * @param appSecret application secret.
+ */
++ (void)start:(NSString *)appSecret;
+
+/**
+ * Start the SDK with features
+ *
+ * @param appSecret application secret.
+ * @param features  array of features to be used.
  */
 + (void)start:(NSString *)appSecret withFeatures:(NSArray<Class> *)features;
 
 /**
- *  Change the base URL (schema + authority + port only) used to communicate with the backend.
+ * Start a feature
  *
- *  @param serverUrl base URL to use for backend communication.
+ * @param feature  a feature to be used.
+ */
++ (void)startFeature:(Class)feature;
+
+/**
+ * Check whether the SDK has already been initialized or not.
+ *
+ * @return true if initialized, false otherwise.
+ */
++ (BOOL)isInitialized;
+
+/**
+ * Change the base URL (schema + authority + port only) used to communicate with the backend.
+ *
+ * @param serverUrl base URL to use for backend communication.
  */
 + (void)setServerUrl:(NSString *)serverUrl;
 
 /**
- *  Enable or disable the SDK as a whole. In addition to the core resources, it will also enable or disable all
+ * Enable or disable the SDK as a whole. In addition to the core resources, it will also enable or disable all
  * registered features.
  *
- *  @param isEnabled true to enable, false to disable.
- *  @see isEnabled
+ * @param isEnabled true to enable, false to disable.
+ * @see isEnabled
  */
 + (void)setEnabled:(BOOL)isEnabled;
 
 /**
  *  Check whether the SDK is enabled or not as a whole.
  *
- *  @return true if enabled, false otherwise.
- *  @see setEnabled:
+ * @return true if enabled, false otherwise.
+ * @see setEnabled:
  */
 + (BOOL)isEnabled;
 
 /**
- *  Get log level.
+ * Get log level.
  *
- *  @return log level.
+ * @return log level.
  */
 + (SNMLogLevel)logLevel;
 
 /**
- *  Set log level.
+ * Set log level.
  *
- *  @param logLevel the log level.
+ * @param logLevel the log level.
  */
 + (void)setLogLevel:(SNMLogLevel)logLevel;
 
 /**
- *  Set log level handler.
+ * Set log level handler.
  *
- *  @param logHandler handler.
+ * @param logHandler handler.
  */
 + (void)setLogHandler:(SNMLogHandler)logHandler;
 
@@ -79,7 +100,7 @@
  * Detect if a debugger is attached to the app process. This is only invoked once on app startup and can not detect
  * if the debugger is being attached during runtime!
  *
- *  @return BOOL if the debugger is attached.
+ * @return BOOL if the debugger is attached.
  */
 + (BOOL)isDebuggerAttached;
 

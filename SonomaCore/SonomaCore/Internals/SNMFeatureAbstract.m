@@ -63,11 +63,14 @@
 }
 
 - (BOOL)canBeUsed {
-  BOOL canBeUsed = [SNMSonoma sharedInstance].sdkStarted && self.featureInitialised;
+  BOOL canBeUsed = [SNMSonoma sharedInstance].sdkStarted && self.featureInitialized;
+  [self storageKey];
+
   if (!canBeUsed) {
-    SNMLogError(@"[%@] ERROR: SonomaSDK hasn't been initialized. You need to call [SNMSonoma "
-                @"start:YOUR_APP_SECRET withFeatures:LIST_OF_FEATURES] first.",
-                CLASS_NAME_WITHOUT_PREFIX);
+    SNMLogError(@"[%@] ERROR: %@ module hasn't been initialized. You need to call [SNMSonoma "
+                @"start:YOUR_APP_SECRET withFeatures:LIST_OF_FEATURES] or [SNMSonoma "
+                @"startFeature:FEATURE] first.",
+                CLASS_NAME_WITHOUT_PREFIX, CLASS_NAME_WITHOUT_PREFIX);
   }
   return canBeUsed;
 }
@@ -75,7 +78,7 @@
 #pragma mark : - SNMFeature
 
 - (void)startFeature {
-  self.featureInitialised = YES;
+  self.featureInitialized = YES;
 
   // Send pending logs if persistence has logs that are not sent yet
   [self.logManager flushPendingLogsForPriority:self.priority];

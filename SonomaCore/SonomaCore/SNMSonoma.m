@@ -37,8 +37,20 @@ static NSString *const kSNMDefaultBaseUrl = @"http://in-integration.dev.avalanch
 
 // TODO protect APIs from being called while Core not initialized. That's already done for beacons.
 
++ (void)start:(NSString *)appSecret {
+  [[self sharedInstance] initialize:appSecret];
+}
+
 + (void)start:(NSString *)appSecret withFeatures:(NSArray<Class> *)features {
-  [[self sharedInstance] start:appSecret withFeatures:features];
+  [[self sharedInstance] initialize:appSecret withFeatures:features];
+}
+
++ (void)startFeature:(Class)feature {
+  [[self sharedInstance] startFeature:feature];
+}
+
++ (BOOL)isInitialized {
+  return [[self sharedInstance] isInitialized];
 }
 
 + (void)setServerUrl:(NSString *)serverUrl {
@@ -115,16 +127,16 @@ static NSString *const kSNMDefaultBaseUrl = @"http://in-integration.dev.avalanch
   return self;
 }
 
-- (void)start:(NSString *)appSecret withFeatures:(NSArray<Class> *)features {
+- (BOOL)initialize:(NSString *)appSecret {
   if (self.sdkStarted) {
     SNMLogWarning(@"SDK has already been started. You can call `start` only once.");
-    return;
+    return NO;
   }
 
   // Validate and set the app secret.
   if ([appSecret length] == 0 || ![[NSUUID alloc] initWithUUIDString:appSecret]) {
     SNMLogError(@"ERROR: AppSecret is invalid");
-    return;
+    return NO;
   }
   self.appSecret = appSecret;
 
@@ -134,25 +146,40 @@ static NSString *const kSNMDefaultBaseUrl = @"http://in-integration.dev.avalanch
   // Init the main pipeline.
   [self initializePipeline];
 
-  // Init requested features.
-  for (Class obj in features) {
-    id<SNMFeatureInternal> feature = [obj sharedInstance];
-
-    // Set delegate.
-    feature.delegate = self;
-    [self.features addObject:feature];
-
-    // Set log manager.
-    [feature onLogManagerReady:self.logManager];
-    [feature startFeature];
-  }
-  _sdkStarted = YES;
+    _sdkStarted = YES;
 
   // If the loglevel hasn't been customized before and we are not running in an app store environment, we set the
   // default loglevel to SNMLogLevelWarning.
   if ((![SNMLogger isUserDefinedLogLevel]) && ([SNMEnvironmentHelper currentAppEnvironment] == SNMEnvironmentOther)) {
     [SNMSonoma setLogLevel:SNMLogLevelWarning];
   }
+
+  return YES;
+}
+
+- (void)initialize:(NSString *)appSecret withFeatures:(NSArray<Class> *)features {
+  BOOL initialized = [self initialize:appSecret];
+  if (initialized) {
+    for (Class feature in features) {
+      [self startFeature:feature];
+    }
+  }
+}
+
+- (void)startFeature:(Class)clazz {
+  id<SNMFeatureInternal> feature = [clazz sharedInstance];
+
+  // Set delegate.
+  feature.delegate = self;
+  [self.features addObject:feature];
+
+  // Set log manager.
+  [feature onLogManagerReady:self.logManager];
+  [feature startFeature];
+}
+
+- (BOOL)isInitialized {
+  return _sdkStarted;
 }
 
 - (void)setServerUrl:(NSString *)serverUrl {
