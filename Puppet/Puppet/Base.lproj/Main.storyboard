@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="PBN-h5-dDV">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="PBN-h5-dDV">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -13,16 +13,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="analyticsCell" id="lrA-u1-mnZ">
-                                <rect key="frame" x="0.0" y="49.5" width="600" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lrA-u1-mnZ" id="5Qg-1c-JBT">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="GhP-bn-tCW" id="22X-EB-AQx"/>
                             <outlet property="delegate" destination="GhP-bn-tCW" id="IFf-IO-6UR"/>
@@ -33,17 +23,17 @@
             </objects>
             <point key="canvasLocation" x="146" y="158"/>
         </scene>
-        <!--Error Reporting Reports View Controller-->
+        <!--Crashes Reports View Controller-->
         <scene sceneID="Y3h-0l-7rk">
             <objects>
                 <tableViewController storyboardIdentifier="crashes" id="MLz-YP-ZEx" customClass="SNMCrashesReportsViewController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="jgs-Mk-uqb">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="jgs-Mk-uqb">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="crashesCell" id="0FA-MO-Pbh">
-                                <rect key="frame" x="0.0" y="28" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="49.5" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0FA-MO-Pbh" id="EDa-JL-Bjd">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
@@ -61,20 +51,20 @@
             </objects>
             <point key="canvasLocation" x="760" y="159"/>
         </scene>
-        <!--App Hub-->
+        <!--Sonoma-->
         <scene sceneID="0ay-6B-23o">
             <objects>
                 <tableViewController storyboardIdentifier="main" id="9Ck-4D-Ozb" customClass="SNMMainViewController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Xq0-wR-0nE">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="Xq0-wR-0nE">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <connections>
                             <outlet property="dataSource" destination="9Ck-4D-Ozb" id="Mt3-pk-ThE"/>
                             <outlet property="delegate" destination="9Ck-4D-Ozb" id="XKu-8j-qab"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="App Hub" id="eqe-td-JIR"/>
+                    <navigationItem key="navigationItem" title="Sonoma" id="eqe-td-JIR"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G4r-se-P85" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

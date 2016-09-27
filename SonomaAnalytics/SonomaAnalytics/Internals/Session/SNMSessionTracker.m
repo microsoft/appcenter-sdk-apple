@@ -114,6 +114,11 @@ static NSUInteger const kSNMMaxSessionHistoryCount = 5;
 }
 
 - (void)clearSessions {
+
+  // Clear persistence.
+  [kSNMUserDefaults removeObjectForKey:kSNMPastSessionsKey];
+
+  // Clear cache.
   self.sessionId = nil;
   [self.pastSessions removeAllObjects];
 }

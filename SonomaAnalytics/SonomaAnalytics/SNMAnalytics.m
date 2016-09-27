@@ -78,6 +78,7 @@ static NSString *const kSNMFeatureName = @"Analytics";
   } else {
     [self.logManager removeListener:self.sessionTracker];
     [self.sessionTracker stop];
+    [self.sessionTracker clearSessions];
   }
   [super setEnabled:isEnabled];
 }
