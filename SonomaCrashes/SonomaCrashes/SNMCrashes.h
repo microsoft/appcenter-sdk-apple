@@ -84,7 +84,6 @@ typedef NS_ENUM(NSUInteger, SNMUserConfirmation) {
 /**
  * Provides details about the crash that occurred in the last app session
  */
-
 + (SNMErrorReport *_Nullable)lastSessionCrashReport;
 
 @end

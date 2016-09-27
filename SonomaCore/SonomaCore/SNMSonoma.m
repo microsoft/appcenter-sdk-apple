@@ -163,14 +163,14 @@ static NSString *const kSNMDefaultBaseUrl = @"http://in-integration.dev.avalanch
 
 - (void)setEnabled:(BOOL)isEnabled {
   @synchronized(self) {
+    if ([self canBeUsed] && [self isEnabled] != isEnabled) {
 
-    // Force enable/disable on all features.
-    for (id<SNMFeatureInternal> feature in self.features) {
-      [[feature class] setEnabled:isEnabled];
-    }
+      // Force enable/disable on all features.
+      for (id<SNMFeatureInternal> feature in self.features) {
+        [[feature class] setEnabled:isEnabled];
+      }
 
-    // Update the enabled status if needed.
-    if ([self isEnabled] != isEnabled) {
+      // Disabling.
       if (!isEnabled) {
 
         // Delete any remaining logs (e.g., even logs from not started features).
@@ -187,14 +187,18 @@ static NSString *const kSNMDefaultBaseUrl = @"http://in-integration.dev.avalanch
 
 - (BOOL)isEnabled {
   @synchronized(self) {
-    /**
-     *  Get isEnabled value from persistence.
-     * No need to cache the value in a property, user settings already have their cache mechanism.
-     */
-    NSNumber *isEnabledNumber = [kSNMUserDefaults objectForKey:kSNMCoreIsEnabledKey];
+    if ([self canBeUsed]) {
 
-    // Return the persisted value otherwise it's enabled by default.
-    return (isEnabledNumber) ? [isEnabledNumber boolValue] : YES;
+      /**
+       *  Get isEnabled value from persistence.
+       * No need to cache the value in a property, user settings already have their cache mechanism.
+       */
+      NSNumber *isEnabledNumber = [kSNMUserDefaults objectForKey:kSNMCoreIsEnabledKey];
+
+      // Return the persisted value otherwise it's enabled by default.
+      return (isEnabledNumber) ? [isEnabledNumber boolValue] : YES;
+    }
+    return NO;
   }
 }
 
@@ -249,6 +253,16 @@ static NSString *const kSNMDefaultBaseUrl = @"http://in-integration.dev.avalanch
     }
     return _installId;
   }
+}
+
+- (BOOL)canBeUsed {
+  BOOL canBeUsed = self.sdkStarted;
+  if (!canBeUsed) {
+    SNMLogError(@"[%@] ERROR: SonomaSDK hasn't been initialized. You need to call [SNMSonoma "
+                @"start:YOUR_APP_SECRET withFeatures:LIST_OF_FEATURES] first.",
+                CLASS_NAME_WITHOUT_PREFIX);
+  }
+  return canBeUsed;
 }
 
 #pragma mark - SNMSonomaDelegate

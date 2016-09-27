@@ -1,5 +1,5 @@
-#import "SNMCrashesReportsViewController.h"
 #import "SNMCrashes.h"
+#import "SNMCrashesReportsViewController.h"
 
 @interface SNMCrashesReportsViewController ()
 
@@ -12,9 +12,18 @@
   self.title = @"Crashes";
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
+  if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+    return YES;
+  } else {
+    return toInterfaceOrientation != UIInterfaceOrientationPortraitUpsideDown;
+  }
+}
+
 #pragma mark - Private
 
 - (void)triggerSignalCrash {
+
 /* Trigger a crash */
 #ifndef __clang_analyzer__
   CFRelease(NULL);
@@ -22,6 +31,7 @@
 }
 
 - (void)triggerExceptionCrash {
+
   /* Trigger a crash */
   NSArray *array = [NSArray array];
   [array objectAtIndex:23];
@@ -34,32 +44,38 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-  return 1;
+  return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  if (section == 0) {
+
+  switch (section) {
+
+  // Actions
+  case 0: {
     return 3;
-  } else {
-    return 3;
+  }
+
+  // Settings
+  case 1: {
+    return 1;
+  }
+  default:
+    return 0;
   }
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-  if (section == 0) {
-    return NSLocalizedString(@"Test Crashes", @"");
-  } else {
-    return NSLocalizedString(@"Alerts", @"");
+  switch (section) {
+  case 0: {
+    return @"Actions";
   }
-  return nil;
-}
-
-- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
-  if (section == 1) {
-    return NSLocalizedString(@"Presented UI relevant for localization", @"");
+  case 1: {
+    return @"Settings";
   }
-
-  return nil;
+  default:
+    return 0;
+  }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -69,8 +85,10 @@
     cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
   }
 
-  // Configure the cell...
-  if (indexPath.section == 0) {
+  switch ([indexPath section]) {
+
+  // Actions
+  case 0: {
     switch (indexPath.row) {
     case 0:
       cell.textLabel.text = NSLocalizedString(@"Signal", @"");
@@ -81,19 +99,46 @@
     case 2:
       cell.textLabel.text = NSLocalizedString(@"generateTestCrash", @"");
       break;
+
     default:
       break;
     }
-  } else {
-    if (indexPath.row == 0) {
-      cell.textLabel.text = NSLocalizedString(@"Anonymous", @"");
-    } else if (indexPath.row == 1) {
-      cell.textLabel.text = NSLocalizedString(@"Anonymous 3 buttons", @"");
-    } else {
-      cell.textLabel.text = NSLocalizedString(@"Non-anonymous", @"");
-    }
+    break;
   }
 
+  // Settings
+  case 1: {
+    switch (indexPath.row) {
+    case 0: {
+
+      // Define the cell title.
+      NSString *title = NSLocalizedString(@"Set Enabled", nil);
+      cell.textLabel.text = title;
+      cell.accessibilityLabel = title;
+
+      // Define the switch control and add it to the cell.
+      UISwitch *enabledSwitch = [[UISwitch alloc] init];
+      enabledSwitch.on = [SNMCrashes isEnabled];
+      CGSize switchSize = [enabledSwitch sizeThatFits:CGSizeZero];
+      enabledSwitch.frame = CGRectMake(cell.contentView.bounds.size.width - switchSize.width - 10.0f,
+                                       (cell.contentView.bounds.size.height - switchSize.height) / 2.0f,
+                                       switchSize.width, switchSize.height);
+      enabledSwitch.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+      [enabledSwitch addTarget:self
+                        action:@selector(enabledSwitchUpdated:)
+              forControlEvents:UIControlEventValueChanged];
+      [cell.contentView addSubview:enabledSwitch];
+      break;
+    }
+    default:
+      break;
+    }
+    break;
+  }
+
+  default:
+    break;
+  }
   return cell;
 }
 
@@ -117,6 +162,10 @@
       break;
     }
   }
+}
+
+- (void)enabledSwitchUpdated:(id)sender {
+  [SNMCrashes setEnabled:((UISwitch *)sender).on];
 }
 
 @end
