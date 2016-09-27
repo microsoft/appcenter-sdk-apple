@@ -35,6 +35,7 @@
 /* Begin PBXBuildFile section */
 		043316791D9495FF00E7F868 /* SNMWrapperSdk.h in Headers */ = {isa = PBXBuildFile; fileRef = 043316771D9495FF00E7F868 /* SNMWrapperSdk.h */; };
 		0433167A1D9495FF00E7F868 /* SNMWrapperSdk.m in Sources */ = {isa = PBXBuildFile; fileRef = 043316781D9495FF00E7F868 /* SNMWrapperSdk.m */; };
+		045660FB1D99EEEB002F7055 /* SNMLogWithPropertiesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 045660FA1D99EEEB002F7055 /* SNMLogWithPropertiesTests.m */; };
 		381C91E91D3DB65D004512F1 /* SNMDeviceTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 381C91E51D3DB65D004512F1 /* SNMDeviceTracker.h */; };
 		381C91EA1D3DB65D004512F1 /* SNMDeviceTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 381C91E61D3DB65D004512F1 /* SNMDeviceTracker.m */; };
 		384959D51D491D4F008F6B3A /* SNMSonomaTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 384959D41D491D4F008F6B3A /* SNMSonomaTest.m */; };
@@ -157,6 +158,7 @@
 /* Begin PBXFileReference section */
 		043316771D9495FF00E7F868 /* SNMWrapperSdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMWrapperSdk.h; sourceTree = "<group>"; };
 		043316781D9495FF00E7F868 /* SNMWrapperSdk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMWrapperSdk.m; sourceTree = "<group>"; };
+		045660FA1D99EEEB002F7055 /* SNMLogWithPropertiesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMLogWithPropertiesTests.m; sourceTree = "<group>"; };
 		381C91E51D3DB65D004512F1 /* SNMDeviceTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMDeviceTracker.h; sourceTree = "<group>"; };
 		381C91E61D3DB65D004512F1 /* SNMDeviceTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMDeviceTracker.m; sourceTree = "<group>"; };
 		384959D41D491D4F008F6B3A /* SNMSonomaTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMSonomaTest.m; sourceTree = "<group>"; };
@@ -471,6 +473,7 @@
 				6E5D8A7F1D25B91F00C033B1 /* SNMFileHelperTests.m */,
 				E829E4221D25C8BA00F19DA1 /* SNMHttpSenderTests.m */,
 				E88EBBFA1D2C8CC7007E7785 /* SNMLogContainerTests.m */,
+				045660FA1D99EEEB002F7055 /* SNMLogWithPropertiesTests.m */,
 				6E363AE41D2C2C320079043D /* SNMFileStorageTests.m */,
 				6E58E2B61D2F12A70039D062 /* SNMStorageBucketTests.m */,
 				6E58E2BD1D2F18DA0039D062 /* SNMFileTests.m */,
@@ -804,6 +807,7 @@
 			files = (
 				6E58E2B71D2F12A70039D062 /* SNMStorageBucketTests.m in Sources */,
 				6E363AE51D2C2C320079043D /* SNMFileStorageTests.m in Sources */,
+				045660FB1D99EEEB002F7055 /* SNMLogWithPropertiesTests.m in Sources */,
 				6E3E2CC11D3596AE00B1EE50 /* SNMDeviceLogTests.m in Sources */,
 				385FC0551D37EBD700A1799F /* SNMDeviceTrackerTests.m in Sources */,
 				6EB1F40E1D2443B7005F9F99 /* SNMChannelDefaultTests.m in Sources */,
