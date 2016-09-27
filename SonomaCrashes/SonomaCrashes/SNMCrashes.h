@@ -2,10 +2,9 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
+#import "SNMErrorReport.h"
 #import "SNMFeatureAbstract.h"
 #import <UIKit/UIKit.h>
-
-@class SNMErrorReport;
 
 /**
  * Custom block that handles the alert that prompts the user whether he wants to
@@ -85,6 +84,6 @@ typedef NS_ENUM(NSUInteger, SNMUserConfirmation) {
  * Provides details about the crash that occurred in the last app session
  */
 
-+ (SNMErrorReport *_Nullable)lastSessionCrashReport;
++ (nullable SNMErrorReport *)lastSessionCrashReport;
 
 @end
