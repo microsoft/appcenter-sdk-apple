@@ -54,18 +54,21 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 #pragma mark - Public Methods
 
 + (void)generateTestCrash {
-  if ([[self sharedInstance] canBeUsed]) {
-    if ([SNMEnvironmentHelper currentAppEnvironment] != SNMEnvironmentAppStore) {
-      if ([SNMSonoma isDebuggerAttached]) {
-        SNMLogWarning(
-            @"[SNMCrashes] Error: The debugger is attached. The following crash cannot be detected by the SDK!");
-      }
+  @synchronized([self sharedInstance]) {
+    if ([[self sharedInstance] canBeUsed]) {
+      if ([SNMEnvironmentHelper currentAppEnvironment] != SNMEnvironmentAppStore) {
+        if ([SNMSonoma isDebuggerAttached]) {
+          SNMLogWarning(
+              @"[SNMCrashes] Error: The debugger is attached. The following crash cannot be detected by the SDK!");
+        }
 
-      __builtin_trap();
+        __builtin_trap();
+      }
+    } else {
+      SNMLogWarning(
+          @"[SNMCrashes] WARNING: generateTestCrash was just called in an App Store environment. The call will "
+          @"be ignored");
     }
-  } else {
-    SNMLogWarning(@"[SNMCrashes] WARNING: generateTestCrash was just called in an App Store environment. The call will "
-                  @"be ignored");
   }
 }
 

@@ -165,7 +165,9 @@
 }
 
 - (void)enabledSwitchUpdated:(id)sender {
-  [SNMCrashes setEnabled:((UISwitch *)sender).on];
+  UISwitch *enabledSwitch = (UISwitch *)sender;
+  [SNMCrashes setEnabled:enabledSwitch.on];
+  enabledSwitch.on = [SNMCrashes isEnabled];
 }
 
 @end

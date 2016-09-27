@@ -93,11 +93,11 @@ typedef struct SNMCrashesCallbacks {
 
  * @see lastSessionCrashReport
  */
-@property(nonatomic, readonly) BOOL didCrashInLastSession;
+@property(atomic, readonly) BOOL didCrashInLastSession;
 
 /*
  * Detail information about the last crash.
  */
-@property(nonatomic, readonly, getter=getLastSessionCrashReport) SNMErrorReport *lastSessionCrashReport;
+@property(atomic, readonly, getter=getLastSessionCrashReport) SNMErrorReport *lastSessionCrashReport;
 
 @end

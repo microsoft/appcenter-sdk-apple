@@ -196,7 +196,9 @@
 }
 
 - (void)enabledSwitchUpdated:(id)sender {
-  [SNMAnalytics setEnabled:((UISwitch *)sender).on];
+  UISwitch *enabledSwitch = (UISwitch *)sender;
+  [SNMAnalytics setEnabled:enabledSwitch.on];
+  enabledSwitch.on = [SNMAnalytics isEnabled];
 }
 
 @end

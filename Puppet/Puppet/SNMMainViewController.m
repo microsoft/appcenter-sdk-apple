@@ -162,6 +162,8 @@
 }
 
 - (void)enabledSwitchUpdated:(id)sender {
-  [SNMSonoma setEnabled:((UISwitch *)sender).on];
+  UISwitch *enabledSwitch = (UISwitch *)sender;
+  [SNMSonoma setEnabled:enabledSwitch.on];
+  enabledSwitch.on = [SNMSonoma isEnabled];
 }
 @end
