@@ -40,7 +40,7 @@
 /**
  * Check whether the SDK has already been initialized or not.
  *
- * @return true if initialized, false otherwise.
+ * @return YES if initialized, NO otherwise.
  */
 + (BOOL)isInitialized;
 
@@ -55,7 +55,7 @@
  * Enable or disable the SDK as a whole. In addition to the core resources, it will also enable or disable all
  * registered features.
  *
- * @param isEnabled true to enable, false to disable.
+ * @param isEnabled YES to enable, NO to disable.
  * @see isEnabled
  */
 + (void)setEnabled:(BOOL)isEnabled;
@@ -63,7 +63,7 @@
 /**
  *  Check whether the SDK is enabled or not as a whole.
  *
- * @return true if enabled, false otherwise.
+ * @return YES if enabled, NO otherwise.
  * @see setEnabled:
  */
 + (BOOL)isEnabled;

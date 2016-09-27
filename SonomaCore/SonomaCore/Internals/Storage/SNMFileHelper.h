@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param data the data that should be written to disk
  * @param file the file metadata representing the target file
  *
- * @return true if writing data to the given file was successful
+ * @return YES if writing data to the given file was successful
  */
 + (BOOL)writeData:(NSData *)data toFile:(SNMFile *)file;
 
@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param file the file metadata representing the target file
  *
- * @return true if deleting the file was successful
+ * @return YES if deleting the file was successful
  */
 + (BOOL)deleteFile:(SNMFile *)file;
 
