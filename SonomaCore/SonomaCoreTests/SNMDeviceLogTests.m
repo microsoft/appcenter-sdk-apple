@@ -15,7 +15,7 @@
 
 @synthesize sut = _sut;
 
-#pragma mark - Houskeeping
+#pragma mark - Housekeeping
 
 - (void)setUp {
   [super setUp];
