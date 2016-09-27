@@ -28,7 +28,7 @@ Let's get started with setting up the Sonoma iOS SDK in your app to use these se
 
 Before you begin, please make sure that the following prerequisites are met:
 
-* An iOS project that is set up in Xcode on macOS
+* An iOS project that is set up in Xcode on macOS version 10.12.
 * The minimum OS target supported by the Sonoma SDK is iOS 8.0 or later
 
 ## 2. Add Sonoma SDK modules
@@ -41,7 +41,7 @@ Below are the steps on how to integrate the compiled libraries in your Xcode pro
 
 2. Unzip the file and you will see different frameworks for each Sonoma service. There is a framework called `SonomaCore`, which is required in the project as it contains the logic for persistence, forwarding etc. 
 
-3. Copy the SDK frameworks into your projects directory in Finder: Our experience says that 3rd-party libraries usually reside inside a subdirectory (let's call it Vendor), so if you don't have your project organized with a subdirectory for libraries, you probably should start with that. To continue our example, create a folder called `Vendor` inside your project directory and move all the frameworks into it.
+3. Copy the SDK frameworks into your projects directory in Finder: Our experience says that 3rd-party libraries usually reside inside a subdirectory (let's call it Vendor), so if you don't have your project organized with a subdirectory for libraries, you probably should start with that. To continue our example, create a folder called `Vendor` inside your project directory and move all the frameworks into it. Also, create a group called Vendor in your Xcode project/workspace.
 
 4. Add the SDK frameworks to the project in Xcode:
     * Make sure the Project Navigator is visible (⌘+1).
