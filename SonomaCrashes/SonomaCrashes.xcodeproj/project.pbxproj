@@ -85,7 +85,7 @@
 		B2F120E11D657CF10060DED7 /* SNMErrorBinaryAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120DB1D657CF10060DED7 /* SNMErrorBinaryAttachment.m */; };
 		B2F120E21D657CF10060DED7 /* SNMErrorAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = B2F120DC1D657CF10060DED7 /* SNMErrorAttachment.h */; };
 		B2F120E31D657CF10060DED7 /* SNMErrorAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120DD1D657CF10060DED7 /* SNMErrorAttachment.m */; };
-		B2F120E41D657CF10060DED7 /* SNMErrorReport.h in Headers */ = {isa = PBXBuildFile; fileRef = B2F120DE1D657CF10060DED7 /* SNMErrorReport.h */; };
+		B2F120E41D657CF10060DED7 /* SNMErrorReport.h in Headers */ = {isa = PBXBuildFile; fileRef = B2F120DE1D657CF10060DED7 /* SNMErrorReport.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B2F120E51D657CF10060DED7 /* SNMErrorReport.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120DF1D657CF10060DED7 /* SNMErrorReport.m */; };
 		B2F120E71D657F4F0060DED7 /* SNMErrorReportPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = B2F120E61D657F4F0060DED7 /* SNMErrorReportPrivate.h */; };
 		B2F375091D41AD5100F07032 /* SNMErrorLogFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = B2F375071D41AD5100F07032 /* SNMErrorLogFormatter.h */; };
