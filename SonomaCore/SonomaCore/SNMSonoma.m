@@ -111,6 +111,7 @@ static NSString *const kSNMDefaultBaseUrl = @"http://in-integration.dev.avalanch
   if (self = [super init]) {
     _features = [NSMutableArray new];
     _serverUrl = kSNMDefaultBaseUrl;
+    _enabledStateUpdating = NO;
   }
   return self;
 }
@@ -164,8 +165,9 @@ static NSString *const kSNMDefaultBaseUrl = @"http://in-integration.dev.avalanch
 - (void)setEnabled:(BOOL)isEnabled {
   @synchronized(self) {
     if ([self canBeUsed] && [self isEnabled] != isEnabled) {
+      self.enabledStateUpdating = YES;
 
-      // Force enable/disable on all features.
+      // Propagate enable/disable on all features.
       for (id<SNMFeatureInternal> feature in self.features) {
         [[feature class] setEnabled:isEnabled];
       }
@@ -181,6 +183,7 @@ static NSString *const kSNMDefaultBaseUrl = @"http://in-integration.dev.avalanch
 
       // Persist the enabled status.
       [kSNMUserDefaults setObject:[NSNumber numberWithBool:isEnabled] forKey:kSNMCoreIsEnabledKey];
+      self.enabledStateUpdating = NO;
     }
   }
 }
