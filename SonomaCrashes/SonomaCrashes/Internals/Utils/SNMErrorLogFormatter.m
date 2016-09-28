@@ -688,6 +688,10 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 + (SNMBinaryImageType)imageTypeForImagePath:(NSString *)imagePath processPath:(NSString *)processPath {
   SNMBinaryImageType imageType = SNMBinaryImageTypeOther;
 
+  if (!imagePath || !processPath) {
+    return imageType;
+  }
+  
   NSString *standardizedImagePath = [[imagePath stringByStandardizingPath] lowercaseString];
   imagePath = [imagePath lowercaseString];
   processPath = [processPath lowercaseString];
