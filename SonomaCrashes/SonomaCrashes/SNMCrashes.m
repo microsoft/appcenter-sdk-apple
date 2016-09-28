@@ -45,6 +45,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 }
 
 @implementation SNMCrashes
+// TODO: Implement getLastSessionCrashReport
 
 @synthesize delegate = _delegate;
 @synthesize logManager = _logManager;
@@ -53,18 +54,21 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 #pragma mark - Public Methods
 
 + (void)generateTestCrash {
-  if ([[self sharedInstance] canBeUsed]) {
-    if ([SNMEnvironmentHelper currentAppEnvironment] != SNMEnvironmentAppStore) {
-      if ([SNMSonoma isDebuggerAttached]) {
-        SNMLogWarning(
-            @"[SNMCrashes] Error: The debugger is attached. The following crash cannot be detected by the SDK!");
-      }
+  @synchronized([self sharedInstance]) {
+    if ([[self sharedInstance] canBeUsed]) {
+      if ([SNMEnvironmentHelper currentAppEnvironment] != SNMEnvironmentAppStore) {
+        if ([SNMSonoma isDebuggerAttached]) {
+          SNMLogWarning(
+              @"[SNMCrashes] Error: The debugger is attached. The following crash cannot be detected by the SDK!");
+        }
 
-      __builtin_trap();
+        __builtin_trap();
+      }
+    } else {
+      SNMLogWarning(
+          @"[SNMCrashes] WARNING: generateTestCrash was just called in an App Store environment. The call will "
+          @"be ignored");
     }
-  } else {
-    SNMLogWarning(@"[SNMCrashes] WARNING: generateTestCrash was just called in an App Store environment. The call will "
-                  @"be ignored");
   }
 }
 
@@ -102,9 +106,13 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 #pragma mark - SNMFeatureAbstract
 
 - (void)setEnabled:(BOOL)isEnabled {
-  // TODO do something here?!
-  //  isEnabled ? [self.logManger addListener:self.sessionTracker] : [self.logManger
-  //  removeListener:self.sessionTracker];
+
+  // TODO Remove listeners, basically stop the feature...
+  if (!isEnabled) {
+    self.crashFiles = nil;
+    self.analyzerInProgressFile = nil;
+    [self deleteAllFromCrashesDirectory];
+  }
   [super setEnabled:isEnabled];
 }
 
@@ -262,6 +270,17 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 }
 
 #pragma mark - Helper
+
+- (void)deleteAllFromCrashesDirectory {
+  NSError *error = nil;
+  for (NSString *filePath in [self.fileManager enumeratorAtPath:self.crashesDir]) {
+    [self.crashFiles removeAllObjects];
+    [self.fileManager removeItemAtPath:filePath error:&error];
+    if (error) {
+      SNMLogError(@"ERROR: Error deleting file %@: %@", filePath, error.localizedDescription);
+    }
+  }
+}
 
 - (void)deleteCrashReportWithFilePath:(NSString *)filePath {
   NSError *error = NULL;
