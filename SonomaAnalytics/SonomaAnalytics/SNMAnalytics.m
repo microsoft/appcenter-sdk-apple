@@ -78,6 +78,7 @@ static NSString *const kSNMFeatureName = @"Analytics";
   } else {
     [self.logManager removeListener:self.sessionTracker];
     [self.sessionTracker stop];
+    [self.sessionTracker clearSessions];
   }
   [super setEnabled:isEnabled];
 }
@@ -89,8 +90,10 @@ static NSString *const kSNMFeatureName = @"Analytics";
 }
 
 + (void)trackEvent:(NSString *)eventName withProperties:(NSDictionary *)properties {
-  if ([[self sharedInstance] canBeUsed]) {
-    [[self sharedInstance] trackEvent:eventName withProperties:properties];
+  @synchronized(self) {
+    if ([[self sharedInstance] canBeUsed]) {
+      [[self sharedInstance] trackEvent:eventName withProperties:properties];
+    }
   }
 }
 
@@ -99,22 +102,28 @@ static NSString *const kSNMFeatureName = @"Analytics";
 }
 
 + (void)trackPage:(NSString *)pageName withProperties:(NSDictionary *)properties {
-  if ([[self sharedInstance] canBeUsed]) {
-    [[self sharedInstance] trackPage:pageName withProperties:properties];
+  @synchronized(self) {
+    if ([[self sharedInstance] canBeUsed]) {
+      [[self sharedInstance] trackPage:pageName withProperties:properties];
+    }
   }
 }
 
 + (void)setAutoPageTrackingEnabled:(BOOL)isEnabled {
-  if ([[self sharedInstance] canBeUsed]) {
-    [[self sharedInstance] setAutoPageTrackingEnabled:isEnabled];
+  @synchronized(self) {
+    if ([[self sharedInstance] canBeUsed]) {
+      [[self sharedInstance] setAutoPageTrackingEnabled:isEnabled];
+    }
   }
 }
 
 + (BOOL)isAutoPageTrackingEnabled {
-  if ([[self sharedInstance] canBeUsed]) {
-    return [[self sharedInstance] isAutoPageTrackingEnabled];
-  } else {
-    return NO;
+  @synchronized(self) {
+    if ([[self sharedInstance] canBeUsed]) {
+      return [[self sharedInstance] isAutoPageTrackingEnabled];
+    } else {
+      return NO;
+    }
   }
 }
 

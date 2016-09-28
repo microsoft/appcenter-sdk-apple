@@ -89,13 +89,16 @@
 }
 
 + (NSArray<SNMFile *> *)filesForDirectory:(NSString *)directoryPath withFileExtension:(NSString *)fileExtension {
-  if (!directoryPath || !fileExtension) {
+  NSFileManager *fileManager = [NSFileManager defaultManager];
+
+  // Check validity.
+  if (!directoryPath || !fileExtension || ![fileManager fileExistsAtPath:directoryPath]) {
     return nil;
   }
 
   NSMutableArray<SNMFile *> *files;
   NSError *error;
-  NSArray *allFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:directoryPath error:&error];
+  NSArray *allFiles = [fileManager contentsOfDirectoryAtPath:directoryPath error:&error];
   if (error) {
     SNMLogError(@"ERROR: Couldn't read %@-files for directory %@: %@", fileExtension, directoryPath,
                 error.localizedDescription);
