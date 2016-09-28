@@ -64,8 +64,6 @@
 
 - (BOOL)canBeUsed {
   BOOL canBeUsed = [SNMSonoma sharedInstance].sdkStarted && self.featureInitialized;
-  [self storageKey];
-
   if (!canBeUsed) {
     SNMLogError(@"[%@] ERROR: %@ module hasn't been initialized. You need to call [SNMSonoma "
                 @"start:YOUR_APP_SECRET withFeatures:LIST_OF_FEATURES] or [SNMSonoma "
