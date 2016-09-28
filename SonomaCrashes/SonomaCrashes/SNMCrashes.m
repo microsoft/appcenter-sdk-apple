@@ -274,12 +274,16 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 - (void)deleteAllFromCrashesDirectory {
   NSError *error = nil;
   for (NSString *filePath in [self.fileManager enumeratorAtPath:self.crashesDir]) {
-    [self.crashFiles removeAllObjects];
-    [self.fileManager removeItemAtPath:filePath error:&error];
+    NSString *path = [self.crashesDir stringByAppendingPathComponent: filePath];
+    [_fileManager removeItemAtPath:path error:&error];
+    [_fileManager removeItemAtPath:[path stringByAppendingString:@".data"] error:&error];
+    [_fileManager removeItemAtPath:[path stringByAppendingString:@".meta"] error:&error];
+    [_fileManager removeItemAtPath:[path stringByAppendingString:@".desc"] error:&error];
     if (error) {
       SNMLogError(@"ERROR: Error deleting file %@: %@", filePath, error.localizedDescription);
     }
   }
+  [self.crashFiles removeAllObjects];
 }
 
 - (void)deleteCrashReportWithFilePath:(NSString *)filePath {
