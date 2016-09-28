@@ -6,7 +6,7 @@
 #import <Foundation/Foundation.h>
 
 /**
- * Class comment: Some Introduction
+ * Class comment: Some Introduction.
  */
 @interface SNMSonoma : NSObject
 
@@ -16,14 +16,14 @@
 + (instancetype)sharedInstance;
 
 /**
- * Start the SDK
+ * Start the SDK.
  *
  * @param appSecret application secret.
  */
 + (void)start:(NSString *)appSecret;
 
 /**
- * Start the SDK with features
+ * Start the SDK with features.
  *
  * @param appSecret application secret.
  * @param features  array of features to be used.
@@ -31,7 +31,7 @@
 + (void)start:(NSString *)appSecret withFeatures:(NSArray<Class> *)features;
 
 /**
- * Start a feature
+ * Start a feature.
  *
  * @param feature  a feature to be used.
  */

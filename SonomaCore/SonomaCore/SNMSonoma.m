@@ -38,11 +38,11 @@ static NSString *const kSNMDefaultBaseUrl = @"http://in-integration.dev.avalanch
 // TODO protect APIs from being called while Core not initialized. That's already done for beacons.
 
 + (void)start:(NSString *)appSecret {
-  [[self sharedInstance] initialize:appSecret];
+  [[self sharedInstance] start:appSecret];
 }
 
 + (void)start:(NSString *)appSecret withFeatures:(NSArray<Class> *)features {
-  [[self sharedInstance] initialize:appSecret withFeatures:features];
+  [[self sharedInstance] start:appSecret withFeatures:features];
 }
 
 + (void)startFeature:(Class)feature {
@@ -50,7 +50,7 @@ static NSString *const kSNMDefaultBaseUrl = @"http://in-integration.dev.avalanch
 }
 
 + (BOOL)isInitialized {
-  return [[self sharedInstance] isInitialized];
+  return [[self sharedInstance] sdkStarted];
 }
 
 + (void)setServerUrl:(NSString *)serverUrl {
@@ -127,7 +127,7 @@ static NSString *const kSNMDefaultBaseUrl = @"http://in-integration.dev.avalanch
   return self;
 }
 
-- (BOOL)initialize:(NSString *)appSecret {
+- (BOOL)start:(NSString *)appSecret {
   if (self.sdkStarted) {
     SNMLogWarning(@"SDK has already been started. You can call `start` only once.");
     return NO;
@@ -157,8 +157,8 @@ static NSString *const kSNMDefaultBaseUrl = @"http://in-integration.dev.avalanch
   return YES;
 }
 
-- (void)initialize:(NSString *)appSecret withFeatures:(NSArray<Class> *)features {
-  BOOL initialized = [self initialize:appSecret];
+- (void)start:(NSString *)appSecret withFeatures:(NSArray<Class> *)features {
+  BOOL initialized = [self start:appSecret];
   if (initialized) {
     for (Class feature in features) {
       [self startFeature:feature];
@@ -176,10 +176,6 @@ static NSString *const kSNMDefaultBaseUrl = @"http://in-integration.dev.avalanch
   // Set log manager.
   [feature onLogManagerReady:self.logManager];
   [feature startFeature];
-}
-
-- (BOOL)isInitialized {
-  return _sdkStarted;
 }
 
 - (void)setServerUrl:(NSString *)serverUrl {
