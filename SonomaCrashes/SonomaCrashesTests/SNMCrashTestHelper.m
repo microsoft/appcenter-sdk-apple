@@ -13,6 +13,10 @@
   NSError *error = nil;
   NSString *content = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
   
+  if(error) {
+    NSLog(@"Couldn't load fixture with error: %@", error.localizedDescription);
+  }
+  
   return content;
 }
 
@@ -21,9 +25,9 @@
   
   if (![fm fileExistsAtPath:directory]) {
     NSDictionary *attributes = [NSDictionary dictionaryWithObject: [NSNumber numberWithUnsignedLong: 0755] forKey: NSFilePosixPermissions];
-    NSError *theError;
-    [fm createDirectoryAtPath:directory withIntermediateDirectories:YES attributes:attributes error:&theError];
-    if (theError)
+    NSError *error;
+    [fm createDirectoryAtPath:directory withIntermediateDirectories:YES attributes:attributes error:&error];
+    if (error)
       return NO;
   }
   
@@ -35,9 +39,9 @@
   
   if (![fm fileExistsAtPath:directory]) {
     NSDictionary *attributes = [NSDictionary dictionaryWithObject: [NSNumber numberWithUnsignedLong: 0755] forKey: NSFilePosixPermissions];
-    NSError *theError;
-    [fm createDirectoryAtPath:directory withIntermediateDirectories:YES attributes:attributes error:&theError];
-    if (theError)
+    NSError *error;
+    [fm createDirectoryAtPath:directory withIntermediateDirectories:YES attributes:attributes error:&error];
+    if (error)
       return NO;
   }
   
@@ -66,12 +70,12 @@
     return NO;
   
   NSString *filePath = [[NSBundle bundleForClass:self.class] pathForResource:filename ofType:@"plcrash"];
-  NSError *theError = NULL;
+  NSError *error = NULL;
   
   if (!filePath) return NO;
-  [fm copyItemAtPath:filePath toPath:[plcrCrashesDir stringByAppendingPathComponent:@"live_report.plcrash"] error:&theError];
+  [fm copyItemAtPath:filePath toPath:[plcrCrashesDir stringByAppendingPathComponent:@"live_report.plcrash"] error:&error];
   
-  if (theError)
+  if (error)
     return NO;
   else
     return YES;
