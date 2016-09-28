@@ -28,6 +28,34 @@
   XCTAssertTrue([actual hasPrefix:@"/Users/USER/"]);
 }
 
+- (void)testOSXImages {
+  NSString *processPath = nil;
+  NSString *appBundlePath = nil;
+  
+  appBundlePath = @"/Applications/MyTestApp.App";
+  
+  // Test with default OS X app path
+  processPath = [appBundlePath stringByAppendingString:@"/Contents/MacOS/MyApp"];
+  [self testOSXNonAppSpecificImagesForProcessPath:processPath];
+  [self assertIsOtherWithImagePath:processPath processPath:nil];
+  [self assertIsOtherWithImagePath:nil processPath:processPath];
+  [self assertIsAppBinaryWithImagePath:processPath processPath:processPath];
+  
+  // Test with OS X LoginItems app helper path
+  processPath = [appBundlePath stringByAppendingString:@"/Contents/Library/LoginItems/net.hockeyapp.helper.app/Contents/MacOS/Helper"];
+  [self testOSXNonAppSpecificImagesForProcessPath:processPath];
+  [self assertIsOtherWithImagePath:processPath processPath:nil];
+  [self assertIsOtherWithImagePath:nil processPath:processPath];
+  [self assertIsAppBinaryWithImagePath:processPath processPath:processPath];
+  
+  // Test with OS X app in Resources folder
+  processPath = @"/Applications/MyTestApp.App/Contents/Resources/Helper";
+  [self testOSXNonAppSpecificImagesForProcessPath:processPath];
+  [self assertIsOtherWithImagePath:processPath processPath:nil];
+  [self assertIsOtherWithImagePath:nil processPath:processPath];
+  [self assertIsAppBinaryWithImagePath:processPath processPath:processPath];
+}
+
 - (void)testiOSImages {
   NSString *processPath = nil;
   NSString *appBundlePath = nil;
@@ -53,6 +81,25 @@
 }
 
 #pragma mark - Helpers
+
+- (void)testOSXNonAppSpecificImagesForProcessPath:(NSString *)processPath {
+  // system test paths
+  NSMutableArray *nonAppSpecificImagePaths = [NSMutableArray new];
+  
+  // OS X frameworks
+  [nonAppSpecificImagePaths addObject:@"cl_kernels"];
+  [nonAppSpecificImagePaths addObject:@""];
+  [nonAppSpecificImagePaths addObject:@"???"];
+  [nonAppSpecificImagePaths addObject:@"/System/Library/Frameworks/CFNetwork.framework/Versions/A/CFNetwork"];
+  [nonAppSpecificImagePaths addObject:@"/usr/lib/system/libsystem_platform.dylib"];
+  [nonAppSpecificImagePaths addObject:@"/System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/vecLib"];
+  [nonAppSpecificImagePaths addObject:@"/System/Library/PrivateFrameworks/Sharing.framework/Versions/A/Sharing"];
+  [nonAppSpecificImagePaths addObject:@"/usr/lib/libbsm.0.dylib"];
+  
+  for (NSString *imagePath in nonAppSpecificImagePaths) {
+    [self assertIsOtherWithImagePath:imagePath processPath:processPath];
+  }
+}
 
 - (void)testiOSAppFrameworkAtProcessPath:(NSString *)processPath appBundlePath:(NSString *)appBundlePath {
   NSString *frameworkPath = [appBundlePath stringByAppendingString:@"/Frameworks/MyFrameworkLib.framework/MyFrameworkLib"];
