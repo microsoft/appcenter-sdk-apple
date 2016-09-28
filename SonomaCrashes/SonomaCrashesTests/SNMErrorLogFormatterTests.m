@@ -9,8 +9,9 @@
 
 #import "SNMCrashesPrivate.h"
 #import "SNMCrashTestHelper.h"
-#import "<#header#>"
 #import "SNMErrorLogFormatterPrivate.h"
+#import "SNMSonomaInternal.h"
+
 
 @interface SNMErrorLogFormatterTests : XCTestCase
 
@@ -20,12 +21,53 @@
 
 - (void)testCreateErrorReport {
   NSData *crashData = [SNMCrashTestHelper dataOfFixtureCrashReportWithFileName:@"live_report_signal"];
-  assertThat(crashData, notNilValue());
+  XCTAssertNotNil(crashData);
   
   NSError *error = nil;
   SNMPLCrashReport *report = [[SNMPLCrashReport alloc] initWithData:crashData error:&error];
   
-  [SNMErrorLogFormatter createErrorReportFrom:report];
+  SNMErrorReport *errorReport = [SNMErrorLogFormatter createErrorReportFrom:report];
+  XCTAssertNotNil(errorReport);
+  
+  XCTAssertNotNil(errorReport.incidentIdentifier);
+  assertThat(errorReport.reporterKey, equalTo([[SNMSonoma installId] UUIDString]));
+  
+  XCTAssertEqual(errorReport.signal, report.signalInfo.name);
+
+  XCTAssertEqual(errorReport.exceptionName, report.signalInfo.name);
+  XCTAssertEqual(errorReport.exceptionReason, report.exceptionInfo.exceptionReason);
+  XCTAssertEqual(errorReport.appStartTime, report.processInfo.processStartTime);
+  XCTAssertEqual(errorReport.crashTime, report.systemInfo.timestamp);
+  XCTAssertEqual(errorReport.osVersion, report.systemInfo.operatingSystemVersion);
+  XCTAssertEqual(errorReport.osBuild, report.systemInfo.operatingSystemBuild);
+  XCTAssertEqual(errorReport.appVersion, report.applicationInfo.applicationMarketingVersion);
+  XCTAssertEqual(errorReport.appBuild, report.applicationInfo.applicationVersion);
+  XCTAssertEqual(errorReport.appProcessIdentifier, report.processInfo.processID);
+  
+  crashData = [SNMCrashTestHelper dataOfFixtureCrashReportWithFileName:@"live_report_exception"];
+  XCTAssertNotNil(crashData);
+  
+  error = nil;
+  report = [[SNMPLCrashReport alloc] initWithData:crashData error:&error];
+  
+  errorReport = [SNMErrorLogFormatter createErrorReportFrom:report];
+  XCTAssertNotNil(errorReport);
+  
+  XCTAssertNotNil(errorReport.incidentIdentifier);
+  assertThat(errorReport.reporterKey, equalTo([[SNMSonoma installId] UUIDString]));
+  
+  XCTAssertEqual(errorReport.signal, report.signalInfo.name);
+  
+  XCTAssertEqual(errorReport.exceptionName, report.exceptionInfo.exceptionName);
+  XCTAssertEqual(errorReport.exceptionReason, report.exceptionInfo.exceptionReason);
+  XCTAssertEqual(errorReport.appStartTime, report.processInfo.processStartTime);
+  XCTAssertEqual(errorReport.crashTime, report.systemInfo.timestamp);
+  XCTAssertEqual(errorReport.osVersion, report.systemInfo.operatingSystemVersion);
+  XCTAssertEqual(errorReport.osBuild, report.systemInfo.operatingSystemBuild);
+  XCTAssertEqual(errorReport.appVersion, report.applicationInfo.applicationMarketingVersion);
+  XCTAssertEqual(errorReport.appBuild, report.applicationInfo.applicationVersion);
+  XCTAssertEqual(errorReport.appProcessIdentifier, report.processInfo.processID);
+
 }
 
 - (void)testAnonymizedPathWorks {
