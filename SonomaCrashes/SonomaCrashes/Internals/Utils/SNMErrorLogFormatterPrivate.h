@@ -13,6 +13,7 @@
 
 + (SNMBinaryImageType)imageTypeForImagePath:(NSString *)imagePath processPath:(NSString *)processPath;
 
++ (NSString *)errorIdForCrashReport:(SNMPLCrashReport *)report;
 @end
 
 #endif /* SNMErrorLogFormatterPrivate_h */

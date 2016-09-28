@@ -67,7 +67,18 @@
   XCTAssertEqual(errorReport.appVersion, report.applicationInfo.applicationMarketingVersion);
   XCTAssertEqual(errorReport.appBuild, report.applicationInfo.applicationVersion);
   XCTAssertEqual(errorReport.appProcessIdentifier, report.processInfo.processID);
+}
 
+- (void)testErrorIdFromCrashReport {
+  NSData *crashData = [SNMCrashTestHelper dataOfFixtureCrashReportWithFileName:@"live_report_signal"];
+  XCTAssertNotNil(crashData);
+  
+  NSError *error = nil;
+  SNMPLCrashReport *report = [[SNMPLCrashReport alloc] initWithData:crashData error:&error];
+  
+  NSString *expected = (NSString *)CFBridgingRelease(CFUUIDCreateString(NULL, report.uuidRef));
+  NSString *actual = [SNMErrorLogFormatter errorIdForCrashReport:report];
+  assertThat(actual, equalTo(expected));
 }
 
 - (void)testAnonymizedPathWorks {
