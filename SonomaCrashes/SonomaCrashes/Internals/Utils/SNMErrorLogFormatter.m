@@ -567,28 +567,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
       binary.path = imagePath;
 
-      NSString *imageName = @"\?\?\?";
-      imageName = [imageInfo.imageName lastPathComponent];
-
-      /* Make sure UTF8/16 characters are handled correctly */
-      NSInteger offset = 0;
-      NSUInteger index = 0;
-      for (index = 0; index < [imageName length]; index++) {
-        NSRange range = [imageName rangeOfComposedCharacterSequenceAtIndex:index];
-        if (range.length > 1) {
-          offset += range.length - 1;
-          index += range.length - 1;
-        }
-        if (index > 32) {
-          imageName = [NSString stringWithFormat:@"%@... ", [imageName substringToIndex:index - 1]];
-          index += 3;
-          break;
-        }
-      }
-      if (index - offset < 36) {
-        imageName = [imageName stringByPaddingToLength:(NSUInteger)(36 + offset) withString:@" " startingAtIndex:0];
-      }
-
+      NSString *imageName = [imageInfo.imageName lastPathComponent] ?: @"\?\?\?";
       binary.name = imageName;
 
       /* Fetch the UUID if it exists */
