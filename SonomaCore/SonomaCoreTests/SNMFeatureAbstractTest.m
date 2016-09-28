@@ -181,7 +181,21 @@
   [SNMSonoma setEnabled:NO];
 
   // Then
-  assertThatBool([self.abstractFeature isEnabled], isFalse());
+  assertThatBool([[SNMFeatureAbstractImplementation class] isEnabled], isFalse());
+}
+
+- (void)testEnableFeatureOnCoreDisabled {
+
+  // If
+  [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:kSNMCoreIsEnabledKey];
+  [SNMSonoma start:[[NSUUID UUID] UUIDString] withFeatures:@[ [SNMFeatureAbstractImplementation class] ]];
+  [SNMSonoma setEnabled:NO];
+
+  // When
+  [[SNMFeatureAbstractImplementation class] setEnabled:YES];
+
+  // Then
+  assertThatBool([[SNMFeatureAbstractImplementation class] isEnabled], isFalse());
 }
 
 - (void)testLogDeletedOnDisabled {
@@ -224,7 +238,7 @@
    *  When
    */
   [self.abstractFeature startFeature];
-  
+
   /**
    *  Then
    */
