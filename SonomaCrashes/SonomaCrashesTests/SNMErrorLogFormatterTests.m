@@ -6,6 +6,10 @@
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
+
+#import "SNMCrashesPrivate.h"
+#import "SNMCrashTestHelper.h"
+#import "<#header#>"
 #import "SNMErrorLogFormatterPrivate.h"
 
 @interface SNMErrorLogFormatterTests : XCTestCase
@@ -13,6 +17,16 @@
 @end
 
 @implementation SNMErrorLogFormatterTests
+
+- (void)testCreateErrorReport {
+  NSData *crashData = [SNMCrashTestHelper dataOfFixtureCrashReportWithFileName:@"live_report_signal"];
+  assertThat(crashData, notNilValue());
+  
+  NSError *error = nil;
+  SNMPLCrashReport *report = [[SNMPLCrashReport alloc] initWithData:crashData error:&error];
+  
+  [SNMErrorLogFormatter createErrorReportFrom:report];
+}
 
 - (void)testAnonymizedPathWorks {
   NSString *testPath = @"/var/containers/Bundle/Application/2A0B0E6F-0BF2-419D-A699-FCDF8ADECD8C/Puppet.app/Puppet";
