@@ -216,7 +216,7 @@ static NSString *const kSNMDefaultBaseUrl = @"http://in-integration.dev.avalanch
     if ([self canBeUsed]) {
 
       /**
-       *  Get isEnabled value from persistence.
+       * Get isEnabled value from persistence.
        * No need to cache the value in a property, user settings already have their cache mechanism.
        */
       NSNumber *isEnabledNumber = [kSNMUserDefaults objectForKey:kSNMCoreIsEnabledKey];
