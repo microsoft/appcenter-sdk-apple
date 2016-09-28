@@ -100,4 +100,9 @@ typedef struct SNMCrashesCallbacks {
  */
 @property(atomic, readonly, getter=getLastSessionCrashReport) SNMErrorReport *lastSessionCrashReport;
 
+/*
+ * Delete all data in crashes directory.
+ */
+- (void)deleteAllFromCrashesDirectory;
+
 @end
