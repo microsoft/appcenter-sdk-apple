@@ -276,9 +276,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
   for (NSString *filePath in [self.fileManager enumeratorAtPath:self.crashesDir]) {
     NSString *path = [self.crashesDir stringByAppendingPathComponent: filePath];
     [_fileManager removeItemAtPath:path error:&error];
-    [_fileManager removeItemAtPath:[path stringByAppendingString:@".data"] error:&error];
-    [_fileManager removeItemAtPath:[path stringByAppendingString:@".meta"] error:&error];
-    [_fileManager removeItemAtPath:[path stringByAppendingString:@".desc"] error:&error];
+
     if (error) {
       SNMLogError(@"ERROR: Error deleting file %@: %@", filePath, error.localizedDescription);
     }
