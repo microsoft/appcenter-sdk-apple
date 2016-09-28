@@ -110,7 +110,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
     [self configureCrashReporter];
   } else {
     // Don't set PLCrashReporter to nil!
-    SNMLogDebug(@"[SNMCrashes] WARDEBUG: Cleaning up all crash files.");
+    SNMLogDebug(@"[SNMCrashes] DEBUG: Cleaning up all crash files.");
     [self deleteAllFromCrashesDirectory];
     [self removeAnalyzerFile];
     [self.plCrashReporter purgePendingCrashReport];
