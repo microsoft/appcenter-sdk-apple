@@ -3,19 +3,27 @@
  */
 
 #import "SNMDevice.h"
+#import "SNMWrapperSdk.h"
 
 /**
- *  Provide and keep track of device log based on collected properties.
+ * Provide and keep track of device log based on collected properties.
  */
 @interface SNMDeviceTracker : NSObject
 
 /**
- *  Current device log.
+ * Current device log.
  */
 @property(nonatomic, readonly) SNMDevice *device;
 
 /**
- *  Refresh properties.
+ * Set wrapper SDK information to use when building device properties.
+ *
+ * @param wrapperSdk wrapper SDK information.
+ */
++ (void)setWrapperSdk:(SNMWrapperSdk *)wrapperSdk;
+
+/**
+ * Refresh properties.
  */
 - (void)refresh;
 
