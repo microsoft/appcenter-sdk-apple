@@ -130,6 +130,6 @@ static NSString *const kSNMNullifiedInstallIdString = @"00000000-0000-0000-0000-
 
 - (void)testDefaultServerUrl {
   [SNMSonoma start:[[NSUUID UUID] UUIDString] withFeatures:nil];
-  XCTAssertTrue([[[SNMSonoma sharedInstance] serverUrl] isEqualToString:@"http://in-integration.dev.avalanch.es:8081"]);
+  XCTAssertTrue([[[SNMSonoma sharedInstance] serverUrl] isEqualToString:@"https://in.sonoma.hockeyapp.com"]);
 }
 @end
