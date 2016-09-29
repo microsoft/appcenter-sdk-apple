@@ -185,12 +185,12 @@ Once you set up and start the Sonoma SDK to use the Crashes module in your appli
 
     **Objective-C**
     ```objectivec
-    [SNMCrashes lastSessionCrashReport];
+    SNMErrorReport *crashReport = [SNMCrashes lastSessionCrashReport];
     ```
 
     **Swift**
     ```swift
-    SNMCrashes.lastSessionCrashReport()
+    var crashReport = SNMCrashes.lastSessionCrashReport()
     ```
 
 * **Enable or disable the Crashes module:**  You can disable and opt out of using the Crashes module by calling the `setEnabled` API and the SDK will collect no more crashes for your app. Use the same API to re-enable it by passing `YES` or `true` as a parameter.
