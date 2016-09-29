@@ -56,7 +56,7 @@ To start the Sonoma SDK in your app, follow these steps:
 
 1. **Get the App Secret of your application:** Before you call the API to start the SDK, you need to get your app specific Application Secret from the Sonoma portal that needs to be a part of the method call. This will make sure all the data collected by the SDK corresponds to your application.
 
-    Go over to the Sonoma portal, click on "Microsoft Azure Project Sonoma". Under "My apps", click on the app that you want the SDK to set up for. Then click on "Manage app" and make note of the "App Secret" value.
+    Go over to the Sonoma portal, click on "Microsoft Azure Sonoma". Under "My apps", click on the app that you want the SDK to set up for. Then click on "Manage app" and make note of the "App Secret" value.
 
 2. **Add `import` statements:**  You need to add import statements for Core, Analytics and Crashes module before starting the SDK.
     
@@ -81,7 +81,7 @@ To start the Sonoma SDK in your app, follow these steps:
 3. **Start the SDK:** Sonoma provides developers with three modules to get started: SonomaCore (required), Analytics and Crashes. In order to use Sonoma services, you need to opt in for the module(s) that you'd like, meaning by default no modules are started and you will have to explicitly call each of them, both Analytics and Crashes, when starting the SDK.
 
     **Objective-C**   
-    Insert the following line to start the SDK in your app's AppDelegate.m class in the `didFinishLaunchingWithOptions` method.   
+    Insert the following line to start the SDK in your app's AppDelegate.m class in the `didFinishLaunchingWithOptions` method.  
     
     ```objectivec
     [SNMSonoma start:@"{Your App Secret}" withFeatures:@[[SNMAnalytics class], [SNMCrashes class]]];
@@ -93,6 +93,7 @@ To start the Sonoma SDK in your app, follow these steps:
     ```swift
     SNMSonoma.start("{Your App Secret}", withFeatures: [SNMAnalytics.self, SNMCrashes.self])
     ```    
+    Make sure to replace {Your App Secret} text with the actual value for your application.
     
 The example above shows how to use the `start` method and include both the Analytics and Crashes module. If you wish not to use Analytics, remove the parameter from the method call above. Note that, unless you explicitly specify each module as parameters in the start method, you can't use that Sonoma service. Also, the `start` API can be used only once in the lifecycle of your app – all other calls will log a warning to the console and only the modules included in the first call will be available.
 
