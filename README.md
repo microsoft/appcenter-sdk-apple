@@ -243,7 +243,7 @@ Once you set up and start the Sonoma SDK to use the Crashes module in your appli
     var installId = SNMSonoma.installId()
     ```
 
-* **Enable/Disable the Sonoma SDK:** If you want the Sonoma SDK to be disabled completely, use the `setEnabled` API. When disabled, the SDK will collect no more information for any of the modules that were added:
+* **Enable/Disable the Sonoma SDK:** If you want the Sonoma SDK to be disabled completely, use the `setEnabled` API. When disabled, the SDK will not forward any information to Sonoma.
 
     **Objective-C**
     ```objectivec
