@@ -17,8 +17,7 @@
 
   // Start Sonoma SDK.
   [SNMSonoma setLogLevel:SNMLogLevelVerbose];
-  [SNMSonoma setServerUrl:@"http://in-integration.dev.avalanch.es:8081"];
-  [SNMSonoma start:[[NSUUID UUID] UUIDString] withFeatures:@[ [SNMAnalytics class], [SNMCrashes class] ]];
+  [SNMSonoma start:@"7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7" withFeatures:@[ [SNMAnalytics class], [SNMCrashes class] ]];
 
   if([SNMCrashes hasCrashedInLastSession]) {
     SNMErrorReport *errorReport = [SNMCrashes lastSessionCrashReport];
