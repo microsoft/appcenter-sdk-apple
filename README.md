@@ -268,7 +268,7 @@ Once you set up and start the Sonoma SDK to use the Crashes module in your appli
   No, you can just include Sonoma modules that interests you but the core module which contains logic for persistence, forwarding etc. is mandatory.
 
 * Can't see crashes on the portal?   
-   * Make sure SDK `start()` API is used correctly and Crashes module is initialzied. Also, you need to restart the app after a crash and our SDK will forward the crash log only after it's restarted.
+   * Make sure SDK `start()` API is used correctly and Crashes module is initialized. Also, you need to restart the app after a crash and our SDK will forward the crash log only after it's restarted.
    * The user needs to upload the symbols that match the UUID of the build that triggered the crash.
    * Make sure your device is connected to a working internet.
    * Check if the App Secret used to start the SDK matches the App Secret in Sonoma portal.
