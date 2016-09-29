@@ -41,13 +41,15 @@ Below are the steps on how to integrate the compiled libraries in your Xcode pro
 
 2. Unzip the file and you will see different frameworks for each Sonoma service. There is a framework called `SonomaCore`, which is required in the project as it contains the logic for persistence, forwarding etc. 
 
-3. Copy the SDK frameworks into your projects directory in Finder: Our experience says that 3rd-party libraries usually reside inside a subdirectory (let's call it Vendor), so if you don't have your project organized with a subdirectory for libraries, you probably should start with that. To continue our example, create a folder called `Vendor` inside your project directory and move all the frameworks into it. Also, create a group called Vendor in your Xcode project/workspace.
-
+3. Create a folder in your projects directory in Finder and drag it to Xcode:   
+   * Let's create a folder called Vendor (if it doesn't exist) inside your project directory to include all the 3rd-party libraries.  
+   * Once created, drag this Vendor folder into Xcode. A dialog will appear. Select Create groups and set the checkmark for "Add to targets" for your target. Then click Finish.
+   
 4. Add the SDK frameworks to the project in Xcode:
     * Make sure the Project Navigator is visible (⌘+1).
-    * Drag & drop `SonomaCore.framework`, `SonomaAnalytics.framework`, and `SonomaCrashes.framework` from your Finder to the `Vendor` group in Xcode using the Project Navigator on the left side. Note that `SonomaCore.framework` is required to start the SDK. So make sure it's added to your project, otherwise the other modules won't work and your app won't compile.
-    * A dialog will appear. Make sure that "Copy items if needed", "Create groups", and your app target are checked. Then click Finish.
-
+    * Now unzip the SDK frameworks and drag and drop `SonomaCore.framework`, `SonomaAnalytics.framework`, and `SonomaCrashes.framework` in the Vendor folder in Xcode using the Project Navigator on the left side. Note that `SonomaCore.framework` is required to start the SDK. So make sure it's added to your project, otherwise the other modules won't work and your app won't compile.
+    * A dialog will appear again. Make sure that "Copy items if needed", "Create groups", and your app target are checked. Then click Finish.
+    
 Now that you've integrated the frameworks in your application, it's time to start the SDK and make use of the Sonoma services.
 
 ## 3. Start the SDK
