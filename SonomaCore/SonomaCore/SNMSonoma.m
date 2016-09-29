@@ -18,7 +18,7 @@ static NSString *const kSNMAPIVersion = @"1.0.0-preview20160914";
 static NSString *const kSNMAPIVersionKey = @"api_version";
 
 // Base URL for HTTP backend API calls.
-static NSString *const kSNMDefaultBaseUrl = @"http://in-integration.dev.avalanch.es:8081";
+static NSString *const kSNMDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
 
 @implementation SNMSonoma
 
