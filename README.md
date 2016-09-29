@@ -166,7 +166,7 @@ Once you set up and start the Sonoma SDK to use the Crashes module in your appli
     SNMCrashes.generateTestCrash()
     ```
 
-    Note that this API can only be used in test/beta apps and won't work in production apps.
+    Note that this API will only work for development and test apps. The method will not be functioning once the app is distributed through the App Store.
 
 * **Did the app crash in the last session:** At any time after starting the SDK, you can check if the app crashed in the previous session:
 
