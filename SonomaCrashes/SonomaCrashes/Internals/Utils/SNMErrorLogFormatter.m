@@ -277,11 +277,8 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   NSString *reporterKey = [[SNMSonoma installId] UUIDString] ?: @"";
 
   NSString *signal = report.signalInfo.name;
-  
-  NSString *exceptionReason;
-//  if(report.hasExceptionInfo) {
-    exceptionReason = report.exceptionInfo.exceptionReason;
-//  }
+
+  NSString *exceptionReason = report.exceptionInfo.exceptionReason; // TODO what is our fallback info?
   NSString *exceptionName = report.exceptionInfo.exceptionName ?: report.signalInfo.name;
 
   NSDate *appStartTime = nil;
@@ -672,7 +669,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   if (!imagePath || !processPath) {
     return imageType;
   }
-  
+
   NSString *standardizedImagePath = [[imagePath stringByStandardizingPath] lowercaseString];
   imagePath = [imagePath lowercaseString];
   processPath = [processPath lowercaseString];
