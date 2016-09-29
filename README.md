@@ -37,13 +37,13 @@ The Sonoma SDK is designed with a modular approach – a developer only needs to
 
 Below are the steps on how to integrate the compiled libraries in your Xcode project to setup the Sonoma SDK for your iOS app.
 
-1. Download all the [Sonoma iOS SDK](https://github.com/Microsoft/Sonoma-SDK-iOS/releases) frameworks provided as a zip file from the Releases page from our GitHub repo.
+1. Download all the [Sonoma iOS SDK](https://github.com/Microsoft/Sonoma-SDK-iOS/releases) frameworks provided as a zip file from the Releases page in our GitHub repo.
 
 2. Unzip the file and you will see different frameworks for each Sonoma service. There is a framework called `SonomaCore`, which is required in the project as it contains the logic for persistence, forwarding etc. 
 
 3. Create a folder in your projects directory in Finder and drag it to Xcode:   
    * Let's create a folder called Vendor (if it doesn't exist) inside your project directory to include all the 3rd-party libraries.  
-   * Once created, drag this Vendor folder into Xcode. A dialog will appear. Select Create groups and set the checkmark for "Add to targets" for your target. Then click Finish.
+   * Once created, drag this Vendor folder into Xcode. A dialog will appear. Select "Create groups" and set the checkmark for "Add to targets" for your target. Then click Finish.
    
 4. Add the SDK frameworks to the project in Xcode:
     * Make sure the Project Navigator is visible (⌘+1).
