@@ -58,30 +58,38 @@ To start the Sonoma SDK in your app, follow these steps:
 
     Go over to the Sonoma portal, click on "Microsoft Azure Project Sonoma". Under "My apps", click on the app that you want the SDK to set up for. Then click on "Manage app" and make note of the "App Secret" value.
 
-2. **Add `import` statements:**  You need to add import statements for Core, Analytics and Crashes module before starting the SDK. Open your AppDelegate.m file and add the following lines at the top of the file below your own import statements.
+2. **Add `import` statements:**  You need to add import statements for Core, Analytics and Crashes module before starting the SDK.
     
-    **Objective-C**
+    **Objective-C**   
+    Open your AppDelegate.m file and add the following lines at the top of the file below your own import statements.   
+    
     ```objectivec
     @import SonomaCore;
     @import SonomaAnalytics;
     @import SonomaCrashes;
     ```
 
-    **Swift**
+    **Swift**   
+    Open your AppDelegate.swift file and add the following lines.   
+        
     ```swift
     import SonomaCore
     import SonomaAnalytics
     import SonomaCrashes
     ``` 
 
-3. **Start the SDK:** Sonoma provides developers with three modules to get started: SonomaCore (required), Analytics and Crashes. In order to use Sonoma services, you need to opt in for the module(s) that you'd like, meaning by default no modules are started and you will have to explicitly call each of them, both Analytics and Crashes, when starting the SDK. Insert the following line to start the SDK in your app's AppDelegate.m class in the `didFinishLaunchingWithOptions` method.
+3. **Start the SDK:** Sonoma provides developers with three modules to get started: SonomaCore (required), Analytics and Crashes. In order to use Sonoma services, you need to opt in for the module(s) that you'd like, meaning by default no modules are started and you will have to explicitly call each of them, both Analytics and Crashes, when starting the SDK.
 
-    **Objective-C**
+    **Objective-C**   
+    Insert the following line to start the SDK in your app's AppDelegate.m class in the `didFinishLaunchingWithOptions` method.   
+    
     ```objectivec
     [SNMSonoma start:@"{Your App Secret}" withFeatures:@[[SNMAnalytics class], [SNMCrashes class]]];
     ```
 
-    **Swift**
+    **Swift**   
+    Insert the following line to start the SDK in your app's AppDelegate.swift class in the `didFinishLaunchingWithOptions` method.   
+    
     ```swift
     SNMSonoma.start("{Your App Secret}", withFeatures: [SNMAnalytics.self, SNMCrashes.self])
     ```    
