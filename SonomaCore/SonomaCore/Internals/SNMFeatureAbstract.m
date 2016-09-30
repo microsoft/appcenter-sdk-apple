@@ -62,8 +62,7 @@
   BOOL canBeUsed = [SNMSonoma sharedInstance].sdkStarted && self.featureInitialized;
   if (!canBeUsed) {
     SNMLogError(@"[%@] ERROR: %@ module hasn't been initialized. You need to call [SNMSonoma "
-                @"start:YOUR_APP_SECRET withFeatures:LIST_OF_FEATURES] or [SNMSonoma "
-                @"startFeature:FEATURE] first.",
+                @"start:YOUR_APP_SECRET withFeatures:LIST_OF_FEATURES] first.",
                 CLASS_NAME_WITHOUT_PREFIX, CLASS_NAME_WITHOUT_PREFIX);
   }
   return canBeUsed;
