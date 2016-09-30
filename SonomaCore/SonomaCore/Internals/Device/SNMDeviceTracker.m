@@ -26,14 +26,24 @@ snm_info_t sonoma_library_info __attribute__((section("__TEXT,__bit_ios,regular,
 
 @synthesize device = _device;
 
+static SNMWrapperSdk *wrapperSdkInformation = nil;
+static BOOL needRefresh = YES;
+
++ (void)setWrapperSdk:(SNMWrapperSdk *)wrapperSdk {
+  @synchronized (self) {
+    wrapperSdkInformation = wrapperSdk;
+    needRefresh = YES;
+  }
+}
+
 /**
  *  Get the current device log.
  */
 - (SNMDevice *)device {
-  @synchronized(self) {
+  @synchronized (self) {
 
     // Lazy creation.
-    if (!_device) {
+    if (!_device || needRefresh) {
       [self refresh];
     }
     return _device;
@@ -44,7 +54,7 @@ snm_info_t sonoma_library_info __attribute__((section("__TEXT,__bit_ios,regular,
  *  Refresh device properties.
  */
 - (void)refresh {
-  @synchronized(self) {
+  @synchronized (self) {
     SNMDevice *newDevice = [[SNMDevice alloc] init];
     NSBundle *appBundle = [NSBundle mainBundle];
     CTCarrier *carrier = [[[CTTelephonyNetworkInfo alloc] init] subscriberCellularProvider];
@@ -66,8 +76,25 @@ snm_info_t sonoma_library_info __attribute__((section("__TEXT,__bit_ios,regular,
     newDevice.appBuild = [self appBuild:appBundle];
     newDevice.appNamespace = [self appNamespace:appBundle];
 
+    // Add wrapper SDK information
+    [self refreshWrapperSdk:newDevice];
+
     // Set the new device info.
     _device = newDevice;
+    needRefresh = NO;
+  }
+}
+
+/**
+ *  Refresh wrapper SDK properties.
+ */
+- (void)refreshWrapperSdk:(SNMDevice *)device {
+  if (wrapperSdkInformation) {
+    device.wrapperSdkVersion = wrapperSdkInformation.wrapperSdkVersion;
+    device.wrapperSdkName = wrapperSdkInformation.wrapperSdkName;
+    device.liveUpdateReleaseLabel = wrapperSdkInformation.liveUpdateReleaseLabel;
+    device.liveUpdateDeploymentKey = wrapperSdkInformation.liveUpdateDeploymentKey;
+    device.liveUpdatePackageHash = wrapperSdkInformation.liveUpdatePackageHash;
   }
 }
 
@@ -100,15 +127,15 @@ snm_info_t sonoma_library_info __attribute__((section("__TEXT,__bit_ios,regular,
 }
 
 - (NSString *)osBuild {
-    size_t size;
-    sysctlbyname("kern.osversion", NULL, &size, NULL, 0);
-    char *answer = (char*)malloc(size);
-    if (answer == NULL)
-      return nil; // returning nil to avoid a possible crash.
-    sysctlbyname("kern.osversion", answer, &size, NULL, 0);
-    NSString *osBuild = [NSString stringWithCString:answer encoding: NSUTF8StringEncoding];
-    free(answer);
-    return osBuild;
+  size_t size;
+  sysctlbyname("kern.osversion", NULL, &size, NULL, 0);
+  char *answer = (char *) malloc(size);
+  if (answer == NULL)
+    return nil; // returning nil to avoid a possible crash.
+  sysctlbyname("kern.osversion", answer, &size, NULL, 0);
+  NSString *osBuild = [NSString stringWithCString:answer encoding:NSUTF8StringEncoding];
+  free(answer);
+  return osBuild;
 }
 
 - (NSString *)locale:(NSLocale *)currentLocale {
@@ -122,7 +149,7 @@ snm_info_t sonoma_library_info __attribute__((section("__TEXT,__bit_ios,regular,
 - (NSString *)screenSize {
   CGFloat scale = [UIScreen mainScreen].scale;
   CGSize screenSize = [UIScreen mainScreen].bounds.size;
-  return [NSString stringWithFormat:@"%dx%d", (int)(screenSize.height * scale), (int)(screenSize.width * scale)];
+  return [NSString stringWithFormat:@"%dx%d", (int) (screenSize.height * scale), (int) (screenSize.width * scale)];
 }
 
 - (NSString *)carrierName:(CTCarrier *)carrier {
