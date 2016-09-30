@@ -271,24 +271,23 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
   SNMErrorReport *errorReport = nil;
 
-  // TODO incidentIdentifier is the errorId and should not fall back to "???" but to a new GUID
   NSString *errorId = [self errorIdForCrashReport:report];
   // There should always be an installId. Leaving the empty string out of paranoia
   // as [UUID UUID] – used in [SNMSonoma installId] – might, in theory, return nil.
   NSString *reporterKey = [[SNMSonoma installId] UUIDString] ?: @"";
 
   NSString *signal = report.signalInfo.name;
-  NSString *exceptionName = report.exceptionInfo.exceptionName;
-  NSString *exceptionReason = report.exceptionInfo.exceptionReason;
+
+  NSString *exceptionReason = report.exceptionInfo.exceptionReason; // TODO what is our fallback info?
+  NSString *exceptionName = report.exceptionInfo.exceptionName ?: report.signalInfo.name;
 
   NSDate *appStartTime = nil;
-  NSDate *crashTime = nil;
   if ([report.processInfo respondsToSelector:@selector(processStartTime)]) {
-    if (report.systemInfo.timestamp && report.processInfo.processStartTime) {
+    if (report.processInfo.processStartTime) {
       appStartTime = report.processInfo.processStartTime;
-      crashTime = report.systemInfo.timestamp;
     }
   }
+  NSDate *crashTime = report.systemInfo.timestamp;
 
   NSString *osVersion = report.systemInfo.operatingSystemVersion;
   NSString *osBuild = report.systemInfo.operatingSystemBuild;
@@ -670,7 +669,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   if (!imagePath || !processPath) {
     return imageType;
   }
-  
+
   NSString *standardizedImagePath = [[imagePath stringByStandardizingPath] lowercaseString];
   imagePath = [imagePath lowercaseString];
   processPath = [processPath lowercaseString];
