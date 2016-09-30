@@ -221,7 +221,7 @@ Once you set up and start the Sonoma SDK to use the Crashes module in your appli
   
 ## 6. Advanced APIs
 
-* **Debugging**: You can control the amount of log messages that show up from the Sonoma SDK. Use the `setLogLevel` API to enable additional logging while debugging. By default, it is set to `SNMLogLevelWarning`.
+* **Debugging**: You can control the amount of log messages that show up from the Sonoma SDK. Use the `setLogLevel` API to enable additional logging while debugging. By default, it is set to `SNMLogLevelAssert` for App Store environment, `SNMLogLevelWarn` otherwise.
 
     **Objective-C**
     ```objectivec
