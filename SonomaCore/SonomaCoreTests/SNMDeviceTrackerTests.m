@@ -207,7 +207,7 @@ static NSString *const kSNMDeviceManufacturerTest = @"Apple";
 
   // If
   NSString *expected = @"7.8.9";
-  NSDictionary<NSString *, id> *plist = @{ @"CFBundleShortVersionString" : expected };
+  NSDictionary<NSString *, id> *plist = @{@"CFBundleShortVersionString": expected};
   NSBundle *bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([bundleMock infoDictionary]).andReturn(plist);
 
@@ -222,7 +222,7 @@ static NSString *const kSNMDeviceManufacturerTest = @"Apple";
 
   // If
   NSString *expected = @"42";
-  NSDictionary<NSString *, id> *plist = @{ @"CFBundleVersion" : expected };
+  NSDictionary<NSString *, id> *plist = @{@"CFBundleVersion": expected};
   NSBundle *bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([bundleMock infoDictionary]).andReturn(plist);
 
@@ -245,6 +245,45 @@ static NSString *const kSNMDeviceManufacturerTest = @"Apple";
 
   // Then
   assertThat(appNamespace, is(expected));
+}
+
+- (void)testWrapperSdk {
+
+  // If
+  SNMWrapperSdk *wrapperSdk = [[SNMWrapperSdk alloc] init];
+  wrapperSdk.wrapperSdkVersion = @"10.11.12";
+  wrapperSdk.wrapperSdkName = @"Wrapper SDK for iOS";
+  wrapperSdk.liveUpdateReleaseLabel = @"Release label";
+  wrapperSdk.liveUpdateDeploymentKey = @"Deployment Key";
+  wrapperSdk.liveUpdatePackageHash = @"Package Hash";
+
+  // When
+  [SNMDeviceTracker setWrapperSdk:wrapperSdk];
+  SNMDeviceTracker *deviceTracker = [[SNMDeviceTracker alloc] init];
+  SNMDevice *device = deviceTracker.device;
+
+  // Then
+  XCTAssertEqual(device.wrapperSdkVersion, wrapperSdk.wrapperSdkVersion);
+  XCTAssertEqual(device.wrapperSdkName, wrapperSdk.wrapperSdkName);
+  XCTAssertEqual(device.liveUpdateReleaseLabel, wrapperSdk.liveUpdateReleaseLabel);
+  XCTAssertEqual(device.liveUpdateDeploymentKey, wrapperSdk.liveUpdateDeploymentKey);
+  XCTAssertEqual(device.liveUpdatePackageHash, wrapperSdk.liveUpdatePackageHash);
+
+  // Update wrapper SDK
+  // If
+  wrapperSdk.wrapperSdkVersion = @"10.11.13";
+
+  // When
+  [SNMDeviceTracker setWrapperSdk:wrapperSdk];
+
+  // Then
+  XCTAssertNotEqual(device.wrapperSdkVersion, wrapperSdk.wrapperSdkVersion);
+
+  // When
+  device = deviceTracker.device;
+
+  // Then
+  XCTAssertEqual(device.wrapperSdkVersion, wrapperSdk.wrapperSdkVersion);
 }
 
 @end
