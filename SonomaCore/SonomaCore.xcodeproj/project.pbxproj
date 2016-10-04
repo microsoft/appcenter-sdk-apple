@@ -886,7 +886,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
-				VALID_ARCHS = "$(BIT_ARM_ARCHS)";
+				VALID_ARCHS = "$(SNM_ARM_ARCHS)";
 			};
 			name = Debug;
 		};
@@ -905,8 +905,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = NO;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -926,10 +928,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SNM_ARM_ARCHS = "armv7 armv7s arm64";
-				SNM_SIM_ARCHS = "x86_64 i386";
 				VALIDATE_PRODUCT = YES;
-				VALID_ARCHS = "$(BIT_ARM_ARCHS)";
 			};
 			name = Release;
 		};
@@ -937,18 +936,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				"ARCHS[sdk=iphonesimulator*]" = "$(SNM_SIM_ARCHS)";
-				BUILD_NUMBER = 1;
-				DEAD_CODE_STRIPPING = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				OTHER_CFLAGS = "$(SONOMA_WARNING_FLAGS)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)"
+				);
 				OTHER_LDFLAGS = "-ObjC";
+				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.sonoma.SonomaCore;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = SonomaCore;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SKIP_INSTALL = YES;
-				SNM_ARM_ARCHS = "armv7 armv7s arm64";
-				SNM_SIM_ARCHS = "x86_64 i386";
-				VALID_ARCHS = "$(SNM_ARM_ARCHS)";
 				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(SNM_SIM_ARCHS)";
 			};
 			name = Debug;
@@ -956,26 +952,16 @@
 		6E04010E1D1C98220051BCFA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(SNM_ARM_ARCHS)";
 				"ARCHS[sdk=iphonesimulator*]" = "$(SNM_SIM_ARCHS)";
-				BUILD_NUMBER = 1;
-				DEAD_CODE_STRIPPING = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				OTHER_CFLAGS = "$(SONOMA_WARNING_FLAGS)";
-				"OTHER_CFLAGS[sdk=iphoneos*]" = "$(SONOMA_WARNING_FLAGS)";
-				"OTHER_CFLAGS[sdk=iphonesimulator*]" = (
-					"$(SONOMA_WARNING_FLAGS)",
-					"-fembed-bitcode",
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)"
 				);
 				OTHER_LDFLAGS = "-ObjC";
+				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.sonoma.SonomaCore;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = SonomaCore;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SKIP_INSTALL = YES;
-				SNM_ARM_ARCHS = "armv7 armv7s arm64";
-				SNM_SIM_ARCHS = "x86_64 i386";
-				VALIDATE_PRODUCT = NO;
-				VALID_ARCHS = "$(SNM_ARM_ARCHS)";
 				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(SNM_SIM_ARCHS)";
 			};
 			name = Release;
@@ -997,13 +983,8 @@
 		6E2395811D22EF4F00E543C8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_WARN_INT_CONVERSION = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/SonomaCoreTests",
-					"\"$(SRCROOT)/../Vendor\"/**",
-				);
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				INFOPLIST_FILE = SonomaCoreTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1016,23 +997,17 @@
 					"-ObjC",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.sonoma.SonomaCoreTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "";
+				PRODUCT_NAME = SonomaCore;
 			};
 			name = Debug;
 		};
 		6E2395821D22EF4F00E543C8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_WARN_INT_CONVERSION = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/SonomaCoreTests",
-					"\"$(SRCROOT)/../Vendor\"/**",
-				);
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
-				INFOPLIST_FILE = SonomaCoreTests/Info.plist;
+				INFOPLIST_FILE = SonomaCrashesTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
@@ -1043,22 +1018,29 @@
 					"-ObjC",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.sonoma.SonomaCoreTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "";
+				PRODUCT_NAME = SonomaCore;
 			};
 			name = Release;
 		};
 		6E6BFC321D234FAE00DF7617 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
+ARCHS = "$(ARCHS_STANDARD)";
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
+				OTHER_CFLAGS = "";
+				PRODUCT_NAME = SonomaCore;
+				VALID_ARCHS = "";
 			};
 			name = Debug;
 		};
 		6E6BFC331D234FAE00DF7617 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				ARCHS = "$(ARCHS_STANDARD)";
+				OTHER_CFLAGS = "";
+				PRODUCT_NAME = SonomaCrashes;
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../SonomaCore/SonomaCore\"";
+				VALID_ARCHS = "";
 			};
 			name = Release;
 		};
