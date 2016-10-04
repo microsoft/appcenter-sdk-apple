@@ -1007,7 +1007,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
-				INFOPLIST_FILE = SonomaCrashesTests/Info.plist;
+				INFOPLIST_FILE = SonomaCoreTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
@@ -1038,7 +1038,7 @@ ARCHS = "$(ARCHS_STANDARD)";
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
 				OTHER_CFLAGS = "";
-				PRODUCT_NAME = SonomaCrashes;
+				PRODUCT_NAME = SonomaCore;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../SonomaCore/SonomaCore\"";
 				VALID_ARCHS = "";
 			};
