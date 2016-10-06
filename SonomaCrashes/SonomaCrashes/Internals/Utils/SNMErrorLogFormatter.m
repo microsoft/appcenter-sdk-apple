@@ -55,6 +55,7 @@
 #import "SNMSonomaInternal.h"
 #import "SNMStackFrame.h"
 #import "SNMThread.h"
+#import "SNMDeviceTracker.h"
 
 static NSString *unknownString = @"???";
 
@@ -105,7 +106,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   for (unsigned int i = 0; i < images_count; ++i) {
     intptr_t slide = _dyld_get_image_vmaddr_slide(i);
     const struct mach_header *header = _dyld_get_image_header(i);
-    const struct mach_header_64 *header64 = (const struct mach_header_64 *)header;
+    const struct mach_header_64 *header64 = (const struct mach_header_64 *) header;
     const char *name = _dyld_get_image_name(i);
 
     /* Image disappeared? */
@@ -127,19 +128,19 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
     uint32_t ncmds;
 
     if (m64) {
-      command = (const uint8_t *)(header64 + 1);
+      command = (const uint8_t *) (header64 + 1);
       ncmds = header64->ncmds;
     } else {
-      command = (const uint8_t *)(header + 1);
+      command = (const uint8_t *) (header + 1);
       ncmds = header->ncmds;
     }
     for (uint32_t idx = 0; idx < ncmds; ++idx) {
-      const struct load_command *load_command = (const struct load_command *)command;
+      const struct load_command *load_command = (const struct load_command *) command;
       if (load_command->cmd == LC_UUID) {
-        const struct uuid_command *uuid_command = (const struct uuid_command *)command;
+        const struct uuid_command *uuid_command = (const struct uuid_command *) command;
         const uint8_t *uuid = uuid_command->uuid;
         uuidString = [[NSString stringWithFormat:@"%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%"
-                                                 @"02X%02X%02X%02X%02X",
+                                                     @"02X%02X%02X%02X%02X",
                                                  uuid[0], uuid[1], uuid[2], uuid[3], uuid[4], uuid[5], uuid[6], uuid[7],
                                                  uuid[8], uuid[9], uuid[10], uuid[11], uuid[12], uuid[13], uuid[14],
                                                  uuid[15]] lowercaseString];
@@ -173,7 +174,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
     /* Calculate the target address within this image, and verify that it is
      * within __objc_methname */
-    const char *target = ((const char *)header) + relativeAddress;
+    const char *target = ((const char *) header) + relativeAddress;
     const char *limit = methname_sect + methname_sect_size;
     if (target < methname_sect || target >= limit) {
       return NULL;
@@ -287,13 +288,11 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
       appStartTime = report.processInfo.processStartTime;
     }
   }
-  NSDate *crashTime = report.systemInfo.timestamp;
+  NSDate *appErrorTime = report.systemInfo.timestamp;
 
-  NSString *osVersion = report.systemInfo.operatingSystemVersion;
-  NSString *osBuild = report.systemInfo.operatingSystemBuild;
-  NSString *appVersion = report.applicationInfo.applicationMarketingVersion;
-  NSString *appBuild = report.applicationInfo.applicationVersion;
   NSUInteger processId = report.processInfo.processID;
+
+  SNMDevice *device = [SNMDeviceTracker alloc].device;
 
   errorReport = [[SNMErrorReport alloc] initWithErrorId:errorId
                                             reporterKey:reporterKey
@@ -301,11 +300,8 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
                                           exceptionName:exceptionName
                                         exceptionReason:exceptionReason
                                            appStartTime:appStartTime
-                                              crashTime:crashTime
-                                              osVersion:osVersion
-                                                osBuild:osBuild
-                                             appVersion:appVersion
-                                               appBuild:appBuild
+                                           appErrorTime:appErrorTime
+                                                 device:device
                                    appProcessIdentifier:processId];
 
   return errorReport;
@@ -316,8 +312,8 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 #pragma mark - Parse SNMPLCrashReport
 
 + (NSString *)errorIdForCrashReport:(SNMPLCrashReport *)report {
-  NSString *errorId = report.uuidRef ? (NSString *)CFBridgingRelease(CFUUIDCreateString(NULL, report.uuidRef))
-                                     : [[NSUUID UUID] UUIDString];
+  NSString *errorId = report.uuidRef ? (NSString *) CFBridgingRelease(CFUUIDCreateString(NULL, report.uuidRef))
+      : [[NSUUID UUID] UUIDString];
   return errorId;
 }
 
@@ -448,12 +444,10 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
       switch (report.systemInfo.operatingSystem) {
       case PLCrashReportOperatingSystemMacOSX:
       case PLCrashReportOperatingSystemiPhoneOS:
-      case PLCrashReportOperatingSystemiPhoneSimulator:
-        symbolName = [symbolName substringFromIndex:1];
+      case PLCrashReportOperatingSystemiPhoneSimulator:symbolName = [symbolName substringFromIndex:1];
         break;
 
-      default:
-        NSLog(@"Symbol prefix rules are unknown for this OS!");
+      default:NSLog(@"Symbol prefix rules are unknown for this OS!");
         break;
       }
     }
@@ -534,7 +528,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   /* Images. The iPhone crash report format sorts these in ascending order, by
    * the base address */
   for (SNMPLCrashReportBinaryImageInfo *imageInfo in
-       [report.images sortedArrayUsingFunction:bit_binaryImageSort context:nil]) {
+      [report.images sortedArrayUsingFunction:bit_binaryImageSort context:nil]) {
     SNMBinary *binary = [SNMBinary new];
 
     binary.binaryId = (imageInfo.hasImageUUID) ? imageInfo.imageUUID : unknownString;
@@ -542,7 +536,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
     uint64_t startAddress = imageInfo.imageBaseAddress;
     binary.startAddress = formatted_address_matching_architecture(startAddress, is64bit);
 
-    uint64_t endAddress = imageInfo.imageBaseAddress + (MAX((uint64_t)1, imageInfo.imageSize) - 1);
+    uint64_t endAddress = imageInfo.imageBaseAddress + (MAX((uint64_t) 1, imageInfo.imageSize) - 1);
     binary.endAddress = formatted_address_matching_architecture(endAddress, is64bit);
 
     BOOL binaryIsInAddresses = [self isBinaryWithStart:startAddress end:endAddress inAddresses:addresses];
@@ -651,7 +645,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   if (imageForRegAddress) {
     // get the SEL
     const char *foundSelector = findSEL([imageForRegAddress.imageName UTF8String], imageForRegAddress.imageUUID,
-                                        regAddress - (uint64_t)imageForRegAddress.imageBaseAddress);
+                                        regAddress - (uint64_t) imageForRegAddress.imageBaseAddress);
 
     if (foundSelector != NULL) {
       return [NSString stringWithUTF8String:foundSelector];
@@ -690,10 +684,10 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
         [imagePath hasPrefix:processPath]) {
       imageType = SNMBinaryImageTypeAppBinary;
     } else if ([standardizedImagePath hasPrefix:appBundleContentsPath] ||
-               // Fix issue with iOS 8 `stringByStandardizingPath` removing
-               // leading `/private` path (when not running in the debugger or
-               // simulator only)
-               [imagePath hasPrefix:appBundleContentsPath]) {
+        // Fix issue with iOS 8 `stringByStandardizingPath` removing
+        // leading `/private` path (when not running in the debugger or
+        // simulator only)
+        [imagePath hasPrefix:appBundleContentsPath]) {
       imageType = SNMBinaryImageTypeAppFramework;
     }
   }
@@ -705,11 +699,11 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
 + (NSNumber *)extractCodeTypeFromReport:(const SNMPLCrashReport *)report {
   NSDictionary<NSNumber *, NSNumber *> *legacyTypes = @{
-    @(PLCrashReportArchitectureARMv6) : @(CPU_TYPE_ARM),
-    @(PLCrashReportArchitectureARMv7) : @(CPU_TYPE_ARM),
-    @(PLCrashReportArchitectureX86_32) : @(CPU_TYPE_X86),
-    @(PLCrashReportArchitectureX86_64) : @(CPU_TYPE_X86_64),
-    @(PLCrashReportArchitecturePPC) : @(CPU_TYPE_POWERPC),
+      @(PLCrashReportArchitectureARMv6): @(CPU_TYPE_ARM),
+      @(PLCrashReportArchitectureARMv7): @(CPU_TYPE_ARM),
+      @(PLCrashReportArchitectureX86_32): @(CPU_TYPE_X86),
+      @(PLCrashReportArchitectureX86_64): @(CPU_TYPE_X86_64),
+      @(PLCrashReportArchitecturePPC): @(CPU_TYPE_POWERPC),
   };
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
@@ -717,7 +711,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   NSNumber *codeType = nil;
   for (SNMPLCrashReportBinaryImageInfo *image in report.images) {
     codeType = @(image.codeType.type) ?: @(report.systemInfo.processorInfo.type)
-                                             ?: legacyTypes[@(report.systemInfo.architecture)];
+        ?: legacyTypes[@(report.systemInfo.architecture)];
 
     /* Stop immediately if code type was discovered */
     if (codeType != nil)
@@ -729,11 +723,11 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
 + (BOOL)isCodeType64bit:(NSNumber *)codeType {
   NSDictionary<NSNumber *, NSNumber *> *codeTypesAre64bit = @{
-    @(CPU_TYPE_ARM) : @NO,
-    @(CPU_TYPE_ARM64) : @YES,
-    @(CPU_TYPE_X86) : @NO,
-    @(CPU_TYPE_X86_64) : @YES,
-    @(CPU_TYPE_POWERPC) : @NO,
+      @(CPU_TYPE_ARM): @NO,
+      @(CPU_TYPE_ARM64): @YES,
+      @(CPU_TYPE_X86): @NO,
+      @(CPU_TYPE_X86_64): @YES,
+      @(CPU_TYPE_POWERPC): @NO,
   };
   NSNumber *boolNumber = codeTypesAre64bit[codeType];
   return boolNumber.boolValue;

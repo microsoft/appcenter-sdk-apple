@@ -15,11 +15,8 @@ NSString *const kSNMErrorReportKillSignal = @"SIGKILL";
                   exceptionName:(NSString *)exceptionName
                 exceptionReason:(NSString *)exceptionReason
                    appStartTime:(NSDate *)appStartTime
-                      crashTime:(NSDate *)crashTime
-                      osVersion:(NSString *)osVersion
-                        osBuild:(NSString *)osBuild
-                     appVersion:(NSString *)appVersion
-                       appBuild:(NSString *)appBuild
+                   appErrorTime:(NSDate *)appErrorTime
+                         device:(SNMDevice *)device
            appProcessIdentifier:(NSUInteger)appProcessIdentifier {
 
   if ((self = [super init])) {
@@ -29,11 +26,8 @@ NSString *const kSNMErrorReportKillSignal = @"SIGKILL";
     _exceptionName = exceptionName;
     _exceptionReason = exceptionReason;
     _appStartTime = appStartTime;
-    _crashTime = crashTime;
-    _osVersion = osVersion;
-    _osBuild = osBuild;
-    _appVersion = appVersion;
-    _appBuild = appBuild;
+    _appErrorTime = appErrorTime;
+    _device = device;
     _appProcessIdentifier = appProcessIdentifier;
   }
   return self;
