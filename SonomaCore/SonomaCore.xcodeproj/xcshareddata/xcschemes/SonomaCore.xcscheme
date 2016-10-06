@@ -34,7 +34,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6E2395771D22EF4F00E543C8"
-               BuildableName = "SonomaCoreTests.xctest"
+               BuildableName = "SonomaCore.xctest"
                BlueprintName = "SonomaCoreTests"
                ReferencedContainer = "container:SonomaCore.xcodeproj">
             </BuildableReference>
