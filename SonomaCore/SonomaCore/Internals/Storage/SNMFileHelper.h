@@ -56,9 +56,8 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return a list with file metadata
  */
-+ (NSArray<SNMFile *> *)filesForDirectory:(NSString *)directoryPath withFileExtension:(NSString *)fileExtension;
-
-NS_ASSUME_NONNULL_END
++ (nullable NSArray<SNMFile *> *)filesForDirectory:(nullable NSString *)directoryPath
+                                 withFileExtension:(nullable NSString *)fileExtension;
 
 /**
  * Returns the content of a file.
@@ -70,3 +69,5 @@ NS_ASSUME_NONNULL_END
 + (nullable NSData *)dataForFile:(nonnull SNMFile *)file;
 
 @end
+
+NS_ASSUME_NONNULL_END

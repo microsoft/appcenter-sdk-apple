@@ -8,15 +8,26 @@
 
 static char *const SNMDataItemsOperationsQueue = "com.microsoft.sonoma.LogManagerQueue";
 
+/**
+ * Private declaration of the log manager.
+ */
+@interface SNMLogManagerDefault ()
+
+/**
+ *  A boolean value set to YES if this instance is enabled or NO otherwise.
+ */
+@property(atomic) BOOL enabled;
+
+@end
+
 @implementation SNMLogManagerDefault
 
 #pragma mark - Initialization
 
-// TODO: Channels need to be passed in, otherwise e.g. old crashes will never been send out.
-
 - (instancetype)init {
   if (self = [super init]) {
     dispatch_queue_t serialQueue = dispatch_queue_create(SNMDataItemsOperationsQueue, DISPATCH_QUEUE_SERIAL);
+    _enabled = YES;
     _dataItemsOperations = serialQueue;
     _channels = [NSMutableDictionary<NSNumber *, id<SNMChannel>> new];
     _listeners = [NSMutableArray<id<SNMLogManagerListener>> new];
@@ -63,12 +74,13 @@ static char *const SNMDataItemsOperationsQueue = "com.microsoft.sonoma.LogManage
   log.toffset = [NSNumber numberWithInteger:[[NSDate date] timeIntervalSince1970]];
   log.device = self.deviceTracker.device;
 
+  // Asynchroneously forward to channel by using the data dispatch queue.
   dispatch_async(self.dataItemsOperations, ^{
     [channel enqueueItem:log];
   });
 }
 
-- (void) flushPendingLogsForPriority:(SNMPriority)priority {
+- (void)flushPendingLogsForPriority:(SNMPriority)priority {
   id<SNMChannel> channel = [self channelForPriority:@(priority)];
 
   [channel flushQueue];
@@ -100,6 +112,33 @@ static char *const SNMDataItemsOperationsQueue = "com.microsoft.sonoma.LogManage
 
 - (void)deleteLogsForPriority:(SNMPriority)priority {
   [[self channelForPriority:priority] deleteAllLogs];
+}
+
+#pragma mark - Enable / Disable
+
+- (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData {
+  if (isEnabled != self.enabled) {
+    self.enabled = isEnabled;
+
+    // Propagate to sender.
+    [self.sender setEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
+
+    // Propagate to channels.
+    for (NSNumber *priority in self.channels) {
+      [self.channels[priority] setEnabled:isEnabled andDeleteDataOnDisabled:NO];
+    }
+
+    // If requested, delete any remaining logs (e.g., even logs from not started features).
+    if (!isEnabled && deleteData) {
+      for (int priority = 0; priority < kSNMPriorityCount; priority++) {
+        [self deleteLogsForPriority:priority];
+      }
+    }
+  }
+}
+
+- (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData forPriority:(SNMPriority)priority {
+  [[self channelForPriority:priority] setEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
 }
 
 @end
