@@ -76,6 +76,7 @@
 		6EC99A3D1D416CCF0016C325 /* log_report_xamarin in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A361D416CCF0016C325 /* log_report_xamarin */; };
 		B24F3F0F1D93368F00827213 /* SNMErrorLogFormatterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B24F3F0E1D93368F00827213 /* SNMErrorLogFormatterTests.m */; };
 		B24F3F121D9341BC00827213 /* SNMErrorLogFormatterPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = B24F3F101D93417B00827213 /* SNMErrorLogFormatterPrivate.h */; };
+		B2A0A71C1D9C2AE700729A58 /* SNMCrashTestHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B2A0A71B1D9C2AE700729A58 /* SNMCrashTestHelper.m */; };
 		B2CD3BF91D80EE49000A8A91 /* SNMAbstractErrorLog.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD3BF71D80EE49000A8A91 /* SNMAbstractErrorLog.h */; };
 		B2CD3BFA1D80EE49000A8A91 /* SNMAbstractErrorLog.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD3BF81D80EE49000A8A91 /* SNMAbstractErrorLog.m */; };
 		B2F120D31D6546560060DED7 /* SNMBinaryAttachmentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120D21D6546560060DED7 /* SNMBinaryAttachmentTests.m */; };
@@ -200,6 +201,8 @@
 		6EC99A361D416CCF0016C325 /* log_report_xamarin */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = log_report_xamarin; sourceTree = "<group>"; };
 		B24F3F0E1D93368F00827213 /* SNMErrorLogFormatterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMErrorLogFormatterTests.m; sourceTree = "<group>"; };
 		B24F3F101D93417B00827213 /* SNMErrorLogFormatterPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMErrorLogFormatterPrivate.h; sourceTree = "<group>"; };
+		B2A0A71A1D9C2AE700729A58 /* SNMCrashTestHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMCrashTestHelper.h; sourceTree = "<group>"; };
+		B2A0A71B1D9C2AE700729A58 /* SNMCrashTestHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMCrashTestHelper.m; sourceTree = "<group>"; };
 		B2CD3BF71D80EE49000A8A91 /* SNMAbstractErrorLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMAbstractErrorLog.h; sourceTree = "<group>"; };
 		B2CD3BF81D80EE49000A8A91 /* SNMAbstractErrorLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMAbstractErrorLog.m; sourceTree = "<group>"; };
 		B2F120D21D6546560060DED7 /* SNMBinaryAttachmentTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMBinaryAttachmentTests.m; sourceTree = "<group>"; };
@@ -296,15 +299,16 @@
 				6E7D5C811D3EC06C009EC9AC /* SNMConstants.h */,
 				6E171AEC1D22F7AB000DC480 /* Frameworks */,
 				6E171AE51D22F781000DC480 /* Info.plist */,
-				6E7D5C7F1D3EAEB5009EC9AC /* SNMBinaryTests.m */,
-				B24F3F0E1D93368F00827213 /* SNMErrorLogFormatterTests.m */,
-				6E7D5C891D3EC504009EC9AC /* SNMExceptionTests.m */,
-				6E7D5C831D3EC0F7009EC9AC /* SNMThreadTests.m */,
 				B2F120D21D6546560060DED7 /* SNMBinaryAttachmentTests.m */,
+				6E7D5C7F1D3EAEB5009EC9AC /* SNMBinaryTests.m */,
 				6EC99A2D1D4166C50016C325 /* SNMCrashesTests.m */,
 				B2F120D41D6546740060DED7 /* SNMErrorAttachmentTests.m */,
+				B24F3F0E1D93368F00827213 /* SNMErrorLogFormatterTests.m */,
 				B2F120D61D65469D0060DED7 /* SNMErrorReportTests.m */,
+				6E7D5C891D3EC504009EC9AC /* SNMExceptionTests.m */,
 				6E7D5C861D3EC332009EC9AC /* SNMStackFrameTests.m */,
+				6E7D5C831D3EC0F7009EC9AC /* SNMThreadTests.m */,
+				B2A0A71D1D9C2AF200729A58 /* Utils */,
 			);
 			path = SonomaCrashesTests;
 			sourceTree = "<group>";
@@ -442,6 +446,15 @@
 				6EC99A361D416CCF0016C325 /* log_report_xamarin */,
 			);
 			path = Fixtures;
+			sourceTree = "<group>";
+		};
+		B2A0A71D1D9C2AF200729A58 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				B2A0A71A1D9C2AE700729A58 /* SNMCrashTestHelper.h */,
+				B2A0A71B1D9C2AE700729A58 /* SNMCrashTestHelper.m */,
+			);
+			name = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -589,7 +602,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=SonomaCrashes\nFMK_VERSION=A\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../Products\nZIP_FOLDER=${FMK_NAME}\nTEMP_DIR=${PRODUCTS_DIR}/${ZIP_FOLDER}\nINSTALL_DIR=${TEMP_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator\n\n# //////////////////////////////\n# Building Core Framework\n# //////////////////////////////\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphoneos\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${TEMP_DIR}\" ]\nthen\nrm -rf \"${TEMP_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\nmkdir -p \"${INSTALL_DIR}/Versions\"\nmkdir -p \"${INSTALL_DIR}/Versions/${FMK_VERSION}\"\nmkdir -p \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Headers\"\n\n# Creates the internal links.\n# It MUST uses relative path, otherwise will not work when the folder is copied/moved.\nln -s \"${FMK_VERSION}\" \"${INSTALL_DIR}/Versions/Current\"\nln -s \"Versions/Current/Headers\" \"${INSTALL_DIR}/Headers\"\nln -s \"Versions/Current/${FMK_NAME}\" \"${INSTALL_DIR}/${FMK_NAME}\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Support/module.modulemap\" \"${INSTALL_DIR}/Modules/\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Versions/${FMK_VERSION}/Headers/\"\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" \"${SIMULATOR_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/Versions/${FMK_VERSION}/${FMK_NAME}\"\n\n# Combine the CrashReporter static library into a new Hockey static library file if they are not already present and copy the public headers too\nif [ -z $(otool -L \"${INSTALL_DIR}/Versions/${FMK_VERSION}/${FMK_NAME}\" | grep 'libCrashReporter') ]\nthen\nlibtool -static -o \"${INSTALL_DIR}/Versions/${FMK_VERSION}/${FMK_NAME}\" \"${INSTALL_DIR}/Versions/${FMK_VERSION}/${FMK_NAME}\" \"${SRCROOT}/../Vendor/PLCrashReporter/CrashReporter.framework/Versions/A/CrashReporter\"\nfi\n\nrm -r \"${WRK_DIR}\"";
+			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=SonomaCrashes\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../Products\nZIP_FOLDER=${FMK_NAME}\nTEMP_DIR=${PRODUCTS_DIR}/${ZIP_FOLDER}\nINSTALL_DIR=${TEMP_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphoneos\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${TEMP_DIR}\" ]\nthen\nrm -rf \"${TEMP_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Support/module.modulemap\" \"${INSTALL_DIR}/Modules/\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Headers/\"\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" \"${SIMULATOR_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\n\nif [ -z $(otool -L \"${INSTALL_DIR}/${FMK_NAME}\" | grep 'libCrashReporter') ]\nthen\nlibtool -static -o \"${INSTALL_DIR}/${FMK_NAME}\" \"${INSTALL_DIR}/${FMK_NAME}\" \"${SRCROOT}/../Vendor/PLCrashReporter/CrashReporter.framework/Versions/A/CrashReporter\"\nfi\n\nrm -r \"${WRK_DIR}\"";
 		};
 		6E6BFC3A1D23505600DF7617 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -638,6 +651,7 @@
 				6E7D5C871D3EC332009EC9AC /* SNMStackFrameTests.m in Sources */,
 				6E7D5C841D3EC0F7009EC9AC /* SNMThreadTests.m in Sources */,
 				B24F3F0F1D93368F00827213 /* SNMErrorLogFormatterTests.m in Sources */,
+				B2A0A71C1D9C2AE700729A58 /* SNMCrashTestHelper.m in Sources */,
 				6E7D5C801D3EAEB5009EC9AC /* SNMBinaryTests.m in Sources */,
 				B2F120D31D6546560060DED7 /* SNMBinaryAttachmentTests.m in Sources */,
 				B2F120D51D6546740060DED7 /* SNMErrorAttachmentTests.m in Sources */,

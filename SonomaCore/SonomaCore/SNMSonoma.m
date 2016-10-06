@@ -19,7 +19,7 @@ static NSString *const kSNMAPIVersion = @"1.0.0-preview20160914";
 static NSString *const kSNMAPIVersionKey = @"api_version";
 
 // Base URL for HTTP backend API calls.
-static NSString *const kSNMDefaultBaseUrl = @"http://in-integration.dev.avalanch.es:8081";
+static NSString *const kSNMDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
 
 @implementation SNMSonoma
 
@@ -36,8 +36,20 @@ static NSString *const kSNMDefaultBaseUrl = @"http://in-integration.dev.avalanch
 
 #pragma mark - public
 
++ (void)start:(NSString *)appSecret {
+  [[self sharedInstance] start:appSecret];
+}
+
 + (void)start:(NSString *)appSecret withFeatures:(NSArray<Class> *)features {
   [[self sharedInstance] start:appSecret withFeatures:features];
+}
+
++ (void)startFeature:(Class)feature {
+  [[self sharedInstance] startFeature:feature];
+}
+
++ (BOOL)isInitialized {
+  return [[self sharedInstance] sdkStarted];
 }
 
 + (void)setServerUrl:(NSString *)serverUrl {
@@ -115,16 +127,16 @@ static NSString *const kSNMDefaultBaseUrl = @"http://in-integration.dev.avalanch
   return self;
 }
 
-- (void)start:(NSString *)appSecret withFeatures:(NSArray<Class> *)features {
+- (BOOL)start:(NSString *)appSecret {
   if (self.sdkStarted) {
     SNMLogWarning(@"SDK has already been started. You can call `start` only once.");
-    return;
+    return NO;
   }
 
   // Validate and set the app secret.
   if ([appSecret length] == 0 || ![[NSUUID alloc] initWithUUIDString:appSecret]) {
     SNMLogError(@"ERROR: AppSecret is invalid");
-    return;
+    return NO;
   }
   self.appSecret = appSecret;
 
@@ -134,18 +146,6 @@ static NSString *const kSNMDefaultBaseUrl = @"http://in-integration.dev.avalanch
   // Init the main pipeline.
   [self initializePipeline];
 
-  // Init requested features.
-  for (Class obj in features) {
-    id<SNMFeatureInternal> feature = [obj sharedInstance];
-
-    // Set delegate.
-    feature.delegate = self;
-    [self.features addObject:feature];
-
-    // Set log manager.
-    [feature onLogManagerReady:self.logManager];
-    [feature startFeature];
-  }
   _sdkStarted = YES;
 
   // If the loglevel hasn't been customized before and we are not running in an app store environment, we set the
@@ -153,6 +153,29 @@ static NSString *const kSNMDefaultBaseUrl = @"http://in-integration.dev.avalanch
   if ((![SNMLogger isUserDefinedLogLevel]) && ([SNMEnvironmentHelper currentAppEnvironment] == SNMEnvironmentOther)) {
     [SNMSonoma setLogLevel:SNMLogLevelWarning];
   }
+
+  return YES;
+}
+
+- (void)start:(NSString *)appSecret withFeatures:(NSArray<Class> *)features {
+  BOOL initialized = [self start:appSecret];
+  if (initialized) {
+    for (Class feature in features) {
+      [self startFeature:feature];
+    }
+  }
+}
+
+- (void)startFeature:(Class)clazz {
+  id<SNMFeatureInternal> feature = [clazz sharedInstance];
+
+  // Set delegate.
+  feature.delegate = self;
+  [self.features addObject:feature];
+
+  // Set log manager.
+  [feature onLogManagerReady:self.logManager];
+  [feature startFeature];
 }
 
 - (void)setServerUrl:(NSString *)serverUrl {
@@ -186,7 +209,7 @@ static NSString *const kSNMDefaultBaseUrl = @"http://in-integration.dev.avalanch
     if ([self canBeUsed]) {
 
       /**
-       *  Get isEnabled value from persistence.
+       * Get isEnabled value from persistence.
        * No need to cache the value in a property, user settings already have their cache mechanism.
        */
       NSNumber *isEnabledNumber = [kSNMUserDefaults objectForKey:kSNMCoreIsEnabledKey];
