@@ -1,20 +1,45 @@
 /*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
+* Copyright (c) Microsoft Corporation. All rights reserved.
+*/
 
 #import "SNMChannelDefault.h"
 #import "SonomaCore+Internal.h"
+
+/**
+ * Private declarations.
+ */
+@interface SNMChannelDefault ()
+
+/**
+ *  A boolean value set to YES if the channel is enabled or NO otherwise.
+ * Enable/disable does resume/suspend the channel as needed under the hood.
+ */
+@property(nonatomic) BOOL enabled;
+
+/**
+ *  A boolean value set to YES if the channel is suspended or NO otherwise.
+ * A channel is suspended when it becomes disabled or when its sender becomes suspended itself.
+ * A suspended channel still persists logs but doesn't forward them to the sender.
+ * A suspended state doesn't impact the current enabled state.
+ */
+@property(nonatomic) BOOL suspended;
+
+@end
 
 @implementation SNMChannelDefault
 
 @synthesize configuration = _configuration;
 
-#pragma mark - Initialisation
+#pragma mark - Initialization
 
 - (instancetype)init {
   if (self = [super init]) {
     _itemsCount = 0;
-    _pendingLogsIds = [NSMutableArray new];
+    _pendingBatchIds = [NSMutableArray new];
+    _pendingBatchQueueFull = NO;
+    _availableBatchFromStorage = NO;
+    _enabled = YES;
+    _enabled = NO;
   }
   return self;
 }
@@ -28,6 +53,9 @@
     _storage = storage;
     _configuration = configuration;
     _callbackQueue = callbackQueue;
+
+    // Register as sender delegate.
+    [_sender addDelegate:self];
   }
   return self;
 }
@@ -43,47 +71,87 @@
     SNMLogWarning(@"WARNING: TelemetryItem was nil.");
     return;
   }
-  _itemsCount += 1;
-  [self.storage saveLog:item withStorageKey:self.configuration.name];
 
+  // Save the log first.
+  [self.storage saveLog:item withStorageKey:self.configuration.name];
+  _itemsCount += 1;
   if (completion)
     completion(YES);
 
+  // Flush now if current batch is full or delay to later.
   if (self.itemsCount >= self.configuration.batchSizeLimit) {
     [self flushQueue];
   } else if (self.itemsCount == 1) {
-    [self startTimer];
+
+    // Don't delay if channel is suspended but stack logs until current batch max out.
+    if (!self.suspended) {
+      [self startTimer];
+    }
   }
 }
 
 - (void)flushQueue {
-  _itemsCount = 0;
-  [self.storage
+
+  // Cancel any timer.
+  [self resetTimer];
+
+  // Don't flush while suspended or if pending bach queue is full.
+  if (self.suspended || self.pendingBatchQueueFull) {
+
+    // Still close the current batch it will be flushed later.
+    if (self.itemsCount >= self.configuration.batchSizeLimit) {
+      [self.storage closeBatchWithStorageKey:self.configuration.name];
+
+      // That batch becomes available.
+      self.availableBatchFromStorage = YES;
+      self.itemsCount = 0;
+    }
+    return;
+  }
+
+  // Reset item count and load data from the storage.
+  self.itemsCount = 0;
+  self.availableBatchFromStorage = [self.storage
       loadLogsForStorageKey:self.configuration.name
              withCompletion:^(BOOL succeeded, NSArray<SNMLog> *_Nullable logArray, NSString *_Nullable batchId) {
 
                // Logs may be deleted from storage before this flush.
                if (succeeded) {
-                 if (self.pendingLogsIds.count < self.configuration.pendingBatchesLimit) {
-                   [self.pendingLogsIds addObject:batchId];
-                   SNMLogContainer *container = [[SNMLogContainer alloc] initWithBatchId:batchId andLogs:logArray];
-
-                   SNMLogVerbose(@"INFO:Sending log %@", [container serializeLogWithPrettyPrinting:YES]);
-
-                   [self.sender sendAsync:container
-                            callbackQueue:self.callbackQueue
-                        completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
-                          SNMLogVerbose(@"INFO:HTTP response received with the "
-                                        @"status code:%lu",
-                                        (unsigned long)statusCode);
-
-                          // Remove from pending log and storage.
-                          [self.pendingLogsIds removeObject:batchId];
-                          [self.storage deleteLogsForId:batchId withStorageKey:self.configuration.name];
-                        }];
+                 [self.pendingBatchIds addObject:batchId];
+                 if (self.pendingBatchIds.count == self.configuration.pendingBatchesLimit) {
+                   self.pendingBatchQueueFull = YES;
                  }
+                 SNMLogContainer *container = [[SNMLogContainer alloc] initWithBatchId:batchId andLogs:logArray];
+                 SNMLogVerbose(@"INFO:Sending log %@", [container serializeLogWithPrettyPrinting:YES]);
+
+                 // Forward logs to the sender.
+                 [self.sender sendAsync:container
+                          callbackQueue:self.callbackQueue
+                      completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
+                        SNMLogVerbose(@"INFO:HTTP response received with the "
+                                      @"status code:%lu",
+                                      (unsigned long)statusCode);
+
+                        // Remove from pending logs and storage.
+                        [self.pendingBatchIds removeObject:batchId];
+                        [self.storage deleteLogsForId:batchId withStorageKey:self.configuration.name];
+
+                        // Try to flush again if batch queue is not full anymore.
+                        if (self.pendingBatchQueueFull &&
+                            self.pendingBatchIds.count < self.configuration.pendingBatchesLimit) {
+                          self.pendingBatchQueueFull = NO;
+                          if (self.availableBatchFromStorage) {
+                            [self flushQueue];
+                          }
+                        }
+                      }];
                }
              }];
+
+  // Flush again if there is another batch to send.
+  if (self.availableBatchFromStorage && !self.pendingBatchQueueFull) {
+    [self flushQueue];
+  }
 }
 
 #pragma mark - Timer
@@ -99,10 +167,13 @@
   dispatch_source_set_event_handler(self.timerSource, ^{
     typeof(self) strongSelf = weakSelf;
 
-    if (strongSelf->_itemsCount > 0) {
-      [strongSelf flushQueue];
+    // Flush the queue as needed.
+    if (strongSelf) {
+      if (strongSelf->_itemsCount > 0) {
+        [strongSelf flushQueue];
+      }
+      [strongSelf resetTimer];
     }
-    [strongSelf resetTimer];
   });
   dispatch_resume(self.timerSource);
 }
@@ -114,13 +185,57 @@
   }
 }
 
+#pragma mark - Life cycle
+
+- (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData {
+  self.enabled = isEnabled;
+  if (isEnabled) {
+    [self resume];
+    [self.sender addDelegate:self];
+  } else {
+    [self.sender removeDelegate:self];
+    [self suspend];
+    if (deleteData) {
+      [self deleteAllLogs];
+      [self.pendingBatchIds removeAllObjects];
+
+      // Reset states.
+      self.itemsCount = 0;
+      self.availableBatchFromStorage = NO;
+      self.pendingBatchQueueFull = NO;
+    }
+  }
+}
+
+- (void)suspend {
+  if (!self.suspended) {
+    self.suspended = YES;
+    [self resetTimer];
+  }
+}
+
+- (void)resume {
+  if (self.suspended && self.enabled) {
+    self.suspended = NO;
+    [self flushQueue];
+  }
+}
+
 #pragma mark - Storage
 
-/**
- *  Delete all logs from the storage.
- */
 - (void)deleteAllLogs {
+  [self.pendingBatchIds removeAllObjects];
   [self.storage deleteLogsForStorageKey:self.configuration.name];
+}
+
+#pragma mark - SNMSenderDelegate
+
+- (void)senderDidSuspend:(id<SNMSender>)sender {
+  [self suspend];
+}
+
+- (void)senderDidResume:(id<SNMSender>)sender {
+  [self resume];
 }
 
 @end
