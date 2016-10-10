@@ -2,7 +2,6 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "SNMSonomaDelegate.h"
 #import "SNMFeature.h"
 #import "SNMFeatureCommon.h"
 #import "SNMLogManager.h"

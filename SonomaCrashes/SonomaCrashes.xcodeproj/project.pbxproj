@@ -79,6 +79,7 @@
 		B2A0A71C1D9C2AE700729A58 /* SNMCrashTestHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B2A0A71B1D9C2AE700729A58 /* SNMCrashTestHelper.m */; };
 		B2CD3BF91D80EE49000A8A91 /* SNMAbstractErrorLog.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD3BF71D80EE49000A8A91 /* SNMAbstractErrorLog.h */; };
 		B2CD3BFA1D80EE49000A8A91 /* SNMAbstractErrorLog.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD3BF81D80EE49000A8A91 /* SNMAbstractErrorLog.m */; };
+		B2DCB1361DAC03C400120F87 /* SNMCrashesDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = B2DCB1351DAC03C400120F87 /* SNMCrashesDelegate.h */; };
 		B2F120D31D6546560060DED7 /* SNMBinaryAttachmentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120D21D6546560060DED7 /* SNMBinaryAttachmentTests.m */; };
 		B2F120D51D6546740060DED7 /* SNMErrorAttachmentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120D41D6546740060DED7 /* SNMErrorAttachmentTests.m */; };
 		B2F120D71D65469D0060DED7 /* SNMErrorReportTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120D61D65469D0060DED7 /* SNMErrorReportTests.m */; };
@@ -205,6 +206,7 @@
 		B2A0A71B1D9C2AE700729A58 /* SNMCrashTestHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMCrashTestHelper.m; sourceTree = "<group>"; };
 		B2CD3BF71D80EE49000A8A91 /* SNMAbstractErrorLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMAbstractErrorLog.h; sourceTree = "<group>"; };
 		B2CD3BF81D80EE49000A8A91 /* SNMAbstractErrorLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMAbstractErrorLog.m; sourceTree = "<group>"; };
+		B2DCB1351DAC03C400120F87 /* SNMCrashesDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMCrashesDelegate.h; sourceTree = "<group>"; };
 		B2F120D21D6546560060DED7 /* SNMBinaryAttachmentTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMBinaryAttachmentTests.m; sourceTree = "<group>"; };
 		B2F120D41D6546740060DED7 /* SNMErrorAttachmentTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMErrorAttachmentTests.m; sourceTree = "<group>"; };
 		B2F120D61D65469D0060DED7 /* SNMErrorReportTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMErrorReportTests.m; sourceTree = "<group>"; };
@@ -271,6 +273,7 @@
 				6E0401361D1C98690051BCFA /* SonomaCrashes.h */,
 				6E04014F1D1C9A4F0051BCFA /* SNMCrashes.h */,
 				6E0401501D1C9A4F0051BCFA /* SNMCrashes.m */,
+				B2DCB1351DAC03C400120F87 /* SNMCrashesDelegate.h */,
 				6E0401511D1C9A4F0051BCFA /* Internals */,
 				6E73FE6C1D403286008CDC15 /* Utils */,
 				6E37297E1D1DE93800F1E4AE /* Support */,
@@ -485,6 +488,7 @@
 				6E73FE731D4059E7008CDC15 /* SNMCrashesCXXExceptionWrapperException.h in Headers */,
 				6E73FE6A1D402F79008CDC15 /* SNMCrashesCXXExceptionHandler.h in Headers */,
 				38D4BBA31D5A9962001A30A0 /* SNMFeature.h in Headers */,
+				B2DCB1361DAC03C400120F87 /* SNMCrashesDelegate.h in Headers */,
 				6E0401781D1C9EBE0051BCFA /* SNMCrashesPrivate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
