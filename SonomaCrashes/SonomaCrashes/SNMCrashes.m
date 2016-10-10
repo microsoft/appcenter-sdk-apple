@@ -4,6 +4,7 @@
 
 #import "SNMAppleErrorLog.h"
 #import "SNMCrashesCXXExceptionWrapperException.h"
+#import "SNMCrashesDelegate.h"
 #import "SNMCrashesHelper.h"
 #import "SNMCrashesPrivate.h"
 #import "SNMErrorLogFormatter.h"
@@ -11,6 +12,7 @@
 #import "SNMSonomaInternal.h"
 #import "SonomaCore+Internal.h"
 #import <CrashReporter/CrashReporter.h>
+
 
 /**
  *  Feature name.
@@ -46,8 +48,10 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 
 @implementation SNMCrashes
 
+@synthesize delegate = _delegate;
 @synthesize logManager = _logManager;
 @synthesize initializationDate = _initializationDate;
+
 
 #pragma mark - Public Methods
 
@@ -85,8 +89,8 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
   return [[self sharedInstance] getLastSessionCrashReport];
 }
 
-+ (void)setCrashesDelegate:(_Nullable id<SNMCrashesDelegate>)crashesDelegate {
-  // TODO actual implementation
++ (void)setDelegate:(_Nullable id<SNMCrashesDelegate>) delegate {
+  [[self sharedInstance] setDelegate:delegate];
 }
 
 #pragma mark - Module initialization

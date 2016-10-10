@@ -3,6 +3,7 @@
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
+#import "SNMCrashesDelegate.h"
 #import "SNMCrashesPrivate.h"
 #import "SNMCrashTestHelper.h"
 
@@ -54,6 +55,13 @@
   
   // Then
   assertThat(self.sut.crashFiles, hasCountOf(1));
+}
+
+- (void)testSettingDelegateWorks {
+  id <SNMCrashesDelegate> delegateMock = OCMProtocolMock(@protocol(SNMCrashesDelegate));
+  [SNMCrashes setDelegate:delegateMock];
+  XCTAssertNotNil([SNMCrashes sharedInstance].delegate);
+  XCTAssertEqual([SNMCrashes sharedInstance].delegate, delegateMock);
 }
 
 

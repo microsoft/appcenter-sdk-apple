@@ -4,6 +4,9 @@
 
 #import <Foundation/Foundation.h>
 
+@class SNMCrashes;
+@class SNMErrorReport;
+
 @protocol SNMCrashesDelegate <NSObject>
 
 @optional
