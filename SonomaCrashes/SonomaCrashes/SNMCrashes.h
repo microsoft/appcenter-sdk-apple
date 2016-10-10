@@ -6,6 +6,8 @@
 #import "SNMFeatureAbstract.h"
 #import <UIKit/UIKit.h>
 
+@class SNMCrashesDelegate;
+
 /**
  * Custom block that handles the alert that prompts the user whether he wants to
  * send crash reports
@@ -95,8 +97,6 @@ typedef NS_ENUM(NSUInteger, SNMUserConfirmation) {
  *
  * @see SNMCrashesDelegate
  */
-@property(nonatomic, weak, nullable) id<SNMCrashesDelegate> crashesDelegate;
-
-+ (void)setCrashesDelegate:(_Nullable id<SNMCrashesDelegate>)crashesDelegate;
++ (void)setDelegate:(_Nullable id<SNMCrashesDelegate>) delegate;
 
 @end

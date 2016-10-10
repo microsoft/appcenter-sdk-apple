@@ -55,6 +55,8 @@ typedef struct SNMCrashesCallbacks {
  */
 @property(nonatomic, copy) NSString *analyzerInProgressFile;
 
+@property (nonatomic) id<SNMCrashesDelegate> delegate;
+
 /**
  * The `PLCrashReporter` instance used for crash detection.
  */
