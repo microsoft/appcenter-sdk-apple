@@ -46,7 +46,6 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 
 @implementation SNMCrashes
 
-@synthesize delegate = _delegate;
 @synthesize logManager = _logManager;
 @synthesize initializationDate = _initializationDate;
 
@@ -84,6 +83,10 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 + (SNMErrorReport *_Nullable)lastSessionCrashReport {
 
   return [[self sharedInstance] getLastSessionCrashReport];
+}
+
++ (void)setCrashesDelegate:(_Nullable id<SNMCrashesDelegate>)crashesDelegate {
+  // TODO actual implementation
 }
 
 #pragma mark - Module initialization
@@ -268,7 +271,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
       if (self.isEnabled) {
         report = [[SNMPLCrashReport alloc] initWithData:crashFileData error:&error];
         SNMAppleErrorLog *log = [SNMErrorLogFormatter errorLogFromCrashReport:report];
-        [self.delegate feature:self didCreateLog:log withPriority:self.priority]; // TODO work on this part!!!
+        [self.logManager processLog:log withPriority:self.priority];
       }
       [self deleteCrashReportWithFilePath:filePath];
       [self.crashFiles removeObject:filePath];

@@ -48,6 +48,8 @@ typedef NS_ENUM(NSUInteger, SNMUserConfirmation) {
   SNMUserConfirmationAlways = 2
 };
 
+@protocol SNMCrashesDelegate;
+
 @interface SNMCrashes : SNMFeatureAbstract
 
 ///-----------------------------------------------------------------------------
@@ -84,5 +86,17 @@ typedef NS_ENUM(NSUInteger, SNMUserConfirmation) {
  * Provides details about the crash that occurred in the last app session
  */
 + (nullable SNMErrorReport *)lastSessionCrashReport;
+
+/**
+ * Set the delegate
+ *
+ * Defines the class that implements the optional protocol
+ * `SNMCrashesDelegate`.
+ *
+ * @see SNMCrashesDelegate
+ */
+@property(nonatomic, weak, nullable) id<SNMCrashesDelegate> crashesDelegate;
+
++ (void)setCrashesDelegate:(_Nullable id<SNMCrashesDelegate>)crashesDelegate;
 
 @end

@@ -170,8 +170,7 @@ static NSString *const kSNMDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
 - (void)startFeature:(Class)clazz {
   id<SNMFeatureInternal> feature = [clazz sharedInstance];
 
-  // Set delegate.
-  feature.delegate = self;
+  // Set sonomaDelegate.
   [self.features addObject:feature];
 
   // Set log manager.
@@ -291,10 +290,5 @@ static NSString *const kSNMDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
   return canBeUsed;
 }
 
-#pragma mark - SNMSonomaDelegate
-
-- (void)feature:(id)feature didCreateLog:(id<SNMLog>)log withPriority:(SNMPriority)priority {
-  [self.logManager processLog:log withPriority:priority];
-}
 
 @end
