@@ -140,10 +140,11 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
         const struct uuid_command *uuid_command = (const struct uuid_command *) command;
         const uint8_t *uuid = uuid_command->uuid;
         uuidString = [[NSString stringWithFormat:@"%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%"
-                                                     @"02X%02X%02X%02X%02X",
-                                                 uuid[0], uuid[1], uuid[2], uuid[3], uuid[4], uuid[5], uuid[6], uuid[7],
-                                                 uuid[8], uuid[9], uuid[10], uuid[11], uuid[12], uuid[13], uuid[14],
-                                                 uuid[15]] lowercaseString];
+            @
+        "02X%02X%02X%02X%02X",
+            uuid[0], uuid[1], uuid[2], uuid[3], uuid[4], uuid[5], uuid[6], uuid[7],
+            uuid[8], uuid[9], uuid[10], uuid[11], uuid[12], uuid[13], uuid[14],
+            uuid[15]] lowercaseString];
         break;
       } else {
         command += load_command->cmdsize;
@@ -309,31 +310,31 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
 + (SNMErrorReport *)errorReportFromLog:(SNMAppleErrorLog *)errorLog {
   SNMErrorReport *errorReport = nil;
-  
+
   NSString *errorId = errorLog.errorId;
   // There should always be an installId. Leaving the empty string out of paranoia
   // as [UUID UUID] – used in [SNMSonoma installId] – might, in theory, return nil.
   NSString *reporterKey = [[SNMSonoma installId] UUIDString] ?: @"";
-  
+
   NSString *signal = errorLog.exceptionType; //TODO What should we put in there?!
-  
+
   NSString *exceptionReason = errorLog.exceptionReason;
   NSString *exceptionName = errorLog.exceptionType;
-  
+
   double startTime = [errorLog.toffset doubleValue] - [errorLog.appLaunchTOffset doubleValue];
   NSDate *appStartTime = [NSDate dateWithTimeIntervalSinceNow:startTime];
-  
+
 //  if ([report.processInfo respondsToSelector:@selector(processStartTime)]) {
 //    if (report.processInfo.processStartTime) {
 //      appStartTime = report.processInfo.processStartTime;
 //    }
 //  }
 //  NSDate *appErrorTime = report.systemInfo.timestamp;
-  
+
   NSUInteger processId = [errorLog.processId unsignedIntegerValue];
-  
+
   SNMDevice *device = [SNMDeviceTracker alloc].device;
-  
+
   errorReport = [[SNMErrorReport alloc] initWithErrorId:errorId
                                             reporterKey:reporterKey
                                                  signal:signal
@@ -343,7 +344,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
                                            appErrorTime:nil
                                                  device:device
                                    appProcessIdentifier:processId];
-  
+
   return errorReport;
 }
 
