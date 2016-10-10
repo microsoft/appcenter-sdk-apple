@@ -121,7 +121,7 @@
 		E88EBBFB1D2C8CC7007E7785 /* SNMLogContainerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E88EBBFA1D2C8CC7007E7785 /* SNMLogContainerTests.m */; };
 		E8A8D1EB1D3057A90022931E /* SNMUserDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = E8A8D1E91D3057A90022931E /* SNMUserDefaults.h */; };
 		E8A8D1EC1D3057A90022931E /* SNMUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A8D1EA1D3057A90022931E /* SNMUserDefaults.m */; };
-		E8AEE9821D5970A400C0FF6C /* SNMLogManagerListener.h in Headers */ = {isa = PBXBuildFile; fileRef = E8AEE9811D5970A400C0FF6C /* SNMLogManagerListener.h */; };
+		E8AEE9821D5970A400C0FF6C /* SNMLogManagerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = E8AEE9811D5970A400C0FF6C /* SNMLogManagerDelegate.h */; };
 		E8E48F951D50FF4300A8C1B0 /* SNMSenderCallDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = E8E48F941D50FF4300A8C1B0 /* SNMSenderCallDelegate.h */; };
 /* End PBXBuildFile section */
 
@@ -270,7 +270,7 @@
 		E88EBBFA1D2C8CC7007E7785 /* SNMLogContainerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMLogContainerTests.m; sourceTree = "<group>"; };
 		E8A8D1E91D3057A90022931E /* SNMUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SNMUserDefaults.h; path = ../Model/Utils/SNMUserDefaults.h; sourceTree = "<group>"; };
 		E8A8D1EA1D3057A90022931E /* SNMUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SNMUserDefaults.m; path = ../Model/Utils/SNMUserDefaults.m; sourceTree = "<group>"; };
-		E8AEE9811D5970A400C0FF6C /* SNMLogManagerListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMLogManagerListener.h; sourceTree = "<group>"; };
+		E8AEE9811D5970A400C0FF6C /* SNMLogManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMLogManagerDelegate.h; sourceTree = "<group>"; };
 		E8E48F941D50FF4300A8C1B0 /* SNMSenderCallDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMSenderCallDelegate.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -566,7 +566,7 @@
 				6E0684621D36BC8D00A8CC6C /* SNMChannelDefault.m */,
 				6EF628F21D371B1600CAFF64 /* SNMChannelConfiguration.h */,
 				6EF628F31D371B1600CAFF64 /* SNMChannelConfiguration.m */,
-				E8AEE9811D5970A400C0FF6C /* SNMLogManagerListener.h */,
+				E8AEE9811D5970A400C0FF6C /* SNMLogManagerDelegate.h */,
 			);
 			path = Channel;
 			sourceTree = "<group>";
@@ -620,7 +620,7 @@
 				6E7D5C7B1D3E94F8009EC9AC /* SNMSerializableObject.h in Headers */,
 				6E40D4631D2700000046D85B /* SNMFileStorage.h in Headers */,
 				6E0684631D36BC8D00A8CC6C /* SNMChannelDefault.h in Headers */,
-				E8AEE9821D5970A400C0FF6C /* SNMLogManagerListener.h in Headers */,
+				E8AEE9821D5970A400C0FF6C /* SNMLogManagerDelegate.h in Headers */,
 				6E04016C1D1C9E1F0051BCFA /* SonomaCore.h in Headers */,
 				E84B8E351D235226006FD231 /* SNMHttpSender.h in Headers */,
 				043316791D9495FF00E7F868 /* SNMWrapperSdk.h in Headers */,

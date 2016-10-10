@@ -19,7 +19,7 @@ static char *const SNMDataItemsOperationsQueue = "com.microsoft.sonoma.LogManage
     dispatch_queue_t serialQueue = dispatch_queue_create(SNMDataItemsOperationsQueue, DISPATCH_QUEUE_SERIAL);
     _dataItemsOperations = serialQueue;
     _channels = [NSMutableDictionary<NSNumber *, id<SNMChannel>> new];
-    _listeners = [NSMutableArray<id<SNMLogManagerListener>> new];
+    _listeners = [NSMutableArray<id<SNMLogManagerDelegate>> new];
     _deviceTracker = [[SNMDeviceTracker alloc] init];
   }
   return self;
@@ -35,15 +35,15 @@ static char *const SNMDataItemsOperationsQueue = "com.microsoft.sonoma.LogManage
 
 #pragma mark - Listener
 
-- (void)addListener:(id<SNMLogManagerListener>)listener {
+- (void)addDelegate:(id<SNMLogManagerDelegate>)delegate {
 
-  // Check if listener is not already added.
-  if (![self.listeners containsObject:listener])
-    [self.listeners addObject:listener];
+  // Check if delegate is not already added.
+  if (![self.listeners containsObject:delegate])
+    [self.listeners addObject:delegate];
 }
 
-- (void)removeListener:(id<SNMLogManagerListener>)listener {
-  [self.listeners removeObject:listener];
+- (void)removeDelegate:(id<SNMLogManagerDelegate>)delegate {
+  [self.listeners removeObject:delegate];
 }
 
 #pragma mark - Process items
@@ -52,7 +52,7 @@ static char *const SNMDataItemsOperationsQueue = "com.microsoft.sonoma.LogManage
 
   // Notify listeners.
   [self.listeners
-      enumerateObjectsUsingBlock:^(id<SNMLogManagerListener> _Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
+      enumerateObjectsUsingBlock:^(id<SNMLogManagerDelegate> _Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
         [obj onProcessingLog:log withPriority:priority];
       }];
 

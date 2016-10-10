@@ -3,7 +3,7 @@
  */
 
 #import "../Model/SNMLog.h"
-#import "SNMLogManagerListener.h"
+#import "SNMLogManagerDelegate.h"
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -20,14 +20,14 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param listener listener.
  */
-- (void)addListener:(id<SNMLogManagerListener>)listener;
+- (void)addDelegate:(id<SNMLogManagerDelegate>)listener;
 
 /**
  *  Remove listener.
  *
  *  @param listener listener.
  */
-- (void)removeListener:(id<SNMLogManagerListener>)listener;
+- (void)removeDelegate:(id<SNMLogManagerDelegate>)listener;
 
 @required
 /**

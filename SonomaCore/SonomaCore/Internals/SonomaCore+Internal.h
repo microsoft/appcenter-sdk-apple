@@ -19,4 +19,4 @@
 #import "Utils/SNMEnvironmentHelper.h"
 
 // Channel
-#import "Channel/SNMLogManagerListener.h"
+#import "Channel/SNMLogManagerDelegate.h"

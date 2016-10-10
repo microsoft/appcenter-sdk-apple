@@ -7,7 +7,7 @@
 #import "SonomaCore+Internal.h"
 #import <Foundation/Foundation.h>
 
-@interface SNMSessionTracker : NSObject <SNMLogManagerListener>
+@interface SNMSessionTracker : NSObject <SNMLogManagerDelegate>
 
 /**
  *  Session tracker delegate.
