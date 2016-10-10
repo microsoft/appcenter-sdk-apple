@@ -4,6 +4,7 @@
 
 #import "SNMChannelDefault.h"
 #import "SonomaCore+Internal.h"
+#import "SNMChannelDelegate.h"
 
 @implementation SNMChannelDefault
 
@@ -15,6 +16,7 @@
   if (self = [super init]) {
     _itemsCount = 0;
     _pendingLogsIds = [NSMutableArray new];
+    _delegates = [NSMutableArray<id<SNMChannelDelegate>> new];
   }
   return self;
 }
@@ -30,6 +32,18 @@
     _callbackQueue = callbackQueue;
   }
   return self;
+}
+
+#pragma mark - SNMChannelDelegate
+
+- (void)addDelegate:(id<SNMChannelDelegate>)delegate {
+  // Check if delegate is not already added.
+  if (![self.delegates containsObject:delegate])
+    [self.delegates addObject:delegate];
+}
+
+- (void)removeDelegate:(id<SNMChannelDelegate>)delegate {
+  [self.delegates removeObject:delegate];
 }
 
 #pragma mark - Managing queue
@@ -66,8 +80,15 @@
                if (succeeded) {
                  if (self.pendingLogsIds.count < self.configuration.pendingBatchesLimit) {
                    [self.pendingLogsIds addObject:batchId];
+                   
+                   // Notify delegates.
+                   for (id<SNMChannelDelegate> aDelegate in self.delegates) {
+                     for (id<SNMLog> aLog in logArray) {
+                       [aDelegate channel:self willSendLog:aLog];
+                     }
+                   }
+                   
                    SNMLogContainer *container = [[SNMLogContainer alloc] initWithBatchId:batchId andLogs:logArray];
-
                    SNMLogVerbose(@"INFO:Sending log %@", [container serializeLogWithPrettyPrinting:YES]);
 
                    [self.sender sendAsync:container

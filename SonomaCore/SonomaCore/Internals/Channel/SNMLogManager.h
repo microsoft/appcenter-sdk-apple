@@ -5,6 +5,7 @@
 #import "../Model/SNMLog.h"
 #import "SNMLogManagerDelegate.h"
 #import <Foundation/Foundation.h>
+@protocol SNMChannelDelegate;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -16,18 +17,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 @optional
 /**
- *  Add listener.
+ *  Add delegate.
  *
- *  @param listener listener.
+ *  @param delegate delegate.
  */
-- (void)addDelegate:(id<SNMLogManagerDelegate>)listener;
+- (void)addDelegate:(id<SNMLogManagerDelegate>)delegate;
 
 /**
- *  Remove listener.
+ *  Remove delegate.
  *
- *  @param listener listener.
+ *  @param delegate delegate.
  */
-- (void)removeDelegate:(id<SNMLogManagerDelegate>)listener;
+- (void)removeDelegate:(id<SNMLogManagerDelegate>)delegate;
 
 @required
 /**
@@ -48,9 +49,25 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Send persisted logs that are not sent in previous session.
  *
- * param priority The priority for processing the log.
+ * @param priority The priority for processing the log.
  */
 - (void)flushPendingLogsForPriority:(SNMPriority)priority;
+
+/**
+ * Add a delegate to each channel that has a certain priority.
+ *
+ * @param delegate A delegate for the channel.
+ * @param priority The priority of a channel.
+ */
+- (void)addChannelDelegate:(id<SNMChannelDelegate>)channelDelegate forPriority:(SNMPriority)priority;
+
+/**
+ * Remove a delegate to each channel that has a certain priority.
+ *
+ * @param delegate A delegate for the channel.
+ * @param priority The priority of a channel.
+ */
+- (void)removeChannelDelegate:(id<SNMChannelDelegate>)channelDelegate forPriority:(SNMPriority)priority;
 
 @end
 

@@ -19,7 +19,7 @@ static char *const SNMDataItemsOperationsQueue = "com.microsoft.sonoma.LogManage
     dispatch_queue_t serialQueue = dispatch_queue_create(SNMDataItemsOperationsQueue, DISPATCH_QUEUE_SERIAL);
     _dataItemsOperations = serialQueue;
     _channels = [NSMutableDictionary<NSNumber *, id<SNMChannel>> new];
-    _listeners = [NSMutableArray<id<SNMLogManagerDelegate>> new];
+    _delegates = [NSMutableArray<id<SNMLogManagerDelegate>> new];
     _deviceTracker = [[SNMDeviceTracker alloc] init];
   }
   return self;
@@ -33,25 +33,40 @@ static char *const SNMDataItemsOperationsQueue = "com.microsoft.sonoma.LogManage
   return self;
 }
 
-#pragma mark - Listener
+#pragma mark - Delegate
 
 - (void)addDelegate:(id<SNMLogManagerDelegate>)delegate {
 
   // Check if delegate is not already added.
-  if (![self.listeners containsObject:delegate])
-    [self.listeners addObject:delegate];
+  if (![self.delegates containsObject:delegate])
+    [self.delegates addObject:delegate];
 }
 
 - (void)removeDelegate:(id<SNMLogManagerDelegate>)delegate {
-  [self.listeners removeObject:delegate];
+  [self.delegates removeObject:delegate];
+}
+
+#pragma mark - Channel Delegate
+- (void)addChannelDelegate:(id <SNMChannelDelegate>)channelDelegate forPriority:(SNMPriority)priority {
+  if(channelDelegate) {
+    id<SNMChannel> channel = [self channelForPriority:priority];
+    [channel addDelegate:channelDelegate];
+  }
+}
+
+- (void)removeChannelDelegate:(id<SNMChannelDelegate>)channelDelegate forPriority:(SNMPriority)priority {
+  if(channelDelegate) {
+    id<SNMChannel> channel = [self channelForPriority:priority];
+    [channel removeDelegate:channelDelegate];
+  }
 }
 
 #pragma mark - Process items
 
 - (void)processLog:(id<SNMLog>)log withPriority:(SNMPriority)priority {
 
-  // Notify listeners.
-  [self.listeners
+  // Notify delegates.
+  [self.delegates
       enumerateObjectsUsingBlock:^(id<SNMLogManagerDelegate> _Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
         [obj onProcessingLog:log withPriority:priority];
       }];

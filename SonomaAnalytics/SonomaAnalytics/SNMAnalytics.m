@@ -51,7 +51,7 @@ static NSString *const kSNMFeatureName = @"Analytics";
 - (void)startFeature {
   [super startFeature];
 
-  // Add listener to log manager.
+  // Add delegate to log manager.
   [self.logManager addDelegate:_sessionTracker];
 
   // Enabled auto page tracking

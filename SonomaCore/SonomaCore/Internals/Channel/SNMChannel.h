@@ -8,6 +8,7 @@
 #import "SNMSender.h"
 #import "SNMStorage.h"
 #import <Foundation/Foundation.h>
+@protocol SNMChannelDelegate;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -55,6 +56,21 @@ NS_ASSUME_NONNULL_BEGIN
  * Flushes all logs from the storage.
  */
 - (void)flushQueue;
+
+/**
+ *  Add delegate.
+ *
+ *  @param delegate delegate.
+ */
+- (void)addDelegate:(id<SNMChannelDelegate>)delegate;
+
+/**
+ *  Remove delegate.
+ *
+ *  @param delegate delegate.
+ */
+- (void)removeDelegate:(id<SNMChannelDelegate>)delegate;
+
 
 @end
 
