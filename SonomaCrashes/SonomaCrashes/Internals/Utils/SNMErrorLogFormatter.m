@@ -265,7 +265,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   return errorLog;
 }
 
-+ (SNMErrorReport *)createErrorReportFrom:(SNMPLCrashReport *)report {
++ (SNMErrorReport *)errorReportFromCrashReport:(SNMPLCrashReport *)report {
   if (!report) {
     return nil;
   }
@@ -304,6 +304,46 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
                                                  device:device
                                    appProcessIdentifier:processId];
 
+  return errorReport;
+}
+
++ (SNMErrorReport *)errorReportFromLog:(SNMAppleErrorLog *)errorLog {
+  SNMErrorReport *errorReport = nil;
+  
+  NSString *errorId = errorLog.errorId;
+  // There should always be an installId. Leaving the empty string out of paranoia
+  // as [UUID UUID] – used in [SNMSonoma installId] – might, in theory, return nil.
+  NSString *reporterKey = [[SNMSonoma installId] UUIDString] ?: @"";
+  
+  NSString *signal = errorLog.exceptionType; //TODO What should we put in there?!
+  
+  NSString *exceptionReason = errorLog.exceptionReason;
+  NSString *exceptionName = errorLog.exceptionType;
+  
+  double startTime = [errorLog.toffset doubleValue] - [errorLog.appLaunchTOffset doubleValue];
+  NSDate *appStartTime = [NSDate dateWithTimeIntervalSinceNow:startTime];
+  
+//  if ([report.processInfo respondsToSelector:@selector(processStartTime)]) {
+//    if (report.processInfo.processStartTime) {
+//      appStartTime = report.processInfo.processStartTime;
+//    }
+//  }
+//  NSDate *appErrorTime = report.systemInfo.timestamp;
+  
+  NSUInteger processId = [errorLog.processId unsignedIntegerValue];
+  
+  SNMDevice *device = [SNMDeviceTracker alloc].device;
+  
+  errorReport = [[SNMErrorReport alloc] initWithErrorId:errorId
+                                            reporterKey:reporterKey
+                                                 signal:signal
+                                          exceptionName:exceptionName
+                                        exceptionReason:exceptionReason
+                                           appStartTime:appStartTime
+                                           appErrorTime:nil
+                                                 device:device
+                                   appProcessIdentifier:processId];
+  
   return errorReport;
 }
 

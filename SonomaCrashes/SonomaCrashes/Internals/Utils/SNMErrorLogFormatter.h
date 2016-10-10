@@ -30,6 +30,8 @@ typedef NS_ENUM(NSInteger, SNMBinaryImageType) {
 
 + (SNMAppleErrorLog *)errorLogFromCrashReport:(SNMPLCrashReport *)report;
 
-+ (SNMErrorReport *)createErrorReportFrom:(SNMPLCrashReport *)report;
++ (SNMErrorReport *)errorReportFromCrashReport:(SNMPLCrashReport *)report;
+
++ (SNMErrorReport *)errorReportFromLog:(SNMAppleErrorLog *)errorLog;
 
 @end

@@ -3,11 +3,12 @@
 #import "SonomaAnalytics.h"
 #import "SonomaCore.h"
 #import "SonomaCrashes.h"
+#import "SNMCrashesDelegate.h"
 
 #import "SNMErrorAttachment.h"
 #import "SNMErrorReport.h"
 
-@interface AppDelegate ()
+@interface AppDelegate () <SNMCrashesDelegate>
 
 @end
 
@@ -23,6 +24,8 @@
     SNMErrorReport *errorReport = [SNMCrashes lastSessionCrashReport];
     NSLog(@"We crashed with Signal: %@", errorReport.signal);
   }
+  
+  [SNMCrashes setDelegate:self];
   
   // Print the install Id.
   NSLog(@"%@ Install Id: %@", kPUPLogTag, [[SNMSonoma installId] UUIDString]);
@@ -57,6 +60,12 @@
 - (void)applicationWillTerminate:(UIApplication *)application {
   // Called when the application is about to terminate. Save data if appropriate. See also
   // applicationDidEnterBackground:.
+}
+
+#pragma mark - SNMCrashesDelegate
+
+- (void)crashes:(SNMCrashes *)crashes willSendErrorReport:(SNMErrorReport *)errorReport {
+  SNMLogVerbose(@"Will send error report with: %@", errorReport.exceptionReason);
 }
 
 @end

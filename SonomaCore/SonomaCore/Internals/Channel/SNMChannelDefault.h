@@ -21,6 +21,10 @@ typedef void (^enqueueCompletionBlock)(BOOL);
 @property(nonatomic, strong) dispatch_queue_t callbackQueue;
 
 /**
+ *  Array of channel delegate.
+ */
+@property(nonatomic) NSMutableArray<id<SNMChannelDelegate>> *delegates;
+/**
  * A sender instance that is used to send batches of log items to the backend.
  */
 @property(nonatomic, strong, nullable) id<SNMSender> sender;

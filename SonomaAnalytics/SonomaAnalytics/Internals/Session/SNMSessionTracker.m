@@ -157,7 +157,7 @@ static NSUInteger const kSNMMaxSessionHistoryCount = 5;
   self.lastEnteredForegroundTime = [NSDate date];
 }
 
-#pragma mark - SNMLogManagerListener
+#pragma mark - SNMLogManagerDelegate
 
 - (void)onProcessingLog:(id<SNMLog>)log withPriority:(SNMPriority)priority {
 
