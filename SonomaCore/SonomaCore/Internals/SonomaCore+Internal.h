@@ -20,3 +20,4 @@
 
 // Channel
 #import "Channel/SNMLogManagerDelegate.h"
+#import "Channel/SNMChannelDelegate.h"

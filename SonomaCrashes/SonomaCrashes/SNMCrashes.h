@@ -4,7 +4,6 @@
 
 #import "SNMErrorReport.h"
 #import "SNMFeatureAbstract.h"
-#import "SNMChannelDelegate.h"
 
 #import <UIKit/UIKit.h>
 
@@ -54,7 +53,7 @@ typedef NS_ENUM(NSUInteger, SNMUserConfirmation) {
 
 @protocol SNMCrashesDelegate;
 
-@interface SNMCrashes : SNMFeatureAbstract <SNMChannelDelegate>
+@interface SNMCrashes : SNMFeatureAbstract
 
 ///-----------------------------------------------------------------------------
 /// @name Helper

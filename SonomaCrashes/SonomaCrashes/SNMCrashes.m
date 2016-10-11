@@ -46,6 +46,10 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
   abort();
 }
 
+@interface SNMCrashes() <SNMChannelDelegate>
+
+@end
+
 @implementation SNMCrashes
 
 @synthesize delegate = _delegate;
