@@ -30,7 +30,7 @@
   NSError *error = nil;
   SNMPLCrashReport *report = [[SNMPLCrashReport alloc] initWithData:crashData error:&error];
 
-  SNMErrorReport *errorReport = [SNMErrorLogFormatter createErrorReportFrom:report];
+  SNMErrorReport *errorReport = [SNMErrorLogFormatter errorReportFromCrashReport:report];
   XCTAssertNotNil(errorReport);
 
   XCTAssertNotNil(errorReport.incidentIdentifier);
@@ -51,7 +51,7 @@
   error = nil;
   report = [[SNMPLCrashReport alloc] initWithData:crashData error:&error];
 
-  errorReport = [SNMErrorLogFormatter createErrorReportFrom:report];
+  errorReport = [SNMErrorLogFormatter errorReportFromCrashReport:report];
   XCTAssertNotNil(errorReport);
 
   XCTAssertNotNil(errorReport.incidentIdentifier);
