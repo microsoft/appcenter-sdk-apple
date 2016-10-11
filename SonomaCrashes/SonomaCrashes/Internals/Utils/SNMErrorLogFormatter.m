@@ -321,16 +321,11 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   NSString *exceptionReason = errorLog.exceptionReason;
   NSString *exceptionName = errorLog.exceptionType;
 
-  double startTime = [errorLog.toffset doubleValue] - [errorLog.appLaunchTOffset doubleValue];
-  NSDate *appStartTime = [NSDate dateWithTimeIntervalSinceNow:startTime];
-
-//  if ([report.processInfo respondsToSelector:@selector(processStartTime)]) {
-//    if (report.processInfo.processStartTime) {
-//      appStartTime = report.processInfo.processStartTime;
-//    }
-//  }
-//  NSDate *appErrorTime = report.systemInfo.timestamp;
-
+  double startTimeDifference = [errorLog.toffset doubleValue] - [errorLog.appLaunchTOffset doubleValue];
+  NSDate *appStartTime = [NSDate dateWithTimeIntervalSinceNow:startTimeDifference];
+  NSDate *appErrorTime = [NSDate dateWithTimeIntervalSinceNow:[errorLog.toffset doubleValue]];
+  //FIXME: the logic to determine app start and error time is wrong. Needs to be fixed.
+  
   NSUInteger processId = [errorLog.processId unsignedIntegerValue];
 
   SNMDevice *device = [SNMDeviceTracker alloc].device;
@@ -341,7 +336,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
                                           exceptionName:exceptionName
                                         exceptionReason:exceptionReason
                                            appStartTime:appStartTime
-                                           appErrorTime:nil
+                                           appErrorTime:appErrorTime
                                                  device:device
                                    appProcessIdentifier:processId];
 
@@ -395,9 +390,15 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
 + (NSNumber *)calculateAppLaunchTOffsetFromReport:(SNMPLCrashReport *)report {
   NSDate *crashTime = report.systemInfo.timestamp;
-  NSDate *initializationDate = [[SNMCrashes sharedInstance] initializationDate];
-  NSTimeInterval difference = [initializationDate timeIntervalSinceDate:crashTime];
-  return @(difference);
+  NSDate *startTime = report.processInfo.processStartTime;
+
+  if(crashTime && startTime) {
+    NSTimeInterval difference = [startTime timeIntervalSinceDate:crashTime];
+    return @(difference);
+  }
+  else {
+    return @(0); //FIXME implement better fallback
+  }
 }
 
 + (NSArray<SNMThread *> *)extractThreadsFromReport:(SNMPLCrashReport *)report is64bit:(BOOL)is64bit {

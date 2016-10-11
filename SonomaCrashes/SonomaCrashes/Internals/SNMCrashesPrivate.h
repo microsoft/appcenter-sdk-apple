@@ -78,11 +78,6 @@ typedef struct SNMCrashesCallbacks {
 @property(nonatomic) BOOL sendingInProgress;
 
 /**
- * The time of initialization, required to calculate offset for crashtime.
- */
-@property(nonatomic, readonly) NSDate *initializationDate;
-
-/**
  * Indicates if the app crashed in the previous session
  *
  * Use this on startup, to check if the app starts the first time after it

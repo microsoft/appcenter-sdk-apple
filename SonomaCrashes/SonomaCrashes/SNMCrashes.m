@@ -50,8 +50,6 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 
 @synthesize delegate = _delegate;
 @synthesize logManager = _logManager;
-@synthesize initializationDate = _initializationDate;
-
 
 #pragma mark - Public Methods
 
@@ -101,7 +99,6 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
     _crashFiles = [[NSMutableArray alloc] init];
     _crashesDir = [SNMCrashesHelper crashesDir];
     _analyzerInProgressFile = [_crashesDir stringByAppendingPathComponent:kSNMAnalyzerFilename];
-    _initializationDate = [NSDate new];
     _didCrashInLastSession = NO;
   }
   return self;
