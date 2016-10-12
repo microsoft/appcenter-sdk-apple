@@ -25,10 +25,5 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(atomic, strong) NSMutableDictionary<NSString *, id<SNMSenderCall>> *pendingCalls;
 
-/**
- *  Reachability library.
- */
-@property(nonatomic) SNM_Reachability *reachability;
-
 @end
 NS_ASSUME_NONNULL_END
