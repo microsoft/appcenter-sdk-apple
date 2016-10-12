@@ -17,13 +17,14 @@
 
   // Start Sonoma SDK.
   [SNMSonoma setLogLevel:SNMLogLevelVerbose];
+
   [SNMSonoma start:@"7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7" withFeatures:@[ [SNMAnalytics class], [SNMCrashes class] ]];
 
-  if([SNMCrashes hasCrashedInLastSession]) {
+  if ([SNMCrashes hasCrashedInLastSession]) {
     SNMErrorReport *errorReport = [SNMCrashes lastSessionCrashReport];
     NSLog(@"We crashed with Signal: %@", errorReport.signal);
   }
-  
+
   // Print the install Id.
   NSLog(@"%@ Install Id: %@", kPUPLogTag, [[SNMSonoma installId] UUIDString]);
   return YES;

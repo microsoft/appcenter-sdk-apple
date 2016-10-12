@@ -43,26 +43,35 @@ typedef void (^SNMLoadDataCompletionBlock)(BOOL succeeded, NSArray<SNMLog> *logA
 /**
  * Delete logs related to given storage key from the file system.
  *
- * param storageKey The key used for grouping
+ * param storageKey The key used for grouping.
  */
 - (void)deleteLogsForStorageKey:(NSString *)storageKey;
 
 /**
  * Delete a log from the file system.
  *
- * param log The log item that should be deleted form disk
- * param storageKey The key used for grouping
+ * param log The log item that should be deleted from disk.
+ * param storageKey The key used for grouping.
  */
 - (void)deleteLogsForId:(NSString *)logsId withStorageKey:(NSString *)storageKey;
 
 /**
  * Returns the most recent logs for a given storage key.
  *
- * param storageKey The key used for grouping
+ * param storageKey The key used for grouping.
  *
- * @return a list of logs
+ * @return a list of logs.
  */
-- (void)loadLogsForStorageKey:(NSString *)storageKey withCompletion:(nullable SNMLoadDataCompletionBlock)completion;
+- (BOOL)loadLogsForStorageKey:(NSString *)storageKey withCompletion:(nullable SNMLoadDataCompletionBlock)completion;
+
+/**
+ *  FIXME: The number of logs per batch and the number of logs per files are currently tied together. The storage loads
+ * what's contained in the available file and this could be higher than the batch max size going to be sent. To mitigate
+ * this kind of scenario the file is closed when the max size of the log batch is reached.
+ *
+ *  @param storageKey The key used for grouping.
+ */
+- (void)closeBatchWithStorageKey:(NSString *)storageKey;
 
 @end
 

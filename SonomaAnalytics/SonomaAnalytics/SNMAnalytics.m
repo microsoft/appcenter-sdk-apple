@@ -133,37 +133,29 @@ static NSString *const kSNMFeatureName = @"Analytics";
   if (![self isEnabled])
     return;
 
-  // Send async
-  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+  // Create and set properties of the event log
+  SNMEventLog *log = [[SNMEventLog alloc] init];
+  log.name = eventName;
+  log.eventId = kSNMUUIDString;
+  if (properties)
+    log.properties = properties;
 
-    // Create and set properties of the event log
-    SNMEventLog *log = [[SNMEventLog alloc] init];
-    log.name = eventName;
-    log.eventId = kSNMUUIDString;
-    if (properties)
-      log.properties = properties;
-
-    // Send log to core module
-    [self sendLog:log withPriority:self.priority];
-  });
+  // Send log to core module
+  [self sendLog:log withPriority:self.priority];
 }
 
 - (void)trackPage:(NSString *)pageName withProperties:(NSDictionary *)properties {
   if (![super isEnabled])
     return;
 
-  // Send async
-  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+  // Create and set properties of the event log
+  SNMPageLog *log = [[SNMPageLog alloc] init];
+  log.name = pageName;
+  if (properties)
+    log.properties = properties;
 
-    // Create and set properties of the event log
-    SNMPageLog *log = [[SNMPageLog alloc] init];
-    log.name = pageName;
-    if (properties)
-      log.properties = properties;
-
-    // Send log to core module
-    [self sendLog:log withPriority:self.priority];
-  });
+  // Send log to core module
+  [self sendLog:log withPriority:self.priority];
 }
 
 - (void)setAutoPageTrackingEnabled:(BOOL)isEnabled {

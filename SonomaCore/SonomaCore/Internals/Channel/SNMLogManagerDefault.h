@@ -6,6 +6,7 @@
 
 #import "SNMChannel.h"
 #import "SNMDeviceTracker.h"
+#import "SNMEnable.h"
 #import "SNMLogManager.h"
 #import "SNMLogManagerListener.h"
 #import "SNMSender.h"

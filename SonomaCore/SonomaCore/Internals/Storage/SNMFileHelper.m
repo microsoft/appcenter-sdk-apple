@@ -1,6 +1,9 @@
 #import "SNMFileHelper.h"
 #import "SNMLogger.h"
 
+/**
+ * Private declarations.
+ */
 @interface SNMFileHelper ()
 
 @property(nonatomic, strong) NSFileManager *fileManager;
@@ -88,7 +91,8 @@
   return data;
 }
 
-+ (NSArray<SNMFile *> *)filesForDirectory:(NSString *)directoryPath withFileExtension:(NSString *)fileExtension {
++ (nullable NSArray<SNMFile *> *)filesForDirectory:(nullable NSString *)directoryPath
+                                 withFileExtension:(nullable NSString *)fileExtension {
   NSFileManager *fileManager = [NSFileManager defaultManager];
 
   // Check validity.
