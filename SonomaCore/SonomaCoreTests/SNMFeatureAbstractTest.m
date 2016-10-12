@@ -204,10 +204,15 @@
    *  If
    */
   __block SNMPriority priority;
+  __block BOOL deleteLogs;
+  __block BOOL forwardedEnabled;
   id<SNMLogManager> logManagerMock = OCMClassMock([SNMLogManagerDefault class]);
-  OCMStub([logManagerMock deleteLogsForPriority:self.abstractFeature.priority]).andDo(^(NSInvocation *invocation) {
-    [invocation getArgument:&priority atIndex:2];
-  });
+  OCMStub([logManagerMock setEnabled:NO andDeleteDataOnDisabled:YES forPriority:self.abstractFeature.priority])
+      .andDo(^(NSInvocation *invocation) {
+        [invocation getArgument:&priority atIndex:4];
+        [invocation getArgument:&deleteLogs atIndex:3];
+        [invocation getArgument:&forwardedEnabled atIndex:2];
+      });
   self.abstractFeature.logManager = logManagerMock;
   [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:self.abstractFeature.isEnabledKey];
 
@@ -221,10 +226,16 @@
    */
 
   // Check that log deletion has been triggered.
-  OCMVerify([logManagerMock deleteLogsForPriority:self.abstractFeature.priority]);
+  OCMVerify([logManagerMock setEnabled:NO andDeleteDataOnDisabled:YES forPriority:self.abstractFeature.priority]);
 
   // Priority from the feature must match priority used to delete logs.
   assertThatBool((self.abstractFeature.priority == priority), isTrue());
+
+  // Must request for deletion.
+  assertThatBool(deleteLogs, isTrue());
+
+  // Must request for disabling.
+  assertThatBool(forwardedEnabled, isFalse());
 }
 
 - (void)testFlushPendingLogs {

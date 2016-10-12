@@ -8,6 +8,8 @@ static NSString *const kSNMLogsDirectory = @"com.microsoft.sonoma/logs";
 static NSString *const kSNMFileExtension = @"snm";
 // FIXME Need a different storage such as database to make it work properly.
 //       For now, persistence will maintain up to 350 logs and remove the oldest 50 logs in a file.
+//       Plus, the requirement is to keep 300 logs for all the logs stored accross the bucckets but the limit is
+//       currently only applied per bucket.
 static NSUInteger const SNMDefaultFileCountLimit = 7;
 static NSUInteger const SNMDefaultLogCountLimit = 50;
 
@@ -86,7 +88,7 @@ static NSUInteger const SNMDefaultLogCountLimit = 50;
   }
 }
 
-- (void)loadLogsForStorageKey:(NSString *)storageKey withCompletion:(nullable SNMLoadDataCompletionBlock)completion {
+- (BOOL)loadLogsForStorageKey:(NSString *)storageKey withCompletion:(nullable SNMLoadDataCompletionBlock)completion {
   NSArray<SNMLog> *logs;
   NSString *fileId;
   SNMStorageBucket *bucket = [self bucketForStorageKey:storageKey];
@@ -105,8 +107,15 @@ static NSUInteger const SNMDefaultLogCountLimit = 50;
 
   // Load fails if no logs found.
   if (completion) {
-    completion(logs, logs, fileId);
+    completion((logs.count > 0), logs, fileId);
   }
+
+  // Return YES if there are more logs to send.
+  return (bucket.availableFiles.count > 0);
+}
+
+- (void)closeBatchWithStorageKey:(NSString *)storageKey {
+  [self renewCurrentFileForStorageKey:storageKey];
 }
 
 #pragma mark - Helper
