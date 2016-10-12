@@ -12,6 +12,7 @@
 #import "SNMCrashesPrivate.h"
 #import "SNMErrorLogFormatterPrivate.h"
 #import "SNMSonomaInternal.h"
+#import "SNMDeviceTracker.h"
 
 @interface SNMErrorLogFormatterTests : XCTestCase
 
@@ -23,6 +24,9 @@
   NSData *crashData = [SNMCrashTestHelper dataOfFixtureCrashReportWithFileName:@"live_report_signal"];
   XCTAssertNotNil(crashData);
 
+  SNMDevice *device = [[SNMDeviceTracker alloc] init].device;
+  XCTAssertNotNil(device);
+  
   NSError *error = nil;
   SNMPLCrashReport *report = [[SNMPLCrashReport alloc] initWithData:crashData error:&error];
 
@@ -37,11 +41,8 @@
   XCTAssertEqual(errorReport.exceptionName, report.signalInfo.name);
   XCTAssertEqual(errorReport.exceptionReason, report.exceptionInfo.exceptionReason);
   XCTAssertEqual(errorReport.appStartTime, report.processInfo.processStartTime);
-  XCTAssertEqual(errorReport.crashTime, report.systemInfo.timestamp);
-  XCTAssertEqual(errorReport.osVersion, report.systemInfo.operatingSystemVersion);
-  XCTAssertEqual(errorReport.osBuild, report.systemInfo.operatingSystemBuild);
-  XCTAssertEqual(errorReport.appVersion, report.applicationInfo.applicationMarketingVersion);
-  XCTAssertEqual(errorReport.appBuild, report.applicationInfo.applicationVersion);
+  XCTAssertEqual(errorReport.appErrorTime, report.systemInfo.timestamp);
+  XCTAssertTrue([errorReport.device isEqual:device]);
   XCTAssertEqual(errorReport.appProcessIdentifier, report.processInfo.processID);
 
   crashData = [SNMCrashTestHelper dataOfFixtureCrashReportWithFileName:@"live_report_exception"];
@@ -61,11 +62,8 @@
   XCTAssertEqual(errorReport.exceptionName, report.exceptionInfo.exceptionName);
   XCTAssertEqual(errorReport.exceptionReason, report.exceptionInfo.exceptionReason);
   XCTAssertEqual(errorReport.appStartTime, report.processInfo.processStartTime);
-  XCTAssertEqual(errorReport.crashTime, report.systemInfo.timestamp);
-  XCTAssertEqual(errorReport.osVersion, report.systemInfo.operatingSystemVersion);
-  XCTAssertEqual(errorReport.osBuild, report.systemInfo.operatingSystemBuild);
-  XCTAssertEqual(errorReport.appVersion, report.applicationInfo.applicationMarketingVersion);
-  XCTAssertEqual(errorReport.appBuild, report.applicationInfo.applicationVersion);
+  XCTAssertEqual(errorReport.appErrorTime, report.systemInfo.timestamp);
+  XCTAssertTrue([errorReport.device isEqual:device]);
   XCTAssertEqual(errorReport.appProcessIdentifier, report.processInfo.processID);
 }
 
@@ -76,7 +74,7 @@
   NSError *error = nil;
   SNMPLCrashReport *report = [[SNMPLCrashReport alloc] initWithData:crashData error:&error];
 
-  NSString *expected = (NSString *)CFBridgingRelease(CFUUIDCreateString(NULL, report.uuidRef));
+  NSString *expected = (NSString *) CFBridgingRelease(CFUUIDCreateString(NULL, report.uuidRef));
   NSString *actual = [SNMErrorLogFormatter errorIdForCrashReport:report];
   assertThat(actual, equalTo(expected));
 }

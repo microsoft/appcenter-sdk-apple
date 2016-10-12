@@ -37,7 +37,7 @@ The Sonoma SDK is designed with a modular approach – a developer only needs to
 
 Below are the steps on how to integrate the compiled libraries in your Xcode project to setup the Sonoma SDK for your iOS app.
 
-1. Download all the [Sonoma iOS SDK](https://github.com/Microsoft/Sonoma-SDK-iOS/releases) frameworks provided as a zip file from the Releases page in our GitHub repo.
+1. Download the [Sonoma iOS SDK](https://aka.ms/ehvc9e) frameworks provided as a zip file.
 
 2. Unzip the file and you will see different frameworks for each Sonoma service. There is a framework called `SonomaCore`, which is required in the project as it contains the logic for persistence, forwarding etc. 
 
@@ -47,7 +47,7 @@ Below are the steps on how to integrate the compiled libraries in your Xcode pro
    
 4. Add the SDK frameworks to the project in Xcode:
     * Make sure the Project Navigator is visible (⌘+1).
-    * Now unzip the SDK frameworks and drag and drop `SonomaCore.framework`, `SonomaAnalytics.framework`, and `SonomaCrashes.framework` in the Vendor folder in Xcode using the Project Navigator on the left side. Note that `SonomaCore.framework` is required to start the SDK. So make sure it's added to your project, otherwise the other modules won't work and your app won't compile.
+    * Now drag and drop `SonomaCore.framework`, `SonomaAnalytics.framework`, and `SonomaCrashes.framework` in the Vendor folder in Xcode using the Project Navigator on the left side. Note that `SonomaCore.framework` is required to start the SDK. So make sure it's added to your project, otherwise the other modules won't work and your app won't compile.
     * A dialog will appear again. Make sure that "Copy items if needed", "Create groups", and your app target are checked. Then click Finish.
     
 Now that you've integrated the frameworks in your application, it's time to start the SDK and make use of the Sonoma services.
@@ -56,11 +56,7 @@ Now that you've integrated the frameworks in your application, it's time to star
 
 To start the Sonoma SDK in your app, follow these steps:
 
-1. **Get the App Secret of your application:** Before you call the API to start the SDK, you need to get your app specific Application Secret from the Sonoma portal that needs to be a part of the method call. This will make sure all the data collected by the SDK corresponds to your application.
-
-    Go over to the Sonoma portal, click on "Microsoft Azure Sonoma". Under "My apps", click on the app that you want the SDK to set up for. Then click on "Manage app" and make note of the "App Secret" value.
-
-2. **Add `import` statements:**  You need to add import statements for Core, Analytics and Crashes module before starting the SDK.
+1. **Add `import` statements:**  You need to add import statements for Core, Analytics and Crashes module before starting the SDK.
     
     **Objective-C**   
     Open your AppDelegate.m file and add the following lines at the top of the file below your own import statements.   
@@ -80,7 +76,7 @@ To start the Sonoma SDK in your app, follow these steps:
     import SonomaCrashes
     ``` 
 
-3. **Start the SDK:** Sonoma provides developers with three modules to get started: SonomaCore (required), Analytics and Crashes. In order to use Sonoma services, you need to opt in for the module(s) that you'd like, meaning by default no modules are started and you will have to explicitly call each of them, both Analytics and Crashes, when starting the SDK.
+2. **Start the SDK:** Sonoma provides developers with three modules to get started: SonomaCore (required), Analytics and Crashes. In order to use Sonoma services, you need to opt in for the module(s) that you'd like, meaning by default no modules are started and you will have to explicitly call each of them, both Analytics and Crashes, when starting the SDK.
 
     **Objective-C**   
     Insert the following line to start the SDK in your app's AppDelegate.m class in the `didFinishLaunchingWithOptions` method.  
@@ -95,7 +91,8 @@ To start the Sonoma SDK in your app, follow these steps:
     ```swift
     SNMSonoma.start("{Your App Secret}", withFeatures: [SNMAnalytics.self, SNMCrashes.self])
     ```    
-    Make sure to replace {Your App Secret} text with the actual value for your application.
+    
+    You can also copy paste the `start` method call from the Overview page on Sonoma portal once your app is selected. It already includes the App Secret so that all the data collected by the SDK corresponds to your application. Make sure to replace {Your App Secret} text with the actual value for your application.
     
 The example above shows how to use the `start` method and include both the Analytics and Crashes module. If you wish not to use Analytics, remove the parameter from the method call above. Note that, unless you explicitly specify each module as parameters in the start method, you can't use that Sonoma service. Also, the `start` API can be used only once in the lifecycle of your app – all other calls will log a warning to the console and only the modules included in the first call will be available.
 

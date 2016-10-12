@@ -14,11 +14,8 @@ extern NSString *const __attribute__((unused)) kSNMErrorReportKillSignal;
                   exceptionName:(NSString *)exceptionName
                 exceptionReason:(NSString *)exceptionReason
                    appStartTime:(NSDate *)appStartTime
-                      crashTime:(NSDate *)crashTime
-                      osVersion:(NSString *)osVersion
-                        osBuild:(NSString *)osBuild
-                     appVersion:(NSString *)appVersion
-                       appBuild:(NSString *)appBuild
+                   appErrorTime:(NSDate *)appErrorTime
+                         device:(SNMDevice *)device
            appProcessIdentifier:(NSUInteger)appProcessIdentifier;
 
 @end

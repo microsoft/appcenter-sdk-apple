@@ -68,14 +68,15 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      codeCoverageEnabled = "YES">
       <Testables>
          <TestableReference
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6E2395771D22EF4F00E543C8"
-               BuildableName = "SonomaCoreTests.xctest"
+               BuildableName = "SonomaCore.xctest"
                BlueprintName = "SonomaCoreTests"
                ReferencedContainer = "container:SonomaCore/SonomaCore.xcodeproj">
             </BuildableReference>
@@ -85,19 +86,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E85547D41D2D6723002DF6E2"
-               BuildableName = "SonomaAnalyticsTests.xctest"
+               BuildableName = "SonomaCrashes.xctest"
                BlueprintName = "SonomaAnalyticsTests"
                ReferencedContainer = "container:SonomaAnalytics/SonomaAnalytics.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6E171AE01D22F781000DC480"
-               BuildableName = "SonomaCrashes.xctest"
-               BlueprintName = "SonomaCrashesTests"
-               ReferencedContainer = "container:SonomaCrashes/SonomaCrashes.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
