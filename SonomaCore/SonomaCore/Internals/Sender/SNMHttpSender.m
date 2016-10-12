@@ -3,6 +3,7 @@
  */
 
 #import "SNMHttpSender.h"
+#import "SNMHttpSenderPrivate.h"
 #import "SNMRetriableCall.h"
 #import "SNMSenderDelegate.h"
 #import "SNMSenderUtils.h"
@@ -13,31 +14,6 @@ static NSTimeInterval kRequestTimeout = 60.0;
 
 // API Path.
 static NSString *const kSNMApiPath = @"/logs";
-
-@interface SNMHttpSender ()
-
-@property(nonatomic, strong) NSURLSession *session;
-
-/**
- *  Array containing all the delegates pointers as weak references.
- */
-@property(atomic, strong) NSPointerArray *delegatesPointers;
-
-/**
- *  A boolean value set to YES if the sender is enabled or NO otherwise.
- * Enable/disable does resume/suspend the sender as needed under the hood.
- */
-@property(nonatomic) BOOL enabled;
-
-/**
- *  A boolean value set to YES if the sender is suspended or NO otherwise.
- * A sender is suspended when it becomes disabled or on network issues.
- * A suspended sender still persists logs but doesn't forward them to the sender.
- * A suspended state doesn't impact the current enabled state.
- */
-@property(nonatomic) BOOL suspended;
-
-@end
 
 @implementation SNMHttpSender
 
@@ -54,7 +30,7 @@ static NSString *const kSNMApiPath = @"/logs";
     _reachability = reachability;
     _enabled = YES;
     _suspended = NO;
-    _delegatesPointers = [NSPointerArray weakObjectsPointerArray];
+    _delegates = [NSHashTable weakObjectsHashTable];
 
     // Construct the URL string with the query string.
     NSString *urlString = [baseUrl stringByAppendingString:kSNMApiPath];
@@ -118,16 +94,11 @@ completionHandler:(SNMSendAsyncCompletionHandler)handler {
 }
 
 - (void)addDelegate:(id<SNMSenderDelegate>)delegate {
-  if (![[self.delegatesPointers allObjects] containsObject:delegate]) {
-    [self.delegatesPointers addPointer:(__bridge void *)delegate];
-  }
+  [self.delegates addObject:delegate];
 }
 
 - (void)removeDelegate:(id<SNMSenderDelegate>)delegate {
-  NSArray<id<SNMSenderDelegate>> *delegates = [self.delegatesPointers allObjects];
-  if ([delegates containsObject:delegate]) {
-    [self.delegatesPointers removePointerAtIndex:[delegates indexOfObject:delegate]];
-  }
+  [self.delegates removeObject:delegate];
 }
 
 #pragma mark - Life cycle
@@ -168,11 +139,10 @@ completionHandler:(SNMSendAsyncCompletionHandler)handler {
             [obj cancel];
           }];
     }];
-    for (id<SNMSenderDelegate> delegate in self.delegatesPointers.allObjects) {
-      if ([delegate respondsToSelector:(@selector(senderDidSuspend:))]) {
-        [delegate senderDidSuspend:self];
-      }
-    }
+    [self enumerateDelgatesForSelector:@selector(senderDidSuspend:)
+                             withBlock:^(id<SNMSenderDelegate> delegate) {
+                               [delegate senderDidSuspend:self];
+                             }];
   }
 }
 
@@ -191,11 +161,10 @@ completionHandler:(SNMSendAsyncCompletionHandler)handler {
         }];
 
     // Propagate.
-    for (id<SNMSenderDelegate> delegate in self.delegatesPointers.allObjects) {
-      if ([delegate respondsToSelector:(@selector(senderDidResume:))]) {
-        [delegate senderDidResume:self];
-      }
-    }
+    [self enumerateDelgatesForSelector:@selector(senderDidResume:)
+                             withBlock:^(id<SNMSenderDelegate> delegate) {
+                               [delegate senderDidResume:self];
+                             }];
   }
 }
 
@@ -275,6 +244,14 @@ completionHandler:(SNMSendAsyncCompletionHandler)handler {
     _session = [NSURLSession sessionWithConfiguration:sessionConfiguration];
   }
   return _session;
+}
+
+- (void)enumerateDelgatesForSelector:(SEL)selector withBlock:(void (^)(id<SNMSenderDelegate> delegate))block {
+  for (id<SNMSenderDelegate> delegate in self.delegates) {
+    if (delegate && [delegate respondsToSelector:selector]) {
+      block(delegate);
+    }
+  }
 }
 
 @end
