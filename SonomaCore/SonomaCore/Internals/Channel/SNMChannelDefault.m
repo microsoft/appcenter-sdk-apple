@@ -1,6 +1,6 @@
 /*
-* Copyright (c) Microsoft Corporation. All rights reserved.
-*/
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ */
 
 #import "SNMChannelDefault.h"
 #import "SonomaCore+Internal.h"
@@ -11,13 +11,13 @@
 @interface SNMChannelDefault ()
 
 /**
- *  A boolean value set to YES if the channel is enabled or NO otherwise.
+ * A boolean value set to YES if the channel is enabled or NO otherwise.
  * Enable/disable does resume/suspend the channel as needed under the hood.
  */
 @property(nonatomic) BOOL enabled;
 
 /**
- *  A boolean value set to YES if the channel is suspended or NO otherwise.
+ * A boolean value set to YES if the channel is suspended or NO otherwise.
  * A channel is suspended when it becomes disabled or when its sender becomes suspended itself.
  * A suspended channel still persists logs but doesn't forward them to the sender.
  * A suspended state doesn't impact the current enabled state.
@@ -39,7 +39,6 @@
     _pendingBatchQueueFull = NO;
     _availableBatchFromStorage = NO;
     _enabled = YES;
-    _enabled = NO;
   }
   return self;
 }
@@ -118,7 +117,7 @@
                // Logs may be deleted from storage before this flush.
                if (succeeded) {
                  [self.pendingBatchIds addObject:batchId];
-                 if (self.pendingBatchIds.count == self.configuration.pendingBatchesLimit) {
+                 if (self.pendingBatchIds.count >= self.configuration.pendingBatchesLimit) {
                    self.pendingBatchQueueFull = YES;
                  }
                  SNMLogContainer *container = [[SNMLogContainer alloc] initWithBatchId:batchId andLogs:logArray];
@@ -196,7 +195,6 @@
     [self suspend];
     if (deleteData) {
       [self deleteAllLogs];
-      [self.pendingBatchIds removeAllObjects];
 
       // Reset states.
       self.itemsCount = 0;
