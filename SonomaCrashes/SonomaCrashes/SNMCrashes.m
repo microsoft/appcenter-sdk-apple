@@ -181,6 +181,24 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
   }
 }
 
+- (void)channel:(id<SNMChannel>)channel didSucceedSendingLog:(id<SNMLog>)log {
+  if(self.delegate) {
+    if ([((NSObject *)log) isKindOfClass:[SNMAppleErrorLog class]]) {
+      SNMErrorReport *report = [SNMErrorLogFormatter errorReportFromLog:((SNMAppleErrorLog*)log)];
+      [self.delegate crashes:self didSucceedSendingErrorReport:report];
+    }
+  }
+}
+
+- (void)channel:(id<SNMChannel>)channel didFailSendingLog:(id<SNMLog>)log withError:(NSError *)error {
+  if(self.delegate) {
+    if ([((NSObject *)log) isKindOfClass:[SNMAppleErrorLog class]]) {
+      SNMErrorReport *report = [SNMErrorLogFormatter errorReportFromLog:((SNMAppleErrorLog*)log)];
+      [self.delegate crashes:self didFailSendingErrorReport:report withError:error];
+    }
+  }
+}
+
 #pragma mark - Crash reporter configuration
 
 - (void)configureCrashReporter {
