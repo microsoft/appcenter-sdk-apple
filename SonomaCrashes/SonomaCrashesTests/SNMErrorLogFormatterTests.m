@@ -32,46 +32,30 @@
 
   SNMErrorReport *errorReport = [SNMErrorLogFormatter errorReportFromCrashReport:crashReport];
   XCTAssertNotNil(errorReport);
-
   XCTAssertNotNil(errorReport.incidentIdentifier);
   assertThat(errorReport.reporterKey, equalTo([[SNMSonoma installId] UUIDString]));
-
   XCTAssertEqual(errorReport.signal, crashReport.signalInfo.name);
-
   XCTAssertEqual(errorReport.exceptionName, crashReport.signalInfo.name);
   assertThat(errorReport.exceptionReason, equalTo(crashReport.exceptionInfo.exceptionReason));
-  NSTimeInterval errorReportInterval = [errorReport.appStartTime timeIntervalSince1970];
-  NSTimeInterval crashReportInterval = [crashReport.processInfo.processStartTime timeIntervalSince1970];
-  XCTAssertEqual(round(errorReportInterval), round(crashReportInterval));
-  errorReportInterval = [errorReport.appErrorTime timeIntervalSince1970];
-  crashReportInterval = [crashReport.systemInfo.timestamp timeIntervalSince1970];
-  XCTAssertEqual(round(errorReportInterval), round(crashReportInterval));
-
+  assertThat(errorReport.appErrorTime, equalTo(crashReport.systemInfo.timestamp));
+  assertThat(errorReport.appStartTime, equalTo(crashReport.processInfo.processStartTime));
   XCTAssertTrue([errorReport.device isEqual:device]);
   XCTAssertEqual(errorReport.appProcessIdentifier, crashReport.processInfo.processID);
-
+  
   crashData = [SNMCrashTestHelper dataOfFixtureCrashReportWithFileName:@"live_report_exception"];
   XCTAssertNotNil(crashData);
-
   error = nil;
+  
   crashReport = [[SNMPLCrashReport alloc] initWithData:crashData error:&error];
-
   errorReport = [SNMErrorLogFormatter errorReportFromCrashReport:crashReport];
   XCTAssertNotNil(errorReport);
-
   XCTAssertNotNil(errorReport.incidentIdentifier);
   assertThat(errorReport.reporterKey, equalTo([[SNMSonoma installId] UUIDString]));
-
   XCTAssertEqual(errorReport.signal, crashReport.signalInfo.name);
-
   XCTAssertEqual(errorReport.exceptionName, crashReport.signalInfo.name);
   assertThat(errorReport.exceptionReason, equalTo(crashReport.exceptionInfo.exceptionReason));
-  errorReportInterval = [errorReport.appStartTime timeIntervalSince1970];
-  crashReportInterval = [crashReport.processInfo.processStartTime timeIntervalSince1970];
-  XCTAssertEqual(round(errorReportInterval), round(crashReportInterval));
-  errorReportInterval = [errorReport.appErrorTime timeIntervalSince1970];
-  crashReportInterval = [crashReport.systemInfo.timestamp timeIntervalSince1970];
-  XCTAssertEqual(round(errorReportInterval), round(crashReportInterval));
+  assertThat(errorReport.appErrorTime, equalTo(crashReport.systemInfo.timestamp));
+  assertThat(errorReport.appStartTime, equalTo(crashReport.processInfo.processStartTime));
   XCTAssertTrue([errorReport.device isEqual:device]);
   XCTAssertEqual(errorReport.appProcessIdentifier, crashReport.processInfo.processID);
 }
