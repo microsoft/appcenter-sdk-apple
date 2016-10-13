@@ -3,6 +3,7 @@
  */
 
 #import "../Model/SNMLog.h"
+#import "SNMEnable.h"
 #import "SNMLogManagerDelegate.h"
 #import <Foundation/Foundation.h>
 @protocol SNMChannelDelegate;
@@ -13,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
  Defines A log manager which triggers and manages the processing of log items on
  different channels.
  */
-@protocol SNMLogManager <NSObject>
+@protocol SNMLogManager <NSObject, SNMEnable>
 
 @optional
 /**
@@ -40,11 +41,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)processLog:(id<SNMLog>)log withPriority:(SNMPriority)priority;
 
 /**
- *  Delete logs from the storage for the given priority.
+ *  Enable/disable this instance and delete data on disabled state.
  *
- *  @param priority The priority related to the logs being deleted.
+ *  @param isEnabled  A boolean value set to YES to enable the instance or NO to disable it.
+ *  @param deleteData A boolean value set to YES to delete data or NO to keep it.
+ *  @param forPriority A priority to enable/disable.
  */
-- (void)deleteLogsForPriority:(SNMPriority)priority;
+- (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData forPriority:(SNMPriority)priority;
 
 /**
  * Send persisted logs that are not sent in previous session.
