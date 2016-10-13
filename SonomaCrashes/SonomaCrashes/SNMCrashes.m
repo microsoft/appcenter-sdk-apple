@@ -4,6 +4,7 @@
 
 #import "SNMAppleErrorLog.h"
 #import "SNMCrashesCXXExceptionWrapperException.h"
+#import "SNMCrashesDelegate.h"
 #import "SNMCrashesHelper.h"
 #import "SNMCrashesPrivate.h"
 #import "SNMErrorLogFormatter.h"
@@ -11,6 +12,7 @@
 #import "SNMSonomaInternal.h"
 #import "SonomaCore+Internal.h"
 #import <CrashReporter/CrashReporter.h>
+
 
 /**
  *  Feature name.
@@ -44,11 +46,14 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
   abort();
 }
 
+@interface SNMCrashes() <SNMChannelDelegate>
+
+@end
+
 @implementation SNMCrashes
 
 @synthesize delegate = _delegate;
 @synthesize logManager = _logManager;
-@synthesize initializationDate = _initializationDate;
 
 #pragma mark - Public Methods
 
@@ -86,6 +91,10 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
   return [[self sharedInstance] getLastSessionCrashReport];
 }
 
++ (void)setDelegate:(_Nullable id<SNMCrashesDelegate>) delegate {
+  [[self sharedInstance] setDelegate:delegate];
+}
+
 #pragma mark - Module initialization
 
 - (instancetype)init {
@@ -94,7 +103,6 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
     _crashFiles = [[NSMutableArray alloc] init];
     _crashesDir = [SNMCrashesHelper crashesDir];
     _analyzerInProgressFile = [_crashesDir stringByAppendingPathComponent:kSNMAnalyzerFilename];
-    _initializationDate = [NSDate new];
     _didCrashInLastSession = NO;
   }
   return self;
@@ -108,12 +116,14 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
   if (isEnabled) {
     SNMLogDebug(@"[SNMCrashes] DEBUG: Enabling crashes feature again.");
     [self configureCrashReporter];
+    [self.logManager addChannelDelegate:self forPriority:SNMPriorityHigh];
   } else {
     // Don't set PLCrashReporter to nil!
     SNMLogDebug(@"[SNMCrashes] DEBUG: Cleaning up all crash files.");
     [self deleteAllFromCrashesDirectory];
     [self removeAnalyzerFile];
     [self.plCrashReporter purgePendingCrashReport];
+    [self.logManager removeChannelDelegate:self forPriority:SNMPriorityHigh];
     SNMLogDebug(@"[SNMCrashes] DEBUG: Disabling crashes feature.");
   }
 }
@@ -134,6 +144,8 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 
   SNMLogVerbose(@"[SNMCrashes] VERBOSE: Started crash feature.");
 
+  [self.logManager addChannelDelegate:self forPriority:self.priority];
+  
   [self configureCrashReporter];
 
   // Get crashes from PLCrashReporter and store them in the intermediate format.
@@ -156,6 +168,35 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 
 - (SNMPriority)priority {
   return SNMPriorityHigh;
+}
+
+#pragma mark - SNMChannelDelegate
+
+- (void)channel:(id)channel willSendLog:(id<SNMLog>)log {
+    if(self.delegate) {
+      if ([((NSObject *)log) isKindOfClass:[SNMAppleErrorLog class]]) {
+        SNMErrorReport *report = [SNMErrorLogFormatter errorReportFromLog:((SNMAppleErrorLog*)log)];
+        [self.delegate crashes:self willSendErrorReport:report];
+    }
+  }
+}
+
+- (void)channel:(id<SNMChannel>)channel didSucceedSendingLog:(id<SNMLog>)log {
+  if(self.delegate) {
+    if ([((NSObject *)log) isKindOfClass:[SNMAppleErrorLog class]]) {
+      SNMErrorReport *report = [SNMErrorLogFormatter errorReportFromLog:((SNMAppleErrorLog*)log)];
+      [self.delegate crashes:self didSucceedSendingErrorReport:report];
+    }
+  }
+}
+
+- (void)channel:(id<SNMChannel>)channel didFailSendingLog:(id<SNMLog>)log withError:(NSError *)error {
+  if(self.delegate) {
+    if ([((NSObject *)log) isKindOfClass:[SNMAppleErrorLog class]]) {
+      SNMErrorReport *report = [SNMErrorLogFormatter errorReportFromLog:((SNMAppleErrorLog*)log)];
+      [self.delegate crashes:self didFailSendingErrorReport:report withError:error];
+    }
+  }
 }
 
 #pragma mark - Crash reporter configuration
@@ -268,7 +309,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
       if (self.isEnabled) {
         report = [[SNMPLCrashReport alloc] initWithData:crashFileData error:&error];
         SNMAppleErrorLog *log = [SNMErrorLogFormatter errorLogFromCrashReport:report];
-        [self.delegate feature:self didCreateLog:log withPriority:self.priority]; // TODO work on this part!!!
+        [self.logManager processLog:log withPriority:self.priority];
       }
       [self deleteCrashReportWithFilePath:filePath];
       [self.crashFiles removeObject:filePath];
@@ -322,7 +363,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 
       if (report) {
         [crashData writeToFile:[self.crashesDir stringByAppendingPathComponent:cacheFilename] atomically:YES];
-        _lastSessionCrashReport = [SNMErrorLogFormatter createErrorReportFrom:report];
+        _lastSessionCrashReport = [SNMErrorLogFormatter errorReportFromCrashReport:report];
       } else {
         SNMLogWarning(@"[SNMCrashes] WARNING: Could not parse crash report");
       }

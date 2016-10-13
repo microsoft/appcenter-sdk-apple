@@ -4,7 +4,6 @@
 
 #import "SNMFeatureAbstractInternal.h"
 #import "SNMFeatureInternal.h"
-#import "SNMSonomaDelegate.h"
 #import "Utils/SNMLogger.h"
 
 // Log files
@@ -20,4 +19,5 @@
 #import "Utils/SNMEnvironmentHelper.h"
 
 // Channel
-#import "Channel/SNMLogManagerListener.h"
+#import "Channel/SNMLogManagerDelegate.h"
+#import "Channel/SNMChannelDelegate.h"

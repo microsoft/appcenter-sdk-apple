@@ -5,6 +5,7 @@
 #import "SNMLogUtils.h"
 #import "SNMLogWithProperties.h"
 #import "SNMLogger.h"
+#import "SNMLogContainer.h"
 
 static NSString *const kSNMProperties = @"properties";
 

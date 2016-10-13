@@ -27,7 +27,7 @@ NSString *const kSNMType = @"type";
   }
   if (self.toffset) {
 
-    // Set the toffset relative to current time. The toffset need to be up to date.
+    // Set the toffset relative to current time. The toffset needs to be up to date.
     NSInteger now = [[NSDate date] timeIntervalSince1970];
     NSInteger relativeTime = now - [self.toffset integerValue];
     dict[kSNMToffset] = @(relativeTime);

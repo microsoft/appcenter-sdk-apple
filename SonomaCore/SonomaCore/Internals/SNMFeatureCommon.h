@@ -3,18 +3,12 @@
  */
 
 #import "SNMLogManager.h"
-#import "SNMSonomaDelegate.h"
 #import <Foundation/Foundation.h>
 
 /**
  *  Protocol declaring features common logic.
  */
 @protocol SNMFeatureCommon <NSObject>
-
-/**
- *  Sonoma delegate.
- */
-@property(nonatomic, weak) id<SNMSonomaDelegate> delegate;
 
 /**
  *  Log manager.
