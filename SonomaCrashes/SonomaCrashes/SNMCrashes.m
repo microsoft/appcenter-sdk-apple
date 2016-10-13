@@ -13,7 +13,6 @@
 #import "SonomaCore+Internal.h"
 #import <CrashReporter/CrashReporter.h>
 
-
 /**
  *  Feature name.
  */
@@ -46,7 +45,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
   abort();
 }
 
-@interface SNMCrashes() <SNMChannelDelegate>
+@interface SNMCrashes () <SNMChannelDelegate>
 
 @end
 
@@ -58,7 +57,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 #pragma mark - Public Methods
 
 + (void)generateTestCrash {
-  @synchronized([self sharedInstance]) {
+  @synchronized ([self sharedInstance]) {
     if ([[self sharedInstance] canBeUsed]) {
       if ([SNMEnvironmentHelper currentAppEnvironment] != SNMEnvironmentAppStore) {
         if ([SNMSonoma isDebuggerAttached]) {
@@ -69,7 +68,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
       }
     } else {
       SNMLogWarning(@"[SNMCrashes] WARNING: GenerateTestCrash was just called in an App Store environment. The call will "
-                    @"be ignored");
+                        @"be ignored");
     }
   }
 }
@@ -91,7 +90,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
   return [[self sharedInstance] getLastSessionCrashReport];
 }
 
-+ (void)setDelegate:(_Nullable id<SNMCrashesDelegate>) delegate {
++ (void)setDelegate:(_Nullable id <SNMCrashesDelegate>)delegate {
   [[self sharedInstance] setDelegate:delegate];
 }
 
@@ -145,7 +144,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
   SNMLogVerbose(@"[SNMCrashes] VERBOSE: Started crash feature.");
 
   [self.logManager addChannelDelegate:self forPriority:self.priority];
-  
+
   [self configureCrashReporter];
 
   // Get crashes from PLCrashReporter and store them in the intermediate format.
@@ -172,28 +171,28 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 
 #pragma mark - SNMChannelDelegate
 
-- (void)channel:(id)channel willSendLog:(id<SNMLog>)log {
-    if(self.delegate) {
-      if ([((NSObject *)log) isKindOfClass:[SNMAppleErrorLog class]]) {
-        SNMErrorReport *report = [SNMErrorLogFormatter errorReportFromLog:((SNMAppleErrorLog*)log)];
-        [self.delegate crashes:self willSendErrorReport:report];
+- (void)channel:(id)channel willSendLog:(id <SNMLog>)log {
+  if (self.delegate && [self.delegate respondsToSelector:@selector(willSendErrorReport)]) {
+    if ([((NSObject *) log) isKindOfClass:[SNMAppleErrorLog class]]) {
+      SNMErrorReport *report = [SNMErrorLogFormatter errorReportFromLog:((SNMAppleErrorLog *) log)];
+      [self.delegate crashes:self willSendErrorReport:report];
     }
   }
 }
 
-- (void)channel:(id<SNMChannel>)channel didSucceedSendingLog:(id<SNMLog>)log {
-  if(self.delegate) {
-    if ([((NSObject *)log) isKindOfClass:[SNMAppleErrorLog class]]) {
-      SNMErrorReport *report = [SNMErrorLogFormatter errorReportFromLog:((SNMAppleErrorLog*)log)];
+- (void)channel:(id <SNMChannel>)channel didSucceedSendingLog:(id <SNMLog>)log {
+  if (self.delegate && [self.delegate respondsToSelector:@selector(didSucceedSendingErrorReport)]) {
+    if ([((NSObject *) log) isKindOfClass:[SNMAppleErrorLog class]]) {
+      SNMErrorReport *report = [SNMErrorLogFormatter errorReportFromLog:((SNMAppleErrorLog *) log)];
       [self.delegate crashes:self didSucceedSendingErrorReport:report];
     }
   }
 }
 
-- (void)channel:(id<SNMChannel>)channel didFailSendingLog:(id<SNMLog>)log withError:(NSError *)error {
-  if(self.delegate) {
-    if ([((NSObject *)log) isKindOfClass:[SNMAppleErrorLog class]]) {
-      SNMErrorReport *report = [SNMErrorLogFormatter errorReportFromLog:((SNMAppleErrorLog*)log)];
+- (void)channel:(id <SNMChannel>)channel didFailSendingLog:(id <SNMLog>)log withError:(NSError *)error {
+  if (self.delegate && [self.delegate respondsToSelector:@selector(didFailSendingErrorReport)]) {
+    if ([((NSObject *) log) isKindOfClass:[SNMAppleErrorLog class]]) {
+      SNMErrorReport *report = [SNMErrorLogFormatter errorReportFromLog:((SNMAppleErrorLog *) log)];
       [self.delegate crashes:self didFailSendingErrorReport:report withError:error];
     }
   }
@@ -249,7 +248,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
       SNMLogDebug(@"[SNMCrashes] DEBUG: Exception handler successfully initialized.");
     } else {
       SNMLogError(@"[SNMCrashes] ERROR: Exception handler could not be set. Make sure there is no other exception "
-                  @"handler set up!");
+                      @"handler set up!");
     }
     [SNMCrashesUncaughtCXXExceptionHandlerManager addCXXExceptionHandler:uncaught_cxx_exception_handler];
   }
@@ -283,10 +282,10 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
      */
     if (self.exceptionHandler != currentHandler) {
       SNMLogWarning(@"[SNMCrashes] WARNING: Another exception handler was "
-                    @"added. If this invokes any kind exit() after processing "
-                    @"the exception, which causes any subsequent error "
-                    @"handler not to be invoked, these crashes will NOT be "
-                    @"reported to Sonoma!");
+                        @"added. If this invokes any kind exit() after processing "
+                        @"the exception, which causes any subsequent error "
+                        @"handler not to be invoked, these crashes will NOT be "
+                        @"reported to Sonoma!");
     }
   }
   if (!self.sendingInProgress && self.crashFiles.count > 0) {
@@ -323,7 +322,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 - (void)deleteAllFromCrashesDirectory {
   NSError *error = nil;
   for (NSString *filePath in [self.fileManager enumeratorAtPath:self.crashesDir]) {
-    NSString *path = [self.crashesDir stringByAppendingPathComponent: filePath];
+    NSString *path = [self.crashesDir stringByAppendingPathComponent:filePath];
     [_fileManager removeItemAtPath:path error:&error];
 
     if (error) {
