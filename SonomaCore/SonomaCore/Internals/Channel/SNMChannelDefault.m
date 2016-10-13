@@ -139,11 +139,13 @@
                                         SNMLogVerbose(@"INFO:Sending log %@", [container serializeLogWithPrettyPrinting:YES]);
                                         
                                         // Notify delegates.
-                                        for (id<SNMChannelDelegate> aDelegate in self.delegates) {
+                                        [self enumerateDelgatesForSelector:@selector(channel:willSendLog:) withBlock:^(id<SNMChannelDelegate> delegate) {
                                           for (id<SNMLog> aLog in logArray) {
-                                            [aDelegate channel:self willSendLog:aLog];
+                                            [delegate channel:self willSendLog:aLog];
                                           }
-                                        }
+                                        }];
+                                        
+                                        __block NSArray<SNMLog> *_Nullable logs = [logArray copy];
                                         
                                         // Forward logs to the sender.
                                         [self.sender sendAsync:container
@@ -152,6 +154,21 @@
                                                SNMLogVerbose(@"INFO:HTTP response received with the "
                                                              @"status code:%lu",
                                                              (unsigned long)statusCode);
+                                               
+                                               if(statusCode != 200) {
+                                                 [self enumerateDelgatesForSelector:@selector(channel:didFailSendingLog:withError:) withBlock:^(id<SNMChannelDelegate> delegate) {
+                                                   for (id<SNMLog> aLog in logs) {
+                                                     [delegate channel:self didFailSendingLog:aLog withError:error];
+                                                   }
+                                                 }];
+                                              }
+                                              else {
+                                                [self enumerateDelgatesForSelector:@selector(channel:didSucceedSendingLog:) withBlock:^(id<SNMChannelDelegate> delegate) {
+                                                  for (id<SNMLog> aLog in logs) {
+                                                    [delegate channel:self didSucceedSendingLog:aLog];
+                                                  }
+                                                }];
+                                               }
                                                
                                                // Remove from pending logs and storage.
                                                [self.pendingBatchIds removeObject:batchId];
@@ -174,6 +191,15 @@
     [self flushQueue];
   }
 }
+
+- (void)enumerateDelgatesForSelector:(SEL)selector withBlock:(void (^)(id<SNMChannelDelegate> delegate))block {
+  for (id<SNMChannelDelegate> delegate in self.delegates) {
+    if (delegate && [delegate respondsToSelector:selector]) {
+      block(delegate);
+    }
+  }
+}
+
 
 #pragma mark - Timer
 

@@ -69,4 +69,14 @@
   SNMLogVerbose(@"Will send error report with: %@", errorReport.exceptionReason);
 }
 
+- (void)crashes:(SNMCrashes *)crashes didSucceedSendingErrorReport:(SNMErrorReport *)errorReport {
+  SNMLogVerbose(@"Did succeed error report sending with: %@", errorReport.exceptionReason);
+
+}
+
+- (void)crashes:(SNMCrashes *)crashes didFailSendingErrorReport:(SNMErrorReport *)errorReport withError:(NSError *)error {
+  SNMLogVerbose(@"Did fail sending report with: %@, and error %@", errorReport.exceptionReason, error.localizedDescription);
+
+}
+
 @end
