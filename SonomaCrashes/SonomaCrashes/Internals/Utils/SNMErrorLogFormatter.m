@@ -290,10 +290,11 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   NSString *exceptionReason = errorLog.exceptionReason;
   NSString *exceptionName = errorLog.exceptionType;
   
-  int startTimeDifference = [errorLog.toffset intValue] + [errorLog.appLaunchTOffset intValue];
-  NSDate *now = [NSDate date];
-  NSDate *appStartTime = [now dateByAddingTimeInterval:startTimeDifference];
-  NSDate *appErrorTime = [now dateByAddingTimeInterval:[errorLog.toffset intValue]];
+  //errorlog.toffset represents the timestamp when the app crashed, appLaunchTOffset is the difference/offset between
+  //the moment the app was launched and when the app crashed.
+  
+  NSDate *appStartTime = [NSDate dateWithTimeIntervalSince1970:([errorLog.toffset doubleValue] - [errorLog.appLaunchTOffset doubleValue])];
+  NSDate *appErrorTime = [NSDate dateWithTimeIntervalSince1970:[errorLog.toffset doubleValue]];
   
   NSUInteger processId = [errorLog.processId unsignedIntegerValue];
   
@@ -361,23 +362,20 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   NSDate *crashTime = report.systemInfo.timestamp;
   if(report.processInfo) {
     NSDate *startTime = report.processInfo.processStartTime;
-    NSTimeInterval difference = [startTime timeIntervalSinceDate:crashTime];
-    NSInteger time = round(difference);
-    return @(time);
+    NSTimeInterval difference = [crashTime timeIntervalSinceDate:startTime];
+    return @(difference);
   }
   else {
     // Use difference between now and crashtime as appLaunchTOffset as fallback.
     NSTimeInterval difference = [[NSDate date] timeIntervalSinceDate:crashTime];
-    NSInteger time = round(difference);
-    return @(time);
+    return @(difference);
   }
 }
 
 + (NSNumber *)calculateTOffsetFromReport:(SNMPLCrashReport *)report {
   NSDate *crashTime = report.systemInfo.timestamp;
-  NSTimeInterval difference = [crashTime timeIntervalSinceNow];
-  NSInteger time = round(difference);
-  return @(time);
+  NSTimeInterval difference = [crashTime timeIntervalSince1970];
+  return @(difference);
 }
 
 + (NSArray<SNMThread *> *)extractThreadsFromReport:(SNMPLCrashReport *)report is64bit:(BOOL)is64bit {
