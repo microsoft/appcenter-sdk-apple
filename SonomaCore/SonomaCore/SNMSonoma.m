@@ -7,6 +7,7 @@
 #import "SNMSonomaInternal.h"
 #import "SNMUserDefaults.h"
 #import "SNMUtils.h"
+#import <UIKit/UIKit.h>
 #import <sys/sysctl.h>
 
 // Http Headers + Query string.
@@ -34,8 +35,6 @@ static NSString *const kSNMDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
 }
 
 #pragma mark - public
-
-// TODO protect APIs from being called while Core not initialized. That's already done for beacons.
 
 + (void)start:(NSString *)appSecret {
   [[self sharedInstance] start:appSecret];
@@ -147,7 +146,7 @@ static NSString *const kSNMDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
   // Init the main pipeline.
   [self initializePipeline];
 
-    _sdkStarted = YES;
+  _sdkStarted = YES;
 
   // If the loglevel hasn't been customized before and we are not running in an app store environment, we set the
   // default loglevel to SNMLogLevelWarning.
@@ -194,14 +193,8 @@ static NSString *const kSNMDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
         [[feature class] setEnabled:isEnabled];
       }
 
-      // Disabling.
-      if (!isEnabled) {
-
-        // Delete any remaining logs (e.g., even logs from not started features).
-        for (int priority = 0; priority < kSNMPriorityCount; priority++) {
-          [self.logManager deleteLogsForPriority:priority];
-        }
-      }
+      // Propagate to log manager.
+      [self.logManager setEnabled:isEnabled andDeleteDataOnDisabled:YES];
 
       // Persist the enabled status.
       [kSNMUserDefaults setObject:[NSNumber numberWithBool:isEnabled] forKey:kSNMCoreIsEnabledKey];
@@ -248,6 +241,17 @@ static NSString *const kSNMDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
 
   // Construct log manager.
   _logManager = [[SNMLogManagerDefault alloc] initWithSender:sender storage:storage];
+
+  // Hookup to application life-cycle events
+  [kSNMNotificationCenter removeObserver:self];
+  [kSNMNotificationCenter addObserver:self
+                             selector:@selector(applicationDidEnterBackground)
+                                 name:UIApplicationDidEnterBackgroundNotification
+                               object:nil];
+  [kSNMNotificationCenter addObserver:self
+                             selector:@selector(applicationWillEnterForeground)
+                                 name:UIApplicationWillEnterForegroundNotification
+                               object:nil];
 }
 
 - (NSString *)appSecret {
@@ -290,5 +294,21 @@ static NSString *const kSNMDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
   return canBeUsed;
 }
 
+
+#pragma mark - Application life cycle
+
+/**
+ *  The application will go to the foreground.
+ */
+- (void)applicationWillEnterForeground {
+  [self.logManager setEnabled:YES andDeleteDataOnDisabled:NO];
+}
+
+/**
+ *  The application will go to the background.
+ */
+- (void)applicationDidEnterBackground {
+  [self.logManager setEnabled:NO andDeleteDataOnDisabled:NO];
+}
 
 @end

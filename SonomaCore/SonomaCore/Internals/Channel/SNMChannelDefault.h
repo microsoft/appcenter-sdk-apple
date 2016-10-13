@@ -46,9 +46,19 @@ typedef void (^enqueueCompletionBlock)(BOOL);
 @property(nonatomic, assign) NSUInteger itemsCount;
 
 /**
- *  A list used to keep track of batches that have been forwarded to the sender component.
+ * A list used to keep track of batches that have been forwarded to the sender component.
  */
-@property(nonatomic, copy) NSMutableArray *pendingLogsIds;
+@property(nonatomic, copy) NSMutableArray *pendingBatchIds;
+
+/**
+ * A boolean value set to YES if there is at least one available batch from the storage.
+ */
+@property(nonatomic) BOOL availableBatchFromStorage;
+
+/**
+ * A boolean value set to YES if the pending batch queue is full.
+ */
+@property(nonatomic) BOOL pendingBatchQueueFull;
 
 /**
  * Enqueues a new log item.

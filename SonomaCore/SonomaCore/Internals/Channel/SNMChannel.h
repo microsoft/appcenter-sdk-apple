@@ -4,8 +4,10 @@
 
 #import "SNMChannelConfiguration.h"
 #import "SNMConstants+Internal.h"
+#import "SNMEnable.h"
 #import "SNMLog.h"
 #import "SNMSender.h"
+#import "SNMSenderDelegate.h"
 #import "SNMStorage.h"
 #import <Foundation/Foundation.h>
 @protocol SNMChannelDelegate;
@@ -15,14 +17,14 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Defines a channel which manages a queue of log items.
  */
-@protocol SNMChannel <NSObject>
+@protocol SNMChannel <NSObject, SNMSenderDelegate, SNMEnable>
+
+@required
 
 /*
  * The configuration used by this channel.
  */
 @property(nonatomic, strong) SNMChannelConfiguration *configuration;
-
-@required
 
 /**
  * Initializes a new `SNMChannelDefault` instance.
