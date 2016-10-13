@@ -8,7 +8,7 @@
 #import "SNMDeviceTracker.h"
 #import "SNMEnable.h"
 #import "SNMLogManager.h"
-#import "SNMLogManagerListener.h"
+#import "SNMLogManagerDelegate.h"
 #import "SNMSender.h"
 #import "SNMStorage.h"
 
@@ -37,9 +37,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithSender:(id<SNMSender>)sender storage:(id<SNMStorage>)storage;
 
 /**
- *  Array of log manager listeners.
+ *  Array of log manager delegate.
  */
-@property(nonatomic) NSMutableArray<id<SNMLogManagerListener>> *listeners;
+@property(nonatomic) NSMutableArray<id<SNMLogManagerDelegate>> *delegates;
 
 /**
  *  A sender instance that is used to send batches of log items to the backend.

@@ -30,7 +30,7 @@ static char *const SNMDataItemsOperationsQueue = "com.microsoft.sonoma.LogManage
     _enabled = YES;
     _dataItemsOperations = serialQueue;
     _channels = [NSMutableDictionary<NSNumber *, id<SNMChannel>> new];
-    _listeners = [NSMutableArray<id<SNMLogManagerListener>> new];
+    _delegates = [NSMutableArray<id<SNMLogManagerDelegate>> new];
     _deviceTracker = [[SNMDeviceTracker alloc] init];
   }
   return self;
@@ -44,26 +44,41 @@ static char *const SNMDataItemsOperationsQueue = "com.microsoft.sonoma.LogManage
   return self;
 }
 
-#pragma mark - Listener
+#pragma mark - Delegate
 
-- (void)addListener:(id<SNMLogManagerListener>)listener {
+- (void)addDelegate:(id<SNMLogManagerDelegate>)delegate {
 
-  // Check if listener is not already added.
-  if (![self.listeners containsObject:listener])
-    [self.listeners addObject:listener];
+  // Check if delegate is not already added.
+  if (![self.delegates containsObject:delegate])
+    [self.delegates addObject:delegate];
 }
 
-- (void)removeListener:(id<SNMLogManagerListener>)listener {
-  [self.listeners removeObject:listener];
+- (void)removeDelegate:(id<SNMLogManagerDelegate>)delegate {
+  [self.delegates removeObject:delegate];
+}
+
+#pragma mark - Channel Delegate
+- (void)addChannelDelegate:(id <SNMChannelDelegate>)channelDelegate forPriority:(SNMPriority)priority {
+  if(channelDelegate) {
+    id<SNMChannel> channel = [self channelForPriority:priority];
+    [channel addDelegate:channelDelegate];
+  }
+}
+
+- (void)removeChannelDelegate:(id<SNMChannelDelegate>)channelDelegate forPriority:(SNMPriority)priority {
+  if(channelDelegate) {
+    id<SNMChannel> channel = [self channelForPriority:priority];
+    [channel removeDelegate:channelDelegate];
+  }
 }
 
 #pragma mark - Process items
 
 - (void)processLog:(id<SNMLog>)log withPriority:(SNMPriority)priority {
 
-  // Notify listeners.
-  [self.listeners
-      enumerateObjectsUsingBlock:^(id<SNMLogManagerListener> _Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
+  // Notify delegates.
+  [self.delegates
+      enumerateObjectsUsingBlock:^(id<SNMLogManagerDelegate> _Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
         [obj onProcessingLog:log withPriority:priority];
       }];
 

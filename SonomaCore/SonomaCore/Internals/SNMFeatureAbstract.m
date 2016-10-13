@@ -13,7 +13,6 @@
 @implementation SNMFeatureAbstract
 
 @synthesize logManager = _logManager;
-@synthesize delegate = _delegate;
 
 - (instancetype)init {
   return [self initWithStorage:kSNMUserDefaults];

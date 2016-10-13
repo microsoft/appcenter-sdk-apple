@@ -55,6 +55,8 @@ typedef struct SNMCrashesCallbacks {
  */
 @property(nonatomic, copy) NSString *analyzerInProgressFile;
 
+@property (nonatomic) id<SNMCrashesDelegate> delegate;
+
 /**
  * The `PLCrashReporter` instance used for crash detection.
  */
@@ -74,11 +76,6 @@ typedef struct SNMCrashesCallbacks {
  * A flag that indicates that crashes are currently sent to the backend.
  */
 @property(nonatomic) BOOL sendingInProgress;
-
-/**
- * The time of initialization, required to calculate offset for crashtime.
- */
-@property(nonatomic, readonly) NSDate *initializationDate;
 
 /**
  * Indicates if the app crashed in the previous session
