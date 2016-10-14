@@ -17,7 +17,7 @@ static NSString *const kSNMBinaryAttachment = @"binary_attachment";
     dict[kSNMTextAttachment] = self.textAttachment;
   }
   if (self.binaryAttachment) {
-    dict[kSNMBinaryAttachment] = self.binaryAttachment;
+    dict[kSNMBinaryAttachment] = [self.binaryAttachment serializeToDictionary];
   }
 
   return dict;
