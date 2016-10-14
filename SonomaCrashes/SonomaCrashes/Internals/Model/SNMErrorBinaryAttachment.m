@@ -34,7 +34,7 @@ static NSString *const kSNMContentType = @"content_type";
     dict[kSNMFilename] = self.fileName;
   }
   if (self.data) {
-    dict[kSNMData] = self.data;
+    dict[kSNMData] = [self.data base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithCarriageReturn];
   }
   if (self.contentType) {
     dict[kSNMContentType] = self.contentType;
@@ -52,8 +52,8 @@ static NSString *const kSNMContentType = @"content_type";
     return NO;
 
   return ((!self.fileName && !attachment.fileName) || [self.fileName isEqualToString:attachment.fileName]) &&
-         ((!self.data && !attachment.data) || [self.data isEqual:attachment.data]) &&
-         ((!self.contentType && !attachment.contentType) || [self.contentType isEqualToString:attachment.contentType]);
+      ((!self.data && !attachment.data) || [self.data isEqual:attachment.data]) &&
+      ((!self.contentType && !attachment.contentType) || [self.contentType isEqualToString:attachment.contentType]);
 }
 
 #pragma mark - NSCoding

@@ -6,6 +6,7 @@
 #import "SNMCrashesDelegate.h"
 
 #import "SNMErrorAttachment.h"
+#import "SNMErrorBinaryAttachment.h"
 #import "SNMErrorReport.h"
 
 @interface AppDelegate () <SNMCrashesDelegate>
@@ -25,7 +26,7 @@
     SNMErrorReport *errorReport = [SNMCrashes lastSessionCrashReport];
     NSLog(@"We crashed with Signal: %@", errorReport.signal);
   }
-  
+
   [SNMCrashes setDelegate:self];
 
   // Print the install Id.
@@ -65,6 +66,21 @@
 
 #pragma mark - SNMCrashesDelegate
 
+- (BOOL)crashes:(SNMCrashes *)crashes shouldProcessErrorReport:(SNMErrorReport *)errorReport {
+  SNMLogVerbose(@"Should process error report with: %@", errorReport.exceptionReason);
+  return YES;
+}
+
+- (SNMErrorAttachment *)attachmentWithCrashes:(SNMCrashes *)crashes forErrorReport:(SNMErrorReport *)errorReport {
+  SNMLogVerbose(@"Attach additional information to error report with: %@", errorReport.exceptionReason);
+  SNMErrorAttachment *attachment = [[SNMErrorAttachment alloc] init];
+  attachment.textAttachment = @"Text Attachment";
+  attachment.binaryAttachment = [[SNMErrorBinaryAttachment alloc] initWithFileName:@"binary.txt"
+                                                                    attachmentData:[@"Hello World" dataUsingEncoding:NSUTF8StringEncoding]
+                                                                       contentType:@"text/plain"];
+  return attachment;
+}
+
 - (void)crashes:(SNMCrashes *)crashes willSendErrorReport:(SNMErrorReport *)errorReport {
   SNMLogVerbose(@"Will send error report with: %@", errorReport.exceptionReason);
 }
@@ -75,8 +91,9 @@
 }
 
 - (void)crashes:(SNMCrashes *)crashes didFailSendingErrorReport:(SNMErrorReport *)errorReport withError:(NSError *)error {
-  SNMLogVerbose(@"Did fail sending report with: %@, and error %@", errorReport.exceptionReason, error.localizedDescription);
-
+  SNMLogVerbose(@"Did fail sending report with: %@, and error %@",
+                errorReport.exceptionReason,
+                error.localizedDescription);
 }
 
 @end

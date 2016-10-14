@@ -172,7 +172,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 #pragma mark - SNMChannelDelegate
 
 - (void)channel:(id)channel willSendLog:(id <SNMLog>)log {
-  if (self.delegate && [self.delegate respondsToSelector:@selector(willSendErrorReport)]) {
+  if (self.delegate && [self.delegate respondsToSelector:@selector(crashes:willSendErrorReport:)]) {
     if ([((NSObject *) log) isKindOfClass:[SNMAppleErrorLog class]]) {
       SNMErrorReport *report = [SNMErrorLogFormatter errorReportFromLog:((SNMAppleErrorLog *) log)];
       [self.delegate crashes:self willSendErrorReport:report];
@@ -181,7 +181,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 }
 
 - (void)channel:(id <SNMChannel>)channel didSucceedSendingLog:(id <SNMLog>)log {
-  if (self.delegate && [self.delegate respondsToSelector:@selector(didSucceedSendingErrorReport)]) {
+  if (self.delegate && [self.delegate respondsToSelector:@selector(crashes:didSucceedSendingErrorReport:)]) {
     if ([((NSObject *) log) isKindOfClass:[SNMAppleErrorLog class]]) {
       SNMErrorReport *report = [SNMErrorLogFormatter errorReportFromLog:((SNMAppleErrorLog *) log)];
       [self.delegate crashes:self didSucceedSendingErrorReport:report];
@@ -190,7 +190,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 }
 
 - (void)channel:(id <SNMChannel>)channel didFailSendingLog:(id <SNMLog>)log withError:(NSError *)error {
-  if (self.delegate && [self.delegate respondsToSelector:@selector(didFailSendingErrorReport)]) {
+  if (self.delegate && [self.delegate respondsToSelector:@selector(crashes:didFailSendingErrorReport:withError:)]) {
     if ([((NSObject *) log) isKindOfClass:[SNMAppleErrorLog class]]) {
       SNMErrorReport *report = [SNMErrorLogFormatter errorReportFromLog:((SNMAppleErrorLog *) log)];
       [self.delegate crashes:self didFailSendingErrorReport:report withError:error];
@@ -291,8 +291,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
   if (!self.sendingInProgress && self.crashFiles.count > 0) {
 
     // TODO: Send and clean next crash report
-    SNMPLCrashReport *report = [self nextCrashReport];
-    SNMLogVerbose(@"[SNMCrashes] VERBOSE: Crash report found: %@ ", report.debugDescription);
+    [self nextCrashReport];
   }
 }
 
@@ -305,10 +304,24 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
     // we start sending always with the oldest pending one
     NSData *crashFileData = [NSData dataWithContentsOfFile:filePath];
     if ([crashFileData length] > 0) {
+      SNMLogVerbose(@"[SNMCrashes] VERBOSE: Crash report found");
       if (self.isEnabled) {
         report = [[SNMPLCrashReport alloc] initWithData:crashFileData error:&error];
         SNMAppleErrorLog *log = [SNMErrorLogFormatter errorLogFromCrashReport:report];
-        [self.logManager processLog:log withPriority:self.priority];
+        SNMErrorReport *errorReport = [SNMErrorLogFormatter errorReportFromLog:((SNMAppleErrorLog *) log)];
+        if ([self.delegate crashes:self shouldProcessErrorReport:errorReport]) {
+          SNMLogDebug(@"[SNMCrashes] DEBUG: shouldProcessErrorReport returned true, processing the crash report: %@",
+                      report.debugDescription);
+          // TODO Get user confirmation here and process depends on the return value.
+          //      For now, ignore getting user confirmation and process.
+          [log setErrorAttachment:[self.delegate attachmentWithCrashes:self forErrorReport:errorReport]];
+          [self.logManager processLog:log withPriority:self.priority];
+        } else {
+          SNMLogDebug(@"[SNMCrashes] DEBUG: shouldProcessErrorReport returned false, discard the crash report: %@",
+                      report.debugDescription);
+        }
+      } else {
+        SNMLogDebug(@"[SNMCrashes] DEBUG: Crashes feature is disabled, discard the crash report");
       }
       [self deleteCrashReportWithFilePath:filePath];
       [self.crashFiles removeObject:filePath];
@@ -400,7 +413,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
   if ([self.fileManager fileExistsAtPath:self.analyzerInProgressFile]) {
     NSError *error = nil;
     if (![self.fileManager removeItemAtPath:self.analyzerInProgressFile error:&error]) {
-      SNMLogError(@"[SNMCrashes] ERROR: Couldn't remove analzer file at %@: ", self.analyzerInProgressFile);
+      SNMLogError(@"[SNMCrashes] ERROR: Couldn't remove analyzer file at %@: ", self.analyzerInProgressFile);
     }
   }
 }

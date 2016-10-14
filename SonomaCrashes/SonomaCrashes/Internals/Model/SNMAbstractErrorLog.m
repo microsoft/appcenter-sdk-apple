@@ -62,7 +62,7 @@ static NSString *const kSNMArchitecture = @"architecture";
     dict[kSNMAppLaunchTOffset] = self.appLaunchTOffset;
   }
   if (self.errorAttachment) {
-    dict[kSNMErrorAttachment] = self.errorAttachment;
+    dict[kSNMErrorAttachment] = [self.errorAttachment serializeToDictionary];
   }
   if (self.architecture) {
     dict[kSNMArchitecture] = self.architecture;
