@@ -776,7 +776,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../Vendor\"/**",
 				);
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.sonoma.SonomaCrashes;
 				PRODUCT_NAME = SonomaCrashes;
@@ -795,7 +795,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../Vendor\"/**",
 				);
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.sonoma.SonomaCrashes;
 				PRODUCT_NAME = SonomaCrashes;
