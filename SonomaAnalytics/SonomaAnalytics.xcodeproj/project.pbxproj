@@ -637,7 +637,7 @@
 			buildSettings = {
 				"ARCHS[sdk=iphonesimulator*]" = "$(SNM_SIM_ARCHS)";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.sonoma.SonomaAnalytics;
 				PRODUCT_NAME = SonomaAnalytics;
@@ -653,7 +653,7 @@
 			buildSettings = {
 				"ARCHS[sdk=iphonesimulator*]" = "$(SNM_SIM_ARCHS)";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.sonoma.SonomaAnalytics;
 				PRODUCT_NAME = SonomaAnalytics;
