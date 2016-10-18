@@ -3,7 +3,9 @@
  */
 
 #import "SNMErrorAttachment.h"
+#import "SNMErrorAttachmentPrivate.h"
 #import "SNMErrorBinaryAttachment.h"
+#import "SNMErrorBinaryAttachmentPrivate.h"
 
 static NSString *const kSNMTextAttachment = @"text_attachment";
 static NSString *const kSNMBinaryAttachment = @"binary_attachment";
