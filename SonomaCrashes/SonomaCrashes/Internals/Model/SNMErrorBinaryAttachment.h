@@ -2,13 +2,12 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "SonomaCore+Internal.h"
 #import <Foundation/Foundation.h>
 
 /*
  * Binary attachment for error log.
  */
-@interface SNMErrorBinaryAttachment : NSObject <SNMSerializableObject>
+@interface SNMErrorBinaryAttachment : NSObject
 
 /**
  * The fileName for binary data.

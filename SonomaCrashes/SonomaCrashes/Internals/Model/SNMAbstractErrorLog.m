@@ -4,6 +4,7 @@
 
 #import "SNMAbstractErrorLog.h"
 #import "SNMErrorAttachment.h"
+#import "SNMErrorAttachmentPrivate.h"
 
 static NSString *const kSNMId = @"id";
 static NSString *const kSNMProcessId = @"process_id";

@@ -1,9 +1,7 @@
-//
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "SonomaCore+Internal.h"
 #import <Foundation/Foundation.h>
 
 @class SNMErrorBinaryAttachment;
@@ -11,7 +9,7 @@
 /*
  * Attachment for error log.
  */
-@interface SNMErrorAttachment : NSObject <SNMSerializableObject>
+@interface SNMErrorAttachment : NSObject
 
 /**
  * Plain text attachment [optional].
