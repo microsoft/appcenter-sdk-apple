@@ -22,6 +22,7 @@ static NSString *const kSNMAnalyzerFilename = @"SNMCrashes.analyzer";
 #pragma mark - Callbacks Setup
 
 static SNMCrashesCallbacks snmCrashesCallbacks = {.context = NULL, .handleSignal = NULL};
+static NSString *const kSNMUserConfirmationKey = @"kSNMUserConfirmationKey";
 
 /** Proxy implementation for PLCrashReporter to keep our interface stable while
  *  this can change.
@@ -77,12 +78,41 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
   return [[self sharedInstance] didCrashInLastSession];
 }
 
-+ (void)setUserConfirmationHandler:(_Nullable SNMUserConfirmationHandler)userConfitmationHandler {
-  // TODO actual implementation
++ (void)setUserConfirmationHandler:(_Nullable SNMUserConfirmationHandler)userConfirmationHandler {
+  ((SNMCrashes *) [self sharedInstance]).userConfirmationHandler = userConfirmationHandler;
 }
 
 + (void)notifyWithUserConfirmation:(SNMUserConfirmation)userConfirmation {
-  // TODO actual implementation
+  SNMCrashes *crashes = [self sharedInstance];
+
+  if (userConfirmation == SNMUserConfirmationDontSend) {
+
+    // Don't send logs. Clean up files.
+    for (NSString *filePath in [crashes unprocessedFilePaths]) {
+      [crashes deleteCrashReportWithFilePath:filePath];
+      [crashes.crashFiles removeObject:filePath];
+    }
+    return;
+  } else if (userConfirmation == SNMUserConfirmationAlways) {
+
+    // Always send logs. Set the flag true to bypass user confirmation next time.
+    [kSNMUserDefaults setObject:[[NSNumber alloc] initWithBool:YES] forKey:kSNMUserConfirmationKey];
+  }
+
+  // Process crashes logs.
+  for (int i = 0; i < [crashes.unprocessedReports count]; i++) {
+    SNMAppleErrorLog *log = [crashes.unprocessedLogs objectAtIndex:i];
+    SNMErrorReport *report = [crashes.unprocessedReports objectAtIndex:i];
+    NSString *filePath = [crashes.unprocessedFilePaths objectAtIndex:i];
+
+    // Get error attachment.
+    [log setErrorAttachment:[crashes.delegate attachmentWithCrashes:crashes forErrorReport:report]];
+
+    // Send log to log manager.
+    [crashes.logManager processLog:log withPriority:crashes.priority];
+    [crashes deleteCrashReportWithFilePath:filePath];
+    [crashes.crashFiles removeObject:filePath];
+  }
 }
 
 + (SNMErrorReport *_Nullable)lastSessionCrashReport {
@@ -291,31 +321,36 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
   if (!self.sendingInProgress && self.crashFiles.count > 0) {
 
     // TODO: Send and clean next crash report
-    [self nextCrashReport];
+    [self processCrashReport];
   }
 }
 
-- (SNMPLCrashReport *)nextCrashReport {
+- (void)processCrashReport {
   NSError *error = NULL;
-  SNMPLCrashReport *report;
+  _unprocessedLogs = [[NSMutableArray alloc] init];
+  _unprocessedReports = [[NSMutableArray alloc] init];
+  _unprocessedFilePaths = [[NSMutableArray alloc] init];
 
   NSArray *tempCrashesFiles = [NSArray arrayWithArray:self.crashFiles];
   for (NSString *filePath in tempCrashesFiles) {
+
     // we start sending always with the oldest pending one
     NSData *crashFileData = [NSData dataWithContentsOfFile:filePath];
     if ([crashFileData length] > 0) {
       SNMLogVerbose(@"[SNMCrashes] VERBOSE: Crash report found");
       if (self.isEnabled) {
-        report = [[SNMPLCrashReport alloc] initWithData:crashFileData error:&error];
+        SNMPLCrashReport *report = [[SNMPLCrashReport alloc] initWithData:crashFileData error:&error];
         SNMAppleErrorLog *log = [SNMErrorLogFormatter errorLogFromCrashReport:report];
         SNMErrorReport *errorReport = [SNMErrorLogFormatter errorReportFromLog:((SNMAppleErrorLog *) log)];
         if ([self.delegate crashes:self shouldProcessErrorReport:errorReport]) {
           SNMLogDebug(@"[SNMCrashes] DEBUG: shouldProcessErrorReport returned true, processing the crash report: %@",
                       report.debugDescription);
-          // TODO Get user confirmation here and process depends on the return value.
-          //      For now, ignore getting user confirmation and process.
-          [log setErrorAttachment:[self.delegate attachmentWithCrashes:self forErrorReport:errorReport]];
-          [self.logManager processLog:log withPriority:self.priority];
+
+          // Put the log to temporary space for next callbacks.
+          [_unprocessedLogs addObject:log];
+          [_unprocessedReports addObject:errorReport];
+          [_unprocessedFilePaths addObject:filePath];
+          continue;
         } else {
           SNMLogDebug(@"[SNMCrashes] DEBUG: shouldProcessErrorReport returned false, discard the crash report: %@",
                       report.debugDescription);
@@ -323,11 +358,29 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
       } else {
         SNMLogDebug(@"[SNMCrashes] DEBUG: Crashes feature is disabled, discard the crash report");
       }
+
+      // Clean up files.
       [self deleteCrashReportWithFilePath:filePath];
       [self.crashFiles removeObject:filePath];
     }
   }
-  return report;
+
+  // Get a user confirmation if there are crash logs that need to be processed.
+  if ([_unprocessedLogs count] > 0) {
+    NSNumber *flag = [kSNMUserDefaults objectForKey:kSNMUserConfirmationKey];
+    if (flag && [flag boolValue]) {
+
+      // User confirmation is set to SNMUserConfirmationAlways.
+      SNMLogDebug(@"The flag for user confirmation is set to SNMUserConfirmationAlways, continue sending logs");
+      [SNMCrashes notifyWithUserConfirmation:SNMUserConfirmationSend];
+      return;
+    } else if (!_userConfirmationHandler || !_userConfirmationHandler(_unprocessedReports)) {
+
+      // User confirmation handler doesn't exist or returned NO which means 'want to process'.
+      SNMLogDebug(@"The user confirmation handler is not implemented or returned NO, continue sending logs");
+      [SNMCrashes notifyWithUserConfirmation:SNMUserConfirmationSend];
+    }
+  }
 }
 
 #pragma mark - Helper
