@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0461BBD11DB68EAD001B4555 /* Main.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0461BBD01DB68EAD001B4555 /* Main.strings */; };
 		6EC99A211D4151A00016C325 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A201D4151A00016C325 /* CrashReporter.framework */; };
 		6EC99A281D4152FA0016C325 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A271D4152FA0016C325 /* libc++.tbd */; };
 		E82E1B641D1CA58D00D281C1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E82E1B631D1CA58D00D281C1 /* main.m */; };
@@ -89,6 +90,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0461BBD01DB68EAD001B4555 /* Main.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Main.strings; sourceTree = "<group>"; };
 		384959D81D4972DA008F6B3A /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		6EC99A201D4151A00016C325 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = ../../Vendor/PLCrashReporter/CrashReporter.framework; sourceTree = "<group>"; };
 		6EC99A251D4152EB0016C325 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
@@ -173,6 +175,7 @@
 				E82E1B701D1CA58D00D281C1 /* LaunchScreen.storyboard */,
 				E82E1B731D1CA58D00D281C1 /* Info.plist */,
 				E82E1B631D1CA58D00D281C1 /* main.m */,
+				0461BBD01DB68EAD001B4555 /* Main.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -318,7 +321,7 @@
 		E82E1B8A1D1CA63000D281C1 /* SonomaCoreTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = SonomaCoreTests.xctest;
+			path = SonomaCore.xctest;
 			remoteRef = E82E1B891D1CA63000D281C1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -332,7 +335,7 @@
 		E85548051D2D6C8D002DF6E2 /* SonomaAnalyticsTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = SonomaAnalyticsTests.xctest;
+			path = SonomaAnalytics.xctest;
 			remoteRef = E85548041D2D6C8D002DF6E2 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -351,6 +354,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E82E1B721D1CA58D00D281C1 /* LaunchScreen.storyboard in Resources */,
+				0461BBD11DB68EAD001B4555 /* Main.strings in Resources */,
 				E82E1B6F1D1CA58D00D281C1 /* Assets.xcassets in Resources */,
 				E82E1B6D1D1CA58D00D281C1 /* Main.storyboard in Resources */,
 			);
