@@ -20,7 +20,7 @@
   // Start Sonoma SDK.
   [SNMSonoma setLogLevel:SNMLogLevelVerbose];
 
-  [SNMSonoma start:@"7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7" withFeatures:@[ [SNMAnalytics class], [SNMCrashes class] ]];
+  [SNMSonoma start:@"7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7" withFeatures:@[[SNMAnalytics class], [SNMCrashes class]]];
 
   if ([SNMCrashes hasCrashedInLastSession]) {
     SNMErrorReport *errorReport = [SNMCrashes lastSessionCrashReport];
@@ -28,6 +28,18 @@
   }
 
   [SNMCrashes setDelegate:self];
+  [SNMCrashes setUserConfirmationHandler:(^(NSArray<SNMErrorReport *> *errorReports) {
+
+    [[[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"crash_alert_title", @"Main", @"")
+                                message:NSLocalizedStringFromTable(@"crash_alert_message", @"Main", @"")
+                               delegate:self
+                      cancelButtonTitle:NSLocalizedStringFromTable(@"crash_alert_do_not_send", @"Main", @"")
+                      otherButtonTitles:NSLocalizedStringFromTable(@"crash_alert_always_send", @"Main", @""),
+                                        NSLocalizedStringFromTable(@"crash_alert_send", @"Main", @""),
+                                        nil]
+        show];
+    return YES;
+  })];
 
   // Print the install Id.
   NSLog(@"%@ Install Id: %@", kPUPLogTag, [[SNMSonoma installId] UUIDString]);
@@ -62,6 +74,19 @@
 - (void)applicationWillTerminate:(UIApplication *)application {
   // Called when the application is about to terminate. Save data if appropriate. See also
   // applicationDidEnterBackground:.
+}
+
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+  switch (buttonIndex) {
+  case 0:[SNMCrashes notifyWithUserConfirmation:SNMUserConfirmationDontSend];
+    break;
+  case 1:[SNMCrashes notifyWithUserConfirmation:SNMUserConfirmationAlways];
+    break;
+  case 2:[SNMCrashes notifyWithUserConfirmation:SNMUserConfirmationSend];
+    break;
+  }
 }
 
 #pragma mark - SNMCrashesDelegate
