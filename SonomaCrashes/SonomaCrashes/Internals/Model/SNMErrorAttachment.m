@@ -51,31 +51,4 @@ static NSString *const kSNMBinaryAttachment = @"binary_attachment";
   [coder encodeObject:self.binaryAttachment forKey:kSNMBinaryAttachment];
 }
 
-#pragma mark - Public Interface
-
-+ (nonnull SNMErrorAttachment *)attachmentWithText:(nonnull NSString *)text {
-  // TODO add implementation
-  return [SNMErrorAttachment new];
-}
-
-+ (nonnull SNMErrorAttachment *)attachmentWithBinaryData:(nonnull NSData *)data
-                                                filename:(nonnull NSString *)filename
-                                                mimeType:(nonnull NSString *)mimeType {
-  // TODO add implementation
-  return [SNMErrorAttachment new];
-}
-
-+ (nonnull SNMErrorAttachment *)attachmentWithText:(nonnull NSString *)text
-                                     andBinaryData:(nonnull NSData *)data
-                                          filename:(nonnull NSString *)filename
-                                          mimeType:(nonnull NSString *)mimeType {
-  // TODO add implementation
-  return [SNMErrorAttachment new];
-}
-
-+ (nonnull SNMErrorAttachment *)attachmentWithURL:(nonnull NSURL *)file mimeType:(nullable NSString *)mimeType {
-  // TODO add implementation
-  return [SNMErrorAttachment new];
-}
-
 @end
