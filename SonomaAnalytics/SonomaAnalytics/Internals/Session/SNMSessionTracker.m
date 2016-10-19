@@ -4,8 +4,8 @@
 
 #import "SNMSessionTracker.h"
 #import "SNMStartSessionLog.h"
-#import "SonomaCore+Internal.h"
-#import <UIKit/UIKit.h>
+#import "SNMAnalytics.h"
+#import "SNMAnalyticsPrivate.h"
 
 static NSTimeInterval const kSNMSessionTimeOut = 20;
 static NSString *const kSNMPastSessionsKey = @"kSNMPastSessionsKey";
@@ -81,7 +81,7 @@ static NSUInteger const kSNMMaxSessionHistoryCount = 5;
     // Persist the session history in NSData format.
     [kSNMUserDefaults setObject:[NSKeyedArchiver archivedDataWithRootObject:self.pastSessions]
                          forKey:kSNMPastSessionsKey];
-    SNMLogInfo(@"New session ID: %@", _sessionId);
+    SNMLogInfo([SNMAnalytics getLoggerTag], @"New session ID: %@", _sessionId);
 
     // Create a start session log.
     SNMStartSessionLog *log = [[SNMStartSessionLog alloc] init];

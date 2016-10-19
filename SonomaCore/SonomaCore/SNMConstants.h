@@ -47,7 +47,7 @@ typedef NS_ENUM(NSUInteger, SNMLogLevel) {
 };
 
 typedef NSString *(^SNMLogMessageProvider)(void);
-typedef void (^SNMLogHandler)(SNMLogMessageProvider messageProvider, SNMLogLevel logLevel, const char *file,
+typedef void (^SNMLogHandler)(SNMLogMessageProvider messageProvider, SNMLogLevel logLevel, NSString *tag, const char *file,
                               const char *function, uint line);
 
 #endif
