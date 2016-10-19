@@ -1,12 +1,11 @@
 #import "AppDelegate.h"
 #import "Constants.h"
-#import <Foundation/Foundation.h>
 
 @import SonomaCore;
 @import SonomaCrashes;
 @import SonomaAnalytics;
 
-@interface AppDelegate ()
+@interface AppDelegate () <SNMCrashesDelegate>
 
 @end
 
@@ -19,6 +18,7 @@
   [SNMSonoma setLogLevel:SNMLogLevelVerbose];
   [SNMSonoma setServerUrl:@"http://in-integration.dev.avalanch.es:8081"];
   [SNMSonoma start:[[NSUUID UUID] UUIDString] withFeatures:@[[SNMAnalytics class], [SNMCrashes class]]];
+  [SNMCrashes setDelegate:self];
 
   // Print the install Id.
   NSLog(@"%@ Install Id: %@", kDEMLogTag, [[SNMSonoma installId] UUIDString]);
@@ -53,6 +53,30 @@
 - (void)applicationWillTerminate:(UIApplication *)application {
   // Called when the application is about to terminate. Save data if appropriate. See also
   // applicationDidEnterBackground:.
+}
+
+#pragma mark - SNMCrashesDelegate
+
+- (BOOL)crashes:(SNMCrashes *)crashes shouldProcessErrorReport:(SNMErrorReport *)errorReport {
+  return YES;
+}
+
+- (SNMErrorAttachment *)attachmentWithCrashes:(SNMCrashes *)crashes forErrorReport:(SNMErrorReport *)errorReport {
+  SNMErrorAttachment *attachment = [[SNMErrorAttachment alloc] init];
+  attachment.textAttachment = @"Text Attachment";
+  attachment.binaryAttachment = [[SNMErrorBinaryAttachment alloc] initWithFileName:@"binary.txt"
+                                                                    attachmentData:[@"Hello World" dataUsingEncoding:NSUTF8StringEncoding]
+                                                                       contentType:@"text/plain"];
+  return attachment;
+}
+
+- (void)crashes:(SNMCrashes *)crashes willSendErrorReport:(SNMErrorReport *)errorReport {
+}
+
+- (void)crashes:(SNMCrashes *)crashes didSucceedSendingErrorReport:(SNMErrorReport *)errorReport {
+}
+
+- (void)crashes:(SNMCrashes *)crashes didFailSendingErrorReport:(SNMErrorReport *)errorReport withError:(NSError *)error {
 }
 
 @end
