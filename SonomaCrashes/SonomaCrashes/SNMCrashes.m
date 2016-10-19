@@ -79,6 +79,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 }
 
 + (void)setUserConfirmationHandler:(_Nullable SNMUserConfirmationHandler)userConfirmationHandler {
+  // FIXME: Type cast is required at the moment. Need to fix the root cause.
   ((SNMCrashes *) [self sharedInstance]).userConfirmationHandler = userConfirmationHandler;
 }
 
@@ -100,7 +101,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
   }
 
   // Process crashes logs.
-  for (int i = 0; i < [crashes.unprocessedReports count]; i++) {
+  for (NSUInteger i = 0; i < [crashes.unprocessedReports count]; i++) {
     SNMAppleErrorLog *log = [crashes.unprocessedLogs objectAtIndex:i];
     SNMErrorReport *report = [crashes.unprocessedReports objectAtIndex:i];
     NSString *filePath = [crashes.unprocessedFilePaths objectAtIndex:i];
@@ -341,7 +342,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
       if (self.isEnabled) {
         SNMPLCrashReport *report = [[SNMPLCrashReport alloc] initWithData:crashFileData error:&error];
         SNMAppleErrorLog *log = [SNMErrorLogFormatter errorLogFromCrashReport:report];
-        SNMErrorReport *errorReport = [SNMErrorLogFormatter errorReportFromLog:((SNMAppleErrorLog *) log)];
+        SNMErrorReport *errorReport = [SNMErrorLogFormatter errorReportFromLog:(log)];
         if ([self.delegate crashes:self shouldProcessErrorReport:errorReport]) {
           SNMLogDebug(@"[SNMCrashes] DEBUG: shouldProcessErrorReport returned true, processing the crash report: %@",
                       report.debugDescription);

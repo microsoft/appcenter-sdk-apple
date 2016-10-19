@@ -62,12 +62,9 @@
 }
 
 - (SNMErrorAttachment *)attachmentWithCrashes:(SNMCrashes *)crashes forErrorReport:(SNMErrorReport *)errorReport {
-  SNMErrorAttachment *attachment = [[SNMErrorAttachment alloc] init];
-  attachment.textAttachment = @"Text Attachment";
-  attachment.binaryAttachment = [[SNMErrorBinaryAttachment alloc] initWithFileName:@"binary.txt"
-                                                                    attachmentData:[@"Hello World" dataUsingEncoding:NSUTF8StringEncoding]
-                                                                       contentType:@"text/plain"];
-  return attachment;
+  return [SNMErrorAttachment attachmentWithText:@"Text Attachment"
+                                  andBinaryData:[@"Hello World" dataUsingEncoding:NSUTF8StringEncoding]
+                                       filename:@"binary.txt" mimeType:@"text/plain"];
 }
 
 - (void)crashes:(SNMCrashes *)crashes willSendErrorReport:(SNMErrorReport *)errorReport {

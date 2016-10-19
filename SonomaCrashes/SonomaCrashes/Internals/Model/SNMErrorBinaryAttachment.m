@@ -10,18 +10,13 @@ static NSString *const kSNMContentType = @"content_type";
 
 @implementation SNMErrorBinaryAttachment
 
-- (nonnull instancetype)initWithFileName:(nonnull NSString *)fileName
+- (nonnull instancetype)initWithFileName:(nullable NSString *)fileName
                           attachmentData:(nonnull NSData *)data
-                             contentType:(nullable NSString *)contentType {
+                             contentType:(nonnull NSString *)contentType {
   if (self = [super init]) {
     _fileName = fileName;
     _data = data;
-
-    if (contentType) {
-      _contentType = contentType;
-    } else {
-      _contentType = @"application/octet-stream";
-    }
+    _contentType = contentType;
   }
 
   return self;
