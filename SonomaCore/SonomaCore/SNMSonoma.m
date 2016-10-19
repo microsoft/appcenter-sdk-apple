@@ -135,7 +135,7 @@ static NSString *const kSNMDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
 
   // Validate and set the app secret.
   if ([appSecret length] == 0 || ![[NSUUID alloc] initWithUUIDString:appSecret]) {
-    SNMLogError(@"ERROR: AppSecret is invalid");
+    SNMLogError(@"AppSecret is invalid");
     return NO;
   }
   self.appSecret = appSecret;
@@ -287,7 +287,7 @@ static NSString *const kSNMDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
 - (BOOL)canBeUsed {
   BOOL canBeUsed = self.sdkStarted;
   if (!canBeUsed) {
-    SNMLogError(@"[%@] ERROR: SonomaSDK hasn't been initialized. You need to call [SNMSonoma "
+    SNMLogError(@"[%@] SonomaSDK hasn't been initialized. You need to call [SNMSonoma "
                 @"start:YOUR_APP_SECRET withFeatures:LIST_OF_FEATURES] first.",
                 CLASS_NAME_WITHOUT_PREFIX);
   }

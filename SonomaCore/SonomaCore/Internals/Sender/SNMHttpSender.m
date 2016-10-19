@@ -61,7 +61,7 @@ static NSString *const kSNMApiPath = @"/logs";
     callbackQueue:(dispatch_queue_t)callbackQueue
 completionHandler:(SNMSendAsyncCompletionHandler)handler {
   NSString *batchId = container.batchId;
-  SNMLogVerbose(@"[Sender] INFO: Sending log for batch ID %@", batchId);
+  SNMLogInfo(@"[Sender] Sending log for batch ID %@", batchId);
 
   // Verify container.
   if (!container || ![container isValid]) {
@@ -69,7 +69,7 @@ completionHandler:(SNMSendAsyncCompletionHandler)handler {
     NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : @"Invalid parameter'" };
     NSError *error =
         [NSError errorWithDomain:kSNMDefaultApiErrorDomain code:kSNMDefaultApiMissingParamErrorCode userInfo:userInfo];
-    SNMLogError(@"[Sender] ERROR: %@", [error localizedDescription]);
+    SNMLogError(@"[Sender] %@", [error localizedDescription]);
     handler(batchId, error, kSNMDefaultApiMissingParamErrorCode);
     return;
   }
@@ -187,7 +187,7 @@ completionHandler:(SNMSendAsyncCompletionHandler)handler {
         completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
 
           NSInteger statusCode = [SNMSenderUtils getStatusCode:response];
-          SNMLogVerbose(@"INFO:HTTP response received with the status code:%lu", (unsigned long)statusCode);
+          SNMLogInfo(@"HTTP response received with the status code:%lu", (unsigned long)statusCode);
 
           // Call handles the completion.
           if (call)
@@ -200,12 +200,12 @@ completionHandler:(SNMSendAsyncCompletionHandler)handler {
 
 - (void)callCompletedWithId:(NSString *)callId {
   if (!callId) {
-    SNMLogWarning(@"[Sender] WARNING: call object is invalid");
+    SNMLogWarning(@"[Sender] Call object is invalid");
     return;
   }
 
   [self.pendingCalls removeObjectForKey:callId];
-  SNMLogVerbose(@"[Sender] INFO: Removed batch id:%@ from pendingCalls:%@", callId, [self.pendingCalls description]);
+  SNMLogInfo(@"[Sender] Removed batch id:%@ from pendingCalls:%@", callId, [self.pendingCalls description]);
 }
 
 #pragma mark - Reachability
