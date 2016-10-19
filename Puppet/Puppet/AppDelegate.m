@@ -92,12 +92,12 @@
 #pragma mark - SNMCrashesDelegate
 
 - (BOOL)crashes:(SNMCrashes *)crashes shouldProcessErrorReport:(SNMErrorReport *)errorReport {
-  SNMLogVerbose(@"Should process error report with: %@", errorReport.exceptionReason);
+  NSLog(@"Should process error report with: %@", errorReport.exceptionReason);
   return YES;
 }
 
 - (SNMErrorAttachment *)attachmentWithCrashes:(SNMCrashes *)crashes forErrorReport:(SNMErrorReport *)errorReport {
-  SNMLogVerbose(@"Attach additional information to error report with: %@", errorReport.exceptionReason);
+  NSLog(@"Attach additional information to error report with: %@", errorReport.exceptionReason);
   SNMErrorAttachment *attachment = [[SNMErrorAttachment alloc] init];
   attachment.textAttachment = @"Text Attachment";
   attachment.binaryAttachment = [[SNMErrorBinaryAttachment alloc] initWithFileName:@"binary.txt"
@@ -107,16 +107,16 @@
 }
 
 - (void)crashes:(SNMCrashes *)crashes willSendErrorReport:(SNMErrorReport *)errorReport {
-  SNMLogVerbose(@"Will send error report with: %@", errorReport.exceptionReason);
+  NSLog(@"Will send error report with: %@", errorReport.exceptionReason);
 }
 
 - (void)crashes:(SNMCrashes *)crashes didSucceedSendingErrorReport:(SNMErrorReport *)errorReport {
-  SNMLogVerbose(@"Did succeed error report sending with: %@", errorReport.exceptionReason);
+  NSLog(@"Did succeed error report sending with: %@", errorReport.exceptionReason);
 
 }
 
 - (void)crashes:(SNMCrashes *)crashes didFailSendingErrorReport:(SNMErrorReport *)errorReport withError:(NSError *)error {
-  SNMLogVerbose(@"Did fail sending report with: %@, and error %@",
+  NSLog(@"Did fail sending report with: %@, and error %@",
                 errorReport.exceptionReason,
                 error.localizedDescription);
 }
