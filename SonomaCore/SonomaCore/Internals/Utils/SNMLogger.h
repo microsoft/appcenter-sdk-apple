@@ -19,6 +19,10 @@
   SNMLog(SNMLogLevelWarning, (^{                                                                                       \
            return [NSString stringWithFormat:(format), ##__VA_ARGS__];                                                 \
          }))
+#define SNMLogInfo(format, ...)                                                                                        \
+  SNMLog(SNMLogLevelInfo, (^{                                                                                          \
+           return [NSString stringWithFormat:(format), ##__VA_ARGS__];                                                 \
+         }))
 #define SNMLogDebug(format, ...)                                                                                       \
   SNMLog(SNMLogLevelDebug, (^{                                                                                         \
            return [NSString stringWithFormat:(format), ##__VA_ARGS__];                                                 \
