@@ -98,12 +98,9 @@
 
 - (SNMErrorAttachment *)attachmentWithCrashes:(SNMCrashes *)crashes forErrorReport:(SNMErrorReport *)errorReport {
   NSLog(@"Attach additional information to error report with: %@", errorReport.exceptionReason);
-  SNMErrorAttachment *attachment = [[SNMErrorAttachment alloc] init];
-  attachment.textAttachment = @"Text Attachment";
-  attachment.binaryAttachment = [[SNMErrorBinaryAttachment alloc] initWithFileName:@"binary.txt"
-                                                                    attachmentData:[@"Hello World" dataUsingEncoding:NSUTF8StringEncoding]
-                                                                       contentType:@"text/plain"];
-  return attachment;
+  return [SNMErrorAttachment attachmentWithText:@"Text Attachment"
+                                  andBinaryData:[@"Hello World" dataUsingEncoding:NSUTF8StringEncoding]
+                                       filename:@"binary.txt" mimeType:@"text/plain"];
 }
 
 - (void)crashes:(SNMCrashes *)crashes willSendErrorReport:(SNMErrorReport *)errorReport {
@@ -112,13 +109,12 @@
 
 - (void)crashes:(SNMCrashes *)crashes didSucceedSendingErrorReport:(SNMErrorReport *)errorReport {
   NSLog(@"Did succeed error report sending with: %@", errorReport.exceptionReason);
-
 }
 
 - (void)crashes:(SNMCrashes *)crashes didFailSendingErrorReport:(SNMErrorReport *)errorReport withError:(NSError *)error {
   NSLog(@"Did fail sending report with: %@, and error %@",
-                errorReport.exceptionReason,
-                error.localizedDescription);
+        errorReport.exceptionReason,
+        error.localizedDescription);
 }
 
 @end
