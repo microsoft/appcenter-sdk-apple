@@ -4,6 +4,7 @@
 
 #import "SNMAbstractErrorLog.h"
 #import "SNMErrorAttachment.h"
+#import "SNMErrorAttachmentPrivate.h"
 
 static NSString *const kSNMId = @"id";
 static NSString *const kSNMProcessId = @"process_id";
@@ -62,7 +63,7 @@ static NSString *const kSNMArchitecture = @"architecture";
     dict[kSNMAppLaunchTOffset] = self.appLaunchTOffset;
   }
   if (self.errorAttachment) {
-    dict[kSNMErrorAttachment] = self.errorAttachment;
+    dict[kSNMErrorAttachment] = [self.errorAttachment serializeToDictionary];
   }
   if (self.architecture) {
     dict[kSNMArchitecture] = self.architecture;

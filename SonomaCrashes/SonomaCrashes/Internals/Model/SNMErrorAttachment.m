@@ -3,7 +3,9 @@
  */
 
 #import "SNMErrorAttachment.h"
+#import "SNMErrorAttachmentPrivate.h"
 #import "SNMErrorBinaryAttachment.h"
+#import "SNMErrorBinaryAttachmentPrivate.h"
 
 static NSString *const kSNMTextAttachment = @"text_attachment";
 static NSString *const kSNMBinaryAttachment = @"binary_attachment";
@@ -17,7 +19,7 @@ static NSString *const kSNMBinaryAttachment = @"binary_attachment";
     dict[kSNMTextAttachment] = self.textAttachment;
   }
   if (self.binaryAttachment) {
-    dict[kSNMBinaryAttachment] = self.binaryAttachment;
+    dict[kSNMBinaryAttachment] = [self.binaryAttachment serializeToDictionary];
   }
 
   return dict;
@@ -28,8 +30,8 @@ static NSString *const kSNMBinaryAttachment = @"binary_attachment";
     return NO;
 
   return ((!self.textAttachment && !attachment.textAttachment) ||
-          [self.textAttachment isEqualToString:attachment.textAttachment]) &&
-         ((!self.binaryAttachment && !attachment.binaryAttachment) ||
+      [self.textAttachment isEqualToString:attachment.textAttachment]) &&
+      ((!self.binaryAttachment && !attachment.binaryAttachment) ||
           [self.binaryAttachment isEqual:attachment.binaryAttachment]);
 }
 
@@ -52,28 +54,30 @@ static NSString *const kSNMBinaryAttachment = @"binary_attachment";
 #pragma mark - Public Interface
 
 + (nonnull SNMErrorAttachment *)attachmentWithText:(nonnull NSString *)text {
-  // TODO add implementation
-  return [SNMErrorAttachment new];
+  SNMErrorAttachment *attachment = [SNMErrorAttachment new];
+  attachment.textAttachment = text;
+  return attachment;
 }
 
 + (nonnull SNMErrorAttachment *)attachmentWithBinaryData:(nonnull NSData *)data
-                                                filename:(nonnull NSString *)filename
+                                                filename:(nullable NSString *)filename
                                                 mimeType:(nonnull NSString *)mimeType {
-  // TODO add implementation
-  return [SNMErrorAttachment new];
+  SNMErrorAttachment *attachment = [SNMErrorAttachment new];
+  attachment.binaryAttachment =
+      [[SNMErrorBinaryAttachment alloc] initWithFileName:filename attachmentData:data contentType:mimeType];
+
+  return attachment;
 }
 
 + (nonnull SNMErrorAttachment *)attachmentWithText:(nonnull NSString *)text
                                      andBinaryData:(nonnull NSData *)data
-                                          filename:(nonnull NSString *)filename
+                                          filename:(nullable NSString *)filename
                                           mimeType:(nonnull NSString *)mimeType {
-  // TODO add implementation
-  return [SNMErrorAttachment new];
-}
-
-+ (nonnull SNMErrorAttachment *)attachmentWithURL:(nonnull NSURL *)file mimeType:(nullable NSString *)mimeType {
-  // TODO add implementation
-  return [SNMErrorAttachment new];
+  SNMErrorAttachment *attachment = [SNMErrorAttachment new];
+  attachment.textAttachment = text;
+  attachment.binaryAttachment =
+      [[SNMErrorBinaryAttachment alloc] initWithFileName:filename attachmentData:data contentType:mimeType];
+  return attachment;
 }
 
 @end
