@@ -92,12 +92,24 @@ typedef struct SNMCrashesCallbacks {
  */
 @property(atomic, readonly) BOOL didCrashInLastSession;
 
-/*
+/**
  * Detail information about the last crash.
  */
 @property(atomic, readonly, getter=getLastSessionCrashReport) SNMErrorReport *lastSessionCrashReport;
 
-/*
+/**
+ * Temporary storage for crashes logs to handle user confirmation and callbacks.
+ */
+@property(atomic) NSMutableArray *unprocessedLogs;
+@property(atomic) NSMutableArray *unprocessedReports;
+@property(atomic) NSMutableArray *unprocessedFilePaths;
+
+/**
+ * Custom user confirmation handler.
+ */
+@property(atomic) SNMUserConfirmationHandler userConfirmationHandler;
+
+/**
  * Delete all data in crashes directory.
  */
 - (void)deleteAllFromCrashesDirectory;

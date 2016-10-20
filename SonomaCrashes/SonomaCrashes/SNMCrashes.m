@@ -13,7 +13,6 @@
 #import "SonomaCore+Internal.h"
 #import <CrashReporter/CrashReporter.h>
 
-
 /**
  *  Feature name.
  */
@@ -23,6 +22,7 @@ static NSString *const kSNMAnalyzerFilename = @"SNMCrashes.analyzer";
 #pragma mark - Callbacks Setup
 
 static SNMCrashesCallbacks snmCrashesCallbacks = {.context = NULL, .handleSignal = NULL};
+static NSString *const kSNMUserConfirmationKey = @"kSNMUserConfirmationKey";
 
 /** Proxy implementation for PLCrashReporter to keep our interface stable while
  *  this can change.
@@ -46,7 +46,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
   abort();
 }
 
-@interface SNMCrashes() <SNMChannelDelegate>
+@interface SNMCrashes () <SNMChannelDelegate>
 
 @end
 
@@ -58,7 +58,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 #pragma mark - Public Methods
 
 + (void)generateTestCrash {
-  @synchronized([self sharedInstance]) {
+  @synchronized ([self sharedInstance]) {
     if ([[self sharedInstance] canBeUsed]) {
       if ([SNMEnvironmentHelper currentAppEnvironment] != SNMEnvironmentAppStore) {
         if ([SNMSonoma isDebuggerAttached]) {
@@ -69,7 +69,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
       }
     } else {
       SNMLogWarning(@"[SNMCrashes] WARNING: GenerateTestCrash was just called in an App Store environment. The call will "
-                    @"be ignored");
+                        @"be ignored");
     }
   }
 }
@@ -78,12 +78,42 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
   return [[self sharedInstance] didCrashInLastSession];
 }
 
-+ (void)setUserConfirmationHandler:(_Nullable SNMUserConfirmationHandler)userConfitmationHandler {
-  // TODO actual implementation
++ (void)setUserConfirmationHandler:(_Nullable SNMUserConfirmationHandler)userConfirmationHandler {
+  // FIXME: Type cast is required at the moment. Need to fix the root cause.
+  ((SNMCrashes *) [self sharedInstance]).userConfirmationHandler = userConfirmationHandler;
 }
 
 + (void)notifyWithUserConfirmation:(SNMUserConfirmation)userConfirmation {
-  // TODO actual implementation
+  SNMCrashes *crashes = [self sharedInstance];
+
+  if (userConfirmation == SNMUserConfirmationDontSend) {
+
+    // Don't send logs. Clean up files.
+    for (NSString *filePath in [crashes unprocessedFilePaths]) {
+      [crashes deleteCrashReportWithFilePath:filePath];
+      [crashes.crashFiles removeObject:filePath];
+    }
+    return;
+  } else if (userConfirmation == SNMUserConfirmationAlways) {
+
+    // Always send logs. Set the flag true to bypass user confirmation next time.
+    [kSNMUserDefaults setObject:[[NSNumber alloc] initWithBool:YES] forKey:kSNMUserConfirmationKey];
+  }
+
+  // Process crashes logs.
+  for (NSUInteger i = 0; i < [crashes.unprocessedReports count]; i++) {
+    SNMAppleErrorLog *log = [crashes.unprocessedLogs objectAtIndex:i];
+    SNMErrorReport *report = [crashes.unprocessedReports objectAtIndex:i];
+    NSString *filePath = [crashes.unprocessedFilePaths objectAtIndex:i];
+
+    // Get error attachment.
+    [log setErrorAttachment:[crashes.delegate attachmentWithCrashes:crashes forErrorReport:report]];
+
+    // Send log to log manager.
+    [crashes.logManager processLog:log withPriority:crashes.priority];
+    [crashes deleteCrashReportWithFilePath:filePath];
+    [crashes.crashFiles removeObject:filePath];
+  }
 }
 
 + (SNMErrorReport *_Nullable)lastSessionCrashReport {
@@ -91,7 +121,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
   return [[self sharedInstance] getLastSessionCrashReport];
 }
 
-+ (void)setDelegate:(_Nullable id<SNMCrashesDelegate>) delegate {
++ (void)setDelegate:(_Nullable id <SNMCrashesDelegate>)delegate {
   [[self sharedInstance] setDelegate:delegate];
 }
 
@@ -145,7 +175,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
   SNMLogVerbose(@"[SNMCrashes] VERBOSE: Started crash feature.");
 
   [self.logManager addChannelDelegate:self forPriority:self.priority];
-  
+
   [self configureCrashReporter];
 
   // Get crashes from PLCrashReporter and store them in the intermediate format.
@@ -172,28 +202,28 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 
 #pragma mark - SNMChannelDelegate
 
-- (void)channel:(id)channel willSendLog:(id<SNMLog>)log {
-    if(self.delegate) {
-      if ([((NSObject *)log) isKindOfClass:[SNMAppleErrorLog class]]) {
-        SNMErrorReport *report = [SNMErrorLogFormatter errorReportFromLog:((SNMAppleErrorLog*)log)];
-        [self.delegate crashes:self willSendErrorReport:report];
+- (void)channel:(id)channel willSendLog:(id <SNMLog>)log {
+  if (self.delegate && [self.delegate respondsToSelector:@selector(crashes:willSendErrorReport:)]) {
+    if ([((NSObject *) log) isKindOfClass:[SNMAppleErrorLog class]]) {
+      SNMErrorReport *report = [SNMErrorLogFormatter errorReportFromLog:((SNMAppleErrorLog *) log)];
+      [self.delegate crashes:self willSendErrorReport:report];
     }
   }
 }
 
-- (void)channel:(id<SNMChannel>)channel didSucceedSendingLog:(id<SNMLog>)log {
-  if(self.delegate) {
-    if ([((NSObject *)log) isKindOfClass:[SNMAppleErrorLog class]]) {
-      SNMErrorReport *report = [SNMErrorLogFormatter errorReportFromLog:((SNMAppleErrorLog*)log)];
+- (void)channel:(id <SNMChannel>)channel didSucceedSendingLog:(id <SNMLog>)log {
+  if (self.delegate && [self.delegate respondsToSelector:@selector(crashes:didSucceedSendingErrorReport:)]) {
+    if ([((NSObject *) log) isKindOfClass:[SNMAppleErrorLog class]]) {
+      SNMErrorReport *report = [SNMErrorLogFormatter errorReportFromLog:((SNMAppleErrorLog *) log)];
       [self.delegate crashes:self didSucceedSendingErrorReport:report];
     }
   }
 }
 
-- (void)channel:(id<SNMChannel>)channel didFailSendingLog:(id<SNMLog>)log withError:(NSError *)error {
-  if(self.delegate) {
-    if ([((NSObject *)log) isKindOfClass:[SNMAppleErrorLog class]]) {
-      SNMErrorReport *report = [SNMErrorLogFormatter errorReportFromLog:((SNMAppleErrorLog*)log)];
+- (void)channel:(id <SNMChannel>)channel didFailSendingLog:(id <SNMLog>)log withError:(NSError *)error {
+  if (self.delegate && [self.delegate respondsToSelector:@selector(crashes:didFailSendingErrorReport:withError:)]) {
+    if ([((NSObject *) log) isKindOfClass:[SNMAppleErrorLog class]]) {
+      SNMErrorReport *report = [SNMErrorLogFormatter errorReportFromLog:((SNMAppleErrorLog *) log)];
       [self.delegate crashes:self didFailSendingErrorReport:report withError:error];
     }
   }
@@ -249,7 +279,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
       SNMLogDebug(@"[SNMCrashes] DEBUG: Exception handler successfully initialized.");
     } else {
       SNMLogError(@"[SNMCrashes] ERROR: Exception handler could not be set. Make sure there is no other exception "
-                  @"handler set up!");
+                      @"handler set up!");
     }
     [SNMCrashesUncaughtCXXExceptionHandlerManager addCXXExceptionHandler:uncaught_cxx_exception_handler];
   }
@@ -283,39 +313,75 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
      */
     if (self.exceptionHandler != currentHandler) {
       SNMLogWarning(@"[SNMCrashes] WARNING: Another exception handler was "
-                    @"added. If this invokes any kind exit() after processing "
-                    @"the exception, which causes any subsequent error "
-                    @"handler not to be invoked, these crashes will NOT be "
-                    @"reported to Sonoma!");
+                        @"added. If this invokes any kind exit() after processing "
+                        @"the exception, which causes any subsequent error "
+                        @"handler not to be invoked, these crashes will NOT be "
+                        @"reported to Sonoma!");
     }
   }
   if (!self.sendingInProgress && self.crashFiles.count > 0) {
 
     // TODO: Send and clean next crash report
-    SNMPLCrashReport *report = [self nextCrashReport];
-    SNMLogVerbose(@"[SNMCrashes] VERBOSE: Crash report found: %@ ", report.debugDescription);
+    [self processCrashReport];
   }
 }
 
-- (SNMPLCrashReport *)nextCrashReport {
+- (void)processCrashReport {
   NSError *error = NULL;
-  SNMPLCrashReport *report;
+  _unprocessedLogs = [[NSMutableArray alloc] init];
+  _unprocessedReports = [[NSMutableArray alloc] init];
+  _unprocessedFilePaths = [[NSMutableArray alloc] init];
 
   NSArray *tempCrashesFiles = [NSArray arrayWithArray:self.crashFiles];
   for (NSString *filePath in tempCrashesFiles) {
+
     // we start sending always with the oldest pending one
     NSData *crashFileData = [NSData dataWithContentsOfFile:filePath];
     if ([crashFileData length] > 0) {
+      SNMLogVerbose(@"[SNMCrashes] VERBOSE: Crash report found");
       if (self.isEnabled) {
-        report = [[SNMPLCrashReport alloc] initWithData:crashFileData error:&error];
+        SNMPLCrashReport *report = [[SNMPLCrashReport alloc] initWithData:crashFileData error:&error];
         SNMAppleErrorLog *log = [SNMErrorLogFormatter errorLogFromCrashReport:report];
-        [self.logManager processLog:log withPriority:self.priority];
+        SNMErrorReport *errorReport = [SNMErrorLogFormatter errorReportFromLog:(log)];
+        if ([self.delegate crashes:self shouldProcessErrorReport:errorReport]) {
+          SNMLogDebug(@"[SNMCrashes] DEBUG: shouldProcessErrorReport returned true, processing the crash report: %@",
+                      report.debugDescription);
+
+          // Put the log to temporary space for next callbacks.
+          [_unprocessedLogs addObject:log];
+          [_unprocessedReports addObject:errorReport];
+          [_unprocessedFilePaths addObject:filePath];
+          continue;
+        } else {
+          SNMLogDebug(@"[SNMCrashes] DEBUG: shouldProcessErrorReport returned false, discard the crash report: %@",
+                      report.debugDescription);
+        }
+      } else {
+        SNMLogDebug(@"[SNMCrashes] DEBUG: Crashes feature is disabled, discard the crash report");
       }
+
+      // Clean up files.
       [self deleteCrashReportWithFilePath:filePath];
       [self.crashFiles removeObject:filePath];
     }
   }
-  return report;
+
+  // Get a user confirmation if there are crash logs that need to be processed.
+  if ([_unprocessedLogs count] > 0) {
+    NSNumber *flag = [kSNMUserDefaults objectForKey:kSNMUserConfirmationKey];
+    if (flag && [flag boolValue]) {
+
+      // User confirmation is set to SNMUserConfirmationAlways.
+      SNMLogDebug(@"The flag for user confirmation is set to SNMUserConfirmationAlways, continue sending logs");
+      [SNMCrashes notifyWithUserConfirmation:SNMUserConfirmationSend];
+      return;
+    } else if (!_userConfirmationHandler || !_userConfirmationHandler(_unprocessedReports)) {
+
+      // User confirmation handler doesn't exist or returned NO which means 'want to process'.
+      SNMLogDebug(@"The user confirmation handler is not implemented or returned NO, continue sending logs");
+      [SNMCrashes notifyWithUserConfirmation:SNMUserConfirmationSend];
+    }
+  }
 }
 
 #pragma mark - Helper
@@ -323,7 +389,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 - (void)deleteAllFromCrashesDirectory {
   NSError *error = nil;
   for (NSString *filePath in [self.fileManager enumeratorAtPath:self.crashesDir]) {
-    NSString *path = [self.crashesDir stringByAppendingPathComponent: filePath];
+    NSString *path = [self.crashesDir stringByAppendingPathComponent:filePath];
     [_fileManager removeItemAtPath:path error:&error];
 
     if (error) {
@@ -401,7 +467,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
   if ([self.fileManager fileExistsAtPath:self.analyzerInProgressFile]) {
     NSError *error = nil;
     if (![self.fileManager removeItemAtPath:self.analyzerInProgressFile error:&error]) {
-      SNMLogError(@"[SNMCrashes] ERROR: Couldn't remove analzer file at %@: ", self.analyzerInProgressFile);
+      SNMLogError(@"[SNMCrashes] ERROR: Couldn't remove analyzer file at %@: ", self.analyzerInProgressFile);
     }
   }
 }
