@@ -40,7 +40,7 @@
     _availableBatchFromStorage = NO;
     _enabled = YES;
 
-    _delegates = [NSMutableArray<id <SNMChannelDelegate>> new];
+    _delegates = [NSHashTable weakObjectsHashTable];
   }
   return self;
 }
@@ -64,9 +64,7 @@
 #pragma mark - SNMChannelDelegate
 
 - (void)addDelegate:(id <SNMChannelDelegate>)delegate {
-  // Check if delegate is not already added.
-  if (![self.delegates containsObject:delegate])
-    [self.delegates addObject:delegate];
+  [self.delegates addObject:delegate];
 }
 
 - (void)removeDelegate:(id <SNMChannelDelegate>)delegate {
@@ -135,10 +133,10 @@
                    self.pendingBatchQueueFull = YES;
                  }
                  SNMLogContainer *container = [[SNMLogContainer alloc] initWithBatchId:batchId andLogs:logArray];
-                 SNMLogInfo([SNMSonoma getLoggerTag], @"Sending log %@", [container serializeLogWithPrettyPrinting:YES]);
+				 SNMLogInfo([SNMSonoma getLoggerTag], @"Sending log %@", [container serializeLogWithPrettyPrinting:YES]);
 
                  // Notify delegates.
-                 [self enumerateDelgatesForSelector:@selector(channel:willSendLog:) withBlock:^(id <SNMChannelDelegate> delegate) {
+                 [self enumerateDelegatesForSelector:@selector(channel:willSendLog:) withBlock:^(id <SNMChannelDelegate> delegate) {
                    for (id <SNMLog> aLog in logArray) {
                      [delegate channel:self willSendLog:aLog];
                    }
@@ -150,19 +148,19 @@
                  [self.sender sendAsync:container
                           callbackQueue:self.callbackQueue
                       completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
-                        SNMLogInfo([SNMSonoma getLoggerTag], @"HTTP response received with the status code:%lu", (unsigned long) statusCode);
+					    SNMLogInfo([SNMSonoma getLoggerTag], @"HTTP response received with the status code:%lu", (unsigned long) statusCode);
 
-                        if (statusCode != 200) {
-                          [self enumerateDelgatesForSelector:@selector(channel:didFailSendingLog:withError:) withBlock:^(
-                              id <SNMChannelDelegate> delegate) {
+                        if (statusCode == 200) {
+                          [self enumerateDelegatesForSelector:@selector(channel:didSucceedSendingLog:) withBlock:^(id <SNMChannelDelegate> delegate) {
                             for (id <SNMLog> aLog in logs) {
-                              [delegate channel:self didFailSendingLog:aLog withError:error];
+                              [delegate channel:self didSucceedSendingLog:aLog];
                             }
                           }];
                         } else {
-                          [self enumerateDelgatesForSelector:@selector(channel:didSucceedSendingLog:) withBlock:^(id <SNMChannelDelegate> delegate) {
+                          [self enumerateDelegatesForSelector:@selector(channel:didFailSendingLog:withError:) withBlock:^(
+                              id <SNMChannelDelegate> delegate) {
                             for (id <SNMLog> aLog in logs) {
-                              [delegate channel:self didSucceedSendingLog:aLog];
+                              [delegate channel:self didFailSendingLog:aLog withError:error];
                             }
                           }];
                         }
@@ -189,7 +187,7 @@
   }
 }
 
-- (void)enumerateDelgatesForSelector:(SEL)selector withBlock:(void (^)(id <SNMChannelDelegate> delegate))block {
+- (void)enumerateDelegatesForSelector:(SEL)selector withBlock:(void (^)(id <SNMChannelDelegate> delegate))block {
   for (id <SNMChannelDelegate> delegate in self.delegates) {
     if (delegate && [delegate respondsToSelector:selector]) {
       block(delegate);
