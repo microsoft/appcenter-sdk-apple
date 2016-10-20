@@ -13,6 +13,23 @@ static NSString *const kSNMLiveUpdatePackageHash = @"live_update_package_hash";
 
 @implementation SNMWrapperSdk
 
+- (instancetype) initWithWrapperSdkVersion:(NSString *)wrapperSdkVersion
+                            wrapperSdkName:(NSString *)wrapperSdkName
+                    liveUpdateReleaseLabel:(NSString *)liveUpdateReleaseLabel
+                   liveUpdateDeploymentKey:(NSString *)liveUpdateDeploymentKey
+                     liveUpdatePackageHash:(NSString *)liveUpdatePackageHash {
+  self = [super init];
+  if(self) {
+    _wrapperSdkVersion = wrapperSdkVersion;
+    _wrapperSdkName = wrapperSdkName;
+    _liveUpdateReleaseLabel = liveUpdateReleaseLabel;
+    _liveUpdateDeploymentKey = liveUpdateDeploymentKey;
+    _liveUpdatePackageHash = liveUpdatePackageHash;
+  }
+  return self;
+}
+
+
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [NSMutableDictionary new];
 

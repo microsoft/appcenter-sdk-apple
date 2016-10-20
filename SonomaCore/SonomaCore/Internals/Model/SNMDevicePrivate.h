@@ -2,9 +2,10 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
+#import "SNMAbstractLog.h"
 #import <Foundation/Foundation.h>
 
-@interface SNMDevice ()
+@interface SNMDevice () <SNMSerializableObject>
 
 /*
  * Name of the SDK. Consists of the name of the SDK and the platform, e.g. "sonoma.ios", "sonoma.android"
