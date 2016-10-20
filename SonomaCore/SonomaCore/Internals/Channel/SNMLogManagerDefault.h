@@ -37,9 +37,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithSender:(id<SNMSender>)sender storage:(id<SNMStorage>)storage;
 
 /**
- *  Array of log manager delegate.
+ *  Hash table of log manager delegate.
  */
-@property(nonatomic) NSMutableArray<id<SNMLogManagerDelegate>> *delegates;
+@property(nonatomic) NSHashTable<id<SNMLogManagerDelegate>> *delegates;
 
 /**
  *  A sender instance that is used to send batches of log items to the backend.
