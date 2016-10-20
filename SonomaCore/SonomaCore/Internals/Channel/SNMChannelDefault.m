@@ -133,7 +133,8 @@
                    self.pendingBatchQueueFull = YES;
                  }
                  SNMLogContainer *container = [[SNMLogContainer alloc] initWithBatchId:batchId andLogs:logArray];
-				 SNMLogInfo([SNMSonoma getLoggerTag], @"Sending log %@", [container serializeLogWithPrettyPrinting:YES]);
+                 SNMLogInfo([SNMSonoma getLoggerTag], @"Sending log %@",
+                            [container serializeLogWithPrettyPrinting:YES]);
 
                  // Notify delegates.
                  [self enumerateDelegatesForSelector:@selector(channel:willSendLog:) withBlock:^(id <SNMChannelDelegate> delegate) {
@@ -148,7 +149,8 @@
                  [self.sender sendAsync:container
                           callbackQueue:self.callbackQueue
                       completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
-					    SNMLogInfo([SNMSonoma getLoggerTag], @"HTTP response received with the status code:%lu", (unsigned long) statusCode);
+                        SNMLogInfo([SNMSonoma getLoggerTag], @"HTTP response received with the status code:%lu",
+                                   (unsigned long) statusCode);
 
                         if (statusCode == 200) {
                           [self enumerateDelegatesForSelector:@selector(channel:didSucceedSendingLog:) withBlock:^(id <SNMChannelDelegate> delegate) {
