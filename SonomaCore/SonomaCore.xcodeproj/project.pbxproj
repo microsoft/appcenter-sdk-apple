@@ -33,7 +33,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		043316791D9495FF00E7F868 /* SNMWrapperSdk.h in Headers */ = {isa = PBXBuildFile; fileRef = 043316771D9495FF00E7F868 /* SNMWrapperSdk.h */; };
+		043316791D9495FF00E7F868 /* SNMWrapperSdk.h in Headers */ = {isa = PBXBuildFile; fileRef = 043316771D9495FF00E7F868 /* SNMWrapperSdk.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0433167A1D9495FF00E7F868 /* SNMWrapperSdk.m in Sources */ = {isa = PBXBuildFile; fileRef = 043316781D9495FF00E7F868 /* SNMWrapperSdk.m */; };
 		045660FB1D99EEEB002F7055 /* SNMLogWithPropertiesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 045660FA1D99EEEB002F7055 /* SNMLogWithPropertiesTests.m */; };
 		381C91E91D3DB65D004512F1 /* SNMDeviceTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 381C91E51D3DB65D004512F1 /* SNMDeviceTracker.h */; };
@@ -339,6 +339,7 @@
 		6E0401051D1C98220051BCFA /* SonomaCore */ = {
 			isa = PBXGroup;
 			children = (
+				B2C3C1861DB9741500CB83F7 /* PublicModels */,
 				6E0401401D1C99AC0051BCFA /* SonomaCore.h */,
 				6E0401551D1C9AAA0051BCFA /* SNMSonoma.h */,
 				6E0401561D1C9AAA0051BCFA /* SNMSonoma.m */,
@@ -455,13 +456,13 @@
 			isa = PBXGroup;
 			children = (
 				E88EBBF61D2C717D007E7785 /* Utils */,
+				6E171B521D234717000DC480 /* SNMDevice.h */,
+				6E171B531D234717000DC480 /* SNMDevice.m */,
 				6E3E2C9D1D35701000B1EE50 /* SNMLog.h */,
 				6E7D5C791D3E94F8009EC9AC /* SNMSerializableObject.h */,
 				E88EBBEA1D2C612E007E7785 /* SNMAbstractLog.h */,
 				E88EBBEB1D2C612E007E7785 /* SNMAbstractLog.m */,
 				B2C3C1831DB83A3E00CB83F7 /* SNMDevicePrivate.h */,
-				6E171B521D234717000DC480 /* SNMDevice.h */,
-				6E171B531D234717000DC480 /* SNMDevice.m */,
 				6E171B581D234717000DC480 /* SNMLogContainer.h */,
 				6E171B591D234717000DC480 /* SNMLogContainer.m */,
 				E8010E661D2DD4EF0035196F /* SNMLogWithProperties.h */,
@@ -517,6 +518,13 @@
 				E88D17051D35B6B500A5EA57 /* SNMMockLog.m */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		B2C3C1861DB9741500CB83F7 /* PublicModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = PublicModels;
 			sourceTree = "<group>";
 		};
 		E83283C21D46C62E000B029E /* Vendor */ = {
@@ -618,6 +626,7 @@
 				38F1944E1DADB93100D3E0FE /* SNMHttpSenderPrivate.h in Headers */,
 				E80EB1071D50273700C9003F /* SNMRetriableCall.h in Headers */,
 				387C758F1D64E50800D68CC1 /* SNMFeatureCommon.h in Headers */,
+				043316791D9495FF00E7F868 /* SNMWrapperSdk.h in Headers */,
 				6E171B5A1D234717000DC480 /* SNMDevice.h in Headers */,
 				6E04016A1D1C9E1F0051BCFA /* SNMSonoma.h in Headers */,
 				387C75811D6270A300D68CC1 /* SNMFeatureAbstractInternal.h in Headers */,
@@ -644,7 +653,6 @@
 				E8AEE9821D5970A400C0FF6C /* SNMLogManagerDelegate.h in Headers */,
 				6E04016C1D1C9E1F0051BCFA /* SonomaCore.h in Headers */,
 				E84B8E351D235226006FD231 /* SNMHttpSender.h in Headers */,
-				043316791D9495FF00E7F868 /* SNMWrapperSdk.h in Headers */,
 				6E171B601D234717000DC480 /* SNMLogContainer.h in Headers */,
 				E88EBBEC1D2C612E007E7785 /* SNMAbstractLog.h in Headers */,
 				6E7E3B781D2DCEBD0019EA6D /* SNMFile.h in Headers */,

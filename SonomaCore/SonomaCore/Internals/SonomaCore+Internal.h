@@ -13,6 +13,7 @@
 #import "Model/SNMLogContainer.h"
 #import "Model/SNMLogWithProperties.h"
 #import "Model/Utils/SNMUserDefaults.h"
+#import "Model/SNMWrapperSdk.h"
 #import "Utils/SNMUtils.h"
 
 // Environment Helper

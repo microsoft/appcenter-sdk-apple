@@ -11,7 +11,7 @@
 
 @end
 
-@implementation SNMThreadTests
+@implementation   SNMThreadTests
 
 #pragma mark - Tests
 

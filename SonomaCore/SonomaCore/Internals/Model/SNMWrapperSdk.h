@@ -2,10 +2,9 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "SNMAbstractLog.h"
 #import <Foundation/Foundation.h>
 
-@interface SNMWrapperSdk : NSObject <SNMSerializableObject>
+@interface SNMWrapperSdk : NSObject 
 
 /*
  * Version of the wrapper SDK. When the SDK is embedding another base SDK (for example Xamarin.Android wraps Android),
@@ -43,5 +42,11 @@
  * @return Return YES if equal and NO if not equal
  */
 - (BOOL)isEqual:(SNMWrapperSdk *)wrapperSdk;
+
+- (instancetype) initWithWrapperSdkVersion:(NSString *)wrapperSdkVersion
+                            wrapperSdkName:(NSString *)wrapperSdkName
+                    liveUpdateReleaseLabel:(NSString *)liveUpdateReleaseLabel
+                   liveUpdateDeploymentKey:(NSString *)liveUpdateDeploymentKey
+                     liveUpdatePackageHash:(NSString *)liveUpdatePackageHash;
 
 @end
