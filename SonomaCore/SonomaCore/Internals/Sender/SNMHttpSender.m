@@ -137,10 +137,10 @@ completionHandler:(SNMSendAsyncCompletionHandler)handler {
             [obj cancel];
           }];
     }];
-    [self enumerateDelgatesForSelector:@selector(senderDidSuspend:)
-                             withBlock:^(id<SNMSenderDelegate> delegate) {
-                               [delegate senderDidSuspend:self];
-                             }];
+    [self enumerateDelegatesForSelector:@selector(senderDidSuspend:)
+                              withBlock:^(id <SNMSenderDelegate> delegate) {
+                                [delegate senderDidSuspend:self];
+                              }];
   }
 }
 
@@ -159,10 +159,10 @@ completionHandler:(SNMSendAsyncCompletionHandler)handler {
         }];
 
     // Propagate.
-    [self enumerateDelgatesForSelector:@selector(senderDidResume:)
-                             withBlock:^(id<SNMSenderDelegate> delegate) {
-                               [delegate senderDidResume:self];
-                             }];
+    [self enumerateDelegatesForSelector:@selector(senderDidResume:)
+                              withBlock:^(id <SNMSenderDelegate> delegate) {
+                                [delegate senderDidResume:self];
+                              }];
   }
 }
 
@@ -244,7 +244,7 @@ completionHandler:(SNMSendAsyncCompletionHandler)handler {
   return _session;
 }
 
-- (void)enumerateDelgatesForSelector:(SEL)selector withBlock:(void (^)(id<SNMSenderDelegate> delegate))block {
+- (void)enumerateDelegatesForSelector:(SEL)selector withBlock:(void (^)(id<SNMSenderDelegate> delegate))block {
   for (id<SNMSenderDelegate> delegate in self.delegates) {
     if (delegate && [delegate respondsToSelector:selector]) {
       block(delegate);

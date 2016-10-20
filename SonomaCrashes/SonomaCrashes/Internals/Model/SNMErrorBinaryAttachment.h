@@ -2,18 +2,17 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "SonomaCore+Internal.h"
 #import <Foundation/Foundation.h>
 
 /*
  * Binary attachment for error log.
  */
-@interface SNMErrorBinaryAttachment : NSObject <SNMSerializableObject>
+@interface SNMErrorBinaryAttachment : NSObject
 
 /**
  * The fileName for binary data.
  */
-@property(nonatomic, readonly, nonnull) NSString *fileName;
+@property(nonatomic, readonly, nullable) NSString *fileName;
 
 /**
  * Binary data.
@@ -37,13 +36,13 @@
 /**
  * Create an SNMErrorBinaryAttachment instance with a given filename and NSData object
  * @param fileName The filename the attachment should get. If nil will get an automatically generated filename
- * @param data The attachment data as NSData. The instance will be ignore if this is set to nil!
- * @param contentType The content type of your data as MIME type. If nil will be set to "application/octet-stream"
+ * @param data The attachment data as NSData.
+ * @param contentType The content type of your data as MIME type.
  *
  * @return An instance of SNMErrorBinaryAttachment.
  */
-- (nonnull instancetype)initWithFileName:(nonnull NSString *)fileName
+- (nonnull instancetype)initWithFileName:(nullable NSString *)fileName
                           attachmentData:(nonnull NSData *)data
-                             contentType:(nullable NSString *)contentType;
+                             contentType:(nonnull NSString *)contentType;
 
 @end
