@@ -6,6 +6,8 @@
 #import "SNMDeviceTracker.h"
 #import "SNMDeviceTrackerPrivate.h"
 #import "SNMUtils.h"
+#import "SNMDevicePrivate.h"
+#import "SNMWrapperSdkPrivate.h"
 
 // SDK versioning struct.
 typedef struct {

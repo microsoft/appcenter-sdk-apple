@@ -1,6 +1,8 @@
 #import "SNMDevice.h"
+#import "SNMDevicePrivate.h"
 #import "SNMDeviceTracker.h"
 #import "SNMDeviceTrackerPrivate.h"
+#import "SNMWrapperSdkPrivate.h"
 #import <CoreTelephony/CTCarrier.h>
 #import <Foundation/Foundation.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>

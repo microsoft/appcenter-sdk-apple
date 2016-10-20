@@ -5,6 +5,8 @@
 
 #import "SNMErrorReportPrivate.h"
 #import "SNMDevice.h"
+#import "SNMDevicePrivate.h"
+#import "SNMWrapperSdkPrivate.h"
 
 @interface SNMErrorReportTests : XCTestCase
 
