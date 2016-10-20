@@ -2,99 +2,90 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "SNMWrapperSdk.h"
 #import <Foundation/Foundation.h>
 
-@interface SNMDevice : SNMWrapperSdk
+@interface SNMDevice ()
 
 /*
  * Name of the SDK. Consists of the name of the SDK and the platform, e.g. "sonoma.ios", "sonoma.android"
  */
-@property(nonatomic, readonly) NSString *sdkName;
+@property(nonatomic, readwrite) NSString *sdkName;
 
 /*
  * Version of the SDK in semver format, e.g. "1.2.0" or "0.12.3-alpha.1".
  */
-@property(nonatomic, readonly) NSString *sdkVersion;
+@property(nonatomic, readwrite) NSString *sdkVersion;
 
 /*
  * Device model (example: iPad2,3).
  */
-@property(nonatomic, readonly) NSString *model;
+@property(nonatomic, readwrite) NSString *model;
 
 /*
  * Device manufacturer (example: HTC).
  */
-@property(nonatomic, readonly) NSString *oemName;
+@property(nonatomic, readwrite) NSString *oemName;
 
 /*
  * OS name (example: iOS).
  */
-@property(nonatomic, readonly) NSString *osName;
+@property(nonatomic, readwrite) NSString *osName;
 
 /*
  * OS version (example: 9.3.0).
  */
-@property(nonatomic, readonly) NSString *osVersion;
+@property(nonatomic, readwrite) NSString *osVersion;
 
 /*
  * OS build code (example: LMY47X).  [optional]
  */
-@property(nonatomic, readonly) NSString *osBuild;
+@property(nonatomic, readwrite) NSString *osBuild;
 
 /*
  * API level when applicable like in Android (example: 15).  [optional]
  */
-@property(nonatomic, readonly) NSNumber *osApiLevel;
+@property(nonatomic, readwrite) NSNumber *osApiLevel;
 
 /*
  * Language code (example: en_US).
  */
-@property(nonatomic, readonly) NSString *locale;
+@property(nonatomic, readwrite) NSString *locale;
 
 /*
  * The offset in minutes from UTC for the device time zone, including daylight savings time.
  */
-@property(nonatomic, readonly) NSNumber *timeZoneOffset;
+@property(nonatomic, readwrite) NSNumber *timeZoneOffset;
 
 /*
  * Screen size of the device in pixels (example: 640x480).
  */
-@property(nonatomic, readonly) NSString *screenSize;
+@property(nonatomic, readwrite) NSString *screenSize;
 
 /*
  * Application version name, e.g. 1.1.0
  */
-@property(nonatomic, readonly) NSString *appVersion;
+@property(nonatomic, readwrite) NSString *appVersion;
 
 /*
  * Carrier name (for mobile devices).  [optional]
  */
-@property(nonatomic, readonly) NSString *carrierName;
+@property(nonatomic, readwrite) NSString *carrierName;
 
 /*
  * Carrier country code (for mobile devices).  [optional]
  */
-@property(nonatomic, readonly) NSString *carrierCountry;
+@property(nonatomic, readwrite) NSString *carrierCountry;
 
 /*
  * The app's build number, e.g. 42.
  */
-@property(nonatomic, readonly) NSString *appBuild;
+@property(nonatomic, readwrite) NSString *appBuild;
 
 /*
  * The bundle identifier, package identifier, or namespace, depending on what the individual plattforms use,  .e.g
  * com.microsoft.example.  [optional]
  */
-@property(nonatomic, readonly) NSString *appNamespace;
+@property(nonatomic, readwrite) NSString *appNamespace;
 
-/**
- * Is equal to another device log
- *
- * @param device Device log
- *
- * @return Return YES if equal and NO if not equal
- */
-- (BOOL)isEqual:(SNMDevice *)device;
 
 @end

@@ -55,7 +55,7 @@
   assertThat(actualThread.name, equalTo(sut.name));
   assertThat(actualThread.exception.type, equalTo(sut.exception.type));
   assertThat(actualThread.exception.message, equalTo(sut.exception.message));
-  assertThatUnsignedInt(actualThread.exception.frames.count, equalToUnsignedInteger(sut.exception.frames.count));
+  assertThatUnsignedLong(actualThread.exception.frames.count, equalToUnsignedLong(sut.exception.frames.count));
 
   assertThatInteger(actualThread.frames.count, equalToInteger(1));
 }

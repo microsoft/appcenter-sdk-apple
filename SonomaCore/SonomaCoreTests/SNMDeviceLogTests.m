@@ -4,6 +4,8 @@
 #import <XCTest/XCTest.h>
 
 #import "SNMDevice.h"
+#import "SNMDevicePrivate.h"
+#import "SNMWrapperSdkPrivate.h"
 
 @interface SNMDeviceTests : XCTestCase
 
