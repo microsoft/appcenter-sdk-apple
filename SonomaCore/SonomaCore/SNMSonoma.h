@@ -5,6 +5,8 @@
 #import "SNMConstants.h"
 #import <Foundation/Foundation.h>
 
+@class SNMWrapperSdk;
+
 /**
  * Class comment: Some Introduction.
  */
@@ -88,6 +90,14 @@
  * @param logHandler handler.
  */
 + (void)setLogHandler:(SNMLogHandler)logHandler;
+
+/**
+ * Set wrapper SDK information to use when building device properties. This is intended in case you are building a SDK
+ * that uses the Sonoma SDK under the hood, e.g. our Xamarin SDK or ReactNative SDk.
+ *
+ * @param wrapperSdk wrapper SDK information.
+ */
++ (void)setWrapperSdk:(SNMWrapperSdk *)wrapperSdk;
 
 /**
  * Get unique installation identifier.
