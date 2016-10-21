@@ -9,7 +9,7 @@ static BOOL _isUserDefinedLogLevel = NO;
 SNMLogHandler defaultLogHandler =
     ^(SNMLogMessageProvider messageProvider, SNMLogLevel logLevel, NSString *tag, const char *file, const char *function, uint line) {
       if (messageProvider) {
-        if (_currentLogLevel < logLevel) {
+        if (_currentLogLevel > logLevel) {
           return;
         }
 
