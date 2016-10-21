@@ -1,5 +1,7 @@
 #import "SNMConstants+Internal.h"
 #import "SNMEnvironmentHelper.h"
+#import "SNMDeviceTracker.h"
+#import "SNMDeviceTrackerPrivate.h"
 #import "SNMFileStorage.h"
 #import "SNMHttpSender.h"
 #import "SNMLogManagerDefault.h"
@@ -78,6 +80,10 @@ static NSString *const kSNMDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
 
 + (void)setLogHandler:(SNMLogHandler)logHandler {
   [SNMLogger setLogHandler:logHandler];
+}
+
++ (void)setWrapperSdk:(SNMWrapperSdk *)wrapperSdk {
+  [SNMDeviceTracker setWrapperSdk:wrapperSdk];
 }
 
 /**

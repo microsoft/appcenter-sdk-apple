@@ -3,6 +3,7 @@
  */
 
 #import "SNMDevice.h"
+#import "SNMWrapperSdk.h"
 #import <CoreTelephony/CTCarrier.h>
 #import <CoreTelephony/CTTelephonyNetworkInfo.h>
 #import <UIKit/UIKit.h>
@@ -113,5 +114,12 @@
  *  @return The application bundle ID as an NSString.
  */
 - (NSString *)appNamespace:(NSBundle *)appBundle;
+
+/**
+ * Set wrapper SDK information to use when building device properties.
+ *
+ * @param wrapperSdk wrapper SDK information.
+ */
++ (void)setWrapperSdk:(SNMWrapperSdk *)wrapperSdk;
 
 @end

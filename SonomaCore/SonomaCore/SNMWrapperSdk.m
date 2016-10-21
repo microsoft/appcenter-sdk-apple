@@ -3,6 +3,7 @@
  */
 
 #import "SNMWrapperSdk.h"
+#import "SNMWrapperSdkPrivate.h"
 
 static NSString *const kSNMWrapperSdkVersion = @"wrapper_sdk_version";
 static NSString *const kSNMWrapperSdkName = @"wrapper_sdk_name";
@@ -12,9 +13,26 @@ static NSString *const kSNMLiveUpdatePackageHash = @"live_update_package_hash";
 
 @implementation SNMWrapperSdk
 
+- (instancetype) initWithWrapperSdkVersion:(NSString *)wrapperSdkVersion
+                            wrapperSdkName:(NSString *)wrapperSdkName
+                    liveUpdateReleaseLabel:(NSString *)liveUpdateReleaseLabel
+                   liveUpdateDeploymentKey:(NSString *)liveUpdateDeploymentKey
+                     liveUpdatePackageHash:(NSString *)liveUpdatePackageHash {
+  self = [super init];
+  if(self) {
+    _wrapperSdkVersion = wrapperSdkVersion;
+    _wrapperSdkName = wrapperSdkName;
+    _liveUpdateReleaseLabel = liveUpdateReleaseLabel;
+    _liveUpdateDeploymentKey = liveUpdateDeploymentKey;
+    _liveUpdatePackageHash = liveUpdatePackageHash;
+  }
+  return self;
+}
+
+
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [NSMutableDictionary new];
-  
+
   if (self.wrapperSdkVersion) {
     dict[kSNMWrapperSdkVersion] = self.wrapperSdkVersion;
   }
@@ -34,17 +52,20 @@ static NSString *const kSNMLiveUpdatePackageHash = @"live_update_package_hash";
 }
 
 - (BOOL)isEqual:(SNMWrapperSdk *)wrapperSdk {
-  
+
   if (!wrapperSdk)
     return NO;
-  
+
   return ((!self.wrapperSdkVersion && !wrapperSdk.wrapperSdkVersion) ||
-          [self.wrapperSdkVersion isEqualToString:wrapperSdk.wrapperSdkVersion]) &&
-         ((!self.wrapperSdkName && !wrapperSdk.wrapperSdkName) ||
+      [self.wrapperSdkVersion isEqualToString:wrapperSdk.wrapperSdkVersion]) &&
+      ((!self.wrapperSdkName && !wrapperSdk.wrapperSdkName) ||
           [self.wrapperSdkName isEqualToString:wrapperSdk.wrapperSdkName]) &&
-         ((!self.liveUpdateReleaseLabel && !wrapperSdk.liveUpdateReleaseLabel) || [self.liveUpdateReleaseLabel isEqualToString:wrapperSdk.liveUpdateReleaseLabel]) &&
-         ((!self.liveUpdateDeploymentKey && !wrapperSdk.liveUpdateDeploymentKey) || [self.liveUpdateDeploymentKey isEqualToString:wrapperSdk.liveUpdateDeploymentKey]) &&
-         ((!self.liveUpdatePackageHash && !wrapperSdk.liveUpdatePackageHash) || [self.liveUpdatePackageHash isEqualToString:wrapperSdk.liveUpdatePackageHash]);
+      ((!self.liveUpdateReleaseLabel && !wrapperSdk.liveUpdateReleaseLabel)
+          || [self.liveUpdateReleaseLabel isEqualToString:wrapperSdk.liveUpdateReleaseLabel]) &&
+      ((!self.liveUpdateDeploymentKey && !wrapperSdk.liveUpdateDeploymentKey)
+          || [self.liveUpdateDeploymentKey isEqualToString:wrapperSdk.liveUpdateDeploymentKey]) &&
+      ((!self.liveUpdatePackageHash && !wrapperSdk.liveUpdatePackageHash)
+          || [self.liveUpdatePackageHash isEqualToString:wrapperSdk.liveUpdatePackageHash]);
 }
 
 #pragma mark - NSCoding
