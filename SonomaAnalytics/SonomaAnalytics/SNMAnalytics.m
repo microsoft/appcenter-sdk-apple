@@ -7,6 +7,7 @@
 #import "SNMAnalyticsPrivate.h"
 #import "SNMEventLog.h"
 #import "SNMFeatureAbstractProtected.h"
+#import "SNMLogManager.h"
 #import "SNMPageLog.h"
 #import "SNMSonoma.h"
 #import "SNMSonomaInternal.h"
@@ -32,7 +33,6 @@ static NSString *const kSNMFeatureName = @"Analytics";
     // Init session tracker.
     _sessionTracker = [[SNMSessionTracker alloc] init];
     _sessionTracker.delegate = self;
-    [self.sessionTracker start];
   }
   return self;
 }
@@ -50,14 +50,6 @@ static NSString *const kSNMFeatureName = @"Analytics";
 
 - (void)startFeature {
   [super startFeature];
-
-  // Add delegate to log manager.
-  [self.logManager addDelegate:_sessionTracker];
-
-  // Enabled auto page tracking
-  if (self.autoPageTrackingEnabled) {
-    [SNMAnalyticsCategory activateCategory];
-  }
   SNMLogVerbose(@"SNMAnalytics: Started analytics module");
 }
 
@@ -67,6 +59,16 @@ static NSString *const kSNMFeatureName = @"Analytics";
 
 - (SNMPriority)priority {
   return SNMPriorityDefault;
+}
+
+- (void)onLogManagerReady:(id<SNMLogManager>)logManager {
+  [super onLogManagerReady:logManager];
+
+  // Add delegate to log manager.
+  [self.logManager addDelegate:_sessionTracker];
+
+  // Start session tracker
+  [self.sessionTracker start];
 }
 
 #pragma mark - SNMFeatureAbstract
@@ -111,19 +113,13 @@ static NSString *const kSNMFeatureName = @"Analytics";
 
 + (void)setAutoPageTrackingEnabled:(BOOL)isEnabled {
   @synchronized(self) {
-    if ([[self sharedInstance] canBeUsed]) {
-      [[self sharedInstance] setAutoPageTrackingEnabled:isEnabled];
-    }
+    [[self sharedInstance] setAutoPageTrackingEnabled:isEnabled];
   }
 }
 
 + (BOOL)isAutoPageTrackingEnabled {
   @synchronized(self) {
-    if ([[self sharedInstance] canBeUsed]) {
-      return [[self sharedInstance] isAutoPageTrackingEnabled];
-    } else {
-      return NO;
-    }
+    return [[self sharedInstance] isAutoPageTrackingEnabled];
   }
 }
 

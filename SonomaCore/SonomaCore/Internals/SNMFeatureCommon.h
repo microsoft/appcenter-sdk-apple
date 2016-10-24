@@ -17,6 +17,7 @@
 
 /**
  *  Triggered while log manager is ready to be used.
+ *  Start here anything that produces logs.
  *
  *  @param logManager log manager.
  */
