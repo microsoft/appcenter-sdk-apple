@@ -8,9 +8,6 @@
 #import "SNMEventLog.h"
 #import "SNMFeatureAbstractProtected.h"
 #import "SNMPageLog.h"
-#import "SNMSonoma.h"
-#import "SNMSonomaInternal.h"
-#import "SonomaCore+Internal.h"
 
 /**
  *  Feature storage key name.
@@ -48,6 +45,10 @@ static NSString *const kSNMFeatureName = @"Analytics";
   return sharedInstance;
 }
 
++ (NSString *)getLoggerTag {
+  return @"SonomaAnalytics";
+}
+
 - (void)startFeature {
   [super startFeature];
 
@@ -58,7 +59,7 @@ static NSString *const kSNMFeatureName = @"Analytics";
   if (self.autoPageTrackingEnabled) {
     [SNMAnalyticsCategory activateCategory];
   }
-  SNMLogVerbose(@"SNMAnalytics: Started analytics module");
+  SNMLogVerbose([SNMAnalytics getLoggerTag], @"Started analytics module");
 }
 
 - (NSString *)storageKey {
