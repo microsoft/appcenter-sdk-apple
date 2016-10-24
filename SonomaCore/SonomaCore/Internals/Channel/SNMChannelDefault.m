@@ -3,7 +3,7 @@
  */
 
 #import "SNMChannelDefault.h"
-#import "SonomaCore+Internal.h"
+#import "SNMSonomaInternal.h"
 
 /**
  * Private declarations.
@@ -79,7 +79,7 @@
 
 - (void)enqueueItem:(id <SNMLog>)item withCompletion:(enqueueCompletionBlock)completion {
   if (!item) {
-    SNMLogWarning(@"WARNING: TelemetryItem was nil.");
+    SNMLogWarning([SNMSonoma getLoggerTag], @"TelemetryItem was nil.");
     return;
   }
 
@@ -133,7 +133,8 @@
                    self.pendingBatchQueueFull = YES;
                  }
                  SNMLogContainer *container = [[SNMLogContainer alloc] initWithBatchId:batchId andLogs:logArray];
-                 SNMLogVerbose(@"INFO:Sending log %@", [container serializeLogWithPrettyPrinting:YES]);
+                 SNMLogInfo([SNMSonoma getLoggerTag], @"Sending log %@",
+                            [container serializeLogWithPrettyPrinting:YES]);
 
                  // Notify delegates.
                  [self enumerateDelegatesForSelector:@selector(channel:willSendLog:) withBlock:^(id <SNMChannelDelegate> delegate) {
@@ -148,9 +149,8 @@
                  [self.sender sendAsync:container
                           callbackQueue:self.callbackQueue
                       completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
-                        SNMLogVerbose(@"INFO:HTTP response received with the "
-                                          @"status code:%lu",
-                                      (unsigned long) statusCode);
+                        SNMLogInfo([SNMSonoma getLoggerTag], @"HTTP response received with the status code:%lu",
+                                   (unsigned long) statusCode);
 
                         if (statusCode == 200) {
                           [self enumerateDelegatesForSelector:@selector(channel:didSucceedSendingLog:) withBlock:^(id <SNMChannelDelegate> delegate) {
