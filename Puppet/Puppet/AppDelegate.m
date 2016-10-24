@@ -3,11 +3,13 @@
 #import "SonomaAnalytics.h"
 #import "SonomaCore.h"
 #import "SonomaCrashes.h"
+#import "SNMCrashesDelegate.h"
 
 #import "SNMErrorAttachment.h"
+#import "SNMErrorBinaryAttachment.h"
 #import "SNMErrorReport.h"
 
-@interface AppDelegate ()
+@interface AppDelegate () <SNMCrashesDelegate>
 
 @end
 
@@ -18,12 +20,33 @@
   // Start Sonoma SDK.
   [SNMSonoma setLogLevel:SNMLogLevelVerbose];
 
-  [SNMSonoma start:@"7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7" withFeatures:@[ [SNMAnalytics class], [SNMCrashes class] ]];
+  [SNMSonoma start:@"7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7" withFeatures:@[[SNMAnalytics class], [SNMCrashes class]]];
 
   if ([SNMCrashes hasCrashedInLastSession]) {
     SNMErrorReport *errorReport = [SNMCrashes lastSessionCrashReport];
     NSLog(@"We crashed with Signal: %@", errorReport.signal);
+    SNMDevice *device = [errorReport device];
+    NSString *osVersion = [device osVersion];
+    NSString *appVersion = [device appVersion];
+    NSString *appBuild = [device appBuild];
+    NSLog(@"OS Version is: %@", osVersion);
+    NSLog(@"App Version is: %@", appVersion);
+    NSLog(@"App Build is: %@", appBuild);
   }
+
+  [SNMCrashes setDelegate:self];
+  [SNMCrashes setUserConfirmationHandler:(^(NSArray<SNMErrorReport *> *errorReports) {
+
+    [[[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"crash_alert_title", @"Main", @"")
+                                message:NSLocalizedStringFromTable(@"crash_alert_message", @"Main", @"")
+                               delegate:self
+                      cancelButtonTitle:NSLocalizedStringFromTable(@"crash_alert_do_not_send", @"Main", @"")
+                      otherButtonTitles:NSLocalizedStringFromTable(@"crash_alert_always_send", @"Main", @""),
+                                        NSLocalizedStringFromTable(@"crash_alert_send", @"Main", @""),
+                                        nil]
+        show];
+    return YES;
+  })];
 
   // Print the install Id.
   NSLog(@"%@ Install Id: %@", kPUPLogTag, [[SNMSonoma installId] UUIDString]);
@@ -58,6 +81,47 @@
 - (void)applicationWillTerminate:(UIApplication *)application {
   // Called when the application is about to terminate. Save data if appropriate. See also
   // applicationDidEnterBackground:.
+}
+
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+  switch (buttonIndex) {
+  case 0:[SNMCrashes notifyWithUserConfirmation:SNMUserConfirmationDontSend];
+    break;
+  case 1:[SNMCrashes notifyWithUserConfirmation:SNMUserConfirmationAlways];
+    break;
+  case 2:[SNMCrashes notifyWithUserConfirmation:SNMUserConfirmationSend];
+    break;
+  }
+}
+
+#pragma mark - SNMCrashesDelegate
+
+- (BOOL)crashes:(SNMCrashes *)crashes shouldProcessErrorReport:(SNMErrorReport *)errorReport {
+  NSLog(@"Should process error report with: %@", errorReport.exceptionReason);
+  return YES;
+}
+
+- (SNMErrorAttachment *)attachmentWithCrashes:(SNMCrashes *)crashes forErrorReport:(SNMErrorReport *)errorReport {
+  NSLog(@"Attach additional information to error report with: %@", errorReport.exceptionReason);
+  return [SNMErrorAttachment attachmentWithText:@"Text Attachment"
+                                  andBinaryData:[@"Hello World" dataUsingEncoding:NSUTF8StringEncoding]
+                                       filename:@"binary.txt" mimeType:@"text/plain"];
+}
+
+- (void)crashes:(SNMCrashes *)crashes willSendErrorReport:(SNMErrorReport *)errorReport {
+  NSLog(@"Will send error report with: %@", errorReport.exceptionReason);
+}
+
+- (void)crashes:(SNMCrashes *)crashes didSucceedSendingErrorReport:(SNMErrorReport *)errorReport {
+  NSLog(@"Did succeed error report sending with: %@", errorReport.exceptionReason);
+}
+
+- (void)crashes:(SNMCrashes *)crashes didFailSendingErrorReport:(SNMErrorReport *)errorReport withError:(NSError *)error {
+  NSLog(@"Did fail sending report with: %@, and error %@",
+        errorReport.exceptionReason,
+        error.localizedDescription);
 }
 
 @end

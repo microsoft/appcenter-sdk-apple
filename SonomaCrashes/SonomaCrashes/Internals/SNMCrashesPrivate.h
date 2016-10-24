@@ -55,6 +55,8 @@ typedef struct SNMCrashesCallbacks {
  */
 @property(nonatomic, copy) NSString *analyzerInProgressFile;
 
+@property (nonatomic) id<SNMCrashesDelegate> delegate;
+
 /**
  * The `PLCrashReporter` instance used for crash detection.
  */
@@ -76,11 +78,6 @@ typedef struct SNMCrashesCallbacks {
 @property(nonatomic) BOOL sendingInProgress;
 
 /**
- * The time of initialization, required to calculate offset for crashtime.
- */
-@property(nonatomic, readonly) NSDate *initializationDate;
-
-/**
  * Indicates if the app crashed in the previous session
  *
  * Use this on startup, to check if the app starts the first time after it
@@ -95,12 +92,24 @@ typedef struct SNMCrashesCallbacks {
  */
 @property(atomic, readonly) BOOL didCrashInLastSession;
 
-/*
+/**
  * Detail information about the last crash.
  */
 @property(atomic, readonly, getter=getLastSessionCrashReport) SNMErrorReport *lastSessionCrashReport;
 
-/*
+/**
+ * Temporary storage for crashes logs to handle user confirmation and callbacks.
+ */
+@property(atomic) NSMutableArray *unprocessedLogs;
+@property(atomic) NSMutableArray *unprocessedReports;
+@property(atomic) NSMutableArray *unprocessedFilePaths;
+
+/**
+ * Custom user confirmation handler.
+ */
+@property(atomic) SNMUserConfirmationHandler userConfirmationHandler;
+
+/**
  * Delete all data in crashes directory.
  */
 - (void)deleteAllFromCrashesDirectory;

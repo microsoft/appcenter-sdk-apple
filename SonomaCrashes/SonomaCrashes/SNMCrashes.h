@@ -4,13 +4,16 @@
 
 #import "SNMErrorReport.h"
 #import "SNMFeatureAbstract.h"
+
 #import <UIKit/UIKit.h>
 
+@class SNMCrashesDelegate;
+
 /**
- * Custom block that handles the alert that prompts the user whether he wants to
- * send crash reports
+ * Custom block that handles the alert that prompts the user whether crash reports need to be processed or not.
+ * @return Returns YES to discard crash reports, otherwise NO.
  */
-typedef void (^SNMUserConfirmationHandler)(NSArray<SNMErrorReport *> *_Nonnull errorReports);
+typedef BOOL (^SNMUserConfirmationHandler)(NSArray<SNMErrorReport *> *_Nonnull errorReports);
 
 /**
  * Error Logging status.
@@ -19,15 +22,17 @@ typedef NS_ENUM(NSUInteger, SNMErrorLogSetting) {
   /**
    * Crash reporting is disabled.
    */
-  SNMErrorLogSettingDisabled = 0,
+      SNMErrorLogSettingDisabled = 0,
+
   /**
    * User is asked each time before sending error logs.
    */
-  SNMErrorLogSettingAlwaysAsk = 1,
+      SNMErrorLogSettingAlwaysAsk = 1,
+
   /**
    * Each error log is send automatically.
    */
-  SNMErrorLogSettingAutoSend = 2
+      SNMErrorLogSettingAutoSend = 2
 };
 
 /**
@@ -37,16 +42,18 @@ typedef NS_ENUM(NSUInteger, SNMUserConfirmation) {
   /**
    * User chose not to send the crash report
    */
-  SNMUserConfirmationDontSend = 0,
+      SNMUserConfirmationDontSend = 0,
   /**
    * User wants the crash report to be sent
    */
-  SNMUserConfirmationSend = 1,
+      SNMUserConfirmationSend = 1,
   /**
    * User wants to send all error logs
-   **/
-  SNMUserConfirmationAlways = 2
+   */
+      SNMUserConfirmationAlways = 2
 };
+
+@protocol SNMCrashesDelegate;
 
 @interface SNMCrashes : SNMFeatureAbstract
 
@@ -84,5 +91,32 @@ typedef NS_ENUM(NSUInteger, SNMUserConfirmation) {
  * Provides details about the crash that occurred in the last app session
  */
 + (nullable SNMErrorReport *)lastSessionCrashReport;
+
+/**
+ * Set the delegate
+ *
+ * Defines the class that implements the optional protocol
+ * `SNMCrashesDelegate`.
+ *
+ * @see SNMCrashesDelegate
+ */
++ (void)setDelegate:(_Nullable id <SNMCrashesDelegate>)delegate;
+
+/**
+ * Set a user confirmation handler that is invoked right before processing crash reports to
+ * determine whether sending crash reports or not.
+ *
+ * @param userConfirmationHandler A handler for user confirmation.
+ * @see SNMUserConfirmationHandler
+ */
++ (void)setUserConfirmationHandler:(_Nullable SNMUserConfirmationHandler)userConfirmationHandler;
+
+/**
+ * Notify SDK with a confirmation to handle the crash report.
+ *
+ * @param userConfirmation A user confirmation.
+ * @see SNMUserConfirmation.
+ */
++ (void)notifyWithUserConfirmation:(SNMUserConfirmation)userConfirmation;
 
 @end

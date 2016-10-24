@@ -6,14 +6,10 @@
 #import "SNMFeatureAbstractInternal.h"
 #import "SNMFeatureAbstractPrivate.h"
 #import "SNMSonomaInternal.h"
-#import "SNMUserDefaults.h"
-#import "SNMUtils.h"
-#import "SonomaCore+Internal.h"
 
 @implementation SNMFeatureAbstract
 
 @synthesize logManager = _logManager;
-@synthesize delegate = _delegate;
 
 - (instancetype)init {
   return [self initWithStorage:kSNMUserDefaults];
@@ -59,9 +55,10 @@
 - (BOOL)canBeUsed {
   BOOL canBeUsed = [SNMSonoma sharedInstance].sdkStarted && self.featureInitialized;
   if (!canBeUsed) {
-    SNMLogError(@"[%@] ERROR: %@ module hasn't been initialized. You need to call [SNMSonoma "
-                @"start:YOUR_APP_SECRET withFeatures:LIST_OF_FEATURES] first.",
-                CLASS_NAME_WITHOUT_PREFIX, CLASS_NAME_WITHOUT_PREFIX);
+    SNMLogError([SNMSonoma getLoggerTag],
+                @"%@ module hasn't been initialized. You need to call "
+                @"[SNMSonoma start:YOUR_APP_SECRET withFeatures:LIST_OF_FEATURES] first.",
+                CLASS_NAME_WITHOUT_PREFIX);
   }
   return canBeUsed;
 }
@@ -79,8 +76,9 @@
   @synchronized([self sharedInstance]) {
     if ([[self sharedInstance] canBeUsed] && [[self sharedInstance] isEnabled] != isEnabled) {
       if (![SNMSonoma isEnabled] && ![SNMSonoma sharedInstance].enabledStateUpdating) {
-        SNMLogError(@"[%@] ERROR: The SDK is disabled. Re-enable the SDK from the core module first before "
-                    @"enabling a specific feature.",
+        SNMLogError([SNMSonoma getLoggerTag],
+                    @"The SDK is disabled. Re-enable the SDK from the core module "
+                    @"first before enabling %@ feature.",
                     CLASS_NAME_WITHOUT_PREFIX);
       } else {
         [[self sharedInstance] setEnabled:isEnabled];
