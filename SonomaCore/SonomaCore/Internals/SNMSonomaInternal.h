@@ -5,7 +5,6 @@
 #import "SNMFeatureInternal.h"
 #import "SNMLogManager.h"
 #import "SNMSonoma.h"
-#import "SNMSonomaDelegate.h"
 #import "SonomaCore+Internal.h"
 #import <Foundation/Foundation.h>
 
@@ -15,10 +14,10 @@ static NSString *const kSNMCoreIsEnabledKey = @"kSNMCoreIsEnabledKey";
 
 @class SNMFeature;
 
-@interface SNMSonoma () <SNMSonomaDelegate>
+@interface SNMSonoma ()
 
-@property(nonatomic) id<SNMLogManager> logManager;
-@property(nonatomic) NSMutableArray<NSObject<SNMFeatureInternal> *> *features;
+@property(nonatomic) id <SNMLogManager> logManager;
+@property(nonatomic) NSMutableArray<NSObject <SNMFeatureInternal> *> *features;
 @property(nonatomic, copy) NSString *appSecret;
 @property(nonatomic) NSString *serverUrl;
 @property(nonatomic, readonly) NSUUID *installId;
@@ -50,5 +49,12 @@ static NSString *const kSNMCoreIsEnabledKey = @"kSNMCoreIsEnabledKey";
  *  @see setEnabled:
  */
 - (BOOL)isEnabled;
+
+/**
+ * Get the logger tag for core module.
+ *
+ * @return A name of logger tag for core module.
+ */
++ (NSString *)getLoggerTag;
 
 @end

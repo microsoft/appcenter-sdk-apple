@@ -3,6 +3,8 @@
  */
 
 #import "SNMDevice.h"
+#import "SNMDevicePrivate.h"
+#import "SNMWrapperSdkPrivate.h"
 
 static NSString *const kSNMSdkName = @"sdk_name";
 static NSString *const kSNMSdkVersion = @"sdk_version";
@@ -79,8 +81,8 @@ static NSString *const kSNMAppNamespace = @"app_namespace";
 
 - (BOOL)isValid {
   return self.sdkName && self.sdkVersion && self.model && self.oemName &&
-         self.osName && self.osBuild && self.osVersion && self.locale && self.timeZoneOffset &&
-         self.screenSize && self.appVersion && self.appBuild;
+      self.osName && self.osBuild && self.osVersion && self.locale && self.timeZoneOffset &&
+      self.screenSize && self.appVersion && self.appBuild;
 }
 
 - (BOOL)isEqual:(SNMDevice *)device {
@@ -89,23 +91,23 @@ static NSString *const kSNMAppNamespace = @"app_namespace";
     return NO;
 
   return ((!self.sdkName && !device.sdkName) || [self.sdkName isEqualToString:device.sdkName]) &&
-         ((!self.sdkVersion && !device.sdkVersion) || [self.sdkVersion isEqualToString:device.sdkVersion]) &&
-         ((!self.model && !device.model) || [self.model isEqualToString:device.model]) &&
-         ((!self.oemName && !device.oemName) || [self.oemName isEqualToString:device.oemName]) &&
-         ((!self.osName && !device.osName) || [self.osName isEqualToString:device.osName]) &&
-         ((!self.osVersion && !device.osVersion) || [self.osVersion isEqualToString:device.osVersion]) &&
-         ((!self.osBuild && !device.osBuild) || [self.osBuild isEqualToString:device.osBuild]) &&
-         ((!self.osApiLevel && !device.osApiLevel) || [self.osApiLevel isEqualToNumber:device.osApiLevel]) &&
-         ((!self.locale && !device.locale) || [self.locale isEqualToString:device.locale]) &&
-         ((!self.timeZoneOffset && !device.timeZoneOffset) ||
+      ((!self.sdkVersion && !device.sdkVersion) || [self.sdkVersion isEqualToString:device.sdkVersion]) &&
+      ((!self.model && !device.model) || [self.model isEqualToString:device.model]) &&
+      ((!self.oemName && !device.oemName) || [self.oemName isEqualToString:device.oemName]) &&
+      ((!self.osName && !device.osName) || [self.osName isEqualToString:device.osName]) &&
+      ((!self.osVersion && !device.osVersion) || [self.osVersion isEqualToString:device.osVersion]) &&
+      ((!self.osBuild && !device.osBuild) || [self.osBuild isEqualToString:device.osBuild]) &&
+      ((!self.osApiLevel && !device.osApiLevel) || [self.osApiLevel isEqualToNumber:device.osApiLevel]) &&
+      ((!self.locale && !device.locale) || [self.locale isEqualToString:device.locale]) &&
+      ((!self.timeZoneOffset && !device.timeZoneOffset) ||
           [self.timeZoneOffset isEqualToNumber:device.timeZoneOffset]) &&
-         ((!self.screenSize && !device.screenSize) || [self.screenSize isEqualToString:device.screenSize]) &&
-         ((!self.appVersion && !device.appVersion) || [self.appVersion isEqualToString:device.appVersion]) &&
-         ((!self.carrierName && !device.carrierName) || [self.carrierName isEqualToString:device.carrierName]) &&
-         ((!self.carrierCountry && !device.carrierCountry) ||
+      ((!self.screenSize && !device.screenSize) || [self.screenSize isEqualToString:device.screenSize]) &&
+      ((!self.appVersion && !device.appVersion) || [self.appVersion isEqualToString:device.appVersion]) &&
+      ((!self.carrierName && !device.carrierName) || [self.carrierName isEqualToString:device.carrierName]) &&
+      ((!self.carrierCountry && !device.carrierCountry) ||
           [self.carrierCountry isEqualToString:device.carrierCountry]) &&
-         ((!self.appBuild && !device.appBuild) || [self.appBuild isEqualToString:device.appBuild]) &&
-         ((!self.appNamespace && !device.appNamespace) || [self.appNamespace isEqualToString:device.appNamespace]);
+      ((!self.appBuild && !device.appBuild) || [self.appBuild isEqualToString:device.appBuild]) &&
+      ((!self.appNamespace && !device.appNamespace) || [self.appNamespace isEqualToString:device.appNamespace]);
 }
 
 #pragma mark - NSCoding
@@ -113,7 +115,7 @@ static NSString *const kSNMAppNamespace = @"app_namespace";
 - (instancetype)initWithCoder:(NSCoder *)coder {
   self = [super initWithCoder:coder];
   if (self) {
-    _sdkName =[coder decodeObjectForKey:kSNMSdkName];
+    _sdkName = [coder decodeObjectForKey:kSNMSdkName];
     _sdkVersion = [coder decodeObjectForKey:kSNMSdkVersion];
     _model = [coder decodeObjectForKey:kSNMModel];
     _oemName = [coder decodeObjectForKey:kSNMOemName];

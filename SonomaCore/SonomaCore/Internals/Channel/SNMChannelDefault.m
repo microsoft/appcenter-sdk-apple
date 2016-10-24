@@ -3,7 +3,7 @@
  */
 
 #import "SNMChannelDefault.h"
-#import "SonomaCore+Internal.h"
+#import "SNMSonomaInternal.h"
 
 /**
  * Private declarations.
@@ -39,12 +39,14 @@
     _pendingBatchQueueFull = NO;
     _availableBatchFromStorage = NO;
     _enabled = YES;
+
+    _delegates = [NSHashTable weakObjectsHashTable];
   }
   return self;
 }
 
-- (instancetype)initWithSender:(id<SNMSender>)sender
-                       storage:(id<SNMStorage>)storage
+- (instancetype)initWithSender:(id <SNMSender>)sender
+                       storage:(id <SNMStorage>)storage
                  configuration:(SNMChannelConfiguration *)configuration
                  callbackQueue:(dispatch_queue_t)callbackQueue {
   if (self = [self init]) {
@@ -59,15 +61,25 @@
   return self;
 }
 
+#pragma mark - SNMChannelDelegate
+
+- (void)addDelegate:(id <SNMChannelDelegate>)delegate {
+  [self.delegates addObject:delegate];
+}
+
+- (void)removeDelegate:(id <SNMChannelDelegate>)delegate {
+  [self.delegates removeObject:delegate];
+}
+
 #pragma mark - Managing queue
 
-- (void)enqueueItem:(id<SNMLog>)item {
+- (void)enqueueItem:(id <SNMLog>)item {
   [self enqueueItem:item withCompletion:nil];
 }
 
-- (void)enqueueItem:(id<SNMLog>)item withCompletion:(enqueueCompletionBlock)completion {
+- (void)enqueueItem:(id <SNMLog>)item withCompletion:(enqueueCompletionBlock)completion {
   if (!item) {
-    SNMLogWarning(@"WARNING: TelemetryItem was nil.");
+    SNMLogWarning([SNMSonoma getLoggerTag], @"TelemetryItem was nil.");
     return;
   }
 
@@ -112,7 +124,7 @@
   self.itemsCount = 0;
   self.availableBatchFromStorage = [self.storage
       loadLogsForStorageKey:self.configuration.name
-             withCompletion:^(BOOL succeeded, NSArray<SNMLog> *_Nullable logArray, NSString *_Nullable batchId) {
+             withCompletion:^(BOOL succeeded, NSArray <SNMLog> *_Nullable logArray, NSString *_Nullable batchId) {
 
                // Logs may be deleted from storage before this flush.
                if (succeeded) {
@@ -121,15 +133,39 @@
                    self.pendingBatchQueueFull = YES;
                  }
                  SNMLogContainer *container = [[SNMLogContainer alloc] initWithBatchId:batchId andLogs:logArray];
-                 SNMLogVerbose(@"INFO:Sending log %@", [container serializeLogWithPrettyPrinting:YES]);
+                 SNMLogInfo([SNMSonoma getLoggerTag], @"Sending log %@",
+                            [container serializeLogWithPrettyPrinting:YES]);
+
+                 // Notify delegates.
+                 [self enumerateDelegatesForSelector:@selector(channel:willSendLog:) withBlock:^(id <SNMChannelDelegate> delegate) {
+                   for (id <SNMLog> aLog in logArray) {
+                     [delegate channel:self willSendLog:aLog];
+                   }
+                 }];
+
+                 __block NSArray <SNMLog> *_Nullable logs = [logArray copy];
 
                  // Forward logs to the sender.
                  [self.sender sendAsync:container
                           callbackQueue:self.callbackQueue
                       completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
-                        SNMLogVerbose(@"INFO:HTTP response received with the "
-                                      @"status code:%lu",
-                                      (unsigned long)statusCode);
+                        SNMLogInfo([SNMSonoma getLoggerTag], @"HTTP response received with the status code:%lu",
+                                   (unsigned long) statusCode);
+
+                        if (statusCode == 200) {
+                          [self enumerateDelegatesForSelector:@selector(channel:didSucceedSendingLog:) withBlock:^(id <SNMChannelDelegate> delegate) {
+                            for (id <SNMLog> aLog in logs) {
+                              [delegate channel:self didSucceedSendingLog:aLog];
+                            }
+                          }];
+                        } else {
+                          [self enumerateDelegatesForSelector:@selector(channel:didFailSendingLog:withError:) withBlock:^(
+                              id <SNMChannelDelegate> delegate) {
+                            for (id <SNMLog> aLog in logs) {
+                              [delegate channel:self didFailSendingLog:aLog withError:error];
+                            }
+                          }];
+                        }
 
                         // Remove from pending logs and storage.
                         [self.pendingBatchIds removeObject:batchId];
@@ -150,6 +186,14 @@
   // Flush again if there is another batch to send.
   if (self.availableBatchFromStorage && !self.pendingBatchQueueFull) {
     [self flushQueue];
+  }
+}
+
+- (void)enumerateDelegatesForSelector:(SEL)selector withBlock:(void (^)(id <SNMChannelDelegate> delegate))block {
+  for (id <SNMChannelDelegate> delegate in self.delegates) {
+    if (delegate && [delegate respondsToSelector:selector]) {
+      block(delegate);
+    }
   }
 }
 
@@ -227,11 +271,11 @@
 
 #pragma mark - SNMSenderDelegate
 
-- (void)senderDidSuspend:(id<SNMSender>)sender {
+- (void)senderDidSuspend:(id <SNMSender>)sender {
   [self suspend];
 }
 
-- (void)senderDidResume:(id<SNMSender>)sender {
+- (void)senderDidResume:(id <SNMSender>)sender {
   [self resume];
 }
 

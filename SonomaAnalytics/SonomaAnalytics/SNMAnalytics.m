@@ -8,9 +8,6 @@
 #import "SNMEventLog.h"
 #import "SNMFeatureAbstractProtected.h"
 #import "SNMPageLog.h"
-#import "SNMSonoma.h"
-#import "SNMSonomaInternal.h"
-#import "SonomaCore+Internal.h"
 
 /**
  *  Feature storage key name.
@@ -48,17 +45,21 @@ static NSString *const kSNMFeatureName = @"Analytics";
   return sharedInstance;
 }
 
++ (NSString *)getLoggerTag {
+  return @"SonomaAnalytics";
+}
+
 - (void)startFeature {
   [super startFeature];
 
-  // Add listener to log manager.
-  [self.logManager addListener:_sessionTracker];
+  // Add delegate to log manager.
+  [self.logManager addDelegate:_sessionTracker];
 
   // Enabled auto page tracking
   if (self.autoPageTrackingEnabled) {
     [SNMAnalyticsCategory activateCategory];
   }
-  SNMLogVerbose(@"SNMAnalytics: Started analytics module");
+  SNMLogVerbose([SNMAnalytics getLoggerTag], @"Started analytics module");
 }
 
 - (NSString *)storageKey {
@@ -74,9 +75,9 @@ static NSString *const kSNMFeatureName = @"Analytics";
 - (void)setEnabled:(BOOL)isEnabled {
   if (isEnabled) {
     [self.sessionTracker start];
-    [self.logManager addListener:self.sessionTracker];
+    [self.logManager addDelegate:self.sessionTracker];
   } else {
-    [self.logManager removeListener:self.sessionTracker];
+    [self.logManager removeDelegate:self.sessionTracker];
     [self.sessionTracker stop];
     [self.sessionTracker clearSessions];
   }

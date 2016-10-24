@@ -4,7 +4,7 @@
 
 #import "SNMLogger.h"
 #import "SNMUserDefaults.h"
-#import "SNMUtils.h"
+#import "SNMSonomaInternal.h"
 
 static NSString *const kSNMUserDefaultsTs = @"_ts";
 
@@ -37,7 +37,7 @@ static NSString *const kSNMUserDefaultsTs = @"_ts";
   /* Get from local store */
   NSDictionary *store = [[NSUserDefaults standardUserDefaults] dictionaryForKey:key];
   CFAbsoluteTime ts = [store[kSNMUserDefaultsTs] floatValue];
-  SNMLogVerbose(@"Settings:store[%@]=%@", key, store);
+  SNMLogVerbose([SNMSonoma getLoggerTag], @"Settings:store[%@]=%@", key, store);
 
   /* Force update if timestamp expiration is reached */
   if (ts <= 0.0 || expiration <= 0.0 || fabs(CFAbsoluteTimeGetCurrent() - ts) < expiration) {
@@ -50,7 +50,7 @@ static NSString *const kSNMUserDefaultsTs = @"_ts";
 
   /* If still values to update */
   if ([update count] > 0) {
-    SNMLogDebug(@"Settings:update[%@]=%@", key, update);
+    SNMLogDebug([SNMSonoma getLoggerTag], @"Settings:update[%@]=%@", key, update);
 
     /* Copy store as a mutable version */
     NSMutableDictionary *d = [store mutableCopy];

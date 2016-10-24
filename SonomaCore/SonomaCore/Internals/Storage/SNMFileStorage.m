@@ -3,6 +3,7 @@
 #import "SNMFileStorage.h"
 #import "SNMLogger.h"
 #import "SNMUtils.h"
+#import "SNMSonomaInternal.h"
 
 static NSString *const kSNMLogsDirectory = @"com.microsoft.sonoma/logs";
 static NSString *const kSNMFileExtension = @"snm";
@@ -175,7 +176,7 @@ static NSUInteger const SNMDefaultLogCountLimit = 50;
       _baseDirectoryPath = [appSupportPath stringByAppendingPathComponent:kSNMLogsDirectory];
     }
 
-    SNMLogVerbose(@"Storage Path:\n%@", _baseDirectoryPath);
+    SNMLogVerbose([SNMSonoma getLoggerTag], @"Storage Path:\n%@", _baseDirectoryPath);
   }
 
   return _baseDirectoryPath;

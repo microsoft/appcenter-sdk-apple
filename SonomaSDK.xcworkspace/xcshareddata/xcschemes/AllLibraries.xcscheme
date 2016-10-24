@@ -86,9 +86,19 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E85547D41D2D6723002DF6E2"
-               BuildableName = "SonomaCrashes.xctest"
+               BuildableName = "SonomaAnalytics.xctest"
                BlueprintName = "SonomaAnalyticsTests"
                ReferencedContainer = "container:SonomaAnalytics/SonomaAnalytics.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "6E171AE01D22F781000DC480"
+               BuildableName = "SonomaCrashes.xctest"
+               BlueprintName = "SonomaCrashesTests"
+               ReferencedContainer = "container:SonomaCrashes/SonomaCrashes.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
