@@ -15,4 +15,8 @@ FOUNDATION_EXPORT SNMLogHandler const defaultLogHandler;
  */
 + (void)setIsUserDefinedLogLevel:(BOOL)isUserDefinedLogLevel;
 
++ (SNMLogLevel)currentLogLevel;
++ (void)setCurrentLogLevel:(SNMLogLevel)currentLogLevel;
++ (void)setLogHandler:(SNMLogHandler)logHandler;
+
 @end

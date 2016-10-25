@@ -1,4 +1,5 @@
 #import "SNMLogger.h"
+#import "SNMWrapperLogger.h"
 
 @implementation SNMLogger
 
