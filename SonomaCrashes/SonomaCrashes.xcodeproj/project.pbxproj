@@ -548,7 +548,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = SNM;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = Microsoft;
 				TargetAttributes = {
 					6E0401321D1C98690051BCFA = {
