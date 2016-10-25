@@ -34,9 +34,6 @@
 
 @interface SNMLogger : NSObject
 
-+ (SNMLogLevel)currentLogLevel;
-+ (void)setCurrentLogLevel:(SNMLogLevel)currentLogLevel;
-+ (void)setLogHandler:(SNMLogHandler)logHandler;
 + (void)logMessage:(SNMLogMessageProvider)messageProvider
              level:(SNMLogLevel)loglevel
                tag:(NSString *)tag
