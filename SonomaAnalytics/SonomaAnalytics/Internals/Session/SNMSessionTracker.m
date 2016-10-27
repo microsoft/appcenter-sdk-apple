@@ -2,6 +2,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
+#import "SNMAnalytics.h"
 #import "SNMSessionTracker.h"
 #import "SNMStartSessionLog.h"
 #import "SonomaCore+Internal.h"
@@ -116,10 +117,9 @@ static NSUInteger const kSNMMaxSessionHistoryCount = 5;
 
 - (void)stop {
   if (_started) {
-    [kSNMNotificationCenter removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
-    [kSNMNotificationCenter removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
+    [kSNMNotificationCenter removeObserver:self];
+    _started = NO;
   }
-  _started = NO;
 }
 
 - (void)clearSessions {
@@ -141,8 +141,9 @@ static NSUInteger const kSNMMaxSessionHistoryCount = 5;
   @synchronized(self) {
     NSDate *now = [NSDate date];
 
-    // Verify if last time that a log was sent is longer than the session timeout time.
-    BOOL noLogSentForLong = [now timeIntervalSinceDate:self.lastCreatedLogTime] >= self.sessionTimeout;
+    // Verify if a log has already been sent and if it was sent a longer time ago than the session timeout.
+    BOOL noLogSentForLong =
+        !self.lastCreatedLogTime || [now timeIntervalSinceDate:self.lastCreatedLogTime] >= self.sessionTimeout;
 
     // Verify if app is currently in the background for a longer time than the session timeout.
     BOOL isBackgroundForLong =
@@ -167,7 +168,7 @@ static NSUInteger const kSNMMaxSessionHistoryCount = 5;
 - (void)applicationWillEnterForeground {
   self.lastEnteredForegroundTime = [NSDate date];
 
-  // Trigger session renewal has needed.
+  // Trigger session renewal.
   [self sessionId];
 }
 
