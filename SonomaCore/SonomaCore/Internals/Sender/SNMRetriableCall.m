@@ -16,7 +16,7 @@ static NSUInteger kSNMMaxRetryCount = 3;
 
 @synthesize completionHandler = _completionHandler;
 @synthesize isProcessing = _isProcessing;
-@synthesize callbackQueue = _callbackQueue;
+@synthesize logsDispatchQueue = _logsDispatchQueue;
 @synthesize logContainer = _logContainer;
 @synthesize delegate = _delegate;
 
@@ -95,7 +95,7 @@ static NSUInteger kSNMMaxRetryCount = 3;
     [sender callCompletedWithId:self.logContainer.batchId];
 
     // Call completion async.
-    dispatch_async(self.callbackQueue, ^{
+    dispatch_async(self.logsDispatchQueue, ^{
       self.completionHandler(self.logContainer.batchId, error, statusCode);
     });
   }

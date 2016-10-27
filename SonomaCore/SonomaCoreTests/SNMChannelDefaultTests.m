@@ -16,6 +16,21 @@ static NSString *const kSNMTestPriorityName = @"Prio";
 
 @property(nonatomic, strong) SNMChannelDefault *sut;
 
+@property(nonatomic, strong) dispatch_queue_t logsDispatchQueue;
+
+@property(nonatomic, strong) SNMChannelConfiguration *configMock;
+
+@property(nonatomic, strong) id<SNMStorage> storageMock;
+
+@property(nonatomic, strong) id<SNMSender> senderMock;
+
+/**
+ * Most of the channel APIs are asynchronous, this expectation is meant to be enqueued to the data dispatch queue
+ * at the end of the test before any asserts. Then it will be triggered on the next queue loop right after the channel
+ * finished its job. Wrap asserts within the handler of a waitForExpectationsWithTimeout method.
+ */
+@property(nonatomic, strong) XCTestExpectation *channelEndJobExpectation;
+
 @end
 
 @implementation SNMChannelDefaultTests
@@ -25,8 +40,14 @@ static NSString *const kSNMTestPriorityName = @"Prio";
 - (void)setUp {
   [super setUp];
 
-  // TODO: Use mocks once protocols are available
-  _sut = [SNMChannelDefault new];
+  _logsDispatchQueue = dispatch_get_main_queue();
+  _configMock = OCMClassMock([SNMChannelConfiguration class]);
+  _storageMock = OCMProtocolMock(@protocol(SNMStorage));
+  _senderMock = OCMProtocolMock(@protocol(SNMSender));
+  _sut = [[SNMChannelDefault alloc] initWithSender:_senderMock
+                                           storage:_storageMock
+                                     configuration:_configMock
+                                 logsDispatchQueue:_logsDispatchQueue];
 }
 
 - (void)tearDown {
@@ -38,25 +59,17 @@ static NSString *const kSNMTestPriorityName = @"Prio";
 #pragma mark - Tests
 
 - (void)testNewInstanceWasInitialisedCorrectly {
-  id configMock = OCMClassMock([SNMChannelConfiguration class]);
-  id storageMock = OCMProtocolMock(@protocol(SNMStorage));
-  id senderMock = OCMProtocolMock(@protocol(SNMSender));
-
-  SNMChannelDefault *sut = [[SNMChannelDefault alloc] initWithSender:senderMock
-                                                             storage:storageMock
-                                                       configuration:configMock
-                                                       callbackQueue:dispatch_get_main_queue()];
-
-  assertThat(sut, notNilValue());
-  assertThat(sut.configuration, equalTo(configMock));
-  assertThat(sut.sender, equalTo(senderMock));
-  assertThat(sut.storage, equalTo(storageMock));
-  assertThatUnsignedLong(sut.itemsCount, equalToInt(0));
+  assertThat(self.sut, notNilValue());
+  assertThat(self.sut.configuration, equalTo(self.configMock));
+  assertThat(self.sut.sender, equalTo(self.senderMock));
+  assertThat(self.sut.storage, equalTo(self.storageMock));
+  assertThatUnsignedLong(self.sut.itemsCount, equalToInt(0));
 }
 
 - (void)testEnqueuingItemsWillIncreaseCounter {
 
   // If
+  [self initChannelEndJobExpectation];
   SNMChannelConfiguration *config = [[SNMChannelConfiguration alloc] initWithPriorityName:kSNMTestPriorityName
                                                                             flushInterval:5
                                                                            batchSizeLimit:10
@@ -66,17 +79,21 @@ static NSString *const kSNMTestPriorityName = @"Prio";
 
   // When
   for (int i = 1; i <= itemsToAdd; i++) {
-
     [self.sut enqueueItem:[SNMAbstractLog new]];
   }
+  [self queueChannelEndJobExpectation];
 
   // Then
-  assertThatUnsignedLong(self.sut.itemsCount, equalToInt(itemsToAdd));
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 assertThatUnsignedLong(self.sut.itemsCount, equalToInt(itemsToAdd));
+                               }];
 }
 
 - (void)testQueueFlushedAfterBatchSizeReached {
 
   // If
+  [self initChannelEndJobExpectation];
   SNMChannelConfiguration *config = [[SNMChannelConfiguration alloc] initWithPriorityName:kSNMTestPriorityName
                                                                             flushInterval:0.0
                                                                            batchSizeLimit:3
@@ -95,6 +112,7 @@ static NSString *const kSNMTestPriorityName = @"Prio";
              }
            }];
   }
+  [self queueChannelEndJobExpectation];
 
   // Then
   [self waitForExpectationsWithTimeout:1
@@ -106,14 +124,15 @@ static NSString *const kSNMTestPriorityName = @"Prio";
 - (void)testBatchQueueLimit {
 
   // If
+  [self initChannelEndJobExpectation];
   __block id<SNMLog> log;
-  __block int currentBatchId;
+  __block int currentBatchId = 1;
   __block NSMutableArray<NSString *> *sentBatchIds = [NSMutableArray new];
   int expectedMaxPendingBatched = 2;
 
   // Set up mock and stubs.
   id senderMock = OCMProtocolMock(@protocol(SNMSender));
-  OCMStub([senderMock sendAsync:[OCMArg any] callbackQueue:[OCMArg any] completionHandler:[OCMArg any]])
+  OCMStub([senderMock sendAsync:[OCMArg any] logsDispatchQueue:[OCMArg any] completionHandler:[OCMArg any]])
       .andDo(^(NSInvocation *invocation) {
         SNMLogContainer *container;
         [invocation getArgument:&container atIndex:2];
@@ -129,7 +148,7 @@ static NSString *const kSNMTestPriorityName = @"Prio";
 
         // Mock load.
         [invocation getArgument:&loadCallback atIndex:3];
-        loadCallback(YES, ((NSArray<SNMLog> *)@[ log ]), [@(currentBatchId) stringValue]);
+        loadCallback(YES, ((NSArray<SNMLog> *)@[ log ]), [@(currentBatchId++) stringValue]);
       });
   SNMChannelConfiguration *config = [[SNMChannelConfiguration alloc] initWithPriorityName:kSNMTestPriorityName
                                                                             flushInterval:0.0
@@ -139,21 +158,25 @@ static NSString *const kSNMTestPriorityName = @"Prio";
   SNMChannelDefault *sut = [[SNMChannelDefault alloc] initWithSender:senderMock
                                                              storage:storageMock
                                                        configuration:config
-                                                       callbackQueue:dispatch_get_main_queue()];
+                                                   logsDispatchQueue:self.logsDispatchQueue];
 
   // When
   for (int i = 1; i <= expectedMaxPendingBatched + 1; i++) {
-    currentBatchId = i;
     log = [SNMAbstractLog new];
     [sut enqueueItem:log];
   }
+  [self queueChannelEndJobExpectation];
 
   // Then
-  assertThatUnsignedLong(sut.pendingBatchIds.count, equalToInt(expectedMaxPendingBatched));
-  assertThatUnsignedLong(sentBatchIds.count, equalToInt(expectedMaxPendingBatched));
-  assertThat(sentBatchIds[0], is(@"1"));
-  assertThat(sentBatchIds[1], is(@"2"));
-  assertThatBool(sut.pendingBatchQueueFull, isTrue());
+  [self
+      waitForExpectationsWithTimeout:1
+                             handler:^(NSError *error) {
+                               assertThatUnsignedLong(sut.pendingBatchIds.count, equalToInt(expectedMaxPendingBatched));
+                               assertThatUnsignedLong(sentBatchIds.count, equalToInt(expectedMaxPendingBatched));
+                               assertThat(sentBatchIds[0], is(@"1"));
+                               assertThat(sentBatchIds[1], is(@"2"));
+                               assertThatBool(sut.pendingBatchQueueFull, isTrue());
+                             }];
 }
 
 - (void)testNextBatchSentIfPendingQueueGotRoomAgain {
@@ -161,6 +184,8 @@ static NSString *const kSNMTestPriorityName = @"Prio";
   /**
    * If
    */
+  [self initChannelEndJobExpectation];
+  XCTestExpectation *oneLogSentExpectation = [self expectationWithDescription:@"One log sent"];
   __block SNMSendAsyncCompletionHandler senderBlock;
   __block SNMLogContainer *lastBatchLogContainer;
   __block int currentBatchId = 1;
@@ -168,7 +193,7 @@ static NSString *const kSNMTestPriorityName = @"Prio";
 
   // Init mocks.
   id senderMock = OCMProtocolMock(@protocol(SNMSender));
-  OCMStub([senderMock sendAsync:[OCMArg any] callbackQueue:[OCMArg any] completionHandler:[OCMArg any]])
+  OCMStub([senderMock sendAsync:[OCMArg any] logsDispatchQueue:[OCMArg any] completionHandler:[OCMArg any]])
       .andDo(^(NSInvocation *invocation) {
 
         // Get sender bloc for later call.
@@ -203,7 +228,7 @@ static NSString *const kSNMTestPriorityName = @"Prio";
   SNMChannelDefault *sut = [[SNMChannelDefault alloc] initWithSender:senderMock
                                                              storage:storageMock
                                                        configuration:config
-                                                       callbackQueue:dispatch_get_main_queue()];
+                                                   logsDispatchQueue:dispatch_get_main_queue()];
 
   /**
    * When
@@ -211,14 +236,17 @@ static NSString *const kSNMTestPriorityName = @"Prio";
   [sut enqueueItem:log];
 
   // Try to release one batch.
-  senderBlock([@(currentBatchId) stringValue], nil, @(200));
+  dispatch_async(self.logsDispatchQueue, ^{
+    senderBlock([@(currentBatchId) stringValue], nil, @(200));
 
-  /**
-   * Then
-   */
+    /**
+     * Then
+     */
 
-  // Batch queue should not be full;
-  assertThatBool(sut.pendingBatchQueueFull, isFalse());
+    // Batch queue should not be full;
+    assertThatBool(sut.pendingBatchQueueFull, isFalse());
+    [oneLogSentExpectation fulfill];
+  });
 
   /**
    * When
@@ -229,25 +257,26 @@ static NSString *const kSNMTestPriorityName = @"Prio";
   log = [SNMAbstractLog new];
   log.toffset = @(currentBatchId);
   [sut enqueueItem:log];
+  [self queueChannelEndJobExpectation];
 
   /**
    * Then
    */
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
 
-  // Get sure it has been sent.
-  assertThat(lastBatchLogContainer.batchId, is([@(currentBatchId) stringValue]));
+                                 // Get sure it has been sent.
+                                 assertThat(lastBatchLogContainer.batchId, is([@(currentBatchId) stringValue]));
+                               }];
 }
 
 - (void)testDontForwardLogsToSenderOnDisabled {
 
   // If
-  __block BOOL logForwarded;
+  [self initChannelEndJobExpectation];
   __block id<SNMLog> log = [SNMAbstractLog new];
   id senderMock = OCMProtocolMock(@protocol(SNMSender));
-  OCMStub([senderMock sendAsync:[OCMArg any] callbackQueue:[OCMArg any] completionHandler:[OCMArg any]])
-      .andDo(^(NSInvocation *invocation) {
-        logForwarded = YES;
-      });
+  OCMStub([senderMock sendAsync:[OCMArg any] logsDispatchQueue:[OCMArg any] completionHandler:[OCMArg any]]);
   id storageMock = OCMProtocolMock(@protocol(SNMStorage));
   OCMStub([storageMock
       loadLogsForStorageKey:kSNMTestPriorityName
@@ -260,22 +289,31 @@ static NSString *const kSNMTestPriorityName = @"Prio";
   SNMChannelDefault *sut = [[SNMChannelDefault alloc] initWithSender:senderMock
                                                              storage:storageMock
                                                        configuration:config
-                                                       callbackQueue:dispatch_get_main_queue()];
+                                                   logsDispatchQueue:dispatch_get_main_queue()];
   /**
    * When
    */
   [sut setEnabled:NO andDeleteDataOnDisabled:NO];
   [sut enqueueItem:log];
+  [self queueChannelEndJobExpectation];
 
   /**
    * Then
    */
-  assertThatBool(logForwarded, isFalse());
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+
+                                 // Get sure it hasn't been sent.
+                                 OCMReject([senderMock sendAsync:[OCMArg any]
+                                               logsDispatchQueue:[OCMArg any]
+                                               completionHandler:[OCMArg any]]);
+                               }];
 }
 
 - (void)testDeleteDataOnDisabled {
 
   // If
+  [self initChannelEndJobExpectation];
   id senderMock = OCMProtocolMock(@protocol(SNMSender));
   id storageMock = OCMProtocolMock(@protocol(SNMStorage));
   id<SNMLog> log = [SNMAbstractLog new];
@@ -290,14 +328,34 @@ static NSString *const kSNMTestPriorityName = @"Prio";
   SNMChannelDefault *sut = [[SNMChannelDefault alloc] initWithSender:senderMock
                                                              storage:storageMock
                                                        configuration:config
-                                                       callbackQueue:dispatch_get_main_queue()];
+                                                   logsDispatchQueue:dispatch_get_main_queue()];
   // When
   [sut enqueueItem:log];
   [sut setEnabled:NO andDeleteDataOnDisabled:YES];
+  [self queueChannelEndJobExpectation];
 
   // Then
-  OCMVerify([storageMock deleteLogsForStorageKey:kSNMTestPriorityName]);
-  assertThatUnsignedLong(sut.pendingBatchIds.count, equalToInt(0));
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+
+                                 // Check that logs as been requested for deletion and that there is no batch left.
+                                 OCMVerify([storageMock deleteLogsForStorageKey:kSNMTestPriorityName]);
+                                 assertThatUnsignedLong(sut.pendingBatchIds.count, equalToInt(0));
+                               }];
+}
+
+#pragma mark - Helper
+
+- (void)initChannelEndJobExpectation {
+  _channelEndJobExpectation = [self expectationWithDescription:@"Channel job should be finished"];
+}
+
+- (void)queueChannelEndJobExpectation {
+
+  // Enqueue end job expectation on channel's queue to detect when channel finished processing.
+  dispatch_async(self.logsDispatchQueue, ^{
+    [self.channelEndJobExpectation fulfill];
+  });
 }
 
 @end
