@@ -16,14 +16,15 @@ typedef void (^enqueueCompletionBlock)(BOOL);
 @interface SNMChannelDefault : NSObject <SNMChannel>
 
 /**
- * A queue on which the handler is called on.
+ * Queue used to process logs.
  */
-@property(nonatomic, strong) dispatch_queue_t callbackQueue;
+@property(nonatomic, strong) dispatch_queue_t logsDispatchQueue;
 
 /**
- *  Hash table of channel delegate.
+ * Hash table of channel delegate.
  */
 @property(nonatomic) NSHashTable<id<SNMChannelDelegate>> *delegates;
+
 /**
  * A sender instance that is used to send batches of log items to the backend.
  */

@@ -30,8 +30,8 @@
   return sharedInstance;
 }
 
-- (void)startFeature {
-  [super startFeature];
+- (void)startWithLogManager:(id<SNMLogManager>)logManager {
+  [super startWithLogManager:logManager];
 }
 
 - (NSString *)storageKey {
@@ -238,22 +238,17 @@
   assertThatBool(forwardedEnabled, isFalse());
 }
 
-- (void)testFlushPendingLogs {
-  /**
-   *  If
-   */
+- (void)testEnableLogManagerOnstartWithLogManager {
+
+  // If
   id<SNMLogManager> logManagerMock = OCMClassMock([SNMLogManagerDefault class]);
   self.abstractFeature.logManager = logManagerMock;
 
-  /**
-   *  When
-   */
-  [self.abstractFeature startFeature];
+  // When
+  [self.abstractFeature startWithLogManager:logManagerMock];
 
-  /**
-   *  Then
-   */
-  OCMVerify([logManagerMock flushPendingLogsForPriority:self.abstractFeature.priority]);
+  // Then
+  OCMVerify([logManagerMock setEnabled:YES andDeleteDataOnDisabled:YES forPriority:self.abstractFeature.priority]);
 }
 
 @end

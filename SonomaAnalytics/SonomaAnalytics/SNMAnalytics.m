@@ -7,6 +7,7 @@
 #import "SNMAnalyticsPrivate.h"
 #import "SNMEventLog.h"
 #import "SNMFeatureAbstractProtected.h"
+#import "SNMLogManager.h"
 #import "SNMPageLog.h"
 
 /**
@@ -29,7 +30,6 @@ static NSString *const kSNMFeatureName = @"Analytics";
     // Init session tracker.
     _sessionTracker = [[SNMSessionTracker alloc] init];
     _sessionTracker.delegate = self;
-    [self.sessionTracker start];
   }
   return self;
 }
@@ -45,21 +45,16 @@ static NSString *const kSNMFeatureName = @"Analytics";
   return sharedInstance;
 }
 
-+ (NSString *)getLoggerTag {
-  return @"SonomaAnalytics";
+- (void)startWithLogManager:(id<SNMLogManager>)logManager {
+  [super startWithLogManager:logManager];
+
+  // Set up swizzling for auto page tracking.
+  [SNMAnalyticsCategory activateCategory];
+  SNMLogVerbose([SNMAnalytics getLoggerTag], @"Started analytics module");
 }
 
-- (void)startFeature {
-  [super startFeature];
-
-  // Add delegate to log manager.
-  [self.logManager addDelegate:_sessionTracker];
-
-  // Enabled auto page tracking
-  if (self.autoPageTrackingEnabled) {
-    [SNMAnalyticsCategory activateCategory];
-  }
-  SNMLogVerbose([SNMAnalytics getLoggerTag], @"Started analytics module");
++ (NSString *)getLoggerTag {
+  return @"SonomaAnalytics";
 }
 
 - (NSString *)storageKey {
@@ -72,16 +67,31 @@ static NSString *const kSNMFeatureName = @"Analytics";
 
 #pragma mark - SNMFeatureAbstract
 
-- (void)setEnabled:(BOOL)isEnabled {
+- (void)applyEnabledState:(BOOL)isEnabled {
+  [super applyEnabledState:isEnabled];
   if (isEnabled) {
+
+    // Start session tracker.
     [self.sessionTracker start];
+
+    // Add delegate to log manager.
     [self.logManager addDelegate:self.sessionTracker];
+
+    // Report current page while auto page traking is on.
+    if (self.autoPageTrackingEnabled) {
+
+      // Track on the main queue to avoid race condition with page swizzling.
+      dispatch_async(dispatch_get_main_queue(), ^{
+        if ([[SNMAnalyticsCategory missedPageViewName] length] > 0) {
+          [[self class] trackPage:[SNMAnalyticsCategory missedPageViewName]];
+        }
+      });
+    }
   } else {
     [self.logManager removeDelegate:self.sessionTracker];
     [self.sessionTracker stop];
     [self.sessionTracker clearSessions];
   }
-  [super setEnabled:isEnabled];
 }
 
 #pragma mark - Module methods
@@ -112,19 +122,13 @@ static NSString *const kSNMFeatureName = @"Analytics";
 
 + (void)setAutoPageTrackingEnabled:(BOOL)isEnabled {
   @synchronized(self) {
-    if ([[self sharedInstance] canBeUsed]) {
-      [[self sharedInstance] setAutoPageTrackingEnabled:isEnabled];
-    }
+    [[self sharedInstance] setAutoPageTrackingEnabled:isEnabled];
   }
 }
 
 + (BOOL)isAutoPageTrackingEnabled {
   @synchronized(self) {
-    if ([[self sharedInstance] canBeUsed]) {
-      return [[self sharedInstance] isAutoPageTrackingEnabled];
-    } else {
-      return NO;
-    }
+    return [[self sharedInstance] isAutoPageTrackingEnabled];
   }
 }
 

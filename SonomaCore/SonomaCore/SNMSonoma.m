@@ -57,11 +57,20 @@ static NSString *const kSNMDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
 }
 
 + (void)setEnabled:(BOOL)isEnabled {
-  [[self sharedInstance] setEnabled:isEnabled];
+  @synchronized([self sharedInstance]) {
+    if ([[self sharedInstance] canBeUsed]) {
+      [[self sharedInstance] setEnabled:isEnabled];
+    }
+  }
 }
 
 + (BOOL)isEnabled {
-  return [[self sharedInstance] isEnabled];
+  @synchronized([self sharedInstance]) {
+    if ([[self sharedInstance] canBeUsed]) {
+      return [[self sharedInstance] isEnabled];
+    }
+  }
+  return NO;
 }
 
 + (NSUUID *)installId {
@@ -154,6 +163,11 @@ static NSString *const kSNMDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
   // Init the main pipeline.
   [self initializePipeline];
 
+  // Enable pipeline as needed.
+  if (self.isEnabled) {
+    [self applyPipelineEnabledState:self.isEnabled];
+  }
+
   _sdkStarted = YES;
 
   // If the loglevel hasn't been customized before and we are not running in an app store environment, we set the
@@ -161,7 +175,6 @@ static NSString *const kSNMDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
   if ((![SNMLogger isUserDefinedLogLevel]) && ([SNMEnvironmentHelper currentAppEnvironment] == SNMEnvironmentOther)) {
     [SNMSonoma setLogLevel:SNMLogLevelWarning];
   }
-
   return YES;
 }
 
@@ -180,9 +193,8 @@ static NSString *const kSNMDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
   // Set sonomaDelegate.
   [self.features addObject:feature];
 
-  // Set log manager.
-  [feature onLogManagerReady:self.logManager];
-  [feature startFeature];
+  // Start feature with log manager.
+  [feature startWithLogManager:self.logManager];
 }
 
 - (void)setServerUrl:(NSString *)serverUrl {
@@ -192,43 +204,58 @@ static NSString *const kSNMDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
 }
 
 - (void)setEnabled:(BOOL)isEnabled {
-  @synchronized(self) {
-    if ([self canBeUsed] && [self isEnabled] != isEnabled) {
-      self.enabledStateUpdating = YES;
+  if ([self isEnabled] != isEnabled) {
+    self.enabledStateUpdating = YES;
 
-      // Propagate enable/disable on all features.
-      for (id<SNMFeatureInternal> feature in self.features) {
-        [[feature class] setEnabled:isEnabled];
-      }
+    // Enable/disable pipeline.
+    [self applyPipelineEnabledState:isEnabled];
 
-      // Propagate to log manager.
-      [self.logManager setEnabled:isEnabled andDeleteDataOnDisabled:YES];
-
-      // Persist the enabled status.
-      [kSNMUserDefaults setObject:[NSNumber numberWithBool:isEnabled] forKey:kSNMCoreIsEnabledKey];
-      self.enabledStateUpdating = NO;
+    // Propagate enable/disable on all features.
+    for (id<SNMFeatureInternal> feature in self.features) {
+      [[feature class] setEnabled:isEnabled];
     }
+
+    // Persist the enabled status.
+    [kSNMUserDefaults setObject:[NSNumber numberWithBool:isEnabled] forKey:kSNMCoreIsEnabledKey];
+    self.enabledStateUpdating = NO;
   }
 }
 
 - (BOOL)isEnabled {
-  @synchronized(self) {
-    if ([self canBeUsed]) {
 
-      /**
-       * Get isEnabled value from persistence.
-       * No need to cache the value in a property, user settings already have their cache mechanism.
-       */
-      NSNumber *isEnabledNumber = [kSNMUserDefaults objectForKey:kSNMCoreIsEnabledKey];
+  /**
+   * Get isEnabled value from persistence.
+   * No need to cache the value in a property, user settings already have their cache mechanism.
+   */
+  NSNumber *isEnabledNumber = [kSNMUserDefaults objectForKey:kSNMCoreIsEnabledKey];
 
-      // Return the persisted value otherwise it's enabled by default.
-      return (isEnabledNumber) ? [isEnabledNumber boolValue] : YES;
-    }
-    return NO;
+  // Return the persisted value otherwise it's enabled by default.
+  return (isEnabledNumber) ? [isEnabledNumber boolValue] : YES;
+}
+
+- (void)applyPipelineEnabledState:(BOOL)isEnabled {
+
+  // Remove all notification handlers
+  [kSNMNotificationCenter removeObserver:self];
+
+  // Hookup to application life-cycle events
+  if (isEnabled) {
+    [kSNMNotificationCenter addObserver:self
+                               selector:@selector(applicationDidEnterBackground)
+                                   name:UIApplicationDidEnterBackgroundNotification
+                                 object:nil];
+    [kSNMNotificationCenter addObserver:self
+                               selector:@selector(applicationWillEnterForeground)
+                                   name:UIApplicationWillEnterForegroundNotification
+                                 object:nil];
   }
+
+  // Propagate to log manager.
+  [self.logManager setEnabled:isEnabled andDeleteDataOnDisabled:YES];
 }
 
 - (void)initializePipeline {
+
   // Construct http headers.
   NSDictionary *headers = @{
     kSNMHeaderContentTypeKey : kSNMContentType,
@@ -249,17 +276,6 @@ static NSString *const kSNMDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
 
   // Construct log manager.
   _logManager = [[SNMLogManagerDefault alloc] initWithSender:sender storage:storage];
-
-  // Hookup to application life-cycle events
-  [kSNMNotificationCenter removeObserver:self];
-  [kSNMNotificationCenter addObserver:self
-                             selector:@selector(applicationDidEnterBackground)
-                                 name:UIApplicationDidEnterBackgroundNotification
-                               object:nil];
-  [kSNMNotificationCenter addObserver:self
-                             selector:@selector(applicationWillEnterForeground)
-                                 name:UIApplicationWillEnterForegroundNotification
-                               object:nil];
 }
 
 - (NSString *)appSecret {
@@ -301,7 +317,6 @@ static NSString *const kSNMDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
   }
   return canBeUsed;
 }
-
 
 #pragma mark - Application life cycle
 
