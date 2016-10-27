@@ -48,8 +48,11 @@ static NSString *const kSNMFeatureName = @"Analytics";
   return sharedInstance;
 }
 
-- (void)startFeature {
-  [super startFeature];
+- (void)startWithLogManager:(id<SNMLogManager>)logManager {
+  [super startWithLogManager:logManager];
+
+  // Set up swizzling for auto page tracking.
+  [SNMAnalyticsCategory activateCategory];
   SNMLogVerbose(@"SNMAnalytics: Started analytics module");
 }
 
@@ -61,28 +64,33 @@ static NSString *const kSNMFeatureName = @"Analytics";
   return SNMPriorityDefault;
 }
 
-- (void)onLogManagerReady:(id<SNMLogManager>)logManager {
-  [super onLogManagerReady:logManager];
-
-  // Add delegate to log manager.
-  [self.logManager addDelegate:_sessionTracker];
-
-  // Start session tracker
-  [self.sessionTracker start];
-}
-
 #pragma mark - SNMFeatureAbstract
 
-- (void)setEnabled:(BOOL)isEnabled {
+- (void)applyEnabledState:(BOOL)isEnabled {
+  [super applyEnabledState:isEnabled];
   if (isEnabled) {
+
+    // Start session tracker.
     [self.sessionTracker start];
+
+    // Add delegate to log manager.
     [self.logManager addDelegate:self.sessionTracker];
+
+    // Report current page while auto page traking is on.
+    if (self.autoPageTrackingEnabled) {
+
+      // Track on the main queue to avoid race condition with page swizzling.
+      dispatch_async(dispatch_get_main_queue(), ^{
+        if ([[SNMAnalyticsCategory missedPageViewName] length] > 0) {
+          [[self class] trackPage:[SNMAnalyticsCategory missedPageViewName]];
+        }
+      });
+    }
   } else {
     [self.logManager removeDelegate:self.sessionTracker];
     [self.sessionTracker stop];
     [self.sessionTracker clearSessions];
   }
-  [super setEnabled:isEnabled];
 }
 
 #pragma mark - Module methods

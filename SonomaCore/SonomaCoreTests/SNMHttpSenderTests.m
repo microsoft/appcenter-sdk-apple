@@ -86,7 +86,7 @@ static NSString *const kSNMAppSecret = @"mockAppSecret";
 
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Response 200"];
   [self.sut sendAsync:container
-          callbackQueue:dispatch_get_main_queue()
+          logsDispatchQueue:dispatch_get_main_queue()
       completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
 
         XCTAssertNil(error);
@@ -121,7 +121,7 @@ static NSString *const kSNMAppSecret = @"mockAppSecret";
   SNMLogContainer *container = [self createLogContainerWithId:containerId];
 
   [self.sut sendAsync:container
-          callbackQueue:dispatch_get_main_queue()
+          logsDispatchQueue:dispatch_get_main_queue()
       completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
 
         // Callback should not get called
@@ -141,7 +141,7 @@ static NSString *const kSNMAppSecret = @"mockAppSecret";
   SNMLogContainer *container = [[SNMLogContainer alloc] initWithBatchId:@"1" andLogs:(NSArray<SNMLog> *)@[ log1 ]];
 
   [self.sut sendAsync:container
-          callbackQueue:dispatch_get_main_queue()
+          logsDispatchQueue:dispatch_get_main_queue()
       completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
 
         XCTAssertEqual(error.domain, kSNMDefaultApiErrorDomain);
@@ -157,7 +157,7 @@ static NSString *const kSNMAppSecret = @"mockAppSecret";
 
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Network Down"];
   [self.sut sendAsync:container
-          callbackQueue:dispatch_get_main_queue()
+          logsDispatchQueue:dispatch_get_main_queue()
       completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
 
         XCTAssertNotNil(error);

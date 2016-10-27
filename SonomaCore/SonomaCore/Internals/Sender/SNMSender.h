@@ -41,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param handler Completion handler.
  */
 - (void)sendAsync:(nonnull SNMLogContainer *)logs
-    callbackQueue:(nullable dispatch_queue_t)callbackQueue
+    logsDispatchQueue:(nullable dispatch_queue_t)logsDispatchQueue
 completionHandler:(nonnull SNMSendAsyncCompletionHandler)handler;
 
 /**

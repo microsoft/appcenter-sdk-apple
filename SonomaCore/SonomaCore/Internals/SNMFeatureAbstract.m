@@ -20,7 +20,7 @@
 
 - (instancetype)initWithStorage:(SNMUserDefaults *)storage {
   if (self = [super init]) {
-
+    _started = NO;
     _isEnabledKey = [NSString stringWithFormat:@"kSNM%@IsEnabledKey", self.storageKey];
     _storage = storage;
   }
@@ -29,34 +29,35 @@
 
 #pragma mark : - SNMFeatureCommon
 
-- (void)setEnabled:(BOOL)isEnabled {
-
-  // Propagate isEnabled and delete logs on disabled.
-  if (self.logManager) {
-    [self.logManager setEnabled:isEnabled andDeleteDataOnDisabled:YES forPriority:self.priority];
-  }
-
-  // Persist the enabled status.
-  [self.storage setObject:[NSNumber numberWithBool:isEnabled] forKey:self.isEnabledKey];
-}
-
 - (BOOL)isEnabled {
-  /**
-   *  Get isEnabled value from persistence.
-   * No need to cache the value in a property, user settings already have their cache mechanism.
-   */
+
+  // Get isEnabled value from persistence.
+  // No need to cache the value in a property, user settings already have their cache mechanism.
   NSNumber *isEnabledNumber = [_storage objectForKey:_isEnabledKey];
 
   // Return the persisted value otherwise it's enabled by default.
   return (isEnabledNumber) ? [isEnabledNumber boolValue] : YES;
 }
 
-- (void)onLogManagerReady:(id<SNMLogManager>)logManager {
-  self.logManager = logManager;
+- (void)setEnabled:(BOOL)isEnabled {
+  if (self.isEnabled != isEnabled) {
+
+    // Apply enabled state.
+    [self applyEnabledState:isEnabled];
+
+    // Persist the enabled status.
+    [self.storage setObject:[NSNumber numberWithBool:isEnabled] forKey:self.isEnabledKey];
+  }
+}
+
+- (void)applyEnabledState:(BOOL)isEnabled {
+
+  // Propagate isEnabled and delete logs on disabled.
+  [self.logManager setEnabled:isEnabled andDeleteDataOnDisabled:YES forPriority:self.priority];
 }
 
 - (BOOL)canBeUsed {
-  BOOL canBeUsed = [SNMSonoma sharedInstance].sdkStarted && self.featureInitialized;
+  BOOL canBeUsed = [SNMSonoma sharedInstance].sdkStarted && self.started;
   if (!canBeUsed) {
     SNMLogError(@"[%@] ERROR: %@ module hasn't been initialized. You need to call [SNMSonoma "
                 @"start:YOUR_APP_SECRET withFeatures:LIST_OF_FEATURES] first.",
@@ -65,18 +66,25 @@
   return canBeUsed;
 }
 
+- (BOOL)isAvailable {
+  return self.isEnabled && self.started;
+}
+
 #pragma mark : - SNMFeature
 
-- (void)startFeature {
-  self.featureInitialized = YES;
+- (void)startWithLogManager:(id<SNMLogManager>)logManager {
+  self.started = YES;
+  self.logManager = logManager;
 
-  // Send pending logs if persistence has logs that are not sent yet
-  [self.logManager flushPendingLogsForPriority:self.priority];
+  // Enable this feature as needed.
+  if (self.isEnabled) {
+    [self applyEnabledState:self.isEnabled];
+  }
 }
 
 + (void)setEnabled:(BOOL)isEnabled {
   @synchronized([self sharedInstance]) {
-    if ([[self sharedInstance] canBeUsed] && [[self sharedInstance] isEnabled] != isEnabled) {
+    if ([[self sharedInstance] canBeUsed]) {
       if (![SNMSonoma isEnabled] && ![SNMSonoma sharedInstance].enabledStateUpdating) {
         SNMLogError(@"[%@] ERROR: The SDK is disabled. Re-enable the SDK from the core module first before "
                     @"enabling a specific feature.",
