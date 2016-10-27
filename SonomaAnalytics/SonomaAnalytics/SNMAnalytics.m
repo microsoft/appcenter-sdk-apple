@@ -9,9 +9,6 @@
 #import "SNMFeatureAbstractProtected.h"
 #import "SNMLogManager.h"
 #import "SNMPageLog.h"
-#import "SNMSonoma.h"
-#import "SNMSonomaInternal.h"
-#import "SonomaCore+Internal.h"
 
 /**
  *  Feature storage key name.
@@ -53,7 +50,11 @@ static NSString *const kSNMFeatureName = @"Analytics";
 
   // Set up swizzling for auto page tracking.
   [SNMAnalyticsCategory activateCategory];
-  SNMLogVerbose(@"SNMAnalytics: Started analytics module");
+  SNMLogVerbose([SNMAnalytics getLoggerTag], @"Started analytics module");
+}
+
++ (NSString *)getLoggerTag {
+  return @"SonomaAnalytics";
 }
 
 - (NSString *)storageKey {

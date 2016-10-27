@@ -2,6 +2,8 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
+#import "SNMDevice.h"
+#import "SNMDevicePrivate.h"
 #import "SNMHttpSender.h"
 #import "SNMHttpSenderPrivate.h"
 #import "SNMLogContainer.h"

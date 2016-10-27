@@ -6,6 +6,7 @@
 #import "SNMLogUtils.h"
 #import "SNMLogger.h"
 #import "SNMDevice.h"
+#import "SNMDevicePrivate.h"
 
 static NSString *const kSNMSID = @"sid";
 static NSString *const kSNMToffset = @"toffset";
