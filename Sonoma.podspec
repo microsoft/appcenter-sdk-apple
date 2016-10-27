@@ -20,7 +20,7 @@ Pod::Spec.new do |s|
 
   s.frameworks = 'Foundation',  'SystemConfiguration', 'UIKit'
 
-  s.default_subspec   = 'SonomaCore'
+  s.default_subspecs = 'SonomaAnalytics', 'SonomaCrashes'
 
   s.subspec 'SonomaCore' do |ss|
       ss.frameworks = 'Foundation',  'SystemConfiguration', 'UIKit'
