@@ -95,7 +95,7 @@ static NSUInteger const kSNMMaxSessionHistoryCount = 5;
 - (void)start {
   if (!_started) {
 
-    // Trigger session renewal has needed if we are not in the background.
+    // Renew session as needed if app is not in the background.
     if ([[UIApplication sharedApplication] applicationState] != UIApplicationStateBackground) {
       [self sessionId];
     }
