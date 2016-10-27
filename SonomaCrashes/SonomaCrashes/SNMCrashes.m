@@ -317,7 +317,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
      */
     if (self.exceptionHandler != currentHandler) {
       SNMLogWarning([SNMCrashes getLoggerTag], @"Another exception handler was added. If "
-                                               @"this invokes any kind exit() after processing the "
+                                               @"this invokes any kind of exit() after processing the "
                                                @"exception, which causes any subsequent error handler "
                                                @"not to be invoked, these crashes will NOT be reported "
                                                @"to Sonoma!");
