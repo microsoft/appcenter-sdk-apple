@@ -33,6 +33,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		3813B9651DBFE68200831214 /* SNMAnalyticsInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 3813B9641DBFE68200831214 /* SNMAnalyticsInternal.h */; };
 		387C77051D6CC39400D68CC1 /* SNMFeatureAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C77041D6CC39400D68CC1 /* SNMFeatureAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38D4BBA11D5A98D1001A30A0 /* SNMFeature.h in Headers */ = {isa = PBXBuildFile; fileRef = 38D4BB9F1D5A98D1001A30A0 /* SNMFeature.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E0684381D35A3B900A8CC6C /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E0684371D35A3B900A8CC6C /* OCHamcrestIOS.framework */; };
@@ -96,6 +97,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3813B9641DBFE68200831214 /* SNMAnalyticsInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMAnalyticsInternal.h; sourceTree = "<group>"; };
 		387C77041D6CC39400D68CC1 /* SNMFeatureAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SNMFeatureAbstract.h; path = ../SonomaCore/SonomaCore/SNMFeatureAbstract.h; sourceTree = "<group>"; };
 		38D4BB9F1D5A98D1001A30A0 /* SNMFeature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SNMFeature.h; path = ../SonomaCore/SonomaCore/SNMFeature.h; sourceTree = "<group>"; };
 		6E0684371D35A3B900A8CC6C /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrestIOS.framework; path = ../../Vendor/OCHamcrest/OCHamcrestIOS.framework; sourceTree = "<group>"; };
@@ -134,11 +136,11 @@
 		E815912B1D526A09003D5F3C /* SNMSessionTrackerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMSessionTrackerTests.m; sourceTree = "<group>"; };
 		E81591301D526C3B003D5F3C /* SNMSessionTrackerHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMSessionTrackerHelper.h; sourceTree = "<group>"; };
 		E81591311D526C3B003D5F3C /* SNMSessionTrackerHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMSessionTrackerHelper.m; sourceTree = "<group>"; };
-		E83E81361D3ECF5900421B13 /* SNMAnalyticsCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMAnalyticsCategory.h; sourceTree = "<group>"; };
-		E83E81371D3ECF5900421B13 /* SNMAnalyticsCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMAnalyticsCategory.m; sourceTree = "<group>"; };
+		E83E81361D3ECF5900421B13 /* SNMAnalyticsCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SNMAnalyticsCategory.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		E83E81371D3ECF5900421B13 /* SNMAnalyticsCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SNMAnalyticsCategory.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		E85547C01D2D6253002DF6E2 /* libSonomaAnalytics.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSonomaAnalytics.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E85547C31D2D6253002DF6E2 /* SNMAnalytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SNMAnalytics.h; sourceTree = "<group>"; };
-		E85547C51D2D6253002DF6E2 /* SNMAnalytics.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SNMAnalytics.m; sourceTree = "<group>"; };
+		E85547C51D2D6253002DF6E2 /* SNMAnalytics.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SNMAnalytics.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		E85547CC1D2D63EF002DF6E2 /* SonomaAnalytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SonomaAnalytics.h; sourceTree = "<group>"; };
 		E85547CE1D2D64F0002DF6E2 /* SNMAnalyticsPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMAnalyticsPrivate.h; sourceTree = "<group>"; };
 		E85547CF1D2D6521002DF6E2 /* SonomaCore+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "SonomaCore+Internal.h"; path = "../../../SonomaCore/SonomaCore/Internals/SonomaCore+Internal.h"; sourceTree = "<group>"; };
@@ -149,7 +151,7 @@
 		E89B33EB1D5A8F3500FDE8FB /* SNMSessionTrackerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMSessionTrackerDelegate.h; sourceTree = "<group>"; };
 		E8AEE97F1D596C8B00C0FF6C /* SNMLogManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SNMLogManager.h; path = ../SonomaCore/SonomaCore/Internals/Channel/SNMLogManager.h; sourceTree = "<group>"; };
 		E8E48F9C1D515C3900A8C1B0 /* SNMSessionTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMSessionTracker.h; sourceTree = "<group>"; };
-		E8E48F9D1D515C3900A8C1B0 /* SNMSessionTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMSessionTracker.m; sourceTree = "<group>"; };
+		E8E48F9D1D515C3900A8C1B0 /* SNMSessionTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SNMSessionTracker.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		E8E48FA01D51670100A8C1B0 /* SNMStartSessionLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMStartSessionLog.h; sourceTree = "<group>"; };
 		E8E48FA11D51670100A8C1B0 /* SNMStartSessionLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMStartSessionLog.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -311,6 +313,7 @@
 				6E3E2CC21D359D5E00B1EE50 /* Model */,
 				E85547CF1D2D6521002DF6E2 /* SonomaCore+Internal.h */,
 				E85547CE1D2D64F0002DF6E2 /* SNMAnalyticsPrivate.h */,
+				3813B9641DBFE68200831214 /* SNMAnalyticsInternal.h */,
 			);
 			path = Internals;
 			sourceTree = "<group>";
@@ -367,6 +370,7 @@
 				E85547F71D2D6A7D002DF6E2 /* SonomaAnalytics.h in Headers */,
 				387C77051D6CC39400D68CC1 /* SNMFeatureAbstract.h in Headers */,
 				E8AEE9801D596C8B00C0FF6C /* SNMLogManager.h in Headers */,
+				3813B9651DBFE68200831214 /* SNMAnalyticsInternal.h in Headers */,
 				E85547FA1D2D6A9E002DF6E2 /* SNMAnalyticsPrivate.h in Headers */,
 				E89B33E71D5A526D00FDE8FB /* SNMSessionHistoryInfo.h in Headers */,
 				E85547F81D2D6A7D002DF6E2 /* SNMAnalytics.h in Headers */,

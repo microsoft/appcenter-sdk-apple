@@ -56,7 +56,7 @@ static NSString *const kSNMApiPath = @"/logs";
 }
 
 - (void)sendAsync:(SNMLogContainer *)container
-    callbackQueue:(dispatch_queue_t)callbackQueue
+logsDispatchQueue:(dispatch_queue_t)logsDispatchQueue
 completionHandler:(SNMSendAsyncCompletionHandler)handler {
   NSString *batchId = container.batchId;
   SNMLogInfo([SNMSonoma getLoggerTag], @"Sending log for batch ID %@", batchId);
@@ -73,8 +73,8 @@ completionHandler:(SNMSendAsyncCompletionHandler)handler {
   }
 
   // Set a default queue.
-  if (!callbackQueue)
-    callbackQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+  if (!logsDispatchQueue)
+    logsDispatchQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
 
   // Check if call has already been created(retry scenario).
   id<SNMSenderCall> call = self.pendingCalls[batchId];
@@ -82,7 +82,7 @@ completionHandler:(SNMSendAsyncCompletionHandler)handler {
     call = [[SNMRetriableCall alloc] init];
     call.delegate = self;
     call.logContainer = container;
-    call.callbackQueue = callbackQueue;
+    call.logsDispatchQueue = logsDispatchQueue;
     call.completionHandler = handler;
 
     // Store call in calls array.
@@ -138,7 +138,7 @@ completionHandler:(SNMSendAsyncCompletionHandler)handler {
           }];
     }];
     [self enumerateDelegatesForSelector:@selector(senderDidSuspend:)
-                              withBlock:^(id <SNMSenderDelegate> delegate) {
+                              withBlock:^(id<SNMSenderDelegate> delegate) {
                                 [delegate senderDidSuspend:self];
                               }];
   }
@@ -160,7 +160,7 @@ completionHandler:(SNMSendAsyncCompletionHandler)handler {
 
     // Propagate.
     [self enumerateDelegatesForSelector:@selector(senderDidResume:)
-                              withBlock:^(id <SNMSenderDelegate> delegate) {
+                              withBlock:^(id<SNMSenderDelegate> delegate) {
                                 [delegate senderDidResume:self];
                               }];
   }
