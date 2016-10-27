@@ -7,7 +7,7 @@
 #import "SNMSessionTracker.h"
 #import "SNMSessionTrackerDelegate.h"
 
-@interface SNMAnalytics () <SNMFeatureInternal, SNMSessionTrackerDelegate>
+@interface SNMAnalytics () <SNMSessionTrackerDelegate>
 
 /**
  *  Session tracking component
