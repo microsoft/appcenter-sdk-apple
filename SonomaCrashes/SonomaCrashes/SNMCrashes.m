@@ -10,8 +10,6 @@
 #import "SNMErrorLogFormatter.h"
 #import "SNMFeatureAbstractProtected.h"
 #import "SNMSonomaInternal.h"
-#import "SonomaCore+Internal.h"
-#import <CrashReporter/CrashReporter.h>
 
 /**
  *  Feature name.
@@ -62,16 +60,16 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
     if ([[self sharedInstance] canBeUsed]) {
       if ([SNMEnvironmentHelper currentAppEnvironment] != SNMEnvironmentAppStore) {
         if ([SNMSonoma isDebuggerAttached]) {
-          SNMLogWarning(
-              @"[SNMCrashes] WARNING: The debugger is attached. The following crash cannot be detected by the SDK!");
+          SNMLogWarning([SNMCrashes getLoggerTag],
+                        @"The debugger is attached. The following crash cannot be detected by the SDK!");
         }
 
         __builtin_trap();
       }
     } else {
-      SNMLogWarning(
-          @"[SNMCrashes] WARNING: GenerateTestCrash was just called in an App Store environment. The call will "
-          @"be ignored");
+      SNMLogWarning([SNMCrashes getLoggerTag],
+                    @"GenerateTestCrash was just called in an App Store environment. The call will "
+                    @"be ignored");
     }
   }
 }
@@ -146,7 +144,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
   [super applyEnabledState:isEnabled];
 
   if (isEnabled) {
-    SNMLogDebug(@"[SNMCrashes] DEBUG: Enabling crashes feature.");
+    SNMLogDebug([SNMCrashes getLoggerTag], @"Enabling crashes feature again.");
     [self configureCrashReporter];
 
     // Get pending crashes from PLCrashReporter and persist them in the intermediate format.
@@ -168,12 +166,12 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
     }
   } else {
     // Don't set PLCrashReporter to nil!
-    SNMLogDebug(@"[SNMCrashes] DEBUG: Cleaning up all crash files.");
+    SNMLogDebug([SNMCrashes getLoggerTag], @"Cleaning up all crash files.");
     [self deleteAllFromCrashesDirectory];
     [self removeAnalyzerFile];
     [self.plCrashReporter purgePendingCrashReport];
     [self.logManager removeChannelDelegate:self forPriority:SNMPriorityHigh];
-    SNMLogDebug(@"[SNMCrashes] DEBUG: Disabling crashes feature.");
+    SNMLogDebug([SNMCrashes getLoggerTag], @"Disabling crashes feature.");
   }
 }
 
@@ -190,7 +188,11 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 
 - (void)startWithLogManager:(id<SNMLogManager>)logManager {
   [super startWithLogManager:logManager];
-  SNMLogVerbose(@"[SNMCrashes] VERBOSE: Started crash feature.");
+  SNMLogVerbose([SNMCrashes getLoggerTag], @"Started crash feature.");
+}
+
++ (NSString *)getLoggerTag {
+  return @"SonomaCrashes";
 }
 
 - (NSString *)storageKey {
@@ -235,7 +237,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 - (void)configureCrashReporter {
 
   if (_plCrashReporter) {
-    SNMLogDebug(@"[SNMCrashes] DEBUG: Already configured PLCrashReporter.");
+    SNMLogDebug([SNMCrashes getLoggerTag], @"Already configured PLCrashReporter.");
     return;
   }
 
@@ -252,8 +254,8 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
    handler type is set.
    */
   if ([SNMSonoma isDebuggerAttached]) {
-    SNMLogWarning(
-        @"[SNMCrashes] WARNING: Detecting crashes is NOT enabled due to running the app with a debugger attached.");
+    SNMLogWarning([SNMCrashes getLoggerTag],
+                  @"Detecting crashes is NOT enabled due to running the app with a debugger attached.");
   } else {
 
     /**
@@ -273,15 +275,15 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
     NSError *error = NULL;
     [self.plCrashReporter setCrashCallbacks:&plCrashCallbacks];
     if (![self.plCrashReporter enableCrashReporterAndReturnError:&error])
-      SNMLogError(@"[SNMCrashes] ERROR: Could not enable crash reporter: %@", [error localizedDescription]);
+      SNMLogError([SNMCrashes getLoggerTag], @"Could not enable crash reporter: %@", [error localizedDescription]);
     NSUncaughtExceptionHandler *currentHandler = NSGetUncaughtExceptionHandler();
     if (currentHandler && currentHandler != initialHandler) {
       self.exceptionHandler = currentHandler;
 
-      SNMLogDebug(@"[SNMCrashes] DEBUG: Exception handler successfully initialized.");
+      SNMLogDebug([SNMCrashes getLoggerTag], @"Exception handler successfully initialized.");
     } else {
-      SNMLogError(@"[SNMCrashes] ERROR: Exception handler could not be set. Make sure there is no other exception "
-                  @"handler set up!");
+      SNMLogError([SNMCrashes getLoggerTag],
+                  @"Exception handler could not be set. Make sure there is no other exception handler set up!");
     }
     [SNMCrashesUncaughtCXXExceptionHandlerManager addCXXExceptionHandler:uncaught_cxx_exception_handler];
   }
@@ -300,7 +302,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
     return;
   }
 
-  SNMLogDebug(@"[SNMCrashes] DEBUG: Start delayed CrashManager processing");
+  SNMLogDebug([SNMCrashes getLoggerTag], @"Start delayed CrashManager processing");
 
   // Was our own exception handler successfully added?
   if (self.exceptionHandler) {
@@ -314,11 +316,11 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
      * log message for details.
      */
     if (self.exceptionHandler != currentHandler) {
-      SNMLogWarning(@"[SNMCrashes] WARNING: Another exception handler was "
-                    @"added. If this invokes any kind exit() after processing "
-                    @"the exception, which causes any subsequent error "
-                    @"handler not to be invoked, these crashes will NOT be "
-                    @"reported to Sonoma!");
+      SNMLogWarning([SNMCrashes getLoggerTag], @"Another exception handler was added. If "
+                                               @"this invokes any kind exit() after processing the "
+                                               @"exception, which causes any subsequent error handler "
+                                               @"not to be invoked, these crashes will NOT be reported "
+                                               @"to Sonoma!");
     }
   }
   if (!self.sendingInProgress && self.crashFiles.count > 0) {
@@ -340,13 +342,14 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
     // we start sending always with the oldest pending one
     NSData *crashFileData = [NSData dataWithContentsOfFile:filePath];
     if ([crashFileData length] > 0) {
-      SNMLogVerbose(@"[SNMCrashes] VERBOSE: Crash report found");
+      SNMLogVerbose([SNMCrashes getLoggerTag], @"Crash report found");
       if (self.isEnabled) {
         SNMPLCrashReport *report = [[SNMPLCrashReport alloc] initWithData:crashFileData error:&error];
         SNMAppleErrorLog *log = [SNMErrorLogFormatter errorLogFromCrashReport:report];
         SNMErrorReport *errorReport = [SNMErrorLogFormatter errorReportFromLog:(log)];
         if ([self.delegate crashes:self shouldProcessErrorReport:errorReport]) {
-          SNMLogDebug(@"[SNMCrashes] DEBUG: shouldProcessErrorReport returned true, processing the crash report: %@",
+          SNMLogDebug([SNMCrashes getLoggerTag],
+                      @"shouldProcessErrorReport returned true, processing the crash report: %@",
                       report.debugDescription);
 
           // Put the log to temporary space for next callbacks.
@@ -355,11 +358,12 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
           [_unprocessedFilePaths addObject:filePath];
           continue;
         } else {
-          SNMLogDebug(@"[SNMCrashes] DEBUG: shouldProcessErrorReport returned false, discard the crash report: %@",
+          SNMLogDebug([SNMCrashes getLoggerTag],
+                      @"shouldProcessErrorReport returned false, discard the crash report: %@",
                       report.debugDescription);
         }
       } else {
-        SNMLogDebug(@"[SNMCrashes] DEBUG: Crashes feature is disabled, discard the crash report");
+        SNMLogDebug([SNMCrashes getLoggerTag], @"Crashes feature is disabled, discard the crash report");
       }
 
       // Clean up files.
@@ -374,13 +378,15 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
     if (flag && [flag boolValue]) {
 
       // User confirmation is set to SNMUserConfirmationAlways.
-      SNMLogDebug(@"The flag for user confirmation is set to SNMUserConfirmationAlways, continue sending logs");
+      SNMLogDebug([SNMCrashes getLoggerTag],
+                  @"The flag for user confirmation is set to SNMUserConfirmationAlways, continue sending logs");
       [SNMCrashes notifyWithUserConfirmation:SNMUserConfirmationSend];
       return;
     } else if (!_userConfirmationHandler || !_userConfirmationHandler(_unprocessedReports)) {
 
       // User confirmation handler doesn't exist or returned NO which means 'want to process'.
-      SNMLogDebug(@"The user confirmation handler is not implemented or returned NO, continue sending logs");
+      SNMLogDebug([SNMCrashes getLoggerTag],
+                  @"The user confirmation handler is not implemented or returned NO, continue sending logs");
       [SNMCrashes notifyWithUserConfirmation:SNMUserConfirmationSend];
     }
   }
@@ -395,7 +401,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
     [_fileManager removeItemAtPath:path error:&error];
 
     if (error) {
-      SNMLogError(@"[SNMCrashes] ERROR: Error deleting file %@: %@", filePath, error.localizedDescription);
+      SNMLogError([SNMCrashes getLoggerTag], @"Error deleting file %@: %@", filePath, error.localizedDescription);
     }
   }
   [self.crashFiles removeAllObjects];
@@ -423,7 +429,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
     NSString *cacheFilename = [NSString stringWithFormat:@"%.0f", [NSDate timeIntervalSinceReferenceDate]];
 
     if (crashData == nil) {
-      SNMLogError(@"[SNMCrashes] ERROR: Could not load crash report: %@", error);
+      SNMLogError([SNMCrashes getLoggerTag], @"Could not load crash report: %@", error);
     } else {
 
       // Get data of PLCrashReport and write it to SDK directory
@@ -433,7 +439,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
         [crashData writeToFile:[self.crashesDir stringByAppendingPathComponent:cacheFilename] atomically:YES];
         _lastSessionCrashReport = [SNMErrorLogFormatter errorReportFromCrashReport:report];
       } else {
-        SNMLogWarning(@"[SNMCrashes] WARNING: Could not parse crash report");
+        SNMLogWarning([SNMCrashes getLoggerTag], @"Could not parse crash report");
       }
     }
 
@@ -469,7 +475,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
   if ([self.fileManager fileExistsAtPath:self.analyzerInProgressFile]) {
     NSError *error = nil;
     if (![self.fileManager removeItemAtPath:self.analyzerInProgressFile error:&error]) {
-      SNMLogError(@"[SNMCrashes] ERROR: Couldn't remove analyzer file at %@: ", self.analyzerInProgressFile);
+      SNMLogError([SNMCrashes getLoggerTag], @"Couldn't remove analzer file at %@: ", self.analyzerInProgressFile);
     }
   }
 }

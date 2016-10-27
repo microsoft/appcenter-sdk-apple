@@ -25,6 +25,13 @@
   if ([SNMCrashes hasCrashedInLastSession]) {
     SNMErrorReport *errorReport = [SNMCrashes lastSessionCrashReport];
     NSLog(@"We crashed with Signal: %@", errorReport.signal);
+    SNMDevice *device = [errorReport device];
+    NSString *osVersion = [device osVersion];
+    NSString *appVersion = [device appVersion];
+    NSString *appBuild = [device appBuild];
+    NSLog(@"OS Version is: %@", osVersion);
+    NSLog(@"App Version is: %@", appVersion);
+    NSLog(@"App Build is: %@", appBuild);
   }
 
   [SNMCrashes setDelegate:self];

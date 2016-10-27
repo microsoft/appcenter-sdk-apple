@@ -6,9 +6,7 @@
 #import "SNMHttpSenderPrivate.h"
 #import "SNMRetriableCall.h"
 #import "SNMSenderDelegate.h"
-#import "SNMSenderUtils.h"
 #import "SNMSonomaInternal.h"
-#import "SNMUtils.h"
 
 static NSTimeInterval kRequestTimeout = 60.0;
 
@@ -61,7 +59,7 @@ static NSString *const kSNMApiPath = @"/logs";
 logsDispatchQueue:(dispatch_queue_t)logsDispatchQueue
 completionHandler:(SNMSendAsyncCompletionHandler)handler {
   NSString *batchId = container.batchId;
-  SNMLogVerbose(@"[Sender] INFO: Sending log for batch ID %@", batchId);
+  SNMLogInfo([SNMSonoma getLoggerTag], @"Sending log for batch ID %@", batchId);
 
   // Verify container.
   if (!container || ![container isValid]) {
@@ -69,7 +67,7 @@ completionHandler:(SNMSendAsyncCompletionHandler)handler {
     NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : @"Invalid parameter'" };
     NSError *error =
         [NSError errorWithDomain:kSNMDefaultApiErrorDomain code:kSNMDefaultApiMissingParamErrorCode userInfo:userInfo];
-    SNMLogError(@"[Sender] ERROR: %@", [error localizedDescription]);
+    SNMLogError([SNMSonoma getLoggerTag], @"%@", [error localizedDescription]);
     handler(batchId, error, kSNMDefaultApiMissingParamErrorCode);
     return;
   }
@@ -187,7 +185,7 @@ completionHandler:(SNMSendAsyncCompletionHandler)handler {
         completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
 
           NSInteger statusCode = [SNMSenderUtils getStatusCode:response];
-          SNMLogVerbose(@"INFO:HTTP response received with the status code:%lu", (unsigned long)statusCode);
+          SNMLogInfo([SNMSonoma getLoggerTag], @"HTTP response received with the status code:%lu", (unsigned long)statusCode);
 
           // Call handles the completion.
           if (call)
@@ -200,12 +198,12 @@ completionHandler:(SNMSendAsyncCompletionHandler)handler {
 
 - (void)callCompletedWithId:(NSString *)callId {
   if (!callId) {
-    SNMLogWarning(@"[Sender] WARNING: call object is invalid");
+    SNMLogWarning([SNMSonoma getLoggerTag], @"Call object is invalid");
     return;
   }
 
   [self.pendingCalls removeObjectForKey:callId];
-  SNMLogVerbose(@"[Sender] INFO: Removed batch id:%@ from pendingCalls:%@", callId, [self.pendingCalls description]);
+  SNMLogInfo([SNMSonoma getLoggerTag], @"Removed batch id:%@ from pendingCalls:%@", callId, [self.pendingCalls description]);
 }
 
 #pragma mark - Reachability

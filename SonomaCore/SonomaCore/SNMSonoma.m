@@ -1,12 +1,12 @@
 #import "SNMConstants+Internal.h"
 #import "SNMEnvironmentHelper.h"
+#import "SNMDeviceTracker.h"
+#import "SNMDeviceTrackerPrivate.h"
 #import "SNMFileStorage.h"
 #import "SNMHttpSender.h"
 #import "SNMLogManagerDefault.h"
 #import "SNMLoggerPrivate.h"
 #import "SNMSonomaInternal.h"
-#import "SNMUserDefaults.h"
-#import "SNMUtils.h"
 #import <UIKit/UIKit.h>
 #import <sys/sysctl.h>
 
@@ -89,6 +89,10 @@ static NSString *const kSNMDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
   [SNMLogger setLogHandler:logHandler];
 }
 
++ (void)setWrapperSdk:(SNMWrapperSdk *)wrapperSdk {
+  [SNMDeviceTracker setWrapperSdk:wrapperSdk];
+}
+
 /**
  * Check if the debugger is attached
  *
@@ -125,6 +129,10 @@ static NSString *const kSNMDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
   return debuggerIsAttached;
 }
 
++ (NSString *)getLoggerTag {
+  return @"SonomaCore";
+}
+
 #pragma mark - private
 
 - (instancetype)init {
@@ -138,13 +146,13 @@ static NSString *const kSNMDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
 
 - (BOOL)start:(NSString *)appSecret {
   if (self.sdkStarted) {
-    SNMLogWarning(@"SDK has already been started. You can call `start` only once.");
+    SNMLogWarning([SNMSonoma getLoggerTag], @"SDK has already been started. You can call `start` only once.");
     return NO;
   }
 
   // Validate and set the app secret.
   if ([appSecret length] == 0 || ![[NSUUID alloc] initWithUUIDString:appSecret]) {
-    SNMLogError(@"ERROR: AppSecret is invalid");
+    SNMLogError([SNMSonoma getLoggerTag], @"AppSecret is invalid");
     return NO;
   }
   self.appSecret = appSecret;
@@ -303,9 +311,9 @@ static NSString *const kSNMDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
 - (BOOL)canBeUsed {
   BOOL canBeUsed = self.sdkStarted;
   if (!canBeUsed) {
-    SNMLogError(@"[%@] ERROR: SonomaSDK hasn't been initialized. You need to call [SNMSonoma "
-                @"start:YOUR_APP_SECRET withFeatures:LIST_OF_FEATURES] first.",
-                CLASS_NAME_WITHOUT_PREFIX);
+    SNMLogError([SNMSonoma getLoggerTag],
+                @"SonomaSDK hasn't been initialized. You need to call [SNMSonoma "
+                @"start:YOUR_APP_SECRET withFeatures:LIST_OF_FEATURES] first.");
   }
   return canBeUsed;
 }
