@@ -5,7 +5,6 @@
 #import <Foundation/Foundation.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <XCTest/XCTest.h>
-#import <CrashReporter/CrashReporter.h>
 
 #import "SNMAppleErrorLog.h"
 #import "SNMCrashTestHelper.h"
@@ -82,8 +81,10 @@
   SNMPLCrashReportExceptionInfo *plExceptionInfo = report.exceptionInfo;
   SNMAppleErrorLog *errorLog = [SNMErrorLogFormatter errorLogFromCrashReport:report];
 
+  SNMPLCrashReportThreadInfo *crashedThread = [SNMErrorLogFormatter findCrashedThreadInReport:report];
+
   for (SNMThread *thread in errorLog.threads) {
-    if ([thread.threadId isEqualToNumber:@0]) {
+    if ([thread.threadId isEqualToNumber:@(crashedThread.threadNumber)]) {
       SNMException *exception = thread.exception;
       XCTAssertNotNil(exception);
       XCTAssertEqual(exception.message, plExceptionInfo.exceptionReason);

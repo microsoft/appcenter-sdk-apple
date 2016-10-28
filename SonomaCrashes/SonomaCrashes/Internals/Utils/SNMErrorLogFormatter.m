@@ -31,7 +31,7 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
- */
+ */#import <CrashReporter/CrashReporter.h>
 
 #import "SNMErrorLogFormatter.h"
 
@@ -216,7 +216,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   errorLog = [self addProcessInfoAndApplicationPathTo:errorLog fromCrashReport:report];
 
   // Find the crashed thread
-  SNMPLCrashReportThreadInfo *crashedThread = [self findCrashedThreadIn:report];
+  SNMPLCrashReportThreadInfo *crashedThread = [self findCrashedThreadInReport:report];
 
   // Error Thread Info.
   errorLog.errorThreadId = @(crashedThread.threadNumber);
@@ -257,7 +257,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
   errorLog.exceptionType = report.signalInfo.name;
 
-  errorLog.threads = [self extractThreadsFromReport:report is64bit:is64bit];
+  errorLog.threads = [self extractThreadsFromReport:report crashedThread:crashedThread is64bit:is64bit];
   errorLog.registers = [self extractRegistersFromCrashedThread:crashedThread is64bit:is64bit];
 
   // Gather all addresses for which we need to preserve the binary image.
@@ -378,7 +378,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   return @(difference);
 }
 
-+ (NSArray<SNMThread *> *)extractThreadsFromReport:(SNMPLCrashReport *)report is64bit:(BOOL)is64bit {
++ (NSArray<SNMThread *> *)extractThreadsFromReport:(SNMPLCrashReport *)report crashedThread:(SNMPLCrashReportThreadInfo *)crashedThread is64bit:(BOOL)is64bit {
   NSMutableArray<SNMThread *> *formattedThreads = [NSMutableArray array];
   SNMException *lastException = nil;
 
@@ -402,7 +402,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
     lastException.frames = exceptionThread.frames;
     lastException.type = report.exceptionInfo.exceptionName ?: report.signalInfo.name;
 
-    // Don't add the thread to the array of threads, the exception will be added to the first thread instead.
+    // Don't add the thread to the array of threads (as in HockeyApp), the exception will be added to the crashed thread instead.
   }
 
   // Get all threads from the report (as opposed to the threads from the exception).
@@ -410,7 +410,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
     SNMThread *thread = [SNMThread new];
     thread.threadId = @(plCrashReporterThread.threadNumber);
 
-    if ((lastException != nil) && [thread.threadId isEqualToNumber:@0]) {
+    if ((lastException != nil) && (crashedThread != nil) && [thread.threadId isEqualToNumber:@(crashedThread.threadNumber)]) {
       thread.exception = lastException;
     }
 
@@ -755,7 +755,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   return boolNumber.boolValue;
 }
 
-+ (SNMPLCrashReportThreadInfo *)findCrashedThreadIn:(SNMPLCrashReport *)report {
++ (SNMPLCrashReportThreadInfo *)findCrashedThreadInReport:(SNMPLCrashReport *)report {
   SNMPLCrashReportThreadInfo *crashedThread;
   for (SNMPLCrashReportThreadInfo *thread in report.threads) {
     if (thread.crashed) {
