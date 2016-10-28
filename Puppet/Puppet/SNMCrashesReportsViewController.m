@@ -41,6 +41,11 @@
   [SNMCrashes generateTestCrash];
 }
 
+- (void)throwObjectiveCException __attribute__((noreturn)) {
+    @throw [NSException exceptionWithName:NSGenericException reason:@"An uncaught exception! SCREAM."
+                                 userInfo:@{ NSLocalizedDescriptionKey: @"I'm in your program, catching your exceptions!" }];
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -53,7 +58,7 @@
 
   // Actions
   case 0: {
-    return 3;
+    return 4;
   }
 
   // Settings
@@ -99,6 +104,8 @@
     case 2:
       cell.textLabel.text = NSLocalizedString(@"generateTestCrash", @"");
       break;
+      case 3:
+        cell.textLabel.text = NSLocalizedString(@"Objective-C-Exception", @"");
 
     default:
       break;
@@ -158,6 +165,9 @@
     case 2:
       [self generateTestCrash];
       break;
+      case 3:
+        [self throwObjectiveCException];
+        break;
     default:
       break;
     }

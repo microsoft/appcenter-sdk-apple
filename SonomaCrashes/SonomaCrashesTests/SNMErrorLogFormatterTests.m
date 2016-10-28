@@ -4,15 +4,16 @@
 
 #import <Foundation/Foundation.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
 #import "SNMAppleErrorLog.h"
 #import "SNMCrashTestHelper.h"
 #import "SNMCrashesPrivate.h"
-#import "SNMErrorLogFormatterPrivate.h"
-#import "SNMSonomaInternal.h"
 #import "SNMDeviceTracker.h"
+#import "SNMErrorLogFormatterPrivate.h"
+#import "SNMException.h"
+#import "SNMSonomaInternal.h"
+#import "SNMThread.h"
 
 @interface SNMErrorLogFormatterTests : XCTestCase
 
@@ -26,7 +27,7 @@
 
   SNMDevice *device = [[SNMDeviceTracker alloc] init].device;
   XCTAssertNotNil(device);
-  
+
   NSError *error = nil;
   SNMPLCrashReport *crashReport = [[SNMPLCrashReport alloc] initWithData:crashData error:&error];
 
@@ -41,11 +42,11 @@
   assertThat(errorReport.appStartTime, equalTo(crashReport.processInfo.processStartTime));
   XCTAssertTrue([errorReport.device isEqual:device]);
   XCTAssertEqual(errorReport.appProcessIdentifier, crashReport.processInfo.processID);
-  
+
   crashData = [SNMCrashTestHelper dataOfFixtureCrashReportWithFileName:@"live_report_exception"];
   XCTAssertNotNil(crashData);
   error = nil;
-  
+
   crashReport = [[SNMPLCrashReport alloc] initWithData:crashData error:&error];
   errorReport = [SNMErrorLogFormatter errorReportFromCrashReport:crashReport];
   XCTAssertNotNil(errorReport);
@@ -72,6 +73,28 @@
   assertThat(actual, equalTo(expected));
 }
 
+- (void)testProcessIdAndExceptionForObjectiveCExceptionCrash {
+  NSData *crashData = [SNMCrashTestHelper dataOfFixtureCrashReportWithFileName:@"live_report_exception"];
+  XCTAssertNotNil(crashData);
+  NSError *error = nil;
+  SNMPLCrashReport *report = [[SNMPLCrashReport alloc] initWithData:crashData error:&error];
+  SNMPLCrashReportExceptionInfo *plExceptionInfo = report.exceptionInfo;
+  SNMAppleErrorLog *errorLog = [SNMErrorLogFormatter errorLogFromCrashReport:report];
+
+  SNMPLCrashReportThreadInfo *crashedThread = [SNMErrorLogFormatter findCrashedThreadInReport:report];
+
+  for (SNMThread *thread in errorLog.threads) {
+    if ([thread.threadId isEqualToNumber:@(crashedThread.threadNumber)]) {
+      SNMException *exception = thread.exception;
+      XCTAssertNotNil(exception);
+      XCTAssertEqual(exception.message, plExceptionInfo.exceptionReason);
+      XCTAssertEqual(exception.type, plExceptionInfo.exceptionName);
+    } else {
+      XCTAssertNil(thread.exception);
+    }
+  }
+}
+
 - (void)testAddProcessInfoAndApplicationPath {
   NSData *crashData = [SNMCrashTestHelper dataOfFixtureCrashReportWithFileName:@"live_report_exception"];
   XCTAssertNotNil(crashData);
@@ -87,8 +110,8 @@
   XCTAssertNotNil(actual.applicationPath);
   // Not using the report.processInfo.processPath directly to compare as it will be anonymized in the Simulator.
   assertThat(actual.applicationPath, equalTo(@"/Users/USER/Library/Application Support/iPhone "
-                                             @"Simulator/7.0/Applications/E196971A-6809-48AF-BB06-FD67014A35B2/"
-                                             @"HockeySDK-iOSDemo.app/HockeySDK-iOSDemo"));
+                                                 @"Simulator/7.0/Applications/E196971A-6809-48AF-BB06-FD67014A35B2/"
+                                                 @"HockeySDK-iOSDemo.app/HockeySDK-iOSDemo"));
 
   XCTAssertEqual(actual.parentProcessName, report.processInfo.parentProcessName);
   assertThat(actual.parentProcessId, equalTo(@(report.processInfo.parentProcessID)));
@@ -101,9 +124,9 @@
   assertThat(actual, equalTo(expected));
 
   testPath = @"/Users/someone/Library/Developer/CoreSimulator/Devices/B8321AD0-C30B-41BD-BA54-5A7759CEC4CD/data/"
-             @"Containers/Bundle/Application/8CC7B5B5-7841-45C4-BAC2-6AA1B944A5E1/Puppet.app/Puppet";
+      @"Containers/Bundle/Application/8CC7B5B5-7841-45C4-BAC2-6AA1B944A5E1/Puppet.app/Puppet";
   expected = @"/Users/USER/Library/Developer/CoreSimulator/Devices/B8321AD0-C30B-41BD-BA54-5A7759CEC4CD/data/"
-             @"Containers/Bundle/Application/8CC7B5B5-7841-45C4-BAC2-6AA1B944A5E1/Puppet.app/Puppet";
+      @"Containers/Bundle/Application/8CC7B5B5-7841-45C4-BAC2-6AA1B944A5E1/Puppet.app/Puppet";
   actual = [SNMErrorLogFormatter anonymizedPathFromPath:testPath];
   assertThat(actual, equalTo(expected));
   XCTAssertFalse([actual containsString:@"sampleuser"]);
@@ -218,9 +241,9 @@
   [nonAppSpecificImagePaths addObject:@"/System/Library/Frameworks/AVFoundation.framework/libAVFAudio.dylib"];
   [nonAppSpecificImagePaths addObject:@"/System/Library/PrivateFrameworks/AOSNotification.framework/AOSNotification"];
   [nonAppSpecificImagePaths addObject:@"/System/Library/PrivateFrameworks/Accessibility.framework/Frameworks/"
-                                      @"AccessibilityUI.framework/AccessibilityUI"];
+      @"AccessibilityUI.framework/AccessibilityUI"];
   [nonAppSpecificImagePaths addObject:@"/System/Library/PrivateFrameworks/Accessibility.framework/Frameworks/"
-                                      @"AccessibilityUIUtilities.framework/AccessibilityUIUtilities"];
+      @"AccessibilityUIUtilities.framework/AccessibilityUIUtilities"];
   [nonAppSpecificImagePaths addObject:@"/usr/lib/libAXSafeCategoryBundle.dylib"];
   [nonAppSpecificImagePaths addObject:@"/usr/lib/libAXSpeechManager.dylib"];
   [nonAppSpecificImagePaths addObject:@"/usr/lib/libAccessibility.dylib"];
