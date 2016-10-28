@@ -31,9 +31,7 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
- */#import <CrashReporter/CrashReporter.h>
-
-#import "SNMErrorLogFormatter.h"
+ */
 
 #import <CrashReporter/CrashReporter.h>
 #import <mach-o/dyld.h>
@@ -49,6 +47,7 @@
 #import "SNMAppleErrorLog.h"
 #import "SNMBinary.h"
 #import "SNMCrashesPrivate.h"
+#import "SNMErrorLogFormatter.h"
 #import "SNMErrorReport.h"
 #import "SNMErrorReportPrivate.h"
 #import "SNMException.h"
