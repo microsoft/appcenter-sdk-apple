@@ -347,7 +347,9 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
         SNMPLCrashReport *report = [[SNMPLCrashReport alloc] initWithData:crashFileData error:&error];
         SNMAppleErrorLog *log = [SNMErrorLogFormatter errorLogFromCrashReport:report];
         SNMErrorReport *errorReport = [SNMErrorLogFormatter errorReportFromLog:(log)];
-        if (!self.delegate || [self.delegate crashes:self shouldProcessErrorReport:errorReport]) {
+        if (!self.delegate ||
+            ![self.delegate respondsToSelector:@selector(crashes:shouldProcessErrorReport:)] ||
+            [self.delegate crashes:self shouldProcessErrorReport:errorReport]) {
           SNMLogDebug([SNMCrashes getLoggerTag],
                       @"shouldProcessErrorReport is not implemented or returned YES, processing the crash report: %@",
                       report.debugDescription);
