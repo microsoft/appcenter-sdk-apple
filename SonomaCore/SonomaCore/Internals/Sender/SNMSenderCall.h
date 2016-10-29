@@ -26,7 +26,7 @@
 /**
  *  Callback queue.
  */
-@property(nonatomic) dispatch_queue_t callbackQueue;
+@property(nonatomic) dispatch_queue_t logsDispatchQueue;
 
 /**
  *  Call completion handler used for communicating with calling component.

@@ -3,9 +3,10 @@
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
+#import "SNMCrashTestHelper.h"
 #import "SNMCrashesDelegate.h"
 #import "SNMCrashesPrivate.h"
-#import "SNMCrashTestHelper.h"
+#import "SNMLogManager.h"
 
 @interface SNMCrashesTests : XCTestCase
 
@@ -37,10 +38,10 @@
 }
 
 - (void)testStartingManagerInitializesPLCrashReporter {
-  
+
   // When
-  [self.sut startFeature];
-  
+  [self.sut startWithLogManager:OCMProtocolMock(@protocol(SNMLogManager))];
+
   // Then
   assertThat(self.sut.plCrashReporter, notNilValue());
 }
@@ -49,26 +50,19 @@
   [self.sut deleteAllFromCrashesDirectory];
   assertThat(self.sut.crashFiles, hasCountOf(0));
   assertThatBool([SNMCrashTestHelper copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
-  
+
   // When
-  [self.sut startFeature];
-  
+  [self.sut startWithLogManager:OCMProtocolMock(@protocol(SNMLogManager))];
+
   // Then
   assertThat(self.sut.crashFiles, hasCountOf(1));
 }
 
 - (void)testSettingDelegateWorks {
-  id <SNMCrashesDelegate> delegateMock = OCMProtocolMock(@protocol(SNMCrashesDelegate));
+  id<SNMCrashesDelegate> delegateMock = OCMProtocolMock(@protocol(SNMCrashesDelegate));
   [SNMCrashes setDelegate:delegateMock];
   XCTAssertNotNil([SNMCrashes sharedInstance].delegate);
   XCTAssertEqual([SNMCrashes sharedInstance].delegate, delegateMock);
 }
-
-
-
-
-
-
-
 
 @end
