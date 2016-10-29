@@ -31,9 +31,12 @@ Before you begin, please make sure that the following prerequisites are met:
 * An iOS project that is set up in Xcode on macOS version 10.12.
 * The minimum OS target supported by the Sonoma SDK is iOS 8.0 or later
 
-## 2. Add Sonoma SDK modules
+## 2. Integrate the SDK
 
 The Sonoma SDK is designed with a modular approach – a developer only needs to integrate the modules of the services that they're interested in.
+You can either integrate the Sonoma SDK by copying it's binaries to your Xcode project (Step 2.1), or by using Cocoapods (Step 2.2).
+
+### 2.1 Integration by copying the binaries into your project
 
 Below are the steps on how to integrate the compiled libraries in your Xcode project to setup the Sonoma SDK for your iOS app.
 
@@ -51,6 +54,26 @@ Below are the steps on how to integrate the compiled libraries in your Xcode pro
     * A dialog will appear again. Make sure that "Copy items if needed", "Create groups", and your app target are checked. Then click Finish.
     
 Now that you've integrated the frameworks in your application, it's time to start the SDK and make use of the Sonoma services.
+
+### 2.2 Integration using Cocoapods
+
+[CocoaPods](http://cocoapods.org/) is a dependency manager for Objective-C, which automates and simplifies the process of using 3rd-party libraries like Sonoma in your projects. To learn how to setup CocoaPods for your project, visit [the official CocoaPods website](http://cocoapods.org/).
+
+1. Add the following to your `podfile` to include all services into your app. This will pull in `SonomaCore`, `SonomaAnalytics` and `SonomaCrashes`. Alternatively, you can specify which features you want to use in your app. Each service has it's own `subspec` and they all rely on `SonomaCore`. It will get pulled in automatically.
+
+```ruby
+  # Use the following line to use all features.
+  pod 'Sonoma', :podspec => 'https://download.hockeyapp.net/sonoma/ios/Sonoma.podspec'
+  
+  # Use the following line if you want to specify which service you want to use.
+  pod 'Sonoma', :podspec => 'https://download.hockeyapp.net/sonoma/ios/Sonoma.podspec',  :subspecs => ['SonomaAnalytics', 'SonomaCrashes'] 
+
+```
+
+2. Run `pod install` to install your newly defined pod, open your `.xcworkspace` and it's time to start the SDK and make use of the Sonoma services.
+
+
+
 
 ## 3. Start the SDK
 

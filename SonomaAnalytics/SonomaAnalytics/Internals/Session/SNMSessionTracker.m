@@ -2,10 +2,9 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
+#import "SNMAnalyticsInternal.h"
 #import "SNMSessionTracker.h"
 #import "SNMStartSessionLog.h"
-#import "SNMAnalytics.h"
-#import "SNMAnalyticsPrivate.h"
 
 static NSTimeInterval const kSNMSessionTimeOut = 20;
 static NSString *const kSNMPastSessionsKey = @"kSNMPastSessionsKey";
@@ -61,38 +60,47 @@ static NSUInteger const kSNMMaxSessionHistoryCount = 5;
 }
 
 - (NSString *)sessionId {
+  @synchronized(self) {
 
-  // Check if new session id is required.
-  if (_sessionId == nil || [self hasSessionTimedOut]) {
-    _sessionId = kSNMUUIDString;
+    // Check if new session id is required.
+    if (_sessionId == nil || [self hasSessionTimedOut]) {
+      _sessionId = kSNMUUIDString;
 
-    // Record session.
-    SNMSessionHistoryInfo *sessionInfo = [[SNMSessionHistoryInfo alloc] init];
-    sessionInfo.sessionId = _sessionId;
-    sessionInfo.toffset = [NSNumber numberWithInteger:[[NSDate date] timeIntervalSince1970]];
+      // Record session.
+      SNMSessionHistoryInfo *sessionInfo = [[SNMSessionHistoryInfo alloc] init];
+      sessionInfo.sessionId = _sessionId;
+      sessionInfo.toffset = [NSNumber numberWithInteger:[[NSDate date] timeIntervalSince1970]];
 
-    // Insert at the beginning of the list.
-    [self.pastSessions insertObject:sessionInfo atIndex:0];
+      // Insert at the beginning of the list.
+      [self.pastSessions insertObject:sessionInfo atIndex:0];
 
-    // Remove last item if reached max limit.
-    if ([self.pastSessions count] > kSNMMaxSessionHistoryCount)
-      [self.pastSessions removeLastObject];
+      // Remove last item if reached max limit.
+      if ([self.pastSessions count] > kSNMMaxSessionHistoryCount)
+        [self.pastSessions removeLastObject];
 
-    // Persist the session history in NSData format.
-    [kSNMUserDefaults setObject:[NSKeyedArchiver archivedDataWithRootObject:self.pastSessions]
-                         forKey:kSNMPastSessionsKey];
-    SNMLogInfo([SNMAnalytics getLoggerTag], @"New session ID: %@", _sessionId);
+      // Persist the session history in NSData format.
+      [kSNMUserDefaults setObject:[NSKeyedArchiver archivedDataWithRootObject:self.pastSessions]
+                           forKey:kSNMPastSessionsKey];
+      SNMLogInfo([SNMAnalytics getLoggerTag], @"New session ID: %@", _sessionId);
 
-    // Create a start session log.
-    SNMStartSessionLog *log = [[SNMStartSessionLog alloc] init];
-    log.sid = _sessionId;
-    [self.delegate sessionTracker:self processLog:log withPriority:SNMPriorityDefault];
+      // Create a start session log.
+      SNMStartSessionLog *log = [[SNMStartSessionLog alloc] init];
+      log.sid = _sessionId;
+      [self.delegate sessionTracker:self processLog:log withPriority:SNMPriorityDefault];
+    }
+    return _sessionId;
   }
-  return _sessionId;
 }
 
 - (void)start {
   if (!_started) {
+
+    // Renew session as needed if app is not in the background.
+    if ([[UIApplication sharedApplication] applicationState] != UIApplicationStateBackground) {
+      [self sessionId];
+    }
+
+    // Hookup to application events.
     [kSNMNotificationCenter addObserver:self
                                selector:@selector(applicationDidEnterBackground)
                                    name:UIApplicationDidEnterBackgroundNotification
@@ -107,20 +115,21 @@ static NSUInteger const kSNMMaxSessionHistoryCount = 5;
 
 - (void)stop {
   if (_started) {
-    [kSNMNotificationCenter removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
-    [kSNMNotificationCenter removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
+    [kSNMNotificationCenter removeObserver:self];
+    _started = NO;
   }
-  _started = NO;
 }
 
 - (void)clearSessions {
+  @synchronized(self) {
 
-  // Clear persistence.
-  [kSNMUserDefaults removeObjectForKey:kSNMPastSessionsKey];
+    // Clear persistence.
+    [kSNMUserDefaults removeObjectForKey:kSNMPastSessionsKey];
 
-  // Clear cache.
-  self.sessionId = nil;
-  [self.pastSessions removeAllObjects];
+    // Clear cache.
+    self.sessionId = nil;
+    [self.pastSessions removeAllObjects];
+  }
 }
 
 #pragma mark - private methods
@@ -130,10 +139,11 @@ static NSUInteger const kSNMMaxSessionHistoryCount = 5;
   @synchronized(self) {
     NSDate *now = [NSDate date];
 
-    // Verify if last time that a log was sent is longer than the session timeout time.
-    BOOL noLogSentForLong = [now timeIntervalSinceDate:self.lastCreatedLogTime] >= self.sessionTimeout;
+    // Verify if a log has already been sent and if it was sent a longer time ago than the session timeout.
+    BOOL noLogSentForLong =
+        !self.lastCreatedLogTime || [now timeIntervalSinceDate:self.lastCreatedLogTime] >= self.sessionTimeout;
 
-    // Verify if app is currently in the background for a longer time than the
+    // Verify if app is currently in the background for a longer time than the session timeout.
     BOOL isBackgroundForLong =
         (self.lastEnteredBackgroundTime && self.lastEnteredForegroundTime) &&
         ([self.lastEnteredBackgroundTime compare:self.lastEnteredForegroundTime] == NSOrderedDescending) &&
@@ -155,16 +165,23 @@ static NSUInteger const kSNMMaxSessionHistoryCount = 5;
 
 - (void)applicationWillEnterForeground {
   self.lastEnteredForegroundTime = [NSDate date];
+
+  // Trigger session renewal.
+  [self sessionId];
 }
 
 #pragma mark - SNMLogManagerDelegate
 
 - (void)onProcessingLog:(id<SNMLog>)log withPriority:(SNMPriority)priority {
 
+  // Update time stamp.
+  _lastCreatedLogTime = [NSDate date];
+
   // Start session log is created in this method, therefore, skip in order to avoid infinite loop.
   if ([((NSObject *)log) isKindOfClass:[SNMStartSessionLog class]])
     return;
 
+  // Attach corresponding session id.
   if (log.toffset != nil) {
     [self.pastSessions
         enumerateObjectsUsingBlock:^(SNMSessionHistoryInfo *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
@@ -179,9 +196,6 @@ static NSUInteger const kSNMMaxSessionHistoryCount = 5;
   if (log.sid == nil) {
     log.sid = self.sessionId;
   }
-
-  // Update time stamp.
-  _lastCreatedLogTime = [NSDate date];
 }
 
 @end

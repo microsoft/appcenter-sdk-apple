@@ -2,11 +2,12 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "SNMAnalytics.h"
 #import "SNMAnalyticsCategory.h"
+#import "SNMAnalyticsInternal.h"
 #import <objc/runtime.h>
 
 static NSString *const kSNMViewControllerSuffix = @"ViewController";
+static NSString *SNMMissedPageViewName;
 
 @implementation UIViewController (PageViewLogging)
 
@@ -47,8 +48,20 @@ static NSString *const kSNMViewControllerSuffix = @"ViewController";
       pageViewName = [pageViewName substringToIndex:[pageViewName length] - [kSNMViewControllerSuffix length]];
     }
 
-    // Track page.
-    [SNMAnalytics trackPage:pageViewName withProperties:nil];
+    // Track page if ready.
+    if ([SNMAnalytics sharedInstance].available) {
+
+      // Reset cached page.
+      SNMMissedPageViewName = nil;
+
+      // Track page.
+      [SNMAnalytics trackPage:pageViewName withProperties:nil];
+    } else {
+
+      // Store the page name for retroactive tracking.
+      // For instance if the module becomes enabled after the view appeared.
+      SNMMissedPageViewName = pageViewName;
+    }
   }
 }
 
@@ -74,6 +87,10 @@ BOOL snm_shouldTrackPageView(UIViewController *viewController) {
 
 + (void)activateCategory {
   [UIViewController swizzleViewWillAppear];
+}
+
++ (NSString *)missedPageViewName {
+  return SNMMissedPageViewName;
 }
 
 @end
