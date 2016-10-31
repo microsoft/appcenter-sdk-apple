@@ -62,7 +62,7 @@
 		6E04016F1D1C9E460051BCFA /* SNMSonomaInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401441D1C99AC0051BCFA /* SNMSonomaInternal.h */; };
 		6E0401701D1C9E460051BCFA /* SNMFeature.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401451D1C99AC0051BCFA /* SNMFeature.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E0401711D1C9E460051BCFA /* SNMFeatureInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401471D1C99AC0051BCFA /* SNMFeatureInternal.h */; };
-		6E0401731D1C9E460051BCFA /* SNMLoggerPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E04014B1D1C99AC0051BCFA /* SNMLoggerPrivate.h */; };
+		6E0401731D1C9E460051BCFA /* SNMLoggerInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E04014B1D1C99AC0051BCFA /* SNMLoggerInternal.h */; };
 		6E0684631D36BC8D00A8CC6C /* SNMChannelDefault.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0684611D36BC8D00A8CC6C /* SNMChannelDefault.h */; };
 		6E0684641D36BC8D00A8CC6C /* SNMChannelDefault.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0684621D36BC8D00A8CC6C /* SNMChannelDefault.m */; };
 		6E0684671D36BCD500A8CC6C /* SNMChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0684651D36BCD500A8CC6C /* SNMChannel.h */; };
@@ -188,7 +188,7 @@
 		6E0401441D1C99AC0051BCFA /* SNMSonomaInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMSonomaInternal.h; sourceTree = "<group>"; };
 		6E0401451D1C99AC0051BCFA /* SNMFeature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMFeature.h; sourceTree = "<group>"; };
 		6E0401471D1C99AC0051BCFA /* SNMFeatureInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMFeatureInternal.h; sourceTree = "<group>"; };
-		6E04014B1D1C99AC0051BCFA /* SNMLoggerPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMLoggerPrivate.h; sourceTree = "<group>"; };
+		6E04014B1D1C99AC0051BCFA /* SNMLoggerInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMLoggerInternal.h; sourceTree = "<group>"; };
 		6E0401551D1C9AAA0051BCFA /* SNMSonoma.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMSonoma.h; sourceTree = "<group>"; };
 		6E0401561D1C9AAA0051BCFA /* SNMSonoma.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMSonoma.m; sourceTree = "<group>"; };
 		6E0401581D1C9CFB0051BCFA /* SonomaCore+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SonomaCore+Internal.h"; sourceTree = "<group>"; };
@@ -392,7 +392,7 @@
 				B22FC2B41D5E51A20007CD80 /* SNMEnvironmentHelper.h */,
 				B22FC2B51D5E51A20007CD80 /* SNMEnvironmentHelper.m */,
 				E88D170D1D36BB1700A5EA57 /* SNMUtils.h */,
-				6E04014B1D1C99AC0051BCFA /* SNMLoggerPrivate.h */,
+				6E04014B1D1C99AC0051BCFA /* SNMLoggerInternal.h */,
 				E829E4241D25D07600F19DA1 /* SNMConstants+Internal.h */,
 			);
 			path = Utils;
@@ -666,7 +666,7 @@
 				38EAD9AC1DA6A8C500CE6030 /* SNMEnable.h in Headers */,
 				6E2BA1AF1D2499F9002D7B88 /* SNMFileHelper.h in Headers */,
 				381C91E91D3DB65D004512F1 /* SNMDeviceTracker.h in Headers */,
-				6E0401731D1C9E460051BCFA /* SNMLoggerPrivate.h in Headers */,
+				6E0401731D1C9E460051BCFA /* SNMLoggerInternal.h in Headers */,
 				E84B8E2F1D2351DB006FD231 /* SNMLogManagerDefault.h in Headers */,
 				6E48A5A81D3856F5006E8B5F /* SNMConstants+Internal.h in Headers */,
 				59493FB23FC790090683581A /* SNMChannelDelegate.h in Headers */,
