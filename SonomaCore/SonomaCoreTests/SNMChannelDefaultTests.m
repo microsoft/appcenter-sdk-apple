@@ -81,12 +81,15 @@ static NSString *const kSNMTestPriorityName = @"Prio";
   for (int i = 1; i <= itemsToAdd; i++) {
     [self.sut enqueueItem:[SNMAbstractLog new]];
   }
-  [self queueChannelEndJobExpectation];
+  [self enqueueChannelEndJobExpectation];
 
   // Then
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
                                  assertThatUnsignedLong(self.sut.itemsCount, equalToInt(itemsToAdd));
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
                                }];
 }
 
@@ -112,12 +115,15 @@ static NSString *const kSNMTestPriorityName = @"Prio";
              }
            }];
   }
-  [self queueChannelEndJobExpectation];
+  [self enqueueChannelEndJobExpectation];
 
   // Then
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
                                  assertThatUnsignedLong(self.sut.itemsCount, equalToInt(0));
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
                                }];
 }
 
@@ -132,14 +138,13 @@ static NSString *const kSNMTestPriorityName = @"Prio";
 
   // Set up mock and stubs.
   id senderMock = OCMProtocolMock(@protocol(SNMSender));
-  OCMStub([senderMock sendAsync:[OCMArg any] logsDispatchQueue:[OCMArg any] completionHandler:[OCMArg any]])
-      .andDo(^(NSInvocation *invocation) {
-        SNMLogContainer *container;
-        [invocation getArgument:&container atIndex:2];
-        if (container) {
-          [sentBatchIds addObject:container.batchId];
-        }
-      });
+  OCMStub([senderMock sendAsync:[OCMArg any] completionHandler:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
+    SNMLogContainer *container;
+    [invocation getArgument:&container atIndex:2];
+    if (container) {
+      [sentBatchIds addObject:container.batchId];
+    }
+  });
   id storageMock = OCMProtocolMock(@protocol(SNMStorage));
   OCMStub([storageMock loadLogsForStorageKey:kSNMTestPriorityName withCompletion:([OCMArg any])])
       .andDo(^(NSInvocation *invocation) {
@@ -165,7 +170,7 @@ static NSString *const kSNMTestPriorityName = @"Prio";
     log = [SNMAbstractLog new];
     [sut enqueueItem:log];
   }
-  [self queueChannelEndJobExpectation];
+  [self enqueueChannelEndJobExpectation];
 
   // Then
   [self
@@ -176,6 +181,9 @@ static NSString *const kSNMTestPriorityName = @"Prio";
                                assertThat(sentBatchIds[0], is(@"1"));
                                assertThat(sentBatchIds[1], is(@"2"));
                                assertThatBool(sut.pendingBatchQueueFull, isTrue());
+                               if (error) {
+                                 XCTFail(@"Expectation Failed with error: %@", error);
+                               }
                              }];
 }
 
@@ -193,20 +201,18 @@ static NSString *const kSNMTestPriorityName = @"Prio";
 
   // Init mocks.
   id senderMock = OCMProtocolMock(@protocol(SNMSender));
-  OCMStub([senderMock sendAsync:[OCMArg any] logsDispatchQueue:[OCMArg any] completionHandler:[OCMArg any]])
-      .andDo(^(NSInvocation *invocation) {
+  OCMStub([senderMock sendAsync:[OCMArg any] completionHandler:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
 
-        // Get sender bloc for later call.
-        [invocation retainArguments];
-        [invocation getArgument:&senderBlock atIndex:4];
-        [invocation getArgument:&lastBatchLogContainer atIndex:2];
-      });
+    // Get sender bloc for later call.
+    [invocation retainArguments];
+    [invocation getArgument:&senderBlock atIndex:3];
+    [invocation getArgument:&lastBatchLogContainer atIndex:2];
+  });
 
   // Stub the storage load for that log.
   id storageMock = OCMProtocolMock(@protocol(SNMStorage));
   OCMStub([storageMock loadLogsForStorageKey:kSNMTestPriorityName withCompletion:([OCMArg any])])
       .andDo(^(NSInvocation *invocation) {
-
         SNMLoadDataCompletionBlock loadCallback;
 
         // Get sender bloc for later call.
@@ -237,27 +243,29 @@ static NSString *const kSNMTestPriorityName = @"Prio";
 
   // Try to release one batch.
   dispatch_async(self.logsDispatchQueue, ^{
-    senderBlock([@(currentBatchId) stringValue], nil, @(200));
+    senderBlock([@(1) stringValue], nil, 200);
 
     /**
      * Then
      */
+    dispatch_async(self.logsDispatchQueue, ^{
 
-    // Batch queue should not be full;
-    assertThatBool(sut.pendingBatchQueueFull, isFalse());
-    [oneLogSentExpectation fulfill];
+      // Batch queue should not be full;
+      assertThatBool(sut.pendingBatchQueueFull, isFalse());
+      [oneLogSentExpectation fulfill];
+
+      /**
+       * When
+       */
+
+      // Send another batch.
+      currentBatchId++;
+      log = [SNMAbstractLog new];
+      log.toffset = @(currentBatchId);
+      [sut enqueueItem:log];
+      [self enqueueChannelEndJobExpectation];
+    });
   });
-
-  /**
-   * When
-   */
-
-  // Send another batch.
-  currentBatchId++;
-  log = [SNMAbstractLog new];
-  log.toffset = @(currentBatchId);
-  [sut enqueueItem:log];
-  [self queueChannelEndJobExpectation];
 
   /**
    * Then
@@ -267,6 +275,9 @@ static NSString *const kSNMTestPriorityName = @"Prio";
 
                                  // Get sure it has been sent.
                                  assertThat(lastBatchLogContainer.batchId, is([@(currentBatchId) stringValue]));
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
                                }];
 }
 
@@ -276,7 +287,7 @@ static NSString *const kSNMTestPriorityName = @"Prio";
   [self initChannelEndJobExpectation];
   __block id<SNMLog> log = [SNMAbstractLog new];
   id senderMock = OCMProtocolMock(@protocol(SNMSender));
-  OCMStub([senderMock sendAsync:[OCMArg any] logsDispatchQueue:[OCMArg any] completionHandler:[OCMArg any]]);
+  OCMStub([senderMock sendAsync:[OCMArg any] completionHandler:[OCMArg any]]);
   id storageMock = OCMProtocolMock(@protocol(SNMStorage));
   OCMStub([storageMock
       loadLogsForStorageKey:kSNMTestPriorityName
@@ -295,7 +306,7 @@ static NSString *const kSNMTestPriorityName = @"Prio";
    */
   [sut setEnabled:NO andDeleteDataOnDisabled:NO];
   [sut enqueueItem:log];
-  [self queueChannelEndJobExpectation];
+  [self enqueueChannelEndJobExpectation];
 
   /**
    * Then
@@ -304,9 +315,10 @@ static NSString *const kSNMTestPriorityName = @"Prio";
                                handler:^(NSError *error) {
 
                                  // Get sure it hasn't been sent.
-                                 OCMReject([senderMock sendAsync:[OCMArg any]
-                                               logsDispatchQueue:[OCMArg any]
-                                               completionHandler:[OCMArg any]]);
+                                 OCMReject([senderMock sendAsync:[OCMArg any] completionHandler:[OCMArg any]]);
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
                                }];
 }
 
@@ -332,7 +344,7 @@ static NSString *const kSNMTestPriorityName = @"Prio";
   // When
   [sut enqueueItem:log];
   [sut setEnabled:NO andDeleteDataOnDisabled:YES];
-  [self queueChannelEndJobExpectation];
+  [self enqueueChannelEndJobExpectation];
 
   // Then
   [self waitForExpectationsWithTimeout:1
@@ -341,6 +353,9 @@ static NSString *const kSNMTestPriorityName = @"Prio";
                                  // Check that logs as been requested for deletion and that there is no batch left.
                                  OCMVerify([storageMock deleteLogsForStorageKey:kSNMTestPriorityName]);
                                  assertThatUnsignedLong(sut.pendingBatchIds.count, equalToInt(0));
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
                                }];
 }
 
@@ -350,7 +365,7 @@ static NSString *const kSNMTestPriorityName = @"Prio";
   _channelEndJobExpectation = [self expectationWithDescription:@"Channel job should be finished"];
 }
 
-- (void)queueChannelEndJobExpectation {
+- (void)enqueueChannelEndJobExpectation {
 
   // Enqueue end job expectation on channel's queue to detect when channel finished processing.
   dispatch_async(self.logsDispatchQueue, ^{
