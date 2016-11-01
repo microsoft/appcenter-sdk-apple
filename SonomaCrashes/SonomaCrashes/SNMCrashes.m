@@ -56,7 +56,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 #pragma mark - Public Methods
 
 + (void)generateTestCrash {
-  @synchronized ([self sharedInstance]) {
+  @synchronized([self sharedInstance]) {
     if ([[self sharedInstance] canBeUsed]) {
       if ([SNMEnvironmentHelper currentAppEnvironment] != SNMEnvironmentAppStore) {
         if ([SNMSonoma isDebuggerAttached]) {
@@ -69,7 +69,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
     } else {
       SNMLogWarning([SNMCrashes getLoggerTag],
                     @"GenerateTestCrash was just called in an App Store environment. The call will "
-                        @"be ignored");
+                    @"be ignored");
     }
   }
 }
@@ -80,7 +80,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 
 + (void)setUserConfirmationHandler:(_Nullable SNMUserConfirmationHandler)userConfirmationHandler {
   // FIXME: Type cast is required at the moment. Need to fix the root cause.
-  ((SNMCrashes *) [self sharedInstance]).userConfirmationHandler = userConfirmationHandler;
+  ((SNMCrashes *)[self sharedInstance]).userConfirmationHandler = userConfirmationHandler;
 }
 
 + (void)notifyWithUserConfirmation:(SNMUserConfirmation)userConfirmation {
@@ -121,7 +121,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
   return [[self sharedInstance] getLastSessionCrashReport];
 }
 
-+ (void)setDelegate:(_Nullable id <SNMCrashesDelegate>)delegate {
++ (void)setDelegate:(_Nullable id<SNMCrashesDelegate>)delegate {
   [[self sharedInstance] setDelegate:delegate];
 }
 
@@ -140,13 +140,30 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 
 #pragma mark - SNMFeatureAbstract
 
-- (void)setEnabled:(BOOL)isEnabled {
-  [super setEnabled:isEnabled];
+- (void)applyEnabledState:(BOOL)isEnabled {
+  [super applyEnabledState:isEnabled];
 
   if (isEnabled) {
     SNMLogDebug([SNMCrashes getLoggerTag], @"Enabling crashes feature again.");
     [self configureCrashReporter];
+
+    // Get pending crashes from PLCrashReporter and persist them in the intermediate format.
+    if ([self.plCrashReporter hasPendingCrashReport]) {
+      _didCrashInLastSession = YES;
+      [self handleLatestCrashReport];
+    }
+
+    // Get persisted crash reports.
+    _crashFiles = [self persistedCrashReports];
+
+    // Set self as delegate of crashes' channel.
     [self.logManager addChannelDelegate:self forPriority:SNMPriorityHigh];
+
+    // Process PLCrashReports, this will format the PLCrashReport into our schema and then trigger sending.
+    // This mostly happens on the start of the feature.
+    if (self.crashFiles.count > 0) {
+      [self startDelayedCrashProcessing];
+    }
   } else {
     // Don't set PLCrashReporter to nil!
     SNMLogDebug([SNMCrashes getLoggerTag], @"Cleaning up all crash files.");
@@ -169,31 +186,13 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
   return sharedInstance;
 }
 
-+ (NSString *)getLoggerTag {
-  return @"SonomaCrashes";
+- (void)startWithLogManager:(id<SNMLogManager>)logManager {
+  [super startWithLogManager:logManager];
+  SNMLogVerbose([SNMCrashes getLoggerTag], @"Started crash feature.");
 }
 
-- (void)startFeature {
-  [super startFeature];
-
-  SNMLogVerbose([SNMCrashes getLoggerTag], @"Started crash feature.");
-
-  [self.logManager addChannelDelegate:self forPriority:self.priority];
-
-  [self configureCrashReporter];
-
-  // Get crashes from PLCrashReporter and store them in the intermediate format.
-  if ([self.plCrashReporter hasPendingCrashReport]) {
-    _didCrashInLastSession = YES;
-    [self handleLatestCrashReport];
-  }
-
-  _crashFiles = [self persistedCrashReports];
-
-  // Process PLCrashReports, this will format the PLCrashReport into our schena and then trigger sending.
-  if (self.crashFiles.count > 0) {
-    [self startDelayedCrashProcessing];
-  }
++ (NSString *)getLoggerTag {
+  return @"SonomaCrashes";
 }
 
 - (NSString *)storageKey {
@@ -206,28 +205,28 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 
 #pragma mark - SNMChannelDelegate
 
-- (void)channel:(id)channel willSendLog:(id <SNMLog>)log {
+- (void)channel:(id)channel willSendLog:(id<SNMLog>)log {
   if (self.delegate && [self.delegate respondsToSelector:@selector(crashes:willSendErrorReport:)]) {
-    if ([((NSObject *) log) isKindOfClass:[SNMAppleErrorLog class]]) {
-      SNMErrorReport *report = [SNMErrorLogFormatter errorReportFromLog:((SNMAppleErrorLog *) log)];
+    if ([((NSObject *)log) isKindOfClass:[SNMAppleErrorLog class]]) {
+      SNMErrorReport *report = [SNMErrorLogFormatter errorReportFromLog:((SNMAppleErrorLog *)log)];
       [self.delegate crashes:self willSendErrorReport:report];
     }
   }
 }
 
-- (void)channel:(id <SNMChannel>)channel didSucceedSendingLog:(id <SNMLog>)log {
+- (void)channel:(id<SNMChannel>)channel didSucceedSendingLog:(id<SNMLog>)log {
   if (self.delegate && [self.delegate respondsToSelector:@selector(crashes:didSucceedSendingErrorReport:)]) {
-    if ([((NSObject *) log) isKindOfClass:[SNMAppleErrorLog class]]) {
-      SNMErrorReport *report = [SNMErrorLogFormatter errorReportFromLog:((SNMAppleErrorLog *) log)];
+    if ([((NSObject *)log) isKindOfClass:[SNMAppleErrorLog class]]) {
+      SNMErrorReport *report = [SNMErrorLogFormatter errorReportFromLog:((SNMAppleErrorLog *)log)];
       [self.delegate crashes:self didSucceedSendingErrorReport:report];
     }
   }
 }
 
-- (void)channel:(id <SNMChannel>)channel didFailSendingLog:(id <SNMLog>)log withError:(NSError *)error {
+- (void)channel:(id<SNMChannel>)channel didFailSendingLog:(id<SNMLog>)log withError:(NSError *)error {
   if (self.delegate && [self.delegate respondsToSelector:@selector(crashes:didFailSendingErrorReport:withError:)]) {
-    if ([((NSObject *) log) isKindOfClass:[SNMAppleErrorLog class]]) {
-      SNMErrorReport *report = [SNMErrorLogFormatter errorReportFromLog:((SNMAppleErrorLog *) log)];
+    if ([((NSObject *)log) isKindOfClass:[SNMAppleErrorLog class]]) {
+      SNMErrorReport *report = [SNMErrorLogFormatter errorReportFromLog:((SNMAppleErrorLog *)log)];
       [self.delegate crashes:self didFailSendingErrorReport:report withError:error];
     }
   }
@@ -317,12 +316,11 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
      * log message for details.
      */
     if (self.exceptionHandler != currentHandler) {
-      SNMLogWarning([SNMCrashes getLoggerTag],
-                    @"Another exception handler was added. If "
-                    @"this invokes any kind exit() after processing the "
-                    @"exception, which causes any subsequent error handler "
-                    @"not to be invoked, these crashes will NOT be reported "
-                    @"to Sonoma!");
+      SNMLogWarning([SNMCrashes getLoggerTag], @"Another exception handler was added. If "
+                                               @"this invokes any kind of exit() after processing the "
+                                               @"exception, which causes any subsequent error handler "
+                                               @"not to be invoked, these crashes will NOT be reported "
+                                               @"to Sonoma!");
     }
   }
   if (!self.sendingInProgress && self.crashFiles.count > 0) {
@@ -350,7 +348,8 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
         SNMAppleErrorLog *log = [SNMErrorLogFormatter errorLogFromCrashReport:report];
         SNMErrorReport *errorReport = [SNMErrorLogFormatter errorReportFromLog:(log)];
         if ([self.delegate crashes:self shouldProcessErrorReport:errorReport]) {
-          SNMLogDebug([SNMCrashes getLoggerTag], @"shouldProcessErrorReport returned true, processing the crash report: %@",
+          SNMLogDebug([SNMCrashes getLoggerTag],
+                      @"shouldProcessErrorReport returned true, processing the crash report: %@",
                       report.debugDescription);
 
           // Put the log to temporary space for next callbacks.
@@ -359,7 +358,8 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
           [_unprocessedFilePaths addObject:filePath];
           continue;
         } else {
-          SNMLogDebug([SNMCrashes getLoggerTag], @"shouldProcessErrorReport returned false, discard the crash report: %@",
+          SNMLogDebug([SNMCrashes getLoggerTag],
+                      @"shouldProcessErrorReport returned false, discard the crash report: %@",
                       report.debugDescription);
         }
       } else {
@@ -378,13 +378,15 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
     if (flag && [flag boolValue]) {
 
       // User confirmation is set to SNMUserConfirmationAlways.
-      SNMLogDebug([SNMCrashes getLoggerTag], @"The flag for user confirmation is set to SNMUserConfirmationAlways, continue sending logs");
+      SNMLogDebug([SNMCrashes getLoggerTag],
+                  @"The flag for user confirmation is set to SNMUserConfirmationAlways, continue sending logs");
       [SNMCrashes notifyWithUserConfirmation:SNMUserConfirmationSend];
       return;
     } else if (!_userConfirmationHandler || !_userConfirmationHandler(_unprocessedReports)) {
 
       // User confirmation handler doesn't exist or returned NO which means 'want to process'.
-      SNMLogDebug([SNMCrashes getLoggerTag], @"The user confirmation handler is not implemented or returned NO, continue sending logs");
+      SNMLogDebug([SNMCrashes getLoggerTag],
+                  @"The user confirmation handler is not implemented or returned NO, continue sending logs");
       [SNMCrashes notifyWithUserConfirmation:SNMUserConfirmationSend];
     }
   }

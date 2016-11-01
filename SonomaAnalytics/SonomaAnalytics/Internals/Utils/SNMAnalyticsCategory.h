@@ -8,21 +8,26 @@
 NS_ASSUME_NONNULL_BEGIN
 @interface SNMAnalyticsCategory : NSObject
 
-@property(nonatomic) BOOL isEnabled;
-
 /**
- *  Activate category for UIViewController
+ * Activate category for UIViewController.
  */
 + (void)activateCategory;
+
+/**
+ * Get the last missed page view name while available.
+ *
+ * @return the last page view name. Can be nil if no name available or the page has already been tracked.
+ */
++ (nullable NSString *)missedPageViewName;
 
 @end
 
 /**
- *  Should track page
+ * Should track page
  *
- *  @param viewController The current view controller
+ * @param viewController The current view controller
  *
- *  @return YES if should track page, NO otherwise
+ * @return YES if should track page, NO otherwise
  */
 BOOL snm_shouldTrackPageView(UIViewController *viewController);
 

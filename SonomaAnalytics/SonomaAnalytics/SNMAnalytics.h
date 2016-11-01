@@ -28,14 +28,14 @@
 /**
  *  Track a page.
  *
- *  @param eventName  page name.
+ *  @param pageName  page name.
  */
 + (void)trackPage:(NSString *)pageName;
 
 /**
  *  Track a page.
  *
- *  @param eventName  page name.
+ *  @param pageName  page name.
  *  @param properties dictionary of properties.
  */
 + (void)trackPage:(NSString *)pageName withProperties:(NSDictionary *)properties;
