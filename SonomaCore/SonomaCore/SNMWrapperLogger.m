@@ -3,6 +3,7 @@
  */
 
 #import "SNMWrapperLogger.h"
+#import "SNMLogger.h"
 
 @implementation SNMWrapperLogger
 
