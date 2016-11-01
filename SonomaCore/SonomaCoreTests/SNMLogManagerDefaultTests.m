@@ -27,7 +27,7 @@
 
   // Then
   assertThat(sut, notNilValue());
-  assertThat(sut.dataItemsOperations, notNilValue());
+  assertThat(sut.logsDispatchQueue, notNilValue());
   assertThat(sut.channels, isEmpty());
   assertThat(sut.sender, equalTo(senderMock));
   assertThat(sut.storage, equalTo(storageMock));

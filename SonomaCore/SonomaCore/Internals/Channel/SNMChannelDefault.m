@@ -13,16 +13,23 @@
 /**
  * A boolean value set to YES if the channel is enabled or NO otherwise.
  * Enable/disable does resume/suspend the channel as needed under the hood.
+ * When a channel is disabled with data deletion it deletes persisted logs and discards incoming logs.
  */
 @property(nonatomic) BOOL enabled;
 
 /**
  * A boolean value set to YES if the channel is suspended or NO otherwise.
  * A channel is suspended when it becomes disabled or when its sender becomes suspended itself.
- * A suspended channel still persists logs but doesn't forward them to the sender.
+ * A suspended channel doesn't forward logs to the sender.
  * A suspended state doesn't impact the current enabled state.
  */
 @property(nonatomic) BOOL suspended;
+
+/**
+ * A boolean value set to YES if logs are discarded (not persisted) or NO otherwise.
+ * Logs are discarded when the related feature is disabled or an unrecoverable error happened.
+ */
+@property(nonatomic) BOOL discardLogs;
 
 @end
 
@@ -57,6 +64,11 @@
 
     // Register as sender delegate.
     [_sender addDelegate:self];
+
+    // Match sender's current status.
+    if (_sender.suspended) {
+      [self suspend];
+    }
   }
   return self;
 }
@@ -86,9 +98,12 @@
     if (!item) {
       SNMLogWarning([SNMSonoma getLoggerTag], @"TelemetryItem was nil.");
       return;
+    } else if (self.discardLogs) {
+      SNMLogWarning([SNMSonoma getLoggerTag], @"Channel disabled in log discarding mode, discard this log.");
     }
 
     // Save the log first.
+    SNMLogInfo([SNMSonoma getLoggerTag], @"Saving log, type: %@.", item.type);
     [self.storage saveLog:item withStorageKey:self.configuration.name];
     _itemsCount += 1;
     if (completion)
@@ -139,7 +154,7 @@
                    self.pendingBatchQueueFull = YES;
                  }
                  SNMLogContainer *container = [[SNMLogContainer alloc] initWithBatchId:batchId andLogs:logArray];
-                 SNMLogInfo([SNMSonoma getLoggerTag], @"Sending log %@",
+                 SNMLogInfo([SNMSonoma getLoggerTag], @"Sending log(s), batch Id:%@, payload:\n %@", batchId,
                             [container serializeLogWithPrettyPrinting:YES]);
 
                  // Notify delegates.
@@ -154,39 +169,54 @@
 
                  // Forward logs to the sender.
                  [self.sender sendAsync:container
-                      logsDispatchQueue:self.logsDispatchQueue
                       completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
-                        SNMLogInfo([SNMSonoma getLoggerTag], @"HTTP response received with the status code:%lu",
-                                   (unsigned long)statusCode);
+                        dispatch_async(self.logsDispatchQueue, ^{
 
-                        if (statusCode == 200) {
-                          [self enumerateDelegatesForSelector:@selector(channel:didSucceedSendingLog:)
-                                                    withBlock:^(id<SNMChannelDelegate> delegate) {
-                                                      for (id<SNMLog> aLog in logs) {
-                                                        [delegate channel:self didSucceedSendingLog:aLog];
-                                                      }
-                                                    }];
-                        } else {
-                          [self enumerateDelegatesForSelector:@selector(channel:didFailSendingLog:withError:)
+                          // Success.
+                          if (statusCode == SNMHTTPCodesNo200OK) {
+                            SNMLogInfo([SNMSonoma getLoggerTag], @"Log(s) sent with success, batch Id:%@.", batchId);
+
+                            // Notify delegates.
+                            [self enumerateDelegatesForSelector:@selector(channel:didSucceedSendingLog:)
+                                                      withBlock:^(id<SNMChannelDelegate> delegate) {
+                                                        for (id<SNMLog> aLog in logs) {
+                                                          [delegate channel:self didSucceedSendingLog:aLog];
+                                                        }
+                                                      }];
+
+                            // Remove from pending logs and storage.
+                            [self.pendingBatchIds removeObject:batchId];
+                            [self.storage deleteLogsForId:batchId withStorageKey:self.configuration.name];
+
+                            // Try to flush again if batch queue is not full anymore.
+                            if (self.pendingBatchQueueFull &&
+                                self.pendingBatchIds.count < self.configuration.pendingBatchesLimit) {
+                              self.pendingBatchQueueFull = NO;
+                              if (self.availableBatchFromStorage) {
+                                [self flushQueue];
+                              }
+                            }
+                          }
+
+                          // Failure.
+                          else {
+                            SNMLogInfo([SNMSonoma getLoggerTag],
+                                       @"Log(s) sent with failure, batch Id:%@, status code:%lu", batchId,
+                                       (unsigned long)statusCode);
+
+                            // Notify delegates.
+                            [self
+                                enumerateDelegatesForSelector:@selector(channel:didFailSendingLog:withError:)
                                                     withBlock:^(id<SNMChannelDelegate> delegate) {
                                                       for (id<SNMLog> aLog in logs) {
                                                         [delegate channel:self didFailSendingLog:aLog withError:error];
                                                       }
                                                     }];
-                        }
 
-                        // Remove from pending logs and storage.
-                        [self.pendingBatchIds removeObject:batchId];
-                        [self.storage deleteLogsForId:batchId withStorageKey:self.configuration.name];
-
-                        // Try to flush again if batch queue is not full anymore.
-                        if (self.pendingBatchQueueFull &&
-                            self.pendingBatchIds.count < self.configuration.pendingBatchesLimit) {
-                          self.pendingBatchQueueFull = NO;
-                          if (self.availableBatchFromStorage) {
-                            [self flushQueue];
+                            // Fatal error, disable sender with data deletion.
+                            [self.sender setEnabled:NO andDeleteDataOnDisabled:YES];
                           }
-                        }
+                        });
                       }];
                }
              }];
@@ -247,21 +277,28 @@
       } else {
         [self.sender removeDelegate:self];
         [self suspend];
-        if (deleteData) {
-          [self deleteAllLogsSync];
-
-          // Reset states.
-          self.itemsCount = 0;
-          self.availableBatchFromStorage = NO;
-          self.pendingBatchQueueFull = NO;
-        }
       }
+    }
+
+    // Even if it's already disabled we might also want to delete logs this time.
+    if (!isEnabled && deleteData) {
+      SNMLogInfo([SNMSonoma getLoggerTag], @"Delete all logs.");
+      [self deleteAllLogsSync];
+
+      // Reset states.
+      self.itemsCount = 0;
+      self.availableBatchFromStorage = NO;
+      self.pendingBatchQueueFull = NO;
+
+      // Prevent further logs from being persisted.
+      self.discardLogs = YES;
     }
   });
 }
 
 - (void)suspend {
   if (!self.suspended) {
+    SNMLogInfo([SNMSonoma getLoggerTag], @"Suspend channel.");
     self.suspended = YES;
     [self resetTimer];
   }
@@ -269,7 +306,9 @@
 
 - (void)resume {
   if (self.suspended && self.enabled) {
+    SNMLogInfo([SNMSonoma getLoggerTag], @"Resume channel.");
     self.suspended = NO;
+    self.discardLogs = NO;
     [self flushQueue];
   }
 }
@@ -290,11 +329,23 @@
 #pragma mark - SNMSenderDelegate
 
 - (void)senderDidSuspend:(id<SNMSender>)sender {
-  [self suspend];
+  dispatch_async(self.logsDispatchQueue, ^{
+    [self suspend];
+  });
 }
 
 - (void)senderDidResume:(id<SNMSender>)sender {
-  [self resume];
+  dispatch_async(self.logsDispatchQueue, ^{
+    [self resume];
+  });
+}
+
+- (void)sender:(id<SNMSender>)sender didSetEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData {
+
+  // Reflect sender enabled state.
+  dispatch_async(self.logsDispatchQueue, ^{
+    [self setEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
+  });
 }
 
 @end

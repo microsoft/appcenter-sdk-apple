@@ -17,6 +17,7 @@ static NSString *const kSNMApiPath = @"/logs";
 
 #pragma mark - SNMSender
 @synthesize reachability = _reachability;
+@synthesize suspended = _suspended;
 
 - (id)initWithBaseUrl:(NSString *)baseUrl
               headers:(NSDictionary *)headers
@@ -29,6 +30,9 @@ static NSString *const kSNMApiPath = @"/logs";
     _enabled = YES;
     _suspended = NO;
     _delegates = [NSHashTable weakObjectsHashTable];
+
+    // Call's retry intervals are: 10 sec, 5 min, 20 min.
+    _callsRetryIntervals = @[ @(10), @(5 * 60), @(20 * 60) ];
 
     // Construct the URL string with the query string.
     NSString *urlString = [baseUrl stringByAppendingString:kSNMApiPath];
@@ -51,15 +55,15 @@ static NSString *const kSNMApiPath = @"/logs";
                                    name:kSNMReachabilityChangedNotification
                                  object:nil];
     [self.reachability startNotifier];
+
+    // Apply current network state.
+    [self networkStateChanged];
   }
   return self;
 }
 
-- (void)sendAsync:(SNMLogContainer *)container
-logsDispatchQueue:(dispatch_queue_t)logsDispatchQueue
-completionHandler:(SNMSendAsyncCompletionHandler)handler {
+- (void)sendAsync:(SNMLogContainer *)container completionHandler:(SNMSendAsyncCompletionHandler)handler {
   NSString *batchId = container.batchId;
-  SNMLogInfo([SNMSonoma getLoggerTag], @"Sending log for batch ID %@", batchId);
 
   // Verify container.
   if (!container || ![container isValid]) {
@@ -72,17 +76,12 @@ completionHandler:(SNMSendAsyncCompletionHandler)handler {
     return;
   }
 
-  // Set a default queue.
-  if (!logsDispatchQueue)
-    logsDispatchQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-
   // Check if call has already been created(retry scenario).
   id<SNMSenderCall> call = self.pendingCalls[batchId];
   if (call == nil) {
-    call = [[SNMRetriableCall alloc] init];
+    call = [[SNMRetriableCall alloc] initWithRetryIntervals:self.callsRetryIntervals];
     call.delegate = self;
     call.logContainer = container;
-    call.logsDispatchQueue = logsDispatchQueue;
     call.completionHandler = handler;
 
     // Store call in calls array.
@@ -102,31 +101,41 @@ completionHandler:(SNMSendAsyncCompletionHandler)handler {
 #pragma mark - Life cycle
 
 - (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData {
-  self.enabled = isEnabled;
-  if (isEnabled) {
-    [self resume];
-    [self.reachability startNotifier];
-  } else {
-    [self.reachability stopNotifier];
-    [self suspend];
-
-    // Delete calls if requested.
-    if (deleteData) {
-      [self.pendingCalls removeAllObjects];
+  if (self.enabled != isEnabled) {
+    self.enabled = isEnabled;
+    if (isEnabled) {
+      [self resume];
+      [self.reachability startNotifier];
     } else {
+      [self.reachability stopNotifier];
+      [self suspend];
 
-      // Set pending calls to not processing.
-      [self.pendingCalls.allValues
-          enumerateObjectsUsingBlock:^(id<SNMSenderCall> _Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
-            obj.isProcessing = NO;
-          }];
+      // Delete calls if requested.
+      if (deleteData) {
+        [self.pendingCalls removeAllObjects];
+      }
     }
+
+    // Forward enabled state.
+    [self enumerateDelegatesForSelector:@selector(senderDidSuspend:)
+                              withBlock:^(id<SNMSenderDelegate> delegate) {
+                                [delegate sender:self
+                                         didSetEnabled:(BOOL)isEnabled
+                                    andDeleteDataOnDisabled:deleteData];
+                              }];
   }
 }
 
 - (void)suspend {
   if (!self.suspended) {
+    SNMLogInfo([SNMSonoma getLoggerTag], @"Suspend sender.");
     self.suspended = YES;
+
+    // Set pending calls to not processing.
+    [self.pendingCalls.allValues
+        enumerateObjectsUsingBlock:^(id<SNMSenderCall> _Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
+          obj.isProcessing = NO;
+        }];
 
     // Cancel all the tasks.
     [self.session getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> *_Nonnull dataTasks,
@@ -148,6 +157,7 @@ completionHandler:(SNMSendAsyncCompletionHandler)handler {
 
   // Resume only while enabled.
   if (self.suspended && self.enabled) {
+    SNMLogInfo([SNMSonoma getLoggerTag], @"Resume sender.");
     self.suspended = NO;
 
     // Send all pending calls.
@@ -180,17 +190,17 @@ completionHandler:(SNMSendAsyncCompletionHandler)handler {
 
   call.isProcessing = YES;
 
-  NSURLSessionDataTask *task = [self.session
-      dataTaskWithRequest:request
-        completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+  NSURLSessionDataTask *task =
+      [self.session dataTaskWithRequest:request
+                      completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                        NSInteger statusCode = [SNMSenderUtils getStatusCode:response];
+                        SNMLogDebug([SNMSonoma getLoggerTag], @"HTTP response received with status code:%lu",
+                                    (unsigned long)statusCode);
 
-          NSInteger statusCode = [SNMSenderUtils getStatusCode:response];
-          SNMLogInfo([SNMSonoma getLoggerTag], @"HTTP response received with the status code:%lu", (unsigned long)statusCode);
-
-          // Call handles the completion.
-          if (call)
-            [call sender:self callCompletedWithError:error status:statusCode];
-        }];
+                        // Call handles the completion.
+                        if (call)
+                          [call sender:self callCompletedWithStatus:statusCode error:error];
+                      }];
 
   // TODO: Set task priority.
   [task resume];
@@ -203,13 +213,14 @@ completionHandler:(SNMSendAsyncCompletionHandler)handler {
   }
 
   [self.pendingCalls removeObjectForKey:callId];
-  SNMLogInfo([SNMSonoma getLoggerTag], @"Removed batch id:%@ from pendingCalls:%@", callId, [self.pendingCalls description]);
+  SNMLogInfo([SNMSonoma getLoggerTag], @"Removed batch id:%@ from pending calls:%@", callId,
+             [self.pendingCalls description]);
 }
 
 #pragma mark - Reachability
 
 - (void)networkStateChanged:(NSNotificationCenter *)notification {
-  ([self.reachability currentReachabilityStatus] != NotReachable) ? [self resume] : [self suspend];
+  [self networkStateChanged];
 }
 
 #pragma mark - URL Session Helper
@@ -234,6 +245,16 @@ completionHandler:(SNMSendAsyncCompletionHandler)handler {
 }
 
 #pragma mark - Private
+
+- (void)networkStateChanged {
+  if ([self.reachability currentReachabilityStatus] == NotReachable) {
+    SNMLogInfo([SNMSonoma getLoggerTag], @"Internet connection is down.");
+    [self suspend];
+  } else {
+    SNMLogInfo([SNMSonoma getLoggerTag], @"Internet connection is up.");
+    [self resume];
+  }
+}
 
 - (NSURLSession *)session {
   if (!_session) {

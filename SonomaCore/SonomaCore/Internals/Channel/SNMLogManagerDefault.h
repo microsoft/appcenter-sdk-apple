@@ -54,7 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  A queue which makes adding new items thread safe.
  */
-@property(nonatomic, strong) dispatch_queue_t dataItemsOperations;
+@property(nonatomic, strong) dispatch_queue_t logsDispatchQueue;
 
 /**
  * A dictionary containing priority keys and their channel.

@@ -8,6 +8,8 @@
 #import "SNMHttpSenderPrivate.h"
 #import "SNMLogContainer.h"
 #import "SNMMockLog.h"
+#import "SNMRetriableCall.h"
+#import "SNMRetriableCallPrivate.h"
 #import "SNMSenderDelegate.h"
 #import "SNM_Reachability.h"
 #import "SonomaCore+Internal.h"
@@ -24,6 +26,8 @@ static NSString *const kSNMAppSecret = @"mockAppSecret";
 @interface SNMHttpSenderTests : XCTestCase
 
 @property(nonatomic, strong) SNMHttpSender *sut;
+@property(nonatomic, strong) id reachabilityMock;
+@property(nonatomic) NetworkStatus currentNetworkStatus;
 
 @end
 
@@ -40,13 +44,22 @@ static NSString *const kSNMAppSecret = @"mockAppSecret";
 
   NSDictionary *queryStrings = @{ @"api_version" : @"1.0.0-preview20160914" };
 
-  id reachabilityMock = OCMClassMock([SNM_Reachability class]);
+  // Mock reachability.
+  self.reachabilityMock = OCMClassMock([SNM_Reachability class]);
+  self.currentNetworkStatus = ReachableViaWiFi;
+  OCMStub([self.reachabilityMock currentReachabilityStatus]).andDo(^(NSInvocation *invocation) {
+    NetworkStatus test = self.currentNetworkStatus;
+    [invocation setReturnValue:&test];
+  });
 
   // sut: System under test
   self.sut = [[SNMHttpSender alloc] initWithBaseUrl:kSNMBaseUrl
                                             headers:headers
                                        queryStrings:queryStrings
-                                       reachability:reachabilityMock];
+                                       reachability:self.reachabilityMock];
+
+  // Set short retry intervals
+  self.sut.callsRetryIntervals = @[ @(0.5), @(1), @(1.5) ];
 }
 
 - (void)tearDown {
@@ -61,7 +74,7 @@ static NSString *const kSNMAppSecret = @"mockAppSecret";
   }
       withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         NSData *stubData = [@"Sonoma Response" dataUsingEncoding:NSUTF8StringEncoding];
-        return [OHHTTPStubsResponse responseWithData:stubData statusCode:200 headers:nil];
+        return [OHHTTPStubsResponse responseWithData:stubData statusCode:SNMHTTPCodesNo200OK headers:nil];
       }]
       .name = @"httpStub_200";
 
@@ -88,7 +101,6 @@ static NSString *const kSNMAppSecret = @"mockAppSecret";
 
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Response 200"];
   [self.sut sendAsync:container
-          logsDispatchQueue:dispatch_get_main_queue()
       completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
 
         XCTAssertNil(error);
@@ -108,29 +120,172 @@ static NSString *const kSNMAppSecret = @"mockAppSecret";
 
 - (void)testNetworkDown {
 
-  // Stub response
+  /**
+   * If
+   */
+  NSError *expectedError =
+      [NSError errorWithDomain:NSURLErrorDomain code:kCFURLErrorNotConnectedToInternet userInfo:nil];
+  XCTestExpectation *requestCompletedExcpectation = [self expectationWithDescription:@"Request completed."];
   [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
     return YES; // All requests
   }
       withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        NSError *notConnectedError =
-            [NSError errorWithDomain:NSURLErrorDomain code:kCFURLErrorNotConnectedToInternet userInfo:nil];
-        return [OHHTTPStubsResponse responseWithError:notConnectedError];
+        return [OHHTTPStubsResponse responseWithError:expectedError];
       }]
       .name = @"httpStub_NetworkDown";
+  SNMLogContainer *container = [self createLogContainerWithId:@"1"];
 
+  // Set a delegate for suspending event.
+  id delegateMock = OCMProtocolMock(@protocol(SNMSenderDelegate));
+  OCMStub([delegateMock senderDidSuspend:self.sut]).andDo(^(NSInvocation *invocation) {
+    [requestCompletedExcpectation fulfill];
+  });
+  [self.sut addDelegate:delegateMock];
+
+  /**
+   * When
+   */
+  [self.sut sendAsync:container
+      completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
+
+        // This should not be happening.
+        XCTFail(@"Completion handler should'nt be called on recoverable errors.");
+      }];
+
+  /**
+   * Then
+   */
+  [self waitForExpectationsWithTimeout:kSNMTestTimeout
+                               handler:^(NSError *error) {
+
+                                 // The call must still be in the pending calls, intended to be retried later.
+                                 assertThatUnsignedLong(self.sut.pendingCalls.count, equalToInt(1));
+
+                                 // Sender must be suspended when network is down.
+                                 assertThatBool(self.sut.suspended, isTrue());
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
+- (void)testNetworkUpAgain {
+
+  /**
+   * If
+   */
+  XCTestExpectation *requestCompletedExcpectation = [self expectationWithDescription:@"Request completed."];
+  __block NSInteger forwardedStatus;
+  __block NSError *forwardedError;
+  [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+    return YES; // All requests
+  }
+      withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        OHHTTPStubsResponse *responseStub = [OHHTTPStubsResponse new];
+        responseStub.statusCode = SNMHTTPCodesNo200OK;
+        return responseStub;
+      }]
+      .name = @"httpStub_NetworkUpAgain";
+  SNMLogContainer *container = [self createLogContainerWithId:@"1"];
+
+  // Set a delegate for suspending/resuming event.
+  id delegateMock = OCMProtocolMock(@protocol(SNMSenderDelegate));
+  [self.sut addDelegate:delegateMock];
+  OCMStub([delegateMock senderDidSuspend:self.sut]).andDo(^(NSInvocation *invocation) {
+
+    // Send one batch now that the sender is suspended.
+    [self.sut sendAsync:container
+        completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
+          forwardedStatus = statusCode;
+          forwardedError = error;
+          [requestCompletedExcpectation fulfill];
+        }];
+
+    /**
+     * When
+     */
+
+    // Simulate network up again.
+    [self simulateReachabilityChangedNotification:ReachableViaWiFi];
+  });
+
+  // Simulate network is down.
+  [self simulateReachabilityChangedNotification:NotReachable];
+
+  /**
+   * Then
+   */
+  [self waitForExpectationsWithTimeout:kSNMTestTimeout
+                               handler:^(NSError *error) {
+
+                                 // The sender got resumed.
+                                 OCMVerify([delegateMock senderDidResume:self.sut]);
+                                 assertThatBool(self.sut.suspended, isFalse());
+
+                                 // The call as been removed.
+                                 assertThatUnsignedLong(self.sut.pendingCalls.count, equalToInt(0));
+
+                                 // Status codes and error must be the same.
+                                 assertThatLong(SNMHTTPCodesNo200OK, equalToLong(forwardedStatus));
+                                 assertThat(forwardedError, nilValue());
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
+- (void)testRetryExhausted {
+
+  /**
+   * If
+   */
+  __block SNMRetriableCall *retriableCall;
+  XCTestExpectation *requestCompletedExcpectation = [self expectationWithDescription:@"Request completed."];
+  __block NSInteger forwardedStatus;
+  [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+    return YES;
+  }
+      withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        OHHTTPStubsResponse *responseStub = [OHHTTPStubsResponse new];
+        responseStub.statusCode = SNMHTTPCodesNo500InternalServerError;
+        return responseStub;
+      }]
+      .name = @"httpStub_Retriable";
   NSString *containerId = @"1";
   SNMLogContainer *container = [self createLogContainerWithId:containerId];
 
+  /**
+   * When
+   */
   [self.sut sendAsync:container
-          logsDispatchQueue:dispatch_get_main_queue()
       completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
-
-        // Callback should not get called
-        XCTAssertTrue(NO);
+        retriableCall = self.sut.pendingCalls[batchId];
+        forwardedStatus = statusCode;
+        [requestCompletedExcpectation fulfill];
       }];
 
-  XCTAssertEqual([self.sut.pendingCalls count], 1);
+  /**
+   * Then
+   */
+  [self waitForExpectationsWithTimeout:kSNMTestTimeout
+                               handler:^(NSError *error) {
+
+                                 // Max retry for the call is reached.
+                                 assertThatBool([retriableCall hasReachedMaxRetries], isTrue());
+
+                                 // All retry intervals as been exhausted.
+                                 assertThatUnsignedLong(retriableCall.retryCount,
+                                                        equalToUnsignedLong(retriableCall.retryIntervals.count));
+
+                                 // The call as been removed.
+                                 assertThatUnsignedLong([self.sut.pendingCalls count], equalToInt(0));
+
+                                 // Status codes must be the same.
+                                 assertThatLong(SNMHTTPCodesNo500InternalServerError, equalToLong(forwardedStatus));
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
 }
 
 - (void)testInvalidContainer {
@@ -143,7 +298,6 @@ static NSString *const kSNMAppSecret = @"mockAppSecret";
   SNMLogContainer *container = [[SNMLogContainer alloc] initWithBatchId:@"1" andLogs:(NSArray<SNMLog> *)@[ log1 ]];
 
   [self.sut sendAsync:container
-          logsDispatchQueue:dispatch_get_main_queue()
       completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
 
         XCTAssertEqual(error.domain, kSNMDefaultApiErrorDomain);
@@ -159,7 +313,6 @@ static NSString *const kSNMAppSecret = @"mockAppSecret";
 
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Network Down"];
   [self.sut sendAsync:container
-          logsDispatchQueue:dispatch_get_main_queue()
       completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
 
         XCTAssertNotNil(error);
@@ -269,6 +422,7 @@ static NSString *const kSNMAppSecret = @"mockAppSecret";
   // If.
   id delegateMock1 = OCMProtocolMock(@protocol(SNMSenderDelegate));
   id delegateMock2 = OCMProtocolMock(@protocol(SNMSenderDelegate));
+  [self.sut resume];
   [self.sut addDelegate:delegateMock1];
   [self.sut addDelegate:delegateMock2];
 
@@ -285,6 +439,7 @@ static NSString *const kSNMAppSecret = @"mockAppSecret";
   // If.
   id delegateMock1 = OCMProtocolMock(@protocol(SNMSenderDelegate));
   id delegateMock2 = OCMProtocolMock(@protocol(SNMSenderDelegate));
+  [self.sut suspend];
   [self.sut addDelegate:delegateMock1];
   [self.sut addDelegate:delegateMock2];
 
@@ -298,6 +453,12 @@ static NSString *const kSNMAppSecret = @"mockAppSecret";
 }
 
 #pragma mark - Test Helpers
+
+- (void)simulateReachabilityChangedNotification:(NetworkStatus)status {
+  self.currentNetworkStatus = status;
+  [[NSNotificationCenter defaultCenter] postNotificationName:kSNMReachabilityChangedNotification
+                                                      object:self.reachabilityMock];
+}
 
 - (SNMLogContainer *)createLogContainerWithId:(NSString *)batchId {
 
