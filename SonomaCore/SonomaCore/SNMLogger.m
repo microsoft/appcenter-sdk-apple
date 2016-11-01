@@ -7,7 +7,7 @@ static SNMLogLevel _currentLogLevel = SNMLogLevelAssert;
 static SNMLogHandler currentLogHandler;
 static BOOL _isUserDefinedLogLevel = NO;
 
-SNMLogHandler defaultLogHandler =
+SNMLogHandler const defaultLogHandler =
     ^(SNMLogMessageProvider messageProvider, SNMLogLevel logLevel, NSString *tag, const char *file, const char *function, uint line) {
       if (messageProvider) {
         if (_currentLogLevel > logLevel) {
