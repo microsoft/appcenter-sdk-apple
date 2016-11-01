@@ -50,13 +50,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData forPriority:(SNMPriority)priority;
 
 /**
- * Send persisted logs that are not sent in previous session.
- *
- * @param priority The priority for processing the log.
- */
-- (void)flushPendingLogsForPriority:(SNMPriority)priority;
-
-/**
  * Add a delegate to each channel that has a certain priority.
  *
  * @param delegate A delegate for the channel.

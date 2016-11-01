@@ -1,5 +1,8 @@
+#import "SNMAnalytics.h"
+#import "SNMConstants+Internal.h"
 #import "SNMSessionTracker.h"
 #import "SNMSessionTrackerHelper.h"
+#import "SNMStartSessionLog.h"
 #import "SonomaCore+Internal.h"
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
@@ -148,6 +151,49 @@ NSTimeInterval const kSNMTestSessionTimeout = 1.5;
 
   NSString *sid = _sut.sessionId;
   XCTAssertNotEqual(expectedSid, sid);
+}
+
+- (void)testStartSessionOnStart {
+
+  // If
+  id analyticsMock = OCMClassMock([SNMAnalytics class]);
+  OCMStub([analyticsMock isAvailable]).andReturn(YES);
+  OCMStub([analyticsMock sharedInstance]).andReturn(analyticsMock);
+  SNMSessionTracker *sut = [[SNMSessionTracker alloc] init];
+  [sut setSessionTimeout:kSNMTestSessionTimeout];
+  id<SNMSessionTrackerDelegate> delegateMock = OCMProtocolMock(@protocol(SNMSessionTrackerDelegate));
+  sut.delegate = delegateMock;
+
+  // When
+  [sut start];
+
+  // Then
+  OCMVerify([delegateMock sessionTracker:sut
+                              processLog:[OCMArg isKindOfClass:[SNMStartSessionLog class]]
+                            withPriority:SNMPriorityDefault]);
+}
+
+- (void)testStartSessionOnAppForegrounded {
+
+  // If
+  id analyticsMock = OCMClassMock([SNMAnalytics class]);
+  OCMStub([analyticsMock isAvailable]).andReturn(YES);
+  OCMStub([analyticsMock sharedInstance]).andReturn(analyticsMock);
+  SNMSessionTracker *sut = [[SNMSessionTracker alloc] init];
+  [sut setSessionTimeout:0];
+  id<SNMSessionTrackerDelegate> delegateMock = OCMProtocolMock(@protocol(SNMSessionTrackerDelegate));
+  [sut start];
+
+  // When
+  [SNMSessionTrackerHelper simulateDidEnterBackgroundNotification];
+  [NSThread sleepForTimeInterval:0.1];
+  sut.delegate = delegateMock;
+  [SNMSessionTrackerHelper simulateWillEnterForegroundNotification];
+
+  // Then
+  OCMVerify([delegateMock sessionTracker:sut
+                              processLog:[OCMArg isKindOfClass:[SNMStartSessionLog class]]
+                            withPriority:SNMPriorityDefault]);
 }
 
 @end

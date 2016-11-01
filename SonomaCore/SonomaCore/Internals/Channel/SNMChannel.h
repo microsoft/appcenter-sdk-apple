@@ -33,14 +33,14 @@ NS_ASSUME_NONNULL_BEGIN
  * the backend.
  * @param storage A storage instance to store and read enqueued log items.
  * @param configuration The configuration used by this channel.
- * @param callbackQueue A queue on which the handler is called on.
+ * @param logsDispatchQueue Queue used to process logs.
  *
  * @return A new `SNMChannelDefault` instance.
  */
 - (instancetype)initWithSender:(id<SNMSender>)sender
                        storage:(id<SNMStorage>)storage
                  configuration:(SNMChannelConfiguration *)configuration
-                 callbackQueue:(dispatch_queue_t)callbackQueue;
+             logsDispatchQueue:(dispatch_queue_t)logsDispatchQueue;
 
 /**
  * Enqueues a new log item.
@@ -55,11 +55,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)deleteAllLogs;
 
 /**
- * Flushes all logs from the storage.
- */
-- (void)flushQueue;
-
-/**
  *  Add delegate.
  *
  *  @param delegate delegate.
@@ -72,7 +67,6 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param delegate delegate.
  */
 - (void)removeDelegate:(id<SNMChannelDelegate>)delegate;
-
 
 @end
 

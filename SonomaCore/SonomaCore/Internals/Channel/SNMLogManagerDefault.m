@@ -29,14 +29,14 @@ static char *const SNMDataItemsOperationsQueue = "com.microsoft.sonoma.LogManage
     dispatch_queue_t serialQueue = dispatch_queue_create(SNMDataItemsOperationsQueue, DISPATCH_QUEUE_SERIAL);
     _enabled = YES;
     _dataItemsOperations = serialQueue;
-    _channels = [NSMutableDictionary<NSNumber *, id <SNMChannel>> new];
+    _channels = [NSMutableDictionary<NSNumber *, id<SNMChannel>> new];
     _delegates = [NSHashTable weakObjectsHashTable];
     _deviceTracker = [[SNMDeviceTracker alloc] init];
   }
   return self;
 }
 
-- (instancetype)initWithSender:(id <SNMSender>)sender storage:(id <SNMStorage>)storage {
+- (instancetype)initWithSender:(id<SNMSender>)sender storage:(id<SNMStorage>)storage {
   if (self = [self init]) {
     _sender = sender;
     _storage = storage;
@@ -46,31 +46,31 @@ static char *const SNMDataItemsOperationsQueue = "com.microsoft.sonoma.LogManage
 
 #pragma mark - Delegate
 
-- (void)addDelegate:(id <SNMLogManagerDelegate>)delegate {
+- (void)addDelegate:(id<SNMLogManagerDelegate>)delegate {
   [self.delegates addObject:delegate];
 }
 
-- (void)removeDelegate:(id <SNMLogManagerDelegate>)delegate {
+- (void)removeDelegate:(id<SNMLogManagerDelegate>)delegate {
   [self.delegates removeObject:delegate];
 }
 
 #pragma mark - Channel Delegate
-- (void)addChannelDelegate:(id <SNMChannelDelegate>)channelDelegate forPriority:(SNMPriority)priority {
+- (void)addChannelDelegate:(id<SNMChannelDelegate>)channelDelegate forPriority:(SNMPriority)priority {
   if (channelDelegate) {
-    id <SNMChannel> channel = [self channelForPriority:priority];
+    id<SNMChannel> channel = [self channelForPriority:priority];
     [channel addDelegate:channelDelegate];
   }
 }
 
-- (void)removeChannelDelegate:(id <SNMChannelDelegate>)channelDelegate forPriority:(SNMPriority)priority {
+- (void)removeChannelDelegate:(id<SNMChannelDelegate>)channelDelegate forPriority:(SNMPriority)priority {
   if (channelDelegate) {
-    id <SNMChannel> channel = [self channelForPriority:priority];
+    id<SNMChannel> channel = [self channelForPriority:priority];
     [channel removeDelegate:channelDelegate];
   }
 }
 
-- (void)enumerateDelegatesForSelector:(SEL)selector withBlock:(void (^)(id <SNMLogManagerDelegate> delegate))block {
-  for (id <SNMLogManagerDelegate> delegate in self.delegates) {
+- (void)enumerateDelegatesForSelector:(SEL)selector withBlock:(void (^)(id<SNMLogManagerDelegate> delegate))block {
+  for (id<SNMLogManagerDelegate> delegate in self.delegates) {
     if (delegate && [delegate respondsToSelector:selector]) {
       block(delegate);
     }
@@ -79,53 +79,44 @@ static char *const SNMDataItemsOperationsQueue = "com.microsoft.sonoma.LogManage
 
 #pragma mark - Process items
 
-- (void)processLog:(id <SNMLog>)log withPriority:(SNMPriority)priority {
+- (void)processLog:(id<SNMLog>)log withPriority:(SNMPriority)priority {
 
   // Notify delegates.
   [self enumerateDelegatesForSelector:@selector(onProcessingLog:withPriority:)
-                            withBlock:^(id <SNMLogManagerDelegate> delegate) {
+                            withBlock:^(id<SNMLogManagerDelegate> delegate) {
                               [delegate onProcessingLog:log withPriority:priority];
                             }];
 
   // Get the channel.
-  id <SNMChannel> channel = [self channelForPriority:priority];
+  id<SNMChannel> channel = [self channelForPriority:priority];
 
   // Set common log info.
   log.toffset = [NSNumber numberWithInteger:[[NSDate date] timeIntervalSince1970]];
   log.device = self.deviceTracker.device;
 
   // Asynchroneously forward to channel by using the data dispatch queue.
-  dispatch_async(self.dataItemsOperations, ^{
-    [channel enqueueItem:log];
-  });
-}
-
-- (void)flushPendingLogsForPriority:(SNMPriority)priority {
-  id <SNMChannel> channel = [self channelForPriority:@(priority)];
-  dispatch_async(self.dataItemsOperations, ^{
-    [channel flushQueue];
-  });
+  [channel enqueueItem:log];
 }
 
 #pragma mark - Helpers
 
-- (id <SNMChannel>)createChannelForPriority:(SNMPriority)priority {
+- (id<SNMChannel>)createChannelForPriority:(SNMPriority)priority {
   SNMChannelDefault *channel;
   SNMChannelConfiguration *configuration = [SNMChannelConfiguration configurationForPriority:priority];
   if (configuration) {
     channel = [[SNMChannelDefault alloc] initWithSender:self.sender
                                                 storage:self.storage
                                           configuration:configuration
-                                          callbackQueue:self.dataItemsOperations];
+                                          logsDispatchQueue:self.dataItemsOperations];
     self.channels[@(priority)] = channel;
   }
   return channel;
 }
 
-- (id <SNMChannel>)channelForPriority:(SNMPriority)priority {
+- (id<SNMChannel>)channelForPriority:(SNMPriority)priority {
 
   // Return an existing channel or create it.
-  id <SNMChannel> channel = [self.channels objectForKey:@(priority)];
+  id<SNMChannel> channel = [self.channels objectForKey:@(priority)];
   return (channel) ? channel : [self createChannelForPriority:priority];
 }
 

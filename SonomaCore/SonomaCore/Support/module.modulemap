@@ -5,4 +5,6 @@ framework module SonomaCore {
   module * { export * }
   
   link framework "Foundation"
+  link framework "SystemConfiguration"
+  link framework "UIKit"
 }
