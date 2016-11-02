@@ -1,5 +1,5 @@
 #import <XCTest/XCTest.h>
-#import "SNMLoggerPrivate.h"
+#import "SNMLogger.h"
 #import "SNMSonoma.h"
 #import "SNMSonomaInternal.h"
 

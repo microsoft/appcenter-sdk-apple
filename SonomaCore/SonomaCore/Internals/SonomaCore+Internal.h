@@ -4,7 +4,7 @@
 
 #import "SNMFeatureAbstractInternal.h"
 #import "SNMFeatureInternal.h"
-#import "Utils/SNMLogger.h"
+#import "SNMLogger.h"
 
 #import "Model/SNMAbstractLog.h"
 #import "SNMDevice.h"
