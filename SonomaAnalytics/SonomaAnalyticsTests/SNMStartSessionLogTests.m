@@ -31,7 +31,7 @@
 - (void)testSerializingSessionToDictionaryWorks {
 
   // If
-  SNMDevice *device = [SNMDevice new];
+  MSDevice *device = [MSDevice new];
   NSString *typeName = @"start_session";
   NSString *sessionId = @"1234567890";
   NSTimeInterval createTime = [[NSDate date] timeIntervalSince1970];
@@ -56,7 +56,7 @@
 - (void)testNSCodingSerializationAndDeserializationWorks {
 
   // If
-  SNMDevice *device = [SNMDevice new];
+  MSDevice *device = [MSDevice new];
   NSString *typeName = @"start_session";
   NSString *sessionId = @"1234567890";
   NSNumber *tOffset = @(3);

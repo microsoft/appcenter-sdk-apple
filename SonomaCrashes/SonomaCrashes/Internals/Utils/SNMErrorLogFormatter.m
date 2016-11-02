@@ -51,10 +51,10 @@
 #import "SNMErrorReport.h"
 #import "SNMErrorReportPrivate.h"
 #import "SNMException.h"
-#import "SNMSonomaInternal.h"
+#import "MSSonomaInternal.h"
 #import "SNMStackFrame.h"
 #import "SNMThread.h"
-#import "SNMDeviceTracker.h"
+#import "MSDeviceTracker.h"
 
 static NSString *unknownString = @"???";
 
@@ -281,8 +281,8 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
   NSString *errorId = errorLog.errorId;
   // There should always be an installId. Leaving the empty string out of paranoia
-  // as [UUID UUID] – used in [SNMSonoma installId] – might, in theory, return nil.
-  NSString *reporterKey = [[SNMSonoma installId] UUIDString] ?: @"";
+  // as [UUID UUID] – used in [MSSonoma installId] – might, in theory, return nil.
+  NSString *reporterKey = [[MSSonoma installId] UUIDString] ?: @"";
 
   NSString *signal = errorLog.exceptionType; //TODO What should we put in there?!
 
@@ -298,7 +298,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
   NSUInteger processId = [errorLog.processId unsignedIntegerValue];
 
-  SNMDevice *device = [SNMDeviceTracker alloc].device;
+  MSDevice *device = [MSDeviceTracker alloc].device;
 
   errorReport = [[SNMErrorReport alloc] initWithErrorId:errorId
                                             reporterKey:reporterKey

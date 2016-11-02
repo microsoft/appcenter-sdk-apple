@@ -2,10 +2,10 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "SonomaCore+Internal.h"
+#import "MobileCenter+Internal.h"
 #import <Foundation/Foundation.h>
 
-@interface SNMPageLog : SNMLogWithProperties
+@interface SNMPageLog : MSLogWithProperties
 
 /** Name of the event.
  */

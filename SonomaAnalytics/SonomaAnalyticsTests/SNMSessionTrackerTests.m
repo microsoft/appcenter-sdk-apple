@@ -1,9 +1,9 @@
 #import "SNMAnalytics.h"
-#import "SNMConstants+Internal.h"
+#import "MSConstants+Internal.h"
 #import "SNMSessionTracker.h"
 #import "SNMSessionTrackerHelper.h"
 #import "SNMStartSessionLog.h"
-#import "SonomaCore+Internal.h"
+#import "MobileCenter+Internal.h"
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>

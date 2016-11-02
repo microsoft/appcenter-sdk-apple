@@ -9,10 +9,10 @@
 #import "SNMAppleErrorLog.h"
 #import "SNMCrashTestHelper.h"
 #import "SNMCrashesPrivate.h"
-#import "SNMDeviceTracker.h"
+#import "MSDeviceTracker.h"
 #import "SNMErrorLogFormatterPrivate.h"
 #import "SNMException.h"
-#import "SNMSonomaInternal.h"
+#import "MSSonomaInternal.h"
 #import "SNMThread.h"
 
 @interface SNMErrorLogFormatterTests : XCTestCase
@@ -25,7 +25,7 @@
   NSData *crashData = [SNMCrashTestHelper dataOfFixtureCrashReportWithFileName:@"live_report_signal"];
   XCTAssertNotNil(crashData);
 
-  SNMDevice *device = [[SNMDeviceTracker alloc] init].device;
+  MSDevice *device = [[MSDeviceTracker alloc] init].device;
   XCTAssertNotNil(device);
 
   NSError *error = nil;
@@ -34,7 +34,7 @@
   SNMErrorReport *errorReport = [SNMErrorLogFormatter errorReportFromCrashReport:crashReport];
   XCTAssertNotNil(errorReport);
   XCTAssertNotNil(errorReport.incidentIdentifier);
-  assertThat(errorReport.reporterKey, equalTo([[SNMSonoma installId] UUIDString]));
+  assertThat(errorReport.reporterKey, equalTo([[MSSonoma installId] UUIDString]));
   XCTAssertEqual(errorReport.signal, crashReport.signalInfo.name);
   XCTAssertEqual(errorReport.exceptionName, crashReport.signalInfo.name);
   assertThat(errorReport.exceptionReason, equalTo(crashReport.exceptionInfo.exceptionReason));
@@ -51,7 +51,7 @@
   errorReport = [SNMErrorLogFormatter errorReportFromCrashReport:crashReport];
   XCTAssertNotNil(errorReport);
   XCTAssertNotNil(errorReport.incidentIdentifier);
-  assertThat(errorReport.reporterKey, equalTo([[SNMSonoma installId] UUIDString]));
+  assertThat(errorReport.reporterKey, equalTo([[MSSonoma installId] UUIDString]));
   XCTAssertEqual(errorReport.signal, crashReport.signalInfo.name);
   XCTAssertEqual(errorReport.exceptionName, crashReport.signalInfo.name);
   assertThat(errorReport.exceptionReason, equalTo(crashReport.exceptionInfo.exceptionReason));

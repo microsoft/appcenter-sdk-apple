@@ -2,10 +2,10 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "SonomaCore+Internal.h"
+#import "MobileCenter+Internal.h"
 #import <Foundation/Foundation.h>
 
-@interface SNMStackFrame : NSObject <SNMSerializableObject>
+@interface SNMStackFrame : NSObject <MSSerializableObject>
 
 /*
  * Frame address [optional].

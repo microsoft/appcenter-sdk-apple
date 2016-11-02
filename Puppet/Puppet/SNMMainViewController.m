@@ -7,7 +7,7 @@
 //
 
 #import "SNMMainViewController.h"
-#import "SonomaCore.h"
+#import "MobileCenter.h"
 
 @implementation SNMMainViewController
 
@@ -109,7 +109,7 @@
 
       // Define the switch control and add it to the cell.
       UISwitch *enabledSwitch = [[UISwitch alloc] init];
-      enabledSwitch.on = [SNMSonoma isEnabled];
+      enabledSwitch.on = [MSSonoma isEnabled];
       CGSize switchSize = [enabledSwitch sizeThatFits:CGSizeZero];
       enabledSwitch.frame = CGRectMake(cell.contentView.bounds.size.width - switchSize.width - 10.0f,
                                        (cell.contentView.bounds.size.height - switchSize.height) / 2.0f,
@@ -163,7 +163,7 @@
 
 - (void)enabledSwitchUpdated:(id)sender {
   UISwitch *enabledSwitch = (UISwitch *)sender;
-  [SNMSonoma setEnabled:enabledSwitch.on];
-  enabledSwitch.on = [SNMSonoma isEnabled];
+  [MSSonoma setEnabled:enabledSwitch.on];
+  enabledSwitch.on = [MSSonoma isEnabled];
 }
 @end

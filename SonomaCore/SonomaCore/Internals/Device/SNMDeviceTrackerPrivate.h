@@ -2,14 +2,14 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "SNMDevice.h"
-#import "SNMWrapperSdk.h"
+#import "MSDevice.h"
+#import "MSWrapperSdk.h"
 #import <CoreTelephony/CTCarrier.h>
 #import <CoreTelephony/CTTelephonyNetworkInfo.h>
 #import <UIKit/UIKit.h>
 #import <sys/sysctl.h>
 
-@interface SNMDeviceTracker ()
+@interface MSDeviceTracker ()
 
 /**
  *  Get the SDK version.
@@ -120,6 +120,6 @@
  *
  * @param wrapperSdk wrapper SDK information.
  */
-+ (void)setWrapperSdk:(SNMWrapperSdk *)wrapperSdk;
++ (void)setWrapperSdk:(MSWrapperSdk *)wrapperSdk;
 
 @end

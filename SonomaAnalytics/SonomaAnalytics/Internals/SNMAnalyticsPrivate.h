@@ -3,7 +3,7 @@
  */
 
 #import "SNMAnalytics.h"
-#import "SNMFeatureInternal.h"
+#import "MSFeatureInternal.h"
 #import "SNMSessionTracker.h"
 #import "SNMSessionTrackerDelegate.h"
 

@@ -2,13 +2,13 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "SonomaCore+Internal.h"
+#import "MobileCenter+Internal.h"
 #import <Foundation/Foundation.h>
 
 /*
  * Binary (library) definition for any platform.
  */
-@interface SNMBinary : NSObject <SNMSerializableObject>
+@interface SNMBinary : NSObject <MSSerializableObject>
 
 /**
  * The binary id as UUID string.

@@ -2,13 +2,13 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "SonomaCore+Internal.h"
+#import "MobileCenter+Internal.h"
 #import <Foundation/Foundation.h>
 
 @class SNMStackFrame;
 @class SNMException;
 
-@interface SNMThread : NSObject <SNMSerializableObject>
+@interface SNMThread : NSObject <MSSerializableObject>
 
 /*
  * Thread identifier.
