@@ -56,7 +56,7 @@
 - (BOOL)canBeUsed {
   BOOL canBeUsed = [MSSonoma sharedInstance].sdkStarted && self.started;
   if (!canBeUsed) {
-    SNMLogError([MSSonoma getLoggerTag],
+    MSLogError([MSSonoma getLoggerTag],
                 @"%@ module hasn't been initialized. You need to call "
                 @"[MSSonoma start:YOUR_APP_SECRET withFeatures:LIST_OF_FEATURES] first.",
                 CLASS_NAME_WITHOUT_PREFIX);
@@ -84,7 +84,7 @@
   @synchronized([self sharedInstance]) {
     if ([[self sharedInstance] canBeUsed]) {
       if (![MSSonoma isEnabled] && ![MSSonoma sharedInstance].enabledStateUpdating) {
-        SNMLogError([MSSonoma getLoggerTag],
+        MSLogError([MSSonoma getLoggerTag],
                     @"The SDK is disabled. Re-enable the SDK from the core module "
                     @"first before enabling %@ feature.",
                     CLASS_NAME_WITHOUT_PREFIX);

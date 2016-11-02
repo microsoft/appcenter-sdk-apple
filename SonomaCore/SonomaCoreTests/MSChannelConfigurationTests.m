@@ -39,11 +39,11 @@
 - (void)testClassWillReturnCorrectConfigurationForGivenDefaultPriority {
 
   // When
-  MSChannelConfiguration *sut = [MSChannelConfiguration configurationForPriority:SNMPriorityDefault];
+  MSChannelConfiguration *sut = [MSChannelConfiguration configurationForPriority:MSPriorityDefault];
 
   // Then
   assertThat(sut, notNilValue());
-  assertThat(sut.name, equalTo(@"SNMPriorityDefault"));
+  assertThat(sut.name, equalTo(@"MSPriorityDefault"));
   assertThatUnsignedInteger(sut.batchSizeLimit, equalToUnsignedInteger(50));
   assertThatUnsignedInteger(sut.pendingBatchesLimit, equalToUnsignedInteger(3));
   assertThatFloat(sut.flushInterval, equalToFloat(3.0));
@@ -52,11 +52,11 @@
 - (void)testClassWillReturnCorrectConfigurationForGivenHighPriority {
 
   // When
-  MSChannelConfiguration *sut = [MSChannelConfiguration configurationForPriority:SNMPriorityHigh];
+  MSChannelConfiguration *sut = [MSChannelConfiguration configurationForPriority:MSPriorityHigh];
 
   // Then
   assertThat(sut, notNilValue());
-  assertThat(sut.name, equalTo(@"SNMPriorityHigh"));
+  assertThat(sut.name, equalTo(@"MSPriorityHigh"));
   assertThatUnsignedInteger(sut.batchSizeLimit, equalToUnsignedInteger(1));
   assertThatUnsignedInteger(sut.pendingBatchesLimit, equalToUnsignedInteger(6));
   assertThatFloat(sut.flushInterval, equalToFloat(3.0));
@@ -65,11 +65,11 @@
 - (void)testClassWillReturnCorrectConfigurationForGivenBackgroundPriority {
 
   // When
-  MSChannelConfiguration *sut = [MSChannelConfiguration configurationForPriority:SNMPriorityBackground];
+  MSChannelConfiguration *sut = [MSChannelConfiguration configurationForPriority:MSPriorityBackground];
 
   // Then
   assertThat(sut, notNilValue());
-  assertThat(sut.name, equalTo(@"SNMPriorityBackground"));
+  assertThat(sut.name, equalTo(@"MSPriorityBackground"));
   assertThatUnsignedInteger(sut.batchSizeLimit, equalToUnsignedInteger(100));
   assertThatUnsignedInteger(sut.pendingBatchesLimit, equalToUnsignedInteger(1));
   assertThatFloat(sut.flushInterval, equalToFloat(60.0));
@@ -78,10 +78,10 @@
 - (void)testRequestingSamePredefinedConfigurationMultipleTimesReturnsSameObject {
 
   // If
-  NSArray *priorities = @[ @(SNMPriorityHigh), @(SNMPriorityDefault), @(SNMPriorityBackground) ];
+  NSArray *priorities = @[ @(MSPriorityHigh), @(MSPriorityDefault), @(MSPriorityBackground) ];
 
   for (NSNumber *priority in priorities) {
-    SNMPriority prio = priority.integerValue;
+    MSPriority prio = priority.integerValue;
 
     // When
     MSChannelConfiguration *sut1 = [MSChannelConfiguration configurationForPriority:prio];

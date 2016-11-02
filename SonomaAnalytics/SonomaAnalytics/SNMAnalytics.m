@@ -50,7 +50,7 @@ static NSString *const kSNMFeatureName = @"Analytics";
 
   // Set up swizzling for auto page tracking.
   [SNMAnalyticsCategory activateCategory];
-  SNMLogVerbose([SNMAnalytics getLoggerTag], @"Started analytics module");
+  MSLogVerbose([SNMAnalytics getLoggerTag], @"Started analytics module");
 }
 
 + (NSString *)getLoggerTag {
@@ -61,8 +61,8 @@ static NSString *const kSNMFeatureName = @"Analytics";
   return kSNMFeatureName;
 }
 
-- (SNMPriority)priority {
-  return SNMPriorityDefault;
+- (MSPriority)priority {
+  return MSPriorityDefault;
 }
 
 #pragma mark - SNMFeatureAbstract
@@ -171,7 +171,7 @@ static NSString *const kSNMFeatureName = @"Analytics";
   return _autoPageTrackingEnabled;
 }
 
-- (void)sendLog:(id<MSLog>)log withPriority:(SNMPriority)priority {
+- (void)sendLog:(id<MSLog>)log withPriority:(MSPriority)priority {
 
   // Send log to core module.
   [self.logManager processLog:log withPriority:priority];
@@ -179,7 +179,7 @@ static NSString *const kSNMFeatureName = @"Analytics";
 
 #pragma mark - SNMSessionTracker
 
-- (void)sessionTracker:(id)sessionTracker processLog:(id<MSLog>)log withPriority:(SNMPriority)priority {
+- (void)sessionTracker:(id)sessionTracker processLog:(id<MSLog>)log withPriority:(MSPriority)priority {
   [self sendLog:log withPriority:priority];
 }
 

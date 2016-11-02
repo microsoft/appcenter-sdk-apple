@@ -38,8 +38,8 @@
   return @"SNMFeatureAbstractImplementation";
 }
 
-- (SNMPriority)priority {
-  return SNMPriorityDefault;
+- (MSPriority)priority {
+  return MSPriorityDefault;
 }
 
 @end
@@ -203,7 +203,7 @@
   /**
    *  If
    */
-  __block SNMPriority priority;
+  __block MSPriority priority;
   __block BOOL deleteLogs;
   __block BOOL forwardedEnabled;
   id<MSLogManager> logManagerMock = OCMClassMock([MSLogManagerDefault class]);

@@ -7,11 +7,11 @@
 
 @implementation MSWrapperLogger
 
-+ (void)SNMWrapperLog:(SNMLogMessageProvider)message
++ (void)SNMWrapperLog:(MSLogMessageProvider)message
                   tag:(NSString *)tag
-                level:(SNMLogLevel)level
+                level:(MSLogLevel)level
 {
-    SNMLog(level, tag, message);
+    MSLog(level, tag, message);
 }
 
 @end

@@ -1,53 +1,53 @@
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
-#ifndef SNM_Constants_h
-#define SNM_Constants_h
+#ifndef MS_Constants_h
+#define MS_Constants_h
 #import <Foundation/Foundation.h>
 
 /**
  *  Log Levels
  */
-typedef NS_ENUM(NSUInteger, SNMLogLevel) {
+typedef NS_ENUM(NSUInteger, MSLogLevel) {
 
   /**
    *  Logging will be very chatty
    */
-      SNMLogLevelVerbose = 2,
+      MSLogLevelVerbose = 2,
 
   /**
    *  Debug information will be logged
    */
-      SNMLogLevelDebug = 3,
+      MSLogLevelDebug = 3,
 
   /**
    *  Information will be logged
    */
-      SNMLogLevelInfo = 4,
+      MSLogLevelInfo = 4,
 
   /**
    *  Errors and warnings will be logged
    */
-      SNMLogLevelWarning = 5,
+      MSLogLevelWarning = 5,
 
   /**
    *  Errors will be logged
    */
-      SNMLogLevelError = 6,
+      MSLogLevelError = 6,
 
   /**
    * Only critical errors will be logged
    */
-      SNMLogLevelAssert = 7,
+      MSLogLevelAssert = 7,
 
   /**
    *  Logging is disabled
    */
-      SNMLogLevelNone = 99,
+      MSLogLevelNone = 99,
 };
 
-typedef NSString *(^SNMLogMessageProvider)(void);
-typedef void (^SNMLogHandler)(SNMLogMessageProvider messageProvider, SNMLogLevel logLevel, NSString *tag, const char *file,
+typedef NSString *(^MSLogMessageProvider)(void);
+typedef void (^MSLogHandler)(MSLogMessageProvider messageProvider, MSLogLevel logLevel, NSString *tag, const char *file,
                               const char *function, uint line);
 
 #endif

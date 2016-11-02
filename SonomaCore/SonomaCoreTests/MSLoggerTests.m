@@ -12,7 +12,7 @@
 - (void)setUp {
   [super setUp];
   
-  [MSLogger setCurrentLogLevel:SNMLogLevelAssert];
+  [MSLogger setCurrentLogLevel:MSLogLevelAssert];
   [MSLogger setIsUserDefinedLogLevel:NO];
 }
 
@@ -22,25 +22,25 @@
 
 - (void)testDefaultLogLevels {
   // Check default loglevel before MSSonoma was started.
-  XCTAssertTrue([MSLogger currentLogLevel] == SNMLogLevelAssert);
+  XCTAssertTrue([MSLogger currentLogLevel] == MSLogLevelAssert);
   // Need to set sdkStarted to NO to make sure the start-logic goes through once, otherwise this test will fail
   // randomly as other tests might call start:withFeatures, too.
   [MSSonoma sharedInstance].sdkStarted = NO;
   [MSSonoma start:[[NSUUID UUID] UUIDString] withFeatures:nil];
   
-  XCTAssertTrue([MSLogger currentLogLevel] == SNMLogLevelWarning);
+  XCTAssertTrue([MSLogger currentLogLevel] == MSLogLevelWarning);
 }
 
 - (void)testLoglevels {
   // Check isUserDefinedLogLevel
   XCTAssertFalse([MSLogger isUserDefinedLogLevel]);
-  [MSLogger setCurrentLogLevel:SNMLogLevelVerbose];
+  [MSLogger setCurrentLogLevel:MSLogLevelVerbose];
   XCTAssertTrue([MSLogger isUserDefinedLogLevel]);
 }
 
 - (void)testSetCurrentLoglevelWorks {
-  [MSLogger setCurrentLogLevel:SNMLogLevelWarning];
-  XCTAssertTrue([MSLogger currentLogLevel] == SNMLogLevelWarning);
+  [MSLogger setCurrentLogLevel:MSLogLevelWarning];
+  XCTAssertTrue([MSLogger currentLogLevel] == MSLogLevelWarning);
 }
 
 @end

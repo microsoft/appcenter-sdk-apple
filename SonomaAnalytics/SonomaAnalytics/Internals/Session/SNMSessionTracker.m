@@ -81,12 +81,12 @@ static NSUInteger const kSNMMaxSessionHistoryCount = 5;
       // Persist the session history in NSData format.
       [kSNMUserDefaults setObject:[NSKeyedArchiver archivedDataWithRootObject:self.pastSessions]
                            forKey:kSNMPastSessionsKey];
-      SNMLogInfo([SNMAnalytics getLoggerTag], @"New session ID: %@", _sessionId);
+      MSLogInfo([SNMAnalytics getLoggerTag], @"New session ID: %@", _sessionId);
 
       // Create a start session log.
       SNMStartSessionLog *log = [[SNMStartSessionLog alloc] init];
       log.sid = _sessionId;
-      [self.delegate sessionTracker:self processLog:log withPriority:SNMPriorityDefault];
+      [self.delegate sessionTracker:self processLog:log withPriority:MSPriorityDefault];
     }
     return _sessionId;
   }
@@ -170,9 +170,9 @@ static NSUInteger const kSNMMaxSessionHistoryCount = 5;
   [self sessionId];
 }
 
-#pragma mark - SNMLogManagerDelegate
+#pragma mark - MSLogManagerDelegate
 
-- (void)onProcessingLog:(id<MSLog>)log withPriority:(SNMPriority)priority {
+- (void)onProcessingLog:(id<MSLog>)log withPriority:(MSPriority)priority {
 
   // Update time stamp.
   _lastCreatedLogTime = [NSDate date];

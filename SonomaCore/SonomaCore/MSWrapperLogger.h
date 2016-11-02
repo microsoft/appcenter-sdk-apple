@@ -7,7 +7,7 @@
 
 @interface MSWrapperLogger : NSObject
 
-+ (void)SNMWrapperLog:(SNMLogMessageProvider)message
++ (void)SNMWrapperLog:(MSLogMessageProvider)message
                   tag:(NSString *)tag
-                level:(SNMLogLevel)level;
+                level:(MSLogLevel)level;;
 @end

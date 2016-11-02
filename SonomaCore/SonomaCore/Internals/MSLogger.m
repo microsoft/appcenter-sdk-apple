@@ -3,12 +3,12 @@
 
 @implementation MSLogger
 
-static SNMLogLevel _currentLogLevel = SNMLogLevelAssert;
-static SNMLogHandler currentLogHandler;
+static MSLogLevel _currentLogLevel = MSLogLevelAssert;
+static MSLogHandler currentLogHandler;
 static BOOL _isUserDefinedLogLevel = NO;
 
-SNMLogHandler const defaultLogHandler =
-    ^(SNMLogMessageProvider messageProvider, SNMLogLevel logLevel, NSString *tag, const char *file, const char *function, uint line) {
+MSLogHandler const defaultLogHandler =
+    ^(MSLogMessageProvider messageProvider, MSLogLevel logLevel, NSString *tag, const char *file, const char *function, uint line) {
       if (messageProvider) {
         if (_currentLogLevel > logLevel) {
           return;
@@ -16,22 +16,22 @@ SNMLogHandler const defaultLogHandler =
 
         NSString *level;
         switch (logLevel) {
-        case SNMLogLevelVerbose:
+        case MSLogLevelVerbose:
           level = @"VERBOSE";
           break;
-        case SNMLogLevelDebug:
+        case MSLogLevelDebug:
           level = @"DEBUG";
           break;
-        case SNMLogLevelInfo:
+        case MSLogLevelInfo:
           level = @"INFO";
           break;
-        case SNMLogLevelWarning:
+        case MSLogLevelWarning:
           level = @"WARNING";
           break;
-        case SNMLogLevelError:
+        case MSLogLevelError:
           level = @"ERROR";
           break;
-        case SNMLogLevelAssert:
+        case MSLogLevelAssert:
           level = @"ASSERT";
           break;
         default:
@@ -46,22 +46,22 @@ SNMLogHandler const defaultLogHandler =
   currentLogHandler = defaultLogHandler;
 }
 
-+ (SNMLogLevel)currentLogLevel {
++ (MSLogLevel)currentLogLevel {
   return _currentLogLevel;
 }
 
-+ (void)setCurrentLogLevel:(SNMLogLevel)currentLogLevel {
++ (void)setCurrentLogLevel:(MSLogLevel)currentLogLevel {
   _isUserDefinedLogLevel = YES;
   _currentLogLevel = currentLogLevel;
 }
 
-+ (void)setLogHandler:(SNMLogHandler)logHandler {
++ (void)setLogHandler:(MSLogHandler)logHandler {
   _isUserDefinedLogLevel = YES;
   currentLogHandler = logHandler;
 }
 
-+ (void)logMessage:(SNMLogMessageProvider)messageProvider
-             level:(SNMLogLevel)loglevel
++ (void)logMessage:(MSLogMessageProvider)messageProvider
+             level:(MSLogLevel)loglevel
                tag:(NSString *)tag
               file:(const char *)file
           function:(const char *)function

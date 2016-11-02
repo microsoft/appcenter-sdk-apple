@@ -77,15 +77,15 @@ static NSString *const kSNMDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
   return [[self sharedInstance] installId];
 }
 
-+ (SNMLogLevel)logLevel {
++ (MSLogLevel)logLevel {
   return MSLogger.currentLogLevel;
 }
 
-+ (void)setLogLevel:(SNMLogLevel)logLevel {
++ (void)setLogLevel:(MSLogLevel)logLevel {
   MSLogger.currentLogLevel = logLevel;
 }
 
-+ (void)setLogHandler:(SNMLogHandler)logHandler {
++ (void)setLogHandler:(MSLogHandler)logHandler {
   [MSLogger setLogHandler:logHandler];
 }
 
@@ -146,13 +146,13 @@ static NSString *const kSNMDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
 
 - (BOOL)start:(NSString *)appSecret {
   if (self.sdkStarted) {
-    SNMLogWarning([MSSonoma getLoggerTag], @"SDK has already been started. You can call `start` only once.");
+    MSLogWarning([MSSonoma getLoggerTag], @"SDK has already been started. You can call `start` only once.");
     return NO;
   }
 
   // Validate and set the app secret.
   if ([appSecret length] == 0 || ![[NSUUID alloc] initWithUUIDString:appSecret]) {
-    SNMLogError([MSSonoma getLoggerTag], @"AppSecret is invalid");
+    MSLogError([MSSonoma getLoggerTag], @"AppSecret is invalid");
     return NO;
   }
   self.appSecret = appSecret;
@@ -171,9 +171,9 @@ static NSString *const kSNMDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
   _sdkStarted = YES;
 
   // If the loglevel hasn't been customized before and we are not running in an app store environment, we set the
-  // default loglevel to SNMLogLevelWarning.
+  // default loglevel to MSLogLevelWarning.
   if ((![MSLogger isUserDefinedLogLevel]) && ([MSEnvironmentHelper currentAppEnvironment] == SNMEnvironmentOther)) {
-    [MSSonoma setLogLevel:SNMLogLevelWarning];
+    [MSSonoma setLogLevel:MSLogLevelWarning];
   }
   return YES;
 }
@@ -311,8 +311,8 @@ static NSString *const kSNMDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
 - (BOOL)canBeUsed {
   BOOL canBeUsed = self.sdkStarted;
   if (!canBeUsed) {
-    SNMLogError([MSSonoma getLoggerTag],
-                @"SonomaSDK hasn't been initialized. You need to call [MSSonoma "
+    MSLogError([MSSonoma getLoggerTag],
+                @"Mobile Center SDK hasn't been initialized. You need to call [MSMobileCenter "
                 @"start:YOUR_APP_SECRET withFeatures:LIST_OF_FEATURES] first.");
   }
   return canBeUsed;

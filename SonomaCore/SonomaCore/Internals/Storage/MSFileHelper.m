@@ -54,10 +54,10 @@
 
   NSError *error;
   if ([data writeToFile:file.filePath options:NSDataWritingAtomic error:&error]) {
-    SNMLogVerbose([MSSonoma getLoggerTag], @"File %@: has been successfully written", file.filePath);
+    MSLogVerbose([MSSonoma getLoggerTag], @"File %@: has been successfully written", file.filePath);
     return YES;
   } else {
-    SNMLogError([MSSonoma getLoggerTag], @"Error writing file %@: %@", file.filePath, error.localizedDescription);
+    MSLogError([MSSonoma getLoggerTag], @"Error writing file %@: %@", file.filePath, error.localizedDescription);
     return NO;
   }
 }
@@ -69,10 +69,10 @@
 
   NSError *error;
   if ([self.fileManager removeItemAtPath:file.filePath error:&error]) {
-    SNMLogVerbose([MSSonoma getLoggerTag], @"File %@: has been successfully deleted", file.filePath);
+    MSLogVerbose([MSSonoma getLoggerTag], @"File %@: has been successfully deleted", file.filePath);
     return YES;
   } else {
-    SNMLogError([MSSonoma getLoggerTag], @"Error deleting file %@: %@", file.filePath, error.localizedDescription);
+    MSLogError([MSSonoma getLoggerTag], @"Error deleting file %@: %@", file.filePath, error.localizedDescription);
     return NO;
   }
 }
@@ -85,9 +85,9 @@
   NSError *error;
   NSData *data = [NSData dataWithContentsOfFile:file.filePath options:nil error:&error];
   if (error) {
-    SNMLogError([MSSonoma getLoggerTag], @"Error writing file %@: %@", file.filePath, error.localizedDescription);
+    MSLogError([MSSonoma getLoggerTag], @"Error writing file %@: %@", file.filePath, error.localizedDescription);
   } else {
-    SNMLogVerbose([MSSonoma getLoggerTag], @"File %@: has been successfully written", file.filePath);
+    MSLogVerbose([MSSonoma getLoggerTag], @"File %@: has been successfully written", file.filePath);
   }
   return data;
 }
@@ -105,7 +105,7 @@
   NSError *error;
   NSArray *allFiles = [fileManager contentsOfDirectoryAtPath:directoryPath error:&error];
   if (error) {
-    SNMLogError([MSSonoma getLoggerTag], @"Couldn't read %@-files for directory %@: %@", fileExtension, directoryPath,
+    MSLogError([MSSonoma getLoggerTag], @"Couldn't read %@-files for directory %@: %@", fileExtension, directoryPath,
                 error.localizedDescription);
     return nil;
   } else {
@@ -134,7 +134,7 @@
   if (!error) {
     creationDate = attributes[NSFileCreationDate];
   } else {
-    SNMLogWarning([MSSonoma getLoggerTag], @"Couldn't read creation date of file %@: %@", filePath, error.localizedDescription);
+    MSLogWarning([MSSonoma getLoggerTag], @"Couldn't read creation date of file %@: %@", filePath, error.localizedDescription);
   }
 
   return creationDate;
@@ -150,7 +150,7 @@
       [self disableBackupForDirectoryPath:directoryPath];
       return YES;
     } else {
-      SNMLogError([MSSonoma getLoggerTag], @"Couldn't create directory at path %@: %@", directoryPath, error.localizedDescription);
+      MSLogError([MSSonoma getLoggerTag], @"Couldn't create directory at path %@: %@", directoryPath, error.localizedDescription);
     }
   }
   return NO;
@@ -167,7 +167,7 @@
     if ([self.fileManager createFileAtPath:filePath contents:[NSData new] attributes:nil]) {
       return YES;
     } else {
-      SNMLogError([MSSonoma getLoggerTag], @"Couldn't create new file at path %@", filePath);
+      MSLogError([MSSonoma getLoggerTag], @"Couldn't create new file at path %@", filePath);
     }
   }
   return NO;
@@ -177,7 +177,7 @@
   NSError *error = nil;
   NSURL *url = [NSURL fileURLWithPath:directoryPath];
   if (!url || ![url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:&error]) {
-    SNMLogError([MSSonoma getLoggerTag], @"Error excluding %@ from backup %@", directoryPath, error.localizedDescription);
+    MSLogError([MSSonoma getLoggerTag], @"Error excluding %@ from backup %@", directoryPath, error.localizedDescription);
     return NO;
   } else {
     return YES;

@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong) MSChannelConfiguration *configuration;
 
 /**
- * Initializes a new `SNMChannelDefault` instance.
+ * Initializes a new `MSChannelDefault` instance.
  *
  * @param sender A sender instance that is used to send batches of log items to
  * the backend.
@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param configuration The configuration used by this channel.
  * @param logsDispatchQueue Queue used to process logs.
  *
- * @return A new `SNMChannelDefault` instance.
+ * @return A new `MSChannelDefault` instance.
  */
 - (instancetype)initWithSender:(id<MSSender>)sender
                        storage:(id<MSStorage>)storage

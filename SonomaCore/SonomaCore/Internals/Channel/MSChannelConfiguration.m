@@ -23,21 +23,21 @@ static MSChannelConfiguration *SNMChannelConfigurationBackground;
   return self;
 }
 
-+ (instancetype)configurationForPriority:(SNMPriority)priority {
++ (instancetype)configurationForPriority:(MSPriority)priority {
   switch (priority) {
 
-  case SNMPriorityHigh:
+  case MSPriorityHigh:
     if (!SNMChannelConfigurationHigh) {
-      SNMChannelConfigurationHigh = [[self alloc] initWithPriorityName:@"SNMPriorityHigh"
+      SNMChannelConfigurationHigh = [[self alloc] initWithPriorityName:@"MSPriorityHigh"
                                                          flushInterval:3.0
                                                         batchSizeLimit:1
                                                    pendingBatchesLimit:6];
     }
     return SNMChannelConfigurationHigh;
 
-  case SNMPriorityBackground:
+  case MSPriorityBackground:
     if (!SNMChannelConfigurationBackground) {
-      SNMChannelConfigurationBackground = [[self alloc] initWithPriorityName:@"SNMPriorityBackground"
+      SNMChannelConfigurationBackground = [[self alloc] initWithPriorityName:@"MSPriorityBackground"
                                                                flushInterval:60.0
                                                               batchSizeLimit:100
                                                          pendingBatchesLimit:1];
@@ -46,7 +46,7 @@ static MSChannelConfiguration *SNMChannelConfigurationBackground;
 
   default:
     if (!SNMChannelConfigurationDefault) {
-      SNMChannelConfigurationDefault = [[self alloc] initWithPriorityName:@"SNMPriorityDefault"
+      SNMChannelConfigurationDefault = [[self alloc] initWithPriorityName:@"MSPriorityDefault"
                                                             flushInterval:3.0
                                                            batchSizeLimit:50
                                                       pendingBatchesLimit:3];
