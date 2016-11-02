@@ -32,16 +32,27 @@
            return [NSString stringWithFormat:(format), ##__VA_ARGS__];                                                 \
          }))
 
+FOUNDATION_EXPORT SNMLogHandler const defaultLogHandler;
+
 @interface SNMLogger : NSObject
 
-+ (SNMLogLevel)currentLogLevel;
-+ (void)setCurrentLogLevel:(SNMLogLevel)currentLogLevel;
-+ (void)setLogHandler:(SNMLogHandler)logHandler;
 + (void)logMessage:(SNMLogMessageProvider)messageProvider
              level:(SNMLogLevel)loglevel
                tag:(NSString *)tag
               file:(const char *)file
           function:(const char *)function
               line:(uint)line;
+
++ (BOOL)isUserDefinedLogLevel;
+
+/*
+ * For testing only.
+ */
++ (void)setIsUserDefinedLogLevel:(BOOL)isUserDefinedLogLevel;
+
++ (SNMLogLevel)currentLogLevel;
++ (void)setCurrentLogLevel:(SNMLogLevel)currentLogLevel;
++ (void)setLogHandler:(SNMLogHandler)logHandler;
+
 
 @end

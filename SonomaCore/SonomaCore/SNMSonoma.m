@@ -5,7 +5,7 @@
 #import "SNMFileStorage.h"
 #import "SNMHttpSender.h"
 #import "SNMLogManagerDefault.h"
-#import "SNMLoggerPrivate.h"
+#import "SNMLogger.h"
 #import "SNMSonomaInternal.h"
 #import <UIKit/UIKit.h>
 #import <sys/sysctl.h>
