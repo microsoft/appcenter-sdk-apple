@@ -4,7 +4,7 @@
 
 #import "MSConstants+Internal.h"
 #import "MSDeviceTracker.h"
-#import "SNMDeviceTrackerPrivate.h"
+#import "MSDeviceTrackerPrivate.h"
 #import "MSUtils.h"
 #import "MSDevicePrivate.h"
 #import "MSWrapperSdkPrivate.h"
