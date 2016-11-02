@@ -35,12 +35,12 @@
 /* Begin PBXBuildFile section */
 		044C45F91DB6EA0C00F3C29E /* SNMErrorAttachmentPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 044C45F81DB6EA0C00F3C29E /* SNMErrorAttachmentPrivate.h */; };
 		044C45FB1DB6EC1C00F3C29E /* SNMErrorBinaryAttachmentPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 044C45FA1DB6EC1C00F3C29E /* SNMErrorBinaryAttachmentPrivate.h */; };
-		387C77071D6CC41100D68CC1 /* SNMFeatureAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C77061D6CC41100D68CC1 /* SNMFeatureAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		38D4BBA31D5A9962001A30A0 /* SNMFeature.h in Headers */ = {isa = PBXBuildFile; fileRef = 38D4BBA21D5A9962001A30A0 /* SNMFeature.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		387C77071D6CC41100D68CC1 /* MSFeatureAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C77061D6CC41100D68CC1 /* MSFeatureAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		38D4BBA31D5A9962001A30A0 /* /Users/benny/Repositories/MS/Sonoma-SDK-iOS/SonomaCore/SonomaCore/MSFeature.h in Headers */ = {isa = PBXBuildFile; fileRef = 38D4BBA21D5A9962001A30A0 /* /Users/benny/Repositories/MS/Sonoma-SDK-iOS/SonomaCore/SonomaCore/MSFeature.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E0401541D1C9A4F0051BCFA /* SNMCrashes.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0401501D1C9A4F0051BCFA /* SNMCrashes.m */; };
 		6E0401751D1C9E750051BCFA /* SonomaCrashes.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401361D1C98690051BCFA /* SonomaCrashes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E0401761D1C9E750051BCFA /* SNMCrashes.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E04014F1D1C9A4F0051BCFA /* SNMCrashes.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6E0401771D1C9EBE0051BCFA /* SonomaCore+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401591D1C9D7F0051BCFA /* SonomaCore+Internal.h */; };
+		6E0401771D1C9EBE0051BCFA /* MobileCenter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401591D1C9D7F0051BCFA /* MobileCenter+Internal.h */; };
 		6E0401781D1C9EBE0051BCFA /* SNMCrashesPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401521D1C9A4F0051BCFA /* SNMCrashesPrivate.h */; };
 		6E171AE61D22F781000DC480 /* libSonomaCrashes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E0401331D1C98690051BCFA /* libSonomaCrashes.a */; };
 		6E171AEE1D22F7BE000DC480 /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171AED1D22F7BE000DC480 /* OCHamcrestIOS.framework */; };
@@ -94,7 +94,7 @@
 		B2F120E71D657F4F0060DED7 /* SNMErrorReportPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = B2F120E61D657F4F0060DED7 /* SNMErrorReportPrivate.h */; };
 		B2F375091D41AD5100F07032 /* SNMErrorLogFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = B2F375071D41AD5100F07032 /* SNMErrorLogFormatter.h */; };
 		B2F3750A1D41AD5100F07032 /* SNMErrorLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F375081D41AD5100F07032 /* SNMErrorLogFormatter.m */; };
-		E8AEE9861D59744D00C0FF6C /* SNMLogManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E8AEE9851D59744D00C0FF6C /* SNMLogManager.h */; };
+		E8AEE9861D59744D00C0FF6C /* MSLogManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E8AEE9851D59744D00C0FF6C /* MSLogManager.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -138,14 +138,14 @@
 /* Begin PBXFileReference section */
 		044C45F81DB6EA0C00F3C29E /* SNMErrorAttachmentPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMErrorAttachmentPrivate.h; sourceTree = "<group>"; };
 		044C45FA1DB6EC1C00F3C29E /* SNMErrorBinaryAttachmentPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMErrorBinaryAttachmentPrivate.h; sourceTree = "<group>"; };
-		387C77061D6CC41100D68CC1 /* SNMFeatureAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SNMFeatureAbstract.h; path = ../SonomaCore/SonomaCore/SNMFeatureAbstract.h; sourceTree = "<group>"; };
-		38D4BBA21D5A9962001A30A0 /* SNMFeature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SNMFeature.h; path = ../SonomaCore/SonomaCore/SNMFeature.h; sourceTree = "<group>"; };
+		387C77061D6CC41100D68CC1 /* MSFeatureAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSFeatureAbstract.h; path = ../SonomaCore/SonomaCore/MSFeatureAbstract.h; sourceTree = "<group>"; };
+		38D4BBA21D5A9962001A30A0 /* /Users/benny/Repositories/MS/Sonoma-SDK-iOS/SonomaCore/SonomaCore/MSFeature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "/Users/benny/Repositories/MS/Sonoma-SDK-iOS/SonomaCore/SonomaCore/MSFeature.h"; sourceTree = "<group>"; };
 		6E0401331D1C98690051BCFA /* libSonomaCrashes.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSonomaCrashes.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E0401361D1C98690051BCFA /* SonomaCrashes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SonomaCrashes.h; sourceTree = "<group>"; };
 		6E04014F1D1C9A4F0051BCFA /* SNMCrashes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMCrashes.h; sourceTree = "<group>"; };
 		6E0401501D1C9A4F0051BCFA /* SNMCrashes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SNMCrashes.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		6E0401521D1C9A4F0051BCFA /* SNMCrashesPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMCrashesPrivate.h; sourceTree = "<group>"; };
-		6E0401591D1C9D7F0051BCFA /* SonomaCore+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "SonomaCore+Internal.h"; path = "../../../SonomaCore/SonomaCore/Internals/SonomaCore+Internal.h"; sourceTree = "<group>"; };
+		6E0401591D1C9D7F0051BCFA /* MobileCenter+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "MobileCenter+Internal.h"; path = "../../../SonomaCore/SonomaCore/Internals/MobileCenter+Internal.h"; sourceTree = "<group>"; };
 		6E171AE11D22F781000DC480 /* SonomaCrashes.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SonomaCrashes.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E171AE51D22F781000DC480 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6E171AED1D22F7BE000DC480 /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrestIOS.framework; path = ../../Vendor/OCHamcrest/OCHamcrestIOS.framework; sourceTree = "<group>"; };
@@ -191,7 +191,7 @@
 		6E7D5C751D3E9395009EC9AC /* SNMStackFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMStackFrame.h; sourceTree = "<group>"; };
 		6E7D5C761D3E9395009EC9AC /* SNMStackFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMStackFrame.m; sourceTree = "<group>"; };
 		6E7D5C7F1D3EAEB5009EC9AC /* SNMBinaryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMBinaryTests.m; sourceTree = "<group>"; };
-		6E7D5C811D3EC06C009EC9AC /* SNMConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SNMConstants.h; path = ../../SonomaCore/SonomaCore/SNMConstants.h; sourceTree = "<group>"; };
+		6E7D5C811D3EC06C009EC9AC /* MSConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSConstants.h; path = ../../SonomaCore/SonomaCore/MSConstants.h; sourceTree = "<group>"; };
 		6E7D5C831D3EC0F7009EC9AC /* SNMThreadTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMThreadTests.m; sourceTree = "<group>"; };
 		6E7D5C861D3EC332009EC9AC /* SNMStackFrameTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMStackFrameTests.m; sourceTree = "<group>"; };
 		6E7D5C891D3EC504009EC9AC /* SNMExceptionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMExceptionTests.m; sourceTree = "<group>"; };
@@ -223,7 +223,7 @@
 		B2F120E61D657F4F0060DED7 /* SNMErrorReportPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMErrorReportPrivate.h; sourceTree = "<group>"; };
 		B2F375071D41AD5100F07032 /* SNMErrorLogFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMErrorLogFormatter.h; sourceTree = "<group>"; };
 		B2F375081D41AD5100F07032 /* SNMErrorLogFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNMErrorLogFormatter.m; sourceTree = "<group>"; };
-		E8AEE9851D59744D00C0FF6C /* SNMLogManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SNMLogManager.h; path = ../SonomaCore/SonomaCore/Internals/Channel/SNMLogManager.h; sourceTree = "<group>"; };
+		E8AEE9851D59744D00C0FF6C /* MSLogManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSLogManager.h; path = ../SonomaCore/SonomaCore/Internals/Channel/MSLogManager.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -253,8 +253,8 @@
 		6E04012A1D1C98690051BCFA = {
 			isa = PBXGroup;
 			children = (
-				387C77061D6CC41100D68CC1 /* SNMFeatureAbstract.h */,
-				E8AEE9851D59744D00C0FF6C /* SNMLogManager.h */,
+				387C77061D6CC41100D68CC1 /* MSFeatureAbstract.h */,
+				E8AEE9851D59744D00C0FF6C /* MSLogManager.h */,
 				6E0401351D1C98690051BCFA /* SonomaCrashes */,
 				6E171AE21D22F781000DC480 /* SonomaCrashesTests */,
 				6EC99A221D4151C60016C325 /* Vendor */,
@@ -295,7 +295,7 @@
 				6E73FE721D4059E7008CDC15 /* SNMCrashesCXXExceptionWrapperException.m */,
 				6E73FE681D402F79008CDC15 /* SNMCrashesCXXExceptionHandler.h */,
 				6E73FE691D402F79008CDC15 /* SNMCrashesCXXExceptionHandler.mm */,
-				6E0401591D1C9D7F0051BCFA /* SonomaCore+Internal.h */,
+				6E0401591D1C9D7F0051BCFA /* MobileCenter+Internal.h */,
 				6E0401521D1C9A4F0051BCFA /* SNMCrashesPrivate.h */,
 				6E7D5C641D3E92B1009EC9AC /* Model */,
 			);
@@ -306,7 +306,7 @@
 			isa = PBXGroup;
 			children = (
 				6EC99A2F1D416CCF0016C325 /* Fixtures */,
-				6E7D5C811D3EC06C009EC9AC /* SNMConstants.h */,
+				6E7D5C811D3EC06C009EC9AC /* MSConstants.h */,
 				6E171AEC1D22F7AB000DC480 /* Frameworks */,
 				6E171AE51D22F781000DC480 /* Info.plist */,
 				B2F120D21D6546560060DED7 /* SNMBinaryAttachmentTests.m */,
@@ -474,7 +474,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				044C45FB1DB6EC1C00F3C29E /* SNMErrorBinaryAttachmentPrivate.h in Headers */,
-				E8AEE9861D59744D00C0FF6C /* SNMLogManager.h in Headers */,
+				E8AEE9861D59744D00C0FF6C /* MSLogManager.h in Headers */,
 				B2F120E01D657CF10060DED7 /* SNMErrorBinaryAttachment.h in Headers */,
 				6E7D5C671D3E9321009EC9AC /* SNMBinary.h in Headers */,
 				6E0401761D1C9E750051BCFA /* SNMCrashes.h in Headers */,
@@ -489,12 +489,12 @@
 				6E73FE6F1D4032AB008CDC15 /* SNMCrashesHelper.h in Headers */,
 				6E7D5C6F1D3E9346009EC9AC /* SNMException.h in Headers */,
 				B2CD3BF91D80EE49000A8A91 /* SNMAbstractErrorLog.h in Headers */,
-				387C77071D6CC41100D68CC1 /* SNMFeatureAbstract.h in Headers */,
+				387C77071D6CC41100D68CC1 /* MSFeatureAbstract.h in Headers */,
 				B24F3F121D9341BC00827213 /* SNMErrorLogFormatterPrivate.h in Headers */,
-				6E0401771D1C9EBE0051BCFA /* SonomaCore+Internal.h in Headers */,
+				6E0401771D1C9EBE0051BCFA /* MobileCenter+Internal.h in Headers */,
 				6E73FE731D4059E7008CDC15 /* SNMCrashesCXXExceptionWrapperException.h in Headers */,
 				6E73FE6A1D402F79008CDC15 /* SNMCrashesCXXExceptionHandler.h in Headers */,
-				38D4BBA31D5A9962001A30A0 /* SNMFeature.h in Headers */,
+				38D4BBA31D5A9962001A30A0 /* /Users/benny/Repositories/MS/Sonoma-SDK-iOS/SonomaCore/SonomaCore/MSFeature.h in Headers */,
 				044C45F91DB6EA0C00F3C29E /* SNMErrorAttachmentPrivate.h in Headers */,
 				B2DCB1361DAC03C400120F87 /* SNMCrashesDelegate.h in Headers */,
 				6E0401781D1C9EBE0051BCFA /* SNMCrashesPrivate.h in Headers */,

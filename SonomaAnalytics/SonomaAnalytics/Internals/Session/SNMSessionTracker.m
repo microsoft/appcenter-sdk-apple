@@ -172,7 +172,7 @@ static NSUInteger const kSNMMaxSessionHistoryCount = 5;
 
 #pragma mark - SNMLogManagerDelegate
 
-- (void)onProcessingLog:(id<SNMLog>)log withPriority:(SNMPriority)priority {
+- (void)onProcessingLog:(id<MSLog>)log withPriority:(SNMPriority)priority {
 
   // Update time stamp.
   _lastCreatedLogTime = [NSDate date];

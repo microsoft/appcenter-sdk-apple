@@ -6,7 +6,7 @@
 #import "SNMCrashTestHelper.h"
 #import "SNMCrashesDelegate.h"
 #import "SNMCrashesPrivate.h"
-#import "SNMLogManager.h"
+#import "MSLogManager.h"
 
 @interface SNMCrashesTests : XCTestCase
 
@@ -40,7 +40,7 @@
 - (void)testStartingManagerInitializesPLCrashReporter {
 
   // When
-  [self.sut startWithLogManager:OCMProtocolMock(@protocol(SNMLogManager))];
+  [self.sut startWithLogManager:OCMProtocolMock(@protocol(MSLogManager))];
 
   // Then
   assertThat(self.sut.plCrashReporter, notNilValue());
@@ -52,7 +52,7 @@
   assertThatBool([SNMCrashTestHelper copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
 
   // When
-  [self.sut startWithLogManager:OCMProtocolMock(@protocol(SNMLogManager))];
+  [self.sut startWithLogManager:OCMProtocolMock(@protocol(MSLogManager))];
 
   // Then
   assertThat(self.sut.crashFiles, hasCountOf(1));

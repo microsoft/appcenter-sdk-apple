@@ -4,9 +4,9 @@
 #import <XCTest/XCTest.h>
 
 #import "SNMErrorReportPrivate.h"
-#import "SNMDevice.h"
-#import "SNMDevicePrivate.h"
-#import "SNMWrapperSdkPrivate.h"
+#import "MSDevice.h"
+#import "MSDevicePrivate.h"
+#import "MSWrapperSdkPrivate.h"
 
 @interface SNMErrorReportTests : XCTestCase
 
@@ -34,7 +34,7 @@
   NSString *liveUpdateDeploymentKey = @"deployment-key";
   NSString *liveUpdatePackageHash = @"b10a8db164e0754105b7a99be72e3fe5";
 
-  SNMDevice *device = [[SNMDevice alloc] init];
+  MSDevice *device = [[MSDevice alloc] init];
   device.sdkVersion = sdkVersion;
   device.model = model;
   device.oemName = oemName;

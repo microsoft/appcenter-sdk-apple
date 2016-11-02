@@ -1,7 +1,7 @@
 #import "AppDelegate.h"
 #import "Constants.h"
 #import "SonomaAnalytics.h"
-#import "SonomaCore.h"
+#import "MobileCenter.h"
 #import "SonomaCrashes.h"
 #import "SNMCrashesDelegate.h"
 
@@ -18,14 +18,14 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
   // Start Sonoma SDK.
-  [SNMSonoma setLogLevel:SNMLogLevelVerbose];
+  [MSSonoma setLogLevel:SNMLogLevelVerbose];
 
-  [SNMSonoma start:@"7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7" withFeatures:@[[SNMAnalytics class], [SNMCrashes class]]];
+  [MSSonoma start:@"7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7" withFeatures:@[[SNMAnalytics class], [SNMCrashes class]]];
 
   if ([SNMCrashes hasCrashedInLastSession]) {
     SNMErrorReport *errorReport = [SNMCrashes lastSessionCrashReport];
     NSLog(@"We crashed with Signal: %@", errorReport.signal);
-    SNMDevice *device = [errorReport device];
+    MSDevice *device = [errorReport device];
     NSString *osVersion = [device osVersion];
     NSString *appVersion = [device appVersion];
     NSString *appBuild = [device appBuild];
@@ -49,7 +49,7 @@
   })];
 
   // Print the install Id.
-  NSLog(@"%@ Install Id: %@", kPUPLogTag, [[SNMSonoma installId] UUIDString]);
+  NSLog(@"%@ Install Id: %@", kPUPLogTag, [[MSSonoma installId] UUIDString]);
   return YES;
 }
 

@@ -6,8 +6,8 @@
 #import "SNMAnalyticsCategory.h"
 #import "SNMAnalyticsPrivate.h"
 #import "SNMEventLog.h"
-#import "SNMFeatureAbstractProtected.h"
-#import "SNMLogManager.h"
+#import "MSFeatureAbstractProtected.h"
+#import "MSLogManager.h"
 #import "SNMPageLog.h"
 
 /**
@@ -45,7 +45,7 @@ static NSString *const kSNMFeatureName = @"Analytics";
   return sharedInstance;
 }
 
-- (void)startWithLogManager:(id<SNMLogManager>)logManager {
+- (void)startWithLogManager:(id<MSLogManager>)logManager {
   [super startWithLogManager:logManager];
 
   // Set up swizzling for auto page tracking.
@@ -171,7 +171,7 @@ static NSString *const kSNMFeatureName = @"Analytics";
   return _autoPageTrackingEnabled;
 }
 
-- (void)sendLog:(id<SNMLog>)log withPriority:(SNMPriority)priority {
+- (void)sendLog:(id<MSLog>)log withPriority:(SNMPriority)priority {
 
   // Send log to core module.
   [self.logManager processLog:log withPriority:priority];
@@ -179,7 +179,7 @@ static NSString *const kSNMFeatureName = @"Analytics";
 
 #pragma mark - SNMSessionTracker
 
-- (void)sessionTracker:(id)sessionTracker processLog:(id<SNMLog>)log withPriority:(SNMPriority)priority {
+- (void)sessionTracker:(id)sessionTracker processLog:(id<MSLog>)log withPriority:(SNMPriority)priority {
   [self sendLog:log withPriority:priority];
 }
 

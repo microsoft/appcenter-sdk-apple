@@ -15,13 +15,13 @@
   // Override point for customization after application launch.
 
   // Start Sonoma SDK
-  [SNMSonoma setLogLevel:SNMLogLevelVerbose];
-  [SNMSonoma setServerUrl:@"http://in-integration.dev.avalanch.es:8081"];
-  [SNMSonoma start:[[NSUUID UUID] UUIDString] withFeatures:@[[SNMAnalytics class], [SNMCrashes class]]];
+  [MSSonoma setLogLevel:SNMLogLevelVerbose];
+  [MSSonoma setServerUrl:@"http://in-integration.dev.avalanch.es:8081"];
+  [MSSonoma start:[[NSUUID UUID] UUIDString] withFeatures:@[[SNMAnalytics class], [SNMCrashes class]]];
   [SNMCrashes setDelegate:self];
 
   // Print the install Id.
-  NSLog(@"%@ Install Id: %@", kDEMLogTag, [[SNMSonoma installId] UUIDString]);
+  NSLog(@"%@ Install Id: %@", kDEMLogTag, [[MSSonoma installId] UUIDString]);
   return YES;
 }
 

@@ -3,8 +3,8 @@
  */
 
 #import "SNMAnalytics.h"
-#import "SNMFeatureInternal.h"
+#import "MSFeatureInternal.h"
 
-@interface SNMAnalytics () <SNMFeatureInternal>
+@interface SNMAnalytics () <MSFeatureInternal>
 
 @end

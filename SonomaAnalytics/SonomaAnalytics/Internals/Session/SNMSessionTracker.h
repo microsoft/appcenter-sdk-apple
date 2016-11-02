@@ -4,10 +4,10 @@
 
 #import "SNMSessionHistoryInfo.h"
 #import "SNMSessionTrackerDelegate.h"
-#import "SonomaCore+Internal.h"
+#import "MobileCenter+Internal.h"
 #import <Foundation/Foundation.h>
 
-@interface SNMSessionTracker : NSObject <SNMLogManagerDelegate>
+@interface SNMSessionTracker : NSObject <MSLogManagerDelegate>
 
 /**
  *  Session tracker delegate.

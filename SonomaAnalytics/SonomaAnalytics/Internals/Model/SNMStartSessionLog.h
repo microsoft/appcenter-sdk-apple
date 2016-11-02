@@ -2,9 +2,9 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "SonomaCore+Internal.h"
+#import "MobileCenter+Internal.h"
 #import <Foundation/Foundation.h>
 
-@interface SNMStartSessionLog : SNMAbstractLog
+@interface SNMStartSessionLog : MSAbstractLog
 
 @end

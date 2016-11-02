@@ -4,7 +4,7 @@
 #import <XCTest/XCTest.h>
 
 #import "SNMEventLog.h"
-#import "SonomaCore+Internal.h"
+#import "MobileCenter+Internal.h"
 
 @interface SNMEventLogTests : XCTestCase
 
@@ -35,7 +35,7 @@
   NSString *typeName = @"event";
   NSString *eventId = kSNMUUIDString;
   NSString *eventName = @"eventName";
-  SNMDevice *device = [SNMDevice new];
+  MSDevice *device = [MSDevice new];
   NSString *sessionId = @"1234567890";
   NSDictionary *properties = @{ @"Key" : @"Value" };
   NSTimeInterval createTime = [[NSDate date] timeIntervalSince1970];
@@ -71,7 +71,7 @@
   NSString *typeName = @"event";
   NSString *eventId = kSNMUUIDString;
   NSString *eventName = @"eventName";
-  SNMDevice *device = [SNMDevice new];
+  MSDevice *device = [MSDevice new];
   NSString *sessionId = @"1234567890";
   NSNumber *tOffset = @(3);
   NSDictionary *properties = @{ @"Key" : @"Value" };

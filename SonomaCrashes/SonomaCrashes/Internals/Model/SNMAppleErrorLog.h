@@ -3,7 +3,7 @@
  */
 
 #import "SNMAbstractErrorLog.h"
-#import "SonomaCore+Internal.h"
+#import "MobileCenter+Internal.h"
 #import <Foundation/Foundation.h>
 
 @class SNMThread, SNMBinary;

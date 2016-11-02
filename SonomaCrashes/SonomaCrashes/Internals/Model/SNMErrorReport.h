@@ -3,7 +3,7 @@
  */
 
 #import <Foundation/Foundation.h>
-@class SNMDevice;
+@class MSDevice;
 
 @interface SNMErrorReport : NSObject
 
@@ -46,7 +46,7 @@
 /**
  *  Device information of the app when it crashed.
  */
-@property(nonatomic, readonly) SNMDevice *device;
+@property(nonatomic, readonly) MSDevice *device;
 
 /**
  *  Identifier of the app process that crashed.

@@ -33,7 +33,7 @@
   // If
   NSString *typeName = @"page";
   NSString *pageName = @"pageName";
-  SNMDevice *device = [SNMDevice new];
+  MSDevice *device = [MSDevice new];
   NSString *sessionId = @"1234567890";
   NSDictionary *properties = @{ @"Key" : @"Value" };
   NSTimeInterval createTime = [[NSDate date] timeIntervalSince1970];
@@ -66,7 +66,7 @@
   // If
   NSString *typeName = @"page";
   NSString *pageName = @"pageName";
-  SNMDevice *device = [SNMDevice new];
+  MSDevice *device = [MSDevice new];
   NSString *sessionId = @"1234567890";
   NSNumber *tOffset = @(3);
   NSDictionary *properties = @{ @"Key" : @"Value" };

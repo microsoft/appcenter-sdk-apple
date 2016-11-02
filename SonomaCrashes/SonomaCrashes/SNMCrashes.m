@@ -8,8 +8,8 @@
 #import "SNMCrashesHelper.h"
 #import "SNMCrashesPrivate.h"
 #import "SNMErrorLogFormatter.h"
-#import "SNMFeatureAbstractProtected.h"
-#import "SNMSonomaInternal.h"
+#import "MSFeatureAbstractProtected.h"
+#import "MSSonomaInternal.h"
 
 /**
  *  Feature name.
@@ -44,7 +44,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
   abort();
 }
 
-@interface SNMCrashes () <SNMChannelDelegate>
+@interface SNMCrashes () <MSChannelDelegate>
 
 @end
 
@@ -58,8 +58,8 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 + (void)generateTestCrash {
   @synchronized([self sharedInstance]) {
     if ([[self sharedInstance] canBeUsed]) {
-      if ([SNMEnvironmentHelper currentAppEnvironment] != SNMEnvironmentAppStore) {
-        if ([SNMSonoma isDebuggerAttached]) {
+      if ([MSEnvironmentHelper currentAppEnvironment] != SNMEnvironmentAppStore) {
+        if ([MSSonoma isDebuggerAttached]) {
           SNMLogWarning([SNMCrashes getLoggerTag],
                         @"The debugger is attached. The following crash cannot be detected by the SDK!");
         }
@@ -186,7 +186,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
   return sharedInstance;
 }
 
-- (void)startWithLogManager:(id<SNMLogManager>)logManager {
+- (void)startWithLogManager:(id<MSLogManager>)logManager {
   [super startWithLogManager:logManager];
   SNMLogVerbose([SNMCrashes getLoggerTag], @"Started crash feature.");
 }
@@ -205,7 +205,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 
 #pragma mark - SNMChannelDelegate
 
-- (void)channel:(id)channel willSendLog:(id<SNMLog>)log {
+- (void)channel:(id)channel willSendLog:(id<MSLog>)log {
   if (self.delegate && [self.delegate respondsToSelector:@selector(crashes:willSendErrorReport:)]) {
     if ([((NSObject *)log) isKindOfClass:[SNMAppleErrorLog class]]) {
       SNMErrorReport *report = [SNMErrorLogFormatter errorReportFromLog:((SNMAppleErrorLog *)log)];
@@ -214,7 +214,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
   }
 }
 
-- (void)channel:(id<SNMChannel>)channel didSucceedSendingLog:(id<SNMLog>)log {
+- (void)channel:(id<MSChannel>)channel didSucceedSendingLog:(id<MSLog>)log {
   if (self.delegate && [self.delegate respondsToSelector:@selector(crashes:didSucceedSendingErrorReport:)]) {
     if ([((NSObject *)log) isKindOfClass:[SNMAppleErrorLog class]]) {
       SNMErrorReport *report = [SNMErrorLogFormatter errorReportFromLog:((SNMAppleErrorLog *)log)];
@@ -223,7 +223,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
   }
 }
 
-- (void)channel:(id<SNMChannel>)channel didFailSendingLog:(id<SNMLog>)log withError:(NSError *)error {
+- (void)channel:(id<MSChannel>)channel didFailSendingLog:(id<MSLog>)log withError:(NSError *)error {
   if (self.delegate && [self.delegate respondsToSelector:@selector(crashes:didFailSendingErrorReport:withError:)]) {
     if ([((NSObject *)log) isKindOfClass:[SNMAppleErrorLog class]]) {
       SNMErrorReport *report = [SNMErrorLogFormatter errorReportFromLog:((SNMAppleErrorLog *)log)];
@@ -253,7 +253,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
    the following part when a debugger is attached no matter which signal
    handler type is set.
    */
-  if ([SNMSonoma isDebuggerAttached]) {
+  if ([MSSonoma isDebuggerAttached]) {
     SNMLogWarning([SNMCrashes getLoggerTag],
                   @"Detecting crashes is NOT enabled due to running the app with a debugger attached.");
   } else {

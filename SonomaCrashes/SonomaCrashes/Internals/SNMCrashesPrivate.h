@@ -3,12 +3,12 @@
  */
 
 #import "SNMCrashes.h"
-#import "SNMFeatureInternal.h"
+#import "MSFeatureInternal.h"
 #import <CrashReporter/CrashReporter.h>
 
 @class SNMPLCrashReporter;
 
-@interface SNMCrashes () <SNMFeatureInternal>
+@interface SNMCrashes () <MSFeatureInternal>
 
 /**
  * Prototype of a callback function used to execute additional user code. Called

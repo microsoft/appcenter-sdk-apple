@@ -4,10 +4,10 @@
  * OpenAPI spec version: 1.0.0-preview20160708
  */
 
-#import "SonomaCore+Internal.h"
+#import "MobileCenter+Internal.h"
 #import <Foundation/Foundation.h>
 
-@interface SNMEventLog : SNMLogWithProperties
+@interface SNMEventLog : MSLogWithProperties
 
 /** Unique identifier for this event.
  */
