@@ -75,21 +75,21 @@
  *
  * @return log level.
  */
-+ (SNMLogLevel)logLevel;
++ (MSLogLevel)logLevel;
 
 /**
  * Set log level.
  *
  * @param logLevel the log level.
  */
-+ (void)setLogLevel:(SNMLogLevel)logLevel;
++ (void)setLogLevel:(MSLogLevel)logLevel;
 
 /**
  * Set log level handler.
  *
  * @param logHandler handler.
  */
-+ (void)setLogHandler:(SNMLogHandler)logHandler;
++ (void)setLogHandler:(MSLogHandler)logHandler;
 
 /**
  * Set wrapper SDK information to use when building device properties. This is intended in case you are building a SDK

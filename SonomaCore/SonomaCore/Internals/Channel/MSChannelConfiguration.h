@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, readonly) float flushInterval;
 
 /**
- * Initializes new `SNMChannelConfiguration' instance based on given settings.
+ * Initializes new `MSChannelConfiguration' instance based on given settings.
  *
  * @param name The name used by the channel to determine a group of logs.
  * @param flushInterval The interval after which a new batch will be finished.
@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param pendingBatchesLimit The maximum number of batches that have currently
  * been forwarded to another component.
  *
- * @return a fully configured `SNMChannelConfiguration` instance.
+ * @return a fully configured `MSChannelConfiguration` instance.
  */
 - (instancetype)initWithPriorityName:(NSString *)name
                        flushInterval:(float)flushInterval
@@ -50,16 +50,16 @@ NS_ASSUME_NONNULL_BEGIN
                  pendingBatchesLimit:(NSUInteger)pendingBatchesLimit;
 
 /**
- * Initializes and configures a predefined `SNMChannelConfiguration' instance
+ * Initializes and configures a predefined `MSChannelConfiguration' instance
  * based on
  * a given priority enum value.
  *
  * @param priority the enum value which determines which configurations to us
  * as presets.
  *
- * @return a fully configured `SNMChannelConfiguration` instance.
+ * @return a fully configured `MSChannelConfiguration` instance.
  */
-+ (instancetype)configurationForPriority:(SNMPriority)priority;
++ (instancetype)configurationForPriority:(MSPriority)priority;
 
 @end
 

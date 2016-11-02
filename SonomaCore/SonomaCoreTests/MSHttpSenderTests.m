@@ -300,8 +300,8 @@ static NSString *const kSNMAppSecret = @"mockAppSecret";
   [self.sut sendAsync:container
       completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
 
-        XCTAssertEqual(error.domain, kSNMDefaultApiErrorDomain);
-        XCTAssertEqual(error.code, kSNMDefaultApiMissingParamErrorCode);
+        XCTAssertEqual(error.domain, kMSDefaultApiErrorDomain);
+        XCTAssertEqual(error.code, kMSDefaultApiMissingParamErrorCode);
       }];
 
   XCTAssertEqual([self.sut.pendingCalls count], 0);

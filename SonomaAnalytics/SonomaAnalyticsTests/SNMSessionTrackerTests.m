@@ -170,7 +170,7 @@ NSTimeInterval const kSNMTestSessionTimeout = 1.5;
   // Then
   OCMVerify([delegateMock sessionTracker:sut
                               processLog:[OCMArg isKindOfClass:[SNMStartSessionLog class]]
-                            withPriority:SNMPriorityDefault]);
+                            withPriority:MSPriorityDefault]);
 }
 
 - (void)testStartSessionOnAppForegrounded {
@@ -193,7 +193,7 @@ NSTimeInterval const kSNMTestSessionTimeout = 1.5;
   // Then
   OCMVerify([delegateMock sessionTracker:sut
                               processLog:[OCMArg isKindOfClass:[SNMStartSessionLog class]]
-                            withPriority:SNMPriorityDefault]);
+                            withPriority:MSPriorityDefault]);
 }
 
 @end

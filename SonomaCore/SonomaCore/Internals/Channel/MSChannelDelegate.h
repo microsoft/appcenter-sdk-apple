@@ -6,7 +6,7 @@
 #import "MSChannel.h"
 
 @class MSLogWithProperties;
-@class SNMLog;
+@class MSLog;
 
 @protocol MSChannelDelegate <NSObject>
 

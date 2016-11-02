@@ -96,14 +96,14 @@
 - (void)enqueueItem:(id<MSLog>)item withCompletion:(enqueueCompletionBlock)completion {
   dispatch_async(self.logsDispatchQueue, ^{
     if (!item) {
-      SNMLogWarning([MSSonoma getLoggerTag], @"TelemetryItem was nil.");
+      MSLogWarning([MSSonoma getLoggerTag], @"TelemetryItem was nil.");
       return;
     } else if (self.discardLogs) {
-      SNMLogWarning([MSSonoma getLoggerTag], @"Channel disabled in log discarding mode, discard this log.");
+      MSLogWarning([MSSonoma getLoggerTag], @"Channel disabled in log discarding mode, discard this log.");
     }
 
     // Save the log first.
-    SNMLogInfo([MSSonoma getLoggerTag], @"Saving log, type: %@.", item.type);
+    MSLogInfo([MSSonoma getLoggerTag], @"Saving log, type: %@.", item.type);
     [self.storage saveLog:item withStorageKey:self.configuration.name];
     _itemsCount += 1;
     if (completion)
@@ -154,7 +154,7 @@
                    self.pendingBatchQueueFull = YES;
                  }
                  MSLogContainer *container = [[MSLogContainer alloc] initWithBatchId:batchId andLogs:logArray];
-                 SNMLogInfo([MSSonoma getLoggerTag], @"Sending log(s), batch Id:%@, payload:\n %@", batchId,
+                 MSLogInfo([MSSonoma getLoggerTag], @"Sending log(s), batch Id:%@, payload:\n %@", batchId,
                             [container serializeLogWithPrettyPrinting:YES]);
 
                  // Notify delegates.
@@ -173,8 +173,8 @@
                         dispatch_async(self.logsDispatchQueue, ^{
 
                           // Success.
-                          if (statusCode == SNMHTTPCodesNo200OK) {
-                            SNMLogInfo([MSSonoma getLoggerTag], @"Log(s) sent with success, batch Id:%@.", batchId);
+                          if (statusCode == MSHTTPCodesNo200OK) {
+                            MSLogInfo([MSSonoma getLoggerTag], @"Log(s) sent with success, batch Id:%@.", batchId);
 
                             // Notify delegates.
                             [self enumerateDelegatesForSelector:@selector(channel:didSucceedSendingLog:)
@@ -200,7 +200,7 @@
 
                           // Failure.
                           else {
-                            SNMLogInfo([MSSonoma getLoggerTag],
+                            MSLogInfo([MSSonoma getLoggerTag],
                                        @"Log(s) sent with failure, batch Id:%@, status code:%lu", batchId,
                                        (unsigned long)statusCode);
 
@@ -282,7 +282,7 @@
 
     // Even if it's already disabled we might also want to delete logs this time.
     if (!isEnabled && deleteData) {
-      SNMLogInfo([MSSonoma getLoggerTag], @"Delete all logs.");
+      MSLogInfo([MSSonoma getLoggerTag], @"Delete all logs.");
       [self deleteAllLogsSync];
 
       // Reset states.
@@ -298,7 +298,7 @@
 
 - (void)suspend {
   if (!self.suspended) {
-    SNMLogInfo([MSSonoma getLoggerTag], @"Suspend channel.");
+    MSLogInfo([MSSonoma getLoggerTag], @"Suspend channel.");
     self.suspended = YES;
     [self resetTimer];
   }
@@ -306,7 +306,7 @@
 
 - (void)resume {
   if (self.suspended && self.enabled) {
-    SNMLogInfo([MSSonoma getLoggerTag], @"Resume channel.");
+    MSLogInfo([MSSonoma getLoggerTag], @"Resume channel.");
     self.suspended = NO;
     self.discardLogs = NO;
     [self flushQueue];

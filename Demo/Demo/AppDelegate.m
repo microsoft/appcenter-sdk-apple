@@ -15,7 +15,7 @@
   // Override point for customization after application launch.
 
   // Start Sonoma SDK
-  [MSSonoma setLogLevel:SNMLogLevelVerbose];
+  [MSSonoma setLogLevel:MSLogLevelVerbose];
   [MSSonoma setServerUrl:@"http://in-integration.dev.avalanch.es:8081"];
   [MSSonoma start:[[NSUUID UUID] UUIDString] withFeatures:@[[SNMAnalytics class], [SNMCrashes class]]];
   [SNMCrashes setDelegate:self];

@@ -21,7 +21,7 @@
 /**
  * The channel priority for this feature.
  */
-@property(nonatomic, readonly) SNMPriority priority;
+@property(nonatomic, readonly) MSPriority priority;
 
 /**
  * Get the unique instance.

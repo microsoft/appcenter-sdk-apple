@@ -55,14 +55,14 @@ static char *const SNMlogsDispatchQueue = "com.microsoft.sonoma.LogManagerQueue"
 }
 
 #pragma mark - Channel Delegate
-- (void)addChannelDelegate:(id<MSChannelDelegate>)channelDelegate forPriority:(SNMPriority)priority {
+- (void)addChannelDelegate:(id<MSChannelDelegate>)channelDelegate forPriority:(MSPriority)priority {
   if (channelDelegate) {
     id<MSChannel> channel = [self channelForPriority:priority];
     [channel addDelegate:channelDelegate];
   }
 }
 
-- (void)removeChannelDelegate:(id<MSChannelDelegate>)channelDelegate forPriority:(SNMPriority)priority {
+- (void)removeChannelDelegate:(id<MSChannelDelegate>)channelDelegate forPriority:(MSPriority)priority {
   if (channelDelegate) {
     id<MSChannel> channel = [self channelForPriority:priority];
     [channel removeDelegate:channelDelegate];
@@ -79,7 +79,7 @@ static char *const SNMlogsDispatchQueue = "com.microsoft.sonoma.LogManagerQueue"
 
 #pragma mark - Process items
 
-- (void)processLog:(id<MSLog>)log withPriority:(SNMPriority)priority {
+- (void)processLog:(id<MSLog>)log withPriority:(MSPriority)priority {
 
   // Notify delegates.
   [self enumerateDelegatesForSelector:@selector(onProcessingLog:withPriority:)
@@ -100,7 +100,7 @@ static char *const SNMlogsDispatchQueue = "com.microsoft.sonoma.LogManagerQueue"
 
 #pragma mark - Helpers
 
-- (id<MSChannel>)createChannelForPriority:(SNMPriority)priority {
+- (id<MSChannel>)createChannelForPriority:(MSPriority)priority {
   MSChannelDefault *channel;
   MSChannelConfiguration *configuration = [MSChannelConfiguration configurationForPriority:priority];
   if (configuration) {
@@ -113,7 +113,7 @@ static char *const SNMlogsDispatchQueue = "com.microsoft.sonoma.LogManagerQueue"
   return channel;
 }
 
-- (id<MSChannel>)channelForPriority:(SNMPriority)priority {
+- (id<MSChannel>)channelForPriority:(MSPriority)priority {
 
   // Return an existing channel or create it.
   id<MSChannel> channel = [self.channels objectForKey:@(priority)];
@@ -122,7 +122,7 @@ static char *const SNMlogsDispatchQueue = "com.microsoft.sonoma.LogManagerQueue"
 
 #pragma mark - Storage
 
-- (void)deleteLogsForPriority:(SNMPriority)priority {
+- (void)deleteLogsForPriority:(MSPriority)priority {
   [[self channelForPriority:priority] deleteAllLogs];
 }
 
@@ -142,14 +142,14 @@ static char *const SNMlogsDispatchQueue = "com.microsoft.sonoma.LogManagerQueue"
 
     // If requested, delete any remaining logs (e.g., even logs from not started features).
     if (!isEnabled && deleteData) {
-      for (int priority = 0; priority < kSNMPriorityCount; priority++) {
+      for (int priority = 0; priority < kMSPriorityCount; priority++) {
         [self deleteLogsForPriority:priority];
       }
     }
   }
 }
 
-- (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData forPriority:(SNMPriority)priority {
+- (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData forPriority:(MSPriority)priority {
   [[self channelForPriority:priority] setEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
 }
 

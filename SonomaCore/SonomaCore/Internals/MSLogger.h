@@ -5,39 +5,39 @@
 #import "MSConstants.h"
 #import <Foundation/Foundation.h>
 
-#define SNMLog(_level, _tag, _message)                                                                                 \
+#define MSLog(_level, _tag, _message)                                                                                 \
   [MSLogger logMessage:_message level:_level tag:_tag file:__FILE__ function:__PRETTY_FUNCTION__ line:__LINE__]
-#define SNMLogAssert(tag, format, ...)                                                                                 \
-  SNMLog(SNMLogLevelAssert, tag, (^{                                                                                   \
+#define MSLogAssert(tag, format, ...)                                                                                 \
+  MSLog(MSLogLevelAssert, tag, (^{                                                                                   \
            return [NSString stringWithFormat:(format), ##__VA_ARGS__];                                                 \
          }))
-#define SNMLogError(tag, format, ...)                                                                                  \
-  SNMLog(SNMLogLevelError, tag, (^{                                                                                    \
+#define MSLogError(tag, format, ...)                                                                                  \
+  MSLog(MSLogLevelError, tag, (^{                                                                                    \
            return [NSString stringWithFormat:(format), ##__VA_ARGS__];                                                 \
          }))
-#define SNMLogWarning(tag, format, ...)                                                                                \
-  SNMLog(SNMLogLevelWarning, tag, (^{                                                                                  \
+#define MSLogWarning(tag, format, ...)                                                                                \
+  MSLog(MSLogLevelWarning, tag, (^{                                                                                  \
            return [NSString stringWithFormat:(format), ##__VA_ARGS__];                                                 \
          }))
-#define SNMLogInfo(tag, format, ...)                                                                                   \
-  SNMLog(SNMLogLevelInfo, tag, (^{                                                                                     \
+#define MSLogInfo(tag, format, ...)                                                                                   \
+  MSLog(MSLogLevelInfo, tag, (^{                                                                                     \
            return [NSString stringWithFormat:(format), ##__VA_ARGS__];                                                 \
          }))
-#define SNMLogDebug(tag, format, ...)                                                                                  \
-  SNMLog(SNMLogLevelDebug, tag, (^{                                                                                    \
+#define MSLogDebug(tag, format, ...)                                                                                  \
+  MSLog(MSLogLevelDebug, tag, (^{                                                                                    \
            return [NSString stringWithFormat:(format), ##__VA_ARGS__];                                                 \
          }))
-#define SNMLogVerbose(tag, format, ...)                                                                                \
-  SNMLog(SNMLogLevelVerbose, tag, (^{                                                                                  \
+#define MSLogVerbose(tag, format, ...)                                                                                \
+  MSLog(MSLogLevelVerbose, tag, (^{                                                                                  \
            return [NSString stringWithFormat:(format), ##__VA_ARGS__];                                                 \
          }))
 
-FOUNDATION_EXPORT SNMLogHandler const defaultLogHandler;
+FOUNDATION_EXPORT MSLogHandler const defaultLogHandler;
 
 @interface MSLogger : NSObject
 
-+ (void)logMessage:(SNMLogMessageProvider)messageProvider
-             level:(SNMLogLevel)loglevel
++ (void)logMessage:(MSLogMessageProvider)messageProvider
+             level:(MSLogLevel)loglevel
                tag:(NSString *)tag
               file:(const char *)file
           function:(const char *)function
@@ -50,9 +50,9 @@ FOUNDATION_EXPORT SNMLogHandler const defaultLogHandler;
  */
 + (void)setIsUserDefinedLogLevel:(BOOL)isUserDefinedLogLevel;
 
-+ (SNMLogLevel)currentLogLevel;
-+ (void)setCurrentLogLevel:(SNMLogLevel)currentLogLevel;
-+ (void)setLogHandler:(SNMLogHandler)logHandler;
++ (MSLogLevel)currentLogLevel;
++ (void)setCurrentLogLevel:(MSLogLevel)currentLogLevel;
++ (void)setLogHandler:(MSLogHandler)logHandler;
 
 
 @end

@@ -36,7 +36,7 @@
 - (void)testProcessingWithNewPriorityWillCreateNewChannel {
 
   // If
-  SNMPriority priority = SNMPriorityDefault;
+  MSPriority priority = MSPriorityDefault;
   MSLogManagerDefault *sut = [[MSLogManagerDefault alloc] initWithSender:OCMProtocolMock(@protocol(MSSender))
                                                                    storage:OCMProtocolMock(@protocol(MSStorage))];
   MSAbstractLog *log = [MSAbstractLog new];

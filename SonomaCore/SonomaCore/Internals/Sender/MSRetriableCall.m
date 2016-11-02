@@ -42,7 +42,7 @@
   dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
   self.timerSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
   int64_t delta = NSEC_PER_SEC * [self delayForRetryCount:self.retryCount];
-  SNMLogDebug([MSSonoma getLoggerTag], @"Call attempt #%lu failed, it will be retried in %.f ms.", (unsigned long)self.retryCount,
+  MSLogDebug([MSSonoma getLoggerTag], @"Call attempt #%lu failed, it will be retried in %.f ms.", (unsigned long)self.retryCount,
               round(delta / 1000000));
   self.retryCount++;
   dispatch_source_set_timer(self.timerSource, dispatch_walltime(NULL, delta), 1ull * NSEC_PER_SEC, 1ull * NSEC_PER_SEC);
@@ -78,10 +78,10 @@
     [self resetRetry];
     _isProcessing = NO;
     if ([MSSenderUtils isNoInternetConnectionError:error]) {
-      SNMLogInfo([MSSonoma getLoggerTag], @"Internet connection is down.");
+      MSLogInfo([MSSonoma getLoggerTag], @"Internet connection is down.");
       [sender suspend];
     } else {
-      SNMLogInfo([MSSonoma getLoggerTag], @"Request cancelled.");
+      MSLogInfo([MSSonoma getLoggerTag], @"Request cancelled.");
     }
   }
 
