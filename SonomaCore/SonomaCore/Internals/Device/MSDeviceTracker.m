@@ -12,17 +12,17 @@
 // SDK versioning struct.
 typedef struct {
   uint8_t info_version;
-  const char snm_name[16];
-  const char snm_version[16];
-  const char snm_build[16];
-} snm_info_t;
+  const char ms_name[16];
+  const char ms_version[16];
+  const char ms_build[16];
+} ms_info_t;
 
 // SDK versioning.
-snm_info_t sonoma_library_info __attribute__((section("__TEXT,__bit_ios,regular,no_dead_strip"))) = {
+ms_info_t sonoma_library_info __attribute__((section("__TEXT,__bit_ios,regular,no_dead_strip"))) = {
     .info_version = 1,
-    .snm_name = SONOMA_C_NAME,
-    .snm_version = SONOMA_C_VERSION,
-    .snm_build = SONOMA_C_BUILD};
+    .ms_name = SONOMA_C_NAME,
+    .ms_version = SONOMA_C_VERSION,
+    .ms_build = SONOMA_C_BUILD};
 
 @implementation MSDeviceTracker : NSObject
 
@@ -62,14 +62,14 @@ static BOOL needRefresh = YES;
     CTCarrier *carrier = [[[CTTelephonyNetworkInfo alloc] init] subscriberCellularProvider];
 
     // Collect device properties.
-    newDevice.sdkName = [self sdkName:sonoma_library_info.snm_name];
-    newDevice.sdkVersion = [self sdkVersion:sonoma_library_info.snm_version];
+    newDevice.sdkName = [self sdkName:sonoma_library_info.ms_name];
+    newDevice.sdkVersion = [self sdkVersion:sonoma_library_info.ms_version];
     newDevice.model = [self deviceModel];
     newDevice.oemName = kMSDeviceManufacturer;
-    newDevice.osName = [self osName:kSNMDevice];
-    newDevice.osVersion = [self osVersion:kSNMDevice];
+    newDevice.osName = [self osName:kSMDevice];
+    newDevice.osVersion = [self osVersion:kSMDevice];
     newDevice.osBuild = [self osBuild];
-    newDevice.locale = [self locale:kSNMLocale];
+    newDevice.locale = [self locale:kSMLocale];
     newDevice.timeZoneOffset = [self timeZoneOffset:[NSTimeZone localTimeZone]];
     newDevice.screenSize = [self screenSize];
     newDevice.appVersion = [self appVersion:appBundle];

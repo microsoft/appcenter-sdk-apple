@@ -40,7 +40,7 @@ static NSString *const kSNMName = @"name";
 - (instancetype)initWithCoder:(NSCoder *)coder {
   self = [super initWithCoder:coder];
   if (self) {
-    _type = [coder decodeObjectForKey:kSNMType];
+    _type = [coder decodeObjectForKey:kMSType];
     _name = [coder decodeObjectForKey:kSNMName];
   }
 
@@ -49,7 +49,7 @@ static NSString *const kSNMName = @"name";
 
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
-  [coder encodeObject:self.type forKey:kSNMType];
+  [coder encodeObject:self.type forKey:kMSType];
   [coder encodeObject:self.name forKey:kSNMName];
 }
 

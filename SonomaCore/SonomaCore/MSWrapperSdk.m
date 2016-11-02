@@ -5,11 +5,11 @@
 #import "MSWrapperSdk.h"
 #import "MSWrapperSdkPrivate.h"
 
-static NSString *const kSNMWrapperSdkVersion = @"wrapper_sdk_version";
-static NSString *const kSNMWrapperSdkName = @"wrapper_sdk_name";
-static NSString *const kSNMLiveUpdateReleaseLabel = @"live_update_release_label";
-static NSString *const kSNMLiveUpdateDeploymentKey = @"live_update_deployment_key";
-static NSString *const kSNMLiveUpdatePackageHash = @"live_update_package_hash";
+static NSString *const kMSWrapperSdkVersion = @"wrapper_sdk_version";
+static NSString *const kMSWrapperSdkName = @"wrapper_sdk_name";
+static NSString *const kMSLiveUpdateReleaseLabel = @"live_update_release_label";
+static NSString *const kMSLiveUpdateDeploymentKey = @"live_update_deployment_key";
+static NSString *const kMSLiveUpdatePackageHash = @"live_update_package_hash";
 
 @implementation MSWrapperSdk
 
@@ -34,19 +34,19 @@ static NSString *const kSNMLiveUpdatePackageHash = @"live_update_package_hash";
   NSMutableDictionary *dict = [NSMutableDictionary new];
 
   if (self.wrapperSdkVersion) {
-    dict[kSNMWrapperSdkVersion] = self.wrapperSdkVersion;
+    dict[kMSWrapperSdkVersion] = self.wrapperSdkVersion;
   }
   if (self.wrapperSdkName) {
-    dict[kSNMWrapperSdkName] = self.wrapperSdkName;
+    dict[kMSWrapperSdkName] = self.wrapperSdkName;
   }
   if (self.liveUpdateReleaseLabel) {
-    dict[kSNMLiveUpdateReleaseLabel] = self.liveUpdateReleaseLabel;
+    dict[kMSLiveUpdateReleaseLabel] = self.liveUpdateReleaseLabel;
   }
   if (self.liveUpdateDeploymentKey) {
-    dict[kSNMLiveUpdateDeploymentKey] = self.liveUpdateDeploymentKey;
+    dict[kMSLiveUpdateDeploymentKey] = self.liveUpdateDeploymentKey;
   }
   if (self.liveUpdatePackageHash) {
-    dict[kSNMLiveUpdatePackageHash] = self.liveUpdatePackageHash;
+    dict[kMSLiveUpdatePackageHash] = self.liveUpdatePackageHash;
   }
   return dict;
 }
@@ -73,21 +73,21 @@ static NSString *const kSNMLiveUpdatePackageHash = @"live_update_package_hash";
 - (instancetype)initWithCoder:(NSCoder *)coder {
   self = [super init];
   if (self) {
-    _wrapperSdkVersion = [coder decodeObjectForKey:kSNMWrapperSdkVersion];
-    _wrapperSdkName = [coder decodeObjectForKey:kSNMWrapperSdkName];
-    _liveUpdateReleaseLabel = [coder decodeObjectForKey:kSNMLiveUpdateReleaseLabel];
-    _liveUpdateDeploymentKey = [coder decodeObjectForKey:kSNMLiveUpdateDeploymentKey];
-    _liveUpdatePackageHash = [coder decodeObjectForKey:kSNMLiveUpdatePackageHash];
+    _wrapperSdkVersion = [coder decodeObjectForKey:kMSWrapperSdkVersion];
+    _wrapperSdkName = [coder decodeObjectForKey:kMSWrapperSdkName];
+    _liveUpdateReleaseLabel = [coder decodeObjectForKey:kMSLiveUpdateReleaseLabel];
+    _liveUpdateDeploymentKey = [coder decodeObjectForKey:kMSLiveUpdateDeploymentKey];
+    _liveUpdatePackageHash = [coder decodeObjectForKey:kMSLiveUpdatePackageHash];
   }
   return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
-  [coder encodeObject:self.wrapperSdkVersion forKey:kSNMWrapperSdkVersion];
-  [coder encodeObject:self.wrapperSdkName forKey:kSNMWrapperSdkName];
-  [coder encodeObject:self.liveUpdateReleaseLabel forKey:kSNMLiveUpdateReleaseLabel];
-  [coder encodeObject:self.liveUpdateDeploymentKey forKey:kSNMLiveUpdateDeploymentKey];
-  [coder encodeObject:self.liveUpdatePackageHash forKey:kSNMLiveUpdatePackageHash];
+  [coder encodeObject:self.wrapperSdkVersion forKey:kMSWrapperSdkVersion];
+  [coder encodeObject:self.wrapperSdkName forKey:kMSWrapperSdkName];
+  [coder encodeObject:self.liveUpdateReleaseLabel forKey:kMSLiveUpdateReleaseLabel];
+  [coder encodeObject:self.liveUpdateDeploymentKey forKey:kMSLiveUpdateDeploymentKey];
+  [coder encodeObject:self.liveUpdatePackageHash forKey:kMSLiveUpdatePackageHash];
 }
 
 @end

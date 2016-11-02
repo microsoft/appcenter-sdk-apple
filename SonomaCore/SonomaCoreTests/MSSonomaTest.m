@@ -1,4 +1,4 @@
-#import "MSSonoma.h"
+#import "MSMobileCenter.h"
 #import "MSSonomaInternal.h"
 #import "MSUtils.h"
 #import <Foundation/Foundation.h>
@@ -12,7 +12,7 @@ static NSString *const kSNMNullifiedInstallIdString = @"00000000-0000-0000-0000-
 
 @interface MSSonomaTest : XCTestCase
 
-@property(nonatomic) MSSonoma *sonoma;
+@property(nonatomic) MSMobileCenter *sonoma;
 
 @end
 
@@ -22,7 +22,7 @@ static NSString *const kSNMNullifiedInstallIdString = @"00000000-0000-0000-0000-
   [super setUp];
 
   // System Under Test.
-  self.sonoma = [[MSSonoma alloc] init];
+  self.sonoma = [[MSMobileCenter alloc] init];
 }
 
 - (void)tearDown {
@@ -35,7 +35,7 @@ static NSString *const kSNMNullifiedInstallIdString = @"00000000-0000-0000-0000-
 
   // If
   // InstallId is removed from the storage.
-  [[NSUserDefaults standardUserDefaults] removeObjectForKey:kSNMInstallIdKey];
+  [[NSUserDefaults standardUserDefaults] removeObjectForKey:kMSInstallIdKey];
 
   // When
   NSUUID *installId = self.sonoma.installId;
@@ -52,13 +52,13 @@ static NSString *const kSNMNullifiedInstallIdString = @"00000000-0000-0000-0000-
 
   // If
   // Expected installId is added to the storage.
-  [[NSUserDefaults standardUserDefaults] setObject:kSNMInstallIdStringExample forKey:kSNMInstallIdKey];
+  [[NSUserDefaults standardUserDefaults] setObject:kSNMInstallIdStringExample forKey:kMSInstallIdKey];
 
   // When
   NSUUID *installId = self.sonoma.installId;
 
   // Then
-  assertThat(installId, is(kSNMUUIDFromString(kSNMInstallIdStringExample)));
+  assertThat(installId, is(kMSUUIDFromString(kSNMInstallIdStringExample)));
   assertThat([installId UUIDString], is(kSNMInstallIdStringExample));
 }
 
@@ -66,7 +66,7 @@ static NSString *const kSNMNullifiedInstallIdString = @"00000000-0000-0000-0000-
 
   // If
   // Unexpected installId is added to the storage.
-  [[NSUserDefaults standardUserDefaults] setObject:kSNMUUIDFromString(@"42") forKey:kSNMInstallIdKey];
+  [[NSUserDefaults standardUserDefaults] setObject:kMSUUIDFromString(@"42") forKey:kMSInstallIdKey];
 
   // When
   NSUUID *installId = self.sonoma.installId;
@@ -84,7 +84,7 @@ static NSString *const kSNMNullifiedInstallIdString = @"00000000-0000-0000-0000-
 
   // If
   // InstallId is removed from the storage.
-  [[NSUserDefaults standardUserDefaults] removeObjectForKey:kSNMInstallIdKey];
+  [[NSUserDefaults standardUserDefaults] removeObjectForKey:kMSInstallIdKey];
 
   // When
   NSUUID *installId1 = self.sonoma.installId;
@@ -109,11 +109,11 @@ static NSString *const kSNMNullifiedInstallIdString = @"00000000-0000-0000-0000-
 
   // If
   // InstallId is removed from the storage.
-  [[NSUserDefaults standardUserDefaults] removeObjectForKey:kSNMInstallIdKey];
+  [[NSUserDefaults standardUserDefaults] removeObjectForKey:kMSInstallIdKey];
 
   // When
   NSUUID *installId1 = self.sonoma.installId;
-  self.sonoma = [[MSSonoma alloc] init];
+  self.sonoma = [[MSMobileCenter alloc] init];
   NSUUID *installId2 = self.sonoma.installId;
 
   // Then
@@ -123,13 +123,13 @@ static NSString *const kSNMNullifiedInstallIdString = @"00000000-0000-0000-0000-
 
 - (void)testSetServerUrl {
   NSString *fakeUrl = @"http://testUrl:1234";
-  [MSSonoma setServerUrl:fakeUrl];
-  [MSSonoma start:[[NSUUID UUID] UUIDString] withFeatures:nil];
-  XCTAssertTrue([[[MSSonoma sharedInstance] serverUrl] isEqualToString:fakeUrl]);
+  [MSMobileCenter setServerUrl:fakeUrl];
+  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withFeatures:nil];
+  XCTAssertTrue([[[MSMobileCenter sharedInstance] serverUrl] isEqualToString:fakeUrl]);
 }
 
 - (void)testDefaultServerUrl {
-  [MSSonoma start:[[NSUUID UUID] UUIDString] withFeatures:nil];
-  XCTAssertTrue([[[MSSonoma sharedInstance] serverUrl] isEqualToString:@"https://in.sonoma.hockeyapp.com"]);
+  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withFeatures:nil];
+  XCTAssertTrue([[[MSMobileCenter sharedInstance] serverUrl] isEqualToString:@"https://in.sonoma.hockeyapp.com"]);
 }
 @end

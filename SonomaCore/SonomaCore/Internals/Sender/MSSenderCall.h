@@ -28,7 +28,7 @@
 /**
  *  Call completion handler used for communicating with calling component.
  */
-@property(nonatomic) SNMSendAsyncCompletionHandler completionHandler;
+@property(nonatomic) MSSendAsyncCompletionHandler completionHandler;
 
 /**
  *  Call completed with error/success.

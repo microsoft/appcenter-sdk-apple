@@ -18,9 +18,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
   // Start Sonoma SDK.
-  [MSSonoma setLogLevel:MSLogLevelVerbose];
+  [MSMobileCenter setLogLevel:MSLogLevelVerbose];
 
-  [MSSonoma start:@"7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7" withFeatures:@[[SNMAnalytics class], [SNMCrashes class]]];
+  [MSMobileCenter start:@"7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7" withFeatures:@[[SNMAnalytics class], [SNMCrashes class]]];
 
   if ([SNMCrashes hasCrashedInLastSession]) {
     SNMErrorReport *errorReport = [SNMCrashes lastSessionCrashReport];
@@ -49,7 +49,7 @@
   })];
 
   // Print the install Id.
-  NSLog(@"%@ Install Id: %@", kPUPLogTag, [[MSSonoma installId] UUIDString]);
+  NSLog(@"%@ Install Id: %@", kPUPLogTag, [[MSMobileCenter installId] UUIDString]);
   return YES;
 }
 

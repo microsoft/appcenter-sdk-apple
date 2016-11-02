@@ -1,6 +1,6 @@
 #import <XCTest/XCTest.h>
 #import "MSLogger.h"
-#import "MSSonoma.h"
+#import "MSMobileCenter.h"
 #import "MSSonomaInternal.h"
 
 @interface MSLoggerTests : XCTestCase
@@ -21,12 +21,12 @@
 }
 
 - (void)testDefaultLogLevels {
-  // Check default loglevel before MSSonoma was started.
+  // Check default loglevel before MSMobileCenter was started.
   XCTAssertTrue([MSLogger currentLogLevel] == MSLogLevelAssert);
   // Need to set sdkStarted to NO to make sure the start-logic goes through once, otherwise this test will fail
   // randomly as other tests might call start:withFeatures, too.
-  [MSSonoma sharedInstance].sdkStarted = NO;
-  [MSSonoma start:[[NSUUID UUID] UUIDString] withFeatures:nil];
+  [MSMobileCenter sharedInstance].sdkStarted = NO;
+  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withFeatures:nil];
   
   XCTAssertTrue([MSLogger currentLogLevel] == MSLogLevelWarning);
 }

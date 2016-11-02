@@ -18,7 +18,7 @@
 
 #pragma mark IPv6 Support
 
-NSString *kSNMReachabilityChangedNotification = @"kSNMNetworkReachabilityChangedNotification";
+NSString *kMSReachabilityChangedNotification = @"kSNMNetworkReachabilityChangedNotification";
 
 #pragma mark - Supporting functions
 
@@ -48,7 +48,7 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
 
   MS_Reachability *noteObject = (__bridge MS_Reachability *)info;
   // Post a notification to notify the client that the network reachability changed.
-  [[NSNotificationCenter defaultCenter] postNotificationName:kSNMReachabilityChangedNotification object:noteObject];
+  [[NSNotificationCenter defaultCenter] postNotificationName:kMSReachabilityChangedNotification object:noteObject];
 }
 
 #pragma mark - Reachability implementation

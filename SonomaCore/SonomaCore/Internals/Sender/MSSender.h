@@ -44,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param logContainer Batch of logs.
  * @param handler Completion handler.
  */
-- (void)sendAsync:(nonnull MSLogContainer *)logs completionHandler:(nonnull SNMSendAsyncCompletionHandler)handler;
+- (void)sendAsync:(nonnull MSLogContainer *)logs completionHandler:(nonnull MSSendAsyncCompletionHandler)handler;
 
 /**
  *  Add the given delegate to the sender.

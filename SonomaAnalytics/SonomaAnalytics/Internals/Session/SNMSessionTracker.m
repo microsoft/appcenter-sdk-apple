@@ -40,7 +40,7 @@ static NSUInteger const kSNMMaxSessionHistoryCount = 5;
     _sessionTimeout = kSNMSessionTimeOut;
 
     // Restore past sessions from NSUserDefaults.
-    NSData *sessions = [kSNMUserDefaults objectForKey:kSNMPastSessionsKey];
+    NSData *sessions = [kMSUserDefaults objectForKey:kSNMPastSessionsKey];
     if (sessions != nil) {
       NSArray *arrayFromData = [NSKeyedUnarchiver unarchiveObjectWithData:sessions];
 
@@ -79,7 +79,7 @@ static NSUInteger const kSNMMaxSessionHistoryCount = 5;
         [self.pastSessions removeLastObject];
 
       // Persist the session history in NSData format.
-      [kSNMUserDefaults setObject:[NSKeyedArchiver archivedDataWithRootObject:self.pastSessions]
+      [kMSUserDefaults setObject:[NSKeyedArchiver archivedDataWithRootObject:self.pastSessions]
                            forKey:kSNMPastSessionsKey];
       MSLogInfo([SNMAnalytics getLoggerTag], @"New session ID: %@", _sessionId);
 
@@ -101,11 +101,11 @@ static NSUInteger const kSNMMaxSessionHistoryCount = 5;
     }
 
     // Hookup to application events.
-    [kSNMNotificationCenter addObserver:self
+    [kMSNotificationCenter addObserver:self
                                selector:@selector(applicationDidEnterBackground)
                                    name:UIApplicationDidEnterBackgroundNotification
                                  object:nil];
-    [kSNMNotificationCenter addObserver:self
+    [kMSNotificationCenter addObserver:self
                                selector:@selector(applicationWillEnterForeground)
                                    name:UIApplicationWillEnterForegroundNotification
                                  object:nil];
@@ -115,7 +115,7 @@ static NSUInteger const kSNMMaxSessionHistoryCount = 5;
 
 - (void)stop {
   if (_started) {
-    [kSNMNotificationCenter removeObserver:self];
+    [kMSNotificationCenter removeObserver:self];
     _started = NO;
   }
 }
@@ -124,7 +124,7 @@ static NSUInteger const kSNMMaxSessionHistoryCount = 5;
   @synchronized(self) {
 
     // Clear persistence.
-    [kSNMUserDefaults removeObjectForKey:kSNMPastSessionsKey];
+    [kMSUserDefaults removeObjectForKey:kSNMPastSessionsKey];
 
     // Clear cache.
     self.sessionId = nil;

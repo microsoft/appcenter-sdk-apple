@@ -15,7 +15,7 @@ typedef enum : NSInteger { NotReachable = 0, ReachableViaWiFi, ReachableViaWWAN 
 #pragma mark IPv6 Support
 // Reachability fully support IPv6.  For full details, see ReadMe.md.
 
-extern NSString *kSNMReachabilityChangedNotification;
+extern NSString *kMSReachabilityChangedNotification;
 
 @interface MS_Reachability : NSObject
 

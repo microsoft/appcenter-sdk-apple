@@ -74,7 +74,7 @@ static NSString *const kSNMAppSecret = @"mockAppSecret";
   }
       withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         NSData *stubData = [@"Sonoma Response" dataUsingEncoding:NSUTF8StringEncoding];
-        return [OHHTTPStubsResponse responseWithData:stubData statusCode:SNMHTTPCodesNo200OK headers:nil];
+        return [OHHTTPStubsResponse responseWithData:stubData statusCode:MSHTTPCodesNo200OK headers:nil];
       }]
       .name = @"httpStub_200";
 
@@ -92,7 +92,7 @@ static NSString *const kSNMAppSecret = @"mockAppSecret";
   }
       withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         NSData *stubData = [@"Sonoma Response" dataUsingEncoding:NSUTF8StringEncoding];
-        return [OHHTTPStubsResponse responseWithData:stubData statusCode:SNMHTTPCodesNo200OK headers:nil];
+        return [OHHTTPStubsResponse responseWithData:stubData statusCode:MSHTTPCodesNo200OK headers:nil];
       }]
       .name = @"httpStub_200";
 
@@ -105,7 +105,7 @@ static NSString *const kSNMAppSecret = @"mockAppSecret";
 
         XCTAssertNil(error);
         XCTAssertEqual(containerId, batchId);
-        XCTAssertEqual(statusCode, SNMHTTPCodesNo200OK);
+        XCTAssertEqual(statusCode, MSHTTPCodesNo200OK);
 
         [expectation fulfill];
       }];
@@ -182,7 +182,7 @@ static NSString *const kSNMAppSecret = @"mockAppSecret";
   }
       withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         OHHTTPStubsResponse *responseStub = [OHHTTPStubsResponse new];
-        responseStub.statusCode = SNMHTTPCodesNo200OK;
+        responseStub.statusCode = MSHTTPCodesNo200OK;
         return responseStub;
       }]
       .name = @"httpStub_NetworkUpAgain";
@@ -226,7 +226,7 @@ static NSString *const kSNMAppSecret = @"mockAppSecret";
                                  assertThatUnsignedLong(self.sut.pendingCalls.count, equalToInt(0));
 
                                  // Status codes and error must be the same.
-                                 assertThatLong(SNMHTTPCodesNo200OK, equalToLong(forwardedStatus));
+                                 assertThatLong(MSHTTPCodesNo200OK, equalToLong(forwardedStatus));
                                  assertThat(forwardedError, nilValue());
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
@@ -247,7 +247,7 @@ static NSString *const kSNMAppSecret = @"mockAppSecret";
   }
       withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         OHHTTPStubsResponse *responseStub = [OHHTTPStubsResponse new];
-        responseStub.statusCode = SNMHTTPCodesNo500InternalServerError;
+        responseStub.statusCode = MSHTTPCodesNo500InternalServerError;
         return responseStub;
       }]
       .name = @"httpStub_Retriable";
@@ -281,7 +281,7 @@ static NSString *const kSNMAppSecret = @"mockAppSecret";
                                  assertThatUnsignedLong([self.sut.pendingCalls count], equalToInt(0));
 
                                  // Status codes must be the same.
-                                 assertThatLong(SNMHTTPCodesNo500InternalServerError, equalToLong(forwardedStatus));
+                                 assertThatLong(MSHTTPCodesNo500InternalServerError, equalToLong(forwardedStatus));
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
@@ -456,7 +456,7 @@ static NSString *const kSNMAppSecret = @"mockAppSecret";
 
 - (void)simulateReachabilityChangedNotification:(NetworkStatus)status {
   self.currentNetworkStatus = status;
-  [[NSNotificationCenter defaultCenter] postNotificationName:kSNMReachabilityChangedNotification
+  [[NSNotificationCenter defaultCenter] postNotificationName:kMSReachabilityChangedNotification
                                                       object:self.reachabilityMock];
 }
 

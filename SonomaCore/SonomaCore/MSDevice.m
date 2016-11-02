@@ -6,22 +6,22 @@
 #import "MSDevicePrivate.h"
 #import "MSWrapperSdkPrivate.h"
 
-static NSString *const kSNMSdkName = @"sdk_name";
-static NSString *const kSNMSdkVersion = @"sdk_version";
-static NSString *const kSNMModel = @"model";
-static NSString *const kSNMOemName = @"oem_name";
-static NSString *const kSNMOsName = @"os_name";
-static NSString *const kSNMOsVersion = @"os_version";
-static NSString *const kSNMOsBuild = @"os_build";
-static NSString *const kSNMOsApiLevel = @"os_api_level";
-static NSString *const kSNMLocale = @"locale";
-static NSString *const kSNMTimeZoneOffset = @"time_zone_offset";
-static NSString *const kSNMScreenSize = @"screen_size";
-static NSString *const kSNMAppVersion = @"app_version";
-static NSString *const kSNMCarrierName = @"carrier_name";
-static NSString *const kSNMCarrierCountry = @"carrier_country";
-static NSString *const kSNMAppBuild = @"app_build";
-static NSString *const kSNMAppNamespace = @"app_namespace";
+static NSString *const kMSSdkName = @"sdk_name";
+static NSString *const kMSSdkVersion = @"sdk_version";
+static NSString *const kMSModel = @"model";
+static NSString *const kMSOemName = @"oem_name";
+static NSString *const kMSOsName = @"os_name";
+static NSString *const kMSOsVersion = @"os_version";
+static NSString *const kMSOsBuild = @"os_build";
+static NSString *const kMSOsApiLevel = @"os_api_level";
+static NSString *const kMSLocale = @"locale";
+static NSString *const kMSTimeZoneOffset = @"time_zone_offset";
+static NSString *const kMSScreenSize = @"screen_size";
+static NSString *const kMSAppVersion = @"app_version";
+static NSString *const kMSCarrierName = @"carrier_name";
+static NSString *const kMSCarrierCountry = @"carrier_country";
+static NSString *const kMSAppBuild = @"app_build";
+static NSString *const kMSAppNamespace = @"app_namespace";
 
 @implementation MSDevice
 
@@ -29,52 +29,52 @@ static NSString *const kSNMAppNamespace = @"app_namespace";
   NSMutableDictionary *dict = [super serializeToDictionary];
 
   if (self.sdkName) {
-    dict[kSNMSdkName] = self.sdkName;
+    dict[kMSSdkName] = self.sdkName;
   }
   if (self.sdkVersion) {
-    dict[kSNMSdkVersion] = self.sdkVersion;
+    dict[kMSSdkVersion] = self.sdkVersion;
   }
   if (self.model) {
-    dict[kSNMModel] = self.model;
+    dict[kMSModel] = self.model;
   }
   if (self.oemName) {
-    dict[kSNMOemName] = self.oemName;
+    dict[kMSOemName] = self.oemName;
   }
   if (self.osName) {
-    dict[kSNMOsName] = self.osName;
+    dict[kMSOsName] = self.osName;
   }
   if (self.osVersion) {
-    dict[kSNMOsVersion] = self.osVersion;
+    dict[kMSOsVersion] = self.osVersion;
   }
   if (self.osBuild) {
-    dict[kSNMOsBuild] = self.osBuild;
+    dict[kMSOsBuild] = self.osBuild;
   }
   if (self.osApiLevel) {
-    dict[kSNMOsApiLevel] = self.osApiLevel;
+    dict[kMSOsApiLevel] = self.osApiLevel;
   }
   if (self.locale) {
-    dict[kSNMLocale] = self.locale;
+    dict[kMSLocale] = self.locale;
   }
   if (self.timeZoneOffset) {
-    dict[kSNMTimeZoneOffset] = self.timeZoneOffset;
+    dict[kMSTimeZoneOffset] = self.timeZoneOffset;
   }
   if (self.screenSize) {
-    dict[kSNMScreenSize] = self.screenSize;
+    dict[kMSScreenSize] = self.screenSize;
   }
   if (self.appVersion) {
-    dict[kSNMAppVersion] = self.appVersion;
+    dict[kMSAppVersion] = self.appVersion;
   }
   if (self.carrierName) {
-    dict[kSNMCarrierName] = self.carrierName;
+    dict[kMSCarrierName] = self.carrierName;
   }
   if (self.carrierCountry) {
-    dict[kSNMCarrierCountry] = self.carrierCountry;
+    dict[kMSCarrierCountry] = self.carrierCountry;
   }
   if (self.appBuild) {
-    dict[kSNMAppBuild] = self.appBuild;
+    dict[kMSAppBuild] = self.appBuild;
   }
   if (self.appNamespace) {
-    dict[kSNMAppNamespace] = self.appNamespace;
+    dict[kMSAppNamespace] = self.appNamespace;
   }
   return dict;
 }
@@ -115,44 +115,44 @@ static NSString *const kSNMAppNamespace = @"app_namespace";
 - (instancetype)initWithCoder:(NSCoder *)coder {
   self = [super initWithCoder:coder];
   if (self) {
-    _sdkName = [coder decodeObjectForKey:kSNMSdkName];
-    _sdkVersion = [coder decodeObjectForKey:kSNMSdkVersion];
-    _model = [coder decodeObjectForKey:kSNMModel];
-    _oemName = [coder decodeObjectForKey:kSNMOemName];
-    _osName = [coder decodeObjectForKey:kSNMOsName];
-    _osVersion = [coder decodeObjectForKey:kSNMOsVersion];
-    _osBuild = [coder decodeObjectForKey:kSNMOsBuild];
-    _osApiLevel = [coder decodeObjectForKey:kSNMOsApiLevel];
-    _locale = [coder decodeObjectForKey:kSNMLocale];
-    _timeZoneOffset = [coder decodeObjectForKey:kSNMTimeZoneOffset];
-    _screenSize = [coder decodeObjectForKey:kSNMScreenSize];
-    _appVersion = [coder decodeObjectForKey:kSNMAppVersion];
-    _carrierName = [coder decodeObjectForKey:kSNMCarrierName];
-    _carrierCountry = [coder decodeObjectForKey:kSNMCarrierCountry];
-    _appBuild = [coder decodeObjectForKey:kSNMAppBuild];
-    _appNamespace = [coder decodeObjectForKey:kSNMAppNamespace];
+    _sdkName = [coder decodeObjectForKey:kMSSdkName];
+    _sdkVersion = [coder decodeObjectForKey:kMSSdkVersion];
+    _model = [coder decodeObjectForKey:kMSModel];
+    _oemName = [coder decodeObjectForKey:kMSOemName];
+    _osName = [coder decodeObjectForKey:kMSOsName];
+    _osVersion = [coder decodeObjectForKey:kMSOsVersion];
+    _osBuild = [coder decodeObjectForKey:kMSOsBuild];
+    _osApiLevel = [coder decodeObjectForKey:kMSOsApiLevel];
+    _locale = [coder decodeObjectForKey:kMSLocale];
+    _timeZoneOffset = [coder decodeObjectForKey:kMSTimeZoneOffset];
+    _screenSize = [coder decodeObjectForKey:kMSScreenSize];
+    _appVersion = [coder decodeObjectForKey:kMSAppVersion];
+    _carrierName = [coder decodeObjectForKey:kMSCarrierName];
+    _carrierCountry = [coder decodeObjectForKey:kMSCarrierCountry];
+    _appBuild = [coder decodeObjectForKey:kMSAppBuild];
+    _appNamespace = [coder decodeObjectForKey:kMSAppNamespace];
   }
   return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
-  [coder encodeObject:self.sdkName forKey:kSNMSdkName];
-  [coder encodeObject:self.sdkVersion forKey:kSNMSdkVersion];
-  [coder encodeObject:self.model forKey:kSNMModel];
-  [coder encodeObject:self.oemName forKey:kSNMOemName];
-  [coder encodeObject:self.osName forKey:kSNMOsName];
-  [coder encodeObject:self.osVersion forKey:kSNMOsVersion];
-  [coder encodeObject:self.osBuild forKey:kSNMOsBuild];
-  [coder encodeObject:self.osApiLevel forKey:kSNMOsApiLevel];
-  [coder encodeObject:self.locale forKey:kSNMLocale];
-  [coder encodeObject:self.timeZoneOffset forKey:kSNMTimeZoneOffset];
-  [coder encodeObject:self.screenSize forKey:kSNMScreenSize];
-  [coder encodeObject:self.appVersion forKey:kSNMAppVersion];
-  [coder encodeObject:self.carrierName forKey:kSNMCarrierName];
-  [coder encodeObject:self.carrierCountry forKey:kSNMCarrierCountry];
-  [coder encodeObject:self.appBuild forKey:kSNMAppBuild];
-  [coder encodeObject:self.appNamespace forKey:kSNMAppNamespace];
+  [coder encodeObject:self.sdkName forKey:kMSSdkName];
+  [coder encodeObject:self.sdkVersion forKey:kMSSdkVersion];
+  [coder encodeObject:self.model forKey:kMSModel];
+  [coder encodeObject:self.oemName forKey:kMSOemName];
+  [coder encodeObject:self.osName forKey:kMSOsName];
+  [coder encodeObject:self.osVersion forKey:kMSOsVersion];
+  [coder encodeObject:self.osBuild forKey:kMSOsBuild];
+  [coder encodeObject:self.osApiLevel forKey:kMSOsApiLevel];
+  [coder encodeObject:self.locale forKey:kMSLocale];
+  [coder encodeObject:self.timeZoneOffset forKey:kMSTimeZoneOffset];
+  [coder encodeObject:self.screenSize forKey:kMSScreenSize];
+  [coder encodeObject:self.appVersion forKey:kMSAppVersion];
+  [coder encodeObject:self.carrierName forKey:kMSCarrierName];
+  [coder encodeObject:self.carrierCountry forKey:kMSCarrierCountry];
+  [coder encodeObject:self.appBuild forKey:kMSAppBuild];
+  [coder encodeObject:self.appNamespace forKey:kMSAppNamespace];
 }
 
 @end

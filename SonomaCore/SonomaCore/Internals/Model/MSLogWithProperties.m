@@ -7,7 +7,7 @@
 #import "MSLogger.h"
 #import "MSLogContainer.h"
 
-static NSString *const kSNMProperties = @"properties";
+static NSString *const kMSProperties = @"properties";
 
 @implementation MSLogWithProperties
 
@@ -17,7 +17,7 @@ static NSString *const kSNMProperties = @"properties";
   NSMutableDictionary *dict = [super serializeToDictionary];
 
   if (self.properties) {
-    dict[kSNMProperties] = self.properties;
+    dict[kMSProperties] = self.properties;
   }
   return dict;
 }
@@ -27,7 +27,7 @@ static NSString *const kSNMProperties = @"properties";
 - (instancetype)initWithCoder:(NSCoder *)coder {
   self = [super initWithCoder:coder];
   if (self) {
-    _properties = [coder decodeObjectForKey:kSNMProperties];
+    _properties = [coder decodeObjectForKey:kMSProperties];
   }
 
   return self;
@@ -35,7 +35,7 @@ static NSString *const kSNMProperties = @"properties";
 
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
-  [coder encodeObject:self.properties forKey:kSNMProperties];
+  [coder encodeObject:self.properties forKey:kMSProperties];
 }
 
 @end

@@ -113,7 +113,7 @@ static NSString *const kSNMRegisters = @"registers";
 - (instancetype)initWithCoder:(NSCoder *)coder {
   self = [super initWithCoder:coder];
   if (self) {
-    _type = [coder decodeObjectForKey:kSNMType];
+    _type = [coder decodeObjectForKey:kMSType];
     _primaryArchitectureId = [coder decodeObjectForKey:kSNMPrimaryArchitectureId];
     _architectureVariantId = [coder decodeObjectForKey:kSNMArchitectureVariantId];
     _applicationPath = [coder decodeObjectForKey:kSNMApplicationPath];
@@ -131,7 +131,7 @@ static NSString *const kSNMRegisters = @"registers";
 
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
-  [coder encodeObject:self.type forKey:kSNMType];
+  [coder encodeObject:self.type forKey:kMSType];
   [coder encodeObject:self.primaryArchitectureId forKey:kSNMPrimaryArchitectureId];
   [coder encodeObject:self.architectureVariantId forKey:kSNMArchitectureVariantId];
   [coder encodeObject:self.applicationPath forKey:kSNMApplicationPath];

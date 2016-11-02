@@ -10,12 +10,12 @@
 
 + (SNMEnvironment)currentAppEnvironment {
 #if TARGET_OS_SIMULATOR
-  return SNMEnvironmentOther;
+  return SMEnvironmentOther;
 #else
 
   // MobilePovision profiles are a clear indicator for Ad-Hoc distribution.
   if ([self hasEmbeddedMobileProvision]) {
-    return SNMEnvironmentOther;
+    return SMEnvironmentOther;
   }
 
   /**

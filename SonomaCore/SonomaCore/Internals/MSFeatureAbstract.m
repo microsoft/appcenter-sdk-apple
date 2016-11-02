@@ -12,7 +12,7 @@
 @synthesize logManager = _logManager;
 
 - (instancetype)init {
-  return [self initWithStorage:kSNMUserDefaults];
+  return [self initWithStorage:kMSUserDefaults];
 }
 
 - (instancetype)initWithStorage:(MSUserDefaults *)storage {
@@ -24,7 +24,7 @@
   return self;
 }
 
-#pragma mark : - SNMFeatureCommon
+#pragma mark : - MSFeatureCommon
 
 - (BOOL)isEnabled {
 
@@ -54,11 +54,11 @@
 }
 
 - (BOOL)canBeUsed {
-  BOOL canBeUsed = [MSSonoma sharedInstance].sdkStarted && self.started;
+  BOOL canBeUsed = [MSMobileCenter sharedInstance].sdkStarted && self.started;
   if (!canBeUsed) {
-    MSLogError([MSSonoma getLoggerTag],
+    MSLogError([MSMobileCenter getLoggerTag],
                 @"%@ module hasn't been initialized. You need to call "
-                @"[MSSonoma start:YOUR_APP_SECRET withFeatures:LIST_OF_FEATURES] first.",
+                @"[MSMobileCenter start:YOUR_APP_SECRET withFeatures:LIST_OF_FEATURES] first.",
                 CLASS_NAME_WITHOUT_PREFIX);
   }
   return canBeUsed;
@@ -68,7 +68,7 @@
   return self.isEnabled && self.started;
 }
 
-#pragma mark : - SNMFeature
+#pragma mark : - MSFeature
 
 - (void)startWithLogManager:(id<MSLogManager>)logManager {
   self.started = YES;
@@ -83,8 +83,8 @@
 + (void)setEnabled:(BOOL)isEnabled {
   @synchronized([self sharedInstance]) {
     if ([[self sharedInstance] canBeUsed]) {
-      if (![MSSonoma isEnabled] && ![MSSonoma sharedInstance].enabledStateUpdating) {
-        MSLogError([MSSonoma getLoggerTag],
+      if (![MSMobileCenter isEnabled] && ![MSMobileCenter sharedInstance].enabledStateUpdating) {
+        MSLogError([MSMobileCenter getLoggerTag],
                     @"The SDK is disabled. Re-enable the SDK from the core module "
                     @"first before enabling %@ feature.",
                     CLASS_NAME_WITHOUT_PREFIX);

@@ -109,7 +109,7 @@
 
       // Define the switch control and add it to the cell.
       UISwitch *enabledSwitch = [[UISwitch alloc] init];
-      enabledSwitch.on = [MSSonoma isEnabled];
+      enabledSwitch.on = [MSMobileCenter isEnabled];
       CGSize switchSize = [enabledSwitch sizeThatFits:CGSizeZero];
       enabledSwitch.frame = CGRectMake(cell.contentView.bounds.size.width - switchSize.width - 10.0f,
                                        (cell.contentView.bounds.size.height - switchSize.height) / 2.0f,
@@ -163,7 +163,7 @@
 
 - (void)enabledSwitchUpdated:(id)sender {
   UISwitch *enabledSwitch = (UISwitch *)sender;
-  [MSSonoma setEnabled:enabledSwitch.on];
-  enabledSwitch.on = [MSSonoma isEnabled];
+  [MSMobileCenter setEnabled:enabledSwitch.on];
+  enabledSwitch.on = [MSMobileCenter isEnabled];
 }
 @end

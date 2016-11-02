@@ -6,7 +6,7 @@
 #import "MSFeatureCommon.h"
 #import "MSLogManager.h"
 #import "MSLogManagerDefault.h"
-#import "MSSonoma.h"
+#import "MSMobileCenter.h"
 #import "MSSonomaInternal.h"
 #import "MSUserDefaults.h"
 #import "MSUtils.h"
@@ -15,11 +15,11 @@
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
-@interface SNMFeatureAbstractImplementation : MSFeatureAbstract <MSFeatureInternal>
+@interface MSFeatureAbstractImplementation : MSFeatureAbstract <MSFeatureInternal>
 
 @end
 
-@implementation SNMFeatureAbstractImplementation
+@implementation MSFeatureAbstractImplementation
 
 + (instancetype)sharedInstance {
   static id sharedInstance = nil;
@@ -51,7 +51,7 @@
 /**
  *  System Under test
  */
-@property(nonatomic) SNMFeatureAbstractImplementation *abstractFeature;
+@property(nonatomic) MSFeatureAbstractImplementation *abstractFeature;
 
 @end
 
@@ -61,14 +61,14 @@
   [super setUp];
 
   // Set up the mocked storage.
-  self.settingsMock = OCMPartialMock(kSNMUserDefaults);
+  self.settingsMock = OCMPartialMock(kMSUserDefaults);
 
   // System Under Test.
-  self.abstractFeature = [[SNMFeatureAbstractImplementation alloc] initWithStorage:self.settingsMock];
+  self.abstractFeature = [[MSFeatureAbstractImplementation alloc] initWithStorage:self.settingsMock];
 
   // Clean storage.
   [(MSUserDefaults *)self.settingsMock removeObjectForKey:self.abstractFeature.isEnabledKey];
-  [(MSUserDefaults *)self.settingsMock removeObjectForKey:kSNMCoreIsEnabledKey];
+  [(MSUserDefaults *)self.settingsMock removeObjectForKey:kMSCoreIsEnabledKey];
 }
 
 - (void)tearDown {
@@ -164,38 +164,38 @@
 
 - (void)testCanBeUsed {
 
-  assertThatBool([[SNMFeatureAbstractImplementation sharedInstance] canBeUsed], isFalse());
+  assertThatBool([[MSFeatureAbstractImplementation sharedInstance] canBeUsed], isFalse());
 
-  [MSSonoma start:[[NSUUID UUID] UUIDString] withFeatures:@[ [SNMFeatureAbstractImplementation class] ]];
+  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withFeatures:@[ [MSFeatureAbstractImplementation class] ]];
 
-  assertThatBool([[SNMFeatureAbstractImplementation sharedInstance] canBeUsed], isTrue());
+  assertThatBool([[MSFeatureAbstractImplementation sharedInstance] canBeUsed], isTrue());
 }
 
 - (void)testFeatureDisabledOnCoreDisabled {
 
   // If
-  [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:kSNMCoreIsEnabledKey];
-  [MSSonoma start:[[NSUUID UUID] UUIDString] withFeatures:@[ [SNMFeatureAbstractImplementation class] ]];
+  [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:kMSCoreIsEnabledKey];
+  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withFeatures:@[ [MSFeatureAbstractImplementation class] ]];
 
   // When
-  [MSSonoma setEnabled:NO];
+  [MSMobileCenter setEnabled:NO];
 
   // Then
-  assertThatBool([[SNMFeatureAbstractImplementation class] isEnabled], isFalse());
+  assertThatBool([[MSFeatureAbstractImplementation class] isEnabled], isFalse());
 }
 
 - (void)testEnableFeatureOnCoreDisabled {
 
   // If
-  [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:kSNMCoreIsEnabledKey];
-  [MSSonoma start:[[NSUUID UUID] UUIDString] withFeatures:@[ [SNMFeatureAbstractImplementation class] ]];
-  [MSSonoma setEnabled:NO];
+  [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:kMSCoreIsEnabledKey];
+  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withFeatures:@[ [MSFeatureAbstractImplementation class] ]];
+  [MSMobileCenter setEnabled:NO];
 
   // When
-  [[SNMFeatureAbstractImplementation class] setEnabled:YES];
+  [[MSFeatureAbstractImplementation class] setEnabled:YES];
 
   // Then
-  assertThatBool([[SNMFeatureAbstractImplementation class] isEnabled], isFalse());
+  assertThatBool([[MSFeatureAbstractImplementation class] isEnabled], isFalse());
 }
 
 - (void)testLogDeletedOnDisabled {

@@ -59,7 +59,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
   @synchronized([self sharedInstance]) {
     if ([[self sharedInstance] canBeUsed]) {
       if ([MSEnvironmentHelper currentAppEnvironment] != SNMEnvironmentAppStore) {
-        if ([MSSonoma isDebuggerAttached]) {
+        if ([MSMobileCenter isDebuggerAttached]) {
           MSLogWarning([SNMCrashes getLoggerTag],
                         @"The debugger is attached. The following crash cannot be detected by the SDK!");
         }
@@ -97,7 +97,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
   } else if (userConfirmation == SNMUserConfirmationAlways) {
 
     // Always send logs. Set the flag YES to bypass user confirmation next time.
-    [kSNMUserDefaults setObject:[[NSNumber alloc] initWithBool:YES] forKey:kSNMUserConfirmationKey];
+    [kMSUserDefaults setObject:[[NSNumber alloc] initWithBool:YES] forKey:kSNMUserConfirmationKey];
   }
 
   // Process crashes logs.
@@ -253,7 +253,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
    the following part when a debugger is attached no matter which signal
    handler type is set.
    */
-  if ([MSSonoma isDebuggerAttached]) {
+  if ([MSMobileCenter isDebuggerAttached]) {
     MSLogWarning([SNMCrashes getLoggerTag],
                   @"Detecting crashes is NOT enabled due to running the app with a debugger attached.");
   } else {
@@ -376,7 +376,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 
   // Get a user confirmation if there are crash logs that need to be processed.
   if ([_unprocessedLogs count] > 0) {
-    NSNumber *flag = [kSNMUserDefaults objectForKey:kSNMUserConfirmationKey];
+    NSNumber *flag = [kMSUserDefaults objectForKey:kSNMUserConfirmationKey];
     if (flag && [flag boolValue]) {
 
       // User confirmation is set to SNMUserConfirmationAlways.
