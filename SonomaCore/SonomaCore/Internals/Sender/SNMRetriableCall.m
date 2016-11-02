@@ -3,33 +3,25 @@
  */
 
 #import "SNMRetriableCall.h"
-
-static NSUInteger kSNMMaxRetryCount = 3;
-
-@interface SNMRetriableCall ()
-
-@property(nonatomic) NSArray *retryIntervals;
-
-@end
+#import "SNMRetriableCallPrivate.h"
+#import "SNMSonomaInternal.h"
 
 @implementation SNMRetriableCall
 
 @synthesize completionHandler = _completionHandler;
 @synthesize isProcessing = _isProcessing;
-@synthesize logsDispatchQueue = _logsDispatchQueue;
 @synthesize logContainer = _logContainer;
 @synthesize delegate = _delegate;
 
-- (id)init {
+- (id)initWithRetryIntervals:(NSArray *)retryIntervals {
   if (self = [super init]) {
-    // Intervals are: 10 sec, 5 min, 20 min.
-    _retryIntervals = @[ @(10), @(5 * 60), @(20 * 60) ];
+    _retryIntervals = retryIntervals;
   }
   return self;
 }
 
 - (BOOL)hasReachedMaxRetries {
-  return self.retryCount >= kSNMMaxRetryCount;
+  return self.retryCount >= self.retryIntervals.count;
 }
 
 - (NSTimeInterval)delayForRetryCount:(NSUInteger)retryCount {
@@ -49,16 +41,20 @@ static NSUInteger kSNMMaxRetryCount = 3;
   // Create queue.
   dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
   self.timerSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
-  self.retryCount++;
   int64_t delta = NSEC_PER_SEC * [self delayForRetryCount:self.retryCount];
+  SNMLogDebug([SNMSonoma getLoggerTag], @"Call attempt #%lu failed, it will be retried in %.f ms.", (unsigned long)self.retryCount,
+              round(delta / 1000000));
+  self.retryCount++;
   dispatch_source_set_timer(self.timerSource, dispatch_walltime(NULL, delta), 1ull * NSEC_PER_SEC, 1ull * NSEC_PER_SEC);
   __weak typeof(self) weakSelf = self;
   dispatch_source_set_event_handler(self.timerSource, ^{
     typeof(self) strongSelf = weakSelf;
 
     // Do send.
-    [self.delegate sendCallAsync:self];
-    [strongSelf resetTimer];
+    if (strongSelf) {
+      [self.delegate sendCallAsync:self];
+      [strongSelf resetTimer];
+    }
   });
   dispatch_resume(self.timerSource);
 }
@@ -75,12 +71,18 @@ static NSUInteger kSNMMaxRetryCount = 3;
   [self resetTimer];
 }
 
-- (void)sender:(id<SNMSenderCallDelegate>)sender callCompletedWithError:(NSError *)error status:(NSUInteger)statusCode {
+- (void)sender:(id<SNMSender>)sender callCompletedWithStatus:(NSUInteger)statusCode error:(NSError *)error {
   if ([SNMSenderUtils isNoInternetConnectionError:error] || [SNMSenderUtils isRequestCanceledError:error]) {
 
     // Reset the retry count, will retry once the connection is established again.
     [self resetRetry];
     _isProcessing = NO;
+    if ([SNMSenderUtils isNoInternetConnectionError:error]) {
+      SNMLogInfo([SNMSonoma getLoggerTag], @"Internet connection is down.");
+      [sender suspend];
+    } else {
+      SNMLogInfo([SNMSonoma getLoggerTag], @"Request cancelled.");
+    }
   }
 
   // Retry.
@@ -91,13 +93,11 @@ static NSUInteger kSNMMaxRetryCount = 3;
   // Callback to Channel.
   else {
 
+    // Call completion.
+    self.completionHandler(self.logContainer.batchId, error, statusCode);
+
     // Remove call from sender.
     [sender callCompletedWithId:self.logContainer.batchId];
-
-    // Call completion async.
-    dispatch_async(self.logsDispatchQueue, ^{
-      self.completionHandler(self.logContainer.batchId, error, statusCode);
-    });
   }
 }
 

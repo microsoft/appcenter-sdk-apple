@@ -50,6 +50,7 @@
 		387C75961D64EE1900D68CC1 /* SNMFeatureAbstractTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 387C75951D64EE1900D68CC1 /* SNMFeatureAbstractTest.m */; };
 		387C76DA1D677EC100D68CC1 /* SNMFeatureAbstractPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C76D91D677EC100D68CC1 /* SNMFeatureAbstractPrivate.h */; };
 		387C76FD1D6C9CF100D68CC1 /* SNMFeatureAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C76FC1D6C9CF100D68CC1 /* SNMFeatureAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		389124281DC7ABB600197086 /* SNMRetriableCallPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 389124271DC7ABB600197086 /* SNMRetriableCallPrivate.h */; };
 		38CA60ED1D949F5000B82420 /* SNMFileStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E40D4621D2700000046D85B /* SNMFileStorage.m */; };
 		38EAD9AC1DA6A8C500CE6030 /* SNMEnable.h in Headers */ = {isa = PBXBuildFile; fileRef = 38EAD9AB1DA6A8C500CE6030 /* SNMEnable.h */; };
 		38F1944E1DADB93100D3E0FE /* SNMHttpSenderPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38F1944D1DADB93100D3E0FE /* SNMHttpSenderPrivate.h */; };
@@ -179,6 +180,7 @@
 		387C75951D64EE1900D68CC1 /* SNMFeatureAbstractTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SNMFeatureAbstractTest.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		387C76D91D677EC100D68CC1 /* SNMFeatureAbstractPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMFeatureAbstractPrivate.h; sourceTree = "<group>"; };
 		387C76FC1D6C9CF100D68CC1 /* SNMFeatureAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMFeatureAbstract.h; sourceTree = "<group>"; };
+		389124271DC7ABB600197086 /* SNMRetriableCallPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMRetriableCallPrivate.h; sourceTree = "<group>"; };
 		38EAD9AB1DA6A8C500CE6030 /* SNMEnable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMEnable.h; sourceTree = "<group>"; };
 		38F1944D1DADB93100D3E0FE /* SNMHttpSenderPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMHttpSenderPrivate.h; sourceTree = "<group>"; };
 		5949380E604D45340244FEF1 /* SNMChannelDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNMChannelDelegate.h; sourceTree = "<group>"; };
@@ -551,6 +553,7 @@
 				E84B8E341D235226006FD231 /* SNMHttpSender.m */,
 				E80EB1091D50278F00C9003F /* SNMSenderCall.h */,
 				E80EB1051D50273700C9003F /* SNMRetriableCall.h */,
+				389124271DC7ABB600197086 /* SNMRetriableCallPrivate.h */,
 				E80EB1061D50273700C9003F /* SNMRetriableCall.m */,
 				E8E48F941D50FF4300A8C1B0 /* SNMSenderCallDelegate.h */,
 			);
@@ -664,6 +667,7 @@
 				E80EB10A1D50278F00C9003F /* SNMSenderCall.h in Headers */,
 				38EAD9AC1DA6A8C500CE6030 /* SNMEnable.h in Headers */,
 				6E2BA1AF1D2499F9002D7B88 /* SNMFileHelper.h in Headers */,
+				389124281DC7ABB600197086 /* SNMRetriableCallPrivate.h in Headers */,
 				381C91E91D3DB65D004512F1 /* SNMDeviceTracker.h in Headers */,
 				E84B8E2F1D2351DB006FD231 /* SNMLogManagerDefault.h in Headers */,
 				6E48A5A81D3856F5006E8B5F /* SNMConstants+Internal.h in Headers */,

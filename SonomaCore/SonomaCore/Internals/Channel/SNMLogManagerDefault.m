@@ -6,7 +6,7 @@
 #import "SNMLogManagerDefault.h"
 #import "SonomaCore+Internal.h"
 
-static char *const SNMDataItemsOperationsQueue = "com.microsoft.sonoma.LogManagerQueue";
+static char *const SNMlogsDispatchQueue = "com.microsoft.sonoma.LogManagerQueue";
 
 /**
  * Private declaration of the log manager.
@@ -26,9 +26,9 @@ static char *const SNMDataItemsOperationsQueue = "com.microsoft.sonoma.LogManage
 
 - (instancetype)init {
   if (self = [super init]) {
-    dispatch_queue_t serialQueue = dispatch_queue_create(SNMDataItemsOperationsQueue, DISPATCH_QUEUE_SERIAL);
+    dispatch_queue_t serialQueue = dispatch_queue_create(SNMlogsDispatchQueue, DISPATCH_QUEUE_SERIAL);
     _enabled = YES;
-    _dataItemsOperations = serialQueue;
+    _logsDispatchQueue = serialQueue;
     _channels = [NSMutableDictionary<NSNumber *, id<SNMChannel>> new];
     _delegates = [NSHashTable weakObjectsHashTable];
     _deviceTracker = [[SNMDeviceTracker alloc] init];
@@ -107,7 +107,7 @@ static char *const SNMDataItemsOperationsQueue = "com.microsoft.sonoma.LogManage
     channel = [[SNMChannelDefault alloc] initWithSender:self.sender
                                                 storage:self.storage
                                           configuration:configuration
-                                          logsDispatchQueue:self.dataItemsOperations];
+                                      logsDispatchQueue:self.logsDispatchQueue];
     self.channels[@(priority)] = channel;
   }
   return channel;
