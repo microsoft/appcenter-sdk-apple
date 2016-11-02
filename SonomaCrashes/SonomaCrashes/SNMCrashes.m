@@ -96,7 +96,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
     return;
   } else if (userConfirmation == SNMUserConfirmationAlways) {
 
-    // Always send logs. Set the flag true to bypass user confirmation next time.
+    // Always send logs. Set the flag YES to bypass user confirmation next time.
     [kSNMUserDefaults setObject:[[NSNumber alloc] initWithBool:YES] forKey:kSNMUserConfirmationKey];
   }
 
@@ -347,9 +347,11 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
         SNMPLCrashReport *report = [[SNMPLCrashReport alloc] initWithData:crashFileData error:&error];
         SNMAppleErrorLog *log = [SNMErrorLogFormatter errorLogFromCrashReport:report];
         SNMErrorReport *errorReport = [SNMErrorLogFormatter errorReportFromLog:(log)];
-        if ([self.delegate crashes:self shouldProcessErrorReport:errorReport]) {
+        if (!self.delegate ||
+            ![self.delegate respondsToSelector:@selector(crashes:shouldProcessErrorReport:)] ||
+            [self.delegate crashes:self shouldProcessErrorReport:errorReport]) {
           SNMLogDebug([SNMCrashes getLoggerTag],
-                      @"shouldProcessErrorReport returned true, processing the crash report: %@",
+                      @"shouldProcessErrorReport is not implemented or returned YES, processing the crash report: %@",
                       report.debugDescription);
 
           // Put the log to temporary space for next callbacks.
@@ -359,7 +361,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
           continue;
         } else {
           SNMLogDebug([SNMCrashes getLoggerTag],
-                      @"shouldProcessErrorReport returned false, discard the crash report: %@",
+                      @"shouldProcessErrorReport returned NO, discard the crash report: %@",
                       report.debugDescription);
         }
       } else {
