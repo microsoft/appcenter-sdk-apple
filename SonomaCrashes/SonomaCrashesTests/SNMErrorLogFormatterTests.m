@@ -34,7 +34,7 @@
   SNMErrorReport *errorReport = [SNMErrorLogFormatter errorReportFromCrashReport:crashReport];
   XCTAssertNotNil(errorReport);
   XCTAssertNotNil(errorReport.incidentIdentifier);
-  assertThat(errorReport.reporterKey, equalTo([[MSSonoma installId] UUIDString]));
+  assertThat(errorReport.reporterKey, equalTo([[MSMobileCenter installId] UUIDString]));
   XCTAssertEqual(errorReport.signal, crashReport.signalInfo.name);
   XCTAssertEqual(errorReport.exceptionName, crashReport.signalInfo.name);
   assertThat(errorReport.exceptionReason, equalTo(crashReport.exceptionInfo.exceptionReason));
@@ -51,7 +51,7 @@
   errorReport = [SNMErrorLogFormatter errorReportFromCrashReport:crashReport];
   XCTAssertNotNil(errorReport);
   XCTAssertNotNil(errorReport.incidentIdentifier);
-  assertThat(errorReport.reporterKey, equalTo([[MSSonoma installId] UUIDString]));
+  assertThat(errorReport.reporterKey, equalTo([[MSMobileCenter installId] UUIDString]));
   XCTAssertEqual(errorReport.signal, crashReport.signalInfo.name);
   XCTAssertEqual(errorReport.exceptionName, crashReport.signalInfo.name);
   assertThat(errorReport.exceptionReason, equalTo(crashReport.exceptionInfo.exceptionReason));

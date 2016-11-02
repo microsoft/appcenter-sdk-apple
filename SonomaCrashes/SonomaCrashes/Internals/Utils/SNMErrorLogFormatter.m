@@ -281,8 +281,8 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
   NSString *errorId = errorLog.errorId;
   // There should always be an installId. Leaving the empty string out of paranoia
-  // as [UUID UUID] – used in [MSSonoma installId] – might, in theory, return nil.
-  NSString *reporterKey = [[MSSonoma installId] UUIDString] ?: @"";
+  // as [UUID UUID] – used in [MSMobileCenter installId] – might, in theory, return nil.
+  NSString *reporterKey = [[MSMobileCenter installId] UUIDString] ?: @"";
 
   NSString *signal = errorLog.exceptionType; //TODO What should we put in there?!
 

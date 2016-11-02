@@ -20,7 +20,7 @@ typedef NS_ENUM(NSInteger, SNMEnvironment) {
    *  App has been installed by some other mechanism.
    *  This could be Ad-Hoc, Enterprise, etc.
    */
-  SNMEnvironmentOther = 99
+  SMEnvironmentOther = 99
 };
 
 /**

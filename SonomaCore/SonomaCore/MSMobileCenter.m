@@ -11,22 +11,22 @@
 #import <sys/sysctl.h>
 
 // Http Headers + Query string.
-static NSString *const kSNMHeaderAppSecretKey = @"App-Secret";
-static NSString *const kSNMHeaderInstallIDKey = @"Install-ID";
-static NSString *const kSNMHeaderContentTypeKey = @"Content-Type";
-static NSString *const kSNMContentType = @"application/json";
-static NSString *const kSNMAPIVersion = @"1.0.0-preview20160914";
-static NSString *const kSNMAPIVersionKey = @"api_version";
+static NSString *const kMSHeaderAppSecretKey = @"App-Secret";
+static NSString *const kMSHeaderInstallIDKey = @"Install-ID";
+static NSString *const kMSHeaderContentTypeKey = @"Content-Type";
+static NSString *const kMSContentType = @"application/json";
+static NSString *const kMSAPIVersion = @"1.0.0-preview20160914";
+static NSString *const kMSAPIVersionKey = @"api_version";
 
 // Base URL for HTTP backend API calls.
-static NSString *const kSNMDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
+static NSString *const kMSDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
 
-@implementation MSSonoma
+@implementation MSMobileCenter
 
 @synthesize installId = _installId;
 
 + (instancetype)sharedInstance {
-  static MSSonoma *sharedInstance = nil;
+  static MSMobileCenter *sharedInstance = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
     sharedInstance = [[self alloc] init];
@@ -138,7 +138,7 @@ static NSString *const kSNMDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
 - (instancetype)init {
   if (self = [super init]) {
     _features = [NSMutableArray new];
-    _serverUrl = kSNMDefaultBaseUrl;
+    _serverUrl = kMSDefaultBaseUrl;
     _enabledStateUpdating = NO;
   }
   return self;
@@ -146,19 +146,19 @@ static NSString *const kSNMDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
 
 - (BOOL)start:(NSString *)appSecret {
   if (self.sdkStarted) {
-    MSLogWarning([MSSonoma getLoggerTag], @"SDK has already been started. You can call `start` only once.");
+    MSLogWarning([MSMobileCenter getLoggerTag], @"SDK has already been started. You can call `start` only once.");
     return NO;
   }
 
   // Validate and set the app secret.
   if ([appSecret length] == 0 || ![[NSUUID alloc] initWithUUIDString:appSecret]) {
-    MSLogError([MSSonoma getLoggerTag], @"AppSecret is invalid");
+    MSLogError([MSMobileCenter getLoggerTag], @"AppSecret is invalid");
     return NO;
   }
   self.appSecret = appSecret;
 
   // Set backend API version.
-  self.apiVersion = kSNMAPIVersion;
+  self.apiVersion = kMSAPIVersion;
 
   // Init the main pipeline.
   [self initializePipeline];
@@ -172,8 +172,8 @@ static NSString *const kSNMDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
 
   // If the loglevel hasn't been customized before and we are not running in an app store environment, we set the
   // default loglevel to MSLogLevelWarning.
-  if ((![MSLogger isUserDefinedLogLevel]) && ([MSEnvironmentHelper currentAppEnvironment] == SNMEnvironmentOther)) {
-    [MSSonoma setLogLevel:MSLogLevelWarning];
+  if ((![MSLogger isUserDefinedLogLevel]) && ([MSEnvironmentHelper currentAppEnvironment] == SMEnvironmentOther)) {
+    [MSMobileCenter setLogLevel:MSLogLevelWarning];
   }
   return YES;
 }
@@ -216,7 +216,7 @@ static NSString *const kSNMDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
     }
 
     // Persist the enabled status.
-    [kSNMUserDefaults setObject:[NSNumber numberWithBool:isEnabled] forKey:kSNMCoreIsEnabledKey];
+    [kMSUserDefaults setObject:[NSNumber numberWithBool:isEnabled] forKey:kMSCoreIsEnabledKey];
     self.enabledStateUpdating = NO;
   }
 }
@@ -227,7 +227,7 @@ static NSString *const kSNMDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
    * Get isEnabled value from persistence.
    * No need to cache the value in a property, user settings already have their cache mechanism.
    */
-  NSNumber *isEnabledNumber = [kSNMUserDefaults objectForKey:kSNMCoreIsEnabledKey];
+  NSNumber *isEnabledNumber = [kMSUserDefaults objectForKey:kMSCoreIsEnabledKey];
 
   // Return the persisted value otherwise it's enabled by default.
   return (isEnabledNumber) ? [isEnabledNumber boolValue] : YES;
@@ -236,15 +236,15 @@ static NSString *const kSNMDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
 - (void)applyPipelineEnabledState:(BOOL)isEnabled {
 
   // Remove all notification handlers
-  [kSNMNotificationCenter removeObserver:self];
+  [kMSNotificationCenter removeObserver:self];
 
   // Hookup to application life-cycle events
   if (isEnabled) {
-    [kSNMNotificationCenter addObserver:self
+    [kMSNotificationCenter addObserver:self
                                selector:@selector(applicationDidEnterBackground)
                                    name:UIApplicationDidEnterBackgroundNotification
                                  object:nil];
-    [kSNMNotificationCenter addObserver:self
+    [kMSNotificationCenter addObserver:self
                                selector:@selector(applicationWillEnterForeground)
                                    name:UIApplicationWillEnterForegroundNotification
                                  object:nil];
@@ -258,13 +258,13 @@ static NSString *const kSNMDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
 
   // Construct http headers.
   NSDictionary *headers = @{
-    kSNMHeaderContentTypeKey : kSNMContentType,
-    kSNMHeaderAppSecretKey : _appSecret,
-    kSNMHeaderInstallIDKey : [self.installId UUIDString]
+    kMSHeaderContentTypeKey : kMSContentType,
+    kMSHeaderAppSecretKey : _appSecret,
+    kMSHeaderInstallIDKey : [self.installId UUIDString]
   };
 
   // Construct the query parameters.
-  NSDictionary *queryStrings = @{kSNMAPIVersionKey : kSNMAPIVersion};
+  NSDictionary *queryStrings = @{kMSAPIVersionKey : kMSAPIVersion};
 
   MSHttpSender *sender = [[MSHttpSender alloc] initWithBaseUrl:self.serverUrl
                                                          headers:headers
@@ -291,9 +291,9 @@ static NSString *const kSNMDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
     if (!_installId) {
 
       // Check if install Id has already been persisted.
-      NSString *savedInstallId = [kSNMUserDefaults objectForKey:kSNMInstallIdKey];
+      NSString *savedInstallId = [kMSUserDefaults objectForKey:kMSInstallIdKey];
       if (savedInstallId) {
-        _installId = kSNMUUIDFromString(savedInstallId);
+        _installId = kMSUUIDFromString(savedInstallId);
       }
 
       // Create a new random install Id if persistency failed.
@@ -301,7 +301,7 @@ static NSString *const kSNMDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
         _installId = [NSUUID UUID];
 
         // Persist the install Id string.
-        [kSNMUserDefaults setObject:[_installId UUIDString] forKey:kSNMInstallIdKey];
+        [kMSUserDefaults setObject:[_installId UUIDString] forKey:kMSInstallIdKey];
       }
     }
     return _installId;
@@ -311,7 +311,7 @@ static NSString *const kSNMDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
 - (BOOL)canBeUsed {
   BOOL canBeUsed = self.sdkStarted;
   if (!canBeUsed) {
-    MSLogError([MSSonoma getLoggerTag],
+    MSLogError([MSMobileCenter getLoggerTag],
                 @"Mobile Center SDK hasn't been initialized. You need to call [MSMobileCenter "
                 @"start:YOUR_APP_SECRET withFeatures:LIST_OF_FEATURES] first.");
   }

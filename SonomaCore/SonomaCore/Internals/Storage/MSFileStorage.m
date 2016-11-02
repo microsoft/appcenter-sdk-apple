@@ -176,7 +176,7 @@ static NSUInteger const SNMDefaultLogCountLimit = 50;
       _baseDirectoryPath = [appSupportPath stringByAppendingPathComponent:kSNMLogsDirectory];
     }
 
-    MSLogVerbose([MSSonoma getLoggerTag], @"Storage Path:\n%@", _baseDirectoryPath);
+    MSLogVerbose([MSMobileCenter getLoggerTag], @"Storage Path:\n%@", _baseDirectoryPath);
   }
 
   return _baseDirectoryPath;

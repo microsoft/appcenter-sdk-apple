@@ -5,7 +5,7 @@
 #import "MSLogContainer.h"
 #import "MSSerializableObject.h"
 
-static NSString *const kSNMLogs = @"logs";
+static NSString *const kMSLogs = @"logs";
 
 @implementation MSLogContainer
 
@@ -32,7 +32,7 @@ static NSString *const kSNMLogs = @"logs";
   }];
 
   NSMutableDictionary *logContainer = [[NSMutableDictionary alloc] init];
-  [logContainer setValue:jsonArray forKey:kSNMLogs];
+  [logContainer setValue:jsonArray forKey:kMSLogs];
   
   NSError *error;
   NSJSONWritingOptions printOptions = prettyPrint ? NSJSONWritingPrettyPrinted : 0;

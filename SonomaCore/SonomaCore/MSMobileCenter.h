@@ -10,7 +10,7 @@
 /**
  * Class comment: Some Introduction.
  */
-@interface MSSonoma : NSObject
+@interface MSMobileCenter : NSObject
 
 /**
  * Returns the singleton instance of SonomaCore.

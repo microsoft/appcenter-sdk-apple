@@ -4,9 +4,9 @@
 
 #import "MSChannelConfiguration.h"
 
-static MSChannelConfiguration *SNMChannelConfigurationDefault;
-static MSChannelConfiguration *SNMChannelConfigurationHigh;
-static MSChannelConfiguration *SNMChannelConfigurationBackground;
+static MSChannelConfiguration *MSChannelConfigurationDefault;
+static MSChannelConfiguration *MSChannelConfigurationHigh;
+static MSChannelConfiguration *MSChannelConfigurationBackground;
 
 @implementation MSChannelConfiguration
 
@@ -27,31 +27,31 @@ static MSChannelConfiguration *SNMChannelConfigurationBackground;
   switch (priority) {
 
   case MSPriorityHigh:
-    if (!SNMChannelConfigurationHigh) {
-      SNMChannelConfigurationHigh = [[self alloc] initWithPriorityName:@"MSPriorityHigh"
+    if (!MSChannelConfigurationHigh) {
+      MSChannelConfigurationHigh = [[self alloc] initWithPriorityName:@"MSPriorityHigh"
                                                          flushInterval:3.0
                                                         batchSizeLimit:1
                                                    pendingBatchesLimit:6];
     }
-    return SNMChannelConfigurationHigh;
+    return MSChannelConfigurationHigh;
 
   case MSPriorityBackground:
-    if (!SNMChannelConfigurationBackground) {
-      SNMChannelConfigurationBackground = [[self alloc] initWithPriorityName:@"MSPriorityBackground"
+    if (!MSChannelConfigurationBackground) {
+      MSChannelConfigurationBackground = [[self alloc] initWithPriorityName:@"MSPriorityBackground"
                                                                flushInterval:60.0
                                                               batchSizeLimit:100
                                                          pendingBatchesLimit:1];
     }
-    return SNMChannelConfigurationBackground;
+    return MSChannelConfigurationBackground;
 
   default:
-    if (!SNMChannelConfigurationDefault) {
-      SNMChannelConfigurationDefault = [[self alloc] initWithPriorityName:@"MSPriorityDefault"
+    if (!MSChannelConfigurationDefault) {
+      MSChannelConfigurationDefault = [[self alloc] initWithPriorityName:@"MSPriorityDefault"
                                                             flushInterval:3.0
                                                            batchSizeLimit:50
                                                       pendingBatchesLimit:3];
     }
-    return SNMChannelConfigurationDefault;
+    return MSChannelConfigurationDefault;
   }
 }
 

@@ -7,7 +7,7 @@
 #import "MSLog.h"
 #import "MSSerializableObject.h"
 
-FOUNDATION_EXPORT NSString *const kSNMType;
+FOUNDATION_EXPORT NSString *const kMSType;
 
 
 @interface MSAbstractLog : NSObject <MSLog, MSSerializableObject>

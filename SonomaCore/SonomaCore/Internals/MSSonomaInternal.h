@@ -4,17 +4,17 @@
 
 #import "MSFeatureInternal.h"
 #import "MSLogManager.h"
-#import "MSSonoma.h"
+#import "MSMobileCenter.h"
 #import "MobileCenter+Internal.h"
 #import <Foundation/Foundation.h>
 
 // Persisted storage keys.
-static NSString *const kSNMInstallIdKey = @"SNMInstallId";
-static NSString *const kSNMCoreIsEnabledKey = @"kSNMCoreIsEnabledKey";
+static NSString *const kMSInstallIdKey = @"kMSInstallIdKey";
+static NSString *const kMSCoreIsEnabledKey = @"kMSCoreIsEnabledKey";
 
-@class SNMFeature;
+@class MSFeature;
 
-@interface MSSonoma ()
+@interface MSMobileCenter ()
 
 @property(nonatomic) id <MSLogManager> logManager;
 @property(nonatomic) NSMutableArray<NSObject <MSFeatureInternal> *> *features;

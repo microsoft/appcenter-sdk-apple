@@ -6,7 +6,7 @@
 #import "MSLogManagerDefault.h"
 #import "MobileCenter+Internal.h"
 
-static char *const SNMlogsDispatchQueue = "com.microsoft.sonoma.LogManagerQueue";
+static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobilecenter.LogManagerQueue";
 
 /**
  * Private declaration of the log manager.
@@ -26,7 +26,7 @@ static char *const SNMlogsDispatchQueue = "com.microsoft.sonoma.LogManagerQueue"
 
 - (instancetype)init {
   if (self = [super init]) {
-    dispatch_queue_t serialQueue = dispatch_queue_create(SNMlogsDispatchQueue, DISPATCH_QUEUE_SERIAL);
+    dispatch_queue_t serialQueue = dispatch_queue_create(MSlogsDispatchQueue, DISPATCH_QUEUE_SERIAL);
     _enabled = YES;
     _logsDispatchQueue = serialQueue;
     _channels = [NSMutableDictionary<NSNumber *, id<MSChannel>> new];

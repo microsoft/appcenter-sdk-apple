@@ -11,7 +11,7 @@
 static NSTimeInterval kRequestTimeout = 60.0;
 
 // API Path.
-static NSString *const kSNMApiPath = @"/logs";
+static NSString *const kMSApiPath = @"/logs";
 
 @implementation MSHttpSender
 
@@ -35,7 +35,7 @@ static NSString *const kSNMApiPath = @"/logs";
     _callsRetryIntervals = @[ @(10), @(5 * 60), @(20 * 60) ];
 
     // Construct the URL string with the query string.
-    NSString *urlString = [baseUrl stringByAppendingString:kSNMApiPath];
+    NSString *urlString = [baseUrl stringByAppendingString:kMSApiPath];
     NSURLComponents *components = [NSURLComponents componentsWithString:urlString];
     NSMutableArray *queryItemArray = [NSMutableArray array];
 
@@ -50,9 +50,9 @@ static NSString *const kSNMApiPath = @"/logs";
     _sendURL = components.URL;
 
     // Hookup to reachability.
-    [kSNMNotificationCenter addObserver:self
+    [kMSNotificationCenter addObserver:self
                                selector:@selector(networkStateChanged:)
-                                   name:kSNMReachabilityChangedNotification
+                                   name:kMSReachabilityChangedNotification
                                  object:nil];
     [self.reachability startNotifier];
 
@@ -62,7 +62,7 @@ static NSString *const kSNMApiPath = @"/logs";
   return self;
 }
 
-- (void)sendAsync:(MSLogContainer *)container completionHandler:(SNMSendAsyncCompletionHandler)handler {
+- (void)sendAsync:(MSLogContainer *)container completionHandler:(MSSendAsyncCompletionHandler)handler {
   NSString *batchId = container.batchId;
 
   // Verify container.
@@ -71,7 +71,7 @@ static NSString *const kSNMApiPath = @"/logs";
     NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : @"Invalid parameter'" };
     NSError *error =
         [NSError errorWithDomain:kMSDefaultApiErrorDomain code:kMSDefaultApiMissingParamErrorCode userInfo:userInfo];
-    MSLogError([MSSonoma getLoggerTag], @"%@", [error localizedDescription]);
+    MSLogError([MSMobileCenter getLoggerTag], @"%@", [error localizedDescription]);
     handler(batchId, error, kMSDefaultApiMissingParamErrorCode);
     return;
   }
@@ -128,7 +128,7 @@ static NSString *const kSNMApiPath = @"/logs";
 
 - (void)suspend {
   if (!self.suspended) {
-    MSLogInfo([MSSonoma getLoggerTag], @"Suspend sender.");
+    MSLogInfo([MSMobileCenter getLoggerTag], @"Suspend sender.");
     self.suspended = YES;
 
     // Set pending calls to not processing.
@@ -157,7 +157,7 @@ static NSString *const kSNMApiPath = @"/logs";
 
   // Resume only while enabled.
   if (self.suspended && self.enabled) {
-    MSLogInfo([MSSonoma getLoggerTag], @"Resume sender.");
+    MSLogInfo([MSMobileCenter getLoggerTag], @"Resume sender.");
     self.suspended = NO;
 
     // Send all pending calls.
@@ -194,7 +194,7 @@ static NSString *const kSNMApiPath = @"/logs";
       [self.session dataTaskWithRequest:request
                       completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                         NSInteger statusCode = [MSSenderUtils getStatusCode:response];
-                        MSLogDebug([MSSonoma getLoggerTag], @"HTTP response received with status code:%lu",
+                        MSLogDebug([MSMobileCenter getLoggerTag], @"HTTP response received with status code:%lu",
                                     (unsigned long)statusCode);
 
                         // Call handles the completion.
@@ -208,12 +208,12 @@ static NSString *const kSNMApiPath = @"/logs";
 
 - (void)callCompletedWithId:(NSString *)callId {
   if (!callId) {
-    MSLogWarning([MSSonoma getLoggerTag], @"Call object is invalid");
+    MSLogWarning([MSMobileCenter getLoggerTag], @"Call object is invalid");
     return;
   }
 
   [self.pendingCalls removeObjectForKey:callId];
-  MSLogInfo([MSSonoma getLoggerTag], @"Removed batch id:%@ from pending calls:%@", callId,
+  MSLogInfo([MSMobileCenter getLoggerTag], @"Removed batch id:%@ from pending calls:%@", callId,
              [self.pendingCalls description]);
 }
 
@@ -248,10 +248,10 @@ static NSString *const kSNMApiPath = @"/logs";
 
 - (void)networkStateChanged {
   if ([self.reachability currentReachabilityStatus] == NotReachable) {
-    MSLogInfo([MSSonoma getLoggerTag], @"Internet connection is down.");
+    MSLogInfo([MSMobileCenter getLoggerTag], @"Internet connection is down.");
     [self suspend];
   } else {
-    MSLogInfo([MSSonoma getLoggerTag], @"Internet connection is up.");
+    MSLogInfo([MSMobileCenter getLoggerTag], @"Internet connection is up.");
     [self resume];
   }
 }

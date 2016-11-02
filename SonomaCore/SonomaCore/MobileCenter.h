@@ -4,7 +4,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MSSonoma.h"
+#import "MSMobileCenter.h"
 #import "MSConstants.h"
 #import "MSDevice.h"
 #import "MSFeature.h"

@@ -7,7 +7,7 @@
 
 @implementation MSWrapperLogger
 
-+ (void)SNMWrapperLog:(MSLogMessageProvider)message
++ (void)MSWrapperLog:(MSLogMessageProvider)message
                   tag:(NSString *)tag
                 level:(MSLogLevel)level
 {

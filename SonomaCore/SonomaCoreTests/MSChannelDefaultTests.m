@@ -194,7 +194,7 @@ static NSString *const kSNMTestPriorityName = @"Prio";
    */
   [self initChannelEndJobExpectation];
   XCTestExpectation *oneLogSentExpectation = [self expectationWithDescription:@"One log sent"];
-  __block SNMSendAsyncCompletionHandler senderBlock;
+  __block MSSendAsyncCompletionHandler senderBlock;
   __block MSLogContainer *lastBatchLogContainer;
   __block int currentBatchId = 1;
   __block id<MSLog> log = [MSAbstractLog new];
