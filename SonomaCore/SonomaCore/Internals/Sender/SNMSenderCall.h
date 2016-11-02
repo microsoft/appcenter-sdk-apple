@@ -6,6 +6,8 @@
 #import "SNMSenderUtils.h"
 #import <Foundation/Foundation.h>
 
+@protocol SNMSender;
+
 @protocol SNMSenderCall <NSObject>
 
 /**
@@ -24,11 +26,6 @@
 @property(nonatomic) SNMLogContainer *logContainer;
 
 /**
- *  Callback queue.
- */
-@property(nonatomic) dispatch_queue_t logsDispatchQueue;
-
-/**
  *  Call completion handler used for communicating with calling component.
  */
 @property(nonatomic) SNMSendAsyncCompletionHandler completionHandler;
@@ -37,9 +34,9 @@
  *  Call completed with error/success.
  *
  *  @param sender     sender object.
- *  @param error      call error.
  *  @param statusCode status code.
+ *  @param error      call error.
  */
-- (void)sender:(id<SNMSenderCallDelegate>)sender callCompletedWithError:(NSError *)error status:(NSUInteger)statusCode;
+- (void)sender:(id<SNMSender>)sender callCompletedWithStatus:(NSUInteger)statusCode error:(NSError *)error;
 
 @end

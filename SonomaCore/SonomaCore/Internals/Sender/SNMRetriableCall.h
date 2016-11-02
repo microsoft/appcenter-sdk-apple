@@ -14,14 +14,23 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong, nullable) dispatch_source_t timerSource;
 
 /**
- *  Number of retries performed for this call.
+ * Number of retries performed for this call.
  */
 @property(nonatomic) NSUInteger retryCount;
 
 /**
- *  Indicate if has reached the max retried.
+ * Initialize a call with specified retry intervals.
  *
- *  @return YES if max retry has reached, NO otherwise.
+ * @param retryIntervals Retry intervals used in case of recoverable errors.
+ *
+ * @return A retriable call instance.
+ */
+- (id)initWithRetryIntervals:(NSArray *)retryIntervals;
+
+/**
+ * Indicate if the limit of maximum retries has been reached.
+ *
+ * @return YES if the limit of maximum retries has been reached, NO otherwise.
  */
 - (BOOL)hasReachedMaxRetries;
 

@@ -21,6 +21,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) SNM_Reachability *reachability;
 
 /**
+ * A boolean value set to YES if the sender is suspended or NO otherwise.
+ */
+@property(nonatomic) BOOL suspended;
+
+/**
  * Initialize the Sender.
  *
  * @param url Base url.
@@ -37,12 +42,9 @@ NS_ASSUME_NONNULL_BEGIN
  * Send logs in batch.
  *
  * @param logContainer Batch of logs.
- * @param queue Queue for dispatching the completion handler.
  * @param handler Completion handler.
  */
-- (void)sendAsync:(nonnull SNMLogContainer *)logs
-    logsDispatchQueue:(nullable dispatch_queue_t)logsDispatchQueue
-completionHandler:(nonnull SNMSendAsyncCompletionHandler)handler;
+- (void)sendAsync:(nonnull SNMLogContainer *)logs completionHandler:(nonnull SNMSendAsyncCompletionHandler)handler;
 
 /**
  *  Add the given delegate to the sender.
@@ -57,6 +59,20 @@ completionHandler:(nonnull SNMSendAsyncCompletionHandler)handler;
  *  @param delegate Sender's delegate.
  */
 - (void)removeDelegate:(id<SNMSenderDelegate>)delegate;
+
+/**
+ * Suspend the sender.
+ * A sender is suspended when it becomes disabled or on network issues.
+ * A suspended state doesn't impact the current enabled state.
+ * @see resume.
+ */
+- (void)suspend;
+
+/**
+ * Resume the sender.
+ * @see suspend.
+ */
+- (void)resume;
 
 @end
 NS_ASSUME_NONNULL_END
