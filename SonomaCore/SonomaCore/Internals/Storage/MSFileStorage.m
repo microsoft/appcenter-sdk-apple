@@ -5,14 +5,14 @@
 #import "MSUtils.h"
 #import "MSSonomaInternal.h"
 
-static NSString *const kSNMLogsDirectory = @"com.microsoft.sonoma/logs";
-static NSString *const kSNMFileExtension = @"snm";
+static NSString *const kMSLogsDirectory = @"com.microsoft.azure.mobilecenter/logs";
+static NSString *const kMSFileExtension = @"ms";
 // FIXME Need a different storage such as database to make it work properly.
 //       For now, persistence will maintain up to 350 logs and remove the oldest 50 logs in a file.
 //       Plus, the requirement is to keep 300 logs for all the logs stored accross the bucckets but the limit is
 //       currently only applied per bucket.
-static NSUInteger const SNMDefaultFileCountLimit = 7;
-static NSUInteger const SNMDefaultLogCountLimit = 50;
+static NSUInteger const MSDefaultFileCountLimit = 7;
+static NSUInteger const MSDefaultLogCountLimit = 50;
 
 @implementation MSFileStorage
 
@@ -24,8 +24,8 @@ static NSUInteger const SNMDefaultLogCountLimit = 50;
 - (instancetype)init {
   if (self = [super init]) {
     _buckets = [NSMutableDictionary<NSString *, MSStorageBucket *> new];
-    _bucketFileCountLimit = SNMDefaultFileCountLimit;
-    _bucketFileLogCountLimit = SNMDefaultLogCountLimit;
+    _bucketFileCountLimit = MSDefaultFileCountLimit;
+    _bucketFileLogCountLimit = MSDefaultLogCountLimit;
   }
   return self;
 }
@@ -89,7 +89,7 @@ static NSUInteger const SNMDefaultLogCountLimit = 50;
   }
 }
 
-- (BOOL)loadLogsForStorageKey:(NSString *)storageKey withCompletion:(nullable SNMLoadDataCompletionBlock)completion {
+- (BOOL)loadLogsForStorageKey:(NSString *)storageKey withCompletion:(nullable MSLoadDataCompletionBlock)completion {
   NSArray<MSLog> *logs;
   NSString *fileId;
   MSStorageBucket *bucket = [self bucketForStorageKey:storageKey];
@@ -124,7 +124,7 @@ static NSUInteger const SNMDefaultLogCountLimit = 50;
 - (MSStorageBucket *)createNewBucketForStorageKey:(NSString *)storageKey {
   MSStorageBucket *bucket = [MSStorageBucket new];
   NSString *storageDirectory = [self directoryPathForStorageKey:storageKey];
-  NSArray *existingFiles = [MSFileHelper filesForDirectory:storageDirectory withFileExtension:kSNMFileExtension];
+  NSArray *existingFiles = [MSFileHelper filesForDirectory:storageDirectory withFileExtension:kMSFileExtension];
   if (existingFiles) {
     [bucket.availableFiles addObjectsFromArray:existingFiles];
     [bucket sortAvailableFilesByCreationDate];
@@ -147,7 +147,7 @@ static NSUInteger const SNMDefaultLogCountLimit = 50;
 - (void)renewCurrentFileForStorageKey:(NSString *)storageKey {
   MSStorageBucket *bucket = [self bucketForStorageKey:storageKey];
   NSDate *creationDate = [NSDate date];
-  NSString *fileId = kSNMUUIDString;
+  NSString *fileId = kMSUUIDString;
   NSString *filePath = [self filePathForStorageKey:storageKey logsId:fileId];
   MSFile *file = [[MSFile alloc] initWithPath:filePath fileId:fileId creationDate:creationDate];
   bucket.currentFile = file;
@@ -161,7 +161,7 @@ static NSUInteger const SNMDefaultLogCountLimit = 50;
 }
 
 - (NSString *)filePathForStorageKey:(nonnull NSString *)storageKey logsId:(nonnull NSString *)logsId {
-  NSString *fileName = [logsId stringByAppendingPathExtension:kSNMFileExtension];
+  NSString *fileName = [logsId stringByAppendingPathExtension:kMSFileExtension];
   NSString *filePath = [[self directoryPathForStorageKey:storageKey] stringByAppendingPathComponent:fileName];
 
   return filePath;
@@ -173,7 +173,7 @@ static NSUInteger const SNMDefaultLogCountLimit = 50;
         [[NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject]
             stringByStandardizingPath];
     if (appSupportPath) {
-      _baseDirectoryPath = [appSupportPath stringByAppendingPathComponent:kSNMLogsDirectory];
+      _baseDirectoryPath = [appSupportPath stringByAppendingPathComponent:kMSLogsDirectory];
     }
 
     MSLogVerbose([MSMobileCenter getLoggerTag], @"Storage Path:\n%@", _baseDirectoryPath);

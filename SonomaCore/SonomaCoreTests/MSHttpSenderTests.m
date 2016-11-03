@@ -19,9 +19,9 @@
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <XCTest/XCTest.h>
 
-static NSTimeInterval const kSNMTestTimeout = 5.0;
-static NSString *const kSNMBaseUrl = @"https://test.com";
-static NSString *const kSNMAppSecret = @"mockAppSecret";
+static NSTimeInterval const kMSTestTimeout = 5.0;
+static NSString *const kMSBaseUrl = @"https://test.com";
+static NSString *const kMSAppSecret = @"mockAppSecret";
 
 @interface MSHttpSenderTests : XCTestCase
 
@@ -39,7 +39,7 @@ static NSString *const kSNMAppSecret = @"mockAppSecret";
   NSDictionary *headers = @{
     @"Content-Type" : @"application/json",
     @"App-Secret" : @"myUnitTestAppSecret",
-    @"Install-ID" : kSNMUUIDString
+    @"Install-ID" : kMSUUIDString
   };
 
   NSDictionary *queryStrings = @{ @"api_version" : @"1.0.0-preview20160914" };
@@ -53,7 +53,7 @@ static NSString *const kSNMAppSecret = @"mockAppSecret";
   });
 
   // sut: System under test
-  self.sut = [[MSHttpSender alloc] initWithBaseUrl:kSNMBaseUrl
+  self.sut = [[MSHttpSender alloc] initWithBaseUrl:kMSBaseUrl
                                             headers:headers
                                        queryStrings:queryStrings
                                        reachability:self.reachabilityMock];
@@ -110,7 +110,7 @@ static NSString *const kSNMAppSecret = @"mockAppSecret";
         [expectation fulfill];
       }];
 
-  [self waitForExpectationsWithTimeout:kSNMTestTimeout
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *_Nullable error) {
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
@@ -155,7 +155,7 @@ static NSString *const kSNMAppSecret = @"mockAppSecret";
   /**
    * Then
    */
-  [self waitForExpectationsWithTimeout:kSNMTestTimeout
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
 
                                  // The call must still be in the pending calls, intended to be retried later.
@@ -215,7 +215,7 @@ static NSString *const kSNMAppSecret = @"mockAppSecret";
   /**
    * Then
    */
-  [self waitForExpectationsWithTimeout:kSNMTestTimeout
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
 
                                  // The sender got resumed.
@@ -267,7 +267,7 @@ static NSString *const kSNMAppSecret = @"mockAppSecret";
   /**
    * Then
    */
-  [self waitForExpectationsWithTimeout:kSNMTestTimeout
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
 
                                  // Max retry for the call is reached.
@@ -291,7 +291,7 @@ static NSString *const kSNMAppSecret = @"mockAppSecret";
 - (void)testInvalidContainer {
 
   MSMockLog *log1 = [[MSMockLog alloc] init];
-  log1.sid = kSNMUUIDString;
+  log1.sid = kMSUUIDString;
   log1.toffset = [NSNumber numberWithInteger:[[NSDate date] timeIntervalSince1970]];
 
   // Log does not have device info, therefore, it's an invalid log
@@ -320,7 +320,7 @@ static NSString *const kSNMAppSecret = @"mockAppSecret";
 
       }];
 
-  [self waitForExpectationsWithTimeout:kSNMTestTimeout
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *_Nullable error) {
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
@@ -466,12 +466,12 @@ static NSString *const kSNMAppSecret = @"mockAppSecret";
   device.sdkVersion = @"1.0.0";
 
   MSMockLog *log1 = [[MSMockLog alloc] init];
-  log1.sid = kSNMUUIDString;
+  log1.sid = kMSUUIDString;
   log1.toffset = [NSNumber numberWithInteger:[[NSDate date] timeIntervalSince1970]];
   log1.device = device;
 
   MSMockLog *log2 = [[MSMockLog alloc] init];
-  log2.sid = kSNMUUIDString;
+  log2.sid = kMSUUIDString;
   log2.toffset = [NSNumber numberWithInteger:[[NSDate date] timeIntervalSince1970]];
   log2.device = device;
 

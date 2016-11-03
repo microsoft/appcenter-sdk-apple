@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Abstraction of features internal common logic.
  * This class is intended to be subclassed only not instantiated directly.
- * @see SNMFeatureInternal protocol, any feature subclassing this class must also conform to this protocol.
+ * @see MSFeatureInternal protocol, any feature subclassing this class must also conform to this protocol.
  */
 @interface MSFeatureAbstract () <MSFeatureCommon>
 

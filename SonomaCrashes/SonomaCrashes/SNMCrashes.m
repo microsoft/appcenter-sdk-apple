@@ -58,7 +58,7 @@ static void uncaught_cxx_exception_handler(const SNMCrashesUncaughtCXXExceptionI
 + (void)generateTestCrash {
   @synchronized([self sharedInstance]) {
     if ([[self sharedInstance] canBeUsed]) {
-      if ([MSEnvironmentHelper currentAppEnvironment] != SNMEnvironmentAppStore) {
+      if ([MSEnvironmentHelper currentAppEnvironment] != MSEnvironmentAppStore) {
         if ([MSMobileCenter isDebuggerAttached]) {
           MSLogWarning([SNMCrashes getLoggerTag],
                         @"The debugger is attached. The following crash cannot be detected by the SDK!");

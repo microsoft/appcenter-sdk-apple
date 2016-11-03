@@ -8,7 +8,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void (^SNMLoadDataCompletionBlock)(BOOL succeeded, NSArray<MSLog> *logArray, NSString *batchId);
+typedef void (^MSLoadDataCompletionBlock)(BOOL succeeded, NSArray<MSLog> *logArray, NSString *batchId);
 
 /**
  Defines the storage component which is responsible for file i/o and file
@@ -62,7 +62,7 @@ typedef void (^SNMLoadDataCompletionBlock)(BOOL succeeded, NSArray<MSLog> *logAr
  *
  * @return a list of logs.
  */
-- (BOOL)loadLogsForStorageKey:(NSString *)storageKey withCompletion:(nullable SNMLoadDataCompletionBlock)completion;
+- (BOOL)loadLogsForStorageKey:(NSString *)storageKey withCompletion:(nullable MSLoadDataCompletionBlock)completion;
 
 /**
  *  FIXME: The number of logs per batch and the number of logs per files are currently tied together. The storage loads

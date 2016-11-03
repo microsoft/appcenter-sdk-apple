@@ -64,7 +64,7 @@ static NSUInteger const kSNMMaxSessionHistoryCount = 5;
 
     // Check if new session id is required.
     if (_sessionId == nil || [self hasSessionTimedOut]) {
-      _sessionId = kSNMUUIDString;
+      _sessionId = kMSUUIDString;
 
       // Record session.
       SNMSessionHistoryInfo *sessionInfo = [[SNMSessionHistoryInfo alloc] init];

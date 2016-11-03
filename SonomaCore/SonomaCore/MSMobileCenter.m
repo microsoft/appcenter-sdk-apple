@@ -117,7 +117,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
     name[3] = getpid();
 
     if (sysctl(name, 4, &info, &info_size, NULL, 0) == -1) {
-      NSLog(@"[SNMCrashes] ERROR: Checking for a running debugger via sysctl() "
+      NSLog(@"[MSCrashes] ERROR: Checking for a running debugger via sysctl() "
             @"failed.");
       debuggerIsAttached = false;
     }
@@ -172,7 +172,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
 
   // If the loglevel hasn't been customized before and we are not running in an app store environment, we set the
   // default loglevel to MSLogLevelWarning.
-  if ((![MSLogger isUserDefinedLogLevel]) && ([MSEnvironmentHelper currentAppEnvironment] == SMEnvironmentOther)) {
+  if ((![MSLogger isUserDefinedLogLevel]) && ([MSEnvironmentHelper currentAppEnvironment] == MSEnvironmentOther)) {
     [MSMobileCenter setLogLevel:MSLogLevelWarning];
   }
   return YES;

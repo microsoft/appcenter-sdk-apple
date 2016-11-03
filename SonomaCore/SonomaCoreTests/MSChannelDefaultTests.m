@@ -10,7 +10,7 @@
 #import "MSSender.h"
 #import "MSStorage.h"
 
-static NSString *const kSNMTestPriorityName = @"Prio";
+static NSString *const kMSTestPriorityName = @"Prio";
 
 @interface MSChannelDefaultTests : XCTestCase
 
@@ -70,7 +70,7 @@ static NSString *const kSNMTestPriorityName = @"Prio";
 
   // If
   [self initChannelEndJobExpectation];
-  MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithPriorityName:kSNMTestPriorityName
+  MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithPriorityName:kMSTestPriorityName
                                                                             flushInterval:5
                                                                            batchSizeLimit:10
                                                                       pendingBatchesLimit:3];
@@ -97,7 +97,7 @@ static NSString *const kSNMTestPriorityName = @"Prio";
 
   // If
   [self initChannelEndJobExpectation];
-  MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithPriorityName:kSNMTestPriorityName
+  MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithPriorityName:kMSTestPriorityName
                                                                             flushInterval:0.0
                                                                            batchSizeLimit:3
                                                                       pendingBatchesLimit:3];
@@ -146,16 +146,16 @@ static NSString *const kSNMTestPriorityName = @"Prio";
     }
   });
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
-  OCMStub([storageMock loadLogsForStorageKey:kSNMTestPriorityName withCompletion:([OCMArg any])])
+  OCMStub([storageMock loadLogsForStorageKey:kMSTestPriorityName withCompletion:([OCMArg any])])
       .andDo(^(NSInvocation *invocation) {
 
-        SNMLoadDataCompletionBlock loadCallback;
+        MSLoadDataCompletionBlock loadCallback;
 
         // Mock load.
         [invocation getArgument:&loadCallback atIndex:3];
         loadCallback(YES, ((NSArray<MSLog> *)@[ log ]), [@(currentBatchId++) stringValue]);
       });
-  MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithPriorityName:kSNMTestPriorityName
+  MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithPriorityName:kMSTestPriorityName
                                                                             flushInterval:0.0
                                                                            batchSizeLimit:1
                                                                       pendingBatchesLimit:expectedMaxPendingBatched];
@@ -211,9 +211,9 @@ static NSString *const kSNMTestPriorityName = @"Prio";
 
   // Stub the storage load for that log.
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
-  OCMStub([storageMock loadLogsForStorageKey:kSNMTestPriorityName withCompletion:([OCMArg any])])
+  OCMStub([storageMock loadLogsForStorageKey:kMSTestPriorityName withCompletion:([OCMArg any])])
       .andDo(^(NSInvocation *invocation) {
-        SNMLoadDataCompletionBlock loadCallback;
+        MSLoadDataCompletionBlock loadCallback;
 
         // Get sender bloc for later call.
         [invocation getArgument:&loadCallback atIndex:3];
@@ -226,7 +226,7 @@ static NSString *const kSNMTestPriorityName = @"Prio";
   log.toffset = @(currentBatchId);
 
   // Configure channel.
-  MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithPriorityName:kSNMTestPriorityName
+  MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithPriorityName:kMSTestPriorityName
                                                                             flushInterval:0.0
                                                                            batchSizeLimit:1
                                                                       pendingBatchesLimit:1];
@@ -290,9 +290,9 @@ static NSString *const kSNMTestPriorityName = @"Prio";
   OCMStub([senderMock sendAsync:[OCMArg any] completionHandler:[OCMArg any]]);
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
   OCMStub([storageMock
-      loadLogsForStorageKey:kSNMTestPriorityName
+      loadLogsForStorageKey:kMSTestPriorityName
              withCompletion:([OCMArg invokeBlockWithArgs:@YES, ((NSArray<MSLog> *)@[ log ]), @"1", nil])]);
-  MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithPriorityName:kSNMTestPriorityName
+  MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithPriorityName:kMSTestPriorityName
                                                                             flushInterval:0.0
                                                                            batchSizeLimit:1
                                                                       pendingBatchesLimit:10];
@@ -330,9 +330,9 @@ static NSString *const kSNMTestPriorityName = @"Prio";
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
   id<MSLog> log = [MSAbstractLog new];
   OCMStub([storageMock
-      loadLogsForStorageKey:kSNMTestPriorityName
+      loadLogsForStorageKey:kMSTestPriorityName
              withCompletion:([OCMArg invokeBlockWithArgs:@YES, ((NSArray<MSLog> *)@[ log ]), @"1", nil])]);
-  MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithPriorityName:kSNMTestPriorityName
+  MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithPriorityName:kMSTestPriorityName
                                                                             flushInterval:0.0
                                                                            batchSizeLimit:1
                                                                       pendingBatchesLimit:10];
@@ -351,7 +351,7 @@ static NSString *const kSNMTestPriorityName = @"Prio";
                                handler:^(NSError *error) {
 
                                  // Check that logs as been requested for deletion and that there is no batch left.
-                                 OCMVerify([storageMock deleteLogsForStorageKey:kSNMTestPriorityName]);
+                                 OCMVerify([storageMock deleteLogsForStorageKey:kMSTestPriorityName]);
                                  assertThatUnsignedLong(sut.pendingBatchIds.count, equalToInt(0));
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);

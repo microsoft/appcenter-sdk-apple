@@ -141,7 +141,7 @@ static NSString *const kSNMFeatureName = @"Analytics";
   // Create and set properties of the event log
   SNMEventLog *log = [[SNMEventLog alloc] init];
   log.name = eventName;
-  log.eventId = kSNMUUIDString;
+  log.eventId = kMSUUIDString;
   if (properties)
     log.properties = properties;
 

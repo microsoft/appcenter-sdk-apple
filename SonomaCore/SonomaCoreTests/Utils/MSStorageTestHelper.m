@@ -3,7 +3,7 @@
 @implementation MSStorageTestHelper
 
 + (NSString *)logsDir {
-  NSString *logsPath = @"com.microsoft.sonoma/logs";
+  NSString *logsPath = @"com.microsoft.azure.mobilecenter/logs";
   NSString *documentsDir =
       [NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject];
   return [documentsDir stringByAppendingPathComponent:logsPath];

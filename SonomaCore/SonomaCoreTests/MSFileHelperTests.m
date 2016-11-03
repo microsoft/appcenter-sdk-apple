@@ -67,7 +67,7 @@
   resourveValue = nil;
   NSString *subDirectory = @"testDirectory";
   NSString *fileId = @"fileId";
-  NSString *filePath = [MSStorageTestHelper filePathForLogWithId:fileId extension:@"snm" storageKey:subDirectory];
+  NSString *filePath = [MSStorageTestHelper filePathForLogWithId:fileId extension:@"ms" storageKey:subDirectory];
   MSFile *file = [[MSFile alloc] initWithPath:filePath fileId:fileId creationDate:[NSDate date]];
 
   [MSFileHelper writeData:[NSData new] toFile:file];
@@ -90,7 +90,7 @@
 
   // If
   NSString *subDirectory = @"testDirectory";
-  NSString *extension = @"snm";
+  NSString *extension = @"ms";
   MSFile *file1 = [MSStorageTestHelper createFileWithId:@"1"
                                                      data:[NSData new]
                                                 extension:extension
@@ -131,7 +131,7 @@
   id fileManagerMock = OCMClassMock([NSFileManager class]);
 
   // When
-  NSArray *actual = [MSFileHelper filesForDirectory:nil withFileExtension:@"snm"];
+  NSArray *actual = [MSFileHelper filesForDirectory:nil withFileExtension:@"ms"];
 
   // Then
   assertThat(actual, nilValue());
@@ -144,7 +144,7 @@
   // If
   MSFile *file = [MSStorageTestHelper createFileWithId:@"0"
                                                     data:[NSData new]
-                                               extension:@"snm"
+                                               extension:@"ms"
                                               storageKey:@"testDirectory"
                                             creationDate:[NSDate date]];
 
@@ -159,7 +159,7 @@
 
   // If
   NSString *subDirectory = @"testDirectory";
-  NSString *extension = @"snm";
+  NSString *extension = @"ms";
   NSString *fileName = @"foo";
   NSString *filePath = [MSStorageTestHelper filePathForLogWithId:fileName extension:extension storageKey:subDirectory];
   MSFile *file = [[MSFile alloc] initWithPath:filePath fileId:fileName creationDate:[NSDate date]];
@@ -177,7 +177,7 @@
   id fileManagerMock = OCMClassMock([NSFileManager class]);
   MSFile *file = [MSStorageTestHelper createFileWithId:@"0"
                                                     data:[NSData new]
-                                               extension:@"snm"
+                                               extension:@"ms"
                                               storageKey:@"testDirectory"
                                             creationDate:[NSDate date]];
   file.filePath = nil;
@@ -196,7 +196,7 @@
   NSData *expected = [@"0" dataUsingEncoding:NSUTF8StringEncoding];
   MSFile *file = [MSStorageTestHelper createFileWithId:@"0"
                                                     data:expected
-                                               extension:@"snm"
+                                               extension:@"ms"
                                               storageKey:@"testDirectory"
                                             creationDate:[NSDate date]];
 
@@ -226,7 +226,7 @@
   // If
   NSArray *items = @[ @"1", @"2" ];
   NSData *expected = [NSKeyedArchiver archivedDataWithRootObject:items];
-  NSString *filePath = [MSStorageTestHelper filePathForLogWithId:@"0" extension:@"snm" storageKey:@"directory"];
+  NSString *filePath = [MSStorageTestHelper filePathForLogWithId:@"0" extension:@"ms" storageKey:@"directory"];
   MSFile *file = [[MSFile alloc] initWithPath:filePath fileId:@"0" creationDate:[NSDate date]];
 
   // When
@@ -242,7 +242,7 @@
   // If
   NSString *fileName = @"0";
   NSString *filePath =
-      [MSStorageTestHelper filePathForLogWithId:fileName extension:@"snm" storageKey:@"testDirectory"];
+      [MSStorageTestHelper filePathForLogWithId:fileName extension:@"ms" storageKey:@"testDirectory"];
   NSData *expected = [@"123456789" dataUsingEncoding:NSUTF8StringEncoding];
   MSFile *file = [[MSFile alloc] initWithPath:filePath fileId:fileName creationDate:[NSDate date]];
 

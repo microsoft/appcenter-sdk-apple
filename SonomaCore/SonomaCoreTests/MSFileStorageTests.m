@@ -40,7 +40,7 @@
   // If
   NSString *storageKey = @"TestDirectory";
   NSString *logsId = @"TestId";
-  NSString *expected = [MSStorageTestHelper filePathForLogWithId:logsId extension:@"snm" storageKey:storageKey];
+  NSString *expected = [MSStorageTestHelper filePathForLogWithId:logsId extension:@"ms" storageKey:storageKey];
 
   // When
   NSString *actual = [self.sut filePathForStorageKey:storageKey logsId:logsId];
@@ -79,7 +79,7 @@
   MSAbstractLog *log = [MSAbstractLog new];
   MSFile *expected = [MSStorageTestHelper createFileWithId:@"test123"
                                                         data:[NSData new]
-                                                   extension:@"snm"
+                                                   extension:@"ms"
                                                   storageKey:storageKey
                                                 creationDate:[NSDate date]];
   assertThat(self.sut.buckets[storageKey], nilValue());

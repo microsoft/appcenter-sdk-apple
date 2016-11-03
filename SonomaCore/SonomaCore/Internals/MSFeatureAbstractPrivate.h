@@ -6,7 +6,7 @@
 #import <Foundation/Foundation.h>
 
 /**
- *  Private declarations for SNMFeatureAbstract.
+ *  Private declarations for MSFeatureAbstract.
  */
 @interface MSFeatureAbstract ()
 
