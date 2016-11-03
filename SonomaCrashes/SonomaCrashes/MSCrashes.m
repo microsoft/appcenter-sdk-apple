@@ -192,7 +192,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 }
 
 + (NSString *)getLoggerTag {
-  return @"SonomaCrashes";
+  return @"MobileCenterCrashes";
 }
 
 - (NSString *)storageKey {
@@ -312,7 +312,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
     /* If the top level error handler differs from our own, then at least
      * another one was added.
-     * This could cause exception crashes not to be reported to Sonoma. See
+     * This could cause exception crashes not to be reported to Mobile Center. See
      * log message for details.
      */
     if (self.exceptionHandler != currentHandler) {
@@ -320,7 +320,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
                                                @"this invokes any kind of exit() after processing the "
                                                @"exception, which causes any subsequent error handler "
                                                @"not to be invoked, these crashes will NOT be reported "
-                                               @"to Sonoma!");
+                                               @"to Mobile Center!");
     }
   }
   if (!self.sendingInProgress && self.crashFiles.count > 0) {
