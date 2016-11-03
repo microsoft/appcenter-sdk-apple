@@ -7,7 +7,7 @@
 #import "MSLogManager.h"
 #import "MSLogManagerDefault.h"
 #import "MSMobileCenter.h"
-#import "MSSonomaInternal.h"
+#import "MSMobileCenterInternal.h"
 #import "MSUserDefaults.h"
 #import "MSUtils.h"
 #import <Foundation/Foundation.h>

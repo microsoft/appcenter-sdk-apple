@@ -1,6 +1,6 @@
 #import "MSFileHelper.h"
 #import "MSLogger.h"
-#import "MSSonomaInternal.h"
+#import "MSMobileCenterInternal.h"
 
 /**
  * Private declarations.

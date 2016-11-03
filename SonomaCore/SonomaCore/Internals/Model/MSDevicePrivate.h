@@ -8,7 +8,7 @@
 @interface MSDevice () <MSSerializableObject>
 
 /*
- * Name of the SDK. Consists of the name of the SDK and the platform, e.g. "sonoma.ios", "sonoma.android"
+ * Name of the SDK. Consists of the name of the SDK and the platform, e.g. "mobilecenter.ios", "mobilecenter.android"
  */
 @property(nonatomic, readwrite) NSString *sdkName;
 

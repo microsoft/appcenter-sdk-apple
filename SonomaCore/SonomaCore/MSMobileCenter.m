@@ -6,7 +6,7 @@
 #import "MSHttpSender.h"
 #import "MSLogManagerDefault.h"
 #import "MSLogger.h"
-#import "MSSonomaInternal.h"
+#import "MSMobileCenterInternal.h"
 #import <UIKit/UIKit.h>
 #import <sys/sysctl.h>
 
@@ -130,7 +130,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
 }
 
 + (NSString *)getLoggerTag {
-  return @"SonomaCore";
+  return @"MobileCenter";
 }
 
 #pragma mark - private
@@ -190,7 +190,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
 - (void)startFeature:(Class)clazz {
   id<MSFeatureInternal> feature = [clazz sharedInstance];
 
-  // Set sonomaDelegate.
+  // Set mobileCenterDelegate.
   [self.features addObject:feature];
 
   // Start feature with log manager.

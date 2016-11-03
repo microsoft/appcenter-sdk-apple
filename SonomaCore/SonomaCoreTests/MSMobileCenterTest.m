@@ -1,5 +1,5 @@
 #import "MSMobileCenter.h"
-#import "MSSonomaInternal.h"
+#import "MSMobileCenterInternal.h"
 #import "MSUtils.h"
 #import <Foundation/Foundation.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>

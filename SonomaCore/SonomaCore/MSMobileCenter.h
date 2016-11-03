@@ -13,7 +13,7 @@
 @interface MSMobileCenter : NSObject
 
 /**
- * Returns the singleton instance of SonomaCore.
+ * Returns the singleton instance of MobileCenter.
  */
 + (instancetype)sharedInstance;
 
@@ -93,7 +93,7 @@
 
 /**
  * Set wrapper SDK information to use when building device properties. This is intended in case you are building a SDK
- * that uses the Sonoma SDK under the hood, e.g. our Xamarin SDK or ReactNative SDk.
+ * that uses the Mobile Center SDK under the hood, e.g. our Xamarin SDK or ReactNative SDk.
  *
  * @param wrapperSdk wrapper SDK information.
  */

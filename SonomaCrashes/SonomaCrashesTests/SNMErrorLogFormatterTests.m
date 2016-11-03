@@ -12,7 +12,7 @@
 #import "MSDeviceTracker.h"
 #import "SNMErrorLogFormatterPrivate.h"
 #import "SNMException.h"
-#import "MSSonomaInternal.h"
+#import "MSMobileCenterInternal.h"
 #import "SNMThread.h"
 
 @interface SNMErrorLogFormatterTests : XCTestCase

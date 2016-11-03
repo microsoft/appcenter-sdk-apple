@@ -3,7 +3,7 @@
  */
 
 #import "MSChannelDefault.h"
-#import "MSSonomaInternal.h"
+#import "MSMobileCenterInternal.h"
 
 /**
  * Private declarations.

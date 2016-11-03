@@ -9,7 +9,7 @@
 #import "SNMCrashesPrivate.h"
 #import "SNMErrorLogFormatter.h"
 #import "MSFeatureAbstractProtected.h"
-#import "MSSonomaInternal.h"
+#import "MSMobileCenterInternal.h"
 
 /**
  *  Feature name.

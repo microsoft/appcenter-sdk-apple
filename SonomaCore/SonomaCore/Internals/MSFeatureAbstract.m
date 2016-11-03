@@ -5,7 +5,7 @@
 #import "MSFeatureAbstract.h"
 #import "MSFeatureAbstractInternal.h"
 #import "MSFeatureAbstractPrivate.h"
-#import "MSSonomaInternal.h"
+#import "MSMobileCenterInternal.h"
 
 @implementation MSFeatureAbstract
 
