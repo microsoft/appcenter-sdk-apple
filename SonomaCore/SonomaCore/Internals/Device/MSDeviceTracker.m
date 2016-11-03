@@ -20,9 +20,10 @@ typedef struct {
 // SDK versioning.
 ms_info_t mobile_center_library_info __attribute__((section("__TEXT,__bit_ios,regular,no_dead_strip"))) = {
     .info_version = 1,
-    .ms_name = SONOMA_C_NAME,
-    .ms_version = SONOMA_C_VERSION,
-    .ms_build = SONOMA_C_BUILD};
+    .ms_name = MOBILE_CENTER_C_NAME,
+    .ms_version = MOBILE_CENTER_C_VERSION,
+    .ms_build = MOBILE_CENTER_C_BUILD
+};
 
 @implementation MSDeviceTracker : NSObject
 
