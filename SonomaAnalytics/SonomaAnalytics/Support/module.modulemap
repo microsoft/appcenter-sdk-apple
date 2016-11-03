@@ -1,5 +1,5 @@
 framework module SonomaAnalytics {
-  umbrella header "SonomaAnalytics.h"
+  umbrella header "MobileCenterAnalytics.h"
   
   export *
   module * { export * }

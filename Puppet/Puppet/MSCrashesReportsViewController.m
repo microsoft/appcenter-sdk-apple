@@ -1,11 +1,11 @@
 #import "MSCrashes.h"
-#import "SNMCrashesReportsViewController.h"
+#import "MSCrashesReportsViewController.h"
 
-@interface SNMCrashesReportsViewController ()
+@interface MSCrashesReportsViewController ()
 
 @end
 
-@implementation SNMCrashesReportsViewController
+@implementation MSCrashesReportsViewController
 
 - (void)viewDidLoad {
   [super viewDidLoad];

@@ -2,12 +2,12 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "SNMAnalyticsCategory.h"
-#import "SNMAnalyticsInternal.h"
+#import "MSAnalyticsCategory.h"
+#import "MSAnalyticsInternal.h"
 #import <objc/runtime.h>
 
-static NSString *const kSNMViewControllerSuffix = @"ViewController";
-static NSString *SNMMissedPageViewName;
+static NSString *const kMSViewControllerSuffix = @"ViewController";
+static NSString *MSMissedPageViewName;
 
 @implementation UIViewController (PageViewLogging)
 
@@ -18,7 +18,7 @@ static NSString *SNMMissedPageViewName;
 
     // Get selectors.
     SEL originalSelector = @selector(viewWillAppear:);
-    SEL swizzledSelector = @selector(snm_viewWillAppear:);
+    SEL swizzledSelector = @selector(ms_viewWillAppear:);
 
     Method originalMethod = class_getInstanceMethod(class, originalSelector);
     Method swizzledMethod = class_getInstanceMethod(class, swizzledSelector);
@@ -29,11 +29,11 @@ static NSString *SNMMissedPageViewName;
 
 #pragma mark - Method Swizzling
 
-- (void)snm_viewWillAppear:(BOOL)animated {
-  [self snm_viewWillAppear:animated];
-  if ([SNMAnalytics isAutoPageTrackingEnabled]) {
+- (void)ms_viewWillAppear:(BOOL)animated {
+  [self ms_viewWillAppear:animated];
+  if ([MSAnalytics isAutoPageTrackingEnabled]) {
 
-    if (!snm_shouldTrackPageView(self))
+    if (!ms_shouldTrackPageView(self))
       return;
 
     // By default, use class name for the page name.
@@ -43,31 +43,31 @@ static NSString *SNMMissedPageViewName;
     pageViewName = [[pageViewName componentsSeparatedByString:@"."] lastObject];
 
     // Remove suffix if any.
-    if ([pageViewName hasSuffix:kSNMViewControllerSuffix] &&
-        [pageViewName length] > [kSNMViewControllerSuffix length]) {
-      pageViewName = [pageViewName substringToIndex:[pageViewName length] - [kSNMViewControllerSuffix length]];
+    if ([pageViewName hasSuffix:kMSViewControllerSuffix] &&
+        [pageViewName length] > [kMSViewControllerSuffix length]) {
+      pageViewName = [pageViewName substringToIndex:[pageViewName length] - [kMSViewControllerSuffix length]];
     }
 
     // Track page if ready.
-    if ([SNMAnalytics sharedInstance].available) {
+    if ([MSAnalytics sharedInstance].available) {
 
       // Reset cached page.
-      SNMMissedPageViewName = nil;
+      MSMissedPageViewName = nil;
 
       // Track page.
-      [SNMAnalytics trackPage:pageViewName withProperties:nil];
+      [MSAnalytics trackPage:pageViewName withProperties:nil];
     } else {
 
       // Store the page name for retroactive tracking.
       // For instance if the module becomes enabled after the view appeared.
-      SNMMissedPageViewName = pageViewName;
+      MSMissedPageViewName = pageViewName;
     }
   }
 }
 
 @end
 
-BOOL snm_shouldTrackPageView(UIViewController *viewController) {
+BOOL ms_shouldTrackPageView(UIViewController *viewController) {
 
   // For container view controllers, auto page tracking is disabled(to avoid
   // noise).
@@ -83,14 +83,14 @@ BOOL snm_shouldTrackPageView(UIViewController *viewController) {
   return ![viewControllerSet containsObject:className];
 }
 
-@implementation SNMAnalyticsCategory
+@implementation MSAnalyticsCategory
 
 + (void)activateCategory {
   [UIViewController swizzleViewWillAppear];
 }
 
 + (NSString *)missedPageViewName {
-  return SNMMissedPageViewName;
+  return MSMissedPageViewName;
 }
 
 @end

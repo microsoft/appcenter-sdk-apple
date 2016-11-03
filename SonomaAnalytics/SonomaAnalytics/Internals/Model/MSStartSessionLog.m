@@ -2,33 +2,23 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "SNMEventLog.h"
+#import "MSStartSessionLog.h"
 
-static NSString *const kSNMTypeEvent = @"event";
+static NSString *const kMSTypeEndSession = @"start_session";
 
-static NSString *const kSNMId = @"id";
-static NSString *const kSNMName = @"name";
-
-@implementation SNMEventLog
+@implementation MSStartSessionLog
 
 @synthesize type = _type;
 
 - (instancetype)init {
   if (self = [super init]) {
-    _type = kSNMTypeEvent;
+    _type = kMSTypeEndSession;
   }
   return self;
 }
 
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [super serializeToDictionary];
-
-  if (self.eventId) {
-    dict[kSNMId] = self.eventId;
-  }
-  if (self.name) {
-    dict[kSNMName] = self.name;
-  }
   return dict;
 }
 
@@ -38,18 +28,13 @@ static NSString *const kSNMName = @"name";
   self = [super initWithCoder:coder];
   if (self) {
     _type = [coder decodeObjectForKey:kMSType];
-    _eventId = [coder decodeObjectForKey:kSNMId];
-    _name = [coder decodeObjectForKey:kSNMName];
   }
-
   return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
   [coder encodeObject:self.type forKey:kMSType];
-  [coder encodeObject:self.eventId forKey:kSNMId];
-  [coder encodeObject:self.name forKey:kSNMName];
 }
 
 @end

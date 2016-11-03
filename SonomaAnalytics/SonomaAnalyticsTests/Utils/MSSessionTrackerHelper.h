@@ -4,7 +4,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface SNMSessionTrackerHelper : NSObject
+@interface MSSessionTrackerHelper : NSObject
 
 + (void)simulateDidEnterBackgroundNotification;
 + (void)simulateWillEnterForegroundNotification;

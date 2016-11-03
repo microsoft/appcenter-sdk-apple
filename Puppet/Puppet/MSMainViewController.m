@@ -6,10 +6,10 @@
 //  Copyright © 2016 Mehrdad Mozafari. All rights reserved.
 //
 
-#import "SNMMainViewController.h"
+#import "MSMainViewController.h"
 #import "MobileCenter.h"
 
-@implementation SNMMainViewController
+@implementation MSMainViewController
 
 #pragma mark - view controller
 

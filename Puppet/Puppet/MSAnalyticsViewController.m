@@ -6,10 +6,10 @@
 //  Copyright © 2016 Mehrdad Mozafari. All rights reserved.
 //
 
-#import "SNMAnalyticsViewController.h"
-#import "SonomaAnalytics.h"
+#import "MSAnalyticsViewController.h"
+#import "MobileCenterAnalytics.h"
 
-@implementation SNMAnalyticsViewController
+@implementation MSAnalyticsViewController
 
 #pragma mark - view controller
 
@@ -117,7 +117,7 @@
 
       // Define the switch control and add it to the cell.
       UISwitch *enabledSwitch = [[UISwitch alloc] init];
-      enabledSwitch.on = [SNMAnalytics isEnabled];
+      enabledSwitch.on = [MSAnalytics isEnabled];
       CGSize switchSize = [enabledSwitch sizeThatFits:CGSizeZero];
       enabledSwitch.frame = CGRectMake(cell.contentView.bounds.size.width - switchSize.width - 10.0f,
                                        (cell.contentView.bounds.size.height - switchSize.height) / 2.0f,
@@ -154,22 +154,22 @@
   case 0: {
     switch (indexPath.row) {
     case 0: {
-      [SNMAnalytics trackEvent:@"myEvent"];
+      [MSAnalytics trackEvent:@"myEvent"];
       break;
     }
     case 1: {
       NSDictionary *properties = @{ @"gender" : @"male", @"age" : @(20), @"title" : @"SDE" };
-      [SNMAnalytics trackEvent:@"myEvent" withProperties:properties];
+      [MSAnalytics trackEvent:@"myEvent" withProperties:properties];
       break;
     }
     case 2: {
-      [SNMAnalytics trackPage:@"myPage"];
+      [MSAnalytics trackPage:@"myPage"];
       break;
     }
 
     case 3: {
       NSDictionary *properties = @{ @"gender" : @"female", @"age" : @(28), @"title" : @"PM" };
-      [SNMAnalytics trackPage:@"myPage" withProperties:properties];
+      [MSAnalytics trackPage:@"myPage" withProperties:properties];
       break;
     }
 
@@ -197,8 +197,8 @@
 
 - (void)enabledSwitchUpdated:(id)sender {
   UISwitch *enabledSwitch = (UISwitch *)sender;
-  [SNMAnalytics setEnabled:enabledSwitch.on];
-  enabledSwitch.on = [SNMAnalytics isEnabled];
+  [MSAnalytics setEnabled:enabledSwitch.on];
+  enabledSwitch.on = [MSAnalytics isEnabled];
 }
 
 @end

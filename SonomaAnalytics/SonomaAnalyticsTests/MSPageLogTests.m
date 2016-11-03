@@ -3,16 +3,15 @@
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
-#import "SNMEventLog.h"
-#import "MobileCenter+Internal.h"
+#import "MSPageLog.h"
 
-@interface SNMEventLogTests : XCTestCase
+@interface MSPageLogTests : XCTestCase
 
-@property(nonatomic, strong) SNMEventLog *sut;
+@property(nonatomic, strong) MSPageLog *sut;
 
 @end
 
-@implementation SNMEventLogTests
+@implementation MSPageLogTests
 
 @synthesize sut = _sut;
 
@@ -20,7 +19,7 @@
 
 - (void)setUp {
   [super setUp];
-  _sut = [SNMEventLog new];
+  _sut = [MSPageLog new];
 }
 
 - (void)tearDown {
@@ -29,20 +28,18 @@
 
 #pragma mark - Tests
 
-- (void)testSerializingEventToDictionaryWorks {
+- (void)testSerializingPageToDictionaryWorks {
 
   // If
-  NSString *typeName = @"event";
-  NSString *eventId = kMSUUIDString;
-  NSString *eventName = @"eventName";
+  NSString *typeName = @"page";
+  NSString *pageName = @"pageName";
   MSDevice *device = [MSDevice new];
   NSString *sessionId = @"1234567890";
   NSDictionary *properties = @{ @"Key" : @"Value" };
   NSTimeInterval createTime = [[NSDate date] timeIntervalSince1970];
   NSNumber *tOffset = @(createTime);
 
-  self.sut.eventId = eventId;
-  self.sut.name = eventName;
+  self.sut.name = pageName;
   self.sut.device = device;
   self.sut.toffset = tOffset;
   self.sut.sid = sessionId;
@@ -53,8 +50,7 @@
 
   // Then
   assertThat(actual, notNilValue());
-  assertThat(actual[@"id"], equalTo(eventId));
-  assertThat(actual[@"name"], equalTo(eventName));
+  assertThat(actual[@"name"], equalTo(pageName));
   assertThat(actual[@"device"], notNilValue());
   assertThat(actual[@"sid"], equalTo(sessionId));
   assertThat(actual[@"type"], equalTo(typeName));
@@ -68,16 +64,14 @@
 - (void)testNSCodingSerializationAndDeserializationWorks {
 
   // If
-  NSString *typeName = @"event";
-  NSString *eventId = kMSUUIDString;
-  NSString *eventName = @"eventName";
+  NSString *typeName = @"page";
+  NSString *pageName = @"pageName";
   MSDevice *device = [MSDevice new];
   NSString *sessionId = @"1234567890";
   NSNumber *tOffset = @(3);
   NSDictionary *properties = @{ @"Key" : @"Value" };
 
-  self.sut.eventId = eventId;
-  self.sut.name = eventName;
+  self.sut.name = pageName;
   self.sut.device = device;
   self.sut.toffset = tOffset;
   self.sut.sid = sessionId;
@@ -89,16 +83,15 @@
 
   // Then
   assertThat(actual, notNilValue());
-  assertThat(actual, instanceOf([SNMEventLog class]));
+  assertThat(actual, instanceOf([MSPageLog class]));
 
-  SNMEventLog *actualEvent = actual;
-  assertThat(actualEvent.name, equalTo(eventName));
-  assertThat(actualEvent.eventId, equalTo(eventId));
-  assertThat(actualEvent.device, notNilValue());
-  assertThat(actualEvent.toffset, equalTo(tOffset));
-  assertThat(actualEvent.type, equalTo(typeName));
-  assertThat(actualEvent.sid, equalTo(sessionId));
-  assertThat(actualEvent.properties, equalTo(properties));
+  MSPageLog *actualPage = actual;
+  assertThat(actualPage.name, equalTo(pageName));
+  assertThat(actualPage.device, notNilValue());
+  assertThat(actualPage.toffset, equalTo(tOffset));
+  assertThat(actualPage.type, equalTo(typeName));
+  assertThat(actualPage.sid, equalTo(sessionId));
+  assertThat(actualPage.properties, equalTo(properties));
 }
 
 @end

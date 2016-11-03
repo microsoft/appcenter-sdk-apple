@@ -6,7 +6,7 @@
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
-@interface SNMAnalyticsCategory : NSObject
+@interface MSAnalyticsCategory : NSObject
 
 /**
  * Activate category for UIViewController.
@@ -29,6 +29,6 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return YES if should track page, NO otherwise
  */
-BOOL snm_shouldTrackPageView(UIViewController *viewController);
+BOOL ms_shouldTrackPageView(UIViewController *viewController);
 
 NS_ASSUME_NONNULL_END

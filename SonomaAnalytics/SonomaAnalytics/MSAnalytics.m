@@ -2,20 +2,20 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "SNMAnalytics.h"
-#import "SNMAnalyticsCategory.h"
-#import "SNMAnalyticsPrivate.h"
-#import "SNMEventLog.h"
+#import "MSAnalytics.h"
+#import "MSAnalyticsCategory.h"
+#import "MSAnalyticsPrivate.h"
+#import "MSEventLog.h"
 #import "MSFeatureAbstractProtected.h"
 #import "MSLogManager.h"
-#import "SNMPageLog.h"
+#import "MSPageLog.h"
 
 /**
  *  Feature storage key name.
  */
-static NSString *const kSNMFeatureName = @"Analytics";
+static NSString *const kMSFeatureName = @"Analytics";
 
-@implementation SNMAnalytics
+@implementation MSAnalytics
 
 @synthesize autoPageTrackingEnabled = _autoPageTrackingEnabled;
 
@@ -28,13 +28,13 @@ static NSString *const kSNMFeatureName = @"Analytics";
     _autoPageTrackingEnabled = YES;
 
     // Init session tracker.
-    _sessionTracker = [[SNMSessionTracker alloc] init];
+    _sessionTracker = [[MSSessionTracker alloc] init];
     _sessionTracker.delegate = self;
   }
   return self;
 }
 
-#pragma mark - SNMFeatureInternal
+#pragma mark - MSFeatureInternal
 
 + (instancetype)sharedInstance {
   static id sharedInstance = nil;
@@ -49,8 +49,8 @@ static NSString *const kSNMFeatureName = @"Analytics";
   [super startWithLogManager:logManager];
 
   // Set up swizzling for auto page tracking.
-  [SNMAnalyticsCategory activateCategory];
-  MSLogVerbose([SNMAnalytics getLoggerTag], @"Started analytics module");
+  [MSAnalyticsCategory activateCategory];
+  MSLogVerbose([MSAnalytics getLoggerTag], @"Started analytics module");
 }
 
 + (NSString *)getLoggerTag {
@@ -58,14 +58,14 @@ static NSString *const kSNMFeatureName = @"Analytics";
 }
 
 - (NSString *)storageKey {
-  return kSNMFeatureName;
+  return kMSFeatureName;
 }
 
 - (MSPriority)priority {
   return MSPriorityDefault;
 }
 
-#pragma mark - SNMFeatureAbstract
+#pragma mark - MSFeatureAbstract
 
 - (void)applyEnabledState:(BOOL)isEnabled {
   [super applyEnabledState:isEnabled];
@@ -82,8 +82,8 @@ static NSString *const kSNMFeatureName = @"Analytics";
 
       // Track on the main queue to avoid race condition with page swizzling.
       dispatch_async(dispatch_get_main_queue(), ^{
-        if ([[SNMAnalyticsCategory missedPageViewName] length] > 0) {
-          [[self class] trackPage:[SNMAnalyticsCategory missedPageViewName]];
+        if ([[MSAnalyticsCategory missedPageViewName] length] > 0) {
+          [[self class] trackPage:[MSAnalyticsCategory missedPageViewName]];
         }
       });
     }
@@ -139,7 +139,7 @@ static NSString *const kSNMFeatureName = @"Analytics";
     return;
 
   // Create and set properties of the event log
-  SNMEventLog *log = [[SNMEventLog alloc] init];
+  MSEventLog *log = [[MSEventLog alloc] init];
   log.name = eventName;
   log.eventId = kMSUUIDString;
   if (properties)
@@ -154,7 +154,7 @@ static NSString *const kSNMFeatureName = @"Analytics";
     return;
 
   // Create and set properties of the event log
-  SNMPageLog *log = [[SNMPageLog alloc] init];
+  MSPageLog *log = [[MSPageLog alloc] init];
   log.name = pageName;
   if (properties)
     log.properties = properties;
@@ -177,7 +177,7 @@ static NSString *const kSNMFeatureName = @"Analytics";
   [self.logManager processLog:log withPriority:priority];
 }
 
-#pragma mark - SNMSessionTracker
+#pragma mark - MSSessionTracker
 
 - (void)sessionTracker:(id)sessionTracker processLog:(id<MSLog>)log withPriority:(MSPriority)priority {
   [self sendLog:log withPriority:priority];

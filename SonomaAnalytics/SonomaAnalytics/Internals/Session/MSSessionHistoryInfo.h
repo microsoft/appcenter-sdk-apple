@@ -4,7 +4,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface SNMSessionHistoryInfo : NSObject <NSCoding>
+@interface MSSessionHistoryInfo : NSObject <NSCoding>
 
 /**
  *  Session Id.
