@@ -38,7 +38,7 @@
 		38D4BBA11D5A98D1001A30A0 /* MSFeature.h in Headers */ = {isa = PBXBuildFile; fileRef = 38D4BB9F1D5A98D1001A30A0 /* MSFeature.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E0684381D35A3B900A8CC6C /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E0684371D35A3B900A8CC6C /* OCHamcrestIOS.framework */; };
 		6E0684461D35A3C800A8CC6C /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E06843A1D35A3C800A8CC6C /* libOCMock.a */; };
-		6E06844D1D35A4CA00A8CC6C /* libSonomaCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E06844C1D35A4CA00A8CC6C /* libSonomaCore.a */; };
+		6E06844D1D35A4CA00A8CC6C /* libMobileCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E06844C1D35A4CA00A8CC6C /* libMobileCenter.a */; };
 		6E06845A1D35A5FD00A8CC6C /* libOHHTTPStubs.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E0684501D35A5FD00A8CC6C /* libOHHTTPStubs.a */; };
 		6E3E2CCB1D359D5E00B1EE50 /* MSEventLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E3E2CC51D359D5E00B1EE50 /* MSEventLog.h */; };
 		6E3E2CCC1D359D5E00B1EE50 /* MSEventLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3E2CC61D359D5E00B1EE50 /* MSEventLog.m */; };
@@ -98,8 +98,8 @@
 
 /* Begin PBXFileReference section */
 		3813B9641DBFE68200831214 /* MSAnalyticsInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAnalyticsInternal.h; sourceTree = "<group>"; };
-		387C77041D6CC39400D68CC1 /* MSFeatureAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSFeatureAbstract.h; path = ../SonomaCore/SonomaCore/MSFeatureAbstract.h; sourceTree = "<group>"; };
-		38D4BB9F1D5A98D1001A30A0 /* MSFeature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSFeature.h; path = ../SonomaCore/SonomaCore/MSFeature.h; sourceTree = "<group>"; };
+		387C77041D6CC39400D68CC1 /* MSFeatureAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSFeatureAbstract.h; path = ../MobileCenter/MobileCenter/MSFeatureAbstract.h; sourceTree = "<group>"; };
+		38D4BB9F1D5A98D1001A30A0 /* MSFeature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSFeature.h; path = ../MobileCenter/MobileCenter/MSFeature.h; sourceTree = "<group>"; };
 		6E0684371D35A3B900A8CC6C /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrestIOS.framework; path = ../../Vendor/OCHamcrest/OCHamcrestIOS.framework; sourceTree = "<group>"; };
 		6E06843A1D35A3C800A8CC6C /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOCMock.a; sourceTree = "<group>"; };
 		6E06843C1D35A3C800A8CC6C /* NSNotificationCenter+OCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNotificationCenter+OCMAdditions.h"; sourceTree = "<group>"; };
@@ -112,7 +112,7 @@
 		6E0684431D35A3C800A8CC6C /* OCMockObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMockObject.h; sourceTree = "<group>"; };
 		6E0684441D35A3C800A8CC6C /* OCMRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMRecorder.h; sourceTree = "<group>"; };
 		6E0684451D35A3C800A8CC6C /* OCMStubRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMStubRecorder.h; sourceTree = "<group>"; };
-		6E06844C1D35A4CA00A8CC6C /* libSonomaCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSonomaCore.a; path = "../../../../../Library/Developer/Xcode/DerivedData/AvalancheSDK-gjtjaobzkdgbqkdiexolxdrcgdjg/Build/Products/Debug-iphonesimulator/libSonomaCore.a"; sourceTree = "<group>"; };
+		6E06844C1D35A4CA00A8CC6C /* libMobileCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobileCenter.a; path = "../../../../../Library/Developer/Xcode/DerivedData/AvalancheSDK-gjtjaobzkdgbqkdiexolxdrcgdjg/Build/Products/Debug-iphonesimulator/libMobileCenter.a"; sourceTree = "<group>"; };
 		6E0684501D35A5FD00A8CC6C /* libOHHTTPStubs.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOHHTTPStubs.a; sourceTree = "<group>"; };
 		6E0684521D35A5FD00A8CC6C /* Compatibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Compatibility.h; sourceTree = "<group>"; };
 		6E0684531D35A5FD00A8CC6C /* NSURLRequest+HTTPBodyTesting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURLRequest+HTTPBodyTesting.h"; sourceTree = "<group>"; };
@@ -141,13 +141,13 @@
 		E85547C51D2D6253002DF6E2 /* MSAnalytics.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSAnalytics.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		E85547CC1D2D63EF002DF6E2 /* MobileCenterAnalytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MobileCenterAnalytics.h; sourceTree = "<group>"; };
 		E85547CE1D2D64F0002DF6E2 /* MSAnalyticsPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAnalyticsPrivate.h; sourceTree = "<group>"; };
-		E85547CF1D2D6521002DF6E2 /* MobileCenter+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "MobileCenter+Internal.h"; path = "../../../SonomaCore/SonomaCore/Internals/MobileCenter+Internal.h"; sourceTree = "<group>"; };
+		E85547CF1D2D6521002DF6E2 /* MobileCenter+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "MobileCenter+Internal.h"; path = "../../../MobileCenter/MobileCenter/Internals/MobileCenter+Internal.h"; sourceTree = "<group>"; };
 		E85547D51D2D6723002DF6E2 /* SonomaAnalytics.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SonomaAnalytics.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E85547D91D2D6723002DF6E2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E89B33E51D5A526D00FDE8FB /* MSSessionHistoryInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSSessionHistoryInfo.h; sourceTree = "<group>"; };
 		E89B33E61D5A526D00FDE8FB /* MSSessionHistoryInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSSessionHistoryInfo.m; sourceTree = "<group>"; };
 		E89B33EB1D5A8F3500FDE8FB /* MSSessionTrackerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSSessionTrackerDelegate.h; sourceTree = "<group>"; };
-		E8AEE97F1D596C8B00C0FF6C /* MSLogManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSLogManager.h; path = ../SonomaCore/SonomaCore/Internals/Channel/MSLogManager.h; sourceTree = "<group>"; };
+		E8AEE97F1D596C8B00C0FF6C /* MSLogManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSLogManager.h; path = ../MobileCenter/MobileCenter/Internals/Channel/MSLogManager.h; sourceTree = "<group>"; };
 		E8E48F9C1D515C3900A8C1B0 /* MSSessionTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSSessionTracker.h; sourceTree = "<group>"; };
 		E8E48F9D1D515C3900A8C1B0 /* MSSessionTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSSessionTracker.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		E8E48FA01D51670100A8C1B0 /* MSStartSessionLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSStartSessionLog.h; sourceTree = "<group>"; };
@@ -166,7 +166,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E06844D1D35A4CA00A8CC6C /* libSonomaCore.a in Frameworks */,
+				6E06844D1D35A4CA00A8CC6C /* libMobileCenter.a in Frameworks */,
 				6E0684461D35A3C800A8CC6C /* libOCMock.a in Frameworks */,
 				6E06845A1D35A5FD00A8CC6C /* libOHHTTPStubs.a in Frameworks */,
 				E85547DA1D2D6723002DF6E2 /* libSonomaAnalytics.a in Frameworks */,
@@ -180,7 +180,7 @@
 		6E0684361D35A39300A8CC6C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				6E06844C1D35A4CA00A8CC6C /* libSonomaCore.a */,
+				6E06844C1D35A4CA00A8CC6C /* libMobileCenter.a */,
 				6E06844F1D35A5FD00A8CC6C /* OHHTTPStubs */,
 				6E0684391D35A3C800A8CC6C /* OCMock */,
 				6E0684371D35A3B900A8CC6C /* OCHamcrestIOS.framework */,
@@ -643,7 +643,7 @@
 				PRODUCT_NAME = SonomaAnalytics;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../SonomaCore/SonomaCore\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/**";
 				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
 			};
 			name = Debug;
@@ -659,7 +659,7 @@
 				PRODUCT_NAME = SonomaAnalytics;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../SonomaCore/SonomaCore\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/**";
 				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
 			};
 			name = Release;
@@ -682,7 +682,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.sonoma.SonomaAnalyticsTests;
 				PRODUCT_NAME = SonomaAnalytics;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../SonomaCore/SonomaCore\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/**";
 			};
 			name = Debug;
 		};
@@ -704,7 +704,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.sonoma.SonomaAnalyticsTests;
 				PRODUCT_NAME = SonomaAnalytics;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../SonomaCore/SonomaCore\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/**";
 			};
 			name = Release;
 		};
@@ -729,7 +729,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				OTHER_CFLAGS = "";
 				PRODUCT_NAME = SonomaAnalytics;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../SonomaCore/SonomaCore\"";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"";
 				VALID_ARCHS = "";
 			};
 			name = Debug;
@@ -740,7 +740,7 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				OTHER_CFLAGS = "";
 				PRODUCT_NAME = SonomaAnalytics;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../SonomaCore/SonomaCore\"";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"";
 				VALID_ARCHS = "";
 			};
 			name = Release;

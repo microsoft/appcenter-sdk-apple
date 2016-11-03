@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6E04017D1D1CAC710051BCFA"
-               BuildableName = "SonomaCoreFramework"
-               BlueprintName = "SonomaCoreFramework"
-               ReferencedContainer = "container:SonomaCore.xcodeproj">
+               BuildableName = "MobileCenterFramework"
+               BlueprintName = "MobileCenterFramework"
+               ReferencedContainer = "container:MobileCenter.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -46,9 +46,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6E04017D1D1CAC710051BCFA"
-            BuildableName = "SonomaCoreFramework"
-            BlueprintName = "SonomaCoreFramework"
-            ReferencedContainer = "container:SonomaCore.xcodeproj">
+            BuildableName = "MobileCenterFramework"
+            BlueprintName = "MobileCenterFramework"
+            ReferencedContainer = "container:MobileCenter.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -64,9 +64,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6E04017D1D1CAC710051BCFA"
-            BuildableName = "SonomaCoreFramework"
-            BlueprintName = "SonomaCoreFramework"
-            ReferencedContainer = "container:SonomaCore.xcodeproj">
+            BuildableName = "MobileCenterFramework"
+            BlueprintName = "MobileCenterFramework"
+            ReferencedContainer = "container:MobileCenter.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

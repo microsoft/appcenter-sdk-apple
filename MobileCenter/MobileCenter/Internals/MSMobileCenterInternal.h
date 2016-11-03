@@ -10,7 +10,7 @@
 
 // Persisted storage keys.
 static NSString *const kMSInstallIdKey = @"kMSInstallIdKey";
-static NSString *const kMSCoreIsEnabledKey = @"kMSCoreIsEnabledKey";
+static NSString *const kMSMobileCenterIsEnabledKey = @"kMSMobileCenterIsEnabledKey";
 
 @class MSFeature;
 

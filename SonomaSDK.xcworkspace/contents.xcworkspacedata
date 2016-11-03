@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:SonomaCore/SonomaCore.xcodeproj">
+      location = "group:MobileCenter/MobileCenter.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:SonomaAnalytics/SonomaAnalytics.xcodeproj">

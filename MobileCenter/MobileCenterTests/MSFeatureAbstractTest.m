@@ -72,7 +72,7 @@
 
   // Clean storage.
   [(MSUserDefaults *)self.settingsMock removeObjectForKey:self.abstractFeature.isEnabledKey];
-  [(MSUserDefaults *)self.settingsMock removeObjectForKey:kMSCoreIsEnabledKey];
+  [(MSUserDefaults *)self.settingsMock removeObjectForKey:kMSMobileCenterIsEnabledKey];
 }
 
 - (void)tearDown {
@@ -178,7 +178,7 @@
 - (void)testFeatureDisabledOnCoreDisabled {
 
   // If
-  [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:kMSCoreIsEnabledKey];
+  [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:kMSMobileCenterIsEnabledKey];
   [MSMobileCenter start:[[NSUUID UUID] UUIDString] withFeatures:@[ [MSFeatureAbstractImplementation class] ]];
 
   // When
@@ -191,7 +191,7 @@
 - (void)testEnableFeatureOnCoreDisabled {
 
   // If
-  [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:kMSCoreIsEnabledKey];
+  [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:kMSMobileCenterIsEnabledKey];
   [MSMobileCenter start:[[NSUUID UUID] UUIDString] withFeatures:@[ [MSFeatureAbstractImplementation class] ]];
   [MSMobileCenter setEnabled:NO];
 

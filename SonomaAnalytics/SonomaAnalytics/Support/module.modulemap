@@ -5,4 +5,5 @@ framework module SonomaAnalytics {
   module * { export * }
   
   link framework "Foundation"
+  link framework "CoreTelephony"
 }
