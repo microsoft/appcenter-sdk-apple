@@ -1,5 +1,5 @@
 framework module SonomaCore {
-  umbrella header "SonomaCore.h"
+  umbrella header "MobileCenter.h"
   
   export *
   module * { export * }

@@ -1,15 +1,15 @@
 #import "AppDelegate.h"
 #import "Constants.h"
-#import "SonomaAnalytics.h"
-#import "SonomaCore.h"
-#import "SonomaCrashes.h"
-#import "SNMCrashesDelegate.h"
+#import "MobileCenterAnalytics.h"
+#import "MobileCenter.h"
+#import "MobileCenterCrashes.h"
+#import "MSCrashesDelegate.h"
 
-#import "SNMErrorAttachment.h"
-#import "SNMErrorBinaryAttachment.h"
-#import "SNMErrorReport.h"
+#import "MSErrorAttachment.h"
+#import "MSErrorBinaryAttachment.h"
+#import "MSErrorReport.h"
 
-@interface AppDelegate () <SNMCrashesDelegate>
+@interface AppDelegate () <MSCrashesDelegate>
 
 @end
 
@@ -18,14 +18,14 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
   // Start Sonoma SDK.
-  [SNMSonoma setLogLevel:SNMLogLevelVerbose];
+  [MSMobileCenter setLogLevel:MSLogLevelVerbose];
 
-  [SNMSonoma start:@"7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7" withFeatures:@[[SNMAnalytics class], [SNMCrashes class]]];
+  [MSMobileCenter start:@"7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7" withFeatures:@[[MSAnalytics class], [MSCrashes class]]];
 
-  if ([SNMCrashes hasCrashedInLastSession]) {
-    SNMErrorReport *errorReport = [SNMCrashes lastSessionCrashReport];
+  if ([MSCrashes hasCrashedInLastSession]) {
+    MSErrorReport *errorReport = [MSCrashes lastSessionCrashReport];
     NSLog(@"We crashed with Signal: %@", errorReport.signal);
-    SNMDevice *device = [errorReport device];
+    MSDevice *device = [errorReport device];
     NSString *osVersion = [device osVersion];
     NSString *appVersion = [device appVersion];
     NSString *appBuild = [device appBuild];
@@ -34,8 +34,8 @@
     NSLog(@"App Build is: %@", appBuild);
   }
 
-  [SNMCrashes setDelegate:self];
-  [SNMCrashes setUserConfirmationHandler:(^(NSArray<SNMErrorReport *> *errorReports) {
+  [MSCrashes setDelegate:self];
+  [MSCrashes setUserConfirmationHandler:(^(NSArray<MSErrorReport *> *errorReports) {
 
     [[[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"crash_alert_title", @"Main", @"")
                                 message:NSLocalizedStringFromTable(@"crash_alert_message", @"Main", @"")
@@ -49,7 +49,7 @@
   })];
 
   // Print the install Id.
-  NSLog(@"%@ Install Id: %@", kPUPLogTag, [[SNMSonoma installId] UUIDString]);
+  NSLog(@"%@ Install Id: %@", kPUPLogTag, [[MSMobileCenter installId] UUIDString]);
   return YES;
 }
 
@@ -87,38 +87,38 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
   switch (buttonIndex) {
-  case 0:[SNMCrashes notifyWithUserConfirmation:SNMUserConfirmationDontSend];
+  case 0:[MSCrashes notifyWithUserConfirmation:MSUserConfirmationDontSend];
     break;
-  case 1:[SNMCrashes notifyWithUserConfirmation:SNMUserConfirmationAlways];
+  case 1:[MSCrashes notifyWithUserConfirmation:MSUserConfirmationAlways];
     break;
-  case 2:[SNMCrashes notifyWithUserConfirmation:SNMUserConfirmationSend];
+  case 2:[MSCrashes notifyWithUserConfirmation:MSUserConfirmationSend];
     break;
   }
 }
 
-#pragma mark - SNMCrashesDelegate
+#pragma mark - MSCrashesDelegate
 
-- (BOOL)crashes:(SNMCrashes *)crashes shouldProcessErrorReport:(SNMErrorReport *)errorReport {
+- (BOOL)crashes:(MSCrashes *)crashes shouldProcessErrorReport:(MSErrorReport *)errorReport {
   NSLog(@"Should process error report with: %@", errorReport.exceptionReason);
   return YES;
 }
 
-- (SNMErrorAttachment *)attachmentWithCrashes:(SNMCrashes *)crashes forErrorReport:(SNMErrorReport *)errorReport {
+- (MSErrorAttachment *)attachmentWithCrashes:(MSCrashes *)crashes forErrorReport:(MSErrorReport *)errorReport {
   NSLog(@"Attach additional information to error report with: %@", errorReport.exceptionReason);
-  return [SNMErrorAttachment attachmentWithText:@"Text Attachment"
+  return [MSErrorAttachment attachmentWithText:@"Text Attachment"
                                   andBinaryData:[@"Hello World" dataUsingEncoding:NSUTF8StringEncoding]
                                        filename:@"binary.txt" mimeType:@"text/plain"];
 }
 
-- (void)crashes:(SNMCrashes *)crashes willSendErrorReport:(SNMErrorReport *)errorReport {
+- (void)crashes:(MSCrashes *)crashes willSendErrorReport:(MSErrorReport *)errorReport {
   NSLog(@"Will send error report with: %@", errorReport.exceptionReason);
 }
 
-- (void)crashes:(SNMCrashes *)crashes didSucceedSendingErrorReport:(SNMErrorReport *)errorReport {
+- (void)crashes:(MSCrashes *)crashes didSucceedSendingErrorReport:(MSErrorReport *)errorReport {
   NSLog(@"Did succeed error report sending with: %@", errorReport.exceptionReason);
 }
 
-- (void)crashes:(SNMCrashes *)crashes didFailSendingErrorReport:(SNMErrorReport *)errorReport withError:(NSError *)error {
+- (void)crashes:(MSCrashes *)crashes didFailSendingErrorReport:(MSErrorReport *)errorReport withError:(NSError *)error {
   NSLog(@"Did fail sending report with: %@, and error %@",
         errorReport.exceptionReason,
         error.localizedDescription);
