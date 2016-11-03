@@ -1,10 +1,10 @@
 Pod::Spec.new do |s|
-  s.name              = 'Sonoma'
+  s.name              = 'MobileCenter'
   s.version           = '0.1.4'
 
-  s.summary           = 'Sonoma for iOS.'
+  s.summary           = 'Mobile Center SDK for iOS.'
   s.description       = <<-DESC
-                       This is Sonoma for iOS. We are awesome.
+                       This is the Mobile Center SDK for iOS.
 
                         DESC
 
@@ -16,28 +16,28 @@ Pod::Spec.new do |s|
 
   s.platform          = :ios, '8.0'  
   s.source = { :http => "https://s3.amazonaws.com/hockey-app-download/sonoma/ios/SonomaSDK-iOS-0.1.4.zip" }
-  s.preserve_path = 'SonomaSDK-iOS-0.1.4/LICENSE'
+  s.preserve_path = 'MobileCenter-SDK-iOS/LICENSE'
 
   s.frameworks = 'Foundation',  'SystemConfiguration', 'UIKit'
 
-  s.default_subspecs = 'SonomaAnalytics', 'SonomaCrashes'
+  s.default_subspecs = 'Analytics', 'Crashes'
 
-  s.subspec 'SonomaCore' do |ss|
+  s.subspec 'MobileCenter' do |ss|
       ss.frameworks = 'Foundation',  'SystemConfiguration', 'UIKit'
-      ss.vendored_frameworks = 'SonomaSDK-iOS-0.1.4/SonomaCore.framework'
+      ss.vendored_frameworks = 'MobileCenter-SDK-iOS/MobileCenter.framework'
   end
 
- s.subspec 'SonomaAnalytics' do |ss|
+ s.subspec 'MobileCenterAnalytics' do |ss|
       ss.frameworks = 'CoreTelephony', Foundation',  'UIKit'
-      ss.dependency 'Sonoma/SonomaCore'
-      ss.vendored_frameworks = 'SonomaSDK-iOS-0.1.4/SonomaAnalytics.framework'
+      ss.dependency 'MobileCenter/MobileCenter'
+      ss.vendored_frameworks = 'MobileCenter-SDK-iOS/MobileCenterAnalytics.framework'
   end
 
-  s.subspec 'SonomaCrashes' do |ss|
+  s.subspec 'MobileCenterCrashes' do |ss|
       ss.frameworks = 'Foundation', 'UIKit'
       ss.libraries = 'z', 'c++'
-      ss.dependency 'Sonoma/SonomaCore'
-      ss.vendored_frameworks = 'SonomaSDK-iOS-0.1.4/SonomaCrashes.framework'
+      ss.dependency 'MobileCenter/MobileCenter'
+      ss.vendored_frameworks = 'MobileCenter-SDK-iOS/MobileCenterCrashes.framework'
   end
 
 
