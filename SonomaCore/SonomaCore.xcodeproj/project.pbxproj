@@ -192,10 +192,8 @@
 		6E0401551D1C9AAA0051BCFA /* MSMobileCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSMobileCenter.h; sourceTree = "<group>"; };
 		6E0401561D1C9AAA0051BCFA /* MSMobileCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSMobileCenter.m; sourceTree = "<group>"; };
 		6E0401581D1C9CFB0051BCFA /* MobileCenter+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MobileCenter+Internal.h"; sourceTree = "<group>"; };
-		6E0401831D1CAD810051BCFA /* buildnumber.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = buildnumber.xcconfig; sourceTree = "<group>"; };
 		6E0401841D1CAD810051BCFA /* SonomaCore.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = SonomaCore.xcconfig; sourceTree = "<group>"; };
 		6E0401851D1CAD810051BCFA /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
-		6E0401861D1CAD810051BCFA /* release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = release.xcconfig; sourceTree = "<group>"; };
 		6E0684611D36BC8D00A8CC6C /* MSChannelDefault.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MSChannelDefault.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		6E0684621D36BC8D00A8CC6C /* MSChannelDefault.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSChannelDefault.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		6E0684651D36BCD500A8CC6C /* MSChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MSChannel.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -399,10 +397,8 @@
 		6E0401821D1CAD810051BCFA /* Support */ = {
 			isa = PBXGroup;
 			children = (
-				6E0401831D1CAD810051BCFA /* buildnumber.xcconfig */,
-				6E0401841D1CAD810051BCFA /* SonomaCore.xcconfig */,
 				6E0401851D1CAD810051BCFA /* module.modulemap */,
-				6E0401861D1CAD810051BCFA /* release.xcconfig */,
+				6E0401841D1CAD810051BCFA /* SonomaCore.xcconfig */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -868,7 +864,7 @@
 /* Begin XCBuildConfiguration section */
 		6E04010A1D1C98220051BCFA /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6E0401831D1CAD810051BCFA /* buildnumber.xcconfig */;
+			baseConfigurationReference = 6E0401841D1CAD810051BCFA /* SonomaCore.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(MS_ARM_ARCHS)";
@@ -916,7 +912,7 @@
 		};
 		6E04010B1D1C98220051BCFA /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6E0401861D1CAD810051BCFA /* release.xcconfig */;
+			baseConfigurationReference = 6E0401841D1CAD810051BCFA /* SonomaCore.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;

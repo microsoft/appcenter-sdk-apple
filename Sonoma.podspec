@@ -34,7 +34,7 @@ Pod::Spec.new do |s|
   end
 
   s.subspec 'SonomaCrashes' do |ss|
-      ss.frameworks = 'Foundation'
+      ss.frameworks = 'Foundation', 'UIKit'
       ss.libraries = 'z', 'c++'
       ss.dependency 'Sonoma/SonomaCore'
       ss.vendored_frameworks = 'SonomaSDK-iOS-0.1.4/SonomaCrashes.framework'
