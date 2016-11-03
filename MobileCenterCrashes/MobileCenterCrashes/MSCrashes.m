@@ -20,7 +20,7 @@ static NSString *const kMSAnalyzerFilename = @"MSCrashes.analyzer";
 #pragma mark - Callbacks Setup
 
 static MSCrashesCallbacks msCrashesCallbacks = {.context = NULL, .handleSignal = NULL};
-static NSString *const kMSUserConfirmationKey = @"kMSUserConfirmationKey";
+static NSString *const kMSUserConfirmationKey = @"MSUserConfirmation";
 
 /** Proxy implementation for PLCrashReporter to keep our interface stable while
  *  this can change.
