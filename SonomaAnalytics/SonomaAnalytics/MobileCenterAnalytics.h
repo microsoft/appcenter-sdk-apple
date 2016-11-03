@@ -4,4 +4,4 @@
 
 #import <Foundation/Foundation.h>
 
-#import "SNMAnalytics.h"
+#import "MSAnalytics.h"

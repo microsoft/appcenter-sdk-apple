@@ -5,7 +5,7 @@
 #import "MobileCenter+Internal.h"
 #import <Foundation/Foundation.h>
 
-@protocol SNMSessionTrackerDelegate <NSObject>
+@protocol MSSessionTrackerDelegate <NSObject>
 
 @required
 

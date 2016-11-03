@@ -1,6 +1,6 @@
 #import "AppDelegate.h"
 #import "Constants.h"
-#import "SonomaAnalytics.h"
+#import "MobileCenterAnalytics.h"
 #import "MobileCenter.h"
 #import "MobileCenterCrashes.h"
 #import "MSCrashesDelegate.h"
@@ -20,7 +20,7 @@
   // Start Sonoma SDK.
   [MSMobileCenter setLogLevel:MSLogLevelVerbose];
 
-  [MSMobileCenter start:@"7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7" withFeatures:@[[SNMAnalytics class], [MSCrashes class]]];
+  [MSMobileCenter start:@"7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7" withFeatures:@[[MSAnalytics class], [MSCrashes class]]];
 
   if ([MSCrashes hasCrashedInLastSession]) {
     MSErrorReport *errorReport = [MSCrashes lastSessionCrashReport];
@@ -96,7 +96,7 @@
   }
 }
 
-#pragma mark - SNMCrashesDelegate
+#pragma mark - MSCrashesDelegate
 
 - (BOOL)crashes:(MSCrashes *)crashes shouldProcessErrorReport:(MSErrorReport *)errorReport {
   NSLog(@"Should process error report with: %@", errorReport.exceptionReason);

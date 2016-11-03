@@ -2,24 +2,37 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "SNMStartSessionLog.h"
+#import "MSPageLog.h"
 
-static NSString *const kSNMTypeEndSession = @"start_session";
+static NSString *const kMSTypePage = @"page";
 
-@implementation SNMStartSessionLog
+static NSString *const kMSName = @"name";
+
+@implementation MSPageLog
 
 @synthesize type = _type;
 
 - (instancetype)init {
   if (self = [super init]) {
-    _type = kSNMTypeEndSession;
+    _type = kMSTypePage;
   }
   return self;
 }
 
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [super serializeToDictionary];
+
+  if (self.name) {
+    dict[kMSName] = self.name;
+  }
   return dict;
+}
+
+- (BOOL)isValid {
+  if (!self.name)
+    return NO;
+
+  return [super isValid];
 }
 
 #pragma mark - NSCoding
@@ -28,13 +41,16 @@ static NSString *const kSNMTypeEndSession = @"start_session";
   self = [super initWithCoder:coder];
   if (self) {
     _type = [coder decodeObjectForKey:kMSType];
+    _name = [coder decodeObjectForKey:kMSName];
   }
+
   return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
   [coder encodeObject:self.type forKey:kMSType];
+  [coder encodeObject:self.name forKey:kMSName];
 }
 
 @end

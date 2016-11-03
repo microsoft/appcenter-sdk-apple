@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SNMMainViewController : UITableViewController
+@interface MSAnalyticsViewController : UITableViewController
 
 @end

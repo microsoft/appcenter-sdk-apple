@@ -5,6 +5,6 @@
 #import "MobileCenter+Internal.h"
 #import <Foundation/Foundation.h>
 
-@interface SNMStartSessionLog : MSAbstractLog
+@interface MSStartSessionLog : MSAbstractLog
 
 @end

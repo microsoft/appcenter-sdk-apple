@@ -8,7 +8,7 @@
 /**
  *  Sonoma analytics feature.
  */
-@interface SNMAnalytics : MSFeatureAbstract
+@interface MSAnalytics : MSFeatureAbstract
 
 /**
  *  Track an event.

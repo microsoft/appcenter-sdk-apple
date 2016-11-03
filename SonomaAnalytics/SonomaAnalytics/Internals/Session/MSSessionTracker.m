@@ -2,17 +2,15 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "SNMAnalyticsInternal.h"
-#import "SNMSessionTracker.h"
-#import "SNMStartSessionLog.h"
+#import "MSAnalyticsInternal.h"
+#import "MSSessionTracker.h"
+#import "MSStartSessionLog.h"
 
-static NSTimeInterval const kSNMSessionTimeOut = 20;
-static NSString *const kSNMPastSessionsKey = @"kSNMPastSessionsKey";
-static NSString *const kSNMLastEnteredBackgroundKey = @"kSNMLastEnteredBackgroundKey";
-static NSString *const kSNMLastEnteredForegroundTime = @"kSNMLastEnteredForegroundTime";
-static NSUInteger const kSNMMaxSessionHistoryCount = 5;
+static NSTimeInterval const kMSSessionTimeOut = 20;
+static NSString *const kMSPastSessionsKey = @"pastSessionsKey";
+static NSUInteger const kMSMaxSessionHistoryCount = 5;
 
-@interface SNMSessionTracker ()
+@interface MSSessionTracker ()
 
 /**
  * Current session id.
@@ -33,14 +31,14 @@ static NSUInteger const kSNMMaxSessionHistoryCount = 5;
 
 @end
 
-@implementation SNMSessionTracker
+@implementation MSSessionTracker
 
 - (instancetype)init {
   if (self = [super init]) {
-    _sessionTimeout = kSNMSessionTimeOut;
+    _sessionTimeout = kMSSessionTimeOut;
 
     // Restore past sessions from NSUserDefaults.
-    NSData *sessions = [kMSUserDefaults objectForKey:kSNMPastSessionsKey];
+    NSData *sessions = [kMSUserDefaults objectForKey:kMSPastSessionsKey];
     if (sessions != nil) {
       NSArray *arrayFromData = [NSKeyedUnarchiver unarchiveObjectWithData:sessions];
 
@@ -51,7 +49,7 @@ static NSUInteger const kSNMMaxSessionHistoryCount = 5;
 
     // Create new array.
     if (_pastSessions == nil)
-      _pastSessions = [NSMutableArray<SNMSessionHistoryInfo *> new];
+      _pastSessions = [NSMutableArray<MSSessionHistoryInfo *> new];
 
     // Session tracking is not started by default.
     _started = NO;
@@ -67,7 +65,7 @@ static NSUInteger const kSNMMaxSessionHistoryCount = 5;
       _sessionId = kMSUUIDString;
 
       // Record session.
-      SNMSessionHistoryInfo *sessionInfo = [[SNMSessionHistoryInfo alloc] init];
+      MSSessionHistoryInfo *sessionInfo = [[MSSessionHistoryInfo alloc] init];
       sessionInfo.sessionId = _sessionId;
       sessionInfo.toffset = [NSNumber numberWithInteger:[[NSDate date] timeIntervalSince1970]];
 
@@ -75,16 +73,16 @@ static NSUInteger const kSNMMaxSessionHistoryCount = 5;
       [self.pastSessions insertObject:sessionInfo atIndex:0];
 
       // Remove last item if reached max limit.
-      if ([self.pastSessions count] > kSNMMaxSessionHistoryCount)
+      if ([self.pastSessions count] > kMSMaxSessionHistoryCount)
         [self.pastSessions removeLastObject];
 
       // Persist the session history in NSData format.
       [kMSUserDefaults setObject:[NSKeyedArchiver archivedDataWithRootObject:self.pastSessions]
-                           forKey:kSNMPastSessionsKey];
-      MSLogInfo([SNMAnalytics getLoggerTag], @"New session ID: %@", _sessionId);
+                           forKey:kMSPastSessionsKey];
+      MSLogInfo([MSAnalytics getLoggerTag], @"New session ID: %@", _sessionId);
 
       // Create a start session log.
-      SNMStartSessionLog *log = [[SNMStartSessionLog alloc] init];
+      MSStartSessionLog *log = [[MSStartSessionLog alloc] init];
       log.sid = _sessionId;
       [self.delegate sessionTracker:self processLog:log withPriority:MSPriorityDefault];
     }
@@ -124,7 +122,7 @@ static NSUInteger const kSNMMaxSessionHistoryCount = 5;
   @synchronized(self) {
 
     // Clear persistence.
-    [kMSUserDefaults removeObjectForKey:kSNMPastSessionsKey];
+    [kMSUserDefaults removeObjectForKey:kMSPastSessionsKey];
 
     // Clear cache.
     self.sessionId = nil;
@@ -178,13 +176,13 @@ static NSUInteger const kSNMMaxSessionHistoryCount = 5;
   _lastCreatedLogTime = [NSDate date];
 
   // Start session log is created in this method, therefore, skip in order to avoid infinite loop.
-  if ([((NSObject *)log) isKindOfClass:[SNMStartSessionLog class]])
+  if ([((NSObject *)log) isKindOfClass:[MSStartSessionLog class]])
     return;
 
   // Attach corresponding session id.
   if (log.toffset != nil) {
     [self.pastSessions
-        enumerateObjectsUsingBlock:^(SNMSessionHistoryInfo *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
+        enumerateObjectsUsingBlock:^(MSSessionHistoryInfo *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
           if ([log.toffset compare:obj.toffset] == NSOrderedDescending) {
             log.sid = obj.sessionId;
             *stop = YES;

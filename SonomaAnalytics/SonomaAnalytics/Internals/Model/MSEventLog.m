@@ -2,19 +2,20 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "SNMPageLog.h"
+#import "MSEventLog.h"
 
-static NSString *const kSNMTypePage = @"page";
+static NSString *const kMSTypeEvent = @"event";
 
-static NSString *const kSNMName = @"name";
+static NSString *const kMSId = @"id";
+static NSString *const kMSName = @"name";
 
-@implementation SNMPageLog
+@implementation MSEventLog
 
 @synthesize type = _type;
 
 - (instancetype)init {
   if (self = [super init]) {
-    _type = kSNMTypePage;
+    _type = kMSTypeEvent;
   }
   return self;
 }
@@ -22,17 +23,13 @@ static NSString *const kSNMName = @"name";
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [super serializeToDictionary];
 
+  if (self.eventId) {
+    dict[kMSId] = self.eventId;
+  }
   if (self.name) {
-    dict[kSNMName] = self.name;
+    dict[kMSName] = self.name;
   }
   return dict;
-}
-
-- (BOOL)isValid {
-  if (!self.name)
-    return NO;
-
-  return [super isValid];
 }
 
 #pragma mark - NSCoding
@@ -41,7 +38,8 @@ static NSString *const kSNMName = @"name";
   self = [super initWithCoder:coder];
   if (self) {
     _type = [coder decodeObjectForKey:kMSType];
-    _name = [coder decodeObjectForKey:kSNMName];
+    _eventId = [coder decodeObjectForKey:kMSId];
+    _name = [coder decodeObjectForKey:kMSName];
   }
 
   return self;
@@ -50,7 +48,8 @@ static NSString *const kSNMName = @"name";
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
   [coder encodeObject:self.type forKey:kMSType];
-  [coder encodeObject:self.name forKey:kSNMName];
+  [coder encodeObject:self.eventId forKey:kMSId];
+  [coder encodeObject:self.name forKey:kMSName];
 }
 
 @end

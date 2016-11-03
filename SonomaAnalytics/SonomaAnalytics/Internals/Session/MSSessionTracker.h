@@ -2,17 +2,17 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "SNMSessionHistoryInfo.h"
-#import "SNMSessionTrackerDelegate.h"
+#import "MSSessionHistoryInfo.h"
+#import "MSSessionTrackerDelegate.h"
 #import "MobileCenter+Internal.h"
 #import <Foundation/Foundation.h>
 
-@interface SNMSessionTracker : NSObject <MSLogManagerDelegate>
+@interface MSSessionTracker : NSObject <MSLogManagerDelegate>
 
 /**
  *  Session tracker delegate.
  */
-@property(nonatomic) id<SNMSessionTrackerDelegate> delegate;
+@property(nonatomic) id<MSSessionTrackerDelegate> delegate;
 
 /**
  * Current session id.
@@ -42,7 +42,7 @@
 /**
  *  Sorted array of session histories.
  */
-@property(nonatomic) NSMutableArray<SNMSessionHistoryInfo *> *pastSessions;
+@property(nonatomic) NSMutableArray<MSSessionHistoryInfo *> *pastSessions;
 
 /**
  *  Start session tracking.

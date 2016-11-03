@@ -17,7 +17,7 @@
   // Start Sonoma SDK
   [MSMobileCenter setLogLevel:MSLogLevelVerbose];
   [MSMobileCenter setServerUrl:@"http://in-integration.dev.avalanch.es:8081"];
-  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withFeatures:@[[SNMAnalytics class], [MSCrashes class]]];
+  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withFeatures:@[[MSAnalytics class], [MSCrashes class]]];
   [MSCrashes setDelegate:self];
 
   // Print the install Id.
@@ -55,7 +55,7 @@
   // applicationDidEnterBackground:.
 }
 
-#pragma mark - SNMCrashesDelegate
+#pragma mark - MSCrashesDelegate
 
 - (BOOL)crashes:(MSCrashes *)crashes shouldProcessErrorReport:(MSErrorReport *)errorReport {
   return YES;
