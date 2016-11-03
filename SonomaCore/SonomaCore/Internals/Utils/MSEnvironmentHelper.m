@@ -8,14 +8,14 @@
 
 //TODO add test for this
 
-+ (SNMEnvironment)currentAppEnvironment {
++ (MSEnvironment)currentAppEnvironment {
 #if TARGET_OS_SIMULATOR
-  return SMEnvironmentOther;
+  return MSEnvironmentOther;
 #else
 
   // MobilePovision profiles are a clear indicator for Ad-Hoc distribution.
   if ([self hasEmbeddedMobileProvision]) {
-    return SMEnvironmentOther;
+    return MSEnvironmentOther;
   }
 
   /**
@@ -23,10 +23,10 @@
    * checks for floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1).
   */
   if ([self isAppStoreReceiptSandbox]) {
-    return SNMEnvironmentTestFlight;
+    return MSEnvironmentTestFlight;
   }
 
-  return SNMEnvironmentAppStore;
+  return MSEnvironmentAppStore;
 #endif
 }
 

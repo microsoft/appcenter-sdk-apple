@@ -35,7 +35,7 @@
 }
 
 - (NSString *)storageKey {
-  return @"SNMFeatureAbstractImplementation";
+  return @"MSFeatureAbstractImplementation";
 }
 
 - (MSPriority)priority {
@@ -120,7 +120,7 @@
   __block NSNumber *isEnabled;
   BOOL expected = NO;
 
-  // Mock SNMSettings and swizzle its setObject:forKey: method to check what's sent by the sut to the persistence.
+  // Mock MSSettings and swizzle its setObject:forKey: method to check what's sent by the sut to the persistence.
   OCMStub([self.settingsMock objectForKey:[OCMArg any]]).andReturn([NSNumber numberWithBool:YES]);
   OCMStub([self.settingsMock setObject:[OCMArg any] forKey:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
     [invocation getArgument:&isEnabled atIndex:2];

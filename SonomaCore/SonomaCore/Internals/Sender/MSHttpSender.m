@@ -15,9 +15,10 @@ static NSString *const kMSApiPath = @"/logs";
 
 @implementation MSHttpSender
 
-#pragma mark - SNMSender
 @synthesize reachability = _reachability;
 @synthesize suspended = _suspended;
+
+#pragma mark - MSMSender
 
 - (id)initWithBaseUrl:(NSString *)baseUrl
               headers:(NSDictionary *)headers

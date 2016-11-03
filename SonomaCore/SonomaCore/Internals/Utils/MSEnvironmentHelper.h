@@ -7,20 +7,20 @@
 /**
  *  App environment
  */
-typedef NS_ENUM(NSInteger, SNMEnvironment) {
+typedef NS_ENUM(NSInteger, MSEnvironment) {
   /**
    *  App has been downloaded from the AppStore.
    */
-  SNMEnvironmentAppStore = 0,
+  MSEnvironmentAppStore = 0,
   /**
    *  App has been downloaded from TestFlight.
    */
-  SNMEnvironmentTestFlight = 1,
+  MSEnvironmentTestFlight = 1,
   /**
    *  App has been installed by some other mechanism.
    *  This could be Ad-Hoc, Enterprise, etc.
    */
-  SMEnvironmentOther = 99
+  MSEnvironmentOther = 99
 };
 
 /**
@@ -31,8 +31,8 @@ typedef NS_ENUM(NSInteger, SNMEnvironment) {
 
 /**
  * Detect the environment that the app is running in.
- * @return the SNMEnvironment of the app.
+ * @return the MSEnvironment of the app.
  */
-+ (SNMEnvironment)currentAppEnvironment;
++ (MSEnvironment)currentAppEnvironment;
 
 @end

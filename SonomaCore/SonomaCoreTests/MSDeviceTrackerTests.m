@@ -1,7 +1,7 @@
 #import "MSDevice.h"
 #import "MSDevicePrivate.h"
 #import "MSDeviceTracker.h"
-#import "SNMDeviceTrackerPrivate.h"
+#import "MSDeviceTrackerPrivate.h"
 #import "MSWrapperSdkPrivate.h"
 #import <CoreTelephony/CTCarrier.h>
 #import <Foundation/Foundation.h>
@@ -9,7 +9,7 @@
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
-static NSString *const kSNMDeviceManufacturerTest = @"Apple";
+static NSString *const kMSDeviceManufacturerTest = @"Apple";
 
 @interface MSDeviceTrackerTests : XCTestCase
 
@@ -38,7 +38,7 @@ static NSString *const kSNMDeviceManufacturerTest = @"Apple";
   assertThat(self.deviceTracker.device.model, notNilValue());
   assertThatInteger([self.deviceTracker.device.model length], greaterThan(@(0)));
 
-  assertThat(self.deviceTracker.device.oemName, is(kSNMDeviceManufacturerTest));
+  assertThat(self.deviceTracker.device.oemName, is(kMSDeviceManufacturerTest));
 
   assertThat(self.deviceTracker.device.osName, notNilValue());
   assertThatInteger([self.deviceTracker.device.osName length], greaterThan(@(0)));

@@ -1,12 +1,12 @@
 #import "MSMockLog.h"
 
-static NSString *const kSNMTypeMockLog = @"mockLog";
+static NSString *const kMSTypeMockLog = @"mockLog";
 
 @implementation MSMockLog
 
 - (instancetype)init {
   if (self = [super init]) {
-    self.type = kSNMTypeMockLog;
+    self.type = kMSTypeMockLog;
   }
   return self;
 }

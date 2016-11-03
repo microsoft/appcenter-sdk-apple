@@ -7,13 +7,13 @@
 #import "MSDevicePrivate.h"
 #import "MSWrapperSdkPrivate.h"
 
-@interface SNMDeviceTests : XCTestCase
+@interface MSDeviceTests : XCTestCase
 
 @property(nonatomic, strong) MSDevice *sut;
 
 @end
 
-@implementation SNMDeviceTests
+@implementation MSDeviceTests
 
 @synthesize sut = _sut;
 

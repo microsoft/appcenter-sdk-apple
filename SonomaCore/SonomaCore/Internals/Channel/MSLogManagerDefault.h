@@ -26,13 +26,13 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MSLogManagerDefault : NSObject <MSLogManager>
 
 /**
- * Initializes a new `SNMLogManager` instance.
+ * Initializes a new `MSLogManager` instance.
  *
  * @param sender A sender instance that is used to send batches of log items to
  * the backend.
  * @param storage A storage instance to store and read enqueued log items.
  *
- * @return A new `SNMLogManager` instance.
+ * @return A new `MSLogManager` instance.
  */
 - (instancetype)initWithSender:(id<MSSender>)sender storage:(id<MSStorage>)storage;
 

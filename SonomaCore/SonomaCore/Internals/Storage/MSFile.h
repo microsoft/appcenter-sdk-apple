@@ -27,13 +27,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy) NSString *filePath;
 
 /**
- * Returns a new `SNMFile` instance with a given file id and creation date.
+ * Returns a new `MSFile` instance with a given file id and creation date.
  *
  * @param filePath the path to the file
  * @param fileId a unique file identifier
  * @param creationDate the creation date of the file
  *
- * @return a new `SNMFile` instance
+ * @return a new `MSFile` instance
  */
 - (instancetype)initWithPath:(NSString *)filePath fileId:(NSString *)fileId creationDate:(NSDate *)creationDate;
 

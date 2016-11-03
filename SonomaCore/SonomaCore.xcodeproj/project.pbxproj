@@ -41,7 +41,7 @@
 		381C91E91D3DB65D004512F1 /* MSDeviceTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 381C91E51D3DB65D004512F1 /* MSDeviceTracker.h */; };
 		381C91EA1D3DB65D004512F1 /* MSDeviceTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 381C91E61D3DB65D004512F1 /* MSDeviceTracker.m */; };
 		384772A61DA5691F009365DE /* MSSenderDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 384772A51DA5691F009365DE /* MSSenderDelegate.h */; };
-		384959D51D491D4F008F6B3A /* MSSonomaTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 384959D41D491D4F008F6B3A /* MSSonomaTest.m */; };
+		384959D51D491D4F008F6B3A /* MSMobileCenterTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 384959D41D491D4F008F6B3A /* MSMobileCenterTest.m */; };
 		385AD9221D95898D008B354A /* MSFeatureAbstractProtected.h in Headers */ = {isa = PBXBuildFile; fileRef = 385AD9211D95898D008B354A /* MSFeatureAbstractProtected.h */; };
 		385FC0551D37EBD700A1799F /* MSDeviceTrackerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 385FC0541D37EBD700A1799F /* MSDeviceTrackerTests.m */; };
 		387C75801D6270A300D68CC1 /* MSFeatureAbstract.m in Sources */ = {isa = PBXBuildFile; fileRef = 387C757E1D6270A300D68CC1 /* MSFeatureAbstract.m */; };
@@ -170,7 +170,7 @@
 		381C91E51D3DB65D004512F1 /* MSDeviceTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDeviceTracker.h; sourceTree = "<group>"; };
 		381C91E61D3DB65D004512F1 /* MSDeviceTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDeviceTracker.m; sourceTree = "<group>"; };
 		384772A51DA5691F009365DE /* MSSenderDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSSenderDelegate.h; sourceTree = "<group>"; };
-		384959D41D491D4F008F6B3A /* MSSonomaTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSSonomaTest.m; sourceTree = "<group>"; };
+		384959D41D491D4F008F6B3A /* MSMobileCenterTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSMobileCenterTest.m; sourceTree = "<group>"; };
 		385AD9211D95898D008B354A /* MSFeatureAbstractProtected.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSFeatureAbstractProtected.h; sourceTree = "<group>"; };
 		385FC0541D37EBD700A1799F /* MSDeviceTrackerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDeviceTrackerTests.m; sourceTree = "<group>"; };
 		387C757E1D6270A300D68CC1 /* MSFeatureAbstract.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = MSFeatureAbstract.m; path = Internals/MSFeatureAbstract.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -495,7 +495,7 @@
 				6E3E2CC01D3596AE00B1EE50 /* MSDeviceLogTests.m */,
 				6E48A5A31D3831FE006E8B5F /* MSChannelConfigurationTests.m */,
 				6E48A5A61D383893006E8B5F /* MSLogManagerDefaultTests.m */,
-				384959D41D491D4F008F6B3A /* MSSonomaTest.m */,
+				384959D41D491D4F008F6B3A /* MSMobileCenterTest.m */,
 				387C75951D64EE1900D68CC1 /* MSFeatureAbstractTest.m */,
 				B24F3F161D93A3FF00827213 /* MSLoggerTests.m */,
 			);
@@ -835,7 +835,7 @@
 				6E3E2CC11D3596AE00B1EE50 /* MSDeviceLogTests.m in Sources */,
 				385FC0551D37EBD700A1799F /* MSDeviceTrackerTests.m in Sources */,
 				6EB1F40E1D2443B7005F9F99 /* MSChannelDefaultTests.m in Sources */,
-				384959D51D491D4F008F6B3A /* MSSonomaTest.m in Sources */,
+				384959D51D491D4F008F6B3A /* MSMobileCenterTest.m in Sources */,
 				6E5D8A801D25B91F00C033B1 /* MSFileHelperTests.m in Sources */,
 				E829E4231D25C8BA00F19DA1 /* MSHttpSenderTests.m in Sources */,
 				6E363AF21D2C84EA0079043D /* MSStorageTestHelper.m in Sources */,

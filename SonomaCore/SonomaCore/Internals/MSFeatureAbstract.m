@@ -18,7 +18,7 @@
 - (instancetype)initWithStorage:(MSUserDefaults *)storage {
   if (self = [super init]) {
     _started = NO;
-    _isEnabledKey = [NSString stringWithFormat:@"kSNM%@IsEnabledKey", self.storageKey];
+    _isEnabledKey = [NSString stringWithFormat:@"kMS%@IsEnabledKey", self.storageKey];
     _storage = storage;
   }
   return self;

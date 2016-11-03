@@ -3,7 +3,7 @@
  */
 
 /**
- *  Protected declarations for SNMFeatureAbstract.
+ *  Protected declarations for MSFeatureAbstract.
  */
 @interface MSFeatureAbstract ()
 

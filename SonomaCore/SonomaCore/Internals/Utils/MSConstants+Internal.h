@@ -2,8 +2,8 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#ifndef SNMConstants_Internal_h
-#define SNMConstants_Internal_h
+#ifndef MSConstants_Internal_h
+#define MSConstants_Internal_h
 #import <Foundation/Foundation.h>
 
 // Device manufacturer

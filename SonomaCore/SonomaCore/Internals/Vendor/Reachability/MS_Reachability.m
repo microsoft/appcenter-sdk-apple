@@ -18,7 +18,7 @@
 
 #pragma mark IPv6 Support
 
-NSString *kMSReachabilityChangedNotification = @"kSNMNetworkReachabilityChangedNotification";
+NSString *kMSReachabilityChangedNotification = @"kMSNetworkReachabilityChangedNotification";
 
 #pragma mark - Supporting functions
 
