@@ -73,7 +73,7 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
     return YES;
   }
       withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        NSData *stubData = [@"Sonoma Response" dataUsingEncoding:NSUTF8StringEncoding];
+        NSData *stubData = [@"Mobile Center Response" dataUsingEncoding:NSUTF8StringEncoding];
         return [OHHTTPStubsResponse responseWithData:stubData statusCode:MSHTTPCodesNo200OK headers:nil];
       }]
       .name = @"httpStub_200";
@@ -91,7 +91,7 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
     return YES;
   }
       withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        NSData *stubData = [@"Sonoma Response" dataUsingEncoding:NSUTF8StringEncoding];
+        NSData *stubData = [@"Mobile Center Response" dataUsingEncoding:NSUTF8StringEncoding];
         return [OHHTTPStubsResponse responseWithData:stubData statusCode:MSHTTPCodesNo200OK headers:nil];
       }]
       .name = @"httpStub_200";

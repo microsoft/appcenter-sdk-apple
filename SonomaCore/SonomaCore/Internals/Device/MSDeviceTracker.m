@@ -18,7 +18,7 @@ typedef struct {
 } ms_info_t;
 
 // SDK versioning.
-ms_info_t sonoma_library_info __attribute__((section("__TEXT,__bit_ios,regular,no_dead_strip"))) = {
+ms_info_t mobile_center_library_info __attribute__((section("__TEXT,__bit_ios,regular,no_dead_strip"))) = {
     .info_version = 1,
     .ms_name = SONOMA_C_NAME,
     .ms_version = SONOMA_C_VERSION,
@@ -62,8 +62,8 @@ static BOOL needRefresh = YES;
     CTCarrier *carrier = [[[CTTelephonyNetworkInfo alloc] init] subscriberCellularProvider];
 
     // Collect device properties.
-    newDevice.sdkName = [self sdkName:sonoma_library_info.ms_name];
-    newDevice.sdkVersion = [self sdkVersion:sonoma_library_info.ms_version];
+    newDevice.sdkName = [self sdkName:mobile_center_library_info.ms_name];
+    newDevice.sdkVersion = [self sdkVersion:mobile_center_library_info.ms_version];
     newDevice.model = [self deviceModel];
     newDevice.oemName = kMSDeviceManufacturer;
     newDevice.osName = [self osName:kMSDevice];

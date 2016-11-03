@@ -1,7 +1,7 @@
 #import <XCTest/XCTest.h>
 #import "MSLogger.h"
 #import "MSMobileCenter.h"
-#import "MSSonomaInternal.h"
+#import "MSMobileCenterInternal.h"
 
 @interface MSLoggerTests : XCTestCase
 

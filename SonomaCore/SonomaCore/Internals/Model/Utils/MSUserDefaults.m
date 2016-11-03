@@ -4,7 +4,7 @@
 
 #import "MSLogger.h"
 #import "MSUserDefaults.h"
-#import "MSSonomaInternal.h"
+#import "MSMobileCenterInternal.h"
 
 static NSString *const kMSUserDefaultsTs = @"_ts";
 

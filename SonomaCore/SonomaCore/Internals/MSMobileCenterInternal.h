@@ -26,7 +26,7 @@ static NSString *const kMSCoreIsEnabledKey = @"kMSCoreIsEnabledKey";
 @property(atomic) BOOL enabledStateUpdating;
 
 /**
- * Returns the singleton instance of SonomaCore.
+ * Returns the singleton instance of Mobile Center.
  */
 + (instancetype)sharedInstance;
 - (NSString *)serverUrl;

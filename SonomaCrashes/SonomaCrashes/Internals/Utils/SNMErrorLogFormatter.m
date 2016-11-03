@@ -51,7 +51,7 @@
 #import "SNMErrorReport.h"
 #import "SNMErrorReportPrivate.h"
 #import "SNMException.h"
-#import "MSSonomaInternal.h"
+#import "MSMobileCenterInternal.h"
 #import "SNMStackFrame.h"
 #import "SNMThread.h"
 #import "MSDeviceTracker.h"

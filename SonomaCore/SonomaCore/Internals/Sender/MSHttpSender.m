@@ -6,7 +6,7 @@
 #import "MSHttpSenderPrivate.h"
 #import "MSRetriableCall.h"
 #import "MSSenderDelegate.h"
-#import "MSSonomaInternal.h"
+#import "MSMobileCenterInternal.h"
 
 static NSTimeInterval kRequestTimeout = 60.0;
 

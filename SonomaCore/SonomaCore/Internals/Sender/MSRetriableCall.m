@@ -4,7 +4,7 @@
 
 #import "MSRetriableCall.h"
 #import "MSRetriableCallPrivate.h"
-#import "MSSonomaInternal.h"
+#import "MSMobileCenterInternal.h"
 
 @implementation MSRetriableCall
 
