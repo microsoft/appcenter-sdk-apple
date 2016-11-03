@@ -54,7 +54,7 @@ static NSString *const kMSFeatureName = @"Analytics";
 }
 
 + (NSString *)getLoggerTag {
-  return @"SonomaAnalytics";
+  return @"MobileCenterAnalytics";
 }
 
 - (NSString *)storageKey {
