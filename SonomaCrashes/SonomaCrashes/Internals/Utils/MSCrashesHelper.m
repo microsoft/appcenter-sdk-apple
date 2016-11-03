@@ -4,7 +4,7 @@
 
 #import "MSCrashesHelper.h"
 
-static NSString *const kMSCrashesDirectory = @"com.microsoft.sonoma/crashes";
+static NSString *const kMSCrashesDirectory = @"com.microsoft.azure.mobilecenter/crashes";
 
 @interface MSCrashesHelper ()
 

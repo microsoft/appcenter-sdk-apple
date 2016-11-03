@@ -39,7 +39,7 @@
 /**
  * Callback method that will be called in case the SDK was unable to send an error report to the server. Use this method to hide custom
  * @param crashes The instance of MSCrashes.
- * @param errorReport The errorReport that Sonoma sent.
+ * @param errorReport The errorReport that Mobile Center sent.
  */
 - (void)crashes:(MSCrashes *)crashes didSucceedSendingErrorReport:(MSErrorReport *)errorReport;
 
