@@ -1,9 +1,9 @@
 #import "AppDelegate.h"
 #import "Constants.h"
 
-@import SonomaCore;
-@import SonomaCrashes;
-@import SonomaAnalytics;
+@import MobileCenter;
+@import MobileCenterCrashes;
+@import MobileCenterAnalytics;
 
 @interface AppDelegate () <MSCrashesDelegate>
 
@@ -14,7 +14,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   // Override point for customization after application launch.
 
-  // Start Sonoma SDK
+  // Start MobileCenter SDK
   [MSMobileCenter setLogLevel:MSLogLevelVerbose];
   [MSMobileCenter setServerUrl:@"http://in-integration.dev.avalanch.es:8081"];
   [MSMobileCenter start:[[NSUUID UUID] UUIDString] withFeatures:@[[MSAnalytics class], [MSCrashes class]]];
