@@ -1,5 +1,5 @@
 framework module SonomaCrashes {
-  umbrella header "SonomaCrashes.h"
+  umbrella header "MobileCenterCrashes.h"
   
   export *
   module * { export * }

@@ -16,7 +16,7 @@ custom_categories:
     children:
     - Installation
 
-umbrella_header: ../../Products/SonomaCore/SonomaCore.framework/Headers/SonomaCore.h
+umbrella_header: ../../Products/SonomaCore/SonomaCore.framework/Headers/MobileCenter.h
 framework_root: ../../Products/SonomaCore/
 
 root_url: http://test.com/sdk/ios/1.0.0
