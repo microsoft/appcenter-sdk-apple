@@ -61,14 +61,14 @@ Now that you've integrated the frameworks in your application, it's time to star
 
 1. Add the following to your `podfile` to include all services into your app. This will pull in `MobileCenter`, `MobileCenterAnalytics` and `MobileCenterCrashes`. Alternatively, you can specify which services you want to use in your app. Each service has it's own `subspec` and they all rely on `MobileCenter`. It will get pulled in automatically.
 
-```ruby
-  # Use the following line to use all services.
-  pod 'MobileCenter', :podspec => 'https://download.hockeyapp.net/mobilecenter/ios/mobilecenter.podspec'
-  
-  # Use the following line if you want to specify which service you want to use.
-  pod 'MobileCenter', :podspec => 'https://download.hockeyapp.net/mobilecenter/ios/mobilecenter',  :subspecs => ['MobileCenterAnalytics', 'MobileCenterCrashes'] 
-
-```
+	```ruby
+	  # Use the following line to use all services.
+	  pod 'MobileCenter', :podspec => 'https://download.hockeyapp.net/mobilecenter/ios/mobilecenter.podspec'
+	  
+	  # Use the following line if you want to specify which service you want to use.
+	  pod 'MobileCenter', :podspec => 'https://download.hockeyapp.net/mobilecenter/ios/mobilecenter',  :subspecs => ['MobileCenterAnalytics', 'MobileCenterCrashes'] 
+	
+	```
 
 2. Run `pod install` to install your newly defined pod, open your `.xcworkspace` and it's time to start the SDK and make use of the Mobile Center services.
 
@@ -76,7 +76,8 @@ Now that you've integrated the frameworks in your application, it's time to star
 
 To start the Mobile Center SDK in your app, follow these steps:
 
-1. **Add `import` statements:**  You need to add import statements for Core, Analytics and Crashes module before starting the SDK.
+### 1. Add `import` statements  
+You need to add import statements for Core, Analytics and Crashes module before starting the SDK.
     
     **Objective-C**   
     Open your AppDelegate.m file and add the following lines at the top of the file below your own import statements.   
@@ -96,7 +97,9 @@ To start the Mobile Center SDK in your app, follow these steps:
     import MobileCenterCrashes
     ``` 
 
-2. **Start the SDK:** Mobile Center provides developers with three modules to get started: `MobileCenter` (required), `MobileCenterAnalytics` and `MobileCenterCrashes`. In order to use Mobile Center services, you need to opt in for the module(s) that you'd like, meaning by default no modules are started and you will have to explicitly call each of them, both Analytics and Crashes, when starting the SDK.
+### 2. Start the SDK
+
+Mobile Center provides developers with three modules to get started: `MobileCenter` (required), `MobileCenterAnalytics` and `MobileCenterCrashes` (both are optional). In order to use Mobile Center services, you need to opt in for the module(s) that you'd like, meaning by default no modules are started and you will have to explicitly call each of them, both Analytics and Crashes, when starting the SDK.
 
     **Objective-C**   
     Insert the following line to start the SDK in your app's AppDelegate.m class in the `didFinishLaunchingWithOptions` method.  
@@ -118,161 +121,333 @@ The example above shows how to use the `start` method and include both the Analy
 
 ## 4. Analytics APIs
 
-* **Track Session, Device Properties:**  Once the Analytics module is included in your app and the SDK is started, it will automatically track sessions, device properties like OS version, model, manufacturer etc. and you don’t need to add any additional code.
-    Look at the section above on how to [Start the SDK](#3-start-the-sdk) if you haven't started it yet.
+### Track Session, Device Properties
 
-* **Custom Events:** You can track your own custom events with specific properties to know what's happening in your app, understand user actions, and see the aggregates in the Mobile Center portal. Once you have started the SDK, use the `trackEvent` method to track your events with properties.
+Once the Analytics module is included in your app and the SDK is started, it will automatically track sessions, device properties like OS version, model, manufacturer etc. and you don’t need to add any additional code.
 
-    **Objective-C**
-    ```objectivec
-    NSDictionary *properties = @{@"Category" : @"Music", @"FileName" : @"favorite.avi"};
-    [SNMAnalytics trackEvent:@"Video clicked" withProperties: properties];
-    ```
+Look at the section above on how to [Start the SDK](#3-start-the-sdk) if you haven't started it yet.
 
-    **Swift**
-    ```swift
-    SNMAnalytics.trackEvent("Video clicked", withProperties: ["Category" : "Music", "FileName" : "favorite.avi"])
-    ```    
+### Custom Events
+
+You can track your own custom events with specific properties to know what's happening in your app, understand user actions, and see the aggregates in the Mobile Center portal. Once you have started the SDK, use the `trackEvent` method to track your events with properties.
+
+**Objective-C**
+
+```objectivec
+NSDictionary *properties = @{@"Category" : @"Music", @"FileName" : @"favorite.avi"};
+[MSAnalytics trackEvent:@"Video clicked" withProperties: properties];
+```
+
+**Swift**
+
+```swift
+MSAnalytics.trackEvent("Video clicked", withProperties: ["Category" : "Music", "FileName" : "favorite.avi"])
+```    
     
-   Properties for events are entirely optional. If you just want to track an event use this sample instead:
+Properties for events are entirely optional. If you just want to track an event use this sample instead:
 
-    **Objective-C**
-    ```objectivec
-    [SNMAnalytics trackEvent:@"Video clicked"];
-    ```
+**Objective-C**
+    
+```objectivec
+[MSAnalytics trackEvent:@"Video clicked"];
+```
 
-    **Swift**
-    ```swift
-    SNMAnalytics.trackEvent("Video clicked")
-    ```
+**Swift**
+    
+```swift
+MSAnalytics.trackEvent("Video clicked")
+```
 
 * **Enable or disable Analytics:**  You can change the enabled state of the Analytics module at runtime by calling the `setEnabled` method. If you disable it, the SDK will not collect any more analytics information for the app. To re-enable it, pass `true` as a parameter in the same method.
 
     **Objective-C**
     ```objectivec
-    [SNMAnalytics setEnabled:NO];
+    [MSAnalytics setEnabled:NO];
     ```
 
     **Swift**
     ```swift
-    SNMAnalytics.setEnabled(false)
+    MSAnalytics.setEnabled(false)
     ```
 
     You can also check if the module is enabled or not using the `isEnabled` method:
 
     **Objective-C**
     ```objectivec
-    BOOL enabled = [SNMAnalytics isEnabled];
+    BOOL enabled = [MSAnalytics isEnabled];
     ```
 
     **Swift**
     ```swift
-    var enabled = SNMAnalytics.isEnabled()
+    var enabled = MSAnalytics.isEnabled()
     ```
     
 ## 5. Crashes APIs
 
 Once you set up and start the Mobile Center SDK to use the Crashes module in your application, the SDK will automatically start logging any crashes in the devices local storage. When the user opens the application again after a crash, all pending crash logs will automatically be forwarded to Mobile Center and you can analyze the crash along with the stack trace on the Mobile Center portal. Refer to the section to [Start the SDK](#3-start-the-sdk) if you haven't done so already.
 
-* **Generate a test crash:** The SDK provides you with a static API to generate a test crash for easy testing of the SDK:
+### Generate a test crash:
+The SDK provides you with a static API to generate a test crash for easy testing of the SDK:
 
     **Objective-C**
     ```objectivec
-    [SNMCrashes generateTestCrash];
+    [MSCrashes generateTestCrash];
     ```
 
     **Swift**
     ```swift
-    SNMCrashes.generateTestCrash()
+    MSCrashes.generateTestCrash()
     ```
 
-    Note that this API will only work for development and test apps. The method will not be functioning once the app is distributed through the App Store.
+**Note that this API will only work for development and test apps. The method will not be functioning once the app is distributed through the App Store.**
 
-* **Did the app crash in the last session:** At any time after starting the SDK, you can check if the app crashed in the previous session:
+### Did the app crash in the last session?
+At any time after starting the SDK, you can check if the app crashed in the previous session:
 
     **Objective-C**
     ```objectivec
-    [SNMCrashes hasCrashedInLastSession];
+    [MSCrashes hasCrashedInLastSession];
     ```
 
     **Swift**
     ```swift
-    SNMCrashes.hasCrashedInLastSession()
+    MSCrashes.hasCrashedInLastSession()
     ```
 
-* **Details about the last crash:** If your app crashed previously, you can get details about the last crash:
+### Details about the last crash
+
+If your app crashed previously, you can get details about the last crash:
 
     **Objective-C**
     ```objectivec
-    SNMErrorReport *crashReport = [SNMCrashes lastSessionCrashReport];
+    MSErrorReport *crashReport = [MSCrashes lastSessionCrashReport];
     ```
 
     **Swift**
     ```swift
-    var crashReport = SNMCrashes.lastSessionCrashReport()
+    var crashReport = MSCrashes.lastSessionCrashReport()
     ```
 
-* **Enable or disable the Crashes module:**  You can disable and opt out of using the Crashes module by calling the `setEnabled` API and the SDK will collect no more crashes for your app. Use the same API to re-enable it by passing `YES` or `true` as a parameter.
+### Enable or disable the Crashes module
+
+You can disable and opt out of using the Crashes module by calling the `setEnabled` API and the SDK will collect no more crashes for your app. Use the same API to re-enable it by passing `YES` or `true` as a parameter.
 
     **Objective-C**
     ```objectivec
-    [SNMCrashes setEnabled:NO];
+    [MSCrashes setEnabled:NO];
     ```
 
     **Swift**
     ```swift
-    SNMCrashes.setEnabled(false)
+    MSCrashes.setEnabled(false)
     ```
     
     You can also check if the module is enabled or not using the `isEnabled` method:
 
     **Objective-C**
     ```objectivec
-    BOOL enabled = [SNMCrashes isEnabled];
+    BOOL enabled = [MSCrashes isEnabled];
     ```
 
     **Swift**
     ```swift
-    var enabled = SNMCrashes.isEnabled()
+    var enabled = MSCrashes.isEnabled()
     ```
+
+### Advanced Scenarios
+
+The Crashes module provides delegates to perform additional actions before and when sending crash reports to Mobile Center. This gives you added flexibility on the crash reports that will be sent.  
+
+ **Objective-C**
+ ```objectivec
+ [SNMCrashes setDelegate:self];
+ ```
+
+**Swift**
+
+```swift
+[SNMCrashes setDelegate:self];
+```
+
+The following delegates are provided:  
+    
+#### Should the crash be processed?
+
+Implement the following delegate methods if you'd like to decide if a particular crash needs to be processed or not. For example - there could be some system level crashes that you'd want to ignore and don't want to send to Mobile Center.
+
+**Objective-C**
+
+```objectivec
+- (BOOL)crashes:(SNMCrashes *)crashes shouldProcessErrorReport:(SNMErrorReport *)errorReport {
+  return YES; // return YES if the crash report should be processed, otherwise NO.
+}
+```
+
+**Swift**
+
+```swift
+(BOOL)crashes:(SNMCrashes *)crashes shouldProcessErrorReport:(SNMErrorReport *)errorReport {
+  return true; // return true if the crash report should be processed, otherwise false.
+}
+```
+        
+### User Confirmation
+
+If user privacy is important to you as a developer, you might want to get user confirmation before sending a crash report to Mobile Center. The SDK exposes a callback where you can tell it to await user confirmation before sending any crash reports.
+
+Your app is responsible for obtaining confirmation, e.g. through a dialog prompt with one of these options - "Always Send", "Send", and "Don't send". Based on the user input, you will tell the SDK and the crash will then respectively be forwarded to Mobile Center or not.
+
+**Objective-C**
+
+```objectivec
+[SNMCrashes setUserConfirmationHandler:(^(NSArray<SNMErrorReport *> *errorReports) {
+	return YES; // Return YES if the SDK should await user confirmation, otherwise NO.
+}
+```
+
+**Swift**
+
+```swift
+[SNMCrashes setUserConfirmationHandler:(^(NSArray<SNMErrorReport *> *errorReports) {
+    return true; // Return true if the SDK should await user confirmation, otherwise false.
+}
+```
+    
+If you return `YES`/`true`, your app should obtain user permission and message the SDK with the result using the following API:
+
+**Objective-C**
+
+```objectivec
+[SNMCrashes notifyWithUserConfirmation:SNMUserConfirmation];
+```
+
+**Swift**
+
+```swift
+[SNMCrashes notifyWithUserConfirmation:SNMUserConfirmation];
+```
+
+Pass one option of `SNMUserConfirmationDontSend`, `SNMUserConfirmationAlways` or `SNMUserConfirmationSend`.
+
+### Attaching data to crashes
+
+If you'd like to attach text/binary data to a crash report, implement this callback. Before sending the crash, the SDK will add the attachment to the report and you can view it on the Mobile Center portal.   
+
+**Objective-C**
+
+```objectivec
+- (SNMErrorAttachment *)attachmentWithCrashes:(SNMCrashes *)crashes forErrorReport:(SNMErrorReport *)errorReport {
+    // return your own created ErrorAttachment object
+}
+```
+
+**Swift**
+
+```swift
+- (SNMErrorAttachment *)attachmentWithCrashes:(SNMCrashes *)crashes forErrorReport:(SNMErrorReport *)errorReport {
+    // return your own created ErrorAttachment object
+}
+```
+
+### Before sending a crash report
+This callback will be invoked just before the crash is sent to Sonoma:
+
+        **Objective-C**
+        ```objectivec
+        - (void)crashes:(SNMCrashes *)crashes willSendErrorReport:(SNMErrorReport *)errorReport {
+            …
+        }
+        ```
+
+        **Swift**
+        ```swift
+        - (void)crashes:(SNMCrashes *)crashes willSendErrorReport:(SNMErrorReport *)errorReport {
+            …
+        }
+        ```
+
+    * **When sending a crash report succeeded:** This callback will be invoked after sending a crash report succeeded:
+
+        **Objective-C**
+        ```objectivec
+        - (void)crashes:(SNMCrashes *)crashes didSucceedSendingErrorReport:(SNMErrorReport *)errorReport {
+            …
+        }
+        ```
+
+        **Swift**
+        ```swift
+        - (void)crashes:(SNMCrashes *)crashes didSucceedSendingErrorReport:(SNMErrorReport *)errorReport {
+            …
+        }
+        ```
+
+    * **When sending a crash report failed:** This callback will be invoked after sending a crash report failed:
+
+        **Objective-C**
+        ```objectivec
+        - (void)crashes:(SNMCrashes *)crashes didFailSendingErrorReport:(SNMErrorReport *)errorReport withError:(NSError *)error {
+            …
+        }
+        ```
+
+        **Swift**
+        ```swift
+        - (void)crashes:(SNMCrashes *)crashes didFailSendingErrorReport:(SNMErrorReport *)errorReport withError:(NSError *)error {
+            …
+        }
+        ```
   
+
 ## 6. Advanced APIs
 
-* **Debugging**: You can control the amount of log messages that show up from the Mobile Center SDK. Use the `setLogLevel` API to enable additional logging while debugging. By default, it is set to `SNMLogLevelAssert` for App Store environment, `SNMLogLevelWarning` otherwise.
+### Logging
 
-    **Objective-C**
-    ```objectivec
-    [MSMobileCenter setLogLevel:MSLogLevelVerbose];
-    ```
+You can control the amount of log messages that show up from the Mobile Center SDK. Use the `setLogLevel` API to enable additional logging while debugging. By default, it is set to `MSLogLevelAssert` for App Store environment, `MSLogLevelWarning` otherwise.
 
-    **Swift**
-    ```swift
-    MSMobileCenter.setLogLevel(MSLogLevel.Verbose)
-    ```
+**Objective-C**
 
-* **Get Install Identifier**: The Mobile Center SDK creates a UUID for each device once the app is installed. This identifier remains the same for a device when the app is updated and a new one is generated only when the app is re-installed. The following API is useful for debugging purposes:
+```objectivec
+[MSMobileCenter setLogLevel:MSLogLevelVerbose];
+```
 
-    **Objective-C**
-    ```objectivec
-    NSUUID *installId = [MSMobileCenter installId];
-    ```
+**Swift**
 
-    **Swift**
-    ```swift
-    var installId = MSMobileCenter.installId()
-    ```
+```swift
+MSMobileCenter.setLogLevel(MSLogLevel.Verbose)
+```
 
-* **Enable/Disable the Mobile Center SDK:** If you want the Mobile Center SDK to be disabled completely, use the `setEnabled` API. When disabled, the SDK will not forward any information to Mobile Center.
+### Get Install Identifier
 
-    **Objective-C**
-    ```objectivec
-    [MSMobileCenter setEnabled:NO];
-    ```
+The Mobile Center SDK creates a UUID for each device once the app is installed. This identifier remains the same for a device when the app is updated and a new one is generated only when the app is re-installed. The following API is useful for debugging purposes:
 
-    **Swift**
-    ```swift
-    MSMobileCenter.setEnabled(false)
-    ```
+**Objective-C**
+
+```objectivec
+NSUUID *installId = [MSMobileCenter installId];
+```
+
+**Swift**
+
+```swift
+var installId = MSMobileCenter.installId()
+```
+
+### Enable/Disable the Mobile Center SDK
+
+If you want the Mobile Center SDK to be disabled completely, use the `setEnabled` API. When disabled, the SDK will not forward any information to Mobile Center.
+
+	**Objective-C**
+	
+	```objectivec
+	[MSMobileCenter setEnabled:NO];
+	```
+	
+	**Swift**
+	
+	```swift
+	MSMobileCenter.setEnabled(false)
+	```
         
 ## 7. Troubleshooting
 
