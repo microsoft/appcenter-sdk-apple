@@ -1,4 +1,4 @@
-framework module SonomaCrashes {
+framework module MobileCenterCrashes {
   umbrella header "MobileCenterCrashes.h"
   
   export *

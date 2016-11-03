@@ -43,9 +43,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6E6BFC361D23504F00DF7617"
-               BuildableName = "SonomaCrashesDoc"
-               BlueprintName = "SonomaCrashesDoc"
-               ReferencedContainer = "container:SonomaCrashes/SonomaCrashes.xcodeproj">
+               BuildableName = "MobileCenterCrashesDoc"
+               BlueprintName = "MobileCenterCrashesDoc"
+               ReferencedContainer = "container:MobileCenterCrashes/MobileCenterCrashes.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

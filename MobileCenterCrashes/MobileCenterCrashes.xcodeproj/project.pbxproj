@@ -7,27 +7,27 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		6E3729771D1DE83200F1E4AE /* SonomaCrashesFramework */ = {
+		6E3729771D1DE83200F1E4AE /* MobileCenterCrashesFramework */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 6E3729781D1DE83200F1E4AE /* Build configuration list for PBXAggregateTarget "SonomaCrashesFramework" */;
+			buildConfigurationList = 6E3729781D1DE83200F1E4AE /* Build configuration list for PBXAggregateTarget "MobileCenterCrashesFramework" */;
 			buildPhases = (
 				6E37297B1D1DE85000F1E4AE /* ShellScript */,
 			);
 			dependencies = (
 			);
-			name = SonomaCrashesFramework;
+			name = MobileCenterCrashesFramework;
 			productName = "Fat Framework";
 		};
-		6E6BFC361D23504F00DF7617 /* SonomaCrashesDoc */ = {
+		6E6BFC361D23504F00DF7617 /* MobileCenterCrashesDoc */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 6E6BFC391D23504F00DF7617 /* Build configuration list for PBXAggregateTarget "SonomaCrashesDoc" */;
+			buildConfigurationList = 6E6BFC391D23504F00DF7617 /* Build configuration list for PBXAggregateTarget "MobileCenterCrashesDoc" */;
 			buildPhases = (
 				6E6BFC3A1D23505600DF7617 /* ShellScript */,
 			);
 			dependencies = (
 				386352E61D51105800D0D450 /* PBXTargetDependency */,
 			);
-			name = SonomaCrashesDoc;
+			name = MobileCenterCrashesDoc;
 			productName = "Jazzy Docs";
 		};
 /* End PBXAggregateTarget section */
@@ -42,7 +42,7 @@
 		6E0401761D1C9E750051BCFA /* MSCrashes.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E04014F1D1C9A4F0051BCFA /* MSCrashes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E0401771D1C9EBE0051BCFA /* MobileCenter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401591D1C9D7F0051BCFA /* MobileCenter+Internal.h */; };
 		6E0401781D1C9EBE0051BCFA /* MSCrashesPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401521D1C9A4F0051BCFA /* MSCrashesPrivate.h */; };
-		6E171AE61D22F781000DC480 /* libSonomaCrashes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E0401331D1C98690051BCFA /* libSonomaCrashes.a */; };
+		6E171AE61D22F781000DC480 /* libMobileCenterCrashes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E0401331D1C98690051BCFA /* libMobileCenterCrashes.a */; };
 		6E171AEE1D22F7BE000DC480 /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171AED1D22F7BE000DC480 /* OCHamcrestIOS.framework */; };
 		6E171AF01D22F841000DC480 /* libMobileCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171AEF1D22F841000DC480 /* libMobileCenter.a */; };
 		6E171B111D22FABA000DC480 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171B051D22FABA000DC480 /* libOCMock.a */; };
@@ -110,7 +110,7 @@
 			containerPortal = 6E04012B1D1C98690051BCFA /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 6E0401321D1C98690051BCFA;
-			remoteInfo = SonomaCrashes;
+			remoteInfo = MobileCenterCrashes;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -140,13 +140,13 @@
 		044C45FA1DB6EC1C00F3C29E /* MSErrorBinaryAttachmentPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSErrorBinaryAttachmentPrivate.h; sourceTree = "<group>"; };
 		387C77061D6CC41100D68CC1 /* MSFeatureAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSFeatureAbstract.h; path = ../MobileCenter/MobileCenter/MSFeatureAbstract.h; sourceTree = "<group>"; };
 		38D4BBA21D5A9962001A30A0 /* MSFeature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSFeature.h; path = ../MobileCenter/MobileCenter/MSFeature.h; sourceTree = "<group>"; };
-		6E0401331D1C98690051BCFA /* libSonomaCrashes.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSonomaCrashes.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E0401331D1C98690051BCFA /* libMobileCenterCrashes.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMobileCenterCrashes.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E0401361D1C98690051BCFA /* MobileCenterCrashes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MobileCenterCrashes.h; sourceTree = "<group>"; };
 		6E04014F1D1C9A4F0051BCFA /* MSCrashes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrashes.h; sourceTree = "<group>"; };
 		6E0401501D1C9A4F0051BCFA /* MSCrashes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSCrashes.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		6E0401521D1C9A4F0051BCFA /* MSCrashesPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrashesPrivate.h; sourceTree = "<group>"; };
 		6E0401591D1C9D7F0051BCFA /* MobileCenter+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "MobileCenter+Internal.h"; path = "../../../MobileCenter/MobileCenter/Internals/MobileCenter+Internal.h"; sourceTree = "<group>"; };
-		6E171AE11D22F781000DC480 /* SonomaCrashes.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SonomaCrashes.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E171AE11D22F781000DC480 /* MobileCenterCrashes.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MobileCenterCrashes.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E171AE51D22F781000DC480 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6E171AED1D22F7BE000DC480 /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrestIOS.framework; path = ../../Vendor/OCHamcrest/OCHamcrestIOS.framework; sourceTree = "<group>"; };
 		6E171AEF1D22F841000DC480 /* libMobileCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobileCenter.a; path = "../../../../../Library/Developer/Xcode/DerivedData/AvalancheSDK-gjtjaobzkdgbqkdiexolxdrcgdjg/Build/Products/Debug-iphonesimulator/libMobileCenter.a"; sourceTree = "<group>"; };
@@ -170,7 +170,7 @@
 		6E171B361D22FF6B000DC480 /* OHHTTPStubsResponse+JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OHHTTPStubsResponse+JSON.h"; sourceTree = "<group>"; };
 		6E171B371D22FF6B000DC480 /* OHHTTPStubsResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OHHTTPStubsResponse.h; sourceTree = "<group>"; };
 		6E171B381D22FF6B000DC480 /* OHPathHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OHPathHelpers.h; sourceTree = "<group>"; };
-		6E37297F1D1DE93800F1E4AE /* SonomaCrashes.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = SonomaCrashes.xcconfig; sourceTree = "<group>"; };
+		6E37297F1D1DE93800F1E4AE /* MobileCenterCrashes.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = MobileCenterCrashes.xcconfig; sourceTree = "<group>"; };
 		6E3729811D1DE93800F1E4AE /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		6E73FE681D402F79008CDC15 /* MSCrashesCXXExceptionHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrashesCXXExceptionHandler.h; sourceTree = "<group>"; };
 		6E73FE691D402F79008CDC15 /* MSCrashesCXXExceptionHandler.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MSCrashesCXXExceptionHandler.mm; sourceTree = "<group>"; };
@@ -240,7 +240,7 @@
 				6E171AF01D22F841000DC480 /* libMobileCenter.a in Frameworks */,
 				6E171B111D22FABA000DC480 /* libOCMock.a in Frameworks */,
 				6E171B391D22FF6B000DC480 /* libOHHTTPStubs.a in Frameworks */,
-				6E171AE61D22F781000DC480 /* libSonomaCrashes.a in Frameworks */,
+				6E171AE61D22F781000DC480 /* libMobileCenterCrashes.a in Frameworks */,
 				6E171AEE1D22F7BE000DC480 /* OCHamcrestIOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -253,8 +253,8 @@
 			children = (
 				387C77061D6CC41100D68CC1 /* MSFeatureAbstract.h */,
 				E8AEE9851D59744D00C0FF6C /* MSLogManager.h */,
-				6E0401351D1C98690051BCFA /* SonomaCrashes */,
-				6E171AE21D22F781000DC480 /* SonomaCrashesTests */,
+				6E0401351D1C98690051BCFA /* MobileCenterCrashes */,
+				6E171AE21D22F781000DC480 /* MobileCenterCrashesTests */,
 				6EC99A221D4151C60016C325 /* Vendor */,
 				6E0401341D1C98690051BCFA /* Products */,
 			);
@@ -263,13 +263,13 @@
 		6E0401341D1C98690051BCFA /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6E0401331D1C98690051BCFA /* libSonomaCrashes.a */,
-				6E171AE11D22F781000DC480 /* SonomaCrashes.xctest */,
+				6E0401331D1C98690051BCFA /* libMobileCenterCrashes.a */,
+				6E171AE11D22F781000DC480 /* MobileCenterCrashes.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		6E0401351D1C98690051BCFA /* SonomaCrashes */ = {
+		6E0401351D1C98690051BCFA /* MobileCenterCrashes */ = {
 			isa = PBXGroup;
 			children = (
 				6E0401361D1C98690051BCFA /* MobileCenterCrashes.h */,
@@ -283,7 +283,7 @@
 				6E73FE6C1D403286008CDC15 /* Utils */,
 				6E37297E1D1DE93800F1E4AE /* Support */,
 			);
-			path = SonomaCrashes;
+			path = MobileCenterCrashes;
 			sourceTree = "<group>";
 		};
 		6E0401511D1C9A4F0051BCFA /* Internals */ = {
@@ -300,7 +300,7 @@
 			path = Internals;
 			sourceTree = "<group>";
 		};
-		6E171AE21D22F781000DC480 /* SonomaCrashesTests */ = {
+		6E171AE21D22F781000DC480 /* MobileCenterCrashesTests */ = {
 			isa = PBXGroup;
 			children = (
 				6EC99A2F1D416CCF0016C325 /* Fixtures */,
@@ -318,7 +318,7 @@
 				6E7D5C831D3EC0F7009EC9AC /* MSThreadTests.m */,
 				B2A0A71D1D9C2AF200729A58 /* Utils */,
 			);
-			path = SonomaCrashesTests;
+			path = MobileCenterCrashesTests;
 			sourceTree = "<group>";
 		};
 		6E171AEC1D22F7AB000DC480 /* Frameworks */ = {
@@ -387,7 +387,7 @@
 		6E37297E1D1DE93800F1E4AE /* Support */ = {
 			isa = PBXGroup;
 			children = (
-				6E37297F1D1DE93800F1E4AE /* SonomaCrashes.xcconfig */,
+				6E37297F1D1DE93800F1E4AE /* MobileCenterCrashes.xcconfig */,
 				6E3729811D1DE93800F1E4AE /* module.modulemap */,
 			);
 			path = Support;
@@ -500,9 +500,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		6E0401321D1C98690051BCFA /* SonomaCrashes */ = {
+		6E0401321D1C98690051BCFA /* MobileCenterCrashes */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6E04013C1D1C98690051BCFA /* Build configuration list for PBXNativeTarget "SonomaCrashes" */;
+			buildConfigurationList = 6E04013C1D1C98690051BCFA /* Build configuration list for PBXNativeTarget "MobileCenterCrashes" */;
 			buildPhases = (
 				6E04012F1D1C98690051BCFA /* Sources */,
 				6E0401301D1C98690051BCFA /* Frameworks */,
@@ -513,14 +513,14 @@
 			);
 			dependencies = (
 			);
-			name = SonomaCrashes;
-			productName = SonomaCrashes;
-			productReference = 6E0401331D1C98690051BCFA /* libSonomaCrashes.a */;
+			name = MobileCenterCrashes;
+			productName = MobileCenterCrashes;
+			productReference = 6E0401331D1C98690051BCFA /* libMobileCenterCrashes.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		6E171AE01D22F781000DC480 /* SonomaCrashesTests */ = {
+		6E171AE01D22F781000DC480 /* MobileCenterCrashesTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6E171AE91D22F781000DC480 /* Build configuration list for PBXNativeTarget "SonomaCrashesTests" */;
+			buildConfigurationList = 6E171AE91D22F781000DC480 /* Build configuration list for PBXNativeTarget "MobileCenterCrashesTests" */;
 			buildPhases = (
 				6E171ADD1D22F781000DC480 /* Sources */,
 				6E171ADE1D22F781000DC480 /* Frameworks */,
@@ -532,9 +532,9 @@
 			dependencies = (
 				6E171AE81D22F781000DC480 /* PBXTargetDependency */,
 			);
-			name = SonomaCrashesTests;
-			productName = SonomaCrashesTests;
-			productReference = 6E171AE11D22F781000DC480 /* SonomaCrashes.xctest */;
+			name = MobileCenterCrashesTests;
+			productName = MobileCenterCrashesTests;
+			productReference = 6E171AE11D22F781000DC480 /* MobileCenterCrashes.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -561,7 +561,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 6E04012E1D1C98690051BCFA /* Build configuration list for PBXProject "SonomaCrashes" */;
+			buildConfigurationList = 6E04012E1D1C98690051BCFA /* Build configuration list for PBXProject "MobileCenterCrashes" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -573,10 +573,10 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6E0401321D1C98690051BCFA /* SonomaCrashes */,
-				6E3729771D1DE83200F1E4AE /* SonomaCrashesFramework */,
-				6E171AE01D22F781000DC480 /* SonomaCrashesTests */,
-				6E6BFC361D23504F00DF7617 /* SonomaCrashesDoc */,
+				6E0401321D1C98690051BCFA /* MobileCenterCrashes */,
+				6E3729771D1DE83200F1E4AE /* MobileCenterCrashesFramework */,
+				6E171AE01D22F781000DC480 /* MobileCenterCrashesTests */,
+				6E6BFC361D23504F00DF7617 /* MobileCenterCrashesDoc */,
 			);
 		};
 /* End PBXProject section */
@@ -610,7 +610,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=SonomaCrashes\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../Products\nZIP_FOLDER=${FMK_NAME}\nTEMP_DIR=${PRODUCTS_DIR}/${ZIP_FOLDER}\nINSTALL_DIR=${TEMP_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphoneos\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${TEMP_DIR}\" ]\nthen\nrm -rf \"${TEMP_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Support/module.modulemap\" \"${INSTALL_DIR}/Modules/\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Headers/\"\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" \"${SIMULATOR_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\n\nif [ -z $(otool -L \"${INSTALL_DIR}/${FMK_NAME}\" | grep 'libCrashReporter') ]\nthen\nlibtool -static -o \"${INSTALL_DIR}/${FMK_NAME}\" \"${INSTALL_DIR}/${FMK_NAME}\" \"${SRCROOT}/../Vendor/PLCrashReporter/CrashReporter.framework/Versions/A/CrashReporter\"\nfi\n\nrm -r \"${WRK_DIR}\"";
+			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=MobileCenterCrashes\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../Products\nZIP_FOLDER=${FMK_NAME}\nTEMP_DIR=${PRODUCTS_DIR}/${ZIP_FOLDER}\nINSTALL_DIR=${TEMP_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphoneos\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${TEMP_DIR}\" ]\nthen\nrm -rf \"${TEMP_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Support/module.modulemap\" \"${INSTALL_DIR}/Modules/\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Headers/\"\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" \"${SIMULATOR_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\n\nif [ -z $(otool -L \"${INSTALL_DIR}/${FMK_NAME}\" | grep 'libCrashReporter') ]\nthen\nlibtool -static -o \"${INSTALL_DIR}/${FMK_NAME}\" \"${INSTALL_DIR}/${FMK_NAME}\" \"${SRCROOT}/../Vendor/PLCrashReporter/CrashReporter.framework/Versions/A/CrashReporter\"\nfi\n\nrm -r \"${WRK_DIR}\"";
 		};
 		6E6BFC3A1D23505600DF7617 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -623,7 +623,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "jazzy --config ../Documentation/DocsCrashes/.jazzy.yaml";
+			shellScript = "jazzy --config ../Documentation/DocsMobileCenterCrashes/.jazzy.yaml";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -671,12 +671,12 @@
 /* Begin PBXTargetDependency section */
 		386352E61D51105800D0D450 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 6E3729771D1DE83200F1E4AE /* SonomaCrashesFramework */;
+			target = 6E3729771D1DE83200F1E4AE /* MobileCenterCrashesFramework */;
 			targetProxy = 386352E51D51105800D0D450 /* PBXContainerItemProxy */;
 		};
 		6E171AE81D22F781000DC480 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 6E0401321D1C98690051BCFA /* SonomaCrashes */;
+			target = 6E0401321D1C98690051BCFA /* MobileCenterCrashes */;
 			targetProxy = 6E171AE71D22F781000DC480 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -684,7 +684,7 @@
 /* Begin XCBuildConfiguration section */
 		6E04013A1D1C98690051BCFA /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6E37297F1D1DE93800F1E4AE /* SonomaCrashes.xcconfig */;
+			baseConfigurationReference = 6E37297F1D1DE93800F1E4AE /* MobileCenterCrashes.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -732,7 +732,7 @@
 		};
 		6E04013B1D1C98690051BCFA /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6E37297F1D1DE93800F1E4AE /* SonomaCrashes.xcconfig */;
+			baseConfigurationReference = 6E37297F1D1DE93800F1E4AE /* MobileCenterCrashes.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -782,8 +782,8 @@
 				);
 				OTHER_LDFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.sonoma.SonomaCrashes;
-				PRODUCT_NAME = SonomaCrashes;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.MobileCenterCrashes;
+				PRODUCT_NAME = MobileCenterCrashes;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SKIP_INSTALL = YES;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/**";
@@ -801,8 +801,8 @@
 				);
 				OTHER_LDFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.sonoma.SonomaCrashes;
-				PRODUCT_NAME = SonomaCrashes;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.MobileCenterCrashes;
+				PRODUCT_NAME = MobileCenterCrashes;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SKIP_INSTALL = YES;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/**";
@@ -816,7 +816,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
-				INFOPLIST_FILE = SonomaCrashesTests/Info.plist;
+				INFOPLIST_FILE = MobileCenterCrashesTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
@@ -826,8 +826,8 @@
 					Foundation,
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.sonoma.SonomaCrashesTests;
-				PRODUCT_NAME = SonomaCrashes;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.MobileCenterCrashesTests;
+				PRODUCT_NAME = MobileCenterCrashes;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/**";
 			};
 			name = Debug;
@@ -838,7 +838,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
-				INFOPLIST_FILE = SonomaCrashesTests/Info.plist;
+				INFOPLIST_FILE = MobileCenterCrashesTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
@@ -848,8 +848,8 @@
 					Foundation,
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.sonoma.SonomaCrashesTests;
-				PRODUCT_NAME = SonomaCrashes;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.MobileCenterCrashesTests;
+				PRODUCT_NAME = MobileCenterCrashes;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/**";
 			};
 			name = Release;
@@ -857,14 +857,14 @@
 		6E3729791D1DE83200F1E4AE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				PRODUCT_NAME = SonomaCrashes;
+				PRODUCT_NAME = MobileCenterCrashes;
 			};
 			name = Debug;
 		};
 		6E37297A1D1DE83200F1E4AE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				PRODUCT_NAME = SonomaCrashes;
+				PRODUCT_NAME = MobileCenterCrashes;
 			};
 			name = Release;
 		};
@@ -874,7 +874,7 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				OTHER_CFLAGS = "";
-				PRODUCT_NAME = SonomaCrashes;
+				PRODUCT_NAME = MobileCenterCrashes;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"";
 				VALID_ARCHS = "";
 			};
@@ -885,7 +885,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
 				OTHER_CFLAGS = "";
-				PRODUCT_NAME = SonomaCrashes;
+				PRODUCT_NAME = MobileCenterCrashes;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"";
 				VALID_ARCHS = "";
 			};
@@ -894,7 +894,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6E04012E1D1C98690051BCFA /* Build configuration list for PBXProject "SonomaCrashes" */ = {
+		6E04012E1D1C98690051BCFA /* Build configuration list for PBXProject "MobileCenterCrashes" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6E04013A1D1C98690051BCFA /* Debug */,
@@ -903,7 +903,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6E04013C1D1C98690051BCFA /* Build configuration list for PBXNativeTarget "SonomaCrashes" */ = {
+		6E04013C1D1C98690051BCFA /* Build configuration list for PBXNativeTarget "MobileCenterCrashes" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6E04013D1D1C98690051BCFA /* Debug */,
@@ -912,7 +912,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6E171AE91D22F781000DC480 /* Build configuration list for PBXNativeTarget "SonomaCrashesTests" */ = {
+		6E171AE91D22F781000DC480 /* Build configuration list for PBXNativeTarget "MobileCenterCrashesTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6E171AEA1D22F781000DC480 /* Debug */,
@@ -921,7 +921,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6E3729781D1DE83200F1E4AE /* Build configuration list for PBXAggregateTarget "SonomaCrashesFramework" */ = {
+		6E3729781D1DE83200F1E4AE /* Build configuration list for PBXAggregateTarget "MobileCenterCrashesFramework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6E3729791D1DE83200F1E4AE /* Debug */,
@@ -930,7 +930,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6E6BFC391D23504F00DF7617 /* Build configuration list for PBXAggregateTarget "SonomaCrashesDoc" */ = {
+		6E6BFC391D23504F00DF7617 /* Build configuration list for PBXAggregateTarget "MobileCenterCrashesDoc" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6E6BFC371D23504F00DF7617 /* Debug */,

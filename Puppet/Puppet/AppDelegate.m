@@ -17,7 +17,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
-  // Start Sonoma SDK.
+  // Start Mobile Center SDK.
   [MSMobileCenter setLogLevel:MSLogLevelVerbose];
 
   [MSMobileCenter start:@"7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7" withFeatures:@[[MSAnalytics class], [MSCrashes class]]];
