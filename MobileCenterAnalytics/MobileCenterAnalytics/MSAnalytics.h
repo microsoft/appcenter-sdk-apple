@@ -2,13 +2,13 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "MSFeatureAbstract.h"
+#import "MSServiceAbstract.h"
 #import <UIKit/UIKit.h>
 
 /**
- *  Mobile Center analytics feature.
+ *  Mobile Center analytics service.
  */
-@interface MSAnalytics : MSFeatureAbstract
+@interface MSAnalytics : MSServiceAbstract
 
 /**
  *  Track an event.

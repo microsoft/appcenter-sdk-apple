@@ -3,8 +3,8 @@
  */
 
 #import "MSAnalytics.h"
-#import "MSFeatureInternal.h"
+#import "MSServiceInternal.h"
 
-@interface MSAnalytics () <MSFeatureInternal>
+@interface MSAnalytics () <MSServiceInternal>
 
 @end
