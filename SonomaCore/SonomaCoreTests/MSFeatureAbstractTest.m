@@ -42,6 +42,10 @@
   return MSPriorityDefault;
 }
 
++ (NSString *)getLoggerTag {
+  return @"MSFeatureAbstractTest";
+}
+
 @end
 
 @interface MSFeatureAbstractTest : XCTestCase
