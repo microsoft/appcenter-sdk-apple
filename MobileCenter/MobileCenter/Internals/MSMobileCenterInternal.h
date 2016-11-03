@@ -9,8 +9,8 @@
 #import <Foundation/Foundation.h>
 
 // Persisted storage keys.
-static NSString *const kMSInstallIdKey = @"kMSInstallIdKey";
-static NSString *const kMSMobileCenterIsEnabledKey = @"kMSMobileCenterIsEnabledKey";
+static NSString *const kMSInstallIdKey = @"MSInstallId";
+static NSString *const kMSMobileCenterIsEnabledKey = @"MSMobileCenterIsEnabled";
 
 @class MSService;
 
