@@ -13,6 +13,6 @@ OTHER_CFLAGS[sdk=iphonesimulator9.*] = $(MOBILE_CENTER_WARNING_FLAGS) -fembed-bi
 OTHER_CFLAGS[sdk=iphoneos10.*] = $(MOBILE_CENTER_WARNING_FLAGS) -fembed-bitcode
 OTHER_CFLAGS[sdk=iphonesimulator10.*] = $(MOBILE_CENTER_WARNING_FLAGS) -fembed-bitcode-marker
 
-OTHER_LDFLAGS=$(inherited) -framework Foundation -framework UIKit
+OTHER_LDFLAGS=$(inherited) -framework Foundation -framework UIKit - framework CoreTelephony
 
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) $(XCODEBUILD_GCC_PREPROCESSOR_DEFINITIONS) MOBILE_CENTER_CONFIGURATION_$(CONFIGURATION) MOBILE_CENTER_NAME="@\""$(SDK_NAME)"\"" MOBILE_CENTER_VERSION="@\""$(VERSION_STRING)"\"" MOBILE_CENTER_BUILD="@\""$(BUILD_NUMBER)"\"" MOBILE_CENTER_C_NAME="\""$(SDK_NAME)"\"" MOBILE_CENTER_C_VERSION="\""$(VERSION_STRING)"\"" MOBILE_CENTER_C_BUILD="\""$(BUILD_NUMBER)"\""

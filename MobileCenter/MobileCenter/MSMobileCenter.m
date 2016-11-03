@@ -216,7 +216,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
     }
 
     // Persist the enabled status.
-    [kMSUserDefaults setObject:[NSNumber numberWithBool:isEnabled] forKey:kMSCoreIsEnabledKey];
+    [kMSUserDefaults setObject:[NSNumber numberWithBool:isEnabled] forKey:kMSMobileCenterIsEnabledKey];
     self.enabledStateUpdating = NO;
   }
 }
@@ -227,7 +227,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
    * Get isEnabled value from persistence.
    * No need to cache the value in a property, user settings already have their cache mechanism.
    */
-  NSNumber *isEnabledNumber = [kMSUserDefaults objectForKey:kMSCoreIsEnabledKey];
+  NSNumber *isEnabledNumber = [kMSUserDefaults objectForKey:kMSMobileCenterIsEnabledKey];
 
   // Return the persisted value otherwise it's enabled by default.
   return (isEnabledNumber) ? [isEnabledNumber boolValue] : YES;

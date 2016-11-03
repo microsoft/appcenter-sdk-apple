@@ -1,7 +1,7 @@
 #import "AppDelegate.h"
 #import "Constants.h"
 
-@import SonomaCore;
+@import MobileCenter;
 @import SonomaCrashes;
 @import SonomaAnalytics;
 

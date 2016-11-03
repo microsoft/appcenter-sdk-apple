@@ -9,15 +9,15 @@ module_version: 1.0.0
 author: Microsoft Corp
 author_url: http://www.microsoft.com
 
-readme: Guides/Sonoma.md
+readme: Guides/MobileCenter.md
 documentation: ../Guides/[^index]*.md
 custom_categories:
   - name: Guides
     children:
     - Installation
 
-umbrella_header: ../../Products/SonomaCore/SonomaCore.framework/Headers/MobileCenter.h
-framework_root: ../../Products/SonomaCore/
+umbrella_header: ../../Products/MobileCenter/MobileCenter.framework/Headers/MobileCenter.h
+framework_root: ../../Products/MobileCenter/
 
 root_url: http://test.com/sdk/ios/1.0.0
 github_url: https://github.com/Microsoft/Sonoma-SDK-iOS

@@ -28,7 +28,7 @@ Pod::Spec.new do |s|
   end
 
  s.subspec 'SonomaAnalytics' do |ss|
-      ss.frameworks = 'Foundation',  'UIKit'
+      ss.frameworks = 'CoreTelephony', Foundation',  'UIKit'
       ss.dependency 'Sonoma/SonomaCore'
       ss.vendored_frameworks = 'SonomaSDK-iOS-0.1.4/SonomaAnalytics.framework'
   end
