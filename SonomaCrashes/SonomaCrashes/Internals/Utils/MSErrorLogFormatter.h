@@ -5,7 +5,7 @@
 #import <Foundation/Foundation.h>
 
 @class MSAppleErrorLog;
-@class SNMPLCrashReport;
+@class MSPLCrashReport;
 @class MSErrorReport;
 
 /**
@@ -28,9 +28,9 @@ typedef NS_ENUM(NSInteger, MSBinaryImageType) {
 
 @interface MSErrorLogFormatter : NSObject
 
-+ (MSAppleErrorLog *)errorLogFromCrashReport:(SNMPLCrashReport *)report;
++ (MSAppleErrorLog *)errorLogFromCrashReport:(MSPLCrashReport *)report;
 
-+ (MSErrorReport *)errorReportFromCrashReport:(SNMPLCrashReport *)report;
++ (MSErrorReport *)errorReportFromCrashReport:(MSPLCrashReport *)report;
 
 + (MSErrorReport *)errorReportFromLog:(MSAppleErrorLog *)errorLog;
 

@@ -6,7 +6,7 @@
 #import "MSFeatureInternal.h"
 #import <CrashReporter/CrashReporter.h>
 
-@class SNMPLCrashReporter;
+@class MSMPLCrashReporter;
 
 @interface MSCrashes () <MSFeatureInternal>
 
@@ -60,7 +60,7 @@ typedef struct MSCrashesCallbacks {
 /**
  * The `PLCrashReporter` instance used for crash detection.
  */
-@property(nonatomic, strong) SNMPLCrashReporter *plCrashReporter;
+@property(nonatomic, strong) MSPLCrashReporter *plCrashReporter;
 
 /**
  * A `NSFileManager` instance used for reading and writing crash reports.

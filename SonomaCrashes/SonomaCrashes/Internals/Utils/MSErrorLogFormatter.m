@@ -199,7 +199,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
  *
  * @return Returns the formatted result on success, or nil if an error occurs.
  */
-+ (MSAppleErrorLog *)errorLogFromCrashReport:(SNMPLCrashReport *)report {
++ (MSAppleErrorLog *)errorLogFromCrashReport:(MSPLCrashReport *)report {
 
   // Map to Apple-style code type, and mark whether architecture is LP64
   // (64-bit)
@@ -215,7 +215,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   errorLog = [self addProcessInfoAndApplicationPathTo:errorLog fromCrashReport:report];
 
   // Find the crashed thread
-  SNMPLCrashReportThreadInfo *crashedThread = [self findCrashedThreadInReport:report];
+  MSPLCrashReportThreadInfo *crashedThread = [self findCrashedThreadInReport:report];
 
   // Error Thread Info.
   errorLog.errorThreadId = @(crashedThread.threadNumber);
@@ -266,7 +266,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   return errorLog;
 }
 
-+ (MSErrorReport *)errorReportFromCrashReport:(SNMPLCrashReport *)report {
++ (MSErrorReport *)errorReportFromCrashReport:(MSPLCrashReport *)report {
   if (!report) {
     return nil;
   }
@@ -317,14 +317,14 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
 #pragma mark - Parse MSPLCrashReport
 
-+ (NSString *)errorIdForCrashReport:(SNMPLCrashReport *)report {
++ (NSString *)errorIdForCrashReport:(MSPLCrashReport *)report {
   NSString *errorId = report.uuidRef ? (NSString *) CFBridgingRelease(CFUUIDCreateString(NULL, report.uuidRef))
       : [[NSUUID UUID] UUIDString];
   return errorId;
 }
 
 + (MSAppleErrorLog *)addProcessInfoAndApplicationPathTo:(MSAppleErrorLog *)errorLog
-                                         fromCrashReport:(SNMPLCrashReport *)crashReport {
+                                         fromCrashReport:(MSPLCrashReport *)crashReport {
   // Set the defaults first.
   errorLog.processId = @(0);
   errorLog.processName = unknownString;
@@ -358,7 +358,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   return errorLog;
 }
 
-+ (NSNumber *)calculateAppLaunchTOffsetFromReport:(SNMPLCrashReport *)report {
++ (NSNumber *)calculateAppLaunchTOffsetFromReport:(MSPLCrashReport *)report {
   NSDate *crashTime = report.systemInfo.timestamp;
   if (report.processInfo) {
     NSDate *startTime = report.processInfo.processStartTime;
@@ -371,26 +371,26 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   }
 }
 
-+ (NSNumber *)calculateTOffsetFromReport:(SNMPLCrashReport *)report {
++ (NSNumber *)calculateTOffsetFromReport:(MSPLCrashReport *)report {
   NSDate *crashTime = report.systemInfo.timestamp;
   NSTimeInterval difference = [crashTime timeIntervalSince1970];
   return @(difference);
 }
 
-+ (NSArray<MSThread *> *)extractThreadsFromReport:(SNMPLCrashReport *)report crashedThread:(SNMPLCrashReportThreadInfo *)crashedThread is64bit:(BOOL)is64bit {
++ (NSArray<MSThread *> *)extractThreadsFromReport:(MSPLCrashReport *)report crashedThread:(MSPLCrashReportThreadInfo *)crashedThread is64bit:(BOOL)is64bit {
   NSMutableArray<MSThread *> *formattedThreads = [NSMutableArray array];
   MSException *lastException = nil;
 
   // If CrashReport contains Exception, add the threads that belong to the exception to the list of threads.
   if (report.exceptionInfo != nil && report.exceptionInfo.stackFrames != nil &&
       [report.exceptionInfo.stackFrames count] > 0) {
-    SNMPLCrashReportExceptionInfo *exception = report.exceptionInfo;
+    MSPLCrashReportExceptionInfo *exception = report.exceptionInfo;
 
     MSThread *exceptionThread = [MSThread new];
     exceptionThread.threadId = @(-1);
 
     // Gather frames from the thread's exception.
-    for (SNMPLCrashReportStackFrameInfo *frameInfo in exception.stackFrames) {
+    for (MSPLCrashReportStackFrameInfo *frameInfo in exception.stackFrames) {
       MSStackFrame *frame = [MSStackFrame new];
       frame.address = formatted_address_matching_architecture(frameInfo.instructionPointer, is64bit);
       [exceptionThread.frames addObject:frame];
@@ -405,7 +405,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   }
 
   // Get all threads from the report (as opposed to the threads from the exception).
-  for (SNMPLCrashReportThreadInfo *plCrashReporterThread in report.threads) {
+  for (MSPLCrashReportThreadInfo *plCrashReporterThread in report.threads) {
     MSThread *thread = [MSThread new];
     thread.threadId = @(plCrashReporterThread.threadNumber);
 
@@ -416,7 +416,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
     /* Write out the frames. In raw reports, Apple writes this out as a simple
      * list of PCs. In the minimally post-processed report, Apple writes this out as full frame entries. We
      * use the latter format. */
-    for (SNMPLCrashReportStackFrameInfo *plCrashReporterFrameInfo in plCrashReporterThread.stackFrames) {
+    for (MSPLCrashReportStackFrameInfo *plCrashReporterFrameInfo in plCrashReporterThread.stackFrames) {
       MSStackFrame *frame = [MSStackFrame new];
       frame.address = formatted_address_matching_architecture(plCrashReporterFrameInfo.instructionPointer, is64bit);
       frame.code = [self formatStackFrame:plCrashReporterFrameInfo report:report];
@@ -439,14 +439,14 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
  *
  * @return Returns a formatted frame line.
  */
-+ (NSString *)formatStackFrame:(SNMPLCrashReportStackFrameInfo *)frameInfo report:(SNMPLCrashReport *)report {
++ (NSString *)formatStackFrame:(MSPLCrashReportStackFrameInfo *)frameInfo report:(MSPLCrashReport *)report {
   /* Base image address containing instrumentation pointer, offset of the IP from that base
    * address, and the associated image name */
   uint64_t baseAddress = 0x0;
   uint64_t pcOffset = 0x0;
   NSString *symbolString = nil;
 
-  SNMPLCrashReportBinaryImageInfo *imageInfo = [report imageForAddress:frameInfo.instructionPointer];
+  MSPLCrashReportBinaryImageInfo *imageInfo = [report imageForAddress:frameInfo.instructionPointer];
   if (imageInfo != nil) {
     baseAddress = imageInfo.imageBaseAddress;
     pcOffset = frameInfo.instructionPointer - imageInfo.imageBaseAddress;
@@ -485,11 +485,11 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   return symbolString;
 }
 
-+ (NSDictionary<NSString *, NSString *> *)extractRegistersFromCrashedThread:(SNMPLCrashReportThreadInfo *)crashedThread
++ (NSDictionary<NSString *, NSString *> *)extractRegistersFromCrashedThread:(MSPLCrashReportThreadInfo *)crashedThread
                                                                     is64bit:(BOOL)is64bit {
   NSMutableDictionary<NSString *, NSString *> *registers = [NSMutableDictionary new];
 
-  for (SNMPLCrashReportRegisterInfo *registerInfo in crashedThread.registers) {
+  for (MSPLCrashReportRegisterInfo *registerInfo in crashedThread.registers) {
     NSString *regName = registerInfo.registerName;
 
     NSString *formattedRegName = [NSString stringWithFormat:@"%s", [regName UTF8String]];
@@ -501,8 +501,8 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   return registers;
 }
 
-+ (NSString *)extractExceptionReasonFromReport:(SNMPLCrashReport *)report
-                               ofCrashedThread:(SNMPLCrashReportThreadInfo *)crashedThread
++ (NSString *)extractExceptionReasonFromReport:(MSPLCrashReport *)report
+                               ofCrashedThread:(MSPLCrashReportThreadInfo *)crashedThread
                                        is64bit:(BOOL)is64bit {
   NSString *exceptionReason = nil;
   /* Uncaught Exception */
@@ -541,14 +541,14 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   return exceptionReason;
 }
 
-+ (NSArray<MSBinary *> *)extractBinaryImagesFromReport:(SNMPLCrashReport *)report
++ (NSArray<MSBinary *> *)extractBinaryImagesFromReport:(MSPLCrashReport *)report
                                               addresses:(NSArray *)addresses
                                                codeType:(NSNumber *)codeType
                                                 is64bit:(BOOL)is64bit {
   NSMutableArray<MSBinary *> *binaryImages = [NSMutableArray array];
   /* Images. The iPhone crash report format sorts these in ascending order, by
    * the base address */
-  for (SNMPLCrashReportBinaryImageInfo *imageInfo in
+  for (MSPLCrashReportBinaryImageInfo *imageInfo in
       [report.images sortedArrayUsingFunction:bit_binaryImageSort context:nil]) {
     MSBinary *binary = [MSBinary new];
 
@@ -647,12 +647,12 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 //*  @return The selector as a C string or NULL if no selector was found
 //*/
 + (NSString *)selectorForRegisterWithName:(NSString *)regName
-                                 ofThread:(SNMPLCrashReportThreadInfo *)thread
-                                   report:(SNMPLCrashReport *)report {
+                                 ofThread:(MSPLCrashReportThreadInfo *)thread
+                                   report:(MSPLCrashReport *)report {
   // get the address for the register
   uint64_t regAddress = 0;
 
-  for (SNMPLCrashReportRegisterInfo *reg in thread.registers) {
+  for (MSPLCrashReportRegisterInfo *reg in thread.registers) {
     if ([reg.registerName isEqualToString:regName]) {
       regAddress = reg.registerValue;
       break;
@@ -662,7 +662,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   if (regAddress == 0)
     return nil;
 
-  SNMPLCrashReportBinaryImageInfo *imageForRegAddress = [report imageForAddress:regAddress];
+  MSPLCrashReportBinaryImageInfo *imageForRegAddress = [report imageForAddress:regAddress];
   if (imageForRegAddress) {
     // get the SEL
     const char *foundSelector = findSEL([imageForRegAddress.imageName UTF8String], imageForRegAddress.imageUUID,
@@ -718,7 +718,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
 #pragma mark - Helpers
 
-+ (NSNumber *)extractCodeTypeFromReport:(const SNMPLCrashReport *)report {
++ (NSNumber *)extractCodeTypeFromReport:(const MSPLCrashReport *)report {
   NSDictionary<NSNumber *, NSNumber *> *legacyTypes = @{
       @(PLCrashReportArchitectureARMv6): @(CPU_TYPE_ARM),
       @(PLCrashReportArchitectureARMv7): @(CPU_TYPE_ARM),
@@ -730,7 +730,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
   /* Attempt to derive the code type from the binary images */
   NSNumber *codeType = nil;
-  for (SNMPLCrashReportBinaryImageInfo *image in report.images) {
+  for (MSPLCrashReportBinaryImageInfo *image in report.images) {
     codeType = @(image.codeType.type) ?: @(report.systemInfo.processorInfo.type)
         ?: legacyTypes[@(report.systemInfo.architecture)];
 
@@ -754,9 +754,9 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   return boolNumber.boolValue;
 }
 
-+ (SNMPLCrashReportThreadInfo *)findCrashedThreadInReport:(SNMPLCrashReport *)report {
-  SNMPLCrashReportThreadInfo *crashedThread;
-  for (SNMPLCrashReportThreadInfo *thread in report.threads) {
++ (MSPLCrashReportThreadInfo *)findCrashedThreadInReport:(MSPLCrashReport *)report {
+  MSPLCrashReportThreadInfo *crashedThread;
+  for (MSPLCrashReportThreadInfo *thread in report.threads) {
     if (thread.crashed) {
       crashedThread = thread;
       break;
@@ -765,24 +765,24 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   return crashedThread;
 }
 
-+ (NSArray *)addressesFromReport:(SNMPLCrashReport *)report {
++ (NSArray *)addressesFromReport:(MSPLCrashReport *)report {
   NSMutableArray *addresses = [NSMutableArray new];
 
   if (report.exceptionInfo != nil && report.exceptionInfo.stackFrames != nil &&
       [report.exceptionInfo.stackFrames count] > 0) {
-    SNMPLCrashReportExceptionInfo *exception = report.exceptionInfo;
+    MSPLCrashReportExceptionInfo *exception = report.exceptionInfo;
 
-    for (SNMPLCrashReportStackFrameInfo *frameInfo in exception.stackFrames) {
+    for (MSPLCrashReportStackFrameInfo *frameInfo in exception.stackFrames) {
       [addresses addObject:@(frameInfo.instructionPointer)];
     }
   }
 
-  for (SNMPLCrashReportThreadInfo *plCrashReporterThread in report.threads) {
-    for (SNMPLCrashReportStackFrameInfo *plCrashReporterFrameInfo in plCrashReporterThread.stackFrames) {
+  for (MSPLCrashReportThreadInfo *plCrashReporterThread in report.threads) {
+    for (MSPLCrashReportStackFrameInfo *plCrashReporterFrameInfo in plCrashReporterThread.stackFrames) {
       [addresses addObject:@(plCrashReporterFrameInfo.instructionPointer)];
     }
 
-    for (SNMPLCrashReportRegisterInfo *registerInfo in plCrashReporterThread.registers) {
+    for (MSPLCrashReportRegisterInfo *registerInfo in plCrashReporterThread.registers) {
       [addresses addObject:@(registerInfo.registerValue)];
     }
   }
