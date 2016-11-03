@@ -6,7 +6,7 @@
 #import <UIKit/UIKit.h>
 
 /**
- *  Sonoma analytics feature.
+ *  Mobile Center analytics feature.
  */
 @interface MSAnalytics : MSFeatureAbstract
 
