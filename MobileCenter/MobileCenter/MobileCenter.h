@@ -6,8 +6,8 @@
 
 #import "MSConstants.h"
 #import "MSDevice.h"
-#import "MSFeature.h"
-#import "MSFeatureAbstract.h"
+#import "MSService.h"
+#import "MSServiceAbstract.h"
 #import "MSMobileCenter.h"
 #import "MSWrapperSdk.h"
 #import "MSWrapperLogger.h"

@@ -24,7 +24,7 @@ typedef NS_ENUM(NSInteger, MSEnvironment) {
 };
 
 /**
- * Utility class to detect environment that the app is running in. It's used to enable/disable features throughout the
+ * Utility class to detect environment that the app is running in. It's used to enable/disable services throughout the
  * SDK.
  */
 @interface MSEnvironmentHelper : NSObject

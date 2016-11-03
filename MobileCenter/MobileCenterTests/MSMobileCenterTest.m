@@ -124,12 +124,12 @@ static NSString *const kSMNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 - (void)testSetServerUrl {
   NSString *fakeUrl = @"http://testUrl:1234";
   [MSMobileCenter setServerUrl:fakeUrl];
-  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withFeatures:nil];
+    [MSMobileCenter start:[[NSUUID UUID] UUIDString] withServices:nil];
   XCTAssertTrue([[[MSMobileCenter sharedInstance] serverUrl] isEqualToString:fakeUrl]);
 }
 
 - (void)testDefaultServerUrl {
-  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withFeatures:nil];
+    [MSMobileCenter start:[[NSUUID UUID] UUIDString] withServices:nil];
   XCTAssertTrue([[[MSMobileCenter sharedInstance] serverUrl] isEqualToString:@"https://in.sonoma.hockeyapp.com"]);
 }
 @end
