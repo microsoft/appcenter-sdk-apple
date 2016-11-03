@@ -1,4 +1,4 @@
-framework module SonomaAnalytics {
+framework module MobileCenterAnalytics {
   umbrella header "MobileCenterAnalytics.h"
   
   export *

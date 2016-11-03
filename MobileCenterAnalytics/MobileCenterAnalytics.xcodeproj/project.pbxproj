@@ -7,27 +7,27 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		E85547E41D2D681F002DF6E2 /* SonomaAnalyticsFramework */ = {
+		E85547E41D2D681F002DF6E2 /* MobileCenterAnalyticsFramework */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = E85547E51D2D681F002DF6E2 /* Build configuration list for PBXAggregateTarget "SonomaAnalyticsFramework" */;
+			buildConfigurationList = E85547E51D2D681F002DF6E2 /* Build configuration list for PBXAggregateTarget "MobileCenterAnalyticsFramework" */;
 			buildPhases = (
 				E85547E81D2D6827002DF6E2 /* ShellScript */,
 			);
 			dependencies = (
 			);
-			name = SonomaAnalyticsFramework;
+			name = MobileCenterAnalyticsFramework;
 			productName = "Fat Framework";
 		};
-		E85547E91D2D68C5002DF6E2 /* SonomaAnalyticsDoc */ = {
+		E85547E91D2D68C5002DF6E2 /* MobileCenterAnalyticsDoc */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = E85547EA1D2D68C5002DF6E2 /* Build configuration list for PBXAggregateTarget "SonomaAnalyticsDoc" */;
+			buildConfigurationList = E85547EA1D2D68C5002DF6E2 /* Build configuration list for PBXAggregateTarget "MobileCenterAnalyticsDoc" */;
 			buildPhases = (
 				E85547ED1D2D68CF002DF6E2 /* Run Script */,
 			);
 			dependencies = (
 				386352E41D51047400D0D450 /* PBXTargetDependency */,
 			);
-			name = SonomaAnalyticsDoc;
+			name = MobileCenterAnalyticsDoc;
 			productName = "Jazzy Docs";
 		};
 /* End PBXAggregateTarget section */
@@ -52,7 +52,7 @@
 		E83E81381D3ECF5900421B13 /* MSAnalyticsCategory.h in Headers */ = {isa = PBXBuildFile; fileRef = E83E81361D3ECF5900421B13 /* MSAnalyticsCategory.h */; };
 		E83E81391D3ECF5900421B13 /* MSAnalyticsCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = E83E81371D3ECF5900421B13 /* MSAnalyticsCategory.m */; };
 		E85547C61D2D6253002DF6E2 /* MSAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E85547C51D2D6253002DF6E2 /* MSAnalytics.m */; };
-		E85547DA1D2D6723002DF6E2 /* libSonomaAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E85547C01D2D6253002DF6E2 /* libSonomaAnalytics.a */; };
+		E85547DA1D2D6723002DF6E2 /* libMobileCenterAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E85547C01D2D6253002DF6E2 /* libMobileCenterAnalytics.a */; };
 		E85547F71D2D6A7D002DF6E2 /* MobileCenterAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547CC1D2D63EF002DF6E2 /* MobileCenterAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E85547F81D2D6A7D002DF6E2 /* MSAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547C31D2D6253002DF6E2 /* MSAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E85547F91D2D6A9B002DF6E2 /* MobileCenter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547CF1D2D6521002DF6E2 /* MobileCenter+Internal.h */; };
@@ -80,7 +80,7 @@
 			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = E85547BF1D2D6253002DF6E2;
-			remoteInfo = SonomaAnalytics;
+			remoteInfo = MobileCenterAnalytics;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -129,20 +129,20 @@
 		6E3E2CD01D359F3300B1EE50 /* MSEventLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSEventLogTests.m; sourceTree = "<group>"; };
 		6E3E2CD11D359F3300B1EE50 /* MSPageLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSPageLogTests.m; sourceTree = "<group>"; };
 		B2812EF01DA3148000307DCE /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
-		B2812EF21DA3148000307DCE /* SonomaAnalytics.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = SonomaAnalytics.xcconfig; sourceTree = "<group>"; };
+		B2812EF21DA3148000307DCE /* MobileCenterAnalytics.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = MobileCenterAnalytics.xcconfig; sourceTree = "<group>"; };
 		E81591291D526956003D5F3C /* MSStartSessionLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSStartSessionLogTests.m; sourceTree = "<group>"; };
 		E815912B1D526A09003D5F3C /* MSSessionTrackerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSSessionTrackerTests.m; sourceTree = "<group>"; };
 		E81591301D526C3B003D5F3C /* MSSessionTrackerHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSSessionTrackerHelper.h; sourceTree = "<group>"; };
 		E81591311D526C3B003D5F3C /* MSSessionTrackerHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSSessionTrackerHelper.m; sourceTree = "<group>"; };
 		E83E81361D3ECF5900421B13 /* MSAnalyticsCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MSAnalyticsCategory.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		E83E81371D3ECF5900421B13 /* MSAnalyticsCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSAnalyticsCategory.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		E85547C01D2D6253002DF6E2 /* libSonomaAnalytics.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSonomaAnalytics.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		E85547C01D2D6253002DF6E2 /* libMobileCenterAnalytics.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMobileCenterAnalytics.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E85547C31D2D6253002DF6E2 /* MSAnalytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAnalytics.h; sourceTree = "<group>"; };
 		E85547C51D2D6253002DF6E2 /* MSAnalytics.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSAnalytics.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		E85547CC1D2D63EF002DF6E2 /* MobileCenterAnalytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MobileCenterAnalytics.h; sourceTree = "<group>"; };
 		E85547CE1D2D64F0002DF6E2 /* MSAnalyticsPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAnalyticsPrivate.h; sourceTree = "<group>"; };
 		E85547CF1D2D6521002DF6E2 /* MobileCenter+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "MobileCenter+Internal.h"; path = "../../../MobileCenter/MobileCenter/Internals/MobileCenter+Internal.h"; sourceTree = "<group>"; };
-		E85547D51D2D6723002DF6E2 /* SonomaAnalytics.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SonomaAnalytics.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E85547D51D2D6723002DF6E2 /* MobileCenterAnalytics.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MobileCenterAnalytics.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E85547D91D2D6723002DF6E2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E89B33E51D5A526D00FDE8FB /* MSSessionHistoryInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSSessionHistoryInfo.h; sourceTree = "<group>"; };
 		E89B33E61D5A526D00FDE8FB /* MSSessionHistoryInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSSessionHistoryInfo.m; sourceTree = "<group>"; };
@@ -169,7 +169,7 @@
 				6E06844D1D35A4CA00A8CC6C /* libMobileCenter.a in Frameworks */,
 				6E0684461D35A3C800A8CC6C /* libOCMock.a in Frameworks */,
 				6E06845A1D35A5FD00A8CC6C /* libOHHTTPStubs.a in Frameworks */,
-				E85547DA1D2D6723002DF6E2 /* libSonomaAnalytics.a in Frameworks */,
+				E85547DA1D2D6723002DF6E2 /* libMobileCenterAnalytics.a in Frameworks */,
 				6E0684381D35A3B900A8CC6C /* OCHamcrestIOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -276,8 +276,8 @@
 			children = (
 				387C77041D6CC39400D68CC1 /* MSFeatureAbstract.h */,
 				E8AEE97F1D596C8B00C0FF6C /* MSLogManager.h */,
-				E85547C21D2D6253002DF6E2 /* SonomaAnalytics */,
-				E85547D61D2D6723002DF6E2 /* SonomaAnalyticsTests */,
+				E85547C21D2D6253002DF6E2 /* MobileCenterAnalytics */,
+				E85547D61D2D6723002DF6E2 /* MobileCenterAnalyticsTests */,
 				E85547C11D2D6253002DF6E2 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -285,13 +285,13 @@
 		E85547C11D2D6253002DF6E2 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E85547C01D2D6253002DF6E2 /* libSonomaAnalytics.a */,
-				E85547D51D2D6723002DF6E2 /* SonomaAnalytics.xctest */,
+				E85547C01D2D6253002DF6E2 /* libMobileCenterAnalytics.a */,
+				E85547D51D2D6723002DF6E2 /* MobileCenterAnalytics.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		E85547C21D2D6253002DF6E2 /* SonomaAnalytics */ = {
+		E85547C21D2D6253002DF6E2 /* MobileCenterAnalytics */ = {
 			isa = PBXGroup;
 			children = (
 				E85547CC1D2D63EF002DF6E2 /* MobileCenterAnalytics.h */,
@@ -300,7 +300,7 @@
 				E85547CD1D2D64B0002DF6E2 /* Internals */,
 				E85547D01D2D65AF002DF6E2 /* Support */,
 			);
-			path = SonomaAnalytics;
+			path = MobileCenterAnalytics;
 			sourceTree = "<group>";
 		};
 		E85547CD1D2D64B0002DF6E2 /* Internals */ = {
@@ -320,12 +320,12 @@
 			isa = PBXGroup;
 			children = (
 				B2812EF01DA3148000307DCE /* module.modulemap */,
-				B2812EF21DA3148000307DCE /* SonomaAnalytics.xcconfig */,
+				B2812EF21DA3148000307DCE /* MobileCenterAnalytics.xcconfig */,
 			);
 			path = Support;
 			sourceTree = "<group>";
 		};
-		E85547D61D2D6723002DF6E2 /* SonomaAnalyticsTests */ = {
+		E85547D61D2D6723002DF6E2 /* MobileCenterAnalyticsTests */ = {
 			isa = PBXGroup;
 			children = (
 				E815912F1D526C22003D5F3C /* Utils */,
@@ -336,7 +336,7 @@
 				6E3E2CD11D359F3300B1EE50 /* MSPageLogTests.m */,
 				E85547D91D2D6723002DF6E2 /* Info.plist */,
 			);
-			path = SonomaAnalyticsTests;
+			path = MobileCenterAnalyticsTests;
 			sourceTree = "<group>";
 		};
 		E8E48F9B1D515C1F00A8C1B0 /* Session */ = {
@@ -379,9 +379,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		E85547BF1D2D6253002DF6E2 /* SonomaAnalytics */ = {
+		E85547BF1D2D6253002DF6E2 /* MobileCenterAnalytics */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E85547C91D2D6253002DF6E2 /* Build configuration list for PBXNativeTarget "SonomaAnalytics" */;
+			buildConfigurationList = E85547C91D2D6253002DF6E2 /* Build configuration list for PBXNativeTarget "MobileCenterAnalytics" */;
 			buildPhases = (
 				E85547BC1D2D6253002DF6E2 /* Sources */,
 				E85547BD1D2D6253002DF6E2 /* Frameworks */,
@@ -392,14 +392,14 @@
 			);
 			dependencies = (
 			);
-			name = SonomaAnalytics;
-			productName = SonomaAnalytics;
-			productReference = E85547C01D2D6253002DF6E2 /* libSonomaAnalytics.a */;
+			name = MobileCenterAnalytics;
+			productName = MobileCenterAnalytics;
+			productReference = E85547C01D2D6253002DF6E2 /* libMobileCenterAnalytics.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		E85547D41D2D6723002DF6E2 /* SonomaAnalyticsTests */ = {
+		E85547D41D2D6723002DF6E2 /* MobileCenterAnalyticsTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E85547DD1D2D6723002DF6E2 /* Build configuration list for PBXNativeTarget "SonomaAnalyticsTests" */;
+			buildConfigurationList = E85547DD1D2D6723002DF6E2 /* Build configuration list for PBXNativeTarget "MobileCenterAnalyticsTests" */;
 			buildPhases = (
 				E85547D11D2D6723002DF6E2 /* Sources */,
 				E85547D21D2D6723002DF6E2 /* Frameworks */,
@@ -410,9 +410,9 @@
 			dependencies = (
 				E85547DC1D2D6723002DF6E2 /* PBXTargetDependency */,
 			);
-			name = SonomaAnalyticsTests;
-			productName = SonomaAnalyticsTests;
-			productReference = E85547D51D2D6723002DF6E2 /* SonomaAnalytics.xctest */;
+			name = MobileCenterAnalyticsTests;
+			productName = MobileCenterAnalyticsTests;
+			productReference = E85547D51D2D6723002DF6E2 /* MobileCenterAnalytics.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -439,7 +439,7 @@
 					};
 				};
 			};
-			buildConfigurationList = E85547BB1D2D6253002DF6E2 /* Build configuration list for PBXProject "SonomaAnalytics" */;
+			buildConfigurationList = E85547BB1D2D6253002DF6E2 /* Build configuration list for PBXProject "MobileCenterAnalytics" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -451,10 +451,10 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				E85547BF1D2D6253002DF6E2 /* SonomaAnalytics */,
-				E85547E41D2D681F002DF6E2 /* SonomaAnalyticsFramework */,
-				E85547D41D2D6723002DF6E2 /* SonomaAnalyticsTests */,
-				E85547E91D2D68C5002DF6E2 /* SonomaAnalyticsDoc */,
+				E85547BF1D2D6253002DF6E2 /* MobileCenterAnalytics */,
+				E85547E41D2D681F002DF6E2 /* MobileCenterAnalyticsFramework */,
+				E85547D41D2D6723002DF6E2 /* MobileCenterAnalyticsTests */,
+				E85547E91D2D68C5002DF6E2 /* MobileCenterAnalyticsDoc */,
 			);
 		};
 /* End PBXProject section */
@@ -481,7 +481,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=SonomaAnalytics\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../Products\nZIP_FOLDER=${FMK_NAME}\nTEMP_DIR=${PRODUCTS_DIR}/${ZIP_FOLDER}\nINSTALL_DIR=${TEMP_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphoneos\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${TEMP_DIR}\" ]\nthen\nrm -rf \"${TEMP_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Support/module.modulemap\" \"${INSTALL_DIR}/Modules/\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Headers/\"\n\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" \"${SIMULATOR_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\n\nrm -r \"${WRK_DIR}\"";
+			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=MobileCenterAnalytics\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../Products\nZIP_FOLDER=${FMK_NAME}\nTEMP_DIR=${PRODUCTS_DIR}/${ZIP_FOLDER}\nINSTALL_DIR=${TEMP_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphoneos\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${TEMP_DIR}\" ]\nthen\nrm -rf \"${TEMP_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Support/module.modulemap\" \"${INSTALL_DIR}/Modules/\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Headers/\"\n\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" \"${SIMULATOR_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\n\nrm -r \"${WRK_DIR}\"";
 		};
 		E85547ED1D2D68CF002DF6E2 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -495,7 +495,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "jazzy --config ../Documentation/DocsAnalytics/.jazzy.yaml";
+			shellScript = "jazzy --config ../Documentation/DocsMobileCenterAnalytics/.jazzy.yaml";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -531,12 +531,12 @@
 /* Begin PBXTargetDependency section */
 		386352E41D51047400D0D450 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = E85547E41D2D681F002DF6E2 /* SonomaAnalyticsFramework */;
+			target = E85547E41D2D681F002DF6E2 /* MobileCenterAnalyticsFramework */;
 			targetProxy = 386352E31D51047400D0D450 /* PBXContainerItemProxy */;
 		};
 		E85547DC1D2D6723002DF6E2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = E85547BF1D2D6253002DF6E2 /* SonomaAnalytics */;
+			target = E85547BF1D2D6253002DF6E2 /* MobileCenterAnalytics */;
 			targetProxy = E85547DB1D2D6723002DF6E2 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -544,7 +544,7 @@
 /* Begin XCBuildConfiguration section */
 		E85547C71D2D6253002DF6E2 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B2812EF21DA3148000307DCE /* SonomaAnalytics.xcconfig */;
+			baseConfigurationReference = B2812EF21DA3148000307DCE /* MobileCenterAnalytics.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -592,7 +592,7 @@
 		};
 		E85547C81D2D6253002DF6E2 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B2812EF21DA3148000307DCE /* SonomaAnalytics.xcconfig */;
+			baseConfigurationReference = B2812EF21DA3148000307DCE /* MobileCenterAnalytics.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -639,8 +639,8 @@
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.sonoma.SonomaAnalytics;
-				PRODUCT_NAME = SonomaAnalytics;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.MobileCenterAnalytics;
+				PRODUCT_NAME = MobileCenterAnalytics;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SKIP_INSTALL = YES;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/**";
@@ -655,8 +655,8 @@
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.sonoma.SonomaAnalytics;
-				PRODUCT_NAME = SonomaAnalytics;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.MobileCenterAnalytics;
+				PRODUCT_NAME = MobileCenterAnalytics;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SKIP_INSTALL = YES;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/**";
@@ -670,7 +670,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
-				INFOPLIST_FILE = SonomaAnalyticsTests/Info.plist;
+				INFOPLIST_FILE = MobileCenterAnalyticsTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
@@ -680,8 +680,8 @@
 					Foundation,
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.sonoma.SonomaAnalyticsTests;
-				PRODUCT_NAME = SonomaAnalytics;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.MobileCenterAnalyticsTests;
+				PRODUCT_NAME = MobileCenterAnalytics;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/**";
 			};
 			name = Debug;
@@ -692,7 +692,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
-				INFOPLIST_FILE = SonomaAnalyticsTests/Info.plist;
+				INFOPLIST_FILE = MobileCenterAnalyticsTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
@@ -702,8 +702,8 @@
 					Foundation,
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.sonoma.SonomaAnalyticsTests;
-				PRODUCT_NAME = SonomaAnalytics;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.MobileCenterAnalyticsTests;
+				PRODUCT_NAME = MobileCenterAnalytics;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/**";
 			};
 			name = Release;
@@ -711,14 +711,14 @@
 		E85547E61D2D681F002DF6E2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				PRODUCT_NAME = SonomaAnalytics;
+				PRODUCT_NAME = MobileCenterAnalytics;
 			};
 			name = Debug;
 		};
 		E85547E71D2D681F002DF6E2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				PRODUCT_NAME = SonomaAnalytics;
+				PRODUCT_NAME = MobileCenterAnalytics;
 			};
 			name = Release;
 		};
@@ -728,7 +728,7 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				OTHER_CFLAGS = "";
-				PRODUCT_NAME = SonomaAnalytics;
+				PRODUCT_NAME = MobileCenterAnalytics;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"";
 				VALID_ARCHS = "";
 			};
@@ -739,7 +739,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
 				OTHER_CFLAGS = "";
-				PRODUCT_NAME = SonomaAnalytics;
+				PRODUCT_NAME = MobileCenterAnalytics;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"";
 				VALID_ARCHS = "";
 			};
@@ -748,7 +748,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		E85547BB1D2D6253002DF6E2 /* Build configuration list for PBXProject "SonomaAnalytics" */ = {
+		E85547BB1D2D6253002DF6E2 /* Build configuration list for PBXProject "MobileCenterAnalytics" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E85547C71D2D6253002DF6E2 /* Debug */,
@@ -757,7 +757,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E85547C91D2D6253002DF6E2 /* Build configuration list for PBXNativeTarget "SonomaAnalytics" */ = {
+		E85547C91D2D6253002DF6E2 /* Build configuration list for PBXNativeTarget "MobileCenterAnalytics" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E85547CA1D2D6253002DF6E2 /* Debug */,
@@ -766,7 +766,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E85547DD1D2D6723002DF6E2 /* Build configuration list for PBXNativeTarget "SonomaAnalyticsTests" */ = {
+		E85547DD1D2D6723002DF6E2 /* Build configuration list for PBXNativeTarget "MobileCenterAnalyticsTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E85547DE1D2D6723002DF6E2 /* Debug */,
@@ -775,7 +775,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E85547E51D2D681F002DF6E2 /* Build configuration list for PBXAggregateTarget "SonomaAnalyticsFramework" */ = {
+		E85547E51D2D681F002DF6E2 /* Build configuration list for PBXAggregateTarget "MobileCenterAnalyticsFramework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E85547E61D2D681F002DF6E2 /* Debug */,
@@ -784,7 +784,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E85547EA1D2D68C5002DF6E2 /* Build configuration list for PBXAggregateTarget "SonomaAnalyticsDoc" */ = {
+		E85547EA1D2D68C5002DF6E2 /* Build configuration list for PBXAggregateTarget "MobileCenterAnalyticsDoc" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E85547EB1D2D68C5002DF6E2 /* Debug */,

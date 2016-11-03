@@ -17,7 +17,7 @@
 		E82E1B721D1CA58D00D281C1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E82E1B701D1CA58D00D281C1 /* LaunchScreen.storyboard */; };
 		E82E1B8F1D1CA65D00D281C1 /* libSonomaCrashes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E82E1B811D1CA62900D281C1 /* libSonomaCrashes.a */; };
 		E82E1B901D1CA65D00D281C1 /* libMobileCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E82E1B881D1CA63000D281C1 /* libMobileCenter.a */; };
-		E85548081D2D6C9D002DF6E2 /* libSonomaAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E85548031D2D6C8D002DF6E2 /* libSonomaAnalytics.a */; };
+		E85548081D2D6C9D002DF6E2 /* libMobileCenterAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E85548031D2D6C8D002DF6E2 /* libMobileCenterAnalytics.a */; };
 		E89E6A2C1D396D7900CAA2CD /* MSCrashesReportsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89E6A291D396D7900CAA2CD /* MSCrashesReportsViewController.m */; };
 		E89E6A2D1D396D7900CAA2CD /* MSMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89E6A2B1D396D7900CAA2CD /* MSMainViewController.m */; };
 		E89E6A301D39704900CAA2CD /* MSAnalyticsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89E6A2F1D39704900CAA2CD /* MSAnalyticsViewController.m */; };
@@ -61,24 +61,24 @@
 		};
 		E85548021D2D6C8D002DF6E2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = E85547FB1D2D6C8D002DF6E2 /* SonomaAnalytics.xcodeproj */;
+			containerPortal = E85547FB1D2D6C8D002DF6E2 /* MobileCenterAnalytics.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = E85547C01D2D6253002DF6E2;
-			remoteInfo = SonomaAnalytics;
+			remoteInfo = MobileCenterAnalytics;
 		};
 		E85548041D2D6C8D002DF6E2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = E85547FB1D2D6C8D002DF6E2 /* SonomaAnalytics.xcodeproj */;
+			containerPortal = E85547FB1D2D6C8D002DF6E2 /* MobileCenterAnalytics.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = E85547D51D2D6723002DF6E2;
-			remoteInfo = SonomaAnalyticsTests;
+			remoteInfo = MobileCenterAnalyticsTests;
 		};
 		E85548061D2D6C98002DF6E2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = E85547FB1D2D6C8D002DF6E2 /* SonomaAnalytics.xcodeproj */;
+			containerPortal = E85547FB1D2D6C8D002DF6E2 /* MobileCenterAnalytics.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = E85547BF1D2D6253002DF6E2;
-			remoteInfo = SonomaAnalytics;
+			remoteInfo = MobileCenterAnalytics;
 		};
 		E8DF1C2B1D21A8F5006310CF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -105,7 +105,7 @@
 		E82E1B731D1CA58D00D281C1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E82E1B7C1D1CA62900D281C1 /* SonomaCrashes.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SonomaCrashes.xcodeproj; path = ../../SonomaCrashes/SonomaCrashes.xcodeproj; sourceTree = "<group>"; };
 		E82E1B821D1CA63000D281C1 /* MobileCenter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MobileCenter.xcodeproj; path = ../../MobileCenter/MobileCenter.xcodeproj; sourceTree = "<group>"; };
-		E85547FB1D2D6C8D002DF6E2 /* SonomaAnalytics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SonomaAnalytics.xcodeproj; path = ../../SonomaAnalytics/SonomaAnalytics.xcodeproj; sourceTree = "<group>"; };
+		E85547FB1D2D6C8D002DF6E2 /* MobileCenterAnalytics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MobileCenterAnalytics.xcodeproj; path = ../../MobileCenterAnalytics/MobileCenterAnalytics.xcodeproj; sourceTree = "<group>"; };
 		E89E6A281D396D7900CAA2CD /* MSCrashesReportsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrashesReportsViewController.h; sourceTree = "<group>"; };
 		E89E6A291D396D7900CAA2CD /* MSCrashesReportsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCrashesReportsViewController.m; sourceTree = "<group>"; };
 		E89E6A2A1D396D7900CAA2CD /* MSMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSMainViewController.h; sourceTree = "<group>"; };
@@ -121,7 +121,7 @@
 			files = (
 				6EC99A281D4152FA0016C325 /* libc++.tbd in Frameworks */,
 				6EC99A211D4151A00016C325 /* CrashReporter.framework in Frameworks */,
-				E85548081D2D6C9D002DF6E2 /* libSonomaAnalytics.a in Frameworks */,
+				E85548081D2D6C9D002DF6E2 /* libMobileCenterAnalytics.a in Frameworks */,
 				E82E1B8F1D1CA65D00D281C1 /* libSonomaCrashes.a in Frameworks */,
 				E82E1B901D1CA65D00D281C1 /* libMobileCenter.a in Frameworks */,
 			);
@@ -183,7 +183,7 @@
 		E82E1B7B1D1CA61000D281C1 /* Sonoma */ = {
 			isa = PBXGroup;
 			children = (
-				E85547FB1D2D6C8D002DF6E2 /* SonomaAnalytics.xcodeproj */,
+				E85547FB1D2D6C8D002DF6E2 /* MobileCenterAnalytics.xcodeproj */,
 				E82E1B821D1CA63000D281C1 /* MobileCenter.xcodeproj */,
 				E82E1B7C1D1CA62900D281C1 /* SonomaCrashes.xcodeproj */,
 			);
@@ -211,8 +211,8 @@
 		E85547FC1D2D6C8D002DF6E2 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E85548031D2D6C8D002DF6E2 /* libSonomaAnalytics.a */,
-				E85548051D2D6C8D002DF6E2 /* SonomaAnalytics.xctest */,
+				E85548031D2D6C8D002DF6E2 /* libMobileCenterAnalytics.a */,
+				E85548051D2D6C8D002DF6E2 /* MobileCenterAnalytics.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -284,12 +284,12 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = E85547FC1D2D6C8D002DF6E2 /* Products */;
-					ProjectRef = E85547FB1D2D6C8D002DF6E2 /* SonomaAnalytics.xcodeproj */;
-				},
-				{
 					ProductGroup = E82E1B831D1CA63000D281C1 /* Products */;
 					ProjectRef = E82E1B821D1CA63000D281C1 /* MobileCenter.xcodeproj */;
+				},
+				{
+					ProductGroup = E85547FC1D2D6C8D002DF6E2 /* Products */;
+					ProjectRef = E85547FB1D2D6C8D002DF6E2 /* MobileCenterAnalytics.xcodeproj */;
 				},
 				{
 					ProductGroup = E82E1B7D1D1CA62900D281C1 /* Products */;
@@ -325,17 +325,17 @@
 			remoteRef = E82E1B891D1CA63000D281C1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		E85548031D2D6C8D002DF6E2 /* libSonomaAnalytics.a */ = {
+		E85548031D2D6C8D002DF6E2 /* libMobileCenterAnalytics.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libSonomaAnalytics.a;
+			path = libMobileCenterAnalytics.a;
 			remoteRef = E85548021D2D6C8D002DF6E2 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		E85548051D2D6C8D002DF6E2 /* SonomaAnalytics.xctest */ = {
+		E85548051D2D6C8D002DF6E2 /* MobileCenterAnalytics.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = SonomaAnalytics.xctest;
+			path = MobileCenterAnalytics.xctest;
 			remoteRef = E85548041D2D6C8D002DF6E2 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -390,7 +390,7 @@
 		};
 		E85548071D2D6C98002DF6E2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = SonomaAnalytics;
+			name = MobileCenterAnalytics;
 			targetProxy = E85548061D2D6C98002DF6E2 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -516,7 +516,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.sonoma.Puppet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../MobileCenter/MobileCenter/** $(SRCROOT)/../SonomaAnalytics/SonomaAnalytics/** $(SRCROOT)/../SonomaCrashes/SonomaCrashes/**";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../MobileCenter/MobileCenter/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/** $(SRCROOT)/../SonomaCrashes/SonomaCrashes/**";
 			};
 			name = Debug;
 		};
@@ -535,7 +535,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.sonoma.Puppet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../MobileCenter/MobileCenter/** $(SRCROOT)/../SonomaAnalytics/SonomaAnalytics/** $(SRCROOT)/../SonomaCrashes/SonomaCrashes/**";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../MobileCenter/MobileCenter/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/** $(SRCROOT)/../SonomaCrashes/SonomaCrashes/**";
 			};
 			name = Release;
 		};

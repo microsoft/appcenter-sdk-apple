@@ -1012,7 +1012,7 @@
 					Foundation,
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.sonoma.MobileCenterTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.MobileCenterTests;
 				PRODUCT_NAME = MobileCenter;
 			};
 			name = Debug;
@@ -1033,7 +1033,7 @@
 					Foundation,
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.sonoma.MobileCenterTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.MobileCenterTests;
 				PRODUCT_NAME = MobileCenter;
 			};
 			name = Release;

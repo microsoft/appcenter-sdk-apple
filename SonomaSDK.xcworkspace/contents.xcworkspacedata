@@ -5,7 +5,7 @@
       location = "group:MobileCenter/MobileCenter.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:SonomaAnalytics/SonomaAnalytics.xcodeproj">
+      location = "group:MobileCenterAnalytics/MobileCenterAnalytics.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:SonomaCrashes/SonomaCrashes.xcodeproj">

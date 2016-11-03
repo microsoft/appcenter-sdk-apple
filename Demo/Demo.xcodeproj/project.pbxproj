@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		04CCCA441D88AA86005D8180 /* MobileCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04CCCA431D88AA86005D8180 /* MobileCenter.framework */; };
-		04CCCA461D88AA93005D8180 /* SonomaAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04CCCA451D88AA93005D8180 /* SonomaAnalytics.framework */; };
+		04CCCA461D88AA93005D8180 /* MobileCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04CCCA451D88AA93005D8180 /* MobileCenterAnalytics.framework */; };
 		04CCCA481D88AA9F005D8180 /* SonomaCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04CCCA471D88AA9F005D8180 /* SonomaCrashes.framework */; };
 		6E2307DA1D22083C0031C598 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2307D91D22083C0031C598 /* main.m */; };
 		6E2307DD1D22083C0031C598 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2307DC1D22083C0031C598 /* AppDelegate.m */; };
@@ -20,7 +20,7 @@
 
 /* Begin PBXFileReference section */
 		04CCCA431D88AA86005D8180 /* MobileCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenter.framework; path = ../Products/MobileCenter/MobileCenter.framework; sourceTree = "<group>"; };
-		04CCCA451D88AA93005D8180 /* SonomaAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SonomaAnalytics.framework; path = ../Products/SonomaAnalytics/SonomaAnalytics.framework; sourceTree = "<group>"; };
+		04CCCA451D88AA93005D8180 /* MobileCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterAnalytics.framework; path = ../Products/MobileCenterAnalytics/MobileCenterAnalytics.framework; sourceTree = "<group>"; };
 		04CCCA471D88AA9F005D8180 /* SonomaCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SonomaCrashes.framework; path = ../Products/SonomaCrashes/SonomaCrashes.framework; sourceTree = "<group>"; };
 		384959E81D49786A008F6B3A /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		6E2307D51D22083C0031C598 /* Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -41,7 +41,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				04CCCA481D88AA9F005D8180 /* SonomaCrashes.framework in Frameworks */,
-				04CCCA461D88AA93005D8180 /* SonomaAnalytics.framework in Frameworks */,
+				04CCCA461D88AA93005D8180 /* MobileCenterAnalytics.framework in Frameworks */,
 				04CCCA441D88AA86005D8180 /* MobileCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -95,7 +95,7 @@
 			isa = PBXGroup;
 			children = (
 				04CCCA471D88AA9F005D8180 /* SonomaCrashes.framework */,
-				04CCCA451D88AA93005D8180 /* SonomaAnalytics.framework */,
+				04CCCA451D88AA93005D8180 /* MobileCenterAnalytics.framework */,
 				04CCCA431D88AA86005D8180 /* MobileCenter.framework */,
 			);
 			name = Vendor;
