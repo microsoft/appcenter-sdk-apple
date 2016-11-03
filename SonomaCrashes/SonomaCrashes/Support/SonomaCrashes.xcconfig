@@ -1,3 +1,0 @@
-OTHER_LDFLAGS=$(inherited) -framework CrashReporter -framework Foundation -lc++ -lz
-SONOMA_GCC_PREPROCESSOR_DEFINITIONS=$(inherited) $(XCODEBUILD_GCC_PREPROCESSOR_DEFINITIONS)
-SONOMA_WARNING_FLAGS = -Wshorten-64-to-32 -Wall
