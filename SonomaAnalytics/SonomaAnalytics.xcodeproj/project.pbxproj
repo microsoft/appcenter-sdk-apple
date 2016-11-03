@@ -128,9 +128,7 @@
 		6E3E2CC81D359D5E00B1EE50 /* MSPageLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSPageLog.m; sourceTree = "<group>"; };
 		6E3E2CD01D359F3300B1EE50 /* MSEventLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSEventLogTests.m; sourceTree = "<group>"; };
 		6E3E2CD11D359F3300B1EE50 /* MSPageLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSPageLogTests.m; sourceTree = "<group>"; };
-		B2812EEF1DA3147F00307DCE /* buildnumber.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = buildnumber.xcconfig; sourceTree = "<group>"; };
 		B2812EF01DA3148000307DCE /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
-		B2812EF11DA3148000307DCE /* release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = release.xcconfig; sourceTree = "<group>"; };
 		B2812EF21DA3148000307DCE /* SonomaAnalytics.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = SonomaAnalytics.xcconfig; sourceTree = "<group>"; };
 		E81591291D526956003D5F3C /* MSStartSessionLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSStartSessionLogTests.m; sourceTree = "<group>"; };
 		E815912B1D526A09003D5F3C /* MSSessionTrackerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSSessionTrackerTests.m; sourceTree = "<group>"; };
@@ -321,9 +319,7 @@
 		E85547D01D2D65AF002DF6E2 /* Support */ = {
 			isa = PBXGroup;
 			children = (
-				B2812EEF1DA3147F00307DCE /* buildnumber.xcconfig */,
 				B2812EF01DA3148000307DCE /* module.modulemap */,
-				B2812EF11DA3148000307DCE /* release.xcconfig */,
 				B2812EF21DA3148000307DCE /* SonomaAnalytics.xcconfig */,
 			);
 			path = Support;
@@ -548,7 +544,7 @@
 /* Begin XCBuildConfiguration section */
 		E85547C71D2D6253002DF6E2 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B2812EEF1DA3147F00307DCE /* buildnumber.xcconfig */;
+			baseConfigurationReference = B2812EF21DA3148000307DCE /* SonomaAnalytics.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -596,7 +592,7 @@
 		};
 		E85547C81D2D6253002DF6E2 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B2812EF11DA3148000307DCE /* release.xcconfig */;
+			baseConfigurationReference = B2812EF21DA3148000307DCE /* SonomaAnalytics.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;

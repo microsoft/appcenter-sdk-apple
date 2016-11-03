@@ -171,9 +171,7 @@
 		6E171B371D22FF6B000DC480 /* OHHTTPStubsResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OHHTTPStubsResponse.h; sourceTree = "<group>"; };
 		6E171B381D22FF6B000DC480 /* OHPathHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OHPathHelpers.h; sourceTree = "<group>"; };
 		6E37297F1D1DE93800F1E4AE /* SonomaCrashes.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = SonomaCrashes.xcconfig; sourceTree = "<group>"; };
-		6E3729801D1DE93800F1E4AE /* buildnumber.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = buildnumber.xcconfig; sourceTree = "<group>"; };
 		6E3729811D1DE93800F1E4AE /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
-		6E3729821D1DE93800F1E4AE /* release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = release.xcconfig; sourceTree = "<group>"; };
 		6E73FE681D402F79008CDC15 /* MSCrashesCXXExceptionHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrashesCXXExceptionHandler.h; sourceTree = "<group>"; };
 		6E73FE691D402F79008CDC15 /* MSCrashesCXXExceptionHandler.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MSCrashesCXXExceptionHandler.mm; sourceTree = "<group>"; };
 		6E73FE6D1D4032AB008CDC15 /* MSCrashesHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrashesHelper.h; sourceTree = "<group>"; };
@@ -390,9 +388,7 @@
 			isa = PBXGroup;
 			children = (
 				6E37297F1D1DE93800F1E4AE /* SonomaCrashes.xcconfig */,
-				6E3729801D1DE93800F1E4AE /* buildnumber.xcconfig */,
 				6E3729811D1DE93800F1E4AE /* module.modulemap */,
-				6E3729821D1DE93800F1E4AE /* release.xcconfig */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -688,7 +684,7 @@
 /* Begin XCBuildConfiguration section */
 		6E04013A1D1C98690051BCFA /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6E3729801D1DE93800F1E4AE /* buildnumber.xcconfig */;
+			baseConfigurationReference = 6E37297F1D1DE93800F1E4AE /* SonomaCrashes.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -736,7 +732,7 @@
 		};
 		6E04013B1D1C98690051BCFA /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6E3729821D1DE93800F1E4AE /* release.xcconfig */;
+			baseConfigurationReference = 6E37297F1D1DE93800F1E4AE /* SonomaCrashes.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;

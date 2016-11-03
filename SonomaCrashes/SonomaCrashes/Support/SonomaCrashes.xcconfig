@@ -1,3 +1,18 @@
-OTHER_LDFLAGS=$(inherited) -framework CrashReporter -framework Foundation -lc++ -lz
-MOBILE_CENTER_GCC_PREPROCESSOR_DEFINITIONS=$(inherited) $(XCODEBUILD_GCC_PREPROCESSOR_DEFINITIONS)
-MOBILE_CENTER_WARNING_FLAGS = -Wshorten-64-to-32 -Wall
+BUILD_NUMBER = 1
+VERSION_STRING = 0.1.4
+SDK_NAME = mobilecenter.ios
+
+MS_ARM_ARCHS = armv7 armv7s arm64
+MS_SIM_ARCHS = x86_64 i386
+ARCHS = $(MS_ARM_ARCHS)
+VALID_ARCHS = $(MS_ARM_ARCHS)
+
+OTHER_CFLAGS = -Wshorten-64-to-32 -Wall
+OTHER_CFLAGS[sdk=iphoneos9.*] = $(MOBILE_CENTER_WARNING_FLAGS) -fembed-bitcode
+OTHER_CFLAGS[sdk=iphonesimulator9.*] = $(MOBILE_CENTER_WARNING_FLAGS) -fembed-bitcode-marker
+OTHER_CFLAGS[sdk=iphoneos10.*] = $(MOBILE_CENTER_WARNING_FLAGS) -fembed-bitcode
+OTHER_CFLAGS[sdk=iphonesimulator10.*] = $(MOBILE_CENTER_WARNING_FLAGS) -fembed-bitcode-marker
+
+OTHER_LDFLAGS=$(inherited) -framework CrashReporter -framework Foundation -framework UIKit -lc++ -lz
+
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) $(XCODEBUILD_GCC_PREPROCESSOR_DEFINITIONS) MOBILE_CENTER_CONFIGURATION_$(CONFIGURATION) MOBILE_CENTER_NAME="@\""$(SDK_NAME)"\"" MOBILE_CENTER_VERSION="@\""$(VERSION_STRING)"\"" MOBILE_CENTER_BUILD="@\""$(BUILD_NUMBER)"\"" MOBILE_CENTER_C_NAME="\""$(SDK_NAME)"\"" MOBILE_CENTER_C_VERSION="\""$(VERSION_STRING)"\"" MOBILE_CENTER_C_BUILD="\""$(BUILD_NUMBER)"\""
