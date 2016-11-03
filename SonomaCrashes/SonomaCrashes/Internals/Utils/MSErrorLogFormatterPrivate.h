@@ -3,7 +3,7 @@
  */
 
 #import "MSErrorLogFormatter.h"
-@class SNMPLCrashReportThreadInfo;
+@class MSPLCrashReportThreadInfo;
 
 #ifndef MSErrorLogFormatterPrivate_h
 #define MSErrorLogFormatterPrivate_h
@@ -24,7 +24,7 @@
  * @param report The crash report.
  * @return an error id as a NSString.
  */
-+ (NSString *)errorIdForCrashReport:(SNMPLCrashReport *)report;
++ (NSString *)errorIdForCrashReport:(MSPLCrashReport *)report;
 
 /**
  * Convenience method to add process information and application path to an error log. For simulator builds, it will
@@ -36,7 +36,7 @@
  * @return
  */
 + (MSAppleErrorLog *)addProcessInfoAndApplicationPathTo:(MSAppleErrorLog *)errorLog
-                                         fromCrashReport:(SNMPLCrashReport *)crashReport;
+                                         fromCrashReport:(MSPLCrashReport *)crashReport;
 
 /**
  * Convenience method to find the crashed thread in a crash report.
@@ -44,7 +44,7 @@
  * @param report The crash report.
  * @return the crashed thread info.
  */
-+ (SNMPLCrashReportThreadInfo *)findCrashedThreadInReport:(SNMPLCrashReport *)report;
++ (MSPLCrashReportThreadInfo *)findCrashedThreadInReport:(MSPLCrashReport *)report;
 
 @end
 

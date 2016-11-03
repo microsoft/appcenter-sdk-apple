@@ -29,7 +29,7 @@
   XCTAssertNotNil(device);
 
   NSError *error = nil;
-  SNMPLCrashReport *crashReport = [[SNMPLCrashReport alloc] initWithData:crashData error:&error];
+  MSPLCrashReport *crashReport = [[MSPLCrashReport alloc] initWithData:crashData error:&error];
 
   MSErrorReport *errorReport = [MSErrorLogFormatter errorReportFromCrashReport:crashReport];
   XCTAssertNotNil(errorReport);
@@ -47,7 +47,7 @@
   XCTAssertNotNil(crashData);
   error = nil;
 
-  crashReport = [[SNMPLCrashReport alloc] initWithData:crashData error:&error];
+  crashReport = [[MSPLCrashReport alloc] initWithData:crashData error:&error];
   errorReport = [MSErrorLogFormatter errorReportFromCrashReport:crashReport];
   XCTAssertNotNil(errorReport);
   XCTAssertNotNil(errorReport.incidentIdentifier);
@@ -66,7 +66,7 @@
   XCTAssertNotNil(crashData);
 
   NSError *error = nil;
-  SNMPLCrashReport *report = [[SNMPLCrashReport alloc] initWithData:crashData error:&error];
+  MSPLCrashReport *report = [[MSPLCrashReport alloc] initWithData:crashData error:&error];
 
   NSString *expected = (NSString *) CFBridgingRelease(CFUUIDCreateString(NULL, report.uuidRef));
   NSString *actual = [MSErrorLogFormatter errorIdForCrashReport:report];
@@ -77,11 +77,11 @@
   NSData *crashData = [MSCrashTestHelper dataOfFixtureCrashReportWithFileName:@"live_report_exception"];
   XCTAssertNotNil(crashData);
   NSError *error = nil;
-  SNMPLCrashReport *report = [[SNMPLCrashReport alloc] initWithData:crashData error:&error];
-  SNMPLCrashReportExceptionInfo *plExceptionInfo = report.exceptionInfo;
+  MSPLCrashReport *report = [[MSPLCrashReport alloc] initWithData:crashData error:&error];
+  MSPLCrashReportExceptionInfo *plExceptionInfo = report.exceptionInfo;
   MSAppleErrorLog *errorLog = [MSErrorLogFormatter errorLogFromCrashReport:report];
 
-  SNMPLCrashReportThreadInfo *crashedThread = [MSErrorLogFormatter findCrashedThreadInReport:report];
+  MSPLCrashReportThreadInfo *crashedThread = [MSErrorLogFormatter findCrashedThreadInReport:report];
 
   for (MSThread *thread in errorLog.threads) {
     if ([thread.threadId isEqualToNumber:@(crashedThread.threadNumber)]) {
@@ -100,7 +100,7 @@
   XCTAssertNotNil(crashData);
 
   NSError *error = nil;
-  SNMPLCrashReport *report = [[SNMPLCrashReport alloc] initWithData:crashData error:&error];
+  MSPLCrashReport *report = [[MSPLCrashReport alloc] initWithData:crashData error:&error];
 
   MSAppleErrorLog *actual = [MSAppleErrorLog new];
   actual = [MSErrorLogFormatter addProcessInfoAndApplicationPathTo:actual fromCrashReport:report];

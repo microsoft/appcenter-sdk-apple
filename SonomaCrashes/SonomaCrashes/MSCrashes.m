@@ -243,9 +243,9 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
   PLCrashReporterSignalHandlerType signalHandlerType = PLCrashReporterSignalHandlerTypeBSD;
   PLCrashReporterSymbolicationStrategy symbolicationStrategy = PLCrashReporterSymbolicationStrategyNone;
-  SNMPLCrashReporterConfig *config = [[SNMPLCrashReporterConfig alloc] initWithSignalHandlerType:signalHandlerType
+  MSPLCrashReporterConfig *config = [[MSPLCrashReporterConfig alloc] initWithSignalHandlerType:signalHandlerType
                                                                            symbolicationStrategy:symbolicationStrategy];
-  _plCrashReporter = [[SNMPLCrashReporter alloc] initWithConfiguration:config];
+  _plCrashReporter = [[MSPLCrashReporter alloc] initWithConfiguration:config];
 
   /**
    The actual signal and mach handlers are only registered when invoking
@@ -344,7 +344,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     if ([crashFileData length] > 0) {
       MSLogVerbose([MSCrashes getLoggerTag], @"Crash report found");
       if (self.isEnabled) {
-        SNMPLCrashReport *report = [[SNMPLCrashReport alloc] initWithData:crashFileData error:&error];
+        MSPLCrashReport *report = [[MSPLCrashReport alloc] initWithData:crashFileData error:&error];
         MSAppleErrorLog *log = [MSErrorLogFormatter errorLogFromCrashReport:report];
         MSErrorReport *errorReport = [MSErrorLogFormatter errorReportFromLog:(log)];
         if (!self.delegate ||
@@ -435,7 +435,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     } else {
 
       // Get data of PLCrashReport and write it to SDK directory
-      SNMPLCrashReport *report = [[SNMPLCrashReport alloc] initWithData:crashData error:&error];
+      MSPLCrashReport *report = [[MSPLCrashReport alloc] initWithData:crashData error:&error];
 
       if (report) {
         [crashData writeToFile:[self.crashesDir stringByAppendingPathComponent:cacheFilename] atomically:YES];
