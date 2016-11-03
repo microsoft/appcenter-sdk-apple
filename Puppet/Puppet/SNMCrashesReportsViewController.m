@@ -1,4 +1,4 @@
-#import "SNMCrashes.h"
+#import "MSCrashes.h"
 #import "SNMCrashesReportsViewController.h"
 
 @interface SNMCrashesReportsViewController ()
@@ -38,7 +38,7 @@
 }
 
 - (void)generateTestCrash {
-  [SNMCrashes generateTestCrash];
+  [MSCrashes generateTestCrash];
 }
 
 - (void)throwObjectiveCException __attribute__((noreturn)) {
@@ -125,7 +125,7 @@
 
       // Define the switch control and add it to the cell.
       UISwitch *enabledSwitch = [[UISwitch alloc] init];
-      enabledSwitch.on = [SNMCrashes isEnabled];
+      enabledSwitch.on = [MSCrashes isEnabled];
       CGSize switchSize = [enabledSwitch sizeThatFits:CGSizeZero];
       enabledSwitch.frame = CGRectMake(cell.contentView.bounds.size.width - switchSize.width - 10.0f,
                                        (cell.contentView.bounds.size.height - switchSize.height) / 2.0f,
@@ -176,8 +176,8 @@
 
 - (void)enabledSwitchUpdated:(id)sender {
   UISwitch *enabledSwitch = (UISwitch *)sender;
-  [SNMCrashes setEnabled:enabledSwitch.on];
-  enabledSwitch.on = [SNMCrashes isEnabled];
+  [MSCrashes setEnabled:enabledSwitch.on];
+  enabledSwitch.on = [MSCrashes isEnabled];
 }
 
 @end

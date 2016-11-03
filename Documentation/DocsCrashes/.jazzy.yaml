@@ -16,9 +16,9 @@ custom_categories:
     children:
     - Installation
 
-umbrella_header: ../../Products/SonomaCrashes/SonomaCrashes.framework/Headers/SonomaCrashes.h
+umbrella_header: ../../Products/SonomaCrashes/SonomaCrashes.framework/Headers/MobileCenterCrashes.h
 framework_root: ../../Products/SonomaCrashes
-exclude: [../../Products/SonomaCrashes/SonomaCrashes.framework/Headers/SNMFeature.h, ../../Products/SonomaCrashes/SonomaCrashes.framework/Headers/SNMFeatureAbstract.h]
+exclude: [../../Products/SonomaCrashes/SonomaCrashes.framework/Headers/MSFeature.h, ../../Products/SonomaCrashes/SonomaCrashes.framework/Headers/MSFeatureAbstract.h]
 
 root_url: http://test.com/sdk/ios/1.0.0
 github_url: https://github.com/Microsoft/Sonoma-SDK-iOS
