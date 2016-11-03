@@ -3,7 +3,7 @@
 
 @import MobileCenter;
 @import SonomaCrashes;
-@import SonomaAnalytics;
+@import MobileCenterAnalytics;
 
 @interface AppDelegate () <MSCrashesDelegate>
 

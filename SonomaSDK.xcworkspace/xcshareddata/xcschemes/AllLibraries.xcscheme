@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E85547BF1D2D6253002DF6E2"
-               BuildableName = "libSonomaAnalytics.a"
-               BlueprintName = "SonomaAnalytics"
-               ReferencedContainer = "container:SonomaAnalytics/SonomaAnalytics.xcodeproj">
+               BuildableName = "libMobileCenterAnalytics.a"
+               BlueprintName = "MobileCenterAnalytics"
+               ReferencedContainer = "container:MobileCenterAnalytics/MobileCenterAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -86,9 +86,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E85547D41D2D6723002DF6E2"
-               BuildableName = "SonomaAnalytics.xctest"
-               BlueprintName = "SonomaAnalyticsTests"
-               ReferencedContainer = "container:SonomaAnalytics/SonomaAnalytics.xcodeproj">
+               BuildableName = "MobileCenterAnalytics.xctest"
+               BlueprintName = "MobileCenterAnalyticsTests"
+               ReferencedContainer = "container:MobileCenterAnalytics/MobileCenterAnalytics.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference

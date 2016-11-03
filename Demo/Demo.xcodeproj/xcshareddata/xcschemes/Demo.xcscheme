@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E85547E41D2D681F002DF6E2"
-               BuildableName = "SonomaAnalyticsFramework"
-               BlueprintName = "SonomaAnalyticsFramework"
-               ReferencedContainer = "container:../SonomaAnalytics/SonomaAnalytics.xcodeproj">
+               BuildableName = "MobileCenterAnalyticsFramework"
+               BlueprintName = "MobileCenterAnalyticsFramework"
+               ReferencedContainer = "container:../MobileCenterAnalytics/MobileCenterAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
