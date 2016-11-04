@@ -175,36 +175,32 @@
   assertThatBool([[MSFeatureAbstractImplementation sharedInstance] canBeUsed], isTrue());
 }
 
-//FIXME: fix multithreading-issue in MSHTTPSender.m:274, uncommenting test while we rename the SDK
+- (void)testFeatureDisabledOnCoreDisabled {
 
-//- (void)testFeatureDisabledOnCoreDisabled {
-//
-//  // If
-//  [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:kMSMobileCenterIsEnabledKey];
-//  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withFeatures:@[ [MSFeatureAbstractImplementation class] ]];
-//
-//  // When
-//  [MSMobileCenter setEnabled:NO];
-//
-//  // Then
-//  assertThatBool([[MSFeatureAbstractImplementation class] isEnabled], isFalse());
-//}
+  // If
+  [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:kMSMobileCenterIsEnabledKey];
+  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withFeatures:@[ [MSFeatureAbstractImplementation class] ]];
 
-//FIXME: fix multithreading-issue in MSHTTPSender.m:274, uncommenting test while we rename the SDK
+  // When
+  [MSMobileCenter setEnabled:NO];
 
-//- (void)testEnableFeatureOnCoreDisabled {
-//
-//  // If
-//  [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:kMSMobileCenterIsEnabledKey];
-//  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withFeatures:@[ [MSFeatureAbstractImplementation class] ]];
-//  [MSMobileCenter setEnabled:NO];
-//
-//  // When
-//  [[MSFeatureAbstractImplementation class] setEnabled:YES];
-//
-//  // Then
-//  assertThatBool([[MSFeatureAbstractImplementation class] isEnabled], isFalse());
-//}
+  // Then
+  assertThatBool([[MSFeatureAbstractImplementation class] isEnabled], isFalse());
+}
+
+- (void)testEnableFeatureOnCoreDisabled {
+
+  // If
+  [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:kMSMobileCenterIsEnabledKey];
+  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withFeatures:@[ [MSFeatureAbstractImplementation class] ]];
+  [MSMobileCenter setEnabled:NO];
+
+  // When
+  [[MSFeatureAbstractImplementation class] setEnabled:YES];
+
+  // Then
+  assertThatBool([[MSFeatureAbstractImplementation class] isEnabled], isFalse());
+}
 
 - (void)testLogDeletedOnDisabled {
 

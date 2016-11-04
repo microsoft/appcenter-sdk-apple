@@ -39,8 +39,7 @@
   [self resetTimer];
 
   // Create queue.
-  dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-  self.timerSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
+  self.timerSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, DISPATCH_TARGET_QUEUE_DEFAULT);
   int64_t delta = NSEC_PER_SEC * [self delayForRetryCount:self.retryCount];
   MSLogDebug([MSMobileCenter getLoggerTag], @"Call attempt #%lu failed, it will be retried in %.f ms.", (unsigned long)self.retryCount,
               round(delta / 1000000));
