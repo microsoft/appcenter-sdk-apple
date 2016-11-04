@@ -4,15 +4,39 @@
 
 import UIKit
 
+import MobileCenter
+import MobileCenterAnalytics
+import MobileCenterCrashes
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, UIAlertViewDelegate {
 
   var window: UIWindow?
 
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     // Override point for customization after application launch.
+    
+    MSMobileCenter.start("7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7", withServices: [MSAnalytics.self, MSCrashes.self])
+
+    // Analytics-API
+//    MSAnalytics.trackEvent("Video clicked", withProperties: ["Category" : "Music", "FileName" : "favorite.avi"])
+//    MSAnalytics.trackEvent("Video clicked")
+//    MSAnalytics.setEnabled(false)
+//    var enabled = MSAnalytics.isEnabled()
+
+    // Crashes-API
+    
+    // Crashes Delegate
+    MSCrashes.setUserConfirmationHandler({ (errorReports: [MSErrorReport]) in
+      
+      // Your code.
+      // Present your UI to the user, e.g. an UIAlertView.
+      UIAlertView.init(title: "Sorry we crashed!", message: "Do you want to send a Crash Report?", delegate: self, cancelButtonTitle: "No", otherButtonTitles:"Always send", "Send").show()
+      
+      return true
+    })
+    
     return true
   }
 
@@ -38,6 +62,45 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
   }
 
+  // Crashes Delegate
 
+  func crashes(_ crashes: MSCrashes!, shouldProcessErrorReport errorReport: MSErrorReport!) -> Bool {
+    return true; // return true if the crash report should be processed, otherwise false.
+  }
+  
+  func attachment(with crashes: MSCrashes!, for errorReport: MSErrorReport!) -> MSErrorAttachment! {
+    let attachment = MSErrorAttachment.init(text: "TextAttachment", andBinaryData: (String("Hello World")?.data(using: String.Encoding.utf8))!, filename: "binary.txt", mimeType: "text/plain")
+    return attachment
+  }
+  
+  func crashes(_ crashes: MSCrashes!, willSend errorReport: MSErrorReport!) {
+    
+  }
+  
+  func crashes(_ crashes: MSCrashes!, didSucceedSending errorReport: MSErrorReport!) {
+    
+  }
+  
+  func crashes(_ crashes: MSCrashes!, didFailSending errorReport: MSErrorReport!, withError error: Error!) {
+    
+  }
+  
+  // UIAlertViewDelegate
+  
+  func alertView(_ alertView: UIAlertView, clickedButtonAt buttonIndex: Int) {
+    switch buttonIndex {
+    case 0:
+      MSCrashes.notify(with: MSUserConfirmation.dontSend)
+      break
+    case 1:
+      MSCrashes.notify(with: MSUserConfirmation.always)
+      break
+    case 2:
+      MSCrashes.notify(with: MSUserConfirmation.send)
+      break
+    default:
+      break
+    }
+  }
 }
 

@@ -7,18 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B21924191DCD02A400D5797D /* MobileCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B21924181DCD02A400D5797D /* MobileCenter.framework */; };
+		B219241B1DCD0C6D00D5797D /* MobileCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B219241A1DCD0C6D00D5797D /* MobileCenter.framework */; };
+		B219241D1DCD0C7500D5797D /* MobileCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B219241C1DCD0C7500D5797D /* MobileCenterAnalytics.framework */; };
+		B219241F1DCD0C8400D5797D /* MobileCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B219241E1DCD0C8400D5797D /* MobileCenterCrashes.framework */; };
 		B2CDD0ED1DCCFAAC00610725 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2CDD0EC1DCCFAAC00610725 /* AppDelegate.swift */; };
 		B2CDD0EF1DCCFAAC00610725 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2CDD0EE1DCCFAAC00610725 /* ViewController.swift */; };
 		B2CDD0F21DCCFAAC00610725 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B2CDD0F01DCCFAAC00610725 /* Main.storyboard */; };
 		B2CDD0F41DCCFAAC00610725 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B2CDD0F31DCCFAAC00610725 /* Assets.xcassets */; };
 		B2CDD0F71DCCFAAC00610725 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B2CDD0F51DCCFAAC00610725 /* LaunchScreen.storyboard */; };
-		B2CDD13E1DCD00D200610725 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
-		B2CDD1401DCD00DD00610725 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		B21924181DCD02A400D5797D /* MobileCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenter.framework; path = ../Products/MobileCenter/MobileCenter.framework; sourceTree = "<group>"; };
+		B219241A1DCD0C6D00D5797D /* MobileCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenter.framework; path = Products/MobileCenter/MobileCenter.framework; sourceTree = "<group>"; };
+		B219241C1DCD0C7500D5797D /* MobileCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterAnalytics.framework; path = Products/MobileCenterAnalytics/MobileCenterAnalytics.framework; sourceTree = "<group>"; };
+		B219241E1DCD0C8400D5797D /* MobileCenterCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterCrashes.framework; path = Products/MobileCenterCrashes/MobileCenterCrashes.framework; sourceTree = "<group>"; };
 		B2CDD0E91DCCFAAC00610725 /* SwiftDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2CDD0EC1DCCFAAC00610725 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B2CDD0EE1DCCFAAC00610725 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -37,9 +39,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B2CDD13E1DCD00D200610725 /* (null) in Frameworks */,
-				B2CDD1401DCD00DD00610725 /* (null) in Frameworks */,
-				B21924191DCD02A400D5797D /* MobileCenter.framework in Frameworks */,
+				B219241F1DCD0C8400D5797D /* MobileCenterCrashes.framework in Frameworks */,
+				B219241D1DCD0C7500D5797D /* MobileCenterAnalytics.framework in Frameworks */,
+				B219241B1DCD0C6D00D5797D /* MobileCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,7 +101,9 @@
 		B2CDD1361DCCFE9400610725 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
-				B21924181DCD02A400D5797D /* MobileCenter.framework */,
+				B219241A1DCD0C6D00D5797D /* MobileCenter.framework */,
+				B219241C1DCD0C7500D5797D /* MobileCenterAnalytics.framework */,
+				B219241E1DCD0C8400D5797D /* MobileCenterCrashes.framework */,
 			);
 			name = Vendor;
 			path = ..;

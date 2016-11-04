@@ -30,6 +30,7 @@ Before you begin, please make sure that the following prerequisites are met:
 
 * An iOS project that is set up in Xcode 8.1 on macOS version 10.11 or later.
 * The minimum OS target supported by the Mobile Center SDK is iOS 8.0 or later.
+* This readme assumes that the developers are using Swift 3 syntax and want to integrate the all services.
 
 ## 2. Integrate the SDK
 
@@ -79,41 +80,43 @@ To start the Mobile Center SDK in your app, follow these steps:
 ### 1. Add `import` statements  
 You need to add import statements for Core, Analytics and Crashes module before starting the SDK.
     
-    **Objective-C**   
-    Open your AppDelegate.m file and add the following lines at the top of the file below your own import statements.   
+**Objective-C**   
+Open your AppDelegate.m file and add the following lines at the top of the file below your own import statements.   
     
-    ```objective-c
-    @import MobileCenter;
-    @import MobileCenterAnalytics;
-    @import MobileCenterCrashes;
-    ```
+```objectivec
+@import MobileCenter;
+@import MobileCenterAnalytics;
+@import MobileCenterCrashes;
+```
 
-    **Swift**   
-    Open your AppDelegate.swift file and add the following lines.   
-        
-    ```swift
-    import MobileCenter
-    import MobileCenterAnalytics
-    import MobileCenterCrashes
-    ``` 
+**Swift**   
+Open your AppDelegate.swift file and add the following lines.   
+    
+```swift
+import MobileCenter
+import MobileCenterAnalytics
+import MobileCenterCrashes
+``` 
 
 ### 2. Start the SDK
 
 Mobile Center provides developers with three modules to get started: `MobileCenter` (required), `MobileCenterAnalytics` and `MobileCenterCrashes` (both are optional). In order to use Mobile Center services, you need to opt in for the module(s) that you'd like, meaning by default no modules are started and you will have to explicitly call each of them, both Analytics and Crashes, when starting the SDK.
 
-    **Objective-C**   
-    Insert the following line to start the SDK in your app's AppDelegate.m class in the `didFinishLaunchingWithOptions` method.  
-    
-    ```objective-c
-    [MSMobileCenter start:@"{Your App Secret}" withServices:@[[MSAnalytics class], [MSCrashes class]]];
-    ```
+**Objective-C** 
 
-    **Swift**   
-    Insert the following line to start the SDK in your app's AppDelegate.swift class in the `didFinishLaunchingWithOptions` method.   
+Add the following line to start the SDK in your app's AppDelegate.m class in the `application:didFinishLaunchingWithOptions:` method.  
     
-    ```swift
-    MSMobileCenter.start("{Your App Secret}", withServices: [MSAnalytics.self, MSCrashes.self])
-    ```    
+```objectivec
+[MSMobileCenter start:@"{Your App Secret}" withServices:@[[MSAnalytics class], [MSCrashes class]]];
+```
+
+**Swift**   
+
+Insert the following line to start the SDK in your app's AppDelegate.swift class in the `application(_:didFinishLaunchingWithOptions:)` method.   
+    
+```swift
+MSMobileCenter.start("{Your App Secret}", withServices: [MSAnalytics.self, MSCrashes.self])
+```    
     
 You can also copy paste the `start` method call from the Overview page on Mobile Center portal once your app is selected. It already includes the App Secret so that all the data collected by the SDK corresponds to your application. Make sure to replace `{Your App Secret}` text with the actual value for your application.
     
@@ -133,7 +136,7 @@ You can track your own custom events with specific properties to know what's hap
 
 **Objective-C**
 
-```objective-c
+```objectivec
 NSDictionary *properties = @{@"Category" : @"Music", @"FileName" : @"favorite.avi"};
 [MSAnalytics trackEvent:@"Video clicked" withProperties: properties];
 ```
@@ -148,7 +151,7 @@ Properties for events are entirely optional. If you just want to track an event 
 
 **Objective-C**
     
-```objective-c
+```objectivec
 [MSAnalytics trackEvent:@"Video clicked"];
 ```
 
@@ -164,7 +167,7 @@ You can change the enabled state of the Analytics module at runtime by calling t
 
 **Objective-C**
 
-```objective-c
+```objectivec
 [MSAnalytics setEnabled:NO];
 ```
 
@@ -178,11 +181,12 @@ You can also check if the module is enabled or not using the `isEnabled` method:
 
 **Objective-C**
 
-```objective-c
+```objectivec
 BOOL enabled = [MSAnalytics isEnabled];
 ```
 
 **Swift**
+
 ```swift
 var enabled = MSAnalytics.isEnabled()
 ```
@@ -196,7 +200,7 @@ The SDK provides you with a static API to generate a test crash for easy testing
 
 **Objective-C**
 
-```objective-c
+```objectivec
 [MSCrashes generateTestCrash];
 ```
 
@@ -214,7 +218,7 @@ At any time after starting the SDK, you can check if the app crashed in the prev
 
 **Objective-C**
 
-```objective-c
+```objectivec
 [MSCrashes hasCrashedInLastSession];
 ```
 
@@ -230,7 +234,7 @@ If your app crashed previously, you can get details about the last crash:
 
 **Objective-C**
 
-```objective-c
+```objectivec
 MSErrorReport *crashReport = [MSCrashes lastSessionCrashReport];
 ```
 
@@ -246,7 +250,7 @@ You can disable and opt out of using the Crashes module by calling the `setEnabl
 
 **Objective-C**
 
-```objective-c
+```objectivec
 [MSCrashes setEnabled:NO];
 ```
 
@@ -260,32 +264,35 @@ You can also check if the module is enabled or not using the `isEnabled` method:
 
 **Objective-C**
 
-```objective-c
+```objectivec
 BOOL enabled = [MSCrashes isEnabled];
 ```
 
 **Swift**
+
 ```swift
 var enabled = MSCrashes.isEnabled()
 ```
 
 ### Advanced Scenarios
 
-The Crashes module provides delegates to perform additional actions before and when sending crash reports to Mobile Center. This gives you added flexibility on the crash reports that will be sent.  
+The Crashes module provides delegates to perform additional actions before and when sending crash reports to Mobile Center. This gives you added flexibility on the crash reports that will be sent. 
+
+#### Register as a delegate. 
 
  **Objective-C**
  
- ```objective-c
- [MSCrashes setDelegate:self];
- ```
+```objectivec
+[MSCrashes setDelegate:self];
+```
 
 **Swift**
 
 ```swift
-[MSCrashes setDelegate:self];
+MSCrashes.setDelegate(self)
 ```
 
-The following delegates are provided:  
+The following delegate methods are provided.  
     
 #### Should the crash be processed?
 
@@ -293,7 +300,7 @@ Implement the following delegate methods if you'd like to decide if a particular
 
 **Objective-C**
 
-```objective-c
+```objectivec
 - (BOOL)crashes:(MSCrashes *)crashes shouldProcessErrorReport:(MSErrorReport *)errorReport {
   return YES; // return YES if the crash report should be processed, otherwise NO.
 }
@@ -302,44 +309,47 @@ Implement the following delegate methods if you'd like to decide if a particular
 **Swift**
 
 ```swift
-(BOOL)crashes:(MSCrashes *)crashes shouldProcessErrorReport:(MSErrorReport *)errorReport {
-  return true; // return true if the crash report should be processed, otherwise false.
+func crashes(_ crashes: MSCrashes!, shouldProcessErrorReport errorReport: MSErrorReport!) -> Bool {
+	objectivecreturn true; // return true if the crash report should be processed, otherwise false.
 }
 ```
         
 ### User Confirmation
 
-If user privacy is important to you as a developer, you might want to get user confirmation before sending a crash report to Mobile Center. The SDK exposes a callback where you can tell it to await user confirmation before sending any crash reports. This requires two steps:
+If user privacy is important to you as a developer, you might want to get a user's confirmation before sending a crash report to Mobile Center. The SDK exposes a callbacks where you can tell it to await user confirmation before sending any crash reports. This requires two steps:
 
-#### 1. Set a useronfirmation handler
+#### 1. Set a user confirmation handler.
 	
-Your app is responsible for obtaining confirmation, e.g. through a dialog prompt with one of these options - "Always Send", "Send", and "Don't send". Based on the user input, you will tell the SDK and the crash will then respectively be forwarded to Mobile Center or not. The method takes a block as a parameter, use it to pass in your logic to present the UI to confirm a crash report here.
+Your app is responsible for obtaining confirmation, e.g. through a dialog prompt with one of these options - "Always Send", "Send", and "Don't send". You need inform the SDK about the users input and the crash will handled accordingly. The method takes a block as a parameter, use it to pass in your logic to present the UI to confirm a crash report.
 
 **Objective-C**
 	
-```objective-c
+```objectivec
 [MSCrashes setUserConfirmationHandler:(^(NSArray<MSErrorReport *> *errorReports) {
-	
-	// Your code here. Things you can do here:
-	// 1. present a UI to the user, maybe an alert with the options "Send", "Don't Send" or "Always Send"
+	// Your code to present your UI to the user, e.g. an UIAlertView.
 	[[[UIAlertView alloc] initWithTitle:@"Sorry we crashed."
-                                message:@"Do you want to send a report about the crash to the developer?"
-                               delegate:self
-                      cancelButtonTitle:@"Don't send"
-                      otherButtonTitles:@"Always send", @"Send", nil] show];
-
-	// 2. You could also iterate over the array of error reports and base your decision on them.
+	                            message:@"Do you want to send a report about the crash to the developer?"
+	                           delegate:self
+	                  cancelButtonTitle:@"Don't send"
+	                  otherButtonTitles:@"Always send", @"Send", nil] show];
 	
-	return YES; // Return YES if the SDK should await user confirmation, otherwise NO.
+	// 2. You could also iterate over the array of error reports and base your decision on them.
+		
+return YES; // Return YES if the SDK should await user confirmation, otherwise NO.
 }
 ```
 	
 **Swift**
 	
 ```swift
-[MSCrashes setUserConfirmationHandler:(^(NSArray<MSErrorReport *> *errorReports) {
-    return true; // Return true if the SDK should await user confirmation, otherwise false.
-}
+ // Crashes Delegate
+MSCrashes.setUserConfirmationHandler({ (errorReports: [MSErrorReport]) in
+	  
+	// Your code to present your UI to the user, e.g. an UIAlertView.
+	UIAlertView.init(title: "Sorry we crashed!", message: "Do you want to send a Crash Report?", delegate: self, cancelButtonTitle: "No", otherButtonTitles:"Always send", "Send").show()
+	  
+	return true // Return true if the SDK should await user confirmation, otherwise return false.
+})
 ```
 
 #### 2. Inform the Mobile Center SDK about the user's choice.
@@ -348,17 +358,22 @@ If you return `YES`/`true` in step 1, your app should obtain user permission and
 
 **Objective-C**
 	
-```objective-c
-[MSCrashes notifyWithUserConfirmation:MSUserConfirmation];
+```objectivec
+// Depending on the users's choice, call notifyWithUserConfirmation: with the right value.
+[MSCrashes notifyWithUserConfirmation:MSUserConfirmationDontSend];
+[MSCrashes notifyWithUserConfirmation:MSUserConfirmationAlways];
+[MSCrashes notifyWithUserConfirmation:MSUserConfirmationSend];
 ```
 	
 **Swift**
 	
 ```swift
-[MSCrashes notifyWithUserConfirmation:MSUserConfirmation];
-```
+// Depending on the user's choice, call notify(with:) with the right value.
+MSCrashes.notify(with: MSUserConfirmation.dontSend)
+MSCrashes.notify(with: MSUserConfirmation.send)
+MSCrashes.notify(with: MSUserConfirmation.always)
 
-Pass one option of `MSUserConfirmationDontSend`, `MSUserConfirmationAlways` or `MSUserConfirmationSend`to the Mobile Center SDK.
+```
 
 ### Attaching data to crashes
 
@@ -366,18 +381,22 @@ If you'd like to attach text/binary data to a crash report, implement this callb
 
 **Objective-C**
 
-```objective-c
+```objectivec
 - (MSErrorAttachment *)attachmentWithCrashes:(MSCrashes *)crashes forErrorReport:(MSErrorReport *)errorReport {
-    // return your own created ErrorAttachment object
+  return [MSErrorAttachment attachmentWithText:@"Text Attachment"
+                                  andBinaryData:[@"Hello World" dataUsingEncoding:NSUTF8StringEncoding]
+                                       filename:@"binary.txt" mimeType:@"text/plain"];
 }
 ```
 
 **Swift**
 
 ```swift
-- (MSErrorAttachment *)attachmentWithCrashes:(MSCrashes *)crashes forErrorReport:(MSErrorReport *)errorReport {
-    // return your own created ErrorAttachment object
+func attachment(with crashes: MSCrashes!, for errorReport: MSErrorReport!) -> MSErrorAttachment! {
+	let attachment = MSErrorAttachment.init(text: "TextAttachment", andBinaryData: (String("Hello World")?.data(using: String.Encoding.utf8))!, filename: "binary.txt", mimeType: "text/plain")
+	return attachment
 }
+
 ```
 
 ### Sending status
@@ -390,7 +409,7 @@ This callback will be invoked just before the crash is sent to Mobile Center:
 
 **Objective-C**
 
-```objective-c
+```objectivec
 - (void)crashes:(MSCrashes *)crashes willSendErrorReport:(MSErrorReport *)errorReport {
    // Your code, e.g. to present a custom UI.
 }
@@ -399,9 +418,10 @@ This callback will be invoked just before the crash is sent to Mobile Center:
 **Swift**
 
 ```swift
-- (void)crashes:(MSCrashes *)crashes willSendErrorReport:(MSErrorReport *)errorReport {
-    …
+func crashes(_ crashes: MSCrashes!, willSend errorReport: MSErrorReport!) {
+   // Your code, e.g. to present a custom UI.
 }
+
 ```
 
 #### Sending a crash report was successfull
@@ -410,7 +430,7 @@ This callback will be invoked after sending a crash report succeeded:
 
 **Objective-C**
 
-```objective-c
+```objectivec
 - (void)crashes:(MSCrashes *)crashes didSucceedSendingErrorReport:(MSErrorReport *)errorReport {
    	// Your code, e.g. to hide the custom UI.
 }
@@ -419,8 +439,8 @@ This callback will be invoked after sending a crash report succeeded:
 **Swift**
 
 ```swift
-- (void)crashes:(MSCrashes *)crashes didSucceedSendingErrorReport:(MSErrorReport *)errorReport {
-    // Your code, e.g. to hide the custom UI.
+func crashes(_ crashes: MSCrashes!, didSucceedSending errorReport: MSErrorReport!) {
+   	// Your code, e.g. to hide the custom UI.
 }
 ```
 
@@ -430,7 +450,7 @@ This callback will be invoked after sending a crash report failed:
 
 **Objective-C**
 
-```objective-c
+```objectivec
 - (void)crashes:(MSCrashes *)crashes didFailSendingErrorReport:(MSErrorReport *)errorReport withError:(NSError *)error {
   	// Your code, e.g. to hide the custom UI.
 }
@@ -439,8 +459,8 @@ This callback will be invoked after sending a crash report failed:
 **Swift**
 
 ```swift
-- (void)crashes:(MSCrashes *)crashes didFailSendingErrorReport:(MSErrorReport *)errorReport withError:(NSError *)error {
-   // Your code, e.g. to hide the custom UI.MS
+func crashes(_ crashes: MSCrashes!, didFailSending errorReport: MSErrorReport!, withError error: Error!) {
+   	// Your code, e.g. to hide the custom UI.    
 }
 ```
   
@@ -453,7 +473,7 @@ You can control the amount of log messages that show up from the Mobile Center S
 
 **Objective-C**
 
-```objective-c
+```objectivec
 [MSMobileCenter setLogLevel:MSLogLevelVerbose];
 ```
 
@@ -469,7 +489,7 @@ The Mobile Center SDK creates a UUID for each device once the app is installed. 
 
 **Objective-C**
 
-```objective-c
+```objectivec
 NSUUID *installId = [MSMobileCenter installId];
 ```
 
@@ -483,17 +503,17 @@ var installId = MSMobileCenter.installId()
 
 If you want the Mobile Center SDK to be disabled completely, use the `setEnabled` API. When disabled, the SDK will not forward any information to Mobile Center.
 
-	**Objective-C**
+**Objective-C**
 	
-	```objective-c
-	[MSMobileCenter setEnabled:NO];
-	```
+```objectivec
+[MSMobileCenter setEnabled:NO];
+```
 	
-	**Swift**
+**Swift**
 	
-	```swift
-	MSMobileCenter.setEnabled(false)
-	```
+```swift
+MSMobileCenter.setEnabled(false)
+```
         
 ## 7. Troubleshooting
 
