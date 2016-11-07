@@ -18,7 +18,7 @@ custom_categories:
 
 umbrella_header: ../../Products/MobileCenterCrashes/MobileCenterCrashes.framework/Headers/MobileCenterCrashes.h
 framework_root: ../../Products/MobileCenterCrashes
-exclude: [../../Products/MobileCenterCrashes/MobileCenterCrashes.framework/Headers/MSFeature.h, ../../Products/MobileCenterCrashes/MobileCenterCrashes.framework/Headers/MSFeatureAbstract.h]
+exclude: [../../Products/MobileCenterCrashes/MobileCenterCrashes.framework/Headers/MSService.h, ../../Products/MobileCenterCrashes/MobileCenterCrashes.framework/Headers/MSServiceAbstract.h]
 
 root_url: http://test.com/sdk/ios/1.0.0
 github_url: https://github.com/Microsoft/Sonoma-SDK-iOS

@@ -170,7 +170,7 @@
 
   assertThatBool([[MSServiceAbstractImplementation sharedInstance] canBeUsed], isFalse());
 
-    [MSMobileCenter start:[[NSUUID UUID] UUIDString] withServices:@[[MSServiceAbstractImplementation class]]];
+  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withServices:@[[MSServiceAbstractImplementation class]]];
 
   assertThatBool([[MSServiceAbstractImplementation sharedInstance] canBeUsed], isTrue());
 }
