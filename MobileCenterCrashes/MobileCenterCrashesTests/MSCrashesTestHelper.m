@@ -14,69 +14,69 @@
   NSString *path = [[NSBundle bundleForClass:self.class] pathForResource:fixture ofType:@"json"];
   NSError *error = nil;
   NSString *content = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
-  
-  if(error) {
+
+  if (error) {
     NSLog(@"Couldn't load fixture with error: %@", error.localizedDescription);
   }
-  
+
   return content;
 }
 
 - (BOOL)createTempDirectory:(NSString *)directory {
   NSFileManager *fm = [[NSFileManager alloc] init];
-  
+
   if (![fm fileExistsAtPath:directory]) {
-    NSDictionary *attributes = [NSDictionary dictionaryWithObject: [NSNumber numberWithUnsignedLong: 0755] forKey: NSFilePosixPermissions];
+    NSDictionary *attributes = [NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedLong:0755] forKey:NSFilePosixPermissions];
     NSError *error;
     [fm createDirectoryAtPath:directory withIntermediateDirectories:YES attributes:attributes error:&error];
     if (error)
       return NO;
   }
-  
+
   return YES;
 }
 
 + (BOOL)createTempDirectory:(NSString *)directory {
   NSFileManager *fm = [[NSFileManager alloc] init];
-  
+
   if (![fm fileExistsAtPath:directory]) {
-    NSDictionary *attributes = [NSDictionary dictionaryWithObject: [NSNumber numberWithUnsignedLong: 0755] forKey: NSFilePosixPermissions];
+    NSDictionary *attributes = [NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedLong:0755] forKey:NSFilePosixPermissions];
     NSError *error;
     [fm createDirectoryAtPath:directory withIntermediateDirectories:YES attributes:attributes error:&error];
     if (error)
       return NO;
   }
-  
+
   return YES;
 }
 
 + (BOOL)copyFixtureCrashReportWithFileName:(NSString *)filename {
   NSFileManager *fm = [[NSFileManager alloc] init];
-  
+
   // the bundle identifier when running with unit tets is "otest"
   const char *progname = getprogname();
   if (progname == NULL) {
     return NO;
   }
-  
-  NSString *bundleIdentifierPathString = [NSString stringWithUTF8String: progname];
+
+  NSString *bundleIdentifierPathString = [NSString stringWithUTF8String:progname];
   NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-  
+
   // create the PLCR cache dir
   NSString *plcrRootCrashesDir = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"com.plausiblelabs.crashreporter.data"];
   if (![MSCrashesTestHelper createTempDirectory:plcrRootCrashesDir])
     return NO;
-  
+
   NSString *plcrCrashesDir = [plcrRootCrashesDir stringByAppendingPathComponent:bundleIdentifierPathString];
   if (![MSCrashesTestHelper createTempDirectory:plcrCrashesDir])
     return NO;
-  
+
   NSString *filePath = [[NSBundle bundleForClass:self.class] pathForResource:filename ofType:@"plcrash"];
   NSError *error = NULL;
-  
+
   if (!filePath) return NO;
   [fm copyItemAtPath:filePath toPath:[plcrCrashesDir stringByAppendingPathComponent:@"live_report.plcrash"] error:&error];
-  
+
   if (error)
     return NO;
   else
@@ -102,14 +102,14 @@
   MSStackFrame *frame = [MSStackFrame new];
   frame.address = @"frameAddress";
   frame.code = @"frameSymbol";
-  NSArray<MSStackFrame *>* frames = [NSArray arrayWithObject:frame];
-  
+  NSArray<MSStackFrame *> *frames = [NSArray arrayWithObject:frame];
+
   MSException *exception = [MSException new];
   exception.type = type;
   exception.message = message;
   exception.wrapperSdkName = wrapperSdkName;
   exception.frames = frames;
-  
+
   return exception;
 }
 

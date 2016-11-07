@@ -21,7 +21,7 @@
 
 - (void)setUp {
   [super setUp];
-  
+
   self.sut = [self appleErrorLog];
 }
 
@@ -32,7 +32,7 @@
 #pragma mark - Helper
 
 - (MSAppleErrorLog *)appleErrorLog {
-  
+
   MSAppleErrorLog *appleLog = [MSAppleErrorLog new];
   appleLog.type = @"iOS Error";
   appleLog.primaryArchitectureId = @1;
@@ -44,7 +44,7 @@
   appleLog.exceptionType = @"NSExceptionType";
   appleLog.exceptionReason = @"Trying to access array[12]";
   appleLog.exception = [MSCrashesTestHelper exception];
-  
+
   return appleLog;
 }
 
@@ -66,7 +66,7 @@
   assertThat(actual[@"os_exception_address"], equalTo(self.sut.osExceptionAddress));
   assertThat(actual[@"exception_type"], equalTo(self.sut.exceptionType));
   assertThat(actual[@"exception_reason"], equalTo(self.sut.exceptionReason));
-  
+
   NSDictionary *exceptionDicationary = actual[@"exception"];
   XCTAssertNotNil(exceptionDicationary);
   assertThat(exceptionDicationary[@"type"], equalTo(self.sut.exception.type));
@@ -77,15 +77,15 @@
 - (void)testNSCodingSerializationAndDeserializationWorks {
   // When
   NSData *serializedEvent =
-  [NSKeyedArchiver archivedDataWithRootObject:self.sut];
+          [NSKeyedArchiver archivedDataWithRootObject:self.sut];
   id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedEvent];
-  
+
   // Then
   assertThat(actual, notNilValue());
   assertThat(actual, instanceOf([MSAppleErrorLog class]));
-  
+
   MSAppleErrorLog *actualLog = actual;
-  
+
   assertThat(actualLog.type, equalTo(self.sut.type));
   assertThat(actualLog.primaryArchitectureId, equalTo(self.sut.primaryArchitectureId));
   assertThat(actualLog.architectureVariantId, equalTo(self.sut.architectureVariantId));
@@ -95,9 +95,9 @@
   assertThat(actualLog.osExceptionAddress, equalTo(self.sut.osExceptionAddress));
   assertThat(actualLog.exceptionType, equalTo(self.sut.exceptionType));
   assertThat(actualLog.exceptionReason, equalTo(self.sut.exceptionReason));
-  
+
   MSException *actualException = actualLog.exception;
-  
+
   assertThat(actualException.type, equalTo(self.sut.exception.type));
   assertThat(actualException.message, equalTo(self.sut.exception.message));
   assertThat(actualException.wrapperSdkName, equalTo(self.sut.exception.wrapperSdkName));

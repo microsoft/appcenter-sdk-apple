@@ -16,13 +16,13 @@
 #pragma mark - Tests
 
 - (void)testSerializingBinaryToDictionaryWorks {
-  
+
   // If
   MSException *sut = [MSCrashesTestHelper exception];
-  
+
   // When
   NSMutableDictionary *actual = [sut serializeToDictionary];
-  
+
   // Then
   assertThat(actual, notNilValue());
   assertThat(actual[@"type"], equalTo(sut.type));
@@ -31,19 +31,19 @@
 }
 
 - (void)testNSCodingSerializationAndDeserializationWorks {
-  
+
   // If
   MSException *sut = [MSCrashesTestHelper exception];
-  
+
   // When
   NSData *serializedEvent =
-  [NSKeyedArchiver archivedDataWithRootObject:sut];
+          [NSKeyedArchiver archivedDataWithRootObject:sut];
   id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedEvent];
-  
+
   // Then
   assertThat(actual, notNilValue());
   assertThat(actual, instanceOf([MSException class]));
-  
+
   MSException *actualException = actual;
   assertThat(actualException.type, equalTo(sut.type));
   assertThat(actualException.message, equalTo(sut.message));
