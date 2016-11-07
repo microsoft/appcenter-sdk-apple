@@ -2,9 +2,11 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "MSCrashTestHelper.h"
+#import "MSCrashesTestHelper.h"
+#import "MSException.h"
+#import "MSStackFrame.h"
 
-@implementation MSCrashTestHelper
+@implementation MSCrashesTestHelper
 
 // loads test fixture from json file
 // http://blog.roberthoglund.com/2010/12/ios-unit-testing-loading-bundle.html
@@ -62,11 +64,11 @@
   
   // create the PLCR cache dir
   NSString *plcrRootCrashesDir = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"com.plausiblelabs.crashreporter.data"];
-  if (![MSCrashTestHelper createTempDirectory:plcrRootCrashesDir])
+  if (![MSCrashesTestHelper createTempDirectory:plcrRootCrashesDir])
     return NO;
   
   NSString *plcrCrashesDir = [plcrRootCrashesDir stringByAppendingPathComponent:bundleIdentifierPathString];
-  if (![MSCrashTestHelper createTempDirectory:plcrCrashesDir])
+  if (![MSCrashesTestHelper createTempDirectory:plcrCrashesDir])
     return NO;
   
   NSString *filePath = [[NSBundle bundleForClass:self.class] pathForResource:filename ofType:@"plcrash"];
@@ -91,6 +93,24 @@
   if (!filePath) return nil;
   NSData *data = [NSData dataWithContentsOfFile:filePath];
   return data;
+}
+
++ (MSException *)exception {
+  NSString *type = @"exception_type";
+  NSString *message = @"message";
+  NSString *wrapperSdkName = @"mobilecenter.xamarin";
+  MSStackFrame *frame = [MSStackFrame new];
+  frame.address = @"frameAddress";
+  frame.code = @"frameSymbol";
+  NSArray<MSStackFrame *>* frames = [NSArray arrayWithObject:frame];
+  
+  MSException *exception = [MSException new];
+  exception.type = type;
+  exception.message = message;
+  exception.wrapperSdkName = wrapperSdkName;
+  exception.frames = frames;
+  
+  return exception;
 }
 
 @end
