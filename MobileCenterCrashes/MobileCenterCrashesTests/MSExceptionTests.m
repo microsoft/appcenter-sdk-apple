@@ -26,6 +26,7 @@
   assertThat(actual, notNilValue());
   assertThat(actual[@"type"], equalTo(sut.type));
   assertThat(actual[@"message"], equalTo(sut.message));
+  assertThat(actual[@"wrapper_sdk_name"], equalTo(sut.wrapperSdkName));
 }
 
 - (void)testNSCodingSerializationAndDeserializationWorks {
@@ -45,6 +46,7 @@
   MSException *actualException = actual;
   assertThat(actualException.type, equalTo(sut.type));
   assertThat(actualException.message, equalTo(sut.message));
+  assertThat(actualException.wrapperSdkName, equalTo(sut.wrapperSdkName));
   assertThatInteger(actualException.frames.count, equalToInteger(1));
   assertThat(actualException.frames.firstObject.address, equalTo(@"frameAddress"));
   assertThat(actualException.frames.firstObject.code, equalTo(@"frameSymbol"));
@@ -55,6 +57,7 @@
 - (MSException *)exception {
   NSString *type = @"exception_type";
   NSString *message = @"message";
+  NSString *wrapperSdkName = @"mobilecenter.xamarin";
   MSStackFrame *frame = [MSStackFrame new];
   frame.address = @"frameAddress";
   frame.code = @"frameSymbol";
@@ -63,6 +66,7 @@
   MSException *exception = [MSException new];
   exception.type = type;
   exception.message = message;
+  exception.wrapperSdkName = wrapperSdkName;
   exception.frames = frames;
   
   return exception;
