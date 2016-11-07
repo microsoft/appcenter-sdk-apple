@@ -1,7 +1,7 @@
 #import "MSConstants+Internal.h"
-#import "MSEnvironmentHelper.h"
 #import "MSDeviceTracker.h"
 #import "MSDeviceTrackerPrivate.h"
+#import "MSEnvironmentHelper.h"
 #import "MSFileStorage.h"
 #import "MSHttpSender.h"
 #import "MSLogManagerDefault.h"
@@ -146,13 +146,13 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
 
 - (BOOL)start:(NSString *)appSecret {
   if (self.sdkStarted) {
-    MSLogWarning([MSMobileCenter getLoggerTag], @"SDK has already been started. You can call `start` only once.");
+    MSLogWarning([MSMobileCenter getLoggerTag], @"SDK has already been started, `start` can be called only once.");
     return NO;
   }
 
   // Validate and set the app secret.
   if ([appSecret length] == 0 || ![[NSUUID alloc] initWithUUIDString:appSecret]) {
-    MSLogError([MSMobileCenter getLoggerTag], @"AppSecret is invalid");
+    MSLogAssert([MSMobileCenter getLoggerTag], @"AppSecret is invalid. Failed to start Mobile Center SDK.");
     return NO;
   }
   self.appSecret = appSecret;
@@ -175,6 +175,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
   if ((![MSLogger isUserDefinedLogLevel]) && ([MSEnvironmentHelper currentAppEnvironment] == MSEnvironmentOther)) {
     [MSMobileCenter setLogLevel:MSLogLevelWarning];
   }
+  MSLogAssert([MSMobileCenter getLoggerTag], @"Mobile Center SDK started successfully.");
   return YES;
 }
 
@@ -184,6 +185,8 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
     for (Class feature in features) {
       [self startFeature:feature];
     }
+  } else {
+    MSLogAssert([MSMobileCenter getLoggerTag], @"Failed to initialize Mobile Center SDK.");
   }
 }
 
@@ -241,13 +244,13 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
   // Hookup to application life-cycle events
   if (isEnabled) {
     [kMSNotificationCenter addObserver:self
-                               selector:@selector(applicationDidEnterBackground)
-                                   name:UIApplicationDidEnterBackgroundNotification
-                                 object:nil];
+                              selector:@selector(applicationDidEnterBackground)
+                                  name:UIApplicationDidEnterBackgroundNotification
+                                object:nil];
     [kMSNotificationCenter addObserver:self
-                               selector:@selector(applicationWillEnterForeground)
-                                   name:UIApplicationWillEnterForegroundNotification
-                                 object:nil];
+                              selector:@selector(applicationWillEnterForeground)
+                                  name:UIApplicationWillEnterForegroundNotification
+                                object:nil];
   }
 
   // Propagate to log manager.
@@ -267,9 +270,9 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
   NSDictionary *queryStrings = @{kMSAPIVersionKey : kMSAPIVersion};
 
   MSHttpSender *sender = [[MSHttpSender alloc] initWithBaseUrl:self.serverUrl
-                                                         headers:headers
-                                                    queryStrings:queryStrings
-                                                    reachability:[MS_Reachability reachabilityForInternetConnection]];
+                                                       headers:headers
+                                                  queryStrings:queryStrings
+                                                  reachability:[MS_Reachability reachabilityForInternetConnection]];
 
   // Construct storage.
   MSFileStorage *storage = [[MSFileStorage alloc] init];
@@ -312,8 +315,8 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
   BOOL canBeUsed = self.sdkStarted;
   if (!canBeUsed) {
     MSLogError([MSMobileCenter getLoggerTag],
-                @"Mobile Center SDK hasn't been initialized. You need to call [MSMobileCenter "
-                @"start:YOUR_APP_SECRET withFeatures:LIST_OF_FEATURES] first.");
+               @"Mobile Center SDK hasn't been initialized. You need to call [MSMobileCenter "
+               @"start:YOUR_APP_SECRET withFeatures:LIST_OF_FEATURES] first.");
   }
   return canBeUsed;
 }
