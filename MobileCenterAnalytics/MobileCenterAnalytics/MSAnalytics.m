@@ -25,7 +25,7 @@ static NSString *const kMSServiceName = @"Analytics";
   if (self = [super init]) {
 
     // Set defaults.
-    _autoPageTrackingEnabled = YES;
+    _autoPageTrackingEnabled = NO;
 
     // Init session tracker.
     _sessionTracker = [[MSSessionTracker alloc] init];
