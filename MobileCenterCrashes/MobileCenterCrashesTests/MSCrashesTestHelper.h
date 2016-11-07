@@ -4,11 +4,14 @@
 
 #import <Foundation/Foundation.h>
 
-@interface MSCrashTestHelper : NSObject
+@class MSException;
+
+@interface MSCrashesTestHelper : NSObject
 
 + (id)jsonFixture:(NSString *)fixture;
 + (BOOL)createTempDirectory:(NSString *)directory;
 + (BOOL)copyFixtureCrashReportWithFileName:(NSString *)filename;
 + (NSData *)dataOfFixtureCrashReportWithFileName:(NSString *)filename;
++ (MSException *)exception;
 
 @end
