@@ -24,9 +24,10 @@
   // Check default loglevel before MSMobileCenter was started.
   XCTAssertTrue([MSLogger currentLogLevel] == MSLogLevelAssert);
   // Need to set sdkStarted to NO to make sure the start-logic goes through once, otherwise this test will fail
-  // randomly as other tests might call start:withFeatures, too.
+  // randomly as other tests might call start:withServices, too.
+  [MSMobileCenter resetSharedInstance];
   [MSMobileCenter sharedInstance].sdkStarted = NO;
-  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withFeatures:nil];
+  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withServices:nil];
   
   XCTAssertTrue([MSLogger currentLogLevel] == MSLogLevelWarning);
 }

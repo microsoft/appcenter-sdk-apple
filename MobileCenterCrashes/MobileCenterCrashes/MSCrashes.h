@@ -3,7 +3,7 @@
  */
 
 #import "MSErrorReport.h"
-#import "MSFeatureAbstract.h"
+#import "MSServiceAbstract.h"
 
 #import <UIKit/UIKit.h>
 
@@ -55,7 +55,7 @@ typedef NS_ENUM(NSUInteger, MSUserConfirmation) {
 
 @protocol MSCrashesDelegate;
 
-@interface MSCrashes : MSFeatureAbstract
+@interface MSCrashes : MSServiceAbstract
 
 ///-----------------------------------------------------------------------------
 /// @name Helper
