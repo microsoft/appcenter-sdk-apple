@@ -167,6 +167,7 @@
 }
 
 - (void)testCanBeUsed {
+  [MSMobileCenter resetSharedInstance];
 
   assertThatBool([[MSServiceAbstractImplementation sharedInstance] canBeUsed], isFalse());
 
@@ -209,6 +210,8 @@
 - (void)testEnableServiceOnCoreDisabled {
 
   // If
+  [MSMobileCenter resetSharedInstance];
+
   [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:kMSMobileCenterIsEnabledKey];
   [MSMobileCenter start:[[NSUUID UUID] UUIDString] withServices:@[[MSServiceAbstractImplementation class]]];
   [MSMobileCenter setEnabled:NO];
