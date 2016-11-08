@@ -29,6 +29,12 @@
  */
 @property(nonatomic, nullable) NSArray<MSException *> *innerExceptions;
 
+/*
+ * Name of the wrapper SDK that emitted this exeption.
+ * Consists of the name of the SDK and the wrapper platform, e.g. "mobilecenter.xamarin", "hockeysdk.cordova".
+ */
+@property(nonatomic, nullable) NSString *wrapperSdkName;
+
 /**
  * Is equal to another exception
  *

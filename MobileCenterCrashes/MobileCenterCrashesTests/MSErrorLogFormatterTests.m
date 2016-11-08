@@ -7,7 +7,7 @@
 #import <XCTest/XCTest.h>
 
 #import "MSAppleErrorLog.h"
-#import "MSCrashTestHelper.h"
+#import "MSCrashesTestHelper.h"
 #import "MSCrashesPrivate.h"
 #import "MSDeviceTracker.h"
 #import "MSErrorLogFormatterPrivate.h"
@@ -22,7 +22,7 @@
 @implementation MSErrorLogFormatterTests
 
 - (void)testCreateErrorReport {
-  NSData *crashData = [MSCrashTestHelper dataOfFixtureCrashReportWithFileName:@"live_report_signal"];
+  NSData *crashData = [MSCrashesTestHelper dataOfFixtureCrashReportWithFileName:@"live_report_signal"];
   XCTAssertNotNil(crashData);
 
   MSDevice *device = [[MSDeviceTracker alloc] init].device;
@@ -43,7 +43,7 @@
   XCTAssertTrue([errorReport.device isEqual:device]);
   XCTAssertEqual(errorReport.appProcessIdentifier, crashReport.processInfo.processID);
 
-  crashData = [MSCrashTestHelper dataOfFixtureCrashReportWithFileName:@"live_report_exception"];
+  crashData = [MSCrashesTestHelper dataOfFixtureCrashReportWithFileName:@"live_report_exception"];
   XCTAssertNotNil(crashData);
   error = nil;
 
@@ -62,7 +62,7 @@
 }
 
 - (void)testErrorIdFromCrashReport {
-  NSData *crashData = [MSCrashTestHelper dataOfFixtureCrashReportWithFileName:@"live_report_signal"];
+  NSData *crashData = [MSCrashesTestHelper dataOfFixtureCrashReportWithFileName:@"live_report_signal"];
   XCTAssertNotNil(crashData);
 
   NSError *error = nil;
@@ -74,7 +74,7 @@
 }
 
 - (void)testProcessIdAndExceptionForObjectiveCExceptionCrash {
-  NSData *crashData = [MSCrashTestHelper dataOfFixtureCrashReportWithFileName:@"live_report_exception"];
+  NSData *crashData = [MSCrashesTestHelper dataOfFixtureCrashReportWithFileName:@"live_report_exception"];
   XCTAssertNotNil(crashData);
   NSError *error = nil;
   MSPLCrashReport *report = [[MSPLCrashReport alloc] initWithData:crashData error:&error];
@@ -96,7 +96,7 @@
 }
 
 - (void)testAddProcessInfoAndApplicationPath {
-  NSData *crashData = [MSCrashTestHelper dataOfFixtureCrashReportWithFileName:@"live_report_exception"];
+  NSData *crashData = [MSCrashesTestHelper dataOfFixtureCrashReportWithFileName:@"live_report_exception"];
   XCTAssertNotNil(crashData);
 
   NSError *error = nil;
@@ -110,8 +110,8 @@
   XCTAssertNotNil(actual.applicationPath);
   // Not using the report.processInfo.processPath directly to compare as it will be anonymized in the Simulator.
   assertThat(actual.applicationPath, equalTo(@"/Users/USER/Library/Application Support/iPhone "
-                                                 @"Simulator/7.0/Applications/E196971A-6809-48AF-BB06-FD67014A35B2/"
-                                                 @"HockeySDK-iOSDemo.app/HockeySDK-iOSDemo"));
+          @"Simulator/7.0/Applications/E196971A-6809-48AF-BB06-FD67014A35B2/"
+          @"HockeySDK-iOSDemo.app/HockeySDK-iOSDemo"));
 
   XCTAssertEqual(actual.parentProcessName, report.processInfo.parentProcessName);
   assertThat(actual.parentProcessId, equalTo(@(report.processInfo.parentProcessID)));
@@ -124,9 +124,9 @@
   assertThat(actual, equalTo(expected));
 
   testPath = @"/Users/someone/Library/Developer/CoreSimulator/Devices/B8321AD0-C30B-41BD-BA54-5A7759CEC4CD/data/"
-      @"Containers/Bundle/Application/8CC7B5B5-7841-45C4-BAC2-6AA1B944A5E1/Puppet.app/Puppet";
+          @"Containers/Bundle/Application/8CC7B5B5-7841-45C4-BAC2-6AA1B944A5E1/Puppet.app/Puppet";
   expected = @"/Users/USER/Library/Developer/CoreSimulator/Devices/B8321AD0-C30B-41BD-BA54-5A7759CEC4CD/data/"
-      @"Containers/Bundle/Application/8CC7B5B5-7841-45C4-BAC2-6AA1B944A5E1/Puppet.app/Puppet";
+          @"Containers/Bundle/Application/8CC7B5B5-7841-45C4-BAC2-6AA1B944A5E1/Puppet.app/Puppet";
   actual = [MSErrorLogFormatter anonymizedPathFromPath:testPath];
   assertThat(actual, equalTo(expected));
   XCTAssertFalse([actual containsString:@"sampleuser"]);
@@ -148,7 +148,7 @@
 
   // Test with OS X LoginItems app helper path
   processPath = [appBundlePath
-      stringByAppendingString:@"/Contents/Library/LoginItems/net.hockeyapp.helper.app/Contents/MacOS/Helper"];
+          stringByAppendingString:@"/Contents/Library/LoginItems/net.hockeyapp.helper.app/Contents/MacOS/Helper"];
   [self testOSXNonAppSpecificImagesForProcessPath:processPath];
   [self assertIsOtherWithImagePath:processPath processPath:nil];
   [self assertIsOtherWithImagePath:nil processPath:processPath];
@@ -198,8 +198,8 @@
   [nonAppSpecificImagePaths addObject:@"/System/Library/Frameworks/CFNetwork.framework/Versions/A/CFNetwork"];
   [nonAppSpecificImagePaths addObject:@"/usr/lib/system/libsystem_platform.dylib"];
   [nonAppSpecificImagePaths
-      addObject:
-          @"/System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/vecLib"];
+          addObject:
+                  @"/System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/vecLib"];
   [nonAppSpecificImagePaths addObject:@"/System/Library/PrivateFrameworks/Sharing.framework/Versions/A/Sharing"];
   [nonAppSpecificImagePaths addObject:@"/usr/lib/libbsm.0.dylib"];
 
@@ -210,7 +210,7 @@
 
 - (void)testiOSAppFrameworkAtProcessPath:(NSString *)processPath appBundlePath:(NSString *)appBundlePath {
   NSString *frameworkPath =
-      [appBundlePath stringByAppendingString:@"/Frameworks/MyFrameworkLib.framework/MyFrameworkLib"];
+          [appBundlePath stringByAppendingString:@"/Frameworks/MyFrameworkLib.framework/MyFrameworkLib"];
   [self assertIsAppFrameworkWithFrameworkPath:frameworkPath processPath:processPath];
 
   frameworkPath = [appBundlePath stringByAppendingString:@"/Frameworks/libSwiftMyLib.framework/libSwiftMyLib"];
@@ -236,14 +236,14 @@
 
   // iOS frameworks
   [nonAppSpecificImagePaths
-      addObject:@"/System/Library/AccessibilityBundles/AccessibilitySettingsLoader.bundle/AccessibilitySettingsLoader"];
+          addObject:@"/System/Library/AccessibilityBundles/AccessibilitySettingsLoader.bundle/AccessibilitySettingsLoader"];
   [nonAppSpecificImagePaths addObject:@"/System/Library/Frameworks/AVFoundation.framework/AVFoundation"];
   [nonAppSpecificImagePaths addObject:@"/System/Library/Frameworks/AVFoundation.framework/libAVFAudio.dylib"];
   [nonAppSpecificImagePaths addObject:@"/System/Library/PrivateFrameworks/AOSNotification.framework/AOSNotification"];
   [nonAppSpecificImagePaths addObject:@"/System/Library/PrivateFrameworks/Accessibility.framework/Frameworks/"
-      @"AccessibilityUI.framework/AccessibilityUI"];
+          @"AccessibilityUI.framework/AccessibilityUI"];
   [nonAppSpecificImagePaths addObject:@"/System/Library/PrivateFrameworks/Accessibility.framework/Frameworks/"
-      @"AccessibilityUIUtilities.framework/AccessibilityUIUtilities"];
+          @"AccessibilityUIUtilities.framework/AccessibilityUIUtilities"];
   [nonAppSpecificImagePaths addObject:@"/usr/lib/libAXSafeCategoryBundle.dylib"];
   [nonAppSpecificImagePaths addObject:@"/usr/lib/libAXSpeechManager.dylib"];
   [nonAppSpecificImagePaths addObject:@"/usr/lib/libAccessibility.dylib"];
@@ -266,7 +266,7 @@
 - (void)assertIsAppFrameworkWithFrameworkPath:(NSString *)frameworkPath processPath:(NSString *)processPath {
   MSBinaryImageType imageType = [MSErrorLogFormatter imageTypeForImagePath:frameworkPath processPath:processPath];
   XCTAssertEqual(imageType, MSBinaryImageTypeAppFramework, @"Test framework %@ with process %@", frameworkPath,
-                 processPath);
+          processPath);
 }
 
 - (void)assertIsAppBinaryWithImagePath:(NSString *)imagePath processPath:(NSString *)processPath {
@@ -276,9 +276,9 @@
 
 - (void)assertIsSwiftFrameworkWithFrameworkPath:(NSString *)swiftFrameworkPath processPath:(NSString *)processPath {
   MSBinaryImageType imageType =
-      [MSErrorLogFormatter imageTypeForImagePath:swiftFrameworkPath processPath:processPath];
+          [MSErrorLogFormatter imageTypeForImagePath:swiftFrameworkPath processPath:processPath];
   XCTAssertEqual(imageType, MSBinaryImageTypeOther, @"Test swift image %@ with process %@", swiftFrameworkPath,
-                 processPath);
+          processPath);
 }
 
 - (void)assertIsOtherWithImagePath:(NSString *)imagePath processPath:(NSString *)processPath {

@@ -3,7 +3,7 @@
  */
 
 #import "MSAnalytics.h"
-#import "MSFeatureInternal.h"
+#import "MSServiceInternal.h"
 #import "MSSessionTracker.h"
 #import "MSSessionTrackerDelegate.h"
 

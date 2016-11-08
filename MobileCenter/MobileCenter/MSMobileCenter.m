@@ -18,6 +18,9 @@ static NSString *const kMSContentType = @"application/json";
 static NSString *const kMSAPIVersion = @"1.0.0-preview20160914";
 static NSString *const kMSAPIVersionKey = @"api_version";
 
+static MSMobileCenter *sharedInstance = nil;
+static dispatch_once_t onceToken;
+
 // Base URL for HTTP backend API calls.
 static NSString *const kMSDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
 
@@ -26,10 +29,10 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
 @synthesize installId = _installId;
 
 + (instancetype)sharedInstance {
-  static MSMobileCenter *sharedInstance = nil;
-  static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
+    if (sharedInstance == nil) {
     sharedInstance = [[self alloc] init];
+    }
   });
   return sharedInstance;
 }
@@ -40,12 +43,12 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
   [[self sharedInstance] start:appSecret];
 }
 
-+ (void)start:(NSString *)appSecret withFeatures:(NSArray<Class> *)features {
-  [[self sharedInstance] start:appSecret withFeatures:features];
++ (void)start:(NSString *)appSecret withServices:(NSArray<Class> *)services {
+  [[self sharedInstance] start:appSecret withServices:services];
 }
 
-+ (void)startFeature:(Class)feature {
-  [[self sharedInstance] startFeature:feature];
++ (void)startService:(Class)service {
+  [[self sharedInstance] startService:service];
 }
 
 + (BOOL)isInitialized {
@@ -137,7 +140,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
 
 - (instancetype)init {
   if (self = [super init]) {
-    _features = [NSMutableArray new];
+    _services = [NSMutableArray new];
     _serverUrl = kMSDefaultBaseUrl;
     _enabledStateUpdating = NO;
   }
@@ -178,23 +181,23 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
   return YES;
 }
 
-- (void)start:(NSString *)appSecret withFeatures:(NSArray<Class> *)features {
+- (void)start:(NSString *)appSecret withServices:(NSArray<Class> *)services {
   BOOL initialized = [self start:appSecret];
   if (initialized) {
-    for (Class feature in features) {
-      [self startFeature:feature];
+    for (Class service in services) {
+      [self startService:service];
     }
   }
 }
 
-- (void)startFeature:(Class)clazz {
-  id<MSFeatureInternal> feature = [clazz sharedInstance];
+- (void)startService:(Class)clazz {
+  id<MSServiceInternal> service = [clazz sharedInstance];
 
   // Set mobileCenterDelegate.
-  [self.features addObject:feature];
+  [self.services addObject:service];
 
-  // Start feature with log manager.
-  [feature startWithLogManager:self.logManager];
+  // Start service with log manager.
+  [service startWithLogManager:self.logManager];
 }
 
 - (void)setServerUrl:(NSString *)serverUrl {
@@ -210,9 +213,9 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
     // Enable/disable pipeline.
     [self applyPipelineEnabledState:isEnabled];
 
-    // Propagate enable/disable on all features.
-    for (id<MSFeatureInternal> feature in self.features) {
-      [[feature class] setEnabled:isEnabled];
+    // Propagate enable/disable on all services.
+    for (id<MSServiceInternal> service in self.services) {
+      [[service class] setEnabled:isEnabled];
     }
 
     // Persist the enabled status.
@@ -313,9 +316,14 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
   if (!canBeUsed) {
     MSLogError([MSMobileCenter getLoggerTag],
                 @"Mobile Center SDK hasn't been initialized. You need to call [MSMobileCenter "
-                @"start:YOUR_APP_SECRET withFeatures:LIST_OF_FEATURES] first.");
+                @"start:YOUR_APP_SECRET withServices:LIST_OF_SERVICES] first.");
   }
   return canBeUsed;
+}
+
++(void)resetSharedInstance {
+  onceToken = 0; // resets the once_token so dispatch_once will run again
+  sharedInstance = nil;
 }
 
 #pragma mark - Application life cycle
