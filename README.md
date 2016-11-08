@@ -277,7 +277,7 @@ var enabled = MSCrashes.isEnabled()
 
 ### Advanced Scenarios
 
-If you are using the Crashes service, you can customize the way the SDK handles crashes. The `MSCrashesDelegate`-protovol describes methods to attach data to a crash, wait for user confirmation and register for callbacks that inform your app about the sending status.
+If you are using the Crashes service, you can customize the way the SDK handles crashes. The `MSCrashesDelegate`-protocol describes methods to attach data to a crash, wait for user confirmation and register for callbacks that inform your app about the sending status.
 
 #### Register as a delegate. 
 
