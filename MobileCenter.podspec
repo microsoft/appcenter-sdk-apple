@@ -21,7 +21,7 @@ Crashes: The Mobile Center SDK will automatically generate a crash log every tim
   s.author            = { 'Microsoft' => 'mobilecentersdk@microsoft.com' }
 
   s.platform          = :ios, '8.0'  
-  s.source = { :http => "https://s3.amazonaws.com/hockey-app-download/sonoma/ios/SonomaSDK-iOS-0.2.0.zip" }
+  s.source = { :http => "https://s3.amazonaws.com/hockey-app-download/mobilecenter/ios/MobileCenter-SDK-iOS-0.2.0.zip" }
   s.preserve_path = 'MobileCenter-SDK-iOS/LICENSE'
 
   s.frameworks = 'Foundation',  'SystemConfiguration', 'UIKit'
