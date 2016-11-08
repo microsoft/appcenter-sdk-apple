@@ -14,9 +14,9 @@ static NSString *const kMSInnerExceptions = @"inner_exceptions";
 @implementation MSException
 
 - (NSMutableDictionary *)serializeToDictionary {
-  
+
   NSMutableDictionary *dict = [NSMutableDictionary new];
-  
+
   if (self.type) {
     dict[kMSExceptionType] = self.type;
   }
@@ -40,7 +40,7 @@ static NSString *const kMSInnerExceptions = @"inner_exceptions";
     }
     dict[kMSInnerExceptions] = exceptionsArray;
   }
-  
+
   return dict;
 }
 
@@ -51,7 +51,7 @@ static NSString *const kMSInnerExceptions = @"inner_exceptions";
 - (BOOL)isEqual:(MSException *)exception {
   if (!exception)
     return NO;
-  
+
   return ((!self.type && !exception.type) || [self.type isEqualToString:exception.type]) &&
   ((!self.wrapperSdkName && !exception.wrapperSdkName) ||
    [self.wrapperSdkName isEqualToString:exception.wrapperSdkName]) &&
