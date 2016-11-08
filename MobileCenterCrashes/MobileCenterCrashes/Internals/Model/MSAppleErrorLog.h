@@ -6,7 +6,7 @@
 #import "MobileCenter+Internal.h"
 #import <Foundation/Foundation.h>
 
-@class MSThread, MSBinary;
+@class MSThread, MSBinary, MSException;
 
 /*
  * Error log for Apple platforms.
@@ -62,6 +62,11 @@
  * Binaries associated to the error [optional].
  */
 @property(nonatomic, nullable) NSArray<MSBinary *> *binaries;
+
+/*
+ * Wrapper exception associated with the crash [optional].
+ */
+@property(nonatomic, nullable) MSException *exception;
 
 /*
  * Registers. [optional]

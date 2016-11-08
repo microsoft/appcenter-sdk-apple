@@ -114,4 +114,11 @@ typedef struct MSCrashesCallbacks {
  */
 - (void)deleteAllFromCrashesDirectory;
 
+/**
+ * Save the managed exception information in the event of a crash
+ from a wrapper sdk.
+ */
++(void)wrapperCrashCallback;
+
+
 @end
