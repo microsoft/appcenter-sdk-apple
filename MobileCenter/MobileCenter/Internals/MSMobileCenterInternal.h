@@ -2,7 +2,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "MSFeatureInternal.h"
+#import "MSServiceInternal.h"
 #import "MSLogManager.h"
 #import "MSMobileCenter.h"
 #import "MobileCenter+Internal.h"
@@ -12,12 +12,12 @@
 static NSString *const kMSInstallIdKey = @"MSInstallId";
 static NSString *const kMSMobileCenterIsEnabledKey = @"MSMobileCenterIsEnabled";
 
-@class MSFeature;
+@class MSService;
 
 @interface MSMobileCenter ()
 
 @property(nonatomic) id <MSLogManager> logManager;
-@property(nonatomic) NSMutableArray<NSObject <MSFeatureInternal> *> *features;
+@property(nonatomic) NSMutableArray<NSObject <MSServiceInternal> *> *services;
 @property(nonatomic, copy) NSString *appSecret;
 @property(nonatomic) NSString *serverUrl;
 @property(nonatomic, readonly) NSUUID *installId;
@@ -35,7 +35,7 @@ static NSString *const kMSMobileCenterIsEnabledKey = @"MSMobileCenterIsEnabled";
 
 /**
  *  Enable or disable the SDK as a whole. In addition to the core resources, it will also enable or disable all
- * registered features.
+ * registered services.
  *
  *  @param isEnabled YES to enable, NO to disable.
  *  @see isEnabled

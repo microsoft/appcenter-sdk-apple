@@ -3,9 +3,9 @@
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
-#import "MSCrashTestHelper.h"
 #import "MSCrashesDelegate.h"
 #import "MSCrashesPrivate.h"
+#import "MSCrashesTestHelper.h"
 #import "MSLogManager.h"
 
 @interface MSCrashesTests : XCTestCase
@@ -16,7 +16,7 @@
 
 @implementation MSCrashesTests
 
-#pragma mark - Houskeeping
+#pragma mark - Housekeeping
 
 - (void)setUp {
   [super setUp];
@@ -49,7 +49,7 @@
 - (void)testStartingManagerWritesLastCrashReportToCrashesDir {
   [self.sut deleteAllFromCrashesDirectory];
   assertThat(self.sut.crashFiles, hasCountOf(0));
-  assertThatBool([MSCrashTestHelper copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
+  assertThatBool([MSCrashesTestHelper copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
 
   // When
   [self.sut startWithLogManager:OCMProtocolMock(@protocol(MSLogManager))];

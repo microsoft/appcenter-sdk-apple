@@ -2,12 +2,12 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "MSFeatureAbstract.h"
-#import "MSFeatureAbstractInternal.h"
-#import "MSFeatureAbstractPrivate.h"
+#import "MSServiceAbstract.h"
+#import "MSServiceAbstractInternal.h"
+#import "MSServiceAbstractPrivate.h"
 #import "MSMobileCenterInternal.h"
 
-@implementation MSFeatureAbstract
+@implementation MSServiceAbstract
 
 @synthesize logManager = _logManager;
 
@@ -24,7 +24,7 @@
   return self;
 }
 
-#pragma mark : - MSFeatureCommon
+#pragma mark : - MSServiceCommon
 
 - (BOOL)isEnabled {
 
@@ -58,7 +58,7 @@
   if (!canBeUsed) {
     MSLogError([MSMobileCenter getLoggerTag],
                 @"%@ module hasn't been initialized. You need to call "
-                @"[MSMobileCenter start:YOUR_APP_SECRET withFeatures:LIST_OF_FEATURES] first.",
+                @"[MSMobileCenter start:YOUR_APP_SECRET withServices:LIST_OF_SERVICES] first.",
                 CLASS_NAME_WITHOUT_PREFIX);
   }
   return canBeUsed;
@@ -68,13 +68,13 @@
   return self.isEnabled && self.started;
 }
 
-#pragma mark : - MSFeature
+#pragma mark : - MSService
 
 - (void)startWithLogManager:(id<MSLogManager>)logManager {
   self.started = YES;
   self.logManager = logManager;
 
-  // Enable this feature as needed.
+  // Enable this service as needed.
   if (self.isEnabled) {
     [self applyEnabledState:self.isEnabled];
   }
@@ -86,7 +86,7 @@
       if (![MSMobileCenter isEnabled] && ![MSMobileCenter sharedInstance].enabledStateUpdating) {
         MSLogError([MSMobileCenter getLoggerTag],
                     @"The SDK is disabled. Re-enable the SDK from the core module "
-                    @"first before enabling %@ feature.",
+                    @"first before enabling %@ service.",
                     CLASS_NAME_WITHOUT_PREFIX);
       } else {
         [[self sharedInstance] setEnabled:isEnabled];

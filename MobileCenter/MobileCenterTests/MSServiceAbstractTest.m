@@ -1,13 +1,13 @@
 #import "MSConstants+Internal.h"
-#import "MSFeatureAbstract.h"
-#import "MSFeatureAbstractInternal.h"
-#import "MSFeatureAbstractPrivate.h"
-#import "MSFeatureAbstractProtected.h"
-#import "MSFeatureCommon.h"
 #import "MSLogManager.h"
 #import "MSLogManagerDefault.h"
 #import "MSMobileCenter.h"
 #import "MSMobileCenterInternal.h"
+#import "MSServiceAbstract.h"
+#import "MSServiceAbstractInternal.h"
+#import "MSServiceAbstractPrivate.h"
+#import "MSServiceAbstractProtected.h"
+#import "MSServiceCommon.h"
 #import "MSUserDefaults.h"
 #import "MSUtils.h"
 #import <Foundation/Foundation.h>
@@ -15,11 +15,11 @@
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
-@interface MSFeatureAbstractImplementation : MSFeatureAbstract <MSFeatureInternal>
+@interface MSServiceAbstractImplementation : MSServiceAbstract <MSServiceInternal>
 
 @end
 
-@implementation MSFeatureAbstractImplementation
+@implementation MSServiceAbstractImplementation
 
 + (instancetype)sharedInstance {
   static id sharedInstance = nil;
@@ -35,7 +35,7 @@
 }
 
 - (NSString *)storageKey {
-  return @"MSFeatureAbstractImplementation";
+  return @"MSServiceAbstractImplementation";
 }
 
 - (MSPriority)priority {
@@ -43,23 +43,23 @@
 }
 
 + (NSString *)getLoggerTag {
-  return @"MSFeatureAbstractTest";
+  return @"MSServiceAbstractTest";
 }
 
 @end
 
-@interface MSFeatureAbstractTest : XCTestCase
+@interface MSServiceAbstractTest : XCTestCase
 
 @property(nonatomic) id settingsMock;
 
 /**
  *  System Under test
  */
-@property(nonatomic) MSFeatureAbstractImplementation *abstractFeature;
+@property(nonatomic) MSServiceAbstractImplementation *abstractService;
 
 @end
 
-@implementation MSFeatureAbstractTest
+@implementation MSServiceAbstractTest
 
 - (void)setUp {
   [super setUp];
@@ -68,10 +68,10 @@
   self.settingsMock = OCMPartialMock(kMSUserDefaults);
 
   // System Under Test.
-  self.abstractFeature = [[MSFeatureAbstractImplementation alloc] initWithStorage:self.settingsMock];
+  self.abstractService = [[MSServiceAbstractImplementation alloc] initWithStorage:self.settingsMock];
 
   // Clean storage.
-  [(MSUserDefaults *)self.settingsMock removeObjectForKey:self.abstractFeature.isEnabledKey];
+  [(MSUserDefaults *)self.settingsMock removeObjectForKey:self.abstractService.isEnabledKey];
   [(MSUserDefaults *)self.settingsMock removeObjectForKey:kMSMobileCenterIsEnabledKey];
 }
 
@@ -84,7 +84,7 @@
 - (void)testIsEnabledTrueByDefault {
 
   // When
-  BOOL isEnabled = [self.abstractFeature isEnabled];
+  BOOL isEnabled = [self.abstractService isEnabled];
 
   // Then
   assertThatBool(isEnabled, isTrue());
@@ -93,11 +93,11 @@
 - (void)testSetEnabledToFalse {
 
   // If
-  [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:self.abstractFeature.isEnabledKey];
-  [self.abstractFeature setEnabled:NO];
+  [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:self.abstractService.isEnabledKey];
+  [self.abstractService setEnabled:NO];
 
   // When
-  bool isEnabled = [self.abstractFeature isEnabled];
+  bool isEnabled = [self.abstractService isEnabled];
 
   // Then
   assertThatBool(isEnabled, isFalse());
@@ -106,11 +106,11 @@
 - (void)testSetEnabledToTrue {
 
   // If
-  [self.settingsMock setObject:[NSNumber numberWithBool:NO] forKey:self.abstractFeature.isEnabledKey];
-  [self.abstractFeature setEnabled:YES];
+  [self.settingsMock setObject:[NSNumber numberWithBool:NO] forKey:self.abstractService.isEnabledKey];
+  [self.abstractService setEnabled:YES];
 
   // When
-  bool isEnabled = [self.abstractFeature isEnabled];
+  bool isEnabled = [self.abstractService isEnabled];
 
   // Then
   assertThatBool(isEnabled, isTrue());
@@ -133,7 +133,7 @@
   /**
    *  When
    */
-  [self.abstractFeature setEnabled:expected];
+  [self.abstractService setEnabled:expected];
 
   /**
    *  Then
@@ -155,7 +155,7 @@
   /**
    *  When
    */
-  BOOL isEnabled = [self.abstractFeature isEnabled];
+  BOOL isEnabled = [self.abstractService isEnabled];
 
   /**
    *  Then
@@ -167,39 +167,56 @@
 }
 
 - (void)testCanBeUsed {
+  [MSMobileCenter resetSharedInstance];
 
-  assertThatBool([[MSFeatureAbstractImplementation sharedInstance] canBeUsed], isFalse());
+  assertThatBool([[MSServiceAbstractImplementation sharedInstance] canBeUsed], isFalse());
 
-  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withFeatures:@[ [MSFeatureAbstractImplementation class] ]];
+  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withServices:@[ [MSServiceAbstractImplementation class] ]];
 
-  assertThatBool([[MSFeatureAbstractImplementation sharedInstance] canBeUsed], isTrue());
+  assertThatBool([[MSServiceAbstractImplementation sharedInstance] canBeUsed], isTrue());
 }
 
 - (void)testFeatureDisabledOnCoreDisabled {
 
   // If
   [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:kMSMobileCenterIsEnabledKey];
-  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withFeatures:@[ [MSFeatureAbstractImplementation class] ]];
+  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withServices:@[ [MSServiceAbstractImplementation class] ]];
 
   // When
   [MSMobileCenter setEnabled:NO];
 
   // Then
-  assertThatBool([[MSFeatureAbstractImplementation class] isEnabled], isFalse());
+  assertThatBool([[MSServiceAbstractImplementation class] isEnabled], isFalse());
 }
 
 - (void)testEnableFeatureOnCoreDisabled {
 
   // If
   [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:kMSMobileCenterIsEnabledKey];
-  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withFeatures:@[ [MSFeatureAbstractImplementation class] ]];
+  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withServices:@[ [MSServiceAbstractImplementation class] ]];
   [MSMobileCenter setEnabled:NO];
 
   // When
-  [[MSFeatureAbstractImplementation class] setEnabled:YES];
+  [[MSServiceAbstractImplementation class] setEnabled:YES];
 
   // Then
-  assertThatBool([[MSFeatureAbstractImplementation class] isEnabled], isFalse());
+  assertThatBool([[MSServiceAbstractImplementation class] isEnabled], isFalse());
+}
+
+- (void)testEnableServiceOnCoreDisabled {
+
+  // If
+  [MSMobileCenter resetSharedInstance];
+
+  [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:kMSMobileCenterIsEnabledKey];
+  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withServices:@[ [MSServiceAbstractImplementation class] ]];
+  [MSMobileCenter setEnabled:NO];
+
+  // When
+  [[MSServiceAbstractImplementation class] setEnabled:YES];
+
+  // Then
+  assertThatBool([[MSServiceAbstractImplementation class] isEnabled], isFalse());
 }
 
 - (void)testLogDeletedOnDisabled {
@@ -211,29 +228,29 @@
   __block BOOL deleteLogs;
   __block BOOL forwardedEnabled;
   id<MSLogManager> logManagerMock = OCMClassMock([MSLogManagerDefault class]);
-  OCMStub([logManagerMock setEnabled:NO andDeleteDataOnDisabled:YES forPriority:self.abstractFeature.priority])
+  OCMStub([logManagerMock setEnabled:NO andDeleteDataOnDisabled:YES forPriority:self.abstractService.priority])
       .andDo(^(NSInvocation *invocation) {
         [invocation getArgument:&priority atIndex:4];
         [invocation getArgument:&deleteLogs atIndex:3];
         [invocation getArgument:&forwardedEnabled atIndex:2];
       });
-  self.abstractFeature.logManager = logManagerMock;
-  [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:self.abstractFeature.isEnabledKey];
+  self.abstractService.logManager = logManagerMock;
+  [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:self.abstractService.isEnabledKey];
 
   /**
    *  When
    */
-  [self.abstractFeature setEnabled:NO];
+  [self.abstractService setEnabled:NO];
 
   /**
    *  Then
    */
 
   // Check that log deletion has been triggered.
-  OCMVerify([logManagerMock setEnabled:NO andDeleteDataOnDisabled:YES forPriority:self.abstractFeature.priority]);
+  OCMVerify([logManagerMock setEnabled:NO andDeleteDataOnDisabled:YES forPriority:self.abstractService.priority]);
 
-  // Priority from the feature must match priority used to delete logs.
-  assertThatBool((self.abstractFeature.priority == priority), isTrue());
+  // Priority from the service must match priority used to delete logs.
+  assertThatBool((self.abstractService.priority == priority), isTrue());
 
   // Must request for deletion.
   assertThatBool(deleteLogs, isTrue());
@@ -246,13 +263,13 @@
 
   // If
   id<MSLogManager> logManagerMock = OCMClassMock([MSLogManagerDefault class]);
-  self.abstractFeature.logManager = logManagerMock;
+  self.abstractService.logManager = logManagerMock;
 
   // When
-  [self.abstractFeature startWithLogManager:logManagerMock];
+  [self.abstractService startWithLogManager:logManagerMock];
 
   // Then
-  OCMVerify([logManagerMock setEnabled:YES andDeleteDataOnDisabled:YES forPriority:self.abstractFeature.priority]);
+  OCMVerify([logManagerMock setEnabled:YES andDeleteDataOnDisabled:YES forPriority:self.abstractService.priority]);
 }
 
 @end
