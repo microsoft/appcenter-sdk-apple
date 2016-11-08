@@ -4,7 +4,13 @@ Pod::Spec.new do |s|
 
   s.summary           = 'Mobile Center SDK for iOS.'
   s.description       = <<-DESC
-                       This is the Mobile Center SDK for iOS.
+                     The Mobile Center SDK lets you add Mobile Center services to your iOS application.
+
+                    The SDK is currently in private beta release and supports the following services:
+
+Analytics: Mobile Center Analytics helps you understand user behavior and customer engagement to improve your iOS app. The SDK automatically captures session count, device properties like model, OS version etc. and pages. You can define your own custom events to measure things that matter to your business. All the information captured is available in the Mobile Center portal for you to analyze the data.
+
+Crashes: The Mobile Center SDK will automatically generate a crash log every time your app crashes. The log is first written to the device's storage and when the user starts the app again, the crash report will be forwarded to Mobile Center. Collecting crashes works for both beta and live apps, i.e. those submitted to App Store. Crash logs contain viable information for you to help resolve the issue. Crashes uses PLCrashReporter 1.3.
 
                         DESC
 
@@ -12,10 +18,10 @@ Pod::Spec.new do |s|
   #s.documentation_url = "http://hockeyapp.net/help/sdk/ios/#{s.version}/"
 
   s.license           = { :type => 'MIT',  :file => 'MobileCenter-SDK-iOS-0.2.0/LICENSE'}
-  s.author            = { 'Microsoft' => 'support@hockeyapp.net' }
+  s.author            = { 'Microsoft' => 'mobilecentersdk@microsoft.com' }
 
   s.platform          = :ios, '8.0'  
-  s.source = { :http => "https://s3.amazonaws.com/hockey-app-download/sonoma/ios/SonomaSDK-iOS-0.1.4.zip" }
+  s.source = { :http => "https://s3.amazonaws.com/hockey-app-download/sonoma/ios/SonomaSDK-iOS-0.2.0.zip" }
   s.preserve_path = 'MobileCenter-SDK-iOS/LICENSE'
 
   s.frameworks = 'Foundation',  'SystemConfiguration', 'UIKit'
