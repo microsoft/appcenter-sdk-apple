@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name              = 'MobileCenter'
-  s.version           = '0.1.4'
+  s.version           = '0.2.0'
 
   s.summary           = 'Mobile Center SDK for iOS.'
   s.description       = <<-DESC
@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
   s.homepage          = 'http://sonoma.hockeyapp.com/'
   #s.documentation_url = "http://hockeyapp.net/help/sdk/ios/#{s.version}/"
 
-  s.license           = { :type => 'MIT',  :file => 'SonomaSDK-iOS-0.1.4/LICENSE'}
+  s.license           = { :type => 'MIT',  :file => 'MobileCenter-SDK-iOS-0.2.0/LICENSE'}
   s.author            = { 'Microsoft' => 'support@hockeyapp.net' }
 
   s.platform          = :ios, '8.0'  
@@ -20,7 +20,7 @@ Pod::Spec.new do |s|
 
   s.frameworks = 'Foundation',  'SystemConfiguration', 'UIKit'
 
-  s.default_subspecs = 'Analytics', 'Crashes'
+  s.default_subspecs = 'MobileCenterAnalytics', 'MobileCenterCrashes'
 
   s.subspec 'MobileCenter' do |ss|
       ss.frameworks = 'Foundation',  'SystemConfiguration', 'UIKit'
