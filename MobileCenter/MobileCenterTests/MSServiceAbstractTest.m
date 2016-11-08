@@ -177,7 +177,7 @@
 
 //FIXME: fix multithreading-issue in MSHTTPSender.m:274, uncommenting test while we rename the SDK
 
-//- (void)testFeatureDisabledOnCoreDisabled {
+//- (void)testServiceDisabledOnCoreDisabled {
 //
   // If
 //  [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:kMSMobileCenterIsEnabledKey];
@@ -187,20 +187,20 @@
 //  [MSMobileCenter setEnabled:NO];
 //
 //  // Then
-//  assertThatBool([[MSFeatureAbstractImplementation class] isEnabled], isFalse());
+//  assertThatBool([[MSServiceAbstractImplementation class] isEnabled], isFalse());
 //}
 
 //FIXME: fix multithreading-issue in MSHTTPSender.m:274, uncommenting test while we rename the SDK
 
-//- (void)testEnableFeatureOnCoreDisabled {
+//- (void)testEnableServiceOnCoreDisabled {
 //
 //  // If
 //  [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:kMSMobileCenterIsEnabledKey];
-//  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withFeatures:@[ [MSFeatureAbstractImplementation class] ]];
+//  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withServices:@[ [MSServiceAbstractImplementation class] ]];
 //  [MSMobileCenter setEnabled:NO];
 //
 //  // When
-//  [[MSFeatureAbstractImplementation class] setEnabled:YES];
+//  [[MSServiceAbstractImplementation class] setEnabled:YES];
 //
   // Then
 //  assertThatBool([[MSServiceAbstractImplementation class] isEnabled], isFalse());
