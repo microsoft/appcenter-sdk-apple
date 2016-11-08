@@ -6,7 +6,7 @@
 #import "MobileCenter+Internal.h"
 #import <Foundation/Foundation.h>
 
-@class MSThread, MSBinary;
+@class MSThread, MSBinary, MSException;
 
 /*
  * Error log for Apple platforms.
@@ -67,6 +67,11 @@
  * Registers. [optional]
  */
 @property(nonatomic, nullable) NSDictionary<NSString *, NSString *> *registers;
+
+/*
+ * The last exception backtrace.
+ */
+@property(nonatomic, nullable) MSException *exception;
 
 /**
  * Is equal to another apple error log
