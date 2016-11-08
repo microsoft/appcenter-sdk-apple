@@ -140,7 +140,7 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobilecenter.LogMa
       [self.channels[priority] setEnabled:isEnabled andDeleteDataOnDisabled:NO];
     }
 
-    // If requested, delete any remaining logs (e.g., even logs from not started features).
+    // If requested, delete any remaining logs (e.g., even logs from not started services).
     if (!isEnabled && deleteData) {
       for (int priority = 0; priority < kMSPriorityCount; priority++) {
         [self deleteLogsForPriority:priority];
