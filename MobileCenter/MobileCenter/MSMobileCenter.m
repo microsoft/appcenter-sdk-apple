@@ -22,7 +22,7 @@ static MSMobileCenter *sharedInstance = nil;
 static dispatch_once_t onceToken;
 
 // Base URL for HTTP backend API calls.
-static NSString *const kMSDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
+static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 
 @implementation MSMobileCenter
 

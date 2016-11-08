@@ -52,7 +52,7 @@
             </objects>
             <point key="canvasLocation" x="760" y="159"/>
         </scene>
-        <!--Sonoma-->
+        <!--Mobile Center-->
         <scene sceneID="0ay-6B-23o">
             <objects>
                 <tableViewController storyboardIdentifier="main" id="9Ck-4D-Ozb" customClass="MSMainViewController" sceneMemberID="viewController">
@@ -65,7 +65,7 @@
                             <outlet property="delegate" destination="9Ck-4D-Ozb" id="XKu-8j-qab"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Sonoma" id="eqe-td-JIR"/>
+                    <navigationItem key="navigationItem" title="Mobile Center" id="eqe-td-JIR"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G4r-se-P85" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
