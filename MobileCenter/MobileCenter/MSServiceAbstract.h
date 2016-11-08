@@ -2,12 +2,12 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "MSFeature.h"
+#import "MSService.h"
 #import <Foundation/Foundation.h>
 
 /**
- *  Abstraction of features common logic.
+ *  Abstraction of services common logic.
  * This class is intended to be subclassed only not instantiated directly.
  */
-@interface MSFeatureAbstract : NSObject <MSFeature>
+@interface MSServiceAbstract : NSObject <MSService>
 @end

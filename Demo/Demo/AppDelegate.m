@@ -14,10 +14,10 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   // Override point for customization after application launch.
 
-  // Start MobileCenter SDK
+  // Start Mobile Center SDK
   [MSMobileCenter setLogLevel:MSLogLevelVerbose];
   [MSMobileCenter setServerUrl:@"http://in-integration.dev.avalanch.es:8081"];
-  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withFeatures:@[[MSAnalytics class], [MSCrashes class]]];
+    [MSMobileCenter start:[[NSUUID UUID] UUIDString] withServices:@[[MSAnalytics class], [MSCrashes class]]];
   [MSCrashes setDelegate:self];
 
   // Print the install Id.

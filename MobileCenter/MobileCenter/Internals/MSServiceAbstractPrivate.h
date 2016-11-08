@@ -6,9 +6,9 @@
 #import <Foundation/Foundation.h>
 
 /**
- *  Private declarations for MSFeatureAbstract.
+ *  Private declarations for MSServiceAbstract.
  */
-@interface MSFeatureAbstract ()
+@interface MSServiceAbstract ()
 
 /**
  *  isEnabled value storage key.
@@ -21,11 +21,11 @@
 @property(nonatomic, readwrite) MSUserDefaults *storage;
 
 /**
- *  (For testing only) Create a feature with the given storage.
+ *  (For testing only) Create a service with the given storage.
  *
  *  @param storage storage to persist data.
  *
- *  @return A feature with common logic already implemented.
+ *  @return A service with common logic already implemented.
  */
 - (instancetype)initWithStorage:(MSUserDefaults *)storage;
 @end

@@ -4,6 +4,7 @@
 
 #import "MSAppleErrorLog.h"
 #import "MSBinary.h"
+#import "MSException.h"
 #import "MSThread.h"
 
 static NSString *const kMSTypeError = @"apple_error";
@@ -18,6 +19,7 @@ static NSString *const kMSExceptionReason = @"exception_reason";
 static NSString *const kMSThreads = @"threads";
 static NSString *const kMSBinaries = @"binaries";
 static NSString *const kMSRegisters = @"registers";
+static NSString *const kMSException = @"exception";
 
 @implementation MSAppleErrorLog
 
@@ -74,13 +76,16 @@ static NSString *const kMSRegisters = @"registers";
   if (self.registers) {
     dict[kMSRegisters] = self.registers;
   }
+  if (self.exception) {
+    dict[kMSException] = [self.exception serializeToDictionary];
+  }
 
   return dict;
 }
 
 - (BOOL)isValid {
   return [super isValid] && self.primaryArchitectureId && self.applicationPath && self.osExceptionType &&
-         self.osExceptionCode && self.osExceptionAddress;
+          self.osExceptionCode && self.osExceptionAddress;
 }
 
 - (BOOL)isEqual:(MSAppleErrorLog *)errorLog {
@@ -89,23 +94,24 @@ static NSString *const kMSRegisters = @"registers";
 
   return ((!self.primaryArchitectureId && !errorLog.primaryArchitectureId) ||
           [self.primaryArchitectureId isEqual:errorLog.primaryArchitectureId]) &&
-         ((!self.architectureVariantId && !errorLog.architectureVariantId) ||
-          [self.architectureVariantId isEqual:errorLog.architectureVariantId]) &&
-         ((!self.applicationPath && !errorLog.applicationPath) ||
-          [self.applicationPath isEqualToString:errorLog.applicationPath]) &&
-         ((!self.osExceptionType && !errorLog.osExceptionType) ||
-          [self.osExceptionType isEqualToString:errorLog.osExceptionType]) &&
-         ((!self.osExceptionCode && !errorLog.osExceptionCode) ||
-          [self.osExceptionCode isEqualToString:errorLog.osExceptionCode]) &&
-         ((!self.osExceptionAddress && !errorLog.osExceptionAddress) ||
-          [self.osExceptionAddress isEqualToString:errorLog.osExceptionAddress]) &&
-         ((!self.exceptionType && !errorLog.exceptionType) ||
-          [self.exceptionType isEqualToString:errorLog.exceptionType]) &&
-         ((!self.exceptionReason && !errorLog.exceptionReason) ||
-          [self.exceptionReason isEqualToString:errorLog.exceptionReason]) &&
-         ((!self.threads && !errorLog.threads) || [self.threads isEqualToArray:errorLog.threads]) &&
-         ((!self.binaries && !errorLog.binaries) || [self.binaries isEqualToArray:errorLog.binaries]) &&
-         ((!self.registers && !errorLog.registers) || [self.registers isEqualToDictionary:errorLog.registers]);
+          ((!self.architectureVariantId && !errorLog.architectureVariantId) ||
+                  [self.architectureVariantId isEqual:errorLog.architectureVariantId]) &&
+          ((!self.applicationPath && !errorLog.applicationPath) ||
+                  [self.applicationPath isEqualToString:errorLog.applicationPath]) &&
+          ((!self.osExceptionType && !errorLog.osExceptionType) ||
+                  [self.osExceptionType isEqualToString:errorLog.osExceptionType]) &&
+          ((!self.osExceptionCode && !errorLog.osExceptionCode) ||
+                  [self.osExceptionCode isEqualToString:errorLog.osExceptionCode]) &&
+          ((!self.osExceptionAddress && !errorLog.osExceptionAddress) ||
+                  [self.osExceptionAddress isEqualToString:errorLog.osExceptionAddress]) &&
+          ((!self.exceptionType && !errorLog.exceptionType) ||
+                  [self.exceptionType isEqualToString:errorLog.exceptionType]) &&
+          ((!self.exceptionReason && !errorLog.exceptionReason) ||
+                  [self.exceptionReason isEqualToString:errorLog.exceptionReason]) &&
+          ((!self.threads && !errorLog.threads) || [self.threads isEqualToArray:errorLog.threads]) &&
+          ((!self.binaries && !errorLog.binaries) || [self.binaries isEqualToArray:errorLog.binaries]) &&
+          ((!self.registers && !errorLog.registers) || [self.registers isEqualToDictionary:errorLog.registers]) &&
+          ((!self.exception && !errorLog.exception) || [self.exception isEqual:errorLog.exception]);
 }
 
 #pragma mark - NSCoding
@@ -125,6 +131,7 @@ static NSString *const kMSRegisters = @"registers";
     _threads = [coder decodeObjectForKey:kMSThreads];
     _binaries = [coder decodeObjectForKey:kMSBinaries];
     _registers = [coder decodeObjectForKey:kMSRegisters];
+    _exception = [coder decodeObjectForKey:kMSException];
   }
   return self;
 }
@@ -143,6 +150,7 @@ static NSString *const kMSRegisters = @"registers";
   [coder encodeObject:self.threads forKey:kMSThreads];
   [coder encodeObject:self.binaries forKey:kMSBinaries];
   [coder encodeObject:self.registers forKey:kMSRegisters];
+  [coder encodeObject:self.exception forKey:kMSException];
 }
 
 @end
