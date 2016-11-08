@@ -18,6 +18,9 @@ static NSString *const kMSContentType = @"application/json";
 static NSString *const kMSAPIVersion = @"1.0.0-preview20160914";
 static NSString *const kMSAPIVersionKey = @"api_version";
 
+static MSMobileCenter *sharedInstance = nil;
+static dispatch_once_t onceToken;
+
 // Base URL for HTTP backend API calls.
 static NSString *const kMSDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
 
@@ -26,10 +29,10 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
 @synthesize installId = _installId;
 
 + (instancetype)sharedInstance {
-  static MSMobileCenter *sharedInstance = nil;
-  static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
+    if (sharedInstance == nil) {
     sharedInstance = [[self alloc] init];
+    }
   });
   return sharedInstance;
 }
@@ -316,6 +319,11 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.sonoma.hockeyapp.com";
                 @"start:YOUR_APP_SECRET withServices:LIST_OF_SERVICES] first.");
   }
   return canBeUsed;
+}
+
++(void)resetSharedInstance {
+  onceToken = 0; // resets the once_token so dispatch_once will run again
+  sharedInstance = nil;
 }
 
 #pragma mark - Application life cycle
