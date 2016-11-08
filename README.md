@@ -30,11 +30,12 @@ Before you begin, please make sure that the following prerequisites are met:
 
 * An iOS project that is set up in Xcode 8.1 on macOS version 10.11 or later.
 * The minimum OS target supported by the Mobile Center SDK is iOS 8.0 or later.
-* This readme assumes that the developers are using Swift 3 syntax and want to integrate the all services.
+* This readme assumes that you are using Swift 3 syntax and want to integrate all services.
 
 ## 2. Integrate the SDK
 
-The Mobile Center SDK is designed with a modular approach – a developer only needs to integrate the modules of the services that they are interested in.
+The Mobile Center SDK is designed with a modular approach – you only need to integrate the modules of the services that you are interested in.
+
 You can either integrate the MobileCenter SDK by adding it's binaries to your Xcode project (Step 2.1), or by using Cocoapods (Step 2.2).
 
 ### 2.1 Integration by copying the binaries into your project
@@ -78,7 +79,7 @@ Now that you've integrated the frameworks in your application, it's time to star
 To start the Mobile Center SDK in your app, follow these steps:
 
 ### 1. Add `import` statements  
-You need to add import statements for Core, Analytics and Crashes module before starting the SDK.
+You need to add import statements for MobileCenter, MobileCenterAnalytics and MobileCenterCrashes modules before starting the SDK. If you have chosen to only use a subset of Mobile Center's services, just add the import for MobileCenter and the one for the service that you want to use. 
     
 **Objective-C**   
 Open your AppDelegate.m file and add the following lines at the top of the file below your own import statements.   
@@ -100,7 +101,7 @@ import MobileCenterCrashes
 
 ### 2. Start the SDK
 
-Mobile Center provides developers with three modules to get started: `MobileCenter` (required), `MobileCenterAnalytics` and `MobileCenterCrashes` (both are optional). In order to use Mobile Center services, you need to opt in for the module(s) that you'd like, meaning by default no modules are started and you will have to explicitly call each of them, both Analytics and Crashes, when starting the SDK.
+Mobile Center provides you with three modules to get started: `MobileCenter` (required), `MobileCenterAnalytics` and `MobileCenterCrashes` (both are optional). In order to use Mobile Center services, you need to opt in for the module(s) that you'd like, meaning by default no modules are started and you will have to explicitly call each of them, both Analytics and Crashes, when starting the SDK.
 
 **Objective-C** 
 
@@ -276,7 +277,7 @@ var enabled = MSCrashes.isEnabled()
 
 ### Advanced Scenarios
 
-The Crashes module provides delegates to perform additional actions before and when sending crash reports to Mobile Center. This gives you added flexibility on the crash reports that will be sent. 
+If you are using the Crashes service, you can customize the way the SDK handles crashes. The `MSCrashesDelegate`-protovol describes methods to attach data to a crash, wait for user confirmation and register for callbacks that inform your app about the sending status.
 
 #### Register as a delegate. 
 
@@ -316,7 +317,7 @@ func crashes(_ crashes: MSCrashes!, shouldProcessErrorReport errorReport: MSErro
         
 ### User Confirmation
 
-If user privacy is important to you as a developer, you might want to get a user's confirmation before sending a crash report to Mobile Center. The SDK exposes a callbacks where you can tell it to await user confirmation before sending any crash reports. This requires two steps:
+If user privacy is important to you, you might want to get a user's confirmation before sending a crash report to Mobile Center. The SDK exposes a callbacks where you can tell it to await user confirmation before sending any crash reports. This requires two steps:
 
 #### 1. Set a user confirmation handler.
 	
@@ -352,7 +353,7 @@ MSCrashes.setUserConfirmationHandler({ (errorReports: [MSErrorReport]) in
 })
 ```
 
-#### 2. Inform the Mobile Center SDK about the user's choice.
+#### 2. Inform the SDK about the user's choice.
 	    
 If you return `YES`/`true` in step 1, your app should obtain user permission and message the SDK with the result using the following API. If you are using an alert for this, you would call it from within your implementation of the `alertView:clickedButtonAtIndex:`-callback.
 
@@ -401,7 +402,7 @@ func attachment(with crashes: MSCrashes!, for errorReport: MSErrorReport!) -> MS
 
 ### Sending status
 
-If developers want know the status of the crash sending, maybe to present custom UI like a spinner, the Crashes services offers 3 callbacks to notify the host app about the sending status.
+If you want know the status of the crash sending, maybe to present custom UI like a spinner, the Crashes services offers 3 callbacks to notify the host app about the sending status.
 
 #### Before sending a crash report
 
@@ -469,7 +470,7 @@ func crashes(_ crashes: MSCrashes!, didFailSending errorReport: MSErrorReport!, 
 
 ### Logging
 
-You can control the amount of log messages that show up from the Mobile Center SDK. Use the `setLogLevel` API to enable additional logging while debugging. By default, it is set to `MSLogLevelAssert` for App Store environment, `MSLogLevelWarning` otherwise.
+You can control the amount of log messages by the SDK that show up. Use the `setLogLevel` API to enable additional logging while debugging. By default, it is set to `MSLogLevelAssert` for App Store environment, `MSLogLevelWarning` otherwise.
 
 **Objective-C**
 
@@ -485,7 +486,7 @@ MSMobileCenter.setLogLevel(MSLogLevel.Verbose)
 
 ### Get Install Identifier
 
-The Mobile Center SDK creates a UUID for each device once the app is installed. This identifier remains the same for a device when the app is updated and a new one is generated only when the app is re-installed. The following API is useful for debugging purposes:
+The SDK creates a UUID for each device once the app is installed. This identifier remains the same for a device when the app is updated and a new one is generated only when the app is re-installed. The following API is useful for debugging purposes:
 
 **Objective-C**
 

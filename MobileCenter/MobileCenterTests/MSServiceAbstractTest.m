@@ -210,7 +210,7 @@
 
   // If
   [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:kMSMobileCenterIsEnabledKey];
-    [MSMobileCenter start:[[NSUUID UUID] UUIDString] withServices:@[[MSServiceAbstractImplementation class]]];
+  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withServices:@[[MSServiceAbstractImplementation class]]];
   [MSMobileCenter setEnabled:NO];
 
   // When

@@ -35,7 +35,7 @@
 /**
  * Start a service.
  *
- * @param service  A Service to be used.
+ * @param service  A service to be used.
  */
 + (void)startService:(Class)service;
 
