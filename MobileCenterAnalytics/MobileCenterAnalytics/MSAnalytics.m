@@ -6,14 +6,14 @@
 #import "MSAnalyticsCategory.h"
 #import "MSAnalyticsPrivate.h"
 #import "MSEventLog.h"
-#import "MSFeatureAbstractProtected.h"
+#import "MSServiceAbstractProtected.h"
 #import "MSLogManager.h"
 #import "MSPageLog.h"
 
 /**
- *  Feature storage key name.
+ *  Service storage key name.
  */
-static NSString *const kMSFeatureName = @"Analytics";
+static NSString *const kMSServiceName = @"Analytics";
 
 @implementation MSAnalytics
 
@@ -34,7 +34,7 @@ static NSString *const kMSFeatureName = @"Analytics";
   return self;
 }
 
-#pragma mark - MSFeatureInternal
+#pragma mark - MSServiceInternal
 
 + (instancetype)sharedInstance {
   static id sharedInstance = nil;
@@ -58,14 +58,14 @@ static NSString *const kMSFeatureName = @"Analytics";
 }
 
 - (NSString *)storageKey {
-  return kMSFeatureName;
+  return kMSServiceName;
 }
 
 - (MSPriority)priority {
   return MSPriorityDefault;
 }
 
-#pragma mark - MSFeatureAbstract
+#pragma mark - MSServiceAbstract
 
 - (void)applyEnabledState:(BOOL)isEnabled {
   [super applyEnabledState:isEnabled];
