@@ -4,9 +4,9 @@
 
 #import "MSHttpSender.h"
 #import "MSHttpSenderPrivate.h"
+#import "MSMobileCenterInternal.h"
 #import "MSRetriableCall.h"
 #import "MSSenderDelegate.h"
-#import "MSMobileCenterInternal.h"
 
 static NSTimeInterval kRequestTimeout = 60.0;
 
@@ -52,9 +52,9 @@ static NSString *const kMSApiPath = @"/logs";
 
     // Hookup to reachability.
     [kMSNotificationCenter addObserver:self
-                               selector:@selector(networkStateChanged:)
-                                   name:kMSReachabilityChangedNotification
-                                 object:nil];
+                              selector:@selector(networkStateChanged:)
+                                  name:kMSReachabilityChangedNotification
+                                object:nil];
     [self.reachability startNotifier];
 
     // Apply current network state.
@@ -64,158 +64,173 @@ static NSString *const kMSApiPath = @"/logs";
 }
 
 - (void)sendAsync:(MSLogContainer *)container completionHandler:(MSSendAsyncCompletionHandler)handler {
-  NSString *batchId = container.batchId;
+  @synchronized(self) {
+    NSString *batchId = container.batchId;
 
-  // Verify container.
-  if (!container || ![container isValid]) {
+    // Verify container.
+    if (!container || ![container isValid]) {
 
-    NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : @"Invalid parameter'" };
-    NSError *error =
-        [NSError errorWithDomain:kMSDefaultApiErrorDomain code:kMSDefaultApiMissingParamErrorCode userInfo:userInfo];
-    MSLogError([MSMobileCenter getLoggerTag], @"%@", [error localizedDescription]);
-    handler(batchId, error, kMSDefaultApiMissingParamErrorCode);
-    return;
+      NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : @"Invalid parameter'" };
+      NSError *error =
+          [NSError errorWithDomain:kMSDefaultApiErrorDomain code:kMSDefaultApiMissingParamErrorCode userInfo:userInfo];
+      MSLogError([MSMobileCenter getLoggerTag], @"%@", [error localizedDescription]);
+      handler(batchId, error, kMSDefaultApiMissingParamErrorCode);
+      return;
+    }
+
+    // Check if call has already been created(retry scenario).
+    id<MSSenderCall> call = self.pendingCalls[batchId];
+    if (call == nil) {
+      call = [[MSRetriableCall alloc] initWithRetryIntervals:self.callsRetryIntervals];
+      call.delegate = self;
+      call.logContainer = container;
+      call.completionHandler = handler;
+
+      // Store call in calls array.
+      self.pendingCalls[batchId] = call;
+    }
+    [self sendCallAsync:call];
   }
-
-  // Check if call has already been created(retry scenario).
-  id<MSSenderCall> call = self.pendingCalls[batchId];
-  if (call == nil) {
-    call = [[MSRetriableCall alloc] initWithRetryIntervals:self.callsRetryIntervals];
-    call.delegate = self;
-    call.logContainer = container;
-    call.completionHandler = handler;
-
-    // Store call in calls array.
-    self.pendingCalls[batchId] = call;
-  }
-  [self sendCallAsync:call];
 }
 
 - (void)addDelegate:(id<MSSenderDelegate>)delegate {
-  [self.delegates addObject:delegate];
+  @synchronized(self) {
+    [self.delegates addObject:delegate];
+  }
 }
 
 - (void)removeDelegate:(id<MSSenderDelegate>)delegate {
-  [self.delegates removeObject:delegate];
+  @synchronized(self) {
+    [self.delegates removeObject:delegate];
+  }
 }
 
 #pragma mark - Life cycle
 
 - (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData {
-  if (self.enabled != isEnabled) {
-    self.enabled = isEnabled;
-    if (isEnabled) {
-      [self resume];
-      [self.reachability startNotifier];
-    } else {
-      [self.reachability stopNotifier];
-      [self suspend];
+  @synchronized(self) {
+    if (self.enabled != isEnabled) {
+      self.enabled = isEnabled;
+      if (isEnabled) {
+        [self resume];
+        [self.reachability startNotifier];
+      } else {
+        [self.reachability stopNotifier];
+        [self suspend];
 
-      // Delete calls if requested.
-      if (deleteData) {
-        [self.pendingCalls removeAllObjects];
+        // Delete calls if requested.
+        if (deleteData) {
+          [self.pendingCalls removeAllObjects];
+        }
       }
-    }
 
-    // Forward enabled state.
-    [self enumerateDelegatesForSelector:@selector(senderDidSuspend:)
+      // Forward enabled state.
+      [self
+          enumerateDelegatesForSelector:@selector(senderDidSuspend:)
                               withBlock:^(id<MSSenderDelegate> delegate) {
-                                [delegate sender:self
-                                         didSetEnabled:(BOOL)isEnabled
-                                    andDeleteDataOnDisabled:deleteData];
+                                [delegate sender:self didSetEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:deleteData];
                               }];
+    }
   }
 }
 
 - (void)suspend {
-  if (!self.suspended) {
-    MSLogInfo([MSMobileCenter getLoggerTag], @"Suspend sender.");
-    self.suspended = YES;
+  @synchronized(self) {
+    if (!self.suspended) {
+      MSLogInfo([MSMobileCenter getLoggerTag], @"Suspend sender.");
+      self.suspended = YES;
 
-    // Set pending calls to not processing.
-    [self.pendingCalls.allValues
-        enumerateObjectsUsingBlock:^(id<MSSenderCall> _Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
-          obj.isProcessing = NO;
-        }];
-
-    // Cancel all the tasks.
-    [self.session getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> *_Nonnull dataTasks,
-                                                  NSArray<NSURLSessionUploadTask *> *_Nonnull uploadTasks,
-                                                  NSArray<NSURLSessionDownloadTask *> *_Nonnull downloadTasks) {
-      [dataTasks
-          enumerateObjectsUsingBlock:^(__kindof NSURLSessionTask *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
-            [obj cancel];
+      // Set pending calls to not processing.
+      [self.pendingCalls.allValues
+          enumerateObjectsUsingBlock:^(id<MSSenderCall> _Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
+            obj.isProcessing = NO;
           }];
-    }];
-    [self enumerateDelegatesForSelector:@selector(senderDidSuspend:)
-                              withBlock:^(id<MSSenderDelegate> delegate) {
-                                [delegate senderDidSuspend:self];
-                              }];
+
+      // Cancel all the tasks.
+      [self.session getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> *_Nonnull dataTasks,
+                                                    NSArray<NSURLSessionUploadTask *> *_Nonnull uploadTasks,
+                                                    NSArray<NSURLSessionDownloadTask *> *_Nonnull downloadTasks) {
+        [dataTasks
+            enumerateObjectsUsingBlock:^(__kindof NSURLSessionTask *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
+              [obj cancel];
+            }];
+      }];
+      [self enumerateDelegatesForSelector:@selector(senderDidSuspend:)
+                                withBlock:^(id<MSSenderDelegate> delegate) {
+                                  [delegate senderDidSuspend:self];
+                                }];
+    }
   }
 }
 
 - (void)resume {
+  @synchronized(self) {
 
-  // Resume only while enabled.
-  if (self.suspended && self.enabled) {
-    MSLogInfo([MSMobileCenter getLoggerTag], @"Resume sender.");
-    self.suspended = NO;
+    // Resume only while enabled.
+    if (self.suspended && self.enabled) {
+      MSLogInfo([MSMobileCenter getLoggerTag], @"Resume sender.");
+      self.suspended = NO;
 
-    // Send all pending calls.
-    [self.pendingCalls.allValues
-        enumerateObjectsUsingBlock:^(id<MSSenderCall> _Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
-          if (!obj.isProcessing) {
-            [self sendCallAsync:obj];
-          }
-        }];
+      // Send all pending calls.
+      [self.pendingCalls.allValues
+          enumerateObjectsUsingBlock:^(id<MSSenderCall> _Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
+            if (!obj.isProcessing) {
+              [self sendCallAsync:obj];
+            }
+          }];
 
-    // Propagate.
-    [self enumerateDelegatesForSelector:@selector(senderDidResume:)
-                              withBlock:^(id<MSSenderDelegate> delegate) {
-                                [delegate senderDidResume:self];
-                              }];
+      // Propagate.
+      [self enumerateDelegatesForSelector:@selector(senderDidResume:)
+                                withBlock:^(id<MSSenderDelegate> delegate) {
+                                  [delegate senderDidResume:self];
+                                }];
+    }
   }
 }
 
 #pragma mark - MSSenderCallDelegate
 
 - (void)sendCallAsync:(id<MSSenderCall>)call {
-  if (!call)
-    return;
+  @synchronized(self) {
+    if (!call)
+      return;
 
-  // Create the request.
-  NSURLRequest *request = [self createRequest:call.logContainer];
+    // Create the request.
+    NSURLRequest *request = [self createRequest:call.logContainer];
 
-  if (!request)
-    return;
+    if (!request)
+      return;
 
-  call.isProcessing = YES;
+    call.isProcessing = YES;
 
-  NSURLSessionDataTask *task =
-      [self.session dataTaskWithRequest:request
-                      completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                        NSInteger statusCode = [MSSenderUtils getStatusCode:response];
-                        MSLogDebug([MSMobileCenter getLoggerTag], @"HTTP response received with status code:%lu",
-                                    (unsigned long)statusCode);
+    NSURLSessionDataTask *task =
+        [self.session dataTaskWithRequest:request
+                        completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                          NSInteger statusCode = [MSSenderUtils getStatusCode:response];
+                          MSLogDebug([MSMobileCenter getLoggerTag], @"HTTP response received with status code:%lu",
+                                     (unsigned long)statusCode);
 
-                        // Call handles the completion.
-                        if (call)
-                          [call sender:self callCompletedWithStatus:statusCode error:error];
-                      }];
+                          // Call handles the completion.
+                          if (call)
+                            [call sender:self callCompletedWithStatus:statusCode error:error];
+                        }];
 
-  // TODO: Set task priority.
-  [task resume];
+    // TODO: Set task priority.
+    [task resume];
+  }
 }
 
 - (void)callCompletedWithId:(NSString *)callId {
-  if (!callId) {
-    MSLogWarning([MSMobileCenter getLoggerTag], @"Call object is invalid");
-    return;
-  }
+  @synchronized(self) {
+    if (!callId) {
+      MSLogWarning([MSMobileCenter getLoggerTag], @"Call object is invalid");
+      return;
+    }
 
-  [self.pendingCalls removeObjectForKey:callId];
-  MSLogInfo([MSMobileCenter getLoggerTag], @"Removed batch id:%@ from pending calls:%@", callId,
-             [self.pendingCalls description]);
+    [self.pendingCalls removeObjectForKey:callId];
+    MSLogInfo([MSMobileCenter getLoggerTag], @"Removed batch id:%@ from pending calls:%@", callId,
+              [self.pendingCalls description]);
+  }
 }
 
 #pragma mark - Reachability
