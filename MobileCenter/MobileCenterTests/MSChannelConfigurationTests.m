@@ -57,9 +57,9 @@
   // Then
   assertThat(sut, notNilValue());
   assertThat(sut.name, equalTo(@"MSPriorityHigh"));
-  assertThatUnsignedInteger(sut.batchSizeLimit, equalToUnsignedInteger(1));
+  assertThatUnsignedInteger(sut.batchSizeLimit, equalToUnsignedInteger(10));
   assertThatUnsignedInteger(sut.pendingBatchesLimit, equalToUnsignedInteger(6));
-  assertThatFloat(sut.flushInterval, equalToFloat(3.0));
+  assertThatFloat(sut.flushInterval, equalToFloat(1.0));
 }
 
 - (void)testClassWillReturnCorrectConfigurationForGivenBackgroundPriority {
