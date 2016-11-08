@@ -4,8 +4,8 @@
 
 #import "MSAppleErrorLog.h"
 #import "MSBinary.h"
-#import "MSThread.h"
 #import "MSException.h"
+#import "MSThread.h"
 
 static NSString *const kMSTypeError = @"apple_error";
 static NSString *const kMSPrimaryArchitectureId = @"primary_architecture_id";
@@ -111,8 +111,7 @@ static NSString *const kMSException = @"exception";
     ((!self.threads && !errorLog.threads) || [self.threads isEqualToArray:errorLog.threads]) &&
     ((!self.binaries && !errorLog.binaries) || [self.binaries isEqualToArray:errorLog.binaries]) &&
     ((!self.registers && !errorLog.registers) || [self.registers isEqualToDictionary:errorLog.registers]) &&
-     ((!self.exception && !errorLog.exception) || [self.exception isEqual:errorLog.exception]);
-    
+    ((!self.exception && !errorLog.exception) || [self.exception isEqual:errorLog.exception]);
 }
 
 #pragma mark - NSCoding

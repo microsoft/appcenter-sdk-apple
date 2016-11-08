@@ -7,13 +7,14 @@
 
 static NSString *const kMSExceptionType = @"type";
 static NSString *const kMSMessage = @"message";
+static NSString *const kMSWrapperSDKName = @"wrapper_sdk_name";
 static NSString *const kMSFrames = @"frames";
 static NSString *const kMSInnerExceptions = @"inner_exceptions";
-static NSString *const kMSWrapperSdkName = @"wrapper_sdk_name";
 
 @implementation MSException
 
 - (NSMutableDictionary *)serializeToDictionary {
+    
     NSMutableDictionary *dict = [NSMutableDictionary new];
     
     if (self.type) {
@@ -23,7 +24,7 @@ static NSString *const kMSWrapperSdkName = @"wrapper_sdk_name";
         dict[kMSMessage] = self.message;
     }
     if (self.wrapperSdkName) {
-        dict[kMSWrapperSdkName] = self.wrapperSdkName;
+        dict[kMSWrapperSDKName] = self.wrapperSdkName;
     }
     if (self.frames) {
         NSMutableArray *framesArray = [NSMutableArray array];
@@ -67,19 +68,19 @@ static NSString *const kMSWrapperSdkName = @"wrapper_sdk_name";
     if (self) {
         _type = [coder decodeObjectForKey:kMSExceptionType];
         _message = [coder decodeObjectForKey:kMSMessage];
+        _wrapperSdkName = [coder decodeObjectForKey:kMSWrapperSDKName];
         _frames = [coder decodeObjectForKey:kMSFrames];
         _innerExceptions = [coder decodeObjectForKey:kMSInnerExceptions];
-        _wrapperSdkName = [coder decodeObjectForKey:kMSWrapperSdkName];
     }
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
     [coder encodeObject:self.type forKey:kMSExceptionType];
+    [coder encodeObject:self.wrapperSdkName forKey:kMSWrapperSDKName];
     [coder encodeObject:self.message forKey:kMSMessage];
     [coder encodeObject:self.frames forKey:kMSFrames];
     [coder encodeObject:self.innerExceptions forKey:kMSInnerExceptions];
-    [coder encodeObject:self.wrapperSdkName forKey:kMSWrapperSdkName];
 }
 
 @end

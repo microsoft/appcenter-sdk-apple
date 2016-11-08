@@ -8,16 +8,14 @@
 #import "MSCrashesHelper.h"
 #import "MSCrashesPrivate.h"
 #import "MSErrorLogFormatter.h"
-#import "MSFeatureAbstractProtected.h"
+#import "MSServiceAbstractProtected.h"
 #import "MSMobileCenterInternal.h"
 #import "MSWrapperExceptionManager.h"
 
-#import "MSException.h"
-
 /**
- *  Feature name.
+ *  Service name.
  */
-static NSString *const kMSFeatureName = @"Crashes";
+static NSString *const kMSServiceName = @"Crashes";
 static NSString *const kMSAnalyzerFilename = @"MSCrashes.analyzer";
 
 #pragma mark - Callbacks Setup
@@ -145,13 +143,13 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     return self;
 }
 
-#pragma mark - MSFeatureAbstract
+#pragma mark - MSServiceAbstract
 
 - (void)applyEnabledState:(BOOL)isEnabled {
     [super applyEnabledState:isEnabled];
     
     if (isEnabled) {
-        MSLogDebug([MSCrashes getLoggerTag], @"Enabling crashes feature again.");
+        MSLogDebug([MSCrashes getLoggerTag], @"Enabling crashes service again.");
         [self configureCrashReporter];
         
         // Get pending crashes from PLCrashReporter and persist them in the intermediate format.
@@ -167,7 +165,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
         [self.logManager addChannelDelegate:self forPriority:MSPriorityHigh];
         
         // Process PLCrashReports, this will format the PLCrashReport into our schema and then trigger sending.
-        // This mostly happens on the start of the feature.
+        // This mostly happens on the start of the service.
         if (self.crashFiles.count > 0) {
             [self startDelayedCrashProcessing];
         }
@@ -179,11 +177,11 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
         [self removeAnalyzerFile];
         [self.plCrashReporter purgePendingCrashReport];
         [self.logManager removeChannelDelegate:self forPriority:MSPriorityHigh];
-        MSLogDebug([MSCrashes getLoggerTag], @"Disabling crashes feature.");
+        MSLogDebug([MSCrashes getLoggerTag], @"Disabling crashes service.");
     }
 }
 
-#pragma mark - MSFeatureInternal
+#pragma mark - MSServiceInternal
 
 + (instancetype)sharedInstance {
     static id sharedInstance = nil;
@@ -196,7 +194,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
 - (void)startWithLogManager:(id<MSLogManager>)logManager {
     [super startWithLogManager:logManager];
-    MSLogVerbose([MSCrashes getLoggerTag], @"Started crash feature.");
+    MSLogVerbose([MSCrashes getLoggerTag], @"Started crash service.");
 }
 
 + (NSString *)getLoggerTag {
@@ -204,7 +202,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 }
 
 - (NSString *)storageKey {
-    return kMSFeatureName;
+    return kMSServiceName;
 }
 
 - (MSPriority)priority {
@@ -353,7 +351,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
         if ([crashFileData length] > 0) {
             MSLogVerbose([MSCrashes getLoggerTag], @"Crash report found");
             if (self.isEnabled) {
-               report = [[MSPLCrashReport alloc] initWithData:crashFileData error:&error];
+                report = [[MSPLCrashReport alloc] initWithData:crashFileData error:&error];
                 MSAppleErrorLog *log = [MSErrorLogFormatter errorLogFromCrashReport:report];
                 MSErrorReport *errorReport = [MSErrorLogFormatter errorReportFromLog:(log)];
                 if (!self.delegate ||
@@ -374,7 +372,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
                                report.debugDescription);
                 }
             } else {
-                MSLogDebug([MSCrashes getLoggerTag], @"Crashes feature is disabled, discard the crash report");
+                MSLogDebug([MSCrashes getLoggerTag], @"Crashes service is disabled, discard the crash report");
             }
             
             // Clean up files.
@@ -403,6 +401,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
         }
     }
 }
+
 
 #pragma mark - Helper
 
@@ -486,7 +485,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     if ([self.fileManager fileExistsAtPath:self.analyzerInProgressFile]) {
         NSError *error = nil;
         if (![self.fileManager removeItemAtPath:self.analyzerInProgressFile error:&error]) {
-            MSLogError([MSCrashes getLoggerTag], @"Couldn't remove analzer file at %@: ", self.analyzerInProgressFile);
+            MSLogError([MSCrashes getLoggerTag], @"Couldn't remove analyzer file at %@: ", self.analyzerInProgressFile);
         }
     }
 }
@@ -513,7 +512,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     if (!crashData) {
         MSLogError([MSCrashes getLoggerTag], @"Could not load crash data: %@", error.localizedDescription);
     }
-
+    
     MSPLCrashReport *report = [[MSPLCrashReport alloc] initWithData:crashData error:&error];
     
     if (report) {

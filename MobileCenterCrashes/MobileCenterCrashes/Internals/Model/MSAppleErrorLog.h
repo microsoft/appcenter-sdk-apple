@@ -64,14 +64,14 @@
 @property(nonatomic, nullable) NSArray<MSBinary *> *binaries;
 
 /*
- * Wrapper exception associated with the crash [optional].
- */
-@property(nonatomic, nullable) MSException *exception;
-
-/*
  * Registers. [optional]
  */
 @property(nonatomic, nullable) NSDictionary<NSString *, NSString *> *registers;
+
+/*
+ * The last exception backtrace.
+ */
+@property(nonatomic, nullable) MSException *exception;
 
 /**
  * Is equal to another apple error log

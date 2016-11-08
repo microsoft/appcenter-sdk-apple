@@ -13,7 +13,7 @@
 @interface MSMobileCenter : NSObject
 
 /**
- * Returns the singleton instance of MobileCenter.
+ * Returns the singleton instance of MSMobileCenter.
  */
 + (instancetype)sharedInstance;
 
@@ -25,19 +25,19 @@
 + (void)start:(NSString *)appSecret;
 
 /**
- * Start the SDK with features.
+ * Start the SDK with services.
  *
- * @param appSecret application secret.
- * @param features  array of features to be used.
+ * @param appSecret Application secret.
+ * @param services  Array of services to be used.
  */
-+ (void)start:(NSString *)appSecret withFeatures:(NSArray<Class> *)features;
++ (void)start:(NSString *)appSecret withServices:(NSArray<Class> *)services;
 
 /**
- * Start a feature.
+ * Start a service.
  *
- * @param feature  a feature to be used.
+ * @param service  A service to be used.
  */
-+ (void)startFeature:(Class)feature;
++ (void)startService:(Class)service;
 
 /**
  * Check whether the SDK has already been initialized or not.
@@ -55,7 +55,7 @@
 
 /**
  * Enable or disable the SDK as a whole. In addition to the core resources, it will also enable or disable all
- * registered features.
+ * registered services.
  *
  * @param isEnabled YES to enable, NO to disable.
  * @see isEnabled
@@ -113,5 +113,11 @@
  * @return BOOL if the debugger is attached.
  */
 + (BOOL)isDebuggerAttached;
+
+/**
+ * Method to reset the singleton when running unit tests only. So calling sharedInstance returns a fresh instance.
+ */
++(void)resetSharedInstance;
+
 
 @end
