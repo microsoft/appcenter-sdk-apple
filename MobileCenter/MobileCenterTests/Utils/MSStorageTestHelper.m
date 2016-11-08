@@ -3,7 +3,7 @@
 @implementation MSStorageTestHelper
 
 + (NSString *)logsDir {
-  NSString *logsPath = @"com.microsoft.azure.mobilecenter/logs";
+  NSString *logsPath = @"com.microsoft.azure.mobile.mobilecenter/logs";
   NSString *documentsDir =
       [NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject];
   return [documentsDir stringByAppendingPathComponent:logsPath];
@@ -24,10 +24,10 @@
 }
 
 + (MSFile *)createFileWithId:(NSString *)logsId
-                         data:(NSData *)data
-                    extension:(NSString *)extension
-                   storageKey:(NSString *)storageKey
-                 creationDate:(NSDate *)creationDate {
+                        data:(NSData *)data
+                   extension:(NSString *)extension
+                  storageKey:(NSString *)storageKey
+                creationDate:(NSDate *)creationDate {
   NSString *storagePath = [self storageDirForStorageKey:storageKey];
   if (![[NSFileManager defaultManager] fileExistsAtPath:storagePath]) {
     [self createDirectoryAtPath:storagePath];
