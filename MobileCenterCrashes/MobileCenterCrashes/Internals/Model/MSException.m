@@ -7,6 +7,7 @@
 
 static NSString *const kMSExceptionType = @"type";
 static NSString *const kMSMessage = @"message";
+static NSString *const kMSWrapperSDKName = @"wrapper_sdk_name";
 static NSString *const kMSFrames = @"frames";
 static NSString *const kMSInnerExceptions = @"inner_exceptions";
 
@@ -20,6 +21,9 @@ static NSString *const kMSInnerExceptions = @"inner_exceptions";
   }
   if (self.message) {
     dict[kMSMessage] = self.message;
+  }
+  if (self.wrapperSdkName) {
+    dict[kMSWrapperSDKName] = self.wrapperSdkName;
   }
   if (self.frames) {
     NSMutableArray *framesArray = [NSMutableArray array];
@@ -48,10 +52,12 @@ static NSString *const kMSInnerExceptions = @"inner_exceptions";
     return NO;
 
   return ((!self.type && !exception.type) || [self.type isEqualToString:exception.type]) &&
-         ((!self.message && !exception.message) || [self.type isEqualToString:exception.message]) &&
-         ((!self.frames && !exception.frames) || [self.frames isEqualToArray:exception.frames]) &&
-         ((!self.innerExceptions && !exception.innerExceptions) ||
-          [self.innerExceptions isEqual:exception.innerExceptions]);
+          ((!self.wrapperSdkName && !exception.wrapperSdkName) ||
+                  [self.wrapperSdkName isEqualToString:exception.wrapperSdkName]) &&
+          ((!self.message && !exception.message) || [self.type isEqualToString:exception.message]) &&
+          ((!self.frames && !exception.frames) || [self.frames isEqualToArray:exception.frames]) &&
+          ((!self.innerExceptions && !exception.innerExceptions) ||
+                  [self.innerExceptions isEqual:exception.innerExceptions]);
 }
 
 #pragma mark - NSCoding
@@ -61,6 +67,7 @@ static NSString *const kMSInnerExceptions = @"inner_exceptions";
   if (self) {
     _type = [coder decodeObjectForKey:kMSExceptionType];
     _message = [coder decodeObjectForKey:kMSMessage];
+    _wrapperSdkName = [coder decodeObjectForKey:kMSWrapperSDKName];
     _frames = [coder decodeObjectForKey:kMSFrames];
     _innerExceptions = [coder decodeObjectForKey:kMSInnerExceptions];
   }
@@ -69,6 +76,7 @@ static NSString *const kMSInnerExceptions = @"inner_exceptions";
 
 - (void)encodeWithCoder:(NSCoder *)coder {
   [coder encodeObject:self.type forKey:kMSExceptionType];
+  [coder encodeObject:self.wrapperSdkName forKey:kMSWrapperSDKName];
   [coder encodeObject:self.message forKey:kMSMessage];
   [coder encodeObject:self.frames forKey:kMSFrames];
   [coder encodeObject:self.innerExceptions forKey:kMSInnerExceptions];

@@ -2,8 +2,8 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "MSFeatureAbstractInternal.h"
-#import "MSFeatureInternal.h"
+#import "MSServiceAbstractInternal.h"
+#import "MSServiceInternal.h"
 #import "MSLogger.h"
 
 #import "Model/MSAbstractLog.h"
