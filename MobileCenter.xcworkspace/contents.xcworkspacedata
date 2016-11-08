@@ -21,6 +21,6 @@
       location = "group:Demo/Demo.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Puppet/Puppet/../../SwiftDemo/SwiftDemo.xcodeproj">
+      location = "group:SwiftDemo/SwiftDemo.xcodeproj">
    </FileRef>
 </Workspace>

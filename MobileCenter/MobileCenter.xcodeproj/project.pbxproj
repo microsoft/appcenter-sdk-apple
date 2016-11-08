@@ -961,7 +961,7 @@
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-ObjC";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.MobileCenter;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenter;
 				PRODUCT_NAME = MobileCenter;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SKIP_INSTALL = YES;
@@ -976,7 +976,7 @@
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-ObjC";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.MobileCenter;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenter;
 				PRODUCT_NAME = MobileCenter;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SKIP_INSTALL = YES;
@@ -1014,7 +1014,7 @@
 					Foundation,
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.MobileCenterTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecentertests;
 				PRODUCT_NAME = MobileCenter;
 			};
 			name = Debug;
@@ -1035,7 +1035,7 @@
 					Foundation,
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.MobileCenterTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecentertests;
 				PRODUCT_NAME = MobileCenter;
 			};
 			name = Release;

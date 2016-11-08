@@ -641,7 +641,7 @@
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.MobileCenterAnalytics;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenteranalytics;
 				PRODUCT_NAME = MobileCenterAnalytics;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SKIP_INSTALL = YES;
@@ -657,7 +657,7 @@
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.MobileCenterAnalytics;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenteranalytics;
 				PRODUCT_NAME = MobileCenterAnalytics;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SKIP_INSTALL = YES;
@@ -682,7 +682,7 @@
 					Foundation,
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.MobileCenterAnalyticsTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenteranalyticstests;
 				PRODUCT_NAME = MobileCenterAnalytics;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/**";
 			};
@@ -704,7 +704,7 @@
 					Foundation,
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.MobileCenterAnalyticsTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenteranalyticstests;
 				PRODUCT_NAME = MobileCenterAnalytics;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/**";
 			};
