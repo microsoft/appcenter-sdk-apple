@@ -132,6 +132,6 @@ static NSString *const kSMNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 - (void)testDefaultServerUrl {
   [MSMobileCenter resetSharedInstance];
   [MSMobileCenter start:[[NSUUID UUID] UUIDString] withServices:nil];
-  XCTAssertTrue([[[MSMobileCenter sharedInstance] serverUrl] isEqualToString:@"https://in.sonoma.hockeyapp.com"]);
+  XCTAssertTrue([[[MSMobileCenter sharedInstance] serverUrl] isEqualToString:@"https://in.mobile.azure.com"]);
 }
 @end
