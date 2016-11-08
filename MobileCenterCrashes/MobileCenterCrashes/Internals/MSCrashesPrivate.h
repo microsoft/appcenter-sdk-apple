@@ -29,10 +29,10 @@ typedef void (*MSCrashesPostCrashSignalCallback)(void *context);
  * @see `[MSCrashes setCrashCallbacks:]`
  */
 typedef struct MSCrashesCallbacks {
-
+  
   /** An arbitrary user-supplied context value. This value may be NULL. */
   void *context;
-
+  
   /**
    * The callback used to report caught signal information.
    */
@@ -84,10 +84,10 @@ typedef struct MSCrashesCallbacks {
  crashed
  * previously. You can use this also to disable specific events, like asking
  * the user to rate your app.
-
+ 
  * @warning This property only has a correct value, once the sdk has been
  properly initialized!
-
+ 
  * @see lastSessionCrashReport
  */
 @property(atomic, readonly) BOOL didCrashInLastSession;

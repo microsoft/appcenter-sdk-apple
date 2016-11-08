@@ -34,7 +34,7 @@ static NSString *const kMSException = @"exception";
 
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [super serializeToDictionary];
-  
+
   if (self.primaryArchitectureId) {
     dict[kMSPrimaryArchitectureId] = self.primaryArchitectureId;
   }
@@ -79,7 +79,7 @@ static NSString *const kMSException = @"exception";
   if (self.exception) {
     dict[kMSException] = [self.exception serializeToDictionary];
   }
-  
+
   return dict;
 }
 
@@ -91,7 +91,7 @@ static NSString *const kMSException = @"exception";
 - (BOOL)isEqual:(MSAppleErrorLog *)errorLog {
   if (!errorLog)
     return NO;
-  
+
   return ((!self.primaryArchitectureId && !errorLog.primaryArchitectureId) ||
           [self.primaryArchitectureId isEqual:errorLog.primaryArchitectureId]) &&
   ((!self.architectureVariantId && !errorLog.architectureVariantId) ||

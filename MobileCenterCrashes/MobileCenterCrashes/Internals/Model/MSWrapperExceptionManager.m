@@ -14,13 +14,13 @@ static NSString *directoryPath;
 +(void)initialize
 {
   [super initialize];
-  
+
   wrapperException = nil;
-  
+
   NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
   NSString *documentsDirectory = [paths objectAtIndex:0];
   directoryPath = [documentsDirectory stringByAppendingPathComponent:@"wrapper_exceptions"];
-  
+
   // Create the directory if it doesn't exist
   BOOL isDir = YES;
   if (![[NSFileManager defaultManager] fileExistsAtPath:directoryPath isDirectory:&isDir]) {
