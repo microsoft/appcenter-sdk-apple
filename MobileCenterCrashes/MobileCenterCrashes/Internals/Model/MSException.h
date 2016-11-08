@@ -20,6 +20,11 @@
 @property(nonatomic, nonnull) NSString *message;
 
 /*
+ * Wrapper sdk that threw the exception [optional].
+ */
+@property(nonatomic, nullable) NSString *wrapperSdkName;
+
+/*
  * Stack frames [optional].
  */
 @property(nonatomic, nullable) NSArray<MSStackFrame *> *frames;
