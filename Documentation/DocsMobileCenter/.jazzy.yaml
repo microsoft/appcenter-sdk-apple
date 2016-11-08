@@ -4,7 +4,7 @@ sdk: iphonesimulator
 
 theme: ../Themes/apple
 
-module: Sonoma
+module: MobileCenter
 module_version: 1.0.0
 author: Microsoft Corp
 author_url: http://www.microsoft.com
@@ -20,8 +20,8 @@ umbrella_header: ../../Products/MobileCenter/MobileCenter.framework/Headers/Mobi
 framework_root: ../../Products/MobileCenter/
 
 root_url: http://test.com/sdk/ios/1.0.0
-github_url: https://github.com/Microsoft/Sonoma-SDK-iOS
-github_file_prefix: "https://github.com/Microsoft/Sonoma-SDK-iOS"
+github_url: https://github.com/Microsoft/MobileCenter-SDK-iOS
+github_file_prefix: "https://github.com/Microsoft/MobileCenter-SDK-iOS"
 
 skip_undocumented: true
 
