@@ -27,7 +27,7 @@
 
 /**
  * A boolean value set to YES if logs are discarded (not persisted) or NO otherwise.
- * Logs are discarded when the related feature is disabled or an unrecoverable error happened.
+ * Logs are discarded when the related service is disabled or an unrecoverable error happened.
  */
 @property(nonatomic) BOOL discardLogs;
 
