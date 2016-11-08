@@ -109,7 +109,13 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     NSString *filePath = [crashes.unprocessedFilePaths objectAtIndex:i];
 
     // Get error attachment.
-    [log setErrorAttachment:[crashes.delegate attachmentWithCrashes:crashes forErrorReport:report]];
+    if (crashes.delegate &&
+            [crashes.delegate respondsToSelector:@selector(attachmentWithCrashes:forErrorReport:)]) {
+      [log setErrorAttachment:[crashes.delegate attachmentWithCrashes:crashes forErrorReport:report]];
+    }
+    else {
+      MSLogDebug([MSCrashes getLoggerTag], @"attachmentWithCrashes is not implemented");
+    }
 
     // Send log to log manager.
     [crashes.logManager processLog:log withPriority:crashes.priority];
