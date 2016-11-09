@@ -1,6 +1,8 @@
 #import "MSCrashes.h"
 #import "MSCrashesReportsViewController.h"
 
+#import <CrashLibIOS/CrashLib.h>
+
 @interface MSCrashesReportsViewController ()
 
 @end
