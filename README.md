@@ -26,8 +26,9 @@ Let's get started with setting up the Mobile Center SDK in your app to use these
 
 Before you begin, please make sure that the following prerequisites are met:
 
-* An iOS project that is set up in Xcode 8.1 on macOS version 10.11 or later.
+* An iOS project that is set up in Xcode 8.0 on macOS 10.11 or later.
 * The minimum OS target supported by the Mobile Center SDK is iOS 8.0 or later.
+* If you are using cocoapods, please use cocoapods 1.1.1 or later.
 * This readme assumes that you are using Swift 3 syntax and want to integrate all services.
 
 ## 2. Integrate the SDK
