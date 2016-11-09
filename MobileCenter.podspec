@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
                         DESC
 
   s.homepage          = 'https://mobile.azure.com'
-  s.documentation_url = "https://docs.mobile.azure.com"
+  #s.documentation_url = "https://docs.mobile.azure.com"
 
   s.license           = { :type => 'MIT',  :file => 'MobileCenter-SDK-iOS-0.2.0/LICENSE'}
   s.author            = { 'Microsoft' => 'mobilecentersdk@microsoft.com' }
