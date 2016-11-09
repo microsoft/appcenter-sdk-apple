@@ -1,0 +1,29 @@
+objc: true
+clean: true
+sdk: iphonesimulator
+
+theme: ../Themes/apple
+
+module: MobileCenterAnalytics
+module_version: 1.0.0
+author: Microsoft Corp
+author_url: http://www.microsoft.com
+
+readme: Guides/Analytics.md
+documentation: ../Guides/[^index]*.md
+custom_categories:
+  - name: Guides
+    children:
+    - Installation
+
+umbrella_header: ../../Products/MobileCenterAnalytics/MobileCenterAnalytics.framework/Headers/MobileCenterAnalytics.h
+framework_root: ../../Products/MobileCenterAnalytics
+exclude: [../../Products/MobileCenterAnalytics/MobileCenterAnalytics.framework/Headers/MSService.h, ../../Products/MobileCenterAnalytics/MobileCenterAnalytics.framework/Headers/MSServiceAbstract.h]
+
+root_url: http://test.com/sdk/ios/1.0.0
+github_url: https://github.com/Microsoft/Sonoma-SDK-iOS
+github_file_prefix: "https://github.com/Microsoft/Sonoma-SDK-iOS"
+
+skip_undocumented: true
+
+output: Generated/

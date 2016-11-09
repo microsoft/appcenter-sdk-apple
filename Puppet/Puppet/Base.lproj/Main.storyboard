@@ -9,7 +9,7 @@
         <!--Analytics View Controller-->
         <scene sceneID="OWQ-4B-UdT">
             <objects>
-                <tableViewController storyboardIdentifier="analytics" id="GhP-bn-tCW" customClass="SNMAnalyticsViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="analytics" id="GhP-bn-tCW" customClass="MSAnalyticsViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="lFP-oN-Acu">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -27,7 +27,7 @@
         <!--Crashes Reports View Controller-->
         <scene sceneID="Y3h-0l-7rk">
             <objects>
-                <tableViewController storyboardIdentifier="crashes" id="MLz-YP-ZEx" customClass="SNMCrashesReportsViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="crashes" id="MLz-YP-ZEx" customClass="MSCrashesReportsViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="jgs-Mk-uqb">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -52,10 +52,10 @@
             </objects>
             <point key="canvasLocation" x="760" y="159"/>
         </scene>
-        <!--Sonoma-->
+        <!--Mobile Center-->
         <scene sceneID="0ay-6B-23o">
             <objects>
-                <tableViewController storyboardIdentifier="main" id="9Ck-4D-Ozb" customClass="SNMMainViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="main" id="9Ck-4D-Ozb" customClass="MSMainViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="Xq0-wR-0nE">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -65,7 +65,7 @@
                             <outlet property="delegate" destination="9Ck-4D-Ozb" id="XKu-8j-qab"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Sonoma" id="eqe-td-JIR"/>
+                    <navigationItem key="navigationItem" title="Mobile Center" id="eqe-td-JIR"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G4r-se-P85" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
