@@ -16,12 +16,13 @@ Pod::Spec.new do |s|
   s.homepage          = 'https://mobile.azure.com'
   #s.documentation_url = "https://docs.mobile.azure.com"
 
-  s.license           = { :type => 'MIT',  :file => 'MobileCenter-SDK-iOS-0.2.0/LICENSE'}
+  s.license           = { :type => 'MIT',  :file => 'MobileCenter-SDK-iOS/LICENSE'}
   s.author            = { 'Microsoft' => 'mobilecentersdk@microsoft.com' }
 
   s.platform          = :ios, '8.0'  
-  s.source = { :http => "http://mobilecentersdkdev.blob.core.windows.net/sdk/MobileCenter-SDK-iOS-#{s.version}.zip" }
-  s.preserve_path = "MobileCenter-SDK-iOS-#{s.version}/LICENSE"
+  #s.source = { :http => "http://mobilecentersdkdev.blob.core.windows.net/sdk/MobileCenter-SDK-iOS-#{s.version}.zip" }
+  s.source = { :http => "https://s3.amazonaws.com/hockey-app-download/mobilecenter/ios/MobileCenter-SDK-iOS-#{s.version}.zip" }
+  s.preserve_path = "MobileCenter-SDK-iOS/LICENSE"
 
   s.frameworks = 'Foundation',  'SystemConfiguration', 'UIKit'
 
@@ -29,20 +30,20 @@ Pod::Spec.new do |s|
 
   s.subspec 'MobileCenter' do |ss|
       ss.frameworks = 'Foundation',  'SystemConfiguration', 'UIKit'
-      ss.vendored_frameworks = "MobileCenter-SDK-iOS-#{s.version}/MobileCenter.framework"
+      ss.vendored_frameworks = "MobileCenter-SDK-iOS/MobileCenter.framework"
   end
 
  s.subspec 'MobileCenterAnalytics' do |ss|
       ss.frameworks = 'CoreTelephony', 'Foundation', 'UIKit'
       ss.dependency 'MobileCenter/MobileCenter'
-      ss.vendored_frameworks = "MobileCenter-SDK-iOS-#{s.version}/MobileCenterAnalytics.framework"
+      ss.vendored_frameworks = "MobileCenter-SDK-iOS/MobileCenterAnalytics.framework"
   end
 
   s.subspec 'MobileCenterCrashes' do |ss|
       ss.frameworks = 'Foundation', 'UIKit'
       ss.libraries = 'z', 'c++'
       ss.dependency 'MobileCenter/MobileCenter'
-      ss.vendored_frameworks = "MobileCenter-SDK-iOS-#{s.version}/MobileCenterCrashes.framework"
+      ss.vendored_frameworks = "MobileCenter-SDK-iOS/MobileCenterCrashes.framework"
   end
 
 
