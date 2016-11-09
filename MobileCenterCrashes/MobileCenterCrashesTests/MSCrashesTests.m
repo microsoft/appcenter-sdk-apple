@@ -4,9 +4,12 @@
 #import <XCTest/XCTest.h>
 
 #import "MSCrashesDelegate.h"
+#import "MSChannelDelegate.h"
 #import "MSCrashesPrivate.h"
 #import "MSCrashesTestHelper.h"
-#import "MSLogManager.h"
+#import "MSMockCrashesDelegate.h"
+
+@class MSMockCrashesDelegate;
 
 @interface MSCrashesTests : XCTestCase
 
@@ -63,6 +66,17 @@
   [MSCrashes setDelegate:delegateMock];
   XCTAssertNotNil([MSCrashes sharedInstance].delegate);
   XCTAssertEqual([MSCrashes sharedInstance].delegate, delegateMock);
+}
+
+- (void)testCrashesDelegateWithoutImplementations {
+
+  // When
+  MSMockCrashesDelegate *delegateMock = OCMPartialMock([MSMockCrashesDelegate new]);
+  [MSCrashes setDelegate:delegateMock];
+
+  // Then
+  assertThatBool([[MSCrashes sharedInstance] shouldProcessErrorReport:nil], isTrue());
+  assertThatBool([[MSCrashes sharedInstance] hasAttachment], isFalse());
 }
 
 @end
