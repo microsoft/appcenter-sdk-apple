@@ -8,8 +8,8 @@
 #import "MSCrashesHelper.h"
 #import "MSCrashesPrivate.h"
 #import "MSErrorLogFormatter.h"
-#import "MSServiceAbstractProtected.h"
 #import "MSMobileCenterInternal.h"
+#import "MSServiceAbstractProtected.h"
 #import "MSWrapperExceptionManager.h"
 
 /**
@@ -34,7 +34,7 @@ static void plcr_post_crash_callback(siginfo_t *info, ucontext_t *uap, void *con
 }
 
 static PLCrashReporterCallbacks plCrashCallbacks = {
-  .version = 0, .context = NULL, .handleSignal = plcr_post_crash_callback};
+    .version = 0, .context = NULL, .handleSignal = plcr_post_crash_callback};
 
 /**
  * C++ Exception Handler
@@ -109,11 +109,9 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     NSString *filePath = [crashes.unprocessedFilePaths objectAtIndex:i];
 
     // Get error attachment.
-    if (crashes.delegate &&
-            [crashes.delegate respondsToSelector:@selector(attachmentWithCrashes:forErrorReport:)]) {
+    if (crashes.delegate && [crashes.delegate respondsToSelector:@selector(attachmentWithCrashes:forErrorReport:)]) {
       [log setErrorAttachment:[crashes.delegate attachmentWithCrashes:crashes forErrorReport:report]];
-    }
-    else {
+    } else {
       MSLogDebug([MSCrashes getLoggerTag], @"attachmentWithCrashes is not implemented");
     }
 
@@ -309,8 +307,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 }
 
 - (void)startCrashProcessing {
-  if (![MSCrashesHelper isAppExtension] &&
-      [[UIApplication sharedApplication] applicationState] != UIApplicationStateActive) {
+  if (![MSCrashesHelper isAppExtension] && [kMSApplication applicationState] != UIApplicationStateActive) {
     return;
   }
 
@@ -329,10 +326,10 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
      */
     if (self.exceptionHandler != currentHandler) {
       MSLogWarning([MSCrashes getLoggerTag], @"Another exception handler was added. If "
-                   @"this invokes any kind of exit() after processing the "
-                   @"exception, which causes any subsequent error handler "
-                   @"not to be invoked, these crashes will NOT be reported "
-                   @"to Mobile Center!");
+                                             @"this invokes any kind of exit() after processing the "
+                                             @"exception, which causes any subsequent error handler "
+                                             @"not to be invoked, these crashes will NOT be reported "
+                                             @"to Mobile Center!");
     }
   }
   if (!self.sendingInProgress && self.crashFiles.count > 0) {
@@ -349,7 +346,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   _unprocessedFilePaths = [[NSMutableArray alloc] init];
 
   NSArray *tempCrashesFiles = [NSArray arrayWithArray:self.crashFiles];
-  MSPLCrashReport * report;
+  MSPLCrashReport *report;
   for (NSString *filePath in tempCrashesFiles) {
 
     // we start sending always with the oldest pending one
@@ -360,8 +357,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
         report = [[MSPLCrashReport alloc] initWithData:crashFileData error:&error];
         MSAppleErrorLog *log = [MSErrorLogFormatter errorLogFromCrashReport:report];
         MSErrorReport *errorReport = [MSErrorLogFormatter errorReportFromLog:(log)];
-        if (!self.delegate ||
-            ![self.delegate respondsToSelector:@selector(crashes:shouldProcessErrorReport:)] ||
+        if (!self.delegate || ![self.delegate respondsToSelector:@selector(crashes:shouldProcessErrorReport:)] ||
             [self.delegate crashes:self shouldProcessErrorReport:errorReport]) {
           MSLogDebug([MSCrashes getLoggerTag],
                      @"shouldProcessErrorReport is not implemented or returned YES, processing the crash report: %@",
@@ -373,8 +369,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
           [_unprocessedFilePaths addObject:filePath];
           continue;
         } else {
-          MSLogDebug([MSCrashes getLoggerTag],
-                     @"shouldProcessErrorReport returned NO, discard the crash report: %@",
+          MSLogDebug([MSCrashes getLoggerTag], @"shouldProcessErrorReport returned NO, discard the crash report: %@",
                      report.debugDescription);
         }
       } else {
@@ -408,7 +403,6 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   }
 }
 
-
 #pragma mark - Helper
 
 - (void)deleteAllFromCrashesDirectory {
@@ -441,7 +435,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
     // Try loading the crash report
     NSData *crashData =
-    [[NSData alloc] initWithData:[self.plCrashReporter loadPendingCrashReportDataAndReturnError:&error]];
+        [[NSData alloc] initWithData:[self.plCrashReporter loadPendingCrashReportDataAndReturnError:&error]];
     NSString *cacheFilename = [NSString stringWithFormat:@"%.0f", [NSDate timeIntervalSinceReferenceDate]];
 
     if (crashData == nil) {
@@ -502,8 +496,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   }
 }
 
-+ (void) wrapperCrashCallback
-{
++ (void)wrapperCrashCallback {
   if (![MSWrapperExceptionManager hasException]) {
     return;
   }
@@ -511,7 +504,8 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   // If a wrapper SDK has passed an execption, save it to disk
 
   NSError *error = NULL;
-  NSData *crashData = [[NSData alloc] initWithData:[[[MSCrashes sharedInstance] plCrashReporter] loadPendingCrashReportDataAndReturnError:&error]];
+  NSData *crashData = [[NSData alloc]
+      initWithData:[[[MSCrashes sharedInstance] plCrashReporter] loadPendingCrashReportDataAndReturnError:&error]];
 
   // This shouldn't happen because the callback should only happen once plCrashReporter
   // has written the report to disk
@@ -523,11 +517,9 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
   if (report) {
     [MSWrapperExceptionManager saveWrapperException:report.uuidRef];
-  }
-  else {
+  } else {
     MSLogError([MSCrashes getLoggerTag], @"Could not load crash report: %@", error.localizedDescription);
   }
 }
-
 
 @end
