@@ -2,10 +2,10 @@
 #import "MSFileHelper.h"
 #import "MSFileStorage.h"
 #import "MSLogger.h"
-#import "MSUtils.h"
 #import "MSMobileCenterInternal.h"
+#import "MSUtils.h"
 
-static NSString *const kMSLogsDirectory = @"com.microsoft.azure.mobilecenter/logs";
+static NSString *const kMSLogsDirectory = @"com.microsoft.azure.mobile.mobilecenter/logs";
 static NSString *const kMSFileExtension = @"ms";
 // FIXME Need a different storage such as database to make it work properly.
 //       For now, persistence will maintain up to 350 logs and remove the oldest 50 logs in a file.

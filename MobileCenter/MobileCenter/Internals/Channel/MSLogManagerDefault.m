@@ -6,7 +6,7 @@
 #import "MSLogManagerDefault.h"
 #import "MobileCenter+Internal.h"
 
-static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobilecenter.LogManagerQueue";
+static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecenter.LogManagerQueue";
 
 /**
  * Private declaration of the log manager.
@@ -105,9 +105,9 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobilecenter.LogMa
   MSChannelConfiguration *configuration = [MSChannelConfiguration configurationForPriority:priority];
   if (configuration) {
     channel = [[MSChannelDefault alloc] initWithSender:self.sender
-                                                storage:self.storage
-                                          configuration:configuration
-                                      logsDispatchQueue:self.logsDispatchQueue];
+                                               storage:self.storage
+                                         configuration:configuration
+                                     logsDispatchQueue:self.logsDispatchQueue];
     self.channels[@(priority)] = channel;
   }
   return channel;

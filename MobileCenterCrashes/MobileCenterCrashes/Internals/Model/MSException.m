@@ -14,6 +14,7 @@ static NSString *const kMSInnerExceptions = @"inner_exceptions";
 @implementation MSException
 
 - (NSMutableDictionary *)serializeToDictionary {
+
   NSMutableDictionary *dict = [NSMutableDictionary new];
 
   if (self.type) {
@@ -52,12 +53,12 @@ static NSString *const kMSInnerExceptions = @"inner_exceptions";
     return NO;
 
   return ((!self.type && !exception.type) || [self.type isEqualToString:exception.type]) &&
-          ((!self.wrapperSdkName && !exception.wrapperSdkName) ||
-                  [self.wrapperSdkName isEqualToString:exception.wrapperSdkName]) &&
-          ((!self.message && !exception.message) || [self.type isEqualToString:exception.message]) &&
-          ((!self.frames && !exception.frames) || [self.frames isEqualToArray:exception.frames]) &&
-          ((!self.innerExceptions && !exception.innerExceptions) ||
-                  [self.innerExceptions isEqual:exception.innerExceptions]);
+  ((!self.wrapperSdkName && !exception.wrapperSdkName) ||
+   [self.wrapperSdkName isEqualToString:exception.wrapperSdkName]) &&
+  ((!self.message && !exception.message) || [self.type isEqualToString:exception.message]) &&
+  ((!self.frames && !exception.frames) || [self.frames isEqualToArray:exception.frames]) &&
+  ((!self.innerExceptions && !exception.innerExceptions) ||
+   [self.innerExceptions isEqual:exception.innerExceptions]);
 }
 
 #pragma mark - NSCoding

@@ -9,16 +9,16 @@
 #import "MSDevicePrivate.h"
 #import "MSWrapperSdkPrivate.h"
 
-// SDK versioning struct.
+// SDK versioning struct. Needs to be big enough to hold the info.
 typedef struct {
   uint8_t info_version;
-  const char ms_name[16];
-  const char ms_version[16];
-  const char ms_build[16];
+  const char ms_name[32];
+  const char ms_version[32];
+  const char ms_build[32];
 } ms_info_t;
 
 // SDK versioning.
-ms_info_t mobile_center_library_info __attribute__((section("__TEXT,__bit_ios,regular,no_dead_strip"))) = {
+ms_info_t mobilecenter_library_info __attribute__((section("__TEXT,__ms_ios,regular,no_dead_strip"))) = {
     .info_version = 1,
     .ms_name = MOBILE_CENTER_C_NAME,
     .ms_version = MOBILE_CENTER_C_VERSION,
@@ -63,8 +63,8 @@ static BOOL needRefresh = YES;
     CTCarrier *carrier = [[[CTTelephonyNetworkInfo alloc] init] subscriberCellularProvider];
 
     // Collect device properties.
-    newDevice.sdkName = [self sdkName:mobile_center_library_info.ms_name];
-    newDevice.sdkVersion = [self sdkVersion:mobile_center_library_info.ms_version];
+    newDevice.sdkName = [self sdkName:mobilecenter_library_info.ms_name];
+    newDevice.sdkVersion = [self sdkVersion:mobilecenter_library_info.ms_version];
     newDevice.model = [self deviceModel];
     newDevice.oemName = kMSDeviceManufacturer;
     newDevice.osName = [self osName:kMSDevice];
