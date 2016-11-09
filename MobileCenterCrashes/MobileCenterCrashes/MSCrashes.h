@@ -22,17 +22,17 @@ typedef NS_ENUM(NSUInteger, MSErrorLogSetting) {
   /**
    * Crash reporting is disabled.
    */
-      MSErrorLogSettingDisabled = 0,
+  MSErrorLogSettingDisabled = 0,
 
   /**
    * User is asked each time before sending error logs.
    */
-      MSErrorLogSettingAlwaysAsk = 1,
+  MSErrorLogSettingAlwaysAsk = 1,
 
   /**
    * Each error log is send automatically.
    */
-      MSErrorLogSettingAutoSend = 2
+  MSErrorLogSettingAutoSend = 2
 };
 
 /**
@@ -42,15 +42,15 @@ typedef NS_ENUM(NSUInteger, MSUserConfirmation) {
   /**
    * User chose not to send the crash report
    */
-      MSUserConfirmationDontSend = 0,
+  MSUserConfirmationDontSend = 0,
   /**
    * User wants the crash report to be sent
    */
-      MSUserConfirmationSend = 1,
+  MSUserConfirmationSend = 1,
   /**
    * User wants to send all error logs
    */
-      MSUserConfirmationAlways = 2
+  MSUserConfirmationAlways = 2
 };
 
 @protocol MSCrashesDelegate;
