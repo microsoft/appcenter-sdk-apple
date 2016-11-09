@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6E04017D1D1CAC710051BCFA"
-               BuildableName = "SonomaCoreFramework"
-               BlueprintName = "SonomaCoreFramework"
-               ReferencedContainer = "container:../SonomaCore/SonomaCore.xcodeproj">
+               BuildableName = "MobileCenterFramework"
+               BlueprintName = "MobileCenterFramework"
+               ReferencedContainer = "container:../MobileCenter/MobileCenter.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E85547E41D2D681F002DF6E2"
-               BuildableName = "SonomaAnalyticsFramework"
-               BlueprintName = "SonomaAnalyticsFramework"
-               ReferencedContainer = "container:../SonomaAnalytics/SonomaAnalytics.xcodeproj">
+               BuildableName = "MobileCenterAnalyticsFramework"
+               BlueprintName = "MobileCenterAnalyticsFramework"
+               ReferencedContainer = "container:../MobileCenterAnalytics/MobileCenterAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -43,9 +43,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6E3729771D1DE83200F1E4AE"
-               BuildableName = "SonomaCrashesFramework"
-               BlueprintName = "SonomaCrashesFramework"
-               ReferencedContainer = "container:../SonomaCrashes/SonomaCrashes.xcodeproj">
+               BuildableName = "MobileCenterCrashesFramework"
+               BlueprintName = "MobileCenterCrashesFramework"
+               ReferencedContainer = "container:../MobileCenterCrashes/MobileCenterCrashes.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry

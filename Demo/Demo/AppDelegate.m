@@ -1,11 +1,11 @@
 #import "AppDelegate.h"
 #import "Constants.h"
 
-@import SonomaCore;
-@import SonomaCrashes;
-@import SonomaAnalytics;
+@import MobileCenter;
+@import MobileCenterCrashes;
+@import MobileCenterAnalytics;
 
-@interface AppDelegate () <SNMCrashesDelegate>
+@interface AppDelegate () <MSCrashesDelegate>
 
 @end
 
@@ -14,14 +14,14 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   // Override point for customization after application launch.
 
-  // Start Sonoma SDK
-  [SNMSonoma setLogLevel:SNMLogLevelVerbose];
-  [SNMSonoma setServerUrl:@"http://in-integration.dev.avalanch.es:8081"];
-  [SNMSonoma start:[[NSUUID UUID] UUIDString] withFeatures:@[[SNMAnalytics class], [SNMCrashes class]]];
-  [SNMCrashes setDelegate:self];
+  // Start Mobile Center SDK
+  [MSMobileCenter setLogLevel:MSLogLevelVerbose];
+  [MSMobileCenter setServerUrl:@"http://in-integration.dev.avalanch.es:8081"];
+    [MSMobileCenter start:[[NSUUID UUID] UUIDString] withServices:@[[MSAnalytics class], [MSCrashes class]]];
+  [MSCrashes setDelegate:self];
 
   // Print the install Id.
-  NSLog(@"%@ Install Id: %@", kDEMLogTag, [[SNMSonoma installId] UUIDString]);
+  NSLog(@"%@ Install Id: %@", kDEMLogTag, [[MSMobileCenter installId] UUIDString]);
   return YES;
 }
 
@@ -55,25 +55,25 @@
   // applicationDidEnterBackground:.
 }
 
-#pragma mark - SNMCrashesDelegate
+#pragma mark - MSCrashesDelegate
 
-- (BOOL)crashes:(SNMCrashes *)crashes shouldProcessErrorReport:(SNMErrorReport *)errorReport {
+- (BOOL)crashes:(MSCrashes *)crashes shouldProcessErrorReport:(MSErrorReport *)errorReport {
   return YES;
 }
 
-- (SNMErrorAttachment *)attachmentWithCrashes:(SNMCrashes *)crashes forErrorReport:(SNMErrorReport *)errorReport {
-  return [SNMErrorAttachment attachmentWithText:@"Text Attachment"
+- (MSErrorAttachment *)attachmentWithCrashes:(MSCrashes *)crashes forErrorReport:(MSErrorReport *)errorReport {
+  return [MSErrorAttachment attachmentWithText:@"Text Attachment"
                                   andBinaryData:[@"Hello World" dataUsingEncoding:NSUTF8StringEncoding]
                                        filename:@"binary.txt" mimeType:@"text/plain"];
 }
 
-- (void)crashes:(SNMCrashes *)crashes willSendErrorReport:(SNMErrorReport *)errorReport {
+- (void)crashes:(MSCrashes *)crashes willSendErrorReport:(MSErrorReport *)errorReport {
 }
 
-- (void)crashes:(SNMCrashes *)crashes didSucceedSendingErrorReport:(SNMErrorReport *)errorReport {
+- (void)crashes:(MSCrashes *)crashes didSucceedSendingErrorReport:(MSErrorReport *)errorReport {
 }
 
-- (void)crashes:(SNMCrashes *)crashes didFailSendingErrorReport:(SNMErrorReport *)errorReport withError:(NSError *)error {
+- (void)crashes:(MSCrashes *)crashes didFailSendingErrorReport:(MSErrorReport *)errorReport withError:(NSError *)error {
 }
 
 @end
