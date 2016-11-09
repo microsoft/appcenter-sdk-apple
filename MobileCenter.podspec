@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
   s.name              = 'MobileCenter'
   s.version           = '0.2.0'
 
-  s.summary           = 'Add Mobile Center services to your app and collect crash reports and understand user behavior by analyzing the session, user and device information for your app.'
+  s.summary           = 'Add Mobile Center SDK to your app to collect crash reports & understand user behavior by analyzing the session, user or device information.'
   s.description       = <<-DESC
                      Add Mobile Center services to your app and collect crash reports and understand user behavior by analyzing the session, user and device information for your app. The SDK is currently in public preview and supports the following services:
 
@@ -13,15 +13,15 @@ Pod::Spec.new do |s|
                       The Mobile Center SDK will automatically generate a crash log every time your app crashes. The log is first written to the device's storage and when the user starts the app again, the crash report will be forwarded to Mobile Center. Collecting crashes works for both beta and live apps, i.e. those submitted to App Store. Crash logs contain viable information for you to help resolve the issue. Crashes uses PLCrashReporter 1.3.
                         DESC
 
-  s.homepage          = 'https://mobile.azure.com/'
-  s.documentation_url = "https://docs.mobile.azure.com/"
+  s.homepage          = 'https://mobile.azure.com'
+  s.documentation_url = "https://docs.mobile.azure.com"
 
   s.license           = { :type => 'MIT',  :file => 'MobileCenter-SDK-iOS-0.2.0/LICENSE'}
   s.author            = { 'Microsoft' => 'mobilecentersdk@microsoft.com' }
 
   s.platform          = :ios, '8.0'  
-  s.source = { :http => "https://s3.amazonaws.com/hockey-app-download/mobilecenter/ios/MobileCenter-SDK-iOS-0.2.0.zip" }
-  s.preserve_path = 'MobileCenter-SDK-iOS/LICENSE'
+  s.source = { :http => "http://mobilecentersdkdev.blob.core.windows.net/sdk/MobileCenter-SDK-iOS-#{s.version}.zip" }
+  s.preserve_path = "MobileCenter-SDK-iOS-#{s.version}/LICENSE"
 
   s.frameworks = 'Foundation',  'SystemConfiguration', 'UIKit'
 
@@ -29,20 +29,20 @@ Pod::Spec.new do |s|
 
   s.subspec 'MobileCenter' do |ss|
       ss.frameworks = 'Foundation',  'SystemConfiguration', 'UIKit'
-      ss.vendored_frameworks = 'MobileCenter-SDK-iOS/MobileCenter.framework'
+      ss.vendored_frameworks = "MobileCenter-SDK-iOS-#{s.version}/MobileCenter.framework"
   end
 
  s.subspec 'MobileCenterAnalytics' do |ss|
-      ss.frameworks = 'CoreTelephony', Foundation',  'UIKit'
+      ss.frameworks = 'CoreTelephony', 'Foundation', 'UIKit'
       ss.dependency 'MobileCenter/MobileCenter'
-      ss.vendored_frameworks = 'MobileCenter-SDK-iOS/MobileCenterAnalytics.framework'
+      ss.vendored_frameworks = "MobileCenter-SDK-iOS-#{s.version}/MobileCenterAnalytics.framework"
   end
 
   s.subspec 'MobileCenterCrashes' do |ss|
       ss.frameworks = 'Foundation', 'UIKit'
       ss.libraries = 'z', 'c++'
       ss.dependency 'MobileCenter/MobileCenter'
-      ss.vendored_frameworks = 'MobileCenter-SDK-iOS/MobileCenterCrashes.framework'
+      ss.vendored_frameworks = "MobileCenter-SDK-iOS-#{s.version}/MobileCenterCrashes.framework"
   end
 
 
