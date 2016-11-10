@@ -115,10 +115,24 @@ typedef struct MSCrashesCallbacks {
 - (void)deleteAllFromCrashesDirectory;
 
 /**
+ * Determine whether the error report should be processed or not.
+ *
+ * @param errorReport An error report.
+ * @return YES if it should process, otherwise NO.
+ */
+- (BOOL)shouldProcessErrorReport:(MSErrorReport *)errorReport;
+
+/**
+ * Determine whether delegate has an attachment callback for error report or not.
+ *
+ * @return YES if delegate has an attachment callback, otherwise NO.
+ */
+- (BOOL)delegateImplementsAttachmentCallback;
+
+/**
  * Save the managed exception information in the event of a crash
  from a wrapper sdk.
  */
 +(void)wrapperCrashCallback;
-
 
 @end
