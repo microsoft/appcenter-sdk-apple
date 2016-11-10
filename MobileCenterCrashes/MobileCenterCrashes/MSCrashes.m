@@ -109,13 +109,10 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     NSString *filePath = [crashes.unprocessedFilePaths objectAtIndex:i];
 
     // Get error attachment.
-    if (crashes.delegate &&
-            [crashes.delegate respondsToSelector:@selector(attachmentWithCrashes:forErrorReport:)]) {
+    if ([crashes delegateImplementsAttachmentCallback])
       [log setErrorAttachment:[crashes.delegate attachmentWithCrashes:crashes forErrorReport:report]];
-    }
-    else {
+    else
       MSLogDebug([MSCrashes getLoggerTag], @"attachmentWithCrashes is not implemented");
-    }
 
     // Send log to log manager.
     [crashes.logManager processLog:log withPriority:crashes.priority];
@@ -360,9 +357,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
         report = [[MSPLCrashReport alloc] initWithData:crashFileData error:&error];
         MSAppleErrorLog *log = [MSErrorLogFormatter errorLogFromCrashReport:report];
         MSErrorReport *errorReport = [MSErrorLogFormatter errorReportFromLog:(log)];
-        if (!self.delegate ||
-            ![self.delegate respondsToSelector:@selector(crashes:shouldProcessErrorReport:)] ||
-            [self.delegate crashes:self shouldProcessErrorReport:errorReport]) {
+        if ([self shouldProcessErrorReport:errorReport]) {
           MSLogDebug([MSCrashes getLoggerTag],
                      @"shouldProcessErrorReport is not implemented or returned YES, processing the crash report: %@",
                      report.debugDescription);
@@ -382,7 +377,8 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
       }
 
       // Clean up files.
-      [MSWrapperExceptionManager deleteWrapperExceptionWithUUID:report.uuidRef];
+      if (report)
+        [MSWrapperExceptionManager deleteWrapperExceptionWithUUID:report.uuidRef];
       [self deleteCrashReportWithFilePath:filePath];
       [self.crashFiles removeObject:filePath];
     }
@@ -407,7 +403,6 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     }
   }
 }
-
 
 #pragma mark - Helper
 
@@ -500,6 +495,17 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   if (![self.fileManager fileExistsAtPath:self.analyzerInProgressFile]) {
     [self.fileManager createFileAtPath:self.analyzerInProgressFile contents:nil attributes:nil];
   }
+}
+
+- (BOOL)shouldProcessErrorReport:(MSErrorReport *)errorReport {
+  return (!self.delegate ||
+          ![self.delegate respondsToSelector:@selector(crashes:shouldProcessErrorReport:)] ||
+          [self.delegate crashes:self shouldProcessErrorReport:errorReport]);
+}
+
+- (BOOL)delegateImplementsAttachmentCallback {
+  return self.delegate &&
+          [self.delegate respondsToSelector:@selector(attachmentWithCrashes:forErrorReport:)];
 }
 
 + (void) wrapperCrashCallback
