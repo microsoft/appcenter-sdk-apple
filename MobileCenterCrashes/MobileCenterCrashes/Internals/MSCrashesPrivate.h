@@ -123,11 +123,11 @@ typedef struct MSCrashesCallbacks {
 - (BOOL)shouldProcessErrorReport:(MSErrorReport *)errorReport;
 
 /**
- * Determine whether it has an attachment for error report or not.
+ * Determine whether delegate has an attachment callback for error report or not.
  *
- * @return YES if it has an attachment, otherwise NO.
+ * @return YES if delegate has an attachment callback, otherwise NO.
  */
-- (BOOL)hasAttachment;
+- (BOOL)delegateImplementsAttachmentCallback;
 
 /**
  * Save the managed exception information in the event of a crash
