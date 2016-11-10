@@ -76,7 +76,7 @@
 
   // Then
   assertThatBool([[MSCrashes sharedInstance] shouldProcessErrorReport:nil], isTrue());
-  assertThatBool([[MSCrashes sharedInstance] hasAttachment], isFalse());
+  assertThatBool([[MSCrashes sharedInstance] delegateImplementsAttachmentCallback], isFalse());
 }
 
 @end
