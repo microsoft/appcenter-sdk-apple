@@ -63,13 +63,16 @@ Now that you've integrated the frameworks in your application, it's time to star
 1. Add the following to your `podfile` to include all services into your app. This will pull in `MobileCenter`, `MobileCenterAnalytics` and `MobileCenterCrashes`. Alternatively, you can specify which services you want to use in your app. Each service has it's own `subspec` and they all rely on `MobileCenter`. It will get pulled in automatically.
 
 	```ruby
-	  # Use the following line to use all services.
-	  pod 'MobileCenter', :podspec => 'https://download.hockeyapp.net/mobilecenter/ios/mobilecenter.podspec'
+ # Use the following line to use all services.
+  pod 'MobileCenter', :podspec => 'https://mobilecentersdkdev.blob.core.windows.net/sdk/MobileCenter.podspec'
 	  
-	  # Use the following line if you want to specify which service you want to use.
-	  pod 'MobileCenter', :podspec => 'https://download.hockeyapp.net/mobilecenter/ios/mobilecenter',  :subspecs => ['MobileCenterAnalytics', 'MobileCenterCrashes'] 
+ # Use the following lines if you want to specify the individual services you want to use.
+pod 'MobileCenter/MobileCenterAnalytics', :podspec => 'https://mobilecentersdkdev.blob.core.windows.net/sdk/MobileCenter.podspec'
+pod 'MobileCenter/MobileCenterCrashes', :podspec => 'https://mobilecentersdkdev.blob.core.windows.net/sdk/MobileCenter.podspec'
 	
 	```
+	
+	**NOTE:** If you are using the individual subspecs, you don't need to include `MobileCenter/MobileCenter' separately as the other subspecs will pull in this as a dependency anyway.
 
 2. Run `pod install` to install your newly defined pod, open your `.xcworkspace` and it's time to start the SDK and make use of the Mobile Center services.
 

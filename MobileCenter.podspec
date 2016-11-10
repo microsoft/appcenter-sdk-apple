@@ -20,8 +20,10 @@ Pod::Spec.new do |s|
   s.author            = { 'Microsoft' => 'mobilecentersdk@microsoft.com' }
 
   s.platform          = :ios, '8.0'  
-  #s.source = { :http => "http://mobilecentersdkdev.blob.core.windows.net/sdk/MobileCenter-SDK-iOS-#{s.version}.zip" }
-  s.source = { :http => "https://s3.amazonaws.com/hockey-app-download/mobilecenter/ios/MobileCenter-SDK-iOS-#{s.version}.zip" }
+  s.source = { :http => "https://mobilecentersdkdev.blob.core.windows.net/sdk/MobileCenter-SDK-iOS-#{s.version}.zip" }
+
+
+
   s.preserve_path = "MobileCenter-SDK-iOS/LICENSE"
 
   s.frameworks = 'Foundation',  'SystemConfiguration', 'UIKit'
