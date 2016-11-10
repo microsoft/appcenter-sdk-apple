@@ -10,8 +10,7 @@
 ## Build generated
 build/
 DerivedData/
-MobileCenter-SDK-iOS
-Products/
+MobileCenter-SDK-iOS/
 Documentation/**/Generated
 
 ## Various settings
