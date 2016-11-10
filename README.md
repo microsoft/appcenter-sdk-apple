@@ -4,9 +4,7 @@
 
 ## Introduction
 
-The Mobile Center SDK lets you add Mobile Center services to your iOS application.
-
-The SDK is currently in private beta release and supports the following services:
+Add Mobile Center services to your app and collect crash reports and understand user behavior by analyzing the session, user and device information for your app. The SDK is currently in public preview and supports the following services:
 
 1. **Analytics**: Mobile Center Analytics helps you understand user behavior and customer engagement to improve your iOS app. The SDK automatically captures session count, device properties like model, OS version etc. and pages. You can define your own custom events to measure things that matter to your business. All the information captured is available in the Mobile Center portal for you to analyze the data.
 
@@ -28,8 +26,9 @@ Let's get started with setting up the Mobile Center SDK in your app to use these
 
 Before you begin, please make sure that the following prerequisites are met:
 
-* An iOS project that is set up in Xcode 8.1 on macOS version 10.11 or later.
+* An iOS project that is set up in Xcode 8.0 on macOS 10.11 or later.
 * The minimum OS target supported by the Mobile Center SDK is iOS 8.0 or later.
+* If you are using cocoapods, please use cocoapods 1.1.1 or later.
 * This readme assumes that you are using Swift 3 syntax and want to integrate all services.
 
 ## 2. Integrate the SDK
@@ -64,13 +63,16 @@ Now that you've integrated the frameworks in your application, it's time to star
 1. Add the following to your `podfile` to include all services into your app. This will pull in `MobileCenter`, `MobileCenterAnalytics` and `MobileCenterCrashes`. Alternatively, you can specify which services you want to use in your app. Each service has it's own `subspec` and they all rely on `MobileCenter`. It will get pulled in automatically.
 
 	```ruby
-	  # Use the following line to use all services.
-	  pod 'MobileCenter', :podspec => 'https://download.hockeyapp.net/mobilecenter/ios/mobilecenter.podspec'
+ # Use the following line to use all services.
+  pod 'MobileCenter', :podspec => 'https://mobilecentersdkdev.blob.core.windows.net/sdk/MobileCenter.podspec'
 	  
-	  # Use the following line if you want to specify which service you want to use.
-	  pod 'MobileCenter', :podspec => 'https://download.hockeyapp.net/mobilecenter/ios/mobilecenter',  :subspecs => ['MobileCenterAnalytics', 'MobileCenterCrashes'] 
+ # Use the following lines if you want to specify the individual services you want to use.
+pod 'MobileCenter/MobileCenterAnalytics', :podspec => 'https://mobilecentersdkdev.blob.core.windows.net/sdk/MobileCenter.podspec'
+pod 'MobileCenter/MobileCenterCrashes', :podspec => 'https://mobilecentersdkdev.blob.core.windows.net/sdk/MobileCenter.podspec'
 	
 	```
+	
+	**NOTE:** If you are using the individual subspecs, you don't need to include `MobileCenter/MobileCenter' separately as the other subspecs will pull in this as a dependency anyway.
 
 2. Run `pod install` to install your newly defined pod, open your `.xcworkspace` and it's time to start the SDK and make use of the Mobile Center services.
 
