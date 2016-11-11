@@ -3,6 +3,7 @@
  */
 
 #import "MSAppleErrorLog.h"
+#import "MSApplicationHelper.h"
 #import "MSCrashesCXXExceptionWrapperException.h"
 #import "MSCrashesDelegate.h"
 #import "MSCrashesHelper.h"
@@ -99,7 +100,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   } else if (userConfirmation == MSUserConfirmationAlways) {
 
     // Always send logs. Set the flag YES to bypass user confirmation next time.
-    [kMSUserDefaults setObject:[[NSNumber alloc] initWithBool:YES] forKey:kMSUserConfirmationKey];
+    [MS_USER_DEFAULTS setObject:[[NSNumber alloc] initWithBool:YES] forKey:kMSUserConfirmationKey];
   }
 
   // Process crashes logs.
@@ -307,7 +308,10 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 }
 
 - (void)startCrashProcessing {
-  if (![MSCrashesHelper isAppExtension] && [kMSApplication applicationState] != UIApplicationStateActive) {
+
+  // FIXME: Return directly while app extension in background once/if app extension life cycle is available.
+  if ([MSApplicationHelper applicationState] != MSApplicationStateActive &&
+      [MSApplicationHelper applicationState] != MSApplicationStateUnknown) {
     return;
   }
 
@@ -385,7 +389,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
   // Get a user confirmation if there are crash logs that need to be processed.
   if ([_unprocessedLogs count] > 0) {
-    NSNumber *flag = [kMSUserDefaults objectForKey:kMSUserConfirmationKey];
+    NSNumber *flag = [MS_USER_DEFAULTS objectForKey:kMSUserConfirmationKey];
     if (flag && [flag boolValue]) {
 
       // User confirmation is set to MSUserConfirmationAlways.

@@ -65,7 +65,7 @@
   [super setUp];
 
   // Set up the mocked storage.
-  self.settingsMock = OCMPartialMock(kMSUserDefaults);
+  self.settingsMock = OCMPartialMock(MS_USER_DEFAULTS);
 
   // System Under Test.
   self.abstractService = [[MSServiceAbstractImplementation alloc] initWithStorage:self.settingsMock];

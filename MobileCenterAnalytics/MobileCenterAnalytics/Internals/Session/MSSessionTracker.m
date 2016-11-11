@@ -3,6 +3,7 @@
  */
 
 #import "MSAnalyticsInternal.h"
+#import "MSApplicationHelper.h"
 #import "MSSessionTracker.h"
 #import "MSStartSessionLog.h"
 
@@ -38,7 +39,7 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
     _sessionTimeout = kMSSessionTimeOut;
 
     // Restore past sessions from NSUserDefaults.
-    NSData *sessions = [kMSUserDefaults objectForKey:kMSPastSessionsKey];
+    NSData *sessions = [MS_USER_DEFAULTS objectForKey:kMSPastSessionsKey];
     if (sessions != nil) {
       NSArray *arrayFromData = [NSKeyedUnarchiver unarchiveObjectWithData:sessions];
 
@@ -62,7 +63,7 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
 
     // Check if new session id is required.
     if (_sessionId == nil || [self hasSessionTimedOut]) {
-      _sessionId = kMSUUIDString;
+      _sessionId = MS_UUID_STRING;
 
       // Record session.
       MSSessionHistoryInfo *sessionInfo = [[MSSessionHistoryInfo alloc] init];
@@ -77,8 +78,8 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
         [self.pastSessions removeLastObject];
 
       // Persist the session history in NSData format.
-      [kMSUserDefaults setObject:[NSKeyedArchiver archivedDataWithRootObject:self.pastSessions]
-                          forKey:kMSPastSessionsKey];
+      [MS_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.pastSessions]
+                           forKey:kMSPastSessionsKey];
       MSLogInfo([MSAnalytics getLoggerTag], @"New session ID: %@", _sessionId);
 
       // Create a start session log.
@@ -91,30 +92,31 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
 }
 
 - (void)start {
-  if (!_started) {
+  if (!self.started) {
 
-    // Renew session as needed if app is not in the background.
-    if ([kMSApplication applicationState] != UIApplicationStateBackground) {
+    // Request a new session id depending on the application state.
+    if ([MSApplicationHelper applicationState] == MSApplicationStateInactive ||
+        [MSApplicationHelper applicationState] == MSApplicationStateActive) {
       [self sessionId];
     }
 
     // Hookup to application events.
-    [kMSNotificationCenter addObserver:self
-                              selector:@selector(applicationDidEnterBackground)
-                                  name:UIApplicationDidEnterBackgroundNotification
-                                object:nil];
-    [kMSNotificationCenter addObserver:self
-                              selector:@selector(applicationWillEnterForeground)
-                                  name:UIApplicationWillEnterForegroundNotification
-                                object:nil];
-    _started = YES;
+    [MS_NOTIFICATION_CENTER addObserver:self
+                               selector:@selector(applicationDidEnterBackground)
+                                   name:UIApplicationDidEnterBackgroundNotification
+                                 object:nil];
+    [MS_NOTIFICATION_CENTER addObserver:self
+                               selector:@selector(applicationWillEnterForeground)
+                                   name:UIApplicationWillEnterForegroundNotification
+                                 object:nil];
+    self.started = YES;
   }
 }
 
 - (void)stop {
-  if (_started) {
-    [kMSNotificationCenter removeObserver:self];
-    _started = NO;
+  if (self.started) {
+    [MS_NOTIFICATION_CENTER removeObserver:self];
+    self.started = NO;
   }
 }
 
@@ -122,7 +124,7 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
   @synchronized(self) {
 
     // Clear persistence.
-    [kMSUserDefaults removeObjectForKey:kMSPastSessionsKey];
+    [MS_USER_DEFAULTS removeObjectForKey:kMSPastSessionsKey];
 
     // Clear cache.
     self.sessionId = nil;
