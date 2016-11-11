@@ -12,7 +12,6 @@
 #import "MSServiceAbstractProtected.h"
 #import "MSMobileCenterInternal.h"
 #import "MSWrapperExceptionManager.h"
-#import "MSException.h"
 
 /**
  *  Service name.
