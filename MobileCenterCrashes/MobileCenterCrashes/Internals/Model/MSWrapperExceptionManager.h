@@ -8,11 +8,9 @@
 
 @interface MSWrapperExceptionManager : NSObject
 
-+(void)setWrapperException:(MSException*)exception;
++(BOOL)hasException;
 
-+(MSException*)getWrapperException;
-
-+(void)loadWrapperException:(CFUUIDRef)uuidRef;
++(MSException*)loadWrapperException:(CFUUIDRef)uuidRef;
 
 +(void)saveWrapperException:(CFUUIDRef)uuidRef;
 
@@ -20,8 +18,6 @@
 
 +(void)deleteAllWrapperExceptions;
 
-+(BOOL)hasException;
-
-+(NSString*)getFilename:(CFUUIDRef)uuidRef;
++(void)setWrapperException:(MSException*)exception;
 
 @end
