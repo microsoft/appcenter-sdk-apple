@@ -12,7 +12,7 @@
 @synthesize logManager = _logManager;
 
 - (instancetype)init {
-  return [self initWithStorage:kMSUserDefaults];
+  return [self initWithStorage:MS_USER_DEFAULTS];
 }
 
 - (instancetype)initWithStorage:(MSUserDefaults *)storage {
@@ -59,7 +59,7 @@
     MSLogError([MSMobileCenter getLoggerTag],
                 @"%@ module hasn't been initialized. You need to call "
                 @"[MSMobileCenter start:YOUR_APP_SECRET withServices:LIST_OF_SERVICES] first.",
-                CLASS_NAME_WITHOUT_PREFIX);
+                MS_CLASS_NAME_WITHOUT_PREFIX);
   }
   return canBeUsed;
 }
@@ -87,7 +87,7 @@
         MSLogError([MSMobileCenter getLoggerTag],
                     @"The SDK is disabled. Re-enable the SDK from the core module "
                     @"first before enabling %@ service.",
-                    CLASS_NAME_WITHOUT_PREFIX);
+                    MS_CLASS_NAME_WITHOUT_PREFIX);
       } else {
         [[self sharedInstance] setEnabled:isEnabled];
       }

@@ -8,6 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		0461BBD11DB68EAD001B4555 /* Main.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0461BBD01DB68EAD001B4555 /* Main.strings */; };
+		380A4D991DD6892F00E99219 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 380A4D981DD6892F00E99219 /* NotificationCenter.framework */; };
+		380A4D9D1DD6892F00E99219 /* TodayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 380A4D9C1DD6892F00E99219 /* TodayViewController.m */; };
+		380A4DA01DD6892F00E99219 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 380A4D9E1DD6892F00E99219 /* MainInterface.storyboard */; };
+		380A4DA41DD6892F00E99219 /* PuppetWidget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 380A4D961DD6892F00E99219 /* PuppetWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		380A4DC41DD68D1000E99219 /* libMobileCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E82E1B881D1CA63000D281C1 /* libMobileCenter.a */; };
+		380A4DC51DD68D1000E99219 /* libMobileCenterAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E85548031D2D6C8D002DF6E2 /* libMobileCenterAnalytics.a */; };
+		380A4DC61DD68D1000E99219 /* libMobileCenterCrashes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E82E1B811D1CA62900D281C1 /* libMobileCenterCrashes.a */; };
+		380A4DC81DD68D2B00E99219 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A201D4151A00016C325 /* CrashReporter.framework */; };
+		380A4DC91DD68D3F00E99219 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A271D4152FA0016C325 /* libc++.tbd */; };
 		6EC99A211D4151A00016C325 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A201D4151A00016C325 /* CrashReporter.framework */; };
 		6EC99A281D4152FA0016C325 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A271D4152FA0016C325 /* libc++.tbd */; };
 		E82E1B641D1CA58D00D281C1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E82E1B631D1CA58D00D281C1 /* main.m */; };
@@ -24,6 +33,34 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		380A4DA21DD6892F00E99219 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E82E1B571D1CA58D00D281C1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 380A4D951DD6892F00E99219;
+			remoteInfo = PuppetWidget;
+		};
+		380A4DBE1DD68D0500E99219 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E85547FB1D2D6C8D002DF6E2 /* MobileCenterAnalytics.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = E85547BF1D2D6253002DF6E2;
+			remoteInfo = MobileCenterAnalytics;
+		};
+		380A4DC01DD68D0500E99219 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E82E1B821D1CA63000D281C1 /* MobileCenter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 6E0401021D1C98220051BCFA;
+			remoteInfo = MobileCenter;
+		};
+		380A4DC21DD68D0500E99219 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E82E1B7C1D1CA62900D281C1 /* MobileCenterCrashes.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 6E0401321D1C98690051BCFA;
+			remoteInfo = MobileCenterCrashes;
+		};
 		E82E1B801D1CA62900D281C1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E82E1B7C1D1CA62900D281C1 /* MobileCenterCrashes.xcodeproj */;
@@ -89,10 +126,30 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		380A4DB11DD6892F00E99219 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				380A4DA41DD6892F00E99219 /* PuppetWidget.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		0461BBD01DB68EAD001B4555 /* Main.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Main.strings; sourceTree = "<group>"; };
+		380A4D961DD6892F00E99219 /* PuppetWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PuppetWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		380A4D981DD6892F00E99219 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
+		380A4D9B1DD6892F00E99219 /* TodayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodayViewController.h; sourceTree = "<group>"; };
+		380A4D9C1DD6892F00E99219 /* TodayViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodayViewController.m; sourceTree = "<group>"; };
+		380A4D9F1DD6892F00E99219 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		380A4DA11DD6892F00E99219 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		384959D81D4972DA008F6B3A /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
-		6EC99A201D4151A00016C325 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = ../../Vendor/PLCrashReporter/CrashReporter.framework; sourceTree = "<group>"; };
+		6EC99A201D4151A00016C325 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = ../Vendor/PLCrashReporter/CrashReporter.framework; sourceTree = "<group>"; };
 		6EC99A251D4152EB0016C325 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		6EC99A271D4152FA0016C325 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		E82E1B5F1D1CA58D00D281C1 /* Puppet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Puppet.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -115,6 +172,19 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		380A4D931DD6892F00E99219 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				380A4DC91DD68D3F00E99219 /* libc++.tbd in Frameworks */,
+				380A4DC81DD68D2B00E99219 /* CrashReporter.framework in Frameworks */,
+				380A4DC41DD68D1000E99219 /* libMobileCenter.a in Frameworks */,
+				380A4DC51DD68D1000E99219 /* libMobileCenterAnalytics.a in Frameworks */,
+				380A4DC61DD68D1000E99219 /* libMobileCenterCrashes.a in Frameworks */,
+				380A4D991DD6892F00E99219 /* NotificationCenter.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E82E1B5C1D1CA58D00D281C1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -130,12 +200,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		6EC99A161D4151890016C325 /* Frameworks */ = {
+		380A4D971DD6892F00E99219 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				6EC99A201D4151A00016C325 /* CrashReporter.framework */,
+				380A4D981DD6892F00E99219 /* NotificationCenter.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		380A4D9A1DD6892F00E99219 /* PuppetWidget */ = {
+			isa = PBXGroup;
+			children = (
+				380A4D9B1DD6892F00E99219 /* TodayViewController.h */,
+				380A4D9C1DD6892F00E99219 /* TodayViewController.m */,
+				380A4D9E1DD6892F00E99219 /* MainInterface.storyboard */,
+				380A4DA11DD6892F00E99219 /* Info.plist */,
+			);
+			path = PuppetWidget;
 			sourceTree = "<group>";
 		};
 		E82E1B561D1CA58D00D281C1 = {
@@ -144,6 +226,8 @@
 				6EC99A271D4152FA0016C325 /* libc++.tbd */,
 				6EC99A251D4152EB0016C325 /* libz.tbd */,
 				E82E1B611D1CA58D00D281C1 /* Puppet */,
+				380A4D9A1DD6892F00E99219 /* PuppetWidget */,
+				380A4D971DD6892F00E99219 /* Frameworks */,
 				E82E1B601D1CA58D00D281C1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -152,6 +236,7 @@
 			isa = PBXGroup;
 			children = (
 				E82E1B5F1D1CA58D00D281C1 /* Puppet.app */,
+				380A4D961DD6892F00E99219 /* PuppetWidget.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -160,8 +245,7 @@
 			isa = PBXGroup;
 			children = (
 				E89E6A271D396D6700CAA2CD /* Classes */,
-				E82E1B7B1D1CA61000D281C1 /* Sonoma */,
-				6EC99A161D4151890016C325 /* Frameworks */,
+				E82E1B7B1D1CA61000D281C1 /* MobileCenter */,
 				E82E1B621D1CA58D00D281C1 /* Supporting Files */,
 			);
 			path = Puppet;
@@ -180,14 +264,14 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		E82E1B7B1D1CA61000D281C1 /* Sonoma */ = {
+		E82E1B7B1D1CA61000D281C1 /* MobileCenter */ = {
 			isa = PBXGroup;
 			children = (
 				E85547FB1D2D6C8D002DF6E2 /* MobileCenterAnalytics.xcodeproj */,
 				E82E1B821D1CA63000D281C1 /* MobileCenter.xcodeproj */,
 				E82E1B7C1D1CA62900D281C1 /* MobileCenterCrashes.xcodeproj */,
 			);
-			name = Sonoma;
+			name = MobileCenter;
 			sourceTree = "<group>";
 		};
 		E82E1B7D1D1CA62900D281C1 /* Products */ = {
@@ -236,6 +320,26 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		380A4D951DD6892F00E99219 /* PuppetWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 380A4DB01DD6892F00E99219 /* Build configuration list for PBXNativeTarget "PuppetWidget" */;
+			buildPhases = (
+				380A4D921DD6892F00E99219 /* Sources */,
+				380A4D931DD6892F00E99219 /* Frameworks */,
+				380A4D941DD6892F00E99219 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				380A4DC11DD68D0500E99219 /* PBXTargetDependency */,
+				380A4DBF1DD68D0500E99219 /* PBXTargetDependency */,
+				380A4DC31DD68D0500E99219 /* PBXTargetDependency */,
+			);
+			name = PuppetWidget;
+			productName = PuppetWidget;
+			productReference = 380A4D961DD6892F00E99219 /* PuppetWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		E82E1B5E1D1CA58D00D281C1 /* Puppet */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E82E1B761D1CA58D00D281C1 /* Build configuration list for PBXNativeTarget "Puppet" */;
@@ -243,6 +347,7 @@
 				E82E1B5B1D1CA58D00D281C1 /* Sources */,
 				E82E1B5C1D1CA58D00D281C1 /* Frameworks */,
 				E82E1B5D1D1CA58D00D281C1 /* Resources */,
+				380A4DB11DD6892F00E99219 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
@@ -250,6 +355,7 @@
 				E85548071D2D6C98002DF6E2 /* PBXTargetDependency */,
 				E82E1B8C1D1CA65600D281C1 /* PBXTargetDependency */,
 				E82E1B8E1D1CA65600D281C1 /* PBXTargetDependency */,
+				380A4DA31DD6892F00E99219 /* PBXTargetDependency */,
 			);
 			name = Puppet;
 			productName = Puppet;
@@ -265,6 +371,10 @@
 				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Mehrdad Mozafari";
 				TargetAttributes = {
+					380A4D951DD6892F00E99219 = {
+						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = L4RARDNZ2Y;
+					};
 					E82E1B5E1D1CA58D00D281C1 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = L4RARDNZ2Y;
@@ -299,6 +409,7 @@
 			projectRoot = "";
 			targets = (
 				E82E1B5E1D1CA58D00D281C1 /* Puppet */,
+				380A4D951DD6892F00E99219 /* PuppetWidget */,
 			);
 		};
 /* End PBXProject section */
@@ -349,6 +460,14 @@
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
+		380A4D941DD6892F00E99219 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				380A4DA01DD6892F00E99219 /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E82E1B5D1D1CA58D00D281C1 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -363,6 +482,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		380A4D921DD6892F00E99219 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				380A4D9D1DD6892F00E99219 /* TodayViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E82E1B5B1D1CA58D00D281C1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -378,6 +505,26 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		380A4DA31DD6892F00E99219 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 380A4D951DD6892F00E99219 /* PuppetWidget */;
+			targetProxy = 380A4DA21DD6892F00E99219 /* PBXContainerItemProxy */;
+		};
+		380A4DBF1DD68D0500E99219 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = MobileCenterAnalytics;
+			targetProxy = 380A4DBE1DD68D0500E99219 /* PBXContainerItemProxy */;
+		};
+		380A4DC11DD68D0500E99219 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = MobileCenter;
+			targetProxy = 380A4DC01DD68D0500E99219 /* PBXContainerItemProxy */;
+		};
+		380A4DC31DD68D0500E99219 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = MobileCenterCrashes;
+			targetProxy = 380A4DC21DD68D0500E99219 /* PBXContainerItemProxy */;
+		};
 		E82E1B8C1D1CA65600D281C1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = MobileCenter;
@@ -396,6 +543,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		380A4D9E1DD6892F00E99219 /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				380A4D9F1DD6892F00E99219 /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
 		E82E1B6B1D1CA58D00D281C1 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -415,6 +570,38 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		380A4DA51DD6892F00E99219 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
+				INFOPLIST_FILE = PuppetWidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.puppet.PuppetWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../MobileCenter/MobileCenter/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashes/**";
+			};
+			name = Debug;
+		};
+		380A4DA61DD6892F00E99219 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
+				INFOPLIST_FILE = PuppetWidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.puppet.PuppetWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../MobileCenter/MobileCenter/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashes/**";
+			};
+			name = Release;
+		};
 		E82E1B741D1CA58D00D281C1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -542,6 +729,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		380A4DB01DD6892F00E99219 /* Build configuration list for PBXNativeTarget "PuppetWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				380A4DA51DD6892F00E99219 /* Debug */,
+				380A4DA61DD6892F00E99219 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		E82E1B5A1D1CA58D00D281C1 /* Build configuration list for PBXProject "Puppet" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

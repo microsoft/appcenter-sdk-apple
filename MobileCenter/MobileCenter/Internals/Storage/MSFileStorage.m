@@ -147,7 +147,7 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
 - (void)renewCurrentFileForStorageKey:(NSString *)storageKey {
   MSStorageBucket *bucket = [self bucketForStorageKey:storageKey];
   NSDate *creationDate = [NSDate date];
-  NSString *fileId = kMSUUIDString;
+  NSString *fileId = MS_UUID_STRING;
   NSString *filePath = [self filePathForStorageKey:storageKey logsId:fileId];
   MSFile *file = [[MSFile alloc] initWithPath:filePath fileId:fileId creationDate:creationDate];
   bucket.currentFile = file;
