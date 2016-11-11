@@ -7,6 +7,7 @@
 #import "MSCrashesDelegate.h"
 #import "MSCrashesHelper.h"
 #import "MSCrashesPrivate.h"
+#import "MSCrashesInternal.h"
 #import "MSErrorLogFormatter.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSMobileCenterInternal.h"
@@ -134,9 +135,6 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
 - (instancetype)init {
   if ((self = [super init])) {
-
-    [MSWrapperExceptionManager initialize];
-
     _fileManager = [[NSFileManager alloc] init];
     _crashFiles = [[NSMutableArray alloc] init];
     _crashesDir = [MSCrashesHelper crashesDir];
@@ -346,8 +344,8 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   _unprocessedFilePaths = [[NSMutableArray alloc] init];
 
   NSArray *tempCrashesFiles = [NSArray arrayWithArray:self.crashFiles];
-  MSPLCrashReport * report;
   for (NSString *filePath in tempCrashesFiles) {
+    MSPLCrashReport *report;
 
     // we start sending always with the oldest pending one
     NSData *crashFileData = [NSData dataWithContentsOfFile:filePath];
@@ -377,8 +375,9 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
       }
 
       // Clean up files.
-      if (report)
+      if (report) {
         [MSWrapperExceptionManager deleteWrapperExceptionWithUUID:report.uuidRef];
+      }
       [self deleteCrashReportWithFilePath:filePath];
       [self.crashFiles removeObject:filePath];
     }
@@ -456,6 +455,9 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
     // Purge the report mark at the end of the routine
     [self removeAnalyzerFile];
+  }
+  else {
+    [MSWrapperExceptionManager deleteAllWrapperExceptions];
   }
 
   [self.plCrashReporter purgePendingCrashReport];

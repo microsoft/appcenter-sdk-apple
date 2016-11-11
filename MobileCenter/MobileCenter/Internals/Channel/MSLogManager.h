@@ -6,6 +6,7 @@
 #import "MSEnable.h"
 #import "MSLogManagerDelegate.h"
 #import <Foundation/Foundation.h>
+
 @protocol MSChannelDelegate;
 
 NS_ASSUME_NONNULL_BEGIN

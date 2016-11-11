@@ -5,6 +5,7 @@
 
 #import "MSCrashesDelegate.h"
 #import "MSChannelDelegate.h"
+#import "MSCrashesInternal.h"
 #import "MSCrashesPrivate.h"
 #import "MSCrashesTestHelper.h"
 #import "MSMockCrashesDelegate.h"
