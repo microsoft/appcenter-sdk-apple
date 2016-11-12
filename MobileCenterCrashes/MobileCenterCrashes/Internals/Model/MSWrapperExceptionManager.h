@@ -8,16 +8,23 @@
 
 @interface MSWrapperExceptionManager : NSObject
 
-+(BOOL)hasException;
++ (BOOL)hasException;
 
-+(MSException*)loadWrapperException:(CFUUIDRef)uuidRef;
++ (MSException*)loadWrapperException:(CFUUIDRef)uuidRef;
 
-+(void)saveWrapperException:(CFUUIDRef)uuidRef;
++ (void)saveWrapperException:(CFUUIDRef)uuidRef;
 
-+(void)deleteWrapperExceptionWithUUID:(CFUUIDRef)uuidRef;
++ (void)deleteWrapperExceptionWithUUID:(CFUUIDRef)uuidRef;
 
-+(void)deleteAllWrapperExceptions;
++ (void)deleteAllWrapperExceptions;
 
-+(void)setWrapperException:(MSException*)exception;
++ (void)setWrapperException:(MSException*)exception;
+
++ (void)setWrapperExceptionData:(NSData *)wrapperExceptionData;
++ (void)saveWrapperExceptionData:(CFUUIDRef)uuidRef;
+
++ (NSData*)loadWrapperExceptionDataWithUUIDString:(NSString*)uuidString;
++ (void)deleteWrapperExceptionDataWithUUIDString:(NSString*)uuidString;
++ (void)deleteAllWrapperExceptionData;
 
 @end
