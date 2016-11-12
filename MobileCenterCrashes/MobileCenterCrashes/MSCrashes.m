@@ -458,6 +458,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   }
   else {
     [MSWrapperExceptionManager deleteAllWrapperExceptions];
+    [MSWrapperExceptionManager deleteAllWrapperExceptionData];
   }
 
   [self.plCrashReporter purgePendingCrashReport];
@@ -531,6 +532,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
   if (report) {
     [MSWrapperExceptionManager saveWrapperException:report.uuidRef];
+    [MSWrapperExceptionManager saveWrapperExceptionData:report.uuidRef];
   }
   else {
     MSLogError([MSCrashes getLoggerTag], @"Could not load crash report: %@", error.localizedDescription);
