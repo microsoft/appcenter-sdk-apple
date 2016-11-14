@@ -85,10 +85,6 @@ static NSString *datExtension = @"dat";
   [self sharedInstance].wrapperException = wrapperException;
 }
 
-+ (void)setWrapperExceptionData:(NSData *)wrapperExceptionData {
-  [self sharedInstance].wrapperExceptionData = wrapperExceptionData;
-}
-
 + (void)saveWrapperExceptionData:(CFUUIDRef)uuidRef {
   [[self sharedInstance] saveWrapperExceptionData:uuidRef];
 }
@@ -182,7 +178,6 @@ static NSString *datExtension = @"dat";
   return _wrapperException;
 }
 
-
 - (void)saveWrapperException:(CFUUIDRef)uuidRef {
   NSString *filename = [MSWrapperExceptionManager getFilenameWithUUIDRef:uuidRef];
   BOOL success = [NSKeyedArchiver archiveRootObject:_wrapperException toFile:filename];
@@ -214,10 +209,7 @@ static NSString *datExtension = @"dat";
 }
 
 - (NSData*)loadWrapperExceptionDataWithUUIDString:(NSString*)uuidString {
-
-  //TODO first, check if it's in our dictionary
   NSString* dataFilename = [MSWrapperExceptionManager getDataFilename:uuidString];
-
   NSData *data = [_wrapperExceptionData objectForKey:dataFilename];
   if (data) {
     return data;
@@ -236,8 +228,6 @@ static NSString *datExtension = @"dat";
 - (void)deleteWrapperExceptionDataWithUUIDString:(NSString*)uuidString {
 
   NSString* dataFilename = [MSWrapperExceptionManager getDataFilename:uuidString];
-
-  //TODO must save data to dictionary first
   NSData *data = [self loadWrapperExceptionDataWithUUIDString:uuidString];
   [_wrapperExceptionData setObject:data forKey:dataFilename];
   [MSWrapperExceptionManager deleteFile:dataFilename];
@@ -261,7 +251,6 @@ static NSString *datExtension = @"dat";
     MSLogError([MSCrashes getLoggerTag], @"Error deleting file %@: %@",
                path, error.localizedDescription);
   }
-
 }
 
 @end
