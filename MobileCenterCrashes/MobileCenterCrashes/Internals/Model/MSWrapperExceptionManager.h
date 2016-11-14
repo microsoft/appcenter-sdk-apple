@@ -20,7 +20,7 @@
 
 + (void)setWrapperException:(MSException*)exception;
 
-+ (void)saveWrapperExceptionData:(CFUUIDRef)uuidRef;
++ (void)setWrapperExceptionData:(NSData*)data;
 
 + (NSData*)loadWrapperExceptionDataWithUUIDString:(NSString*)uuidString;
 
