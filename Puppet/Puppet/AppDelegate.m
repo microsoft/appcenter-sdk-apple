@@ -9,6 +9,8 @@
 #import "MSErrorBinaryAttachment.h"
 #import "MSErrorReport.h"
 
+#import "MSAlertController.h"
+
 @interface AppDelegate () <MSCrashesDelegate>
 
 @end
@@ -36,17 +38,40 @@
 
   [MSCrashes setDelegate:self];
   [MSCrashes setUserConfirmationHandler:(^(NSArray<MSErrorReport *> *errorReports) {
+    
+    MSAlertController *alertController = [MSAlertController alertControllerWithTitle:@"OOPS" message:@"Do you want to send a crash report?"];
+    
+    [alertController addCancelActionWithTitle:@"NO"
+                                      handler:^(UIAlertAction * action) {
+                                        [MSCrashes notifyWithUserConfirmation:MSUserConfirmationDontSend];
+                                      }];
+    
+    [alertController addDefaultActionWithTitle:@"YES"
+                                       handler:^(UIAlertAction * action) {
+                                         [MSCrashes notifyWithUserConfirmation:MSUserConfirmationSend];
 
-    [[[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"crash_alert_title", @"Main", @"")
-                                message:NSLocalizedStringFromTable(@"crash_alert_message", @"Main", @"")
-                               delegate:self
-                      cancelButtonTitle:NSLocalizedStringFromTable(@"crash_alert_do_not_send", @"Main", @"")
-                      otherButtonTitles:NSLocalizedStringFromTable(@"crash_alert_always_send", @"Main", @""),
-                                        NSLocalizedStringFromTable(@"crash_alert_send", @"Main", @""),
-                                        nil]
-        show];
+                                       }];
+    
+      [alertController addDefaultActionWithTitle:@"ALWAYS"
+                                         handler:^(UIAlertAction * action) {
+                                           [MSCrashes notifyWithUserConfirmation:MSUserConfirmationAlways];
+                                         }];
+    [alertController show];
+    
     return YES;
   })];
+
+    
+//    [[[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"crash_alert_title", @"Main", @"")
+//                                message:NSLocalizedStringFromTable(@"crash_alert_message", @"Main", @"")
+//                               delegate:self
+//                      cancelButtonTitle:NSLocalizedStringFromTable(@"crash_alert_do_not_send", @"Main", @"")
+//                      otherButtonTitles:NSLocalizedStringFromTable(@"crash_alert_always_send", @"Main", @""),
+//                                        NSLocalizedStringFromTable(@"crash_alert_send", @"Main", @""),
+//                                        nil]
+//        show];
+//    return YES;
+//  })];
 
   // Print the install Id.
   NSLog(@"%@ Install Id: %@", kPUPLogTag, [[MSMobileCenter installId] UUIDString]);
@@ -85,16 +110,16 @@
 
 #pragma mark - UIAlertViewDelegate
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-  switch (buttonIndex) {
-  case 0:[MSCrashes notifyWithUserConfirmation:MSUserConfirmationDontSend];
-    break;
-  case 1:[MSCrashes notifyWithUserConfirmation:MSUserConfirmationAlways];
-    break;
-  case 2:[MSCrashes notifyWithUserConfirmation:MSUserConfirmationSend];
-    break;
-  }
-}
+//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+//  switch (buttonIndex) {
+//  case 0:[MSCrashes notifyWithUserConfirmation:MSUserConfirmationDontSend];
+//    break;
+//  case 1:[MSCrashes notifyWithUserConfirmation:MSUserConfirmationAlways];
+//    break;
+//  case 2:[MSCrashes notifyWithUserConfirmation:MSUserConfirmationSend];
+//    break;
+//  }
+//}
 
 #pragma mark - MSCrashesDelegate
 
