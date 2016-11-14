@@ -11,6 +11,7 @@
 
 @property MSException *wrapperException;
 @property NSMutableDictionary *wrapperExceptionData;
+@property NSData *unsavedWrapperExceptionData;
 @property CFUUIDRef currentUUIDRef;
 
 + (MSWrapperExceptionManager*)sharedInstance;
@@ -33,6 +34,7 @@
 + (NSString*)getDataFilenameWithUUIDRef:(CFUUIDRef)uuidRef;
 + (void) deleteFile:(NSString*)path;
 + (BOOL) isDataFile:(NSString*)path;
++ (NSString*) uuidRefToString:(CFUUIDRef)uuidRef;
 
 @end
 
@@ -62,12 +64,12 @@ static NSString *datExtension = @"dat";
 }
 
 + (NSString*)getFilenameWithUUIDRef:(CFUUIDRef)uuidRef {
-  NSString *uuidString = [NSString stringWithFormat:@"%@", CFUUIDCreateString(nil, uuidRef)];
+  NSString *uuidString = [MSWrapperExceptionManager uuidRefToString:uuidRef];
   return [MSWrapperExceptionManager getFilename:uuidString];
 }
 
 + (NSString*)getDataFilenameWithUUIDRef:(CFUUIDRef)uuidRef {
-  NSString *uuidString = [NSString stringWithFormat:@"%@", CFUUIDCreateString(nil, uuidRef)];
+  NSString *uuidString = [MSWrapperExceptionManager uuidRefToString:uuidRef];
   return [MSWrapperExceptionManager getDataFilename:uuidString];
 }
 
@@ -101,6 +103,10 @@ static NSString *datExtension = @"dat";
   [[self sharedInstance] saveWrapperException:uuidRef];
 }
 
++ (void)setWrapperExceptionData:(NSData *)data {
+  [self sharedInstance].unsavedWrapperExceptionData = data;
+}
+
 + (void)deleteWrapperExceptionWithUUID:(CFUUIDRef)uuidRef {
   [[self sharedInstance] deleteWrapperExceptionWithUUID:uuidRef];
 }
@@ -121,6 +127,7 @@ static NSString *datExtension = @"dat";
 - (instancetype)init {
   if ((self = [super init])) {
 
+    _unsavedWrapperExceptionData = nil;
     _wrapperException = nil;
     _wrapperExceptionData = [[NSMutableDictionary alloc] init];
 
@@ -159,8 +166,13 @@ static NSString *datExtension = @"dat";
 }
 
 - (MSException*)loadWrapperException:(CFUUIDRef)uuidRef {
+  NSString *uuidString = [MSWrapperExceptionManager uuidRefToString:uuidRef];
+  NSString *currentUUIDString = nil;
+  if (_currentUUIDRef != nil) {
+    currentUUIDString = [MSWrapperExceptionManager uuidRefToString:_currentUUIDRef];
+  }
 
-  if (_wrapperException != nil && CFEqual(CFUUIDCreateString(nil, _currentUUIDRef), CFUUIDCreateString(nil, uuidRef))) {
+  if (_wrapperException && currentUUIDString && uuidString && [uuidString isEqualToString:currentUUIDString]) {
     return _wrapperException;
   }
 
@@ -180,6 +192,7 @@ static NSString *datExtension = @"dat";
 
 - (void)saveWrapperException:(CFUUIDRef)uuidRef {
   NSString *filename = [MSWrapperExceptionManager getFilenameWithUUIDRef:uuidRef];
+  [self saveWrapperExceptionData:uuidRef];
   BOOL success = [NSKeyedArchiver archiveRootObject:_wrapperException toFile:filename];
   if (!success) {
     MSLogError([MSCrashes getLoggerTag], @"Error saving file %@", filename);
@@ -205,7 +218,7 @@ static NSString *datExtension = @"dat";
 
 - (void)saveWrapperExceptionData:(CFUUIDRef)uuidRef {
   NSString* dataFilename = [MSWrapperExceptionManager getDataFilenameWithUUIDRef:uuidRef];
-  [_wrapperExceptionData writeToFile:dataFilename atomically:YES];
+  [_unsavedWrapperExceptionData writeToFile:dataFilename atomically:YES];
 }
 
 - (NSData*)loadWrapperExceptionDataWithUUIDString:(NSString*)uuidString {
@@ -229,7 +242,9 @@ static NSString *datExtension = @"dat";
 
   NSString* dataFilename = [MSWrapperExceptionManager getDataFilename:uuidString];
   NSData *data = [self loadWrapperExceptionDataWithUUIDString:uuidString];
-  [_wrapperExceptionData setObject:data forKey:dataFilename];
+  if (data) {
+    [_wrapperExceptionData setObject:data forKey:dataFilename];
+  }
   [MSWrapperExceptionManager deleteFile:dataFilename];
 }
 
@@ -251,6 +266,14 @@ static NSString *datExtension = @"dat";
     MSLogError([MSCrashes getLoggerTag], @"Error deleting file %@: %@",
                path, error.localizedDescription);
   }
+}
+
++ (NSString*)uuidRefToString:(CFUUIDRef)uuidRef {
+  if (uuidRef == nil) {
+    return nil;
+  }
+  CFStringRef uuidStringRef = CFUUIDCreateString(kCFAllocatorDefault, uuidRef);
+  return (__bridge_transfer NSString*)uuidStringRef;
 }
 
 @end
