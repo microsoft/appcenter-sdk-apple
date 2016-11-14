@@ -10,7 +10,7 @@
 @interface MSWrapperExceptionManager ()
 
 @property MSException *wrapperException;
-@property NSData *wrapperExceptionData;
+@property NSMutableDictionary *wrapperExceptionData;
 @property CFUUIDRef currentUUIDRef;
 
 + (MSWrapperExceptionManager*)sharedInstance;
@@ -126,7 +126,7 @@ static NSString *datExtension = @"dat";
   if ((self = [super init])) {
 
     _wrapperException = nil;
-    _wrapperExceptionData = nil;
+    _wrapperExceptionData = [[NSMutableDictionary alloc] init];
 
     // Create the directory if it doesn't exist
     NSFileManager *defaultManager = [NSFileManager defaultManager];
@@ -215,18 +215,31 @@ static NSString *datExtension = @"dat";
 
 - (NSData*)loadWrapperExceptionDataWithUUIDString:(NSString*)uuidString {
 
+  //TODO first, check if it's in our dictionary
   NSString* dataFilename = [MSWrapperExceptionManager getDataFilename:uuidString];
 
+  NSData *data = [_wrapperExceptionData objectForKey:dataFilename];
+  if (data) {
+    return data;
+  }
+
   NSError *error = nil;
-  NSData *data = [NSData dataWithContentsOfFile:dataFilename options:NSDataReadingMappedIfSafe error:&error];
+  data = [NSData dataWithContentsOfFile:dataFilename options:NSDataReadingMappedIfSafe error:&error];
   if (error) {
     MSLogError([MSCrashes getLoggerTag], @"Error loading file %@: %@",
                dataFilename, error.localizedDescription);
   }
+
+  return data;
 }
 
 - (void)deleteWrapperExceptionDataWithUUIDString:(NSString*)uuidString {
+
   NSString* dataFilename = [MSWrapperExceptionManager getDataFilename:uuidString];
+
+  //TODO must save data to dictionary first
+  NSData *data = [self loadWrapperExceptionDataWithUUIDString:uuidString];
+  [_wrapperExceptionData setObject:data forKey:dataFilename];
   [MSWrapperExceptionManager deleteFile:dataFilename];
 }
 
@@ -234,11 +247,11 @@ static NSString *datExtension = @"dat";
   NSFileManager *fileManager = [NSFileManager defaultManager];
   NSString *directoryPath = [MSWrapperExceptionManager directoryPath];
   for (NSString *filePath in [fileManager enumeratorAtPath:directoryPath]) {
-
     if ([MSWrapperExceptionManager isDataFile:filePath]) {
       NSString *path = [directoryPath stringByAppendingPathComponent:filePath];
       [MSWrapperExceptionManager deleteFile:path];
     }
+  }
 }
 
 + (void)deleteFile:(NSString*)path {

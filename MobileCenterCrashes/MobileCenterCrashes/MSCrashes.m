@@ -92,8 +92,11 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   if (userConfirmation == MSUserConfirmationDontSend) {
 
     // Don't send logs. Clean up files.
-    for (NSString *filePath in [crashes unprocessedFilePaths]) {
+    for (NSUInteger i = 0; i < [crashes.unprocessedFilePaths count]; i++) {
+      NSString *filePath = [crashes.unprocessedFilePaths objectAtIndex:i];
+      MSErrorReport *report = [crashes.unprocessedReports objectAtIndex:i];
       [crashes deleteCrashReportWithFilePath:filePath];
+      [MSWrapperExceptionManager deleteWrapperExceptionDataWithUUIDString:report.incidentIdentifier];
       [crashes.crashFiles removeObject:filePath];
     }
     return;
@@ -118,6 +121,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     // Send log to log manager.
     [crashes.logManager processLog:log withPriority:crashes.priority];
     [crashes deleteCrashReportWithFilePath:filePath];
+    [MSWrapperExceptionManager deleteWrapperExceptionDataWithUUIDString:report.incidentIdentifier];
     [crashes.crashFiles removeObject:filePath];
   }
 }
@@ -174,6 +178,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     // Don't set PLCrashReporter to nil!
     MSLogDebug([MSCrashes getLoggerTag], @"Cleaning up all crash files.");
     [MSWrapperExceptionManager deleteAllWrapperExceptions];
+    [MSWrapperExceptionManager deleteAllWrapperExceptionData];
     [self deleteAllFromCrashesDirectory];
     [self removeAnalyzerFile];
     [self.plCrashReporter purgePendingCrashReport];
@@ -345,16 +350,17 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
   NSArray *tempCrashesFiles = [NSArray arrayWithArray:self.crashFiles];
   for (NSString *filePath in tempCrashesFiles) {
-    MSPLCrashReport *report;
+    NSString *uuidString;
 
     // we start sending always with the oldest pending one
     NSData *crashFileData = [NSData dataWithContentsOfFile:filePath];
     if ([crashFileData length] > 0) {
       MSLogVerbose([MSCrashes getLoggerTag], @"Crash report found");
       if (self.isEnabled) {
-        report = [[MSPLCrashReport alloc] initWithData:crashFileData error:&error];
+        MSPLCrashReport *report = [[MSPLCrashReport alloc] initWithData:crashFileData error:&error];
         MSAppleErrorLog *log = [MSErrorLogFormatter errorLogFromCrashReport:report];
         MSErrorReport *errorReport = [MSErrorLogFormatter errorReportFromLog:(log)];
+        uuidString = errorReport.incidentIdentifier;
         if ([self shouldProcessErrorReport:errorReport]) {
           MSLogDebug([MSCrashes getLoggerTag],
                      @"shouldProcessErrorReport is not implemented or returned YES, processing the crash report: %@",
@@ -364,6 +370,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
           [_unprocessedLogs addObject:log];
           [_unprocessedReports addObject:errorReport];
           [_unprocessedFilePaths addObject:filePath];
+
           continue;
         } else {
           MSLogDebug([MSCrashes getLoggerTag],
@@ -373,11 +380,8 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
       } else {
         MSLogDebug([MSCrashes getLoggerTag], @"Crashes service is disabled, discard the crash report");
       }
-
-      // Clean up files.
-      if (report) {
-        [MSWrapperExceptionManager deleteWrapperExceptionWithUUID:report.uuidRef];
-      }
+      
+      [MSWrapperExceptionManager deleteWrapperExceptionDataWithUUIDString:uuidString];
       [self deleteCrashReportWithFilePath:filePath];
       [self.crashFiles removeObject:filePath];
     }
@@ -455,10 +459,6 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
     // Purge the report mark at the end of the routine
     [self removeAnalyzerFile];
-  }
-  else {
-    [MSWrapperExceptionManager deleteAllWrapperExceptions];
-    [MSWrapperExceptionManager deleteAllWrapperExceptionData];
   }
 
   [self.plCrashReporter purgePendingCrashReport];
