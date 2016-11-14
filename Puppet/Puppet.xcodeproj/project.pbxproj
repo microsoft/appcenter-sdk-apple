@@ -10,6 +10,7 @@
 		0461BBD11DB68EAD001B4555 /* Main.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0461BBD01DB68EAD001B4555 /* Main.strings */; };
 		6EC99A211D4151A00016C325 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A201D4151A00016C325 /* CrashReporter.framework */; };
 		6EC99A281D4152FA0016C325 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A271D4152FA0016C325 /* libc++.tbd */; };
+		B25D927D1DDA75E40077B73D /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = B25D927C1DDA75E40077B73D /* MSAlertController.m */; };
 		E82E1B641D1CA58D00D281C1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E82E1B631D1CA58D00D281C1 /* main.m */; };
 		E82E1B671D1CA58D00D281C1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E82E1B661D1CA58D00D281C1 /* AppDelegate.m */; };
 		E82E1B6D1D1CA58D00D281C1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E82E1B6B1D1CA58D00D281C1 /* Main.storyboard */; };
@@ -95,6 +96,8 @@
 		6EC99A201D4151A00016C325 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = ../../Vendor/PLCrashReporter/CrashReporter.framework; sourceTree = "<group>"; };
 		6EC99A251D4152EB0016C325 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		6EC99A271D4152FA0016C325 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		B25D927B1DDA75E40077B73D /* MSAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSAlertController.h; path = Vendor/MSAlertController/MSAlertController.h; sourceTree = SOURCE_ROOT; };
+		B25D927C1DDA75E40077B73D /* MSAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSAlertController.m; path = Vendor/MSAlertController/MSAlertController.m; sourceTree = SOURCE_ROOT; };
 		E82E1B5F1D1CA58D00D281C1 /* Puppet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Puppet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E82E1B631D1CA58D00D281C1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E82E1B651D1CA58D00D281C1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -138,6 +141,23 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		B25D927E1DDA75EA0077B73D /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+				B25D927F1DDA75F50077B73D /* MSAlertController */,
+			);
+			name = Vendor;
+			sourceTree = "<group>";
+		};
+		B25D927F1DDA75F50077B73D /* MSAlertController */ = {
+			isa = PBXGroup;
+			children = (
+				B25D927B1DDA75E40077B73D /* MSAlertController.h */,
+				B25D927C1DDA75E40077B73D /* MSAlertController.m */,
+			);
+			name = MSAlertController;
+			sourceTree = "<group>";
+		};
 		E82E1B561D1CA58D00D281C1 = {
 			isa = PBXGroup;
 			children = (
@@ -159,6 +179,7 @@
 		E82E1B611D1CA58D00D281C1 /* Puppet */ = {
 			isa = PBXGroup;
 			children = (
+				B25D927E1DDA75EA0077B73D /* Vendor */,
 				E89E6A271D396D6700CAA2CD /* Classes */,
 				E82E1B7B1D1CA61000D281C1 /* Sonoma */,
 				6EC99A161D4151890016C325 /* Frameworks */,
@@ -371,6 +392,7 @@
 				E89E6A2D1D396D7900CAA2CD /* MSMainViewController.m in Sources */,
 				E89E6A2C1D396D7900CAA2CD /* MSCrashesReportsViewController.m in Sources */,
 				E89E6A301D39704900CAA2CD /* MSAnalyticsViewController.m in Sources */,
+				B25D927D1DDA75E40077B73D /* MSAlertController.m in Sources */,
 				E82E1B641D1CA58D00D281C1 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
