@@ -20,11 +20,12 @@
 
 + (void)setWrapperException:(MSException*)exception;
 
-+ (void)setWrapperExceptionData:(NSData *)wrapperExceptionData;
 + (void)saveWrapperExceptionData:(CFUUIDRef)uuidRef;
 
 + (NSData*)loadWrapperExceptionDataWithUUIDString:(NSString*)uuidString;
+
 + (void)deleteWrapperExceptionDataWithUUIDString:(NSString*)uuidString;
+
 + (void)deleteAllWrapperExceptionData;
 
 @end
