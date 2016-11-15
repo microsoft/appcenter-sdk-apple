@@ -87,10 +87,12 @@ static NSString *const kMSServiceName = @"Analytics";
         }
       });
     }
+    MSLogInfo([MSAnalytics getLoggerTag], @"Analytics service has been enabled.");
   } else {
     [self.logManager removeDelegate:self.sessionTracker];
     [self.sessionTracker stop];
     [self.sessionTracker clearSessions];
+    MSLogInfo([MSAnalytics getLoggerTag], @"Analytics service has been disabled.");
   }
 }
 
