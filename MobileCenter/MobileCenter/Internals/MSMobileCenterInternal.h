@@ -2,9 +2,9 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "MSServiceInternal.h"
 #import "MSLogManager.h"
 #import "MSMobileCenter.h"
+#import "MSServiceInternal.h"
 #import "MobileCenter+Internal.h"
 #import <Foundation/Foundation.h>
 
@@ -16,13 +16,13 @@ static NSString *const kMSMobileCenterIsEnabledKey = @"MSMobileCenterIsEnabled";
 
 @interface MSMobileCenter ()
 
-@property(nonatomic) id <MSLogManager> logManager;
-@property(nonatomic) NSMutableArray<NSObject <MSServiceInternal> *> *services;
+@property(nonatomic) id<MSLogManager> logManager;
+@property(nonatomic) NSMutableArray<NSObject<MSServiceInternal> *> *services;
 @property(nonatomic, copy) NSString *appSecret;
 @property(nonatomic) NSString *serverUrl;
 @property(nonatomic, readonly) NSUUID *installId;
 @property(nonatomic) NSString *apiVersion;
-@property BOOL sdkStarted;
+@property BOOL sdkConfigured;
 @property(atomic) BOOL enabledStateUpdating;
 
 /**

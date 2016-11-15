@@ -18,23 +18,25 @@
 + (instancetype)sharedInstance;
 
 /**
- * Start the SDK.
+ * Configure the SDK.
  *
- * @param appSecret application secret.
+ * @discussion This may be called only once per application process lifetime.
+ * @param appSecret A unique and secret key used to identify the application.
  */
-+ (void)start:(NSString *)appSecret;
++ (void)configureWithAppSecret:(NSString *)appSecret;
 
 /**
  * Start the SDK with services.
  *
- * @param appSecret Application secret.
+ * @discussion This may be called only once per application process lifetime.
+ * @param appSecret A unique and secret key used to identify the application.
  * @param services  Array of services to be used.
  */
 + (void)start:(NSString *)appSecret withServices:(NSArray<Class> *)services;
 
 /**
  * Start a service.
- *
+ * @discussion This may be called only once per service per application process lifetime.
  * @param service  A service to be used.
  */
 + (void)startService:(Class)service;
@@ -44,7 +46,7 @@
  *
  * @return YES if initialized, NO otherwise.
  */
-+ (BOOL)isInitialized;
++ (BOOL)isConfigured;
 
 /**
  * Change the base URL (schema + authority + port only) used to communicate with the backend.
@@ -117,7 +119,6 @@
 /**
  * Method to reset the singleton when running unit tests only. So calling sharedInstance returns a fresh instance.
  */
-+(void)resetSharedInstance;
-
++ (void)resetSharedInstance;
 
 @end
