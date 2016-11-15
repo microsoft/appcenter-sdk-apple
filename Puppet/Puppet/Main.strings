@@ -4,6 +4,6 @@
 */
 "crash_alert_title" = "Sorry about that.";
 "crash_alert_message" = "Would you like to send an anonymous report so we can fix the problem?";
-"crash_alert_do_not_send" = "Don't send";
-"crash_alert_always_send" = "Always send";
+"crash_alert_do_not_send" = "Don't Send";
+"crash_alert_always_send" = "Always Send";
 "crash_alert_send" = "Send";

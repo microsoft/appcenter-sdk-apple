@@ -34,14 +34,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate {
             // Your code.
             // Present your UI to the user, e.g. an UIAlertView.
 
-            var alert = MSAlertController(title: "Sorry about that!", message: "Do you want to send an anonymous crash report so we can fix the issue?")
-            alert?.addDefaultAction(withTitle: "Yes", handler: {
+            var alert = MSAlertController(title: "Sorry about that!",
+                                          message: "Do you want to send an anonymous crash report so we can fix the issue?")
+            alert?.addDefaultAction(withTitle: "Send", handler: {
                 MSCrashes.notify(with: MSUserConfirmation.send)
             })
-            alert?.addDefaultAction(withTitle: "Always", handler: {
+            alert?.addDefaultAction(withTitle: "Always Send", handler: {
                 MSCrashes.notify(with: MSUserConfirmation.always)
             })
-            alert?.addCancelAction(withTitle: "No", handler: {
+            alert?.addCancelAction(withTitle: "Don't Send", handler: {
                 MSCrashes.notify(with: MSUserConfirmation.dontSend)
             })
 
