@@ -247,7 +247,7 @@ MSErrorReport *crashReport = [MSCrashes lastSessionCrashReport];
 var crashReport = MSCrashes.lastSessionCrashReport()
 ```
 
-### Enable or disable the Crashes service
+### Enable or disable Crashes
 
 You can disable and opt out of using Crashes by calling the `setEnabled` API and the SDK will collect no more crashes for your app. Use the same API to re-enable it by passing `YES` or `true` as a parameter.
 
