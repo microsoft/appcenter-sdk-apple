@@ -320,7 +320,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
   BOOL canBeUsed = self.sdkConfigured;
   if (!canBeUsed) {
     MSLogError([MSMobileCenter getLoggerTag],
-               @"Mobile Center SDK hasn't been initialized. You need to call [MSMobileCenter "
+               @"Mobile Center SDK hasn't been started. You need to call [MSMobileCenter "
                @"start:YOUR_APP_SECRET withServices:LIST_OF_SERVICES] first.");
   }
   return canBeUsed;
