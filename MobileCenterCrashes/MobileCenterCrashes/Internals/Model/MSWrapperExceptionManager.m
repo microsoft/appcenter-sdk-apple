@@ -38,8 +38,8 @@
 
 @end
 
-static const NSString *datExtension = @"dat";
-static const NSString *directoryName = @"wrapper_exceptions";
+static NSString *const datExtension = @"dat";
+static NSString *const directoryName = @"wrapper_exceptions";
 
 @implementation MSWrapperExceptionManager : NSObject
 
