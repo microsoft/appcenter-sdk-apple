@@ -281,7 +281,7 @@ var enabled = MSCrashes.isEnabled()
 
 If you are using the Crashes service, you can customize the way the SDK handles crashes. The `MSCrashesDelegate`-protocol describes methods to attach data to a crash, wait for user confirmation and register for callbacks that inform your app about the sending status.
 
-#### Register as a delegate. 
+#### Register as a delegate
 
  **Objective-C**
  
@@ -317,24 +317,43 @@ func crashes(_ crashes: MSCrashes!, shouldProcessErrorReport errorReport: MSErro
 }
 ```
         
-### User Confirmation
+#### User Confirmation
 
-If user privacy is important to you, you might want to get a user's confirmation before sending a crash report to Mobile Center. The SDK exposes a callbacks where you can tell it to await user confirmation before sending any crash reports. This requires two steps:
+If user privacy is important to you, you might want to get a user's confirmation before sending a crash report to Mobile Center. The SDK exposes a callbacks where you can tell it to await user confirmation before sending any crash reports. This requires at least one additional step.
 
-#### 1. Set a user confirmation handler.
+#### Step 1: Set a user confirmation handler.
 	
-Your app is responsible for obtaining confirmation, e.g. through a dialog prompt with one of these options - "Always Send", "Send", and "Don't send". You need inform the SDK about the users input and the crash will handled accordingly. The method takes a block as a parameter, use it to pass in your logic to present the UI to confirm a crash report.
+Your app is responsible for obtaining confirmation, e.g. through a dialog prompt with one of these options - "Always Send", "Send", and "Don't send". You need inform the SDK about the users input and the crash will handled accordingly. The method takes a block as a parameter, use it to pass in your logic to present the UI to confirm a crash report. As of iOS 8, `UIAlertView` has been deprecated in favor of `UIAlertController`. MobileCenterCrashes itself does not contain logic to show a confirmation to the user, but our Sample apps `Puppet` and `Demo` include [a reference implementation](https://github.com/Microsoft/MobileCenter-SDK-iOS/tree/develop/Vendor/MSAlertController/MSAlertController.h) which will be used in the following code snippets. For a full implementation, clone this repo and check out our apps **Puppet** and **Demo** and copy `MSAlertViewController` to your app. 
 
 **Objective-C**
 	
 ```objectivec
 [MSCrashes setUserConfirmationHandler:(^(NSArray<MSErrorReport *> *errorReports) {
-	// Your code to present your UI to the user, e.g. an UIAlertView.
-	[[[UIAlertView alloc] initWithTitle:@"Sorry we crashed."
-	                            message:@"Do you want to send a report about the crash to the developer?"
-	                           delegate:self
-	                  cancelButtonTitle:@"Don't send"
-	                  otherButtonTitles:@"Always send", @"Send", nil] show];
+	
+	// Use MSAlertViewController to show a dialog to the user where they can choose if they want to provide a crash report.
+      MSAlertController *alertController = [MSAlertController alertControllerWithTitle:NSLocalizedStringFromTable(@"crash_alert_title", @"Main", @"")
+                                                                               message:NSLocalizedStringFromTable(@"crash_alert_message", @"Main", @"")];
+
+      // Add a "Don't send"-Button and callthe notifyWithUserConfirmation-callback with MSUserConfirmationDontSend
+      [alertController addCancelActionWithTitle:NSLocalizedStringFromTable(@"crash_alert_do_not_send", @"Main", @"")
+                                        handler:^(UIAlertAction *action) {
+                                            [MSCrashes notifyWithUserConfirmation:MSUserConfirmationDontSend];
+                                        }];
+
+      // Add a "Send"-Button and callthe notifyWithUserConfirmation-callback with MSUserConfirmationSend
+      [alertController addDefaultActionWithTitle:NSLocalizedStringFromTable(@"crash_alert_send", @"Main", @"")
+                                         handler:^(UIAlertAction *action) {
+                                             [MSCrashes notifyWithUserConfirmation:MSUserConfirmationSend];
+                                         }];
+
+      // Add a "Always send"-Button and callthe notifyWithUserConfirmation-callback with MSUserConfirmationAlways
+      [alertController addDefaultActionWithTitle:NSLocalizedStringFromTable(@"crash_alert_always_send", @"Main", @"")
+                                         handler:^(UIAlertAction *action) {
+                                             [MSCrashes notifyWithUserConfirmation:MSUserConfirmationAlways];
+                                         }];
+      // Show the alert controller.
+      [alertController show];
+	
 	
 	// 2. You could also iterate over the array of error reports and base your decision on them.
 		
@@ -345,19 +364,32 @@ return YES; // Return YES if the SDK should await user confirmation, otherwise N
 **Swift**
 	
 ```swift
- // Crashes Delegate
 MSCrashes.setUserConfirmationHandler({ (errorReports: [MSErrorReport]) in
 	  
-	// Your code to present your UI to the user, e.g. an UIAlertView.
-	UIAlertView.init(title: "Sorry we crashed!", message: "Do you want to send a Crash Report?", delegate: self, cancelButtonTitle: "No", otherButtonTitles:"Always send", "Send").show()
+	// Present your UI to the user, e.g. an UIAlertView.
+
+   var alert = MSAlertController(title: "Sorry about that!", message: "Do you want to send an anonymous crash report so we can fix the issue?")            
+   
+   alert?.addDefaultAction(withTitle: "Yes", handler: {
+   		MSCrashes.notify(with: MSUserConfirmation.send)
+   })
+   
+   alert?.addDefaultAction(withTitle: "Always", handler: {
+       MSCrashes.notify(with: MSUserConfirmation.always)
+   })
+            
+   alert?.addCancelAction(withTitle: "No", handler: {
+       MSCrashes.notify(with: MSUserConfirmation.dontSend)
+   })
 	  
 	return true // Return true if the SDK should await user confirmation, otherwise return false.
 })
 ```
 
-#### 2. Inform the SDK about the user's choice.
+#### Step 2: If you are using a different approach than the MSAlertController to present UI to your user.
 	    
-If you return `YES`/`true` in step 1, your app should obtain user permission and message the SDK with the result using the following API. If you are using an alert for this, you would call it from within your implementation of the `alertView:clickedButtonAtIndex:`-callback.
+The code above already calls the `MSCrashes`-API to notify the crashes service about the users decision.
+If you are not using this implementation, make sure to return `YES`/`true` in step 1, present your custom UI to the user to obtain user permission and message the SDK with the result using the following API. If you are using a UIAlertView for this, you would call it from within your implementation of the `alertView:clickedButtonAtIndex:`-callback.
 
 **Objective-C**
 	
@@ -468,7 +500,7 @@ func crashes(_ crashes: MSCrashes!, didFailSending errorReport: MSErrorReport!, 
 ```
   
 
-## 6. Advanced APIs
+## 6. Other API
 
 ### Logging
 
