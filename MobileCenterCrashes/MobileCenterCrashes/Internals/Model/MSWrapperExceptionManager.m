@@ -32,13 +32,14 @@
 + (NSString*)getDataFilename:(NSString*)uuidString;
 + (NSString*)getFilenameWithUUIDRef:(CFUUIDRef)uuidRef;
 + (NSString*)getDataFilenameWithUUIDRef:(CFUUIDRef)uuidRef;
-+ (void) deleteFile:(NSString*)path;
-+ (BOOL) isDataFile:(NSString*)path;
-+ (NSString*) uuidRefToString:(CFUUIDRef)uuidRef;
++ (void)deleteFile:(NSString*)path;
++ (BOOL)isDataFile:(NSString*)path;
++ (NSString*)uuidRefToString:(CFUUIDRef)uuidRef;
 
 @end
 
-static NSString *datExtension = @"dat";
+static const NSString *datExtension = @"dat";
+static const NSString *directoryName = @"wrapper_exceptions";
 
 @implementation MSWrapperExceptionManager : NSObject
 
@@ -48,7 +49,7 @@ static NSString *datExtension = @"dat";
   if (!directoryPath) {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    directoryPath = [documentsDirectory stringByAppendingPathComponent:@"wrapper_exceptions"];
+    directoryPath = [documentsDirectory stringByAppendingPathComponent:directoryName];
   }
 
   return directoryPath;
@@ -74,7 +75,7 @@ static NSString *datExtension = @"dat";
 }
 
 + (BOOL) isDataFile:(NSString*)path {
-  return [path hasSuffix:[@"" stringByAppendingPathExtension:datExtension]];
+  return path ? [path hasSuffix:[@"" stringByAppendingPathExtension:datExtension]] : false;
 }
 
 #pragma mark - Public methods
@@ -168,7 +169,7 @@ static NSString *datExtension = @"dat";
 - (MSException*)loadWrapperException:(CFUUIDRef)uuidRef {
   NSString *uuidString = [MSWrapperExceptionManager uuidRefToString:uuidRef];
   NSString *currentUUIDString = nil;
-  if (_currentUUIDRef != nil) {
+  if (_currentUUIDRef) {
     currentUUIDString = [MSWrapperExceptionManager uuidRefToString:_currentUUIDRef];
   }
 
@@ -179,7 +180,7 @@ static NSString *datExtension = @"dat";
   NSString *filename = [MSWrapperExceptionManager getFilenameWithUUIDRef:uuidRef];
   MSException *loadedException = [NSKeyedUnarchiver unarchiveObjectWithFile:filename];
 
-  if (loadedException == nil) {
+  if (!loadedException) {
     MSLogError([MSCrashes getLoggerTag], @"Could not load wrapper exception from file %@", filename);
     return nil;
   }
@@ -269,7 +270,7 @@ static NSString *datExtension = @"dat";
 }
 
 + (NSString*)uuidRefToString:(CFUUIDRef)uuidRef {
-  if (uuidRef == nil) {
+  if (!uuidRef) {
     return nil;
   }
   CFStringRef uuidStringRef = CFUUIDCreateString(kCFAllocatorDefault, uuidRef);
