@@ -19,14 +19,14 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
 @property(nonatomic, readwrite) NSString *sessionId;
 
 /**
- *  Flag to indicate if session tracking has started or not.
+ * Flag to indicate if session tracking has started or not.
  */
 @property(nonatomic) BOOL started;
 
 /**
- *  Check if current session has timed out.
+ * Check if current session has timed out.
  *
- *  @return YES if current session has timed out, NO otherwise.
+ * @return YES if current session has timed out, NO otherwise.
  */
 - (BOOL)hasSessionTimedOut;
 
@@ -143,6 +143,10 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
     BOOL noLogSentForLong =
         !self.lastCreatedLogTime || [now timeIntervalSinceDate:self.lastCreatedLogTime] >= self.sessionTimeout;
 
+    // FIXME: There is no life cycle for app extensions yet so ignoring the background tests for now.
+    if (MS_IS_APP_EXTENSION)
+      return noLogSentForLong;
+
     // Verify if app is currently in the background for a longer time than the session timeout.
     BOOL isBackgroundForLong =
         (self.lastEnteredBackgroundTime && self.lastEnteredForegroundTime) &&
@@ -174,9 +178,6 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
 
 - (void)onProcessingLog:(id<MSLog>)log withPriority:(MSPriority)priority {
 
-  // Update time stamp.
-  _lastCreatedLogTime = [NSDate date];
-
   // Start session log is created in this method, therefore, skip in order to avoid infinite loop.
   if ([((NSObject *)log) isKindOfClass:[MSStartSessionLog class]])
     return;
@@ -196,6 +197,9 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
   if (log.sid == nil) {
     log.sid = self.sessionId;
   }
+
+  // Update last created log time stamp.
+  _lastCreatedLogTime = [NSDate date];
 }
 
 @end

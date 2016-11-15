@@ -309,7 +309,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
 - (void)startCrashProcessing {
 
-  // FIXME: Return directly while app extension in background once/if app extension life cycle is available.
+  // FIXME: There is no life cycle for app extensions yet so force start crash processing until then.
   if ([MSApplicationHelper applicationState] != MSApplicationStateActive &&
       [MSApplicationHelper applicationState] != MSApplicationStateUnknown) {
     return;
