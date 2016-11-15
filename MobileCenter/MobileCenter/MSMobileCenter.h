@@ -26,25 +26,25 @@
 + (void)configureWithAppSecret:(NSString *)appSecret;
 
 /**
- * Start the SDK with services.
+ * Configure the SDK with an application secret and an array of services to start.
  *
  * @discussion This may be called only once per application process lifetime.
  * @param appSecret A unique and secret key used to identify the application.
- * @param services  Array of services to be used.
+ * @param services  Array of services to start.
  */
 + (void)start:(NSString *)appSecret withServices:(NSArray<Class> *)services;
 
 /**
  * Start a service.
  * @discussion This may be called only once per service per application process lifetime.
- * @param service  A service to be used.
+ * @param service  A service to start.
  */
 + (void)startService:(Class)service;
 
 /**
- * Check whether the SDK has already been initialized or not.
+ * Check whether the SDK has already been configured or not.
  *
- * @return YES if initialized, NO otherwise.
+ * @return YES if configured, NO otherwise.
  */
 + (BOOL)isConfigured;
 
