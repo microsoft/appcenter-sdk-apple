@@ -2,50 +2,12 @@
 
 ___
 
-## Version 0.2.0
+## Version 0.3.0
 
-Maybe some description of this release, including breaking changes.
-We can include a [LINK TO A MIGRATION GUIDE]() for breaking changes, blogposts or sample code.
-
-### MobileCenter
-
-Modules can be skipped.
-
-* **[Bug]** Description, might contain a link to an issue on GH.
-* **[Feature]** A feature, a new API,...
-* **[Misc]** Something other
-
-### MobileCenterAnalytics
-
-* **[Bug]** Description, might contain a link to an issue on GH.
-* **[Feature]** A feature, a new API,...
-* **[Misc]** Something other
-
-### MobileCenterCrashes
-
-* **[Bug]** Description, might contain a link to an issue on GH.
-* **[Feature]** A feature, a new API,...
-* **[Misc]** Something other
-
-
-## Version 0.1.4
-
-Maybe some description of this release, including breaking changes.
+This version introduces **breaking changes**. 
+It includes public methods renaming.
 
 ### MobileCenter
 
-* **[Bug]** Description, might contain a link to an issue on GH.
-* **[Feature]** A feature, a new API,...
-* **[Misc]** Something other
-
-### MobileCenterAnalytics
-
-* **[Bug]** Description, might contain a link to an issue on GH.
-* **[Feature]** A feature, a new API,...
-* **[Misc]** Something other
-
-### MobileCenterCrashes
-
-* **[Bug]** Description, might contain a link to an issue on GH or a ticket ID on VSTS.
-* **[Feature]** A feature, a new API,...
-* **[Misc]** Something other
+* **[Breaking]** Method `start:` of class `MSMobileCenter` is renamed `configureWithAppSecret:`.
+* **[Breaking]** Method `isInitilized` of class `MSMobileCenter` is renamed `isConfigured`.
