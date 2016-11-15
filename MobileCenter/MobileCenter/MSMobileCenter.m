@@ -150,7 +150,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 - (BOOL)configure:(NSString *)appSecret {
   BOOL success = false;
   if (self.sdkConfigured) {
-    MSLogAssert([MSMobileCenter getLoggerTag], @"Mobile Center SDK has already been started.");
+    MSLogAssert([MSMobileCenter getLoggerTag], @"Mobile Center SDK has already been configured.");
   }
 
   // Validate and set the app secret.
@@ -182,7 +182,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
     success = true;
   }
   MSLogAssert([MSMobileCenter getLoggerTag], @"Mobile Center SDK %@",
-              (success) ? @"started successfully." : @"failed to start.");
+              (success) ? @"configured successfully." : @"configuration failed.");
   return success;
 }
 
@@ -320,7 +320,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
   BOOL canBeUsed = self.sdkConfigured;
   if (!canBeUsed) {
     MSLogError([MSMobileCenter getLoggerTag],
-               @"Mobile Center SDK hasn't been started. You need to call [MSMobileCenter "
+               @"Mobile Center SDK hasn't been configured. You need to call [MSMobileCenter "
                @"start:YOUR_APP_SECRET withServices:LIST_OF_SERVICES] first.");
   }
   return canBeUsed;
