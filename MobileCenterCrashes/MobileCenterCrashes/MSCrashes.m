@@ -152,7 +152,6 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   [super applyEnabledState:isEnabled];
 
   if (isEnabled) {
-    MSLogDebug([MSCrashes getLoggerTag], @"Enabling crashes service again.");
     [self configureCrashReporter];
 
     // Get pending crashes from PLCrashReporter and persist them in the intermediate format.
@@ -172,6 +171,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     if (self.crashFiles.count > 0) {
       [self startDelayedCrashProcessing];
     }
+    MSLogInfo([MSCrashes getLoggerTag], @"Crashes service has been enabled.");
   } else {
     // Don't set PLCrashReporter to nil!
     MSLogDebug([MSCrashes getLoggerTag], @"Cleaning up all crash files.");
@@ -180,7 +180,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     [self removeAnalyzerFile];
     [self.plCrashReporter purgePendingCrashReport];
     [self.logManager removeChannelDelegate:self forPriority:MSPriorityHigh];
-    MSLogDebug([MSCrashes getLoggerTag], @"Disabling crashes service.");
+    MSLogInfo([MSCrashes getLoggerTag], @"Crashes service has been disabled.");
   }
 }
 

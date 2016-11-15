@@ -227,6 +227,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
     [kMSUserDefaults setObject:[NSNumber numberWithBool:isEnabled] forKey:kMSMobileCenterIsEnabledKey];
     self.enabledStateUpdating = NO;
   }
+  MSLogInfo([MSMobileCenter getLoggerTag], @"Mobile Center SDK has been %@.", isEnabled ? @"enabled" : @"disabled");
 }
 
 - (BOOL)isEnabled {
