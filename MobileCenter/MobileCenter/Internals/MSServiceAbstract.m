@@ -84,8 +84,9 @@
   @synchronized([self sharedInstance]) {
     if ([[self sharedInstance] canBeUsed]) {
       if (![MSMobileCenter isEnabled] && ![MSMobileCenter sharedInstance].enabledStateUpdating) {
-        MSLogError([MSMobileCenter getLoggerTag], @"The SDK is disabled. Re-enable the SDK from the core module "
-                                                  @"first before enabling %@ service.",
+        MSLogError([MSMobileCenter getLoggerTag],
+                   @"The SDK is disabled. Re-enable the whole SDK from the MobileCenter module "
+                   @"first before enabling %@ service.",
                    CLASS_NAME_WITHOUT_PREFIX);
       } else {
         [[self sharedInstance] setEnabled:isEnabled];
