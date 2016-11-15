@@ -36,10 +36,10 @@ static dispatch_queue_t alertsQueue;
   alertIsBeingPresented = NO;
   alertsToBePresented = @[].mutableCopy;
   alertsQueue = dispatch_queue_create(MSAlertsDispatchQueue, DISPATCH_QUEUE_CONCURRENT);
-  
+
   UIViewController *emptyViewController = [UIViewController new];
   [emptyViewController.view setBackgroundColor:[UIColor clearColor]];
-  
+
   window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   window.rootViewController = emptyViewController;
   window.backgroundColor = [UIColor clearColor];
@@ -74,7 +74,7 @@ static dispatch_queue_t alertsQueue;
 
 - (void)showAnimated:(BOOL)animated {
   dispatch_barrier_async(alertsQueue, ^{
-    [alertsToBePresented addObject:self];
+      [alertsToBePresented addObject:self];
   });
   [MSAlertController presentNextPendingAlertController];
 }
@@ -85,16 +85,16 @@ static dispatch_queue_t alertsQueue;
   }
   MSAlertController *__block nextAlert;
   dispatch_sync(alertsQueue, ^{
-    nextAlert = alertsToBePresented.firstObject;
+      nextAlert = alertsToBePresented.firstObject;
   });
   if (nextAlert) {
     alertIsBeingPresented = YES;
     dispatch_barrier_async(alertsQueue, ^{
-      [alertsToBePresented removeObjectAtIndex:0];
+        [alertsToBePresented removeObjectAtIndex:0];
     });
     dispatch_async(dispatch_get_main_queue(), ^{
-      [window makeKeyAndVisible];
-      [window.rootViewController presentViewController:nextAlert animated:YES completion:nil];
+        [window makeKeyAndVisible];
+        [window.rootViewController presentViewController:nextAlert animated:YES completion:nil];
     });
   } else {
     window.hidden = YES;
