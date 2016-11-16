@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name              = 'MobileCenter'
-  s.version           = '0.3.0'
+  s.version           = '0.3.1'
 
   s.summary           = 'Add Mobile Center SDK to your app to collect crash reports & understand user behavior by analyzing the session, user or device information.'
   s.description       = <<-DESC
@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
                         DESC
 
   s.homepage          = 'https://mobile.azure.com'
-  #s.documentation_url = "https://docs.mobile.azure.com"
+  #s.documentation_url = "https://docs.mobile.azure.com/sdk/ios/"
 
   s.license           = { :type => 'MIT',  :file => 'MobileCenter-SDK-iOS/LICENSE'}
   s.author            = { 'Microsoft' => 'mobilecentersdk@microsoft.com' }
