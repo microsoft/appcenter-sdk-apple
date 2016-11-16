@@ -2,10 +2,10 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
+#import "MSMobileCenterInternal.h"
 #import "MSServiceAbstract.h"
 #import "MSServiceAbstractInternal.h"
 #import "MSServiceAbstractPrivate.h"
-#import "MSMobileCenterInternal.h"
 
 @implementation MSServiceAbstract
 
@@ -54,12 +54,12 @@
 }
 
 - (BOOL)canBeUsed {
-  BOOL canBeUsed = [MSMobileCenter sharedInstance].sdkStarted && self.started;
+  BOOL canBeUsed = [MSMobileCenter sharedInstance].sdkConfigured && self.started;
   if (!canBeUsed) {
     MSLogError([MSMobileCenter getLoggerTag],
-                @"%@ module hasn't been initialized. You need to call "
-                @"[MSMobileCenter start:YOUR_APP_SECRET withServices:LIST_OF_SERVICES] first.",
-                CLASS_NAME_WITHOUT_PREFIX);
+               @"%@ module hasn't been initialized. You need to call "
+               @"[MSMobileCenter start:YOUR_APP_SECRET withServices:LIST_OF_SERVICES] first.",
+               CLASS_NAME_WITHOUT_PREFIX);
   }
   return canBeUsed;
 }
@@ -85,9 +85,9 @@
     if ([[self sharedInstance] canBeUsed]) {
       if (![MSMobileCenter isEnabled] && ![MSMobileCenter sharedInstance].enabledStateUpdating) {
         MSLogError([MSMobileCenter getLoggerTag],
-                    @"The SDK is disabled. Re-enable the SDK from the core module "
-                    @"first before enabling %@ service.",
-                    CLASS_NAME_WITHOUT_PREFIX);
+                   @"The SDK is disabled. Re-enable the whole SDK from the MobileCenter module "
+                   @"first before enabling %@ service.",
+                   CLASS_NAME_WITHOUT_PREFIX);
       } else {
         [[self sharedInstance] setEnabled:isEnabled];
       }
