@@ -8,6 +8,7 @@
 
 #import "MSAppleErrorLog.h"
 #import "MSCrashesTestHelper.h"
+#import "MSCrashesInternal.h"
 #import "MSCrashesPrivate.h"
 #import "MSDeviceTracker.h"
 #import "MSErrorLogFormatterPrivate.h"

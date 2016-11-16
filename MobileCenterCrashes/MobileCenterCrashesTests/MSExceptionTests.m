@@ -45,6 +45,9 @@
   assertThat(actual, instanceOf([MSException class]));
 
   MSException *actualException = actual;
+
+  assertThat(actualException, equalTo(sut));
+
   assertThat(actualException.type, equalTo(sut.type));
   assertThat(actualException.message, equalTo(sut.message));
   assertThat(actualException.wrapperSdkName, equalTo(sut.wrapperSdkName));
@@ -52,5 +55,6 @@
   assertThat(actualException.frames.firstObject.address, equalTo(@"frameAddress"));
   assertThat(actualException.frames.firstObject.code, equalTo(@"frameSymbol"));
 }
+
 
 @end
