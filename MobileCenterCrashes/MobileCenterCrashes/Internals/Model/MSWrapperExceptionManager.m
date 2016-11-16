@@ -35,6 +35,7 @@
 + (void)deleteFile:(NSString*)path;
 + (BOOL)isDataFile:(NSString*)path;
 + (NSString*)uuidRefToString:(CFUUIDRef)uuidRef;
+//+ (BOOL)isCurrentUUIDRef:(CFUUIDRef)uuidRef;
 
 @end
 
@@ -131,6 +132,7 @@ static NSString *const directoryName = @"wrapper_exceptions";
     _unsavedWrapperExceptionData = nil;
     _wrapperException = nil;
     _wrapperExceptionData = [[NSMutableDictionary alloc] init];
+    _currentUUIDRef = nil;
 
     // Create the directory if it doesn't exist
     NSFileManager *defaultManager = [NSFileManager defaultManager];
@@ -144,7 +146,7 @@ static NSString *const directoryName = @"wrapper_exceptions";
                                  attributes:nil
                                       error:&error];
       if (error) {
-        MSLogError([MSCrashes getLoggerTag], @"Error creating directory %@: %@",
+        MSLogError([MSCrashes getLoggerTag], @"Failed to create directory %@: %@",
                    directoryPath, error.localizedDescription);
       }
     }
@@ -167,13 +169,7 @@ static NSString *const directoryName = @"wrapper_exceptions";
 }
 
 - (MSException*)loadWrapperException:(CFUUIDRef)uuidRef {
-  NSString *uuidString = [MSWrapperExceptionManager uuidRefToString:uuidRef];
-  NSString *currentUUIDString = nil;
-  if (_currentUUIDRef) {
-    currentUUIDString = [MSWrapperExceptionManager uuidRefToString:_currentUUIDRef];
-  }
-
-  if (_wrapperException && currentUUIDString && uuidString && [uuidString isEqualToString:currentUUIDString]) {
+  if (_wrapperException && CFEqual(_currentUUIDRef, uuidRef)) {
     return _wrapperException;
   }
 
@@ -196,16 +192,24 @@ static NSString *const directoryName = @"wrapper_exceptions";
   [self saveWrapperExceptionData:uuidRef];
   BOOL success = [NSKeyedArchiver archiveRootObject:_wrapperException toFile:filename];
   if (!success) {
-    MSLogError([MSCrashes getLoggerTag], @"Error saving file %@", filename);
+    MSLogError([MSCrashes getLoggerTag], @"Failed to save file %@", filename);
   }
 }
 
 - (void)deleteWrapperExceptionWithUUID:(CFUUIDRef)uuidRef {
   NSString *path = [MSWrapperExceptionManager getFilenameWithUUIDRef:uuidRef];
   [MSWrapperExceptionManager deleteFile:path];
+
+  if (CFEqual(_currentUUIDRef, uuidRef)) {
+    _currentUUIDRef = nil;
+    _wrapperException = nil;
+  }
 }
 
 - (void)deleteAllWrapperExceptions {
+  _currentUUIDRef = nil;
+  _wrapperException = nil;
+
   NSFileManager *fileManager = [NSFileManager defaultManager];
   NSString *directoryPath = [MSWrapperExceptionManager directoryPath];
 
@@ -240,7 +244,6 @@ static NSString *const directoryName = @"wrapper_exceptions";
 }
 
 - (void)deleteWrapperExceptionDataWithUUIDString:(NSString*)uuidString {
-
   NSString* dataFilename = [MSWrapperExceptionManager getDataFilename:uuidString];
   NSData *data = [self loadWrapperExceptionDataWithUUIDString:uuidString];
   if (data) {
@@ -276,5 +279,25 @@ static NSString *const directoryName = @"wrapper_exceptions";
   CFStringRef uuidStringRef = CFUUIDCreateString(kCFAllocatorDefault, uuidRef);
   return (__bridge_transfer NSString*)uuidStringRef;
 }
+
+//+ (BOOL)isCurrentUUIDRef:(CFUUIDRef)uuidRef {
+//  CFUUIDRef currentUUIDRef = [MSWrapperExceptionManager sharedInstance].currentUUIDRef;
+//
+//  BOOL currentUUIDRefIsNull = (currentUUIDRef == kCFNull);
+//  BOOL uuidRefIsNull = (uuidRef == kCFNull);
+//
+//  if (currentUUIDRefIsNull && uuidRefIsNull) {
+//    return true;
+//  }
+//  if (currentUUIDRefIsNull || uuidRefIsNull) {
+//    return false;
+//  }
+//
+//  // For whatever reason, CF
+//  NSString *uuidString = [MSWrapperExceptionManager uuidRefToString:uuidRef];
+//  NSString *currentUUIDString = [MSWrapperExceptionManager uuidRefToString:currentUUIDRef];
+//
+//  return [uuidString isEqualToString:currentUUIDString];
+//}
 
 @end
