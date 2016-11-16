@@ -31,7 +31,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 + (instancetype)sharedInstance {
   dispatch_once(&onceToken, ^{
     if (sharedInstance == nil) {
-    sharedInstance = [[self alloc] init];
+      sharedInstance = [[self alloc] init];
     }
   });
   return sharedInstance;
@@ -39,8 +39,8 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 
 #pragma mark - public
 
-+ (void)start:(NSString *)appSecret {
-  [[self sharedInstance] start:appSecret];
++ (void)configureWithAppSecret:(NSString *)appSecret {
+  [[self sharedInstance] configure:appSecret];
 }
 
 + (void)start:(NSString *)appSecret withServices:(NSArray<Class> *)services {
@@ -51,8 +51,8 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
   [[self sharedInstance] startService:service];
 }
 
-+ (BOOL)isInitialized {
-  return [[self sharedInstance] sdkStarted];
++ (BOOL)isConfigured {
+  return [[self sharedInstance] sdkConfigured];
 }
 
 + (void)setServerUrl:(NSString *)serverUrl {
@@ -147,49 +147,51 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
   return self;
 }
 
-- (BOOL)start:(NSString *)appSecret {
-  if (self.sdkStarted) {
-    MSLogWarning([MSMobileCenter getLoggerTag], @"SDK has already been started, `start` can be called only once.");
-    return NO;
+- (BOOL)configure:(NSString *)appSecret {
+  BOOL success = false;
+  if (self.sdkConfigured) {
+    MSLogAssert([MSMobileCenter getLoggerTag], @"Mobile Center SDK has already been configured.");
   }
 
   // Validate and set the app secret.
-  if ([appSecret length] == 0 || ![[NSUUID alloc] initWithUUIDString:appSecret]) {
-    MSLogAssert([MSMobileCenter getLoggerTag], @"AppSecret is invalid. Failed to start Mobile Center SDK.");
-    return NO;
-  }
-  self.appSecret = appSecret;
-
-  // Set backend API version.
-  self.apiVersion = kMSAPIVersion;
-
-  // Init the main pipeline.
-  [self initializePipeline];
-
-  // Enable pipeline as needed.
-  if (self.isEnabled) {
-    [self applyPipelineEnabledState:self.isEnabled];
+  else if ([appSecret length] == 0 || ![[NSUUID alloc] initWithUUIDString:appSecret]) {
+    MSLogAssert([MSMobileCenter getLoggerTag], @"AppSecret is invalid.");
   }
 
-  _sdkStarted = YES;
+  else {
+    self.appSecret = appSecret;
 
-  // If the loglevel hasn't been customized before and we are not running in an app store environment, we set the
-  // default loglevel to MSLogLevelWarning.
-  if ((![MSLogger isUserDefinedLogLevel]) && ([MSEnvironmentHelper currentAppEnvironment] == MSEnvironmentOther)) {
-    [MSMobileCenter setLogLevel:MSLogLevelWarning];
+    // Set backend API version.
+    self.apiVersion = kMSAPIVersion;
+
+    // Init the main pipeline.
+    [self initializePipeline];
+
+    // Enable pipeline as needed.
+    if (self.isEnabled) {
+      [self applyPipelineEnabledState:self.isEnabled];
+    }
+
+    _sdkConfigured = YES;
+
+    // If the loglevel hasn't been customized before and we are not running in an app store environment, we set the
+    // default loglevel to MSLogLevelWarning.
+    if ((![MSLogger isUserDefinedLogLevel]) && ([MSEnvironmentHelper currentAppEnvironment] == MSEnvironmentOther)) {
+      [MSMobileCenter setLogLevel:MSLogLevelWarning];
+    }
+    success = true;
   }
-  MSLogAssert([MSMobileCenter getLoggerTag], @"Mobile Center SDK started successfully.");
-  return YES;
+  MSLogAssert([MSMobileCenter getLoggerTag], @"Mobile Center SDK %@",
+              (success) ? @"configured successfully." : @"configuration failed.");
+  return success;
 }
 
 - (void)start:(NSString *)appSecret withServices:(NSArray<Class> *)services {
-  BOOL initialized = [self start:appSecret];
-  if (initialized) {
+  BOOL configured = [self configure:appSecret];
+  if (configured) {
     for (Class service in services) {
       [self startService:service];
     }
-  } else {
-    MSLogAssert([MSMobileCenter getLoggerTag], @"Failed to initialize Mobile Center SDK.");
   }
 }
 
@@ -315,16 +317,16 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 }
 
 - (BOOL)canBeUsed {
-  BOOL canBeUsed = self.sdkStarted;
+  BOOL canBeUsed = self.sdkConfigured;
   if (!canBeUsed) {
     MSLogError([MSMobileCenter getLoggerTag],
-                @"Mobile Center SDK hasn't been initialized. You need to call [MSMobileCenter "
-                @"start:YOUR_APP_SECRET withServices:LIST_OF_SERVICES] first.");
+               @"Mobile Center SDK hasn't been configured. You need to call [MSMobileCenter "
+               @"start:YOUR_APP_SECRET withServices:LIST_OF_SERVICES] first.");
   }
   return canBeUsed;
 }
 
-+(void)resetSharedInstance {
++ (void)resetSharedInstance {
   onceToken = 0; // resets the once_token so dispatch_once will run again
   sharedInstance = nil;
 }

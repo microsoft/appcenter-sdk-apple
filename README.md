@@ -4,9 +4,7 @@
 
 ## Introduction
 
-The Mobile Center SDK lets you add Mobile Center services to your iOS application.
-
-The SDK is currently in private beta release and supports the following services:
+Add Mobile Center services to your app and collect crash reports and understand user behavior by analyzing the session, user and device information for your app. The SDK is currently in public preview and supports the following services:
 
 1. **Analytics**: Mobile Center Analytics helps you understand user behavior and customer engagement to improve your iOS app. The SDK automatically captures session count, device properties like model, OS version etc. and pages. You can define your own custom events to measure things that matter to your business. All the information captured is available in the Mobile Center portal for you to analyze the data.
 
@@ -28,8 +26,9 @@ Let's get started with setting up the Mobile Center SDK in your app to use these
 
 Before you begin, please make sure that the following prerequisites are met:
 
-* An iOS project that is set up in Xcode 8.1 on macOS version 10.11 or later.
+* An iOS project that is set up in Xcode 8.0 on macOS 10.11 or later.
 * The minimum OS target supported by the Mobile Center SDK is iOS 8.0 or later.
+* If you are using cocoapods, please use cocoapods 1.1.1 or later.
 * This readme assumes that you are using Swift 3 syntax and want to integrate all services.
 
 ## 2. Integrate the SDK
@@ -64,13 +63,16 @@ Now that you've integrated the frameworks in your application, it's time to star
 1. Add the following to your `podfile` to include all services into your app. This will pull in `MobileCenter`, `MobileCenterAnalytics` and `MobileCenterCrashes`. Alternatively, you can specify which services you want to use in your app. Each service has it's own `subspec` and they all rely on `MobileCenter`. It will get pulled in automatically.
 
 	```ruby
-	  # Use the following line to use all services.
-	  pod 'MobileCenter', :podspec => 'https://download.hockeyapp.net/mobilecenter/ios/mobilecenter.podspec'
+ # Use the following line to use all services.
+  pod 'MobileCenter', :podspec => 'https://mobilecentersdkdev.blob.core.windows.net/sdk/MobileCenter.podspec'
 	  
-	  # Use the following line if you want to specify which service you want to use.
-	  pod 'MobileCenter', :podspec => 'https://download.hockeyapp.net/mobilecenter/ios/mobilecenter',  :subspecs => ['MobileCenterAnalytics', 'MobileCenterCrashes'] 
+ # Use the following lines if you want to specify the individual services you want to use.
+pod 'MobileCenter/MobileCenterAnalytics', :podspec => 'https://mobilecentersdkdev.blob.core.windows.net/sdk/MobileCenter.podspec'
+pod 'MobileCenter/MobileCenterCrashes', :podspec => 'https://mobilecentersdkdev.blob.core.windows.net/sdk/MobileCenter.podspec'
 	
 	```
+	
+	**NOTE:** If you are using the individual subspecs, you don't need to include `MobileCenter/MobileCenter' separately as the other subspecs will pull in this as a dependency anyway.
 
 2. Run `pod install` to install your newly defined pod, open your `.xcworkspace` and it's time to start the SDK and make use of the Mobile Center services.
 
@@ -164,7 +166,7 @@ MSAnalytics.trackEvent("Video clicked")
 
 ### Enable or disable Analytics
 
-You can change the enabled state of the Analytics module at runtime by calling the `setEnabled` method. If you disable it, the SDK will not collect any more analytics information for the app. To re-enable it, pass `true` as a parameter in the same method.
+You can change the enabled state of the Analytics service at runtime by calling the `setEnabled` method. If you disable it, the SDK will not collect any more analytics information for the app. To re-enable it, pass `true` as a parameter in the same method.
 
 **Objective-C**
 
@@ -178,7 +180,7 @@ You can change the enabled state of the Analytics module at runtime by calling t
 MSAnalytics.setEnabled(false)
 ```
 
-You can also check if the module is enabled or not using the `isEnabled` method:
+You can also check if the service is enabled or not using the `isEnabled` method:
 
 **Objective-C**
 
@@ -194,7 +196,7 @@ var enabled = MSAnalytics.isEnabled()
     
 ## 5. Crashes APIs
 
-Once you set up and start the Mobile Center SDK to use the Crashes module in your application, the SDK will automatically start logging any crashes in the devices local storage. When the user opens the application again after a crash, all pending crash logs will automatically be forwarded to Mobile Center and you can analyze the crash along with the stack trace on the Mobile Center portal. Refer to the section to [Start the SDK](#3-start-the-sdk) if you haven't done so already.
+Once you set up and start the Mobile Center SDK to use the Crashes service in your application, the SDK will automatically start logging any crashes in the devices local storage. When the user opens the application again after a crash, all pending crash logs will automatically be forwarded to Mobile Center and you can analyze the crash along with the stack trace on the Mobile Center portal. Refer to the section to [Start the SDK](#3-start-the-sdk) if you haven't done so already.
 
 ### Generate a test crash:
 The SDK provides you with a static API to generate a test crash for easy testing of the SDK:
@@ -245,9 +247,9 @@ MSErrorReport *crashReport = [MSCrashes lastSessionCrashReport];
 var crashReport = MSCrashes.lastSessionCrashReport()
 ```
 
-### Enable or disable the Crashes module
+### Enable or disable Crashes
 
-You can disable and opt out of using the Crashes module by calling the `setEnabled` API and the SDK will collect no more crashes for your app. Use the same API to re-enable it by passing `YES` or `true` as a parameter.
+You can disable and opt out of using Crashes by calling the `setEnabled` API and the SDK will collect no more crashes for your app. Use the same API to re-enable it by passing `YES` or `true` as a parameter.
 
 **Objective-C**
 
@@ -261,7 +263,7 @@ You can disable and opt out of using the Crashes module by calling the `setEnabl
 MSCrashes.setEnabled(false)
 ```
     
-You can also check if the module is enabled or not using the `isEnabled` method:
+You can also check if the service is enabled or not using the `isEnabled` method:
 
 **Objective-C**
 
@@ -279,7 +281,7 @@ var enabled = MSCrashes.isEnabled()
 
 If you are using the Crashes service, you can customize the way the SDK handles crashes. The `MSCrashesDelegate`-protocol describes methods to attach data to a crash, wait for user confirmation and register for callbacks that inform your app about the sending status.
 
-#### Register as a delegate. 
+#### Register as a delegate
 
  **Objective-C**
  
@@ -293,7 +295,7 @@ If you are using the Crashes service, you can customize the way the SDK handles 
 MSCrashes.setDelegate(self)
 ```
 
-The following delegate methods are provided.  
+The SDK provides the following delegate methods.  
     
 #### Should the crash be processed?
 
@@ -315,24 +317,41 @@ func crashes(_ crashes: MSCrashes!, shouldProcessErrorReport errorReport: MSErro
 }
 ```
         
-### User Confirmation
+#### User Confirmation
 
-If user privacy is important to you, you might want to get a user's confirmation before sending a crash report to Mobile Center. The SDK exposes a callbacks where you can tell it to await user confirmation before sending any crash reports. This requires two steps:
+If user privacy is important to you, you might want to get a user's confirmation before sending a crash report to Mobile Center. The SDK exposes a callbacks where you can tell it to await user confirmation before sending any crash reports. This requires at least one additional step.
 
-#### 1. Set a user confirmation handler.
+#### Step 1: Set a user confirmation handler.
 	
-Your app is responsible for obtaining confirmation, e.g. through a dialog prompt with one of these options - "Always Send", "Send", and "Don't send". You need inform the SDK about the users input and the crash will handled accordingly. The method takes a block as a parameter, use it to pass in your logic to present the UI to confirm a crash report.
+Your app is responsible for obtaining confirmation, e.g. through a dialog prompt with one of these options - "Always Send", "Send", and "Don't Send". You need inform the SDK about the users input and the crash will handled accordingly. The method takes a block as a parameter, use it to pass in your logic to present the UI to confirm a crash report. As of iOS 8, `UIAlertView` has been deprecated in favor of `UIAlertController`. MobileCenterCrashes itself does not contain logic to show a confirmation to the user, but our Sample apps `Puppet` and `Demo` include [a reference implementation](https://github.com/Microsoft/MobileCenter-SDK-iOS/tree/develop/Vendor/MSAlertController/MSAlertController.h) which will be used in the following code snippets. For a full implementation, clone this repo and check out our apps **Puppet** and **Demo** and copy `MSAlertViewController` to your app. 
 
 **Objective-C**
 	
 ```objectivec
-[MSCrashes setUserConfirmationHandler:(^(NSArray<MSErrorReport *> *errorReports) {
-	// Your code to present your UI to the user, e.g. an UIAlertView.
-	[[[UIAlertView alloc] initWithTitle:@"Sorry we crashed."
-	                            message:@"Do you want to send a report about the crash to the developer?"
-	                           delegate:self
-	                  cancelButtonTitle:@"Don't send"
-	                  otherButtonTitles:@"Always send", @"Send", nil] show];
+ // Use MSAlertViewController to show a dialog to the user where they can choose if they want to provide a crash report.
+MSAlertController *alertController = [MSAlertController alertControllerWithTitle:@"The app quit unexpectedly."
+                                                                         message:@"Would you like to send an anonymous report so we can fix the problem?"];
+
+// Add a "No"-Button and callthe notifyWithUserConfirmation-callback with MSUserConfirmationDontSend
+[alertController addCancelActionWithTitle:@"Don't Send"
+                                  handler:^(UIAlertAction *action) {
+                                      [MSCrashes notifyWithUserConfirmation:MSUserConfirmationDontSend];
+ 								   }];
+
+// Add a "Yes"-Button and callthe notifyWithUserConfirmation-callback with MSUserConfirmationSend
+[alertController addDefaultActionWithTitle:@"Send"
+                                   handler:^(UIAlertAction *action) {
+                                       [MSCrashes notifyWithUserConfirmation:MSUserConfirmationSend];
+								   }];
+
+// Add a "No"-Button and callthe notifyWithUserConfirmation-callback with MSUserConfirmationAlways
+[alertController addDefaultActionWithTitle:@"Always Send"
+                                   handler:^(UIAlertAction *action) {
+                                       [MSCrashes notifyWithUserConfirmation:MSUserConfirmationAlways];
+                                   }];
+// Show the alert controller.
+[alertController show];
+	
 	
 	// 2. You could also iterate over the array of error reports and base your decision on them.
 		
@@ -343,19 +362,33 @@ return YES; // Return YES if the SDK should await user confirmation, otherwise N
 **Swift**
 	
 ```swift
- // Crashes Delegate
 MSCrashes.setUserConfirmationHandler({ (errorReports: [MSErrorReport]) in
 	  
-	// Your code to present your UI to the user, e.g. an UIAlertView.
-	UIAlertView.init(title: "Sorry we crashed!", message: "Do you want to send a Crash Report?", delegate: self, cancelButtonTitle: "No", otherButtonTitles:"Always send", "Send").show()
+	// Present your UI to the user, e.g. an UIAlertView.
+
+   var alert = MSAlertController(title: "The app quit unexpectedly.",
+   										message: "Would you like to send an anonymous report so we can fix the problem?")            
+   
+   alert?.addDefaultAction(withTitle: "Yes", handler: {
+   		MSCrashes.notify(with: MSUserConfirmation.send)
+   })
+   
+   alert?.addDefaultAction(withTitle: "Always", handler: {
+       MSCrashes.notify(with: MSUserConfirmation.always)
+   })
+            
+   alert?.addCancelAction(withTitle: "No", handler: {
+       MSCrashes.notify(with: MSUserConfirmation.dontSend)
+   })
 	  
 	return true // Return true if the SDK should await user confirmation, otherwise return false.
 })
 ```
 
-#### 2. Inform the SDK about the user's choice.
+#### Step 2: If you are using a different approach than the MSAlertController to present UI to your user.
 	    
-If you return `YES`/`true` in step 1, your app should obtain user permission and message the SDK with the result using the following API. If you are using an alert for this, you would call it from within your implementation of the `alertView:clickedButtonAtIndex:`-callback.
+The code above already calls the `MSCrashes`-API to notify the crashes service about the users decision.
+If you are not using this implementation, make sure to return `YES`/`true` in step 1, present your custom UI to the user to obtain user permission and message the SDK with the result using the following API. If you are using a UIAlertView for this, you would call it from within your implementation of the `alertView:clickedButtonAtIndex:`-callback.
 
 **Objective-C**
 	
@@ -523,22 +556,18 @@ MSMobileCenter.setEnabled(false)
 * How long to wait for crashes to appear on the portal?   
   After restarting the app after the crash and with a working internet connection, the crash should appear on the portal within a few minutes. Note that the matching dSYM needs to be uploaded as well.
 
-* Do I need to include all the libraries? 
-  No, you can just include Mobile Center modules that interests you but the core module which contains logic for persistence, forwarding etc. is mandatory.
+* Do I need to include all the modules? 
+  No, you can just include Mobile Center modules that interests you but the `MobileCenter` module which contains logic for persistence, forwarding etc. is mandatory.
 
 * Can't see crashes on the portal?   
-   * Make sure SDK `start()` API is used correctly and Crashes module is initialized. Also, you need to restart the app after a crash and our SDK will forward the crash log only after it's restarted.
+   * Make sure SDK `start()` API is used correctly and Crashes service is initialized. Also, you need to restart the app after a crash and our SDK will forward the crash log only after it's restarted.
    * The user needs to upload the symbols that match the UUID of the build that triggered the crash.
    * Make sure your device is connected to a working internet.
    * Check if the App Secret used to start the SDK matches the App Secret in Mobile Center portal.
    * Don't use any other SDK that provides Crash Reporting functionality.
 
-* What data does SDK automatically collect for Analytics?
-
-* What permissions are required for the SDK?   
+* What permissions or entitlements are required for the SDK?   
   Mobile Center SDK requires no permissions to be set in your app.
-
-* Any privacy information tracked by SDK?
 
 
 

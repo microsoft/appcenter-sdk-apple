@@ -5,7 +5,7 @@ REPOSITORY="$(echo $GIT_REPOSITORY_URL | awk -F "[:]" '{print $2}' | awk -F "[.]
 GITHUB_API_URL_TEMPLATE="https://%s.github.com/repos/%s/%s?access_token=%s%s"
 GITHUB_API_HOST="api"
 GITHUB_UPLOAD_HOST="uploads"
-BINARY_FILE_FILTER="*.framework.zip"
+BINARY_FILE_FILTER="MobileCenter-SDK-iOS*.zip"
 JQ_COMMAND=$BITRISE_DEPLOY_DIR/jq
 
 # GitHub API endpoints
