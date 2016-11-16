@@ -6,6 +6,7 @@
 #import "MSCrashes.h"
 #import "MSException.h"
 #import "MSCrashesInternal.h"
+#import "MSStorage.h"
 
 @interface MSWrapperExceptionManager ()
 
@@ -13,6 +14,9 @@
 @property NSMutableDictionary *wrapperExceptionData;
 @property NSData *unsavedWrapperExceptionData;
 @property CFUUIDRef currentUUIDRef;
+
+@property NSString *dataFileExtension;
+@property NSString *directoryName;
 
 + (MSWrapperExceptionManager*)sharedInstance;
 - (BOOL)hasException;
@@ -35,22 +39,20 @@
 + (void)deleteFile:(NSString*)path;
 + (BOOL)isDataFile:(NSString*)path;
 + (NSString*)uuidRefToString:(CFUUIDRef)uuidRef;
-//+ (BOOL)isCurrentUUIDRef:(CFUUIDRef)uuidRef;
++ (BOOL)isCurrentUUIDRef:(CFUUIDRef)uuidRef;
 
 @end
-
-static NSString *const datExtension = @"dat";
-static NSString *const directoryName = @"wrapper_exceptions";
 
 @implementation MSWrapperExceptionManager : NSObject
 
 + (NSString*)directoryPath {
+
   static NSString* directoryPath = nil;
 
   if (!directoryPath) {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    directoryPath = [documentsDirectory stringByAppendingPathComponent:directoryName];
+    directoryPath = [documentsDirectory stringByAppendingPathComponent:[self sharedInstance].directoryName];
   }
 
   return directoryPath;
@@ -62,7 +64,7 @@ static NSString *const directoryName = @"wrapper_exceptions";
 
 + (NSString*)getDataFilename:(NSString*)uuidString {
   NSString *filename = [MSWrapperExceptionManager getFilename:uuidString];
-  return [filename stringByAppendingPathExtension:datExtension];
+  return [filename stringByAppendingPathExtension:[self sharedInstance].dataFileExtension];
 }
 
 + (NSString*)getFilenameWithUUIDRef:(CFUUIDRef)uuidRef {
@@ -76,7 +78,7 @@ static NSString *const directoryName = @"wrapper_exceptions";
 }
 
 + (BOOL) isDataFile:(NSString*)path {
-  return path ? [path hasSuffix:[@"" stringByAppendingPathExtension:datExtension]] : false;
+  return path ? [path hasSuffix:[@"" stringByAppendingPathExtension:[self sharedInstance].dataFileExtension]] : false;
 }
 
 #pragma mark - Public methods
@@ -133,11 +135,13 @@ static NSString *const directoryName = @"wrapper_exceptions";
     _wrapperException = nil;
     _wrapperExceptionData = [[NSMutableDictionary alloc] init];
     _currentUUIDRef = nil;
+    _directoryName = @"wrapper_exceptions";
+    _dataFileExtension = @"ms";
 
     // Create the directory if it doesn't exist
     NSFileManager *defaultManager = [NSFileManager defaultManager];
 
-    NSString *directoryPath = [MSWrapperExceptionManager directoryPath];
+    NSString *directoryPath = [[self class] directoryPath];
 
     if (![defaultManager fileExistsAtPath:directoryPath]) {
       NSError *error = nil;
@@ -169,11 +173,11 @@ static NSString *const directoryName = @"wrapper_exceptions";
 }
 
 - (MSException*)loadWrapperException:(CFUUIDRef)uuidRef {
-  if (_wrapperException && CFEqual(_currentUUIDRef, uuidRef)) {
+  if (_wrapperException && [[self class] isCurrentUUIDRef:uuidRef]) {
     return _wrapperException;
   }
 
-  NSString *filename = [MSWrapperExceptionManager getFilenameWithUUIDRef:uuidRef];
+  NSString *filename = [[self class] getFilenameWithUUIDRef:uuidRef];
   MSException *loadedException = [NSKeyedUnarchiver unarchiveObjectWithFile:filename];
 
   if (!loadedException) {
@@ -188,7 +192,7 @@ static NSString *const directoryName = @"wrapper_exceptions";
 }
 
 - (void)saveWrapperException:(CFUUIDRef)uuidRef {
-  NSString *filename = [MSWrapperExceptionManager getFilenameWithUUIDRef:uuidRef];
+  NSString *filename = [[self class] getFilenameWithUUIDRef:uuidRef];
   [self saveWrapperExceptionData:uuidRef];
   BOOL success = [NSKeyedArchiver archiveRootObject:_wrapperException toFile:filename];
   if (!success) {
@@ -198,9 +202,9 @@ static NSString *const directoryName = @"wrapper_exceptions";
 
 - (void)deleteWrapperExceptionWithUUID:(CFUUIDRef)uuidRef {
   NSString *path = [MSWrapperExceptionManager getFilenameWithUUIDRef:uuidRef];
-  [MSWrapperExceptionManager deleteFile:path];
+  [[self class]  deleteFile:path];
 
-  if (CFEqual(_currentUUIDRef, uuidRef)) {
+  if ([[self class] isCurrentUUIDRef:uuidRef]) {
     _currentUUIDRef = nil;
     _wrapperException = nil;
   }
@@ -211,23 +215,23 @@ static NSString *const directoryName = @"wrapper_exceptions";
   _wrapperException = nil;
 
   NSFileManager *fileManager = [NSFileManager defaultManager];
-  NSString *directoryPath = [MSWrapperExceptionManager directoryPath];
+  NSString *directoryPath = [[self class] directoryPath];
 
   for (NSString *filePath in [fileManager enumeratorAtPath:directoryPath]) {
-    if (![MSWrapperExceptionManager isDataFile:filePath]) {
+    if (![[self class]  isDataFile:filePath]) {
       NSString *path = [directoryPath stringByAppendingPathComponent:filePath];
-      [MSWrapperExceptionManager deleteFile:path];
+      [[self class]  deleteFile:path];
     }
   }
 }
 
 - (void)saveWrapperExceptionData:(CFUUIDRef)uuidRef {
-  NSString* dataFilename = [MSWrapperExceptionManager getDataFilenameWithUUIDRef:uuidRef];
+  NSString* dataFilename = [[self class] getDataFilenameWithUUIDRef:uuidRef];
   [_unsavedWrapperExceptionData writeToFile:dataFilename atomically:YES];
 }
 
 - (NSData*)loadWrapperExceptionDataWithUUIDString:(NSString*)uuidString {
-  NSString* dataFilename = [MSWrapperExceptionManager getDataFilename:uuidString];
+  NSString* dataFilename = [[self class] getDataFilename:uuidString];
   NSData *data = [_wrapperExceptionData objectForKey:dataFilename];
   if (data) {
     return data;
@@ -244,21 +248,21 @@ static NSString *const directoryName = @"wrapper_exceptions";
 }
 
 - (void)deleteWrapperExceptionDataWithUUIDString:(NSString*)uuidString {
-  NSString* dataFilename = [MSWrapperExceptionManager getDataFilename:uuidString];
+  NSString* dataFilename = [[self class] getDataFilename:uuidString];
   NSData *data = [self loadWrapperExceptionDataWithUUIDString:uuidString];
   if (data) {
     [_wrapperExceptionData setObject:data forKey:dataFilename];
   }
-  [MSWrapperExceptionManager deleteFile:dataFilename];
+  [[self class] deleteFile:dataFilename];
 }
 
 - (void)deleteAllWrapperExceptionData {
   NSFileManager *fileManager = [NSFileManager defaultManager];
-  NSString *directoryPath = [MSWrapperExceptionManager directoryPath];
+  NSString *directoryPath = [[self class] directoryPath];
   for (NSString *filePath in [fileManager enumeratorAtPath:directoryPath]) {
-    if ([MSWrapperExceptionManager isDataFile:filePath]) {
+    if ([[self class] isDataFile:filePath]) {
       NSString *path = [directoryPath stringByAppendingPathComponent:filePath];
-      [MSWrapperExceptionManager deleteFile:path];
+      [[self class] deleteFile:path];
     }
   }
 }
@@ -280,24 +284,24 @@ static NSString *const directoryName = @"wrapper_exceptions";
   return (__bridge_transfer NSString*)uuidStringRef;
 }
 
-//+ (BOOL)isCurrentUUIDRef:(CFUUIDRef)uuidRef {
-//  CFUUIDRef currentUUIDRef = [MSWrapperExceptionManager sharedInstance].currentUUIDRef;
-//
-//  BOOL currentUUIDRefIsNull = (currentUUIDRef == kCFNull);
-//  BOOL uuidRefIsNull = (uuidRef == kCFNull);
-//
-//  if (currentUUIDRefIsNull && uuidRefIsNull) {
-//    return true;
-//  }
-//  if (currentUUIDRefIsNull || uuidRefIsNull) {
-//    return false;
-//  }
-//
-//  // For whatever reason, CF
-//  NSString *uuidString = [MSWrapperExceptionManager uuidRefToString:uuidRef];
-//  NSString *currentUUIDString = [MSWrapperExceptionManager uuidRefToString:currentUUIDRef];
-//
-//  return [uuidString isEqualToString:currentUUIDString];
-//}
++ (BOOL)isCurrentUUIDRef:(CFUUIDRef)uuidRef {
+  CFUUIDRef currentUUIDRef = [self sharedInstance].currentUUIDRef;
+
+  BOOL currentUUIDRefIsNull = (currentUUIDRef == nil);
+  BOOL uuidRefIsNull = (uuidRef == nil);
+
+  if (currentUUIDRefIsNull && uuidRefIsNull) {
+    return true;
+  }
+  if (currentUUIDRefIsNull || uuidRefIsNull) {
+    return false;
+  }
+
+  // For whatever reason, CFEqual causes a crash, so we compare strings
+  NSString *uuidString = [self uuidRefToString:uuidRef];
+  NSString *currentUUIDString = [self uuidRefToString:currentUUIDRef];
+
+  return [uuidString isEqualToString:currentUUIDString];
+}
 
 @end
