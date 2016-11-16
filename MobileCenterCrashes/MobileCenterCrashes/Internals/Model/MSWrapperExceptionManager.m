@@ -15,8 +15,9 @@
 @property NSData *unsavedWrapperExceptionData;
 @property CFUUIDRef currentUUIDRef;
 
-@property NSString *dataFileExtension;
-@property NSString *directoryName;
+@property(class, readonly) NSString *dataFileExtension;
+@property(class, readonly) NSString *directoryName;
+@property(class, readonly) NSString *directoryPath;
 
 + (MSWrapperExceptionManager*)sharedInstance;
 - (BOOL)hasException;
@@ -43,19 +44,29 @@
 
 @end
 
+
+
 @implementation MSWrapperExceptionManager : NSObject
+
++ (NSString*)dataFileExtension {
+  return @"ms";
+}
+
++ (NSString*)directoryName {
+  return @"wrapper_exceptions";
+}
 
 + (NSString*)directoryPath {
 
-  static NSString* directoryPath = nil;
+  static NSString* path = nil;
 
-  if (!directoryPath) {
+  if (!path) {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    directoryPath = [documentsDirectory stringByAppendingPathComponent:[self sharedInstance].directoryName];
+    path = [documentsDirectory stringByAppendingPathComponent:[self directoryName]];
   }
 
-  return directoryPath;
+  return path;
 }
 
 + (NSString*)getFilename:(NSString*)uuidString {
@@ -64,7 +75,7 @@
 
 + (NSString*)getDataFilename:(NSString*)uuidString {
   NSString *filename = [MSWrapperExceptionManager getFilename:uuidString];
-  return [filename stringByAppendingPathExtension:[self sharedInstance].dataFileExtension];
+  return [filename stringByAppendingPathExtension:[self dataFileExtension]];
 }
 
 + (NSString*)getFilenameWithUUIDRef:(CFUUIDRef)uuidRef {
@@ -78,7 +89,7 @@
 }
 
 + (BOOL) isDataFile:(NSString*)path {
-  return path ? [path hasSuffix:[@"" stringByAppendingPathExtension:[self sharedInstance].dataFileExtension]] : false;
+  return path ? [path hasSuffix:[@"" stringByAppendingPathExtension:[self dataFileExtension]]] : false;
 }
 
 #pragma mark - Public methods
@@ -135,23 +146,19 @@
     _wrapperException = nil;
     _wrapperExceptionData = [[NSMutableDictionary alloc] init];
     _currentUUIDRef = nil;
-    _directoryName = @"wrapper_exceptions";
-    _dataFileExtension = @"ms";
 
     // Create the directory if it doesn't exist
     NSFileManager *defaultManager = [NSFileManager defaultManager];
 
-    NSString *directoryPath = [[self class] directoryPath];
-
-    if (![defaultManager fileExistsAtPath:directoryPath]) {
+    if (![defaultManager fileExistsAtPath:[[self class] directoryPath]]) {
       NSError *error = nil;
-      [defaultManager createDirectoryAtPath:directoryPath
+      [defaultManager createDirectoryAtPath:[[self class] directoryPath]
                 withIntermediateDirectories:NO
                                  attributes:nil
                                       error:&error];
       if (error) {
         MSLogError([MSCrashes getLoggerTag], @"Failed to create directory %@: %@",
-                   directoryPath, error.localizedDescription);
+                   [[self class] directoryPath], error.localizedDescription);
       }
     }
   }
@@ -215,11 +222,10 @@
   _wrapperException = nil;
 
   NSFileManager *fileManager = [NSFileManager defaultManager];
-  NSString *directoryPath = [[self class] directoryPath];
 
-  for (NSString *filePath in [fileManager enumeratorAtPath:directoryPath]) {
+  for (NSString *filePath in [fileManager enumeratorAtPath:[[self class] directoryPath]]) {
     if (![[self class]  isDataFile:filePath]) {
-      NSString *path = [directoryPath stringByAppendingPathComponent:filePath];
+      NSString *path = [[[self class] directoryPath] stringByAppendingPathComponent:filePath];
       [[self class]  deleteFile:path];
     }
   }
@@ -258,10 +264,9 @@
 
 - (void)deleteAllWrapperExceptionData {
   NSFileManager *fileManager = [NSFileManager defaultManager];
-  NSString *directoryPath = [[self class] directoryPath];
-  for (NSString *filePath in [fileManager enumeratorAtPath:directoryPath]) {
+  for (NSString *filePath in [fileManager enumeratorAtPath:[[self class] directoryPath]]) {
     if ([[self class] isDataFile:filePath]) {
-      NSString *path = [directoryPath stringByAppendingPathComponent:filePath];
+      NSString *path = [[[self class] directoryPath] stringByAppendingPathComponent:filePath];
       [[self class] deleteFile:path];
     }
   }
