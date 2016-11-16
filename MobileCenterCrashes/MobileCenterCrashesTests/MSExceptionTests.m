@@ -45,7 +45,8 @@
   assertThat(actual, instanceOf([MSException class]));
 
   MSException *actualException = actual;
-  assertThat(actual, equalTo(sut));
+
+  assertThat(actualException, equalTo(sut));
 
   assertThat(actualException.type, equalTo(sut.type));
   assertThat(actualException.message, equalTo(sut.message));
