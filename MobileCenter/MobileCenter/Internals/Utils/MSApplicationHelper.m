@@ -2,7 +2,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "MSApplicationHelper.h"
+#import "MSApplicationHelperPrivate.h"
 #import "MSUtils.h"
 #import <Foundation/Foundation.h>
 

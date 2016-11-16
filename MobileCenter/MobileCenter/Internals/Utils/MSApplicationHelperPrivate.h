@@ -15,6 +15,6 @@
  * application states.
  * @return The shared app state.
  */
-+ (UIApplication *)sharedAppState;
++ (UIApplicationState)sharedAppState;
 
 @end
