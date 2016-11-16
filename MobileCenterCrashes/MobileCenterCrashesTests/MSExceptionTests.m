@@ -45,6 +45,33 @@
   assertThat(actual, instanceOf([MSException class]));
 
   MSException *actualException = actual;
+
+  assertThat(actualException.type, equalTo(sut.type));
+  assertThat(actualException.message, equalTo(sut.message));
+  assertThat(actualException.wrapperSdkName, equalTo(sut.wrapperSdkName));
+  assertThatInteger(actualException.frames.count, equalToInteger(1));
+  assertThat(actualException.frames.firstObject.address, equalTo(@"frameAddress"));
+  assertThat(actualException.frames.firstObject.code, equalTo(@"frameSymbol"));
+}
+
+- (void)testExceptionEquality {
+
+  // If
+  MSException *sut = [MSCrashesTestHelper exception];
+
+  // When
+  NSData *serializedEvent =
+  [NSKeyedArchiver archivedDataWithRootObject:sut];
+  id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedEvent];
+
+  // Then
+  assertThat(actual, notNilValue());
+  assertThat(actual, instanceOf([MSException class]));
+
+  MSException *actualException = actual;
+
+  assertThat(actual, equalTo(sut));
+
   assertThat(actualException.type, equalTo(sut.type));
   assertThat(actualException.message, equalTo(sut.message));
   assertThat(actualException.wrapperSdkName, equalTo(sut.wrapperSdkName));
