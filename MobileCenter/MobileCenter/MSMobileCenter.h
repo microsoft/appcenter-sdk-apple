@@ -18,33 +18,35 @@
 + (instancetype)sharedInstance;
 
 /**
- * Start the SDK.
+ * Configure the SDK.
  *
- * @param appSecret application secret.
+ * @discussion This may be called only once per application process lifetime.
+ * @param appSecret A unique and secret key used to identify the application.
  */
-+ (void)start:(NSString *)appSecret;
++ (void)configureWithAppSecret:(NSString *)appSecret;
 
 /**
- * Start the SDK with services.
+ * Configure the SDK with an application secret and an array of services to start.
  *
- * @param appSecret Application secret.
- * @param services  Array of services to be used.
+ * @discussion This may be called only once per application process lifetime.
+ * @param appSecret A unique and secret key used to identify the application.
+ * @param services  Array of services to start.
  */
 + (void)start:(NSString *)appSecret withServices:(NSArray<Class> *)services;
 
 /**
  * Start a service.
- *
- * @param service  A service to be used.
+ * @discussion This may be called only once per service per application process lifetime.
+ * @param service  A service to start.
  */
 + (void)startService:(Class)service;
 
 /**
- * Check whether the SDK has already been initialized or not.
+ * Check whether the SDK has already been configured or not.
  *
- * @return YES if initialized, NO otherwise.
+ * @return YES if configured, NO otherwise.
  */
-+ (BOOL)isInitialized;
++ (BOOL)isConfigured;
 
 /**
  * Change the base URL (schema + authority + port only) used to communicate with the backend.
@@ -54,8 +56,8 @@
 + (void)setServerUrl:(NSString *)serverUrl;
 
 /**
- * Enable or disable the SDK as a whole. In addition to the core resources, it will also enable or disable all
- * registered services.
+ * Enable or disable the SDK as a whole. In addition to the MobileCenter module resources, it will also enable or
+ * disable all registered services.
  *
  * @param isEnabled YES to enable, NO to disable.
  * @see isEnabled
@@ -63,7 +65,7 @@
 + (void)setEnabled:(BOOL)isEnabled;
 
 /**
- *  Check whether the SDK is enabled or not as a whole.
+ * Check whether the SDK is enabled or not as a whole.
  *
  * @return YES if enabled, NO otherwise.
  * @see setEnabled:
@@ -117,7 +119,6 @@
 /**
  * Method to reset the singleton when running unit tests only. So calling sharedInstance returns a fresh instance.
  */
-+(void)resetSharedInstance;
-
++ (void)resetSharedInstance;
 
 @end
