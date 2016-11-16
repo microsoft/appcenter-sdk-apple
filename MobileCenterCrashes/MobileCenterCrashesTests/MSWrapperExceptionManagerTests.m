@@ -57,23 +57,25 @@
   CFRelease(uuidRef);
 }
 
-- (void)testWrapperExceptionDataDiskOperations {
+- (void)testWrapperExceptionNoDataDiskOperations {
+  MSException *anEx = [self anException];
+  [MSWrapperExceptionManager setWrapperException:anEx];
   [MSWrapperExceptionManager setWrapperExceptionData:[self someData]];
-  [MSWrapperExceptionManager setWrapperException:[self anException]];
 
   CFUUIDRef uuidRef = CFUUIDCreate(kCFAllocatorDefault);
 
   [MSWrapperExceptionManager saveWrapperException:uuidRef];
-  [MSWrapperExceptionManager saveWrapperExceptionData:uuidRef];
+  MSException *exception = [MSWrapperExceptionManager loadWrapperException:uuidRef];
 
+  assert([exception isEqual:anEx]);
 
-  NSString *uuidString = [self uuidRefToString:uuidRef];
-
-  NSData* data =  [MSWrapperExceptionManager loadWrapperExceptionDataWithUUIDString:uuidString];
+  NSData* data = [MSWrapperExceptionManager loadWrapperExceptionDataWithUUIDString:[self uuidRefToString:uuidRef]];
   assert([data isEqualToData:[self someData]]);
 
-  [MSWrapperExceptionManager deleteWrapperExceptionDataWithUUIDString:uuidString];
-  assert([data isEqualToData:[self someData]]);
+  [MSWrapperExceptionManager deleteWrapperExceptionWithUUID:uuidRef];
+  exception = [MSWrapperExceptionManager loadWrapperException:uuidRef];
+
+  assert(exception == nil);
 
   CFRelease(uuidRef);
 }
