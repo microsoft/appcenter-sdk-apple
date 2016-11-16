@@ -154,7 +154,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
   }
 
   // Validate and set the app secret.
-  else if ([appSecret length] == 0 || ![[NSUUID alloc] initWithUUIDString:appSecret]) {
+  else if ([appSecret length] == 0) {
     MSLogAssert([MSMobileCenter getLoggerTag], @"AppSecret is invalid.");
   }
 
@@ -268,7 +268,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
   // Construct http headers.
   NSDictionary *headers = @{
     kMSHeaderContentTypeKey : kMSContentType,
-    kMSHeaderAppSecretKey : _appSecret,
+    kMSHeaderAppSecretKey : self.appSecret,
     kMSHeaderInstallIDKey : [self.installId UUIDString]
   };
 
