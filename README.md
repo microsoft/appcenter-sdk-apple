@@ -64,13 +64,12 @@ Now that you've integrated the frameworks in your application, it's time to star
 
 	```ruby
  # Use the following line to use all services.
-  pod 'MobileCenter', :podspec => 'https://mobilecentersdkdev.blob.core.windows.net/sdk/MobileCenter.podspec'
+  pod 'MobileCenter'
 	  
  # Use the following lines if you want to specify the individual services you want to use.
-pod 'MobileCenter/MobileCenterAnalytics', :podspec => 'https://mobilecentersdkdev.blob.core.windows.net/sdk/MobileCenter.podspec'
-pod 'MobileCenter/MobileCenterCrashes', :podspec => 'https://mobilecentersdkdev.blob.core.windows.net/sdk/MobileCenter.podspec'
-	
-	```
+pod 'MobileCenter/MobileCenterAnalytics'
+pod 'MobileCenter/MobileCenterCrashes'	
+```
 	
 	**NOTE:** If you are using the individual subspecs, you don't need to include `MobileCenter/MobileCenter' separately as the other subspecs will pull in this as a dependency anyway.
 
