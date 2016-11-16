@@ -1,4 +1,5 @@
 [![Build Status](https://www.bitrise.io/app/e5b1a2ef546331fb.svg?token=Orwi_AVAExLTuN1ZAzvbFQ&branch=develop)](https://www.bitrise.io/app/e5b1a2ef546331fb)
+[![codecov](https://codecov.io/gh/Microsoft/MobileCenter-SDK-iOS/branch/develop/graph/badge.svg?token=6dlCB5riVi)](https://codecov.io/gh/Microsoft/MobileCenter-SDK-iOS)
 
 # Mobile Center SDK for iOS
 
