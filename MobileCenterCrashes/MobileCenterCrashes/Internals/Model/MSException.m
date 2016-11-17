@@ -55,10 +55,10 @@ static NSString *const kMSInnerExceptions = @"inner_exceptions";
   return ((!self.type && !exception.type) || [self.type isEqualToString:exception.type]) &&
   ((!self.wrapperSdkName && !exception.wrapperSdkName) ||
    [self.wrapperSdkName isEqualToString:exception.wrapperSdkName]) &&
-  ((!self.message && !exception.message) || [self.type isEqualToString:exception.message]) &&
+  ((!self.message && !exception.message) || [self.message isEqualToString:exception.message]) &&
   ((!self.frames && !exception.frames) || [self.frames isEqualToArray:exception.frames]) &&
   ((!self.innerExceptions && !exception.innerExceptions) ||
-   [self.innerExceptions isEqual:exception.innerExceptions]);
+   [self.innerExceptions isEqualToArray:exception.innerExceptions]);
 }
 
 #pragma mark - NSCoding
