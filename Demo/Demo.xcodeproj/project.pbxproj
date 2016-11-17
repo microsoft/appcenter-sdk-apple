@@ -127,6 +127,7 @@
 		6E2307CD1D22083C0031C598 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = MS;
 				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = Microsoft;
 				TargetAttributes = {

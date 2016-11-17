@@ -7,24 +7,26 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <CrashLibIOS/CRLCrash.h>
-#import <CrashLibIOS/CRLCrashNULL.h>
-#import <CrashLibIOS/CRLCrashGarbage.h>
-#import <CrashLibIOS/CRLCrashROPage.h>
-#import <CrashLibIOS/CRLCrashNXPage.h>
-#import <CrashLibIOS/CRLCrashUndefInst.h>
-#import <CrashLibIOS/CRLCrashPrivInst.h>
-#import <CrashLibIOS/CRLCrashAbort.h>
-#import <CrashLibIOS/CRLCrashTrap.h>
-#import <CrashLibIOS/CRLCrashObjCException.h>
-#import <CrashLibIOS/CRLCrashCXXException.h>
-#import <CrashLibIOS/CRLCrashReleasedObject.h>
-#import <CrashLibIOS/CRLCrashObjCMsgSend.h>
-#import <CrashLibIOS/CRLCrashCorruptMalloc.h>
-#import <CrashLibIOS/CRLCrashSmashStackTop.h>
-#import <CrashLibIOS/CRLCrashSmashStackBottom.h>
-#import <CrashLibIOS/CRLCrashCorruptObjC.h>
-#import <CrashLibIOS/CRLCrashNSLog.h>
-#import <CrashLibIOS/CRLCrashAsyncSafeThread.h>
-#import <CrashLibIOS/CRLCrashOverwriteLinkRegister.h>
-#import <CrashLibIOS/CRLCrashStackGuard.h>
+
+
+#import "CRLCrash.h"
+#import "CRLCrashNULL.h"
+#import "CRLCrashGarbage.h"
+#import "CRLCrashROPage.h"
+#import "CRLCrashNXPage.h"
+#import "CRLCrashUndefInst.h"
+#import "CRLCrashPrivInst.h"
+#import "CRLCrashAbort.h"
+#import "CRLCrashTrap.h"
+#import "CRLCrashObjCException.h"
+#import "CRLCrashCXXException.h"
+#import "CRLCrashReleasedObject.h"
+#import "CRLCrashObjCMsgSend.h"
+#import "CRLCrashCorruptMalloc.h"
+#import "CRLCrashSmashStackTop.h"
+#import "CRLCrashSmashStackBottom.h"
+#import "CRLCrashCorruptObjC.h"
+#import "CRLCrashNSLog.h"
+#import "CRLCrashAsyncSafeThread.h"
+#import "CRLCrashOverwriteLinkRegister.h"
+#import "CRLCrashStackGuard.h"
