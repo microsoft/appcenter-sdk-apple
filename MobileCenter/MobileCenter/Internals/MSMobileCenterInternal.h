@@ -34,7 +34,7 @@ static NSString *const kMSMobileCenterIsEnabledKey = @"MSMobileCenterIsEnabled";
 - (NSString *)apiVersion;
 
 /**
- * Enable or disable the SDK as a whole. In addition to the MobileCenter module resources, it will also enable or
+ * Enable or disable the SDK as a whole. In addition to MobileCenter resources, it will also enable or
  * disable all registered services.
  *
  * @param isEnabled YES to enable, NO to disable.
@@ -51,9 +51,9 @@ static NSString *const kMSMobileCenterIsEnabledKey = @"MSMobileCenterIsEnabled";
 - (BOOL)isEnabled;
 
 /**
- * Get the logger tag for the MobileCenter module.
+ * Get the logger tag for the MobileCenter service.
  *
- * @return A name of logger tag for the MobileCenter module.
+ * @return A name of logger tag for the MobileCenter service.
  */
 + (NSString *)getLoggerTag;
 
