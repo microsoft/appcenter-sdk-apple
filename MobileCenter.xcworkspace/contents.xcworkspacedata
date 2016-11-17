@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workspace
    version = "1.0">
+   <Group
+      location = "container:"
+      name = "Vendor">
+   </Group>
    <FileRef
       location = "group:CrashLibIOS/CrashLibIOS.xcodeproj">
    </FileRef>
@@ -20,6 +24,6 @@
       location = "group:Demo/Demo.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:SwiftDemo/SwiftDemo.xcodeproj">
+      location = "group:Puppet/Puppet/../../SwiftDemo/SwiftDemo.xcodeproj">
    </FileRef>
 </Workspace>

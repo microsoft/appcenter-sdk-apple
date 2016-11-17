@@ -1,4 +1,5 @@
 [![Build Status](https://www.bitrise.io/app/e5b1a2ef546331fb.svg?token=Orwi_AVAExLTuN1ZAzvbFQ&branch=develop)](https://www.bitrise.io/app/e5b1a2ef546331fb)
+[![codecov](https://codecov.io/gh/Microsoft/MobileCenter-SDK-iOS/branch/develop/graph/badge.svg?token=6dlCB5riVi)](https://codecov.io/gh/Microsoft/MobileCenter-SDK-iOS)
 
 # Mobile Center SDK for iOS
 
@@ -29,7 +30,7 @@ Before you begin, please make sure that the following prerequisites are met:
 * An iOS project that is set up in Xcode 8.0 on macOS 10.11 or later.
 * The minimum OS target supported by the Mobile Center SDK is iOS 8.0 or later.
 * If you are using cocoapods, please use cocoapods 1.1.1 or later.
-* This readme assumes that you are using Swift 3 syntax and want to integrate all services.
+* This readme assumes that you are using Objective-C or Swift 3 syntax and that you want to integrate all services.
 
 ## 2. Integrate the SDK
 
@@ -64,13 +65,12 @@ Now that you've integrated the frameworks in your application, it's time to star
 
 	```ruby
  # Use the following line to use all services.
-  pod 'MobileCenter', :podspec => 'https://mobilecentersdkdev.blob.core.windows.net/sdk/MobileCenter.podspec'
+  pod 'MobileCenter'
 	  
  # Use the following lines if you want to specify the individual services you want to use.
-pod 'MobileCenter/MobileCenterAnalytics', :podspec => 'https://mobilecentersdkdev.blob.core.windows.net/sdk/MobileCenter.podspec'
-pod 'MobileCenter/MobileCenterCrashes', :podspec => 'https://mobilecentersdkdev.blob.core.windows.net/sdk/MobileCenter.podspec'
-	
-	```
+pod 'MobileCenter/MobileCenterAnalytics'
+pod 'MobileCenter/MobileCenterCrashes'	
+```
 	
 	**NOTE:** If you are using the individual subspecs, you don't need to include `MobileCenter/MobileCenter' separately as the other subspecs will pull in this as a dependency anyway.
 
@@ -551,12 +551,12 @@ MSMobileCenter.setEnabled(false)
         
 ## 7. Troubleshooting
 
-* How long to wait for Analytics data to appear on the portal?  
-
 * How long to wait for crashes to appear on the portal?   
+  
   After restarting the app after the crash and with a working internet connection, the crash should appear on the portal within a few minutes. Note that the matching dSYM needs to be uploaded as well.
 
 * Do I need to include all the modules? 
+  
   No, you can just include Mobile Center modules that interests you but the `MobileCenter` module which contains logic for persistence, forwarding etc. is mandatory.
 
 * Can't see crashes on the portal?   
@@ -567,6 +567,7 @@ MSMobileCenter.setEnabled(false)
    * Don't use any other SDK that provides Crash Reporting functionality.
 
 * What permissions or entitlements are required for the SDK?   
+  
   Mobile Center SDK requires no permissions to be set in your app.
 
 

@@ -5,7 +5,7 @@ sdk: iphonesimulator
 theme: ../Themes/apple
 
 module: Crashes
-module_version: 0.3.0
+module_version: 0.3.1
 author: Microsoft Corp
 author_url: http://www.microsoft.com
 
@@ -20,7 +20,7 @@ umbrella_header: ../../MobileCenter-SDK-iOS/MobileCenterCrashes.framework/Header
 framework_root: ../../MobileCenter-SDK-iOS
 exclude: [../../MobileCenter-SDK-iOS/MobileCenterCrashes.framework/Headers/MSService.h, ../../MobileCenter-SDK-iOS/MobileCenterCrashes.framework/Headers/MSServiceAbstract.h]
 
-root_url: http://docs.mobile.azure.com/sdk/ios/0.2.0
+root_url: http://docs.mobile.azure.com/sdk/ios
 github_url: https://github.com/Microsoft/MobileCenter-SDK-iOS
 github_file_prefix: "https://github.com/Microsoft/MobileCenter-SDK-iOS"
 

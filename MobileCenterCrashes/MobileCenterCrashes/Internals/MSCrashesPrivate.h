@@ -3,12 +3,11 @@
  */
 
 #import "MSCrashes.h"
-#import "MSServiceInternal.h"
 #import <CrashReporter/CrashReporter.h>
 
 @class MSMPLCrashReporter;
 
-@interface MSCrashes () <MSServiceInternal>
+@interface MSCrashes ()
 
 /**
  * Prototype of a callback function used to execute additional user code. Called
