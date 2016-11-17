@@ -11,7 +11,7 @@
 		6EC99A211D4151A00016C325 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A201D4151A00016C325 /* CrashReporter.framework */; };
 		6EC99A281D4152FA0016C325 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A271D4152FA0016C325 /* libc++.tbd */; };
 		B25DE7801DD2A9DB00B17EB6 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B25DE77F1DD2A9DB00B17EB6 /* CrashLibIOS.framework */; };
-B27DCBA51DDA96DA00B97C84 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = B27DCBA41DDA96DA00B97C84 /* MSAlertController.m */; };
+		B27DCBA51DDA96DA00B97C84 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = B27DCBA41DDA96DA00B97C84 /* MSAlertController.m */; };
 		E82E1B641D1CA58D00D281C1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E82E1B631D1CA58D00D281C1 /* main.m */; };
 		E82E1B671D1CA58D00D281C1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E82E1B661D1CA58D00D281C1 /* AppDelegate.m */; };
 		E82E1B6D1D1CA58D00D281C1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E82E1B6B1D1CA58D00D281C1 /* Main.storyboard */; };
@@ -98,7 +98,7 @@ B27DCBA51DDA96DA00B97C84 /* MSAlertController.m in Sources */ = {isa = PBXBuildF
 		6EC99A251D4152EB0016C325 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		6EC99A271D4152FA0016C325 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		B25DE77F1DD2A9DB00B17EB6 /* CrashLibIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashLibIOS.framework; path = "../../../../Library/Developer/Xcode/DerivedData/MobileCenter-cgrgerjiehhbzxcglbvbtfnfvplu/Build/Products/Debug-iphonesimulator/CrashLibIOS.framework"; sourceTree = "<group>"; };
-B27DCBA31DDA96DA00B97C84 /* MSAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSAlertController.h; path = ../../Vendor/MSAlertController/MSAlertController.h; sourceTree = "<group>"; };
+		B27DCBA31DDA96DA00B97C84 /* MSAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSAlertController.h; path = ../../Vendor/MSAlertController/MSAlertController.h; sourceTree = "<group>"; };
 		B27DCBA41DDA96DA00B97C84 /* MSAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSAlertController.m; path = ../../Vendor/MSAlertController/MSAlertController.m; sourceTree = "<group>"; };
 		E82E1B5F1D1CA58D00D281C1 /* Puppet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Puppet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E82E1B631D1CA58D00D281C1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -152,21 +152,21 @@ B27DCBA31DDA96DA00B97C84 /* MSAlertController.h */ = {isa = PBXFileReference; fi
 			name = Vendor;
 			sourceTree = "<group>";
 		};
-		B25DE77E1DD2A9DB00B17EB6 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				B25DE77F1DD2A9DB00B17EB6 /* CrashLibIOS.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-B25D927F1DDA75F50077B73D /* MSAlertController */ = {
+		B25D927F1DDA75F50077B73D /* MSAlertController */ = {
 			isa = PBXGroup;
 			children = (
 				B27DCBA31DDA96DA00B97C84 /* MSAlertController.h */,
 				B27DCBA41DDA96DA00B97C84 /* MSAlertController.m */,
 			);
 			name = MSAlertController;
+			sourceTree = "<group>";
+		};
+		B25DE77E1DD2A9DB00B17EB6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B25DE77F1DD2A9DB00B17EB6 /* CrashLibIOS.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		E82E1B561D1CA58D00D281C1 = {
@@ -193,7 +193,7 @@ B25D927F1DDA75F50077B73D /* MSAlertController */ = {
 			children = (
 				B25D927E1DDA75EA0077B73D /* Vendor */,
 				E89E6A271D396D6700CAA2CD /* Classes */,
-				E82E1B7B1D1CA61000D281C1 /* Sonoma */,
+				E82E1B7B1D1CA61000D281C1 /* MobileCenter */,
 				6EC99A161D4151890016C325 /* Frameworks */,
 				E82E1B621D1CA58D00D281C1 /* Supporting Files */,
 			);
@@ -213,14 +213,14 @@ B25D927F1DDA75F50077B73D /* MSAlertController */ = {
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		E82E1B7B1D1CA61000D281C1 /* Sonoma */ = {
+		E82E1B7B1D1CA61000D281C1 /* MobileCenter */ = {
 			isa = PBXGroup;
 			children = (
 				E85547FB1D2D6C8D002DF6E2 /* MobileCenterAnalytics.xcodeproj */,
 				E82E1B821D1CA63000D281C1 /* MobileCenter.xcodeproj */,
 				E82E1B7C1D1CA62900D281C1 /* MobileCenterCrashes.xcodeproj */,
 			);
-			name = Sonoma;
+			name = MobileCenter;
 			sourceTree = "<group>";
 		};
 		E82E1B7D1D1CA62900D281C1 /* Products */ = {
@@ -300,7 +300,7 @@ B25D927F1DDA75F50077B73D /* MSAlertController */ = {
 				TargetAttributes = {
 					E82E1B5E1D1CA58D00D281C1 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = L4RARDNZ2Y;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -543,6 +543,7 @@ B25D927F1DDA75F50077B73D /* MSAlertController */ = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../Vendor\"/**",
 					"\"$(SRCROOT)/CrashLibIOS\"",
@@ -565,6 +566,7 @@ B25D927F1DDA75F50077B73D /* MSAlertController */ = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../Vendor\"/**",
 					"\"$(SRCROOT)/CrashLibIOS\"",
