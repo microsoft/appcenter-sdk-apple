@@ -43,8 +43,7 @@ static NSString *MSMissedPageViewName;
     pageViewName = [[pageViewName componentsSeparatedByString:@"."] lastObject];
 
     // Remove suffix if any.
-    if ([pageViewName hasSuffix:kMSViewControllerSuffix] &&
-        [pageViewName length] > [kMSViewControllerSuffix length]) {
+    if ([pageViewName hasSuffix:kMSViewControllerSuffix] && [pageViewName length] > [kMSViewControllerSuffix length]) {
       pageViewName = [pageViewName substringToIndex:[pageViewName length] - [kMSViewControllerSuffix length]];
     }
 
@@ -59,7 +58,7 @@ static NSString *MSMissedPageViewName;
     } else {
 
       // Store the page name for retroactive tracking.
-      // For instance if the module becomes enabled after the view appeared.
+      // For instance if the service becomes enabled after the view appeared.
       MSMissedPageViewName = pageViewName;
     }
   }

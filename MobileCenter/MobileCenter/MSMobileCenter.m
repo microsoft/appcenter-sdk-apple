@@ -212,22 +212,22 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 }
 
 - (void)setEnabled:(BOOL)isEnabled {
+  self.enabledStateUpdating = YES;
   if ([self isEnabled] != isEnabled) {
-    self.enabledStateUpdating = YES;
 
     // Enable/disable pipeline.
     [self applyPipelineEnabledState:isEnabled];
 
-    // Propagate enable/disable on all services.
-    for (id<MSServiceInternal> service in self.services) {
-      [[service class] setEnabled:isEnabled];
-    }
-
     // Persist the enabled status.
     [kMSUserDefaults setObject:[NSNumber numberWithBool:isEnabled] forKey:kMSMobileCenterIsEnabledKey];
-    self.enabledStateUpdating = NO;
   }
-  MSLogInfo([MSMobileCenter getLoggerTag], @"Mobile Center SDK has been %@.", isEnabled ? @"enabled" : @"disabled");
+
+  // Propagate enable/disable on all services.
+  for (id<MSServiceInternal> service in self.services) {
+    [[service class] setEnabled:isEnabled];
+  }
+  self.enabledStateUpdating = NO;
+  MSLogInfo([MSMobileCenter getLoggerTag], @"Mobile Center SDK %@.", isEnabled ? @"enabled" : @"disabled");
 }
 
 - (BOOL)isEnabled {

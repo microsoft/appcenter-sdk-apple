@@ -56,7 +56,7 @@
 + (void)setServerUrl:(NSString *)serverUrl;
 
 /**
- * Enable or disable the SDK as a whole. In addition to the MobileCenter module resources, it will also enable or
+ * Enable or disable the SDK as a whole. In addition to MobileCenter resources, it will also enable or
  * disable all registered services.
  *
  * @param isEnabled YES to enable, NO to disable.
