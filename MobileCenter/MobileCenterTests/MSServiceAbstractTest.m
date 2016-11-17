@@ -3,6 +3,7 @@
 #import "MSLogManagerDefault.h"
 #import "MSMobileCenter.h"
 #import "MSMobileCenterInternal.h"
+#import "MSMobileCenterPrivate.h"
 #import "MSServiceAbstract.h"
 #import "MSServiceAbstractInternal.h"
 #import "MSServiceAbstractPrivate.h"

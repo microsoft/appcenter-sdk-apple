@@ -7,6 +7,7 @@
 #import "MSLogManagerDefault.h"
 #import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
+#import "MSMobileCenterPrivate.h"
 #import <UIKit/UIKit.h>
 #import <sys/sysctl.h>
 
