@@ -550,12 +550,12 @@ MSMobileCenter.setEnabled(false)
         
 ## 7. Troubleshooting
 
-* How long to wait for Analytics data to appear on the portal?  
-
 * How long to wait for crashes to appear on the portal?   
+  
   After restarting the app after the crash and with a working internet connection, the crash should appear on the portal within a few minutes. Note that the matching dSYM needs to be uploaded as well.
 
 * Do I need to include all the modules? 
+  
   No, you can just include Mobile Center modules that interests you but the `MobileCenter` module which contains logic for persistence, forwarding etc. is mandatory.
 
 * Can't see crashes on the portal?   
@@ -566,6 +566,7 @@ MSMobileCenter.setEnabled(false)
    * Don't use any other SDK that provides Crash Reporting functionality.
 
 * What permissions or entitlements are required for the SDK?   
+  
   Mobile Center SDK requires no permissions to be set in your app.
 
 
