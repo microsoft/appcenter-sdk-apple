@@ -42,7 +42,7 @@ You can either integrate the MobileCenter SDK by adding it's binaries to your Xc
 
 Below are the steps on how to integrate the compiled libraries in your Xcode project to setup the Mobile Center SDK for your iOS app.
 
-1. Download the [Mobile Center SDK](https://aka.ms/ehvc9e) frameworks provided as a zip file.
+1. Download the [Mobile Center SDK](https://github.com/Microsoft/MobileCenter-SDK-iOS/releases) frameworks provided as a zip file.
 
 2. Unzip the file and you will see different frameworks for each Mobile Center service. There is a framework called `MobileCenter`, which is required in the project as it contains the logic for persistence, forwarding,... . 
 
