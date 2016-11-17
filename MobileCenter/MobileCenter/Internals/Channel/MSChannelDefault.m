@@ -103,7 +103,7 @@
     }
 
     // Save the log first.
-    MSLogInfo([MSMobileCenter getLoggerTag], @"Saving log, type: %@.", item.type);
+    MSLogDebug([MSMobileCenter getLoggerTag], @"Saving log, type: %@.", item.type);
     [self.storage saveLog:item withStorageKey:self.configuration.name];
     _itemsCount += 1;
     if (completion)
@@ -154,7 +154,7 @@
                    self.pendingBatchQueueFull = YES;
                  }
                  MSLogContainer *container = [[MSLogContainer alloc] initWithBatchId:batchId andLogs:logArray];
-                 MSLogInfo([MSMobileCenter getLoggerTag], @"Sending log(s), batch Id:%@, payload:\n %@", batchId,
+                 MSLogDebug([MSMobileCenter getLoggerTag], @"Sending log(s), batch Id:%@, payload:\n %@", batchId,
                             [container serializeLogWithPrettyPrinting:YES]);
 
                  // Notify delegates.
@@ -174,7 +174,7 @@
 
                           // Success.
                           if (statusCode == MSHTTPCodesNo200OK) {
-                            MSLogInfo([MSMobileCenter getLoggerTag], @"Log(s) sent with success, batch Id:%@.", batchId);
+                            MSLogDebug([MSMobileCenter getLoggerTag], @"Log(s) sent with success, batch Id:%@.", batchId);
 
                             // Notify delegates.
                             [self enumerateDelegatesForSelector:@selector(channel:didSucceedSendingLog:)
@@ -200,7 +200,7 @@
 
                           // Failure.
                           else {
-                            MSLogInfo([MSMobileCenter getLoggerTag],
+                            MSLogDebug([MSMobileCenter getLoggerTag],
                                        @"Log(s) sent with failure, batch Id:%@, status code:%lu", batchId,
                                        (unsigned long)statusCode);
 
@@ -282,7 +282,7 @@
 
     // Even if it's already disabled we might also want to delete logs this time.
     if (!isEnabled && deleteData) {
-      MSLogInfo([MSMobileCenter getLoggerTag], @"Delete all logs.");
+      MSLogDebug([MSMobileCenter getLoggerTag], @"Delete all logs.");
       [self deleteAllLogsSync];
 
       // Reset states.
@@ -298,7 +298,7 @@
 
 - (void)suspend {
   if (!self.suspended) {
-    MSLogInfo([MSMobileCenter getLoggerTag], @"Suspend channel.");
+    MSLogDebug([MSMobileCenter getLoggerTag], @"Suspend channel.");
     self.suspended = YES;
     [self resetTimer];
   }
@@ -306,7 +306,7 @@
 
 - (void)resume {
   if (self.suspended && self.enabled) {
-    MSLogInfo([MSMobileCenter getLoggerTag], @"Resume channel.");
+    MSLogDebug([MSMobileCenter getLoggerTag], @"Resume channel.");
     self.suspended = NO;
     self.discardLogs = NO;
     [self flushQueue];
