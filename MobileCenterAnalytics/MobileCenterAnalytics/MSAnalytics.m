@@ -147,7 +147,7 @@ static NSString *const kMSServiceName = @"Analytics";
   if (properties)
     log.properties = properties;
 
-  // Send log to MobileCenter service.
+  // Send log to log manager.
   [self sendLog:log withPriority:self.priority];
 }
 
@@ -161,7 +161,7 @@ static NSString *const kMSServiceName = @"Analytics";
   if (properties)
     log.properties = properties;
 
-  // Send log to MobileCenter service.
+  // Send log to log manager.
   [self sendLog:log withPriority:self.priority];
 }
 
@@ -175,7 +175,7 @@ static NSString *const kMSServiceName = @"Analytics";
 
 - (void)sendLog:(id<MSLog>)log withPriority:(MSPriority)priority {
 
-  // Send log to MobileCenter service.
+  // Send log to log manager.
   [self.logManager processLog:log withPriority:priority];
 }
 
