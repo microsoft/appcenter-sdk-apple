@@ -1,5 +1,10 @@
 # MobileCenter-SDK-iOS Change Log
 
+
+## Version 0.3.1
+
+This is our first public release.
+
 ___
 
 ## Version 0.3.0
