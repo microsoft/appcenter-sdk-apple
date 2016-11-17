@@ -6,9 +6,9 @@
 #import "MSAnalyticsCategory.h"
 #import "MSAnalyticsPrivate.h"
 #import "MSEventLog.h"
-#import "MSServiceAbstractProtected.h"
 #import "MSLogManager.h"
 #import "MSPageLog.h"
+#import "MSServiceAbstractProtected.h"
 
 /**
  *  Service storage key name.
@@ -19,7 +19,7 @@ static NSString *const kMSServiceName = @"Analytics";
 
 @synthesize autoPageTrackingEnabled = _autoPageTrackingEnabled;
 
-#pragma mark - Module initialization
+#pragma mark - Service initialization
 
 - (instancetype)init {
   if (self = [super init]) {
@@ -50,7 +50,7 @@ static NSString *const kMSServiceName = @"Analytics";
 
   // Set up swizzling for auto page tracking.
   [MSAnalyticsCategory activateCategory];
-  MSLogVerbose([MSAnalytics getLoggerTag], @"Started analytics module");
+  MSLogVerbose([MSAnalytics getLoggerTag], @"Started analytics service");
 }
 
 + (NSString *)getLoggerTag {
@@ -96,7 +96,7 @@ static NSString *const kMSServiceName = @"Analytics";
   }
 }
 
-#pragma mark - Module methods
+#pragma mark - Service methods
 
 + (void)trackEvent:(NSString *)eventName {
   [self trackEvent:eventName withProperties:nil];
@@ -140,14 +140,14 @@ static NSString *const kMSServiceName = @"Analytics";
   if (![self isEnabled])
     return;
 
-  // Create and set properties of the event log
+  // Create and set properties of the event log.
   MSEventLog *log = [[MSEventLog alloc] init];
   log.name = eventName;
   log.eventId = kMSUUIDString;
   if (properties)
     log.properties = properties;
 
-  // Send log to core module
+  // Send log to MobileCenter service.
   [self sendLog:log withPriority:self.priority];
 }
 
@@ -155,13 +155,13 @@ static NSString *const kMSServiceName = @"Analytics";
   if (![super isEnabled])
     return;
 
-  // Create and set properties of the event log
+  // Create and set properties of the event log.
   MSPageLog *log = [[MSPageLog alloc] init];
   log.name = pageName;
   if (properties)
     log.properties = properties;
 
-  // Send log to core module
+  // Send log to MobileCenter service.
   [self sendLog:log withPriority:self.priority];
 }
 
@@ -175,7 +175,7 @@ static NSString *const kMSServiceName = @"Analytics";
 
 - (void)sendLog:(id<MSLog>)log withPriority:(MSPriority)priority {
 
-  // Send log to core module.
+  // Send log to MobileCenter service.
   [self.logManager processLog:log withPriority:priority];
 }
 
