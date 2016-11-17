@@ -1,5 +1,5 @@
-//
-//  Use this file to import your target's public headers that you would like to expose to Swift.
-//
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ */
 
-#import "CrashLibIOS/CRLCrash.h"
+#import "CRLCrash.h"

@@ -1,10 +1,6 @@
-//
-//  CrashLib.h
-//  CrashLib
-//
-//  Created by Gwynne Raskind on 4/5/13.
-//  Copyright (c) 2013 Bit Stadium GmbH. All rights reserved.
-//
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ */
 
 #import <Foundation/Foundation.h>
 
