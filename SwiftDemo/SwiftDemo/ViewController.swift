@@ -89,7 +89,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                     
                     //Get last session crash report
                     let report = MSCrashes.lastSessionCrashReport()
-                    let message = "App Error Time - \(report?.appErrorTime!) \n - App Start Time - \(report?.appStartTime!) \n App Version - \(report?.device.appVersion!) \n Device Carrier Name - \(report?.device.carrierName!) \n Debug Description - \(report.debugDescription)"
+                    let message = "App Error Time - \(report?.appErrorTime) \n - App Start Time - \(report?.appStartTime) \n App Version - \(report?.device.appVersion) \n Device Carrier Name - \(report?.device.carrierName) \n Debug Description - \(report.debugDescription)"
                     self.showAlertWithMessage(title: "Last Session Crash Report", message: message)
                 }))
             }
