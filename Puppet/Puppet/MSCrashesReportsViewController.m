@@ -24,8 +24,8 @@
   
   [self pokeAllCrashes];
   
-  NSMutableArray *crashes = [NSMutableArray arrayWithArray:[CRLCrash allCrashes]];
-  [crashes sortUsingComparator:^NSComparisonResult(CRLCrash *obj1, CRLCrash *obj2) {
+  NSMutableArray *crashes = [NSMutableArray arrayWithArray:[MSCrash allCrashes]];
+  [crashes sortUsingComparator:^NSComparisonResult(MSCrash *obj1, MSCrash *obj2) {
     if ([obj1.category isEqualToString:obj2.category]) {
       return [obj1.title compare:obj2.title];
     } else {
@@ -35,7 +35,7 @@
   
   NSMutableDictionary *categories = @{}.mutableCopy;
   
-  for (CRLCrash *crash in crashes)
+  for (MSCrash *crash in crashes)
     categories[crash.category] = [(categories[crash.category] ?: @[]) arrayByAddingObject:crash];
   
   self.knownCrashes = categories.copy;
@@ -58,11 +58,11 @@
   
   for (unsigned int i = 0; i < nclasses; ++i) {
     if (classes[i] &&
-        class_getSuperclass(classes[i]) == [CRLCrash class] &&
+        class_getSuperclass(classes[i]) == [MSCrash class] &&
         class_respondsToSelector(classes[i], @selector(methodSignatureForSelector:)) &&
-        classes[i] != [CRLCrash class])
+        classes[i] != [MSCrash class])
     {
-      [CRLCrash registerCrash:[[classes[i] alloc] init]];
+      [MSCrash registerCrash:[[classes[i] alloc] init]];
     }
   }
   free(classes);
@@ -156,7 +156,7 @@
       }
       else {
         //Crashes
-        CRLCrash *crash = (CRLCrash *)(((NSArray *)self.knownCrashes[self.sortedAllKeys[(NSUInteger)indexPath.section]])[(NSUInteger)indexPath.row]);
+        MSCrash *crash = (MSCrash *)(((NSArray *)self.knownCrashes[self.sortedAllKeys[(NSUInteger)indexPath.section]])[(NSUInteger)indexPath.row]);
         
         cell.textLabel.text = crash.title;
         
@@ -171,7 +171,7 @@
 {
   if ([[segue identifier] isEqualToString:@"showCrashDetail"]) {
     NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-    CRLCrash *crash = (CRLCrash *)(((NSArray *)self.knownCrashes[self.sortedAllKeys[(NSUInteger)indexPath.section]])[(NSUInteger)indexPath.row]);
+    MSCrash *crash = (MSCrash *)(((NSArray *)self.knownCrashes[self.sortedAllKeys[(NSUInteger)indexPath.section]])[(NSUInteger)indexPath.row]);
     
     ((MSCrashesDetailViewController *)segue.destinationViewController).detailItem = crash;
   }
