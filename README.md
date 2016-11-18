@@ -1,4 +1,8 @@
 [![Build Status](https://www.bitrise.io/app/e5b1a2ef546331fb.svg?token=Orwi_AVAExLTuN1ZAzvbFQ&branch=develop)](https://www.bitrise.io/app/e5b1a2ef546331fb)
+[![codecov](https://codecov.io/gh/Microsoft/MobileCenter-SDK-iOS/branch/develop/graph/badge.svg?token=6dlCB5riVi)](https://codecov.io/gh/Microsoft/MobileCenter-SDK-iOS)
+[![GitHub Release](https://img.shields.io/github/release/Microsoft/MobileCenter-SDK-iOS.svg)](https://github.com/Microsoft/MobileCenter-SDK-iOS/releases/latest)
+[![CocoaPods](https://img.shields.io/cocoapods/v/MobileCenter.svg)](https://cocoapods.org/pods/MobileCenter)
+[![license](https://img.shields.io/badge/license-MIT%20License-yellow.svg)](https://github.com/Microsoft/MobileCenter-SDK-iOS/blob/develop/LICENSE)
 
 # Mobile Center SDK for iOS
 
@@ -29,7 +33,7 @@ Before you begin, please make sure that the following prerequisites are met:
 * An iOS project that is set up in Xcode 8.0 on macOS 10.11 or later.
 * The minimum OS target supported by the Mobile Center SDK is iOS 8.0 or later.
 * If you are using cocoapods, please use cocoapods 1.1.1 or later.
-* This readme assumes that you are using Swift 3 syntax and want to integrate all services.
+* This readme assumes that you are using Objective-C or Swift 3 syntax and that you want to integrate all services.
 
 ## 2. Integrate the SDK
 
@@ -41,7 +45,7 @@ You can either integrate the MobileCenter SDK by adding it's binaries to your Xc
 
 Below are the steps on how to integrate the compiled libraries in your Xcode project to setup the Mobile Center SDK for your iOS app.
 
-1. Download the [Mobile Center SDK](https://aka.ms/ehvc9e) frameworks provided as a zip file.
+1. Download the [Mobile Center SDK](https://github.com/Microsoft/MobileCenter-SDK-iOS/releases) frameworks provided as a zip file.
 
 2. Unzip the file and you will see different frameworks for each Mobile Center service. There is a framework called `MobileCenter`, which is required in the project as it contains the logic for persistence, forwarding,... . 
 
@@ -64,13 +68,12 @@ Now that you've integrated the frameworks in your application, it's time to star
 
 	```ruby
  # Use the following line to use all services.
-  pod 'MobileCenter', :podspec => 'https://mobilecentersdkdev.blob.core.windows.net/sdk/MobileCenter.podspec'
+  pod 'MobileCenter'
 	  
  # Use the following lines if you want to specify the individual services you want to use.
-pod 'MobileCenter/MobileCenterAnalytics', :podspec => 'https://mobilecentersdkdev.blob.core.windows.net/sdk/MobileCenter.podspec'
-pod 'MobileCenter/MobileCenterCrashes', :podspec => 'https://mobilecentersdkdev.blob.core.windows.net/sdk/MobileCenter.podspec'
-	
-	```
+pod 'MobileCenter/MobileCenterAnalytics'
+pod 'MobileCenter/MobileCenterCrashes'	
+```
 	
 	**NOTE:** If you are using the individual subspecs, you don't need to include `MobileCenter/MobileCenter' separately as the other subspecs will pull in this as a dependency anyway.
 
@@ -551,12 +554,12 @@ MSMobileCenter.setEnabled(false)
         
 ## 7. Troubleshooting
 
-* How long to wait for Analytics data to appear on the portal?  
-
 * How long to wait for crashes to appear on the portal?   
+  
   After restarting the app after the crash and with a working internet connection, the crash should appear on the portal within a few minutes. Note that the matching dSYM needs to be uploaded as well.
 
 * Do I need to include all the modules? 
+  
   No, you can just include Mobile Center modules that interests you but the `MobileCenter` module which contains logic for persistence, forwarding etc. is mandatory.
 
 * Can't see crashes on the portal?   
@@ -567,6 +570,7 @@ MSMobileCenter.setEnabled(false)
    * Don't use any other SDK that provides Crash Reporting functionality.
 
 * What permissions or entitlements are required for the SDK?   
+  
   Mobile Center SDK requires no permissions to be set in your app.
 
 

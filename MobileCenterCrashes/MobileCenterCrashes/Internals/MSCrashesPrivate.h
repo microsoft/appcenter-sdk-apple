@@ -3,12 +3,11 @@
  */
 
 #import "MSCrashes.h"
-#import "MSServiceInternal.h"
 #import <CrashReporter/CrashReporter.h>
 
 @class MSMPLCrashReporter;
 
-@interface MSCrashes () <MSServiceInternal>
+@interface MSCrashes ()
 
 /**
  * Prototype of a callback function used to execute additional user code. Called
@@ -29,10 +28,10 @@ typedef void (*MSCrashesPostCrashSignalCallback)(void *context);
  * @see `[MSCrashes setCrashCallbacks:]`
  */
 typedef struct MSCrashesCallbacks {
-  
+
   /** An arbitrary user-supplied context value. This value may be NULL. */
   void *context;
-  
+
   /**
    * The callback used to report caught signal information.
    */
@@ -55,7 +54,7 @@ typedef struct MSCrashesCallbacks {
  */
 @property(nonatomic, copy) NSString *analyzerInProgressFile;
 
-@property (nonatomic) id<MSCrashesDelegate> delegate;
+@property(nonatomic) id<MSCrashesDelegate> delegate;
 
 /**
  * The `PLCrashReporter` instance used for crash detection.
@@ -68,7 +67,7 @@ typedef struct MSCrashesCallbacks {
 @property(nonatomic, strong) NSFileManager *fileManager;
 
 /**
- * The exception handler used by the crashes module.
+ * The exception handler used by the crashes service.
  */
 @property(nonatomic) NSUncaughtExceptionHandler *exceptionHandler;
 
@@ -84,10 +83,10 @@ typedef struct MSCrashesCallbacks {
  crashed
  * previously. You can use this also to disable specific events, like asking
  * the user to rate your app.
- 
+
  * @warning This property only has a correct value, once the sdk has been
  properly initialized!
- 
+
  * @see lastSessionCrashReport
  */
 @property(atomic, readonly) BOOL didCrashInLastSession;
@@ -133,6 +132,6 @@ typedef struct MSCrashesCallbacks {
  * Save the managed exception information in the event of a crash
  from a wrapper sdk.
  */
-+(void)wrapperCrashCallback;
++ (void)wrapperCrashCallback;
 
 @end
