@@ -3,6 +3,7 @@
  */
 
 #import "MSAnalyticsInternal.h"
+#import "MSApplicationHelper.h"
 #import "MSSessionTracker.h"
 #import "MSStartSessionLog.h"
 
@@ -18,14 +19,14 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
 @property(nonatomic, readwrite) NSString *sessionId;
 
 /**
- *  Flag to indicate if session tracking has started or not.
+ * Flag to indicate if session tracking has started or not.
  */
 @property(nonatomic) BOOL started;
 
 /**
- *  Check if current session has timed out.
+ * Check if current session has timed out.
  *
- *  @return YES if current session has timed out, NO otherwise.
+ * @return YES if current session has timed out, NO otherwise.
  */
 - (BOOL)hasSessionTimedOut;
 
@@ -38,7 +39,7 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
     _sessionTimeout = kMSSessionTimeOut;
 
     // Restore past sessions from NSUserDefaults.
-    NSData *sessions = [kMSUserDefaults objectForKey:kMSPastSessionsKey];
+    NSData *sessions = [MS_USER_DEFAULTS objectForKey:kMSPastSessionsKey];
     if (sessions != nil) {
       NSArray *arrayFromData = [NSKeyedUnarchiver unarchiveObjectWithData:sessions];
 
@@ -62,7 +63,7 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
 
     // Check if new session id is required.
     if (_sessionId == nil || [self hasSessionTimedOut]) {
-      _sessionId = kMSUUIDString;
+      _sessionId = MS_UUID_STRING;
 
       // Record session.
       MSSessionHistoryInfo *sessionInfo = [[MSSessionHistoryInfo alloc] init];
@@ -77,7 +78,7 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
         [self.pastSessions removeLastObject];
 
       // Persist the session history in NSData format.
-      [kMSUserDefaults setObject:[NSKeyedArchiver archivedDataWithRootObject:self.pastSessions]
+      [MS_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.pastSessions]
                            forKey:kMSPastSessionsKey];
       MSLogInfo([MSAnalytics getLoggerTag], @"New session ID: %@", _sessionId);
 
@@ -91,30 +92,31 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
 }
 
 - (void)start {
-  if (!_started) {
+  if (!self.started) {
 
-    // Renew session as needed if app is not in the background.
-    if ([[UIApplication sharedApplication] applicationState] != UIApplicationStateBackground) {
+    // Request a new session id depending on the application state.
+    if ([MSApplicationHelper applicationState] == MSApplicationStateInactive ||
+        [MSApplicationHelper applicationState] == MSApplicationStateActive) {
       [self sessionId];
     }
 
     // Hookup to application events.
-    [kMSNotificationCenter addObserver:self
+    [MS_NOTIFICATION_CENTER addObserver:self
                                selector:@selector(applicationDidEnterBackground)
                                    name:UIApplicationDidEnterBackgroundNotification
                                  object:nil];
-    [kMSNotificationCenter addObserver:self
+    [MS_NOTIFICATION_CENTER addObserver:self
                                selector:@selector(applicationWillEnterForeground)
                                    name:UIApplicationWillEnterForegroundNotification
                                  object:nil];
-    _started = YES;
+    self.started = YES;
   }
 }
 
 - (void)stop {
-  if (_started) {
-    [kMSNotificationCenter removeObserver:self];
-    _started = NO;
+  if (self.started) {
+    [MS_NOTIFICATION_CENTER removeObserver:self];
+    self.started = NO;
   }
 }
 
@@ -122,7 +124,7 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
   @synchronized(self) {
 
     // Clear persistence.
-    [kMSUserDefaults removeObjectForKey:kMSPastSessionsKey];
+    [MS_USER_DEFAULTS removeObjectForKey:kMSPastSessionsKey];
 
     // Clear cache.
     self.sessionId = nil;
@@ -140,6 +142,10 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
     // Verify if a log has already been sent and if it was sent a longer time ago than the session timeout.
     BOOL noLogSentForLong =
         !self.lastCreatedLogTime || [now timeIntervalSinceDate:self.lastCreatedLogTime] >= self.sessionTimeout;
+
+    // FIXME: There is no life cycle for app extensions yet so ignoring the background tests for now.
+    if (MS_IS_APP_EXTENSION)
+      return noLogSentForLong;
 
     // Verify if app is currently in the background for a longer time than the session timeout.
     BOOL isBackgroundForLong =
@@ -172,9 +178,6 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
 
 - (void)onProcessingLog:(id<MSLog>)log withPriority:(MSPriority)priority {
 
-  // Update time stamp.
-  _lastCreatedLogTime = [NSDate date];
-
   // Start session log is created in this method, therefore, skip in order to avoid infinite loop.
   if ([((NSObject *)log) isKindOfClass:[MSStartSessionLog class]])
     return;
@@ -194,6 +197,9 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
   if (log.sid == nil) {
     log.sid = self.sessionId;
   }
+
+  // Update last created log time stamp.
+  _lastCreatedLogTime = [NSDate date];
 }
 
 @end
