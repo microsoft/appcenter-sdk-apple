@@ -3,3 +3,7 @@
  */
 
 #import "MSCrash.h"
+
+@interface MSCrashUndefInst : MSCrash
+
+@end

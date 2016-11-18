@@ -3,3 +3,7 @@
  */
 
 #import "MSCrash.h"
+
+@interface MSCrashROPage : MSCrash
+
+@end

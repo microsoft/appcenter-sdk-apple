@@ -8,6 +8,6 @@
 
 @interface MSCrashesDetailViewController : UIViewController
 
-@property(strong,nonatomic) CRLCrash *detailItem;
+@property(strong,nonatomic) MSCrash *detailItem;
 
 @end
