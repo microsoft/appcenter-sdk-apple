@@ -46,7 +46,7 @@
 
 #import "MSAppleErrorLog.h"
 #import "MSBinary.h"
-#import "MSCrashesPrivate.h"
+#import "MSCrashesInternal.h"
 #import "MSErrorLogFormatter.h"
 #import "MSErrorReport.h"
 #import "MSErrorReportPrivate.h"
@@ -265,8 +265,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   errorLog.binaries = [self extractBinaryImagesFromReport:report addresses:addresses codeType:codeType is64bit:is64bit];
 
   // Set the exception from the wrapper sdk
-  [MSWrapperExceptionManager loadWrapperException:report.uuidRef];
-  errorLog.exception = [MSWrapperExceptionManager getWrapperException];
+  errorLog.exception = [MSWrapperExceptionManager loadWrapperException:report.uuidRef];
 
   return errorLog;
 }

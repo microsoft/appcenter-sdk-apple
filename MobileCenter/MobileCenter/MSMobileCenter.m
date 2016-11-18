@@ -7,6 +7,7 @@
 #import "MSLogManagerDefault.h"
 #import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
+#import "MSMobileCenterPrivate.h"
 #import <UIKit/UIKit.h>
 #import <sys/sysctl.h>
 
@@ -154,7 +155,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
   }
 
   // Validate and set the app secret.
-  else if ([appSecret length] == 0 || ![[NSUUID alloc] initWithUUIDString:appSecret]) {
+  else if ([appSecret length] == 0) {
     MSLogAssert([MSMobileCenter getLoggerTag], @"AppSecret is invalid.");
   }
 
@@ -212,21 +213,22 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 }
 
 - (void)setEnabled:(BOOL)isEnabled {
+  self.enabledStateUpdating = YES;
   if ([self isEnabled] != isEnabled) {
-    self.enabledStateUpdating = YES;
 
     // Enable/disable pipeline.
     [self applyPipelineEnabledState:isEnabled];
 
-    // Propagate enable/disable on all services.
-    for (id<MSServiceInternal> service in self.services) {
-      [[service class] setEnabled:isEnabled];
-    }
-
     // Persist the enabled status.
     [MS_USER_DEFAULTS setObject:[NSNumber numberWithBool:isEnabled] forKey:kMSMobileCenterIsEnabledKey];
-    self.enabledStateUpdating = NO;
   }
+
+  // Propagate enable/disable on all services.
+  for (id<MSServiceInternal> service in self.services) {
+    [[service class] setEnabled:isEnabled];
+  }
+  self.enabledStateUpdating = NO;
+  MSLogInfo([MSMobileCenter getLoggerTag], @"Mobile Center SDK %@.", isEnabled ? @"enabled" : @"disabled");
 }
 
 - (BOOL)isEnabled {
@@ -267,7 +269,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
   // Construct http headers.
   NSDictionary *headers = @{
     kMSHeaderContentTypeKey : kMSContentType,
-    kMSHeaderAppSecretKey : _appSecret,
+    kMSHeaderAppSecretKey : self.appSecret,
     kMSHeaderInstallIDKey : [self.installId UUIDString]
   };
 

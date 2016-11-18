@@ -56,6 +56,7 @@
 		387C76FD1D6C9CF100D68CC1 /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C76FC1D6C9CF100D68CC1 /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		389124281DC7ABB600197086 /* MSRetriableCallPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 389124271DC7ABB600197086 /* MSRetriableCallPrivate.h */; };
 		38CA60ED1D949F5000B82420 /* MSFileStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E40D4621D2700000046D85B /* MSFileStorage.m */; };
+		38E1B67A1DDE3FDF000EFED1 /* MSMobileCenterPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38E1B6791DDE3FDF000EFED1 /* MSMobileCenterPrivate.h */; };
 		38EAD9AC1DA6A8C500CE6030 /* MSEnable.h in Headers */ = {isa = PBXBuildFile; fileRef = 38EAD9AB1DA6A8C500CE6030 /* MSEnable.h */; };
 		38F1944E1DADB93100D3E0FE /* MSHttpSenderPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38F1944D1DADB93100D3E0FE /* MSHttpSenderPrivate.h */; };
 		59493FB23FC790090683581A /* MSChannelDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 5949380E604D45340244FEF1 /* MSChannelDelegate.h */; };
@@ -187,6 +188,7 @@
 		387C76D91D677EC100D68CC1 /* MSServiceAbstractPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSServiceAbstractPrivate.h; sourceTree = "<group>"; };
 		387C76FC1D6C9CF100D68CC1 /* MSServiceAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSServiceAbstract.h; sourceTree = "<group>"; };
 		389124271DC7ABB600197086 /* MSRetriableCallPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSRetriableCallPrivate.h; sourceTree = "<group>"; };
+		38E1B6791DDE3FDF000EFED1 /* MSMobileCenterPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSMobileCenterPrivate.h; sourceTree = "<group>"; };
 		38EAD9AB1DA6A8C500CE6030 /* MSEnable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSEnable.h; sourceTree = "<group>"; };
 		38F1944D1DADB93100D3E0FE /* MSHttpSenderPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSHttpSenderPrivate.h; sourceTree = "<group>"; };
 		38F7C4111DDA2169001D86EF /* MSApplicationHelperPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSApplicationHelperPrivate.h; sourceTree = "<group>"; };
@@ -381,6 +383,7 @@
 				3592ABA61DC90E3600EF4592 /* MSLogger.m */,
 				6E0401581D1C9CFB0051BCFA /* MobileCenter+Internal.h */,
 				6E0401441D1C99AC0051BCFA /* MSMobileCenterInternal.h */,
+				38E1B6791DDE3FDF000EFED1 /* MSMobileCenterPrivate.h */,
 				E83283C21D46C62E000B029E /* Vendor */,
 				381C91E21D3DB65D004512F1 /* Device */,
 				E84B8E241D234EC7006FD231 /* Channel */,
@@ -637,6 +640,7 @@
 				B2C3C1901DB9864600CB83F7 /* MSDevice.h in Headers */,
 				B2C3C1921DB9864600CB83F7 /* MSWrapperSdk.h in Headers */,
 				6E04016A1D1C9E1F0051BCFA /* MSMobileCenter.h in Headers */,
+				38E1B67A1DDE3FDF000EFED1 /* MSMobileCenterPrivate.h in Headers */,
 				387C75811D6270A300D68CC1 /* MSServiceAbstractInternal.h in Headers */,
 				B22FC2B61D5E51A20007CD80 /* MSEnvironmentHelper.h in Headers */,
 				6E0CD69E1D27198A0045FE8C /* MSStorageBucket.h in Headers */,
