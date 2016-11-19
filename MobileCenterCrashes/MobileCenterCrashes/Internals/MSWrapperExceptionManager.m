@@ -19,6 +19,9 @@
 @property(class, readonly) NSString *directoryName;
 @property(class, readonly) NSString *directoryPath;
 
+@property(weak, nonatomic) id<MSWrapperCrashesInitializer> crashesDelegate;
+
+
 + (MSWrapperExceptionManager*)sharedInstance;
 - (BOOL)hasException;
 - (MSException*)loadWrapperException:(CFUUIDRef)uuidRef;
@@ -30,6 +33,8 @@
 
 - (NSData*)loadWrapperExceptionDataWithUUIDString:(NSString*)uuidString;
 - (void)deleteWrapperExceptionDataWithUUIDString:(NSString*)uuidString;
+
+- (void)startCrashReportingFromWrapperSdk;
 
 + (NSString*)directoryPath;
 
@@ -135,6 +140,18 @@
 }
 + (void)deleteAllWrapperExceptionData {
   [[self sharedInstance] deleteAllWrapperExceptionData];
+}
+
++ (void)setDelegate:(id<MSWrapperCrashesInitializer>) delegate {
+  [self sharedInstance].crashesDelegate = delegate;
+}
+
++ (id<MSWrapperCrashesInitializer>)getDelegate {
+  return [self sharedInstance].crashesDelegate;
+}
+
++ (void) startCrashReportingFromWrapperSdk {
+  [[self sharedInstance] startCrashReportingFromWrapperSdk];
 }
 
 #pragma mark - Private methods
@@ -308,5 +325,11 @@
 
   return [uuidString isEqualToString:currentUUIDString];
 }
+
+- (void) startCrashReportingFromWrapperSdk {
+  [[MSCrashes sharedInstance] callConfigureCrashReporter];
+  NSLog(@"starting crash reporting from wrapper sdk");
+}
+
 
 @end
