@@ -6,6 +6,13 @@
 
 @class MSException;
 
+@protocol MSWrapperCrashesInitializer <NSObject>
+
+@optional
+- (BOOL) setUpCrashHandlers;
+
+@end
+
 @interface MSWrapperExceptionManager : NSObject
 
 /**
@@ -81,4 +88,8 @@
  */
 + (void)deleteAllWrapperExceptionData;
 
++ (void)startCrashReportingFromWrapperSdk;
+
++ (void)setDelegate:(id<MSWrapperCrashesInitializer>) delegate;
++ (id<MSWrapperCrashesInitializer>)getDelegate;
 @end
