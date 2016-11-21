@@ -554,6 +554,10 @@ MSMobileCenter.setEnabled(false)
         
 ## 7. Troubleshooting
 
+* `Unable to find a specification for MobileCenter` error when using CocoaPods in your app?   
+  
+  If you are using Cocoapods to install Mobile Center in your app and run into an error with the message - `Unable to find a specification for MobileCenter`, run `pod repo update` in your terminal. It will sync the latest podspec files for you. Then try `pod install` which should install Mobile Center modules in your app.
+
 * How long to wait for crashes to appear on the portal?   
   
   After restarting the app after the crash and with a working internet connection, the crash should appear on the portal within a few minutes. Note that the matching dSYM needs to be uploaded as well.
