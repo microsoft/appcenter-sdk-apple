@@ -143,7 +143,7 @@ static NSString *const kMSServiceName = @"Analytics";
   // Create and set properties of the event log.
   MSEventLog *log = [[MSEventLog alloc] init];
   log.name = eventName;
-  log.eventId = kMSUUIDString;
+  log.eventId = MS_UUID_STRING;
   if (properties)
     log.properties = properties;
 
