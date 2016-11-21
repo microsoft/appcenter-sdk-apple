@@ -6,6 +6,10 @@
 
 @class MSException;
 
+/**
+ * This is required for Wrapper SDKs that need to install their own
+ * signal handlers for certain signals.
+ */
 @protocol MSWrapperCrashesInitializationDelegate <NSObject>
 
 @optional
