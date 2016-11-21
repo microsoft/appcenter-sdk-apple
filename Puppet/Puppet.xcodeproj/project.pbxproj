@@ -21,7 +21,6 @@
 		6EC99A211D4151A00016C325 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A201D4151A00016C325 /* CrashReporter.framework */; };
 		6EC99A281D4152FA0016C325 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A271D4152FA0016C325 /* libc++.tbd */; };
 		B21B26C71DDE490400FF0378 /* MSCrashesDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B21B26C61DDE490400FF0378 /* MSCrashesDetailViewController.m */; };
-		B27DCBA51DDA96DA00B97C84 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = B27DCBA41DDA96DA00B97C84 /* MSAlertController.m */; };
 		B2E611F61DDE72BA00A9DF86 /*  MSFakeCXXClass.mm in Sources */ = {isa = PBXBuildFile; fileRef = B2E611F41DDE72BA00A9DF86 /*  MSFakeCXXClass.mm */; };
 		B2E6121E1DDE750A00A9DF86 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B25DE77F1DD2A9DB00B17EB6 /* CrashLibIOS.framework */; };
 		B2E6121F1DDE750A00A9DF86 /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B25DE77F1DD2A9DB00B17EB6 /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -133,7 +132,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-380A4DB11DD6892F00E99219 /* Embed App Extensions */ = {
+		380A4DB11DD6892F00E99219 /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
@@ -144,7 +143,7 @@
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-B2E612201DDE750A00A9DF86 /* Embed Frameworks */ = {
+		B2E612201DDE750A00A9DF86 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
@@ -155,7 +154,6 @@ B2E612201DDE750A00A9DF86 /* Embed Frameworks */ = {
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -175,8 +173,6 @@ B2E612201DDE750A00A9DF86 /* Embed Frameworks */ = {
 		B21B26C51DDE490400FF0378 /* MSCrashesDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrashesDetailViewController.h; sourceTree = "<group>"; };
 		B21B26C61DDE490400FF0378 /* MSCrashesDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCrashesDetailViewController.m; sourceTree = "<group>"; };
 		B25DE77F1DD2A9DB00B17EB6 /* CrashLibIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashLibIOS.framework; path = "../../../../Library/Developer/Xcode/DerivedData/MobileCenter-cgrgerjiehhbzxcglbvbtfnfvplu/Build/Products/Debug-iphonesimulator/CrashLibIOS.framework"; sourceTree = "<group>"; };
-		B27DCBA31DDA96DA00B97C84 /* MSAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSAlertController.h; path = ../../Vendor/MSAlertController/MSAlertController.h; sourceTree = "<group>"; };
-		B27DCBA41DDA96DA00B97C84 /* MSAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSAlertController.m; path = ../../Vendor/MSAlertController/MSAlertController.m; sourceTree = "<group>"; };
 		B2E611F41DDE72BA00A9DF86 /*  MSFakeCXXClass.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = " MSFakeCXXClass.mm"; sourceTree = "<group>"; };
 		B2E611F51DDE72BA00A9DF86 /*  MSFakeCXXClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = " MSFakeCXXClass.h"; sourceTree = "<group>"; };
 		E82E1B5F1D1CA58D00D281C1 /* Puppet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Puppet.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -231,6 +227,7 @@ B2E612201DDE750A00A9DF86 /* Embed Frameworks */ = {
 		380A4D971DD6892F00E99219 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B25DE77F1DD2A9DB00B17EB6 /* CrashLibIOS.framework */,
 				6EC99A201D4151A00016C325 /* CrashReporter.framework */,
 				380A4D981DD6892F00E99219 /* NotificationCenter.framework */,
 			);
@@ -258,15 +255,7 @@ B2E612201DDE750A00A9DF86 /* Embed Frameworks */ = {
 			path = ../../Vendor/MSAlertController;
 			sourceTree = "<group>";
 		};
-B25DE77E1DD2A9DB00B17EB6 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				B25DE77F1DD2A9DB00B17EB6 /* CrashLibIOS.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-B25D927E1DDA75EA0077B73D /* Vendor */ = {
+		B25D927E1DDA75EA0077B73D /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
 				38E1B6571DDCDDF4000EFED1 /* MSAlertController */,
@@ -283,7 +272,6 @@ B25D927E1DDA75EA0077B73D /* Vendor */ = {
 				380A4D9A1DD6892F00E99219 /* PuppetWidget */,
 				380A4D971DD6892F00E99219 /* Frameworks */,
 				E82E1B601D1CA58D00D281C1 /* Products */,
-				B25DE77E1DD2A9DB00B17EB6 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -408,7 +396,7 @@ B25D927E1DDA75EA0077B73D /* Vendor */ = {
 				E82E1B5C1D1CA58D00D281C1 /* Frameworks */,
 				E82E1B5D1D1CA58D00D281C1 /* Resources */,
 				B2E612201DDE750A00A9DF86 /* Embed Frameworks */,
-380A4DB11DD6892F00E99219 /* Embed App Extensions */,
+				380A4DB11DD6892F00E99219 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
@@ -439,6 +427,7 @@ B25D927E1DDA75EA0077B73D /* Vendor */ = {
 					};
 					E82E1B5E1D1CA58D00D281C1 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = 5Z97G9NZQ6;
 						ProvisioningStyle = Manual;
 					};
 				};
@@ -766,7 +755,7 @@ B25D927E1DDA75EA0077B73D /* Vendor */ = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../Vendor\"/**",
 					"$(SRCROOT)/../CrashLibIOS/CrashLibIOS",
@@ -780,7 +769,8 @@ B25D927E1DDA75EA0077B73D /* Vendor */ = {
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.puppet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "e0302d4d-9f95-4075-b7ab-9f6906469286";
+				PROVISIONING_PROFILE_SPECIFIER = iOS10Testing;
 				SWIFT_VERSION = 3.0;
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../MobileCenter/MobileCenter/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashes/**";
 			};

@@ -2,9 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:CrashLibIOS/CrashLibIOS.xcodeproj">
-   </FileRef>
-   <FileRef
       location = "group:MobileCenter/MobileCenter.xcodeproj">
    </FileRef>
    <FileRef
@@ -15,6 +12,9 @@
    </FileRef>
    <FileRef
       location = "group:Puppet/Puppet.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:CrashLibIOS/CrashLibIOS.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Demo/Demo.xcodeproj">
