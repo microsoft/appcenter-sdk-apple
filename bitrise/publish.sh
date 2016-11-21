@@ -52,7 +52,8 @@ if [ "$1" == "internal" ]; then
 
   ## 2. Update version file
   echo {\"version\":\"$publish_version\"} > ios_version.txt
-  echo "$(echo "Y" | azure storage blob upload ios_version.txt sdk)"
+  azure telemetry --disable
+  echo "Y" | azure storage blob upload ios_version.txt sdk
   rm ios_version.txt
 
 else
@@ -125,7 +126,7 @@ mv $BINARY_FILE $filename
 
 # Upload binary
 if [ "$1" == "internal" ]; then
-  echo "$(echo "Y" | azure storage blob upload $filename sdk)"
+  azure storage blob upload $filename sdk
 else
   url="$(echo $upload_url | sed 's/{filename}/'${filename}'/g')"
   resp="$(curl -s -X POST -H 'Content-Type: application/zip' --data-binary @$filename $url)"
