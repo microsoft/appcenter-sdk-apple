@@ -10,34 +10,32 @@
 
 @interface MSWrapperExceptionManager ()
 
+// Properties
 @property MSException *wrapperException;
 @property NSMutableDictionary *wrapperExceptionData;
 @property NSData *unsavedWrapperExceptionData;
 @property CFUUIDRef currentUUIDRef;
+@property(weak, nonatomic) id<MSWrapperCrashesInitializationDelegate> crashesDelegate;
 
+// Class properties
 @property(class, readonly) NSString *dataFileExtension;
 @property(class, readonly) NSString *directoryName;
 @property(class, readonly) NSString *directoryPath;
 
-@property(weak, nonatomic) id<MSWrapperCrashesInitializer> crashesDelegate;
-
-
-+ (MSWrapperExceptionManager*)sharedInstance;
 - (BOOL)hasException;
 - (MSException*)loadWrapperException:(CFUUIDRef)uuidRef;
 - (void)saveWrapperException:(CFUUIDRef)uuidRef;
 - (void)deleteWrapperExceptionWithUUID:(CFUUIDRef)uuidRef;
 - (void)deleteAllWrapperExceptions;
-
 - (void)saveWrapperExceptionData:(CFUUIDRef)uuidRef;
-
 - (NSData*)loadWrapperExceptionDataWithUUIDString:(NSString*)uuidString;
 - (void)deleteWrapperExceptionDataWithUUIDString:(NSString*)uuidString;
-
 - (void)startCrashReportingFromWrapperSdk;
 
-+ (NSString*)directoryPath;
++ (MSWrapperExceptionManager*)sharedInstance;
 
+// Helper class methods
++ (NSString*)directoryPath;
 + (NSString*)getFilename:(NSString*)uuidString;
 + (NSString*)getDataFilename:(NSString*)uuidString;
 + (NSString*)getFilenameWithUUIDRef:(CFUUIDRef)uuidRef;
@@ -48,8 +46,6 @@
 + (BOOL)isCurrentUUIDRef:(CFUUIDRef)uuidRef;
 
 @end
-
-
 
 @implementation MSWrapperExceptionManager : NSObject
 
@@ -142,11 +138,11 @@
   [[self sharedInstance] deleteAllWrapperExceptionData];
 }
 
-+ (void)setDelegate:(id<MSWrapperCrashesInitializer>) delegate {
++ (void)setDelegate:(id<MSWrapperCrashesInitializationDelegate>) delegate {
   [self sharedInstance].crashesDelegate = delegate;
 }
 
-+ (id<MSWrapperCrashesInitializer>)getDelegate {
++ (id<MSWrapperCrashesInitializationDelegate>)getDelegate {
   return [self sharedInstance].crashesDelegate;
 }
 
@@ -327,7 +323,7 @@
 }
 
 - (void) startCrashReportingFromWrapperSdk {
-  [[MSCrashes sharedInstance] callConfigureCrashReporter];
+  [[MSCrashes sharedInstance] configureCrashReporter];
   NSLog(@"starting crash reporting from wrapper sdk");
 }
 

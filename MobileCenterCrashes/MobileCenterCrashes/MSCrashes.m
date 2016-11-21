@@ -155,18 +155,10 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   [super applyEnabledState:isEnabled];
 
   if (isEnabled) {
-    if ([[MSWrapperExceptionManager getDelegate] respondsToSelector:@selector(setUpCrashHandlers)]) {
-      if ([[MSWrapperExceptionManager getDelegate] setUpCrashHandlers]) {
-        NSLog(@"Configured crash reporter from Xamarin");
-      } else {
-        [self configureCrashReporter];
-        NSLog(@"Configuring crash reporter from native");
-      }
-    } else {
+    if (![[MSWrapperExceptionManager getDelegate] respondsToSelector:@selector(setUpCrashHandlers)] &&
+        ![[MSWrapperExceptionManager getDelegate] setUpCrashHandlers]) {
       [self configureCrashReporter];
-      NSLog(@"Configuring crash reporter from native");
     }
-
     
     // Get pending crashes from PLCrashReporter and persist them in the intermediate format.
     if ([self.plCrashReporter hasPendingCrashReport]) {
