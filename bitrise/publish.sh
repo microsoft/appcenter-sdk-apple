@@ -126,7 +126,11 @@ mv $BINARY_FILE $filename
 
 # Upload binary
 if [ "$1" == "internal" ]; then
-  azure storage blob upload $filename sdk
+  resp="$(echo "N" | azure storage blob upload ${filename} sdk | grep overwrite)"
+  if [ "$resp" ]; then
+    echo "${filename} already exists"
+    exit 1
+  fi
 else
   url="$(echo $upload_url | sed 's/{filename}/'${filename}'/g')"
   resp="$(curl -s -X POST -H 'Content-Type: application/zip' --data-binary @$filename $url)"
