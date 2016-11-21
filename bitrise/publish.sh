@@ -5,7 +5,7 @@ REPOSITORY="$(echo $GIT_REPOSITORY_URL | awk -F "[:]" '{print $2}' | awk -F "[.]
 GITHUB_API_URL_TEMPLATE="https://%s.github.com/repos/%s/%s?access_token=%s%s"
 GITHUB_API_HOST="api"
 GITHUB_UPLOAD_HOST="uploads"
-BINARY_FILE_FILTER="MobileCenter-SDK-iOS*.zip"
+BINARY_FILE="MobileCenter-SDK-iOS.zip"
 JQ_COMMAND=$BITRISE_DEPLOY_DIR/jq
 
 # GitHub API endpoints
@@ -15,14 +15,14 @@ REQUEST_REFERENCE_URL="$(printf $GITHUB_API_URL_TEMPLATE $GITHUB_API_HOST $REPOS
 REQUEST_RELEASE_URL="$(printf $GITHUB_API_URL_TEMPLATE $GITHUB_API_HOST $REPOSITORY 'releases' $GITHUB_ACCESS_TOKEN)"
 REQUEST_UPLOAD_URL_TEMPLATE="$(printf $GITHUB_API_URL_TEMPLATE $GITHUB_UPLOAD_HOST $REPOSITORY 'releases/{id}/assets' $GITHUB_ACCESS_TOKEN '&name={filename}')"
 
-## Check parameter
+## I. Check parameter
 if [ -z $1 ] || ( [ "$1" != "internal" ] && [ "$1" != "external" ] ); then
   echo "Invalid parameter.";
   echo "  Usage: $0 {internal|external}";
   exit 1;
 fi
 
-## Get publish version
+## II. Get publish version
 publish_version="$(grep "VERSION_STRING" $BITRISE_SOURCE_DIR/$VERSION_FILE | head -1 | awk -F "[= ]" '{print $4}')"
 echo "Publish version:" $publish_version
 
@@ -90,7 +90,7 @@ else
     echo "Response:" $resp
     exit 1 
   else
-    echo "A reference has been created to ${ref}"
+    echo "A reference has been created to $ref"
   fi
 
   ## 3. Create a release
@@ -116,53 +116,31 @@ else
 
 fi
 
-## Upload binaries
+## III. Upload binary
 cd $BITRISE_DEPLOY_DIR # This is required, file upload via curl doesn't properly work with absolute path
 echo "Upload binaries"
 upload_url="$(echo $REQUEST_UPLOAD_URL_TEMPLATE | sed 's/{id}/'$id'/g')"
-total_count=0
-succeeded_count=0
-for file in $BITRISE_DEPLOY_DIR/$BINARY_FILE_FILTER
-do
-  total_count=$(($total_count + 1))
-  success=false
+filename=$(echo $BINARY_FILE | sed 's/.zip/-'${publish_version}'.zip/g')
+mv $BINARY_FILE $filename
 
-  if [ "$1" == "internal" ]; then
+# Upload binary
+if [ "$1" == "internal" ]; then
+  echo "$(echo "Y" | azure storage blob upload $filename sdk)"
+else
+  url="$(echo $upload_url | sed 's/{filename}/'${filename}'/g')"
+  resp="$(curl -s -X POST -H 'Content-Type: application/zip' --data-binary @$filename $url)"
+  id="$(echo $resp | $JQ_COMMAND -r '.id')"
 
-    echo "$(echo "Y" | azure storage blob upload @${file##*/} sdk)"
-    success=true
-
-  else
-    
-    url="$(echo $upload_url | sed 's/{filename}/'${file##*/}'/g')"
-    resp="$(curl -s -X POST -H 'Content-Type: application/zip' --data-binary @${file##*/} $url)"
-    id="$(echo $resp | $JQ_COMMAND -r '.id')"
-
-    # Log error if response doesn't contain "id" key
-    if [ -z $id ] || [ "$id" == "" ] || [ "$id" == "null" ]; then
-      echo "Cannot upload" $file
-      echo "Request URL:" $url
-      echo "Response:" $resp
-    else
-      success=true
-    fi
-
+  # Log error if response doesn't contain "id" key
+  if [ -z $id ] || [ "$id" == "" ] || [ "$id" == "null" ]; then
+    echo "Cannot upload" $file
+    echo "Request URL:" $url
+    echo "Response:" $resp
+    exit 1
   fi
+fi
 
-  if [ $success == true ]; then
-    succeeded_count=$(($succeeded_count + 1))
-    echo $file "Uploaded successfully"
-  fi
-
-done
+echo $filename "Uploaded successfully"
 
 ## Clean up
 rm -rf $JQ_COMMAND
-
-# Exit if upload failed at least one binary
-if [ $succeeded_count -eq $total_count ]; then
-  echo $succeeded_count "binaries have been uploaded successfully"
-else
-  echo "Failed to upload $(($total_count - $succeeded_count)) binaries."
-  exit 1
-fi
