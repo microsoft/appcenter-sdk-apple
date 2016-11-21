@@ -6,8 +6,5 @@
 #import "MSServiceInternal.h"
 
 @interface MSCrashes () <MSServiceInternal>
-
-- (void)callConfigureCrashReporter;
-
-
+- (void)configureCrashReporter;
 @end

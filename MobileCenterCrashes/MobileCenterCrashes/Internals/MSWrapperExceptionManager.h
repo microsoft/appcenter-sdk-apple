@@ -6,7 +6,7 @@
 
 @class MSException;
 
-@protocol MSWrapperCrashesInitializer <NSObject>
+@protocol MSWrapperCrashesInitializationDelegate <NSObject>
 
 @optional
 - (BOOL) setUpCrashHandlers;
@@ -90,6 +90,6 @@
 
 + (void)startCrashReportingFromWrapperSdk;
 
-+ (void)setDelegate:(id<MSWrapperCrashesInitializer>) delegate;
-+ (id<MSWrapperCrashesInitializer>)getDelegate;
++ (void)setDelegate:(id<MSWrapperCrashesInitializationDelegate>) delegate;
++ (id<MSWrapperCrashesInitializationDelegate>)getDelegate;
 @end
