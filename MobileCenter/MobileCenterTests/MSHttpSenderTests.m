@@ -39,7 +39,7 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
   NSDictionary *headers = @{
     @"Content-Type" : @"application/json",
     @"App-Secret" : @"myUnitTestAppSecret",
-    @"Install-ID" : kMSUUIDString
+    @"Install-ID" : MS_UUID_STRING
   };
 
   NSDictionary *queryStrings = @{ @"api_version" : @"1.0.0-preview20160914" };
@@ -291,7 +291,7 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
 - (void)testInvalidContainer {
 
   MSMockLog *log1 = [[MSMockLog alloc] init];
-  log1.sid = kMSUUIDString;
+  log1.sid = MS_UUID_STRING;
   log1.toffset = [NSNumber numberWithInteger:[[NSDate date] timeIntervalSince1970]];
 
   // Log does not have device info, therefore, it's an invalid log
@@ -466,12 +466,12 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
   device.sdkVersion = @"1.0.0";
 
   MSMockLog *log1 = [[MSMockLog alloc] init];
-  log1.sid = kMSUUIDString;
+  log1.sid = MS_UUID_STRING;
   log1.toffset = [NSNumber numberWithInteger:[[NSDate date] timeIntervalSince1970]];
   log1.device = device;
 
   MSMockLog *log2 = [[MSMockLog alloc] init];
-  log2.sid = kMSUUIDString;
+  log2.sid = MS_UUID_STRING;
   log2.toffset = [NSNumber numberWithInteger:[[NSDate date] timeIntervalSince1970]];
   log2.device = device;
 

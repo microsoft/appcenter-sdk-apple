@@ -19,11 +19,11 @@
   MSLogContainer *logContainer = [[MSLogContainer alloc] init];
 
   MSAbstractLog *log1 = [[MSAbstractLog alloc] init];
-  log1.sid = kMSUUIDString;
+  log1.sid = MS_UUID_STRING;
   log1.toffset = [NSNumber numberWithInteger:[[NSDate date] timeIntervalSince1970]];
 
   MSAbstractLog *log2 = [[MSAbstractLog alloc] init];
-  log2.sid = kMSUUIDString;
+  log2.sid = MS_UUID_STRING;
   log2.toffset = [NSNumber numberWithInteger:[[NSDate date] timeIntervalSince1970]];
 
   logContainer.logs = (NSArray<MSLog> *)@[ log1, log2 ];

@@ -1,7 +1,8 @@
-#import <XCTest/XCTest.h>
 #import "MSLogger.h"
 #import "MSMobileCenter.h"
 #import "MSMobileCenterInternal.h"
+#import "MSMobileCenterPrivate.h"
+#import <XCTest/XCTest.h>
 
 @interface MSLoggerTests : XCTestCase
 
@@ -11,7 +12,7 @@
 
 - (void)setUp {
   [super setUp];
-  
+
   [MSLogger setCurrentLogLevel:MSLogLevelAssert];
   [MSLogger setIsUserDefinedLogLevel:NO];
 }
@@ -28,7 +29,7 @@
   [MSMobileCenter resetSharedInstance];
   [MSMobileCenter sharedInstance].sdkConfigured = NO;
   [MSMobileCenter start:[[NSUUID UUID] UUIDString] withServices:nil];
-  
+
   XCTAssertTrue([MSLogger currentLogLevel] == MSLogLevelWarning);
 }
 

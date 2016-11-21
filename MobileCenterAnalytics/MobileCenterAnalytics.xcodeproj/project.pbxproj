@@ -669,6 +669,7 @@
 		E85547DE1D2D6723002DF6E2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
@@ -691,6 +692,7 @@
 		E85547DF1D2D6723002DF6E2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
