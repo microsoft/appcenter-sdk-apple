@@ -56,7 +56,7 @@
 + (void)setServerUrl:(NSString *)serverUrl;
 
 /**
- * Enable or disable the SDK as a whole. In addition to the MobileCenter module resources, it will also enable or
+ * Enable or disable the SDK as a whole. In addition to MobileCenter resources, it will also enable or
  * disable all registered services.
  *
  * @param isEnabled YES to enable, NO to disable.
@@ -115,10 +115,5 @@
  * @return BOOL if the debugger is attached.
  */
 + (BOOL)isDebuggerAttached;
-
-/**
- * Method to reset the singleton when running unit tests only. So calling sharedInstance returns a fresh instance.
- */
-+ (void)resetSharedInstance;
 
 @end
