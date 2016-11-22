@@ -2,7 +2,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#include " MSFakeCXXClass.h"
+#include "MSFakeCXXClass.h"
 
 /*
 	This file is purposely empty. Due to a bug in Xcode, a project which links

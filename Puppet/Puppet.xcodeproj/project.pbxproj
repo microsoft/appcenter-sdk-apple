@@ -23,7 +23,7 @@
 		B21B26C71DDE490400FF0378 /* MSCrashesDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B21B26C61DDE490400FF0378 /* MSCrashesDetailViewController.m */; };
 		B27397A41DE3D27700AC7761 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B27397A31DE3D27700AC7761 /* CrashLibIOS.framework */; };
 		B27397A51DE3D27700AC7761 /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B27397A31DE3D27700AC7761 /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		B2E611F61DDE72BA00A9DF86 /*  MSFakeCXXClass.mm in Sources */ = {isa = PBXBuildFile; fileRef = B2E611F41DDE72BA00A9DF86 /*  MSFakeCXXClass.mm */; };
+		B2E611F61DDE72BA00A9DF86 /* MSFakeCXXClass.mm in Sources */ = {isa = PBXBuildFile; fileRef = B2E611F41DDE72BA00A9DF86 /* MSFakeCXXClass.mm */; };
 		E82E1B641D1CA58D00D281C1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E82E1B631D1CA58D00D281C1 /* main.m */; };
 		E82E1B671D1CA58D00D281C1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E82E1B661D1CA58D00D281C1 /* AppDelegate.m */; };
 		E82E1B6D1D1CA58D00D281C1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E82E1B6B1D1CA58D00D281C1 /* Main.storyboard */; };
@@ -173,8 +173,8 @@
 		B21B26C51DDE490400FF0378 /* MSCrashesDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrashesDetailViewController.h; sourceTree = "<group>"; };
 		B21B26C61DDE490400FF0378 /* MSCrashesDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCrashesDetailViewController.m; sourceTree = "<group>"; };
 		B27397A31DE3D27700AC7761 /* CrashLibIOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CrashLibIOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B2E611F41DDE72BA00A9DF86 /*  MSFakeCXXClass.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = " MSFakeCXXClass.mm"; sourceTree = "<group>"; };
-		B2E611F51DDE72BA00A9DF86 /*  MSFakeCXXClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = " MSFakeCXXClass.h"; sourceTree = "<group>"; };
+		B2E611F41DDE72BA00A9DF86 /* MSFakeCXXClass.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MSFakeCXXClass.mm; sourceTree = "<group>"; };
+		B2E611F51DDE72BA00A9DF86 /* MSFakeCXXClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSFakeCXXClass.h; sourceTree = "<group>"; };
 		E82E1B5F1D1CA58D00D281C1 /* Puppet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Puppet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E82E1B631D1CA58D00D281C1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E82E1B651D1CA58D00D281C1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -359,8 +359,8 @@
 				384959D81D4972DA008F6B3A /* Constants.h */,
 				B21B26C51DDE490400FF0378 /* MSCrashesDetailViewController.h */,
 				B21B26C61DDE490400FF0378 /* MSCrashesDetailViewController.m */,
-				B2E611F51DDE72BA00A9DF86 /*  MSFakeCXXClass.h */,
-				B2E611F41DDE72BA00A9DF86 /*  MSFakeCXXClass.mm */,
+				B2E611F51DDE72BA00A9DF86 /* MSFakeCXXClass.h */,
+				B2E611F41DDE72BA00A9DF86 /* MSFakeCXXClass.mm */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -548,7 +548,7 @@
 				E82E1B671D1CA58D00D281C1 /* AppDelegate.m in Sources */,
 				E89E6A2D1D396D7900CAA2CD /* MSMainViewController.m in Sources */,
 				B21B26C71DDE490400FF0378 /* MSCrashesDetailViewController.m in Sources */,
-				B2E611F61DDE72BA00A9DF86 /*  MSFakeCXXClass.mm in Sources */,
+				B2E611F61DDE72BA00A9DF86 /* MSFakeCXXClass.mm in Sources */,
 				E89E6A2C1D396D7900CAA2CD /* MSCrashesReportsViewController.m in Sources */,
 				E89E6A301D39704900CAA2CD /* MSAnalyticsViewController.m in Sources */,
 				E82E1B641D1CA58D00D281C1 /* main.m in Sources */,
