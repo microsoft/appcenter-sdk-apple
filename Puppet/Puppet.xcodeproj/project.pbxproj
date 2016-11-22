@@ -11,10 +11,10 @@
 		6EC99A211D4151A00016C325 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A201D4151A00016C325 /* CrashReporter.framework */; };
 		6EC99A281D4152FA0016C325 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A271D4152FA0016C325 /* libc++.tbd */; };
 		B21B26C71DDE490400FF0378 /* MSCrashesDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B21B26C61DDE490400FF0378 /* MSCrashesDetailViewController.m */; };
+		B2419F961DE3CB840038DEFF /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2419F951DE3CB840038DEFF /* CrashLibIOS.framework */; };
+		B2419F971DE3CB840038DEFF /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B2419F951DE3CB840038DEFF /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B27DCBA51DDA96DA00B97C84 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = B27DCBA41DDA96DA00B97C84 /* MSAlertController.m */; };
 		B2E611F61DDE72BA00A9DF86 /*  MSFakeCXXClass.mm in Sources */ = {isa = PBXBuildFile; fileRef = B2E611F41DDE72BA00A9DF86 /*  MSFakeCXXClass.mm */; };
-		B2E6121E1DDE750A00A9DF86 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B25DE77F1DD2A9DB00B17EB6 /* CrashLibIOS.framework */; };
-		B2E6121F1DDE750A00A9DF86 /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B25DE77F1DD2A9DB00B17EB6 /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E82E1B641D1CA58D00D281C1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E82E1B631D1CA58D00D281C1 /* main.m */; };
 		E82E1B671D1CA58D00D281C1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E82E1B661D1CA58D00D281C1 /* AppDelegate.m */; };
 		E82E1B6D1D1CA58D00D281C1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E82E1B6B1D1CA58D00D281C1 /* Main.storyboard */; };
@@ -95,13 +95,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		B2E612201DDE750A00A9DF86 /* Embed Frameworks */ = {
+		B2419F981DE3CB840038DEFF /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				B2E6121F1DDE750A00A9DF86 /* CrashLibIOS.framework in Embed Frameworks */,
+				B2419F971DE3CB840038DEFF /* CrashLibIOS.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -116,6 +116,7 @@
 		6EC99A271D4152FA0016C325 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		B21B26C51DDE490400FF0378 /* MSCrashesDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrashesDetailViewController.h; sourceTree = "<group>"; };
 		B21B26C61DDE490400FF0378 /* MSCrashesDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCrashesDetailViewController.m; sourceTree = "<group>"; };
+		B2419F951DE3CB840038DEFF /* CrashLibIOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CrashLibIOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B25DE77F1DD2A9DB00B17EB6 /* CrashLibIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashLibIOS.framework; path = "../../../../Library/Developer/Xcode/DerivedData/MobileCenter-cgrgerjiehhbzxcglbvbtfnfvplu/Build/Products/Debug-iphonesimulator/CrashLibIOS.framework"; sourceTree = "<group>"; };
 		B27DCBA31DDA96DA00B97C84 /* MSAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSAlertController.h; path = ../../Vendor/MSAlertController/MSAlertController.h; sourceTree = "<group>"; };
 		B27DCBA41DDA96DA00B97C84 /* MSAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSAlertController.m; path = ../../Vendor/MSAlertController/MSAlertController.m; sourceTree = "<group>"; };
@@ -147,7 +148,7 @@
 			files = (
 				6EC99A281D4152FA0016C325 /* libc++.tbd in Frameworks */,
 				6EC99A211D4151A00016C325 /* CrashReporter.framework in Frameworks */,
-				B2E6121E1DDE750A00A9DF86 /* CrashLibIOS.framework in Frameworks */,
+				B2419F961DE3CB840038DEFF /* CrashLibIOS.framework in Frameworks */,
 				E85548081D2D6C9D002DF6E2 /* libMobileCenterAnalytics.a in Frameworks */,
 				E82E1B8F1D1CA65D00D281C1 /* libMobileCenterCrashes.a in Frameworks */,
 				E82E1B901D1CA65D00D281C1 /* libMobileCenter.a in Frameworks */,
@@ -193,6 +194,7 @@
 		E82E1B561D1CA58D00D281C1 = {
 			isa = PBXGroup;
 			children = (
+				B2419F951DE3CB840038DEFF /* CrashLibIOS.framework */,
 				6EC99A271D4152FA0016C325 /* libc++.tbd */,
 				6EC99A251D4152EB0016C325 /* libz.tbd */,
 				E82E1B611D1CA58D00D281C1 /* Puppet */,
@@ -301,7 +303,7 @@
 				E82E1B5B1D1CA58D00D281C1 /* Sources */,
 				E82E1B5C1D1CA58D00D281C1 /* Frameworks */,
 				E82E1B5D1D1CA58D00D281C1 /* Resources */,
-				B2E612201DDE750A00A9DF86 /* Embed Frameworks */,
+				B2419F981DE3CB840038DEFF /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
