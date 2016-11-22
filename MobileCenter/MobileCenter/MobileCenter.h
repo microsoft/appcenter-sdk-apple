@@ -10,6 +10,4 @@
 #import "MSServiceAbstract.h"
 #import "MSMobileCenter.h"
 #import "MSWrapperSdk.h"
-#import "MSWrapperLogger.h"
-
 
