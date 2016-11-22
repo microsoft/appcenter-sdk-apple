@@ -21,7 +21,8 @@
 		6EC99A211D4151A00016C325 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A201D4151A00016C325 /* CrashReporter.framework */; };
 		6EC99A281D4152FA0016C325 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A271D4152FA0016C325 /* libc++.tbd */; };
 		B21B26C71DDE490400FF0378 /* MSCrashesDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B21B26C61DDE490400FF0378 /* MSCrashesDetailViewController.m */; };
-		B27F7B601DE3C55100C8A4FD /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B27F7B5D1DE3C51900C8A4FD /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B27397A41DE3D27700AC7761 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B27397A31DE3D27700AC7761 /* CrashLibIOS.framework */; };
+		B27397A51DE3D27700AC7761 /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B27397A31DE3D27700AC7761 /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B2E611F61DDE72BA00A9DF86 /*  MSFakeCXXClass.mm in Sources */ = {isa = PBXBuildFile; fileRef = B2E611F41DDE72BA00A9DF86 /*  MSFakeCXXClass.mm */; };
 		E82E1B641D1CA58D00D281C1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E82E1B631D1CA58D00D281C1 /* main.m */; };
 		E82E1B671D1CA58D00D281C1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E82E1B661D1CA58D00D281C1 /* AppDelegate.m */; };
@@ -64,20 +65,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 6E0401321D1C98690051BCFA;
 			remoteInfo = MobileCenterCrashes;
-		};
-		B27F7B5C1DE3C51900C8A4FD /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B27F7B581DE3C51800C8A4FD /* CrashLibIOS.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = B21A71DB1DD2A38C0044BB1C;
-			remoteInfo = CrashLibIOS;
-		};
-		B27F7B5E1DE3C52400C8A4FD /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B27F7B581DE3C51800C8A4FD /* CrashLibIOS.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = B21A71DA1DD2A38C0044BB1C;
-			remoteInfo = CrashLibIOS;
 		};
 		E82E1B801D1CA62900D281C1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -162,7 +149,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				B27F7B601DE3C55100C8A4FD /* CrashLibIOS.framework in Embed Frameworks */,
+				B27397A51DE3D27700AC7761 /* CrashLibIOS.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -185,7 +172,7 @@
 		6EC99A271D4152FA0016C325 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		B21B26C51DDE490400FF0378 /* MSCrashesDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrashesDetailViewController.h; sourceTree = "<group>"; };
 		B21B26C61DDE490400FF0378 /* MSCrashesDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCrashesDetailViewController.m; sourceTree = "<group>"; };
-		B27F7B581DE3C51800C8A4FD /* CrashLibIOS.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CrashLibIOS.xcodeproj; path = ../../CrashLibIOS/CrashLibIOS.xcodeproj; sourceTree = "<group>"; };
+		B27397A31DE3D27700AC7761 /* CrashLibIOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CrashLibIOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2E611F41DDE72BA00A9DF86 /*  MSFakeCXXClass.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = " MSFakeCXXClass.mm"; sourceTree = "<group>"; };
 		B2E611F51DDE72BA00A9DF86 /*  MSFakeCXXClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = " MSFakeCXXClass.h"; sourceTree = "<group>"; };
 		E82E1B5F1D1CA58D00D281C1 /* Puppet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Puppet.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -227,6 +214,7 @@
 			files = (
 				6EC99A281D4152FA0016C325 /* libc++.tbd in Frameworks */,
 				6EC99A211D4151A00016C325 /* CrashReporter.framework in Frameworks */,
+				B27397A41DE3D27700AC7761 /* CrashLibIOS.framework in Frameworks */,
 				E85548081D2D6C9D002DF6E2 /* libMobileCenterAnalytics.a in Frameworks */,
 				E82E1B8F1D1CA65D00D281C1 /* libMobileCenterCrashes.a in Frameworks */,
 				E82E1B901D1CA65D00D281C1 /* libMobileCenter.a in Frameworks */,
@@ -274,17 +262,10 @@
 			name = Vendor;
 			sourceTree = "<group>";
 		};
-		B27F7B591DE3C51800C8A4FD /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				B27F7B5D1DE3C51900C8A4FD /* CrashLibIOS.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		E82E1B561D1CA58D00D281C1 = {
 			isa = PBXGroup;
 			children = (
+				B27397A31DE3D27700AC7761 /* CrashLibIOS.framework */,
 				6EC99A271D4152FA0016C325 /* libc++.tbd */,
 				6EC99A251D4152EB0016C325 /* libz.tbd */,
 				E82E1B611D1CA58D00D281C1 /* Puppet */,
@@ -330,7 +311,6 @@
 		E82E1B7B1D1CA61000D281C1 /* MobileCenter */ = {
 			isa = PBXGroup;
 			children = (
-				B27F7B581DE3C51800C8A4FD /* CrashLibIOS.xcodeproj */,
 				E85547FB1D2D6C8D002DF6E2 /* MobileCenterAnalytics.xcodeproj */,
 				E82E1B821D1CA63000D281C1 /* MobileCenter.xcodeproj */,
 				E82E1B7C1D1CA62900D281C1 /* MobileCenterCrashes.xcodeproj */,
@@ -424,7 +404,6 @@
 				E85548071D2D6C98002DF6E2 /* PBXTargetDependency */,
 				E82E1B8C1D1CA65600D281C1 /* PBXTargetDependency */,
 				E82E1B8E1D1CA65600D281C1 /* PBXTargetDependency */,
-				B27F7B5F1DE3C52400C8A4FD /* PBXTargetDependency */,
 				380A4DA31DD6892F00E99219 /* PBXTargetDependency */,
 			);
 			name = Puppet;
@@ -467,10 +446,6 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = B27F7B591DE3C51800C8A4FD /* Products */;
-					ProjectRef = B27F7B581DE3C51800C8A4FD /* CrashLibIOS.xcodeproj */;
-				},
-				{
 					ProductGroup = E82E1B831D1CA63000D281C1 /* Products */;
 					ProjectRef = E82E1B821D1CA63000D281C1 /* MobileCenter.xcodeproj */;
 				},
@@ -492,13 +467,6 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		B27F7B5D1DE3C51900C8A4FD /* CrashLibIOS.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = CrashLibIOS.framework;
-			remoteRef = B27F7B5C1DE3C51900C8A4FD /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		E82E1B811D1CA62900D281C1 /* libMobileCenterCrashes.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -611,11 +579,6 @@
 			isa = PBXTargetDependency;
 			name = MobileCenterCrashes;
 			targetProxy = 380A4DC21DD68D0500E99219 /* PBXContainerItemProxy */;
-		};
-		B27F7B5F1DE3C52400C8A4FD /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = CrashLibIOS;
-			targetProxy = B27F7B5E1DE3C52400C8A4FD /* PBXContainerItemProxy */;
 		};
 		E82E1B8C1D1CA65600D281C1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
