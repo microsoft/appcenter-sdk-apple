@@ -324,7 +324,6 @@
 
 - (void) startCrashReportingFromWrapperSdk {
   [[MSCrashes sharedInstance] configureCrashReporter];
-  NSLog(@"starting crash reporting from wrapper sdk");
 }
 
 
