@@ -89,7 +89,7 @@
 }
 
 + (BOOL) isDataFile:(NSString*)path {
-  return path ? [path hasSuffix:[@"" stringByAppendingPathExtension:[self dataFileExtension]]] : false;
+  return path ? [path hasSuffix:[@"." stringByAppendingString:[self dataFileExtension]]] : false;
 }
 
 #pragma mark - Public methods
@@ -232,6 +232,9 @@
 }
 
 - (void)saveWrapperExceptionData:(CFUUIDRef)uuidRef {
+  if (!_unsavedWrapperExceptionData) {
+    return;
+  }
   NSString* dataFilename = [[self class] getDataFilenameWithUUIDRef:uuidRef];
   [_unsavedWrapperExceptionData writeToFile:dataFilename atomically:YES];
 }
