@@ -55,6 +55,18 @@
   [[self sharedInstance] deleteAllWrapperExceptionData];
 }
 
++ (void)setDelegate:(id<MSWrapperCrashesInitializationDelegate>) delegate {
+  [self sharedInstance].crashesDelegate = delegate;
+}
+
++ (id<MSWrapperCrashesInitializationDelegate>)getDelegate {
+  return [self sharedInstance].crashesDelegate;
+}
+
++ (void) startCrashReportingFromWrapperSdk {
+  [[self sharedInstance] startCrashReportingFromWrapperSdk];
+}
+
 #pragma mark - Private methods
 
 - (instancetype)init {
@@ -228,6 +240,10 @@
   NSString *currentUUIDString = [self uuidRefToString:currentUUIDRef];
 
   return [uuidString isEqualToString:currentUUIDString];
+}
+
+- (void) startCrashReportingFromWrapperSdk {
+  [[MSCrashes sharedInstance] configureCrashReporter];
 }
 
 + (NSString*)dataFileExtension {
