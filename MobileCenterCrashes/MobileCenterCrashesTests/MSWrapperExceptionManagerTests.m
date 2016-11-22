@@ -3,12 +3,13 @@
 
 #import "MSWrapperExceptionManager.h"
 #import "MSException.h"
+#import "MSCrashes.h"
 
-@interface MSWrapperExceptionManagerTests : XCTestCase
+@interface MSWrapperExceptionManagerTests : NSObject<MSWrapperCrashesInitializationDelegate>, XCTestCase,
 
 @end
 
-@implementation MSWrapperExceptionManagerTests
+@implementation MSWrapperExceptionManagerTests :
 
 - (MSException*)anException {
   MSException *exception = [[MSException alloc] init];
@@ -78,6 +79,23 @@
   assert(exception == nil);
 
   CFRelease(uuidRef);
+}
+
+- (void)testStartingFromWrapperSdk {
+  InitializationDelegate del = [[InitializationDelegate alloc] init];
+  del.handlersWereSetUp = NO;
+  [MSWrapperExceptionManager setDelegate:del];
+  InitializationDelegate gottenDel = [MSWrapperExceptionManager getDelegate];
+  assert(del == gottenDel);
+
+  [[MSCrashes sharedInstance] applyEnabledState:YES];
+  assert(del.handlersWereSetUp);
+}
+
+
+- (void) setUpCrashHandlers {
+  handlersWereSetUp = YES;
+  [MSWrapperExceptionManager startCrashReportingFromWrapperSdk];
 }
 
 @end

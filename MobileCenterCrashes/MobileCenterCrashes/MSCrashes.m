@@ -252,13 +252,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
 #pragma mark - Crash reporter configuration
 
-- (void)callConfigureCrashReporter {
-  [self configureCrashReporter];
-}
-
 - (void)configureCrashReporter {
-
-
   if (_plCrashReporter) {
     MSLogDebug([MSCrashes getLoggerTag], @"Already configured PLCrashReporter.");
     return;
