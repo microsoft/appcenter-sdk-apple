@@ -157,7 +157,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   if (isEnabled) {
     // Check if there is a wrapper SDK that needs to do some custom handler setup. If there is,
     // then the wrapper SDK will call [self configureCrashReporter].
-    if (![[MSWrapperExceptionManager getDelegate] respondsToSelector:@selector(setUpCrashHandlers)] &&
+    if (![[MSWrapperExceptionManager getDelegate] respondsToSelector:@selector(setUpCrashHandlers)] ||
         ![[MSWrapperExceptionManager getDelegate] setUpCrashHandlers]) {
       [self configureCrashReporter];
     }

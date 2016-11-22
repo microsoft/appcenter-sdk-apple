@@ -14,6 +14,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "B21A71DA1DD2A38C0044BB1C"
+               BuildableName = "CrashLibIOS.framework"
+               BlueprintName = "CrashLibIOS"
+               ReferencedContainer = "container:../CrashLibIOS/CrashLibIOS.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "E82E1B5E1D1CA58D00D281C1"
                BuildableName = "Puppet.app"
                BlueprintName = "Puppet"

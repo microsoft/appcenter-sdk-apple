@@ -1,10 +1,6 @@
-//
-//  MainViewController.m
-//  Puppet
-//
-//  Created by Mehrdad Mozafari on 7/15/16.
-//  Copyright © 2016 Mehrdad Mozafari. All rights reserved.
-//
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ */
 
 #import "MSAnalyticsViewController.h"
 #import "MobileCenterAnalytics.h"

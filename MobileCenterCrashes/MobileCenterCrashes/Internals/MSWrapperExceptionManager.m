@@ -2,96 +2,13 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "MSWrapperExceptionManager.h"
+#import "MSWrapperExceptionManagerInternal.h"
 #import "MSCrashes.h"
 #import "MSException.h"
 #import "MSCrashesInternal.h"
 #import "MSStorage.h"
 
-@interface MSWrapperExceptionManager ()
-
-// Properties
-@property MSException *wrapperException;
-@property NSMutableDictionary *wrapperExceptionData;
-@property NSData *unsavedWrapperExceptionData;
-@property CFUUIDRef currentUUIDRef;
-@property(weak, nonatomic) id<MSWrapperCrashesInitializationDelegate> crashesDelegate;
-
-// Class properties
-@property(class, readonly) NSString *dataFileExtension;
-@property(class, readonly) NSString *directoryName;
-@property(class, readonly) NSString *directoryPath;
-
-- (BOOL)hasException;
-- (MSException*)loadWrapperException:(CFUUIDRef)uuidRef;
-- (void)saveWrapperException:(CFUUIDRef)uuidRef;
-- (void)deleteWrapperExceptionWithUUID:(CFUUIDRef)uuidRef;
-- (void)deleteAllWrapperExceptions;
-- (void)saveWrapperExceptionData:(CFUUIDRef)uuidRef;
-- (NSData*)loadWrapperExceptionDataWithUUIDString:(NSString*)uuidString;
-- (void)deleteWrapperExceptionDataWithUUIDString:(NSString*)uuidString;
-- (void)startCrashReportingFromWrapperSdk;
-
-+ (MSWrapperExceptionManager*)sharedInstance;
-
-// Helper class methods
-+ (NSString*)directoryPath;
-+ (NSString*)getFilename:(NSString*)uuidString;
-+ (NSString*)getDataFilename:(NSString*)uuidString;
-+ (NSString*)getFilenameWithUUIDRef:(CFUUIDRef)uuidRef;
-+ (NSString*)getDataFilenameWithUUIDRef:(CFUUIDRef)uuidRef;
-+ (void)deleteFile:(NSString*)path;
-+ (BOOL)isDataFile:(NSString*)path;
-+ (NSString*)uuidRefToString:(CFUUIDRef)uuidRef;
-+ (BOOL)isCurrentUUIDRef:(CFUUIDRef)uuidRef;
-
-@end
-
 @implementation MSWrapperExceptionManager : NSObject
-
-+ (NSString*)dataFileExtension {
-  return @"ms";
-}
-
-+ (NSString*)directoryName {
-  return @"wrapper_exceptions";
-}
-
-+ (NSString*)directoryPath {
-
-  static NSString* path = nil;
-
-  if (!path) {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    path = [documentsDirectory stringByAppendingPathComponent:[self directoryName]];
-  }
-
-  return path;
-}
-
-+ (NSString*)getFilename:(NSString*)uuidString {
-  return [[self directoryPath] stringByAppendingPathComponent:uuidString];
-}
-
-+ (NSString*)getDataFilename:(NSString*)uuidString {
-  NSString *filename = [MSWrapperExceptionManager getFilename:uuidString];
-  return [filename stringByAppendingPathExtension:[self dataFileExtension]];
-}
-
-+ (NSString*)getFilenameWithUUIDRef:(CFUUIDRef)uuidRef {
-  NSString *uuidString = [MSWrapperExceptionManager uuidRefToString:uuidRef];
-  return [MSWrapperExceptionManager getFilename:uuidString];
-}
-
-+ (NSString*)getDataFilenameWithUUIDRef:(CFUUIDRef)uuidRef {
-  NSString *uuidString = [MSWrapperExceptionManager uuidRefToString:uuidRef];
-  return [MSWrapperExceptionManager getDataFilename:uuidString];
-}
-
-+ (BOOL) isDataFile:(NSString*)path {
-  return path ? [path hasSuffix:[@"" stringByAppendingPathExtension:[self dataFileExtension]]] : false;
-}
 
 #pragma mark - Public methods
 
@@ -99,7 +16,7 @@
   return [[self sharedInstance] hasException];
 }
 
-+ (void)setWrapperException:(MSException *)wrapperException {
++ (void)setWrapperException:(MSException*)wrapperException {
   [self sharedInstance].wrapperException = wrapperException;
 }
 
@@ -245,12 +162,15 @@
 }
 
 - (void)saveWrapperExceptionData:(CFUUIDRef)uuidRef {
+  if (!_unsavedWrapperExceptionData) {
+    return;
+  }
   NSString* dataFilename = [[self class] getDataFilenameWithUUIDRef:uuidRef];
   [_unsavedWrapperExceptionData writeToFile:dataFilename atomically:YES];
 }
 
 - (NSData*)loadWrapperExceptionDataWithUUIDString:(NSString*)uuidString {
-  NSString* dataFilename = [[self class] getDataFilename:uuidString];
+  NSString *dataFilename = [[self class] getDataFilename:uuidString];
   NSData *data = [_wrapperExceptionData objectForKey:dataFilename];
   if (data) {
     return data;
@@ -326,5 +246,48 @@
   [[MSCrashes sharedInstance] configureCrashReporter];
 }
 
++ (NSString*)dataFileExtension {
+  return @"ms";
+}
+
++ (NSString*)directoryName {
+  return @"wrapper_exceptions";
+}
+
++ (NSString*)directoryPath {
+
+  static NSString* path = nil;
+
+  if (!path) {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    path = [documentsDirectory stringByAppendingPathComponent:[self directoryName]];
+  }
+
+  return path;
+}
+
++ (NSString*)getFilename:(NSString*)uuidString {
+  return [[self directoryPath] stringByAppendingPathComponent:uuidString];
+}
+
++ (NSString*)getDataFilename:(NSString*)uuidString {
+  NSString *filename = [MSWrapperExceptionManager getFilename:uuidString];
+  return [filename stringByAppendingPathExtension:[self dataFileExtension]];
+}
+
++ (NSString*)getFilenameWithUUIDRef:(CFUUIDRef)uuidRef {
+  NSString *uuidString = [MSWrapperExceptionManager uuidRefToString:uuidRef];
+  return [MSWrapperExceptionManager getFilename:uuidString];
+}
+
++ (NSString*)getDataFilenameWithUUIDRef:(CFUUIDRef)uuidRef {
+  NSString *uuidString = [MSWrapperExceptionManager uuidRefToString:uuidRef];
+  return [MSWrapperExceptionManager getDataFilename:uuidString];
+}
+
++ (BOOL) isDataFile:(NSString*)path {
+  return [path hasSuffix:[@"." stringByAppendingString:[self dataFileExtension]]];
+}
 
 @end
