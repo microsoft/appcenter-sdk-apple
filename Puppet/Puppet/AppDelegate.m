@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ */
+
 #import "AppDelegate.h"
 #import "Constants.h"
 #import "MobileCenterAnalytics.h"
