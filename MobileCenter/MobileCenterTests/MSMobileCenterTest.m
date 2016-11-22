@@ -1,5 +1,6 @@
 #import "MSMobileCenter.h"
 #import "MSMobileCenterInternal.h"
+#import "MSMobileCenterPrivate.h"
 #import "MSUtils.h"
 #import <Foundation/Foundation.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
@@ -58,7 +59,7 @@ static NSString *const kSMNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   NSUUID *installId = self.sut.installId;
 
   // Then
-  assertThat(installId, is(kMSUUIDFromString(kSMInstallIdStringExample)));
+  assertThat(installId, is(MS_UUID_FROM_STRING(kSMInstallIdStringExample)));
   assertThat([installId UUIDString], is(kSMInstallIdStringExample));
 }
 
@@ -66,7 +67,7 @@ static NSString *const kSMNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
   // If
   // Unexpected installId is added to the storage.
-  [[NSUserDefaults standardUserDefaults] setObject:kMSUUIDFromString(@"42") forKey:kMSInstallIdKey];
+  [[NSUserDefaults standardUserDefaults] setObject:MS_UUID_FROM_STRING(@"42") forKey:kMSInstallIdKey];
 
   // When
   NSUUID *installId = self.sut.installId;

@@ -20,13 +20,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate {
 
         MSMobileCenter.start("7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7", withServices: [MSAnalytics.self, MSCrashes.self])
 
-        // Analytics-API
-        // MSAnalytics.trackEvent("Video clicked", withProperties: ["Category" : "Music", "FileName" : "favorite.avi"])
-        // MSAnalytics.trackEvent("Video clicked")
-        // MSAnalytics.setEnabled(false)
-        // var enabled = MSAnalytics.isEnabled()
-
-        // Crashes-API
 
         // Crashes Delegate
         MSCrashes.setUserConfirmationHandler({ (errorReports: [MSErrorReport]) in
@@ -34,18 +27,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate {
             // Your code.
             // Present your UI to the user, e.g. an UIAlertView.
 
-            var alert = MSAlertController(title: "Sorry about that!",
+            let alert = MSAlertController(title: "Sorry about that!",
                                           message: "Do you want to send an anonymous crash report so we can fix the issue?")
-            alert?.addDefaultAction(withTitle: "Send", handler: {
+            alert?.addDefaultAction(withTitle: "Send", handler: { (alert) in
                 MSCrashes.notify(with: MSUserConfirmation.send)
             })
-            alert?.addDefaultAction(withTitle: "Always Send", handler: {
+            alert?.addDefaultAction(withTitle: "Always Send", handler: { (alert) in
                 MSCrashes.notify(with: MSUserConfirmation.always)
             })
-            alert?.addCancelAction(withTitle: "Don't Send", handler: {
+            alert?.addCancelAction(withTitle: "Don't Send", handler: { (alert) in
                 MSCrashes.notify(with: MSUserConfirmation.dontSend)
             })
-
+            alert?.show()
             return true
         })
 
@@ -87,7 +80,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate {
     }
 
     func crashes(_ crashes: MSCrashes!, willSend errorReport: MSErrorReport!) {
-
+        
     }
 
     func crashes(_ crashes: MSCrashes!, didSucceedSending errorReport: MSErrorReport!) {

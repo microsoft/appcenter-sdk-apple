@@ -45,7 +45,7 @@ You can either integrate the MobileCenter SDK by adding it's binaries to your Xc
 
 Below are the steps on how to integrate the compiled libraries in your Xcode project to setup the Mobile Center SDK for your iOS app.
 
-1. Download the [Mobile Center SDK](https://aka.ms/ehvc9e) frameworks provided as a zip file.
+1. Download the [Mobile Center SDK](https://github.com/Microsoft/MobileCenter-SDK-iOS/releases) frameworks provided as a zip file.
 
 2. Unzip the file and you will see different frameworks for each Mobile Center service. There is a framework called `MobileCenter`, which is required in the project as it contains the logic for persistence, forwarding,... . 
 
@@ -553,6 +553,10 @@ MSMobileCenter.setEnabled(false)
 ```
         
 ## 7. Troubleshooting
+
+* `Unable to find a specification for MobileCenter` error when using CocoaPods in your app?   
+  
+  If you are using Cocoapods to install Mobile Center in your app and run into an error with the message - `Unable to find a specification for MobileCenter`, run `pod repo update` in your terminal. It will sync the latest podspec files for you. Then try `pod install` which should install Mobile Center modules in your app.
 
 * How long to wait for crashes to appear on the portal?   
   
