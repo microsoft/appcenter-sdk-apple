@@ -1,14 +1,18 @@
-#import <XCTest/XCTest.h>
 #import <Foundation/Foundation.h>
+#import <OCHamcrestIOS/OCHamcrestIOS.h>
+#import <OCMock/OCMock.h>
+#import <XCTest/XCTest.h>
 
 #import "MSWrapperExceptionManager.h"
 #import "MSException.h"
+#import "MSCrashes.h"
 
 @interface MSWrapperExceptionManagerTests : XCTestCase
-
 @end
 
 @implementation MSWrapperExceptionManagerTests
+
+#pragma mark - Helper
 
 - (MSException*)anException {
   MSException *exception = [[MSException alloc] init];
@@ -30,13 +34,15 @@
   CFStringRef uuidStringRef = CFUUIDCreateString(kCFAllocatorDefault, uuidRef);
   return (__bridge_transfer NSString*)uuidStringRef;
 }
-- (void)testHasExceptionWorks {
 
-  assert(![MSWrapperExceptionManager hasException]);
+#pragma mark - Test
+
+- (void)testHasExceptionWorks {
+  assertThatBool([MSWrapperExceptionManager hasException], isFalse());
   [MSWrapperExceptionManager setWrapperExceptionData:[self someData]];
-  assert(![MSWrapperExceptionManager hasException]);
+  assertThatBool([MSWrapperExceptionManager hasException], isFalse());
   [MSWrapperExceptionManager setWrapperException:[self anException]];
-  assert([MSWrapperExceptionManager hasException]);
+  assertThatBool([MSWrapperExceptionManager hasException], isTrue());
 }
 
 - (void)testWrapperExceptionDiskOperations {
@@ -46,36 +52,49 @@
 
   [MSWrapperExceptionManager saveWrapperException:uuidRef];
   MSException *exception = [MSWrapperExceptionManager loadWrapperException:uuidRef];
-
-  assert([exception isEqual:[self anException]]);
+  assertThat(exception, equalTo([self anException]));
 
   [MSWrapperExceptionManager deleteWrapperExceptionWithUUID:uuidRef];
   exception = [MSWrapperExceptionManager loadWrapperException:uuidRef];
 
-  assert(exception == nil);
+  assertThat(exception, nilValue());
 
   CFRelease(uuidRef);
 }
 
-- (void)testWrapperExceptionNoDataDiskOperations {
+- (void)testWrapperExceptionDataDiskOperations {
+  // Setup
   MSException *anEx = [self anException];
   [MSWrapperExceptionManager setWrapperException:anEx];
   [MSWrapperExceptionManager setWrapperExceptionData:[self someData]];
+  CFUUIDRef uuidRef = CFUUIDCreate(kCFAllocatorDefault);
+  [MSWrapperExceptionManager saveWrapperException:uuidRef];
 
+  // Test that data was saved and loaded properly
+  NSData* data = [MSWrapperExceptionManager loadWrapperExceptionDataWithUUIDString:[self uuidRefToString:uuidRef]];
+  assertThat(data, equalTo([self someData]));
+
+  // Even after deleting wrapper exception data, we should be able to read it from memory
+  data = nil;
+  [MSWrapperExceptionManager deleteWrapperExceptionDataWithUUIDString:[self uuidRefToString:uuidRef]];
+  data = [MSWrapperExceptionManager loadWrapperExceptionDataWithUUIDString:[self uuidRefToString:uuidRef]];
+  assertThat(data, equalTo([self someData]));
+
+  CFRelease(uuidRef);
+}
+
+-(void)testSaveAndLoadErrors {
   CFUUIDRef uuidRef = CFUUIDCreate(kCFAllocatorDefault);
 
+  // Save/load when the wrapper exception has not been set
   [MSWrapperExceptionManager saveWrapperException:uuidRef];
-  MSException *exception = [MSWrapperExceptionManager loadWrapperException:uuidRef];
+  assertThatBool([MSWrapperExceptionManager hasException], isFalse());
+  assertThat([MSWrapperExceptionManager loadWrapperException:uuidRef], nilValue());
 
-  assert([exception isEqual:anEx]);
-
-  NSData* data = [MSWrapperExceptionManager loadWrapperExceptionDataWithUUIDString:[self uuidRefToString:uuidRef]];
-  assert([data isEqualToData:[self someData]]);
-
-  [MSWrapperExceptionManager deleteWrapperExceptionWithUUID:uuidRef];
-  exception = [MSWrapperExceptionManager loadWrapperException:uuidRef];
-
-  assert(exception == nil);
+  // Save/load when the wrapper exception has been set to nil
+  [MSWrapperExceptionManager setWrapperException:nil];
+  assertThatBool([MSWrapperExceptionManager hasException], isFalse());
+  assertThat([MSWrapperExceptionManager loadWrapperException:uuidRef], nilValue());
 
   CFRelease(uuidRef);
 }
