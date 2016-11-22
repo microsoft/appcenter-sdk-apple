@@ -155,8 +155,13 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   [super applyEnabledState:isEnabled];
 
   if (isEnabled) {
-    [self configureCrashReporter];
-
+    // Check if there is a wrapper SDK that needs to do some custom handler setup. If there is,
+    // then the wrapper SDK will call [self configureCrashReporter].
+    if (![[MSWrapperExceptionManager getDelegate] respondsToSelector:@selector(setUpCrashHandlers)] ||
+        ![[MSWrapperExceptionManager getDelegate] setUpCrashHandlers]) {
+      [self configureCrashReporter];
+    }
+    
     // Get pending crashes from PLCrashReporter and persist them in the intermediate format.
     if ([self.plCrashReporter hasPendingCrashReport]) {
       _didCrashInLastSession = YES;
@@ -248,7 +253,6 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 #pragma mark - Crash reporter configuration
 
 - (void)configureCrashReporter {
-
   if (_plCrashReporter) {
     MSLogDebug([MSCrashes getLoggerTag], @"Already configured PLCrashReporter.");
     return;
