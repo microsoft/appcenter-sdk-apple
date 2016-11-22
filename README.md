@@ -1,5 +1,8 @@
 [![Build Status](https://www.bitrise.io/app/e5b1a2ef546331fb.svg?token=Orwi_AVAExLTuN1ZAzvbFQ&branch=develop)](https://www.bitrise.io/app/e5b1a2ef546331fb)
 [![codecov](https://codecov.io/gh/Microsoft/MobileCenter-SDK-iOS/branch/develop/graph/badge.svg?token=6dlCB5riVi)](https://codecov.io/gh/Microsoft/MobileCenter-SDK-iOS)
+[![GitHub Release](https://img.shields.io/github/release/Microsoft/MobileCenter-SDK-iOS.svg)](https://github.com/Microsoft/MobileCenter-SDK-iOS/releases/latest)
+[![CocoaPods](https://img.shields.io/cocoapods/v/MobileCenter.svg)](https://cocoapods.org/pods/MobileCenter)
+[![license](https://img.shields.io/badge/license-MIT%20License-yellow.svg)](https://github.com/Microsoft/MobileCenter-SDK-iOS/blob/develop/LICENSE)
 
 # Mobile Center SDK for iOS
 
@@ -550,6 +553,10 @@ MSMobileCenter.setEnabled(false)
 ```
         
 ## 7. Troubleshooting
+
+* `Unable to find a specification for MobileCenter` error when using CocoaPods in your app?   
+  
+  If you are using Cocoapods to install Mobile Center in your app and run into an error with the message - `Unable to find a specification for MobileCenter`, run `pod repo update` in your terminal. It will sync the latest podspec files for you. Then try `pod install` which should install Mobile Center modules in your app.
 
 * How long to wait for crashes to appear on the portal?   
   

@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic, readwrite) BOOL started;
 
-#pragma mark - Module initialization
+#pragma mark - Service initialization
 
 /**
  * Create a service.

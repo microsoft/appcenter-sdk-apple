@@ -3,6 +3,7 @@
 #import "MSLogManagerDefault.h"
 #import "MSMobileCenter.h"
 #import "MSMobileCenterInternal.h"
+#import "MSMobileCenterPrivate.h"
 #import "MSServiceAbstract.h"
 #import "MSServiceAbstractInternal.h"
 #import "MSServiceAbstractPrivate.h"
@@ -65,7 +66,7 @@
   [super setUp];
 
   // Set up the mocked storage.
-  self.settingsMock = OCMPartialMock(kMSUserDefaults);
+  self.settingsMock = OCMPartialMock(MS_USER_DEFAULTS);
 
   // System Under Test.
   self.abstractService = [[MSServiceAbstractImplementation alloc] initWithStorage:self.settingsMock];
@@ -90,30 +91,52 @@
   assertThatBool(isEnabled, isTrue());
 }
 
-- (void)testSetEnabledToFalse {
+- (void)testDisableService {
 
   // If
   [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:self.abstractService.isEnabledKey];
-  [self.abstractService setEnabled:NO];
 
   // When
-  bool isEnabled = [self.abstractService isEnabled];
+  [self.abstractService setEnabled:NO];
 
   // Then
-  assertThatBool(isEnabled, isFalse());
+  assertThatBool([self.abstractService isEnabled], isFalse());
 }
 
-- (void)testSetEnabledToTrue {
+- (void)testEnableService {
 
   // If
   [self.settingsMock setObject:[NSNumber numberWithBool:NO] forKey:self.abstractService.isEnabledKey];
-  [self.abstractService setEnabled:YES];
 
   // When
-  bool isEnabled = [self.abstractService isEnabled];
+  [self.abstractService setEnabled:YES];
 
   // Then
-  assertThatBool(isEnabled, isTrue());
+  assertThatBool([self.abstractService isEnabled], isTrue());
+}
+
+- (void)testDisableServiceOnServiceDisabled {
+
+  // If
+  [self.settingsMock setObject:[NSNumber numberWithBool:NO] forKey:self.abstractService.isEnabledKey];
+
+  // When
+  [self.abstractService setEnabled:NO];
+
+  // Then
+  assertThatBool([self.abstractService isEnabled], isFalse());
+}
+
+- (void)testEnableServiceOnServiceEnabled {
+
+  // If
+  [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:self.abstractService.isEnabledKey];
+
+  // When
+  [self.abstractService setEnabled:YES];
+
+  // Then
+  assertThatBool([self.abstractService isEnabled], isTrue());
 }
 
 - (void)testIsEnabledToPersistence {
@@ -176,47 +199,77 @@
   assertThatBool([[MSServiceAbstractImplementation sharedInstance] canBeUsed], isTrue());
 }
 
-- (void)testFeatureDisabledOnCoreDisabled {
-
-  // If
-  [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:kMSMobileCenterIsEnabledKey];
-  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withServices:@[ [MSServiceAbstractImplementation class] ]];
-
-  // When
-  [MSMobileCenter setEnabled:NO];
-
-  // Then
-  assertThatBool([[MSServiceAbstractImplementation class] isEnabled], isFalse());
-}
-
-- (void)testEnableFeatureOnCoreDisabled {
-
-  // If
-  [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:kMSMobileCenterIsEnabledKey];
-  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withServices:@[ [MSServiceAbstractImplementation class] ]];
-  [MSMobileCenter setEnabled:NO];
-
-  // When
-  [[MSServiceAbstractImplementation class] setEnabled:YES];
-
-  // Then
-  assertThatBool([[MSServiceAbstractImplementation class] isEnabled], isFalse());
-}
-
 - (void)testEnableServiceOnCoreDisabled {
 
   // If
   [MSMobileCenter resetSharedInstance];
-
-  [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:kMSMobileCenterIsEnabledKey];
+  [self.settingsMock setObject:[NSNumber numberWithBool:NO] forKey:kMSMobileCenterIsEnabledKey];
+  [self.settingsMock setObject:[NSNumber numberWithBool:NO] forKey:self.abstractService.isEnabledKey];
   [MSMobileCenter start:[[NSUUID UUID] UUIDString] withServices:@[ [MSServiceAbstractImplementation class] ]];
-  [MSMobileCenter setEnabled:NO];
 
   // When
   [[MSServiceAbstractImplementation class] setEnabled:YES];
 
   // Then
   assertThatBool([[MSServiceAbstractImplementation class] isEnabled], isFalse());
+}
+
+- (void)testDisableServiceOnCoreEnabled {
+
+  // If
+  [MSMobileCenter resetSharedInstance];
+  [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:kMSMobileCenterIsEnabledKey];
+  [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:self.abstractService.isEnabledKey];
+  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withServices:@[ [MSServiceAbstractImplementation class] ]];
+
+  // When
+  [[MSServiceAbstractImplementation class] setEnabled:NO];
+
+  // Then
+  assertThatBool([[MSServiceAbstractImplementation class] isEnabled], isFalse());
+}
+
+- (void)testEnableServiceOnCoreEnabled {
+
+  // If
+  [MSMobileCenter resetSharedInstance];
+  [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:kMSMobileCenterIsEnabledKey];
+  [self.settingsMock setObject:[NSNumber numberWithBool:NO] forKey:self.abstractService.isEnabledKey];
+  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withServices:@[ [MSServiceAbstractImplementation class] ]];
+
+  // When
+  [[MSServiceAbstractImplementation class] setEnabled:YES];
+
+  // Then
+  assertThatBool([[MSServiceAbstractImplementation class] isEnabled], isTrue());
+}
+
+- (void)testReenableCoreOnServiceDisabled {
+
+  // If
+  [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:kMSMobileCenterIsEnabledKey];
+  [self.settingsMock setObject:[NSNumber numberWithBool:NO] forKey:self.abstractService.isEnabledKey];
+  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withServices:@[ [MSServiceAbstractImplementation class] ]];
+
+  // When
+  [MSMobileCenter setEnabled:YES];
+
+  // Then
+  assertThatBool([[MSServiceAbstractImplementation class] isEnabled], isTrue());
+}
+
+- (void)testReenableCoreOnServiceEnabled {
+
+  // If
+  [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:kMSMobileCenterIsEnabledKey];
+  [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:self.abstractService.isEnabledKey];
+  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withServices:@[ [MSServiceAbstractImplementation class] ]];
+
+  // When
+  [MSMobileCenter setEnabled:YES];
+
+  // Then
+  assertThatBool([[MSServiceAbstractImplementation class] isEnabled], isTrue());
 }
 
 - (void)testLogDeletedOnDisabled {

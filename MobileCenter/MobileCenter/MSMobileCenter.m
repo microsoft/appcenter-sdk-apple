@@ -7,6 +7,7 @@
 #import "MSLogManagerDefault.h"
 #import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
+#import "MSMobileCenterPrivate.h"
 #import <UIKit/UIKit.h>
 #import <sys/sysctl.h>
 
@@ -212,22 +213,22 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 }
 
 - (void)setEnabled:(BOOL)isEnabled {
+  self.enabledStateUpdating = YES;
   if ([self isEnabled] != isEnabled) {
-    self.enabledStateUpdating = YES;
 
     // Enable/disable pipeline.
     [self applyPipelineEnabledState:isEnabled];
 
-    // Propagate enable/disable on all services.
-    for (id<MSServiceInternal> service in self.services) {
-      [[service class] setEnabled:isEnabled];
-    }
-
     // Persist the enabled status.
-    [kMSUserDefaults setObject:[NSNumber numberWithBool:isEnabled] forKey:kMSMobileCenterIsEnabledKey];
-    self.enabledStateUpdating = NO;
+    [MS_USER_DEFAULTS setObject:[NSNumber numberWithBool:isEnabled] forKey:kMSMobileCenterIsEnabledKey];
   }
-  MSLogInfo([MSMobileCenter getLoggerTag], @"Mobile Center SDK has been %@.", isEnabled ? @"enabled" : @"disabled");
+
+  // Propagate enable/disable on all services.
+  for (id<MSServiceInternal> service in self.services) {
+    [[service class] setEnabled:isEnabled];
+  }
+  self.enabledStateUpdating = NO;
+  MSLogInfo([MSMobileCenter getLoggerTag], @"Mobile Center SDK %@.", isEnabled ? @"enabled" : @"disabled");
 }
 
 - (BOOL)isEnabled {
@@ -236,7 +237,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
    * Get isEnabled value from persistence.
    * No need to cache the value in a property, user settings already have their cache mechanism.
    */
-  NSNumber *isEnabledNumber = [kMSUserDefaults objectForKey:kMSMobileCenterIsEnabledKey];
+  NSNumber *isEnabledNumber = [MS_USER_DEFAULTS objectForKey:kMSMobileCenterIsEnabledKey];
 
   // Return the persisted value otherwise it's enabled by default.
   return (isEnabledNumber) ? [isEnabledNumber boolValue] : YES;
@@ -245,15 +246,15 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 - (void)applyPipelineEnabledState:(BOOL)isEnabled {
 
   // Remove all notification handlers
-  [kMSNotificationCenter removeObserver:self];
+  [MS_NOTIFICATION_CENTER removeObserver:self];
 
   // Hookup to application life-cycle events
   if (isEnabled) {
-    [kMSNotificationCenter addObserver:self
+    [MS_NOTIFICATION_CENTER addObserver:self
                               selector:@selector(applicationDidEnterBackground)
                                   name:UIApplicationDidEnterBackgroundNotification
                                 object:nil];
-    [kMSNotificationCenter addObserver:self
+    [MS_NOTIFICATION_CENTER addObserver:self
                               selector:@selector(applicationWillEnterForeground)
                                   name:UIApplicationWillEnterForegroundNotification
                                 object:nil];
@@ -300,9 +301,9 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
     if (!_installId) {
 
       // Check if install Id has already been persisted.
-      NSString *savedInstallId = [kMSUserDefaults objectForKey:kMSInstallIdKey];
+      NSString *savedInstallId = [MS_USER_DEFAULTS objectForKey:kMSInstallIdKey];
       if (savedInstallId) {
-        _installId = kMSUUIDFromString(savedInstallId);
+        _installId = MS_UUID_FROM_STRING(savedInstallId);
       }
 
       // Create a new random install Id if persistency failed.
@@ -310,7 +311,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
         _installId = [NSUUID UUID];
 
         // Persist the install Id string.
-        [kMSUserDefaults setObject:[_installId UUIDString] forKey:kMSInstallIdKey];
+        [MS_USER_DEFAULTS setObject:[_installId UUIDString] forKey:kMSInstallIdKey];
       }
     }
     return _installId;
