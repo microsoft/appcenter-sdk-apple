@@ -6,6 +6,21 @@
 
 @class MSException;
 
+/**
+ * This is required for Wrapper SDKs that need to install their own
+ * signal handlers for certain signals.
+ */
+@protocol MSWrapperCrashesInitializationDelegate <NSObject>
+
+/**
+ * Implement this function to override the default behavior for
+ * setting up the crash handlers (i.e., configuring PLCrashReporter)
+ */
+@optional
+- (BOOL) setUpCrashHandlers;
+
+@end
+
 @interface MSWrapperExceptionManager : NSObject
 
 /**
@@ -81,4 +96,21 @@
  */
 + (void)deleteAllWrapperExceptionData;
 
+/**
+ * Configure the crash reporting libraries. This should only be used in the delegate method
+ * for MSWrapperCrashesInitializationDelegate, and only by a wrapper SDK.
+ */
++ (void)startCrashReportingFromWrapperSdk;
+
+/**
+ * Set a delegate for intercepting the point at which the crash libraries are 
+ * set up. This should only be used by a wrapper SDK.
+ */
++ (void)setDelegate:(id<MSWrapperCrashesInitializationDelegate>) delegate;
+
+/**
+ * Get the previously set delegate for intercepting the point at which the crash libraries
+ * are set up.
+ */
++ (id<MSWrapperCrashesInitializationDelegate>)getDelegate;
 @end

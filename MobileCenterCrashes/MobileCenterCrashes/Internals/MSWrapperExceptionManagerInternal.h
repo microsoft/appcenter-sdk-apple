@@ -10,6 +10,7 @@
 @property NSMutableDictionary *wrapperExceptionData;
 @property NSData *unsavedWrapperExceptionData;
 @property CFUUIDRef currentUUIDRef;
+@property(weak, nonatomic) id<MSWrapperCrashesInitializationDelegate> crashesDelegate;
 
 @property(class, readonly) NSString *dataFileExtension;
 @property(class, readonly) NSString *directoryName;
@@ -37,5 +38,6 @@
 + (BOOL)isDataFile:(NSString*)path;
 + (NSString*)uuidRefToString:(CFUUIDRef)uuidRef;
 + (BOOL)isCurrentUUIDRef:(CFUUIDRef)uuidRef;
+- (void)startCrashReportingFromWrapperSdk;
 
 @end
