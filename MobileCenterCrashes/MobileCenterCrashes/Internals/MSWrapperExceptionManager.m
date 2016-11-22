@@ -89,7 +89,7 @@
 }
 
 + (BOOL) isDataFile:(NSString*)path {
-  return path ? [path hasSuffix:[@"." stringByAppendingString:[self dataFileExtension]]] : false;
+  return [path hasSuffix:[@"." stringByAppendingString:[self dataFileExtension]]];
 }
 
 #pragma mark - Public methods
