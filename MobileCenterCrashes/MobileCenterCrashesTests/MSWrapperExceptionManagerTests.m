@@ -7,12 +7,12 @@
 #import "MSException.h"
 #import "MSCrashes.h"
 
-@interface MSWrapperExceptionManagerTests : XCTestCase
+@interface MSWrapperExceptionManagerTests : XCTestCase<MSWrapperCrashesInitializationDelegate>
 
 @property(nonatomic, strong) MSWrapperExceptionManager *manager;
+@property BOOL handlersWereSetUp;
 
 @end
-
 
 @implementation MSWrapperExceptionManagerTests
 
@@ -114,6 +114,26 @@
   assertThat([self.manager loadWrapperException:uuidRef], nilValue());
 
   CFRelease(uuidRef);
+}
+
+// This particular test case (and the corresponding delegate method) must use the shared instance
+// of MSWrapperExceptionManager because of logic in MSCrashes that relies on it. All other test
+// cases *must* use self.manager.
+
+- (void)testStartingFromWrapperSdk {
+  self.handlersWereSetUp = NO;
+  [MSWrapperExceptionManager setDelegate:self];
+  assertThat([MSWrapperExceptionManager getDelegate], equalTo(self));
+  [[MSCrashes sharedInstance] applyEnabledState:YES];
+  assertThatBool(self.handlersWereSetUp, isTrue());
+}
+
+#pragma mark - Delegate
+
+- (BOOL)setUpCrashHandlers {
+  self.handlersWereSetUp = YES;
+  [MSWrapperExceptionManager startCrashReportingFromWrapperSdk];
+  return true;
 }
 
 @end
