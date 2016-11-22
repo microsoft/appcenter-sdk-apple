@@ -51,7 +51,7 @@ static NSString *const kMSApiPath = @"/logs";
     _sendURL = components.URL;
 
     // Hookup to reachability.
-    [kMSNotificationCenter addObserver:self
+    [MS_NOTIFICATION_CENTER addObserver:self
                               selector:@selector(networkStateChanged:)
                                   name:kMSReachabilityChangedNotification
                                 object:nil];
