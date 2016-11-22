@@ -17,21 +17,7 @@
                BlueprintIdentifier = "B21A71DA1DD2A38C0044BB1C"
                BuildableName = "CrashLibIOS.framework"
                BlueprintName = "CrashLibIOS"
-               ReferencedContainer = "container:../CrashLibIOS/CrashLibIOS.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E82E1B5E1D1CA58D00D281C1"
-               BuildableName = "Puppet.app"
-               BlueprintName = "Puppet"
-               ReferencedContainer = "container:Puppet.xcodeproj">
+               ReferencedContainer = "container:CrashLibIOS.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -43,20 +29,11 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
       </Testables>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E82E1B5E1D1CA58D00D281C1"
-            BuildableName = "Puppet.app"
-            BlueprintName = "Puppet"
-            ReferencedContainer = "container:Puppet.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Debug"
+      buildConfiguration = "Release"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
@@ -65,16 +42,15 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E82E1B5E1D1CA58D00D281C1"
-            BuildableName = "Puppet.app"
-            BlueprintName = "Puppet"
-            ReferencedContainer = "container:Puppet.xcodeproj">
+            BlueprintIdentifier = "B21A71DA1DD2A38C0044BB1C"
+            BuildableName = "CrashLibIOS.framework"
+            BlueprintName = "CrashLibIOS"
+            ReferencedContainer = "container:CrashLibIOS.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -84,16 +60,15 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E82E1B5E1D1CA58D00D281C1"
-            BuildableName = "Puppet.app"
-            BlueprintName = "Puppet"
-            ReferencedContainer = "container:Puppet.xcodeproj">
+            BlueprintIdentifier = "B21A71DA1DD2A38C0044BB1C"
+            BuildableName = "CrashLibIOS.framework"
+            BlueprintName = "CrashLibIOS"
+            ReferencedContainer = "container:CrashLibIOS.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
