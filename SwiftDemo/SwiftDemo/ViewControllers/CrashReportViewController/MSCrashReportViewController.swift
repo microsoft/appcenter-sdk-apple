@@ -144,7 +144,7 @@ extension MSCrashReportViewController : UITableViewDataSource{
                 
             case .DeviceTimeZoneOffset:
                 cell.titleNameLabel.text = CrashReport.DeviceTimeZoneOffset.rawValue
-                cell.detailLabel.text = String(describing: report!.device.timeZoneOffset)
+                cell.detailLabel.text = String(describing: report!.device.timeZoneOffset!)
                 break
                 
             case .DeviceScreenSize:
