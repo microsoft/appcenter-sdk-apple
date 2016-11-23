@@ -92,6 +92,7 @@ extension ViewController : UITableViewDataSource {
         if cellSetting.type == .Switch{
             if let cell = tableView.dequeueReusableCell(withIdentifier: MSSwitchTableViewCell.name(), for: indexPath) as? MSSwitchTableViewCell{
                 cell.titleNameLabel.text = cellSetting.title
+                cell.titleSwitch.isOn = (indexPath.section == 0) ? MSAnalytics.isEnabled() : MSCrashes.isEnabled()
                 return cell;
             }
         }else{
@@ -121,26 +122,34 @@ extension ViewController : UITableViewDelegate{
             case .SetEnabled:
                 //Enable/Disable MSAnalytics
                 MSAnalytics.setEnabled(!MSAnalytics.isEnabled())
+                tableView.reloadRows(at: [indexPath], with: .automatic)
                 
             case .TrackEvent:
                 //Track event with name only
                 MSAnalytics.trackEvent("Row Clicked")
+                if MSAnalytics.isEnabled(){
+                    showAlertWithMessage(title: "Success!", message: "")
+                }
                 
             case .TrackEventWithProperties:
                 //Track Event with Properties
                 MSAnalytics.trackEvent("Row Clicked", withProperties: ["Name" : "Track Event", "Row Number" : "\(indexPath.row)"])
+                if MSAnalytics.isEnabled(){
+                    showAlertWithMessage(title: "Success!", message: "")
+                }
                 
             case .TrackPage:
-                
-                break
+                showAlertWithMessage(title: "Comming Soon!!", message: "")
                 
             case .TrackPageWithProperties:
-                break
+                showAlertWithMessage(title: "Comming Soon!!", message: "")
             }
         }else{
             switch MSCrashesCases.allCases[indexPath.row] {
             case .SetEnabled:
+                //Enable/Disable MSCrashes
                 MSCrashes.setEnabled(!MSCrashes.isEnabled())
+                tableView.reloadRows(at: [indexPath], with: .automatic)
 
             case .GenerateTestCrash:
                 //Test either debugger attached
@@ -155,28 +164,26 @@ extension ViewController : UITableViewDelegate{
                 let message = "App \(MSCrashes.hasCrashedInLastSession() ? "was" : "wasn't") crashed in last session"
                 let alert = UIAlertController.init(title: "", message: message, preferredStyle: .alert)
                 if MSCrashes.hasCrashedInLastSession(){
-                    alert.addAction(UIAlertAction(title: "Show Description", style: .default, handler: { (alert) in
-                        
-                        //Get last session crash report
-                        let report = MSCrashes.lastSessionCrashReport()
-                        var message = ""
-                        if let appVersion = report?.device.appVersion{
-                            message.append("App Version - \(appVersion) \n\n")
-                        }
-                        if let appErrorTime = report?.appErrorTime{
-                            message.append("App Error Time - \(appErrorTime) \n\n")
-                        }
-                        if let appStartTime = report?.appStartTime{
-                            message.append("App Start Time - \(appStartTime) \n\n")
-                        }
-                        message.append("MSCrashes.lastSessionCrashReport() will provides you more details about the crash that occurred in the last app session")
-                        self.showAlertWithMessage(title: "Last Session Crash Report", message: message)
+                    
+                    alert.addAction(UIAlertAction(title: "Show Chrash Report", style: .default, handler: { (alert) in
+                        self.performSegue(withIdentifier: "ShowCrashReport", sender: self)
                     }))
                 }
                 alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
                 self.present(alert, animated: true, completion: nil)
                 break
             }
+        }
+    }
+}
+
+
+extension ViewController : MSSwitchCellDelegate{
+    func switchValueChanged(cell: MSSwitchTableViewCell, sender: UISwitch) {
+        if (tableView.indexPath(for: cell)?.section == 0){
+            MSAnalytics.setEnabled(sender.isOn)
+        }else{
+            MSCrashes.setEnabled(sender.isOn)
         }
     }
 }

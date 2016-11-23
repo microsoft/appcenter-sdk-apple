@@ -8,15 +8,10 @@
 
 import UIKit
 
-protocol MSDetailsCellDelegate : NSObjectProtocol {
-    func actionButtonTapped(cell:MSDetailsTableViewCell, sender:UIButton)
-}
-
 class MSDetailsTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var detailsLabel: UILabel!
-    @IBOutlet weak var actionButton: UIButton!
-    weak var delegate : MSDetailsCellDelegate?
+    @IBOutlet weak var titleNameLabel: UILabel!
+    @IBOutlet weak var detailLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -36,8 +31,5 @@ class MSDetailsTableViewCell: UITableViewCell {
     class func nib()->UINib{
         return UINib(nibName: MSDetailsTableViewCell.name() , bundle: nil)
     }
-    
-    @IBAction func actionButtonTapped(_ sender: UIButton) {
-        self.delegate?.actionButtonTapped(cell: self, sender: sender)
-    }
+
 }

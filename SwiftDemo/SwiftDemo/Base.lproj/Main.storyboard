@@ -79,6 +79,10 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Umi-B4-8og">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="JNK-tn-TZh" id="Xt9-LK-a9G"/>
+                                    <outlet property="delegate" destination="JNK-tn-TZh" id="wUe-cF-ETz"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -89,6 +93,9 @@
                             <constraint firstItem="Umi-B4-8og" firstAttribute="top" secondItem="Bjr-0d-SdF" secondAttribute="top" id="vQv-Cw-uxt"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="reportTableView" destination="Umi-B4-8og" id="Wps-Ze-pfK"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tED-hP-WEf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
