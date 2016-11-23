@@ -20,7 +20,7 @@ Pod::Spec.new do |s|
   s.author            = { 'Microsoft' => 'mobilecentersdk@microsoft.com' }
 
   s.platform          = :ios, '8.0'  
-  s.source = { :http => "https://github.com/microsoft/MobileCenter-SDK-iOS/releases/download/#{s.version}/MobileCenter-SDK-iOS-#{s.version}.zip" }
+  s.source = { :http => "https://github.com/microsoft/mobile-center-sdk-ios/releases/download/#{s.version}/MobileCenter-SDK-iOS-#{s.version}.zip" }
 
 
   s.preserve_path = "MobileCenter-SDK-iOS/LICENSE"
