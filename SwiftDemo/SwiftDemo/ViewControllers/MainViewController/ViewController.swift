@@ -92,6 +92,7 @@ extension ViewController : UITableViewDataSource {
         if cellSetting.type == .Switch{
             if let cell = tableView.dequeueReusableCell(withIdentifier: MSSwitchTableViewCell.name(), for: indexPath) as? MSSwitchTableViewCell{
                 cell.titleNameLabel.text = cellSetting.title
+                cell.delegate = self
                 cell.titleSwitch.isOn = (indexPath.section == 0) ? MSAnalytics.isEnabled() : MSCrashes.isEnabled()
                 return cell;
             }
