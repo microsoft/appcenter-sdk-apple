@@ -166,7 +166,7 @@ extension ViewController : UITableViewDelegate{
                 let alert = UIAlertController.init(title: "", message: message, preferredStyle: .alert)
                 if MSCrashes.hasCrashedInLastSession(){
                     
-                    alert.addAction(UIAlertAction(title: "Show Chrash Report", style: .default, handler: { (alert) in
+                    alert.addAction(UIAlertAction(title: "Show Crash Report", style: .default, handler: { (alert) in
                         self.performSegue(withIdentifier: "ShowCrashReport", sender: self)
                     }))
                 }
