@@ -1,8 +1,8 @@
 [![Build Status](https://www.bitrise.io/app/e5b1a2ef546331fb.svg?token=Orwi_AVAExLTuN1ZAzvbFQ&branch=develop)](https://www.bitrise.io/app/e5b1a2ef546331fb)
-[![codecov](https://codecov.io/gh/Microsoft/MobileCenter-SDK-iOS/branch/develop/graph/badge.svg?token=6dlCB5riVi)](https://codecov.io/gh/Microsoft/MobileCenter-SDK-iOS)
-[![GitHub Release](https://img.shields.io/github/release/Microsoft/MobileCenter-SDK-iOS.svg)](https://github.com/Microsoft/MobileCenter-SDK-iOS/releases/latest)
+[![codecov](https://codecov.io/gh/Microsoft/mobile-center-sdk-ios/branch/develop/graph/badge.svg?token=6dlCB5riVi)](https://codecov.io/gh/Microsoft/mobile-center-sdk-ios)
+[![GitHub Release](https://img.shields.io/github/release/Microsoft/mobile-center-sdk-ios.svg)](https://github.com/Microsoft/mobile-center-sdk-ios/releases/latest)
 [![CocoaPods](https://img.shields.io/cocoapods/v/MobileCenter.svg)](https://cocoapods.org/pods/MobileCenter)
-[![license](https://img.shields.io/badge/license-MIT%20License-yellow.svg)](https://github.com/Microsoft/MobileCenter-SDK-iOS/blob/develop/LICENSE)
+[![license](https://img.shields.io/badge/license-MIT%20License-yellow.svg)](https://github.com/Microsoft/mobile-center-sdk-ios/blob/develop/LICENSE)
 
 # Mobile Center SDK for iOS
 
@@ -45,7 +45,7 @@ You can either integrate the MobileCenter SDK by adding it's binaries to your Xc
 
 Below are the steps on how to integrate the compiled libraries in your Xcode project to setup the Mobile Center SDK for your iOS app.
 
-1. Download the [Mobile Center SDK](https://github.com/Microsoft/MobileCenter-SDK-iOS/releases) frameworks provided as a zip file.
+1. Download the [Mobile Center SDK](https://github.com/Microsoft/mobile-center-sdk-ios/releases) frameworks provided as a zip file.
 
 2. Unzip the file and you will see different frameworks for each Mobile Center service. There is a framework called `MobileCenter`, which is required in the project as it contains the logic for persistence, forwarding,... . 
 
@@ -326,7 +326,7 @@ If user privacy is important to you, you might want to get a user's confirmation
 
 #### Step 1: Set a user confirmation handler.
 	
-Your app is responsible for obtaining confirmation, e.g. through a dialog prompt with one of these options - "Always Send", "Send", and "Don't Send". You need inform the SDK about the users input and the crash will handled accordingly. The method takes a block as a parameter, use it to pass in your logic to present the UI to confirm a crash report. As of iOS 8, `UIAlertView` has been deprecated in favor of `UIAlertController`. MobileCenterCrashes itself does not contain logic to show a confirmation to the user, but our Sample apps `Puppet` and `Demo` include [a reference implementation](https://github.com/Microsoft/MobileCenter-SDK-iOS/tree/develop/Vendor/MSAlertController/MSAlertController.h) which will be used in the following code snippets. For a full implementation, clone this repo and check out our apps **Puppet** and **Demo** and copy `MSAlertViewController` to your app. 
+Your app is responsible for obtaining confirmation, e.g. through a dialog prompt with one of these options - "Always Send", "Send", and "Don't Send". You need inform the SDK about the users input and the crash will handled accordingly. The method takes a block as a parameter, use it to pass in your logic to present the UI to confirm a crash report. As of iOS 8, `UIAlertView` has been deprecated in favor of `UIAlertController`. MobileCenterCrashes itself does not contain logic to show a confirmation to the user, but our Sample apps `Puppet` and `Demo` include [a reference implementation](https://github.com/Microsoft/mobile-center-sdk-ios/tree/develop/Vendor/MSAlertController/MSAlertController.h) which will be used in the following code snippets. For a full implementation, clone this repo and check out our apps **Puppet** and **Demo** and copy `MSAlertViewController` to your app. 
 
 **Objective-C**
 	
