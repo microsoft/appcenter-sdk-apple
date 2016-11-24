@@ -576,6 +576,7 @@ MSMobileCenter.setEnabled(false)
 * What permissions or entitlements are required for the SDK?   
   
   Mobile Center SDK requires no permissions to be set in your app.
-
+  
+* Engage with other MobileCenter users and developers on [StackOverflow](http://stackoverflow.com/questions/tagged/mobile-center).
 
 
