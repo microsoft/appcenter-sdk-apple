@@ -35,7 +35,7 @@ class ViewController: UIViewController {
             }
         }
         
-        static let allCases = [MSAnalyticsCases.SetEnabled, MSAnalyticsCases.TrackEvent, MSAnalyticsCases.TrackEventWithProperties,MSAnalyticsCases.TrackPage, MSAnalyticsCases.TrackPageWithProperties]
+        static let allCases = [MSAnalyticsCases.SetEnabled, MSAnalyticsCases.TrackEvent, MSAnalyticsCases.TrackEventWithProperties]
     }
     
     enum MSCrashesCases : Int{
