@@ -17,8 +17,23 @@ class ViewController: UIViewController {
         case Title, Switch, Details
     }
     
+    enum MobileCenterServicesType : Int{
+        case Analytics, Crashes
+        
+        var stringValue : String{
+            switch self {
+            case .Analytics:
+                return "Analytics"
+            case .Crashes:
+                return "Crashes"
+            }
+        }
+        
+        static let allServices = [MobileCenterServicesType.Analytics, MobileCenterServicesType.Crashes]
+    }
+    
     enum MSAnalyticsCases : Int {
-        case SetEnabled, TrackEvent, TrackEventWithProperties, TrackPage, TrackPageWithProperties
+        case SetEnabled, TrackEvent, TrackEventWithProperties
         
         var cellSetting : (title:String, type:MSCellType){
             switch self {
@@ -28,10 +43,6 @@ class ViewController: UIViewController {
                 return ("Track Event", .Details)
             case .TrackEventWithProperties:
                 return ("Track Event with Properties", .Details)
-            case .TrackPage:
-                return ("Track Page", .Details)
-            case .TrackPageWithProperties:
-                return ("Track Page with Properties", .Details)
             }
         }
         
@@ -71,29 +82,35 @@ class ViewController: UIViewController {
     }
     
     func showAlertWithMessage(title:String, message:String){
-        let alert = UIAlertController.init(title: title, message: message, preferredStyle: .alert)
+        let alert = MSAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
-
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "ShowCrashReport" && MSCrashes.hasCrashedInLastSession()){
+            (segue.destination as! MSCrashReportViewController).crashReport = MSCrashes.lastSessionCrashReport()
+        }
+    }
 }
 
 extension ViewController : UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return MobileCenterServicesType.allServices.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? MSAnalyticsCases.allCases.count : MSCrashesCases.allCases.count
+        return MobileCenterServicesType(rawValue: section) == .Analytics ? MSAnalyticsCases.allCases.count : MSCrashesCases.allCases.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cellSetting = indexPath.section == 0 ?  MSAnalyticsCases.allCases[indexPath.row].cellSetting : MSCrashesCases.allCases[indexPath.row].cellSetting
-        if cellSetting.type == .Switch{
+        let cellSetting = MobileCenterServicesType(rawValue: indexPath.section) == .Analytics ?  MSAnalyticsCases.allCases[indexPath.row].cellSetting : MSCrashesCases.allCases[indexPath.row].cellSetting
+        
+        if (cellSetting.type == .Switch){
             if let cell = tableView.dequeueReusableCell(withIdentifier: MSSwitchTableViewCell.name(), for: indexPath) as? MSSwitchTableViewCell{
-                cell.titleNameLabel.text = cellSetting.title
                 cell.delegate = self
-                cell.titleSwitch.isOn = (indexPath.section == 0) ? MSAnalytics.isEnabled() : MSCrashes.isEnabled()
+                cell.titleNameLabel.text = cellSetting.title
+                cell.titleSwitch.isOn = MobileCenterServicesType(rawValue : indexPath.section) == .Analytics ? MSAnalytics.isEnabled() : MSCrashes.isEnabled()
                 return cell;
             }
         }else{
@@ -106,18 +123,14 @@ extension ViewController : UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 0{
-            return "Analytics"
-        }else{
-            return "Crashes"
-        }
+        return MobileCenterServicesType(rawValue : section)?.stringValue
     }
 }
 
 extension ViewController : UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        if indexPath.section == 0{
+        if (MobileCenterServicesType(rawValue :indexPath.section) == .Analytics) {
             switch MSAnalyticsCases.allCases[indexPath.row] {
             //Track Event
             case .SetEnabled:
@@ -128,22 +141,16 @@ extension ViewController : UITableViewDelegate{
             case .TrackEvent:
                 //Track event with name only
                 MSAnalytics.trackEvent("Row Clicked")
-                if MSAnalytics.isEnabled(){
+                if (MSAnalytics.isEnabled()){
                     showAlertWithMessage(title: "Success!", message: "")
                 }
                 
             case .TrackEventWithProperties:
                 //Track Event with Properties
                 MSAnalytics.trackEvent("Row Clicked", withProperties: ["Name" : "Track Event", "Row Number" : "\(indexPath.row)"])
-                if MSAnalytics.isEnabled(){
+                if (MSAnalytics.isEnabled()){
                     showAlertWithMessage(title: "Success!", message: "")
                 }
-                
-            case .TrackPage:
-                showAlertWithMessage(title: "Comming Soon!!", message: "")
-                
-            case .TrackPageWithProperties:
-                showAlertWithMessage(title: "Comming Soon!!", message: "")
             }
         }else{
             switch MSCrashesCases.allCases[indexPath.row] {
@@ -154,7 +161,7 @@ extension ViewController : UITableViewDelegate{
 
             case .GenerateTestCrash:
                 //Test either debugger attached
-                if MSMobileCenter.isDebuggerAttached(){
+                if (MSMobileCenter.isDebuggerAttached()){
                     self.showAlertWithMessage(title: "", message: "Detecting crashes is NOT enabled due to running the app with a debugger attached.")
                 }else{
                     //Generate Crash
@@ -163,9 +170,8 @@ extension ViewController : UITableViewDelegate{
             case .AppCrashInLastSession:
                 //Check either app was crashed in last session
                 let message = "App \(MSCrashes.hasCrashedInLastSession() ? "was" : "wasn't") crashed in last session"
-                let alert = UIAlertController.init(title: "", message: message, preferredStyle: .alert)
-                if MSCrashes.hasCrashedInLastSession(){
-                    
+                let alert = MSAlertController.init(title: "", message: message, preferredStyle: .alert)
+                if (MSCrashes.hasCrashedInLastSession()){
                     alert.addAction(UIAlertAction(title: "Show Crash Report", style: .default, handler: { (alert) in
                         self.performSegue(withIdentifier: "ShowCrashReport", sender: self)
                     }))
@@ -181,10 +187,12 @@ extension ViewController : UITableViewDelegate{
 
 extension ViewController : MSSwitchCellDelegate{
     func switchValueChanged(cell: MSSwitchTableViewCell, sender: UISwitch) {
-        if (tableView.indexPath(for: cell)?.section == 0){
-            MSAnalytics.setEnabled(sender.isOn)
-        }else{
-            MSCrashes.setEnabled(sender.isOn)
+        if let section = tableView.indexPath(for: cell)?.section{
+            if (MobileCenterServicesType.init(rawValue: section) == .Analytics){
+                MSAnalytics.setEnabled(sender.isOn)
+            }else{
+                MSCrashes.setEnabled(sender.isOn)
+            }
         }
     }
 }
