@@ -98,6 +98,7 @@
 + (MSException *)exception {
   NSString *type = @"exception_type";
   NSString *message = @"message";
+  NSString *stackTrace = @"at (wrapper managed-to-native) UIKit.UIApplication:UIApplicationMain (int,string[],intptr,intptr) \n at UIKit.UIApplication.Main (System.String[] args, System.IntPtr principal, System.IntPtr delegate) [0x00005] in /Users/builder/data/lanes/3969/44931ae8/source/xamarin-macios/src/UIKit/UIApplication.cs:79 \n at UIKit.UIApplication.Main (System.String[] args, System.String principalClassName, System.String delegateClassName) [0x00038] in /Users/builder/data/lanes/3969/44931ae8/source/xamarin-macios/src/UIKit/UIApplication.cs:63 \n   at HockeySDKXamarinDemo.Application.Main (System.String[] args) [0x00008] in /Users/benny/Repositories/MS/HockeySDK-XamarinDemo/iOS/Main.cs:17";
   NSString *wrapperSdkName = @"mobilecenter.xamarin";
   MSStackFrame *frame = [MSStackFrame new];
   frame.address = @"frameAddress";
@@ -107,6 +108,7 @@
   MSException *exception = [MSException new];
   exception.type = type;
   exception.message = message;
+  exception.stackTrace = stackTrace;
   exception.wrapperSdkName = wrapperSdkName;
   exception.frames = frames;
 
