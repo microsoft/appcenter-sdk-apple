@@ -1,4 +1,4 @@
-# mobile-center-sdk-ios Change Log
+# Mobile Center SDK for iOS Change Log
 
 
 ## Version 0.3.2
