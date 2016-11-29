@@ -7,9 +7,10 @@
 
 static NSString *const kMSExceptionType = @"type";
 static NSString *const kMSMessage = @"message";
-static NSString *const kMSWrapperSDKName = @"wrapper_sdk_name";
 static NSString *const kMSFrames = @"frames";
+static NSString *const kMSStackTrace = @"stack_trace";
 static NSString *const kMSInnerExceptions = @"inner_exceptions";
+static NSString *const kMSWrapperSDKName = @"wrapper_sdk_name";
 
 @implementation MSException
 
@@ -22,6 +23,9 @@ static NSString *const kMSInnerExceptions = @"inner_exceptions";
   }
   if (self.message) {
     dict[kMSMessage] = self.message;
+  }
+  if (self.stackTrace) {
+    dict[kMSStackTrace] = self.stackTrace;
   }
   if (self.wrapperSdkName) {
     dict[kMSWrapperSDKName] = self.wrapperSdkName;
@@ -49,16 +53,18 @@ static NSString *const kMSInnerExceptions = @"inner_exceptions";
 }
 
 - (BOOL)isEqual:(MSException *)exception {
-  if (!exception)
+  if (!exception) {
     return NO;
-
-  return ((!self.type && !exception.type) || [self.type isEqualToString:exception.type]) &&
-  ((!self.wrapperSdkName && !exception.wrapperSdkName) ||
-   [self.wrapperSdkName isEqualToString:exception.wrapperSdkName]) &&
-  ((!self.message && !exception.message) || [self.message isEqualToString:exception.message]) &&
-  ((!self.frames && !exception.frames) || [self.frames isEqualToArray:exception.frames]) &&
-  ((!self.innerExceptions && !exception.innerExceptions) ||
-   [self.innerExceptions isEqualToArray:exception.innerExceptions]);
+  } else {
+    return ((!self.type && !exception.type) || [self.type isEqualToString:exception.type]) &&
+            ((!self.wrapperSdkName && !exception.wrapperSdkName) ||
+                    [self.wrapperSdkName isEqualToString:exception.wrapperSdkName]) &&
+            ((!self.message && !exception.message) || [self.message isEqualToString:exception.message]) &&
+            ((!self.frames && !exception.frames) || [self.frames isEqualToArray:exception.frames]) &&
+            ((!self.innerExceptions && !exception.innerExceptions) ||
+                    [self.innerExceptions isEqualToArray:exception.innerExceptions]) &&
+            ((!self.stackTrace && !exception.stackTrace) || [self.stackTrace isEqualToString:exception.stackTrace]);
+  }
 }
 
 #pragma mark - NSCoding
@@ -68,19 +74,21 @@ static NSString *const kMSInnerExceptions = @"inner_exceptions";
   if (self) {
     _type = [coder decodeObjectForKey:kMSExceptionType];
     _message = [coder decodeObjectForKey:kMSMessage];
-    _wrapperSdkName = [coder decodeObjectForKey:kMSWrapperSDKName];
+    _stackTrace = [coder decodeObjectForKey:kMSStackTrace];
     _frames = [coder decodeObjectForKey:kMSFrames];
     _innerExceptions = [coder decodeObjectForKey:kMSInnerExceptions];
+    _wrapperSdkName = [coder decodeObjectForKey:kMSWrapperSDKName];
   }
   return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
   [coder encodeObject:self.type forKey:kMSExceptionType];
-  [coder encodeObject:self.wrapperSdkName forKey:kMSWrapperSDKName];
   [coder encodeObject:self.message forKey:kMSMessage];
+  [coder encodeObject:self.stackTrace forKey:kMSStackTrace];
   [coder encodeObject:self.frames forKey:kMSFrames];
   [coder encodeObject:self.innerExceptions forKey:kMSInnerExceptions];
+  [coder encodeObject:self.wrapperSdkName forKey:kMSWrapperSDKName];
 }
 
 @end
