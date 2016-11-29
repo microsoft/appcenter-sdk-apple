@@ -21,8 +21,8 @@ framework_root: ../../MobileCenter-SDK-iOS
 exclude: [../../MobileCenter-SDK-iOS/MobileCenterAnalytics.framework/Headers/MSService.h, ../../MobileCenter-SDK-iOS/MobileCenterAnalytics.framework/Headers/MSServiceAbstract.h]
 
 root_url: http://docs.mobile.azure.com/sdk/ios/
-github_url: https://github.com/Microsoft/MobileCenter-SDK-iOS
-github_file_prefix: "https://github.com/Microsoft/MobileCenter-SDK-iOS"
+github_url: https://github.com/Microsoft/mobile-center-sdk-ios
+github_file_prefix: "https://github.com/Microsoft/mobile-center-sdk-ios"
 
 skip_undocumented: true
 
