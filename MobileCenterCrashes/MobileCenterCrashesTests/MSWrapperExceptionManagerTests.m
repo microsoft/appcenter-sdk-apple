@@ -99,10 +99,7 @@
 
 -(void)testSaveAndLoadErrors {
   CFUUIDRef uuidRef = CFUUIDCreate(kCFAllocatorDefault);
-
-  // Load data when wrapper data has not been set
-  NSData* data = [self.manager loadWrapperExceptionDataWithUUIDString:[self uuidRefToString:uuidRef]];
-
+  
   // Save/load when the wrapper exception has not been set
   [self.manager saveWrapperException:uuidRef];
   assertThatBool([self.manager hasException], isFalse());
