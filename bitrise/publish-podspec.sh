@@ -36,8 +36,19 @@ if [ "$1" == "internal" ]; then
 
 else
 
-  ## 1. Run lint to validate podspec. This step will automatically push the spec to CocoaPods if the spec is valid
+  ## 1. Run lint to validate podspec.
   resp="$(pod spec lint $BITRISE_SOURCE_DIR/$PODSPEC_FILENAME)"
+  echo $resp
+
+  # Check error from the response
+  error="$(echo $resp | grep -i error\|fatal)"
+  if [ "$error" ]; then
+    echo "Cannot publish to CocoaPods due to spec validation failure"
+    exit 1
+  fi
+
+  ## 2. Push podspec to CocoaPods
+  resp="$(pod trunk push $BITRISE_SOURCE_DIR/$PODSPEC_FILENAME)"
   echo $resp
 
   # Check error from the response
