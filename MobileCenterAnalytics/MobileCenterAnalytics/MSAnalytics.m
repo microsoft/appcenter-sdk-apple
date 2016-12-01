@@ -50,7 +50,7 @@ static NSString *const kMSServiceName = @"Analytics";
 
   // Set up swizzling for auto page tracking.
   [MSAnalyticsCategory activateCategory];
-  MSLogVerbose([MSAnalytics getLoggerTag], @"Started analytics service");
+  MSLogVerbose([MSAnalytics getLoggerTag], @"Started analytics service.");
 }
 
 + (NSString *)getLoggerTag {
@@ -136,7 +136,15 @@ static NSString *const kMSServiceName = @"Analytics";
 
 #pragma mark - Private methods
 
-- (void)trackEvent:(NSString *)eventName withProperties:(NSDictionary *)properties {
+- (BOOL)validatePropertyValueType:(NSDictionary<NSString *, NSString *> *)properties {
+  for (NSObject *value in [properties allValues]) {
+    if (![value isKindOfClass:[NSString class]])
+      return NO;
+  }
+  return YES;
+}
+
+- (void)trackEvent:(NSString *)eventName withProperties:(NSDictionary<NSString *, NSString *> *)properties {
   if (![self isEnabled])
     return;
 
@@ -144,22 +152,34 @@ static NSString *const kMSServiceName = @"Analytics";
   MSEventLog *log = [[MSEventLog alloc] init];
   log.name = eventName;
   log.eventId = MS_UUID_STRING;
-  if (properties)
+  if (properties) {
+    // Check if property dictionary contains non-string values.
+    if (![self validatePropertyValueType:properties]) {
+      MSLogError([MSAnalytics getLoggerTag], @"The event contains unsupported value type(s). Values should be NSString type.");
+      return;
+    }
     log.properties = properties;
+  }
 
   // Send log to log manager.
   [self sendLog:log withPriority:self.priority];
 }
 
-- (void)trackPage:(NSString *)pageName withProperties:(NSDictionary *)properties {
+- (void)trackPage:(NSString *)pageName withProperties:(NSDictionary<NSString *, NSString *> *)properties {
   if (![super isEnabled])
     return;
 
   // Create and set properties of the event log.
   MSPageLog *log = [[MSPageLog alloc] init];
   log.name = pageName;
-  if (properties)
+  if (properties) {
+    // Check if property dictionary contains non-string values.
+    if (![self validatePropertyValueType:properties]) {
+      MSLogError([MSAnalytics getLoggerTag], @"The page contains unsupported value type(s). Values should be NSString type.");
+      return;
+    }
     log.properties = properties;
+  }
 
   // Send log to log manager.
   [self sendLog:log withPriority:self.priority];
