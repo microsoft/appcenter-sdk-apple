@@ -9,33 +9,40 @@
 
 // Temporarily hiding trakcing page feature.
 /**
- *  Track a page.
+ * Track a page.
  *
- *  @param pageName  page name.
+ * @param pageName  page name.
  */
 + (void)trackPage:(NSString *)pageName;
 
 /**
- *  Track a page.
+ * Track a page.
  *
- *  @param pageName  page name.
- *  @param properties dictionary of properties.
+ * @param pageName  page name.
+ * @param properties dictionary of properties.
  */
 + (void)trackPage:(NSString *)pageName withProperties:(NSDictionary *)properties;
 
 /**
- *  Set the page auto-tracking property.
+ * Set the page auto-tracking property.
  *
- *  @param isEnabled is page tracking enabled or disabled.
+ * @param isEnabled is page tracking enabled or disabled.
  */
 
 + (void)setAutoPageTrackingEnabled:(BOOL)isEnabled;
 
 /**
- *  Indicate if auto page tracking is enabled or not.
+ * Indicate if auto page tracking is enabled or not.
  *
- *  @return YES is page tracking is enabled and NO if disabled.
+ * @return YES if page tracking is enabled and NO if disabled.
  */
 + (BOOL)isAutoPageTrackingEnabled;
+
+/**
+ * Validate value types of properties.
+ *
+ * @return YES if properties have valid value types, NO otherwise.
+ */
+- (BOOL)validatePropertyValueType:(NSDictionary<NSString *, NSString *> *)properties;
 
 @end
