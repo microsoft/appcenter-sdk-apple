@@ -17,12 +17,14 @@ Add Mobile Center services to your app and collect crash reports and understand 
 This document contains the following sections:
 
 1. [Prerequisites](#1-prerequisites)
-2. [Integrate the SDK](#2-add-mobilecenter-sdk-modules)
+2. [Integrate the SDK](#2-integrate-the-sdk)
 3. [Start the SDK](#3-start-the-sdk)
 4. [Analytics APIs](#4-analytics-apis)
 5. [Crashes APIs](#5-crashes-apis)
 6. [Advanced APIs](#6-advanced-apis)
 7. [Troubleshooting](#7-troubleshooting)
+8. [Contributing](#8-contributing)
+9. [Contact](#9-contact)
 
 Let's get started with setting up the Mobile Center SDK in your app to use these services.
 
@@ -577,5 +579,18 @@ MSMobileCenter.setEnabled(false)
   
   Mobile Center SDK requires no permissions to be set in your app.
 
+## 8. Contributing
 
+We're looking forward to your contributions via pull requests.
+
+### 8.1 Code of Conduct
+
+This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact opencode@microsoft.com with any additional questions or comments.
+
+### 8.2 Contributor License
+
+You must sign a [Contributor License Agreement](https://cla.microsoft.com/) before submitting your pull request. To complete the Contributor License Agreement (CLA), you will need to submit a request via the [form](https://cla.microsoft.com/) and then electronically sign the CLA when you receive the email containing the link to the document. You need to sign the CLA only once to cover submission to any Microsoft OSS project. 
+
+## 9. Contact
+If you have further questions or are running into trouble that cannot be resolved by any of the steps here, feel free to open a Github issue here or contact us at mobilecentersdk@microsoft.com.
 
