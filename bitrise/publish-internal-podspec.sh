@@ -17,7 +17,7 @@ if [ "$1" == "internal" ]; then
   local_repo_path="$(pod repo | grep "$GIT_SPEC_REPO_NAME" | grep Path | head -1 | awk -F ": " '{print $2}')"
 
   ## 2. Update podspec to the internal podspec local repo
-  resp="$(pod repo push $GIT_SPEC_REPO_NAME $BITRISE_SOURCE_DIR/$PODSPEC_FILENAME --allow-warnings)"
+  resp="$(pod repo push $GIT_SPEC_REPO_NAME $BITRISE_SOURCE_DIR/$PODSPEC_FILENAME)"
   echo $resp
 
   # Check error from the response
@@ -37,7 +37,7 @@ if [ "$1" == "internal" ]; then
 else
 
   ## 1. Run lint to validate podspec. This step will automatically push the spec to CocoaPods if the spec is valid
-  resp="$(pod spec lint $BITRISE_SOURCE_DIR/$PODSPEC_FILENAME --allow-warnings)"
+  resp="$(pod spec lint $BITRISE_SOURCE_DIR/$PODSPEC_FILENAME)"
   echo $resp
 
   # Check error from the response
