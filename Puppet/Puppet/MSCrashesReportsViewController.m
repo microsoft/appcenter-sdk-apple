@@ -56,6 +56,7 @@
   unsigned int nclasses = 0;
   Class *classes = objc_copyClassList(&nclasses);
   
+  [MSCrash removeAllCrashes];
   for (unsigned int i = 0; i < nclasses; ++i) {
     if (classes[i] &&
         class_getSuperclass(classes[i]) == [MSCrash class] &&

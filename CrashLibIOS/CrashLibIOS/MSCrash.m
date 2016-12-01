@@ -24,6 +24,10 @@ static NSMutableSet *crashTypes = nil;
   [crashTypes addObject:crash];
 }
 
++ (void)removeAllCrashes {
+  [crashTypes removeAllObjects];
+}
+
 + (void)unregisterCrash:(MSCrash *)crash {
   [crashTypes removeObject:crash];
 }
