@@ -15,7 +15,7 @@
 #import "MobileCenter+Internal.h"
 
 #import "OCMock.h"
-#import <OHHTTPStubs/OHHTTPStubs.h>
+#import "OHHTTPStubs.h"
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <XCTest/XCTest.h>
 
