@@ -19,9 +19,9 @@
   NSDictionary *invalidValueInProperties = @{@"Key1": @"Value1", @(2): @"Value2", @"Key3": @"Value3"};
 
   // When
-  BOOL valid = [[MSAnalytics sharedInstance] validatePropertyKeyValueTypes:validProperties];
-  BOOL invalidKey = [[MSAnalytics sharedInstance] validatePropertyKeyValueTypes:invalidKeyInProperties];
-  BOOL invalidValue = [[MSAnalytics sharedInstance] validatePropertyKeyValueTypes:invalidValueInProperties];
+  BOOL valid = [[MSAnalytics sharedInstance] validateProperties:validProperties];
+  BOOL invalidKey = [[MSAnalytics sharedInstance] validateProperties:invalidKeyInProperties];
+  BOOL invalidValue = [[MSAnalytics sharedInstance] validateProperties:invalidValueInProperties];
 
   // Then
   XCTAssertTrue(valid);
