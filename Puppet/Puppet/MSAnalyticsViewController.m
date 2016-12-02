@@ -156,7 +156,7 @@
       break;
     }
     case 1: {
-      NSDictionary *properties = @{ @"gender" : @"male", @"age" : @(20), @"title" : @"SDE" };
+      NSDictionary *properties = @{ @"gender" : @"male", @"age" : @"20", @"title" : @"SDE" };
       [MSAnalytics trackEvent:@"myEvent" withProperties:properties];
       break;
     }
@@ -166,7 +166,7 @@
     }
 
     case 3: {
-      NSDictionary *properties = @{ @"gender" : @"female", @"age" : @(28), @"title" : @"PM" };
+      NSDictionary *properties = @{ @"gender" : @"female", @"age" : @"28", @"title" : @"PM" };
       [MSAnalytics trackPage:@"myPage" withProperties:properties];
       break;
     }

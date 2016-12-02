@@ -1,5 +1,24 @@
-# MobileCenter-SDK-iOS Change Log
+# Mobile Center SDK for iOS Change Log
 
+
+## Version 0.3.3
+
+This version has dependencies update, data model change and bug fix.
+
+### MobileCenter
+
+* **[Feature]** Add stack trace to Exception model for wrapper SDK.
+* **[Misc]** Update OHTTPStubs to 5.2.3 and OCHamcrest to 6.0.0.
+
+### MobileCenterAnalytics
+
+* **[Misc]** Change to only accept NSString keys and values in properties for trackEvent and trackPage.
+
+### Puppet
+
+* **[Bug]** Fix Puppet application that duplicates list of items in Crashes.
+
+___
 
 ## Version 0.3.2
 
