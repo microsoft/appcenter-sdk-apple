@@ -12,6 +12,8 @@
 
 + (void)unregisterCrash:(MSCrash *)crash;
 
++ (void)removeAllCrashes;
+
 @property(nonatomic, copy, readonly) NSString *category;
 @property(nonatomic, copy, readonly) NSString *title;
 @property(nonatomic, copy, readonly) NSString *desc;

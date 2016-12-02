@@ -20,6 +20,11 @@
 @property(nonatomic, nonnull) NSString *message;
 
 /*
+ * Raw stack trace. Sent when the frames property is either missing or unreliable.
+ */
+@property(nonatomic, nullable) NSString *stackTrace;
+
+/*
  * Stack frames [optional].
  */
 @property(nonatomic, nullable) NSArray<MSStackFrame *> *frames;
