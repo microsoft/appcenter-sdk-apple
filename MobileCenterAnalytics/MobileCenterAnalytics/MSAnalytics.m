@@ -136,10 +136,11 @@ static NSString *const kMSServiceName = @"Analytics";
 
 #pragma mark - Private methods
 
-- (BOOL)validatePropertyValueType:(NSDictionary<NSString *, NSString *> *)properties {
-  for (NSObject *value in [properties allValues]) {
-    if (![value isKindOfClass:[NSString class]])
+- (BOOL)validatePropertyKeyValueTypes:(NSDictionary<NSString *, NSString *> *)properties {
+  for (id key in properties) {
+    if (![key isKindOfClass:[NSString class]] || ![[properties objectForKey:key] isKindOfClass:[NSString class]]) {
       return NO;
+    }
   }
   return YES;
 }
@@ -153,8 +154,9 @@ static NSString *const kMSServiceName = @"Analytics";
   log.name = eventName;
   log.eventId = MS_UUID_STRING;
   if (properties) {
+
     // Check if property dictionary contains non-string values.
-    if (![self validatePropertyValueType:properties]) {
+    if (![self validatePropertyKeyValueTypes:properties]) {
       MSLogError([MSAnalytics getLoggerTag], @"The event contains unsupported value type(s). Values should be NSString type.");
       return;
     }
@@ -173,8 +175,9 @@ static NSString *const kMSServiceName = @"Analytics";
   MSPageLog *log = [[MSPageLog alloc] init];
   log.name = pageName;
   if (properties) {
+
     // Check if property dictionary contains non-string values.
-    if (![self validatePropertyValueType:properties]) {
+    if (![self validatePropertyKeyValueTypes:properties]) {
       MSLogError([MSAnalytics getLoggerTag], @"The page contains unsupported value type(s). Values should be NSString type.");
       return;
     }
