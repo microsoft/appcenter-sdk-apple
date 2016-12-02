@@ -25,7 +25,7 @@
 
 /*
  * This file allows to keep compatibility with older SDKs which didn't have
- * the latest services and associated macros yet.
+ * the latest features and associated macros yet.
  */
 
 

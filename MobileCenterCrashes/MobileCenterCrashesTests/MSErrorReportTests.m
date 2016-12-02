@@ -14,7 +14,7 @@
 
 @implementation MSErrorReportTests
 
-- (void)initializationWorks {
+- (void)testInitializationWorks {
   // If
   NSString *sdkVersion = @"3.0.1";
   NSString *model = @"iPhone 7.2";

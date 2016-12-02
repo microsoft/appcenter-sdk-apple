@@ -53,7 +53,6 @@
 		6E171AEE1D22F7BE000DC480 /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171AED1D22F7BE000DC480 /* OCHamcrestIOS.framework */; };
 		6E171AF01D22F841000DC480 /* libMobileCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171AEF1D22F841000DC480 /* libMobileCenter.a */; };
 		6E171B111D22FABA000DC480 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171B051D22FABA000DC480 /* libOCMock.a */; };
-		6E171B391D22FF6B000DC480 /* libOHHTTPStubs.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171B2F1D22FF6B000DC480 /* libOHHTTPStubs.a */; };
 		6E73FE6A1D402F79008CDC15 /* MSCrashesCXXExceptionHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E73FE681D402F79008CDC15 /* MSCrashesCXXExceptionHandler.h */; };
 		6E73FE6B1D402F79008CDC15 /* MSCrashesCXXExceptionHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6E73FE691D402F79008CDC15 /* MSCrashesCXXExceptionHandler.mm */; };
 		6E73FE6F1D4032AB008CDC15 /* MSCrashesHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E73FE6D1D4032AB008CDC15 /* MSCrashesHelper.h */; };
@@ -175,15 +174,6 @@
 		6E171B0E1D22FABA000DC480 /* OCMockObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMockObject.h; sourceTree = "<group>"; };
 		6E171B0F1D22FABA000DC480 /* OCMRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMRecorder.h; sourceTree = "<group>"; };
 		6E171B101D22FABA000DC480 /* OCMStubRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMStubRecorder.h; sourceTree = "<group>"; };
-		6E171B2F1D22FF6B000DC480 /* libOHHTTPStubs.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOHHTTPStubs.a; sourceTree = "<group>"; };
-		6E171B311D22FF6B000DC480 /* Compatibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Compatibility.h; sourceTree = "<group>"; };
-		6E171B321D22FF6B000DC480 /* NSURLRequest+HTTPBodyTesting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURLRequest+HTTPBodyTesting.h"; sourceTree = "<group>"; };
-		6E171B331D22FF6B000DC480 /* OHHTTPStubs+Mocktail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OHHTTPStubs+Mocktail.h"; sourceTree = "<group>"; };
-		6E171B341D22FF6B000DC480 /* OHHTTPStubs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OHHTTPStubs.h; sourceTree = "<group>"; };
-		6E171B351D22FF6B000DC480 /* OHHTTPStubsResponse+HTTPMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OHHTTPStubsResponse+HTTPMessage.h"; sourceTree = "<group>"; };
-		6E171B361D22FF6B000DC480 /* OHHTTPStubsResponse+JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OHHTTPStubsResponse+JSON.h"; sourceTree = "<group>"; };
-		6E171B371D22FF6B000DC480 /* OHHTTPStubsResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OHHTTPStubsResponse.h; sourceTree = "<group>"; };
-		6E171B381D22FF6B000DC480 /* OHPathHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OHPathHelpers.h; sourceTree = "<group>"; };
 		6E37297F1D1DE93800F1E4AE /* MobileCenterCrashes.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = MobileCenterCrashes.xcconfig; sourceTree = "<group>"; };
 		6E3729811D1DE93800F1E4AE /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		6E73FE681D402F79008CDC15 /* MSCrashesCXXExceptionHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrashesCXXExceptionHandler.h; sourceTree = "<group>"; };
@@ -255,7 +245,6 @@
 			files = (
 				6E171AF01D22F841000DC480 /* libMobileCenter.a in Frameworks */,
 				6E171B111D22FABA000DC480 /* libOCMock.a in Frameworks */,
-				6E171B391D22FF6B000DC480 /* libOHHTTPStubs.a in Frameworks */,
 				6E171AE61D22F781000DC480 /* libMobileCenterCrashes.a in Frameworks */,
 				6E171AEE1D22F7BE000DC480 /* OCHamcrestIOS.framework in Frameworks */,
 			);
@@ -357,7 +346,6 @@
 			isa = PBXGroup;
 			children = (
 				6E171AEF1D22F841000DC480 /* libMobileCenter.a */,
-				6E171B2E1D22FF6B000DC480 /* OHHTTPStubs */,
 				6E171B041D22FABA000DC480 /* OCMock */,
 				6E171AED1D22F7BE000DC480 /* OCHamcrestIOS.framework */,
 			);
@@ -389,31 +377,6 @@
 				6E171B101D22FABA000DC480 /* OCMStubRecorder.h */,
 			);
 			path = OCMock;
-			sourceTree = "<group>";
-		};
-		6E171B2E1D22FF6B000DC480 /* OHHTTPStubs */ = {
-			isa = PBXGroup;
-			children = (
-				6E171B2F1D22FF6B000DC480 /* libOHHTTPStubs.a */,
-				6E171B301D22FF6B000DC480 /* OHHTTPStubs */,
-			);
-			name = OHHTTPStubs;
-			path = ../../Vendor/OHHTTPStubs;
-			sourceTree = "<group>";
-		};
-		6E171B301D22FF6B000DC480 /* OHHTTPStubs */ = {
-			isa = PBXGroup;
-			children = (
-				6E171B311D22FF6B000DC480 /* Compatibility.h */,
-				6E171B321D22FF6B000DC480 /* NSURLRequest+HTTPBodyTesting.h */,
-				6E171B331D22FF6B000DC480 /* OHHTTPStubs+Mocktail.h */,
-				6E171B341D22FF6B000DC480 /* OHHTTPStubs.h */,
-				6E171B351D22FF6B000DC480 /* OHHTTPStubsResponse+HTTPMessage.h */,
-				6E171B361D22FF6B000DC480 /* OHHTTPStubsResponse+JSON.h */,
-				6E171B371D22FF6B000DC480 /* OHHTTPStubsResponse.h */,
-				6E171B381D22FF6B000DC480 /* OHPathHelpers.h */,
-			);
-			path = OHHTTPStubs;
 			sourceTree = "<group>";
 		};
 		6E37297E1D1DE93800F1E4AE /* Support */ = {
