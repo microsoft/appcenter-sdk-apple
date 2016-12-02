@@ -43,6 +43,6 @@
  *
  * @return YES if properties have valid value types, NO otherwise.
  */
-- (BOOL)validatePropertyValueType:(NSDictionary<NSString *, NSString *> *)properties;
+- (BOOL)validatePropertyKeyValueTypes:(NSDictionary<NSString *, NSString *> *)properties;
 
 @end
