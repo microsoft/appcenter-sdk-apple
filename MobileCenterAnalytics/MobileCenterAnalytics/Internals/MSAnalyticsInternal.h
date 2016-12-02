@@ -39,9 +39,9 @@
 + (BOOL)isAutoPageTrackingEnabled;
 
 /**
- * Validate value types of properties.
+ * Validate key and value types of properties.
  *
- * @return YES if properties have valid value types, NO otherwise.
+ * @return YES if properties have valid key and value types, NO otherwise.
  */
 - (BOOL)validatePropertyKeyValueTypes:(NSDictionary<NSString *, NSString *> *)properties;
 
