@@ -169,7 +169,7 @@ extension ViewController : UITableViewDelegate{
                 }
             case .AppCrashInLastSession:
                 //Check either app was crashed in last session
-                let message = "App \(MSCrashes.hasCrashedInLastSession() ? "was" : "wasn't") crashed in last session"
+                let message = "App \(MSCrashes.hasCrashedInLastSession() ? "has" : "has not") crashed in last session"
                 let alert = MSAlertController.init(title: "", message: message, preferredStyle: .alert)
                 if (MSCrashes.hasCrashedInLastSession()){
                     alert.addAction(UIAlertAction(title: "Show Crash Report", style: .default, handler: { (alert) in

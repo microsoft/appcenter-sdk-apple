@@ -35,7 +35,7 @@ class MSCrashReportViewController: UIViewController {
         case CarrierCountry = "Carrier Country"
         case AppNamespace = "App Namespace"
         
-        static let allReport  = [CrashReportInfoType.Identifier, CrashReportInfoType.ReporterKey, CrashReportInfoType.Signal, CrashReportInfoType.ExceptionName, CrashReportInfoType.ExceptionReason, CrashReportInfoType.AppStartTime, CrashReportInfoType.AppErrorTime, CrashReportInfoType.AppProcessIdentifier, CrashReportInfoType.IsAppKill, CrashReportInfoType.DeviceModel, CrashReportInfoType.DeviceOEMName, CrashReportInfoType.DeviceOSName, CrashReportInfoType.DeviceOSVersion, CrashReportInfoType.DeviceOSBuild, CrashReportInfoType.DeviceLocale, CrashReportInfoType.DeviceTimeZoneOffset, CrashReportInfoType.DeviceScreenSize, CrashReportInfoType.AppVersion, CrashReportInfoType.AppBuild, CrashReportInfoType.CarrierName, CrashReportInfoType.CarrierCountry, CrashReportInfoType.AppNamespace]
+        static let allReports  = [CrashReportInfoType.Identifier, CrashReportInfoType.ReporterKey, CrashReportInfoType.Signal, CrashReportInfoType.ExceptionName, CrashReportInfoType.ExceptionReason, CrashReportInfoType.AppStartTime, CrashReportInfoType.AppErrorTime, CrashReportInfoType.AppProcessIdentifier, CrashReportInfoType.IsAppKill, CrashReportInfoType.DeviceModel, CrashReportInfoType.DeviceOEMName, CrashReportInfoType.DeviceOSName, CrashReportInfoType.DeviceOSVersion, CrashReportInfoType.DeviceOSBuild, CrashReportInfoType.DeviceLocale, CrashReportInfoType.DeviceTimeZoneOffset, CrashReportInfoType.DeviceScreenSize, CrashReportInfoType.AppVersion, CrashReportInfoType.AppBuild, CrashReportInfoType.CarrierName, CrashReportInfoType.CarrierCountry, CrashReportInfoType.AppNamespace]
     }
     
     var crashReport:MSErrorReport!
@@ -58,13 +58,13 @@ class MSCrashReportViewController: UIViewController {
 
 extension MSCrashReportViewController : UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return CrashReportInfoType.allReport.count;
+        return CrashReportInfoType.allReports.count;
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: MSDetailsTableViewCell.name(), for: indexPath) as? MSDetailsTableViewCell{
-            switch CrashReportInfoType.allReport[indexPath.row] {
+            switch CrashReportInfoType.allReports[indexPath.row] {
             case .Identifier:
                 cell.titleNameLabel.text = CrashReportInfoType.Identifier.rawValue
                 cell.detailLabel.text = crashReport.incidentIdentifier ?? "N/A"
