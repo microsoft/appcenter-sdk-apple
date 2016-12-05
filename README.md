@@ -324,7 +324,7 @@ func crashes(_ crashes: MSCrashes!, shouldProcessErrorReport errorReport: MSErro
         
 #### User Confirmation
 
-If user privacy is important to you, you might want to get a user's confirmation before sending a crash report to Mobile Center. The SDK exposes a callbacks where you can tell it to await user confirmation before sending any crash reports. This requires at least one additional step.
+By default the SDK automatically sends crash reports to Mobile Center. However, the SDK exposes a callback where you can tell it to await user confirmation before sending any crash reports. This requires at least one additional step.
 
 #### Step 1: Set a user confirmation handler.
 	
