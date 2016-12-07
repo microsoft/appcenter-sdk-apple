@@ -378,7 +378,8 @@ static NSString *const kMSTestPriorityName = @"Prio";
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
 
-                                 // Check the callback was invoked for logs.
+                                 // Check the callbacks were invoked for logs.
+                                 OCMVerify([delegateMock channel:sut willSendLog:log]);
                                  OCMVerify([delegateMock channel:sut didFailSendingLog:log withError:anything()]);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
