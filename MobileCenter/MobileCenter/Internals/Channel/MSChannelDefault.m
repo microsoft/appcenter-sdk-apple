@@ -101,9 +101,14 @@
     } else if (self.discardLogs) {
       MSLogWarning([MSMobileCenter getLoggerTag], @"Channel disabled in log discarding mode, discard this log.");
       for (id<MSChannelDelegate> delegate in self.delegates) {
+
+        // Call willSendLog before didFailSendingLog
+        if (delegate && [delegate respondsToSelector:@selector(channel:willSendLog:)])
+          [delegate channel:self willSendLog:item];
+
+        // Call didFailSendingLog
         if (delegate && [delegate respondsToSelector:@selector(channel:didFailSendingLog:withError:)])
-          // TODO: Fill out more information in NSError
-          [delegate channel:self didFailSendingLog:item withError:[NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorCancelled userInfo:nil]];
+          [delegate channel:self didFailSendingLog:item withError:nil];
       }
       return;
     }
