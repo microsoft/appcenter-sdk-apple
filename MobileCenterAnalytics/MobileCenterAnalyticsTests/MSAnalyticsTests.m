@@ -1,11 +1,21 @@
 #import <Foundation/Foundation.h>
 #import <XCTest/XCTest.h>
+#import <OCMock/OCMock.h>
 
 #import "MSAnalytics.h"
 #import "MSAnalyticsInternal.h"
+#import "MSAnalyticsDelegate.h"
+#import "MSMockAnalyticsDelegate.h"
+
+@class MSMockAnalyticsDelegate;
 
 @interface MSAnalyticsTests : XCTestCase
 @end
+
+@interface MSAnalytics ()
+@property (nonatomic) id<MSAnalyticsDelegate> delegate;
+@end
+
 
 @implementation MSAnalyticsTests
 
@@ -27,6 +37,30 @@
   XCTAssertTrue(valid);
   XCTAssertFalse(invalidKey);
   XCTAssertFalse(invalidValue);
+}
+
+- (void)testSettingDelegateWorks {
+  id<MSAnalyticsDelegate> delegateMock = OCMProtocolMock(@protocol(MSAnalyticsDelegate));
+  [MSAnalytics setDelegate:delegateMock];
+  XCTAssertNotNil([MSAnalytics sharedInstance].delegate);
+  XCTAssertEqual([MSAnalytics sharedInstance].delegate, delegateMock);
+}
+
+- (void)testAnalyticsDelegateWithoutImplementations {
+
+  // When
+  MSMockAnalyticsDelegate *delegateMock = OCMPartialMock([MSMockAnalyticsDelegate new]);
+  [MSAnalytics setDelegate:delegateMock];
+
+  id<MSAnalyticsDelegate> delegate = [[MSAnalytics sharedInstance] delegate];
+
+  // Then
+  XCTAssertFalse([delegate respondsToSelector:@selector(analytics:willSendEventLog:)]);
+  XCTAssertFalse([delegate respondsToSelector:@selector(analytics:didSucceedSendingEventLog:)]);
+  XCTAssertFalse([delegate respondsToSelector:@selector(analytics:didFailSendingEventLog:withError:)]);
+  XCTAssertFalse([delegate respondsToSelector:@selector(analytics:willSendPageLog:)]);
+  XCTAssertFalse([delegate respondsToSelector:@selector(analytics:didSucceedSendingPageLog:)]);
+  XCTAssertFalse([delegate respondsToSelector:@selector(analytics:didFailSendingPageLog:withError:)]);
 }
 
 @end

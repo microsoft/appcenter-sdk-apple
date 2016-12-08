@@ -34,6 +34,7 @@
 
 /* Begin PBXBuildFile section */
 		042A17A81DEFA950003BA80A /* MSAnalyticsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 042A17A71DEFA950003BA80A /* MSAnalyticsTests.m */; };
+		35BF19E51DF9D59E00193027 /* MSMockAnalyticsDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 35BF19E41DF9D59E00193027 /* MSMockAnalyticsDelegate.m */; };
 		3813B9651DBFE68200831214 /* MSAnalyticsInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 3813B9641DBFE68200831214 /* MSAnalyticsInternal.h */; };
 		387C77051D6CC39400D68CC1 /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C77041D6CC39400D68CC1 /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38D4BBA11D5A98D1001A30A0 /* ../MobileCenter/MobileCenter/MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 38D4BB9F1D5A98D1001A30A0 /* ../MobileCenter/MobileCenter/MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -98,6 +99,9 @@
 
 /* Begin PBXFileReference section */
 		042A17A71DEFA950003BA80A /* MSAnalyticsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAnalyticsTests.m; sourceTree = "<group>"; };
+		35BF19E21DF9C43F00193027 /* MSAnalyticsDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAnalyticsDelegate.h; sourceTree = "<group>"; };
+		35BF19E31DF9D58F00193027 /* MSMockAnalyticsDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSMockAnalyticsDelegate.h; sourceTree = "<group>"; };
+		35BF19E41DF9D59E00193027 /* MSMockAnalyticsDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSMockAnalyticsDelegate.m; sourceTree = "<group>"; };
 		3813B9641DBFE68200831214 /* MSAnalyticsInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAnalyticsInternal.h; sourceTree = "<group>"; };
 		387C77041D6CC39400D68CC1 /* MSServiceAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSServiceAbstract.h; path = ../MobileCenter/MobileCenter/MSServiceAbstract.h; sourceTree = "<group>"; };
 		38D4BB9F1D5A98D1001A30A0 /* ../MobileCenter/MobileCenter/MSService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ../MobileCenter/MobileCenter/MSService.h; sourceTree = "<group>"; };
@@ -169,6 +173,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		35BF19E61DF9D5A400193027 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				35BF19E31DF9D58F00193027 /* MSMockAnalyticsDelegate.h */,
+				35BF19E41DF9D59E00193027 /* MSMockAnalyticsDelegate.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 		6E0684361D35A39300A8CC6C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -278,6 +291,7 @@
 				E85547CF1D2D6521002DF6E2 /* MobileCenter+Internal.h */,
 				E85547CE1D2D64F0002DF6E2 /* MSAnalyticsPrivate.h */,
 				3813B9641DBFE68200831214 /* MSAnalyticsInternal.h */,
+				35BF19E21DF9C43F00193027 /* MSAnalyticsDelegate.h */,
 			);
 			path = Internals;
 			sourceTree = "<group>";
@@ -303,6 +317,7 @@
 				6E3E2CD01D359F3300B1EE50 /* MSEventLogTests.m */,
 				6E3E2CD11D359F3300B1EE50 /* MSPageLogTests.m */,
 				E85547D91D2D6723002DF6E2 /* Info.plist */,
+				35BF19E61DF9D5A400193027 /* Model */,
 			);
 			path = MobileCenterAnalyticsTests;
 			sourceTree = "<group>";
@@ -487,6 +502,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				042A17A81DEFA950003BA80A /* MSAnalyticsTests.m in Sources */,
+				35BF19E51DF9D59E00193027 /* MSMockAnalyticsDelegate.m in Sources */,
 				E81591321D526C3B003D5F3C /* MSSessionTrackerHelper.m in Sources */,
 				6E3E2CD31D359F3300B1EE50 /* MSEventLogTests.m in Sources */,
 				6E3E2CD41D359F3300B1EE50 /* MSPageLogTests.m in Sources */,
