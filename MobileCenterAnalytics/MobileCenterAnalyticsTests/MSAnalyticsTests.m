@@ -2,10 +2,14 @@
 #import <XCTest/XCTest.h>
 #import <OCMock/OCMock.h>
 
+#import "MSServiceAbstract.h"
+#import "MSService.h"
+
 #import "MSAnalytics.h"
 #import "MSAnalyticsInternal.h"
 #import "MSAnalyticsDelegate.h"
 #import "MSMockAnalyticsDelegate.h"
+#import "MSLogManager.h"
 
 @class MSMockAnalyticsDelegate;
 
@@ -15,6 +19,12 @@
 @interface MSAnalytics ()
 @property (nonatomic) id<MSAnalyticsDelegate> delegate;
 @end
+
+@interface MSServiceAbstract ()
+- (BOOL) isEnabled;
+- (void) setEnabled:(BOOL)enabled;
+@end
+
 
 
 @implementation MSAnalyticsTests
@@ -37,6 +47,21 @@
   XCTAssertTrue(valid);
   XCTAssertFalse(invalidKey);
   XCTAssertFalse(invalidValue);
+}
+
+- (void)testApplyEnabledStateWorks {
+  [[MSAnalytics sharedInstance] startWithLogManager:OCMProtocolMock(@protocol(MSLogManager))];
+
+  MSServiceAbstract *service = (MSServiceAbstract*)[MSAnalytics sharedInstance];
+
+  [service setEnabled:YES];
+  XCTAssertTrue([service isEnabled]);
+
+  [service setEnabled:NO];
+  XCTAssertFalse([service isEnabled]);
+
+  [service setEnabled:YES];
+  XCTAssertTrue([service isEnabled]);
 }
 
 - (void)testSettingDelegateWorks {
