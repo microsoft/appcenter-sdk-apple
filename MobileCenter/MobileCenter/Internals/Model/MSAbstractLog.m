@@ -28,8 +28,8 @@ NSString *const kMSType = @"type";
   }
   if (self.toffset) {
 
-    // Set the toffset relative to current time. The toffset needs to be up to date.
-    NSInteger now = [[NSDate date] timeIntervalSince1970];
+    // Set the toffset relative to current time. The toffset needs to be up to date.    
+    NSInteger now = ([[NSDate date] timeIntervalSince1970] * 1000);
     NSInteger relativeTime = now - [self.toffset integerValue];
     dict[kMSToffset] = @(relativeTime);
   }
