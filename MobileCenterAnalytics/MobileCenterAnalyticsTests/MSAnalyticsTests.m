@@ -10,19 +10,33 @@
 #import "MSAnalyticsDelegate.h"
 #import "MSMockAnalyticsDelegate.h"
 #import "MSLogManager.h"
+#import "MSEventLog.h"
 
 @class MSMockAnalyticsDelegate;
 
-@interface MSAnalyticsTests : XCTestCase
+@interface MSAnalyticsTests : XCTestCase<MSAnalyticsDelegate>
+
+@property BOOL willSendEventLogWasCalled;
+@property BOOL didSucceedSendingEventLogWasCalled;
+@property BOOL didFailSendingEventLogWasCalled;
+
 @end
 
 @interface MSAnalytics ()
+
 @property (nonatomic) id<MSAnalyticsDelegate> delegate;
+
+- (void)channel:(id)channel willSendLog:(id<MSLog>)log;
+- (void)channel:(id<MSChannel>)channel didSucceedSendingLog:(id<MSLog>)log;
+- (void)channel:(id<MSChannel>)channel didFailSendingLog:(id<MSLog>)log withError:(NSError *)error;
+
 @end
 
 @interface MSServiceAbstract ()
+
 - (BOOL) isEnabled;
 - (void) setEnabled:(BOOL)enabled;
+
 @end
 
 
@@ -30,6 +44,7 @@
 @implementation MSAnalyticsTests
 
 #pragma mark - Tests
+
 
 - (void)testValidatePropertyType {
 
@@ -86,6 +101,39 @@
   XCTAssertFalse([delegate respondsToSelector:@selector(analytics:willSendPageLog:)]);
   XCTAssertFalse([delegate respondsToSelector:@selector(analytics:didSucceedSendingPageLog:)]);
   XCTAssertFalse([delegate respondsToSelector:@selector(analytics:didFailSendingPageLog:withError:)]);
+
 }
+
+- (void)testAnalyticsDelegateMethodsAreCalled {
+
+  self.willSendEventLogWasCalled = false;
+  self.didSucceedSendingEventLogWasCalled = false;
+  self.didFailSendingEventLogWasCalled = false;
+  [[MSAnalytics sharedInstance] setDelegate:self];
+  MSEventLog *eventLog = [MSEventLog new];
+  [[MSAnalytics sharedInstance] channel:nil willSendLog:eventLog];
+  [[MSAnalytics sharedInstance] channel:nil didSucceedSendingLog:eventLog];
+  [[MSAnalytics sharedInstance] channel:nil didFailSendingLog:eventLog withError:nil];
+
+  XCTAssertTrue(self.willSendEventLogWasCalled);
+  XCTAssertTrue(self.didSucceedSendingEventLogWasCalled);
+  XCTAssertTrue(self.didFailSendingEventLogWasCalled);
+}
+
+- (void)analytics:(MSAnalytics *)analytics willSendEventLog:(MSEventLog *)eventLog
+{
+  self.willSendEventLogWasCalled = true;
+}
+
+- (void)analytics:(MSAnalytics *)analytics didSucceedSendingEventLog:(MSEventLog *)eventLog
+{
+  self.didSucceedSendingEventLogWasCalled = true;
+}
+
+- (void)analytics:(MSAnalytics *)analytics didFailSendingEventLog:(MSEventLog *)eventLog withError:(NSError *)error
+{
+  self.didFailSendingEventLogWasCalled = true;
+}
+
 
 @end
