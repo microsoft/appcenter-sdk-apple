@@ -297,8 +297,8 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   //the moment the app was launched and when the app crashed.
 
   NSDate *appStartTime =
-  [NSDate dateWithTimeIntervalSince1970:([errorLog.toffset doubleValue] - [errorLog.appLaunchTOffset doubleValue])];
-  NSDate *appErrorTime = [NSDate dateWithTimeIntervalSince1970:[errorLog.toffset doubleValue]];
+  [NSDate dateWithTimeIntervalSince1970:(([errorLog.toffset doubleValue]/1000) - ([errorLog.appLaunchTOffset doubleValue])/1000)];
+  NSDate *appErrorTime = [NSDate dateWithTimeIntervalSince1970:([errorLog.toffset doubleValue]/1000)];
 
   NSUInteger processId = [errorLog.processId unsignedIntegerValue];
 
@@ -366,18 +366,18 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   NSDate *crashTime = report.systemInfo.timestamp;
   if (report.processInfo) {
     NSDate *startTime = report.processInfo.processStartTime;
-    NSTimeInterval difference = [crashTime timeIntervalSinceDate:startTime];
+    NSInteger difference = ([crashTime timeIntervalSinceDate:startTime] * 1000);
     return @(difference);
   } else {
     // Use difference between now and crashtime as appLaunchTOffset as fallback.
-    NSTimeInterval difference = [[NSDate date] timeIntervalSinceDate:crashTime];
+    NSTimeInterval difference = ([[NSDate date] timeIntervalSinceDate:crashTime] * 1000);
     return @(difference);
   }
 }
 
 + (NSNumber *)calculateTOffsetFromReport:(MSPLCrashReport *)report {
   NSDate *crashTime = report.systemInfo.timestamp;
-  NSTimeInterval difference = [crashTime timeIntervalSince1970];
+  NSInteger difference = ([crashTime timeIntervalSince1970] * 1000);
   return @(difference);
 }
 
