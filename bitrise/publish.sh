@@ -124,14 +124,15 @@ upload_url="$(echo $REQUEST_UPLOAD_URL_TEMPLATE | sed 's/{id}/'$id'/g')"
 filename=$(echo $BINARY_FILE | sed 's/.zip/-'${publish_version}'.zip/g')
 mv $BINARY_FILE $filename
 
-# Upload binary
-if [ "$1" == "internal" ]; then
-  resp="$(echo "N" | azure storage blob upload ${filename} sdk | grep overwrite)"
-  if [ "$resp" ]; then
-    echo "${filename} already exists"
-    exit 1
-  fi
-else
+# Upload binary to Azure Storage
+resp="$(echo "N" | azure storage blob upload ${filename} sdk | grep overwrite)"
+if [ "$resp" ]; then
+  echo "${filename} already exists"
+  exit 1
+fi
+
+# Upload binary to GitHub for external release
+if [ "$1" == "external" ]; then
   url="$(echo $upload_url | sed 's/{filename}/'${filename}'/g')"
   resp="$(curl -s -X POST -H 'Content-Type: application/zip' --data-binary @$filename $url)"
   id="$(echo $resp | $JQ_COMMAND -r '.id')"
