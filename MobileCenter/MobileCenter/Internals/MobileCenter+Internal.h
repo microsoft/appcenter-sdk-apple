@@ -16,7 +16,7 @@
 #import "Utils/MSUtils.h"
 
 // Environment Helper
-#import "Utils/MSEnvironmentHelper.h"
+#import "Utils/MSUtils.h"
 
 // Channel
 #import "Channel/MSLogManagerDelegate.h"
