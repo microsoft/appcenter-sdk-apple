@@ -71,17 +71,13 @@
 }
 
 - (void)sender:(id<MSSender>)sender callCompletedWithStatus:(NSUInteger)statusCode error:(NSError *)error {
-  if ([MSSenderUtils isNoInternetConnectionError:error] || [MSSenderUtils isRequestCanceledError:error]) {
+  if ([MSSenderUtils isNoInternetConnectionError:error]) {
 
     // Reset the retry count, will retry once the connection is established again.
     [self resetRetry];
     _isProcessing = NO;
-    if ([MSSenderUtils isNoInternetConnectionError:error]) {
-      MSLogInfo([MSMobileCenter getLoggerTag], @"Internet connection is down.");
-      [sender suspend];
-    } else {
-      MSLogInfo([MSMobileCenter getLoggerTag], @"Request cancelled.");
-    }
+    MSLogInfo([MSMobileCenter getLoggerTag], @"Internet connection is down.");
+    [sender suspend];
   }
 
   // Retry.

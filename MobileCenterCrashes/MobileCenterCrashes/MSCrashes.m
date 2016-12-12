@@ -520,7 +520,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     return;
   }
 
-  // If a wrapper SDK has passed an execption, save it to disk
+  // If a wrapper SDK has passed an exception, save it to disk
 
   NSError *error = NULL;
   NSData *crashData = [[NSData alloc]
