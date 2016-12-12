@@ -4,8 +4,10 @@
 
 #import "MSAnalytics.h"
 #import "MSServiceInternal.h"
+#import "MSAnalyticsDelegate.h"
+#import "MSChannelDelegate.h"
 
-@interface MSAnalytics () <MSServiceInternal>
+@interface MSAnalytics () <MSServiceInternal, MSChannelDelegate>
 
 // Temporarily hiding trakcing page feature.
 /**
@@ -44,5 +46,7 @@
  * @return YES if properties have valid keys and values, NO otherwise.
  */
 - (BOOL)validateProperties:(NSDictionary<NSString *, NSString *> *)properties;
+
++ (void)setDelegate:(_Nullable id <MSAnalyticsDelegate>)delegate;
 
 @end

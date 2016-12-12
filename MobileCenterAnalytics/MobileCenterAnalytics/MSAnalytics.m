@@ -9,6 +9,9 @@
 #import "MSLogManager.h"
 #import "MSPageLog.h"
 #import "MSServiceAbstractProtected.h"
+#import "MSChannelDelegate.h"
+#import "MSAnalyticsDelegate.h"
+#import "MSAnalyticsInternal.h"
 
 /**
  *  Service storage key name.
@@ -77,6 +80,9 @@ static NSString *const kMSServiceName = @"Analytics";
     // Add delegate to log manager.
     [self.logManager addDelegate:self.sessionTracker];
 
+    // Set self as delegate of analytics channel.
+    [self.logManager addChannelDelegate:self forPriority:self.priority];
+
     // Report current page while auto page traking is on.
     if (self.autoPageTrackingEnabled) {
 
@@ -87,9 +93,11 @@ static NSString *const kMSServiceName = @"Analytics";
         }
       });
     }
+
     MSLogInfo([MSAnalytics getLoggerTag], @"Analytics service has been enabled.");
   } else {
     [self.logManager removeDelegate:self.sessionTracker];
+    [self.logManager removeChannelDelegate:self forPriority:self.priority];
     [self.sessionTracker stop];
     [self.sessionTracker clearSessions];
     MSLogInfo([MSAnalytics getLoggerTag], @"Analytics service has been disabled.");
@@ -206,6 +214,64 @@ static NSString *const kMSServiceName = @"Analytics";
 
 - (void)sessionTracker:(id)sessionTracker processLog:(id<MSLog>)log withPriority:(MSPriority)priority {
   [self sendLog:log withPriority:priority];
+}
+
+
++ (void)setDelegate:(_Nullable id <MSAnalyticsDelegate>)delegate {
+  [[self sharedInstance] setDelegate:delegate];
+}
+
+#pragma mark - MSChannelDelegate
+
+- (void)channel:(id)channel willSendLog:(id<MSLog>)log {
+  if (!self.delegate) {
+    return;
+  }
+  NSObject *logObject = (NSObject *)log;
+  if ([logObject isKindOfClass:[MSEventLog class]] &&
+      [self.delegate respondsToSelector:@selector(analytics:willSendEventLog:)]) {
+    MSEventLog *eventLog = (MSEventLog*)log;
+    [self.delegate analytics:self willSendEventLog:eventLog];
+  }
+  else if ([logObject isKindOfClass:[MSPageLog class]] &&
+           [self.delegate respondsToSelector:@selector(analytics:willSendPageLog:)]) {
+    MSPageLog *pageLog = (MSPageLog*)log;
+    [self.delegate analytics:self willSendPageLog:pageLog];
+  }
+}
+
+- (void)channel:(id<MSChannel>)channel didSucceedSendingLog:(id<MSLog>)log {
+  if (!self.delegate) {
+    return;
+  }
+  NSObject *logObject = (NSObject *)log;
+  if ([logObject isKindOfClass:[MSEventLog class]] &&
+      [self.delegate respondsToSelector:@selector(analytics:didSucceedSendingEventLog:)]) {
+    MSEventLog *eventLog = (MSEventLog*)log;
+    [self.delegate analytics:self didSucceedSendingEventLog:eventLog];
+  }
+  else if ([logObject isKindOfClass:[MSPageLog class]] &&
+           [self.delegate respondsToSelector:@selector(analytics:didSucceedSendingPageLog:)]) {
+    MSPageLog *pageLog = (MSPageLog*)log;
+    [self.delegate analytics:self didSucceedSendingPageLog:pageLog];
+  }
+}
+
+- (void)channel:(id<MSChannel>)channel didFailSendingLog:(id<MSLog>)log withError:(NSError *)error {
+  if (!self.delegate) {
+    return;
+  }
+  NSObject *logObject = (NSObject *)log;
+  if ([logObject isKindOfClass:[MSEventLog class]] &&
+      [self.delegate respondsToSelector:@selector(analytics:didFailSendingEventLog:withError:)]) {
+    MSEventLog *eventLog = (MSEventLog*)log;
+    [self.delegate analytics:self didFailSendingEventLog:eventLog withError:error];
+  }
+  else if ([logObject isKindOfClass:[MSPageLog class]] &&
+           [self.delegate respondsToSelector:@selector(analytics:didFailSendingPageLog:withError:)]) {
+    MSPageLog *pageLog = (MSPageLog*)log;
+    [self.delegate analytics:self didFailSendingPageLog:pageLog withError:error];
+  }
 }
 
 @end

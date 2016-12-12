@@ -6,9 +6,7 @@
 #import "MSAbstractLog.h"
 #import "MSChannelConfiguration.h"
 #import "MSChannelDefault.h"
-#import "MSLog.h"
-#import "MSSender.h"
-#import "MSStorage.h"
+#import "MSChannelDelegate.h"
 
 static NSString *const kMSTestPriorityName = @"Prio";
 
@@ -333,14 +331,14 @@ static NSString *const kMSTestPriorityName = @"Prio";
       loadLogsForStorageKey:kMSTestPriorityName
              withCompletion:([OCMArg invokeBlockWithArgs:@YES, ((NSArray<MSLog> *)@[ log ]), @"1", nil])]);
   MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithPriorityName:kMSTestPriorityName
-                                                                            flushInterval:0.0
-                                                                           batchSizeLimit:1
-                                                                      pendingBatchesLimit:10];
+                                                                          flushInterval:0.0
+                                                                         batchSizeLimit:1
+                                                                    pendingBatchesLimit:10];
   _sut.configuration = config;
   MSChannelDefault *sut = [[MSChannelDefault alloc] initWithSender:senderMock
-                                                             storage:storageMock
-                                                       configuration:config
-                                                   logsDispatchQueue:dispatch_get_main_queue()];
+                                                           storage:storageMock
+                                                     configuration:config
+                                                 logsDispatchQueue:dispatch_get_main_queue()];
   // When
   [sut enqueueItem:log];
   [sut setEnabled:NO andDeleteDataOnDisabled:YES];
@@ -353,6 +351,36 @@ static NSString *const kMSTestPriorityName = @"Prio";
                                  // Check that logs as been requested for deletion and that there is no batch left.
                                  OCMVerify([storageMock deleteLogsForStorageKey:kMSTestPriorityName]);
                                  assertThatUnsignedLong(sut.pendingBatchIds.count, equalToInt(0));
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
+- (void)testDelegateAfterChannelDisabled {
+
+  // If
+  [self initChannelEndJobExpectation];
+  id <MSChannelDelegate> delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
+  id <MSLog> log = [MSAbstractLog new];
+
+  MSChannelDefault *sut = [[MSChannelDefault alloc] initWithSender:nil
+                                                           storage:nil
+                                                     configuration:nil
+                                                 logsDispatchQueue:dispatch_get_main_queue()];
+  // When
+  [sut addDelegate:delegateMock];
+  [sut setEnabled:NO andDeleteDataOnDisabled:YES];
+  [sut enqueueItem:log];
+  [self enqueueChannelEndJobExpectation];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+
+                                 // Check the callbacks were invoked for logs.
+                                 OCMVerify([delegateMock channel:sut willSendLog:log]);
+                                 OCMVerify([delegateMock channel:sut didFailSendingLog:log withError:anything()]);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
