@@ -297,7 +297,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   //the moment the app was launched and when the app crashed.
 
   NSDate *appStartTime =
-  [NSDate dateWithTimeIntervalSince1970:(([errorLog.toffset doubleValue]/1000) - ([errorLog.appLaunchTOffset doubleValue])/1000)];
+  [NSDate dateWithTimeIntervalSince1970:(([errorLog.toffset doubleValue] - [errorLog.appLaunchTOffset doubleValue])/1000)];
   NSDate *appErrorTime = [NSDate dateWithTimeIntervalSince1970:([errorLog.toffset doubleValue]/1000)];
 
   NSUInteger processId = [errorLog.processId unsignedIntegerValue];
