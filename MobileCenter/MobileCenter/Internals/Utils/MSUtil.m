@@ -2,10 +2,10 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "MSUtilsPrivate.h"
+#import "MSUtilPrivate.h"
 
 
-@implementation MSUtils
+@implementation MSUtil
 
 
 #pragma mark - App Environment

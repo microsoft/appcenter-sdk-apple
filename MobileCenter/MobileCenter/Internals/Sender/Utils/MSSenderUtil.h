@@ -6,7 +6,7 @@
 
 typedef void (^MSSendAsyncCompletionHandler)(NSString *batchId, NSError *error, NSUInteger statusCode);
 
-@interface MSSenderUtils : NSObject
+@interface MSSenderUtil : NSObject
 
 /**
  *  Indicate if the http response is recoverable.
