@@ -1,24 +1,24 @@
-#import "MSUtils.h"
-#import "MSUtilsPrivate.h"
+#import "MSUtil.h"
+#import "MSUtilPrivate.h"
 #import "OCMock.h"
 #import <Foundation/Foundation.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 
-@interface MSUtilsTests : XCTestCase
+@interface MSUtilTests : XCTestCase
 
 @property(nonatomic) id utils;
 
 @end
 
-@implementation MSUtilsTests
+@implementation MSUtilTests
 
 - (void)setUp {
   [super setUp];
 
   // Set up application mock.
-  self.utils = OCMClassMock([MSUtils class]);
+  self.utils = OCMClassMock([MSUtil class]);
 }
 
 - (void)tearDown {
@@ -29,7 +29,7 @@
 - (void)testMSAppStateMatchesUIAppStateWhenAvailable {
 
   // Then
-  assertThat(@([MSUtils applicationState]), is(@([UIApplication sharedApplication].applicationState)));
+  assertThat(@([MSUtil applicationState]), is(@([UIApplication sharedApplication].applicationState)));
 }
 
 - (void)testMSAppReturnsUnknownOnAppExtensions {
@@ -46,7 +46,7 @@
   /**
    * Then
    */
-  assertThat(@([MSUtils applicationState]), is(@(MSApplicationStateUnknown)));
+  assertThat(@([MSUtil applicationState]), is(@(MSApplicationStateUnknown)));
 
   // Make sure the sharedApplication as not been called, it's forbidden within app extensions
   OCMReject([self.utils sharedAppState]);
@@ -60,7 +60,7 @@
   OCMStub([self.utils sharedAppState]).andReturn(expectedState);
 
   // When
-  MSApplicationState state = [MSUtils applicationState];
+  MSApplicationState state = [MSUtil applicationState];
 
   // Then
   assertThat(@(state), is(@(expectedState)));
@@ -73,7 +73,7 @@
   OCMStub([self.utils sharedAppState]).andReturn(expectedState);
 
   // When
-  MSApplicationState state = [MSUtils applicationState];
+  MSApplicationState state = [MSUtil applicationState];
 
   // Then
   assertThat(@(state), is(@(expectedState)));
@@ -86,7 +86,7 @@
   OCMStub([self.utils sharedAppState]).andReturn(expectedState);
 
   // When
-  MSApplicationState state = [MSUtils applicationState];
+  MSApplicationState state = [MSUtil applicationState];
 
   // Then
   assertThat(@(state), is(@(expectedState)));

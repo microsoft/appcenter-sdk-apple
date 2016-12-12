@@ -71,7 +71,7 @@
 }
 
 - (void)sender:(id<MSSender>)sender callCompletedWithStatus:(NSUInteger)statusCode error:(NSError *)error {
-  if ([MSSenderUtils isNoInternetConnectionError:error]) {
+  if ([MSSenderUtil isNoInternetConnectionError:error]) {
 
     // Reset the retry count, will retry once the connection is established again.
     [self resetRetry];
@@ -81,7 +81,7 @@
   }
 
   // Retry.
-  else if ([MSSenderUtils isRecoverableError:statusCode] && ![self hasReachedMaxRetries]) {
+  else if ([MSSenderUtil isRecoverableError:statusCode] && ![self hasReachedMaxRetries]) {
     [self startTimer];
   }
 

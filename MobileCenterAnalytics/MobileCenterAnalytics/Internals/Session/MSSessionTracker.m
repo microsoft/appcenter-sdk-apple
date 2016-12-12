@@ -3,7 +3,7 @@
  */
 
 #import "MSAnalyticsInternal.h"
-#import "MSUtils.h"
+#import "MSUtil.h"
 #import "MSSessionTracker.h"
 #import "MSStartSessionLog.h"
 
@@ -95,8 +95,8 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
   if (!self.started) {
 
     // Request a new session id depending on the application state.
-    if ([MSUtils applicationState] == MSApplicationStateInactive ||
-        [MSUtils applicationState] == MSApplicationStateActive) {
+    if ([MSUtil applicationState] == MSApplicationStateInactive ||
+        [MSUtil applicationState] == MSApplicationStateActive) {
       [self sessionId];
     }
 

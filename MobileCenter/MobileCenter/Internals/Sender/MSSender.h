@@ -5,7 +5,7 @@
 #import "MSLogContainer.h"
 #import "MSSenderCall.h"
 #import "MSSenderCallDelegate.h"
-#import "MSSenderUtils.h"
+#import "MSSenderUtil.h"
 #import "MS_Reachability.h"
 #import <Foundation/Foundation.h>
 

@@ -67,7 +67,7 @@ typedef NS_ENUM(NSInteger, MSApplicationState) {
 /**
  * Utility class that is used throughout the SDK.
  */
-@interface MSUtils : NSObject
+@interface MSUtil : NSObject
 
 /**
  * Detect the environment that the app is running in.
