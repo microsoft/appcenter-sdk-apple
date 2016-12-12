@@ -92,4 +92,10 @@
   assertThat(@(state), is(@(expectedState)));
 }
 
+- (void)testNowInMilliseconds {
+  NSInteger actual = [MSUtil nowInMilliseconds];
+  NSInteger expected = [[NSDate date] timeIntervalSince1970] * 1000;
+  XCTAssertEqual(actual, expected);
+}
+
 @end

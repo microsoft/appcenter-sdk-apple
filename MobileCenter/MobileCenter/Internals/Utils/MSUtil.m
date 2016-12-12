@@ -8,7 +8,7 @@
 @implementation MSUtil
 
 
-#pragma mark - App Environment
+#pragma mark - App Environment Utility Methods
 
 + (MSEnvironment)currentAppEnvironment {
 #if TARGET_OS_SIMULATOR
@@ -52,13 +52,13 @@
 #endif
 }
 
-#pragma mark - UIApplication utility methods
+#pragma mark - UIApplication Utility Methods
 
 + (MSApplicationState)applicationState {
 
   // App extentions must not access sharedApplication.
   if (!MS_IS_APP_EXTENSION) {
-    return (MSApplicationState)[[self class] sharedAppState];
+    return (MSApplicationState) [[self class] sharedAppState];
   }
   return MSApplicationStateUnknown;
 }
@@ -67,9 +67,14 @@
 
   // Compute selector at runtime for more discretion.
   SEL sharedAppSel = NSSelectorFromString(@"sharedApplication");
-  return [[((UIApplication * (*)(id, SEL))[[UIApplication class] methodForSelector:sharedAppSel])(
+  return [[((UIApplication *(*)(id, SEL)) [[UIApplication class] methodForSelector:sharedAppSel])(
           [UIApplication class], sharedAppSel) valueForKey:@"applicationState"] longValue];
 }
 
+#pragma mark - Date Utility Methods
+
++ (NSTimeInterval)nowInMilliseconds {
+  return ([[NSDate date] timeIntervalSince1970] * 1000);
+}
 
 @end

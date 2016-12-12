@@ -34,7 +34,7 @@
   MSDevice *device = [MSDevice new];
   NSString *typeName = @"start_session";
   NSString *sessionId = @"1234567890";
-  NSInteger createTime = ([[NSDate date] timeIntervalSince1970] * 1000);
+  NSInteger createTime = [MSUtil nowInMilliseconds];
   NSNumber *tOffset = @(createTime);
 
   self.sut.device = device;
@@ -49,7 +49,7 @@
   assertThat(actual[@"type"], equalTo(typeName));
   assertThat(actual[@"device"], notNilValue());
   NSTimeInterval seralizedToffset = [actual[@"toffset"] doubleValue];
-  NSTimeInterval actualToffset = ([[NSDate date] timeIntervalSince1970] * 1000) - createTime;
+  NSTimeInterval actualToffset = [MSUtil nowInMilliseconds] - createTime;
   assertThat(@(seralizedToffset), lessThan(@(actualToffset)));
 }
 

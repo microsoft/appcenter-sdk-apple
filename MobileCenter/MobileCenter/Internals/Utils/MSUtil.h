@@ -5,8 +5,8 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-#ifndef MSUtils_h
-#define MSUtils_h
+#ifndef MSUtil_h
+#define MSUtil_h
 
 #define MS_USER_DEFAULTS [MSUserDefaults shared]
 #define MS_NOTIFICATION_CENTER [NSNotificationCenter defaultCenter]
@@ -16,7 +16,7 @@
 #define MS_LOCALE [NSLocale currentLocale]
 #define MS_CLASS_NAME_WITHOUT_PREFIX [NSStringFromClass([self class]) substringFromIndex:2]
 #define MS_IS_APP_EXTENSION [[[NSBundle mainBundle] executablePath] containsString:@".appex/"]
-#endif /* MSUtils_h */
+#endif /* MSUtil_h */
 
 
 /**
@@ -83,5 +83,18 @@ typedef NS_ENUM(NSInteger, MSApplicationState) {
  * @return Current state of the application or MSApplicationStateUnknown while the state can't be determined.
  */
 + (MSApplicationState)applicationState;
+
+
+/**
+ * Return the current date (aka NOW) in ms.
+ *
+ * @discussion
+ * Utility function that returns NOW as a NSTimeInterval but in ms instead of seconds with sub-ms precision. We're using NSTimeInterval
+ * here instead of NSInteger because we might be interested in sub-millisecond precision which we keep with NSTimeInterval as NSTimeInterval
+ * is actually NSDouble.
+ *
+ * @return current time in ms with sub-ms precision if necessary
+ */
++ (NSTimeInterval)nowInMilliseconds;
 
 @end
