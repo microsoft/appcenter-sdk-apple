@@ -128,7 +128,6 @@
 		E88D170E1D36BB1700A5EA57 /* MSUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = E88D170D1D36BB1700A5EA57 /* MSUtils.h */; };
 		E88EBBEC1D2C612E007E7785 /* MSAbstractLog.h in Headers */ = {isa = PBXBuildFile; fileRef = E88EBBEA1D2C612E007E7785 /* MSAbstractLog.h */; };
 		E88EBBED1D2C612E007E7785 /* MSAbstractLog.m in Sources */ = {isa = PBXBuildFile; fileRef = E88EBBEB1D2C612E007E7785 /* MSAbstractLog.m */; };
-		E88EBBF91D2C717D007E7785 /* MSLogUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E88EBBF81D2C717D007E7785 /* MSLogUtils.m */; };
 		E88EBBFB1D2C8CC7007E7785 /* MSLogContainerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E88EBBFA1D2C8CC7007E7785 /* MSLogContainerTests.m */; };
 		E8A8D1EB1D3057A90022931E /* MSUserDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = E8A8D1E91D3057A90022931E /* MSUserDefaults.h */; };
 		E8A8D1EC1D3057A90022931E /* MSUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A8D1EA1D3057A90022931E /* MSUserDefaults.m */; };
@@ -280,8 +279,6 @@
 		E88D170D1D36BB1700A5EA57 /* MSUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MSUtils.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		E88EBBEA1D2C612E007E7785 /* MSAbstractLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAbstractLog.h; sourceTree = "<group>"; };
 		E88EBBEB1D2C612E007E7785 /* MSAbstractLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAbstractLog.m; sourceTree = "<group>"; };
-		E88EBBF71D2C717D007E7785 /* MSLogUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSLogUtils.h; sourceTree = "<group>"; };
-		E88EBBF81D2C717D007E7785 /* MSLogUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLogUtils.m; sourceTree = "<group>"; };
 		E88EBBFA1D2C8CC7007E7785 /* MSLogContainerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSLogContainerTests.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		E8A8D1E91D3057A90022931E /* MSUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSUserDefaults.h; path = ../Model/Utils/MSUserDefaults.h; sourceTree = "<group>"; };
 		E8A8D1EA1D3057A90022931E /* MSUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSUserDefaults.m; path = ../Model/Utils/MSUserDefaults.m; sourceTree = "<group>"; };
@@ -450,7 +447,6 @@
 		6E171B511D234717000DC480 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				E88EBBF61D2C717D007E7785 /* Utils */,
 				6E3E2C9D1D35701000B1EE50 /* MSLog.h */,
 				6E7D5C791D3E94F8009EC9AC /* MSSerializableObject.h */,
 				E88EBBEA1D2C612E007E7785 /* MSAbstractLog.h */,
@@ -587,15 +583,6 @@
 			children = (
 				E8753D6C1D4BE53F00241513 /* MSSenderUtils.h */,
 				E8753D6D1D4BE53F00241513 /* MSSenderUtils.m */,
-			);
-			path = Utils;
-			sourceTree = "<group>";
-		};
-		E88EBBF61D2C717D007E7785 /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				E88EBBF71D2C717D007E7785 /* MSLogUtils.h */,
-				E88EBBF81D2C717D007E7785 /* MSLogUtils.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -834,7 +821,6 @@
 				E829E4231D25C8BA00F19DA1 /* MSHttpSenderTests.m in Sources */,
 				6E363AF21D2C84EA0079043D /* MSStorageTestHelper.m in Sources */,
 				E88EBBFB1D2C8CC7007E7785 /* MSLogContainerTests.m in Sources */,
-				E88EBBF91D2C717D007E7785 /* MSLogUtils.m in Sources */,
 				387C75961D64EE1900D68CC1 /* MSServiceAbstractTest.m in Sources */,
 				6E48A5A41D3831FE006E8B5F /* MSChannelConfigurationTests.m in Sources */,
 				B24F3F171D93A3FF00827213 /* MSLoggerTests.m in Sources */,

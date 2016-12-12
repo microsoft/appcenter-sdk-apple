@@ -3,7 +3,6 @@
  */
 
 #import "MSAbstractLog.h"
-#import "MSLogUtils.h"
 #import "MSLogger.h"
 #import "MSDevice.h"
 #import "MSDevicePrivate.h"
