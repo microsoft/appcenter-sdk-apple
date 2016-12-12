@@ -299,7 +299,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   NSDate *appStartTime =
   [NSDate dateWithTimeIntervalSince1970:(([errorLog.toffset doubleValue] - [errorLog.appLaunchTOffset doubleValue])/1000)];
   NSDate *appErrorTime = [NSDate dateWithTimeIntervalSince1970:([errorLog.toffset doubleValue]/1000)];
-
+  
   NSUInteger processId = [errorLog.processId unsignedIntegerValue];
 
   MSDevice *device = [MSDeviceTracker alloc].device;

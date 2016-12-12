@@ -2,10 +2,11 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "MSApplicationHelper.h"
+#import "MSUtils.h"
+
 #import <UIKit/UIKit.h>
 
-@interface MSApplicationHelper ()
+@interface MSUtils ()
 
 /**
  * Get the shared app state.

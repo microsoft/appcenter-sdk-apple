@@ -1,35 +1,35 @@
-#import "MSApplicationHelper.h"
-#import "MSApplicationHelperPrivate.h"
+#import "MSUtils.h"
+#import "MSUtilsPrivate.h"
 #import "OCMock.h"
 #import <Foundation/Foundation.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 
-@interface MSApplicationHelperTests : XCTestCase
+@interface MSUtilsTests : XCTestCase
 
-@property(nonatomic) id appHelper;
+@property(nonatomic) id utils;
 
 @end
 
-@implementation MSApplicationHelperTests
+@implementation MSUtilsTests
 
 - (void)setUp {
   [super setUp];
 
   // Set up application mock.
-  self.appHelper = OCMClassMock([MSApplicationHelper class]);
+  self.utils = OCMClassMock([MSUtils class]);
 }
 
 - (void)tearDown {
   [super tearDown];
-  [self.appHelper stopMocking];
+  [self.utils stopMocking];
 }
 
 - (void)testMSAppStateMatchesUIAppStateWhenAvailable {
 
   // Then
-  assertThat(@([MSApplicationHelper applicationState]), is(@([UIApplication sharedApplication].applicationState)));
+  assertThat(@([MSUtils applicationState]), is(@([UIApplication sharedApplication].applicationState)));
 }
 
 - (void)testMSAppReturnsUnknownOnAppExtensions {
@@ -46,10 +46,10 @@
   /**
    * Then
    */
-  assertThat(@([MSApplicationHelper applicationState]), is(@(MSApplicationStateUnknown)));
+  assertThat(@([MSUtils applicationState]), is(@(MSApplicationStateUnknown)));
 
   // Make sure the sharedApplication as not been called, it's forbidden within app extensions
-  OCMReject([self.appHelper sharedAppState]);
+  OCMReject([self.utils sharedAppState]);
   [bundleMock stopMocking];
 }
 
@@ -57,10 +57,10 @@
 
   // If
   UIApplicationState expectedState = UIApplicationStateActive;
-  OCMStub([self.appHelper sharedAppState]).andReturn(expectedState);
+  OCMStub([self.utils sharedAppState]).andReturn(expectedState);
 
   // When
-  MSApplicationState state = [MSApplicationHelper applicationState];
+  MSApplicationState state = [MSUtils applicationState];
 
   // Then
   assertThat(@(state), is(@(expectedState)));
@@ -70,10 +70,10 @@
 
   // If
   UIApplicationState expectedState = UIApplicationStateInactive;
-  OCMStub([self.appHelper sharedAppState]).andReturn(expectedState);
+  OCMStub([self.utils sharedAppState]).andReturn(expectedState);
 
   // When
-  MSApplicationState state = [MSApplicationHelper applicationState];
+  MSApplicationState state = [MSUtils applicationState];
 
   // Then
   assertThat(@(state), is(@(expectedState)));
@@ -83,10 +83,10 @@
 
   // If
   UIApplicationState expectedState = UIApplicationStateBackground;
-  OCMStub([self.appHelper sharedAppState]).andReturn(expectedState);
+  OCMStub([self.utils sharedAppState]).andReturn(expectedState);
 
   // When
-  MSApplicationState state = [MSApplicationHelper applicationState];
+  MSApplicationState state = [MSUtils applicationState];
 
   // Then
   assertThat(@(state), is(@(expectedState)));

@@ -3,7 +3,7 @@
  */
 
 #import "MSAppleErrorLog.h"
-#import "MSApplicationHelper.h"
+#import "MSUtils.h"
 #import "MSCrashesCXXExceptionWrapperException.h"
 #import "MSCrashesDelegate.h"
 #import "MSCrashesHelper.h"
@@ -62,7 +62,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 + (void)generateTestCrash {
   @synchronized([self sharedInstance]) {
     if ([[self sharedInstance] canBeUsed]) {
-      if ([MSEnvironmentHelper currentAppEnvironment] != MSEnvironmentAppStore) {
+      if ([MSUtils currentAppEnvironment] != MSEnvironmentAppStore) {
         if ([MSMobileCenter isDebuggerAttached]) {
           MSLogWarning([MSCrashes getLoggerTag],
                        @"The debugger is attached. The following crash cannot be detected by the SDK!");
@@ -316,8 +316,8 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 - (void)startCrashProcessing {
 
   // FIXME: There is no life cycle for app extensions yet so force start crash processing until then.
-  if ([MSApplicationHelper applicationState] != MSApplicationStateActive &&
-      [MSApplicationHelper applicationState] != MSApplicationStateUnknown) {
+  if ([MSUtils applicationState] != MSApplicationStateActive &&
+      [MSUtils applicationState] != MSApplicationStateUnknown) {
     return;
   }
 
