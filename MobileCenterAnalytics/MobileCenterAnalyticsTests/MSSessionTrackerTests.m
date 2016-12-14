@@ -1,7 +1,7 @@
 #import "MSAnalytics.h"
 #import "MSConstants+Internal.h"
 #import "MSSessionTracker.h"
-#import "MSSessionTrackerHelper.h"
+#import "MSSessionTrackerUtil.h"
 #import "MSStartSessionLog.h"
 #import "MobileCenter+Internal.h"
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
@@ -25,9 +25,9 @@ NSTimeInterval const kMSTestSessionTimeout = 1.5;
   [_sut setSessionTimeout:kMSTestSessionTimeout];
   [_sut start];
 
-  [MSSessionTrackerHelper simulateDidEnterBackgroundNotification];
+  [MSSessionTrackerUtil simulateDidEnterBackgroundNotification];
   [NSThread sleepForTimeInterval:0.1];
-  [MSSessionTrackerHelper simulateWillEnterForegroundNotification];
+  [MSSessionTrackerUtil simulateWillEnterForegroundNotification];
 }
 
 - (void)tearDown {
@@ -72,13 +72,13 @@ NSTimeInterval const kMSTestSessionTimeout = 1.5;
   _sut.lastCreatedLogTime = [NSDate date];
 
   // Enter background
-  [MSSessionTrackerHelper simulateDidEnterBackgroundNotification];
+  [MSSessionTrackerUtil simulateDidEnterBackgroundNotification];
 
   // Wait for shorter than the timeout time in background
   [NSThread sleepForTimeInterval:kMSTestSessionTimeout - 1];
 
   // Enter foreground
-  [MSSessionTrackerHelper simulateWillEnterForegroundNotification];
+  [MSSessionTrackerUtil simulateWillEnterForegroundNotification];
 
   NSString *sid = _sut.sessionId;
 
@@ -96,13 +96,13 @@ NSTimeInterval const kMSTestSessionTimeout = 1.5;
   XCTAssertNotNil(expectedSid);
 
   // Enter background
-  [MSSessionTrackerHelper simulateDidEnterBackgroundNotification];
+  [MSSessionTrackerUtil simulateDidEnterBackgroundNotification];
 
   // Wait for longer than the timeout time in background
   [NSThread sleepForTimeInterval:kMSTestSessionTimeout + 1];
 
   // Enter foreground
-  [MSSessionTrackerHelper simulateWillEnterForegroundNotification];
+  [MSSessionTrackerUtil simulateWillEnterForegroundNotification];
 
   NSString *sid = _sut.sessionId;
   XCTAssertNotEqual(expectedSid, sid);
@@ -120,7 +120,7 @@ NSTimeInterval const kMSTestSessionTimeout = 1.5;
   XCTAssertNotNil(expectedSid);
 
   // Enter background
-  [MSSessionTrackerHelper simulateDidEnterBackgroundNotification];
+  [MSSessionTrackerUtil simulateDidEnterBackgroundNotification];
 
   // Wait for longer than the timeout time in background
   [NSThread sleepForTimeInterval:kMSTestSessionTimeout + 1];
@@ -136,11 +136,11 @@ NSTimeInterval const kMSTestSessionTimeout = 1.5;
 
   XCTAssertNotNil(expectedSid);
 
-  [MSSessionTrackerHelper simulateWillEnterForegroundNotification];
+  [MSSessionTrackerUtil simulateWillEnterForegroundNotification];
 
   [NSThread sleepForTimeInterval:1];
   // Enter background
-  [MSSessionTrackerHelper simulateDidEnterBackgroundNotification];
+  [MSSessionTrackerUtil simulateDidEnterBackgroundNotification];
 
   // mock a log creation while app is in background
   _sut.lastCreatedLogTime = [NSDate date];
@@ -185,10 +185,10 @@ NSTimeInterval const kMSTestSessionTimeout = 1.5;
   [sut start];
 
   // When
-  [MSSessionTrackerHelper simulateDidEnterBackgroundNotification];
+  [MSSessionTrackerUtil simulateDidEnterBackgroundNotification];
   [NSThread sleepForTimeInterval:0.1];
   sut.delegate = delegateMock;
-  [MSSessionTrackerHelper simulateWillEnterForegroundNotification];
+  [MSSessionTrackerUtil simulateWillEnterForegroundNotification];
 
   // Then
   OCMVerify([delegateMock sessionTracker:sut

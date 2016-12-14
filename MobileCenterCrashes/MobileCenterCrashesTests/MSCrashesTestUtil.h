@@ -6,7 +6,7 @@
 
 @class MSException;
 
-@interface MSCrashesTestHelper : NSObject
+@interface MSCrashesTestUtil : NSObject
 
 + (id)jsonFixture:(NSString *)fixture;
 

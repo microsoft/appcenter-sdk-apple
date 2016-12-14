@@ -3,7 +3,7 @@
  */
 
 #import "MSSenderCallDelegate.h"
-#import "MSSenderUtils.h"
+#import "MSSenderUtil.h"
 #import <Foundation/Foundation.h>
 
 @protocol MSSender;

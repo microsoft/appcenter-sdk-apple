@@ -1,22 +1,22 @@
-#import "MSFileHelper.h"
+#import "MSFileUtil.h"
 #import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
 
 /**
  * Private declarations.
  */
-@interface MSFileHelper ()
+@interface MSFileUtil ()
 
 @property(nonatomic, strong) NSFileManager *fileManager;
 
 @end
 
-@implementation MSFileHelper
+@implementation MSFileUtil
 
 #pragma mark - Initialisation
 
 + (instancetype)sharedInstance {
-  static MSFileHelper *sharedInstance = nil;
+  static MSFileUtil *sharedInstance = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
     sharedInstance = [[self alloc] init];

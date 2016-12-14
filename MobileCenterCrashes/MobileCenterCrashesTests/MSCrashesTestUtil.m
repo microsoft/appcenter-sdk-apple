@@ -2,11 +2,11 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "MSCrashesTestHelper.h"
+#import "MSCrashesTestUtil.h"
 #import "MSException.h"
 #import "MSStackFrame.h"
 
-@implementation MSCrashesTestHelper
+@implementation MSCrashesTestUtil
 
 // loads test fixture from json file
 // http://blog.roberthoglund.com/2010/12/ios-unit-testing-loading-bundle.html
@@ -64,11 +64,11 @@
 
   // create the PLCR cache dir
   NSString *plcrRootCrashesDir = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"com.plausiblelabs.crashreporter.data"];
-  if (![MSCrashesTestHelper createTempDirectory:plcrRootCrashesDir])
+  if (![MSCrashesTestUtil createTempDirectory:plcrRootCrashesDir])
     return NO;
 
   NSString *plcrCrashesDir = [plcrRootCrashesDir stringByAppendingPathComponent:bundleIdentifierPathString];
-  if (![MSCrashesTestHelper createTempDirectory:plcrCrashesDir])
+  if (![MSCrashesTestUtil createTempDirectory:plcrCrashesDir])
     return NO;
 
   NSString *filePath = [[NSBundle bundleForClass:self.class] pathForResource:filename ofType:@"plcrash"];

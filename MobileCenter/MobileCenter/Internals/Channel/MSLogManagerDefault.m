@@ -91,7 +91,7 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
   id<MSChannel> channel = [self channelForPriority:priority];
 
   // Set common log info.
-  log.toffset = [NSNumber numberWithInteger:[[NSDate date] timeIntervalSince1970]];
+  log.toffset = [NSNumber numberWithInteger:[MSUtil nowInMilliseconds]];
   log.device = self.deviceTracker.device;
 
   // Asynchroneously forward to channel by using the data dispatch queue.

@@ -5,9 +5,9 @@
 
 #import "MSAbstractLog.h"
 #import "MSFile.h"
-#import "MSFileHelper.h"
+#import "MSFileUtil.h"
 #import "MSFileStorage.h"
-#import "MSStorageTestHelper.h"
+#import "MSStorageTestUtil.h"
 
 @interface MSFileStorageTests : XCTestCase
 
@@ -26,7 +26,7 @@
 
 - (void)tearDown {
   [super tearDown];
-  [MSStorageTestHelper resetLogsDirectory];
+  [MSStorageTestUtil resetLogsDirectory];
 }
 
 #pragma mark - Tests
@@ -40,7 +40,7 @@
   // If
   NSString *storageKey = @"TestDirectory";
   NSString *logsId = @"TestId";
-  NSString *expected = [MSStorageTestHelper filePathForLogWithId:logsId extension:@"ms" storageKey:storageKey];
+  NSString *expected = [MSStorageTestUtil filePathForLogWithId:logsId extension:@"ms" storageKey:storageKey];
 
   // When
   NSString *actual = [self.sut filePathForStorageKey:storageKey logsId:logsId];
@@ -53,7 +53,7 @@
 
   // If
   NSString *storageKey = @"TestDirectory";
-  id fileHelperMock = OCMClassMock([MSFileHelper class]);
+  id fileHelperMock = OCMClassMock([MSFileUtil class]);
   MSAbstractLog *log = [MSAbstractLog new];
   MSStorageBucket *bucket = self.sut.buckets[storageKey];
   assertThat(bucket, nilValue());
@@ -77,7 +77,7 @@
   // If
   NSString *storageKey = @"TestDirectory";
   MSAbstractLog *log = [MSAbstractLog new];
-  MSFile *expected = [MSStorageTestHelper createFileWithId:@"test123"
+  MSFile *expected = [MSStorageTestUtil createFileWithId:@"test123"
                                                         data:[NSData new]
                                                    extension:@"ms"
                                                   storageKey:storageKey
@@ -172,7 +172,7 @@
 - (void)testDeleteFileWillCallFileHelperMethod {
 
   // If
-  id fileHelperMock = OCMClassMock([MSFileHelper class]);
+  id fileHelperMock = OCMClassMock([MSFileUtil class]);
   NSString *storageKey = @"TestDirectory";
   NSString *batchId = @"12345";
   self.sut.buckets[storageKey] = [MSStorageBucket new];
