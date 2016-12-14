@@ -3,7 +3,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "MSAnalyticsDelegate.h"
 
-@interface MSLogUtils : NSObject
-
+@interface MSMockAnalyticsDelegate : NSObject <MSAnalyticsDelegate>
 @end

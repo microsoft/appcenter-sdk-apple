@@ -1,7 +1,7 @@
 #import "MSFile.h"
 #import <Foundation/Foundation.h>
 
-@interface MSStorageTestHelper : NSObject
+@interface MSStorageTestUtil : NSObject
 
 + (NSString *)logsDir;
 + (NSString *)storageDirForStorageKey:(NSString *)storageKey;

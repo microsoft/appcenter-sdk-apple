@@ -7,7 +7,7 @@
 #import "MSChannelDelegate.h"
 #import "MSCrashesInternal.h"
 #import "MSCrashesPrivate.h"
-#import "MSCrashesTestHelper.h"
+#import "MSCrashesTestUtil.h"
 #import "MSMockCrashesDelegate.h"
 
 @class MSMockCrashesDelegate;
@@ -53,7 +53,7 @@
 - (void)testStartingManagerWritesLastCrashReportToCrashesDir {
   [self.sut deleteAllFromCrashesDirectory];
   assertThat(self.sut.crashFiles, hasCountOf(0));
-  assertThatBool([MSCrashesTestHelper copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
+  assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
 
   // When
   [self.sut startWithLogManager:OCMProtocolMock(@protocol(MSLogManager))];

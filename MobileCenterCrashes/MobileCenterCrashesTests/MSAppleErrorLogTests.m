@@ -3,7 +3,7 @@
 #import <XCTest/XCTest.h>
 
 #import "MSAppleErrorLog.h"
-#import "MSCrashesTestHelper.h"
+#import "MSCrashesTestUtil.h"
 #import "MSException.h"
 
 @interface MSAppleErrorLogTests : XCTestCase
@@ -43,7 +43,7 @@
   appleLog.osExceptionAddress = @"0x124342345";
   appleLog.exceptionType = @"NSExceptionType";
   appleLog.exceptionReason = @"Trying to access array[12]";
-  appleLog.exception = [MSCrashesTestHelper exception];
+  appleLog.exception = [MSCrashesTestUtil exception];
 
   return appleLog;
 }

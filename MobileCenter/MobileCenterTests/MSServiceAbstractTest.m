@@ -10,7 +10,7 @@
 #import "MSServiceAbstractProtected.h"
 #import "MSServiceCommon.h"
 #import "MSUserDefaults.h"
-#import "MSUtils.h"
+#import "MSUtil.h"
 #import <Foundation/Foundation.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>

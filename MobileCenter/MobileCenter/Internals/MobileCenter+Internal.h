@@ -13,10 +13,10 @@
 #import "Model/MSLogWithProperties.h"
 #import "Model/Utils/MSUserDefaults.h"
 #import "MSWrapperSdk.h"
-#import "Utils/MSUtils.h"
+#import "MSUtil.h"
 
 // Environment Helper
-#import "Utils/MSEnvironmentHelper.h"
+#import "MSUtil.h"
 
 // Channel
 #import "Channel/MSLogManagerDelegate.h"
