@@ -234,8 +234,13 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   errorLog.toffset = [self calculateTOffsetFromReport:report];
 
   // CPU Type and Subtype
-  errorLog.primaryArchitectureId = @(report.systemInfo.processorInfo.type);
-  errorLog.architectureVariantId = @(report.systemInfo.processorInfo.subtype);
+  NSArray *images = report.images;
+  for (MSPLCrashReportBinaryImageInfo *image in images) {
+    if (image.codeType != nil && image.codeType.typeEncoding == PLCrashReportProcessorTypeEncodingMach) {
+      errorLog.primaryArchitectureId = @(image.codeType.type);
+      errorLog.architectureVariantId = @(image.codeType.subtype);
+    }
+  }
 
   // errorLog.architecture is an optional. The Android SDK will set it while for iOS, the file will be set
   // server-side using primaryArchitectureId and architectureVariantId.
@@ -735,8 +740,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   /* Attempt to derive the code type from the binary images */
   NSNumber *codeType = nil;
   for (MSPLCrashReportBinaryImageInfo *image in report.images) {
-    codeType = @(image.codeType.type) ?: @(report.systemInfo.processorInfo.type)
-    ?: legacyTypes[@(report.systemInfo.architecture)];
+    codeType = (image.codeType != nil && image.codeType.typeEncoding == PLCrashReportProcessorTypeEncodingMach) ? @(image.codeType.type) : legacyTypes[@(report.systemInfo.architecture)];
 
     /* Stop immediately if code type was discovered */
     if (codeType != nil)
