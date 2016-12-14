@@ -15,11 +15,27 @@
 
 /*
  * CPU primary architecture.
+ * Expected values are as follows:
+ * public static primary_i386 = 0x00000007;
+ * public static primary_x86_64 = 0x01000007;
+ * public static primary_arm = 0x0000000C;
+ * public static primary_arm64 = 0x0100000C;
  */
 @property(nonatomic, nonnull) NSNumber *primaryArchitectureId;
 
 /*
  * CPU architecture variant [optional].
+ *
+ * If primary is arm64, the possible variants are
+ * public static variant_arm64_1 = 0x00000000;
+ * public static variant_arm64_2 = 0x0000000D;
+ * public static variant_arm64_3 = 0x00000001;
+ *
+ * If primary is arm, the possible variants are
+ * public static variant_armv6 = 0x00000006;
+ * public static variant_armv7 = 0x00000009;
+ * public static variant_armv7s = 0x0000000B;
+ * public static variant_armv7k = 0x0000000C;
  */
 @property(nonatomic, nullable) NSNumber *architectureVariantId;
 
