@@ -3,10 +3,10 @@
  */
 
 #import "MSAppleErrorLog.h"
-#import "MSApplicationHelper.h"
+#import "MSUtil.h"
 #import "MSCrashesCXXExceptionWrapperException.h"
 #import "MSCrashesDelegate.h"
-#import "MSCrashesHelper.h"
+#import "MSCrashesUtil.h"
 #import "MSCrashesInternal.h"
 #import "MSCrashesPrivate.h"
 #import "MSErrorLogFormatter.h"
@@ -62,7 +62,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 + (void)generateTestCrash {
   @synchronized([self sharedInstance]) {
     if ([[self sharedInstance] canBeUsed]) {
-      if ([MSEnvironmentHelper currentAppEnvironment] != MSEnvironmentAppStore) {
+      if ([MSUtil currentAppEnvironment] != MSEnvironmentAppStore) {
         if ([MSMobileCenter isDebuggerAttached]) {
           MSLogWarning([MSCrashes getLoggerTag],
                        @"The debugger is attached. The following crash cannot be detected by the SDK!");
@@ -142,7 +142,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   if ((self = [super init])) {
     _fileManager = [[NSFileManager alloc] init];
     _crashFiles = [[NSMutableArray alloc] init];
-    _crashesDir = [MSCrashesHelper crashesDir];
+    _crashesDir = [MSCrashesUtil crashesDir];
     _analyzerInProgressFile = [_crashesDir stringByAppendingPathComponent:kMSAnalyzerFilename];
     _didCrashInLastSession = NO;
   }
@@ -316,8 +316,8 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 - (void)startCrashProcessing {
 
   // FIXME: There is no life cycle for app extensions yet so force start crash processing until then.
-  if ([MSApplicationHelper applicationState] != MSApplicationStateActive &&
-      [MSApplicationHelper applicationState] != MSApplicationStateUnknown) {
+  if ([MSUtil applicationState] != MSApplicationStateActive &&
+      [MSUtil applicationState] != MSApplicationStateUnknown) {
     return;
   }
 
@@ -520,7 +520,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     return;
   }
 
-  // If a wrapper SDK has passed an execption, save it to disk
+  // If a wrapper SDK has passed an exception, save it to disk
 
   NSError *error = NULL;
   NSData *crashData = [[NSData alloc]

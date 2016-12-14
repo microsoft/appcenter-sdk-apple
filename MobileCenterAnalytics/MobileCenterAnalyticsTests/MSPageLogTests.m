@@ -36,8 +36,8 @@
   MSDevice *device = [MSDevice new];
   NSString *sessionId = @"1234567890";
   NSDictionary *properties = @{ @"Key" : @"Value" };
-  NSTimeInterval createTime = [[NSDate date] timeIntervalSince1970];
-  NSNumber *tOffset = @(createTime);
+  NSInteger createTime = [MSUtil nowInMilliseconds];
+  NSNumber *tOffset = [NSNumber numberWithDouble:createTime];
 
   self.sut.name = pageName;
   self.sut.device = device;
@@ -56,9 +56,10 @@
   assertThat(actual[@"type"], equalTo(typeName));
   assertThat(actual[@"properties"], equalTo(properties));
   assertThat(actual[@"device"], notNilValue());
-  NSTimeInterval seralizedToffset = [actual[@"toffset"] integerValue];
-  NSTimeInterval actualToffset = [[NSDate date] timeIntervalSince1970] - createTime;
+  NSTimeInterval seralizedToffset = [actual[@"toffset"] doubleValue];
+  NSTimeInterval actualToffset = [MSUtil nowInMilliseconds] - createTime;
   assertThat(@(seralizedToffset), lessThan(@(actualToffset)));
+
 }
 
 - (void)testNSCodingSerializationAndDeserializationWorks {
