@@ -9,7 +9,7 @@
 
 @interface MSAnalytics () <MSServiceInternal, MSChannelDelegate>
 
-// Temporarily hiding trakcing page feature.
+// Temporarily hiding tracking page feature.
 /**
  * Track a page.
  *

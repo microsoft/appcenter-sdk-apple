@@ -2,11 +2,11 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "MSCrashesHelper.h"
+#import "MSCrashesUtil.h"
 
 static NSString *const kMSCrashesDirectory = @"com.microsoft.azure.mobile.mobilecenter/crashes";
 
-@interface MSCrashesHelper ()
+@interface MSCrashesUtil ()
 
 BOOL ms_isDebuggerAttached(void);
 BOOL ms_isRunningInAppExtension(void);
@@ -14,7 +14,7 @@ NSString *ms_crashesDir(void);
 
 @end
 
-@implementation MSCrashesHelper
+@implementation MSCrashesUtil
 
 #pragma mark - Public
 

@@ -3,7 +3,7 @@
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
-#import "MSCrashesTestHelper.h"
+#import "MSCrashesTestUtil.h"
 #import "MSException.h"
 #import "MSStackFrame.h"
 
@@ -18,7 +18,7 @@
 - (void)testSerializingBinaryToDictionaryWorks {
 
   // If
-  MSException *sut = [MSCrashesTestHelper exception];
+  MSException *sut = [MSCrashesTestUtil exception];
 
   // When
   NSMutableDictionary *actual = [sut serializeToDictionary];
@@ -34,7 +34,7 @@
 - (void)testNSCodingSerializationAndDeserializationWorks {
 
   // If
-  MSException *sut = [MSCrashesTestHelper exception];
+  MSException *sut = [MSCrashesTestUtil exception];
 
   // When
   NSData *serializedEvent =

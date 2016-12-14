@@ -7,7 +7,7 @@
 #import <XCTest/XCTest.h>
 
 #import "MSAppleErrorLog.h"
-#import "MSCrashesTestHelper.h"
+#import "MSCrashesTestUtil.h"
 #import "MSCrashesInternal.h"
 #import "MSCrashesPrivate.h"
 #import "MSDeviceTracker.h"
@@ -23,7 +23,7 @@
 @implementation MSErrorLogFormatterTests
 
 - (void)testCreateErrorReport {
-  NSData *crashData = [MSCrashesTestHelper dataOfFixtureCrashReportWithFileName:@"live_report_signal"];
+  NSData *crashData = [MSCrashesTestUtil dataOfFixtureCrashReportWithFileName:@"live_report_signal"];
   XCTAssertNotNil(crashData);
 
   MSDevice *device = [[MSDeviceTracker alloc] init].device;
@@ -44,7 +44,7 @@
   XCTAssertTrue([errorReport.device isEqual:device]);
   XCTAssertEqual(errorReport.appProcessIdentifier, crashReport.processInfo.processID);
 
-  crashData = [MSCrashesTestHelper dataOfFixtureCrashReportWithFileName:@"live_report_exception"];
+  crashData = [MSCrashesTestUtil dataOfFixtureCrashReportWithFileName:@"live_report_exception"];
   XCTAssertNotNil(crashData);
   error = nil;
 
@@ -63,7 +63,7 @@
 }
 
 - (void)testErrorIdFromCrashReport {
-  NSData *crashData = [MSCrashesTestHelper dataOfFixtureCrashReportWithFileName:@"live_report_signal"];
+  NSData *crashData = [MSCrashesTestUtil dataOfFixtureCrashReportWithFileName:@"live_report_signal"];
   XCTAssertNotNil(crashData);
 
   NSError *error = nil;
@@ -75,7 +75,7 @@
 }
 
 - (void)testProcessIdAndExceptionForObjectiveCExceptionCrash {
-  NSData *crashData = [MSCrashesTestHelper dataOfFixtureCrashReportWithFileName:@"live_report_exception"];
+  NSData *crashData = [MSCrashesTestUtil dataOfFixtureCrashReportWithFileName:@"live_report_exception"];
   XCTAssertNotNil(crashData);
   NSError *error = nil;
   MSPLCrashReport *report = [[MSPLCrashReport alloc] initWithData:crashData error:&error];
@@ -97,7 +97,7 @@
 }
 
 - (void)testAddProcessInfoAndApplicationPath {
-  NSData *crashData = [MSCrashesTestHelper dataOfFixtureCrashReportWithFileName:@"live_report_exception"];
+  NSData *crashData = [MSCrashesTestUtil dataOfFixtureCrashReportWithFileName:@"live_report_exception"];
   XCTAssertNotNil(crashData);
 
   NSError *error = nil;
