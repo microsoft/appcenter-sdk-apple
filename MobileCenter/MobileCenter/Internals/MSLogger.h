@@ -32,7 +32,7 @@
            return [NSString stringWithFormat:(format), ##__VA_ARGS__];                                                 \
          }))
 
-FOUNDATION_EXPORT MSLogHandler const defaultLogHandler;
+FOUNDATION_EXPORT MSLogHandler const msDefaultLogHandler;
 
 @interface MSLogger : NSObject
 
