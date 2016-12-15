@@ -1,6 +1,28 @@
 # Mobile Center SDK for iOS Change Log
 
 
+## Upcoming version
+
+This version has bug fixes.
+
+### MobileCenter
+
+* **[Bug]** PLCrashReporter downgraded to v1.2 to fix duplicate symbols if the application already contains it.
+
+___
+
+
+## Version 0.3.4
+
+This version has bug fixes and test application improvement.
+
+### MobileCenter
+
+* **[Bug]** Fix Channel that did not call delegate when it is disabled because of 404.
+* **[Bug]** Fix the offset unit that was in second to millisecond.
+
+___
+
 ## Version 0.3.3
 
 This version has dependencies update, data model change and bug fix.
