@@ -2,9 +2,9 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "MSSenderUtils.h"
+#import "MSSenderUtil.h"
 
-@implementation MSSenderUtils
+@implementation MSSenderUtil
 
 + (BOOL)isRecoverableError:(NSInteger)statusCode {
   return statusCode >= 500 || statusCode == 408 || statusCode == 429 || statusCode == 401;

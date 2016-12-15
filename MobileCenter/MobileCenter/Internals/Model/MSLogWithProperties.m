@@ -2,7 +2,6 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "MSLogUtils.h"
 #import "MSLogWithProperties.h"
 #import "MSLogger.h"
 #import "MSLogContainer.h"

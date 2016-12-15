@@ -10,7 +10,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  A class which abstracts file i/o operations.
  */
-@interface MSFileHelper : NSObject
+@interface MSFileUtil : NSObject
 
 /**
  * Returns the `NSFileManager` instance used for reading and writing
