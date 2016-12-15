@@ -3,14 +3,14 @@
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
-#import "MSFileHelper.h"
-#import "MSStorageTestHelper.h"
+#import "MSFileUtil.h"
+#import "MSStorageTestUtil.h"
 
-@interface MSFileHelperTests : XCTestCase
+@interface MSFileUtilTests : XCTestCase
 
 @end
 
-@implementation MSFileHelperTests
+@implementation MSFileUtilTests
 
 #pragma mark - Houskeeping
 
@@ -19,8 +19,8 @@
 }
 
 - (void)tearDown {
-  [MSFileHelper setFileManager:nil];
-  [MSStorageTestHelper resetLogsDirectory];
+  [MSFileUtil setFileManager:nil];
+  [MSStorageTestUtil resetLogsDirectory];
   [super tearDown];
 }
 
@@ -32,7 +32,7 @@
   NSFileManager *expected = [NSFileManager defaultManager];
 
   // When
-  NSFileManager *actual = [MSFileHelper fileManager];
+  NSFileManager *actual = [MSFileUtil fileManager];
 
   // Then
   assertThat(expected, equalTo(actual));
@@ -44,10 +44,10 @@
   NSFileManager *expected = [NSFileManager new];
 
   // When
-  [MSFileHelper setFileManager:expected];
+  [MSFileUtil setFileManager:expected];
 
   // Then
-  NSFileManager *actual = [MSFileHelper fileManager];
+  NSFileManager *actual = [MSFileUtil fileManager];
   assertThat(expected, equalTo(actual));
 }
 
@@ -67,11 +67,11 @@
   resourveValue = nil;
   NSString *subDirectory = @"testDirectory";
   NSString *fileId = @"fileId";
-  NSString *filePath = [MSStorageTestHelper filePathForLogWithId:fileId extension:@"ms" storageKey:subDirectory];
+  NSString *filePath = [MSStorageTestUtil filePathForLogWithId:fileId extension:@"ms" storageKey:subDirectory];
   MSFile *file = [[MSFile alloc] initWithPath:filePath fileId:fileId creationDate:[NSDate date]];
 
-  [MSFileHelper writeData:[NSData new] toFile:file];
-  NSString *storagePath = [MSStorageTestHelper storageDirForStorageKey:subDirectory];
+  [MSFileUtil writeData:[NSData new] toFile:file];
+  NSString *storagePath = [MSStorageTestUtil storageDirForStorageKey:subDirectory];
   [[NSURL fileURLWithPath:storagePath] getResourceValue:&resourveValue
                                                  forKey:NSURLIsExcludedFromBackupKey
                                                   error:&getResourceError];
@@ -91,12 +91,12 @@
   // If
   NSString *subDirectory = @"testDirectory";
   NSString *extension = @"ms";
-  MSFile *file1 = [MSStorageTestHelper createFileWithId:@"1"
+  MSFile *file1 = [MSStorageTestUtil createFileWithId:@"1"
                                                      data:[NSData new]
                                                 extension:extension
                                                storageKey:subDirectory
                                              creationDate:[NSDate date]];
-  MSFile *file2 = [MSStorageTestHelper createFileWithId:@"2"
+  MSFile *file2 = [MSStorageTestUtil createFileWithId:@"2"
                                                      data:[NSData new]
                                                 extension:extension
                                                storageKey:subDirectory
@@ -106,15 +106,15 @@
   NSArray<MSFile *> *expected = [NSArray arrayWithObjects:file1, file2, nil];
 
   // Create files with different extension
-  [MSStorageTestHelper createFileWithId:@"3"
+  [MSStorageTestUtil createFileWithId:@"3"
                                     data:[NSData new]
                                extension:@"foo"
                               storageKey:subDirectory
                             creationDate:[NSDate date]];
 
   // When
-  NSString *directory = [MSStorageTestHelper storageDirForStorageKey:subDirectory];
-  NSArray<MSFile *> *actual = [MSFileHelper filesForDirectory:directory withFileExtension:extension];
+  NSString *directory = [MSStorageTestUtil storageDirForStorageKey:subDirectory];
+  NSArray<MSFile *> *actual = [MSFileUtil filesForDirectory:directory withFileExtension:extension];
 
   // Then
   assertThatInteger(actual.count, equalToInteger(expected.count));
@@ -131,7 +131,7 @@
   id fileManagerMock = OCMClassMock([NSFileManager class]);
 
   // When
-  NSArray *actual = [MSFileHelper filesForDirectory:nil withFileExtension:@"ms"];
+  NSArray *actual = [MSFileUtil filesForDirectory:nil withFileExtension:@"ms"];
 
   // Then
   assertThat(actual, nilValue());
@@ -142,14 +142,14 @@
 - (void)testDeletingExistingFileReturnsYes {
 
   // If
-  MSFile *file = [MSStorageTestHelper createFileWithId:@"0"
+  MSFile *file = [MSStorageTestUtil createFileWithId:@"0"
                                                     data:[NSData new]
                                                extension:@"ms"
                                               storageKey:@"testDirectory"
                                             creationDate:[NSDate date]];
 
   // When
-  BOOL success = [MSFileHelper deleteFile:file];
+  BOOL success = [MSFileUtil deleteFile:file];
 
   // Then
   assertThatBool(success, isTrue());
@@ -161,11 +161,11 @@
   NSString *subDirectory = @"testDirectory";
   NSString *extension = @"ms";
   NSString *fileName = @"foo";
-  NSString *filePath = [MSStorageTestHelper filePathForLogWithId:fileName extension:extension storageKey:subDirectory];
+  NSString *filePath = [MSStorageTestUtil filePathForLogWithId:fileName extension:extension storageKey:subDirectory];
   MSFile *file = [[MSFile alloc] initWithPath:filePath fileId:fileName creationDate:[NSDate date]];
 
   // When
-  BOOL success = [MSFileHelper deleteFile:file];
+  BOOL success = [MSFileUtil deleteFile:file];
 
   // Then
   assertThatBool(success, isFalse());
@@ -175,7 +175,7 @@
 
   // If
   id fileManagerMock = OCMClassMock([NSFileManager class]);
-  MSFile *file = [MSStorageTestHelper createFileWithId:@"0"
+  MSFile *file = [MSStorageTestUtil createFileWithId:@"0"
                                                     data:[NSData new]
                                                extension:@"ms"
                                               storageKey:@"testDirectory"
@@ -183,7 +183,7 @@
   file.filePath = nil;
 
   // When
-  BOOL success = [MSFileHelper deleteFile:file];
+  BOOL success = [MSFileUtil deleteFile:file];
 
   // Then
   assertThatBool(success, isFalse());
@@ -194,14 +194,14 @@
 
   // If
   NSData *expected = [@"0" dataUsingEncoding:NSUTF8StringEncoding];
-  MSFile *file = [MSStorageTestHelper createFileWithId:@"0"
+  MSFile *file = [MSStorageTestUtil createFileWithId:@"0"
                                                     data:expected
                                                extension:@"ms"
                                               storageKey:@"testDirectory"
                                             creationDate:[NSDate date]];
 
   // When
-  NSData *actual = [MSFileHelper dataForFile:file];
+  NSData *actual = [MSFileUtil dataForFile:file];
 
   // Then
   assertThat(actual, equalTo(expected));
@@ -210,12 +210,12 @@
 - (void)testReadingUnexistingFileReturnsNil {
 
   // If
-  NSString *directory = [MSStorageTestHelper logsDir];
+  NSString *directory = [MSStorageTestUtil logsDir];
   MSFile *file = [MSFile new];
   file.filePath = [directory stringByAppendingPathComponent:@"0.test"];
 
   // When
-  NSData *actual = [MSFileHelper dataForFile:file];
+  NSData *actual = [MSFileUtil dataForFile:file];
 
   // Then
   assertThat(actual, nilValue());
@@ -226,11 +226,11 @@
   // If
   NSArray *items = @[ @"1", @"2" ];
   NSData *expected = [NSKeyedArchiver archivedDataWithRootObject:items];
-  NSString *filePath = [MSStorageTestHelper filePathForLogWithId:@"0" extension:@"ms" storageKey:@"directory"];
+  NSString *filePath = [MSStorageTestUtil filePathForLogWithId:@"0" extension:@"ms" storageKey:@"directory"];
   MSFile *file = [[MSFile alloc] initWithPath:filePath fileId:@"0" creationDate:[NSDate date]];
 
   // When
-  BOOL success = [MSFileHelper writeData:expected toFile:file];
+  BOOL success = [MSFileUtil writeData:expected toFile:file];
 
   // Then
   assertThatBool(success, isTrue());
@@ -242,14 +242,14 @@
   // If
   NSString *fileName = @"0";
   NSString *filePath =
-      [MSStorageTestHelper filePathForLogWithId:fileName extension:@"ms" storageKey:@"testDirectory"];
+      [MSStorageTestUtil filePathForLogWithId:fileName extension:@"ms" storageKey:@"testDirectory"];
   NSData *expected = [@"123456789" dataUsingEncoding:NSUTF8StringEncoding];
   MSFile *file = [[MSFile alloc] initWithPath:filePath fileId:fileName creationDate:[NSDate date]];
 
   // When
   NSData *actual;
-  if ([MSFileHelper writeData:expected toFile:file]) {
-    actual = [MSFileHelper dataForFile:file];
+  if ([MSFileUtil writeData:expected toFile:file]) {
+    actual = [MSFileUtil dataForFile:file];
   }
 
   // Then

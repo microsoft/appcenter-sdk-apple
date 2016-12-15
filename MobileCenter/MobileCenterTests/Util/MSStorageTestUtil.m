@@ -1,6 +1,6 @@
-#import "MSStorageTestHelper.h"
+#import "MSStorageTestUtil.h"
 
-@implementation MSStorageTestHelper
+@implementation MSStorageTestUtil
 
 + (NSString *)logsDir {
   NSString *logsPath = @"com.microsoft.azure.mobile.mobilecenter/logs";

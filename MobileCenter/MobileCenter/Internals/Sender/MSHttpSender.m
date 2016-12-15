@@ -206,7 +206,7 @@ static NSString *const kMSApiPath = @"/logs";
     NSURLSessionDataTask *task =
         [self.session dataTaskWithRequest:request
                         completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                          NSInteger statusCode = [MSSenderUtils getStatusCode:response];
+                          NSInteger statusCode = [MSSenderUtil getStatusCode:response];
                           MSLogDebug([MSMobileCenter getLoggerTag], @"HTTP response received with status code:%lu",
                                      (unsigned long)statusCode);
 

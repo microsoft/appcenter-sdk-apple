@@ -1,5 +1,5 @@
 BUILD_NUMBER = 1
-VERSION_STRING = 0.3.4
+VERSION_STRING = 0.3.5
 
 SDK_NAME = mobilecenter.ios
 

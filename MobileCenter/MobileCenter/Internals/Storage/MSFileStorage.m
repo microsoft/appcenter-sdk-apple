@@ -1,9 +1,9 @@
 #import "MSFile.h"
-#import "MSFileHelper.h"
+#import "MSFileUtil.h"
 #import "MSFileStorage.h"
 #import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
-#import "MSUtils.h"
+#import "MSUtil.h"
 
 static NSString *const kMSLogsDirectory = @"com.microsoft.azure.mobile.mobilecenter/logs";
 static NSString *const kMSFileExtension = @"ms";
@@ -58,7 +58,7 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
 
   [bucket.currentLogs addObject:log];
   NSData *logsData = [NSKeyedArchiver archivedDataWithRootObject:bucket.currentLogs];
-  [MSFileHelper writeData:logsData toFile:bucket.currentFile];
+  [MSFileUtil writeData:logsData toFile:bucket.currentFile];
 }
 
 - (void)deleteLogsForStorageKey:(NSString *)storageKey {
@@ -70,7 +70,7 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
   // Delete all files.
   for (MSFile *file in allFiles) {
     if (file) {
-      [MSFileHelper deleteFile:file];
+      [MSFileUtil deleteFile:file];
       [bucket removeFile:file];
     }
   }
@@ -84,7 +84,7 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
   MSFile *file = [bucket fileWithId:logsId];
 
   if (file) {
-    [MSFileHelper deleteFile:file];
+    [MSFileUtil deleteFile:file];
     [bucket removeFile:file];
   }
 }
@@ -100,7 +100,7 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
   if (bucket.availableFiles.count > 0) {
     MSFile *file = bucket.availableFiles.lastObject;
     fileId = file.fileId;
-    NSData *logData = [MSFileHelper dataForFile:file];
+    NSData *logData = [MSFileUtil dataForFile:file];
     logs = [NSKeyedUnarchiver unarchiveObjectWithData:logData];
     [bucket.blockedFiles addObject:file];
     [bucket.availableFiles removeLastObject];
@@ -124,7 +124,7 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
 - (MSStorageBucket *)createNewBucketForStorageKey:(NSString *)storageKey {
   MSStorageBucket *bucket = [MSStorageBucket new];
   NSString *storageDirectory = [self directoryPathForStorageKey:storageKey];
-  NSArray *existingFiles = [MSFileHelper filesForDirectory:storageDirectory withFileExtension:kMSFileExtension];
+  NSArray *existingFiles = [MSFileUtil filesForDirectory:storageDirectory withFileExtension:kMSFileExtension];
   if (existingFiles) {
     [bucket.availableFiles addObjectsFromArray:existingFiles];
     [bucket sortAvailableFilesByCreationDate];

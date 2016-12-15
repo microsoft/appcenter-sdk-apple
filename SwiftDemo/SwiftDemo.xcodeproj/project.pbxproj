@@ -21,7 +21,6 @@
 		E118DF331DE5791600E63722 /* MSSwitchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E118DF231DE5791600E63722 /* MSSwitchTableViewCell.xib */; };
 		E118DF341DE5791600E63722 /* MSTitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E118DF241DE5791600E63722 /* MSTitleTableViewCell.swift */; };
 		E118DF351DE5791600E63722 /* MSTitleTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E118DF251DE5791600E63722 /* MSTitleTableViewCell.xib */; };
-		E118DF371DE5791600E63722 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E118DF281DE5791600E63722 /* Info.plist */; };
 		E118DF411DE5796700E63722 /* MSCrashReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E118DF3D1DE5796700E63722 /* MSCrashReportViewController.swift */; };
 		E118DF421DE5796700E63722 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E118DF401DE5796700E63722 /* ViewController.swift */; };
 /* End PBXBuildFile section */
@@ -262,7 +261,6 @@
 				E118DF331DE5791600E63722 /* MSSwitchTableViewCell.xib in Resources */,
 				E118DF2D1DE5791600E63722 /* Assets.xcassets in Resources */,
 				E118DF2E1DE5791600E63722 /* LaunchScreen.storyboard in Resources */,
-				E118DF371DE5791600E63722 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
