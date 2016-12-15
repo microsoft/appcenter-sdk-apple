@@ -113,8 +113,10 @@
   if (_wrapperException && [[self class] isCurrentUUIDRef:uuidRef]) {
     return _wrapperException;
   }
-
   NSString *filename = [[self class] getFilenameWithUUIDRef:uuidRef];
+  if (![[NSFileManager defaultManager] fileExistsAtPath:filename]) {
+    return nil;
+  }
   MSException *loadedException = [NSKeyedUnarchiver unarchiveObjectWithFile:filename];
 
   if (!loadedException) {
@@ -139,7 +141,7 @@
 
 - (void)deleteWrapperExceptionWithUUID:(CFUUIDRef)uuidRef {
   NSString *path = [MSWrapperExceptionManager getFilenameWithUUIDRef:uuidRef];
-  [[self class]  deleteFile:path];
+  [[self class] deleteFile:path];
 
   if ([[self class] isCurrentUUIDRef:uuidRef]) {
     _currentUUIDRef = nil;
@@ -154,9 +156,9 @@
   NSFileManager *fileManager = [NSFileManager defaultManager];
 
   for (NSString *filePath in [fileManager enumeratorAtPath:[[self class] directoryPath]]) {
-    if (![[self class]  isDataFile:filePath]) {
+    if (![[self class] isDataFile:filePath]) {
       NSString *path = [[[self class] directoryPath] stringByAppendingPathComponent:filePath];
-      [[self class]  deleteFile:path];
+      [[self class] deleteFile:path];
     }
   }
 }
@@ -175,14 +177,12 @@
   if (data) {
     return data;
   }
-
   NSError *error = nil;
   data = [NSData dataWithContentsOfFile:dataFilename options:NSDataReadingMappedIfSafe error:&error];
   if (error) {
     MSLogError([MSCrashes getLoggerTag], @"Error loading file %@: %@",
                dataFilename, error.localizedDescription);
   }
-
   return data;
 }
 
@@ -206,6 +206,9 @@
 }
 
 + (void)deleteFile:(NSString*)path {
+  if (![[NSFileManager defaultManager] fileExistsAtPath:path]) {
+    return;
+  }
   NSError *error = nil;
   [[NSFileManager defaultManager] removeItemAtPath:path error:&error];
   if (error) {
