@@ -22,7 +22,7 @@
 - (void)saveWrapperException:(CFUUIDRef)uuidRef;
 - (void)deleteWrapperExceptionWithUUID:(CFUUIDRef)uuidRef;
 - (void)deleteAllWrapperExceptions;
-
+- (void)deleteAllWrapperExceptionData;
 - (void)saveWrapperExceptionData:(CFUUIDRef)uuidRef;
 
 - (NSData*)loadWrapperExceptionDataWithUUIDString:(NSString*)uuidString;
