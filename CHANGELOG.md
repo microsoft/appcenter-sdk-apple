@@ -1,7 +1,7 @@
 # Mobile Center SDK for iOS Change Log
 
 
-## Upcoming version
+## Version 0.3.5
 
 This version has bug fixes.
 
