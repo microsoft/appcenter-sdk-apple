@@ -8,11 +8,18 @@ MS_SIM_ARCHS = x86_64 i386
 ARCHS = $(MS_ARM_ARCHS)
 VALID_ARCHS = $(MS_ARM_ARCHS)
 
+// This flag adds -fembed-bitcode-marker in the release configuration
+// but we require the full bitcode flag -fembed-bitcode in this case.
+ENABLE_BITCODE = NO;
+
 OTHER_CFLAGS = -Wshorten-64-to-32 -Wall
-OTHER_CFLAGS[sdk=iphoneos9.*] = $(MOBILE_CENTER_WARNING_FLAGS) -fembed-bitcode
-OTHER_CFLAGS[sdk=iphonesimulator9.*] = $(MOBILE_CENTER_WARNING_FLAGS) -fembed-bitcode-marker
-OTHER_CFLAGS[sdk=iphoneos10.*] = $(MOBILE_CENTER_WARNING_FLAGS) -fembed-bitcode
-OTHER_CFLAGS[sdk=iphonesimulator10.*] = $(MOBILE_CENTER_WARNING_FLAGS) -fembed-bitcode-marker
+
+// Use empty bitcode marker in simulators and debug configurations for real devices.
+OTHER_CFLAGS[sdk=iphonesimulator*] = $(OTHER_CFLAGS) -fembed-bitcode-marker
+OTHER_CFLAGS[config=Debug][sdk=iphoneos*] = $(OTHER_CFLAGS) -fembed-bitcode-marker
+
+// Activate full bitcode on release configuration for real devices.
+OTHER_CFLAGS[config=Release][sdk=iphoneos*] = $(OTHER_CFLAGS) -fembed-bitcode
 
 APPLICATION_EXTENSION_API_ONLY = YES;
 
