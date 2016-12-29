@@ -29,8 +29,8 @@ NSString *const kMSType = @"type";
   if (self.toffset) {
 
     // Set the toffset relative to current time. The toffset needs to be up to date.    
-    NSInteger now = [MSUtil nowInMilliseconds];
-    NSInteger relativeTime = now - [self.toffset integerValue];
+    long long now = [MSUtil nowInMilliseconds];
+    long long relativeTime = now - [self.toffset longLongValue];
     dict[kMSToffset] = @(relativeTime);
   }
   if (self.sid) {
