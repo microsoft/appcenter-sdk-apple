@@ -1,6 +1,16 @@
 # Mobile Center SDK for iOS Change Log
 
 
+## Version 0.3.5
+
+This version has bug fixes.
+
+### MobileCenter
+
+* **[Bug]** PLCrashReporter downgraded to v1.2 to fix duplicate symbols if the application already contains it.
+
+___
+
 ## Version 0.3.4
 
 This version has bug fixes and test application improvement.
