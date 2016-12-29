@@ -416,7 +416,7 @@ MSCrashes.notify(with: MSUserConfirmation.always)
 
 ### Attaching data to crashes
 
-If you'd like to attach text/binary data to a crash report, implement this callback. Before sending the crash, the SDK will add the attachment to the report and you can view it on the Mobile Center portal.   
+If you'd like to attach text/binary data to a crash report, implement this callback. Before sending the crash, the SDK will add the attachment to the report and you can view it on the Mobile Center portal. Note that attachment will show in the portal in the future as the UI is still not ready.
 
 **Objective-C**
 

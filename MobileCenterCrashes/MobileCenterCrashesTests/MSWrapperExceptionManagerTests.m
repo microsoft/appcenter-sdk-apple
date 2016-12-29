@@ -93,7 +93,25 @@
   [self.manager deleteWrapperExceptionDataWithUUIDString:[self uuidRefToString:uuidRef]];
   data = [self.manager loadWrapperExceptionDataWithUUIDString:[self uuidRefToString:uuidRef]];
   assertThat(data, equalTo([self someData]));
+  CFRelease(uuidRef);
+}
 
+-(void)testDeleteAllMethods {
+  // Setup
+  self.manager.wrapperException = [self anException];
+  self.manager.unsavedWrapperExceptionData = [self someData];
+  CFUUIDRef uuidRef = CFUUIDCreate(kCFAllocatorDefault);
+  [self.manager saveWrapperException:uuidRef];
+
+  // Delete everything
+  [self.manager deleteAllWrapperExceptions];
+  [self.manager deleteAllWrapperExceptionData];
+
+  // We should no longer be able to read the data or exception from memory
+  NSData *data = [self.manager loadWrapperExceptionDataWithUUIDString:[self uuidRefToString:uuidRef]];
+  MSException *exception = [self.manager loadWrapperException:uuidRef];
+  assertThat(data, nilValue());
+  assertThat(exception, nilValue());
   CFRelease(uuidRef);
 }
 

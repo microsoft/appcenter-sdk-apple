@@ -7,7 +7,7 @@ static MSLogLevel _currentLogLevel = MSLogLevelAssert;
 static MSLogHandler currentLogHandler;
 static BOOL _isUserDefinedLogLevel = NO;
 
-MSLogHandler const defaultLogHandler =
+MSLogHandler const msDefaultLogHandler =
     ^(MSLogMessageProvider messageProvider, MSLogLevel logLevel, NSString *tag, const char *file, const char *function, uint line) {
       if (messageProvider) {
         if (_currentLogLevel > logLevel) {
@@ -43,7 +43,7 @@ MSLogHandler const defaultLogHandler =
     };
 
 + (void)initialize {
-  currentLogHandler = defaultLogHandler;
+  currentLogHandler = msDefaultLogHandler;
 }
 
 + (MSLogLevel)currentLogLevel {
