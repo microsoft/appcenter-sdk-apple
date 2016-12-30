@@ -154,7 +154,15 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 - (void)applyEnabledState:(BOOL)isEnabled {
   [super applyEnabledState:isEnabled];
 
+  // Enabling
   if (isEnabled) {
+    
+    // PLCrashReporter keeps collecting crash reports even when the SDK is disabled,
+    // delete them only if current state is disabled.
+    if (!self.isEnabled){
+      [self.plCrashReporter purgePendingCrashReport];
+    }
+    
     // Check if there is a wrapper SDK that needs to do some custom handler setup. If there is,
     // then the wrapper SDK will call [self configureCrashReporter].
     if (![[MSWrapperExceptionManager getDelegate] respondsToSelector:@selector(setUpCrashHandlers)] ||
@@ -181,6 +189,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     }
     MSLogInfo([MSCrashes getLoggerTag], @"Crashes service has been enabled.");
   } else {
+    
     // Don't set PLCrashReporter to nil!
     MSLogDebug([MSCrashes getLoggerTag], @"Cleaning up all crash files.");
     [MSWrapperExceptionManager deleteAllWrapperExceptions];
