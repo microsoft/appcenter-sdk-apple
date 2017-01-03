@@ -7,6 +7,8 @@
 #import "MSAnalyticsDelegate.h"
 #import "MSChannelDelegate.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface MSAnalytics () <MSServiceInternal, MSChannelDelegate>
 
 // Temporarily hiding tracking page feature.
@@ -23,7 +25,7 @@
  * @param pageName  page name.
  * @param properties dictionary of properties.
  */
-+ (void)trackPage:(NSString *)pageName withProperties:(NSDictionary *)properties;
++ (void)trackPage:(NSString *)pageName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties;
 
 /**
  * Set the page auto-tracking property.
@@ -47,6 +49,8 @@
  */
 - (BOOL)validateProperties:(NSDictionary<NSString *, NSString *> *)properties;
 
-+ (void)setDelegate:(_Nullable id <MSAnalyticsDelegate>)delegate;
++ (void)setDelegate:(nullable id <MSAnalyticsDelegate>)delegate;
 
 @end
+
+NS_ASSUME_NONNULL_END

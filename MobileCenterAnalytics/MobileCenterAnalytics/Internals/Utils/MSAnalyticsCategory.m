@@ -54,7 +54,7 @@ static NSString *MSMissedPageViewName;
       MSMissedPageViewName = nil;
 
       // Track page.
-      [MSAnalytics trackPage:pageViewName withProperties:nil];
+      [MSAnalytics trackPage:pageViewName];
     } else {
 
       // Store the page name for retroactive tracking.
