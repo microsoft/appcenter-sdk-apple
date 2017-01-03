@@ -93,9 +93,20 @@
 }
 
 - (void)testNowInMilliseconds {
-  NSInteger actual = [MSUtil nowInMilliseconds];
-  NSInteger expected = [[NSDate date] timeIntervalSince1970] * 1000;
+  
+  /**
+   * When
+   */
+  long long actual = [MSUtil nowInMilliseconds];
+  long long expected = [[NSDate date] timeIntervalSince1970] * 1000;
+  
+  /**
+   * Then
+   */
   XCTAssertEqual(actual, expected);
+  
+  // Negative in case of cast issue.
+  XCTAssertGreaterThan(actual, 0);
 }
 
 @end
