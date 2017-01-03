@@ -21,7 +21,6 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 
 - (void)setUp {
   [super setUp];
-
   // System Under Test.
   self.deviceTracker = [[MSDeviceTracker alloc] init];
 }

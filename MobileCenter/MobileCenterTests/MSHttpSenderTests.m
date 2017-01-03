@@ -292,7 +292,7 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
 
   MSMockLog *log1 = [[MSMockLog alloc] init];
   log1.sid = MS_UUID_STRING;
-  log1.toffset = [NSNumber numberWithInteger:[[NSDate date] timeIntervalSince1970]];
+  log1.toffset = [NSNumber numberWithLongLong:[MSUtil nowInMilliseconds]];
 
   // Log does not have device info, therefore, it's an invalid log
   MSLogContainer *container = [[MSLogContainer alloc] initWithBatchId:@"1" andLogs:(NSArray<MSLog> *)@[ log1 ]];
@@ -467,12 +467,12 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
 
   MSMockLog *log1 = [[MSMockLog alloc] init];
   log1.sid = MS_UUID_STRING;
-  log1.toffset = [NSNumber numberWithInteger:[[NSDate date] timeIntervalSince1970]];
+  log1.toffset = [NSNumber numberWithLongLong:[MSUtil nowInMilliseconds]];
   log1.device = device;
 
   MSMockLog *log2 = [[MSMockLog alloc] init];
   log2.sid = MS_UUID_STRING;
-  log2.toffset = [NSNumber numberWithInteger:[[NSDate date] timeIntervalSince1970]];
+  log2.toffset = [NSNumber numberWithLongLong:[MSUtil nowInMilliseconds]];
   log2.device = device;
 
   MSLogContainer *logContainer =
