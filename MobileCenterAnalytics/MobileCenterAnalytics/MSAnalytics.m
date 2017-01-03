@@ -110,7 +110,7 @@ static NSString *const kMSServiceName = @"Analytics";
   [self trackEvent:eventName withProperties:nil];
 }
 
-+ (void)trackEvent:(NSString *)eventName withProperties:(NSDictionary *)properties {
++ (void)trackEvent:(NSString *)eventName withProperties:(NSDictionary<NSString *, NSString *> *)properties {
   @synchronized(self) {
     if ([[self sharedInstance] canBeUsed]) {
       [[self sharedInstance] trackEvent:eventName withProperties:properties];
@@ -122,7 +122,7 @@ static NSString *const kMSServiceName = @"Analytics";
   [self trackPage:pageName withProperties:nil];
 }
 
-+ (void)trackPage:(NSString *)pageName withProperties:(NSDictionary *)properties {
++ (void)trackPage:(NSString *)pageName withProperties:(NSDictionary<NSString *, NSString *> *)properties {
   @synchronized(self) {
     if ([[self sharedInstance] canBeUsed]) {
       [[self sharedInstance] trackPage:pageName withProperties:properties];
@@ -161,7 +161,7 @@ static NSString *const kMSServiceName = @"Analytics";
   MSEventLog *log = [[MSEventLog alloc] init];
   log.name = eventName;
   log.eventId = MS_UUID_STRING;
-  if (properties) {
+  if (properties && properties.count > 0) {
 
     // Check if property dictionary contains non-string values.
     if (![self validateProperties:properties]) {
@@ -175,14 +175,14 @@ static NSString *const kMSServiceName = @"Analytics";
   [self sendLog:log withPriority:self.priority];
 }
 
-- (void)trackPage:(NSString *)pageName withProperties:(NSDictionary<NSString *, NSString *> *)properties {
+- (void)trackPage:(NSString *)pageName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties {
   if (![super isEnabled])
     return;
 
   // Create and set properties of the event log.
   MSPageLog *log = [[MSPageLog alloc] init];
   log.name = pageName;
-  if (properties) {
+  if (properties && properties.count > 0) {
 
     // Check if property dictionary contains non-string values.
     if (![self validateProperties:properties]) {
@@ -217,7 +217,7 @@ static NSString *const kMSServiceName = @"Analytics";
 }
 
 
-+ (void)setDelegate:(_Nullable id <MSAnalyticsDelegate>)delegate {
++ (void)setDelegate:(nullable id <MSAnalyticsDelegate>)delegate {
   [[self sharedInstance] setDelegate:delegate];
 }
 

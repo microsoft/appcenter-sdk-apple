@@ -23,6 +23,6 @@
  *  @param eventName  event name.
  *  @param properties dictionary of properties.
  */
-+ (void)trackEvent:(NSString *)eventName withProperties:(NSDictionary *)properties;
++ (void)trackEvent:(NSString *)eventName withProperties:(NSDictionary<NSString *, NSString *> *)properties;
 
 @end

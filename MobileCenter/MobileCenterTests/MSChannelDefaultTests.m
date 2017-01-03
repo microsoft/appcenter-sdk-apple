@@ -363,11 +363,15 @@ static NSString *const kMSTestPriorityName = @"Prio";
   [self initChannelEndJobExpectation];
   id <MSChannelDelegate> delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
   id <MSLog> log = [MSAbstractLog new];
-
+  
+  #pragma clang diagnostic push
+  #pragma clang diagnostic ignored "-Wnonnull"
   MSChannelDefault *sut = [[MSChannelDefault alloc] initWithSender:nil
                                                            storage:nil
                                                      configuration:nil
                                                  logsDispatchQueue:dispatch_get_main_queue()];
+  #pragma clang diagnostic pop
+  
   // When
   [sut addDelegate:delegateMock];
   [sut setEnabled:NO andDeleteDataOnDisabled:YES];
