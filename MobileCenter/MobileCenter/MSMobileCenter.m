@@ -19,6 +19,7 @@ static NSString *const kMSContentType = @"application/json";
 static NSString *const kMSAPIVersion = @"1.0.0-preview20160914";
 static NSString *const kMSAPIVersionKey = @"api_version";
 
+// Singleton
 static MSMobileCenter *sharedInstance = nil;
 static dispatch_once_t onceToken;
 

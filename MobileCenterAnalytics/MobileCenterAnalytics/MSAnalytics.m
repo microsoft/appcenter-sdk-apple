@@ -14,9 +14,15 @@
 #import "MSAnalyticsInternal.h"
 
 /**
- *  Service storage key name.
+ * Service storage key name.
  */
 static NSString *const kMSServiceName = @"Analytics";
+
+/**
+ * Singleton
+ */
+static MSAnalytics *sharedInstance = nil;
+static dispatch_once_t onceToken;
 
 @implementation MSAnalytics
 
@@ -40,10 +46,10 @@ static NSString *const kMSServiceName = @"Analytics";
 #pragma mark - MSServiceInternal
 
 + (instancetype)sharedInstance {
-  static id sharedInstance = nil;
-  static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
-    sharedInstance = [[self alloc] init];
+    if (sharedInstance == nil) {
+      sharedInstance = [[self alloc] init];
+    }
   });
   return sharedInstance;
 }
@@ -110,7 +116,7 @@ static NSString *const kMSServiceName = @"Analytics";
   [self trackEvent:eventName withProperties:nil];
 }
 
-+ (void)trackEvent:(NSString *)eventName withProperties:(NSDictionary<NSString *, NSString *> *)properties {
++ (void)trackEvent:(NSString *)eventName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties {
   @synchronized(self) {
     if ([[self sharedInstance] canBeUsed]) {
       [[self sharedInstance] trackEvent:eventName withProperties:properties];
@@ -122,7 +128,7 @@ static NSString *const kMSServiceName = @"Analytics";
   [self trackPage:pageName withProperties:nil];
 }
 
-+ (void)trackPage:(NSString *)pageName withProperties:(NSDictionary<NSString *, NSString *> *)properties {
++ (void)trackPage:(NSString *)pageName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties {
   @synchronized(self) {
     if ([[self sharedInstance] canBeUsed]) {
       [[self sharedInstance] trackPage:pageName withProperties:properties];
@@ -175,7 +181,7 @@ static NSString *const kMSServiceName = @"Analytics";
   [self sendLog:log withPriority:self.priority];
 }
 
-- (void)trackPage:(NSString *)pageName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties {
+- (void)trackPage:(NSString *)pageName withProperties:(NSDictionary<NSString *, NSString *> *)properties {
   if (![super isEnabled])
     return;
 
@@ -208,6 +214,13 @@ static NSString *const kMSServiceName = @"Analytics";
 
   // Send log to log manager.
   [self.logManager processLog:log withPriority:priority];
+}
+
++ (void)resetSharedInstance {
+  
+  // resets the once_token so dispatch_once will run again
+  onceToken = 0;
+  sharedInstance = nil;
 }
 
 #pragma mark - MSSessionTracker

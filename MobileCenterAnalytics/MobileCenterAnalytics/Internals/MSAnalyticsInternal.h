@@ -32,7 +32,6 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param isEnabled is page tracking enabled or disabled.
  */
-
 + (void)setAutoPageTrackingEnabled:(BOOL)isEnabled;
 
 /**
