@@ -14,9 +14,15 @@
 #import "MSAnalyticsInternal.h"
 
 /**
- *  Service storage key name.
+ * Service storage key name.
  */
 static NSString *const kMSServiceName = @"Analytics";
+
+/**
+ * Singleton
+ */
+static MSAnalytics *sharedInstance = nil;
+static dispatch_once_t onceToken;
 
 @implementation MSAnalytics
 
@@ -40,10 +46,10 @@ static NSString *const kMSServiceName = @"Analytics";
 #pragma mark - MSServiceInternal
 
 + (instancetype)sharedInstance {
-  static id sharedInstance = nil;
-  static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
-    sharedInstance = [[self alloc] init];
+    if (sharedInstance == nil) {
+      sharedInstance = [[self alloc] init];
+    }
   });
   return sharedInstance;
 }
@@ -110,7 +116,7 @@ static NSString *const kMSServiceName = @"Analytics";
   [self trackEvent:eventName withProperties:nil];
 }
 
-+ (void)trackEvent:(NSString *)eventName withProperties:(NSDictionary *)properties {
++ (void)trackEvent:(NSString *)eventName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties {
   @synchronized(self) {
     if ([[self sharedInstance] canBeUsed]) {
       [[self sharedInstance] trackEvent:eventName withProperties:properties];
@@ -122,7 +128,7 @@ static NSString *const kMSServiceName = @"Analytics";
   [self trackPage:pageName withProperties:nil];
 }
 
-+ (void)trackPage:(NSString *)pageName withProperties:(NSDictionary *)properties {
++ (void)trackPage:(NSString *)pageName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties {
   @synchronized(self) {
     if ([[self sharedInstance] canBeUsed]) {
       [[self sharedInstance] trackPage:pageName withProperties:properties];
@@ -161,7 +167,7 @@ static NSString *const kMSServiceName = @"Analytics";
   MSEventLog *log = [[MSEventLog alloc] init];
   log.name = eventName;
   log.eventId = MS_UUID_STRING;
-  if (properties) {
+  if (properties && properties.count > 0) {
 
     // Check if property dictionary contains non-string values.
     if (![self validateProperties:properties]) {
@@ -182,7 +188,7 @@ static NSString *const kMSServiceName = @"Analytics";
   // Create and set properties of the event log.
   MSPageLog *log = [[MSPageLog alloc] init];
   log.name = pageName;
-  if (properties) {
+  if (properties && properties.count > 0) {
 
     // Check if property dictionary contains non-string values.
     if (![self validateProperties:properties]) {
@@ -210,6 +216,13 @@ static NSString *const kMSServiceName = @"Analytics";
   [self.logManager processLog:log withPriority:priority];
 }
 
++ (void)resetSharedInstance {
+  
+  // resets the once_token so dispatch_once will run again
+  onceToken = 0;
+  sharedInstance = nil;
+}
+
 #pragma mark - MSSessionTracker
 
 - (void)sessionTracker:(id)sessionTracker processLog:(id<MSLog>)log withPriority:(MSPriority)priority {
@@ -217,7 +230,7 @@ static NSString *const kMSServiceName = @"Analytics";
 }
 
 
-+ (void)setDelegate:(_Nullable id <MSAnalyticsDelegate>)delegate {
++ (void)setDelegate:(nullable id <MSAnalyticsDelegate>)delegate {
   [[self sharedInstance] setDelegate:delegate];
 }
 
