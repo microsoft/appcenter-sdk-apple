@@ -8,7 +8,7 @@ if [ -z $1 ] || ( [ "$1" != "internal" ] && [ "$1" != "external" ] ); then
 fi
 
 ## II. Get publish version for information
-publish_version="$(grep "VERSION_STRING" $BITRISE_SOURCE_DIR/$VERSION_FILE | head -1 | awk -F "[= ]" '{print $4}')"
+publish_version="$(grep "VERSION_STRING" $BITRISE_SOURCE_DIR/$VERSION_FILENAME | head -1 | awk -F "[= ]" '{print $4}')"
 echo "Publishing podspec for version" $publish_version
 
 if [ "$1" == "internal" ]; then
