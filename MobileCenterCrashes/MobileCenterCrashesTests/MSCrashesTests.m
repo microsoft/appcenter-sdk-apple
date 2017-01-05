@@ -3,12 +3,15 @@
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
-#import "MSCrashesDelegate.h"
 #import "MSChannelDelegate.h"
+#import "MSCrashesDelegate.h"
 #import "MSCrashesInternal.h"
 #import "MSCrashesPrivate.h"
 #import "MSCrashesTestUtil.h"
 #import "MSMockCrashesDelegate.h"
+#import "MSServiceAbstractPrivate.h"
+#import "MSServiceAbstractProtected.h"
+#import "MSUtil.h"
 
 @class MSMockCrashesDelegate;
 
@@ -29,6 +32,7 @@
 
 - (void)tearDown {
   [super tearDown];
+  [self.sut deleteAllFromCrashesDirectory];
 }
 
 #pragma mark - Tests
@@ -51,8 +55,6 @@
 }
 
 - (void)testStartingManagerWritesLastCrashReportToCrashesDir {
-  [self.sut deleteAllFromCrashesDirectory];
-  assertThat(self.sut.crashFiles, hasCountOf(0));
   assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
 
   // When
@@ -78,6 +80,55 @@
   // Then
   assertThatBool([[MSCrashes sharedInstance] shouldProcessErrorReport:nil], isTrue());
   assertThatBool([[MSCrashes sharedInstance] delegateImplementsAttachmentCallback], isFalse());
+}
+
+- (void)testDeleteAllFromCrashesDirectory {
+
+  // If
+  assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
+  [self.sut startWithLogManager:OCMProtocolMock(@protocol(MSLogManager))];
+  assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_signal"], isTrue());
+  [self.sut startWithLogManager:OCMProtocolMock(@protocol(MSLogManager))];
+
+  // When
+  [self.sut deleteAllFromCrashesDirectory];
+
+  // Then
+  assertThat(self.sut.crashFiles, hasCountOf(0));
+}
+
+- (void)testDeleteCrashReportsOnDisabled {
+
+  // If
+  MSUserDefaults *settingsMock = OCMClassMock([MS_USER_DEFAULTS class]);
+  OCMStub([settingsMock objectForKey:[OCMArg any]]).andReturn([NSNumber numberWithBool:YES]);
+  self.sut.storage = settingsMock;
+  assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
+  [self.sut startWithLogManager:OCMProtocolMock(@protocol(MSLogManager))];
+
+  // When
+  [self.sut setEnabled:NO];
+
+  // Then
+  assertThat(self.sut.crashFiles, hasCountOf(0));
+  assertThatLong([self.sut.fileManager contentsOfDirectoryAtPath:self.sut.crashesDir error:nil].count, equalToLong(0));
+}
+
+- (void)testDeleteCrashReportsFromDisabledToEnabled {
+
+  // If
+  MSUserDefaults *settingsMock = OCMClassMock([MS_USER_DEFAULTS class]);
+  OCMStub([settingsMock objectForKey:[OCMArg any]]).andReturn([NSNumber numberWithBool:NO]);
+  self.sut.storage = settingsMock;
+  assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
+  [self.sut startWithLogManager:OCMProtocolMock(@protocol(MSLogManager))];
+
+  // When
+  [self.sut setEnabled:YES];
+
+  // Then
+  assertThat(self.sut.crashFiles, hasCountOf(0));
+  assertThatLong([self.sut.fileManager contentsOfDirectoryAtPath:self.sut.crashesDir error:nil].count, equalToLong(0));
 }
 
 @end
