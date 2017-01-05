@@ -118,6 +118,34 @@
   assertThat(actual.parentProcessId, equalTo(@(report.processInfo.parentProcessID)));
 }
 
+- (void)testCreateErrorLogForException {
+  NSData *crashData = [MSCrashesTestUtil dataOfFixtureCrashReportWithFileName:@"live_report_exception"];
+  XCTAssertNotNil(crashData);
+  
+  MSDevice *device = [[MSDeviceTracker alloc] init].device;
+  XCTAssertNotNil(device);
+  
+  NSError *error = nil;
+  MSPLCrashReport *crashReport = [[MSPLCrashReport alloc] initWithData:crashData error:&error];
+  
+  MSAppleErrorLog *errorLog = [MSErrorLogFormatter errorLogFromCrashReport:crashReport];
+  
+  MSException *lastExceptionStackTrace = nil;
+  
+  for (MSThread *thread in errorLog.threads) {
+    if(thread.exception) {
+      lastExceptionStackTrace = thread.exception;
+      break;
+    }
+  }
+  
+  XCTAssertNotNil(errorLog);
+  XCTAssertNotNil(lastExceptionStackTrace);
+}
+
+
+
+
 - (void)testAnonymizedPathWorks {
   NSString *testPath = @"/var/containers/Bundle/Application/2A0B0E6F-0BF2-419D-A699-FCDF8ADECD8C/Puppet.app/Puppet";
   NSString *expected = testPath;
