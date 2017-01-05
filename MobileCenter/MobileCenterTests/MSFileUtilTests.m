@@ -180,7 +180,10 @@
                                                extension:@"ms"
                                               storageKey:@"testDirectory"
                                             creationDate:[NSDate date]];
+  #pragma clang diagnostic push
+  #pragma clang diagnostic ignored "-Wnonnull"
   file.filePath = nil;
+  #pragma clang diagnostic pop
 
   // When
   BOOL success = [MSFileUtil deleteFile:file];

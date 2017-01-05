@@ -1,16 +1,22 @@
 #import <Foundation/Foundation.h>
 #import <XCTest/XCTest.h>
 #import <OCMock/OCMock.h>
+#import <OCHamcrestIOS/OCHamcrestIOS.h>
 
 #import "MSServiceAbstract.h"
+#import "MSServiceInternal.h"
 #import "MSService.h"
 
 #import "MSAnalytics.h"
+#import "MSAnalyticsPrivate.h"
 #import "MSAnalyticsInternal.h"
 #import "MSAnalyticsDelegate.h"
 #import "MSMockAnalyticsDelegate.h"
 #import "MSLogManager.h"
 #import "MSEventLog.h"
+
+static NSString *const kMSTypeEvent = @"event";
+static NSString *const kMSTypePage = @"page";
 
 @class MSMockAnalyticsDelegate;
 
@@ -23,8 +29,6 @@
 @end
 
 @interface MSAnalytics ()
-
-@property (nonatomic) id<MSAnalyticsDelegate> delegate;
 
 - (void)channel:(id)channel willSendLog:(id<MSLog>)log;
 - (void)channel:(id<MSChannel>)channel didSucceedSendingLog:(id<MSLog>)log;
@@ -42,6 +46,11 @@
 
 
 @implementation MSAnalyticsTests
+
+- (void)tearDown {
+  [super tearDown];
+  [MSAnalytics resetSharedInstance];
+}
 
 #pragma mark - Tests
 
@@ -120,6 +129,110 @@
   XCTAssertTrue(self.didFailSendingEventLogWasCalled);
 }
 
+- (void)testTrackEventWithoutProperties {
+  
+  //If
+  __block NSString * name;
+  __block NSString *type;
+  NSString *expectedName = @"gotACoffee";
+  id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
+  OCMStub([logManagerMock processLog:[OCMArg isKindOfClass:[MSLogWithProperties class]] withPriority:([MSAnalytics sharedInstance].priority)])
+  .andDo(^(NSInvocation *invocation) {
+    MSEventLog *log;
+    [invocation getArgument:&log atIndex:2];
+    type = log.type;
+    name = log.name;
+  });
+  [[MSAnalytics sharedInstance] startWithLogManager:logManagerMock];
+  
+  //When
+  [[MSAnalytics sharedInstance] trackEvent:expectedName withProperties:nil];
+  
+  //Then
+  assertThat(type, is(kMSTypeEvent));
+  assertThat(name, is(expectedName));
+}
+
+- (void)testTrackEventWithProperties {
+  
+  //If
+  __block NSString *type;
+  __block NSString *name;
+  __block NSDictionary<NSString*, NSString*> *properties;
+  NSString *expectedName = @"gotACoffee";
+  NSDictionary *expectedProperties = @{ @"milk" : @"yes", @"cookie" : @"of course" };
+  id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
+  OCMStub([logManagerMock processLog:[OCMArg isKindOfClass:[MSLogWithProperties class]] withPriority:([MSAnalytics sharedInstance].priority)])
+  .andDo(^(NSInvocation *invocation) {
+    MSEventLog *log;
+    [invocation getArgument:&log atIndex:2];
+    type = log.type;
+    name = log.name;
+    properties = log.properties;
+  });
+  [[MSAnalytics sharedInstance] startWithLogManager:logManagerMock];
+  
+  //When
+  [[MSAnalytics sharedInstance] trackEvent:expectedName withProperties:expectedProperties];
+  
+  //Then
+  assertThat(type, is(kMSTypeEvent));
+  assertThat(name, is(expectedName));
+  assertThat(properties, is(expectedProperties));
+}
+
+- (void)testTrackPageWithoutProperties {
+  
+  //If
+  __block NSString * name;
+  __block NSString *type;
+  NSString *expectedName = @"HomeSweetHome";
+  id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
+  OCMStub([logManagerMock processLog:[OCMArg isKindOfClass:[MSLogWithProperties class]] withPriority:([MSAnalytics sharedInstance].priority)])
+  .andDo(^(NSInvocation *invocation) {
+    MSEventLog *log;
+    [invocation getArgument:&log atIndex:2];
+    type = log.type;
+    name = log.name;
+  });
+  [[MSAnalytics sharedInstance] startWithLogManager:logManagerMock];
+  
+  //When
+  [[MSAnalytics sharedInstance] trackPage:expectedName withProperties:nil];
+  
+  //Then
+  assertThat(type, is(kMSTypePage));
+  assertThat(name, is(expectedName));
+}
+
+- (void)testTrackPageWithProperties {
+  
+  //If
+  __block NSString *type;
+  __block NSString *name;
+  __block NSDictionary<NSString*, NSString*> *properties;
+  NSString *expectedName = @"HomeSweetHome";
+  NSDictionary *expectedProperties = @{ @"Sofa" : @"yes", @"TV" : @"of course" };
+  id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
+  OCMStub([logManagerMock processLog:[OCMArg isKindOfClass:[MSLogWithProperties class]] withPriority:([MSAnalytics sharedInstance].priority)])
+  .andDo(^(NSInvocation *invocation) {
+    MSEventLog *log;
+    [invocation getArgument:&log atIndex:2];
+    type = log.type;
+    name = log.name;
+    properties = log.properties;
+  });
+  [[MSAnalytics sharedInstance] startWithLogManager:logManagerMock];
+  
+  //When
+  [[MSAnalytics sharedInstance] trackPage:expectedName withProperties:expectedProperties];
+  
+  //Then
+  assertThat(type, is(kMSTypePage));
+  assertThat(name, is(expectedName));
+  assertThat(properties, is(expectedProperties));
+}
+
 - (void)analytics:(MSAnalytics *)analytics willSendEventLog:(MSEventLog *)eventLog
 {
   self.willSendEventLogWasCalled = true;
@@ -134,6 +247,5 @@
 {
   self.didFailSendingEventLogWasCalled = true;
 }
-
 
 @end
