@@ -23,7 +23,7 @@ if [ -z $1 ] || ( [ "$1" != "internal" ] && [ "$1" != "external" ] ); then
 fi
 
 ## II. Get publish version
-publish_version="$(grep "VERSION_STRING" $BITRISE_SOURCE_DIR/$VERSION_FILE | head -1 | awk -F "[= ]" '{print $4}')"
+publish_version="$(grep "VERSION_STRING" $BITRISE_SOURCE_DIR/$VERSION_FILENAME | head -1 | awk -F "[= ]" '{print $4}')"
 echo "Publish version:" $publish_version
 
 if [ "$1" == "internal" ]; then
@@ -31,7 +31,7 @@ if [ "$1" == "internal" ]; then
   ## 1. Get the latest version
   echo "Get the latest version to determine a build number"
   build_number=0
-  resp="$(curl -s $INTERNAL_RELEASE_VERSION_FILE)"
+  resp="$(curl -s $INTERNAL_RELEASE_VERSION_FILENAME)"
   version="$(echo $resp | $JQ_COMMAND -r '.version')"
 
   # Exit if response doesn't contain an array
@@ -58,7 +58,35 @@ if [ "$1" == "internal" ]; then
 
 else
 
-  ## 1. Create a tag
+  ## 1. Extract change log
+  change_log_found=false
+  change_log=""
+  while IFS='' read -r line || -n "$line" ]]; do
+
+    # If it is reading change log for the version
+    if $change_log_found; then
+
+      # If it reads end of change log for the version
+      if [[ "$line" =~ "___" ]]; then
+        break
+
+      # Append the line
+      else
+        change_log="$change_log\n$line"
+      fi
+
+    # If it didn't find changelog for the version
+    else
+
+      # If it is the first line of change log for the version
+      if [[ "$line" =~ "## Version $publish_version" ]]; then
+        change_log="$line"
+        change_log_found=true
+      fi
+    fi
+  done < $CHANGE_LOG_FILENAME
+
+  ## 2. Create a tag
   echo "Create a tag ($publish_version) for the commit ($GIT_CLONE_COMMIT_HASH)"
   resp="$(curl -s -X POST $REQUEST_URL_TAG -d '{
       "tag": "'${publish_version}'",
@@ -77,7 +105,7 @@ else
     echo "A tag has been created with SHA ($sha)"
   fi
 
-  ## 2. Create a reference
+  ## 3. Create a reference
   echo "Create a reference for the tag ($publish_version)"
   resp="$(curl -s -X POST $REQUEST_REFERENCE_URL -d '{
       "ref": "refs/tags/'${publish_version}'",
@@ -94,13 +122,13 @@ else
     echo "A reference has been created to $ref"
   fi
 
-  ## 3. Create a release
+  ## 4. Create a release
   echo "Create a release for the tag ($publish_version)"
   resp="$(curl -s -X POST $REQUEST_RELEASE_URL -d '{
       "tag_name": "'${publish_version}'",
       "target_commitish": "master",
       "name": "'${publish_version}'",
-      "body": "",
+      "body": "'${change_log}'",
       "draft": true,
       "prerelease": true
     }')"

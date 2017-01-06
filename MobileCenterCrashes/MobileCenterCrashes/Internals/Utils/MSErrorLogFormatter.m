@@ -369,20 +369,20 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
 + (NSNumber *)calculateAppLaunchTOffsetFromReport:(MSPLCrashReport *)report {
   NSDate *crashTime = report.systemInfo.timestamp;
+  long long difference;
   if (report.processInfo) {
     NSDate *startTime = report.processInfo.processStartTime;
-    NSInteger difference = ([crashTime timeIntervalSinceDate:startTime] * 1000);
-    return @(difference);
+    difference = ([crashTime timeIntervalSinceDate:startTime] * 1000);
   } else {
     // Use difference between now and crashtime as appLaunchTOffset as fallback.
-    NSTimeInterval difference = ([[NSDate date] timeIntervalSinceDate:crashTime] * 1000);
-    return @(difference);
+    difference = ([[NSDate date] timeIntervalSinceDate:crashTime] * 1000);
   }
+  return @(difference);
 }
 
 + (NSNumber *)calculateTOffsetFromReport:(MSPLCrashReport *)report {
   NSDate *crashTime = report.systemInfo.timestamp;
-  NSInteger difference = ([crashTime timeIntervalSince1970] * 1000);
+  long long difference = ([crashTime timeIntervalSince1970] * 1000);
   return @(difference);
 }
 

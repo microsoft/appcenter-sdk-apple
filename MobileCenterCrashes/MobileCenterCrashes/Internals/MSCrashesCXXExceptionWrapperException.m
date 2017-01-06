@@ -20,4 +20,19 @@
   return self;
 }
 
+/*
+ * This method overrides [NSThread callStackReturnAddresses] and is crucial to report CXX exceptions. This is one of the
+ * "sneaky" things that require knowledge of how PLCrashReporter works internally.
+ */
+- (NSArray *)callStackReturnAddresses {
+  NSMutableArray *cxxFrames = [NSMutableArray arrayWithCapacity:_info->exception_frames_count];
+  
+  for (uint32_t i = 0; i < _info->exception_frames_count; ++i) {
+    [cxxFrames addObject:[NSNumber numberWithUnsignedLongLong:_info->exception_frames[i]]];
+  }
+  
+  return cxxFrames;
+}
+
+
 @end
