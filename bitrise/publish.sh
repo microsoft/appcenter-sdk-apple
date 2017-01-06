@@ -85,7 +85,7 @@ else
       fi
     fi
   done < $CHANGE_LOG_FILENAME
-  echo "Change log:" $change_log
+  echo "Change log:" "$change_log"
 
   ## 2. Create a tag
   echo "Create a tag ($publish_version) for the commit ($GIT_CLONE_COMMIT_HASH)"
@@ -129,7 +129,7 @@ else
       "tag_name": "'${publish_version}'",
       "target_commitish": "master",
       "name": "'${publish_version}'",
-      "body": "'${change_log}'",
+      "body": "'"$change_log"'",
       "draft": true,
       "prerelease": true
     }')"
