@@ -151,6 +151,7 @@
 		35D504CD1DDD140500D58B40 /* MSWrapperExceptionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSWrapperExceptionManager.h; sourceTree = "<group>"; };
 		35D504CE1DDD140500D58B40 /* MSWrapperExceptionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSWrapperExceptionManager.m; sourceTree = "<group>"; };
 		35EF18DF1DDBCF6C00731CA8 /* MSWrapperExceptionManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSWrapperExceptionManagerTests.m; sourceTree = "<group>"; };
+		3856B47D1E032EC50016AB05 /* Global.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Global.xcconfig; path = ../../../Global.xcconfig; sourceTree = "<group>"; };
 		387C77061D6CC41100D68CC1 /* MSServiceAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSServiceAbstract.h; path = ../MobileCenter/MobileCenter/MSServiceAbstract.h; sourceTree = "<group>"; };
 		38D4BBA21D5A9962001A30A0 /* ../MobileCenter/MobileCenter/MSService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ../MobileCenter/MobileCenter/MSService.h; sourceTree = "<group>"; };
 		6E0401331D1C98690051BCFA /* libMobileCenterCrashes.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMobileCenterCrashes.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -204,7 +205,6 @@
 		6EC99A341D416CCF0016C325 /* live_report_signal_marketing.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_signal_marketing.plcrash; sourceTree = "<group>"; };
 		6EC99A351D416CCF0016C325 /* live_report_xamarin.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_xamarin.plcrash; sourceTree = "<group>"; };
 		6EC99A361D416CCF0016C325 /* log_report_xamarin */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = log_report_xamarin; sourceTree = "<group>"; };
-		B20EBC971DD16E5400C73AE4 /* globalconfig.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = globalconfig.xcconfig; path = ../../../globalconfig.xcconfig; sourceTree = "<group>"; };
 		B24F3F0E1D93368F00827213 /* MSErrorLogFormatterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSErrorLogFormatterTests.m; sourceTree = "<group>"; };
 		B24F3F101D93417B00827213 /* MSErrorLogFormatterPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSErrorLogFormatterPrivate.h; sourceTree = "<group>"; };
 		B2A0A71A1D9C2AE700729A58 /* MSCrashesTestUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrashesTestUtil.h; sourceTree = "<group>"; };
@@ -382,7 +382,7 @@
 		6E37297E1D1DE93800F1E4AE /* Support */ = {
 			isa = PBXGroup;
 			children = (
-				B20EBC971DD16E5400C73AE4 /* globalconfig.xcconfig */,
+				3856B47D1E032EC50016AB05 /* Global.xcconfig */,
 				6E37297F1D1DE93800F1E4AE /* MobileCenterCrashes.xcconfig */,
 				6E3729811D1DE93800F1E4AE /* module.modulemap */,
 			);
