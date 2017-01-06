@@ -1,6 +1,18 @@
 # Mobile Center SDK for iOS Change Log
 
 
+## Version 0.3.6
+
+This version has bug fixes.
+
+### MobileCenter
+
+* **[Bug]** Change the type of toffset to prevent inaccurate time information for logs.
+* **[Bug]** Fix not to send Crashes logs when Crashes service is disabled.
+* **[Bug]** Fix CXXException where last exception was missing from crashing thread.
+
+___
+
 ## Version 0.3.5
 
 This version has bug fixes.
