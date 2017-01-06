@@ -85,6 +85,7 @@ else
       fi
     fi
   done < $CHANGE_LOG_FILENAME
+  echo "Change log:" $change_log
 
   ## 2. Create a tag
   echo "Create a tag ($publish_version) for the commit ($GIT_CLONE_COMMIT_HASH)"
