@@ -1,7 +1,7 @@
 [![Build Status](https://www.bitrise.io/app/e5b1a2ef546331fb.svg?token=Orwi_AVAExLTuN1ZAzvbFQ&branch=develop)](https://www.bitrise.io/app/e5b1a2ef546331fb)
 [![codecov](https://codecov.io/gh/Microsoft/mobile-center-sdk-ios/branch/develop/graph/badge.svg?token=6dlCB5riVi)](https://codecov.io/gh/Microsoft/mobile-center-sdk-ios)
-[![GitHub Release](https://img.shields.io/github/release/Microsoft/mobile-center-sdk-ios.svg)](https://github.com/Microsoft/mobile-center-sdk-ios/releases/latest)
 [![CocoaPods](https://img.shields.io/cocoapods/v/MobileCenter.svg)](https://cocoapods.org/pods/MobileCenter)
+[![CocoaPods](https://img.shields.io/cocoapods/dt/MobileCenter.svg)](https://cocoapods.org/pods/MobileCenter)
 [![license](https://img.shields.io/badge/license-MIT%20License-yellow.svg)](https://github.com/Microsoft/mobile-center-sdk-ios/blob/develop/LICENSE)
 
 # Mobile Center SDK for iOS
