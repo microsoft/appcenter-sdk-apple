@@ -233,8 +233,8 @@ static NSString *const kMSApiPath = @"/logs";
 
                             // Call handles the completion.
                             if (call) {
-                              [call sender:self callCompletedWithStatus:statusCode error:error];
                               call.submitted = NO;
+                              [call sender:self callCompletedWithStatus:statusCode error:error];
                             }
                           }
                         }];
