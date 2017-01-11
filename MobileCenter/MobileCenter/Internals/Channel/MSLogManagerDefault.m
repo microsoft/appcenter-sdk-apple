@@ -120,12 +120,6 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
   return (channel) ? channel : [self createChannelForPriority:priority];
 }
 
-#pragma mark - Storage
-
-- (void)deleteLogsForPriority:(MSPriority)priority {
-  [[self channelForPriority:priority] deleteAllLogs];
-}
-
 #pragma mark - Enable / Disable
 
 - (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData {
@@ -133,17 +127,19 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
     self.enabled = isEnabled;
 
     // Propagate to sender.
+    // Sender will in turn propagates to its channel delegates.
     [self.sender setEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
 
-    // Propagate to channels.
-    for (NSNumber *priority in self.channels) {
-      [self.channels[priority] setEnabled:isEnabled andDeleteDataOnDisabled:NO];
-    }
-
-    // If requested, delete any remaining logs (e.g., even logs from not started services).
+    // If requested, also delete logs from not started services.
     if (!isEnabled && deleteData) {
-      for (int priority = 0; priority < kMSPriorityCount; priority++) {
-        [self deleteLogsForPriority:priority];
+      NSArray<NSNumber *> *runningPriorities = self.channels.allKeys;
+      for (NSInteger priority = 0; priority < kMSPriorityCount; priority++) {
+        if (![runningPriorities containsObject:@(priority)]) {
+          NSError *error = [NSError errorWithDomain:kMSConnectionErrorDomain
+                                               code:kMSConnectionSuspendedErrorCode
+                                           userInfo:@{NSLocalizedDescriptionKey : kMSConnectionSuspendedErrorDesc}];
+          [[self channelForPriority:priority] deleteAllLogsWithError:error];
+        }
       }
     }
   }
