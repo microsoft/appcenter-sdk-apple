@@ -349,7 +349,6 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
   // Mock the call to intercept the retry.
   MSRetriableCall *mockedCall = OCMPartialMock(self.sut.pendingCalls[@"1"]);
   OCMStub([mockedCall sender:self.sut callCompletedWithStatus:MSHTTPCodesNo500InternalServerError error:[OCMArg any]]).andForwardToRealObject().andDo(^(NSInvocation *invocation){
-           NSLog(@"TEST1: %@", ((MSRetriableCall*)self.sut.pendingCalls[@"1"]).timerSource);//TODO remove
            [responseReceivedExcpectation fulfill];
   });
   self.sut.pendingCalls[@"1"] = mockedCall;
