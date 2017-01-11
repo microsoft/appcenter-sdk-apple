@@ -52,7 +52,7 @@ Below are the steps on how to integrate the compiled libraries in your Xcode pro
 2. Unzip the file and you will see a folder called `MobileCenter-SDK-iOS` that contains different frameworks for each Mobile Center service. There is a framework called `MobileCenter`, which is required in the project as it contains the logic for persistence, forwarding,... . 
 
 3. [Optional] Create a subdirectory for 3rd-party-libraries.
-	* As a best practice, 3rd-party libraries usually reside inside a subdirectory (it's often called `Vendor`), so if you don't have your project organized with a subdirectory for libraries, now would be a great start for it. This subdirectory is often called `Vendor`.
+	* As a best practice, 3rd-party libraries usually reside inside a subdirectory, so if you don't have your project organized with a subdirectory for libraries, now would be a great start for it. This subdirectory is often called `Vendor`.
 	* Create a group called `Vendor` inside your Xcode project to mimic your file structure on disk.
 
 4. Open Finder and copy the previously unzipped `MobileCenter-SDK-iOS` folder into your project's folder at the location where you want it to reside. 
