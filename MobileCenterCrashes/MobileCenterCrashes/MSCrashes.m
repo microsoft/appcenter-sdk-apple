@@ -480,7 +480,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 }
 
 - (NSMutableArray *)persistedCrashReports {
-  NSMutableArray *persitedCrashReports = [NSMutableArray new];
+  NSMutableArray *persistedCrashReports = [NSMutableArray new];
   if ([self.fileManager fileExistsAtPath:self.crashesDir]) {
     NSError *error;
     NSArray *dirArray = [self.fileManager contentsOfDirectoryAtPath:self.crashesDir error:&error];
@@ -493,11 +493,11 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
               [[fileAttributes objectForKey:NSFileSize] intValue] > 0 && ![file hasSuffix:@".DS_Store"] &&
               ![file hasSuffix:@".analyzer"] && ![file hasSuffix:@".plist"] && ![file hasSuffix:@".data"] &&
               ![file hasSuffix:@".meta"] && ![file hasSuffix:@".desc"]) {
-        [persitedCrashReports addObject:filePath];
+        [persistedCrashReports addObject:filePath];
       }
     }
   }
-  return persitedCrashReports;
+  return persistedCrashReports;
 }
 
 - (void)removeAnalyzerFile {
