@@ -9,13 +9,14 @@
 @implementation MSRetriableCall
 
 @synthesize completionHandler = _completionHandler;
-@synthesize isProcessing = _isProcessing;
 @synthesize logContainer = _logContainer;
+@synthesize submitted = _submitted;
 @synthesize delegate = _delegate;
 
 - (id)initWithRetryIntervals:(NSArray *)retryIntervals {
   if (self = [super init]) {
     _retryIntervals = retryIntervals;
+    _submitted = NO;
   }
   return self;
 }
@@ -75,7 +76,6 @@
 
     // Reset the retry count, will retry once the connection is established again.
     [self resetRetry];
-    _isProcessing = NO;
     MSLogInfo([MSMobileCenter getLoggerTag], @"Internet connection is down.");
     [sender suspend];
   }

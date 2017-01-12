@@ -45,6 +45,7 @@
 		384959D51D491D4F008F6B3A /* MSMobileCenterTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 384959D41D491D4F008F6B3A /* MSMobileCenterTest.m */; };
 		385AD9221D95898D008B354A /* MSServiceAbstractProtected.h in Headers */ = {isa = PBXBuildFile; fileRef = 385AD9211D95898D008B354A /* MSServiceAbstractProtected.h */; };
 		385FC0551D37EBD700A1799F /* MSDeviceTrackerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 385FC0541D37EBD700A1799F /* MSDeviceTrackerTests.m */; };
+		386E8D931E25932100EECF0F /* MSHttpTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 386E8D911E25932100EECF0F /* MSHttpTestUtil.m */; };
 		387C75801D6270A300D68CC1 /* MSServiceAbstract.m in Sources */ = {isa = PBXBuildFile; fileRef = 387C757E1D6270A300D68CC1 /* MSServiceAbstract.m */; };
 		387C75811D6270A300D68CC1 /* MSServiceAbstractInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C757F1D6270A300D68CC1 /* MSServiceAbstractInternal.h */; };
 		387C758F1D64E50800D68CC1 /* MSServiceCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C758D1D64DF2500D68CC1 /* MSServiceCommon.h */; };
@@ -174,6 +175,8 @@
 		384959D41D491D4F008F6B3A /* MSMobileCenterTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSMobileCenterTest.m; sourceTree = "<group>"; };
 		385AD9211D95898D008B354A /* MSServiceAbstractProtected.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSServiceAbstractProtected.h; sourceTree = "<group>"; };
 		385FC0541D37EBD700A1799F /* MSDeviceTrackerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDeviceTrackerTests.m; sourceTree = "<group>"; };
+		386E8D911E25932100EECF0F /* MSHttpTestUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSHttpTestUtil.m; sourceTree = "<group>"; };
+		386E8D921E25932100EECF0F /* MSHttpTestUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSHttpTestUtil.h; sourceTree = "<group>"; };
 		386E970B1E0371D2000D37FE /* Global.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Global.xcconfig; path = ../../../Global.xcconfig; sourceTree = "<group>"; };
 		387C757E1D6270A300D68CC1 /* MSServiceAbstract.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = MSServiceAbstract.m; path = Internals/MSServiceAbstract.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		387C757F1D6270A300D68CC1 /* MSServiceAbstractInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MSServiceAbstractInternal.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -491,6 +494,8 @@
 		6E363AEF1D2C84D60079043D /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				386E8D921E25932100EECF0F /* MSHttpTestUtil.h */,
+				386E8D911E25932100EECF0F /* MSHttpTestUtil.m */,
 				6E363AF01D2C84EA0079043D /* MSStorageTestUtil.h */,
 				6E363AF11D2C84EA0079043D /* MSStorageTestUtil.m */,
 				E88D17041D35B6B500A5EA57 /* MSMockLog.h */,
@@ -805,6 +810,7 @@
 				6EB1F40E1D2443B7005F9F99 /* MSChannelDefaultTests.m in Sources */,
 				384959D51D491D4F008F6B3A /* MSMobileCenterTest.m in Sources */,
 				6E5D8A801D25B91F00C033B1 /* MSFileUtilTests.m in Sources */,
+				386E8D931E25932100EECF0F /* MSHttpTestUtil.m in Sources */,
 				380A4DCB1DD6908A00E99219 /* MSUtilTests.m in Sources */,
 				E829E4231D25C8BA00F19DA1 /* MSHttpSenderTests.m in Sources */,
 				6E363AF21D2C84EA0079043D /* MSStorageTestUtil.m in Sources */,
