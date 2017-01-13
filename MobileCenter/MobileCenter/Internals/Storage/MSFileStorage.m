@@ -85,7 +85,7 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
   [self deleteFile:[bucket fileWithId:logsId] fromBucket:bucket];
 }
 
-- (NSArray<MSLog> *)deleteFile:(MSFile *)file fromBucket:(MSStorageBucket *)aBucket {
+- (NSArray<MSLog> *)deleteFile:(MSFile *)file fromBucket:(MSStorageBucket *)bucket {
   NSMutableArray<MSLog> *deletedLogs = [NSMutableArray<MSLog> new];
   if (file) {
 
@@ -97,7 +97,7 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
 
     // Wipe it.
     [MSFileUtil deleteFile:file];
-    [aBucket removeFile:file];
+    [bucket removeFile:file];
   }
   return deletedLogs;
 }

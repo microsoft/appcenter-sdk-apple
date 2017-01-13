@@ -19,7 +19,7 @@ static NSInteger const kMSConnectionSuspendedErrorCode = 1;
 static NSInteger const kMSHttpErrorCodeMissingParameter = 422;
 
 // Error descriptions
-static NSString const *kMSConnectionSuspendedErrorDesc = @"Connection suspended with log deletion.";
+static NSString const *kMSConnectionSuspendedErrorDesc = @"Cancelled, connection suspended with log deletion.";
 
 // Channel priorities, check the kMSPriorityCount if you add a new value.
 typedef NS_ENUM(NSInteger, MSPriority) { MSPriorityDefault, MSPriorityBackground, MSPriorityHigh };
