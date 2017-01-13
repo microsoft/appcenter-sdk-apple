@@ -9,10 +9,17 @@
 // Device manufacturer
 static NSString *const kMSDeviceManufacturer = @"Apple";
 
-// API Error
-static NSString *const kMSDefaultApiErrorDomain = @"MSDefaultApiErrorDomain";
+// Error domains
+static NSString *const kMSDefaultApiErrorDomain = @"com.microsoft.azure.mobile.mobilecenter.defaultapi";
+static NSString *const kMSConnectionErrorDomain = @"com.microsoft.azure.mobile.mobilecenter.connection";
+
+// Error codes
 static NSInteger const kMSDefaultApiMissingParamErrorCode = 234513;
+static NSInteger const kMSConnectionSuspendedErrorCode = 1;
 static NSInteger const kMSHttpErrorCodeMissingParameter = 422;
+
+// Error descriptions
+static NSString const *kMSConnectionSuspendedErrorDesc = @"Cancelled, connection suspended with log deletion.";
 
 // Http Headers + Query string.
 static NSString *const kMSHeaderAppSecretKey = @"App-Secret";
