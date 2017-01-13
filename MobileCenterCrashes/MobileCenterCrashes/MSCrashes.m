@@ -187,7 +187,8 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     if (self.crashFiles.count > 0) {
       [self startDelayedCrashProcessing];
     }
-    MSLogInfo([MSCrashes getLoggerTag], @"Crashes service has been enabled.");
+    if (![MSMobileCenter isDebuggerAttached])
+      MSLogInfo([MSCrashes getLoggerTag], @"Crashes service has been enabled.");
   } else {
 
     // Don't set PLCrashReporter to nil!
@@ -198,7 +199,8 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     [self removeAnalyzerFile];
     [self.plCrashReporter purgePendingCrashReport];
     [self.logManager removeChannelDelegate:self forPriority:MSPriorityHigh];
-    MSLogInfo([MSCrashes getLoggerTag], @"Crashes service has been disabled.");
+    if (![MSMobileCenter isDebuggerAttached])
+      MSLogInfo([MSCrashes getLoggerTag], @"Crashes service has been disabled.");
   }
 }
 
