@@ -2,6 +2,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
+#import "MSConstants+Internal.h"
 #import "MSHttpSender.h"
 #import "MSHttpSenderPrivate.h"
 #import "MSMobileCenterInternal.h"
@@ -266,13 +267,13 @@ static NSString *const kMSApiPath = @"/logs";
 #pragma mark - URL Session Helper
 
 - (NSURLRequest *)createRequest:(MSLogContainer *)logContainer {
-  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:_sendURL];
+  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.sendURL];
 
   // Set method.
   request.HTTPMethod = @"POST";
 
   // Set Header params.
-  request.allHTTPHeaderFields = _httpHeaders;
+  request.allHTTPHeaderFields = self.httpHeaders;
 
   // Set body.
   NSString *jsonString = [logContainer serializeLog];
@@ -280,6 +281,12 @@ static NSString *const kMSApiPath = @"/logs";
 
   // Always disable cookies.
   [request setHTTPShouldHandleCookies:NO];
+
+  // Don't loose time pretty printing headers if not going to be printed.
+  if ([MSLogger currentLogLevel] <= MSLogLevelVerbose) {
+    MSLogVerbose([MSMobileCenter getLoggerTag], @"URL: %@", request.URL);
+    MSLogVerbose([MSMobileCenter getLoggerTag], @"Headers: %@", [self prettyPrintHeaders:request.allHTTPHeaderFields]);
+  }
 
   return request;
 }
@@ -311,6 +318,28 @@ static NSString *const kMSApiPath = @"/logs";
       block(delegate);
     }
   }
+}
+
+- (NSString *)prettyPrintHeaders:(NSDictionary<NSString *, NSString *> *)headers {
+  NSMutableArray<NSString *> *flattenedHeaders = [NSMutableArray<NSString *> new];
+  for (NSString *headerKey in headers) {
+    NSString *header =
+        [headerKey isEqualToString:kMSHeaderAppSecretKey] ? [self hideSecret:headers[headerKey]] : headers[headerKey];
+    [flattenedHeaders addObject:[NSString stringWithFormat:@"%@ = %@", headerKey, header]];
+  }
+  return [flattenedHeaders componentsJoinedByString:@", "];
+}
+
+- (NSString *)hideSecret:(NSString *)secret {
+
+  // Hide everything if secret is shorter than the max number of displayed characters.
+  NSUInteger appSecretHiddenPartLength =
+      (secret.length > kMSMaxCharactersDisplayedForAppSecret ? secret.length - kMSMaxCharactersDisplayedForAppSecret
+                                                             : secret.length);
+  NSString *appSecretHiddenPart =
+      [@"" stringByPaddingToLength:appSecretHiddenPartLength withString:kMSHidingStringForAppSecret startingAtIndex:0];
+  return [secret stringByReplacingCharactersInRange:NSMakeRange(0, appSecretHiddenPart.length)
+                                         withString:appSecretHiddenPart];
 }
 
 @end
