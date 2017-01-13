@@ -49,16 +49,18 @@ Below are the steps on how to integrate the compiled libraries in your Xcode pro
 
 1. Download the [Mobile Center SDK](https://github.com/Microsoft/mobile-center-sdk-ios/releases) frameworks provided as a zip file.
 
-2. Unzip the file and you will see different frameworks for each Mobile Center service. There is a framework called `MobileCenter`, which is required in the project as it contains the logic for persistence, forwarding,... . 
+2. Unzip the file and you will see a folder called `MobileCenter-SDK-iOS` that contains different frameworks for each Mobile Center service. There is a framework called `MobileCenter`, which is required in the project as it contains the logic for persistence, forwarding,... . 
 
-3. Create a folder in your projects directory in Finder and drag it to Xcode:   
-   * Let's create a folder called Vendor (if it doesn't exist) inside your project directory to include all the 3rd-party libraries.  
-   * Once created, drag this Vendor folder into Xcode. A dialog will appear. Select "Create groups" and set the checkmark for "Add to targets" for your target. Then click Finish.
+3. [Optional] Create a subdirectory for 3rd-party-libraries.
+	* As a best practice, 3rd-party libraries usually reside inside a subdirectory, so if you don't have your project organized with a subdirectory for libraries, now would be a great start for it. This subdirectory is often called `Vendor`.
+	* Create a group called `Vendor` inside your Xcode project to mimic your file structure on disk.
+
+4. Open Finder and copy the previously unzipped `MobileCenter-SDK-iOS` folder into your project's folder at the location where you want it to reside. 
    
 4. Add the SDK frameworks to the project in Xcode:
     * Make sure the Project Navigator is visible (⌘+1).
-    * Now drag and drop `MobileCenter.framework`, `MobileCenterAnalytics.framework`, and `MobileCenterCrashes.framework` in the Vendor folder in Xcode using the Project Navigator on the left side. Note that `MobileCenter.framework` is required to start the SDK. So make sure it's added to your project, otherwise the other modules won't work and your app won't compile.
-    * A dialog will appear again. Make sure that "Copy items if needed", "Create groups", and your app target are checked. Then click Finish.
+    * Now drag and drop `MobileCenter.framework`, `MobileCenterAnalytics.framework`, and `MobileCenterCrashes.framework` from Finder (the ones inside the Vendor folder) into Xcode's Project Navigator on the left side. Note that `MobileCenter.framework` is required to start the SDK. So make sure it's added to your project, otherwise the other modules won't work and your app won't compile.
+    * A dialog will appear again. Make sure your app target is checked. Then click Finish.
     
 Now that you've integrated the frameworks in your application, it's time to start the SDK and make use of the Mobile Center services.
 
