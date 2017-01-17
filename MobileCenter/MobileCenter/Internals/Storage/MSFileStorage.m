@@ -1,6 +1,6 @@
 #import "MSFile.h"
-#import "MSFileUtil.h"
 #import "MSFileStorage.h"
+#import "MSFileUtil.h"
 #import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
 #import "MSUtil.h"
@@ -61,7 +61,10 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
   [MSFileUtil writeData:logsData toFile:bucket.currentFile];
 }
 
-- (void)deleteLogsForStorageKey:(NSString *)storageKey {
+- (NSArray<MSLog> *)deleteLogsForStorageKey:(NSString *)storageKey {
+
+  // Cache deleted logs
+  NSMutableArray<MSLog> *deletedLogs = [NSMutableArray<MSLog> new];
 
   // Remove all files from the bucket.
   MSStorageBucket *bucket = self.buckets[storageKey];
@@ -69,24 +72,34 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
 
   // Delete all files.
   for (MSFile *file in allFiles) {
-    if (file) {
-      [MSFileUtil deleteFile:file];
-      [bucket removeFile:file];
-    }
+    [deletedLogs addObjectsFromArray:[self deleteFile:file fromBucket:bucket]];
   }
 
   // Get ready for next time.
   [self renewCurrentFileForStorageKey:storageKey];
+  return deletedLogs;
 }
 
 - (void)deleteLogsForId:(NSString *)logsId withStorageKey:(NSString *)storageKey {
   MSStorageBucket *bucket = self.buckets[storageKey];
-  MSFile *file = [bucket fileWithId:logsId];
+  [self deleteFile:[bucket fileWithId:logsId] fromBucket:bucket];
+}
 
+- (NSArray<MSLog> *)deleteFile:(MSFile *)file fromBucket:(MSStorageBucket *)bucket {
+  NSMutableArray<MSLog> *deletedLogs = [NSMutableArray<MSLog> new];
   if (file) {
+
+    // Cache logs from file.
+    NSArray<MSLog> *logs = [NSKeyedUnarchiver unarchiveObjectWithData:[MSFileUtil dataForFile:file]];
+    if (logs) {
+      [deletedLogs addObjectsFromArray:logs];
+    }
+
+    // Wipe it.
     [MSFileUtil deleteFile:file];
     [bucket removeFile:file];
   }
+  return deletedLogs;
 }
 
 - (BOOL)loadLogsForStorageKey:(NSString *)storageKey withCompletion:(nullable MSLoadDataCompletionBlock)completion {
