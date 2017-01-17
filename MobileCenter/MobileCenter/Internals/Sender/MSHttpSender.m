@@ -2,9 +2,9 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "MSConstants+Internal.h"
 #import "MSHttpSender.h"
 #import "MSHttpSenderPrivate.h"
+#import "MSMobileCenterErrors.h"
 #import "MSMobileCenterInternal.h"
 #import "MSRetriableCall.h"
 #import "MSSenderDelegate.h"
@@ -70,11 +70,11 @@ static NSString *const kMSApiPath = @"/logs";
 
     // Verify container.
     if (!container || ![container isValid]) {
-      NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : @"Invalid parameter'" };
+      NSDictionary *userInfo = @{NSLocalizedDescriptionKey : kMSMCLogInvalidContainerErrorDesc};
       NSError *error =
-          [NSError errorWithDomain:kMSDefaultApiErrorDomain code:kMSDefaultApiMissingParamErrorCode userInfo:userInfo];
+          [NSError errorWithDomain:kMSMCErrorDomain code:kMSMCLogInvalidContainerErrorCode userInfo:userInfo];
       MSLogError([MSMobileCenter getLoggerTag], @"%@", [error localizedDescription]);
-      handler(batchId, error, kMSDefaultApiMissingParamErrorCode);
+      handler(batchId, error, nil);
       return;
     }
 

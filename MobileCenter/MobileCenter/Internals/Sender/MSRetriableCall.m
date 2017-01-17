@@ -2,9 +2,10 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
+#import "MSMobileCenterErrors.h"
+#import "MSMobileCenterInternal.h"
 #import "MSRetriableCall.h"
 #import "MSRetriableCallPrivate.h"
-#import "MSMobileCenterInternal.h"
 
 @implementation MSRetriableCall
 
@@ -42,8 +43,8 @@
   // Create queue.
   self.timerSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, DISPATCH_TARGET_QUEUE_DEFAULT);
   int64_t delta = NSEC_PER_SEC * [self delayForRetryCount:self.retryCount];
-  MSLogDebug([MSMobileCenter getLoggerTag], @"Call attempt #%lu failed, it will be retried in %.f ms.", (unsigned long)self.retryCount,
-              round(delta / 1000000));
+  MSLogDebug([MSMobileCenter getLoggerTag], @"Call attempt #%lu failed, it will be retried in %.f ms.",
+             (unsigned long)self.retryCount, round(delta / 1000000));
   self.retryCount++;
   dispatch_source_set_timer(self.timerSource, dispatch_walltime(NULL, delta), 1ull * NSEC_PER_SEC, 1ull * NSEC_PER_SEC);
   __weak typeof(self) weakSelf = self;
@@ -87,6 +88,15 @@
 
   // Callback to Channel.
   else {
+
+    // Wrap the status code in an error.
+    if (!error && statusCode != MSHTTPCodesNo200OK) {
+      NSDictionary *userInfo = @{
+        NSLocalizedDescriptionKey : kMSMCConnectionHttpErrorDesc,
+        kMSMCConnectionHttpCodeErrorKey : @(statusCode)
+      };
+      error = [NSError errorWithDomain:kMSMCErrorDomain code:kMSMCConnectionHttpErrorCode userInfo:userInfo];
+    }
 
     // Call completion.
     self.completionHandler(self.logContainer.batchId, error, statusCode);
