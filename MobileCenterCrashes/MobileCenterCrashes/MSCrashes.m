@@ -188,6 +188,14 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
       [self startDelayedCrashProcessing];
     }
     MSLogInfo([MSCrashes getLoggerTag], @"Crashes service has been enabled.");
+
+    // More details on log if a debugger is attached.
+    if ([MSMobileCenter isDebuggerAttached]) {
+      MSLogInfo([MSCrashes getLoggerTag], @"Crashes service has been enabled but the service cannot detect crashes due to running the application with a debugger attached.");
+    }
+    else {
+      MSLogInfo([MSCrashes getLoggerTag], @"Crashes service has been enabled.");
+    }
   } else {
 
     // Don't set PLCrashReporter to nil!
