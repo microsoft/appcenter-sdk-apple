@@ -7,6 +7,7 @@
 #import "MSChannelConfiguration.h"
 #import "MSChannelDefault.h"
 #import "MSChannelDelegate.h"
+#import "MSMobileCenterErrors.h"
 #import "MSUtil.h"
 
 static NSString *const kMSTestPriorityName = @"Prio";
@@ -397,9 +398,22 @@ static NSString *const kMSTestPriorityName = @"Prio";
    * If
    */
   [self initChannelEndJobExpectation];
+  NSInteger expectedHTTPCode = MSHTTPCodesNo404NotFound;
+  NSDictionary *userInfo = @{
+    NSLocalizedDescriptionKey : kMSMCConnectionHttpErrorDesc,
+    kMSMCConnectionHttpCodeErrorKey : @(MSHTTPCodesNo404NotFound)
+  };
+  NSError *expectedHTTPError =
+      [NSError errorWithDomain:kMSMCErrorDomain code:kMSMCConnectionHttpErrorCode userInfo:userInfo];
+  NSError *expectedSuspendedError =
+      [NSError errorWithDomain:kMSMCErrorDomain
+                          code:kMSMCConnectionSuspendedErrorCode
+                      userInfo:@{NSLocalizedDescriptionKey : kMSMCConnectionSuspendedErrorDesc}];
+
   __block MSSendAsyncCompletionHandler senderBlock;
   __block NSArray<MSAbstractLog *> *expectedLogs = @[ [MSAbstractLog new], [MSAbstractLog new], [MSAbstractLog new] ];
   __block NSMutableArray<MSLog> *failedForwardedLogs = [NSMutableArray<MSLog> new];
+  __block NSMutableArray<NSError *> *failedForwardedErrors = [NSMutableArray<NSError *> new];
   __block NSMutableArray<MSLog> *willSendForwardedLogs = [NSMutableArray<MSLog> new];
   id<MSChannelDelegate> delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
 
@@ -457,7 +471,11 @@ static NSString *const kMSTestPriorityName = @"Prio";
   OCMStub([delegateMock channel:self.sut didFailSendingLog:[OCMArg any] withError:[OCMArg any]])
       .andDo(^(NSInvocation *invocation) {
         id<MSLog> log;
+        NSError *error;
+        [invocation retainArguments];
+        [invocation getArgument:&error atIndex:4];
         [invocation getArgument:&log atIndex:3];
+        [failedForwardedErrors addObject:error];
         [failedForwardedLogs addObject:log];
       });
 
@@ -479,7 +497,7 @@ static NSString *const kMSTestPriorityName = @"Prio";
 
   // Forward a non recoverable error.
   dispatch_async(self.logsDispatchQueue, ^{
-    senderBlock([@(0) stringValue], nil, MSHTTPCodesNo404NotFound);
+    senderBlock([@(0) stringValue], expectedHTTPError, expectedHTTPCode);
   });
 
   /**
@@ -491,6 +509,11 @@ static NSString *const kMSTestPriorityName = @"Prio";
                                  // Forwarded logs are equal to expected logs.
                                  assertThatBool([willSendForwardedLogs isEqualToArray:expectedLogs], isTrue());
                                  assertThatBool([failedForwardedLogs isEqualToArray:expectedLogs], isTrue());
+
+                                 // Forwarded errors must match
+                                 assertThat(failedForwardedErrors[0], is(expectedHTTPError));
+                                 assertThat(failedForwardedErrors[1], is(expectedSuspendedError));
+                                 assertThat(failedForwardedErrors[2], is(expectedSuspendedError));
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }

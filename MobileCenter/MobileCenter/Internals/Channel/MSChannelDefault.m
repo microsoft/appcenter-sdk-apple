@@ -4,6 +4,7 @@
 
 #import "MSChannelDefault.h"
 #import "MSConstants+Internal.h"
+#import "MSMobileCenterErrors.h"
 #import "MSMobileCenterInternal.h"
 
 /**
@@ -101,9 +102,9 @@
       return;
     } else if (self.discardLogs) {
       MSLogWarning([MSMobileCenter getLoggerTag], @"Channel disabled in log discarding mode, discard this log.");
-      NSError *error = [NSError errorWithDomain:kMSConnectionErrorDomain
-                                           code:kMSConnectionSuspendedErrorCode
-                                       userInfo:@{NSLocalizedDescriptionKey : kMSConnectionSuspendedErrorDesc}];
+      NSError *error = [NSError errorWithDomain:kMSMCErrorDomain
+                                           code:kMSMCConnectionSuspendedErrorCode
+                                       userInfo:@{NSLocalizedDescriptionKey : kMSMCConnectionSuspendedErrorDesc}];
       [self notifyFailureBeforeSendingForItem:item withError:error];
       return;
     }
@@ -291,9 +292,9 @@
     // Even if it's already disabled we might also want to delete logs this time.
     if (!isEnabled && deleteData) {
       MSLogDebug([MSMobileCenter getLoggerTag], @"Delete all logs.");
-      NSError *error = [NSError errorWithDomain:kMSConnectionErrorDomain
-                                           code:kMSConnectionSuspendedErrorCode
-                                       userInfo:@{NSLocalizedDescriptionKey : kMSConnectionSuspendedErrorDesc}];
+      NSError *error = [NSError errorWithDomain:kMSMCErrorDomain
+                                           code:kMSMCConnectionSuspendedErrorCode
+                                       userInfo:@{NSLocalizedDescriptionKey : kMSMCConnectionSuspendedErrorDesc}];
       [self deleteAllLogsWithErrorSync:error];
 
       // Reset states.

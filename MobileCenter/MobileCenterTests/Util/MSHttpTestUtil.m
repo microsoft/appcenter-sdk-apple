@@ -3,6 +3,7 @@
 
 static NSTimeInterval const kMSStubbedResponseTimeout = UID_MAX;
 static NSString *const kMSStub500Name = @"httpStub_500";
+static NSString *const kMSStub404Name = @"httpStub_404";
 static NSString *const kMSStub200Name = @"httpStub_200";
 static NSString *const kMSStubNetworkDownName = @"httpStub_NetworkDown";
 static NSString *const kMSStubLongResponseTimeOutName = @"httpStub_LongResponseTimeOut";
@@ -11,6 +12,10 @@ static NSString *const kMSStubLongResponseTimeOutName = @"httpStub_LongResponseT
 
 + (void)stubHttp500Response {
   [[self class] stubResponseWithCode:MSHTTPCodesNo500InternalServerError name:kMSStub500Name];
+}
+
++ (void)stubHttp404Response {
+  [[self class] stubResponseWithCode:MSHTTPCodesNo404NotFound name:kMSStub404Name];
 }
 
 + (void)stubHttp200Response {
@@ -34,7 +39,7 @@ static NSString *const kMSStubLongResponseTimeOutName = @"httpStub_LongResponseT
       .name = kMSStubLongResponseTimeOutName;
 }
 
-+ (void)stubResponseWithCode:(NSInteger)code name:(NSString *)aName {
++ (void)stubResponseWithCode:(NSInteger)code name:(NSString *)name {
   [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
     return YES;
   }
@@ -43,17 +48,17 @@ static NSString *const kMSStubLongResponseTimeOutName = @"httpStub_LongResponseT
         responseStub.statusCode = (int)code;
         return responseStub;
       }]
-      .name = aName;
+      .name = name;
 }
 
-+ (void)stubResponseWithError:(NSError *)error name:(NSString *)aName {
++ (void)stubResponseWithError:(NSError *)error name:(NSString *)name {
   [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
     return YES;
   }
       withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         return [OHHTTPStubsResponse responseWithError:error];
       }]
-      .name = aName;
+      .name = name;
 }
 
 @end

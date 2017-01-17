@@ -8,6 +8,7 @@
 #import "MSHttpSenderPrivate.h"
 #import "MSHttpTestUtil.h"
 #import "MSLogContainer.h"
+#import "MSMobileCenterErrors.h"
 #import "MSMockLog.h"
 #import "MSRetriableCall.h"
 #import "MSRetriableCallPrivate.h"
@@ -83,6 +84,35 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
         XCTAssertNil(error);
         XCTAssertEqual(containerId, batchId);
         XCTAssertEqual(statusCode, MSHTTPCodesNo200OK);
+
+        [expectation fulfill];
+      }];
+
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
+- (void)testUnrecoverableError {
+
+  // Stub http response
+  [MSHttpTestUtil stubHttp404Response];
+  NSString *containerId = @"1";
+  MSLogContainer *container = [self createLogContainerWithId:containerId];
+
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Response 200"];
+  [self.sut sendAsync:container
+      completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
+
+        XCTAssertEqual(containerId, batchId);
+        XCTAssertEqual(statusCode, MSHTTPCodesNo404NotFound);
+        XCTAssertEqual(error.domain, kMSMCErrorDomain);
+        XCTAssertEqual(error.code, kMSMCConnectionHttpErrorCode);
+        XCTAssertEqual(error.localizedDescription, kMSMCConnectionHttpErrorDesc);
+        XCTAssertEqual(error.userInfo[kMSMCConnectionHttpCodeErrorKey], @(MSHTTPCodesNo404NotFound));
 
         [expectation fulfill];
       }];
@@ -378,8 +408,8 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
   [self.sut sendAsync:container
       completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
 
-        XCTAssertEqual(error.domain, kMSDefaultApiErrorDomain);
-        XCTAssertEqual(error.code, kMSDefaultApiMissingParamErrorCode);
+        XCTAssertEqual(error.domain, kMSMCErrorDomain);
+        XCTAssertEqual(error.code, kMSMCLogInvalidContainerErrorCode);
       }];
 
   XCTAssertEqual([self.sut.pendingCalls count], 0);
@@ -530,10 +560,7 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
   OCMVerify([delegateMock2 senderDidResume:self.sut]);
 }
 
-- (void)testPrettyPrintHeaders {
-}
-
-- (void)testLargeBigSecret {
+- (void)testLargeSecret {
 
   // If.
   NSString *secret = @"shhhh-its-a-secret";
