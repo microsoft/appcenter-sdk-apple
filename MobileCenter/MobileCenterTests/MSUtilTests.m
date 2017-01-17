@@ -97,8 +97,8 @@
   /**
    * When
    */
-  long long actual = [MSUtil nowInMilliseconds];
-  long long expected = [[NSDate date] timeIntervalSince1970] * 1000;
+  long long actual = [MSUtil nowInMilliseconds] / 10;
+  long long expected = [[NSDate date] timeIntervalSince1970] * 100;
   
   /**
    * Then

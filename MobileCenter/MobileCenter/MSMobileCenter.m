@@ -1,23 +1,15 @@
 #import "MSConstants+Internal.h"
 #import "MSDeviceTracker.h"
 #import "MSDeviceTrackerPrivate.h"
-#import "MSUtil.h"
 #import "MSFileStorage.h"
 #import "MSHttpSender.h"
 #import "MSLogManagerDefault.h"
 #import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
 #import "MSMobileCenterPrivate.h"
+#import "MSUtil.h"
 #import <UIKit/UIKit.h>
 #import <sys/sysctl.h>
-
-// Http Headers + Query string.
-static NSString *const kMSHeaderAppSecretKey = @"App-Secret";
-static NSString *const kMSHeaderInstallIDKey = @"Install-ID";
-static NSString *const kMSHeaderContentTypeKey = @"Content-Type";
-static NSString *const kMSContentType = @"application/json";
-static NSString *const kMSAPIVersion = @"1.0.0-preview20160914";
-static NSString *const kMSAPIVersionKey = @"api_version";
 
 // Singleton
 static MSMobileCenter *sharedInstance = nil;
@@ -252,13 +244,13 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
   // Hookup to application life-cycle events
   if (isEnabled) {
     [MS_NOTIFICATION_CENTER addObserver:self
-                              selector:@selector(applicationDidEnterBackground)
-                                  name:UIApplicationDidEnterBackgroundNotification
-                                object:nil];
+                               selector:@selector(applicationDidEnterBackground)
+                                   name:UIApplicationDidEnterBackgroundNotification
+                                 object:nil];
     [MS_NOTIFICATION_CENTER addObserver:self
-                              selector:@selector(applicationWillEnterForeground)
-                                  name:UIApplicationWillEnterForegroundNotification
-                                object:nil];
+                               selector:@selector(applicationWillEnterForeground)
+                                   name:UIApplicationWillEnterForegroundNotification
+                                 object:nil];
   }
 
   // Propagate to log manager.

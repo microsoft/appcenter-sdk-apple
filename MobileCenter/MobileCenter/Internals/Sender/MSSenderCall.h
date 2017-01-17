@@ -16,9 +16,9 @@
 @property(nonatomic, weak) id<MSSenderCallDelegate> delegate;
 
 /**
- *  Is call currently being processed.
+ *  Whether the request to send data has been submitted or not.
  */
-@property(nonatomic) BOOL isProcessing;
+@property(nonatomic) BOOL submitted;
 
 /**
  *  Log container.
@@ -29,6 +29,11 @@
  *  Call completion handler used for communicating with calling component.
  */
 @property(nonatomic) MSSendAsyncCompletionHandler completionHandler;
+
+/**
+ * Reset and stop retrying.
+ */
+- (void)resetRetry;
 
 /**
  *  Call completed with error/success.
