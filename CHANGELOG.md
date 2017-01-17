@@ -1,6 +1,6 @@
 # Mobile Center SDK for iOS Change Log
 
-## Next version
+## Version 0.3.7
 
 This version has bug fixes.
 
@@ -8,6 +8,7 @@ This version has bug fixes.
 
 * **[Bug]** Fix crash sending failure callback, http status code now included in forwarded error.
 * **[Bug]** Fix http tasks cancelled when expected to be suspended.
+* **[Misc]** Display headers in logs for HTTP requests.
 
 ___
 
