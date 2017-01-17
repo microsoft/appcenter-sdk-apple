@@ -191,7 +191,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
     // More details on log if a debugger is attached.
     if ([MSMobileCenter isDebuggerAttached]) {
-      MSLogInfo([MSCrashes getLoggerTag], @"Crashes service has been enabled but the service cannot detect crashes due to the application with a debugger attached.");
+      MSLogInfo([MSCrashes getLoggerTag], @"Crashes service has been enabled but the service cannot detect crashes due to running the application with a debugger attached.");
     }
     else {
       MSLogInfo([MSCrashes getLoggerTag], @"Crashes service has been enabled.");
