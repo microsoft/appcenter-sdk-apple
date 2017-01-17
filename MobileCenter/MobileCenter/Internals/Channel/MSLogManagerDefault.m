@@ -4,6 +4,7 @@
 
 #import "MSChannelDefault.h"
 #import "MSLogManagerDefault.h"
+#import "MSMobileCenterErrors.h"
 #import "MobileCenter+Internal.h"
 
 static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecenter.LogManagerQueue";
@@ -135,9 +136,9 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
       NSArray<NSNumber *> *runningPriorities = self.channels.allKeys;
       for (NSInteger priority = 0; priority < kMSPriorityCount; priority++) {
         if (![runningPriorities containsObject:@(priority)]) {
-          NSError *error = [NSError errorWithDomain:kMSConnectionErrorDomain
-                                               code:kMSConnectionSuspendedErrorCode
-                                           userInfo:@{NSLocalizedDescriptionKey : kMSConnectionSuspendedErrorDesc}];
+          NSError *error = [NSError errorWithDomain:kMSMCErrorDomain
+                                               code:kMSMCConnectionSuspendedErrorCode
+                                           userInfo:@{NSLocalizedDescriptionKey : kMSMCConnectionSuspendedErrorDesc}];
           [[self channelForPriority:priority] deleteAllLogsWithError:error];
         }
       }
