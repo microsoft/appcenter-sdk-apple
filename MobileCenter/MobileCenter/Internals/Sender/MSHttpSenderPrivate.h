@@ -4,6 +4,9 @@
 
 #import <Foundation/Foundation.h>
 
+static short const kMSMaxCharactersDisplayedForAppSecret = 8;
+static NSString *const kMSHidingStringForAppSecret = @"*";
+
 @protocol MSSenderDelegate;
 
 @interface MSHttpSender ()
@@ -25,5 +28,10 @@
  * Enable/disable does resume/suspend the sender as needed under the hood.
  */
 @property(nonatomic) BOOL enabled;
+
+/**
+ * Hide a secret replacing the N first characters by a hiding character.
+ */
+- (NSString *)hideSecret:(NSString *)secret;
 
 @end

@@ -51,8 +51,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * Delete all logs from storage.
+ *
+ * @param error Error describing why all logs are deleted.
  */
-- (void)deleteAllLogs;
+- (void)deleteAllLogsWithError:(NSError *)error;
 
 /**
  *  Add delegate.

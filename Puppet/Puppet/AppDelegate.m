@@ -128,7 +128,7 @@
 }
 
 - (void)crashes:(MSCrashes *)crashes didFailSendingErrorReport:(MSErrorReport *)errorReport withError:(NSError *)error {
-  NSLog(@"Did fail sending report with: %@, and error %@",
+  NSLog(@"Did fail sending report with: %@, and error: %@",
           errorReport.exceptionReason,
           error.localizedDescription);
 }

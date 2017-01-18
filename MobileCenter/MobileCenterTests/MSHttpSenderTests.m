@@ -6,7 +6,9 @@
 #import "MSDevicePrivate.h"
 #import "MSHttpSender.h"
 #import "MSHttpSenderPrivate.h"
+#import "MSHttpTestUtil.h"
 #import "MSLogContainer.h"
+#import "MSMobileCenterErrors.h"
 #import "MSMockLog.h"
 #import "MSRetriableCall.h"
 #import "MSRetriableCallPrivate.h"
@@ -15,8 +17,8 @@
 #import "MobileCenter+Internal.h"
 
 #import "OCMock.h"
-#import <OHHTTPStubs/OHHTTPStubs.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
+#import <OHHTTPStubs/OHHTTPStubs.h>
 #import <XCTest/XCTest.h>
 
 static NSTimeInterval const kMSTestTimeout = 5.0;
@@ -54,9 +56,9 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
 
   // sut: System under test
   self.sut = [[MSHttpSender alloc] initWithBaseUrl:kMSBaseUrl
-                                            headers:headers
-                                       queryStrings:queryStrings
-                                       reachability:self.reachabilityMock];
+                                           headers:headers
+                                      queryStrings:queryStrings
+                                      reachability:self.reachabilityMock];
 
   // Set short retry intervals
   self.sut.callsRetryIntervals = @[ @(0.5), @(1), @(1.5) ];
@@ -68,34 +70,10 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
   [OHHTTPStubs removeAllStubs];
 }
 
-- (void)stubNSURLSession {
-  [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-    return YES;
-  }
-      withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        NSData *stubData = [@"Mobile Center Response" dataUsingEncoding:NSUTF8StringEncoding];
-        return [OHHTTPStubsResponse responseWithData:stubData statusCode:MSHTTPCodesNo200OK headers:nil];
-      }]
-      .name = @"httpStub_200";
-
-  [OHHTTPStubs onStubActivation:^(NSURLRequest *_Nonnull request, id<OHHTTPStubsDescriptor> _Nonnull stub,
-                                  OHHTTPStubsResponse *_Nonnull responseStub) {
-    NSLog(@"%@ stubbed by %@.", request.URL, stub.name);
-  }];
-}
-
 - (void)testSendBatchLogs {
 
   // Stub http response
-  [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-    return YES;
-  }
-      withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        NSData *stubData = [@"Mobile Center Response" dataUsingEncoding:NSUTF8StringEncoding];
-        return [OHHTTPStubsResponse responseWithData:stubData statusCode:MSHTTPCodesNo200OK headers:nil];
-      }]
-      .name = @"httpStub_200";
-
+  [MSHttpTestUtil stubHttp200Response];
   NSString *containerId = @"1";
   MSLogContainer *container = [self createLogContainerWithId:containerId];
 
@@ -118,21 +96,42 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
                                }];
 }
 
+- (void)testUnrecoverableError {
+
+  // Stub http response
+  [MSHttpTestUtil stubHttp404Response];
+  NSString *containerId = @"1";
+  MSLogContainer *container = [self createLogContainerWithId:containerId];
+
+  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Response 200"];
+  [self.sut sendAsync:container
+      completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
+
+        XCTAssertEqual(containerId, batchId);
+        XCTAssertEqual(statusCode, MSHTTPCodesNo404NotFound);
+        XCTAssertEqual(error.domain, kMSMCErrorDomain);
+        XCTAssertEqual(error.code, kMSMCConnectionHttpErrorCode);
+        XCTAssertEqual(error.localizedDescription, kMSMCConnectionHttpErrorDesc);
+        XCTAssertEqual(error.userInfo[kMSMCConnectionHttpCodeErrorKey], @(MSHTTPCodesNo404NotFound));
+
+        [expectation fulfill];
+      }];
+
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
 - (void)testNetworkDown {
 
   /**
    * If
    */
-  NSError *expectedError =
-      [NSError errorWithDomain:NSURLErrorDomain code:kCFURLErrorNotConnectedToInternet userInfo:nil];
+  [MSHttpTestUtil stubNetworkDownResponse];
   XCTestExpectation *requestCompletedExcpectation = [self expectationWithDescription:@"Request completed."];
-  [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-    return YES; // All requests
-  }
-      withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        return [OHHTTPStubsResponse responseWithError:expectedError];
-      }]
-      .name = @"httpStub_NetworkDown";
   MSLogContainer *container = [self createLogContainerWithId:@"1"];
 
   // Set a delegate for suspending event.
@@ -177,15 +176,7 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
   XCTestExpectation *requestCompletedExcpectation = [self expectationWithDescription:@"Request completed."];
   __block NSInteger forwardedStatus;
   __block NSError *forwardedError;
-  [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-    return YES; // All requests
-  }
-      withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        OHHTTPStubsResponse *responseStub = [OHHTTPStubsResponse new];
-        responseStub.statusCode = MSHTTPCodesNo200OK;
-        return responseStub;
-      }]
-      .name = @"httpStub_NetworkUpAgain";
+  [MSHttpTestUtil stubHttp200Response];
   MSLogContainer *container = [self createLogContainerWithId:@"1"];
 
   // Set a delegate for suspending/resuming event.
@@ -234,35 +225,37 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
                                }];
 }
 
-- (void)testRetryExhausted {
+- (void)testTasksSuspendedOnSenderSuspended {
 
   /**
    * If
    */
-  __block MSRetriableCall *retriableCall;
-  XCTestExpectation *requestCompletedExcpectation = [self expectationWithDescription:@"Request completed."];
-  __block NSInteger forwardedStatus;
-  [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-    return YES;
-  }
-      withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        OHHTTPStubsResponse *responseStub = [OHHTTPStubsResponse new];
-        responseStub.statusCode = MSHTTPCodesNo500InternalServerError;
-        return responseStub;
-      }]
-      .name = @"httpStub_Retriable";
-  NSString *containerId = @"1";
-  MSLogContainer *container = [self createLogContainerWithId:containerId];
+  XCTestExpectation *tasksListedExpectation = [self expectationWithDescription:@"URL Session tasks listed."];
+  __block NSArray<NSURLSessionDataTask *> *tasks;
+  [MSHttpTestUtil stubLongTimeOutResponse];
+  MSLogContainer *container1 = [self createLogContainerWithId:@"1"];
+  MSLogContainer *container2 = [self createLogContainerWithId:@"2"];
+
+  // Send logs
+  [self.sut sendAsync:container1
+      completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
+        XCTFail(@"Completion handler shouldn't be called as test will finish before the response timeout.");
+      }];
+  [self.sut sendAsync:container2
+      completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
+        XCTFail(@"Completion handler shouldn't be called as test will finish before the response timeout.");
+      }];
 
   /**
    * When
    */
-  [self.sut sendAsync:container
-      completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
-        retriableCall = self.sut.pendingCalls[batchId];
-        forwardedStatus = statusCode;
-        [requestCompletedExcpectation fulfill];
-      }];
+  [self.sut suspend];
+  [self.sut.session getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> *_Nonnull dataTasks,
+                                                    NSArray<NSURLSessionUploadTask *> *_Nonnull uploadTasks,
+                                                    NSArray<NSURLSessionDownloadTask *> *_Nonnull downloadTasks) {
+    tasks = dataTasks;
+    [tasksListedExpectation fulfill];
+  }];
 
   /**
    * Then
@@ -270,18 +263,133 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
   [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
 
-                                 // Max retry for the call is reached.
-                                 assertThatBool([retriableCall hasReachedMaxRetries], isTrue());
+                                 // Must be only two tasks
+                                 assertThatInteger(tasks.count, equalToInteger(2));
 
-                                 // All retry intervals as been exhausted.
-                                 assertThatUnsignedLong(retriableCall.retryCount,
-                                                        equalToUnsignedLong(retriableCall.retryIntervals.count));
+                                 // Tasks must be suspended.
+                                 [tasks enumerateObjectsUsingBlock:^(__kindof NSURLSessionTask *_Nonnull task,
+                                                                     NSUInteger idx, BOOL *_Nonnull stop) {
+                                   assertThatInteger(task.state, equalToInteger(NSURLSessionTaskStateSuspended));
+                                 }];
 
-                                 // The call as been removed.
-                                 assertThatUnsignedLong([self.sut.pendingCalls count], equalToInt(0));
+                                 // Sender must be suspended.
+                                 assertThatBool(self.sut.suspended, isTrue());
 
-                                 // Status codes must be the same.
-                                 assertThatLong(MSHTTPCodesNo500InternalServerError, equalToLong(forwardedStatus));
+                                 // Calls must still be in the pending calls, intended to be resumed later.
+                                 assertThatUnsignedLong(self.sut.pendingCalls.count, equalToInt(2));
+
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
+- (void)testTasksRunningOnSenderResumed {
+
+  /**
+   * If
+   */
+  XCTestExpectation *tasksListedExpectation = [self expectationWithDescription:@"Container 1 sent."];
+  __block NSArray<NSURLSessionDataTask *> *tasks;
+  [MSHttpTestUtil stubLongTimeOutResponse];
+  MSLogContainer *container1 = [self createLogContainerWithId:@"1"];
+  MSLogContainer *container2 = [self createLogContainerWithId:@"2"];
+
+  // Send logs
+  [self.sut sendAsync:container1
+      completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
+        XCTFail(@"Completion handler shouldn't be called as test will finish before the response timeout.");
+      }];
+  [self.sut sendAsync:container2
+      completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
+        XCTFail(@"Completion handler shouldn't be called as test will finish before the response timeout.");
+      }];
+  [self.sut suspend];
+
+  /**
+   * When
+   */
+  [self.sut resume];
+  [self.sut.session getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> *_Nonnull dataTasks,
+                                                    NSArray<NSURLSessionUploadTask *> *_Nonnull uploadTasks,
+                                                    NSArray<NSURLSessionDownloadTask *> *_Nonnull downloadTasks) {
+    // Capture tasks state.
+    tasks = dataTasks;
+    [tasksListedExpectation fulfill];
+  }];
+
+  /**
+   * Then
+   */
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
+                               handler:^(NSError *error) {
+
+                                 // Must be only two tasks
+                                 assertThatInteger(tasks.count, equalToInteger(2));
+
+                                 // Tasks must have been resumed.
+                                 [tasks enumerateObjectsUsingBlock:^(__kindof NSURLSessionDataTask *_Nonnull task,
+                                                                     NSUInteger idx, BOOL *_Nonnull stop) {
+                                   assertThatInteger(task.state, equalToInteger(NSURLSessionTaskStateRunning));
+                                 }];
+
+                                 // Sender must be suspended.
+                                 assertThatBool(self.sut.suspended, isFalse());
+
+                                 // Calls must still be in the pending calls, not yet timed out.
+                                 assertThatUnsignedLong(self.sut.pendingCalls.count, equalToInt(2));
+
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
+- (void)testRetryStoppedWhileSuspended {
+
+  /**
+   * If
+   */
+  XCTestExpectation *responseReceivedExcpectation = [self expectationWithDescription:@"Request completed."];
+  NSString *containerId = @"1";
+  MSLogContainer *container = [self createLogContainerWithId:containerId];
+
+  // Mock the call to intercept the retry.
+  MSRetriableCall *mockedCall = OCMPartialMock([[MSRetriableCall alloc] initWithRetryIntervals:@[ @(UINT_MAX) ]]);
+  mockedCall.delegate = self.sut;
+  mockedCall.logContainer = container;
+  mockedCall.completionHandler = nil;
+  OCMStub([mockedCall sender:self.sut callCompletedWithStatus:MSHTTPCodesNo500InternalServerError error:[OCMArg any]])
+      .andForwardToRealObject()
+      .andDo(^(NSInvocation *invocation) {
+        [responseReceivedExcpectation fulfill];
+      });
+  self.sut.pendingCalls[containerId] = mockedCall;
+
+  // Respond with a retryable error.
+  [MSHttpTestUtil stubHttp500Response];
+
+  // Send the call.
+  [self.sut sendCallAsync:mockedCall];
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
+                               handler:^(NSError *error) {
+
+                                 /**
+                                  * When
+                                  */
+
+                                 // Suspend now that the call is retrying.
+                                 [self.sut suspend];
+
+                                 /**
+                                  * Then
+                                  */
+
+                                 // Retry must be stopped.
+                                 assertThat(((MSRetriableCall *)self.sut.pendingCalls[@"1"]).timerSource, nilValue());
+
+                                 // No call submitted to the session.
+                                 assertThatBool(self.sut.pendingCalls[@"1"].submitted, isFalse());
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
@@ -300,8 +408,8 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
   [self.sut sendAsync:container
       completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
 
-        XCTAssertEqual(error.domain, kMSDefaultApiErrorDomain);
-        XCTAssertEqual(error.code, kMSDefaultApiMissingParamErrorCode);
+        XCTAssertEqual(error.domain, kMSMCErrorDomain);
+        XCTAssertEqual(error.code, kMSMCLogInvalidContainerErrorCode);
       }];
 
   XCTAssertEqual([self.sut.pendingCalls count], 0);
@@ -450,6 +558,42 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
   // Then.
   OCMVerify([delegateMock1 senderDidResume:self.sut]);
   OCMVerify([delegateMock2 senderDidResume:self.sut]);
+}
+
+- (void)testLargeSecret {
+
+  // If.
+  NSString *secret = @"shhhh-its-a-secret";
+  NSString *hiddenSecret;
+
+  // When.
+  hiddenSecret = [self.sut hideSecret:secret];
+
+  // Then.
+  NSString *fullyHiddenSecret =
+      [@"" stringByPaddingToLength:hiddenSecret.length withString:kMSHidingStringForAppSecret startingAtIndex:0];
+  NSString *appSecretHiddenPart = [hiddenSecret commonPrefixWithString:fullyHiddenSecret options:0];
+  NSString *appSecretVisiblePart = [hiddenSecret substringFromIndex:appSecretHiddenPart.length];
+  assertThatInteger(secret.length - appSecretHiddenPart.length, equalToShort(kMSMaxCharactersDisplayedForAppSecret));
+  assertThat(appSecretVisiblePart, is([secret substringFromIndex:appSecretHiddenPart.length]));
+}
+
+- (void)testShortSecret {
+
+  // If.
+  NSString *secret = @"";
+  for (short i = 1; i <= kMSMaxCharactersDisplayedForAppSecret - 1; i++)
+    secret = [NSString stringWithFormat:@"%@%hd", secret, i];
+  NSString *hiddenSecret;
+
+  // When.
+  hiddenSecret = [self.sut hideSecret:secret];
+
+  // Then.
+  NSString *fullyHiddenSecret =
+      [@"" stringByPaddingToLength:hiddenSecret.length withString:kMSHidingStringForAppSecret startingAtIndex:0];
+  assertThatInteger(hiddenSecret.length, equalToInteger(secret.length));
+  assertThat(hiddenSecret, is(fullyHiddenSecret));
 }
 
 #pragma mark - Test Helpers

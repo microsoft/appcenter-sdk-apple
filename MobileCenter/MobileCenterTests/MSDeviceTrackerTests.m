@@ -251,12 +251,11 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 - (void)testWrapperSdk {
 
   // If
-  MSWrapperSdk *wrapperSdk = [[MSWrapperSdk alloc] init];
-  wrapperSdk.wrapperSdkVersion = @"10.11.12";
-  wrapperSdk.wrapperSdkName = @"Wrapper SDK for iOS";
-  wrapperSdk.liveUpdateReleaseLabel = @"Release label";
-  wrapperSdk.liveUpdateDeploymentKey = @"Deployment Key";
-  wrapperSdk.liveUpdatePackageHash = @"Package Hash";
+  MSWrapperSdk *wrapperSdk = [[MSWrapperSdk alloc] initWithWrapperSdkVersion:@"10.11.12"
+                                                              wrapperSdkName:@"Wrapper SDK for iOS"
+                                                      liveUpdateReleaseLabel:@"Release Label"
+                                                     liveUpdateDeploymentKey:@"Deployment Key"
+                                                       liveUpdatePackageHash:@"Package Hash"];
 
   // When
   [MSDeviceTracker setWrapperSdk:wrapperSdk];
