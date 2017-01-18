@@ -135,4 +135,9 @@ static NSString *const kSMNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   [MSMobileCenter start:[[NSUUID UUID] UUIDString] withServices:nil];
   XCTAssertTrue([[[MSMobileCenter sharedInstance] serverUrl] isEqualToString:@"https://in.mobile.azure.com"]);
 }
+
+- (void)testConfigureWithAppSecret {
+  [MSMobileCenter configureWithAppSecret:@"App-Secret"];
+  XCTAssertTrue([MSMobileCenter isConfigured]);
+}
 @end

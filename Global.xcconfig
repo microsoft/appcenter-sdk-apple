@@ -1,5 +1,5 @@
 BUILD_NUMBER = 1
-VERSION_STRING = 0.3.6
+VERSION_STRING = 0.3.7
 
 SDK_NAME = mobilecenter.ios
 
@@ -12,7 +12,7 @@ VALID_ARCHS = $(MS_ARM_ARCHS)
 // but we require the full bitcode flag -fembed-bitcode in this case.
 ENABLE_BITCODE = NO;
 
-OTHER_CFLAGS = -Wshorten-64-to-32 -Wall
+OTHER_CFLAGS = -Wshorten-64-to-32 -Wall -fstack-protector-strong -fpie
 
 // Use empty bitcode marker in simulators and debug configurations for real devices.
 OTHER_CFLAGS[sdk=iphonesimulator*] = $(OTHER_CFLAGS) -fembed-bitcode-marker
