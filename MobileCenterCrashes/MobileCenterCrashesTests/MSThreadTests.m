@@ -11,7 +11,40 @@
 
 @end
 
-@implementation   MSThreadTests
+@implementation MSThreadTests
+
+
+#pragma mark - Helper
+
+- (MSThread *)thread {
+  NSNumber *threadId = @(12);
+  NSString *name = @"thread_name";
+
+  MSException *exception = [MSException new];
+  exception.type = @"exception_type";
+  exception.message = @"message";
+  MSStackFrame *frame = [self stackFrame];
+  exception.frames = [NSArray arrayWithObjects:frame, nil];
+
+  MSThread *thread = [MSThread new];
+  thread.threadId = threadId;
+  thread.name = name;
+  thread.exception = exception;
+  thread.frames = [NSMutableArray arrayWithObject:frame];
+
+  return thread;
+}
+
+- (MSStackFrame *)stackFrame {
+  NSString *address = @"address";
+  NSString *code = @"code";
+
+  MSStackFrame *threadFrame = [MSStackFrame new];
+  threadFrame.address = address;
+  threadFrame.code = code;
+
+  return threadFrame;
+}
 
 #pragma mark - Tests
 
@@ -51,6 +84,7 @@
   assertThat(actual, instanceOf([MSThread class]));
 
   MSThread *actualThread = actual;
+  assertThat(actualThread, equalTo(actual));
   assertThat(actualThread.threadId, equalTo(sut.threadId));
   assertThat(actualThread.name, equalTo(sut.name));
   assertThat(actualThread.exception.type, equalTo(sut.exception.type));
@@ -60,36 +94,25 @@
   assertThatInteger(actualThread.frames.count, equalToInteger(1));
 }
 
-#pragma mark - Helper
+- (void)testIsValid {
 
-- (MSThread *)thread {
-  NSNumber *threadId = @(12);
-  NSString *name = @"thread_name";
-
-  MSException *exception = [MSException new];
-  exception.type = @"exception_type";
-  exception.message = @"message";
-  MSStackFrame *frame = [self stackFrame];
-  exception.frames = [NSArray arrayWithObjects:frame, nil];
-
+  // When
   MSThread *thread = [MSThread new];
-  thread.threadId = threadId;
-  thread.name = name;
-  thread.exception = exception;
-  thread.frames = [NSMutableArray arrayWithObject:frame];
 
-  return thread;
-}
+  // Then
+  XCTAssertFalse([thread isValid]);
 
-- (MSStackFrame *)stackFrame {
-  NSString *address = @"address";
-  NSString *code = @"code";
+  // When
+  thread.threadId = @123;
 
-  MSStackFrame *threadFrame = [MSStackFrame new];
-  threadFrame.address = address;
-  threadFrame.code = code;
+  // Then
+  XCTAssertFalse([thread isValid]);
 
-  return threadFrame;
+  // When
+  thread.frames = [NSMutableArray arrayWithObjects:[MSStackFrame new], nil];
+
+  // Then
+  XCTAssertTrue([thread isValid]);
 }
 
 @end

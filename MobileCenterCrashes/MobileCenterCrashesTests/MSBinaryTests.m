@@ -28,6 +28,7 @@
   assertThat(actual[@"end_address"], equalTo(sut.endAddress));
   assertThat(actual[@"name"], equalTo(sut.name));
   assertThat(actual[@"path"], equalTo(sut.path));
+  assertThat(actual[@"architecture"], equalTo(sut.architecture));
   assertThat(actual[@"primary_architecture_id"], equalTo(sut.primaryArchitectureId));
   assertThat(actual[@"architecture_variant_id"], equalTo(sut.architectureVariantId));
 
@@ -47,11 +48,13 @@
   assertThat(actual, instanceOf([MSBinary class]));
   
   MSBinary *actualBinary = actual;
+  assertThat(actualBinary, equalTo(actual));
   assertThat(actualBinary.binaryId, equalTo(sut.binaryId));
   assertThat(actualBinary.startAddress, equalTo(sut.startAddress));
   assertThat(actualBinary.endAddress, equalTo(sut.endAddress));
   assertThat(actualBinary.name, equalTo(sut.name));
   assertThat(actualBinary.path, equalTo(sut.path));
+  assertThat(actualBinary.architecture, equalTo(sut.architecture));
   assertThat(actualBinary.primaryArchitectureId, equalTo(sut.primaryArchitectureId));
   assertThat(actualBinary.architectureVariantId, equalTo(sut.architectureVariantId));
 }
@@ -64,6 +67,7 @@
   NSString *endAddress = @"end_address";
   NSString *name = @"name";
   NSString *path = @"path";
+  NSString *architecture = @"architecture";
   NSNumber *primaryArchitectureId = @12;
   NSNumber *architectureVariantId = @23;
   
@@ -73,6 +77,7 @@
   binary.endAddress = endAddress;
   binary.name = name;
   binary.path = path;
+  binary.architecture = architecture;
   binary.primaryArchitectureId = primaryArchitectureId;
   binary.architectureVariantId = architectureVariantId;
   
