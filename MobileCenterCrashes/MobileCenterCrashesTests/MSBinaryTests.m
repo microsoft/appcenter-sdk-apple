@@ -62,24 +62,15 @@
 #pragma mark - Helper
 
 - (MSBinary *)binary {
-  NSString *binaryId = @"binaryId";
-  NSString *startAddress = @"start_address";
-  NSString *endAddress = @"end_address";
-  NSString *name = @"name";
-  NSString *path = @"path";
-  NSString *architecture = @"architecture";
-  NSNumber *primaryArchitectureId = @12;
-  NSNumber *architectureVariantId = @23;
-  
   MSBinary *binary = [MSBinary new];
-  binary.binaryId = binaryId;
-  binary.startAddress = startAddress;
-  binary.endAddress = endAddress;
-  binary.name = name;
-  binary.path = path;
-  binary.architecture = architecture;
-  binary.primaryArchitectureId = primaryArchitectureId;
-  binary.architectureVariantId = architectureVariantId;
+  binary.binaryId = @"binaryId";
+  binary.startAddress = @"start_address";
+  binary.endAddress = @"end_address";
+  binary.name = @"name";
+  binary.path = @"path";
+  binary.architecture = @"architecture";
+  binary.primaryArchitectureId = @12;
+  binary.architectureVariantId = @23;
   
   return binary;
 }
