@@ -56,7 +56,7 @@
 - (BOOL)canBeUsed {
   BOOL canBeUsed = [MSMobileCenter sharedInstance].sdkConfigured && self.started;
   if (!canBeUsed) {
-    MSLogError([MSMobileCenter getLoggerTag],
+    MSLogError([MSMobileCenter logTag],
                @"%@ service hasn't been started. You need to call "
                @"[MSMobileCenter start:YOUR_APP_SECRET withServices:LIST_OF_SERVICES] first.",
                MS_CLASS_NAME_WITHOUT_PREFIX);
@@ -84,7 +84,7 @@
   @synchronized([self sharedInstance]) {
     if ([[self sharedInstance] canBeUsed]) {
       if (![MSMobileCenter isEnabled] && ![MSMobileCenter sharedInstance].enabledStateUpdating) {
-        MSLogError([MSMobileCenter getLoggerTag], @"The SDK is disabled. Re-enable the whole SDK from MobileCenter "
+        MSLogError([MSMobileCenter logTag], @"The SDK is disabled. Re-enable the whole SDK from MobileCenter "
                                                   @"first before enabling %@ service.",
                    MS_CLASS_NAME_WITHOUT_PREFIX);
       } else {

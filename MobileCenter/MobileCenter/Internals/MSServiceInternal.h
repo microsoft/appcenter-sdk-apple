@@ -31,10 +31,10 @@
 + (instancetype)sharedInstance;
 
 /**
- * Get the logger tag for this service.
+ * Get the log tag for this service.
  *
  * @return A name of logger tag for this service.
  */
-+ (NSString *)getLoggerTag;
++ (NSString *)logTag;
 
 @end

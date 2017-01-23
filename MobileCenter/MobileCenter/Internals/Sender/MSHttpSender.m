@@ -73,7 +73,7 @@ static NSString *const kMSApiPath = @"/logs";
       NSDictionary *userInfo = @{NSLocalizedDescriptionKey : kMSMCLogInvalidContainerErrorDesc};
       NSError *error =
           [NSError errorWithDomain:kMSMCErrorDomain code:kMSMCLogInvalidContainerErrorCode userInfo:userInfo];
-      MSLogError([MSMobileCenter getLoggerTag], @"%@", [error localizedDescription]);
+      MSLogError([MSMobileCenter logTag], @"%@", [error localizedDescription]);
       handler(batchId, error, nil);
       return;
     }
@@ -143,7 +143,7 @@ static NSString *const kMSApiPath = @"/logs";
 - (void)suspend {
   @synchronized(self) {
     if (!self.suspended) {
-      MSLogInfo([MSMobileCenter getLoggerTag], @"Suspend sender.");
+      MSLogInfo([MSMobileCenter logTag], @"Suspend sender.");
       self.suspended = YES;
 
       // Suspend all tasks.
@@ -178,7 +178,7 @@ static NSString *const kMSApiPath = @"/logs";
 
     // Resume only while enabled.
     if (self.suspended && self.enabled) {
-      MSLogInfo([MSMobileCenter getLoggerTag], @"Resume sender.");
+      MSLogInfo([MSMobileCenter logTag], @"Resume sender.");
       self.suspended = NO;
 
       // Resume existing calls.
@@ -229,7 +229,7 @@ static NSString *const kMSApiPath = @"/logs";
                         completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                           @synchronized(self) {
                             NSInteger statusCode = [MSSenderUtil getStatusCode:response];
-                            MSLogDebug([MSMobileCenter getLoggerTag], @"HTTP response received with status code:%lu",
+                            MSLogDebug([MSMobileCenter logTag], @"HTTP response received with status code:%lu",
                                        (unsigned long)statusCode);
 
                             // Call handles the completion.
@@ -249,11 +249,11 @@ static NSString *const kMSApiPath = @"/logs";
 - (void)callCompletedWithId:(NSString *)callId {
   @synchronized(self) {
     if (!callId) {
-      MSLogWarning([MSMobileCenter getLoggerTag], @"Call object is invalid");
+      MSLogWarning([MSMobileCenter logTag], @"Call object is invalid");
       return;
     }
     [self.pendingCalls removeObjectForKey:callId];
-    MSLogInfo([MSMobileCenter getLoggerTag], @"Removed batch id:%@ from pending calls:%@", callId,
+    MSLogInfo([MSMobileCenter logTag], @"Removed batch id:%@ from pending calls:%@", callId,
               [self.pendingCalls description]);
   }
 }
@@ -284,8 +284,8 @@ static NSString *const kMSApiPath = @"/logs";
 
   // Don't loose time pretty printing headers if not going to be printed.
   if ([MSLogger currentLogLevel] <= MSLogLevelVerbose) {
-    MSLogVerbose([MSMobileCenter getLoggerTag], @"URL: %@", request.URL);
-    MSLogVerbose([MSMobileCenter getLoggerTag], @"Headers: %@", [self prettyPrintHeaders:request.allHTTPHeaderFields]);
+    MSLogVerbose([MSMobileCenter logTag], @"URL: %@", request.URL);
+    MSLogVerbose([MSMobileCenter logTag], @"Headers: %@", [self prettyPrintHeaders:request.allHTTPHeaderFields]);
   }
 
   return request;
@@ -295,10 +295,10 @@ static NSString *const kMSApiPath = @"/logs";
 
 - (void)networkStateChanged {
   if ([self.reachability currentReachabilityStatus] == NotReachable) {
-    MSLogInfo([MSMobileCenter getLoggerTag], @"Internet connection is down.");
+    MSLogInfo([MSMobileCenter logTag], @"Internet connection is down.");
     [self suspend];
   } else {
-    MSLogInfo([MSMobileCenter getLoggerTag], @"Internet connection is up.");
+    MSLogInfo([MSMobileCenter logTag], @"Internet connection is up.");
     [self resume];
   }
 }

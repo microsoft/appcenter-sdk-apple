@@ -126,7 +126,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
   return debuggerIsAttached;
 }
 
-+ (NSString *)getLoggerTag {
++ (NSString *)logTag {
   return @"MobileCenter";
 }
 
@@ -144,12 +144,12 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 - (BOOL)configure:(NSString *)appSecret {
   BOOL success = false;
   if (self.sdkConfigured) {
-    MSLogAssert([MSMobileCenter getLoggerTag], @"Mobile Center SDK has already been configured.");
+    MSLogAssert([MSMobileCenter logTag], @"Mobile Center SDK has already been configured.");
   }
 
   // Validate and set the app secret.
   else if ([appSecret length] == 0) {
-    MSLogAssert([MSMobileCenter getLoggerTag], @"AppSecret is invalid.");
+    MSLogAssert([MSMobileCenter logTag], @"AppSecret is invalid.");
   }
 
   else {
@@ -175,7 +175,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
     }
     success = true;
   }
-  MSLogAssert([MSMobileCenter getLoggerTag], @"Mobile Center SDK %@",
+  MSLogAssert([MSMobileCenter logTag], @"Mobile Center SDK %@",
               (success) ? @"configured successfully." : @"configuration failed.");
   return success;
 }
@@ -221,7 +221,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
     [[service class] setEnabled:isEnabled];
   }
   self.enabledStateUpdating = NO;
-  MSLogInfo([MSMobileCenter getLoggerTag], @"Mobile Center SDK %@.", isEnabled ? @"enabled" : @"disabled");
+  MSLogInfo([MSMobileCenter logTag], @"Mobile Center SDK %@.", isEnabled ? @"enabled" : @"disabled");
 }
 
 - (BOOL)isEnabled {
@@ -314,7 +314,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 - (BOOL)canBeUsed {
   BOOL canBeUsed = self.sdkConfigured;
   if (!canBeUsed) {
-    MSLogError([MSMobileCenter getLoggerTag],
+    MSLogError([MSMobileCenter logTag],
                @"Mobile Center SDK hasn't been configured. You need to call [MSMobileCenter "
                @"start:YOUR_APP_SECRET withServices:LIST_OF_SERVICES] first.");
   }
