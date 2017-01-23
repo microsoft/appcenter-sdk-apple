@@ -112,8 +112,7 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
         XCTAssertEqual(error.domain, kMSMCErrorDomain);
         XCTAssertEqual(error.code, kMSMCConnectionHttpErrorCode);
         XCTAssertEqual(error.localizedDescription, kMSMCConnectionHttpErrorDesc);
-        XCTAssertEqual(error.userInfo[kMSMCConnectionHttpCodeErrorKey], @(MSHTTPCodesNo404NotFound));
-
+        XCTAssertTrue([error.userInfo[kMSMCConnectionHttpCodeErrorKey] isEqual:@(MSHTTPCodesNo404NotFound)]);
         [expectation fulfill];
       }];
 
