@@ -114,10 +114,13 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     NSString *filePath = [crashes.unprocessedFilePaths objectAtIndex:i];
 
     // Get error attachment.
-    if ([crashes delegateImplementsAttachmentCallback])
-      [log setErrorAttachment:[crashes.delegate attachmentWithCrashes:crashes forErrorReport:report]];
-    else
+    if ([crashes delegateImplementsAttachmentCallback]) {
+      // TODO (attachmentWithCrashes): Bring this back when the backend supports attachment for Crashes.
+//      [log setErrorAttachment:[crashes.delegate attachmentWithCrashes:crashes forErrorReport:report]];
+    }
+    else {
       MSLogDebug([MSCrashes getLoggerTag], @"attachmentWithCrashes is not implemented");
+    }
 
     // Send log to log manager.
     [crashes.logManager processLog:log withPriority:crashes.priority];
@@ -192,8 +195,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     // More details on log if a debugger is attached.
     if ([MSMobileCenter isDebuggerAttached]) {
       MSLogInfo([MSCrashes getLoggerTag], @"Crashes service has been enabled but the service cannot detect crashes due to running the application with a debugger attached.");
-    }
-    else {
+    } else {
       MSLogInfo([MSCrashes getLoggerTag], @"Crashes service has been enabled.");
     }
   } else {
@@ -529,7 +531,9 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 }
 
 - (BOOL)delegateImplementsAttachmentCallback {
-  return self.delegate && [self.delegate respondsToSelector:@selector(attachmentWithCrashes:forErrorReport:)];
+  // TODO (attachmentWithCrashes): Bring this back when the backend supports attachment for Crashes.
+//   return self.delegate && [self.delegate respondsToSelector:@selector(attachmentWithCrashes:forErrorReport:)];
+  return NO;
 }
 
 + (void)wrapperCrashCallback {
