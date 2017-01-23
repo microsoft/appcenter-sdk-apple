@@ -59,10 +59,10 @@ static dispatch_once_t onceToken;
 
   // Set up swizzling for auto page tracking.
   [MSAnalyticsCategory activateCategory];
-  MSLogVerbose([MSAnalytics getLoggerTag], @"Started analytics service.");
+  MSLogVerbose([MSAnalytics logTag], @"Started analytics service.");
 }
 
-+ (NSString *)getLoggerTag {
++ (NSString *)logTag {
   return @"MobileCenterAnalytics";
 }
 
@@ -100,13 +100,13 @@ static dispatch_once_t onceToken;
       });
     }
 
-    MSLogInfo([MSAnalytics getLoggerTag], @"Analytics service has been enabled.");
+    MSLogInfo([MSAnalytics logTag], @"Analytics service has been enabled.");
   } else {
     [self.logManager removeDelegate:self.sessionTracker];
     [self.logManager removeChannelDelegate:self forPriority:self.priority];
     [self.sessionTracker stop];
     [self.sessionTracker clearSessions];
-    MSLogInfo([MSAnalytics getLoggerTag], @"Analytics service has been disabled.");
+    MSLogInfo([MSAnalytics logTag], @"Analytics service has been disabled.");
   }
 }
 
@@ -171,7 +171,7 @@ static dispatch_once_t onceToken;
 
     // Check if property dictionary contains non-string values.
     if (![self validateProperties:properties]) {
-      MSLogError([MSAnalytics getLoggerTag], @"The event contains unsupported value type(s). Values should be NSString type.");
+      MSLogError([MSAnalytics logTag], @"The event contains unsupported value type(s). Values should be NSString type.");
       return;
     }
     log.properties = properties;
@@ -192,7 +192,7 @@ static dispatch_once_t onceToken;
 
     // Check if property dictionary contains non-string values.
     if (![self validateProperties:properties]) {
-      MSLogError([MSAnalytics getLoggerTag], @"The page contains unsupported value type(s). Values should be NSString type.");
+      MSLogError([MSAnalytics logTag], @"The page contains unsupported value type(s). Values should be NSString type.");
       return;
     }
     log.properties = properties;

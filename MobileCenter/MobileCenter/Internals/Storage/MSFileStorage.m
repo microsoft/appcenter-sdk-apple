@@ -191,7 +191,7 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
       _baseDirectoryPath = [appSupportPath stringByAppendingPathComponent:kMSLogsDirectory];
     }
 
-    MSLogVerbose([MSMobileCenter getLoggerTag], @"Storage Path:\n%@", _baseDirectoryPath);
+    MSLogVerbose([MSMobileCenter logTag], @"Storage Path:\n%@", _baseDirectoryPath);
   }
 
   return _baseDirectoryPath;
