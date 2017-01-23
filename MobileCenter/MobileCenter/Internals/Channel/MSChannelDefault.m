@@ -111,10 +111,10 @@
 - (void)enqueueItem:(id <MSLog>)item withCompletion:(enqueueCompletionBlock)completion {
   // return fast in case our item is empty or we are discarding logs right now.
   if (!item) {
-    MSLogWarning([MSMobileCenter getLoggerTag], @"TelemetryItem was nil.");
+    MSLogWarning([MSMobileCenter logTag], @"TelemetryItem was nil.");
     return;
   } else if (self.discardLogs) {
-    MSLogWarning([MSMobileCenter getLoggerTag], @"Channel disabled in log discarding mode, discard this log.");
+    MSLogWarning([MSMobileCenter logTag], @"Channel disabled in log discarding mode, discard this log.");
     NSError *error = [NSError errorWithDomain:kMSMCErrorDomain
                                          code:kMSMCConnectionSuspendedErrorCode
                                      userInfo:@{NSLocalizedDescriptionKey: kMSMCConnectionSuspendedErrorDesc}];
@@ -131,7 +131,7 @@
 
   dispatch_async(self.logsDispatchQueue, ^{
       // Save the log first.
-      MSLogDebug([MSMobileCenter getLoggerTag], @"Saving log, type: %@.", item.type);
+      MSLogDebug([MSMobileCenter logTag], @"Saving log, type: %@.", item.type);
       BOOL success = [self.storage saveLog:item withStorageKey:self.configuration.name];
       _itemsCount += 1;
       if (completion) {
@@ -183,7 +183,7 @@
                          self.pendingBatchQueueFull = YES;
                        }
                        MSLogContainer *container = [[MSLogContainer alloc] initWithBatchId:batchId andLogs:logArray];
-                       MSLogDebug([MSMobileCenter getLoggerTag], @"Sending log(s), batch Id:%@, payload:\n %@", batchId,
+                       MSLogDebug([MSMobileCenter logTag], @"Sending log(s), batch Id:%@, payload:\n %@", batchId,
                                [container serializeLogWithPrettyPrinting:YES]);
 
                        // Notify delegates.
@@ -203,7 +203,7 @@
 
                                  // Success.
                                  if (statusCode == MSHTTPCodesNo200OK) {
-                                   MSLogDebug([MSMobileCenter getLoggerTag], @"Log(s) sent with success, batch Id:%@.",
+                                   MSLogDebug([MSMobileCenter logTag], @"Log(s) sent with success, batch Id:%@.",
                                            batchId);
 
                                    // Notify delegates.
@@ -230,7 +230,7 @@
 
                                    // Failure.
                                  else {
-                                   MSLogDebug([MSMobileCenter getLoggerTag],
+                                   MSLogDebug([MSMobileCenter logTag],
                                            @"Log(s) sent with failure, batch Id:%@, status code:%lu", batchId,
                                            (unsigned long) statusCode);
 
@@ -254,7 +254,7 @@
                                    }
                                  }
                                } else
-                                 MSLogWarning([MSMobileCenter getLoggerTag], @"Batch Id %@ not expected, ignore.", batchId);
+                                 MSLogWarning([MSMobileCenter logTag], @"Batch Id %@ not expected, ignore.", batchId);
                            });
                        }];
                      }
@@ -313,7 +313,7 @@
 
       // Even if it's already disabled we might also want to delete logs this time.
       if (!isEnabled && deleteData) {
-        MSLogDebug([MSMobileCenter getLoggerTag], @"Delete all logs.");
+        MSLogDebug([MSMobileCenter logTag], @"Delete all logs.");
         NSError *error = [NSError errorWithDomain:kMSMCErrorDomain
                                              code:kMSMCConnectionSuspendedErrorCode
                                          userInfo:@{NSLocalizedDescriptionKey: kMSMCConnectionSuspendedErrorDesc}];
@@ -332,7 +332,7 @@
 
 - (void)suspend {
   if (!self.suspended) {
-    MSLogDebug([MSMobileCenter getLoggerTag], @"Suspend channel.");
+    MSLogDebug([MSMobileCenter logTag], @"Suspend channel.");
     self.suspended = YES;
     [self resetTimer];
   }
@@ -340,7 +340,7 @@
 
 - (void)resume {
   if (self.suspended && self.enabled) {
-    MSLogDebug([MSMobileCenter getLoggerTag], @"Resume channel.");
+    MSLogDebug([MSMobileCenter logTag], @"Resume channel.");
     self.suspended = NO;
     self.discardLogs = NO;
     [self flushQueue];

@@ -51,10 +51,10 @@ static NSString *const kMSMobileCenterIsEnabledKey = @"MSMobileCenterIsEnabled";
 - (BOOL)isEnabled;
 
 /**
- * Get the logger tag for the MobileCenter service.
+ * Get the log tag for the MobileCenter service.
  *
  * @return A name of logger tag for the MobileCenter service.
  */
-+ (NSString *)getLoggerTag;
++ (NSString *)logTag;
 
 @end

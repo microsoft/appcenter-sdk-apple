@@ -638,7 +638,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
                                                               range:NSMakeRange(0, [path length])
                                                        withTemplate:@"/Users/USER/"];
     if (error) {
-      MSLogError([MSCrashes getLoggerTag], @"String replacing failed - %@", error.localizedDescription);
+      MSLogError([MSCrashes logTag], @"String replacing failed - %@", error.localizedDescription);
     }
   } else if (([path length] > 0) && (![path containsString:@"Users"])) {
     return path;
