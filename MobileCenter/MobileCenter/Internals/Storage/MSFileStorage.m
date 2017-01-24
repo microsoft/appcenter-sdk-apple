@@ -32,9 +32,9 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
 
 #pragma mark - Public
 
-- (void)saveLog:(id<MSLog>)log withStorageKey:(NSString *)storageKey {
+- (BOOL)saveLog:(id <MSLog>)log withStorageKey:(NSString *)storageKey {
   if (!log) {
-    return;
+    return NO;
   }
 
   MSStorageBucket *bucket = [self bucketForStorageKey:storageKey];
@@ -58,13 +58,15 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
 
   [bucket.currentLogs addObject:log];
   NSData *logsData = [NSKeyedArchiver archivedDataWithRootObject:bucket.currentLogs];
-  [MSFileUtil writeData:logsData toFile:bucket.currentFile];
+
+  BOOL success = [MSFileUtil writeData:logsData toFile:bucket.currentFile];
+  return success;
 }
 
-- (NSArray<MSLog> *)deleteLogsForStorageKey:(NSString *)storageKey {
+- (NSArray <MSLog> *)deleteLogsForStorageKey:(NSString *)storageKey {
 
   // Cache deleted logs
-  NSMutableArray<MSLog> *deletedLogs = [NSMutableArray<MSLog> new];
+  NSMutableArray <MSLog> *deletedLogs = [NSMutableArray < MSLog > new];
 
   // Remove all files from the bucket.
   MSStorageBucket *bucket = self.buckets[storageKey];
@@ -85,12 +87,12 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
   [self deleteFile:[bucket fileWithId:logsId] fromBucket:bucket];
 }
 
-- (NSArray<MSLog> *)deleteFile:(MSFile *)file fromBucket:(MSStorageBucket *)bucket {
-  NSMutableArray<MSLog> *deletedLogs = [NSMutableArray<MSLog> new];
+- (NSArray <MSLog> *)deleteFile:(MSFile *)file fromBucket:(MSStorageBucket *)bucket {
+  NSMutableArray <MSLog> *deletedLogs = [NSMutableArray < MSLog > new];
   if (file) {
 
     // Cache logs from file.
-    NSArray<MSLog> *logs = [NSKeyedUnarchiver unarchiveObjectWithData:[MSFileUtil dataForFile:file]];
+    NSArray <MSLog> *logs = [NSKeyedUnarchiver unarchiveObjectWithData:[MSFileUtil dataForFile:file]];
     if (logs) {
       [deletedLogs addObjectsFromArray:logs];
     }
@@ -103,7 +105,7 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
 }
 
 - (BOOL)loadLogsForStorageKey:(NSString *)storageKey withCompletion:(nullable MSLoadDataCompletionBlock)completion {
-  NSArray<MSLog> *logs;
+  NSArray <MSLog> *logs;
   NSString *fileId;
   MSStorageBucket *bucket = [self bucketForStorageKey:storageKey];
 
@@ -183,8 +185,8 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
 - (NSString *)baseDirectoryPath {
   if (!_baseDirectoryPath) {
     NSString *appSupportPath =
-        [[NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject]
-            stringByStandardizingPath];
+            [[NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject]
+                    stringByStandardizingPath];
     if (appSupportPath) {
       _baseDirectoryPath = [appSupportPath stringByAppendingPathComponent:kMSLogsDirectory];
     }

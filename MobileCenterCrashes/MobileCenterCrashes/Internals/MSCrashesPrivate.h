@@ -54,7 +54,11 @@ typedef struct MSCrashesCallbacks {
  */
 @property(nonatomic, copy) NSString *analyzerInProgressFile;
 
-@property(nonatomic) id<MSCrashesDelegate> delegate;
+/**
+ * The object implements the protocol defined in `MSCrashesDelegate`.
+ * @see MSCrashesDelegate
+ */
+@property(nonatomic, weak) id<MSCrashesDelegate> delegate;
 
 /**
  * The `PLCrashReporter` instance used for crash detection.

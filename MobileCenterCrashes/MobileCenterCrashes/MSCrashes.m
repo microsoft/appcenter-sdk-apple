@@ -20,16 +20,46 @@
 static NSString *const kMSServiceName = @"Crashes";
 static NSString *const kMSAnalyzerFilename = @"MSCrashes.analyzer";
 
+
 #pragma mark - Callbacks Setup
 
 static MSCrashesCallbacks msCrashesCallbacks = {.context = NULL, .handleSignal = NULL};
 static NSString *const kMSUserConfirmationKey = @"MSUserConfirmation";
+char *MSSafeJsonEventsString;
+
+
+static void ms_save_events_callback(siginfo_t *info, ucontext_t *uap, void *context) {
+
+//  id logManager = [[MSCrashes sharedInstance] logManager];
+//  if(logManager) {
+//    [logManager appIsCrashing];
+//  }
+//
+//  // Do not flush  queue if queue is empty (metrics module disabled) to not freeze the app
+//  if (!MSSafeJsonEventsString) {
+//    return;
+//  }
+//
+//  // Try to get a file descriptor with our pre-filled path
+//  int fd = open(MSSaveEventsFilePath, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+//  if (fd < 0) {
+//    return;
+//  }
+//
+//  size_t len = strlen(MSSafeJsonEventsString);
+//  if (len > 0) {
+//    // Simply write the whole string to disk
+//    write(fd, MSSafeJsonEventsString, len);
+//  }
+//  close(fd);
+}
 
 /** Proxy implementation for PLCrashReporter to keep our interface stable while
  *  this can change.
  */
 static void plcr_post_crash_callback(siginfo_t *info, ucontext_t *uap, void *context) {
-  [MSCrashes wrapperCrashCallback];
+  ms_save_events_callback(info, uap, context);
+  
   if (msCrashesCallbacks.handleSignal != NULL) {
     msCrashesCallbacks.handleSignal(context);
   }
@@ -181,6 +211,8 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
     // Set self as delegate of crashes' channel.
     [self.logManager addChannelDelegate:self forPriority:MSPriorityHigh];
+    [self.logManager addChannelDelegate:self forPriority:MSPriorityDefault];
+    [self.logManager addChannelDelegate:self forPriority:MSPriorityBackground];
 
     // Process PLCrashReports, this will format the PLCrashReport into our schema and then trigger sending.
     // This mostly happens on the start of the service.
@@ -266,6 +298,19 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     }
   }
 }
+
+- (void)channel:(id <MSChannel>)channel didEnqueueLog:(id <MSLog>)log {
+  MSLogVerbose([MSCrashes getLoggerTag], @"Did enqeue log.");
+}
+
+- (void)channel:(id <MSChannel>)channel didSucceedSavingLog:(id <MSLog>)log {
+  MSLogVerbose([MSCrashes getLoggerTag], @"Did save log.");
+}
+
+- (void)channel:(id <MSChannel>)channel didFailSavingLog:(id <MSLog>)log {
+  MSLogVerbose([MSCrashes getLoggerTag], @"Did fail saving log.");
+}
+
 
 #pragma mark - Crash reporter configuration
 
