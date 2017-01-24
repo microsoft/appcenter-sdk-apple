@@ -57,7 +57,7 @@ typedef struct MSCrashesCallbacks {
 /**
  * A file used as a buffer to write logs to disk ar crash time.
  */
-@property(nonatomic, copy) NSString *crashTimeLogBufferFile;
+@property(nonatomic, copy) NSString *crashBufferFile;
 
 /**
  * The object implements the protocol defined in `MSCrashesDelegate`.
