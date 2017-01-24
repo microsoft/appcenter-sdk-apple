@@ -7,18 +7,14 @@
 #import "MSHttpSender.h"
 #import "MSHttpSenderPrivate.h"
 #import "MSHttpTestUtil.h"
-#import "MSLogContainer.h"
 #import "MSMobileCenterErrors.h"
 #import "MSMockLog.h"
 #import "MSRetriableCall.h"
-#import "MSRetriableCallPrivate.h"
 #import "MSSenderDelegate.h"
-#import "MS_Reachability.h"
 #import "MobileCenter+Internal.h"
 
 #import "OCMock.h"
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <OHHTTPStubs/OHHTTPStubs.h>
 #import <XCTest/XCTest.h>
 
 static NSTimeInterval const kMSTestTimeout = 5.0;

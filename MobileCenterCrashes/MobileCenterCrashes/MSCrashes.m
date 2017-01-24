@@ -22,7 +22,6 @@ static NSString *const kMSServiceName = @"Crashes";
 static NSString *const kMSAnalyzerFilename = @"MSCrashes.analyzer";
 static NSString *const kMSCrashTimeLogBufferFilename = @"MSCrashesLogBuffer.mscrashes";
 
-
 #pragma mark - Callbacks Setup
 
 static MSCrashesCallbacks msCrashesCallbacks = {.context = NULL, .handleSignal = NULL};
@@ -347,7 +346,6 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   }
 }
 
-
 #pragma mark - Crash reporter configuration
 
 - (void)configureCrashReporter {
@@ -518,11 +516,10 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     } else {
       [self.logManager processLog:item withPriority:MSPriorityDefault];
     }
+    [self deleteCrashBuffer];
+    [self createCrashBufferFile];
   }
-
-  [self deleteCrashBuffer];
-  [self createCrashBufferFile];
-}
+  }
 
 #pragma mark - Helper
 
