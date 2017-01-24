@@ -169,7 +169,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     _crashFiles = [[NSMutableArray alloc] init];
     _crashesDir = [MSCrashesUtil crashesDir];
     _analyzerInProgressFile = [_crashesDir stringByAppendingPathComponent:kMSAnalyzerFilename];
-    _crashTimeLogBufferFile = [_crashesDir stringByAppendingPathComponent:kMSCrashTimeLogBufferFilename];
+    _crashBufferFile = [_crashesDir stringByAppendingPathComponent:kMSCrashTimeLogBufferFilename];
     _didCrashInLastSession = NO;
   }
   return self;
@@ -256,8 +256,8 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 - (void)startWithLogManager:(id <MSLogManager>)logManager {
   [super startWithLogManager:logManager];
 
-  [self createCrashTimeBufferFile];
-  MSSaveEventsFilePath = strdup([self crashTimeLogBufferFile].UTF8String);
+  [self processCrashTimeBuffer];
+  MSSaveEventsFilePath = strdup([self crashBufferFile].UTF8String);
 
   MSLogVerbose([MSCrashes getLoggerTag], @"Started crash service.");
 }
@@ -509,6 +509,21 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   }
 }
 
+- (void)processCrashTimeBuffer {
+  id <MSLog> item = [NSKeyedUnarchiver unarchiveObjectWithFile:self.crashBufferFile];
+
+  if (item) {
+    if ([((NSObject *) item) isKindOfClass:[MSAppleErrorLog class]]) {
+      [self.logManager processLog:item withPriority:self.priority];
+    } else {
+      [self.logManager processLog:item withPriority:MSPriorityDefault];
+    }
+  }
+
+  [self deleteCrashBuffer];
+  [self createCrashBufferFile];
+}
+
 #pragma mark - Helper
 
 - (void)deleteAllFromCrashesDirectory {
@@ -591,7 +606,8 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   if ([self.fileManager fileExistsAtPath:self.analyzerInProgressFile]) {
     NSError *error = nil;
     if (![self.fileManager removeItemAtPath:self.analyzerInProgressFile error:&error]) {
-      MSLogError([MSCrashes getLoggerTag], @"Couldn't remove analyzer file at %@: ", self.analyzerInProgressFile);
+      MSLogError([MSCrashes getLoggerTag], @"Couldn't remove analyzer file at %@ with error %@.",
+              self.analyzerInProgressFile, error.localizedDescription);
     }
   }
 }
@@ -604,31 +620,20 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   }
 }
 
-- (void)createCrashTimeBufferFile {
-  if (![self.fileManager fileExistsAtPath:self.crashTimeLogBufferFile]) {
-    BOOL success = [self.fileManager createFileAtPath:self.crashTimeLogBufferFile contents:nil attributes:nil];
+- (void)createCrashBufferFile {
+  if (![self.fileManager fileExistsAtPath:self.crashBufferFile]) {
+    BOOL success = [self.fileManager createFileAtPath:self.crashBufferFile contents:nil attributes:nil];
     if (!success) {
-      MSLogError([MSCrashes getLoggerTag], @"Couldn't create crashTimeBufferFile at %@: ", self.crashTimeLogBufferFile);
+      MSLogError([MSCrashes getLoggerTag], @"Couldn't create crash buffer file at %@: ", self.crashBufferFile);
     }
-  } else {
-    id<MSLog> item = [NSKeyedUnarchiver unarchiveObjectWithFile:self.crashTimeLogBufferFile];
-    
-    if (item) {
-      if ([((NSObject *)item) isKindOfClass:[MSAppleErrorLog class]]) {
-        [self.logManager processLog:item withPriority:self.priority];
-      } else {
-        [self.logManager processLog:item withPriority:MSPriorityDefault];
-      }
-    }
-    NSError *error = nil;
-    if (![self.fileManager removeItemAtPath:self.crashTimeLogBufferFile error:&error]) {
-      MSLogError([MSCrashes getLoggerTag], @"Couldn't remove analyzer file at %@: with Error: %@",
-              self.crashTimeLogBufferFile, error.localizedDescription);
-    }
-    BOOL success = [self.fileManager createFileAtPath:self.crashTimeLogBufferFile contents:nil attributes:nil];
-    if (!success) {
-      MSLogError([MSCrashes getLoggerTag], @"Couldn't create crashTimeBufferFile at %@: ", self.crashTimeLogBufferFile);
-    }
+  }
+}
+
+- (void)deleteCrashBuffer {
+  NSError *error = nil;
+  if (![self.fileManager removeItemAtPath:self.crashBufferFile error:&error]) {
+    MSLogError([MSCrashes getLoggerTag], @"Couldn't remove crash buffer file at %@: with Error: %@",
+            self.crashBufferFile, error.localizedDescription);
   }
 }
 
