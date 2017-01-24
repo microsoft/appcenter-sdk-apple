@@ -75,6 +75,7 @@
 }
 
 - (void)testNSCodingSerializationAndDeserializationWorks {
+
   // When
   NSData *serializedEvent =
           [NSKeyedArchiver archivedDataWithRootObject:self.sut];
@@ -86,9 +87,11 @@
 
   MSAppleErrorLog *actualLog = actual;
 
+  assertThat(actualLog, equalTo(self.sut));
   assertThat(actualLog.type, equalTo(self.sut.type));
   assertThat(actualLog.primaryArchitectureId, equalTo(self.sut.primaryArchitectureId));
   assertThat(actualLog.architectureVariantId, equalTo(self.sut.architectureVariantId));
+  assertThat(actualLog.architecture, equalTo(self.sut.architecture));
   assertThat(actualLog.applicationPath, equalTo(self.sut.applicationPath));
   assertThat(actualLog.osExceptionType, equalTo(self.sut.osExceptionType));
   assertThat(actualLog.osExceptionCode, equalTo(self.sut.osExceptionCode));
@@ -101,6 +104,49 @@
   assertThat(actualException.type, equalTo(self.sut.exception.type));
   assertThat(actualException.message, equalTo(self.sut.exception.message));
   assertThat(actualException.wrapperSdkName, equalTo(self.sut.exception.wrapperSdkName));
+}
+
+-(void)testIsValid {
+
+  // When
+  MSAppleErrorLog *log = [MSAppleErrorLog new];
+  log.errorId = @"errorId";
+  log.processId = @123;
+  log.processName = @"processName";
+  log.appLaunchTOffset = @1234567;
+
+  // Then
+  XCTAssertFalse([log isValid]);
+
+  // When
+  log.primaryArchitectureId = @456;
+
+  // Then
+  XCTAssertFalse([log isValid]);
+
+  // When
+  log.applicationPath = @"applicationPath";
+
+  // Then
+  XCTAssertFalse([log isValid]);
+
+  // When
+  log.osExceptionType = @"exceptionType";
+
+  // Then
+  XCTAssertFalse([log isValid]);
+
+  // When
+  log.osExceptionCode = @"exceptionCode";
+
+  // Then
+  XCTAssertFalse([log isValid]);
+
+  // When
+  log.osExceptionAddress = @"exceptionAddress";
+
+  // Then
+  XCTAssertTrue([log isValid]);
 }
 
 @end

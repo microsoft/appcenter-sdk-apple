@@ -4,14 +4,8 @@
 #import "MSMobileCenter.h"
 #import "MSMobileCenterInternal.h"
 #import "MSMobileCenterPrivate.h"
-#import "MSServiceAbstract.h"
-#import "MSServiceAbstractInternal.h"
 #import "MSServiceAbstractPrivate.h"
 #import "MSServiceAbstractProtected.h"
-#import "MSServiceCommon.h"
-#import "MSUserDefaults.h"
-#import "MSUtil.h"
-#import <Foundation/Foundation.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
