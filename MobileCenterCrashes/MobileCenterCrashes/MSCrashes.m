@@ -19,39 +19,35 @@
  */
 static NSString *const kMSServiceName = @"Crashes";
 static NSString *const kMSAnalyzerFilename = @"MSCrashes.analyzer";
+static NSString *const kMSCrashTimeLogBufferFilename = @"MSCrashesLogBuffer.mscrashes";
 
 
 #pragma mark - Callbacks Setup
 
 static MSCrashesCallbacks msCrashesCallbacks = {.context = NULL, .handleSignal = NULL};
 static NSString *const kMSUserConfirmationKey = @"MSUserConfirmation";
-char *MSSafeJsonEventsString;
+static char const *MSSaveEventsFilePath;
 
+void *MSSafeEventsBuffer = nil;
+size_t MSSaveEventsBufferLen = 0;
 
 static void ms_save_events_callback(siginfo_t *info, ucontext_t *uap, void *context) {
 
-//  id logManager = [[MSCrashes sharedInstance] logManager];
-//  if(logManager) {
-//    [logManager appIsCrashing];
+  // Do not safe the buffer if it is empty.
+  if(!MSSafeEventsBuffer || !MSSaveEventsBufferLen) {
+    return;
+  }
+
+  // Try to get a file descriptor with our pre-filled path
+  int fd = open(MSSaveEventsFilePath, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+  if (fd < 0) {
+    return;
+  }
+
+//  if (MSSaveEventsBufferLen) {
+    write(fd, MSSafeEventsBuffer, MSSaveEventsBufferLen);
 //  }
-//
-//  // Do not flush  queue if queue is empty (metrics module disabled) to not freeze the app
-//  if (!MSSafeJsonEventsString) {
-//    return;
-//  }
-//
-//  // Try to get a file descriptor with our pre-filled path
-//  int fd = open(MSSaveEventsFilePath, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-//  if (fd < 0) {
-//    return;
-//  }
-//
-//  size_t len = strlen(MSSafeJsonEventsString);
-//  if (len > 0) {
-//    // Simply write the whole string to disk
-//    write(fd, MSSafeJsonEventsString, len);
-//  }
-//  close(fd);
+  close(fd);
 }
 
 /** Proxy implementation for PLCrashReporter to keep our interface stable while
@@ -174,6 +170,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     _crashFiles = [[NSMutableArray alloc] init];
     _crashesDir = [MSCrashesUtil crashesDir];
     _analyzerInProgressFile = [_crashesDir stringByAppendingPathComponent:kMSAnalyzerFilename];
+    _crashTimeLogBufferFile = [_crashesDir stringByAppendingPathComponent:kMSCrashTimeLogBufferFilename];
     _didCrashInLastSession = NO;
   }
   return self;
@@ -255,6 +252,10 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
 - (void)startWithLogManager:(id <MSLogManager>)logManager {
   [super startWithLogManager:logManager];
+
+  [self createCrashTimeLogBufferFile];
+  MSSaveEventsFilePath = strdup([self crashTimeLogBufferFile].UTF8String);
+
   MSLogVerbose([MSCrashes getLoggerTag], @"Started crash service.");
 }
 
@@ -301,14 +302,46 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
 - (void)channel:(id <MSChannel>)channel didEnqueueLog:(id <MSLog>)log {
   MSLogVerbose([MSCrashes getLoggerTag], @"Did enqeue log.");
+
+  NSData *serializedLog = [NSKeyedArchiver archivedDataWithRootObject:log];
+  if(serializedLog && (serializedLog.length > 0)) {
+
+    @synchronized (self) {
+      /* at a sync point */
+      if (MSSafeEventsBuffer) {
+        free(MSSafeEventsBuffer);
+      }
+      MSSafeEventsBuffer = calloc(1, serializedLog.length);
+      [serializedLog getBytes:MSSafeEventsBuffer length:serializedLog.length];
+      MSSaveEventsBufferLen = serializedLog.length;
+      /* if this could happen on multiple threads, you need a mutex around this block */
+    }
+  }
 }
 
 - (void)channel:(id <MSChannel>)channel didSucceedSavingLog:(id <MSLog>)log {
   MSLogVerbose([MSCrashes getLoggerTag], @"Did save log.");
+
+  @synchronized (self) {
+    /* at a sync point */
+    if (MSSafeEventsBuffer) {
+      free(MSSafeEventsBuffer);
+      MSSaveEventsBufferLen = 0;
+    }
+    /* if this could happen on multiple threads, you need a mutex around this block */
+  }
 }
 
 - (void)channel:(id <MSChannel>)channel didFailSavingLog:(id <MSLog>)log {
   MSLogVerbose([MSCrashes getLoggerTag], @"Did fail saving log.");
+  @synchronized (self) {
+    /* at a sync point */
+    if (MSSafeEventsBuffer) {
+      free(MSSafeEventsBuffer);
+      MSSaveEventsBufferLen = 0;
+    }
+    /* if this could happen on multiple threads, you need a mutex around this block */
+  }
 }
 
 
@@ -565,6 +598,12 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 - (void)createAnalyzerFile {
   if (![self.fileManager fileExistsAtPath:self.analyzerInProgressFile]) {
     [self.fileManager createFileAtPath:self.analyzerInProgressFile contents:nil attributes:nil];
+  }
+}
+
+- (void)createCrashTimeLogBufferFile {
+  if (![self.fileManager fileExistsAtPath:self.crashTimeLogBufferFile]) {
+    [self.fileManager createFileAtPath:self.crashTimeLogBufferFile contents:nil attributes:nil];
   }
 }
 
