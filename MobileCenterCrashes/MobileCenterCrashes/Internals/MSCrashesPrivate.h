@@ -29,13 +29,13 @@ typedef void (*MSCrashesPostCrashSignalCallback)(void *context);
  */
 typedef struct MSCrashesCallbacks {
 
-  /** An arbitrary user-supplied context value. This value may be NULL. */
-  void *context;
+    /** An arbitrary user-supplied context value. This value may be NULL. */
+    void *context;
 
-  /**
-   * The callback used to report caught signal information.
-   */
-  MSCrashesPostCrashSignalCallback handleSignal;
+    /**
+     * The callback used to report caught signal information.
+     */
+    MSCrashesPostCrashSignalCallback handleSignal;
 } MSCrashesCallbacks;
 
 /**
@@ -49,16 +49,21 @@ typedef struct MSCrashesCallbacks {
 @property(nonatomic, copy) NSString *crashesDir;
 
 /**
- * A file used to indicate that a crash which occured in the last session is
+ * A file used to indicate that a crash which occurred in the last session is
  * currently written to disk.
  */
 @property(nonatomic, copy) NSString *analyzerInProgressFile;
 
 /**
+ * A file used as a buffer to write logs to disk ar crash time.
+ */
+@property(nonatomic, copy) NSString *crashTimeLogBufferFile;
+
+/**
  * The object implements the protocol defined in `MSCrashesDelegate`.
  * @see MSCrashesDelegate
  */
-@property(nonatomic, weak) id<MSCrashesDelegate> delegate;
+@property(nonatomic, weak) id <MSCrashesDelegate> delegate;
 
 /**
  * The `PLCrashReporter` instance used for crash detection.
