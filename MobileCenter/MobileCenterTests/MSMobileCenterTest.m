@@ -1,8 +1,6 @@
 #import "MSMobileCenter.h"
 #import "MSMobileCenterInternal.h"
 #import "MSMobileCenterPrivate.h"
-#import "MSUtil.h"
-#import <Foundation/Foundation.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <XCTest/XCTest.h>
 
@@ -126,13 +124,13 @@ static NSString *const kSMNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   [MSMobileCenter resetSharedInstance];
   NSString *fakeUrl = @"http://testUrl:1234";
   [MSMobileCenter setServerUrl:fakeUrl];
-  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withServices:nil];
+  [MSMobileCenter start:MS_UUID_STRING withServices:nil];
   XCTAssertTrue([[[MSMobileCenter sharedInstance] serverUrl] isEqualToString:fakeUrl]);
 }
 
 - (void)testDefaultServerUrl {
   [MSMobileCenter resetSharedInstance];
-  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withServices:nil];
+  [MSMobileCenter start:MS_UUID_STRING withServices:nil];
   XCTAssertTrue([[[MSMobileCenter sharedInstance] serverUrl] isEqualToString:@"https://in.mobile.azure.com"]);
 }
 

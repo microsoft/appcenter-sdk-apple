@@ -84,8 +84,7 @@ static NSString *const kMSException = @"exception";
 }
 
 - (BOOL)isValid {
-  return [super isValid] && self.primaryArchitectureId && self.applicationPath && self.osExceptionType &&
-  self.osExceptionCode && self.osExceptionAddress;
+  return [super isValid] && self.primaryArchitectureId && self.applicationPath && self.osExceptionType && self.osExceptionCode && self.osExceptionAddress;
 }
 
 - (BOOL)isEqual:(MSAppleErrorLog *)errorLog {

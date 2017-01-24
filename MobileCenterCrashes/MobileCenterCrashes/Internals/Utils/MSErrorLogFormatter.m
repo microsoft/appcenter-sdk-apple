@@ -328,7 +328,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
 + (NSString *)errorIdForCrashReport:(MSPLCrashReport *)report {
   NSString *errorId = report.uuidRef ? (NSString *) CFBridgingRelease(CFUUIDCreateString(NULL, report.uuidRef))
-  : [[NSUUID UUID] UUIDString];
+  : MS_UUID_STRING;
   return errorId;
 }
 
