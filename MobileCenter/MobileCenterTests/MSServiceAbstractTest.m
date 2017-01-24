@@ -37,7 +37,7 @@
   return MSPriorityDefault;
 }
 
-+ (NSString *)getLoggerTag {
++ (NSString *)logTag {
   return @"MSServiceAbstractTest";
 }
 
