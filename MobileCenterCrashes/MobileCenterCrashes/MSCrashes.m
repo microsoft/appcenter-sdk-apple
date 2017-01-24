@@ -3,6 +3,7 @@
  */
 
 #import "MSAppleErrorLog.h"
+#import "MSLog.h"
 #import "MSUtil.h"
 #import "MSCrashesCXXExceptionWrapperException.h"
 #import "MSCrashesDelegate.h"
@@ -34,7 +35,7 @@ size_t MSSaveEventsBufferLen = 0;
 static void ms_save_events_callback(siginfo_t *info, ucontext_t *uap, void *context) {
 
   // Do not safe the buffer if it is empty.
-  if(!MSSafeEventsBuffer || !MSSaveEventsBufferLen) {
+  if (!MSSafeEventsBuffer || !MSSaveEventsBufferLen) {
     return;
   }
 
@@ -44,9 +45,7 @@ static void ms_save_events_callback(siginfo_t *info, ucontext_t *uap, void *cont
     return;
   }
 
-//  if (MSSaveEventsBufferLen) {
-    write(fd, MSSafeEventsBuffer, MSSaveEventsBufferLen);
-//  }
+  write(fd, MSSafeEventsBuffer, MSSaveEventsBufferLen);
   close(fd);
 }
 
@@ -55,7 +54,7 @@ static void ms_save_events_callback(siginfo_t *info, ucontext_t *uap, void *cont
  */
 static void plcr_post_crash_callback(siginfo_t *info, ucontext_t *uap, void *context) {
   ms_save_events_callback(info, uap, context);
-  
+
   if (msCrashesCallbacks.handleSignal != NULL) {
     msCrashesCallbacks.handleSignal(context);
   }
@@ -221,8 +220,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     // More details on log if a debugger is attached.
     if ([MSMobileCenter isDebuggerAttached]) {
       MSLogInfo([MSCrashes getLoggerTag], @"Crashes service has been enabled but the service cannot detect crashes due to running the application with a debugger attached.");
-    }
-    else {
+    } else {
       MSLogInfo([MSCrashes getLoggerTag], @"Crashes service has been enabled.");
     }
   } else {
@@ -234,7 +232,12 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     [self deleteAllFromCrashesDirectory];
     [self removeAnalyzerFile];
     [self.plCrashReporter purgePendingCrashReport];
+
+    // Remove as ChannelDelegate from LogManager
     [self.logManager removeChannelDelegate:self forPriority:MSPriorityHigh];
+    [self.logManager removeChannelDelegate:self forPriority:MSPriorityDefault];
+    [self.logManager removeChannelDelegate:self forPriority:MSPriorityBackground];
+
     MSLogInfo([MSCrashes getLoggerTag], @"Crashes service has been disabled.");
   }
 }
@@ -253,7 +256,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 - (void)startWithLogManager:(id <MSLogManager>)logManager {
   [super startWithLogManager:logManager];
 
-  [self createCrashTimeLogBufferFile];
+  [self createCrashTimeBufferFile];
   MSSaveEventsFilePath = strdup([self crashTimeLogBufferFile].UTF8String);
 
   MSLogVerbose([MSCrashes getLoggerTag], @"Started crash service.");
@@ -304,7 +307,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   MSLogVerbose([MSCrashes getLoggerTag], @"Did enqeue log.");
 
   NSData *serializedLog = [NSKeyedArchiver archivedDataWithRootObject:log];
-  if(serializedLog && (serializedLog.length > 0)) {
+  if (serializedLog && (serializedLog.length > 0)) {
 
     @synchronized (self) {
       /* at a sync point */
@@ -426,7 +429,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
     /* If the top level error handler differs from our own, then at least
      * another one was added.
-     * This could cause exception crashes not to be reported to Mobile Center. See
+     * This could cause exception crashes not to be reported to Mobile Center. Print out
      * log message for details.
      */
     if (self.exceptionHandler != currentHandler) {
@@ -438,13 +441,11 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     }
   }
   if (!self.sendingInProgress && self.crashFiles.count > 0) {
-
-    // TODO: Send and clean next crash report
-    [self processCrashReport];
+    [self processCrashReports];
   }
 }
 
-- (void)processCrashReport {
+- (void)processCrashReports {
   NSError *error = NULL;
   _unprocessedLogs = [[NSMutableArray alloc] init];
   _unprocessedReports = [[NSMutableArray alloc] init];
@@ -597,13 +598,37 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
 - (void)createAnalyzerFile {
   if (![self.fileManager fileExistsAtPath:self.analyzerInProgressFile]) {
-    [self.fileManager createFileAtPath:self.analyzerInProgressFile contents:nil attributes:nil];
+    if (![self.fileManager createFileAtPath:self.analyzerInProgressFile contents:nil attributes:nil]) {
+      MSLogError([MSCrashes getLoggerTag], @"Couldn't create analyzer file at %@: ", self.analyzerInProgressFile);
+    }
   }
 }
 
-- (void)createCrashTimeLogBufferFile {
+- (void)createCrashTimeBufferFile {
   if (![self.fileManager fileExistsAtPath:self.crashTimeLogBufferFile]) {
-    [self.fileManager createFileAtPath:self.crashTimeLogBufferFile contents:nil attributes:nil];
+    BOOL success = [self.fileManager createFileAtPath:self.crashTimeLogBufferFile contents:nil attributes:nil];
+    if (!success) {
+      MSLogError([MSCrashes getLoggerTag], @"Couldn't create crashTimeBufferFile at %@: ", self.crashTimeLogBufferFile);
+    }
+  } else {
+    id<MSLog> item = [NSKeyedUnarchiver unarchiveObjectWithFile:self.crashTimeLogBufferFile];
+    
+    if (item) {
+      if ([((NSObject *)item) isKindOfClass:[MSAppleErrorLog class]]) {
+        [self.logManager processLog:item withPriority:self.priority];
+      } else {
+        [self.logManager processLog:item withPriority:MSPriorityDefault];
+      }
+    }
+    NSError *error = nil;
+    if (![self.fileManager removeItemAtPath:self.crashTimeLogBufferFile error:&error]) {
+      MSLogError([MSCrashes getLoggerTag], @"Couldn't remove analyzer file at %@: with Error: %@",
+              self.crashTimeLogBufferFile, error.localizedDescription);
+    }
+    BOOL success = [self.fileManager createFileAtPath:self.crashTimeLogBufferFile contents:nil attributes:nil];
+    if (!success) {
+      MSLogError([MSCrashes getLoggerTag], @"Couldn't create crashTimeBufferFile at %@: ", self.crashTimeLogBufferFile);
+    }
   }
 }
 
