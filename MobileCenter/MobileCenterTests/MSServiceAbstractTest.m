@@ -188,7 +188,7 @@
 
   assertThatBool([[MSServiceAbstractImplementation sharedInstance] canBeUsed], isFalse());
 
-  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withServices:@[ [MSServiceAbstractImplementation class] ]];
+  [MSMobileCenter start:MS_UUID_STRING withServices:@[ [MSServiceAbstractImplementation class] ]];
 
   assertThatBool([[MSServiceAbstractImplementation sharedInstance] canBeUsed], isTrue());
 }
@@ -199,7 +199,7 @@
   [MSMobileCenter resetSharedInstance];
   [self.settingsMock setObject:[NSNumber numberWithBool:NO] forKey:kMSMobileCenterIsEnabledKey];
   [self.settingsMock setObject:[NSNumber numberWithBool:NO] forKey:self.abstractService.isEnabledKey];
-  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withServices:@[ [MSServiceAbstractImplementation class] ]];
+  [MSMobileCenter start:MS_UUID_STRING withServices:@[ [MSServiceAbstractImplementation class] ]];
 
   // When
   [[MSServiceAbstractImplementation class] setEnabled:YES];
@@ -214,7 +214,7 @@
   [MSMobileCenter resetSharedInstance];
   [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:kMSMobileCenterIsEnabledKey];
   [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:self.abstractService.isEnabledKey];
-  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withServices:@[ [MSServiceAbstractImplementation class] ]];
+  [MSMobileCenter start:MS_UUID_STRING withServices:@[ [MSServiceAbstractImplementation class] ]];
 
   // When
   [[MSServiceAbstractImplementation class] setEnabled:NO];
@@ -229,7 +229,7 @@
   [MSMobileCenter resetSharedInstance];
   [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:kMSMobileCenterIsEnabledKey];
   [self.settingsMock setObject:[NSNumber numberWithBool:NO] forKey:self.abstractService.isEnabledKey];
-  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withServices:@[ [MSServiceAbstractImplementation class] ]];
+  [MSMobileCenter start:MS_UUID_STRING withServices:@[ [MSServiceAbstractImplementation class] ]];
 
   // When
   [[MSServiceAbstractImplementation class] setEnabled:YES];
@@ -243,7 +243,7 @@
   // If
   [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:kMSMobileCenterIsEnabledKey];
   [self.settingsMock setObject:[NSNumber numberWithBool:NO] forKey:self.abstractService.isEnabledKey];
-  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withServices:@[ [MSServiceAbstractImplementation class] ]];
+  [MSMobileCenter start:MS_UUID_STRING withServices:@[ [MSServiceAbstractImplementation class] ]];
 
   // When
   [MSMobileCenter setEnabled:YES];
@@ -257,7 +257,7 @@
   // If
   [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:kMSMobileCenterIsEnabledKey];
   [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:self.abstractService.isEnabledKey];
-  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withServices:@[ [MSServiceAbstractImplementation class] ]];
+  [MSMobileCenter start:MS_UUID_STRING withServices:@[ [MSServiceAbstractImplementation class] ]];
 
   // When
   [MSMobileCenter setEnabled:YES];
