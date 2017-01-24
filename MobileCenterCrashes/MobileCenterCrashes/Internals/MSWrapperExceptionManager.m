@@ -87,7 +87,7 @@
                                  attributes:nil
                                       error:&error];
       if (error) {
-        MSLogError([MSCrashes getLoggerTag], @"Failed to create directory %@: %@",
+        MSLogError([MSCrashes logTag], @"Failed to create directory %@: %@",
                    [[self class] directoryPath], error.localizedDescription);
       }
     }
@@ -120,7 +120,7 @@
   MSException *loadedException = [NSKeyedUnarchiver unarchiveObjectWithFile:filename];
 
   if (!loadedException) {
-    MSLogError([MSCrashes getLoggerTag], @"Could not load wrapper exception from file %@", filename);
+    MSLogError([MSCrashes logTag], @"Could not load wrapper exception from file %@", filename);
     return nil;
   }
 
@@ -135,7 +135,7 @@
   [self saveWrapperExceptionData:uuidRef];
   BOOL success = [NSKeyedArchiver archiveRootObject:_wrapperException toFile:filename];
   if (!success) {
-    MSLogError([MSCrashes getLoggerTag], @"Failed to save file %@", filename);
+    MSLogError([MSCrashes logTag], @"Failed to save file %@", filename);
   }
 }
 
@@ -180,7 +180,7 @@
   NSError *error = nil;
   data = [NSData dataWithContentsOfFile:dataFilename options:NSDataReadingMappedIfSafe error:&error];
   if (error) {
-    MSLogError([MSCrashes getLoggerTag], @"Error loading file %@: %@",
+    MSLogError([MSCrashes logTag], @"Error loading file %@: %@",
                dataFilename, error.localizedDescription);
   }
   return data;
@@ -212,7 +212,7 @@
   NSError *error = nil;
   [[NSFileManager defaultManager] removeItemAtPath:path error:&error];
   if (error) {
-    MSLogError([MSCrashes getLoggerTag], @"Error deleting file %@: %@",
+    MSLogError([MSCrashes logTag], @"Error deleting file %@: %@",
                path, error.localizedDescription);
   }
 }
