@@ -519,7 +519,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     [self deleteCrashBuffer];
     [self createCrashBufferFile];
   }
-  }
+}
 
 #pragma mark - Helper
 
