@@ -1,9 +1,7 @@
 #import "MSUtil.h"
 #import "MSUtilPrivate.h"
 #import "OCMock.h"
-#import <Foundation/Foundation.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 
 @interface MSUtilTests : XCTestCase

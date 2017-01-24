@@ -43,12 +43,7 @@ NSString *const kMSType = @"type";
 }
 
 - (BOOL)isValid {
-  BOOL isValid = YES;
-
-  // Is valid (session id can be nil).
-  if (!self.type || !self.toffset || !self.device)
-    isValid = NO;
-  return isValid;
+  return self.type && self.toffset && self.device;
 }
 
 #pragma mark - NSCoding

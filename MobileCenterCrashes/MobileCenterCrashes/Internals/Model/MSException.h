@@ -49,4 +49,11 @@
  */
 - (BOOL)isEqual:(nullable MSException *)exception;
 
+/**
+ * Checks if the object's values are valid.
+ *
+ * return YES, if the object is valid
+ */
+- (BOOL)isValid;
+
 @end
