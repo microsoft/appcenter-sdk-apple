@@ -37,8 +37,10 @@ typedef void (^MSLoadDataCompletionBlock)(BOOL succeeded, NSArray<MSLog> *logArr
  *
  * @param log The log item that should be written to disk
  * @param storageKey The key used for grouping
+ *
+ * @return BOOL that indicates if the log was saved successfully.
  */
-- (void)saveLog:(id<MSLog>)log withStorageKey:(NSString *)storageKey;
+- (BOOL)saveLog:(id<MSLog>)log withStorageKey:(NSString *)storageKey;
 
 /**
  * Delete logs related to given storage key from the file system.
