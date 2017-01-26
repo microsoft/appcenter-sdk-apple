@@ -37,7 +37,7 @@ static NSString *const kMSUserDefaultsTs = @"_ts";
   /* Get from local store */
   NSDictionary *store = [[NSUserDefaults standardUserDefaults] dictionaryForKey:key];
   CFAbsoluteTime ts = [store[kMSUserDefaultsTs] floatValue];
-  MSLogVerbose([MSMobileCenter getLoggerTag], @"Settings:store[%@]=%@", key, store);
+  MSLogVerbose([MSMobileCenter logTag], @"Settings:store[%@]=%@", key, store);
 
   /* Force update if timestamp expiration is reached */
   if (ts <= 0.0 || expiration <= 0.0 || fabs(CFAbsoluteTimeGetCurrent() - ts) < expiration) {
@@ -50,7 +50,7 @@ static NSString *const kMSUserDefaultsTs = @"_ts";
 
   /* If still values to update */
   if ([update count] > 0) {
-    MSLogDebug([MSMobileCenter getLoggerTag], @"Settings:update[%@]=%@", key, update);
+    MSLogDebug([MSMobileCenter logTag], @"Settings:update[%@]=%@", key, update);
 
     /* Copy store as a mutable version */
     NSMutableDictionary *d = [store mutableCopy];

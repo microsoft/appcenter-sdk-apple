@@ -15,10 +15,7 @@ static NSString *const kMSException = @"exception";
 
 // Initializes a new instance of the class.
 - (instancetype)init {
-  if (self = [super init]) {
-    _frames = [NSMutableArray array];
-  }
-  return self;
+  return self = [super init];
 }
 
 - (NSMutableDictionary *)serializeToDictionary {
