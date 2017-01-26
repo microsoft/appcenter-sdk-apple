@@ -112,13 +112,6 @@
   return YES;
 }
 
-- (MSErrorAttachment *)attachmentWithCrashes:(MSCrashes *)crashes forErrorReport:(MSErrorReport *)errorReport {
-  NSLog(@"Attach additional information to error report with: %@", errorReport.exceptionReason);
-  return [MSErrorAttachment attachmentWithText:@"Text Attachment"
-                                 andBinaryData:[@"Hello World" dataUsingEncoding:NSUTF8StringEncoding]
-                                      filename:@"binary.txt" mimeType:@"text/plain"];
-}
-
 - (void)crashes:(MSCrashes *)crashes willSendErrorReport:(MSErrorReport *)errorReport {
   NSLog(@"Will send error report with: %@", errorReport.exceptionReason);
 }
