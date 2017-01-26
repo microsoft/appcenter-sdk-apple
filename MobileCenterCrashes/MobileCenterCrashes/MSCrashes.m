@@ -64,14 +64,14 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     if ([[self sharedInstance] canBeUsed]) {
       if ([MSUtil currentAppEnvironment] != MSEnvironmentAppStore) {
         if ([MSMobileCenter isDebuggerAttached]) {
-          MSLogWarning([MSCrashes getLoggerTag],
+          MSLogWarning([MSCrashes logTag],
                   @"The debugger is attached. The following crash cannot be detected by the SDK!");
         }
 
         __builtin_trap();
       }
     } else {
-      MSLogWarning([MSCrashes getLoggerTag],
+      MSLogWarning([MSCrashes logTag],
               @"GenerateTestCrash was just called in an App Store environment. The call will "
                       @"be ignored");
     }
@@ -119,7 +119,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 //      [log setErrorAttachment:[crashes.delegate attachmentWithCrashes:crashes forErrorReport:report]];
     }
     else {
-      MSLogDebug([MSCrashes getLoggerTag], @"attachmentWithCrashes is not implemented");
+      MSLogDebug([MSCrashes logTag], @"attachmentWithCrashes is not implemented");
     }
 
     // Send log to log manager.
@@ -190,25 +190,25 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     if (self.crashFiles.count > 0) {
       [self startDelayedCrashProcessing];
     }
-    MSLogInfo([MSCrashes getLoggerTag], @"Crashes service has been enabled.");
+    MSLogInfo([MSCrashes logTag], @"Crashes service has been enabled.");
 
     // More details on log if a debugger is attached.
     if ([MSMobileCenter isDebuggerAttached]) {
-      MSLogInfo([MSCrashes getLoggerTag], @"Crashes service has been enabled but the service cannot detect crashes due to running the application with a debugger attached.");
+      MSLogInfo([MSCrashes logTag], @"Crashes service has been enabled but the service cannot detect crashes due to running the application with a debugger attached.");
     } else {
-      MSLogInfo([MSCrashes getLoggerTag], @"Crashes service has been enabled.");
+      MSLogInfo([MSCrashes logTag], @"Crashes service has been enabled.");
     }
   } else {
 
     // Don't set PLCrashReporter to nil!
-    MSLogDebug([MSCrashes getLoggerTag], @"Cleaning up all crash files.");
+    MSLogDebug([MSCrashes logTag], @"Cleaning up all crash files.");
     [MSWrapperExceptionManager deleteAllWrapperExceptions];
     [MSWrapperExceptionManager deleteAllWrapperExceptionData];
     [self deleteAllFromCrashesDirectory];
     [self removeAnalyzerFile];
     [self.plCrashReporter purgePendingCrashReport];
     [self.logManager removeChannelDelegate:self forPriority:MSPriorityHigh];
-    MSLogInfo([MSCrashes getLoggerTag], @"Crashes service has been disabled.");
+    MSLogInfo([MSCrashes logTag], @"Crashes service has been disabled.");
   }
 }
 
@@ -225,10 +225,10 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
 - (void)startWithLogManager:(id <MSLogManager>)logManager {
   [super startWithLogManager:logManager];
-  MSLogVerbose([MSCrashes getLoggerTag], @"Started crash service.");
+  MSLogVerbose([MSCrashes logTag], @"Started crash service.");
 }
 
-+ (NSString *)getLoggerTag {
++ (NSString *)logTag {
   return @"MobileCenterCrashes";
 }
 
@@ -273,7 +273,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
 - (void)configureCrashReporter {
   if (_plCrashReporter) {
-    MSLogDebug([MSCrashes getLoggerTag], @"Already configured PLCrashReporter.");
+    MSLogDebug([MSCrashes logTag], @"Already configured PLCrashReporter.");
     return;
   }
 
@@ -290,7 +290,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
    handler type is set.
    */
   if ([MSMobileCenter isDebuggerAttached]) {
-    MSLogWarning([MSCrashes getLoggerTag],
+    MSLogWarning([MSCrashes logTag],
             @"Detecting crashes is NOT enabled due to running the app with a debugger attached.");
   } else {
 
@@ -311,14 +311,14 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     NSError *error = NULL;
     [self.plCrashReporter setCrashCallbacks:&plCrashCallbacks];
     if (![self.plCrashReporter enableCrashReporterAndReturnError:&error])
-      MSLogError([MSCrashes getLoggerTag], @"Could not enable crash reporter: %@", [error localizedDescription]);
+      MSLogError([MSCrashes logTag], @"Could not enable crash reporter: %@", [error localizedDescription]);
     NSUncaughtExceptionHandler *currentHandler = NSGetUncaughtExceptionHandler();
     if (currentHandler && currentHandler != initialHandler) {
       self.exceptionHandler = currentHandler;
 
-      MSLogDebug([MSCrashes getLoggerTag], @"Exception handler successfully initialized.");
+      MSLogDebug([MSCrashes logTag], @"Exception handler successfully initialized.");
     } else {
-      MSLogError([MSCrashes getLoggerTag],
+      MSLogError([MSCrashes logTag],
               @"Exception handler could not be set. Make sure there is no other exception handler set up!");
     }
     [MSCrashesUncaughtCXXExceptionHandlerManager addCXXExceptionHandler:uncaught_cxx_exception_handler];
@@ -340,7 +340,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     return;
   }
 
-  MSLogDebug([MSCrashes getLoggerTag], @"Start delayed CrashManager processing");
+  MSLogDebug([MSCrashes logTag], @"Start delayed CrashManager processing");
 
   // Was our own exception handler successfully added?
   if (self.exceptionHandler) {
@@ -354,7 +354,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
      * log message for details.
      */
     if (self.exceptionHandler != currentHandler) {
-      MSLogWarning([MSCrashes getLoggerTag], @"Another exception handler was added. If "
+      MSLogWarning([MSCrashes logTag], @"Another exception handler was added. If "
               @"this invokes any kind of exit() after processing the "
               @"exception, which causes any subsequent error handler "
               @"not to be invoked, these crashes will NOT be reported "
@@ -381,14 +381,14 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     // we start sending always with the oldest pending one
     NSData *crashFileData = [NSData dataWithContentsOfFile:filePath];
     if ([crashFileData length] > 0) {
-      MSLogVerbose([MSCrashes getLoggerTag], @"Crash report found");
+      MSLogVerbose([MSCrashes logTag], @"Crash report found");
       if (self.isEnabled) {
         MSPLCrashReport *report = [[MSPLCrashReport alloc] initWithData:crashFileData error:&error];
         MSAppleErrorLog *log = [MSErrorLogFormatter errorLogFromCrashReport:report];
         MSErrorReport *errorReport = [MSErrorLogFormatter errorReportFromLog:(log)];
         uuidString = errorReport.incidentIdentifier;
         if ([self shouldProcessErrorReport:errorReport]) {
-          MSLogDebug([MSCrashes getLoggerTag],
+          MSLogDebug([MSCrashes logTag],
                   @"shouldProcessErrorReport is not implemented or returned YES, processing the crash report: %@",
                   report.debugDescription);
 
@@ -399,11 +399,11 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
           continue;
         } else {
-          MSLogDebug([MSCrashes getLoggerTag], @"shouldProcessErrorReport returned NO, discard the crash report: %@",
+          MSLogDebug([MSCrashes logTag], @"shouldProcessErrorReport returned NO, discard the crash report: %@",
                   report.debugDescription);
         }
       } else {
-        MSLogDebug([MSCrashes getLoggerTag], @"Crashes service is disabled, discard the crash report");
+        MSLogDebug([MSCrashes logTag], @"Crashes service is disabled, discard the crash report");
       }
 
       [MSWrapperExceptionManager deleteWrapperExceptionDataWithUUIDString:uuidString];
@@ -418,14 +418,14 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     if (flag && [flag boolValue]) {
 
       // User confirmation is set to MSUserConfirmationAlways.
-      MSLogDebug([MSCrashes getLoggerTag],
+      MSLogDebug([MSCrashes logTag],
               @"The flag for user confirmation is set to MSUserConfirmationAlways, continue sending logs");
       [MSCrashes notifyWithUserConfirmation:MSUserConfirmationSend];
       return;
     } else if (!_userConfirmationHandler || !_userConfirmationHandler(_unprocessedReports)) {
 
       // User confirmation handler doesn't exist or returned NO which means 'want to process'.
-      MSLogDebug([MSCrashes getLoggerTag],
+      MSLogDebug([MSCrashes logTag],
               @"The user confirmation handler is not implemented or returned NO, continue sending logs");
       [MSCrashes notifyWithUserConfirmation:MSUserConfirmationSend];
     }
@@ -441,7 +441,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     [_fileManager removeItemAtPath:path error:&error];
 
     if (error) {
-      MSLogError([MSCrashes getLoggerTag], @"Error deleting file %@: %@", filePath, error.localizedDescription);
+      MSLogError([MSCrashes logTag], @"Error deleting file %@: %@", filePath, error.localizedDescription);
     }
   }
   [self.crashFiles removeAllObjects];
@@ -468,7 +468,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     NSString *cacheFilename = [NSString stringWithFormat:@"%.0f", [NSDate timeIntervalSinceReferenceDate]];
 
     if (crashData == nil) {
-      MSLogError([MSCrashes getLoggerTag], @"Could not load crash report: %@", error);
+      MSLogError([MSCrashes logTag], @"Could not load crash report: %@", error);
     } else {
 
       // Get data of PLCrashReport and write it to SDK directory
@@ -478,7 +478,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
         [crashData writeToFile:[self.crashesDir stringByAppendingPathComponent:cacheFilename] atomically:YES];
         _lastSessionCrashReport = [MSErrorLogFormatter errorReportFromCrashReport:report];
       } else {
-        MSLogWarning([MSCrashes getLoggerTag], @"Could not parse crash report");
+        MSLogWarning([MSCrashes logTag], @"Could not parse crash report");
       }
     }
 
@@ -514,7 +514,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   if ([self.fileManager fileExistsAtPath:self.analyzerInProgressFile]) {
     NSError *error = nil;
     if (![self.fileManager removeItemAtPath:self.analyzerInProgressFile error:&error]) {
-      MSLogError([MSCrashes getLoggerTag], @"Couldn't remove analyzer file at %@: ", self.analyzerInProgressFile);
+      MSLogError([MSCrashes logTag], @"Couldn't remove analyzer file at %@: ", self.analyzerInProgressFile);
     }
   }
 }
@@ -550,7 +550,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   // This shouldn't happen because the callback should only happen once plCrashReporter
   // has written the report to disk
   if (!crashData) {
-    MSLogError([MSCrashes getLoggerTag], @"Could not load crash data: %@", error.localizedDescription);
+    MSLogError([MSCrashes logTag], @"Could not load crash data: %@", error.localizedDescription);
   }
 
   MSPLCrashReport *report = [[MSPLCrashReport alloc] initWithData:crashData error:&error];
@@ -558,7 +558,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   if (report) {
     [MSWrapperExceptionManager saveWrapperException:report.uuidRef];
   } else {
-    MSLogError([MSCrashes getLoggerTag], @"Could not load crash report: %@", error.localizedDescription);
+    MSLogError([MSCrashes logTag], @"Could not load crash report: %@", error.localizedDescription);
   }
 }
 
