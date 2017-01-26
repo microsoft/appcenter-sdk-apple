@@ -17,7 +17,7 @@
   // Start Mobile Center SDK
   [MSMobileCenter setLogLevel:MSLogLevelVerbose];
   [MSMobileCenter setServerUrl:@"http://in-integration.dev.avalanch.es:8081"];
-    [MSMobileCenter start:[[NSUUID UUID] UUIDString] withServices:@[[MSAnalytics class], [MSCrashes class]]];
+  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withServices:@[[MSAnalytics class], [MSCrashes class]]];
   [MSCrashes setDelegate:self];
 
   // Print the install Id.
@@ -59,12 +59,6 @@
 
 - (BOOL)crashes:(MSCrashes *)crashes shouldProcessErrorReport:(MSErrorReport *)errorReport {
   return YES;
-}
-
-- (MSErrorAttachment *)attachmentWithCrashes:(MSCrashes *)crashes forErrorReport:(MSErrorReport *)errorReport {
-  return [MSErrorAttachment attachmentWithText:@"Text Attachment"
-                                  andBinaryData:[@"Hello World" dataUsingEncoding:NSUTF8StringEncoding]
-                                       filename:@"binary.txt" mimeType:@"text/plain"];
 }
 
 - (void)crashes:(MSCrashes *)crashes willSendErrorReport:(MSErrorReport *)errorReport {

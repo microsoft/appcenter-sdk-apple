@@ -3,6 +3,7 @@
 #import <OCMock/OCMock.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 
+#import "MSMobileCenter.h"
 #import "MSServiceAbstract.h"
 #import "MSServiceInternal.h"
 #import "MSService.h"
@@ -143,10 +144,11 @@ static NSString *const kMSTypePage = @"page";
     type = log.type;
     name = log.name;
   });
+  [MSMobileCenter configureWithAppSecret:@"TestAppSecret"];
   [[MSAnalytics sharedInstance] startWithLogManager:logManagerMock];
   
   //When
-  [[MSAnalytics sharedInstance] trackEvent:expectedName withProperties:nil];
+  [MSAnalytics trackEvent:expectedName];
   
   //Then
   assertThat(type, is(kMSTypeEvent));
@@ -170,10 +172,11 @@ static NSString *const kMSTypePage = @"page";
     name = log.name;
     properties = log.properties;
   });
+  [MSMobileCenter configureWithAppSecret:@"TestAppSecret"];
   [[MSAnalytics sharedInstance] startWithLogManager:logManagerMock];
   
   //When
-  [[MSAnalytics sharedInstance] trackEvent:expectedName withProperties:expectedProperties];
+  [MSAnalytics trackEvent:expectedName withProperties:expectedProperties];
   
   //Then
   assertThat(type, is(kMSTypeEvent));
@@ -195,10 +198,11 @@ static NSString *const kMSTypePage = @"page";
     type = log.type;
     name = log.name;
   });
+  [MSMobileCenter configureWithAppSecret:@"TestAppSecret"];
   [[MSAnalytics sharedInstance] startWithLogManager:logManagerMock];
   
   //When
-  [[MSAnalytics sharedInstance] trackPage:expectedName withProperties:nil];
+  [MSAnalytics trackPage:expectedName];
   
   //Then
   assertThat(type, is(kMSTypePage));
@@ -222,15 +226,34 @@ static NSString *const kMSTypePage = @"page";
     name = log.name;
     properties = log.properties;
   });
+  [MSMobileCenter configureWithAppSecret:@"TestAppSecret"];
   [[MSAnalytics sharedInstance] startWithLogManager:logManagerMock];
   
   //When
-  [[MSAnalytics sharedInstance] trackPage:expectedName withProperties:expectedProperties];
+  [MSAnalytics trackPage:expectedName withProperties:expectedProperties];
   
   //Then
   assertThat(type, is(kMSTypePage));
   assertThat(name, is(expectedName));
   assertThat(properties, is(expectedProperties));
+}
+
+- (void)testAutoPageTracking {
+
+  // For now auto page tracking is disabled by default
+  XCTAssertFalse([MSAnalytics isAutoPageTrackingEnabled]);
+
+  //When
+  [MSAnalytics setAutoPageTrackingEnabled:YES];
+
+  //Then
+  XCTAssertTrue([MSAnalytics isAutoPageTrackingEnabled]);
+
+  //When
+  [MSAnalytics setAutoPageTrackingEnabled:NO];
+
+  //Then
+  XCTAssertFalse([MSAnalytics isAutoPageTrackingEnabled]);
 }
 
 - (void)analytics:(MSAnalytics *)analytics willSendEventLog:(MSEventLog *)eventLog

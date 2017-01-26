@@ -1,5 +1,15 @@
 # Mobile Center SDK for iOS Change Log
 
+## Version 0.4.0
+
+This version has **breaking changes**.
+
+### MobileCenterCrashes
+
+* **[Feature]** Remove attachmentWithCrashes method in Crashes delegate that is not supported by backend.
+
+___
+
 ## Version 0.3.7
 
 This version has bug fixes.
