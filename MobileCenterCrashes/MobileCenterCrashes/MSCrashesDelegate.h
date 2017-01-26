@@ -21,14 +21,6 @@
 - (BOOL)crashes:(MSCrashes *)crashes shouldProcessErrorReport:(MSErrorReport *)errorReport;
 
 /**
- * Callback method that will get additional information to be attached to a error report before sending.
- * Attachement is an optional so the method can also return nil.
- * @param crashes The instance of MSCrashes.
- * @param errorReport The errorReport that will be sent.
- */
-- (MSErrorAttachment *)attachmentWithCrashes:(MSCrashes *)crashes forErrorReport:(MSErrorReport *)errorReport;
-
-/**
  * Callback method that will be called before each error will be send to the
  * server. Use this callback to display custom UI while crashes are sent to the server.
  * @param crashes The instance of MSCrashes.
