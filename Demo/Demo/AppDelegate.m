@@ -61,12 +61,6 @@
   return YES;
 }
 
-- (MSErrorAttachment *)attachmentWithCrashes:(MSCrashes *)crashes forErrorReport:(MSErrorReport *)errorReport {
-  return [MSErrorAttachment attachmentWithText:@"Text Attachment"
-                                  andBinaryData:[@"Hello World" dataUsingEncoding:NSUTF8StringEncoding]
-                                       filename:@"binary.txt" mimeType:@"text/plain"];
-}
-
 - (void)crashes:(MSCrashes *)crashes willSendErrorReport:(MSErrorReport *)errorReport {
 }
 
