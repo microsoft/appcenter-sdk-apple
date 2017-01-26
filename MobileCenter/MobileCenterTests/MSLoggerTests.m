@@ -28,7 +28,7 @@
   // randomly as other tests might call start:withServices, too.
   [MSMobileCenter resetSharedInstance];
   [MSMobileCenter sharedInstance].sdkConfigured = NO;
-  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withServices:nil];
+  [MSMobileCenter start:MS_UUID_STRING withServices:nil];
 
   XCTAssertTrue([MSLogger currentLogLevel] == MSLogLevelWarning);
 }

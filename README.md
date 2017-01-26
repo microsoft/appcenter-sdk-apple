@@ -286,7 +286,7 @@ var enabled = MSCrashes.isEnabled()
 
 ### Advanced Scenarios
 
-If you are using the Crashes service, you can customize the way the SDK handles crashes. The `MSCrashesDelegate`-protocol describes methods to attach data to a crash, wait for user confirmation and register for callbacks that inform your app about the sending status.
+If you are using the Crashes service, you can customize the way the SDK handles crashes. The `MSCrashesDelegate`-protocol describes methods to wait for user confirmation and register for callbacks that inform your app about the sending status.
 
 #### Register as a delegate
 
@@ -413,30 +413,6 @@ If you are not using this implementation, make sure to return `YES`/`true` in st
 MSCrashes.notify(with: MSUserConfirmation.dontSend)
 MSCrashes.notify(with: MSUserConfirmation.send)
 MSCrashes.notify(with: MSUserConfirmation.always)
-
-```
-
-### Attaching data to crashes
-
-If you'd like to attach text/binary data to a crash report, implement this callback. Before sending the crash, the SDK will add the attachment to the report and you can view it on the Mobile Center portal. Note that attachment will show in the portal in the future as the UI is still not ready.
-
-**Objective-C**
-
-```objectivec
-- (MSErrorAttachment *)attachmentWithCrashes:(MSCrashes *)crashes forErrorReport:(MSErrorReport *)errorReport {
-  return [MSErrorAttachment attachmentWithText:@"Text Attachment"
-                                  andBinaryData:[@"Hello World" dataUsingEncoding:NSUTF8StringEncoding]
-                                       filename:@"binary.txt" mimeType:@"text/plain"];
-}
-```
-
-**Swift**
-
-```swift
-func attachment(with crashes: MSCrashes!, for errorReport: MSErrorReport!) -> MSErrorAttachment! {
-	let attachment = MSErrorAttachment.init(text: "TextAttachment", andBinaryData: (String("Hello World")?.data(using: String.Encoding.utf8))!, filename: "binary.txt", mimeType: "text/plain")
-	return attachment
-}
 
 ```
 
