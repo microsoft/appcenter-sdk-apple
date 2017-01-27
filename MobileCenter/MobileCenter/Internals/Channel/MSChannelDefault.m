@@ -122,13 +122,6 @@
     return;
   }
 
-  // Notify delegates about enqueued log before saving it asynchronous.
-  [self enumerateDelegatesForSelector:@selector(channel:didEnqueueLog:)
-                            withBlock:^(id <MSChannelDelegate> delegate) {
-                                [delegate channel:self didEnqueueLog:item];
-                            }];
-
-
   dispatch_async(self.logsDispatchQueue, ^{
       // Save the log first.
       MSLogDebug([MSMobileCenter logTag], @"Saving log, type: %@.", item.type);
