@@ -109,7 +109,7 @@
   XCTAssertFalse([thread isValid]);
 
   // When
-  thread.frames = [NSMutableArray arrayWithObjects:[MSStackFrame new], nil];
+  [thread.frames addObject:[MSStackFrame new]];
 
   // Then
   XCTAssertTrue([thread isValid]);
