@@ -3,8 +3,6 @@
  */
 
 #import "MSAppleErrorLog.h"
-#import "MSLog.h"
-#import "MSUtil.h"
 #import "MSCrashesCXXExceptionWrapperException.h"
 #import "MSCrashesDelegate.h"
 #import "MSCrashesUtil.h"
@@ -26,25 +24,25 @@ static NSString *const kMSCrashTimeLogBufferFilename = @"MSCrashesLogBuffer.mscr
 
 static MSCrashesCallbacks msCrashesCallbacks = {.context = NULL, .handleSignal = NULL};
 static NSString *const kMSUserConfirmationKey = @"MSUserConfirmation";
-static char const *MSSaveEventsFilePath;
 
-void *MSSafeEventsBuffer = nil;
-size_t MSSaveEventsBufferLen = 0;
+static char const *MSLogBufferFilePath;
+void *MSLogBuffer = NULL;
+size_t MSLogBufferLength = 0;
 
-static void ms_save_events_callback(siginfo_t *info, ucontext_t *uap, void *context) {
+static void ms_save_log_buffer_callback(siginfo_t *info, ucontext_t *uap, void *context) {
 
-  // Do not safe the buffer if it is empty.
-  if (!MSSafeEventsBuffer || !MSSaveEventsBufferLen) {
+  // Do not save the buffer if it is empty.
+  if (!MSLogBuffer || !MSLogBufferLength) {
     return;
   }
 
   // Try to get a file descriptor with our pre-filled path
-  int fd = open(MSSaveEventsFilePath, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+  int fd = open(MSLogBufferFilePath, O_WRONLY | O_CREAT | O_TRUNC, 0644);
   if (fd < 0) {
     return;
   }
 
-  write(fd, MSSafeEventsBuffer, MSSaveEventsBufferLen);
+  write(fd, MSLogBuffer, MSLogBufferLength);
   close(fd);
 }
 
@@ -52,7 +50,7 @@ static void ms_save_events_callback(siginfo_t *info, ucontext_t *uap, void *cont
  *  this can change.
  */
 static void plcr_post_crash_callback(siginfo_t *info, ucontext_t *uap, void *context) {
-  ms_save_events_callback(info, uap, context);
+  ms_save_log_buffer_callback(info, uap, context);
 
   if (msCrashesCallbacks.handleSignal != NULL) {
     msCrashesCallbacks.handleSignal(context);
@@ -72,7 +70,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   abort();
 }
 
-@interface MSCrashes () <MSChannelDelegate>
+@interface MSCrashes () <MSChannelDelegate, MSLogManagerDelegate>
 
 @end
 
@@ -258,8 +256,10 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 - (void)startWithLogManager:(id <MSLogManager>)logManager {
   [super startWithLogManager:logManager];
 
+  [logManager addDelegate:self];
+
   [self processCrashTimeBuffer];
-  MSSaveEventsFilePath = strdup([self crashBufferFile].UTF8String);
+  MSLogBufferFilePath = strdup([self crashBufferFile].UTF8String);
 
   MSLogVerbose([MSCrashes logTag], @"Started crash service.");
 }
@@ -305,21 +305,26 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   }
 }
 
-- (void)channel:(id <MSChannel>)channel didEnqueueLog:(id <MSLog>)log {
+- (void)onProcessingLog:(id <MSLog>)log withPriority:(MSPriority)priority {
   MSLogVerbose([MSCrashes logTag], @"Did enqeue log.");
 
   NSData *serializedLog = [NSKeyedArchiver archivedDataWithRootObject:log];
   if (serializedLog && (serializedLog.length > 0)) {
 
+    // The callback can be called from any thread, making sure we make this thread-safe.
     @synchronized (self) {
-      /* at a sync point */
-      if (MSSafeEventsBuffer) {
-        free(MSSafeEventsBuffer);
+      if (MSLogBuffer) {
+        free(MSLogBuffer);
       }
-      MSSafeEventsBuffer = calloc(1, serializedLog.length);
-      [serializedLog getBytes:MSSafeEventsBuffer length:serializedLog.length];
-      MSSaveEventsBufferLen = serializedLog.length;
-      /* if this could happen on multiple threads, you need a mutex around this block */
+      /*
+       * MSLogBufferLength = 0
+       * To protect from bad data access in the weird case where `-getBytes:length:` throws an exception or you otherwise
+       * crashes somehow within that block of code.
+       */
+      MSLogBufferLength = 0;
+      MSLogBuffer = calloc(1, serializedLog.length);
+      [serializedLog getBytes:MSLogBuffer length:serializedLog.length];
+      MSLogBufferLength = serializedLog.length;
     }
   }
 }
@@ -327,25 +332,25 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 - (void)channel:(id <MSChannel>)channel didSucceedSavingLog:(id <MSLog>)log {
   MSLogVerbose([MSCrashes logTag], @"Did save log.");
 
+  // The callback can be called from any thread, making sure we make this thread-safe.
   @synchronized (self) {
-    /* at a sync point */
-    if (MSSafeEventsBuffer) {
-      free(MSSafeEventsBuffer);
-      MSSaveEventsBufferLen = 0;
+    if (MSLogBuffer) {
+      free(MSLogBuffer);
+      MSLogBufferLength = 0;
     }
-    /* if this could happen on multiple threads, you need a mutex around this block */
   }
 }
 
 - (void)channel:(id <MSChannel>)channel didFailSavingLog:(id <MSLog>)log {
   MSLogVerbose([MSCrashes logTag], @"Did fail saving log.");
+
+  // The callback can be called from any thread, making sure we make this thread-safe.
   @synchronized (self) {
     /* at a sync point */
-    if (MSSafeEventsBuffer) {
-      free(MSSafeEventsBuffer);
-      MSSaveEventsBufferLen = 0;
+    if (MSLogBuffer) {
+      free(MSLogBuffer);
+      MSLogBufferLength = 0;
     }
-    /* if this could happen on multiple threads, you need a mutex around this block */
   }
 }
 
