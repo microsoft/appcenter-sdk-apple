@@ -15,7 +15,10 @@ static NSString *const kMSException = @"exception";
 
 // Initializes a new instance of the class.
 - (instancetype)init {
-  return self = [super init];
+  if (self = [super init]) {
+    _frames = [NSMutableArray array];
+  }
+  return self;
 }
 
 - (NSMutableDictionary *)serializeToDictionary {
@@ -44,7 +47,7 @@ static NSString *const kMSException = @"exception";
 }
 
 - (BOOL)isValid {
-  return self.threadId && self.frames;
+  return self.threadId && [self.frames count] > 0;
 }
 
 - (BOOL)isEqual:(MSThread *)thread {
