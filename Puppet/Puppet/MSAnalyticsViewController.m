@@ -6,6 +6,7 @@
 #import "MobileCenterAnalytics.h"
 // trackPage has been hidden in MSAnalytics temporarily. Use internal until the feature comes back.
 #import "MSAnalyticsInternal.h"
+#import "MSCrashes.h"
 
 @implementation MSAnalyticsViewController
 
@@ -156,8 +157,14 @@
       break;
     }
     case 1: {
-      NSDictionary *properties = @{ @"gender" : @"male", @"age" : @"20", @"title" : @"SDE" };
-      [MSAnalytics trackEvent:@"myEvent" withProperties:properties];
+      for (int i = 0; i  < 50; i++) {
+        NSString *iteration = [NSString stringWithFormat:@"%d",i];
+        NSDictionary *properties = @{ @"gender" : @"male", @"age" : @"20", @"title" : @"SDE", @"Iteration" :  iteration};
+        [MSAnalytics trackEvent:@"myEvent" withProperties:properties];
+      }
+
+      [MSCrashes generateTestCrash];
+
       break;
     }
     case 2: {

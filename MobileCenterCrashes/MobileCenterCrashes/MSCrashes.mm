@@ -2,6 +2,10 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
+
+#import <string>
+#import <unordered_map>
+
 #import "MSAppleErrorLog.h"
 #import "MSCrashesCXXExceptionWrapperException.h"
 #import "MSCrashesDelegate.h"
@@ -18,32 +22,38 @@
  */
 static NSString *const kMSServiceName = @"Crashes";
 static NSString *const kMSAnalyzerFilename = @"MSCrashes.analyzer";
-static NSString *const kMSCrashTimeLogBufferFilename = @"MSCrashesLogBuffer.mscrashes";
+static NSString *const kMSLogBufferFileExtension = @"mscrashes";
 
 #pragma mark - Callbacks Setup
 
 static MSCrashesCallbacks msCrashesCallbacks = {.context = NULL, .handleSignal = NULL};
 static NSString *const kMSUserConfirmationKey = @"MSUserConfirmation";
 
-static char const *MSLogBufferFilePath;
-void *MSLogBuffer = NULL;
-size_t MSLogBufferLength = 0;
+typedef struct {
+    std::string logBufferFilePath;
+    std::string buffer;
+} BUFFERED_LOG;
+
+std::unordered_map<std::string, BUFFERED_LOG> logBuffer;
 
 static void ms_save_log_buffer_callback(siginfo_t *info, ucontext_t *uap, void *context) {
 
   // Do not save the buffer if it is empty.
-  if (!MSLogBuffer || !MSLogBufferLength) {
+  if(logBuffer.size() == 0) {
     return;
   }
 
-  // Try to get a file descriptor with our pre-filled path
-  int fd = open(MSLogBufferFilePath, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-  if (fd < 0) {
-    return;
-  }
+  for (auto it = logBuffer.begin(), end = logBuffer.end(); it != end; ++it) {
+    // Concatenate old string with new JSON string and add a comma.
+    const BUFFERED_LOG &buffer = it->second;
 
-  write(fd, MSLogBuffer, MSLogBufferLength);
-  close(fd);
+    int fd = open(buffer.logBufferFilePath.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    if (fd < 0) {
+      return;
+    }
+    write(fd, buffer.buffer.data(), buffer.buffer.size());
+    close(fd);
+  }
 }
 
 /** Proxy implementation for PLCrashReporter to keep our interface stable while
@@ -169,7 +179,6 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     _crashFiles = [[NSMutableArray alloc] init];
     _crashesDir = [MSCrashesUtil crashesDir];
     _analyzerInProgressFile = [_crashesDir stringByAppendingPathComponent:kMSAnalyzerFilename];
-    _crashBufferFile = [_crashesDir stringByAppendingPathComponent:kMSCrashTimeLogBufferFilename];
     _didCrashInLastSession = NO;
   }
   return self;
@@ -257,9 +266,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   [super startWithLogManager:logManager];
 
   [logManager addDelegate:self];
-
   [self processCrashTimeBuffer];
-  MSLogBufferFilePath = strdup([self crashBufferFile].UTF8String);
 
   MSLogVerbose([MSCrashes logTag], @"Started crash service.");
 }
@@ -305,26 +312,48 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   }
 }
 
+- (NSString *)logIdFromLog:(id <MSLog>)log {
+  NSString *logId;
+  SEL s = NSSelectorFromString(@"eventId");
+  if ([((NSObject *) log) isKindOfClass:[MSAppleErrorLog class]]) {
+    logId = ((MSAppleErrorLog *)log).errorId;
+  }
+  else if([((NSObject *) log) respondsToSelector:s]) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+    logId = [((NSObject *) log) performSelector:s];
+#pragma clang diagnostic pop
+  }
+  return logId;
+}
+
 - (void)onProcessingLog:(id <MSLog>)log withPriority:(MSPriority)priority {
   MSLogVerbose([MSCrashes logTag], @"Did enqeue log.");
 
+  if(!log) {
+    return;
+  }
+
+  //TODO we need an ID at the toplevel of a log, requires a schema change!
+  NSString *logId = [self logIdFromLog:log];
   NSData *serializedLog = [NSKeyedArchiver archivedDataWithRootObject:log];
-  if (serializedLog && (serializedLog.length > 0)) {
+  if (serializedLog && (serializedLog.length > 0) && logId && (logId.length > 0)) {
 
     // The callback can be called from any thread, making sure we make this thread-safe.
     @synchronized (self) {
-      if (MSLogBuffer) {
-        free(MSLogBuffer);
+
+      NSString *bufferFilePath = [self createCrashBufferFileWithId:logId];
+
+      if(bufferFilePath && bufferFilePath.length > 0) {
+        [self createCrashBufferFileWithId:logId];
+
+        // Add the log to the logBuffer & create the buffer file for the log.
+        auto bytesAsBytes = reinterpret_cast<const char *>(serializedLog.bytes);
+        std::string tempBuffer(&bytesAsBytes[0], &bytesAsBytes[serializedLog.length]);
+
+        // Add the log to the logBuffer & create the buffer file for the log.
+        logBuffer.emplace(logId.UTF8String, BUFFERED_LOG{ bufferFilePath.UTF8String, tempBuffer });
       }
-      /*
-       * MSLogBufferLength = 0
-       * To protect from bad data access in the weird case where `-getBytes:length:` throws an exception or you otherwise
-       * crashes somehow within that block of code.
-       */
-      MSLogBufferLength = 0;
-      MSLogBuffer = calloc(1, serializedLog.length);
-      [serializedLog getBytes:MSLogBuffer length:serializedLog.length];
-      MSLogBufferLength = serializedLog.length;
     }
   }
 }
@@ -332,11 +361,14 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 - (void)channel:(id <MSChannel>)channel didSucceedSavingLog:(id <MSLog>)log {
   MSLogVerbose([MSCrashes logTag], @"Did save log.");
 
+  NSString *logId = [self logIdFromLog:log];
   // The callback can be called from any thread, making sure we make this thread-safe.
   @synchronized (self) {
-    if (MSLogBuffer) {
-      free(MSLogBuffer);
-      MSLogBufferLength = 0;
+    if (logId && logId.length > 0) {
+
+      std::string key = logId.UTF8String; // no need to explicitly invoke the constructor (std::string([logId UTF8String]))
+      logBuffer.erase(key);
+      [self deleteCrashBufferFileWithId:logId];
     }
   }
 }
@@ -344,12 +376,14 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 - (void)channel:(id <MSChannel>)channel didFailSavingLog:(id <MSLog>)log {
   MSLogVerbose([MSCrashes logTag], @"Did fail saving log.");
 
+  NSString *logId = [self logIdFromLog:log];
   // The callback can be called from any thread, making sure we make this thread-safe.
   @synchronized (self) {
-    /* at a sync point */
-    if (MSLogBuffer) {
-      free(MSLogBuffer);
-      MSLogBufferLength = 0;
+    if (logId && logId.length > 0) {
+
+      std::string key = logId.UTF8String; // no need to explicitly invoke the constructor (std::string([logId UTF8String]))
+      logBuffer.erase(key);
+      [self deleteCrashBufferFileWithId:logId];
     }
   }
 }
@@ -516,16 +550,24 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 }
 
 - (void)processCrashTimeBuffer {
-  id <MSLog> item = [NSKeyedUnarchiver unarchiveObjectWithFile:self.crashBufferFile];
 
-  if (item) {
-    if ([((NSObject *) item) isKindOfClass:[MSAppleErrorLog class]]) {
-      [self.logManager processLog:item withPriority:self.priority];
-    } else {
-      [self.logManager processLog:item withPriority:MSPriorityDefault];
+  NSArray* dirs = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.crashesDir
+                                                                      error:NULL];
+  for(NSString *tmp in dirs) {
+    if([[tmp pathExtension] isEqualToString:kMSLogBufferFileExtension]) {
+      NSString *filePath = [self.crashesDir stringByAppendingPathComponent:tmp];
+      NSData *serializedLog = [NSData dataWithContentsOfFile:filePath];
+      id <MSLog> item = [NSKeyedUnarchiver unarchiveObjectWithData:serializedLog];
+      NSString *fileName = [[filePath lastPathComponent] stringByDeletingPathExtension];
+      if (item) {
+        if ([((NSObject *) item) isKindOfClass:[MSAppleErrorLog class]]) {
+          [self.logManager processLog:item withPriority:self.priority];
+        } else {
+          [self.logManager processLog:item withPriority:MSPriorityDefault];
+        }
+      }
+      [self deleteCrashBufferFileWithId:fileName];
     }
-    [self deleteCrashBuffer];
-    [self createCrashBufferFile];
   }
 }
 
@@ -625,21 +667,54 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   }
 }
 
-- (void)createCrashBufferFile {
-  if (![self.fileManager fileExistsAtPath:self.crashBufferFile]) {
-    BOOL success = [self.fileManager createFileAtPath:self.crashBufferFile contents:nil attributes:nil];
+//- (void)createCrashBufferFile {
+//  if (![self.fileManager fileExistsAtPath:self.crashBufferFile]) {
+//    BOOL success = [self.fileManager createFileAtPath:self.crashBufferFile contents:nil attributes:nil];
+//    if (!success) {
+//      MSLogError([MSCrashes logTag], @"Couldn't create crash buffer file at %@: ", self.crashBufferFile);
+//    }
+//  }
+//}
+
+- (NSString *) createCrashBufferFileWithId:(NSString *)logId {
+  NSString *filePath = [self pathForLogId:logId];
+
+  if (![self.fileManager fileExistsAtPath:filePath]) {
+    BOOL success = [self.fileManager createFileAtPath:filePath contents:nil attributes:nil];
     if (!success) {
-      MSLogError([MSCrashes logTag], @"Couldn't create crash buffer file at %@: ", self.crashBufferFile);
+      MSLogError([MSCrashes logTag], @"Couldn't create crash buffer file at: %@.", filePath);
+      return nil;
+    }
+    else {
+      MSLogVerbose([MSCrashes logTag], @"Created crash buffer file at %@.", filePath);
+      return filePath;
     }
   }
+  return nil;
 }
 
-- (void)deleteCrashBuffer {
+- (NSString *)pathForLogId:(NSString *)logId {
+  NSString *fileName = [NSString stringWithFormat:@"%@.%@", logId, kMSLogBufferFileExtension];
+  NSString *filePath = [_crashesDir stringByAppendingPathComponent:fileName];
+  return filePath;
+}
+
+- (BOOL)deleteCrashBufferFileWithId:(NSString *)logId {
+  NSString *filePath = [self pathForLogId:logId];
+
   NSError *error = nil;
-  if (![self.fileManager removeItemAtPath:self.crashBufferFile error:&error]) {
-    MSLogError([MSCrashes logTag], @"Couldn't remove crash buffer file at %@: with Error: %@",
-            self.crashBufferFile, error.localizedDescription);
+  BOOL success = NO;
+  if (filePath && (filePath.length > 0) && [self.fileManager fileExistsAtPath:filePath]) {
+    success = [self.fileManager removeItemAtPath:filePath error:&error];
+    if(success) {
+      MSLogVerbose([MSCrashes logTag], @"Removed crash buffer file at %@", filePath);
+    }
+    else {
+      MSLogError([MSCrashes logTag], @"Couldn't remove crash buffer file at %@: with Error: %@",
+            filePath, error.localizedDescription);
+    }
   }
+  return success;
 }
 
 - (BOOL)shouldProcessErrorReport:(MSErrorReport *)errorReport {
