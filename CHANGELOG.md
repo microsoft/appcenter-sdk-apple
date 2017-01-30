@@ -1,5 +1,15 @@
 # Mobile Center SDK for iOS Change Log
 
+## Version 0.4.1
+
+This version has a bug fix.
+
+### MobileCenterCrashes
+
+* **[Bug]** Fix missing frames in thread for Crashes.
+
+___
+
 ## Version 0.4.0
 
 This version has **breaking changes**.
