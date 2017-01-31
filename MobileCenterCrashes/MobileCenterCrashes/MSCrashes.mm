@@ -35,10 +35,15 @@ static NSString *const kMSUserConfirmationKey = @"MSUserConfirmation";
  * @property buffer The actual buffered data. It comes in the form of a std::string but actually contains an NSData object
  * which is a serialized log.
  */
-typedef struct {
+struct BUFFERED_LOG {
     std::string bufferPath;
     std::string buffer;
-} BUFFERED_LOG;
+
+    BUFFERED_LOG(NSString *path, NSData *data) :
+            bufferPath(path.UTF8String),
+            buffer(&reinterpret_cast<const char *>(data.bytes)[0], &reinterpret_cast<const char *>(data.bytes)[data.length])
+    {}
+};
 
 // The buffer where we store our logs. The key for the map is the logId.
 std::unordered_map<std::string, BUFFERED_LOG> logBuffer;
@@ -309,13 +314,9 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
       if(bufferPath && bufferPath.length > 0) {
         [self createBufferFileWithId:logId];
-
+        
         // Add the log to the logBuffer & create the buffer file for the log.
-        auto bytesAsBytes = reinterpret_cast<const char *>(serializedLog.bytes);
-        std::string tempBuffer(&bytesAsBytes[0], &bytesAsBytes[serializedLog.length]);
-
-        // Add the log to the logBuffer & create the buffer file for the log.
-        logBuffer.emplace(logId.UTF8String, BUFFERED_LOG{ bufferPath.UTF8String, tempBuffer });
+        logBuffer.emplace(logId.UTF8String, BUFFERED_LOG{ bufferPath, serializedLog });
       }
     }
   }
