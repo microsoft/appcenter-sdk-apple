@@ -29,25 +29,30 @@ static NSString *const kMSLogBufferFileExtension = @"mscrashes";
 static MSCrashesCallbacks msCrashesCallbacks = {.context = NULL, .handleSignal = NULL};
 static NSString *const kMSUserConfirmationKey = @"MSUserConfirmation";
 
+/**
+ * Data structure for logs that need to be flushed at crashtime to make sure no log is lost at crashtime.
+ * @property bufferPath The path where the buffered log should be persisted.
+ * @property buffer The actual buffered data. It comes in the form of a std::string but actually contains an NSData object
+ * which is a serialized log.
+ */
 typedef struct {
-    std::string logBufferFilePath;
+    std::string bufferPath;
     std::string buffer;
 } BUFFERED_LOG;
 
+// The buffer where we store our logs. The key for the map is the logId.
 std::unordered_map<std::string, BUFFERED_LOG> logBuffer;
 
 static void ms_save_log_buffer_callback(siginfo_t *info, ucontext_t *uap, void *context) {
-
   // Do not save the buffer if it is empty.
   if(logBuffer.size() == 0) {
     return;
   }
 
   for (auto it = logBuffer.begin(), end = logBuffer.end(); it != end; ++it) {
-    // Concatenate old string with new JSON string and add a comma.
+    // Make sure not to allocate any memory (e.g. copy) but use the iterator.
     const BUFFERED_LOG &buffer = it->second;
-
-    int fd = open(buffer.logBufferFilePath.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    int fd = open(buffer.bufferPath.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0644);
     if (fd < 0) {
       return;
     }
@@ -266,7 +271,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   [super startWithLogManager:logManager];
 
   [logManager addDelegate:self];
-  [self processCrashTimeBuffer];
+  [self processBuffer];
 
   MSLogVerbose([MSCrashes logTag], @"Started crash service.");
 }
@@ -281,6 +286,39 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
 - (MSPriority)priority {
   return MSPriorityHigh;
+}
+
+#pragma mark - MSLogManagerDelegate
+
+- (void)onProcessingLog:(id <MSLog>)log withPriority:(MSPriority)priority {
+  MSLogVerbose([MSCrashes logTag], @"Did enqeue log.");
+
+  if(!log) {
+    return;
+  }
+
+  //TODO we need an ID at the toplevel of a log, requires a schema change!
+  NSString *logId = [self logIdFromLog:log];
+  NSData *serializedLog = [NSKeyedArchiver archivedDataWithRootObject:log];
+  if (serializedLog && (serializedLog.length > 0) && logId && (logId.length > 0)) {
+
+    // The callback can be called from any thread, making sure we make this thread-safe.
+    @synchronized (self) {
+
+      NSString *bufferPath = [self createBufferFileWithId:logId];
+
+      if(bufferPath && bufferPath.length > 0) {
+        [self createBufferFileWithId:logId];
+
+        // Add the log to the logBuffer & create the buffer file for the log.
+        auto bytesAsBytes = reinterpret_cast<const char *>(serializedLog.bytes);
+        std::string tempBuffer(&bytesAsBytes[0], &bytesAsBytes[serializedLog.length]);
+
+        // Add the log to the logBuffer & create the buffer file for the log.
+        logBuffer.emplace(logId.UTF8String, BUFFERED_LOG{ bufferPath.UTF8String, tempBuffer });
+      }
+    }
+  }
 }
 
 #pragma mark - MSChannelDelegate
@@ -312,52 +350,6 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   }
 }
 
-- (NSString *)logIdFromLog:(id <MSLog>)log {
-  NSString *logId;
-  SEL s = NSSelectorFromString(@"eventId");
-  if ([((NSObject *) log) isKindOfClass:[MSAppleErrorLog class]]) {
-    logId = ((MSAppleErrorLog *)log).errorId;
-  }
-  else if([((NSObject *) log) respondsToSelector:s]) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-    logId = [((NSObject *) log) performSelector:s];
-#pragma clang diagnostic pop
-  }
-  return logId;
-}
-
-- (void)onProcessingLog:(id <MSLog>)log withPriority:(MSPriority)priority {
-  MSLogVerbose([MSCrashes logTag], @"Did enqeue log.");
-
-  if(!log) {
-    return;
-  }
-
-  //TODO we need an ID at the toplevel of a log, requires a schema change!
-  NSString *logId = [self logIdFromLog:log];
-  NSData *serializedLog = [NSKeyedArchiver archivedDataWithRootObject:log];
-  if (serializedLog && (serializedLog.length > 0) && logId && (logId.length > 0)) {
-
-    // The callback can be called from any thread, making sure we make this thread-safe.
-    @synchronized (self) {
-
-      NSString *bufferFilePath = [self createCrashBufferFileWithId:logId];
-
-      if(bufferFilePath && bufferFilePath.length > 0) {
-        [self createCrashBufferFileWithId:logId];
-
-        // Add the log to the logBuffer & create the buffer file for the log.
-        auto bytesAsBytes = reinterpret_cast<const char *>(serializedLog.bytes);
-        std::string tempBuffer(&bytesAsBytes[0], &bytesAsBytes[serializedLog.length]);
-
-        // Add the log to the logBuffer & create the buffer file for the log.
-        logBuffer.emplace(logId.UTF8String, BUFFERED_LOG{ bufferFilePath.UTF8String, tempBuffer });
-      }
-    }
-  }
-}
-
 - (void)channel:(id <MSChannel>)channel didSucceedSavingLog:(id <MSLog>)log {
   MSLogVerbose([MSCrashes logTag], @"Did save log.");
 
@@ -368,7 +360,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
       std::string key = logId.UTF8String; // no need to explicitly invoke the constructor (std::string([logId UTF8String]))
       logBuffer.erase(key);
-      [self deleteCrashBufferFileWithId:logId];
+      [self deleteBufferFileWithLogId:logId];
     }
   }
 }
@@ -383,7 +375,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
       std::string key = logId.UTF8String; // no need to explicitly invoke the constructor (std::string([logId UTF8String]))
       logBuffer.erase(key);
-      [self deleteCrashBufferFileWithId:logId];
+      [self deleteBufferFileWithLogId:logId];
     }
   }
 }
@@ -549,11 +541,10 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   }
 }
 
-- (void)processCrashTimeBuffer {
-
-  NSArray* dirs = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.crashesDir
+- (void)processBuffer {
+  NSArray* files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.crashesDir
                                                                       error:NULL];
-  for(NSString *tmp in dirs) {
+  for(NSString *tmp in files) {
     if([[tmp pathExtension] isEqualToString:kMSLogBufferFileExtension]) {
       NSString *filePath = [self.crashesDir stringByAppendingPathComponent:tmp];
       NSData *serializedLog = [NSData dataWithContentsOfFile:filePath];
@@ -566,7 +557,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
           [self.logManager processLog:item withPriority:MSPriorityDefault];
         }
       }
-      [self deleteCrashBufferFileWithId:fileName];
+      [self deleteBufferFileWithLogId:fileName];
     }
   }
 }
@@ -667,16 +658,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   }
 }
 
-//- (void)createCrashBufferFile {
-//  if (![self.fileManager fileExistsAtPath:self.crashBufferFile]) {
-//    BOOL success = [self.fileManager createFileAtPath:self.crashBufferFile contents:nil attributes:nil];
-//    if (!success) {
-//      MSLogError([MSCrashes logTag], @"Couldn't create crash buffer file at %@: ", self.crashBufferFile);
-//    }
-//  }
-//}
-
-- (NSString *) createCrashBufferFileWithId:(NSString *)logId {
+- (NSString *)createBufferFileWithId:(NSString *)logId {
   NSString *filePath = [self pathForLogId:logId];
 
   if (![self.fileManager fileExistsAtPath:filePath]) {
@@ -699,7 +681,22 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   return filePath;
 }
 
-- (BOOL)deleteCrashBufferFileWithId:(NSString *)logId {
+- (NSString *)logIdFromLog:(id <MSLog>)log {
+  NSString *logId;
+  SEL s = NSSelectorFromString(@"eventId");
+  if ([((NSObject *) log) isKindOfClass:[MSAppleErrorLog class]]) {
+    logId = ((MSAppleErrorLog *)log).errorId;
+  }
+  else if([((NSObject *) log) respondsToSelector:s]) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+    logId = [((NSObject *) log) performSelector:s];
+#pragma clang diagnostic pop
+  }
+  return logId;
+}
+
+- (BOOL)deleteBufferFileWithLogId:(NSString *)logId {
   NSString *filePath = [self pathForLogId:logId];
 
   NSError *error = nil;
