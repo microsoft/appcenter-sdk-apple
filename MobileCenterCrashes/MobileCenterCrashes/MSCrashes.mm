@@ -30,7 +30,7 @@ static MSCrashesCallbacks msCrashesCallbacks = {.context = NULL, .handleSignal =
 static NSString *const kMSUserConfirmationKey = @"MSUserConfirmation";
 
 /**
- * Data structure for logs that need to be flushed at crashtime to make sure no log is lost at crashtime.
+ * Data structure for logs that need to be flushed at crash time to make sure no log is lost at crash time.
  * @property bufferPath The path where the buffered log should be persisted.
  * @property buffer The actual buffered data. It comes in the form of a std::string but actually contains an NSData object
  * which is a serialized log.

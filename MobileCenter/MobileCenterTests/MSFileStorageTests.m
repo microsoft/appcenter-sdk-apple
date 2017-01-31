@@ -59,11 +59,12 @@
   assertThat(bucket, nilValue());
 
   // When
-  [self.sut saveLog:log withStorageKey:storageKey];
+  BOOL success = [self.sut saveLog:log withStorageKey:storageKey];
 
   // Verify
   MSStorageBucket *actualBucket = self.sut.buckets[storageKey];
   MSFile *actualCurrentFile = actualBucket.currentFile;
+  XCTAssertTrue(success);
   assertThat(actualCurrentFile, notNilValue());
   assertThat(actualBucket.currentLogs, hasItem(log));
   assertThat(actualCurrentFile.creationDate, notNilValue());
@@ -85,9 +86,10 @@
   assertThat(self.sut.buckets[storageKey], nilValue());
 
   // When
-  [self.sut saveLog:log withStorageKey:storageKey];
+  BOOL success = [self.sut saveLog:log withStorageKey:storageKey];
 
   // Verify
+  XCTAssertTrue(success);
   MSStorageBucket *bucket = self.sut.buckets[storageKey];
   MSFile *actual = bucket.availableFiles.lastObject;
   assertThat(actual.filePath, equalTo(expected.filePath));
@@ -103,9 +105,10 @@
   MSStorageBucket *bucket = [self.sut bucketForStorageKey:storageKey];
 
   // When
-  [self.sut saveLog:log withStorageKey:storageKey];
+  BOOL success = [self.sut saveLog:log withStorageKey:storageKey];
 
   // Verify
+  XCTAssertFalse(success);
   assertThat(bucket.currentLogs, isEmpty());
 }
 
@@ -117,9 +120,10 @@
   assertThat(self.sut.buckets[storageKey], nilValue());
 
   // When
-  [self.sut saveLog:log withStorageKey:storageKey];
+  BOOL success = [self.sut saveLog:log withStorageKey:storageKey];
 
   // Verify
+  XCTAssertTrue(success);
   MSStorageBucket *bucket = self.sut.buckets[storageKey];
   MSFile *expected = bucket.currentFile;
   MSFile *actual = bucket.availableFiles.lastObject;
@@ -145,9 +149,10 @@
   MSAbstractLog *log = [MSAbstractLog new];
 
   // When
-  [self.sut saveLog:log withStorageKey:storageKey];
+  BOOL success = [self.sut saveLog:log withStorageKey:storageKey];
 
   // Verify
+  XCTAssertTrue(success);
   assertThatInteger(bucket.availableFiles.count, equalToInteger(3));
   assertThat(bucket.availableFiles, containsInRelativeOrder(@[ bucket.currentFile, availableFile1, availableFile2 ]));
 }
@@ -192,10 +197,11 @@
   // If
   NSString *storageKey = @"directory";
   MSAbstractLog *log = [MSAbstractLog new];
-  [self.sut saveLog:log withStorageKey:storageKey];
+  BOOL success = [self.sut saveLog:log withStorageKey:storageKey];
   assertThatInteger(self.sut.buckets[storageKey].currentLogs.count, equalToInteger(1));
 
   // When
+  XCTAssertTrue(success);
   [self.sut loadLogsForStorageKey:storageKey withCompletion:nil];
 
   // Verify
