@@ -110,6 +110,7 @@
 
 - (void)enqueueItem:(id <MSLog>)item withCompletion:(enqueueCompletionBlock)completion {
   // return fast in case our item is empty or we are discarding logs right now.
+  dispatch_async(self.logsDispatchQueue, ^{
   if (!item) {
     MSLogWarning([MSMobileCenter logTag], @"TelemetryItem was nil.");
     return;
@@ -122,7 +123,6 @@
     return;
   }
 
-  dispatch_async(self.logsDispatchQueue, ^{
       // Save the log first.
       MSLogDebug([MSMobileCenter logTag], @"Saving log, type: %@.", item.type);
       BOOL success = [self.storage saveLog:item withStorageKey:self.configuration.name];
