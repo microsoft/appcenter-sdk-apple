@@ -29,18 +29,4 @@ static NSString *const kMSHidingStringForAppSecret = @"*";
  */
 - (NSString *)hideSecret:(NSString *)secret;
 
-/**
- * Retry intervals used by calls in case of recoverable errors.
- *
- * @return A list of retry intervals.
- */
-- (NSArray *)retryIntervals;
-
-/**
- * An API path in the URL that is used to talk to HTTP endpoint.
- *
- * @return An API path string.
- */
-- (NSString *)apiPath;
-
 @end
