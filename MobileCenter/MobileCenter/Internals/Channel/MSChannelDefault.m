@@ -92,20 +92,7 @@
 #pragma mark - Managing queue
 
 - (void)enqueueItem:(id <MSLog>)item {
-  [self enqueueItem:item withCompletion:^(BOOL success) {
-      if(success) {
-        [self enumerateDelegatesForSelector:@selector(channel:didSucceedSavingLog:)
-                                  withBlock:^(id <MSChannelDelegate> delegate) {
-                                      [delegate channel:self didSucceedSavingLog:item];
-                                  }];
-      }
-      else {
-        [self enumerateDelegatesForSelector:@selector(channel:didFailSavingLog:)
-                                  withBlock:^(id <MSChannelDelegate> delegate) {
-                                      [delegate channel:self didFailSavingLog:item];
-                                  }];
-      }
-  }];
+  [self enqueueItem:item withCompletion:nil];
 }
 
 - (void)enqueueItem:(id <MSLog>)item withCompletion:(enqueueCompletionBlock)completion {

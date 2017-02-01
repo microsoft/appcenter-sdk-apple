@@ -35,20 +35,4 @@
  */
 - (void)channel:(id <MSChannel>)channel didFailSendingLog:(id <MSLog>)log withError:(NSError *)error;
 
-/**
- * Callback method that will be called in case a log was saved to disk successfully.
- * This can be called from any thread, so think about thread-safety when you implement this.
- * @param channel Instance of MSChannel.
- * @param log The log that was persisted.
- */
-- (void)channel:(id <MSChannel>)channel didSucceedSavingLog:(id <MSLog>)log;
-
-/**
- * Callback method that will be called in case a log could not be saved to disk successfully.
- * his can be called from any thread, so think about thread-safety when you implement this.
- * @param channel Instance of MSChannel.
- * @param log The log that could not be persisted.
- */
-- (void)channel:(id <MSChannel>)channel didFailSavingLog:(id <MSLog>)log;
-
 @end
