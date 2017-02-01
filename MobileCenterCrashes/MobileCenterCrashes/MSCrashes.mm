@@ -50,8 +50,10 @@ struct BUFFERED_LOG {
     }
 };
 
-std::array<BUFFERED_LOG, 20> logBuffer;
-std::array<BUFFERED_LOG, 20>::iterator logBufferIterator;
+
+const int ms_log_buffer_size = 20;
+std::array<BUFFERED_LOG, ms_log_buffer_size> logBuffer;
+std::array<BUFFERED_LOG, ms_log_buffer_size>::iterator logBufferIterator;
 
 
 static void ms_save_log_buffer_callback(siginfo_t *info, ucontext_t *uap, void *context) {
@@ -60,7 +62,7 @@ static void ms_save_log_buffer_callback(siginfo_t *info, ucontext_t *uap, void *
     return;
   }
 
-  for (std::array<BUFFERED_LOG, 20>::iterator it = logBuffer.begin(), end = logBuffer.end(); it != end; ++it) {
+  for (std::array<BUFFERED_LOG, ms_log_buffer_size>::iterator it = logBuffer.begin(), end = logBuffer.end(); it != end; ++it) {
     // Make sure not to allocate any memory (e.g. copy) but use the iterator.
     const std::string buffer = it->buffer;
     int fd = open(it->bufferPath.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -201,7 +203,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
     // Just to make sure we have max of 20 files on disk. If we have less than 20 files on disk, we can't really do
     // anything. This case should never happen.
-    int count = bufferFiles.count >= 20 ? 20: bufferFiles.count;
+    int count = bufferFiles.count >= ms_log_buffer_size ? ms_log_buffer_size: bufferFiles.count;
 
     logBufferIterator = logBuffer.begin();
 
@@ -327,7 +329,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
     if (serializedLog && (serializedLog.length > 0)) {
       long index = std::distance(logBuffer.begin(), logBufferIterator);
-      if (index >= 20) {
+      if (index >= ms_log_buffer_size) {
         logBufferIterator = logBuffer.begin();
       }
       logBufferIterator->buffer = std::string(&reinterpret_cast<const char *>(serializedLog.bytes)[0], &reinterpret_cast<const char *>(serializedLog.bytes)[serializedLog.length]);
@@ -340,7 +342,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 - (NSArray<NSString *> *)createLogBufferFilesIfNeeded {
 
   NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.crashesDir error:NULL];
-  NSMutableArray *logBufferFiles = [NSMutableArray arrayWithCapacity:20];
+  NSMutableArray *logBufferFiles = [NSMutableArray arrayWithCapacity:ms_log_buffer_size];
 
   // Get already existing buffer files.
   for (NSString *tmp in files) {
@@ -351,8 +353,8 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   }
 
   // Create missing buffer files if needed.
-  if (logBufferFiles.count < 20) {
-    int missingFileCount = 20 - logBufferFiles.count;
+  if (logBufferFiles.count < ms_log_buffer_size) {
+    int missingFileCount = ms_log_buffer_size - logBufferFiles.count;
     for (int i = 0; i < missingFileCount; i++) {
       NSString *logId = MS_UUID_STRING;
       NSString *path = [self createBufferFileForBufferId:logId];
