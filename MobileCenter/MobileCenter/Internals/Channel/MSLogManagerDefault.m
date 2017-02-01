@@ -82,6 +82,10 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 
 - (void)processLog:(id<MSLog>)log withPriority:(MSPriority)priority {
 
+  if(!log) {
+    return;
+  }
+
   // Notify delegates.
   [self enumerateDelegatesForSelector:@selector(onProcessingLog:withPriority:)
                             withBlock:^(id<MSLogManagerDelegate> delegate) {
