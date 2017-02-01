@@ -27,12 +27,12 @@ static NSString *const kServiceName = @"Test Service";
   NSString *value = @"Test Value";
 
   // Then
-  XCTAssertTrue([MSKeychainUtil storeString:value forKey:key andService:kServiceName]);
-  assertThat([MSKeychainUtil stringForKey:key andService:kServiceName], equalTo(value));
-  assertThat([MSKeychainUtil deleteStringForKey:key andService:kServiceName], equalTo(value));
+  XCTAssertTrue([MSKeychainUtil storeString:value forKey:key service:kServiceName]);
+  assertThat([MSKeychainUtil stringForKey:key service:kServiceName], equalTo(value));
+  assertThat([MSKeychainUtil deleteStringForKey:key service:kServiceName], equalTo(value));
 
-  XCTAssertFalse([MSKeychainUtil stringForKey:key andService:kServiceName]);
-  XCTAssertNil([MSKeychainUtil deleteStringForKey:key andService:kServiceName]);
+  XCTAssertFalse([MSKeychainUtil stringForKey:key service:kServiceName]);
+  XCTAssertNil([MSKeychainUtil deleteStringForKey:key service:kServiceName]);
 }
 
 @end

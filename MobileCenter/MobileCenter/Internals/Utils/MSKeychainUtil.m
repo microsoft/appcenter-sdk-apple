@@ -32,18 +32,18 @@
 
 @implementation MSKeychainUtil
 
-+ (BOOL)storeString:(NSString *)string forKey:(NSString *)key andService:(NSString *)serviceName {
-  NSMutableDictionary *item = [MSKeychainUtil generateItem:key forService:serviceName];
++ (BOOL)storeString:(NSString *)string forKey:(NSString *)key service:(NSString *)serviceName {
+  NSMutableDictionary *item = [MSKeychainUtil generateItem:key service:serviceName];
   item[(__bridge id) kSecValueData] = [string dataUsingEncoding:NSUTF8StringEncoding];
 
   OSStatus status = SecItemAdd((__bridge CFDictionaryRef) item, nil);
   return status == noErr;
 }
 
-+ (NSString *)deleteStringForKey:(NSString *)key andService:(NSString *)serviceName {
-  NSString *string = [MSKeychainUtil stringForKey:key andService:serviceName];
++ (NSString *)deleteStringForKey:(NSString *)key service:(NSString *)serviceName {
+  NSString *string = [MSKeychainUtil stringForKey:key service:serviceName];
   if (string) {
-    NSMutableDictionary *item = [MSKeychainUtil generateItem:key forService:serviceName];
+    NSMutableDictionary *item = [MSKeychainUtil generateItem:key service:serviceName];
 
     OSStatus status = SecItemDelete((__bridge CFDictionaryRef) item);
     if (status == noErr) {
@@ -54,8 +54,8 @@
   return nil;
 }
 
-+ (NSString *)stringForKey:(NSString *)key andService:(NSString *)serviceName {
-  NSMutableDictionary *item = [MSKeychainUtil generateItem:key forService:serviceName];
++ (NSString *)stringForKey:(NSString *)key service:(NSString *)serviceName {
+  NSMutableDictionary *item = [MSKeychainUtil generateItem:key service:serviceName];
   item[(__bridge id) kSecReturnData] = (id) kCFBooleanTrue;
   item[(__bridge id) kSecMatchLimit] = (__bridge id) kSecMatchLimitOne;
 
@@ -78,7 +78,7 @@
   return status == noErr;
 }
 
-+ (NSMutableDictionary *)generateItem:(NSString *)key forService:(NSString *)serviceName {
++ (NSMutableDictionary *)generateItem:(NSString *)key service:(NSString *)serviceName {
   NSMutableDictionary *item = [NSMutableDictionary new];
   item[(__bridge id) kSecClass] = (__bridge id) kSecClassGenericPassword;
   item[(__bridge id) kSecAttrService] = serviceName;
