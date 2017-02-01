@@ -110,8 +110,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
       name[3] = getpid();
 
       if (sysctl(name, 4, &info, &info_size, NULL, 0) == -1) {
-        NSLog(@"[MSCrashes] ERROR: Checking for a running debugger via sysctl() "
-                @"failed.");
+        NSLog(@"[MSCrashes] ERROR: Checking for a running debugger via sysctl() failed.");
         debuggerIsAttached = false;
       }
 
@@ -153,7 +152,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
     self.apiVersion = kMSAPIVersion;
 
     // Init the main pipeline.
-    [self initializePipeline];
+    [self initializeLogManager];
 
     // Enable pipeline as needed.
     if (self.isEnabled) {
@@ -251,8 +250,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
   [self.logManager setEnabled:isEnabled andDeleteDataOnDisabled:YES];
 }
 
-- (void)initializePipeline {
-
+- (void)initializeLogManager {
 
   // Construct log manager.
   _logManager = [[MSLogManagerDefault alloc] initWithAppSecret:self.appSecret installId:self.installId serverUrl:self.serverUrl];

@@ -14,14 +14,9 @@ static NSString *const kMSHidingStringForAppSecret = @"*";
 @property(nonatomic, strong) NSURLSession *session;
 
 /**
- * Retry intervals used by calls in case of recoverable errors.
- */
-@property(nonatomic, strong) NSArray *callsRetryIntervals;
-
-/**
  * Hash table containing all the delegates as weak references.
  */
-@property(atomic, strong) NSHashTable<id<MSSenderDelegate>> *delegates;
+@property(atomic, strong) NSHashTable<id <MSSenderDelegate>> *delegates;
 
 /**
  * A boolean value set to YES if the sender is enabled or NO otherwise.
@@ -33,5 +28,19 @@ static NSString *const kMSHidingStringForAppSecret = @"*";
  * Hide a secret replacing the N first characters by a hiding character.
  */
 - (NSString *)hideSecret:(NSString *)secret;
+
+/**
+ * Retry intervals used by calls in case of recoverable errors.
+ *
+ * @return A list of retry intervals.
+ */
+- (NSArray *)retryIntervals;
+
+/**
+ * An API path in the URL that is used to talk to HTTP endpoint.
+ *
+ * @return An API path string.
+ */
+- (NSString *)apiPath;
 
 @end
