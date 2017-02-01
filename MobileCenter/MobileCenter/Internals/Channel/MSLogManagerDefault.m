@@ -8,7 +8,7 @@
 #import "MSMobileCenterErrors.h"
 #import "MobileCenter+Internal.h"
 #import "MSFileStorage.h"
-#import "MSHttpSender.h"
+#import "MSIngestionHttpSender.h"
 
 static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecenter.LogManagerQueue";
 
@@ -29,23 +29,13 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 #pragma mark - Initialization
 
 - (instancetype)initWithAppSecret:(NSString *)appSecret installId:(NSUUID *)installId serverUrl:(NSString *)serverUrl {
-
-  // Construct http headers.
-  NSDictionary *headers = @{
-          kMSHeaderContentTypeKey: kMSContentType,
-          kMSHeaderAppSecretKey: appSecret,
-          kMSHeaderInstallIDKey: [installId UUIDString]
-  };
-
-  // Construct the query parameters.
-  NSDictionary *queryStrings = @{kMSAPIVersionKey: kMSAPIVersion};
-
-  MSHttpSender *sender = [[MSHttpSender alloc] initWithBaseUrl:serverUrl
-                                                       headers:headers
-                                                  queryStrings:queryStrings
-                                                  reachability:[MS_Reachability reachabilityForInternetConnection]];
-
-  self = [self initWithSender:sender storage:[[MSFileStorage alloc] init]];
+  self = [self initWithSender:[[MSIngestionHttpSender alloc] initWithBaseUrl:serverUrl
+                                                            headers:@{kMSHeaderContentTypeKey: kMSContentType,
+                                                                    kMSHeaderAppSecretKey: appSecret,
+                                                                    kMSHeaderInstallIDKey: [installId UUIDString]}
+                                                       queryStrings:@{kMSAPIVersionKey: kMSAPIVersion}
+                                                       reachability:[MS_Reachability reachabilityForInternetConnection]]
+                      storage:[[MSFileStorage alloc] init]];
   return self;
 }
 
