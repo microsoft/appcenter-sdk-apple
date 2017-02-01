@@ -47,19 +47,19 @@
       MSAlertController *alertController = [MSAlertController alertControllerWithTitle:NSLocalizedStringFromTable(@"crash_alert_title", @"Main", @"")
                                                                                message:NSLocalizedStringFromTable(@"crash_alert_message", @"Main", @"")];
 
-      // Add a "No"-Button and callthe notifyWithUserConfirmation-callback with MSUserConfirmationDontSend
+      // Add a "No"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationDontSend
       [alertController addCancelActionWithTitle:NSLocalizedStringFromTable(@"crash_alert_do_not_send", @"Main", @"")
                                         handler:^(UIAlertAction *action) {
                                             [MSCrashes notifyWithUserConfirmation:MSUserConfirmationDontSend];
                                         }];
 
-      // Add a "Yes"-Button and callthe notifyWithUserConfirmation-callback with MSUserConfirmationSend
+      // Add a "Yes"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationSend
       [alertController addDefaultActionWithTitle:NSLocalizedStringFromTable(@"crash_alert_send", @"Main", @"")
                                          handler:^(UIAlertAction *action) {
                                              [MSCrashes notifyWithUserConfirmation:MSUserConfirmationSend];
                                          }];
 
-      // Add a "No"-Button and callthe notifyWithUserConfirmation-callback with MSUserConfirmationAlways
+      // Add a "No"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationAlways
       [alertController addDefaultActionWithTitle:NSLocalizedStringFromTable(@"crash_alert_always_send", @"Main", @"")
                                          handler:^(UIAlertAction *action) {
                                              [MSCrashes notifyWithUserConfirmation:MSUserConfirmationAlways];
