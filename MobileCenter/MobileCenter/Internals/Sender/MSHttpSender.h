@@ -4,11 +4,12 @@
 
 #import "MSSender.h"
 #import "MSSenderCall.h"
+#import "MSHttpSenderConfiguration.h"
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MSHttpSender : NSObject <MSSender>
+@interface MSHttpSender : NSObject <MSSender, MSHttpSenderConfiguration>
 
 /**
  *	Send Url.
