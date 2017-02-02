@@ -30,9 +30,6 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-#ifndef MSKeychainUtil_h
-#define MSKeychainUtil_h
-
 /**
  * Utility class for Keychain.
  */
@@ -75,5 +72,3 @@
 + (BOOL)clearForService:(NSString *)service;
 
 @end
-
-#endif /* MSKeychainUtil_h */
