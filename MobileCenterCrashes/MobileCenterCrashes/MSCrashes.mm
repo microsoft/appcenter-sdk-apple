@@ -55,7 +55,6 @@ const int ms_log_buffer_size = 20;
 std::array<BUFFERED_LOG, ms_log_buffer_size> logBuffer;
 std::array<BUFFERED_LOG, ms_log_buffer_size>::iterator logBufferIterator;
 
-
 static void ms_save_log_buffer_callback(siginfo_t *info, ucontext_t *uap, void *context) {
   // Do not save the buffer if it is empty.
   if (logBuffer.size() == 0) {
@@ -199,22 +198,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     _analyzerInProgressFile = [_crashesDir stringByAppendingPathComponent:kMSAnalyzerFilename];
     _didCrashInLastSession = NO;
 
-    // Array of 20 buffer file paths.
-    NSArray<NSString *> *bufferFiles = [self createLogBufferFilesIfNeeded];
-
-    // Just to make sure we have max of 20 files on disk. If we have less than 20 files on disk, we can't really do
-    // anything. This case should never happen.
-    int count = bufferFiles.count >= ms_log_buffer_size ? ms_log_buffer_size: bufferFiles.count;
-
-    logBufferIterator = logBuffer.begin();
-
-    for (int i = 0; i < count; i++) {
-      BUFFERED_LOG emptyLog = BUFFERED_LOG{bufferFiles[i], nil};
-      logBuffer[i] = emptyLog;
-    }
-
-    // Move iterator to the start of the list.
-    logBufferIterator = logBuffer.begin();
+    [self setupLogBuffer];
   }
   return self;
 }
@@ -272,6 +256,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     [MSWrapperExceptionManager deleteAllWrapperExceptions];
     [MSWrapperExceptionManager deleteAllWrapperExceptionData];
     [self deleteAllFromCrashesDirectory];
+    [self emptyLogBufferFiles];
     [self removeAnalyzerFile];
     [self.plCrashReporter purgePendingCrashReport];
 
@@ -321,7 +306,8 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 - (void)onProcessingLog:(id <MSLog>)log withPriority:(MSPriority)priority {
   MSLogVerbose([MSCrashes logTag], @"Did enqeue log.");
 
-  if (!log) {
+  // Don't buffer event if log is empty or crashes module is disabled.
+  if (!log || ![self isEnabled]) {
     return;
   }
 // The callback can be called from any thread, making sure we make this thread-safe.
@@ -692,6 +678,36 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   }
 }
 
+- (void)emptyLogBufferFiles {
+  NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.logBufferDir
+                                                                       error:NULL];
+  for (NSString *tmp in files) {
+    if ([[tmp pathExtension] isEqualToString:kMSLogBufferFileExtension]) {
+      NSString *filePath = [self.logBufferDir stringByAppendingPathComponent:tmp];
+      // Create empty new file, overwrites the old one.
+      [[NSFileManager defaultManager] createFileAtPath:filePath contents:[NSData data] attributes:nil];
+    }
+  }
+}
+
+- (void)setupLogBuffer {
+  // Array of 20 buffer file paths.
+  NSArray<NSString *> *bufferFiles = [self createLogBufferFilesIfNeeded];
+
+  // Just to make sure we have max of 20 files on disk. If we have less than 20 files on disk, we can't really do
+  // anything. This case should never happen.
+  int count = bufferFiles.count >= ms_log_buffer_size ? ms_log_buffer_size : bufferFiles.count;
+
+  logBufferIterator = logBuffer.begin();
+
+  for (int i = 0; i < count; i++) {
+    BUFFERED_LOG emptyLog = BUFFERED_LOG{bufferFiles[i], nil};
+    logBuffer[i] = emptyLog;
+  }
+
+  // Move iterator to the start of the list.
+  logBufferIterator = logBuffer.begin();
+}
 
 - (BOOL)shouldProcessErrorReport:(MSErrorReport *)errorReport {
   return (!self.delegate || ![self.delegate respondsToSelector:@selector(crashes:shouldProcessErrorReport:)] ||
