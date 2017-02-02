@@ -195,6 +195,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     _fileManager = [[NSFileManager alloc] init];
     _crashFiles = [[NSMutableArray alloc] init];
     _crashesDir = [MSCrashesUtil crashesDir];
+    _logBufferDir = [MSCrashesUtil logBufferDir];
     _analyzerInProgressFile = [_crashesDir stringByAppendingPathComponent:kMSAnalyzerFilename];
     _didCrashInLastSession = NO;
 
@@ -341,13 +342,13 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
 - (NSArray<NSString *> *)createLogBufferFilesIfNeeded {
 
-  NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.crashesDir error:NULL];
+  NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.logBufferDir error:NULL];
   NSMutableArray *logBufferFiles = [NSMutableArray arrayWithCapacity:ms_log_buffer_size];
 
   // Get already existing buffer files.
   for (NSString *tmp in files) {
     if ([[tmp pathExtension] isEqualToString:kMSLogBufferFileExtension]) {
-      NSString *filePath = [self.crashesDir stringByAppendingPathComponent:tmp];
+      NSString *filePath = [self.logBufferDir stringByAppendingPathComponent:tmp];
       [logBufferFiles addObject:filePath];
     }
   }
@@ -556,11 +557,11 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 }
 
 - (void)processLogBufferAfterCrash {
-  NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.crashesDir
+  NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.logBufferDir
                                                                        error:NULL];
   for (NSString *tmp in files) {
     if ([[tmp pathExtension] isEqualToString:kMSLogBufferFileExtension]) {
-      NSString *filePath = [self.crashesDir stringByAppendingPathComponent:tmp];
+      NSString *filePath = [self.logBufferDir stringByAppendingPathComponent:tmp];
       NSData *serializedLog = [NSData dataWithContentsOfFile:filePath];
 
       id <MSLog> item = [NSKeyedUnarchiver unarchiveObjectWithData:serializedLog];
@@ -675,7 +676,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
 - (NSString *)createBufferFileForBufferId:(NSString *)bufferId {
   NSString *fileName = [NSString stringWithFormat:@"%@.%@", bufferId, kMSLogBufferFileExtension];
-  NSString *filePath = [_crashesDir stringByAppendingPathComponent:fileName];
+  NSString *filePath = [self.logBufferDir stringByAppendingPathComponent:fileName];
 
   if (![self.fileManager fileExistsAtPath:filePath]) {
     BOOL success = [self.fileManager createFileAtPath:filePath contents:nil attributes:nil];

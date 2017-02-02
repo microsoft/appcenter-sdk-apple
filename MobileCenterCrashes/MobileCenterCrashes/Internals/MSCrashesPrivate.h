@@ -49,6 +49,11 @@ typedef struct MSCrashesCallbacks {
 @property(nonatomic, copy) NSString *crashesDir;
 
 /**
+ * The directory where all buffered logs are stored.
+ */
+@property(nonatomic, copy) NSString *logBufferDir;
+
+/**
  * A file used to indicate that a crash which occurred in the last session is
  * currently written to disk.
  */
