@@ -44,16 +44,4 @@ NSString *ms_crashesDir(void);
   return crashesDir;
 }
 
-+ (BOOL)isAppExtension {
-  static BOOL isRunningInAppExtension = NO;
-  static dispatch_once_t checkAppExtension;
-
-  dispatch_once(&checkAppExtension, ^{
-    isRunningInAppExtension =
-        ([[[NSBundle mainBundle] executablePath] rangeOfString:@".appex/"].location != NSNotFound);
-  });
-
-  return isRunningInAppExtension;
-}
-
 @end
