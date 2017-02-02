@@ -13,11 +13,4 @@
  */
 + (NSString *)crashesDir;
 
-/**
- * Determines if the SDK is used inside an app extension.
- *
- * @return YES, if the SDK is used as inside an app extension.
- */
-+ (BOOL)isAppExtension;
-
 @end
