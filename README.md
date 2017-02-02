@@ -339,19 +339,19 @@ Your app is responsible for obtaining confirmation, e.g. through a dialog prompt
 MSAlertController *alertController = [MSAlertController alertControllerWithTitle:@"The app quit unexpectedly."
                                                                          message:@"Would you like to send an anonymous report so we can fix the problem?"];
 
-// Add a "No"-Button and callthe notifyWithUserConfirmation-callback with MSUserConfirmationDontSend
+// Add a "No"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationDontSend
 [alertController addCancelActionWithTitle:@"Don't Send"
                                   handler:^(UIAlertAction *action) {
                                       [MSCrashes notifyWithUserConfirmation:MSUserConfirmationDontSend];
  								   }];
 
-// Add a "Yes"-Button and callthe notifyWithUserConfirmation-callback with MSUserConfirmationSend
+// Add a "Yes"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationSend
 [alertController addDefaultActionWithTitle:@"Send"
                                    handler:^(UIAlertAction *action) {
                                        [MSCrashes notifyWithUserConfirmation:MSUserConfirmationSend];
 								   }];
 
-// Add a "No"-Button and callthe notifyWithUserConfirmation-callback with MSUserConfirmationAlways
+// Add a "No"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationAlways
 [alertController addDefaultActionWithTitle:@"Always Send"
                                    handler:^(UIAlertAction *action) {
                                        [MSCrashes notifyWithUserConfirmation:MSUserConfirmationAlways];
