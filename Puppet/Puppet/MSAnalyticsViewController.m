@@ -157,14 +157,8 @@
       break;
     }
     case 1: {
-      for (int i = 0; i  < 50; i++) {
-        NSString *iteration = [NSString stringWithFormat:@"%d",i];
-        NSDictionary *properties = @{ @"gender" : @"male", @"age" : @"20", @"title" : @"SDE", @"Iteration" :  iteration};
-        [MSAnalytics trackEvent:@"myEvent" withProperties:properties];
-      }
-
-      [MSCrashes generateTestCrash];
-
+      NSDictionary *properties = @{ @"gender" : @"male", @"age" : @"20", @"title" : @"SDE" };
+      [MSAnalytics trackEvent:@"myEvent" withProperties:properties];
       break;
     }
     case 2: {
