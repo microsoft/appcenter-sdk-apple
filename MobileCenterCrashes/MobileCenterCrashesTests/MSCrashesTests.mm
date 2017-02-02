@@ -41,8 +41,12 @@
   assertThat(self.sut, notNilValue());
   assertThat(self.sut.fileManager, notNilValue());
   assertThat(self.sut.crashFiles, isEmpty());
+  assertThat(self.sut.logBufferDir, notNilValue());
   assertThat(self.sut.crashesDir, notNilValue());
   assertThat(self.sut.analyzerInProgressFile, notNilValue());
+
+  NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.sut.logBufferDir error:NULL];
+  XCTAssertTrue(files.count == 20);
 }
 
 - (void)testStartingManagerInitializesPLCrashReporter {
@@ -129,6 +133,30 @@
   // Then
   assertThat(self.sut.crashFiles, hasCountOf(0));
   assertThatLong([self.sut.fileManager contentsOfDirectoryAtPath:self.sut.crashesDir error:nil].count, equalToLong(0));
+}
+
+- (void)testSetupLogBufferWorks {
+
+  // If
+
+  // When
+  // This is the directly after initialization.
+
+  // Then
+  NSArray *first = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.sut.logBufferDir error:NULL];
+  XCTAssertTrue(first.count == 20);
+  for(NSString *path in first) {
+    unsigned long long fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:path error:nil] fileSize];
+    XCTAssertTrue(fileSize == 0);
+  }
+
+  // When
+  [self.sut setupLogBuffer];
+  NSArray *second = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.sut.logBufferDir error:NULL];
+  for(int i = 0; i < 20; i++) {
+    XCTAssertTrue([first[i] isEqualToString:second[i]]);
+  }
+
 }
 
 @end
