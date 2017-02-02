@@ -21,7 +21,12 @@
 /**
  * Log manager.
  */
-@property(nonatomic) id<MSLogManager> logManager;
+@property(nonatomic) id <MSLogManager> logManager;
+
+/**
+ * The app secret for the SDK.
+ */
+@property(nonatomic, nonnull) NSString *appSecret;
 
 /**
  * Apply the enabled state to the service.
@@ -38,7 +43,7 @@
  * @discussion: IMPORTANT, This string is used to point to the right storage value for this service.
  * Changing this string results in data lost if previous data is not migrated.
  */
-@property(nonatomic, readonly) NSString *storageKey;
+@property(nonatomic) NSString *storageKey;
 
 /**
  * The channel priority for this service.
@@ -63,7 +68,8 @@
  * Start this service with a log manager. Also sets the flag that indicates that a service has been started.
  *
  * @param logManager log manager used to persist and send logs.
+ * @param appSecret app secret for the SDK.
  */
-- (void)startWithLogManager:(id<MSLogManager>)logManager;
+- (void)startWithLogManager:(id <MSLogManager>)logManager appSecret:(NSString *)appSecret;
 
 @end
