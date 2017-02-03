@@ -53,7 +53,7 @@ struct BUFFERED_LOG {
 
 const int ms_log_buffer_size = 20;
 std::array<BUFFERED_LOG, ms_log_buffer_size> logBuffer;
-std::array<BUFFERED_LOG, ms_log_buffer_size>::iterator logBufferIterator;
+int bufferIndex = 0;
 
 static void ms_save_log_buffer_callback(siginfo_t *info, ucontext_t *uap, void *context) {
   // Do not save the buffer if it is empty.
@@ -315,13 +315,12 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     NSData *serializedLog = [NSKeyedArchiver archivedDataWithRootObject:log];
 
     if (serializedLog && (serializedLog.length > 0)) {
-      long index = std::distance(logBuffer.begin(), logBufferIterator);
-      if (index >= ms_log_buffer_size) {
-        logBufferIterator = logBuffer.begin();
+      if (bufferIndex > (ms_log_buffer_size - 1)) {
+        bufferIndex = 0;
       }
-      logBufferIterator->buffer = std::string(&reinterpret_cast<const char *>(serializedLog.bytes)[0], &reinterpret_cast<const char *>(serializedLog.bytes)[serializedLog.length]);
+      logBuffer[bufferIndex].buffer = std::string(&reinterpret_cast<const char *>(serializedLog.bytes)[0], &reinterpret_cast<const char *>(serializedLog.bytes)[serializedLog.length]);
 
-      ++logBufferIterator;
+      bufferIndex += 1;
     }
   }
 }
@@ -691,22 +690,21 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 }
 
 - (void)setupLogBuffer {
-  // Array of 20 buffer file paths.
-  NSArray<NSString *> *bufferFiles = [self createLogBufferFilesIfNeeded];
+  @synchronized (self) {
+    // Array of 20 buffer file paths.
+    NSArray<NSString *> *bufferFiles = [self createLogBufferFilesIfNeeded];
 
-  // Just to make sure we have max of 20 files on disk. If we have less than 20 files on disk, we can't really do
-  // anything. This case should never happen.
-  int count = bufferFiles.count >= ms_log_buffer_size ? ms_log_buffer_size : bufferFiles.count;
+    // Just to make sure we have max of 20 files on disk. If we have less than 20 files on disk, we can't really do
+    // anything. This case should never happen.
+    int count = bufferFiles.count >= ms_log_buffer_size ? ms_log_buffer_size : bufferFiles.count;
 
-  logBufferIterator = logBuffer.begin();
+    bufferIndex = 0;
 
-  for (int i = 0; i < count; i++) {
-    BUFFERED_LOG emptyLog = BUFFERED_LOG{bufferFiles[i], nil};
-    logBuffer[i] = emptyLog;
+    for (int i = 0; i < count; i++) {
+      BUFFERED_LOG emptyLog = BUFFERED_LOG{bufferFiles[i], nil};
+      logBuffer[i] = emptyLog;
+    }
   }
-
-  // Move iterator to the start of the list.
-  logBufferIterator = logBuffer.begin();
 }
 
 - (BOOL)shouldProcessErrorReport:(MSErrorReport *)errorReport {
