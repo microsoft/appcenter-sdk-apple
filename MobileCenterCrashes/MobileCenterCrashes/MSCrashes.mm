@@ -3,9 +3,6 @@
  */
 
 
-#import <string>
-#import <unordered_map>
-#import <list>
 #import <array>
 
 #import "MSAppleErrorLog.h"
@@ -31,27 +28,6 @@ static NSString *const kMSLogBufferFileExtension = @"mscrasheslogbuffer";
 static MSCrashesCallbacks msCrashesCallbacks = {.context = NULL, .handleSignal = NULL};
 static NSString *const kMSUserConfirmationKey = @"MSUserConfirmation";
 
-
-/**
- * Data structure for logs that need to be flushed at crash time to make sure no log is lost at crash time.
- * @property bufferPath The path where the buffered log should be persisted.
- * @property buffer The actual buffered data. It comes in the form of a std::string but actually contains an NSData object
- * which is a serialized log.
- */
-struct BUFFERED_LOG {
-    std::string bufferPath;
-    std::string buffer;
-
-    BUFFERED_LOG() = default;
-
-    BUFFERED_LOG(NSString *path, NSData *data) :
-            bufferPath(path.UTF8String),
-            buffer(&reinterpret_cast<const char *>(data.bytes)[0], &reinterpret_cast<const char *>(data.bytes)[data.length]) {
-    }
-};
-
-
-const int ms_log_buffer_size = 20;
 std::array<BUFFERED_LOG, ms_log_buffer_size> logBuffer;
 
 static void ms_save_log_buffer_callback(siginfo_t *info, ucontext_t *uap, void *context) {
