@@ -53,7 +53,6 @@ struct BUFFERED_LOG {
 
 const int ms_log_buffer_size = 20;
 std::array<BUFFERED_LOG, ms_log_buffer_size> logBuffer;
-int bufferIndex = 0;
 
 static void ms_save_log_buffer_callback(siginfo_t *info, ucontext_t *uap, void *context) {
   // Do not save the buffer if it is empty.
@@ -61,14 +60,14 @@ static void ms_save_log_buffer_callback(siginfo_t *info, ucontext_t *uap, void *
     return;
   }
 
-  for (std::array<BUFFERED_LOG, ms_log_buffer_size>::iterator it = logBuffer.begin(), end = logBuffer.end(); it != end; ++it) {
-    // Make sure not to allocate any memory (e.g. copy) but use the iterator.
-    const std::string buffer = it->buffer;
-    int fd = open(it->bufferPath.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0644);
+  for (int i = 0; i < ms_log_buffer_size; i++) {
+    // Make sure not to allocate any memory (e.g. copy).
+    const std::string data = logBuffer[i].buffer;
+    int fd = open(logBuffer[i].bufferPath.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0644);
     if (fd < 0) {
       return;
     }
-    write(fd, it->buffer.data(), it->buffer.size());
+    write(fd, data.data(), data.size());
     close(fd);
   }
 }
@@ -315,12 +314,12 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     NSData *serializedLog = [NSKeyedArchiver archivedDataWithRootObject:log];
 
     if (serializedLog && (serializedLog.length > 0)) {
-      if (bufferIndex > (ms_log_buffer_size - 1)) {
-        bufferIndex = 0;
+      if (self.bufferIndex > (ms_log_buffer_size - 1)) {
+        self.bufferIndex = 0;
       }
-      logBuffer[bufferIndex].buffer = std::string(&reinterpret_cast<const char *>(serializedLog.bytes)[0], &reinterpret_cast<const char *>(serializedLog.bytes)[serializedLog.length]);
+      logBuffer[self.bufferIndex].buffer = std::string(&reinterpret_cast<const char *>(serializedLog.bytes)[0], &reinterpret_cast<const char *>(serializedLog.bytes)[serializedLog.length]);
 
-      bufferIndex += 1;
+      self.bufferIndex += 1;
     }
   }
 }
@@ -698,7 +697,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     // anything. This case should never happen.
     int count = bufferFiles.count >= ms_log_buffer_size ? ms_log_buffer_size : bufferFiles.count;
 
-    bufferIndex = 0;
+    self.bufferIndex = 0;
 
     for (int i = 0; i < count; i++) {
       BUFFERED_LOG emptyLog = BUFFERED_LOG{bufferFiles[i], nil};
