@@ -53,6 +53,8 @@ typedef struct MSCrashesCallbacks {
  */
 @property(nonatomic, copy) NSString *logBufferDir;
 
+@property(nonatomic) int bufferIndex;
+
 /**
  * A file used to indicate that a crash which occurred in the last session is
  * currently written to disk.
