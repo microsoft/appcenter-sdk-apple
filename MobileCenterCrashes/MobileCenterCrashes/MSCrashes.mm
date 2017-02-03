@@ -2,9 +2,6 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-
-#import <array>
-
 #import "MSAppleErrorLog.h"
 #import "MSCrashesCXXExceptionWrapperException.h"
 #import "MSCrashesDelegate.h"
@@ -28,18 +25,16 @@ static NSString *const kMSLogBufferFileExtension = @"mscrasheslogbuffer";
 static MSCrashesCallbacks msCrashesCallbacks = {.context = NULL, .handleSignal = NULL};
 static NSString *const kMSUserConfirmationKey = @"MSUserConfirmation";
 
-std::array<BUFFERED_LOG, ms_log_buffer_size> logBuffer;
-
 static void ms_save_log_buffer_callback(siginfo_t *info, ucontext_t *uap, void *context) {
   // Do not save the buffer if it is empty.
-  if (logBuffer.size() == 0) {
+  if (msLogBuffer.size() == 0) {
     return;
   }
 
   for (int i = 0; i < ms_log_buffer_size; i++) {
     // Make sure not to allocate any memory (e.g. copy).
-    const std::string data = logBuffer[i].buffer;
-    int fd = open(logBuffer[i].bufferPath.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    const std::string data = msLogBuffer[i].buffer;
+    int fd = open(msLogBuffer[i].bufferPath.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0644);
     if (fd < 0) {
       return;
     }
@@ -220,7 +215,8 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
     // More details on log if a debugger is attached.
     if ([MSMobileCenter isDebuggerAttached]) {
-      MSLogInfo([MSCrashes logTag], @"Crashes service has been enabled but the service cannot detect crashes due to running the application with a debugger attached.");
+      MSLogInfo([MSCrashes logTag], @"Crashes service has been enabled but the service cannot detect crashes due to "
+              "running the application with a debugger attached.");
     } else {
       MSLogInfo([MSCrashes logTag], @"Crashes service has been enabled.");
     }
@@ -293,7 +289,8 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
       if (self.bufferIndex > (ms_log_buffer_size - 1)) {
         self.bufferIndex = 0;
       }
-      logBuffer[self.bufferIndex].buffer = std::string(&reinterpret_cast<const char *>(serializedLog.bytes)[0], &reinterpret_cast<const char *>(serializedLog.bytes)[serializedLog.length]);
+      msLogBuffer[self.bufferIndex].buffer = std::string(&reinterpret_cast<const char *>(serializedLog.bytes)[0],
+              &reinterpret_cast<const char *>(serializedLog.bytes)[serializedLog.length]);
 
       self.bufferIndex += 1;
     }
@@ -315,7 +312,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
   // Create missing buffer files if needed.
   if (logBufferFiles.count < ms_log_buffer_size) {
-    int missingFileCount = ms_log_buffer_size - logBufferFiles.count;
+    NSInteger missingFileCount = ms_log_buffer_size - logBufferFiles.count;
     for (int i = 0; i < missingFileCount; i++) {
       NSString *logId = MS_UUID_STRING;
       NSString *path = [self createBufferFileForBufferId:logId];
@@ -671,13 +668,13 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
     // Just to make sure we have max of 20 files on disk. If we have less than 20 files on disk, we can't really do
     // anything. This case should never happen.
-    int count = bufferFiles.count >= ms_log_buffer_size ? ms_log_buffer_size : bufferFiles.count;
+    NSInteger count = bufferFiles.count >= ms_log_buffer_size ? ms_log_buffer_size : bufferFiles.count;
 
     self.bufferIndex = 0;
 
     for (int i = 0; i < count; i++) {
-      BUFFERED_LOG emptyLog = BUFFERED_LOG{bufferFiles[i], nil};
-      logBuffer[i] = emptyLog;
+      MSBufferedLog emptyLog = MSBufferedLog{bufferFiles[i], nil};
+      msLogBuffer[i] = emptyLog;
     }
   }
 }
