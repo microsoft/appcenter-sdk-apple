@@ -6,7 +6,7 @@
 #import <CrashReporter/CrashReporter.h>
 
 #import <string>
-
+#import <array>
 
 @class MSMPLCrashReporter;
 
@@ -16,13 +16,13 @@
  * @property buffer The actual buffered data. It comes in the form of a std::string but actually contains an NSData object
  * which is a serialized log.
  */
-struct BUFFERED_LOG {
+struct MSBufferedLog {
     std::string bufferPath;
     std::string buffer;
 
-    BUFFERED_LOG() = default;
+    MSBufferedLog() = default;
 
-    BUFFERED_LOG(NSString *path, NSData *data) :
+    MSBufferedLog(NSString *path, NSData *data) :
             bufferPath(path.UTF8String),
             buffer(&reinterpret_cast<const char *>(data.bytes)[0], &reinterpret_cast<const char *>(data.bytes)[data.length]) {
     }
@@ -33,6 +33,10 @@ struct BUFFERED_LOG {
  */
 const int ms_log_buffer_size = 20;
 
+/**
+ * The log buffer object where we keep out BUFFERED_LOGs which will be written to disk in case of a crash.
+ */
+static std::array<MSBufferedLog, ms_log_buffer_size> msLogBuffer;
 
 @interface MSCrashes ()
 
