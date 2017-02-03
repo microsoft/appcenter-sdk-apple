@@ -5,7 +5,34 @@
 #import "MSCrashes.h"
 #import <CrashReporter/CrashReporter.h>
 
+#import <string>
+
+
 @class MSMPLCrashReporter;
+
+/**
+ * Data structure for logs that need to be flushed at crash time to make sure no log is lost at crash time.
+ * @property bufferPath The path where the buffered log should be persisted.
+ * @property buffer The actual buffered data. It comes in the form of a std::string but actually contains an NSData object
+ * which is a serialized log.
+ */
+struct BUFFERED_LOG {
+    std::string bufferPath;
+    std::string buffer;
+
+    BUFFERED_LOG() = default;
+
+    BUFFERED_LOG(NSString *path, NSData *data) :
+            bufferPath(path.UTF8String),
+            buffer(&reinterpret_cast<const char *>(data.bytes)[0], &reinterpret_cast<const char *>(data.bytes)[data.length]) {
+    }
+};
+
+/**
+ * Constant for size of our log buffer.
+ */
+const int ms_log_buffer_size = 20;
+
 
 @interface MSCrashes ()
 
@@ -53,6 +80,9 @@ typedef struct MSCrashesCallbacks {
  */
 @property(nonatomic, copy) NSString *logBufferDir;
 
+/**
+ * The index for our log buffer. It keeps track of where we want to buffer our next event.
+ */
 @property(nonatomic) int bufferIndex;
 
 /**
