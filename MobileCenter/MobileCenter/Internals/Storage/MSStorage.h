@@ -8,7 +8,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void (^MSLoadDataCompletionBlock)(BOOL succeeded, NSArray<MSLog> *logArray, NSString *batchId);
+typedef void (^MSLoadDataCompletionBlock)(BOOL succeeded, NSArray <MSLog> *logArray, NSString *batchId);
 
 /**
  Defines the storage component which is responsible for file i/o and file
@@ -40,7 +40,7 @@ typedef void (^MSLoadDataCompletionBlock)(BOOL succeeded, NSArray<MSLog> *logArr
  *
  * @return BOOL that indicates if the log was saved successfully.
  */
-- (BOOL)saveLog:(id<MSLog>)log withStorageKey:(NSString *)storageKey;
+- (BOOL)saveLog:(id <MSLog>)log withStorageKey:(NSString *)storageKey;
 
 /**
  * Delete logs related to given storage key from the file system.
@@ -48,7 +48,7 @@ typedef void (^MSLoadDataCompletionBlock)(BOOL succeeded, NSArray<MSLog> *logArr
  * @param storageKey The key used for grouping.
  * @return the list of deleted logs.
  */
-- (NSArray<MSLog> *)deleteLogsForStorageKey:(NSString *)storageKey;
+- (NSArray <MSLog> *)deleteLogsForStorageKey:(NSString *)storageKey;
 
 /**
  * Delete a log from the file system.

@@ -6,8 +6,6 @@
 #import "MobileCenterAnalytics.h"
 // trackPage has been hidden in MSAnalytics temporarily. Use internal until the feature comes back.
 #import "MSAnalyticsInternal.h"
-#import "MSCrashes.h"
-
 @implementation MSAnalyticsViewController
 
 #pragma mark - view controller
