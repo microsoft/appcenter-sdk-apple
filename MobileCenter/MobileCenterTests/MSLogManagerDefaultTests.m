@@ -14,17 +14,6 @@
 
 @implementation MSLogManagerDefaultTests
 
-
-#pragma mark - Housekeeping
-
-- (void)setUp {
-  [super setUp];
-}
-
-- (void)tearDown {
-  [super tearDown];
-}
-
 #pragma mark - Tests
 
 - (void)testNewInstanceWasInitialisedCorrectly {
@@ -61,6 +50,7 @@
 }
 
 - (void)testProcessingLogWillTriggerOnProcessingCall {
+
   // If
   MSPriority priority = MSPriorityDefault;
   MSLogManagerDefault *sut = [[MSLogManagerDefault alloc] initWithSender:OCMProtocolMock(@protocol(MSSender))

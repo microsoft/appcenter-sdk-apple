@@ -59,8 +59,7 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
   [bucket.currentLogs addObject:log];
   NSData *logsData = [NSKeyedArchiver archivedDataWithRootObject:bucket.currentLogs];
 
-  BOOL success = [MSFileUtil writeData:logsData toFile:bucket.currentFile];
-  return success;
+  return [MSFileUtil writeData:logsData toFile:bucket.currentFile];
 }
 
 - (NSArray <MSLog> *)deleteLogsForStorageKey:(NSString *)storageKey {
