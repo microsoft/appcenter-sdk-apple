@@ -12,6 +12,7 @@
 #import "MSServiceAbstractPrivate.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSUtil.h"
+#import "MSAppleErrorLog.h"
 
 @class MSMockCrashesDelegate;
 
@@ -33,6 +34,7 @@
 - (void)tearDown {
   [super tearDown];
   [self.sut deleteAllFromCrashesDirectory];
+  [MSCrashesTestUtil deleteAllFilesInDirectory:self.sut.logBufferDir];
 }
 
 #pragma mark - Tests
@@ -44,6 +46,7 @@
   assertThat(self.sut.logBufferDir, notNilValue());
   assertThat(self.sut.crashesDir, notNilValue());
   assertThat(self.sut.analyzerInProgressFile, notNilValue());
+  XCTAssertTrue(msCrashesLogBuffer.size() == 20);
 
   NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.sut.logBufferDir error:NULL];
   XCTAssertTrue(files.count == 20);
@@ -69,7 +72,7 @@
 }
 
 - (void)testSettingDelegateWorks {
-  id<MSCrashesDelegate> delegateMock = OCMProtocolMock(@protocol(MSCrashesDelegate));
+  id <MSCrashesDelegate> delegateMock = OCMProtocolMock(@protocol(MSCrashesDelegate));
   [MSCrashes setDelegate:delegateMock];
   XCTAssertNotNil([MSCrashes sharedInstance].delegate);
   XCTAssertEqual([MSCrashes sharedInstance].delegate, delegateMock);
@@ -145,7 +148,7 @@
   // Then
   NSArray *first = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.sut.logBufferDir error:NULL];
   XCTAssertTrue(first.count == 20);
-  for(NSString *path in first) {
+  for (NSString *path in first) {
     unsigned long long fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:path error:nil] fileSize];
     XCTAssertTrue(fileSize == 0);
   }
@@ -153,10 +156,68 @@
   // When
   [self.sut setupLogBuffer];
   NSArray *second = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.sut.logBufferDir error:NULL];
-  for(int i = 0; i < 20; i++) {
+  for (int i = 0; i < 20; i++) {
     XCTAssertTrue([first[i] isEqualToString:second[i]]);
   }
+}
 
+- (void)testCreateBufferFile {
+  // When
+  NSString *testName = @"afilename";
+  [self.sut createBufferFileWithName:testName];
+
+  // Then
+  NSString *filePath = [self.sut.logBufferDir stringByAppendingPathComponent:[testName stringByAppendingString:@".mscrasheslogbuffer"]];
+  BOOL success = [[NSFileManager defaultManager] fileExistsAtPath:filePath];
+  XCTAssertTrue(success);
+}
+
+- (void)testEmptyLogBufferFiles {
+  // If
+  NSString *testName = @"afilename";
+  NSString *dataString = @"SomeBufferedData";
+  NSData *someData = [dataString dataUsingEncoding:NSUTF8StringEncoding];
+  NSString *filePath = [self.sut.logBufferDir stringByAppendingPathComponent:[testName stringByAppendingString:@".mscrasheslogbuffer"]];
+
+  [someData writeToFile:filePath options:NSDataWritingFileProtectionNone error:nil];
+
+  // When
+  BOOL success = [[NSFileManager defaultManager] fileExistsAtPath:filePath];
+  XCTAssertTrue(success);
+
+  // Then
+  unsigned long long fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:nil] fileSize];
+  XCTAssertTrue(fileSize == 16);
+  [self.sut emptyLogBufferFiles];
+  fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:nil] fileSize];
+  XCTAssertTrue(fileSize == 0);
+}
+
+- (void)testBufferIndexIncrement {
+  // When
+  MSAppleErrorLog *log = [MSAppleErrorLog new];
+  [self.sut onProcessingLog:log withPriority:MSPriorityHigh];
+
+  // Then
+  XCTAssertTrue(self.sut.bufferIndex == 1);
+}
+
+- (void)testBufferIndexOverflow {
+  // When
+  for (int i = 0; i < 20; i++) {
+    MSAppleErrorLog *log = [MSAppleErrorLog new];
+    [self.sut onProcessingLog:log withPriority:MSPriorityHigh];
+  }
+  // Then
+  XCTAssertTrue(self.sut.bufferIndex == 20);
+  
+  // When
+  
+  MSAppleErrorLog *log = [MSAppleErrorLog new];
+  [self.sut onProcessingLog:log withPriority:MSPriorityHigh];
+  
+  // Then
+  XCTAssertTrue(self.sut.bufferIndex == 1);
 }
 
 @end

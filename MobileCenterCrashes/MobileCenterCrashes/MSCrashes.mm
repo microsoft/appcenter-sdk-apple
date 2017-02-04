@@ -27,14 +27,14 @@ static NSString *const kMSUserConfirmationKey = @"MSUserConfirmation";
 
 static void ms_save_log_buffer_callback(siginfo_t *info, ucontext_t *uap, void *context) {
   // Do not save the buffer if it is empty.
-  if (msLogBuffer.size() == 0) {
+  if (msCrashesLogBuffer.size() == 0) {
     return;
   }
 
-  for (int i = 0; i < ms_log_buffer_size; i++) {
+  for (int i = 0; i < ms_crashes_log_buffer_size; i++) {
     // Make sure not to allocate any memory (e.g. copy).
-    const std::string data = msLogBuffer[i].buffer;
-    int fd = open(msLogBuffer[i].bufferPath.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    const std::string data = msCrashesLogBuffer[i].buffer;
+    int fd = open(msCrashesLogBuffer[i].bufferPath.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0644);
     if (fd < 0) {
       return;
     }
@@ -281,15 +281,19 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   if (!log || ![self isEnabled]) {
     return;
   }
-// The callback can be called from any thread, making sure we make this thread-safe.
+  
+  // The callback can be called from any thread, making sure we make this thread-safe.
   @synchronized (self) {
     NSData *serializedLog = [NSKeyedArchiver archivedDataWithRootObject:log];
 
     if (serializedLog && (serializedLog.length > 0)) {
-      if (self.bufferIndex > (ms_log_buffer_size - 1)) {
+      if (self.bufferIndex > (ms_crashes_log_buffer_size - 1)) {
         self.bufferIndex = 0;
       }
-      msLogBuffer[self.bufferIndex].buffer = std::string(&reinterpret_cast<const char *>(serializedLog.bytes)[0],
+      std::string foo =std::string(&reinterpret_cast<const char *>(serializedLog.bytes)[0],
+                                   &reinterpret_cast<const char *>(serializedLog.bytes)[serializedLog.length]);
+
+      msCrashesLogBuffer[self.bufferIndex].buffer = std::string(&reinterpret_cast<const char *>(serializedLog.bytes)[0],
               &reinterpret_cast<const char *>(serializedLog.bytes)[serializedLog.length]);
 
       self.bufferIndex += 1;
@@ -300,7 +304,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 - (NSArray<NSString *> *)createLogBufferFilesIfNeeded {
 
   NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.logBufferDir error:NULL];
-  NSMutableArray *logBufferFiles = [NSMutableArray arrayWithCapacity:ms_log_buffer_size];
+  NSMutableArray *logBufferFiles = [NSMutableArray arrayWithCapacity:ms_crashes_log_buffer_size];
 
   // Get already existing buffer files.
   for (NSString *tmp in files) {
@@ -311,11 +315,11 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   }
 
   // Create missing buffer files if needed.
-  if (logBufferFiles.count < ms_log_buffer_size) {
-    NSInteger missingFileCount = ms_log_buffer_size - logBufferFiles.count;
+  if (logBufferFiles.count < ms_crashes_log_buffer_size) {
+    NSInteger missingFileCount = ms_crashes_log_buffer_size - logBufferFiles.count;
     for (int i = 0; i < missingFileCount; i++) {
       NSString *logId = MS_UUID_STRING;
-      NSString *path = [self createBufferFileForBufferId:logId];
+      NSString *path = [self createBufferFileWithName:logId];
       [logBufferFiles addObject:path];
     }
   }
@@ -631,8 +635,26 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   }
 }
 
-- (NSString *)createBufferFileForBufferId:(NSString *)bufferId {
-  NSString *fileName = [NSString stringWithFormat:@"%@.%@", bufferId, kMSLogBufferFileExtension];
+- (void)setupLogBuffer {
+  @synchronized (self) {
+    // Array of 20 buffer file paths.
+    NSArray<NSString *> *bufferFiles = [self createLogBufferFilesIfNeeded];
+
+    // Just to make sure we have max of 20 files on disk. If we have less than 20 files on disk, we can't really do
+    // anything. This case should never happen.
+    NSInteger count = bufferFiles.count >= ms_crashes_log_buffer_size ? ms_crashes_log_buffer_size : bufferFiles.count;
+
+    self.bufferIndex = 0;
+
+    for (int i = 0; i < count; i++) {
+      MSCrashesBufferedLog emptyLog = MSCrashesBufferedLog{bufferFiles[i], nil};
+      msCrashesLogBuffer[i] = emptyLog;
+    }
+  }
+}
+
+- (NSString *)createBufferFileWithName:(NSString *)name {
+  NSString *fileName = [NSString stringWithFormat:@"%@.%@", name, kMSLogBufferFileExtension];
   NSString *filePath = [self.logBufferDir stringByAppendingPathComponent:fileName];
 
   if (![self.fileManager fileExistsAtPath:filePath]) {
@@ -657,24 +679,6 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
       NSString *filePath = [self.logBufferDir stringByAppendingPathComponent:tmp];
       // Create empty new file, overwrites the old one.
       [[NSFileManager defaultManager] createFileAtPath:filePath contents:[NSData data] attributes:nil];
-    }
-  }
-}
-
-- (void)setupLogBuffer {
-  @synchronized (self) {
-    // Array of 20 buffer file paths.
-    NSArray<NSString *> *bufferFiles = [self createLogBufferFilesIfNeeded];
-
-    // Just to make sure we have max of 20 files on disk. If we have less than 20 files on disk, we can't really do
-    // anything. This case should never happen.
-    NSInteger count = bufferFiles.count >= ms_log_buffer_size ? ms_log_buffer_size : bufferFiles.count;
-
-    self.bufferIndex = 0;
-
-    for (int i = 0; i < count; i++) {
-      MSBufferedLog emptyLog = MSBufferedLog{bufferFiles[i], nil};
-      msLogBuffer[i] = emptyLog;
     }
   }
 }
