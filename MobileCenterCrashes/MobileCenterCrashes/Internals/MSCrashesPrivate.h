@@ -16,13 +16,13 @@
  * @property buffer The actual buffered data. It comes in the form of a std::string but actually contains an NSData object
  * which is a serialized log.
  */
-struct MSBufferedLog {
+struct MSCrashesBufferedLog {
     std::string bufferPath;
     std::string buffer;
 
-    MSBufferedLog() = default;
+    MSCrashesBufferedLog() = default;
 
-    MSBufferedLog(NSString *path, NSData *data) :
+    MSCrashesBufferedLog(NSString *path, NSData *data) :
             bufferPath(path.UTF8String),
             buffer(&reinterpret_cast<const char *>(data.bytes)[0], &reinterpret_cast<const char *>(data.bytes)[data.length]) {
     }
@@ -31,12 +31,12 @@ struct MSBufferedLog {
 /**
  * Constant for size of our log buffer.
  */
-const int ms_log_buffer_size = 20;
+const int ms_crashes_log_buffer_size = 20;
 
 /**
  * The log buffer object where we keep out BUFFERED_LOGs which will be written to disk in case of a crash.
  */
-static std::array<MSBufferedLog, ms_log_buffer_size> msLogBuffer;
+static std::array<MSCrashesBufferedLog, ms_crashes_log_buffer_size> msCrashesLogBuffer;
 
 @interface MSCrashes ()
 
@@ -179,7 +179,6 @@ typedef struct MSCrashesCallbacks {
  */
 + (void)wrapperCrashCallback;
 
-
 /**
  * Creates log buffer to buffer logs which will be saved in an async-safe manner
  * at crash time. The buffer makes sure we don't loose any logs at crashtime.
@@ -188,5 +187,21 @@ typedef struct MSCrashesCallbacks {
  * is initialized.
  */
 - (void)setupLogBuffer;
+
+/**
+ * Creates a file that can be used to save a buffered event log at crashtime.
+ * @param name The name for the file.
+ * @return The path to the created file.
+ */
+- (NSString *)createBufferFileWithName:(NSString *)name;
+
+/**
+ * Does not delete the files for our log buffer but "resets" them to be empty. For this,
+ * it actually overwrites the old file with an empty copy of the original one.
+ * The reason why we are not truly deleting the files is that they need to exist at crash time.
+ */
+- (void)emptyLogBufferFiles;
+
+- (void)onProcessingLog:(id <MSLog>)log withPriority:(MSPriority)priority;
 
 @end
