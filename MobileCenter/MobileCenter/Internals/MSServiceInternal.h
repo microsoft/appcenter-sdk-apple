@@ -24,6 +24,11 @@
 @property(nonatomic, readonly) MSPriority priority;
 
 /**
+ * The app secret for the SDK.
+ */
+@property(nonatomic) NSString *appSecret;
+
+/**
  * Get the unique instance.
  *
  * @return unique instance.
