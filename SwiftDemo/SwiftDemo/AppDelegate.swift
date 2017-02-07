@@ -7,6 +7,7 @@ import UIKit
 import MobileCenter
 import MobileCenterAnalytics
 import MobileCenterCrashes
+import MobileCenterUpdates
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate {
@@ -18,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate {
 
         // Override point for customization after application launch.
 
-        MSMobileCenter.start("7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7", withServices: [MSAnalytics.self, MSCrashes.self])
+        MSMobileCenter.start("7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7", withServices: [MSAnalytics.self, MSCrashes.self, MSUpdates.self])
 
 
         // Crashes Delegate
