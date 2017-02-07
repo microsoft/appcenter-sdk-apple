@@ -2,8 +2,9 @@
 #import "Constants.h"
 
 @import MobileCenter;
-@import MobileCenterCrashes;
 @import MobileCenterAnalytics;
+@import MobileCenterCrashes;
+@import MobileCenterUpdates;
 
 @interface AppDelegate () <MSCrashesDelegate>
 
@@ -17,7 +18,7 @@
   // Start Mobile Center SDK
   [MSMobileCenter setLogLevel:MSLogLevelVerbose];
   [MSMobileCenter setServerUrl:@"http://in-integration.dev.avalanch.es:8081"];
-  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withServices:@[[MSAnalytics class], [MSCrashes class]]];
+  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withServices:@[[MSAnalytics class], [MSCrashes class], [MSUpdates class]]];
   [MSCrashes setDelegate:self];
 
   // Print the install Id.
