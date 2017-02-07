@@ -274,6 +274,16 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
 #pragma mark - MSLogManagerDelegate
 
+/**
+ * Why are we doing the event-buffering inside crashes?
+ * The reason is, only Crashes has the chance to execute code at crashtime and only with the following constraints:
+ * 1. Don't execute any Objective-C code when crashing.
+ * 2. Don't allocate new memory when crashing.
+ * 3. Only use async-safe C/C++ methods.
+ * This means the Crashes module can't message any other module. All logic related to the buffer needs to happen before
+ * the crash and then, at crashtime, crashes has all info in place to save the buffer safely.
+ **/
+
 - (void)onProcessingLog:(id <MSLog>)log withPriority:(MSPriority)priority {
   MSLogVerbose([MSCrashes logTag], @"Did enqeue log.");
 
@@ -297,32 +307,6 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
       self.bufferIndex += 1;
     }
   }
-}
-
-- (NSArray<NSString *> *)createLogBufferFilesIfNeeded {
-
-  NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.logBufferDir error:NULL];
-  NSMutableArray *logBufferFiles = [NSMutableArray arrayWithCapacity:ms_crashes_log_buffer_size];
-
-  // Get already existing buffer files.
-  for (NSString *tmp in files) {
-    if ([[tmp pathExtension] isEqualToString:kMSLogBufferFileExtension]) {
-      NSString *filePath = [self.logBufferDir stringByAppendingPathComponent:tmp];
-      [logBufferFiles addObject:filePath];
-    }
-  }
-
-  // Create missing buffer files if needed.
-  if (logBufferFiles.count < ms_crashes_log_buffer_size) {
-    NSInteger missingFileCount = ms_crashes_log_buffer_size - logBufferFiles.count;
-    for (int i = 0; i < missingFileCount; i++) {
-      NSString *logId = MS_UUID_STRING;
-      NSString *path = [self createBufferFileWithName:logId];
-      [logBufferFiles addObject:path];
-    }
-  }
-
-  return logBufferFiles;
 }
 
 #pragma mark - MSChannelDelegate
@@ -649,6 +633,32 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
       msCrashesLogBuffer[i] = emptyLog;
     }
   }
+}
+
+- (NSArray<NSString *> *)createLogBufferFilesIfNeeded {
+  
+  NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.logBufferDir error:NULL];
+  NSMutableArray *logBufferFiles = [NSMutableArray arrayWithCapacity:ms_crashes_log_buffer_size];
+  
+  // Get already existing buffer files.
+  for (NSString *tmp in files) {
+    if ([[tmp pathExtension] isEqualToString:kMSLogBufferFileExtension]) {
+      NSString *filePath = [self.logBufferDir stringByAppendingPathComponent:tmp];
+      [logBufferFiles addObject:filePath];
+    }
+  }
+  
+  // Create missing buffer files if needed.
+  if (logBufferFiles.count < ms_crashes_log_buffer_size) {
+    NSInteger missingFileCount = ms_crashes_log_buffer_size - logBufferFiles.count;
+    for (int i = 0; i < missingFileCount; i++) {
+      NSString *logId = MS_UUID_STRING;
+      NSString *path = [self createBufferFileWithName:logId];
+      [logBufferFiles addObject:path];
+    }
+  }
+  
+  return logBufferFiles;
 }
 
 - (NSString *)createBufferFileWithName:(NSString *)name {
