@@ -38,7 +38,7 @@
  * @discussion: IMPORTANT, This string is used to point to the right storage value for this service.
  * Changing this string results in data lost if previous data is not migrated.
  */
-@property(nonatomic, readonly) NSString *storageKey;
+@property(nonatomic, copy, readonly) NSString *storageKey;
 
 /**
  * The channel priority for this service.

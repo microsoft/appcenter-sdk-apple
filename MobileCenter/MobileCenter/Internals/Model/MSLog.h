@@ -13,7 +13,7 @@
 /**
  * Log type.
  */
-@property(nonatomic) NSString *type;
+@property(nonatomic, copy) NSString *type;
 
 /**
  * Corresponds to the number of milliseconds elapsed between the time the
@@ -27,7 +27,7 @@
  * is not necessarily an analytics session, it can be used to only track
  * crashes.
  */
-@property(nonatomic) NSString *sid;
+@property(nonatomic, copy) NSString *sid;
 
 /**
  * Device properties associated to this log.
