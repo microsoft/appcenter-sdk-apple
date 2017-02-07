@@ -9,6 +9,6 @@
 
 /** Name of the event.
  */
-@property(nonatomic) NSString *name;
+@property(nonatomic, copy) NSString *name;
 
 @end

@@ -13,7 +13,7 @@
 /**
  *  isEnabled value storage key.
  */
-@property(nonatomic, readonly) NSString *isEnabledKey;
+@property(nonatomic, copy, readonly) NSString *isEnabledKey;
 
 /**
  *  Storage used for persistence.

@@ -13,32 +13,32 @@
 /**
  * The binary id as UUID string.
  */
-@property(nonatomic, nonnull) NSString *binaryId;
+@property(nonatomic, copy, nonnull) NSString *binaryId;
 
 /**
  * The binary's start address.
  */
-@property(nonatomic, nonnull) NSString *startAddress;
+@property(nonatomic, copy, nonnull) NSString *startAddress;
 
 /**
  * The binary's end address.
  */
-@property(nonatomic, nonnull) NSString *endAddress;
+@property(nonatomic, copy, nonnull) NSString *endAddress;
 
 /**
  * The binary's name.
  */
-@property(nonatomic, nonnull) NSString *name;
+@property(nonatomic, copy, nonnull) NSString *name;
 
 /**
  * The path to the binary.
  */
-@property(nonatomic, nonnull) NSString *path;
+@property(nonatomic, copy, nonnull) NSString *path;
 
 /**
  * The architecture.
  */
-@property(nonatomic, nonnull) NSString *architecture;
+@property(nonatomic, copy, nonnull) NSString *architecture;
 
 /**
  * CPU primary architecture [optional].
