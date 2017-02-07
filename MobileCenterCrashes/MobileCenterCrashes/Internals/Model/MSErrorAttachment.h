@@ -14,7 +14,7 @@
 /**
  * Plain text attachment [optional].
  */
-@property(nonatomic, nullable) NSString *textAttachment;
+@property(nonatomic, copy, nullable) NSString *textAttachment;
 
 /**
  * Binary attachment [optional].

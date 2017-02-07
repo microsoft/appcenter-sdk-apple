@@ -17,7 +17,7 @@
 /**
  * Current session id.
  */
-@property(nonatomic, readonly) NSString *sessionId;
+@property(nonatomic, copy, readonly) NSString *sessionId;
 
 /**
  *  Session timeout time.
