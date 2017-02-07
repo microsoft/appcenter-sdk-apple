@@ -33,7 +33,7 @@ static void ms_save_log_buffer_callback(siginfo_t *info, ucontext_t *uap, void *
 
   for (int i = 0; i < ms_crashes_log_buffer_size; i++) {
     // Make sure not to allocate any memory (e.g. copy).
-    const std::string data = msCrashesLogBuffer[i].buffer;
+    const std::string &data = msCrashesLogBuffer[i].buffer;
     int fd = open(msCrashesLogBuffer[i].bufferPath.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0644);
     if (fd < 0) {
       return;
@@ -290,9 +290,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
       if (self.bufferIndex > (ms_crashes_log_buffer_size - 1)) {
         self.bufferIndex = 0;
       }
-      std::string foo =std::string(&reinterpret_cast<const char *>(serializedLog.bytes)[0],
-                                   &reinterpret_cast<const char *>(serializedLog.bytes)[serializedLog.length]);
-
+      
       msCrashesLogBuffer[self.bufferIndex].buffer = std::string(&reinterpret_cast<const char *>(serializedLog.bytes)[0],
               &reinterpret_cast<const char *>(serializedLog.bytes)[serializedLog.length]);
 
