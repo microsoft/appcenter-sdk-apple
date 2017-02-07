@@ -3,13 +3,12 @@
  */
 
 #import "MSMobileCenterInternal.h"
-#import "MSServiceAbstract.h"
-#import "MSServiceAbstractInternal.h"
 #import "MSServiceAbstractPrivate.h"
 
 @implementation MSServiceAbstract
 
 @synthesize logManager = _logManager;
+@synthesize appSecret = _appSecret;
 
 - (instancetype)init {
   return [self initWithStorage:MS_USER_DEFAULTS];
@@ -57,9 +56,9 @@
   BOOL canBeUsed = [MSMobileCenter sharedInstance].sdkConfigured && self.started;
   if (!canBeUsed) {
     MSLogError([MSMobileCenter logTag],
-               @"%@ service hasn't been started. You need to call "
-               @"[MSMobileCenter start:YOUR_APP_SECRET withServices:LIST_OF_SERVICES] first.",
-               MS_CLASS_NAME_WITHOUT_PREFIX);
+            @"%@ service hasn't been started. You need to call "
+                    @"[MSMobileCenter start:YOUR_APP_SECRET withServices:LIST_OF_SERVICES] first.",
+            MS_CLASS_NAME_WITHOUT_PREFIX);
   }
   return canBeUsed;
 }
@@ -70,9 +69,10 @@
 
 #pragma mark : - MSService
 
-- (void)startWithLogManager:(id<MSLogManager>)logManager {
+- (void)startWithLogManager:(id <MSLogManager>)logManager appSecret:(NSString *)appSecret {
   self.started = YES;
   self.logManager = logManager;
+  self.appSecret = appSecret;
 
   // Enable this service as needed.
   if (self.isEnabled) {
@@ -81,12 +81,12 @@
 }
 
 + (void)setEnabled:(BOOL)isEnabled {
-  @synchronized([self sharedInstance]) {
+  @synchronized ([self sharedInstance]) {
     if ([[self sharedInstance] canBeUsed]) {
       if (![MSMobileCenter isEnabled] && ![MSMobileCenter sharedInstance].enabledStateUpdating) {
         MSLogError([MSMobileCenter logTag], @"The SDK is disabled. Re-enable the whole SDK from MobileCenter "
-                                                  @"first before enabling %@ service.",
-                   MS_CLASS_NAME_WITHOUT_PREFIX);
+                @"first before enabling %@ service.",
+                MS_CLASS_NAME_WITHOUT_PREFIX);
       } else {
         [[self sharedInstance] setEnabled:isEnabled];
       }
@@ -95,7 +95,7 @@
 }
 
 + (BOOL)isEnabled {
-  @synchronized([self sharedInstance]) {
+  @synchronized ([self sharedInstance]) {
     if ([[self sharedInstance] canBeUsed]) {
       return [[self sharedInstance] isEnabled];
     } else {

@@ -23,7 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Pending http calls.
  */
-@property(atomic, strong) NSMutableDictionary<NSString *, id<MSSenderCall>> *pendingCalls;
+@property(atomic, strong) NSMutableDictionary<NSString *, id <MSSenderCall>> *pendingCalls;
 
 @end
+
 NS_ASSUME_NONNULL_END
