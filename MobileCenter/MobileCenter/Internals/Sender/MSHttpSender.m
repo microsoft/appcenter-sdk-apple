@@ -335,10 +335,16 @@ static NSTimeInterval kRequestTimeout = 60.0;
                                          withString:appSecretHiddenPart];
 }
 
+/**
+ * This is a method without implementation and is intended to be overwritten in all sub classes.
+ */
 - (NSArray *)retryIntervals {
   return @[];
 }
 
+/**
+ * This is a method without implementation and is intended to be overwritten in all sub classes.
+ */
 - (NSString *)apiPath {
   return @"";
 }
