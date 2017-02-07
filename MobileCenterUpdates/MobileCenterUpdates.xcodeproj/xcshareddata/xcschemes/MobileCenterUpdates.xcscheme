@@ -14,10 +14,24 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6E0401021D1C98220051BCFA"
-               BuildableName = "libMobileCenter.a"
-               BlueprintName = "MobileCenter"
-               ReferencedContainer = "container:MobileCenter.xcodeproj">
+               BlueprintIdentifier = "04FD4A1B1E451E12009B4468"
+               BuildableName = "libMobileCenterUpdates.a"
+               BlueprintName = "MobileCenterUpdates"
+               ReferencedContainer = "container:MobileCenterUpdates.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "04FD4A301E453531009B4468"
+               BuildableName = "MobileCenterUpdates.xctest"
+               BlueprintName = "MobileCenterUpdatesTests"
+               ReferencedContainer = "container:MobileCenterUpdates.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,20 +47,20 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6E2395771D22EF4F00E543C8"
-               BuildableName = "MobileCenter.xctest"
-               BlueprintName = "MobileCenterTests"
-               ReferencedContainer = "container:MobileCenter.xcodeproj">
+               BlueprintIdentifier = "04FD4A301E453531009B4468"
+               BuildableName = "MobileCenterUpdates.xctest"
+               BlueprintName = "MobileCenterUpdatesTests"
+               ReferencedContainer = "container:MobileCenterUpdates.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6E0401021D1C98220051BCFA"
-            BuildableName = "libMobileCenter.a"
-            BlueprintName = "MobileCenter"
-            ReferencedContainer = "container:MobileCenter.xcodeproj">
+            BlueprintIdentifier = "04FD4A1B1E451E12009B4468"
+            BuildableName = "libMobileCenterUpdates.a"
+            BlueprintName = "MobileCenterUpdates"
+            ReferencedContainer = "container:MobileCenterUpdates.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -65,21 +79,30 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6E0401021D1C98220051BCFA"
-            BuildableName = "libMobileCenter.a"
-            BlueprintName = "MobileCenter"
-            ReferencedContainer = "container:MobileCenter.xcodeproj">
+            BlueprintIdentifier = "04FD4A1B1E451E12009B4468"
+            BuildableName = "libMobileCenterUpdates.a"
+            BlueprintName = "MobileCenterUpdates"
+            ReferencedContainer = "container:MobileCenterUpdates.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
-      buildConfiguration = "Debug"
+      buildConfiguration = "Release"
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "04FD4A1B1E451E12009B4468"
+            BuildableName = "libMobileCenterUpdates.a"
+            BlueprintName = "MobileCenterUpdates"
+            ReferencedContainer = "container:MobileCenterUpdates.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

@@ -225,7 +225,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
 - (void)startWithLogManager:(id <MSLogManager>)logManager {
   [super startWithLogManager:logManager];
-  MSLogVerbose([MSCrashes logTag], @"Started crash service.");
+  MSLogVerbose([MSCrashes logTag], @"Started Crashes service.");
 }
 
 + (NSString *)logTag {

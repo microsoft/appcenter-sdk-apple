@@ -708,7 +708,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = MS;
-				LastUpgradeCheck = 0810;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = Microsoft;
 				TargetAttributes = {
 					6E0401021D1C98220051BCFA = {
@@ -865,7 +865,6 @@
 			baseConfigurationReference = 6E0401841D1CAD810051BCFA /* MobileCenter.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(MS_ARM_ARCHS)";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -1041,7 +1040,6 @@
 		6E6BFC321D234FAE00DF7617 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				OTHER_CFLAGS = "";
 				PRODUCT_NAME = MobileCenter;
@@ -1052,7 +1050,6 @@
 		6E6BFC331D234FAE00DF7617 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
 				OTHER_CFLAGS = "";
 				PRODUCT_NAME = MobileCenter;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"";

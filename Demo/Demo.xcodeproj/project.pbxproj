@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0471B9461E455AD00022F951 /* MobileCenterUpdates.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0471B9451E455AD00022F951 /* MobileCenterUpdates.framework */; };
+		0471B94F1E4560C20022F951 /* MobileCenterUpdates.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0471B9451E455AD00022F951 /* MobileCenterUpdates.framework */; };
 		04CCCA441D88AA86005D8180 /* MobileCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04CCCA431D88AA86005D8180 /* MobileCenter.framework */; };
 		04CCCA461D88AA93005D8180 /* MobileCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04CCCA451D88AA93005D8180 /* MobileCenterAnalytics.framework */; };
 		04CCCA481D88AA9F005D8180 /* MobileCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04CCCA471D88AA9F005D8180 /* MobileCenterCrashes.framework */; };
@@ -50,6 +52,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0471B9451E455AD00022F951 /* MobileCenterUpdates.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterUpdates.framework; path = ../Products/MobileCenterUpdates/MobileCenterUpdates.framework; sourceTree = "<group>"; };
 		04CCCA431D88AA86005D8180 /* MobileCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenter.framework; path = ../Products/MobileCenter/MobileCenter.framework; sourceTree = "<group>"; };
 		04CCCA451D88AA93005D8180 /* MobileCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterAnalytics.framework; path = ../Products/MobileCenterAnalytics/MobileCenterAnalytics.framework; sourceTree = "<group>"; };
 		04CCCA471D88AA9F005D8180 /* MobileCenterCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterCrashes.framework; path = ../Products/MobileCenterCrashes/MobileCenterCrashes.framework; sourceTree = "<group>"; };
@@ -78,9 +81,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				382EC1DB1DDB805400A60DBD /* NotificationCenter.framework in Frameworks */,
-				382EC2001DDBBB6800A60DBD /* MobileCenterCrashes.framework in Frameworks */,
-				382EC2011DDBBB6800A60DBD /* MobileCenterAnalytics.framework in Frameworks */,
 				382EC2021DDBBB6800A60DBD /* MobileCenter.framework in Frameworks */,
+				382EC2011DDBBB6800A60DBD /* MobileCenterAnalytics.framework in Frameworks */,
+				382EC2001DDBBB6800A60DBD /* MobileCenterCrashes.framework in Frameworks */,
+				0471B94F1E4560C20022F951 /* MobileCenterUpdates.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -88,9 +92,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04CCCA481D88AA9F005D8180 /* MobileCenterCrashes.framework in Frameworks */,
-				04CCCA461D88AA93005D8180 /* MobileCenterAnalytics.framework in Frameworks */,
 				04CCCA441D88AA86005D8180 /* MobileCenter.framework in Frameworks */,
+				04CCCA461D88AA93005D8180 /* MobileCenterAnalytics.framework in Frameworks */,
+				04CCCA481D88AA9F005D8180 /* MobileCenterCrashes.framework in Frameworks */,
+				0471B9461E455AD00022F951 /* MobileCenterUpdates.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -164,9 +169,10 @@
 		6E2307EF1D2208670031C598 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
-				04CCCA471D88AA9F005D8180 /* MobileCenterCrashes.framework */,
-				04CCCA451D88AA93005D8180 /* MobileCenterAnalytics.framework */,
 				04CCCA431D88AA86005D8180 /* MobileCenter.framework */,
+				04CCCA451D88AA93005D8180 /* MobileCenterAnalytics.framework */,
+				04CCCA471D88AA9F005D8180 /* MobileCenterCrashes.framework */,
+				0471B9451E455AD00022F951 /* MobileCenterUpdates.framework */,
 			);
 			name = Vendor;
 			sourceTree = "<group>";
