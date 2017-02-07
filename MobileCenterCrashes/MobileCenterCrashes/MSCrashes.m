@@ -3,7 +3,6 @@
  */
 
 #import "MSAppleErrorLog.h"
-#import "MSUtil.h"
 #import "MSCrashesCXXExceptionWrapperException.h"
 #import "MSCrashesDelegate.h"
 #import "MSCrashesUtil.h"
@@ -117,8 +116,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     if ([crashes delegateImplementsAttachmentCallback]) {
       // TODO (attachmentWithCrashes): Bring this back when the backend supports attachment for Crashes.
 //      [log setErrorAttachment:[crashes.delegate attachmentWithCrashes:crashes forErrorReport:report]];
-    }
-    else {
+    } else {
       MSLogDebug([MSCrashes logTag], @"attachmentWithCrashes is not implemented");
     }
 
@@ -223,8 +221,8 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   return sharedInstance;
 }
 
-- (void)startWithLogManager:(id <MSLogManager>)logManager {
-  [super startWithLogManager:logManager];
+- (void)startWithLogManager:(id <MSLogManager>)logManager appSecret:(NSString *)appSecret {
+  [super startWithLogManager:logManager appSecret:appSecret];
   MSLogVerbose([MSCrashes logTag], @"Started crash service.");
 }
 
