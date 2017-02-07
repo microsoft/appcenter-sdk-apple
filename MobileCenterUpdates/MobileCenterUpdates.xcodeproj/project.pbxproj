@@ -1,0 +1,608 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		04FD4A281E451E90009B4468 /* MobileCenterUpdatesFramework */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 04FD4A291E451E90009B4468 /* Build configuration list for PBXAggregateTarget "MobileCenterUpdatesFramework" */;
+			buildPhases = (
+				04FD4A2C1E453159009B4468 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = MobileCenterUpdatesFramework;
+			productName = "Fat Framework";
+		};
+		04FD4A3C1E453640009B4468 /* MobileCenterUpdatesDoc */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 04FD4A3D1E453640009B4468 /* Build configuration list for PBXAggregateTarget "MobileCenterUpdatesDoc" */;
+			buildPhases = (
+				04FD4A401E4536B0009B4468 /* Run Script */,
+			);
+			dependencies = (
+				0471B9361E4556570022F951 /* PBXTargetDependency */,
+			);
+			name = MobileCenterUpdatesDoc;
+			productName = "Jazzy Docs";
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		0471B5E11E4543DF0022F951 /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0471B5E01E4543DF0022F951 /* OCHamcrestIOS.framework */; };
+		0471B5E31E4543F10022F951 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0471B5E21E4543F10022F951 /* libOCMock.a */; };
+		0471B5E41E4544000022F951 /* libMobileCenterUpdates.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04FD4A1C1E451E12009B4468 /* libMobileCenterUpdates.a */; };
+		0471B8991E4547480022F951 /* MSUpdates.m in Sources */ = {isa = PBXBuildFile; fileRef = 0471B8981E4547480022F951 /* MSUpdates.m */; };
+		0471B9331E4555F20022F951 /* MobileCenterUpdates.h in Headers */ = {isa = PBXBuildFile; fileRef = 04FD4A1F1E451E12009B4468 /* MobileCenterUpdates.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0471B9341E45560C0022F951 /* MSUpdates.h in Headers */ = {isa = PBXBuildFile; fileRef = 0471B89A1E4547750022F951 /* MSUpdates.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0471B93C1E4557620022F951 /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 0471B93B1E4557620022F951 /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0471B93E1E4557820022F951 /* MSLogManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0471B93D1E4557820022F951 /* MSLogManager.h */; };
+		0471B9441E455A0D0022F951 /* ../MobileCenter/MobileCenter/MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 0471B9431E455A0D0022F951 /* ../MobileCenter/MobileCenter/MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		04FD4A341E453531009B4468 /* MSUpdatesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FD4A331E453531009B4468 /* MSUpdatesTests.m */; };
+		04FD4A4B1E453930009B4468 /* libMobileCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04FD4A4A1E453930009B4468 /* libMobileCenter.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0471B9351E4556570022F951 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 04FD4A141E451E12009B4468 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04FD4A281E451E90009B4468;
+			remoteInfo = "Fat Framework";
+		};
+		04FD4A371E453531009B4468 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 04FD4A141E451E12009B4468 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04FD4A1B1E451E12009B4468;
+			remoteInfo = MobileCenterUpdates;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		04FD4A1A1E451E12009B4468 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		0471B5E01E4543DF0022F951 /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrestIOS.framework; path = ../Vendor/OCHamcrest/OCHamcrestIOS.framework; sourceTree = "<group>"; };
+		0471B5E21E4543F10022F951 /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOCMock.a; path = ../Vendor/OCMock/libOCMock.a; sourceTree = "<group>"; };
+		0471B5F41E45466F0022F951 /* MobileCenterUpdates.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = MobileCenterUpdates.xcconfig; sourceTree = "<group>"; };
+		0471B5F51E45466F0022F951 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		0471B8941E4546B00022F951 /* Global.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Global.xcconfig; path = ../../../Global.xcconfig; sourceTree = "<group>"; };
+		0471B8981E4547480022F951 /* MSUpdates.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSUpdates.m; sourceTree = "<group>"; };
+		0471B89A1E4547750022F951 /* MSUpdates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSUpdates.h; sourceTree = "<group>"; };
+		0471B93B1E4557620022F951 /* MSServiceAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSServiceAbstract.h; path = ../MobileCenter/MobileCenter/MSServiceAbstract.h; sourceTree = "<group>"; };
+		0471B93D1E4557820022F951 /* MSLogManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSLogManager.h; path = ../MobileCenter/MobileCenter/Internals/Channel/MSLogManager.h; sourceTree = "<group>"; };
+		0471B9431E455A0D0022F951 /* ../MobileCenter/MobileCenter/MSService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ../MobileCenter/MobileCenter/MSService.h; sourceTree = "<group>"; };
+		04FD4A1C1E451E12009B4468 /* libMobileCenterUpdates.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMobileCenterUpdates.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		04FD4A1F1E451E12009B4468 /* MobileCenterUpdates.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MobileCenterUpdates.h; sourceTree = "<group>"; };
+		04FD4A311E453531009B4468 /* MobileCenterUpdates.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MobileCenterUpdates.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		04FD4A331E453531009B4468 /* MSUpdatesTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSUpdatesTests.m; sourceTree = "<group>"; };
+		04FD4A351E453531009B4468 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		04FD4A4A1E453930009B4468 /* libMobileCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobileCenter.a; path = "../../../../Library/Developer/Xcode/DerivedData/MobileCenter-cxbmzrupyysdsehdxmozcvjphajr/Build/Products/Debug-iphonesimulator/libMobileCenter.a"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		04FD4A191E451E12009B4468 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		04FD4A2E1E453531009B4468 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04FD4A4B1E453930009B4468 /* libMobileCenter.a in Frameworks */,
+				0471B5E31E4543F10022F951 /* libOCMock.a in Frameworks */,
+				0471B5E41E4544000022F951 /* libMobileCenterUpdates.a in Frameworks */,
+				0471B5E11E4543DF0022F951 /* OCHamcrestIOS.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0471B5F31E45466F0022F951 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				0471B8941E4546B00022F951 /* Global.xcconfig */,
+				0471B5F41E45466F0022F951 /* MobileCenterUpdates.xcconfig */,
+				0471B5F51E45466F0022F951 /* module.modulemap */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
+		04FD4A131E451E12009B4468 = {
+			isa = PBXGroup;
+			children = (
+				0471B93B1E4557620022F951 /* MSServiceAbstract.h */,
+				0471B93D1E4557820022F951 /* MSLogManager.h */,
+				04FD4A1E1E451E12009B4468 /* MobileCenterUpdates */,
+				04FD4A321E453531009B4468 /* MobileCenterUpdatesTests */,
+				04FD4A1D1E451E12009B4468 /* Products */,
+				04FD4A491E453930009B4468 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		04FD4A1D1E451E12009B4468 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				04FD4A1C1E451E12009B4468 /* libMobileCenterUpdates.a */,
+				04FD4A311E453531009B4468 /* MobileCenterUpdates.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		04FD4A1E1E451E12009B4468 /* MobileCenterUpdates */ = {
+			isa = PBXGroup;
+			children = (
+				04FD4A1F1E451E12009B4468 /* MobileCenterUpdates.h */,
+				0471B89A1E4547750022F951 /* MSUpdates.h */,
+				0471B8981E4547480022F951 /* MSUpdates.m */,
+				0471B5F31E45466F0022F951 /* Support */,
+			);
+			path = MobileCenterUpdates;
+			sourceTree = "<group>";
+		};
+		04FD4A321E453531009B4468 /* MobileCenterUpdatesTests */ = {
+			isa = PBXGroup;
+			children = (
+				04FD4A331E453531009B4468 /* MSUpdatesTests.m */,
+				04FD4A351E453531009B4468 /* Info.plist */,
+			);
+			path = MobileCenterUpdatesTests;
+			sourceTree = "<group>";
+		};
+		04FD4A491E453930009B4468 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0471B5E21E4543F10022F951 /* libOCMock.a */,
+				0471B5E01E4543DF0022F951 /* OCHamcrestIOS.framework */,
+				04FD4A4A1E453930009B4468 /* libMobileCenter.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		0471B9321E4555EA0022F951 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0471B93E1E4557820022F951 /* MSLogManager.h in Headers */,
+				0471B9441E455A0D0022F951 /* ../MobileCenter/MobileCenter/MSService.h in Headers */,
+				0471B93C1E4557620022F951 /* MSServiceAbstract.h in Headers */,
+				0471B9331E4555F20022F951 /* MobileCenterUpdates.h in Headers */,
+				0471B9341E45560C0022F951 /* MSUpdates.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		04FD4A1B1E451E12009B4468 /* MobileCenterUpdates */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 04FD4A251E451E12009B4468 /* Build configuration list for PBXNativeTarget "MobileCenterUpdates" */;
+			buildPhases = (
+				04FD4A181E451E12009B4468 /* Sources */,
+				04FD4A191E451E12009B4468 /* Frameworks */,
+				04FD4A1A1E451E12009B4468 /* CopyFiles */,
+				0471B9321E4555EA0022F951 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MobileCenterUpdates;
+			productName = MobileCenterUpdates;
+			productReference = 04FD4A1C1E451E12009B4468 /* libMobileCenterUpdates.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		04FD4A301E453531009B4468 /* MobileCenterUpdatesTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 04FD4A391E453531009B4468 /* Build configuration list for PBXNativeTarget "MobileCenterUpdatesTests" */;
+			buildPhases = (
+				04FD4A2D1E453531009B4468 /* Sources */,
+				04FD4A2E1E453531009B4468 /* Frameworks */,
+				04FD4A2F1E453531009B4468 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				04FD4A381E453531009B4468 /* PBXTargetDependency */,
+			);
+			name = MobileCenterUpdatesTests;
+			productName = MobileCenterUpdatesTests;
+			productReference = 04FD4A311E453531009B4468 /* MobileCenterUpdates.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		04FD4A141E451E12009B4468 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = MS;
+				LastUpgradeCheck = 0810;
+				ORGANIZATIONNAME = Microsoft;
+				TargetAttributes = {
+					04FD4A1B1E451E12009B4468 = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
+					04FD4A281E451E90009B4468 = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
+					04FD4A301E453531009B4468 = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
+					04FD4A3C1E453640009B4468 = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
+				};
+			};
+			buildConfigurationList = 04FD4A171E451E12009B4468 /* Build configuration list for PBXProject "MobileCenterUpdates" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 04FD4A131E451E12009B4468;
+			productRefGroup = 04FD4A1D1E451E12009B4468 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				04FD4A1B1E451E12009B4468 /* MobileCenterUpdates */,
+				04FD4A281E451E90009B4468 /* MobileCenterUpdatesFramework */,
+				04FD4A301E453531009B4468 /* MobileCenterUpdatesTests */,
+				04FD4A3C1E453640009B4468 /* MobileCenterUpdatesDoc */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		04FD4A2F1E453531009B4468 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		04FD4A2C1E453159009B4468 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=MobileCenterUpdates\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-iOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphoneos\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Support/module.modulemap\" \"${INSTALL_DIR}/Modules/\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Headers/\"\n\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" \"${SIMULATOR_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\n\nrm -r \"${WRK_DIR}\"";
+		};
+		04FD4A401E4536B0009B4468 /* Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "jazzy --config ../Documentation/MobileCenterUpdates/.jazzy.yaml\n\nFMK_NAME=MobileCenterUpdates\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-iOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\nDOCUMENTATION_DIR=${PRODUCTS_DIR}/Documentation/${FMK_NAME}\n\n# Create Documentation directory within folder.\nif [ ! -d \"${DOCUMENTATION_DIR}\" ]\nthen\nmkdir -p \"${DOCUMENTATION_DIR}\"\nfi\n\n# Copy generated documentation into the documentation folder\ncp -R \"${SRCROOT}/../Documentation/${FMK_NAME}/Generated/\" \"${DOCUMENTATION_DIR}\"";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		04FD4A181E451E12009B4468 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0471B8991E4547480022F951 /* MSUpdates.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		04FD4A2D1E453531009B4468 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04FD4A341E453531009B4468 /* MSUpdatesTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0471B9361E4556570022F951 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04FD4A281E451E90009B4468 /* MobileCenterUpdatesFramework */;
+			targetProxy = 0471B9351E4556570022F951 /* PBXContainerItemProxy */;
+		};
+		04FD4A381E453531009B4468 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04FD4A1B1E451E12009B4468 /* MobileCenterUpdates */;
+			targetProxy = 04FD4A371E453531009B4468 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		04FD4A231E451E12009B4468 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0471B5F41E45466F0022F951 /* MobileCenterUpdates.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		04FD4A241E451E12009B4468 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0471B5F41E45466F0022F951 /* MobileCenterUpdates.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		04FD4A261E451E12009B4468 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				OTHER_LDFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenterupdates;
+				PRODUCT_NAME = MobileCenterUpdates;
+				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
+				SKIP_INSTALL = YES;
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/**";
+				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
+			};
+			name = Debug;
+		};
+		04FD4A271E451E12009B4468 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				OTHER_LDFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenterupdates;
+				PRODUCT_NAME = MobileCenterUpdates;
+				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
+				SKIP_INSTALL = YES;
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/**";
+				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
+			};
+			name = Release;
+		};
+		04FD4A2A1E451E90009B4468 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = MobileCenterUpdates;
+			};
+			name = Debug;
+		};
+		04FD4A2B1E451E90009B4468 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = MobileCenterUpdates;
+			};
+			name = Release;
+		};
+		04FD4A3A1E453531009B4468 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
+				HEADER_SEARCH_PATH = "\"$(SRCROOT)/../Vendor\"/**";
+				INFOPLIST_FILE = MobileCenterUpdatesTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					Foundation,
+					"-ObjC",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenterupdatestests;
+				PRODUCT_NAME = MobileCenterUpdates;
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/**";
+			};
+			name = Debug;
+		};
+		04FD4A3B1E453531009B4468 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
+				HEADER_SEARCH_PATH = "\"$(SRCROOT)/../Vendor\"/**";
+				INFOPLIST_FILE = MobileCenterUpdatesTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					Foundation,
+					"-ObjC",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenterupdatestests;
+				PRODUCT_NAME = MobileCenterUpdates;
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/**";
+			};
+			name = Release;
+		};
+		04FD4A3E1E453640009B4468 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
+				OTHER_CFLAGS = "";
+				PRODUCT_NAME = MobileCenterUpdates;
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"";
+				VALID_ARCHS = "";
+			};
+			name = Debug;
+		};
+		04FD4A3F1E453640009B4468 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
+				OTHER_CFLAGS = "";
+				PRODUCT_NAME = MobileCenterUpdates;
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"";
+				VALID_ARCHS = "";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		04FD4A171E451E12009B4468 /* Build configuration list for PBXProject "MobileCenterUpdates" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				04FD4A231E451E12009B4468 /* Debug */,
+				04FD4A241E451E12009B4468 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		04FD4A251E451E12009B4468 /* Build configuration list for PBXNativeTarget "MobileCenterUpdates" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				04FD4A261E451E12009B4468 /* Debug */,
+				04FD4A271E451E12009B4468 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		04FD4A291E451E90009B4468 /* Build configuration list for PBXAggregateTarget "MobileCenterUpdatesFramework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				04FD4A2A1E451E90009B4468 /* Debug */,
+				04FD4A2B1E451E90009B4468 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		04FD4A391E453531009B4468 /* Build configuration list for PBXNativeTarget "MobileCenterUpdatesTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				04FD4A3A1E453531009B4468 /* Debug */,
+				04FD4A3B1E453531009B4468 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		04FD4A3D1E453640009B4468 /* Build configuration list for PBXAggregateTarget "MobileCenterUpdatesDoc" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				04FD4A3E1E453640009B4468 /* Debug */,
+				04FD4A3F1E453640009B4468 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 04FD4A141E451E12009B4468 /* Project object */;
+}
