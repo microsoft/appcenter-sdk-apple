@@ -19,9 +19,9 @@ static NSString *const kMSMobileCenterIsEnabledKey = @"MSMobileCenterIsEnabled";
 @property(nonatomic) id<MSLogManager> logManager;
 @property(nonatomic) NSMutableArray<NSObject<MSServiceInternal> *> *services;
 @property(nonatomic, copy) NSString *appSecret;
-@property(nonatomic) NSString *serverUrl;
+@property(nonatomic, copy) NSString *serverUrl;
 @property(nonatomic, readonly) NSUUID *installId;
-@property(nonatomic) NSString *apiVersion;
+@property(nonatomic, copy) NSString *apiVersion;
 @property BOOL sdkConfigured;
 @property(atomic) BOOL enabledStateUpdating;
 

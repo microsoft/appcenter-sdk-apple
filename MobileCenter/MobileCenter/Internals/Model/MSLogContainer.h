@@ -10,7 +10,7 @@
 /**
  * Unique batch Id.
  */
-@property(nonatomic) NSString *batchId;
+@property(nonatomic, copy) NSString *batchId;
 
 /**
  * The list of logs

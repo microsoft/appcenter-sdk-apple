@@ -16,12 +16,17 @@
  * @discussion: IMPORTANT, This string is used to point to the right storage value for this service.
  * Changing this string results in data loss if previous data is not migrated.
  */
-@property(nonatomic, readonly) NSString *storageKey;
+@property(nonatomic, copy, readonly) NSString *storageKey;
 
 /**
  * The channel priority for this service.
  */
 @property(nonatomic, readonly) MSPriority priority;
+
+/**
+ * The app secret for the SDK.
+ */
+@property(nonatomic) NSString *appSecret;
 
 /**
  * Get the unique instance.

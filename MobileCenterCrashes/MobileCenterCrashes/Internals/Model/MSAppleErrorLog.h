@@ -42,32 +42,32 @@
 /*
  * Path to the application.
  */
-@property(nonatomic, nonnull) NSString *applicationPath;
+@property(nonatomic, copy, nonnull) NSString *applicationPath;
 
 /*
  * OS exception type.
  */
-@property(nonatomic, nonnull) NSString *osExceptionType;
+@property(nonatomic, copy, nonnull) NSString *osExceptionType;
 
 /*
  * OS exception code.
  */
-@property(nonatomic, nonnull) NSString *osExceptionCode;
+@property(nonatomic, copy, nonnull) NSString *osExceptionCode;
 
 /*
  * OS exception address.
  */
-@property(nonatomic, nonnull) NSString *osExceptionAddress;
+@property(nonatomic, copy, nonnull) NSString *osExceptionAddress;
 
 /*
  * Exception type [optional].
  */
-@property(nonatomic, nullable) NSString *exceptionType;
+@property(nonatomic, copy, nullable) NSString *exceptionType;
 
 /*
  * Exception reason [optional].
  */
-@property(nonatomic, nullable) NSString *exceptionReason;
+@property(nonatomic, copy, nullable) NSString *exceptionReason;
 
 /*
  * Thread stack frames associated to the error [optional].

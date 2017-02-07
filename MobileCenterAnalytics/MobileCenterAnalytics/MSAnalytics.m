@@ -6,11 +6,8 @@
 #import "MSAnalyticsCategory.h"
 #import "MSAnalyticsPrivate.h"
 #import "MSEventLog.h"
-#import "MSLogManager.h"
 #import "MSPageLog.h"
 #import "MSServiceAbstractProtected.h"
-#import "MSChannelDelegate.h"
-#import "MSAnalyticsDelegate.h"
 #import "MSAnalyticsInternal.h"
 
 /**
@@ -47,15 +44,15 @@ static dispatch_once_t onceToken;
 
 + (instancetype)sharedInstance {
   dispatch_once(&onceToken, ^{
-    if (sharedInstance == nil) {
-      sharedInstance = [[self alloc] init];
-    }
+      if (sharedInstance == nil) {
+        sharedInstance = [[self alloc] init];
+      }
   });
   return sharedInstance;
 }
 
-- (void)startWithLogManager:(id<MSLogManager>)logManager {
-  [super startWithLogManager:logManager];
+- (void)startWithLogManager:(id <MSLogManager>)logManager appSecret:(NSString *)appSecret {
+  [super startWithLogManager:logManager appSecret:appSecret];
 
   // Set up swizzling for auto page tracking.
   [MSAnalyticsCategory activateCategory];
@@ -94,9 +91,9 @@ static dispatch_once_t onceToken;
 
       // Track on the main queue to avoid race condition with page swizzling.
       dispatch_async(dispatch_get_main_queue(), ^{
-        if ([[MSAnalyticsCategory missedPageViewName] length] > 0) {
-          [[self class] trackPage:[MSAnalyticsCategory missedPageViewName]];
-        }
+          if ([[MSAnalyticsCategory missedPageViewName] length] > 0) {
+            [[self class] trackPage:[MSAnalyticsCategory missedPageViewName]];
+          }
       });
     }
 
@@ -117,7 +114,7 @@ static dispatch_once_t onceToken;
 }
 
 + (void)trackEvent:(NSString *)eventName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties {
-  @synchronized(self) {
+  @synchronized (self) {
     if ([[self sharedInstance] canBeUsed]) {
       [[self sharedInstance] trackEvent:eventName withProperties:properties];
     }
@@ -129,7 +126,7 @@ static dispatch_once_t onceToken;
 }
 
 + (void)trackPage:(NSString *)pageName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties {
-  @synchronized(self) {
+  @synchronized (self) {
     if ([[self sharedInstance] canBeUsed]) {
       [[self sharedInstance] trackPage:pageName withProperties:properties];
     }
@@ -137,13 +134,13 @@ static dispatch_once_t onceToken;
 }
 
 + (void)setAutoPageTrackingEnabled:(BOOL)isEnabled {
-  @synchronized(self) {
+  @synchronized (self) {
     [[self sharedInstance] setAutoPageTrackingEnabled:isEnabled];
   }
 }
 
 + (BOOL)isAutoPageTrackingEnabled {
-  @synchronized(self) {
+  @synchronized (self) {
     return [[self sharedInstance] isAutoPageTrackingEnabled];
   }
 }
@@ -210,14 +207,14 @@ static dispatch_once_t onceToken;
   return _autoPageTrackingEnabled;
 }
 
-- (void)sendLog:(id<MSLog>)log withPriority:(MSPriority)priority {
+- (void)sendLog:(id <MSLog>)log withPriority:(MSPriority)priority {
 
   // Send log to log manager.
   [self.logManager processLog:log withPriority:priority];
 }
 
 + (void)resetSharedInstance {
-  
+
   // resets the once_token so dispatch_once will run again
   onceToken = 0;
   sharedInstance = nil;
@@ -225,7 +222,7 @@ static dispatch_once_t onceToken;
 
 #pragma mark - MSSessionTracker
 
-- (void)sessionTracker:(id)sessionTracker processLog:(id<MSLog>)log withPriority:(MSPriority)priority {
+- (void)sessionTracker:(id)sessionTracker processLog:(id <MSLog>)log withPriority:(MSPriority)priority {
   [self sendLog:log withPriority:priority];
 }
 
@@ -236,53 +233,50 @@ static dispatch_once_t onceToken;
 
 #pragma mark - MSChannelDelegate
 
-- (void)channel:(id)channel willSendLog:(id<MSLog>)log {
+- (void)channel:(id)channel willSendLog:(id <MSLog>)log {
   if (!self.delegate) {
     return;
   }
-  NSObject *logObject = (NSObject *)log;
+  NSObject *logObject = (NSObject *) log;
   if ([logObject isKindOfClass:[MSEventLog class]] &&
-      [self.delegate respondsToSelector:@selector(analytics:willSendEventLog:)]) {
-    MSEventLog *eventLog = (MSEventLog*)log;
+          [self.delegate respondsToSelector:@selector(analytics:willSendEventLog:)]) {
+    MSEventLog *eventLog = (MSEventLog *) log;
     [self.delegate analytics:self willSendEventLog:eventLog];
-  }
-  else if ([logObject isKindOfClass:[MSPageLog class]] &&
-           [self.delegate respondsToSelector:@selector(analytics:willSendPageLog:)]) {
-    MSPageLog *pageLog = (MSPageLog*)log;
+  } else if ([logObject isKindOfClass:[MSPageLog class]] &&
+          [self.delegate respondsToSelector:@selector(analytics:willSendPageLog:)]) {
+    MSPageLog *pageLog = (MSPageLog *) log;
     [self.delegate analytics:self willSendPageLog:pageLog];
   }
 }
 
-- (void)channel:(id<MSChannel>)channel didSucceedSendingLog:(id<MSLog>)log {
+- (void)channel:(id <MSChannel>)channel didSucceedSendingLog:(id <MSLog>)log {
   if (!self.delegate) {
     return;
   }
-  NSObject *logObject = (NSObject *)log;
+  NSObject *logObject = (NSObject *) log;
   if ([logObject isKindOfClass:[MSEventLog class]] &&
-      [self.delegate respondsToSelector:@selector(analytics:didSucceedSendingEventLog:)]) {
-    MSEventLog *eventLog = (MSEventLog*)log;
+          [self.delegate respondsToSelector:@selector(analytics:didSucceedSendingEventLog:)]) {
+    MSEventLog *eventLog = (MSEventLog *) log;
     [self.delegate analytics:self didSucceedSendingEventLog:eventLog];
-  }
-  else if ([logObject isKindOfClass:[MSPageLog class]] &&
-           [self.delegate respondsToSelector:@selector(analytics:didSucceedSendingPageLog:)]) {
-    MSPageLog *pageLog = (MSPageLog*)log;
+  } else if ([logObject isKindOfClass:[MSPageLog class]] &&
+          [self.delegate respondsToSelector:@selector(analytics:didSucceedSendingPageLog:)]) {
+    MSPageLog *pageLog = (MSPageLog *) log;
     [self.delegate analytics:self didSucceedSendingPageLog:pageLog];
   }
 }
 
-- (void)channel:(id<MSChannel>)channel didFailSendingLog:(id<MSLog>)log withError:(NSError *)error {
+- (void)channel:(id <MSChannel>)channel didFailSendingLog:(id <MSLog>)log withError:(NSError *)error {
   if (!self.delegate) {
     return;
   }
-  NSObject *logObject = (NSObject *)log;
+  NSObject *logObject = (NSObject *) log;
   if ([logObject isKindOfClass:[MSEventLog class]] &&
-      [self.delegate respondsToSelector:@selector(analytics:didFailSendingEventLog:withError:)]) {
-    MSEventLog *eventLog = (MSEventLog*)log;
+          [self.delegate respondsToSelector:@selector(analytics:didFailSendingEventLog:withError:)]) {
+    MSEventLog *eventLog = (MSEventLog *) log;
     [self.delegate analytics:self didFailSendingEventLog:eventLog withError:error];
-  }
-  else if ([logObject isKindOfClass:[MSPageLog class]] &&
-           [self.delegate respondsToSelector:@selector(analytics:didFailSendingPageLog:withError:)]) {
-    MSPageLog *pageLog = (MSPageLog*)log;
+  } else if ([logObject isKindOfClass:[MSPageLog class]] &&
+          [self.delegate respondsToSelector:@selector(analytics:didFailSendingPageLog:withError:)]) {
+    MSPageLog *pageLog = (MSPageLog *) log;
     [self.delegate analytics:self didFailSendingPageLog:pageLog withError:error];
   }
 }
