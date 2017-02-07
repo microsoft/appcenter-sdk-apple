@@ -5,6 +5,8 @@
 #import "MSLogManager.h"
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  * Protocol declaring services common logic.
  */
@@ -43,7 +45,7 @@
  * @discussion: IMPORTANT, This string is used to point to the right storage value for this service.
  * Changing this string results in data lost if previous data is not migrated.
  */
-@property(nonatomic) NSString *storageKey;
+@property(nonatomic, readonly) NSString *storageKey;
 
 /**
  * The channel priority for this service.
@@ -71,5 +73,7 @@
  * @param appSecret app secret for the SDK.
  */
 - (void)startWithLogManager:(id <MSLogManager>)logManager appSecret:(NSString *)appSecret;
+
+NS_ASSUME_NONNULL_END
 
 @end
