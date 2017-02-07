@@ -4,7 +4,8 @@
 
 #import "MSDevice.h"
 #import "MSDevicePrivate.h"
-#import "MSIngestionHttpSender.h"
+#import "MSHttpSender.h"
+#import "MSHttpSenderPrivate.h"
 #import "MSHttpTestUtil.h"
 #import "MSMobileCenterErrors.h"
 #import "MSMockLog.h"
@@ -25,22 +26,6 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
 @property(nonatomic, strong) MSHttpSender *sut;
 @property(nonatomic, strong) id reachabilityMock;
 @property(nonatomic) NetworkStatus currentNetworkStatus;
-
-@end
-
-@interface MSTestHttpSender : MSHttpSender
-
-@end
-
-@implementation MSTestHttpSender
-
-- (NSArray *)retryInterval {
-  return @[@(0.5), @(1), @(1.5)];
-}
-
-- (NSString *)apiPath {
-  return @"test-path";
-}
 
 @end
 
@@ -66,10 +51,12 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
   });
 
   // sut: System under test
-  self.sut = [[MSTestHttpSender alloc] initWithBaseUrl:kMSBaseUrl
-                                               headers:headers
-                                          queryStrings:queryStrings
-                                          reachability:self.reachabilityMock];
+  self.sut = [[MSHttpSender alloc] initWithBaseUrl:kMSBaseUrl
+                                           apiPath:@"test-path"
+                                           headers:headers
+                                      queryStrings:queryStrings
+                                      reachability:self.reachabilityMock
+                                    retryIntervals:@[@(0.5), @(1), @(1.5)]];
 }
 
 - (void)tearDown {

@@ -8,9 +8,10 @@
 #import "MSMobileCenterErrors.h"
 #import "MobileCenter+Internal.h"
 #import "MSFileStorage.h"
-#import "MSIngestionHttpSender.h"
+#import "MSHttpSender.h"
 
 static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecenter.LogManagerQueue";
+static NSString *const kMSApiPath = @"/logs";
 
 /**
  * Private declaration of the log manager.
@@ -29,12 +30,14 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 #pragma mark - Initialization
 
 - (instancetype)initWithAppSecret:(NSString *)appSecret installId:(NSUUID *)installId serverUrl:(NSString *)serverUrl {
-  self = [self initWithSender:[[MSIngestionHttpSender alloc] initWithBaseUrl:serverUrl
+  self = [self initWithSender:[[MSHttpSender alloc] initWithBaseUrl:serverUrl
+                                                            apiPath:kMSApiPath
                                                             headers:@{kMSHeaderContentTypeKey: kMSContentType,
                                                                     kMSHeaderAppSecretKey: appSecret,
                                                                     kMSHeaderInstallIDKey: [installId UUIDString]}
                                                        queryStrings:@{kMSAPIVersionKey: kMSAPIVersion}
-                                                       reachability:[MS_Reachability reachabilityForInternetConnection]]
+                                                       reachability:[MS_Reachability reachabilityForInternetConnection]
+                                                     retryIntervals:@[@(10), @(5 * 60), @(20 * 60)]]
                       storage:[[MSFileStorage alloc] init]];
   return self;
 }

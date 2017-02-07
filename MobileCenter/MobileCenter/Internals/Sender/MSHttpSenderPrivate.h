@@ -14,6 +14,11 @@ static NSString *const kMSHidingStringForAppSecret = @"*";
 @property(nonatomic, strong) NSURLSession *session;
 
 /**
+ * Retry intervals used by calls in case of recoverable errors.
+ */
+@property(nonatomic, strong) NSArray *callsRetryIntervals;
+
+/**
  * Hash table containing all the delegates as weak references.
  */
 @property(atomic, strong) NSHashTable<id <MSSenderDelegate>> *delegates;

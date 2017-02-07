@@ -18,9 +18,11 @@ static NSTimeInterval kRequestTimeout = 60.0;
 #pragma mark - MSSender
 
 - (id)initWithBaseUrl:(NSString *)baseUrl
+              apiPath:(NSString *)apiPath
               headers:(NSDictionary *)headers
          queryStrings:(NSDictionary *)queryStrings
-         reachability:(MS_Reachability *)reachability {
+         reachability:(MS_Reachability *)reachability
+       retryIntervals:(NSArray *)retryIntervals {
   if (self = [super init]) {
     _httpHeaders = headers;
     _pendingCalls = [NSMutableDictionary new];
@@ -28,9 +30,10 @@ static NSTimeInterval kRequestTimeout = 60.0;
     _enabled = YES;
     _suspended = NO;
     _delegates = [NSHashTable weakObjectsHashTable];
+    _callsRetryIntervals = retryIntervals;
 
     // Construct the URL string with the query string.
-    NSString *urlString = [baseUrl stringByAppendingString:[self apiPath]];
+    NSString *urlString = [baseUrl stringByAppendingString:apiPath];
     NSURLComponents *components = [NSURLComponents componentsWithString:urlString];
     NSMutableArray *queryItemArray = [NSMutableArray array];
 
@@ -74,7 +77,7 @@ static NSTimeInterval kRequestTimeout = 60.0;
     // Check if call has already been created(retry scenario).
     id <MSSenderCall> call = self.pendingCalls[batchId];
     if (call == nil) {
-      call = [[MSRetriableCall alloc] initWithRetryIntervals:[self retryIntervals]];
+      call = [[MSRetriableCall alloc] initWithRetryIntervals:_callsRetryIntervals];
       call.delegate = self;
       call.logContainer = container;
       call.completionHandler = handler;
