@@ -14,7 +14,7 @@
  *  under the License.
  */
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 
 @class OCMLocation;
 @class OCMInvocationStub;

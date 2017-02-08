@@ -1,4 +1,3 @@
-#import "MSCrashesCXXExceptionHandler.h"
 #import <cxxabi.h>
 #import <dlfcn.h>
 #import <exception>
@@ -7,14 +6,14 @@
 #import <pthread.h>
 #import <stdexcept>
 #import <string>
-#import <typeinfo>
 #import <vector>
+#import "MSCrashesCXXExceptionHandler.h"
 
 typedef std::vector<MSCrashesUncaughtCXXExceptionHandler> MSCrashesUncaughtCXXExceptionHandlerList;
 typedef struct {
-  void *exception_object;
-  uintptr_t call_stack[128];
-  uint32_t num_frames;
+    void *exception_object;
+    uintptr_t call_stack[128];
+    uint32_t num_frames;
 } MSCrashesCXXExceptionTSInfo;
 
 static bool _MSCrashesIsOurTerminateHandlerInstalled = false;
@@ -25,7 +24,9 @@ static pthread_key_t _MSCrashesCXXExceptionInfoTSDKey = 0;
 
 @implementation MSCrashesUncaughtCXXExceptionHandlerManager
 
-extern "C" void LIBCXXABI_NORETURN __cxa_throw(void *exception_object, std::type_info *tinfo, void (*dest)(void *)) {
+extern "C"
+
+void LIBCXXABI_NORETURN __cxa_throw(void *exception_object, std::type_info *tinfo, void (*dest)(void *)) {
   /**
    * Purposely do not take a lock in this function. The aim is to be as fast as
    * possible. While we could really use some of the info set up by the real
@@ -46,15 +47,15 @@ extern "C" void LIBCXXABI_NORETURN __cxa_throw(void *exception_object, std::type
   static const void **__real_objc_ehtype_vtable = nullptr;
 
   dispatch_once(&predicate, ^{
-    __original__cxa_throw = reinterpret_cast<cxa_throw_func>(dlsym(RTLD_NEXT, "__cxa_throw"));
-    __real_objc_ehtype_vtable = reinterpret_cast<const void **>(dlsym(RTLD_DEFAULT, "objc_ehtype_vtable"));
+      __original__cxa_throw = reinterpret_cast<cxa_throw_func>(dlsym(RTLD_NEXT, "__cxa_throw"));
+      __real_objc_ehtype_vtable = reinterpret_cast<const void **>(dlsym(RTLD_DEFAULT, "objc_ehtype_vtable"));
   });
 
   /**
    *   Actually check for Objective-C exceptions.
    */
   if (tinfo && __real_objc_ehtype_vtable && // Guard from an ABI change
-      *reinterpret_cast<void **>(tinfo) == __real_objc_ehtype_vtable + 2) {
+          *reinterpret_cast<void **>(tinfo) == __real_objc_ehtype_vtable + 2) {
     goto callthrough;
   }
 
@@ -67,7 +68,7 @@ extern "C" void LIBCXXABI_NORETURN __cxa_throw(void *exception_object, std::type
    */
   if (_MSCrashesIsOurTerminateHandlerInstalled) {
     MSCrashesCXXExceptionTSInfo *info =
-        static_cast<MSCrashesCXXExceptionTSInfo *>(pthread_getspecific(_MSCrashesCXXExceptionInfoTSDKey));
+            static_cast<MSCrashesCXXExceptionTSInfo *>(pthread_getspecific(_MSCrashesCXXExceptionInfoTSDKey));
 
     if (!info) {
       info = reinterpret_cast<MSCrashesCXXExceptionTSInfo *>(calloc(1, sizeof(MSCrashesCXXExceptionTSInfo)));
@@ -76,10 +77,10 @@ extern "C" void LIBCXXABI_NORETURN __cxa_throw(void *exception_object, std::type
     info->exception_object = exception_object;
     // XXX: All significant time in this call is spent right here.
     info->num_frames = backtrace(reinterpret_cast<void **>(&info->call_stack[0]),
-                                 sizeof(info->call_stack) / sizeof(info->call_stack[0]));
+            sizeof(info->call_stack) / sizeof(info->call_stack[0]));
   }
 
-callthrough:
+  callthrough:
   if (__original__cxa_throw) {
     __original__cxa_throw(exception_object, tinfo, dest);
   } else {
@@ -100,11 +101,11 @@ MSCrashesIterateExceptionHandlers_unlocked(const MSCrashesUncaughtCXXExceptionIn
 
 static void MSCrashesUncaughtCXXTerminateHandler(void) {
   MSCrashesUncaughtCXXExceptionInfo info = {
-      .exception = nullptr,
-      .exception_type_name = nullptr,
-      .exception_message = nullptr,
-      .exception_frames_count = 0,
-      .exception_frames = nullptr,
+          .exception = nullptr,
+          .exception_type_name = nullptr,
+          .exception_message = nullptr,
+          .exception_frames_count = 0,
+          .exception_frames = nullptr,
   };
   auto p = std::current_exception();
 
@@ -115,7 +116,7 @@ static void MSCrashesUncaughtCXXTerminateHandler(void) {
       info.exception_type_name = __cxxabiv1::__cxa_current_exception_type()->name();
 
       MSCrashesCXXExceptionTSInfo *recorded_info =
-          reinterpret_cast<MSCrashesCXXExceptionTSInfo *>(pthread_getspecific(_MSCrashesCXXExceptionInfoTSDKey));
+              reinterpret_cast<MSCrashesCXXExceptionTSInfo *>(pthread_getspecific(_MSCrashesCXXExceptionInfoTSDKey));
 
       if (recorded_info) {
         info.exception_frames_count = recorded_info->num_frames - 1;
@@ -160,8 +161,8 @@ static void MSCrashesUncaughtCXXTerminateHandler(void) {
     }
   }
   OSSpinLockUnlock(&_MSCrashesCXXExceptionHandlingLock); // In case terminate is
-                                                          // called reentrantly by
-                                                          // pasing it on
+  // called reentrantly by
+  // pasing it on
 
   if (_MSCrashesOriginalTerminateHandler != nullptr) {
     _MSCrashesOriginalTerminateHandler();
@@ -178,7 +179,7 @@ static void MSCrashesUncaughtCXXTerminateHandler(void) {
    * (there's no reason to delete it).
    */
   dispatch_once(&key_predicate, ^{
-    pthread_key_create(&_MSCrashesCXXExceptionInfoTSDKey, free);
+      pthread_key_create(&_MSCrashesCXXExceptionInfoTSDKey, free);
   });
 
   OSSpinLockLock(&_MSCrashesCXXExceptionHandlingLock);
@@ -196,7 +197,7 @@ static void MSCrashesUncaughtCXXTerminateHandler(void) {
   OSSpinLockLock(&_MSCrashesCXXExceptionHandlingLock);
   {
     auto i = std::find(_MSCrashesUncaughtExceptionHandlerList.begin(), _MSCrashesUncaughtExceptionHandlerList.end(),
-                       handler);
+            handler);
 
     if (i != _MSCrashesUncaughtExceptionHandlerList.end()) {
       _MSCrashesUncaughtExceptionHandlerList.erase(i);

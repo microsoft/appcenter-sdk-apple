@@ -3,10 +3,10 @@
  */
 
 #import "MSAnalytics.h"
+#import "MSAnalyticsDelegate.h"
 #import "MSServiceInternal.h"
 #import "MSSessionTracker.h"
 #import "MSSessionTrackerDelegate.h"
-#import "MSAnalyticsDelegate.h"
 
 @interface MSAnalytics () <MSSessionTrackerDelegate>
 
@@ -17,7 +17,7 @@
 
 @property(nonatomic) BOOL autoPageTrackingEnabled;
 
-@property(nonatomic) id<MSAnalyticsDelegate> delegate;
+@property(nonatomic) id <MSAnalyticsDelegate> delegate;
 
 /**
  * Track an event.

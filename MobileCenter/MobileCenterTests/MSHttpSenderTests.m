@@ -8,14 +8,13 @@
 #import "MSHttpSenderPrivate.h"
 #import "MSHttpTestUtil.h"
 #import "MSMobileCenterErrors.h"
+#import "MobileCenter+Internal.h"
 #import "MSMockLog.h"
 #import "MSRetriableCall.h"
-#import "MSSenderDelegate.h"
-#import "MobileCenter+Internal.h"
-
 #import "OCMock.h"
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <XCTest/XCTest.h>
+
+@import XCTest;
 
 static NSTimeInterval const kMSTestTimeout = 5.0;
 static NSString *const kMSBaseUrl = @"https://test.com";

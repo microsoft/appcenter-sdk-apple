@@ -2,14 +2,14 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 
 @interface MSSessionHistoryInfo : NSObject <NSCoding>
 
 /**
  *  Session Id.
  */
-@property (nonatomic, copy) NSString *sessionId;
+@property(nonatomic, copy) NSString *sessionId;
 
 /**
  *  Time offset.

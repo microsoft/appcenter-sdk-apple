@@ -3,9 +3,9 @@
  */
 
 #import "MSAnalytics.h"
-#import "MSServiceInternal.h"
 #import "MSAnalyticsDelegate.h"
 #import "MSChannelDelegate.h"
+#import "MSServiceInternal.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -2,11 +2,12 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
+#import "MobileCenter+Internal.h"
 #import "MSLogManager.h"
 #import "MSMobileCenter.h"
 #import "MSServiceInternal.h"
-#import "MobileCenter+Internal.h"
-#import <Foundation/Foundation.h>
+
+@import Foundation;
 
 // Persisted storage keys.
 static NSString *const kMSInstallIdKey = @"MSInstallId";

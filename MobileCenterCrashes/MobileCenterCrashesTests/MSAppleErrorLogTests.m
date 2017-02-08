@@ -1,6 +1,7 @@
-#import <Foundation/Foundation.h>
+@import Foundation;
+@import XCTest;
+
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <XCTest/XCTest.h>
 
 #import "MSAppleErrorLog.h"
 #import "MSCrashesTestUtil.h"

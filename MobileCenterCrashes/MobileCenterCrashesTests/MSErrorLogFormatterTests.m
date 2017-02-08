@@ -2,19 +2,19 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import <Foundation/Foundation.h>
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <XCTest/XCTest.h>
-
 #import "MSAppleErrorLog.h"
-#import "MSCrashesTestUtil.h"
 #import "MSCrashesInternal.h"
 #import "MSCrashesPrivate.h"
+#import "MSCrashesTestUtil.h"
 #import "MSDeviceTracker.h"
 #import "MSErrorLogFormatterPrivate.h"
 #import "MSException.h"
 #import "MSMobileCenterInternal.h"
 #import "MSThread.h"
+
+#import <OCHamcrestIOS/OCHamcrestIOS.h>
+
+@import XCTest;
 
 @interface MSErrorLogFormatterTests : XCTestCase
 

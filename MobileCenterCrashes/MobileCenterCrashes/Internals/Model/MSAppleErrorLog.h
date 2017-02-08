@@ -4,7 +4,8 @@
 
 #import "MSAbstractErrorLog.h"
 #import "MobileCenter+Internal.h"
-#import <Foundation/Foundation.h>
+
+@import Foundation;
 
 @class MSThread, MSBinary, MSException;
 

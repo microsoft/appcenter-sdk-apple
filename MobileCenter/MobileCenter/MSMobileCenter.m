@@ -3,8 +3,8 @@
 #import "MSDeviceTrackerPrivate.h"
 #import "MSFileStorage.h"
 #import "MSHttpSender.h"
-#import "MSLogManagerDefault.h"
 #import "MSLogger.h"
+#import "MSLogManagerDefault.h"
 #import "MSMobileCenterInternal.h"
 
 // Singleton

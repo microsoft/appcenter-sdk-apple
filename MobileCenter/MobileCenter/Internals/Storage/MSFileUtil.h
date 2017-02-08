@@ -3,7 +3,8 @@
  */
 
 #import "MSFile.h"
-#import <Foundation/Foundation.h>
+
+@import Foundation;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -57,7 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @return a list with file metadata
  */
 + (nullable NSArray<MSFile *> *)filesForDirectory:(nullable NSString *)directoryPath
-                                 withFileExtension:(nullable NSString *)fileExtension;
+                                withFileExtension:(nullable NSString *)fileExtension;
 
 /**
  * Returns the content of a file.

@@ -4,7 +4,7 @@
  * OpenAPI spec version: 1.0.0-preview20160708
  */
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 
 @class MSDevice;
 

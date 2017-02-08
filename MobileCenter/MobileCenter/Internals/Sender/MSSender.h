@@ -7,7 +7,8 @@
 #import "MSSenderCallDelegate.h"
 #import "MSSenderUtil.h"
 #import "MS_Reachability.h"
-#import <Foundation/Foundation.h>
+
+@import Foundation;
 
 NS_ASSUME_NONNULL_BEGIN
 

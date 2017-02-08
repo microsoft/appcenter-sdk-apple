@@ -3,7 +3,8 @@
  */
 #ifndef MS_Constants_h
 #define MS_Constants_h
-#import <Foundation/Foundation.h>
+
+@import Foundation;
 
 /**
  *  Log Levels

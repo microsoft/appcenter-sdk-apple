@@ -2,7 +2,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 
 static short const kMSMaxCharactersDisplayedForAppSecret = 8;
 static NSString *const kMSHidingStringForAppSecret = @"*";
