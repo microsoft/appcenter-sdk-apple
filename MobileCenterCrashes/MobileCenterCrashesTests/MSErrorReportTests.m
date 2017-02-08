@@ -1,7 +1,7 @@
-#import <Foundation/Foundation.h>
+@import Foundation;
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
-#import <XCTest/XCTest.h>
+@import XCTest;
 
 #import "MSErrorReportPrivate.h"
 #import "MSDevice.h"

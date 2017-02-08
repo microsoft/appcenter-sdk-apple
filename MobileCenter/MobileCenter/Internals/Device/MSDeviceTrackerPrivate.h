@@ -4,10 +4,11 @@
 
 #import "MSDevice.h"
 #import "MSWrapperSdk.h"
-#import <CoreTelephony/CTCarrier.h>
-#import <CoreTelephony/CTTelephonyNetworkInfo.h>
-#import <UIKit/UIKit.h>
-#import <sys/sysctl.h>
+
+@import CoreTelephony;
+@import UIKit;
+
+@import Darwin.sys.sysctl;
 
 @interface MSDeviceTracker ()
 

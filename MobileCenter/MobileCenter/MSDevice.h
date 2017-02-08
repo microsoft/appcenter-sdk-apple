@@ -3,7 +3,8 @@
  */
 
 #import "MSWrapperSdk.h"
-#import <Foundation/Foundation.h>
+
+@import Foundation;
 
 @interface MSDevice : MSWrapperSdk
 

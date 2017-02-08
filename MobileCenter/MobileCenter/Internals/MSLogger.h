@@ -3,7 +3,8 @@
  */
 
 #import "MSConstants.h"
-#import <Foundation/Foundation.h>
+
+@import Foundation;
 
 #define MSLog(_level, _tag, _message)                                                                                 \
   [MSLogger logMessage:_message level:_level tag:_tag file:__FILE__ function:__PRETTY_FUNCTION__ line:__LINE__]

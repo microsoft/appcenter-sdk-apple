@@ -2,7 +2,7 @@
 #import "MSUtilPrivate.h"
 #import "OCMock.h"
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <XCTest/XCTest.h>
+@import XCTest;
 
 @interface MSUtilTests : XCTestCase
 

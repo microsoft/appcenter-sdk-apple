@@ -1,6 +1,6 @@
-#import <Foundation/Foundation.h>
+@import Foundation;
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <XCTest/XCTest.h>
+@import XCTest;
 
 #import "MSErrorBinaryAttachment.h"
 #import "MSErrorBinaryAttachmentPrivate.h"

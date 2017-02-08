@@ -4,7 +4,7 @@
 
 #import "MSAnalyticsCategory.h"
 #import "MSAnalyticsInternal.h"
-#import <objc/runtime.h>
+@import ObjectiveC.runtime;
 
 static NSString *const kMSViewControllerSuffix = @"ViewController";
 static NSString *MSMissedPageViewName;

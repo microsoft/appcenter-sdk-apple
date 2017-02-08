@@ -1,5 +1,5 @@
-#import <Foundation/Foundation.h>
-#import <XCTest/XCTest.h>
+@import Foundation;
+@import XCTest;
 #import <OCMock/OCMock.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 

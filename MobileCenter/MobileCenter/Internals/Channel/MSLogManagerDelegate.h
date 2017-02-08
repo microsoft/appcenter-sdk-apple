@@ -3,7 +3,8 @@
  */
 
 #import "MSConstants+Internal.h"
-#import <Foundation/Foundation.h>
+
+@import Foundation;
 
 @protocol MSLogManagerDelegate <NSObject>
 

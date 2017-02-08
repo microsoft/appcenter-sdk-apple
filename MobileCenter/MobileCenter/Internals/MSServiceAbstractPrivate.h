@@ -3,7 +3,7 @@
  */
 
 #import "MSUserDefaults.h"
-#import <Foundation/Foundation.h>
+@import Foundation;
 
 /**
  *  Private declarations for MSServiceAbstract.

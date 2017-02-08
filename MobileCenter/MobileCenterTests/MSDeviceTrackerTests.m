@@ -5,7 +5,7 @@
 #import "MSWrapperSdkPrivate.h"
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
-#import <XCTest/XCTest.h>
+@import XCTest;
 
 static NSString *const kMSDeviceManufacturerTest = @"Apple";
 

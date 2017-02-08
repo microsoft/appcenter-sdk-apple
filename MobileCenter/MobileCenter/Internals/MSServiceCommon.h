@@ -2,8 +2,9 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
+@import Foundation;
+
 #import "MSLogManager.h"
-#import <Foundation/Foundation.h>
 
 /**
  * Protocol declaring services common logic.

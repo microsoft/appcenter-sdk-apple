@@ -1,5 +1,5 @@
 #import "MSFile.h"
-#import <Foundation/Foundation.h>
+@import Foundation;
 
 @interface MSStorageTestUtil : NSObject
 

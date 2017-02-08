@@ -4,7 +4,8 @@
 
 #ifndef MSConstants_Internal_h
 #define MSConstants_Internal_h
-#import <Foundation/Foundation.h>
+
+@import Foundation;
 
 // Device manufacturer
 static NSString *const kMSDeviceManufacturer = @"Apple";

@@ -5,7 +5,8 @@
 #import "../Model/MSLog.h"
 #import "MSEnable.h"
 #import "MSLogManagerDelegate.h"
-#import <Foundation/Foundation.h>
+
+@import Foundation;
 
 @protocol MSChannelDelegate;
 

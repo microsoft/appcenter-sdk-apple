@@ -4,7 +4,8 @@
 
 #import "MSSenderCallDelegate.h"
 #import "MSSenderUtil.h"
-#import <Foundation/Foundation.h>
+
+@import Foundation;
 
 @protocol MSSender;
 

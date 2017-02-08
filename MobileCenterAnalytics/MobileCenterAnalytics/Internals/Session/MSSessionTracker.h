@@ -5,7 +5,7 @@
 #import "MSSessionHistoryInfo.h"
 #import "MSSessionTrackerDelegate.h"
 #import "MobileCenter+Internal.h"
-#import <Foundation/Foundation.h>
+@import Foundation;
 
 @interface MSSessionTracker : NSObject <MSLogManagerDelegate>
 

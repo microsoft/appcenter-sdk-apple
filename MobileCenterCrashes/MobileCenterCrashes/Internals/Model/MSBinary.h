@@ -3,7 +3,7 @@
  */
 
 #import "MobileCenter+Internal.h"
-#import <Foundation/Foundation.h>
+@import Foundation;
 
 /*
  * Binary (library) definition for any platform.

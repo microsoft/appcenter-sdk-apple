@@ -3,7 +3,7 @@
  */
 
 #import "MSAbstractLog.h"
-#import <Foundation/Foundation.h>
+@import Foundation;
 
 @interface MSWrapperSdk () <MSSerializableObject>
 

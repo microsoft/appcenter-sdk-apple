@@ -5,7 +5,7 @@
 @import MobileCenterAnalytics;
 @import MobileCenterCrashes;
 #import "TodayViewController.h"
-#import <NotificationCenter/NotificationCenter.h>
+@import NotificationCenter;
 
 @interface TodayViewController () <NCWidgetProviding>
 

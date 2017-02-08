@@ -1,8 +1,8 @@
-#import <Foundation/Foundation.h>
+@import Foundation;
+@import XCTest;
+
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
-#import <XCTest/XCTest.h>
-
 #import "MSEventLog.h"
 #import "MobileCenter+Internal.h"
 

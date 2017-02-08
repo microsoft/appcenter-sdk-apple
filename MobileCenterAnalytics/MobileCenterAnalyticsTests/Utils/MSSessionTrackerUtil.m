@@ -3,9 +3,9 @@
  */
 
 #import "MSSessionTrackerUtil.h"
-#import <UIKit/UIKit.h>
+@import UIKit;
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 
 @implementation MSSessionTrackerUtil
 

@@ -3,7 +3,7 @@
  */
 
 #import "MSConstants.h"
-#import <Foundation/Foundation.h>
+@import Foundation;
 
 @interface MSWrapperLogger : NSObject
 

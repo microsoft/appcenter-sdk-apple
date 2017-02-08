@@ -8,7 +8,7 @@
 #import "MSMobileCenterInternal.h"
 #import "MSMobileCenterPrivate.h"
 #import "MSUtil.h"
-#import <UIKit/UIKit.h>
+@import UIKit;
 #import <sys/sysctl.h>
 
 // Singleton

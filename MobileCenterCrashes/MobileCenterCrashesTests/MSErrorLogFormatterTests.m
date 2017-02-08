@@ -2,9 +2,9 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <XCTest/XCTest.h>
+@import XCTest;
 
 #import "MSAppleErrorLog.h"
 #import "MSCrashesTestUtil.h"

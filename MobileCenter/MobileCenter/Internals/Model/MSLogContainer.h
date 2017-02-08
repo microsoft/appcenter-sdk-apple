@@ -3,7 +3,8 @@
  */
 
 #import "MSLog.h"
-#import <Foundation/Foundation.h>
+
+@import Foundation;
 
 @interface MSLogContainer : NSObject
 

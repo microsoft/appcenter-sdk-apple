@@ -9,7 +9,7 @@
 #import "MSSender.h"
 #import "MSSenderDelegate.h"
 #import "MSStorage.h"
-#import <Foundation/Foundation.h>
+@import Foundation;
 @protocol MSChannelDelegate;
 
 NS_ASSUME_NONNULL_BEGIN

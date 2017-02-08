@@ -6,9 +6,9 @@
  Basic demonstration of how to use the SystemConfiguration Reachablity APIs.
  */
 
-#import <Foundation/Foundation.h>
-#import <SystemConfiguration/SystemConfiguration.h>
-#import <netinet/in.h>
+@import Darwin.POSIX.netinet.in;
+@import Foundation;
+@import SystemConfiguration;
 
 typedef enum : NSInteger { NotReachable = 0, ReachableViaWiFi, ReachableViaWWAN } NetworkStatus;
 

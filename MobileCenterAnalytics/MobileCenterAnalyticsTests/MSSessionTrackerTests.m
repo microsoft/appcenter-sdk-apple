@@ -6,7 +6,7 @@
 #import "MobileCenter+Internal.h"
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
-#import <XCTest/XCTest.h>
+@import XCTest;
 
 NSTimeInterval const kMSTestSessionTimeout = 1.5;
 

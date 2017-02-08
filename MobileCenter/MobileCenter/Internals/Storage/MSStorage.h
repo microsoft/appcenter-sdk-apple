@@ -4,7 +4,8 @@
 
 #import "MSLog.h"
 #import "MSLogContainer.h"
-#import <Foundation/Foundation.h>
+
+@import Foundation;
 
 NS_ASSUME_NONNULL_BEGIN
 
