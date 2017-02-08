@@ -1,5 +1,5 @@
 @import Foundation;
-#import <OHHTTPStubs/OHHTTPStubs.h>
+@import OHHTTPStubs.OHHTTPStubs;
 
 @interface MSHttpTestUtil : NSObject
 

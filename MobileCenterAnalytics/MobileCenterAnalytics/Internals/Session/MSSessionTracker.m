@@ -3,7 +3,6 @@
  */
 
 #import "MSAnalyticsInternal.h"
-#import "MSUtil.h"
 #import "MSSessionTracker.h"
 #import "MSStartSessionLog.h"
 
@@ -59,7 +58,7 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
 }
 
 - (NSString *)sessionId {
-  @synchronized(self) {
+  @synchronized (self) {
 
     // Check if new session id is required.
     if (_sessionId == nil || [self hasSessionTimedOut]) {
@@ -96,7 +95,7 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
 
     // Request a new session id depending on the application state.
     if ([MSUtil applicationState] == MSApplicationStateInactive ||
-        [MSUtil applicationState] == MSApplicationStateActive) {
+            [MSUtil applicationState] == MSApplicationStateActive) {
       [self sessionId];
     }
 
@@ -121,7 +120,7 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
 }
 
 - (void)clearSessions {
-  @synchronized(self) {
+  @synchronized (self) {
 
     // Clear persistence.
     [MS_USER_DEFAULTS removeObjectForKey:kMSPastSessionsKey];
@@ -136,12 +135,12 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
 
 - (BOOL)hasSessionTimedOut {
 
-  @synchronized(self) {
+  @synchronized (self) {
     NSDate *now = [NSDate date];
 
     // Verify if a log has already been sent and if it was sent a longer time ago than the session timeout.
     BOOL noLogSentForLong =
-        !self.lastCreatedLogTime || [now timeIntervalSinceDate:self.lastCreatedLogTime] >= self.sessionTimeout;
+            !self.lastCreatedLogTime || [now timeIntervalSinceDate:self.lastCreatedLogTime] >= self.sessionTimeout;
 
     // FIXME: There is no life cycle for app extensions yet so ignoring the background tests for now.
     if (MS_IS_APP_EXTENSION)
@@ -149,16 +148,16 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
 
     // Verify if app is currently in the background for a longer time than the session timeout.
     BOOL isBackgroundForLong =
-        (self.lastEnteredBackgroundTime && self.lastEnteredForegroundTime) &&
-        ([self.lastEnteredBackgroundTime compare:self.lastEnteredForegroundTime] == NSOrderedDescending) &&
-        ([now timeIntervalSinceDate:self.lastEnteredBackgroundTime] >= self.sessionTimeout);
+            (self.lastEnteredBackgroundTime && self.lastEnteredForegroundTime) &&
+                    ([self.lastEnteredBackgroundTime compare:self.lastEnteredForegroundTime] == NSOrderedDescending) &&
+                    ([now timeIntervalSinceDate:self.lastEnteredBackgroundTime] >= self.sessionTimeout);
 
     // Verify if app was in the background for a longer time than the session
     // timeout time.
     BOOL wasBackgroundForLong = (self.lastEnteredBackgroundTime)
-                                    ? [self.lastEnteredForegroundTime
-                                          timeIntervalSinceDate:self.lastEnteredBackgroundTime] >= self.sessionTimeout
-                                    : false;
+            ? [self.lastEnteredForegroundTime
+                    timeIntervalSinceDate:self.lastEnteredBackgroundTime] >= self.sessionTimeout
+            : false;
     return noLogSentForLong && (isBackgroundForLong || wasBackgroundForLong);
   }
 }
@@ -176,21 +175,21 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
 
 #pragma mark - MSLogManagerDelegate
 
-- (void)onProcessingLog:(id<MSLog>)log withPriority:(MSPriority)priority {
+- (void)onProcessingLog:(id <MSLog>)log withPriority:(MSPriority)priority {
 
   // Start session log is created in this method, therefore, skip in order to avoid infinite loop.
-  if ([((NSObject *)log) isKindOfClass:[MSStartSessionLog class]])
+  if ([((NSObject *) log) isKindOfClass:[MSStartSessionLog class]])
     return;
 
   // Attach corresponding session id.
   if (log.toffset != nil) {
     [self.pastSessions
-        enumerateObjectsUsingBlock:^(MSSessionHistoryInfo *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
-          if ([log.toffset compare:obj.toffset] == NSOrderedDescending) {
-            log.sid = obj.sessionId;
-            *stop = YES;
-          }
-        }];
+            enumerateObjectsUsingBlock:^(MSSessionHistoryInfo *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
+                if ([log.toffset compare:obj.toffset] == NSOrderedDescending) {
+                  log.sid = obj.sessionId;
+                  *stop = YES;
+                }
+            }];
   }
 
   // If log is not correlated to a past session.

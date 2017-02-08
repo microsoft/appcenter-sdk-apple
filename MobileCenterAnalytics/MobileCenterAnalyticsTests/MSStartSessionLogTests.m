@@ -1,9 +1,8 @@
-@import Foundation;
+#import "MSStartSessionLog.h"
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
-@import XCTest;
 
-#import "MSStartSessionLog.h"
+@import XCTest;
 
 @interface MSStartSessionLogTests : XCTestCase
 

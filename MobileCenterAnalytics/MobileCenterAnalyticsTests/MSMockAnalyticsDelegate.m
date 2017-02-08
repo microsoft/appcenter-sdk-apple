@@ -4,5 +4,6 @@
 
 #import "MSMockAnalyticsDelegate.h"
 
-@implementation MSMockAnalyticsDelegate {}
+@implementation MSMockAnalyticsDelegate {
+}
 @end

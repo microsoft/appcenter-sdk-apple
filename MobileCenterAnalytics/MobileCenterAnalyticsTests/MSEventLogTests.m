@@ -1,10 +1,8 @@
-@import Foundation;
-@import XCTest;
-
+#import "MSEventLog.h"
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
-#import "MSEventLog.h"
-#import "MobileCenter+Internal.h"
+
+@import XCTest;
 
 @interface MSEventLogTests : XCTestCase
 
@@ -37,7 +35,7 @@
   NSString *eventName = @"eventName";
   MSDevice *device = [MSDevice new];
   NSString *sessionId = @"1234567890";
-  NSDictionary *properties = @{ @"Key" : @"Value" };
+  NSDictionary *properties = @{@"Key": @"Value"};
   long long createTime = [MSUtil nowInMilliseconds];
   NSNumber *tOffset = @(createTime);
 
@@ -74,7 +72,7 @@
   MSDevice *device = [MSDevice new];
   NSString *sessionId = @"1234567890";
   NSNumber *tOffset = @(3);
-  NSDictionary *properties = @{ @"Key" : @"Value" };
+  NSDictionary *properties = @{@"Key": @"Value"};
 
   self.sut.eventId = eventId;
   self.sut.name = eventName;

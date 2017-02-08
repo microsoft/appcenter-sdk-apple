@@ -1,9 +1,8 @@
-@import Foundation;
+#import "MSPageLog.h"
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
-@import XCTest;
 
-#import "MSPageLog.h"
+@import XCTest;
 
 @interface MSPageLogTests : XCTestCase
 
@@ -35,7 +34,7 @@
   NSString *pageName = @"pageName";
   MSDevice *device = [MSDevice new];
   NSString *sessionId = @"1234567890";
-  NSDictionary *properties = @{ @"Key" : @"Value" };
+  NSDictionary *properties = @{@"Key": @"Value"};
   long long createTime = [MSUtil nowInMilliseconds];
   NSNumber *tOffset = [NSNumber numberWithLongLong:createTime];
 
@@ -70,7 +69,7 @@
   MSDevice *device = [MSDevice new];
   NSString *sessionId = @"1234567890";
   NSNumber *tOffset = @(3);
-  NSDictionary *properties = @{ @"Key" : @"Value" };
+  NSDictionary *properties = @{@"Key": @"Value"};
 
   self.sut.name = pageName;
   self.sut.device = device;

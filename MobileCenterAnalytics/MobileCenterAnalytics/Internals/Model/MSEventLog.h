@@ -5,6 +5,7 @@
  */
 
 #import "MobileCenter+Internal.h"
+
 @import Foundation;
 
 @interface MSEventLog : MSLogWithProperties

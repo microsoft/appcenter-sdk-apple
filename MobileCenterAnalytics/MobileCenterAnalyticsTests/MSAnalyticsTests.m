@@ -1,17 +1,13 @@
-@import Foundation;
-@import XCTest;
-#import <OCMock/OCMock.h>
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-
-#import "MSMobileCenter.h"
-#import "MSServiceAbstract.h"
-#import "MSServiceInternal.h"
-
 #import "MSAnalytics.h"
 #import "MSAnalyticsPrivate.h"
 #import "MSAnalyticsInternal.h"
-#import "MSMockAnalyticsDelegate.h"
 #import "MSEventLog.h"
+#import "MSMobileCenter.h"
+#import "MSMockAnalyticsDelegate.h"
+#import <OCMock/OCMock.h>
+#import <OCHamcrestIOS/OCHamcrestIOS.h>
+
+@import XCTest;
 
 static NSString *const kMSTypeEvent = @"event";
 static NSString *const kMSTypePage = @"page";

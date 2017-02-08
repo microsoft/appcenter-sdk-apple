@@ -3,9 +3,8 @@
 #import "MSSessionTracker.h"
 #import "MSSessionTrackerUtil.h"
 #import "MSStartSessionLog.h"
-#import "MobileCenter+Internal.h"
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
+
 @import XCTest;
 
 NSTimeInterval const kMSTestSessionTimeout = 1.5;
@@ -161,7 +160,7 @@ NSTimeInterval const kMSTestSessionTimeout = 1.5;
   OCMStub([analyticsMock sharedInstance]).andReturn(analyticsMock);
   MSSessionTracker *sut = [[MSSessionTracker alloc] init];
   [sut setSessionTimeout:kMSTestSessionTimeout];
-  id<MSSessionTrackerDelegate> delegateMock = OCMProtocolMock(@protocol(MSSessionTrackerDelegate));
+  id <MSSessionTrackerDelegate> delegateMock = OCMProtocolMock(@protocol(MSSessionTrackerDelegate));
   sut.delegate = delegateMock;
 
   // When
@@ -181,7 +180,7 @@ NSTimeInterval const kMSTestSessionTimeout = 1.5;
   OCMStub([analyticsMock sharedInstance]).andReturn(analyticsMock);
   MSSessionTracker *sut = [[MSSessionTracker alloc] init];
   [sut setSessionTimeout:0];
-  id<MSSessionTrackerDelegate> delegateMock = OCMProtocolMock(@protocol(MSSessionTrackerDelegate));
+  id <MSSessionTrackerDelegate> delegateMock = OCMProtocolMock(@protocol(MSSessionTrackerDelegate));
   [sut start];
 
   // When
