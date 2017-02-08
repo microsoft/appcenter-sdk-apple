@@ -16,7 +16,7 @@
 /**
  * The list of logs
  */
-@property(nonatomic) NSArray<MSLog> *logs;
+@property(nonatomic) NSArray <MSLog> *logs;
 
 /**
  * Initializer
@@ -24,7 +24,7 @@
  * batchID Unique batch Id
  * logs Array of logs
  */
-- (id)initWithBatchId:(NSString *)batchId andLogs:(NSArray<MSLog> *)logs;
+- (id)initWithBatchId:(NSString *)batchId andLogs:(NSArray <MSLog> *)logs;
 
 /**
  * Serialize logs into a JSON string

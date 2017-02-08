@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * A in-memory list of all items that have been added to the current batch.
  */
-@property(nonatomic, strong) NSMutableArray<MSLog> *currentLogs;
+@property(nonatomic, strong) NSMutableArray <MSLog> *currentLogs;
 
 /**
  * A list of file names that are currently used by other components.

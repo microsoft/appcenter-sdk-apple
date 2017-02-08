@@ -27,7 +27,6 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-@import Foundation;
 #import "MSKeychainUtil.h"
 
 @implementation MSKeychainUtil

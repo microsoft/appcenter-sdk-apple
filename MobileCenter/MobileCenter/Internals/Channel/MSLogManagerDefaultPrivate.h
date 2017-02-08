@@ -2,14 +2,14 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import <Foundation/Foundation.h>
-
 #import "MSChannel.h"
 #import "MSDeviceTracker.h"
 #import "MSEnable.h"
 #import "MSLogManagerDelegate.h"
 #import "MSSender.h"
 #import "MSStorage.h"
+
+@import Foundation;
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -5,6 +5,7 @@
 #import "MSAbstractLog.h"
 #import "MSLogContainer.h"
 #import "MobileCenter+Internal.h"
+
 @import XCTest;
 
 @interface MSLogContainerTests : XCTestCase

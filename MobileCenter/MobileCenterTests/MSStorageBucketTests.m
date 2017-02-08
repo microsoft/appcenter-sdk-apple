@@ -1,9 +1,8 @@
-@import Foundation;
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-@import XCTest;
-
 #import "MSFile.h"
 #import "MSFileStorage.h"
+#import <OCHamcrestIOS/OCHamcrestIOS.h>
+
+@import XCTest;
 
 @interface MSStorageBucketTests : XCTestCase
 
@@ -55,19 +54,19 @@
 
   // If
   MSFile *availableFile1 =
-      [[MSFile alloc] initWithPath:@"1" fileId:@"1" creationDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+          [[MSFile alloc] initWithPath:@"1" fileId:@"1" creationDate:[NSDate dateWithTimeIntervalSinceNow:1]];
   MSFile *availableFile2 =
-      [[MSFile alloc] initWithPath:@"2" fileId:@"2" creationDate:[NSDate dateWithTimeIntervalSinceNow:2]];
+          [[MSFile alloc] initWithPath:@"2" fileId:@"2" creationDate:[NSDate dateWithTimeIntervalSinceNow:2]];
   MSFile *availableFile3 =
-      [[MSFile alloc] initWithPath:@"3" fileId:@"3" creationDate:[NSDate dateWithTimeIntervalSinceNow:3]];
+          [[MSFile alloc] initWithPath:@"3" fileId:@"3" creationDate:[NSDate dateWithTimeIntervalSinceNow:3]];
   _sut.availableFiles = [NSMutableArray arrayWithObjects:availableFile1, availableFile2, availableFile3, nil];
 
   MSFile *blockedFile1 =
-      [[MSFile alloc] initWithPath:@"4" fileId:@"4" creationDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+          [[MSFile alloc] initWithPath:@"4" fileId:@"4" creationDate:[NSDate dateWithTimeIntervalSinceNow:1]];
   MSFile *blockedFile2 =
-      [[MSFile alloc] initWithPath:@"5" fileId:@"5" creationDate:[NSDate dateWithTimeIntervalSinceNow:2]];
+          [[MSFile alloc] initWithPath:@"5" fileId:@"5" creationDate:[NSDate dateWithTimeIntervalSinceNow:2]];
   MSFile *blockedFile3 =
-      [[MSFile alloc] initWithPath:@"6" fileId:@"6" creationDate:[NSDate dateWithTimeIntervalSinceNow:3]];
+          [[MSFile alloc] initWithPath:@"6" fileId:@"6" creationDate:[NSDate dateWithTimeIntervalSinceNow:3]];
   self.sut.blockedFiles = [NSMutableArray arrayWithObjects:blockedFile1, blockedFile2, blockedFile3, nil];
 
   // When
@@ -83,11 +82,11 @@
 
   // If
   MSFile *availableFile1 =
-      [[MSFile alloc] initWithPath:@"1" fileId:@"1" creationDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+          [[MSFile alloc] initWithPath:@"1" fileId:@"1" creationDate:[NSDate dateWithTimeIntervalSinceNow:1]];
   MSFile *availableFile2 =
-      [[MSFile alloc] initWithPath:@"2" fileId:@"2" creationDate:[NSDate dateWithTimeIntervalSinceNow:2]];
+          [[MSFile alloc] initWithPath:@"2" fileId:@"2" creationDate:[NSDate dateWithTimeIntervalSinceNow:2]];
   MSFile *availableFile3 =
-      [[MSFile alloc] initWithPath:@"3" fileId:@"3" creationDate:[NSDate dateWithTimeIntervalSinceNow:3]];
+          [[MSFile alloc] initWithPath:@"3" fileId:@"3" creationDate:[NSDate dateWithTimeIntervalSinceNow:3]];
   self.sut.availableFiles = [NSMutableArray arrayWithObjects:availableFile1, availableFile2, availableFile3, nil];
 
   // When

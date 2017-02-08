@@ -1,13 +1,12 @@
-@import Foundation;
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <OCMock/OCMock.h>
-@import XCTest;
-
 #import "MSAbstractLog.h"
 #import "MSChannelConfiguration.h"
 #import "MSChannelDefault.h"
 #import "MSLogManagerDefault.h"
 #import "MSLogManagerDefaultPrivate.h"
+#import <OCHamcrestIOS/OCHamcrestIOS.h>
+#import <OCMock/OCMock.h>
+
+@import XCTest;
 
 @interface MSLogManagerDefaultTests : XCTestCase
 

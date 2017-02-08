@@ -1,6 +1,7 @@
 #import "MSKeychainUtil.h"
-@import XCTest;
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
+
+@import XCTest;
 
 @interface MSKeychiainUtilTests : XCTestCase
 

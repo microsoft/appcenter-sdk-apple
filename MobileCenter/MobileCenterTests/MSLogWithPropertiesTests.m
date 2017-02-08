@@ -1,9 +1,8 @@
-@import Foundation;
+#import "MSLogWithProperties.h"
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
-@import XCTest;
 
-#import "MSLogWithProperties.h"
+@import XCTest;
 
 @interface MSLogWithPropertiesTests : XCTestCase
 

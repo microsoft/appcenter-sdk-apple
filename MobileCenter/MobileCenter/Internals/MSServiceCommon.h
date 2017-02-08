@@ -2,9 +2,9 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-@import Foundation;
-
 #import "MSLogManager.h"
+
+@import Foundation;
 
 NS_ASSUME_NONNULL_BEGIN
 

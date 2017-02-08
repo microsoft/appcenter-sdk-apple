@@ -9,7 +9,7 @@ static NSString *const kMSLogs = @"logs";
 
 @implementation MSLogContainer
 
-- (id)initWithBatchId:(NSString *)batchId andLogs:(NSArray<MSLog> *)logs {
+- (id)initWithBatchId:(NSString *)batchId andLogs:(NSArray <MSLog> *)logs {
   if (self = [super init]) {
     self.batchId = batchId;
     self.logs = logs;
@@ -25,15 +25,15 @@ static NSString *const kMSLogs = @"logs";
   NSString *jsonString;
   NSMutableArray *jsonArray = [NSMutableArray array];
   [self.logs enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
-    NSMutableDictionary *dict = [obj serializeToDictionary];
-    if (dict) {
-      [jsonArray addObject:dict];
-    }
+      NSMutableDictionary *dict = [obj serializeToDictionary];
+      if (dict) {
+        [jsonArray addObject:dict];
+      }
   }];
 
   NSMutableDictionary *logContainer = [[NSMutableDictionary alloc] init];
   [logContainer setValue:jsonArray forKey:kMSLogs];
-  
+
   NSError *error;
   NSJSONWritingOptions printOptions = prettyPrint ? NSJSONWritingPrettyPrinted : 0;
   NSData *jsonData = [NSJSONSerialization dataWithJSONObject:logContainer options:printOptions error:&error];
@@ -58,11 +58,11 @@ static NSString *const kMSLogs = @"logs";
 
   __block BOOL isValid = YES;
   [self.logs enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
-    if (![obj isValid]) {
-      *stop = YES;
-      isValid = NO;
-      return;
-    }
+      if (![obj isValid]) {
+        *stop = YES;
+        isValid = NO;
+        return;
+      }
   }];
   return isValid;
 }

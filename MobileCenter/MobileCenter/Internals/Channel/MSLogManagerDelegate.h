@@ -16,6 +16,6 @@
  *  @param log      log.
  *  @param priority priority.
  */
-- (void)onProcessingLog:(id<MSLog>)log withPriority:(MSPriority)priority;
+- (void)onProcessingLog:(id <MSLog>)log withPriority:(MSPriority)priority;
 
 @end

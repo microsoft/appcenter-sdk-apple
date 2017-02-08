@@ -3,6 +3,7 @@
  */
 
 #import "MSAbstractLog.h"
+#import "MSDevice.h"
 
 @import Foundation;
 

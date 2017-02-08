@@ -13,7 +13,7 @@
  *
  *  @param call Call object.
  */
-- (void)sendCallAsync:(id<MSSenderCall>)call;
+- (void)sendCallAsync:(id <MSSenderCall>)call;
 
 /**
  *  Call completed callback.

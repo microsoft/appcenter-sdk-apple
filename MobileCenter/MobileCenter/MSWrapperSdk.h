@@ -16,7 +16,7 @@
 /*
  * Name of the wrapper SDK (examples: Xamarin, Cordova).  [optional]
  */
-@property(nonatomic,copy, readonly) NSString *wrapperSdkName;
+@property(nonatomic, copy, readonly) NSString *wrapperSdkName;
 
 /*
  * Label that is used to identify application code 'version' released via Live Update beacon running on device
@@ -43,10 +43,10 @@
  */
 - (BOOL)isEqual:(MSWrapperSdk *)wrapperSdk;
 
-- (instancetype) initWithWrapperSdkVersion:(NSString *)wrapperSdkVersion
-                            wrapperSdkName:(NSString *)wrapperSdkName
-                    liveUpdateReleaseLabel:(NSString *)liveUpdateReleaseLabel
-                   liveUpdateDeploymentKey:(NSString *)liveUpdateDeploymentKey
-                     liveUpdatePackageHash:(NSString *)liveUpdatePackageHash;
+- (instancetype)initWithWrapperSdkVersion:(NSString *)wrapperSdkVersion
+                           wrapperSdkName:(NSString *)wrapperSdkName
+                   liveUpdateReleaseLabel:(NSString *)liveUpdateReleaseLabel
+                  liveUpdateDeploymentKey:(NSString *)liveUpdateDeploymentKey
+                    liveUpdatePackageHash:(NSString *)liveUpdatePackageHash;
 
 @end
