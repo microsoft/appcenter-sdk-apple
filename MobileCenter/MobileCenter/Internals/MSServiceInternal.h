@@ -31,7 +31,7 @@
 /**
  * Get the unique instance.
  *
- * @return unique instance.
+ * @return The unique instance.
  */
 + (instancetype)sharedInstance;
 
