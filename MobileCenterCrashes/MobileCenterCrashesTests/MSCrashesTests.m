@@ -1,8 +1,3 @@
-@import Foundation;
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <OCMock/OCMock.h>
-@import XCTest;
-
 #import "MSChannelDelegate.h"
 #import "MSCrashesDelegate.h"
 #import "MSCrashesInternal.h"
@@ -12,6 +7,10 @@
 #import "MSServiceAbstractPrivate.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSUtil.h"
+#import <OCHamcrestIOS/OCHamcrestIOS.h>
+#import <OCMock/OCMock.h>
+
+@import XCTest;
 
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
 

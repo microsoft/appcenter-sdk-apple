@@ -3,6 +3,7 @@
  */
 
 @import Foundation;
+
 @class MSDevice;
 
 @interface MSErrorReport : NSObject

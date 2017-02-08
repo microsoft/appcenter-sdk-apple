@@ -1,9 +1,8 @@
-@import Foundation;
+#import "MSStackFrame.h"
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
-@import XCTest;
 
-#import "MSStackFrame.h"
+@import XCTest;
 
 @interface MSStackFrameTests : XCTestCase
 
@@ -35,13 +34,13 @@
 #pragma mark - Tests
 
 - (void)testSerializingBinaryToDictionaryWorks {
-  
+
   // If
   MSStackFrame *sut = [self stackFrame];
-  
+
   // When
   NSMutableDictionary *actual = [sut serializeToDictionary];
-  
+
   // Then
   assertThat(actual, notNilValue());
   assertThat(actual[@"address"], equalTo(sut.address));
@@ -53,19 +52,19 @@
 }
 
 - (void)testNSCodingSerializationAndDeserializationWorks {
-  
+
   // If
   MSStackFrame *sut = [self stackFrame];
-  
+
   // When
   NSData *serializedEvent =
-  [NSKeyedArchiver archivedDataWithRootObject:sut];
+          [NSKeyedArchiver archivedDataWithRootObject:sut];
   id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedEvent];
-  
+
   // Then
   assertThat(actual, notNilValue());
   assertThat(actual, instanceOf([MSStackFrame class]));
-  
+
   MSStackFrame *actualThreadFrame = actual;
   assertThat(actualThreadFrame, equalTo(sut));
   assertThat(actualThreadFrame.address, equalTo(sut.address));

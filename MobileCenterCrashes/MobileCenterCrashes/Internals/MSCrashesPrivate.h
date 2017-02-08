@@ -5,8 +5,6 @@
 #import "MSCrashes.h"
 #import <CrashReporter/CrashReporter.h>
 
-@class MSMPLCrashReporter;
-
 @interface MSCrashes ()
 
 /**

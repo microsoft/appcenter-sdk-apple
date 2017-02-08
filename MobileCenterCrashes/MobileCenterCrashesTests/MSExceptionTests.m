@@ -1,11 +1,9 @@
-@import Foundation;
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <OCMock/OCMock.h>
-@import XCTest;
-
 #import "MSCrashesTestUtil.h"
 #import "MSException.h"
 #import "MSStackFrame.h"
+#import <OCHamcrestIOS/OCHamcrestIOS.h>
+
+@import XCTest;
 
 @interface MSExceptionsTests : XCTestCase
 

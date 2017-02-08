@@ -3,6 +3,7 @@
  */
 
 #import "MSErrorLogFormatter.h"
+
 @class MSPLCrashReportThreadInfo;
 
 #ifndef MSErrorLogFormatterPrivate_h
@@ -36,7 +37,7 @@
  * @return
  */
 + (MSAppleErrorLog *)addProcessInfoAndApplicationPathTo:(MSAppleErrorLog *)errorLog
-                                         fromCrashReport:(MSPLCrashReport *)crashReport;
+                                        fromCrashReport:(MSPLCrashReport *)crashReport;
 
 /**
  * Convenience method to find the crashed thread in a crash report.

@@ -33,12 +33,12 @@
 + (nonnull MSErrorAttachment *)attachmentWithText:(nonnull NSString *)text;
 
 + (nonnull MSErrorAttachment *)attachmentWithBinaryData:(nonnull NSData *)data
-                                                filename:(nullable NSString *)filename
-                                                mimeType:(nonnull NSString *)mimeType;
+                                               filename:(nullable NSString *)filename
+                                               mimeType:(nonnull NSString *)mimeType;
 
 + (nonnull MSErrorAttachment *)attachmentWithText:(nonnull NSString *)text
-                                     andBinaryData:(nonnull NSData *)data
-                                          filename:(nullable NSString *)filename
-                                          mimeType:(nonnull NSString *)mimeType;
+                                    andBinaryData:(nonnull NSData *)data
+                                         filename:(nullable NSString *)filename
+                                         mimeType:(nonnull NSString *)mimeType;
 
 @end

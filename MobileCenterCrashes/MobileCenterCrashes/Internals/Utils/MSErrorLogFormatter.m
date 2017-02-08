@@ -140,11 +140,11 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
         const struct uuid_command *uuid_command = (const struct uuid_command *) command;
         const uint8_t *uuid = uuid_command->uuid;
         uuidString = [[NSString stringWithFormat:@"%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%"
-                       @
-                       "02X%02X%02X%02X%02X",
-                       uuid[0], uuid[1], uuid[2], uuid[3], uuid[4], uuid[5], uuid[6], uuid[7],
-                       uuid[8], uuid[9], uuid[10], uuid[11], uuid[12], uuid[13], uuid[14],
-                       uuid[15]] lowercaseString];
+                                                         @
+                                                         "02X%02X%02X%02X%02X",
+                                                 uuid[0], uuid[1], uuid[2], uuid[3], uuid[4], uuid[5], uuid[6], uuid[7],
+                                                 uuid[8], uuid[9], uuid[10], uuid[11], uuid[12], uuid[13], uuid[14],
+                                                 uuid[15]] lowercaseString];
         break;
       } else {
         command += load_command->cmdsize;
@@ -255,10 +255,10 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   errorLog.osExceptionCode = report.signalInfo.code; // TODO check with Andreas/Gwynne
 
   errorLog.osExceptionAddress =
-  [NSString stringWithFormat:@"0x%" PRIx64, report.signalInfo.address]; // TODO check with Andreas/Gwynne
+          [NSString stringWithFormat:@"0x%" PRIx64, report.signalInfo.address]; // TODO check with Andreas/Gwynne
 
   errorLog.exceptionReason =
-  [self extractExceptionReasonFromReport:report ofCrashedThread:crashedThread is64bit:is64bit];
+          [self extractExceptionReasonFromReport:report ofCrashedThread:crashedThread is64bit:is64bit];
 
   errorLog.exceptionType = report.signalInfo.name;
 
@@ -302,9 +302,9 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   //the moment the app was launched and when the app crashed.
 
   NSDate *appStartTime =
-  [NSDate dateWithTimeIntervalSince1970:(([errorLog.toffset doubleValue] - [errorLog.appLaunchTOffset doubleValue])/1000)];
-  NSDate *appErrorTime = [NSDate dateWithTimeIntervalSince1970:([errorLog.toffset doubleValue]/1000)];
-  
+          [NSDate dateWithTimeIntervalSince1970:(([errorLog.toffset doubleValue] - [errorLog.appLaunchTOffset doubleValue]) / 1000)];
+  NSDate *appErrorTime = [NSDate dateWithTimeIntervalSince1970:([errorLog.toffset doubleValue] / 1000)];
+
   NSUInteger processId = [errorLog.processId unsignedIntegerValue];
 
   MSDevice *device = [MSDeviceTracker alloc].device;
@@ -328,7 +328,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
 + (NSString *)errorIdForCrashReport:(MSPLCrashReport *)report {
   NSString *errorId = report.uuidRef ? (NSString *) CFBridgingRelease(CFUUIDCreateString(NULL, report.uuidRef))
-  : MS_UUID_STRING;
+          : MS_UUID_STRING;
   return errorId;
 }
 
@@ -392,7 +392,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
   // If CrashReport contains Exception, add the threads that belong to the exception to the list of threads.
   if (report.exceptionInfo != nil && report.exceptionInfo.stackFrames != nil &&
-      [report.exceptionInfo.stackFrames count] > 0) {
+          [report.exceptionInfo.stackFrames count] > 0) {
     MSPLCrashReportExceptionInfo *exception = report.exceptionInfo;
 
     MSThread *exceptionThread = [MSThread new];
@@ -464,7 +464,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   /* If symbol info is available, the format used in Apple's reports is Sym + OffsetFromSym. Otherwise,
    * the format used is imageBaseAddress + offsetToIP */
   MSBinaryImageType imageType =
-  [self imageTypeForImagePath:imageInfo.imageName processPath:report.processInfo.processPath];
+          [self imageTypeForImagePath:imageInfo.imageName processPath:report.processInfo.processPath];
   if (frameInfo.symbolInfo != nil && imageType == MSBinaryImageTypeOther) {
     NSString *symbolName = frameInfo.symbolInfo.symbolName;
 
@@ -474,10 +474,12 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
       switch (report.systemInfo.operatingSystem) {
         case PLCrashReportOperatingSystemMacOSX:
         case PLCrashReportOperatingSystemiPhoneOS:
-        case PLCrashReportOperatingSystemiPhoneSimulator:symbolName = [symbolName substringFromIndex:1];
+        case PLCrashReportOperatingSystemiPhoneSimulator:
+          symbolName = [symbolName substringFromIndex:1];
           break;
 
-        default:NSLog(@"Symbol prefix rules are unknown for this OS!");
+        default:
+          NSLog(@"Symbol prefix rules are unknown for this OS!");
           break;
       }
     }
@@ -558,7 +560,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   /* Images. The iPhone crash report format sorts these in ascending order, by
    * the base address */
   for (MSPLCrashReportBinaryImageInfo *imageInfo in
-       [report.images sortedArrayUsingFunction:bit_binaryImageSort context:nil]) {
+          [report.images sortedArrayUsingFunction:bit_binaryImageSort context:nil]) {
     MSBinary *binary = [MSBinary new];
 
     binary.binaryId = (imageInfo.hasImageUUID) ? imageInfo.imageUUID : unknownString;
@@ -571,7 +573,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
     BOOL binaryIsInAddresses = [self isBinaryWithStart:startAddress end:endAddress inAddresses:addresses];
     MSBinaryImageType imageType =
-    [self imageTypeForImagePath:imageInfo.imageName processPath:report.processInfo.processPath];
+            [self imageTypeForImagePath:imageInfo.imageName processPath:report.processInfo.processPath];
 
     if (binaryIsInAddresses || (imageType != MSBinaryImageTypeOther)) {
 
@@ -632,7 +634,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   if (([path length] > 0) && [path hasPrefix:@"/Users/"]) {
     NSError *error = nil;
     NSRegularExpression *regex =
-    [NSRegularExpression regularExpressionWithPattern:@"(/Users/[^/]+/)" options:0 error:&error];
+            [NSRegularExpression regularExpressionWithPattern:@"(/Users/[^/]+/)" options:0 error:&error];
     anonymizedProcessPath = [regex stringByReplacingMatchesInString:path
                                                             options:0
                                                               range:NSMakeRange(0, [path length])
@@ -675,7 +677,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   if (imageForRegAddress) {
     // get the SEL
     const char *foundSelector = findSEL([imageForRegAddress.imageName UTF8String], imageForRegAddress.imageUUID,
-                                        regAddress - (uint64_t) imageForRegAddress.imageBaseAddress);
+            regAddress - (uint64_t) imageForRegAddress.imageBaseAddress);
 
     if (foundSelector != NULL) {
       return [NSString stringWithUTF8String:foundSelector];
@@ -709,15 +711,15 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
     NSString *appBundleContentsPath = [standardizedImagePath substringToIndex:appRange.location + 5];
 
     if ([standardizedImagePath isEqual:processPath] ||
-        // Fix issue with iOS 8 `stringByStandardizingPath` removing leading
-        // `/private` path (when not running in the debugger or simulator only)
-        [imagePath hasPrefix:processPath]) {
+            // Fix issue with iOS 8 `stringByStandardizingPath` removing leading
+                    // `/private` path (when not running in the debugger or simulator only)
+                    [imagePath hasPrefix:processPath]) {
       imageType = MSBinaryImageTypeAppBinary;
     } else if ([standardizedImagePath hasPrefix:appBundleContentsPath] ||
-               // Fix issue with iOS 8 `stringByStandardizingPath` removing
-               // leading `/private` path (when not running in the debugger or
-               // simulator only)
-               [imagePath hasPrefix:appBundleContentsPath]) {
+            // Fix issue with iOS 8 `stringByStandardizingPath` removing
+                    // leading `/private` path (when not running in the debugger or
+                    // simulator only)
+                    [imagePath hasPrefix:appBundleContentsPath]) {
       imageType = MSBinaryImageTypeAppFramework;
     }
   }
@@ -729,12 +731,12 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
 + (NSNumber *)extractCodeTypeFromReport:(const MSPLCrashReport *)report {
   NSDictionary<NSNumber *, NSNumber *> *legacyTypes = @{
-                                                        @(PLCrashReportArchitectureARMv6): @(CPU_TYPE_ARM),
-                                                        @(PLCrashReportArchitectureARMv7): @(CPU_TYPE_ARM),
-                                                        @(PLCrashReportArchitectureX86_32): @(CPU_TYPE_X86),
-                                                        @(PLCrashReportArchitectureX86_64): @(CPU_TYPE_X86_64),
-                                                        @(PLCrashReportArchitecturePPC): @(CPU_TYPE_POWERPC),
-                                                        };
+          @(PLCrashReportArchitectureARMv6): @(CPU_TYPE_ARM),
+          @(PLCrashReportArchitectureARMv7): @(CPU_TYPE_ARM),
+          @(PLCrashReportArchitectureX86_32): @(CPU_TYPE_X86),
+          @(PLCrashReportArchitectureX86_64): @(CPU_TYPE_X86_64),
+          @(PLCrashReportArchitecturePPC): @(CPU_TYPE_POWERPC),
+  };
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
   /* Attempt to derive the code type from the binary images */
@@ -752,12 +754,12 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
 + (BOOL)isCodeType64bit:(NSNumber *)codeType {
   NSDictionary<NSNumber *, NSNumber *> *codeTypesAre64bit = @{
-                                                              @(CPU_TYPE_ARM): @NO,
-                                                              @(CPU_TYPE_ARM64): @YES,
-                                                              @(CPU_TYPE_X86): @NO,
-                                                              @(CPU_TYPE_X86_64): @YES,
-                                                              @(CPU_TYPE_POWERPC): @NO,
-                                                              };
+          @(CPU_TYPE_ARM): @NO,
+          @(CPU_TYPE_ARM64): @YES,
+          @(CPU_TYPE_X86): @NO,
+          @(CPU_TYPE_X86_64): @YES,
+          @(CPU_TYPE_POWERPC): @NO,
+  };
   NSNumber *boolNumber = codeTypesAre64bit[codeType];
   return boolNumber.boolValue;
 }
@@ -777,7 +779,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   NSMutableArray *addresses = [NSMutableArray new];
 
   if (report.exceptionInfo != nil && report.exceptionInfo.stackFrames != nil &&
-      [report.exceptionInfo.stackFrames count] > 0) {
+          [report.exceptionInfo.stackFrames count] > 0) {
     MSPLCrashReportExceptionInfo *exception = report.exceptionInfo;
 
     for (MSPLCrashReportStackFrameInfo *frameInfo in exception.stackFrames) {

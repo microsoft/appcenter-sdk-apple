@@ -1,14 +1,11 @@
-@import Foundation;
-@import XCTest;
-
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <OCMock/OCMock.h>
-
-#import "MSWrapperExceptionManagerInternal.h"
 #import "MSException.h"
 #import "MSCrashes.h"
+#import "MSWrapperExceptionManagerInternal.h"
+#import <OCHamcrestIOS/OCHamcrestIOS.h>
 
-@interface MSWrapperExceptionManagerTests : XCTestCase<MSWrapperCrashesInitializationDelegate>
+@import XCTest;
+
+@interface MSWrapperExceptionManagerTests : XCTestCase <MSWrapperCrashesInitializationDelegate>
 
 @property(nonatomic, strong) MSWrapperExceptionManager *manager;
 @property BOOL handlersWereSetUp;
@@ -30,25 +27,25 @@
 
 #pragma mark - Helper
 
-- (MSException*)anException {
+- (MSException *)anException {
   MSException *exception = [[MSException alloc] init];
   exception.message = @"a message";
   exception.type = @"a type";
   return exception;
 }
 
-- (NSData*)someData {
+- (NSData *)someData {
   NSString *string = @"some string";
   NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
   return data;
 }
 
-- (NSString*)uuidRefToString:(CFUUIDRef)uuidRef {
+- (NSString *)uuidRefToString:(CFUUIDRef)uuidRef {
   if (!uuidRef) {
     return nil;
   }
   CFStringRef uuidStringRef = CFUUIDCreateString(kCFAllocatorDefault, uuidRef);
-  return (__bridge_transfer NSString*)uuidStringRef;
+  return (__bridge_transfer NSString *) uuidStringRef;
 }
 
 #pragma mark - Test
@@ -86,7 +83,7 @@
   [self.manager saveWrapperException:uuidRef];
 
   // Test that data was saved and loaded properly
-  NSData* data = [self.manager loadWrapperExceptionDataWithUUIDString:[self uuidRefToString:uuidRef]];
+  NSData *data = [self.manager loadWrapperExceptionDataWithUUIDString:[self uuidRefToString:uuidRef]];
   assertThat(data, equalTo([self someData]));
 
   // Even after deleting wrapper exception data, we should be able to read it from memory
@@ -97,7 +94,7 @@
   CFRelease(uuidRef);
 }
 
--(void)testDeleteAllMethods {
+- (void)testDeleteAllMethods {
   // Setup
   self.manager.wrapperException = [self anException];
   self.manager.unsavedWrapperExceptionData = [self someData];
@@ -116,9 +113,9 @@
   CFRelease(uuidRef);
 }
 
--(void)testSaveAndLoadErrors {
+- (void)testSaveAndLoadErrors {
   CFUUIDRef uuidRef = CFUUIDCreate(kCFAllocatorDefault);
-  
+
   // Save/load when the wrapper exception has not been set
   [self.manager saveWrapperException:uuidRef];
   assertThatBool([self.manager hasException], isFalse());

@@ -1,10 +1,8 @@
-@import Foundation;
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <OCMock/OCMock.h>
-@import XCTest;
-
 #import "MSErrorAttachment.h"
 #import "MSErrorBinaryAttachment.h"
+#import <OCHamcrestIOS/OCHamcrestIOS.h>
+
+@import XCTest;
 
 @interface MSErrorAttachmentTests : XCTestCase
 
