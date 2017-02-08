@@ -34,7 +34,7 @@ APPLICATION_EXTENSION_API_ONLY = YES;
 // :Mark: GCC_PREPROCESSOR_DEFINITIONS
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) $(XCODEBUILD_GCC_PREPROCESSOR_DEFINITIONS) MOBILE_CENTER_CONFIGURATION_$(CONFIGURATION) MOBILE_CENTER_NAME="@\""$(SDK_NAME)"\"" MOBILE_CENTER_VERSION="@\""$(VERSION_STRING)"\"" MOBILE_CENTER_BUILD="@\""$(BUILD_NUMBER)"\"" MOBILE_CENTER_C_NAME="\""$(SDK_NAME)"\"" MOBILE_CENTER_C_VERSION="\""$(VERSION_STRING)"\"" MOBILE_CENTER_C_BUILD="\""$(BUILD_NUMBER)"\""
 
-// :MARK: Warnings
+// :Mark: Configuration of warnings. We're listing every warning that we disabled and explain the reason why.
 //
 // -everything
 //  We want the best possible diagnostics, so we simply enable everything that exists, and then opt–out of what doesn’t make sense for us.
@@ -48,7 +48,7 @@ GCC_PREPROCESSOR_DEFINITIONS = $(inherited) $(XCODEBUILD_GCC_PREPROCESSOR_DEFINI
 // See http://stackoverflow.com/questions/11421756/weverything-yielding-comparing-floating-point-with-or-is-unsafe
 
 // -pedantic
-// Too. Much. Noise.
+// Generates too much noise.
 
 // -padded
 // This isn’t really an issue to us, since we’re not programming embedded systems.
