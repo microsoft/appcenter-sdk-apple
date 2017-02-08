@@ -12,17 +12,17 @@
 /*
  * Exception type.
  */
-@property(nonatomic, nonnull) NSString *type;
+@property(nonatomic, copy, nonnull) NSString *type;
 
 /*
  * Exception reason.
  */
-@property(nonatomic, nonnull) NSString *message;
+@property(nonatomic, copy, nonnull) NSString *message;
 
 /*
  * Raw stack trace. Sent when the frames property is either missing or unreliable.
  */
-@property(nonatomic, nullable) NSString *stackTrace;
+@property(nonatomic, copy, nullable) NSString *stackTrace;
 
 /*
  * Stack frames [optional].
@@ -38,7 +38,7 @@
  * Name of the wrapper SDK that emitted this exeption.
  * Consists of the name of the SDK and the wrapper platform, e.g. "mobilecenter.xamarin", "hockeysdk.cordova".
  */
-@property(nonatomic, nullable) NSString *wrapperSdkName;
+@property(nonatomic, copy, nullable) NSString *wrapperSdkName;
 
 /**
  * Is equal to another exception

@@ -31,7 +31,7 @@ static NSString *const kMSServiceName = @"Updates";
 
 - (void)applyEnabledState:(BOOL)isEnabled {
   [super applyEnabledState:isEnabled];
-  
+
   // Enabling
   if (isEnabled) {
     MSLogInfo([MSUpdates logTag], @"Updates service has been enabled.");
@@ -46,13 +46,13 @@ static NSString *const kMSServiceName = @"Updates";
   static id sharedInstance = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
-    sharedInstance = [[self alloc] init];
+      sharedInstance = [[self alloc] init];
   });
   return sharedInstance;
 }
 
-- (void)startWithLogManager:(id <MSLogManager>)logManager {
-  [super startWithLogManager:logManager];
+- (void)startWithLogManager:(id <MSLogManager>)logManager appSecret:(NSString *)appSecret {
+  [super startWithLogManager:logManager appSecret:appSecret];
   MSLogVerbose([MSUpdates logTag], @"Started Updates service.");
 }
 

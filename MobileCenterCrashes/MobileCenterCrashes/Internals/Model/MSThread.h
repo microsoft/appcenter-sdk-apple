@@ -13,22 +13,22 @@
 /*
  * Thread identifier.
  */
-@property(nonatomic) NSNumber *threadId;
+@property(nonatomic, nonnull) NSNumber *threadId;
 
 /*
  * Thread name. [optional]
  */
-@property(nonatomic) NSString *name;
+@property(nonatomic, copy, nullable) NSString *name;
 
 /*
  * Stack frames.
  */
-@property(nonatomic) NSMutableArray<MSStackFrame *> *frames;
+@property(nonatomic, nonnull) NSMutableArray<MSStackFrame *> *frames;
 
 /*
  * The last exception backtrace.
  */
-@property(nonatomic) MSException *exception;
+@property(nonatomic, nonnull) MSException *exception;
 
 /**
  * Is equal to another thread
@@ -37,7 +37,7 @@
  *
  * @return Return YES if equal and NO if not equal
  */
-- (BOOL)isEqual:(MSThread *)thread;
+- (BOOL)isEqual:( MSThread * _Nonnull )thread;
 
 /**
  * Checks if the object's values are valid.

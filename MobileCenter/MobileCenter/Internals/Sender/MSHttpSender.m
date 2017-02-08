@@ -7,24 +7,22 @@
 #import "MSMobileCenterErrors.h"
 #import "MSMobileCenterInternal.h"
 #import "MSRetriableCall.h"
-#import "MSSenderDelegate.h"
 
 static NSTimeInterval kRequestTimeout = 60.0;
-
-// API Path.
-static NSString *const kMSApiPath = @"/logs";
 
 @implementation MSHttpSender
 
 @synthesize reachability = _reachability;
 @synthesize suspended = _suspended;
 
-#pragma mark - MSMSender
+#pragma mark - MSSender
 
 - (id)initWithBaseUrl:(NSString *)baseUrl
+              apiPath:(NSString *)apiPath
               headers:(NSDictionary *)headers
          queryStrings:(NSDictionary *)queryStrings
-         reachability:(MS_Reachability *)reachability {
+         reachability:(MS_Reachability *)reachability
+       retryIntervals:(NSArray *)retryIntervals {
   if (self = [super init]) {
     _httpHeaders = headers;
     _pendingCalls = [NSMutableDictionary new];
@@ -32,19 +30,17 @@ static NSString *const kMSApiPath = @"/logs";
     _enabled = YES;
     _suspended = NO;
     _delegates = [NSHashTable weakObjectsHashTable];
-
-    // Call's retry intervals are: 10 sec, 5 min, 20 min.
-    _callsRetryIntervals = @[ @(10), @(5 * 60), @(20 * 60) ];
+    _callsRetryIntervals = retryIntervals;
 
     // Construct the URL string with the query string.
-    NSString *urlString = [baseUrl stringByAppendingString:kMSApiPath];
+    NSString *urlString = [baseUrl stringByAppendingString:apiPath];
     NSURLComponents *components = [NSURLComponents componentsWithString:urlString];
     NSMutableArray *queryItemArray = [NSMutableArray array];
 
     // Set query parameter.
     [queryStrings enumerateKeysAndObjectsUsingBlock:^(id _Nonnull key, id _Nonnull queryString, BOOL *_Nonnull stop) {
-      NSURLQueryItem *queryItem = [NSURLQueryItem queryItemWithName:key value:queryString];
-      [queryItemArray addObject:queryItem];
+        NSURLQueryItem *queryItem = [NSURLQueryItem queryItemWithName:key value:queryString];
+        [queryItemArray addObject:queryItem];
     }];
     components.queryItems = queryItemArray;
 
@@ -65,23 +61,23 @@ static NSString *const kMSApiPath = @"/logs";
 }
 
 - (void)sendAsync:(MSLogContainer *)container completionHandler:(MSSendAsyncCompletionHandler)handler {
-  @synchronized(self) {
+  @synchronized (self) {
     NSString *batchId = container.batchId;
 
     // Verify container.
     if (!container || ![container isValid]) {
-      NSDictionary *userInfo = @{NSLocalizedDescriptionKey : kMSMCLogInvalidContainerErrorDesc};
+      NSDictionary *userInfo = @{NSLocalizedDescriptionKey: kMSMCLogInvalidContainerErrorDesc};
       NSError *error =
-          [NSError errorWithDomain:kMSMCErrorDomain code:kMSMCLogInvalidContainerErrorCode userInfo:userInfo];
+              [NSError errorWithDomain:kMSMCErrorDomain code:kMSMCLogInvalidContainerErrorCode userInfo:userInfo];
       MSLogError([MSMobileCenter logTag], @"%@", [error localizedDescription]);
       handler(batchId, error, nil);
       return;
     }
 
     // Check if call has already been created(retry scenario).
-    id<MSSenderCall> call = self.pendingCalls[batchId];
+    id <MSSenderCall> call = self.pendingCalls[batchId];
     if (call == nil) {
-      call = [[MSRetriableCall alloc] initWithRetryIntervals:self.callsRetryIntervals];
+      call = [[MSRetriableCall alloc] initWithRetryIntervals:_callsRetryIntervals];
       call.delegate = self;
       call.logContainer = container;
       call.completionHandler = handler;
@@ -93,14 +89,14 @@ static NSString *const kMSApiPath = @"/logs";
   }
 }
 
-- (void)addDelegate:(id<MSSenderDelegate>)delegate {
-  @synchronized(self) {
+- (void)addDelegate:(id <MSSenderDelegate>)delegate {
+  @synchronized (self) {
     [self.delegates addObject:delegate];
   }
 }
 
-- (void)removeDelegate:(id<MSSenderDelegate>)delegate {
-  @synchronized(self) {
+- (void)removeDelegate:(id <MSSenderDelegate>)delegate {
+  @synchronized (self) {
     [self.delegates removeObject:delegate];
   }
 }
@@ -108,7 +104,7 @@ static NSString *const kMSApiPath = @"/logs";
 #pragma mark - Life cycle
 
 - (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData {
-  @synchronized(self) {
+  @synchronized (self) {
     if (self.enabled != isEnabled) {
       self.enabled = isEnabled;
       if (isEnabled) {
@@ -132,49 +128,49 @@ static NSString *const kMSApiPath = @"/logs";
 
       // Forward enabled state.
       [self
-          enumerateDelegatesForSelector:@selector(senderDidSuspend:)
-                              withBlock:^(id<MSSenderDelegate> delegate) {
-                                [delegate sender:self didSetEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:deleteData];
-                              }];
+              enumerateDelegatesForSelector:@selector(senderDidSuspend:)
+                                  withBlock:^(id <MSSenderDelegate> delegate) {
+                                      [delegate sender:self didSetEnabled:(BOOL) isEnabled andDeleteDataOnDisabled:deleteData];
+                                  }];
     }
   }
 }
 
 - (void)suspend {
-  @synchronized(self) {
+  @synchronized (self) {
     if (!self.suspended) {
       MSLogInfo([MSMobileCenter logTag], @"Suspend sender.");
       self.suspended = YES;
 
       // Suspend all tasks.
       [self.session getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> *_Nonnull dataTasks,
-                                                    NSArray<NSURLSessionUploadTask *> *_Nonnull uploadTasks,
-                                                    NSArray<NSURLSessionDownloadTask *> *_Nonnull downloadTasks) {
-        [dataTasks enumerateObjectsUsingBlock:^(__kindof NSURLSessionTask *_Nonnull call, NSUInteger idx,
-                                                BOOL *_Nonnull stop) {
-          [call suspend];
-        }];
+              NSArray<NSURLSessionUploadTask *> *_Nonnull uploadTasks,
+              NSArray<NSURLSessionDownloadTask *> *_Nonnull downloadTasks) {
+          [dataTasks enumerateObjectsUsingBlock:^(__kindof NSURLSessionTask *_Nonnull call, NSUInteger idx,
+                  BOOL *_Nonnull stop) {
+              [call suspend];
+          }];
       }];
 
       // Suspend current calls' retry.
       [self.pendingCalls.allValues
-          enumerateObjectsUsingBlock:^(id<MSSenderCall> _Nonnull call, NSUInteger idx, BOOL *_Nonnull stop) {
-            if (!call.submitted) {
-              [call resetRetry];
-            }
-          }];
+              enumerateObjectsUsingBlock:^(id <MSSenderCall> _Nonnull call, NSUInteger idx, BOOL *_Nonnull stop) {
+                  if (!call.submitted) {
+                    [call resetRetry];
+                  }
+              }];
 
       // Notify delegates.
       [self enumerateDelegatesForSelector:@selector(senderDidSuspend:)
-                                withBlock:^(id<MSSenderDelegate> delegate) {
-                                  [delegate senderDidSuspend:self];
+                                withBlock:^(id <MSSenderDelegate> delegate) {
+                                    [delegate senderDidSuspend:self];
                                 }];
     }
   }
 }
 
 - (void)resume {
-  @synchronized(self) {
+  @synchronized (self) {
 
     // Resume only while enabled.
     if (self.suspended && self.enabled) {
@@ -183,26 +179,26 @@ static NSString *const kMSApiPath = @"/logs";
 
       // Resume existing calls.
       [self.session getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> *_Nonnull dataTasks,
-                                                    NSArray<NSURLSessionUploadTask *> *_Nonnull uploadTasks,
-                                                    NSArray<NSURLSessionDownloadTask *> *_Nonnull downloadTasks) {
-        [dataTasks enumerateObjectsUsingBlock:^(__kindof NSURLSessionTask *_Nonnull call, NSUInteger idx,
-                                                BOOL *_Nonnull stop) {
-          [call resume];
-        }];
+              NSArray<NSURLSessionUploadTask *> *_Nonnull uploadTasks,
+              NSArray<NSURLSessionDownloadTask *> *_Nonnull downloadTasks) {
+          [dataTasks enumerateObjectsUsingBlock:^(__kindof NSURLSessionTask *_Nonnull call, NSUInteger idx,
+                  BOOL *_Nonnull stop) {
+              [call resume];
+          }];
       }];
 
       // Resume calls.
       [self.pendingCalls.allValues
-          enumerateObjectsUsingBlock:^(id<MSSenderCall> _Nonnull call, NSUInteger idx, BOOL *_Nonnull stop) {
-            if (!call.submitted) {
-              [self sendCallAsync:call];
-            }
-          }];
+              enumerateObjectsUsingBlock:^(id <MSSenderCall> _Nonnull call, NSUInteger idx, BOOL *_Nonnull stop) {
+                  if (!call.submitted) {
+                    [self sendCallAsync:call];
+                  }
+              }];
 
       // Propagate.
       [self enumerateDelegatesForSelector:@selector(senderDidResume:)
-                                withBlock:^(id<MSSenderDelegate> delegate) {
-                                  [delegate senderDidResume:self];
+                                withBlock:^(id <MSSenderDelegate> delegate) {
+                                    [delegate senderDidResume:self];
                                 }];
     }
   }
@@ -210,8 +206,8 @@ static NSString *const kMSApiPath = @"/logs";
 
 #pragma mark - MSSenderCallDelegate
 
-- (void)sendCallAsync:(id<MSSenderCall>)call {
-  @synchronized(self) {
+- (void)sendCallAsync:(id <MSSenderCall>)call {
+  @synchronized (self) {
     if (self.suspended)
       return;
 
@@ -225,20 +221,20 @@ static NSString *const kMSApiPath = @"/logs";
 
     // Create a task for the request.
     NSURLSessionDataTask *task =
-        [self.session dataTaskWithRequest:request
-                        completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                          @synchronized(self) {
-                            NSInteger statusCode = [MSSenderUtil getStatusCode:response];
-                            MSLogDebug([MSMobileCenter logTag], @"HTTP response received with status code:%lu",
-                                       (unsigned long)statusCode);
+            [self.session dataTaskWithRequest:request
+                            completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                                @synchronized (self) {
+                                  NSInteger statusCode = [MSSenderUtil getStatusCode:response];
+                                  MSLogDebug([MSMobileCenter logTag], @"HTTP response received with status code:%lu",
+                                          (unsigned long) statusCode);
 
-                            // Call handles the completion.
-                            if (call) {
-                              call.submitted = NO;
-                              [call sender:self callCompletedWithStatus:statusCode error:error];
-                            }
-                          }
-                        }];
+                                  // Call handles the completion.
+                                  if (call) {
+                                    call.submitted = NO;
+                                    [call sender:self callCompletedWithStatus:statusCode error:error];
+                                  }
+                                }
+                            }];
 
     // TODO: Set task priority.
     [task resume];
@@ -247,14 +243,14 @@ static NSString *const kMSApiPath = @"/logs";
 }
 
 - (void)callCompletedWithId:(NSString *)callId {
-  @synchronized(self) {
+  @synchronized (self) {
     if (!callId) {
       MSLogWarning([MSMobileCenter logTag], @"Call object is invalid");
       return;
     }
     [self.pendingCalls removeObjectForKey:callId];
     MSLogInfo([MSMobileCenter logTag], @"Removed batch id:%@ from pending calls:%@", callId,
-              [self.pendingCalls description]);
+            [self.pendingCalls description]);
   }
 }
 
@@ -312,8 +308,8 @@ static NSString *const kMSApiPath = @"/logs";
   return _session;
 }
 
-- (void)enumerateDelegatesForSelector:(SEL)selector withBlock:(void (^)(id<MSSenderDelegate> delegate))block {
-  for (id<MSSenderDelegate> delegate in self.delegates) {
+- (void)enumerateDelegatesForSelector:(SEL)selector withBlock:(void (^)(id <MSSenderDelegate> delegate))block {
+  for (id <MSSenderDelegate> delegate in self.delegates) {
     if (delegate && [delegate respondsToSelector:selector]) {
       block(delegate);
     }
@@ -324,7 +320,7 @@ static NSString *const kMSApiPath = @"/logs";
   NSMutableArray<NSString *> *flattenedHeaders = [NSMutableArray<NSString *> new];
   for (NSString *headerKey in headers) {
     NSString *header =
-        [headerKey isEqualToString:kMSHeaderAppSecretKey] ? [self hideSecret:headers[headerKey]] : headers[headerKey];
+            [headerKey isEqualToString:kMSHeaderAppSecretKey] ? [self hideSecret:headers[headerKey]] : headers[headerKey];
     [flattenedHeaders addObject:[NSString stringWithFormat:@"%@ = %@", headerKey, header]];
   }
   return [flattenedHeaders componentsJoinedByString:@", "];
@@ -334,10 +330,10 @@ static NSString *const kMSApiPath = @"/logs";
 
   // Hide everything if secret is shorter than the max number of displayed characters.
   NSUInteger appSecretHiddenPartLength =
-      (secret.length > kMSMaxCharactersDisplayedForAppSecret ? secret.length - kMSMaxCharactersDisplayedForAppSecret
-                                                             : secret.length);
+          (secret.length > kMSMaxCharactersDisplayedForAppSecret ? secret.length - kMSMaxCharactersDisplayedForAppSecret
+                  : secret.length);
   NSString *appSecretHiddenPart =
-      [@"" stringByPaddingToLength:appSecretHiddenPartLength withString:kMSHidingStringForAppSecret startingAtIndex:0];
+          [@"" stringByPaddingToLength:appSecretHiddenPartLength withString:kMSHidingStringForAppSecret startingAtIndex:0];
   return [secret stringByReplacingCharactersInRange:NSMakeRange(0, appSecretHiddenPart.length)
                                          withString:appSecretHiddenPart];
 }
