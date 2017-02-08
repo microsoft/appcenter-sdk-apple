@@ -6,6 +6,8 @@
 
 #import "MSLogManager.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  * Protocol declaring services common logic.
  */
@@ -22,7 +24,12 @@
 /**
  * Log manager.
  */
-@property(nonatomic) id<MSLogManager> logManager;
+@property(nonatomic) id <MSLogManager> logManager;
+
+/**
+ * The app secret for the SDK.
+ */
+@property(nonatomic, nonnull) NSString *appSecret;
 
 /**
  * Apply the enabled state to the service.
@@ -64,7 +71,10 @@
  * Start this service with a log manager. Also sets the flag that indicates that a service has been started.
  *
  * @param logManager log manager used to persist and send logs.
+ * @param appSecret app secret for the SDK.
  */
-- (void)startWithLogManager:(id<MSLogManager>)logManager;
+- (void)startWithLogManager:(id <MSLogManager>)logManager appSecret:(NSString *)appSecret;
+
+NS_ASSUME_NONNULL_END
 
 @end

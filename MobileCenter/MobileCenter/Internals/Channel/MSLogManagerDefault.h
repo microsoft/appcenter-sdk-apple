@@ -28,28 +28,27 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Initializes a new `MSLogManager` instance.
  *
- * @param sender A sender instance that is used to send batches of log items to
- * the backend.
- * @param storage A storage instance to store and read enqueued log items.
- *
+ * @param appSecret A unique and secret key used to identify the application.
+ * @param installId A unique installation identifier.
+ * @param serverUrl A base URL to use for backend communication.
  * @return A new `MSLogManager` instance.
  */
-- (instancetype)initWithSender:(id<MSSender>)sender storage:(id<MSStorage>)storage;
+- (instancetype)initWithAppSecret:(NSString *)appSecret installId:(NSUUID *)installId serverUrl:(NSString *)serverUrl;
 
 /**
  *  Hash table of log manager delegate.
  */
-@property(nonatomic) NSHashTable<id<MSLogManagerDelegate>> *delegates;
+@property(nonatomic) NSHashTable<id <MSLogManagerDelegate>> *delegates;
 
 /**
  *  A sender instance that is used to send batches of log items to the backend.
  */
-@property(nonatomic, strong, nullable) id<MSSender> sender;
+@property(nonatomic, strong, nullable) id <MSSender> sender;
 
 /**
  *  A storage instance to store and read enqueued log items.
  */
-@property(nonatomic, strong, nullable) id<MSStorage> storage;
+@property(nonatomic, strong, nullable) id <MSStorage> storage;
 
 /**
  *  A queue which makes adding new items thread safe.
@@ -59,7 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * A dictionary containing priority keys and their channel.
  */
-@property(nonatomic, copy) NSMutableDictionary<NSNumber *, id<MSChannel>> *channels;
+@property(nonatomic, copy) NSMutableDictionary<NSNumber *, id <MSChannel>> *channels;
 
 /**
  *  Device tracker provides device information.

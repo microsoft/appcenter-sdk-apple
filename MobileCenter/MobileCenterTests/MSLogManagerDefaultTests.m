@@ -7,6 +7,7 @@
 #import "MSChannelConfiguration.h"
 #import "MSChannelDefault.h"
 #import "MSLogManagerDefault.h"
+#import "MSLogManagerDefaultPrivate.h"
 
 @interface MSLogManagerDefaultTests : XCTestCase
 
@@ -38,7 +39,7 @@
   // If
   MSPriority priority = MSPriorityDefault;
   MSLogManagerDefault *sut = [[MSLogManagerDefault alloc] initWithSender:OCMProtocolMock(@protocol(MSSender))
-                                                                   storage:OCMProtocolMock(@protocol(MSStorage))];
+                                                                 storage:OCMProtocolMock(@protocol(MSStorage))];
   MSAbstractLog *log = [MSAbstractLog new];
   assertThat(sut.channels, isEmpty());
 
