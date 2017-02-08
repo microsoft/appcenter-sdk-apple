@@ -53,4 +53,7 @@ GCC_PREPROCESSOR_DEFINITIONS = $(inherited) $(XCODEBUILD_GCC_PREPROCESSOR_DEFINI
 // -padded
 // This isn’t really an issue to us, since we’re not programming embedded systems.
 
-WARNING_CFLAGS = -Weverything -Wno-objc-missing-property-synthesis -Wno-float-equal -Wno-pedantic -Wno-padded  -Wno-sign-conversion
+// -Wc++98
+// We don't want to compile our code for C++98, no need to be warned about incompatibility.
+
+WARNING_CFLAGS = -Weverything -Wno-objc-missing-property-synthesis -Wno-float-equal -Wno-pedantic -Wno-padded  -Wno-sign-conversion -Wno-c++98-compat
