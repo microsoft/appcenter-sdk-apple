@@ -176,9 +176,33 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 - (void)start:(NSString *)appSecret withServices:(NSArray<Class> *)services {
   BOOL configured = [self configure:appSecret];
   if (configured) {
-    for (Class service in services) {
+
+    NSArray *sortedServices = [self sortServices:services];
+
+
+    for (Class service in sortedServices) {
       [self startService:service];
     }
+  }
+}
+
+- (NSArray *)sortServices:(NSArray<Class> *)services {
+  // Sort services in descending order to make sure the service with the highest priority gets initialized first.
+  // This is intended to make sure Crashes gets initialized first.
+  if (services && services.count > 1) {
+    return [services sortedArrayUsingComparator:^NSComparisonResult(Class clazzA, Class clazzB) {
+        id <MSServiceInternal> serviceA = [clazzA sharedInstance];
+        id <MSServiceInternal> serviceB = [clazzB sharedInstance];
+
+        if (serviceA.priority < serviceB.priority) {
+          return NSOrderedDescending;
+        }
+        else {
+          return NSOrderedAscending;
+        }
+    }];
+  } else {
+    return services;
   }
 }
 

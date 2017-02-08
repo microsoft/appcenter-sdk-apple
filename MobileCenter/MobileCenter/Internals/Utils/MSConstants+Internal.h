@@ -21,8 +21,9 @@ static NSString *const kMSAPIVersionKey = @"api_version";
  * MSPriorityMax is reserved for only 1 module and this needs to be crashes as MSPriority is used to determine the order
  * of initialization. MSCrashes needs to be initialized first to catch crashes in our other SDK Modules and to not loose
  * any log at crash time.
+ * The order matters here! Values NEED to range from low priority to high priority.
  */
-typedef NS_ENUM(NSInteger, MSPriority) { MSPriorityDefault, MSPriorityBackground, MSPriorityMax };
+typedef NS_ENUM(NSInteger, MSPriority) { MSPriorityBackground, MSPriorityDefault, MSPriorityMax };
 static short const kMSPriorityCount = MSPriorityMax + 1;
 
 typedef NS_ENUM(NSInteger, MSHTTPCodesNo) {
