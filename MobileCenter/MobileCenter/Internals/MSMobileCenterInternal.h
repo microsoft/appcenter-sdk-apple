@@ -57,4 +57,12 @@ static NSString *const kMSMobileCenterIsEnabledKey = @"MSMobileCenterIsEnabled";
  */
 + (NSString *)logTag;
 
-@end
+
+/**
+ * Sort the array of services in descending order based on their priority.
+ *
+ * @return The array of services in descending order.
+ */
+- (NSArray *)sortServices:(NSArray<Class> *)services;
+
+  @end
