@@ -17,9 +17,13 @@ static NSString *const kMSContentType = @"application/json";
 static NSString *const kMSAPIVersion = @"1.0.0-preview20160914";
 static NSString *const kMSAPIVersionKey = @"api_version";
 
-// Channel priorities, check the kMSPriorityCount if you add a new value.
-typedef NS_ENUM(NSInteger, MSPriority) { MSPriorityDefault, MSPriorityBackground, MSPriorityHigh };
-static short const kMSPriorityCount = MSPriorityHigh + 1;
+/** Channel priorities, check the kMSPriorityCount if you add a new value.
+ * MSPriorityMax is reserved for only 1 module and this needs to be crashes as MSPriority is used to determine the order
+ * of initialization. MSCrashes needs to be initialized first to catch crashes in our other SDK Modules and to not loose
+ * any log at crash time.
+ */
+typedef NS_ENUM(NSInteger, MSPriority) { MSPriorityDefault, MSPriorityBackground, MSPriorityMax };
+static short const kMSPriorityCount = MSPriorityMax + 1;
 
 typedef NS_ENUM(NSInteger, MSHTTPCodesNo) {
   // Informational
