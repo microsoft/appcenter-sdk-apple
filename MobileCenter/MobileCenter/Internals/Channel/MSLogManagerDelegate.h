@@ -3,7 +3,8 @@
  */
 
 #import "MSConstants+Internal.h"
-#import <Foundation/Foundation.h>
+
+@import Foundation;
 
 @protocol MSLogManagerDelegate <NSObject>
 
@@ -15,6 +16,6 @@
  *  @param log      log.
  *  @param priority priority.
  */
-- (void)onProcessingLog:(id<MSLog>)log withPriority:(MSPriority)priority;
+- (void)onProcessingLog:(id <MSLog>)log withPriority:(MSPriority)priority;
 
 @end

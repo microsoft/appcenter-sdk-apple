@@ -4,7 +4,8 @@
 
 #import "MSSenderCallDelegate.h"
 #import "MSSenderUtil.h"
-#import <Foundation/Foundation.h>
+
+@import Foundation;
 
 @protocol MSSender;
 
@@ -13,7 +14,7 @@
 /**
  *  Call delegate.
  */
-@property(nonatomic, weak) id<MSSenderCallDelegate> delegate;
+@property(nonatomic, weak) id <MSSenderCallDelegate> delegate;
 
 /**
  *  Whether the request to send data has been submitted or not.
@@ -42,6 +43,6 @@
  *  @param statusCode status code.
  *  @param error      call error.
  */
-- (void)sender:(id<MSSender>)sender callCompletedWithStatus:(NSUInteger)statusCode error:(NSError *)error;
+- (void)sender:(id <MSSender>)sender callCompletedWithStatus:(NSUInteger)statusCode error:(NSError *)error;
 
 @end

@@ -3,7 +3,8 @@
  */
 
 #import "MSService.h"
-#import <Foundation/Foundation.h>
+
+@import Foundation;
 
 /**
  *  Abstraction of services common logic.

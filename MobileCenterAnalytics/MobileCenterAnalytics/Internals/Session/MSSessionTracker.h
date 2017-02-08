@@ -5,14 +5,15 @@
 #import "MSSessionHistoryInfo.h"
 #import "MSSessionTrackerDelegate.h"
 #import "MobileCenter+Internal.h"
-#import <Foundation/Foundation.h>
+
+@import Foundation;
 
 @interface MSSessionTracker : NSObject <MSLogManagerDelegate>
 
 /**
  *  Session tracker delegate.
  */
-@property(nonatomic) id<MSSessionTrackerDelegate> delegate;
+@property(nonatomic) id <MSSessionTrackerDelegate> delegate;
 
 /**
  * Current session id.

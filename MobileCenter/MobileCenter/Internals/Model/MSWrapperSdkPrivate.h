@@ -3,7 +3,8 @@
  */
 
 #import "MSAbstractLog.h"
-#import <Foundation/Foundation.h>
+
+@import Foundation;
 
 @interface MSWrapperSdk () <MSSerializableObject>
 
@@ -17,7 +18,7 @@
 /*
  * Name of the wrapper SDK (examples: Xamarin, Cordova).  [optional]
  */
-@property(nonatomic,copy, readwrite) NSString *wrapperSdkName;
+@property(nonatomic, copy, readwrite) NSString *wrapperSdkName;
 
 /*
  * Label that is used to identify application code 'version' released via Live Update beacon running on device

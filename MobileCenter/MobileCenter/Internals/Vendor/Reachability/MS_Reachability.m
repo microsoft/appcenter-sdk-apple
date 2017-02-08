@@ -6,13 +6,13 @@
  Basic demonstration of how to use the SystemConfiguration Reachablity APIs.
  */
 
-#import <arpa/inet.h>
-#import <ifaddrs.h>
-#import <netdb.h>
-#import <netinet/in.h>
-#import <sys/socket.h>
+@import CoreFoundation;
+@import Darwin.POSIX.arpa.inet;
+@import Darwin.POSIX.netdb;
+@import Darwin.POSIX.netinet.in;
+@import Darwin.POSIX.sys.socket;
 
-#import <CoreFoundation/CoreFoundation.h>
+#import <ifaddrs.h>
 
 #import "MS_Reachability.h"
 

@@ -2,7 +2,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 
 #import "MSLog.h"
 #import "MSSerializableObject.h"

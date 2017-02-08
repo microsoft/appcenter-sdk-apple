@@ -1,5 +1,4 @@
 #import "MSLogger.h"
-#import "MSWrapperLogger.h"
 
 @implementation MSLogger
 

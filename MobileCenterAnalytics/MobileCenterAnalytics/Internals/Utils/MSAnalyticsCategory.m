@@ -4,7 +4,8 @@
 
 #import "MSAnalyticsCategory.h"
 #import "MSAnalyticsInternal.h"
-#import <objc/runtime.h>
+
+@import ObjectiveC.runtime;
 
 static NSString *const kMSViewControllerSuffix = @"ViewController";
 static NSString *MSMissedPageViewName;
@@ -14,16 +15,16 @@ static NSString *MSMissedPageViewName;
 + (void)swizzleViewWillAppear {
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
-    Class class = [self class];
+      Class class = [self class];
 
-    // Get selectors.
-    SEL originalSelector = @selector(viewWillAppear:);
-    SEL swizzledSelector = @selector(ms_viewWillAppear:);
+      // Get selectors.
+      SEL originalSelector = @selector(viewWillAppear:);
+      SEL swizzledSelector = @selector(ms_viewWillAppear:);
 
-    Method originalMethod = class_getInstanceMethod(class, originalSelector);
-    Method swizzledMethod = class_getInstanceMethod(class, swizzledSelector);
+      Method originalMethod = class_getInstanceMethod(class, originalSelector);
+      Method swizzledMethod = class_getInstanceMethod(class, swizzledSelector);
 
-    method_exchangeImplementations(originalMethod, swizzledMethod);
+      method_exchangeImplementations(originalMethod, swizzledMethod);
   });
 }
 
@@ -71,11 +72,11 @@ BOOL ms_shouldTrackPageView(UIViewController *viewController) {
   // For container view controllers, auto page tracking is disabled(to avoid
   // noise).
   NSSet *viewControllerSet = [NSSet setWithArray:@[
-    @"UINavigationController",
-    @"UITabBarController",
-    @"UISplitViewController",
-    @"UIInputWindowController",
-    @"UIPageViewController"
+          @"UINavigationController",
+          @"UITabBarController",
+          @"UISplitViewController",
+          @"UIInputWindowController",
+          @"UIPageViewController"
   ]];
   NSString *className = NSStringFromClass([viewController class]);
 

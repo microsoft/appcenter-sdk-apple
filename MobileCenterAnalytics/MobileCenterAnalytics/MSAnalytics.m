@@ -4,11 +4,11 @@
 
 #import "MSAnalytics.h"
 #import "MSAnalyticsCategory.h"
+#import "MSAnalyticsInternal.h"
 #import "MSAnalyticsPrivate.h"
 #import "MSEventLog.h"
 #import "MSPageLog.h"
 #import "MSServiceAbstractProtected.h"
-#import "MSAnalyticsInternal.h"
 
 /**
  * Service storage key name.

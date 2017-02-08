@@ -19,7 +19,7 @@
   static MSFileUtil *sharedInstance = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
-    sharedInstance = [[self alloc] init];
+      sharedInstance = [[self alloc] init];
   });
   return sharedInstance;
 }
@@ -93,7 +93,7 @@
 }
 
 + (nullable NSArray<MSFile *> *)filesForDirectory:(nullable NSString *)directoryPath
-                                 withFileExtension:(nullable NSString *)fileExtension {
+                                withFileExtension:(nullable NSString *)fileExtension {
   NSFileManager *fileManager = [NSFileManager defaultManager];
 
   // Check validity.
@@ -106,7 +106,7 @@
   NSArray *allFiles = [fileManager contentsOfDirectoryAtPath:directoryPath error:&error];
   if (error) {
     MSLogError([MSMobileCenter logTag], @"Couldn't read %@-files for directory %@: %@", fileExtension, directoryPath,
-                error.localizedDescription);
+            error.localizedDescription);
     return nil;
   } else {
     NSPredicate *extensionFilter = [NSPredicate predicateWithFormat:@"self ENDSWITH[cd] %@", fileExtension];

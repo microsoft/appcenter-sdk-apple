@@ -2,7 +2,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 
 @class MSErrorBinaryAttachment;
 
@@ -33,12 +33,12 @@
 + (nonnull MSErrorAttachment *)attachmentWithText:(nonnull NSString *)text;
 
 + (nonnull MSErrorAttachment *)attachmentWithBinaryData:(nonnull NSData *)data
-                                                filename:(nullable NSString *)filename
-                                                mimeType:(nonnull NSString *)mimeType;
+                                               filename:(nullable NSString *)filename
+                                               mimeType:(nonnull NSString *)mimeType;
 
 + (nonnull MSErrorAttachment *)attachmentWithText:(nonnull NSString *)text
-                                     andBinaryData:(nonnull NSData *)data
-                                          filename:(nullable NSString *)filename
-                                          mimeType:(nonnull NSString *)mimeType;
+                                    andBinaryData:(nonnull NSData *)data
+                                         filename:(nullable NSString *)filename
+                                         mimeType:(nonnull NSString *)mimeType;
 
 @end

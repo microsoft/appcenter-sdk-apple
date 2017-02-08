@@ -3,10 +3,15 @@ VERSION_STRING = 0.4.2
 
 SDK_NAME = mobilecenter.ios
 
+// :Mark: Architectures
+
 MS_ARM_ARCHS = armv7 armv7s arm64
 MS_SIM_ARCHS = x86_64 i386
 ARCHS = $(MS_ARM_ARCHS)
 VALID_ARCHS = $(MS_ARM_ARCHS)
+
+// :Mark: OTHER_CFLAGS
+
 
 // This flag adds -fembed-bitcode-marker in the release configuration
 // but we require the full bitcode flag -fembed-bitcode in this case.
@@ -21,6 +26,31 @@ OTHER_CFLAGS[config=Debug][sdk=iphoneos*] = $(OTHER_CFLAGS) -fembed-bitcode-mark
 // Activate full bitcode on release configuration for real devices.
 OTHER_CFLAGS[config=Release][sdk=iphoneos*] = $(OTHER_CFLAGS) -fembed-bitcode
 
+// :Mark: Extension API Only
+// Make sure we don't use API that are not available in extensions.
+// See https://pewpewthespells.com/blog/buildsettings.html for info about the flag.
 APPLICATION_EXTENSION_API_ONLY = YES;
 
+// :Mark: GCC_PREPROCESSOR_DEFINITIONS
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) $(XCODEBUILD_GCC_PREPROCESSOR_DEFINITIONS) MOBILE_CENTER_CONFIGURATION_$(CONFIGURATION) MOBILE_CENTER_NAME="@\""$(SDK_NAME)"\"" MOBILE_CENTER_VERSION="@\""$(VERSION_STRING)"\"" MOBILE_CENTER_BUILD="@\""$(BUILD_NUMBER)"\"" MOBILE_CENTER_C_NAME="\""$(SDK_NAME)"\"" MOBILE_CENTER_C_VERSION="\""$(VERSION_STRING)"\"" MOBILE_CENTER_C_BUILD="\""$(BUILD_NUMBER)"\""
+
+// :MARK: Warnings
+//
+// -everything
+//  We want the best possible diagnostics, so we simply enable everything that exists, and then opt–out of what doesn’t make sense for us.
+
+// -objc-missing-property-synthesis
+//	This isn’t a real issue since we don’t have any interest in building on extremely old Clangs.
+//	(Also, each property that cannot be auto–synthesized triggers at least a warning…)
+
+// -float-equal
+// While we could change all 90 instances of floating point comparison to a method that includes an epsilon, this is overkill and not needed.
+// See http://stackoverflow.com/questions/11421756/weverything-yielding-comparing-floating-point-with-or-is-unsafe
+
+// -pedantic
+// Too. Much. Noise.
+
+// -padded
+// This isn’t really an issue to us, since we’re not programming embedded systems.
+
+WARNING_CFLAGS = -Weverything -Wno-objc-missing-property-synthesis -Wno-float-equal -Wno-pedantic -Wno-padded  -Wno-sign-conversion

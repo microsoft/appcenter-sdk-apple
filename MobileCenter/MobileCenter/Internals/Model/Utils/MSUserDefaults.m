@@ -2,8 +2,6 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "MSLogger.h"
-#import "MSUserDefaults.h"
 #import "MSMobileCenterInternal.h"
 
 static NSString *const kMSUserDefaultsTs = @"_ts";
@@ -14,7 +12,7 @@ static NSString *const kMSUserDefaultsTs = @"_ts";
   static MSUserDefaults *sharedInstance = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
-    sharedInstance = [[MSUserDefaults alloc] init];
+      sharedInstance = [[MSUserDefaults alloc] init];
   });
   return sharedInstance;
 }
@@ -75,7 +73,7 @@ static NSString *const kMSUserDefaultsTs = @"_ts";
 }
 
 - (BOOL)updateObject:(id)o forKey:(NSString *)key expiration:(float)expiration {
-  NSDictionary *update = [self updateDictionary:@{ @"v" : o } forKey:key expiration:expiration];
+  NSDictionary *update = [self updateDictionary:@{@"v": o} forKey:key expiration:expiration];
   return update[@"v"] != nil;
 }
 

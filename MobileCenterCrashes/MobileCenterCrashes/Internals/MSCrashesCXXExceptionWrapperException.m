@@ -26,11 +26,11 @@
  */
 - (NSArray *)callStackReturnAddresses {
   NSMutableArray *cxxFrames = [NSMutableArray arrayWithCapacity:_info->exception_frames_count];
-  
+
   for (uint32_t i = 0; i < _info->exception_frames_count; ++i) {
     [cxxFrames addObject:[NSNumber numberWithUnsignedLongLong:_info->exception_frames[i]]];
   }
-  
+
   return cxxFrames;
 }
 

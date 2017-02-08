@@ -2,7 +2,8 @@
 #import "MSMobileCenterInternal.h"
 #import "MSMobileCenterPrivate.h"
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <XCTest/XCTest.h>
+
+@import XCTest;
 
 static NSString *const kSMInstallIdStringExample = @"F18499DA-5C3D-4F05-B4E8-D8C9C06A6F09";
 

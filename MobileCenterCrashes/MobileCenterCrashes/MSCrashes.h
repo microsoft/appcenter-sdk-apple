@@ -5,7 +5,7 @@
 #import "MSErrorReport.h"
 #import "MSServiceAbstract.h"
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 
 @class MSCrashesDelegate;
 
