@@ -323,4 +323,8 @@
   OCMVerify([logManagerMock setEnabled:YES andDeleteDataOnDisabled:YES forPriority:self.abstractService.priority]);
 }
 
+- (void)testInitializationPriorityCorrect {
+  XCTAssertTrue([self.abstractService initializationPriority] == MSInitializationPriorityDefault);
+}
+
 @end
