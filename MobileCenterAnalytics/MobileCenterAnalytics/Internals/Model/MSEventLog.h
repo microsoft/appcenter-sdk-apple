@@ -9,11 +9,13 @@
 
 @interface MSEventLog : MSLogWithProperties
 
-/** Unique identifier for this event.
+/** 
+ * Unique identifier for this event.
  */
 @property(nonatomic, copy) NSString *eventId;
 
-/** Name of the event.
+/**
+ * Name of the event.
  */
 @property(nonatomic, copy) NSString *name;
 
