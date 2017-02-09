@@ -4,9 +4,8 @@
 
 #import "MSHttpSender.h"
 #import "MSHttpSenderPrivate.h"
-#import "MSMobileCenterErrors.h"
 #import "MSMobileCenterInternal.h"
-#import "MSRetriableCall.h"
+#import "MSSenderCall.h"
 
 static NSTimeInterval kRequestTimeout = 60.0;
 
@@ -60,33 +59,8 @@ static NSTimeInterval kRequestTimeout = 60.0;
   return self;
 }
 
-- (void)sendAsync:(MSLogContainer *)container completionHandler:(MSSendAsyncCompletionHandler)handler {
-  @synchronized (self) {
-    NSString *batchId = container.batchId;
-
-    // Verify container.
-    if (!container || ![container isValid]) {
-      NSDictionary *userInfo = @{NSLocalizedDescriptionKey: kMSMCLogInvalidContainerErrorDesc};
-      NSError *error =
-              [NSError errorWithDomain:kMSMCErrorDomain code:kMSMCLogInvalidContainerErrorCode userInfo:userInfo];
-      MSLogError([MSMobileCenter logTag], @"%@", [error localizedDescription]);
-      handler(batchId, error, nil);
-      return;
-    }
-
-    // Check if call has already been created(retry scenario).
-    id <MSSenderCall> call = self.pendingCalls[batchId];
-    if (call == nil) {
-      call = [[MSRetriableCall alloc] initWithRetryIntervals:_callsRetryIntervals];
-      call.delegate = self;
-      call.logContainer = container;
-      call.completionHandler = handler;
-
-      // Store call in calls array.
-      self.pendingCalls[batchId] = call;
-    }
-    [self sendCallAsync:call];
-  }
+- (void)sendAsync:(NSObject *)data completionHandler:(MSSendAsyncCompletionHandler)handler {
+  [self sendAsync:data callId:MS_UUID_STRING completionHandler:handler];
 }
 
 - (void)addDelegate:(id <MSSenderDelegate>)delegate {
@@ -154,7 +128,7 @@ static NSTimeInterval kRequestTimeout = 60.0;
 
       // Suspend current calls' retry.
       [self.pendingCalls.allValues
-              enumerateObjectsUsingBlock:^(id <MSSenderCall> _Nonnull call, NSUInteger idx, BOOL *_Nonnull stop) {
+              enumerateObjectsUsingBlock:^(MSSenderCall *_Nonnull call, NSUInteger idx, BOOL *_Nonnull stop) {
                   if (!call.submitted) {
                     [call resetRetry];
                   }
@@ -189,7 +163,7 @@ static NSTimeInterval kRequestTimeout = 60.0;
 
       // Resume calls.
       [self.pendingCalls.allValues
-              enumerateObjectsUsingBlock:^(id <MSSenderCall> _Nonnull call, NSUInteger idx, BOOL *_Nonnull stop) {
+              enumerateObjectsUsingBlock:^(MSSenderCall *_Nonnull call, NSUInteger idx, BOOL *_Nonnull stop) {
                   if (!call.submitted) {
                     [self sendCallAsync:call];
                   }
@@ -206,7 +180,7 @@ static NSTimeInterval kRequestTimeout = 60.0;
 
 #pragma mark - MSSenderCallDelegate
 
-- (void)sendCallAsync:(id <MSSenderCall>)call {
+- (void)sendCallAsync:(MSSenderCall *)call {
   @synchronized (self) {
     if (self.suspended)
       return;
@@ -215,7 +189,7 @@ static NSTimeInterval kRequestTimeout = 60.0;
       return;
 
     // Create the request.
-    NSURLRequest *request = [self createRequest:call.logContainer];
+    NSURLRequest *request = [self createRequest:call.data];
     if (!request)
       return;
 
@@ -260,33 +234,6 @@ static NSTimeInterval kRequestTimeout = 60.0;
   [self networkStateChanged];
 }
 
-#pragma mark - URL Session Helper
-
-- (NSURLRequest *)createRequest:(MSLogContainer *)logContainer {
-  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.sendURL];
-
-  // Set method.
-  request.HTTPMethod = @"POST";
-
-  // Set Header params.
-  request.allHTTPHeaderFields = self.httpHeaders;
-
-  // Set body.
-  NSString *jsonString = [logContainer serializeLog];
-  request.HTTPBody = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
-
-  // Always disable cookies.
-  [request setHTTPShouldHandleCookies:NO];
-
-  // Don't loose time pretty printing headers if not going to be printed.
-  if ([MSLogger currentLogLevel] <= MSLogLevelVerbose) {
-    MSLogVerbose([MSMobileCenter logTag], @"URL: %@", request.URL);
-    MSLogVerbose([MSMobileCenter logTag], @"Headers: %@", [self prettyPrintHeaders:request.allHTTPHeaderFields]);
-  }
-
-  return request;
-}
-
 #pragma mark - Private
 
 - (void)networkStateChanged {
@@ -297,6 +244,11 @@ static NSTimeInterval kRequestTimeout = 60.0;
     MSLogInfo([MSMobileCenter logTag], @"Internet connection is up.");
     [self resume];
   }
+}
+
+// TODO (jaelim): Give more details that it needs to be overridden.
+- (NSURLRequest *)createRequest:(NSObject *)data {
+  return nil;
 }
 
 - (NSURLSession *)session {
@@ -324,6 +276,25 @@ static NSTimeInterval kRequestTimeout = 60.0;
     [flattenedHeaders addObject:[NSString stringWithFormat:@"%@ = %@", headerKey, header]];
   }
   return [flattenedHeaders componentsJoinedByString:@", "];
+}
+
+- (void)sendAsync:(NSObject *)data callId:(NSString *)callId completionHandler:(MSSendAsyncCompletionHandler)handler {
+  @synchronized (self) {
+
+    // Check if call has already been created(retry scenario).
+    MSSenderCall *call = self.pendingCalls[callId];
+    if (call == nil) {
+      call = [[MSSenderCall alloc] initWithRetryIntervals:_callsRetryIntervals];
+      call.delegate = self;
+      call.data = data;
+      call.callId = callId;
+      call.completionHandler = handler;
+
+      // Store call in calls array.
+      self.pendingCalls[callId] = call;
+    }
+    [self sendCallAsync:call];
+  }
 }
 
 - (NSString *)hideSecret:(NSString *)secret {
