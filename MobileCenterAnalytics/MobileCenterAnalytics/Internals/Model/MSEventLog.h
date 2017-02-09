@@ -11,10 +11,10 @@
 
 /** Unique identifier for this event.
  */
-@property(nonatomic) NSString *eventId;
+@property(nonatomic, copy) NSString *eventId;
 
 /** Name of the event.
  */
-@property(nonatomic) NSString *name;
+@property(nonatomic, copy) NSString *name;
 
 @end

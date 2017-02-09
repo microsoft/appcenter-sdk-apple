@@ -14,6 +14,8 @@
 #import "MSUtil.h"
 #import "MSAppleErrorLog.h"
 
+static NSString *const kMSTestAppSecret = @"TestAppSecret";
+
 @class MSMockCrashesDelegate;
 
 @interface MSCrashesTests : XCTestCase
@@ -55,7 +57,7 @@
 - (void)testStartingManagerInitializesPLCrashReporter {
 
   // When
-  [self.sut startWithLogManager:OCMProtocolMock(@protocol(MSLogManager))];
+  [self.sut startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
 
   // Then
   assertThat(self.sut.plCrashReporter, notNilValue());
@@ -65,7 +67,7 @@
   assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
 
   // When
-  [self.sut startWithLogManager:OCMProtocolMock(@protocol(MSLogManager))];
+  [self.sut startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
 
   // Then
   assertThat(self.sut.crashFiles, hasCountOf(1));
@@ -93,9 +95,9 @@
 
   // If
   assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
-  [self.sut startWithLogManager:OCMProtocolMock(@protocol(MSLogManager))];
+  [self.sut startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
   assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_signal"], isTrue());
-  [self.sut startWithLogManager:OCMProtocolMock(@protocol(MSLogManager))];
+  [self.sut startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
 
   // When
   [self.sut deleteAllFromCrashesDirectory];
@@ -111,7 +113,7 @@
   OCMStub([settingsMock objectForKey:[OCMArg any]]).andReturn([NSNumber numberWithBool:YES]);
   self.sut.storage = settingsMock;
   assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
-  [self.sut startWithLogManager:OCMProtocolMock(@protocol(MSLogManager))];
+  [self.sut startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
 
   // When
   [self.sut setEnabled:NO];
@@ -128,7 +130,7 @@
   OCMStub([settingsMock objectForKey:[OCMArg any]]).andReturn([NSNumber numberWithBool:NO]);
   self.sut.storage = settingsMock;
   assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
-  [self.sut startWithLogManager:OCMProtocolMock(@protocol(MSLogManager))];
+  [self.sut startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
 
   // When
   [self.sut setEnabled:YES];

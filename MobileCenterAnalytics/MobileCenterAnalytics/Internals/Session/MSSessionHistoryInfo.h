@@ -9,7 +9,7 @@
 /**
  *  Session Id.
  */
-@property (nonatomic) NSString *sessionId;
+@property (nonatomic, copy) NSString *sessionId;
 
 /**
  *  Time offset.

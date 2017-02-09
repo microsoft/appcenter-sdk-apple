@@ -10,37 +10,37 @@
 /*
  * Name of the SDK. Consists of the name of the SDK and the platform, e.g. "mobilecenter.ios", "mobilecenter.android"
  */
-@property(nonatomic, readwrite) NSString *sdkName;
+@property(nonatomic, copy, readwrite) NSString *sdkName;
 
 /*
  * Version of the SDK in semver format, e.g. "1.2.0" or "0.12.3-alpha.1".
  */
-@property(nonatomic, readwrite) NSString *sdkVersion;
+@property(nonatomic, copy, readwrite) NSString *sdkVersion;
 
 /*
  * Device model (example: iPad2,3).
  */
-@property(nonatomic, readwrite) NSString *model;
+@property(nonatomic, copy, readwrite) NSString *model;
 
 /*
  * Device manufacturer (example: HTC).
  */
-@property(nonatomic, readwrite) NSString *oemName;
+@property(nonatomic, copy, readwrite) NSString *oemName;
 
 /*
  * OS name (example: iOS).
  */
-@property(nonatomic, readwrite) NSString *osName;
+@property(nonatomic, copy, readwrite) NSString *osName;
 
 /*
  * OS version (example: 9.3.0).
  */
-@property(nonatomic, readwrite) NSString *osVersion;
+@property(nonatomic, copy, readwrite) NSString *osVersion;
 
 /*
  * OS build code (example: LMY47X).  [optional]
  */
-@property(nonatomic, readwrite) NSString *osBuild;
+@property(nonatomic, copy, readwrite) NSString *osBuild;
 
 /*
  * API level when applicable like in Android (example: 15).  [optional]
@@ -50,7 +50,7 @@
 /*
  * Language code (example: en_US).
  */
-@property(nonatomic, readwrite) NSString *locale;
+@property(nonatomic, copy, readwrite) NSString *locale;
 
 /*
  * The offset in minutes from UTC for the device time zone, including daylight savings time.
@@ -60,33 +60,33 @@
 /*
  * Screen size of the device in pixels (example: 640x480).
  */
-@property(nonatomic, readwrite) NSString *screenSize;
+@property(nonatomic, copy, readwrite) NSString *screenSize;
 
 /*
  * Application version name, e.g. 1.1.0
  */
-@property(nonatomic, readwrite) NSString *appVersion;
+@property(nonatomic, copy, readwrite) NSString *appVersion;
 
 /*
  * Carrier name (for mobile devices).  [optional]
  */
-@property(nonatomic, readwrite) NSString *carrierName;
+@property(nonatomic, copy, readwrite) NSString *carrierName;
 
 /*
  * Carrier country code (for mobile devices).  [optional]
  */
-@property(nonatomic, readwrite) NSString *carrierCountry;
+@property(nonatomic, copy, readwrite) NSString *carrierCountry;
 
 /*
  * The app's build number, e.g. 42.
  */
-@property(nonatomic, readwrite) NSString *appBuild;
+@property(nonatomic, copy, readwrite) NSString *appBuild;
 
 /*
  * The bundle identifier, package identifier, or namespace, depending on what the individual plattforms use,  .e.g
  * com.microsoft.example.  [optional]
  */
-@property(nonatomic, readwrite) NSString *appNamespace;
+@property(nonatomic, copy, readwrite) NSString *appNamespace;
 
 
 @end

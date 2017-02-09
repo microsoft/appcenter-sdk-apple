@@ -7,6 +7,7 @@
 #import "MSChannelConfiguration.h"
 #import "MSChannelDefault.h"
 #import "MSLogManagerDefault.h"
+#import "MSLogManagerDefaultPrivate.h"
 
 @interface MSLogManagerDefaultTests : XCTestCase
 

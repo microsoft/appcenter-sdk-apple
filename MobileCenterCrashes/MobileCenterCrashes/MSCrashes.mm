@@ -251,8 +251,8 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   return sharedInstance;
 }
 
-- (void)startWithLogManager:(id <MSLogManager>)logManager {
-  [super startWithLogManager:logManager];
+- (void)startWithLogManager:(id <MSLogManager>)logManager appSecret:(NSString *)appSecret {
+  [super startWithLogManager:logManager appSecret:appSecret];
 
   [logManager addDelegate:self];
   [self processLogBufferAfterCrash];

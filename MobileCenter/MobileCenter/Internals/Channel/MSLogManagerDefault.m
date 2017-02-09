@@ -4,10 +4,14 @@
 
 #import "MSChannelDefault.h"
 #import "MSLogManagerDefault.h"
+#import "MSLogManagerDefaultPrivate.h"
 #import "MSMobileCenterErrors.h"
 #import "MobileCenter+Internal.h"
+#import "MSFileStorage.h"
+#import "MSHttpSender.h"
 
 static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecenter.LogManagerQueue";
+static NSString *const kMSApiPath = @"/logs";
 
 /**
  * Private declaration of the log manager.
@@ -25,20 +29,27 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 
 #pragma mark - Initialization
 
-- (instancetype)init {
-  if (self = [super init]) {
+- (instancetype)initWithAppSecret:(NSString *)appSecret installId:(NSUUID *)installId serverUrl:(NSString *)serverUrl {
+  self = [self initWithSender:[[MSHttpSender alloc] initWithBaseUrl:serverUrl
+                                                            apiPath:kMSApiPath
+                                                            headers:@{kMSHeaderContentTypeKey: kMSContentType,
+                                                                    kMSHeaderAppSecretKey: appSecret,
+                                                                    kMSHeaderInstallIDKey: [installId UUIDString]}
+                                                       queryStrings:@{kMSAPIVersionKey: kMSAPIVersion}
+                                                       reachability:[MS_Reachability reachabilityForInternetConnection]
+                                                     retryIntervals:@[@(10), @(5 * 60), @(20 * 60)]]
+                      storage:[[MSFileStorage alloc] init]];
+  return self;
+}
+
+- (instancetype)initWithSender:(id <MSSender>)sender storage:(id <MSStorage>)storage {
+  if (self = [self init]) {
     dispatch_queue_t serialQueue = dispatch_queue_create(MSlogsDispatchQueue, DISPATCH_QUEUE_SERIAL);
     _enabled = YES;
     _logsDispatchQueue = serialQueue;
     _channels = [NSMutableDictionary<NSNumber *, id <MSChannel>> new];
     _delegates = [NSHashTable weakObjectsHashTable];
     _deviceTracker = [[MSDeviceTracker alloc] init];
-  }
-  return self;
-}
-
-- (instancetype)initWithSender:(id <MSSender>)sender storage:(id <MSStorage>)storage {
-  if (self = [self init]) {
     _sender = sender;
     _storage = storage;
   }

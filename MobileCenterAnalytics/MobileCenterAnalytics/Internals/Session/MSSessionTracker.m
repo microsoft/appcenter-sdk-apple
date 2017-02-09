@@ -16,7 +16,7 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
 /**
  * Current session id.
  */
-@property(nonatomic, readwrite) NSString *sessionId;
+@property(nonatomic, copy, readwrite) NSString *sessionId;
 
 /**
  * Flag to indicate if session tracking has started or not.
