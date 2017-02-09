@@ -29,11 +29,10 @@
 
 /**
  * Callback method that will be called in case the SDK was unable to send a log.
- * @param Instance of MSChannel.
+ * @param channel Instance of MSChannel.
  * @param log The log to be sent.
  * @param error The error that occured.
  */
 - (void)channel:(id <MSChannel>)channel didFailSendingLog:(id <MSLog>)log withError:(NSError *)error;
-
 
 @end
