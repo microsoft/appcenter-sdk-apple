@@ -26,9 +26,9 @@ static MSChannelConfiguration *MSChannelConfigurationBackground;
 + (instancetype)configurationForPriority:(MSPriority)priority {
   switch (priority) {
 
-  case MSPriorityMax:
+  case MSPriorityHigh:
     if (!MSChannelConfigurationHigh) {
-      MSChannelConfigurationHigh = [[self alloc] initWithPriorityName:@"MSPriorityMax"
+      MSChannelConfigurationHigh = [[self alloc] initWithPriorityName:@"MSPriorityHigh"
                                                          flushInterval:1.0
                                                         batchSizeLimit:10
                                                    pendingBatchesLimit:6];

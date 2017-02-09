@@ -198,7 +198,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 - (void)testBufferIndexIncrement {
   // When
   MSAppleErrorLog *log = [MSAppleErrorLog new];
-  [self.sut onProcessingLog:log withPriority:MSPriorityMax];
+  [self.sut onProcessingLog:log withPriority:MSPriorityHigh];
 
   // Then
   XCTAssertTrue(self.sut.bufferIndex == 1);
@@ -208,7 +208,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // When
   for (int i = 0; i < 20; i++) {
     MSAppleErrorLog *log = [MSAppleErrorLog new];
-    [self.sut onProcessingLog:log withPriority:MSPriorityMax];
+    [self.sut onProcessingLog:log withPriority:MSPriorityHigh];
   }
   // Then
   XCTAssertTrue(self.sut.bufferIndex == 20);
@@ -216,7 +216,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // When
   
   MSAppleErrorLog *log = [MSAppleErrorLog new];
-  [self.sut onProcessingLog:log withPriority:MSPriorityMax];
+  [self.sut onProcessingLog:log withPriority:MSPriorityHigh];
   
   // Then
   XCTAssertTrue(self.sut.bufferIndex == 1);

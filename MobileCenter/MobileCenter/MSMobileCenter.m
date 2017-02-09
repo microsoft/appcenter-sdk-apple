@@ -194,7 +194,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
         id <MSServiceInternal> serviceA = [clazzA sharedInstance];
         id <MSServiceInternal> serviceB = [clazzB sharedInstance];
 
-        if (serviceA.priority < serviceB.priority) {
+        if (serviceA.initializationPriority < serviceB.initializationPriority) {
           return NSOrderedDescending;
         }
         else {

@@ -71,6 +71,10 @@ static dispatch_once_t onceToken;
   return MSPriorityDefault;
 }
 
+- (MSInitializationPriority)initializationPriority {
+  return MSInitializationPriorityDefault;
+}
+
 #pragma mark - MSServiceAbstract
 
 - (void)applyEnabledState:(BOOL)isEnabled {
