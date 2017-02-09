@@ -18,4 +18,6 @@
 
 + (MSException *)exception;
 
++ (void) deleteAllFilesInDirectory:(NSString *)directoryPath;
+
 @end

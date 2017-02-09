@@ -115,4 +115,11 @@
   return exception;
 }
 
++ (void) deleteAllFilesInDirectory:(NSString *)directoryPath {
+  NSError *error = nil;
+  for (NSString *filePath in [[NSFileManager defaultManager] enumeratorAtPath:directoryPath]) {
+    NSString *path = [directoryPath stringByAppendingPathComponent:filePath];
+    [[NSFileManager defaultManager] removeItemAtPath:path error:&error];}
+}
+
 @end
