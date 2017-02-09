@@ -179,7 +179,6 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 
     NSArray *sortedServices = [self sortServices:services];
 
-
     for (Class service in sortedServices) {
       [self startService:service];
     }
