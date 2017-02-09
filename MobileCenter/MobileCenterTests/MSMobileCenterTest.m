@@ -1,3 +1,4 @@
+ 
 #import "MSMobileCenter.h"
 #import "MSMobileCenterInternal.h"
 #import "MSMobileCenterPrivate.h"
@@ -139,3 +140,4 @@ static NSString *const kSMNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   XCTAssertTrue([MSMobileCenter isConfigured]);
 }
 @end
+d

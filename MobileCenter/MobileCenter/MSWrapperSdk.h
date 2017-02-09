@@ -1,6 +1,6 @@
 /*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
+    * Copyright (c) Microsoft Corporation. All rights reserved.
+    */
 
 #import <Foundation/Foundation.h>
 
@@ -16,7 +16,7 @@
 /*
  * Name of the wrapper SDK (examples: Xamarin, Cordova).  [optional]
  */
-@property(nonatomic,copy, readonly) NSString *wrapperSdkName;
+@property(nonatomic, copy, readonly) NSString *wrapperSdkName;
 
 /*
  * Label that is used to identify application code 'version' released via Live Update beacon running on device
@@ -24,7 +24,8 @@
 @property(nonatomic, copy, readonly) NSString *liveUpdateReleaseLabel;
 
 /*
- * Identifier of environment that current application release belongs to, deployment key then maps to environment like Production, Staging.
+ * Identifier of environment that current application release belongs to, deployment key then maps to environment like
+ * Production, Staging.
  */
 @property(nonatomic, copy, readonly) NSString *liveUpdateDeploymentKey;
 
@@ -43,10 +44,11 @@
  */
 - (BOOL)isEqual:(MSWrapperSdk *)wrapperSdk;
 
-- (instancetype) initWithWrapperSdkVersion:(NSString *)wrapperSdkVersion
-                            wrapperSdkName:(NSString *)wrapperSdkName
-                    liveUpdateReleaseLabel:(NSString *)liveUpdateReleaseLabel
-                   liveUpdateDeploymentKey:(NSString *)liveUpdateDeploymentKey
-                     liveUpdatePackageHash:(NSString *)liveUpdatePackageHash;
+- (instancetype)initWithWrapperSdkVersion:(NSString *)wrapperSdkVersion
+                           wrapperSdkName:(NSString *)wrapperSdkName
+                   liveUpdateReleaseLabel:(NSString *)liveUpdateReleaseLabel
+                  liveUpdateDeploymentKey:(NSString *)liveUpdateDeploymentKey
+                    liveUpdatePackageHash:(NSString *)liveUpdatePackageHash;
 
 @end
+
