@@ -3,7 +3,6 @@
  */
 
 #import "MSChannelDefault.h"
-#import "MSConstants+Internal.h"
 #import "MSMobileCenterErrors.h"
 #import "MSMobileCenterInternal.h"
 
@@ -98,17 +97,17 @@
 - (void)enqueueItem:(id <MSLog>)item withCompletion:(enqueueCompletionBlock)completion {
   // return fast in case our item is empty or we are discarding logs right now.
   dispatch_async(self.logsDispatchQueue, ^{
-  if (!item) {
-    MSLogWarning([MSMobileCenter logTag], @"TelemetryItem was nil.");
-    return;
-  } else if (self.discardLogs) {
-    MSLogWarning([MSMobileCenter logTag], @"Channel disabled in log discarding mode, discard this log.");
-    NSError *error = [NSError errorWithDomain:kMSMCErrorDomain
-                                         code:kMSMCConnectionSuspendedErrorCode
-                                     userInfo:@{NSLocalizedDescriptionKey: kMSMCConnectionSuspendedErrorDesc}];
-    [self notifyFailureBeforeSendingForItem:item withError:error];
-    return;
-  }
+      if (!item) {
+        MSLogWarning([MSMobileCenter logTag], @"TelemetryItem was nil.");
+        return;
+      } else if (self.discardLogs) {
+        MSLogWarning([MSMobileCenter logTag], @"Channel disabled in log discarding mode, discard this log.");
+        NSError *error = [NSError errorWithDomain:kMSMCErrorDomain
+                                             code:kMSMCConnectionSuspendedErrorCode
+                                         userInfo:@{NSLocalizedDescriptionKey: kMSMCConnectionSuspendedErrorDesc}];
+        [self notifyFailureBeforeSendingForItem:item withError:error];
+        return;
+      }
 
       // Save the log first.
       MSLogDebug([MSMobileCenter logTag], @"Saving log, type: %@.", item.type);
@@ -208,11 +207,11 @@
                                    }
                                  }
 
-                           // Failure.
-                           else {
-                             MSLogDebug([MSMobileCenter logTag],
-                                        @"Log(s) sent with failure, batch Id:%@, status code:%lu", batchId,
-                                        (unsigned long)statusCode);
+                                   // Failure.
+                                 else {
+                                   MSLogDebug([MSMobileCenter logTag],
+                                           @"Log(s) sent with failure, batch Id:%@, status code:%lu", batchId,
+                                           (unsigned long) statusCode);
 
                                    // Notify delegates.
                                    [self
@@ -227,18 +226,18 @@
                                    [self.pendingBatchIds removeObject:batchId];
                                    [self.storage deleteLogsForId:batchId withStorageKey:self.configuration.name];
 
-                             // Fatal error, disable sender with data deletion.
-                             // This will in turn disable this channel and delete logs.
-                             if (error.code != NSURLErrorCancelled) {
-                               [self.sender setEnabled:NO andDeleteDataOnDisabled:YES];
-                             }
-                           }
-                         } else
-                           MSLogWarning([MSMobileCenter logTag], @"Batch Id %@ not expected, ignore.", batchId);
-                       });
-                     }];
-               }
-             }];
+                                   // Fatal error, disable sender with data deletion.
+                                   // This will in turn disable this channel and delete logs.
+                                   if (error.code != NSURLErrorCancelled) {
+                                     [self.sender setEnabled:NO andDeleteDataOnDisabled:YES];
+                                   }
+                                 }
+                               } else
+                                 MSLogWarning([MSMobileCenter logTag], @"Batch Id %@ not expected, ignore.", batchId);
+                           });
+                       }];
+                     }
+                 }];
 
   // Flush again if there is another batch to send.
   if (self.availableBatchFromStorage && !self.pendingBatchQueueFull) {
@@ -291,13 +290,13 @@
         }
       }
 
-    // Even if it's already disabled we might also want to delete logs this time.
-    if (!isEnabled && deleteData) {
-      MSLogDebug([MSMobileCenter logTag], @"Delete all logs.");
-      NSError *error = [NSError errorWithDomain:kMSMCErrorDomain
-                                           code:kMSMCConnectionSuspendedErrorCode
-                                       userInfo:@{NSLocalizedDescriptionKey : kMSMCConnectionSuspendedErrorDesc}];
-      [self deleteAllLogsWithErrorSync:error];
+      // Even if it's already disabled we might also want to delete logs this time.
+      if (!isEnabled && deleteData) {
+        MSLogDebug([MSMobileCenter logTag], @"Delete all logs.");
+        NSError *error = [NSError errorWithDomain:kMSMCErrorDomain
+                                             code:kMSMCConnectionSuspendedErrorCode
+                                         userInfo:@{NSLocalizedDescriptionKey: kMSMCConnectionSuspendedErrorDesc}];
+        [self deleteAllLogsWithErrorSync:error];
 
         // Reset states.
         self.itemsCount = 0;

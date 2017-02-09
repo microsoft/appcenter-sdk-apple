@@ -3,7 +3,6 @@
  */
 
 #import "MSSender.h"
-#import "MSSenderCall.h"
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -23,7 +22,10 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Pending http calls.
  */
-@property(atomic, strong) NSMutableDictionary<NSString *, id <MSSenderCall>> *pendingCalls;
+@property(atomic, strong) NSMutableDictionary<NSString *, MSSenderCall *> *pendingCalls;
+
+// TODO (jaelim): Add doc here.
+- (void)sendAsync:(NSObject *)container callId:(NSString *)callId completionHandler:(MSSendAsyncCompletionHandler)handler;
 
 @end
 

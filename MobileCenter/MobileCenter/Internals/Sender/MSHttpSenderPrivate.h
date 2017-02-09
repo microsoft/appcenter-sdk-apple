@@ -34,4 +34,10 @@ static NSString *const kMSHidingStringForAppSecret = @"*";
  */
 - (NSString *)hideSecret:(NSString *)secret;
 
+// TODO (jaelim): Add doc here
+- (NSURLRequest *)createRequest:(NSObject *)data;
+
+// TODO (jaelim): Add doc here
+- (NSString *)prettyPrintHeaders:(NSDictionary<NSString *, NSString *> *)headers;
+
 @end

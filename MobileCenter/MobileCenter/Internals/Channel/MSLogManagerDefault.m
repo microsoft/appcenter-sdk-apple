@@ -9,6 +9,7 @@
 #import "MobileCenter+Internal.h"
 #import "MSFileStorage.h"
 #import "MSHttpSender.h"
+#import "MSIngestionSender.h"
 
 static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecenter.LogManagerQueue";
 static NSString *const kMSApiPath = @"/logs";
@@ -30,14 +31,14 @@ static NSString *const kMSApiPath = @"/logs";
 #pragma mark - Initialization
 
 - (instancetype)initWithAppSecret:(NSString *)appSecret installId:(NSUUID *)installId serverUrl:(NSString *)serverUrl {
-  self = [self initWithSender:[[MSHttpSender alloc] initWithBaseUrl:serverUrl
-                                                            apiPath:kMSApiPath
-                                                            headers:@{kMSHeaderContentTypeKey: kMSContentType,
-                                                                    kMSHeaderAppSecretKey: appSecret,
-                                                                    kMSHeaderInstallIDKey: [installId UUIDString]}
-                                                       queryStrings:@{kMSAPIVersionKey: kMSAPIVersion}
-                                                       reachability:[MS_Reachability reachabilityForInternetConnection]
-                                                     retryIntervals:@[@(10), @(5 * 60), @(20 * 60)]]
+  self = [self initWithSender:[[MSIngestionSender alloc] initWithBaseUrl:serverUrl
+                                                                 apiPath:kMSApiPath
+                                                                 headers:@{kMSHeaderContentTypeKey: kMSContentType,
+                                                                         kMSHeaderAppSecretKey: appSecret,
+                                                                         kMSHeaderInstallIDKey: [installId UUIDString]}
+                                                            queryStrings:@{kMSAPIVersionKey: kMSAPIVersion}
+                                                            reachability:[MS_Reachability reachabilityForInternetConnection]
+                                                          retryIntervals:@[@(10), @(5 * 60), @(20 * 60)]]
                       storage:[[MSFileStorage alloc] init]];
   return self;
 }
@@ -111,7 +112,7 @@ static NSString *const kMSApiPath = @"/logs";
   log.toffset = [NSNumber numberWithLongLong:[MSUtil nowInMilliseconds]];
   log.device = self.deviceTracker.device;
 
-  // Asynchroneously forward to channel by using the data dispatch queue.
+  // Asynchronously forward to channel by using the data dispatch queue.
   [channel enqueueItem:log];
 }
 
