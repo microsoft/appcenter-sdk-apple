@@ -60,7 +60,6 @@
   id mockDelegate = OCMProtocolMock(@protocol(MSLogManagerDelegate));
   [sut addDelegate:mockDelegate];
 
-
   MSAbstractLog *log = [MSAbstractLog new];
 
   // When
