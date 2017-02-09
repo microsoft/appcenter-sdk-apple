@@ -37,6 +37,10 @@
   return MSPriorityDefault;
 }
 
+- (MSInitializationPriority)initializationPriority {
+  return MSInitializationPriorityDefault;
+}
+
 + (NSString *)logTag {
   return @"MSServiceAbstractTest";
 }

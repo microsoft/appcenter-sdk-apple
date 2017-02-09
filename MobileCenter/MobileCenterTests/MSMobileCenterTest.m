@@ -146,24 +146,18 @@ static NSString *const kSMNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   // If
   id<MSServiceCommon> mockServiceMaxPrio = OCMProtocolMock(@protocol(MSServiceCommon));
   OCMStub([mockServiceMaxPrio sharedInstance]).andReturn(mockServiceMaxPrio);
-  OCMStub([mockServiceMaxPrio priority]).andReturn(MSPriorityMax);
+  OCMStub([mockServiceMaxPrio initializationPriority]).andReturn(MSInitializationPriorityMax);
 
   id<MSServiceCommon> mockServiceDefaultPrio = OCMProtocolMock(@protocol(MSServiceCommon));
   OCMStub([mockServiceDefaultPrio sharedInstance]).andReturn(mockServiceDefaultPrio);
-  OCMStub([mockServiceDefaultPrio priority]).andReturn(MSPriorityDefault);
+  OCMStub([mockServiceDefaultPrio initializationPriority]).andReturn(MSInitializationPriorityDefault);
   
-  id<MSServiceCommon> mockServiceBackgroundPrio = OCMProtocolMock(@protocol(MSServiceCommon));
-  OCMStub([mockServiceBackgroundPrio sharedInstance]).andReturn(mockServiceBackgroundPrio);
-  OCMStub([mockServiceBackgroundPrio priority]).andReturn(MSPriorityBackground);
-
-
   // When
-  NSArray<MSServiceAbstract *> *sorted = [self.sut sortServices:@[mockServiceBackgroundPrio, mockServiceDefaultPrio, mockServiceMaxPrio]];
+  NSArray<MSServiceAbstract *> *sorted = [self.sut sortServices:@[mockServiceDefaultPrio, mockServiceMaxPrio]];
 
   // Then
-  XCTAssertTrue([sorted[0] priority] == MSPriorityMax);
-  XCTAssertTrue([sorted[1] priority] == MSPriorityDefault);
-  XCTAssertTrue([sorted[2] priority] == MSPriorityBackground);
+  XCTAssertTrue([sorted[0] initializationPriority] == MSInitializationPriorityMax);
+  XCTAssertTrue([sorted[1] initializationPriority] == MSInitializationPriorityDefault);
 }
 
 @end

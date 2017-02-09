@@ -12,8 +12,6 @@
 static NSString *const kMSInstallIdKey = @"MSInstallId";
 static NSString *const kMSMobileCenterIsEnabledKey = @"MSMobileCenterIsEnabled";
 
-@class MSService;
-
 @interface MSMobileCenter ()
 
 @property(nonatomic) id<MSLogManager> logManager;

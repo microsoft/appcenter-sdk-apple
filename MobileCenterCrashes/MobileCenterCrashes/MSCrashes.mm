@@ -204,7 +204,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     _crashFiles = [self persistedCrashReports];
 
     // Set self as delegate of crashes' channel.
-    [self.logManager addChannelDelegate:self forPriority:MSPriorityMax];
+    [self.logManager addChannelDelegate:self forPriority:MSPriorityHigh];
 
     // Process PLCrashReports, this will format the PLCrashReport into our schema and then trigger sending.
     // This mostly happens on the start of the service.
@@ -232,7 +232,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     [self.plCrashReporter purgePendingCrashReport];
 
     // Remove as ChannelDelegate from LogManager
-    [self.logManager removeChannelDelegate:self forPriority:MSPriorityMax];
+    [self.logManager removeChannelDelegate:self forPriority:MSPriorityHigh];
     [self.logManager removeChannelDelegate:self forPriority:MSPriorityDefault];
     [self.logManager removeChannelDelegate:self forPriority:MSPriorityBackground];
 
@@ -269,7 +269,11 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 }
 
 - (MSPriority)priority {
-  return MSPriorityMax;
+  return MSPriorityHigh;
+}
+
+- (MSInitializationPriority)initializationPriority {
+  return MSInitializationPriorityMax;
 }
 
 #pragma mark - MSLogManagerDelegate

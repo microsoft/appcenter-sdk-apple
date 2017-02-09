@@ -8,6 +8,9 @@
 
 /**
  *  Protocol declaring all the logic of a service. This is what concrete services needs to conform to.
+ *  The difference is that MSServiceCommon is public, while MSServiceInternal is private.
+ *  Some properties are present in both, which is counter-intuitive but the way we implemented this
+ *  to achieve abstraction and not have empty implementations in MSServiceAbstract.
  */
 @protocol MSServiceInternal <MSService, MSServiceCommon>
 
@@ -19,9 +22,14 @@
 @property(nonatomic, copy, readonly) NSString *storageKey;
 
 /**
- * The channel priority for this service.
+ * The channel priority for this service. Defined here as well as in MSServiceCommon to achieve abstraction.
  */
 @property(nonatomic, readonly) MSPriority priority;
+
+/**
+ * The initialization priority for this service. Defined here as well as in MSServiceCommon to achieve abstraction.
+ */
+@property(nonatomic, readonly) MSInitializationPriority initializationPriority;
 
 /**
  * The app secret for the SDK.

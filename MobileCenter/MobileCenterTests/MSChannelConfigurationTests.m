@@ -50,11 +50,11 @@
 - (void)testClassWillReturnCorrectConfigurationForGivenHighPriority {
 
   // When
-  MSChannelConfiguration *sut = [MSChannelConfiguration configurationForPriority:MSPriorityMax];
+  MSChannelConfiguration *sut = [MSChannelConfiguration configurationForPriority:MSPriorityHigh];
 
   // Then
   assertThat(sut, notNilValue());
-  assertThat(sut.name, equalTo(@"MSPriorityMax"));
+  assertThat(sut.name, equalTo(@"MSPriorityHigh"));
   assertThatUnsignedInteger(sut.batchSizeLimit, equalToUnsignedInteger(10));
   assertThatUnsignedInteger(sut.pendingBatchesLimit, equalToUnsignedInteger(6));
   assertThatFloat(sut.flushInterval, equalToFloat(1.0));
@@ -76,7 +76,7 @@
 - (void)testRequestingSamePredefinedConfigurationMultipleTimesReturnsSameObject {
 
   // If
-  NSArray *priorities = @[ @(MSPriorityMax), @(MSPriorityDefault), @(MSPriorityBackground) ];
+  NSArray *priorities = @[ @(MSPriorityHigh), @(MSPriorityDefault), @(MSPriorityBackground) ];
 
   for (NSNumber *priority in priorities) {
     MSPriority prio = priority.integerValue;
