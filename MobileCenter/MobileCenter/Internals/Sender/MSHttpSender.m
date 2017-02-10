@@ -246,7 +246,9 @@ static NSTimeInterval kRequestTimeout = 60.0;
   }
 }
 
-// TODO (jaelim): Give more details that it needs to be overridden.
+/**
+ * This is an empty method and expect to be overridden in sub classes.
+ */
 - (NSURLRequest *)createRequest:(NSObject *)data {
   return nil;
 }

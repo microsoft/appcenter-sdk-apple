@@ -24,10 +24,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(atomic, strong) NSMutableDictionary<NSString *, MSSenderCall *> *pendingCalls;
 
-// TODO (jaelim): Add doc here.
-- (void)sendAsync:(NSObject *)container
-               callId:(NSString *)callId
-    completionHandler:(MSSendAsyncCompletionHandler)handler;
+/**
+ *  Send data to backend
+ * @param data A data instance that will be transformed request body.
+ * @param callId A unique ID that identify a request.
+ * @param handler Completion handler
+ */
+- (void)sendAsync:(NSObject *)data callId:(NSString *)callId completionHandler:(MSSendAsyncCompletionHandler)handler;
 
 @end
 
