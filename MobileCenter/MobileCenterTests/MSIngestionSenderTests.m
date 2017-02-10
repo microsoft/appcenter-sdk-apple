@@ -4,12 +4,12 @@
 
 #import "MSDevice.h"
 #import "MSDevicePrivate.h"
-#import "MSHttpSender.h"
+#import "MSIngestionSender.h"
 #import "MSHttpSenderPrivate.h"
 #import "MSHttpTestUtil.h"
 #import "MSMobileCenterErrors.h"
 #import "MSMockLog.h"
-#import "MSRetriableCall.h"
+#import "MSSenderCall.h"
 #import "MSSenderDelegate.h"
 #import "MobileCenter+Internal.h"
 
@@ -21,15 +21,15 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 static NSString *const kMSBaseUrl = @"https://test.com";
 static NSString *const kMSAppSecret = @"mockAppSecret";
 
-@interface MSHttpSenderTests : XCTestCase
+@interface MSIngestionSenderTests : XCTestCase
 
-@property(nonatomic, strong) MSHttpSender *sut;
+@property(nonatomic, strong) MSIngestionSender *sut;
 @property(nonatomic, strong) id reachabilityMock;
 @property(nonatomic) NetworkStatus currentNetworkStatus;
 
 @end
 
-@implementation MSHttpSenderTests
+@implementation MSIngestionSenderTests
 
 - (void)setUp {
   [super setUp];
@@ -51,12 +51,12 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
   });
 
   // sut: System under test
-  self.sut = [[MSHttpSender alloc] initWithBaseUrl:kMSBaseUrl
-                                           apiPath:@"test-path"
-                                           headers:headers
-                                      queryStrings:queryStrings
-                                      reachability:self.reachabilityMock
-                                    retryIntervals:@[ @(0.5), @(1), @(1.5) ]];
+  self.sut = [[MSIngestionSender alloc] initWithBaseUrl:kMSBaseUrl
+                                                apiPath:@"test-path"
+                                                headers:headers
+                                           queryStrings:queryStrings
+                                           reachability:self.reachabilityMock
+                                         retryIntervals:@[ @(0.5), @(1), @(1.5) ]];
 }
 
 - (void)tearDown {
@@ -322,9 +322,10 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
   MSLogContainer *container = [self createLogContainerWithId:containerId];
 
   // Mock the call to intercept the retry.
-  MSRetriableCall *mockedCall = OCMPartialMock([[MSRetriableCall alloc] initWithRetryIntervals:@[ @(UINT_MAX) ]]);
+  MSSenderCall *mockedCall = OCMPartialMock([[MSSenderCall alloc] initWithRetryIntervals:@[ @(UINT_MAX) ]]);
   mockedCall.delegate = self.sut;
-  mockedCall.logContainer = container;
+  mockedCall.data = container;
+  mockedCall.callId = container.batchId;
   mockedCall.completionHandler = nil;
   OCMStub([mockedCall sender:self.sut callCompletedWithStatus:MSHTTPCodesNo500InternalServerError error:[OCMArg any]])
       .andForwardToRealObject()
@@ -353,7 +354,7 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
                                   */
 
                                  // Retry must be stopped.
-                                 assertThat(((MSRetriableCall *)self.sut.pendingCalls[@"1"]).timerSource, nilValue());
+                                 assertThat(((MSSenderCall *)self.sut.pendingCalls[@"1"]).timerSource, nilValue());
 
                                  // No call submitted to the session.
                                  assertThatBool(self.sut.pendingCalls[@"1"].submitted, isFalse());
