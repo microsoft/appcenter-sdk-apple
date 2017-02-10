@@ -185,20 +185,21 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
   }
 }
 
+/** Sort services in descending order to make sure the service with the highest priority gets initialized first.
+ * This is intended to make sure Crashes gets initialized first.
+*/
 - (NSArray *)sortServices:(NSArray<Class> *)services {
-  // Sort services in descending order to make sure the service with the highest priority gets initialized first.
-  // This is intended to make sure Crashes gets initialized first.
+
   if (services && services.count > 1) {
     return [services sortedArrayUsingComparator:^NSComparisonResult(Class clazzA, Class clazzB) {
-        id <MSServiceInternal> serviceA = [clazzA sharedInstance];
-        id <MSServiceInternal> serviceB = [clazzB sharedInstance];
+      id<MSServiceInternal> serviceA = [clazzA sharedInstance];
+      id<MSServiceInternal> serviceB = [clazzB sharedInstance];
 
-        if (serviceA.initializationPriority < serviceB.initializationPriority) {
-          return NSOrderedDescending;
-        }
-        else {
-          return NSOrderedAscending;
-        }
+      if (serviceA.initializationPriority < serviceB.initializationPriority) {
+        return NSOrderedDescending;
+      } else {
+        return NSOrderedAscending;
+      }
     }];
   } else {
     return services;
