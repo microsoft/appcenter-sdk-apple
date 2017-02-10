@@ -52,7 +52,7 @@ GCC_PREPROCESSOR_DEFINITIONS = $(inherited) $(XCODEBUILD_GCC_PREPROCESSOR_DEFINI
 // -padded
 // This isn’t really an issue to us, since we’re not programming embedded systems.
 
-// -Wc++98
+// -c++98
 // We don't want to compile our code for C++98, no need to be warned about incompatibility.
 
 // -auto-import
