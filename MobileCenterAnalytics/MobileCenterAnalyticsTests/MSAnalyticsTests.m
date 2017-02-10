@@ -268,4 +268,8 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   self.didFailSendingEventLogWasCalled = true;
 }
 
+- (void)testInitializationPriorityCorrect {
+  XCTAssertTrue([[MSAnalytics sharedInstance] initializationPriority] == MSInitializationPriorityDefault);
+}
+
 @end
