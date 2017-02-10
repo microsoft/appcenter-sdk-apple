@@ -190,12 +190,10 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
  * This is intended to make sure Crashes gets initialized first.
 */
 - (NSArray *)sortServices:(NSArray<Class> *)services {
-
   if (services && services.count > 1) {
     return [services sortedArrayUsingComparator:^NSComparisonResult(Class clazzA, Class clazzB) {
       id<MSServiceInternal> serviceA = [clazzA sharedInstance];
       id<MSServiceInternal> serviceB = [clazzB sharedInstance];
-
       if (serviceA.initializationPriority < serviceB.initializationPriority) {
         return NSOrderedDescending;
       } else {
