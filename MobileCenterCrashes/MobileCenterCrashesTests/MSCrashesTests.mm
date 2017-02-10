@@ -1,3 +1,4 @@
+
 #import <Foundation/Foundation.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
@@ -74,7 +75,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 }
 
 - (void)testSettingDelegateWorks {
-  id <MSCrashesDelegate> delegateMock = OCMProtocolMock(@protocol(MSCrashesDelegate));
+  id<MSCrashesDelegate> delegateMock = OCMProtocolMock(@protocol(MSCrashesDelegate));
   [MSCrashes setDelegate:delegateMock];
   XCTAssertNotNil([MSCrashes sharedInstance].delegate);
   XCTAssertEqual([MSCrashes sharedInstance].delegate, delegateMock);
@@ -169,7 +170,8 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [self.sut createBufferFileWithName:testName];
 
   // Then
-  NSString *filePath = [self.sut.logBufferDir stringByAppendingPathComponent:[testName stringByAppendingString:@".mscrasheslogbuffer"]];
+  NSString *filePath =
+      [self.sut.logBufferDir stringByAppendingPathComponent:[testName stringByAppendingString:@".mscrasheslogbuffer"]];
   BOOL success = [[NSFileManager defaultManager] fileExistsAtPath:filePath];
   XCTAssertTrue(success);
 }
@@ -179,7 +181,8 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   NSString *testName = @"afilename";
   NSString *dataString = @"SomeBufferedData";
   NSData *someData = [dataString dataUsingEncoding:NSUTF8StringEncoding];
-  NSString *filePath = [self.sut.logBufferDir stringByAppendingPathComponent:[testName stringByAppendingString:@".mscrasheslogbuffer"]];
+  NSString *filePath =
+      [self.sut.logBufferDir stringByAppendingPathComponent:[testName stringByAppendingString:@".mscrasheslogbuffer"]];
 
   [someData writeToFile:filePath options:NSDataWritingFileProtectionNone error:nil];
 
@@ -212,18 +215,27 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   }
   // Then
   XCTAssertTrue(self.sut.bufferIndex == 20);
-  
+
   // When
-  
+
   MSAppleErrorLog *log = [MSAppleErrorLog new];
   [self.sut onProcessingLog:log withPriority:MSPriorityHigh];
-  
+
   // Then
   XCTAssertTrue(self.sut.bufferIndex == 1);
 }
 
 - (void)testInitializationPriorityCorrect {
   XCTAssertTrue([[MSCrashes sharedInstance] initializationPriority] == MSInitializationPriorityMax);
+}
+
+- (void)testEnablingMachExceptionWorks {
+  XCTAssertFalse([[MSCrashes sharedInstance] isMachExceptionHandlerEnabled]);
+  [MSCrashes enableMachExceptionHandler];
+  XCTAssertTrue([[MSCrashes sharedInstance] isMachExceptionHandlerEnabled]);
+  XCTAssertFalse([self.sut isMachExceptionHandlerEnabled]);
+  [self.sut setEnableMachExceptionHandler:YES];
+  XCTAssertTrue([self.sut isMachExceptionHandlerEnabled]);
 }
 
 @end
