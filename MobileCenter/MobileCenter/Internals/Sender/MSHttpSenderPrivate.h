@@ -34,10 +34,18 @@ static NSString *const kMSHidingStringForAppSecret = @"*";
  */
 - (NSString *)hideSecret:(NSString *)secret;
 
-// TODO (jaelim): Add doc here
+/**
+ * Create a request based on data. Must override this method in sub classes.
+ * @param data A data instance that will be transformed to request body.
+ * @return A URL request.
+ */
 - (NSURLRequest *)createRequest:(NSObject *)data;
 
-// TODO (jaelim): Add doc here
+/**
+ * Convert key/value pairs for headers to a string.
+ * @param headers A dictionary that contains header as key/value pair.
+ * @return A string that contains headers.
+ */
 - (NSString *)prettyPrintHeaders:(NSDictionary<NSString *, NSString *> *)headers;
 
 @end

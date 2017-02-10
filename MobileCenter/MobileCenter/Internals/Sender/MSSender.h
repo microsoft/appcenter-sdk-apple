@@ -44,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Send logs in batch.
  *
- * @param data Instance that will be transform to request body.
+ * @param data Instance that will be transformed to request body.
  * @param handler Completion handler.
  */
 - (void)sendAsync:(NSObject *)data completionHandler:(MSSendAsyncCompletionHandler)handler;
