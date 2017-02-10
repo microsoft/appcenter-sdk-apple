@@ -4,7 +4,7 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol MSSenderCall;
+@class MSSenderCall;
 
 @protocol MSSenderCallDelegate <NSObject>
 
@@ -13,7 +13,7 @@
  *
  *  @param call Call object.
  */
-- (void)sendCallAsync:(id<MSSenderCall>)call;
+- (void)sendCallAsync:(MSSenderCall *)call;
 
 /**
  *  Call completed callback.

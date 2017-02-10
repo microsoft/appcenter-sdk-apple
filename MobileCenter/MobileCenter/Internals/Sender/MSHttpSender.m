@@ -4,9 +4,8 @@
 
 #import "MSHttpSender.h"
 #import "MSHttpSenderPrivate.h"
-#import "MSMobileCenterErrors.h"
 #import "MSMobileCenterInternal.h"
-#import "MSRetriableCall.h"
+#import "MSSenderCall.h"
 
 static NSTimeInterval kRequestTimeout = 60.0;
 
@@ -39,8 +38,8 @@ static NSTimeInterval kRequestTimeout = 60.0;
 
     // Set query parameter.
     [queryStrings enumerateKeysAndObjectsUsingBlock:^(id _Nonnull key, id _Nonnull queryString, BOOL *_Nonnull stop) {
-        NSURLQueryItem *queryItem = [NSURLQueryItem queryItemWithName:key value:queryString];
-        [queryItemArray addObject:queryItem];
+      NSURLQueryItem *queryItem = [NSURLQueryItem queryItemWithName:key value:queryString];
+      [queryItemArray addObject:queryItem];
     }];
     components.queryItems = queryItemArray;
 
@@ -60,43 +59,18 @@ static NSTimeInterval kRequestTimeout = 60.0;
   return self;
 }
 
-- (void)sendAsync:(MSLogContainer *)container completionHandler:(MSSendAsyncCompletionHandler)handler {
-  @synchronized (self) {
-    NSString *batchId = container.batchId;
-
-    // Verify container.
-    if (!container || ![container isValid]) {
-      NSDictionary *userInfo = @{NSLocalizedDescriptionKey: kMSMCLogInvalidContainerErrorDesc};
-      NSError *error =
-              [NSError errorWithDomain:kMSMCErrorDomain code:kMSMCLogInvalidContainerErrorCode userInfo:userInfo];
-      MSLogError([MSMobileCenter logTag], @"%@", [error localizedDescription]);
-      handler(batchId, error, nil);
-      return;
-    }
-
-    // Check if call has already been created(retry scenario).
-    id <MSSenderCall> call = self.pendingCalls[batchId];
-    if (call == nil) {
-      call = [[MSRetriableCall alloc] initWithRetryIntervals:_callsRetryIntervals];
-      call.delegate = self;
-      call.logContainer = container;
-      call.completionHandler = handler;
-
-      // Store call in calls array.
-      self.pendingCalls[batchId] = call;
-    }
-    [self sendCallAsync:call];
-  }
+- (void)sendAsync:(NSObject *)data completionHandler:(MSSendAsyncCompletionHandler)handler {
+  [self sendAsync:data callId:MS_UUID_STRING completionHandler:handler];
 }
 
-- (void)addDelegate:(id <MSSenderDelegate>)delegate {
-  @synchronized (self) {
+- (void)addDelegate:(id<MSSenderDelegate>)delegate {
+  @synchronized(self) {
     [self.delegates addObject:delegate];
   }
 }
 
-- (void)removeDelegate:(id <MSSenderDelegate>)delegate {
-  @synchronized (self) {
+- (void)removeDelegate:(id<MSSenderDelegate>)delegate {
+  @synchronized(self) {
     [self.delegates removeObject:delegate];
   }
 }
@@ -104,7 +78,7 @@ static NSTimeInterval kRequestTimeout = 60.0;
 #pragma mark - Life cycle
 
 - (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData {
-  @synchronized (self) {
+  @synchronized(self) {
     if (self.enabled != isEnabled) {
       self.enabled = isEnabled;
       if (isEnabled) {
@@ -128,49 +102,49 @@ static NSTimeInterval kRequestTimeout = 60.0;
 
       // Forward enabled state.
       [self
-              enumerateDelegatesForSelector:@selector(senderDidSuspend:)
-                                  withBlock:^(id <MSSenderDelegate> delegate) {
-                                      [delegate sender:self didSetEnabled:(BOOL) isEnabled andDeleteDataOnDisabled:deleteData];
-                                  }];
+          enumerateDelegatesForSelector:@selector(senderDidSuspend:)
+                              withBlock:^(id<MSSenderDelegate> delegate) {
+                                [delegate sender:self didSetEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:deleteData];
+                              }];
     }
   }
 }
 
 - (void)suspend {
-  @synchronized (self) {
+  @synchronized(self) {
     if (!self.suspended) {
       MSLogInfo([MSMobileCenter logTag], @"Suspend sender.");
       self.suspended = YES;
 
       // Suspend all tasks.
       [self.session getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> *_Nonnull dataTasks,
-              NSArray<NSURLSessionUploadTask *> *_Nonnull uploadTasks,
-              NSArray<NSURLSessionDownloadTask *> *_Nonnull downloadTasks) {
-          [dataTasks enumerateObjectsUsingBlock:^(__kindof NSURLSessionTask *_Nonnull call, NSUInteger idx,
-                  BOOL *_Nonnull stop) {
-              [call suspend];
-          }];
+                                                    NSArray<NSURLSessionUploadTask *> *_Nonnull uploadTasks,
+                                                    NSArray<NSURLSessionDownloadTask *> *_Nonnull downloadTasks) {
+        [dataTasks enumerateObjectsUsingBlock:^(__kindof NSURLSessionTask *_Nonnull call, NSUInteger idx,
+                                                BOOL *_Nonnull stop) {
+          [call suspend];
+        }];
       }];
 
       // Suspend current calls' retry.
       [self.pendingCalls.allValues
-              enumerateObjectsUsingBlock:^(id <MSSenderCall> _Nonnull call, NSUInteger idx, BOOL *_Nonnull stop) {
-                  if (!call.submitted) {
-                    [call resetRetry];
-                  }
-              }];
+          enumerateObjectsUsingBlock:^(MSSenderCall *_Nonnull call, NSUInteger idx, BOOL *_Nonnull stop) {
+            if (!call.submitted) {
+              [call resetRetry];
+            }
+          }];
 
       // Notify delegates.
       [self enumerateDelegatesForSelector:@selector(senderDidSuspend:)
-                                withBlock:^(id <MSSenderDelegate> delegate) {
-                                    [delegate senderDidSuspend:self];
+                                withBlock:^(id<MSSenderDelegate> delegate) {
+                                  [delegate senderDidSuspend:self];
                                 }];
     }
   }
 }
 
 - (void)resume {
-  @synchronized (self) {
+  @synchronized(self) {
 
     // Resume only while enabled.
     if (self.suspended && self.enabled) {
@@ -179,26 +153,26 @@ static NSTimeInterval kRequestTimeout = 60.0;
 
       // Resume existing calls.
       [self.session getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> *_Nonnull dataTasks,
-              NSArray<NSURLSessionUploadTask *> *_Nonnull uploadTasks,
-              NSArray<NSURLSessionDownloadTask *> *_Nonnull downloadTasks) {
-          [dataTasks enumerateObjectsUsingBlock:^(__kindof NSURLSessionTask *_Nonnull call, NSUInteger idx,
-                  BOOL *_Nonnull stop) {
-              [call resume];
-          }];
+                                                    NSArray<NSURLSessionUploadTask *> *_Nonnull uploadTasks,
+                                                    NSArray<NSURLSessionDownloadTask *> *_Nonnull downloadTasks) {
+        [dataTasks enumerateObjectsUsingBlock:^(__kindof NSURLSessionTask *_Nonnull call, NSUInteger idx,
+                                                BOOL *_Nonnull stop) {
+          [call resume];
+        }];
       }];
 
       // Resume calls.
       [self.pendingCalls.allValues
-              enumerateObjectsUsingBlock:^(id <MSSenderCall> _Nonnull call, NSUInteger idx, BOOL *_Nonnull stop) {
-                  if (!call.submitted) {
-                    [self sendCallAsync:call];
-                  }
-              }];
+          enumerateObjectsUsingBlock:^(MSSenderCall *_Nonnull call, NSUInteger idx, BOOL *_Nonnull stop) {
+            if (!call.submitted) {
+              [self sendCallAsync:call];
+            }
+          }];
 
       // Propagate.
       [self enumerateDelegatesForSelector:@selector(senderDidResume:)
-                                withBlock:^(id <MSSenderDelegate> delegate) {
-                                    [delegate senderDidResume:self];
+                                withBlock:^(id<MSSenderDelegate> delegate) {
+                                  [delegate senderDidResume:self];
                                 }];
     }
   }
@@ -206,8 +180,8 @@ static NSTimeInterval kRequestTimeout = 60.0;
 
 #pragma mark - MSSenderCallDelegate
 
-- (void)sendCallAsync:(id <MSSenderCall>)call {
-  @synchronized (self) {
+- (void)sendCallAsync:(MSSenderCall *)call {
+  @synchronized(self) {
     if (self.suspended)
       return;
 
@@ -215,26 +189,26 @@ static NSTimeInterval kRequestTimeout = 60.0;
       return;
 
     // Create the request.
-    NSURLRequest *request = [self createRequest:call.logContainer];
+    NSURLRequest *request = [self createRequest:call.data];
     if (!request)
       return;
 
     // Create a task for the request.
     NSURLSessionDataTask *task =
-            [self.session dataTaskWithRequest:request
-                            completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                                @synchronized (self) {
-                                  NSInteger statusCode = [MSSenderUtil getStatusCode:response];
-                                  MSLogDebug([MSMobileCenter logTag], @"HTTP response received with status code:%lu",
-                                          (unsigned long) statusCode);
+        [self.session dataTaskWithRequest:request
+                        completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                          @synchronized(self) {
+                            NSInteger statusCode = [MSSenderUtil getStatusCode:response];
+                            MSLogDebug([MSMobileCenter logTag], @"HTTP response received with status code:%lu",
+                                       (unsigned long)statusCode);
 
-                                  // Call handles the completion.
-                                  if (call) {
-                                    call.submitted = NO;
-                                    [call sender:self callCompletedWithStatus:statusCode error:error];
-                                  }
-                                }
-                            }];
+                            // Call handles the completion.
+                            if (call) {
+                              call.submitted = NO;
+                              [call sender:self callCompletedWithStatus:statusCode error:error];
+                            }
+                          }
+                        }];
 
     // TODO: Set task priority.
     [task resume];
@@ -243,14 +217,14 @@ static NSTimeInterval kRequestTimeout = 60.0;
 }
 
 - (void)callCompletedWithId:(NSString *)callId {
-  @synchronized (self) {
+  @synchronized(self) {
     if (!callId) {
       MSLogWarning([MSMobileCenter logTag], @"Call object is invalid");
       return;
     }
     [self.pendingCalls removeObjectForKey:callId];
     MSLogInfo([MSMobileCenter logTag], @"Removed batch id:%@ from pending calls:%@", callId,
-            [self.pendingCalls description]);
+              [self.pendingCalls description]);
   }
 }
 
@@ -258,33 +232,6 @@ static NSTimeInterval kRequestTimeout = 60.0;
 
 - (void)networkStateChanged:(NSNotificationCenter *)notification {
   [self networkStateChanged];
-}
-
-#pragma mark - URL Session Helper
-
-- (NSURLRequest *)createRequest:(MSLogContainer *)logContainer {
-  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.sendURL];
-
-  // Set method.
-  request.HTTPMethod = @"POST";
-
-  // Set Header params.
-  request.allHTTPHeaderFields = self.httpHeaders;
-
-  // Set body.
-  NSString *jsonString = [logContainer serializeLog];
-  request.HTTPBody = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
-
-  // Always disable cookies.
-  [request setHTTPShouldHandleCookies:NO];
-
-  // Don't loose time pretty printing headers if not going to be printed.
-  if ([MSLogger currentLogLevel] <= MSLogLevelVerbose) {
-    MSLogVerbose([MSMobileCenter logTag], @"URL: %@", request.URL);
-    MSLogVerbose([MSMobileCenter logTag], @"Headers: %@", [self prettyPrintHeaders:request.allHTTPHeaderFields]);
-  }
-
-  return request;
 }
 
 #pragma mark - Private
@@ -299,6 +246,13 @@ static NSTimeInterval kRequestTimeout = 60.0;
   }
 }
 
+/**
+ * This is an empty method and expect to be overridden in sub classes.
+ */
+- (NSURLRequest *)createRequest:(NSObject *)data {
+  return nil;
+}
+
 - (NSURLSession *)session {
   if (!_session) {
     NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
@@ -308,8 +262,8 @@ static NSTimeInterval kRequestTimeout = 60.0;
   return _session;
 }
 
-- (void)enumerateDelegatesForSelector:(SEL)selector withBlock:(void (^)(id <MSSenderDelegate> delegate))block {
-  for (id <MSSenderDelegate> delegate in self.delegates) {
+- (void)enumerateDelegatesForSelector:(SEL)selector withBlock:(void (^)(id<MSSenderDelegate> delegate))block {
+  for (id<MSSenderDelegate> delegate in self.delegates) {
     if (delegate && [delegate respondsToSelector:selector]) {
       block(delegate);
     }
@@ -320,20 +274,39 @@ static NSTimeInterval kRequestTimeout = 60.0;
   NSMutableArray<NSString *> *flattenedHeaders = [NSMutableArray<NSString *> new];
   for (NSString *headerKey in headers) {
     NSString *header =
-            [headerKey isEqualToString:kMSHeaderAppSecretKey] ? [self hideSecret:headers[headerKey]] : headers[headerKey];
+        [headerKey isEqualToString:kMSHeaderAppSecretKey] ? [self hideSecret:headers[headerKey]] : headers[headerKey];
     [flattenedHeaders addObject:[NSString stringWithFormat:@"%@ = %@", headerKey, header]];
   }
   return [flattenedHeaders componentsJoinedByString:@", "];
+}
+
+- (void)sendAsync:(NSObject *)data callId:(NSString *)callId completionHandler:(MSSendAsyncCompletionHandler)handler {
+  @synchronized(self) {
+
+    // Check if call has already been created(retry scenario).
+    MSSenderCall *call = self.pendingCalls[callId];
+    if (call == nil) {
+      call = [[MSSenderCall alloc] initWithRetryIntervals:_callsRetryIntervals];
+      call.delegate = self;
+      call.data = data;
+      call.callId = callId;
+      call.completionHandler = handler;
+
+      // Store call in calls array.
+      self.pendingCalls[callId] = call;
+    }
+    [self sendCallAsync:call];
+  }
 }
 
 - (NSString *)hideSecret:(NSString *)secret {
 
   // Hide everything if secret is shorter than the max number of displayed characters.
   NSUInteger appSecretHiddenPartLength =
-          (secret.length > kMSMaxCharactersDisplayedForAppSecret ? secret.length - kMSMaxCharactersDisplayedForAppSecret
-                  : secret.length);
+      (secret.length > kMSMaxCharactersDisplayedForAppSecret ? secret.length - kMSMaxCharactersDisplayedForAppSecret
+                                                             : secret.length);
   NSString *appSecretHiddenPart =
-          [@"" stringByPaddingToLength:appSecretHiddenPartLength withString:kMSHidingStringForAppSecret startingAtIndex:0];
+      [@"" stringByPaddingToLength:appSecretHiddenPartLength withString:kMSHidingStringForAppSecret startingAtIndex:0];
   return [secret stringByReplacingCharactersInRange:NSMakeRange(0, appSecretHiddenPart.length)
                                          withString:appSecretHiddenPart];
 }

@@ -21,7 +21,7 @@ static NSString *const kMSHidingStringForAppSecret = @"*";
 /**
  * Hash table containing all the delegates as weak references.
  */
-@property(atomic, strong) NSHashTable<id <MSSenderDelegate>> *delegates;
+@property(atomic, strong) NSHashTable<id<MSSenderDelegate>> *delegates;
 
 /**
  * A boolean value set to YES if the sender is enabled or NO otherwise.
@@ -33,5 +33,19 @@ static NSString *const kMSHidingStringForAppSecret = @"*";
  * Hide a secret replacing the N first characters by a hiding character.
  */
 - (NSString *)hideSecret:(NSString *)secret;
+
+/**
+ * Create a request based on data. Must override this method in sub classes.
+ * @param data A data instance that will be transformed to request body.
+ * @return A URL request.
+ */
+- (NSURLRequest *)createRequest:(NSObject *)data;
+
+/**
+ * Convert key/value pairs for headers to a string.
+ * @param headers A dictionary that contains header as key/value pair.
+ * @return A string that contains headers.
+ */
+- (NSString *)prettyPrintHeaders:(NSDictionary<NSString *, NSString *> *)headers;
 
 @end
