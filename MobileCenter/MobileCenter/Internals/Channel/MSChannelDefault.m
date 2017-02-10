@@ -3,7 +3,6 @@
  */
 
 #import "MSChannelDefault.h"
-#import "MSConstants+Internal.h"
 #import "MSMobileCenterErrors.h"
 #import "MSMobileCenterInternal.h"
 
@@ -54,8 +53,8 @@
   return self;
 }
 
-- (instancetype)initWithSender:(id <MSSender>)sender
-                       storage:(id <MSStorage>)storage
+- (instancetype)initWithSender:(id<MSSender>)sender
+                       storage:(id<MSStorage>)storage
                  configuration:(MSChannelConfiguration *)configuration
              logsDispatchQueue:(dispatch_queue_t)logsDispatchQueue {
   if (self = [self init]) {
@@ -77,57 +76,57 @@
 
 #pragma mark - MSChannelDelegate
 
-- (void)addDelegate:(id <MSChannelDelegate>)delegate {
+- (void)addDelegate:(id<MSChannelDelegate>)delegate {
   dispatch_async(self.logsDispatchQueue, ^{
-      [self.delegates addObject:delegate];
+    [self.delegates addObject:delegate];
   });
 }
 
-- (void)removeDelegate:(id <MSChannelDelegate>)delegate {
+- (void)removeDelegate:(id<MSChannelDelegate>)delegate {
   dispatch_async(self.logsDispatchQueue, ^{
-      [self.delegates removeObject:delegate];
+    [self.delegates removeObject:delegate];
   });
 }
 
 #pragma mark - Managing queue
 
-- (void)enqueueItem:(id <MSLog>)item {
+- (void)enqueueItem:(id<MSLog>)item {
   [self enqueueItem:item withCompletion:nil];
 }
 
-- (void)enqueueItem:(id <MSLog>)item withCompletion:(enqueueCompletionBlock)completion {
+- (void)enqueueItem:(id<MSLog>)item withCompletion:(enqueueCompletionBlock)completion {
   // return fast in case our item is empty or we are discarding logs right now.
   dispatch_async(self.logsDispatchQueue, ^{
-  if (!item) {
-    MSLogWarning([MSMobileCenter logTag], @"TelemetryItem was nil.");
-    return;
-  } else if (self.discardLogs) {
-    MSLogWarning([MSMobileCenter logTag], @"Channel disabled in log discarding mode, discard this log.");
-    NSError *error = [NSError errorWithDomain:kMSMCErrorDomain
-                                         code:kMSMCConnectionSuspendedErrorCode
-                                     userInfo:@{NSLocalizedDescriptionKey: kMSMCConnectionSuspendedErrorDesc}];
-    [self notifyFailureBeforeSendingForItem:item withError:error];
-    return;
-  }
+    if (!item) {
+      MSLogWarning([MSMobileCenter logTag], @"TelemetryItem was nil.");
+      return;
+    } else if (self.discardLogs) {
+      MSLogWarning([MSMobileCenter logTag], @"Channel disabled in log discarding mode, discard this log.");
+      NSError *error = [NSError errorWithDomain:kMSMCErrorDomain
+                                           code:kMSMCConnectionSuspendedErrorCode
+                                       userInfo:@{NSLocalizedDescriptionKey : kMSMCConnectionSuspendedErrorDesc}];
+      [self notifyFailureBeforeSendingForItem:item withError:error];
+      return;
+    }
 
-      // Save the log first.
-      MSLogDebug([MSMobileCenter logTag], @"Saving log, type: %@.", item.type);
-      BOOL success = [self.storage saveLog:item withStorageKey:self.configuration.name];
-      _itemsCount += 1;
-      if (completion) {
-        completion(success);
+    // Save the log first.
+    MSLogDebug([MSMobileCenter logTag], @"Saving log, type: %@.", item.type);
+    BOOL success = [self.storage saveLog:item withStorageKey:self.configuration.name];
+    _itemsCount += 1;
+    if (completion) {
+      completion(success);
+    }
+
+    // Flush now if current batch is full or delay to later.
+    if (self.itemsCount >= self.configuration.batchSizeLimit) {
+      [self flushQueue];
+    } else if (self.itemsCount == 1) {
+
+      // Don't delay if channel is suspended but stack logs until current batch max out.
+      if (!self.suspended) {
+        [self startTimer];
       }
-
-      // Flush now if current batch is full or delay to later.
-      if (self.itemsCount >= self.configuration.batchSizeLimit) {
-        [self flushQueue];
-      } else if (self.itemsCount == 1) {
-
-        // Don't delay if channel is suspended but stack logs until current batch max out.
-        if (!self.suspended) {
-          [self startTimer];
-        }
-      }
+    }
   });
 }
 
@@ -153,60 +152,59 @@
   // Reset item count and load data from the storage.
   self.itemsCount = 0;
   self.availableBatchFromStorage = [self.storage
-          loadLogsForStorageKey:self.configuration.name
-                 withCompletion:^(BOOL succeeded, NSArray <MSLog> *_Nullable logArray, NSString *_Nullable batchId) {
+      loadLogsForStorageKey:self.configuration.name
+             withCompletion:^(BOOL succeeded, NSArray<MSLog> *_Nullable logArray, NSString *_Nullable batchId) {
 
-                     // Logs may be deleted from storage before this flush.
-                     if (succeeded) {
-                       [self.pendingBatchIds addObject:batchId];
-                       if (self.pendingBatchIds.count >= self.configuration.pendingBatchesLimit) {
-                         self.pendingBatchQueueFull = YES;
-                       }
-                       MSLogContainer *container = [[MSLogContainer alloc] initWithBatchId:batchId andLogs:logArray];
-                       MSLogDebug([MSMobileCenter logTag], @"Sending log(s), batch Id:%@, payload:\n %@", batchId,
-                               [container serializeLogWithPrettyPrinting:YES]);
+               // Logs may be deleted from storage before this flush.
+               if (succeeded) {
+                 [self.pendingBatchIds addObject:batchId];
+                 if (self.pendingBatchIds.count >= self.configuration.pendingBatchesLimit) {
+                   self.pendingBatchQueueFull = YES;
+                 }
+                 MSLogContainer *container = [[MSLogContainer alloc] initWithBatchId:batchId andLogs:logArray];
+                 MSLogDebug([MSMobileCenter logTag], @"Sending log(s), batch Id:%@, payload:\n %@", batchId,
+                            [container serializeLogWithPrettyPrinting:YES]);
 
-                       // Notify delegates.
-                       [self enumerateDelegatesForSelector:@selector(channel:willSendLog:)
-                                                 withBlock:^(id <MSChannelDelegate> delegate) {
-                                                     for (id <MSLog> aLog in logArray) {
-                                                       [delegate channel:self willSendLog:aLog];
-                                                     }
-                                                 }];
+                 // Notify delegates.
+                 [self enumerateDelegatesForSelector:@selector(channel:willSendLog:)
+                                           withBlock:^(id<MSChannelDelegate> delegate) {
+                                             for (id<MSLog> aLog in logArray) {
+                                               [delegate channel:self willSendLog:aLog];
+                                             }
+                                           }];
 
-                       // Forward logs to the sender.
-                       [self.sender
-                               sendAsync:container
-                       completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
-                           dispatch_async(self.logsDispatchQueue, ^{
-                               if ([self.pendingBatchIds containsObject:batchId]) {
+                 // Forward logs to the sender.
+                 [self.sender
+                             sendAsync:container
+                     completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
+                       dispatch_async(self.logsDispatchQueue, ^{
+                         if ([self.pendingBatchIds containsObject:batchId]) {
 
-                                 // Success.
-                                 if (statusCode == MSHTTPCodesNo200OK) {
-                                   MSLogDebug([MSMobileCenter logTag], @"Log(s) sent with success, batch Id:%@.",
-                                           batchId);
+                           // Success.
+                           if (statusCode == MSHTTPCodesNo200OK) {
+                             MSLogDebug([MSMobileCenter logTag], @"Log(s) sent with success, batch Id:%@.", batchId);
 
-                                   // Notify delegates.
-                                   [self enumerateDelegatesForSelector:@selector(channel:didSucceedSendingLog:)
-                                                             withBlock:^(id <MSChannelDelegate> delegate) {
-                                                                 for (id <MSLog> aLog in logArray) {
-                                                                   [delegate channel:self didSucceedSendingLog:aLog];
-                                                                 }
-                                                             }];
+                             // Notify delegates.
+                             [self enumerateDelegatesForSelector:@selector(channel:didSucceedSendingLog:)
+                                                       withBlock:^(id<MSChannelDelegate> delegate) {
+                                                         for (id<MSLog> aLog in logArray) {
+                                                           [delegate channel:self didSucceedSendingLog:aLog];
+                                                         }
+                                                       }];
 
-                                   // Remove from pending logs and storage.
-                                   [self.pendingBatchIds removeObject:batchId];
-                                   [self.storage deleteLogsForId:batchId withStorageKey:self.configuration.name];
+                             // Remove from pending logs and storage.
+                             [self.pendingBatchIds removeObject:batchId];
+                             [self.storage deleteLogsForId:batchId withStorageKey:self.configuration.name];
 
-                                   // Try to flush again if batch queue is not full anymore.
-                                   if (self.pendingBatchQueueFull &&
-                                           self.pendingBatchIds.count < self.configuration.pendingBatchesLimit) {
-                                     self.pendingBatchQueueFull = NO;
-                                     if (self.availableBatchFromStorage) {
-                                       [self flushQueue];
-                                     }
-                                   }
-                                 }
+                             // Try to flush again if batch queue is not full anymore.
+                             if (self.pendingBatchQueueFull &&
+                                 self.pendingBatchIds.count < self.configuration.pendingBatchesLimit) {
+                               self.pendingBatchQueueFull = NO;
+                               if (self.availableBatchFromStorage) {
+                                 [self flushQueue];
+                               }
+                             }
+                           }
 
                            // Failure.
                            else {
@@ -214,18 +212,18 @@
                                         @"Log(s) sent with failure, batch Id:%@, status code:%lu", batchId,
                                         (unsigned long)statusCode);
 
-                                   // Notify delegates.
-                                   [self
-                                           enumerateDelegatesForSelector:@selector(channel:didFailSendingLog:withError:)
-                                                               withBlock:^(id <MSChannelDelegate> delegate) {
-                                                                   for (id <MSLog> aLog in logArray) {
-                                                                     [delegate channel:self didFailSendingLog:aLog withError:error];
-                                                                   }
-                                                               }];
+                             // Notify delegates.
+                             [self
+                                 enumerateDelegatesForSelector:@selector(channel:didFailSendingLog:withError:)
+                                                     withBlock:^(id<MSChannelDelegate> delegate) {
+                                                       for (id<MSLog> aLog in logArray) {
+                                                         [delegate channel:self didFailSendingLog:aLog withError:error];
+                                                       }
+                                                     }];
 
-                                   // Remove from pending logs.
-                                   [self.pendingBatchIds removeObject:batchId];
-                                   [self.storage deleteLogsForId:batchId withStorageKey:self.configuration.name];
+                             // Remove from pending logs.
+                             [self.pendingBatchIds removeObject:batchId];
+                             [self.storage deleteLogsForId:batchId withStorageKey:self.configuration.name];
 
                              // Fatal error, disable sender with data deletion.
                              // This will in turn disable this channel and delete logs.
@@ -253,18 +251,18 @@
 
   self.timerSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, self.logsDispatchQueue);
   dispatch_source_set_timer(self.timerSource, dispatch_walltime(NULL, NSEC_PER_SEC * self.configuration.flushInterval),
-          1ull * NSEC_PER_SEC, 1ull * NSEC_PER_SEC);
+                            1ull * NSEC_PER_SEC, 1ull * NSEC_PER_SEC);
   __weak typeof(self) weakSelf = self;
   dispatch_source_set_event_handler(self.timerSource, ^{
-      typeof(self) strongSelf = weakSelf;
+    typeof(self) strongSelf = weakSelf;
 
-      // Flush the queue as needed.
-      if (strongSelf) {
-        if (strongSelf->_itemsCount > 0) {
-          [strongSelf flushQueue];
-        }
-        [strongSelf resetTimer];
+    // Flush the queue as needed.
+    if (strongSelf) {
+      if (strongSelf->_itemsCount > 0) {
+        [strongSelf flushQueue];
       }
+      [strongSelf resetTimer];
+    }
   });
   dispatch_resume(self.timerSource);
 }
@@ -280,16 +278,16 @@
 
 - (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData {
   dispatch_async(self.logsDispatchQueue, ^{
-      if (self.enabled != isEnabled) {
-        self.enabled = isEnabled;
-        if (isEnabled) {
-          [self resume];
-          [self.sender addDelegate:self];
-        } else {
-          [self.sender removeDelegate:self];
-          [self suspend];
-        }
+    if (self.enabled != isEnabled) {
+      self.enabled = isEnabled;
+      if (isEnabled) {
+        [self resume];
+        [self.sender addDelegate:self];
+      } else {
+        [self.sender removeDelegate:self];
+        [self suspend];
       }
+    }
 
     // Even if it's already disabled we might also want to delete logs this time.
     if (!isEnabled && deleteData) {
@@ -299,14 +297,14 @@
                                        userInfo:@{NSLocalizedDescriptionKey : kMSMCConnectionSuspendedErrorDesc}];
       [self deleteAllLogsWithErrorSync:error];
 
-        // Reset states.
-        self.itemsCount = 0;
-        self.availableBatchFromStorage = NO;
-        self.pendingBatchQueueFull = NO;
+      // Reset states.
+      self.itemsCount = 0;
+      self.availableBatchFromStorage = NO;
+      self.pendingBatchQueueFull = NO;
 
-        // Prevent further logs from being persisted.
-        self.discardLogs = YES;
-      }
+      // Prevent further logs from being persisted.
+      self.discardLogs = YES;
+    }
   });
 }
 
@@ -331,12 +329,12 @@
 
 - (void)deleteAllLogsWithError:(NSError *)error {
   dispatch_async(self.logsDispatchQueue, ^{
-      [self deleteAllLogsWithErrorSync:error];
+    [self deleteAllLogsWithErrorSync:error];
   });
 }
 
 - (void)deleteAllLogsWithErrorSync:(NSError *)error {
-  NSArray<id <MSLog>> *deletedLogs;
+  NSArray<id<MSLog>> *deletedLogs;
 
   // Delete pending batches first.
   for (NSString *batchId in self.pendingBatchIds) {
@@ -347,26 +345,26 @@
   deletedLogs = [self.storage deleteLogsForStorageKey:self.configuration.name];
 
   // Notify failure of remaining logs.
-  for (id <MSLog> log in deletedLogs) {
+  for (id<MSLog> log in deletedLogs) {
     [self notifyFailureBeforeSendingForItem:log withError:error];
   }
 }
 
 #pragma mark - MSSenderDelegate
 
-- (void)senderDidSuspend:(id <MSSender>)sender {
+- (void)senderDidSuspend:(id<MSSender>)sender {
   dispatch_async(self.logsDispatchQueue, ^{
-      [self suspend];
+    [self suspend];
   });
 }
 
-- (void)senderDidResume:(id <MSSender>)sender {
+- (void)senderDidResume:(id<MSSender>)sender {
   dispatch_async(self.logsDispatchQueue, ^{
-      [self resume];
+    [self resume];
   });
 }
 
-- (void)sender:(id <MSSender>)sender didSetEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData {
+- (void)sender:(id<MSSender>)sender didSetEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData {
 
   // Reflect sender enabled state.
   [self setEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
@@ -374,16 +372,16 @@
 
 #pragma mark - Helper
 
-- (void)enumerateDelegatesForSelector:(SEL)selector withBlock:(void (^)(id <MSChannelDelegate> delegate))block {
-  for (id <MSChannelDelegate> delegate in self.delegates) {
+- (void)enumerateDelegatesForSelector:(SEL)selector withBlock:(void (^)(id<MSChannelDelegate> delegate))block {
+  for (id<MSChannelDelegate> delegate in self.delegates) {
     if (delegate && [delegate respondsToSelector:selector]) {
       block(delegate);
     }
   }
 }
 
-- (void)notifyFailureBeforeSendingForItem:(id <MSLog>)item withError:(NSError *)error {
-  for (id <MSChannelDelegate> delegate in self.delegates) {
+- (void)notifyFailureBeforeSendingForItem:(id<MSLog>)item withError:(NSError *)error {
+  for (id<MSChannelDelegate> delegate in self.delegates) {
 
     // Call willSendLog before didFailSendingLog
     if (delegate && [delegate respondsToSelector:@selector(channel:willSendLog:)])
