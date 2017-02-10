@@ -2,8 +2,10 @@
 #import "MSMobileCenter.h"
 #import "MSMobileCenterInternal.h"
 #import "MSMobileCenterPrivate.h"
+#import "OCMock.h"
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <XCTest/XCTest.h>
+#import "MSServiceInternal.h"
 
 static NSString *const kSMInstallIdStringExample = @"F18499DA-5C3D-4F05-B4E8-D8C9C06A6F09";
 
@@ -139,4 +141,24 @@ static NSString *const kSMNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   [MSMobileCenter configureWithAppSecret:@"App-Secret"];
   XCTAssertTrue([MSMobileCenter isConfigured]);
 }
+
+- (void)testSortingServicesWorks {
+  
+  // If
+  id<MSServiceCommon> mockServiceMaxPrio = OCMProtocolMock(@protocol(MSServiceCommon));
+  OCMStub([mockServiceMaxPrio sharedInstance]).andReturn(mockServiceMaxPrio);
+  OCMStub([mockServiceMaxPrio initializationPriority]).andReturn(MSInitializationPriorityMax);
+
+  id<MSServiceCommon> mockServiceDefaultPrio = OCMProtocolMock(@protocol(MSServiceCommon));
+  OCMStub([mockServiceDefaultPrio sharedInstance]).andReturn(mockServiceDefaultPrio);
+  OCMStub([mockServiceDefaultPrio initializationPriority]).andReturn(MSInitializationPriorityDefault);
+  
+  // When
+  NSArray<MSServiceAbstract *> *sorted = [self.sut sortServices:@[mockServiceDefaultPrio, mockServiceMaxPrio]];
+
+  // Then
+  XCTAssertTrue([sorted[0] initializationPriority] == MSInitializationPriorityMax);
+  XCTAssertTrue([sorted[1] initializationPriority] == MSInitializationPriorityDefault);
+}
+
 @end
