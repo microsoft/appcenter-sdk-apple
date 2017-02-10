@@ -21,7 +21,7 @@ static NSString *const kMSHidingStringForAppSecret = @"*";
 /**
  * Hash table containing all the delegates as weak references.
  */
-@property(atomic, strong) NSHashTable<id <MSSenderDelegate>> *delegates;
+@property(atomic, strong) NSHashTable<id<MSSenderDelegate>> *delegates;
 
 /**
  * A boolean value set to YES if the sender is enabled or NO otherwise.

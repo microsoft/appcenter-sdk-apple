@@ -11,14 +11,14 @@
 @implementation MSIngestionSender
 
 - (void)sendAsync:(NSObject *)data completionHandler:(MSSendAsyncCompletionHandler)handler {
-  MSLogContainer *container = (MSLogContainer *) data;
+  MSLogContainer *container = (MSLogContainer *)data;
   NSString *batchId = container.batchId;
 
   // Verify container.
   if (!container || ![container isValid]) {
-    NSDictionary *userInfo = @{NSLocalizedDescriptionKey: kMSMCLogInvalidContainerErrorDesc};
+    NSDictionary *userInfo = @{NSLocalizedDescriptionKey : kMSMCLogInvalidContainerErrorDesc};
     NSError *error =
-            [NSError errorWithDomain:kMSMCErrorDomain code:kMSMCLogInvalidContainerErrorCode userInfo:userInfo];
+        [NSError errorWithDomain:kMSMCErrorDomain code:kMSMCLogInvalidContainerErrorCode userInfo:userInfo];
     MSLogError([MSMobileCenter logTag], @"%@", [error localizedDescription]);
     handler(batchId, error, nil);
     return;
@@ -28,7 +28,7 @@
 }
 
 - (NSURLRequest *)createRequest:(NSObject *)data {
-  MSLogContainer *container = (MSLogContainer *) data;
+  MSLogContainer *container = (MSLogContainer *)data;
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.sendURL];
 
   // Set method.

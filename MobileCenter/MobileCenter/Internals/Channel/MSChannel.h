@@ -38,8 +38,8 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A new `MSChannelDefault` instance.
  */
-- (instancetype)initWithSender:(id <MSSender>)sender
-                       storage:(id <MSStorage>)storage
+- (instancetype)initWithSender:(id<MSSender>)sender
+                       storage:(id<MSStorage>)storage
                  configuration:(MSChannelConfiguration *)configuration
              logsDispatchQueue:(dispatch_queue_t)logsDispatchQueue;
 
@@ -48,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param item The log item that should be enqueued.
  */
-- (void)enqueueItem:(id <MSLog>)item;
+- (void)enqueueItem:(id<MSLog>)item;
 
 /**
  * Delete all logs from storage.
@@ -62,14 +62,14 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param delegate delegate.
  */
-- (void)addDelegate:(id <MSChannelDelegate>)delegate;
+- (void)addDelegate:(id<MSChannelDelegate>)delegate;
 
 /**
  *  Remove delegate.
  *
  *  @param delegate delegate.
  */
-- (void)removeDelegate:(id <MSChannelDelegate>)delegate;
+- (void)removeDelegate:(id<MSChannelDelegate>)delegate;
 
 @end
 

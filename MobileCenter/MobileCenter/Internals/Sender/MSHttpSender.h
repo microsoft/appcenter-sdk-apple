@@ -25,7 +25,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property(atomic, strong) NSMutableDictionary<NSString *, MSSenderCall *> *pendingCalls;
 
 // TODO (jaelim): Add doc here.
-- (void)sendAsync:(NSObject *)container callId:(NSString *)callId completionHandler:(MSSendAsyncCompletionHandler)handler;
+- (void)sendAsync:(NSObject *)container
+               callId:(NSString *)callId
+    completionHandler:(MSSendAsyncCompletionHandler)handler;
 
 @end
 

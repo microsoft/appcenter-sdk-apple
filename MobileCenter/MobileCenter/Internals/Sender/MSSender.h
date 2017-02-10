@@ -54,14 +54,14 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param delegate Sender's delegate.
  */
-- (void)addDelegate:(id <MSSenderDelegate>)delegate;
+- (void)addDelegate:(id<MSSenderDelegate>)delegate;
 
 /**
  *  Delete the given delegate from the sender.
  *
  *  @param delegate Sender's delegate.
  */
-- (void)removeDelegate:(id <MSSenderDelegate>)delegate;
+- (void)removeDelegate:(id<MSSenderDelegate>)delegate;
 
 /**
  * Suspend the sender.
