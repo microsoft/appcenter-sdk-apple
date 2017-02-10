@@ -152,6 +152,10 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   return [[self sharedInstance] getLastSessionCrashReport];
 }
 
++ (void)enableMachExceptionHandler {
+  [[self sharedInstance] setEnableMachExceptionHandler:YES];
+}
+
 + (void)setDelegate:(_Nullable id<MSCrashesDelegate>)delegate {
   [[self sharedInstance] setDelegate:delegate];
 }
@@ -351,6 +355,11 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   }
 
   PLCrashReporterSignalHandlerType signalHandlerType = PLCrashReporterSignalHandlerTypeBSD;
+  if (self.isMachExceptionHandlerEnabled) {
+    signalHandlerType = PLCrashReporterSignalHandlerTypeMach;
+    MSLogVerbose([MSCrashes logTag], @"Enabled Mach exception handler.");
+  }
+  
   PLCrashReporterSymbolicationStrategy symbolicationStrategy = PLCrashReporterSymbolicationStrategyNone;
   MSPLCrashReporterConfig *config = [[MSPLCrashReporterConfig alloc] initWithSignalHandlerType:signalHandlerType
                                                                          symbolicationStrategy:symbolicationStrategy];
