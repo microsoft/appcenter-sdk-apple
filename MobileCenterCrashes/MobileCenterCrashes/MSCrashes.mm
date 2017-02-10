@@ -272,6 +272,10 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   return MSPriorityHigh;
 }
 
+- (MSInitializationPriority)initializationPriority {
+  return MSInitializationPriorityMax;
+}
+
 #pragma mark - MSLogManagerDelegate
 
 /**
@@ -506,17 +510,18 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     if ([[tmp pathExtension] isEqualToString:kMSLogBufferFileExtension]) {
       NSString *filePath = [self.logBufferDir stringByAppendingPathComponent:tmp];
       NSData *serializedLog = [NSData dataWithContentsOfFile:filePath];
-
-      id <MSLog> item = [NSKeyedUnarchiver unarchiveObjectWithData:serializedLog];
-      if (item) {
-        if ([((NSObject *) item) isKindOfClass:[MSAppleErrorLog class]]) {
-          [self.logManager processLog:item withPriority:self.priority];
-        } else {
-          [self.logManager processLog:item withPriority:MSPriorityDefault];
+      if(serializedLog && serializedLog.length && serializedLog.length > 0) {
+        id <MSLog> item = [NSKeyedUnarchiver unarchiveObjectWithData:serializedLog];
+        if (item) {
+          if ([((NSObject *) item) isKindOfClass:[MSAppleErrorLog class]]) {
+            [self.logManager processLog:item withPriority:self.priority];
+          } else {
+            [self.logManager processLog:item withPriority:MSPriorityDefault];
+          }
         }
+        // Create empty new file, overwrites the old one.
+        [[NSFileManager defaultManager] createFileAtPath:filePath contents:[NSData data] attributes:nil];
       }
-      // Create empty new file, overwrites the old one.
-      [[NSFileManager defaultManager] createFileAtPath:filePath contents:[NSData data] attributes:nil];
     }
   }
 }

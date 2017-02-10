@@ -222,4 +222,8 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   XCTAssertTrue(self.sut.bufferIndex == 1);
 }
 
+- (void)testInitializationPriorityCorrect {
+  XCTAssertTrue([[MSCrashes sharedInstance] initializationPriority] == MSInitializationPriorityMax);
+}
+
 @end
