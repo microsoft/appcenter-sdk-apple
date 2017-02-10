@@ -4,6 +4,7 @@
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
+#import "MSAppleErrorLog.h"
 #import "MSChannelDelegate.h"
 #import "MSCrashesDelegate.h"
 #import "MSCrashesInternal.h"
@@ -13,11 +14,10 @@
 #import "MSServiceAbstractPrivate.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSUtil.h"
-#import "MSAppleErrorLog.h"
-
-static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
 @class MSMockCrashesDelegate;
+
+static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
 @interface MSCrashesTests : XCTestCase
 
@@ -217,7 +217,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   XCTAssertTrue(self.sut.bufferIndex == 20);
 
   // When
-
   MSAppleErrorLog *log = [MSAppleErrorLog new];
   [self.sut onProcessingLog:log withPriority:MSPriorityHigh];
 
@@ -230,11 +229,22 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 }
 
 - (void)testEnablingMachExceptionWorks {
+  // Then
   XCTAssertFalse([[MSCrashes sharedInstance] isMachExceptionHandlerEnabled]);
+  
+  // When
   [MSCrashes enableMachExceptionHandler];
+  
+  // Then
   XCTAssertTrue([[MSCrashes sharedInstance] isMachExceptionHandlerEnabled]);
+  
+  // Then
   XCTAssertFalse([self.sut isMachExceptionHandlerEnabled]);
+  
+  // When
   [self.sut setEnableMachExceptionHandler:YES];
+  
+  // Then
   XCTAssertTrue([self.sut isMachExceptionHandlerEnabled]);
 }
 
