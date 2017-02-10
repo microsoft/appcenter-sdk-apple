@@ -206,7 +206,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 
   // If
   NSString *expected = @"7.8.9";
-  NSDictionary<NSString *, id> *plist = @{@"CFBundleShortVersionString": expected};
+  NSDictionary<NSString *, id> *plist = @{ @"CFBundleShortVersionString" : expected };
   NSBundle *bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([bundleMock infoDictionary]).andReturn(plist);
 
@@ -221,7 +221,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 
   // If
   NSString *expected = @"42";
-  NSDictionary<NSString *, id> *plist = @{@"CFBundleVersion": expected};
+  NSDictionary<NSString *, id> *plist = @{ @"CFBundleVersion" : expected };
   NSBundle *bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([bundleMock infoDictionary]).andReturn(plist);
 

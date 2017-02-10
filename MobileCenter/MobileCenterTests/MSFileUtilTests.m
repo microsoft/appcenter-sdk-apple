@@ -92,25 +92,25 @@
   NSString *subDirectory = @"testDirectory";
   NSString *extension = @"ms";
   MSFile *file1 = [MSStorageTestUtil createFileWithId:@"1"
-                                                     data:[NSData new]
-                                                extension:extension
-                                               storageKey:subDirectory
-                                             creationDate:[NSDate date]];
+                                                 data:[NSData new]
+                                            extension:extension
+                                           storageKey:subDirectory
+                                         creationDate:[NSDate date]];
   MSFile *file2 = [MSStorageTestUtil createFileWithId:@"2"
-                                                     data:[NSData new]
-                                                extension:extension
-                                               storageKey:subDirectory
-                                             creationDate:[NSDate date]];
+                                                 data:[NSData new]
+                                            extension:extension
+                                           storageKey:subDirectory
+                                         creationDate:[NSDate date]];
 
   // Create files with searched extension
   NSArray<MSFile *> *expected = [NSArray arrayWithObjects:file1, file2, nil];
 
   // Create files with different extension
   [MSStorageTestUtil createFileWithId:@"3"
-                                    data:[NSData new]
-                               extension:@"foo"
-                              storageKey:subDirectory
-                            creationDate:[NSDate date]];
+                                 data:[NSData new]
+                            extension:@"foo"
+                           storageKey:subDirectory
+                         creationDate:[NSDate date]];
 
   // When
   NSString *directory = [MSStorageTestUtil storageDirForStorageKey:subDirectory];
@@ -143,10 +143,10 @@
 
   // If
   MSFile *file = [MSStorageTestUtil createFileWithId:@"0"
-                                                    data:[NSData new]
-                                               extension:@"ms"
-                                              storageKey:@"testDirectory"
-                                            creationDate:[NSDate date]];
+                                                data:[NSData new]
+                                           extension:@"ms"
+                                          storageKey:@"testDirectory"
+                                        creationDate:[NSDate date]];
 
   // When
   BOOL success = [MSFileUtil deleteFile:file];
@@ -176,14 +176,14 @@
   // If
   id fileManagerMock = OCMClassMock([NSFileManager class]);
   MSFile *file = [MSStorageTestUtil createFileWithId:@"0"
-                                                    data:[NSData new]
-                                               extension:@"ms"
-                                              storageKey:@"testDirectory"
-                                            creationDate:[NSDate date]];
-  #pragma clang diagnostic push
-  #pragma clang diagnostic ignored "-Wnonnull"
+                                                data:[NSData new]
+                                           extension:@"ms"
+                                          storageKey:@"testDirectory"
+                                        creationDate:[NSDate date]];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnonnull"
   file.filePath = nil;
-  #pragma clang diagnostic pop
+#pragma clang diagnostic pop
 
   // When
   BOOL success = [MSFileUtil deleteFile:file];
@@ -198,10 +198,10 @@
   // If
   NSData *expected = [@"0" dataUsingEncoding:NSUTF8StringEncoding];
   MSFile *file = [MSStorageTestUtil createFileWithId:@"0"
-                                                    data:expected
-                                               extension:@"ms"
-                                              storageKey:@"testDirectory"
-                                            creationDate:[NSDate date]];
+                                                data:expected
+                                           extension:@"ms"
+                                          storageKey:@"testDirectory"
+                                        creationDate:[NSDate date]];
 
   // When
   NSData *actual = [MSFileUtil dataForFile:file];
@@ -244,8 +244,7 @@
 
   // If
   NSString *fileName = @"0";
-  NSString *filePath =
-      [MSStorageTestUtil filePathForLogWithId:fileName extension:@"ms" storageKey:@"testDirectory"];
+  NSString *filePath = [MSStorageTestUtil filePathForLogWithId:fileName extension:@"ms" storageKey:@"testDirectory"];
   NSData *expected = [@"123456789" dataUsingEncoding:NSUTF8StringEncoding];
   MSFile *file = [[MSFile alloc] initWithPath:filePath fileId:fileName creationDate:[NSDate date]];
 
