@@ -12,7 +12,6 @@ VALID_ARCHS = $(MS_ARM_ARCHS)
 
 // :Mark: OTHER_CFLAGS
 
-
 // This flag adds -fembed-bitcode-marker in the release configuration
 // but we require the full bitcode flag -fembed-bitcode in this case.
 ENABLE_BITCODE = NO;
@@ -53,4 +52,10 @@ GCC_PREPROCESSOR_DEFINITIONS = $(inherited) $(XCODEBUILD_GCC_PREPROCESSOR_DEFINI
 // -padded
 // This isn’t really an issue to us, since we’re not programming embedded systems.
 
-WARNING_CFLAGS = -Weverything -Wno-objc-missing-property-synthesis -Wno-float-equal -Wno-pedantic -Wno-padded  -Wno-sign-conversion
+// -c++98
+// We don't want to compile our code for C++98, no need to be warned about incompatibility.
+
+// -auto-import
+// Standard ``import`` is used by tons of files and C++ code limits the possibility to use @import so we don't . => Disabled.
+
+WARNING_CFLAGS = -Weverything -Wno-objc-missing-property-synthesis -Wno-float-equal -Wno-pedantic -Wno-padded  -Wno-sign-conversion -Wno-c++98-compat -Wno-auto-import
