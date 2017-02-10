@@ -185,7 +185,8 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
   }
 }
 
-/** Sort services in descending order to make sure the service with the highest priority gets initialized first.
+/** 
+ * Sort services in descending order to make sure the service with the highest priority gets initialized first.
  * This is intended to make sure Crashes gets initialized first.
 */
 - (NSArray *)sortServices:(NSArray<Class> *)services {
