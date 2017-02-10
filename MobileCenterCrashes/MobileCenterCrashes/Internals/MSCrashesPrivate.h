@@ -13,19 +13,19 @@
 /**
  * Data structure for logs that need to be flushed at crash time to make sure no log is lost at crash time.
  * @property bufferPath The path where the buffered log should be persisted.
- * @property buffer The actual buffered data. It comes in the form of a std::string but actually contains an NSData object
+ * @property buffer The actual buffered data. It comes in the form of a std::string but actually contains an NSData
+ * object
  * which is a serialized log.
  */
 struct MSCrashesBufferedLog {
-    std::string bufferPath;
-    std::string buffer;
+  std::string bufferPath;
+  std::string buffer;
 
-    MSCrashesBufferedLog() = default;
+  MSCrashesBufferedLog() = default;
 
-    MSCrashesBufferedLog(NSString *path, NSData *data) :
-            bufferPath(path.UTF8String),
-            buffer(&reinterpret_cast<const char *>(data.bytes)[0], &reinterpret_cast<const char *>(data.bytes)[data.length]) {
-    }
+  MSCrashesBufferedLog(NSString *path, NSData *data)
+      : bufferPath(path.UTF8String), buffer(&reinterpret_cast<const char *>(data.bytes)[0],
+                                            &reinterpret_cast<const char *>(data.bytes)[data.length]) {}
 };
 
 /**
@@ -60,14 +60,16 @@ typedef void (*MSCrashesPostCrashSignalCallback)(void *context);
  */
 typedef struct MSCrashesCallbacks {
 
-    /** An arbitrary user-supplied context value. This value may be NULL. */
-    void *context;
+  /** An arbitrary user-supplied context value. This value may be NULL. */
+  void *context;
 
-    /**
-     * The callback used to report caught signal information.
-     */
-    MSCrashesPostCrashSignalCallback handleSignal;
+  /**
+   * The callback used to report caught signal information.
+   */
+  MSCrashesPostCrashSignalCallback handleSignal;
 } MSCrashesCallbacks;
+
+@property(nonatomic, assign, getter=isMachExceptionHandlerEnabled) BOOL enableMachExceptionHandler;
 
 /**
  * A list containing all crash files that currently stored on disk for this app.
@@ -99,7 +101,7 @@ typedef struct MSCrashesCallbacks {
  * The object implements the protocol defined in `MSCrashesDelegate`.
  * @see MSCrashesDelegate
  */
-@property(nonatomic, weak) id <MSCrashesDelegate> delegate;
+@property(nonatomic, weak) id<MSCrashesDelegate> delegate;
 
 /**
  * The `PLCrashReporter` instance used for crash detection.
@@ -202,6 +204,6 @@ typedef struct MSCrashesCallbacks {
  */
 - (void)emptyLogBufferFiles;
 
-- (void)onProcessingLog:(id <MSLog>)log withPriority:(MSPriority)priority;
+- (void)onProcessingLog:(id<MSLog>)log withPriority:(MSPriority)priority;
 
 @end
