@@ -79,10 +79,10 @@
   NSString *storageKey = @"TestDirectory";
   MSAbstractLog *log = [MSAbstractLog new];
   MSFile *expected = [MSStorageTestUtil createFileWithId:@"test123"
-                                                        data:[NSData new]
-                                                   extension:@"ms"
-                                                  storageKey:storageKey
-                                                creationDate:[NSDate date]];
+                                                    data:[NSData new]
+                                               extension:@"ms"
+                                              storageKey:storageKey
+                                            creationDate:[NSDate date]];
   assertThat(self.sut.buckets[storageKey], nilValue());
 
   // When

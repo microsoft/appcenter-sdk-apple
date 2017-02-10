@@ -20,12 +20,12 @@
   static id sharedInstance = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
-      sharedInstance = [[self alloc] init];
+    sharedInstance = [[self alloc] init];
   });
   return sharedInstance;
 }
 
-- (void)startWithLogManager:(id <MSLogManager>)logManager appSecret:(NSString *)appSecret {
+- (void)startWithLogManager:(id<MSLogManager>)logManager appSecret:(NSString *)appSecret {
   [super startWithLogManager:logManager appSecret:appSecret];
 }
 
@@ -35,6 +35,10 @@
 
 - (MSPriority)priority {
   return MSPriorityDefault;
+}
+
+- (MSInitializationPriority)initializationPriority {
+  return MSInitializationPriorityDefault;
 }
 
 + (NSString *)logTag {
@@ -66,8 +70,8 @@
   self.abstractService = [[MSServiceAbstractImplementation alloc] initWithStorage:self.settingsMock];
 
   // Clean storage.
-  [(MSUserDefaults *) self.settingsMock removeObjectForKey:self.abstractService.isEnabledKey];
-  [(MSUserDefaults *) self.settingsMock removeObjectForKey:kMSMobileCenterIsEnabledKey];
+  [(MSUserDefaults *)self.settingsMock removeObjectForKey:self.abstractService.isEnabledKey];
+  [(MSUserDefaults *)self.settingsMock removeObjectForKey:kMSMobileCenterIsEnabledKey];
 }
 
 - (void)tearDown {
@@ -144,7 +148,7 @@
   // Mock MSSettings and swizzle its setObject:forKey: method to check what's sent by the sut to the persistence.
   OCMStub([self.settingsMock objectForKey:[OCMArg any]]).andReturn([NSNumber numberWithBool:YES]);
   OCMStub([self.settingsMock setObject:[OCMArg any] forKey:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
-      [invocation getArgument:&isEnabled atIndex:2];
+    [invocation getArgument:&isEnabled atIndex:2];
   });
 
   /**
@@ -188,7 +192,7 @@
 
   assertThatBool([[MSServiceAbstractImplementation sharedInstance] canBeUsed], isFalse());
 
-  [MSMobileCenter start:MS_UUID_STRING withServices:@[[MSServiceAbstractImplementation class]]];
+  [MSMobileCenter start:MS_UUID_STRING withServices:@[ [MSServiceAbstractImplementation class] ]];
 
   assertThatBool([[MSServiceAbstractImplementation sharedInstance] canBeUsed], isTrue());
 }
@@ -199,7 +203,7 @@
   [MSMobileCenter resetSharedInstance];
   [self.settingsMock setObject:[NSNumber numberWithBool:NO] forKey:kMSMobileCenterIsEnabledKey];
   [self.settingsMock setObject:[NSNumber numberWithBool:NO] forKey:self.abstractService.isEnabledKey];
-  [MSMobileCenter start:MS_UUID_STRING withServices:@[[MSServiceAbstractImplementation class]]];
+  [MSMobileCenter start:MS_UUID_STRING withServices:@[ [MSServiceAbstractImplementation class] ]];
 
   // When
   [[MSServiceAbstractImplementation class] setEnabled:YES];
@@ -214,7 +218,7 @@
   [MSMobileCenter resetSharedInstance];
   [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:kMSMobileCenterIsEnabledKey];
   [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:self.abstractService.isEnabledKey];
-  [MSMobileCenter start:MS_UUID_STRING withServices:@[[MSServiceAbstractImplementation class]]];
+  [MSMobileCenter start:MS_UUID_STRING withServices:@[ [MSServiceAbstractImplementation class] ]];
 
   // When
   [[MSServiceAbstractImplementation class] setEnabled:NO];
@@ -229,7 +233,7 @@
   [MSMobileCenter resetSharedInstance];
   [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:kMSMobileCenterIsEnabledKey];
   [self.settingsMock setObject:[NSNumber numberWithBool:NO] forKey:self.abstractService.isEnabledKey];
-  [MSMobileCenter start:MS_UUID_STRING withServices:@[[MSServiceAbstractImplementation class]]];
+  [MSMobileCenter start:MS_UUID_STRING withServices:@[ [MSServiceAbstractImplementation class] ]];
 
   // When
   [[MSServiceAbstractImplementation class] setEnabled:YES];
@@ -243,7 +247,7 @@
   // If
   [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:kMSMobileCenterIsEnabledKey];
   [self.settingsMock setObject:[NSNumber numberWithBool:NO] forKey:self.abstractService.isEnabledKey];
-  [MSMobileCenter start:MS_UUID_STRING withServices:@[[MSServiceAbstractImplementation class]]];
+  [MSMobileCenter start:MS_UUID_STRING withServices:@[ [MSServiceAbstractImplementation class] ]];
 
   // When
   [MSMobileCenter setEnabled:YES];
@@ -257,7 +261,7 @@
   // If
   [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:kMSMobileCenterIsEnabledKey];
   [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:self.abstractService.isEnabledKey];
-  [MSMobileCenter start:MS_UUID_STRING withServices:@[[MSServiceAbstractImplementation class]]];
+  [MSMobileCenter start:MS_UUID_STRING withServices:@[ [MSServiceAbstractImplementation class] ]];
 
   // When
   [MSMobileCenter setEnabled:YES];
@@ -274,13 +278,13 @@
   __block MSPriority priority;
   __block BOOL deleteLogs;
   __block BOOL forwardedEnabled;
-  id <MSLogManager> logManagerMock = OCMClassMock([MSLogManagerDefault class]);
+  id<MSLogManager> logManagerMock = OCMClassMock([MSLogManagerDefault class]);
   OCMStub([logManagerMock setEnabled:NO andDeleteDataOnDisabled:YES forPriority:self.abstractService.priority])
-          .andDo(^(NSInvocation *invocation) {
-              [invocation getArgument:&priority atIndex:4];
-              [invocation getArgument:&deleteLogs atIndex:3];
-              [invocation getArgument:&forwardedEnabled atIndex:2];
-          });
+      .andDo(^(NSInvocation *invocation) {
+        [invocation getArgument:&priority atIndex:4];
+        [invocation getArgument:&deleteLogs atIndex:3];
+        [invocation getArgument:&forwardedEnabled atIndex:2];
+      });
   self.abstractService.logManager = logManagerMock;
   [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:self.abstractService.isEnabledKey];
 
@@ -309,7 +313,7 @@
 - (void)testEnableLogManagerOnstartWithLogManager {
 
   // If
-  id <MSLogManager> logManagerMock = OCMClassMock([MSLogManagerDefault class]);
+  id<MSLogManager> logManagerMock = OCMClassMock([MSLogManagerDefault class]);
   self.abstractService.logManager = logManagerMock;
 
   // When
@@ -317,6 +321,10 @@
 
   // Then
   OCMVerify([logManagerMock setEnabled:YES andDeleteDataOnDisabled:YES forPriority:self.abstractService.priority]);
+}
+
+- (void)testInitializationPriorityCorrect {
+  XCTAssertTrue([self.abstractService initializationPriority] == MSInitializationPriorityDefault);
 }
 
 @end
