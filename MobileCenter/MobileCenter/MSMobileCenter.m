@@ -20,9 +20,9 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 
 + (instancetype)sharedInstance {
   dispatch_once(&onceToken, ^{
-      if (sharedInstance == nil) {
-        sharedInstance = [[self alloc] init];
-      }
+    if (sharedInstance == nil) {
+      sharedInstance = [[self alloc] init];
+    }
   });
   return sharedInstance;
 }
@@ -50,7 +50,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 }
 
 + (void)setEnabled:(BOOL)isEnabled {
-  @synchronized ([self sharedInstance]) {
+  @synchronized([self sharedInstance]) {
     if ([[self sharedInstance] canBeUsed]) {
       [[self sharedInstance] setEnabled:isEnabled];
     }
@@ -58,7 +58,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 }
 
 + (BOOL)isEnabled {
-  @synchronized ([self sharedInstance]) {
+  @synchronized([self sharedInstance]) {
     if ([[self sharedInstance] canBeUsed]) {
       return [[self sharedInstance] isEnabled];
     }
@@ -100,22 +100,22 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 
   static dispatch_once_t debuggerPredicate;
   dispatch_once(&debuggerPredicate, ^{
-      struct kinfo_proc info;
-      size_t info_size = sizeof(info);
-      int name[4];
+    struct kinfo_proc info;
+    size_t info_size = sizeof(info);
+    int name[4];
 
-      name[0] = CTL_KERN;
-      name[1] = KERN_PROC;
-      name[2] = KERN_PROC_PID;
-      name[3] = getpid();
+    name[0] = CTL_KERN;
+    name[1] = KERN_PROC;
+    name[2] = KERN_PROC_PID;
+    name[3] = getpid();
 
-      if (sysctl(name, 4, &info, &info_size, NULL, 0) == -1) {
-        NSLog(@"[MSCrashes] ERROR: Checking for a running debugger via sysctl() failed.");
-        debuggerIsAttached = false;
-      }
+    if (sysctl(name, 4, &info, &info_size, NULL, 0) == -1) {
+      NSLog(@"[MSCrashes] ERROR: Checking for a running debugger via sysctl() failed.");
+      debuggerIsAttached = false;
+    }
 
-      if (!debuggerIsAttached && (info.kp_proc.p_flag & P_TRACED) != 0)
-        debuggerIsAttached = true;
+    if (!debuggerIsAttached && (info.kp_proc.p_flag & P_TRACED) != 0)
+      debuggerIsAttached = true;
   });
 
   return debuggerIsAttached;
@@ -142,7 +142,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
     MSLogAssert([MSMobileCenter logTag], @"Mobile Center SDK has already been configured.");
   }
 
-    // Validate and set the app secret.
+  // Validate and set the app secret.
   else if ([appSecret length] == 0) {
     MSLogAssert([MSMobileCenter logTag], @"AppSecret is invalid.");
   } else {
@@ -169,21 +169,44 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
     success = true;
   }
   MSLogAssert([MSMobileCenter logTag], @"Mobile Center SDK %@",
-          (success) ? @"configured successfully." : @"configuration failed.");
+              (success) ? @"configured successfully." : @"configuration failed.");
   return success;
 }
 
 - (void)start:(NSString *)appSecret withServices:(NSArray<Class> *)services {
   BOOL configured = [self configure:appSecret];
   if (configured) {
-    for (Class service in services) {
+
+    NSArray *sortedServices = [self sortServices:services];
+
+    for (Class service in sortedServices) {
       [self startService:service];
     }
   }
 }
 
+/** 
+ * Sort services in descending order to make sure the service with the highest priority gets initialized first.
+ * This is intended to make sure Crashes gets initialized first.
+*/
+- (NSArray *)sortServices:(NSArray<Class> *)services {
+  if (services && services.count > 1) {
+    return [services sortedArrayUsingComparator:^NSComparisonResult(Class clazzA, Class clazzB) {
+      id<MSServiceInternal> serviceA = [clazzA sharedInstance];
+      id<MSServiceInternal> serviceB = [clazzB sharedInstance];
+      if (serviceA.initializationPriority < serviceB.initializationPriority) {
+        return NSOrderedDescending;
+      } else {
+        return NSOrderedAscending;
+      }
+    }];
+  } else {
+    return services;
+  }
+}
+
 - (void)startService:(Class)clazz {
-  id <MSServiceInternal> service = [clazz sharedInstance];
+  id<MSServiceInternal> service = [clazz sharedInstance];
 
   // Set mobileCenterDelegate.
   [self.services addObject:service];
@@ -193,7 +216,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 }
 
 - (void)setServerUrl:(NSString *)serverUrl {
-  @synchronized (self) {
+  @synchronized(self) {
     _serverUrl = serverUrl;
   }
 }
@@ -210,7 +233,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
   }
 
   // Propagate enable/disable on all services.
-  for (id <MSServiceInternal> service in self.services) {
+  for (id<MSServiceInternal> service in self.services) {
     [[service class] setEnabled:isEnabled];
   }
   self.enabledStateUpdating = NO;
@@ -253,7 +276,8 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 - (void)initializeLogManager {
 
   // Construct log manager.
-  _logManager = [[MSLogManagerDefault alloc] initWithAppSecret:self.appSecret installId:self.installId serverUrl:self.serverUrl];
+  _logManager =
+      [[MSLogManagerDefault alloc] initWithAppSecret:self.appSecret installId:self.installId serverUrl:self.serverUrl];
 }
 
 - (NSString *)appSecret {
@@ -265,7 +289,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 }
 
 - (NSUUID *)installId {
-  @synchronized (self) {
+  @synchronized(self) {
     if (!_installId) {
 
       // Check if install Id has already been persisted.
@@ -289,9 +313,8 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 - (BOOL)canBeUsed {
   BOOL canBeUsed = self.sdkConfigured;
   if (!canBeUsed) {
-    MSLogError([MSMobileCenter logTag],
-            @"Mobile Center SDK hasn't been configured. You need to call [MSMobileCenter "
-                    @"start:YOUR_APP_SECRET withServices:LIST_OF_SERVICES] first.");
+    MSLogError([MSMobileCenter logTag], @"Mobile Center SDK hasn't been configured. You need to call [MSMobileCenter "
+                                        @"start:YOUR_APP_SECRET withServices:LIST_OF_SERVICES] first.");
   }
   return canBeUsed;
 }

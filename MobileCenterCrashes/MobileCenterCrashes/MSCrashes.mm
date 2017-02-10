@@ -18,24 +18,44 @@
  */
 static NSString *const kMSServiceName = @"Crashes";
 static NSString *const kMSAnalyzerFilename = @"MSCrashes.analyzer";
+static NSString *const kMSLogBufferFileExtension = @"mscrasheslogbuffer";
 
 #pragma mark - Callbacks Setup
 
 static MSCrashesCallbacks msCrashesCallbacks = {.context = NULL, .handleSignal = NULL};
 static NSString *const kMSUserConfirmationKey = @"MSUserConfirmation";
 
+static void ms_save_log_buffer_callback(siginfo_t *info, ucontext_t *uap, void *context) {
+  // Do not save the buffer if it is empty.
+  if (msCrashesLogBuffer.size() == 0) {
+    return;
+  }
+
+  for (int i = 0; i < ms_crashes_log_buffer_size; i++) {
+    // Make sure not to allocate any memory (e.g. copy).
+    const std::string &data = msCrashesLogBuffer[i].buffer;
+    int fd = open(msCrashesLogBuffer[i].bufferPath.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    if (fd < 0) {
+      return;
+    }
+    write(fd, data.data(), data.size());
+    close(fd);
+  }
+}
+
 /** Proxy implementation for PLCrashReporter to keep our interface stable while
  *  this can change.
  */
 static void plcr_post_crash_callback(siginfo_t *info, ucontext_t *uap, void *context) {
-  [MSCrashes wrapperCrashCallback];
+  ms_save_log_buffer_callback(info, uap, context);
+
   if (msCrashesCallbacks.handleSignal != NULL) {
     msCrashesCallbacks.handleSignal(context);
   }
 }
 
 static PLCrashReporterCallbacks plCrashCallbacks = {
-        .version = 0, .context = NULL, .handleSignal = plcr_post_crash_callback};
+    .version = 0, .context = NULL, .handleSignal = plcr_post_crash_callback};
 
 /**
  * C++ Exception Handler
@@ -47,7 +67,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   abort();
 }
 
-@interface MSCrashes () <MSChannelDelegate>
+@interface MSCrashes () <MSChannelDelegate, MSLogManagerDelegate>
 
 @end
 
@@ -59,20 +79,19 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 #pragma mark - Public Methods
 
 + (void)generateTestCrash {
-  @synchronized ([self sharedInstance]) {
+  @synchronized([self sharedInstance]) {
     if ([[self sharedInstance] canBeUsed]) {
       if ([MSUtil currentAppEnvironment] != MSEnvironmentAppStore) {
         if ([MSMobileCenter isDebuggerAttached]) {
           MSLogWarning([MSCrashes logTag],
-                  @"The debugger is attached. The following crash cannot be detected by the SDK!");
+                       @"The debugger is attached. The following crash cannot be detected by the SDK!");
         }
 
         __builtin_trap();
       }
     } else {
-      MSLogWarning([MSCrashes logTag],
-              @"GenerateTestCrash was just called in an App Store environment. The call will "
-                      @"be ignored");
+      MSLogWarning([MSCrashes logTag], @"GenerateTestCrash was just called in an App Store environment. The call will "
+                                       @"be ignored");
     }
   }
 }
@@ -83,7 +102,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
 + (void)setUserConfirmationHandler:(_Nullable MSUserConfirmationHandler)userConfirmationHandler {
   // FIXME: Type cast is required at the moment. Need to fix the root cause.
-  ((MSCrashes *) [self sharedInstance]).userConfirmationHandler = userConfirmationHandler;
+  ((MSCrashes *)[self sharedInstance]).userConfirmationHandler = userConfirmationHandler;
 }
 
 + (void)notifyWithUserConfirmation:(MSUserConfirmation)userConfirmation {
@@ -93,8 +112,8 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
     // Don't send logs. Clean up files.
     for (NSUInteger i = 0; i < [crashes.unprocessedFilePaths count]; i++) {
-      NSString *filePath = [crashes.unprocessedFilePaths objectAtIndex:i];
-      MSErrorReport *report = [crashes.unprocessedReports objectAtIndex:i];
+      NSString *filePath = crashes.unprocessedFilePaths[i];
+      MSErrorReport *report = crashes.unprocessedReports[i];
       [crashes deleteCrashReportWithFilePath:filePath];
       [MSWrapperExceptionManager deleteWrapperExceptionDataWithUUIDString:report.incidentIdentifier];
       [crashes.crashFiles removeObject:filePath];
@@ -108,14 +127,14 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
   // Process crashes logs.
   for (NSUInteger i = 0; i < [crashes.unprocessedReports count]; i++) {
-    MSAppleErrorLog *log = [crashes.unprocessedLogs objectAtIndex:i];
-    MSErrorReport *report = [crashes.unprocessedReports objectAtIndex:i];
-    NSString *filePath = [crashes.unprocessedFilePaths objectAtIndex:i];
+    MSAppleErrorLog *log = crashes.unprocessedLogs[i];
+    MSErrorReport *report = crashes.unprocessedReports[i];
+    NSString *filePath = crashes.unprocessedFilePaths[i];
 
     // Get error attachment.
     if ([crashes delegateImplementsAttachmentCallback]) {
       // TODO (attachmentWithCrashes): Bring this back when the backend supports attachment for Crashes.
-//      [log setErrorAttachment:[crashes.delegate attachmentWithCrashes:crashes forErrorReport:report]];
+      //      [log setErrorAttachment:[crashes.delegate attachmentWithCrashes:crashes forErrorReport:report]];
     } else {
       MSLogDebug([MSCrashes logTag], @"attachmentWithCrashes is not implemented");
     }
@@ -133,7 +152,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   return [[self sharedInstance] getLastSessionCrashReport];
 }
 
-+ (void)setDelegate:(_Nullable id <MSCrashesDelegate>)delegate {
++ (void)setDelegate:(_Nullable id<MSCrashesDelegate>)delegate {
   [[self sharedInstance] setDelegate:delegate];
 }
 
@@ -144,8 +163,11 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     _fileManager = [[NSFileManager alloc] init];
     _crashFiles = [[NSMutableArray alloc] init];
     _crashesDir = [MSCrashesUtil crashesDir];
+    _logBufferDir = [MSCrashesUtil logBufferDir];
     _analyzerInProgressFile = [_crashesDir stringByAppendingPathComponent:kMSAnalyzerFilename];
     _didCrashInLastSession = NO;
+
+    [self setupLogBuffer];
   }
   return self;
 }
@@ -161,7 +183,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     // Check if there is a wrapper SDK that needs to do some custom handler setup. If there is,
     // then the wrapper SDK will call [self configureCrashReporter].
     if (![[MSWrapperExceptionManager getDelegate] respondsToSelector:@selector(setUpCrashHandlers)] ||
-            ![[MSWrapperExceptionManager getDelegate] setUpCrashHandlers]) {
+        ![[MSWrapperExceptionManager getDelegate] setUpCrashHandlers]) {
       [self configureCrashReporter];
     }
 
@@ -192,7 +214,8 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
     // More details on log if a debugger is attached.
     if ([MSMobileCenter isDebuggerAttached]) {
-      MSLogInfo([MSCrashes logTag], @"Crashes service has been enabled but the service cannot detect crashes due to running the application with a debugger attached.");
+      MSLogInfo([MSCrashes logTag], @"Crashes service has been enabled but the service cannot detect crashes due to "
+                                     "running the application with a debugger attached.");
     } else {
       MSLogInfo([MSCrashes logTag], @"Crashes service has been enabled.");
     }
@@ -203,9 +226,15 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     [MSWrapperExceptionManager deleteAllWrapperExceptions];
     [MSWrapperExceptionManager deleteAllWrapperExceptionData];
     [self deleteAllFromCrashesDirectory];
+    [self emptyLogBufferFiles];
     [self removeAnalyzerFile];
     [self.plCrashReporter purgePendingCrashReport];
+
+    // Remove as ChannelDelegate from LogManager
     [self.logManager removeChannelDelegate:self forPriority:MSPriorityHigh];
+    [self.logManager removeChannelDelegate:self forPriority:MSPriorityDefault];
+    [self.logManager removeChannelDelegate:self forPriority:MSPriorityBackground];
+
     MSLogInfo([MSCrashes logTag], @"Crashes service has been disabled.");
   }
 }
@@ -216,14 +245,18 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   static id sharedInstance = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
-      sharedInstance = [[self alloc] init];
+    sharedInstance = [[self alloc] init];
   });
   return sharedInstance;
 }
 
-- (void)startWithLogManager:(id <MSLogManager>)logManager appSecret:(NSString *)appSecret {
+- (void)startWithLogManager:(id<MSLogManager>)logManager appSecret:(NSString *)appSecret {
   [super startWithLogManager:logManager appSecret:appSecret];
-  MSLogVerbose([MSCrashes logTag], @"Started Crashes service.");
+
+  [logManager addDelegate:self];
+  [self processLogBufferAfterCrash];
+
+  MSLogVerbose([MSCrashes logTag], @"Started crash service.");
 }
 
 + (NSString *)logTag {
@@ -238,30 +271,72 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   return MSPriorityHigh;
 }
 
+- (MSInitializationPriority)initializationPriority {
+  return MSInitializationPriorityMax;
+}
+
+#pragma mark - MSLogManagerDelegate
+
+/**
+ * Why are we doing the event-buffering inside crashes?
+ * The reason is, only Crashes has the chance to execute code at crashtime and only with the following constraints:
+ * 1. Don't execute any Objective-C code when crashing.
+ * 2. Don't allocate new memory when crashing.
+ * 3. Only use async-safe C/C++ methods.
+ * This means the Crashes module can't message any other module. All logic related to the buffer needs to happen before
+ * the crash and then, at crashtime, crashes has all info in place to save the buffer safely.
+ **/
+
+- (void)onProcessingLog:(id<MSLog>)log withPriority:(MSPriority)priority {
+  MSLogVerbose([MSCrashes logTag], @"Did enqeue log.");
+
+  // Don't buffer event if log is empty or crashes module is disabled.
+  if (!log || ![self isEnabled]) {
+    return;
+  }
+
+  // The callback can be called from any thread, making sure we make this thread-safe.
+  @synchronized(self) {
+    NSData *serializedLog = [NSKeyedArchiver archivedDataWithRootObject:log];
+
+    if (serializedLog && (serializedLog.length > 0)) {
+      if (self.bufferIndex > (ms_crashes_log_buffer_size - 1)) {
+        self.bufferIndex = 0;
+      }
+
+      msCrashesLogBuffer[self.bufferIndex].buffer =
+          std::string(&reinterpret_cast<const char *>(serializedLog.bytes)[0],
+                      &reinterpret_cast<const char *>(serializedLog.bytes)[serializedLog.length]);
+
+      self.bufferIndex += 1;
+    }
+  }
+}
+
 #pragma mark - MSChannelDelegate
 
-- (void)channel:(id)channel willSendLog:(id <MSLog>)log {
+- (void)channel:(id)channel willSendLog:(id<MSLog>)log {
   if (self.delegate && [self.delegate respondsToSelector:@selector(crashes:willSendErrorReport:)]) {
-    if ([((NSObject *) log) isKindOfClass:[MSAppleErrorLog class]]) {
-      MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:((MSAppleErrorLog *) log)];
+    if ([((NSObject *)log) isKindOfClass:[MSAppleErrorLog class]]) {
+      MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:((MSAppleErrorLog *)log)];
       [self.delegate crashes:self willSendErrorReport:report];
     }
   }
 }
 
-- (void)channel:(id <MSChannel>)channel didSucceedSendingLog:(id <MSLog>)log {
+- (void)channel:(id<MSChannel>)channel didSucceedSendingLog:(id<MSLog>)log {
   if (self.delegate && [self.delegate respondsToSelector:@selector(crashes:didSucceedSendingErrorReport:)]) {
-    if ([((NSObject *) log) isKindOfClass:[MSAppleErrorLog class]]) {
-      MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:((MSAppleErrorLog *) log)];
+    if ([((NSObject *)log) isKindOfClass:[MSAppleErrorLog class]]) {
+      MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:((MSAppleErrorLog *)log)];
       [self.delegate crashes:self didSucceedSendingErrorReport:report];
     }
   }
 }
 
-- (void)channel:(id <MSChannel>)channel didFailSendingLog:(id <MSLog>)log withError:(NSError *)error {
+- (void)channel:(id<MSChannel>)channel didFailSendingLog:(id<MSLog>)log withError:(NSError *)error {
   if (self.delegate && [self.delegate respondsToSelector:@selector(crashes:didFailSendingErrorReport:withError:)]) {
-    if ([((NSObject *) log) isKindOfClass:[MSAppleErrorLog class]]) {
-      MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:((MSAppleErrorLog *) log)];
+    if ([((NSObject *)log) isKindOfClass:[MSAppleErrorLog class]]) {
+      MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:((MSAppleErrorLog *)log)];
       [self.delegate crashes:self didFailSendingErrorReport:report withError:error];
     }
   }
@@ -289,7 +364,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
    */
   if ([MSMobileCenter isDebuggerAttached]) {
     MSLogWarning([MSCrashes logTag],
-            @"Detecting crashes is NOT enabled due to running the app with a debugger attached.");
+                 @"Detecting crashes is NOT enabled due to running the app with a debugger attached.");
   } else {
 
     /**
@@ -317,7 +392,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
       MSLogDebug([MSCrashes logTag], @"Exception handler successfully initialized.");
     } else {
       MSLogError([MSCrashes logTag],
-              @"Exception handler could not be set. Make sure there is no other exception handler set up!");
+                 @"Exception handler could not be set. Make sure there is no other exception handler set up!");
     }
     [MSCrashesUncaughtCXXExceptionHandlerManager addCXXExceptionHandler:uncaught_cxx_exception_handler];
   }
@@ -333,8 +408,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 - (void)startCrashProcessing {
 
   // FIXME: There is no life cycle for app extensions yet so force start crash processing until then.
-  if ([MSUtil applicationState] != MSApplicationStateActive &&
-          [MSUtil applicationState] != MSApplicationStateUnknown) {
+  if ([MSUtil applicationState] != MSApplicationStateActive && [MSUtil applicationState] != MSApplicationStateUnknown) {
     return;
   }
 
@@ -348,25 +422,23 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
     /* If the top level error handler differs from our own, then at least
      * another one was added.
-     * This could cause exception crashes not to be reported to Mobile Center. See
+     * This could cause exception crashes not to be reported to Mobile Center. Print out
      * log message for details.
      */
     if (self.exceptionHandler != currentHandler) {
       MSLogWarning([MSCrashes logTag], @"Another exception handler was added. If "
-              @"this invokes any kind of exit() after processing the "
-              @"exception, which causes any subsequent error handler "
-              @"not to be invoked, these crashes will NOT be reported "
-              @"to Mobile Center!");
+                                       @"this invokes any kind of exit() after processing the "
+                                       @"exception, which causes any subsequent error handler "
+                                       @"not to be invoked, these crashes will NOT be reported "
+                                       @"to Mobile Center!");
     }
   }
   if (!self.sendingInProgress && self.crashFiles.count > 0) {
-
-    // TODO: Send and clean next crash report
-    [self processCrashReport];
+    [self processCrashReports];
   }
 }
 
-- (void)processCrashReport {
+- (void)processCrashReports {
   NSError *error = NULL;
   _unprocessedLogs = [[NSMutableArray alloc] init];
   _unprocessedReports = [[NSMutableArray alloc] init];
@@ -387,8 +459,8 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
         uuidString = errorReport.incidentIdentifier;
         if ([self shouldProcessErrorReport:errorReport]) {
           MSLogDebug([MSCrashes logTag],
-                  @"shouldProcessErrorReport is not implemented or returned YES, processing the crash report: %@",
-                  report.debugDescription);
+                     @"shouldProcessErrorReport is not implemented or returned YES, processing the crash report: %@",
+                     report.debugDescription);
 
           // Put the log to temporary space for next callbacks.
           [_unprocessedLogs addObject:log];
@@ -398,7 +470,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
           continue;
         } else {
           MSLogDebug([MSCrashes logTag], @"shouldProcessErrorReport returned NO, discard the crash report: %@",
-                  report.debugDescription);
+                     report.debugDescription);
         }
       } else {
         MSLogDebug([MSCrashes logTag], @"Crashes service is disabled, discard the crash report");
@@ -417,15 +489,38 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
       // User confirmation is set to MSUserConfirmationAlways.
       MSLogDebug([MSCrashes logTag],
-              @"The flag for user confirmation is set to MSUserConfirmationAlways, continue sending logs");
+                 @"The flag for user confirmation is set to MSUserConfirmationAlways, continue sending logs");
       [MSCrashes notifyWithUserConfirmation:MSUserConfirmationSend];
       return;
     } else if (!_userConfirmationHandler || !_userConfirmationHandler(_unprocessedReports)) {
 
       // User confirmation handler doesn't exist or returned NO which means 'want to process'.
       MSLogDebug([MSCrashes logTag],
-              @"The user confirmation handler is not implemented or returned NO, continue sending logs");
+                 @"The user confirmation handler is not implemented or returned NO, continue sending logs");
       [MSCrashes notifyWithUserConfirmation:MSUserConfirmationSend];
+    }
+  }
+}
+
+- (void)processLogBufferAfterCrash {
+  NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.logBufferDir error:NULL];
+  for (NSString *tmp in files) {
+    if ([[tmp pathExtension] isEqualToString:kMSLogBufferFileExtension]) {
+      NSString *filePath = [self.logBufferDir stringByAppendingPathComponent:tmp];
+      NSData *serializedLog = [NSData dataWithContentsOfFile:filePath];
+      if (serializedLog && serializedLog.length && serializedLog.length > 0) {
+        id<MSLog> item = [NSKeyedUnarchiver unarchiveObjectWithData:serializedLog];
+        if (item) {
+          if ([((NSObject *)item) isKindOfClass:[MSAppleErrorLog class]]) {
+            [self.logManager processLog:item withPriority:self.priority];
+          } else {
+            [self.logManager processLog:item withPriority:MSPriorityDefault];
+          }
+        }
+
+        // Create empty new file, overwrites the old one.
+        [[NSFileManager defaultManager] createFileAtPath:filePath contents:[NSData data] attributes:nil];
+      }
     }
   }
 }
@@ -462,7 +557,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
     // Try loading the crash report
     NSData *crashData =
-            [[NSData alloc] initWithData:[self.plCrashReporter loadPendingCrashReportDataAndReturnError:&error]];
+        [[NSData alloc] initWithData:[self.plCrashReporter loadPendingCrashReportDataAndReturnError:&error]];
     NSString *cacheFilename = [NSString stringWithFormat:@"%.0f", [NSDate timeIntervalSinceReferenceDate]];
 
     if (crashData == nil) {
@@ -488,7 +583,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 }
 
 - (NSMutableArray *)persistedCrashReports {
-  NSMutableArray *persitedCrashReports = [NSMutableArray new];
+  NSMutableArray *persistedCrashReports = [NSMutableArray new];
   if ([self.fileManager fileExistsAtPath:self.crashesDir]) {
     NSError *error;
     NSArray *dirArray = [self.fileManager contentsOfDirectoryAtPath:self.crashesDir error:&error];
@@ -497,29 +592,104 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
       NSString *filePath = [self.crashesDir stringByAppendingPathComponent:file];
       NSDictionary *fileAttributes = [self.fileManager attributesOfItemAtPath:filePath error:&error];
 
-      if ([[fileAttributes objectForKey:NSFileType] isEqualToString:NSFileTypeRegular] &&
-              [[fileAttributes objectForKey:NSFileSize] intValue] > 0 && ![file hasSuffix:@".DS_Store"] &&
-              ![file hasSuffix:@".analyzer"] && ![file hasSuffix:@".plist"] && ![file hasSuffix:@".data"] &&
-              ![file hasSuffix:@".meta"] && ![file hasSuffix:@".desc"]) {
-        [persitedCrashReports addObject:filePath];
+      if ([fileAttributes[NSFileType] isEqualToString:NSFileTypeRegular] && [fileAttributes[NSFileSize] intValue] > 0 &&
+          ![file hasSuffix:@".DS_Store"] && ![file hasSuffix:@".analyzer"] && ![file hasSuffix:@".plist"] &&
+          ![file hasSuffix:@".data"] && ![file hasSuffix:@".meta"] && ![file hasSuffix:@".desc"]) {
+        [persistedCrashReports addObject:filePath];
       }
     }
   }
-  return persitedCrashReports;
+  return persistedCrashReports;
 }
 
 - (void)removeAnalyzerFile {
   if ([self.fileManager fileExistsAtPath:self.analyzerInProgressFile]) {
     NSError *error = nil;
     if (![self.fileManager removeItemAtPath:self.analyzerInProgressFile error:&error]) {
-      MSLogError([MSCrashes logTag], @"Couldn't remove analyzer file at %@: ", self.analyzerInProgressFile);
+      MSLogError([MSCrashes logTag], @"Couldn't remove analyzer file at %@ with error %@.", self.analyzerInProgressFile,
+                 error.localizedDescription);
     }
   }
 }
 
 - (void)createAnalyzerFile {
   if (![self.fileManager fileExistsAtPath:self.analyzerInProgressFile]) {
-    [self.fileManager createFileAtPath:self.analyzerInProgressFile contents:nil attributes:nil];
+    if (![self.fileManager createFileAtPath:self.analyzerInProgressFile contents:nil attributes:nil]) {
+      MSLogError([MSCrashes logTag], @"Couldn't create analyzer file at %@: ", self.analyzerInProgressFile);
+    }
+  }
+}
+
+- (void)setupLogBuffer {
+  @synchronized(self) {
+    // Array of 20 buffer file paths.
+    NSArray<NSString *> *bufferFiles = [self createLogBufferFilesIfNeeded];
+
+    // Just to make sure we have max of 20 files on disk. If we have less than 20 files on disk, we can't really do
+    // anything. This case should never happen.
+    NSInteger count = bufferFiles.count >= ms_crashes_log_buffer_size ? ms_crashes_log_buffer_size : bufferFiles.count;
+
+    self.bufferIndex = 0;
+
+    for (int i = 0; i < count; i++) {
+      MSCrashesBufferedLog emptyLog = MSCrashesBufferedLog{bufferFiles[i], nil};
+      msCrashesLogBuffer[i] = emptyLog;
+    }
+  }
+}
+
+- (NSArray<NSString *> *)createLogBufferFilesIfNeeded {
+
+  NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.logBufferDir error:NULL];
+  NSMutableArray *logBufferFiles = [NSMutableArray arrayWithCapacity:ms_crashes_log_buffer_size];
+
+  // Get already existing buffer files.
+  for (NSString *tmp in files) {
+    if ([[tmp pathExtension] isEqualToString:kMSLogBufferFileExtension]) {
+      NSString *filePath = [self.logBufferDir stringByAppendingPathComponent:tmp];
+      [logBufferFiles addObject:filePath];
+    }
+  }
+
+  // Create missing buffer files if needed.
+  if (logBufferFiles.count < ms_crashes_log_buffer_size) {
+    NSInteger missingFileCount = ms_crashes_log_buffer_size - logBufferFiles.count;
+    for (int i = 0; i < missingFileCount; i++) {
+      NSString *logId = MS_UUID_STRING;
+      NSString *path = [self createBufferFileWithName:logId];
+      [logBufferFiles addObject:path];
+    }
+  }
+
+  return logBufferFiles;
+}
+
+- (NSString *)createBufferFileWithName:(NSString *)name {
+  NSString *fileName = [NSString stringWithFormat:@"%@.%@", name, kMSLogBufferFileExtension];
+  NSString *filePath = [self.logBufferDir stringByAppendingPathComponent:fileName];
+
+  if (![self.fileManager fileExistsAtPath:filePath]) {
+    BOOL success = [self.fileManager createFileAtPath:filePath contents:nil attributes:nil];
+    if (!success) {
+      MSLogError([MSCrashes logTag], @"Couldn't create crash buffer file at: %@.", filePath);
+      return nil;
+    } else {
+      MSLogVerbose([MSCrashes logTag], @"Created crash buffer file at %@.", filePath);
+      return filePath;
+    }
+  } else {
+    return filePath;
+  }
+}
+
+- (void)emptyLogBufferFiles {
+  NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.logBufferDir error:NULL];
+  for (NSString *tmp in files) {
+    if ([[tmp pathExtension] isEqualToString:kMSLogBufferFileExtension]) {
+      NSString *filePath = [self.logBufferDir stringByAppendingPathComponent:tmp];
+      // Create empty new file, overwrites the old one.
+      [[NSFileManager defaultManager] createFileAtPath:filePath contents:[NSData data] attributes:nil];
+    }
   }
 }
 
@@ -530,7 +700,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
 - (BOOL)delegateImplementsAttachmentCallback {
   // TODO (attachmentWithCrashes): Bring this back when the backend supports attachment for Crashes.
-//   return self.delegate && [self.delegate respondsToSelector:@selector(attachmentWithCrashes:forErrorReport:)];
+  //   return self.delegate && [self.delegate respondsToSelector:@selector(attachmentWithCrashes:forErrorReport:)];
   return NO;
 }
 
@@ -543,7 +713,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
   NSError *error = NULL;
   NSData *crashData = [[NSData alloc]
-          initWithData:[[[MSCrashes sharedInstance] plCrashReporter] loadPendingCrashReportDataAndReturnError:&error]];
+      initWithData:[[[MSCrashes sharedInstance] plCrashReporter] loadPendingCrashReportDataAndReturnError:&error]];
 
   // This shouldn't happen because the callback should only happen once plCrashReporter
   // has written the report to disk

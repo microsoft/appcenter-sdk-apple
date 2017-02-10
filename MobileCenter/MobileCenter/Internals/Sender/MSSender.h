@@ -1,9 +1,8 @@
 /*
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
+
 #import "MSEnable.h"
-#import "MSLogContainer.h"
-#import "MSSenderCall.h"
 #import "MSSenderCallDelegate.h"
 #import "MSSenderUtil.h"
 #import "MS_Reachability.h"
@@ -45,10 +44,10 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Send logs in batch.
  *
- * @param logContainer Batch of logs.
+ * @param data Instance that will be transformed to request body.
  * @param handler Completion handler.
  */
-- (void)sendAsync:(nonnull MSLogContainer *)logs completionHandler:(nonnull MSSendAsyncCompletionHandler)handler;
+- (void)sendAsync:(NSObject *)data completionHandler:(MSSendAsyncCompletionHandler)handler;
 
 /**
  *  Add the given delegate to the sender.
@@ -79,4 +78,5 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)resume;
 
 @end
+
 NS_ASSUME_NONNULL_END
