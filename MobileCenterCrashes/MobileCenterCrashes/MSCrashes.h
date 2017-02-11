@@ -106,6 +106,9 @@ typedef NS_ENUM(NSUInteger, MSUserConfirmation) {
  *  By default the SDK is using the safe and proven in-process BSD Signals for catching crashes. This option provides
  *  an option to enable catching fatal signals via a Mach exception server instead.
  *
+ *  The SDK will not check if the app is running in an AppStore environment or if a debugger is attached because some
+ *  developers chose to do both at their own risk.
+ *
  *  If you want to need enable the Mach exception handler, you _MUST_ call this method _BEFORE_ starting the SDK.
  *  Your typical setup code would look like this:
  *
