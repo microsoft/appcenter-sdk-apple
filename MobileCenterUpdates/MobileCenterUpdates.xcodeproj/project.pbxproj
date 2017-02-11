@@ -44,6 +44,7 @@
 		0471B9441E455A0D0022F951 /* ../MobileCenter/MobileCenter/MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 0471B9431E455A0D0022F951 /* ../MobileCenter/MobileCenter/MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		04FD4A341E453531009B4468 /* MSUpdatesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FD4A331E453531009B4468 /* MSUpdatesTests.m */; };
 		04FD4A4B1E453930009B4468 /* libMobileCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04FD4A4A1E453930009B4468 /* libMobileCenter.a */; };
+		B25895AA1E4E9FD400123632 /* MSUpdatesInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = B25895A91E4E9BA100123632 /* MSUpdatesInternal.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,6 +93,7 @@
 		04FD4A331E453531009B4468 /* MSUpdatesTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSUpdatesTests.m; sourceTree = "<group>"; };
 		04FD4A351E453531009B4468 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		04FD4A4A1E453930009B4468 /* libMobileCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobileCenter.a; path = "../../../../Library/Developer/Xcode/DerivedData/MobileCenter-cxbmzrupyysdsehdxmozcvjphajr/Build/Products/Debug-iphonesimulator/libMobileCenter.a"; sourceTree = "<group>"; };
+		B25895A91E4E9BA100123632 /* MSUpdatesInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MSUpdatesInternal.h; path = Internals/MSUpdatesInternal.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,6 +155,7 @@
 				04FD4A1F1E451E12009B4468 /* MobileCenterUpdates.h */,
 				0471B89A1E4547750022F951 /* MSUpdates.h */,
 				0471B8981E4547480022F951 /* MSUpdates.m */,
+				B25895A81E4E9B1D00123632 /* Internals */,
 				0471B5F31E45466F0022F951 /* Support */,
 			);
 			path = MobileCenterUpdates;
@@ -177,6 +180,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		B25895A81E4E9B1D00123632 /* Internals */ = {
+			isa = PBXGroup;
+			children = (
+				B25895A91E4E9BA100123632 /* MSUpdatesInternal.h */,
+			);
+			name = Internals;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -186,6 +197,7 @@
 			files = (
 				0471B93E1E4557820022F951 /* MSLogManager.h in Headers */,
 				0471B9441E455A0D0022F951 /* ../MobileCenter/MobileCenter/MSService.h in Headers */,
+				B25895AA1E4E9FD400123632 /* MSUpdatesInternal.h in Headers */,
 				0471B93C1E4557620022F951 /* MSServiceAbstract.h in Headers */,
 				0471B9331E4555F20022F951 /* MobileCenterUpdates.h in Headers */,
 				0471B9341E45560C0022F951 /* MSUpdates.h in Headers */,

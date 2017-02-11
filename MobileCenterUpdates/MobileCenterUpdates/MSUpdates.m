@@ -19,6 +19,17 @@ static NSString *const kMSServiceName = @"Updates";
 
 @implementation MSUpdates
 
+#pragma mark - Public
+
++ (void)setLoginUrl:(NSString *)loginUrl {
+  [[self sharedInstance] setLoginUrl:loginUrl];
+}
+
++ (void)setUpdateUrl:(NSString *)updateUrl {
+  [[self sharedInstance] setUpdateUrl:updateUrl];
+}
+
+
 #pragma mark - Service initialization
 
 - (instancetype)init {
