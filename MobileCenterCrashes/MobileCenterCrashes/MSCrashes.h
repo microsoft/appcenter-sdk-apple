@@ -103,13 +103,13 @@ typedef NS_ENUM(NSUInteger, MSUserConfirmation) {
 /**
  *  Trap fatal signals via a Mach exception server.
  *
- *  By default the SDK is using the safe and proven in-process BSD Signals for catching crashes. This option provides
+ *  By default, the SDK is using the safe and proven in-process BSD Signals for catching crashes. This option provides
  *  an option to enable catching fatal signals via a Mach exception server instead.
  *
  *  The SDK will not check if the app is running in an AppStore environment or if a debugger is attached because some
  *  developers chose to do both at their own risk.
  *
- *  If you want to need enable the Mach exception handler, you _MUST_ call this method _BEFORE_ starting the SDK.
+ *  If you want or need to enable the Mach exception handler, you _MUST_ call this method _BEFORE_ starting the SDK.
  *  Your typical setup code would look like this:
  *
  *  `[MSCrashes enableMachExceptionHandler]`;
@@ -128,7 +128,7 @@ typedef NS_ENUM(NSUInteger, MSUserConfirmation) {
  *  they attempt to suspend all active threads (which will include the Mach exception handler).
  *  Mach-based handling should _NOT_ be used when a debugger is attached. The SDK will not
  *  enabled catching exceptions if the app is started with the debugger running. If you attach
- *  the debugger during runtime, this may cause issues if the  the Mach exception handler is enabled!
+ *  the debugger during runtime, this may cause issues if the Mach exception handler is enabled!
  * @see isDebuggerAttached
  */
 + (void)enableMachExceptionHandler;
