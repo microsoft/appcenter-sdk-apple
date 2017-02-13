@@ -106,7 +106,7 @@ static NSString *const kMSUpdatesHeaderApiToken = @"x-api-token";
          if (statusCode == MSHTTPCodesNo200OK) {
            MSReleaseDetails *details = [[MSReleaseDetails alloc]
                initWithDictionary:[NSJSONSerialization JSONObjectWithData:data
-                                                                  options:NSJSONReadingAllowFragments
+                                                                  options:NSJSONReadingMutableContainers
                                                                     error:nil]];
            MSLogDebug([MSUpdates logTag], @"Got a update response successfully.");
            [self handleUpdate:details];
@@ -116,7 +116,7 @@ static NSString *const kMSUpdatesHeaderApiToken = @"x-api-token";
          else {
            MSErrorDetails *details = [[MSErrorDetails alloc]
                initWithDictionary:[NSJSONSerialization JSONObjectWithData:data
-                                                                  options:NSJSONReadingAllowFragments
+                                                                  options:NSJSONReadingMutableContainers
                                                                     error:nil]];
            MSLogDebug([MSUpdates logTag], @"Failed to get a update response, status code:%lu",
                       (unsigned long)statusCode);

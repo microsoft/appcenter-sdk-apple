@@ -74,7 +74,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * UTC time in ISO 8601 format of the uploaded time.
  */
-@property(nonatomic, copy, readwrite) NSString *uploadedAt;
+@property(nonatomic, copy, readwrite) NSDate *uploadedAt;
 
 /**
  * The URL that hosts the binary for this release.
