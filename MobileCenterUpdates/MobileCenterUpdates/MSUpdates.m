@@ -3,15 +3,23 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "MSUpdates.h"
 #import "MSLogger.h"
 #import "MSLogManager.h"
 #import "MSMobileCenterInternal.h"
+#import "MSUpdates.h"
+#import "MSUpdatesInternal.h"
 
 /**
  * Service storage key name.
  */
 static NSString *const kMSServiceName = @"Updates";
+
+// Base URL for HTTP login API calls.
+static NSString *const kMSDefaultLoginUrl = @"http://install.asgard-int.trafficmanager.net/";
+
+// Base URL for HTTP update API calls.
+static NSString *const kMSDefaultUpdateUrl = @"https://asgard-int.trafficmanager.net/api";
+
 
 @interface MSUpdates ()
 
@@ -34,6 +42,8 @@ static NSString *const kMSServiceName = @"Updates";
 
 - (instancetype)init {
   if ((self = [super init])) {
+    _loginUrl = kMSDefaultLoginUrl;
+    _updateUrl = kMSDefaultUpdateUrl;
   }
   return self;
 }
