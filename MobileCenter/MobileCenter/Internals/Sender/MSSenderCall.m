@@ -68,7 +68,7 @@
 }
 
 - (void)resetRetry {
-  _retryCount = 0;
+  self.retryCount = 0;
   [self resetTimer];
 }
 

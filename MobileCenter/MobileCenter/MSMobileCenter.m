@@ -159,7 +159,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
       [self applyPipelineEnabledState:self.isEnabled];
     }
 
-    _sdkConfigured = YES;
+    self.sdkConfigured = YES;
 
     // If the loglevel hasn't been customized before and we are not running in an app store environment, we set the
     // default loglevel to MSLogLevelWarning.
@@ -276,7 +276,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 - (void)initializeLogManager {
 
   // Construct log manager.
-  _logManager =
+  self.logManager =
       [[MSLogManagerDefault alloc] initWithAppSecret:self.appSecret installId:self.installId serverUrl:self.serverUrl];
 }
 
