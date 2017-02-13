@@ -108,7 +108,8 @@ static NSString *const kMSUpdatesHeaderApiToken = @"x-api-token";
                initWithDictionary:[NSJSONSerialization JSONObjectWithData:data
                                                                   options:NSJSONReadingMutableContainers
                                                                     error:nil]];
-           MSLogDebug([MSUpdates logTag], @"Got a update response successfully.");
+           MSLogDebug([MSUpdates logTag], @"Received a response of update request: %@",
+                      [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
            [self handleUpdate:details];
          }
 
