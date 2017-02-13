@@ -56,7 +56,8 @@ static NSString *const kMSDistributionGroups = @"distribution_groups";
       self.fingerprint = dictionary[kMSFingerprint];
     }
     if (dictionary[kMSUploadedAt]) {
-      NSISO8601DateFormatter *formatter = [NSISO8601DateFormatter new];
+      NSDateFormatter *formatter = [NSDateFormatter new];
+      [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZZZZZ"];
       self.uploadedAt = [formatter dateFromString:dictionary[kMSUploadedAt]];
     }
     if (dictionary[kMSDownloadUrl]) {
