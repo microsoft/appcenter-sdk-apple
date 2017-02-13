@@ -106,12 +106,12 @@
 }
 
 - (BOOL)hasException {
-  return _wrapperException != nil;
+  return self.wrapperException != nil;
 }
 
 - (MSException*)loadWrapperException:(CFUUIDRef)uuidRef {
-  if (_wrapperException && [[self class] isCurrentUUIDRef:uuidRef]) {
-    return _wrapperException;
+  if (self.wrapperException && [[self class] isCurrentUUIDRef:uuidRef]) {
+    return self.wrapperException;
   }
   NSString *filename = [[self class] getFilenameWithUUIDRef:uuidRef];
   if (![[NSFileManager defaultManager] fileExistsAtPath:filename]) {
@@ -124,16 +124,16 @@
     return nil;
   }
 
-  _wrapperException = loadedException;
-  _currentUUIDRef = uuidRef;
+  self.wrapperException = loadedException;
+  self.currentUUIDRef = uuidRef;
 
-  return _wrapperException;
+  return self.wrapperException;
 }
 
 - (void)saveWrapperException:(CFUUIDRef)uuidRef {
   NSString *filename = [[self class] getFilenameWithUUIDRef:uuidRef];
   [self saveWrapperExceptionData:uuidRef];
-  BOOL success = [NSKeyedArchiver archiveRootObject:_wrapperException toFile:filename];
+  BOOL success = [NSKeyedArchiver archiveRootObject:self.wrapperException toFile:filename];
   if (!success) {
     MSLogError([MSCrashes logTag], @"Failed to save file %@", filename);
   }
@@ -144,14 +144,14 @@
   [[self class] deleteFile:path];
 
   if ([[self class] isCurrentUUIDRef:uuidRef]) {
-    _currentUUIDRef = nil;
-    _wrapperException = nil;
+    self.currentUUIDRef = nil;
+    self.wrapperException = nil;
   }
 }
 
 - (void)deleteAllWrapperExceptions {
-  _currentUUIDRef = nil;
-  _wrapperException = nil;
+  self.currentUUIDRef = nil;
+  self.wrapperException = nil;
 
   NSFileManager *fileManager = [NSFileManager defaultManager];
 
@@ -164,16 +164,16 @@
 }
 
 - (void)saveWrapperExceptionData:(CFUUIDRef)uuidRef {
-  if (!_unsavedWrapperExceptionData) {
+  if (!self.unsavedWrapperExceptionData) {
     return;
   }
   NSString* dataFilename = [[self class] getDataFilenameWithUUIDRef:uuidRef];
-  [_unsavedWrapperExceptionData writeToFile:dataFilename atomically:YES];
+  [self.unsavedWrapperExceptionData writeToFile:dataFilename atomically:YES];
 }
 
 - (NSData*)loadWrapperExceptionDataWithUUIDString:(NSString*)uuidString {
   NSString *dataFilename = [[self class] getDataFilename:uuidString];
-  NSData *data = [_wrapperExceptionData objectForKey:dataFilename];
+  NSData *data = [self.wrapperExceptionData objectForKey:dataFilename];
   if (data) {
     return data;
   }
@@ -190,7 +190,7 @@
   NSString* dataFilename = [[self class] getDataFilename:uuidString];
   NSData *data = [self loadWrapperExceptionDataWithUUIDString:uuidString];
   if (data) {
-    [_wrapperExceptionData setObject:data forKey:dataFilename];
+    [self.wrapperExceptionData setObject:data forKey:dataFilename];
   }
   [[self class] deleteFile:dataFilename];
 }

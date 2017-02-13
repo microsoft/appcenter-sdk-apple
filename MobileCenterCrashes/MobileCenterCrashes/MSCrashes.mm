@@ -200,7 +200,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     }
 
     // Get persisted crash reports.
-    _crashFiles = [self persistedCrashReports];
+    self.crashFiles = [self persistedCrashReports];
 
     // Set self as delegate of crashes' channel.
     [self.logManager addChannelDelegate:self forPriority:MSPriorityHigh];
@@ -440,9 +440,9 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
 - (void)processCrashReports {
   NSError *error = NULL;
-  _unprocessedLogs = [[NSMutableArray alloc] init];
-  _unprocessedReports = [[NSMutableArray alloc] init];
-  _unprocessedFilePaths = [[NSMutableArray alloc] init];
+  self.unprocessedLogs = [[NSMutableArray alloc] init];
+  self.unprocessedReports = [[NSMutableArray alloc] init];
+  self.unprocessedFilePaths = [[NSMutableArray alloc] init];
 
   NSArray *tempCrashesFiles = [NSArray arrayWithArray:self.crashFiles];
   for (NSString *filePath in tempCrashesFiles) {
@@ -463,9 +463,9 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
                      report.debugDescription);
 
           // Put the log to temporary space for next callbacks.
-          [_unprocessedLogs addObject:log];
-          [_unprocessedReports addObject:errorReport];
-          [_unprocessedFilePaths addObject:filePath];
+          [self.unprocessedLogs addObject:log];
+          [self.unprocessedReports addObject:errorReport];
+          [self.unprocessedFilePaths addObject:filePath];
 
           continue;
         } else {

@@ -199,7 +199,7 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
   }
 
   // Update last created log time stamp.
-  _lastCreatedLogTime = [NSDate date];
+  self.lastCreatedLogTime = [NSDate date];
 }
 
 @end

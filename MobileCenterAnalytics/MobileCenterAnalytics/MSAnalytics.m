@@ -209,7 +209,7 @@ static dispatch_once_t onceToken;
 }
 
 - (BOOL)isAutoPageTrackingEnabled {
-  return _autoPageTrackingEnabled;
+  return self.autoPageTrackingEnabled;
 }
 
 - (void)sendLog:(id<MSLog>)log withPriority:(MSPriority)priority {

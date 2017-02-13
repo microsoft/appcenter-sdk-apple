@@ -25,6 +25,13 @@ ms_info_t mobilecenter_library_info __attribute__((section("__TEXT,__ms_ios,regu
     .ms_build = MOBILE_CENTER_C_BUILD
 };
 
+@interface MSDeviceTracker()
+
+//we need set device inside class without warnings
+@property(nonatomic) MSDevice *device;
+
+@end
+
 @implementation MSDeviceTracker : NSObject
 
 @synthesize device = _device;
@@ -83,7 +90,7 @@ static BOOL needRefresh = YES;
     [self refreshWrapperSdk:newDevice];
 
     // Set the new device info.
-    _device = newDevice;
+    self.device = newDevice;
     needRefresh = NO;
   }
 }
