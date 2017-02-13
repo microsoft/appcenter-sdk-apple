@@ -56,7 +56,7 @@ static dispatch_once_t onceToken;
 
   // Set up swizzling for auto page tracking.
   [MSAnalyticsCategory activateCategory];
-  MSLogVerbose([MSAnalytics logTag], @"Started analytics service.");
+  MSLogVerbose([MSAnalytics logTag], @"Started Analytics service.");
 }
 
 + (NSString *)logTag {

@@ -1,0 +1,3 @@
+#include "../../../Global.xcconfig"
+
+OTHER_LDFLAGS=$(inherited) -framework Foundation -framework UIKit -framework CoreTelephony
