@@ -36,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Triggers processing of a new log item.
  *
- * @param item The log item that should be enqueued.
+ * @param log The log item that should be enqueued.
  * @param priority The priority for processing the log.
  */
 - (void)processLog:(id<MSLog>)log withPriority:(MSPriority)priority;
@@ -46,14 +46,14 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param isEnabled  A boolean value set to YES to enable the instance or NO to disable it.
  *  @param deleteData A boolean value set to YES to delete data or NO to keep it.
- *  @param forPriority A priority to enable/disable.
+ *  @param priority A priority to enable/disable.
  */
 - (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData forPriority:(MSPriority)priority;
 
 /**
  * Add a delegate to each channel that has a certain priority.
  *
- * @param delegate A delegate for the channel.
+ * @param channelDelegate A delegate for the channel.
  * @param priority The priority of a channel.
  */
 - (void)addChannelDelegate:(id<MSChannelDelegate>)channelDelegate forPriority:(MSPriority)priority;
@@ -61,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Remove a delegate to each channel that has a certain priority.
  *
- * @param delegate A delegate for the channel.
+ * @param channelDelegate A delegate for the channel.
  * @param priority The priority of a channel.
  */
 - (void)removeChannelDelegate:(id<MSChannelDelegate>)channelDelegate forPriority:(MSPriority)priority;

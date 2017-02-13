@@ -52,9 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Updates an object in the settings, returning YES if object was updated, NO otherwise.
  * It will return YES if expiration time is reached.
- * @param o the object to update.
  * @param key a unique key to identify the value.
- * @param expiration maximum time (in seconds) to keep object in the cache.
  */
 - (id)objectForKey:(NSString *)key;
 
