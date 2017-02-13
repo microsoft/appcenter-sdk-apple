@@ -243,7 +243,7 @@ static NSString *const kMSTestPriorityName = @"Prio";
 
   // Try to release one batch.
   dispatch_async(self.logsDispatchQueue, ^{
-    senderBlock([@(1) stringValue], nil, 200);
+    senderBlock([@(1) stringValue], nil, 200, nil);
 
     /**
      * Then
@@ -497,7 +497,7 @@ static NSString *const kMSTestPriorityName = @"Prio";
 
   // Forward a non recoverable error.
   dispatch_async(self.logsDispatchQueue, ^{
-    senderBlock([@(0) stringValue], expectedHTTPError, expectedHTTPCode);
+    senderBlock([@(0) stringValue], expectedHTTPError, expectedHTTPCode, nil);
   });
 
   /**
