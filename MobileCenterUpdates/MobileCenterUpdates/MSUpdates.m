@@ -25,12 +25,12 @@ static NSString *const kMSDefaultLoginUrl = @"http://install.asgard-int.trafficm
 /**
  * Base URL for HTTP Distribution update API calls.
  */
-static NSString *const kMSDefaultUpdateUrl = @"https://asgard-int.trafficmanager.net";
+static NSString *const kMSDefaultUpdateUrl = @"https://asgard-int.trafficmanager.net/api/v0.1";
 
 /**
  * The API path for update request.
  */
-static NSString *const kMSUpdatesApiPathFormat = @"/api/v0.1/sdk/apps/%@/releases/latest";
+static NSString *const kMSUpdatesApiPathFormat = @"/sdk/apps/%@/releases/latest";
 
 /**
  * The header name for update token
