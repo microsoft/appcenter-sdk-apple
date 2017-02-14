@@ -14,14 +14,14 @@
 
 /**
  * Callback method that will be called before each log will be send to the server.
- * @param channel of MSChannel.
+ * @param channel Instance of MSChannel.
  * @param log The log to be sent.
  */
 - (void)channel:(id <MSChannel>)channel willSendLog:(id <MSLog>)log;
 
 /**
  * Callback method that will be called in case the SDK was able to send a log.
- * @param channel of MSChannel.
+ * @param channel Instance of MSChannel.
  * @param log The log to be sent.
  */
 - (void)channel:(id <MSChannel>)channel didSucceedSendingLog:(id <MSLog>)log;
