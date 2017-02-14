@@ -79,18 +79,18 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The URL that hosts the binary for this release.
  */
-@property(nonatomic, copy, readwrite) NSString *downloadUrl;
+@property(nonatomic, copy, readwrite) NSURL *downloadUrl;
 
 /**
  * A URL to the app's icon.
  */
-@property(nonatomic, copy, readwrite) NSString *appIconUrl;
+@property(nonatomic, copy, readwrite) NSURL *appIconUrl;
 
 /**
  * The href required to install a release on a mobile device.
  * On iOS devices will be prefixed with 'itms-services://?action=download-manifest&url='
  */
-@property(nonatomic, copy, readwrite) NSString *installUrl;
+@property(nonatomic, copy, readwrite) NSURL *installUrl;
 
 /**
  * A list of distribution groups that are associated with this release.

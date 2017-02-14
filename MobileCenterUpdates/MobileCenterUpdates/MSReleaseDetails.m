@@ -61,13 +61,13 @@ static NSString *const kMSDistributionGroups = @"distribution_groups";
       self.uploadedAt = [formatter dateFromString:dictionary[kMSUploadedAt]];
     }
     if (dictionary[kMSDownloadUrl]) {
-      self.downloadUrl = dictionary[kMSDownloadUrl];
+      self.downloadUrl = [NSURL URLWithString:dictionary[kMSDownloadUrl]];
     }
     if (dictionary[kMSAppIconUrl]) {
-      self.appIconUrl = dictionary[kMSAppIconUrl];
+      self.appIconUrl = [NSURL URLWithString:dictionary[kMSAppIconUrl]];
     }
     if (dictionary[kMSInstallUrl]) {
-      self.installUrl = dictionary[kMSInstallUrl];
+      self.installUrl = [NSURL URLWithString:dictionary[kMSInstallUrl]];
     }
     if (dictionary[kMSDistributionGroups]) {
       // TODO: Implement here. There is no spec for DistributionGroup data model.

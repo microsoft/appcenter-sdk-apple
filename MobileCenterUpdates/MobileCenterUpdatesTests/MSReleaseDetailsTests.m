@@ -31,9 +31,9 @@
   assertThat(details.minOs, equalTo(@"iOS 8.0"));
   assertThat(details.fingerprint, equalTo(@"b10a8db164e0754105b7a99be72e3fe5"));
   assertThat(details.uploadedAt, equalTo([NSDate dateWithTimeIntervalSince1970:(1483257600)]));
-  assertThat(details.downloadUrl, equalTo(@"http://contoso.com/path/download/filename"));
-  assertThat(details.appIconUrl, equalTo(@"http://contoso.com/path/icon/filename"));
-  assertThat(details.installUrl, equalTo(@"itms-service://?action=download-manifest&url=contoso.com/release/filename"));
+  assertThat(details.downloadUrl, equalTo([NSURL URLWithString:@"http://contoso.com/path/download/filename"]));
+  assertThat(details.appIconUrl, equalTo([NSURL URLWithString:@"http://contoso.com/path/icon/filename"]));
+  assertThat(details.installUrl, equalTo([NSURL URLWithString:@"itms-service://?action=download-manifest&url=contoso.com/release/filename"]));
   assertThat(details.distributionGroups, equalTo(nil));
 }
 
