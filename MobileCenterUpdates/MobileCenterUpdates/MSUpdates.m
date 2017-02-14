@@ -14,11 +14,11 @@
  */
 static NSString *const kMSServiceName = @"Updates";
 
-// Base URL for HTTP login API calls.
-static NSString *const kMSDefaultLoginUrl = @"http://install.asgard-int.trafficmanager.net/";
+// Base URL for HTTP various API calls.
+static NSString *const kMSDefaultInstallUrl = @"http://install.asgard-int.trafficmanager.net/";
 
-// Base URL for HTTP update API calls.
-static NSString *const kMSDefaultUpdateUrl = @"https://asgard-int.trafficmanager.net/api";
+// Base URL for HTTP install API calls.
+static NSString *const kMSDefaultApiUrl = @"https://asgard-int.trafficmanager.net/api";
 
 
 @interface MSUpdates ()
@@ -29,12 +29,12 @@ static NSString *const kMSDefaultUpdateUrl = @"https://asgard-int.trafficmanager
 
 #pragma mark - Public
 
-+ (void)setLoginUrl:(NSString *)loginUrl {
-  [[self sharedInstance] setLoginUrl:loginUrl];
++ (void)setApiUrl:(NSString *)apiUrl {
+  [[self sharedInstance] setApiUrl:apiUrl];
 }
 
-+ (void)setUpdateUrl:(NSString *)updateUrl {
-  [[self sharedInstance] setUpdateUrl:updateUrl];
++ (void)setInstallUrl:(NSString *)installUrl {
+  [[self sharedInstance] setInstallUrl:installUrl];
 }
 
 
@@ -42,8 +42,8 @@ static NSString *const kMSDefaultUpdateUrl = @"https://asgard-int.trafficmanager
 
 - (instancetype)init {
   if ((self = [super init])) {
-    _loginUrl = kMSDefaultLoginUrl;
-    _updateUrl = kMSDefaultUpdateUrl;
+    _apiUrl = kMSDefaultApiUrl;
+    _installUrl = kMSDefaultInstallUrl;
   }
   return self;
 }

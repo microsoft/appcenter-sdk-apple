@@ -6,35 +6,47 @@
 
 @property(nonatomic, strong) MSUpdates *sut;
 
-
 @end
 
 @implementation MobileCenterUpdatesTests
 
 - (void)setUp {
   [super setUp];
-  
+
   self.sut = [MSUpdates new];
 }
 
-- (void)testSetLoginUrlWorks {
-  
+- (void)testSetApiUrlWorks {
+
   // When
   NSString *testUrl = @"https://example.com";
-  [self.sut setLoginUrl:testUrl];
-  
+  [self.sut setApiUrl:testUrl];
+
   // Then
-  XCTAssertTrue([[self.sut loginUrl] isEqualToString:testUrl]);
+  XCTAssertTrue([[self.sut apiUrl] isEqualToString:testUrl]);
 }
 
-- (void)testSetUpdateUrlWorks {
-  
+- (void)testSetInstallUrlWorks {
+
   // When
   NSString *testUrl = @"https://example.com";
-  [self.sut setUpdateUrl:testUrl];
-  
+  [self.sut setInstallUrl:testUrl];
+
   // Then
-  XCTAssertTrue([[self.sut updateUrl] isEqualToString:testUrl]);
+  XCTAssertTrue([[self.sut installUrl] isEqualToString:testUrl]);
 }
 
+- (void)testDefaultInstallUrlWorks {
+  
+  // Then
+  XCTAssertNotNil([self.sut installUrl]);
+  XCTAssertTrue([[self.sut installUrl] isEqualToString:@"http://install.asgard-int.trafficmanager.net/"]);
+}
+
+- (void)testDefaultApiUrlWorks {
+  
+  // Then
+  XCTAssertNotNil([self.sut apiUrl]);
+  XCTAssertTrue([[self.sut apiUrl] isEqualToString:@"https://asgard-int.trafficmanager.net/api"]);
+}
 @end

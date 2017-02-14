@@ -8,11 +8,11 @@
 
 @interface MSUpdates ()
 
-@property(nonatomic, copy) NSString *loginUrl;
+@property(nonatomic, copy) NSString *apiUrl;
 
-@property(nonatomic, copy) NSString *updateUrl;
+@property(nonatomic, copy) NSString *installUrl;
 
-- (NSString *)loginUrl;
-- (NSString *)updateUrl;
+- (NSString *)apiUrl;
+- (NSString *)installUrl;
 
 @end
