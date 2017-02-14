@@ -120,7 +120,7 @@
 		E84B8E2E1D2351DB006FD231 /* MSLogManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E2B1D2351DB006FD231 /* MSLogManager.h */; };
 		E84B8E2F1D2351DB006FD231 /* MSLogManagerDefault.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E2C1D2351DB006FD231 /* MSLogManagerDefault.h */; };
 		E84B8E301D2351DB006FD231 /* MSLogManagerDefault.m in Sources */ = {isa = PBXBuildFile; fileRef = E84B8E2D1D2351DB006FD231 /* MSLogManagerDefault.m */; };
-		E84B8E321D235209006FD231 /* MSSender.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E311D235209006FD231 /* MSSender.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E84B8E321D235209006FD231 /* MSSender.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E311D235209006FD231 /* MSSender.h */; };
 		E84B8E351D235226006FD231 /* MSHttpSender.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E331D235226006FD231 /* MSHttpSender.h */; };
 		E84B8E361D235226006FD231 /* MSHttpSender.m in Sources */ = {isa = PBXBuildFile; fileRef = E84B8E341D235226006FD231 /* MSHttpSender.m */; };
 		E84B8E391D235246006FD231 /* MSStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E381D235246006FD231 /* MSStorage.h */; };
