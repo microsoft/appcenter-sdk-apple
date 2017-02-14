@@ -14,6 +14,7 @@
 #import "MSServiceAbstractPrivate.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSUtil.h"
+#import "MSCrashesUtil.h"
 
 @class MSMockCrashesDelegate;
 
@@ -26,6 +27,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 @end
 
 @implementation MSCrashesTests
+
 
 #pragma mark - Housekeeping
 
@@ -49,10 +51,15 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   assertThat(self.sut.logBufferDir, notNilValue());
   assertThat(self.sut.crashesDir, notNilValue());
   assertThat(self.sut.analyzerInProgressFile, notNilValue());
-  XCTAssertTrue(msCrashesLogBuffer.size() == 20);
+  XCTAssertTrue(msCrashesLogBuffer[MSPriorityHigh].size() == 20);
+  XCTAssertTrue(msCrashesLogBuffer[MSPriorityDefault].size() == 20);
+  XCTAssertTrue(msCrashesLogBuffer[MSPriorityBackground].size() == 20);
 
-  NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.sut.logBufferDir error:NULL];
-  XCTAssertTrue(files.count == 20);
+  for (NSInteger priority = 0; priority < kMSPriorityCount; priority++) {
+    NSString *dirPath = [self.sut.logBufferDir stringByAppendingFormat:@"/%ld/", priority];
+    NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:dirPath error:NULL];
+    XCTAssertTrue(files.count == 20);
+  }
 }
 
 - (void)testStartingManagerInitializesPLCrashReporter {
@@ -143,35 +150,41 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
 - (void)testSetupLogBufferWorks {
 
-  // If
-
   // When
   // This is the directly after initialization.
 
   // Then
-  NSArray *first = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.sut.logBufferDir error:NULL];
-  XCTAssertTrue(first.count == 20);
-  for (NSString *path in first) {
-    unsigned long long fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:path error:nil] fileSize];
-    XCTAssertTrue(fileSize == 0);
-  }
+  for (NSInteger priority = 0; priority < kMSPriorityCount; priority++) {
+    NSString *dirPath = [self.sut.logBufferDir stringByAppendingFormat:@"/%ld/", priority];
 
-  // When
-  [self.sut setupLogBuffer];
-  NSArray *second = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.sut.logBufferDir error:NULL];
-  for (int i = 0; i < 20; i++) {
-    XCTAssertTrue([first[i] isEqualToString:second[i]]);
+    NSArray *first = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:dirPath error:NULL];
+    XCTAssertTrue(first.count == 20);
+    for (NSString *path in first) {
+      unsigned long long fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:path error:nil] fileSize];
+      XCTAssertTrue(fileSize == 0);
+    }
+
+    // When
+    [self.sut setupLogBuffer];
+
+    // Then
+    NSArray *second = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:dirPath error:NULL];
+    for (int i = 0; i < 20; i++) {
+      XCTAssertTrue([first[i] isEqualToString:second[i]]);
+    }
   }
 }
 
 - (void)testCreateBufferFile {
   // When
   NSString *testName = @"afilename";
-  [self.sut createBufferFileWithName:testName];
-
+  [self.sut createBufferFileWithName:testName forPriority:MSPriorityHigh];
+  
   // Then
+  NSString *priorityDirectory = [self.sut.logBufferDir stringByAppendingFormat:@"/%ld/", MSPriorityHigh];
+
   NSString *filePath =
-      [self.sut.logBufferDir stringByAppendingPathComponent:[testName stringByAppendingString:@".mscrasheslogbuffer"]];
+      [priorityDirectory stringByAppendingPathComponent:[testName stringByAppendingString:@".mscrasheslogbuffer"]];
   BOOL success = [[NSFileManager defaultManager] fileExistsAtPath:filePath];
   XCTAssertTrue(success);
 }
@@ -181,8 +194,10 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   NSString *testName = @"afilename";
   NSString *dataString = @"SomeBufferedData";
   NSData *someData = [dataString dataUsingEncoding:NSUTF8StringEncoding];
+  NSString *priorityDirectory = [self.sut.logBufferDir stringByAppendingFormat:@"/%ld/", MSPriorityHigh];
+
   NSString *filePath =
-      [self.sut.logBufferDir stringByAppendingPathComponent:[testName stringByAppendingString:@".mscrasheslogbuffer"]];
+      [priorityDirectory stringByAppendingPathComponent:[testName stringByAppendingString:@".mscrasheslogbuffer"]];
 
   [someData writeToFile:filePath options:NSDataWritingFileProtectionNone error:nil];
 
@@ -204,7 +219,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [self.sut onProcessingLog:log withPriority:MSPriorityHigh];
 
   // Then
-  XCTAssertTrue(self.sut.bufferIndex == 1);
+  XCTAssertTrue([self.sut.bufferIndex[@(MSPriorityHigh)] isEqualToNumber:@1]);
 }
 
 - (void)testBufferIndexOverflow {
@@ -214,14 +229,14 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
     [self.sut onProcessingLog:log withPriority:MSPriorityHigh];
   }
   // Then
-  XCTAssertTrue(self.sut.bufferIndex == 20);
+  XCTAssertTrue([self.sut.bufferIndex[@(MSPriorityHigh)] isEqualToNumber:@20]);
 
   // When
   MSAppleErrorLog *log = [MSAppleErrorLog new];
   [self.sut onProcessingLog:log withPriority:MSPriorityHigh];
 
   // Then
-  XCTAssertTrue(self.sut.bufferIndex == 1);
+  XCTAssertTrue([self.sut.bufferIndex[@(MSPriorityHigh)] isEqualToNumber:@1]);
 }
 
 - (void)testInitializationPriorityCorrect {
@@ -231,21 +246,45 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 - (void)testEnablingMachExceptionWorks {
   // Then
   XCTAssertFalse([[MSCrashes sharedInstance] isMachExceptionHandlerEnabled]);
-  
+
   // When
   [MSCrashes enableMachExceptionHandler];
-  
+
   // Then
   XCTAssertTrue([[MSCrashes sharedInstance] isMachExceptionHandlerEnabled]);
-  
+
   // Then
   XCTAssertFalse([self.sut isMachExceptionHandlerEnabled]);
-  
+
   // When
   [self.sut setEnableMachExceptionHandler:YES];
-  
+
   // Then
   XCTAssertTrue([self.sut isMachExceptionHandlerEnabled]);
+}
+
+- (void)testBufferDirectoryWorks {
+
+  // When
+  NSString *expected = [[MSCrashesUtil logBufferDir] stringByAppendingString:[NSString stringWithFormat:@"/%ld/", MSPriorityBackground]];
+  NSString *actual = [self.sut bufferDirectoryForPriority:MSPriorityBackground];
+
+  // Then
+  XCTAssertTrue([expected isEqualToString:actual]);
+
+  // When
+  expected = [[MSCrashesUtil logBufferDir] stringByAppendingString:[NSString stringWithFormat:@"/%ld/", MSPriorityDefault]];
+  actual = [self.sut bufferDirectoryForPriority:MSPriorityDefault];
+
+  // Then
+  XCTAssertTrue([expected isEqualToString:actual]);
+
+  // When
+  expected = [[MSCrashesUtil logBufferDir] stringByAppendingString:[NSString stringWithFormat:@"/%ld/", MSPriorityHigh]];
+  actual = [self.sut bufferDirectoryForPriority:MSPriorityHigh];
+
+  // Then
+  XCTAssertTrue([expected isEqualToString:actual]);
 }
 
 @end

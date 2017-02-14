@@ -43,16 +43,18 @@ static void ms_save_log_buffer_callback(siginfo_t *info, ucontext_t *uap, void *
   }
 
   // Iterate over the buffered logs and write them to disk.
-  for (int i = 0; i < ms_crashes_log_buffer_size; i++) {
-
-    // Make sure not to allocate any memory (e.g. copy).
-    const std::string &data = msCrashesLogBuffer[i].buffer;
-    int fd = open(msCrashesLogBuffer[i].bufferPath.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0644);
-    if (fd < 0) {
-      return;
+  for (auto it = msCrashesLogBuffer.begin(), end = msCrashesLogBuffer.end(); it != end; ++it) {
+    for (int i = 0; i < ms_crashes_log_buffer_size; i++) {
+      // Make sure not to allocate any memory (e.g. copy).
+      const std::string &data = it->second[i].buffer;
+      const std::string &path = it->second[i].bufferPath;
+      int fd = open(path.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0644);
+      if (fd < 0) {
+        return;
+      }
+      write(fd, data.data(), data.size());
+      close(fd);
     }
-    write(fd, data.data(), data.size());
-    close(fd);
   }
 }
 
@@ -189,6 +191,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     _logBufferDir = [MSCrashesUtil logBufferDir];
     _analyzerInProgressFile = [_crashesDir stringByAppendingPathComponent:kMSAnalyzerFilename];
     _didCrashInLastSession = NO;
+    _bufferIndex = [[NSMutableDictionary alloc] initWithCapacity:kMSPriorityCount];
 
     [self setupLogBuffer];
   }
@@ -319,14 +322,16 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   @synchronized(self) {
     NSData *serializedLog = [NSKeyedArchiver archivedDataWithRootObject:log];
     if (serializedLog && (serializedLog.length > 0)) {
-      if (self.bufferIndex > (ms_crashes_log_buffer_size - 1)) {
-        self.bufferIndex = 0;
+      if ([[self.bufferIndex objectForKey:@(priority)] integerValue] > (ms_crashes_log_buffer_size - 1)) {
+        // Reset the counter to 0 for a priority.
+        [self.bufferIndex setObject:@0 forKey:@(priority)];
       }
-      msCrashesLogBuffer[self.bufferIndex].buffer =
+      NSInteger index = [[self.bufferIndex objectForKey:@(priority)] integerValue];
+      msCrashesLogBuffer[priority][index].buffer =
           std::string(&reinterpret_cast<const char *>(serializedLog.bytes)[0],
                       &reinterpret_cast<const char *>(serializedLog.bytes)[serializedLog.length]);
-
-      self.bufferIndex += 1;
+      index += 1;
+      [self.bufferIndex setObject:@(index) forKey:@(priority)];
     }
   }
 }
@@ -524,18 +529,22 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 }
 
 - (void)processLogBufferAfterCrash {
-  NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.logBufferDir error:NULL];
-  for (NSString *tmp in files) {
-    if ([[tmp pathExtension] isEqualToString:kMSLogBufferFileExtension]) {
-      NSString *filePath = [self.logBufferDir stringByAppendingPathComponent:tmp];
-      NSData *serializedLog = [NSData dataWithContentsOfFile:filePath];
-      if (serializedLog && serializedLog.length && serializedLog.length > 0) {
-        id<MSLog> item = [NSKeyedUnarchiver unarchiveObjectWithData:serializedLog];
-        if (item) {
-          if ([((NSObject *)item) isKindOfClass:[MSAppleErrorLog class]]) {
-            [self.logManager processLog:item withPriority:self.priority];
-          } else {
-            [self.logManager processLog:item withPriority:MSPriorityDefault];
+
+  // Iterate over priorities, check if we have buffered logs for each one.
+  for (NSInteger priority = 0; priority < kMSPriorityCount; priority++) {
+
+    // Get directory for priority, iterate over each file in it with the kMSLogBufferFileExtension and send
+    // the log if a log can be deserialized.
+    NSString *dirForPriority = [self bufferDirectoryForPriority:(MSPriority)priority];
+    NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:dirForPriority error:NULL];
+    for (NSString *tmp in files) {
+      if ([[tmp pathExtension] isEqualToString:kMSLogBufferFileExtension]) {
+        NSString *filePath = [dirForPriority stringByAppendingPathComponent:tmp];
+        NSData *serializedLog = [NSData dataWithContentsOfFile:filePath];
+        if (serializedLog && serializedLog.length && serializedLog.length > 0) {
+          id<MSLog> item = [NSKeyedUnarchiver unarchiveObjectWithData:serializedLog];
+          if (item) {
+            [self.logManager processLog:item withPriority:(MSPriority)priority];
           }
         }
 
@@ -640,73 +649,82 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 - (void)setupLogBuffer {
   @synchronized(self) {
 
-    // Array of 20 buffer file paths.
-    NSArray<NSString *> *bufferFiles = [self createLogBufferFilesIfNeeded];
+    // Array of 20 buffer file paths per priority.
+    // Each priority has 0.mscrasheslogbuffer ... 19.mscrasheslogbuffer.
+    for (NSInteger priority = 0; priority < kMSPriorityCount; priority++) {
+      NSArray *files = [self createBufferFilesIfNeededForPriority:(MSPriority)priority];
 
-    // Just to make sure we have max of 20 files on disk. If we have less than 20 files on disk, we can't really do
-    // anything. This case should never happen.
-    NSInteger count = bufferFiles.count >= ms_crashes_log_buffer_size ? ms_crashes_log_buffer_size : bufferFiles.count;
+      // Init the counter for each priority.
+      [self.bufferIndex setObject:@0 forKey:@(priority)];
 
-    // Initialize the bufferIndex and write pre-fill the filepaths of the MSCrashesBufferedLog
-    self.bufferIndex = 0;
-    for (NSUInteger i = 0; i < count; i++) {
-      MSCrashesBufferedLog emptyLog = MSCrashesBufferedLog{bufferFiles[i], nil};
-      msCrashesLogBuffer[i] = emptyLog;
+      // Create a buffer for the priority. Making use of `{}` as we're using C++11.
+      msCrashesLogBuffer[(MSPriority)priority][{}];
+      for (int i = 0; i < ms_crashes_log_buffer_size; i++) {
+        msCrashesLogBuffer[(MSPriority)priority][i] = MSCrashesBufferedLog{files[i], nil};
+      }
     }
   }
 }
 
-- (NSArray<NSString *> *)createLogBufferFilesIfNeeded {
-  NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.logBufferDir error:NULL];
-  NSMutableArray *logBufferFiles = [NSMutableArray arrayWithCapacity:ms_crashes_log_buffer_size];
+- (NSArray<NSString *> *)createBufferFilesIfNeededForPriority:(MSPriority)priority {
+  NSMutableArray<NSString *> *files = [NSMutableArray arrayWithCapacity:ms_crashes_log_buffer_size];
 
-  // Get already existing buffer files.
-  for (NSString *tmp in files) {
-    if ([[tmp pathExtension] isEqualToString:kMSLogBufferFileExtension]) {
-      NSString *filePath = [self.logBufferDir stringByAppendingPathComponent:tmp];
-      [logBufferFiles addObject:filePath];
-    }
-  }
+  // Create missing buffer files if needed. We don't care about which one's are already there,
+  // we'll just skip existing ones.
+  for (int i = 0; i < ms_crashes_log_buffer_size; i++) {
 
-  // Create missing buffer files if needed.
-  if (logBufferFiles.count < ms_crashes_log_buffer_size) {
-    NSInteger missingFileCount = ms_crashes_log_buffer_size - logBufferFiles.count;
-    for (int i = 0; i < missingFileCount; i++) {
-      NSString *logId = MS_UUID_STRING;
-      NSString *path = [self createBufferFileWithName:logId];
-      [logBufferFiles addObject:path];
-    }
+    // Files are named N.mscrasheslogbuffer where N is between 0 and ms_crashes_log_buffer_size.
+    NSString *logId = [NSString stringWithFormat:@"%ld", i];
+    [files addObject:[self createBufferFileWithName:logId forPriority:priority]];
   }
-  return logBufferFiles;
+  return files;
 }
 
-- (NSString *)createBufferFileWithName:(NSString *)name {
+- (NSString *)createBufferFileWithName:(NSString *)name forPriority:(MSPriority)priority {
+  BOOL isDir;
   NSString *fileName = [NSString stringWithFormat:@"%@.%@", name, kMSLogBufferFileExtension];
-  NSString *filePath = [self.logBufferDir stringByAppendingPathComponent:fileName];
+  NSString *directoryForPriority = [self bufferDirectoryForPriority:priority];
+  if (![[NSFileManager defaultManager] fileExistsAtPath:directoryForPriority isDirectory:&isDir]) {
+    [[NSFileManager defaultManager] createDirectoryAtPath:directoryForPriority
+                              withIntermediateDirectories:YES
+                                               attributes:nil
+                                                    error:nil];
+  }
+  NSString *filePath = [directoryForPriority stringByAppendingPathComponent:fileName];
   if (![self.fileManager fileExistsAtPath:filePath]) {
     BOOL success = [self.fileManager createFileAtPath:filePath contents:nil attributes:nil];
     if (!success) {
       MSLogError([MSCrashes logTag], @"Couldn't create crash buffer file at: %@.", filePath);
-      return nil;
+      return @"";
     } else {
       MSLogVerbose([MSCrashes logTag], @"Created crash buffer file at %@.", filePath);
       return filePath;
     }
   } else {
+    MSLogVerbose([MSCrashes logTag], @"Didn't create crash buffer file as one already existed at %@.", filePath);
     return filePath;
   }
 }
 
 - (void)emptyLogBufferFiles {
-  NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.logBufferDir error:NULL];
-  for (NSString *tmp in files) {
-    if ([[tmp pathExtension] isEqualToString:kMSLogBufferFileExtension]) {
-      NSString *filePath = [self.logBufferDir stringByAppendingPathComponent:tmp];
+  for (NSInteger priority = 0; priority < kMSPriorityCount; priority++) {
+    NSString *directoryForPriority = [self bufferDirectoryForPriority:(MSPriority)priority];
+    NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:directoryForPriority error:NULL];
+    for (NSString *tmp in files) {
+      if ([[tmp pathExtension] isEqualToString:kMSLogBufferFileExtension]) {
+        NSString *filePath = [directoryForPriority stringByAppendingPathComponent:tmp];
 
-      // Create empty new file, overwrites the old one.
-      [[NSFileManager defaultManager] createFileAtPath:filePath contents:[NSData data] attributes:nil];
+        // Create empty new file, overwrites the old one.
+        if ([[[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:nil] fileSize] > 0) {
+          [[NSFileManager defaultManager] createFileAtPath:filePath contents:[NSData data] attributes:nil];
+        }
+      }
     }
   }
+}
+
+- (NSString *)bufferDirectoryForPriority:(MSPriority)priority {
+  return [self.logBufferDir stringByAppendingString:[NSString stringWithFormat:@"/%ld/", priority]];
 }
 
 - (BOOL)shouldProcessErrorReport:(MSErrorReport *)errorReport {

@@ -7,6 +7,7 @@
 
 #import <string>
 #import <array>
+#import <unordered_map>
 
 @class MSMPLCrashReporter;
 
@@ -28,6 +29,8 @@ struct MSCrashesBufferedLog {
                                             &reinterpret_cast<const char *>(data.bytes)[data.length]) {}
 };
 
+
+
 /**
  * Constant for size of our log buffer.
  */
@@ -35,8 +38,9 @@ const int ms_crashes_log_buffer_size = 20;
 
 /**
  * The log buffer object where we keep out BUFFERED_LOGs which will be written to disk in case of a crash.
+ * It's a map that maps 1 array of MSCrashesBufferedLog to a MSPriority.
  */
-static std::array<MSCrashesBufferedLog, ms_crashes_log_buffer_size> msCrashesLogBuffer;
+static std::unordered_map<MSPriority, std::array<MSCrashesBufferedLog, ms_crashes_log_buffer_size>> msCrashesLogBuffer;
 
 @interface MSCrashes ()
 
@@ -88,8 +92,12 @@ typedef struct MSCrashesCallbacks {
 
 /**
  * The index for our log buffer. It keeps track of where we want to buffer our next event.
+ * The keys are MSPriority cast to NSNumber.
+ * The values are the counters for each priority.
+ *
+ * @see MSPriority
  */
-@property(nonatomic) int bufferIndex;
+@property(nonatomic) NSMutableDictionary<NSNumber *, NSNumber *> *bufferIndex;
 
 /**
  * A file used to indicate that a crash which occurred in the last session is
@@ -176,8 +184,7 @@ typedef struct MSCrashesCallbacks {
 - (BOOL)delegateImplementsAttachmentCallback;
 
 /**
- * Save the managed exception information in the event of a crash
- from a wrapper sdk.
+ * Save the managed exception information in the event of a crash from a wrapper sdk.
  */
 + (void)wrapperCrashCallback;
 
@@ -191,11 +198,14 @@ typedef struct MSCrashesCallbacks {
 - (void)setupLogBuffer;
 
 /**
- * Creates a file that can be used to save a buffered event log at crashtime.
+ * Creates a file that can be used to save a buffered event log at crash time.
+ *
  * @param name The name for the file.
- * @return The path to the created file.
+ * @param priority The priority for the new file.
+ *
+ * @return the path for the created or existing file, returns nil if the creation failed.
  */
-- (NSString *)createBufferFileWithName:(NSString *)name;
+- (NSString *)createBufferFileWithName:(NSString *)name forPriority:(MSPriority)priority;
 
 /**
  * Does not delete the files for our log buffer but "resets" them to be empty. For this,
@@ -203,6 +213,14 @@ typedef struct MSCrashesCallbacks {
  * The reason why we are not truly deleting the files is that they need to exist at crash time.
  */
 - (void)emptyLogBufferFiles;
+
+/**
+ * Return the path for buffered logs for a priority.
+ *
+ * @param priority A priority for logs.
+ * @return The path to the directory for a priority.
+ */
+- (NSString *)bufferDirectoryForPriority:(MSPriority)priority;
 
 - (void)onProcessingLog:(id<MSLog>)log withPriority:(MSPriority)priority;
 
