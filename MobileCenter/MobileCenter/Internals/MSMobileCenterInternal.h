@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSLogManager.h"
 #import "MSMobileCenter.h"
 #import "MSServiceInternal.h"

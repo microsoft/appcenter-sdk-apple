@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSWrapperExceptionManagerInternal.h"
 #import "MSCrashes.h"
 #import "MSException.h"

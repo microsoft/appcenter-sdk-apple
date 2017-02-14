@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSAnalyticsInternal.h"
 #import "MSUtil.h"
 #import "MSSessionTracker.h"

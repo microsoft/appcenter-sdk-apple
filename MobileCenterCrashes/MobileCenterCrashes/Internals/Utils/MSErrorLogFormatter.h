@@ -1,12 +1,8 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import <Foundation/Foundation.h>
 
 @class MSAppleErrorLog;
-@class MSPLCrashReport;
 @class MSErrorReport;
+@class MSPLCrashReport;
 
 /**
  *  Error logging error domain

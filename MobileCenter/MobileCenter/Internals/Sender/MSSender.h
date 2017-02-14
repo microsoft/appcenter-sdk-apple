@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSEnable.h"
 #import "MSSenderCallDelegate.h"
 #import "MSSenderUtil.h"
