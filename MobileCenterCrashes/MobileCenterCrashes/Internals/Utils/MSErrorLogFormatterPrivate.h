@@ -5,9 +5,6 @@
 #import "MSErrorLogFormatter.h"
 @class MSPLCrashReportThreadInfo;
 
-#ifndef MSErrorLogFormatterPrivate_h
-#define MSErrorLogFormatterPrivate_h
-
 @interface MSErrorLogFormatter ()
 
 /**
@@ -47,5 +44,3 @@
 + (MSPLCrashReportThreadInfo *)findCrashedThreadInReport:(MSPLCrashReport *)report;
 
 @end
-
-#endif /* MSErrorLogFormatterPrivate_h */
