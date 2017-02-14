@@ -258,7 +258,7 @@
 
     // Flush the queue as needed.
     if (strongSelf) {
-      if (strongSelf->_itemsCount > 0) {
+      if (strongSelf.itemsCount > 0) {
         [strongSelf flushQueue];
       }
       [strongSelf resetTimer];
