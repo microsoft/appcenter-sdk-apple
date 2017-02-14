@@ -1,20 +1,40 @@
 #import <XCTest/XCTest.h>
 
-@interface MobileCenterUpdatesTests : XCTestCase
+#import "MSUpdatesInternal.h"
+
+@interface MSUpdatesTests : XCTestCase
+
+@property(nonatomic, strong) MSUpdates *sut;
+
 
 @end
 
-@implementation MobileCenterUpdatesTests
+@implementation MSUpdatesTests
 
 - (void)setUp {
-    [super setUp];
+  [super setUp];
+  
+  self.sut = [MSUpdates new];
 }
 
-- (void)tearDown {
-    [super tearDown];
+- (void)testSetLoginUrlWorks {
+  
+  // When
+  NSString *testUrl = @"https://example.com";
+  [self.sut setLoginUrl:testUrl];
+  
+  // Then
+  XCTAssertTrue([[self.sut loginUrl] isEqualToString:testUrl]);
 }
 
-- (void)testExample {
+- (void)testSetUpdateUrlWorks {
+  
+  // When
+  NSString *testUrl = @"https://example.com";
+  [self.sut setUpdateUrl:testUrl];
+  
+  // Then
+  XCTAssertTrue([[self.sut updateUrl] isEqualToString:testUrl]);
 }
 
 @end

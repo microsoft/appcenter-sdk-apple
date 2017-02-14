@@ -58,6 +58,7 @@
 		BA682C126D0148CE3E4EB9C5 /* MSErrorDetails.h in Headers */ = {isa = PBXBuildFile; fileRef = BA682297D82EF7C8FF9F877C /* MSErrorDetails.h */; };
 		BA682DACE1DF78467A005079 /* MSReleaseDetails.h in Headers */ = {isa = PBXBuildFile; fileRef = BA682EB835A6E4992D597D73 /* MSReleaseDetails.h */; };
 		BA682F3FEACC62C1D87AB9E3 /* MSDistributionSender.m in Sources */ = {isa = PBXBuildFile; fileRef = BA682BD485FE278AC7A8681D /* MSDistributionSender.m */; };
+		B25895AA1E4E9FD400123632 /* MSUpdatesInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = B25895A91E4E9BA100123632 /* MSUpdatesInternal.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -130,6 +131,7 @@
 		BA682BD485FE278AC7A8681D /* MSDistributionSender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDistributionSender.m; sourceTree = "<group>"; };
 		BA682D03AB17395C2378FBB4 /* MSDistributionGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDistributionGroup.m; sourceTree = "<group>"; };
 		BA682EB835A6E4992D597D73 /* MSReleaseDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSReleaseDetails.h; sourceTree = "<group>"; };
+		B25895A91E4E9BA100123632 /* MSUpdatesInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MSUpdatesInternal.h; path = Internals/MSUpdatesInternal.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -204,6 +206,7 @@
 			children = (
 				04690E8B1E4E6A420056B916 /* Model */,
 				04690E851E4E3A3E0056B916 /* Sender */,
+				B25895A91E4E9BA100123632 /* MSUpdatesInternal.h */,
 			);
 			name = Internals;
 			sourceTree = "<group>";
@@ -306,6 +309,7 @@
 			files = (
 				0471B93E1E4557820022F951 /* MSLogManager.h in Headers */,
 				0471B9441E455A0D0022F951 /* ../MobileCenter/MobileCenter/MSService.h in Headers */,
+				B25895AA1E4E9FD400123632 /* MSUpdatesInternal.h in Headers */,
 				0471B93C1E4557620022F951 /* MSServiceAbstract.h in Headers */,
 				0471B9331E4555F20022F951 /* MobileCenterUpdates.h in Headers */,
 				0471B9341E45560C0022F951 /* MSUpdates.h in Headers */,
