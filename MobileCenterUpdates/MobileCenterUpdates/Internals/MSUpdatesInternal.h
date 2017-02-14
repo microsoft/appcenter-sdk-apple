@@ -12,6 +12,11 @@
 
 @property(nonatomic, copy) NSString *updateUrl;
 
+/**
+ * A sender instance that is used to send update request to the backend.
+ */
+@property(nonatomic) id<MSSender> sender;
+
 - (NSString *)loginUrl;
 - (NSString *)updateUrl;
 
