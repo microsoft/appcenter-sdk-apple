@@ -1,8 +1,5 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSErrorLogFormatter.h"
+
 @class MSPLCrashReportThreadInfo;
 
 @interface MSErrorLogFormatter ()

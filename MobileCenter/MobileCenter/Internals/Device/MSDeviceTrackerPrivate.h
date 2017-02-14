@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSDevice.h"
 #import "MSWrapperSdk.h"
 #import <CoreTelephony/CTCarrier.h>
