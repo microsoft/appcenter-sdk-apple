@@ -53,7 +53,6 @@ static NSString *const kMSUpdatesHeaderApiToken = @"x-api-token";
   [[self sharedInstance] setUpdateUrl:updateUrl];
 }
 
-
 #pragma mark - Service initialization
 
 - (instancetype)init {
@@ -94,7 +93,7 @@ static NSString *const kMSUpdatesHeaderApiToken = @"x-api-token";
   // TODO: Hook up with update token getter later.
   NSString *updateToken = @"temporary-token";
   self.sender =
-      [[MSDistributionSender alloc] initWithBaseUrl:kMSDefaultUpdateUrl
+      [[MSDistributionSender alloc] initWithBaseUrl:self.updateUrl
                                             apiPath:[NSString stringWithFormat:kMSUpdatesApiPathFormat, appSecret]
                                             // TODO: Update token in header should be in format of "Bearer {JWT token}"
                                             headers:@{
