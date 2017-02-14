@@ -3,6 +3,7 @@
  */
 
 #import "MSUpdates.h"
+#import "MSSender.h"
 #import "MSServiceInternal.h"
 #import <Foundation/Foundation.h>
 

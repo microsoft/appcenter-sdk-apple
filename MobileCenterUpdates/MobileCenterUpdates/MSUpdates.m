@@ -30,7 +30,7 @@ static NSString *const kMSDefaultUpdateUrl = @"https://asgard-int.trafficmanager
 /**
  * The API path for update request.
  */
-static NSString *const kMSUpdatesApiPathFormat = @"/api/sdk/apps/%@/releases/latest";
+static NSString *const kMSUpdatesApiPathFormat = @"/api/v0.1/sdk/apps/%@/releases/latest";
 
 /**
  * The header name for update token
