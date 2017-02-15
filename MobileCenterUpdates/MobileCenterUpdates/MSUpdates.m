@@ -117,7 +117,7 @@ static NSString *const kMSUpdatesHeaderApiToken = @"x-api-token";
 
 - (void)checkLatestRelease {
   [self.sender sendAsync:nil
-       completionHandler:^(NSString *callId, NSError *error, NSUInteger statusCode, NSData *data) {
+       completionHandler:^(NSString *callId, NSUInteger statusCode, NSData *data, NSError *error) {
 
          // Success.
          if (statusCode == MSHTTPCodesNo200OK) {

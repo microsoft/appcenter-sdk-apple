@@ -102,7 +102,7 @@
     }
 
     // Call completion.
-    self.completionHandler(self.callId, error, statusCode, data);
+    self.completionHandler(self.callId, statusCode, data, error);
 
     // Remove call from sender.
     [sender callCompletedWithId:self.callId];

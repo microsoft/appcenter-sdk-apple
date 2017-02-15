@@ -74,7 +74,7 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
 
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Response 200"];
   [self.sut sendAsync:container
-      completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode, NSData *data) {
+      completionHandler:^(NSString *batchId, NSUInteger statusCode, NSData *data, NSError *error) {
 
         XCTAssertNil(error);
         XCTAssertEqual(containerId, batchId);
@@ -100,7 +100,7 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
 
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Response 200"];
   [self.sut sendAsync:container
-      completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode, NSData *data) {
+      completionHandler:^(NSString *batchId, NSUInteger statusCode, NSData *data, NSError *error) {
 
         XCTAssertEqual(containerId, batchId);
         XCTAssertEqual(statusCode, MSHTTPCodesNo404NotFound);
@@ -135,7 +135,7 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
 
   // When
   [self.sut sendAsync:container
-      completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode, NSData *data) {
+      completionHandler:^(NSString *batchId, NSUInteger statusCode, NSData *data, NSError *error) {
 
         // This should not be happening.
         XCTFail(@"Completion handler should'nt be called on recoverable errors.");
@@ -172,7 +172,7 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
 
     // Send one batch now that the sender is suspended.
     [self.sut sendAsync:container
-        completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode, NSData *data) {
+        completionHandler:^(NSString *batchId, NSUInteger statusCode, NSData *data, NSError *error) {
           forwardedStatus = statusCode;
           forwardedError = error;
           [requestCompletedExcpectation fulfill];
@@ -217,11 +217,11 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
 
   // Send logs
   [self.sut sendAsync:container1
-      completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode, NSData *data) {
+      completionHandler:^(NSString *batchId, NSUInteger statusCode, NSData *data, NSError *error) {
         XCTFail(@"Completion handler shouldn't be called as test will finish before the response timeout.");
       }];
   [self.sut sendAsync:container2
-      completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode, NSData *data) {
+      completionHandler:^(NSString *batchId, NSUInteger statusCode, NSData *data, NSError *error) {
         XCTFail(@"Completion handler shouldn't be called as test will finish before the response timeout.");
       }];
 
@@ -270,11 +270,11 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
 
   // Send logs
   [self.sut sendAsync:container1
-      completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode, NSData *data) {
+      completionHandler:^(NSString *batchId, NSUInteger statusCode, NSData *data, NSError *error) {
         XCTFail(@"Completion handler shouldn't be called as test will finish before the response timeout.");
       }];
   [self.sut sendAsync:container2
-      completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode, NSData *data) {
+      completionHandler:^(NSString *batchId, NSUInteger statusCode, NSData *data, NSError *error) {
         XCTFail(@"Completion handler shouldn't be called as test will finish before the response timeout.");
       }];
   [self.sut suspend];
@@ -374,7 +374,7 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
   MSLogContainer *container = [[MSLogContainer alloc] initWithBatchId:@"1" andLogs:(NSArray<MSLog> *)@[ log1 ]];
 
   [self.sut sendAsync:container
-      completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode, NSData *data) {
+      completionHandler:^(NSString *batchId, NSUInteger statusCode, NSData *data, NSError *error) {
 
         XCTAssertEqual(error.domain, kMSMCErrorDomain);
         XCTAssertEqual(error.code, kMSMCLogInvalidContainerErrorCode);
@@ -389,7 +389,7 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
 
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Network Down"];
   [self.sut sendAsync:container
-      completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode, NSData *data) {
+      completionHandler:^(NSString *batchId, NSUInteger statusCode, NSData *data, NSError *error) {
 
         XCTAssertNotNil(error);
         [expectation fulfill];

@@ -20,7 +20,7 @@
     NSError *error =
         [NSError errorWithDomain:kMSMCErrorDomain code:kMSMCLogInvalidContainerErrorCode userInfo:userInfo];
     MSLogError([MSMobileCenter logTag], @"%@", [error localizedDescription]);
-    handler(batchId, error, nil, nil);
+    handler(batchId, nil, nil, error);
     return;
   }
 
