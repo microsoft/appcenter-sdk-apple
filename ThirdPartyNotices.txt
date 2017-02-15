@@ -1,15 +1,17 @@
+
 THIRD-PARTY SOFTWARE NOTICES AND INFORMATION
 Do Not Translate or Localize
 
 Microsoft Mobile Center SDK for iOS incorporates third party material from the projects listed below. The original copyright notice and the license under which Microsoft received such third party material are set forth below. Microsoft reserves all other rights not expressly granted, whether by implication, estoppel or otherwise.  
 
-1.	Jazzy (https://github.com/realm/jazzy)
-2.	OCHamcrest  (https://github.com/hamcrest/OCHamcrest)
-3.     OCMock (http://ocmock.org/)  
-4.	PLCrashReporter (https://opensource.plausible.coop/src/projects/PLCR/repos/plcrashreporter/browse)
-5.	Reachability (https://developer.apple.com/library/content/samplecode/Reachability/Introduction/Intro.html#//apple_ref/doc/uid/DTS40007324-Intro-DontLinkElementID_2)
+1.  Jazzy (https://github.com/realm/jazzy)
+2.  OCHamcrest (https://github.com/hamcrest/OCHamcrest)
+3.  OCMock (https://github.com/erikdoe/ocmock)
+4.  PLCrashReporter (https://www.plcrashreporter.org)
+5.  Reachability (https://developer.apple.com/library/content/samplecode/Reachability/Introduction/Intro.html#//apple_ref/doc/uid/DTS40007324-Intro-DontLinkElementID_2)
 
-%% Jazzy NOTICES, INFORMATION AND LICENSE BEGIN HERE
+
+%% Jazzy NOTICES, INFORMATION, AND LICENSE BEGIN HERE
 =========================================
 The MIT License (MIT)
 
@@ -33,12 +35,14 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 =========================================
-END OF Jazzy NOTICES, INFORMATION AND LICENSE
+END OF Jazzy NOTICES, INFORMATION, AND LICENSE
 
-%% OCHamcrest  NOTICES, INFORMATION AND LICENSE BEGIN HERE
+%% OCHamcrest NOTICES, INFORMATION, AND LICENSE BEGIN HERE
 =========================================
 Copyright 2016 hamcrest.org
 All rights reserved.
+
+(BSD License)
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 
@@ -47,15 +51,27 @@ Redistributions of source code must retain the above copyright notice, this list
 Neither the name of Hamcrest nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-(BSD License)
 =========================================
-END OF OCHamcrest  NOTICES, INFORMATION, AND LICENSE
+END OF OCHamcrest NOTICES, INFORMATION, AND LICENSE
 
-%% OCMock NOTICES, INFORMATION  AND LICENSE BEGIN HERE
+%% OCMock NOTICES, INFORMATION, AND LICENSE BEGIN HERE
 =========================================
-
-                                 Apache License
+/*
+ *  Copyright (c) 2004-2016 Erik Doernenburg and contributors
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License"); you may
+ *  not use these files except in compliance with the License. You may obtain
+ *  a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ *  License for the specific language governing permissions and limitations
+ *  under the License.
+ */
+ Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -230,10 +246,11 @@ END OF OCHamcrest  NOTICES, INFORMATION, AND LICENSE
       incurred by, or claims asserted against, such Contributor by reason
       of your accepting any such warranty or additional liability.
 
+   END OF TERMS AND CONDITIONS
 =========================================
-END OF OCMock NOTICES, INFORMATION AND LICENSE
+END OF OCMock NOTICES, INFORMATION, AND LICENSE
 
-%% PLCrashReporter NOTICES, INFORMATION AND LICENSE BEGIN HERE
+%% PLCrashReporter NOTICES, INFORMATION, AND LICENSE BEGIN HERE
 =========================================
 Except as noted below, PLCrashReporter is provided under the
 following license:
@@ -297,7 +314,7 @@ Sample code project: Reachability
 
 Version: 5.0
 
- 
+Copyright (C) 2016 Apple Inc. All Rights Reserved.
 
 IMPORTANT:  This Apple software is supplied to you by Apple
 
@@ -373,10 +390,6 @@ STRICT LIABILITY OR OTHERWISE, EVEN IF APPLE HAS BEEN ADVISED OF THE
 
 POSSIBILITY OF SUCH DAMAGE.
 
- 
 
-Copyright (C) 2016 Apple Inc. All Rights Reserved.
 =========================================
 END OF Reachability NOTICES, INFORMATION, AND LICENSE
-
-
