@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Initialize the Sender.
  *
- * @param url Base url.
+ * @param baseUrl Base url.
  * @param apiPath Base API path.
  * @param headers Http headers.
  * @param queryStrings An array of query strings.

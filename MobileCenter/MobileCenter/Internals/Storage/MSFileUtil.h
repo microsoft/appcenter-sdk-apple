@@ -11,8 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Returns the `NSFileManager` instance used for reading and writing
  * directories.
- *
- * @returns
+ * @return instance of `NSFileManager`
  */
 + (NSFileManager *)fileManager;
 

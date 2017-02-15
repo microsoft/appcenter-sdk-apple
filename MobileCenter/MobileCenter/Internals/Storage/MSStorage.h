@@ -49,7 +49,7 @@ typedef void (^MSLoadDataCompletionBlock)(BOOL succeeded, NSArray <MSLog> *logAr
 /**
  * Delete a log from the file system.
  *
- * @param log The log item that should be deleted from disk.
+ * @param logsId The log item that should be deleted from disk.
  * @param storageKey The key used for grouping.
  */
 - (void)deleteLogsForId:(NSString *)logsId withStorageKey:(NSString *)storageKey;
