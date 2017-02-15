@@ -245,7 +245,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     }
 
     // Get persisted crash reports.
-    _crashFiles = [self persistedCrashReports];
+    self.crashFiles = [self persistedCrashReports];
 
     // Set self as delegate of crashes' channel.
     [self.logManager addChannelDelegate:self forPriority:MSPriorityHigh];
@@ -763,6 +763,11 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   } else {
     MSLogError([MSCrashes logTag], @"Could not load crash report: %@", error.localizedDescription);
   }
+}
+
+//We need override setter, because his default behavior create NSArray, and some tests fall
+- (void)setCrashFiles:(NSMutableArray *)crashFiles {
+  self->_crashFiles = [[NSMutableArray alloc] initWithArray:crashFiles];
 }
 
 @end
