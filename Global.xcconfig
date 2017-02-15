@@ -55,7 +55,10 @@ GCC_PREPROCESSOR_DEFINITIONS = $(inherited) $(XCODEBUILD_GCC_PREPROCESSOR_DEFINI
 // -c++98
 // We don't want to compile our code for C++98, no need to be warned about incompatibility.
 
+// -Wc++98-compat-pedantic
+// We don't want to compile our code for C++98, no need to be warned about incompatibility.
+
 // -auto-import
 // Standard ``import`` is used by tons of files and C++ code limits the possibility to use @import so we don't . => Disabled.
 
-WARNING_CFLAGS = -Weverything -Wno-objc-missing-property-synthesis -Wno-float-equal -Wno-pedantic -Wno-padded  -Wno-sign-conversion -Wno-c++98-compat -Wno-auto-import
+WARNING_CFLAGS = -Weverything -Wno-objc-missing-property-synthesis -Wno-float-equal -Wno-pedantic -Wno-padded  -Wno-sign-conversion -Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-auto-import
