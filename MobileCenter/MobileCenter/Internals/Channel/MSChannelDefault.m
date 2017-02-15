@@ -3,7 +3,6 @@
  */
 
 #import "MSChannelDefault.h"
-#import "MSConstants+Internal.h"
 #import "MSMobileCenterErrors.h"
 #import "MSMobileCenterInternal.h"
 
@@ -96,6 +95,7 @@
 }
 
 - (void)enqueueItem:(id<MSLog>)item withCompletion:(enqueueCompletionBlock)completion {
+  // return fast in case our item is empty or we are discarding logs right now.
   dispatch_async(self.logsDispatchQueue, ^{
     if (!item) {
       MSLogWarning([MSMobileCenter logTag], @"TelemetryItem was nil.");
@@ -111,10 +111,11 @@
 
     // Save the log first.
     MSLogDebug([MSMobileCenter logTag], @"Saving log, type: %@.", item.type);
-    [self.storage saveLog:item withStorageKey:self.configuration.name];
+    BOOL success = [self.storage saveLog:item withStorageKey:self.configuration.name];
     _itemsCount += 1;
-    if (completion)
-      completion(YES);
+    if (completion) {
+      completion(success);
+    }
 
     // Flush now if current batch is full or delay to later.
     if (self.itemsCount >= self.configuration.batchSizeLimit) {
@@ -181,8 +182,7 @@
 
                            // Success.
                            if (statusCode == MSHTTPCodesNo200OK) {
-                             MSLogDebug([MSMobileCenter logTag], @"Log(s) sent with success, batch Id:%@.",
-                                        batchId);
+                             MSLogDebug([MSMobileCenter logTag], @"Log(s) sent with success, batch Id:%@.", batchId);
 
                              // Notify delegates.
                              [self enumerateDelegatesForSelector:@selector(channel:didSucceedSendingLog:)
