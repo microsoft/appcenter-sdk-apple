@@ -76,27 +76,56 @@
 }
 
 - (void)testCrashProbeReports {
-    // Crash with _pthread_list_lock held
-    [self assertIsCrashReportValidConverted:@"live_report_pthread_lock"];
-    
-    // Throw C++ exception
-    [self assertIsCrashReportValidConverted:@"live_report_cpp_exception"];
-    
-    // Throw Objective-C exception
-    [self assertIsCrashReportValidConverted:@"live_report_objc_exception"];
-    
-    // Crash inside objc_msgSend()
-    [self assertIsCrashReportValidConverted:@"live_report_objc_msgsend"];
-    
-    // Message a released object
-    [self assertIsCrashReportValidConverted:@"live_report_objc_released"];
-    
-    // Dereference a NULL pointer
-    [self assertIsCrashReportValidConverted:@"live_report_null_ptr"];
-    
-    // Dereference a bad pointer
-    [self assertIsCrashReportValidConverted:@"live_report_bad_ptr"];
-    
+  // Crash with _pthread_list_lock held
+  [self assertIsCrashReportValidConverted:@"live_report_pthread_lock"];
+  
+  // Throw C++ exception
+  [self assertIsCrashReportValidConverted:@"live_report_cpp_exception"];
+  
+  // Throw Objective-C exception
+  [self assertIsCrashReportValidConverted:@"live_report_objc_exception"];
+  
+  // Crash inside objc_msgSend()
+  [self assertIsCrashReportValidConverted:@"live_report_objc_msgsend"];
+  
+  // Message a released object
+  [self assertIsCrashReportValidConverted:@"live_report_objc_released"];
+  
+  // Write to a read-only page
+  [self assertIsCrashReportValidConverted:@"live_report_write_readonly"];
+  
+  // Execute an undefined instruction
+  [self assertIsCrashReportValidConverted:@"live_report_undefined_instr"];
+  
+  // Dereference a NULL pointer
+  [self assertIsCrashReportValidConverted:@"live_report_null_ptr"];
+  
+  // Dereference a bad pointer
+  [self assertIsCrashReportValidConverted:@"live_report_bad_ptr"];
+  
+  // Jump into an NX page
+  [self assertIsCrashReportValidConverted:@"live_report_jump_into_nx"];
+  
+  // Call __builtin_trap()
+  [self assertIsCrashReportValidConverted:@"live_report_call_trap"];
+  
+  // Call abort()
+  [self assertIsCrashReportValidConverted:@"live_report_call_abort"];
+  
+  // Corrupt the Objective-C runtime's structures
+  [self assertIsCrashReportValidConverted:@"live_report_corrupt_objc"];
+  
+  // Overwrite link register, then crash
+  [self assertIsCrashReportValidConverted:@"live_report_overwrite_link"];
+  
+  // Smash the bottom of the stack
+  [self assertIsCrashReportValidConverted:@"live_report_smash_bottom"];
+  
+  // Smash the top of the stack
+  [self assertIsCrashReportValidConverted:@"live_report_smash_top"];
+  
+  // Swift
+  [self assertIsCrashReportValidConverted:@"live_report_swift_crash"];
 }
 
 - (void)testProcessIdAndExceptionForObjectiveCExceptionCrash {
