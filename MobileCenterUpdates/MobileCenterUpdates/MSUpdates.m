@@ -1,16 +1,12 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import <Foundation/Foundation.h>
-#import "MSLogger.h"
 #import "MSDistributionSender.h"
+#import "MSErrorDetails.h"
+#import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
+#import "MSReleaseDetails.h"
+#import "MSServiceAbstractProtected.h"
 #import "MSUpdates.h"
 #import "MSUpdatesInternal.h"
-#import "MSReleaseDetails.h"
-#import "MSErrorDetails.h"
-#import "MSServiceAbstractProtected.h"
 
 /**
  * Service storage key name.

@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSDistributionSender.h"
 #import "MSLogger.h"
 #import "MSMobileCenter.h"
@@ -16,7 +12,7 @@
   // Set method.
   request.HTTPMethod = @"GET";
 
-  // Set Header params.
+  // Set header params.
   request.allHTTPHeaderFields = self.httpHeaders;
 
   // Set body.

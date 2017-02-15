@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSUpdates.h"
 #import "MSSender.h"
 #import "MSServiceInternal.h"
