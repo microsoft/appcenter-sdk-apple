@@ -8,7 +8,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- * Protocol declaring services common logic.
+ * Protocol declaring public common logic for services.
  */
 @protocol MSServiceCommon <NSObject>
 
@@ -51,6 +51,11 @@ NS_ASSUME_NONNULL_BEGIN
  * The channel priority for this service.
  */
 @property(nonatomic, readonly) MSPriority priority;
+
+/**
+ * The initialization priority for this service.
+ */
+@property(nonatomic, readonly) MSInitializationPriority initializationPriority;
 
 /**
  * Get the unique instance.

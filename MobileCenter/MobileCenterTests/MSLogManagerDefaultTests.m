@@ -50,4 +50,23 @@
   assertThat(sut.channels[@(priority)], notNilValue());
 }
 
+- (void)testProcessingLogWillTriggerOnProcessingCall {
+
+  // If
+  MSPriority priority = MSPriorityDefault;
+  MSLogManagerDefault *sut = [[MSLogManagerDefault alloc] initWithSender:OCMProtocolMock(@protocol(MSSender))
+                                                                 storage:OCMProtocolMock(@protocol(MSStorage))];
+
+  id mockDelegate = OCMProtocolMock(@protocol(MSLogManagerDelegate));
+  [sut addDelegate:mockDelegate];
+
+  MSAbstractLog *log = [MSAbstractLog new];
+
+  // When
+  [sut processLog:log withPriority:priority];
+
+  // Then
+  OCMVerify([mockDelegate onProcessingLog:log withPriority:priority]);
+}
+
 @end
