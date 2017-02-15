@@ -282,7 +282,7 @@ static NSTimeInterval kRequestTimeout = 60.0;
     // Check if call has already been created(retry scenario).
     MSSenderCall *call = self.pendingCalls[callId];
     if (call == nil) {
-      call = [[MSSenderCall alloc] initWithRetryIntervals:_callsRetryIntervals];
+      call = [[MSSenderCall alloc] initWithRetryIntervals:self.callsRetryIntervals];
       call.delegate = self;
       call.data = data;
       call.callId = callId;
