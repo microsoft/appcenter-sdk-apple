@@ -37,8 +37,8 @@
   XCTAssertNotNil(errorReport.incidentIdentifier);
   assertThat(errorReport.reporterKey, equalTo([[MSMobileCenter installId] UUIDString]));
   XCTAssertEqual(errorReport.signal, crashReport.signalInfo.name);
-  XCTAssertEqual(errorReport.exceptionName, crashReport.signalInfo.name);
-  assertThat(errorReport.exceptionReason, equalTo(crashReport.exceptionInfo.exceptionReason));
+  XCTAssertEqual(errorReport.exceptionName, nil);
+  XCTAssertEqual(errorReport.exceptionReason, nil);
   assertThat(errorReport.appErrorTime, equalTo(crashReport.systemInfo.timestamp));
   assertThat(errorReport.appStartTime, equalTo(crashReport.processInfo.processStartTime));
   XCTAssertTrue([errorReport.device isEqual:device]);
@@ -54,7 +54,7 @@
   XCTAssertNotNil(errorReport.incidentIdentifier);
   assertThat(errorReport.reporterKey, equalTo([[MSMobileCenter installId] UUIDString]));
   XCTAssertEqual(errorReport.signal, crashReport.signalInfo.name);
-  XCTAssertEqual(errorReport.exceptionName, crashReport.signalInfo.name);
+  assertThat(errorReport.exceptionName, equalTo(crashReport.exceptionInfo.exceptionName));
   assertThat(errorReport.exceptionReason, equalTo(crashReport.exceptionInfo.exceptionReason));
   assertThat(errorReport.appErrorTime, equalTo(crashReport.systemInfo.timestamp));
   assertThat(errorReport.appStartTime, equalTo(crashReport.processInfo.processStartTime));
@@ -72,6 +72,20 @@
   NSString *expected = (NSString *) CFBridgingRelease(CFUUIDCreateString(NULL, report.uuidRef));
   NSString *actual = [MSErrorLogFormatter errorIdForCrashReport:report];
   assertThat(actual, equalTo(expected));
+}
+
+- (void)testCrashProbeObjCExceptionCrashReport {
+    NSData *crashData = [MSCrashesTestUtil dataOfFixtureCrashReportWithFileName:@"live_report_objc_exception"];
+    XCTAssertNotNil(crashData);
+    
+    NSError *error = nil;
+    MSPLCrashReport *crashReport = [[MSPLCrashReport alloc] initWithData:crashData error:&error];
+    XCTAssertNotNil(crashReport);
+    MSErrorReport *errorReport = [MSErrorLogFormatter errorReportFromCrashReport:crashReport];
+    XCTAssertNotNil(errorReport);
+    
+    assertThat(errorReport.exceptionName, equalTo(@"NSGenericException"));
+    assertThat(errorReport.exceptionReason, equalTo(@"An uncaught exception! SCREAM."));
 }
 
 - (void)testProcessIdAndExceptionForObjectiveCExceptionCrash {
