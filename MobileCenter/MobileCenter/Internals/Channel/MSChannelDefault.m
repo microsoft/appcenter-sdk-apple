@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSChannelDefault.h"
 #import "MSMobileCenterErrors.h"
 #import "MSMobileCenterInternal.h"

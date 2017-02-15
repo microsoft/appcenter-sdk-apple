@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSMobileCenterErrors.h"
 #import "MSMobileCenterInternal.h"
 #import "MSSenderCall.h"

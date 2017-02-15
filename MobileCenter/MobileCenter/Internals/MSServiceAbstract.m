@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSMobileCenterInternal.h"
 #import "MSServiceAbstractPrivate.h"
 

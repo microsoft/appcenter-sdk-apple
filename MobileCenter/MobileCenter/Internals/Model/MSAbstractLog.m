@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSAbstractLog.h"
 #import "MSLogger.h"
 #import "MSDevice.h"

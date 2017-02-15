@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSErrorBinaryAttachment.h"
 
 static NSString *const kMSFilename = @"file_name";

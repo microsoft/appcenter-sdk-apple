@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSEventLog.h"
 
 static NSString *const kMSTypeEvent = @"event";
