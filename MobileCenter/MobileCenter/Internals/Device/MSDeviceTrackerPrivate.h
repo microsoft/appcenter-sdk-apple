@@ -44,7 +44,7 @@
 /**
  *  Get the device current locale.
  *
- *  @param locale Device current locale.
+ *  @param deviceLocale Device current locale.
  *
  *  @return The device current locale as an NSString.
  */
