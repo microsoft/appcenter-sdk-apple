@@ -102,7 +102,6 @@ static NSString *const kMSUpdatesHeaderApiToken = @"x-api-token";
                                        queryStrings:nil
                                        reachability:[MS_Reachability reachabilityForInternetConnection]
                                      retryIntervals:@[ @(10) ]];
-
   MSLogVerbose([MSUpdates logTag], @"Started Updates service.");
 
   if ([self isEnabled]) {
