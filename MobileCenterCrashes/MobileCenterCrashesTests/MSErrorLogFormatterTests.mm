@@ -74,18 +74,28 @@
   assertThat(actual, equalTo(expected));
 }
 
-- (void)testCrashProbeObjCExceptionCrashReport {
-    NSData *crashData = [MSCrashesTestUtil dataOfFixtureCrashReportWithFileName:@"live_report_objc_exception"];
-    XCTAssertNotNil(crashData);
+- (void)testCrashProbeReports {
+    // Crash with _pthread_list_lock held
+    [self assertIsSignal:@"live_report_pthread_lock" signalType:@"SIGSEGV" signalCode:@"SEGV_ACCERR"];
     
-    NSError *error = nil;
-    MSPLCrashReport *crashReport = [[MSPLCrashReport alloc] initWithData:crashData error:&error];
-    XCTAssertNotNil(crashReport);
-    MSErrorReport *errorReport = [MSErrorLogFormatter errorReportFromCrashReport:crashReport];
-    XCTAssertNotNil(errorReport);
+    // Throw C++ exception
+    [self assertIsSignal:@"live_report_cpp_exception" signalType:@"SIGABRT" signalCode:@"#0"];
     
-    assertThat(errorReport.exceptionName, equalTo(@"NSGenericException"));
-    assertThat(errorReport.exceptionReason, equalTo(@"An uncaught exception! SCREAM."));
+    // Throw Objective-C exception
+    [self assertIsException:@"live_report_objc_exception" exceptionType:@"NSGenericException" exceptionReason:@"An uncaught exception! SCREAM."];
+    
+    // Crash inside objc_msgSend()
+    [self assertIsSignal:@"live_report_objc_msgsend" signalType:@"SIGSEGV" signalCode:@"SEGV_ACCERR"];
+    
+    // Message a released object
+    [self assertIsSignal:@"live_report_objc_released" signalType:@"SIGSEGV" signalCode:@"SEGV_ACCERR"];
+    
+    // Dereference a NULL pointer
+    [self assertIsSignal:@"live_report_null_ptr" signalType:@"SIGSEGV" signalCode:@"SEGV_ACCERR"];
+    
+    // Dereference a bad pointer
+    [self assertIsSignal:@"live_report_bad_ptr" signalType:@"SIGSEGV" signalCode:@"SEGV_ACCERR"];
+    
 }
 
 - (void)testProcessIdAndExceptionForObjectiveCExceptionCrash {
@@ -325,6 +335,37 @@
 - (void)assertIsOtherWithImagePath:(NSString *)imagePath processPath:(NSString *)processPath {
   MSBinaryImageType imageType = [MSErrorLogFormatter imageTypeForImagePath:imagePath processPath:processPath];
   XCTAssertEqual(imageType, MSBinaryImageTypeOther, @"Test other image %@ with process %@", imagePath, processPath);
+}
+
+
+- (void)assertIsException:(NSString *)filename exceptionType:(NSString *)exceptionType exceptionReason:(NSString *)exceptionReason {
+    NSData *crashData = [MSCrashesTestUtil dataOfFixtureCrashReportWithFileName:filename];
+    XCTAssertNotNil(crashData);
+    
+    NSError *error = nil;
+    MSPLCrashReport *crashReport = [[MSPLCrashReport alloc] initWithData:crashData error:&error];
+    XCTAssertNotNil(crashReport);
+    MSAppleErrorLog *errorLog = [MSErrorLogFormatter errorLogFromCrashReport:crashReport];
+    XCTAssertNotNil(errorLog);
+    
+    assertThat(errorLog.exceptionType, equalTo(exceptionType));
+    assertThat(errorLog.exceptionReason, equalTo(exceptionReason));
+}
+
+- (void)assertIsSignal:(NSString *)filename signalType:(NSString *)signalType signalCode:(NSString *)signalCode {
+    NSData *crashData = [MSCrashesTestUtil dataOfFixtureCrashReportWithFileName:filename];
+    XCTAssertNotNil(crashData);
+    
+    NSError *error = nil;
+    MSPLCrashReport *crashReport = [[MSPLCrashReport alloc] initWithData:crashData error:&error];
+    XCTAssertNotNil(crashReport);
+    MSAppleErrorLog *errorLog = [MSErrorLogFormatter errorLogFromCrashReport:crashReport];
+    XCTAssertNotNil(errorLog);
+    
+    assertThat(errorLog.osExceptionType, equalTo(signalType));
+    assertThat(errorLog.osExceptionCode, equalTo(signalCode));
+    XCTAssertEqual(errorLog.exceptionType, nil);
+    XCTAssertEqual(errorLog.exceptionReason, nil);
 }
 
 @end
