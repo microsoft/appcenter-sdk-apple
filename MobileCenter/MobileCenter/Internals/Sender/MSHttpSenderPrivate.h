@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import <Foundation/Foundation.h>
 
 static short const kMSMaxCharactersDisplayedForAppSecret = 8;

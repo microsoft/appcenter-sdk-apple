@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 /**
  *  Protected declarations for MSServiceAbstract.
  */

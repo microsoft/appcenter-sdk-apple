@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSHttpSender.h"
 #import "MSHttpSenderPrivate.h"
 #import "MSMobileCenterInternal.h"

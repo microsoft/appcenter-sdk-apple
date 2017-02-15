@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSAppleErrorLog.h"
 #import "MSBinary.h"
 #import "MSException.h"

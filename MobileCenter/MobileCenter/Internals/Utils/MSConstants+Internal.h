@@ -1,9 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
-#ifndef MSConstants_Internal_h
-#define MSConstants_Internal_h
 #import <Foundation/Foundation.h>
 
 // Device manufacturer
@@ -127,5 +121,3 @@ typedef NS_ENUM(NSInteger, MSHTTPCodesNo) {
   MSHTTPCodesNo598NetworkReadTimeoutErrorUnknown = 598,
   MSHTTPCodesNo599NetworkConnectTimeoutErrorUnknown = 599
 };
-
-#endif /* MSConstants_Internal_h */
