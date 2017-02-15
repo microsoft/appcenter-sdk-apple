@@ -205,7 +205,7 @@ static NSTimeInterval kRequestTimeout = 60.0;
                             // Call handles the completion.
                             if (call) {
                               call.submitted = NO;
-                              [call sender:self callCompletedWithStatus:statusCode error:error];
+                              [call sender:self callCompletedWithStatus:statusCode data:data error:error];
                             }
                           }
                         }];

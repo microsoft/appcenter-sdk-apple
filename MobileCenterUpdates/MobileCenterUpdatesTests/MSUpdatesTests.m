@@ -1,14 +1,13 @@
 #import <XCTest/XCTest.h>
-
 #import "MSUpdatesInternal.h"
 
-@interface MobileCenterUpdatesTests : XCTestCase
+@interface MSUpdatesTests : XCTestCase
 
 @property(nonatomic, strong) MSUpdates *sut;
 
 @end
 
-@implementation MobileCenterUpdatesTests
+@implementation MSUpdatesTests
 
 - (void)setUp {
   [super setUp];

@@ -1,10 +1,7 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
-#import "MSUpdates.h"
-#import "MSServiceInternal.h"
 #import <Foundation/Foundation.h>
+#import "MSSender.h"
+#import "MSServiceInternal.h"
+#import "MSUpdates.h"
 
 @interface MSUpdates ()
 
@@ -12,7 +9,12 @@
 
 @property(nonatomic, copy) NSString *installUrl;
 
-- (NSString *)apiUrl;
-- (NSString *)installUrl;
+/**
+ * A sender instance that is used to send update request to the backend.
+ */
+@property(nonatomic) id<MSSender> sender;
+
+-(NSString *)apiUrl;
+-(NSString *)installUrl;
 
 @end
