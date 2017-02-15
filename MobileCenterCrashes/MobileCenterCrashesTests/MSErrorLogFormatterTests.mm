@@ -5,6 +5,7 @@
 #import <Foundation/Foundation.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <XCTest/XCTest.h>
+#import <inttypes.h>
 
 #import "MSAppleErrorLog.h"
 #import "MSCrashesTestUtil.h"
@@ -76,25 +77,25 @@
 
 - (void)testCrashProbeReports {
     // Crash with _pthread_list_lock held
-    [self assertIsSignal:@"live_report_pthread_lock" signalType:@"SIGSEGV" signalCode:@"SEGV_ACCERR"];
+    [self assertIsCrashReportValidConverted:@"live_report_pthread_lock"];
     
     // Throw C++ exception
-    [self assertIsSignal:@"live_report_cpp_exception" signalType:@"SIGABRT" signalCode:@"#0"];
+    [self assertIsCrashReportValidConverted:@"live_report_cpp_exception"];
     
     // Throw Objective-C exception
-    [self assertIsException:@"live_report_objc_exception" exceptionType:@"NSGenericException" exceptionReason:@"An uncaught exception! SCREAM."];
+    [self assertIsCrashReportValidConverted:@"live_report_objc_exception"];
     
     // Crash inside objc_msgSend()
-    [self assertIsSignal:@"live_report_objc_msgsend" signalType:@"SIGSEGV" signalCode:@"SEGV_ACCERR"];
+    [self assertIsCrashReportValidConverted:@"live_report_objc_msgsend"];
     
     // Message a released object
-    [self assertIsSignal:@"live_report_objc_released" signalType:@"SIGSEGV" signalCode:@"SEGV_ACCERR"];
+    [self assertIsCrashReportValidConverted:@"live_report_objc_released"];
     
     // Dereference a NULL pointer
-    [self assertIsSignal:@"live_report_null_ptr" signalType:@"SIGSEGV" signalCode:@"SEGV_ACCERR"];
+    [self assertIsCrashReportValidConverted:@"live_report_null_ptr"];
     
     // Dereference a bad pointer
-    [self assertIsSignal:@"live_report_bad_ptr" signalType:@"SIGSEGV" signalCode:@"SEGV_ACCERR"];
+    [self assertIsCrashReportValidConverted:@"live_report_bad_ptr"];
     
 }
 
@@ -338,34 +339,57 @@
 }
 
 
-- (void)assertIsException:(NSString *)filename exceptionType:(NSString *)exceptionType exceptionReason:(NSString *)exceptionReason {
-    NSData *crashData = [MSCrashesTestUtil dataOfFixtureCrashReportWithFileName:filename];
-    XCTAssertNotNil(crashData);
-    
-    NSError *error = nil;
-    MSPLCrashReport *crashReport = [[MSPLCrashReport alloc] initWithData:crashData error:&error];
-    XCTAssertNotNil(crashReport);
-    MSAppleErrorLog *errorLog = [MSErrorLogFormatter errorLogFromCrashReport:crashReport];
-    XCTAssertNotNil(errorLog);
-    
-    assertThat(errorLog.exceptionType, equalTo(exceptionType));
-    assertThat(errorLog.exceptionReason, equalTo(exceptionReason));
-}
-
-- (void)assertIsSignal:(NSString *)filename signalType:(NSString *)signalType signalCode:(NSString *)signalCode {
-    NSData *crashData = [MSCrashesTestUtil dataOfFixtureCrashReportWithFileName:filename];
-    XCTAssertNotNil(crashData);
-    
-    NSError *error = nil;
-    MSPLCrashReport *crashReport = [[MSPLCrashReport alloc] initWithData:crashData error:&error];
-    XCTAssertNotNil(crashReport);
-    MSAppleErrorLog *errorLog = [MSErrorLogFormatter errorLogFromCrashReport:crashReport];
-    XCTAssertNotNil(errorLog);
-    
-    assertThat(errorLog.osExceptionType, equalTo(signalType));
-    assertThat(errorLog.osExceptionCode, equalTo(signalCode));
+- (void)assertIsCrashReportValidConverted:(NSString *)filename {
+  NSData *crashData = [MSCrashesTestUtil dataOfFixtureCrashReportWithFileName:filename];
+  XCTAssertNotNil(crashData);
+  
+  NSError *error = nil;
+  MSPLCrashReport *crashReport = [[MSPLCrashReport alloc] initWithData:crashData error:&error];
+  XCTAssertNotNil(crashReport);
+  MSPLCrashReportThreadInfo *crashedThread = [MSErrorLogFormatter findCrashedThreadInReport:crashReport];
+  XCTAssertNotNil(crashedThread);
+  MSAppleErrorLog *errorLog = [MSErrorLogFormatter errorLogFromCrashReport:crashReport];
+  XCTAssertNotNil(errorLog);
+  
+  NSString *actualId = [MSErrorLogFormatter errorIdForCrashReport:crashReport];
+  assertThat(errorLog.errorId, equalTo(actualId));
+  
+  assertThat(errorLog.processId, equalTo(@(crashReport.processInfo.processID)));
+  assertThat(errorLog.processName, equalTo(crashReport.processInfo.processName));
+  assertThat(errorLog.parentProcessId, equalTo(@(crashReport.processInfo.parentProcessID)));
+  assertThat(errorLog.parentProcessName, equalTo(crashReport.processInfo.parentProcessName));
+  
+  assertThat(errorLog.errorThreadId, equalTo(@(crashedThread.threadNumber)));
+  
+  NSDate *appStartTime = [NSDate dateWithTimeIntervalSince1970:(([errorLog.toffset doubleValue] - [errorLog.appLaunchTOffset doubleValue])/1000)];
+  NSDate *appErrorTime = [NSDate dateWithTimeIntervalSince1970:([errorLog.toffset doubleValue]/1000)];
+  assertThat(appErrorTime, equalTo(crashReport.systemInfo.timestamp));
+  assertThat(appStartTime, equalTo(crashReport.processInfo.processStartTime));
+  
+  NSArray *images = crashReport.images;
+  for (MSPLCrashReportBinaryImageInfo *image in images) {
+    if (image.codeType != nil && image.codeType.typeEncoding == PLCrashReportProcessorTypeEncodingMach) {
+      assertThat(errorLog.primaryArchitectureId, equalTo(@(image.codeType.type)));
+      assertThat(errorLog.architectureVariantId, equalTo(@(image.codeType.subtype)));        }
+  }
+  
+  XCTAssertNotNil(errorLog.applicationPath);
+  // Not using the report.processInfo.processPath directly to compare as it will be anonymized in the Simulator.
+  assertThat(errorLog.applicationPath, equalTo(@"/private/var/mobile/Containers/Bundle/Application/253BCE7D-4032-4FB2-AC63-C16F5C0BCBFA/CrashProbeiOS.app/CrashProbeiOS"));
+  
+  NSString *signalAdress = [NSString stringWithFormat:@"0x%" PRIx64, crashReport.signalInfo.address];
+  assertThat(errorLog.osExceptionType, equalTo(crashReport.signalInfo.name));
+  assertThat(errorLog.osExceptionCode, equalTo(crashReport.signalInfo.code));
+  assertThat(errorLog.osExceptionAddress, equalTo(signalAdress));
+  
+  if (crashReport.hasExceptionInfo) {
+    assertThat(errorLog.exceptionType, equalTo(crashReport.exceptionInfo.exceptionName));
+    assertThat(errorLog.exceptionReason, equalTo(crashReport.exceptionInfo.exceptionReason));
+  } else {
     XCTAssertEqual(errorLog.exceptionType, nil);
     XCTAssertEqual(errorLog.exceptionReason, nil);
+  }
 }
+
 
 @end
