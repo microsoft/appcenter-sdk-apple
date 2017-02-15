@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSErrorAttachment.h"
 #import "MSErrorAttachmentPrivate.h"
 #import "MSErrorBinaryAttachment.h"

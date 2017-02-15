@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSErrorReport.h"
 
 extern NSString *const __attribute__((unused)) kMSErrorReportKillSignal;

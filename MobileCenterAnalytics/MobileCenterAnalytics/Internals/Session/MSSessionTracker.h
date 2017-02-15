@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSSessionHistoryInfo.h"
 #import "MSSessionTrackerDelegate.h"
 #import "MobileCenter+Internal.h"

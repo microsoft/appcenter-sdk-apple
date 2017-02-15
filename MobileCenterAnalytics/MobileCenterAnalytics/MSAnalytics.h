@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSServiceAbstract.h"
 #import <UIKit/UIKit.h>
 
