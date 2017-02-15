@@ -83,6 +83,28 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
 @interface MSCrashes () <MSChannelDelegate, MSLogManagerDelegate>
 
+
+/**
+ * Indicates if the app crashed in the previous session
+ *
+ * Use this on startup, to check if the app starts the first time after it
+ crashed
+ * previously. You can use this also to disable specific events, like asking
+ * the user to rate your app.
+
+ * @warning This property only has a correct value, once the sdk has been
+ properly initialized!
+
+ * @see lastSessionCrashReport
+ */
+@property(atomic) BOOL didCrashInLastSession;
+
+/**
+ * Detail information about the last crash.
+ */
+@property(atomic, getter=getLastSessionCrashReport) MSErrorReport *lastSessionCrashReport;
+
+
 @end
 
 @implementation MSCrashes
@@ -218,7 +240,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
     // Get pending crashes from PLCrashReporter and persist them in the intermediate format.
     if ([self.plCrashReporter hasPendingCrashReport]) {
-      _didCrashInLastSession = YES;
+      self.didCrashInLastSession = YES;
       [self handleLatestCrashReport];
     }
 
@@ -363,7 +385,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 #pragma mark - Crash reporter configuration
 
 - (void)configureCrashReporter {
-  if (_plCrashReporter) {
+  if (self.plCrashReporter) {
     MSLogDebug([MSCrashes logTag], @"Already configured PLCrashReporter.");
     return;
   }
@@ -376,7 +398,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   PLCrashReporterSymbolicationStrategy symbolicationStrategy = PLCrashReporterSymbolicationStrategyNone;
   MSPLCrashReporterConfig *config = [[MSPLCrashReporterConfig alloc] initWithSignalHandlerType:signalHandlerType
                                                                          symbolicationStrategy:symbolicationStrategy];
-  _plCrashReporter = [[MSPLCrashReporter alloc] initWithConfiguration:config];
+  self.plCrashReporter = [[MSPLCrashReporter alloc] initWithConfiguration:config];
 
   /**
    * The actual signal and mach handlers are only registered when invoking
@@ -458,9 +480,9 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
 - (void)processCrashReports {
   NSError *error = NULL;
-  _unprocessedLogs = [[NSMutableArray alloc] init];
-  _unprocessedReports = [[NSMutableArray alloc] init];
-  _unprocessedFilePaths = [[NSMutableArray alloc] init];
+  self.unprocessedLogs = [[NSMutableArray alloc] init];
+  self.unprocessedReports = [[NSMutableArray alloc] init];
+  self.unprocessedFilePaths = [[NSMutableArray alloc] init];
 
   // Start crash processing for real.
   NSArray *tempCrashesFiles = [NSArray arrayWithArray:self.crashFiles];
@@ -482,9 +504,9 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
                      report.debugDescription);
 
           // Put the log to temporary space for next callbacks.
-          [_unprocessedLogs addObject:log];
-          [_unprocessedReports addObject:errorReport];
-          [_unprocessedFilePaths addObject:filePath];
+          [self.unprocessedLogs addObject:log];
+          [self.unprocessedReports addObject:errorReport];
+          [self.unprocessedFilePaths addObject:filePath];
 
           continue;
 
@@ -504,7 +526,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   }
 
   // Get a user confirmation if there are crash logs that need to be processed.
-  if ([_unprocessedLogs count] > 0) {
+  if ([self.unprocessedLogs count] > 0) {
     NSNumber *flag = [MS_USER_DEFAULTS objectForKey:kMSUserConfirmationKey];
     if (flag && [flag boolValue]) {
 
@@ -513,7 +535,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
                  @"The flag for user confirmation is set to MSUserConfirmationAlways, continue sending logs");
       [MSCrashes notifyWithUserConfirmation:MSUserConfirmationSend];
       return;
-    } else if (!_userConfirmationHandler || !_userConfirmationHandler(_unprocessedReports)) {
+    } else if (!self.userConfirmationHandler || !self.userConfirmationHandler(self.unprocessedReports)) {
 
       // User confirmation handler doesn't exist or returned NO which means 'want to process'.
       MSLogDebug([MSCrashes logTag],
@@ -552,7 +574,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   NSError *error = nil;
   for (NSString *filePath in [self.fileManager enumeratorAtPath:self.crashesDir]) {
     NSString *path = [self.crashesDir stringByAppendingPathComponent:filePath];
-    [_fileManager removeItemAtPath:path error:&error];
+    [self.fileManager removeItemAtPath:path error:&error];
     if (error) {
       MSLogError([MSCrashes logTag], @"Error deleting file %@: %@", filePath, error.localizedDescription);
     }
@@ -588,7 +610,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
       if (report) {
         NSString *cacheFilename = [NSString stringWithFormat:@"%.0f", [NSDate timeIntervalSinceReferenceDate]];
         [crashData writeToFile:[self.crashesDir stringByAppendingPathComponent:cacheFilename] atomically:YES];
-        _lastSessionCrashReport = [MSErrorLogFormatter errorReportFromCrashReport:report];
+        self.lastSessionCrashReport = [MSErrorLogFormatter errorReportFromCrashReport:report];
       } else {
         MSLogWarning([MSCrashes logTag], @"Could not parse crash report");
       }
