@@ -46,6 +46,6 @@
   
   // Then
   XCTAssertNotNil([self.sut apiUrl]);
-  XCTAssertTrue([[self.sut apiUrl] isEqualToString:@"https://asgard-int.trafficmanager.net/api"]);
+  XCTAssertTrue([[self.sut apiUrl] isEqualToString:@"https://asgard-int.trafficmanager.net/api/v0.1"]);
 }
 @end
