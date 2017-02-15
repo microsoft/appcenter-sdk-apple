@@ -27,7 +27,7 @@ ms_info_t mobilecenter_library_info __attribute__((section("__TEXT,__ms_ios,regu
 
 @interface MSDeviceTracker()
 
-//we need set device inside class without warnings
+// We need a private setter for the device to avoid ivars direct access warning.
 @property(nonatomic) MSDevice *device;
 
 @end
