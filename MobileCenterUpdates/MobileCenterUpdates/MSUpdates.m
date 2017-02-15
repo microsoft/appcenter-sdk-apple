@@ -1,6 +1,5 @@
 #import <Foundation/Foundation.h>
 #import "MSDistributionSender.h"
-#import "MSErrorDetails.h"
 #import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
 #import "MSReleaseDetails.h"
@@ -128,13 +127,12 @@ static NSString *const kMSUpdatesHeaderApiToken = @"x-api-token";
 
          // Failure.
          else {
-           MSErrorDetails *details = [[MSErrorDetails alloc]
-               initWithDictionary:[NSJSONSerialization JSONObjectWithData:data
-                                                                  options:NSJSONReadingMutableContainers
-                                                                    error:nil]];
            MSLogDebug([MSUpdates logTag], @"Failed to get a update response, status code:%lu",
                       (unsigned long)statusCode);
-           MSLogError([MSUpdates logTag], @"Error code: %@, message: %@", details.code, details.message);
+
+           // TODO: Print formatted json response.
+           MSLogError([MSUpdates logTag], @"Response: %@",
+                      [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
          }
 
          // There is no more interaction with distribution backend. Shutdown sender.
