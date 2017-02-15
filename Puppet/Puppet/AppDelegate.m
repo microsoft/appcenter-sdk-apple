@@ -21,8 +21,9 @@
 
   // Start Mobile Center SDK.
   [MSMobileCenter setLogLevel:MSLogLevelVerbose];
+  [MSMobileCenter setServerUrl:@"https://in-integration.dev.avalanche.es"];
 
-  [MSMobileCenter start:@"7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7"
+  [MSMobileCenter start:@"65dc3680-7325-4000-a0e7-dbd2276eafd1"
            withServices:@[ [MSAnalytics class], [MSCrashes class], [MSUpdates class] ]];
 
   [self crashes];
