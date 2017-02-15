@@ -29,8 +29,6 @@ struct MSCrashesBufferedLog {
                                             &reinterpret_cast<const char *>(data.bytes)[data.length]) {}
 };
 
-
-
 /**
  * Constant for size of our log buffer.
  */
