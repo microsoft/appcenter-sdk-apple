@@ -1,8 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-#ifndef MS_Constants_h
-#define MS_Constants_h
 #import <Foundation/Foundation.h>
 
 /**
@@ -43,11 +38,10 @@ typedef NS_ENUM(NSUInteger, MSLogLevel) {
   /**
    *  Logging is disabled
    */
-  MSLogLevelNone = 99,
+  MSLogLevelNone = 99
 };
 
 typedef NSString * (^MSLogMessageProvider)(void);
 typedef void (^MSLogHandler)(MSLogMessageProvider messageProvider, MSLogLevel logLevel, NSString *tag, const char *file,
                              const char *function, uint line);
 
-#endif

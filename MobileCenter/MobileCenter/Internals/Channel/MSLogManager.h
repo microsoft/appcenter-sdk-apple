@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "../Model/MSLog.h"
 #import "MSEnable.h"
 #import "MSLogManagerDelegate.h"
