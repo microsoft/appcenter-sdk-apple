@@ -39,7 +39,7 @@
   
   // Then
   XCTAssertNotNil([self.sut installUrl]);
-  XCTAssertTrue([[self.sut installUrl] isEqualToString:@"http://install.asgard-int.trafficmanager.net/"]);
+  XCTAssertTrue([[self.sut installUrl] isEqualToString:@"http://install.asgard-int.trafficmanager.net"]);
 }
 
 - (void)testDefaultApiUrlWorks {
