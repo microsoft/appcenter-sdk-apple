@@ -45,12 +45,13 @@ static void ms_save_log_buffer_callback(siginfo_t *info, ucontext_t *uap, void *
   // Iterate over the buffered logs and write them to disk.
   for (auto it = msCrashesLogBuffer.begin(), end = msCrashesLogBuffer.end(); it != end; ++it) {
     for (int i = 0; i < ms_crashes_log_buffer_size; i++) {
+
       // Make sure not to allocate any memory (e.g. copy).
       const std::string &data = it->second[i].buffer;
       const std::string &path = it->second[i].bufferPath;
       int fd = open(path.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0644);
       if (fd < 0) {
-        return;
+        continue;
       }
       write(fd, data.data(), data.size());
       close(fd);
@@ -322,9 +323,13 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   @synchronized(self) {
     NSData *serializedLog = [NSKeyedArchiver archivedDataWithRootObject:log];
     if (serializedLog && (serializedLog.length > 0)) {
-      if ([[self.bufferIndex objectForKey:@(priority)] integerValue] > (ms_crashes_log_buffer_size - 1)) {
+
+      // Our arrays contain a max of 20 items, so our maxIndex == 19.
+      int maxIndex = ms_crashes_log_buffer_size - 1;
+      if (self.bufferIndex[@(priority)].integerValue > maxIndex) {
+        
         // Reset the counter to 0 for a priority.
-        [self.bufferIndex setObject:@0 forKey:@(priority)];
+        self.bufferIndex[@(priority)] = @0;
       }
       NSInteger index = [[self.bufferIndex objectForKey:@(priority)] integerValue];
       msCrashesLogBuffer[priority][index].buffer =
@@ -658,7 +663,6 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
       [self.bufferIndex setObject:@0 forKey:@(priority)];
 
       // Create a buffer for the priority. Making use of `{}` as we're using C++11.
-      msCrashesLogBuffer[(MSPriority)priority][{}];
       for (int i = 0; i < ms_crashes_log_buffer_size; i++) {
         msCrashesLogBuffer[(MSPriority)priority][i] = MSCrashesBufferedLog{files[i], nil};
       }
@@ -674,7 +678,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   for (int i = 0; i < ms_crashes_log_buffer_size; i++) {
 
     // Files are named N.mscrasheslogbuffer where N is between 0 and ms_crashes_log_buffer_size.
-    NSString *logId = [NSString stringWithFormat:@"%ld", i];
+    NSString *logId = @(i).stringValue;
     [files addObject:[self createBufferFileWithName:logId forPriority:priority]];
   }
   return files;
