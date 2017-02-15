@@ -1,5 +1,4 @@
 #import <XCTest/XCTest.h>
-
 #import "MSUpdatesInternal.h"
 
 @interface MSUpdatesTests : XCTestCase

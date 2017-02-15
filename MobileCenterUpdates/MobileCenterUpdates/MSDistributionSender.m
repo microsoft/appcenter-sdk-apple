@@ -1,7 +1,7 @@
 #import "MSDistributionSender.h"
+#import "MSHttpSenderPrivate.h"
 #import "MSLogger.h"
 #import "MSMobileCenter.h"
-#import "MSHttpSenderPrivate.h"
 #import "MSMobileCenterInternal.h"
 
 @implementation MSDistributionSender
