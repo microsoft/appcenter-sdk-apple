@@ -370,7 +370,8 @@
   for (MSPLCrashReportBinaryImageInfo *image in images) {
     if (image.codeType != nil && image.codeType.typeEncoding == PLCrashReportProcessorTypeEncodingMach) {
       assertThat(errorLog.primaryArchitectureId, equalTo(@(image.codeType.type)));
-      assertThat(errorLog.architectureVariantId, equalTo(@(image.codeType.subtype)));        }
+      assertThat(errorLog.architectureVariantId, equalTo(@(image.codeType.subtype)));
+    }
   }
   
   XCTAssertNotNil(errorLog.applicationPath);
@@ -389,6 +390,21 @@
     XCTAssertEqual(errorLog.exceptionType, nil);
     XCTAssertEqual(errorLog.exceptionReason, nil);
   }
+  
+  assertThat(errorLog.threads, hasCountOf([crashReport.threads count]));
+  for (int i = 0; i < [errorLog.threads count]; i++) {
+    MSThread *thread = errorLog.threads[i];
+    MSPLCrashReportThreadInfo *plThread = crashReport.threads[i];
+    
+    assertThat(thread.threadId, equalTo(@(plThread.threadNumber)));
+    if (crashReport.hasExceptionInfo && [thread.threadId isEqualToNumber:@(crashedThread.threadNumber)]) {
+      XCTAssertNotNil(thread.exception);
+    } else {
+      XCTAssertNil(thread.exception);
+    }
+  }
+  assertThat(errorLog.registers, hasCountOf([crashedThread.registers count]));
+  
 }
 
 
