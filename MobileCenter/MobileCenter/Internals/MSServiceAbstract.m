@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSMobileCenterInternal.h"
 #import "MSServiceAbstractPrivate.h"
 
@@ -29,7 +25,7 @@
 
   // Get isEnabled value from persistence.
   // No need to cache the value in a property, user settings already have their cache mechanism.
-  NSNumber *isEnabledNumber = [_storage objectForKey:_isEnabledKey];
+  NSNumber *isEnabledNumber = [self.storage objectForKey:self.isEnabledKey];
 
   // Return the persisted value otherwise it's enabled by default.
   return (isEnabledNumber) ? [isEnabledNumber boolValue] : YES;

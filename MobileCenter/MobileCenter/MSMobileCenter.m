@@ -11,7 +11,9 @@
 static MSMobileCenter *sharedInstance = nil;
 static dispatch_once_t onceToken;
 
-// Base URL for HTTP backend API calls.
+/**
+ * Base URL for HTTP Ingestion backend API calls.
+ */
 static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 
 @implementation MSMobileCenter
@@ -159,7 +161,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
       [self applyPipelineEnabledState:self.isEnabled];
     }
 
-    _sdkConfigured = YES;
+    self.sdkConfigured = YES;
 
     // If the loglevel hasn't been customized before and we are not running in an app store environment, we set the
     // default loglevel to MSLogLevelWarning.
@@ -185,7 +187,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
   }
 }
 
-/** 
+/**
  * Sort services in descending order to make sure the service with the highest priority gets initialized first.
  * This is intended to make sure Crashes gets initialized first.
 */
@@ -276,7 +278,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 - (void)initializeLogManager {
 
   // Construct log manager.
-  _logManager =
+  self.logManager =
       [[MSLogManagerDefault alloc] initWithAppSecret:self.appSecret installId:self.installId serverUrl:self.serverUrl];
 }
 

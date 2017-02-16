@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSIngestionSender.h"
 #import "MobileCenter.h"
 #import "MSLogger.h"
@@ -20,7 +16,7 @@
     NSError *error =
         [NSError errorWithDomain:kMSMCErrorDomain code:kMSMCLogInvalidContainerErrorCode userInfo:userInfo];
     MSLogError([MSMobileCenter logTag], @"%@", [error localizedDescription]);
-    handler(batchId, error, nil);
+    handler(batchId, nil, nil, error);
     return;
   }
 

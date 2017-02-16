@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSChannelDefault.h"
 #import "MSMobileCenterErrors.h"
 #import "MSMobileCenterInternal.h"
@@ -112,7 +108,7 @@
     // Save the log first.
     MSLogDebug([MSMobileCenter logTag], @"Saving log, type: %@.", item.type);
     BOOL success = [self.storage saveLog:item withStorageKey:self.configuration.name];
-    _itemsCount += 1;
+    self.itemsCount += 1;
     if (completion) {
       completion(success);
     }
@@ -176,7 +172,7 @@
                  // Forward logs to the sender.
                  [self.sender
                              sendAsync:container
-                     completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
+                     completionHandler:^(NSString *batchId, NSUInteger statusCode, NSData *data, NSError *error) {
                        dispatch_async(self.logsDispatchQueue, ^{
                          if ([self.pendingBatchIds containsObject:batchId]) {
 
@@ -258,7 +254,7 @@
 
     // Flush the queue as needed.
     if (strongSelf) {
-      if (strongSelf->_itemsCount > 0) {
+      if (strongSelf.itemsCount > 0) {
         [strongSelf flushQueue];
       }
       [strongSelf resetTimer];

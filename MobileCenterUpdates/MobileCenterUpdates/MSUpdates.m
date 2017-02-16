@@ -1,14 +1,14 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
-#import "MSLogManager.h"
+#import "MSDistributionSender.h"
 #import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
+#import "MSReleaseDetails.h"
+#import "MSServiceAbstractProtected.h"
 #import "MSUpdates.h"
 #import "MSUpdatesPrivate.h"
+#import "MSUpdatesInternal.h"
 #import "MSUtil.h"
 
+#import <Foundation/Foundation.h>
 #import <SafariServices/SafariServices.h>
 
 /**
@@ -16,18 +16,32 @@
  */
 static NSString *const kMSServiceName = @"Updates";
 
+/**
+ * The header name for update token
+ */
+static NSString *const kMSUpdatesHeaderApiToken = @"x-api-token";
+
 #pragma mark - URL constants
 
 /**
- * Updates base url.
+ * Base URL for HTTP Distribution install API calls.
  */
-static NSString *const kMSUpdtDefaultBaseURL =
-    @"https://install.asgard-int.trafficmanager.net"; // TODO Update to prod https://install.mobile.azure.com
+static NSString *const kMSDefaultInstallUrl = @"http://install.asgard-int.trafficmanager.net";
 
 /**
- * Updates url paths.
+ * Base URL for HTTP Distribution update API calls.
  */
-static NSString *const kMSUpdtDefaultURLTokenPath = @"/apps/%@/update-setup";
+static NSString *const kMSDefaultApiUrl = @"https://asgard-int.trafficmanager.net/api/v0.1";
+
+/**
+ * The API path for latest release request.
+ */
+static NSString *const kMSUpdatesLatestReleaseApiPathFormat = @"/sdk/apps/%@/releases/latest";
+
+/**
+ * The API path for update token request.
+ */
+static NSString *const kMSUpdatesUpdateTokenApiPathFormat = @"/apps/%@/update-setup";
 
 #pragma mark - Exception constants
 
@@ -46,10 +60,22 @@ static NSString *const kMSUpdtSchemeExceptionReasonNotFound = @"URL scheme for u
 
 @implementation MSUpdates
 
+#pragma mark - Public
+
++ (void)setApiUrl:(NSString *)apiUrl {
+  [[self sharedInstance] setApiUrl:apiUrl];
+}
+
++ (void)setInstallUrl:(NSString *)installUrl {
+  [[self sharedInstance] setInstallUrl:installUrl];
+}
+
 #pragma mark - Service initialization
 
 - (instancetype)init {
   if ((self = [super init])) {
+    _apiUrl = kMSDefaultApiUrl;
+    _installUrl = kMSDefaultInstallUrl;
   }
   return self;
 }
@@ -80,6 +106,8 @@ static NSString *const kMSUpdtSchemeExceptionReasonNotFound = @"URL scheme for u
 
 - (void)startWithLogManager:(id<MSLogManager>)logManager appSecret:(NSString *)appSecret {
   [super startWithLogManager:logManager appSecret:appSecret];
+
+  // TODO: Hook up with pipeline.
   NSURL *url;
   MSLogInfo([MSUpdates logTag], @"Request updates token.");
 
@@ -99,11 +127,60 @@ static NSString *const kMSUpdtSchemeExceptionReasonNotFound = @"URL scheme for u
   } @catch (NSException *exception) {
     MSLogError([MSUpdates logTag], @"%@", exception.reason);
   }
+
+  // TODO: Hook up with update token getter later.
+  NSString *updateToken = @"temporary-token";
+  self.sender =
+      [[MSDistributionSender alloc] initWithBaseUrl:self.apiUrl
+                                            apiPath:[NSString stringWithFormat:kMSUpdatesLatestReleaseApiPathFormat, appSecret]
+                                            // TODO: Update token in header should be in format of "Bearer {JWT token}"
+                                            headers:@{
+                                              kMSUpdatesHeaderApiToken : updateToken
+                                            }
+                                       queryStrings:nil
+                                       reachability:[MS_Reachability reachabilityForInternetConnection]
+                                     retryIntervals:@[ @(10) ]];
   MSLogVerbose([MSUpdates logTag], @"Started Updates service.");
+
+  if ([self isEnabled]) {
+    [self checkLatestRelease];
+  } else {
+    MSLogDebug([MSUpdates logTag], @"Updates service is disabled, skip update.");
+  }
 }
 
 + (NSString *)logTag {
   return @"MobileCenterUpdates";
+}
+
+- (void)checkLatestRelease {
+  [self.sender sendAsync:nil
+       completionHandler:^(NSString *callId, NSUInteger statusCode, NSData *data, NSError *error) {
+
+         // Success.
+         if (statusCode == MSHTTPCodesNo200OK) {
+           MSReleaseDetails *details = [[MSReleaseDetails alloc]
+               initWithDictionary:[NSJSONSerialization JSONObjectWithData:data
+                                                                  options:NSJSONReadingMutableContainers
+                                                                    error:nil]];
+           MSLogDebug([MSUpdates logTag], @"Received a response of update request: %@",
+                      [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+           [self handleUpdate:details];
+         }
+
+         // Failure.
+         else {
+           MSLogDebug([MSUpdates logTag], @"Failed to get a update response, status code:%lu",
+                      (unsigned long)statusCode);
+
+           // TODO: Print formatted json response.
+           MSLogError([MSUpdates logTag], @"Response: %@",
+                      [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+         }
+
+         // There is no more interaction with distribution backend. Shutdown sender.
+         [self.sender setEnabled:NO andDeleteDataOnDisabled:YES];
+       }];
 }
 
 - (NSString *)storageKey {
@@ -133,10 +210,10 @@ static NSString *const kMSUpdtSchemeExceptionReasonNotFound = @"URL scheme for u
 - (NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret {
 
   // Compute URL path string.
-  NSString *urlPath = [NSString stringWithFormat:kMSUpdtDefaultURLTokenPath, appSecret];
+  NSString *urlPath = [NSString stringWithFormat:kMSUpdatesUpdateTokenApiPathFormat, appSecret];
 
   // Build URL string.
-  NSString *urlString = [kMSUpdtDefaultBaseURL stringByAppendingString:urlPath];
+  NSString *urlString = [kMSDefaultInstallUrl stringByAppendingString:urlPath];
   NSURLComponents *components = [NSURLComponents componentsWithString:urlString];
 
   // Check URL validity so far.
@@ -203,6 +280,9 @@ static NSString *const kMSUpdtSchemeExceptionReasonNotFound = @"URL scheme for u
   if ([MSUtil sharedAppCanOpenURL:url]) {
     [MSUtil sharedAppOpenURL:url];
   }
+}
+
+- (void)handleUpdate:(MSReleaseDetails *)details {
 }
 
 @end

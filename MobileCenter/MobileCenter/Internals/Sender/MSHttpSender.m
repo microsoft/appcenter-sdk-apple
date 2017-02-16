@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSHttpSender.h"
 #import "MSHttpSenderPrivate.h"
 #import "MSMobileCenterInternal.h"
@@ -205,7 +201,7 @@ static NSTimeInterval kRequestTimeout = 60.0;
                             // Call handles the completion.
                             if (call) {
                               call.submitted = NO;
-                              [call sender:self callCompletedWithStatus:statusCode error:error];
+                              [call sender:self callCompletedWithStatus:statusCode data:data error:error];
                             }
                           }
                         }];
@@ -286,7 +282,7 @@ static NSTimeInterval kRequestTimeout = 60.0;
     // Check if call has already been created(retry scenario).
     MSSenderCall *call = self.pendingCalls[callId];
     if (call == nil) {
-      call = [[MSSenderCall alloc] initWithRetryIntervals:_callsRetryIntervals];
+      call = [[MSSenderCall alloc] initWithRetryIntervals:self.callsRetryIntervals];
       call.delegate = self;
       call.data = data;
       call.callId = callId;

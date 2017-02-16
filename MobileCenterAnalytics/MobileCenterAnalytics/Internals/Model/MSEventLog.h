@@ -1,6 +1,4 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- *
+/**
  * OpenAPI spec version: 1.0.0-preview20160708
  */
 
@@ -9,7 +7,7 @@
 
 @interface MSEventLog : MSLogWithProperties
 
-/** 
+/**
  * Unique identifier for this event.
  */
 @property(nonatomic, copy) NSString *eventId;

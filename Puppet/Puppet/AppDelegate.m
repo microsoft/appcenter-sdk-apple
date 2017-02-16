@@ -21,54 +21,12 @@
 
   // Start Mobile Center SDK.
   [MSMobileCenter setLogLevel:MSLogLevelVerbose];
+  [MSMobileCenter setServerUrl:@"https://in-integration.dev.avalanche.es"];
 
   [MSMobileCenter start:@"65dc3680-7325-4000-a0e7-dbd2276eafd1"
            withServices:@[ [MSAnalytics class], [MSCrashes class], [MSUpdates class] ]];
 
-  if ([MSCrashes hasCrashedInLastSession]) {
-    MSErrorReport *errorReport = [MSCrashes lastSessionCrashReport];
-    NSLog(@"We crashed with Signal: %@", errorReport.signal);
-    MSDevice *device = [errorReport device];
-    NSString *osVersion = [device osVersion];
-    NSString *appVersion = [device appVersion];
-    NSString *appBuild = [device appBuild];
-    NSLog(@"OS Version is: %@", osVersion);
-    NSLog(@"App Version is: %@", appVersion);
-    NSLog(@"App Build is: %@", appBuild);
-  }
-
-  [MSCrashes setDelegate:self];
-  [MSCrashes
-      setUserConfirmationHandler:(^(NSArray<MSErrorReport *> *errorReports) {
-
-        // Use MSAlertViewController to show a dialog to the user where they can choose if they want to provide a crash
-        // report.
-        MSAlertController *alertController = [MSAlertController
-            alertControllerWithTitle:NSLocalizedStringFromTable(@"crash_alert_title", @"Main", @"")
-                             message:NSLocalizedStringFromTable(@"crash_alert_message", @"Main", @"")];
-
-        // Add a "No"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationDontSend
-        [alertController addCancelActionWithTitle:NSLocalizedStringFromTable(@"crash_alert_do_not_send", @"Main", @"")
-                                          handler:^(UIAlertAction *action) {
-                                            [MSCrashes notifyWithUserConfirmation:MSUserConfirmationDontSend];
-                                          }];
-
-        // Add a "Yes"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationSend
-        [alertController addDefaultActionWithTitle:NSLocalizedStringFromTable(@"crash_alert_send", @"Main", @"")
-                                           handler:^(UIAlertAction *action) {
-                                             [MSCrashes notifyWithUserConfirmation:MSUserConfirmationSend];
-                                           }];
-
-        // Add a "No"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationAlways
-        [alertController addDefaultActionWithTitle:NSLocalizedStringFromTable(@"crash_alert_always_send", @"Main", @"")
-                                           handler:^(UIAlertAction *action) {
-                                             [MSCrashes notifyWithUserConfirmation:MSUserConfirmationAlways];
-                                           }];
-        // Show the alert controller.
-        [alertController show];
-
-        return YES;
-      })];
+  [self crashes];
 
   // Print the install Id.
   NSLog(@"%@ Install Id: %@", kPUPLogTag, [[MSMobileCenter installId] UUIDString]);
@@ -116,6 +74,55 @@
 - (void)applicationWillTerminate:(UIApplication *)application {
   // Called when the application is about to terminate. Save data if appropriate. See also
   // applicationDidEnterBackground:.
+}
+
+#pragma mark - Private
+
+- (void)crashes {
+  if ([MSCrashes hasCrashedInLastSession]) {
+    MSErrorReport *errorReport = [MSCrashes lastSessionCrashReport];
+    NSLog(@"We crashed with Signal: %@", errorReport.signal);
+    MSDevice *device = [errorReport device];
+    NSString *osVersion = [device osVersion];
+    NSString *appVersion = [device appVersion];
+    NSString *appBuild = [device appBuild];
+    NSLog(@"OS Version is: %@", osVersion);
+    NSLog(@"App Version is: %@", appVersion);
+    NSLog(@"App Build is: %@", appBuild);
+  }
+
+  [MSCrashes setDelegate:self];
+  [MSCrashes
+      setUserConfirmationHandler:(^(NSArray<MSErrorReport *> *errorReports) {
+
+        // Use MSAlertViewController to show a dialog to the user where they can choose if they want to provide a crash
+        // report.
+        MSAlertController *alertController = [MSAlertController
+            alertControllerWithTitle:NSLocalizedStringFromTable(@"crash_alert_title", @"Main", @"")
+                             message:NSLocalizedStringFromTable(@"crash_alert_message", @"Main", @"")];
+
+        // Add a "No"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationDontSend
+        [alertController addCancelActionWithTitle:NSLocalizedStringFromTable(@"crash_alert_do_not_send", @"Main", @"")
+                                          handler:^(UIAlertAction *action) {
+                                            [MSCrashes notifyWithUserConfirmation:MSUserConfirmationDontSend];
+                                          }];
+
+        // Add a "Yes"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationSend
+        [alertController addDefaultActionWithTitle:NSLocalizedStringFromTable(@"crash_alert_send", @"Main", @"")
+                                           handler:^(UIAlertAction *action) {
+                                             [MSCrashes notifyWithUserConfirmation:MSUserConfirmationSend];
+                                           }];
+
+        // Add a "No"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationAlways
+        [alertController addDefaultActionWithTitle:NSLocalizedStringFromTable(@"crash_alert_always_send", @"Main", @"")
+                                           handler:^(UIAlertAction *action) {
+                                             [MSCrashes notifyWithUserConfirmation:MSUserConfirmationAlways];
+                                           }];
+        // Show the alert controller.
+        [alertController show];
+
+        return YES;
+      })];
 }
 
 #pragma mark - MSCrashesDelegate

@@ -28,7 +28,7 @@
       [self.availableFiles sortedArrayUsingComparator:^NSComparisonResult(MSFile *b1, MSFile *b2) {
         return [b1.creationDate compare:b2.creationDate];
       }];
-  _availableFiles = [sortedBatches mutableCopy];
+  self.availableFiles = [sortedBatches mutableCopy];
 }
 
 - (void)removeFile:(MSFile *)file {
@@ -44,12 +44,12 @@
   NSMutableArray *allFiles = [NSMutableArray new];
 
   // Transfer all available files
-  [allFiles addObjectsFromArray:_availableFiles];
-  [_availableFiles removeAllObjects];
+  [allFiles addObjectsFromArray:self.availableFiles];
+  [self.availableFiles removeAllObjects];
 
   // Transfer all blocked files
-  [allFiles addObjectsFromArray:_blockedFiles];
-  [_blockedFiles removeAllObjects];
+  [allFiles addObjectsFromArray:self.blockedFiles];
+  [self.blockedFiles removeAllObjects];
   return [allFiles copy];
 }
 

@@ -5,6 +5,7 @@
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
+#import "MSUpdatesInternal.h"
 
 static NSString *const kMSTestAppSecret = @"IAMSECRET";
 
@@ -38,16 +39,16 @@ static NSURL *sfURL;
 
 static NSURL *sfURL;
 
-@interface MobileCenterUpdatesTests : XCTestCase
+@interface MSUpdatesTests : XCTestCase
 
-@property(nonatomic, readwrite) MSUpdates *updates;
+@property(nonatomic, strong) MSUpdates *sut;
 
 @end
 
-@implementation MobileCenterUpdatesTests
+@implementation MSUpdatesTests
 
 - (void)setUp {
-  self.updates = [MSUpdates new];
+  self.sut = [MSUpdates new];
   [super setUp];
 }
 
@@ -62,7 +63,7 @@ static NSURL *sfURL;
   OCMStub([bundleMock mainBundle]).andReturn([NSBundle bundleForClass:[self class]]);
 
   // When
-  NSURL *url = [self.updates buildTokenRequestURLWithAppSecret:kMSTestAppSecret];
+  NSURL *url = [self.sut buildTokenRequestURLWithAppSecret:kMSTestAppSecret];
   NSURLComponents *components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:NO];
   NSMutableDictionary<NSString *, NSString *> *queryStrings = [NSMutableDictionary<NSString *, NSString *> new];
   [components.queryItems
@@ -91,7 +92,7 @@ static NSURL *sfURL;
   OCMStub([appMock openURL:url]).andDo(nil);
 
   // When
-  [self.updates openURLInSafariApp:url];
+  [self.sut openURLInSafariApp:url];
 
   // Then
   OCMVerify([appMock openURL:url]);
@@ -104,7 +105,7 @@ static NSURL *sfURL;
 
   // When
   @try {
-    [self.updates openURLInEmbeddedSafari:url fromClass:[SFSafariViewController class]];
+    [self.sut openURLInEmbeddedSafari:url fromClass:[SFSafariViewController class]];
   } @catch (NSException *ex) {
 
     /**
@@ -121,4 +122,37 @@ static NSURL *sfURL;
   assertThat(SFSafariViewController.url, is(url));
 }
 
+- (void)testSetApiUrlWorks {
+
+  // When
+  NSString *testUrl = @"https://example.com";
+  [self.sut setApiUrl:testUrl];
+
+  // Then
+  XCTAssertTrue([[self.sut apiUrl] isEqualToString:testUrl]);
+}
+
+- (void)testSetInstallUrlWorks {
+
+  // When
+  NSString *testUrl = @"https://example.com";
+  [self.sut setInstallUrl:testUrl];
+
+  // Then
+  XCTAssertTrue([[self.sut installUrl] isEqualToString:testUrl]);
+}
+
+- (void)testDefaultInstallUrlWorks {
+  
+  // Then
+  XCTAssertNotNil([self.sut installUrl]);
+  XCTAssertTrue([[self.sut installUrl] isEqualToString:@"http://install.asgard-int.trafficmanager.net"]);
+}
+
+- (void)testDefaultApiUrlWorks {
+  
+  // Then
+  XCTAssertNotNil([self.sut apiUrl]);
+  XCTAssertTrue([[self.sut apiUrl] isEqualToString:@"https://asgard-int.trafficmanager.net/api/v0.1"]);
+}
 @end

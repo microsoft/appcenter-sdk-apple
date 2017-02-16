@@ -1,12 +1,5 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-
-#ifndef MSUtil_h
-#define MSUtil_h
 
 #define MS_USER_DEFAULTS [MSUserDefaults shared]
 #define MS_NOTIFICATION_CENTER [NSNotificationCenter defaultCenter]
@@ -17,7 +10,6 @@
 #define MS_CLASS_NAME_WITHOUT_PREFIX [NSStringFromClass([self class]) substringFromIndex:2]
 #define MS_IS_APP_EXTENSION [[[NSBundle mainBundle] executablePath] containsString:@".appex/"]
 #define MS_APP_MAIN_BUNDLE [NSBundle mainBundle]
-#endif /* MSUtil_h */
 
 /**
  *  App environment
