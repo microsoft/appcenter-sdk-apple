@@ -75,9 +75,8 @@
   return YES;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark URL handling
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - URL handling
+
 - (BOOL)application:(UIApplication *)application
             openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication
@@ -86,6 +85,8 @@
 
   return YES;
 }
+
+#pragma mark - Application life cycle
 
 - (void)applicationWillResignActive:(UIApplication *)application {
   // Sent when the application is about to move from active to inactive state. This can occur for certain types of

@@ -36,7 +36,7 @@ static NSString *const kMSUpdtDefaultCustomScheme = @"msupdt";
  * @param url URL to open.
  * @param clazz SFSafariViewController` class.
  */
-- (void)openURLInEmbeddedSafari:(NSURL *)url fromClass:(Class) clazz;
+- (void)openURLInEmbeddedSafari:(NSURL *)url fromClass:(Class)clazz;
 
 /**
  * Open the given URL using the Safari application. iOS 8.x only.

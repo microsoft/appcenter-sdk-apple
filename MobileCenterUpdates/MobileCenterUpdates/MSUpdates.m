@@ -130,24 +130,24 @@ static NSString *const kMSUpdtSchemeExceptionReasonNotFound = @"URL scheme for u
   return NO;
 }
 
-- (NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret{
-  
+- (NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret {
+
   // Compute URL path string.
   NSString *urlPath = [NSString stringWithFormat:kMSUpdtDefaultURLTokenPath, appSecret];
-  
+
   // Build URL string.
   NSString *urlString = [kMSUpdtDefaultBaseURL stringByAppendingString:urlPath];
   NSURLComponents *components = [NSURLComponents componentsWithString:urlString];
-  
+
   // Check URL validity so far.
   if (!components) {
     @throw [[NSException alloc] initWithName:kMSUpdtURLExceptionName
                                       reason:[NSString stringWithFormat:kMSUpdtURLExceptionReasonInvalid, urlString]
                                     userInfo:nil];
   }
-  
+
   // Set URL query parameters.
-  
+
   // FIXME: Workaround to fill in the app name required by the backend for now, supposed to be a build UUID.
   NSString *buildUUID = [MS_APP_MAIN_BUNDLE objectForInfoDictionaryKey:@"MSAppName"];
   //    NSString *buildUUID = [[MSFTCECodeSignatureExtractor forMainBundle] getUUIDHashHexStringAndReturnError:&error];
@@ -164,12 +164,12 @@ static NSString *const kMSUpdtSchemeExceptionReasonNotFound = @"URL scheme for u
   }
   [queryItems addObject:[NSURLQueryItem queryItemWithName:kMSUpdtURLQueryReleaseHashKey value:buildUUID]];
   [queryItems
-   addObject:[NSURLQueryItem queryItemWithName:kMSUpdtURLQueryRedirectIdKey value:kMSUpdtDefaultCustomScheme]];
+      addObject:[NSURLQueryItem queryItemWithName:kMSUpdtURLQueryRedirectIdKey value:kMSUpdtDefaultCustomScheme]];
   [queryItems addObject:[NSURLQueryItem queryItemWithName:kMSUpdtURLQueryRequestIdKey value:MS_UUID_STRING]];
   [queryItems
-   addObject:[NSURLQueryItem queryItemWithName:kMSUpdtURLQueryPlatformKey value:kMSUpdtURLQueryPlatformValue]];
+      addObject:[NSURLQueryItem queryItemWithName:kMSUpdtURLQueryPlatformKey value:kMSUpdtURLQueryPlatformValue]];
   components.queryItems = queryItems;
-  
+
   // Check URL validity.
   if (!components.URL) {
     @throw [[NSException alloc] initWithName:kMSUpdtURLExceptionName
@@ -179,20 +179,20 @@ static NSString *const kMSUpdtSchemeExceptionReasonNotFound = @"URL scheme for u
   return components.URL;
 }
 
-- (void)openURLInEmbeddedSafari:(NSURL *)url fromClass:(Class) clazz{
+- (void)openURLInEmbeddedSafari:(NSURL *)url fromClass:(Class)clazz {
   MSLogVerbose([MSUpdates logTag], @"Using SFSafariViewController to open URL: %@", url);
-  
+
   // Init safari controller with the update URL.
   id safari = [[clazz alloc] initWithURL:url];
-  
+
   // Create an empty window + viewController to host the Safari UI.
   UIViewController *emptyViewController = [[UIViewController alloc] init];
   UIWindow *window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   window.rootViewController = emptyViewController;
-  
+
   // Place it at the lowest level within the stack, less visible.
   window.windowLevel = -CGFLOAT_MAX;
-  
+
   // Run it.
   [window makeKeyAndVisible];
   [emptyViewController presentViewController:safari animated:false completion:nil];
