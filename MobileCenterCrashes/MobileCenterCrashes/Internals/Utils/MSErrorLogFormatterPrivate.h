@@ -1,12 +1,6 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSErrorLogFormatter.h"
-@class MSPLCrashReportThreadInfo;
 
-#ifndef MSErrorLogFormatterPrivate_h
-#define MSErrorLogFormatterPrivate_h
+@class MSPLCrashReportThreadInfo;
 
 @interface MSErrorLogFormatter ()
 
@@ -47,5 +41,3 @@
 + (MSPLCrashReportThreadInfo *)findCrashedThreadInReport:(MSPLCrashReport *)report;
 
 @end
-
-#endif /* MSErrorLogFormatterPrivate_h */

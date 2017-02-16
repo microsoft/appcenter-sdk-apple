@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSFile.h"
 #import <Foundation/Foundation.h>
 
@@ -15,8 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Returns the `NSFileManager` instance used for reading and writing
  * directories.
- *
- * @returns
+ * @return instance of `NSFileManager`
  */
 + (NSFileManager *)fileManager;
 

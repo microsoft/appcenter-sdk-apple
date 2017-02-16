@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSIngestionSender.h"
 #import "MobileCenter.h"
 #import "MSLogger.h"

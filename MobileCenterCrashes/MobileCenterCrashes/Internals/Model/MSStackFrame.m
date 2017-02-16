@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSStackFrame.h"
 
 static NSString *const kMSAddress = @"address";
