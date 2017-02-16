@@ -7,17 +7,17 @@
 @interface MSUpdates : MSServiceAbstract
 
 /**
- * Change the base URL that is used to  login/authenticate users.
+ * Change The URL that will be used for genereric update related tasks, e.g. fetching the auth token..
  *
- * @param loginUrl The URL that will be used for login.
+ * @param apiUrl The new URL.
  */
-+ (void)setLoginUrl:(NSString *)loginUrl;
++ (void)setApiUrl:(NSString *)apiUrl;
 
 /**
- * Change the base URL that is used to fetch updates.
+ * Change the base URL that is used to install updates.
  *
- * @param updateUrl The URL will be used to fetch updates.
+ * @param installUrl The new URL.
  */
-+ (void)setUpdateUrl:(NSString *)updateUrl;
++ (void)setInstallUrl:(NSString *)installUrl;
 
 @end

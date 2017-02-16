@@ -13,14 +13,14 @@
 static NSString *const kMSServiceName = @"Updates";
 
 /**
- * Base URL for HTTP Distribution login API calls.
+ * Base URL for HTTP Distribution install API calls.
  */
-static NSString *const kMSDefaultLoginUrl = @"http://install.asgard-int.trafficmanager.net";
+static NSString *const kMSDefaultInstallUrl = @"http://install.asgard-int.trafficmanager.net";
 
 /**
  * Base URL for HTTP Distribution update API calls.
  */
-static NSString *const kMSDefaultUpdateUrl = @"https://asgard-int.trafficmanager.net/api/v0.1";
+static NSString *const kMSDefaultApiUrl = @"https://asgard-int.trafficmanager.net/api/v0.1";
 
 /**
  * The API path for update request.
@@ -40,20 +40,20 @@ static NSString *const kMSUpdatesHeaderApiToken = @"x-api-token";
 
 #pragma mark - Public
 
-+ (void)setLoginUrl:(NSString *)loginUrl {
-  [[self sharedInstance] setLoginUrl:loginUrl];
++ (void)setApiUrl:(NSString *)apiUrl {
+  [[self sharedInstance] setApiUrl:apiUrl];
 }
 
-+ (void)setUpdateUrl:(NSString *)updateUrl {
-  [[self sharedInstance] setUpdateUrl:updateUrl];
++ (void)setInstallUrl:(NSString *)installUrl {
+  [[self sharedInstance] setInstallUrl:installUrl];
 }
 
 #pragma mark - Service initialization
 
 - (instancetype)init {
   if ((self = [super init])) {
-    _loginUrl = kMSDefaultLoginUrl;
-    _updateUrl = kMSDefaultUpdateUrl;
+    _apiUrl = kMSDefaultApiUrl;
+    _installUrl = kMSDefaultInstallUrl;
   }
   return self;
 }
@@ -88,7 +88,7 @@ static NSString *const kMSUpdatesHeaderApiToken = @"x-api-token";
   // TODO: Hook up with update token getter later.
   NSString *updateToken = @"temporary-token";
   self.sender =
-      [[MSDistributionSender alloc] initWithBaseUrl:self.updateUrl
+      [[MSDistributionSender alloc] initWithBaseUrl:self.apiUrl
                                             apiPath:[NSString stringWithFormat:kMSUpdatesApiPathFormat, appSecret]
                                             // TODO: Update token in header should be in format of "Bearer {JWT token}"
                                             headers:@{
