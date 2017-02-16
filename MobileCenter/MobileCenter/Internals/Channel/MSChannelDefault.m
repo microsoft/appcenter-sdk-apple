@@ -108,7 +108,7 @@
     // Save the log first.
     MSLogDebug([MSMobileCenter logTag], @"Saving log, type: %@.", item.type);
     BOOL success = [self.storage saveLog:item withStorageKey:self.configuration.name];
-    _itemsCount += 1;
+    self.itemsCount += 1;
     if (completion) {
       completion(success);
     }
@@ -254,7 +254,7 @@
 
     // Flush the queue as needed.
     if (strongSelf) {
-      if (strongSelf->_itemsCount > 0) {
+      if (strongSelf.itemsCount > 0) {
         [strongSelf flushQueue];
       }
       [strongSelf resetTimer];

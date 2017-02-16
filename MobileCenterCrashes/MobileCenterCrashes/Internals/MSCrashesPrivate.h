@@ -21,8 +21,8 @@ struct MSCrashesBufferedLog {
   MSCrashesBufferedLog() = default;
 
   MSCrashesBufferedLog(NSString *path, NSData *data)
-      : bufferPath(path.UTF8String), buffer(&reinterpret_cast<const char *>(data.bytes)[0],
-                                            &reinterpret_cast<const char *>(data.bytes)[data.length]) {}
+  : bufferPath(path.UTF8String), buffer(&reinterpret_cast<const char *>(data.bytes)[0],
+                                        &reinterpret_cast<const char *>(data.bytes)[data.length]) {}
 };
 
 /**
@@ -124,26 +124,6 @@ typedef struct MSCrashesCallbacks {
  * A flag that indicates that crashes are currently sent to the backend.
  */
 @property(nonatomic) BOOL sendingInProgress;
-
-/**
- * Indicates if the app crashed in the previous session
- *
- * Use this on startup, to check if the app starts the first time after it
- crashed
- * previously. You can use this also to disable specific events, like asking
- * the user to rate your app.
-
- * @warning This property only has a correct value, once the sdk has been
- properly initialized!
-
- * @see lastSessionCrashReport
- */
-@property(atomic, readonly) BOOL didCrashInLastSession;
-
-/**
- * Detail information about the last crash.
- */
-@property(atomic, readonly, getter=getLastSessionCrashReport) MSErrorReport *lastSessionCrashReport;
 
 /**
  * Temporary storage for crashes logs to handle user confirmation and callbacks.
