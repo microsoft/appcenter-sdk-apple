@@ -3,6 +3,8 @@
  */
 
 #import "MSAbstractLog.h"
+#import "MSDevice.h"
+
 #import <Foundation/Foundation.h>
 
 @interface MSDevice () <MSSerializableObject>
