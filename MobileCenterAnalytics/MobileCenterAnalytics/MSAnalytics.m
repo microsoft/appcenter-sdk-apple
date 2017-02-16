@@ -4,11 +4,11 @@
 
 #import "MSAnalytics.h"
 #import "MSAnalyticsCategory.h"
+#import "MSAnalyticsInternal.h"
 #import "MSAnalyticsPrivate.h"
 #import "MSEventLog.h"
 #import "MSPageLog.h"
 #import "MSServiceAbstractProtected.h"
-#import "MSAnalyticsInternal.h"
 
 /**
  * Service storage key name.
@@ -69,10 +69,6 @@ static dispatch_once_t onceToken;
 
 - (MSPriority)priority {
   return MSPriorityDefault;
-}
-
-- (MSInitializationPriority)initializationPriority {
-  return MSInitializationPriorityDefault;
 }
 
 #pragma mark - MSServiceAbstract

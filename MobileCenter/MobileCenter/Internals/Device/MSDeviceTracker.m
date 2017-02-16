@@ -3,10 +3,10 @@
  */
 
 #import "MSConstants+Internal.h"
+#import "MSDevicePrivate.h"
 #import "MSDeviceTracker.h"
 #import "MSDeviceTrackerPrivate.h"
 #import "MSUtil.h"
-#import "MSDevicePrivate.h"
 #import "MSWrapperSdkPrivate.h"
 
 // SDK versioning struct. Needs to be big enough to hold the info.
@@ -18,12 +18,11 @@ typedef struct {
 } ms_info_t;
 
 // SDK versioning.
-ms_info_t mobilecenter_library_info __attribute__((section("__TEXT,__ms_ios,regular,no_dead_strip"))) = {
-    .info_version = 1,
-    .ms_name = MOBILE_CENTER_C_NAME,
-    .ms_version = MOBILE_CENTER_C_VERSION,
-    .ms_build = MOBILE_CENTER_C_BUILD
-};
+ms_info_t mobilecenter_library_info
+    __attribute__((section("__TEXT,__ms_ios,regular,no_dead_strip"))) = {.info_version = 1,
+                                                                         .ms_name = MOBILE_CENTER_C_NAME,
+                                                                         .ms_version = MOBILE_CENTER_C_VERSION,
+                                                                         .ms_build = MOBILE_CENTER_C_BUILD};
 
 @implementation MSDeviceTracker : NSObject
 
@@ -33,7 +32,7 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
 static BOOL needRefresh = YES;
 
 + (void)setWrapperSdk:(MSWrapperSdk *)wrapperSdk {
-  @synchronized (self) {
+  @synchronized(self) {
     wrapperSdkInformation = wrapperSdk;
     needRefresh = YES;
   }
@@ -43,7 +42,7 @@ static BOOL needRefresh = YES;
  *  Get the current device log.
  */
 - (MSDevice *)device {
-  @synchronized (self) {
+  @synchronized(self) {
 
     // Lazy creation.
     if (!_device || needRefresh) {
@@ -57,9 +56,8 @@ static BOOL needRefresh = YES;
  *  Refresh device properties.
  */
 - (void)refresh {
-  @synchronized (self) {
+  @synchronized(self) {
     MSDevice *newDevice = [[MSDevice alloc] init];
-    NSBundle *appBundle = [NSBundle mainBundle];
     CTCarrier *carrier = [[[CTTelephonyNetworkInfo alloc] init] subscriberCellularProvider];
 
     // Collect device properties.
@@ -73,11 +71,11 @@ static BOOL needRefresh = YES;
     newDevice.locale = [self locale:MS_LOCALE];
     newDevice.timeZoneOffset = [self timeZoneOffset:[NSTimeZone localTimeZone]];
     newDevice.screenSize = [self screenSize];
-    newDevice.appVersion = [self appVersion:appBundle];
+    newDevice.appVersion = [self appVersion:MS_APP_MAIN_BUNDLE];
     newDevice.carrierCountry = [self carrierCountry:carrier];
     newDevice.carrierName = [self carrierName:carrier];
-    newDevice.appBuild = [self appBuild:appBundle];
-    newDevice.appNamespace = [self appNamespace:appBundle];
+    newDevice.appBuild = [self appBuild:MS_APP_MAIN_BUNDLE];
+    newDevice.appNamespace = [self appNamespace:MS_APP_MAIN_BUNDLE];
 
     // Add wrapper SDK information
     [self refreshWrapperSdk:newDevice];
@@ -132,7 +130,7 @@ static BOOL needRefresh = YES;
 - (NSString *)osBuild {
   size_t size;
   sysctlbyname("kern.osversion", NULL, &size, NULL, 0);
-  char *answer = (char *) malloc(size);
+  char *answer = (char *)malloc(size);
   if (answer == NULL)
     return nil; // returning nil to avoid a possible crash.
   sysctlbyname("kern.osversion", answer, &size, NULL, 0);
@@ -152,7 +150,7 @@ static BOOL needRefresh = YES;
 - (NSString *)screenSize {
   CGFloat scale = [UIScreen mainScreen].scale;
   CGSize screenSize = [UIScreen mainScreen].bounds.size;
-  return [NSString stringWithFormat:@"%dx%d", (int) (screenSize.height * scale), (int) (screenSize.width * scale)];
+  return [NSString stringWithFormat:@"%dx%d", (int)(screenSize.height * scale), (int)(screenSize.width * scale)];
 }
 
 - (NSString *)carrierName:(CTCarrier *)carrier {
