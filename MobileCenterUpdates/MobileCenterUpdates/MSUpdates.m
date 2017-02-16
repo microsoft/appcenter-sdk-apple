@@ -8,7 +8,6 @@
 #import "MSUpdates.h"
 #import "MSUtil.h"
 
-#import <CodeSignatureExtraction/CodeSignatureExtraction.h> //TODO Better rewrite the code in objective c and use it directly.
 #import <Foundation/Foundation.h>
 #import <SafariServices/SafariServices.h>
 
@@ -100,7 +99,6 @@ static NSString *const kMSUpdtSchemeExceptionReasonNotFound = @"URL scheme for u
 - (void)startWithLogManager:(id<MSLogManager>)logManager appSecret:(NSString *)appSecret {
   [super startWithLogManager:logManager appSecret:appSecret];
   NSURL *url;
-  NSError *error;
 
   // Most failures here require an app update. Thus, it will be retried only on next App instance.
   @try {
@@ -120,12 +118,15 @@ static NSString *const kMSUpdtSchemeExceptionReasonNotFound = @"URL scheme for u
     }
 
     // Set URL query parameters.
-    NSString *buildUUID = [[MSFTCECodeSignatureExtractor forMainBundle] getUUIDHashHexStringAndReturnError:&error];
-    if (error) {
-      @throw [[NSException alloc] initWithName:kMSUpdtBuildIdExceptionName
-                                        reason:[error localizedDescription]
-                                      userInfo:nil];
-    }
+    
+    // FIXME: Workaround to fill in the app name required by the backend for now, supposed to be a build UUID.
+    NSString *buildUUID = [MS_APP_MAIN_BUNDLE objectForInfoDictionaryKey:@"MSAppName"];
+//    NSString *buildUUID = [[MSFTCECodeSignatureExtractor forMainBundle] getUUIDHashHexStringAndReturnError:&error];
+//    if (error) {
+//      @throw [[NSException alloc] initWithName:kMSUpdtBuildIdExceptionName
+//                                        reason:[error localizedDescription]
+//                                      userInfo:nil];
+//    }
     NSMutableArray *queryItems = [NSMutableArray array];
     if (![self checkURLSchemeRegistered:kMSUpdtDefaultCustomScheme]) {
       @throw [[NSException alloc] initWithName:kMSUpdtSchemeExceptionName

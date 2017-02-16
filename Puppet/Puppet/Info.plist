@@ -56,5 +56,7 @@
       </array>
     </dict>
   </array>
+  <key>MSAppName</key>
+  <string>puppet-ios</string>
 </dict>
 </plist>
