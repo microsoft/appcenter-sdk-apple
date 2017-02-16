@@ -76,10 +76,10 @@ static NSURL *sfURL;
   // Then
   assertThatLong(queryStrings.count, equalToLong(4));
   assertThatBool([components.path containsString:kMSTestAppSecret], isTrue());
-  assertThat(queryStrings[kMSUpdtURLQueryPlatformKey], is(kMSUpdtURLQueryPlatformValue));
-  assertThat(queryStrings[kMSUpdtURLQueryRedirectIdKey], is(kMSUpdtDefaultCustomScheme));
-  assertThat(queryStrings[kMSUpdtURLQueryRequestIdKey], notNilValue());
-  assertThat(queryStrings[kMSUpdtURLQueryReleaseHashKey], notNilValue());
+  assertThat(queryStrings[kMSUpdtsURLQueryPlatformKey], is(kMSUpdtsURLQueryPlatformValue));
+  assertThat(queryStrings[kMSUpdtsURLQueryRedirectIdKey], is(kMSUpdtsDefaultCustomScheme));
+  assertThat(queryStrings[kMSUpdtsURLQueryRequestIdKey], notNilValue());
+  assertThat(queryStrings[kMSUpdtsURLQueryReleaseHashKey], notNilValue());
 }
 
 - (void)testOpenURLInSafariApp {

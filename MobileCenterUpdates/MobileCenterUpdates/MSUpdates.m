@@ -19,7 +19,7 @@ static NSString *const kMSServiceName = @"Updates";
 /**
  * The header name for update token
  */
-static NSString *const kMSUpdatesHeaderApiToken = @"x-api-token";
+static NSString *const kMSUpdtsHeaderApiToken = @"x-api-token";
 
 #pragma mark - URL constants
 
@@ -36,27 +36,27 @@ static NSString *const kMSDefaultApiUrl = @"https://asgard-int.trafficmanager.ne
 /**
  * The API path for latest release request.
  */
-static NSString *const kMSUpdatesLatestReleaseApiPathFormat = @"/sdk/apps/%@/releases/latest";
+static NSString *const kMSUpdtsLatestReleaseApiPathFormat = @"/sdk/apps/%@/releases/latest";
 
 /**
  * The API path for update token request.
  */
-static NSString *const kMSUpdatesUpdateTokenApiPathFormat = @"/apps/%@/update-setup";
+static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setup";
 
 #pragma mark - Exception constants
 
 /**
  * Exceptions' names.
  */
-static NSString *const kMSUpdtURLExceptionName = @"UpdateURLFailure";
-static NSString *const kMSUpdtSchemeExceptionName = @"UpdateSchemeFailure";
-static NSString *const kMSUpdtBuildIdExceptionName = @"UpdateBuildIdFailure";
+static NSString *const kMSUpdtsURLExceptionName = @"UpdateURLFailure";
+static NSString *const kMSUpdtsSchemeExceptionName = @"UpdateSchemeFailure";
+static NSString *const kMSUpdtsBuildIdExceptionName = @"UpdateBuildIdFailure";
 
 /**
  * Exceptions' reasons.
  */
-static NSString *const kMSUpdtURLExceptionReasonInvalid = @"Invalid Update URL:\n%@";
-static NSString *const kMSUpdtSchemeExceptionReasonNotFound = @"URL scheme for updates not found.";
+static NSString *const kMSUpdtsURLExceptionReasonInvalid = @"Invalid Update URL:\n%@";
+static NSString *const kMSUpdtsSchemeExceptionReasonNotFound = @"URL scheme for updates not found.";
 
 @implementation MSUpdates
 
@@ -132,10 +132,10 @@ static NSString *const kMSUpdtSchemeExceptionReasonNotFound = @"URL scheme for u
   NSString *updateToken = @"temporary-token";
   self.sender =
       [[MSDistributionSender alloc] initWithBaseUrl:self.apiUrl
-                                            apiPath:[NSString stringWithFormat:kMSUpdatesLatestReleaseApiPathFormat, appSecret]
+                                            apiPath:[NSString stringWithFormat:kMSUpdtsLatestReleaseApiPathFormat, appSecret]
                                             // TODO: Update token in header should be in format of "Bearer {JWT token}"
                                             headers:@{
-                                              kMSUpdatesHeaderApiToken : updateToken
+                                              kMSUpdtsHeaderApiToken : updateToken
                                             }
                                        queryStrings:nil
                                        reachability:[MS_Reachability reachabilityForInternetConnection]
@@ -210,7 +210,7 @@ static NSString *const kMSUpdtSchemeExceptionReasonNotFound = @"URL scheme for u
 - (NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret {
 
   // Compute URL path string.
-  NSString *urlPath = [NSString stringWithFormat:kMSUpdatesUpdateTokenApiPathFormat, appSecret];
+  NSString *urlPath = [NSString stringWithFormat:kMSUpdtsUpdateTokenApiPathFormat, appSecret];
 
   // Build URL string.
   NSString *urlString = [kMSDefaultInstallUrl stringByAppendingString:urlPath];
@@ -218,8 +218,8 @@ static NSString *const kMSUpdtSchemeExceptionReasonNotFound = @"URL scheme for u
 
   // Check URL validity so far.
   if (!components) {
-    @throw [[NSException alloc] initWithName:kMSUpdtURLExceptionName
-                                      reason:[NSString stringWithFormat:kMSUpdtURLExceptionReasonInvalid, urlString]
+    @throw [[NSException alloc] initWithName:kMSUpdtsURLExceptionName
+                                      reason:[NSString stringWithFormat:kMSUpdtsURLExceptionReasonInvalid, urlString]
                                     userInfo:nil];
   }
 
@@ -229,28 +229,28 @@ static NSString *const kMSUpdtSchemeExceptionReasonNotFound = @"URL scheme for u
   NSString *buildUUID = [MS_APP_MAIN_BUNDLE objectForInfoDictionaryKey:@"MSAppName"];
   //    NSString *buildUUID = [[MSFTCECodeSignatureExtractor forMainBundle] getUUIDHashHexStringAndReturnError:&error];
   //    if (error) {
-  //      @throw [[NSException alloc] initWithName:kMSUpdtBuildIdExceptionName
+  //      @throw [[NSException alloc] initWithName:kMSUpdtsBuildIdExceptionName
   //                                        reason:[error localizedDescription]
   //                                      userInfo:nil];
   //    }
   NSMutableArray *queryItems = [NSMutableArray array];
-  if (![self checkURLSchemeRegistered:kMSUpdtDefaultCustomScheme]) {
-    @throw [[NSException alloc] initWithName:kMSUpdtSchemeExceptionName
-                                      reason:kMSUpdtSchemeExceptionReasonNotFound
+  if (![self checkURLSchemeRegistered:kMSUpdtsDefaultCustomScheme]) {
+    @throw [[NSException alloc] initWithName:kMSUpdtsSchemeExceptionName
+                                      reason:kMSUpdtsSchemeExceptionReasonNotFound
                                     userInfo:nil];
   }
-  [queryItems addObject:[NSURLQueryItem queryItemWithName:kMSUpdtURLQueryReleaseHashKey value:buildUUID]];
+  [queryItems addObject:[NSURLQueryItem queryItemWithName:kMSUpdtsURLQueryReleaseHashKey value:buildUUID]];
   [queryItems
-      addObject:[NSURLQueryItem queryItemWithName:kMSUpdtURLQueryRedirectIdKey value:kMSUpdtDefaultCustomScheme]];
-  [queryItems addObject:[NSURLQueryItem queryItemWithName:kMSUpdtURLQueryRequestIdKey value:MS_UUID_STRING]];
+      addObject:[NSURLQueryItem queryItemWithName:kMSUpdtsURLQueryRedirectIdKey value:kMSUpdtsDefaultCustomScheme]];
+  [queryItems addObject:[NSURLQueryItem queryItemWithName:kMSUpdtsURLQueryRequestIdKey value:MS_UUID_STRING]];
   [queryItems
-      addObject:[NSURLQueryItem queryItemWithName:kMSUpdtURLQueryPlatformKey value:kMSUpdtURLQueryPlatformValue]];
+      addObject:[NSURLQueryItem queryItemWithName:kMSUpdtsURLQueryPlatformKey value:kMSUpdtsURLQueryPlatformValue]];
   components.queryItems = queryItems;
 
   // Check URL validity.
   if (!components.URL) {
-    @throw [[NSException alloc] initWithName:kMSUpdtURLExceptionName
-                                      reason:[NSString stringWithFormat:kMSUpdtURLExceptionReasonInvalid, components]
+    @throw [[NSException alloc] initWithName:kMSUpdtsURLExceptionName
+                                      reason:[NSString stringWithFormat:kMSUpdtsURLExceptionReasonInvalid, components]
                                     userInfo:nil];
   }
   return components.URL;

@@ -4,20 +4,20 @@
 /**
  * Updates url query parameter key strings.
  */
-static NSString *const kMSUpdtURLQueryPlatformKey = @"platform";
-static NSString *const kMSUpdtURLQueryReleaseHashKey = @"release_hash";
-static NSString *const kMSUpdtURLQueryRedirectIdKey = @"redirect_id";
-static NSString *const kMSUpdtURLQueryRequestIdKey = @"request_id";
+static NSString *const kMSUpdtsURLQueryPlatformKey = @"platform";
+static NSString *const kMSUpdtsURLQueryReleaseHashKey = @"release_hash";
+static NSString *const kMSUpdtsURLQueryRedirectIdKey = @"redirect_id";
+static NSString *const kMSUpdtsURLQueryRequestIdKey = @"request_id";
 
 /**
  * Updates url query parameter value strings.
  */
-static NSString *const kMSUpdtURLQueryPlatformValue = @"iOS";
+static NSString *const kMSUpdtsURLQueryPlatformValue = @"iOS";
 
 /**
  * Updates custom scheme.
  */
-static NSString *const kMSUpdtDefaultCustomScheme = @"msupdt";
+static NSString *const kMSUpdtsDefaultCustomScheme = @"msupdt";
 
 @interface MSUpdates ()
 
