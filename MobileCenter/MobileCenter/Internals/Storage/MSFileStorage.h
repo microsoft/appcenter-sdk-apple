@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSStorage.h"
 #import "MSStorageBucket.h"
 #import <Foundation/Foundation.h>

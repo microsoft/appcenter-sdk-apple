@@ -1,8 +1,10 @@
+
 #import <Foundation/Foundation.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
+#import "MSAppleErrorLog.h"
 #import "MSChannelDelegate.h"
 #import "MSCrashesDelegate.h"
 #import "MSCrashesInternal.h"
@@ -12,11 +14,10 @@
 #import "MSServiceAbstractPrivate.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSUtil.h"
-#import "MSAppleErrorLog.h"
-
-static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
 @class MSMockCrashesDelegate;
+
+static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
 @interface MSCrashesTests : XCTestCase
 
@@ -74,7 +75,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 }
 
 - (void)testSettingDelegateWorks {
-  id <MSCrashesDelegate> delegateMock = OCMProtocolMock(@protocol(MSCrashesDelegate));
+  id<MSCrashesDelegate> delegateMock = OCMProtocolMock(@protocol(MSCrashesDelegate));
   [MSCrashes setDelegate:delegateMock];
   XCTAssertNotNil([MSCrashes sharedInstance].delegate);
   XCTAssertEqual([MSCrashes sharedInstance].delegate, delegateMock);
@@ -169,7 +170,8 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [self.sut createBufferFileWithName:testName];
 
   // Then
-  NSString *filePath = [self.sut.logBufferDir stringByAppendingPathComponent:[testName stringByAppendingString:@".mscrasheslogbuffer"]];
+  NSString *filePath =
+      [self.sut.logBufferDir stringByAppendingPathComponent:[testName stringByAppendingString:@".mscrasheslogbuffer"]];
   BOOL success = [[NSFileManager defaultManager] fileExistsAtPath:filePath];
   XCTAssertTrue(success);
 }
@@ -179,7 +181,8 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   NSString *testName = @"afilename";
   NSString *dataString = @"SomeBufferedData";
   NSData *someData = [dataString dataUsingEncoding:NSUTF8StringEncoding];
-  NSString *filePath = [self.sut.logBufferDir stringByAppendingPathComponent:[testName stringByAppendingString:@".mscrasheslogbuffer"]];
+  NSString *filePath =
+      [self.sut.logBufferDir stringByAppendingPathComponent:[testName stringByAppendingString:@".mscrasheslogbuffer"]];
 
   [someData writeToFile:filePath options:NSDataWritingFileProtectionNone error:nil];
 
@@ -212,18 +215,37 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   }
   // Then
   XCTAssertTrue(self.sut.bufferIndex == 20);
-  
+
   // When
-  
   MSAppleErrorLog *log = [MSAppleErrorLog new];
   [self.sut onProcessingLog:log withPriority:MSPriorityHigh];
-  
+
   // Then
   XCTAssertTrue(self.sut.bufferIndex == 1);
 }
 
 - (void)testInitializationPriorityCorrect {
   XCTAssertTrue([[MSCrashes sharedInstance] initializationPriority] == MSInitializationPriorityMax);
+}
+
+- (void)testEnablingMachExceptionWorks {
+  // Then
+  XCTAssertFalse([[MSCrashes sharedInstance] isMachExceptionHandlerEnabled]);
+  
+  // When
+  [MSCrashes enableMachExceptionHandler];
+  
+  // Then
+  XCTAssertTrue([[MSCrashes sharedInstance] isMachExceptionHandlerEnabled]);
+  
+  // Then
+  XCTAssertFalse([self.sut isMachExceptionHandlerEnabled]);
+  
+  // When
+  [self.sut setEnableMachExceptionHandler:YES];
+  
+  // Then
+  XCTAssertTrue([self.sut isMachExceptionHandlerEnabled]);
 }
 
 @end

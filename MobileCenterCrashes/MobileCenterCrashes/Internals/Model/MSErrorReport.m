@@ -1,11 +1,13 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSErrorReport.h"
 #import "MSErrorReportPrivate.h"
 
 NSString *const kMSErrorReportKillSignal = @"SIGKILL";
+
+@interface MSErrorReport()
+
+@property (nonatomic,copy) NSString *signal;
+
+@end
 
 @implementation MSErrorReport
 
@@ -36,7 +38,7 @@ NSString *const kMSErrorReportKillSignal = @"SIGKILL";
 - (BOOL)isAppKill {
   BOOL result = NO;
 
-  if (_signal && [[_signal uppercaseString] isEqualToString:kMSErrorReportKillSignal])
+  if (self.signal && [[self.signal uppercaseString] isEqualToString:kMSErrorReportKillSignal])
     result = YES;
 
   return result;

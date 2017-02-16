@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSCrashes.h"
 #import <CrashReporter/CrashReporter.h>
 
@@ -13,19 +9,19 @@
 /**
  * Data structure for logs that need to be flushed at crash time to make sure no log is lost at crash time.
  * @property bufferPath The path where the buffered log should be persisted.
- * @property buffer The actual buffered data. It comes in the form of a std::string but actually contains an NSData object
+ * @property buffer The actual buffered data. It comes in the form of a std::string but actually contains an NSData
+ * object
  * which is a serialized log.
  */
 struct MSCrashesBufferedLog {
-    std::string bufferPath;
-    std::string buffer;
+  std::string bufferPath;
+  std::string buffer;
 
-    MSCrashesBufferedLog() = default;
+  MSCrashesBufferedLog() = default;
 
-    MSCrashesBufferedLog(NSString *path, NSData *data) :
-            bufferPath(path.UTF8String),
-            buffer(&reinterpret_cast<const char *>(data.bytes)[0], &reinterpret_cast<const char *>(data.bytes)[data.length]) {
-    }
+  MSCrashesBufferedLog(NSString *path, NSData *data)
+  : bufferPath(path.UTF8String), buffer(&reinterpret_cast<const char *>(data.bytes)[0],
+                                        &reinterpret_cast<const char *>(data.bytes)[data.length]) {}
 };
 
 /**
@@ -60,14 +56,16 @@ typedef void (*MSCrashesPostCrashSignalCallback)(void *context);
  */
 typedef struct MSCrashesCallbacks {
 
-    /** An arbitrary user-supplied context value. This value may be NULL. */
-    void *context;
+  /** An arbitrary user-supplied context value. This value may be NULL. */
+  void *context;
 
-    /**
-     * The callback used to report caught signal information.
-     */
-    MSCrashesPostCrashSignalCallback handleSignal;
+  /**
+   * The callback used to report caught signal information.
+   */
+  MSCrashesPostCrashSignalCallback handleSignal;
 } MSCrashesCallbacks;
+
+@property(nonatomic, assign, getter=isMachExceptionHandlerEnabled) BOOL enableMachExceptionHandler;
 
 /**
  * A list containing all crash files that currently stored on disk for this app.
@@ -99,7 +97,7 @@ typedef struct MSCrashesCallbacks {
  * The object implements the protocol defined in `MSCrashesDelegate`.
  * @see MSCrashesDelegate
  */
-@property(nonatomic, weak) id <MSCrashesDelegate> delegate;
+@property(nonatomic, weak) id<MSCrashesDelegate> delegate;
 
 /**
  * The `PLCrashReporter` instance used for crash detection.
@@ -120,26 +118,6 @@ typedef struct MSCrashesCallbacks {
  * A flag that indicates that crashes are currently sent to the backend.
  */
 @property(nonatomic) BOOL sendingInProgress;
-
-/**
- * Indicates if the app crashed in the previous session
- *
- * Use this on startup, to check if the app starts the first time after it
- crashed
- * previously. You can use this also to disable specific events, like asking
- * the user to rate your app.
-
- * @warning This property only has a correct value, once the sdk has been
- properly initialized!
-
- * @see lastSessionCrashReport
- */
-@property(atomic, readonly) BOOL didCrashInLastSession;
-
-/**
- * Detail information about the last crash.
- */
-@property(atomic, readonly, getter=getLastSessionCrashReport) MSErrorReport *lastSessionCrashReport;
 
 /**
  * Temporary storage for crashes logs to handle user confirmation and callbacks.
@@ -202,6 +180,6 @@ typedef struct MSCrashesCallbacks {
  */
 - (void)emptyLogBufferFiles;
 
-- (void)onProcessingLog:(id <MSLog>)log withPriority:(MSPriority)priority;
+- (void)onProcessingLog:(id<MSLog>)log withPriority:(MSPriority)priority;
 
 @end

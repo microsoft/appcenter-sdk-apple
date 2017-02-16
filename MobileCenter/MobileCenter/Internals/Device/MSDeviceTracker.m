@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSConstants+Internal.h"
 #import "MSDeviceTracker.h"
 #import "MSDeviceTrackerPrivate.h"
@@ -24,6 +20,13 @@ ms_info_t mobilecenter_library_info __attribute__((section("__TEXT,__ms_ios,regu
     .ms_version = MOBILE_CENTER_C_VERSION,
     .ms_build = MOBILE_CENTER_C_BUILD
 };
+
+@interface MSDeviceTracker()
+
+// We need a private setter for the device to avoid ivars direct access warning.
+@property(nonatomic) MSDevice *device;
+
+@end
 
 @implementation MSDeviceTracker : NSObject
 
@@ -83,7 +86,7 @@ static BOOL needRefresh = YES;
     [self refreshWrapperSdk:newDevice];
 
     // Set the new device info.
-    _device = newDevice;
+    self.device = newDevice;
     needRefresh = NO;
   }
 }
