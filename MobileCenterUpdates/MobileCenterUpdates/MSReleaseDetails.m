@@ -72,4 +72,8 @@ static NSString *const kMSDistributionGroups = @"distribution_groups";
   return self;
 }
 
+- (BOOL)isValid {
+  return (self.id && self.downloadUrl);
+}
+
 @end
