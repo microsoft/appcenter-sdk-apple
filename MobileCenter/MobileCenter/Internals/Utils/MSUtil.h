@@ -88,7 +88,7 @@ typedef NS_ENUM(NSInteger, MSApplicationState) {
 + (void)sharedAppOpenURL:(NSURL *)url;
 
 /**
- * Let the caller know if the given URL can be opened by the OS.
+ * Determine whether the OS can open the URL or not.
  *
  * @param url URL to test.
  *

@@ -6,6 +6,7 @@
 #import "MSUpdates.h"
 #import "MSUpdatesPrivate.h"
 #import "MSUpdatesInternal.h"
+#import "MSUpdatesErrors.h"
 #import "MSUtil.h"
 
 #import <Foundation/Foundation.h>
@@ -44,19 +45,6 @@ static NSString *const kMSUpdtsLatestReleaseApiPathFormat = @"/sdk/apps/%@/relea
 static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setup";
 
 #pragma mark - Exception constants
-
-/**
- * Exceptions' names.
- */
-static NSString *const kMSUpdtsURLExceptionName = @"UpdateURLFailure";
-static NSString *const kMSUpdtsSchemeExceptionName = @"UpdateSchemeFailure";
-static NSString *const kMSUpdtsBuildIdExceptionName = @"UpdateBuildIdFailure";
-
-/**
- * Exceptions' reasons.
- */
-static NSString *const kMSUpdtsURLExceptionReasonInvalid = @"Invalid Update URL:\n%@";
-static NSString *const kMSUpdtsSchemeExceptionReasonNotFound = @"URL scheme for updates not found.";
 
 @implementation MSUpdates
 
@@ -109,11 +97,12 @@ static NSString *const kMSUpdtsSchemeExceptionReasonNotFound = @"URL scheme for 
 
   // TODO: Hook up with pipeline.
   NSURL *url;
-  MSLogInfo([MSUpdates logTag], @"Request updates token.");
+  NSError *error = nil;
+  MSLogInfo([MSUpdates logTag], @"Request updates API token.");
 
   // Most failures here require an app update. Thus, it will be retried only on next App instance.
-  @try {
-    url = [self buildTokenRequestURLWithAppSecret:appSecret];
+  url = [self buildTokenRequestURLWithAppSecret:appSecret error:&error];
+  if (!error){
 
     // iOS 9+ only, check for `SFSafariViewController` availability. `SafariServices` framework MUST be weakly linked.
     // We can't use `NSClassFromString` here to avoid the warning.
@@ -133,8 +122,8 @@ static NSString *const kMSUpdtsSchemeExceptionReasonNotFound = @"URL scheme for 
       // iOS 8.x.
       [self openURLInSafariApp:url];
     }
-  } @catch (NSException *exception) {
-    MSLogError([MSUpdates logTag], @"%@", exception.reason);
+  }else{
+    MSLogError([MSUpdates logTag], @"%@", error.localizedDescription);
   }
 
   // TODO: Hook up with update token getter later.
@@ -216,7 +205,7 @@ static NSString *const kMSUpdtsSchemeExceptionReasonNotFound = @"URL scheme for 
   return NO;
 }
 
-- (NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret {
+- (NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret error:(NSError * __autoreleasing *)error {
 
   // Compute URL path string.
   NSString *urlPath = [NSString stringWithFormat:kMSUpdtsUpdateTokenApiPathFormat, appSecret];
@@ -226,27 +215,29 @@ static NSString *const kMSUpdtsSchemeExceptionReasonNotFound = @"URL scheme for 
   NSURLComponents *components = [NSURLComponents componentsWithString:urlString];
 
   // Check URL validity so far.
-  if (!components) {
-    @throw [[NSException alloc] initWithName:kMSUpdtsURLExceptionName
-                                      reason:[NSString stringWithFormat:kMSUpdtsURLExceptionReasonInvalid, urlString]
-                                    userInfo:nil];
+  if (!components && error) {
+    NSString *desc = [NSString stringWithFormat:@"%@\n%@",kMSUDUpdateTokenURLInvalidErrorDesc,components];
+    *error = [NSError errorWithDomain:kMSUDErrorDomain
+                                         code:kMSUDUpdateTokenURLInvalidErrorCode
+                                     userInfo:@{NSLocalizedDescriptionKey : desc}];
+    return nil;
   }
 
   // Set URL query parameters.
 
   // FIXME: Workaround to fill in the app name required by the backend for now, supposed to be a build UUID.
   NSString *buildUUID = [MS_APP_MAIN_BUNDLE objectForInfoDictionaryKey:@"MSAppName"];
-  //    NSString *buildUUID = [[MSFTCECodeSignatureExtractor forMainBundle] getUUIDHashHexStringAndReturnError:&error];
-  //    if (error) {
-  //      @throw [[NSException alloc] initWithName:kMSUpdtsBuildIdExceptionName
-  //                                        reason:[error localizedDescription]
-  //                                      userInfo:nil];
+  //    NSString *buildUUID = [[MSFTCECodeSignatureExtractor forMainBundle] getUUIDHashHexStringAndReturnError:&buildError];
+  //    if (buildError && error) {
+  //      *error = error;
+  //      return nil;
   //    }
   NSMutableArray *queryItems = [NSMutableArray array];
-  if (![self checkURLSchemeRegistered:kMSUpdtsDefaultCustomScheme]) {
-    @throw [[NSException alloc] initWithName:kMSUpdtsSchemeExceptionName
-                                      reason:kMSUpdtsSchemeExceptionReasonNotFound
-                                    userInfo:nil];
+  if (![self checkURLSchemeRegistered:kMSUpdtsDefaultCustomScheme] && error) {
+    *error = [NSError errorWithDomain:kMSUDErrorDomain
+                                 code:kMSUDUpdateTokenSchemeNotFoundErrorCode
+                             userInfo:@{NSLocalizedDescriptionKey : kMSUDUpdateTokenSchemeNotFoundErrorDesc}];
+    return nil;
   }
   [queryItems addObject:[NSURLQueryItem queryItemWithName:kMSUpdtsURLQueryReleaseHashKey value:buildUUID]];
   [queryItems
@@ -257,10 +248,12 @@ static NSString *const kMSUpdtsSchemeExceptionReasonNotFound = @"URL scheme for 
   components.queryItems = queryItems;
 
   // Check URL validity.
-  if (!components.URL) {
-    @throw [[NSException alloc] initWithName:kMSUpdtsURLExceptionName
-                                      reason:[NSString stringWithFormat:kMSUpdtsURLExceptionReasonInvalid, components]
-                                    userInfo:nil];
+  if (!components.URL && error) {
+    NSString *desc = [NSString stringWithFormat:@"%@\n%@",kMSUDUpdateTokenURLInvalidErrorDesc,components];
+    *error = [NSError errorWithDomain:kMSUDErrorDomain
+                                 code:kMSUDUpdateTokenURLInvalidErrorCode
+                             userInfo:@{NSLocalizedDescriptionKey : desc}];
+    return nil;
   }
   return components.URL;
 }

@@ -48,6 +48,8 @@
 		0471B9441E455A0D0022F951 /* ../MobileCenter/MobileCenter/MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 0471B9431E455A0D0022F951 /* ../MobileCenter/MobileCenter/MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		04FD4A341E453531009B4468 /* MSUpdatesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FD4A331E453531009B4468 /* MSUpdatesTests.m */; };
 		04FD4A4B1E453930009B4468 /* libMobileCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04FD4A4A1E453930009B4468 /* libMobileCenter.a */; };
+		381D5A9C1E57580500F093A2 /* MSUpdatesErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 381D5A9B1E57580500F093A2 /* MSUpdatesErrors.h */; };
+		381D5A9E1E57588C00F093A2 /* MSUpdatesErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 381D5A9D1E57588C00F093A2 /* MSUpdatesErrors.m */; };
 		38C9C56C1E565BF600B0FA0D /* MSUpdatesPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C9C56B1E565BF600B0FA0D /* MSUpdatesPrivate.h */; };
 		B25895AA1E4E9FD400123632 /* MSUpdatesInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = B25895A91E4E9BA100123632 /* MSUpdatesInternal.h */; };
 		BA68206790C0F854C9EA8D23 /* MSDistributionGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = BA682D03AB17395C2378FBB4 /* MSDistributionGroup.m */; };
@@ -118,6 +120,8 @@
 		04FD4A331E453531009B4468 /* MSUpdatesTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSUpdatesTests.m; sourceTree = "<group>"; };
 		04FD4A351E453531009B4468 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		04FD4A4A1E453930009B4468 /* libMobileCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobileCenter.a; path = "../../../../Library/Developer/Xcode/DerivedData/MobileCenter-cxbmzrupyysdsehdxmozcvjphajr/Build/Products/Debug-iphonesimulator/libMobileCenter.a"; sourceTree = "<group>"; };
+		381D5A9B1E57580500F093A2 /* MSUpdatesErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSUpdatesErrors.h; sourceTree = "<group>"; };
+		381D5A9D1E57588C00F093A2 /* MSUpdatesErrors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSUpdatesErrors.m; sourceTree = "<group>"; };
 		38C9C56B1E565BF600B0FA0D /* MSUpdatesPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSUpdatesPrivate.h; sourceTree = "<group>"; };
 		B25895A91E4E9BA100123632 /* MSUpdatesInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MSUpdatesInternal.h; path = Internals/MSUpdatesInternal.h; sourceTree = "<group>"; };
 		BA68205BD5EDC4C308B78AED /* MSDistributionSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDistributionSender.h; sourceTree = "<group>"; };
@@ -261,6 +265,8 @@
 				04FD4A1F1E451E12009B4468 /* MobileCenterUpdates.h */,
 				0471B89A1E4547750022F951 /* MSUpdates.h */,
 				0471B8981E4547480022F951 /* MSUpdates.m */,
+				381D5A9B1E57580500F093A2 /* MSUpdatesErrors.h */,
+				381D5A9D1E57588C00F093A2 /* MSUpdatesErrors.m */,
 				04690E841E4E39850056B916 /* Internals */,
 				0471B5F31E45466F0022F951 /* Support */,
 			);
@@ -308,6 +314,7 @@
 				040AF0331E52859F005C1174 /* MSSender.h in Headers */,
 				BA682289029F0299AACAAF79 /* MSDistributionSender.h in Headers */,
 				BA682DACE1DF78467A005079 /* MSReleaseDetails.h in Headers */,
+				381D5A9C1E57580500F093A2 /* MSUpdatesErrors.h in Headers */,
 				BA682BA06808CF5E02F821D1 /* MSDistributionGroup.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -444,6 +451,7 @@
 				0471B8991E4547480022F951 /* MSUpdates.m in Sources */,
 				BA682F3FEACC62C1D87AB9E3 /* MSDistributionSender.m in Sources */,
 				BA68267B25799F9D8A38DB1B /* MSReleaseDetails.m in Sources */,
+				381D5A9E1E57588C00F093A2 /* MSUpdatesErrors.m in Sources */,
 				BA68206790C0F854C9EA8D23 /* MSDistributionGroup.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

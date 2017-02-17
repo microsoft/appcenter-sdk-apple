@@ -59,11 +59,12 @@ static NSURL *sfURL;
 - (void)testUpdateURL {
 
   // If
+  NSError *error = nil;
   id bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([bundleMock mainBundle]).andReturn([NSBundle bundleForClass:[self class]]);
 
   // When
-  NSURL *url = [self.sut buildTokenRequestURLWithAppSecret:kMSTestAppSecret];
+  NSURL *url = [self.sut buildTokenRequestURLWithAppSecret:kMSTestAppSecret error:&error];
   NSURLComponents *components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:NO];
   NSMutableDictionary<NSString *, NSString *> *queryStrings = [NSMutableDictionary<NSString *, NSString *> new];
   [components.queryItems
@@ -74,12 +75,28 @@ static NSURL *sfURL;
       }];
 
   // Then
+  assertThat(error, nilValue());
   assertThatLong(queryStrings.count, equalToLong(4));
   assertThatBool([components.path containsString:kMSTestAppSecret], isTrue());
   assertThat(queryStrings[kMSUpdtsURLQueryPlatformKey], is(kMSUpdtsURLQueryPlatformValue));
   assertThat(queryStrings[kMSUpdtsURLQueryRedirectIdKey], is(kMSUpdtsDefaultCustomScheme));
   assertThat(queryStrings[kMSUpdtsURLQueryRequestIdKey], notNilValue());
   assertThat(queryStrings[kMSUpdtsURLQueryReleaseHashKey], notNilValue());
+}
+
+- (void)testMalformedUpdateURL {
+  
+  // If
+  NSError *error = nil;
+  NSString *badAppSecret = @"weird\\app\\secret";
+  id bundleMock = OCMClassMock([NSBundle class]);
+  OCMStub([bundleMock mainBundle]).andReturn([NSBundle bundleForClass:[self class]]);
+  
+  // When
+  NSURL *url = [self.sut buildTokenRequestURLWithAppSecret:badAppSecret error:&error];
+  
+  assertThat(url, nilValue());
+  assertThat(error, notNilValue());
 }
 
 - (void)testOpenURLInSafariApp {

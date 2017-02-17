@@ -22,19 +22,20 @@ static NSString *const kMSUpdtsDefaultCustomScheme = @"msupdt";
 @interface MSUpdates ()
 
 /**
- * Build the update URL for token request with the given application secret. Throws exceptions if anything goes wrong.
+ * Build the update URL for token request with the given application secret.
  *
  * @param appSecret Application secret.
+ * @param error Error to be used if anything goes wrong.
  *
- * @return The finale update URL to request the token.
+ * @return The finale update URL to request the token or nil if an error occured.
  */
-- (NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret;
+- (NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret error:(NSError **)error;
 
 /**
  * Open the given URL using an `SFSafariViewController`. Must run on the UI thread! iOS 9+ only.
  *
  * @param url URL to open.
- * @param clazz SFSafariViewController` class.
+ * @param clazz `SFSafariViewController` class.
  */
 - (void)openURLInEmbeddedSafari:(NSURL *)url fromClass:(Class)clazz;
 
