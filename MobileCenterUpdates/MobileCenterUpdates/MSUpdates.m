@@ -115,8 +115,13 @@ static NSString *const kMSUpdtsSchemeExceptionReasonNotFound = @"URL scheme for 
   @try {
     url = [self buildTokenRequestURLWithAppSecret:appSecret];
 
-    // iOS 9+ only, check for SFSafariViewController availability.
-    Class clazz = NSClassFromString(@"SFSafariViewController");
+    // iOS 9+ only, check for `SFSafariViewController` availability. `SafariServices` framework MUST be weakly linked.
+    // We can't use `NSClassFromString` here to avoid the warning.
+    // It doesn't detect the class correctly unless the application explicitely import the related framework.
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpartial-availability"
+    Class clazz = [SFSafariViewController class];
+#pragma clang diagnostic pop
     if (clazz) {
       
       // Manipulate App UI on the main queue.

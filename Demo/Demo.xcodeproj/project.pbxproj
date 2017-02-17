@@ -19,7 +19,6 @@
 		382EC2001DDBBB6800A60DBD /* MobileCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04CCCA471D88AA9F005D8180 /* MobileCenterCrashes.framework */; };
 		382EC2011DDBBB6800A60DBD /* MobileCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04CCCA451D88AA93005D8180 /* MobileCenterAnalytics.framework */; };
 		382EC2021DDBBB6800A60DBD /* MobileCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04CCCA431D88AA86005D8180 /* MobileCenter.framework */; };
-		38C9C58B1E56958200B0FA0D /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38C9C58A1E56958200B0FA0D /* SafariServices.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		6E2307DA1D22083C0031C598 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2307D91D22083C0031C598 /* main.m */; };
 		6E2307DD1D22083C0031C598 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2307DC1D22083C0031C598 /* AppDelegate.m */; };
 		6E2307E01D22083C0031C598 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2307DF1D22083C0031C598 /* ViewController.m */; };
@@ -94,7 +93,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				38C9C58B1E56958200B0FA0D /* SafariServices.framework in Frameworks */,
 				04CCCA441D88AA86005D8180 /* MobileCenter.framework in Frameworks */,
 				04CCCA461D88AA93005D8180 /* MobileCenterAnalytics.framework in Frameworks */,
 				04CCCA481D88AA9F005D8180 /* MobileCenterCrashes.framework in Frameworks */,
