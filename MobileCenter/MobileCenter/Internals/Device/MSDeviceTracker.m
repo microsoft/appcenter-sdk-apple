@@ -170,17 +170,12 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
 
 - (MSDevice *)deviceForToffset:(NSNumber *)tOffset {
   if (!tOffset || self.deviceHistory.count == 0) {
-    //    __block MSDevice *device;
-    //    [self.deviceHistory
-    //        enumerateObjectsUsingBlock:^(MSDeviceHistoryInfo *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
-    //          if ([tOffset compare:obj.tOffset] == NSOrderedDescending) {
-    //            device = obj.device;
-    //            *stop = YES;
-    //          }
-    //        }];
-    //    return device;
+
+    // Return a new device in case we don't have a device in our history or tOffset is nil.
     return [self device];
   } else {
+
+    // This implements a binary search with complexity O(log n).
     MSDeviceHistoryInfo *find = [[MSDeviceHistoryInfo alloc] initWithTOffset:tOffset andDevice:nil];
     NSUInteger index =
         [self.deviceHistory indexOfObject:find
@@ -190,24 +185,21 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
                             return [((MSDeviceHistoryInfo *)a).tOffset compare:((MSDeviceHistoryInfo *)b).tOffset];
                           }];
 
-    // all numbers are larger than search
+    // All tOffsets are larger.
     if (index == 0) {
-      NSLog(@"all numbers are larger than search, found %@", self.deviceHistory[0]);
       return self.deviceHistory[0].device;
     }
 
-    // all numbers are smaller than search
+    // All tOffsets are smaller.
     else if (index == self.deviceHistory.count) {
-      NSLog(@"all numbers are smaller than search, found %@", [self.deviceHistory lastObject]);
       return [self.deviceHistory lastObject].device;
     } else {
-      // our array contains SEARCH or we pick the smallest delta
+      // Either the deviceHistory contains the ECXACT tOffset or we pick the smallest delta.
       long long leftDifference = [tOffset longLongValue] - [self.deviceHistory[index - 1].tOffset longLongValue];
       long long rightDifference = [self.deviceHistory[index].tOffset longLongValue] - [tOffset longLongValue];
       if (leftDifference < rightDifference) {
         --index;
       }
-      NSLog(@"equal value or closest match, found %@", self.deviceHistory[index]);
       return self.deviceHistory[index].device;
     }
   }
