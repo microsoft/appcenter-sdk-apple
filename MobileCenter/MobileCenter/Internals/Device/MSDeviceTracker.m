@@ -47,12 +47,12 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
 
       // If array is not nil, create a mutable version.
       if (arrayFromData)
-        _pastDevices = [NSMutableArray arrayWithArray:arrayFromData];
+        _deviceHistory = [NSMutableArray arrayWithArray:arrayFromData];
     }
 
     // Create new array and creade device info in case we don't have any from disk.
-    if (_pastDevices == nil) {
-      _pastDevices = [NSMutableArray<MSDeviceHistoryInfo *> new];
+    if (_deviceHistory == nil) {
+      _deviceHistory = [NSMutableArray<MSDeviceHistoryInfo *> new];
       
       // Don't assign the new device to the property to continue using lazy initialization later.
       // We're creating this one to have a history.
@@ -98,24 +98,24 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
       MSDeviceHistoryInfo *deviceHistoryInfo = [[MSDeviceHistoryInfo alloc] initWithTOffset:tOffset andDevice:_device];
 
       // Insert at the beginning of the list.
-      //      [self.pastDevices insertObject:deviceHistoryInfo atIndex:0];
+      //      [self.deviceHistory insertObject:deviceHistoryInfo atIndex:0];
 
-      // Insert new MSDeviceHistoryInfo at the proper index to keep self.pastDevices sorted.
-      NSUInteger newIndex = [self.pastDevices indexOfObject:deviceHistoryInfo
-          inSortedRange:(NSRange) { 0, [self.pastDevices count] }
+      // Insert new MSDeviceHistoryInfo at the proper index to keep self.deviceHistory sorted.
+      NSUInteger newIndex = [self.deviceHistory indexOfObject:deviceHistoryInfo
+          inSortedRange:(NSRange) { 0, [self.deviceHistory count] }
           options:NSBinarySearchingInsertionIndex
           usingComparator:^(id a, id b) {
             return [((MSDeviceHistoryInfo *)a).tOffset compare:((MSDeviceHistoryInfo *)b).tOffset];
           }];
-      [self.pastDevices insertObject:deviceHistoryInfo atIndex:newIndex];
+      [self.deviceHistory insertObject:deviceHistoryInfo atIndex:newIndex];
 
-      // Remove first (the oldest) item if reached max limit. //TODO CHECK!
-      if ([self.pastDevices count] > kMSMaxDevicesHistoryCount) {
-        [self.pastDevices removeObjectAtIndex:0];
+      // Remove first (the oldest) item if reached max limit.
+      if ([self.deviceHistory count] > kMSMaxDevicesHistoryCount) {
+        [self.deviceHistory removeObjectAtIndex:0];
       }
 
       // Persist the device history in NSData format.
-      [MS_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.pastDevices]
+      [MS_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.deviceHistory]
                            forKey:kMSPastDevicesKey];
     }
     return _device;
@@ -173,9 +173,9 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
 }
 
 - (MSDevice *)deviceForToffset:(NSNumber *)tOffset {
-  if (!tOffset || self.pastDevices.count == 0) {
+  if (!tOffset || self.deviceHistory.count == 0) {
 //    __block MSDevice *device;
-//    [self.pastDevices
+//    [self.deviceHistory
 //        enumerateObjectsUsingBlock:^(MSDeviceHistoryInfo *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
 //          if ([tOffset compare:obj.tOffset] == NSOrderedDescending) {
 //            device = obj.device;
@@ -186,8 +186,8 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
     return [self device];
   } else {
     MSDeviceHistoryInfo *find = [[MSDeviceHistoryInfo alloc] initWithTOffset:tOffset andDevice:nil];
-    NSUInteger index = [self.pastDevices indexOfObject:find
-                                         inSortedRange:NSMakeRange(0, self.pastDevices.count)
+    NSUInteger index = [self.deviceHistory indexOfObject:find
+                                         inSortedRange:NSMakeRange(0, self.deviceHistory.count)
                                                options:NSBinarySearchingFirstEqual | NSBinarySearchingInsertionIndex
                                        usingComparator:^(id a, id b) {
                                          return [((MSDeviceHistoryInfo *)a).tOffset compare:((MSDeviceHistoryInfo *)b).tOffset];
@@ -195,25 +195,25 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
     
     // all numbers are larger than search
     if (index == 0) {
-      NSLog(@"all numbers are larger than search, found %@", self.pastDevices[0]);
-      return self.pastDevices[0].device;
+      NSLog(@"all numbers are larger than search, found %@", self.deviceHistory[0]);
+      return self.deviceHistory[0].device;
     }
     
     // all numbers are smaller than search
-    else if (index == self.pastDevices.count) {
-      NSLog(@"all numbers are smaller than search, found %@", [self.pastDevices lastObject]);
-      return [self.pastDevices lastObject].device;
+    else if (index == self.deviceHistory.count) {
+      NSLog(@"all numbers are smaller than search, found %@", [self.deviceHistory lastObject]);
+      return [self.deviceHistory lastObject].device;
     }
     else {
       // our array contains SEARCH or we pick the smallest delta
-      long long leftDifference = [tOffset longLongValue] - [self.pastDevices[index - 1].tOffset longLongValue];
-      long long rightDifference = [self.pastDevices[index].tOffset longLongValue] - [tOffset longLongValue];
+      long long leftDifference = [tOffset longLongValue] - [self.deviceHistory[index - 1].tOffset longLongValue];
+      long long rightDifference = [self.deviceHistory[index].tOffset longLongValue] - [tOffset longLongValue];
       if (leftDifference < rightDifference) {
         --index;
         
       }
-      NSLog(@"equal value or closest match, found %@", self.pastDevices[index]);
-      return self.pastDevices[index].device; //TODO rename to deviceHistory
+      NSLog(@"equal value or closest match, found %@", self.deviceHistory[index]);
+      return self.deviceHistory[index].device;
     }
   }
 }
@@ -226,7 +226,7 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
     
     // Clear cache.
     self.device = nil;
-    [self.pastDevices removeAllObjects];
+    [self.deviceHistory removeAllObjects];
   }
 }
 
