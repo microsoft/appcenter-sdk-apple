@@ -1,11 +1,11 @@
 #import "MSUpdates.h"
 #import "MSUpdatesPrivate.h"
 
+#import "MSUpdatesInternal.h"
 #import <Foundation/Foundation.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
-#import "MSUpdatesInternal.h"
 
 static NSString *const kMSTestAppSecret = @"IAMSECRET";
 
@@ -85,16 +85,16 @@ static NSURL *sfURL;
 }
 
 - (void)testMalformedUpdateURL {
-  
+
   // If
   NSError *error = nil;
   NSString *badAppSecret = @"weird\\app\\secret";
   id bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([bundleMock mainBundle]).andReturn([NSBundle bundleForClass:[self class]]);
-  
+
   // When
   NSURL *url = [self.sut buildTokenRequestURLWithAppSecret:badAppSecret error:&error];
-  
+
   assertThat(url, nilValue());
   assertThat(error, notNilValue());
 }
@@ -156,14 +156,14 @@ static NSURL *sfURL;
 }
 
 - (void)testDefaultInstallUrlWorks {
-  
+
   // Then
   XCTAssertNotNil([self.sut installUrl]);
   XCTAssertTrue([[self.sut installUrl] isEqualToString:@"http://install.asgard-int.trafficmanager.net"]);
 }
 
 - (void)testDefaultApiUrlWorks {
-  
+
   // Then
   XCTAssertNotNil([self.sut apiUrl]);
   XCTAssertTrue([[self.sut apiUrl] isEqualToString:@"https://asgard-int.trafficmanager.net/api/v0.1"]);

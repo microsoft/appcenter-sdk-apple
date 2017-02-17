@@ -1,4 +1,4 @@
-#import "MSMobileCenterErrors.h"
+#import "MSUpdatesErrors.h"
 
 #define MS_UPDATES_BASE_DOMAIN @"com.Microsoft.Azure.Mobile.MobileCenterUpdates."
 

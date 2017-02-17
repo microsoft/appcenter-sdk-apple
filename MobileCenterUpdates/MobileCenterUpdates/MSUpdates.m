@@ -4,9 +4,9 @@
 #import "MSReleaseDetails.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSUpdates.h"
-#import "MSUpdatesPrivate.h"
-#import "MSUpdatesInternal.h"
 #import "MSUpdatesErrors.h"
+#import "MSUpdatesInternal.h"
+#import "MSUpdatesPrivate.h"
 #import "MSUtil.h"
 
 #import <Foundation/Foundation.h>
@@ -102,17 +102,17 @@ static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setu
 
   // Most failures here require an app update. Thus, it will be retried only on next App instance.
   url = [self buildTokenRequestURLWithAppSecret:appSecret error:&error];
-  if (!error){
+  if (!error) {
 
-    // iOS 9+ only, check for `SFSafariViewController` availability. `SafariServices` framework MUST be weakly linked.
-    // We can't use `NSClassFromString` here to avoid the warning.
-    // It doesn't detect the class correctly unless the application explicitely import the related framework.
+// iOS 9+ only, check for `SFSafariViewController` availability. `SafariServices` framework MUST be weakly linked.
+// We can't use `NSClassFromString` here to avoid the warning.
+// It doesn't detect the class correctly unless the application explicitely import the related framework.
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpartial-availability"
     Class clazz = [SFSafariViewController class];
 #pragma clang diagnostic pop
     if (clazz) {
-      
+
       // Manipulate App UI on the main queue.
       dispatch_async(dispatch_get_main_queue(), ^{
         [self openURLInEmbeddedSafari:url fromClass:clazz];
@@ -122,22 +122,22 @@ static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setu
       // iOS 8.x.
       [self openURLInSafariApp:url];
     }
-  }else{
+  } else {
     MSLogError([MSUpdates logTag], @"%@", error.localizedDescription);
   }
 
   // TODO: Hook up with update token getter later.
   NSString *updateToken = @"temporary-token";
-  self.sender =
-      [[MSDistributionSender alloc] initWithBaseUrl:self.apiUrl
-                                            apiPath:[NSString stringWithFormat:kMSUpdtsLatestReleaseApiPathFormat, appSecret]
-                                            // TODO: Update token in header should be in format of "Bearer {JWT token}"
-                                            headers:@{
-                                              kMSHeaderUpdateApiToken : updateToken
-                                            }
-                                       queryStrings:nil
-                                       reachability:[MS_Reachability reachabilityForInternetConnection]
-                                     retryIntervals:@[ @(10) ]];
+  self.sender = [[MSDistributionSender alloc]
+      initWithBaseUrl:self.apiUrl
+              apiPath:[NSString stringWithFormat:kMSUpdtsLatestReleaseApiPathFormat, appSecret]
+              // TODO: Update token in header should be in format of "Bearer {JWT token}"
+              headers:@{
+                kMSHeaderUpdateApiToken : updateToken
+              }
+         queryStrings:nil
+         reachability:[MS_Reachability reachabilityForInternetConnection]
+       retryIntervals:@[ @(10) ]];
   MSLogVerbose([MSUpdates logTag], @"Started Updates service.");
 
   if ([self isEnabled]) {
@@ -205,7 +205,7 @@ static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setu
   return NO;
 }
 
-- (NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret error:(NSError * __autoreleasing *)error {
+- (NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret error:(NSError *__autoreleasing *)error {
 
   // Compute URL path string.
   NSString *urlPath = [NSString stringWithFormat:kMSUpdtsUpdateTokenApiPathFormat, appSecret];
@@ -216,10 +216,10 @@ static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setu
 
   // Check URL validity so far.
   if (!components && error) {
-    NSString *desc = [NSString stringWithFormat:@"%@\n%@",kMSUDUpdateTokenURLInvalidErrorDesc,components];
+    NSString *desc = [NSString stringWithFormat:@"%@\n%@", kMSUDUpdateTokenURLInvalidErrorDesc, components];
     *error = [NSError errorWithDomain:kMSUDErrorDomain
-                                         code:kMSUDUpdateTokenURLInvalidErrorCode
-                                     userInfo:@{NSLocalizedDescriptionKey : desc}];
+                                 code:kMSUDUpdateTokenURLInvalidErrorCode
+                             userInfo:@{NSLocalizedDescriptionKey : desc}];
     return nil;
   }
 
@@ -227,7 +227,8 @@ static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setu
 
   // FIXME: Workaround to fill in the app name required by the backend for now, supposed to be a build UUID.
   NSString *buildUUID = [MS_APP_MAIN_BUNDLE objectForInfoDictionaryKey:@"MSAppName"];
-  //    NSString *buildUUID = [[MSFTCECodeSignatureExtractor forMainBundle] getUUIDHashHexStringAndReturnError:&buildError];
+  //    NSString *buildUUID = [[MSFTCECodeSignatureExtractor forMainBundle]
+  //    getUUIDHashHexStringAndReturnError:&buildError];
   //    if (buildError && error) {
   //      *error = error;
   //      return nil;
@@ -249,7 +250,7 @@ static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setu
 
   // Check URL validity.
   if (!components.URL && error) {
-    NSString *desc = [NSString stringWithFormat:@"%@\n%@",kMSUDUpdateTokenURLInvalidErrorDesc,components];
+    NSString *desc = [NSString stringWithFormat:@"%@\n%@", kMSUDUpdateTokenURLInvalidErrorDesc, components];
     *error = [NSError errorWithDomain:kMSUDErrorDomain
                                  code:kMSUDUpdateTokenURLInvalidErrorCode
                              userInfo:@{NSLocalizedDescriptionKey : desc}];

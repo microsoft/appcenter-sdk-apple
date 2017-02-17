@@ -10,7 +10,7 @@ extern NSString *const kMSUDErrorDomain;
 
 // Error codes
 NS_ENUM(NSInteger){kMSUDUpdateTokenURLInvalidErrorCode = 1, kMSUDUpdateTokenSchemeNotFoundErrorCode = 2};
-  
+
 // Error descriptions
 extern NSString const *kMSUDUpdateTokenURLInvalidErrorDesc;
 extern NSString const *kMSUDUpdateTokenSchemeNotFoundErrorDesc;
