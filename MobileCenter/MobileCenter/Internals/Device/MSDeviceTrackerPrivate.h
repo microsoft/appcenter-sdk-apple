@@ -13,12 +13,17 @@
 /**
  * History of past devices.
  */
-@property (nonatomic)NSMutableArray<MSDeviceHistoryInfo *> *deviceHistory;
+@property(nonatomic) NSMutableArray<MSDeviceHistoryInfo *> *deviceHistory;
 
-+ (BOOL)needsRefresh;
+/**
+ * Sets a flag that will cause MSDeviceTracker to update it's device info the next time the device property is accessed.
+ * Mostly entended for Unit Testing.
+ */
++ (void)refreshDeviceNextTime;
 
-+ (void)setNeedsRefresh:(BOOL)needsRefresh;
-
+/**
+ * Clears the device history in memory and in NSUserDefaults as well as the current device.
+ */
 - (void)clearDevices;
 
 /**
@@ -132,7 +137,6 @@
  */
 + (void)setWrapperSdk:(MSWrapperSdk *)wrapperSdk;
 
-
 /**
  *  Return a new Instance of MSDevice.
  *
@@ -141,7 +145,6 @@
  * @discussion Intended to be used to update the device-property of MSDeviceTracker @see MSDeviceTracker.
  */
 - (MSDevice *)updatedDevice;
-
 
 /**
  * Return a device from the history of past devices. This will be used e.g. for Crashes after relaunch.

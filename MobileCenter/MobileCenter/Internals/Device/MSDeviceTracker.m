@@ -53,12 +53,12 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
     // Create new array and creade device info in case we don't have any from disk.
     if (_deviceHistory == nil) {
       _deviceHistory = [NSMutableArray<MSDeviceHistoryInfo *> new];
-      
+
       // Don't assign the new device to the property to continue using lazy initialization later.
       // We're creating this one to have a history.
       [self device];
     }
-    
+
     _device = [self device];
   }
   return self;
@@ -71,14 +71,10 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
   }
 }
 
-+ (void)setNeedsRefresh:(BOOL)needsRefresh {
-  @synchronized (self) {
-    needRefresh = needsRefresh;
++ (void)refreshDeviceNextTime {
+  @synchronized(self) {
+    needRefresh = YES;
   }
-}
-
-+ (BOOL)needsRefresh {
-  return needRefresh;
 }
 
 /**
@@ -174,43 +170,42 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
 
 - (MSDevice *)deviceForToffset:(NSNumber *)tOffset {
   if (!tOffset || self.deviceHistory.count == 0) {
-//    __block MSDevice *device;
-//    [self.deviceHistory
-//        enumerateObjectsUsingBlock:^(MSDeviceHistoryInfo *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
-//          if ([tOffset compare:obj.tOffset] == NSOrderedDescending) {
-//            device = obj.device;
-//            *stop = YES;
-//          }
-//        }];
-//    return device;
+    //    __block MSDevice *device;
+    //    [self.deviceHistory
+    //        enumerateObjectsUsingBlock:^(MSDeviceHistoryInfo *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
+    //          if ([tOffset compare:obj.tOffset] == NSOrderedDescending) {
+    //            device = obj.device;
+    //            *stop = YES;
+    //          }
+    //        }];
+    //    return device;
     return [self device];
   } else {
     MSDeviceHistoryInfo *find = [[MSDeviceHistoryInfo alloc] initWithTOffset:tOffset andDevice:nil];
-    NSUInteger index = [self.deviceHistory indexOfObject:find
-                                         inSortedRange:NSMakeRange(0, self.deviceHistory.count)
-                                               options:NSBinarySearchingFirstEqual | NSBinarySearchingInsertionIndex
-                                       usingComparator:^(id a, id b) {
-                                         return [((MSDeviceHistoryInfo *)a).tOffset compare:((MSDeviceHistoryInfo *)b).tOffset];
-                                       }];
-    
+    NSUInteger index =
+        [self.deviceHistory indexOfObject:find
+                            inSortedRange:NSMakeRange(0, self.deviceHistory.count)
+                                  options:NSBinarySearchingFirstEqual | NSBinarySearchingInsertionIndex
+                          usingComparator:^(id a, id b) {
+                            return [((MSDeviceHistoryInfo *)a).tOffset compare:((MSDeviceHistoryInfo *)b).tOffset];
+                          }];
+
     // all numbers are larger than search
     if (index == 0) {
       NSLog(@"all numbers are larger than search, found %@", self.deviceHistory[0]);
       return self.deviceHistory[0].device;
     }
-    
+
     // all numbers are smaller than search
     else if (index == self.deviceHistory.count) {
       NSLog(@"all numbers are smaller than search, found %@", [self.deviceHistory lastObject]);
       return [self.deviceHistory lastObject].device;
-    }
-    else {
+    } else {
       // our array contains SEARCH or we pick the smallest delta
       long long leftDifference = [tOffset longLongValue] - [self.deviceHistory[index - 1].tOffset longLongValue];
       long long rightDifference = [self.deviceHistory[index].tOffset longLongValue] - [tOffset longLongValue];
       if (leftDifference < rightDifference) {
         --index;
-        
       }
       NSLog(@"equal value or closest match, found %@", self.deviceHistory[index]);
       return self.deviceHistory[index].device;
@@ -220,16 +215,15 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
 
 - (void)clearDevices {
   @synchronized(self) {
-    
+
     // Clear persistence.
     [MS_USER_DEFAULTS removeObjectForKey:kMSPastDevicesKey];
-    
+
     // Clear cache.
     self.device = nil;
     [self.deviceHistory removeAllObjects];
   }
 }
-
 
 #pragma mark - Helpers
 
