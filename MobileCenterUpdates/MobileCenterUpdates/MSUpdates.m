@@ -19,7 +19,7 @@ static NSString *const kMSServiceName = @"Updates";
 /**
  * The header name for update token
  */
-static NSString *const kMSUpdtsHeaderApiToken = @"x-api-token";
+static NSString *const kMSHeaderUpdateApiToken = @"x-api-token";
 
 #pragma mark - URL constants
 
@@ -144,7 +144,7 @@ static NSString *const kMSUpdtsSchemeExceptionReasonNotFound = @"URL scheme for 
                                             apiPath:[NSString stringWithFormat:kMSUpdtsLatestReleaseApiPathFormat, appSecret]
                                             // TODO: Update token in header should be in format of "Bearer {JWT token}"
                                             headers:@{
-                                              kMSUpdtsHeaderApiToken : updateToken
+                                              kMSHeaderUpdateApiToken : updateToken
                                             }
                                        queryStrings:nil
                                        reachability:[MS_Reachability reachabilityForInternetConnection]

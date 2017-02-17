@@ -49,7 +49,7 @@
       <key>CFBundleTypeRole</key>
       <string>None</string>
       <key>CFBundleURLName</key>
-      <string>com.microsoft.azure.engagement.puppet</string>
+      <string>com.microsoft.azure.mobile.demo</string>
       <key>CFBundleURLSchemes</key>
       <array>
         <string>msupdt</string>
