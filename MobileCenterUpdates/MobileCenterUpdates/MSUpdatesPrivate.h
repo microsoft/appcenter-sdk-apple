@@ -1,5 +1,6 @@
-#import "MSUpdates.h"
 #import <Foundation/Foundation.h>
+
+#import "MSUpdates.h"
 
 /**
  * Updates url query parameter key strings.

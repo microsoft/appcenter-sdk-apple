@@ -1,11 +1,11 @@
-#import "MSUpdates.h"
-#import "MSUpdatesPrivate.h"
-
-#import "MSUpdatesInternal.h"
 #import <Foundation/Foundation.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
+
+#import "MSUpdates.h"
+#import "MSUpdatesPrivate.h"
+#import "MSUpdatesInternal.h"
 
 static NSString *const kMSTestAppSecret = @"IAMSECRET";
 
@@ -48,8 +48,8 @@ static NSURL *sfURL;
 @implementation MSUpdatesTests
 
 - (void)setUp {
-  self.sut = [MSUpdates new];
   [super setUp];
+  self.sut = [MSUpdates new];
 }
 
 - (void)tearDown {

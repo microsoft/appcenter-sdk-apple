@@ -1,3 +1,6 @@
+#import <Foundation/Foundation.h>
+#import <SafariServices/SafariServices.h>
+
 #import "MSDistributionSender.h"
 #import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
@@ -9,13 +12,15 @@
 #import "MSUpdatesPrivate.h"
 #import "MSUtil.h"
 
-#import <Foundation/Foundation.h>
-#import <SafariServices/SafariServices.h>
-
 /**
  * Service storage key name.
  */
 static NSString *const kMSServiceName = @"Updates";
+
+/**
+ * Update API token storage key.
+ */
+static NSString *const kMSUpdateTokenRequestIdKey = @"MSUpdateTokenRequestId";
 
 /**
  * The header name for update token
@@ -207,6 +212,9 @@ static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setu
 
 - (NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret error:(NSError *__autoreleasing *)error {
 
+  // Create the request ID string.
+  NSString *requestId = MS_UUID_STRING;
+
   // Compute URL path string.
   NSString *urlPath = [NSString stringWithFormat:kMSUpdtsUpdateTokenApiPathFormat, appSecret];
 
@@ -215,11 +223,13 @@ static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setu
   NSURLComponents *components = [NSURLComponents componentsWithString:urlString];
 
   // Check URL validity so far.
-  if (!components && error) {
-    NSString *desc = [NSString stringWithFormat:@"%@\n%@", kMSUDUpdateTokenURLInvalidErrorDesc, components];
-    *error = [NSError errorWithDomain:kMSUDErrorDomain
-                                 code:kMSUDUpdateTokenURLInvalidErrorCode
-                             userInfo:@{NSLocalizedDescriptionKey : desc}];
+  if (!components) {
+    if (error) {
+      NSString *desc = [NSString stringWithFormat:@"%@\n%@", kMSUDUpdateTokenURLInvalidErrorDesc, components];
+      *error = [NSError errorWithDomain:kMSUDErrorDomain
+                                   code:kMSUDUpdateTokenURLInvalidErrorCode
+                               userInfo:@{NSLocalizedDescriptionKey : desc}];
+    }
     return nil;
   }
 
@@ -229,31 +239,41 @@ static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setu
   NSString *buildUUID = [MS_APP_MAIN_BUNDLE objectForInfoDictionaryKey:@"MSAppName"];
   //    NSString *buildUUID = [[MSFTCECodeSignatureExtractor forMainBundle]
   //    getUUIDHashHexStringAndReturnError:&buildError];
-  //    if (buildError && error) {
-  //      *error = error;
+  //    if (buildError) {
+  //      if (error){
+  //        *error = error;
+  //      }
   //      return nil;
   //    }
   NSMutableArray *queryItems = [NSMutableArray array];
-  if (![self checkURLSchemeRegistered:kMSUpdtsDefaultCustomScheme] && error) {
-    *error = [NSError errorWithDomain:kMSUDErrorDomain
-                                 code:kMSUDUpdateTokenSchemeNotFoundErrorCode
-                             userInfo:@{NSLocalizedDescriptionKey : kMSUDUpdateTokenSchemeNotFoundErrorDesc}];
+  if (![self checkURLSchemeRegistered:kMSUpdtsDefaultCustomScheme]) {
+    if (error) {
+      *error = [NSError errorWithDomain:kMSUDErrorDomain
+                                   code:kMSUDUpdateTokenSchemeNotFoundErrorCode
+                               userInfo:@{NSLocalizedDescriptionKey : kMSUDUpdateTokenSchemeNotFoundErrorDesc}];
+    }
     return nil;
   }
   [queryItems addObject:[NSURLQueryItem queryItemWithName:kMSUpdtsURLQueryReleaseHashKey value:buildUUID]];
   [queryItems
       addObject:[NSURLQueryItem queryItemWithName:kMSUpdtsURLQueryRedirectIdKey value:kMSUpdtsDefaultCustomScheme]];
-  [queryItems addObject:[NSURLQueryItem queryItemWithName:kMSUpdtsURLQueryRequestIdKey value:MS_UUID_STRING]];
+  [queryItems addObject:[NSURLQueryItem queryItemWithName:kMSUpdtsURLQueryRequestIdKey value:requestId]];
   [queryItems
       addObject:[NSURLQueryItem queryItemWithName:kMSUpdtsURLQueryPlatformKey value:kMSUpdtsURLQueryPlatformValue]];
   components.queryItems = queryItems;
 
   // Check URL validity.
-  if (!components.URL && error) {
-    NSString *desc = [NSString stringWithFormat:@"%@\n%@", kMSUDUpdateTokenURLInvalidErrorDesc, components];
-    *error = [NSError errorWithDomain:kMSUDErrorDomain
-                                 code:kMSUDUpdateTokenURLInvalidErrorCode
-                             userInfo:@{NSLocalizedDescriptionKey : desc}];
+  if (components.URL) {
+
+    // Persist the request ID.
+    [MS_USER_DEFAULTS setObject:requestId forKey:kMSUpdateTokenRequestIdKey];
+  } else {
+    if (error) {
+      NSString *desc = [NSString stringWithFormat:@"%@\n%@", kMSUDUpdateTokenURLInvalidErrorDesc, components];
+      *error = [NSError errorWithDomain:kMSUDErrorDomain
+                                   code:kMSUDUpdateTokenURLInvalidErrorCode
+                               userInfo:@{NSLocalizedDescriptionKey : desc}];
+    }
     return nil;
   }
   return components.URL;
