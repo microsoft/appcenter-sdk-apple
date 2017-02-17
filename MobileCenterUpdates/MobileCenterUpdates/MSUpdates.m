@@ -118,7 +118,11 @@ static NSString *const kMSUpdtsSchemeExceptionReasonNotFound = @"URL scheme for 
     // iOS 9+ only, check for SFSafariViewController availability.
     Class clazz = NSClassFromString(@"SFSafariViewController");
     if (clazz) {
-      [self openURLInEmbeddedSafari:url fromClass:clazz];
+      
+      // Manipulate App UI on the main queue.
+      dispatch_async(dispatch_get_main_queue(), ^{
+        [self openURLInEmbeddedSafari:url fromClass:clazz];
+      });
     } else {
 
       // iOS 8.x.

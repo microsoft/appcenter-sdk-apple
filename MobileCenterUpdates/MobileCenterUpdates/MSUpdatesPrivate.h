@@ -31,7 +31,7 @@ static NSString *const kMSUpdtsDefaultCustomScheme = @"msupdt";
 - (NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret;
 
 /**
- * Open the given URL using an `SFSafariViewController`. iOS 9+ only.
+ * Open the given URL using an `SFSafariViewController`. Must run on the UI thread! iOS 9+ only.
  *
  * @param url URL to open.
  * @param clazz SFSafariViewController` class.

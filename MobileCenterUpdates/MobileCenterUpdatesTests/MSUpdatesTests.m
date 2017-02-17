@@ -112,10 +112,6 @@ static NSURL *sfURL;
      * TODO: This is not a UI test so we expect it to fail with NSInternalInconsistencyException exception.
      * Hopefully it doesn't prevent the URL to be set. Maybe introduce UI testing for this case in the future.
      */
-    if (ex.name != NSInternalInconsistencyException) {
-      // Re-throw exception if not expected.
-      @throw ex;
-    }
   }
 
   // Then
