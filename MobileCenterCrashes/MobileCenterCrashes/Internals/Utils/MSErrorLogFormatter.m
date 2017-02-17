@@ -245,7 +245,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
   // HockeyApp didn't use report.exceptionInfo for this field but exception.name in case of an unhandled exception or
   // the report.signalInfo.name. More so, for BITCrashDetails, we used the exceptionInfo.exceptionName for a field called exceptionName.
-  errorLog.osExceptionType = report.exceptionInfo.exceptionName ?: report.signalInfo.name;
+  errorLog.osExceptionType = report.signalInfo.name;
   errorLog.osExceptionCode = report.signalInfo.code;
   errorLog.osExceptionAddress =
   [NSString stringWithFormat:@"0x%" PRIx64, report.signalInfo.address];
@@ -253,15 +253,14 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   // We need the architecture of the system and the crashed thread to get the exceptionReason, threads and registers.
   errorLog.exceptionReason =
   [self extractExceptionReasonFromReport:report ofCrashedThread:crashedThread is64bit:is64bit];
+  errorLog.exceptionType = report.hasExceptionInfo ? report.exceptionInfo.exceptionName : nil;
+
   errorLog.threads = [self extractThreadsFromReport:report crashedThread:crashedThread is64bit:is64bit];
   errorLog.registers = [self extractRegistersFromCrashedThread:crashedThread is64bit:is64bit];
 
   // Gather all addresses for which we need to preserve the binary images.
   NSArray *addresses = [self addressesFromReport:report];
   errorLog.binaries = [self extractBinaryImagesFromReport:report addresses:addresses codeType:codeType is64bit:is64bit];
-
-  // ExceptionType can be retrieved easily.
-  errorLog.exceptionType = report.signalInfo.name;
 
   // Set the exception from the wrapper sdk
   errorLog.exception = [MSWrapperExceptionManager loadWrapperException:report.uuidRef];
@@ -292,7 +291,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   // as [UUID UUID] – used in [MSMobileCenter installId] – might, in theory, return nil.
   NSString *reporterKey = [[MSMobileCenter installId] UUIDString] ?: @"";
 
-  NSString *signal = errorLog.exceptionType; //TODO What should we put in there?!
+  NSString *signal = errorLog.osExceptionType;
   NSString *exceptionReason = errorLog.exceptionReason;
   NSString *exceptionName = errorLog.exceptionType;
 
