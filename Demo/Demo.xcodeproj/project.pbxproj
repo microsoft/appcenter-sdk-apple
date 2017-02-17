@@ -63,6 +63,7 @@
 		382EC1F81DDB9F7F00A60DBD /* TodayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TodayViewController.h; sourceTree = "<group>"; };
 		382EC1FB1DDB9FA400A60DBD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		384959E81D49786A008F6B3A /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		38C9C58A1E56958200B0FA0D /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		6E2307D51D22083C0031C598 /* Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E2307D91D22083C0031C598 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6E2307DB1D22083C0031C598 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -105,6 +106,7 @@
 		382EC1D91DDB805400A60DBD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				38C9C58A1E56958200B0FA0D /* SafariServices.framework */,
 				382EC1DA1DDB805400A60DBD /* NotificationCenter.framework */,
 			);
 			name = Frameworks;

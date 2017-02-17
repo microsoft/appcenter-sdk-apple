@@ -1,4 +1,5 @@
 #import <Foundation/Foundation.h>
+#import <SafariServices/SafariServices.h>
 #import "MSAlertController.h"
 #import "MSDistributionSender.h"
 #import "MSLogger.h"
@@ -6,12 +7,27 @@
 #import "MSReleaseDetails.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSUpdates.h"
+#import "MSUpdatesErrors.h"
 #import "MSUpdatesInternal.h"
+#import "MSUpdatesPrivate.h"
+#import "MSUtil.h"
 
 /**
  * Service storage key name.
  */
 static NSString *const kMSServiceName = @"Updates";
+
+/**
+ * Update API token storage key.
+ */
+static NSString *const kMSUpdateTokenRequestIdKey = @"MSUpdateTokenRequestId";
+
+/**
+ * The header name for update token.
+ */
+static NSString *const kMSHeaderUpdateApiToken = @"x-api-token";
+
+#pragma mark - URL constants
 
 /**
  * Base URL for HTTP Distribution install API calls.
@@ -24,23 +40,21 @@ static NSString *const kMSDefaultInstallUrl = @"http://install.asgard-int.traffi
 static NSString *const kMSDefaultApiUrl = @"https://asgard-int.trafficmanager.net/api/v0.1";
 
 /**
- * The API path for update request.
+ * The API path for latest release request.
  */
-static NSString *const kMSUpdatesApiPathFormat = @"/sdk/apps/%@/releases/latest";
+static NSString *const kMSUpdtsLatestReleaseApiPathFormat = @"/sdk/apps/%@/releases/latest";
 
 /**
- * The header name for update token.
+ * The API path for update token request.
  */
-static NSString *const kMSUpdatesHeaderApiToken = @"x-api-token";
+static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setup";
 
 /**
  * The key for ignored release ID.
  */
 static NSString *const kMSIgnoredReleaseIdKey = @"MSIgnoredReleaseId";
 
-@interface MSUpdates ()
-
-@end
+#pragma mark - Exception constants
 
 @implementation MSUpdates
 
@@ -77,10 +91,6 @@ static NSString *const kMSIgnoredReleaseIdKey = @"MSIgnoredReleaseId";
   return MSPriorityHigh;
 }
 
-- (MSInitializationPriority)initializationPriority {
-  return MSInitializationPriorityDefault;
-}
-
 #pragma mark - MSServiceAbstract
 
 - (void)applyEnabledState:(BOOL)isEnabled {
@@ -97,18 +107,49 @@ static NSString *const kMSIgnoredReleaseIdKey = @"MSIgnoredReleaseId";
 - (void)startWithLogManager:(id<MSLogManager>)logManager appSecret:(NSString *)appSecret {
   [super startWithLogManager:logManager appSecret:appSecret];
 
+  // TODO: Hook up with pipeline.
+  NSURL *url;
+  NSError *error = nil;
+  MSLogInfo([MSUpdates logTag], @"Request updates API token.");
+
+  // Most failures here require an app update. Thus, it will be retried only on next App instance.
+  url = [self buildTokenRequestURLWithAppSecret:appSecret error:&error];
+  if (!error) {
+
+// iOS 9+ only, check for `SFSafariViewController` availability. `SafariServices` framework MUST be weakly linked.
+// We can't use `NSClassFromString` here to avoid the warning.
+// It doesn't detect the class correctly unless the application explicitely import the related framework.
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpartial-availability"
+    Class clazz = [SFSafariViewController class];
+#pragma clang diagnostic pop
+    if (clazz) {
+
+      // Manipulate App UI on the main queue.
+      dispatch_async(dispatch_get_main_queue(), ^{
+        [self openURLInEmbeddedSafari:url fromClass:clazz];
+      });
+    } else {
+
+      // iOS 8.x.
+      [self openURLInSafariApp:url];
+    }
+  } else {
+    MSLogError([MSUpdates logTag], @"%@", error.localizedDescription);
+  }
+
   // TODO: Hook up with update token getter later.
-  NSString *updateToken = @"050e55cf242247b694d3cfb43883d4531979751c";
-  self.sender =
-      [[MSDistributionSender alloc] initWithBaseUrl:self.apiUrl
-                                            apiPath:[NSString stringWithFormat:kMSUpdatesApiPathFormat, appSecret]
-                                            // TODO: Update token in header should be in format of "Bearer {JWT token}"
-                                            headers:@{
-                                              kMSUpdatesHeaderApiToken : updateToken
-                                            }
-                                       queryStrings:nil
-                                       reachability:[MS_Reachability reachabilityForInternetConnection]
-                                     retryIntervals:@[ @(10) ]];
+  NSString *updateToken = @"temporary-token";
+  self.sender = [[MSDistributionSender alloc]
+      initWithBaseUrl:self.apiUrl
+              apiPath:[NSString stringWithFormat:kMSUpdtsLatestReleaseApiPathFormat, appSecret]
+              // TODO: Update token in header should be in format of "Bearer {JWT token}"
+              headers:@{
+                kMSHeaderUpdateApiToken : updateToken
+              }
+         queryStrings:nil
+         reachability:[MS_Reachability reachabilityForInternetConnection]
+       retryIntervals:@[ @(10) ]];
   MSLogVerbose([MSUpdates logTag], @"Started Updates service.");
 
   if ([self isEnabled]) {
@@ -162,6 +203,117 @@ static NSString *const kMSIgnoredReleaseIdKey = @"MSIgnoredReleaseId";
          // There is no more interaction with distribution backend. Shutdown sender.
          [self.sender setEnabled:NO andDeleteDataOnDisabled:YES];
        }];
+}
+
+#pragma mark - Private
+
+- (BOOL)checkURLSchemeRegistered:(NSString *)urlScheme {
+  NSArray *schemes;
+  NSArray *types = [MS_APP_MAIN_BUNDLE objectForInfoDictionaryKey:@"CFBundleURLTypes"];
+  for (NSDictionary *urlType in types) {
+    schemes = urlType[@"CFBundleURLSchemes"];
+    for (NSString *scheme in schemes) {
+      if ([scheme isEqualToString:urlScheme]) {
+        return YES;
+      }
+    }
+  }
+  return NO;
+}
+
+- (NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret error:(NSError *__autoreleasing *)error {
+
+  // Create the request ID string.
+  NSString *requestId = MS_UUID_STRING;
+
+  // Compute URL path string.
+  NSString *urlPath = [NSString stringWithFormat:kMSUpdtsUpdateTokenApiPathFormat, appSecret];
+
+  // Build URL string.
+  NSString *urlString = [kMSDefaultInstallUrl stringByAppendingString:urlPath];
+  NSURLComponents *components = [NSURLComponents componentsWithString:urlString];
+
+  // Check URL validity so far.
+  if (!components) {
+    if (error) {
+      NSString *desc = [NSString stringWithFormat:@"%@\n%@", kMSUDUpdateTokenURLInvalidErrorDesc, components];
+      *error = [NSError errorWithDomain:kMSUDErrorDomain
+                                   code:kMSUDUpdateTokenURLInvalidErrorCode
+                               userInfo:@{NSLocalizedDescriptionKey : desc}];
+    }
+    return nil;
+  }
+
+  // Set URL query parameters.
+
+  // FIXME: Workaround to fill in the app name required by the backend for now, supposed to be a build UUID.
+  NSString *buildUUID = [MS_APP_MAIN_BUNDLE objectForInfoDictionaryKey:@"MSAppName"];
+  //    NSString *buildUUID = [[MSFTCECodeSignatureExtractor forMainBundle]
+  //    getUUIDHashHexStringAndReturnError:&buildError];
+  //    if (buildError) {
+  //      if (error){
+  //        *error = error;
+  //      }
+  //      return nil;
+  //    }
+  NSMutableArray *queryItems = [NSMutableArray array];
+  if (![self checkURLSchemeRegistered:kMSUpdtsDefaultCustomScheme]) {
+    if (error) {
+      *error = [NSError errorWithDomain:kMSUDErrorDomain
+                                   code:kMSUDUpdateTokenSchemeNotFoundErrorCode
+                               userInfo:@{NSLocalizedDescriptionKey : kMSUDUpdateTokenSchemeNotFoundErrorDesc}];
+    }
+    return nil;
+  }
+  [queryItems addObject:[NSURLQueryItem queryItemWithName:kMSUpdtsURLQueryReleaseHashKey value:buildUUID]];
+  [queryItems
+      addObject:[NSURLQueryItem queryItemWithName:kMSUpdtsURLQueryRedirectIdKey value:kMSUpdtsDefaultCustomScheme]];
+  [queryItems addObject:[NSURLQueryItem queryItemWithName:kMSUpdtsURLQueryRequestIdKey value:requestId]];
+  [queryItems
+      addObject:[NSURLQueryItem queryItemWithName:kMSUpdtsURLQueryPlatformKey value:kMSUpdtsURLQueryPlatformValue]];
+  components.queryItems = queryItems;
+
+  // Check URL validity.
+  if (components.URL) {
+
+    // Persist the request ID.
+    [MS_USER_DEFAULTS setObject:requestId forKey:kMSUpdateTokenRequestIdKey];
+  } else {
+    if (error) {
+      NSString *desc = [NSString stringWithFormat:@"%@\n%@", kMSUDUpdateTokenURLInvalidErrorDesc, components];
+      *error = [NSError errorWithDomain:kMSUDErrorDomain
+                                   code:kMSUDUpdateTokenURLInvalidErrorCode
+                               userInfo:@{NSLocalizedDescriptionKey : desc}];
+    }
+    return nil;
+  }
+  return components.URL;
+}
+
+- (void)openURLInEmbeddedSafari:(NSURL *)url fromClass:(Class)clazz {
+  MSLogVerbose([MSUpdates logTag], @"Using SFSafariViewController to open URL: %@", url);
+
+  // Init safari controller with the update URL.
+  id safari = [[clazz alloc] initWithURL:url];
+
+  // Create an empty window + viewController to host the Safari UI.
+  UIViewController *emptyViewController = [[UIViewController alloc] init];
+  UIWindow *window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+  window.rootViewController = emptyViewController;
+
+  // Place it at the lowest level within the stack, less visible.
+  window.windowLevel = -CGFLOAT_MAX;
+
+  // Run it.
+  [window makeKeyAndVisible];
+  [emptyViewController presentViewController:safari animated:false completion:nil];
+}
+
+- (void)openURLInSafariApp:(NSURL *)url {
+  MSLogVerbose([MSUpdates logTag], @"Using Safari browser to open URL: %@", url);
+  if ([MSUtil sharedAppCanOpenURL:url]) {
+    [MSUtil sharedAppOpenURL:url];
+  }
 }
 
 - (void)handleUpdate:(MSReleaseDetails *)details {

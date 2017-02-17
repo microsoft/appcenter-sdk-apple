@@ -4,8 +4,8 @@
 
 #import "AppDelegate.h"
 #import "Constants.h"
-#import "MobileCenterAnalytics.h"
 #import "MobileCenter.h"
+#import "MobileCenterAnalytics.h"
 #import "MobileCenterCrashes.h"
 #import "MobileCenterUpdates.h"
 
@@ -32,6 +32,19 @@
   NSLog(@"%@ Install Id: %@", kPUPLogTag, [[MSMobileCenter installId] UUIDString]);
   return YES;
 }
+
+#pragma mark - URL handling
+
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation {
+  NSLog(@"%@ Got waken up via openURL: %@", kPUPLogTag, url);
+
+  return YES;
+}
+
+#pragma mark - Application life cycle
 
 - (void)applicationWillResignActive:(UIApplication *)application {
   // Sent when the application is about to move from active to inactive state. This can occur for certain types of
