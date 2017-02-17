@@ -28,6 +28,7 @@
 
 /* Begin PBXFileReference section */
 		0471B94D1E455C5C0022F951 /* MobileCenterUpdates.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterUpdates.framework; path = Products/MobileCenterUpdates/MobileCenterUpdates.framework; sourceTree = "<group>"; };
+		38C9C58D1E56958C00B0FA0D /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		B219241A1DCD0C6D00D5797D /* MobileCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenter.framework; path = Products/MobileCenter/MobileCenter.framework; sourceTree = "<group>"; };
 		B219241C1DCD0C7500D5797D /* MobileCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterAnalytics.framework; path = Products/MobileCenterAnalytics/MobileCenterAnalytics.framework; sourceTree = "<group>"; };
 		B219241E1DCD0C8400D5797D /* MobileCenterCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterCrashes.framework; path = Products/MobileCenterCrashes/MobileCenterCrashes.framework; sourceTree = "<group>"; };
@@ -69,6 +70,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		38C9C58C1E56958C00B0FA0D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				38C9C58D1E56958C00B0FA0D /* SafariServices.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		B27DCB991DDA969C00B97C84 /* MSAlertController */ = {
 			isa = PBXGroup;
 			children = (
@@ -88,6 +97,7 @@
 				B2CDD10B1DCCFAAC00610725 /* SwiftDemoUITests */,
 				B2CDD0EA1DCCFAAC00610725 /* Products */,
 				B2CDD1361DCCFE9400610725 /* Vendor */,
+				38C9C58C1E56958C00B0FA0D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
