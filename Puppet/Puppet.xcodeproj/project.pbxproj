@@ -423,13 +423,11 @@
 				TargetAttributes = {
 					380A4D951DD6892F00E99219 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = 5Z97G9NZQ6;
-						ProvisioningStyle = Manual;
+						DevelopmentTeam = L4RARDNZ2Y;
 					};
 					E82E1B5E1D1CA58D00D281C1 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = 5Z97G9NZQ6;
-						ProvisioningStyle = Manual;
+						DevelopmentTeam = L4RARDNZ2Y;
 					};
 				};
 			};
@@ -630,15 +628,12 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				INFOPLIST_FILE = PuppetWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.puppet.PuppetWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "8154a375-ed7f-4187-af91-71c1856e5065";
-				PROVISIONING_PROFILE_SPECIFIER = "Benny Dev Wildcard Profile";
 				SKIP_INSTALL = YES;
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../MobileCenter/MobileCenter/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashes/**";
 			};
@@ -649,7 +644,6 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				INFOPLIST_FILE = PuppetWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -760,7 +754,6 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../Vendor\"/**",
 					"$(SRCROOT)/../CrashLibIOS/CrashLibIOS",
@@ -774,8 +767,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.puppet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "8154a375-ed7f-4187-af91-71c1856e5065";
-				PROVISIONING_PROFILE_SPECIFIER = "Benny Dev Wildcard Profile";
+				PROVISIONING_PROFILE = "";
 				SWIFT_VERSION = 3.0;
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../MobileCenter/MobileCenter/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashes/**";
 			};
@@ -790,7 +782,6 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
-				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../Vendor\"/**",
 					"$(SRCROOT)/../CrashLibIOS/CrashLibIOS",
