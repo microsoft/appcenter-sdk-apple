@@ -238,6 +238,9 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
   }
   self.enabledStateUpdating = NO;
   MSLogInfo([MSMobileCenter logTag], @"Mobile Center SDK %@.", isEnabled ? @"enabled" : @"disabled");
+
+  // Clean device history in case we are disabled.
+  [[[MSDeviceTracker alloc] init] clearDevices];
 }
 
 - (BOOL)isEnabled {

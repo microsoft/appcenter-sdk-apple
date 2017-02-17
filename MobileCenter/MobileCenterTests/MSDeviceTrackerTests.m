@@ -344,9 +344,9 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   
   // When
   MSDevice *first = [tracker device];
-  [MSDeviceTracker setNeedsRefresh:YES];
+  [MSDeviceTracker refreshDeviceNextTime];
   MSDevice *second = [tracker device];
-  [MSDeviceTracker setNeedsRefresh:YES];
+  [MSDeviceTracker refreshDeviceNextTime];
   MSDevice *third = [tracker device];
   
   // Then
@@ -363,7 +363,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   XCTAssertTrue([[tracker deviceHistory] count] == 3);
   
   // When
-  [MSDeviceTracker setNeedsRefresh:YES];
+  [MSDeviceTracker refreshDeviceNextTime];
   fourth = [tracker device];
   
   // Then
@@ -371,7 +371,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   XCTAssertTrue([tracker.deviceHistory[3].device isEqual:fourth]);
 
   // When
-  [MSDeviceTracker setNeedsRefresh:YES];
+  [MSDeviceTracker refreshDeviceNextTime];
   MSDevice *fifth = [tracker device];
   
   // Then
@@ -379,7 +379,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   XCTAssertTrue([tracker.deviceHistory[4].device isEqual:fifth]);
 
   // When
-  [MSDeviceTracker setNeedsRefresh:YES];
+  [MSDeviceTracker refreshDeviceNextTime];
   MSDevice *sixth = [tracker device];
   
   // Then
@@ -389,7 +389,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   XCTAssertTrue([tracker.deviceHistory[4].device isEqual:sixth]);
   
   // When
-  [MSDeviceTracker setNeedsRefresh:YES];
+  [MSDeviceTracker refreshDeviceNextTime];
   MSDevice *seventh = [tracker device];
   
   // Then
@@ -414,9 +414,9 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 
   // If
   MSDevice *first = [tracker device];
-  [MSDeviceTracker setNeedsRefresh:YES];
+  [MSDeviceTracker refreshDeviceNextTime];
   [tracker device]; // we don't need the second device history info
-  [MSDeviceTracker setNeedsRefresh:YES];
+  [MSDeviceTracker refreshDeviceNextTime];
   MSDevice *third = [tracker device];
   
   // When
