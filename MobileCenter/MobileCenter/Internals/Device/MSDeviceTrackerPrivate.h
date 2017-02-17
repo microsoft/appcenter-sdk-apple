@@ -1,11 +1,25 @@
 #import "MSDevice.h"
+#import "MSDeviceTracker.h"
 #import "MSWrapperSdk.h"
 #import <CoreTelephony/CTCarrier.h>
 #import <CoreTelephony/CTTelephonyNetworkInfo.h>
 #import <UIKit/UIKit.h>
 #import <sys/sysctl.h>
 
+@class MSDeviceHistoryInfo;
+
 @interface MSDeviceTracker ()
+
+/**
+ * History of past devices.
+ */
+@property (nonatomic)NSMutableArray<MSDeviceHistoryInfo *> *pastDevices;
+
++ (BOOL)needsRefresh;
+
++ (void)setNeedsRefresh:(BOOL)needsRefresh;
+
+- (void)clearDevices;
 
 /**
  *  Get the SDK version.
@@ -117,5 +131,28 @@
  * @param wrapperSdk wrapper SDK information.
  */
 + (void)setWrapperSdk:(MSWrapperSdk *)wrapperSdk;
+
+
+/**
+ *  Return a new Instance of MSDevice.
+ *
+ * @returns A new Instance of MSDevice. @see MSDevice
+ *
+ * @discussion Intended to be used to update the device-property of MSDeviceTracker @see MSDeviceTracker.
+ */
+- (MSDevice *)updatedDevice;
+
+
+/**
+ * Return a device from the history of past devices. This will be used e.g. for Crashes after relaunch.
+ *
+ * @param tOffset Offset that will be used to find a matching MSDevice in history.
+ *
+ * @return Instance of MSDevice that's closest to tOffset.
+ *
+ * @discussion If we cannot find a device that's within the range of the tOffset, the latest device from history will be
+ * returned. If there is no history, we return the current MSDevice.
+ */
+- (MSDevice *)deviceForToffset:(NSNumber *)tOffset;
 
 @end

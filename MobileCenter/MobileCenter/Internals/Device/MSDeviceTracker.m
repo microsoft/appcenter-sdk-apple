@@ -1,9 +1,11 @@
 #import "MSConstants+Internal.h"
+#import "MSDeviceHistoryInfo.h"
 #import "MSDeviceTracker.h"
 #import "MSDeviceTrackerPrivate.h"
 #import "MSUtil.h"
 #import "MSDevicePrivate.h"
 #import "MSWrapperSdkPrivate.h"
+#import "MSUserDefaults.h"
 
 // SDK versioning struct. Needs to be big enough to hold the info.
 typedef struct {
@@ -14,43 +16,107 @@ typedef struct {
 } ms_info_t;
 
 // SDK versioning.
-ms_info_t mobilecenter_library_info __attribute__((section("__TEXT,__ms_ios,regular,no_dead_strip"))) = {
-    .info_version = 1,
-    .ms_name = MOBILE_CENTER_C_NAME,
-    .ms_version = MOBILE_CENTER_C_VERSION,
-    .ms_build = MOBILE_CENTER_C_BUILD
-};
+ms_info_t mobilecenter_library_info
+    __attribute__((section("__TEXT,__ms_ios,regular,no_dead_strip"))) = {.info_version = 1,
+                                                                         .ms_name = MOBILE_CENTER_C_NAME,
+                                                                         .ms_version = MOBILE_CENTER_C_VERSION,
+                                                                         .ms_build = MOBILE_CENTER_C_BUILD};
 
-@interface MSDeviceTracker()
+static NSString *const kMSPastDevicesKey = @"pastDevicesKey";
+static NSUInteger const kMSMaxDevicesHistoryCount = 5;
 
-// We need a private setter for the device to avoid ivars direct access warning.
+@interface MSDeviceTracker ()
+
+// We need a private setter for the device to avoid the warning that is related to direct access of ivars.
 @property(nonatomic) MSDevice *device;
 
 @end
 
 @implementation MSDeviceTracker : NSObject
 
-@synthesize device = _device;
-
-static MSWrapperSdk *wrapperSdkInformation = nil;
 static BOOL needRefresh = YES;
+static MSWrapperSdk *wrapperSdkInformation = nil;
+
+- (instancetype)init {
+  if (self = [super init]) {
+
+    // Restore past sessions from NSUserDefaults.
+    NSData *devices = [MS_USER_DEFAULTS objectForKey:kMSPastDevicesKey];
+    if (devices != nil) {
+      NSArray *arrayFromData = [NSKeyedUnarchiver unarchiveObjectWithData:devices];
+
+      // If array is not nil, create a mutable version.
+      if (arrayFromData)
+        _pastDevices = [NSMutableArray arrayWithArray:arrayFromData];
+    }
+
+    // Create new array and creade device info in case we don't have any from disk.
+    if (_pastDevices == nil) {
+      _pastDevices = [NSMutableArray<MSDeviceHistoryInfo *> new];
+      
+      // Don't assign the new device to the property to continue using lazy initialization later.
+      // We're creating this one to have a history.
+      [self device];
+    }
+    
+    _device = [self device];
+  }
+  return self;
+}
 
 + (void)setWrapperSdk:(MSWrapperSdk *)wrapperSdk {
-  @synchronized (self) {
+  @synchronized(self) {
     wrapperSdkInformation = wrapperSdk;
     needRefresh = YES;
   }
+}
+
++ (void)setNeedsRefresh:(BOOL)needsRefresh {
+  @synchronized (self) {
+    needRefresh = needsRefresh;
+  }
+}
+
++ (BOOL)needsRefresh {
+  return needRefresh;
 }
 
 /**
  *  Get the current device log.
  */
 - (MSDevice *)device {
-  @synchronized (self) {
+  @synchronized(self) {
 
     // Lazy creation.
     if (!_device || needRefresh) {
-      [self refresh];
+
+      // Get new device info.
+      _device = [self updatedDevice];
+
+      // Create new MSDeviceHistoryInfo.
+      NSNumber *tOffset = [NSNumber numberWithLongLong:[MSUtil nowInMilliseconds]];
+      MSDeviceHistoryInfo *deviceHistoryInfo = [[MSDeviceHistoryInfo alloc] initWithTOffset:tOffset andDevice:_device];
+
+      // Insert at the beginning of the list.
+      //      [self.pastDevices insertObject:deviceHistoryInfo atIndex:0];
+
+      // Insert new MSDeviceHistoryInfo at the proper index to keep self.pastDevices sorted.
+      NSUInteger newIndex = [self.pastDevices indexOfObject:deviceHistoryInfo
+          inSortedRange:(NSRange) { 0, [self.pastDevices count] }
+          options:NSBinarySearchingInsertionIndex
+          usingComparator:^(id a, id b) {
+            return [((MSDeviceHistoryInfo *)a).tOffset compare:((MSDeviceHistoryInfo *)b).tOffset];
+          }];
+      [self.pastDevices insertObject:deviceHistoryInfo atIndex:newIndex];
+
+      // Remove first (the oldest) item if reached max limit. //TODO CHECK!
+      if ([self.pastDevices count] > kMSMaxDevicesHistoryCount) {
+        [self.pastDevices removeObjectAtIndex:0];
+      }
+
+      // Persist the device history in NSData format.
+      [MS_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.pastDevices]
+                           forKey:kMSPastDevicesKey];
     }
     return _device;
   }
@@ -59,8 +125,8 @@ static BOOL needRefresh = YES;
 /**
  *  Refresh device properties.
  */
-- (void)refresh {
-  @synchronized (self) {
+- (MSDevice *)updatedDevice {
+  @synchronized(self) {
     MSDevice *newDevice = [[MSDevice alloc] init];
     NSBundle *appBundle = [NSBundle mainBundle];
     CTCarrier *carrier = [[[CTTelephonyNetworkInfo alloc] init] subscriberCellularProvider];
@@ -85,9 +151,11 @@ static BOOL needRefresh = YES;
     // Add wrapper SDK information
     [self refreshWrapperSdk:newDevice];
 
-    // Set the new device info.
-    self.device = newDevice;
+    // Make sure we set the flag to indicate we don't need to update our device info.
     needRefresh = NO;
+
+    // Return new device.
+    return newDevice;
   }
 }
 
@@ -103,6 +171,65 @@ static BOOL needRefresh = YES;
     device.liveUpdatePackageHash = wrapperSdkInformation.liveUpdatePackageHash;
   }
 }
+
+- (MSDevice *)deviceForToffset:(NSNumber *)tOffset {
+  if (!tOffset || self.pastDevices.count == 0) {
+//    __block MSDevice *device;
+//    [self.pastDevices
+//        enumerateObjectsUsingBlock:^(MSDeviceHistoryInfo *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
+//          if ([tOffset compare:obj.tOffset] == NSOrderedDescending) {
+//            device = obj.device;
+//            *stop = YES;
+//          }
+//        }];
+//    return device;
+    return [self device];
+  } else {
+    MSDeviceHistoryInfo *find = [[MSDeviceHistoryInfo alloc] initWithTOffset:tOffset andDevice:nil];
+    NSUInteger index = [self.pastDevices indexOfObject:find
+                                         inSortedRange:NSMakeRange(0, self.pastDevices.count)
+                                               options:NSBinarySearchingFirstEqual | NSBinarySearchingInsertionIndex
+                                       usingComparator:^(id a, id b) {
+                                         return [((MSDeviceHistoryInfo *)a).tOffset compare:((MSDeviceHistoryInfo *)b).tOffset];
+                                       }];
+    
+    // all numbers are larger than search
+    if (index == 0) {
+      NSLog(@"all numbers are larger than search, found %@", self.pastDevices[0]);
+      return self.pastDevices[0].device;
+    }
+    
+    // all numbers are smaller than search
+    else if (index == self.pastDevices.count) {
+      NSLog(@"all numbers are smaller than search, found %@", [self.pastDevices lastObject]);
+      return [self.pastDevices lastObject].device;
+    }
+    else {
+      // our array contains SEARCH or we pick the smallest delta
+      long long leftDifference = [tOffset longLongValue] - [self.pastDevices[index - 1].tOffset longLongValue];
+      long long rightDifference = [self.pastDevices[index].tOffset longLongValue] - [tOffset longLongValue];
+      if (leftDifference < rightDifference) {
+        --index;
+        
+      }
+      NSLog(@"equal value or closest match, found %@", self.pastDevices[index]);
+      return self.pastDevices[index].device; //TODO rename to deviceHistory
+    }
+  }
+}
+
+- (void)clearDevices {
+  @synchronized(self) {
+    
+    // Clear persistence.
+    [MS_USER_DEFAULTS removeObjectForKey:kMSPastDevicesKey];
+    
+    // Clear cache.
+    self.device = nil;
+    [self.pastDevices removeAllObjects];
+  }
+}
+
 
 #pragma mark - Helpers
 
@@ -135,7 +262,7 @@ static BOOL needRefresh = YES;
 - (NSString *)osBuild {
   size_t size;
   sysctlbyname("kern.osversion", NULL, &size, NULL, 0);
-  char *answer = (char *) malloc(size);
+  char *answer = (char *)malloc(size);
   if (answer == NULL)
     return nil; // returning nil to avoid a possible crash.
   sysctlbyname("kern.osversion", answer, &size, NULL, 0);
@@ -155,7 +282,7 @@ static BOOL needRefresh = YES;
 - (NSString *)screenSize {
   CGFloat scale = [UIScreen mainScreen].scale;
   CGSize screenSize = [UIScreen mainScreen].bounds.size;
-  return [NSString stringWithFormat:@"%dx%d", (int) (screenSize.height * scale), (int) (screenSize.width * scale)];
+  return [NSString stringWithFormat:@"%dx%d", (int)(screenSize.height * scale), (int)(screenSize.width * scale)];
 }
 
 - (NSString *)carrierName:(CTCarrier *)carrier {

@@ -207,7 +207,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     _logBufferDir = [MSCrashesUtil logBufferDir];
     _analyzerInProgressFile = [_crashesDir stringByAppendingPathComponent:kMSAnalyzerFilename];
     _didCrashInLastSession = NO;
-
+    
     [self setupLogBuffer];
   }
   return self;
