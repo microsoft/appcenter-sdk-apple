@@ -333,7 +333,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   [self.sut clearDevices];
   
   // Then
-  XCTAssertTrue([self.sut.pastDevices count] == 0);
+  XCTAssertTrue([self.sut.deviceHistory count] == 0);
 }
 
 - (void)testEnqueuingAndRefreshWorks {
@@ -350,33 +350,33 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   MSDevice *third = [tracker device];
   
   // Then
-  XCTAssertTrue([[tracker pastDevices] count] == 3);
-  XCTAssertTrue([tracker.pastDevices[0].device isEqual:first]);
-  XCTAssertTrue([tracker.pastDevices[1].device isEqual:second]);
-  XCTAssertTrue([tracker.pastDevices[2].device isEqual:third]);
+  XCTAssertTrue([[tracker deviceHistory] count] == 3);
+  XCTAssertTrue([tracker.deviceHistory[0].device isEqual:first]);
+  XCTAssertTrue([tracker.deviceHistory[1].device isEqual:second]);
+  XCTAssertTrue([tracker.deviceHistory[2].device isEqual:third]);
   
   // When
   // We haven't called setNeedsRefresh: so device won't be refreshed.
   MSDevice *fourth = [tracker device];
   
   // Then
-  XCTAssertTrue([[tracker pastDevices] count] == 3);
+  XCTAssertTrue([[tracker deviceHistory] count] == 3);
   
   // When
   [MSDeviceTracker setNeedsRefresh:YES];
   fourth = [tracker device];
   
   // Then
-  XCTAssertTrue([[tracker pastDevices] count] == 4);
-  XCTAssertTrue([tracker.pastDevices[3].device isEqual:fourth]);
+  XCTAssertTrue([[tracker deviceHistory] count] == 4);
+  XCTAssertTrue([tracker.deviceHistory[3].device isEqual:fourth]);
 
   // When
   [MSDeviceTracker setNeedsRefresh:YES];
   MSDevice *fifth = [tracker device];
   
   // Then
-  XCTAssertTrue([[tracker pastDevices] count] == 5);
-  XCTAssertTrue([tracker.pastDevices[4].device isEqual:fifth]);
+  XCTAssertTrue([[tracker deviceHistory] count] == 5);
+  XCTAssertTrue([tracker.deviceHistory[4].device isEqual:fifth]);
 
   // When
   [MSDeviceTracker setNeedsRefresh:YES];
@@ -384,9 +384,9 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   
   // Then
   // The new device should be added at the end and the first one removed so that second is at index 0
-  XCTAssertTrue([[tracker pastDevices] count] == 5);
-  XCTAssertTrue([tracker.pastDevices[0].device isEqual:second]);
-  XCTAssertTrue([tracker.pastDevices[4].device isEqual:sixth]);
+  XCTAssertTrue([[tracker deviceHistory] count] == 5);
+  XCTAssertTrue([tracker.deviceHistory[0].device isEqual:second]);
+  XCTAssertTrue([tracker.deviceHistory[4].device isEqual:sixth]);
   
   // When
   [MSDeviceTracker setNeedsRefresh:YES];
@@ -394,9 +394,9 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   
   // Then
   // The new device should be added at the end and the first one removed so that third is at index 0
-  XCTAssertTrue([[tracker pastDevices] count] == 5);
-  XCTAssertTrue([tracker.pastDevices[0].device isEqual:third]);
-  XCTAssertTrue([tracker.pastDevices[4].device isEqual:seventh]);
+  XCTAssertTrue([[tracker deviceHistory] count] == 5);
+  XCTAssertTrue([tracker.deviceHistory[0].device isEqual:third]);
+  XCTAssertTrue([tracker.deviceHistory[4].device isEqual:seventh]);
 }
 
 - (void)testHistoryReturnsClosestDevice {
@@ -410,7 +410,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 
   // Then
   XCTAssertTrue([actual isEqual:tracker.device]);
-  XCTAssertTrue([[tracker pastDevices] count] == 1);
+  XCTAssertTrue([[tracker deviceHistory] count] == 1);
 
   // If
   MSDevice *first = [tracker device];

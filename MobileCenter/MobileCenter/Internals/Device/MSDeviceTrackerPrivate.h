@@ -13,7 +13,7 @@
 /**
  * History of past devices.
  */
-@property (nonatomic)NSMutableArray<MSDeviceHistoryInfo *> *pastDevices;
+@property (nonatomic)NSMutableArray<MSDeviceHistoryInfo *> *deviceHistory;
 
 + (BOOL)needsRefresh;
 
