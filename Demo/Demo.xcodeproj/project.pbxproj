@@ -19,6 +19,7 @@
 		382EC2001DDBBB6800A60DBD /* MobileCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04CCCA471D88AA9F005D8180 /* MobileCenterCrashes.framework */; };
 		382EC2011DDBBB6800A60DBD /* MobileCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04CCCA451D88AA93005D8180 /* MobileCenterAnalytics.framework */; };
 		382EC2021DDBBB6800A60DBD /* MobileCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04CCCA431D88AA86005D8180 /* MobileCenter.framework */; };
+		38C9C58B1E56958200B0FA0D /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38C9C58A1E56958200B0FA0D /* SafariServices.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		6E2307DA1D22083C0031C598 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2307D91D22083C0031C598 /* main.m */; };
 		6E2307DD1D22083C0031C598 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2307DC1D22083C0031C598 /* AppDelegate.m */; };
 		6E2307E01D22083C0031C598 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2307DF1D22083C0031C598 /* ViewController.m */; };
@@ -63,6 +64,7 @@
 		382EC1F81DDB9F7F00A60DBD /* TodayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TodayViewController.h; sourceTree = "<group>"; };
 		382EC1FB1DDB9FA400A60DBD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		384959E81D49786A008F6B3A /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		38C9C58A1E56958200B0FA0D /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		6E2307D51D22083C0031C598 /* Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E2307D91D22083C0031C598 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6E2307DB1D22083C0031C598 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -92,6 +94,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				38C9C58B1E56958200B0FA0D /* SafariServices.framework in Frameworks */,
 				04CCCA441D88AA86005D8180 /* MobileCenter.framework in Frameworks */,
 				04CCCA461D88AA93005D8180 /* MobileCenterAnalytics.framework in Frameworks */,
 				04CCCA481D88AA9F005D8180 /* MobileCenterCrashes.framework in Frameworks */,
@@ -105,6 +108,7 @@
 		382EC1D91DDB805400A60DBD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				38C9C58A1E56958200B0FA0D /* SafariServices.framework */,
 				382EC1DA1DDB805400A60DBD /* NotificationCenter.framework */,
 			);
 			name = Frameworks;
