@@ -338,7 +338,7 @@ static NSString *const kMSIgnoredReleaseIdKey = @"MSIgnoredReleaseId";
   }
 
   // Step 4. Check min OS version.
-  if ([MS_DEVICE.systemVersion compare:details.minOs options:NSNumericSearch] != NSOrderedAscending) {
+  if ([MS_DEVICE.systemVersion compare:details.minOs options:NSNumericSearch] == NSOrderedAscending) {
     MSLogDebug([MSUpdates logTag], @"The new release doesn't support this iOS version: %@, skip update.",
                MS_DEVICE.systemVersion);
     return;
