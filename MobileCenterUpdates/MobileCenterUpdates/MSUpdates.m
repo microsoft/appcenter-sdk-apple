@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
 #import <SafariServices/SafariServices.h>
-
+#import "MSAlertController.h"
 #import "MSDistributionSender.h"
 #import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
@@ -23,7 +23,7 @@ static NSString *const kMSServiceName = @"Updates";
 static NSString *const kMSUpdateTokenRequestIdKey = @"MSUpdateTokenRequestId";
 
 /**
- * The header name for update token
+ * The header name for update token.
  */
 static NSString *const kMSHeaderUpdateApiToken = @"x-api-token";
 
@@ -49,19 +49,14 @@ static NSString *const kMSUpdtsLatestReleaseApiPathFormat = @"/sdk/apps/%@/relea
  */
 static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setup";
 
+/**
+ * The key for ignored release ID.
+ */
+static NSString *const kMSIgnoredReleaseIdKey = @"MSIgnoredReleaseId";
+
 #pragma mark - Exception constants
 
 @implementation MSUpdates
-
-#pragma mark - Public
-
-+ (void)setApiUrl:(NSString *)apiUrl {
-  [[self sharedInstance] setApiUrl:apiUrl];
-}
-
-+ (void)setInstallUrl:(NSString *)installUrl {
-  [[self sharedInstance] setInstallUrl:installUrl];
-}
 
 #pragma mark - Service initialization
 
@@ -71,6 +66,29 @@ static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setu
     _installUrl = kMSDefaultInstallUrl;
   }
   return self;
+}
+
+#pragma mark - MSServiceInternal
+
++ (instancetype)sharedInstance {
+  static id sharedInstance = nil;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    sharedInstance = [[self alloc] init];
+  });
+  return sharedInstance;
+}
+
++ (NSString *)logTag {
+  return @"MobileCenterUpdates";
+}
+
+- (NSString *)storageKey {
+  return kMSServiceName;
+}
+
+- (MSPriority)priority {
+  return MSPriorityHigh;
 }
 
 #pragma mark - MSServiceAbstract
@@ -84,17 +102,6 @@ static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setu
   } else {
     MSLogInfo([MSUpdates logTag], @"Updates service has been disabled.");
   }
-}
-
-#pragma mark - MSServiceInternal
-
-+ (instancetype)sharedInstance {
-  static id sharedInstance = nil;
-  static dispatch_once_t onceToken;
-  dispatch_once(&onceToken, ^{
-    sharedInstance = [[self alloc] init];
-  });
-  return sharedInstance;
 }
 
 - (void)startWithLogManager:(id<MSLogManager>)logManager appSecret:(NSString *)appSecret {
@@ -152,9 +159,17 @@ static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setu
   }
 }
 
-+ (NSString *)logTag {
-  return @"MobileCenterUpdates";
+#pragma mark - Public
+
++ (void)setApiUrl:(NSString *)apiUrl {
+  [[self sharedInstance] setApiUrl:apiUrl];
 }
+
++ (void)setInstallUrl:(NSString *)installUrl {
+  [[self sharedInstance] setInstallUrl:installUrl];
+}
+
+#pragma mark - Private
 
 - (void)checkLatestRelease {
   [self.sender sendAsync:nil
@@ -166,9 +181,13 @@ static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setu
                initWithDictionary:[NSJSONSerialization JSONObjectWithData:data
                                                                   options:NSJSONReadingMutableContainers
                                                                     error:nil]];
-           MSLogDebug([MSUpdates logTag], @"Received a response of update request: %@",
-                      [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
-           [self handleUpdate:details];
+           if (!details) {
+             MSLogError([MSUpdates logTag], @"Couldn't parse response payload.");
+           } else {
+             MSLogDebug([MSUpdates logTag], @"Received a response of update request: %@",
+                        [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+             [self handleUpdate:details];
+           }
          }
 
          // Failure.
@@ -184,14 +203,6 @@ static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setu
          // There is no more interaction with distribution backend. Shutdown sender.
          [self.sender setEnabled:NO andDeleteDataOnDisabled:YES];
        }];
-}
-
-- (NSString *)storageKey {
-  return kMSServiceName;
-}
-
-- (MSPriority)priority {
-  return MSPriorityHigh;
 }
 
 #pragma mark - Private
@@ -306,6 +317,87 @@ static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setu
 }
 
 - (void)handleUpdate:(MSReleaseDetails *)details {
+
+  // Step 1. Validate release details.
+  if (![details isValid]) {
+    MSLogError([MSUpdates logTag], @"Received invalid release details.");
+    return;
+  }
+
+  // Step 2. Check status of the release. TODO: This will be deprecated soon.
+  if (![details.status isEqualToString:@"available"]) {
+    MSLogError([MSUpdates logTag], @"The new release is not available, skip update.");
+    return;
+  }
+
+  // Step 3. Check if the release ID was ignored by a user.
+  NSString *releaseId = [[MSUserDefaults shared] objectForKey:kMSIgnoredReleaseIdKey];
+  if (releaseId && [releaseId isEqualToString:details.id]) {
+    MSLogDebug([MSUpdates logTag], @"A user already ignored updating this release, skip update.");
+    return;
+  }
+
+  // Step 4. Check min OS version.
+  if ([MS_DEVICE.systemVersion compare:details.minOs options:NSNumericSearch] == NSOrderedAscending) {
+    MSLogDebug([MSUpdates logTag], @"The new release doesn't support this iOS version: %@, skip update.",
+               MS_DEVICE.systemVersion);
+    return;
+  }
+
+  // Step 5. Check version/hash to identify a newer version.
+  if (![self isNewerVersion:details]) {
+    MSLogDebug([MSUpdates logTag], @"The application is already up-to-date.");
+    return;
+  }
+
+  // Step 6. Open a dialog and ask a user to choose options for the update.
+  [self showConfirmationAlert:details];
+}
+
+- (BOOL)isAppFromAppStore {
+  return [MSUtil currentAppEnvironment] == MSEnvironmentAppStore;
+}
+
+// TODO: Please implement!
+- (BOOL)isNewerVersion:(MSReleaseDetails *)details {
+  return YES;
+}
+
+- (void)showConfirmationAlert:(MSReleaseDetails *)details {
+
+  // TODO: The text should be localized. There is a separate task for resources.
+  NSString *releaseNotes =
+      details.releaseNotes ? details.releaseNotes : @"No release notes were provided for this release.";
+
+  MSAlertController *alertController =
+      [MSAlertController alertControllerWithTitle:@"Update available" message:releaseNotes];
+
+  // Add a "Ignore"-Button
+  [alertController addDefaultActionWithTitle:@"Ignore"
+                                     handler:^(UIAlertAction *action) {
+                                       MSLogDebug([MSUpdates logTag], @"Ignore the release id: %@.", details.id);
+                                       [[MSUserDefaults shared] setObject:details.id forKey:kMSIgnoredReleaseIdKey];
+                                     }];
+
+  // Add a "Postpone"-Button
+  [alertController addCancelActionWithTitle:@"Postpone"
+                                    handler:^(UIAlertAction *action) {
+                                      MSLogDebug([MSUpdates logTag], @"Postpone the release for now.");
+                                    }];
+
+  // Add a "Download"-Button
+  [alertController addDefaultActionWithTitle:@"Download"
+                                     handler:^(UIAlertAction *action) {
+                                       MSLogDebug([MSUpdates logTag], @"Start download and install the release.");
+                                       [self startDownload:details];
+                                     }];
+
+  // Show the alert controller.
+  [alertController show];
+}
+
+// TODO: Please implement!
+- (void)startDownload:(MSReleaseDetails *)details {
 }
 
 @end

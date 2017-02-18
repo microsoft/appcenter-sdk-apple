@@ -3,6 +3,8 @@
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
+#import "MSServiceAbstract.h"
+#import "MSServiceInternal.h"
 #import "MSUpdates.h"
 #import "MSUpdatesPrivate.h"
 #import "MSUpdatesInternal.h"
@@ -168,4 +170,55 @@ static NSURL *sfURL;
   XCTAssertNotNil([self.sut apiUrl]);
   XCTAssertTrue([[self.sut apiUrl] isEqualToString:@"https://asgard-int.trafficmanager.net/api/v0.1"]);
 }
+
+- (void)testHandleUpdate {
+
+  // If
+  MSReleaseDetails *details = [MSReleaseDetails new];
+  id updatesMock = OCMPartialMock(self.sut);
+  OCMStub([updatesMock showConfirmationAlert:[OCMArg any]]).andDo(nil);
+
+  // When
+  [updatesMock handleUpdate:details];
+
+  // Then
+  OCMReject([updatesMock showConfirmationAlert:[OCMArg any]]);
+
+  // If
+  details.id = @"valid-id";
+  details.downloadUrl = [NSURL URLWithString:@"https://contoso.com/valid/url"];
+
+  // When
+  [updatesMock handleUpdate:details];
+
+  // Then
+  OCMReject([updatesMock showConfirmationAlert:[OCMArg any]]);
+
+  // If
+  details.status = @"available";
+  details.minOs = @"1000.0";
+
+  // When
+  [updatesMock handleUpdate:details];
+
+  // Then
+  OCMReject([updatesMock showConfirmationAlert:[OCMArg any]]);
+
+  // If
+  details.minOs = @"1.0";
+  OCMStub([updatesMock isNewerVersion:[OCMArg any]]).andReturn(NO).andReturn(YES);
+
+  // When
+  [updatesMock handleUpdate:details];
+
+  // Then
+  OCMReject([updatesMock showConfirmationAlert:[OCMArg any]]);
+
+  // When
+  [updatesMock handleUpdate:details];
+
+  // Then
+  OCMVerify([updatesMock showConfirmationAlert:[OCMArg any]]);
+}
+
 @end

@@ -38,6 +38,8 @@
 		040AF0251E523B80005C1174 /* MSReleaseDetailsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 040AF0231E523B80005C1174 /* MSReleaseDetailsTests.m */; };
 		040AF02A1E52748D005C1174 /* MSDistributionSenderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 040AF0291E52748D005C1174 /* MSDistributionSenderTests.m */; };
 		040AF0331E52859F005C1174 /* MSSender.h in Headers */ = {isa = PBXBuildFile; fileRef = 040AF0321E52859F005C1174 /* MSSender.h */; };
+		046FDBD31E5682FA00AF9DD1 /* MSAlertController.h in Headers */ = {isa = PBXBuildFile; fileRef = 046FDBD11E5682FA00AF9DD1 /* MSAlertController.h */; };
+		046FDBD41E5682FA00AF9DD1 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 046FDBD21E5682FA00AF9DD1 /* MSAlertController.m */; };
 		0471B5E11E4543DF0022F951 /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0471B5E01E4543DF0022F951 /* OCHamcrestIOS.framework */; };
 		0471B5E41E4544000022F951 /* libMobileCenterUpdates.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04FD4A1C1E451E12009B4468 /* libMobileCenterUpdates.a */; };
 		0471B8991E4547480022F951 /* MSUpdates.m in Sources */ = {isa = PBXBuildFile; fileRef = 0471B8981E4547480022F951 /* MSUpdates.m */; };
@@ -105,6 +107,8 @@
 		040AF0231E523B80005C1174 /* MSReleaseDetailsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSReleaseDetailsTests.m; sourceTree = "<group>"; };
 		040AF0291E52748D005C1174 /* MSDistributionSenderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDistributionSenderTests.m; sourceTree = "<group>"; };
 		040AF0321E52859F005C1174 /* MSSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSSender.h; path = ../MobileCenter/MobileCenter/Internals/Sender/MSSender.h; sourceTree = "<group>"; };
+		046FDBD11E5682FA00AF9DD1 /* MSAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSAlertController.h; path = ../../Vendor/MSAlertController/MSAlertController.h; sourceTree = "<group>"; };
+		046FDBD21E5682FA00AF9DD1 /* MSAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSAlertController.m; path = ../../Vendor/MSAlertController/MSAlertController.m; sourceTree = "<group>"; };
 		0471B5E01E4543DF0022F951 /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrestIOS.framework; path = ../Vendor/OCHamcrest/OCHamcrestIOS.framework; sourceTree = "<group>"; };
 		0471B5F41E45466F0022F951 /* MobileCenterUpdates.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = MobileCenterUpdates.xcconfig; sourceTree = "<group>"; };
 		0471B5F51E45466F0022F951 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
@@ -228,6 +232,15 @@
 			name = Model;
 			sourceTree = "<group>";
 		};
+		046FDBD51E56830400AF9DD1 /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+				046FDBD11E5682FA00AF9DD1 /* MSAlertController.h */,
+				046FDBD21E5682FA00AF9DD1 /* MSAlertController.m */,
+			);
+			name = Vendor;
+			sourceTree = "<group>";
+		};
 		0471B5F31E45466F0022F951 /* Support */ = {
 			isa = PBXGroup;
 			children = (
@@ -269,6 +282,7 @@
 				381D5A9D1E57588C00F093A2 /* MSUpdatesErrors.m */,
 				04690E841E4E39850056B916 /* Internals */,
 				0471B5F31E45466F0022F951 /* Support */,
+				046FDBD51E56830400AF9DD1 /* Vendor */,
 			);
 			path = MobileCenterUpdates;
 			sourceTree = "<group>";
@@ -310,6 +324,7 @@
 				B25895AA1E4E9FD400123632 /* MSUpdatesInternal.h in Headers */,
 				0471B93C1E4557620022F951 /* MSServiceAbstract.h in Headers */,
 				0471B9331E4555F20022F951 /* MobileCenterUpdates.h in Headers */,
+				046FDBD31E5682FA00AF9DD1 /* MSAlertController.h in Headers */,
 				0471B9341E45560C0022F951 /* MSUpdates.h in Headers */,
 				040AF0331E52859F005C1174 /* MSSender.h in Headers */,
 				BA682289029F0299AACAAF79 /* MSDistributionSender.h in Headers */,
@@ -450,6 +465,7 @@
 			files = (
 				0471B8991E4547480022F951 /* MSUpdates.m in Sources */,
 				BA682F3FEACC62C1D87AB9E3 /* MSDistributionSender.m in Sources */,
+				046FDBD41E5682FA00AF9DD1 /* MSAlertController.m in Sources */,
 				BA68267B25799F9D8A38DB1B /* MSReleaseDetails.m in Sources */,
 				381D5A9E1E57588C00F093A2 /* MSUpdatesErrors.m in Sources */,
 				BA68206790C0F854C9EA8D23 /* MSDistributionGroup.m in Sources */,
