@@ -107,4 +107,18 @@
   XCTAssertGreaterThan(actual, 0);
 }
 
+- (void)testCurrentAppEnvironment {
+  
+  /**
+   * When
+   */
+  MSEnvironment env = [MSUtil currentAppEnvironment];
+  
+  /**
+   * Then
+   */
+  // Tests always run in simulators.
+  XCTAssertEqual(env, MSEnvironmentOther);
+}
+
 @end
