@@ -176,9 +176,7 @@ static NSURL *sfURL;
   // If
   MSReleaseDetails *details = [MSReleaseDetails new];
   id updatesMock = OCMPartialMock(self.sut);
-  OCMStub([updatesMock showConfirmationAlert:[OCMArg any]])
-      .andDo(^(NSInvocation *invocation){
-      });
+  OCMStub([updatesMock showConfirmationAlert:[OCMArg any]]).andDo(nil);
 
   // When
   [updatesMock handleUpdate:details];
@@ -208,16 +206,13 @@ static NSURL *sfURL;
 
   // If
   details.minOs = @"1.0";
-  OCMStub([updatesMock isNewerVersion:[OCMArg any]]).andReturn(NO);
+  OCMStub([updatesMock isNewerVersion:[OCMArg any]]).andReturn(NO).andReturn(YES);
 
   // When
   [updatesMock handleUpdate:details];
 
   // Then
   OCMReject([updatesMock showConfirmationAlert:[OCMArg any]]);
-
-  // If
-  OCMStub([updatesMock isNewerVersion:[OCMArg any]]).andReturn(YES);
 
   // When
   [updatesMock handleUpdate:details];
