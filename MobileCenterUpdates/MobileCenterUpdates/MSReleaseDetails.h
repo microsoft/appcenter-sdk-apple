@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * ID identifying this unique release.
  */
-@property(nonatomic, copy) NSString *id;
+@property(nonatomic, copy) NSNumber *id;
 
 /**
  * OBSOLETE. Will be removed in next version. The availability concept is now replaced with distributed.
