@@ -95,9 +95,6 @@
   assertThat(actual.filePath, equalTo(expected.filePath));
   assertThat(actual.fileId, equalTo(expected.fileId));
 
-  expected.creationDate = [NSDate dateWithTimeIntervalSince1970:1487548800];
-  actual.creationDate = [NSDate dateWithTimeIntervalSince1970:1487548801];
-
   //At 'lucky' time we can get not passed test with description (example):
   //Expected "2017-01-01 00:00:00 +0000", but was "2017-01-01 00:00:01 +0000"
   //It can happen because sometimes difference can be one second between times.
