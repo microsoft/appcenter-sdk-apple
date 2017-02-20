@@ -92,6 +92,7 @@
 		D33A94491E5B11BB003966DB /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = MS;
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = Microsoft;
 				TargetAttributes = {
@@ -221,18 +222,91 @@
 		D33A945B1E5B11BB003966DB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				OTHER_LDFLAGS = "-ObjC";
+				ARCHS = "$(MS_ARM_ARCHS)";
+				"ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
+				BUILD_NUMBER = 1;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../Vendor\"/**",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MS_ARM_ARCHS = "armv7 armv7s arm64";
+				MS_SIM_ARCHS = "x86_64 i386";
+				OTHER_CFLAGS = (
+					"-Wshorten-64-to-32",
+					"-Wall",
+					"-fstack-protector-strong",
+					"-fpie",
+				);
+				"OTHER_CFLAGS[sdk=iphoneos*]" = (
+					"$(OTHER_CFLAGS)",
+					"-fembed-bitcode-marker",
+				);
+				"OTHER_CFLAGS[sdk=iphonesimulator*]" = (
+					"$(OTHER_CFLAGS)",
+					"-fembed-bitcode-marker",
+				);
+				OTHER_LDFLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenterpush;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = include/MobileCenterPush;
+				SDK_NAME = mobilecenter.ios;
 				SKIP_INSTALL = YES;
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/**";
+				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
+				VERSION_STRING = 0.4.2;
 			};
 			name = Debug;
 		};
 		D33A945C1E5B11BB003966DB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				OTHER_LDFLAGS = "-ObjC";
+				ARCHS = "$(MS_ARM_ARCHS)";
+				"ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
+				BUILD_NUMBER = 1;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../Vendor\"/**",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"$(XCODEBUILD_GCC_PREPROCESSOR_DEFINITIONS)",
+					"MOBILE_CENTER_CONFIGURATION_$(CONFIGURATION)",
+					"MOBILE_CENTER_NAME=\"@\\\"\"$(SDK_NAME)\"\\\"\"",
+					"MOBILE_CENTER_VERSION=\"@\\\"\"$(VERSION_STRING)\"\\\"\"",
+					"MOBILE_CENTER_BUILD=\"@\\\"\"$(BUILD_NUMBER)\"\\\"\"",
+					"MOBILE_CENTER_C_NAME=\"\\\"\"$(SDK_NAME)\"\\\"\"",
+					"MOBILE_CENTER_C_VERSION=\"\\\"\"$(VERSION_STRING)\"\\\"\"",
+					"MOBILE_CENTER_C_BUILD=\"\\\"\"$(BUILD_NUMBER)\"\\\"\"",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MS_ARM_ARCHS = "armv7 armv7s arm64";
+				MS_SIM_ARCHS = "x86_64 i386";
+				OTHER_CFLAGS = (
+					"-Wshorten-64-to-32",
+					"-Wall",
+					"-fstack-protector-strong",
+					"-fpie",
+				);
+				"OTHER_CFLAGS[sdk=iphoneos*]" = (
+					"$(OTHER_CFLAGS)",
+					"-fembed-bitcode",
+				);
+				"OTHER_CFLAGS[sdk=iphonesimulator*]" = (
+					"$(OTHER_CFLAGS)",
+					"-fembed-bitcode-marker",
+				);
+				OTHER_LDFLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenterpush;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = include/MobileCenterPush;
+				SDK_NAME = mobilecenter.ios;
 				SKIP_INSTALL = YES;
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/**";
+				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
+				VERSION_STRING = 0.4.2;
 			};
 			name = Release;
 		};
@@ -255,6 +329,7 @@
 				D33A945C1E5B11BB003966DB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
