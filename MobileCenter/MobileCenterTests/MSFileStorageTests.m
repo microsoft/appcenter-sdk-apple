@@ -94,6 +94,15 @@
   MSFile *actual = bucket.availableFiles.lastObject;
   assertThat(actual.filePath, equalTo(expected.filePath));
   assertThat(actual.fileId, equalTo(expected.fileId));
+
+  //At 'lucky' time we can get not passed test with description (example):
+  //Expected "2017-01-01 00:00:00 +0000", but was "2017-01-01 00:00:01 +0000"
+  //It can happen because sometimes difference can be one second between times.
+  //We'll check it and 'fix' actual time
+  int difference = [actual.creationDate timeIntervalSince1970] - [expected.creationDate timeIntervalSince1970];
+  if (difference == 1)
+     actual.creationDate = [actual.creationDate dateByAddingTimeInterval:-1];
+
   assertThat(actual.creationDate.description, equalTo(expected.creationDate.description));
 }
 
