@@ -219,7 +219,7 @@ static NSTimeInterval kRequestTimeout = 60.0;
       return;
     }
     [self.pendingCalls removeObjectForKey:callId];
-    MSLogInfo([MSMobileCenter logTag], @"Removed batch id:%@ from pending calls:%@", callId,
+    MSLogInfo([MSMobileCenter logTag], @"Removed call id:%@ from pending calls:%@", callId,
               [self.pendingCalls description]);
   }
 }
