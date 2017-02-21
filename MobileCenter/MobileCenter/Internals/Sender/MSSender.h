@@ -38,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
        retryIntervals:(NSArray *)retryIntervals;
 
 /**
- * Send logs in batch.
+ * Send data.
  *
  * @param data Instance that will be transformed to request body.
  * @param handler Completion handler.
