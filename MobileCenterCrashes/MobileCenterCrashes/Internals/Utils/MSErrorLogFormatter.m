@@ -305,7 +305,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   NSUInteger processId = [errorLog.processId unsignedIntegerValue];
 
   // Retrieve the device that correlates with the time of a crash.
-  MSDevice *device = [[[MSDeviceTracker alloc] init] deviceForToffset:errorLog.toffset];
+  MSDevice *device = [[MSDeviceTracker sharedInstance] deviceForToffset:errorLog.toffset];
 
   // Finally create the MSErrorReport instance.
   errorReport = [[MSErrorReport alloc] initWithErrorId:errorId

@@ -23,7 +23,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 - (void)setUp {
   [super setUp];
   // System Under Test.
-  self.sut = [[MSDeviceTracker alloc] init];
+  self.sut = [MSDeviceTracker sharedInstance];
 }
 
 - (void)tearDown {
@@ -259,9 +259,8 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
                                                        liveUpdatePackageHash:@"Package Hash"];
 
   // When
-  [MSDeviceTracker setWrapperSdk:wrapperSdk];
-  MSDeviceTracker *deviceTracker = [[MSDeviceTracker alloc] init];
-  MSDevice *device = deviceTracker.device;
+  [[MSDeviceTracker sharedInstance] setWrapperSdk:wrapperSdk];
+  MSDevice *device = self.sut.device;
 
   // Then
   XCTAssertEqual(device.wrapperSdkVersion, wrapperSdk.wrapperSdkVersion);
@@ -275,13 +274,13 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   wrapperSdk.wrapperSdkVersion = @"10.11.13";
 
   // When
-  [MSDeviceTracker setWrapperSdk:wrapperSdk];
+  [[MSDeviceTracker sharedInstance] setWrapperSdk:wrapperSdk];
 
   // Then
   XCTAssertNotEqual(device.wrapperSdkVersion, wrapperSdk.wrapperSdkVersion);
 
   // When
-  device = deviceTracker.device;
+  device = self.sut.device;
 
   // Then
   XCTAssertEqual(device.wrapperSdkVersion, wrapperSdk.wrapperSdkVersion);
@@ -290,7 +289,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 - (void)testCreationOfNewDeviceWorks {
   
   // When
-  MSDevice *expected = [[[MSDeviceTracker alloc] init] updatedDevice];
+  MSDevice *expected = [[MSDeviceTracker sharedInstance] updatedDevice];
   
   // Then
   
@@ -402,7 +401,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 - (void)testHistoryReturnsClosestDevice {
   
   // If
-  MSDeviceTracker *tracker = [[MSDeviceTracker alloc] init];
+  MSDeviceTracker *tracker = [MSDeviceTracker sharedInstance];
   [tracker clearDevices];
 
   // When
