@@ -9,7 +9,19 @@
 /* Begin PBXBuildFile section */
 		D33A94561E5B11BB003966DB /* MobileCenterPush.m in Sources */ = {isa = PBXBuildFile; fileRef = D33A94551E5B11BB003966DB /* MobileCenterPush.m */; };
 		D33A94571E5B11BB003966DB /* MobileCenterPush.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D33A94541E5B11BB003966DB /* MobileCenterPush.h */; };
+		D3AD5EC31E5C4F6A001627AB /* MobileCenterPushTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3AD5EC21E5C4F6A001627AB /* MobileCenterPushTests.m */; };
+		D3AD5EC51E5C4F6A001627AB /* libMobileCenterPush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D33A94511E5B11BB003966DB /* libMobileCenterPush.a */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D3AD5EC61E5C4F6A001627AB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D33A94491E5B11BB003966DB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D33A94501E5B11BB003966DB;
+			remoteInfo = MobileCenterPush;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		D33A944F1E5B11BB003966DB /* CopyFiles */ = {
@@ -28,6 +40,9 @@
 		D33A94511E5B11BB003966DB /* libMobileCenterPush.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMobileCenterPush.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D33A94541E5B11BB003966DB /* MobileCenterPush.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MobileCenterPush.h; sourceTree = "<group>"; };
 		D33A94551E5B11BB003966DB /* MobileCenterPush.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MobileCenterPush.m; sourceTree = "<group>"; };
+		D3AD5EC01E5C4F6A001627AB /* MobileCenterPushTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MobileCenterPushTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D3AD5EC21E5C4F6A001627AB /* MobileCenterPushTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MobileCenterPushTests.m; sourceTree = "<group>"; };
+		D3AD5EC41E5C4F6A001627AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,6 +53,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D3AD5EBD1E5C4F6A001627AB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D3AD5EC51E5C4F6A001627AB /* libMobileCenterPush.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -45,6 +68,7 @@
 			isa = PBXGroup;
 			children = (
 				D33A94531E5B11BB003966DB /* MobileCenterPush */,
+				D3AD5EC11E5C4F6A001627AB /* MobileCenterPushTests */,
 				D33A94521E5B11BB003966DB /* Products */,
 			);
 			sourceTree = "<group>";
@@ -53,6 +77,7 @@
 			isa = PBXGroup;
 			children = (
 				D33A94511E5B11BB003966DB /* libMobileCenterPush.a */,
+				D3AD5EC01E5C4F6A001627AB /* MobileCenterPushTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -64,6 +89,15 @@
 				D33A94551E5B11BB003966DB /* MobileCenterPush.m */,
 			);
 			path = MobileCenterPush;
+			sourceTree = "<group>";
+		};
+		D3AD5EC11E5C4F6A001627AB /* MobileCenterPushTests */ = {
+			isa = PBXGroup;
+			children = (
+				D3AD5EC21E5C4F6A001627AB /* MobileCenterPushTests.m */,
+				D3AD5EC41E5C4F6A001627AB /* Info.plist */,
+			);
+			path = MobileCenterPushTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -86,6 +120,24 @@
 			productReference = D33A94511E5B11BB003966DB /* libMobileCenterPush.a */;
 			productType = "com.apple.product-type.library.static";
 		};
+		D3AD5EBF1E5C4F6A001627AB /* MobileCenterPushTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D3AD5EC81E5C4F6A001627AB /* Build configuration list for PBXNativeTarget "MobileCenterPushTests" */;
+			buildPhases = (
+				D3AD5EBC1E5C4F6A001627AB /* Sources */,
+				D3AD5EBD1E5C4F6A001627AB /* Frameworks */,
+				D3AD5EBE1E5C4F6A001627AB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D3AD5EC71E5C4F6A001627AB /* PBXTargetDependency */,
+			);
+			name = MobileCenterPushTests;
+			productName = MobileCenterPushTests;
+			productReference = D3AD5EC01E5C4F6A001627AB /* MobileCenterPushTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -97,6 +149,10 @@
 				ORGANIZATIONNAME = Microsoft;
 				TargetAttributes = {
 					D33A94501E5B11BB003966DB = {
+						CreatedOnToolsVersion = 8.2.1;
+						ProvisioningStyle = Automatic;
+					};
+					D3AD5EBF1E5C4F6A001627AB = {
 						CreatedOnToolsVersion = 8.2.1;
 						ProvisioningStyle = Automatic;
 					};
@@ -115,9 +171,20 @@
 			projectRoot = "";
 			targets = (
 				D33A94501E5B11BB003966DB /* MobileCenterPush */,
+				D3AD5EBF1E5C4F6A001627AB /* MobileCenterPushTests */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D3AD5EBE1E5C4F6A001627AB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		D33A944D1E5B11BB003966DB /* Sources */ = {
@@ -128,7 +195,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D3AD5EBC1E5C4F6A001627AB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D3AD5EC31E5C4F6A001627AB /* MobileCenterPushTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D3AD5EC71E5C4F6A001627AB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D33A94501E5B11BB003966DB /* MobileCenterPush */;
+			targetProxy = D3AD5EC61E5C4F6A001627AB /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		D33A94581E5B11BB003966DB /* Debug */ = {
@@ -310,6 +393,26 @@
 			};
 			name = Release;
 		};
+		D3AD5EC91E5C4F6A001627AB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = MobileCenterPushTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.MobileCenterPushTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		D3AD5ECA1E5C4F6A001627AB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = MobileCenterPushTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.MobileCenterPushTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -330,6 +433,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		D3AD5EC81E5C4F6A001627AB /* Build configuration list for PBXNativeTarget "MobileCenterPushTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D3AD5EC91E5C4F6A001627AB /* Debug */,
+				D3AD5ECA1E5C4F6A001627AB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
