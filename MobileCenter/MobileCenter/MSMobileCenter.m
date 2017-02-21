@@ -83,7 +83,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 }
 
 + (void)setWrapperSdk:(MSWrapperSdk *)wrapperSdk {
-  [MSDeviceTracker setWrapperSdk:wrapperSdk];
+  [[MSDeviceTracker sharedInstance] setWrapperSdk:wrapperSdk];
 }
 
 /**
@@ -271,7 +271,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
   else {
 
     // Clean device history in case we are disabled.
-    [[[MSDeviceTracker alloc] init] clearDevices];
+    [[MSDeviceTracker sharedInstance] clearDevices];
   }
 
   // Propagate to log manager.

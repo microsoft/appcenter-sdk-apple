@@ -37,6 +37,17 @@ static NSUInteger const kMSMaxDevicesHistoryCount = 5;
 static BOOL needRefresh = YES;
 static MSWrapperSdk *wrapperSdkInformation = nil;
 
+#pragma mark - Initialisation
+
++ (instancetype)sharedInstance {
+  static MSDeviceTracker *sharedInstance = nil;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+      sharedInstance = [[self alloc] init];
+  });
+  return sharedInstance;
+}
+
 - (instancetype)init {
   if (self = [super init]) {
 
@@ -50,21 +61,18 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
         _deviceHistory = [NSMutableArray arrayWithArray:arrayFromData];
     }
 
-    // Create new array and creade device info in case we don't have any from disk.
+    // Create new array and create device info in case we don't have any from disk.
     if (_deviceHistory == nil) {
       _deviceHistory = [NSMutableArray<MSDeviceHistoryInfo *> new];
 
-      // Don't assign the new device to the property to continue using lazy initialization later.
-      // We're creating this one to have a history.
+      // This will instantiate the device property to make sure we have a history.
       [self device];
     }
-
-    _device = [self device];
   }
   return self;
 }
 
-+ (void)setWrapperSdk:(MSWrapperSdk *)wrapperSdk {
+- (void)setWrapperSdk:(MSWrapperSdk *)wrapperSdk {
   @synchronized(self) {
     wrapperSdkInformation = wrapperSdk;
     needRefresh = YES;
@@ -83,7 +91,7 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
 - (MSDevice *)device {
   @synchronized(self) {
 
-    // Lazy creation.
+    // Lazy creation in case the property hasn't been set yet.
     if (!_device || needRefresh) {
 
       // Get new device info.
@@ -165,15 +173,15 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
   }
 }
 
-- (MSDevice *)deviceForToffset:(NSNumber *)tOffset {
-  if (!tOffset || self.deviceHistory.count == 0) {
+- (MSDevice *)deviceForToffset:(NSNumber *)toffset {
+  if (!toffset || self.deviceHistory.count == 0) {
 
-    // Return a new device in case we don't have a device in our history or tOffset is nil.
+    // Return a new device in case we don't have a device in our history or toffset is nil.
     return [self device];
   } else {
 
     // This implements a binary search with complexity O(log n).
-    MSDeviceHistoryInfo *find = [[MSDeviceHistoryInfo alloc] initWithTOffset:tOffset andDevice:nil];
+    MSDeviceHistoryInfo *find = [[MSDeviceHistoryInfo alloc] initWithTOffset:toffset andDevice:nil];
     NSUInteger index =
         [self.deviceHistory indexOfObject:find
                             inSortedRange:NSMakeRange(0, self.deviceHistory.count)
@@ -187,13 +195,13 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
       return self.deviceHistory[0].device;
     }
 
-    // All tOffsets are smaller.
+    // All toffsets are smaller.
     else if (index == self.deviceHistory.count) {
       return [self.deviceHistory lastObject].device;
     } else {
-      // Either the deviceHistory contains the ECXACT tOffset or we pick the smallest delta.
-      long long leftDifference = [tOffset longLongValue] - [self.deviceHistory[index - 1].tOffset longLongValue];
-      long long rightDifference = [self.deviceHistory[index].tOffset longLongValue] - [tOffset longLongValue];
+      // Either the deviceHistory contains the exact toffset or we pick the smallest delta.
+      long long leftDifference = [toffset longLongValue] - [self.deviceHistory[index - 1].tOffset longLongValue];
+      long long rightDifference = [self.deviceHistory[index].tOffset longLongValue] - [toffset longLongValue];
       if (leftDifference < rightDifference) {
         --index;
       }

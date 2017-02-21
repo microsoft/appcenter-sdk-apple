@@ -50,7 +50,6 @@ static NSString *const kMSApiPath = @"/logs";
     _logsDispatchQueue = serialQueue;
     _channels = [NSMutableDictionary<NSNumber *, id<MSChannel>> new];
     _delegates = [NSHashTable weakObjectsHashTable];
-    _deviceTracker = [[MSDeviceTracker alloc] init];
     _sender = sender;
     _storage = storage;
   }
@@ -114,7 +113,7 @@ static NSString *const kMSApiPath = @"/logs";
   // Only add device info in case the log doesn't have one. In case the log is restored after a crash or for crashes,
   // We don't want the device information to be updated but want the old one preserved.
   if(!log.device) {
-    log.device = self.deviceTracker.device;
+    log.device = [[MSDeviceTracker sharedInstance] device];
   }
 
   // Asynchronously forward to channel by using the data dispatch queue.
