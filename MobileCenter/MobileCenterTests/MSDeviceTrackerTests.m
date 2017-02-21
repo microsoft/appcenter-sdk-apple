@@ -5,6 +5,7 @@
 #import "MSDeviceTrackerPrivate.h"
 #import "MSUtil.h"
 #import "MSWrapperSdkPrivate.h"
+#import "MSUserDefaults.h"
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
@@ -326,14 +327,13 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 }
 
 - (void)testClearingDeviceHistoryWorks {
-  // If
-//  MSDeviceTracker *tracker = [[MSDeviceTracker alloc] init];
-  
+
   // When
   [self.sut clearDevices];
   
   // Then
   XCTAssertTrue([self.sut.deviceHistory count] == 0);
+  XCTAssertNotNil([MS_USER_DEFAULTS objectForKey:@"pastDevicesKey"]);
 }
 
 - (void)testEnqueuingAndRefreshWorks {
