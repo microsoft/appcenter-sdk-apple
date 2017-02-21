@@ -13,7 +13,7 @@
 @property (nonatomic) NSNumber *tOffset;
 
 /**
- * Instance of MSDivice.
+ * Instance of MSDevice.
  */
 @property (nonatomic) MSDevice *device;
 

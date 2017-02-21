@@ -93,9 +93,6 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
       NSNumber *tOffset = [NSNumber numberWithLongLong:[MSUtil nowInMilliseconds]];
       MSDeviceHistoryInfo *deviceHistoryInfo = [[MSDeviceHistoryInfo alloc] initWithTOffset:tOffset andDevice:_device];
 
-      // Insert at the beginning of the list.
-      //      [self.deviceHistory insertObject:deviceHistoryInfo atIndex:0];
-
       // Insert new MSDeviceHistoryInfo at the proper index to keep self.deviceHistory sorted.
       NSUInteger newIndex = [self.deviceHistory indexOfObject:deviceHistoryInfo
           inSortedRange:(NSRange) { 0, [self.deviceHistory count] }
