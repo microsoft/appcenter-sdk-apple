@@ -9,6 +9,11 @@
 static NSString *const kMSServiceName = @"Push";
 
 /**
+ * Key for storing push token
+ */
+static NSString *const kMSPushServiceStorageKey = @"kmspushservicepushstoringkey";
+
+/**
  * Singleton
  */
 static MSPush *sharedInstance = nil;
@@ -44,6 +49,9 @@ static dispatch_once_t onceToken;
   [super startWithLogManager:logManager appSecret:appSecret];
 
   MSLogVerbose([MSPush logTag], @"Started push service.");
+
+  MSLogVerbose([MSPush logTag], @"Registering for push notifications");
+  [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
 }
 
 + (NSString *)logTag {
@@ -111,6 +119,24 @@ static dispatch_once_t onceToken;
   if (!self.delegate) {
     return;
   }
+}
+
+#pragma mark - Register callbacks
+
+- (void)application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+
+  MSLogVerbose([MSPush logTag], @"Registering for push notifications has been finished successfully");
+
+  //save key in internal storage
+  [MSUserDefaults.shared setObject:deviceToken forKey:kMSPushServiceStorageKey];
+
+  //and send it to log
+  MSLogVerbose([MSPush logTag], @"New device token %@", deviceToken);
+}
+
+- (void)application:(UIApplication *)app didFailToRegisterForRemoteNotificationsWithError:(NSError *)err {
+
+  MSLogVerbose([MSPush logTag], @"Registering for push notifications has been finished with error: %@", err.description);
 }
 
 @end
