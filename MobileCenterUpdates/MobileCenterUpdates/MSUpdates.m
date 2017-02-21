@@ -362,35 +362,39 @@ static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setu
 
 - (void)showConfirmationAlert:(MSReleaseDetails *)details {
 
-  // TODO: The text should be localized. There is a separate task for resources.
-  NSString *releaseNotes =
-      details.releaseNotes ? details.releaseNotes : @"No release notes were provided for this release.";
+  // Displaying alert dialog. Running on main thread.
+  dispatch_async(dispatch_get_main_queue(), ^{
 
-  MSAlertController *alertController =
-      [MSAlertController alertControllerWithTitle:@"Update available" message:releaseNotes];
+    // TODO: The text should be localized. There is a separate task for resources.
+    NSString *releaseNotes =
+        details.releaseNotes ? details.releaseNotes : @"No release notes were provided for this release.";
 
-  // Add a "Ignore"-Button
-  [alertController addDefaultActionWithTitle:@"Ignore"
-                                     handler:^(UIAlertAction *action) {
-                                       MSLogDebug([MSUpdates logTag], @"Ignore the release id: %@.", details.id);
-                                       [MS_USER_DEFAULTS setObject:details.id forKey:kMSIgnoredReleaseIdKey];
-                                     }];
+    MSAlertController *alertController =
+        [MSAlertController alertControllerWithTitle:@"Update available" message:releaseNotes];
 
-  // Add a "Postpone"-Button
-  [alertController addCancelActionWithTitle:@"Postpone"
-                                    handler:^(UIAlertAction *action) {
-                                      MSLogDebug([MSUpdates logTag], @"Postpone the release for now.");
-                                    }];
+    // Add a "Ignore"-Button
+    [alertController addDefaultActionWithTitle:@"Ignore"
+                                       handler:^(UIAlertAction *action) {
+                                         MSLogDebug([MSUpdates logTag], @"Ignore the release id: %@.", details.id);
+                                         [MS_USER_DEFAULTS setObject:details.id forKey:kMSIgnoredReleaseIdKey];
+                                       }];
 
-  // Add a "Download"-Button
-  [alertController addDefaultActionWithTitle:@"Download"
-                                     handler:^(UIAlertAction *action) {
-                                       MSLogDebug([MSUpdates logTag], @"Start download and install the release.");
-                                       [self startDownload:details];
-                                     }];
+    // Add a "Postpone"-Button
+    [alertController addCancelActionWithTitle:@"Postpone"
+                                      handler:^(UIAlertAction *action) {
+                                        MSLogDebug([MSUpdates logTag], @"Postpone the release for now.");
+                                      }];
 
-  // Show the alert controller.
-  [alertController show];
+    // Add a "Download"-Button
+    [alertController addDefaultActionWithTitle:@"Download"
+                                       handler:^(UIAlertAction *action) {
+                                         MSLogDebug([MSUpdates logTag], @"Start download and install the release.");
+                                         [self startDownload:details];
+                                       }];
+
+    // Show the alert controller.
+    [alertController show];
+  });
 }
 
 // TODO: Please implement!
@@ -433,4 +437,5 @@ static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setu
     MSLogDebug([MSUpdates logTag], @"Updates service has been disabled, ignore request.");
   }
 }
+
 @end
