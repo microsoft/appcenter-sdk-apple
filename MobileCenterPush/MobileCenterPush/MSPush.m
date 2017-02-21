@@ -7,8 +7,6 @@
  */
 static NSString *const kMSServiceName = @"Push";
 
-
-
 /**
  * Singleton
  */

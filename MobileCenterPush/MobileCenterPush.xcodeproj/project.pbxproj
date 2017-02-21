@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		38D4BBA11D5A98D1001A30A0 /* ../MobileCenter/MobileCenter/MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 38D4BB9F1D5A98D1001A30A0 /* ../MobileCenter/MobileCenter/MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D3AD5EC31E5C4F6A001627AB /* MobileCenterPushTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3AD5EC21E5C4F6A001627AB /* MobileCenterPushTests.m */; };
 		D3AD5EC51E5C4F6A001627AB /* libMobileCenterPush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D33A94511E5B11BB003966DB /* libMobileCenterPush.a */; };
 		D3AD5F0C1E5C819A001627AB /* MobileCenter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F0B1E5C819A001627AB /* MobileCenter+Internal.h */; };
@@ -42,6 +43,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		38D4BB9F1D5A98D1001A30A0 /* ../MobileCenter/MobileCenter/MSService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ../MobileCenter/MobileCenter/MSService.h; sourceTree = "<group>"; };
 		D33A94511E5B11BB003966DB /* libMobileCenterPush.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMobileCenterPush.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D33A94541E5B11BB003966DB /* MobileCenterPush.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MobileCenterPush.h; sourceTree = "<group>"; };
 		D3AD5EC01E5C4F6A001627AB /* MobileCenterPushTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MobileCenterPushTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -147,13 +149,14 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D3AD5F121E5C847B001627AB /* MSPushPrivate.h in Headers */,
-				D3AD5F0D1E5C844B001627AB /* MSServiceAbstract.h in Headers */,
-				D3AD5F131E5C8485001627AB /* MSPushInternal.h in Headers */,
 				D3AD5F0F1E5C845B001627AB /* MobileCenterPush.h in Headers */,
-				D3AD5F0E1E5C8452001627AB /* MSLogManager.h in Headers */,
-				D3AD5F101E5C8466001627AB /* MSPush.h in Headers */,
+				D3AD5F0D1E5C844B001627AB /* MSServiceAbstract.h in Headers */,
 				D3AD5F0C1E5C819A001627AB /* MobileCenter+Internal.h in Headers */,
+				D3AD5F101E5C8466001627AB /* MSPush.h in Headers */,
+				D3AD5F131E5C8485001627AB /* MSPushInternal.h in Headers */,
+				D3AD5F121E5C847B001627AB /* MSPushPrivate.h in Headers */,
+				38D4BBA11D5A98D1001A30A0 /* ../MobileCenter/MobileCenter/MSService.h in Headers */,
+				D3AD5F0E1E5C8452001627AB /* MSLogManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
