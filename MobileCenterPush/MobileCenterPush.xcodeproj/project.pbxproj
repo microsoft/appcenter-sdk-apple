@@ -372,10 +372,7 @@
 				"ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
 				BUILD_NUMBER = 1;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../Vendor\"/**",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MS_ARM_ARCHS = "armv7 armv7s arm64";
 				MS_SIM_ARCHS = "x86_64 i386";
@@ -412,10 +409,7 @@
 				"ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
 				BUILD_NUMBER = 1;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../Vendor\"/**",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"$(XCODEBUILD_GCC_PREPROCESSOR_DEFINITIONS)",

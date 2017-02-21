@@ -1,3 +1,5 @@
 #import <Foundation/Foundation.h>
 
-@protocol MSPushDelegate <NSObject>;
+@protocol MSPushDelegate <NSObject>
+
+@end

@@ -1,6 +1,7 @@
 #import "MSPush.h"
 #import "MSPushPrivate.h"
 #import "MSPushInternal.h"
+#import "MSMobileCenterInternal.h"
 
 /**
  * Service storage key name.
