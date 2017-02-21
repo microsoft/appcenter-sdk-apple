@@ -2,6 +2,7 @@
 #import <SafariServices/SafariServices.h>
 #import "MSAlertController.h"
 #import "MSDistributionSender.h"
+#import "MSKeychainUtil.h"
 #import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
 #import "MSReleaseDetails.h"
@@ -10,24 +11,18 @@
 #import "MSUpdatesErrors.h"
 #import "MSUpdatesInternal.h"
 #import "MSUpdatesPrivate.h"
-#import "MSUtil.h"
 
 /**
  * Service storage key name.
  */
 static NSString *const kMSServiceName = @"Updates";
 
-/**
- * Update API token storage key.
- */
-static NSString *const kMSUpdateTokenRequestIdKey = @"MSUpdateTokenRequestId";
+#pragma mark - URL constants
 
 /**
  * The header name for update token.
  */
 static NSString *const kMSHeaderUpdateApiToken = @"x-api-token";
-
-#pragma mark - URL constants
 
 /**
  * Base URL for HTTP Distribution install API calls.
@@ -48,11 +43,6 @@ static NSString *const kMSUpdtsLatestReleaseApiPathFormat = @"/sdk/apps/%@/relea
  * The API path for update token request.
  */
 static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setup";
-
-/**
- * The key for ignored release ID.
- */
-static NSString *const kMSIgnoredReleaseIdKey = @"MSIgnoredReleaseId";
 
 #pragma mark - Exception constants
 
@@ -106,14 +96,53 @@ static NSString *const kMSIgnoredReleaseIdKey = @"MSIgnoredReleaseId";
 
 - (void)startWithLogManager:(id<MSLogManager>)logManager appSecret:(NSString *)appSecret {
   [super startWithLogManager:logManager appSecret:appSecret];
+  MSLogVerbose([MSUpdates logTag], @"Started Updates service.");
 
-  // TODO: Hook up with pipeline.
+  NSString *updateToken = [MSKeychainUtil stringForKey:kMSUpdateTokenKey];
+  if ([self isEnabled]) {
+    if (updateToken) {
+      self.sender = [[MSDistributionSender alloc]
+          initWithBaseUrl:self.apiUrl
+                  apiPath:[NSString stringWithFormat:kMSUpdtsLatestReleaseApiPathFormat, appSecret]
+                  // TODO: Update token in header should be in format of "Bearer {JWT token}"
+                  headers:@{
+                    kMSHeaderUpdateApiToken : updateToken
+                  }
+             queryStrings:nil
+             reachability:[MS_Reachability reachabilityForInternetConnection]
+           retryIntervals:@[ @(10) ]];
+      [self checkLatestRelease];
+    } else {
+      [self requestUpdateToken];
+    }
+  } else {
+    MSLogDebug([MSUpdates logTag], @"Updates service is disabled, skip update.");
+  }
+}
+
+#pragma mark - Public
+
++ (void)setApiUrl:(NSString *)apiUrl {
+  [[self sharedInstance] setApiUrl:apiUrl];
+}
+
++ (void)setInstallUrl:(NSString *)installUrl {
+  [[self sharedInstance] setInstallUrl:installUrl];
+}
+
++ (void)openUrl:(NSURL *)url {
+  [[self sharedInstance] openUrl:url];
+}
+
+#pragma mark - Private
+
+- (void)requestUpdateToken {
   NSURL *url;
   NSError *error = nil;
   MSLogInfo([MSUpdates logTag], @"Request updates API token.");
 
   // Most failures here require an app update. Thus, it will be retried only on next App instance.
-  url = [self buildTokenRequestURLWithAppSecret:appSecret error:&error];
+  url = [self buildTokenRequestURLWithAppSecret:self.appSecret error:&error];
   if (!error) {
 
 // iOS 9+ only, check for `SFSafariViewController` availability. `SafariServices` framework MUST be weakly linked.
@@ -137,39 +166,7 @@ static NSString *const kMSIgnoredReleaseIdKey = @"MSIgnoredReleaseId";
   } else {
     MSLogError([MSUpdates logTag], @"%@", error.localizedDescription);
   }
-
-  // TODO: Hook up with update token getter later.
-  NSString *updateToken = @"temporary-token";
-  self.sender = [[MSDistributionSender alloc]
-      initWithBaseUrl:self.apiUrl
-              apiPath:[NSString stringWithFormat:kMSUpdtsLatestReleaseApiPathFormat, appSecret]
-              // TODO: Update token in header should be in format of "Bearer {JWT token}"
-              headers:@{
-                kMSHeaderUpdateApiToken : updateToken
-              }
-         queryStrings:nil
-         reachability:[MS_Reachability reachabilityForInternetConnection]
-       retryIntervals:@[ @(10) ]];
-  MSLogVerbose([MSUpdates logTag], @"Started Updates service.");
-
-  if ([self isEnabled]) {
-    [self checkLatestRelease];
-  } else {
-    MSLogDebug([MSUpdates logTag], @"Updates service is disabled, skip update.");
-  }
 }
-
-#pragma mark - Public
-
-+ (void)setApiUrl:(NSString *)apiUrl {
-  [[self sharedInstance] setApiUrl:apiUrl];
-}
-
-+ (void)setInstallUrl:(NSString *)installUrl {
-  [[self sharedInstance] setInstallUrl:installUrl];
-}
-
-#pragma mark - Private
 
 - (void)checkLatestRelease {
   [self.sender sendAsync:nil
@@ -331,8 +328,8 @@ static NSString *const kMSIgnoredReleaseIdKey = @"MSIgnoredReleaseId";
   }
 
   // Step 3. Check if the release ID was ignored by a user.
-  NSString *releaseId = [[MSUserDefaults shared] objectForKey:kMSIgnoredReleaseIdKey];
-  if (releaseId && [releaseId isEqualToString:details.id]) {
+  NSNumber *releaseId = [MS_USER_DEFAULTS objectForKey:kMSIgnoredReleaseIdKey];
+  if (releaseId && releaseId == details.id) {
     MSLogDebug([MSUpdates logTag], @"A user already ignored updating this release, skip update.");
     return;
   }
@@ -376,7 +373,7 @@ static NSString *const kMSIgnoredReleaseIdKey = @"MSIgnoredReleaseId";
   [alertController addDefaultActionWithTitle:@"Ignore"
                                      handler:^(UIAlertAction *action) {
                                        MSLogDebug([MSUpdates logTag], @"Ignore the release id: %@.", details.id);
-                                       [[MSUserDefaults shared] setObject:details.id forKey:kMSIgnoredReleaseIdKey];
+                                       [MS_USER_DEFAULTS setObject:details.id forKey:kMSIgnoredReleaseIdKey];
                                      }];
 
   // Add a "Postpone"-Button
@@ -400,4 +397,40 @@ static NSString *const kMSIgnoredReleaseIdKey = @"MSIgnoredReleaseId";
 - (void)startDownload:(MSReleaseDetails *)details {
 }
 
+- (void)openUrl:(NSURL *)url {
+  if ([self isEnabled]) {
+
+    // If the request is not for Mobile Center Updates, ignore.
+    if (![kMSUpdtsDefaultCustomScheme isEqualToString:[url scheme]]) {
+      return;
+    }
+
+    // Parse query parameters
+    NSString *requestedId = [MS_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey];
+    NSString *queryRequestId = nil;
+    NSString *queryUpdateToken = nil;
+    NSURLComponents *components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:NO];
+
+    for (NSURLQueryItem *item in components.queryItems) {
+      if ([item.name isEqualToString:kMSUpdtsURLQueryRequestIdKey]) {
+        queryRequestId = item.value;
+      } else if ([item.name isEqualToString:kMSUpdtsURLQueryUpdateTokenKey]) {
+        queryUpdateToken = item.value;
+      }
+    }
+
+    // If the request ID doesn't match, ignore.
+    if (!(requestedId && queryRequestId && [requestedId isEqualToString:queryRequestId])) {
+      return;
+    }
+
+    // Store update token
+    if (queryUpdateToken) {
+      [MSKeychainUtil storeString:queryUpdateToken forKey:kMSUpdateTokenKey];
+      [self checkLatestRelease];
+    }
+  } else {
+    MSLogDebug([MSUpdates logTag], @"Updates service has been disabled, ignore request.");
+  }
+}
 @end

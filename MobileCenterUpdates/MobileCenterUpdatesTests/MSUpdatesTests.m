@@ -6,8 +6,10 @@
 #import "MSServiceAbstract.h"
 #import "MSServiceInternal.h"
 #import "MSUpdates.h"
-#import "MSUpdatesPrivate.h"
 #import "MSUpdatesInternal.h"
+#import "MSUpdatesPrivate.h"
+#import "MSUserDefaults.h"
+#import "MSUtil.h"
 
 static NSString *const kMSTestAppSecret = @"IAMSECRET";
 
@@ -52,10 +54,12 @@ static NSURL *sfURL;
 - (void)setUp {
   [super setUp];
   self.sut = [MSUpdates new];
+  [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
 }
 
 - (void)tearDown {
   [super tearDown];
+  [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
 }
 
 - (void)testUpdateURL {
@@ -185,7 +189,7 @@ static NSURL *sfURL;
   OCMReject([updatesMock showConfirmationAlert:[OCMArg any]]);
 
   // If
-  details.id = @"valid-id";
+  details.id = @1;
   details.downloadUrl = [NSURL URLWithString:@"https://contoso.com/valid/url"];
 
   // When
@@ -219,6 +223,66 @@ static NSURL *sfURL;
 
   // Then
   OCMVerify([updatesMock showConfirmationAlert:[OCMArg any]]);
+}
+
+- (void)testOpenUrl {
+
+  // If
+  id updateMock = OCMPartialMock(self.sut);
+  OCMStub([updateMock checkLatestRelease]).andDo(nil);
+  NSURL *url = [NSURL URLWithString:@"invalid://?"];
+
+  // When
+  [updateMock openUrl:url];
+
+  // Then
+  OCMReject([updateMock checkLatestRelease]);
+
+  // If
+  url = [NSURL URLWithString:@"msupdt://?"];
+
+  // When
+  [updateMock openUrl:url];
+
+  // Then
+  OCMReject([updateMock checkLatestRelease]);
+
+  // If
+  url = [NSURL URLWithString:@"msupdt://?request_id=FIRST-REQUEST"];
+
+  // When
+  [updateMock openUrl:url];
+
+  // Then
+  OCMReject([updateMock checkLatestRelease]);
+
+  // If
+  url = [NSURL URLWithString:@"msupdt://?request_id=FIRST-REQUEST&update_token=token"];
+
+  // When
+  [updateMock openUrl:url];
+
+  // Then
+  OCMReject([updateMock checkLatestRelease]);
+
+  // If
+  [MS_USER_DEFAULTS setObject:@"FIRST-REQUEST" forKey:kMSUpdateTokenRequestIdKey];
+  url = [NSURL URLWithString:@"msupdt://?request_id=FIRST-REQUEST&update_token=token"];
+
+  // When
+  [updateMock openUrl:url];
+
+  // Then
+  OCMVerify([updateMock checkLatestRelease]);
+
+  // If
+  [updateMock setEnabled:NO];
+
+  // When
+  [updateMock openUrl:url];
+
+  // Then
+  OCMReject([updateMock checkLatestRelease]);
 }
 
 @end

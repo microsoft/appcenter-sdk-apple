@@ -3,7 +3,7 @@
 @interface MSUpdates : MSServiceAbstract
 
 /**
- * Change The URL that will be used for genereric update related tasks, e.g. fetching the auth token..
+ * Change The URL that will be used for generic update related tasks, e.g. fetching the auth token..
  *
  * @param apiUrl The new URL.
  */
@@ -15,5 +15,12 @@
  * @param installUrl The new URL.
  */
 + (void)setInstallUrl:(NSString *)installUrl;
+
+/**
+ * Take a request via custom URL scheme from browser.
+ *
+ * @param url  The url with parameters.
+ */
++ (void)openUrl:(NSURL *)url;
 
 @end
