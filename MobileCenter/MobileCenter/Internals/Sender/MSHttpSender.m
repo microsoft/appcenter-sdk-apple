@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSHttpSender.h"
 #import "MSHttpSenderPrivate.h"
 #import "MSMobileCenterInternal.h"
@@ -14,7 +10,7 @@ static NSTimeInterval kRequestTimeout = 60.0;
 @synthesize reachability = _reachability;
 @synthesize suspended = _suspended;
 
-#pragma mark - MSSender
+#pragma mark - Initialize
 
 - (id)initWithBaseUrl:(NSString *)baseUrl
               apiPath:(NSString *)apiPath
@@ -38,8 +34,8 @@ static NSTimeInterval kRequestTimeout = 60.0;
 
     // Set query parameter.
     [queryStrings enumerateKeysAndObjectsUsingBlock:^(id _Nonnull key, id _Nonnull queryString, BOOL *_Nonnull stop) {
-      NSURLQueryItem *queryItem = [NSURLQueryItem queryItemWithName:key value:queryString];
-      [queryItemArray addObject:queryItem];
+        NSURLQueryItem *queryItem = [NSURLQueryItem queryItemWithName:key value:queryString];
+        [queryItemArray addObject:queryItem];
     }];
     components.queryItems = queryItemArray;
 
@@ -57,6 +53,16 @@ static NSTimeInterval kRequestTimeout = 60.0;
     [self networkStateChanged];
   }
   return self;
+}
+
+#pragma mark - MSSender
+
+- (id)initWithBaseUrl:(NSString *)baseUrl
+              headers:(NSDictionary *)headers
+         queryStrings:(NSDictionary *)queryStrings
+         reachability:(MS_Reachability *)reachability
+       retryIntervals:(NSArray *)retryIntervals {
+  return [self initWithBaseUrl:baseUrl apiPath:@"" headers:headers queryStrings:queryStrings reachability:reachability retryIntervals:retryIntervals];
 }
 
 - (void)sendAsync:(NSObject *)data completionHandler:(MSSendAsyncCompletionHandler)handler {
@@ -223,7 +229,7 @@ static NSTimeInterval kRequestTimeout = 60.0;
       return;
     }
     [self.pendingCalls removeObjectForKey:callId];
-    MSLogInfo([MSMobileCenter logTag], @"Removed batch id:%@ from pending calls:%@", callId,
+    MSLogInfo([MSMobileCenter logTag], @"Removed call id:%@ from pending calls:%@", callId,
               [self.pendingCalls description]);
   }
 }
@@ -286,7 +292,7 @@ static NSTimeInterval kRequestTimeout = 60.0;
     // Check if call has already been created(retry scenario).
     MSSenderCall *call = self.pendingCalls[callId];
     if (call == nil) {
-      call = [[MSSenderCall alloc] initWithRetryIntervals:_callsRetryIntervals];
+      call = [[MSSenderCall alloc] initWithRetryIntervals:self.callsRetryIntervals];
       call.delegate = self;
       call.data = data;
       call.callId = callId;

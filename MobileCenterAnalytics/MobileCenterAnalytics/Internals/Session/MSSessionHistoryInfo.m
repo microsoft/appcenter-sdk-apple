@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSSessionHistoryInfo.h"
 
 static NSString *const kMSSessionIdKey = @"sessionIdKey";

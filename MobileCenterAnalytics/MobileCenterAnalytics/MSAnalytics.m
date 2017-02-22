@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSAnalytics.h"
 #import "MSAnalyticsCategory.h"
 #import "MSAnalyticsPrivate.h"
@@ -209,7 +205,7 @@ static dispatch_once_t onceToken;
 }
 
 - (BOOL)isAutoPageTrackingEnabled {
-  return _autoPageTrackingEnabled;
+  return self.autoPageTrackingEnabled;
 }
 
 - (void)sendLog:(id<MSLog>)log withPriority:(MSPriority)priority {

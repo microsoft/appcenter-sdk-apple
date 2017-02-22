@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import <Foundation/Foundation.h>
 
 static short const kMSMaxCharactersDisplayedForAppSecret = 8;
@@ -28,6 +24,23 @@ static NSString *const kMSHidingStringForAppSecret = @"*";
  * Enable/disable does resume/suspend the sender as needed under the hood.
  */
 @property(nonatomic) BOOL enabled;
+
+/**
+ * Initialize the Sender.
+ *
+ * @param baseUrl Base url.
+ * @param apiPath Base API path.
+ * @param headers Http headers.
+ * @param queryStrings An array of query strings.
+ * @param reachability Network reachability helper.
+ * @param retryIntervals An array for retry intervals in second.
+ */
+- (id)initWithBaseUrl:(NSString *)baseUrl
+              apiPath:(NSString *)apiPath
+              headers:(NSDictionary *)headers
+         queryStrings:(NSDictionary *)queryStrings
+         reachability:(MS_Reachability *)reachability
+       retryIntervals:(NSArray *)retryIntervals;
 
 /**
  * Hide a secret replacing the N first characters by a hiding character.

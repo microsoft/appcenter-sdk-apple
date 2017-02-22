@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSIngestionSender.h"
 #import "MobileCenter.h"
 #import "MSLogger.h"
@@ -9,6 +5,22 @@
 #import "MSHttpSenderPrivate.h"
 
 @implementation MSIngestionSender
+
+static NSString *const kMSApiPath = @"/logs";
+
+- (id)initWithBaseUrl:(NSString *)baseUrl
+              headers:(NSDictionary *)headers
+         queryStrings:(NSDictionary *)queryStrings
+         reachability:(MS_Reachability *)reachability
+       retryIntervals:(NSArray *)retryIntervals {
+  self = [super initWithBaseUrl:baseUrl
+                        apiPath:kMSApiPath
+                        headers:headers
+                   queryStrings:queryStrings
+                   reachability:reachability
+                 retryIntervals:retryIntervals];
+  return self;
+}
 
 - (void)sendAsync:(NSObject *)data completionHandler:(MSSendAsyncCompletionHandler)handler {
   MSLogContainer *container = (MSLogContainer *)data;

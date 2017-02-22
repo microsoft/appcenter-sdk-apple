@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSService.h"
 #import "MSServiceAbstract.h"
 #import "MSServiceCommon.h"

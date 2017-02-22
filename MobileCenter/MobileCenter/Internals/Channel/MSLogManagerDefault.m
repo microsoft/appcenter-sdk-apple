@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSChannelDefault.h"
 #import "MSLogManagerDefault.h"
 #import "MSLogManagerDefaultPrivate.h"
@@ -12,7 +8,6 @@
 #import "MSIngestionSender.h"
 
 static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecenter.LogManagerQueue";
-static NSString *const kMSApiPath = @"/logs";
 
 /**
  * Private declaration of the log manager.
@@ -32,7 +27,6 @@ static NSString *const kMSApiPath = @"/logs";
 
 - (instancetype)initWithAppSecret:(NSString *)appSecret installId:(NSUUID *)installId serverUrl:(NSString *)serverUrl {
   self = [self initWithSender:[[MSIngestionSender alloc] initWithBaseUrl:serverUrl
-                                  apiPath:kMSApiPath
                                   headers:@{
                                     kMSHeaderContentTypeKey : kMSContentType,
                                     kMSHeaderAppSecretKey : appSecret,

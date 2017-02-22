@@ -94,7 +94,12 @@
   MSFile *actual = bucket.availableFiles.lastObject;
   assertThat(actual.filePath, equalTo(expected.filePath));
   assertThat(actual.fileId, equalTo(expected.fileId));
-  assertThat(actual.creationDate.description, equalTo(expected.creationDate.description));
+
+  //Sometimes we can get a difference between times in one second
+  //And it is a valid result
+  double maxAllowedDifference = 1;
+  double difference = [actual.creationDate timeIntervalSinceDate:expected.creationDate];
+  XCTAssertLessThanOrEqual(difference, maxAllowedDifference);
 }
 
 - (void)testSaveFirstLogOfABatchWillNotAddItToCurrentFileIfItIsNil {

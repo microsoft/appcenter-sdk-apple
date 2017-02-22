@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -50,11 +46,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)updateObject:(id)o forKey:(NSString *)key;
 
 /**
- * Updates an object in the settings, returning YES if object was updated, NO otherwise.
- * It will return YES if expiration time is reached.
- * @param o the object to update.
+ * Get an object in the settings, returning object if key was found, NULL otherwise.
  * @param key a unique key to identify the value.
- * @param expiration maximum time (in seconds) to keep object in the cache.
  */
 - (id)objectForKey:(NSString *)key;
 

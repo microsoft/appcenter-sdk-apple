@@ -51,10 +51,17 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
   [[NSNotificationCenter defaultCenter] postNotificationName:kMSReachabilityChangedNotification object:noteObject];
 }
 
+#pragma mark - Reachability extension
+
+@interface MS_Reachability()
+
+@property (nonatomic) SCNetworkReachabilityRef reachabilityRef;
+
+@end
+
 #pragma mark - Reachability implementation
 
 @implementation MS_Reachability {
-  SCNetworkReachabilityRef _reachabilityRef;
 }
 
 + (instancetype)reachabilityWithHostName:(NSString *)hostName {
@@ -63,7 +70,7 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
   if (reachability != NULL) {
     returnValue = [[self alloc] init];
     if (returnValue != NULL) {
-      returnValue->_reachabilityRef = reachability;
+      returnValue.reachabilityRef = reachability;
     } else {
       CFRelease(reachability);
     }
@@ -79,7 +86,7 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
   if (reachability != NULL) {
     returnValue = [[self alloc] init];
     if (returnValue != NULL) {
-      returnValue->_reachabilityRef = reachability;
+      returnValue.reachabilityRef = reachability;
     } else {
       CFRelease(reachability);
     }
@@ -106,8 +113,8 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
   BOOL returnValue = NO;
   SCNetworkReachabilityContext context = {0, (__bridge void *)(self), NULL, NULL, NULL};
 
-  if (SCNetworkReachabilitySetCallback(_reachabilityRef, ReachabilityCallback, &context)) {
-    if (SCNetworkReachabilityScheduleWithRunLoop(_reachabilityRef, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode)) {
+  if (SCNetworkReachabilitySetCallback(self.reachabilityRef, ReachabilityCallback, &context)) {
+    if (SCNetworkReachabilityScheduleWithRunLoop(self.reachabilityRef, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode)) {
       returnValue = YES;
     }
   }
@@ -116,15 +123,15 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
 }
 
 - (void)stopNotifier {
-  if (_reachabilityRef != NULL) {
-    SCNetworkReachabilityUnscheduleFromRunLoop(_reachabilityRef, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
+  if (self.reachabilityRef != NULL) {
+    SCNetworkReachabilityUnscheduleFromRunLoop(self.reachabilityRef, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
   }
 }
 
 - (void)dealloc {
   [self stopNotifier];
-  if (_reachabilityRef != NULL) {
-    CFRelease(_reachabilityRef);
+  if (self.reachabilityRef != NULL) {
+    CFRelease(self.reachabilityRef);
   }
 }
 
@@ -172,10 +179,10 @@ If the target host is reachable and no connection is required then we'll assume 
 }
 
 - (BOOL)connectionRequired {
-  NSAssert(_reachabilityRef != NULL, @"connectionRequired called with NULL reachabilityRef");
+  NSAssert(self.reachabilityRef != NULL, @"connectionRequired called with NULL reachabilityRef");
   SCNetworkReachabilityFlags flags;
 
-  if (SCNetworkReachabilityGetFlags(_reachabilityRef, &flags)) {
+  if (SCNetworkReachabilityGetFlags(self.reachabilityRef, &flags)) {
     return (flags & kSCNetworkReachabilityFlagsConnectionRequired);
   }
 
@@ -183,11 +190,11 @@ If the target host is reachable and no connection is required then we'll assume 
 }
 
 - (NetworkStatus)currentReachabilityStatus {
-  NSAssert(_reachabilityRef != NULL, @"currentNetworkStatus called with NULL SCNetworkReachabilityRef");
+  NSAssert(self.reachabilityRef != NULL, @"currentNetworkStatus called with NULL SCNetworkReachabilityRef");
   NetworkStatus returnValue = NotReachable;
   SCNetworkReachabilityFlags flags;
 
-  if (SCNetworkReachabilityGetFlags(_reachabilityRef, &flags)) {
+  if (SCNetworkReachabilityGetFlags(self.reachabilityRef, &flags)) {
     returnValue = [self networkStatusForFlags:flags];
   }
 
