@@ -1,6 +1,6 @@
-#import "MSKeychainUtil.h"
-#import <XCTest/XCTest.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
+#import <XCTest/XCTest.h>
+#import "MSKeychainUtil.h"
 
 @interface MSKeychiainUtilTests : XCTestCase
 
@@ -8,16 +8,14 @@
 
 @implementation MSKeychiainUtilTests
 
-static NSString *const kServiceName = @"Test Service";
-
 - (void)setUp {
   [super setUp];
-  [MSKeychainUtil clearForService:kServiceName];
+  [MSKeychainUtil clear];
 }
 
 - (void)tearDown {
   [super tearDown];
-  [MSKeychainUtil clearForService:kServiceName];
+  [MSKeychainUtil clear];
 }
 
 - (void)testKeychain {
@@ -27,12 +25,12 @@ static NSString *const kServiceName = @"Test Service";
   NSString *value = @"Test Value";
 
   // Then
-  XCTAssertTrue([MSKeychainUtil storeString:value forKey:key service:kServiceName]);
-  assertThat([MSKeychainUtil stringForKey:key service:kServiceName], equalTo(value));
-  assertThat([MSKeychainUtil deleteStringForKey:key service:kServiceName], equalTo(value));
+  XCTAssertTrue([MSKeychainUtil storeString:value forKey:key]);
+  assertThat([MSKeychainUtil stringForKey:key], equalTo(value));
+  assertThat([MSKeychainUtil deleteStringForKey:key], equalTo(value));
 
-  XCTAssertFalse([MSKeychainUtil stringForKey:key service:kServiceName]);
-  XCTAssertNil([MSKeychainUtil deleteStringForKey:key service:kServiceName]);
+  XCTAssertFalse([MSKeychainUtil stringForKey:key]);
+  XCTAssertNil([MSKeychainUtil deleteStringForKey:key]);
 }
 
 @end
