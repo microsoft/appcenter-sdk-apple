@@ -428,8 +428,12 @@ static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setu
       return;
     }
 
+    // Delete stored request id
+    [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
+
     // Store update token
     if (queryUpdateToken) {
+      MSLogDebug([MSUpdates logTag], @"Update token has been successfully retrieved. Store the token to secure storage.");
       [MSKeychainUtil storeString:queryUpdateToken forKey:kMSUpdateTokenKey];
       [self checkLatestRelease];
     }

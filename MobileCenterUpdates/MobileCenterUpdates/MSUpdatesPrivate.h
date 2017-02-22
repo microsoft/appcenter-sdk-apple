@@ -63,9 +63,11 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
 - (void)openURLInSafariApp:(NSURL *)url;
 
 /**
- * Take a request via custom URL scheme from browser.
+ * Process URL request for the service.
  *
  * @param url  The url with parameters.
+ *
+ * @discussion Place this method call into app delegate openUrl method.
  */
 - (void)openUrl:(NSURL *)url;
 
