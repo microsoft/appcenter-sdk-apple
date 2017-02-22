@@ -3,6 +3,15 @@
 
 @implementation MSKeychainUtil
 
+NSString *MobileCenterKeychainServiceName(void) {
+  static NSString *serviceName = nil;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    serviceName = [NSString stringWithFormat:@"%@.MobileCenter", [[NSBundle mainBundle] bundleIdentifier]];
+  });
+  return serviceName;
+}
+
 + (BOOL)storeString:(NSString *)string forKey:(NSString *)key {
   NSMutableDictionary *item = [MSKeychainUtil generateItem:key];
   item[(__bridge id)kSecValueData] = [string dataUsingEncoding:NSUTF8StringEncoding];
@@ -41,7 +50,7 @@
 + (BOOL)clear {
   NSMutableDictionary *item = [NSMutableDictionary new];
   item[(__bridge id)kSecClass] = (__bridge id)kSecClassGenericPassword;
-  item[(__bridge id)kSecAttrService] = [[NSBundle mainBundle] bundleIdentifier];
+  item[(__bridge id)kSecAttrService] = MobileCenterKeychainServiceName();
 
   OSStatus status = SecItemDelete((__bridge CFDictionaryRef)item);
   return status == noErr;
@@ -50,7 +59,7 @@
 + (NSMutableDictionary *)generateItem:(NSString *)key {
   NSMutableDictionary *item = [NSMutableDictionary new];
   item[(__bridge id)kSecClass] = (__bridge id)kSecClassGenericPassword;
-  item[(__bridge id)kSecAttrService] = [[NSBundle mainBundle] bundleIdentifier];
+  item[(__bridge id)kSecAttrService] = MobileCenterKeychainServiceName();
   item[(__bridge id)kSecAttrAccount] = key;
   return item;
 }
