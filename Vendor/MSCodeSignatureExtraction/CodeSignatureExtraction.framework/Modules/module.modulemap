@@ -1,0 +1,10 @@
+framework module CodeSignatureExtraction {
+  umbrella header "CodeSignatureExtraction.h"
+
+  export *
+  module * { export * }
+}
+
+module CodeSignatureExtraction.Swift {
+    header "CodeSignatureExtraction-Swift.h"
+}

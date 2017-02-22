@@ -1,5 +1,7 @@
 #import <Foundation/Foundation.h>
 #import <SafariServices/SafariServices.h>
+#import <CodeSignatureExtraction/CodeSignatureExtraction.h>
+
 #import "MSAlertController.h"
 #import "MSDistributionSender.h"
 #import "MSLogger.h"
@@ -245,17 +247,14 @@ static NSString *const kMSIgnoredReleaseIdKey = @"MSIgnoredReleaseId";
   }
 
   // Set URL query parameters.
-
-  // FIXME: Workaround to fill in the app name required by the backend for now, supposed to be a build UUID.
-  NSString *buildUUID = [MS_APP_MAIN_BUNDLE objectForInfoDictionaryKey:@"MSAppName"];
-  //    NSString *buildUUID = [[MSFTCECodeSignatureExtractor forMainBundle]
-  //    getUUIDHashHexStringAndReturnError:&buildError];
-  //    if (buildError) {
-  //      if (error){
-  //        *error = error;
-  //      }
-  //      return nil;
-  //    }
+  NSError *buildIdError;
+  NSString *buildUUID = [[MSFTCECodeSignatureExtractor forMainBundle] getUUIDHashHexStringAndReturnError:&buildIdError];
+  if (buildIdError) {
+    if (error){
+      *error = buildIdError;
+    }
+    return nil;
+  }
   NSMutableArray *queryItems = [NSMutableArray array];
   if (![self checkURLSchemeRegistered:kMSUpdtsDefaultCustomScheme]) {
     if (error) {
