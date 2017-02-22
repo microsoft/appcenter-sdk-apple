@@ -385,6 +385,7 @@
 			baseConfigurationReference = D3AD5F051E5C7FFF001627AB /* MobileCenterPush.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -433,6 +434,7 @@
 			baseConfigurationReference = D3AD5F051E5C7FFF001627AB /* MobileCenterPush.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -473,13 +475,11 @@
 		D33A945B1E5B11BB003966DB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = NO;
 				ARCHS = "$(MS_ARM_ARCHS)";
 				"ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
 				BUILD_NUMBER = 1;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MS_ARM_ARCHS = "armv7 armv7s arm64";
 				MS_SIM_ARCHS = "x86_64 i386";
 				OTHER_CFLAGS = (
@@ -496,7 +496,7 @@
 					"$(OTHER_CFLAGS)",
 					"-fembed-bitcode-marker",
 				);
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenterpush;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = include/MobileCenterPush;
@@ -511,7 +511,6 @@
 		D33A945C1E5B11BB003966DB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = NO;
 				ARCHS = "$(MS_ARM_ARCHS)";
 				"ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
 				BUILD_NUMBER = 1;
@@ -528,7 +527,6 @@
 					"MOBILE_CENTER_C_VERSION=\"\\\"\"$(VERSION_STRING)\"\\\"\"",
 					"MOBILE_CENTER_C_BUILD=\"\\\"\"$(BUILD_NUMBER)\"\\\"\"",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MS_ARM_ARCHS = "armv7 armv7s arm64";
 				MS_SIM_ARCHS = "x86_64 i386";
 				OTHER_CFLAGS = (
@@ -545,7 +543,7 @@
 					"$(OTHER_CFLAGS)",
 					"-fembed-bitcode-marker",
 				);
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenterpush;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = include/MobileCenterPush;

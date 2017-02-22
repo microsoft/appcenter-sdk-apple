@@ -11,4 +11,23 @@
  */
 + (void) resetSharedInstance;
 
+/**
+ * Method generate MSPushInstallationLog log and send it 
+ *
+ * @param token The device token converted to NSString
+ */
+- (void) sendDeviceToken: (NSString *)token;
+
+/**
+ * Method convert device token from NSData* to NSString*
+ *
+ * @param token The device token
+ */
+- (NSString *)convertTokenToString:(NSData *)token;
+
+/**
+ * Method register notification settings and register application for remote notifications
+ */
+- (void) registerForRemoteNotifications;
+
 @end

@@ -5,6 +5,12 @@
 #import "MSPushInstallationLog.h"
 #import "MSMobileCenterInternal.h"
 
+#if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
+
+#import <UserNotifications/UserNotifications.h>
+
+#endif
+
 /**
  * Service storage key name.
  */
@@ -21,7 +27,17 @@ static NSString *const kMSPushServiceStorageKey = @"kmspushservicepushstoringkey
 static MSPush *sharedInstance = nil;
 static dispatch_once_t onceToken;
 
+@interface MSPush()
+
+@property (nonatomic) BOOL deviceTokenHasBeenSent;
+@property BOOL isRequestInProgress;
+
+@end
+
 @implementation MSPush
+
+@synthesize deviceTokenHasBeenSent;
+@synthesize isRequestInProgress;
 
 #pragma mark - Service initialization
 
@@ -31,6 +47,8 @@ static dispatch_once_t onceToken;
 
   if (self) {
 
+    deviceTokenHasBeenSent = NO;
+    isRequestInProgress = NO;
   }
 
   return self;
@@ -52,7 +70,10 @@ static dispatch_once_t onceToken;
 
   MSLogVerbose([MSPush logTag], @"Started push service.");
 
-  [self registerPush];
+  if( [MSPush isEnabled] ) {
+
+    [self registerForRemoteNotifications];
+  }
 }
 
 + (NSString *)logTag {
@@ -74,7 +95,7 @@ static dispatch_once_t onceToken;
 #pragma mark - MSPush
 
 + (void)registerPush {
-  [[self sharedInstance] registerPush];
+  [[self sharedInstance] registerForRemoteNotifications];
 }
 
 + (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
@@ -89,10 +110,18 @@ static dispatch_once_t onceToken;
 
 - (void)applyEnabledState:(BOOL)isEnabled {
   [super applyEnabledState:isEnabled];
+
   if (isEnabled) {
 
     MSLogInfo([MSPush logTag], @"Push service has been enabled.");
+
+    if( !self.deviceTokenHasBeenSent ) {
+
+      [self registerForRemoteNotifications];
+    }
   } else {
+
+    [[UIApplication sharedApplication] unregisterForRemoteNotifications];
 
     MSLogInfo([MSPush logTag], @"Push service has been disabled.");
   }
@@ -116,25 +145,69 @@ static dispatch_once_t onceToken;
   sharedInstance = nil;
 }
 
-- (void) registerPush {
+- (void) registerForRemoteNotifications {
+
+  if( self.isRequestInProgress )
+    return;
+  self.isRequestInProgress = YES;
 
   MSLogVerbose([MSPush logTag], @"Registering for push notifications");
+
+  if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_9_x_Max) {
+
+    UIUserNotificationType allNotificationTypes = (UIUserNotificationType) (UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge);
+    UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:allNotificationTypes categories:nil];
+    [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+  } else {
+
+#if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
+    UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+
+    UNAuthorizationOptions authOptions = UNAuthorizationOptionAlert | UNAuthorizationOptionSound | UNAuthorizationOptionBadge;
+    [center requestAuthorizationWithOptions:authOptions
+                          completionHandler:^(BOOL granted, NSError * _Nullable error) {}];
+
+    [center setDelegate:[[UIApplication sharedApplication] delegate]];
+#endif
+  }
 
   [[UIApplication sharedApplication] registerForRemoteNotifications];
 }
 
-- (NSString *)getDeviceTokenString:(NSData *)deviceToken {
-  if (!deviceToken)
+- (NSString *)convertTokenToString:(NSData *)token {
+  
+  if (!token)
     return nil;
 
-  const unsigned char* dataBuffer = [deviceToken bytes];
-  NSMutableString *stringBuffer = [NSMutableString stringWithCapacity:(deviceToken.length * 2)];
+  const unsigned char* dataBuffer = [token bytes];
+  NSMutableString *stringBuffer = [NSMutableString stringWithCapacity:(token.length * 2)];
 
-  for (NSUInteger i = 0; i < deviceToken.length; ++i) {
+  for (NSUInteger i = 0; i < token.length; ++i) {
     [stringBuffer appendFormat:@"%02x", dataBuffer[i]];
   }
 
   return [NSString stringWithString:stringBuffer];
+}
+
+- (void) sendDeviceToken: (NSString *)token {
+
+  MSDevice *device = [MSDeviceTracker alloc].device;
+
+  MSPushInstallationLog *log = [MSPushInstallationLog new];
+
+  log.installationId =  [[MSMobileCenter installId] UUIDString];
+  log.pushChannel = token;
+  log.tags = @[device.appVersion,
+               device.sdkVersion,
+               device.osName,
+               device.screenSize,
+               device.locale,
+               device.osVersion,
+               device.appBuild];
+
+  [self.logManager processLog:log withPriority:MSPriorityHigh];
+
+  self.deviceTokenHasBeenSent = YES;
 }
 
 #pragma mark - MSChannelDelegate
@@ -163,31 +236,18 @@ static dispatch_once_t onceToken;
 
   MSLogVerbose([MSPush logTag], @"Registering for push notifications has been finished successfully");
 
-  MSDevice *device = [MSDeviceTracker alloc].device;
-  NSString *strDeviceToken = [self getDeviceTokenString:deviceToken];
-
-  //save key in internal storage
+  NSString *strDeviceToken = [self convertTokenToString:deviceToken];
   [MSUserDefaults.shared setObject:strDeviceToken forKey:kMSPushServiceStorageKey];
+  [self sendDeviceToken:strDeviceToken];
 
-  //and send it to log
-  MSPushInstallationLog *log = [MSPushInstallationLog new];
-
-  log.installationId =  [[MSMobileCenter installId] UUIDString];
-  log.pushChannel = strDeviceToken;
-  log.tags = @[device.appVersion,
-               device.sdkVersion,
-               device.osName,
-               device.screenSize,
-               device.locale,
-               device.osVersion,
-               device.appBuild];
-
-  [self.logManager processLog:log withPriority:MSPriorityHigh];
+  self.isRequestInProgress = NO;
 }
 
 - (void)application:(UIApplication *)app didFailToRegisterForRemoteNotificationsWithError:(NSError *)err {
 
   MSLogVerbose([MSPush logTag], @"Registering for push notifications has been finished with error: %@", err.description);
+
+  self.isRequestInProgress = NO;
 }
 
 @end
