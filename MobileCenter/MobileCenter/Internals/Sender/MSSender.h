@@ -24,14 +24,12 @@ NS_ASSUME_NONNULL_BEGIN
  * Initialize the Sender.
  *
  * @param baseUrl Base url.
- * @param apiPath Base API path.
  * @param headers Http headers.
  * @param queryStrings An array of query strings.
  * @param reachability Network reachability helper.
  * @param retryIntervals An array for retry intervals in second.
  */
 - (id)initWithBaseUrl:(NSString *)baseUrl
-              apiPath:(NSString *)apiPath
               headers:(NSDictionary *)headers
          queryStrings:(NSDictionary *)queryStrings
          reachability:(MS_Reachability *)reachability
