@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
 
-typedef void (^MSSendAsyncCompletionHandler)(NSString *batchId, NSUInteger statusCode, NSData *data, NSError *error);
+typedef void (^MSSendAsyncCompletionHandler)(NSString *callId, NSUInteger statusCode, NSData *data, NSError *error);
 
 @interface MSSenderUtil : NSObject
 
