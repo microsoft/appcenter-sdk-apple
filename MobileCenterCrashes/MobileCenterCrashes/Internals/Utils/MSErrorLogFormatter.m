@@ -244,21 +244,14 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   // errorLog.architecture is an optional. The Android SDK will set it while for iOS, the file will be set
   // server-side using primaryArchitectureId and architectureVariantId.
 
-  // HockeyApp didn't use report.exceptionInfo for this field but exception.name in case of an unhandled exception or
-  // the report.signalInfo.name
-  // more so, for BITCrashDetails, we used the exceptionInfo.exceptionName for a field called exceptionName. FYI: Gwynne
-  // has no idea. Andreas will be next ;)
-  errorLog.osExceptionType = report.exceptionInfo.exceptionName ?: report.signalInfo.name;
-
+  errorLog.osExceptionType = report.signalInfo.name;
   errorLog.osExceptionCode = report.signalInfo.code;
-
   errorLog.osExceptionAddress =
   [NSString stringWithFormat:@"0x%" PRIx64, report.signalInfo.address];
 
   errorLog.exceptionReason =
   [self extractExceptionReasonFromReport:report ofCrashedThread:crashedThread is64bit:is64bit];
-
-  errorLog.exceptionType = report.signalInfo.name;
+  errorLog.exceptionType = report.hasExceptionInfo ? report.exceptionInfo.exceptionName : nil;
 
   errorLog.threads = [self extractThreadsFromReport:report crashedThread:crashedThread is64bit:is64bit];
   errorLog.registers = [self extractRegistersFromCrashedThread:crashedThread is64bit:is64bit];
@@ -291,7 +284,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   // as [UUID UUID] – used in [MSMobileCenter installId] – might, in theory, return nil.
   NSString *reporterKey = [[MSMobileCenter installId] UUIDString] ?: @"";
 
-  NSString *signal = errorLog.exceptionType; //TODO What should we put in there?!
+  NSString *signal = errorLog.osExceptionType;
 
   NSString *exceptionReason = errorLog.exceptionReason;
   NSString *exceptionName = errorLog.exceptionType;

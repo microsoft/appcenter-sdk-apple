@@ -3,57 +3,64 @@
 
 @implementation MSKeychainUtil
 
-+ (BOOL)storeString:(NSString *)string forKey:(NSString *)key service:(NSString *)serviceName {
-  NSMutableDictionary *item = [MSKeychainUtil generateItem:key service:serviceName];
-  item[(__bridge id) kSecValueData] = [string dataUsingEncoding:NSUTF8StringEncoding];
+NSString *MobileCenterKeychainServiceName(void) {
+  static NSString *serviceName = nil;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    serviceName = [NSString stringWithFormat:@"%@.MobileCenter", [[NSBundle mainBundle] bundleIdentifier]];
+  });
+  return serviceName;
+}
 
-  OSStatus status = SecItemAdd((__bridge CFDictionaryRef) item, nil);
++ (BOOL)storeString:(NSString *)string forKey:(NSString *)key {
+  NSMutableDictionary *item = [MSKeychainUtil generateItem:key];
+  item[(__bridge id)kSecValueData] = [string dataUsingEncoding:NSUTF8StringEncoding];
+
+  OSStatus status = SecItemAdd((__bridge CFDictionaryRef)item, nil);
   return status == noErr;
 }
 
-+ (NSString *)deleteStringForKey:(NSString *)key service:(NSString *)serviceName {
-  NSString *string = [MSKeychainUtil stringForKey:key service:serviceName];
++ (NSString *)deleteStringForKey:(NSString *)key {
+  NSString *string = [MSKeychainUtil stringForKey:key];
   if (string) {
-    NSMutableDictionary *item = [MSKeychainUtil generateItem:key service:serviceName];
+    NSMutableDictionary *item = [MSKeychainUtil generateItem:key];
 
-    OSStatus status = SecItemDelete((__bridge CFDictionaryRef) item);
+    OSStatus status = SecItemDelete((__bridge CFDictionaryRef)item);
     if (status == noErr) {
       return string;
     }
   }
-
   return nil;
 }
 
-+ (NSString *)stringForKey:(NSString *)key service:(NSString *)serviceName {
-  NSMutableDictionary *item = [MSKeychainUtil generateItem:key service:serviceName];
-  item[(__bridge id) kSecReturnData] = (id) kCFBooleanTrue;
-  item[(__bridge id) kSecMatchLimit] = (__bridge id)kSecMatchLimitOne;
++ (NSString *)stringForKey:(NSString *)key {
+  NSMutableDictionary *item = [MSKeychainUtil generateItem:key];
+  item[(__bridge id)kSecReturnData] = (id)kCFBooleanTrue;
+  item[(__bridge id)kSecMatchLimit] = (__bridge id)kSecMatchLimitOne;
 
   CFTypeRef data = nil;
-  OSStatus status = SecItemCopyMatching((__bridge CFDictionaryRef) item, &data);
+  OSStatus status = SecItemCopyMatching((__bridge CFDictionaryRef)item, &data);
 
   if (status == noErr) {
-    return [[NSString alloc] initWithData:(__bridge_transfer NSData *) data encoding:NSUTF8StringEncoding];
+    return [[NSString alloc] initWithData:(__bridge_transfer NSData *)data encoding:NSUTF8StringEncoding];
   }
-
   return nil;
 }
 
-+ (BOOL)clearForService:(NSString *)serviceName {
++ (BOOL)clear {
   NSMutableDictionary *item = [NSMutableDictionary new];
-  item[(__bridge id) kSecClass] = (__bridge id) kSecClassGenericPassword;
-  item[(__bridge id) kSecAttrService] = serviceName;
+  item[(__bridge id)kSecClass] = (__bridge id)kSecClassGenericPassword;
+  item[(__bridge id)kSecAttrService] = MobileCenterKeychainServiceName();
 
-  OSStatus status = SecItemDelete((__bridge CFDictionaryRef) item);
+  OSStatus status = SecItemDelete((__bridge CFDictionaryRef)item);
   return status == noErr;
 }
 
-+ (NSMutableDictionary *)generateItem:(NSString *)key service:(NSString *)serviceName {
++ (NSMutableDictionary *)generateItem:(NSString *)key {
   NSMutableDictionary *item = [NSMutableDictionary new];
-  item[(__bridge id) kSecClass] = (__bridge id) kSecClassGenericPassword;
-  item[(__bridge id) kSecAttrService] = serviceName;
-  item[(__bridge id) kSecAttrAccount] = key;
+  item[(__bridge id)kSecClass] = (__bridge id)kSecClassGenericPassword;
+  item[(__bridge id)kSecAttrService] = MobileCenterKeychainServiceName();
+  item[(__bridge id)kSecAttrAccount] = key;
   return item;
 }
 
