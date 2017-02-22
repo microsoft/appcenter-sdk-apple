@@ -1,6 +1,6 @@
+#import <CodeSignatureExtraction/CodeSignatureExtraction.h> //TODO Better rewrite the code in objective c and use it directly.
 #import <Foundation/Foundation.h>
 #import <SafariServices/SafariServices.h>
-#import <CodeSignatureExtraction/CodeSignatureExtraction.h>
 
 #import "MSAlertController.h"
 #import "MSDistributionSender.h"
@@ -118,9 +118,11 @@ static NSString *const kMSIgnoredReleaseIdKey = @"MSIgnoredReleaseId";
   url = [self buildTokenRequestURLWithAppSecret:appSecret error:&error];
   if (!error) {
 
-// iOS 9+ only, check for `SFSafariViewController` availability. `SafariServices` framework MUST be weakly linked.
-// We can't use `NSClassFromString` here to avoid the warning.
-// It doesn't detect the class correctly unless the application explicitely import the related framework.
+/*
+ * iOS 9+ only, check for `SFSafariViewController` availability. `SafariServices` framework MUST be weakly linked.
+ * We can't use `NSClassFromString` here to avoid the warning.
+ * It doesn't detect the class correctly unless the application explicitely import the related framework.
+ */
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpartial-availability"
     Class clazz = [SFSafariViewController class];
@@ -246,16 +248,34 @@ static NSString *const kMSIgnoredReleaseIdKey = @"MSIgnoredReleaseId";
     return nil;
   }
 
-  // Set URL query parameters.
+  /*
+   * BuildUUID is different on every build with code changes.
+   * BuildUUID is used in this case as key prefix to get values from Safari cookies.
+   * For testing purposes you can update the related Safari cookie keys to the BuildUUID of your choice
+   * using JavaScript via Safari Web Inspector.
+   */
   NSError *buildIdError;
-  NSString *buildUUID = [[MSFTCECodeSignatureExtractor forMainBundle] getUUIDHashHexStringAndReturnError:&buildIdError];
+  NSString *buildId = [[MSFTCECodeSignatureExtractor forMainBundle] getUUIDHashHexStringAndReturnError:&buildIdError];
   if (buildIdError) {
-    if (error){
+    if (error) {
       *error = buildIdError;
     }
     return nil;
   }
-  NSMutableArray *queryItems = [NSMutableArray array];
+
+  // Format build Id to UUID.
+  NSString *buildUUID = [MSUtil formatToUUIDString:buildId];
+  if (!buildUUID) {
+    if (error) {
+      NSString *desc = [NSString stringWithFormat:@"%@\n%@", kMSUDUpdateTokenBuildUUIDInvalidErrorDesc, buildId];
+      *error = [NSError errorWithDomain:kMSUDErrorDomain
+                                   code:kMSUDUpdateTokenBuildUUIDInvalidErrorCode
+                               userInfo:@{NSLocalizedDescriptionKey : desc}];
+    }
+    return nil;
+  }
+
+  // Check custom sheme is registered.
   if (![self checkURLSchemeRegistered:kMSUpdtsDefaultCustomScheme]) {
     if (error) {
       *error = [NSError errorWithDomain:kMSUDErrorDomain
@@ -264,13 +284,14 @@ static NSString *const kMSIgnoredReleaseIdKey = @"MSIgnoredReleaseId";
     }
     return nil;
   }
-  [queryItems addObject:[NSURLQueryItem queryItemWithName:kMSUpdtsURLQueryReleaseHashKey value:buildUUID]];
-  [queryItems
-      addObject:[NSURLQueryItem queryItemWithName:kMSUpdtsURLQueryRedirectIdKey value:kMSUpdtsDefaultCustomScheme]];
-  [queryItems addObject:[NSURLQueryItem queryItemWithName:kMSUpdtsURLQueryRequestIdKey value:requestId]];
-  [queryItems
-      addObject:[NSURLQueryItem queryItemWithName:kMSUpdtsURLQueryPlatformKey value:kMSUpdtsURLQueryPlatformValue]];
-  components.queryItems = queryItems;
+
+  // Set URL query parameters.
+  NSMutableArray *items = [NSMutableArray array];
+  [items addObject:[NSURLQueryItem queryItemWithName:kMSUpdtsURLQueryReleaseHashKey value:buildUUID]];
+  [items addObject:[NSURLQueryItem queryItemWithName:kMSUpdtsURLQueryRedirectIdKey value:kMSUpdtsDefaultCustomScheme]];
+  [items addObject:[NSURLQueryItem queryItemWithName:kMSUpdtsURLQueryRequestIdKey value:requestId]];
+  [items addObject:[NSURLQueryItem queryItemWithName:kMSUpdtsURLQueryPlatformKey value:kMSUpdtsURLQueryPlatformValue]];
+  components.queryItems = items;
 
   // Check URL validity.
   if (components.URL) {

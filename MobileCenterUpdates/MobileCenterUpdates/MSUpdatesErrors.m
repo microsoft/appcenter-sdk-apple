@@ -11,3 +11,4 @@ NSString *const kMSUDErrorDomain = MS_UPDATES_BASE_DOMAIN @"ErrorDomain";
 // Error descriptions
 NSString const *kMSUDUpdateTokenURLInvalidErrorDesc = @"Invalid update API token URL:";
 NSString const *kMSUDUpdateTokenSchemeNotFoundErrorDesc = @"Custom URL scheme for updates not found.";
+NSString const *kMSUDUpdateTokenBuildUUIDInvalidErrorDesc = @"Invalid build Id, can't format it to UUID:";
