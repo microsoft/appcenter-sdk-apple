@@ -40,11 +40,6 @@ static NSString *const kMSDefaultInstallUrl = @"http://install.asgard-int.traffi
 static NSString *const kMSDefaultApiUrl = @"https://asgard-int.trafficmanager.net/api/v0.1";
 
 /**
- * The API path for latest release request.
- */
-static NSString *const kMSUpdtsLatestReleaseApiPathFormat = @"/sdk/apps/%@/releases/latest";
-
-/**
  * The API path for update token request.
  */
 static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setup";
@@ -142,7 +137,6 @@ static NSString *const kMSIgnoredReleaseIdKey = @"MSIgnoredReleaseId";
   NSString *updateToken = @"temporary-token";
   self.sender = [[MSDistributionSender alloc]
       initWithBaseUrl:self.apiUrl
-              apiPath:[NSString stringWithFormat:kMSUpdtsLatestReleaseApiPathFormat, appSecret]
               // TODO: Update token in header should be in format of "Bearer {JWT token}"
               headers:@{
                 kMSHeaderUpdateApiToken : updateToken
