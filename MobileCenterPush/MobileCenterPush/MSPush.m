@@ -1,6 +1,8 @@
 #import "MSPush.h"
 #import "MSPushPrivate.h"
 #import "MSPushInternal.h"
+#import "MSDeviceTracker.h"
+#import "MSPushInstallationLog.h"
 #import "MSMobileCenterInternal.h"
 
 /**
@@ -50,8 +52,7 @@ static dispatch_once_t onceToken;
 
   MSLogVerbose([MSPush logTag], @"Started push service.");
 
-  MSLogVerbose([MSPush logTag], @"Registering for push notifications");
-  [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+  [self registerPush];
 }
 
 + (NSString *)logTag {
@@ -68,6 +69,20 @@ static dispatch_once_t onceToken;
 
 - (MSInitializationPriority)initializationPriority {
   return MSInitializationPriorityDefault;
+}
+
+#pragma mark - MSPush
+
++ (void)registerPush {
+  [[self sharedInstance] registerPush];
+}
+
++ (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+  [[self sharedInstance] didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+}
+
++ (void)didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+  [[self sharedInstance] didFailToRegisterForRemoteNotificationsWithError:error];
 }
 
 #pragma mark - MSServiceAbstract
@@ -101,6 +116,27 @@ static dispatch_once_t onceToken;
   sharedInstance = nil;
 }
 
+- (void) registerPush {
+
+  MSLogVerbose([MSPush logTag], @"Registering for push notifications");
+
+  [[UIApplication sharedApplication] registerForRemoteNotifications];
+}
+
+- (NSString *)getDeviceTokenString:(NSData *)deviceToken {
+  if (!deviceToken)
+    return nil;
+
+  const unsigned char* dataBuffer = [deviceToken bytes];
+  NSMutableString *stringBuffer = [NSMutableString stringWithCapacity:(deviceToken.length * 2)];
+
+  for (NSUInteger i = 0; i < deviceToken.length; ++i) {
+    [stringBuffer appendFormat:@"%02x", dataBuffer[i]];
+  }
+
+  return [NSString stringWithString:stringBuffer];
+}
+
 #pragma mark - MSChannelDelegate
 
 - (void)channel:(id)channel willSendLog:(id<MSLog>)log {
@@ -127,11 +163,26 @@ static dispatch_once_t onceToken;
 
   MSLogVerbose([MSPush logTag], @"Registering for push notifications has been finished successfully");
 
+  MSDevice *device = [MSDeviceTracker alloc].device;
+  NSString *strDeviceToken = [self getDeviceTokenString:deviceToken];
+
   //save key in internal storage
-  [MSUserDefaults.shared setObject:deviceToken forKey:kMSPushServiceStorageKey];
+  [MSUserDefaults.shared setObject:strDeviceToken forKey:kMSPushServiceStorageKey];
 
   //and send it to log
-  MSLogVerbose([MSPush logTag], @"New device token %@", deviceToken);
+  MSPushInstallationLog *log = [MSPushInstallationLog new];
+
+  log.installationId =  [[MSMobileCenter installId] UUIDString];
+  log.pushChannel = strDeviceToken;
+  log.tags = @[device.appVersion,
+               device.sdkVersion,
+               device.osName,
+               device.screenSize,
+               device.locale,
+               device.osVersion,
+               device.appBuild];
+
+  [self.logManager processLog:log withPriority:MSPriorityHigh];
 }
 
 - (void)application:(UIApplication *)app didFailToRegisterForRemoteNotificationsWithError:(NSError *)err {
