@@ -94,7 +94,7 @@ static dispatch_once_t onceToken;
 
 #pragma mark - MSPush
 
-+ (void)registerPush {
++ (void)registerForRemoteNotifications {
   [[self sharedInstance] registerForRemoteNotifications];
 }
 
