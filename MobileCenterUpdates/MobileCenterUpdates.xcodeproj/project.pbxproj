@@ -51,8 +51,10 @@
 		04FD4A341E453531009B4468 /* MSUpdatesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FD4A331E453531009B4468 /* MSUpdatesTests.m */; };
 		04FD4A4B1E453930009B4468 /* libMobileCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04FD4A4A1E453930009B4468 /* libMobileCenter.a */; };
 		3814DEA51E5CBECA004BE98A /* CodeSignatureExtraction.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3814DEA41E5CBECA004BE98A /* CodeSignatureExtraction.framework */; };
+		381986041E5E2942009D2A63 /* CodeSignatureExtraction.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3814DEA41E5CBECA004BE98A /* CodeSignatureExtraction.framework */; };
 		381D5A9C1E57580500F093A2 /* MSUpdatesErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 381D5A9B1E57580500F093A2 /* MSUpdatesErrors.h */; };
 		381D5A9E1E57588C00F093A2 /* MSUpdatesErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 381D5A9D1E57588C00F093A2 /* MSUpdatesErrors.m */; };
+		387FA1971E5E2DAC00DD480E /* CodeSignatureExtraction.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3814DEA41E5CBECA004BE98A /* CodeSignatureExtraction.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		38C9C56C1E565BF600B0FA0D /* MSUpdatesPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C9C56B1E565BF600B0FA0D /* MSUpdatesPrivate.h */; };
 		B25895AA1E4E9FD400123632 /* MSUpdatesInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = B25895A91E4E9BA100123632 /* MSUpdatesInternal.h */; };
 		BA68206790C0F854C9EA8D23 /* MSDistributionGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = BA682D03AB17395C2378FBB4 /* MSDistributionGroup.m */; };
@@ -87,6 +89,16 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		387FA1961E5E2C8400DD480E /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				387FA1971E5E2DAC00DD480E /* CodeSignatureExtraction.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -151,6 +163,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				381986041E5E2942009D2A63 /* CodeSignatureExtraction.framework in Frameworks */,
 				04FD4A4B1E453930009B4468 /* libMobileCenter.a in Frameworks */,
 				040AF0201E523AEC005C1174 /* libOCMock.a in Frameworks */,
 				0471B5E41E4544000022F951 /* libMobileCenterUpdates.a in Frameworks */,
@@ -366,6 +379,7 @@
 				04FD4A2D1E453531009B4468 /* Sources */,
 				04FD4A2E1E453531009B4468 /* Frameworks */,
 				04FD4A2F1E453531009B4468 /* Resources */,
+				387FA1961E5E2C8400DD480E /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -647,6 +661,7 @@
 		04FD4A3A1E453531009B4468 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
@@ -670,6 +685,7 @@
 		04FD4A3B1E453531009B4468 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
