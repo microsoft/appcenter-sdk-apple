@@ -9,40 +9,39 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MSKeychainUtil : NSObject
 
 /**
- * Store a string to Keychain with the given key and service name.
+ * Store a string to Keychain with the given key.
  *
  * @param string A string data to be placed in Keychain.
  * @param key A unique key for the data.
- * @param service A service name for the key.
+ *
  * @return YES if stored successfully, NO otherwise.
  */
-+ (BOOL)storeString:(NSString *)string forKey:(NSString *)key service:(NSString *)service;
++ (BOOL)storeString:(NSString *)string forKey:(NSString *)key;
 
 /**
- * Delete a key and a string for the given service name.
+ * Delete a string from Keychain with the given key.
  *
  * @param key A unique key for the data.
- * @param service A service name for the key.
+ *
  * @return A string data that was deleted.
  */
-+ (NSString *)deleteStringForKey:(NSString *)key service:(NSString *)service;
++ (NSString *)deleteStringForKey:(NSString *)key;
 
 /**
- * Get a string from Keychain with the given key and service name.
+ * Get a string from Keychain with the given key.
  *
  * @param key A unique key for the data.
- * @param service A service name for the key.
+ *
  * @return A string data if exists.
  */
-+ (NSString *)stringForKey:(NSString *)key service:(NSString *)service;
++ (NSString *)stringForKey:(NSString *)key;
 
 /**
- * Clear all keys and strings associated with the given service name.
+ * Clear all keys and strings.
  *
- * @param service A service name for keys.
  * @return YES if cleared successfully, NO otherwise.
  */
-+ (BOOL)clearForService:(NSString *)service;
++ (BOOL)clear;
 
 @end
 
