@@ -19,7 +19,8 @@
 		380A4DC81DD68D2B00E99219 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A201D4151A00016C325 /* CrashReporter.framework */; };
 		380A4DC91DD68D3F00E99219 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A271D4152FA0016C325 /* libc++.tbd */; };
 		38484F6D1E53D57E00C5631C /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38484F691E537B9300C5631C /* SafariServices.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		38484F6E1E550AC200C5631C /* CodeSignatureExtraction.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 38484F5A1E537AAB00C5631C /* CodeSignatureExtraction.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		387FA1A41E5E35BE00DD480E /* CodeSignatureExtraction.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38484F5A1E537AAB00C5631C /* CodeSignatureExtraction.framework */; };
+		387FA1A51E5E35BE00DD480E /* CodeSignatureExtraction.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 38484F5A1E537AAB00C5631C /* CodeSignatureExtraction.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		38E1B65A1DDCDDF4000EFED1 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38E1B6591DDCDDF4000EFED1 /* MSAlertController.m */; };
 		6EC99A211D4151A00016C325 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A201D4151A00016C325 /* CrashReporter.framework */; };
 		6EC99A281D4152FA0016C325 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A271D4152FA0016C325 /* libc++.tbd */; };
@@ -180,8 +181,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				38484F6E1E550AC200C5631C /* CodeSignatureExtraction.framework in Embed Frameworks */,
 				B27397A51DE3D27700AC7761 /* CrashLibIOS.framework in Embed Frameworks */,
+				387FA1A51E5E35BE00DD480E /* CodeSignatureExtraction.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -197,12 +198,12 @@
 		380A4D9C1DD6892F00E99219 /* TodayViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodayViewController.m; sourceTree = "<group>"; };
 		380A4D9F1DD6892F00E99219 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		380A4DA11DD6892F00E99219 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		38484F5A1E537AAB00C5631C /* CodeSignatureExtraction.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CodeSignatureExtraction.framework; path = ../Vendor/MSCodeSignatureExtraction/CodeSignatureExtraction.framework; sourceTree = "<group>"; };
+		38484F5A1E537AAB00C5631C /* CodeSignatureExtraction.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CodeSignatureExtraction.framework; path = ../../Vendor/MSCodeSignatureExtraction/CodeSignatureExtraction.framework; sourceTree = "<group>"; };
 		38484F691E537B9300C5631C /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		384959D81D4972DA008F6B3A /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		38E1B6581DDCDDF4000EFED1 /* MSAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAlertController.h; sourceTree = "<group>"; };
 		38E1B6591DDCDDF4000EFED1 /* MSAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAlertController.m; sourceTree = "<group>"; };
-		6EC99A201D4151A00016C325 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = ../Vendor/PLCrashReporter/CrashReporter.framework; sourceTree = "<group>"; };
+		6EC99A201D4151A00016C325 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = ../../Vendor/PLCrashReporter/CrashReporter.framework; sourceTree = "<group>"; };
 		6EC99A251D4152EB0016C325 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		6EC99A271D4152FA0016C325 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		B21B26C51DDE490400FF0378 /* MSCrashesDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrashesDetailViewController.h; sourceTree = "<group>"; };
@@ -253,6 +254,7 @@
 				B27397A41DE3D27700AC7761 /* CrashLibIOS.framework in Frameworks */,
 				E82E1B901D1CA65D00D281C1 /* libMobileCenter.a in Frameworks */,
 				E85548081D2D6C9D002DF6E2 /* libMobileCenterAnalytics.a in Frameworks */,
+				387FA1A41E5E35BE00DD480E /* CodeSignatureExtraction.framework in Frameworks */,
 				E82E1B8F1D1CA65D00D281C1 /* libMobileCenterCrashes.a in Frameworks */,
 				0415D7151E492D0B00245485 /* libMobileCenterUpdates.a in Frameworks */,
 			);
@@ -274,8 +276,6 @@
 			isa = PBXGroup;
 			children = (
 				38484F691E537B9300C5631C /* SafariServices.framework */,
-				38484F5A1E537AAB00C5631C /* CodeSignatureExtraction.framework */,
-				6EC99A201D4151A00016C325 /* CrashReporter.framework */,
 				380A4D981DD6892F00E99219 /* NotificationCenter.framework */,
 			);
 			name = Frameworks;
@@ -305,6 +305,8 @@
 		B25D927E1DDA75EA0077B73D /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				6EC99A201D4151A00016C325 /* CrashReporter.framework */,
+				38484F5A1E537AAB00C5631C /* CodeSignatureExtraction.framework */,
 				38E1B6571DDCDDF4000EFED1 /* MSAlertController */,
 			);
 			name = Vendor;
