@@ -248,7 +248,7 @@ static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setu
   //      return nil;
   //    }
   NSMutableArray *queryItems = [NSMutableArray array];
-  if (![self checkURLSchemeRegistered:kMSUpdtsDefaultCustomScheme]) {
+  if (![self checkURLSchemeRegistered:[NSString stringWithFormat:kMSUpdtsDefaultCustomSchemeFormat, appSecret]]) {
     if (error) {
       *error = [NSError errorWithDomain:kMSUDErrorDomain
                                    code:kMSUDUpdateTokenSchemeNotFoundErrorCode
@@ -257,8 +257,9 @@ static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setu
     return nil;
   }
   [queryItems addObject:[NSURLQueryItem queryItemWithName:kMSUpdtsURLQueryReleaseHashKey value:buildUUID]];
-  [queryItems
-      addObject:[NSURLQueryItem queryItemWithName:kMSUpdtsURLQueryRedirectIdKey value:kMSUpdtsDefaultCustomScheme]];
+  [queryItems addObject:[NSURLQueryItem queryItemWithName:kMSUpdtsURLQueryRedirectIdKey
+                                                    value:[NSString stringWithFormat:kMSUpdtsDefaultCustomSchemeFormat,
+                                                                                     self.appSecret]]];
   [queryItems addObject:[NSURLQueryItem queryItemWithName:kMSUpdtsURLQueryRequestIdKey value:requestId]];
   [queryItems
       addObject:[NSURLQueryItem queryItemWithName:kMSUpdtsURLQueryPlatformKey value:kMSUpdtsURLQueryPlatformValue]];
@@ -399,7 +400,7 @@ static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setu
   if ([self isEnabled]) {
 
     // If the request is not for Mobile Center Updates, ignore.
-    if (![kMSUpdtsDefaultCustomScheme isEqualToString:[url scheme]]) {
+    if (![[NSString stringWithFormat:kMSUpdtsDefaultCustomSchemeFormat, self.appSecret] isEqualToString:[url scheme]]) {
       return;
     }
 
@@ -428,7 +429,8 @@ static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setu
 
     // Store update token
     if (queryUpdateToken) {
-      MSLogDebug([MSUpdates logTag], @"Update token has been successfully retrieved. Store the token to secure storage.");
+      MSLogDebug([MSUpdates logTag],
+                 @"Update token has been successfully retrieved. Store the token to secure storage.");
       [MSKeychainUtil storeString:queryUpdateToken forKey:kMSUpdateTokenKey];
       [self checkLatestRelease];
     }

@@ -16,9 +16,9 @@ static NSString *const kMSUpdtsURLQueryUpdateTokenKey = @"update_token";
 static NSString *const kMSUpdtsURLQueryPlatformValue = @"iOS";
 
 /**
- * Updates custom scheme.
+ * Updates custom URL scheme format.
  */
-static NSString *const kMSUpdtsDefaultCustomScheme = @"msupdt";
+static NSString *const kMSUpdtsDefaultCustomSchemeFormat = @"mobilecenter-%@";
 
 /**
  * The storage key for ignored release ID.
