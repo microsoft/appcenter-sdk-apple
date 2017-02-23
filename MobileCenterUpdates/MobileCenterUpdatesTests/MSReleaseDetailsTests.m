@@ -22,7 +22,7 @@
                                                            error:nil]];
 
   // Then
-  assertThat(details.id, equalTo(@"1"));
+  assertThat(details.id, equalTo(@1));
   assertThat(details.status, equalTo(@"available"));
   assertThat(details.appName, equalTo(@"Unittest"));
   assertThat(details.version, equalTo(@"1.0"));
@@ -50,7 +50,7 @@
   XCTAssertFalse([details isValid]);
 
   // When
-  details.id = @"id";
+  details.id = @1;
 
   // Then
   XCTAssertFalse([details isValid]);

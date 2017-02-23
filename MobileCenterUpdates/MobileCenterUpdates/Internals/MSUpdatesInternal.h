@@ -21,19 +21,4 @@
  */
 @property(nonatomic) id<MSSender> sender;
 
-/**
- * Update workflow to make a dicision of update based on release details.
- */
-- (void)handleUpdate:(MSReleaseDetails *)details;
-
-/**
- * Show a dialog to ask a user to confirm update for a new release.
- */
-- (void)showConfirmationAlert:(MSReleaseDetails *)details;
-
-/**
- * Check whether release details contain a newer version of release than current version.
- */
-- (BOOL)isNewerVersion:(MSReleaseDetails *)details;
-
 @end

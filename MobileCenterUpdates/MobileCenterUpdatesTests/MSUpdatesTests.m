@@ -3,11 +3,14 @@
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
+#import "MSLogManager.h"
 #import "MSServiceAbstract.h"
 #import "MSServiceInternal.h"
 #import "MSUpdates.h"
-#import "MSUpdatesPrivate.h"
 #import "MSUpdatesInternal.h"
+#import "MSUpdatesPrivate.h"
+#import "MSUserDefaults.h"
+#import "MSUtil.h"
 
 static NSString *const kMSTestAppSecret = @"IAMSECRET";
 
@@ -52,21 +55,36 @@ static NSURL *sfURL;
 - (void)setUp {
   [super setUp];
   self.sut = [MSUpdates new];
+  [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
 }
 
 - (void)tearDown {
   [super tearDown];
+  [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
 }
 
 - (void)testUpdateURL {
 
   // If
+  NSArray *bundleArray = @[
+    @{ @"CFBundleURLSchemes" : @[ [NSString stringWithFormat:@"mobilecenter-%@", kMSTestAppSecret] ] }
+  ];
   NSError *error = nil;
   id bundleMock = OCMClassMock([NSBundle class]);
-  OCMStub([bundleMock mainBundle]).andReturn([NSBundle bundleForClass:[self class]]);
+  OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
+  OCMStub([bundleMock objectForInfoDictionaryKey:@"CFBundleURLTypes"]).andReturn(bundleArray);
+  OCMStub([bundleMock objectForInfoDictionaryKey:@"MSAppName"]).andReturn(@"Something");
+  id updateMock = OCMPartialMock(self.sut);
+
+  // Disable for now to bypass initializing sender.
+  [updateMock setEnabled:NO];
+  [updateMock startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
+
+  // Enable again.
+  [updateMock setEnabled:YES];
 
   // When
-  NSURL *url = [self.sut buildTokenRequestURLWithAppSecret:kMSTestAppSecret error:&error];
+  NSURL *url = [updateMock buildTokenRequestURLWithAppSecret:kMSTestAppSecret error:&error];
   NSURLComponents *components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:NO];
   NSMutableDictionary<NSString *, NSString *> *queryStrings = [NSMutableDictionary<NSString *, NSString *> new];
   [components.queryItems
@@ -81,7 +99,8 @@ static NSURL *sfURL;
   assertThatLong(queryStrings.count, equalToLong(4));
   assertThatBool([components.path containsString:kMSTestAppSecret], isTrue());
   assertThat(queryStrings[kMSUpdtsURLQueryPlatformKey], is(kMSUpdtsURLQueryPlatformValue));
-  assertThat(queryStrings[kMSUpdtsURLQueryRedirectIdKey], is(kMSUpdtsDefaultCustomScheme));
+  assertThat(queryStrings[kMSUpdtsURLQueryRedirectIdKey],
+             is([NSString stringWithFormat:kMSUpdtsDefaultCustomSchemeFormat, kMSTestAppSecret]));
   assertThat(queryStrings[kMSUpdtsURLQueryRequestIdKey], notNilValue());
   assertThat(queryStrings[kMSUpdtsURLQueryReleaseHashKey], notNilValue());
 }
@@ -185,7 +204,7 @@ static NSURL *sfURL;
   OCMReject([updatesMock showConfirmationAlert:[OCMArg any]]);
 
   // If
-  details.id = @"valid-id";
+  details.id = @1;
   details.downloadUrl = [NSURL URLWithString:@"https://contoso.com/valid/url"];
 
   // When
@@ -219,6 +238,85 @@ static NSURL *sfURL;
 
   // Then
   OCMVerify([updatesMock showConfirmationAlert:[OCMArg any]]);
+}
+
+- (void)testOpenUrl {
+
+  // If
+  NSString *scheme = [NSString stringWithFormat:kMSUpdtsDefaultCustomSchemeFormat, kMSTestAppSecret];
+  id updateMock = OCMPartialMock(self.sut);
+  OCMStub([updateMock checkLatestRelease]).andDo(nil);
+
+  // Disable for now to bypass initializing sender.
+  [updateMock setEnabled:NO];
+  [updateMock startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
+
+  // Enable again.
+  [updateMock setEnabled:YES];
+  NSURL *url = [NSURL URLWithString:@"invalid://?"];
+
+  // When
+  [updateMock openUrl:url];
+
+  // Then
+  OCMReject([updateMock checkLatestRelease]);
+
+  // If
+  url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://?", scheme]];
+
+  // When
+  [updateMock openUrl:url];
+
+  // Then
+  OCMReject([updateMock checkLatestRelease]);
+
+  // If
+  url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://?request_id=FIRST-REQUEST", scheme]];
+
+  // When
+  [updateMock openUrl:url];
+
+  // Then
+  OCMReject([updateMock checkLatestRelease]);
+
+  // If
+  url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://?request_id=FIRST-REQUEST&update_token=token", scheme]];
+
+  // When
+  [updateMock openUrl:url];
+
+  // Then
+  OCMReject([updateMock checkLatestRelease]);
+
+  // If
+  [MS_USER_DEFAULTS setObject:@"FIRST-REQUEST" forKey:kMSUpdateTokenRequestIdKey];
+  url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://?request_id=FIRST-REQUEST&update_token=token",
+                                                        [NSString stringWithFormat:kMSUpdtsDefaultCustomSchemeFormat,
+                                                                                   @"Invalid-app-secret"]]];
+
+  // When
+  [updateMock openUrl:url];
+
+  // Then
+  OCMReject([updateMock checkLatestRelease]);
+
+  // If
+  url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://?request_id=FIRST-REQUEST&update_token=token", scheme]];
+
+  // When
+  [updateMock openUrl:url];
+
+  // Then
+  OCMVerify([updateMock checkLatestRelease]);
+
+  // If
+  [updateMock setEnabled:NO];
+
+  // When
+  [updateMock openUrl:url];
+
+  // Then
+  OCMReject([updateMock checkLatestRelease]);
 }
 
 @end

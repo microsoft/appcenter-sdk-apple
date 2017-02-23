@@ -39,6 +39,7 @@
             openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation {
+  [MSUpdates openUrl:url];
   NSLog(@"%@ Got waken up via openURL: %@", kPUPLogTag, url);
 
   return YES;
