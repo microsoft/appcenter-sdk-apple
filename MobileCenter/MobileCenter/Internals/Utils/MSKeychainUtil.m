@@ -1,5 +1,6 @@
 #import <Foundation/Foundation.h>
 #import "MSKeychainUtil.h"
+#import "MSUtil.h"
 
 @implementation MSKeychainUtil
 
@@ -7,7 +8,7 @@ NSString *MobileCenterKeychainServiceName(void) {
   static NSString *serviceName = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
-    serviceName = [NSString stringWithFormat:@"%@.MobileCenter", [[NSBundle mainBundle] bundleIdentifier]];
+    serviceName = [NSString stringWithFormat:@"%@.MobileCenter", [MS_APP_MAIN_BUNDLE bundleIdentifier]];
   });
   return serviceName;
 }

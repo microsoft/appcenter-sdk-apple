@@ -409,6 +409,7 @@ static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setu
     NSString *queryUpdateToken = nil;
     NSURLComponents *components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:NO];
 
+    // Read mandatory parameters from URL query string.
     for (NSURLQueryItem *item in components.queryItems) {
       if ([item.name isEqualToString:kMSUpdtsURLQueryRequestIdKey]) {
         queryRequestId = item.value;
@@ -422,7 +423,7 @@ static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setu
       return;
     }
 
-    // Delete stored request id
+    // Delete stored request ID
     [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
 
     // Store update token
