@@ -27,7 +27,7 @@
   NSData *crashData = [MSCrashesTestUtil dataOfFixtureCrashReportWithFileName:@"live_report_signal"];
   XCTAssertNotNil(crashData);
 
-  MSDevice *device = [[MSDeviceTracker alloc] init].device;
+  MSDevice *device = [MSDeviceTracker sharedInstance].device;
   XCTAssertNotNil(device);
 
   NSError *error = nil;
@@ -176,7 +176,7 @@
   NSData *crashData = [MSCrashesTestUtil dataOfFixtureCrashReportWithFileName:@"live_report_exception"];
   XCTAssertNotNil(crashData);
 
-  MSDevice *device = [[MSDeviceTracker alloc] init].device;
+  MSDevice *device = [MSDeviceTracker sharedInstance].device;
   XCTAssertNotNil(device);
 
   NSError *error = nil;

@@ -56,11 +56,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic, copy) NSMutableDictionary<NSNumber *, id <MSChannel>> *channels;
 
-/**
- *  Device tracker provides device information.
- */
-@property(nonatomic) MSDeviceTracker *deviceTracker;
-
 @end
 
 NS_ASSUME_NONNULL_END
