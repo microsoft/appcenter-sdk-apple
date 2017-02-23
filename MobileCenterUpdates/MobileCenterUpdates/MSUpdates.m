@@ -7,6 +7,7 @@
 #import "MSLogger.h"
 #import "MSLogManager.h"
 #import "MSMobileCenterInternal.h"
+#import "MSUpdateUtil.h"
 
 /**
  * Service storage key name.
@@ -54,6 +55,9 @@ static NSString *const kMSServiceName = @"Updates";
 - (void)startWithLogManager:(id <MSLogManager>)logManager appSecret:(NSString *)appSecret {
   [super startWithLogManager:logManager appSecret:appSecret];
   MSLogVerbose([MSUpdates logTag], @"Started Updates service.");
+  
+  NSString *foo = MSUpdatesLocalizedString(@"");
+  MSLogVerbose([MSUpdates logTag], @"%@", foo);
 }
 
 + (NSString *)logTag {
