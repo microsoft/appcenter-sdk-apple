@@ -53,9 +53,4 @@ Pod::Spec.new do |s|
 #  ss.resource_bundle = { 'MobileCenterUpdatesResources' => ['MobileCenter-SDK-iOS/MobileCenterUpdatesResources.bundle/*.lproj'] }
 # end
 
-
-
-
-
-
 end
