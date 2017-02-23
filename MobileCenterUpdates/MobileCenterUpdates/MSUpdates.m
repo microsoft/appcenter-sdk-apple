@@ -56,7 +56,8 @@ static NSString *const kMSServiceName = @"Updates";
   [super startWithLogManager:logManager appSecret:appSecret];
   MSLogVerbose([MSUpdates logTag], @"Started Updates service.");
   
-  NSString *foo = MSUpdatesLocalizedString(@"");
+  // TODO remove this =)
+  NSString *foo = MSUpdatesLocalizedString(@"Working");
   MSLogVerbose([MSUpdates logTag], @"%@", foo);
 }
 
@@ -70,6 +71,10 @@ static NSString *const kMSServiceName = @"Updates";
 
 - (MSPriority)priority {
   return MSPriorityHigh;
+}
+
+- (MSInitializationPriority)initializationPriority {
+  return MSInitializationPriorityDefault;
 }
 
 @end
