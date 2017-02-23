@@ -1,4 +1,5 @@
 #import <XCTest/XCTest.h>
+#import "MSUpdateUtil.h"
 
 @interface MobileCenterUpdatesTests : XCTestCase
 
@@ -6,15 +7,34 @@
 
 @implementation MobileCenterUpdatesTests
 
-- (void)setUp {
-    [super setUp];
+- (void)testGetMainBundle {
+  
+  // When
+  NSBundle *bundle = MSUpdatesBundle();
+  
+  // Then
+  XCTAssertNotNil(bundle);
 }
 
-- (void)tearDown {
-    [super tearDown];
-}
-
-- (void)testExample {
+- (void)testLocalizedString {
+  
+  // When
+  NSString *test = MSUpdatesLocalizedString(@"");
+  
+  // Then
+  XCTAssertTrue([test isEqualToString:@""]);
+  
+  // When
+  test = MSUpdatesLocalizedString(@"NonExistendString");
+  
+  // Then
+  XCTAssertTrue([test isEqualToString:@"NonExistendString"]);
+  
+  // When
+  test = MSUpdatesLocalizedString(@"Working");
+  
+  // Then
+  XCTAssertTrue([test isEqualToString:@"Yes, this works!"]);
 }
 
 @end
