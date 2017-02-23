@@ -5,7 +5,7 @@
 #import "MSKeychainUtil.h"
 #import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
-#import "MSUpdateUtil.h"
+#import "MSUpdatesUtil.h"
 #import "MSReleaseDetails.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSUpdates.h"
@@ -340,8 +340,8 @@ static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setu
                MS_DEVICE.systemVersion);
     return;
   }
+  
   // Step 5. Check version/hash to identify a newer version.
-
   if (![self isNewerVersion:details]) {
     MSLogDebug([MSUpdates logTag], @"The application is already up-to-date.");
     return;
@@ -442,10 +442,6 @@ static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setu
   } else {
     MSLogDebug([MSUpdates logTag], @"Updates service has been disabled, ignore request.");
   }
-}
-
-- (MSInitializationPriority)initializationPriority {
-  return MSInitializationPriorityDefault;
 }
 
 @end

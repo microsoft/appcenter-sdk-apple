@@ -1,4 +1,4 @@
-#import "MSUpdateUtil.h"
+#import "MSUpdatesUtil.h"
 #import "MSUpdates.h"
 #import "MSUpdatesInternal.h"
 
