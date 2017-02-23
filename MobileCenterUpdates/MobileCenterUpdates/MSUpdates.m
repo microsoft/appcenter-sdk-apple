@@ -47,15 +47,15 @@ static NSString *const kMSServiceName = @"Updates";
   static id sharedInstance = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
-      sharedInstance = [[self alloc] init];
+    sharedInstance = [[self alloc] init];
   });
   return sharedInstance;
 }
 
-- (void)startWithLogManager:(id <MSLogManager>)logManager appSecret:(NSString *)appSecret {
+- (void)startWithLogManager:(id<MSLogManager>)logManager appSecret:(NSString *)appSecret {
   [super startWithLogManager:logManager appSecret:appSecret];
   MSLogVerbose([MSUpdates logTag], @"Started Updates service.");
-  
+
   // TODO remove this =)
   NSString *foo = MSUpdatesLocalizedString(@"Working");
   MSLogVerbose([MSUpdates logTag], @"%@", foo);
