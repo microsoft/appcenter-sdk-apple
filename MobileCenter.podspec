@@ -47,5 +47,15 @@ Pod::Spec.new do |s|
       ss.vendored_frameworks = "MobileCenter-SDK-iOS/MobileCenterCrashes.framework"
   end
 
+#  s.subspec 'MobileCenterUpdates' do |ss|
+#   ss.frameworks = 'CoreTelephony', 'Foundation'
+#   ss.dependency 'MobileCenter/MobileCenter'
+#  ss.resource_bundle = { 'MobileCenterUpdatesResources' => ['MobileCenter-SDK-iOS/MobileCenterUpdatesResources.bundle/*.lproj'] }
+# end
+
+
+
+
+
 
 end
