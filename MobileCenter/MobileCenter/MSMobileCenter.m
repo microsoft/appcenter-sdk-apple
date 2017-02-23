@@ -83,7 +83,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 }
 
 + (void)setWrapperSdk:(MSWrapperSdk *)wrapperSdk {
-  [MSDeviceTracker setWrapperSdk:wrapperSdk];
+  [[MSDeviceTracker sharedInstance] setWrapperSdk:wrapperSdk];
 }
 
 /**
@@ -267,6 +267,11 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
                                selector:@selector(applicationWillEnterForeground)
                                    name:UIApplicationWillEnterForegroundNotification
                                  object:nil];
+  }
+  else {
+
+    // Clean device history in case we are disabled.
+    [[MSDeviceTracker sharedInstance] clearDevices];
   }
 
   // Propagate to log manager.
