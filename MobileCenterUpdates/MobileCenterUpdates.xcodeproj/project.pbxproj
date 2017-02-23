@@ -56,6 +56,7 @@
 		38C9C56C1E565BF600B0FA0D /* MSUpdatesPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C9C56B1E565BF600B0FA0D /* MSUpdatesPrivate.h */; };
 		B20DE7B71E5F97330023075C /* MSUpdateUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B20DE7B61E5F97330023075C /* MSUpdateUtilTests.m */; };
 		B25895AA1E4E9FD400123632 /* MSUpdatesInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = B25895A91E4E9BA100123632 /* MSUpdatesInternal.h */; };
+		B270108D1E5FA2E4008552EF /* release_details.json in Resources */ = {isa = PBXBuildFile; fileRef = 040AF0111E523AC2005C1174 /* release_details.json */; };
 		B2C070A51E5E62330076D6A9 /* MSUpdateUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = B2C070A31E5E62330076D6A9 /* MSUpdateUtil.h */; };
 		B2C070A61E5E62330076D6A9 /* MSUpdateUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = B2C070A41E5E62330076D6A9 /* MSUpdateUtil.m */; };
 		B2C070C01E5E69AD0076D6A9 /* MobileCenterUpdatesResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B2C070B81E5E68540076D6A9 /* MobileCenterUpdatesResources.bundle */; };
@@ -516,6 +517,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B270108D1E5FA2E4008552EF /* release_details.json in Resources */,
 				B2C070C01E5E69AD0076D6A9 /* MobileCenterUpdatesResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
