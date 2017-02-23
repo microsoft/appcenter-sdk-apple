@@ -6,4 +6,5 @@ framework module MobileCenterUpdates {
   
   link framework "Foundation"
   link framework "CoreTelephony"
+  link framework "SafariServices"
 }

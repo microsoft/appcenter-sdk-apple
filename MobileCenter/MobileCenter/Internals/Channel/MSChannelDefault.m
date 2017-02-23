@@ -172,7 +172,7 @@
                  // Forward logs to the sender.
                  [self.sender
                              sendAsync:container
-                     completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
+                     completionHandler:^(NSString *batchId, NSUInteger statusCode, NSData *data, NSError *error) {
                        dispatch_async(self.logsDispatchQueue, ^{
                          if ([self.pendingBatchIds containsObject:batchId]) {
 

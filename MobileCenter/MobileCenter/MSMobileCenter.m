@@ -11,7 +11,9 @@
 static MSMobileCenter *sharedInstance = nil;
 static dispatch_once_t onceToken;
 
-// Base URL for HTTP backend API calls.
+/**
+ * Base URL for HTTP Ingestion backend API calls.
+ */
 static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 
 @implementation MSMobileCenter
@@ -185,7 +187,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
   }
 }
 
-/** 
+/**
  * Sort services in descending order to make sure the service with the highest priority gets initialized first.
  * This is intended to make sure Crashes gets initialized first.
 */

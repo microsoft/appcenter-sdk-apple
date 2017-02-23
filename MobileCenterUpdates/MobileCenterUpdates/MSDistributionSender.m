@@ -1,12 +1,16 @@
-#import "MSIngestionSender.h"
-#import "MobileCenter.h"
-#import "MSLogger.h"
-#import "MSMobileCenterInternal.h"
+#import "MSDistributionSender.h"
 #import "MSHttpSenderPrivate.h"
+#import "MSLogger.h"
+#import "MSMobileCenter.h"
+#import "MSMobileCenterInternal.h"
+#import "MSUpdates.h"
 
-@implementation MSIngestionSender
+@implementation MSDistributionSender
 
-static NSString *const kMSApiPath = @"/logs";
+/**
+ * The API path for latest release request.
+ */
+static NSString *const kMSUpdtsLatestReleaseApiPathFormat = @"/sdk/apps/%@/releases/latest";
 
 - (id)initWithBaseUrl:(NSString *)baseUrl
               headers:(NSDictionary *)headers
@@ -14,7 +18,9 @@ static NSString *const kMSApiPath = @"/logs";
          reachability:(MS_Reachability *)reachability
        retryIntervals:(NSArray *)retryIntervals {
   self = [super initWithBaseUrl:baseUrl
-                        apiPath:kMSApiPath
+                        // FIXME: Temporary fix to avoid merge conflict.
+                        apiPath:[NSString stringWithFormat:kMSUpdtsLatestReleaseApiPathFormat,
+                                                           [[MSUpdates sharedInstance] appSecret]]
                         headers:headers
                    queryStrings:queryStrings
                    reachability:reachability
@@ -22,36 +28,17 @@ static NSString *const kMSApiPath = @"/logs";
   return self;
 }
 
-- (void)sendAsync:(NSObject *)data completionHandler:(MSSendAsyncCompletionHandler)handler {
-  MSLogContainer *container = (MSLogContainer *)data;
-  NSString *batchId = container.batchId;
-
-  // Verify container.
-  if (!container || ![container isValid]) {
-    NSDictionary *userInfo = @{NSLocalizedDescriptionKey : kMSMCLogInvalidContainerErrorDesc};
-    NSError *error =
-        [NSError errorWithDomain:kMSMCErrorDomain code:kMSMCLogInvalidContainerErrorCode userInfo:userInfo];
-    MSLogError([MSMobileCenter logTag], @"%@", [error localizedDescription]);
-    handler(batchId, nil, nil, error);
-    return;
-  }
-
-  [super sendAsync:container callId:container.batchId completionHandler:handler];
-}
-
 - (NSURLRequest *)createRequest:(NSObject *)data {
-  MSLogContainer *container = (MSLogContainer *)data;
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.sendURL];
 
   // Set method.
-  request.HTTPMethod = @"POST";
+  request.HTTPMethod = @"GET";
 
-  // Set Header params.
+  // Set header params.
   request.allHTTPHeaderFields = self.httpHeaders;
 
   // Set body.
-  NSString *jsonString = [container serializeLog];
-  request.HTTPBody = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+  request.HTTPBody = nil;
 
   // Always disable cookies.
   [request setHTTPShouldHandleCookies:NO];
