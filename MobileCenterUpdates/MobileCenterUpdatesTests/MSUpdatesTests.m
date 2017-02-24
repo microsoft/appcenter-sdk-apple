@@ -11,6 +11,7 @@
 #import "MSUpdatesPrivate.h"
 #import "MSUserDefaults.h"
 #import "MSUtil.h"
+#import "MSKeychainUtil.h"
 
 static NSString *const kMSTestAppSecret = @"IAMSECRET";
 
@@ -56,11 +57,15 @@ static NSURL *sfURL;
   [super setUp];
   self.sut = [MSUpdates new];
   [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
+  [MS_USER_DEFAULTS removeObjectForKey:kMSIgnoredReleaseIdKey];
+  [MSKeychainUtil clear];
 }
 
 - (void)tearDown {
   [super tearDown];
   [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
+  [MS_USER_DEFAULTS removeObjectForKey:kMSIgnoredReleaseIdKey];
+  [MSKeychainUtil clear];
 }
 
 - (void)testUpdateURL {
@@ -245,7 +250,7 @@ static NSURL *sfURL;
   // If
   NSString *scheme = [NSString stringWithFormat:kMSUpdtsDefaultCustomSchemeFormat, kMSTestAppSecret];
   id updateMock = OCMPartialMock(self.sut);
-  OCMStub([updateMock checkLatestRelease]).andDo(nil);
+  OCMStub([updateMock checkLatestRelease:[OCMArg any]]).andDo(nil);
 
   // Disable for now to bypass initializing sender.
   [updateMock setEnabled:NO];
@@ -259,7 +264,7 @@ static NSURL *sfURL;
   [updateMock openUrl:url];
 
   // Then
-  OCMReject([updateMock checkLatestRelease]);
+  OCMReject([updateMock checkLatestRelease:[OCMArg any]]);
 
   // If
   url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://?", scheme]];
@@ -268,7 +273,7 @@ static NSURL *sfURL;
   [updateMock openUrl:url];
 
   // Then
-  OCMReject([updateMock checkLatestRelease]);
+  OCMReject([updateMock checkLatestRelease:[OCMArg any]]);
 
   // If
   url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://?request_id=FIRST-REQUEST", scheme]];
@@ -277,7 +282,7 @@ static NSURL *sfURL;
   [updateMock openUrl:url];
 
   // Then
-  OCMReject([updateMock checkLatestRelease]);
+  OCMReject([updateMock checkLatestRelease:[OCMArg any]]);
 
   // If
   url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://?request_id=FIRST-REQUEST&update_token=token", scheme]];
@@ -286,7 +291,7 @@ static NSURL *sfURL;
   [updateMock openUrl:url];
 
   // Then
-  OCMReject([updateMock checkLatestRelease]);
+  OCMReject([updateMock checkLatestRelease:[OCMArg any]]);
 
   // If
   [MS_USER_DEFAULTS setObject:@"FIRST-REQUEST" forKey:kMSUpdateTokenRequestIdKey];
@@ -298,7 +303,7 @@ static NSURL *sfURL;
   [updateMock openUrl:url];
 
   // Then
-  OCMReject([updateMock checkLatestRelease]);
+  OCMReject([updateMock checkLatestRelease:[OCMArg any]]);
 
   // If
   url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://?request_id=FIRST-REQUEST&update_token=token", scheme]];
@@ -307,7 +312,7 @@ static NSURL *sfURL;
   [updateMock openUrl:url];
 
   // Then
-  OCMVerify([updateMock checkLatestRelease]);
+  OCMVerify([updateMock checkLatestRelease:@"token"]);
 
   // If
   [updateMock setEnabled:NO];
@@ -316,7 +321,45 @@ static NSURL *sfURL;
   [updateMock openUrl:url];
 
   // Then
-  OCMReject([updateMock checkLatestRelease]);
+  OCMReject([updateMock checkLatestRelease:[OCMArg any]]);
+}
+
+- (void)testApplyEnabledStateTrue {
+
+  // If
+  id updateMock = OCMPartialMock(self.sut);
+  OCMStub([updateMock checkLatestRelease:[OCMArg any]]).andDo(nil);
+  OCMStub([updateMock requestUpdateToken]).andDo(nil);
+
+  // When
+  [updateMock applyEnabledState:YES];
+
+  // Then
+  OCMVerify([updateMock requestUpdateToken]);
+
+  // If
+  [MSKeychainUtil storeString:@"UpdateToken" forKey:kMSUpdateTokenKey];
+
+  // When
+  [updateMock applyEnabledState:YES];
+
+  // Then
+  OCMVerify([updateMock checkLatestRelease:[OCMArg any]]);
+
+  // If
+  [MS_USER_DEFAULTS setObject:@"RequestID" forKey:kMSUpdateTokenRequestIdKey];
+  [MS_USER_DEFAULTS setObject:@"ReleaseID" forKey:kMSIgnoredReleaseIdKey];
+
+  // Then
+  XCTAssertNotNil([MS_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey]);
+  XCTAssertNotNil([MS_USER_DEFAULTS objectForKey:kMSIgnoredReleaseIdKey]);
+
+  // When
+  [updateMock applyEnabledState:NO];
+
+  // Then
+  XCTAssertNil([MS_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey]);
+  XCTAssertNil([MS_USER_DEFAULTS objectForKey:kMSIgnoredReleaseIdKey]);
 }
 
 @end

@@ -84,7 +84,15 @@ static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setu
   // Enabling
   if (isEnabled) {
     MSLogInfo([MSUpdates logTag], @"Updates service has been enabled.");
+    NSString *updateToken = [MSKeychainUtil stringForKey:kMSUpdateTokenKey];
+    if (updateToken) {
+      [self checkLatestRelease:updateToken];
+    } else {
+      [self requestUpdateToken];
+    }
   } else {
+    [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
+    [MS_USER_DEFAULTS removeObjectForKey:kMSIgnoredReleaseIdKey];
     MSLogInfo([MSUpdates logTag], @"Updates service has been disabled.");
   }
 }
@@ -92,26 +100,6 @@ static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setu
 - (void)startWithLogManager:(id<MSLogManager>)logManager appSecret:(NSString *)appSecret {
   [super startWithLogManager:logManager appSecret:appSecret];
   MSLogVerbose([MSUpdates logTag], @"Started Updates service.");
-
-  NSString *updateToken = [MSKeychainUtil stringForKey:kMSUpdateTokenKey];
-  if ([self isEnabled]) {
-    if (updateToken) {
-      self.sender = [[MSDistributionSender alloc]
-          initWithBaseUrl:self.apiUrl
-                  // TODO: Update token in header should be in format of "Bearer {JWT token}"
-                  headers:@{
-                    kMSHeaderUpdateApiToken : updateToken
-                  }
-             queryStrings:nil
-             reachability:[MS_Reachability reachabilityForInternetConnection]
-           retryIntervals:@[ @(10) ]];
-      [self checkLatestRelease];
-    } else {
-      [self requestUpdateToken];
-    }
-  } else {
-    MSLogDebug([MSUpdates logTag], @"Updates service is disabled, skip update.");
-  }
 }
 
 #pragma mark - Public
@@ -162,38 +150,47 @@ static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setu
   }
 }
 
-- (void)checkLatestRelease {
-  [self.sender sendAsync:nil
-       completionHandler:^(NSString *callId, NSUInteger statusCode, NSData *data, NSError *error) {
+- (void)checkLatestRelease:(NSString *)updateToken {
+  MSDistributionSender *sender =
+      [[MSDistributionSender alloc] initWithBaseUrl:self.apiUrl
+                                            headers:@{
+                                              kMSHeaderUpdateApiToken : updateToken
+                                            }
+                                       queryStrings:nil
+                                       reachability:[MS_Reachability reachabilityForInternetConnection]
+                                     retryIntervals:@[ @(10) ]];
 
-         // Success.
-         if (statusCode == MSHTTPCodesNo200OK) {
-           MSReleaseDetails *details = [[MSReleaseDetails alloc]
-               initWithDictionary:[NSJSONSerialization JSONObjectWithData:data
-                                                                  options:NSJSONReadingMutableContainers
-                                                                    error:nil]];
-           if (!details) {
-             MSLogError([MSUpdates logTag], @"Couldn't parse response payload.");
-           } else {
-             MSLogDebug([MSUpdates logTag], @"Received a response of update request: %@",
-                        [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
-             [self handleUpdate:details];
-           }
-         }
+  [sender sendAsync:nil
+      completionHandler:^(NSString *callId, NSUInteger statusCode, NSData *data, NSError *error) {
 
-         // Failure.
-         else {
-           MSLogDebug([MSUpdates logTag], @"Failed to get a update response, status code:%lu",
-                      (unsigned long)statusCode);
+        // Success.
+        if (statusCode == MSHTTPCodesNo200OK) {
+          MSReleaseDetails *details = [[MSReleaseDetails alloc]
+              initWithDictionary:[NSJSONSerialization JSONObjectWithData:data
+                                                                 options:NSJSONReadingMutableContainers
+                                                                   error:nil]];
+          if (!details) {
+            MSLogError([MSUpdates logTag], @"Couldn't parse response payload.");
+          } else {
+            MSLogDebug([MSUpdates logTag], @"Received a response of update request: %@",
+                       [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+            [self handleUpdate:details];
+          }
+        }
 
-           // TODO: Print formatted json response.
-           MSLogError([MSUpdates logTag], @"Response: %@",
-                      [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
-         }
+        // Failure.
+        else {
+          MSLogDebug([MSUpdates logTag], @"Failed to get a update response, status code:%lu",
+                     (unsigned long)statusCode);
 
-         // There is no more interaction with distribution backend. Shutdown sender.
-         [self.sender setEnabled:NO andDeleteDataOnDisabled:YES];
-       }];
+          // TODO: Print formatted json response.
+          MSLogError([MSUpdates logTag], @"Response: %@",
+                     [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+        }
+
+        // There is no more interaction with distribution backend. Shutdown sender.
+        [sender setEnabled:NO andDeleteDataOnDisabled:YES];
+      }];
 }
 
 #pragma mark - Private
@@ -432,7 +429,7 @@ static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setu
       MSLogDebug([MSUpdates logTag],
                  @"Update token has been successfully retrieved. Store the token to secure storage.");
       [MSKeychainUtil storeString:queryUpdateToken forKey:kMSUpdateTokenKey];
-      [self checkLatestRelease];
+      [self checkLatestRelease:queryUpdateToken];
     }
   } else {
     MSLogDebug([MSUpdates logTag], @"Updates service has been disabled, ignore request.");

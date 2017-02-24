@@ -16,9 +16,4 @@
  */
 @property(nonatomic, copy) NSString *apiUrl;
 
-/**
- * A sender instance that is used to send update request to the backend.
- */
-@property(nonatomic) id<MSSender> sender;
-
 @end
