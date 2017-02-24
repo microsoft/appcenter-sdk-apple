@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param appSecret A unique and secret key used to identify the application.
  * @param installId A unique installation identifier.
- * @param logUrl A base URL to use for ingestion backend communication.
+ * @param logUrl A base URL to use for backend communication.
  * @return A new `MSLogManager` instance.
  */
 - (instancetype)initWithAppSecret:(NSString *)appSecret installId:(NSUUID *)installId logUrl:(NSString *)logUrl;
