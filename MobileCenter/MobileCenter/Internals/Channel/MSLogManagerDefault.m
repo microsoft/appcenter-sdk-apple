@@ -1,11 +1,11 @@
 #import "MSChannelDefault.h"
+#import "MSFileStorage.h"
+#import "MSHttpSender.h"
+#import "MSIngestionSender.h"
 #import "MSLogManagerDefault.h"
 #import "MSLogManagerDefaultPrivate.h"
 #import "MSMobileCenterErrors.h"
 #import "MobileCenter+Internal.h"
-#import "MSFileStorage.h"
-#import "MSHttpSender.h"
-#import "MSIngestionSender.h"
 
 static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecenter.LogManagerQueue";
 
@@ -15,7 +15,7 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 @interface MSLogManagerDefault ()
 
 /**
- *  A boolean value set to YES if this instance is enabled or NO otherwise.
+ * A boolean value set to YES if this instance is enabled or NO otherwise.
  */
 @property(atomic) BOOL enabled;
 
@@ -25,8 +25,8 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 
 #pragma mark - Initialization
 
-- (instancetype)initWithAppSecret:(NSString *)appSecret installId:(NSUUID *)installId serverUrl:(NSString *)serverUrl {
-  self = [self initWithSender:[[MSIngestionSender alloc] initWithBaseUrl:serverUrl
+- (instancetype)initWithAppSecret:(NSString *)appSecret installId:(NSUUID *)installId logUrl:(NSString *)logUrl {
+  self = [self initWithSender:[[MSIngestionSender alloc] initWithBaseUrl:logUrl
                                   headers:@{
                                     kMSHeaderContentTypeKey : kMSContentType,
                                     kMSHeaderAppSecretKey : appSecret,
@@ -110,7 +110,7 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 
   // Only add device info in case the log doesn't have one. In case the log is restored after a crash or for crashes,
   // We don't want the device information to be updated but want the old one preserved.
-  if(!log.device) {
+  if (!log.device) {
     log.device = [[MSDeviceTracker sharedInstance] device];
   }
 
