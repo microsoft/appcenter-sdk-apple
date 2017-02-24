@@ -6,8 +6,16 @@
 @interface MSDeviceTracker : NSObject
 
 /**
- * Current device log.
+ * Current device log. This will be updated on app launch.
  */
 @property(nonatomic, readonly) MSDevice *device;
+
+
+/**
+ * Returns singleton instance of MSDeviceTracker.
+ *
+ * @return an instance of MSDeviceTracker.
+ */
++ (instancetype)sharedInstance;
 
 @end
