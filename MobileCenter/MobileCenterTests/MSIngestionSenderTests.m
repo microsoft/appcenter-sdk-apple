@@ -287,6 +287,9 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
   // Then
   [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
 
                                  // Must be only two tasks
                                  assertThatInteger(tasks.count, equalToInteger(2));
@@ -302,10 +305,6 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
 
                                  // Calls must still be in the pending calls, not yet timed out.
                                  assertThatUnsignedLong(self.sut.pendingCalls.count, equalToInt(2));
-
-                                 if (error) {
-                                   XCTFail(@"Expectation Failed with error: %@", error);
-                                 }
                                }];
 }
 
