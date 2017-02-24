@@ -1,5 +1,5 @@
 #import <XCTest/XCTest.h>
-#import "MSUpdateUtil.h"
+#import "MSUpdatesUtil.h"
 
 @interface MobileCenterUpdatesTests : XCTestCase
 
