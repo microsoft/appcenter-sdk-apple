@@ -168,15 +168,25 @@ static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setu
 
          // Success.
          if (statusCode == MSHTTPCodesNo200OK) {
-           MSReleaseDetails *details = [[MSReleaseDetails alloc]
-               initWithDictionary:[NSJSONSerialization JSONObjectWithData:data
-                                                                  options:NSJSONReadingMutableContainers
-                                                                    error:nil]];
+           id dictionary =
+               [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+           MSReleaseDetails *details = [[MSReleaseDetails alloc] initWithDictionary:dictionary];
            if (!details) {
              MSLogError([MSUpdates logTag], @"Couldn't parse response payload.");
            } else {
-             MSLogDebug([MSUpdates logTag], @"Received a response of update request: %@",
-                        [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+             NSData *jsonData =
+                 [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:&error];
+             NSString *jsonString = nil;
+             if (!jsonData || error) {
+               jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+             } else {
+
+               // NSJSONSerialization escapes paths by default so we replace them.
+               jsonString = [[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]
+                   stringByReplacingOccurrencesOfString:@"\\/"
+                                             withString:@"/"];
+             }
+             MSLogDebug([MSUpdates logTag], @"Received a response of update request:\n%@", jsonString);
              [self handleUpdate:details];
            }
          }
@@ -185,10 +195,24 @@ static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setu
          else {
            MSLogDebug([MSUpdates logTag], @"Failed to get a update response, status code:%lu",
                       (unsigned long)statusCode);
+           NSString *jsonString = nil;
+           id dictionary =
+               [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
 
-           // TODO: Print formatted json response.
-           MSLogError([MSUpdates logTag], @"Response: %@",
-                      [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+           // Failure can deliver non-JSON format of payload.
+           if (!error) {
+             NSData *jsonData =
+                 [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:&error];
+             if (jsonData && !error) {
+
+               // NSJSONSerialization escapes paths by default so we replace them.
+               jsonString = [[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]
+                   stringByReplacingOccurrencesOfString:@"\\/"
+                                             withString:@"/"];
+             }
+           }
+           MSLogError([MSUpdates logTag], @"Response:\n%@",
+                      jsonString ? jsonString : [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
          }
 
          // There is no more interaction with distribution backend. Shutdown sender.
