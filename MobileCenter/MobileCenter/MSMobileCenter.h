@@ -1,5 +1,5 @@
-#import "MSConstants.h"
 #import <Foundation/Foundation.h>
+#import "MSConstants.h"
 
 @class MSWrapperSdk;
 
@@ -45,11 +45,11 @@
 + (BOOL)isConfigured;
 
 /**
- * Change the base URL (schema + authority + port only) used to communicate with the backend.
+ * Change the base URL (schema + authority + port only) used to communicate with the ingestion backend for logs.
  *
- * @param serverUrl base URL to use for backend communication.
+ * @param logUrl base URL to use for ingestion backend communication.
  */
-+ (void)setServerUrl:(NSString *)serverUrl;
++ (void)setLogUrl:(NSString *)logUrl;
 
 /**
  * Enable or disable the SDK as a whole. In addition to MobileCenter resources, it will also enable or

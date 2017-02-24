@@ -1,8 +1,8 @@
+#import <Foundation/Foundation.h>
 #import "MSLogManager.h"
 #import "MSMobileCenter.h"
 #import "MSServiceInternal.h"
 #import "MobileCenter+Internal.h"
-#import <Foundation/Foundation.h>
 
 // Persisted storage keys.
 static NSString *const kMSInstallIdKey = @"MSInstallId";
@@ -13,7 +13,7 @@ static NSString *const kMSMobileCenterIsEnabledKey = @"MSMobileCenterIsEnabled";
 @property(nonatomic) id<MSLogManager> logManager;
 @property(nonatomic) NSMutableArray<NSObject<MSServiceInternal> *> *services;
 @property(nonatomic, copy) NSString *appSecret;
-@property(nonatomic, copy) NSString *serverUrl;
+@property(nonatomic, copy) NSString *logUrl;
 @property(nonatomic, readonly) NSUUID *installId;
 @property(nonatomic, copy) NSString *apiVersion;
 @property BOOL sdkConfigured;
@@ -23,7 +23,7 @@ static NSString *const kMSMobileCenterIsEnabledKey = @"MSMobileCenterIsEnabled";
  * Returns the singleton instance of Mobile Center.
  */
 + (instancetype)sharedInstance;
-- (NSString *)serverUrl;
+- (NSString *)logUrl;
 - (NSString *)appSecret;
 - (NSString *)apiVersion;
 
@@ -51,7 +51,6 @@ static NSString *const kMSMobileCenterIsEnabledKey = @"MSMobileCenterIsEnabled";
  */
 + (NSString *)logTag;
 
-
 /**
  * Sort the array of services in descending order based on their priority.
  *
@@ -59,4 +58,4 @@ static NSString *const kMSMobileCenterIsEnabledKey = @"MSMobileCenterIsEnabled";
  */
 - (NSArray *)sortServices:(NSArray<Class> *)services;
 
-  @end
+@end
