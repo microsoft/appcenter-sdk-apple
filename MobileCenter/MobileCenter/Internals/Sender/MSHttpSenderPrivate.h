@@ -53,4 +53,14 @@
  */
 - (NSString *)prettyPrintHeaders:(NSDictionary<NSString *, NSString *> *)headers;
 
+/**
+ * Hide a part of sensitive value for log.
+ *
+ * @param key A header key.
+ * @param value  A header value.
+ *
+ * @return An obfuscated value.
+ */
+- (NSString *)obfuscateHeaderValue:(NSString *)key value:(NSString *)value;
+
 @end

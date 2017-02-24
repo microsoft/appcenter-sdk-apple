@@ -25,6 +25,9 @@ static NSString *const kMSUpdtsLatestReleaseApiPathFormat = @"/sdk/apps/%@/relea
                    queryStrings:queryStrings
                    reachability:reachability
                  retryIntervals:retryIntervals];
+  if (self) {
+    self.appSecret = [[MSUpdates sharedInstance] appSecret];
+  }
   return self;
 }
 
@@ -45,11 +48,18 @@ static NSString *const kMSUpdtsLatestReleaseApiPathFormat = @"/sdk/apps/%@/relea
 
   // Don't loose time pretty printing headers if not going to be printed.
   if ([MSLogger currentLogLevel] <= MSLogLevelVerbose) {
-    MSLogVerbose([MSMobileCenter logTag], @"URL: %@", request.URL);
+    NSString *url =
+        [request.URL.absoluteString stringByReplacingOccurrencesOfString:self.appSecret
+                                                              withString:[MSSenderUtil hideSecret:self.appSecret]];
+    MSLogVerbose([MSMobileCenter logTag], @"URL: %@", url);
     MSLogVerbose([MSMobileCenter logTag], @"Headers: %@", [super prettyPrintHeaders:request.allHTTPHeaderFields]);
   }
 
   return request;
+}
+
+- (NSString *)obfuscateHeaderValue:(NSString *)key value:(NSString *)value {
+  return [key isEqualToString:kMSHeaderUpdateApiToken] ? [MSSenderUtil hideSecret:value] : value;
 }
 
 @end

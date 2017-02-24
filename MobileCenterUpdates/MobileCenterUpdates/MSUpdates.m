@@ -20,11 +20,6 @@ static NSString *const kMSServiceName = @"Updates";
 #pragma mark - URL constants
 
 /**
- * The header name for update token.
- */
-static NSString *const kMSHeaderUpdateApiToken = @"x-api-token";
-
-/**
  * Base URL for HTTP Distribution install API calls.
  */
 static NSString *const kMSDefaultInstallUrl = @"http://install.asgard-int.trafficmanager.net";
@@ -98,7 +93,6 @@ static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setu
     if (updateToken) {
       self.sender = [[MSDistributionSender alloc]
           initWithBaseUrl:self.apiUrl
-                  // TODO: Update token in header should be in format of "Bearer {JWT token}"
                   headers:@{
                     kMSHeaderUpdateApiToken : updateToken
                   }

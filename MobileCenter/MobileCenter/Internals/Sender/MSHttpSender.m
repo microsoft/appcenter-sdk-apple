@@ -34,8 +34,8 @@ static NSTimeInterval kRequestTimeout = 60.0;
 
     // Set query parameter.
     [queryStrings enumerateKeysAndObjectsUsingBlock:^(id _Nonnull key, id _Nonnull queryString, BOOL *_Nonnull stop) {
-        NSURLQueryItem *queryItem = [NSURLQueryItem queryItemWithName:key value:queryString];
-        [queryItemArray addObject:queryItem];
+      NSURLQueryItem *queryItem = [NSURLQueryItem queryItemWithName:key value:queryString];
+      [queryItemArray addObject:queryItem];
     }];
     components.queryItems = queryItemArray;
 
@@ -62,7 +62,12 @@ static NSTimeInterval kRequestTimeout = 60.0;
          queryStrings:(NSDictionary *)queryStrings
          reachability:(MS_Reachability *)reachability
        retryIntervals:(NSArray *)retryIntervals {
-  return [self initWithBaseUrl:baseUrl apiPath:@"" headers:headers queryStrings:queryStrings reachability:reachability retryIntervals:retryIntervals];
+  return [self initWithBaseUrl:baseUrl
+                       apiPath:@""
+                       headers:headers
+                  queryStrings:queryStrings
+                  reachability:reachability
+                retryIntervals:retryIntervals];
 }
 
 - (void)sendAsync:(NSObject *)data completionHandler:(MSSendAsyncCompletionHandler)handler {
@@ -259,6 +264,10 @@ static NSTimeInterval kRequestTimeout = 60.0;
   return nil;
 }
 
+- (NSString *)obfuscateHeaderValue:(NSString *)key value:(NSString *)value {
+  return value;
+}
+
 - (NSURLSession *)session {
   if (!_session) {
     NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
@@ -279,9 +288,9 @@ static NSTimeInterval kRequestTimeout = 60.0;
 - (NSString *)prettyPrintHeaders:(NSDictionary<NSString *, NSString *> *)headers {
   NSMutableArray<NSString *> *flattenedHeaders = [NSMutableArray<NSString *> new];
   for (NSString *headerKey in headers) {
-    NSString *header =
-        [headerKey isEqualToString:kMSHeaderAppSecretKey] ? [MSSenderUtil hideSecret:headers[headerKey]] : headers[headerKey];
-    [flattenedHeaders addObject:[NSString stringWithFormat:@"%@ = %@", headerKey, header]];
+    [flattenedHeaders
+        addObject:[NSString stringWithFormat:@"%@ = %@", headerKey,
+                                             [self obfuscateHeaderValue:headerKey value:headers[headerKey]]]];
   }
   return [flattenedHeaders componentsJoinedByString:@", "];
 }
