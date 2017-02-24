@@ -1,8 +1,5 @@
 #import <Foundation/Foundation.h>
 
-static short const kMSMaxCharactersDisplayedForAppSecret = 8;
-static NSString *const kMSHidingStringForAppSecret = @"*";
-
 @protocol MSSenderDelegate;
 
 @interface MSHttpSender ()
@@ -41,11 +38,6 @@ static NSString *const kMSHidingStringForAppSecret = @"*";
          queryStrings:(NSDictionary *)queryStrings
          reachability:(MS_Reachability *)reachability
        retryIntervals:(NSArray *)retryIntervals;
-
-/**
- * Hide a secret replacing the N first characters by a hiding character.
- */
-- (NSString *)hideSecret:(NSString *)secret;
 
 /**
  * Create a request based on data. Must override this method in sub classes.

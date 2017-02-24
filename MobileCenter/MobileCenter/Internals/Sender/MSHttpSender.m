@@ -280,7 +280,7 @@ static NSTimeInterval kRequestTimeout = 60.0;
   NSMutableArray<NSString *> *flattenedHeaders = [NSMutableArray<NSString *> new];
   for (NSString *headerKey in headers) {
     NSString *header =
-        [headerKey isEqualToString:kMSHeaderAppSecretKey] ? [self hideSecret:headers[headerKey]] : headers[headerKey];
+        [headerKey isEqualToString:kMSHeaderAppSecretKey] ? [MSSenderUtil hideSecret:headers[headerKey]] : headers[headerKey];
     [flattenedHeaders addObject:[NSString stringWithFormat:@"%@ = %@", headerKey, header]];
   }
   return [flattenedHeaders componentsJoinedByString:@", "];
@@ -303,18 +303,6 @@ static NSTimeInterval kRequestTimeout = 60.0;
     }
     [self sendCallAsync:call];
   }
-}
-
-- (NSString *)hideSecret:(NSString *)secret {
-
-  // Hide everything if secret is shorter than the max number of displayed characters.
-  NSUInteger appSecretHiddenPartLength =
-      (secret.length > kMSMaxCharactersDisplayedForAppSecret ? secret.length - kMSMaxCharactersDisplayedForAppSecret
-                                                             : secret.length);
-  NSString *appSecretHiddenPart =
-      [@"" stringByPaddingToLength:appSecretHiddenPartLength withString:kMSHidingStringForAppSecret startingAtIndex:0];
-  return [secret stringByReplacingCharactersInRange:NSMakeRange(0, appSecretHiddenPart.length)
-                                         withString:appSecretHiddenPart];
 }
 
 @end
