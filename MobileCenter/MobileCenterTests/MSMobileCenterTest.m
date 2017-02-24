@@ -1,10 +1,9 @@
- 
+#import <OCHamcrestIOS/OCHamcrestIOS.h>
+#import <OCMock/OCMock.h>
+#import <XCTest/XCTest.h>
 #import "MSMobileCenter.h"
 #import "MSMobileCenterInternal.h"
 #import "MSMobileCenterPrivate.h"
-#import "OCMock.h"
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <XCTest/XCTest.h>
 #import "MSServiceInternal.h"
 
 static NSString *const kSMInstallIdStringExample = @"F18499DA-5C3D-4F05-B4E8-D8C9C06A6F09";
@@ -123,18 +122,18 @@ static NSString *const kSMNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   assertThat([installId1 UUIDString], is([installId2 UUIDString]));
 }
 
-- (void)testSetServerUrl {
+- (void)testSetLogUrl {
   [MSMobileCenter resetSharedInstance];
   NSString *fakeUrl = @"http://testUrl:1234";
-  [MSMobileCenter setServerUrl:fakeUrl];
+  [MSMobileCenter setLogUrl:fakeUrl];
   [MSMobileCenter start:MS_UUID_STRING withServices:nil];
-  XCTAssertTrue([[[MSMobileCenter sharedInstance] serverUrl] isEqualToString:fakeUrl]);
+  XCTAssertTrue([[[MSMobileCenter sharedInstance] logUrl] isEqualToString:fakeUrl]);
 }
 
-- (void)testDefaultServerUrl {
+- (void)testDefaultLogUrl {
   [MSMobileCenter resetSharedInstance];
   [MSMobileCenter start:MS_UUID_STRING withServices:nil];
-  XCTAssertTrue([[[MSMobileCenter sharedInstance] serverUrl] isEqualToString:@"https://in.mobile.azure.com"]);
+  XCTAssertTrue([[[MSMobileCenter sharedInstance] logUrl] isEqualToString:@"https://in.mobile.azure.com"]);
 }
 
 - (void)testConfigureWithAppSecret {
@@ -143,7 +142,7 @@ static NSString *const kSMNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 }
 
 - (void)testSortingServicesWorks {
-  
+
   // If
   id<MSServiceCommon> mockServiceMaxPrio = OCMProtocolMock(@protocol(MSServiceCommon));
   OCMStub([mockServiceMaxPrio sharedInstance]).andReturn(mockServiceMaxPrio);
@@ -152,9 +151,9 @@ static NSString *const kSMNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   id<MSServiceCommon> mockServiceDefaultPrio = OCMProtocolMock(@protocol(MSServiceCommon));
   OCMStub([mockServiceDefaultPrio sharedInstance]).andReturn(mockServiceDefaultPrio);
   OCMStub([mockServiceDefaultPrio initializationPriority]).andReturn(MSInitializationPriorityDefault);
-  
+
   // When
-  NSArray<MSServiceAbstract *> *sorted = [self.sut sortServices:@[mockServiceDefaultPrio, mockServiceMaxPrio]];
+  NSArray<MSServiceAbstract *> *sorted = [self.sut sortServices:@[ mockServiceDefaultPrio, mockServiceMaxPrio ]];
 
   // Then
   XCTAssertTrue([sorted[0] initializationPriority] == MSInitializationPriorityMax);
