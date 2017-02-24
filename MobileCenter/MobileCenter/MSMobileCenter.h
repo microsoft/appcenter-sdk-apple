@@ -45,9 +45,9 @@
 + (BOOL)isConfigured;
 
 /**
- * Change the base URL (schema + authority + port only) used to communicate with the ingestion backend for logs.
+ * Change the base URL (schema + authority + port only) used to communicate with the backend.
  *
- * @param logUrl base URL to use for ingestion backend communication.
+ * @param logUrl base URL to use for backend communication.
  */
 + (void)setLogUrl:(NSString *)logUrl;
 
