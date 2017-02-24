@@ -2,11 +2,11 @@
 #import <XCTest/XCTest.h>
 #import "MSKeychainUtil.h"
 
-@interface MSKeychiainUtilTests : XCTestCase
+@interface MSKeychainUtilTests : XCTestCase
 
 @end
 
-@implementation MSKeychiainUtilTests
+@implementation MSKeychainUtilTests
 
 - (void)setUp {
   [super setUp];
