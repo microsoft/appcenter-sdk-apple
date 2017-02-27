@@ -43,18 +43,20 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-  <key>CFBundleURLTypes</key>
-  <array>
-    <dict>
-      <key>CFBundleTypeRole</key>
-      <string>None</string>
-      <key>CFBundleURLName</key>
-      <string>com.microsoft.azure.mobile.puppet</string>
-      <key>CFBundleURLSchemes</key>
-      <array>
-        <string>msupdt</string>
-      </array>
-    </dict>
-  </array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>None</string>
+			<key>CFBundleURLName</key>
+			<string>com.microsoft.azure.mobile.puppet</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>mobilecenter-65dc3680-7325-4000-a0e7-dbd2276eafd1</string>
+			</array>
+		</dict>
+	</array>
+	<key>MSAppName</key>
+	<string>puppet-ios</string>
 </dict>
 </plist>

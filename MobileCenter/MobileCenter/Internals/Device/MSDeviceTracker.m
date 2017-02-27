@@ -1,9 +1,10 @@
 #import "MSConstants+Internal.h"
-#import "MSDevicePrivate.h"
+#import "MSDeviceHistoryInfo.h"
 #import "MSDeviceTracker.h"
 #import "MSDeviceTrackerPrivate.h"
 #import "MSUtil.h"
 #import "MSWrapperSdkPrivate.h"
+#import "MSUserDefaults.h"
 
 // SDK versioning struct. Needs to be big enough to hold the info.
 typedef struct {
@@ -20,23 +21,64 @@ ms_info_t mobilecenter_library_info
                                                                          .ms_version = MOBILE_CENTER_C_VERSION,
                                                                          .ms_build = MOBILE_CENTER_C_BUILD};
 
-@interface MSDeviceTracker()
+static NSUInteger const kMSMaxDevicesHistoryCount = 5;
 
-// We need a private setter for the device to avoid ivars direct access warning.
+@interface MSDeviceTracker ()
+
+// We need a private setter for the device to avoid the warning that is related to direct access of ivars.
 @property(nonatomic) MSDevice *device;
 
 @end
 
 @implementation MSDeviceTracker : NSObject
 
-@synthesize device = _device;
-
-static MSWrapperSdk *wrapperSdkInformation = nil;
 static BOOL needRefresh = YES;
+static MSWrapperSdk *wrapperSdkInformation = nil;
 
-+ (void)setWrapperSdk:(MSWrapperSdk *)wrapperSdk {
+#pragma mark - Initialisation
+
++ (instancetype)sharedInstance {
+  static MSDeviceTracker *sharedInstance = nil;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+      sharedInstance = [[self alloc] init];
+  });
+  return sharedInstance;
+}
+
+- (instancetype)init {
+  if (self = [super init]) {
+
+    // Restore past sessions from NSUserDefaults.
+    NSData *devices = [MS_USER_DEFAULTS objectForKey:kMSPastDevicesKey];
+    if (devices != nil) {
+      NSArray *arrayFromData = [NSKeyedUnarchiver unarchiveObjectWithData:devices];
+
+      // If array is not nil, create a mutable version.
+      if (arrayFromData)
+        _deviceHistory = [NSMutableArray arrayWithArray:arrayFromData];
+    }
+
+    // Create new array and create device info in case we don't have any from disk.
+    if (_deviceHistory == nil) {
+      _deviceHistory = [NSMutableArray<MSDeviceHistoryInfo *> new];
+
+      // This will instantiate the device property to make sure we have a history.
+      [self device];
+    }
+  }
+  return self;
+}
+
+- (void)setWrapperSdk:(MSWrapperSdk *)wrapperSdk {
   @synchronized(self) {
     wrapperSdkInformation = wrapperSdk;
+    needRefresh = YES;
+  }
+}
+
++ (void)refreshDeviceNextTime {
+  @synchronized(self) {
     needRefresh = YES;
   }
 }
@@ -47,9 +89,33 @@ static BOOL needRefresh = YES;
 - (MSDevice *)device {
   @synchronized(self) {
 
-    // Lazy creation.
+    // Lazy creation in case the property hasn't been set yet.
     if (!_device || needRefresh) {
-      [self refresh];
+
+      // Get new device info.
+      _device = [self updatedDevice];
+
+      // Create new MSDeviceHistoryInfo.
+      NSNumber *tOffset = [NSNumber numberWithLongLong:[MSUtil nowInMilliseconds]];
+      MSDeviceHistoryInfo *deviceHistoryInfo = [[MSDeviceHistoryInfo alloc] initWithTOffset:tOffset andDevice:_device];
+
+      // Insert new MSDeviceHistoryInfo at the proper index to keep self.deviceHistory sorted.
+      NSUInteger newIndex = [self.deviceHistory indexOfObject:deviceHistoryInfo
+          inSortedRange:(NSRange) { 0, [self.deviceHistory count] }
+          options:NSBinarySearchingInsertionIndex
+          usingComparator:^(id a, id b) {
+            return [((MSDeviceHistoryInfo *)a).tOffset compare:((MSDeviceHistoryInfo *)b).tOffset];
+          }];
+      [self.deviceHistory insertObject:deviceHistoryInfo atIndex:newIndex];
+
+      // Remove first (the oldest) item if reached max limit.
+      if ([self.deviceHistory count] > kMSMaxDevicesHistoryCount) {
+        [self.deviceHistory removeObjectAtIndex:0];
+      }
+
+      // Persist the device history in NSData format.
+      [MS_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.deviceHistory]
+                           forKey:kMSPastDevicesKey];
     }
     return _device;
   }
@@ -58,7 +124,7 @@ static BOOL needRefresh = YES;
 /**
  *  Refresh device properties.
  */
-- (void)refresh {
+- (MSDevice *)updatedDevice {
   @synchronized(self) {
     MSDevice *newDevice = [[MSDevice alloc] init];
     CTCarrier *carrier = [[[CTTelephonyNetworkInfo alloc] init] subscriberCellularProvider];
@@ -83,9 +149,11 @@ static BOOL needRefresh = YES;
     // Add wrapper SDK information
     [self refreshWrapperSdk:newDevice];
 
-    // Set the new device info.
-    self.device = newDevice;
+    // Make sure we set the flag to indicate we don't need to update our device info.
     needRefresh = NO;
+
+    // Return new device.
+    return newDevice;
   }
 }
 
@@ -99,6 +167,55 @@ static BOOL needRefresh = YES;
     device.liveUpdateReleaseLabel = wrapperSdkInformation.liveUpdateReleaseLabel;
     device.liveUpdateDeploymentKey = wrapperSdkInformation.liveUpdateDeploymentKey;
     device.liveUpdatePackageHash = wrapperSdkInformation.liveUpdatePackageHash;
+  }
+}
+
+- (MSDevice *)deviceForToffset:(NSNumber *)toffset {
+  if (!toffset || self.deviceHistory.count == 0) {
+
+    // Return a new device in case we don't have a device in our history or toffset is nil.
+    return [self device];
+  } else {
+
+    // This implements a binary search with complexity O(log n).
+    MSDeviceHistoryInfo *find = [[MSDeviceHistoryInfo alloc] initWithTOffset:toffset andDevice:nil];
+    NSUInteger index =
+        [self.deviceHistory indexOfObject:find
+                            inSortedRange:NSMakeRange(0, self.deviceHistory.count)
+                                  options:NSBinarySearchingFirstEqual | NSBinarySearchingInsertionIndex
+                          usingComparator:^(id a, id b) {
+                            return [((MSDeviceHistoryInfo *)a).tOffset compare:((MSDeviceHistoryInfo *)b).tOffset];
+                          }];
+
+    // All tOffsets are larger.
+    if (index == 0) {
+      return self.deviceHistory[0].device;
+    }
+
+    // All toffsets are smaller.
+    else if (index == self.deviceHistory.count) {
+      return [self.deviceHistory lastObject].device;
+    } else {
+      // Either the deviceHistory contains the exact toffset or we pick the smallest delta.
+      long long leftDifference = [toffset longLongValue] - [self.deviceHistory[index - 1].tOffset longLongValue];
+      long long rightDifference = [self.deviceHistory[index].tOffset longLongValue] - [toffset longLongValue];
+      if (leftDifference < rightDifference) {
+        --index;
+      }
+      return self.deviceHistory[index].device;
+    }
+  }
+}
+
+- (void)clearDevices {
+  @synchronized(self) {
+
+    // Clear persistence.
+    [MS_USER_DEFAULTS removeObjectForKey:kMSPastDevicesKey];
+
+    // Clear cache.
+    self.device = nil;
+    [self.deviceHistory removeAllObjects];
   }
 }
 

@@ -4,6 +4,8 @@
 #import "MSServiceInternal.h"
 #import "MSUpdates.h"
 
+#define MOBILE_CENTER_UPDATES_BUNDLE @"MobileCenterUpdatesResources.bundle"
+
 @interface MSUpdates () <MSServiceInternal>
 
 /**
@@ -15,25 +17,5 @@
  * An API url that is used to get update details from backend.
  */
 @property(nonatomic, copy) NSString *apiUrl;
-
-/**
- * A sender instance that is used to send update request to the backend.
- */
-@property(nonatomic) id<MSSender> sender;
-
-/**
- * Update workflow to make a dicision of update based on release details.
- */
-- (void)handleUpdate:(MSReleaseDetails *)details;
-
-/**
- * Show a dialog to ask a user to confirm update for a new release.
- */
-- (void)showConfirmationAlert:(MSReleaseDetails *)details;
-
-/**
- * Check whether release details contain a newer version of release than current version.
- */
-- (BOOL)isNewerVersion:(MSReleaseDetails *)details;
 
 @end

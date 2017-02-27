@@ -1,8 +1,5 @@
 #import <Foundation/Foundation.h>
 
-static short const kMSMaxCharactersDisplayedForAppSecret = 8;
-static NSString *const kMSHidingStringForAppSecret = @"*";
-
 @protocol MSSenderDelegate;
 
 @interface MSHttpSender ()
@@ -26,9 +23,21 @@ static NSString *const kMSHidingStringForAppSecret = @"*";
 @property(nonatomic) BOOL enabled;
 
 /**
- * Hide a secret replacing the N first characters by a hiding character.
+ * Initialize the Sender.
+ *
+ * @param baseUrl Base url.
+ * @param apiPath Base API path.
+ * @param headers Http headers.
+ * @param queryStrings An array of query strings.
+ * @param reachability Network reachability helper.
+ * @param retryIntervals An array for retry intervals in second.
  */
-- (NSString *)hideSecret:(NSString *)secret;
+- (id)initWithBaseUrl:(NSString *)baseUrl
+              apiPath:(NSString *)apiPath
+              headers:(NSDictionary *)headers
+         queryStrings:(NSDictionary *)queryStrings
+         reachability:(MS_Reachability *)reachability
+       retryIntervals:(NSArray *)retryIntervals;
 
 /**
  * Create a request based on data. Must override this method in sub classes.
@@ -43,5 +52,15 @@ static NSString *const kMSHidingStringForAppSecret = @"*";
  * @return A string that contains headers.
  */
 - (NSString *)prettyPrintHeaders:(NSDictionary<NSString *, NSString *> *)headers;
+
+/**
+ * Hide a part of sensitive value for log.
+ *
+ * @param key A header key.
+ * @param value  A header value.
+ *
+ * @return An obfuscated value.
+ */
+- (NSString *)obfuscateHeaderValue:(NSString *)key value:(NSString *)value;
 
 @end

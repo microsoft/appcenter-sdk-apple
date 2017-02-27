@@ -10,7 +10,7 @@ static NSTimeInterval kRequestTimeout = 60.0;
 @synthesize reachability = _reachability;
 @synthesize suspended = _suspended;
 
-#pragma mark - MSSender
+#pragma mark - Initialize
 
 - (id)initWithBaseUrl:(NSString *)baseUrl
               apiPath:(NSString *)apiPath
@@ -53,6 +53,21 @@ static NSTimeInterval kRequestTimeout = 60.0;
     [self networkStateChanged];
   }
   return self;
+}
+
+#pragma mark - MSSender
+
+- (id)initWithBaseUrl:(NSString *)baseUrl
+              headers:(NSDictionary *)headers
+         queryStrings:(NSDictionary *)queryStrings
+         reachability:(MS_Reachability *)reachability
+       retryIntervals:(NSArray *)retryIntervals {
+  return [self initWithBaseUrl:baseUrl
+                       apiPath:@""
+                       headers:headers
+                  queryStrings:queryStrings
+                  reachability:reachability
+                retryIntervals:retryIntervals];
 }
 
 - (void)sendAsync:(NSObject *)data completionHandler:(MSSendAsyncCompletionHandler)handler {
@@ -219,7 +234,7 @@ static NSTimeInterval kRequestTimeout = 60.0;
       return;
     }
     [self.pendingCalls removeObjectForKey:callId];
-    MSLogInfo([MSMobileCenter logTag], @"Removed batch id:%@ from pending calls:%@", callId,
+    MSLogInfo([MSMobileCenter logTag], @"Removed call id:%@ from pending calls:%@", callId,
               [self.pendingCalls description]);
   }
 }
@@ -249,6 +264,10 @@ static NSTimeInterval kRequestTimeout = 60.0;
   return nil;
 }
 
+- (NSString *)obfuscateHeaderValue:(NSString *)key value:(NSString *)value {
+  return value;
+}
+
 - (NSURLSession *)session {
   if (!_session) {
     NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
@@ -269,9 +288,9 @@ static NSTimeInterval kRequestTimeout = 60.0;
 - (NSString *)prettyPrintHeaders:(NSDictionary<NSString *, NSString *> *)headers {
   NSMutableArray<NSString *> *flattenedHeaders = [NSMutableArray<NSString *> new];
   for (NSString *headerKey in headers) {
-    NSString *header =
-        [headerKey isEqualToString:kMSHeaderAppSecretKey] ? [self hideSecret:headers[headerKey]] : headers[headerKey];
-    [flattenedHeaders addObject:[NSString stringWithFormat:@"%@ = %@", headerKey, header]];
+    [flattenedHeaders
+        addObject:[NSString stringWithFormat:@"%@ = %@", headerKey,
+                                             [self obfuscateHeaderValue:headerKey value:headers[headerKey]]]];
   }
   return [flattenedHeaders componentsJoinedByString:@", "];
 }
@@ -293,18 +312,6 @@ static NSTimeInterval kRequestTimeout = 60.0;
     }
     [self sendCallAsync:call];
   }
-}
-
-- (NSString *)hideSecret:(NSString *)secret {
-
-  // Hide everything if secret is shorter than the max number of displayed characters.
-  NSUInteger appSecretHiddenPartLength =
-      (secret.length > kMSMaxCharactersDisplayedForAppSecret ? secret.length - kMSMaxCharactersDisplayedForAppSecret
-                                                             : secret.length);
-  NSString *appSecretHiddenPart =
-      [@"" stringByPaddingToLength:appSecretHiddenPartLength withString:kMSHidingStringForAppSecret startingAtIndex:0];
-  return [secret stringByReplacingCharactersInRange:NSMakeRange(0, appSecretHiddenPart.length)
-                                         withString:appSecretHiddenPart];
 }
 
 @end

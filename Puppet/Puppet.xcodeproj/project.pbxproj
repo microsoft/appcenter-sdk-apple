@@ -26,7 +26,9 @@
 		B21B26C71DDE490400FF0378 /* MSCrashesDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B21B26C61DDE490400FF0378 /* MSCrashesDetailViewController.m */; };
 		B27397A41DE3D27700AC7761 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B27397A31DE3D27700AC7761 /* CrashLibIOS.framework */; };
 		B27397A51DE3D27700AC7761 /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B27397A31DE3D27700AC7761 /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B296D4211E5F5DEF0089F013 /* MobileCenterUpdatesResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B2C070CB1E5F59A90076D6A9 /* MobileCenterUpdatesResources.bundle */; };
 		B2E611F61DDE72BA00A9DF86 /* MSFakeCXXClass.mm in Sources */ = {isa = PBXBuildFile; fileRef = B2E611F41DDE72BA00A9DF86 /* MSFakeCXXClass.mm */; };
+		BA6827C9F0410233C245D989 /* MSUpdatesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA682342F94E25F75943E4F6 /* MSUpdatesViewController.m */; };
 		E82E1B641D1CA58D00D281C1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E82E1B631D1CA58D00D281C1 /* main.m */; };
 		E82E1B671D1CA58D00D281C1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E82E1B661D1CA58D00D281C1 /* AppDelegate.m */; };
 		E82E1B6D1D1CA58D00D281C1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E82E1B6B1D1CA58D00D281C1 /* Main.storyboard */; };
@@ -96,6 +98,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = 6E0401321D1C98690051BCFA;
 			remoteInfo = MobileCenterCrashes;
+		};
+		B2C070CA1E5F59A90076D6A9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0471B91E1E4550670022F951 /* MobileCenterUpdates.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B2C070B81E5E68540076D6A9;
+			remoteInfo = MobileCenterUpdatesResources;
+		};
+		B2C070CD1E5F59A90076D6A9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0471B91E1E4550670022F951 /* MobileCenterUpdates.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = B2C070B71E5E68540076D6A9;
+			remoteInfo = MobileCenterUpdatesResources;
 		};
 		E82E1B801D1CA62900D281C1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -209,6 +225,8 @@
 		B27397A31DE3D27700AC7761 /* CrashLibIOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CrashLibIOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2E611F41DDE72BA00A9DF86 /* MSFakeCXXClass.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MSFakeCXXClass.mm; sourceTree = "<group>"; };
 		B2E611F51DDE72BA00A9DF86 /* MSFakeCXXClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSFakeCXXClass.h; sourceTree = "<group>"; };
+		BA682342F94E25F75943E4F6 /* MSUpdatesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSUpdatesViewController.m; sourceTree = "<group>"; };
+		BA68238A942EEAA10612D006 /* MSUpdatesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSUpdatesViewController.h; sourceTree = "<group>"; };
 		E82E1B5F1D1CA58D00D281C1 /* Puppet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Puppet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E82E1B631D1CA58D00D281C1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E82E1B651D1CA58D00D281C1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -266,6 +284,7 @@
 			children = (
 				0471B92F1E4550670022F951 /* libMobileCenterUpdates.a */,
 				0471B9311E4550670022F951 /* MobileCenterUpdates.xctest */,
+				B2C070CB1E5F59A90076D6A9 /* MobileCenterUpdatesResources.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -410,6 +429,8 @@
 				B21B26C61DDE490400FF0378 /* MSCrashesDetailViewController.m */,
 				B2E611F51DDE72BA00A9DF86 /* MSFakeCXXClass.h */,
 				B2E611F41DDE72BA00A9DF86 /* MSFakeCXXClass.mm */,
+				BA682342F94E25F75943E4F6 /* MSUpdatesViewController.m */,
+				BA68238A942EEAA10612D006 /* MSUpdatesViewController.h */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -456,6 +477,7 @@
 				E82E1B8E1D1CA65600D281C1 /* PBXTargetDependency */,
 				0471B9481E455B630022F951 /* PBXTargetDependency */,
 				380A4DA31DD6892F00E99219 /* PBXTargetDependency */,
+				B2C070CE1E5F59A90076D6A9 /* PBXTargetDependency */,
 			);
 			name = Puppet;
 			productName = Puppet;
@@ -534,6 +556,13 @@
 			remoteRef = 0471B9301E4550670022F951 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		B2C070CB1E5F59A90076D6A9 /* MobileCenterUpdatesResources.bundle */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = MobileCenterUpdatesResources.bundle;
+			remoteRef = B2C070CA1E5F59A90076D6A9 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		E82E1B811D1CA62900D281C1 /* libMobileCenterCrashes.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -593,6 +622,7 @@
 			files = (
 				E82E1B721D1CA58D00D281C1 /* LaunchScreen.storyboard in Resources */,
 				0461BBD11DB68EAD001B4555 /* Main.strings in Resources */,
+				B296D4211E5F5DEF0089F013 /* MobileCenterUpdatesResources.bundle in Resources */,
 				E82E1B6F1D1CA58D00D281C1 /* Assets.xcassets in Resources */,
 				E82E1B6D1D1CA58D00D281C1 /* Main.storyboard in Resources */,
 			);
@@ -621,6 +651,7 @@
 				E89E6A2C1D396D7900CAA2CD /* MSCrashesReportsViewController.m in Sources */,
 				E89E6A301D39704900CAA2CD /* MSAnalyticsViewController.m in Sources */,
 				E82E1B641D1CA58D00D281C1 /* main.m in Sources */,
+				BA6827C9F0410233C245D989 /* MSUpdatesViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -656,6 +687,11 @@
 			isa = PBXTargetDependency;
 			name = MobileCenterCrashes;
 			targetProxy = 380A4DC21DD68D0500E99219 /* PBXContainerItemProxy */;
+		};
+		B2C070CE1E5F59A90076D6A9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = MobileCenterUpdatesResources;
+			targetProxy = B2C070CD1E5F59A90076D6A9 /* PBXContainerItemProxy */;
 		};
 		E82E1B8C1D1CA65600D281C1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

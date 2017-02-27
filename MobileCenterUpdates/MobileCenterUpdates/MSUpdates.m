@@ -4,29 +4,20 @@
 #import "MSAlertController.h"
 #import "MSBasicMachOParser.h"
 #import "MSDistributionSender.h"
+#import "MSKeychainUtil.h"
 #import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
+#import "MSUpdatesUtil.h"
 #import "MSReleaseDetails.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSUpdates.h"
 #import "MSUpdatesInternal.h"
 #import "MSUpdatesPrivate.h"
-#import "MSUtil.h"
 
 /**
  * Service storage key name.
  */
 static NSString *const kMSServiceName = @"Updates";
-
-/**
- * Update API token storage key.
- */
-static NSString *const kMSUpdateTokenRequestIdKey = @"MSUpdateTokenRequestId";
-
-/**
- * The header name for update token.
- */
-static NSString *const kMSHeaderUpdateApiToken = @"x-api-token";
 
 #pragma mark - URL constants
 
@@ -41,19 +32,9 @@ static NSString *const kMSDefaultInstallUrl = @"http://install.asgard-int.traffi
 static NSString *const kMSDefaultApiUrl = @"https://asgard-int.trafficmanager.net/api/v0.1";
 
 /**
- * The API path for latest release request.
- */
-static NSString *const kMSUpdtsLatestReleaseApiPathFormat = @"/sdk/apps/%@/releases/latest";
-
-/**
  * The API path for update token request.
  */
 static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setup";
-
-/**
- * The key for ignored release ID.
- */
-static NSString *const kMSIgnoredReleaseIdKey = @"MSIgnoredReleaseId";
 
 #pragma mark - Error constants
 
@@ -102,20 +83,50 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   // Enabling
   if (isEnabled) {
     MSLogInfo([MSUpdates logTag], @"Updates service has been enabled.");
+    NSString *updateToken = [MSKeychainUtil stringForKey:kMSUpdateTokenKey];
+    if (updateToken) {
+      [self checkLatestRelease:updateToken];
+    } else {
+      [self requestUpdateToken];
+    }
   } else {
+    [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
+    [MS_USER_DEFAULTS removeObjectForKey:kMSIgnoredReleaseIdKey];
     MSLogInfo([MSUpdates logTag], @"Updates service has been disabled.");
   }
 }
 
 - (void)startWithLogManager:(id<MSLogManager>)logManager appSecret:(NSString *)appSecret {
   [super startWithLogManager:logManager appSecret:appSecret];
+  MSLogVerbose([MSUpdates logTag], @"Started Updates service.");
 
-  // TODO: Hook up with pipeline.
+// TODO remove this =)
+  NSString *foo = MSUpdatesLocalizedString(@"Working");
+  MSLogVerbose([MSUpdates logTag], @"%@", foo);
+}
+
+#pragma mark - Public
+
++ (void)setApiUrl:(NSString *)apiUrl {
+  [[self sharedInstance] setApiUrl:apiUrl];
+}
+
++ (void)setInstallUrl:(NSString *)installUrl {
+  [[self sharedInstance] setInstallUrl:installUrl];
+}
+
++ (void)openUrl:(NSURL *)url {
+  [[self sharedInstance] openUrl:url];
+}
+
+#pragma mark - Private
+
+- (void)requestUpdateToken {
   NSURL *url;
   MSLogInfo([MSUpdates logTag], @"Request updates API token.");
 
   // Most failures here require an app update. Thus, it will be retried only on next App instance.
-  url = [self buildTokenRequestURLWithAppSecret:appSecret];
+  url = [self buildTokenRequestURLWithAppSecret:self.appSecret];
   if (url) {
 
 /*
@@ -139,55 +150,42 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       [self openURLInSafariApp:url];
     }
   }
-
-  // TODO: Hook up with update token getter later.
-  NSString *updateToken = @"temporary-token";
-  self.sender = [[MSDistributionSender alloc]
-      initWithBaseUrl:self.apiUrl
-              apiPath:[NSString stringWithFormat:kMSUpdtsLatestReleaseApiPathFormat, appSecret]
-              // TODO: Update token in header should be in format of "Bearer {JWT token}"
-              headers:@{
-                kMSHeaderUpdateApiToken : updateToken
-              }
-         queryStrings:nil
-         reachability:[MS_Reachability reachabilityForInternetConnection]
-       retryIntervals:@[ @(10) ]];
-  MSLogVerbose([MSUpdates logTag], @"Started Updates service.");
-
-  if ([self isEnabled]) {
-    [self checkLatestRelease];
-  } else {
-    MSLogDebug([MSUpdates logTag], @"Updates service is disabled, skip update.");
-  }
 }
 
-#pragma mark - Public
+- (void)checkLatestRelease:(NSString *)updateToken {
+  MSDistributionSender *sender =
+      [[MSDistributionSender alloc] initWithBaseUrl:self.apiUrl
+                                            headers:@{
+                                              kMSHeaderUpdateApiToken : updateToken
+                                            }
+                                       queryStrings:nil
+                                       reachability:[MS_Reachability reachabilityForInternetConnection]
+                                     retryIntervals:@[ @(10) ]];
 
-+ (void)setApiUrl:(NSString *)apiUrl {
-  [[self sharedInstance] setApiUrl:apiUrl];
-}
-
-+ (void)setInstallUrl:(NSString *)installUrl {
-  [[self sharedInstance] setInstallUrl:installUrl];
-}
-
-#pragma mark - Private
-
-- (void)checkLatestRelease {
-  [self.sender sendAsync:nil
-       completionHandler:^(NSString *callId, NSUInteger statusCode, NSData *data, NSError *error) {
+  [sender sendAsync:nil
+      completionHandler:^(NSString *callId, NSUInteger statusCode, NSData *data, NSError *error) {
 
          // Success.
          if (statusCode == MSHTTPCodesNo200OK) {
-           MSReleaseDetails *details = [[MSReleaseDetails alloc]
-               initWithDictionary:[NSJSONSerialization JSONObjectWithData:data
-                                                                  options:NSJSONReadingMutableContainers
-                                                                    error:nil]];
+           id dictionary =
+               [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+           MSReleaseDetails *details = [[MSReleaseDetails alloc] initWithDictionary:dictionary];
            if (!details) {
              MSLogError([MSUpdates logTag], @"Couldn't parse response payload.");
            } else {
-             MSLogDebug([MSUpdates logTag], @"Received a response of update request: %@",
-                        [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+             NSData *jsonData =
+                 [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:&error];
+             NSString *jsonString = nil;
+             if (!jsonData || error) {
+               jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+             } else {
+
+               // NSJSONSerialization escapes paths by default so we replace them.
+               jsonString = [[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]
+                   stringByReplacingOccurrencesOfString:@"\\/"
+                                             withString:@"/"];
+             }
+             MSLogDebug([MSUpdates logTag], @"Received a response of update request:\n%@", jsonString);
              [self handleUpdate:details];
            }
          }
@@ -196,15 +194,29 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
          else {
            MSLogDebug([MSUpdates logTag], @"Failed to get a update response, status code:%lu",
                       (unsigned long)statusCode);
+           NSString *jsonString = nil;
+           id dictionary =
+               [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
 
-           // TODO: Print formatted json response.
-           MSLogError([MSUpdates logTag], @"Response: %@",
-                      [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+           // Failure can deliver non-JSON format of payload.
+           if (!error) {
+             NSData *jsonData =
+                 [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:&error];
+             if (jsonData && !error) {
+
+               // NSJSONSerialization escapes paths by default so we replace them.
+               jsonString = [[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]
+                   stringByReplacingOccurrencesOfString:@"\\/"
+                                             withString:@"/"];
+             }
+           }
+           MSLogError([MSUpdates logTag], @"Response:\n%@",
+                      jsonString ? jsonString : [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
          }
 
-         // There is no more interaction with distribution backend. Shutdown sender.
-         [self.sender setEnabled:NO andDeleteDataOnDisabled:YES];
-       }];
+        // There is no more interaction with distribution backend. Shutdown sender.
+        [sender setEnabled:NO andDeleteDataOnDisabled:YES];
+      }];
 }
 
 #pragma mark - Private
@@ -254,7 +266,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   }
 
   // Check custom sheme is registered.
-  if (![self checkURLSchemeRegistered:kMSUpdtsDefaultCustomScheme]) {
+  NSString *scheme = [NSString stringWithFormat:kMSUpdtsDefaultCustomSchemeFormat, appSecret];
+  if (![self checkURLSchemeRegistered:scheme]) {
     MSLogError([MSUpdates logTag], @"Custom URL scheme for updates not found.");
     return nil;
   }
@@ -262,7 +275,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   // Set URL query parameters.
   NSMutableArray *items = [NSMutableArray array];
   [items addObject:[NSURLQueryItem queryItemWithName:kMSUpdtsURLQueryReleaseHashKey value:buildUUID]];
-  [items addObject:[NSURLQueryItem queryItemWithName:kMSUpdtsURLQueryRedirectIdKey value:kMSUpdtsDefaultCustomScheme]];
+  [items addObject:[NSURLQueryItem queryItemWithName:kMSUpdtsURLQueryRedirectIdKey value:scheme]];
   [items addObject:[NSURLQueryItem queryItemWithName:kMSUpdtsURLQueryRequestIdKey value:requestId]];
   [items addObject:[NSURLQueryItem queryItemWithName:kMSUpdtsURLQueryPlatformKey value:kMSUpdtsURLQueryPlatformValue]];
   components.queryItems = items;
@@ -320,8 +333,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   }
 
   // Step 3. Check if the release ID was ignored by a user.
-  NSString *releaseId = [[MSUserDefaults shared] objectForKey:kMSIgnoredReleaseIdKey];
-  if (releaseId && [releaseId isEqualToString:details.id]) {
+  NSNumber *releaseId = [MS_USER_DEFAULTS objectForKey:kMSIgnoredReleaseIdKey];
+  if (releaseId && releaseId == details.id) {
     MSLogDebug([MSUpdates logTag], @"A user already ignored updating this release, skip update.");
     return;
   }
@@ -354,39 +367,86 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
 - (void)showConfirmationAlert:(MSReleaseDetails *)details {
 
-  // TODO: The text should be localized. There is a separate task for resources.
-  NSString *releaseNotes =
-      details.releaseNotes ? details.releaseNotes : @"No release notes were provided for this release.";
+  // Displaying alert dialog. Running on main thread.
+  dispatch_async(dispatch_get_main_queue(), ^{
 
-  MSAlertController *alertController =
-      [MSAlertController alertControllerWithTitle:@"Update available" message:releaseNotes];
+    // TODO: The text should be localized. There is a separate task for resources.
+    NSString *releaseNotes =
+        details.releaseNotes ? details.releaseNotes : @"No release notes were provided for this release.";
 
-  // Add a "Ignore"-Button
-  [alertController addDefaultActionWithTitle:@"Ignore"
-                                     handler:^(UIAlertAction *action) {
-                                       MSLogDebug([MSUpdates logTag], @"Ignore the release id: %@.", details.id);
-                                       [[MSUserDefaults shared] setObject:details.id forKey:kMSIgnoredReleaseIdKey];
-                                     }];
+    MSAlertController *alertController =
+        [MSAlertController alertControllerWithTitle:@"Update available" message:releaseNotes];
 
-  // Add a "Postpone"-Button
-  [alertController addCancelActionWithTitle:@"Postpone"
-                                    handler:^(UIAlertAction *action) {
-                                      MSLogDebug([MSUpdates logTag], @"Postpone the release for now.");
-                                    }];
+    // Add a "Ignore"-Button
+    [alertController addDefaultActionWithTitle:@"Ignore"
+                                       handler:^(UIAlertAction *action) {
+                                         MSLogDebug([MSUpdates logTag], @"Ignore the release id: %@.", details.id);
+                                         [MS_USER_DEFAULTS setObject:details.id forKey:kMSIgnoredReleaseIdKey];
+                                       }];
 
-  // Add a "Download"-Button
-  [alertController addDefaultActionWithTitle:@"Download"
-                                     handler:^(UIAlertAction *action) {
-                                       MSLogDebug([MSUpdates logTag], @"Start download and install the release.");
-                                       [self startDownload:details];
-                                     }];
+    // Add a "Postpone"-Button
+    [alertController addCancelActionWithTitle:@"Postpone"
+                                      handler:^(UIAlertAction *action) {
+                                        MSLogDebug([MSUpdates logTag], @"Postpone the release for now.");
+                                      }];
 
-  // Show the alert controller.
-  [alertController show];
+    // Add a "Download"-Button
+    [alertController addDefaultActionWithTitle:@"Download"
+                                       handler:^(UIAlertAction *action) {
+                                         MSLogDebug([MSUpdates logTag], @"Start download and install the release.");
+                                         [self startDownload:details];
+                                       }];
+
+    // Show the alert controller.
+    [alertController show];
+  });
 }
 
 // TODO: Please implement!
 - (void)startDownload:(MSReleaseDetails *)details {
+}
+
+- (void)openUrl:(NSURL *)url {
+  if ([self isEnabled]) {
+
+    // If the request is not for Mobile Center Updates, ignore.
+    if (![[NSString stringWithFormat:kMSUpdtsDefaultCustomSchemeFormat, self.appSecret] isEqualToString:[url scheme]]) {
+      return;
+    }
+
+    // Parse query parameters
+    NSString *requestedId = [MS_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey];
+    NSString *queryRequestId = nil;
+    NSString *queryUpdateToken = nil;
+    NSURLComponents *components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:NO];
+
+    // Read mandatory parameters from URL query string.
+    for (NSURLQueryItem *item in components.queryItems) {
+      if ([item.name isEqualToString:kMSUpdtsURLQueryRequestIdKey]) {
+        queryRequestId = item.value;
+      } else if ([item.name isEqualToString:kMSUpdtsURLQueryUpdateTokenKey]) {
+        queryUpdateToken = item.value;
+      }
+    }
+
+    // If the request ID doesn't match, ignore.
+    if (!(requestedId && queryRequestId && [requestedId isEqualToString:queryRequestId])) {
+      return;
+    }
+
+    // Delete stored request ID
+    [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
+
+    // Store update token
+    if (queryUpdateToken) {
+      MSLogDebug([MSUpdates logTag],
+                 @"Update token has been successfully retrieved. Store the token to secure storage.");
+      [MSKeychainUtil storeString:queryUpdateToken forKey:kMSUpdateTokenKey];
+      [self checkLatestRelease:queryUpdateToken];
+    }
+  } else {
+    MSLogDebug([MSUpdates logTag], @"Updates service has been disabled, ignore request.");
+  }
 }
 
 @end
