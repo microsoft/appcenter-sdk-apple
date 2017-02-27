@@ -354,8 +354,8 @@
 		B2C070A71E5E62440076D6A9 /* Util */ = {
 			isa = PBXGroup;
 			children = (
-				388B55991E64B3FD00E4F1D7 /* MSBasicMachOParser.m */,
 				388B559A1E64B3FD00E4F1D7 /* MSBasicMachOParser.h */,
+				388B55991E64B3FD00E4F1D7 /* MSBasicMachOParser.m */,
 				B2C070A31E5E62330076D6A9 /* MSUpdatesUtil.h */,
 				B2C070A41E5E62330076D6A9 /* MSUpdatesUtil.m */,
 			);

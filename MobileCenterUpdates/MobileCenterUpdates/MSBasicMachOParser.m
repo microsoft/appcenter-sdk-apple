@@ -14,7 +14,6 @@ static NSString *const kMSCantReadErrorDescFormat = @"Cannot read data from file
 @interface MSBasicMachOParser ()
 
 @property(nonatomic, strong) NSURL *fileURL;
-@property(nonatomic, strong) NSData *codeSignatureBlob;
 
 @end
 
@@ -27,7 +26,6 @@ static NSString *const kMSCantReadErrorDescFormat = @"Cannot read data from file
   }
   if ((self = [super init])) {
     _fileURL = bundle.executableURL;
-    _codeSignatureBlob = [[NSData alloc] init];
     _uuid = nil;
     [self parse];
   }
@@ -114,34 +112,16 @@ static NSString *const kMSCantReadErrorDescFormat = @"Cannot read data from file
       return;
     }
     [fh seekToFileOffset:(fh.offsetInFile - (UInt64)sizeof(struct load_command))];
-    switch (lcmd.cmd) {
-    case (UInt32)LC_CODE_SIGNATURE: {
-      struct linkedit_data_command cscmd;
-      if (![self readDataFromFile:fh toBuffer:&cscmd ofLength:sizeof(cscmd)]) {
-        return;
-      }
-      const UInt64 cmdOffset = fh.offsetInFile;
-      [fh seekToFileOffset:(base + (UInt64)cscmd.dataoff)];
-      NSData *blob = [fh readDataOfLength:(int)cscmd.datasize];
-      if (blob.length != (NSUInteger)(cscmd.datasize)) {
-        MSLogError([MSUpdates logTag], kMSCantReadErrorDescFormat, fh);
-        return;
-      }
-      self.codeSignatureBlob = blob;
-      [fh seekToFileOffset:cmdOffset];
-      break;
-    }
-    case (UInt32)LC_UUID: {
+
+    // Get the UUID.
+    if (lcmd.cmd == LC_UUID) {
       struct uuid_command uuidcmd;
       if (![self readDataFromFile:fh toBuffer:&uuidcmd ofLength:sizeof(uuidcmd)]) {
         return;
       }
       self.uuid = [[NSUUID alloc] initWithUUIDBytes:uuidcmd.uuid];
-      break;
-    }
-    default:
+    } else {
       [fh seekToFileOffset:(fh.offsetInFile + (UInt16)lcmd.cmdsize)];
-      break;
     }
   }
 }
