@@ -3,7 +3,7 @@
  */
 
 
-#import "MSPushInstallationLog.h"
+#import "MSPushLog.h"
 
 static NSString *const kMSTypePushInstallationType = @"push_installation";
 
@@ -12,7 +12,7 @@ static NSString *const kMSPushChannel = @"push_channel";
 static NSString *const kMSPushPlatform = @"platform";
 static NSString *const kMSPushTags = @"tags";
 
-@implementation MSPushInstallationLog
+@implementation MSPushLog
 
 @synthesize type = _type;
 

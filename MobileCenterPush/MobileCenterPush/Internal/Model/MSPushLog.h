@@ -5,7 +5,7 @@
 #import "MobileCenter+Internal.h"
 #import <Foundation/Foundation.h>
 
-@interface MSPushInstallationLog : MSAbstractLog
+@interface MSPushLog : MSAbstractLog
 
 @property(nonatomic) NSString *installationId;
 

@@ -6,13 +6,16 @@
 
 @property(nonatomic) id<MSPushDelegate> delegate;
 
+@property (nonatomic) BOOL deviceTokenHasBeenSent;
+@property BOOL isRequestInProgress;
+
 /**
  * Method to reset the singleton when running unit tests only. So calling sharedInstance returns a fresh instance.
  */
 + (void) resetSharedInstance;
 
 /**
- * Method generate MSPushInstallationLog log and send it 
+ * Method generate MSPushLog log and send it 
  *
  * @param token The device token converted to NSString
  */

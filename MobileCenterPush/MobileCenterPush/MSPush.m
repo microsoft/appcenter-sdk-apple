@@ -1,8 +1,8 @@
 #import "MSPush.h"
+#import "MSPushLog.h"
 #import "MSPushPrivate.h"
 #import "MSPushInternal.h"
 #import "MSDeviceTracker.h"
-#import "MSPushInstallationLog.h"
 #import "MSMobileCenterInternal.h"
 
 #if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
@@ -26,13 +26,6 @@ static NSString *const kMSPushServiceStorageKey = @"kmspushservicepushstoringkey
  */
 static MSPush *sharedInstance = nil;
 static dispatch_once_t onceToken;
-
-@interface MSPush()
-
-@property (nonatomic) BOOL deviceTokenHasBeenSent;
-@property BOOL isRequestInProgress;
-
-@end
 
 @implementation MSPush
 
@@ -129,15 +122,6 @@ static dispatch_once_t onceToken;
 
 #pragma mark - Private methods
 
-- (BOOL)validateProperties:(NSDictionary<NSString *, NSString *> *)properties {
-  for (id key in properties) {
-    if (![key isKindOfClass:[NSString class]] || ![[properties objectForKey:key] isKindOfClass:[NSString class]]) {
-      return NO;
-    }
-  }
-  return YES;
-}
-
 + (void)resetSharedInstance {
 
   // resets the once_token so dispatch_once will run again
@@ -153,6 +137,7 @@ static dispatch_once_t onceToken;
 
   MSLogVerbose([MSPush logTag], @"Registering for push notifications");
 
+#if !(TARGET_OS_SIMULATOR)
   if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_9_x_Max) {
 
     UIUserNotificationType allNotificationTypes = (UIUserNotificationType) (UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge);
@@ -163,7 +148,7 @@ static dispatch_once_t onceToken;
 #if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
     UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
 
-    UNAuthorizationOptions authOptions = UNAuthorizationOptionAlert | UNAuthorizationOptionSound | UNAuthorizationOptionBadge;
+    UNAuthorizationOptions authOptions = (UNAuthorizationOptions) (UNAuthorizationOptionAlert | UNAuthorizationOptionSound | UNAuthorizationOptionBadge);
     [center requestAuthorizationWithOptions:authOptions
                           completionHandler:^(BOOL granted, NSError * _Nullable error) {}];
 
@@ -172,6 +157,8 @@ static dispatch_once_t onceToken;
   }
 
   [[UIApplication sharedApplication] registerForRemoteNotifications];
+
+#endif
 }
 
 - (NSString *)convertTokenToString:(NSData *)token {
@@ -179,7 +166,7 @@ static dispatch_once_t onceToken;
   if (!token)
     return nil;
 
-  const unsigned char* dataBuffer = [token bytes];
+  const unsigned char* dataBuffer = token.bytes;
   NSMutableString *stringBuffer = [NSMutableString stringWithCapacity:(token.length * 2)];
 
   for (NSUInteger i = 0; i < token.length; ++i) {
@@ -193,17 +180,21 @@ static dispatch_once_t onceToken;
 
   MSDevice *device = [MSDeviceTracker alloc].device;
 
-  MSPushInstallationLog *log = [MSPushInstallationLog new];
+  MSPushLog *log = [MSPushLog new];
 
   log.installationId =  [[MSMobileCenter installId] UUIDString];
   log.pushChannel = token;
-  log.tags = @[device.appVersion,
+  log.tags = @[
+               //We get a crash in runtime: appVersion and appBuild are nil for simulator
+#if !(TARGET_OS_SIMULATOR)
+               device.appVersion,
+               device.appBuild,
+#endif
                device.sdkVersion,
                device.osName,
                device.screenSize,
                device.locale,
-               device.osVersion,
-               device.appBuild];
+               device.osVersion];
 
   [self.logManager processLog:log withPriority:MSPriorityHigh];
 
@@ -212,22 +203,49 @@ static dispatch_once_t onceToken;
 
 #pragma mark - MSChannelDelegate
 
-- (void)channel:(id)channel willSendLog:(id<MSLog>)log {
+- (void)channel:(id<MSChannel>)channel willSendLog:(id<MSLog>)log {
   if (!self.delegate) {
     return;
   }
+
+  NSObject *logObject = (NSObject *)log;
+  if (![logObject isKindOfClass:[MSPushLog class]] ||
+      ![self.delegate respondsToSelector:@selector(push:willSendInstallLog:)]) {
+    return;
+  }
+
+  MSPushLog *installationLog = (MSPushLog*) log;
+  [self.delegate push:self willSendInstallLog:installationLog];
 }
 
 - (void)channel:(id<MSChannel>)channel didSucceedSendingLog:(id<MSLog>)log {
   if (!self.delegate) {
     return;
   }
+
+  NSObject *logObject = (NSObject *)log;
+  if (![logObject isKindOfClass:[MSPushLog class]] ||
+      ![self.delegate respondsToSelector:@selector(push:didSucceedSendingInstallationLog:)]) {
+    return;
+  }
+
+  MSPushLog *installationLog = (MSPushLog*) log;
+  [self.delegate push:self didSucceedSendingInstallationLog:installationLog];
 }
 
 - (void)channel:(id<MSChannel>)channel didFailSendingLog:(id<MSLog>)log withError:(NSError *)error {
   if (!self.delegate) {
     return;
   }
+
+  NSObject *logObject = (NSObject *)log;
+  if (![logObject isKindOfClass:[MSPushLog class]] ||
+      ![self.delegate respondsToSelector:@selector(push:didFailSendingInstallLog:withError:)]) {
+    return;
+  }
+
+  MSPushLog *installationLog = (MSPushLog*) log;
+  [self.delegate push:self didFailSendingInstallLog:installationLog withError:error];
 }
 
 #pragma mark - Register callbacks
@@ -248,6 +266,12 @@ static dispatch_once_t onceToken;
   MSLogVerbose([MSPush logTag], @"Registering for push notifications has been finished with error: %@", err.description);
 
   self.isRequestInProgress = NO;
+}
+
+#pragma mark - Delegate
+
++ (void)setDelegate:(nullable id<MSPushDelegate>)delegate {
+  [[self sharedInstance] setDelegate:delegate];
 }
 
 @end

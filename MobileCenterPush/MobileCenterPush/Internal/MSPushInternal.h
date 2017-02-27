@@ -7,13 +7,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MSPush () <MSServiceInternal, MSChannelDelegate>
 
-/**
- * Validate keys and values of properties.
- *
- * @return YES if properties have valid keys and values, NO otherwise.
- */
-- (BOOL)validateProperties:(NSDictionary<NSString *, NSString *> *)properties;
-
 + (void)setDelegate:(nullable id <MSPushDelegate>)delegate;
 
 @end

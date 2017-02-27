@@ -34,7 +34,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D3AD5EBF1E5C4F6A001627AB"
-               BuildableName = "MobileCenterPushTests.xctest"
+               BuildableName = "MobileCenterPush.xctest"
                BlueprintName = "MobileCenterPushTests"
                ReferencedContainer = "container:MobileCenterPush.xcodeproj">
             </BuildableReference>
