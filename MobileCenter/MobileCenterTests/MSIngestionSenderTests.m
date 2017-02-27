@@ -1,7 +1,6 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
+#import <OCHamcrestIOS/OCHamcrestIOS.h>
+#import <OCMock/OCMock.h>
+#import <XCTest/XCTest.h>
 #import "MSDevice.h"
 #import "MSDevicePrivate.h"
 #import "MSIngestionSender.h"
@@ -12,10 +11,6 @@
 #import "MSSenderCall.h"
 #import "MSSenderDelegate.h"
 #import "MobileCenter+Internal.h"
-
-#import "OCMock.h"
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <XCTest/XCTest.h>
 
 static NSTimeInterval const kMSTestTimeout = 5.0;
 static NSString *const kMSBaseUrl = @"https://test.com";
@@ -326,7 +321,10 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
   mockedCall.data = container;
   mockedCall.callId = container.batchId;
   mockedCall.completionHandler = nil;
-  OCMStub([mockedCall sender:self.sut callCompletedWithStatus:MSHTTPCodesNo500InternalServerError data:[OCMArg any] error:[OCMArg any]])
+  OCMStub([mockedCall sender:self.sut
+              callCompletedWithStatus:MSHTTPCodesNo500InternalServerError
+                                 data:[OCMArg any]
+                                error:[OCMArg any]])
       .andForwardToRealObject()
       .andDo(^(NSInvocation *invocation) {
         [responseReceivedExcpectation fulfill];
@@ -525,42 +523,6 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
   // Then.
   OCMVerify([delegateMock1 senderDidResume:self.sut]);
   OCMVerify([delegateMock2 senderDidResume:self.sut]);
-}
-
-- (void)testLargeSecret {
-
-  // If.
-  NSString *secret = @"shhhh-its-a-secret";
-  NSString *hiddenSecret;
-
-  // When.
-  hiddenSecret = [self.sut hideSecret:secret];
-
-  // Then.
-  NSString *fullyHiddenSecret =
-      [@"" stringByPaddingToLength:hiddenSecret.length withString:kMSHidingStringForAppSecret startingAtIndex:0];
-  NSString *appSecretHiddenPart = [hiddenSecret commonPrefixWithString:fullyHiddenSecret options:0];
-  NSString *appSecretVisiblePart = [hiddenSecret substringFromIndex:appSecretHiddenPart.length];
-  assertThatInteger(secret.length - appSecretHiddenPart.length, equalToShort(kMSMaxCharactersDisplayedForAppSecret));
-  assertThat(appSecretVisiblePart, is([secret substringFromIndex:appSecretHiddenPart.length]));
-}
-
-- (void)testShortSecret {
-
-  // If.
-  NSString *secret = @"";
-  for (short i = 1; i <= kMSMaxCharactersDisplayedForAppSecret - 1; i++)
-    secret = [NSString stringWithFormat:@"%@%hd", secret, i];
-  NSString *hiddenSecret;
-
-  // When.
-  hiddenSecret = [self.sut hideSecret:secret];
-
-  // Then.
-  NSString *fullyHiddenSecret =
-      [@"" stringByPaddingToLength:hiddenSecret.length withString:kMSHidingStringForAppSecret startingAtIndex:0];
-  assertThatInteger(hiddenSecret.length, equalToInteger(secret.length));
-  assertThat(hiddenSecret, is(fullyHiddenSecret));
 }
 
 #pragma mark - Test Helpers

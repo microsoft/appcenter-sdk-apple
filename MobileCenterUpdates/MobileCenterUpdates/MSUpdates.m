@@ -21,11 +21,6 @@ static NSString *const kMSServiceName = @"Updates";
 #pragma mark - URL constants
 
 /**
- * The header name for update token.
- */
-static NSString *const kMSHeaderUpdateApiToken = @"x-api-token";
-
-/**
  * Base URL for HTTP Distribution install API calls.
  */
 static NSString *const kMSDefaultInstallUrl = @"http://install.asgard-int.trafficmanager.net";
@@ -168,30 +163,54 @@ static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setu
   [sender sendAsync:nil
       completionHandler:^(NSString *callId, NSUInteger statusCode, NSData *data, NSError *error) {
 
-        // Success.
-        if (statusCode == MSHTTPCodesNo200OK) {
-          MSReleaseDetails *details = [[MSReleaseDetails alloc]
-              initWithDictionary:[NSJSONSerialization JSONObjectWithData:data
-                                                                 options:NSJSONReadingMutableContainers
-                                                                   error:nil]];
-          if (!details) {
-            MSLogError([MSUpdates logTag], @"Couldn't parse response payload.");
-          } else {
-            MSLogDebug([MSUpdates logTag], @"Received a response of update request: %@",
-                       [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
-            [self handleUpdate:details];
-          }
-        }
+         // Success.
+         if (statusCode == MSHTTPCodesNo200OK) {
+           id dictionary =
+               [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+           MSReleaseDetails *details = [[MSReleaseDetails alloc] initWithDictionary:dictionary];
+           if (!details) {
+             MSLogError([MSUpdates logTag], @"Couldn't parse response payload.");
+           } else {
+             NSData *jsonData =
+                 [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:&error];
+             NSString *jsonString = nil;
+             if (!jsonData || error) {
+               jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+             } else {
 
-        // Failure.
-        else {
-          MSLogDebug([MSUpdates logTag], @"Failed to get a update response, status code:%lu",
-                     (unsigned long)statusCode);
+               // NSJSONSerialization escapes paths by default so we replace them.
+               jsonString = [[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]
+                   stringByReplacingOccurrencesOfString:@"\\/"
+                                             withString:@"/"];
+             }
+             MSLogDebug([MSUpdates logTag], @"Received a response of update request:\n%@", jsonString);
+             [self handleUpdate:details];
+           }
+         }
 
-          // TODO: Print formatted json response.
-          MSLogError([MSUpdates logTag], @"Response: %@",
-                     [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
-        }
+         // Failure.
+         else {
+           MSLogDebug([MSUpdates logTag], @"Failed to get a update response, status code:%lu",
+                      (unsigned long)statusCode);
+           NSString *jsonString = nil;
+           id dictionary =
+               [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+
+           // Failure can deliver non-JSON format of payload.
+           if (!error) {
+             NSData *jsonData =
+                 [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:&error];
+             if (jsonData && !error) {
+
+               // NSJSONSerialization escapes paths by default so we replace them.
+               jsonString = [[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]
+                   stringByReplacingOccurrencesOfString:@"\\/"
+                                             withString:@"/"];
+             }
+           }
+           MSLogError([MSUpdates logTag], @"Response:\n%@",
+                      jsonString ? jsonString : [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+         }
 
         // There is no more interaction with distribution backend. Shutdown sender.
         [sender setEnabled:NO andDeleteDataOnDisabled:YES];

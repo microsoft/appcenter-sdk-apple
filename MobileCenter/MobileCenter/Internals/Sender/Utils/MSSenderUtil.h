@@ -2,6 +2,9 @@
 
 typedef void (^MSSendAsyncCompletionHandler)(NSString *callId, NSUInteger statusCode, NSData *data, NSError *error);
 
+static short const kMSMaxCharactersDisplayedForAppSecret = 8;
+static NSString *const kMSHidingStringForAppSecret = @"*";
+
 @interface MSSenderUtil : NSObject
 
 /**
@@ -39,5 +42,14 @@ typedef void (^MSSendAsyncCompletionHandler)(NSString *callId, NSUInteger status
  *  @return is request canceled.
  */
 + (BOOL)isRequestCanceledError:(NSError *)error;
+
+/**
+ * Hide a secret replacing the first N characters by a hiding character.
+ *
+ * @param secret the secret string.
+ *
+ * @return secret by hiding some characters.
+ */
++ (NSString *)hideSecret:(NSString *)secret;
 
 @end
