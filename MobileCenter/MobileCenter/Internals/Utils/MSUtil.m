@@ -94,25 +94,4 @@ static NSString *const kMSUUIDSeparator = @"-";
   return ([[NSDate date] timeIntervalSince1970] * 1000);
 }
 
-#pragma mark - Format Utility Methods
-
-+ (NSString *)formatToUUIDString:(NSString *)aString {
-  NSMutableString *stringToFormat = [aString mutableCopy];
-  short dashesCount = (sizeof kMSUUIDDashIndexes) / (sizeof kMSUUIDDashIndexes[0]);
-
-  // Pre-validate string.
-  if (aString.length != (NSUInteger)(kMSUUIDLength - dashesCount)) {
-    return nil;
-  }
-  for (short i = 0; i < dashesCount; i++) {
-    [stringToFormat insertString:kMSUUIDSeparator atIndex:kMSUUIDDashIndexes[i]];
-  }
-
-  // Validate final UUID string.
-  if (![[NSUUID alloc] initWithUUIDString:stringToFormat]) {
-    return nil;
-  }
-  return [stringToFormat copy];
-}
-
 @end
