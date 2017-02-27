@@ -5,6 +5,7 @@
 #import "MSKeychainUtil.h"
 #import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
+#import "MSUpdatesUtil.h"
 #import "MSReleaseDetails.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSUpdates.h"
@@ -100,6 +101,10 @@ static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setu
 - (void)startWithLogManager:(id<MSLogManager>)logManager appSecret:(NSString *)appSecret {
   [super startWithLogManager:logManager appSecret:appSecret];
   MSLogVerbose([MSUpdates logTag], @"Started Updates service.");
+
+// TODO remove this =)
+  NSString *foo = MSUpdatesLocalizedString(@"Working");
+  MSLogVerbose([MSUpdates logTag], @"%@", foo);
 }
 
 #pragma mark - Public

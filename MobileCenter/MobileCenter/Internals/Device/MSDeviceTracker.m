@@ -1,6 +1,5 @@
 #import "MSConstants+Internal.h"
 #import "MSDeviceHistoryInfo.h"
-#import "MSDevicePrivate.h"
 #import "MSDeviceTracker.h"
 #import "MSDeviceTrackerPrivate.h"
 #import "MSUtil.h"

@@ -14,6 +14,7 @@
 				04FD4A2C1E453159009B4468 /* ShellScript */,
 			);
 			dependencies = (
+				B2C070C31E5E69E70076D6A9 /* PBXTargetDependency */,
 			);
 			name = MobileCenterUpdatesFramework;
 			productName = "Fat Framework";
@@ -59,7 +60,14 @@
 		381D5A9C1E57580500F093A2 /* MSUpdatesErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 381D5A9B1E57580500F093A2 /* MSUpdatesErrors.h */; };
 		381D5A9E1E57588C00F093A2 /* MSUpdatesErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 381D5A9D1E57588C00F093A2 /* MSUpdatesErrors.m */; };
 		38C9C56C1E565BF600B0FA0D /* MSUpdatesPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C9C56B1E565BF600B0FA0D /* MSUpdatesPrivate.h */; };
+		B20DE7B71E5F97330023075C /* MSUpdatesUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B20DE7B61E5F97330023075C /* MSUpdatesUtilTests.m */; };
 		B25895AA1E4E9FD400123632 /* MSUpdatesInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = B25895A91E4E9BA100123632 /* MSUpdatesInternal.h */; };
+		B270108D1E5FA2E4008552EF /* release_details.json in Resources */ = {isa = PBXBuildFile; fileRef = 040AF0111E523AC2005C1174 /* release_details.json */; };
+		B2C070A51E5E62330076D6A9 /* MSUpdatesUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = B2C070A31E5E62330076D6A9 /* MSUpdatesUtil.h */; };
+		B2C070A61E5E62330076D6A9 /* MSUpdatesUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = B2C070A41E5E62330076D6A9 /* MSUpdatesUtil.m */; };
+		B2C070C01E5E69AD0076D6A9 /* MobileCenterUpdatesResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B2C070B81E5E68540076D6A9 /* MobileCenterUpdatesResources.bundle */; };
+		B2C070C11E5E69D00076D6A9 /* MobileCenterUpdates.strings in Resources */ = {isa = PBXBuildFile; fileRef = B29CE3471E5E5F9A00CEB04D /* MobileCenterUpdates.strings */; };
+		B2C070C51E5E6A200076D6A9 /* MobileCenterUpdatesResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B2C070B81E5E68540076D6A9 /* MobileCenterUpdatesResources.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +84,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = 04FD4A1B1E451E12009B4468;
 			remoteInfo = MobileCenterUpdates;
+		};
+		B2C070BE1E5E697C0076D6A9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 04FD4A141E451E12009B4468 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B2C070B71E5E68540076D6A9;
+			remoteInfo = MobileCenterUpdatesResources;
+		};
+		B2C070C21E5E69E70076D6A9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 04FD4A141E451E12009B4468 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B2C070B71E5E68540076D6A9;
+			remoteInfo = MobileCenterUpdatesResources;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -133,7 +155,15 @@
 		381D5A9B1E57580500F093A2 /* MSUpdatesErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSUpdatesErrors.h; sourceTree = "<group>"; };
 		381D5A9D1E57588C00F093A2 /* MSUpdatesErrors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSUpdatesErrors.m; sourceTree = "<group>"; };
 		38C9C56B1E565BF600B0FA0D /* MSUpdatesPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSUpdatesPrivate.h; sourceTree = "<group>"; };
+		B20DE7B61E5F97330023075C /* MSUpdatesUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSUpdatesUtilTests.m; sourceTree = "<group>"; };
 		B25895A91E4E9BA100123632 /* MSUpdatesInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MSUpdatesInternal.h; path = Internals/MSUpdatesInternal.h; sourceTree = "<group>"; };
+		B29CE3481E5E5F9A00CEB04D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = MobileCenterUpdates/Resources/en.lproj/MobileCenterUpdates.strings; sourceTree = SOURCE_ROOT; };
+		B29CE3491E5E5FBB00CEB04D /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = MobileCenterUpdates/Resources/fr.lproj/MobileCenterUpdates.strings; sourceTree = SOURCE_ROOT; };
+		B2C070A21E5E61830076D6A9 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = Resources/de.lproj/MobileCenterUpdates.strings; sourceTree = "<group>"; };
+		B2C070A31E5E62330076D6A9 /* MSUpdatesUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSUpdatesUtil.h; path = MobileCenterUpdates/MSUpdatesUtil.h; sourceTree = "<group>"; };
+		B2C070A41E5E62330076D6A9 /* MSUpdatesUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSUpdatesUtil.m; path = MobileCenterUpdates/MSUpdatesUtil.m; sourceTree = "<group>"; };
+		B2C070B81E5E68540076D6A9 /* MobileCenterUpdatesResources.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MobileCenterUpdatesResources.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		B2C070BA1E5E68540076D6A9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,6 +182,13 @@
 				040AF0201E523AEC005C1174 /* libOCMock.a in Frameworks */,
 				0471B5E41E4544000022F951 /* libMobileCenterUpdates.a in Frameworks */,
 				0471B5E11E4543DF0022F951 /* OCHamcrestIOS.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B2C070B51E5E68540076D6A9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -206,6 +243,7 @@
 			children = (
 				048BB2FB1E60A40D009D92C2 /* Model */,
 				048BB2FE1E60A40D009D92C2 /* Sender */,
+				B2C070A71E5E62440076D6A9 /* Util */,
 				B25895A91E4E9BA100123632 /* MSUpdatesInternal.h */,
 				38C9C56B1E565BF600B0FA0D /* MSUpdatesPrivate.h */,
 			);
@@ -261,6 +299,7 @@
 				040AF0321E52859F005C1174 /* MSSender.h */,
 				04FD4A1E1E451E12009B4468 /* MobileCenterUpdates */,
 				04FD4A321E453531009B4468 /* MobileCenterUpdatesTests */,
+				B2C070B91E5E68540076D6A9 /* Resources */,
 				04FD4A1D1E451E12009B4468 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -270,6 +309,7 @@
 			children = (
 				04FD4A1C1E451E12009B4468 /* libMobileCenterUpdates.a */,
 				04FD4A311E453531009B4468 /* MobileCenterUpdates.xctest */,
+				B2C070B81E5E68540076D6A9 /* MobileCenterUpdatesResources.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -295,9 +335,10 @@
 				040AF0101E523AC2005C1174 /* Fixtures */,
 				04FD4A491E453930009B4468 /* Frameworks */,
 				040AF0211E523B36005C1174 /* Model */,
-				04FD4A351E453531009B4468 /* Info.plist */,
 				04FD4A331E453531009B4468 /* MSUpdatesTests.m */,
+				B20DE7B61E5F97330023075C /* MSUpdatesUtilTests.m */,
 				040AF0291E52748D005C1174 /* MSDistributionSenderTests.m */,
+				04FD4A351E453531009B4468 /* Info.plist */,
 			);
 			path = MobileCenterUpdatesTests;
 			sourceTree = "<group>";
@@ -310,7 +351,26 @@
 				0471B5E01E4543DF0022F951 /* OCHamcrestIOS.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B2C070A71E5E62440076D6A9 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				B2C070A31E5E62330076D6A9 /* MSUpdatesUtil.h */,
+				B2C070A41E5E62330076D6A9 /* MSUpdatesUtil.m */,
+			);
+			name = Util;
 			path = ..;
+			sourceTree = "<group>";
+		};
+		B2C070B91E5E68540076D6A9 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				B29CE3471E5E5F9A00CEB04D /* MobileCenterUpdates.strings */,
+				B2C070BA1E5E68540076D6A9 /* Info.plist */,
+			);
+			name = Resources;
+			path = MobileCenterUpdatesResources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -326,6 +386,7 @@
 				38C9C56C1E565BF600B0FA0D /* MSUpdatesPrivate.h in Headers */,
 				B25895AA1E4E9FD400123632 /* MSUpdatesInternal.h in Headers */,
 				0471B93C1E4557620022F951 /* MSServiceAbstract.h in Headers */,
+				B2C070A51E5E62330076D6A9 /* MSUpdatesUtil.h in Headers */,
 				0471B9331E4555F20022F951 /* MobileCenterUpdates.h in Headers */,
 				048BB3071E60A40D009D92C2 /* MSDistributionSender.h in Headers */,
 				046FDBD31E5682FA00AF9DD1 /* MSAlertController.h in Headers */,
@@ -347,10 +408,12 @@
 				04FD4A191E451E12009B4468 /* Frameworks */,
 				04FD4A1A1E451E12009B4468 /* CopyFiles */,
 				0471B9321E4555EA0022F951 /* Headers */,
+				B2C070C41E5E6A160076D6A9 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				B2C070BF1E5E697C0076D6A9 /* PBXTargetDependency */,
 			);
 			name = MobileCenterUpdates;
 			productName = MobileCenterUpdates;
@@ -375,6 +438,23 @@
 			productReference = 04FD4A311E453531009B4468 /* MobileCenterUpdates.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		B2C070B71E5E68540076D6A9 /* MobileCenterUpdatesResources */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B2C070BB1E5E68540076D6A9 /* Build configuration list for PBXNativeTarget "MobileCenterUpdatesResources" */;
+			buildPhases = (
+				B2C070B41E5E68540076D6A9 /* Sources */,
+				B2C070B51E5E68540076D6A9 /* Frameworks */,
+				B2C070B61E5E68540076D6A9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MobileCenterUpdatesResources;
+			productName = MobileCenterUpdatesResources;
+			productReference = B2C070B81E5E68540076D6A9 /* MobileCenterUpdatesResources.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -397,6 +477,10 @@
 					04FD4A3C1E453640009B4468 = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
+					B2C070B71E5E68540076D6A9 = {
+						CreatedOnToolsVersion = 8.2.1;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = 04FD4A171E451E12009B4468 /* Build configuration list for PBXProject "MobileCenterUpdates" */;
@@ -405,6 +489,8 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				de,
+				fr,
 			);
 			mainGroup = 04FD4A131E451E12009B4468;
 			productRefGroup = 04FD4A1D1E451E12009B4468 /* Products */;
@@ -414,6 +500,7 @@
 				04FD4A1B1E451E12009B4468 /* MobileCenterUpdates */,
 				04FD4A281E451E90009B4468 /* MobileCenterUpdatesFramework */,
 				04FD4A301E453531009B4468 /* MobileCenterUpdatesTests */,
+				B2C070B71E5E68540076D6A9 /* MobileCenterUpdatesResources */,
 				04FD4A3C1E453640009B4468 /* MobileCenterUpdatesDoc */,
 			);
 		};
@@ -424,6 +511,24 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B270108D1E5FA2E4008552EF /* release_details.json in Resources */,
+				B2C070C01E5E69AD0076D6A9 /* MobileCenterUpdatesResources.bundle in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B2C070B61E5E68540076D6A9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B2C070C11E5E69D00076D6A9 /* MobileCenterUpdates.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B2C070C41E5E6A160076D6A9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B2C070C51E5E6A200076D6A9 /* MobileCenterUpdatesResources.bundle in Resources */,
 				040AF0121E523AC2005C1174 /* release_details.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -442,7 +547,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=MobileCenterUpdates\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-iOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphoneos\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Support/module.modulemap\" \"${INSTALL_DIR}/Modules/\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Headers/\"\n\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" \"${SIMULATOR_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\n\nrm -r \"${WRK_DIR}\"";
+			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=MobileCenterUpdates\nFMK_RESOURCE_BUNDLE=MobileCenterUpdatesResources\n\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-iOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphoneos\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Support/module.modulemap\" \"${INSTALL_DIR}/Modules/\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Headers/\"\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/${FMK_RESOURCE_BUNDLE}.bundle\" \"${PRODUCTS_DIR}\"\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" \"${SIMULATOR_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\n\n#rm -r \"${WRK_DIR}\"";
 		};
 		04FD4A401E4536B0009B4468 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -465,6 +570,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B2C070A61E5E62330076D6A9 /* MSUpdatesUtil.m in Sources */,
 				048BB3041E60A40D009D92C2 /* MSReleaseDetails.m in Sources */,
 				048BB3061E60A40D009D92C2 /* MSDistributionGroup.m in Sources */,
 				0471B8991E4547480022F951 /* MSUpdates.m in Sources */,
@@ -479,8 +585,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				040AF0251E523B80005C1174 /* MSReleaseDetailsTests.m in Sources */,
+				B20DE7B71E5F97330023075C /* MSUpdatesUtilTests.m in Sources */,
 				040AF02A1E52748D005C1174 /* MSDistributionSenderTests.m in Sources */,
 				04FD4A341E453531009B4468 /* MSUpdatesTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B2C070B41E5E68540076D6A9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -497,7 +611,31 @@
 			target = 04FD4A1B1E451E12009B4468 /* MobileCenterUpdates */;
 			targetProxy = 04FD4A371E453531009B4468 /* PBXContainerItemProxy */;
 		};
+		B2C070BF1E5E697C0076D6A9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B2C070B71E5E68540076D6A9 /* MobileCenterUpdatesResources */;
+			targetProxy = B2C070BE1E5E697C0076D6A9 /* PBXContainerItemProxy */;
+		};
+		B2C070C31E5E69E70076D6A9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B2C070B71E5E68540076D6A9 /* MobileCenterUpdatesResources */;
+			targetProxy = B2C070C21E5E69E70076D6A9 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		B29CE3471E5E5F9A00CEB04D /* MobileCenterUpdates.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B29CE3481E5E5F9A00CEB04D /* en */,
+				B29CE3491E5E5FBB00CEB04D /* fr */,
+				B2C070A21E5E61830076D6A9 /* de */,
+			);
+			name = MobileCenterUpdates.strings;
+			path = ../MobileCenterUpdates;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		04FD4A231E451E12009B4468 /* Debug */ = {
@@ -505,6 +643,7 @@
 			baseConfigurationReference = 0471B5F41E45466F0022F951 /* MobileCenterUpdates.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -524,7 +663,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -553,6 +692,7 @@
 			baseConfigurationReference = 0471B5F41E45466F0022F951 /* MobileCenterUpdates.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -573,7 +713,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_NS_ASSERTIONS = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -586,7 +726,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				VALIDATE_PRODUCT = YES;
+				VALIDATE_PRODUCT = NO;
 			};
 			name = Release;
 		};
@@ -704,6 +844,44 @@
 			};
 			name = Release;
 		};
+		B2C070BC1E5E68540076D6A9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_BITCODE = YES;
+				INFOPLIST_FILE = MobileCenterUpdatesResources/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.updates.resources.ios;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		B2C070BD1E5E68540076D6A9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_BITCODE = YES;
+				INFOPLIST_FILE = MobileCenterUpdatesResources/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.updates.resources.ios;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -748,6 +926,15 @@
 			buildConfigurations = (
 				04FD4A3E1E453640009B4468 /* Debug */,
 				04FD4A3F1E453640009B4468 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B2C070BB1E5E68540076D6A9 /* Build configuration list for PBXNativeTarget "MobileCenterUpdatesResources" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B2C070BC1E5E68540076D6A9 /* Debug */,
+				B2C070BD1E5E68540076D6A9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
