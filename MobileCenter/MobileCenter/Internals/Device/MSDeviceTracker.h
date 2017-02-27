@@ -1,4 +1,5 @@
-#import "MSDevice.h"
+
+@class MSDevice;
 
 /**
  * Provide and keep track of device log based on collected properties.

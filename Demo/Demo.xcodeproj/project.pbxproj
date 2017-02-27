@@ -25,6 +25,8 @@
 		6E2307E31D22083C0031C598 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6E2307E11D22083C0031C598 /* Main.storyboard */; };
 		6E2307E51D22083C0031C598 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E2307E41D22083C0031C598 /* Assets.xcassets */; };
 		6E2307E81D22083C0031C598 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6E2307E61D22083C0031C598 /* LaunchScreen.storyboard */; };
+		B20DE7B21E5F91170023075C /* MobileCenterUpdatesResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B20DE7B11E5F91170023075C /* MobileCenterUpdatesResources.bundle */; };
+		B20DE7B31E5F91290023075C /* MobileCenterUpdatesResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B20DE7B11E5F91170023075C /* MobileCenterUpdatesResources.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,10 +54,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0471B9451E455AD00022F951 /* MobileCenterUpdates.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterUpdates.framework; path = ../Products/MobileCenterUpdates/MobileCenterUpdates.framework; sourceTree = "<group>"; };
-		04CCCA431D88AA86005D8180 /* MobileCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenter.framework; path = ../Products/MobileCenter/MobileCenter.framework; sourceTree = "<group>"; };
-		04CCCA451D88AA93005D8180 /* MobileCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterAnalytics.framework; path = ../Products/MobileCenterAnalytics/MobileCenterAnalytics.framework; sourceTree = "<group>"; };
-		04CCCA471D88AA9F005D8180 /* MobileCenterCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterCrashes.framework; path = ../Products/MobileCenterCrashes/MobileCenterCrashes.framework; sourceTree = "<group>"; };
+		0471B9451E455AD00022F951 /* MobileCenterUpdates.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterUpdates.framework; path = "../MobileCenter-SDK-iOS/MobileCenterUpdates.framework"; sourceTree = "<group>"; };
+		04CCCA431D88AA86005D8180 /* MobileCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenter.framework; path = "../MobileCenter-SDK-iOS/MobileCenter.framework"; sourceTree = "<group>"; };
+		04CCCA451D88AA93005D8180 /* MobileCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterAnalytics.framework; path = "../MobileCenter-SDK-iOS/MobileCenterAnalytics.framework"; sourceTree = "<group>"; };
+		04CCCA471D88AA9F005D8180 /* MobileCenterCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterCrashes.framework; path = "../MobileCenter-SDK-iOS/MobileCenterCrashes.framework"; sourceTree = "<group>"; };
 		382EC1D81DDB805400A60DBD /* DemoWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = DemoWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		382EC1DA1DDB805400A60DBD /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		382EC1E31DDB805400A60DBD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -74,6 +76,7 @@
 		6E2307E41D22083C0031C598 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6E2307E71D22083C0031C598 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6E2307E91D22083C0031C598 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B20DE7B11E5F91170023075C /* MobileCenterUpdatesResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = MobileCenterUpdatesResources.bundle; path = "../MobileCenter-SDK-iOS/MobileCenterUpdatesResources.bundle"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,7 +129,7 @@
 		6E2307CC1D22083C0031C598 = {
 			isa = PBXGroup;
 			children = (
-				6E2307EF1D2208670031C598 /* Vendor */,
+				6E2307EF1D2208670031C598 /* MobileCenter-SDK-iOS */,
 				6E2307D71D22083C0031C598 /* Demo */,
 				382EC1DC1DDB805400A60DBD /* DemoWidget */,
 				382EC1D91DDB805400A60DBD /* Frameworks */,
@@ -168,15 +171,16 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		6E2307EF1D2208670031C598 /* Vendor */ = {
+		6E2307EF1D2208670031C598 /* MobileCenter-SDK-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				B20DE7B11E5F91170023075C /* MobileCenterUpdatesResources.bundle */,
 				04CCCA431D88AA86005D8180 /* MobileCenter.framework */,
 				04CCCA451D88AA93005D8180 /* MobileCenterAnalytics.framework */,
 				04CCCA471D88AA9F005D8180 /* MobileCenterCrashes.framework */,
 				0471B9451E455AD00022F951 /* MobileCenterUpdates.framework */,
 			);
-			name = Vendor;
+			name = "MobileCenter-SDK-iOS";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -262,6 +266,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B20DE7B31E5F91290023075C /* MobileCenterUpdatesResources.bundle in Resources */,
 				382EC1FC1DDB9FA400A60DBD /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -271,6 +276,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E2307E81D22083C0031C598 /* LaunchScreen.storyboard in Resources */,
+				B20DE7B21E5F91170023075C /* MobileCenterUpdatesResources.bundle in Resources */,
 				6E2307E51D22083C0031C598 /* Assets.xcassets in Resources */,
 				6E2307E31D22083C0031C598 /* Main.storyboard in Resources */,
 			);
