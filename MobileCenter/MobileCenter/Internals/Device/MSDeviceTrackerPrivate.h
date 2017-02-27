@@ -1,4 +1,4 @@
-#import "MSDevice.h"
+#import "MSDevicePrivate.h"
 #import "MSDeviceTracker.h"
 #import "MSWrapperSdk.h"
 #import <CoreTelephony/CTCarrier.h>

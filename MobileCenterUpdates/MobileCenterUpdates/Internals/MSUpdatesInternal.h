@@ -4,6 +4,8 @@
 #import "MSServiceInternal.h"
 #import "MSUpdates.h"
 
+#define MOBILE_CENTER_UPDATES_BUNDLE @"MobileCenterUpdatesResources.bundle"
+
 @interface MSUpdates ()
 
 /**
