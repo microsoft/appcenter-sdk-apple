@@ -80,7 +80,15 @@ static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setu
   // Enabling
   if (isEnabled) {
     MSLogInfo([MSUpdates logTag], @"Updates service has been enabled.");
+    NSString *updateToken = [MSKeychainUtil stringForKey:kMSUpdateTokenKey];
+    if (updateToken) {
+      [self checkLatestRelease:updateToken];
+    } else {
+      [self requestUpdateToken];
+    }
   } else {
+    [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
+    [MS_USER_DEFAULTS removeObjectForKey:kMSIgnoredReleaseIdKey];
     MSLogInfo([MSUpdates logTag], @"Updates service has been disabled.");
   }
 }
@@ -88,25 +96,6 @@ static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setu
 - (void)startWithLogManager:(id<MSLogManager>)logManager appSecret:(NSString *)appSecret {
   [super startWithLogManager:logManager appSecret:appSecret];
   MSLogVerbose([MSUpdates logTag], @"Started Updates service.");
-
-  NSString *updateToken = [MSKeychainUtil stringForKey:kMSUpdateTokenKey];
-  if ([self isEnabled]) {
-    if (updateToken) {
-      self.sender = [[MSDistributionSender alloc]
-          initWithBaseUrl:self.apiUrl
-                  headers:@{
-                    kMSHeaderUpdateApiToken : updateToken
-                  }
-             queryStrings:nil
-             reachability:[MS_Reachability reachabilityForInternetConnection]
-           retryIntervals:@[ @(10) ]];
-      [self checkLatestRelease];
-    } else {
-      [self requestUpdateToken];
-    }
-  } else {
-    MSLogDebug([MSUpdates logTag], @"Updates service is disabled, skip update.");
-  }
 
 // TODO remove this =)
   NSString *foo = MSUpdatesLocalizedString(@"Working");
@@ -161,9 +150,18 @@ static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setu
   }
 }
 
-- (void)checkLatestRelease {
-  [self.sender sendAsync:nil
-       completionHandler:^(NSString *callId, NSUInteger statusCode, NSData *data, NSError *error) {
+- (void)checkLatestRelease:(NSString *)updateToken {
+  MSDistributionSender *sender =
+      [[MSDistributionSender alloc] initWithBaseUrl:self.apiUrl
+                                            headers:@{
+                                              kMSHeaderUpdateApiToken : updateToken
+                                            }
+                                       queryStrings:nil
+                                       reachability:[MS_Reachability reachabilityForInternetConnection]
+                                     retryIntervals:@[ @(10) ]];
+
+  [sender sendAsync:nil
+      completionHandler:^(NSString *callId, NSUInteger statusCode, NSData *data, NSError *error) {
 
          // Success.
          if (statusCode == MSHTTPCodesNo200OK) {
@@ -214,9 +212,9 @@ static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setu
                       jsonString ? jsonString : [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
          }
 
-         // There is no more interaction with distribution backend. Shutdown sender.
-         [self.sender setEnabled:NO andDeleteDataOnDisabled:YES];
-       }];
+        // There is no more interaction with distribution backend. Shutdown sender.
+        [sender setEnabled:NO andDeleteDataOnDisabled:YES];
+      }];
 }
 
 #pragma mark - Private
@@ -358,7 +356,7 @@ static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setu
                MS_DEVICE.systemVersion);
     return;
   }
-  
+
   // Step 5. Check version/hash to identify a newer version.
   if (![self isNewerVersion:details]) {
     MSLogDebug([MSUpdates logTag], @"The application is already up-to-date.");
@@ -455,7 +453,7 @@ static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setu
       MSLogDebug([MSUpdates logTag],
                  @"Update token has been successfully retrieved. Store the token to secure storage.");
       [MSKeychainUtil storeString:queryUpdateToken forKey:kMSUpdateTokenKey];
-      [self checkLatestRelease];
+      [self checkLatestRelease:queryUpdateToken];
     }
   } else {
     MSLogDebug([MSUpdates logTag], @"Updates service has been disabled, ignore request.");

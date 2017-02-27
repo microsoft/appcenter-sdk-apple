@@ -73,8 +73,15 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
 
 /**
  * Send a request to get the latest release.
+ *
+ * @param updateToken The update token stored in keychain.
  */
-- (void)checkLatestRelease;
+- (void)checkLatestRelease:(NSString *)updateToken;
+
+/**
+ * Send a request to get update token.
+ */
+- (void)requestUpdateToken;
 
 /**
  * Update workflow to make a dicision of update based on release details.
