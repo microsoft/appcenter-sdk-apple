@@ -45,8 +45,8 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
   return [[self sharedInstance] sdkConfigured];
 }
 
-+ (void)setServerUrl:(NSString *)serverUrl {
-  [[self sharedInstance] setServerUrl:serverUrl];
++ (void)setLogUrl:(NSString *)logUrl {
+  [[self sharedInstance] setLogUrl:logUrl];
 }
 
 + (void)setEnabled:(BOOL)isEnabled {
@@ -83,7 +83,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 }
 
 + (void)setWrapperSdk:(MSWrapperSdk *)wrapperSdk {
-  [MSDeviceTracker setWrapperSdk:wrapperSdk];
+  [[MSDeviceTracker sharedInstance] setWrapperSdk:wrapperSdk];
 }
 
 /**
@@ -130,7 +130,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 - (instancetype)init {
   if (self = [super init]) {
     _services = [NSMutableArray new];
-    _serverUrl = kMSDefaultBaseUrl;
+    _logUrl = kMSDefaultBaseUrl;
     _enabledStateUpdating = NO;
   }
   return self;
@@ -161,8 +161,10 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 
     self.sdkConfigured = YES;
 
-    // If the loglevel hasn't been customized before and we are not running in an app store environment, we set the
-    // default loglevel to MSLogLevelWarning.
+    /*
+     * If the loglevel hasn't been customized before and we are not running in an app store environment,
+     * we set the default loglevel to MSLogLevelWarning.
+     */
     if ((![MSLogger isUserDefinedLogLevel]) && ([MSUtil currentAppEnvironment] == MSEnvironmentOther)) {
       [MSMobileCenter setLogLevel:MSLogLevelWarning];
     }
@@ -185,10 +187,10 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
   }
 }
 
-/** 
+/**
  * Sort services in descending order to make sure the service with the highest priority gets initialized first.
  * This is intended to make sure Crashes gets initialized first.
-*/
+ */
 - (NSArray *)sortServices:(NSArray<Class> *)services {
   if (services && services.count > 1) {
     return [services sortedArrayUsingComparator:^NSComparisonResult(Class clazzA, Class clazzB) {
@@ -215,9 +217,9 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
   [service startWithLogManager:self.logManager appSecret:self.appSecret];
 }
 
-- (void)setServerUrl:(NSString *)serverUrl {
+- (void)setLogUrl:(NSString *)logUrl {
   @synchronized(self) {
-    _serverUrl = serverUrl;
+    _logUrl = logUrl;
   }
 }
 
@@ -242,7 +244,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 
 - (BOOL)isEnabled {
 
-  /**
+  /*
    * Get isEnabled value from persistence.
    * No need to cache the value in a property, user settings already have their cache mechanism.
    */
@@ -267,6 +269,10 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
                                selector:@selector(applicationWillEnterForeground)
                                    name:UIApplicationWillEnterForegroundNotification
                                  object:nil];
+  } else {
+
+    // Clean device history in case we are disabled.
+    [[MSDeviceTracker sharedInstance] clearDevices];
   }
 
   // Propagate to log manager.
@@ -277,7 +283,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 
   // Construct log manager.
   self.logManager =
-      [[MSLogManagerDefault alloc] initWithAppSecret:self.appSecret installId:self.installId serverUrl:self.serverUrl];
+      [[MSLogManagerDefault alloc] initWithAppSecret:self.appSecret installId:self.installId logUrl:self.logUrl];
 }
 
 - (NSString *)appSecret {
