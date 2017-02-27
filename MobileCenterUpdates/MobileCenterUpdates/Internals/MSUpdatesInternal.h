@@ -4,7 +4,7 @@
 #import "MSServiceInternal.h"
 #import "MSUpdates.h"
 
-@interface MSUpdates ()
+@interface MSUpdates () <MSServiceInternal>
 
 /**
  * An install URL that is used when the SDK needs to acquire update token.

@@ -1,4 +1,3 @@
-#import <CodeSignatureExtraction/CodeSignatureExtraction.h> //TODO Better rewrite the code in objective c and use it directly.
 #import <Foundation/Foundation.h>
 #import <SafariServices/SafariServices.h>
 
@@ -13,6 +12,7 @@
 #import "MSUpdatesInternal.h"
 #import "MSUpdatesPrivate.h"
 #import "MSUtil.h"
+#import "MSBasicMachOParser.h"
 
 /**
  * Service storage key name.
@@ -254,24 +254,9 @@ static NSString *const kMSIgnoredReleaseIdKey = @"MSIgnoredReleaseId";
    * For testing purposes you can update the related Safari cookie keys to the BuildUUID of your choice
    * using JavaScript via Safari Web Inspector.
    */
-  NSError *buildIdError;
-  NSString *buildId = [[MSFTCECodeSignatureExtractor forMainBundle] getUUIDHashHexStringAndReturnError:&buildIdError];
-  if (buildIdError) {
-    if (error) {
-      *error = buildIdError;
-    }
-    return nil;
-  }
-
-  // Format build Id to UUID.
-  NSString *buildUUID = [MSUtil formatToUUIDString:buildId];
+  NSString *buildUUID = [[[MSBasicMachOParser machOParserForMainBundle].uuid UUIDString] lowercaseString];
   if (!buildUUID) {
-    if (error) {
-      NSString *desc = [NSString stringWithFormat:@"%@\n%@", kMSUDUpdateTokenBuildUUIDInvalidErrorDesc, buildId];
-      *error = [NSError errorWithDomain:kMSUDErrorDomain
-                                   code:kMSUDUpdateTokenBuildUUIDInvalidErrorCode
-                               userInfo:@{NSLocalizedDescriptionKey : desc}];
-    }
+    // TODO print error.
     return nil;
   }
 

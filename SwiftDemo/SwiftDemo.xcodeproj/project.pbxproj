@@ -7,9 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0471B94E1E455C5C0022F951 /* MobileCenterUpdates.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0471B94D1E455C5C0022F951 /* MobileCenterUpdates.framework */; };
-		383072A31E5DF26300A5A69F /* CodeSignatureExtraction.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 383072A11E5DF03900A5A69F /* CodeSignatureExtraction.framework */; };
-		383072A41E5DF26300A5A69F /* CodeSignatureExtraction.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 383072A11E5DF03900A5A69F /* CodeSignatureExtraction.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		38F260811E64A0ED004F0FDC /* MobileCenterUpdates.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38F260801E64A0ED004F0FDC /* MobileCenterUpdates.framework */; };
 		B219241B1DCD0C6D00D5797D /* MobileCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B219241A1DCD0C6D00D5797D /* MobileCenter.framework */; };
 		B219241D1DCD0C7500D5797D /* MobileCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B219241C1DCD0C7500D5797D /* MobileCenterAnalytics.framework */; };
 		B219241F1DCD0C8400D5797D /* MobileCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B219241E1DCD0C8400D5797D /* MobileCenterCrashes.framework */; };
@@ -35,7 +33,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				383072A41E5DF26300A5A69F /* CodeSignatureExtraction.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -44,7 +41,7 @@
 
 /* Begin PBXFileReference section */
 		0471B94D1E455C5C0022F951 /* MobileCenterUpdates.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterUpdates.framework; path = Products/MobileCenterUpdates/MobileCenterUpdates.framework; sourceTree = "<group>"; };
-		383072A11E5DF03900A5A69F /* CodeSignatureExtraction.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CodeSignatureExtraction.framework; path = Vendor/MSCodeSignatureExtraction/CodeSignatureExtraction.framework; sourceTree = "<group>"; };
+		38F260801E64A0ED004F0FDC /* MobileCenterUpdates.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterUpdates.framework; path = "../MobileCenter-SDK-iOS/MobileCenterUpdates.framework"; sourceTree = "<group>"; };
 		B219241A1DCD0C6D00D5797D /* MobileCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenter.framework; path = Products/MobileCenter/MobileCenter.framework; sourceTree = "<group>"; };
 		B219241C1DCD0C7500D5797D /* MobileCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterAnalytics.framework; path = Products/MobileCenterAnalytics/MobileCenterAnalytics.framework; sourceTree = "<group>"; };
 		B219241E1DCD0C8400D5797D /* MobileCenterCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterCrashes.framework; path = Products/MobileCenterCrashes/MobileCenterCrashes.framework; sourceTree = "<group>"; };
@@ -76,8 +73,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				383072A31E5DF26300A5A69F /* CodeSignatureExtraction.framework in Frameworks */,
-				0471B94E1E455C5C0022F951 /* MobileCenterUpdates.framework in Frameworks */,
+				38F260811E64A0ED004F0FDC /* MobileCenterUpdates.framework in Frameworks */,
 				B219241F1DCD0C8400D5797D /* MobileCenterCrashes.framework in Frameworks */,
 				B219241D1DCD0C7500D5797D /* MobileCenterAnalytics.framework in Frameworks */,
 				B219241B1DCD0C6D00D5797D /* MobileCenter.framework in Frameworks */,
@@ -90,6 +86,7 @@
 		38C9C58C1E56958C00B0FA0D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				38F260801E64A0ED004F0FDC /* MobileCenterUpdates.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -146,7 +143,6 @@
 		B2CDD1361DCCFE9400610725 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
-				383072A11E5DF03900A5A69F /* CodeSignatureExtraction.framework */,
 				B27DCB991DDA969C00B97C84 /* MSAlertController */,
 				B219241A1DCD0C6D00D5797D /* MobileCenter.framework */,
 				B219241C1DCD0C7500D5797D /* MobileCenterAnalytics.framework */,
@@ -432,7 +428,7 @@
 		B2CDD1121DCCFAAC00610725 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				ENABLE_BITCODE = NO;
@@ -455,7 +451,7 @@
 		B2CDD1131DCCFAAC00610725 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				ENABLE_BITCODE = YES;

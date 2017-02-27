@@ -19,8 +19,6 @@
 		382EC2001DDBBB6800A60DBD /* MobileCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04CCCA471D88AA9F005D8180 /* MobileCenterCrashes.framework */; };
 		382EC2011DDBBB6800A60DBD /* MobileCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04CCCA451D88AA93005D8180 /* MobileCenterAnalytics.framework */; };
 		382EC2021DDBBB6800A60DBD /* MobileCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04CCCA431D88AA86005D8180 /* MobileCenter.framework */; };
-		3830729F1E5DF02500A5A69F /* CodeSignatureExtraction.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3830729D1E5DF01200A5A69F /* CodeSignatureExtraction.framework */; };
-		383072A01E5DF02500A5A69F /* CodeSignatureExtraction.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3830729D1E5DF01200A5A69F /* CodeSignatureExtraction.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6E2307DA1D22083C0031C598 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2307D91D22083C0031C598 /* main.m */; };
 		6E2307DD1D22083C0031C598 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2307DC1D22083C0031C598 /* AppDelegate.m */; };
 		6E2307E01D22083C0031C598 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2307DF1D22083C0031C598 /* ViewController.m */; };
@@ -57,7 +55,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				383072A01E5DF02500A5A69F /* CodeSignatureExtraction.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -75,7 +72,6 @@
 		382EC1F71DDB9F7F00A60DBD /* TodayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TodayViewController.m; sourceTree = "<group>"; };
 		382EC1F81DDB9F7F00A60DBD /* TodayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TodayViewController.h; sourceTree = "<group>"; };
 		382EC1FB1DDB9FA400A60DBD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
-		3830729D1E5DF01200A5A69F /* CodeSignatureExtraction.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CodeSignatureExtraction.framework; path = ../Vendor/MSCodeSignatureExtraction/CodeSignatureExtraction.framework; sourceTree = "<group>"; };
 		384959E81D49786A008F6B3A /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		6E2307D51D22083C0031C598 /* Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E2307D91D22083C0031C598 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -106,7 +102,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3830729F1E5DF02500A5A69F /* CodeSignatureExtraction.framework in Frameworks */,
 				04CCCA441D88AA86005D8180 /* MobileCenter.framework in Frameworks */,
 				04CCCA461D88AA93005D8180 /* MobileCenterAnalytics.framework in Frameworks */,
 				04CCCA481D88AA9F005D8180 /* MobileCenterCrashes.framework in Frameworks */,
@@ -184,7 +179,6 @@
 		6E2307EF1D2208670031C598 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
-				3830729D1E5DF01200A5A69F /* CodeSignatureExtraction.framework */,
 				04CCCA431D88AA86005D8180 /* MobileCenter.framework */,
 				04CCCA451D88AA93005D8180 /* MobileCenterAnalytics.framework */,
 				04CCCA471D88AA9F005D8180 /* MobileCenterCrashes.framework */,
@@ -473,7 +467,7 @@
 		6E2307ED1D22083C0031C598 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				ENABLE_BITCODE = NO;
@@ -492,7 +486,7 @@
 		6E2307EE1D22083C0031C598 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				ENABLE_BITCODE = YES;

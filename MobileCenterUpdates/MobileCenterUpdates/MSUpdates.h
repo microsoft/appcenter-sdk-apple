@@ -1,5 +1,8 @@
 #import "MSServiceAbstract.h"
 
+/**
+ * Mobile Center updates service.
+ */
 @interface MSUpdates : MSServiceAbstract
 
 /**
