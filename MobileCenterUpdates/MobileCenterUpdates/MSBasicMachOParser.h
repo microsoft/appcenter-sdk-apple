@@ -8,7 +8,7 @@
 /**
  * UUID parsed out of the current file.
  */
-@property (nonatomic, strong) NSUUID *uuid;
+@property(nonatomic, strong) NSUUID *uuid;
 
 /**
  * Initialize a Mach-O parser for the given bundle
@@ -17,13 +17,13 @@
  *
  * @return An instance of `MSBasicMachOParser`.
  */
--(instancetype)initWithBundle:(NSBundle*) bundle;
+- (instancetype)initWithBundle:(NSBundle *)bundle;
 
 /**
  * Get a Mach-O parser for the main bundle.
  *
  * @return An instance of `MSBasicMachOParser`.
  */
-+(instancetype)machOParserForMainBundle;
++ (instancetype)machOParserForMainBundle;
 
 @end

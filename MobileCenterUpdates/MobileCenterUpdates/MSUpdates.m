@@ -2,17 +2,16 @@
 #import <SafariServices/SafariServices.h>
 
 #import "MSAlertController.h"
+#import "MSBasicMachOParser.h"
 #import "MSDistributionSender.h"
 #import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
 #import "MSReleaseDetails.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSUpdates.h"
-#import "MSUpdatesErrors.h"
 #import "MSUpdatesInternal.h"
 #import "MSUpdatesPrivate.h"
 #import "MSUtil.h"
-#import "MSBasicMachOParser.h"
 
 /**
  * Service storage key name.
@@ -56,7 +55,9 @@ static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setu
  */
 static NSString *const kMSIgnoredReleaseIdKey = @"MSIgnoredReleaseId";
 
-#pragma mark - Exception constants
+#pragma mark - Error constants
+
+static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid update API token URL:%@";
 
 @implementation MSUpdates
 
@@ -111,12 +112,11 @@ static NSString *const kMSIgnoredReleaseIdKey = @"MSIgnoredReleaseId";
 
   // TODO: Hook up with pipeline.
   NSURL *url;
-  NSError *error = nil;
   MSLogInfo([MSUpdates logTag], @"Request updates API token.");
 
   // Most failures here require an app update. Thus, it will be retried only on next App instance.
-  url = [self buildTokenRequestURLWithAppSecret:appSecret error:&error];
-  if (!error) {
+  url = [self buildTokenRequestURLWithAppSecret:appSecret];
+  if (url) {
 
 /*
  * iOS 9+ only, check for `SFSafariViewController` availability. `SafariServices` framework MUST be weakly linked.
@@ -138,8 +138,6 @@ static NSString *const kMSIgnoredReleaseIdKey = @"MSIgnoredReleaseId";
       // iOS 8.x.
       [self openURLInSafariApp:url];
     }
-  } else {
-    MSLogError([MSUpdates logTag], @"%@", error.localizedDescription);
   }
 
   // TODO: Hook up with update token getter later.
@@ -225,7 +223,7 @@ static NSString *const kMSIgnoredReleaseIdKey = @"MSIgnoredReleaseId";
   return NO;
 }
 
-- (NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret error:(NSError *__autoreleasing *)error {
+- (NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret {
 
   // Create the request ID string.
   NSString *requestId = MS_UUID_STRING;
@@ -239,12 +237,7 @@ static NSString *const kMSIgnoredReleaseIdKey = @"MSIgnoredReleaseId";
 
   // Check URL validity so far.
   if (!components) {
-    if (error) {
-      NSString *desc = [NSString stringWithFormat:@"%@\n%@", kMSUDUpdateTokenURLInvalidErrorDesc, components];
-      *error = [NSError errorWithDomain:kMSUDErrorDomain
-                                   code:kMSUDUpdateTokenURLInvalidErrorCode
-                               userInfo:@{NSLocalizedDescriptionKey : desc}];
-    }
+    MSLogError([MSUpdates logTag], kMSUpdateTokenURLInvalidErrorDescFormat, urlString);
     return nil;
   }
 
@@ -256,17 +249,13 @@ static NSString *const kMSIgnoredReleaseIdKey = @"MSIgnoredReleaseId";
    */
   NSString *buildUUID = [[[MSBasicMachOParser machOParserForMainBundle].uuid UUIDString] lowercaseString];
   if (!buildUUID) {
-    // TODO print error.
+    MSLogError([MSUpdates logTag], @"Cannot retrieve build UUID.");
     return nil;
   }
 
   // Check custom sheme is registered.
   if (![self checkURLSchemeRegistered:kMSUpdtsDefaultCustomScheme]) {
-    if (error) {
-      *error = [NSError errorWithDomain:kMSUDErrorDomain
-                                   code:kMSUDUpdateTokenSchemeNotFoundErrorCode
-                               userInfo:@{NSLocalizedDescriptionKey : kMSUDUpdateTokenSchemeNotFoundErrorDesc}];
-    }
+    MSLogError([MSUpdates logTag], @"Custom URL scheme for updates not found.");
     return nil;
   }
 
@@ -284,19 +273,14 @@ static NSString *const kMSIgnoredReleaseIdKey = @"MSIgnoredReleaseId";
     // Persist the request ID.
     [MS_USER_DEFAULTS setObject:requestId forKey:kMSUpdateTokenRequestIdKey];
   } else {
-    if (error) {
-      NSString *desc = [NSString stringWithFormat:@"%@\n%@", kMSUDUpdateTokenURLInvalidErrorDesc, components];
-      *error = [NSError errorWithDomain:kMSUDErrorDomain
-                                   code:kMSUDUpdateTokenURLInvalidErrorCode
-                               userInfo:@{NSLocalizedDescriptionKey : desc}];
-    }
+    MSLogError([MSUpdates logTag], kMSUpdateTokenURLInvalidErrorDescFormat, components);
     return nil;
   }
   return components.URL;
 }
 
 - (void)openURLInEmbeddedSafari:(NSURL *)url fromClass:(Class)clazz {
-  MSLogVerbose([MSUpdates logTag], @"Using SFSafariViewController to open URL: %@", url);
+  MSLogDebug([MSUpdates logTag], @"Using SFSafariViewController to open URL: %@", url);
 
   // Init safari controller with the update URL.
   id safari = [[clazz alloc] initWithURL:url];
@@ -315,7 +299,7 @@ static NSString *const kMSIgnoredReleaseIdKey = @"MSIgnoredReleaseId";
 }
 
 - (void)openURLInSafariApp:(NSURL *)url {
-  MSLogVerbose([MSUpdates logTag], @"Using Safari browser to open URL: %@", url);
+  MSLogDebug([MSUpdates logTag], @"Using Safari browser to open URL: %@", url);
   if ([MSUtil sharedAppCanOpenURL:url]) {
     [MSUtil sharedAppOpenURL:url];
   }
