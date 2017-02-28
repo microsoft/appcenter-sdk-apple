@@ -150,9 +150,6 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
   } else {
     self.appSecret = appSecret;
 
-    // Set backend API version.
-    self.apiVersion = kMSAPIVersion;
-
     // Init the main pipeline.
     [self initializeLogManager];
 
@@ -290,10 +287,6 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 
 - (NSString *)appSecret {
   return _appSecret;
-}
-
-- (NSString *)apiVersion {
-  return _apiVersion;
 }
 
 - (NSUUID *)installId {
