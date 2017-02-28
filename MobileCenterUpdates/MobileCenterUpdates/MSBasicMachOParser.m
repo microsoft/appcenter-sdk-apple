@@ -57,9 +57,7 @@ static NSString *const kMSCantReadErrorDescFormat = @"Cannot read data from file
   [fh seekToFileOffset:0];
   switch (magic) {
   case (UInt32)FAT_MAGIC:
-  case (UInt32)FAT_MAGIC_64:
   case (UInt32)FAT_CIGAM:
-  case (UInt32)FAT_CIGAM_64:
 
     /*
      * It's not really the cleanest design, but for simplicity we
@@ -143,15 +141,14 @@ static NSString *const kMSCantReadErrorDescFormat = @"Cannot read data from file
 
   // Could just reverse the validations below, but this is more correct
   UInt32 magic = CFSwapInt32BigToHost(header.magic);
-  if (magic == FAT_CIGAM || magic == FAT_CIGAM_64) {
+  if (magic == FAT_CIGAM) {
     MSLogError([MSUpdates logTag], kMSBigEndianErrorDesc);
     return;
   }
-  if (magic != FAT_MAGIC && magic != FAT_MAGIC_64) {
+  if (magic != FAT_MAGIC) {
     MSLogError([MSUpdates logTag], kMSNotMachOErrorDesc);
     return;
   }
-  const BOOL is64 = (magic == FAT_MAGIC_64);
   const UInt32 nArch = CFSwapInt32BigToHost(header.nfat_arch);
   const NXArchInfo *myArch = NULL;
   const NXArchInfo *thisArch = NXGetLocalArchInfo();
@@ -162,7 +159,7 @@ static NSString *const kMSCantReadErrorDescFormat = @"Cannot read data from file
 
   /*
    * HACK: x86_64h (64-bit Simulator on modern Mac hardware)
-   * causes NXFindBestFatArch_64() to incorrectly select i386 instead of
+   * causes NXFindBestFatArch() to incorrectly select i386 instead of
    * the desired x86_64. This is an Apple bug.
    */
   if (strcmp(thisArch->name, "x86_64h") == 0) {
@@ -172,39 +169,22 @@ static NSString *const kMSCantReadErrorDescFormat = @"Cannot read data from file
   }
 
   // These loops might be inefficient that way but it's easier than dealing with pointers.
-  struct fat_arch_64 *archs = (struct fat_arch_64 *)malloc(sizeof(struct fat_arch_64) * nArch);
-  if (is64) {
-    for (UInt32 i = 0; i < nArch; i++) {
-      struct fat_arch_64 arch;
-      if (![self readDataFromFile:fh toBuffer:&arch ofLength:sizeof(arch)]) {
-        free(archs);
-        return;
-      }
-      arch.cputype = (cpu_type_t)CFSwapInt32BigToHost(arch.cputype);
-      arch.cpusubtype = (cpu_subtype_t)CFSwapInt32BigToHost(arch.cpusubtype);
-      arch.offset = CFSwapInt64BigToHost(arch.offset);
-      arch.size = CFSwapInt64BigToHost(arch.size);
-      arch.align = CFSwapInt32BigToHost(arch.align);
-      *(archs + i) = arch;
+  struct fat_arch *archs = (struct fat_arch *)malloc(sizeof(struct fat_arch) * nArch);
+  for (UInt32 i = 0; i < nArch; i++) {
+    struct fat_arch arch;
+    if (![self readDataFromFile:fh toBuffer:&arch ofLength:sizeof(arch)]) {
+      free(archs);
+      return;
     }
-  } else {
-    for (UInt32 i = 0; i < nArch; i++) {
-      struct fat_arch arch;
-      if (![self readDataFromFile:fh toBuffer:&arch ofLength:sizeof(arch)]) {
-        free(archs);
-        return;
-      }
-      struct fat_arch_64 arch64;
-      arch64.cputype = (cpu_type_t)CFSwapInt32BigToHost(arch.cputype);
-      arch64.cpusubtype = (cpu_subtype_t)CFSwapInt32BigToHost(arch.cpusubtype);
-      arch64.offset = CFSwapInt64BigToHost(CFSwapInt32BigToHost(arch.offset));
-      arch64.size = CFSwapInt64BigToHost(CFSwapInt32BigToHost(arch.size));
-      arch64.align = CFSwapInt32BigToHost(arch.align);
-      *(archs + i) = arch64;
-    }
+    arch.cputype = (cpu_type_t)CFSwapInt32BigToHost(arch.cputype);
+    arch.cpusubtype = (cpu_subtype_t)CFSwapInt32BigToHost(arch.cpusubtype);
+    arch.offset = CFSwapInt32BigToHost(arch.offset);
+    arch.size = CFSwapInt32BigToHost(arch.size);
+    arch.align = CFSwapInt32BigToHost(arch.align);
+    *(archs + i) = arch;
   }
-  const struct fat_arch_64 *p =
-      NXFindBestFatArch_64(myArch->cputype, myArch->cpusubtype, archs, nArch);
+  const struct fat_arch *p =
+      NXFindBestFatArch(myArch->cputype, myArch->cpusubtype, archs, nArch);
   if (!p) {
     MSLogError([MSUpdates logTag], @"Cannot find the best match fat architecture.");
   } else {
