@@ -57,8 +57,8 @@
 		048BB3081E60A40D009D92C2 /* MSDistributionSender.m in Sources */ = {isa = PBXBuildFile; fileRef = 048BB3021E60A40D009D92C2 /* MSDistributionSender.m */; };
 		04FD4A341E453531009B4468 /* MSUpdatesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FD4A331E453531009B4468 /* MSUpdatesTests.m */; };
 		04FD4A4B1E453930009B4468 /* libMobileCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04FD4A4A1E453930009B4468 /* libMobileCenter.a */; };
-		381D5A9C1E57580500F093A2 /* MSUpdatesErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 381D5A9B1E57580500F093A2 /* MSUpdatesErrors.h */; };
-		381D5A9E1E57588C00F093A2 /* MSUpdatesErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 381D5A9D1E57588C00F093A2 /* MSUpdatesErrors.m */; };
+		388B559B1E64B3FD00E4F1D7 /* MSBasicMachOParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 388B55991E64B3FD00E4F1D7 /* MSBasicMachOParser.m */; };
+		388B559C1E64B3FD00E4F1D7 /* MSBasicMachOParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 388B559A1E64B3FD00E4F1D7 /* MSBasicMachOParser.h */; };
 		38C9C56C1E565BF600B0FA0D /* MSUpdatesPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C9C56B1E565BF600B0FA0D /* MSUpdatesPrivate.h */; };
 		B20DE7B71E5F97330023075C /* MSUpdatesUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B20DE7B61E5F97330023075C /* MSUpdatesUtilTests.m */; };
 		B25895AA1E4E9FD400123632 /* MSUpdatesInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = B25895A91E4E9BA100123632 /* MSUpdatesInternal.h */; };
@@ -152,8 +152,8 @@
 		04FD4A331E453531009B4468 /* MSUpdatesTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSUpdatesTests.m; sourceTree = "<group>"; };
 		04FD4A351E453531009B4468 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		04FD4A4A1E453930009B4468 /* libMobileCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobileCenter.a; path = "../../../../Library/Developer/Xcode/DerivedData/MobileCenter-cxbmzrupyysdsehdxmozcvjphajr/Build/Products/Debug-iphonesimulator/libMobileCenter.a"; sourceTree = "<group>"; };
-		381D5A9B1E57580500F093A2 /* MSUpdatesErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSUpdatesErrors.h; sourceTree = "<group>"; };
-		381D5A9D1E57588C00F093A2 /* MSUpdatesErrors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSUpdatesErrors.m; sourceTree = "<group>"; };
+		388B55991E64B3FD00E4F1D7 /* MSBasicMachOParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSBasicMachOParser.m; path = MobileCenterUpdates/MSBasicMachOParser.m; sourceTree = "<group>"; };
+		388B559A1E64B3FD00E4F1D7 /* MSBasicMachOParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSBasicMachOParser.h; path = MobileCenterUpdates/MSBasicMachOParser.h; sourceTree = "<group>"; };
 		38C9C56B1E565BF600B0FA0D /* MSUpdatesPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSUpdatesPrivate.h; sourceTree = "<group>"; };
 		B20DE7B61E5F97330023075C /* MSUpdatesUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSUpdatesUtilTests.m; sourceTree = "<group>"; };
 		B25895A91E4E9BA100123632 /* MSUpdatesInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MSUpdatesInternal.h; path = Internals/MSUpdatesInternal.h; sourceTree = "<group>"; };
@@ -320,8 +320,6 @@
 				04FD4A1F1E451E12009B4468 /* MobileCenterUpdates.h */,
 				0471B89A1E4547750022F951 /* MSUpdates.h */,
 				0471B8981E4547480022F951 /* MSUpdates.m */,
-				381D5A9B1E57580500F093A2 /* MSUpdatesErrors.h */,
-				381D5A9D1E57588C00F093A2 /* MSUpdatesErrors.m */,
 				04690E841E4E39850056B916 /* Internals */,
 				0471B5F31E45466F0022F951 /* Support */,
 				046FDBD51E56830400AF9DD1 /* Vendor */,
@@ -356,6 +354,8 @@
 		B2C070A71E5E62440076D6A9 /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				388B559A1E64B3FD00E4F1D7 /* MSBasicMachOParser.h */,
+				388B55991E64B3FD00E4F1D7 /* MSBasicMachOParser.m */,
 				B2C070A31E5E62330076D6A9 /* MSUpdatesUtil.h */,
 				B2C070A41E5E62330076D6A9 /* MSUpdatesUtil.m */,
 			);
@@ -392,8 +392,8 @@
 				046FDBD31E5682FA00AF9DD1 /* MSAlertController.h in Headers */,
 				0471B9341E45560C0022F951 /* MSUpdates.h in Headers */,
 				040AF0331E52859F005C1174 /* MSSender.h in Headers */,
-				381D5A9C1E57580500F093A2 /* MSUpdatesErrors.h in Headers */,
 				048BB3031E60A40D009D92C2 /* MSReleaseDetails.h in Headers */,
+				388B559C1E64B3FD00E4F1D7 /* MSBasicMachOParser.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -573,10 +573,10 @@
 				B2C070A61E5E62330076D6A9 /* MSUpdatesUtil.m in Sources */,
 				048BB3041E60A40D009D92C2 /* MSReleaseDetails.m in Sources */,
 				048BB3061E60A40D009D92C2 /* MSDistributionGroup.m in Sources */,
+				388B559B1E64B3FD00E4F1D7 /* MSBasicMachOParser.m in Sources */,
 				0471B8991E4547480022F951 /* MSUpdates.m in Sources */,
 				046FDBD41E5682FA00AF9DD1 /* MSAlertController.m in Sources */,
 				048BB3081E60A40D009D92C2 /* MSDistributionSender.m in Sources */,
-				381D5A9E1E57588C00F093A2 /* MSUpdatesErrors.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

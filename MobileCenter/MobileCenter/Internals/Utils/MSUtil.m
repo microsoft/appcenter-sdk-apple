@@ -1,8 +1,10 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
+#import <Foundation/Foundation.h>
 
 #import "MSUtilPrivate.h"
+
+static short const kMSUUIDDashIndexes[] = {8, 13, 18, 23};
+static short const kMSUUIDLength = 36;
+static NSString *const kMSUUIDSeparator = @"-";
 
 @implementation MSUtil
 
