@@ -1,5 +1,5 @@
-#import "MSServiceAbstract.h"
 #import <UIKit/UIKit.h>
+#import "MSServiceAbstract.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -9,23 +9,18 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MSPush : MSServiceAbstract
 
 /**
- * Register for remote notifications
- */
-+ (void)registerForRemoteNotifications;
-
-/**
- * Callback for succesfull registration with device token
+ * Callback for successfull registration with device token
  *
  * @param deviceToken The device token for remote notifications
  */
-+ (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken;
++ (void)didRegisterForRemoteNotificationsWith:(NSData *)deviceToken;
 
 /**
- * Callback for unsuccesfull registration with error
+ * Callback for unsuccessful registration with error
  *
- * @param error Error of unsuccesfull registration
+ * @param error Error of unsuccessfull registration
  */
-+ (void)didFailToRegisterForRemoteNotificationsWithError:(NSError *)error;
++ (void)didFailToRegisterForRemoteNotificationsWith:(NSError *)error;
 
 @end
 

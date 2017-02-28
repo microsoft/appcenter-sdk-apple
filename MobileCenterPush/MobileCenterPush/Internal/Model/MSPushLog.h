@@ -1,18 +1,11 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
-#import "MobileCenter+Internal.h"
 #import <Foundation/Foundation.h>
+#import "MobileCenter+Internal.h"
 
 @interface MSPushLog : MSAbstractLog
 
-@property(nonatomic) NSString *installationId;
-
-@property(nonatomic) NSString *pushChannel;
-
-@property(nonatomic) NSString *platform;
-
-@property(nonatomic) NSArray<NSString *> *tags;
+/**
+ * Device token for push service
+ */
+@property(nonatomic) NSString *deviceToken;
 
 @end
