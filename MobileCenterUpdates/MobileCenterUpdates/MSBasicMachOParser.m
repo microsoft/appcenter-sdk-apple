@@ -117,6 +117,7 @@ static NSString *const kMSCantReadErrorDescFormat = @"Cannot read data from file
         return;
       }
       self.uuid = [[NSUUID alloc] initWithUUIDBytes:uuidcmd.uuid];
+      return;
     } else {
       [fh seekToFileOffset:(fh.offsetInFile + lcmd.cmdsize)];
     }
@@ -150,9 +151,8 @@ static NSString *const kMSCantReadErrorDescFormat = @"Cannot read data from file
     return;
   }
   const UInt32 nArch = CFSwapInt32BigToHost(header.nfat_arch);
-  const NXArchInfo *myArch = NULL;
-  const NXArchInfo *thisArch = NXGetLocalArchInfo();
-  if (!thisArch) {
+  const NXArchInfo *myArch = NXGetLocalArchInfo();
+  if (!myArch) {
     MSLogError([MSUpdates logTag], @"Cannot get local architecture info.");
     return;
   }
@@ -162,10 +162,8 @@ static NSString *const kMSCantReadErrorDescFormat = @"Cannot read data from file
    * causes NXFindBestFatArch() to incorrectly select i386 instead of
    * the desired x86_64. This is an Apple bug.
    */
-  if (strcmp(thisArch->name, "x86_64h") == 0) {
+  if (strcmp(myArch->name, "x86_64h") == 0) {
     myArch = NXGetArchInfoFromName("x86_64");
-  } else {
-    myArch = thisArch;
   }
 
   // These loops might be inefficient that way but it's easier than dealing with pointers.
