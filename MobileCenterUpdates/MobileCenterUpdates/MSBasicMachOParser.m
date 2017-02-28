@@ -80,7 +80,6 @@ static NSString *const kMSCantReadErrorDescFormat = @"Cannot read data from file
     return;
   }
 
-  const UInt64 base = fh.offsetInFile;
   struct mach_header header;
   if (![self readDataFromFile:fh toBuffer:&header ofLength:sizeof(struct mach_header)]) {
     return;
@@ -121,7 +120,7 @@ static NSString *const kMSCantReadErrorDescFormat = @"Cannot read data from file
       }
       self.uuid = [[NSUUID alloc] initWithUUIDBytes:uuidcmd.uuid];
     } else {
-      [fh seekToFileOffset:(fh.offsetInFile + (UInt16)lcmd.cmdsize)];
+      [fh seekToFileOffset:(fh.offsetInFile + lcmd.cmdsize)];
     }
   }
 }
@@ -143,7 +142,7 @@ static NSString *const kMSCantReadErrorDescFormat = @"Cannot read data from file
   }
 
   // Could just reverse the validations below, but this is more correct
-  UInt32 magic = CFSwapInt32HostToBig(header.magic);
+  UInt32 magic = CFSwapInt32BigToHost(header.magic);
   if (magic == FAT_CIGAM || magic == FAT_CIGAM_64) {
     MSLogError([MSUpdates logTag], kMSBigEndianErrorDesc);
     return;
@@ -153,8 +152,8 @@ static NSString *const kMSCantReadErrorDescFormat = @"Cannot read data from file
     return;
   }
   const BOOL is64 = (magic == FAT_MAGIC_64);
-  const UInt32 nArch = CFSwapInt32HostToBig(header.nfat_arch);
-  const NXArchInfo *myArch;
+  const UInt32 nArch = CFSwapInt32BigToHost(header.nfat_arch);
+  const NXArchInfo *myArch = NULL;
   const NXArchInfo *thisArch = NXGetLocalArchInfo();
   if (!thisArch) {
     MSLogError([MSUpdates logTag], @"Cannot get local architecture info.");
@@ -181,11 +180,11 @@ static NSString *const kMSCantReadErrorDescFormat = @"Cannot read data from file
         free(archs);
         return;
       }
-      arch.cputype = (cpu_type_t)CFSwapInt32HostToBig(arch.cputype);
-      arch.cpusubtype = (cpu_subtype_t)CFSwapInt32HostToBig(arch.cpusubtype);
-      arch.offset = CFSwapInt64HostToBig(arch.offset);
-      arch.size = CFSwapInt64HostToBig(arch.size);
-      arch.align = CFSwapInt32HostToBig(arch.align);
+      arch.cputype = (cpu_type_t)CFSwapInt32BigToHost(arch.cputype);
+      arch.cpusubtype = (cpu_subtype_t)CFSwapInt32BigToHost(arch.cpusubtype);
+      arch.offset = CFSwapInt64BigToHost(arch.offset);
+      arch.size = CFSwapInt64BigToHost(arch.size);
+      arch.align = CFSwapInt32BigToHost(arch.align);
       *(archs + i) = arch;
     }
   } else {
@@ -196,16 +195,16 @@ static NSString *const kMSCantReadErrorDescFormat = @"Cannot read data from file
         return;
       }
       struct fat_arch_64 arch64;
-      arch64.cputype = (cpu_type_t)CFSwapInt32HostToBig(arch.cputype);
-      arch64.cpusubtype = (cpu_subtype_t)CFSwapInt32HostToBig(arch.cpusubtype);
-      arch64.offset = CFSwapInt64HostToBig(CFSwapInt32HostToBig(arch.offset));
-      arch64.size = CFSwapInt64HostToBig(CFSwapInt32HostToBig(arch.size));
-      arch64.align = CFSwapInt32HostToBig(arch.align);
+      arch64.cputype = (cpu_type_t)CFSwapInt32BigToHost(arch.cputype);
+      arch64.cpusubtype = (cpu_subtype_t)CFSwapInt32BigToHost(arch.cpusubtype);
+      arch64.offset = CFSwapInt64BigToHost(CFSwapInt32BigToHost(arch.offset));
+      arch64.size = CFSwapInt64BigToHost(CFSwapInt32BigToHost(arch.size));
+      arch64.align = CFSwapInt32BigToHost(arch.align);
       *(archs + i) = arch64;
     }
   }
   const struct fat_arch_64 *p =
-      NXFindBestFatArch_64(myArch->cputype, myArch->cpusubtype, &archs[0], (UInt32)sizeof(archs));
+      NXFindBestFatArch_64(myArch->cputype, myArch->cpusubtype, archs, nArch);
   if (!p) {
     MSLogError([MSUpdates logTag], @"Cannot find the best match fat architecture.");
   } else {
