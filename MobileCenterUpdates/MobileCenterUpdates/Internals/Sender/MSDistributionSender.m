@@ -12,22 +12,18 @@
  */
 static NSString *const kMSUpdtsLatestReleaseApiPathFormat = @"/sdk/apps/%@/releases/latest";
 
-- (id)initWithBaseUrl:(NSString *)baseUrl
-              headers:(NSDictionary *)headers
-         queryStrings:(NSDictionary *)queryStrings
-         reachability:(MS_Reachability *)reachability
-       retryIntervals:(NSArray *)retryIntervals {
-  self = [super initWithBaseUrl:baseUrl
-                        // FIXME: Temporary fix to avoid merge conflict.
-                        apiPath:[NSString stringWithFormat:kMSUpdtsLatestReleaseApiPathFormat,
-                                                           [[MSUpdates sharedInstance] appSecret]]
-                        headers:headers
-                   queryStrings:queryStrings
-                   reachability:reachability
-                 retryIntervals:retryIntervals];
-  if (self) {
+- (id)initWithBaseUrl:(NSString *)baseUrl appSecret:(NSString *)appSecret updateToken:(NSString *)updateToken {
+  if (self = [super initWithBaseUrl:baseUrl
+                            apiPath:[NSString stringWithFormat:kMSUpdtsLatestReleaseApiPathFormat, appSecret]
+                            headers:@{
+                              kMSHeaderUpdateApiToken : updateToken
+                            }
+                       queryStrings:nil
+                       reachability:[MS_Reachability reachabilityForInternetConnection]
+                     retryIntervals:@[ @(10) ]]) {
     self.appSecret = [[MSUpdates sharedInstance] appSecret];
   }
+
   return self;
 }
 

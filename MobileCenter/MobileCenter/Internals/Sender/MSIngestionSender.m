@@ -6,19 +6,25 @@
 
 @implementation MSIngestionSender
 
+static NSString *const kMSAPIVersion = @"1.0.0-preview20160914";
+static NSString *const kMSAPIVersionKey = @"api_version";
 static NSString *const kMSApiPath = @"/logs";
 
 - (id)initWithBaseUrl:(NSString *)baseUrl
-              headers:(NSDictionary *)headers
-         queryStrings:(NSDictionary *)queryStrings
-         reachability:(MS_Reachability *)reachability
-       retryIntervals:(NSArray *)retryIntervals {
+              appSecret:(NSString *)appSecret
+              installId:(NSString *)installId {
   self = [super initWithBaseUrl:baseUrl
                         apiPath:kMSApiPath
-                        headers:headers
-                   queryStrings:queryStrings
-                   reachability:reachability
-                 retryIntervals:retryIntervals];
+                        headers:@{
+                                  kMSHeaderContentTypeKey : kMSContentType,
+                                  kMSHeaderAppSecretKey : appSecret,
+                                  kMSHeaderInstallIDKey : installId
+                                  }
+                   queryStrings:@{
+                                  kMSAPIVersionKey : kMSAPIVersion
+                                  }
+                   reachability:[MS_Reachability reachabilityForInternetConnection]
+                 retryIntervals:@[ @(10), @(5 * 60), @(20 * 60) ]];
   return self;
 }
 
