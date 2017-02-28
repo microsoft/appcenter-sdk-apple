@@ -10,6 +10,9 @@ static NSString *const kMSHeaderUpdateApiToken = @"x-api-token";
 
 @interface MSDistributionSender : MSHttpSender
 
+/**
+ * AppSecret for the application.
+ */
 @property(nonatomic) NSString *appSecret;
 
 /**
