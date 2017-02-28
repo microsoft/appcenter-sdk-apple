@@ -21,7 +21,6 @@ ms_info_t mobilecenter_library_info
                                                                          .ms_version = MOBILE_CENTER_C_VERSION,
                                                                          .ms_build = MOBILE_CENTER_C_BUILD};
 
-static NSString *const kMSPastDevicesKey = @"pastDevicesKey";
 static NSUInteger const kMSMaxDevicesHistoryCount = 5;
 
 @interface MSDeviceTracker ()

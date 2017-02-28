@@ -12,6 +12,7 @@
 #import "MSUserDefaults.h"
 #import "MSUtil.h"
 #import "MSKeychainUtil.h"
+#import "MSBasicMachOParser.h"
 
 static NSString *const kMSTestAppSecret = @"IAMSECRET";
 
@@ -48,6 +49,7 @@ static NSURL *sfURL;
 @interface MSUpdatesTests : XCTestCase
 
 @property(nonatomic, strong) MSUpdates *sut;
+@property(nonatomic, strong) id parserMock;
 
 @end
 
@@ -56,9 +58,17 @@ static NSURL *sfURL;
 - (void)setUp {
   [super setUp];
   self.sut = [MSUpdates new];
+
   [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
   [MS_USER_DEFAULTS removeObjectForKey:kMSIgnoredReleaseIdKey];
   [MSKeychainUtil clear];
+  
+  // TODO: Add unit tests for MSBasicMachOParser.
+  // FIXME: MSBasicMachOParser don't work on test projects. It's mocked for now to not fail other tests.
+  id parserMock = OCMClassMock([MSBasicMachOParser class]);
+  self.parserMock = parserMock;
+  OCMStub([parserMock machOParserForMainBundle]).andReturn(self.parserMock);
+  OCMStub([self.parserMock uuid]).andReturn([[NSUUID alloc] initWithUUIDString:@"CD55E7A9-7AD1-4CA6-B722-3D133F487DA9"]);
 }
 
 - (void)tearDown {
@@ -66,6 +76,7 @@ static NSURL *sfURL;
   [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
   [MS_USER_DEFAULTS removeObjectForKey:kMSIgnoredReleaseIdKey];
   [MSKeychainUtil clear];
+  [self.parserMock stopMocking];
 }
 
 - (void)testUpdateURL {
@@ -74,7 +85,6 @@ static NSURL *sfURL;
   NSArray *bundleArray = @[
     @{ @"CFBundleURLSchemes" : @[ [NSString stringWithFormat:@"mobilecenter-%@", kMSTestAppSecret] ] }
   ];
-  NSError *error = nil;
   id bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
   OCMStub([bundleMock objectForInfoDictionaryKey:@"CFBundleURLTypes"]).andReturn(bundleArray);
@@ -89,7 +99,7 @@ static NSURL *sfURL;
   [updateMock setEnabled:YES];
 
   // When
-  NSURL *url = [updateMock buildTokenRequestURLWithAppSecret:kMSTestAppSecret error:&error];
+  NSURL *url = [updateMock buildTokenRequestURLWithAppSecret:kMSTestAppSecret];
   NSURLComponents *components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:NO];
   NSMutableDictionary<NSString *, NSString *> *queryStrings = [NSMutableDictionary<NSString *, NSString *> new];
   [components.queryItems
@@ -100,7 +110,7 @@ static NSURL *sfURL;
       }];
 
   // Then
-  assertThat(error, nilValue());
+  assertThat(url, notNilValue());
   assertThatLong(queryStrings.count, equalToLong(4));
   assertThatBool([components.path containsString:kMSTestAppSecret], isTrue());
   assertThat(queryStrings[kMSUpdtsURLQueryPlatformKey], is(kMSUpdtsURLQueryPlatformValue));
@@ -113,16 +123,14 @@ static NSURL *sfURL;
 - (void)testMalformedUpdateURL {
 
   // If
-  NSError *error = nil;
   NSString *badAppSecret = @"weird\\app\\secret";
   id bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([bundleMock mainBundle]).andReturn([NSBundle bundleForClass:[self class]]);
 
   // When
-  NSURL *url = [self.sut buildTokenRequestURLWithAppSecret:badAppSecret error:&error];
+  NSURL *url = [self.sut buildTokenRequestURLWithAppSecret:badAppSecret];
 
   assertThat(url, nilValue());
-  assertThat(error, notNilValue());
 }
 
 - (void)testOpenURLInSafariApp {

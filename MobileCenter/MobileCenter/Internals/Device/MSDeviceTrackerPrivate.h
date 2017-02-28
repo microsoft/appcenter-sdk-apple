@@ -6,6 +6,9 @@
 #import <UIKit/UIKit.h>
 #import <sys/sysctl.h>
 
+// Key to device history.
+static NSString *const kMSPastDevicesKey = @"pastDevicesKey";
+
 @class MSDeviceHistoryInfo;
 
 @interface MSDeviceTracker ()

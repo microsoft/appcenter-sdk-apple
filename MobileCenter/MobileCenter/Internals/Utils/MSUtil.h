@@ -110,4 +110,13 @@ typedef NS_ENUM(NSInteger, MSApplicationState) {
  */
 + (NSTimeInterval)nowInMilliseconds;
 
+/**
+ * Add dashes to the given string to format it as a UUID string.
+ *
+ * @param aString String to format as a UUID string.
+ *
+ * @return a UUID string or `nil` if formatting failed.
+ */
++ (NSString *)formatToUUIDString:(NSString *)aString;
+
 @end
