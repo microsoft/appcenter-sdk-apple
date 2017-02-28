@@ -1,16 +1,7 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
-
 #import "MSPushLog.h"
 
-static NSString *const kMSTypePushInstallationType = @"push_installation";
-
-static NSString *const kMSPushInstallationId = @"installation_id";
-static NSString *const kMSPushChannel = @"push_channel";
-static NSString *const kMSPushPlatform = @"platform";
-static NSString *const kMSPushTags = @"tags";
+static NSString *const kMSPushType = @"push_type";
+static NSString *const kMSDeviceToken = @"device_token";
 
 @implementation MSPushLog
 
@@ -18,33 +9,22 @@ static NSString *const kMSPushTags = @"tags";
 
 - (instancetype)init {
   self = [super init];
-
   if (self) {
-    _type = kMSTypePushInstallationType;
-    _platform = @"apns";
+    _type = kMSPushType;
   }
   return self;
 }
 
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [super serializeToDictionary];
-
-  if (self.installationId) {
-    dict[kMSPushInstallationId] = self.installationId;
+  if (self.deviceToken) {
+    dict[kMSDeviceToken] = self.deviceToken;
   }
-  if (self.pushChannel) {
-    dict[kMSPushChannel] = self.pushChannel;
-  }
-
-  if (self.platform) {
-    dict[kMSPushPlatform] = self.platform;
-  }
-
-  if (self.tags) {
-    dict[kMSPushTags] = self.tags;
-  }
-
   return dict;
+}
+
+- (BOOL)isValid {
+  return [super isValid] && self.deviceToken;
 }
 
 #pragma mark - NSCoding
@@ -52,22 +32,16 @@ static NSString *const kMSPushTags = @"tags";
 - (instancetype)initWithCoder:(NSCoder *)coder {
   self = [super initWithCoder:coder];
   if (self) {
-    _type = [coder decodeObjectForKey:kMSTypePushInstallationType];
-    _installationId = [coder decodeObjectForKey:kMSPushInstallationId];
-    _pushChannel = [coder decodeObjectForKey:kMSPushChannel];
-    _platform = [coder decodeObjectForKey:kMSPushPlatform];
-    _tags = [coder decodeObjectForKey:kMSPushTags];
+    _type = [coder decodeObjectForKey:kMSPushType];
+    _deviceToken = [coder decodeObjectForKey:kMSDeviceToken];
   }
   return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
-  [coder encodeObject:self.type forKey:kMSTypePushInstallationType];
-  [coder encodeObject:self.installationId forKey:kMSPushInstallationId];
-  [coder encodeObject:self.pushChannel forKey:kMSPushChannel];
-  [coder encodeObject:self.platform forKey:kMSPushPlatform];
-  [coder encodeObject:self.tags forKey:kMSPushTags];
+  [coder encodeObject:self.type forKey:kMSPushType];
+  [coder encodeObject:self.deviceToken forKey:kMSDeviceToken];
 }
 
 @end
