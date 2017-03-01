@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSAnalyticsInternal.h"
 #import "MSUtil.h"
 #import "MSSessionTracker.h"
@@ -16,7 +12,7 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
 /**
  * Current session id.
  */
-@property(nonatomic, readwrite) NSString *sessionId;
+@property(nonatomic, copy, readwrite) NSString *sessionId;
 
 /**
  * Flag to indicate if session tracking has started or not.
@@ -199,7 +195,7 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
   }
 
   // Update last created log time stamp.
-  _lastCreatedLogTime = [NSDate date];
+  self.lastCreatedLogTime = [NSDate date];
 }
 
 @end

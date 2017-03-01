@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSStartSessionLog.h"
 
 static NSString *const kMSTypeEndSession = @"start_session";

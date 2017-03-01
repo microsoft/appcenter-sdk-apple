@@ -6,10 +6,6 @@
 #import "MSLogManagerDefault.h"
 #import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
-#import "MSMobileCenterPrivate.h"
-#import "MSUtil.h"
-#import <UIKit/UIKit.h>
-#import <sys/sysctl.h>
 
 // Singleton
 static MSMobileCenter *sharedInstance = nil;
@@ -49,8 +45,8 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
   return [[self sharedInstance] sdkConfigured];
 }
 
-+ (void)setServerUrl:(NSString *)serverUrl {
-  [[self sharedInstance] setServerUrl:serverUrl];
++ (void)setLogUrl:(NSString *)logUrl {
+  [[self sharedInstance] setLogUrl:logUrl];
 }
 
 + (void)setEnabled:(BOOL)isEnabled {
@@ -87,7 +83,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 }
 
 + (void)setWrapperSdk:(MSWrapperSdk *)wrapperSdk {
-  [MSDeviceTracker setWrapperSdk:wrapperSdk];
+  [[MSDeviceTracker sharedInstance] setWrapperSdk:wrapperSdk];
 }
 
 /**
@@ -114,8 +110,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
     name[3] = getpid();
 
     if (sysctl(name, 4, &info, &info_size, NULL, 0) == -1) {
-      NSLog(@"[MSCrashes] ERROR: Checking for a running debugger via sysctl() "
-            @"failed.");
+      NSLog(@"[MSCrashes] ERROR: Checking for a running debugger via sysctl() failed.");
       debuggerIsAttached = false;
     }
 
@@ -135,7 +130,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 - (instancetype)init {
   if (self = [super init]) {
     _services = [NSMutableArray new];
-    _serverUrl = kMSDefaultBaseUrl;
+    _logUrl = kMSDefaultBaseUrl;
     _enabledStateUpdating = NO;
   }
   return self;
@@ -150,26 +145,26 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
   // Validate and set the app secret.
   else if ([appSecret length] == 0) {
     MSLogAssert([MSMobileCenter logTag], @"AppSecret is invalid.");
-  }
-
-  else {
+  } else {
     self.appSecret = appSecret;
 
     // Set backend API version.
     self.apiVersion = kMSAPIVersion;
 
     // Init the main pipeline.
-    [self initializePipeline];
+    [self initializeLogManager];
 
     // Enable pipeline as needed.
     if (self.isEnabled) {
       [self applyPipelineEnabledState:self.isEnabled];
     }
 
-    _sdkConfigured = YES;
+    self.sdkConfigured = YES;
 
-    // If the loglevel hasn't been customized before and we are not running in an app store environment, we set the
-    // default loglevel to MSLogLevelWarning.
+    /*
+     * If the loglevel hasn't been customized before and we are not running in an app store environment,
+     * we set the default loglevel to MSLogLevelWarning.
+     */
     if ((![MSLogger isUserDefinedLogLevel]) && ([MSUtil currentAppEnvironment] == MSEnvironmentOther)) {
       [MSMobileCenter setLogLevel:MSLogLevelWarning];
     }
@@ -183,9 +178,32 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 - (void)start:(NSString *)appSecret withServices:(NSArray<Class> *)services {
   BOOL configured = [self configure:appSecret];
   if (configured) {
-    for (Class service in services) {
+
+    NSArray *sortedServices = [self sortServices:services];
+
+    for (Class service in sortedServices) {
       [self startService:service];
     }
+  }
+}
+
+/**
+ * Sort services in descending order to make sure the service with the highest priority gets initialized first.
+ * This is intended to make sure Crashes gets initialized first.
+ */
+- (NSArray *)sortServices:(NSArray<Class> *)services {
+  if (services && services.count > 1) {
+    return [services sortedArrayUsingComparator:^NSComparisonResult(Class clazzA, Class clazzB) {
+      id<MSServiceInternal> serviceA = [clazzA sharedInstance];
+      id<MSServiceInternal> serviceB = [clazzB sharedInstance];
+      if (serviceA.initializationPriority < serviceB.initializationPriority) {
+        return NSOrderedDescending;
+      } else {
+        return NSOrderedAscending;
+      }
+    }];
+  } else {
+    return services;
   }
 }
 
@@ -196,12 +214,12 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
   [self.services addObject:service];
 
   // Start service with log manager.
-  [service startWithLogManager:self.logManager];
+  [service startWithLogManager:self.logManager appSecret:self.appSecret];
 }
 
-- (void)setServerUrl:(NSString *)serverUrl {
+- (void)setLogUrl:(NSString *)logUrl {
   @synchronized(self) {
-    _serverUrl = serverUrl;
+    _logUrl = logUrl;
   }
 }
 
@@ -226,7 +244,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 
 - (BOOL)isEnabled {
 
-  /**
+  /*
    * Get isEnabled value from persistence.
    * No need to cache the value in a property, user settings already have their cache mechanism.
    */
@@ -251,34 +269,21 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
                                selector:@selector(applicationWillEnterForeground)
                                    name:UIApplicationWillEnterForegroundNotification
                                  object:nil];
+  } else {
+
+    // Clean device history in case we are disabled.
+    [[MSDeviceTracker sharedInstance] clearDevices];
   }
 
   // Propagate to log manager.
   [self.logManager setEnabled:isEnabled andDeleteDataOnDisabled:YES];
 }
 
-- (void)initializePipeline {
-
-  // Construct http headers.
-  NSDictionary *headers = @{
-    kMSHeaderContentTypeKey : kMSContentType,
-    kMSHeaderAppSecretKey : self.appSecret,
-    kMSHeaderInstallIDKey : [self.installId UUIDString]
-  };
-
-  // Construct the query parameters.
-  NSDictionary *queryStrings = @{kMSAPIVersionKey : kMSAPIVersion};
-
-  MSHttpSender *sender = [[MSHttpSender alloc] initWithBaseUrl:self.serverUrl
-                                                       headers:headers
-                                                  queryStrings:queryStrings
-                                                  reachability:[MS_Reachability reachabilityForInternetConnection]];
-
-  // Construct storage.
-  MSFileStorage *storage = [[MSFileStorage alloc] init];
+- (void)initializeLogManager {
 
   // Construct log manager.
-  _logManager = [[MSLogManagerDefault alloc] initWithSender:sender storage:storage];
+  self.logManager =
+      [[MSLogManagerDefault alloc] initWithAppSecret:self.appSecret installId:self.installId logUrl:self.logUrl];
 }
 
 - (NSString *)appSecret {
@@ -314,9 +319,8 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 - (BOOL)canBeUsed {
   BOOL canBeUsed = self.sdkConfigured;
   if (!canBeUsed) {
-    MSLogError([MSMobileCenter logTag],
-               @"Mobile Center SDK hasn't been configured. You need to call [MSMobileCenter "
-               @"start:YOUR_APP_SECRET withServices:LIST_OF_SERVICES] first.");
+    MSLogError([MSMobileCenter logTag], @"Mobile Center SDK hasn't been configured. You need to call [MSMobileCenter "
+                                        @"start:YOUR_APP_SECRET withServices:LIST_OF_SERVICES] first.");
   }
   return canBeUsed;
 }

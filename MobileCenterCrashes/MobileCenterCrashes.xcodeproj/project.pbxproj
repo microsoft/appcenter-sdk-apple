@@ -44,7 +44,8 @@
 		35EF18E01DDBCF6C00731CA8 /* MSWrapperExceptionManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 35EF18DF1DDBCF6C00731CA8 /* MSWrapperExceptionManagerTests.m */; };
 		387C77071D6CC41100D68CC1 /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C77061D6CC41100D68CC1 /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38D4BBA31D5A9962001A30A0 /* ../MobileCenter/MobileCenter/MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 38D4BBA21D5A9962001A30A0 /* ../MobileCenter/MobileCenter/MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6E0401541D1C9A4F0051BCFA /* MSCrashes.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0401501D1C9A4F0051BCFA /* MSCrashes.m */; };
+		5949328B0C188C5B6624AAC2 /* MSCrashesUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 59493B275715F01438B2E6FD /* MSCrashesUtilTests.m */; };
+		6E0401541D1C9A4F0051BCFA /* MSCrashes.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6E0401501D1C9A4F0051BCFA /* MSCrashes.mm */; };
 		6E0401751D1C9E750051BCFA /* MobileCenterCrashes.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401361D1C98690051BCFA /* MobileCenterCrashes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E0401761D1C9E750051BCFA /* MSCrashes.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E04014F1D1C9A4F0051BCFA /* MSCrashes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E0401771D1C9EBE0051BCFA /* MobileCenter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401591D1C9D7F0051BCFA /* MobileCenter+Internal.h */; };
@@ -72,7 +73,7 @@
 		6E7D5C871D3EC332009EC9AC /* MSStackFrameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C861D3EC332009EC9AC /* MSStackFrameTests.m */; };
 		6E7D5C8A1D3EC504009EC9AC /* MSExceptionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C891D3EC504009EC9AC /* MSExceptionTests.m */; };
 		6EC99A151D41517B0016C325 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A141D41517B0016C325 /* CrashReporter.framework */; };
-		6EC99A2E1D4166C50016C325 /* MSCrashesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC99A2D1D4166C50016C325 /* MSCrashesTests.m */; };
+		6EC99A2E1D4166C50016C325 /* MSCrashesTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6EC99A2D1D4166C50016C325 /* MSCrashesTests.mm */; };
 		6EC99A371D416CCF0016C325 /* live_report_empty.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A301D416CCF0016C325 /* live_report_empty.plcrash */; };
 		6EC99A381D416CCF0016C325 /* live_report_exception.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A311D416CCF0016C325 /* live_report_exception.plcrash */; };
 		6EC99A391D416CCF0016C325 /* live_report_exception_marketing.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A321D416CCF0016C325 /* live_report_exception_marketing.plcrash */; };
@@ -80,7 +81,7 @@
 		6EC99A3B1D416CCF0016C325 /* live_report_signal_marketing.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A341D416CCF0016C325 /* live_report_signal_marketing.plcrash */; };
 		6EC99A3C1D416CCF0016C325 /* live_report_xamarin.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A351D416CCF0016C325 /* live_report_xamarin.plcrash */; };
 		6EC99A3D1D416CCF0016C325 /* log_report_xamarin in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A361D416CCF0016C325 /* log_report_xamarin */; };
-		B24F3F0F1D93368F00827213 /* MSErrorLogFormatterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B24F3F0E1D93368F00827213 /* MSErrorLogFormatterTests.m */; };
+		B24F3F0F1D93368F00827213 /* MSErrorLogFormatterTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = B24F3F0E1D93368F00827213 /* MSErrorLogFormatterTests.mm */; };
 		B24F3F121D9341BC00827213 /* MSErrorLogFormatterPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = B24F3F101D93417B00827213 /* MSErrorLogFormatterPrivate.h */; };
 		B2A0A71C1D9C2AE700729A58 /* MSCrashesTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = B2A0A71B1D9C2AE700729A58 /* MSCrashesTestUtil.m */; };
 		B2CD3BF91D80EE49000A8A91 /* MSAbstractErrorLog.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD3BF71D80EE49000A8A91 /* MSAbstractErrorLog.h */; };
@@ -101,6 +102,23 @@
 		B2FF130C1DD12F61003DC677 /* MSAppleErrorLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FF130B1DD12F61003DC677 /* MSAppleErrorLogTests.m */; };
 		BA682CFA6F4C5A8841507CF7 /* MSMockCrashesDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BA68266A68B7F21A86A093B0 /* MSMockCrashesDelegate.m */; };
 		E8AEE9861D59744D00C0FF6C /* MSLogManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E8AEE9851D59744D00C0FF6C /* MSLogManager.h */; };
+		F859D1051E549B45008B2D8E /* live_report_bad_ptr.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D0F41E549B45008B2D8E /* live_report_bad_ptr.plcrash */; };
+		F859D1061E549B45008B2D8E /* live_report_call_abort.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D0F51E549B45008B2D8E /* live_report_call_abort.plcrash */; };
+		F859D1071E549B45008B2D8E /* live_report_call_trap.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D0F61E549B45008B2D8E /* live_report_call_trap.plcrash */; };
+		F859D1081E549B45008B2D8E /* live_report_corrupt_objc.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D0F71E549B45008B2D8E /* live_report_corrupt_objc.plcrash */; };
+		F859D1091E549B45008B2D8E /* live_report_cpp_exception.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D0F81E549B45008B2D8E /* live_report_cpp_exception.plcrash */; };
+		F859D10A1E549B45008B2D8E /* live_report_jump_into_nx.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D0F91E549B45008B2D8E /* live_report_jump_into_nx.plcrash */; };
+		F859D10B1E549B45008B2D8E /* live_report_null_ptr.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D0FA1E549B45008B2D8E /* live_report_null_ptr.plcrash */; };
+		F859D10C1E549B45008B2D8E /* live_report_objc_exception.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D0FB1E549B45008B2D8E /* live_report_objc_exception.plcrash */; };
+		F859D10D1E549B45008B2D8E /* live_report_objc_msgsend.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D0FC1E549B45008B2D8E /* live_report_objc_msgsend.plcrash */; };
+		F859D10E1E549B45008B2D8E /* live_report_objc_released.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D0FD1E549B45008B2D8E /* live_report_objc_released.plcrash */; };
+		F859D10F1E549B45008B2D8E /* live_report_overwrite_link.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D0FE1E549B45008B2D8E /* live_report_overwrite_link.plcrash */; };
+		F859D1101E549B45008B2D8E /* live_report_pthread_lock.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D0FF1E549B45008B2D8E /* live_report_pthread_lock.plcrash */; };
+		F859D1111E549B45008B2D8E /* live_report_smash_bottom.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D1001E549B45008B2D8E /* live_report_smash_bottom.plcrash */; };
+		F859D1121E549B45008B2D8E /* live_report_smash_top.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D1011E549B45008B2D8E /* live_report_smash_top.plcrash */; };
+		F859D1131E549B45008B2D8E /* live_report_swift_crash.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D1021E549B45008B2D8E /* live_report_swift_crash.plcrash */; };
+		F859D1141E549B45008B2D8E /* live_report_undefined_instr.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D1031E549B45008B2D8E /* live_report_undefined_instr.plcrash */; };
+		F859D1151E549B45008B2D8E /* live_report_write_readonly.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D1041E549B45008B2D8E /* live_report_write_readonly.plcrash */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -154,10 +172,11 @@
 		3856B47D1E032EC50016AB05 /* Global.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Global.xcconfig; path = ../../../Global.xcconfig; sourceTree = "<group>"; };
 		387C77061D6CC41100D68CC1 /* MSServiceAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSServiceAbstract.h; path = ../MobileCenter/MobileCenter/MSServiceAbstract.h; sourceTree = "<group>"; };
 		38D4BBA21D5A9962001A30A0 /* ../MobileCenter/MobileCenter/MSService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ../MobileCenter/MobileCenter/MSService.h; sourceTree = "<group>"; };
+		59493B275715F01438B2E6FD /* MSCrashesUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCrashesUtilTests.m; sourceTree = "<group>"; };
 		6E0401331D1C98690051BCFA /* libMobileCenterCrashes.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMobileCenterCrashes.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E0401361D1C98690051BCFA /* MobileCenterCrashes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MobileCenterCrashes.h; sourceTree = "<group>"; };
 		6E04014F1D1C9A4F0051BCFA /* MSCrashes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrashes.h; sourceTree = "<group>"; };
-		6E0401501D1C9A4F0051BCFA /* MSCrashes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSCrashes.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		6E0401501D1C9A4F0051BCFA /* MSCrashes.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; lineEnding = 0; path = MSCrashes.mm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		6E0401521D1C9A4F0051BCFA /* MSCrashesPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrashesPrivate.h; sourceTree = "<group>"; };
 		6E0401591D1C9D7F0051BCFA /* MobileCenter+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "MobileCenter+Internal.h"; path = "../../../MobileCenter/MobileCenter/Internals/MobileCenter+Internal.h"; sourceTree = "<group>"; };
 		6E171AE11D22F781000DC480 /* MobileCenterCrashes.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MobileCenterCrashes.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -197,7 +216,7 @@
 		6E7D5C861D3EC332009EC9AC /* MSStackFrameTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSStackFrameTests.m; sourceTree = "<group>"; };
 		6E7D5C891D3EC504009EC9AC /* MSExceptionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSExceptionTests.m; sourceTree = "<group>"; };
 		6EC99A141D41517B0016C325 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = ../Vendor/PLCrashReporter/CrashReporter.framework; sourceTree = "<group>"; };
-		6EC99A2D1D4166C50016C325 /* MSCrashesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSCrashesTests.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		6EC99A2D1D4166C50016C325 /* MSCrashesTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; lineEnding = 0; path = MSCrashesTests.mm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		6EC99A301D416CCF0016C325 /* live_report_empty.plcrash */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = live_report_empty.plcrash; sourceTree = "<group>"; };
 		6EC99A311D416CCF0016C325 /* live_report_exception.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_exception.plcrash; sourceTree = "<group>"; };
 		6EC99A321D416CCF0016C325 /* live_report_exception_marketing.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_exception_marketing.plcrash; sourceTree = "<group>"; };
@@ -205,7 +224,7 @@
 		6EC99A341D416CCF0016C325 /* live_report_signal_marketing.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_signal_marketing.plcrash; sourceTree = "<group>"; };
 		6EC99A351D416CCF0016C325 /* live_report_xamarin.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_xamarin.plcrash; sourceTree = "<group>"; };
 		6EC99A361D416CCF0016C325 /* log_report_xamarin */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = log_report_xamarin; sourceTree = "<group>"; };
-		B24F3F0E1D93368F00827213 /* MSErrorLogFormatterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSErrorLogFormatterTests.m; sourceTree = "<group>"; };
+		B24F3F0E1D93368F00827213 /* MSErrorLogFormatterTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MSErrorLogFormatterTests.mm; sourceTree = "<group>"; };
 		B24F3F101D93417B00827213 /* MSErrorLogFormatterPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSErrorLogFormatterPrivate.h; sourceTree = "<group>"; };
 		B2A0A71A1D9C2AE700729A58 /* MSCrashesTestUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrashesTestUtil.h; sourceTree = "<group>"; };
 		B2A0A71B1D9C2AE700729A58 /* MSCrashesTestUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCrashesTestUtil.m; sourceTree = "<group>"; };
@@ -228,6 +247,23 @@
 		BA68266A68B7F21A86A093B0 /* MSMockCrashesDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSMockCrashesDelegate.m; sourceTree = "<group>"; };
 		BA6829F386854E39B92F77C4 /* MSMockCrashesDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSMockCrashesDelegate.h; sourceTree = "<group>"; };
 		E8AEE9851D59744D00C0FF6C /* MSLogManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSLogManager.h; path = ../MobileCenter/MobileCenter/Internals/Channel/MSLogManager.h; sourceTree = "<group>"; };
+		F859D0F41E549B45008B2D8E /* live_report_bad_ptr.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_bad_ptr.plcrash; sourceTree = "<group>"; };
+		F859D0F51E549B45008B2D8E /* live_report_call_abort.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_call_abort.plcrash; sourceTree = "<group>"; };
+		F859D0F61E549B45008B2D8E /* live_report_call_trap.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_call_trap.plcrash; sourceTree = "<group>"; };
+		F859D0F71E549B45008B2D8E /* live_report_corrupt_objc.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_corrupt_objc.plcrash; sourceTree = "<group>"; };
+		F859D0F81E549B45008B2D8E /* live_report_cpp_exception.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_cpp_exception.plcrash; sourceTree = "<group>"; };
+		F859D0F91E549B45008B2D8E /* live_report_jump_into_nx.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_jump_into_nx.plcrash; sourceTree = "<group>"; };
+		F859D0FA1E549B45008B2D8E /* live_report_null_ptr.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_null_ptr.plcrash; sourceTree = "<group>"; };
+		F859D0FB1E549B45008B2D8E /* live_report_objc_exception.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_objc_exception.plcrash; sourceTree = "<group>"; };
+		F859D0FC1E549B45008B2D8E /* live_report_objc_msgsend.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_objc_msgsend.plcrash; sourceTree = "<group>"; };
+		F859D0FD1E549B45008B2D8E /* live_report_objc_released.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_objc_released.plcrash; sourceTree = "<group>"; };
+		F859D0FE1E549B45008B2D8E /* live_report_overwrite_link.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_overwrite_link.plcrash; sourceTree = "<group>"; };
+		F859D0FF1E549B45008B2D8E /* live_report_pthread_lock.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_pthread_lock.plcrash; sourceTree = "<group>"; };
+		F859D1001E549B45008B2D8E /* live_report_smash_bottom.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_smash_bottom.plcrash; sourceTree = "<group>"; };
+		F859D1011E549B45008B2D8E /* live_report_smash_top.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_smash_top.plcrash; sourceTree = "<group>"; };
+		F859D1021E549B45008B2D8E /* live_report_swift_crash.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_swift_crash.plcrash; sourceTree = "<group>"; };
+		F859D1031E549B45008B2D8E /* live_report_undefined_instr.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_undefined_instr.plcrash; sourceTree = "<group>"; };
+		F859D1041E549B45008B2D8E /* live_report_write_readonly.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_write_readonly.plcrash; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -288,7 +324,7 @@
 			children = (
 				6E0401361D1C98690051BCFA /* MobileCenterCrashes.h */,
 				6E04014F1D1C9A4F0051BCFA /* MSCrashes.h */,
-				6E0401501D1C9A4F0051BCFA /* MSCrashes.m */,
+				6E0401501D1C9A4F0051BCFA /* MSCrashes.mm */,
 				B2DCB1351DAC03C400120F87 /* MSCrashesDelegate.h */,
 				B2F120DC1D657CF10060DED7 /* MSErrorAttachment.h */,
 				B2F120DA1D657CF10060DED7 /* MSErrorBinaryAttachment.h */,
@@ -330,14 +366,15 @@
 				B2F120D21D6546560060DED7 /* MSBinaryAttachmentTests.m */,
 				35EF18DF1DDBCF6C00731CA8 /* MSWrapperExceptionManagerTests.m */,
 				6E7D5C7F1D3EAEB5009EC9AC /* MSBinaryTests.m */,
-				6EC99A2D1D4166C50016C325 /* MSCrashesTests.m */,
+				6EC99A2D1D4166C50016C325 /* MSCrashesTests.mm */,
 				B2F120D41D6546740060DED7 /* MSErrorAttachmentTests.m */,
-				B24F3F0E1D93368F00827213 /* MSErrorLogFormatterTests.m */,
+				B24F3F0E1D93368F00827213 /* MSErrorLogFormatterTests.mm */,
 				B2F120D61D65469D0060DED7 /* MSErrorReportTests.m */,
 				6E7D5C891D3EC504009EC9AC /* MSExceptionTests.m */,
 				6E7D5C861D3EC332009EC9AC /* MSStackFrameTests.m */,
 				6E7D5C831D3EC0F7009EC9AC /* MSThreadTests.m */,
 				B2A0A71D1D9C2AF200729A58 /* Util */,
+				59493B275715F01438B2E6FD /* MSCrashesUtilTests.m */,
 			);
 			path = MobileCenterCrashesTests;
 			sourceTree = "<group>";
@@ -438,6 +475,7 @@
 		6EC99A2F1D416CCF0016C325 /* Fixtures */ = {
 			isa = PBXGroup;
 			children = (
+				F859D0F31E549B45008B2D8E /* CrashProbe */,
 				6EC99A301D416CCF0016C325 /* live_report_empty.plcrash */,
 				6EC99A311D416CCF0016C325 /* live_report_exception.plcrash */,
 				6EC99A321D416CCF0016C325 /* live_report_exception_marketing.plcrash */,
@@ -456,6 +494,30 @@
 				B2A0A71B1D9C2AE700729A58 /* MSCrashesTestUtil.m */,
 			);
 			name = Util;
+			sourceTree = "<group>";
+		};
+		F859D0F31E549B45008B2D8E /* CrashProbe */ = {
+			isa = PBXGroup;
+			children = (
+				F859D0F41E549B45008B2D8E /* live_report_bad_ptr.plcrash */,
+				F859D0F51E549B45008B2D8E /* live_report_call_abort.plcrash */,
+				F859D0F61E549B45008B2D8E /* live_report_call_trap.plcrash */,
+				F859D0F71E549B45008B2D8E /* live_report_corrupt_objc.plcrash */,
+				F859D0F81E549B45008B2D8E /* live_report_cpp_exception.plcrash */,
+				F859D0F91E549B45008B2D8E /* live_report_jump_into_nx.plcrash */,
+				F859D0FA1E549B45008B2D8E /* live_report_null_ptr.plcrash */,
+				F859D0FB1E549B45008B2D8E /* live_report_objc_exception.plcrash */,
+				F859D0FC1E549B45008B2D8E /* live_report_objc_msgsend.plcrash */,
+				F859D0FD1E549B45008B2D8E /* live_report_objc_released.plcrash */,
+				F859D0FE1E549B45008B2D8E /* live_report_overwrite_link.plcrash */,
+				F859D0FF1E549B45008B2D8E /* live_report_pthread_lock.plcrash */,
+				F859D1001E549B45008B2D8E /* live_report_smash_bottom.plcrash */,
+				F859D1011E549B45008B2D8E /* live_report_smash_top.plcrash */,
+				F859D1021E549B45008B2D8E /* live_report_swift_crash.plcrash */,
+				F859D1031E549B45008B2D8E /* live_report_undefined_instr.plcrash */,
+				F859D1041E549B45008B2D8E /* live_report_write_readonly.plcrash */,
+			);
+			path = CrashProbe;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -543,7 +605,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = MS;
-				LastUpgradeCheck = 0810;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = Microsoft;
 				TargetAttributes = {
 					6E0401321D1C98690051BCFA = {
@@ -585,10 +647,27 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F859D10C1E549B45008B2D8E /* live_report_objc_exception.plcrash in Resources */,
+				F859D1061E549B45008B2D8E /* live_report_call_abort.plcrash in Resources */,
+				F859D1111E549B45008B2D8E /* live_report_smash_bottom.plcrash in Resources */,
+				F859D1131E549B45008B2D8E /* live_report_swift_crash.plcrash in Resources */,
 				6EC99A391D416CCF0016C325 /* live_report_exception_marketing.plcrash in Resources */,
+				F859D1081E549B45008B2D8E /* live_report_corrupt_objc.plcrash in Resources */,
 				6EC99A3A1D416CCF0016C325 /* live_report_signal.plcrash in Resources */,
 				6EC99A3C1D416CCF0016C325 /* live_report_xamarin.plcrash in Resources */,
+				F859D10D1E549B45008B2D8E /* live_report_objc_msgsend.plcrash in Resources */,
+				F859D1091E549B45008B2D8E /* live_report_cpp_exception.plcrash in Resources */,
+				F859D1071E549B45008B2D8E /* live_report_call_trap.plcrash in Resources */,
+				F859D10F1E549B45008B2D8E /* live_report_overwrite_link.plcrash in Resources */,
+				F859D10E1E549B45008B2D8E /* live_report_objc_released.plcrash in Resources */,
+				F859D1141E549B45008B2D8E /* live_report_undefined_instr.plcrash in Resources */,
+				F859D10B1E549B45008B2D8E /* live_report_null_ptr.plcrash in Resources */,
 				6EC99A3D1D416CCF0016C325 /* log_report_xamarin in Resources */,
+				F859D10A1E549B45008B2D8E /* live_report_jump_into_nx.plcrash in Resources */,
+				F859D1101E549B45008B2D8E /* live_report_pthread_lock.plcrash in Resources */,
+				F859D1051E549B45008B2D8E /* live_report_bad_ptr.plcrash in Resources */,
+				F859D1151E549B45008B2D8E /* live_report_write_readonly.plcrash in Resources */,
+				F859D1121E549B45008B2D8E /* live_report_smash_top.plcrash in Resources */,
 				6EC99A3B1D416CCF0016C325 /* live_report_signal_marketing.plcrash in Resources */,
 				6EC99A371D416CCF0016C325 /* live_report_empty.plcrash in Resources */,
 				6EC99A381D416CCF0016C325 /* live_report_exception.plcrash in Resources */,
@@ -641,7 +720,7 @@
 				6E7D5C781D3E9395009EC9AC /* MSStackFrame.m in Sources */,
 				6E7D5C741D3E9381009EC9AC /* MSThread.m in Sources */,
 				B2F120E11D657CF10060DED7 /* MSErrorBinaryAttachment.m in Sources */,
-				6E0401541D1C9A4F0051BCFA /* MSCrashes.m in Sources */,
+				6E0401541D1C9A4F0051BCFA /* MSCrashes.mm in Sources */,
 				B2F3750A1D41AD5100F07032 /* MSErrorLogFormatter.m in Sources */,
 				35D504D01DDD140500D58B40 /* MSWrapperExceptionManager.m in Sources */,
 				6E73FE701D4032AB008CDC15 /* MSCrashesUtil.m in Sources */,
@@ -654,18 +733,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				B2FF130C1DD12F61003DC677 /* MSAppleErrorLogTests.m in Sources */,
-				6EC99A2E1D4166C50016C325 /* MSCrashesTests.m in Sources */,
+				6EC99A2E1D4166C50016C325 /* MSCrashesTests.mm in Sources */,
 				6E7D5C8A1D3EC504009EC9AC /* MSExceptionTests.m in Sources */,
 				B2F120D71D65469D0060DED7 /* MSErrorReportTests.m in Sources */,
 				6E7D5C871D3EC332009EC9AC /* MSStackFrameTests.m in Sources */,
 				6E7D5C841D3EC0F7009EC9AC /* MSThreadTests.m in Sources */,
-				B24F3F0F1D93368F00827213 /* MSErrorLogFormatterTests.m in Sources */,
+				B24F3F0F1D93368F00827213 /* MSErrorLogFormatterTests.mm in Sources */,
 				B2A0A71C1D9C2AE700729A58 /* MSCrashesTestUtil.m in Sources */,
 				6E7D5C801D3EAEB5009EC9AC /* MSBinaryTests.m in Sources */,
 				B2F120D31D6546560060DED7 /* MSBinaryAttachmentTests.m in Sources */,
 				35EF18E01DDBCF6C00731CA8 /* MSWrapperExceptionManagerTests.m in Sources */,
 				B2F120D51D6546740060DED7 /* MSErrorAttachmentTests.m in Sources */,
 				BA682CFA6F4C5A8841507CF7 /* MSMockCrashesDelegate.m in Sources */,
+				5949328B0C188C5B6624AAC2 /* MSCrashesUtilTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -691,7 +771,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -739,7 +819,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;

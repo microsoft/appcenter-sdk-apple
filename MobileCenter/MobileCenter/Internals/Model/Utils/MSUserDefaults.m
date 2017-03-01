@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSLogger.h"
 #import "MSUserDefaults.h"
 #import "MSMobileCenterInternal.h"

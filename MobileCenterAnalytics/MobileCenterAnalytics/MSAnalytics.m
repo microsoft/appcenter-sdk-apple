@@ -1,16 +1,9 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSAnalytics.h"
 #import "MSAnalyticsCategory.h"
 #import "MSAnalyticsPrivate.h"
 #import "MSEventLog.h"
-#import "MSLogManager.h"
 #import "MSPageLog.h"
 #import "MSServiceAbstractProtected.h"
-#import "MSChannelDelegate.h"
-#import "MSAnalyticsDelegate.h"
 #import "MSAnalyticsInternal.h"
 
 /**
@@ -54,8 +47,8 @@ static dispatch_once_t onceToken;
   return sharedInstance;
 }
 
-- (void)startWithLogManager:(id<MSLogManager>)logManager {
-  [super startWithLogManager:logManager];
+- (void)startWithLogManager:(id<MSLogManager>)logManager appSecret:(NSString *)appSecret {
+  [super startWithLogManager:logManager appSecret:appSecret];
 
   // Set up swizzling for auto page tracking.
   [MSAnalyticsCategory activateCategory];
@@ -72,6 +65,10 @@ static dispatch_once_t onceToken;
 
 - (MSPriority)priority {
   return MSPriorityDefault;
+}
+
+- (MSInitializationPriority)initializationPriority {
+  return MSInitializationPriorityDefault;
 }
 
 #pragma mark - MSServiceAbstract
@@ -171,7 +168,8 @@ static dispatch_once_t onceToken;
 
     // Check if property dictionary contains non-string values.
     if (![self validateProperties:properties]) {
-      MSLogError([MSAnalytics logTag], @"The event contains unsupported value type(s). Values should be NSString type.");
+      MSLogError([MSAnalytics logTag],
+                 @"The event contains unsupported value type(s). Values should be NSString type.");
       return;
     }
     log.properties = properties;
@@ -207,7 +205,7 @@ static dispatch_once_t onceToken;
 }
 
 - (BOOL)isAutoPageTrackingEnabled {
-  return _autoPageTrackingEnabled;
+  return self.autoPageTrackingEnabled;
 }
 
 - (void)sendLog:(id<MSLog>)log withPriority:(MSPriority)priority {
@@ -217,7 +215,7 @@ static dispatch_once_t onceToken;
 }
 
 + (void)resetSharedInstance {
-  
+
   // resets the once_token so dispatch_once will run again
   onceToken = 0;
   sharedInstance = nil;
@@ -229,8 +227,7 @@ static dispatch_once_t onceToken;
   [self sendLog:log withPriority:priority];
 }
 
-
-+ (void)setDelegate:(nullable id <MSAnalyticsDelegate>)delegate {
++ (void)setDelegate:(nullable id<MSAnalyticsDelegate>)delegate {
   [[self sharedInstance] setDelegate:delegate];
 }
 
@@ -243,12 +240,11 @@ static dispatch_once_t onceToken;
   NSObject *logObject = (NSObject *)log;
   if ([logObject isKindOfClass:[MSEventLog class]] &&
       [self.delegate respondsToSelector:@selector(analytics:willSendEventLog:)]) {
-    MSEventLog *eventLog = (MSEventLog*)log;
+    MSEventLog *eventLog = (MSEventLog *)log;
     [self.delegate analytics:self willSendEventLog:eventLog];
-  }
-  else if ([logObject isKindOfClass:[MSPageLog class]] &&
-           [self.delegate respondsToSelector:@selector(analytics:willSendPageLog:)]) {
-    MSPageLog *pageLog = (MSPageLog*)log;
+  } else if ([logObject isKindOfClass:[MSPageLog class]] &&
+             [self.delegate respondsToSelector:@selector(analytics:willSendPageLog:)]) {
+    MSPageLog *pageLog = (MSPageLog *)log;
     [self.delegate analytics:self willSendPageLog:pageLog];
   }
 }
@@ -260,12 +256,11 @@ static dispatch_once_t onceToken;
   NSObject *logObject = (NSObject *)log;
   if ([logObject isKindOfClass:[MSEventLog class]] &&
       [self.delegate respondsToSelector:@selector(analytics:didSucceedSendingEventLog:)]) {
-    MSEventLog *eventLog = (MSEventLog*)log;
+    MSEventLog *eventLog = (MSEventLog *)log;
     [self.delegate analytics:self didSucceedSendingEventLog:eventLog];
-  }
-  else if ([logObject isKindOfClass:[MSPageLog class]] &&
-           [self.delegate respondsToSelector:@selector(analytics:didSucceedSendingPageLog:)]) {
-    MSPageLog *pageLog = (MSPageLog*)log;
+  } else if ([logObject isKindOfClass:[MSPageLog class]] &&
+             [self.delegate respondsToSelector:@selector(analytics:didSucceedSendingPageLog:)]) {
+    MSPageLog *pageLog = (MSPageLog *)log;
     [self.delegate analytics:self didSucceedSendingPageLog:pageLog];
   }
 }
@@ -277,12 +272,11 @@ static dispatch_once_t onceToken;
   NSObject *logObject = (NSObject *)log;
   if ([logObject isKindOfClass:[MSEventLog class]] &&
       [self.delegate respondsToSelector:@selector(analytics:didFailSendingEventLog:withError:)]) {
-    MSEventLog *eventLog = (MSEventLog*)log;
+    MSEventLog *eventLog = (MSEventLog *)log;
     [self.delegate analytics:self didFailSendingEventLog:eventLog withError:error];
-  }
-  else if ([logObject isKindOfClass:[MSPageLog class]] &&
-           [self.delegate respondsToSelector:@selector(analytics:didFailSendingPageLog:withError:)]) {
-    MSPageLog *pageLog = (MSPageLog*)log;
+  } else if ([logObject isKindOfClass:[MSPageLog class]] &&
+             [self.delegate respondsToSelector:@selector(analytics:didFailSendingPageLog:withError:)]) {
+    MSPageLog *pageLog = (MSPageLog *)log;
     [self.delegate analytics:self didFailSendingPageLog:pageLog withError:error];
   }
 }

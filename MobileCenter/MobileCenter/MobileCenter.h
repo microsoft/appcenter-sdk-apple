@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import <Foundation/Foundation.h>
 
 #import "MSConstants.h"
@@ -11,5 +7,4 @@
 #import "MSMobileCenter.h"
 #import "MSWrapperSdk.h"
 #import "MSMobileCenterErrors.h"
-
 

@@ -54,7 +54,7 @@
 #import "MSMobileCenterInternal.h"
 #import "MSStackFrame.h"
 #import "MSThread.h"
-#import "MSDeviceTracker.h"
+#import "MSDeviceTrackerPrivate.h"
 #import "MSWrapperExceptionManager.h"
 
 static NSString *unknownString = @"???";
@@ -196,32 +196,30 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
  * the formatted result as a string.
  *
  * @param report The report to format.
- * @param textFormat The text format to use.
  *
  * @return Returns the formatted result on success, or nil if an error occurs.
  */
 + (MSAppleErrorLog *)errorLogFromCrashReport:(MSPLCrashReport *)report {
+  MSAppleErrorLog *errorLog = [MSAppleErrorLog new];
 
   // Map to Apple-style code type, and mark whether architecture is LP64
   // (64-bit)
   NSNumber *codeType = [self extractCodeTypeFromReport:report];
   BOOL is64bit = [self isCodeType64bit:codeType];
 
-  MSAppleErrorLog *errorLog = [MSAppleErrorLog new];
-
-  // errodId – used for deduplication in case we sent the same crashreport twice.
+  // errorId – Used for de-duplication in case we sent the same crashreport twice.
   errorLog.errorId = [self errorIdForCrashReport:report];
 
-  // set applicationpath and process info
+  // Set applicationpath and process info.
   errorLog = [self addProcessInfoAndApplicationPathTo:errorLog fromCrashReport:report];
 
-  // Find the crashed thread
+  // Find the crashed thread.
   MSPLCrashReportThreadInfo *crashedThread = [self findCrashedThreadInReport:report];
 
-  // Error Thread Info.
+  // Error Thread Id from the crashed thread.
   errorLog.errorThreadId = @(crashedThread.threadNumber);
 
-  // errorLog.errorThreadName won't be used on iOS right now, will be relevant for handled exceptions.
+  // errorLog.errorThreadName won't be used on iOS right now, this will be relevant for handled exceptions.
 
   // All errors are fatal for now, until we add support for handled exceptions.
   errorLog.fatal = YES;
@@ -233,7 +231,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   errorLog.appLaunchTOffset = [self calculateAppLaunchTOffsetFromReport:report];
   errorLog.toffset = [self calculateTOffsetFromReport:report];
 
-  // CPU Type and Subtype
+  // CPU Type and Subtype for the crash. We need to query the binary images for that.
   NSArray *images = report.images;
   for (MSPLCrashReportBinaryImageInfo *image in images) {
     if (image.codeType != nil && image.codeType.typeEncoding == PLCrashReportProcessorTypeEncodingMach) {
@@ -242,36 +240,36 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
     }
   }
 
-  // errorLog.architecture is an optional. The Android SDK will set it while for iOS, the file will be set
-  // server-side using primaryArchitectureId and architectureVariantId.
+  // errorLog.architecture is an optional. The Android SDK will set it while for iOS, the file will be set on the
+  // server using primaryArchitectureId and architectureVariantId.
 
-  // TODO: Check this during testing/crashprobe
   // HockeyApp didn't use report.exceptionInfo for this field but exception.name in case of an unhandled exception or
-  // the report.signalInfo.name
-  // more so, for BITCrashDetails, we used the exceptionInfo.exceptionName for a field called exceptionName. FYI: Gwynne
-  // has no idea. Andreas will be next ;)
-  errorLog.osExceptionType = report.exceptionInfo.exceptionName ?: report.signalInfo.name;
-
-  errorLog.osExceptionCode = report.signalInfo.code; // TODO check with Andreas/Gwynne
-
+  // the report.signalInfo.name. More so, for BITCrashDetails, we used the exceptionInfo.exceptionName for a field called exceptionName.
+  errorLog.osExceptionType = report.signalInfo.name;
+  errorLog.osExceptionCode = report.signalInfo.code;
   errorLog.osExceptionAddress =
-  [NSString stringWithFormat:@"0x%" PRIx64, report.signalInfo.address]; // TODO check with Andreas/Gwynne
+  [NSString stringWithFormat:@"0x%" PRIx64, report.signalInfo.address];
 
+  // We need the architecture of the system and the crashed thread to get the exceptionReason, threads and registers.
   errorLog.exceptionReason =
   [self extractExceptionReasonFromReport:report ofCrashedThread:crashedThread is64bit:is64bit];
-
-  errorLog.exceptionType = report.signalInfo.name;
+  errorLog.exceptionType = report.hasExceptionInfo ? report.exceptionInfo.exceptionName : nil;
 
   errorLog.threads = [self extractThreadsFromReport:report crashedThread:crashedThread is64bit:is64bit];
   errorLog.registers = [self extractRegistersFromCrashedThread:crashedThread is64bit:is64bit];
 
-  // Gather all addresses for which we need to preserve the binary image.
+  // Gather all addresses for which we need to preserve the binary images.
   NSArray *addresses = [self addressesFromReport:report];
   errorLog.binaries = [self extractBinaryImagesFromReport:report addresses:addresses codeType:codeType is64bit:is64bit];
 
   // Set the exception from the wrapper sdk
   errorLog.exception = [MSWrapperExceptionManager loadWrapperException:report.uuidRef];
 
+  // Set the device here to make sure we don't use the current device information but the one from history that matches
+  // the time of our crash.
+  errorLog.device = [[MSDeviceTracker new] deviceForToffset:errorLog.toffset];
+
+  // Finally done with transforming PLCrashReport to MSAppleErrorReport.
   return errorLog;
 }
 
@@ -287,28 +285,29 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
 + (MSErrorReport *)errorReportFromLog:(MSAppleErrorLog *)errorLog {
   MSErrorReport *errorReport = nil;
-
   NSString *errorId = errorLog.errorId;
+
   // There should always be an installId. Leaving the empty string out of paranoia
   // as [UUID UUID] – used in [MSMobileCenter installId] – might, in theory, return nil.
   NSString *reporterKey = [[MSMobileCenter installId] UUIDString] ?: @"";
 
-  NSString *signal = errorLog.exceptionType; //TODO What should we put in there?!
-
+  NSString *signal = errorLog.osExceptionType;
   NSString *exceptionReason = errorLog.exceptionReason;
   NSString *exceptionName = errorLog.exceptionType;
 
-  //errorlog.toffset represents the timestamp when the app crashed, appLaunchTOffset is the difference/offset between
-  //the moment the app was launched and when the app crashed.
-
+  // errorlog.toffset represents the timestamp when the app crashed, appLaunchTOffset is the difference/offset between
+  // the moment the app was launched and when the app crashed.
   NSDate *appStartTime =
   [NSDate dateWithTimeIntervalSince1970:(([errorLog.toffset doubleValue] - [errorLog.appLaunchTOffset doubleValue])/1000)];
   NSDate *appErrorTime = [NSDate dateWithTimeIntervalSince1970:([errorLog.toffset doubleValue]/1000)];
-  
+
+  // Retrieve the process' id.
   NSUInteger processId = [errorLog.processId unsignedIntegerValue];
 
-  MSDevice *device = [MSDeviceTracker alloc].device;
+  // Retrieve the device that correlates with the time of a crash.
+  MSDevice *device = [[MSDeviceTracker sharedInstance] deviceForToffset:errorLog.toffset];
 
+  // Finally create the MSErrorReport instance.
   errorReport = [[MSErrorReport alloc] initWithErrorId:errorId
                                            reporterKey:reporterKey
                                                 signal:signal
@@ -442,9 +441,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
  * Format a stack frame for display in a thread backtrace.
  *
  * @param frameInfo The stack frame to format
- * @param frameIndex The frame's index
  * @param report The report from which this frame was acquired.
- * @param lp64 If YES, the report was generated by an LP64 system.
  *
  * @return Returns a formatted frame line.
  */
@@ -621,7 +618,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
  *  This is only necessary when sending crashes from the simulator as the path
  *  then contains the username of the Mac the simulator is running on.
  *
- *  @param processPath A string containing the username
+ *  @param path A string containing the username
  *
  *  @return An anonymized string where the real username is replaced by "USER"
  */

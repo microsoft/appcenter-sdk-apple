@@ -1,15 +1,30 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSDevice.h"
+#import "MSDeviceTracker.h"
 #import "MSWrapperSdk.h"
 #import <CoreTelephony/CTCarrier.h>
 #import <CoreTelephony/CTTelephonyNetworkInfo.h>
 #import <UIKit/UIKit.h>
 #import <sys/sysctl.h>
 
+@class MSDeviceHistoryInfo;
+
 @interface MSDeviceTracker ()
+
+/**
+ * History of past devices.
+ */
+@property(nonatomic) NSMutableArray<MSDeviceHistoryInfo *> *deviceHistory;
+
+/**
+ * Sets a flag that will cause MSDeviceTracker to update it's device info the next time the device property is accessed.
+ * Mostly intended for Unit Testing.
+ */
++ (void)refreshDeviceNextTime;
+
+/**
+ * Clears the device history in memory and in NSUserDefaults as well as the current device.
+ */
+- (void)clearDevices;
 
 /**
  *  Get the SDK version.
@@ -48,7 +63,7 @@
 /**
  *  Get the device current locale.
  *
- *  @param locale Device current locale.
+ *  @param deviceLocale Device current locale.
  *
  *  @return The device current locale as an NSString.
  */
@@ -64,9 +79,9 @@
 - (NSNumber *)timeZoneOffset:(NSTimeZone *)timeZone;
 
 /**
- *  Get the renedered screen size.
+ *  Get the rendered screen size.
  *
- *  @return The size of the screen as an NSString with format "HeightxWidth".
+ *  @return The size of the screen as an NSString with format "HEIGHTxWIDTH".
  */
 - (NSString *)screenSize;
 
@@ -120,6 +135,27 @@
  *
  * @param wrapperSdk wrapper SDK information.
  */
-+ (void)setWrapperSdk:(MSWrapperSdk *)wrapperSdk;
+- (void)setWrapperSdk:(MSWrapperSdk *)wrapperSdk;
+
+/**
+ *  Return a new Instance of MSDevice.
+ *
+ * @returns A new Instance of MSDevice. @see MSDevice
+ *
+ * @discussion Intended to be used to update the device-property of MSDeviceTracker @see MSDeviceTracker.
+ */
+- (MSDevice *)updatedDevice;
+
+/**
+ * Return a device from the history of past devices. This will be used e.g. for Crashes after relaunch.
+ *
+ * @param toffset Offset that will be used to find a matching MSDevice in history.
+ *
+ * @return Instance of MSDevice that's closest to tOffset.
+ *
+ * @discussion If we cannot find a device that's within the range of the tOffset, the latest device from history will be
+ * returned. If there is no history, we return the current MSDevice.
+ */
+- (MSDevice *)deviceForToffset:(NSNumber *)toffset;
 
 @end

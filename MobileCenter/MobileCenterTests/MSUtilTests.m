@@ -91,18 +91,18 @@
 }
 
 - (void)testNowInMilliseconds {
-  
+
   /**
    * When
    */
   long long actual = [MSUtil nowInMilliseconds] / 10;
   long long expected = [[NSDate date] timeIntervalSince1970] * 100;
-  
+
   /**
    * Then
    */
   XCTAssertEqual(actual, expected);
-  
+
   // Negative in case of cast issue.
   XCTAssertGreaterThan(actual, 0);
 }

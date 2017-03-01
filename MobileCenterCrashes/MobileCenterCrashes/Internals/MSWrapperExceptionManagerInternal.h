@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSWrapperExceptionManager.h"
 
 @interface MSWrapperExceptionManager ()
@@ -12,9 +8,9 @@
 @property CFUUIDRef currentUUIDRef;
 @property(weak, nonatomic) id<MSWrapperCrashesInitializationDelegate> crashesDelegate;
 
-@property(class, readonly) NSString *dataFileExtension;
-@property(class, readonly) NSString *directoryName;
-@property(class, readonly) NSString *directoryPath;
+@property(class, copy, readonly) NSString *dataFileExtension;
+@property(class, copy, readonly) NSString *directoryName;
+@property(class, copy, readonly) NSString *directoryPath;
 
 + (MSWrapperExceptionManager*)sharedInstance;
 - (BOOL)hasException;

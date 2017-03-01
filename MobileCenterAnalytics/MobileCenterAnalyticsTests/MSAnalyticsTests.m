@@ -6,22 +6,20 @@
 #import "MSMobileCenter.h"
 #import "MSServiceAbstract.h"
 #import "MSServiceInternal.h"
-#import "MSService.h"
 
 #import "MSAnalytics.h"
 #import "MSAnalyticsPrivate.h"
 #import "MSAnalyticsInternal.h"
-#import "MSAnalyticsDelegate.h"
 #import "MSMockAnalyticsDelegate.h"
-#import "MSLogManager.h"
 #import "MSEventLog.h"
 
 static NSString *const kMSTypeEvent = @"event";
 static NSString *const kMSTypePage = @"page";
+static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
 @class MSMockAnalyticsDelegate;
 
-@interface MSAnalyticsTests : XCTestCase<MSAnalyticsDelegate>
+@interface MSAnalyticsTests : XCTestCase <MSAnalyticsDelegate>
 
 @property BOOL willSendEventLogWasCalled;
 @property BOOL didSucceedSendingEventLogWasCalled;
@@ -31,19 +29,21 @@ static NSString *const kMSTypePage = @"page";
 
 @interface MSAnalytics ()
 
-- (void)channel:(id)channel willSendLog:(id<MSLog>)log;
-- (void)channel:(id<MSChannel>)channel didSucceedSendingLog:(id<MSLog>)log;
-- (void)channel:(id<MSChannel>)channel didFailSendingLog:(id<MSLog>)log withError:(NSError *)error;
+- (void)channel:(id)channel willSendLog:(id <MSLog>)log;
+
+- (void)channel:(id <MSChannel>)channel didSucceedSendingLog:(id <MSLog>)log;
+
+- (void)channel:(id <MSChannel>)channel didFailSendingLog:(id <MSLog>)log withError:(NSError *)error;
 
 @end
 
 @interface MSServiceAbstract ()
 
-- (BOOL) isEnabled;
-- (void) setEnabled:(BOOL)enabled;
+- (BOOL)isEnabled;
+
+- (void)setEnabled:(BOOL)enabled;
 
 @end
-
 
 
 @implementation MSAnalyticsTests
@@ -75,9 +75,9 @@ static NSString *const kMSTypePage = @"page";
 }
 
 - (void)testApplyEnabledStateWorks {
-  [[MSAnalytics sharedInstance] startWithLogManager:OCMProtocolMock(@protocol(MSLogManager))];
+  [[MSAnalytics sharedInstance] startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
 
-  MSServiceAbstract *service = (MSServiceAbstract*)[MSAnalytics sharedInstance];
+  MSServiceAbstract *service = (MSServiceAbstract *) [MSAnalytics sharedInstance];
 
   [service setEnabled:YES];
   XCTAssertTrue([service isEnabled]);
@@ -90,7 +90,7 @@ static NSString *const kMSTypePage = @"page";
 }
 
 - (void)testSettingDelegateWorks {
-  id<MSAnalyticsDelegate> delegateMock = OCMProtocolMock(@protocol(MSAnalyticsDelegate));
+  id <MSAnalyticsDelegate> delegateMock = OCMProtocolMock(@protocol(MSAnalyticsDelegate));
   [MSAnalytics setDelegate:delegateMock];
   XCTAssertNotNil([MSAnalytics sharedInstance].delegate);
   XCTAssertEqual([MSAnalytics sharedInstance].delegate, delegateMock);
@@ -102,7 +102,7 @@ static NSString *const kMSTypePage = @"page";
   MSMockAnalyticsDelegate *delegateMock = OCMPartialMock([MSMockAnalyticsDelegate new]);
   [MSAnalytics setDelegate:delegateMock];
 
-  id<MSAnalyticsDelegate> delegate = [[MSAnalytics sharedInstance] delegate];
+  id <MSAnalyticsDelegate> delegate = [[MSAnalytics sharedInstance] delegate];
 
   // Then
   XCTAssertFalse([delegate respondsToSelector:@selector(analytics:willSendEventLog:)]);
@@ -131,53 +131,53 @@ static NSString *const kMSTypePage = @"page";
 }
 
 - (void)testTrackEventWithoutProperties {
-  
+
   //If
-  __block NSString * name;
+  __block NSString *name;
   __block NSString *type;
   NSString *expectedName = @"gotACoffee";
-  id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
+  id <MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
   OCMStub([logManagerMock processLog:[OCMArg isKindOfClass:[MSLogWithProperties class]] withPriority:([MSAnalytics sharedInstance].priority)])
-  .andDo(^(NSInvocation *invocation) {
-    MSEventLog *log;
-    [invocation getArgument:&log atIndex:2];
-    type = log.type;
-    name = log.name;
-  });
-  [MSMobileCenter configureWithAppSecret:@"TestAppSecret"];
-  [[MSAnalytics sharedInstance] startWithLogManager:logManagerMock];
-  
+          .andDo(^(NSInvocation *invocation) {
+              MSEventLog *log;
+              [invocation getArgument:&log atIndex:2];
+              type = log.type;
+              name = log.name;
+          });
+  [MSMobileCenter configureWithAppSecret:kMSTestAppSecret];
+  [[MSAnalytics sharedInstance] startWithLogManager:logManagerMock appSecret:kMSTestAppSecret];
+
   //When
   [MSAnalytics trackEvent:expectedName];
-  
+
   //Then
   assertThat(type, is(kMSTypeEvent));
   assertThat(name, is(expectedName));
 }
 
 - (void)testTrackEventWithProperties {
-  
+
   //If
   __block NSString *type;
   __block NSString *name;
-  __block NSDictionary<NSString*, NSString*> *properties;
+  __block NSDictionary<NSString *, NSString *> *properties;
   NSString *expectedName = @"gotACoffee";
-  NSDictionary *expectedProperties = @{ @"milk" : @"yes", @"cookie" : @"of course" };
-  id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
+  NSDictionary *expectedProperties = @{@"milk": @"yes", @"cookie": @"of course"};
+  id <MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
   OCMStub([logManagerMock processLog:[OCMArg isKindOfClass:[MSLogWithProperties class]] withPriority:([MSAnalytics sharedInstance].priority)])
-  .andDo(^(NSInvocation *invocation) {
-    MSEventLog *log;
-    [invocation getArgument:&log atIndex:2];
-    type = log.type;
-    name = log.name;
-    properties = log.properties;
-  });
-  [MSMobileCenter configureWithAppSecret:@"TestAppSecret"];
-  [[MSAnalytics sharedInstance] startWithLogManager:logManagerMock];
-  
+          .andDo(^(NSInvocation *invocation) {
+              MSEventLog *log;
+              [invocation getArgument:&log atIndex:2];
+              type = log.type;
+              name = log.name;
+              properties = log.properties;
+          });
+  [MSMobileCenter configureWithAppSecret:kMSTestAppSecret];
+  [[MSAnalytics sharedInstance] startWithLogManager:logManagerMock appSecret:kMSTestAppSecret];
+
   //When
   [MSAnalytics trackEvent:expectedName withProperties:expectedProperties];
-  
+
   //Then
   assertThat(type, is(kMSTypeEvent));
   assertThat(name, is(expectedName));
@@ -185,53 +185,53 @@ static NSString *const kMSTypePage = @"page";
 }
 
 - (void)testTrackPageWithoutProperties {
-  
+
   //If
-  __block NSString * name;
+  __block NSString *name;
   __block NSString *type;
   NSString *expectedName = @"HomeSweetHome";
-  id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
+  id <MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
   OCMStub([logManagerMock processLog:[OCMArg isKindOfClass:[MSLogWithProperties class]] withPriority:([MSAnalytics sharedInstance].priority)])
-  .andDo(^(NSInvocation *invocation) {
-    MSEventLog *log;
-    [invocation getArgument:&log atIndex:2];
-    type = log.type;
-    name = log.name;
-  });
-  [MSMobileCenter configureWithAppSecret:@"TestAppSecret"];
-  [[MSAnalytics sharedInstance] startWithLogManager:logManagerMock];
-  
+          .andDo(^(NSInvocation *invocation) {
+              MSEventLog *log;
+              [invocation getArgument:&log atIndex:2];
+              type = log.type;
+              name = log.name;
+          });
+  [MSMobileCenter configureWithAppSecret:kMSTestAppSecret];
+  [[MSAnalytics sharedInstance] startWithLogManager:logManagerMock appSecret:kMSTestAppSecret];
+
   //When
   [MSAnalytics trackPage:expectedName];
-  
+
   //Then
   assertThat(type, is(kMSTypePage));
   assertThat(name, is(expectedName));
 }
 
 - (void)testTrackPageWithProperties {
-  
+
   //If
   __block NSString *type;
   __block NSString *name;
-  __block NSDictionary<NSString*, NSString*> *properties;
+  __block NSDictionary<NSString *, NSString *> *properties;
   NSString *expectedName = @"HomeSweetHome";
-  NSDictionary *expectedProperties = @{ @"Sofa" : @"yes", @"TV" : @"of course" };
-  id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
+  NSDictionary *expectedProperties = @{@"Sofa": @"yes", @"TV": @"of course"};
+  id <MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
   OCMStub([logManagerMock processLog:[OCMArg isKindOfClass:[MSLogWithProperties class]] withPriority:([MSAnalytics sharedInstance].priority)])
-  .andDo(^(NSInvocation *invocation) {
-    MSEventLog *log;
-    [invocation getArgument:&log atIndex:2];
-    type = log.type;
-    name = log.name;
-    properties = log.properties;
-  });
-  [MSMobileCenter configureWithAppSecret:@"TestAppSecret"];
-  [[MSAnalytics sharedInstance] startWithLogManager:logManagerMock];
-  
+          .andDo(^(NSInvocation *invocation) {
+              MSEventLog *log;
+              [invocation getArgument:&log atIndex:2];
+              type = log.type;
+              name = log.name;
+              properties = log.properties;
+          });
+  [MSMobileCenter configureWithAppSecret:kMSTestAppSecret];
+  [[MSAnalytics sharedInstance] startWithLogManager:logManagerMock appSecret:kMSTestAppSecret];
+
   //When
   [MSAnalytics trackPage:expectedName withProperties:expectedProperties];
-  
+
   //Then
   assertThat(type, is(kMSTypePage));
   assertThat(name, is(expectedName));
@@ -256,19 +256,20 @@ static NSString *const kMSTypePage = @"page";
   XCTAssertFalse([MSAnalytics isAutoPageTrackingEnabled]);
 }
 
-- (void)analytics:(MSAnalytics *)analytics willSendEventLog:(MSEventLog *)eventLog
-{
+- (void)analytics:(MSAnalytics *)analytics willSendEventLog:(MSEventLog *)eventLog {
   self.willSendEventLogWasCalled = true;
 }
 
-- (void)analytics:(MSAnalytics *)analytics didSucceedSendingEventLog:(MSEventLog *)eventLog
-{
+- (void)analytics:(MSAnalytics *)analytics didSucceedSendingEventLog:(MSEventLog *)eventLog {
   self.didSucceedSendingEventLogWasCalled = true;
 }
 
-- (void)analytics:(MSAnalytics *)analytics didFailSendingEventLog:(MSEventLog *)eventLog withError:(NSError *)error
-{
+- (void)analytics:(MSAnalytics *)analytics didFailSendingEventLog:(MSEventLog *)eventLog withError:(NSError *)error {
   self.didFailSendingEventLogWasCalled = true;
+}
+
+- (void)testInitializationPriorityCorrect {
+  XCTAssertTrue([[MSAnalytics sharedInstance] initializationPriority] == MSInitializationPriorityDefault);
 }
 
 @end

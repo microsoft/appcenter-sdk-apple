@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import <Foundation/Foundation.h>
 @class MSDevice;
 
@@ -10,28 +6,28 @@
 /**
  *  UUID for the crash report.
  */
-@property(nonatomic, readonly) NSString *incidentIdentifier;
+@property(nonatomic, copy, readonly) NSString *incidentIdentifier;
 
 /**
  *  UUID for the app installation on the device.
  */
-@property(nonatomic, readonly) NSString *reporterKey;
+@property(nonatomic, copy, readonly) NSString *reporterKey;
 
 /**
  *  Signal that caused the crash.
  */
-@property(nonatomic, readonly) NSString *signal;
+@property(nonatomic, copy, readonly) NSString *signal;
 
 /**
  *  Exception name that triggered the crash, nil if the crash was not caused by
  * an exception.
  */
-@property(nonatomic, readonly) NSString *exceptionName;
+@property(nonatomic, copy, readonly) NSString *exceptionName;
 
 /**
  *  Exception reason, nil if the crash was not caused by an exception.
  */
-@property(nonatomic, readonly) NSString *exceptionReason;
+@property(nonatomic, copy, readonly) NSString *exceptionReason;
 
 /**
  *  Date and time the app started, nil if unknown.

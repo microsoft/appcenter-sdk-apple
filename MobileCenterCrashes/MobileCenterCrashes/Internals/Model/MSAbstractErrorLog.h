@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MobileCenter+Internal.h"
 #import <Foundation/Foundation.h>
 
@@ -12,7 +8,7 @@
 /*
  * Error identifier.
  */
-@property(nonatomic, nonnull) NSString *errorId;
+@property(nonatomic,copy, nonnull) NSString *errorId;
 
 /*
  * Process identifier.
@@ -22,7 +18,7 @@
 /*
  * Process name.
  */
-@property(nonatomic, nonnull) NSString *processName;
+@property(nonatomic, copy, nonnull) NSString *processName;
 
 /*
  * Parent's process identifier. [optional]
@@ -32,7 +28,7 @@
 /*
  * Name of the parent's process. [optional]
  */
-@property(nonatomic, nullable) NSString *parentProcessName;
+@property(nonatomic, copy, nullable) NSString *parentProcessName;
 
 /*
  * Error thread identifier. [optional]
@@ -42,7 +38,7 @@
 /*
  * Error thread name. [optional]
  */
-@property(nonatomic, nullable) NSString *errorThreadName;
+@property(nonatomic, copy, nullable) NSString *errorThreadName;
 
 /*
  * If YES, this error report is an application crash.
@@ -62,6 +58,6 @@
 /*
  * CPU Architecture. [optional]
  */
-@property(nonatomic, nullable) NSString *architecture;
+@property(nonatomic, copy, nullable) NSString *architecture;
 
 @end

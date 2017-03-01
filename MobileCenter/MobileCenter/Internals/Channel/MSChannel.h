@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSChannelConfiguration.h"
 #import "MSConstants+Internal.h"
 #import "MSEnable.h"
@@ -10,6 +6,7 @@
 #import "MSSenderDelegate.h"
 #import "MSStorage.h"
 #import <Foundation/Foundation.h>
+
 @protocol MSChannelDelegate;
 
 NS_ASSUME_NONNULL_BEGIN

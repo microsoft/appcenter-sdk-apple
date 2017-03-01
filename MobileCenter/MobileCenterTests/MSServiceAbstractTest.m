@@ -25,8 +25,8 @@
   return sharedInstance;
 }
 
-- (void)startWithLogManager:(id<MSLogManager>)logManager {
-  [super startWithLogManager:logManager];
+- (void)startWithLogManager:(id<MSLogManager>)logManager appSecret:(NSString *)appSecret {
+  [super startWithLogManager:logManager appSecret:appSecret];
 }
 
 - (NSString *)storageKey {
@@ -35,6 +35,10 @@
 
 - (MSPriority)priority {
   return MSPriorityDefault;
+}
+
+- (MSInitializationPriority)initializationPriority {
+  return MSInitializationPriorityDefault;
 }
 
 + (NSString *)logTag {
@@ -313,10 +317,14 @@
   self.abstractService.logManager = logManagerMock;
 
   // When
-  [self.abstractService startWithLogManager:logManagerMock];
+  [self.abstractService startWithLogManager:logManagerMock appSecret:@"TestAppSecret"];
 
   // Then
   OCMVerify([logManagerMock setEnabled:YES andDeleteDataOnDisabled:YES forPriority:self.abstractService.priority]);
+}
+
+- (void)testInitializationPriorityCorrect {
+  XCTAssertTrue([self.abstractService initializationPriority] == MSInitializationPriorityDefault);
 }
 
 @end

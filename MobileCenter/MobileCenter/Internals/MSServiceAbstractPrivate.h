@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSUserDefaults.h"
 #import <Foundation/Foundation.h>
 
@@ -13,7 +9,7 @@
 /**
  *  isEnabled value storage key.
  */
-@property(nonatomic, readonly) NSString *isEnabledKey;
+@property(nonatomic, copy, readonly) NSString *isEnabledKey;
 
 /**
  *  Storage used for persistence.

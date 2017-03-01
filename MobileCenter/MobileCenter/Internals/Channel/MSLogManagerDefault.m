@@ -1,9 +1,9 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSChannelDefault.h"
+#import "MSFileStorage.h"
+#import "MSHttpSender.h"
+#import "MSIngestionSender.h"
 #import "MSLogManagerDefault.h"
+#import "MSLogManagerDefaultPrivate.h"
 #import "MSMobileCenterErrors.h"
 #import "MobileCenter+Internal.h"
 
@@ -15,7 +15,7 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 @interface MSLogManagerDefault ()
 
 /**
- *  A boolean value set to YES if this instance is enabled or NO otherwise.
+ * A boolean value set to YES if this instance is enabled or NO otherwise.
  */
 @property(atomic) BOOL enabled;
 
@@ -25,20 +25,29 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 
 #pragma mark - Initialization
 
-- (instancetype)init {
-  if (self = [super init]) {
-    dispatch_queue_t serialQueue = dispatch_queue_create(MSlogsDispatchQueue, DISPATCH_QUEUE_SERIAL);
-    _enabled = YES;
-    _logsDispatchQueue = serialQueue;
-    _channels = [NSMutableDictionary<NSNumber *, id<MSChannel>> new];
-    _delegates = [NSHashTable weakObjectsHashTable];
-    _deviceTracker = [[MSDeviceTracker alloc] init];
-  }
+- (instancetype)initWithAppSecret:(NSString *)appSecret installId:(NSUUID *)installId logUrl:(NSString *)logUrl {
+  self = [self initWithSender:[[MSIngestionSender alloc] initWithBaseUrl:logUrl
+                                  headers:@{
+                                    kMSHeaderContentTypeKey : kMSContentType,
+                                    kMSHeaderAppSecretKey : appSecret,
+                                    kMSHeaderInstallIDKey : [installId UUIDString]
+                                  }
+                                  queryStrings:@{
+                                    kMSAPIVersionKey : kMSAPIVersion
+                                  }
+                                  reachability:[MS_Reachability reachabilityForInternetConnection]
+                                  retryIntervals:@[ @(10), @(5 * 60), @(20 * 60) ]]
+                      storage:[[MSFileStorage alloc] init]];
   return self;
 }
 
 - (instancetype)initWithSender:(id<MSSender>)sender storage:(id<MSStorage>)storage {
   if (self = [self init]) {
+    dispatch_queue_t serialQueue = dispatch_queue_create(MSlogsDispatchQueue, DISPATCH_QUEUE_SERIAL);
+    _enabled = YES;
+    _logsDispatchQueue = serialQueue;
+    _channels = [NSMutableDictionary<NSNumber *, id<MSChannel>> new];
+    _delegates = [NSHashTable weakObjectsHashTable];
     _sender = sender;
     _storage = storage;
   }
@@ -56,6 +65,7 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 }
 
 #pragma mark - Channel Delegate
+
 - (void)addChannelDelegate:(id<MSChannelDelegate>)channelDelegate forPriority:(MSPriority)priority {
   if (channelDelegate) {
     id<MSChannel> channel = [self channelForPriority:priority];
@@ -82,6 +92,10 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 
 - (void)processLog:(id<MSLog>)log withPriority:(MSPriority)priority {
 
+  if (!log) {
+    return;
+  }
+
   // Notify delegates.
   [self enumerateDelegatesForSelector:@selector(onProcessingLog:withPriority:)
                             withBlock:^(id<MSLogManagerDelegate> delegate) {
@@ -93,9 +107,14 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 
   // Set common log info.
   log.toffset = [NSNumber numberWithLongLong:[MSUtil nowInMilliseconds]];
-  log.device = self.deviceTracker.device;
 
-  // Asynchroneously forward to channel by using the data dispatch queue.
+  // Only add device info in case the log doesn't have one. In case the log is restored after a crash or for crashes,
+  // We don't want the device information to be updated but want the old one preserved.
+  if (!log.device) {
+    log.device = [[MSDeviceTracker sharedInstance] device];
+  }
+
+  // Asynchronously forward to channel by using the data dispatch queue.
   [channel enqueueItem:log];
 }
 

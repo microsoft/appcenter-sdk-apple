@@ -5,6 +5,7 @@
 #import <Foundation/Foundation.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <XCTest/XCTest.h>
+#import <inttypes.h>
 
 #import "MSAppleErrorLog.h"
 #import "MSCrashesTestUtil.h"
@@ -26,7 +27,7 @@
   NSData *crashData = [MSCrashesTestUtil dataOfFixtureCrashReportWithFileName:@"live_report_signal"];
   XCTAssertNotNil(crashData);
 
-  MSDevice *device = [[MSDeviceTracker alloc] init].device;
+  MSDevice *device = [MSDeviceTracker sharedInstance].device;
   XCTAssertNotNil(device);
 
   NSError *error = nil;
@@ -37,8 +38,8 @@
   XCTAssertNotNil(errorReport.incidentIdentifier);
   assertThat(errorReport.reporterKey, equalTo([[MSMobileCenter installId] UUIDString]));
   XCTAssertEqual(errorReport.signal, crashReport.signalInfo.name);
-  XCTAssertEqual(errorReport.exceptionName, crashReport.signalInfo.name);
-  assertThat(errorReport.exceptionReason, equalTo(crashReport.exceptionInfo.exceptionReason));
+  XCTAssertEqual(errorReport.exceptionName, nil);
+  XCTAssertEqual(errorReport.exceptionReason, nil);
   assertThat(errorReport.appErrorTime, equalTo(crashReport.systemInfo.timestamp));
   assertThat(errorReport.appStartTime, equalTo(crashReport.processInfo.processStartTime));
   XCTAssertTrue([errorReport.device isEqual:device]);
@@ -54,7 +55,7 @@
   XCTAssertNotNil(errorReport.incidentIdentifier);
   assertThat(errorReport.reporterKey, equalTo([[MSMobileCenter installId] UUIDString]));
   XCTAssertEqual(errorReport.signal, crashReport.signalInfo.name);
-  XCTAssertEqual(errorReport.exceptionName, crashReport.signalInfo.name);
+  assertThat(errorReport.exceptionName, equalTo(crashReport.exceptionInfo.exceptionName));
   assertThat(errorReport.exceptionReason, equalTo(crashReport.exceptionInfo.exceptionReason));
   assertThat(errorReport.appErrorTime, equalTo(crashReport.systemInfo.timestamp));
   assertThat(errorReport.appStartTime, equalTo(crashReport.processInfo.processStartTime));
@@ -72,6 +73,59 @@
   NSString *expected = (NSString *) CFBridgingRelease(CFUUIDCreateString(NULL, report.uuidRef));
   NSString *actual = [MSErrorLogFormatter errorIdForCrashReport:report];
   assertThat(actual, equalTo(expected));
+}
+
+- (void)testCrashProbeReports {
+  // Crash with _pthread_list_lock held
+  [self assertIsCrashProbeReportValidConverted:@"live_report_pthread_lock"];
+  
+  // Throw C++ exception
+  [self assertIsCrashProbeReportValidConverted:@"live_report_cpp_exception"];
+  
+  // Throw Objective-C exception
+  [self assertIsCrashProbeReportValidConverted:@"live_report_objc_exception"];
+  
+  // Crash inside objc_msgSend()
+  [self assertIsCrashProbeReportValidConverted:@"live_report_objc_msgsend"];
+  
+  // Message a released object
+  [self assertIsCrashProbeReportValidConverted:@"live_report_objc_released"];
+  
+  // Write to a read-only page
+  [self assertIsCrashProbeReportValidConverted:@"live_report_write_readonly"];
+  
+  // Execute an undefined instruction
+  [self assertIsCrashProbeReportValidConverted:@"live_report_undefined_instr"];
+  
+  // Dereference a NULL pointer
+  [self assertIsCrashProbeReportValidConverted:@"live_report_null_ptr"];
+  
+  // Dereference a bad pointer
+  [self assertIsCrashProbeReportValidConverted:@"live_report_bad_ptr"];
+  
+  // Jump into an NX page
+  [self assertIsCrashProbeReportValidConverted:@"live_report_jump_into_nx"];
+  
+  // Call __builtin_trap()
+  [self assertIsCrashProbeReportValidConverted:@"live_report_call_trap"];
+  
+  // Call abort()
+  [self assertIsCrashProbeReportValidConverted:@"live_report_call_abort"];
+  
+  // Corrupt the Objective-C runtime's structures
+  [self assertIsCrashProbeReportValidConverted:@"live_report_corrupt_objc"];
+  
+  // Overwrite link register, then crash
+  [self assertIsCrashProbeReportValidConverted:@"live_report_overwrite_link"];
+  
+  // Smash the bottom of the stack
+  [self assertIsCrashProbeReportValidConverted:@"live_report_smash_bottom"];
+  
+  // Smash the top of the stack
+  [self assertIsCrashProbeReportValidConverted:@"live_report_smash_top"];
+  
+  // Swift
+  [self assertIsCrashProbeReportValidConverted:@"live_report_swift_crash"];
 }
 
 - (void)testProcessIdAndExceptionForObjectiveCExceptionCrash {
@@ -122,7 +176,7 @@
   NSData *crashData = [MSCrashesTestUtil dataOfFixtureCrashReportWithFileName:@"live_report_exception"];
   XCTAssertNotNil(crashData);
 
-  MSDevice *device = [[MSDeviceTracker alloc] init].device;
+  MSDevice *device = [MSDeviceTracker sharedInstance].device;
   XCTAssertNotNil(device);
 
   NSError *error = nil;
@@ -312,5 +366,75 @@
   MSBinaryImageType imageType = [MSErrorLogFormatter imageTypeForImagePath:imagePath processPath:processPath];
   XCTAssertEqual(imageType, MSBinaryImageTypeOther, @"Test other image %@ with process %@", imagePath, processPath);
 }
+
+
+- (void)assertIsCrashProbeReportValidConverted:(NSString *)filename {
+  NSData *crashData = [MSCrashesTestUtil dataOfFixtureCrashReportWithFileName:filename];
+  XCTAssertNotNil(crashData);
+  
+  NSError *error = nil;
+  MSPLCrashReport *crashReport = [[MSPLCrashReport alloc] initWithData:crashData error:&error];
+  XCTAssertNotNil(crashReport);
+  MSPLCrashReportThreadInfo *crashedThread = [MSErrorLogFormatter findCrashedThreadInReport:crashReport];
+  XCTAssertNotNil(crashedThread);
+  MSAppleErrorLog *errorLog = [MSErrorLogFormatter errorLogFromCrashReport:crashReport];
+  XCTAssertNotNil(errorLog);
+  
+  NSString *actualId = [MSErrorLogFormatter errorIdForCrashReport:crashReport];
+  assertThat(errorLog.errorId, equalTo(actualId));
+  
+  assertThat(errorLog.processId, equalTo(@(crashReport.processInfo.processID)));
+  assertThat(errorLog.processName, equalTo(crashReport.processInfo.processName));
+  assertThat(errorLog.parentProcessId, equalTo(@(crashReport.processInfo.parentProcessID)));
+  assertThat(errorLog.parentProcessName, equalTo(crashReport.processInfo.parentProcessName));
+  
+  assertThat(errorLog.errorThreadId, equalTo(@(crashedThread.threadNumber)));
+  
+  NSDate *appStartTime = [NSDate dateWithTimeIntervalSince1970:(([errorLog.toffset doubleValue] - [errorLog.appLaunchTOffset doubleValue])/1000)];
+  NSDate *appErrorTime = [NSDate dateWithTimeIntervalSince1970:([errorLog.toffset doubleValue]/1000)];
+  assertThat(appErrorTime, equalTo(crashReport.systemInfo.timestamp));
+  assertThat(appStartTime, equalTo(crashReport.processInfo.processStartTime));
+  
+  NSArray *images = crashReport.images;
+  for (MSPLCrashReportBinaryImageInfo *image in images) {
+    if (image.codeType != nil && image.codeType.typeEncoding == PLCrashReportProcessorTypeEncodingMach) {
+      assertThat(errorLog.primaryArchitectureId, equalTo(@(image.codeType.type)));
+      assertThat(errorLog.architectureVariantId, equalTo(@(image.codeType.subtype)));
+    }
+  }
+  
+  XCTAssertNotNil(errorLog.applicationPath);
+  // Not using the report.processInfo.processPath directly to compare as it will be anonymized in the Simulator.
+  assertThat(errorLog.applicationPath, equalTo(@"/private/var/mobile/Containers/Bundle/Application/253BCE7D-4032-4FB2-AC63-C16F5C0BCBFA/CrashProbeiOS.app/CrashProbeiOS"));
+  
+  NSString *signalAdress = [NSString stringWithFormat:@"0x%" PRIx64, crashReport.signalInfo.address];
+  assertThat(errorLog.osExceptionType, equalTo(crashReport.signalInfo.name));
+  assertThat(errorLog.osExceptionCode, equalTo(crashReport.signalInfo.code));
+  assertThat(errorLog.osExceptionAddress, equalTo(signalAdress));
+  
+  if (crashReport.hasExceptionInfo) {
+    assertThat(errorLog.exceptionType, equalTo(crashReport.exceptionInfo.exceptionName));
+    assertThat(errorLog.exceptionReason, equalTo(crashReport.exceptionInfo.exceptionReason));
+  } else {
+    XCTAssertEqual(errorLog.exceptionType, nil);
+    XCTAssertEqual(errorLog.exceptionReason, nil);
+  }
+  
+  assertThat(errorLog.threads, hasCountOf([crashReport.threads count]));
+  for (int i = 0; i < [errorLog.threads count]; i++) {
+    MSThread *thread = errorLog.threads[i];
+    MSPLCrashReportThreadInfo *plThread = crashReport.threads[i];
+    
+    assertThat(thread.threadId, equalTo(@(plThread.threadNumber)));
+    if (crashReport.hasExceptionInfo && [thread.threadId isEqualToNumber:@(crashedThread.threadNumber)]) {
+      XCTAssertNotNil(thread.exception);
+    } else {
+      XCTAssertNil(thread.exception);
+    }
+  }
+  assertThat(errorLog.registers, hasCountOf([crashedThread.registers count]));
+  
+}
+
 
 @end
