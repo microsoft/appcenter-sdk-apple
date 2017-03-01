@@ -37,7 +37,11 @@ static NSString *const kMSDistributionGroups = @"distribution_groups";
       self.shortVersion = dictionary[kMSShortVersion];
     }
     if (dictionary[kMSReleaseNotes]) {
-      self.releaseNotes = dictionary[kMSReleaseNotes];
+      if ([dictionary[kMSReleaseNotes] isKindOfClass:[NSNull class]]) {
+        self.releaseNotes = nil;
+      } else {
+        self.releaseNotes = dictionary[kMSReleaseNotes];
+      }
     }
     if (dictionary[kMSProvisioningProfileName]) {
       self.provisioningProfileName = dictionary[kMSProvisioningProfileName];
