@@ -100,7 +100,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   [super startWithLogManager:logManager appSecret:appSecret];
   MSLogVerbose([MSUpdates logTag], @"Started Updates service.");
 
-// TODO remove this =)
+  // TODO remove this =)
   NSString *foo = MSUpdatesLocalizedString(@"Working");
   MSLogVerbose([MSUpdates logTag], @"%@", foo);
 }
@@ -154,65 +154,59 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
 - (void)checkLatestRelease:(NSString *)updateToken {
   MSDistributionSender *sender =
-      [[MSDistributionSender alloc] initWithBaseUrl:self.apiUrl
-                                            headers:@{
-                                              kMSHeaderUpdateApiToken : updateToken
-                                            }
-                                       queryStrings:nil
-                                       reachability:[MS_Reachability reachabilityForInternetConnection]
-                                     retryIntervals:@[ @(10) ]];
+      [[MSDistributionSender alloc] initWithBaseUrl:self.apiUrl appSecret:self.appSecret updateToken:updateToken];
 
   [sender sendAsync:nil
       completionHandler:^(NSString *callId, NSUInteger statusCode, NSData *data, NSError *error) {
 
-         // Success.
-         if (statusCode == MSHTTPCodesNo200OK) {
-           id dictionary =
-               [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-           MSReleaseDetails *details = [[MSReleaseDetails alloc] initWithDictionary:dictionary];
-           if (!details) {
-             MSLogError([MSUpdates logTag], @"Couldn't parse response payload.");
-           } else {
-             NSData *jsonData =
-                 [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:&error];
-             NSString *jsonString = nil;
-             if (!jsonData || error) {
-               jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-             } else {
+        // Success.
+        if (statusCode == MSHTTPCodesNo200OK) {
+          id dictionary =
+              [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+          MSReleaseDetails *details = [[MSReleaseDetails alloc] initWithDictionary:dictionary];
+          if (!details) {
+            MSLogError([MSUpdates logTag], @"Couldn't parse response payload.");
+          } else {
+            NSData *jsonData =
+                [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:&error];
+            NSString *jsonString = nil;
+            if (!jsonData || error) {
+              jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+            } else {
 
-               // NSJSONSerialization escapes paths by default so we replace them.
-               jsonString = [[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]
-                   stringByReplacingOccurrencesOfString:@"\\/"
-                                             withString:@"/"];
-             }
-             MSLogDebug([MSUpdates logTag], @"Received a response of update request:\n%@", jsonString);
-             [self handleUpdate:details];
-           }
-         }
+              // NSJSONSerialization escapes paths by default so we replace them.
+              jsonString = [[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]
+                  stringByReplacingOccurrencesOfString:@"\\/"
+                                            withString:@"/"];
+            }
+            MSLogDebug([MSUpdates logTag], @"Received a response of update request:\n%@", jsonString);
+            [self handleUpdate:details];
+          }
+        }
 
-         // Failure.
-         else {
-           MSLogDebug([MSUpdates logTag], @"Failed to get a update response, status code:%lu",
-                      (unsigned long)statusCode);
-           NSString *jsonString = nil;
-           id dictionary =
-               [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+        // Failure.
+        else {
+          MSLogDebug([MSUpdates logTag], @"Failed to get a update response, status code:%lu",
+                     (unsigned long)statusCode);
+          NSString *jsonString = nil;
+          id dictionary =
+              [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
 
-           // Failure can deliver non-JSON format of payload.
-           if (!error) {
-             NSData *jsonData =
-                 [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:&error];
-             if (jsonData && !error) {
+          // Failure can deliver non-JSON format of payload.
+          if (!error) {
+            NSData *jsonData =
+                [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:&error];
+            if (jsonData && !error) {
 
-               // NSJSONSerialization escapes paths by default so we replace them.
-               jsonString = [[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]
-                   stringByReplacingOccurrencesOfString:@"\\/"
-                                             withString:@"/"];
-             }
-           }
-           MSLogError([MSUpdates logTag], @"Response:\n%@",
-                      jsonString ? jsonString : [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
-         }
+              // NSJSONSerialization escapes paths by default so we replace them.
+              jsonString = [[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]
+                  stringByReplacingOccurrencesOfString:@"\\/"
+                                            withString:@"/"];
+            }
+          }
+          MSLogError([MSUpdates logTag], @"Response:\n%@",
+                     jsonString ? jsonString : [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+        }
 
         // There is no more interaction with distribution backend. Shutdown sender.
         [sender setEnabled:NO andDeleteDataOnDisabled:YES];
