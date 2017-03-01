@@ -62,4 +62,16 @@
   XCTAssertTrue([details isValid]);
 }
 
+- (void)testNullReleaseNotes {
+
+  // If
+  NSDictionary *dictionary = @{ @"release_notes" : [NSNull new] };
+
+  // When
+  MSReleaseDetails *details = [[MSReleaseDetails alloc] initWithDictionary:dictionary];
+
+  // Then
+  XCTAssertNil(details.releaseNotes);
+}
+
 @end
