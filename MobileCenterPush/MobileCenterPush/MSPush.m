@@ -123,6 +123,14 @@ static dispatch_once_t onceToken;
 #endif
 }
 
+#ifdef __IPHONE_8_0
+- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
+{
+  //register to receive notifications
+  [application registerForRemoteNotifications];
+}
+#endif
+
 - (NSString *)convertTokenToString:(NSData *)token {
   if (!token)
     return nil;
@@ -184,15 +192,15 @@ static dispatch_once_t onceToken;
 
 #pragma mark - Register callbacks
 
-- (void)application:(UIApplication *)app didRegisterForRemoteNotificationsWith:(NSData *)deviceToken {
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
   MSLogVerbose([MSPush logTag], @"Registering for push notifications has been finished successfully");
   NSString *strDeviceToken = [self convertTokenToString:deviceToken];
   [MSUserDefaults.shared setObject:strDeviceToken forKey:kMSPushServiceStorageKey];
   [self sendDeviceToken:strDeviceToken];
 }
 
-- (void)application:(UIApplication *)app didFailToRegisterForRemoteNotificationsWith:(NSError *)err {
-  MSLogVerbose([MSPush logTag], @"Registering for push notifications has been finished with error: %@", err.description);
+-(void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+  MSLogVerbose([MSPush logTag], @"Registering for push notifications has been finished with error: %@", error.description);
 }
 
 #pragma mark - Delegate

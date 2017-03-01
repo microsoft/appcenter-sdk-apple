@@ -1,6 +1,6 @@
+#import "MSChannelDelegate.h"
 #import "MSPush.h"
 #import "MSPushDelegate.h"
-#import "MSChannelDelegate.h"
 #import "MSServiceInternal.h"
 
 NS_ASSUME_NONNULL_BEGIN

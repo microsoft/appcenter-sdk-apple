@@ -34,6 +34,7 @@
 
 /* Begin PBXBuildFile section */
 		38D4BBA11D5A98D1001A30A0 /* ../MobileCenter/MobileCenter/MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 38D4BB9F1D5A98D1001A30A0 /* ../MobileCenter/MobileCenter/MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D39B04E41E66FBD50048E397 /* MSPushTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = D39B04E31E66FBD50048E397 /* MSPushTestUtil.m */; };
 		D3AD5EC31E5C4F6A001627AB /* MobileCenterPushTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3AD5EC21E5C4F6A001627AB /* MobileCenterPushTests.m */; };
 		D3AD5EC51E5C4F6A001627AB /* libMobileCenterPush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D33A94511E5B11BB003966DB /* libMobileCenterPush.a */; };
 		D3AD5F0C1E5C819A001627AB /* MobileCenter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F0B1E5C819A001627AB /* MobileCenter+Internal.h */; };
@@ -85,6 +86,8 @@
 		38D4BB9F1D5A98D1001A30A0 /* ../MobileCenter/MobileCenter/MSService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ../MobileCenter/MobileCenter/MSService.h; sourceTree = "<group>"; };
 		D33A94511E5B11BB003966DB /* libMobileCenterPush.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMobileCenterPush.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D33A94541E5B11BB003966DB /* MobileCenterPush.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MobileCenterPush.h; sourceTree = "<group>"; };
+		D39B04E21E66FBC60048E397 /* MSPushTestUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MSPushTestUtil.h; path = Util/MSPushTestUtil.h; sourceTree = "<group>"; };
+		D39B04E31E66FBD50048E397 /* MSPushTestUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSPushTestUtil.m; path = Util/MSPushTestUtil.m; sourceTree = "<group>"; };
 		D3AD5EC01E5C4F6A001627AB /* MobileCenterPush.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MobileCenterPush.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3AD5EC21E5C4F6A001627AB /* MobileCenterPushTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MobileCenterPushTests.m; sourceTree = "<group>"; };
 		D3AD5EC41E5C4F6A001627AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -164,12 +167,22 @@
 			path = MobileCenterPush;
 			sourceTree = "<group>";
 		};
+		D39B04E11E66FBA70048E397 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				D39B04E21E66FBC60048E397 /* MSPushTestUtil.h */,
+				D39B04E31E66FBD50048E397 /* MSPushTestUtil.m */,
+			);
+			name = Util;
+			sourceTree = "<group>";
+		};
 		D3AD5EC11E5C4F6A001627AB /* MobileCenterPushTests */ = {
 			isa = PBXGroup;
 			children = (
+				D3AD5EC41E5C4F6A001627AB /* Info.plist */,
 				D3AD5EC21E5C4F6A001627AB /* MobileCenterPushTests.m */,
 				D3C4E1FD1E6572D3006D3C0D /* MSPushDelegateTests.m */,
-				D3AD5EC41E5C4F6A001627AB /* Info.plist */,
+				D39B04E11E66FBA70048E397 /* Util */,
 			);
 			path = MobileCenterPushTests;
 			sourceTree = "<group>";
@@ -378,6 +391,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D3C4E1FE1E6572D3006D3C0D /* MSPushDelegateTests.m in Sources */,
+				D39B04E41E66FBD50048E397 /* MSPushTestUtil.m in Sources */,
 				D3AD5EC31E5C4F6A001627AB /* MobileCenterPushTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
