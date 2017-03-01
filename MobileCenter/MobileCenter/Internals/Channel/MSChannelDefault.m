@@ -158,7 +158,7 @@
                    self.pendingBatchQueueFull = YES;
                  }
                  MSLogContainer *container = [[MSLogContainer alloc] initWithBatchId:batchId andLogs:logArray];
-                 MSLogDebug([MSMobileCenter logTag], @"Sending log(s), batch Id:%@, payload:\n %@", batchId,
+                 MSLogDebug([MSMobileCenter logTag], @"Sending log(s), batch Id:%@, payload:\n%@", batchId,
                             [container serializeLogWithPrettyPrinting:YES]);
 
                  // Notify delegates.
@@ -172,7 +172,7 @@
                  // Forward logs to the sender.
                  [self.sender
                              sendAsync:container
-                     completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
+                     completionHandler:^(NSString *batchId, NSUInteger statusCode, NSData *data, NSError *error) {
                        dispatch_async(self.logsDispatchQueue, ^{
                          if ([self.pendingBatchIds containsObject:batchId]) {
 

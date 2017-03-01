@@ -35,7 +35,7 @@
 
   // Actions
   case 0: {
-    return 2;
+    return 3;
   }
 
   // Settings
@@ -83,6 +83,11 @@
 
     case 1: {
       cell.textLabel.text = NSLocalizedString(@"Crashes", @"");
+      break;
+    }
+
+    case 2: {
+      cell.textLabel.text = NSLocalizedString(@"Updates", @"");
       break;
     }
 
@@ -152,6 +157,13 @@
     break;
   }
 
+  case 2: {
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"updates"];
+    [self.navigationController pushViewController:vc animated:YES];
+    break;
+  }
+
   default:
     break;
   }
@@ -162,4 +174,5 @@
   [MSMobileCenter setEnabled:enabledSwitch.on];
   enabledSwitch.on = [MSMobileCenter isEnabled];
 }
+
 @end

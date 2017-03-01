@@ -34,5 +34,20 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>None</string>
+			<key>CFBundleURLName</key>
+			<string>com.microsoft.azure.mobile.swiftdemo</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>mobilecenter-7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7</string>
+			</array>
+		</dict>
+	</array>
+	<key>MSAppName</key>
+	<string>demo-ios</string>
 </dict>
 </plist>

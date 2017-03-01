@@ -1,0 +1,29 @@
+objc: true
+clean: true
+sdk: iphonesimulator
+
+theme: ../Themes/apple
+
+module: Updates
+module_version: 0.4.2
+author: Microsoft Corp
+author_url: http://www.microsoft.com
+
+readme: Guides/Updates.md
+documentation: ../Guides/[^index]*.md
+custom_categories:
+  - name: Guides
+    children:
+    - Installation
+
+umbrella_header: ../../MobileCenter-SDK-iOS/MobileCenterUpdates.framework/Headers/MobileCenterUpdates.h
+framework_root: ../../MobileCenter-SDK-iOS
+exclude: [../../MobileCenter-SDK-iOS/MobileCenterUpdates.framework/Headers/MSService.h, ../../MobileCenter-SDK-iOS/MobileCenterUpdates.framework/Headers/MSServiceAbstract.h]
+
+root_url: http://docs.mobile.azure.com/sdk/ios
+github_url: https://github.com/Microsoft/mobile-center-sdk-ios
+github_file_prefix: "https://github.com/Microsoft/mobile-center-sdk-ios"
+
+skip_undocumented: true
+
+output: Generated/
