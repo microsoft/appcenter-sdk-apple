@@ -307,9 +307,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
 - (void)openURLInSafariApp:(NSURL *)url {
   MSLogDebug([MSUpdates logTag], @"Using Safari browser to open URL: %@", url);
-  if ([MSUtil sharedAppCanOpenURL:url]) {
-    [MSUtil sharedAppOpenURL:url];
-  }
+  [MSUtil sharedAppOpenUrl:url options:@{} completionHandler:nil];
 }
 
 - (void)handleUpdate:(MSReleaseDetails *)details {
@@ -396,8 +394,28 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   });
 }
 
-// TODO: Please implement!
 - (void)startDownload:(MSReleaseDetails *)details {
+#if TARGET_IPHONE_SIMULATOR
+  MSLogWarning([MSUpdates logTag], @"Couldn't download a new release on simulator.");
+#else
+  [MSUtil sharedAppOpenUrl:details.installUrl
+      options:@{}
+      completionHandler:^(BOOL success) {
+        if (success) {
+          MSLogDebug([MSUpdates logTag], @"Start updating the application.");
+
+          /*
+           * We've seen the behavior on iOS 8.x devices in HockeyApp that it doesn't download until the application
+           * goes in background by pressing home button. Simply exit the app to start the update process.
+           */
+          if (floor(NSFoundationVersionNumber) < NSFoundationVersionNumber_iOS_9_0) {
+            exit(0);
+          }
+        } else {
+          MSLogError([MSUpdates logTag], @"System couldn't open the URL. Aborting update.");
+        }
+      }];
+#endif
 }
 
 - (void)openUrl:(NSURL *)url {
