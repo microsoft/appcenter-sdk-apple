@@ -3,7 +3,7 @@
 
 ## Version 0.4.2
 
-This version has features that are related to the quality of the provided crash reports as well as a lot of improvements under the hood across all parts of the SDK.
+This version has features that are related to the quality of the provided crash reports as well as improvements under the hood across all parts of the SDK.
 
 ### MobileCenter
 

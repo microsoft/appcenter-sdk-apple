@@ -491,7 +491,7 @@ The SDK will not check if the app is running in an AppStore environment or if a 
 
 **We strongly advice NOT to enable Mach exception handler in release versions of your apps!**
 
-The Mach exception handler executes in-process, and will interfere with debuggers when they attempt to suspend all active threads (which will include the Mach exception handler). Mach-based handling should _NOT_ be used when a debugger is attached. The SDK will not enable crash reporting if the app is **started** with the debugger running. If you attach the debugger **at runtime**, this may cause issues if the Mach exception handler is enabled!
+The Mach exception handler executes in-process and will interfere with debuggers when they attempt to suspend all active threads (which will include the Mach exception handler). Mach-based handling should _NOT_ be used when a debugger is attached. The SDK will not enable crash reporting if the app is **started** with the debugger running. If you attach the debugger **at runtime**, this may cause issues if the Mach exception handler is enabled!
 
 If you want or need to enable the Mach exception handler, you _MUST_ call this method _BEFORE_ starting the SDK.
 
@@ -576,7 +576,7 @@ MSMobileCenter.setEnabled(false)
   No, you can just include Mobile Center modules that interests you but the `MobileCenter` module which contains logic for persistence, forwarding etc. is mandatory.
 
 * Can't see crashes on the portal?   
-   * Make sure SDK `start`-API is used correctly and the Crashes service is initialized. Also, you need to restart the app after a crash and our SDK will forward the crash log only after it's restarted.
+   * Make sure SDK `start`-API is used correctly and the Crashes service is initialized. Also, you need to restart the app after a crash, and our SDK will forward the crash log only after it's restarted.
    * If you have been debugging your app, crash reporting won't work with a debugger attached because the presence of a debugger makes crash reporting impossible.
    * The user needs to upload the symbols that match the UUID of the build that triggered the crash.
    * Make sure your device is online.
