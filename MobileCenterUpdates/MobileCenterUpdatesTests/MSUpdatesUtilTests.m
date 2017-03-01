@@ -31,10 +31,10 @@
   XCTAssertTrue([test isEqualToString:@"NonExistendString"]);
   
   // When
-  test = MSUpdatesLocalizedString(@"Working");
+  test = MSUpdatesLocalizedString(@"Ignore");
   
   // Then
-  XCTAssertTrue([test isEqualToString:@"Yes, this works!"]);
+  XCTAssertTrue([test isEqualToString:@"Ignore"]);
 }
 
 @end
