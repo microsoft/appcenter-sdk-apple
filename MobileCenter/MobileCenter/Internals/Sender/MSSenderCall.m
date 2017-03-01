@@ -1,16 +1,12 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSMobileCenterErrors.h"
 #import "MSMobileCenterInternal.h"
-#import "MSRetriableCall.h"
-#import "MSRetriableCallPrivate.h"
+#import "MSSenderCall.h"
 
-@implementation MSRetriableCall
+@implementation MSSenderCall
 
 @synthesize completionHandler = _completionHandler;
-@synthesize logContainer = _logContainer;
+@synthesize data = _data;
+@synthesize callId = _callId;
 @synthesize submitted = _submitted;
 @synthesize delegate = _delegate;
 
@@ -68,7 +64,7 @@
 }
 
 - (void)resetRetry {
-  _retryCount = 0;
+  self.retryCount = 0;
   [self resetTimer];
 }
 
@@ -99,10 +95,10 @@
     }
 
     // Call completion.
-    self.completionHandler(self.logContainer.batchId, error, statusCode);
+    self.completionHandler(self.callId, error, statusCode);
 
     // Remove call from sender.
-    [sender callCompletedWithId:self.logContainer.batchId];
+    [sender callCompletedWithId:self.callId];
   }
 }
 

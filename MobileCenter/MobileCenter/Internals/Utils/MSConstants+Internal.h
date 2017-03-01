@@ -1,9 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
-#ifndef MSConstants_Internal_h
-#define MSConstants_Internal_h
 #import <Foundation/Foundation.h>
 
 // Device manufacturer
@@ -17,10 +11,22 @@ static NSString *const kMSContentType = @"application/json";
 static NSString *const kMSAPIVersion = @"1.0.0-preview20160914";
 static NSString *const kMSAPIVersionKey = @"api_version";
 
-// Channel priorities, check the kMSPriorityCount if you add a new value.
-typedef NS_ENUM(NSInteger, MSPriority) { MSPriorityDefault, MSPriorityBackground, MSPriorityHigh };
+/** Channel priorities, check the kMSPriorityCount if you add a new value.
+ * The order matters here! Values NEED to range from low priority to high priority.
+ */
+typedef NS_ENUM(NSInteger, MSPriority) { MSPriorityBackground, MSPriorityDefault, MSPriorityHigh };
 static short const kMSPriorityCount = MSPriorityHigh + 1;
 
+/**
+ * The priority by which the modules are initialized.
+ *  MSPriorityMax is reserved for only 1 module and this needs to be Crashes. Crashes needs to be initialized first to
+ *  catch crashes in our other SDK Modules (which will hopefully never happen) and to avoid losing any log at crash time.
+ */
+typedef NS_ENUM(NSInteger, MSInitializationPriority) { MSInitializationPriorityDefault = 500, MSInitializationPriorityMax = 999 };
+
+/**
+ * Enum with the different HTTP status codes.
+ */
 typedef NS_ENUM(NSInteger, MSHTTPCodesNo) {
   // Informational
   MSHTTPCodesNo1XXInformationalUnknown = 1,
@@ -115,5 +121,3 @@ typedef NS_ENUM(NSInteger, MSHTTPCodesNo) {
   MSHTTPCodesNo598NetworkReadTimeoutErrorUnknown = 598,
   MSHTTPCodesNo599NetworkConnectTimeoutErrorUnknown = 599
 };
-
-#endif /* MSConstants_Internal_h */

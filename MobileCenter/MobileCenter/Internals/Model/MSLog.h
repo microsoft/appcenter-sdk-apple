@@ -1,6 +1,4 @@
 /*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- *
  * OpenAPI spec version: 1.0.0-preview20160708
  */
 
@@ -13,7 +11,7 @@
 /**
  * Log type.
  */
-@property(nonatomic) NSString *type;
+@property(nonatomic, copy) NSString *type;
 
 /**
  * Corresponds to the number of milliseconds elapsed between the time the
@@ -27,7 +25,7 @@
  * is not necessarily an analytics session, it can be used to only track
  * crashes.
  */
-@property(nonatomic) NSString *sid;
+@property(nonatomic, copy) NSString *sid;
 
 /**
  * Device properties associated to this log.

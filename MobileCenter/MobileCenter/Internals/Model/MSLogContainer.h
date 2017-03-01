@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSLog.h"
 #import <Foundation/Foundation.h>
 
@@ -10,7 +6,7 @@
 /**
  * Unique batch Id.
  */
-@property(nonatomic) NSString *batchId;
+@property(nonatomic, copy) NSString *batchId;
 
 /**
  * The list of logs

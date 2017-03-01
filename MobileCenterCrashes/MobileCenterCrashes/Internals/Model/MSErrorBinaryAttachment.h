@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import <Foundation/Foundation.h>
 
 /*
@@ -12,17 +8,17 @@
 /**
  * The fileName for binary data.
  */
-@property(nonatomic, readonly, nullable) NSString *fileName;
+@property(nonatomic, copy, readonly, nullable) NSString *fileName;
 
 /**
  * Binary data.
  */
-@property(nonatomic, readonly, nonnull) NSData *data;
+@property(nonatomic, copy, readonly, nonnull) NSData *data;
 
 /**
  * Content type for binary data.
  */
-@property(nonatomic, readonly, nonnull) NSString *contentType;
+@property(nonatomic, copy, readonly, nonnull) NSString *contentType;
 
 /**
  * Is equal to another error binary attachment

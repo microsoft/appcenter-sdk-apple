@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSPageLog.h"
 
 static NSString *const kMSTypePage = @"page";

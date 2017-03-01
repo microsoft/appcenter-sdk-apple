@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import <Foundation/Foundation.h>
 
 @interface MSCrashesUtil : NSObject
@@ -14,10 +10,11 @@
 + (NSString *)crashesDir;
 
 /**
- * Determines if the SDK is used inside an app extension.
+ * Returns the directory for storing and reading buffered logs. It will be used in case we crash to make sure we don't
+ * loose any data.
  *
- * @return YES, if the SDK is used as inside an app extension.
+ * @return The directory containing buffered events for an app
  */
-+ (BOOL)isAppExtension;
++ (NSString *)logBufferDir;
 
 @end

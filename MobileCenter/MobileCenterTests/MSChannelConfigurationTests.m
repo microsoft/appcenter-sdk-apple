@@ -22,9 +22,9 @@
 
   // When
   MSChannelConfiguration *sut = [[MSChannelConfiguration alloc] initWithPriorityName:name
-                                                                         flushInterval:flushInterval
-                                                                        batchSizeLimit:batchSizeLimit
-                                                                   pendingBatchesLimit:pendingBatchesLimit];
+                                                                       flushInterval:flushInterval
+                                                                      batchSizeLimit:batchSizeLimit
+                                                                 pendingBatchesLimit:pendingBatchesLimit];
 
   // Then
   assertThat(sut, notNilValue());

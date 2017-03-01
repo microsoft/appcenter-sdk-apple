@@ -1,12 +1,12 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSCrashesCXXExceptionWrapperException.h"
 
-@implementation MSCrashesCXXExceptionWrapperException {
-  const MSCrashesUncaughtCXXExceptionInfo *_info;
-}
+@interface MSCrashesCXXExceptionWrapperException()
+
+@property (readonly,nonatomic) const MSCrashesUncaughtCXXExceptionInfo *info;
+
+@end
+
+@implementation MSCrashesCXXExceptionWrapperException
 
 - (instancetype)initWithCXXExceptionInfo:(const MSCrashesUncaughtCXXExceptionInfo *)info {
   extern char *__cxa_demangle(const char *mangled_name, char *output_buffer, size_t *length, int *status);
@@ -25,10 +25,11 @@
  * "sneaky" things that require knowledge of how PLCrashReporter works internally.
  */
 - (NSArray *)callStackReturnAddresses {
-  NSMutableArray *cxxFrames = [NSMutableArray arrayWithCapacity:_info->exception_frames_count];
+
+  NSMutableArray *cxxFrames = [NSMutableArray arrayWithCapacity:self.info->exception_frames_count];
   
-  for (uint32_t i = 0; i < _info->exception_frames_count; ++i) {
-    [cxxFrames addObject:[NSNumber numberWithUnsignedLongLong:_info->exception_frames[i]]];
+  for (uint32_t i = 0; i < self.info->exception_frames_count; ++i) {
+    [cxxFrames addObject:[NSNumber numberWithUnsignedLongLong:self.info->exception_frames[i]]];
   }
   
   return cxxFrames;

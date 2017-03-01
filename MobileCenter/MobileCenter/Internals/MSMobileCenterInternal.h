@@ -1,27 +1,21 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
+#import <Foundation/Foundation.h>
 #import "MSLogManager.h"
 #import "MSMobileCenter.h"
 #import "MSServiceInternal.h"
 #import "MobileCenter+Internal.h"
-#import <Foundation/Foundation.h>
 
 // Persisted storage keys.
 static NSString *const kMSInstallIdKey = @"MSInstallId";
 static NSString *const kMSMobileCenterIsEnabledKey = @"MSMobileCenterIsEnabled";
-
-@class MSService;
 
 @interface MSMobileCenter ()
 
 @property(nonatomic) id<MSLogManager> logManager;
 @property(nonatomic) NSMutableArray<NSObject<MSServiceInternal> *> *services;
 @property(nonatomic, copy) NSString *appSecret;
-@property(nonatomic) NSString *serverUrl;
+@property(nonatomic, copy) NSString *logUrl;
 @property(nonatomic, readonly) NSUUID *installId;
-@property(nonatomic) NSString *apiVersion;
+@property(nonatomic, copy) NSString *apiVersion;
 @property BOOL sdkConfigured;
 @property(atomic) BOOL enabledStateUpdating;
 
@@ -29,7 +23,7 @@ static NSString *const kMSMobileCenterIsEnabledKey = @"MSMobileCenterIsEnabled";
  * Returns the singleton instance of Mobile Center.
  */
 + (instancetype)sharedInstance;
-- (NSString *)serverUrl;
+- (NSString *)logUrl;
 - (NSString *)appSecret;
 - (NSString *)apiVersion;
 
@@ -56,5 +50,12 @@ static NSString *const kMSMobileCenterIsEnabledKey = @"MSMobileCenterIsEnabled";
  * @return A name of logger tag for the MobileCenter service.
  */
 + (NSString *)logTag;
+
+/**
+ * Sort the array of services in descending order based on their priority.
+ *
+ * @return The array of services in descending order.
+ */
+- (NSArray *)sortServices:(NSArray<Class> *)services;
 
 @end

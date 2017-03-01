@@ -1,9 +1,5 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
-#import "MSConstants.h"
 #import <Foundation/Foundation.h>
+#import "MSConstants.h"
 
 @class MSWrapperSdk;
 
@@ -51,9 +47,9 @@
 /**
  * Change the base URL (schema + authority + port only) used to communicate with the backend.
  *
- * @param serverUrl base URL to use for backend communication.
+ * @param logUrl base URL to use for backend communication.
  */
-+ (void)setServerUrl:(NSString *)serverUrl;
++ (void)setLogUrl:(NSString *)logUrl;
 
 /**
  * Enable or disable the SDK as a whole. In addition to MobileCenter resources, it will also enable or
