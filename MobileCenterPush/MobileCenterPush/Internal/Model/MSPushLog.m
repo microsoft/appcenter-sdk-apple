@@ -1,6 +1,6 @@
 #import "MSPushLog.h"
 
-static NSString *const kMSPushType = @"push_type";
+static NSString *const kMSTypePushInstallationType = @"push_type";
 static NSString *const kMSDeviceToken = @"device_token";
 
 @implementation MSPushLog
@@ -10,7 +10,7 @@ static NSString *const kMSDeviceToken = @"device_token";
 - (instancetype)init {
   self = [super init];
   if (self) {
-    _type = kMSPushType;
+    _type = kMSTypePushInstallationType;
   }
   return self;
 }
@@ -32,7 +32,7 @@ static NSString *const kMSDeviceToken = @"device_token";
 - (instancetype)initWithCoder:(NSCoder *)coder {
   self = [super initWithCoder:coder];
   if (self) {
-    _type = [coder decodeObjectForKey:kMSPushType];
+    _type = [coder decodeObjectForKey:kMSTypePushInstallationType];
     _deviceToken = [coder decodeObjectForKey:kMSDeviceToken];
   }
   return self;
@@ -40,7 +40,7 @@ static NSString *const kMSDeviceToken = @"device_token";
 
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
-  [coder encodeObject:self.type forKey:kMSPushType];
+  [coder encodeObject:self.type forKey:kMSTypePushInstallationType];
   [coder encodeObject:self.deviceToken forKey:kMSDeviceToken];
 }
 

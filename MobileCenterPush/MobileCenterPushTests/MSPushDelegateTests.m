@@ -1,11 +1,12 @@
-#import <XCTest/XCTest.h>
-#import <OCMock/OCMock.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
+#import <OCMock/OCMock.h>
+#import <XCTest/XCTest.h>
 
 #import "MSPush.h"
+#import "MSPushInternal.h"
 #import "MSPushLog.h"
 #import "MSPushPrivate.h"
-#import "MSPushInternal.h"
+
 
 typedef void(^WillSendInstallationLogCallback)(MSPush*, MSPushLog*);
 typedef void(^DidSucceedSendingEventLogCallback)(MSPush*, MSPushLog*);
