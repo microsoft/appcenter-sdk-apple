@@ -24,7 +24,7 @@ static dispatch_once_t onceToken;
 #pragma mark - Service initialization
 
 - (instancetype)init {
-  if (self = [super init]) {
+  if ((self = [super init])) {
 
     // Set defaults.
     _autoPageTrackingEnabled = NO;

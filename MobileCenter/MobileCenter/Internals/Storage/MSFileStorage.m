@@ -22,7 +22,7 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
 #pragma mark - Initialisation
 
 - (instancetype)init {
-  if (self = [super init]) {
+  if ((self = [super init])) {
     _buckets = [NSMutableDictionary<NSString *, MSStorageBucket *> new];
     _bucketFileCountLimit = MSDefaultFileCountLimit;
     _bucketFileLogCountLimit = MSDefaultLogCountLimit;
