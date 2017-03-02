@@ -7,12 +7,12 @@
 #import "MSKeychainUtil.h"
 #import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
-#import "MSUpdatesUtil.h"
 #import "MSReleaseDetails.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSUpdates.h"
 #import "MSUpdatesInternal.h"
 #import "MSUpdatesPrivate.h"
+#import "MSUpdatesUtil.h"
 
 /**
  * Service storage key name.
@@ -348,9 +348,10 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   return [MSUtil currentAppEnvironment] == MSEnvironmentAppStore;
 }
 
-// TODO: Please implement!
 - (BOOL)isNewerVersion:(MSReleaseDetails *)details {
-  return YES;
+  NSString *installedVersionUUID = [[[MSBasicMachOParser machOParserForMainBundle].uuid UUIDString] lowercaseString];
+  NSArray<NSString *> *latestVersionUUIDs = details.packageHashes;
+  return ![latestVersionUUIDs containsObject:installedVersionUUID];
 }
 
 - (void)showConfirmationAlert:(MSReleaseDetails *)details {

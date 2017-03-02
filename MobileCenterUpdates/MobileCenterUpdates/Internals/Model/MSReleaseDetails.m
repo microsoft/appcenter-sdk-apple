@@ -16,6 +16,7 @@ static NSString *const kMSDownloadUrl = @"download_url";
 static NSString *const kMSAppIconUrl = @"app_icon_url";
 static NSString *const kMSInstallUrl = @"install_url";
 static NSString *const kMSDistributionGroups = @"distribution_groups";
+static NSString *const kMSPackageHashes = @"package_hashes";
 
 @implementation MSReleaseDetails
 
@@ -71,6 +72,9 @@ static NSString *const kMSDistributionGroups = @"distribution_groups";
     }
     if (dictionary[kMSDistributionGroups]) {
       // TODO: Implement here. There is no spec for DistributionGroup data model.
+    }
+    if (dictionary[kMSPackageHashes]) {
+      self.packageHashes = dictionary[kMSPackageHashes];
     }
   }
   return self;
