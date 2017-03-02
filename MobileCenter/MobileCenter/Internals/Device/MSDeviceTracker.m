@@ -49,7 +49,7 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
 }
 
 - (instancetype)init {
-  if (self = [super init]) {
+  if ((self = [super init])) {
 
     // Restore past sessions from NSUserDefaults.
     NSData *devices = [MS_USER_DEFAULTS objectForKey:kMSPastDevicesKey];
