@@ -26,7 +26,7 @@ static NSString *const kMSAnalyzerFilename = @"MSCrashes.analyzer";
  */
 static NSString *const kMSLogBufferFileExtension = @"mscrasheslogbuffer";
 
-/* 
+/**
  * This is required so that mach exception handling is *never* enabled for Xamarin
  */
 static BOOL permanentlyDisableMachExceptionHandling = false;
@@ -197,10 +197,9 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 }
 
 + (void)enableMachExceptionHandler {
-  /* 
-   * Handling Mach exceptions when using Xamarin causes problems, so there must be a way
-   * to ensure that it is never possible in that case.
-   */
+
+  // Handling Mach exceptions when using Xamarin causes problems, so there must be a way
+  // to ensure that it is never possible in that case.
   if (permanentlyDisableMachExceptionHandling) {
     return;
   }
@@ -406,6 +405,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     MSLogDebug([MSCrashes logTag], @"Mach exception handling has already been permanently disabled.");
     return;
   }
+
   // Permanently disable mach exception handling if running from Xamarin
   if ([[self sharedInstance] isMachExceptionHandlerEnabled]) {
     [[self sharedInstance] setEnableMachExceptionHandler:NO];
