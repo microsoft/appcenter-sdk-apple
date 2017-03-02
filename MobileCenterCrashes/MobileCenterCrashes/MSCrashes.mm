@@ -26,6 +26,9 @@ static NSString *const kMSAnalyzerFilename = @"MSCrashes.analyzer";
  */
 static NSString *const kMSLogBufferFileExtension = @"mscrasheslogbuffer";
 
+/* This is required so that mach exception handling is *never* enabled for Xamarin */
+static BOOL permanentlyDisableMachExceptionHandling = false;
+
 #pragma mark - Callbacks Setup
 
 static MSCrashesCallbacks msCrashesCallbacks = {.context = NULL, .handleSignal = NULL};
@@ -60,6 +63,7 @@ static void ms_save_log_buffer_callback(siginfo_t *info, ucontext_t *uap, void *
  */
 static void plcr_post_crash_callback(siginfo_t *info, ucontext_t *uap, void *context) {
   ms_save_log_buffer_callback(info, uap, context);
+  [MSCrashes wrapperCrashCallback];
 
   if (msCrashesCallbacks.handleSignal != NULL) {
     msCrashesCallbacks.handleSignal(context);
@@ -191,6 +195,13 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 }
 
 + (void)enableMachExceptionHandler {
+  /* 
+   * Handling Mach exceptions when using Xamarin causes problems, so there must be a way
+   * to ensure that it is never possible in that case.
+   */
+  if (permanentlyDisableMachExceptionHandling) {
+    return;
+  }
   [[self sharedInstance] setEnableMachExceptionHandler:YES];
 }
 
@@ -387,6 +398,19 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 }
 
 #pragma mark - Crash reporter configuration
+
++ (void)notifyPermanentlyDisableMachExceptionHandling {
+  if (permanentlyDisableMachExceptionHandling) {
+    MSLogDebug([MSCrashes logTag], @"Mach exception handling has already been permanently disabled.");
+    return;
+  }
+  // Permanently disable mach exception handling if running from Xamarin
+  if ([[self sharedInstance] isMachExceptionHandlerEnabled]) {
+    [[self sharedInstance] setEnableMachExceptionHandler:NO];
+  }
+  permanentlyDisableMachExceptionHandling = true;
+  MSLogDebug([MSCrashes logTag], @"Mach exception handling permanently disabled.");
+}
 
 - (void)configureCrashReporter {
   if (self.plCrashReporter) {
