@@ -508,7 +508,7 @@ Your typical setup code would look like this:
 
 ```swift
  MSCrashes.enableMachExceptionHandler()
- MSMobileCenter.start("YOUR_APP+_ID", withServices: [MSAnalytics.self, MSCrashes.self])
+ MSMobileCenter.start("YOUR_APP_ID", withServices: [MSAnalytics.self, MSCrashes.self])
 ```
 
 ## 6. Advanced APIs
