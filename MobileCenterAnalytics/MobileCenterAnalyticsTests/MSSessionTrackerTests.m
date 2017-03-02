@@ -196,4 +196,38 @@ NSTimeInterval const kMSTestSessionTimeout = 1.5;
                             withPriority:MSPriorityDefault]);
 }
 
+- (void)testOnProcessingLogWithPriority {
+
+  // When
+  MSLogWithProperties *log = [MSLogWithProperties new];
+
+  // Then
+  XCTAssertNil(log.sid);
+  XCTAssertNil(log.toffset);
+
+  [self.sut onProcessingLog:log withPriority:MSPriorityDefault];
+
+  // And then
+  XCTAssertNil(log.toffset);
+  XCTAssertEqual(log.sid, self.sut.sessionId);
+
+  // When
+  log.toffset = 0;
+
+  [self.sut onProcessingLog:log withPriority:MSPriorityDefault];
+
+  // Then
+  XCTAssertEqual(0, log.toffset.integerValue);
+  XCTAssertEqual(log.sid, [self.sut.pastSessions firstObject].sessionId);
+
+  // When
+  log.toffset = [NSNumber numberWithUnsignedLongLong:UINT64_MAX];
+
+  [self.sut onProcessingLog:log withPriority:MSPriorityDefault];
+
+  // Then
+  XCTAssertEqual(UINT64_MAX, log.toffset.unsignedLongLongValue);
+  XCTAssertEqual(log.sid, [self.sut.pastSessions lastObject].sessionId);
+};
+
 @end

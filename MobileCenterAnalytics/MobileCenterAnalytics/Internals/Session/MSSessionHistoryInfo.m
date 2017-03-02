@@ -23,4 +23,13 @@ static NSString *const kMSToffsetKey = @"toffsetKey";
   [coder encodeObject:self.toffset forKey:kMSToffsetKey];
 }
 
+- (instancetype)initWithTOffset:(NSNumber *)toffset andSessionId:(NSString *)sessionId {
+  self = [super init];
+  if (self) {
+    _sessionId = sessionId;
+    _toffset = toffset;
+  }
+  return self;
+}
+
 @end
