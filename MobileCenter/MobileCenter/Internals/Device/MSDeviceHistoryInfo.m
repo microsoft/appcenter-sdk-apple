@@ -6,7 +6,7 @@ static NSString *const kMSToffsetKey = @"toffsetKey";
 @implementation MSDeviceHistoryInfo
 
 - (instancetype)initWithTOffset:(NSNumber *)tOffset andDevice:(MSDevice *)device {
-  if (self = [super init]) {
+  if ((self = [super init])) {
     _tOffset = tOffset;
     _device = device;
   }

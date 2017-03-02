@@ -22,7 +22,7 @@ static NSString *const kMSException = @"exception";
 @synthesize type = _type;
 
 - (instancetype)init {
-  if (self = [super init]) {
+  if ((self = [super init])) {
     _type = kMSTypeError;
   }
   return self;
