@@ -14,6 +14,8 @@ Add Mobile Center services to your app and collect crash reports and understand 
 
 2. **Crashes**: The Mobile Center SDK will automatically generate a crash log every time your app crashes. The log is first written to the device's storage and when the user starts the app again, the crash report will be forwarded to Mobile Center. Collecting crashes works for both beta and live apps, i.e. those submitted to App Store. Crash logs contain viable information for you to help resolve the issue. Crashes uses PLCrashReporter 1.3.
 
+3. **Distribute**: Our SDK will let your users install a new version of the app when you distribute it via Mobile Center. With a new version of the app available, the SDK will present an update dialog to the users to either download or ignore the latest version. Once they click "Download", SDK will start the installation process of your application. Note that this feature will `NOT` work if your app is deployed to the app store, if you are developing locally or if the app is a debug build.
+
 This document contains the following sections:
 
 1. [Prerequisites](#1-prerequisites)
@@ -21,10 +23,11 @@ This document contains the following sections:
 3. [Start the SDK](#3-start-the-sdk)
 4. [Analytics APIs](#4-analytics-apis)
 5. [Crashes APIs](#5-crashes-apis)
-6. [Advanced APIs](#6-advanced-apis)
-7. [Troubleshooting](#7-troubleshooting)
-8. [Contributing](#8-contributing)
-9. [Contact](#9-contact)
+6. [Distribute APIs](#6-distribute-apis)
+7. [Advanced APIs](#7-advanced-apis)
+8. [Troubleshooting](#8-troubleshooting)
+9. [Contributing](#9-contributing)
+10. [Contact](#10-contact)
 
 Let's get started with setting up the Mobile Center SDK in your app to use these services.
 
@@ -88,7 +91,7 @@ pod 'MobileCenter/MobileCenterCrashes'
 To start the Mobile Center SDK in your app, follow these steps:
 
 ### 1. Add `import` statements  
-You need to add import statements for MobileCenter, MobileCenterAnalytics and MobileCenterCrashes modules before starting the SDK. If you have chosen to only use a subset of Mobile Center's services, just add the import for MobileCenter and the one for the service that you want to use. 
+You need to add import statements for MobileCenter, MobileCenterAnalytics, MobileCenterCrashes and MobileCenterDistribute modules before starting the SDK. If you have chosen to only use a subset of Mobile Center's services, just add the import for MobileCenter and the one for the service that you want to use.
     
 **Objective-C**   
 Open your AppDelegate.m file and add the following lines at the top of the file below your own import statements.   
@@ -97,6 +100,7 @@ Open your AppDelegate.m file and add the following lines at the top of the file 
 @import MobileCenter;
 @import MobileCenterAnalytics;
 @import MobileCenterCrashes;
+@import MobileCenterDistribute;
 ```
 
 **Swift**   
@@ -106,18 +110,19 @@ Open your AppDelegate.swift file and add the following lines.
 import MobileCenter
 import MobileCenterAnalytics
 import MobileCenterCrashes
+import MobileCenterDistribute
 ``` 
 
 ### 2. Start the SDK
 
-Mobile Center provides you with three modules to get started: `MobileCenter` (required), `MobileCenterAnalytics` and `MobileCenterCrashes` (both are optional). In order to use Mobile Center services, you need to opt in for the module(s) that you'd like, meaning by default no modules are started and you will have to explicitly call each of them, both Analytics and Crashes, when starting the SDK.
+Mobile Center provides you with three modules to get started: `MobileCenter` (required), `MobileCenterAnalytics`,  `MobileCenterCrashes` and  `MobileCenterDistribute` (all others are optional). In order to use Mobile Center services, you need to opt in for the module(s) that you'd like, meaning by default no modules are started and you will have to explicitly call each of them - Analytics, Crashes and Distribute when starting the SDK.
 
 **Objective-C** 
 
 Add the following line to start the SDK in your app's AppDelegate.m class in the `application:didFinishLaunchingWithOptions:` method.  
     
 ```objectivec
-[MSMobileCenter start:@"{Your App Secret}" withServices:@[[MSAnalytics class], [MSCrashes class]]];
+[MSMobileCenter start:@"{Your App Secret}" withServices:@[[MSAnalytics class], [MSCrashes class], [MSDistribute class]]];
 ```
 
 **Swift**   
@@ -125,12 +130,12 @@ Add the following line to start the SDK in your app's AppDelegate.m class in the
 Insert the following line to start the SDK in your app's AppDelegate.swift class in the `application(_:didFinishLaunchingWithOptions:)` method.   
     
 ```swift
-MSMobileCenter.start("{Your App Secret}", withServices: [MSAnalytics.self, MSCrashes.self])
+MSMobileCenter.start("{Your App Secret}", withServices: [MSAnalytics.self, MSCrashes.self, MSDistribute.self])
 ```    
     
 You can also copy paste the `start` method call from the Overview page on Mobile Center portal once your app is selected. It already includes the App Secret so that all the data collected by the SDK corresponds to your application. Make sure to replace `{Your App Secret}` text with the actual value for your application.
     
-The example above shows how to use the `start` method and include both the Analytics and Crashes module. If you wish not to use Analytics, remove the parameter from the method call above. Note that, unless you explicitly specify each module as parameters in the start method, you can't use that Mobile Center service. Also, the `start` API can be used only once in the lifecycle of your app – all other calls will log a warning to the console and only the modules included in the first call will be available.
+The example above shows how to use the `start` method and include all the services offered in the SDK. If you wish not to use any of these services - say Analytics, remove the parameter from the method call above. Note that, unless you explicitly specify each module as parameters in the start method, you can't use that Mobile Center service. Also, the `start` API can be used only once in the lifecycle of your app – all other calls will log a warning to the console and only the modules included in the first call will be available.
 
 ## 4. Analytics APIs
 
@@ -482,7 +487,7 @@ func crashes(_ crashes: MSCrashes!, didFailSending errorReport: MSErrorReport!, 
 ```
   
 
-## 6. Advanced APIs
+## 7. Advanced APIs
 
 ### Logging
 
@@ -532,7 +537,7 @@ If you want the Mobile Center SDK to be disabled completely, use the `setEnabled
 MSMobileCenter.setEnabled(false)
 ```
         
-## 7. Troubleshooting
+## 8. Troubleshooting
 
 * `Unable to find a specification for MobileCenter` error when using CocoaPods in your app?   
   
@@ -559,18 +564,18 @@ MSMobileCenter.setEnabled(false)
   
 * Engage with other MobileCenter users and developers on [StackOverflow](http://stackoverflow.com/questions/tagged/mobile-center).
 
-## 8. Contributing
+## 9. Contributing
 
 We're looking forward to your contributions via pull requests.
 
-### 8.1 Code of Conduct
+### 9.1 Code of Conduct
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact opencode@microsoft.com with any additional questions or comments.
 
-### 8.2 Contributor License
+### 9.2 Contributor License
 
 You must sign a [Contributor License Agreement](https://cla.microsoft.com/) before submitting your pull request. To complete the Contributor License Agreement (CLA), you will need to submit a request via the [form](https://cla.microsoft.com/) and then electronically sign the CLA when you receive the email containing the link to the document. You need to sign the CLA only once to cover submission to any Microsoft OSS project. 
 
-## 9. Contact
+## 10. Contact
 If you have further questions or are running into trouble that cannot be resolved by any of the steps here, feel free to open a Github issue here or contact us at mobilecentersdk@microsoft.com.
 
