@@ -3,6 +3,8 @@
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
+#import "MSBasicMachOParser.h"
+#import "MSKeychainUtil.h"
 #import "MSLogManager.h"
 #import "MSServiceAbstract.h"
 #import "MSServiceInternal.h"
@@ -11,10 +13,9 @@
 #import "MSUpdatesPrivate.h"
 #import "MSUserDefaults.h"
 #import "MSUtil.h"
-#import "MSKeychainUtil.h"
-#import "MSBasicMachOParser.h"
 
 static NSString *const kMSTestAppSecret = @"IAMSECRET";
+static NSString *const kMSTestBuildUUID = @"CD55E7A9-7AD1-4CA6-B722-3D133F487DA9";
 
 // Mocked SFSafariViewController for url validation.
 @interface SFSafariViewController : UIViewController
@@ -62,13 +63,14 @@ static NSURL *sfURL;
   [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
   [MS_USER_DEFAULTS removeObjectForKey:kMSIgnoredReleaseIdKey];
   [MSKeychainUtil clear];
-  
+
   // TODO: Add unit tests for MSBasicMachOParser.
   // FIXME: MSBasicMachOParser don't work on test projects. It's mocked for now to not fail other tests.
   id parserMock = OCMClassMock([MSBasicMachOParser class]);
   self.parserMock = parserMock;
   OCMStub([parserMock machOParserForMainBundle]).andReturn(self.parserMock);
-  OCMStub([self.parserMock uuid]).andReturn([[NSUUID alloc] initWithUUIDString:@"CD55E7A9-7AD1-4CA6-B722-3D133F487DA9"]);
+  OCMStub([self.parserMock uuid])
+      .andReturn([[NSUUID alloc] initWithUUIDString:@"CD55E7A9-7AD1-4CA6-B722-3D133F487DA9"]);
 }
 
 - (void)tearDown {
@@ -82,9 +84,10 @@ static NSURL *sfURL;
 - (void)testUpdateURL {
 
   // If
-  NSArray *bundleArray = @[
-    @{ @"CFBundleURLSchemes" : @[ [NSString stringWithFormat:@"mobilecenter-%@", kMSTestAppSecret] ] }
-  ];
+  NSArray *bundleArray =
+      @[ @{
+        @"CFBundleURLSchemes" : @[ [NSString stringWithFormat:@"mobilecenter-%@", kMSTestAppSecret] ]
+      } ];
   id bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
   OCMStub([bundleMock objectForInfoDictionaryKey:@"CFBundleURLTypes"]).andReturn(bundleArray);
@@ -368,6 +371,34 @@ static NSURL *sfURL;
   // Then
   XCTAssertNil([MS_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey]);
   XCTAssertNil([MS_USER_DEFAULTS objectForKey:kMSIgnoredReleaseIdKey]);
+}
+
+- (void)testisNewerVersionWithNewVersion {
+
+  // If
+  MSReleaseDetails *details = [MSReleaseDetails new];
+  details.packageHashes = @[ @"arch1uuid", @"arch2uuid" ];
+  BOOL isNewer;
+
+  // When
+  isNewer = [self.sut isNewerVersion:details];
+
+  // Then
+  assertThatBool(isNewer, isTrue());
+}
+
+- (void)testisNewerVersionWithSameVersion {
+
+  // If
+  MSReleaseDetails *details = [MSReleaseDetails new];
+  details.packageHashes = @[ @"arch1uuid", [kMSTestBuildUUID lowercaseString] ];
+  BOOL isNewer;
+
+  // When
+  isNewer = [self.sut isNewerVersion:details];
+
+  // Then
+  assertThatBool(isNewer, isFalse());
 }
 
 @end
