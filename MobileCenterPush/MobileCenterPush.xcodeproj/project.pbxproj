@@ -22,7 +22,7 @@
 			isa = PBXAggregateTarget;
 			buildConfigurationList = D3AD5F281E5C9633001627AB /* Build configuration list for PBXAggregateTarget "MobileCenterPushDoc" */;
 			buildPhases = (
-				D3AD5F2B1E5C9636001627AB /* ShellScript */,
+				D3AD5F2B1E5C9636001627AB /* Run Script */,
 			);
 			dependencies = (
 				D3AD5F3D1E5D6809001627AB /* PBXTargetDependency */,
@@ -33,6 +33,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		0415FF591E689924004E8C16 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3AD5F671E5D73F2001627AB /* UserNotifications.framework */; };
 		38D4BBA11D5A98D1001A30A0 /* ../MobileCenter/MobileCenter/MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 38D4BB9F1D5A98D1001A30A0 /* ../MobileCenter/MobileCenter/MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D39B04E41E66FBD50048E397 /* MSPushTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = D39B04E31E66FBD50048E397 /* MSPushTestUtil.m */; };
 		D3AD5EC31E5C4F6A001627AB /* MobileCenterPushTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3AD5EC21E5C4F6A001627AB /* MobileCenterPushTests.m */; };
@@ -49,7 +50,6 @@
 		D3AD5F6D1E5D7464001627AB /* MSPushLog.m in Sources */ = {isa = PBXBuildFile; fileRef = D3AD5F6B1E5D7464001627AB /* MSPushLog.m */; };
 		D3AD5FDA1E5DDF72001627AB /* libMobileCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D3AD5FD91E5DDF72001627AB /* libMobileCenter.a */; };
 		D3C4E1FE1E6572D3006D3C0D /* MSPushDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C4E1FD1E6572D3006D3C0D /* MSPushDelegateTests.m */; };
-		D3D0CFE71E640AA7003015AF /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D3D0CFE61E640AA7003015AF /* libOCMock.a */; };
 		D3D0CFE91E640ABD003015AF /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3D0CFE81E640ABD003015AF /* OCHamcrestIOS.framework */; };
 /* End PBXBuildFile section */
 
@@ -83,6 +83,16 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0415FF461E689036004E8C16 /* NSNotificationCenter+OCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNotificationCenter+OCMAdditions.h"; sourceTree = "<group>"; };
+		0415FF471E689036004E8C16 /* OCMArg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMArg.h; sourceTree = "<group>"; };
+		0415FF481E689036004E8C16 /* OCMConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMConstraint.h; sourceTree = "<group>"; };
+		0415FF491E689036004E8C16 /* OCMFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMFunctions.h; sourceTree = "<group>"; };
+		0415FF4A1E689036004E8C16 /* OCMLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMLocation.h; sourceTree = "<group>"; };
+		0415FF4B1E689036004E8C16 /* OCMMacroState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMMacroState.h; sourceTree = "<group>"; };
+		0415FF4C1E689036004E8C16 /* OCMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMock.h; sourceTree = "<group>"; };
+		0415FF4D1E689036004E8C16 /* OCMockObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMockObject.h; sourceTree = "<group>"; };
+		0415FF4E1E689036004E8C16 /* OCMRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMRecorder.h; sourceTree = "<group>"; };
+		0415FF4F1E689036004E8C16 /* OCMStubRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMStubRecorder.h; sourceTree = "<group>"; };
 		38D4BB9F1D5A98D1001A30A0 /* ../MobileCenter/MobileCenter/MSService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ../MobileCenter/MobileCenter/MSService.h; sourceTree = "<group>"; };
 		D33A94511E5B11BB003966DB /* libMobileCenterPush.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMobileCenterPush.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D33A94541E5B11BB003966DB /* MobileCenterPush.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MobileCenterPush.h; sourceTree = "<group>"; };
@@ -107,8 +117,6 @@
 		D3AD5F6B1E5D7464001627AB /* MSPushLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSPushLog.m; path = Internal/Model/MSPushLog.m; sourceTree = "<group>"; };
 		D3AD5FD91E5DDF72001627AB /* libMobileCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobileCenter.a; path = "../MobileCenter/build/Debug-iphoneos/libMobileCenter.a"; sourceTree = "<group>"; };
 		D3C4E1FD1E6572D3006D3C0D /* MSPushDelegateTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSPushDelegateTests.m; sourceTree = "<group>"; };
-		D3D0CFE41E640A96003015AF /* MobileCenter-SDK-iOS */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "MobileCenter-SDK-iOS"; path = "../MobileCenter-SDK-iOS"; sourceTree = "<group>"; };
-		D3D0CFE61E640AA7003015AF /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOCMock.a; path = ../Vendor/OCMock/libOCMock.a; sourceTree = "<group>"; };
 		D3D0CFE81E640ABD003015AF /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrestIOS.framework; path = ../Vendor/OCHamcrest/OCHamcrestIOS.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -117,6 +125,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0415FF591E689924004E8C16 /* UserNotifications.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,7 +134,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D3AD5FDA1E5DDF72001627AB /* libMobileCenter.a in Frameworks */,
-				D3D0CFE71E640AA7003015AF /* libOCMock.a in Frameworks */,
 				D3AD5EC51E5C4F6A001627AB /* libMobileCenterPush.a in Frameworks */,
 				D3D0CFE91E640ABD003015AF /* OCHamcrestIOS.framework in Frameworks */,
 			);
@@ -134,6 +142,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0415FF451E689036004E8C16 /* OCMock */ = {
+			isa = PBXGroup;
+			children = (
+				0415FF461E689036004E8C16 /* NSNotificationCenter+OCMAdditions.h */,
+				0415FF471E689036004E8C16 /* OCMArg.h */,
+				0415FF481E689036004E8C16 /* OCMConstraint.h */,
+				0415FF491E689036004E8C16 /* OCMFunctions.h */,
+				0415FF4A1E689036004E8C16 /* OCMLocation.h */,
+				0415FF4B1E689036004E8C16 /* OCMMacroState.h */,
+				0415FF4C1E689036004E8C16 /* OCMock.h */,
+				0415FF4D1E689036004E8C16 /* OCMockObject.h */,
+				0415FF4E1E689036004E8C16 /* OCMRecorder.h */,
+				0415FF4F1E689036004E8C16 /* OCMStubRecorder.h */,
+			);
+			name = OCMock;
+			path = ../Vendor/OCMock/OCMock;
+			sourceTree = "<group>";
+		};
+		0415FF581E6898B1004E8C16 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D3AD5F671E5D73F2001627AB /* UserNotifications.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		D33A94481E5B11BB003966DB = {
 			isa = PBXGroup;
 			children = (
@@ -141,8 +175,8 @@
 				D3AD5EFF1E5C7E40001627AB /* MSLogManager.h */,
 				D33A94531E5B11BB003966DB /* MobileCenterPush */,
 				D3AD5EC11E5C4F6A001627AB /* MobileCenterPushTests */,
+				0415FF581E6898B1004E8C16 /* Frameworks */,
 				D33A94521E5B11BB003966DB /* Products */,
-				D3AD5F661E5D73F2001627AB /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -179,6 +213,7 @@
 		D3AD5EC11E5C4F6A001627AB /* MobileCenterPushTests */ = {
 			isa = PBXGroup;
 			children = (
+				D3AD5F661E5D73F2001627AB /* Frameworks */,
 				D3AD5EC41E5C4F6A001627AB /* Info.plist */,
 				D3AD5EC21E5C4F6A001627AB /* MobileCenterPushTests.m */,
 				D3C4E1FD1E6572D3006D3C0D /* MSPushDelegateTests.m */,
@@ -213,13 +248,12 @@
 		D3AD5F661E5D73F2001627AB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D3D0CFE81E640ABD003015AF /* OCHamcrestIOS.framework */,
-				D3D0CFE61E640AA7003015AF /* libOCMock.a */,
-				D3D0CFE41E640A96003015AF /* MobileCenter-SDK-iOS */,
 				D3AD5FD91E5DDF72001627AB /* libMobileCenter.a */,
-				D3AD5F671E5D73F2001627AB /* UserNotifications.framework */,
+				0415FF451E689036004E8C16 /* OCMock */,
+				D3D0CFE81E640ABD003015AF /* OCHamcrestIOS.framework */,
 			);
 			name = Frameworks;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		D3AD5F691E5D7423001627AB /* Model */ = {
@@ -300,20 +334,16 @@
 				ORGANIZATIONNAME = Microsoft;
 				TargetAttributes = {
 					D33A94501E5B11BB003966DB = {
-						CreatedOnToolsVersion = 8.2.1;
-						ProvisioningStyle = Automatic;
+						CreatedOnToolsVersion = 7.3.1;
 					};
 					D3AD5EBF1E5C4F6A001627AB = {
-						CreatedOnToolsVersion = 8.2.1;
-						ProvisioningStyle = Automatic;
+						CreatedOnToolsVersion = 7.3.1;
 					};
 					D3AD5F221E5C9562001627AB = {
-						CreatedOnToolsVersion = 8.2.1;
-						ProvisioningStyle = Automatic;
+						CreatedOnToolsVersion = 7.3.1;
 					};
 					D3AD5F271E5C9633001627AB = {
-						CreatedOnToolsVersion = 8.2.1;
-						ProvisioningStyle = Automatic;
+						CreatedOnToolsVersion = 7.3.1;
 					};
 				};
 			};
@@ -361,13 +391,14 @@
 			shellPath = /bin/sh;
 			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=MobileCenterPush\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-iOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphoneos\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Support/module.modulemap\" \"${INSTALL_DIR}/Modules/\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Headers/\"\n\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" \"${SIMULATOR_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\n\nrm -r \"${WRK_DIR}\"";
 		};
-		D3AD5F2B1E5C9636001627AB /* ShellScript */ = {
+		D3AD5F2B1E5C9636001627AB /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Run Script";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -419,14 +450,13 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
@@ -458,7 +488,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = "$(inherited)";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -470,14 +499,13 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
@@ -502,7 +530,6 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "$(inherited)";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = NO;
 			};
@@ -511,36 +538,16 @@
 		D33A945B1E5B11BB003966DB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(MS_ARM_ARCHS)";
-				"ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
-				BUILD_NUMBER = 1;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				ARCHS = "$(MS_SIM_ARCHS)";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				MS_ARM_ARCHS = "armv7 armv7s arm64";
-				MS_SIM_ARCHS = "x86_64 i386";
-				OTHER_CFLAGS = (
-					"-Wshorten-64-to-32",
-					"-Wall",
-					"-fstack-protector-strong",
-					"-fpie",
-				);
-				"OTHER_CFLAGS[sdk=iphoneos*]" = (
-					"$(OTHER_CFLAGS)",
-					"-fembed-bitcode-marker",
-				);
-				"OTHER_CFLAGS[sdk=iphonesimulator*]" = (
-					"$(OTHER_CFLAGS)",
-					"-fembed-bitcode-marker",
-				);
 				OTHER_LDFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenterpush;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = include/MobileCenterPush;
-				SDK_NAME = mobilecenter.ios;
+				PRODUCT_NAME = MobileCenterPush;
+				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SKIP_INSTALL = YES;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/**";
 				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
-				VERSION_STRING = 0.4.2;
 			};
 			name = Debug;
 		};
@@ -548,46 +555,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(MS_ARM_ARCHS)";
-				"ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
-				BUILD_NUMBER = 1;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					"$(XCODEBUILD_GCC_PREPROCESSOR_DEFINITIONS)",
-					"MOBILE_CENTER_CONFIGURATION_$(CONFIGURATION)",
-					"MOBILE_CENTER_NAME=\"@\\\"\"$(SDK_NAME)\"\\\"\"",
-					"MOBILE_CENTER_VERSION=\"@\\\"\"$(VERSION_STRING)\"\\\"\"",
-					"MOBILE_CENTER_BUILD=\"@\\\"\"$(BUILD_NUMBER)\"\\\"\"",
-					"MOBILE_CENTER_C_NAME=\"\\\"\"$(SDK_NAME)\"\\\"\"",
-					"MOBILE_CENTER_C_VERSION=\"\\\"\"$(VERSION_STRING)\"\\\"\"",
-					"MOBILE_CENTER_C_BUILD=\"\\\"\"$(BUILD_NUMBER)\"\\\"\"",
-				);
-				MS_ARM_ARCHS = "armv7 armv7s arm64";
-				MS_SIM_ARCHS = "x86_64 i386";
-				OTHER_CFLAGS = (
-					"-Wshorten-64-to-32",
-					"-Wall",
-					"-fstack-protector-strong",
-					"-fpie",
-				);
-				"OTHER_CFLAGS[sdk=iphoneos*]" = (
-					"$(OTHER_CFLAGS)",
-					"-fembed-bitcode",
-				);
-				"OTHER_CFLAGS[sdk=iphonesimulator*]" = (
-					"$(OTHER_CFLAGS)",
-					"-fembed-bitcode-marker",
-				);
 				OTHER_LDFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenterpush;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = include/MobileCenterPush;
-				SDK_NAME = mobilecenter.ios;
+				PRODUCT_NAME = MobileCenterPush;
+				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SKIP_INSTALL = YES;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/**";
 				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
-				VERSION_STRING = 0.4.2;
 			};
 			name = Release;
 		};
@@ -595,16 +571,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEAD_CODE_STRIPPING = NO;
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				INFOPLIST_FILE = MobileCenterPushTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
+					"-framework",
+					Foundation,
 					"-ObjC",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenterpushtests;
@@ -617,16 +594,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEAD_CODE_STRIPPING = NO;
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				INFOPLIST_FILE = MobileCenterPushTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
+					"-framework",
+					Foundation,
 					"-ObjC",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenterpushtests;
@@ -638,13 +616,6 @@
 		D3AD5F231E5C9562001627AB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-framework",
-					Foundation,
-					"-framework",
-					UIKit,
-				);
 				PRODUCT_NAME = MobileCenterPush;
 			};
 			name = Debug;
@@ -652,13 +623,6 @@
 		D3AD5F241E5C9562001627AB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-framework",
-					Foundation,
-					"-framework",
-					UIKit,
-				);
 				PRODUCT_NAME = MobileCenterPush;
 			};
 			name = Release;
@@ -666,15 +630,10 @@
 		D3AD5F291E5C9633001627AB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = YES;
-				ARCHS = "$(MS_ARM_ARCHS)";
-				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
-				DEAD_CODE_STRIPPING = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = MobileCenterPush;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"";
-				USE_HEADERMAP = YES;
 				VALID_ARCHS = "";
 			};
 			name = Debug;
@@ -682,15 +641,10 @@
 		D3AD5F2A1E5C9633001627AB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = YES;
-				ARCHS = "$(MS_ARM_ARCHS)";
-				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
-				DEAD_CODE_STRIPPING = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = MobileCenterPush;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"";
-				USE_HEADERMAP = YES;
 				VALID_ARCHS = "";
 			};
 			name = Release;
