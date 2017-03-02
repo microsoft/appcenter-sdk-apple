@@ -26,7 +26,9 @@ static NSString *const kMSAnalyzerFilename = @"MSCrashes.analyzer";
  */
 static NSString *const kMSLogBufferFileExtension = @"mscrasheslogbuffer";
 
-/* This is required so that mach exception handling is *never* enabled for Xamarin */
+/* 
+ * This is required so that mach exception handling is *never* enabled for Xamarin
+ */
 static BOOL permanentlyDisableMachExceptionHandling = false;
 
 #pragma mark - Callbacks Setup
