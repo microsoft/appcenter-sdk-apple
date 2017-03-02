@@ -154,13 +154,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
 - (void)checkLatestRelease:(NSString *)updateToken {
   MSDistributionSender *sender =
-      [[MSDistributionSender alloc] initWithBaseUrl:self.apiUrl
-                                            headers:@{
-                                              kMSHeaderUpdateApiToken : updateToken
-                                            }
-                                       queryStrings:nil
-                                       reachability:[MS_Reachability reachabilityForInternetConnection]
-                                     retryIntervals:@[ @(10) ]];
+      [[MSDistributionSender alloc] initWithBaseUrl:self.apiUrl appSecret:self.appSecret updateToken:updateToken];
 
   [sender sendAsync:nil
       completionHandler:^(NSString *callId, NSUInteger statusCode, NSData *data, NSError *error) {

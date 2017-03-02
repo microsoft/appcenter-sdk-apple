@@ -27,16 +27,8 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 
 - (instancetype)initWithAppSecret:(NSString *)appSecret installId:(NSUUID *)installId logUrl:(NSString *)logUrl {
   self = [self initWithSender:[[MSIngestionSender alloc] initWithBaseUrl:logUrl
-                                  headers:@{
-                                    kMSHeaderContentTypeKey : kMSContentType,
-                                    kMSHeaderAppSecretKey : appSecret,
-                                    kMSHeaderInstallIDKey : [installId UUIDString]
-                                  }
-                                  queryStrings:@{
-                                    kMSAPIVersionKey : kMSAPIVersion
-                                  }
-                                  reachability:[MS_Reachability reachabilityForInternetConnection]
-                                  retryIntervals:@[ @(10), @(5 * 60), @(20 * 60) ]]
+                                                               appSecret:appSecret
+                                                               installId:[installId UUIDString]]
                       storage:[[MSFileStorage alloc] init]];
   return self;
 }
