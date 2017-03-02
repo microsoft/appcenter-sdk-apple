@@ -167,6 +167,16 @@
                ReferencedContainer = "container:MobileCenterUpdates/MobileCenterUpdates.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "D3AD5EBF1E5C4F6A001627AB"
+               BuildableName = "MobileCenterPush.xctest"
+               BlueprintName = "MobileCenterPushTests"
+               ReferencedContainer = "container:MobileCenterPush/MobileCenterPush.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

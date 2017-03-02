@@ -2,7 +2,6 @@
 #import <UserNotifications/UserNotifications.h>
 #endif
 
-#import "MSDeviceTracker.h"
 #import "MSMobileCenterInternal.h"
 #import "MSPush.h"
 #import "MSPushInternal.h"
@@ -17,7 +16,7 @@ static NSString *const kMSServiceName = @"Push";
 /**
  * Key for storing push token
  */
-static NSString *const kMSPushServiceStorageKey = @"kmspushservicepushstoringkey";
+static NSString *const kMSPushServiceStorageKey = @"pushServiceStorageKey";
 
 /**
  * Singleton
@@ -64,11 +63,6 @@ static dispatch_once_t onceToken;
   return MSPriorityDefault;
 }
 
-// TODO: this method should be removed after merging base/updates
-- (MSInitializationPriority)initializationPriority {
-  return MSInitializationPriorityDefault;
-}
-
 #pragma mark - MSPush
 
 + (void)didRegisterForRemoteNotificationsWith:(NSData *)deviceToken {
@@ -98,7 +92,7 @@ static dispatch_once_t onceToken;
 
 + (void)resetSharedInstance {
 
-  // resets the once_token so dispatch_once will run again
+  // Resets the once_token so dispatch_once will run again
   onceToken = 0;
   sharedInstance = nil;
 }
@@ -145,7 +139,7 @@ static dispatch_once_t onceToken;
 - (void) sendDeviceToken: (NSString *)token {
   MSPushLog *log = [MSPushLog new];
   log.deviceToken = token;
-  [self.logManager processLog:log withPriority:MSPriorityHigh];
+  [self.logManager processLog:log withPriority:self.priority];
   self.deviceTokenHasBeenSent = YES;
 }
 
@@ -195,7 +189,7 @@ static dispatch_once_t onceToken;
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
   MSLogVerbose([MSPush logTag], @"Registering for push notifications has been finished successfully");
   NSString *strDeviceToken = [self convertTokenToString:deviceToken];
-  [MSUserDefaults.shared setObject:strDeviceToken forKey:kMSPushServiceStorageKey];
+  [MS_USER_DEFAULTS setObject:strDeviceToken forKey:kMSPushServiceStorageKey];
   [self sendDeviceToken:strDeviceToken];
 }
 

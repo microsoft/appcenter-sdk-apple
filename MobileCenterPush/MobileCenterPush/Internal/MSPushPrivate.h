@@ -21,7 +21,7 @@
 - (void) sendDeviceToken: (NSString *)token;
 
 /**
- * Method converts NSData* to NSString*
+ * Method converts NSData to NSString
  *
  * @param token The device token
  */
