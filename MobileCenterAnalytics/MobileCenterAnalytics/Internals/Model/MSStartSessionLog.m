@@ -7,7 +7,7 @@ static NSString *const kMSTypeEndSession = @"start_session";
 @synthesize type = _type;
 
 - (instancetype)init {
-  if (self = [super init]) {
+  if ((self = [super init])) {
     _type = kMSTypeEndSession;
   }
   return self;
