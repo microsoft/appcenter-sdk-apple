@@ -94,6 +94,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy) NSArray<MSDistributionGroup *> *distributionGroups;
 
 /**
+ * A list of package hashes associated with this release. There is one hash (UUID) per architecture.
+ */
+@property(nonatomic, copy) NSArray<NSString *> *packageHashes;
+
+/**
  * Initialize an object from dictionary.
  *
  * @param dictionary A dictionary that contains key/value pairs.
