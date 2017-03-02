@@ -10,7 +10,7 @@ static MSChannelConfiguration *MSChannelConfigurationBackground;
                        flushInterval:(float)flushInterval
                       batchSizeLimit:(NSUInteger)batchSizeLimit
                  pendingBatchesLimit:(NSUInteger)pendingBatchesLimit {
-  if (self = [super init]) {
+  if ((self = [super init])) {
     _name = name;
     _flushInterval = flushInterval;
     _batchSizeLimit = batchSizeLimit;

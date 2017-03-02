@@ -130,7 +130,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 #pragma mark - private
 
 - (instancetype)init {
-  if (self = [super init]) {
+  if ((self = [super init])) {
     _services = [NSMutableArray new];
     _logUrl = kMSDefaultBaseUrl;
     _enabledStateUpdating = NO;
