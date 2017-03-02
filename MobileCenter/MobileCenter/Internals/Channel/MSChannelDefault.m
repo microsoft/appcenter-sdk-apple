@@ -37,7 +37,7 @@
 #pragma mark - Initialization
 
 - (instancetype)init {
-  if (self = [super init]) {
+  if ((self = [super init])) {
     _itemsCount = 0;
     _pendingBatchIds = [NSMutableArray new];
     _pendingBatchQueueFull = NO;
@@ -53,7 +53,7 @@
                        storage:(id<MSStorage>)storage
                  configuration:(MSChannelConfiguration *)configuration
              logsDispatchQueue:(dispatch_queue_t)logsDispatchQueue {
-  if (self = [self init]) {
+  if ((self = [self init])) {
     _sender = sender;
     _storage = storage;
     _configuration = configuration;
