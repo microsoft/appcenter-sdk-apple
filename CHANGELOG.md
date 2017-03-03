@@ -1,6 +1,16 @@
 # Mobile Center SDK for iOS Change Log
 
 
+## Version 0.5.1
+
+This version reverts new implementations introduced in version 0.4.2.
+
+### MobileCenterCrashes
+
+* **[Bug]** Revert recent Crashes implementions of buffering logs and retrieving device information from past sessions in version 0.4.2 due to regression.
+
+___
+
 ## Version 0.5.0
 
 This version has a **breaking change**.
