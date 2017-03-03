@@ -11,7 +11,7 @@
 @synthesize delegate = _delegate;
 
 - (id)initWithRetryIntervals:(NSArray *)retryIntervals {
-  if (self = [super init]) {
+  if ((self = [super init])) {
     _retryIntervals = retryIntervals;
     _submitted = NO;
   }

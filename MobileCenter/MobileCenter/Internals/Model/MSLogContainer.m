@@ -6,7 +6,7 @@ static NSString *const kMSLogs = @"logs";
 @implementation MSLogContainer
 
 - (id)initWithBatchId:(NSString *)batchId andLogs:(NSArray<MSLog> *)logs {
-  if (self = [super init]) {
+  if ((self = [super init])) {
     self.batchId = batchId;
     self.logs = logs;
   }
