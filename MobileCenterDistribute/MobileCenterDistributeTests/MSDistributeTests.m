@@ -46,14 +46,14 @@ static NSURL *sfURL;
 
 static NSURL *sfURL;
 
-@interface MSUpdatesTests : XCTestCase
+@interface MSDistributeTests : XCTestCase
 
 @property(nonatomic, strong) MSDistribute *sut;
 @property(nonatomic, strong) id parserMock;
 
 @end
 
-@implementation MSUpdatesTests
+@implementation MSDistributeTests
 
 - (void)setUp {
   [super setUp];
