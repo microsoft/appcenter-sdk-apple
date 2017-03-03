@@ -7,7 +7,7 @@ NSBundle *MSUpdatesBundle(void) {
   static dispatch_once_t predicate;
   dispatch_once(&predicate, ^{
 
-    // The resource bundle is part of the main app bundle, e.g. .../Puppet.app/MobileCenterUpdates.bundle
+    // The resource bundle is part of the main app bundle, e.g. .../Puppet.app/MobileCenterDistribute.bundle
     NSString *mainBundlePath = [[NSBundle bundleForClass:[MSDistribute class]] resourcePath];
     NSString *frameworkBundlePath = [mainBundlePath stringByAppendingPathComponent:MOBILE_CENTER_UPDATES_BUNDLE];
     bundle = [NSBundle bundleWithPath:frameworkBundlePath];

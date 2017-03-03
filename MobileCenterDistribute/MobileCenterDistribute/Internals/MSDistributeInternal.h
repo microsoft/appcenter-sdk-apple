@@ -4,7 +4,7 @@
 #import "MSSender.h"
 #import "MSServiceInternal.h"
 
-#define MOBILE_CENTER_UPDATES_BUNDLE @"MobileCenterUpdatesResources.bundle"
+#define MOBILE_CENTER_UPDATES_BUNDLE @"MobileCenterDistributeResources.bundle"
 
 @interface MSDistribute () <MSServiceInternal>
 
