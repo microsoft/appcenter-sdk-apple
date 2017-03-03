@@ -485,6 +485,41 @@ func crashes(_ crashes: MSCrashes!, didFailSending errorReport: MSErrorReport!, 
    	// Your code, e.g. to hide the custom UI.    
 }
 ```
+
+
+## 6. Distribute APIs
+
+You can easily let your users get the latest version of your app by integrating `Distribute` service of Mobile Center SDK. All you need to do is pass the service name as a parameter in the `start` API call. Once that is done, the SDK checks for new updates in the background. If it finds a new update, users will see a dialog with two options - `Download` and `Ignore`. If the user presses `Download`, it will trigger the new version to be installed.
+
+You can easily provide your own resource strings if you'd like to localize the text displayed in the update dialog. Look at the string files [here](https://github.com/Microsoft/mobile-center-sdk-ios/blob/base/updates/MobileCenterUpdates/MobileCenterUpdates/Resources/en.lproj/MobileCenterUpdates.strings). Use the same string name and specify the localized value to be reflected in the dialog in your own app resource files.  
+
+* **Enable or disable Distribute:**  You can change the enabled state by calling the `setEnabled` API. If you disable it, the SDK will not prompt your users when a new version is available for install. To re-enable it, pass `YES` or `true` as a parameter in the same method.
+
+**Objective-C**
+
+```objectivec
+[MSDistribute setEnabled:NO];
+```
+
+**Swift**
+
+```swift
+MSDistribute.setEnabled(false)
+```
+    
+You can also check if the service is enabled or not using the `isEnabled` method:
+  
+**Objective-C**
+
+```objectivec
+BOOL enabled = [MSDistribute isEnabled];
+```
+
+**Swift**
+
+```swift
+var enabled = MSDistribute.isEnabled()
+```
   
 
 ## 7. Advanced APIs
