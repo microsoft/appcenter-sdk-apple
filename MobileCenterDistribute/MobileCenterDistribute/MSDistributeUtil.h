@@ -1,0 +1,32 @@
+#import <Foundation/Foundation.h>
+
+/*
+ * Return the application's main bundle.
+ *
+ * @return Instance of NSBundle, the Application's main bundle.
+ */
+NSBundle *MSDistributeBundle(void);
+
+/*
+ * Return a localized string for the given token.
+ *
+ * @param The string token that will be looked for in the .strings file.
+ *
+ * @return A localized string.
+ *
+ * @discussion This needs the MobileCenterDistributeResources.bundle to be added to the project. If the bundle is missing,
+ * the method will return the provided stringToken. In case nil or an empty string is passed to the method, it will
+ * return an empty string. If the .strings file does not contain a string for the token, it will return the token.
+ */
+NSString *MSDistributeLocalizedString(NSString *stringToken);
+
+@interface MSUpdatesUtil : NSObject
+
+/*
+ * Checks if the app runs in the DEBUG configuration.
+ *
+ * @return A BOOL that indicates if the app was launched with the DEBUG configuration.
+ */
++ (BOOL)isRunningInDebugConfiguration;
+
+@end

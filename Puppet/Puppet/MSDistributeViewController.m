@@ -1,17 +1,13 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
+#import "MSDistributeViewController.h"
+#import "MobileCenterDistribute.h"
 
-#import "MSMainViewController.h"
-#import "MobileCenter.h"
-
-@implementation MSMainViewController
+@implementation MSDistributeViewController
 
 #pragma mark - view controller
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  self.title = @"Puppet App";
+  self.title = @"Distribute";
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
@@ -25,21 +21,15 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-  // Return the number of sections.
-  return 2;
+  return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
   switch (section) {
 
-  // Actions
-  case 0: {
-    return 3;
-  }
-
   // Settings
-  case 1: {
+  case 0: {
     return 1;
   }
   default:
@@ -50,9 +40,6 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
   switch (section) {
   case 0: {
-    return @"Actions";
-  }
-  case 1: {
     return @"Settings";
   }
   default:
@@ -72,35 +59,10 @@
 
   switch ([indexPath section]) {
 
-  // Actions
   case 0: {
+
+    // Configure setting cell...
     switch (indexPath.row) {
-
-    case 0: {
-      cell.textLabel.text = NSLocalizedString(@"Analytics", @"");
-      break;
-    }
-
-    case 1: {
-      cell.textLabel.text = NSLocalizedString(@"Crashes", @"");
-      break;
-    }
-
-    case 2: {
-      cell.textLabel.text = NSLocalizedString(@"Distribute", @"");
-      break;
-    }
-
-    default:
-      break;
-    }
-    break;
-  }
-
-  // Actions
-  case 1: {
-    switch (indexPath.row) {
-
     case 0: {
 
       // Define the cell title.
@@ -110,7 +72,7 @@
 
       // Define the switch control and add it to the cell.
       UISwitch *enabledSwitch = [[UISwitch alloc] init];
-      enabledSwitch.on = [MSMobileCenter isEnabled];
+      enabledSwitch.on = [MSDistribute isEnabled];
       CGSize switchSize = [enabledSwitch sizeThatFits:CGSizeZero];
       enabledSwitch.frame = CGRectMake(cell.contentView.bounds.size.width - switchSize.width - 10.0f,
                                        (cell.contentView.bounds.size.height - switchSize.height) / 2.0f,
@@ -122,17 +84,16 @@
       [cell.contentView addSubview:enabledSwitch];
       break;
     }
+
     default:
       break;
     }
     break;
+  }
 
   default:
     break;
   }
-  }
-
-  cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
   return cell;
 }
@@ -142,25 +103,15 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
-  switch (indexPath.row) {
+  switch ([indexPath section]) {
+
+  // Settings
   case 0: {
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"analytics"];
-    [self.navigationController pushViewController:vc animated:YES];
-    break;
-  }
 
-  case 1: {
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"crashes"];
-    [self.navigationController pushViewController:vc animated:YES];
-    break;
-  }
-
-  case 2: {
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"distribute"];
-    [self.navigationController pushViewController:vc animated:YES];
+    switch (indexPath.row) {
+    default:
+      break;
+    }
     break;
   }
 
@@ -171,8 +122,8 @@
 
 - (void)enabledSwitchUpdated:(id)sender {
   UISwitch *enabledSwitch = (UISwitch *)sender;
-  [MSMobileCenter setEnabled:enabledSwitch.on];
-  enabledSwitch.on = [MSMobileCenter isEnabled];
+  [MSDistribute setEnabled:enabledSwitch.on];
+  enabledSwitch.on = [MSDistribute isEnabled];
 }
 
 @end
