@@ -89,17 +89,17 @@ static NSURL *sfURL;
   OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
   OCMStub([bundleMock objectForInfoDictionaryKey:@"CFBundleURLTypes"]).andReturn(bundleArray);
   OCMStub([bundleMock objectForInfoDictionaryKey:@"MSAppName"]).andReturn(@"Something");
-  id updateMock = OCMPartialMock(self.sut);
+  id distributeMock = OCMPartialMock(self.sut);
 
   // Disable for now to bypass initializing sender.
-  [updateMock setEnabled:NO];
-  [updateMock startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
+  [distributeMock setEnabled:NO];
+  [distributeMock startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
 
   // Enable again.
-  [updateMock setEnabled:YES];
+  [distributeMock setEnabled:YES];
 
   // When
-  NSURL *url = [updateMock buildTokenRequestURLWithAppSecret:kMSTestAppSecret];
+  NSURL *url = [distributeMock buildTokenRequestURLWithAppSecret:kMSTestAppSecret];
   NSURLComponents *components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:NO];
   NSMutableDictionary<NSString *, NSString *> *queryStrings = [NSMutableDictionary<NSString *, NSString *> new];
   [components.queryItems
@@ -207,99 +207,99 @@ static NSURL *sfURL;
 
   // If
   MSReleaseDetails *details = [MSReleaseDetails new];
-  id updatesMock = OCMPartialMock(self.sut);
-  OCMStub([updatesMock showConfirmationAlert:[OCMArg any]]).andDo(nil);
+  id distributeMock = OCMPartialMock(self.sut);
+  OCMStub([distributeMock showConfirmationAlert:[OCMArg any]]).andDo(nil);
 
   // When
-  [updatesMock handleUpdate:details];
+  [distributeMock handleUpdate:details];
 
   // Then
-  OCMReject([updatesMock showConfirmationAlert:[OCMArg any]]);
+  OCMReject([distributeMock showConfirmationAlert:[OCMArg any]]);
 
   // If
   details.id = @1;
   details.downloadUrl = [NSURL URLWithString:@"https://contoso.com/valid/url"];
 
   // When
-  [updatesMock handleUpdate:details];
+  [distributeMock handleUpdate:details];
 
   // Then
-  OCMReject([updatesMock showConfirmationAlert:[OCMArg any]]);
+  OCMReject([distributeMock showConfirmationAlert:[OCMArg any]]);
 
   // If
   details.status = @"available";
   details.minOs = @"1000.0";
 
   // When
-  [updatesMock handleUpdate:details];
+  [distributeMock handleUpdate:details];
 
   // Then
-  OCMReject([updatesMock showConfirmationAlert:[OCMArg any]]);
+  OCMReject([distributeMock showConfirmationAlert:[OCMArg any]]);
 
   // If
   details.minOs = @"1.0";
-  OCMStub([updatesMock isNewerVersion:[OCMArg any]]).andReturn(NO).andReturn(YES);
+  OCMStub([distributeMock isNewerVersion:[OCMArg any]]).andReturn(NO).andReturn(YES);
 
   // When
-  [updatesMock handleUpdate:details];
+  [distributeMock handleUpdate:details];
 
   // Then
-  OCMReject([updatesMock showConfirmationAlert:[OCMArg any]]);
+  OCMReject([distributeMock showConfirmationAlert:[OCMArg any]]);
 
   // When
-  [updatesMock handleUpdate:details];
+  [distributeMock handleUpdate:details];
 
   // Then
-  OCMVerify([updatesMock showConfirmationAlert:[OCMArg any]]);
+  OCMVerify([distributeMock showConfirmationAlert:[OCMArg any]]);
 }
 
 - (void)testOpenUrl {
 
   // If
   NSString *scheme = [NSString stringWithFormat:kMSUpdtsDefaultCustomSchemeFormat, kMSTestAppSecret];
-  id updateMock = OCMPartialMock(self.sut);
-  OCMStub([updateMock checkLatestRelease:[OCMArg any]]).andDo(nil);
+  id distributeMock = OCMPartialMock(self.sut);
+  OCMStub([distributeMock checkLatestRelease:[OCMArg any]]).andDo(nil);
 
   // Disable for now to bypass initializing sender.
-  [updateMock setEnabled:NO];
-  [updateMock startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
+  [distributeMock setEnabled:NO];
+  [distributeMock startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
 
   // Enable again.
-  [updateMock setEnabled:YES];
+  [distributeMock setEnabled:YES];
   NSURL *url = [NSURL URLWithString:@"invalid://?"];
 
   // When
-  [updateMock openUrl:url];
+  [distributeMock openUrl:url];
 
   // Then
-  OCMReject([updateMock checkLatestRelease:[OCMArg any]]);
+  OCMReject([distributeMock checkLatestRelease:[OCMArg any]]);
 
   // If
   url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://?", scheme]];
 
   // When
-  [updateMock openUrl:url];
+  [distributeMock openUrl:url];
 
   // Then
-  OCMReject([updateMock checkLatestRelease:[OCMArg any]]);
+  OCMReject([distributeMock checkLatestRelease:[OCMArg any]]);
 
   // If
   url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://?request_id=FIRST-REQUEST", scheme]];
 
   // When
-  [updateMock openUrl:url];
+  [distributeMock openUrl:url];
 
   // Then
-  OCMReject([updateMock checkLatestRelease:[OCMArg any]]);
+  OCMReject([distributeMock checkLatestRelease:[OCMArg any]]);
 
   // If
   url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://?request_id=FIRST-REQUEST&update_token=token", scheme]];
 
   // When
-  [updateMock openUrl:url];
+  [distributeMock openUrl:url];
 
   // Then
-  OCMReject([updateMock checkLatestRelease:[OCMArg any]]);
+  OCMReject([distributeMock checkLatestRelease:[OCMArg any]]);
 
   // If
   [MS_USER_DEFAULTS setObject:@"FIRST-REQUEST" forKey:kMSUpdateTokenRequestIdKey];
@@ -308,51 +308,51 @@ static NSURL *sfURL;
                                                                                    @"Invalid-app-secret"]]];
 
   // When
-  [updateMock openUrl:url];
+  [distributeMock openUrl:url];
 
   // Then
-  OCMReject([updateMock checkLatestRelease:[OCMArg any]]);
+  OCMReject([distributeMock checkLatestRelease:[OCMArg any]]);
 
   // If
   url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://?request_id=FIRST-REQUEST&update_token=token", scheme]];
 
   // When
-  [updateMock openUrl:url];
+  [distributeMock openUrl:url];
 
   // Then
-  OCMVerify([updateMock checkLatestRelease:@"token"]);
+  OCMVerify([distributeMock checkLatestRelease:@"token"]);
 
   // If
-  [updateMock setEnabled:NO];
+  [distributeMock setEnabled:NO];
 
   // When
-  [updateMock openUrl:url];
+  [distributeMock openUrl:url];
 
   // Then
-  OCMReject([updateMock checkLatestRelease:[OCMArg any]]);
+  OCMReject([distributeMock checkLatestRelease:[OCMArg any]]);
 }
 
 - (void)testApplyEnabledStateTrue {
 
   // If
-  id updateMock = OCMPartialMock(self.sut);
-  OCMStub([updateMock checkLatestRelease:[OCMArg any]]).andDo(nil);
-  OCMStub([updateMock requestUpdateToken]).andDo(nil);
+  id distributeMock = OCMPartialMock(self.sut);
+  OCMStub([distributeMock checkLatestRelease:[OCMArg any]]).andDo(nil);
+  OCMStub([distributeMock requestUpdateToken]).andDo(nil);
 
   // When
-  [updateMock applyEnabledState:YES];
+  [distributeMock applyEnabledState:YES];
 
   // Then
-  OCMVerify([updateMock requestUpdateToken]);
+  OCMVerify([distributeMock requestUpdateToken]);
 
   // If
   [MSKeychainUtil storeString:@"UpdateToken" forKey:kMSUpdateTokenKey];
 
   // When
-  [updateMock applyEnabledState:YES];
+  [distributeMock applyEnabledState:YES];
 
   // Then
-  OCMVerify([updateMock checkLatestRelease:[OCMArg any]]);
+  OCMVerify([distributeMock checkLatestRelease:[OCMArg any]]);
 
   // If
   [MS_USER_DEFAULTS setObject:@"RequestID" forKey:kMSUpdateTokenRequestIdKey];
@@ -363,7 +363,7 @@ static NSURL *sfURL;
   XCTAssertNotNil([MS_USER_DEFAULTS objectForKey:kMSIgnoredReleaseIdKey]);
 
   // When
-  [updateMock applyEnabledState:NO];
+  [distributeMock applyEnabledState:NO];
 
   // Then
   XCTAssertNil([MS_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey]);

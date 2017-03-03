@@ -1,13 +1,13 @@
-#import "MSUpdatesViewController.h"
+#import "MSDistributeViewController.h"
 #import "MobileCenterDistribute.h"
 
-@implementation MSUpdatesViewController
+@implementation MSDistributeViewController
 
 #pragma mark - view controller
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  self.title = @"Updates";
+  self.title = @"Distribute";
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
@@ -72,7 +72,7 @@
 
       // Define the switch control and add it to the cell.
       UISwitch *enabledSwitch = [[UISwitch alloc] init];
-      enabledSwitch.on = [MSUpdates isEnabled];
+      enabledSwitch.on = [MSDistribute isEnabled];
       CGSize switchSize = [enabledSwitch sizeThatFits:CGSizeZero];
       enabledSwitch.frame = CGRectMake(cell.contentView.bounds.size.width - switchSize.width - 10.0f,
                                        (cell.contentView.bounds.size.height - switchSize.height) / 2.0f,
@@ -122,8 +122,8 @@
 
 - (void)enabledSwitchUpdated:(id)sender {
   UISwitch *enabledSwitch = (UISwitch *)sender;
-  [MSUpdates setEnabled:enabledSwitch.on];
-  enabledSwitch.on = [MSUpdates isEnabled];
+  [MSDistribute setEnabled:enabledSwitch.on];
+  enabledSwitch.on = [MSDistribute isEnabled];
 }
 
 @end

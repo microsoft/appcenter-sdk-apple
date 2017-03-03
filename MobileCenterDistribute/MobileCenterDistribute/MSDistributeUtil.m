@@ -2,20 +2,20 @@
 #import "MSDistributeInternal.h"
 #import "MSDistributeUtil.h"
 
-NSBundle *MSUpdatesBundle(void) {
+NSBundle *MSDistributeBundle(void) {
   static NSBundle *bundle = nil;
   static dispatch_once_t predicate;
   dispatch_once(&predicate, ^{
 
     // The resource bundle is part of the main app bundle, e.g. .../Puppet.app/MobileCenterDistribute.bundle
     NSString *mainBundlePath = [[NSBundle bundleForClass:[MSDistribute class]] resourcePath];
-    NSString *frameworkBundlePath = [mainBundlePath stringByAppendingPathComponent:MOBILE_CENTER_UPDATES_BUNDLE];
+    NSString *frameworkBundlePath = [mainBundlePath stringByAppendingPathComponent:MOBILE_CENTER_DISTRIBUTE_BUNDLE];
     bundle = [NSBundle bundleWithPath:frameworkBundlePath];
   });
   return bundle;
 }
 
-NSString *MSUpdatesLocalizedString(NSString *stringToken) {
+NSString *MSDistributeLocalizedString(NSString *stringToken) {
 
   // Return an empty string in case our token is nil.
   if (!stringToken) {
@@ -29,9 +29,9 @@ NSString *MSUpdatesLocalizedString(NSString *stringToken) {
   NSString *appSpecificLocalizationString = NSLocalizedString(stringToken, @"");
   if (appSpecificLocalizationString && ![stringToken isEqualToString:appSpecificLocalizationString]) {
     return appSpecificLocalizationString;
-  } else if (MSUpdatesBundle()) {
+  } else if (MSDistributeBundle()) {
     NSString *bundleSpecificLocalizationString =
-        NSLocalizedStringFromTableInBundle(stringToken, @"MobileCenterUpdates", MSUpdatesBundle(), @"");
+        NSLocalizedStringFromTableInBundle(stringToken, @"MobileCenterDistribute", MSDistributeBundle(), @"");
     if (bundleSpecificLocalizationString)
       return bundleSpecificLocalizationString;
     return stringToken;

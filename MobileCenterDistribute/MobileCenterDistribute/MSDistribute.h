@@ -1,7 +1,7 @@
 #import "MSServiceAbstract.h"
 
 /**
- * Mobile Center updates service.
+ * Mobile Center Distribute service.
  */
 @interface MSDistribute : MSServiceAbstract
 
@@ -13,7 +13,7 @@
 + (void)setApiUrl:(NSString *)apiUrl;
 
 /**
- * Change the base URL that is used to install updates.
+ * Change the base URL that is used to install update.
  *
  * @param installUrl The new URL.
  */

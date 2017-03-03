@@ -4,12 +4,12 @@ sdk: iphonesimulator
 
 theme: ../Themes/apple
 
-module: Updates
+module: Distribute
 module_version: 0.4.2
 author: Microsoft Corp
 author_url: http://www.microsoft.com
 
-readme: Guides/Updates.md
+readme: Guides/Distribute.md
 documentation: ../Guides/[^index]*.md
 custom_categories:
   - name: Guides

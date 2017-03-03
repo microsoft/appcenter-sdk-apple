@@ -1,16 +1,16 @@
 #import <XCTest/XCTest.h>
 #import "MSDistributeUtil.h"
 
-@interface MobileCenterUpdatesTests : XCTestCase
+@interface MobileCenterDistributeTests : XCTestCase
 
 @end
 
-@implementation MobileCenterUpdatesTests
+@implementation MobileCenterDistributeTests
 
 - (void)testGetMainBundle {
 
   // When
-  NSBundle *bundle = MSUpdatesBundle();
+  NSBundle *bundle = MSDistributeBundle();
 
   // Then
   XCTAssertNotNil(bundle);
@@ -19,25 +19,25 @@
 - (void)testLocalizedString {
 
   // When
-  NSString *test = MSUpdatesLocalizedString(@"");
+  NSString *test = MSDistributeLocalizedString(@"");
 
   // Then
   XCTAssertTrue([test isEqualToString:@""]);
 
   // When
-  test = MSUpdatesLocalizedString(nil);
+  test = MSDistributeLocalizedString(nil);
 
   // Then
   XCTAssertTrue([test isEqualToString:@""]);
 
   // When
-  test = MSUpdatesLocalizedString(@"NonExistendString");
+  test = MSDistributeLocalizedString(@"NonExistendString");
 
   // Then
   XCTAssertTrue([test isEqualToString:@"NonExistendString"]);
 
   // When
-  test = MSUpdatesLocalizedString(@"Ignore");
+  test = MSDistributeLocalizedString(@"Ignore");
   
   // Then
   XCTAssertTrue([test isEqualToString:@"Ignore"]);

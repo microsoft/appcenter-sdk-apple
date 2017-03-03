@@ -4,7 +4,7 @@
 #import "MSSender.h"
 #import "MSServiceInternal.h"
 
-#define MOBILE_CENTER_UPDATES_BUNDLE @"MobileCenterDistributeResources.bundle"
+#define MOBILE_CENTER_DISTRIBUTE_BUNDLE @"MobileCenterDistributeResources.bundle"
 
 @interface MSDistribute () <MSServiceInternal>
 
@@ -14,7 +14,7 @@
 @property(nonatomic, copy) NSString *installUrl;
 
 /**
- * An API url that is used to get update details from backend.
+ * An API url that is used to get release details from backend.
  */
 @property(nonatomic, copy) NSString *apiUrl;
 

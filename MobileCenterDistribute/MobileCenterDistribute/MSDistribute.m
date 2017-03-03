@@ -17,17 +17,17 @@
 /**
  * Service storage key name.
  */
-static NSString *const kMSServiceName = @"Updates";
+static NSString *const kMSServiceName = @"Distribute";
 
 #pragma mark - URL constants
 
 /**
- * Base URL for HTTP Distribution install API calls.
+ * Base URL for HTTP Distribute install API calls.
  */
 static NSString *const kMSDefaultInstallUrl = @"http://install.asgard-int.trafficmanager.net";
 
 /**
- * Base URL for HTTP Distribution update API calls.
+ * Base URL for HTTP Distribute update API calls.
  */
 static NSString *const kMSDefaultApiUrl = @"https://asgard-int.trafficmanager.net/api/v0.1";
 
@@ -64,7 +64,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 }
 
 + (NSString *)logTag {
-  return @"MobileCenterUpdates";
+  return @"MobileCenterDistribute";
 }
 
 - (NSString *)storageKey {
@@ -82,7 +82,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
   // Enabling
   if (isEnabled) {
-    MSLogInfo([MSDistribute logTag], @"Updates service has been enabled.");
+    MSLogInfo([MSDistribute logTag], @"Distribute service has been enabled.");
     NSString *updateToken = [MSKeychainUtil stringForKey:kMSUpdateTokenKey];
     if (updateToken) {
       [self checkLatestRelease:updateToken];
@@ -92,13 +92,13 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   } else {
     [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
     [MS_USER_DEFAULTS removeObjectForKey:kMSIgnoredReleaseIdKey];
-    MSLogInfo([MSDistribute logTag], @"Updates service has been disabled.");
+    MSLogInfo([MSDistribute logTag], @"Distribute service has been disabled.");
   }
 }
 
 - (void)startWithLogManager:(id<MSLogManager>)logManager appSecret:(NSString *)appSecret {
   [super startWithLogManager:logManager appSecret:appSecret];
-  MSLogVerbose([MSDistribute logTag], @"Started Updates service.");
+  MSLogVerbose([MSDistribute logTag], @"Started Distribute service.");
 }
 
 #pragma mark - Public
@@ -119,7 +119,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
 - (void)requestUpdateToken {
   NSURL *url;
-  MSLogInfo([MSDistribute logTag], @"Request updates API token.");
+  MSLogInfo([MSDistribute logTag], @"Request Distribute API token.");
 
   // Most failures here require an app update. Thus, it will be retried only on next App instance.
   url = [self buildTokenRequestURLWithAppSecret:self.appSecret];
@@ -258,7 +258,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   // Check custom sheme is registered.
   NSString *scheme = [NSString stringWithFormat:kMSUpdtsDefaultCustomSchemeFormat, appSecret];
   if (![self checkURLSchemeRegistered:scheme]) {
-    MSLogError([MSDistribute logTag], @"Custom URL scheme for updates not found.");
+    MSLogError([MSDistribute logTag], @"Custom URL scheme for Distribute not found.");
     return nil;
   }
 
@@ -285,7 +285,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 - (void)openURLInEmbeddedSafari:(NSURL *)url fromClass:(Class)clazz {
   MSLogDebug([MSDistribute logTag], @"Using SFSafariViewController to open URL: %@", url);
 
-  // Init safari controller with the update URL.
+  // Init safari controller with the install URL.
   id safari = [[clazz alloc] initWithURL:url];
 
   // Create an empty window + viewController to host the Safari UI.
@@ -360,26 +360,26 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   dispatch_async(dispatch_get_main_queue(), ^{
 
     NSString *releaseNotes =
-        details.releaseNotes ? details.releaseNotes : MSUpdatesLocalizedString(@"No release notes");
+        details.releaseNotes ? details.releaseNotes : MSDistributeLocalizedString(@"No release notes");
 
     MSAlertController *alertController =
-        [MSAlertController alertControllerWithTitle:MSUpdatesLocalizedString(@"Update available") message:releaseNotes];
+        [MSAlertController alertControllerWithTitle:MSDistributeLocalizedString(@"Update available") message:releaseNotes];
 
     // Add a "Ignore"-Button
-    [alertController addDefaultActionWithTitle:MSUpdatesLocalizedString(@"Ignore")
+    [alertController addDefaultActionWithTitle:MSDistributeLocalizedString(@"Ignore")
                                        handler:^(UIAlertAction *action) {
                                          MSLogDebug([MSDistribute logTag], @"Ignore the release id: %@.", details.id);
                                          [MS_USER_DEFAULTS setObject:details.id forKey:kMSIgnoredReleaseIdKey];
                                        }];
 
     // Add a "Postpone"-Button
-    [alertController addCancelActionWithTitle:MSUpdatesLocalizedString(@"Postpone")
+    [alertController addCancelActionWithTitle:MSDistributeLocalizedString(@"Postpone")
                                       handler:^(UIAlertAction *action) {
                                         MSLogDebug([MSDistribute logTag], @"Postpone the release for now.");
                                       }];
 
     // Add a "Download"-Button
-    [alertController addDefaultActionWithTitle:MSUpdatesLocalizedString(@"Download")
+    [alertController addDefaultActionWithTitle:MSDistributeLocalizedString(@"Download")
                                        handler:^(UIAlertAction *action) {
                                          MSLogDebug([MSDistribute logTag], @"Start download and install the release.");
                                          [self startDownload:details];
@@ -418,7 +418,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 - (void)openUrl:(NSURL *)url {
   if ([self isEnabled]) {
 
-    // If the request is not for Mobile Center Updates, ignore.
+    // If the request is not for Mobile Center Distribute, ignore.
     if (![[NSString stringWithFormat:kMSUpdtsDefaultCustomSchemeFormat, self.appSecret] isEqualToString:[url scheme]]) {
       return;
     }
@@ -454,7 +454,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       [self checkLatestRelease:queryUpdateToken];
     }
   } else {
-    MSLogDebug([MSDistribute logTag], @"Updates service has been disabled, ignore request.");
+    MSLogDebug([MSDistribute logTag], @"Distribute service has been disabled, ignore request.");
   }
 }
 

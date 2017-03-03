@@ -2,7 +2,7 @@
 #import "MSDistribute.h"
 
 /**
- * Updates url query parameter key strings.
+ * Distribute url query parameter key strings.
  */
 static NSString *const kMSUpdtsURLQueryPlatformKey = @"platform";
 static NSString *const kMSUpdtsURLQueryReleaseHashKey = @"release_hash";
@@ -11,12 +11,12 @@ static NSString *const kMSUpdtsURLQueryRequestIdKey = @"request_id";
 static NSString *const kMSUpdtsURLQueryUpdateTokenKey = @"update_token";
 
 /**
- * Updates url query parameter value strings.
+ * Distribute url query parameter value strings.
  */
 static NSString *const kMSUpdtsURLQueryPlatformValue = @"iOS";
 
 /**
- * Updates custom URL scheme format.
+ * Distribute custom URL scheme format.
  */
 static NSString *const kMSUpdtsDefaultCustomSchemeFormat = @"mobilecenter-%@";
 
@@ -38,11 +38,11 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
 @interface MSDistribute ()
 
 /**
- * Build the update URL for token request with the given application secret.
+ * Build the install URL for token request with the given application secret.
  *
  * @param appSecret Application secret.
  *
- * @return The finale update URL to request the token or nil if an error occured.
+ * @return The finale install URL to request the token or nil if an error occurred.
  */
 - (NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret;
 
@@ -83,7 +83,7 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
 - (void)requestUpdateToken;
 
 /**
- * Update workflow to make a dicision of update based on release details.
+ * Update workflow to make a decision based on release details.
  */
 - (void)handleUpdate:(MSReleaseDetails *)details;
 

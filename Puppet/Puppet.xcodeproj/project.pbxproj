@@ -28,7 +28,7 @@
 		B27397A51DE3D27700AC7761 /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B27397A31DE3D27700AC7761 /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B296D4211E5F5DEF0089F013 /* MobileCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B2C070CB1E5F59A90076D6A9 /* MobileCenterDistributeResources.bundle */; };
 		B2E611F61DDE72BA00A9DF86 /* MSFakeCXXClass.mm in Sources */ = {isa = PBXBuildFile; fileRef = B2E611F41DDE72BA00A9DF86 /* MSFakeCXXClass.mm */; };
-		BA6827C9F0410233C245D989 /* MSUpdatesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA682342F94E25F75943E4F6 /* MSUpdatesViewController.m */; };
+		BA6827C9F0410233C245D989 /* MSDistributeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA682342F94E25F75943E4F6 /* MSDistributeViewController.m */; };
 		E82E1B641D1CA58D00D281C1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E82E1B631D1CA58D00D281C1 /* main.m */; };
 		E82E1B671D1CA58D00D281C1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E82E1B661D1CA58D00D281C1 /* AppDelegate.m */; };
 		E82E1B6D1D1CA58D00D281C1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E82E1B6B1D1CA58D00D281C1 /* Main.storyboard */; };
@@ -225,8 +225,8 @@
 		B27397A31DE3D27700AC7761 /* CrashLibIOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CrashLibIOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2E611F41DDE72BA00A9DF86 /* MSFakeCXXClass.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MSFakeCXXClass.mm; sourceTree = "<group>"; };
 		B2E611F51DDE72BA00A9DF86 /* MSFakeCXXClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSFakeCXXClass.h; sourceTree = "<group>"; };
-		BA682342F94E25F75943E4F6 /* MSUpdatesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSUpdatesViewController.m; sourceTree = "<group>"; };
-		BA68238A942EEAA10612D006 /* MSUpdatesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSUpdatesViewController.h; sourceTree = "<group>"; };
+		BA682342F94E25F75943E4F6 /* MSDistributeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDistributeViewController.m; sourceTree = "<group>"; };
+		BA68238A942EEAA10612D006 /* MSDistributeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDistributeViewController.h; sourceTree = "<group>"; };
 		E82E1B5F1D1CA58D00D281C1 /* Puppet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Puppet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E82E1B631D1CA58D00D281C1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E82E1B651D1CA58D00D281C1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -429,8 +429,8 @@
 				B21B26C61DDE490400FF0378 /* MSCrashesDetailViewController.m */,
 				B2E611F51DDE72BA00A9DF86 /* MSFakeCXXClass.h */,
 				B2E611F41DDE72BA00A9DF86 /* MSFakeCXXClass.mm */,
-				BA682342F94E25F75943E4F6 /* MSUpdatesViewController.m */,
-				BA68238A942EEAA10612D006 /* MSUpdatesViewController.h */,
+				BA682342F94E25F75943E4F6 /* MSDistributeViewController.m */,
+				BA68238A942EEAA10612D006 /* MSDistributeViewController.h */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -651,7 +651,7 @@
 				E89E6A2C1D396D7900CAA2CD /* MSCrashesReportsViewController.m in Sources */,
 				E89E6A301D39704900CAA2CD /* MSAnalyticsViewController.m in Sources */,
 				E82E1B641D1CA58D00D281C1 /* main.m in Sources */,
-				BA6827C9F0410233C245D989 /* MSUpdatesViewController.m in Sources */,
+				BA6827C9F0410233C245D989 /* MSDistributeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
