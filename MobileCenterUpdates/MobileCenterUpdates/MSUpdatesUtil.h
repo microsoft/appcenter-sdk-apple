@@ -19,3 +19,14 @@ NSBundle *MSUpdatesBundle(void);
  * return an empty string. If the .strings file does not contain a string for the token, it will return the token.
  */
 NSString *MSUpdatesLocalizedString(NSString *stringToken);
+
+@interface MSUpdatesUtil : NSObject
+
+/*
+ * Checks if the app runs in the DEBUG configuration.
+ *
+ * @return A BOOL that indicates if the app was launched with the DEBUG configuration.
+ */
++ (BOOL)isRunningInDebugConfiguration;
+
+@end

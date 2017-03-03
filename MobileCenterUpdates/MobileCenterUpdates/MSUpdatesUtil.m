@@ -39,3 +39,17 @@ NSString *MSUpdatesLocalizedString(NSString *stringToken) {
     return stringToken;
   }
 }
+
+@implementation MSUpdatesUtil
+
++ (BOOL)isRunningInDebugConfiguration {
+  BOOL isRunningInDebugConfiguration;
+#if DEBUG
+  isRunningInDebugConfiguration = YES;
+#else
+  isRunningInDebugConfiguration = NO;
+#endif
+  return isRunningInDebugConfiguration;
+}
+
+@end

@@ -332,42 +332,66 @@ static NSURL *sfURL;
   OCMReject([updateMock checkLatestRelease:[OCMArg any]]);
 }
 
-- (void)testApplyEnabledStateTrue {
+- (void)testApplyEnabledStateTrueForDebugConfig {
+  [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
+  [MS_USER_DEFAULTS removeObjectForKey:kMSIgnoredReleaseIdKey];
 
   // If
-  id updateMock = OCMPartialMock(self.sut);
-  OCMStub([updateMock checkLatestRelease:[OCMArg any]]).andDo(nil);
-  OCMStub([updateMock requestUpdateToken]).andDo(nil);
-
+  id schnubbsi = OCMPartialMock(self.sut);
+  OCMStub([schnubbsi checkLatestRelease:[OCMArg any]]).andDo(nil);
+  OCMStub([schnubbsi requestUpdateToken]).andDo(nil);
+  
   // When
-  [updateMock applyEnabledState:YES];
-
-  // Then
-  OCMVerify([updateMock requestUpdateToken]);
-
-  // If
-  [MSKeychainUtil storeString:@"UpdateToken" forKey:kMSUpdateTokenKey];
-
-  // When
-  [updateMock applyEnabledState:YES];
-
-  // Then
-  OCMVerify([updateMock checkLatestRelease:[OCMArg any]]);
-
-  // If
-  [MS_USER_DEFAULTS setObject:@"RequestID" forKey:kMSUpdateTokenRequestIdKey];
-  [MS_USER_DEFAULTS setObject:@"ReleaseID" forKey:kMSIgnoredReleaseIdKey];
-
-  // Then
-  XCTAssertNotNil([MS_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey]);
-  XCTAssertNotNil([MS_USER_DEFAULTS objectForKey:kMSIgnoredReleaseIdKey]);
-
-  // When
-  [updateMock applyEnabledState:NO];
-
+   [schnubbsi applyEnabledState:YES];
+  
   // Then
   XCTAssertNil([MS_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey]);
   XCTAssertNil([MS_USER_DEFAULTS objectForKey:kMSIgnoredReleaseIdKey]);
+  
+  // When
+  [schnubbsi applyEnabledState:NO];
+  
+  // Then
+  XCTAssertNil([MS_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey]);
+  XCTAssertNil([MS_USER_DEFAULTS objectForKey:kMSIgnoredReleaseIdKey]);
+}
+
+- (void)testApplyEnabledStateTrue {
+    // If
+    id updateMock = OCMPartialMock(self.sut);
+    OCMStub([updateMock checkLatestRelease:[OCMArg any]]).andDo(nil);
+    OCMStub([updateMock requestUpdateToken]).andDo(nil);
+    OCMStub([updateMock ignoreDebugModeForTesting]).andReturn(YES);
+  
+    // When
+    [updateMock applyEnabledState:YES];
+  
+    // Then
+    OCMVerify([updateMock requestUpdateToken]);
+  
+    // If
+    [MSKeychainUtil storeString:@"UpdateToken" forKey:kMSUpdateTokenKey];
+  
+    // When
+    [updateMock applyEnabledState:YES];
+  
+    // Then
+    OCMVerify([updateMock checkLatestRelease:[OCMArg any]]);
+  
+    // If
+    [MS_USER_DEFAULTS setObject:@"RequestID" forKey:kMSUpdateTokenRequestIdKey];
+    [MS_USER_DEFAULTS setObject:@"ReleaseID" forKey:kMSIgnoredReleaseIdKey];
+  
+    // Then
+    XCTAssertNotNil([MS_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey]);
+    XCTAssertNotNil([MS_USER_DEFAULTS objectForKey:kMSIgnoredReleaseIdKey]);
+  
+    // When
+    [updateMock applyEnabledState:NO];
+  
+    // Then
+    XCTAssertNil([MS_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey]);
+    XCTAssertNil([MS_USER_DEFAULTS objectForKey:kMSIgnoredReleaseIdKey]);
 }
 
 @end

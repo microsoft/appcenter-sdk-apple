@@ -43,4 +43,10 @@
   XCTAssertTrue([test isEqualToString:@"Ignore"]);
 }
 
+- (void)testDebugConfiurationDetectionWorks {
+  
+  // When
+  XCTAssertTrue([MSUpdatesUtil isRunningInDebugConfiguration]);
+}
+
 @end
