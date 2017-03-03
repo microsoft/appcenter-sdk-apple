@@ -1,7 +1,4 @@
-#if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
 #import <UserNotifications/UserNotifications.h>
-#endif
-
 #import "MSMobileCenterInternal.h"
 #import "MSPush.h"
 #import "MSPushInternal.h"
@@ -83,7 +80,6 @@ static dispatch_once_t onceToken;
       [self registerForRemoteNotifications];
     }
   } else {
-    [[UIApplication sharedApplication] unregisterForRemoteNotifications];
     MSLogInfo([MSPush logTag], @"Push service has been disabled.");
   }
 }
@@ -105,13 +101,10 @@ static dispatch_once_t onceToken;
     UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:allNotificationTypes categories:nil];
     [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
   } else {
-#if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
     UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
     UNAuthorizationOptions authOptions = (UNAuthorizationOptions) (UNAuthorizationOptionAlert | UNAuthorizationOptionSound | UNAuthorizationOptionBadge);
     [center requestAuthorizationWithOptions:authOptions
                           completionHandler:^(BOOL granted, NSError * _Nullable error) {}];
-    [center setDelegate:[[UIApplication sharedApplication] delegate]];
-#endif
   }
   [[UIApplication sharedApplication] registerForRemoteNotifications];
 #endif
