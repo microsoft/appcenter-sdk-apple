@@ -222,7 +222,8 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     _didCrashInLastSession = NO;
     _bufferIndex = [[NSMutableDictionary alloc] initWithCapacity:kMSPriorityCount];
 
-    [self setupLogBuffer];
+    // FIXME: Crashes is getting way more logs than expected. Disable this functionality.
+    // [self setupLogBuffer];
   }
   return self;
 }
@@ -308,7 +309,9 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 - (void)startWithLogManager:(id<MSLogManager>)logManager appSecret:(NSString *)appSecret {
   [super startWithLogManager:logManager appSecret:appSecret];
   [logManager addDelegate:self];
-  [self processLogBufferAfterCrash];
+
+  // FIXME: Crashes is getting way more logs than expected. Disable this functionality.
+  // [self processLogBufferAfterCrash];
   MSLogVerbose([MSCrashes logTag], @"Started crash service.");
 }
 
