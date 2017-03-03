@@ -99,10 +99,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 - (void)startWithLogManager:(id<MSLogManager>)logManager appSecret:(NSString *)appSecret {
   [super startWithLogManager:logManager appSecret:appSecret];
   MSLogVerbose([MSUpdates logTag], @"Started Updates service.");
-
-  // TODO remove this =)
-  NSString *foo = MSUpdatesLocalizedString(@"Working");
-  MSLogVerbose([MSUpdates logTag], @"%@", foo);
 }
 
 #pragma mark - Public
@@ -307,9 +303,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
 - (void)openURLInSafariApp:(NSURL *)url {
   MSLogDebug([MSUpdates logTag], @"Using Safari browser to open URL: %@", url);
-  if ([MSUtil sharedAppCanOpenURL:url]) {
-    [MSUtil sharedAppOpenURL:url];
-  }
+  [MSUtil sharedAppOpenUrl:url options:@{} completionHandler:nil];
 }
 
 - (void)handleUpdate:(MSReleaseDetails *)details {
@@ -365,40 +359,60 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   // Displaying alert dialog. Running on main thread.
   dispatch_async(dispatch_get_main_queue(), ^{
 
-    // TODO: The text should be localized. There is a separate task for resources.
     NSString *releaseNotes =
-        details.releaseNotes ? details.releaseNotes : @"No release notes were provided for this release.";
+        details.releaseNotes ? details.releaseNotes : MSUpdatesLocalizedString(@"No release notes");
 
     MSAlertController *alertController =
-        [MSAlertController alertControllerWithTitle:@"Update available" message:releaseNotes];
+        [MSAlertController alertControllerWithTitle:MSUpdatesLocalizedString(@"Update available") message:releaseNotes];
 
     // Add a "Ignore"-Button
-    [alertController addDefaultActionWithTitle:@"Ignore"
+    [alertController addDefaultActionWithTitle:MSUpdatesLocalizedString(@"Ignore")
                                        handler:^(UIAlertAction *action) {
                                          MSLogDebug([MSUpdates logTag], @"Ignore the release id: %@.", details.id);
                                          [MS_USER_DEFAULTS setObject:details.id forKey:kMSIgnoredReleaseIdKey];
                                        }];
 
     // Add a "Postpone"-Button
-    [alertController addCancelActionWithTitle:@"Postpone"
+    [alertController addCancelActionWithTitle:MSUpdatesLocalizedString(@"Postpone")
                                       handler:^(UIAlertAction *action) {
                                         MSLogDebug([MSUpdates logTag], @"Postpone the release for now.");
                                       }];
 
     // Add a "Download"-Button
-    [alertController addDefaultActionWithTitle:@"Download"
+    [alertController addDefaultActionWithTitle:MSUpdatesLocalizedString(@"Download")
                                        handler:^(UIAlertAction *action) {
                                          MSLogDebug([MSUpdates logTag], @"Start download and install the release.");
                                          [self startDownload:details];
                                        }];
 
     // Show the alert controller.
+    MSLogDebug([MSUpdates logTag], @"Show update dialog.");
     [alertController show];
   });
 }
 
-// TODO: Please implement!
 - (void)startDownload:(MSReleaseDetails *)details {
+#if TARGET_IPHONE_SIMULATOR
+  MSLogWarning([MSUpdates logTag], @"Couldn't download a new release on simulator.");
+#else
+  [MSUtil sharedAppOpenUrl:details.installUrl
+      options:@{}
+      completionHandler:^(BOOL success) {
+        if (success) {
+          MSLogDebug([MSUpdates logTag], @"Start updating the application.");
+
+          /*
+           * We've seen the behavior on iOS 8.x devices in HockeyApp that it doesn't download until the application
+           * goes in background by pressing home button. Simply exit the app to start the update process.
+           */
+          if (floor(NSFoundationVersionNumber) < NSFoundationVersionNumber_iOS_9_0) {
+            exit(0);
+          }
+        } else {
+          MSLogError([MSUpdates logTag], @"System couldn't open the URL. Aborting update.");
+        }
+      }];
+#endif
 }
 
 - (void)openUrl:(NSURL *)url {
