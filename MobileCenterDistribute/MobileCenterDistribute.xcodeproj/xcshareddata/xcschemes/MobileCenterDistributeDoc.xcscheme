@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B2C070B71E5E68540076D6A9"
-               BuildableName = "MobileCenterUpdatesResources.bundle"
-               BlueprintName = "MobileCenterUpdatesResources"
-               ReferencedContainer = "container:MobileCenterUpdates.xcodeproj">
+               BlueprintIdentifier = "04FD4A3C1E453640009B4468"
+               BuildableName = "MobileCenterDistributeDoc"
+               BlueprintName = "MobileCenterDistributeDoc"
+               ReferencedContainer = "container:MobileCenterDistribute.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,10 +45,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "B2C070B71E5E68540076D6A9"
-            BuildableName = "MobileCenterUpdatesResources.bundle"
-            BlueprintName = "MobileCenterUpdatesResources"
-            ReferencedContainer = "container:MobileCenterUpdates.xcodeproj">
+            BlueprintIdentifier = "04FD4A3C1E453640009B4468"
+            BuildableName = "MobileCenterDistributeDoc"
+            BlueprintName = "MobileCenterDistributeDoc"
+            ReferencedContainer = "container:MobileCenterDistribute.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -60,6 +60,15 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "04FD4A3C1E453640009B4468"
+            BuildableName = "MobileCenterDistributeDoc"
+            BlueprintName = "MobileCenterDistributeDoc"
+            ReferencedContainer = "container:MobileCenterDistribute.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

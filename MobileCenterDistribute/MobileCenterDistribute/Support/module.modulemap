@@ -1,4 +1,4 @@
-framework module MobileCenterUpdates {
+framework module MobileCenterDistribute {
   umbrella header "MobileCenterUpdates.h"
   
   export *

@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "04FD4A1B1E451E12009B4468"
-               BuildableName = "libMobileCenterUpdates.a"
-               BlueprintName = "MobileCenterUpdates"
-               ReferencedContainer = "container:MobileCenterUpdates.xcodeproj">
+               BuildableName = "libMobileCenterDistribute.a"
+               BlueprintName = "MobileCenterDistribute"
+               ReferencedContainer = "container:MobileCenterDistribute.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "B2C070B71E5E68540076D6A9"
-               BuildableName = "MobileCenterUpdatesResources.bundle"
-               BlueprintName = "MobileCenterUpdatesResources"
-               ReferencedContainer = "container:MobileCenterUpdates.xcodeproj">
+               BuildableName = "MobileCenterDistributeResources.bundle"
+               BlueprintName = "MobileCenterDistributeResources"
+               ReferencedContainer = "container:MobileCenterDistribute.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -43,9 +43,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "04FD4A301E453531009B4468"
-               BuildableName = "MobileCenterUpdates.xctest"
-               BlueprintName = "MobileCenterUpdatesTests"
-               ReferencedContainer = "container:MobileCenterUpdates.xcodeproj">
+               BuildableName = "MobileCenterDistribute.xctest"
+               BlueprintName = "MobileCenterDistributeTests"
+               ReferencedContainer = "container:MobileCenterDistribute.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -62,9 +62,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "04FD4A301E453531009B4468"
-               BuildableName = "MobileCenterUpdates.xctest"
-               BlueprintName = "MobileCenterUpdatesTests"
-               ReferencedContainer = "container:MobileCenterUpdates.xcodeproj">
+               BuildableName = "MobileCenterDistribute.xctest"
+               BlueprintName = "MobileCenterDistributeTests"
+               ReferencedContainer = "container:MobileCenterDistribute.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "04FD4A1B1E451E12009B4468"
-            BuildableName = "libMobileCenterUpdates.a"
-            BlueprintName = "MobileCenterUpdates"
-            ReferencedContainer = "container:MobileCenterUpdates.xcodeproj">
+            BuildableName = "libMobileCenterDistribute.a"
+            BlueprintName = "MobileCenterDistribute"
+            ReferencedContainer = "container:MobileCenterDistribute.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -94,9 +94,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "04FD4A1B1E451E12009B4468"
-            BuildableName = "libMobileCenterUpdates.a"
-            BlueprintName = "MobileCenterUpdates"
-            ReferencedContainer = "container:MobileCenterUpdates.xcodeproj">
+            BuildableName = "libMobileCenterDistribute.a"
+            BlueprintName = "MobileCenterDistribute"
+            ReferencedContainer = "container:MobileCenterDistribute.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -112,9 +112,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "04FD4A1B1E451E12009B4468"
-            BuildableName = "libMobileCenterUpdates.a"
-            BlueprintName = "MobileCenterUpdates"
-            ReferencedContainer = "container:MobileCenterUpdates.xcodeproj">
+            BuildableName = "libMobileCenterDistribute.a"
+            BlueprintName = "MobileCenterDistribute"
+            ReferencedContainer = "container:MobileCenterDistribute.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>
