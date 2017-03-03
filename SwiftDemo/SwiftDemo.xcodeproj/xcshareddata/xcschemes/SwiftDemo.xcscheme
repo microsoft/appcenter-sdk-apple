@@ -57,9 +57,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "04FD4A281E451E90009B4468"
-               BuildableName = "MobileCenterUpdatesFramework"
-               BlueprintName = "MobileCenterUpdatesFramework"
-               ReferencedContainer = "container:../MobileCenterUpdates/MobileCenterUpdates.xcodeproj">
+               BuildableName = "MobileCenterDistributeFramework"
+               BlueprintName = "MobileCenterDistributeFramework"
+               ReferencedContainer = "container:../MobileCenterDistribute/MobileCenterDistribute.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry

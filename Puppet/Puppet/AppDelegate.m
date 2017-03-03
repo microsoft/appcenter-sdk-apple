@@ -7,7 +7,7 @@
 #import "MobileCenter.h"
 #import "MobileCenterAnalytics.h"
 #import "MobileCenterCrashes.h"
-#import "MobileCenterUpdates.h"
+#import "MobileCenterDistribute.h"
 
 #import "MSAlertController.h"
 
@@ -24,7 +24,7 @@
   [MSMobileCenter setLogUrl:@"https://in-integration.dev.avalanch.es"];
 
   [MSMobileCenter start:@"65dc3680-7325-4000-a0e7-dbd2276eafd1"
-           withServices:@[ [MSAnalytics class], [MSCrashes class], [MSUpdates class] ]];
+           withServices:@[ [MSAnalytics class], [MSCrashes class], [MSDistribute class] ]];
 
   [self crashes];
 
@@ -39,7 +39,7 @@
             openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation {
-  [MSUpdates openUrl:url];
+  [MSDistribute openUrl:url];
   NSLog(@"%@ Got waken up via openURL: %@", kPUPLogTag, url);
 
   return YES;

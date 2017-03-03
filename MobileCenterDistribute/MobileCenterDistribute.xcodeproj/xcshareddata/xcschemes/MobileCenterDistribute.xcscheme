@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6E6BFC311D234FAE00DF7617"
-               BuildableName = "MobileCenterDoc"
-               BlueprintName = "MobileCenterDoc"
-               ReferencedContainer = "container:MobileCenter/MobileCenter.xcodeproj">
+               BlueprintIdentifier = "04FD4A1B1E451E12009B4468"
+               BuildableName = "libMobileCenterDistribute.a"
+               BlueprintName = "MobileCenterDistribute"
+               ReferencedContainer = "container:MobileCenterDistribute.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -28,38 +28,24 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E85547E91D2D68C5002DF6E2"
-               BuildableName = "MobileCenterAnalyticsDoc"
-               BlueprintName = "MobileCenterAnalyticsDoc"
-               ReferencedContainer = "container:MobileCenterAnalytics/MobileCenterAnalytics.xcodeproj">
+               BlueprintIdentifier = "B2C070B71E5E68540076D6A9"
+               BuildableName = "MobileCenterDistributeResources.bundle"
+               BlueprintName = "MobileCenterDistributeResources"
+               ReferencedContainer = "container:MobileCenterDistribute.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
             buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6E6BFC361D23504F00DF7617"
-               BuildableName = "MobileCenterCrashesDoc"
-               BlueprintName = "MobileCenterCrashesDoc"
-               ReferencedContainer = "container:MobileCenterCrashes/MobileCenterCrashes.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "04FD4A3C1E453640009B4468"
-               BuildableName = "MobileCenterDistributeDoc"
-               BlueprintName = "MobileCenterDistributeDoc"
-               ReferencedContainer = "container:MobileCenterDistribute/MobileCenterDistribute.xcodeproj">
+               BlueprintIdentifier = "04FD4A301E453531009B4468"
+               BuildableName = "MobileCenterDistribute.xctest"
+               BlueprintName = "MobileCenterDistributeTests"
+               ReferencedContainer = "container:MobileCenterDistribute.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -71,14 +57,24 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       codeCoverageEnabled = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "04FD4A301E453531009B4468"
+               BuildableName = "MobileCenterDistribute.xctest"
+               BlueprintName = "MobileCenterDistributeTests"
+               ReferencedContainer = "container:MobileCenterDistribute.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6E6BFC311D234FAE00DF7617"
-            BuildableName = "MobileCenterDoc"
-            BlueprintName = "MobileCenterDoc"
-            ReferencedContainer = "container:MobileCenter/MobileCenter.xcodeproj">
+            BlueprintIdentifier = "04FD4A1B1E451E12009B4468"
+            BuildableName = "libMobileCenterDistribute.a"
+            BlueprintName = "MobileCenterDistribute"
+            ReferencedContainer = "container:MobileCenterDistribute.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -97,10 +93,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6E6BFC311D234FAE00DF7617"
-            BuildableName = "MobileCenterDoc"
-            BlueprintName = "MobileCenterDoc"
-            ReferencedContainer = "container:MobileCenter/MobileCenter.xcodeproj">
+            BlueprintIdentifier = "04FD4A1B1E451E12009B4468"
+            BuildableName = "libMobileCenterDistribute.a"
+            BlueprintName = "MobileCenterDistribute"
+            ReferencedContainer = "container:MobileCenterDistribute.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -115,10 +111,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6E6BFC311D234FAE00DF7617"
-            BuildableName = "MobileCenterDoc"
-            BlueprintName = "MobileCenterDoc"
-            ReferencedContainer = "container:MobileCenter/MobileCenter.xcodeproj">
+            BlueprintIdentifier = "04FD4A1B1E451E12009B4468"
+            BuildableName = "libMobileCenterDistribute.a"
+            BlueprintName = "MobileCenterDistribute"
+            ReferencedContainer = "container:MobileCenterDistribute.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>
