@@ -5,7 +5,7 @@ sdk: iphonesimulator
 theme: ../Themes/apple
 
 module: MobileCenter
-module_version: 0.5.0
+module_version: 0.5.1
 author: Microsoft Corp
 author_url: http://www.microsoft.com
 
