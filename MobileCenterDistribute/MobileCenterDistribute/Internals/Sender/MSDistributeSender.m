@@ -1,11 +1,11 @@
 #import "MSDistribute.h"
-#import "MSDistributionSender.h"
+#import "MSDistributeSender.h"
 #import "MSHttpSenderPrivate.h"
 #import "MSLogger.h"
 #import "MSMobileCenter.h"
 #import "MSMobileCenterInternal.h"
 
-@implementation MSDistributionSender
+@implementation MSDistributeSender
 
 /**
  * The API path for latest release request.

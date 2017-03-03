@@ -6,8 +6,8 @@
 #import "MSDistribute.h"
 #import "MSDistributeInternal.h"
 #import "MSDistributePrivate.h"
+#import "MSDistributeSender.h"
 #import "MSDistributeUtil.h"
-#import "MSDistributionSender.h"
 #import "MSKeychainUtil.h"
 #import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
@@ -149,8 +149,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 }
 
 - (void)checkLatestRelease:(NSString *)updateToken {
-  MSDistributionSender *sender =
-      [[MSDistributionSender alloc] initWithBaseUrl:self.apiUrl appSecret:self.appSecret updateToken:updateToken];
+  MSDistributeSender *sender =
+      [[MSDistributeSender alloc] initWithBaseUrl:self.apiUrl appSecret:self.appSecret updateToken:updateToken];
 
   [sender sendAsync:nil
       completionHandler:^(NSString *callId, NSUInteger statusCode, NSData *data, NSError *error) {
