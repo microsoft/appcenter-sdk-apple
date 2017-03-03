@@ -13,14 +13,14 @@
 static NSString *const kMSLatestReleaseApiPathFormat = @"/sdk/apps/%@/releases/latest";
 
 - (id)initWithBaseUrl:(NSString *)baseUrl appSecret:(NSString *)appSecret updateToken:(NSString *)updateToken {
-  if (self = [super initWithBaseUrl:baseUrl
-                            apiPath:[NSString stringWithFormat:kMSLatestReleaseApiPathFormat, appSecret]
-                            headers:@{
-                              kMSHeaderUpdateApiToken : updateToken
-                            }
-                       queryStrings:nil
-                       reachability:[MS_Reachability reachabilityForInternetConnection]
-                     retryIntervals:@[ @(10) ]]) {
+  if ((self = [super initWithBaseUrl:baseUrl
+                             apiPath:[NSString stringWithFormat:kMSLatestReleaseApiPathFormat, appSecret]
+                             headers:@{
+                               kMSHeaderUpdateApiToken : updateToken
+                             }
+                        queryStrings:nil
+                        reachability:[MS_Reachability reachabilityForInternetConnection]
+                      retryIntervals:@[ @(10) ]])) {
     self.appSecret = [[MSDistribute sharedInstance] appSecret];
   }
 
