@@ -4,21 +4,21 @@
 /**
  * Distribute url query parameter key strings.
  */
-static NSString *const kMSUpdtsURLQueryPlatformKey = @"platform";
-static NSString *const kMSUpdtsURLQueryReleaseHashKey = @"release_hash";
-static NSString *const kMSUpdtsURLQueryRedirectIdKey = @"redirect_id";
-static NSString *const kMSUpdtsURLQueryRequestIdKey = @"request_id";
-static NSString *const kMSUpdtsURLQueryUpdateTokenKey = @"update_token";
+static NSString *const kMSURLQueryPlatformKey = @"platform";
+static NSString *const kMSURLQueryReleaseHashKey = @"release_hash";
+static NSString *const kMSURLQueryRedirectIdKey = @"redirect_id";
+static NSString *const kMSURLQueryRequestIdKey = @"request_id";
+static NSString *const kMSURLQueryUpdateTokenKey = @"update_token";
 
 /**
  * Distribute url query parameter value strings.
  */
-static NSString *const kMSUpdtsURLQueryPlatformValue = @"iOS";
+static NSString *const kMSURLQueryPlatformValue = @"iOS";
 
 /**
  * Distribute custom URL scheme format.
  */
-static NSString *const kMSUpdtsDefaultCustomSchemeFormat = @"mobilecenter-%@";
+static NSString *const kMSDefaultCustomSchemeFormat = @"mobilecenter-%@";
 
 /**
  * The storage key for ignored release ID.

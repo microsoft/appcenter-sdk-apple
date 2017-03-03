@@ -113,11 +113,11 @@ static NSURL *sfURL;
   assertThat(url, notNilValue());
   assertThatLong(queryStrings.count, equalToLong(4));
   assertThatBool([components.path containsString:kMSTestAppSecret], isTrue());
-  assertThat(queryStrings[kMSUpdtsURLQueryPlatformKey], is(kMSUpdtsURLQueryPlatformValue));
-  assertThat(queryStrings[kMSUpdtsURLQueryRedirectIdKey],
-             is([NSString stringWithFormat:kMSUpdtsDefaultCustomSchemeFormat, kMSTestAppSecret]));
-  assertThat(queryStrings[kMSUpdtsURLQueryRequestIdKey], notNilValue());
-  assertThat(queryStrings[kMSUpdtsURLQueryReleaseHashKey], notNilValue());
+  assertThat(queryStrings[kMSURLQueryPlatformKey], is(kMSURLQueryPlatformValue));
+  assertThat(queryStrings[kMSURLQueryRedirectIdKey],
+             is([NSString stringWithFormat:kMSDefaultCustomSchemeFormat, kMSTestAppSecret]));
+  assertThat(queryStrings[kMSURLQueryRequestIdKey], notNilValue());
+  assertThat(queryStrings[kMSURLQueryReleaseHashKey], notNilValue());
 }
 
 - (void)testMalformedUpdateURL {
@@ -256,7 +256,7 @@ static NSURL *sfURL;
 - (void)testOpenUrl {
 
   // If
-  NSString *scheme = [NSString stringWithFormat:kMSUpdtsDefaultCustomSchemeFormat, kMSTestAppSecret];
+  NSString *scheme = [NSString stringWithFormat:kMSDefaultCustomSchemeFormat, kMSTestAppSecret];
   id distributeMock = OCMPartialMock(self.sut);
   OCMStub([distributeMock checkLatestRelease:[OCMArg any]]).andDo(nil);
 
@@ -304,7 +304,7 @@ static NSURL *sfURL;
   // If
   [MS_USER_DEFAULTS setObject:@"FIRST-REQUEST" forKey:kMSUpdateTokenRequestIdKey];
   url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://?request_id=FIRST-REQUEST&update_token=token",
-                                                        [NSString stringWithFormat:kMSUpdtsDefaultCustomSchemeFormat,
+                                                        [NSString stringWithFormat:kMSDefaultCustomSchemeFormat,
                                                                                    @"Invalid-app-secret"]]];
 
   // When

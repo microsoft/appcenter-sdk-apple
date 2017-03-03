@@ -34,7 +34,7 @@ static NSString *const kMSDefaultApiUrl = @"https://asgard-int.trafficmanager.ne
 /**
  * The API path for update token request.
  */
-static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setup";
+static NSString *const kMSUpdateTokenApiPathFormat = @"/apps/%@/update-setup";
 
 #pragma mark - Error constants
 
@@ -231,7 +231,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   NSString *requestId = MS_UUID_STRING;
 
   // Compute URL path string.
-  NSString *urlPath = [NSString stringWithFormat:kMSUpdtsUpdateTokenApiPathFormat, appSecret];
+  NSString *urlPath = [NSString stringWithFormat:kMSUpdateTokenApiPathFormat, appSecret];
 
   // Build URL string.
   NSString *urlString = [kMSDefaultInstallUrl stringByAppendingString:urlPath];
@@ -256,7 +256,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   }
 
   // Check custom sheme is registered.
-  NSString *scheme = [NSString stringWithFormat:kMSUpdtsDefaultCustomSchemeFormat, appSecret];
+  NSString *scheme = [NSString stringWithFormat:kMSDefaultCustomSchemeFormat, appSecret];
   if (![self checkURLSchemeRegistered:scheme]) {
     MSLogError([MSDistribute logTag], @"Custom URL scheme for Distribute not found.");
     return nil;
@@ -264,10 +264,10 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
   // Set URL query parameters.
   NSMutableArray *items = [NSMutableArray array];
-  [items addObject:[NSURLQueryItem queryItemWithName:kMSUpdtsURLQueryReleaseHashKey value:buildUUID]];
-  [items addObject:[NSURLQueryItem queryItemWithName:kMSUpdtsURLQueryRedirectIdKey value:scheme]];
-  [items addObject:[NSURLQueryItem queryItemWithName:kMSUpdtsURLQueryRequestIdKey value:requestId]];
-  [items addObject:[NSURLQueryItem queryItemWithName:kMSUpdtsURLQueryPlatformKey value:kMSUpdtsURLQueryPlatformValue]];
+  [items addObject:[NSURLQueryItem queryItemWithName:kMSURLQueryReleaseHashKey value:buildUUID]];
+  [items addObject:[NSURLQueryItem queryItemWithName:kMSURLQueryRedirectIdKey value:scheme]];
+  [items addObject:[NSURLQueryItem queryItemWithName:kMSURLQueryRequestIdKey value:requestId]];
+  [items addObject:[NSURLQueryItem queryItemWithName:kMSURLQueryPlatformKey value:kMSURLQueryPlatformValue]];
   components.queryItems = items;
 
   // Check URL validity.
@@ -419,7 +419,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   if ([self isEnabled]) {
 
     // If the request is not for Mobile Center Distribute, ignore.
-    if (![[NSString stringWithFormat:kMSUpdtsDefaultCustomSchemeFormat, self.appSecret] isEqualToString:[url scheme]]) {
+    if (![[NSString stringWithFormat:kMSDefaultCustomSchemeFormat, self.appSecret] isEqualToString:[url scheme]]) {
       return;
     }
 
@@ -431,9 +431,9 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
     // Read mandatory parameters from URL query string.
     for (NSURLQueryItem *item in components.queryItems) {
-      if ([item.name isEqualToString:kMSUpdtsURLQueryRequestIdKey]) {
+      if ([item.name isEqualToString:kMSURLQueryRequestIdKey]) {
         queryRequestId = item.value;
-      } else if ([item.name isEqualToString:kMSUpdtsURLQueryUpdateTokenKey]) {
+      } else if ([item.name isEqualToString:kMSURLQueryUpdateTokenKey]) {
         queryUpdateToken = item.value;
       }
     }

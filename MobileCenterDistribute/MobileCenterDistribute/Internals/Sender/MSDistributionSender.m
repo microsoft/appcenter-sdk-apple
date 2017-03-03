@@ -10,11 +10,11 @@
 /**
  * The API path for latest release request.
  */
-static NSString *const kMSUpdtsLatestReleaseApiPathFormat = @"/sdk/apps/%@/releases/latest";
+static NSString *const kMSLatestReleaseApiPathFormat = @"/sdk/apps/%@/releases/latest";
 
 - (id)initWithBaseUrl:(NSString *)baseUrl appSecret:(NSString *)appSecret updateToken:(NSString *)updateToken {
   if (self = [super initWithBaseUrl:baseUrl
-                            apiPath:[NSString stringWithFormat:kMSUpdtsLatestReleaseApiPathFormat, appSecret]
+                            apiPath:[NSString stringWithFormat:kMSLatestReleaseApiPathFormat, appSecret]
                             headers:@{
                               kMSHeaderUpdateApiToken : updateToken
                             }
