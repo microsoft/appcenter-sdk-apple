@@ -46,7 +46,7 @@
 - (void)testDebugConfiurationDetectionWorks {
   
   // When
-  XCTAssertTrue([MSUpdatesUtil isRunningInDebugConfiguration]);
+  XCTAssertTrue([MSDistributeUtil isRunningInDebugConfiguration]);
 }
 
 @end

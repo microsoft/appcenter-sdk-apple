@@ -20,7 +20,7 @@ NSBundle *MSDistributeBundle(void);
  */
 NSString *MSDistributeLocalizedString(NSString *stringToken);
 
-@interface MSUpdatesUtil : NSObject
+@interface MSDistributeUtil : NSObject
 
 /*
  * Checks if the app runs in the DEBUG configuration.

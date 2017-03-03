@@ -40,7 +40,7 @@ NSString *MSDistributeLocalizedString(NSString *stringToken) {
   }
 }
 
-@implementation MSUpdatesUtil
+@implementation MSDistributeUtil
 
 + (BOOL)isRunningInDebugConfiguration {
   BOOL isRunningInDebugConfiguration;

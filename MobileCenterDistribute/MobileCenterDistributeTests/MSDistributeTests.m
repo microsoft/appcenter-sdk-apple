@@ -7,8 +7,10 @@
 #import "MSDistribute.h"
 #import "MSDistributeInternal.h"
 #import "MSDistributePrivate.h"
+#import "MSDistributeUtil.h"
 #import "MSKeychainUtil.h"
 #import "MSLogManager.h"
+#import "MSMobileCenter.h"
 #import "MSServiceAbstract.h"
 #import "MSServiceInternal.h"
 #import "MSUserDefaults.h"
@@ -364,8 +366,12 @@ static NSURL *sfURL;
   OCMStub([distributeMock requestUpdateToken]).andDo(nil);
 
   // Make sure we disable the debug-mode checks so we can actually test the logic.
-  OCMStub([distributeMock ignoreDebugModeForTesting]).andReturn(YES);
-
+//  OCMStub([distributeMock ignoreDebugModeForTesting]).andReturn(YES);
+  id mobileCenterMock = OCMClassMock([MSMobileCenter class]);
+  OCMStub([mobileCenterMock isDebuggerAttached]).andReturn(NO);
+  id distributeUtilitiesMock = OCMClassMock([MSDistributeUtil class]);
+  OCMStub([distributeUtilitiesMock isRunningInDebugConfiguration]).andReturn(NO);
+  
   // When
   [distributeMock applyEnabledState:YES];
 

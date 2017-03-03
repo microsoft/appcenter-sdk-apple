@@ -18,10 +18,4 @@
  */
 @property(nonatomic, copy) NSString *apiUrl;
 
-
-/**
- * A flag that tells MSUpdates to ignore debug mode when running unit tests.
- */
-@property(nonatomic) BOOL ignoreDebugModeForTesting;
-
 @end
