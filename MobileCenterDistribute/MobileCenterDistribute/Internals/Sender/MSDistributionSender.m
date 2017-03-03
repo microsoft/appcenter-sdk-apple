@@ -1,9 +1,9 @@
+#import "MSDistribute.h"
 #import "MSDistributionSender.h"
 #import "MSHttpSenderPrivate.h"
 #import "MSLogger.h"
 #import "MSMobileCenter.h"
 #import "MSMobileCenterInternal.h"
-#import "MSUpdates.h"
 
 @implementation MSDistributionSender
 
@@ -21,7 +21,7 @@ static NSString *const kMSUpdtsLatestReleaseApiPathFormat = @"/sdk/apps/%@/relea
                        queryStrings:nil
                        reachability:[MS_Reachability reachabilityForInternetConnection]
                      retryIntervals:@[ @(10) ]]) {
-    self.appSecret = [[MSUpdates sharedInstance] appSecret];
+    self.appSecret = [[MSDistribute sharedInstance] appSecret];
   }
 
   return self;

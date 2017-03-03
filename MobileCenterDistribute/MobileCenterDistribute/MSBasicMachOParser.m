@@ -3,8 +3,8 @@
 #import <mach-o/loader.h>
 
 #import "MSBasicMachOParser.h"
+#import "MSDistributeInternal.h"
 #import "MSLogger.h"
-#import "MSUpdatesInternal.h"
 #import "MSUtil.h"
 
 static NSString *const kMSBigEndianErrorDesc = @"Big-endian file not supported.";
@@ -21,7 +21,7 @@ static NSString *const kMSCantReadErrorDescFormat = @"Cannot read data from file
 
 - (instancetype)initWithBundle:(NSBundle *)bundle {
   if (!bundle || !bundle.executableURL) {
-    MSLogError([MSUpdates logTag], @"Given bundle is null or doesn't contain a valid executable URL.");
+    MSLogError([MSDistribute logTag], @"Given bundle is null or doesn't contain a valid executable URL.");
     return nil;
   }
   if ((self = [super init])) {
@@ -46,7 +46,7 @@ static NSString *const kMSCantReadErrorDescFormat = @"Cannot read data from file
   UInt32 magic;
   NSFileHandle *fh = [NSFileHandle fileHandleForReadingFromURL:self.fileURL error:&error];
   if (error) {
-    MSLogError([MSUpdates logTag], @"Cannot get file handle for reading: \n\t%@", error.localizedDescription);
+    MSLogError([MSDistribute logTag], @"Cannot get file handle for reading: \n\t%@", error.localizedDescription);
     return;
   }
   if (![self readDataFromFile:fh toBuffer:&magic ofLength:sizeof(magic)]) {
@@ -71,10 +71,10 @@ static NSString *const kMSCantReadErrorDescFormat = @"Cannot read data from file
     break;
   case (UInt32)MH_CIGAM:
   case (UInt32)MH_CIGAM_64:
-    MSLogError([MSUpdates logTag], kMSBigEndianErrorDesc);
+    MSLogError([MSDistribute logTag], kMSBigEndianErrorDesc);
     return;
   default:
-    MSLogError([MSUpdates logTag], kMSNotMachOErrorDesc);
+    MSLogError([MSDistribute logTag], kMSNotMachOErrorDesc);
     return;
   }
 
@@ -85,11 +85,11 @@ static NSString *const kMSCantReadErrorDescFormat = @"Cannot read data from file
 
   // Validate file.
   if (header.magic == MH_CIGAM || header.magic == MH_CIGAM_64) {
-    MSLogError([MSUpdates logTag], kMSBigEndianErrorDesc);
+    MSLogError([MSDistribute logTag], kMSBigEndianErrorDesc);
     return;
   }
   if (header.magic != MH_MAGIC && header.magic != MH_MAGIC_64) {
-    MSLogError([MSUpdates logTag], kMSNotMachOErrorDesc);
+    MSLogError([MSDistribute logTag], kMSNotMachOErrorDesc);
     return;
   }
   const BOOL is64 = (header.magic == MH_MAGIC_64);
@@ -127,7 +127,7 @@ static NSString *const kMSCantReadErrorDescFormat = @"Cannot read data from file
 - (BOOL)readDataFromFile:(NSFileHandle *)fh toBuffer:(void *)buffer ofLength:(NSUInteger)size {
   NSData *data = [fh readDataOfLength:size];
   if (data.length != size) {
-    MSLogError([MSUpdates logTag], kMSCantReadErrorDescFormat, fh);
+    MSLogError([MSDistribute logTag], kMSCantReadErrorDescFormat, fh);
     return NO;
   }
   [data getBytes:buffer length:size];
@@ -143,17 +143,17 @@ static NSString *const kMSCantReadErrorDescFormat = @"Cannot read data from file
   // Could just reverse the validations below, but this is more correct
   UInt32 magic = CFSwapInt32BigToHost(header.magic);
   if (magic == FAT_CIGAM) {
-    MSLogError([MSUpdates logTag], kMSBigEndianErrorDesc);
+    MSLogError([MSDistribute logTag], kMSBigEndianErrorDesc);
     return;
   }
   if (magic != FAT_MAGIC) {
-    MSLogError([MSUpdates logTag], kMSNotMachOErrorDesc);
+    MSLogError([MSDistribute logTag], kMSNotMachOErrorDesc);
     return;
   }
   const UInt32 nArch = CFSwapInt32BigToHost(header.nfat_arch);
   const NXArchInfo *myArch = NXGetLocalArchInfo();
   if (!myArch) {
-    MSLogError([MSUpdates logTag], @"Cannot get local architecture info.");
+    MSLogError([MSDistribute logTag], @"Cannot get local architecture info.");
     return;
   }
 
@@ -184,7 +184,7 @@ static NSString *const kMSCantReadErrorDescFormat = @"Cannot read data from file
   const struct fat_arch *p =
       NXFindBestFatArch(myArch->cputype, myArch->cpusubtype, archs, nArch);
   if (!p) {
-    MSLogError([MSUpdates logTag], @"Cannot find the best match fat architecture.");
+    MSLogError([MSDistribute logTag], @"Cannot find the best match fat architecture.");
   } else {
     [fh seekToFileOffset:p->offset];
   }

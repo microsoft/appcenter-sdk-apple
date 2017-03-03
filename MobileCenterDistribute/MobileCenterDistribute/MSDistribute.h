@@ -3,7 +3,7 @@
 /**
  * Mobile Center updates service.
  */
-@interface MSUpdates : MSServiceAbstract
+@interface MSDistribute : MSServiceAbstract
 
 /**
  * Change The URL that will be used for generic update related tasks, e.g. fetching the auth token..

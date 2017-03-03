@@ -1,5 +1,5 @@
 #import "MSUpdatesViewController.h"
-#import "MobileCenterUpdates.h"
+#import "MobileCenterDistribute.h"
 
 @implementation MSUpdatesViewController
 

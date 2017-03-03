@@ -1,5 +1,5 @@
 framework module MobileCenterDistribute {
-  umbrella header "MobileCenterUpdates.h"
+  umbrella header "MobileCenterDistribute.h"
   
   export *
   module * { export * }

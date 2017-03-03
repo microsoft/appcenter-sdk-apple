@@ -3,16 +3,16 @@
 
 #import "MSAlertController.h"
 #import "MSBasicMachOParser.h"
+#import "MSDistribute.h"
+#import "MSDistributeInternal.h"
+#import "MSDistributePrivate.h"
+#import "MSDistributeUtil.h"
 #import "MSDistributionSender.h"
 #import "MSKeychainUtil.h"
 #import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
 #import "MSReleaseDetails.h"
 #import "MSServiceAbstractProtected.h"
-#import "MSUpdates.h"
-#import "MSUpdatesInternal.h"
-#import "MSUpdatesPrivate.h"
-#import "MSUpdatesUtil.h"
 
 /**
  * Service storage key name.
@@ -40,7 +40,7 @@ static NSString *const kMSUpdtsUpdateTokenApiPathFormat = @"/apps/%@/update-setu
 
 static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid update API token URL:%@";
 
-@implementation MSUpdates
+@implementation MSDistribute
 
 #pragma mark - Service initialization
 
@@ -82,7 +82,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
   // Enabling
   if (isEnabled) {
-    MSLogInfo([MSUpdates logTag], @"Updates service has been enabled.");
+    MSLogInfo([MSDistribute logTag], @"Updates service has been enabled.");
     NSString *updateToken = [MSKeychainUtil stringForKey:kMSUpdateTokenKey];
     if (updateToken) {
       [self checkLatestRelease:updateToken];
@@ -92,13 +92,13 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   } else {
     [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
     [MS_USER_DEFAULTS removeObjectForKey:kMSIgnoredReleaseIdKey];
-    MSLogInfo([MSUpdates logTag], @"Updates service has been disabled.");
+    MSLogInfo([MSDistribute logTag], @"Updates service has been disabled.");
   }
 }
 
 - (void)startWithLogManager:(id<MSLogManager>)logManager appSecret:(NSString *)appSecret {
   [super startWithLogManager:logManager appSecret:appSecret];
-  MSLogVerbose([MSUpdates logTag], @"Started Updates service.");
+  MSLogVerbose([MSDistribute logTag], @"Started Updates service.");
 }
 
 #pragma mark - Public
@@ -119,7 +119,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
 - (void)requestUpdateToken {
   NSURL *url;
-  MSLogInfo([MSUpdates logTag], @"Request updates API token.");
+  MSLogInfo([MSDistribute logTag], @"Request updates API token.");
 
   // Most failures here require an app update. Thus, it will be retried only on next App instance.
   url = [self buildTokenRequestURLWithAppSecret:self.appSecret];
@@ -161,7 +161,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
               [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
           MSReleaseDetails *details = [[MSReleaseDetails alloc] initWithDictionary:dictionary];
           if (!details) {
-            MSLogError([MSUpdates logTag], @"Couldn't parse response payload.");
+            MSLogError([MSDistribute logTag], @"Couldn't parse response payload.");
           } else {
             NSData *jsonData =
                 [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:&error];
@@ -175,14 +175,14 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                   stringByReplacingOccurrencesOfString:@"\\/"
                                             withString:@"/"];
             }
-            MSLogDebug([MSUpdates logTag], @"Received a response of update request:\n%@", jsonString);
+            MSLogDebug([MSDistribute logTag], @"Received a response of update request:\n%@", jsonString);
             [self handleUpdate:details];
           }
         }
 
         // Failure.
         else {
-          MSLogDebug([MSUpdates logTag], @"Failed to get a update response, status code:%lu",
+          MSLogDebug([MSDistribute logTag], @"Failed to get a update response, status code:%lu",
                      (unsigned long)statusCode);
           NSString *jsonString = nil;
           id dictionary =
@@ -200,7 +200,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                                             withString:@"/"];
             }
           }
-          MSLogError([MSUpdates logTag], @"Response:\n%@",
+          MSLogError([MSDistribute logTag], @"Response:\n%@",
                      jsonString ? jsonString : [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
         }
 
@@ -239,7 +239,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
   // Check URL validity so far.
   if (!components) {
-    MSLogError([MSUpdates logTag], kMSUpdateTokenURLInvalidErrorDescFormat, urlString);
+    MSLogError([MSDistribute logTag], kMSUpdateTokenURLInvalidErrorDescFormat, urlString);
     return nil;
   }
 
@@ -251,14 +251,14 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
    */
   NSString *buildUUID = [[[MSBasicMachOParser machOParserForMainBundle].uuid UUIDString] lowercaseString];
   if (!buildUUID) {
-    MSLogError([MSUpdates logTag], @"Cannot retrieve build UUID.");
+    MSLogError([MSDistribute logTag], @"Cannot retrieve build UUID.");
     return nil;
   }
 
   // Check custom sheme is registered.
   NSString *scheme = [NSString stringWithFormat:kMSUpdtsDefaultCustomSchemeFormat, appSecret];
   if (![self checkURLSchemeRegistered:scheme]) {
-    MSLogError([MSUpdates logTag], @"Custom URL scheme for updates not found.");
+    MSLogError([MSDistribute logTag], @"Custom URL scheme for updates not found.");
     return nil;
   }
 
@@ -276,14 +276,14 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     // Persist the request ID.
     [MS_USER_DEFAULTS setObject:requestId forKey:kMSUpdateTokenRequestIdKey];
   } else {
-    MSLogError([MSUpdates logTag], kMSUpdateTokenURLInvalidErrorDescFormat, components);
+    MSLogError([MSDistribute logTag], kMSUpdateTokenURLInvalidErrorDescFormat, components);
     return nil;
   }
   return components.URL;
 }
 
 - (void)openURLInEmbeddedSafari:(NSURL *)url fromClass:(Class)clazz {
-  MSLogDebug([MSUpdates logTag], @"Using SFSafariViewController to open URL: %@", url);
+  MSLogDebug([MSDistribute logTag], @"Using SFSafariViewController to open URL: %@", url);
 
   // Init safari controller with the update URL.
   id safari = [[clazz alloc] initWithURL:url];
@@ -302,7 +302,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 }
 
 - (void)openURLInSafariApp:(NSURL *)url {
-  MSLogDebug([MSUpdates logTag], @"Using Safari browser to open URL: %@", url);
+  MSLogDebug([MSDistribute logTag], @"Using Safari browser to open URL: %@", url);
   [MSUtil sharedAppOpenUrl:url options:@{} completionHandler:nil];
 }
 
@@ -310,33 +310,33 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
   // Step 1. Validate release details.
   if (![details isValid]) {
-    MSLogError([MSUpdates logTag], @"Received invalid release details.");
+    MSLogError([MSDistribute logTag], @"Received invalid release details.");
     return;
   }
 
   // Step 2. Check status of the release. TODO: This will be deprecated soon.
   if (![details.status isEqualToString:@"available"]) {
-    MSLogError([MSUpdates logTag], @"The new release is not available, skip update.");
+    MSLogError([MSDistribute logTag], @"The new release is not available, skip update.");
     return;
   }
 
   // Step 3. Check if the release ID was ignored by a user.
   NSNumber *releaseId = [MS_USER_DEFAULTS objectForKey:kMSIgnoredReleaseIdKey];
   if (releaseId && releaseId == details.id) {
-    MSLogDebug([MSUpdates logTag], @"A user already ignored updating this release, skip update.");
+    MSLogDebug([MSDistribute logTag], @"A user already ignored updating this release, skip update.");
     return;
   }
 
   // Step 4. Check min OS version.
   if ([MS_DEVICE.systemVersion compare:details.minOs options:NSNumericSearch] == NSOrderedAscending) {
-    MSLogDebug([MSUpdates logTag], @"The new release doesn't support this iOS version: %@, skip update.",
+    MSLogDebug([MSDistribute logTag], @"The new release doesn't support this iOS version: %@, skip update.",
                MS_DEVICE.systemVersion);
     return;
   }
 
   // Step 5. Check version/hash to identify a newer version.
   if (![self isNewerVersion:details]) {
-    MSLogDebug([MSUpdates logTag], @"The application is already up-to-date.");
+    MSLogDebug([MSDistribute logTag], @"The application is already up-to-date.");
     return;
   }
 
@@ -368,38 +368,38 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     // Add a "Ignore"-Button
     [alertController addDefaultActionWithTitle:MSUpdatesLocalizedString(@"Ignore")
                                        handler:^(UIAlertAction *action) {
-                                         MSLogDebug([MSUpdates logTag], @"Ignore the release id: %@.", details.id);
+                                         MSLogDebug([MSDistribute logTag], @"Ignore the release id: %@.", details.id);
                                          [MS_USER_DEFAULTS setObject:details.id forKey:kMSIgnoredReleaseIdKey];
                                        }];
 
     // Add a "Postpone"-Button
     [alertController addCancelActionWithTitle:MSUpdatesLocalizedString(@"Postpone")
                                       handler:^(UIAlertAction *action) {
-                                        MSLogDebug([MSUpdates logTag], @"Postpone the release for now.");
+                                        MSLogDebug([MSDistribute logTag], @"Postpone the release for now.");
                                       }];
 
     // Add a "Download"-Button
     [alertController addDefaultActionWithTitle:MSUpdatesLocalizedString(@"Download")
                                        handler:^(UIAlertAction *action) {
-                                         MSLogDebug([MSUpdates logTag], @"Start download and install the release.");
+                                         MSLogDebug([MSDistribute logTag], @"Start download and install the release.");
                                          [self startDownload:details];
                                        }];
 
     // Show the alert controller.
-    MSLogDebug([MSUpdates logTag], @"Show update dialog.");
+    MSLogDebug([MSDistribute logTag], @"Show update dialog.");
     [alertController show];
   });
 }
 
 - (void)startDownload:(MSReleaseDetails *)details {
 #if TARGET_IPHONE_SIMULATOR
-  MSLogWarning([MSUpdates logTag], @"Couldn't download a new release on simulator.");
+  MSLogWarning([MSDistribute logTag], @"Couldn't download a new release on simulator.");
 #else
   [MSUtil sharedAppOpenUrl:details.installUrl
       options:@{}
       completionHandler:^(BOOL success) {
         if (success) {
-          MSLogDebug([MSUpdates logTag], @"Start updating the application.");
+          MSLogDebug([MSDistribute logTag], @"Start updating the application.");
 
           /*
            * We've seen the behavior on iOS 8.x devices in HockeyApp that it doesn't download until the application
@@ -409,7 +409,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
             exit(0);
           }
         } else {
-          MSLogError([MSUpdates logTag], @"System couldn't open the URL. Aborting update.");
+          MSLogError([MSDistribute logTag], @"System couldn't open the URL. Aborting update.");
         }
       }];
 #endif
@@ -448,13 +448,13 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
     // Store update token
     if (queryUpdateToken) {
-      MSLogDebug([MSUpdates logTag],
+      MSLogDebug([MSDistribute logTag],
                  @"Update token has been successfully retrieved. Store the token to secure storage.");
       [MSKeychainUtil storeString:queryUpdateToken forKey:kMSUpdateTokenKey];
       [self checkLatestRelease:queryUpdateToken];
     }
   } else {
-    MSLogDebug([MSUpdates logTag], @"Updates service has been disabled, ignore request.");
+    MSLogDebug([MSDistribute logTag], @"Updates service has been disabled, ignore request.");
   }
 }
 

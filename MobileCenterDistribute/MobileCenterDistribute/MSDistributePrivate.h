@@ -1,5 +1,5 @@
 #import <Foundation/Foundation.h>
-#import "MSUpdates.h"
+#import "MSDistribute.h"
 
 /**
  * Updates url query parameter key strings.
@@ -35,7 +35,7 @@ static NSString *const kMSUpdateTokenRequestIdKey = @"MSUpdateTokenRequestId";
  */
 static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
 
-@interface MSUpdates ()
+@interface MSDistribute ()
 
 /**
  * Build the update URL for token request with the given application secret.

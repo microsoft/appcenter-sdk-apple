@@ -3,16 +3,16 @@
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
+#import "MSBasicMachOParser.h"
+#import "MSDistribute.h"
+#import "MSDistributeInternal.h"
+#import "MSDistributePrivate.h"
+#import "MSKeychainUtil.h"
 #import "MSLogManager.h"
 #import "MSServiceAbstract.h"
 #import "MSServiceInternal.h"
-#import "MSUpdates.h"
-#import "MSUpdatesInternal.h"
-#import "MSUpdatesPrivate.h"
 #import "MSUserDefaults.h"
 #import "MSUtil.h"
-#import "MSKeychainUtil.h"
-#import "MSBasicMachOParser.h"
 
 static NSString *const kMSTestAppSecret = @"IAMSECRET";
 
@@ -48,7 +48,7 @@ static NSURL *sfURL;
 
 @interface MSUpdatesTests : XCTestCase
 
-@property(nonatomic, strong) MSUpdates *sut;
+@property(nonatomic, strong) MSDistribute *sut;
 @property(nonatomic, strong) id parserMock;
 
 @end
@@ -57,7 +57,7 @@ static NSURL *sfURL;
 
 - (void)setUp {
   [super setUp];
-  self.sut = [MSUpdates new];
+  self.sut = [MSDistribute new];
 
   [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
   [MS_USER_DEFAULTS removeObjectForKey:kMSIgnoredReleaseIdKey];

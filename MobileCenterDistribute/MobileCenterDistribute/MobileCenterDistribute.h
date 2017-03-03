@@ -1,2 +1,2 @@
 #import <Foundation/Foundation.h>
-#import "MSUpdates.h"
+#import "MSDistribute.h"

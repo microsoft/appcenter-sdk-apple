@@ -1,6 +1,6 @@
-#import "MSUpdatesUtil.h"
-#import "MSUpdates.h"
-#import "MSUpdatesInternal.h"
+#import "MSDistribute.h"
+#import "MSDistributeInternal.h"
+#import "MSDistributeUtil.h"
 
 NSBundle *MSUpdatesBundle(void) {
   static NSBundle *bundle = nil;
@@ -8,7 +8,7 @@ NSBundle *MSUpdatesBundle(void) {
   dispatch_once(&predicate, ^{
 
     // The resource bundle is part of the main app bundle, e.g. .../Puppet.app/MobileCenterUpdates.bundle
-    NSString *mainBundlePath = [[NSBundle bundleForClass:[MSUpdates class]] resourcePath];
+    NSString *mainBundlePath = [[NSBundle bundleForClass:[MSDistribute class]] resourcePath];
     NSString *frameworkBundlePath = [mainBundlePath stringByAppendingPathComponent:MOBILE_CENTER_UPDATES_BUNDLE];
     bundle = [NSBundle bundleWithPath:frameworkBundlePath];
   });
