@@ -60,11 +60,12 @@ Below are the steps on how to integrate the compiled libraries in your Xcode pro
 
 4. Open Finder and copy the previously unzipped `MobileCenter-SDK-iOS` folder into your project's folder at the location where you want it to reside. 
    
-4. Add the SDK frameworks to the project in Xcode:
+5. Add the SDK frameworks to the project in Xcode:
     * Make sure the Project Navigator is visible (⌘+1).
-    * Now drag and drop `MobileCenter.framework`, `MobileCenterAnalytics.framework`, and `MobileCenterCrashes.framework` from Finder (the ones inside the Vendor folder) into Xcode's Project Navigator on the left side. Note that `MobileCenter.framework` is required to start the SDK. So make sure it's added to your project, otherwise the other modules won't work and your app won't compile.
+    * Now drag and drop `MobileCenter.framework`, `MobileCenterAnalytics.framework`, `MobileCenterCrashes.framework` and `MobileCenterDistribute.framework` from Finder (the ones inside the Vendor folder) into Xcode's Project Navigator on the left side. Note that `MobileCenter.framework` is required to start the SDK. So make sure it's added to your project, otherwise the other modules won't work and your app won't compile.
     * A dialog will appear again. Make sure your app target is checked. Then click Finish.
-    
+6. <PLACEHOLDER - TEXT FOR RESOURCE STRINGS>
+
 Now that you've integrated the frameworks in your application, it's time to start the SDK and make use of the Mobile Center services.
 
 ### 2.2 Integration using Cocoapods
@@ -79,7 +80,8 @@ Now that you've integrated the frameworks in your application, it's time to star
 	  
  # Use the following lines if you want to specify the individual services you want to use.
 pod 'MobileCenter/MobileCenterAnalytics'
-pod 'MobileCenter/MobileCenterCrashes'	
+pod 'MobileCenter/MobileCenterCrashes'
+pod 'MobileCenter/MobileCenterDistribute'		
 ```
 	
 	**NOTE:** If you are using the individual subspecs, you don't need to include `MobileCenter/MobileCenter' separately as the other subspecs will pull in this as a dependency anyway.
@@ -115,7 +117,7 @@ import MobileCenterDistribute
 
 ### 2. Start the SDK
 
-Mobile Center provides you with three modules to get started: `MobileCenter` (required), `MobileCenterAnalytics`,  `MobileCenterCrashes` and  `MobileCenterDistribute` (all others are optional). In order to use Mobile Center services, you need to opt in for the module(s) that you'd like, meaning by default no modules are started and you will have to explicitly call each of them - Analytics, Crashes and Distribute when starting the SDK.
+Mobile Center provides you with three modules to get started: `MobileCenter` (required), `MobileCenterAnalytics`,  `MobileCenterCrashes` and  `MobileCenterDistribute` (all other are optional). In order to use Mobile Center services, you need to opt in for the module(s) that you'd like, meaning by default no modules are started and you will have to explicitly call each of them - Analytics, Crashes and Distribute when starting the SDK.
 
 **Objective-C** 
 
@@ -136,6 +138,15 @@ MSMobileCenter.start("{Your App Secret}", withServices: [MSAnalytics.self, MSCra
 You can also copy paste the `start` method call from the Overview page on Mobile Center portal once your app is selected. It already includes the App Secret so that all the data collected by the SDK corresponds to your application. Make sure to replace `{Your App Secret}` text with the actual value for your application.
     
 The example above shows how to use the `start` method and include all the services offered in the SDK. If you wish not to use any of these services - say Analytics, remove the parameter from the method call above. Note that, unless you explicitly specify each module as parameters in the start method, you can't use that Mobile Center service. Also, the `start` API can be used only once in the lifecycle of your app – all other calls will log a warning to the console and only the modules included in the first call will be available.
+
+### 3. If you are adding Distribute service
+<PLACEHOLDER - TEXT FOR ADDING URLSCHEME CHANGES>
+
+1. Open your Info.plist. It is usually stored in the “Supporting Files” directory.
+2. Add a new key URL types or CFBundleURLTypes (if Xcode displays the raw keys).
+3. Change the key of the first child item to URL Schemes or CFBundleURLSchemes.
+4. Enter mobilecenter-APP_SECRET as the URL scheme with APP_SECRET being replaced by the App Secret of your app.
+
 
 ## 4. Analytics APIs
 
@@ -489,7 +500,7 @@ func crashes(_ crashes: MSCrashes!, didFailSending errorReport: MSErrorReport!, 
 
 ## 6. Distribute APIs
 
-You can easily let your users get the latest version of your app by integrating `Distribute` service of Mobile Center SDK. All you need to do is pass the service name as a parameter in the `start` API call. Once that is done, the SDK checks for new updates in the background. If it finds a new update, users will see a dialog with two options - `Download` and `Ignore`. If the user presses `Download`, it will trigger the new version to be installed.
+You can easily let your users get the latest version of your app by integrating `Distribute` service of Mobile Center SDK. All you need to do is pass the service name as a parameter in the `start` API call. Once that is done, the SDK checks for new updates in the background. If it finds a new update, users will see a dialog with three options - `Download`,`Postpone` and `Ignore`. If the user presses `Download`, it will trigger the new version to be installed. Postpone will delay the download until the app is opened again. Ignore will not prompt the user again for that particular app version.
 
 You can easily provide your own resource strings if you'd like to localize the text displayed in the update dialog. Look at the string files [here](https://github.com/Microsoft/mobile-center-sdk-ios/blob/base/updates/MobileCenterUpdates/MobileCenterUpdates/Resources/en.lproj/MobileCenterUpdates.strings). Use the same string name and specify the localized value to be reflected in the dialog in your own app resource files.  
 
