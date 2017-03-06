@@ -1,16 +1,16 @@
 #import <Foundation/Foundation.h>
 
-/*
+/**
  * Return the application's main bundle.
  *
  * @return Instance of NSBundle, the Application's main bundle.
  */
 NSBundle *MSDistributeBundle(void);
 
-/*
+/**
  * Return a localized string for the given token.
  *
- * @param The string token that will be looked for in the .strings file.
+ * @param stringToken The string token that will be looked for in the .strings file.
  *
  * @return A localized string.
  *
@@ -21,12 +21,5 @@ NSBundle *MSDistributeBundle(void);
 NSString *MSDistributeLocalizedString(NSString *stringToken);
 
 @interface MSDistributeUtil : NSObject
-
-/*
- * Checks if the app runs in the DEBUG configuration.
- *
- * @return A BOOL that indicates if the app was launched with the DEBUG configuration.
- */
-+ (BOOL)isRunningInDebugConfiguration;
 
 @end

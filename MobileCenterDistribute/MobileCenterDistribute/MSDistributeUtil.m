@@ -42,14 +42,4 @@ NSString *MSDistributeLocalizedString(NSString *stringToken) {
 
 @implementation MSDistributeUtil
 
-+ (BOOL)isRunningInDebugConfiguration {
-  BOOL isRunningInDebugConfiguration;
-#if DEBUG
-  isRunningInDebugConfiguration = YES;
-#else
-  isRunningInDebugConfiguration = NO;
-#endif
-  return isRunningInDebugConfiguration;
-}
-
 @end

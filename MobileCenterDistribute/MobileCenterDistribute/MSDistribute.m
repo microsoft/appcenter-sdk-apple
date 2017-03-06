@@ -84,13 +84,13 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   if (isEnabled) {
 
     // Do not enable Distribution in case a debugger is attached or the app is running with the debug configuration.
-    if ([MSMobileCenter isDebuggerAttached] || [MSDistributeUtil isRunningInDebugConfiguration]) {
+    if ([MSMobileCenter isDebuggerAttached] || [MSUtil isRunningInDebugConfiguration]) {
       MSLogInfo([MSDistribute logTag], @"Distribute was NOT enabled because a debugger is attached or you are running the "
                                     @"debug configuration. Detach the debugger and restart the app and/or run the app "
                                     @"with the release configuration to enable the feature.");
       [self applyEnabledState:NO];
     } else {
-      MSLogInfo([MSDistribute logTag], @"Updates service has been enabled.");
+      MSLogInfo([MSDistribute logTag], @"Distribute service has been enabled.");
       NSString *updateToken = [MSKeychainUtil stringForKey:kMSUpdateTokenKey];
       if (updateToken) {
         [self checkLatestRelease:updateToken];

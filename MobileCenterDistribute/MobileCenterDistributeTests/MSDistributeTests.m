@@ -7,7 +7,6 @@
 #import "MSDistribute.h"
 #import "MSDistributeInternal.h"
 #import "MSDistributePrivate.h"
-#import "MSDistributeUtil.h"
 #import "MSKeychainUtil.h"
 #import "MSLogManager.h"
 #import "MSMobileCenter.h"
@@ -360,16 +359,16 @@ static NSURL *sfURL;
 }
 
 - (void)testApplyEnabledStateTrue {
+  
   // If
   id distributeMock = OCMPartialMock(self.sut);
   OCMStub([distributeMock checkLatestRelease:[OCMArg any]]).andDo(nil);
   OCMStub([distributeMock requestUpdateToken]).andDo(nil);
 
   // Make sure we disable the debug-mode checks so we can actually test the logic.
-//  OCMStub([distributeMock ignoreDebugModeForTesting]).andReturn(YES);
   id mobileCenterMock = OCMClassMock([MSMobileCenter class]);
   OCMStub([mobileCenterMock isDebuggerAttached]).andReturn(NO);
-  id distributeUtilitiesMock = OCMClassMock([MSDistributeUtil class]);
+  id distributeUtilitiesMock = OCMClassMock([MSUtil class]);
   OCMStub([distributeUtilitiesMock isRunningInDebugConfiguration]).andReturn(NO);
   
   // When

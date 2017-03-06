@@ -43,10 +43,4 @@
   XCTAssertTrue([test isEqualToString:@"Ignore"]);
 }
 
-- (void)testDebugConfiurationDetectionWorks {
-  
-  // When
-  XCTAssertTrue([MSDistributeUtil isRunningInDebugConfiguration]);
-}
-
 @end
