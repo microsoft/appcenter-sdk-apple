@@ -35,6 +35,7 @@
 /* Begin PBXBuildFile section */
 		38D4BBA11D5A98D1001A30A0 /* ../MobileCenter/MobileCenter/MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 38D4BB9F1D5A98D1001A30A0 /* ../MobileCenter/MobileCenter/MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D38023C11E6DE01700466558 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D38023C01E6DE01700466558 /* UserNotifications.framework */; };
+		D38023C41E6DF38800466558 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D38023C31E6DF38800466558 /* libOCMock.a */; };
 		D39B04E41E66FBD50048E397 /* MSPushTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = D39B04E31E66FBD50048E397 /* MSPushTestUtil.m */; };
 		D3AD5EC31E5C4F6A001627AB /* MobileCenterPushTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3AD5EC21E5C4F6A001627AB /* MobileCenterPushTests.m */; };
 		D3AD5EC51E5C4F6A001627AB /* libMobileCenterPush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D33A94511E5B11BB003966DB /* libMobileCenterPush.a */; };
@@ -97,6 +98,7 @@
 		D33A94511E5B11BB003966DB /* libMobileCenterPush.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMobileCenterPush.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D33A94541E5B11BB003966DB /* MobileCenterPush.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MobileCenterPush.h; sourceTree = "<group>"; };
 		D38023C01E6DE01700466558 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		D38023C31E6DF38800466558 /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOCMock.a; path = ../Vendor/OCMock/libOCMock.a; sourceTree = "<group>"; };
 		D39B04E21E66FBC60048E397 /* MSPushTestUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MSPushTestUtil.h; path = Util/MSPushTestUtil.h; sourceTree = "<group>"; };
 		D39B04E31E66FBD50048E397 /* MSPushTestUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSPushTestUtil.m; path = Util/MSPushTestUtil.m; sourceTree = "<group>"; };
 		D3AD5EC01E5C4F6A001627AB /* MobileCenterPush.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MobileCenterPush.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -134,6 +136,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D3AD5FDA1E5DDF72001627AB /* libMobileCenter.a in Frameworks */,
+				D38023C41E6DF38800466558 /* libOCMock.a in Frameworks */,
 				D3AD5EC51E5C4F6A001627AB /* libMobileCenterPush.a in Frameworks */,
 				D3D0CFE91E640ABD003015AF /* OCHamcrestIOS.framework in Frameworks */,
 			);
@@ -193,6 +196,15 @@
 			path = MobileCenterPush;
 			sourceTree = "<group>";
 		};
+		D38023C51E6DF3F400466558 /* OCMock */ = {
+			isa = PBXGroup;
+			children = (
+				D38023C31E6DF38800466558 /* libOCMock.a */,
+				0415FF451E689036004E8C16 /* OCMock */,
+			);
+			name = OCMock;
+			sourceTree = "<group>";
+		};
 		D39B04E11E66FBA70048E397 /* Util */ = {
 			isa = PBXGroup;
 			children = (
@@ -241,7 +253,7 @@
 			isa = PBXGroup;
 			children = (
 				D3AD5FD91E5DDF72001627AB /* libMobileCenter.a */,
-				0415FF451E689036004E8C16 /* OCMock */,
+				D38023C51E6DF3F400466558 /* OCMock */,
 				D3D0CFE81E640ABD003015AF /* OCHamcrestIOS.framework */,
 			);
 			name = Frameworks;
@@ -580,8 +592,6 @@
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
-					"-framework",
-					Foundation,
 					"-ObjC",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenterpushtests;
@@ -603,8 +613,6 @@
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
-					"-framework",
-					Foundation,
 					"-ObjC",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenterpushtests;
