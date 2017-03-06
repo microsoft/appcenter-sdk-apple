@@ -6,9 +6,14 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MSHttpSender : NSObject <MSSender>
 
 /**
+ * Base URL (schema + authority + port only) used to communicate with the server.
+ */
+@property(nonatomic) NSString *baseURL;
+
+/**
  *	Send Url.
  */
-@property(nonatomic, strong, readonly) NSURL *sendURL;
+@property(nonatomic, strong) NSURL *sendURL;
 
 /**
  *	Request header parameters.

@@ -11,7 +11,17 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol MSSender <NSObject, MSSenderCallDelegate, MSEnable>
 
 /**
- *  Reachability library.
+ * Base URL (schema + authority + port only) used to communicate with the server.
+ */
+@property(nonatomic) NSString *baseURL;
+
+/**
+ * API URL path used to identify an API from the server.
+ */
+@property(nonatomic) NSString *apiPath;
+
+/**
+ * Reachability library.
  */
 @property(nonatomic) MS_Reachability *reachability;
 

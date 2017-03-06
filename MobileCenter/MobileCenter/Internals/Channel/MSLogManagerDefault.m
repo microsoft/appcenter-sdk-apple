@@ -169,4 +169,10 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
   [[self channelForPriority:priority] setEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
 }
 
+#pragma mark - Other public methods
+
+- (void)setLogUrl:(NSString*)logUrl{
+  self.sender.baseURL = logUrl;
+}
+
 @end

@@ -226,6 +226,9 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 - (void)setLogUrl:(NSString *)logUrl {
   @synchronized(self) {
     _logUrl = logUrl;
+    if (self.logManager){
+      [self.logManager setLogUrl:logUrl];
+    }
   }
 }
 
