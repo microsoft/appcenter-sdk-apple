@@ -79,24 +79,15 @@ typedef NS_ENUM(NSInteger, MSApplicationState) {
 + (MSApplicationState)applicationState;
 
 /**
- * Let the OS open the given URL.
+ * Attempt to open the URL asynchronously.
  *
- * @param url URL to open.
- *
- * @discussion This method is not available for app extensions and will do nothing in such case.
+ * @param url The URL to open.
+ * @param options A dictionary of options to use when opening the URL.
+ * @param completion The block to execute with the results. A BOOL indicates whether the URL was opened successfully.
  */
-+ (void)sharedAppOpenURL:(NSURL *)url;
-
-/**
- * Determine whether the OS can open the URL or not.
- *
- * @param url URL to test.
- *
- * @return `YES` if the given URL can be opened `NO` otherwise.
- *
- * @discussion This method is not available for app extensions and will always return `NO` in such case.
- */
-+ (BOOL)sharedAppCanOpenURL:(NSURL *)url;
++ (void)sharedAppOpenUrl:(NSURL *)url
+                 options:(NSDictionary<NSString *, id> *)options
+       completionHandler:(void (^__nullable)(BOOL success))completion;
 
 /**
  * Return the current date (aka NOW) in ms.

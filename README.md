@@ -12,7 +12,7 @@ Add Mobile Center services to your app and collect crash reports and understand 
 
 1. **Analytics**: Mobile Center Analytics helps you understand user behavior and customer engagement to improve your iOS app. The SDK automatically captures session count, device properties like model, OS version etc. and pages. You can define your own custom events to measure things that matter to your business. All the information captured is available in the Mobile Center portal for you to analyze the data.
 
-2. **Crashes**: The Mobile Center SDK will automatically generate a crash log every time your app crashes. The log is first written to the device's storage and when the user starts the app again, the crash report will be forwarded to Mobile Center. Collecting crashes works for both beta and live apps, i.e. those submitted to App Store. Crash logs contain viable information for you to help resolve the issue. Crashes uses PLCrashReporter 1.3.
+2. **Crashes**: The Mobile Center SDK will automatically generate a crash log every time your app crashes. The log is first written to the device's storage and when the user starts the app again, the crash report will be forwarded to Mobile Center. Collecting crashes works for both beta and live apps, i.e. those submitted to App Store. Crash logs contain viable information for you to help resolve the issue. Crashes uses PLCrashReporter 1.2.1.
 
 3. **Distribute**: Our SDK will let your users install a new version of the app when you distribute it via Mobile Center. With a new version of the app available, the SDK will present an update dialog to the users to either download or ignore the latest version. Once they click "Download", SDK will start the installation process of your application. Note that this feature will `NOT` work if your app is deployed to the app store, if you are developing locally or if the app is a debug build.
 
@@ -532,6 +532,35 @@ BOOL enabled = [MSDistribute isEnabled];
 var enabled = MSDistribute.isEnabled()
 ```
   
+### Enabling Mach exception handling  
+
+By default, the SDK is using the safe and proven in-process BSD Signals for catching crashes. This means, that some causes for crashes, e.g. stack overflows, cannot be detected. Using a Mach exception server instead allows to detect some of those crash causes but comes with the risk of using unsafe means to detect them.
+
+The `enableMachExceptionMethod` provides an option to enable catching fatal signals via a Mach exception server instead.
+
+The SDK will not check if the app is running in an AppStore environment or if a debugger was attached at runtime because some developers chose to do one or both at their own risk.
+
+**We strongly advice NOT to enable Mach exception handler in release versions of your apps!**
+
+The Mach exception handler executes in-process and will interfere with debuggers when they attempt to suspend all active threads (which will include the Mach exception handler). Mach-based handling should _NOT_ be used when a debugger is attached. The SDK will not enable crash reporting if the app is **started** with the debugger running. If you attach the debugger **at runtime**, this may cause issues if the Mach exception handler is enabled!
+
+If you want or need to enable the Mach exception handler, you _MUST_ call this method _BEFORE_ starting the SDK.
+
+Your typical setup code would look like this:
+
+**Objective-C**
+
+```objectivec
+[MSCrashes enableMachExceptionHandler];
+[MSMobileCenter start:@"YOUR_APP_ID" withServices:@[[MSAnalytics class], [MSCrashes class]]];
+```
+
+**Swift**
+
+```swift
+ MSCrashes.enableMachExceptionHandler()
+ MSMobileCenter.start("YOUR_APP_ID", withServices: [MSAnalytics.self, MSCrashes.self])
+```
 
 ## 7. Advanced APIs
 
@@ -598,9 +627,10 @@ MSMobileCenter.setEnabled(false)
   No, you can just include Mobile Center modules that interests you but the `MobileCenter` module which contains logic for persistence, forwarding etc. is mandatory.
 
 * Can't see crashes on the portal?   
-   * Make sure SDK `start()` API is used correctly and Crashes service is initialized. Also, you need to restart the app after a crash and our SDK will forward the crash log only after it's restarted.
+   * Make sure SDK `start`-API is used correctly and the Crashes service is initialized. Also, you need to restart the app after a crash, and our SDK will forward the crash log only after it's restarted.
+   * If you have been debugging your app, crash reporting won't work with a debugger attached because the presence of a debugger makes crash reporting impossible.
    * The user needs to upload the symbols that match the UUID of the build that triggered the crash.
-   * Make sure your device is connected to a working internet.
+   * Make sure your device is online.
    * Check if the App Secret used to start the SDK matches the App Secret in Mobile Center portal.
    * Don't use any other SDK that provides Crash Reporting functionality.
 
