@@ -186,8 +186,6 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
                            inSortedRange:NSMakeRange(0, self.pastSessions.count)
                                  options:(NSBinarySearchingFirstEqual|NSBinarySearchingInsertionIndex)
                          usingComparator:^(id a, id b) {
-                           NSLog(@"a offset: %@", ((MSSessionHistoryInfo *)a).toffset);
-                           NSLog(@"b offset: %@", ((MSSessionHistoryInfo *)b).toffset);
                            return [((MSSessionHistoryInfo *)a).toffset compare:((MSSessionHistoryInfo *)b).toffset];
                          }];
 
@@ -199,9 +197,10 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
     // All toffsets are smaller.
     else if (index == self.pastSessions.count) {
       log.sid = [self.pastSessions lastObject].sessionId;
-    } else {
+    }
 
-      // Either the pastSessions contains the exact toffset or we pick the smallest delta.
+    // Either the pastSessions contains the exact toffset or we pick the smallest delta.
+    else {
       long long leftDifference = [log.toffset longLongValue] - [self.pastSessions[index - 1].toffset longLongValue];
       long long rightDifference = [self.pastSessions[index].toffset longLongValue] - [log.toffset longLongValue];
       if (leftDifference < rightDifference) {
