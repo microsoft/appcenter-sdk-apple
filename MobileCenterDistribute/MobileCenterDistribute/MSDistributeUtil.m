@@ -15,8 +15,8 @@ NSBundle *MSDistributeBundle(void) {
     
     // Log to console in case the bundle is nil.
     if(!bundle) {
-      MSLogWarning([MSDistribute logTag], @"The MobileCenterDistributeResources.bundle file could not be found in your"
-              " app. Please it to your project as described in our readme.");
+      MSLogError([MSDistribute logTag], @"The MobileCenterDistributeResources.bundle file could not be found in your"
+              " app. Please add it to your project as described in our readme.");
     }
   });
   return bundle;
