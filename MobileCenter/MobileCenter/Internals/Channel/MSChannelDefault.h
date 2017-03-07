@@ -35,7 +35,7 @@ typedef void (^enqueueCompletionBlock)(BOOL);
  * A timer source which is used to flush the queue after a certain amount of
  * time.
  */
-@property(nonatomic, strong, nullable) dispatch_source_t timerSource;
+@property(nonatomic, strong) dispatch_source_t timerSource;
 
 /**
  * A counter that keeps tracks of the number of logs added to the queue.

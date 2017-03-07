@@ -66,7 +66,13 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
 
 + (instancetype)reachabilityWithHostName:(NSString *)hostName {
   MS_Reachability *returnValue = NULL;
-  SCNetworkReachabilityRef reachability = SCNetworkReachabilityCreateWithName(NULL, [hostName UTF8String]);
+
+  const char * utf8HostName = [hostName UTF8String];
+  if (!utf8HostName) {
+    return returnValue;
+  }
+
+  SCNetworkReachabilityRef reachability = SCNetworkReachabilityCreateWithName(NULL, (const char *_Nonnull) utf8HostName);
   if (reachability != NULL) {
     returnValue = [[self alloc] init];
     if (returnValue != NULL) {

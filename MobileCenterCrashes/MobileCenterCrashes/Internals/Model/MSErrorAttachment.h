@@ -1,5 +1,7 @@
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class MSErrorBinaryAttachment;
 
 /*
@@ -10,12 +12,12 @@
 /**
  * Plain text attachment [optional].
  */
-@property(nonatomic, copy) NSString *textAttachment;
+@property(nonatomic, copy, nullable) NSString *textAttachment;
 
 /**
  * Binary attachment [optional].
  */
-@property(nonatomic) MSErrorBinaryAttachment *binaryAttachment;
+@property(nonatomic, nullable) MSErrorBinaryAttachment *binaryAttachment;
 
 /**
  * Is equal to another error attachment
@@ -26,15 +28,17 @@
  */
 - (BOOL)isEqual:(nullable MSErrorAttachment *)attachment;
 
-+ (nonnull MSErrorAttachment *)attachmentWithText:(nonnull NSString *)text;
++ (nonnull MSErrorAttachment *)attachmentWithText:(NSString *)text;
 
-+ (nonnull MSErrorAttachment *)attachmentWithBinaryData:(nonnull NSData *)data
++ (nonnull MSErrorAttachment *)attachmentWithBinaryData:(NSData *)data
                                                 filename:(nullable NSString *)filename
-                                                mimeType:(nonnull NSString *)mimeType;
+                                                mimeType:(NSString *)mimeType;
 
-+ (nonnull MSErrorAttachment *)attachmentWithText:(nonnull NSString *)text
-                                     andBinaryData:(nonnull NSData *)data
++ (nonnull MSErrorAttachment *)attachmentWithText:(NSString *)text
+                                     andBinaryData:(NSData *)data
                                           filename:(nullable NSString *)filename
-                                          mimeType:(nonnull NSString *)mimeType;
+                                          mimeType:(NSString *)mimeType;
 
 @end
+
+NS_ASSUME_NONNULL_END

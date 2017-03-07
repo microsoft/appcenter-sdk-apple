@@ -34,8 +34,8 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A new `MSChannelDefault` instance.
  */
-- (instancetype)initWithSender:(id<MSSender>)sender
-                       storage:(id<MSStorage>)storage
+- (instancetype)initWithSender:(nullable id<MSSender>)sender
+                       storage:(nullable id<MSStorage>)storage
                  configuration:(MSChannelConfiguration *)configuration
              logsDispatchQueue:(dispatch_queue_t)logsDispatchQueue;
 

@@ -10,7 +10,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The fileName for binary data.
  */
-@property(nonatomic, copy, readonly) NSString *fileName;
+@property(nonatomic, copy, readonly, nullable) NSString *fileName;
 
 /**
  * Binary data.
@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return Return YES if equal and NO if not equal
  */
-- (BOOL)isEqual:(MSErrorBinaryAttachment *)attachment;
+- (BOOL)isEqual:(nullable MSErrorBinaryAttachment *)attachment;
 
 /**
  * Create an MSErrorBinaryAttachment instance with a given filename and NSData object
@@ -39,9 +39,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return An instance of MSErrorBinaryAttachment.
  */
-- (nonnull instancetype)initWithFileName:(nullable NSString *)fileName
-                          attachmentData:(nonnull NSData *)data
-                             contentType:(nonnull NSString *)contentType;
+- (instancetype)initWithFileName:(nullable NSString *)fileName
+                          attachmentData:(NSData *)data
+                             contentType:(NSString *)contentType;
 
 @end
 

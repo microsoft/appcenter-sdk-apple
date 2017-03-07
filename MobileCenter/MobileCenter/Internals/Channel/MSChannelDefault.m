@@ -149,7 +149,7 @@
   self.itemsCount = 0;
   self.availableBatchFromStorage = [self.storage
       loadLogsForStorageKey:self.configuration.name
-             withCompletion:^(BOOL succeeded, NSArray<MSLog> *_Nullable logArray, NSString *_Nullable batchId) {
+             withCompletion:^(BOOL succeeded, NSArray<MSLog> *_Nonnull logArray, NSString *_Nonnull batchId) {
 
                // Logs may be deleted from storage before this flush.
                if (succeeded) {
@@ -264,9 +264,8 @@
 }
 
 - (void)resetTimer {
-  if (self.timerSource) {
-    dispatch_source_cancel(self.timerSource);
-    self.timerSource = nil;
+  if(self.timerSource) {
+   dispatch_source_cancel(self.timerSource);
   }
 }
 

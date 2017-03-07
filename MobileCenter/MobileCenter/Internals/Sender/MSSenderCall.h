@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * A timer source which is used to flush the queue after a certain amount of time.
  */
-@property(nonatomic, strong, nullable) dispatch_source_t timerSource;
+@property(nonatomic, strong) dispatch_source_t timerSource;
 
 /**
  * Number of retries performed for this call.
