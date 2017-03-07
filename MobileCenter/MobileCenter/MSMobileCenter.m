@@ -6,6 +6,7 @@
 #import "MSLogManagerDefault.h"
 #import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
+#import "MSStartServiceLog.h"
 
 // Singleton
 static MSMobileCenter *sharedInstance = nil;
@@ -180,10 +181,16 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
   if (configured) {
 
     NSArray *sortedServices = [self sortServices:services];
+    NSMutableArray<NSString*>* servicesNames = [[NSMutableArray alloc] initWithCapacity:sortedServices.count];
 
     for (Class service in sortedServices) {
-      [self startService:service];
+      [servicesNames addObject:[self startService:service].storageKey];
     }
+
+    //Send information about using services
+    MSStartServiceLog *servicesLog = [MSStartServiceLog new];
+    servicesLog.services = servicesNames;
+    [self.logManager processLog:servicesLog withPriority:MSPriorityDefault];
   }
 }
 
@@ -207,7 +214,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
   }
 }
 
-- (void)startService:(Class)clazz {
+- (id<MSServiceInternal>)startService:(Class)clazz {
   id<MSServiceInternal> service = [clazz sharedInstance];
 
   // Set mobileCenterDelegate.
@@ -215,6 +222,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 
   // Start service with log manager.
   [service startWithLogManager:self.logManager appSecret:self.appSecret];
+  return service;
 }
 
 - (void)setLogUrl:(NSString *)logUrl {
