@@ -14,7 +14,7 @@ Add Mobile Center services to your app and collect crash reports and understand 
 
 2. **Crashes**: The Mobile Center SDK will automatically generate a crash log every time your app crashes. The log is first written to the device's storage and when the user starts the app again, the crash report will be forwarded to Mobile Center. Collecting crashes works for both beta and live apps, i.e. those submitted to App Store. Crash logs contain viable information for you to help resolve the issue. Crashes uses PLCrashReporter 1.2.1.
 
-3. **Distribute**: Our SDK will let your users install a new version of the app when you distribute it via Mobile Center. With a new version of the app available, the SDK will present an update dialog to the users to either download or ignore the latest version. Once they click "Download", SDK will start the installation process of your application. Note that this feature will `NOT` work if your app is deployed to the app store, if you are developing locally or if the app is a debug build.
+3. **Distribute**: The Mobile Center SDK will let your users install a new version of the app when you distribute it via Mobile Center. With a new version of the app available, the SDK will present an update dialog to the users to either download or ignore the latest version. Once they tap "Download", the SDK will start to update your application. Note that this feature will `NOT` work if your app is deployed to the app store, if you are developing locally or if the app is a running with the DEBUG configuration.
 
 This document contains the following sections:
 
@@ -60,11 +60,10 @@ Below are the steps on how to integrate the compiled libraries in your Xcode pro
 
 4. Open Finder and copy the previously unzipped `MobileCenter-SDK-iOS` folder into your project's folder at the location where you want it to reside. 
    
-5. Add the SDK frameworks to the project in Xcode:
+5. Add the SDK frameworks and resources to the project in Xcode:
     * Make sure the Project Navigator is visible (⌘+1).
-    * Now drag and drop `MobileCenter.framework`, `MobileCenterAnalytics.framework`, `MobileCenterCrashes.framework` and `MobileCenterDistribute.framework` from Finder (the ones inside the Vendor folder) into Xcode's Project Navigator on the left side. Note that `MobileCenter.framework` is required to start the SDK. So make sure it's added to your project, otherwise the other modules won't work and your app won't compile.
+    * Now drag and drop `MobileCenter.framework`, `MobileCenterAnalytics.framework`, `MobileCenterCrashes.framework`, `MobileCenterDistribute.framework` and `MobileCenterDistributeResources.bundle` from Finder (the ones inside the Vendor folder) into Xcode's Project Navigator on the left side. Note that `MobileCenter.framework` is required to start the SDK. So make sure it's added to your project, otherwise the other modules won't work and your app won't compile.
     * A dialog will appear again. Make sure your app target is checked. Then click Finish.
-6. <PLACEHOLDER - TEXT FOR RESOURCE STRINGS>
 
 Now that you've integrated the frameworks in your application, it's time to start the SDK and make use of the Mobile Center services.
 
@@ -497,10 +496,40 @@ func crashes(_ crashes: MSCrashes!, didFailSending errorReport: MSErrorReport!, 
 }
 ```
 
+### Enabling Mach exception handling  
+
+By default, the SDK is using the safe and proven in-process BSD Signals for catching crashes. This means, that some causes for crashes, e.g. stack overflows, cannot be detected. Using a Mach exception server instead allows to detect some of those crash causes but comes with the risk of using unsafe means to detect them.
+
+The `enableMachExceptionMethod` provides an option to enable catching fatal signals via a Mach exception server instead.
+
+The SDK will not check if the app is running in an AppStore environment or if a debugger was attached at runtime because some developers chose to do one or both at their own risk.
+
+**We strongly advice NOT to enable Mach exception handler in release versions of your apps!**
+
+The Mach exception handler executes in-process and will interfere with debuggers when they attempt to suspend all active threads (which will include the Mach exception handler). Mach-based handling should _NOT_ be used when a debugger is attached. The SDK will not enable crash reporting if the app is **started** with the debugger running. If you attach the debugger **at runtime**, this may cause issues if the Mach exception handler is enabled!
+
+If you want or need to enable the Mach exception handler, you _MUST_ call this method _BEFORE_ starting the SDK.
+
+Your typical setup code would look like this:
+
+**Objective-C**
+
+```objectivec
+[MSCrashes enableMachExceptionHandler];
+[MSMobileCenter start:@"YOUR_APP_ID" withServices:@[[MSAnalytics class], [MSCrashes class]]];
+```
+
+**Swift**
+
+```swift
+ MSCrashes.enableMachExceptionHandler()
+ MSMobileCenter.start("YOUR_APP_ID", withServices: [MSAnalytics.self, MSCrashes.self])
+```
+
 
 ## 6. Distribute APIs
 
-You can easily let your users get the latest version of your app by integrating `Distribute` service of Mobile Center SDK. All you need to do is pass the service name as a parameter in the `start` API call. Once that is done, the SDK checks for new updates in the background. If it finds a new update, users will see a dialog with three options - `Download`,`Postpone` and `Ignore`. If the user presses `Download`, it will trigger the new version to be installed. Postpone will delay the download until the app is opened again. Ignore will not prompt the user again for that particular app version.
+You can easily let your users get the latest version of your app by integrating the `Distribute` service of the Mobile Center SDK. All you need to do is pass the service name as a parameter in the `start` API call. Once that is done, the SDK checks for new updates in the background. If it finds a new update, users will see a dialog with three options - `Download`, `Postpone` and `Ignore`. If the user presses `Download`, it will trigger the new version to be installed. `Postpone` will delay the download until the app is opened again. `Ignore` will not prompt the user again for that particular app version.
 
 You can easily provide your own resource strings if you'd like to localize the text displayed in the update dialog. Look at the string files [here](https://github.com/Microsoft/mobile-center-sdk-ios/blob/base/updates/MobileCenterUpdates/MobileCenterUpdates/Resources/en.lproj/MobileCenterUpdates.strings). Use the same string name and specify the localized value to be reflected in the dialog in your own app resource files.  
 
@@ -530,36 +559,6 @@ BOOL enabled = [MSDistribute isEnabled];
 
 ```swift
 var enabled = MSDistribute.isEnabled()
-```
-  
-### Enabling Mach exception handling  
-
-By default, the SDK is using the safe and proven in-process BSD Signals for catching crashes. This means, that some causes for crashes, e.g. stack overflows, cannot be detected. Using a Mach exception server instead allows to detect some of those crash causes but comes with the risk of using unsafe means to detect them.
-
-The `enableMachExceptionMethod` provides an option to enable catching fatal signals via a Mach exception server instead.
-
-The SDK will not check if the app is running in an AppStore environment or if a debugger was attached at runtime because some developers chose to do one or both at their own risk.
-
-**We strongly advice NOT to enable Mach exception handler in release versions of your apps!**
-
-The Mach exception handler executes in-process and will interfere with debuggers when they attempt to suspend all active threads (which will include the Mach exception handler). Mach-based handling should _NOT_ be used when a debugger is attached. The SDK will not enable crash reporting if the app is **started** with the debugger running. If you attach the debugger **at runtime**, this may cause issues if the Mach exception handler is enabled!
-
-If you want or need to enable the Mach exception handler, you _MUST_ call this method _BEFORE_ starting the SDK.
-
-Your typical setup code would look like this:
-
-**Objective-C**
-
-```objectivec
-[MSCrashes enableMachExceptionHandler];
-[MSMobileCenter start:@"YOUR_APP_ID" withServices:@[[MSAnalytics class], [MSCrashes class]]];
-```
-
-**Swift**
-
-```swift
- MSCrashes.enableMachExceptionHandler()
- MSMobileCenter.start("YOUR_APP_ID", withServices: [MSAnalytics.self, MSCrashes.self])
 ```
 
 ## 7. Advanced APIs
@@ -637,6 +636,9 @@ MSMobileCenter.setEnabled(false)
 * What permissions or entitlements are required for the SDK?   
   
   Mobile Center SDK requires no permissions to be set in your app.
+  
+* The Alert that prompts users for an update doesn't contain strings, but just the keys for them?
+  This means that the `MobileCenterDistributeResources.bundle` wasn't added to the project. Make sure you have drag'n'dropped the file into your xcode project, and it appears in your app target's `Copy Bundle Resources` build phase. The later should be the case if you have added the file through drag'n'drop – Xcode does it automatically for you. If the file is missing from the build phase, add it so it get's compiled into your app's bundle. 
   
 * Engage with other MobileCenter users and developers on [StackOverflow](http://stackoverflow.com/questions/tagged/mobile-center).
 
