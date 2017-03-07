@@ -31,7 +31,7 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
 @implementation MSSessionTracker
 
 - (instancetype)init {
-  if (self = [super init]) {
+  if ((self = [super init])) {
     _sessionTimeout = kMSSessionTimeOut;
 
     // Restore past sessions from NSUserDefaults.

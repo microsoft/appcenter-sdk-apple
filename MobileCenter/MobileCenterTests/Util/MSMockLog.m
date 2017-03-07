@@ -5,7 +5,7 @@ static NSString *const kMSTypeMockLog = @"mockLog";
 @implementation MSMockLog
 
 - (instancetype)init {
-  if (self = [super init]) {
+  if ((self = [super init])) {
     self.type = kMSTypeMockLog;
   }
   return self;

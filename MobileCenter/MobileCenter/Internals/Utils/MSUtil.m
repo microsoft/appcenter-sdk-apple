@@ -67,17 +67,30 @@ static NSString *const kMSUUIDSeparator = @"-";
   return [[[[self class] sharedApp] valueForKey:@"applicationState"] longValue];
 }
 
-+ (void)sharedAppOpenURL:(NSURL *)url {
-  if (!MS_IS_APP_EXTENSION) {
-    [[[self class] sharedApp] performSelector:@selector(openURL:) withObject:url];
-  }
-}
-
-+ (BOOL)sharedAppCanOpenURL:(NSURL *)url {
++ (void)sharedAppOpenUrl:(NSURL *)url
+                 options:(NSDictionary<NSString *, id> *)options
+       completionHandler:(void (^__nullable)(BOOL success))completion {
   if (MS_IS_APP_EXTENSION) {
-    return NO;
+    completion(NO);
   }
-  return [[[self class] sharedApp] performSelector:@selector(canOpenURL:) withObject:url];
+
+  UIApplication *sharedApp = [[self class] sharedApp];
+  SEL selector = NSSelectorFromString(@"openURL:options:completionHandler:");
+  if ([sharedApp respondsToSelector:selector]) {
+    NSInvocation *invocation =
+        [NSInvocation invocationWithMethodSignature:[sharedApp methodSignatureForSelector:selector]];
+    [invocation setSelector:selector];
+    [invocation setTarget:sharedApp];
+    [invocation setArgument:&url atIndex:2];
+    [invocation setArgument:&options atIndex:3];
+    [invocation setArgument:&completion atIndex:4];
+    [invocation invoke];
+  } else {
+    BOOL success = [sharedApp performSelector:@selector(openURL:) withObject:url];
+    if (completion) {
+      completion(success);
+    }
+  }
 }
 
 + (UIApplication *)sharedApp {
