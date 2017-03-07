@@ -138,13 +138,12 @@ You can also copy paste the `start` method call from the Overview page on Mobile
     
 The example above shows how to use the `start` method and include all the services offered in the SDK. If you wish not to use any of these services - say Analytics, remove the parameter from the method call above. Note that, unless you explicitly specify each module as parameters in the start method, you can't use that Mobile Center service. Also, the `start` API can be used only once in the lifecycle of your app – all other calls will log a warning to the console and only the modules included in the first call will be available.
 
-### 3. If you are adding Distribute service
-<PLACEHOLDER - TEXT FOR ADDING URLSCHEME CHANGES>
+### 3. If you are adding the Distribute service or use the default variant of the SDK
 
-1. Open your Info.plist. It is usually stored in the “Supporting Files” directory.
-2. Add a new key URL types or CFBundleURLTypes (if Xcode displays the raw keys).
+1. Open your `Info.plist`. It can usually be found in the “Supporting Files” group in your project navigator.
+2. Add a new  for key `URL types` or `CFBundleURLTypes` (in case Xcode displays your Info.plist as source code).
 3. Change the key of the first child item to URL Schemes or CFBundleURLSchemes.
-4. Enter mobilecenter-APP_SECRET as the URL scheme with APP_SECRET being replaced by the App Secret of your app.
+4. Enter `mobilecenter-${APP_SECRET}` as the URL scheme and replace `${APP_SECRET}` with the App Secret of your app.  
 
 
 ## 4. Analytics APIs
