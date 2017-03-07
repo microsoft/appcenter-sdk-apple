@@ -17,7 +17,7 @@
  * public static primary_arm = 0x0000000C;
  * public static primary_arm64 = 0x0100000C;
  */
-@property(nonatomic, nonnull) NSNumber *primaryArchitectureId;
+@property(nonatomic) NSNumber *primaryArchitectureId;
 
 /*
  * CPU architecture variant [optional].
@@ -33,57 +33,57 @@
  * public static variant_armv7s = 0x0000000B;
  * public static variant_armv7k = 0x0000000C;
  */
-@property(nonatomic, nullable) NSNumber *architectureVariantId;
+@property(nonatomic) NSNumber *architectureVariantId;
 
 /*
  * Path to the application.
  */
-@property(nonatomic, copy, nonnull) NSString *applicationPath;
+@property(nonatomic, copy) NSString *applicationPath;
 
 /*
  * OS exception type.
  */
-@property(nonatomic, copy, nonnull) NSString *osExceptionType;
+@property(nonatomic, copy) NSString *osExceptionType;
 
 /*
  * OS exception code.
  */
-@property(nonatomic, copy, nonnull) NSString *osExceptionCode;
+@property(nonatomic, copy) NSString *osExceptionCode;
 
 /*
  * OS exception address.
  */
-@property(nonatomic, copy, nonnull) NSString *osExceptionAddress;
+@property(nonatomic, copy) NSString *osExceptionAddress;
 
 /*
  * Exception type [optional].
  */
-@property(nonatomic, copy, nullable) NSString *exceptionType;
+@property(nonatomic, copy) NSString *exceptionType;
 
 /*
  * Exception reason [optional].
  */
-@property(nonatomic, copy, nullable) NSString *exceptionReason;
+@property(nonatomic, copy) NSString *exceptionReason;
 
 /*
  * Thread stack frames associated to the error [optional].
  */
-@property(nonatomic, nullable) NSArray<MSThread *> *threads;
+@property(nonatomic) NSArray<MSThread *> *threads;
 
 /*
  * Binaries associated to the error [optional].
  */
-@property(nonatomic, nullable) NSArray<MSBinary *> *binaries;
+@property(nonatomic) NSArray<MSBinary *> *binaries;
 
 /*
  * Registers. [optional]
  */
-@property(nonatomic, nullable) NSDictionary<NSString *, NSString *> *registers;
+@property(nonatomic) NSDictionary<NSString *, NSString *> *registers;
 
 /*
  * The last exception backtrace.
  */
-@property(nonatomic, nullable) MSException *exception;
+@property(nonatomic) MSException *exception;
 
 /**
  * Is equal to another apple error log
@@ -92,6 +92,6 @@
  *
  * @return Return YES if equal and NO if not equal
  */
-- (BOOL)isEqual:(nullable MSAppleErrorLog *)errorLog;
+- (BOOL)isEqual:(MSAppleErrorLog *)errorLog;
 
 @end

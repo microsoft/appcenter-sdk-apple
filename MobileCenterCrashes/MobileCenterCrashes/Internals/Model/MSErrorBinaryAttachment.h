@@ -1,5 +1,7 @@
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /*
  * Binary attachment for error log.
  */
@@ -8,17 +10,17 @@
 /**
  * The fileName for binary data.
  */
-@property(nonatomic, copy, readonly, nullable) NSString *fileName;
+@property(nonatomic, copy, readonly) NSString *fileName;
 
 /**
  * Binary data.
  */
-@property(nonatomic, copy, readonly, nonnull) NSData *data;
+@property(nonatomic, copy, readonly) NSData *data;
 
 /**
  * Content type for binary data.
  */
-@property(nonatomic, copy, readonly, nonnull) NSString *contentType;
+@property(nonatomic, copy, readonly) NSString *contentType;
 
 /**
  * Is equal to another error binary attachment
@@ -27,7 +29,7 @@
  *
  * @return Return YES if equal and NO if not equal
  */
-- (BOOL)isEqual:(nullable MSErrorBinaryAttachment *)attachment;
+- (BOOL)isEqual:(MSErrorBinaryAttachment *)attachment;
 
 /**
  * Create an MSErrorBinaryAttachment instance with a given filename and NSData object
@@ -42,3 +44,5 @@
                              contentType:(nonnull NSString *)contentType;
 
 @end
+
+NS_ASSUME_NONNULL_END

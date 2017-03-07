@@ -10,12 +10,12 @@
 /**
  * Plain text attachment [optional].
  */
-@property(nonatomic, copy, nullable) NSString *textAttachment;
+@property(nonatomic, copy) NSString *textAttachment;
 
 /**
  * Binary attachment [optional].
  */
-@property(nonatomic, nullable) MSErrorBinaryAttachment *binaryAttachment;
+@property(nonatomic) MSErrorBinaryAttachment *binaryAttachment;
 
 /**
  * Is equal to another error attachment

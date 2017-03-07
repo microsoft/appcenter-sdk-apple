@@ -91,9 +91,12 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
   if (file) {
 
     // Cache logs from file.
-    NSArray <MSLog> *logs = [NSKeyedUnarchiver unarchiveObjectWithData:[MSFileUtil dataForFile:file]];
-    if (logs) {
-      [deletedLogs addObjectsFromArray:logs];
+    NSData *data = [MSFileUtil dataForFile:file];
+    if (data) {
+      NSArray <MSLog> *logs = [NSKeyedUnarchiver unarchiveObjectWithData:(NSData * _Nonnull)data];
+      if (logs) {
+        [deletedLogs addObjectsFromArray:logs];
+      }
     }
 
     // Wipe it.

@@ -8,37 +8,37 @@
 /*
  * Error identifier.
  */
-@property(nonatomic,copy, nonnull) NSString *errorId;
+@property(nonatomic,copy) NSString *errorId;
 
 /*
  * Process identifier.
  */
-@property(nonatomic, nonnull) NSNumber *processId;
+@property(nonatomic) NSNumber *processId;
 
 /*
  * Process name.
  */
-@property(nonatomic, copy, nonnull) NSString *processName;
+@property(nonatomic, copy) NSString *processName;
 
 /*
  * Parent's process identifier. [optional]
  */
-@property(nonatomic, nullable) NSNumber *parentProcessId;
+@property(nonatomic) NSNumber *parentProcessId;
 
 /*
  * Name of the parent's process. [optional]
  */
-@property(nonatomic, copy, nullable) NSString *parentProcessName;
+@property(nonatomic, copy) NSString *parentProcessName;
 
 /*
  * Error thread identifier. [optional]
  */
-@property(nonatomic, nullable) NSNumber *errorThreadId;
+@property(nonatomic) NSNumber *errorThreadId;
 
 /*
  * Error thread name. [optional]
  */
-@property(nonatomic, copy, nullable) NSString *errorThreadName;
+@property(nonatomic, copy) NSString *errorThreadName;
 
 /*
  * If YES, this error report is an application crash.
@@ -48,16 +48,16 @@
 /*
  * Corresponds to the number of milliseconds elapsed between the time the error occurred and the app was launched.
  */
-@property(nonatomic, nonnull) NSNumber *appLaunchTOffset;
+@property(nonatomic) NSNumber *appLaunchTOffset;
 
 /*
  * Error attachment. [optional]
  */
-@property(nonatomic, nullable) MSErrorAttachment *errorAttachment;
+@property(nonatomic) MSErrorAttachment *errorAttachment;
 
 /*
  * CPU Architecture. [optional]
  */
-@property(nonatomic, copy, nullable) NSString *architecture;
+@property(nonatomic, copy) NSString *architecture;
 
 @end

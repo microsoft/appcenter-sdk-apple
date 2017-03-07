@@ -8,33 +8,33 @@
 /*
  * Exception type.
  */
-@property(nonatomic, copy, nonnull) NSString *type;
+@property(nonatomic, copy) NSString *type;
 
 /*
  * Exception reason.
  */
-@property(nonatomic, copy, nonnull) NSString *message;
+@property(nonatomic, copy) NSString *message;
 
 /*
  * Raw stack trace. Sent when the frames property is either missing or unreliable.
  */
-@property(nonatomic, copy, nullable) NSString *stackTrace;
+@property(nonatomic, copy) NSString *stackTrace;
 
 /*
  * Stack frames [optional].
  */
-@property(nonatomic, nullable) NSArray<MSStackFrame *> *frames;
+@property(nonatomic) NSArray<MSStackFrame *> *frames;
 
 /*
  * Inner exceptions of this exception [optional].
  */
-@property(nonatomic, nullable) NSArray<MSException *> *innerExceptions;
+@property(nonatomic) NSArray<MSException *> *innerExceptions;
 
 /*
  * Name of the wrapper SDK that emitted this exeption.
  * Consists of the name of the SDK and the wrapper platform, e.g. "mobilecenter.xamarin", "hockeysdk.cordova".
  */
-@property(nonatomic, copy, nullable) NSString *wrapperSdkName;
+@property(nonatomic, copy) NSString *wrapperSdkName;
 
 /**
  * Is equal to another exception
@@ -43,7 +43,7 @@
  *
  * @return Return YES if equal and NO if not equal
  */
-- (BOOL)isEqual:(nullable MSException *)exception;
+- (BOOL)isEqual:(MSException *)exception;
 
 /**
  * Checks if the object's values are valid.
