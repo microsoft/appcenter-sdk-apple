@@ -265,7 +265,7 @@
 
 - (void)resetTimer {
   if(self.timerSource) {
-   dispatch_source_cancel(self.timerSource);
+    dispatch_source_cancel(self.timerSource);
   }
 }
 

@@ -353,7 +353,7 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
                                   */
 
                                  // Retry must be stopped.
-                                 assertThat(((MSSenderCall *)self.sut.pendingCalls[@"1"]).timerSource, nilValue());
+                                 XCTAssertNotEqual(0, dispatch_testcancel(((MSSenderCall *)self.sut.pendingCalls[@"1"]).timerSource));
 
                                  // No call submitted to the session.
                                  assertThatBool(self.sut.pendingCalls[@"1"].submitted, isFalse());
