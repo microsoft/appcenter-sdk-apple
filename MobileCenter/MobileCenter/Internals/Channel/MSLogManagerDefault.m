@@ -41,7 +41,7 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
   return self;
 }
 
-- (instancetype)initWithSender:(id<MSSender>)sender storage:(id<MSStorage>)storage {
+- (instancetype)initWithSender:(MSHttpSender *)sender storage:(id<MSStorage>)storage {
   if ((self = [self init])) {
     dispatch_queue_t serialQueue = dispatch_queue_create(MSlogsDispatchQueue, DISPATCH_QUEUE_SERIAL);
     _enabled = YES;
@@ -167,6 +167,12 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 
 - (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData forPriority:(MSPriority)priority {
   [[self channelForPriority:priority] setEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
+}
+
+#pragma mark - Other public methods
+
+- (void)setLogUrl:(NSString*)logUrl{
+  self.sender.baseURL = logUrl;
 }
 
 @end

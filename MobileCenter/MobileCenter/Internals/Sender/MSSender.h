@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol MSSender <NSObject, MSSenderCallDelegate, MSEnable>
 
 /**
- *  Reachability library.
+ * Reachability library.
  */
 @property(nonatomic) MS_Reachability *reachability;
 
