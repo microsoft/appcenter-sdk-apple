@@ -8,4 +8,3 @@ framework module MobileCenterPush {
   link framework "UIKit"
   link framework "UserNotifications"
 }
-
