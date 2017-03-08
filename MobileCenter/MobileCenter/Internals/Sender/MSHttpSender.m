@@ -314,4 +314,8 @@ static NSTimeInterval kRequestTimeout = 60.0;
   }
 }
 
+- (void)dealloc {
+  [self.reachability stopNotifier];
+  [MS_NOTIFICATION_CENTER removeObserver:self name:kMSReachabilityChangedNotification object:nil];
+}
 @end

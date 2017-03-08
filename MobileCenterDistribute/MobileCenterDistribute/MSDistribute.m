@@ -203,9 +203,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
           MSLogError([MSDistribute logTag], @"Response:\n%@",
                      jsonString ? jsonString : [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
         }
-
-        // There is no more interaction with distribution backend. Shutdown sender.
-        [sender setEnabled:NO andDeleteDataOnDisabled:YES];
       }];
 }
 
@@ -363,7 +360,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
         details.releaseNotes ? details.releaseNotes : MSDistributeLocalizedString(@"No release notes");
 
     MSAlertController *alertController =
-        [MSAlertController alertControllerWithTitle:MSDistributeLocalizedString(@"Update available") message:releaseNotes];
+        [MSAlertController alertControllerWithTitle:MSDistributeLocalizedString(@"Update available")
+                                            message:releaseNotes];
 
     // Add a "Ignore"-Button
     [alertController addDefaultActionWithTitle:MSDistributeLocalizedString(@"Ignore")
