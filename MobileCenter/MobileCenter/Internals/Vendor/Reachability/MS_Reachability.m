@@ -64,15 +64,13 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
 @implementation MS_Reachability {
 }
 
+//It's based on Apple's sample code. Disable an one warning type for this function
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnullable-to-nonnull-conversion"
+
 + (instancetype)reachabilityWithHostName:(NSString *)hostName {
   MS_Reachability *returnValue = NULL;
-
-  const char * utf8HostName = [hostName UTF8String];
-  if (!utf8HostName) {
-    return returnValue;
-  }
-
-  SCNetworkReachabilityRef reachability = SCNetworkReachabilityCreateWithName(NULL, (const char *_Nonnull) utf8HostName);
+  SCNetworkReachabilityRef reachability = SCNetworkReachabilityCreateWithName(NULL, [hostName UTF8String]);
   if (reachability != NULL) {
     returnValue = [[self alloc] init];
     if (returnValue != NULL) {
@@ -83,6 +81,8 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
   }
   return returnValue;
 }
+
+#pragma clang diagnostic pop
 
 + (instancetype)reachabilityWithAddress:(const struct sockaddr *)hostAddress {
   SCNetworkReachabilityRef reachability = SCNetworkReachabilityCreateWithAddress(kCFAllocatorDefault, hostAddress);
