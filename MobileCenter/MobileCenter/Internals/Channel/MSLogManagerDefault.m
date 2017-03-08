@@ -34,7 +34,7 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 }
 
 - (instancetype)initWithSender:(id<MSSender>)sender storage:(id<MSStorage>)storage {
-  if (self = [self init]) {
+  if ((self = [self init])) {
     dispatch_queue_t serialQueue = dispatch_queue_create(MSlogsDispatchQueue, DISPATCH_QUEUE_SERIAL);
     _enabled = YES;
     _logsDispatchQueue = serialQueue;

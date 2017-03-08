@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0415D7151E492D0B00245485 /* libMobileCenterUpdates.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0471B92F1E4550670022F951 /* libMobileCenterUpdates.a */; };
+		0415D7151E492D0B00245485 /* libMobileCenterDistribute.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0471B92F1E4550670022F951 /* libMobileCenterDistribute.a */; };
 		0461BBD11DB68EAD001B4555 /* Main.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0461BBD01DB68EAD001B4555 /* Main.strings */; };
 		380A4D991DD6892F00E99219 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 380A4D981DD6892F00E99219 /* NotificationCenter.framework */; };
 		380A4D9D1DD6892F00E99219 /* TodayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 380A4D9C1DD6892F00E99219 /* TodayViewController.m */; };
@@ -26,9 +26,9 @@
 		B21B26C71DDE490400FF0378 /* MSCrashesDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B21B26C61DDE490400FF0378 /* MSCrashesDetailViewController.m */; };
 		B27397A41DE3D27700AC7761 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B27397A31DE3D27700AC7761 /* CrashLibIOS.framework */; };
 		B27397A51DE3D27700AC7761 /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B27397A31DE3D27700AC7761 /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		B296D4211E5F5DEF0089F013 /* MobileCenterUpdatesResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B2C070CB1E5F59A90076D6A9 /* MobileCenterUpdatesResources.bundle */; };
+		B296D4211E5F5DEF0089F013 /* MobileCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B2C070CB1E5F59A90076D6A9 /* MobileCenterDistributeResources.bundle */; };
 		B2E611F61DDE72BA00A9DF86 /* MSFakeCXXClass.mm in Sources */ = {isa = PBXBuildFile; fileRef = B2E611F41DDE72BA00A9DF86 /* MSFakeCXXClass.mm */; };
-		BA6827C9F0410233C245D989 /* MSUpdatesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA682342F94E25F75943E4F6 /* MSUpdatesViewController.m */; };
+		BA6827C9F0410233C245D989 /* MSDistributeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA682342F94E25F75943E4F6 /* MSDistributeViewController.m */; };
 		E82E1B641D1CA58D00D281C1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E82E1B631D1CA58D00D281C1 /* main.m */; };
 		E82E1B671D1CA58D00D281C1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E82E1B661D1CA58D00D281C1 /* AppDelegate.m */; };
 		E82E1B6D1D1CA58D00D281C1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E82E1B6B1D1CA58D00D281C1 /* Main.storyboard */; };
@@ -45,31 +45,31 @@
 /* Begin PBXContainerItemProxy section */
 		0471B92E1E4550670022F951 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 0471B91E1E4550670022F951 /* MobileCenterUpdates.xcodeproj */;
+			containerPortal = 0471B91E1E4550670022F951 /* MobileCenterDistribute.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 04FD4A1C1E451E12009B4468;
-			remoteInfo = MobileCenterUpdates;
+			remoteInfo = MobileCenterDistribute;
 		};
 		0471B9301E4550670022F951 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 0471B91E1E4550670022F951 /* MobileCenterUpdates.xcodeproj */;
+			containerPortal = 0471B91E1E4550670022F951 /* MobileCenterDistribute.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 04FD4A311E453531009B4468;
-			remoteInfo = MobileCenterUpdatesTests;
+			remoteInfo = MobileCenterDistributeTests;
 		};
 		0471B9471E455B630022F951 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 0471B91E1E4550670022F951 /* MobileCenterUpdates.xcodeproj */;
+			containerPortal = 0471B91E1E4550670022F951 /* MobileCenterDistribute.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = 04FD4A1B1E451E12009B4468;
-			remoteInfo = MobileCenterUpdates;
+			remoteInfo = MobileCenterDistribute;
 		};
 		0471B9491E455B6F0022F951 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 0471B91E1E4550670022F951 /* MobileCenterUpdates.xcodeproj */;
+			containerPortal = 0471B91E1E4550670022F951 /* MobileCenterDistribute.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = 04FD4A1B1E451E12009B4468;
-			remoteInfo = MobileCenterUpdates;
+			remoteInfo = MobileCenterDistribute;
 		};
 		380A4DA21DD6892F00E99219 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -101,17 +101,17 @@
 		};
 		B2C070CA1E5F59A90076D6A9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 0471B91E1E4550670022F951 /* MobileCenterUpdates.xcodeproj */;
+			containerPortal = 0471B91E1E4550670022F951 /* MobileCenterDistribute.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = B2C070B81E5E68540076D6A9;
-			remoteInfo = MobileCenterUpdatesResources;
+			remoteInfo = MobileCenterDistributeResources;
 		};
 		B2C070CD1E5F59A90076D6A9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 0471B91E1E4550670022F951 /* MobileCenterUpdates.xcodeproj */;
+			containerPortal = 0471B91E1E4550670022F951 /* MobileCenterDistribute.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = B2C070B71E5E68540076D6A9;
-			remoteInfo = MobileCenterUpdatesResources;
+			remoteInfo = MobileCenterDistributeResources;
 		};
 		E82E1B801D1CA62900D281C1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -205,7 +205,7 @@
 
 /* Begin PBXFileReference section */
 		0461BBD01DB68EAD001B4555 /* Main.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Main.strings; sourceTree = "<group>"; };
-		0471B91E1E4550670022F951 /* MobileCenterUpdates.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MobileCenterUpdates.xcodeproj; path = ../../MobileCenterUpdates/MobileCenterUpdates.xcodeproj; sourceTree = "<group>"; };
+		0471B91E1E4550670022F951 /* MobileCenterDistribute.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MobileCenterDistribute.xcodeproj; path = ../../MobileCenterDistribute/MobileCenterDistribute.xcodeproj; sourceTree = "<group>"; };
 		380A4D961DD6892F00E99219 /* PuppetWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PuppetWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		380A4D981DD6892F00E99219 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		380A4D9B1DD6892F00E99219 /* TodayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodayViewController.h; sourceTree = "<group>"; };
@@ -225,8 +225,8 @@
 		B27397A31DE3D27700AC7761 /* CrashLibIOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CrashLibIOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2E611F41DDE72BA00A9DF86 /* MSFakeCXXClass.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MSFakeCXXClass.mm; sourceTree = "<group>"; };
 		B2E611F51DDE72BA00A9DF86 /* MSFakeCXXClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSFakeCXXClass.h; sourceTree = "<group>"; };
-		BA682342F94E25F75943E4F6 /* MSUpdatesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSUpdatesViewController.m; sourceTree = "<group>"; };
-		BA68238A942EEAA10612D006 /* MSUpdatesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSUpdatesViewController.h; sourceTree = "<group>"; };
+		BA682342F94E25F75943E4F6 /* MSDistributeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDistributeViewController.m; sourceTree = "<group>"; };
+		BA68238A942EEAA10612D006 /* MSDistributeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDistributeViewController.h; sourceTree = "<group>"; };
 		E82E1B5F1D1CA58D00D281C1 /* Puppet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Puppet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E82E1B631D1CA58D00D281C1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E82E1B651D1CA58D00D281C1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -272,7 +272,7 @@
 				E82E1B901D1CA65D00D281C1 /* libMobileCenter.a in Frameworks */,
 				E85548081D2D6C9D002DF6E2 /* libMobileCenterAnalytics.a in Frameworks */,
 				E82E1B8F1D1CA65D00D281C1 /* libMobileCenterCrashes.a in Frameworks */,
-				0415D7151E492D0B00245485 /* libMobileCenterUpdates.a in Frameworks */,
+				0415D7151E492D0B00245485 /* libMobileCenterDistribute.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -282,9 +282,9 @@
 		0471B91F1E4550670022F951 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				0471B92F1E4550670022F951 /* libMobileCenterUpdates.a */,
-				0471B9311E4550670022F951 /* MobileCenterUpdates.xctest */,
-				B2C070CB1E5F59A90076D6A9 /* MobileCenterUpdatesResources.bundle */,
+				0471B92F1E4550670022F951 /* libMobileCenterDistribute.a */,
+				0471B9311E4550670022F951 /* MobileCenterDistribute.xctest */,
+				B2C070CB1E5F59A90076D6A9 /* MobileCenterDistributeResources.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -381,7 +381,7 @@
 				E82E1B821D1CA63000D281C1 /* MobileCenter.xcodeproj */,
 				E85547FB1D2D6C8D002DF6E2 /* MobileCenterAnalytics.xcodeproj */,
 				E82E1B7C1D1CA62900D281C1 /* MobileCenterCrashes.xcodeproj */,
-				0471B91E1E4550670022F951 /* MobileCenterUpdates.xcodeproj */,
+				0471B91E1E4550670022F951 /* MobileCenterDistribute.xcodeproj */,
 			);
 			name = MobileCenter;
 			sourceTree = "<group>";
@@ -429,8 +429,8 @@
 				B21B26C61DDE490400FF0378 /* MSCrashesDetailViewController.m */,
 				B2E611F51DDE72BA00A9DF86 /* MSFakeCXXClass.h */,
 				B2E611F41DDE72BA00A9DF86 /* MSFakeCXXClass.mm */,
-				BA682342F94E25F75943E4F6 /* MSUpdatesViewController.m */,
-				BA68238A942EEAA10612D006 /* MSUpdatesViewController.h */,
+				BA682342F94E25F75943E4F6 /* MSDistributeViewController.m */,
+				BA68238A942EEAA10612D006 /* MSDistributeViewController.h */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -530,7 +530,7 @@
 				},
 				{
 					ProductGroup = 0471B91F1E4550670022F951 /* Products */;
-					ProjectRef = 0471B91E1E4550670022F951 /* MobileCenterUpdates.xcodeproj */;
+					ProjectRef = 0471B91E1E4550670022F951 /* MobileCenterDistribute.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -542,24 +542,24 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		0471B92F1E4550670022F951 /* libMobileCenterUpdates.a */ = {
+		0471B92F1E4550670022F951 /* libMobileCenterDistribute.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libMobileCenterUpdates.a;
+			path = libMobileCenterDistribute.a;
 			remoteRef = 0471B92E1E4550670022F951 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		0471B9311E4550670022F951 /* MobileCenterUpdates.xctest */ = {
+		0471B9311E4550670022F951 /* MobileCenterDistribute.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = MobileCenterUpdates.xctest;
+			path = MobileCenterDistribute.xctest;
 			remoteRef = 0471B9301E4550670022F951 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		B2C070CB1E5F59A90076D6A9 /* MobileCenterUpdatesResources.bundle */ = {
+		B2C070CB1E5F59A90076D6A9 /* MobileCenterDistributeResources.bundle */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = MobileCenterUpdatesResources.bundle;
+			path = MobileCenterDistributeResources.bundle;
 			remoteRef = B2C070CA1E5F59A90076D6A9 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -622,7 +622,7 @@
 			files = (
 				E82E1B721D1CA58D00D281C1 /* LaunchScreen.storyboard in Resources */,
 				0461BBD11DB68EAD001B4555 /* Main.strings in Resources */,
-				B296D4211E5F5DEF0089F013 /* MobileCenterUpdatesResources.bundle in Resources */,
+				B296D4211E5F5DEF0089F013 /* MobileCenterDistributeResources.bundle in Resources */,
 				E82E1B6F1D1CA58D00D281C1 /* Assets.xcassets in Resources */,
 				E82E1B6D1D1CA58D00D281C1 /* Main.storyboard in Resources */,
 			);
@@ -651,7 +651,7 @@
 				E89E6A2C1D396D7900CAA2CD /* MSCrashesReportsViewController.m in Sources */,
 				E89E6A301D39704900CAA2CD /* MSAnalyticsViewController.m in Sources */,
 				E82E1B641D1CA58D00D281C1 /* main.m in Sources */,
-				BA6827C9F0410233C245D989 /* MSUpdatesViewController.m in Sources */,
+				BA6827C9F0410233C245D989 /* MSDistributeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -660,12 +660,12 @@
 /* Begin PBXTargetDependency section */
 		0471B9481E455B630022F951 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = MobileCenterUpdates;
+			name = MobileCenterDistribute;
 			targetProxy = 0471B9471E455B630022F951 /* PBXContainerItemProxy */;
 		};
 		0471B94A1E455B6F0022F951 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = MobileCenterUpdates;
+			name = MobileCenterDistribute;
 			targetProxy = 0471B9491E455B6F0022F951 /* PBXContainerItemProxy */;
 		};
 		380A4DA31DD6892F00E99219 /* PBXTargetDependency */ = {
@@ -690,7 +690,7 @@
 		};
 		B2C070CE1E5F59A90076D6A9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = MobileCenterUpdatesResources;
+			name = MobileCenterDistributeResources;
 			targetProxy = B2C070CD1E5F59A90076D6A9 /* PBXContainerItemProxy */;
 		};
 		E82E1B8C1D1CA65600D281C1 /* PBXTargetDependency */ = {
@@ -891,7 +891,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_VERSION = 3.0;
-				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../MobileCenter/MobileCenter/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashes/** $(SRCROOT)/../MobileCenterUpdates/MobileCenterUpdates/**";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../MobileCenter/MobileCenter/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashes/** $(SRCROOT)/../MobileCenterDistribute/MobileCenterDistribute/**";
 			};
 			name = Debug;
 		};
@@ -915,7 +915,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_VERSION = 3.0;
-				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../MobileCenter/MobileCenter/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashes/** $(SRCROOT)/../MobileCenterUpdates/MobileCenterUpdates/**";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../MobileCenter/MobileCenter/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashes/** $(SRCROOT)/../MobileCenterDistribute/MobileCenterDistribute/**";
 			};
 			name = Release;
 		};

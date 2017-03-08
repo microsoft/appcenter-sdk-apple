@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name              = 'MobileCenter'
-  s.version           = '0.4.1'
+  s.version           = '0.5.0'
 
   s.summary           = 'Add Mobile Center SDK to your app to collect crash reports & understand user behavior by analyzing the session, user or device information.'
   s.description       = <<-DESC
@@ -47,10 +47,10 @@ Pod::Spec.new do |s|
       ss.vendored_frameworks = "MobileCenter-SDK-iOS/MobileCenterCrashes.framework"
   end
 
-#  s.subspec 'MobileCenterUpdates' do |ss|
+#  s.subspec 'MobileCenterDistribute' do |ss|
 #   ss.frameworks = 'CoreTelephony', 'Foundation'
 #   ss.dependency 'MobileCenter/MobileCenter'
-#  ss.resource_bundle = { 'MobileCenterUpdatesResources' => ['MobileCenter-SDK-iOS/MobileCenterUpdatesResources.bundle/*.lproj'] }
+#  ss.resource_bundle = { 'MobileCenterDistributeResources' => ['MobileCenter-SDK-iOS/MobileCenterDistributeResources.bundle/*.lproj'] }
 # end
 
 end
