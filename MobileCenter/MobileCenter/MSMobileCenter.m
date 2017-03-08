@@ -11,7 +11,9 @@
 static MSMobileCenter *sharedInstance = nil;
 static dispatch_once_t onceToken;
 
-// Base URL for HTTP backend API calls.
+/**
+ * Base URL for HTTP Ingestion backend API calls.
+ */
 static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 
 @implementation MSMobileCenter
@@ -147,9 +149,6 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
     MSLogAssert([MSMobileCenter logTag], @"AppSecret is invalid.");
   } else {
     self.appSecret = appSecret;
-
-    // Set backend API version.
-    self.apiVersion = kMSAPIVersion;
 
     // Init the main pipeline.
     [self initializeLogManager];
@@ -288,10 +287,6 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 
 - (NSString *)appSecret {
   return _appSecret;
-}
-
-- (NSString *)apiVersion {
-  return _apiVersion;
 }
 
 - (NSUUID *)installId {

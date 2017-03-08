@@ -1,4 +1,6 @@
-#import "MSDevice.h"
+#import <Foundation/Foundation.h>
+
+@class MSDevice;
 
 /**
  * Provide and keep track of device log based on collected properties.

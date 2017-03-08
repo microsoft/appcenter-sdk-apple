@@ -48,6 +48,34 @@
                ReferencedContainer = "container:MobileCenterCrashes/MobileCenterCrashes.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "04FD4A3C1E453640009B4468"
+               BuildableName = "MobileCenterUpdatesDoc"
+               BlueprintName = "MobileCenterUpdatesDoc"
+               ReferencedContainer = "container:MobileCenterUpdates/MobileCenterUpdates.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "D3AD5F271E5C9633001627AB"
+               BuildableName = "MobileCenterPushDoc"
+               BlueprintName = "MobileCenterPushDoc"
+               ReferencedContainer = "container:MobileCenterPush/MobileCenterPush.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction

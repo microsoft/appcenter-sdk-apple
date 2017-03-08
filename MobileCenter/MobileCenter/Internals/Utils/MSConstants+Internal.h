@@ -8,8 +8,6 @@ static NSString *const kMSHeaderAppSecretKey = @"App-Secret";
 static NSString *const kMSHeaderInstallIDKey = @"Install-ID";
 static NSString *const kMSHeaderContentTypeKey = @"Content-Type";
 static NSString *const kMSContentType = @"application/json";
-static NSString *const kMSAPIVersion = @"1.0.0-preview20160914";
-static NSString *const kMSAPIVersionKey = @"api_version";
 
 /** Channel priorities, check the kMSPriorityCount if you add a new value.
  * The order matters here! Values NEED to range from low priority to high priority.
