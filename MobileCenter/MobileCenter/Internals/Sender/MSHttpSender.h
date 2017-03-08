@@ -11,6 +11,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) NSString *baseURL;
 
 /**
+ * API URL path used to identify an API from the server.
+ */
+@property(nonatomic) NSString *apiPath;
+
+/**
  *	Send Url.
  */
 @property(nonatomic, strong) NSURL *sendURL;

@@ -63,19 +63,6 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 
 #pragma mark - MSSender
 
-- (id)initWithBaseUrl:(NSString *)baseUrl
-              headers:(NSDictionary *)headers
-         queryStrings:(NSDictionary *)queryStrings
-         reachability:(MS_Reachability *)reachability
-       retryIntervals:(NSArray *)retryIntervals {
-  return [self initWithBaseUrl:baseUrl
-                       apiPath:@""
-                       headers:headers
-                  queryStrings:queryStrings
-                  reachability:reachability
-                retryIntervals:retryIntervals];
-}
-
 - (void)sendAsync:(NSObject *)data completionHandler:(MSSendAsyncCompletionHandler)handler {
   [self sendAsync:data callId:MS_UUID_STRING completionHandler:handler];
 }

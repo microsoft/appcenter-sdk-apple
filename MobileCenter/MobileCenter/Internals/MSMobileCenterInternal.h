@@ -1,8 +1,9 @@
+#import <Foundation/Foundation.h>
+
 #import "MSLogManager.h"
 #import "MSMobileCenter.h"
 #import "MSServiceInternal.h"
 #import "MobileCenter+Internal.h"
-#import <Foundation/Foundation.h>
 
 // Persisted storage keys.
 static NSString *const kMSInstallIdKey = @"MSInstallId";
