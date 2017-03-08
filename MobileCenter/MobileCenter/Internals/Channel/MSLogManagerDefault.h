@@ -9,6 +9,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class MSHttpSender;
+
 /**
  * A log manager which triggers and manages the processing of log items on
  * different channels. All items will be immediately passed to the persistence
@@ -38,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * A sender instance that is used to send batches of log items to the backend.
  */
-@property(nonatomic, strong, nullable) id<MSSender> sender;
+@property(nonatomic, strong, nullable) MSHttpSender *sender;
 
 /**
  * A storage instance to store and read enqueued log items.
