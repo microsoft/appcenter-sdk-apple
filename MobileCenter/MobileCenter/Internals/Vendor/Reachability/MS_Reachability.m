@@ -64,8 +64,8 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
 /*
  * Instantiation, deallocation and starting/stopping notifier for reachability instance are enforced to
  * run in main thread. MS_Reachability is not thread-safe so stopNotifier doesn't properly unschedule jobs
- * from the loop when it is called from different thread, and this generates unexpected crashes that are caused by
- * accessing disposed instance especially when reachability is used for local variables.
+ * from the loop when it is called from a different thread, and this generates unexpected crashes that are caused by
+ * accessing a disposed instance especially when reachability is used for local variables.
  */
 @implementation MS_Reachability {
 }
