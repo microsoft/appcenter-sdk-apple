@@ -187,8 +187,9 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
       NSMutableArray<NSString*>* servicesNames = [NSMutableArray arrayWithCapacity:sortedServices.count];
 
       for (Class service in sortedServices) {
-        [self startService:service];
-        [servicesNames addObject:[service logTag]];
+        if ([self startService:service]) {
+          [servicesNames addObject:[service logTag]];
+        }
       }
       [self sendStartServiceLog:servicesNames];
     }
@@ -215,15 +216,24 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
   }
 }
 
-- (void)startService:(Class)clazz {
+- (BOOL)startService:(Class)clazz {
   @synchronized(self) {
     id<MSServiceInternal> service = [clazz sharedInstance];
+
+    if(service.isAvailable) {
+
+      // Service already works, we shouldn't send log with this service name
+      return NO;
+    }
 
     // Set mobileCenterDelegate.
     [self.services addObject:service];
 
     // Start service with log manager.
     [service startWithLogManager:self.logManager appSecret:self.appSecret];
+
+    // Service started
+    return YES;
   }
 }
 
