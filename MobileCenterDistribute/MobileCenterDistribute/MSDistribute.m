@@ -118,95 +118,119 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 #pragma mark - Private
 
 - (void)requestUpdateToken {
-  NSURL *url;
-  MSLogInfo([MSDistribute logTag], @"Request Distribute API token.");
+  
+  // Check if it's okay to check for updates.
+  if ([self checkForUpdatesAllowed]) {
 
-  // Most failures here require an app update. Thus, it will be retried only on next App instance.
-  url = [self buildTokenRequestURLWithAppSecret:self.appSecret];
-  if (url) {
+    NSURL *url;
+    MSLogInfo([MSDistribute logTag], @"Request Distribute API token.");
+
+    // Most failures here require an app update. Thus, it will be retried only on next App instance.
+    url = [self buildTokenRequestURLWithAppSecret:self.appSecret];
+    if (url) {
 
 /*
  * iOS 9+ only, check for `SFSafariViewController` availability. `SafariServices` framework MUST be weakly linked.
  * We can't use `NSClassFromString` here to avoid the warning.
- * It doesn't detect the class correctly unless the application explicitely import the related framework.
+ * It doesn't detect the class correctly unless the application explicitely imports the related framework.
  */
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpartial-availability"
-    Class clazz = [SFSafariViewController class];
+      Class clazz = [SFSafariViewController class];
 #pragma clang diagnostic pop
-    if (clazz) {
+      if (clazz) {
 
-      // Manipulate App UI on the main queue.
-      dispatch_async(dispatch_get_main_queue(), ^{
-        [self openURLInEmbeddedSafari:url fromClass:clazz];
-      });
-    } else {
+        // Manipulate App UI on the main queue.
+        dispatch_async(dispatch_get_main_queue(), ^{
+          [self openURLInEmbeddedSafari:url fromClass:clazz];
+        });
+      } else {
 
-      // iOS 8.x.
-      [self openURLInSafariApp:url];
+        // iOS 8.x.
+        [self openURLInSafariApp:url];
+      }
     }
+  } else {
+    // Log a message to notify the user why the SDK didn't check for updates.
+    MSLogDebug(
+               [MSDistribute logTag],
+               @"Distribute won't try to obtain an update token because of one of the following reasons: 1. A debugger is"
+               "attached. 2. You are running the debug configuration. 3. The app is running in a non-adhoc environment."
+               "Detach the debugger and restart the app and/or run the app with the release configuration to enable the"
+               "feature.");
+
   }
 }
 
 - (void)checkLatestRelease:(NSString *)updateToken {
-  MSDistributeSender *sender =
-      [[MSDistributeSender alloc] initWithBaseUrl:self.apiUrl appSecret:self.appSecret updateToken:updateToken];
 
-  [sender sendAsync:nil
-      completionHandler:^(NSString *callId, NSUInteger statusCode, NSData *data, NSError *error) {
+  // Check if it's okay to check for updates.
+  if ([self checkForUpdatesAllowed]) {
+    MSDistributeSender *sender =
+        [[MSDistributeSender alloc] initWithBaseUrl:self.apiUrl appSecret:self.appSecret updateToken:updateToken];
+    [sender sendAsync:nil
+        completionHandler:^(NSString *callId, NSUInteger statusCode, NSData *data, NSError *error) {
 
-        // Success.
-        if (statusCode == MSHTTPCodesNo200OK) {
-          id dictionary =
-              [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-          MSReleaseDetails *details = [[MSReleaseDetails alloc] initWithDictionary:dictionary];
-          if (!details) {
-            MSLogError([MSDistribute logTag], @"Couldn't parse response payload.");
-          } else {
-            NSData *jsonData =
-                [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:&error];
-            NSString *jsonString = nil;
-            if (!jsonData || error) {
-              jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+          // Success.
+          if (statusCode == MSHTTPCodesNo200OK) {
+            id dictionary =
+                [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+            MSReleaseDetails *details = [[MSReleaseDetails alloc] initWithDictionary:dictionary];
+            if (!details) {
+              MSLogError([MSDistribute logTag], @"Couldn't parse response payload.");
             } else {
+              NSData *jsonData =
+                  [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:&error];
+              NSString *jsonString = nil;
+              if (!jsonData || error) {
+                jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+              } else {
 
-              // NSJSONSerialization escapes paths by default so we replace them.
-              jsonString = [[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]
-                  stringByReplacingOccurrencesOfString:@"\\/"
-                                            withString:@"/"];
-            }
-            MSLogDebug([MSDistribute logTag], @"Received a response of update request:\n%@", jsonString);
-            [self handleUpdate:details];
-          }
-        }
-
-        // Failure.
-        else {
-          MSLogDebug([MSDistribute logTag], @"Failed to get a update response, status code:%lu",
-                     (unsigned long)statusCode);
-          NSString *jsonString = nil;
-          id dictionary =
-              [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
-
-          // Failure can deliver non-JSON format of payload.
-          if (!error) {
-            NSData *jsonData =
-                [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:&error];
-            if (jsonData && !error) {
-
-              // NSJSONSerialization escapes paths by default so we replace them.
-              jsonString = [[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]
-                  stringByReplacingOccurrencesOfString:@"\\/"
-                                            withString:@"/"];
+                // NSJSONSerialization escapes paths by default so we replace them.
+                jsonString = [[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]
+                    stringByReplacingOccurrencesOfString:@"\\/"
+                                              withString:@"/"];
+              }
+              MSLogDebug([MSDistribute logTag], @"Received a response of update request:\n%@", jsonString);
+              [self handleUpdate:details];
             }
           }
-          MSLogError([MSDistribute logTag], @"Response:\n%@",
-                     jsonString ? jsonString : [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
-        }
 
-        // There is no more interaction with distribution backend. Shutdown sender.
-        [sender setEnabled:NO andDeleteDataOnDisabled:YES];
-      }];
+          // Failure.
+          else {
+            MSLogDebug([MSDistribute logTag], @"Failed to get a update response, status code:%lu",
+                       (unsigned long)statusCode);
+            NSString *jsonString = nil;
+            id dictionary =
+                [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+
+            // Failure can deliver non-JSON format of payload.
+            if (!error) {
+              NSData *jsonData =
+                  [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:&error];
+              if (jsonData && !error) {
+
+                // NSJSONSerialization escapes paths by default so we replace them.
+                jsonString = [[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]
+                    stringByReplacingOccurrencesOfString:@"\\/"
+                                              withString:@"/"];
+              }
+            }
+            MSLogError([MSDistribute logTag], @"Response:\n%@",
+                       jsonString ? jsonString : [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+          }
+        }];
+
+  } else {
+
+    // Log a message to notify the user why the SDK didn't check for updates.
+    MSLogDebug(
+        [MSDistribute logTag],
+        @"Distribute won't check if a new release is available because of one of the following reasons: 1. A debugger is"
+         "attached. 2. You are running the debug configuration. 3. The app is running in a non-adhoc environment."
+         "Detach the debugger and restart the app and/or run the app with the release configuration to enable the"
+         "feature.");
+  }
 }
 
 #pragma mark - Private
@@ -344,8 +368,18 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   [self showConfirmationAlert:details];
 }
 
-- (BOOL)isAppFromAppStore {
-  return [MSUtil currentAppEnvironment] == MSEnvironmentAppStore;
+- (BOOL)checkForUpdatesAllowed {
+
+  // Check if we are not in AppStore or TestFlight environments.
+  BOOL environmentOkay = [MSUtil currentAppEnvironment] == MSEnvironmentOther;
+
+  // Check if a debugger is attached.
+  BOOL noDebuggerAttached = ![MSMobileCenter isDebuggerAttached];
+
+  // Make sure it's not a DEBUG configuration.
+  BOOL configurationOkay = ![MSUtil isRunningInDebugConfiguration];
+
+  return environmentOkay && noDebuggerAttached && configurationOkay;
 }
 
 - (BOOL)isNewerVersion:(MSReleaseDetails *)details {
@@ -363,7 +397,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
         details.releaseNotes ? details.releaseNotes : MSDistributeLocalizedString(@"No release notes");
 
     MSAlertController *alertController =
-        [MSAlertController alertControllerWithTitle:MSDistributeLocalizedString(@"Update available") message:releaseNotes];
+        [MSAlertController alertControllerWithTitle:MSDistributeLocalizedString(@"Update available")
+                                            message:releaseNotes];
 
     // Add a "Ignore"-Button
     [alertController addDefaultActionWithTitle:MSDistributeLocalizedString(@"Ignore")

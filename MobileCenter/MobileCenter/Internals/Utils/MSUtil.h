@@ -69,6 +69,14 @@ typedef NS_ENUM(NSInteger, MSApplicationState) {
 + (MSEnvironment)currentAppEnvironment;
 
 /**
+ * Checks if the app runs in the DEBUG configuration. This is not the same as running with a debugger attached.
+ * @see isDebuggerAttached in MSMobileCenter about how to detect a debugger.
+ *
+ * @return A BOOL that indicates if the app was launched with the DEBUG configuration.
+ */
++ (BOOL)isRunningInDebugConfiguration;
+
+/**
  * Get current application state.
  *
  * @return Current state of the application or MSApplicationStateUnknown while the state can't be determined.

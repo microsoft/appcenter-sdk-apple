@@ -32,6 +32,16 @@ static NSString *const kMSUUIDSeparator = @"-";
 #endif
 }
 
++ (BOOL)isRunningInDebugConfiguration {
+  BOOL isRunningInDebugConfiguration;
+#if DEBUG
+  isRunningInDebugConfiguration = YES;
+#else
+  isRunningInDebugConfiguration = NO;
+#endif
+  return isRunningInDebugConfiguration;
+}
+
 + (BOOL)hasEmbeddedMobileProvision {
   BOOL hasEmbeddedMobileProvision = !![[NSBundle mainBundle] pathForResource:@"embedded" ofType:@"mobileprovision"];
   return hasEmbeddedMobileProvision;
