@@ -221,7 +221,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
     // Set mobileCenterDelegate.
     [self.services addObject:service];
 
-      // Start service with log manager.
+    // Start service with log manager.
     [service startWithLogManager:self.logManager appSecret:self.appSecret];
 
     // Return started service
