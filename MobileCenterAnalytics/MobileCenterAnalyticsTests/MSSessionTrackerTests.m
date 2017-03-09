@@ -206,7 +206,7 @@ NSTimeInterval const kMSTestSessionTimeout = 1.5;
   XCTAssertNil(log.toffset);
 
   // When
-  [self.sut onProcessingLog:log withPriority:MSPriorityDefault];
+  [self.sut onProcessingLog:log withInternalId:nil andPriority:MSPriorityDefault];
 
   // Then
   XCTAssertNil(log.toffset);
@@ -214,7 +214,7 @@ NSTimeInterval const kMSTestSessionTimeout = 1.5;
 
   // When
   log.toffset = 0;
-  [self.sut onProcessingLog:log withPriority:MSPriorityDefault];
+  [self.sut onProcessingLog:log withInternalId:nil andPriority:MSPriorityDefault];
 
   // Then
   XCTAssertEqual(0, log.toffset.integerValue);
@@ -222,7 +222,7 @@ NSTimeInterval const kMSTestSessionTimeout = 1.5;
 
   // When
   log.toffset = [NSNumber numberWithUnsignedLongLong:UINT64_MAX];
-  [self.sut onProcessingLog:log withPriority:MSPriorityDefault];
+  [self.sut onProcessingLog:log withInternalId:nil andPriority:MSPriorityDefault];
 
   // Then
   XCTAssertEqual(UINT64_MAX, log.toffset.unsignedLongLongValue);

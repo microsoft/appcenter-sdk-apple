@@ -36,7 +36,7 @@ const int ms_crashes_log_buffer_size = 20;
  */
 static std::unordered_map<MSPriority, std::array<MSCrashesBufferedLog, ms_crashes_log_buffer_size>> msCrashesLogBuffer;
 
-@interface MSCrashes ()
+@interface MSCrashes () <MSChannelDelegate, MSLogManagerDelegate>
 
 /**
  * Prototype of a callback function used to execute additional user code. Called
@@ -195,7 +195,5 @@ typedef struct MSCrashesCallbacks {
  * @return The path to the directory for a priority.
  */
 - (NSString *)bufferDirectoryForPriority:(MSPriority)priority;
-
-- (void)onProcessingLog:(id<MSLog>)log withPriority:(MSPriority)priority;
 
 @end

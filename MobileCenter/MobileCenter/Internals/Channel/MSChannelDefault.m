@@ -86,15 +86,11 @@
 
 #pragma mark - Managing queue
 
-- (void)enqueueItem:(id<MSLog>)item {
-  [self enqueueItem:item withCompletion:nil];
-}
-
 - (void)enqueueItem:(id<MSLog>)item withCompletion:(enqueueCompletionBlock)completion {
   // return fast in case our item is empty or we are discarding logs right now.
   dispatch_async(self.logsDispatchQueue, ^{
     if (!item) {
-      MSLogWarning([MSMobileCenter logTag], @"TelemetryItem was nil.");
+      MSLogWarning([MSMobileCenter logTag], @"Log was nil.");
       return;
     } else if (self.discardLogs) {
       MSLogWarning([MSMobileCenter logTag], @"Channel disabled in log discarding mode, discard this log.");

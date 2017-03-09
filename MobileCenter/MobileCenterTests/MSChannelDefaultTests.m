@@ -79,7 +79,7 @@ static NSString *const kMSTestPriorityName = @"Prio";
 
   // When
   for (int i = 1; i <= itemsToAdd; i++) {
-    [self.sut enqueueItem:[MSAbstractLog new]];
+    [self.sut enqueueItem:[MSAbstractLog new] withCompletion:nil];
   }
   [self enqueueChannelEndJobExpectation];
 
@@ -168,7 +168,7 @@ static NSString *const kMSTestPriorityName = @"Prio";
   // When
   for (int i = 1; i <= expectedMaxPendingBatched + 1; i++) {
     log = [MSAbstractLog new];
-    [sut enqueueItem:log];
+    [sut enqueueItem:log withCompletion:nil];
   }
   [self enqueueChannelEndJobExpectation];
 
@@ -239,7 +239,7 @@ static NSString *const kMSTestPriorityName = @"Prio";
   /**
    * When
    */
-  [sut enqueueItem:log];
+  [sut enqueueItem:log withCompletion:nil];
 
   // Try to release one batch.
   dispatch_async(self.logsDispatchQueue, ^{
@@ -262,7 +262,7 @@ static NSString *const kMSTestPriorityName = @"Prio";
       currentBatchId++;
       log = [MSAbstractLog new];
       log.toffset = @(currentBatchId);
-      [sut enqueueItem:log];
+      [sut enqueueItem:log withCompletion:nil];
       [self enqueueChannelEndJobExpectation];
     });
   });
@@ -305,7 +305,7 @@ static NSString *const kMSTestPriorityName = @"Prio";
    * When
    */
   [sut setEnabled:NO andDeleteDataOnDisabled:NO];
-  [sut enqueueItem:log];
+  [sut enqueueItem:log withCompletion:nil];
   [self enqueueChannelEndJobExpectation];
 
   /**
@@ -342,7 +342,7 @@ static NSString *const kMSTestPriorityName = @"Prio";
                                                      configuration:config
                                                  logsDispatchQueue:dispatch_get_main_queue()];
   // When
-  [sut enqueueItem:log];
+  [sut enqueueItem:log withCompletion:nil];
   [sut setEnabled:NO andDeleteDataOnDisabled:YES];
   [self enqueueChannelEndJobExpectation];
 
@@ -376,7 +376,7 @@ static NSString *const kMSTestPriorityName = @"Prio";
   // When
   [sut addDelegate:delegateMock];
   [sut setEnabled:NO andDeleteDataOnDisabled:YES];
-  [sut enqueueItem:log];
+  [sut enqueueItem:log withCompletion:nil];
   [self enqueueChannelEndJobExpectation];
 
   // Then

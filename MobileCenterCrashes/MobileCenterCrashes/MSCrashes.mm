@@ -81,7 +81,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   abort();
 }
 
-@interface MSCrashes () <MSChannelDelegate, MSLogManagerDelegate>
+@interface MSCrashes ()
 
 /**
  * Indicates if the app crashed in the previous session
@@ -332,7 +332,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
  * This means the Crashes module can't message any other module. All logic related to the buffer needs to happen before
  * the crash and then, at crashtime, crashes has all info in place to save the buffer safely.
  **/
-- (void)onProcessingLog:(id<MSLog>)log withPriority:(MSPriority)priority {
+- (void)onProcessingLog:(id<MSLog>)log withInternalId:(NSString *)internalId andPriority:(MSPriority)priority {
   MSLogVerbose([MSCrashes logTag], @"Did enqeue log.");
 
   // Don't buffer event if log is empty or crashes module is disabled.
@@ -360,6 +360,10 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
       [self.bufferIndex setObject:@(index) forKey:@(priority)];
     }
   }
+}
+
+- (void)onFinishedProcessingLog:(id<MSLog>)log withInternalId:(NSString *)internalId andPriority:(MSPriority)priority {
+  // TODO implement buffer logic that takes IDs.
 }
 
 #pragma mark - MSChannelDelegate

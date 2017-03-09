@@ -91,15 +91,17 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 #pragma mark - Process items
 
 - (void)processLog:(id<MSLog>)log withPriority:(MSPriority)priority {
-
   if (!log) {
     return;
   }
 
+  // Internal ID to keep track of logs between modules.
+  NSString *internalLogId = MS_UUID_STRING;
+
   // Notify delegates.
-  [self enumerateDelegatesForSelector:@selector(onProcessingLog:withPriority:)
+  [self enumerateDelegatesForSelector:@selector(onProcessingLog:withInternalId:andPriority:)
                             withBlock:^(id<MSLogManagerDelegate> delegate) {
-                              [delegate onProcessingLog:log withPriority:priority];
+                              [delegate onProcessingLog:log withInternalId:internalLogId andPriority:priority];
                             }];
 
   // Get the channel.
@@ -115,7 +117,26 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
   }
 
   // Asynchronously forward to channel by using the data dispatch queue.
-  [channel enqueueItem:log];
+  [channel
+         enqueueItem:log
+      withCompletion:^(BOOL success) {
+        if (success) {
+
+          // Notify delegates.
+          [self enumerateDelegatesForSelector:@selector(onFinishedProcessingLog:withInternalId:andPriority:)
+                                    withBlock:^(id<MSLogManagerDelegate> delegate) {
+                                      [delegate onFinishedProcessingLog:log withInternalId:internalLogId andPriority:priority];
+                                    }];
+        } else {
+
+          // TODO: Distinguish between success and fail?
+          // Notify delegates.
+          [self enumerateDelegatesForSelector:@selector(onFinishedProcessingLog:withInternalId:andPriority:)
+                                    withBlock:^(id<MSLogManagerDelegate> delegate) {
+                                      [delegate onFinishedProcessingLog:log withInternalId:internalLogId andPriority:priority];
+                                    }];
+        }
+      }];
 }
 
 #pragma mark - Helpers
@@ -171,7 +192,7 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 
 #pragma mark - Other public methods
 
-- (void)setLogUrl:(NSString*)logUrl{
+- (void)setLogUrl:(NSString *)logUrl {
   self.sender.baseURL = logUrl;
 }
 

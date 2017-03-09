@@ -219,7 +219,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 - (void)testBufferIndexIncrementForAllPriorities {
   // When
   MSAppleErrorLog *log = [MSAppleErrorLog new];
-  [self.sut onProcessingLog:log withPriority:MSPriorityHigh];
+  [self.sut onProcessingLog:log withInternalId:nil andPriority:MSPriorityHigh];
 
   // Then
   XCTAssertTrue([self.sut.bufferIndex[@(MSPriorityHigh)] isEqualToNumber:@1]);
@@ -232,14 +232,14 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // When
   for (int i = 0; i < 20; i++) {
     MSAppleErrorLog *log = [MSAppleErrorLog new];
-    [self.sut onProcessingLog:log withPriority:(MSPriority)priority];
+    [self.sut onProcessingLog:log withInternalId:nil andPriority:(MSPriority)priority];
   }
   // Then
   XCTAssertTrue([self.sut.bufferIndex[@(priority)] isEqualToNumber:@20]);
 
   // When
   MSAppleErrorLog *log = [MSAppleErrorLog new];
-  [self.sut onProcessingLog:log withPriority:(MSPriority)priority];
+    [self.sut onProcessingLog:log withInternalId:nil andPriority:(MSPriority)priority];
 
   // Then
   XCTAssertTrue([self.sut.bufferIndex[@(priority)] isEqualToNumber:@1]);
@@ -247,13 +247,13 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // When
   for (int i = 0; i < 50; i++) {
     MSAppleErrorLog *log = [MSAppleErrorLog new];
-    [self.sut onProcessingLog:log withPriority:(MSPriority)priority];
+    [self.sut onProcessingLog:log withInternalId:nil andPriority:(MSPriority)priority];
   }
   // Then
   XCTAssertTrue([self.sut.bufferIndex[@(priority)] isEqualToNumber:@11]);
   
   // When
-  [self.sut onProcessingLog:log withPriority:(MSPriority)priority];
+    [self.sut onProcessingLog:log withInternalId:nil andPriority:(MSPriority)priority];
   
   // Then
   XCTAssertTrue([self.sut.bufferIndex[@(priority)] isEqualToNumber:@12]);
