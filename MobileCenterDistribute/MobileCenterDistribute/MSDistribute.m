@@ -118,6 +118,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 #pragma mark - Private
 
 - (void)requestUpdateToken {
+  
   // Check if it's okay to check for updates.
   if ([self checkForUpdatesAllowed]) {
 
@@ -131,7 +132,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 /*
  * iOS 9+ only, check for `SFSafariViewController` availability. `SafariServices` framework MUST be weakly linked.
  * We can't use `NSClassFromString` here to avoid the warning.
- * It doesn't detect the class correctly unless the application explicitely import the related framework.
+ * It doesn't detect the class correctly unless the application explicitely imports the related framework.
  */
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpartial-availability"
