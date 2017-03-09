@@ -4,9 +4,9 @@
 
 #import "MSDevice.h"
 #import "MSDevicePrivate.h"
-#import "MSIngestionSender.h"
 #import "MSHttpSenderPrivate.h"
 #import "MSHttpTestUtil.h"
+#import "MSIngestionSender.h"
 #import "MSMobileCenterErrors.h"
 #import "MSMockLog.h"
 #import "MSSenderCall.h"
@@ -52,7 +52,7 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
 
   // sut: System under test
   self.sut = [[MSIngestionSender alloc] initWithBaseUrl:kMSBaseUrl
-                                                apiPath:@"test-path"
+                                                apiPath:@"/test-path"
                                                 headers:headers
                                            queryStrings:queryStrings
                                            reachability:self.reachabilityMock
@@ -561,6 +561,49 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
       [@"" stringByPaddingToLength:hiddenSecret.length withString:kMSHidingStringForAppSecret startingAtIndex:0];
   assertThatInteger(hiddenSecret.length, equalToInteger(secret.length));
   assertThat(hiddenSecret, is(fullyHiddenSecret));
+}
+
+- (void)testSetBaseURL {
+
+  /**
+   * If
+   */
+  NSString *path = @"path";
+  NSURL *expectedURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", @"https://www.contoso.com/", path]];
+  self.sut.apiPath = path;
+
+  // Query should be the same.
+  NSString *query = self.sut.sendURL.query;
+
+  /**
+   * When
+   */
+  [self.sut setBaseURL:(NSString * _Nonnull)[expectedURL.URLByDeletingLastPathComponent absoluteString]];
+
+  /**
+   * Then
+   */
+  assertThat([self.sut.sendURL absoluteString],
+             is([NSString stringWithFormat:@"%@?%@", expectedURL.absoluteString, query]));
+}
+
+- (void)testSetInvalidBaseURL {
+
+  /**
+   * If
+   */
+  NSURL *expected = self.sut.sendURL;
+  NSString *invalidURL = @"\notGood";
+
+  /**
+   * When
+   */
+  [self.sut setBaseURL:invalidURL];
+
+  /**
+   * Then
+   */
+  assertThat(self.sut.sendURL, is(expected));
 }
 
 #pragma mark - Test Helpers

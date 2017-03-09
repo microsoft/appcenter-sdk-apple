@@ -1,4 +1,5 @@
 #import <Foundation/Foundation.h>
+#import "MSHttpSender.h"
 
 static short const kMSMaxCharactersDisplayedForAppSecret = 8;
 static NSString *const kMSHidingStringForAppSecret = @"*";
