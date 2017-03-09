@@ -1,3 +1,5 @@
+ 
+  
 #import "MSAppleErrorLog.h"
 #import "MSCrashesCXXExceptionWrapperException.h"
 #import "MSCrashesDelegate.h"
@@ -86,9 +88,8 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 /**
  * Indicates if the app crashed in the previous session
  *
- * Use this on startup, to check if the app starts the first time after it
- crashed
- * previously. You can use this also to disable specific events, like asking
+ * Use this on startup, to check if the app starts the first time after it crashed previously. You can use this also to
+ disable specific events, like asking
  * the user to rate your app.
 
  * @warning This property only has a correct value, once the sdk has been
@@ -363,6 +364,10 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 }
 
 - (void)onFinishedProcessingLog:(id<MSLog>)log withInternalId:(NSString *)internalId andPriority:(MSPriority)priority {
+  // TODO implement buffer logic that takes IDs.
+}
+
+- (void)onFailedProcessingLog:(id<MSLog>)log withInternalId:(NSString *)internalId andPriority:(MSPriority)priority {
   // TODO implement buffer logic that takes IDs.
 }
 
@@ -795,3 +800,4 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 }
 
 @end
+d
