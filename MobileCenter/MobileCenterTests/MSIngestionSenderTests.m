@@ -532,7 +532,7 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
   NSString *hiddenSecret;
 
   // When.
-  hiddenSecret = [self.sut hideSecret:secret];
+  hiddenSecret = [MSSenderUtil hideSecret:secret];
 
   // Then.
   NSString *fullyHiddenSecret =
@@ -552,7 +552,7 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
   NSString *hiddenSecret;
 
   // When.
-  hiddenSecret = [self.sut hideSecret:secret];
+  hiddenSecret = [MSSenderUtil hideSecret:secret];
 
   // Then.
   NSString *fullyHiddenSecret =
