@@ -9,7 +9,9 @@
 #import "MSDistributePrivate.h"
 #import "MSKeychainUtil.h"
 #import "MSLogManager.h"
+#import "MSMobileCenter.h"
 #import "MSServiceAbstract.h"
+#import "MSServiceAbstractProtected.h"
 #import "MSServiceInternal.h"
 #import "MSUserDefaults.h"
 #import "MSUtil.h"
@@ -57,18 +59,20 @@ static NSURL *sfURL;
 
 - (void)setUp {
   [super setUp];
+  
   self.sut = [MSDistribute new];
 
   [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
   [MS_USER_DEFAULTS removeObjectForKey:kMSIgnoredReleaseIdKey];
   [MSKeychainUtil clear];
-  
+
   // TODO: Add unit tests for MSBasicMachOParser.
   // FIXME: MSBasicMachOParser don't work on test projects. It's mocked for now to not fail other tests.
   id parserMock = OCMClassMock([MSBasicMachOParser class]);
   self.parserMock = parserMock;
   OCMStub([parserMock machOParserForMainBundle]).andReturn(self.parserMock);
-  OCMStub([self.parserMock uuid]).andReturn([[NSUUID alloc] initWithUUIDString:@"CD55E7A9-7AD1-4CA6-B722-3D133F487DA9"]);
+  OCMStub([self.parserMock uuid])
+      .andReturn([[NSUUID alloc] initWithUUIDString:@"CD55E7A9-7AD1-4CA6-B722-3D133F487DA9"]);
 }
 
 - (void)tearDown {
@@ -255,6 +259,13 @@ static NSURL *sfURL;
 
 - (void)testOpenUrl {
 
+  // Make sure we disable the debug-mode checks so we can actually test the logic.
+  id mobileCenterMock = OCMClassMock([MSMobileCenter class]);
+  OCMStub([mobileCenterMock isDebuggerAttached]).andReturn(NO);
+  id utilMock = OCMClassMock([MSUtil class]);
+  OCMStub([utilMock isRunningInDebugConfiguration]).andReturn(NO);
+  OCMStub([utilMock currentAppEnvironment]).andReturn(MSEnvironmentOther);
+  
   // If
   NSString *scheme = [NSString stringWithFormat:kMSDefaultCustomSchemeFormat, kMSTestAppSecret];
   id distributeMock = OCMPartialMock(self.sut);
@@ -332,7 +343,9 @@ static NSURL *sfURL;
   OCMReject([distributeMock checkLatestRelease:[OCMArg any]]);
 }
 
-- (void)testApplyEnabledStateTrue {
+- (void)testApplyEnabledStateTrueForDebugConfig {
+  [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
+  [MS_USER_DEFAULTS removeObjectForKey:kMSIgnoredReleaseIdKey];
 
   // If
   id distributeMock = OCMPartialMock(self.sut);
@@ -343,6 +356,36 @@ static NSURL *sfURL;
   [distributeMock applyEnabledState:YES];
 
   // Then
+  XCTAssertNil([MS_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey]);
+  XCTAssertNil([MS_USER_DEFAULTS objectForKey:kMSIgnoredReleaseIdKey]);
+
+  // When
+  [distributeMock applyEnabledState:NO];
+
+  // Then
+  XCTAssertNil([MS_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey]);
+  XCTAssertNil([MS_USER_DEFAULTS objectForKey:kMSIgnoredReleaseIdKey]);
+}
+
+- (void)testApplyEnabledStateTrue {
+  
+  // Make sure we disable the debug-mode checks so we can actually test the logic.
+  id mobileCenterMock = OCMClassMock([MSMobileCenter class]);
+  OCMStub([mobileCenterMock isDebuggerAttached]).andReturn(NO);
+  id utilMock = OCMClassMock([MSUtil class]);
+  OCMStub([utilMock isRunningInDebugConfiguration]).andReturn(NO);
+  OCMStub([utilMock currentAppEnvironment]).andReturn(MSEnvironmentOther);
+  
+  // If
+  id distributeMock = OCMPartialMock(self.sut);
+  OCMStub([distributeMock checkLatestRelease:[OCMArg any]]).andDo(nil);
+  OCMStub([distributeMock requestUpdateToken]).andDo(nil);
+  
+  // When
+  [distributeMock applyEnabledState:YES];
+
+  // Then
+  XCTAssertTrue([distributeMock checkForUpdatesAllowed]);
   OCMVerify([distributeMock requestUpdateToken]);
 
   // If
@@ -368,6 +411,70 @@ static NSURL *sfURL;
   // Then
   XCTAssertNil([MS_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey]);
   XCTAssertNil([MS_USER_DEFAULTS objectForKey:kMSIgnoredReleaseIdKey]);
+}
+
+- (void)testcheckForUpdatesAllConditionsMet {
+  
+  // If
+  id mobileCenterMock = OCMClassMock([MSMobileCenter class]);
+  id utilMock = OCMClassMock([MSUtil class]);
+  id distributeMock = OCMPartialMock(self.sut);
+  OCMStub([distributeMock checkLatestRelease:[OCMArg any]]).andDo(nil);
+  OCMStub([distributeMock requestUpdateToken]).andDo(nil);
+
+  // When
+  OCMStub([mobileCenterMock isDebuggerAttached]).andReturn(NO);
+  OCMStub([utilMock isRunningInDebugConfiguration]).andReturn(NO);
+  OCMStub([utilMock currentAppEnvironment]).andReturn(MSEnvironmentOther);
+
+  // Then
+  XCTAssertTrue([self.sut checkForUpdatesAllowed]);
+  
+  // When
+  [distributeMock applyEnabledState:YES];
+  
+  // Then
+  XCTAssertTrue([distributeMock checkForUpdatesAllowed]);
+  OCMVerify([distributeMock requestUpdateToken]);
+}
+
+- (void)testcheckForUpdatesDebuggerAttached {
+  
+  // When
+  id mobileCenterMock = OCMClassMock([MSMobileCenter class]);
+  id utilMock = OCMClassMock([MSUtil class]);
+  OCMStub([mobileCenterMock isDebuggerAttached]).andReturn(YES);
+  OCMStub([utilMock isRunningInDebugConfiguration]).andReturn(NO);
+  OCMStub([utilMock currentAppEnvironment]).andReturn(MSEnvironmentOther);
+  
+  // Then
+  XCTAssertFalse([self.sut checkForUpdatesAllowed]);
+}
+
+- (void)testcheckForUpdatesDebugConfig {
+  
+  // When
+  id mobileCenterMock = OCMClassMock([MSMobileCenter class]);
+  id utilMock = OCMClassMock([MSUtil class]);
+  OCMStub([mobileCenterMock isDebuggerAttached]).andReturn(NO);
+  OCMStub([utilMock isRunningInDebugConfiguration]).andReturn(YES);
+  OCMStub([utilMock currentAppEnvironment]).andReturn(MSEnvironmentOther);
+  
+  // Then
+  XCTAssertFalse([self.sut checkForUpdatesAllowed]);
+}
+
+- (void)testcheckForUpdatesInvalidEnvironment {
+  
+  // When
+  id mobileCenterMock = OCMClassMock([MSMobileCenter class]);
+  id utilMock = OCMClassMock([MSUtil class]);
+  OCMStub([mobileCenterMock isDebuggerAttached]).andReturn(NO);
+  OCMStub([utilMock isRunningInDebugConfiguration]).andReturn(NO);
+  OCMStub([utilMock currentAppEnvironment]).andReturn(MSEnvironmentTestFlight);
+  
+  // Then
+  XCTAssertFalse([self.sut checkForUpdatesAllowed]);
 }
 
 @end
