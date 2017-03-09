@@ -18,7 +18,7 @@ static NSTimeInterval kRequestTimeout = 60.0;
          queryStrings:(NSDictionary *)queryStrings
          reachability:(MS_Reachability *)reachability
        retryIntervals:(NSArray *)retryIntervals {
-  if (self = [super init]) {
+  if ((self = [super init])) {
     _httpHeaders = headers;
     _pendingCalls = [NSMutableDictionary new];
     _reachability = reachability;

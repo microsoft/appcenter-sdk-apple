@@ -1,5 +1,34 @@
 # Mobile Center SDK for iOS Change Log
 
+
+## Version 0.5.0
+
+This version has a **breaking change**.
+
+### MobileCenter
+
+* **[Misc]** setServerUrl method has renamed to setLogUrl.
+
+___
+
+## Version 0.4.2
+
+This version has features that are related to the quality of the provided crash reports as well as improvements under the hood across all parts of the SDK.
+
+### MobileCenter
+
+* **[Feature]** Services are now initialized depending on their priority and not by the order they are passed-in during initialization.
+* **[Misc]** OCMock has been updated to version 3.4
+* **[Misc]** We have made improvements to code formatting throughout the project.
+
+### MobileCenterCrashes
+
+* **[Feature]** Crashes now buffers logs to make sure no logs are lost in case of a crash. 
+* **[Feature]** Crashes now retrieves the device information at the time of the crash by using a history of device information.
+* **[Feature]** Crashes now has a property to enable the Mach exception handler. Please make sure to read the section in the readme about this feature.
+
+___
+
 ## Version 0.4.1
 
 This version has a bug fix.

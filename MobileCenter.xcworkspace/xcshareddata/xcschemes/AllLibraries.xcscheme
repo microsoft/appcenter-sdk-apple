@@ -57,9 +57,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "04FD4A1B1E451E12009B4468"
-               BuildableName = "libMobileCenterUpdates.a"
-               BlueprintName = "MobileCenterUpdates"
-               ReferencedContainer = "container:MobileCenterUpdates/MobileCenterUpdates.xcodeproj">
+               BuildableName = "libMobileCenterDistribute.a"
+               BlueprintName = "MobileCenterDistribute"
+               ReferencedContainer = "container:MobileCenterDistribute/MobileCenterDistribute.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -99,9 +99,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "04FD4A301E453531009B4468"
-               BuildableName = "MobileCenterUpdates.xctest"
-               BlueprintName = "MobileCenterUpdatesTests"
-               ReferencedContainer = "container:MobileCenterUpdates/MobileCenterUpdates.xcodeproj">
+               BuildableName = "MobileCenterDistribute.xctest"
+               BlueprintName = "MobileCenterDistributeTests"
+               ReferencedContainer = "container:MobileCenterDistribute/MobileCenterDistribute.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -162,9 +162,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "04FD4A301E453531009B4468"
-               BuildableName = "MobileCenterUpdates.xctest"
-               BlueprintName = "MobileCenterUpdatesTests"
-               ReferencedContainer = "container:MobileCenterUpdates/MobileCenterUpdates.xcodeproj">
+               BuildableName = "MobileCenterDistribute.xctest"
+               BlueprintName = "MobileCenterDistributeTests"
+               ReferencedContainer = "container:MobileCenterDistribute/MobileCenterDistribute.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
