@@ -48,6 +48,18 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   if ((self = [super init])) {
     _apiUrl = kMSDefaultApiUrl;
     _installUrl = kMSDefaultInstallUrl;
+    NSNumber *flag = [MS_USER_DEFAULTS objectForKey:kMSSDKHasLaunchedWithDistribute];
+
+    /*
+     * Delete API token if an application has been uninstalled and try to get a new one from server.
+     * Under iOS 10.3, keychain data won't be automatically deleted by uninstall
+     * so we should detect it and clean up keychain data when Distribute service gets initialized.
+     */
+    if (!flag) {
+      MSLogInfo([MSDistribute logTag], @"Delete API token if exists.");
+      [MSKeychainUtil deleteStringForKey:kMSUpdateTokenKey];
+      [MS_USER_DEFAULTS setObject:@(1) forKey:kMSSDKHasLaunchedWithDistribute];
+    }
   }
   return self;
 }
@@ -118,7 +130,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 #pragma mark - Private
 
 - (void)requestUpdateToken {
-  
+
   // Check if it's okay to check for updates.
   if ([self checkForUpdatesAllowed]) {
 
@@ -153,12 +165,11 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   } else {
     // Log a message to notify the user why the SDK didn't check for updates.
     MSLogDebug(
-               [MSDistribute logTag],
-               @"Distribute won't try to obtain an update token because of one of the following reasons: 1. A debugger is"
-               "attached. 2. You are running the debug configuration. 3. The app is running in a non-adhoc environment."
-               "Detach the debugger and restart the app and/or run the app with the release configuration to enable the"
-               "feature.");
-
+        [MSDistribute logTag],
+        @"Distribute won't try to obtain an update token because of one of the following reasons: 1. A debugger is"
+         "attached. 2. You are running the debug configuration. 3. The app is running in a non-adhoc environment."
+         "Detach the debugger and restart the app and/or run the app with the release configuration to enable the"
+         "feature.");
   }
 }
 
@@ -226,8 +237,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     // Log a message to notify the user why the SDK didn't check for updates.
     MSLogDebug(
         [MSDistribute logTag],
-        @"Distribute won't check if a new release is available because of one of the following reasons: 1. A debugger is"
-         "attached. 2. You are running the debug configuration. 3. The app is running in a non-adhoc environment."
+        @"Distribute won't check if a new release is available because of one of the following reasons: 1. A debugger "
+         "is attached. 2. You are running the debug configuration. 3. The app is running in a non-adhoc environment."
          "Detach the debugger and restart the app and/or run the app with the release configuration to enable the"
          "feature.");
   }
@@ -485,6 +496,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     if (queryUpdateToken) {
       MSLogDebug([MSDistribute logTag],
                  @"Update token has been successfully retrieved. Store the token to secure storage.");
+
+      // Storing the update token to keychain since the update token is considered as a sensitive information.
       [MSKeychainUtil storeString:queryUpdateToken forKey:kMSUpdateTokenKey];
       [self checkLatestRelease:queryUpdateToken];
     }

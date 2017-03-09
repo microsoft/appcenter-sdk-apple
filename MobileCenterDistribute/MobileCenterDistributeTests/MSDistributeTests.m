@@ -1,3 +1,4 @@
+
 #import <Foundation/Foundation.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
@@ -59,12 +60,10 @@ static NSURL *sfURL;
 
 - (void)setUp {
   [super setUp];
-  
-  self.sut = [MSDistribute new];
-
   [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
   [MS_USER_DEFAULTS removeObjectForKey:kMSIgnoredReleaseIdKey];
   [MSKeychainUtil clear];
+  self.sut = [MSDistribute new];
 
   // TODO: Add unit tests for MSBasicMachOParser.
   // FIXME: MSBasicMachOParser don't work on test projects. It's mocked for now to not fail other tests.
@@ -313,7 +312,9 @@ static NSURL *sfURL;
   OCMReject([distributeMock checkLatestRelease:[OCMArg any]]);
 
   // If
-  [MS_USER_DEFAULTS setObject:@"FIRST-REQUEST" forKey:kMSUpdateTokenRequestIdKey];
+  id userDefaultsMock = OCMClassMock([MSUserDefaults class]);
+  OCMStub([userDefaultsMock shared]).andReturn(userDefaultsMock);
+  OCMStub([userDefaultsMock objectForKey:kMSUpdateTokenRequestIdKey]).andReturn(@"FIRST-REQUEST");
   url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://?request_id=FIRST-REQUEST&update_token=token",
                                                         [NSString stringWithFormat:kMSDefaultCustomSchemeFormat,
                                                                                    @"Invalid-app-secret"]]];
@@ -475,6 +476,37 @@ static NSURL *sfURL;
   
   // Then
   XCTAssertFalse([self.sut checkForUpdatesAllowed]);
+}
+
+- (void)testNotDeleteUpdateToken {
+
+  // If
+  id userDefaultsMock = OCMClassMock([MSUserDefaults class]);
+  OCMStub([userDefaultsMock shared]).andReturn(userDefaultsMock);
+  OCMStub([userDefaultsMock objectForKey:kMSSDKHasLaunchedWithDistribute]).andReturn(@1);
+  id keychainMock = OCMClassMock([MSKeychainUtil class]);
+
+  // When
+  [MSDistribute new];
+
+  // Then
+  OCMReject([keychainMock deleteStringForKey:kMSUpdateTokenKey]);
+}
+
+- (void)testDeleteUpdateTokenAfterReinstall {
+
+  // If
+  id userDefaultsMock = OCMClassMock([MSUserDefaults class]);
+  OCMStub([userDefaultsMock shared]).andReturn(userDefaultsMock);
+  OCMStub([userDefaultsMock objectForKey:kMSSDKHasLaunchedWithDistribute]).andReturn(nil);
+  id keychainMock = OCMClassMock([MSKeychainUtil class]);
+
+  // When
+  [MSDistribute new];
+
+  // Then
+  OCMVerify([keychainMock deleteStringForKey:kMSUpdateTokenKey]);
+  OCMVerify([userDefaultsMock setObject:@(1) forKey:kMSSDKHasLaunchedWithDistribute]);
 }
 
 @end
