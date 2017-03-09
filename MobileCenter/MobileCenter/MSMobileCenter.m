@@ -187,10 +187,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
       [servicesNames addObject:[self startService:service].storageKey];
     }
 
-    //Send information about using services
-    MSCoreLog *coreLog = [MSCoreLog new];
-    coreLog.services = servicesNames;
-    [self.logManager processLog:coreLog withPriority:MSPriorityDefault];
+    [self loggingUsedServices:servicesNames];
   }
 }
 
@@ -222,6 +219,8 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 
   // Start service with log manager.
   [service startWithLogManager:self.logManager appSecret:self.appSecret];
+
+  // Return started service
   return service;
 }
 
@@ -331,6 +330,12 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
                                         @"start:YOUR_APP_SECRET withServices:LIST_OF_SERVICES] first.");
   }
   return canBeUsed;
+}
+
+- (void)loggingUsedServices:(NSArray<NSString*>*)servicesNames {
+  MSCoreLog *coreLog = [MSCoreLog new];
+  coreLog.services = servicesNames;
+  [self.logManager processLog:coreLog withPriority:MSPriorityDefault];
 }
 
 + (void)resetSharedInstance {

@@ -115,6 +115,7 @@
 		BA682E63DDB55EED56809831 /* MSIngestionSender.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6822A89D38F04D8D95CE83 /* MSIngestionSender.m */; };
 		D38023E81E6EFC7C00466558 /* MSCoreLog.m in Sources */ = {isa = PBXBuildFile; fileRef = D38023E61E6EFC7C00466558 /* MSCoreLog.m */; };
 		D38023E91E6EFC7C00466558 /* MSCoreLog.h in Headers */ = {isa = PBXBuildFile; fileRef = D38023E71E6EFC7C00466558 /* MSCoreLog.h */; };
+		D38024121E7130C700466558 /* MSCoreLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D38024111E7130C700466558 /* MSCoreLogTests.m */; };
 		E8010E6A1D2DD4EF0035196F /* MSLogWithProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = E8010E661D2DD4EF0035196F /* MSLogWithProperties.h */; };
 		E8010E6B1D2DD4EF0035196F /* MSLogWithProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = E8010E671D2DD4EF0035196F /* MSLogWithProperties.m */; };
 		E80EB1071D50273700C9003F /* MSSenderCall.h in Headers */ = {isa = PBXBuildFile; fileRef = E80EB1051D50273700C9003F /* MSSenderCall.h */; };
@@ -274,6 +275,7 @@
 		BA6824A001520825F18DFC42 /* MSIngestionSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSIngestionSender.h; sourceTree = "<group>"; };
 		D38023E61E6EFC7C00466558 /* MSCoreLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCoreLog.m; sourceTree = "<group>"; };
 		D38023E71E6EFC7C00466558 /* MSCoreLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCoreLog.h; sourceTree = "<group>"; };
+		D38024111E7130C700466558 /* MSCoreLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCoreLogTests.m; sourceTree = "<group>"; };
 		E8010E661D2DD4EF0035196F /* MSLogWithProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSLogWithProperties.h; sourceTree = "<group>"; };
 		E8010E671D2DD4EF0035196F /* MSLogWithProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLogWithProperties.m; sourceTree = "<group>"; };
 		E80EB1051D50273700C9003F /* MSSenderCall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSSenderCall.h; sourceTree = "<group>"; };
@@ -509,6 +511,7 @@
 				380A4DCA1DD6908A00E99219 /* MSUtilTests.m */,
 				04FD126A1E4103CC007ABFE7 /* MSKeychainUtilTests.m */,
 				B2FD53641E567BCF0050F909 /* MSDeviceHistoryInfoTests.m */,
+				D38024111E7130C700466558 /* MSCoreLogTests.m */,
 			);
 			path = MobileCenterTests;
 			sourceTree = "<group>";
@@ -859,6 +862,7 @@
 				6E363AF21D2C84EA0079043D /* MSStorageTestUtil.m in Sources */,
 				E88EBBFB1D2C8CC7007E7785 /* MSLogContainerTests.m in Sources */,
 				04FD126B1E4103CC007ABFE7 /* MSKeychainUtilTests.m in Sources */,
+				D38024121E7130C700466558 /* MSCoreLogTests.m in Sources */,
 				387C75961D64EE1900D68CC1 /* MSServiceAbstractTest.m in Sources */,
 				6E48A5A41D3831FE006E8B5F /* MSChannelConfigurationTests.m in Sources */,
 				B24F3F171D93A3FF00827213 /* MSLoggerTests.m in Sources */,
