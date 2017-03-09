@@ -3,9 +3,9 @@
 #import <XCTest/XCTest.h>
 #import "MSDevice.h"
 #import "MSDevicePrivate.h"
-#import "MSIngestionSender.h"
 #import "MSHttpSenderPrivate.h"
 #import "MSHttpTestUtil.h"
+#import "MSIngestionSender.h"
 #import "MSMobileCenterErrors.h"
 #import "MSMockLog.h"
 #import "MSSenderCall.h"
@@ -47,7 +47,7 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
 
   // sut: System under test
   self.sut = [[MSIngestionSender alloc] initWithBaseUrl:kMSBaseUrl
-                                                apiPath:@"test-path"
+                                                apiPath:@"/test-path"
                                                 headers:headers
                                            queryStrings:queryStrings
                                            reachability:self.reachabilityMock
@@ -523,6 +523,85 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
   // Then.
   OCMVerify([delegateMock1 senderDidResume:self.sut]);
   OCMVerify([delegateMock2 senderDidResume:self.sut]);
+}
+
+- (void)testLargeSecret {
+
+  // If.
+  NSString *secret = @"shhhh-its-a-secret";
+  NSString *hiddenSecret;
+
+  // When.
+  hiddenSecret = [self.sut hideSecret:secret];
+
+  // Then.
+  NSString *fullyHiddenSecret =
+      [@"" stringByPaddingToLength:hiddenSecret.length withString:kMSHidingStringForAppSecret startingAtIndex:0];
+  NSString *appSecretHiddenPart = [hiddenSecret commonPrefixWithString:fullyHiddenSecret options:0];
+  NSString *appSecretVisiblePart = [hiddenSecret substringFromIndex:appSecretHiddenPart.length];
+  assertThatInteger(secret.length - appSecretHiddenPart.length, equalToShort(kMSMaxCharactersDisplayedForAppSecret));
+  assertThat(appSecretVisiblePart, is([secret substringFromIndex:appSecretHiddenPart.length]));
+}
+
+- (void)testShortSecret {
+
+  // If.
+  NSString *secret = @"";
+  for (short i = 1; i <= kMSMaxCharactersDisplayedForAppSecret - 1; i++)
+    secret = [NSString stringWithFormat:@"%@%hd", secret, i];
+  NSString *hiddenSecret;
+
+  // When.
+  hiddenSecret = [self.sut hideSecret:secret];
+
+  // Then.
+  NSString *fullyHiddenSecret =
+      [@"" stringByPaddingToLength:hiddenSecret.length withString:kMSHidingStringForAppSecret startingAtIndex:0];
+  assertThatInteger(hiddenSecret.length, equalToInteger(secret.length));
+  assertThat(hiddenSecret, is(fullyHiddenSecret));
+}
+
+- (void)testSetBaseURL {
+
+  /**
+   * If
+   */
+  NSString *path = @"path";
+  NSURL *expectedURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", @"https://www.contoso.com/", path]];
+  self.sut.apiPath = path;
+
+  // Query should be the same.
+  NSString *query = self.sut.sendURL.query;
+
+  /**
+   * When
+   */
+  [self.sut setBaseURL:(NSString * _Nonnull)[expectedURL.URLByDeletingLastPathComponent absoluteString]];
+
+  /**
+   * Then
+   */
+  assertThat([self.sut.sendURL absoluteString],
+             is([NSString stringWithFormat:@"%@?%@", expectedURL.absoluteString, query]));
+}
+
+- (void)testSetInvalidBaseURL {
+
+  /**
+   * If
+   */
+  NSURL *expected = self.sut.sendURL;
+  NSString *invalidURL = @"\notGood";
+
+  /**
+   * When
+   */
+  [self.sut setBaseURL:invalidURL];
+
+  /**
+   * Then
+   */
+  assertThat(self.sut.sendURL, is(expected));
 }
 
 #pragma mark - Test Helpers
