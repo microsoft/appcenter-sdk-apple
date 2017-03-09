@@ -1,12 +1,28 @@
 #import <XCTest/XCTest.h>
+#import <OCMock/OCMock.h>
 #import "MSBasicMachOParser.h"
+#import "MSBasicMachOParserPrivate.h"
 #import "MSUtil.h"
 
+static NSUInteger const kMSBytesToRead = 10;
+
 @interface MSBasicMachOParserTests : XCTestCase
+
+@property(nonatomic, strong) id fileHandleMock;
+
 @end
 
 @implementation MSBasicMachOParserTests
 
+- (void)setUp {
+    [super setUp];
+    self.fileHandleMock = OCMClassMock([NSFileHandle class]);
+}
+
+- (void)tearDown {
+    [super tearDown];
+    [self.fileHandleMock stopMocking];
+}
 
 - (void)testReturnsNilIfBundleIsInvalid {
     //If
@@ -49,6 +65,34 @@
     XCTAssertNotNil(parserForMainBundle);
     XCTAssertNotNil(parserForMainBundle.uuid);
     XCTAssertTrue([parserForBundle.uuid isEqual:parserForMainBundle.uuid]);
+}
+
+- (void)testReadDataFromFileReturnsNOIfCannotRead{
+    //If
+    unsigned char buffer[kMSBytesToRead];
+    NSData *emptyData = [NSData data];
+    OCMStub([self.fileHandleMock readDataOfLength:kMSBytesToRead]).andReturn(emptyData);
+    MSBasicMachOParser *parser = [MSBasicMachOParser machOParserForMainBundle];
+    
+    //When
+    BOOL result = [parser readDataFromFile:self.fileHandleMock toBuffer:buffer ofLength: kMSBytesToRead];
+    
+    //Then
+    XCTAssertFalse(result);
+}
+
+- (void)testReadDataFromFileReturnsYesIfCanRead{
+    //If
+    unsigned char buffer[kMSBytesToRead];
+    NSData *dataWithContents = [NSData dataWithBytes:buffer length:kMSBytesToRead];
+    OCMStub([self.fileHandleMock readDataOfLength:kMSBytesToRead]).andReturn(dataWithContents);
+    MSBasicMachOParser *parser = [MSBasicMachOParser machOParserForMainBundle];
+    
+    //When
+    BOOL result = [parser readDataFromFile:self.fileHandleMock toBuffer:buffer ofLength: kMSBytesToRead];
+    
+    //Then
+    XCTAssertTrue(result);
 }
 
 @end
