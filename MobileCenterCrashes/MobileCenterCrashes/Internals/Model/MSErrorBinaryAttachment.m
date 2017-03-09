@@ -62,8 +62,6 @@ static NSString *const kMSContentType = @"content_type";
 - (instancetype)initWithCoder:(NSCoder *)decoder {
   if ((self = [super init])) {
     _fileName = [decoder decodeObjectForKey:kMSFilename];
-
-    //FIXME: decoder can return null
     _data = [decoder decodeObjectForKey:kMSData];
     _contentType = [decoder decodeObjectForKey:kMSContentType];
   }
