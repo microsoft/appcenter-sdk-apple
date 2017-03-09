@@ -121,6 +121,12 @@
   XCTAssertEqual(env, MSEnvironmentOther);
 }
 
+- (void)testDebugConfiurationDetectionWorks {
+  
+  // When
+  XCTAssertTrue([MSUtil isRunningInDebugConfiguration]);
+}
+
 - (void)TestFormatToUUIDString {
 
   // When
