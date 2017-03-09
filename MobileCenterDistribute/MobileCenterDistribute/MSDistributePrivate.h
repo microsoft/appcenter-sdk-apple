@@ -31,6 +31,11 @@ static NSString *const kMSIgnoredReleaseIdKey = @"MSIgnoredReleaseId";
 static NSString *const kMSUpdateTokenRequestIdKey = @"MSUpdateTokenRequestId";
 
 /**
+ * The storage key for flag that can determine to clean up update token.
+ */
+static NSString *const kMSSDKHasLaunchedWithDistribute = @"MSSDKHasLaunchedWithDistribute";
+
+/**
  * The keychain key for update token.
  */
 static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";

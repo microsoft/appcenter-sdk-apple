@@ -48,6 +48,14 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   if ((self = [super init])) {
     _apiUrl = kMSDefaultApiUrl;
     _installUrl = kMSDefaultInstallUrl;
+    NSNumber *flag = [MS_USER_DEFAULTS objectForKey:kMSSDKHasLaunchedWithDistribute];
+
+    // Delete API token and try to get a new one from server.
+    if (!flag) {
+      MSLogInfo([MSDistribute logTag], @"Delete API token if exists.");
+      [MSKeychainUtil deleteStringForKey:kMSUpdateTokenKey];
+      [MS_USER_DEFAULTS setObject:@(1) forKey:kMSSDKHasLaunchedWithDistribute];
+    }
   }
   return self;
 }
@@ -363,7 +371,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
         details.releaseNotes ? details.releaseNotes : MSDistributeLocalizedString(@"No release notes");
 
     MSAlertController *alertController =
-        [MSAlertController alertControllerWithTitle:MSDistributeLocalizedString(@"Update available") message:releaseNotes];
+        [MSAlertController alertControllerWithTitle:MSDistributeLocalizedString(@"Update available")
+                                            message:releaseNotes];
 
     // Add a "Ignore"-Button
     [alertController addDefaultActionWithTitle:MSDistributeLocalizedString(@"Ignore")
