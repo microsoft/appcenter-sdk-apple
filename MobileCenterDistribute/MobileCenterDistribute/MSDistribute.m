@@ -227,9 +227,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
             MSLogError([MSDistribute logTag], @"Response:\n%@",
                        jsonString ? jsonString : [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
           }
-
-          // There is no more interaction with distribution backend. Shutdown sender.
-          [sender setEnabled:NO andDeleteDataOnDisabled:YES];
         }];
 
   } else {
