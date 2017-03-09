@@ -138,56 +138,59 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 }
 
 - (BOOL)configure:(NSString *)appSecret {
-  BOOL success = false;
-  if (self.sdkConfigured) {
-    MSLogAssert([MSMobileCenter logTag], @"Mobile Center SDK has already been configured.");
-  }
-
-  // Validate and set the app secret.
-  else if ([appSecret length] == 0) {
-    MSLogAssert([MSMobileCenter logTag], @"AppSecret is invalid.");
-  } else {
-    self.appSecret = appSecret;
-
-    // Set backend API version.
-    self.apiVersion = kMSAPIVersion;
-
-    // Init the main pipeline.
-    [self initializeLogManager];
-
-    // Enable pipeline as needed.
-    if (self.isEnabled) {
-      [self applyPipelineEnabledState:self.isEnabled];
+  @synchronized(self) {
+    BOOL success = false;
+    if (self.sdkConfigured) {
+      MSLogAssert([MSMobileCenter logTag], @"Mobile Center SDK has already been configured.");
     }
 
-    self.sdkConfigured = YES;
+    // Validate and set the app secret.
+    else if ([appSecret length] == 0) {
+      MSLogAssert([MSMobileCenter logTag], @"AppSecret is invalid.");
+    } else {
+      self.appSecret = appSecret;
 
-    /*
-     * If the loglevel hasn't been customized before and we are not running in an app store environment,
-     * we set the default loglevel to MSLogLevelWarning.
-     */
-    if ((![MSLogger isUserDefinedLogLevel]) && ([MSUtil currentAppEnvironment] == MSEnvironmentOther)) {
-      [MSMobileCenter setLogLevel:MSLogLevelWarning];
+      // Set backend API version.
+      self.apiVersion = kMSAPIVersion;
+
+      // Init the main pipeline.
+      [self initializeLogManager];
+
+      // Enable pipeline as needed.
+      if (self.isEnabled) {
+        [self applyPipelineEnabledState:self.isEnabled];
+      }
+
+      self.sdkConfigured = YES;
+
+      /*
+       * If the loglevel hasn't been customized before and we are not running in an app store environment,
+       * we set the default loglevel to MSLogLevelWarning.
+       */
+      if ((![MSLogger isUserDefinedLogLevel]) && ([MSUtil currentAppEnvironment] == MSEnvironmentOther)) {
+        [MSMobileCenter setLogLevel:MSLogLevelWarning];
+      }
+      success = true;
     }
-    success = true;
+    MSLogAssert([MSMobileCenter logTag], @"Mobile Center SDK %@",
+                (success) ? @"configured successfully." : @"configuration failed.");
+    return success;
   }
-  MSLogAssert([MSMobileCenter logTag], @"Mobile Center SDK %@",
-              (success) ? @"configured successfully." : @"configuration failed.");
-  return success;
 }
 
 - (void)start:(NSString *)appSecret withServices:(NSArray<Class> *)services {
-  BOOL configured = [self configure:appSecret];
-  if (configured) {
+  @synchronized(self) {
+    BOOL configured = [self configure:appSecret];
+    if (configured) {
 
-    NSArray *sortedServices = [self sortServices:services];
-    NSMutableArray<NSString*>* servicesNames = [[NSMutableArray alloc] initWithCapacity:sortedServices.count];
+      NSArray *sortedServices = [self sortServices:services];
+      NSMutableArray<NSString*>* servicesNames = [NSMutableArray arrayWithCapacity:sortedServices.count];
 
-    for (Class service in sortedServices) {
-      [servicesNames addObject:[self startService:service].storageKey];
+      for (Class service in sortedServices) {
+        [servicesNames addObject:[self startService:service].storageKey];
+      }
+      [self loggingUsedServices:servicesNames];
     }
-
-    [self loggingUsedServices:servicesNames];
   }
 }
 
@@ -212,21 +215,26 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 }
 
 - (id<MSServiceInternal>)startService:(Class)clazz {
-  id<MSServiceInternal> service = [clazz sharedInstance];
+  @synchronized(self) {
+    id<MSServiceInternal> service = [clazz sharedInstance];
 
-  // Set mobileCenterDelegate.
-  [self.services addObject:service];
+    // Set mobileCenterDelegate.
+    [self.services addObject:service];
 
-  // Start service with log manager.
-  [service startWithLogManager:self.logManager appSecret:self.appSecret];
+      // Start service with log manager.
+    [service startWithLogManager:self.logManager appSecret:self.appSecret];
 
-  // Return started service
-  return service;
+    // Return started service
+    return service;
+  }
 }
 
 - (void)setLogUrl:(NSString *)logUrl {
   @synchronized(self) {
     _logUrl = logUrl;
+    if (self.logManager){
+      [self.logManager setLogUrl:logUrl];
+    }
   }
 }
 

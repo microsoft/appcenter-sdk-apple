@@ -5,8 +5,13 @@
 
 static NSTimeInterval kRequestTimeout = 60.0;
 
+// URL components' name within a partial URL.
+static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"password", @"host", @"port", @"path"};
+
 @implementation MSHttpSender
 
+@synthesize baseURL = _baseURL;
+@synthesize apiPath = _apiPath;
 @synthesize reachability = _reachability;
 @synthesize suspended = _suspended;
 
@@ -26,6 +31,7 @@ static NSTimeInterval kRequestTimeout = 60.0;
     _suspended = NO;
     _delegates = [NSHashTable weakObjectsHashTable];
     _callsRetryIntervals = retryIntervals;
+    _apiPath = apiPath;
 
     // Construct the URL string with the query string.
     NSString *urlString = [baseUrl stringByAppendingString:apiPath];
@@ -34,8 +40,8 @@ static NSTimeInterval kRequestTimeout = 60.0;
 
     // Set query parameter.
     [queryStrings enumerateKeysAndObjectsUsingBlock:^(id _Nonnull key, id _Nonnull queryString, BOOL *_Nonnull stop) {
-        NSURLQueryItem *queryItem = [NSURLQueryItem queryItemWithName:key value:queryString];
-        [queryItemArray addObject:queryItem];
+      NSURLQueryItem *queryItem = [NSURLQueryItem queryItemWithName:key value:queryString];
+      [queryItemArray addObject:queryItem];
     }];
     components.queryItems = queryItemArray;
 
@@ -56,14 +62,6 @@ static NSTimeInterval kRequestTimeout = 60.0;
 }
 
 #pragma mark - MSSender
-
-- (id)initWithBaseUrl:(NSString *)baseUrl
-              headers:(NSDictionary *)headers
-         queryStrings:(NSDictionary *)queryStrings
-         reachability:(MS_Reachability *)reachability
-       retryIntervals:(NSArray *)retryIntervals {
-  return [self initWithBaseUrl:baseUrl apiPath:@"" headers:headers queryStrings:queryStrings reachability:reachability retryIntervals:retryIntervals];
-}
 
 - (void)sendAsync:(NSObject *)data completionHandler:(MSSendAsyncCompletionHandler)handler {
   [self sendAsync:data callId:MS_UUID_STRING completionHandler:handler];
@@ -241,6 +239,40 @@ static NSTimeInterval kRequestTimeout = 60.0;
 }
 
 #pragma mark - Private
+
+- (void)setBaseURL:(NSString *)baseURL {
+  @synchronized(self) {
+    BOOL success = false;
+    NSURLComponents *components;
+    _baseURL = baseURL;
+    NSURL *partialURL = [NSURL URLWithString:[baseURL stringByAppendingString:self.apiPath]];
+
+    // Merge new parial URL and current full URL.
+    if (partialURL) {
+      components = [NSURLComponents componentsWithURL:self.sendURL resolvingAgainstBaseURL:NO];
+      @try {
+        for (u_long i = 0; i < sizeof(kMSPartialURLComponentsName) / sizeof(*kMSPartialURLComponentsName); i++) {
+          NSString *propertyName = kMSPartialURLComponentsName[i];
+          [components setValue:[partialURL valueForKey:propertyName] forKey:propertyName];
+        }
+      } @catch (NSException *ex) {
+        MSLogInfo([MSMobileCenter logTag], @"Error while updating HTTP URL %@ with %@: \n%@",
+                  self.sendURL.absoluteString, baseURL, ex);
+      }
+
+      // Update full URL.
+      if (components.URL) {
+        self.sendURL = (NSURL * _Nonnull)components.URL;
+        success = true;
+      }
+    }
+
+    // Notify failure.
+    if (!success) {
+      MSLogInfo([MSMobileCenter logTag], @"Failed to update HTTP URL %@ with %@", self.sendURL.absoluteString, baseURL);
+    }
+  }
+}
 
 - (void)networkStateChanged {
   if ([self.reachability currentReachabilityStatus] == NotReachable) {

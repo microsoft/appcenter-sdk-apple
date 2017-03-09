@@ -1,4 +1,5 @@
 #import <Foundation/Foundation.h>
+
 #import "MSLogManager.h"
 #import "MSMobileCenter.h"
 #import "MSServiceInternal.h"
@@ -16,7 +17,7 @@ static NSString *const kMSMobileCenterIsEnabledKey = @"MSMobileCenterIsEnabled";
 @property(nonatomic, copy) NSString *logUrl;
 @property(nonatomic, readonly) NSUUID *installId;
 @property(nonatomic, copy) NSString *apiVersion;
-@property BOOL sdkConfigured;
+@property(atomic) BOOL sdkConfigured;
 @property(atomic) BOOL enabledStateUpdating;
 
 /**
