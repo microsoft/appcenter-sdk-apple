@@ -3,16 +3,16 @@
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
-#import "MSCoreLog.h"
+#import "MSStartServiceLog.h"
 #import "MobileCenter+Internal.h"
 
-@interface MSCoreLogTests : XCTestCase
+@interface MSStartServiceLogTests : XCTestCase
 
-@property(nonatomic, strong) MSCoreLog *sut;
+@property(nonatomic, strong) MSStartServiceLog *sut;
 
 @end
 
-@implementation MSCoreLogTests
+@implementation MSStartServiceLogTests
 
 @synthesize sut = _sut;
 
@@ -20,7 +20,7 @@
 
 - (void)setUp {
   [super setUp];
-  self.sut = [MSCoreLog new];
+  self.sut = [MSStartServiceLog new];
 }
 
 #pragma mark - Tests
@@ -55,9 +55,9 @@
 
   // Then
   assertThat(actual, notNilValue());
-  assertThat(actual, instanceOf([MSCoreLog class]));
+  assertThat(actual, instanceOf([MSStartServiceLog class]));
 
-  MSCoreLog *log = actual;
+  MSStartServiceLog *log = actual;
   NSArray *actualServices = log.services;
   XCTAssertEqual(actualServices.count, services.count);
   for(NSUInteger i = 0; i < actualServices.count; ++i) {
