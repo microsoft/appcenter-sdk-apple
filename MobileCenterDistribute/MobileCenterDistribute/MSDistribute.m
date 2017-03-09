@@ -50,7 +50,11 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     _installUrl = kMSDefaultInstallUrl;
     NSNumber *flag = [MS_USER_DEFAULTS objectForKey:kMSSDKHasLaunchedWithDistribute];
 
-    // Delete API token and try to get a new one from server.
+    /*
+     * Delete API token if an application has been uninstalled and try to get a new one from server.
+     * Under iOS 10.3, keychain data won't be automatically deleted by uninstall
+     * so we should detect it and clean up keychain data when Distribute service gets initialized.
+     */
     if (!flag) {
       MSLogInfo([MSDistribute logTag], @"Delete API token if exists.");
       [MSKeychainUtil deleteStringForKey:kMSUpdateTokenKey];
