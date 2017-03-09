@@ -1,9 +1,9 @@
-#import "MSStartServiceLog.h"
+#import "MSCoreLog.h"
 
 static NSString *const kMSStartService = @"start_service";
 static NSString *const kMSServices = @"services";
 
-@implementation MSStartServiceLog
+@implementation MSCoreLog
 
 @synthesize type = _type;
 @synthesize services = _services;
@@ -36,7 +36,6 @@ static NSString *const kMSServices = @"services";
     self.type = [coder decodeObjectForKey:kMSStartService];
     self.services = [coder decodeObjectForKey:kMSServices];
   }
-
   return self;
 }
 

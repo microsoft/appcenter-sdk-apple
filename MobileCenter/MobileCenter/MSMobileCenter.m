@@ -1,4 +1,5 @@
 #import "MSConstants+Internal.h"
+#import "MSCoreLog.h"
 #import "MSDeviceTracker.h"
 #import "MSDeviceTrackerPrivate.h"
 #import "MSFileStorage.h"
@@ -6,7 +7,6 @@
 #import "MSLogManagerDefault.h"
 #import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
-#import "MSStartServiceLog.h"
 
 // Singleton
 static MSMobileCenter *sharedInstance = nil;
@@ -188,9 +188,9 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
     }
 
     //Send information about using services
-    MSStartServiceLog *servicesLog = [MSStartServiceLog new];
-    servicesLog.services = servicesNames;
-    [self.logManager processLog:servicesLog withPriority:MSPriorityDefault];
+    MSCoreLog *coreLog = [MSCoreLog new];
+    coreLog.services = servicesNames;
+    [self.logManager processLog:coreLog withPriority:MSPriorityDefault];
   }
 }
 
