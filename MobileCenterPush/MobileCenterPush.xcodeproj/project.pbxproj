@@ -1,0 +1,713 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		D3AD5F221E5C9562001627AB /* MobileCenterPushFramework */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = D3AD5F251E5C9562001627AB /* Build configuration list for PBXAggregateTarget "MobileCenterPushFramework" */;
+			buildPhases = (
+				D3AD5F261E5C9588001627AB /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = MobileCenterPushFramework;
+			productName = "Fat Framework";
+		};
+		D3AD5F271E5C9633001627AB /* MobileCenterPushDoc */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = D3AD5F281E5C9633001627AB /* Build configuration list for PBXAggregateTarget "MobileCenterPushDoc" */;
+			buildPhases = (
+				D3AD5F2B1E5C9636001627AB /* Run Script */,
+			);
+			dependencies = (
+				D3AD5F3D1E5D6809001627AB /* PBXTargetDependency */,
+			);
+			name = MobileCenterPushDoc;
+			productName = "Jazzy Docs";
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		38D4BBA11D5A98D1001A30A0 /* ../MobileCenter/MobileCenter/MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 38D4BB9F1D5A98D1001A30A0 /* ../MobileCenter/MobileCenter/MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D38023C11E6DE01700466558 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D38023C01E6DE01700466558 /* UserNotifications.framework */; };
+		D38023C41E6DF38800466558 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D38023C31E6DF38800466558 /* libOCMock.a */; };
+		D39B04E41E66FBD50048E397 /* MSPushTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = D39B04E31E66FBD50048E397 /* MSPushTestUtil.m */; };
+		D3AD5EC31E5C4F6A001627AB /* MobileCenterPushTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3AD5EC21E5C4F6A001627AB /* MobileCenterPushTests.m */; };
+		D3AD5EC51E5C4F6A001627AB /* libMobileCenterPush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D33A94511E5B11BB003966DB /* libMobileCenterPush.a */; };
+		D3AD5F0C1E5C819A001627AB /* MobileCenter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F0B1E5C819A001627AB /* MobileCenter+Internal.h */; };
+		D3AD5F0D1E5C844B001627AB /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5EFE1E5C7DAE001627AB /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3AD5F0E1E5C8452001627AB /* MSLogManager.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5EFF1E5C7E40001627AB /* MSLogManager.h */; };
+		D3AD5F0F1E5C845B001627AB /* MobileCenterPush.h in Headers */ = {isa = PBXBuildFile; fileRef = D33A94541E5B11BB003966DB /* MobileCenterPush.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3AD5F101E5C8466001627AB /* MSPush.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F001E5C7F56001627AB /* MSPush.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3AD5F111E5C846E001627AB /* MSPush.m in Sources */ = {isa = PBXBuildFile; fileRef = D3AD5F011E5C7F68001627AB /* MSPush.m */; };
+		D3AD5F121E5C847B001627AB /* MSPushPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F081E5C8156001627AB /* MSPushPrivate.h */; };
+		D3AD5F131E5C8485001627AB /* MSPushInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F091E5C8164001627AB /* MSPushInternal.h */; };
+		D3AD5F6C1E5D7464001627AB /* MSPushLog.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F6A1E5D7464001627AB /* MSPushLog.h */; };
+		D3AD5F6D1E5D7464001627AB /* MSPushLog.m in Sources */ = {isa = PBXBuildFile; fileRef = D3AD5F6B1E5D7464001627AB /* MSPushLog.m */; };
+		D3AD5FDA1E5DDF72001627AB /* libMobileCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D3AD5FD91E5DDF72001627AB /* libMobileCenter.a */; };
+		D3C4E1FE1E6572D3006D3C0D /* MSPushDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C4E1FD1E6572D3006D3C0D /* MSPushDelegateTests.m */; };
+		D3D0CFE91E640ABD003015AF /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3D0CFE81E640ABD003015AF /* OCHamcrestIOS.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D3AD5EC61E5C4F6A001627AB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D33A94491E5B11BB003966DB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D33A94501E5B11BB003966DB;
+			remoteInfo = MobileCenterPush;
+		};
+		D3AD5F3C1E5D6809001627AB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D33A94491E5B11BB003966DB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D3AD5F221E5C9562001627AB;
+			remoteInfo = MobileCenterPushFramework;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		D33A944F1E5B11BB003966DB /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		0415FF461E689036004E8C16 /* NSNotificationCenter+OCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNotificationCenter+OCMAdditions.h"; sourceTree = "<group>"; };
+		0415FF471E689036004E8C16 /* OCMArg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMArg.h; sourceTree = "<group>"; };
+		0415FF481E689036004E8C16 /* OCMConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMConstraint.h; sourceTree = "<group>"; };
+		0415FF491E689036004E8C16 /* OCMFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMFunctions.h; sourceTree = "<group>"; };
+		0415FF4A1E689036004E8C16 /* OCMLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMLocation.h; sourceTree = "<group>"; };
+		0415FF4B1E689036004E8C16 /* OCMMacroState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMMacroState.h; sourceTree = "<group>"; };
+		0415FF4C1E689036004E8C16 /* OCMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMock.h; sourceTree = "<group>"; };
+		0415FF4D1E689036004E8C16 /* OCMockObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMockObject.h; sourceTree = "<group>"; };
+		0415FF4E1E689036004E8C16 /* OCMRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMRecorder.h; sourceTree = "<group>"; };
+		0415FF4F1E689036004E8C16 /* OCMStubRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMStubRecorder.h; sourceTree = "<group>"; };
+		38D4BB9F1D5A98D1001A30A0 /* ../MobileCenter/MobileCenter/MSService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ../MobileCenter/MobileCenter/MSService.h; sourceTree = "<group>"; };
+		D33A94511E5B11BB003966DB /* libMobileCenterPush.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMobileCenterPush.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		D33A94541E5B11BB003966DB /* MobileCenterPush.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MobileCenterPush.h; sourceTree = "<group>"; };
+		D38023C01E6DE01700466558 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		D38023C31E6DF38800466558 /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOCMock.a; path = ../Vendor/OCMock/libOCMock.a; sourceTree = "<group>"; };
+		D39B04E21E66FBC60048E397 /* MSPushTestUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MSPushTestUtil.h; path = Util/MSPushTestUtil.h; sourceTree = "<group>"; };
+		D39B04E31E66FBD50048E397 /* MSPushTestUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSPushTestUtil.m; path = Util/MSPushTestUtil.m; sourceTree = "<group>"; };
+		D3AD5EC01E5C4F6A001627AB /* MobileCenterPush.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MobileCenterPush.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D3AD5EC21E5C4F6A001627AB /* MobileCenterPushTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MobileCenterPushTests.m; sourceTree = "<group>"; };
+		D3AD5EC41E5C4F6A001627AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D3AD5EFE1E5C7DAE001627AB /* MSServiceAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSServiceAbstract.h; path = ../MobileCenter/MobileCenter/MSServiceAbstract.h; sourceTree = "<group>"; };
+		D3AD5EFF1E5C7E40001627AB /* MSLogManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSLogManager.h; path = ../MobileCenter/MobileCenter/Internals/Channel/MSLogManager.h; sourceTree = "<group>"; };
+		D3AD5F001E5C7F56001627AB /* MSPush.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSPush.h; sourceTree = "<group>"; };
+		D3AD5F011E5C7F68001627AB /* MSPush.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSPush.m; sourceTree = "<group>"; };
+		D3AD5F041E5C7FDF001627AB /* Global.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Global.xcconfig; path = ../Global.xcconfig; sourceTree = "<group>"; };
+		D3AD5F051E5C7FFF001627AB /* MobileCenterPush.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = MobileCenterPush.xcconfig; path = MobileCenterPush/Support/MobileCenterPush.xcconfig; sourceTree = "<group>"; };
+		D3AD5F081E5C8156001627AB /* MSPushPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MSPushPrivate.h; path = Internal/MSPushPrivate.h; sourceTree = "<group>"; };
+		D3AD5F091E5C8164001627AB /* MSPushInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MSPushInternal.h; path = Internal/MSPushInternal.h; sourceTree = "<group>"; };
+		D3AD5F0A1E5C8173001627AB /* MSPushDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MSPushDelegate.h; path = Internal/MSPushDelegate.h; sourceTree = "<group>"; };
+		D3AD5F0B1E5C819A001627AB /* MobileCenter+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MobileCenter+Internal.h"; path = "../../MobileCenter/MobileCenter/Internals/MobileCenter+Internal.h"; sourceTree = "<group>"; };
+		D3AD5F3E1E5D69B0001627AB /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; name = module.modulemap; path = MobileCenterPush/Support/module.modulemap; sourceTree = "<group>"; };
+		D3AD5F6A1E5D7464001627AB /* MSPushLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSPushLog.h; path = Internal/Model/MSPushLog.h; sourceTree = "<group>"; };
+		D3AD5F6B1E5D7464001627AB /* MSPushLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSPushLog.m; path = Internal/Model/MSPushLog.m; sourceTree = "<group>"; };
+		D3AD5FD91E5DDF72001627AB /* libMobileCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobileCenter.a; path = "../MobileCenter/build/Debug-iphoneos/libMobileCenter.a"; sourceTree = "<group>"; };
+		D3C4E1FD1E6572D3006D3C0D /* MSPushDelegateTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSPushDelegateTests.m; sourceTree = "<group>"; };
+		D3D0CFE81E640ABD003015AF /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrestIOS.framework; path = ../Vendor/OCHamcrest/OCHamcrestIOS.framework; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D33A944E1E5B11BB003966DB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D38023C11E6DE01700466558 /* UserNotifications.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D3AD5EBD1E5C4F6A001627AB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D3AD5FDA1E5DDF72001627AB /* libMobileCenter.a in Frameworks */,
+				D38023C41E6DF38800466558 /* libOCMock.a in Frameworks */,
+				D3AD5EC51E5C4F6A001627AB /* libMobileCenterPush.a in Frameworks */,
+				D3D0CFE91E640ABD003015AF /* OCHamcrestIOS.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0415FF451E689036004E8C16 /* OCMock */ = {
+			isa = PBXGroup;
+			children = (
+				0415FF461E689036004E8C16 /* NSNotificationCenter+OCMAdditions.h */,
+				0415FF471E689036004E8C16 /* OCMArg.h */,
+				0415FF481E689036004E8C16 /* OCMConstraint.h */,
+				0415FF491E689036004E8C16 /* OCMFunctions.h */,
+				0415FF4A1E689036004E8C16 /* OCMLocation.h */,
+				0415FF4B1E689036004E8C16 /* OCMMacroState.h */,
+				0415FF4C1E689036004E8C16 /* OCMock.h */,
+				0415FF4D1E689036004E8C16 /* OCMockObject.h */,
+				0415FF4E1E689036004E8C16 /* OCMRecorder.h */,
+				0415FF4F1E689036004E8C16 /* OCMStubRecorder.h */,
+			);
+			name = OCMock;
+			path = ../Vendor/OCMock/OCMock;
+			sourceTree = "<group>";
+		};
+		D33A94481E5B11BB003966DB = {
+			isa = PBXGroup;
+			children = (
+				D3AD5EFE1E5C7DAE001627AB /* MSServiceAbstract.h */,
+				D3AD5EFF1E5C7E40001627AB /* MSLogManager.h */,
+				D33A94531E5B11BB003966DB /* MobileCenterPush */,
+				D3AD5EC11E5C4F6A001627AB /* MobileCenterPushTests */,
+				D33A94521E5B11BB003966DB /* Products */,
+				D3E5F5C91E6D589E0072F1DC /* Vendor */,
+			);
+			sourceTree = "<group>";
+		};
+		D33A94521E5B11BB003966DB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D33A94511E5B11BB003966DB /* libMobileCenterPush.a */,
+				D3AD5EC01E5C4F6A001627AB /* MobileCenterPush.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D33A94531E5B11BB003966DB /* MobileCenterPush */ = {
+			isa = PBXGroup;
+			children = (
+				D33A94541E5B11BB003966DB /* MobileCenterPush.h */,
+				D3AD5F001E5C7F56001627AB /* MSPush.h */,
+				D3AD5F011E5C7F68001627AB /* MSPush.m */,
+				D3AD5F071E5C8136001627AB /* Internal */,
+				D3AD5F031E5C7FC9001627AB /* Support */,
+			);
+			path = MobileCenterPush;
+			sourceTree = "<group>";
+		};
+		D38023C51E6DF3F400466558 /* OCMock */ = {
+			isa = PBXGroup;
+			children = (
+				D38023C31E6DF38800466558 /* libOCMock.a */,
+				0415FF451E689036004E8C16 /* OCMock */,
+			);
+			name = OCMock;
+			sourceTree = "<group>";
+		};
+		D39B04E11E66FBA70048E397 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				D39B04E21E66FBC60048E397 /* MSPushTestUtil.h */,
+				D39B04E31E66FBD50048E397 /* MSPushTestUtil.m */,
+			);
+			name = Util;
+			sourceTree = "<group>";
+		};
+		D3AD5EC11E5C4F6A001627AB /* MobileCenterPushTests */ = {
+			isa = PBXGroup;
+			children = (
+				D3AD5F661E5D73F2001627AB /* Frameworks */,
+				D3AD5EC41E5C4F6A001627AB /* Info.plist */,
+				D3AD5EC21E5C4F6A001627AB /* MobileCenterPushTests.m */,
+				D3C4E1FD1E6572D3006D3C0D /* MSPushDelegateTests.m */,
+				D39B04E11E66FBA70048E397 /* Util */,
+			);
+			path = MobileCenterPushTests;
+			sourceTree = "<group>";
+		};
+		D3AD5F031E5C7FC9001627AB /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				D3AD5F041E5C7FDF001627AB /* Global.xcconfig */,
+				D3AD5F051E5C7FFF001627AB /* MobileCenterPush.xcconfig */,
+				D3AD5F3E1E5D69B0001627AB /* module.modulemap */,
+			);
+			name = Support;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		D3AD5F071E5C8136001627AB /* Internal */ = {
+			isa = PBXGroup;
+			children = (
+				D3AD5F691E5D7423001627AB /* Model */,
+				D3AD5F0B1E5C819A001627AB /* MobileCenter+Internal.h */,
+				D3AD5F0A1E5C8173001627AB /* MSPushDelegate.h */,
+				D3AD5F091E5C8164001627AB /* MSPushInternal.h */,
+				D3AD5F081E5C8156001627AB /* MSPushPrivate.h */,
+			);
+			name = Internal;
+			sourceTree = "<group>";
+		};
+		D3AD5F661E5D73F2001627AB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D3AD5FD91E5DDF72001627AB /* libMobileCenter.a */,
+				D38023C51E6DF3F400466558 /* OCMock */,
+				D3D0CFE81E640ABD003015AF /* OCHamcrestIOS.framework */,
+			);
+			name = Frameworks;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		D3AD5F691E5D7423001627AB /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D3AD5F6A1E5D7464001627AB /* MSPushLog.h */,
+				D3AD5F6B1E5D7464001627AB /* MSPushLog.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		D3E5F5C91E6D589E0072F1DC /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+				D38023C01E6DE01700466558 /* UserNotifications.framework */,
+			);
+			name = Vendor;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		D3AD5F061E5C80E6001627AB /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D3AD5F0F1E5C845B001627AB /* MobileCenterPush.h in Headers */,
+				D3AD5F0D1E5C844B001627AB /* MSServiceAbstract.h in Headers */,
+				D3AD5F0C1E5C819A001627AB /* MobileCenter+Internal.h in Headers */,
+				D3AD5F101E5C8466001627AB /* MSPush.h in Headers */,
+				D3AD5F131E5C8485001627AB /* MSPushInternal.h in Headers */,
+				D3AD5F121E5C847B001627AB /* MSPushPrivate.h in Headers */,
+				D3AD5F6C1E5D7464001627AB /* MSPushLog.h in Headers */,
+				38D4BBA11D5A98D1001A30A0 /* ../MobileCenter/MobileCenter/MSService.h in Headers */,
+				D3AD5F0E1E5C8452001627AB /* MSLogManager.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		D33A94501E5B11BB003966DB /* MobileCenterPush */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D33A945A1E5B11BB003966DB /* Build configuration list for PBXNativeTarget "MobileCenterPush" */;
+			buildPhases = (
+				D33A944D1E5B11BB003966DB /* Sources */,
+				D33A944E1E5B11BB003966DB /* Frameworks */,
+				D33A944F1E5B11BB003966DB /* CopyFiles */,
+				D3AD5F061E5C80E6001627AB /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MobileCenterPush;
+			productName = MobileCenterPush;
+			productReference = D33A94511E5B11BB003966DB /* libMobileCenterPush.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		D3AD5EBF1E5C4F6A001627AB /* MobileCenterPushTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D3AD5EC81E5C4F6A001627AB /* Build configuration list for PBXNativeTarget "MobileCenterPushTests" */;
+			buildPhases = (
+				D3AD5EBC1E5C4F6A001627AB /* Sources */,
+				D3AD5EBD1E5C4F6A001627AB /* Frameworks */,
+				D3AD5EBE1E5C4F6A001627AB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D3AD5EC71E5C4F6A001627AB /* PBXTargetDependency */,
+			);
+			name = MobileCenterPushTests;
+			productName = MobileCenterPushTests;
+			productReference = D3AD5EC01E5C4F6A001627AB /* MobileCenterPush.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D33A94491E5B11BB003966DB /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = MS;
+				LastUpgradeCheck = 0820;
+				ORGANIZATIONNAME = Microsoft;
+				TargetAttributes = {
+					D33A94501E5B11BB003966DB = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
+					D3AD5EBF1E5C4F6A001627AB = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
+					D3AD5F221E5C9562001627AB = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
+					D3AD5F271E5C9633001627AB = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
+				};
+			};
+			buildConfigurationList = D33A944C1E5B11BB003966DB /* Build configuration list for PBXProject "MobileCenterPush" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = D33A94481E5B11BB003966DB;
+			productRefGroup = D33A94521E5B11BB003966DB /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D33A94501E5B11BB003966DB /* MobileCenterPush */,
+				D3AD5F221E5C9562001627AB /* MobileCenterPushFramework */,
+				D3AD5EBF1E5C4F6A001627AB /* MobileCenterPushTests */,
+				D3AD5F271E5C9633001627AB /* MobileCenterPushDoc */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D3AD5EBE1E5C4F6A001627AB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		D3AD5F261E5C9588001627AB /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=MobileCenterPush\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-iOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphoneos\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Support/module.modulemap\" \"${INSTALL_DIR}/Modules/\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Headers/\"\n\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" \"${SIMULATOR_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\n\nrm -r \"${WRK_DIR}\"";
+		};
+		D3AD5F2B1E5C9636001627AB /* Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "jazzy --config ../Documentation/MobileCenterPush/.jazzy.yaml\n\nFMK_NAME=MobileCenterPush\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-iOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\nDOCUMENTATION_DIR=${PRODUCTS_DIR}/Documentation/${FMK_NAME}\n\n# Create Documentation directory within folder.\nif [ ! -d \"${DOCUMENTATION_DIR}\" ]\nthen\nmkdir -p \"${DOCUMENTATION_DIR}\"\nfi\n\n# Copy generated documentation into the documentation folder\ncp -R \"${SRCROOT}/../Documentation/${FMK_NAME}/Generated/\" \"${DOCUMENTATION_DIR}\"";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D33A944D1E5B11BB003966DB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D3AD5F6D1E5D7464001627AB /* MSPushLog.m in Sources */,
+				D3AD5F111E5C846E001627AB /* MSPush.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D3AD5EBC1E5C4F6A001627AB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D3C4E1FE1E6572D3006D3C0D /* MSPushDelegateTests.m in Sources */,
+				D39B04E41E66FBD50048E397 /* MSPushTestUtil.m in Sources */,
+				D3AD5EC31E5C4F6A001627AB /* MobileCenterPushTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D3AD5EC71E5C4F6A001627AB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D33A94501E5B11BB003966DB /* MobileCenterPush */;
+			targetProxy = D3AD5EC61E5C4F6A001627AB /* PBXContainerItemProxy */;
+		};
+		D3AD5F3D1E5D6809001627AB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D3AD5F221E5C9562001627AB /* MobileCenterPushFramework */;
+			targetProxy = D3AD5F3C1E5D6809001627AB /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		D33A94581E5B11BB003966DB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D3AD5F051E5C7FFF001627AB /* MobileCenterPush.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				APPLICATION_EXTENSION_API_ONLY = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "$(inherited)";
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		D33A94591E5B11BB003966DB /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D3AD5F051E5C7FFF001627AB /* MobileCenterPush.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				APPLICATION_EXTENSION_API_ONLY = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "$(inherited)";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = NO;
+			};
+			name = Release;
+		};
+		D33A945B1E5B11BB003966DB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				OTHER_LDFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenterpush;
+				PRODUCT_NAME = MobileCenterPush;
+				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
+				SKIP_INSTALL = YES;
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/**";
+				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
+			};
+			name = Debug;
+		};
+		D33A945C1E5B11BB003966DB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				OTHER_LDFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenterpush;
+				PRODUCT_NAME = MobileCenterPush;
+				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
+				SKIP_INSTALL = YES;
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/**";
+				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
+			};
+			name = Release;
+		};
+		D3AD5EC91E5C4F6A001627AB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
+				INFOPLIST_FILE = MobileCenterPushTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenterpushtests;
+				PRODUCT_NAME = MobileCenterPush;
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/**";
+			};
+			name = Debug;
+		};
+		D3AD5ECA1E5C4F6A001627AB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
+				INFOPLIST_FILE = MobileCenterPushTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenterpushtests;
+				PRODUCT_NAME = MobileCenterPush;
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/**";
+			};
+			name = Release;
+		};
+		D3AD5F231E5C9562001627AB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = MobileCenterPush;
+			};
+			name = Debug;
+		};
+		D3AD5F241E5C9562001627AB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = MobileCenterPush;
+			};
+			name = Release;
+		};
+		D3AD5F291E5C9633001627AB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
+				OTHER_CFLAGS = "";
+				PRODUCT_NAME = MobileCenterPush;
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"";
+				VALID_ARCHS = "";
+			};
+			name = Debug;
+		};
+		D3AD5F2A1E5C9633001627AB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
+				OTHER_CFLAGS = "";
+				PRODUCT_NAME = MobileCenterPush;
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"";
+				VALID_ARCHS = "";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D33A944C1E5B11BB003966DB /* Build configuration list for PBXProject "MobileCenterPush" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D33A94581E5B11BB003966DB /* Debug */,
+				D33A94591E5B11BB003966DB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D33A945A1E5B11BB003966DB /* Build configuration list for PBXNativeTarget "MobileCenterPush" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D33A945B1E5B11BB003966DB /* Debug */,
+				D33A945C1E5B11BB003966DB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D3AD5EC81E5C4F6A001627AB /* Build configuration list for PBXNativeTarget "MobileCenterPushTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D3AD5EC91E5C4F6A001627AB /* Debug */,
+				D3AD5ECA1E5C4F6A001627AB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D3AD5F251E5C9562001627AB /* Build configuration list for PBXAggregateTarget "MobileCenterPushFramework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D3AD5F231E5C9562001627AB /* Debug */,
+				D3AD5F241E5C9562001627AB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D3AD5F281E5C9633001627AB /* Build configuration list for PBXAggregateTarget "MobileCenterPushDoc" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D3AD5F291E5C9633001627AB /* Debug */,
+				D3AD5F2A1E5C9633001627AB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D33A94491E5B11BB003966DB /* Project object */;
+}
