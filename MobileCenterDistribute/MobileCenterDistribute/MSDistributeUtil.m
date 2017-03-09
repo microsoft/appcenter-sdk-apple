@@ -46,3 +46,7 @@ NSString *MSDistributeLocalizedString(NSString *stringToken) {
     return stringToken;
   }
 }
+
+@implementation MSDistributeUtil
+
+@end
