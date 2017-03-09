@@ -100,7 +100,6 @@
   if (!directoryPath || !fileExtension) {
     return nil;
   }
-
   NSString * _Nonnull path = ( NSString* _Nonnull ) directoryPath;
 
   // Check file existing
