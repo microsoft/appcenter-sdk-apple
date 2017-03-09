@@ -1,9 +1,9 @@
-#import "MSCoreLog.h"
+#import "MSStartServiceLog.h"
 
 static NSString *const kMSStartService = @"start_service";
 static NSString *const kMSServices = @"services";
 
-@implementation MSCoreLog
+@implementation MSStartServiceLog
 
 @synthesize type = _type;
 @synthesize services = _services;
@@ -20,10 +20,8 @@ static NSString *const kMSServices = @"services";
 
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [super serializeToDictionary];
-  if( dict ) {
-    if( self.services ) {
-      dict[kMSServices] = self.services;
-    }
+  if( self.services ) {
+    dict[kMSServices] = self.services;
   }
   return dict;
 }

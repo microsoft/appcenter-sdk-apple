@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 #import "MSAbstractLog.h"
 
-@interface MSCoreLog : MSAbstractLog
+@interface MSStartServiceLog : MSAbstractLog
 
 /**
  * Services which started with SDK

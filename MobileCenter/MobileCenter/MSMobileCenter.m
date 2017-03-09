@@ -1,5 +1,4 @@
 #import "MSConstants+Internal.h"
-#import "MSCoreLog.h"
 #import "MSDeviceTracker.h"
 #import "MSDeviceTrackerPrivate.h"
 #import "MSFileStorage.h"
@@ -7,6 +6,7 @@
 #import "MSLogManagerDefault.h"
 #import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
+#import "MSStartServiceLog.h"
 
 // Singleton
 static MSMobileCenter *sharedInstance = nil;
@@ -187,9 +187,10 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
       NSMutableArray<NSString*>* servicesNames = [NSMutableArray arrayWithCapacity:sortedServices.count];
 
       for (Class service in sortedServices) {
-        [servicesNames addObject:[self startService:service].storageKey];
+        [self startService:service];
+        [servicesNames addObject:[service logTag]];
       }
-      [self loggingUsedServices:servicesNames];
+      [self sendStartServiceLog:servicesNames];
     }
   }
 }
@@ -214,7 +215,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
   }
 }
 
-- (id<MSServiceInternal>)startService:(Class)clazz {
+- (void)startService:(Class)clazz {
   @synchronized(self) {
     id<MSServiceInternal> service = [clazz sharedInstance];
 
@@ -223,9 +224,6 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 
     // Start service with log manager.
     [service startWithLogManager:self.logManager appSecret:self.appSecret];
-
-    // Return started service
-    return service;
   }
 }
 
@@ -340,10 +338,10 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
   return canBeUsed;
 }
 
-- (void)loggingUsedServices:(NSArray<NSString*>*)servicesNames {
-  MSCoreLog *coreLog = [MSCoreLog new];
-  coreLog.services = servicesNames;
-  [self.logManager processLog:coreLog withPriority:MSPriorityDefault];
+- (void)sendStartServiceLog:(NSArray<NSString*>*)servicesNames {
+  MSStartServiceLog *serviceLog = [MSStartServiceLog new];
+  serviceLog.services = servicesNames;
+  [self.logManager processLog:serviceLog withPriority:MSPriorityDefault];
 }
 
 + (void)resetSharedInstance {
