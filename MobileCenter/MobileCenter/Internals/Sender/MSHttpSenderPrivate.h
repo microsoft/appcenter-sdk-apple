@@ -1,4 +1,5 @@
 #import <Foundation/Foundation.h>
+#import "MSHttpSender.h"
 
 @protocol MSSenderDelegate;
 
