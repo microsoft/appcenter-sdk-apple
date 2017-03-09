@@ -45,8 +45,8 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     }];
     components.queryItems = queryItemArray;
 
-    // Set send URL.
-    _sendURL = components.URL;
+    // Set send URL which can't be null
+    _sendURL = (NSURL * _Nonnull) components.URL;
 
     // Hookup to reachability.
     [MS_NOTIFICATION_CENTER addObserver:self
