@@ -42,7 +42,7 @@ static NSString *const kMSContentType = @"content_type";
   if (!attachment)
     return NO;
 
-  return ((!self.fileName && !attachment.fileName) || [self.fileName isEqualToString:attachment.fileName]) &&
+  return ((!self.fileName && !attachment.fileName) || [self.fileName isEqualToString:(NSString *_Nonnull)attachment.fileName]) &&
       ((!self.data && !attachment.data) || [self.data isEqual:attachment.data]) &&
       ((!self.contentType && !attachment.contentType) || [self.contentType isEqualToString:attachment.contentType]);
 }

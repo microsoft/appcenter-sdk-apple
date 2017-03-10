@@ -2,7 +2,6 @@
 
 @class MSCrashes;
 @class MSErrorReport;
-@class MSErrorAttachment;
 
 @protocol MSCrashesDelegate <NSObject>
 

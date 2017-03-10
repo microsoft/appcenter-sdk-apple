@@ -12,7 +12,8 @@
   extern char *__cxa_demangle(const char *mangled_name, char *output_buffer, size_t *length, int *status);
   char *demangled_name = &__cxa_demangle ? __cxa_demangle(info->exception_type_name ?: "", NULL, NULL, NULL) : NULL;
 
-  if ((self = [super initWithName:[NSString stringWithUTF8String:demangled_name ?: info->exception_type_name ?: ""]
+  //stringWithUTF8String never returns null for us because we always send a correct string
+  if ((self = [super initWithName:(NSString * _Nonnull)[NSString stringWithUTF8String:demangled_name ?: info->exception_type_name ?: ""]
                            reason:[NSString stringWithUTF8String:info->exception_message ?: ""]
                          userInfo:nil])) {
     _info = info;
