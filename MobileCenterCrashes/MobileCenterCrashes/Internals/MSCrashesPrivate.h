@@ -9,20 +9,30 @@
 
 /**
  * Data structure for logs that need to be flushed at crash time to make sure no log is lost at crash time.
+ *
  * @property bufferPath The path where the buffered log should be persisted.
  * @property buffer The actual buffered data. It comes in the form of a std::string but actually contains an NSData
- * object
- * which is a serialized log.
+ * object which is a serialized log.
+ * @property internalId An internal id that helps keep track of logs.
+ * @property timestamp A timestamp that is used to determine which bufferedLog to delete in case the buffer is full.
  */
 struct MSCrashesBufferedLog {
   std::string bufferPath;
   std::string buffer;
+  std::string internalId;
+  std::string timestamp;
 
   MSCrashesBufferedLog() = default;
 
   MSCrashesBufferedLog(NSString *path, NSData *data)
   : bufferPath(path.UTF8String), buffer(&reinterpret_cast<const char *>(data.bytes)[0],
                                         &reinterpret_cast<const char *>(data.bytes)[data.length]) {}
+
+  
+  MSCrashesBufferedLog(NSString *path, NSData *data, NSString *internalLogId, NSString *timestamp)
+      : bufferPath(path.UTF8String), buffer(&reinterpret_cast<const char *>(data.bytes)[0],
+                                            &reinterpret_cast<const char *>(data.bytes)[data.length]),
+        internalId(internalLogId.UTF8String), timestamp(timestamp.UTF8String) {}
 };
 
 /**
@@ -91,7 +101,7 @@ typedef struct MSCrashesCallbacks {
  *
  * @see MSPriority
  */
-@property(nonatomic) NSMutableDictionary<NSNumber *, NSNumber *> *bufferIndex;
+//@property(nonatomic) NSMutableDictionary<NSNumber *, NSNumber *> *bufferIndex;
 
 /**
  * A file used to indicate that a crash which occurred in the last session is
