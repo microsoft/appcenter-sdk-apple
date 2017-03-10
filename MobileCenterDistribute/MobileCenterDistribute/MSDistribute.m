@@ -414,7 +414,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     // Add a "Postpone"-Button
     [alertController addDefaultActionWithTitle:MSDistributeLocalizedString(@"Postpone")
                                        handler:^(UIAlertAction *action) {
-                                         MSLogDebug([MSDistribute logTag], @"Postpone the release for now.");
+                                         MSLogDebug([MSDistribute logTag], @"Postpone the update for now.");
                                        }];
 
     // Add a "Ignore"-Button
@@ -427,7 +427,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     // Add a "Download"-Button
     [alertController addCancelActionWithTitle:MSDistributeLocalizedString(@"Download")
                                       handler:^(UIAlertAction *action) {
-                                        MSLogDebug([MSDistribute logTag], @"Start download and install the release.");
+                                        MSLogDebug([MSDistribute logTag], @"Start download and install the update.");
                                         [self startDownload:details];
                                       }];
 
