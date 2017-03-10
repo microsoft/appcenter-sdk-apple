@@ -11,14 +11,15 @@ import UIKit
 import MobileCenter
 import MobileCenterAnalytics
 import MobileCenterCrashes
+import MobileCenterPush
 
 class ViewController: UIViewController {
     enum MSCellType : Int{
-        case Title, Switch, Details
+        case Title, Switch, Push, Details
     }
     
     enum MobileCenterServicesType : Int{
-        case Analytics, Crashes
+        case Analytics, Crashes, Push
         
         var stringValue : String{
             switch self {
@@ -26,10 +27,12 @@ class ViewController: UIViewController {
                 return "Analytics"
             case .Crashes:
                 return "Crashes"
+            case .Push:
+                return "Push"
             }
         }
         
-        static let allServices = [MobileCenterServicesType.Analytics, MobileCenterServicesType.Crashes]
+        static let allServices = [MobileCenterServicesType.Analytics, MobileCenterServicesType.Crashes, MobileCenterServicesType.Push]
     }
     
     enum MSAnalyticsCases : Int {
@@ -49,7 +52,7 @@ class ViewController: UIViewController {
         static let allCases = [MSAnalyticsCases.SetEnabled, MSAnalyticsCases.TrackEvent, MSAnalyticsCases.TrackEventWithProperties]
     }
     
-    enum MSCrashesCases : Int{
+    enum MSCrashesCases : Int {
         case SetEnabled, GenerateTestCrash, AppCrashInLastSession
         var cellSetting : (title:String, type:MSCellType){
             switch self {
@@ -64,7 +67,19 @@ class ViewController: UIViewController {
         
         static let allCases = [MSCrashesCases.SetEnabled, MSCrashesCases.GenerateTestCrash, MSCrashesCases.AppCrashInLastSession]
     }
-    
+
+    enum MSPushCases : Int {
+        case SetEnabled
+        var cellSetting : (title:String, type:MSCellType) {
+            switch self {
+            case .SetEnabled:
+                return ("Set Enabled", .Switch)
+            }
+        }
+
+        static let allCases = [MSPushCases.SetEnabled]
+    }
+      
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
@@ -100,12 +115,26 @@ extension ViewController : UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return MobileCenterServicesType(rawValue: section) == .Analytics ? MSAnalyticsCases.allCases.count : MSCrashesCases.allCases.count
+        guard let value : MobileCenterServicesType = MobileCenterServicesType(rawValue: section) else {
+            return 0
+        }
+        switch value {
+        case .Analytics:
+            return MSAnalyticsCases.allCases.count
+        case .Crashes:
+            return MSCrashesCases.allCases.count
+        case .Push:
+            return MSPushCases.allCases.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cellSetting = MobileCenterServicesType(rawValue: indexPath.section) == .Analytics ?  MSAnalyticsCases.allCases[indexPath.row].cellSetting : MSCrashesCases.allCases[indexPath.row].cellSetting
-        
+        let cellSetting = MobileCenterServicesType(rawValue: indexPath.section) == .Analytics ?
+          MSAnalyticsCases.allCases[indexPath.row].cellSetting :
+          (MobileCenterServicesType(rawValue: indexPath.section) == .Crashes ?
+            MSCrashesCases.allCases[indexPath.row].cellSetting :
+            MSPushCases.allCases[indexPath.row].cellSetting);
+
         if (cellSetting.type == .Switch){
             if let cell = tableView.dequeueReusableCell(withIdentifier: MSSwitchTableViewCell.name(), for: indexPath) as? MSSwitchTableViewCell{
                 cell.delegate = self
@@ -130,48 +159,57 @@ extension ViewController : UITableViewDataSource {
 extension ViewController : UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        if (MobileCenterServicesType(rawValue :indexPath.section) == .Analytics) {
+        guard let serviceCellType : MobileCenterServicesType = MobileCenterServicesType(rawValue: indexPath.section) else {
+            return
+        }
+        switch(serviceCellType) {
+        case .Analytics:
             switch MSAnalyticsCases.allCases[indexPath.row] {
             //Track Event
             case .SetEnabled:
                 //Enable/Disable MSAnalytics
                 MSAnalytics.setEnabled(!MSAnalytics.isEnabled())
                 tableView.reloadRows(at: [indexPath], with: .automatic)
-                
+                break
+
             case .TrackEvent:
                 //Track event with name only
                 MSAnalytics.trackEvent("Row Clicked")
                 if (MSAnalytics.isEnabled()){
                     showAlertWithMessage(title: "Success!", message: "")
                 }
-                
+                break
+
             case .TrackEventWithProperties:
                 //Track Event with Properties
                 MSAnalytics.trackEvent("Row Clicked", withProperties: ["Name" : "Track Event", "Row Number" : "\(indexPath.row)"])
                 if (MSAnalytics.isEnabled()){
                     showAlertWithMessage(title: "Success!", message: "")
                 }
+                break
             }
-        }else{
+            break
+        case .Crashes:
             switch MSCrashesCases.allCases[indexPath.row] {
             case .SetEnabled:
                 //Enable/Disable MSCrashes
                 MSCrashes.setEnabled(!MSCrashes.isEnabled())
                 tableView.reloadRows(at: [indexPath], with: .automatic)
-
+                break
             case .GenerateTestCrash:
                 //Test either debugger attached
-                if (MSMobileCenter.isDebuggerAttached()){
+                if (MSMobileCenter.isDebuggerAttached()) {
                     self.showAlertWithMessage(title: "", message: "Detecting crashes is NOT enabled due to running the app with a debugger attached.")
-                }else{
+                } else {
                     //Generate Crash
                     MSCrashes.generateTestCrash()
                 }
+                break
             case .AppCrashInLastSession:
                 //Check either app was crashed in last session
                 let message = "App \(MSCrashes.hasCrashedInLastSession() ? "has" : "has not") crashed in last session"
                 let alert = MSAlertController.init(title: "", message: message, preferredStyle: .alert)
-                if (MSCrashes.hasCrashedInLastSession()){
+                if (MSCrashes.hasCrashedInLastSession()) {
                     alert.addAction(UIAlertAction(title: "Show Crash Report", style: .default, handler: { (alert) in
                         self.performSegue(withIdentifier: "ShowCrashReport", sender: self)
                     }))
@@ -180,19 +218,37 @@ extension ViewController : UITableViewDelegate{
                 self.present(alert, animated: true, completion: nil)
                 break
             }
+            break
+        case .Push:
+            switch MSPushCases.allCases[indexPath.row] {
+            case .SetEnabled:
+                MSPush.setEnabled(!MSPush.isEnabled())
+                tableView.reloadRows(at: [indexPath], with: .automatic)
+                break
+            }
+            break
         }
     }
 }
 
 
-extension ViewController : MSSwitchCellDelegate{
+extension ViewController : MSSwitchCellDelegate {
     func switchValueChanged(cell: MSSwitchTableViewCell, sender: UISwitch) {
-        if let section = tableView.indexPath(for: cell)?.section{
-            if (MobileCenterServicesType.init(rawValue: section) == .Analytics){
-                MSAnalytics.setEnabled(sender.isOn)
-            }else{
-                MSCrashes.setEnabled(sender.isOn)
-            }
+        guard let section = tableView.indexPath(for: cell)?.section,
+            let serviceType : MobileCenterServicesType = MobileCenterServicesType.init(rawValue: section) else {
+            return;
+        }
+
+        switch serviceType {
+        case .Analytics:
+            MSAnalytics.setEnabled(sender.isOn);
+            break;
+        case .Crashes:
+            MSCrashes.setEnabled(sender.isOn)
+            break;
+        case .Push:
+            MSPush.setEnabled(sender.isOn);
+            break;
         }
     }
 }

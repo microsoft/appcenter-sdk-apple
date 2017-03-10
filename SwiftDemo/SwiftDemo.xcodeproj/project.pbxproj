@@ -13,6 +13,7 @@
 		B219241D1DCD0C7500D5797D /* MobileCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B219241C1DCD0C7500D5797D /* MobileCenterAnalytics.framework */; };
 		B219241F1DCD0C8400D5797D /* MobileCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B219241E1DCD0C8400D5797D /* MobileCenterCrashes.framework */; };
 		B27DCBA91DDA96F100B97C84 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = B27DCBA81DDA96F100B97C84 /* MSAlertController.m */; };
+		D3D489AC1E72EB6600D5F20F /* MobileCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3D489AB1E72EB6600D5F20F /* MobileCenterPush.framework */; };
 		E118DF2C1DE5791600E63722 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E118DF191DE5791600E63722 /* AppDelegate.swift */; };
 		E118DF2D1DE5791600E63722 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E118DF1A1DE5791600E63722 /* Assets.xcassets */; };
 		E118DF2E1DE5791600E63722 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E118DF1B1DE5791600E63722 /* LaunchScreen.storyboard */; };
@@ -42,6 +43,7 @@
 		B2CDD1031DCCFAAC00610725 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B2CDD10C1DCCFAAC00610725 /* SwiftDemoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDemoUITests.swift; sourceTree = "<group>"; };
 		B2CDD10E1DCCFAAC00610725 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D3D489AB1E72EB6600D5F20F /* MobileCenterPush.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterPush.framework; path = "MobileCenter-SDK-iOS/MobileCenterPush.framework"; sourceTree = "<group>"; };
 		E118DF191DE5791600E63722 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E118DF1A1DE5791600E63722 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E118DF1C1DE5791600E63722 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -62,6 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D3D489AC1E72EB6600D5F20F /* MobileCenterPush.framework in Frameworks */,
 				0471B94E1E455C5C0022F951 /* MobileCenterDistribute.framework in Frameworks */,
 				B219241F1DCD0C8400D5797D /* MobileCenterCrashes.framework in Frameworks */,
 				B219241D1DCD0C7500D5797D /* MobileCenterAnalytics.framework in Frameworks */,
@@ -138,6 +141,7 @@
 				B219241C1DCD0C7500D5797D /* MobileCenterAnalytics.framework */,
 				B219241E1DCD0C8400D5797D /* MobileCenterCrashes.framework */,
 				0471B94D1E455C5C0022F951 /* MobileCenterDistribute.framework */,
+				D3D489AB1E72EB6600D5F20F /* MobileCenterPush.framework */,
 			);
 			name = Vendor;
 			path = ..;
@@ -246,6 +250,11 @@
 						CreatedOnToolsVersion = 8.1;
 						LastSwiftMigration = 0810;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -367,7 +376,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -415,7 +424,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
