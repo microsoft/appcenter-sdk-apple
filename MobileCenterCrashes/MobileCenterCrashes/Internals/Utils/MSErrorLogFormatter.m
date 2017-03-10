@@ -368,7 +368,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
 + (NSNumber *)calculateAppLaunchTOffsetFromReport:(MSPLCrashReport *)report {
   NSDate *crashTime = report.systemInfo.timestamp;
-  long long difference;
+  NSTimeInterval difference;
   if (report.processInfo) {
     NSDate *startTime = report.processInfo.processStartTime;
     difference = ([crashTime timeIntervalSinceDate:startTime] * 1000);
@@ -501,7 +501,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
     NSString *formattedRegName = [NSString stringWithFormat:@"%s", [regName UTF8String]];
     NSString *formattedRegValue = formatted_address_matching_architecture(registerInfo.registerValue, is64bit);
 
-    [registers setObject:formattedRegValue forKey:formattedRegName];
+    registers[formattedRegName] = formattedRegValue;
   }
 
   return registers;
