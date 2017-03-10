@@ -357,7 +357,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
       NSNumber *oldestTimestamp;
       NSNumberFormatter *timestampFormatter = [[NSNumberFormatter alloc] init];
       timestampFormatter.numberStyle = NSNumberFormatterDecimalStyle;
-      int indexToDelete = 0;
+      long indexToDelete = 0;
       for (auto it = msCrashesLogBuffer[priority].begin(), end = msCrashesLogBuffer[priority].end(); it != end; ++it) {
 
         // We've found an empty element, buffer our log.
@@ -412,14 +412,14 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 }
 
 - (void)onFinishedProcessingLog:(id<MSLog>)log withInternalId:(NSString *)internalId andPriority:(MSPriority)priority {
-  [self deleteBufferedLog:log withInternalId:internalId andPriority:priority];
+  [self deleteBufferedLogWithInternalId:internalId andPriority:priority];
 }
 
 - (void)onFailedProcessingLog:(id<MSLog>)log withInternalId:(NSString *)internalId andPriority:(MSPriority)priority {
-  [self deleteBufferedLog:log withInternalId:internalId andPriority:priority];
+  [self deleteBufferedLogWithInternalId:internalId andPriority:priority];
 }
 
-- (void)deleteBufferedLog:(id<MSLog>)log withInternalId:(NSString *)internalId andPriority:(MSPriority)priority {
+- (void)deleteBufferedLogWithInternalId:(NSString *)internalId andPriority:(MSPriority)priority {
   @synchronized(self) {
     for (auto it = msCrashesLogBuffer[priority].begin(), end = msCrashesLogBuffer[priority].end(); it != end; ++it) {
       NSString *bufferId = [NSString stringWithCString:it->internalId.c_str() encoding:NSUTF8StringEncoding];
@@ -753,7 +753,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
       NSArray *files = [self createBufferFilesIfNeededForPriority:(MSPriority)priority];
 
       // Create a buffer for the priority. Making use of `{}` as we're using C++11.
-      for (int i = 0; i < ms_crashes_log_buffer_size; i++) {
+      for (NSUInteger i = 0; i < ms_crashes_log_buffer_size; i++) {
         msCrashesLogBuffer[(MSPriority)priority][i] = MSCrashesBufferedLog{files[i], nil};
       }
     }
@@ -822,7 +822,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 }
 
 - (NSString *)bufferDirectoryForPriority:(MSPriority)priority {
-  return [self.logBufferDir stringByAppendingString:[NSString stringWithFormat:@"/%ld/", priority]];
+  return [self.logBufferDir stringByAppendingString:[NSString stringWithFormat:@"/%d/", priority]];
 }
 
 - (BOOL)shouldProcessErrorReport:(MSErrorReport *)errorReport {

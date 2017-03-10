@@ -221,7 +221,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   int buffercount = 0;
 
   // When
-  MSAppleErrorLog *log = [MSAppleErrorLog new];
+  MSAppleErrorLog *log = [MSLogWithProperties new];
   [self.sut onProcessingLog:log withInternalId:MS_UUID_STRING andPriority:MSPriorityHigh];
   for (auto it = msCrashesLogBuffer[MSPriorityHigh].begin(), end = msCrashesLogBuffer[MSPriorityHigh].end(); it != end;
        ++it) {
@@ -240,7 +240,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
     // When
     for (int i = 0; i < 20; i++) {
-      MSAppleErrorLog *log = [MSAppleErrorLog new];
+      MSAppleErrorLog *log = [MSLogWithProperties new];
       [self.sut onProcessingLog:log withInternalId:MS_UUID_STRING andPriority:(MSPriority)priority];
     }
     int buffercount = 0;
@@ -256,7 +256,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
     XCTAssertTrue(buffercount == 20);
 
     // When
-    MSAppleErrorLog *log = [MSAppleErrorLog new];
+    MSAppleErrorLog *log = [MSLogWithProperties new];
     [self.sut onProcessingLog:log withInternalId:MS_UUID_STRING andPriority:(MSPriority)priority];
     NSNumberFormatter *timestampFormatter = [[NSNumberFormatter alloc] init];
     timestampFormatter.numberStyle = NSNumberFormatterDecimalStyle;
@@ -281,7 +281,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
     // When
     for (int i = 0; i < 50; i++) {
-      MSAppleErrorLog *log = [MSAppleErrorLog new];
+      MSAppleErrorLog *log = [MSLogWithProperties new];
       [self.sut onProcessingLog:log withInternalId:MS_UUID_STRING andPriority:(MSPriority)priority];
     }
 
