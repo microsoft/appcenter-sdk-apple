@@ -333,10 +333,10 @@
 		04FD4A321E453531009B4468 /* MobileCenterDistributeTests */ = {
 			isa = PBXGroup;
 			children = (
-				848860441E6EC32B003A9B96 /* MSBasicMachOParserTests.m */,
 				040AF0101E523AC2005C1174 /* Fixtures */,
 				04FD4A491E453930009B4468 /* Frameworks */,
 				040AF0211E523B36005C1174 /* Model */,
+				848860441E6EC32B003A9B96 /* MSBasicMachOParserTests.m */,
 				04FD4A331E453531009B4468 /* MSDistributeTests.m */,
 				B20DE7B61E5F97330023075C /* MSDistributeUtilTests.m */,
 				040AF0291E52748D005C1174 /* MSDistributeSenderTests.m */,
@@ -360,9 +360,9 @@
 			children = (
 				388B559A1E64B3FD00E4F1D7 /* MSBasicMachOParser.h */,
 				388B55991E64B3FD00E4F1D7 /* MSBasicMachOParser.m */,
+				84C8AC771E7146970071CCB0 /* MSBasicMachOParserPrivate.h */,
 				B2C070A31E5E62330076D6A9 /* MSDistributeUtil.h */,
 				B2C070A41E5E62330076D6A9 /* MSDistributeUtil.m */,
-				84C8AC771E7146970071CCB0 /* MSBasicMachOParserPrivate.h */,
 			);
 			name = Util;
 			path = ..;
