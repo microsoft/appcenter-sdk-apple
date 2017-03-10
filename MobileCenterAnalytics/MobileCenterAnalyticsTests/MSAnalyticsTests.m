@@ -16,6 +16,7 @@
 static NSString *const kMSTypeEvent = @"event";
 static NSString *const kMSTypePage = @"page";
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
+static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
 @class MSMockAnalyticsDelegate;
 
@@ -270,6 +271,10 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
 - (void)testInitializationPriorityCorrect {
   XCTAssertTrue([[MSAnalytics sharedInstance] initializationPriority] == MSInitializationPriorityDefault);
+}
+
+- (void)testServiceNameIsCorrect {
+  XCTAssertEqual([MSAnalytics sharedInstance].serviceName,kMSAnalyticsServiceName);
 }
 
 @end

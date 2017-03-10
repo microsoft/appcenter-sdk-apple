@@ -71,6 +71,10 @@ static dispatch_once_t onceToken;
   return MSInitializationPriorityDefault;
 }
 
+- (NSString *)serviceName {
+  return kMSServiceName;
+}
+
 #pragma mark - MSServiceAbstract
 
 - (void)applyEnabledState:(BOOL)isEnabled {

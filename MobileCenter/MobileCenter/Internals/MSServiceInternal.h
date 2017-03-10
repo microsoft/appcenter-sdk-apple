@@ -46,4 +46,9 @@
  */
 + (NSString *)logTag;
 
+/**
+ * Service unique key
+ */
+@property(nonatomic, copy, readonly) NSString *serviceName;
+
 @end

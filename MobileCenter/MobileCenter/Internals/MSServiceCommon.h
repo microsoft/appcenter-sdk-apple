@@ -75,6 +75,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)startWithLogManager:(id <MSLogManager>)logManager appSecret:(NSString *)appSecret;
 
+/**
+ * Service unique key
+ */
+// FIXME: need implement this property in all services after merging (Update, Push)
+@property(nonatomic, copy, readonly) NSString *serviceName;
+
 NS_ASSUME_NONNULL_END
 
 @end

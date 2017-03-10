@@ -321,6 +321,10 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   return MSInitializationPriorityMax;
 }
 
+- (NSString *)serviceName {
+  return kMSServiceName;
+}
+
 #pragma mark - MSLogManagerDelegate
 
 /**

@@ -19,6 +19,7 @@
 @class MSMockCrashesDelegate;
 
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
+static NSString *const kMSCrashesServiceName = @"Crashes";
 
 @interface MSCrashesTests : XCTestCase
 
@@ -306,6 +307,10 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // Then
   XCTAssertTrue([expected isEqualToString:actual]);
+}
+
+- (void)testCrashesServiceNameIsCorrect {
+  XCTAssertEqual([MSCrashes sharedInstance].serviceName, kMSCrashesServiceName);
 }
 
 @end
