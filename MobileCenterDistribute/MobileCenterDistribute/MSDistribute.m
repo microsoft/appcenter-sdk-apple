@@ -134,6 +134,14 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   // Check if it's okay to check for updates.
   if ([self checkForUpdatesAllowed]) {
 
+    // Check if the device has internet connection to get update token.
+    if ([MS_Reachability reachabilityForInternetConnection].currentReachabilityStatus == NotReachable) {
+      MSLogWarning(
+          [MSDistribute logTag],
+          @"The device lost internet connection. The SDK will retry to get update API token in the next launch.");
+      return;
+    }
+
     NSURL *url;
     MSLogInfo([MSDistribute logTag], @"Request Distribute API token.");
 
