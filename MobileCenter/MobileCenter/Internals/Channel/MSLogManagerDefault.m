@@ -129,7 +129,6 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
                                     }];
         } else {
 
-          // TODO: Distinguish between success and fail?
           // Notify delegates.
           [self enumerateDelegatesForSelector:@selector(onFailedProcessingLog:withInternalId:andPriority:)
                                     withBlock:^(id<MSLogManagerDelegate> delegate) {
