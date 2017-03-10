@@ -264,6 +264,7 @@
 		F859D1021E549B45008B2D8E /* live_report_swift_crash.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_swift_crash.plcrash; sourceTree = "<group>"; };
 		F859D1031E549B45008B2D8E /* live_report_undefined_instr.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_undefined_instr.plcrash; sourceTree = "<group>"; };
 		F859D1041E549B45008B2D8E /* live_report_write_readonly.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_write_readonly.plcrash; sourceTree = "<group>"; };
+		F87A05591E72BE420038A6F9 /* Tests.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Tests.xcconfig; path = ../../../Tests.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -422,6 +423,7 @@
 				3856B47D1E032EC50016AB05 /* Global.xcconfig */,
 				6E37297F1D1DE93800F1E4AE /* MobileCenterCrashes.xcconfig */,
 				6E3729811D1DE93800F1E4AE /* module.modulemap */,
+				F87A05591E72BE420038A6F9 /* Tests.xcconfig */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -859,11 +861,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				"ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					"-iframework",
-					"\"$(SRCROOT)/../Vendor/PLCrashReporter\"",
-				);
 				OTHER_LDFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecentercrashes;
@@ -879,11 +876,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				"ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					"-iframework",
-					"\"$(SRCROOT)/../Vendor/PLCrashReporter\"",
-				);
 				OTHER_LDFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecentercrashes;
@@ -897,25 +889,16 @@
 		};
 		6E171AEA1D22F781000DC480 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F87A05591E72BE420038A6F9 /* Tests.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				INFOPLIST_FILE = MobileCenterCrashesTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					"-iframework",
-					"\"$(SRCROOT)/../Vendor/PLCrashReporter\"",
-					"-iframework",
-					"\"$(SRCROOT)/../Vendor/OCHamcrest\"",
-					"-iframework",
-					"\"$(SRCROOT)/../Vendor/OHHTTPStubs\"",
-					"-isystem",
-					"\"$(SRCROOT)/../Vendor/OCMock\"",
-				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -930,23 +913,16 @@
 		};
 		6E171AEB1D22F781000DC480 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F87A05591E72BE420038A6F9 /* Tests.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				INFOPLIST_FILE = MobileCenterCrashesTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					"-iframework",
-					"\"$(SRCROOT)/../Vendor/OCHamcrest\"",
-					"-iframework",
-					"\"$(SRCROOT)/../Vendor/OHHTTPStubs\"",
-					"-isystem",
-					"\"$(SRCROOT)/../Vendor/OCMock\"",
-				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
