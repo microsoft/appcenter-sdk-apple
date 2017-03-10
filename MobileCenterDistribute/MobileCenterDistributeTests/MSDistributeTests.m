@@ -512,7 +512,19 @@ static NSURL *sfURL;
   OCMVerify([userDefaultsMock setObject:@(1) forKey:kMSSDKHasLaunchedWithDistribute]);
 }
 
-- (void)test {
+- (void)testWithoutNetwork {
+
+  // If
+  id reachabilityMock = OCMClassMock([MS_Reachability class]);
+  OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
+  [reachabilityMock setValue:NotReachable forKey:@"currentReachabilityStatus"];
+  id distributeMock = OCMPartialMock(self.sut);
+
+  // When
+  [distributeMock requestUpdateToken];
+
+  // Then
+  OCMReject([distributeMock buildTokenRequestURLWithAppSecret:[OCMArg any]]);
 }
 
 @end
