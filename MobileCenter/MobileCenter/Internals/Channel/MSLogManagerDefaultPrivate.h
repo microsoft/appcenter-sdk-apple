@@ -9,18 +9,20 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class MSHttpSender;
+
 @interface MSLogManagerDefault ()
 
 /**
  * Initializes a new `MSLogManager` instance.
  *
- * @param sender A sender instance that is used to send batches of log items to
+ * @param sender An HTTP sender instance that is used to send batches of log items to
  * the backend.
  * @param storage A storage instance to store and read enqueued log items.
  *
  * @return A new `MSLogManager` instance.
  */
-- (instancetype)initWithSender:(id <MSSender>)sender storage:(id <MSStorage>)storage;
+- (instancetype)initWithSender:(MSHttpSender *)sender storage:(id <MSStorage>)storage;
 
 @end
 
