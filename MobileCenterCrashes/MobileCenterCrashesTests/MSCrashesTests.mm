@@ -29,7 +29,6 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
 
 @implementation MSCrashesTests
 
-
 #pragma mark - Housekeeping
 
 - (void)setUp {
@@ -182,7 +181,7 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
   // When
   NSString *testName = @"afilename";
   [self.sut createBufferFileWithName:testName forPriority:MSPriorityHigh];
-  
+
   // Then
   NSString *priorityDirectory = [self.sut.logBufferDir stringByAppendingFormat:@"/%ld/", MSPriorityHigh];
 
@@ -227,38 +226,38 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
 }
 
 - (void)testBufferIndexOverflowForAllPriorities {
-  
-  for(NSInteger priority = 0; priority < kMSPriorityCount; priority++) {
-  
-  // When
-  for (int i = 0; i < 20; i++) {
+
+  for (NSInteger priority = 0; priority < kMSPriorityCount; priority++) {
+
+    // When
+    for (int i = 0; i < 20; i++) {
+      MSAppleErrorLog *log = [MSAppleErrorLog new];
+      [self.sut onProcessingLog:log withPriority:(MSPriority)priority];
+    }
+    // Then
+    XCTAssertTrue([self.sut.bufferIndex[@(priority)] isEqualToNumber:@20]);
+
+    // When
     MSAppleErrorLog *log = [MSAppleErrorLog new];
     [self.sut onProcessingLog:log withPriority:(MSPriority)priority];
-  }
-  // Then
-  XCTAssertTrue([self.sut.bufferIndex[@(priority)] isEqualToNumber:@20]);
 
-  // When
-  MSAppleErrorLog *log = [MSAppleErrorLog new];
-  [self.sut onProcessingLog:log withPriority:(MSPriority)priority];
+    // Then
+    XCTAssertTrue([self.sut.bufferIndex[@(priority)] isEqualToNumber:@1]);
 
-  // Then
-  XCTAssertTrue([self.sut.bufferIndex[@(priority)] isEqualToNumber:@1]);
-  
-  // When
-  for (int i = 0; i < 50; i++) {
-    MSAppleErrorLog *log = [MSAppleErrorLog new];
+    // When
+    for (int i = 0; i < 50; i++) {
+      MSAppleErrorLog *log = [MSAppleErrorLog new];
+      [self.sut onProcessingLog:log withPriority:(MSPriority)priority];
+    }
+    // Then
+    XCTAssertTrue([self.sut.bufferIndex[@(priority)] isEqualToNumber:@11]);
+
+    // When
     [self.sut onProcessingLog:log withPriority:(MSPriority)priority];
+
+    // Then
+    XCTAssertTrue([self.sut.bufferIndex[@(priority)] isEqualToNumber:@12]);
   }
-  // Then
-  XCTAssertTrue([self.sut.bufferIndex[@(priority)] isEqualToNumber:@11]);
-  
-  // When
-  [self.sut onProcessingLog:log withPriority:(MSPriority)priority];
-  
-  // Then
-  XCTAssertTrue([self.sut.bufferIndex[@(priority)] isEqualToNumber:@12]);
-}
 }
 
 - (void)testInitializationPriorityCorrect {
@@ -288,21 +287,24 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
 - (void)testBufferDirectoryWorks {
 
   // When
-  NSString *expected = [[MSCrashesUtil logBufferDir] stringByAppendingString:[NSString stringWithFormat:@"/%ld/", MSPriorityBackground]];
+  NSString *expected =
+      [[MSCrashesUtil logBufferDir] stringByAppendingString:[NSString stringWithFormat:@"/%ld/", MSPriorityBackground]];
   NSString *actual = [self.sut bufferDirectoryForPriority:MSPriorityBackground];
 
   // Then
   XCTAssertTrue([expected isEqualToString:actual]);
 
   // When
-  expected = [[MSCrashesUtil logBufferDir] stringByAppendingString:[NSString stringWithFormat:@"/%ld/", MSPriorityDefault]];
+  expected =
+      [[MSCrashesUtil logBufferDir] stringByAppendingString:[NSString stringWithFormat:@"/%ld/", MSPriorityDefault]];
   actual = [self.sut bufferDirectoryForPriority:MSPriorityDefault];
 
   // Then
   XCTAssertTrue([expected isEqualToString:actual]);
 
   // When
-  expected = [[MSCrashesUtil logBufferDir] stringByAppendingString:[NSString stringWithFormat:@"/%ld/", MSPriorityHigh]];
+  expected =
+      [[MSCrashesUtil logBufferDir] stringByAppendingString:[NSString stringWithFormat:@"/%ld/", MSPriorityHigh]];
   actual = [self.sut bufferDirectoryForPriority:MSPriorityHigh];
 
   // Then
@@ -310,7 +312,7 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
 }
 
 - (void)testCrashesServiceNameIsCorrect {
-  XCTAssertEqual([MSCrashes sharedInstance].serviceName, kMSCrashesServiceName);
+  XCTAssertEqual([MSCrashes serviceName], kMSCrashesServiceName);
 }
 
 @end

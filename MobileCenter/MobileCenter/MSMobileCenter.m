@@ -184,11 +184,11 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
     if (configured) {
 
       NSArray *sortedServices = [self sortServices:services];
-      NSMutableArray<NSString*>* servicesNames = [NSMutableArray arrayWithCapacity:sortedServices.count];
+      NSMutableArray<NSString *> *servicesNames = [NSMutableArray arrayWithCapacity:sortedServices.count];
 
       for (Class service in sortedServices) {
         if ([self startService:service]) {
-          [servicesNames addObject:[service logTag]];
+          [servicesNames addObject:[service serviceName]];
         }
       }
       [self sendStartServiceLog:servicesNames];
@@ -220,7 +220,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
   @synchronized(self) {
     id<MSServiceInternal> service = [clazz sharedInstance];
 
-    if(service.isAvailable) {
+    if (service.isAvailable) {
 
       // Service already works, we shouldn't send log with this service name
       return NO;
@@ -240,7 +240,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 - (void)setLogUrl:(NSString *)logUrl {
   @synchronized(self) {
     _logUrl = logUrl;
-    if (self.logManager){
+    if (self.logManager) {
       [self.logManager setLogUrl:logUrl];
     }
   }
@@ -348,7 +348,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
   return canBeUsed;
 }
 
-- (void)sendStartServiceLog:(NSArray<NSString*>*)servicesNames {
+- (void)sendStartServiceLog:(NSArray<NSString *> *)servicesNames {
   MSStartServiceLog *serviceLog = [MSStartServiceLog new];
   serviceLog.services = servicesNames;
   [self.logManager processLog:serviceLog withPriority:MSPriorityDefault];

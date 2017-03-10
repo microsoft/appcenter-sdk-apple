@@ -296,6 +296,10 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   return sharedInstance;
 }
 
++ (NSString *)serviceName {
+  return kMSServiceName;
+}
+
 - (void)startWithLogManager:(id<MSLogManager>)logManager appSecret:(NSString *)appSecret {
   [super startWithLogManager:logManager appSecret:appSecret];
   [logManager addDelegate:self];
@@ -319,10 +323,6 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
 - (MSInitializationPriority)initializationPriority {
   return MSInitializationPriorityMax;
-}
-
-- (NSString *)serviceName {
-  return kMSServiceName;
 }
 
 #pragma mark - MSLogManagerDelegate

@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Log manager.
  */
-@property(nonatomic) id <MSLogManager> logManager;
+@property(nonatomic) id<MSLogManager> logManager;
 
 /**
  * The app secret for the SDK.
@@ -73,13 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param logManager log manager used to persist and send logs.
  * @param appSecret app secret for the SDK.
  */
-- (void)startWithLogManager:(id <MSLogManager>)logManager appSecret:(NSString *)appSecret;
-
-/**
- * Service name
- */
-// FIXME: need implement this property in all services after merging (Update, Push)
-@property(nonatomic, copy, readonly) NSString *serviceName;
+- (void)startWithLogManager:(id<MSLogManager>)logManager appSecret:(NSString *)appSecret;
 
 NS_ASSUME_NONNULL_END
 
