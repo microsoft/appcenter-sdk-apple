@@ -13,8 +13,8 @@
 #import "MSSenderDelegate.h"
 #import "MobileCenter+Internal.h"
 
-#import "OCMock.h"
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
+#import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
 static NSTimeInterval const kMSTestTimeout = 5.0;
