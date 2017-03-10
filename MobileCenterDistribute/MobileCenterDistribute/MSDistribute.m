@@ -51,7 +51,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
     /*
      * Delete API token if an application has been uninstalled and try to get a new one from server.
-     * Under iOS 10.3, keychain data won't be automatically deleted by uninstall
+     * For iOS version < 10.3, keychain data won't be automatically deleted by uninstall
      * so we should detect it and clean up keychain data when Distribute service gets initialized.
      */
     NSNumber *flag = [MS_USER_DEFAULTS objectForKey:kMSSDKHasLaunchedWithDistribute];
@@ -138,7 +138,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     if ([MS_Reachability reachabilityForInternetConnection].currentReachabilityStatus == NotReachable) {
       MSLogWarning(
           [MSDistribute logTag],
-          @"The device lost internet connection. The SDK will retry to get update API token in the next launch.");
+          @"The device lost its internet connection. The SDK will retry to get an update API token in the next launch.");
       return;
     }
 
