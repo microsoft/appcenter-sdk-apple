@@ -181,15 +181,16 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [self.sut createBufferFileWithName:testName forPriority:MSPriorityHigh];
 
   // Then
-  NSString *priorityDirectory = [self.sut.logBufferDir stringByAppendingFormat:@"/%ld/", MSPriorityHigh];
 
+  // Wait for a little bit to make sure the files have been created.
+  [NSThread sleepForTimeInterval:0.1];
+  NSString *priorityDirectory = [self.sut.logBufferDir stringByAppendingFormat:@"/%ld/", MSPriorityHigh];
   NSString *filePath =
       [priorityDirectory stringByAppendingPathComponent:[testName stringByAppendingString:@".mscrasheslogbuffer"]];
   BOOL success = [[NSFileManager defaultManager] fileExistsAtPath:filePath];
   XCTAssertTrue(success);
 }
 
-// FIXME: Crashes is getting way more logs than expected. Disable this functionality.
 - (void)emptyLogBufferFiles {
   // If
   NSString *testName = @"afilename";
@@ -243,13 +244,14 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
       [self.sut onProcessingLog:log withInternalId:MS_UUID_STRING andPriority:(MSPriority)priority];
     }
     int buffercount = 0;
-    for (auto it = msCrashesLogBuffer[(MSPriority)priority].begin(), end = msCrashesLogBuffer[(MSPriority)priority].end(); it != end;
-         ++it) {
+    for (auto it = msCrashesLogBuffer[(MSPriority)priority].begin(),
+              end = msCrashesLogBuffer[(MSPriority)priority].end();
+         it != end; ++it) {
       if (!it->internalId.empty()) {
         buffercount += 1;
       }
     }
-    
+
     // Then
     XCTAssertTrue(buffercount == 20);
 
@@ -260,46 +262,45 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
     timestampFormatter.numberStyle = NSNumberFormatterDecimalStyle;
     int indexOfLatestObject = 0;
     NSNumber *oldestTimestamp;
-    for (auto it = msCrashesLogBuffer[(MSPriority)priority].begin(), end = msCrashesLogBuffer[(MSPriority)priority].end(); it != end;
-         ++it) {
+    for (auto it = msCrashesLogBuffer[(MSPriority)priority].begin(),
+              end = msCrashesLogBuffer[(MSPriority)priority].end();
+         it != end; ++it) {
       NSNumber *bufferedLogTimestamp = [timestampFormatter
-                                        numberFromString:[NSString stringWithCString:it->timestamp.c_str() encoding:NSUTF8StringEncoding]];
-      
+          numberFromString:[NSString stringWithCString:it->timestamp.c_str() encoding:NSUTF8StringEncoding]];
+
       // Remember the timestamp if the log is older than the previous one or the initial one.
       if (!oldestTimestamp || oldestTimestamp.doubleValue > bufferedLogTimestamp.doubleValue) {
         oldestTimestamp = bufferedLogTimestamp;
         indexOfLatestObject = it - msCrashesLogBuffer[(MSPriority)priority].begin();
       }
     }
-    
+
     // Then
     XCTAssertTrue(buffercount == 20);
     XCTAssertTrue(indexOfLatestObject == 1);
-    
-    
-    
-    
+
     // When
     for (int i = 0; i < 50; i++) {
       MSAppleErrorLog *log = [MSAppleErrorLog new];
       [self.sut onProcessingLog:log withInternalId:MS_UUID_STRING andPriority:(MSPriority)priority];
     }
-    
+
     // When
     indexOfLatestObject = 0;
     oldestTimestamp = nil;
-    for (auto it = msCrashesLogBuffer[(MSPriority)priority].begin(), end = msCrashesLogBuffer[(MSPriority)priority].end(); it != end;
-         ++it) {
+    for (auto it = msCrashesLogBuffer[(MSPriority)priority].begin(),
+              end = msCrashesLogBuffer[(MSPriority)priority].end();
+         it != end; ++it) {
       NSNumber *bufferedLogTimestamp = [timestampFormatter
-                                        numberFromString:[NSString stringWithCString:it->timestamp.c_str() encoding:NSUTF8StringEncoding]];
-      
+          numberFromString:[NSString stringWithCString:it->timestamp.c_str() encoding:NSUTF8StringEncoding]];
+
       // Remember the timestamp if the log is older than the previous one or the initial one.
       if (!oldestTimestamp || oldestTimestamp.doubleValue > bufferedLogTimestamp.doubleValue) {
         oldestTimestamp = bufferedLogTimestamp;
         indexOfLatestObject = it - msCrashesLogBuffer[(MSPriority)priority].begin();
       }
     }
-    
+
     // Then
     XCTAssertTrue(buffercount == 20);
     XCTAssertTrue(indexOfLatestObject == 11);
