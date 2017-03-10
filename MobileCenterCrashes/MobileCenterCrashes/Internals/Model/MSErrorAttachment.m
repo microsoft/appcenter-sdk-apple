@@ -26,9 +26,9 @@ static NSString *const kMSBinaryAttachment = @"binary_attachment";
     return NO;
 
   return ((!self.textAttachment && !attachment.textAttachment) ||
-      [self.textAttachment isEqualToString:attachment.textAttachment]) &&
+      [self.textAttachment isEqualToString:(NSString *_Nonnull)attachment.textAttachment]) &&
       ((!self.binaryAttachment && !attachment.binaryAttachment) ||
-          [self.binaryAttachment isEqual:attachment.binaryAttachment]);
+          [self.binaryAttachment isEqual:(MSErrorBinaryAttachment *_Nonnull)attachment.binaryAttachment]);
 }
 
 #pragma mark - NSCoding

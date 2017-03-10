@@ -9,42 +9,42 @@
 /**
  * The binary id as UUID string.
  */
-@property(nonatomic, copy, nonnull) NSString *binaryId;
+@property(nonatomic, copy) NSString *binaryId;
 
 /**
  * The binary's start address.
  */
-@property(nonatomic, copy, nonnull) NSString *startAddress;
+@property(nonatomic, copy) NSString *startAddress;
 
 /**
  * The binary's end address.
  */
-@property(nonatomic, copy, nonnull) NSString *endAddress;
+@property(nonatomic, copy) NSString *endAddress;
 
 /**
  * The binary's name.
  */
-@property(nonatomic, copy, nonnull) NSString *name;
+@property(nonatomic, copy) NSString *name;
 
 /**
  * The path to the binary.
  */
-@property(nonatomic, copy, nonnull) NSString *path;
+@property(nonatomic, copy) NSString *path;
 
 /**
  * The architecture.
  */
-@property(nonatomic, copy, nonnull) NSString *architecture;
+@property(nonatomic, copy) NSString *architecture;
 
 /**
  * CPU primary architecture [optional].
  */
-@property(nonatomic, nullable) NSNumber *primaryArchitectureId;
+@property(nonatomic) NSNumber *primaryArchitectureId;
 
 /**
  * CPU architecture variant [optional].
  */
-@property(nonatomic, nullable) NSNumber *architectureVariantId;
+@property(nonatomic) NSNumber *architectureVariantId;
 
 /**
  * Is equal to another binary
@@ -53,7 +53,7 @@
  *
  * @return Return YES if equal and NO if not equal
  */
-- (BOOL)isEqual:(nullable MSBinary *)binary;
+- (BOOL)isEqual:(MSBinary *)binary;
 
 /**
  * Checks if the object's values are valid.

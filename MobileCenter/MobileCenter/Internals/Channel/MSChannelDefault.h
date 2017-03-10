@@ -24,18 +24,18 @@ typedef void (^enqueueCompletionBlock)(BOOL);
 /**
  * A sender instance that is used to send batches of log items to the backend.
  */
-@property(nonatomic, strong, nullable) id<MSSender> sender;
+@property(nonatomic, strong) id<MSSender> sender;
 
 /**
  * A storage instance to store and read enqueued log items.
  */
-@property(nonatomic, strong, nullable) id<MSStorage> storage;
+@property(nonatomic, strong) id<MSStorage> storage;
 
 /**
  * A timer source which is used to flush the queue after a certain amount of
  * time.
  */
-@property(nonatomic, strong, nullable) dispatch_source_t timerSource;
+@property(nonatomic, strong) dispatch_source_t timerSource;
 
 /**
  * A counter that keeps tracks of the number of logs added to the queue.
