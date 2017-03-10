@@ -8,27 +8,27 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Base URL (schema + authority + port only) used to communicate with the server.
  */
-@property(nonatomic) NSString *baseURL;
+@property(nonatomic, copy) NSString *baseURL;
 
 /**
  * API URL path used to identify an API from the server.
  */
-@property(nonatomic) NSString *apiPath;
+@property(nonatomic, copy) NSString *apiPath;
 
 /**
  *	Send Url.
  */
-@property(nonatomic, strong) NSURL *sendURL;
+@property(nonatomic) NSURL *sendURL;
 
 /**
  *	Request header parameters.
  */
-@property(nonatomic, strong) NSDictionary *httpHeaders;
+@property(nonatomic) NSDictionary *httpHeaders;
 
 /**
  *  Pending http calls.
  */
-@property(atomic, strong) NSMutableDictionary<NSString *, MSSenderCall *> *pendingCalls;
+@property NSMutableDictionary<NSString *, MSSenderCall *> *pendingCalls;
 
 /**
  *  Send data to backend

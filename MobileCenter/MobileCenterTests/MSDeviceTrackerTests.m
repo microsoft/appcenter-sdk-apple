@@ -14,7 +14,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 
 @interface MSDeviceTrackerTests : XCTestCase
 
-@property(nonatomic, strong) MSDeviceTracker *sut;
+@property(nonatomic) MSDeviceTracker *sut;
 
 @end
 
