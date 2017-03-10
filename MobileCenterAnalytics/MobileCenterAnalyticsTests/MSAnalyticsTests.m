@@ -274,7 +274,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 }
 
 - (void)testServiceNameIsCorrect {
-  XCTAssertEqual([MSAnalytics sharedInstance].serviceName,kMSAnalyticsServiceName);
+  XCTAssertEqual([MSAnalytics sharedInstance].serviceName, kMSAnalyticsServiceName);
 }
 
 @end
