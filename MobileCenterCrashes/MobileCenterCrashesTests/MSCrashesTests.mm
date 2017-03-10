@@ -28,7 +28,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
 @implementation MSCrashesTests
 
-
 #pragma mark - Housekeeping
 
 - (void)setUp {
@@ -44,8 +43,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
 #pragma mark - Tests
 
-// FIXME: Crashes is getting way more logs than expected. Disable this functionality.
-- (void)newInstanceWasInitialisedCorrectly {
+- (void)testNewInstanceWasInitialisedCorrectly {
   assertThat(self.sut, notNilValue());
   assertThat(self.sut.fileManager, notNilValue());
   assertThat(self.sut.crashFiles, isEmpty());
@@ -181,7 +179,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // When
   NSString *testName = @"afilename";
   [self.sut createBufferFileWithName:testName forPriority:MSPriorityHigh];
-  
+
   // Then
   NSString *priorityDirectory = [self.sut.logBufferDir stringByAppendingFormat:@"/%ld/", MSPriorityHigh];
 
@@ -217,57 +215,95 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 }
 
 - (void)testBufferIndexIncrementForAllPriorities {
- 
+
+  // If
+  int buffercount = 0;
+
   // When
   MSAppleErrorLog *log = [MSAppleErrorLog new];
   [self.sut onProcessingLog:log withInternalId:MS_UUID_STRING andPriority:MSPriorityHigh];
-
-  int buffercount = 0;
-  
-  for (auto it = msCrashesLogBuffer[MSPriorityHigh].begin(), end = msCrashesLogBuffer[MSPriorityHigh].end(); it != end; ++it) {
-    if(!it->internalId.empty()) {
+  for (auto it = msCrashesLogBuffer[MSPriorityHigh].begin(), end = msCrashesLogBuffer[MSPriorityHigh].end(); it != end;
+       ++it) {
+    if (!it->internalId.empty()) {
       buffercount += 1;
     }
   }
-  
+
   // Then
-//  XCTAssertTrue([self.sut.bufferIndex[@(MSPriorityHigh)] isEqualToNumber:@1]);
-  XCTAssertTrue(buffercount  == 1);
+  XCTAssertTrue(buffercount == 1);
 }
 
 - (void)testBufferIndexOverflowForAllPriorities {
-  
-  for(NSInteger priority = 0; priority < kMSPriorityCount; priority++) {
-  
-  // When
-  for (int i = 0; i < 20; i++) {
+
+  for (NSInteger priority = 0; priority < kMSPriorityCount; priority++) {
+
+    // When
+    for (int i = 0; i < 20; i++) {
+      MSAppleErrorLog *log = [MSAppleErrorLog new];
+      [self.sut onProcessingLog:log withInternalId:MS_UUID_STRING andPriority:(MSPriority)priority];
+    }
+    int buffercount = 0;
+    for (auto it = msCrashesLogBuffer[(MSPriority)priority].begin(), end = msCrashesLogBuffer[(MSPriority)priority].end(); it != end;
+         ++it) {
+      if (!it->internalId.empty()) {
+        buffercount += 1;
+      }
+    }
+    
+    // Then
+    XCTAssertTrue(buffercount == 20);
+
+    // When
     MSAppleErrorLog *log = [MSAppleErrorLog new];
     [self.sut onProcessingLog:log withInternalId:MS_UUID_STRING andPriority:(MSPriority)priority];
+    NSNumberFormatter *timestampFormatter = [[NSNumberFormatter alloc] init];
+    timestampFormatter.numberStyle = NSNumberFormatterDecimalStyle;
+    int indexOfLatestObject = 0;
+    NSNumber *oldestTimestamp;
+    for (auto it = msCrashesLogBuffer[(MSPriority)priority].begin(), end = msCrashesLogBuffer[(MSPriority)priority].end(); it != end;
+         ++it) {
+      NSNumber *bufferedLogTimestamp = [timestampFormatter
+                                        numberFromString:[NSString stringWithCString:it->timestamp.c_str() encoding:NSUTF8StringEncoding]];
+      
+      // Remember the timestamp if the log is older than the previous one or the initial one.
+      if (!oldestTimestamp || oldestTimestamp.doubleValue > bufferedLogTimestamp.doubleValue) {
+        oldestTimestamp = bufferedLogTimestamp;
+        indexOfLatestObject = it - msCrashesLogBuffer[(MSPriority)priority].begin();
+      }
+    }
+    
+    // Then
+    XCTAssertTrue(buffercount == 20);
+    XCTAssertTrue(indexOfLatestObject == 1);
+    
+    
+    
+    
+    // When
+    for (int i = 0; i < 50; i++) {
+      MSAppleErrorLog *log = [MSAppleErrorLog new];
+      [self.sut onProcessingLog:log withInternalId:MS_UUID_STRING andPriority:(MSPriority)priority];
+    }
+    
+    // When
+    indexOfLatestObject = 0;
+    oldestTimestamp = nil;
+    for (auto it = msCrashesLogBuffer[(MSPriority)priority].begin(), end = msCrashesLogBuffer[(MSPriority)priority].end(); it != end;
+         ++it) {
+      NSNumber *bufferedLogTimestamp = [timestampFormatter
+                                        numberFromString:[NSString stringWithCString:it->timestamp.c_str() encoding:NSUTF8StringEncoding]];
+      
+      // Remember the timestamp if the log is older than the previous one or the initial one.
+      if (!oldestTimestamp || oldestTimestamp.doubleValue > bufferedLogTimestamp.doubleValue) {
+        oldestTimestamp = bufferedLogTimestamp;
+        indexOfLatestObject = it - msCrashesLogBuffer[(MSPriority)priority].begin();
+      }
+    }
+    
+    // Then
+    XCTAssertTrue(buffercount == 20);
+    XCTAssertTrue(indexOfLatestObject == 11);
   }
-  // Then
-//  XCTAssertTrue([self.sut.bufferIndex[@(priority)] isEqualToNumber:@20]);
-
-  // When
-  MSAppleErrorLog *log = [MSAppleErrorLog new];
-    [self.sut onProcessingLog:log withInternalId:MS_UUID_STRING andPriority:(MSPriority)priority];
-
-  // Then
-//  XCTAssertTrue([self.sut.bufferIndex[@(priority)] isEqualToNumber:@1]);
-  
-  // When
-  for (int i = 0; i < 50; i++) {
-    MSAppleErrorLog *log = [MSAppleErrorLog new];
-    [self.sut onProcessingLog:log withInternalId:MS_UUID_STRING andPriority:(MSPriority)priority];
-  }
-  // Then
-//  XCTAssertTrue([self.sut.bufferIndex[@(priority)] isEqualToNumber:@11]);
-  
-  // When
-    [self.sut onProcessingLog:log withInternalId:MS_UUID_STRING andPriority:(MSPriority)priority];
-  
-  // Then
-//  XCTAssertTrue([self.sut.bufferIndex[@(priority)] isEqualToNumber:@12]);
-}
 }
 
 - (void)testInitializationPriorityCorrect {
@@ -297,21 +333,24 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 - (void)testBufferDirectoryWorks {
 
   // When
-  NSString *expected = [[MSCrashesUtil logBufferDir] stringByAppendingString:[NSString stringWithFormat:@"/%ld/", MSPriorityBackground]];
+  NSString *expected =
+      [[MSCrashesUtil logBufferDir] stringByAppendingString:[NSString stringWithFormat:@"/%ld/", MSPriorityBackground]];
   NSString *actual = [self.sut bufferDirectoryForPriority:MSPriorityBackground];
 
   // Then
   XCTAssertTrue([expected isEqualToString:actual]);
 
   // When
-  expected = [[MSCrashesUtil logBufferDir] stringByAppendingString:[NSString stringWithFormat:@"/%ld/", MSPriorityDefault]];
+  expected =
+      [[MSCrashesUtil logBufferDir] stringByAppendingString:[NSString stringWithFormat:@"/%ld/", MSPriorityDefault]];
   actual = [self.sut bufferDirectoryForPriority:MSPriorityDefault];
 
   // Then
   XCTAssertTrue([expected isEqualToString:actual]);
 
   // When
-  expected = [[MSCrashesUtil logBufferDir] stringByAppendingString:[NSString stringWithFormat:@"/%ld/", MSPriorityHigh]];
+  expected =
+      [[MSCrashesUtil logBufferDir] stringByAppendingString:[NSString stringWithFormat:@"/%ld/", MSPriorityHigh]];
   actual = [self.sut bufferDirectoryForPriority:MSPriorityHigh];
 
   // Then

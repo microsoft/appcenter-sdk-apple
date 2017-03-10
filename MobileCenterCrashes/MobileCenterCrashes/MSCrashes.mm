@@ -28,6 +28,10 @@ static NSString *const kMSAnalyzerFilename = @"MSCrashes.analyzer";
  */
 static NSString *const kMSLogBufferFileExtension = @"mscrasheslogbuffer";
 
+
+std::unordered_map<MSPriority, std::array<MSCrashesBufferedLog, ms_crashes_log_buffer_size>> msCrashesLogBuffer;
+
+
 #pragma mark - Callbacks Setup
 
 static MSCrashesCallbacks msCrashesCallbacks = {.context = NULL, .handleSignal = NULL};
@@ -372,14 +376,11 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
           if (!oldestTimestamp || oldestTimestamp.doubleValue > bufferedLogTimestamp.doubleValue) {
             oldestTimestamp = bufferedLogTimestamp;
             indexToDelete = it - msCrashesLogBuffer[priority].begin();
-            
             MSLogVerbose([MSCrashes logTag], @"Remembering index %d for oldest timestamp %@.", indexToDelete, oldestTimestamp);
-
           }
 
           // We've reached the last element in our buffer.
           if (std::next(it) == end) {
-
             MSLogVerbose([MSCrashes logTag], @"Reached end of buffer. Next step is overwriting the oldest one.", indexToDelete);
 
             // Overwrite the oldest buffered log.

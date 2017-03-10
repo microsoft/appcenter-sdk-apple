@@ -44,7 +44,7 @@ const int ms_crashes_log_buffer_size = 20;
  * The log buffer object where we keep out BUFFERED_LOGs which will be written to disk in case of a crash.
  * It's a map that maps 1 array of MSCrashesBufferedLog to a MSPriority.
  */
-static std::unordered_map<MSPriority, std::array<MSCrashesBufferedLog, ms_crashes_log_buffer_size>> msCrashesLogBuffer;
+extern std::unordered_map<MSPriority, std::array<MSCrashesBufferedLog, ms_crashes_log_buffer_size>> msCrashesLogBuffer;
 
 @interface MSCrashes () <MSChannelDelegate, MSLogManagerDelegate>
 
