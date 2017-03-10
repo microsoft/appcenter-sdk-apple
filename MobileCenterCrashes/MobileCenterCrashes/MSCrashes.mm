@@ -343,9 +343,9 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
  * the crash and then, at crashtime, crashes has all info in place to save the buffer safely.
  **/
 - (void)onProcessingLog:(id<MSLog>)log withInternalId:(NSString *)internalId andPriority:(MSPriority)priority {
-
-  // Don't buffer event if log is empty or crashes module is disabled.
-  if (!log || ![self isEnabled]) {
+  
+  // Don't buffer event if log is empty, crashes module is disabled or the log is a crash.
+  if (!log || ![self isEnabled] || [((NSObject *)log) isKindOfClass:[MSAppleErrorLog class]]) {
     return;
   }
 
