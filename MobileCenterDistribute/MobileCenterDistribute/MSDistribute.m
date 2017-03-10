@@ -411,6 +411,12 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
         [MSAlertController alertControllerWithTitle:MSDistributeLocalizedString(@"Update available")
                                             message:releaseNotes];
 
+    // Add a "Postpone"-Button
+    [alertController addDefaultActionWithTitle:MSDistributeLocalizedString(@"Postpone")
+                                       handler:^(UIAlertAction *action) {
+                                         MSLogDebug([MSDistribute logTag], @"Postpone the update for now.");
+                                       }];
+
     // Add a "Ignore"-Button
     [alertController addDefaultActionWithTitle:MSDistributeLocalizedString(@"Ignore")
                                        handler:^(UIAlertAction *action) {
@@ -418,18 +424,12 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                                          [MS_USER_DEFAULTS setObject:details.id forKey:kMSIgnoredReleaseIdKey];
                                        }];
 
-    // Add a "Postpone"-Button
-    [alertController addCancelActionWithTitle:MSDistributeLocalizedString(@"Postpone")
-                                      handler:^(UIAlertAction *action) {
-                                        MSLogDebug([MSDistribute logTag], @"Postpone the release for now.");
-                                      }];
-
     // Add a "Download"-Button
-    [alertController addDefaultActionWithTitle:MSDistributeLocalizedString(@"Download")
-                                       handler:^(UIAlertAction *action) {
-                                         MSLogDebug([MSDistribute logTag], @"Start download and install the release.");
-                                         [self startDownload:details];
-                                       }];
+    [alertController addCancelActionWithTitle:MSDistributeLocalizedString(@"Download")
+                                      handler:^(UIAlertAction *action) {
+                                        MSLogDebug([MSDistribute logTag], @"Start download and install the update.");
+                                        [self startDownload:details];
+                                      }];
 
     // Show the alert controller.
     MSLogDebug([MSDistribute logTag], @"Show update dialog.");
