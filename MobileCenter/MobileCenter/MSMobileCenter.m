@@ -6,6 +6,7 @@
 #import "MSLogManagerDefault.h"
 #import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
+#import "MSStartServiceLog.h"
 
 // Singleton
 static MSMobileCenter *sharedInstance = nil;
@@ -183,10 +184,14 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
     if (configured) {
 
       NSArray *sortedServices = [self sortServices:services];
+      NSMutableArray<NSString *> *servicesNames = [NSMutableArray arrayWithCapacity:sortedServices.count];
 
       for (Class service in sortedServices) {
-        [self startService:service];
+        if ([self startService:service]) {
+          [servicesNames addObject:[service serviceName]];
+        }
       }
+      [self sendStartServiceLog:servicesNames];
     }
   }
 }
@@ -211,22 +216,31 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
   }
 }
 
-- (void)startService:(Class)clazz {
+- (BOOL)startService:(Class)clazz {
   @synchronized(self) {
     id<MSServiceInternal> service = [clazz sharedInstance];
+
+    if (service.isAvailable) {
+
+      // Service already works, we shouldn't send log with this service name
+      return NO;
+    }
 
     // Set mobileCenterDelegate.
     [self.services addObject:service];
 
     // Start service with log manager.
     [service startWithLogManager:self.logManager appSecret:self.appSecret];
+
+    // Service started
+    return YES;
   }
 }
 
 - (void)setLogUrl:(NSString *)logUrl {
   @synchronized(self) {
     _logUrl = logUrl;
-    if (self.logManager){
+    if (self.logManager) {
       [self.logManager setLogUrl:logUrl];
     }
   }
@@ -332,6 +346,12 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
                                         @"start:YOUR_APP_SECRET withServices:LIST_OF_SERVICES] first.");
   }
   return canBeUsed;
+}
+
+- (void)sendStartServiceLog:(NSArray<NSString *> *)servicesNames {
+  MSStartServiceLog *serviceLog = [MSStartServiceLog new];
+  serviceLog.services = servicesNames;
+  [self.logManager processLog:serviceLog withPriority:MSPriorityDefault];
 }
 
 + (void)resetSharedInstance {

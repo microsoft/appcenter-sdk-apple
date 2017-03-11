@@ -302,6 +302,10 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   return sharedInstance;
 }
 
++ (NSString *)serviceName {
+  return kMSServiceName;
+}
+
 - (void)startWithLogManager:(id<MSLogManager>)logManager appSecret:(NSString *)appSecret {
   [super startWithLogManager:logManager appSecret:appSecret];
   [logManager addDelegate:self];
