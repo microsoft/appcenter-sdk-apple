@@ -86,7 +86,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 /**
  * Indicates if the app crashed in the previous session
  *
- * Use this on startup, to check if the app starts the first time after it crashed previously. 
+ * Use this on startup, to check if the app starts the first time after it crashed previously.
  * You can use this also to disable specific events, like asking the user to rate your app.
  *
  * @warning This property only has a correct value, once the sdk has been
@@ -378,7 +378,8 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
            * reached the last element.
            */
           NSNumber *bufferedLogTimestamp = [timestampFormatter
-              numberFromString:((NSString * _Nonnull )[NSString stringWithCString:it->timestamp.c_str() encoding:NSUTF8StringEncoding])];
+              numberFromString:((NSString * _Nonnull)
+                                    [NSString stringWithCString:it->timestamp.c_str() encoding:NSUTF8StringEncoding])];
 
           // Remember the timestamp if the log is older than the previous one or the initial one.
           if (!oldestTimestamp || oldestTimestamp.doubleValue > bufferedLogTimestamp.doubleValue) {
@@ -539,7 +540,8 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     // Get the current top level error handler
     NSUncaughtExceptionHandler *currentHandler = NSGetUncaughtExceptionHandler();
 
-    /* If the top level error handler differs from our own, at least another one was added.
+    /**
+     * If the top level error handler differs from our own, at least another one was added.
      * This could cause exception crashes not to be reported to Mobile Center. Print out
      * log message for details.
      */
@@ -628,8 +630,10 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   // Iterate over priorities, check if we have buffered logs for each one.
   for (NSInteger priority = 0; priority < kMSPriorityCount; priority++) {
 
-    // Get directory for priority, iterate over each file in it with the kMSLogBufferFileExtension and send
-    // the log if a log can be deserialized.
+    /**
+     * Get directory for priority, iterate over each file in it with the kMSLogBufferFileExtension and send
+     * the log if a log can be deserialized.
+     */
     NSString *dirForPriority = [self bufferDirectoryForPriority:(MSPriority)priority];
     NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:dirForPriority error:NULL];
     for (NSString *tmp in files) {
@@ -743,6 +747,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
 - (void)setupLogBuffer {
   @synchronized(self) {
+
     // Array of 20 buffer file paths per priority.
     // Each priority has 0.mscrasheslogbuffer ... 19.mscrasheslogbuffer.
     for (NSInteger priority = 0; priority < kMSPriorityCount; priority++) {
@@ -761,8 +766,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 - (NSArray<NSString *> *)createBufferFilesIfNeededForPriority:(MSPriority)priority {
   NSMutableArray<NSString *> *files = [NSMutableArray arrayWithCapacity:ms_crashes_log_buffer_size];
 
-  // Create missing buffer files if needed. We don't care about which one's are already there,
-  // we'll just skip existing ones.
+  // Create missing buffer files if needed. We don't care about which one's are already there, we'll skip existing ones.
   for (int i = 0; i < ms_crashes_log_buffer_size; i++) {
 
     // Files are named N.mscrasheslogbuffer where N is between 0 and ms_crashes_log_buffer_size.
