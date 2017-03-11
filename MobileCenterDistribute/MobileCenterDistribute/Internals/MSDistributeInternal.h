@@ -22,6 +22,6 @@
 /**
  * A sender instance that is used to send a request for new release to the backend.
  */
-@property(nonatomic, strong, nullable) MSDistributeSender *sender;
+@property(nonatomic, nullable) MSDistributeSender *sender;
 
 @end
