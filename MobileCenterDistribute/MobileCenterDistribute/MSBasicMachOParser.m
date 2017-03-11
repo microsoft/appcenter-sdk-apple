@@ -13,7 +13,7 @@ static NSString *const kMSCantReadErrorDescFormat = @"Cannot read data from file
 
 @interface MSBasicMachOParser ()
 
-@property(nonatomic, strong) NSURL *fileURL;
+@property(nonatomic) NSURL *fileURL;
 
 @end
 

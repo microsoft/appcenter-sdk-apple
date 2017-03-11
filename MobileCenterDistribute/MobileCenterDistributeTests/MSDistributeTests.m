@@ -51,8 +51,8 @@ static NSURL *sfURL;
 
 @interface MSDistributeTests : XCTestCase
 
-@property(nonatomic, strong) MSDistribute *sut;
-@property(nonatomic, strong) id parserMock;
+@property(nonatomic) MSDistribute *sut;
+@property(nonatomic) id parserMock;
 
 @end
 
