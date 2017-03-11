@@ -26,11 +26,6 @@ static NSString *const kMSAnalyzerFilename = @"MSCrashes.analyzer";
  */
 static NSString *const kMSLogBufferFileExtension = @"mscrasheslogbuffer";
 
-/**
- * This is required so that mach exception handling is *never* enabled for Xamarin
- */
-static BOOL permanentlyDisableMachExceptionHandling = false;
-
 #pragma mark - Callbacks Setup
 
 static MSCrashesCallbacks msCrashesCallbacks = {.context = NULL, .handleSignal = NULL};
@@ -101,12 +96,12 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
  * @see lastSessionCrashReport
  */
-@property(atomic) BOOL didCrashInLastSession;
+@property BOOL didCrashInLastSession;
 
 /**
  * Detail information about the last crash.
  */
-@property(atomic, getter=getLastSessionCrashReport) MSErrorReport *lastSessionCrashReport;
+@property(getter=getLastSessionCrashReport) MSErrorReport *lastSessionCrashReport;
 
 @end
 
@@ -196,13 +191,8 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   return [[self sharedInstance] getLastSessionCrashReport];
 }
 
+/* This can never be binded to Xamarin */
 + (void)enableMachExceptionHandler {
-
-  // Handling Mach exceptions when using Xamarin causes problems, so there must be a way
-  // to ensure that it is never possible in that case.
-  if (permanentlyDisableMachExceptionHandling) {
-    return;
-  }
   [[self sharedInstance] setEnableMachExceptionHandler:YES];
 }
 
@@ -222,7 +212,8 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     _didCrashInLastSession = NO;
     _bufferIndex = [[NSMutableDictionary alloc] initWithCapacity:kMSPriorityCount];
 
-    [self setupLogBuffer];
+    // FIXME: Crashes is getting way more logs than expected. Disable this functionality.
+    // [self setupLogBuffer];
   }
   return self;
 }
@@ -305,10 +296,16 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   return sharedInstance;
 }
 
++ (NSString *)serviceName {
+  return kMSServiceName;
+}
+
 - (void)startWithLogManager:(id<MSLogManager>)logManager appSecret:(NSString *)appSecret {
   [super startWithLogManager:logManager appSecret:appSecret];
   [logManager addDelegate:self];
-  [self processLogBufferAfterCrash];
+
+  // FIXME: Crashes is getting way more logs than expected. Disable this functionality.
+  // [self processLogBufferAfterCrash];
   MSLogVerbose([MSCrashes logTag], @"Started crash service.");
 }
 
@@ -399,20 +396,6 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 }
 
 #pragma mark - Crash reporter configuration
-
-+ (void)notifyPermanentlyDisableMachExceptionHandling {
-  if (permanentlyDisableMachExceptionHandling) {
-    MSLogDebug([MSCrashes logTag], @"Mach exception handling has already been permanently disabled.");
-    return;
-  }
-
-  // Permanently disable mach exception handling if running from Xamarin
-  if ([[self sharedInstance] isMachExceptionHandlerEnabled]) {
-    [[self sharedInstance] setEnableMachExceptionHandler:NO];
-  }
-  permanentlyDisableMachExceptionHandling = true;
-  MSLogDebug([MSCrashes logTag], @"Mach exception handling permanently disabled.");
-}
 
 - (void)configureCrashReporter {
   if (self.plCrashReporter) {

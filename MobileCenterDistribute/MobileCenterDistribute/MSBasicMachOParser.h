@@ -8,7 +8,7 @@
 /**
  * UUID parsed out of the current file.
  */
-@property(nonatomic, strong) NSUUID *uuid;
+@property(nonatomic) NSUUID *uuid;
 
 /**
  * Initialize a Mach-O parser for the given bundle

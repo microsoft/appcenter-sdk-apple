@@ -1,8 +1,8 @@
+#import "MSHttpSenderPrivate.h"
 #import "MSIngestionSender.h"
-#import "MobileCenter.h"
 #import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
-#import "MSHttpSenderPrivate.h"
+#import "MobileCenter.h"
 
 @implementation MSIngestionSender
 
@@ -67,7 +67,6 @@ static NSString *const kMSApiPath = @"/logs";
     MSLogVerbose([MSMobileCenter logTag], @"URL: %@", request.URL);
     MSLogVerbose([MSMobileCenter logTag], @"Headers: %@", [super prettyPrintHeaders:request.allHTTPHeaderFields]);
   }
-
   return request;
 }
 

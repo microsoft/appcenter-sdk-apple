@@ -1,3 +1,4 @@
+
 #import <Foundation/Foundation.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
@@ -9,7 +10,9 @@
 #import "MSDistributePrivate.h"
 #import "MSKeychainUtil.h"
 #import "MSLogManager.h"
+#import "MSMobileCenter.h"
 #import "MSServiceAbstract.h"
+#import "MSServiceAbstractProtected.h"
 #import "MSServiceInternal.h"
 #import "MSUserDefaults.h"
 #import "MSUtil.h"
@@ -48,8 +51,8 @@ static NSURL *sfURL;
 
 @interface MSDistributeTests : XCTestCase
 
-@property(nonatomic, strong) MSDistribute *sut;
-@property(nonatomic, strong) id parserMock;
+@property(nonatomic) MSDistribute *sut;
+@property(nonatomic) id parserMock;
 
 @end
 
@@ -57,18 +60,18 @@ static NSURL *sfURL;
 
 - (void)setUp {
   [super setUp];
-  self.sut = [MSDistribute new];
-
   [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
   [MS_USER_DEFAULTS removeObjectForKey:kMSIgnoredReleaseIdKey];
   [MSKeychainUtil clear];
-  
+  self.sut = [MSDistribute new];
+
   // TODO: Add unit tests for MSBasicMachOParser.
   // FIXME: MSBasicMachOParser don't work on test projects. It's mocked for now to not fail other tests.
   id parserMock = OCMClassMock([MSBasicMachOParser class]);
   self.parserMock = parserMock;
   OCMStub([parserMock machOParserForMainBundle]).andReturn(self.parserMock);
-  OCMStub([self.parserMock uuid]).andReturn([[NSUUID alloc] initWithUUIDString:@"CD55E7A9-7AD1-4CA6-B722-3D133F487DA9"]);
+  OCMStub([self.parserMock uuid])
+      .andReturn([[NSUUID alloc] initWithUUIDString:@"CD55E7A9-7AD1-4CA6-B722-3D133F487DA9"]);
 }
 
 - (void)tearDown {
@@ -173,20 +176,22 @@ static NSURL *sfURL;
 
   // When
   NSString *testUrl = @"https://example.com";
-  [self.sut setApiUrl:testUrl];
+  [MSDistribute setApiUrl:testUrl];
+  MSDistribute *distribute = [MSDistribute sharedInstance];
 
   // Then
-  XCTAssertTrue([[self.sut apiUrl] isEqualToString:testUrl]);
+  XCTAssertTrue([[distribute apiUrl] isEqualToString:testUrl]);
 }
 
 - (void)testSetInstallUrlWorks {
 
   // When
   NSString *testUrl = @"https://example.com";
-  [self.sut setInstallUrl:testUrl];
+  [MSDistribute setInstallUrl:testUrl];
+  MSDistribute *distribute = [MSDistribute sharedInstance];
 
   // Then
-  XCTAssertTrue([[self.sut installUrl] isEqualToString:testUrl]);
+  XCTAssertTrue([[distribute installUrl] isEqualToString:testUrl]);
 }
 
 - (void)testDefaultInstallUrlWorks {
@@ -255,9 +260,17 @@ static NSURL *sfURL;
 
 - (void)testOpenUrl {
 
+  // Make sure we disable the debug-mode checks so we can actually test the logic.
+  id mobileCenterMock = OCMClassMock([MSMobileCenter class]);
+  OCMStub([mobileCenterMock isDebuggerAttached]).andReturn(NO);
+  id utilMock = OCMClassMock([MSUtil class]);
+  OCMStub([utilMock isRunningInDebugConfiguration]).andReturn(NO);
+  OCMStub([utilMock currentAppEnvironment]).andReturn(MSEnvironmentOther);
+
   // If
   NSString *scheme = [NSString stringWithFormat:kMSDefaultCustomSchemeFormat, kMSTestAppSecret];
   id distributeMock = OCMPartialMock(self.sut);
+  OCMStub([distributeMock sharedInstance]).andReturn(distributeMock);
   OCMStub([distributeMock checkLatestRelease:[OCMArg any]]).andDo(nil);
 
   // Disable for now to bypass initializing sender.
@@ -269,7 +282,7 @@ static NSURL *sfURL;
   NSURL *url = [NSURL URLWithString:@"invalid://?"];
 
   // When
-  [distributeMock openUrl:url];
+  [MSDistribute openUrl:url];
 
   // Then
   OCMReject([distributeMock checkLatestRelease:[OCMArg any]]);
@@ -278,7 +291,7 @@ static NSURL *sfURL;
   url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://?", scheme]];
 
   // When
-  [distributeMock openUrl:url];
+  [MSDistribute openUrl:url];
 
   // Then
   OCMReject([distributeMock checkLatestRelease:[OCMArg any]]);
@@ -287,7 +300,7 @@ static NSURL *sfURL;
   url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://?request_id=FIRST-REQUEST", scheme]];
 
   // When
-  [distributeMock openUrl:url];
+  [MSDistribute openUrl:url];
 
   // Then
   OCMReject([distributeMock checkLatestRelease:[OCMArg any]]);
@@ -296,19 +309,21 @@ static NSURL *sfURL;
   url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://?request_id=FIRST-REQUEST&update_token=token", scheme]];
 
   // When
-  [distributeMock openUrl:url];
+  [MSDistribute openUrl:url];
 
   // Then
   OCMReject([distributeMock checkLatestRelease:[OCMArg any]]);
 
   // If
-  [MS_USER_DEFAULTS setObject:@"FIRST-REQUEST" forKey:kMSUpdateTokenRequestIdKey];
+  id userDefaultsMock = OCMClassMock([MSUserDefaults class]);
+  OCMStub([userDefaultsMock shared]).andReturn(userDefaultsMock);
+  OCMStub([userDefaultsMock objectForKey:kMSUpdateTokenRequestIdKey]).andReturn(@"FIRST-REQUEST");
   url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://?request_id=FIRST-REQUEST&update_token=token",
                                                         [NSString stringWithFormat:kMSDefaultCustomSchemeFormat,
                                                                                    @"Invalid-app-secret"]]];
 
   // When
-  [distributeMock openUrl:url];
+  [MSDistribute openUrl:url];
 
   // Then
   OCMReject([distributeMock checkLatestRelease:[OCMArg any]]);
@@ -317,7 +332,7 @@ static NSURL *sfURL;
   url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://?request_id=FIRST-REQUEST&update_token=token", scheme]];
 
   // When
-  [distributeMock openUrl:url];
+  [MSDistribute openUrl:url];
 
   // Then
   OCMVerify([distributeMock checkLatestRelease:@"token"]);
@@ -326,13 +341,15 @@ static NSURL *sfURL;
   [distributeMock setEnabled:NO];
 
   // When
-  [distributeMock openUrl:url];
+  [MSDistribute openUrl:url];
 
   // Then
   OCMReject([distributeMock checkLatestRelease:[OCMArg any]]);
 }
 
-- (void)testApplyEnabledStateTrue {
+- (void)testApplyEnabledStateTrueForDebugConfig {
+  [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
+  [MS_USER_DEFAULTS removeObjectForKey:kMSIgnoredReleaseIdKey];
 
   // If
   id distributeMock = OCMPartialMock(self.sut);
@@ -343,6 +360,36 @@ static NSURL *sfURL;
   [distributeMock applyEnabledState:YES];
 
   // Then
+  XCTAssertNil([MS_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey]);
+  XCTAssertNil([MS_USER_DEFAULTS objectForKey:kMSIgnoredReleaseIdKey]);
+
+  // When
+  [distributeMock applyEnabledState:NO];
+
+  // Then
+  XCTAssertNil([MS_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey]);
+  XCTAssertNil([MS_USER_DEFAULTS objectForKey:kMSIgnoredReleaseIdKey]);
+}
+
+- (void)testApplyEnabledStateTrue {
+
+  // Make sure we disable the debug-mode checks so we can actually test the logic.
+  id mobileCenterMock = OCMClassMock([MSMobileCenter class]);
+  OCMStub([mobileCenterMock isDebuggerAttached]).andReturn(NO);
+  id utilMock = OCMClassMock([MSUtil class]);
+  OCMStub([utilMock isRunningInDebugConfiguration]).andReturn(NO);
+  OCMStub([utilMock currentAppEnvironment]).andReturn(MSEnvironmentOther);
+
+  // If
+  id distributeMock = OCMPartialMock(self.sut);
+  OCMStub([distributeMock checkLatestRelease:[OCMArg any]]).andDo(nil);
+  OCMStub([distributeMock requestUpdateToken]).andDo(nil);
+
+  // When
+  [distributeMock applyEnabledState:YES];
+
+  // Then
+  XCTAssertTrue([distributeMock checkForUpdatesAllowed]);
   OCMVerify([distributeMock requestUpdateToken]);
 
   // If
@@ -368,6 +415,116 @@ static NSURL *sfURL;
   // Then
   XCTAssertNil([MS_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey]);
   XCTAssertNil([MS_USER_DEFAULTS objectForKey:kMSIgnoredReleaseIdKey]);
+}
+
+- (void)testcheckForUpdatesAllConditionsMet {
+
+  // If
+  id mobileCenterMock = OCMClassMock([MSMobileCenter class]);
+  id utilMock = OCMClassMock([MSUtil class]);
+  id distributeMock = OCMPartialMock(self.sut);
+  OCMStub([distributeMock checkLatestRelease:[OCMArg any]]).andDo(nil);
+  OCMStub([distributeMock requestUpdateToken]).andDo(nil);
+
+  // When
+  OCMStub([mobileCenterMock isDebuggerAttached]).andReturn(NO);
+  OCMStub([utilMock isRunningInDebugConfiguration]).andReturn(NO);
+  OCMStub([utilMock currentAppEnvironment]).andReturn(MSEnvironmentOther);
+
+  // Then
+  XCTAssertTrue([self.sut checkForUpdatesAllowed]);
+
+  // When
+  [distributeMock applyEnabledState:YES];
+
+  // Then
+  XCTAssertTrue([distributeMock checkForUpdatesAllowed]);
+  OCMVerify([distributeMock requestUpdateToken]);
+}
+
+- (void)testcheckForUpdatesDebuggerAttached {
+
+  // When
+  id mobileCenterMock = OCMClassMock([MSMobileCenter class]);
+  id utilMock = OCMClassMock([MSUtil class]);
+  OCMStub([mobileCenterMock isDebuggerAttached]).andReturn(YES);
+  OCMStub([utilMock isRunningInDebugConfiguration]).andReturn(NO);
+  OCMStub([utilMock currentAppEnvironment]).andReturn(MSEnvironmentOther);
+
+  // Then
+  XCTAssertFalse([self.sut checkForUpdatesAllowed]);
+}
+
+- (void)testcheckForUpdatesDebugConfig {
+
+  // When
+  id mobileCenterMock = OCMClassMock([MSMobileCenter class]);
+  id utilMock = OCMClassMock([MSUtil class]);
+  OCMStub([mobileCenterMock isDebuggerAttached]).andReturn(NO);
+  OCMStub([utilMock isRunningInDebugConfiguration]).andReturn(YES);
+  OCMStub([utilMock currentAppEnvironment]).andReturn(MSEnvironmentOther);
+
+  // Then
+  XCTAssertFalse([self.sut checkForUpdatesAllowed]);
+}
+
+- (void)testcheckForUpdatesInvalidEnvironment {
+
+  // When
+  id mobileCenterMock = OCMClassMock([MSMobileCenter class]);
+  id utilMock = OCMClassMock([MSUtil class]);
+  OCMStub([mobileCenterMock isDebuggerAttached]).andReturn(NO);
+  OCMStub([utilMock isRunningInDebugConfiguration]).andReturn(NO);
+  OCMStub([utilMock currentAppEnvironment]).andReturn(MSEnvironmentTestFlight);
+
+  // Then
+  XCTAssertFalse([self.sut checkForUpdatesAllowed]);
+}
+
+- (void)testNotDeleteUpdateToken {
+
+  // If
+  id userDefaultsMock = OCMClassMock([MSUserDefaults class]);
+  OCMStub([userDefaultsMock shared]).andReturn(userDefaultsMock);
+  OCMStub([userDefaultsMock objectForKey:kMSSDKHasLaunchedWithDistribute]).andReturn(@1);
+  id keychainMock = OCMClassMock([MSKeychainUtil class]);
+
+  // When
+  [MSDistribute new];
+
+  // Then
+  OCMReject([keychainMock deleteStringForKey:kMSUpdateTokenKey]);
+}
+
+- (void)testDeleteUpdateTokenAfterReinstall {
+
+  // If
+  id userDefaultsMock = OCMClassMock([MSUserDefaults class]);
+  OCMStub([userDefaultsMock shared]).andReturn(userDefaultsMock);
+  OCMStub([userDefaultsMock objectForKey:kMSSDKHasLaunchedWithDistribute]).andReturn(nil);
+  id keychainMock = OCMClassMock([MSKeychainUtil class]);
+
+  // When
+  [MSDistribute new];
+
+  // Then
+  OCMVerify([keychainMock deleteStringForKey:kMSUpdateTokenKey]);
+  OCMVerify([userDefaultsMock setObject:@(1) forKey:kMSSDKHasLaunchedWithDistribute]);
+}
+
+- (void)testWithoutNetwork {
+
+  // If
+  id reachabilityMock = OCMClassMock([MS_Reachability class]);
+  OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
+  [reachabilityMock setValue:NotReachable forKey:@"currentReachabilityStatus"];
+  id distributeMock = OCMPartialMock(self.sut);
+
+  // When
+  [distributeMock requestUpdateToken];
+
+  // Then
+  OCMReject([distributeMock buildTokenRequestURLWithAppSecret:[OCMArg any]]);
 }
 
 @end
