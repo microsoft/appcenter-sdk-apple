@@ -1,20 +1,21 @@
 #import <Foundation/Foundation.h>
+#import "MSHttpSender.h"
 
 @protocol MSSenderDelegate;
 
 @interface MSHttpSender ()
 
-@property(nonatomic, strong) NSURLSession *session;
+@property(nonatomic) NSURLSession *session;
 
 /**
  * Retry intervals used by calls in case of recoverable errors.
  */
-@property(nonatomic, strong) NSArray *callsRetryIntervals;
+@property(nonatomic) NSArray *callsRetryIntervals;
 
 /**
  * Hash table containing all the delegates as weak references.
  */
-@property(atomic, strong) NSHashTable<id<MSSenderDelegate>> *delegates;
+@property NSHashTable<id<MSSenderDelegate>> *delegates;
 
 /**
  * A boolean value set to YES if the sender is enabled or NO otherwise.

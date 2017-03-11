@@ -25,6 +25,10 @@
   return sharedInstance;
 }
 
++ (NSString *)serviceName {
+  return @"Service";
+}
+
 - (void)startWithLogManager:(id<MSLogManager>)logManager appSecret:(NSString *)appSecret {
   [super startWithLogManager:logManager appSecret:appSecret];
 }

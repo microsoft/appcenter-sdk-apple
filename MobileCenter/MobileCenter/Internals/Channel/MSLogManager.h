@@ -29,6 +29,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)removeDelegate:(id<MSLogManagerDelegate>)delegate;
 
 @required
+
+/**
+ * Change the base URL (schema + authority + port only) used to communicate with the backend.
+ *
+ * @param logUrl base URL to use for backend communication.
+ */
+- (void)setLogUrl:(NSString*)logUrl;
+
 /**
  * Triggers processing of a new log item.
  *

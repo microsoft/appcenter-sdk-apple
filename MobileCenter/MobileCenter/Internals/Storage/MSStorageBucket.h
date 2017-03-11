@@ -12,22 +12,22 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The file instance representing the current file used for adding new logs.
  */
-@property(nonatomic, strong) MSFile *currentFile;
+@property(nonatomic) MSFile *currentFile;
 
 /**
  * A in-memory list of all items that have been added to the current batch.
  */
-@property(nonatomic, strong) NSMutableArray<MSLog> *currentLogs;
+@property(nonatomic) NSMutableArray<MSLog> *currentLogs;
 
 /**
  * A list of file names that are currently used by other components.
  */
-@property(nonatomic, strong) NSMutableArray<MSFile *> *blockedFiles;
+@property(nonatomic) NSMutableArray<MSFile *> *blockedFiles;
 
 /**
  * A list of file names that can be accessed by other components.
  */
-@property(nonatomic, strong) NSMutableArray<MSFile *> *availableFiles;
+@property(nonatomic) NSMutableArray<MSFile *> *availableFiles;
 
 /**
  * Returns the file with the given id.

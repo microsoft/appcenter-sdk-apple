@@ -55,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The release's size in bytes.
  */
-@property(nonatomic, copy) NSNumber *size;
+@property(nonatomic) NSNumber *size;
 
 /**
  * The release's minimum required operating system.
@@ -70,33 +70,33 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * UTC time in ISO 8601 format of the uploaded time.
  */
-@property(nonatomic, copy) NSDate *uploadedAt;
+@property(nonatomic) NSDate *uploadedAt;
 
 /**
  * The URL that hosts the binary for this release.
  */
-@property(nonatomic, copy) NSURL *downloadUrl;
+@property(nonatomic) NSURL *downloadUrl;
 
 /**
  * A URL to the app's icon.
  */
-@property(nonatomic, copy) NSURL *appIconUrl;
+@property(nonatomic) NSURL *appIconUrl;
 
 /**
  * The href required to install a release on a mobile device.
  * On iOS devices will be prefixed with 'itms-services://?action=download-manifest&url='
  */
-@property(nonatomic, copy) NSURL *installUrl;
+@property(nonatomic) NSURL *installUrl;
 
 /**
  * A list of distribution groups that are associated with this release.
  */
-@property(nonatomic, copy) NSArray<MSDistributionGroup *> *distributionGroups;
+@property(nonatomic) NSArray<MSDistributionGroup *> *distributionGroups;
 
 /**
  * A list of package hashes associated with this release. There is one hash (UUID) per architecture.
  */
-@property(nonatomic, copy) NSArray<NSString *> *packageHashes;
+@property(nonatomic) NSArray<NSString *> *packageHashes;
 
 /**
  * Initialize an object from dictionary.

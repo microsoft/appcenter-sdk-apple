@@ -1,6 +1,7 @@
 #import "MSDistribute.h"
 #import "MSDistributeInternal.h"
 #import "MSDistributeUtil.h"
+#import "MSLogger.h"
 
 NSBundle *MSDistributeBundle(void) {
   static NSBundle *bundle = nil;
@@ -11,6 +12,12 @@ NSBundle *MSDistributeBundle(void) {
     NSString *mainBundlePath = [[NSBundle bundleForClass:[MSDistribute class]] resourcePath];
     NSString *frameworkBundlePath = [mainBundlePath stringByAppendingPathComponent:MOBILE_CENTER_DISTRIBUTE_BUNDLE];
     bundle = [NSBundle bundleWithPath:frameworkBundlePath];
+    
+    // Log to console in case the bundle is nil.
+    if(!bundle) {
+      MSLogError([MSDistribute logTag], @"The MobileCenterDistributeResources.bundle file could not be found in your"
+              " app. Please add it to your project as described in our readme.");
+    }
   });
   return bundle;
 }
@@ -39,3 +46,7 @@ NSString *MSDistributeLocalizedString(NSString *stringToken) {
     return stringToken;
   }
 }
+
+@implementation MSDistributeUtil
+
+@end

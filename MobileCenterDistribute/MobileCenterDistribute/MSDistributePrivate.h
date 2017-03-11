@@ -31,6 +31,11 @@ static NSString *const kMSIgnoredReleaseIdKey = @"MSIgnoredReleaseId";
 static NSString *const kMSUpdateTokenRequestIdKey = @"MSUpdateTokenRequestId";
 
 /**
+ * The storage key for flag that can determine to clean up update token.
+ */
+static NSString *const kMSSDKHasLaunchedWithDistribute = @"MSSDKHasLaunchedWithDistribute";
+
+/**
  * The keychain key for update token.
  */
 static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
@@ -96,5 +101,13 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
  * Check whether release details contain a newer version of release than current version.
  */
 - (BOOL)isNewerVersion:(MSReleaseDetails *)details;
+
+
+/**
+ * Check all parameters that determine if it's okay to check for an update.
+ *
+ * @return BOOL indicating that it's okay to check for updates.
+ */
+- (BOOL)checkForUpdatesAllowed;
 
 @end

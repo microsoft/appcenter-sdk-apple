@@ -20,7 +20,7 @@
     results = [self.availableFiles filteredArrayUsingPredicate:predicte];
   }
 
-  return results.lastObject;
+  return (MSFile *_Nonnull) results.lastObject;
 }
 
 - (void)sortAvailableFilesByCreationDate {
