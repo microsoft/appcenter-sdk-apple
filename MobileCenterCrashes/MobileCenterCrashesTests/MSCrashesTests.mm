@@ -13,7 +13,7 @@
 #import "MSMockCrashesDelegate.h"
 #import "MSServiceAbstractPrivate.h"
 #import "MSServiceAbstractProtected.h"
-#import "MSUtil.h"
+#import "MSUtility.h"
 #import "MSCrashesUtil.h"
 
 @class MSMockCrashesDelegate;
