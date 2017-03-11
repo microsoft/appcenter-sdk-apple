@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*
  * The configuration used by this channel.
  */
-@property(nonatomic, strong) MSChannelConfiguration *configuration;
+@property(nonatomic) MSChannelConfiguration *configuration;
 
 /**
  * Initializes a new `MSChannelDefault` instance.

@@ -17,7 +17,7 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 /**
  * A boolean value set to YES if this instance is enabled or NO otherwise.
  */
-@property(atomic) BOOL enabled;
+@property BOOL enabled;
 
 @end
 

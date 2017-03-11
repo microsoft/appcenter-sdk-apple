@@ -7,7 +7,7 @@
  */
 @interface MSFileUtil ()
 
-@property(nonatomic, strong) NSFileManager *fileManager;
+@property(nonatomic) NSFileManager *fileManager;
 
 @end
 
