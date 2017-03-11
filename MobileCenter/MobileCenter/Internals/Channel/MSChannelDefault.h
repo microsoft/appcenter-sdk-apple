@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Queue used to process logs.
  */
-@property(nonatomic, strong) dispatch_queue_t logsDispatchQueue;
+@property(nonatomic) dispatch_queue_t logsDispatchQueue;
 
 /**
  * Hash table of channel delegate.
@@ -22,18 +22,18 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * A sender instance that is used to send batches of log items to the backend.
  */
-@property(nonatomic, strong) id<MSSender> sender;
+@property(nonatomic) id<MSSender> sender;
 
 /**
  * A storage instance to store and read enqueued log items.
  */
-@property(nonatomic, strong) id<MSStorage> storage;
+@property(nonatomic) id<MSStorage> storage;
 
 /**
  * A timer source which is used to flush the queue after a certain amount of
  * time.
  */
-@property(nonatomic, strong) dispatch_source_t timerSource;
+@property(nonatomic) dispatch_source_t timerSource;
 
 /**
  * A counter that keeps tracks of the number of logs added to the queue.

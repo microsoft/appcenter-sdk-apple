@@ -118,12 +118,12 @@ typedef struct MSCrashesCallbacks {
 /**
  * The `PLCrashReporter` instance used for crash detection.
  */
-@property(nonatomic, strong) MSPLCrashReporter *plCrashReporter;
+@property(nonatomic) MSPLCrashReporter *plCrashReporter;
 
 /**
  * A `NSFileManager` instance used for reading and writing crash reports.
  */
-@property(nonatomic, strong) NSFileManager *fileManager;
+@property(nonatomic) NSFileManager *fileManager;
 
 /**
  * The exception handler used by the crashes service.
@@ -138,14 +138,14 @@ typedef struct MSCrashesCallbacks {
 /**
  * Temporary storage for crashes logs to handle user confirmation and callbacks.
  */
-@property(atomic) NSMutableArray *unprocessedLogs;
-@property(atomic) NSMutableArray *unprocessedReports;
-@property(atomic) NSMutableArray *unprocessedFilePaths;
+@property NSMutableArray *unprocessedLogs;
+@property NSMutableArray *unprocessedReports;
+@property NSMutableArray *unprocessedFilePaths;
 
 /**
  * Custom user confirmation handler.
  */
-@property(atomic) MSUserConfirmationHandler userConfirmationHandler;
+@property MSUserConfirmationHandler userConfirmationHandler;
 
 /**
  * Delete all data in crashes directory.

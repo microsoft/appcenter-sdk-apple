@@ -8,7 +8,7 @@
 
 @interface MSEventLogTests : XCTestCase
 
-@property(nonatomic, strong) MSEventLog *sut;
+@property(nonatomic) MSEventLog *sut;
 
 @end
 

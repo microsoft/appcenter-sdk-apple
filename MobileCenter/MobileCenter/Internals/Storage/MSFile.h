@@ -10,7 +10,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The creation date of the file.
  */
-@property(nonatomic, strong) NSDate *creationDate;
+@property(nonatomic) NSDate *creationDate;
 
 /**
  * The unique identifier for this file.

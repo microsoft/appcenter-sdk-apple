@@ -23,8 +23,8 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
 
 @interface MSIngestionSenderTests : XCTestCase
 
-@property(nonatomic, strong) MSIngestionSender *sut;
-@property(nonatomic, strong) id reachabilityMock;
+@property(nonatomic) MSIngestionSender *sut;
+@property(nonatomic) id reachabilityMock;
 @property(nonatomic) NetworkStatus currentNetworkStatus;
 
 @end

@@ -23,7 +23,7 @@ typedef void (^enqueueCompletionBlock)(BOOL);
 /*
  * The configuration used by this channel.
  */
-@property(nonatomic, strong) MSChannelConfiguration *configuration;
+@property(nonatomic) MSChannelConfiguration *configuration;
 
 /**
  * Initializes a new `MSChannelDefault` instance.

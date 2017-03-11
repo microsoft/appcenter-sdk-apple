@@ -99,12 +99,12 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
  * @see lastSessionCrashReport
  */
-@property(atomic) BOOL didCrashInLastSession;
+@property BOOL didCrashInLastSession;
 
 /**
  * Detail information about the last crash.
  */
-@property(atomic, getter=getLastSessionCrashReport) MSErrorReport *lastSessionCrashReport;
+@property(getter=getLastSessionCrashReport) MSErrorReport *lastSessionCrashReport;
 
 /**
  * Queue with high priority that will be used to create the log buffer files. The default main queue is too slow.

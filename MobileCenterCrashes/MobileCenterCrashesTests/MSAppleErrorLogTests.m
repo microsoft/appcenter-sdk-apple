@@ -8,7 +8,7 @@
 
 @interface MSAppleErrorLogTests : XCTestCase
 
-@property(nonatomic, strong) MSAppleErrorLog *sut;
+@property(nonatomic) MSAppleErrorLog *sut;
 
 
 @end

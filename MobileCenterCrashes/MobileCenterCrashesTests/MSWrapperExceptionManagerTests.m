@@ -9,7 +9,7 @@
 
 @interface MSWrapperExceptionManagerTests : XCTestCase<MSWrapperCrashesInitializationDelegate>
 
-@property(nonatomic, strong) MSWrapperExceptionManager *manager;
+@property(nonatomic) MSWrapperExceptionManager *manager;
 @property BOOL handlersWereSetUp;
 
 @end

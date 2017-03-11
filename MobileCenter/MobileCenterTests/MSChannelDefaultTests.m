@@ -14,22 +14,22 @@ static NSString *const kMSTestPriorityName = @"Prio";
 
 @interface MSChannelDefaultTests : XCTestCase
 
-@property(nonatomic, strong) MSChannelDefault *sut;
+@property(nonatomic) MSChannelDefault *sut;
 
-@property(nonatomic, strong) dispatch_queue_t logsDispatchQueue;
+@property(nonatomic) dispatch_queue_t logsDispatchQueue;
 
-@property(nonatomic, strong) MSChannelConfiguration *configMock;
+@property(nonatomic) MSChannelConfiguration *configMock;
 
-@property(nonatomic, strong) id<MSStorage> storageMock;
+@property(nonatomic) id<MSStorage> storageMock;
 
-@property(nonatomic, strong) id<MSSender> senderMock;
+@property(nonatomic) id<MSSender> senderMock;
 
 /**
  * Most of the channel APIs are asynchronous, this expectation is meant to be enqueued to the data dispatch queue
  * at the end of the test before any asserts. Then it will be triggered on the next queue loop right after the channel
  * finished its job. Wrap asserts within the handler of a waitForExpectationsWithTimeout method.
  */
-@property(nonatomic, strong) XCTestExpectation *channelEndJobExpectation;
+@property(nonatomic) XCTestExpectation *channelEndJobExpectation;
 
 @end
 
