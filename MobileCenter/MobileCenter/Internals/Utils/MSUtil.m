@@ -4,6 +4,8 @@
 
 #import "MSUtilPrivate.h"
 
+@implementation MSUtility
+@end
 
 @implementation MSUtil
 

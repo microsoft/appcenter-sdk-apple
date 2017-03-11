@@ -1,5 +1,5 @@
-#import "MSUtil.h"
 #import "MSUtilPrivate.h"
+#import "MSUtil.h"
 #import "OCMock.h"
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <XCTest/XCTest.h>

@@ -56,6 +56,9 @@ typedef NS_ENUM(NSInteger, MSApplicationState) {
             MSApplicationStateUnknown
 };
 
+@interface MSUtility: NSObject
+@end
+
 /**
  * Utility class that is used throughout the SDK.
  */
