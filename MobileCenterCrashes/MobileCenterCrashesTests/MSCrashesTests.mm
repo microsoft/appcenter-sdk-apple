@@ -22,7 +22,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
 @interface MSCrashesTests : XCTestCase
 
-@property(nonatomic, strong) MSCrashes *sut;
+@property(nonatomic) MSCrashes *sut;
 
 @end
 
