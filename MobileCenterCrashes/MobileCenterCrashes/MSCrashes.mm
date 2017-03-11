@@ -1,5 +1,3 @@
-
-
 #import "MSAppleErrorLog.h"
 #import "MSCrashesCXXExceptionWrapperException.h"
 #import "MSCrashesDelegate.h"
@@ -59,9 +57,7 @@ static void ms_save_log_buffer_callback(siginfo_t *info, ucontext_t *uap, void *
   }
 }
 
-/** Proxy implementation for PLCrashReporter to keep our interface stable while
- *  this can change.
- */
+// Proxy implementation for PLCrashReporter to keep our interface stable while this can change.
 static void plcr_post_crash_callback(siginfo_t *info, ucontext_t *uap, void *context) {
   ms_save_log_buffer_callback(info, uap, context);
   [MSCrashes wrapperCrashCallback];
@@ -90,10 +86,9 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 /**
  * Indicates if the app crashed in the previous session
  *
- * Use this on startup, to check if the app starts the first time after it crashed previously. You can use this also to
- disable specific events, like asking
- * the user to rate your app.
-
+ * Use this on startup, to check if the app starts the first time after it crashed previously. 
+ * You can use this also to disable specific events, like asking the user to rate your app.
+ *
  * @warning This property only has a correct value, once the sdk has been
  properly initialized!
 
@@ -343,7 +338,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
  * the crash and then, at crashtime, crashes has all info in place to save the buffer safely.
  **/
 - (void)onProcessingLog:(id<MSLog>)log withInternalId:(NSString *)internalId andPriority:(MSPriority)priority {
-  
+
   // Don't buffer event if log is empty, crashes module is disabled or the log is a crash.
   if (!log || ![self isEnabled] || [((NSObject *)log) isKindOfClass:[MSAppleErrorLog class]]) {
     return;
@@ -379,20 +374,19 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
            * reached the last element.
            */
           NSNumber *bufferedLogTimestamp = [timestampFormatter
-              numberFromString:[NSString stringWithCString:it->timestamp.c_str() encoding:NSUTF8StringEncoding]];
+              numberFromString:((NSString * _Nonnull )[NSString stringWithCString:it->timestamp.c_str() encoding:NSUTF8StringEncoding])];
 
           // Remember the timestamp if the log is older than the previous one or the initial one.
           if (!oldestTimestamp || oldestTimestamp.doubleValue > bufferedLogTimestamp.doubleValue) {
             oldestTimestamp = bufferedLogTimestamp;
             indexToDelete = it - msCrashesLogBuffer[priority].begin();
-            MSLogVerbose([MSCrashes logTag], @"Remembering index %d for oldest timestamp %@.", indexToDelete,
+            MSLogVerbose([MSCrashes logTag], @"Remembering index %ld for oldest timestamp %@.", indexToDelete,
                          oldestTimestamp);
           }
 
           // We've reached the last element in our buffer.
           if (std::next(it) == end) {
-            MSLogVerbose([MSCrashes logTag], @"Reached end of buffer. Next step is overwriting the oldest one.",
-                         indexToDelete);
+            MSLogVerbose([MSCrashes logTag], @"Reached end of buffer. Next step is overwriting the oldest one.");
 
             // Overwrite the oldest buffered log.
             auto newIt = msCrashesLogBuffer[priority].begin() + indexToDelete;
@@ -402,7 +396,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
             NSTimeInterval now = [[NSDate date] timeIntervalSince1970];
             newIt->timestamp = [[NSString stringWithFormat:@"%f", now] cStringUsingEncoding:NSUTF8StringEncoding];
 
-            MSLogVerbose([MSCrashes logTag], @"Overwrote buffered log at index %d.", indexToDelete);
+            MSLogVerbose([MSCrashes logTag], @"Overwrote buffered log at index %ld.", indexToDelete);
             // We're done, no need to iterate any more. But no need to `return;` as we're at the end of the buffer.
           }
         }
@@ -822,7 +816,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 }
 
 - (NSString *)bufferDirectoryForPriority:(MSPriority)priority {
-  return [self.logBufferDir stringByAppendingString:[NSString stringWithFormat:@"/%d/", priority]];
+  return [self.logBufferDir stringByAppendingString:[NSString stringWithFormat:@"/%ld/", priority]];
 }
 
 - (BOOL)shouldProcessErrorReport:(MSErrorReport *)errorReport {

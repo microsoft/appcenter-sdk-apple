@@ -87,10 +87,11 @@
 #pragma mark - Managing queue
 
 - (void)enqueueItem:(id<MSLog>)item withCompletion:(enqueueCompletionBlock)completion {
-  // return fast in case our item is empty or we are discarding logs right now.
+  
+  // Return fast in case our item is empty or we are discarding logs right now.
   dispatch_async(self.logsDispatchQueue, ^{
     if (!item) {
-      MSLogWarning([MSMobileCenter logTag], @"Log was nil.");
+      MSLogWarning([MSMobileCenter logTag], @"Log is nil.");
       return;
     } else if (self.discardLogs) {
       MSLogWarning([MSMobileCenter logTag], @"Channel disabled in log discarding mode, discard this log.");
@@ -105,6 +106,8 @@
     MSLogDebug([MSMobileCenter logTag], @"Saving log, type: %@.", item.type);
     BOOL success = [self.storage saveLog:item withStorageKey:self.configuration.name];
     self.itemsCount += 1;
+    
+    // Execute completion block.
     if (completion) {
       completion(success);
     }
