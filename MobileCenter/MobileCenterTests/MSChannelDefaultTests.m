@@ -8,7 +8,7 @@
 #import "MSChannelDefault.h"
 #import "MSChannelDelegate.h"
 #import "MSMobileCenterErrors.h"
-#import "MSUtil.h"
+#import "MSUtility.h"
 
 static NSString *const kMSTestPriorityName = @"Prio";
 

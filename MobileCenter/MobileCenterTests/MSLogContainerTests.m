@@ -5,6 +5,7 @@
 #import "MSAbstractLog.h"
 #import "MSLogContainer.h"
 #import "MobileCenter+Internal.h"
+#import "MSUtility+Date.h"
 #import <XCTest/XCTest.h>
 
 @interface MSLogContainerTests : XCTestCase
@@ -20,11 +21,11 @@
 
   MSAbstractLog *log1 = [[MSAbstractLog alloc] init];
   log1.sid = MS_UUID_STRING;
-  log1.toffset = [NSNumber numberWithLongLong:[MSUtil nowInMilliseconds]];
+  log1.toffset = [NSNumber numberWithLongLong:[MSUtility nowInMilliseconds]];
 
   MSAbstractLog *log2 = [[MSAbstractLog alloc] init];
   log2.sid = MS_UUID_STRING;
-  log2.toffset = [NSNumber numberWithLongLong:[MSUtil nowInMilliseconds]];
+  log2.toffset = [NSNumber numberWithLongLong:[MSUtility nowInMilliseconds]];
 
   logContainer.logs = (NSArray<MSLog> *)@[ log1, log2 ];
 

@@ -9,7 +9,7 @@
 #import "Model/MSLogWithProperties.h"
 #import "Model/Utils/MSUserDefaults.h"
 #import "MSWrapperSdk.h"
-#import "MSUtil.h"
+#import "MSUtility.h"
 
 // Channel
 #import "Channel/MSLogManagerDelegate.h"

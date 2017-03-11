@@ -6,6 +6,7 @@
 #import "MSLogManagerDefault.h"
 #import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
+#import "MSUtility+Environment.h"
 
 // Singleton
 static MSMobileCenter *sharedInstance = nil;
@@ -165,7 +166,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
      * If the loglevel hasn't been customized before and we are not running in an app store environment,
      * we set the default loglevel to MSLogLevelWarning.
      */
-    if ((![MSLogger isUserDefinedLogLevel]) && ([MSUtil currentAppEnvironment] == MSEnvironmentOther)) {
+    if ((![MSLogger isUserDefinedLogLevel]) && ([MSUtility currentAppEnvironment] == MSEnvironmentOther)) {
       [MSMobileCenter setLogLevel:MSLogLevelWarning];
     }
     success = true;

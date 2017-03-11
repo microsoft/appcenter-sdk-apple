@@ -1,9 +1,35 @@
 #import <Foundation/Foundation.h>
-#import "MSUtil.h"
+#import "MSUtility.h"
 
+/**
+ *  App states
+ */
+typedef NS_ENUM(NSInteger, MSApplicationState) {
+    
+    /**
+     * Application is active.
+     */
+    MSApplicationStateActive = UIApplicationStateActive,
+    
+    /**
+     * Application is inactive.
+     */
+    MSApplicationStateInactive = UIApplicationStateInactive,
+    
+    /**
+     * Application is in background.
+     */
+    MSApplicationStateBackground = UIApplicationStateBackground,
+    
+    /**
+     * Application state can't be determined.
+     */
+    MSApplicationStateUnknown
+};
 
 /**
  * Utility class that is used throughout the SDK.
+ * Application part.
  */
 @interface MSUtility (Application)
 /**

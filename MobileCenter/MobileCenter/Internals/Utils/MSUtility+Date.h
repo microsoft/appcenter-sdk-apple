@@ -1,8 +1,9 @@
 #import <Foundation/Foundation.h>
-#import "MSUtil.h"
+#import "MSUtility.h"
 
 /**
  * Utility class that is used throughout the SDK.
+ * Date part.
  */
 @interface MSUtility (Date)
 

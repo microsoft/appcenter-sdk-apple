@@ -1,8 +1,29 @@
 #import <Foundation/Foundation.h>
-#import "MSUtil.h"
+#import "MSUtility.h"
+
+
+/**
+ *  App environment
+ */
+typedef NS_ENUM(NSInteger, MSEnvironment) {
+    /**
+     *  App has been downloaded from the AppStore.
+     */
+    MSEnvironmentAppStore = 0,
+    /**
+     *  App has been downloaded from TestFlight.
+     */
+    MSEnvironmentTestFlight = 1,
+    /**
+     *  App has been installed by some other mechanism.
+     *  This could be Ad-Hoc, Enterprise, etc.
+     */
+    MSEnvironmentOther = 99
+};
 
 /**
  * Utility class that is used throughout the SDK.
+ * Environment part.
  */
 @interface MSUtility (Environment)
 

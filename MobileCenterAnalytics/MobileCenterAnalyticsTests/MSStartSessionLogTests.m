@@ -4,6 +4,7 @@
 #import <XCTest/XCTest.h>
 
 #import "MSStartSessionLog.h"
+#import "MSUtility+Date.h"
 
 @interface MSStartSessionLogTests : XCTestCase
 
@@ -34,7 +35,7 @@
   MSDevice *device = [MSDevice new];
   NSString *typeName = @"start_session";
   NSString *sessionId = @"1234567890";
-  long long createTime = [MSUtil nowInMilliseconds];
+  long long createTime = [MSUtility nowInMilliseconds];
   NSNumber *tOffset = @(createTime);
 
   self.sut.device = device;
@@ -49,7 +50,7 @@
   assertThat(actual[@"type"], equalTo(typeName));
   assertThat(actual[@"device"], notNilValue());
   NSTimeInterval seralizedToffset = [actual[@"toffset"] longLongValue];
-  NSTimeInterval actualToffset = [MSUtil nowInMilliseconds] - createTime;
+  NSTimeInterval actualToffset = [MSUtility nowInMilliseconds] - createTime;
   assertThat(@(seralizedToffset), lessThan(@(actualToffset)));
 }
 
