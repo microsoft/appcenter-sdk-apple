@@ -96,12 +96,12 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
  * @see lastSessionCrashReport
  */
-@property(atomic) BOOL didCrashInLastSession;
+@property BOOL didCrashInLastSession;
 
 /**
  * Detail information about the last crash.
  */
-@property(atomic, getter=getLastSessionCrashReport) MSErrorReport *lastSessionCrashReport;
+@property(getter=getLastSessionCrashReport) MSErrorReport *lastSessionCrashReport;
 
 @end
 
@@ -294,6 +294,10 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     sharedInstance = [[self alloc] init];
   });
   return sharedInstance;
+}
+
++ (NSString *)serviceName {
+  return kMSServiceName;
 }
 
 - (void)startWithLogManager:(id<MSLogManager>)logManager appSecret:(NSString *)appSecret {
