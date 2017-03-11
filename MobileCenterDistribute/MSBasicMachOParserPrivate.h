@@ -7,7 +7,7 @@
  *  @param buffer  Output buffer where to write data.
  *  @param size    Number of bytes to read.
  *
- *  @return `YES` if read succeded else `NO`
+ *  @return `YES` if read succeeded else `NO`.
  */
 - (BOOL)readDataFromFile:(NSFileHandle *)fh toBuffer:(void *)buffer ofLength:(NSUInteger)size;
 @end
