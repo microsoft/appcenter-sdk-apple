@@ -48,13 +48,13 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   if ((self = [super init])) {
     _apiUrl = kMSDefaultApiUrl;
     _installUrl = kMSDefaultInstallUrl;
-    NSNumber *flag = [MS_USER_DEFAULTS objectForKey:kMSSDKHasLaunchedWithDistribute];
 
     /*
      * Delete API token if an application has been uninstalled and try to get a new one from server.
-     * Under iOS 10.3, keychain data won't be automatically deleted by uninstall
+     * For iOS version < 10.3, keychain data won't be automatically deleted by uninstall
      * so we should detect it and clean up keychain data when Distribute service gets initialized.
      */
+    NSNumber *flag = [MS_USER_DEFAULTS objectForKey:kMSSDKHasLaunchedWithDistribute];
     if (!flag) {
       MSLogInfo([MSDistribute logTag], @"Delete API token if exists.");
       [MSKeychainUtil deleteStringForKey:kMSUpdateTokenKey];
@@ -134,6 +134,14 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   // Check if it's okay to check for updates.
   if ([self checkForUpdatesAllowed]) {
 
+    // Check if the device has internet connection to get update token.
+    if ([MS_Reachability reachabilityForInternetConnection].currentReachabilityStatus == NotReachable) {
+      MSLogWarning(
+          [MSDistribute logTag],
+          @"The device lost its internet connection. The SDK will retry to get an update API token in the next launch.");
+      return;
+    }
+
     NSURL *url;
     MSLogInfo([MSDistribute logTag], @"Request Distribute API token.");
 
@@ -177,61 +185,73 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
   // Check if it's okay to check for updates.
   if ([self checkForUpdatesAllowed]) {
-    MSDistributeSender *sender =
-        [[MSDistributeSender alloc] initWithBaseUrl:self.apiUrl appSecret:self.appSecret updateToken:updateToken];
-    [sender sendAsync:nil
-        completionHandler:^(NSString *callId, NSUInteger statusCode, NSData *data, NSError *error) {
 
-          // Success.
-          if (statusCode == MSHTTPCodesNo200OK) {
-            id dictionary =
-                [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-            MSReleaseDetails *details = [[MSReleaseDetails alloc] initWithDictionary:dictionary];
-            if (!details) {
-              MSLogError([MSDistribute logTag], @"Couldn't parse response payload.");
-            } else {
-              NSData *jsonData =
-                  [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:&error];
-              NSString *jsonString = nil;
-              if (!jsonData || error) {
-                jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    // Check if sender is still waiting for a response of the previous request.
+    if (self.sender == nil) {
+      self.sender =
+          [[MSDistributeSender alloc] initWithBaseUrl:self.apiUrl appSecret:self.appSecret updateToken:updateToken];
+      [self.sender
+                  sendAsync:nil
+          completionHandler:^(NSString *callId, NSUInteger statusCode, NSData *data, NSError *error) {
+
+            // Release sender instance.
+            self.sender = nil;
+
+            // Ignore the response if the service is disabled.
+            if (![self isEnabled]) {
+              return;
+            }
+
+            // Success.
+            if (statusCode == MSHTTPCodesNo200OK) {
+              id dictionary =
+                  [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+              MSReleaseDetails *details = [[MSReleaseDetails alloc] initWithDictionary:dictionary];
+              if (!details) {
+                MSLogError([MSDistribute logTag], @"Couldn't parse response payload.");
               } else {
+                NSData *jsonData =
+                    [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:&error];
+                NSString *jsonString = nil;
+                if (!jsonData || error) {
+                  jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                } else {
 
-                // NSJSONSerialization escapes paths by default so we replace them.
-                jsonString = [[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]
-                    stringByReplacingOccurrencesOfString:@"\\/"
-                                              withString:@"/"];
-              }
-              MSLogDebug([MSDistribute logTag], @"Received a response of update request:\n%@", jsonString);
-              [self handleUpdate:details];
-            }
-          }
-
-          // Failure.
-          else {
-            MSLogDebug([MSDistribute logTag], @"Failed to get a update response, status code:%lu",
-                       (unsigned long)statusCode);
-            NSString *jsonString = nil;
-            id dictionary =
-                [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
-
-            // Failure can deliver non-JSON format of payload.
-            if (!error) {
-              NSData *jsonData =
-                  [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:&error];
-              if (jsonData && !error) {
-
-                // NSJSONSerialization escapes paths by default so we replace them.
-                jsonString = [[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]
-                    stringByReplacingOccurrencesOfString:@"\\/"
-                                              withString:@"/"];
+                  // NSJSONSerialization escapes paths by default so we replace them.
+                  jsonString = [[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]
+                      stringByReplacingOccurrencesOfString:@"\\/"
+                                                withString:@"/"];
+                }
+                MSLogDebug([MSDistribute logTag], @"Received a response of update request:\n%@", jsonString);
+                [self handleUpdate:details];
               }
             }
-            MSLogError([MSDistribute logTag], @"Response:\n%@",
-                       jsonString ? jsonString : [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
-          }
-        }];
 
+            // Failure.
+            else {
+              MSLogDebug([MSDistribute logTag], @"Failed to get a update response, status code:%lu",
+                         (unsigned long)statusCode);
+              NSString *jsonString = nil;
+              id dictionary =
+                  [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+
+              // Failure can deliver non-JSON format of payload.
+              if (!error) {
+                NSData *jsonData =
+                    [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:&error];
+                if (jsonData && !error) {
+
+                  // NSJSONSerialization escapes paths by default so we replace them.
+                  jsonString = [[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]
+                      stringByReplacingOccurrencesOfString:@"\\/"
+                                                withString:@"/"];
+                }
+              }
+              MSLogError([MSDistribute logTag], @"Response:\n%@",
+                         jsonString ? jsonString : [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+            }
+          }];
+    }
   } else {
 
     // Log a message to notify the user why the SDK didn't check for updates.
