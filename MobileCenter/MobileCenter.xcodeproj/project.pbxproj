@@ -416,9 +416,6 @@
 			children = (
 				E88D170D1D36BB1700A5EA57 /* MSUtility.h */,
 				594930A4FF6019ABD352C5A6 /* MSUtility.m */,
-				E829E4241D25D07600F19DA1 /* MSConstants+Internal.h */,
-				045BC3161E3FD88600B6C960 /* MSKeychainUtil.m */,
-				045BC3181E3FD8AC00B6C960 /* MSKeychainUtil.h */,
 				84F14FE31E73FBEA00C1762A /* MSUtility+Application.h */,
 				84F14FEC1E73FEE900C1762A /* MSUtility+ApplicationPrivate.h */,
 				84F14FE41E73FBFA00C1762A /* MSUtility+Application.m */,
@@ -426,6 +423,9 @@
 				84F14FE71E73FC2700C1762A /* MSUtility+Environment.m */,
 				84F14FE91E73FC3B00C1762A /* MSUtility+Date.h */,
 				84F14FEA1E73FC5000C1762A /* MSUtility+Date.m */,
+				E829E4241D25D07600F19DA1 /* MSConstants+Internal.h */,
+				045BC3161E3FD88600B6C960 /* MSKeychainUtil.m */,
+				045BC3181E3FD8AC00B6C960 /* MSKeychainUtil.h */,
 			);
 			name = Util;
 			path = Utils;

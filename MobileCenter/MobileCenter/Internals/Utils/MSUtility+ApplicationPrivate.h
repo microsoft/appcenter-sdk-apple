@@ -2,6 +2,10 @@
 
 #import <UIKit/UIKit.h>
 
+/**
+ * Utility class that is used throughout the SDK.
+ * Application private part.
+ */
 @interface MSUtility (Application)
 
 /**
