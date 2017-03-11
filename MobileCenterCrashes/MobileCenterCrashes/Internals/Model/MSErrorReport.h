@@ -32,12 +32,12 @@
 /**
  *  Date and time the app started, nil if unknown.
  */
-@property(nonatomic, readonly, strong) NSDate *appStartTime;
+@property(nonatomic, readonly) NSDate *appStartTime;
 
 /**
  *  Date and time the error occurred, nil if unknown
  */
-@property(nonatomic, readonly, strong) NSDate *appErrorTime;
+@property(nonatomic, readonly) NSDate *appErrorTime;
 
 /**
  *  Device information of the app when it crashed.

@@ -9,7 +9,7 @@
 
 @interface MSDeviceTests : XCTestCase
 
-@property(nonatomic, strong) MSDevice *sut;
+@property(nonatomic) MSDevice *sut;
 
 @end
 

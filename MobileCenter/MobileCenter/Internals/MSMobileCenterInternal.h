@@ -16,8 +16,8 @@ static NSString *const kMSMobileCenterIsEnabledKey = @"MSMobileCenterIsEnabled";
 @property(nonatomic, copy) NSString *appSecret;
 @property(nonatomic, copy) NSString *logUrl;
 @property(nonatomic, readonly) NSUUID *installId;
-@property(atomic) BOOL sdkConfigured;
-@property(atomic) BOOL enabledStateUpdating;
+@property BOOL sdkConfigured;
+@property BOOL enabledStateUpdating;
 
 /**
  * Returns the singleton instance of Mobile Center.

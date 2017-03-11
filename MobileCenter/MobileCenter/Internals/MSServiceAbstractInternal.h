@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Flag indicating if a service has been started or not.
  */
-@property(nonatomic, readwrite) BOOL started;
+@property(nonatomic) BOOL started;
 
 #pragma mark - Service initialization
 

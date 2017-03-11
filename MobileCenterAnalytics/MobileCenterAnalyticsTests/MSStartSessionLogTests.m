@@ -7,7 +7,7 @@
 
 @interface MSStartSessionLogTests : XCTestCase
 
-@property(nonatomic, strong) MSStartSessionLog *sut;
+@property(nonatomic) MSStartSessionLog *sut;
 
 @end
 

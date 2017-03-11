@@ -11,7 +11,7 @@
 
 @interface MSFileStorageTests : XCTestCase
 
-@property(nonatomic, strong) MSFileStorage *sut;
+@property(nonatomic) MSFileStorage *sut;
 
 @end
 
