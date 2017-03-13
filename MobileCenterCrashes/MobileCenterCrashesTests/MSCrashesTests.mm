@@ -43,9 +43,10 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
 #pragma mark - Tests
 
 - (void)testNewInstanceWasInitialisedCorrectly {
+  
   // When
   // An instance of MSCrashes is created.
-  
+
   // Then
   assertThat(self.sut, notNilValue());
   assertThat(self.sut.fileManager, notNilValue());
@@ -183,9 +184,10 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
 - (void)testCreateBufferFile {
   // When
   NSString *testName = @"afilename";
-  NSString *priorityDirectory = [self.sut.logBufferDir stringByAppendingFormat:@"/%ld/", static_cast<long>(MSPriorityDefault)];
+  NSString *priorityDirectory =
+      [self.sut.logBufferDir stringByAppendingFormat:@"/%ld/", static_cast<long>(MSPriorityDefault)];
   NSString *filePath =
-  [priorityDirectory stringByAppendingPathComponent:[testName stringByAppendingString:@".mscrasheslogbuffer"]];
+      [priorityDirectory stringByAppendingPathComponent:[testName stringByAppendingString:@".mscrasheslogbuffer"]];
   [self.sut createBufferFileAtPath:filePath];
 
   // Then
@@ -198,7 +200,8 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
   NSString *testName = @"afilename";
   NSString *dataString = @"SomeBufferedData";
   NSData *someData = [dataString dataUsingEncoding:NSUTF8StringEncoding];
-  NSString *priorityDirectory = [self.sut.logBufferDir stringByAppendingFormat:@"/%ld/", static_cast<long>(MSPriorityHigh)];
+  NSString *priorityDirectory =
+      [self.sut.logBufferDir stringByAppendingFormat:@"/%ld/", static_cast<long>(MSPriorityHigh)];
 
   NSString *filePath =
       [priorityDirectory stringByAppendingPathComponent:[testName stringByAppendingString:@".mscrasheslogbuffer"]];
@@ -286,7 +289,7 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
       MSLogWithProperties *aLog = [MSLogWithProperties new];
       [self.sut onEnqueuingLog:aLog withInternalId:MS_UUID_STRING andPriority:static_cast<MSPriority>(priority)];
     }
-    
+
     indexOfLatestObject = 0;
     oldestTimestamp = nil;
     for (auto it = msCrashesLogBuffer[static_cast<MSPriority>(priority)].begin(),
@@ -335,24 +338,24 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
 - (void)testBufferDirectoryWorks {
 
   // When
-  NSString *expected =
-      [[MSCrashesUtil logBufferDir] stringByAppendingString:[NSString stringWithFormat:@"/%ld/", static_cast<long>(MSPriorityBackground)]];
+  NSString *expected = [[MSCrashesUtil logBufferDir]
+      stringByAppendingString:[NSString stringWithFormat:@"/%ld/", static_cast<long>(MSPriorityBackground)]];
   NSString *actual = [self.sut bufferDirectoryForPriority:MSPriorityBackground];
 
   // Then
   XCTAssertTrue([expected isEqualToString:actual]);
 
   // When
-  expected =
-      [[MSCrashesUtil logBufferDir] stringByAppendingString:[NSString stringWithFormat:@"/%ld/", static_cast<long>(MSPriorityDefault)]];
+  expected = [[MSCrashesUtil logBufferDir]
+      stringByAppendingString:[NSString stringWithFormat:@"/%ld/", static_cast<long>(MSPriorityDefault)]];
   actual = [self.sut bufferDirectoryForPriority:MSPriorityDefault];
 
   // Then
   XCTAssertTrue([expected isEqualToString:actual]);
 
   // When
-  expected =
-      [[MSCrashesUtil logBufferDir] stringByAppendingString:[NSString stringWithFormat:@"/%ld/", static_cast<long>(MSPriorityHigh)]];
+  expected = [[MSCrashesUtil logBufferDir]
+      stringByAppendingString:[NSString stringWithFormat:@"/%ld/", static_cast<long>(MSPriorityHigh)]];
   actual = [self.sut bufferDirectoryForPriority:MSPriorityHigh];
 
   // Then
