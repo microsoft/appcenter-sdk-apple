@@ -26,11 +26,11 @@ NSString *ms_crashesDir(void);
 
       // temporary directory for crashes grabbed from PLCrashReporter
       NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-      crashesDir = [[paths objectAtIndex:0] stringByAppendingPathComponent:kMSCrashesDirectory];
+      crashesDir = [paths[0] stringByAppendingPathComponent:kMSCrashesDirectory];
 
       if (![fileManager fileExistsAtPath:crashesDir]) {
         NSDictionary *attributes =
-                [NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedLong:0755] forKey:NSFilePosixPermissions];
+                @{NSFilePosixPermissions: @0755};
         NSError *theError = NULL;
 
         [fileManager createDirectoryAtPath:crashesDir
@@ -52,11 +52,11 @@ NSString *ms_crashesDir(void);
 
       // temporary directory for crashes grabbed from PLCrashReporter
       NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-      logBufferDir = [[paths objectAtIndex:0] stringByAppendingPathComponent:kMSLogBufferDirectory];
+      logBufferDir = [paths[0] stringByAppendingPathComponent:kMSLogBufferDirectory];
 
       if (![fileManager fileExistsAtPath:logBufferDir]) {
         NSDictionary *attributes =
-                [NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedLong:0755] forKey:NSFilePosixPermissions];
+                @{NSFilePosixPermissions: @0755};
         NSError *theError = nil;
 
         [fileManager createDirectoryAtPath:logBufferDir

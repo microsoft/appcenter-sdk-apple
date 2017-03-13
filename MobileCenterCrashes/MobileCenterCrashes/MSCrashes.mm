@@ -26,6 +26,8 @@ static NSString *const kMSAnalyzerFilename = @"MSCrashes.analyzer";
  */
 static NSString *const kMSLogBufferFileExtension = @"mscrasheslogbuffer";
 
+std::unordered_map<MSPriority, std::array<MSCrashesBufferedLog, ms_crashes_log_buffer_size>> msCrashesLogBuffer;
+
 #pragma mark - Callbacks Setup
 
 static MSCrashesCallbacks msCrashesCallbacks = {.context = NULL, .handleSignal = NULL};
@@ -55,9 +57,7 @@ static void ms_save_log_buffer_callback(siginfo_t *info, ucontext_t *uap, void *
   }
 }
 
-/** Proxy implementation for PLCrashReporter to keep our interface stable while
- *  this can change.
- */
+// Proxy implementation for PLCrashReporter to keep our interface stable while this can change.
 static void plcr_post_crash_callback(siginfo_t *info, ucontext_t *uap, void *context) {
   ms_save_log_buffer_callback(info, uap, context);
   [MSCrashes wrapperCrashCallback];
@@ -81,16 +81,14 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   abort();
 }
 
-@interface MSCrashes () <MSChannelDelegate, MSLogManagerDelegate>
+@interface MSCrashes ()
 
 /**
  * Indicates if the app crashed in the previous session
  *
- * Use this on startup, to check if the app starts the first time after it
- crashed
- * previously. You can use this also to disable specific events, like asking
- * the user to rate your app.
-
+ * Use this on startup, to check if the app starts the first time after it crashed previously.
+ * You can use this also to disable specific events, like asking the user to rate your app.
+ *
  * @warning This property only has a correct value, once the sdk has been
  properly initialized!
 
@@ -102,6 +100,11 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
  * Detail information about the last crash.
  */
 @property(getter=getLastSessionCrashReport) MSErrorReport *lastSessionCrashReport;
+
+/**
+ * Queue with high priority that will be used to create the log buffer files. The default main queue is too slow.
+ */
+@property(nonatomic) dispatch_queue_t bufferFileQueue;
 
 @end
 
@@ -210,10 +213,13 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     _logBufferDir = [MSCrashesUtil logBufferDir];
     _analyzerInProgressFile = [_crashesDir stringByAppendingPathComponent:kMSAnalyzerFilename];
     _didCrashInLastSession = NO;
-    _bufferIndex = [[NSMutableDictionary alloc] initWithCapacity:kMSPriorityCount];
 
-    // FIXME: Crashes is getting way more logs than expected. Disable this functionality.
-    // [self setupLogBuffer];
+    /**
+     * Using our own queue with high priority as the default main queue is slower and we want the files to be created
+     * as quickly as possible in case the app is crashing fast.
+     */
+    _bufferFileQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
+    [self setupLogBuffer];
   }
   return self;
 }
@@ -304,8 +310,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   [super startWithLogManager:logManager appSecret:appSecret];
   [logManager addDelegate:self];
 
-  // FIXME: Crashes is getting way more logs than expected. Disable this functionality.
-  // [self processLogBufferAfterCrash];
+  [self processLogBufferAfterCrash];
   MSLogVerbose([MSCrashes logTag], @"Started crash service.");
 }
 
@@ -329,18 +334,17 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
 /**
  * Why are we doing the event-buffering inside crashes?
- * The reason is, only Crashes has the chance to execute code at crashtime and only with the following constraints:
+ * The reason is, only Crashes has the chance to execute code at crash time and only with the following constraints:
  * 1. Don't execute any Objective-C code when crashing.
  * 2. Don't allocate new memory when crashing.
  * 3. Only use async-safe C/C++ methods.
  * This means the Crashes module can't message any other module. All logic related to the buffer needs to happen before
  * the crash and then, at crashtime, crashes has all info in place to save the buffer safely.
  **/
-- (void)onProcessingLog:(id<MSLog>)log withPriority:(MSPriority)priority {
-  MSLogVerbose([MSCrashes logTag], @"Did enqeue log.");
+- (void)onEnqueuingLog:(id<MSLog>)log withInternalId:(NSString *)internalId andPriority:(MSPriority)priority {
 
-  // Don't buffer event if log is empty or crashes module is disabled.
-  if (!log || ![self isEnabled]) {
+  // Don't buffer event if log is empty, crashes module is disabled or the log is a crash.
+  if (!log || ![self isEnabled] || [((NSObject *)log) isKindOfClass:[MSAppleErrorLog class]]) {
     return;
   }
 
@@ -349,19 +353,86 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     NSData *serializedLog = [NSKeyedArchiver archivedDataWithRootObject:log];
     if (serializedLog && (serializedLog.length > 0)) {
 
-      // Our arrays contain a max of 20 items, so our maxIndex == 19.
-      int maxIndex = ms_crashes_log_buffer_size - 1;
-      if (self.bufferIndex[@(priority)].integerValue > maxIndex) {
+      NSNumber *oldestTimestamp;
+      NSNumberFormatter *timestampFormatter = [[NSNumberFormatter alloc] init];
+      timestampFormatter.numberStyle = NSNumberFormatterDecimalStyle;
+      long indexToDelete = 0;
+      for (auto it = msCrashesLogBuffer[priority].begin(), end = msCrashesLogBuffer[priority].end(); it != end; ++it) {
 
-        // Reset the counter to 0 for a priority.
-        self.bufferIndex[@(priority)] = @0;
+        // We've found an empty element, buffer our log.
+        if (it->buffer.empty()) {
+          it->buffer = std::string(&reinterpret_cast<const char *>(serializedLog.bytes)[0],
+                                   &reinterpret_cast<const char *>(serializedLog.bytes)[serializedLog.length]);
+          it->internalId = internalId.UTF8String;
+          NSTimeInterval now = [[NSDate date] timeIntervalSince1970];
+          it->timestamp = [[NSString stringWithFormat:@"%f", now] cStringUsingEncoding:NSUTF8StringEncoding];
+
+          MSLogVerbose([MSCrashes logTag], @"Found an empty buffer position.");
+
+          // We're done, no need to iterate any more and leave the method.
+          return;
+        } else {
+
+          /**
+           * The current element is full. Save the timestamp if applicable and continue iterating unless we have
+           * reached the last element.
+           */
+          NSNumber *bufferedLogTimestamp = [timestampFormatter
+              numberFromString:((NSString * _Nonnull)
+                                    [NSString stringWithCString:it->timestamp.c_str() encoding:NSUTF8StringEncoding])];
+
+          // Remember the timestamp if the log is older than the previous one or the initial one.
+          if (!oldestTimestamp || oldestTimestamp.doubleValue > bufferedLogTimestamp.doubleValue) {
+            oldestTimestamp = bufferedLogTimestamp;
+            indexToDelete = it - msCrashesLogBuffer[priority].begin();
+            MSLogVerbose([MSCrashes logTag], @"Remembering index %ld for oldest timestamp %@.", indexToDelete,
+                         oldestTimestamp);
+          }
+        }
+
+        /**
+         * Continue to iterate until we reach en empty element, in which case we store the log in it and stop, or until
+         * we
+         * reach the end of the buffer. In the later case, we will replace the oldest log with the current one
+        */
       }
-      NSInteger index = [[self.bufferIndex objectForKey:@(priority)] integerValue];
-      msCrashesLogBuffer[priority][index].buffer =
+
+      // We've reached the last element in our buffer and we now go ahead and replace the oldest element.
+      MSLogVerbose([MSCrashes logTag], @"Reached end of buffer. Next step is overwriting the oldest one.");
+
+      // Overwrite the oldest buffered log.
+      msCrashesLogBuffer[priority][indexToDelete].buffer =
           std::string(&reinterpret_cast<const char *>(serializedLog.bytes)[0],
                       &reinterpret_cast<const char *>(serializedLog.bytes)[serializedLog.length]);
-      index += 1;
-      [self.bufferIndex setObject:@(index) forKey:@(priority)];
+      msCrashesLogBuffer[priority][indexToDelete].internalId = internalId.UTF8String;
+      NSTimeInterval now = [[NSDate date] timeIntervalSince1970];
+      msCrashesLogBuffer[priority][indexToDelete].timestamp =
+          [[NSString stringWithFormat:@"%f", now] cStringUsingEncoding:NSUTF8StringEncoding];
+
+      MSLogVerbose([MSCrashes logTag], @"Overwrote buffered log at index %ld.", indexToDelete);
+      // We're done, no need to iterate any more. But no need to `return;` as we're at the end of the buffer.
+    }
+  }
+}
+
+- (void)onFinishedPersistingLog:(id<MSLog>)log withInternalId:(NSString *)internalId andPriority:(MSPriority)priority {
+  [self deleteBufferedLogWithInternalId:internalId andPriority:priority];
+}
+
+- (void)onFailedPersistingLog:(id<MSLog>)log withInternalId:(NSString *)internalId andPriority:(MSPriority)priority {
+  [self deleteBufferedLogWithInternalId:internalId andPriority:priority];
+}
+
+- (void)deleteBufferedLogWithInternalId:(NSString *)internalId andPriority:(MSPriority)priority {
+  @synchronized(self) {
+    for (auto it = msCrashesLogBuffer[priority].begin(), end = msCrashesLogBuffer[priority].end(); it != end; ++it) {
+      NSString *bufferId = [NSString stringWithCString:it->internalId.c_str() encoding:NSUTF8StringEncoding];
+      if (bufferId && bufferId.length > 0 && [bufferId isEqualToString:internalId]) {
+        MSLogVerbose([MSCrashes logTag], @"Deleting item from buffer with id %@", internalId);
+        it->buffer = [@"" cStringUsingEncoding:NSUTF8StringEncoding];
+        it->timestamp = [@"" cStringUsingEncoding:NSUTF8StringEncoding];
+        it->internalId = [@"" cStringUsingEncoding:NSUTF8StringEncoding];
+      }
     }
   }
 }
@@ -474,7 +545,8 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     // Get the current top level error handler
     NSUncaughtExceptionHandler *currentHandler = NSGetUncaughtExceptionHandler();
 
-    /* If the top level error handler differs from our own, at least another one was added.
+    /**
+     * If the top level error handler differs from our own, at least another one was added.
      * This could cause exception crashes not to be reported to Mobile Center. Print out
      * log message for details.
      */
@@ -563,8 +635,10 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   // Iterate over priorities, check if we have buffered logs for each one.
   for (NSInteger priority = 0; priority < kMSPriorityCount; priority++) {
 
-    // Get directory for priority, iterate over each file in it with the kMSLogBufferFileExtension and send
-    // the log if a log can be deserialized.
+    /**
+     * Get directory for priority, iterate over each file in it with the kMSLogBufferFileExtension and send
+     * the log if a log can be deserialized.
+     */
     NSString *dirForPriority = [self bufferDirectoryForPriority:(MSPriority)priority];
     NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:dirForPriority error:NULL];
     for (NSString *tmp in files) {
@@ -677,18 +751,19 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 }
 
 - (void)setupLogBuffer {
+  
+  // We need to make this @synchronized here as we're setting up msCrashesLogBuffer.
   @synchronized(self) {
 
     // Array of 20 buffer file paths per priority.
     // Each priority has 0.mscrasheslogbuffer ... 19.mscrasheslogbuffer.
     for (NSInteger priority = 0; priority < kMSPriorityCount; priority++) {
+
+      // Setup asynchronously.
       NSArray *files = [self createBufferFilesIfNeededForPriority:(MSPriority)priority];
 
-      // Init the counter for each priority.
-      [self.bufferIndex setObject:@0 forKey:@(priority)];
-
       // Create a buffer for the priority. Making use of `{}` as we're using C++11.
-      for (int i = 0; i < ms_crashes_log_buffer_size; i++) {
+      for (NSUInteger i = 0; i < ms_crashes_log_buffer_size; i++) {
         msCrashesLogBuffer[(MSPriority)priority][i] = MSCrashesBufferedLog{files[i], nil};
       }
     }
@@ -698,18 +773,17 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 - (NSArray<NSString *> *)createBufferFilesIfNeededForPriority:(MSPriority)priority {
   NSMutableArray<NSString *> *files = [NSMutableArray arrayWithCapacity:ms_crashes_log_buffer_size];
 
-  // Create missing buffer files if needed. We don't care about which one's are already there,
-  // we'll just skip existing ones.
+  // Create missing buffer files if needed. We don't care about which one's are already there, we'll skip existing ones.
   for (int i = 0; i < ms_crashes_log_buffer_size; i++) {
 
     // Files are named N.mscrasheslogbuffer where N is between 0 and ms_crashes_log_buffer_size.
     NSString *logId = @(i).stringValue;
-    [files addObject:[self createBufferFileWithName:logId forPriority:priority]];
+    [files addObject:[self filePathWithName:logId forPriority:priority]];
   }
   return files;
 }
 
-- (NSString *)createBufferFileWithName:(NSString *)name forPriority:(MSPriority)priority {
+- (NSString *)filePathWithName:(NSString *)name forPriority:(MSPriority)priority {
   BOOL isDir;
   NSString *fileName = [NSString stringWithFormat:@"%@.%@", name, kMSLogBufferFileExtension];
   NSString *directoryForPriority = [self bufferDirectoryForPriority:priority];
@@ -721,17 +795,26 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   }
   NSString *filePath = [directoryForPriority stringByAppendingPathComponent:fileName];
   if (![self.fileManager fileExistsAtPath:filePath]) {
-    BOOL success = [self.fileManager createFileAtPath:filePath contents:nil attributes:nil];
-    if (!success) {
-      MSLogError([MSCrashes logTag], @"Couldn't create crash buffer file at: %@.", filePath);
-      return @"";
-    } else {
-      MSLogVerbose([MSCrashes logTag], @"Created crash buffer file at %@.", filePath);
-      return filePath;
-    }
+
+    // Create files asynchronously. We don't really care as they are only ever used post-crash.
+    dispatch_async(self.bufferFileQueue, ^{
+      [self createBufferFileAtPath:filePath];
+    });
+    return filePath;
   } else {
     MSLogVerbose([MSCrashes logTag], @"Didn't create crash buffer file as one already existed at %@.", filePath);
     return filePath;
+  }
+}
+
+- (void)createBufferFileAtPath:(NSString *)filePath {
+  @synchronized(self) {
+    BOOL success = [self.fileManager createFileAtPath:filePath contents:[NSData new] attributes:nil];
+    if (success) {
+      MSLogVerbose([MSCrashes logTag], @"Created file for log buffer.");
+    } else {
+      MSLogError([MSCrashes logTag], @"Couldn't create file for log buffer.");
+    }
   }
 }
 
@@ -777,7 +860,8 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   NSData *crashData = [[NSData alloc]
       initWithData:[[[MSCrashes sharedInstance] plCrashReporter] loadPendingCrashReportDataAndReturnError:&error]];
 
-  // This shouldn't happen because the callback should only happen once plCrashReporter has written the report to disk.
+  // This shouldn't happen because the callback should only happen once plCrashReporter has written the report to
+  // disk.
   if (!crashData) {
     MSLogError([MSCrashes logTag], @"Could not load crash data: %@", error.localizedDescription);
   }
@@ -789,7 +873,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   }
 }
 
-// We need override setter, because it's default behavior creates an NSArray, and some tests fail.
+// We need to override setter, because it's default behavior creates an NSArray, and some tests fail.
 - (void)setCrashFiles:(NSMutableArray *)crashFiles {
   _crashFiles = [[NSMutableArray alloc] initWithArray:crashFiles];
 }
