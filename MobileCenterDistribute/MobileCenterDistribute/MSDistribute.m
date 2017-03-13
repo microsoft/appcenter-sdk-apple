@@ -75,6 +75,10 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   return sharedInstance;
 }
 
++ (NSString *)serviceName {
+  return kMSServiceName;
+}
+
 + (NSString *)logTag {
   return @"MobileCenterDistribute";
 }
