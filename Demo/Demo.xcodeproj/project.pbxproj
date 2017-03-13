@@ -418,6 +418,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/../MobileCenter-SDK-iOS",
 					"$(SRCROOT)/../CrashLibIOS/CrashLibIOS",
+					"$(SRCROOT)/../Vendor/**",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -470,6 +471,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/../MobileCenter-SDK-iOS",
 					"$(SRCROOT)/../CrashLibIOS/CrashLibIOS",
+					"$(SRCROOT)/../Vendor/**",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;

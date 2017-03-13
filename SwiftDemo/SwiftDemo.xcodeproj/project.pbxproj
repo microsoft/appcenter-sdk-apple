@@ -29,12 +29,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0471B94D1E455C5C0022F951 /* MobileCenterDistribute.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterDistribute.framework; path = "MobileCenter-SDK-iOS/MobileCenterDistribute.framework"; sourceTree = "<group>"; };
+		0471B94D1E455C5C0022F951 /* MobileCenterDistribute.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterDistribute.framework; path = "../MobileCenter-SDK-iOS/MobileCenterDistribute.framework"; sourceTree = "<group>"; };
 		38C9C58D1E56958C00B0FA0D /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
-		B20DE7B41E5F91FA0023075C /* MobileCenterDistributeResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = MobileCenterDistributeResources.bundle; path = "MobileCenter-SDK-iOS/MobileCenterDistributeResources.bundle"; sourceTree = "<group>"; };
-		B219241A1DCD0C6D00D5797D /* MobileCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenter.framework; path = "MobileCenter-SDK-iOS/MobileCenter.framework"; sourceTree = "<group>"; };
-		B219241C1DCD0C7500D5797D /* MobileCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterAnalytics.framework; path = "MobileCenter-SDK-iOS/MobileCenterAnalytics.framework"; sourceTree = "<group>"; };
-		B219241E1DCD0C8400D5797D /* MobileCenterCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterCrashes.framework; path = "MobileCenter-SDK-iOS/MobileCenterCrashes.framework"; sourceTree = "<group>"; };
+		B20DE7B41E5F91FA0023075C /* MobileCenterDistributeResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = MobileCenterDistributeResources.bundle; path = "../MobileCenter-SDK-iOS/MobileCenterDistributeResources.bundle"; sourceTree = "<group>"; };
+		B219241A1DCD0C6D00D5797D /* MobileCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenter.framework; path = "../MobileCenter-SDK-iOS/MobileCenter.framework"; sourceTree = "<group>"; };
+		B219241C1DCD0C7500D5797D /* MobileCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterAnalytics.framework; path = "../MobileCenter-SDK-iOS/MobileCenterAnalytics.framework"; sourceTree = "<group>"; };
+		B219241E1DCD0C8400D5797D /* MobileCenterCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterCrashes.framework; path = "../MobileCenter-SDK-iOS/MobileCenterCrashes.framework"; sourceTree = "<group>"; };
 		B27DCBA61DDA96F000B97C84 /* SwiftDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SwiftDemo-Bridging-Header.h"; sourceTree = "<group>"; };
 		B27DCBA71DDA96F100B97C84 /* MSAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSAlertController.h; path = ../Vendor/MSAlertController/MSAlertController.h; sourceTree = "<group>"; };
 		B27DCBA81DDA96F100B97C84 /* MSAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSAlertController.m; path = ../Vendor/MSAlertController/MSAlertController.m; sourceTree = "<group>"; };
@@ -43,7 +43,7 @@
 		B2CDD1031DCCFAAC00610725 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B2CDD10C1DCCFAAC00610725 /* SwiftDemoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDemoUITests.swift; sourceTree = "<group>"; };
 		B2CDD10E1DCCFAAC00610725 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D3D489AB1E72EB6600D5F20F /* MobileCenterPush.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterPush.framework; path = "MobileCenter-SDK-iOS/MobileCenterPush.framework"; sourceTree = "<group>"; };
+		D3D489AB1E72EB6600D5F20F /* MobileCenterPush.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterPush.framework; path = "../MobileCenter-SDK-iOS/MobileCenterPush.framework"; sourceTree = "<group>"; };
 		E118DF191DE5791600E63722 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E118DF1A1DE5791600E63722 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E118DF1C1DE5791600E63722 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -97,6 +97,7 @@
 		B2CDD0E01DCCFAAC00610725 = {
 			isa = PBXGroup;
 			children = (
+				D3690BC31E76EDA100140319 /* MobileCenter-SDK-iOS */,
 				E118DF181DE5791600E63722 /* SwiftDemo */,
 				B2CDD1001DCCFAAC00610725 /* SwiftDemoTests */,
 				B2CDD10B1DCCFAAC00610725 /* SwiftDemoUITests */,
@@ -135,16 +136,23 @@
 		B2CDD1361DCCFE9400610725 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
-				B20DE7B41E5F91FA0023075C /* MobileCenterDistributeResources.bundle */,
 				B27DCB991DDA969C00B97C84 /* MSAlertController */,
+			);
+			name = Vendor;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		D3690BC31E76EDA100140319 /* MobileCenter-SDK-iOS */ = {
+			isa = PBXGroup;
+			children = (
+				B20DE7B41E5F91FA0023075C /* MobileCenterDistributeResources.bundle */,
 				B219241A1DCD0C6D00D5797D /* MobileCenter.framework */,
 				B219241C1DCD0C7500D5797D /* MobileCenterAnalytics.framework */,
 				B219241E1DCD0C8400D5797D /* MobileCenterCrashes.framework */,
 				0471B94D1E455C5C0022F951 /* MobileCenterDistribute.framework */,
 				D3D489AB1E72EB6600D5F20F /* MobileCenterPush.framework */,
 			);
-			name = Vendor;
-			path = ..;
+			name = "MobileCenter-SDK-iOS";
 			sourceTree = "<group>";
 		};
 		E118DF181DE5791600E63722 /* SwiftDemo */ = {
@@ -358,7 +366,10 @@
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-iOS/**";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)/../Vendor/**",
+					"$(PROJECT_DIR)/../MobileCenter-SDK-iOS/**",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -409,7 +420,10 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-iOS/**";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)/../Vendor/**",
+					"$(PROJECT_DIR)/../MobileCenter-SDK-iOS/**",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
