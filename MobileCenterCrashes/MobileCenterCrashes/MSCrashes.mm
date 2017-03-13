@@ -389,24 +389,26 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
                          oldestTimestamp);
           }
         }
-        
+
         /**
-         * Continue to iterate until we reach en empty element, in which case we store the log in it and stop, or until we
+         * Continue to iterate until we reach en empty element, in which case we store the log in it and stop, or until
+         * we
          * reach the end of the buffer. In the later case, we will replace the oldest log with the current one
         */
       }
-      
+
       // We've reached the last element in our buffer and we now go ahead and replace the oldest element.
       MSLogVerbose([MSCrashes logTag], @"Reached end of buffer. Next step is overwriting the oldest one.");
-        
+
       // Overwrite the oldest buffered log.
-      msCrashesLogBuffer[priority][indexToDelete].buffer = std::string(&reinterpret_cast<const char *>(serializedLog.bytes)[0],
-                                  &reinterpret_cast<const char *>(serializedLog.bytes)[serializedLog.length]);
+      msCrashesLogBuffer[priority][indexToDelete].buffer =
+          std::string(&reinterpret_cast<const char *>(serializedLog.bytes)[0],
+                      &reinterpret_cast<const char *>(serializedLog.bytes)[serializedLog.length]);
       msCrashesLogBuffer[priority][indexToDelete].internalId = internalId.UTF8String;
       NSTimeInterval now = [[NSDate date] timeIntervalSince1970];
-      msCrashesLogBuffer[priority][indexToDelete].timestamp = [[NSString stringWithFormat:@"%f", now] cStringUsingEncoding:NSUTF8StringEncoding];
+      msCrashesLogBuffer[priority][indexToDelete].timestamp =
+          [[NSString stringWithFormat:@"%f", now] cStringUsingEncoding:NSUTF8StringEncoding];
 
-      
       MSLogVerbose([MSCrashes logTag], @"Overwrote buffered log at index %ld.", indexToDelete);
       // We're done, no need to iterate any more. But no need to `return;` as we're at the end of the buffer.
     }
@@ -749,6 +751,8 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 }
 
 - (void)setupLogBuffer {
+  
+  // We need to make this @synchronized here as we're setting up msCrashesLogBuffer.
   @synchronized(self) {
 
     // Array of 20 buffer file paths per priority.
@@ -774,12 +778,12 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
     // Files are named N.mscrasheslogbuffer where N is between 0 and ms_crashes_log_buffer_size.
     NSString *logId = @(i).stringValue;
-    [files addObject:[self createBufferFileWithName:logId forPriority:priority]];
+    [files addObject:[self filePathWithName:logId forPriority:priority]];
   }
   return files;
 }
 
-- (NSString *)createBufferFileWithName:(NSString *)name forPriority:(MSPriority)priority {
+- (NSString *)filePathWithName:(NSString *)name forPriority:(MSPriority)priority {
   BOOL isDir;
   NSString *fileName = [NSString stringWithFormat:@"%@.%@", name, kMSLogBufferFileExtension];
   NSString *directoryForPriority = [self bufferDirectoryForPriority:priority];
@@ -794,17 +798,23 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
     // Create files asynchronously. We don't really care as they are only ever used post-crash.
     dispatch_async(self.bufferFileQueue, ^{
-      BOOL success = [self.fileManager createFileAtPath:filePath contents:nil attributes:nil];
-      if (success) {
-        MSLogVerbose([MSCrashes logTag], @"Created file for log buffer.");
-      } else {
-        MSLogError([MSCrashes logTag], @"Couldn't create file for log buffer.");
-      }
+      [self createBufferFileAtPath:filePath];
     });
     return filePath;
   } else {
     MSLogVerbose([MSCrashes logTag], @"Didn't create crash buffer file as one already existed at %@.", filePath);
     return filePath;
+  }
+}
+
+- (void)createBufferFileAtPath:(NSString *)filePath {
+  @synchronized(self) {
+    BOOL success = [self.fileManager createFileAtPath:filePath contents:[NSData new] attributes:nil];
+    if (success) {
+      MSLogVerbose([MSCrashes logTag], @"Created file for log buffer.");
+    } else {
+      MSLogError([MSCrashes logTag], @"Couldn't create file for log buffer.");
+    }
   }
 }
 
@@ -850,7 +860,8 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   NSData *crashData = [[NSData alloc]
       initWithData:[[[MSCrashes sharedInstance] plCrashReporter] loadPendingCrashReportDataAndReturnError:&error]];
 
-  // This shouldn't happen because the callback should only happen once plCrashReporter has written the report to disk.
+  // This shouldn't happen because the callback should only happen once plCrashReporter has written the report to
+  // disk.
   if (!crashData) {
     MSLogError([MSCrashes logTag], @"Could not load crash data: %@", error.localizedDescription);
   }

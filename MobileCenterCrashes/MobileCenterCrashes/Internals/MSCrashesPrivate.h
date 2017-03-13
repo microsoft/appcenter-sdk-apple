@@ -173,14 +173,26 @@ typedef struct MSCrashesCallbacks {
 - (void)setupLogBuffer;
 
 /**
- * Creates a file that can be used to save a buffered event log at crash time.
+ * Returns a file that can be used to save a buffered event log at crash time and triggers creation of a file if
+ * it doesn't exist.
  *
  * @param name The name for the file.
  * @param priority The priority for the new file.
  *
  * @return the path for the created or existing file, returns nil if the creation failed.
+ *
+ * @discussion This will either return the path to the buffer file if one already exists or trigger creation of a file
+ * asynchronously by using the @see createBufferFileAtPath: method.
  */
-- (NSString *)createBufferFileWithName:(NSString *)name forPriority:(MSPriority)priority;
+- (NSString *)filePathWithName:(NSString *)name forPriority:(MSPriority)priority;
+
+/**
+ * A method to create a file at a certain path. This method uses a synchronized block and should be called
+ * asynchronously.
+ *
+ * @param filePath the filePath.
+ */
+- (void)createBufferFileAtPath:(NSString *)filePath;
 
 /**
  * Does not delete the files for our log buffer but "resets" them to be empty. For this,

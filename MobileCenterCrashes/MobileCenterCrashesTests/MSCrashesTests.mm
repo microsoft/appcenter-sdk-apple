@@ -43,6 +43,10 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
 #pragma mark - Tests
 
 - (void)testNewInstanceWasInitialisedCorrectly {
+  // When
+  // An instance of MSCrashes is created.
+  
+  // Then
   assertThat(self.sut, notNilValue());
   assertThat(self.sut.fileManager, notNilValue());
   assertThat(self.sut.crashFiles, isEmpty());
@@ -53,6 +57,8 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
   XCTAssertTrue(msCrashesLogBuffer[MSPriorityDefault].size() == 20);
   XCTAssertTrue(msCrashesLogBuffer[MSPriorityBackground].size() == 20);
 
+  // Creation of buffer files is done asynchronously, we need to give it some time to create the files.
+  [NSThread sleepForTimeInterval:0.05];
   for (NSInteger priority = 0; priority < kMSPriorityCount; priority++) {
     NSString *dirPath = [self.sut.logBufferDir stringByAppendingFormat:@"/%ld/", static_cast<long>(priority)];
     NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:dirPath error:NULL];
@@ -177,15 +183,12 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
 - (void)testCreateBufferFile {
   // When
   NSString *testName = @"afilename";
-  [self.sut createBufferFileWithName:testName forPriority:MSPriorityHigh];
+  NSString *priorityDirectory = [self.sut.logBufferDir stringByAppendingFormat:@"/%ld/", static_cast<long>(MSPriorityDefault)];
+  NSString *filePath =
+  [priorityDirectory stringByAppendingPathComponent:[testName stringByAppendingString:@".mscrasheslogbuffer"]];
+  [self.sut createBufferFileAtPath:filePath];
 
   // Then
-
-  // Wait for a little bit to make sure the files have been created.
-  [NSThread sleepForTimeInterval:0.1];
-  NSString *priorityDirectory = [self.sut.logBufferDir stringByAppendingFormat:@"/%ld/", static_cast<long>(MSPriorityHigh)];
-  NSString *filePath =
-      [priorityDirectory stringByAppendingPathComponent:[testName stringByAppendingString:@".mscrasheslogbuffer"]];
   BOOL success = [[NSFileManager defaultManager] fileExistsAtPath:filePath];
   XCTAssertTrue(success);
 }
