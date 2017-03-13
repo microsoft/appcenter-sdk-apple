@@ -99,9 +99,9 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
   NSString *internalLogId = MS_UUID_STRING;
 
   // Notify delegates.
-  [self enumerateDelegatesForSelector:@selector(onProcessingLog:withInternalId:andPriority:)
+  [self enumerateDelegatesForSelector:@selector(onEnqueuingLog:withInternalId:andPriority:)
                             withBlock:^(id<MSLogManagerDelegate> delegate) {
-                              [delegate onProcessingLog:log withInternalId:internalLogId andPriority:priority];
+                              [delegate onEnqueuingLog:log withInternalId:internalLogId andPriority:priority];
                             }];
 
   // Get the channel.
@@ -123,16 +123,16 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
         if (success) {
 
           // Notify delegates.
-          [self enumerateDelegatesForSelector:@selector(onFinishedProcessingLog:withInternalId:andPriority:)
+          [self enumerateDelegatesForSelector:@selector(onFinishedPersistingLog:withInternalId:andPriority:)
                                     withBlock:^(id<MSLogManagerDelegate> delegate) {
-                                      [delegate onFinishedProcessingLog:log withInternalId:internalLogId andPriority:priority];
+                                      [delegate onFinishedPersistingLog:log withInternalId:internalLogId andPriority:priority];
                                     }];
         } else {
 
           // Notify delegates.
-          [self enumerateDelegatesForSelector:@selector(onFailedProcessingLog:withInternalId:andPriority:)
+          [self enumerateDelegatesForSelector:@selector(onFailedPersistingLog:withInternalId:andPriority:)
                                     withBlock:^(id<MSLogManagerDelegate> delegate) {
-                                      [delegate onFailedProcessingLog:log withInternalId:internalLogId andPriority:priority];
+                                      [delegate onFailedPersistingLog:log withInternalId:internalLogId andPriority:priority];
                                     }];
         }
       }];

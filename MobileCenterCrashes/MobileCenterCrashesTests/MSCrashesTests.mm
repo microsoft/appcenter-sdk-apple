@@ -221,7 +221,7 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
 
   // When
   MSLogWithProperties *log = [MSLogWithProperties new];
-  [self.sut onProcessingLog:log withInternalId:MS_UUID_STRING andPriority:MSPriorityHigh];
+  [self.sut onEnqueuingLog:log withInternalId:MS_UUID_STRING andPriority:MSPriorityHigh];
   for (auto it = msCrashesLogBuffer[MSPriorityHigh].begin(), end = msCrashesLogBuffer[MSPriorityHigh].end(); it != end;
        ++it) {
     if (!it->internalId.empty()) {
@@ -240,7 +240,7 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
     // When
     for (int i = 0; i < 20; i++) {
       MSLogWithProperties *log = [MSLogWithProperties new];
-      [self.sut onProcessingLog:log withInternalId:MS_UUID_STRING andPriority:static_cast<MSPriority>(priority)];
+      [self.sut onEnqueuingLog:log withInternalId:MS_UUID_STRING andPriority:static_cast<MSPriority>(priority)];
     }
     int buffercount = 0;
     for (auto it = msCrashesLogBuffer[static_cast<MSPriority>(priority)].begin(),
@@ -256,7 +256,7 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
 
     // When
     MSLogWithProperties *log = [MSLogWithProperties new];
-    [self.sut onProcessingLog:log withInternalId:MS_UUID_STRING andPriority:static_cast<MSPriority>(priority)];
+    [self.sut onEnqueuingLog:log withInternalId:MS_UUID_STRING andPriority:static_cast<MSPriority>(priority)];
     NSNumberFormatter *timestampFormatter = [[NSNumberFormatter alloc] init];
     timestampFormatter.numberStyle = NSNumberFormatterDecimalStyle;
     int indexOfLatestObject = 0;
@@ -281,7 +281,7 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
     // When
     for (int i = 0; i < 50; i++) {
       MSLogWithProperties *aLog = [MSLogWithProperties new];
-      [self.sut onProcessingLog:aLog withInternalId:MS_UUID_STRING andPriority:static_cast<MSPriority>(priority)];
+      [self.sut onEnqueuingLog:aLog withInternalId:MS_UUID_STRING andPriority:static_cast<MSPriority>(priority)];
     }
     
     indexOfLatestObject = 0;

@@ -92,6 +92,11 @@
   dispatch_async(self.logsDispatchQueue, ^{
     if (!item) {
       MSLogWarning([MSMobileCenter logTag], @"Log is nil.");
+
+      // Don't forget to execute completion block.
+      if (completion) {
+        completion(NO);
+      }
       return;
     } else if (self.discardLogs) {
       MSLogWarning([MSMobileCenter logTag], @"Channel disabled in log discarding mode, discard this log.");
@@ -99,6 +104,11 @@
                                            code:kMSMCConnectionSuspendedErrorCode
                                        userInfo:@{NSLocalizedDescriptionKey : kMSMCConnectionSuspendedErrorDesc}];
       [self notifyFailureBeforeSendingForItem:item withError:error];
+
+      // Don't forget to exectute the completion block.
+      if (completion) {
+        completion(NO);
+      }
       return;
     }
 
@@ -107,7 +117,7 @@
     BOOL success = [self.storage saveLog:item withStorageKey:self.configuration.name];
     self.itemsCount += 1;
     
-    // Execute completion block.
+    // Execute the completion block.
     if (completion) {
       completion(success);
     }

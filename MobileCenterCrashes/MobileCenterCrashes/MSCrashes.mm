@@ -334,14 +334,14 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
 /**
  * Why are we doing the event-buffering inside crashes?
- * The reason is, only Crashes has the chance to execute code at crashtime and only with the following constraints:
+ * The reason is, only Crashes has the chance to execute code at crash time and only with the following constraints:
  * 1. Don't execute any Objective-C code when crashing.
  * 2. Don't allocate new memory when crashing.
  * 3. Only use async-safe C/C++ methods.
  * This means the Crashes module can't message any other module. All logic related to the buffer needs to happen before
  * the crash and then, at crashtime, crashes has all info in place to save the buffer safely.
  **/
-- (void)onProcessingLog:(id<MSLog>)log withInternalId:(NSString *)internalId andPriority:(MSPriority)priority {
+- (void)onEnqueuingLog:(id<MSLog>)log withInternalId:(NSString *)internalId andPriority:(MSPriority)priority {
 
   // Don't buffer event if log is empty, crashes module is disabled or the log is a crash.
   if (!log || ![self isEnabled] || [((NSObject *)log) isKindOfClass:[MSAppleErrorLog class]]) {
@@ -410,11 +410,11 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   }
 }
 
-- (void)onFinishedProcessingLog:(id<MSLog>)log withInternalId:(NSString *)internalId andPriority:(MSPriority)priority {
+- (void)onFinishedPersistingLog:(id<MSLog>)log withInternalId:(NSString *)internalId andPriority:(MSPriority)priority {
   [self deleteBufferedLogWithInternalId:internalId andPriority:priority];
 }
 
-- (void)onFailedProcessingLog:(id<MSLog>)log withInternalId:(NSString *)internalId andPriority:(MSPriority)priority {
+- (void)onFailedPersistingLog:(id<MSLog>)log withInternalId:(NSString *)internalId andPriority:(MSPriority)priority {
   [self deleteBufferedLogWithInternalId:internalId andPriority:priority];
 }
 
