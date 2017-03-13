@@ -361,9 +361,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 }
 
 - (BOOL)isNewerVersion:(MSReleaseDetails *)details {
-  NSString *installedVersionUUID = [[[MSBasicMachOParser machOParserForMainBundle].uuid UUIDString] lowercaseString];
-  NSArray<NSString *> *latestVersionUUIDs = details.packageHashes;
-  return ![latestVersionUUIDs containsObject:installedVersionUUID];
+  return MSCompareCurrentReleaseWithRelease(details) == NSOrderedAscending;
 }
 
 - (void)showConfirmationAlert:(MSReleaseDetails *)details {

@@ -59,6 +59,12 @@
 		04FD4A4B1E453930009B4468 /* libMobileCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04FD4A4A1E453930009B4468 /* libMobileCenter.a */; };
 		388B559B1E64B3FD00E4F1D7 /* MSBasicMachOParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 388B55991E64B3FD00E4F1D7 /* MSBasicMachOParser.m */; };
 		388B559C1E64B3FD00E4F1D7 /* MSBasicMachOParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 388B559A1E64B3FD00E4F1D7 /* MSBasicMachOParser.h */; };
+		389D8BCB1E72396D0027B9DA /* MSSemVer.h in Headers */ = {isa = PBXBuildFile; fileRef = 389D8BC71E72396D0027B9DA /* MSSemVer.h */; };
+		389D8BCC1E72396D0027B9DA /* MSSemVer.m in Sources */ = {isa = PBXBuildFile; fileRef = 389D8BC81E72396D0027B9DA /* MSSemVer.m */; };
+		389D8BCD1E72396D0027B9DA /* MSSemVerPreReleaseId.h in Headers */ = {isa = PBXBuildFile; fileRef = 389D8BC91E72396D0027B9DA /* MSSemVerPreReleaseId.h */; };
+		389D8BCE1E72396D0027B9DA /* MSSemVerPreReleaseId.m in Sources */ = {isa = PBXBuildFile; fileRef = 389D8BCA1E72396D0027B9DA /* MSSemVerPreReleaseId.m */; };
+		389D8BD41E7322C00027B9DA /* MSSemVerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 389D8BD31E7322C00027B9DA /* MSSemVerTests.m */; };
+		389D8BD81E765D930027B9DA /* MSSemVerPreReleaseIdTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 389D8BD71E765D930027B9DA /* MSSemVerPreReleaseIdTest.m */; };
 		38C9C56C1E565BF600B0FA0D /* MSUpdatesPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C9C56B1E565BF600B0FA0D /* MSUpdatesPrivate.h */; };
 		B20DE7B71E5F97330023075C /* MSUpdatesUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B20DE7B61E5F97330023075C /* MSUpdatesUtilTests.m */; };
 		B25895AA1E4E9FD400123632 /* MSUpdatesInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = B25895A91E4E9BA100123632 /* MSUpdatesInternal.h */; };
@@ -154,6 +160,12 @@
 		04FD4A4A1E453930009B4468 /* libMobileCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobileCenter.a; path = "../../../../Library/Developer/Xcode/DerivedData/MobileCenter-cxbmzrupyysdsehdxmozcvjphajr/Build/Products/Debug-iphonesimulator/libMobileCenter.a"; sourceTree = "<group>"; };
 		388B55991E64B3FD00E4F1D7 /* MSBasicMachOParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSBasicMachOParser.m; path = MobileCenterUpdates/MSBasicMachOParser.m; sourceTree = "<group>"; };
 		388B559A1E64B3FD00E4F1D7 /* MSBasicMachOParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSBasicMachOParser.h; path = MobileCenterUpdates/MSBasicMachOParser.h; sourceTree = "<group>"; };
+		389D8BC71E72396D0027B9DA /* MSSemVer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSSemVer.h; sourceTree = "<group>"; };
+		389D8BC81E72396D0027B9DA /* MSSemVer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSSemVer.m; sourceTree = "<group>"; };
+		389D8BC91E72396D0027B9DA /* MSSemVerPreReleaseId.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSSemVerPreReleaseId.h; sourceTree = "<group>"; };
+		389D8BCA1E72396D0027B9DA /* MSSemVerPreReleaseId.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSSemVerPreReleaseId.m; sourceTree = "<group>"; };
+		389D8BD31E7322C00027B9DA /* MSSemVerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSSemVerTests.m; sourceTree = "<group>"; };
+		389D8BD71E765D930027B9DA /* MSSemVerPreReleaseIdTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSSemVerPreReleaseIdTest.m; sourceTree = "<group>"; };
 		38C9C56B1E565BF600B0FA0D /* MSUpdatesPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSUpdatesPrivate.h; sourceTree = "<group>"; };
 		B20DE7B61E5F97330023075C /* MSUpdatesUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSUpdatesUtilTests.m; sourceTree = "<group>"; };
 		B25895A91E4E9BA100123632 /* MSUpdatesInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MSUpdatesInternal.h; path = Internals/MSUpdatesInternal.h; sourceTree = "<group>"; };
@@ -244,6 +256,7 @@
 				048BB2FB1E60A40D009D92C2 /* Model */,
 				048BB2FE1E60A40D009D92C2 /* Sender */,
 				B2C070A71E5E62440076D6A9 /* Util */,
+				389D8BC61E72396D0027B9DA /* Version */,
 				B25895A91E4E9BA100123632 /* MSUpdatesInternal.h */,
 				38C9C56B1E565BF600B0FA0D /* MSUpdatesPrivate.h */,
 			);
@@ -336,6 +349,8 @@
 				04FD4A331E453531009B4468 /* MSUpdatesTests.m */,
 				B20DE7B61E5F97330023075C /* MSUpdatesUtilTests.m */,
 				040AF0291E52748D005C1174 /* MSDistributionSenderTests.m */,
+				389D8BD31E7322C00027B9DA /* MSSemVerTests.m */,
+				389D8BD71E765D930027B9DA /* MSSemVerPreReleaseIdTest.m */,
 				04FD4A351E453531009B4468 /* Info.plist */,
 			);
 			path = MobileCenterUpdatesTests;
@@ -349,6 +364,18 @@
 				0471B5E01E4543DF0022F951 /* OCHamcrestIOS.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		389D8BC61E72396D0027B9DA /* Version */ = {
+			isa = PBXGroup;
+			children = (
+				389D8BC71E72396D0027B9DA /* MSSemVer.h */,
+				389D8BC81E72396D0027B9DA /* MSSemVer.m */,
+				389D8BC91E72396D0027B9DA /* MSSemVerPreReleaseId.h */,
+				389D8BCA1E72396D0027B9DA /* MSSemVerPreReleaseId.m */,
+			);
+			name = Version;
+			path = Internals/Version;
 			sourceTree = "<group>";
 		};
 		B2C070A71E5E62440076D6A9 /* Util */ = {
@@ -383,8 +410,10 @@
 				048BB3051E60A40D009D92C2 /* MSDistributionGroup.h in Headers */,
 				0471B93E1E4557820022F951 /* MSLogManager.h in Headers */,
 				0471B9441E455A0D0022F951 /* ../MobileCenter/MobileCenter/MSService.h in Headers */,
+				389D8BCD1E72396D0027B9DA /* MSSemVerPreReleaseId.h in Headers */,
 				38C9C56C1E565BF600B0FA0D /* MSUpdatesPrivate.h in Headers */,
 				B25895AA1E4E9FD400123632 /* MSUpdatesInternal.h in Headers */,
+				389D8BCB1E72396D0027B9DA /* MSSemVer.h in Headers */,
 				0471B93C1E4557620022F951 /* MSServiceAbstract.h in Headers */,
 				B2C070A51E5E62330076D6A9 /* MSUpdatesUtil.h in Headers */,
 				0471B9331E4555F20022F951 /* MobileCenterUpdates.h in Headers */,
@@ -572,11 +601,13 @@
 			files = (
 				B2C070A61E5E62330076D6A9 /* MSUpdatesUtil.m in Sources */,
 				048BB3041E60A40D009D92C2 /* MSReleaseDetails.m in Sources */,
+				389D8BCE1E72396D0027B9DA /* MSSemVerPreReleaseId.m in Sources */,
 				048BB3061E60A40D009D92C2 /* MSDistributionGroup.m in Sources */,
 				388B559B1E64B3FD00E4F1D7 /* MSBasicMachOParser.m in Sources */,
 				0471B8991E4547480022F951 /* MSUpdates.m in Sources */,
 				046FDBD41E5682FA00AF9DD1 /* MSAlertController.m in Sources */,
 				048BB3081E60A40D009D92C2 /* MSDistributionSender.m in Sources */,
+				389D8BCC1E72396D0027B9DA /* MSSemVer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -585,8 +616,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				040AF0251E523B80005C1174 /* MSReleaseDetailsTests.m in Sources */,
+				389D8BD41E7322C00027B9DA /* MSSemVerTests.m in Sources */,
 				B20DE7B71E5F97330023075C /* MSUpdatesUtilTests.m in Sources */,
 				040AF02A1E52748D005C1174 /* MSDistributionSenderTests.m in Sources */,
+				389D8BD81E765D930027B9DA /* MSSemVerPreReleaseIdTest.m in Sources */,
 				04FD4A341E453531009B4468 /* MSUpdatesTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
