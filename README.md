@@ -140,9 +140,9 @@ The example above shows how to use the `start` method and include all the servic
 
 ### 3. If you are adding the Distribute service or use the default variant of the SDK
 
-1. Open your `Info.plist`. It can usually be found in the “Supporting Files” group in your project navigator.
-2. Add a new  for key `URL types` or `CFBundleURLTypes` (in case Xcode displays your Info.plist as source code).
-3. Change the key of the first child item to URL Schemes or CFBundleURLSchemes.
+1. Open your `Info.plist`.
+2. Add a new key for `URL types` or `CFBundleURLTypes` (in case Xcode displays your `Info.plist` as source code).
+3. Change the key of the first child item to URL Schemes or `CFBundleURLSchemes`.
 4. Enter `mobilecenter-${APP_SECRET}` as the URL scheme and replace `${APP_SECRET}` with the App Secret of your app.  
 
 
