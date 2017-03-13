@@ -89,6 +89,8 @@ static NSURL *sfURL;
   ];
   id bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
+  OCMStub([bundleMock objectForInfoDictionaryKey:@"CFBundleShortVersionString"]).andReturn(@"1.0");
+  OCMStub([bundleMock objectForInfoDictionaryKey:@"CFBundleVersion"]).andReturn(@"1");
   OCMStub([bundleMock objectForInfoDictionaryKey:@"CFBundleURLTypes"]).andReturn(bundleArray);
   OCMStub([bundleMock objectForInfoDictionaryKey:@"MSAppName"]).andReturn(@"Something");
   id distributeMock = OCMPartialMock(self.sut);

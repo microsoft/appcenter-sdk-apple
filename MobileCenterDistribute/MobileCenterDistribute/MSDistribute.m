@@ -1,3 +1,4 @@
+#import <CommonCrypto/CommonDigest.h>
 #import <Foundation/Foundation.h>
 #import <SafariServices/SafariServices.h>
 
@@ -302,19 +303,13 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     return nil;
   }
 
-  /*
-   * BuildUUID is different on every build with code changes.
-   * BuildUUID is used in this case as key prefix to get values from Safari cookies.
-   * For testing purposes you can update the related Safari cookie keys to the BuildUUID of your choice
-   * using JavaScript via Safari Web Inspector.
-   */
-  NSString *buildUUID = [[[MSBasicMachOParser machOParserForMainBundle].uuid UUIDString] lowercaseString];
-  if (!buildUUID) {
-    MSLogError([MSDistribute logTag], @"Cannot retrieve build UUID.");
+  // Build release hash.
+  NSString *releaseHash = [self packageHash];
+  if (!releaseHash) {
     return nil;
   }
 
-  // Check custom sheme is registered.
+  // Check custom scheme is registered.
   NSString *scheme = [NSString stringWithFormat:kMSDefaultCustomSchemeFormat, appSecret];
   if (![self checkURLSchemeRegistered:scheme]) {
     MSLogError([MSDistribute logTag], @"Custom URL scheme for Distribute not found.");
@@ -323,7 +318,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
   // Set URL query parameters.
   NSMutableArray *items = [NSMutableArray array];
-  [items addObject:[NSURLQueryItem queryItemWithName:kMSURLQueryReleaseHashKey value:buildUUID]];
+  [items addObject:[NSURLQueryItem queryItemWithName:kMSURLQueryReleaseHashKey value:releaseHash]];
   [items addObject:[NSURLQueryItem queryItemWithName:kMSURLQueryRedirectIdKey value:scheme]];
   [items addObject:[NSURLQueryItem queryItemWithName:kMSURLQueryRequestIdKey value:requestId]];
   [items addObject:[NSURLQueryItem queryItemWithName:kMSURLQueryPlatformKey value:kMSURLQueryPlatformValue]];
@@ -418,9 +413,9 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 }
 
 - (BOOL)isNewerVersion:(MSReleaseDetails *)details {
-  NSString *installedVersionUUID = [[[MSBasicMachOParser machOParserForMainBundle].uuid UUIDString] lowercaseString];
-  NSArray<NSString *> *latestVersionUUIDs = details.packageHashes;
-  return ![latestVersionUUIDs containsObject:installedVersionUUID];
+  NSString *installedVersionPackageHash = [self packageHash];
+  NSArray<NSString *> *latestVersionPackageHashes = details.packageHashes;
+  return ![latestVersionPackageHashes containsObject:installedVersionPackageHash];
 }
 
 - (void)showConfirmationAlert:(MSReleaseDetails *)details {
@@ -528,6 +523,48 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   } else {
     MSLogDebug([MSDistribute logTag], @"Distribute service has been disabled, ignore request.");
   }
+}
+
+- (NSString *)packageHash {
+
+  /*
+   * BuildUUID is different on every build with code changes.
+   * BuildUUID is used in this case as key prefix to get values from Safari cookies.
+   * For testing purposes you can update the related Safari cookie keys to the BuildUUID of your choice
+   * using JavaScript via Safari Web Inspector.
+   */
+  NSString *buildUUID = [[[MSBasicMachOParser machOParserForMainBundle].uuid UUIDString] lowercaseString];
+  if (!buildUUID) {
+    MSLogError([MSDistribute logTag], @"Cannot retrieve build UUID.");
+    return nil;
+  }
+
+  // Read short version and version from bundle.
+  NSString *shortVersion = [MS_APP_MAIN_BUNDLE objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+  NSString *version = [MS_APP_MAIN_BUNDLE objectForInfoDictionaryKey:@"CFBundleVersion"];
+  if (!shortVersion || !version) {
+    MSLogError([MSDistribute logTag], @"Cannot retrieve versions of the application.");
+    return nil;
+  }
+  return [MSDistribute sha256:[NSString stringWithFormat:@"%@:%@:%@", buildUUID, shortVersion, version]];
+}
+
+// TODO: Move this to MSUtil (MSUtility) once the branch gets merged from develop.
++ (NSString *)sha256:(NSString *)string {
+
+  // Hash string with SHA256.
+  const char *encodedString = [string cStringUsingEncoding:NSASCIIStringEncoding];
+  unsigned char hashedData[CC_SHA256_DIGEST_LENGTH];
+  CC_SHA256(encodedString, strlen(encodedString), hashedData);
+
+  // Convert hashed data to NSString.
+  NSData *data = [NSData dataWithBytes:hashedData length:sizeof(hashedData)];
+  NSMutableString *stringBuffer = [NSMutableString stringWithCapacity:([data length] * 2)];
+  const unsigned char *dataBuffer = [data bytes];
+  for (NSUInteger i = 0; i < [data length]; i++) {
+    [stringBuffer appendFormat:@"%02x", dataBuffer[i]];
+  }
+  return [stringBuffer copy];
 }
 
 @end
