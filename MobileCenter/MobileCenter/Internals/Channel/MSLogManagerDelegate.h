@@ -15,8 +15,8 @@
 - (void)onProcessingLog:(id<MSLog>)log withInternalId:(NSString *)internalId andPriority:(MSPriority)priority;
 
 /**
- * Callback that is called when a log has been processed, meaning it has been saved to disk. This was introduced to
- * implement the log buffer for Crashes.
+ * Callback that is called when a log has been processed successfully, meaning it has been saved to disk. This was
+ * introduced to implement the log buffer for Crashes.
  *
  *  @param log      log.
  *  @param internalId An internal Id that can be used to keep track of logs.
@@ -25,14 +25,13 @@
 - (void)onFinishedProcessingLog:(id<MSLog>)log withInternalId:(NSString *)internalId andPriority:(MSPriority)priority;
 
 /**
- * Callback that is called when a log has been processed, meaning it has been saved to disk. This was introduced to
- * implement the log buffer for Crashes.
+ * Callback that is called when processing a log has failed, meaning it has not been saved to disk. This was introduced
+ * to implement the log buffer for Crashes.
  *
  *  @param log      log.
  *  @param internalId An internal Id that can be used to keep track of logs.
  *  @param priority priority.
  */
 - (void)onFailedProcessingLog:(id<MSLog>)log withInternalId:(NSString *)internalId andPriority:(MSPriority)priority;
-
 
 @end

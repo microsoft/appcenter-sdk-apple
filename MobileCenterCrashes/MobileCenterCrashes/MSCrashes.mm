@@ -794,7 +794,6 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
       BOOL success = [self.fileManager createFileAtPath:filePath contents:nil attributes:nil];
       if (success) {
         MSLogVerbose([MSCrashes logTag], @"Created file for log buffer.");
-
       } else {
         MSLogError([MSCrashes logTag], @"Couldn't create file for log buffer.");
       }

@@ -95,15 +95,6 @@ typedef struct MSCrashesCallbacks {
 @property(nonatomic, copy) NSString *logBufferDir;
 
 /**
- * The index for our log buffer. It keeps track of where we want to buffer our next event.
- * The keys are MSPriority cast to NSNumber.
- * The values are the counters for each priority.
- *
- * @see MSPriority
- */
-//@property(nonatomic) NSMutableDictionary<NSNumber *, NSNumber *> *bufferIndex;
-
-/**
  * A file used to indicate that a crash which occurred in the last session is
  * currently written to disk.
  */

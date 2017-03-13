@@ -1,4 +1,3 @@
-
 #import <Foundation/Foundation.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
@@ -55,7 +54,7 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
   XCTAssertTrue(msCrashesLogBuffer[MSPriorityBackground].size() == 20);
 
   for (NSInteger priority = 0; priority < kMSPriorityCount; priority++) {
-    NSString *dirPath = [self.sut.logBufferDir stringByAppendingFormat:@"/%ld/", (long)priority];
+    NSString *dirPath = [self.sut.logBufferDir stringByAppendingFormat:@"/%ld/", static_cast<long>(priority)];
     NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:dirPath error:NULL];
     XCTAssertTrue(files.count == 20);
   }
@@ -155,7 +154,7 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
 
   // Then
   for (NSInteger priority = 0; priority < kMSPriorityCount; priority++) {
-    NSString *dirPath = [self.sut.logBufferDir stringByAppendingFormat:@"/%ld/", (long)priority];
+    NSString *dirPath = [self.sut.logBufferDir stringByAppendingFormat:@"/%ld/", static_cast<long>(priority)];
 
     NSArray *first = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:dirPath error:NULL];
     XCTAssertTrue(first.count == 20);
@@ -184,19 +183,19 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
 
   // Wait for a little bit to make sure the files have been created.
   [NSThread sleepForTimeInterval:0.1];
-  NSString *priorityDirectory = [self.sut.logBufferDir stringByAppendingFormat:@"/%ld/", (long)MSPriorityHigh];
+  NSString *priorityDirectory = [self.sut.logBufferDir stringByAppendingFormat:@"/%ld/", static_cast<long>(MSPriorityHigh)];
   NSString *filePath =
       [priorityDirectory stringByAppendingPathComponent:[testName stringByAppendingString:@".mscrasheslogbuffer"]];
   BOOL success = [[NSFileManager defaultManager] fileExistsAtPath:filePath];
   XCTAssertTrue(success);
 }
 
-- (void)emptyLogBufferFiles {
+- (void)testEmptyLogBufferFiles {
   // If
   NSString *testName = @"afilename";
   NSString *dataString = @"SomeBufferedData";
   NSData *someData = [dataString dataUsingEncoding:NSUTF8StringEncoding];
-  NSString *priorityDirectory = [self.sut.logBufferDir stringByAppendingFormat:@"/%ld/", (long)MSPriorityHigh];
+  NSString *priorityDirectory = [self.sut.logBufferDir stringByAppendingFormat:@"/%ld/", static_cast<long>(MSPriorityHigh)];
 
   NSString *filePath =
       [priorityDirectory stringByAppendingPathComponent:[testName stringByAppendingString:@".mscrasheslogbuffer"]];
@@ -241,11 +240,11 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
     // When
     for (int i = 0; i < 20; i++) {
       MSLogWithProperties *log = [MSLogWithProperties new];
-      [self.sut onProcessingLog:log withInternalId:MS_UUID_STRING andPriority:(MSPriority)priority];
+      [self.sut onProcessingLog:log withInternalId:MS_UUID_STRING andPriority:static_cast<MSPriority>(priority)];
     }
     int buffercount = 0;
-    for (auto it = msCrashesLogBuffer[(MSPriority)priority].begin(),
-              end = msCrashesLogBuffer[(MSPriority)priority].end();
+    for (auto it = msCrashesLogBuffer[static_cast<MSPriority>(priority)].begin(),
+              end = msCrashesLogBuffer[static_cast<MSPriority>(priority)].end();
          it != end; ++it) {
       if (!it->internalId.empty()) {
         buffercount += 1;
@@ -257,13 +256,13 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
 
     // When
     MSLogWithProperties *log = [MSLogWithProperties new];
-    [self.sut onProcessingLog:log withInternalId:MS_UUID_STRING andPriority:(MSPriority)priority];
+    [self.sut onProcessingLog:log withInternalId:MS_UUID_STRING andPriority:static_cast<MSPriority>(priority)];
     NSNumberFormatter *timestampFormatter = [[NSNumberFormatter alloc] init];
     timestampFormatter.numberStyle = NSNumberFormatterDecimalStyle;
     int indexOfLatestObject = 0;
     NSNumber *oldestTimestamp;
-    for (auto it = msCrashesLogBuffer[(MSPriority)priority].begin(),
-              end = msCrashesLogBuffer[(MSPriority)priority].end();
+    for (auto it = msCrashesLogBuffer[static_cast<MSPriority>(priority)].begin(),
+              end = msCrashesLogBuffer[static_cast<MSPriority>(priority)].end();
          it != end; ++it) {
       NSNumber *bufferedLogTimestamp = [timestampFormatter
           numberFromString:[NSString stringWithCString:it->timestamp.c_str() encoding:NSUTF8StringEncoding]];
@@ -271,7 +270,7 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
       // Remember the timestamp if the log is older than the previous one or the initial one.
       if (!oldestTimestamp || oldestTimestamp.doubleValue > bufferedLogTimestamp.doubleValue) {
         oldestTimestamp = bufferedLogTimestamp;
-        indexOfLatestObject = it - msCrashesLogBuffer[(MSPriority)priority].begin();
+        indexOfLatestObject = it - msCrashesLogBuffer[static_cast<MSPriority>(priority)].begin();
       }
     }
 
@@ -282,13 +281,13 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
     // When
     for (int i = 0; i < 50; i++) {
       MSLogWithProperties *aLog = [MSLogWithProperties new];
-      [self.sut onProcessingLog:aLog withInternalId:MS_UUID_STRING andPriority:(MSPriority)priority];
+      [self.sut onProcessingLog:aLog withInternalId:MS_UUID_STRING andPriority:static_cast<MSPriority>(priority)];
     }
     
     indexOfLatestObject = 0;
     oldestTimestamp = nil;
-    for (auto it = msCrashesLogBuffer[(MSPriority)priority].begin(),
-              end = msCrashesLogBuffer[(MSPriority)priority].end();
+    for (auto it = msCrashesLogBuffer[static_cast<MSPriority>(priority)].begin(),
+              end = msCrashesLogBuffer[static_cast<MSPriority>(priority)].end();
          it != end; ++it) {
       NSNumber *bufferedLogTimestamp = [timestampFormatter
           numberFromString:[NSString stringWithCString:it->timestamp.c_str() encoding:NSUTF8StringEncoding]];
@@ -296,7 +295,7 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
       // Remember the timestamp if the log is older than the previous one or the initial one.
       if (!oldestTimestamp || oldestTimestamp.doubleValue > bufferedLogTimestamp.doubleValue) {
         oldestTimestamp = bufferedLogTimestamp;
-        indexOfLatestObject = it - msCrashesLogBuffer[(MSPriority)priority].begin();
+        indexOfLatestObject = it - msCrashesLogBuffer[static_cast<MSPriority>(priority)].begin();
       }
     }
 
@@ -334,7 +333,7 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
 
   // When
   NSString *expected =
-      [[MSCrashesUtil logBufferDir] stringByAppendingString:[NSString stringWithFormat:@"/%ld/", (long)MSPriorityBackground]];
+      [[MSCrashesUtil logBufferDir] stringByAppendingString:[NSString stringWithFormat:@"/%ld/", static_cast<long>(MSPriorityBackground)]];
   NSString *actual = [self.sut bufferDirectoryForPriority:MSPriorityBackground];
 
   // Then
@@ -342,7 +341,7 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
 
   // When
   expected =
-      [[MSCrashesUtil logBufferDir] stringByAppendingString:[NSString stringWithFormat:@"/%ld/", (long)MSPriorityDefault]];
+      [[MSCrashesUtil logBufferDir] stringByAppendingString:[NSString stringWithFormat:@"/%ld/", static_cast<long>(MSPriorityDefault)]];
   actual = [self.sut bufferDirectoryForPriority:MSPriorityDefault];
 
   // Then
@@ -350,7 +349,7 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
 
   // When
   expected =
-      [[MSCrashesUtil logBufferDir] stringByAppendingString:[NSString stringWithFormat:@"/%ld/", (long)MSPriorityHigh]];
+      [[MSCrashesUtil logBufferDir] stringByAppendingString:[NSString stringWithFormat:@"/%ld/", static_cast<long>(MSPriorityHigh)]];
   actual = [self.sut bufferDirectoryForPriority:MSPriorityHigh];
 
   // Then
