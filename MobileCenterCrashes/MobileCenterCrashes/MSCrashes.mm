@@ -369,7 +369,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
           MSLogVerbose([MSCrashes logTag], @"Found an empty buffer position.");
 
-          // We're done, no need to iterate any more.
+          // We're done, no need to iterate any more and leave the method.
           return;
         } else {
 
@@ -388,24 +388,27 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
             MSLogVerbose([MSCrashes logTag], @"Remembering index %ld for oldest timestamp %@.", indexToDelete,
                          oldestTimestamp);
           }
-
-          // We've reached the last element in our buffer.
-          if (std::next(it) == end) {
-            MSLogVerbose([MSCrashes logTag], @"Reached end of buffer. Next step is overwriting the oldest one.");
-
-            // Overwrite the oldest buffered log.
-            auto newIt = msCrashesLogBuffer[priority].begin() + indexToDelete;
-            newIt->buffer = std::string(&reinterpret_cast<const char *>(serializedLog.bytes)[0],
-                                        &reinterpret_cast<const char *>(serializedLog.bytes)[serializedLog.length]);
-            newIt->internalId = internalId.UTF8String;
-            NSTimeInterval now = [[NSDate date] timeIntervalSince1970];
-            newIt->timestamp = [[NSString stringWithFormat:@"%f", now] cStringUsingEncoding:NSUTF8StringEncoding];
-
-            MSLogVerbose([MSCrashes logTag], @"Overwrote buffered log at index %ld.", indexToDelete);
-            // We're done, no need to iterate any more. But no need to `return;` as we're at the end of the buffer.
-          }
         }
+        
+        /**
+         * Continue to iterate until we reach en empty element, in which case we store the log in it and stop, or until we
+         * reach the end of the buffer. In the later case, we will replace the oldest log with the current one
+        */
       }
+      
+      // We've reached the last element in our buffer and we now go ahead and replace the oldest element.
+      MSLogVerbose([MSCrashes logTag], @"Reached end of buffer. Next step is overwriting the oldest one.");
+        
+      // Overwrite the oldest buffered log.
+      msCrashesLogBuffer[priority][indexToDelete].buffer = std::string(&reinterpret_cast<const char *>(serializedLog.bytes)[0],
+                                  &reinterpret_cast<const char *>(serializedLog.bytes)[serializedLog.length]);
+      msCrashesLogBuffer[priority][indexToDelete].internalId = internalId.UTF8String;
+      NSTimeInterval now = [[NSDate date] timeIntervalSince1970];
+      msCrashesLogBuffer[priority][indexToDelete].timestamp = [[NSString stringWithFormat:@"%f", now] cStringUsingEncoding:NSUTF8StringEncoding];
+
+      
+      MSLogVerbose([MSCrashes logTag], @"Overwrote buffered log at index %ld.", indexToDelete);
+      // We're done, no need to iterate any more. But no need to `return;` as we're at the end of the buffer.
     }
   }
 }
