@@ -6,7 +6,7 @@
 @interface MSDistribute : MSServiceAbstract
 
 /**
- * Change The URL that will be used for generic update related tasks, e.g. fetching the auth token..
+ * Change The URL that will be used for generic update related tasks.
  *
  * @param apiUrl The new URL.
  */
