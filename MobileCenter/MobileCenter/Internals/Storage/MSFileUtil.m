@@ -7,7 +7,7 @@
  */
 @interface MSFileUtil ()
 
-@property(nonatomic, strong) NSFileManager *fileManager;
+@property(nonatomic) NSFileManager *fileManager;
 
 @end
 
@@ -97,15 +97,21 @@
   NSFileManager *fileManager = [NSFileManager defaultManager];
 
   // Check validity.
-  if (!directoryPath || !fileExtension || ![fileManager fileExistsAtPath:directoryPath]) {
+  if (!directoryPath || !fileExtension) {
+    return nil;
+  }
+  NSString * _Nonnull path = ( NSString* _Nonnull ) directoryPath;
+
+  // Check file existing
+  if (![fileManager fileExistsAtPath:path]) {
     return nil;
   }
 
   NSMutableArray<MSFile *> *files;
   NSError *error;
-  NSArray *allFiles = [fileManager contentsOfDirectoryAtPath:directoryPath error:&error];
+  NSArray *allFiles = [fileManager contentsOfDirectoryAtPath:path error:&error];
   if (error) {
-    MSLogError([MSMobileCenter logTag], @"Couldn't read %@-files for directory %@: %@", fileExtension, directoryPath,
+    MSLogError([MSMobileCenter logTag], @"Couldn't read %@-files for directory %@: %@", fileExtension, path,
                 error.localizedDescription);
     return nil;
   } else {
@@ -114,7 +120,7 @@
 
     files = [NSMutableArray new];
     for (NSString *fileName in filteredFiles) {
-      NSString *filePath = [directoryPath stringByAppendingPathComponent:fileName];
+      NSString *filePath = [path stringByAppendingPathComponent:fileName];
       NSString *fileId = [fileName stringByDeletingPathExtension];
       NSDate *creationDate = [self creationDateForFileAtPath:filePath];
       MSFile *file = [[MSFile alloc] initWithPath:filePath fileId:fileId creationDate:creationDate];

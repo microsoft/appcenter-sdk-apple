@@ -7,7 +7,7 @@
 
 @interface MSPageLogTests : XCTestCase
 
-@property(nonatomic, strong) MSPageLog *sut;
+@property(nonatomic) MSPageLog *sut;
 
 @end
 

@@ -1,5 +1,6 @@
 #import <Foundation/Foundation.h>
 #import "MSDistribute.h"
+#import "MSDistributeSender.h"
 #import "MSReleaseDetails.h"
 #import "MSSender.h"
 #import "MSServiceInternal.h"
@@ -17,5 +18,10 @@
  * An API url that is used to get release details from backend.
  */
 @property(nonatomic, copy) NSString *apiUrl;
+
+/**
+ * A sender instance that is used to send a request for new release to the backend.
+ */
+@property(nonatomic, nullable) MSDistributeSender *sender;
 
 @end
