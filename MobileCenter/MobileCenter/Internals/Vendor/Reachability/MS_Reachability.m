@@ -61,16 +61,29 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
 
 #pragma mark - Reachability implementation
 
-/*
- * Instantiation, deallocation and starting/stopping notifier for reachability instance are enforced to
- * run in main thread. MS_Reachability is not thread-safe so stopNotifier doesn't properly unschedule jobs
- * from the loop when it is called from a different thread, and this generates unexpected crashes that are caused by
- * accessing a disposed instance especially when reachability is used for local variables.
+/**
+ * Instantiation, deallocation and starting/stopping notifier for reachability instance are enforced to run in a same thread
+ * during the life cycle of reachability instance. MS_Reachability is not thread-safe so stopNotifier doesn't properly
+ * unschedule jobs from the loop when it is called from a different thread, and this generates unexpected crashes
+ * that are caused by accessing a disposed instance especially when reachability is used for local variables.
  */
 @implementation MS_Reachability {
 }
 
-//It's based on Apple's sample code. Disable an one warning type for this function
+/**
+ * Get a queue for MS_Reachability.
+ *
+ * @return A queue for MS_Reachability.
+ */
++ (dispatch_queue_t)notifierQueue {
+  static dispatch_queue_t notifierQueue = nil;
+  if (!notifierQueue) {
+    notifierQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
+  }
+  return notifierQueue;
+}
+
+// It's based on Apple's sample code. Disable an one warning type for this function
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wnullable-to-nonnull-conversion"
 
@@ -78,13 +91,9 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
   __block MS_Reachability *returnValue = NULL;
   SCNetworkReachabilityRef reachability = SCNetworkReachabilityCreateWithName(NULL, [hostName UTF8String]);
   if (reachability != NULL) {
-    if ([NSThread isMainThread]) {
+    dispatch_sync([MS_Reachability notifierQueue], ^{
       returnValue = [[self alloc] init];
-    } else {
-      dispatch_sync(dispatch_get_main_queue(), ^{
-        returnValue = [[self alloc] init];
-      });
-    }
+    });
     if (returnValue != NULL) {
       returnValue.reachabilityRef = reachability;
     } else {
@@ -100,13 +109,9 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
   __block MS_Reachability *returnValue = NULL;
   SCNetworkReachabilityRef reachability = SCNetworkReachabilityCreateWithAddress(kCFAllocatorDefault, hostAddress);
   if (reachability != NULL) {
-    if ([NSThread isMainThread]) {
+    dispatch_sync([MS_Reachability notifierQueue], ^{
       returnValue = [[self alloc] init];
-    } else {
-      dispatch_sync(dispatch_get_main_queue(), ^{
-        returnValue = [[self alloc] init];
-      });
-    }
+    });
     if (returnValue != NULL) {
       returnValue.reachabilityRef = reachability;
     } else {
@@ -133,7 +138,7 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
 
 - (BOOL)startNotifier {
   __block BOOL returnValue = NO;
-  dispatch_block_t block = ^{
+  dispatch_sync([MS_Reachability notifierQueue], ^{
     SCNetworkReachabilityContext context = {0, (__bridge void *)(self), NULL, NULL, NULL};
     if (SCNetworkReachabilitySetCallback(self.reachabilityRef, ReachabilityCallback, &context)) {
       if (SCNetworkReachabilityScheduleWithRunLoop(self.reachabilityRef, CFRunLoopGetCurrent(),
@@ -141,26 +146,16 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
         returnValue = YES;
       }
     }
-  };
-  if ([NSThread isMainThread]) {
-    block();
-  } else {
-    dispatch_sync(dispatch_get_main_queue(), block);
-  }
+  });
   return returnValue;
 }
 
 - (void)stopNotifier {
-  dispatch_block_t block = ^{
+  dispatch_sync([MS_Reachability notifierQueue], ^{
     if (self.reachabilityRef != NULL) {
       SCNetworkReachabilityUnscheduleFromRunLoop(self.reachabilityRef, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
     }
-  };
-  if ([NSThread isMainThread]) {
-    block();
-  } else {
-    dispatch_sync(dispatch_get_main_queue(), block);
-  }
+  });
 }
 
 - (void)dealloc {
@@ -183,8 +178,8 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
 
   if ((flags & kSCNetworkReachabilityFlagsConnectionRequired) == 0) {
     /*
-If the target host is reachable and no connection is required then we'll assume (for now) that you're on Wi-Fi...
-*/
+     If the target host is reachable and no connection is required then we'll assume (for now) that you're on Wi-Fi...
+     */
     returnValue = ReachableViaWiFi;
   }
 
@@ -205,8 +200,8 @@ If the target host is reachable and no connection is required then we'll assume 
 
   if ((flags & kSCNetworkReachabilityFlagsIsWWAN) == kSCNetworkReachabilityFlagsIsWWAN) {
     /*
-... but WWAN connections are OK if the calling application is using the CFNetwork APIs.
-*/
+     ... but WWAN connections are OK if the calling application is using the CFNetwork APIs.
+     */
     returnValue = ReachableViaWWAN;
   }
 
