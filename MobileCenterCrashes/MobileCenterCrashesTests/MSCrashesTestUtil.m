@@ -26,7 +26,7 @@
   NSFileManager *fm = [[NSFileManager alloc] init];
 
   if (![fm fileExistsAtPath:directory]) {
-    NSDictionary *attributes = [NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedLong:0755] forKey:NSFilePosixPermissions];
+    NSDictionary *attributes = @{NSFilePosixPermissions: @0755};
     NSError *error;
     [fm createDirectoryAtPath:directory withIntermediateDirectories:YES attributes:attributes error:&error];
     if (error)
@@ -40,7 +40,7 @@
   NSFileManager *fm = [[NSFileManager alloc] init];
 
   if (![fm fileExistsAtPath:directory]) {
-    NSDictionary *attributes = [NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedLong:0755] forKey:NSFilePosixPermissions];
+    NSDictionary *attributes = @{NSFilePosixPermissions: @0755};
     NSError *error;
     [fm createDirectoryAtPath:directory withIntermediateDirectories:YES attributes:attributes error:&error];
     if (error)
@@ -63,7 +63,7 @@
   NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
 
   // create the PLCR cache dir
-  NSString *plcrRootCrashesDir = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"com.plausiblelabs.crashreporter.data"];
+  NSString *plcrRootCrashesDir = [paths[0] stringByAppendingPathComponent:@"com.plausiblelabs.crashreporter.data"];
   if (![MSCrashesTestUtil createTempDirectory:plcrRootCrashesDir])
     return NO;
 
@@ -103,7 +103,7 @@
   MSStackFrame *frame = [MSStackFrame new];
   frame.address = @"frameAddress";
   frame.code = @"frameSymbol";
-  NSArray<MSStackFrame *> *frames = [NSArray arrayWithObject:frame];
+  NSArray<MSStackFrame *> *frames = @[frame];
 
   MSException *exception = [MSException new];
   exception.type = type;

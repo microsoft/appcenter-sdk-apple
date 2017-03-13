@@ -24,13 +24,13 @@
   exception.type = @"exception_type";
   exception.message = @"message";
   MSStackFrame *frame = [self stackFrame];
-  exception.frames = [NSArray arrayWithObjects:frame, nil];
+  exception.frames = @[frame];
 
   MSThread *thread = [MSThread new];
   thread.threadId = threadId;
   thread.name = name;
   thread.exception = exception;
-  thread.frames = [NSMutableArray arrayWithObject:frame];
+  thread.frames = [@[frame] mutableCopy];
 
   return thread;
 }
