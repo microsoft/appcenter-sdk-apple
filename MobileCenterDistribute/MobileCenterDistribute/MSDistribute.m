@@ -38,7 +38,7 @@ static NSString *const kMSUpdateTokenApiPathFormat = @"/apps/%@/update-setup";
 
 #pragma mark - Error constants
 
-static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid update API token URL:%@";
+static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid update token URL:%@";
 
 @implementation MSDistribute
 
@@ -50,13 +50,13 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     _installUrl = kMSDefaultInstallUrl;
 
     /*
-     * Delete API token if an application has been uninstalled and try to get a new one from server.
+     * Delete update token if an application has been uninstalled and try to get a new one from server.
      * For iOS version < 10.3, keychain data won't be automatically deleted by uninstall
      * so we should detect it and clean up keychain data when Distribute service gets initialized.
      */
     NSNumber *flag = [MS_USER_DEFAULTS objectForKey:kMSSDKHasLaunchedWithDistribute];
     if (!flag) {
-      MSLogInfo([MSDistribute logTag], @"Delete API token if exists.");
+      MSLogInfo([MSDistribute logTag], @"Delete update token if exists.");
       [MSKeychainUtil deleteStringForKey:kMSUpdateTokenKey];
       [MS_USER_DEFAULTS setObject:@(1) forKey:kMSSDKHasLaunchedWithDistribute];
     }
@@ -73,6 +73,10 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     sharedInstance = [[self alloc] init];
   });
   return sharedInstance;
+}
+
++ (NSString *)serviceName {
+  return kMSServiceName;
 }
 
 + (NSString *)logTag {
@@ -138,12 +142,12 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     if ([MS_Reachability reachabilityForInternetConnection].currentReachabilityStatus == NotReachable) {
       MSLogWarning(
           [MSDistribute logTag],
-          @"The device lost its internet connection. The SDK will retry to get an update API token in the next launch.");
+          @"The device lost its internet connection. The SDK will retry to get an update token in the next launch.");
       return;
     }
 
     NSURL *url;
-    MSLogInfo([MSDistribute logTag], @"Request Distribute API token.");
+    MSLogInfo([MSDistribute logTag], @"Request Distribute update token.");
 
     // Most failures here require an app update. Thus, it will be retried only on next App instance.
     url = [self buildTokenRequestURLWithAppSecret:self.appSecret];

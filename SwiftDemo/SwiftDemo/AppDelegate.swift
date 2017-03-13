@@ -71,11 +71,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate {
     // return true if the crash report should be processed, otherwise false.
   }
 
-  func attachment(with crashes: MSCrashes!, for errorReport: MSErrorReport!) -> MSErrorAttachment! {
-    let attachment = MSErrorAttachment.init(text: "TextAttachment", andBinaryData: (String("Hello World")?.data(using: String.Encoding.utf8))!, filename: "binary.txt", mimeType: "text/plain")
-    return attachment
-  }
-
   func crashes(_ crashes: MSCrashes!, willSend errorReport: MSErrorReport!) {
 
   }
