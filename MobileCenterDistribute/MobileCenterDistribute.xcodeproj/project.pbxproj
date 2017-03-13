@@ -60,6 +60,7 @@
 		388B559B1E64B3FD00E4F1D7 /* MSBasicMachOParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 388B55991E64B3FD00E4F1D7 /* MSBasicMachOParser.m */; };
 		388B559C1E64B3FD00E4F1D7 /* MSBasicMachOParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 388B559A1E64B3FD00E4F1D7 /* MSBasicMachOParser.h */; };
 		38C9C56C1E565BF600B0FA0D /* MSDistributePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C9C56B1E565BF600B0FA0D /* MSDistributePrivate.h */; };
+		848860451E6EC32B003A9B96 /* MSBasicMachOParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 848860441E6EC32B003A9B96 /* MSBasicMachOParserTests.m */; };
 		B20DE7B71E5F97330023075C /* MSDistributeUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B20DE7B61E5F97330023075C /* MSDistributeUtilTests.m */; };
 		B25895AA1E4E9FD400123632 /* MSDistributeInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = B25895A91E4E9BA100123632 /* MSDistributeInternal.h */; };
 		B270108D1E5FA2E4008552EF /* release_details.json in Resources */ = {isa = PBXBuildFile; fileRef = 040AF0111E523AC2005C1174 /* release_details.json */; };
@@ -155,6 +156,8 @@
 		388B55991E64B3FD00E4F1D7 /* MSBasicMachOParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSBasicMachOParser.m; path = MobileCenterDistribute/MSBasicMachOParser.m; sourceTree = "<group>"; };
 		388B559A1E64B3FD00E4F1D7 /* MSBasicMachOParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSBasicMachOParser.h; path = MobileCenterDistribute/MSBasicMachOParser.h; sourceTree = "<group>"; };
 		38C9C56B1E565BF600B0FA0D /* MSDistributePrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDistributePrivate.h; sourceTree = "<group>"; };
+		848860441E6EC32B003A9B96 /* MSBasicMachOParserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSBasicMachOParserTests.m; sourceTree = "<group>"; };
+		84C8AC771E7146970071CCB0 /* MSBasicMachOParserPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSBasicMachOParserPrivate.h; sourceTree = "<group>"; };
 		B20DE7B61E5F97330023075C /* MSDistributeUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDistributeUtilTests.m; sourceTree = "<group>"; };
 		B25895A91E4E9BA100123632 /* MSDistributeInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MSDistributeInternal.h; path = Internals/MSDistributeInternal.h; sourceTree = "<group>"; };
 		B29CE3481E5E5F9A00CEB04D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = MobileCenterDistribute/Resources/en.lproj/MobileCenterDistribute.strings; sourceTree = SOURCE_ROOT; };
@@ -333,6 +336,7 @@
 				040AF0101E523AC2005C1174 /* Fixtures */,
 				04FD4A491E453930009B4468 /* Frameworks */,
 				040AF0211E523B36005C1174 /* Model */,
+				848860441E6EC32B003A9B96 /* MSBasicMachOParserTests.m */,
 				04FD4A331E453531009B4468 /* MSDistributeTests.m */,
 				B20DE7B61E5F97330023075C /* MSDistributeUtilTests.m */,
 				040AF0291E52748D005C1174 /* MSDistributeSenderTests.m */,
@@ -356,6 +360,7 @@
 			children = (
 				388B559A1E64B3FD00E4F1D7 /* MSBasicMachOParser.h */,
 				388B55991E64B3FD00E4F1D7 /* MSBasicMachOParser.m */,
+				84C8AC771E7146970071CCB0 /* MSBasicMachOParserPrivate.h */,
 				B2C070A31E5E62330076D6A9 /* MSDistributeUtil.h */,
 				B2C070A41E5E62330076D6A9 /* MSDistributeUtil.m */,
 			);
@@ -588,6 +593,7 @@
 				B20DE7B71E5F97330023075C /* MSDistributeUtilTests.m in Sources */,
 				040AF02A1E52748D005C1174 /* MSDistributeSenderTests.m in Sources */,
 				04FD4A341E453531009B4468 /* MSDistributeTests.m in Sources */,
+				848860451E6EC32B003A9B96 /* MSBasicMachOParserTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

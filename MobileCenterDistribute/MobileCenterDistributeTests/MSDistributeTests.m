@@ -64,9 +64,8 @@ static NSURL *sfURL;
   [MS_USER_DEFAULTS removeObjectForKey:kMSIgnoredReleaseIdKey];
   [MSKeychainUtil clear];
   self.sut = [MSDistribute new];
-
-  // TODO: Add unit tests for MSBasicMachOParser.
-  // FIXME: MSBasicMachOParser don't work on test projects. It's mocked for now to not fail other tests.
+    
+  // MSBasicMachOParser may fail on test projects' main bundle. It's mocked to prevent it.
   id parserMock = OCMClassMock([MSBasicMachOParser class]);
   self.parserMock = parserMock;
   OCMStub([parserMock machOParserForMainBundle]).andReturn(self.parserMock);
