@@ -12,7 +12,7 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
 /**
  * Current session id.
  */
-@property(nonatomic, copy, readwrite) NSString *sessionId;
+@property(nonatomic, copy) NSString *sessionId;
 
 /**
  * Flag to indicate if session tracking has started or not.
@@ -179,14 +179,35 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
     return;
 
   // Attach corresponding session id.
-  if (log.toffset != nil) {
-    [self.pastSessions
-        enumerateObjectsUsingBlock:^(MSSessionHistoryInfo *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
-          if ([log.toffset compare:obj.toffset] == NSOrderedDescending) {
-            log.sid = obj.sessionId;
-            *stop = YES;
-          }
-        }];
+  if (log.toffset) {
+    MSSessionHistoryInfo *find = [[MSSessionHistoryInfo alloc] initWithTOffset:log.toffset andSessionId:nil];
+    NSUInteger index =
+        [self.pastSessions indexOfObject:find
+                           inSortedRange:NSMakeRange(0, self.pastSessions.count)
+                                 options:(NSBinarySearchingFirstEqual|NSBinarySearchingInsertionIndex)
+                         usingComparator:^(id a, id b) {
+                           return [((MSSessionHistoryInfo *)a).toffset compare:((MSSessionHistoryInfo *)b).toffset];
+                         }];
+
+    // All toffsets are larger.
+    if (index == 0) {
+      log.sid = self.sessionId;
+    }
+
+    // All toffsets are smaller.
+    else if (index == self.pastSessions.count) {
+      log.sid = [self.pastSessions lastObject].sessionId;
+    }
+
+    // Either the pastSessions contains the exact toffset or we pick the smallest delta.
+    else {
+      long long leftDifference = [log.toffset longLongValue] - [self.pastSessions[index - 1].toffset longLongValue];
+      long long rightDifference = [self.pastSessions[index].toffset longLongValue] - [log.toffset longLongValue];
+      if (leftDifference < rightDifference) {
+        --index;
+      }
+      log.sid = self.pastSessions[index].sessionId;
+    }
   }
 
   // If log is not correlated to a past session.

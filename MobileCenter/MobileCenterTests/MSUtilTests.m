@@ -121,6 +121,12 @@
   XCTAssertEqual(env, MSEnvironmentOther);
 }
 
+- (void)testDebugConfiurationDetectionWorks {
+  
+  // When
+  XCTAssertTrue([MSUtil isRunningInDebugConfiguration]);
+}
+
 - (void)TestFormatToUUIDString {
 
   // When
@@ -140,6 +146,15 @@
 
   // Then
   assertThat(goodFormat, is(@"ef039a0a-0f7f-3c1d-87e2-6bfc87acf1b9"));
+}
+
+- (void)testSharedAppOpenEmptyCallCallback {
+  __block BOOL handlerHasBeenCalled = NO;
+  [MSUtil sharedAppOpenUrl:[NSURL URLWithString:@""] options:@{} completionHandler:^(BOOL success) {
+    handlerHasBeenCalled = YES;
+    XCTAssertFalse(success);
+  }];
+  XCTAssertTrue(handlerHasBeenCalled);
 }
 
 @end

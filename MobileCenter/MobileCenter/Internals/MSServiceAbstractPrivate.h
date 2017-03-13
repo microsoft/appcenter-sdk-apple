@@ -14,7 +14,7 @@
 /**
  *  Storage used for persistence.
  */
-@property(nonatomic, readwrite) MSUserDefaults *storage;
+@property(nonatomic) MSUserDefaults *storage;
 
 /**
  *  (For testing only) Create a service with the given storage.

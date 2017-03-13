@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * A dictionary containing file names and their status for certain storage keys.
  */
-@property(nonatomic, strong) NSMutableDictionary<NSString *, MSStorageBucket *> *buckets;
+@property(nonatomic) NSMutableDictionary<NSString *, MSStorageBucket *> *buckets;
 
 /**
  * Returns the file path to a log file based on its id and storage key.

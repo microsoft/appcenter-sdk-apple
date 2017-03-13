@@ -7,7 +7,7 @@
 
 @interface MSLogWithPropertiesTests : XCTestCase
 
-@property(nonatomic, strong) MSLogWithProperties *sut;
+@property(nonatomic) MSLogWithProperties *sut;
 
 @end
 
