@@ -19,8 +19,6 @@
 		382EC2001DDBBB6800A60DBD /* MobileCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04CCCA471D88AA9F005D8180 /* MobileCenterCrashes.framework */; };
 		382EC2011DDBBB6800A60DBD /* MobileCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04CCCA451D88AA93005D8180 /* MobileCenterAnalytics.framework */; };
 		382EC2021DDBBB6800A60DBD /* MobileCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04CCCA431D88AA86005D8180 /* MobileCenter.framework */; };
-		D3D489A91E72DF3B00D5F20F /* MobileCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3D489A71E72DF1E00D5F20F /* MobileCenterPush.framework */; };
-		D3D489AA1E72DF6200D5F20F /* MobileCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3D489A71E72DF1E00D5F20F /* MobileCenterPush.framework */; };
 		6E2307DA1D22083C0031C598 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2307D91D22083C0031C598 /* main.m */; };
 		6E2307DD1D22083C0031C598 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2307DC1D22083C0031C598 /* AppDelegate.m */; };
 		6E2307E01D22083C0031C598 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2307DF1D22083C0031C598 /* ViewController.m */; };
@@ -29,6 +27,8 @@
 		6E2307E81D22083C0031C598 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6E2307E61D22083C0031C598 /* LaunchScreen.storyboard */; };
 		B20DE7B21E5F91170023075C /* MobileCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B20DE7B11E5F91170023075C /* MobileCenterDistributeResources.bundle */; };
 		B20DE7B31E5F91290023075C /* MobileCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B20DE7B11E5F91170023075C /* MobileCenterDistributeResources.bundle */; };
+		D3D489A91E72DF3B00D5F20F /* MobileCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3D489A71E72DF1E00D5F20F /* MobileCenterPush.framework */; };
+		D3D489AA1E72DF6200D5F20F /* MobileCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3D489A71E72DF1E00D5F20F /* MobileCenterPush.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,7 +70,6 @@
 		04CCCA431D88AA86005D8180 /* MobileCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenter.framework; path = "../MobileCenter-SDK-iOS/MobileCenter.framework"; sourceTree = "<group>"; };
 		04CCCA451D88AA93005D8180 /* MobileCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterAnalytics.framework; path = "../MobileCenter-SDK-iOS/MobileCenterAnalytics.framework"; sourceTree = "<group>"; };
 		04CCCA471D88AA9F005D8180 /* MobileCenterCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterCrashes.framework; path = "../MobileCenter-SDK-iOS/MobileCenterCrashes.framework"; sourceTree = "<group>"; };
-		D3D489A71E72DF1E00D5F20F /* MobileCenterPush.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterPush.framework; path = "../MobileCenter-SDK-iOS/MobileCenterPush.framework"; sourceTree = "<group>"; };
 		382EC1D81DDB805400A60DBD /* DemoWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = DemoWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		382EC1DA1DDB805400A60DBD /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		382EC1E31DDB805400A60DBD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -89,6 +88,7 @@
 		6E2307E71D22083C0031C598 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6E2307E91D22083C0031C598 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B20DE7B11E5F91170023075C /* MobileCenterDistributeResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = MobileCenterDistributeResources.bundle; path = "../MobileCenter-SDK-iOS/MobileCenterDistributeResources.bundle"; sourceTree = "<group>"; };
+		D3D489A71E72DF1E00D5F20F /* MobileCenterPush.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterPush.framework; path = "../MobileCenter-SDK-iOS/MobileCenterPush.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -418,7 +418,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/../MobileCenter-SDK-iOS",
 					"$(SRCROOT)/../CrashLibIOS/CrashLibIOS",
-					"$(SRCROOT)/../Vendor/**",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -471,7 +470,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/../MobileCenter-SDK-iOS",
 					"$(SRCROOT)/../CrashLibIOS/CrashLibIOS",
-					"$(SRCROOT)/../Vendor/**",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
