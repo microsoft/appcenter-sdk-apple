@@ -5,8 +5,13 @@
 
 static NSTimeInterval kRequestTimeout = 60.0;
 
+// URL components' name within a partial URL.
+static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"password", @"host", @"port", @"path"};
+
 @implementation MSHttpSender
 
+@synthesize baseURL = _baseURL;
+@synthesize apiPath = _apiPath;
 @synthesize reachability = _reachability;
 @synthesize suspended = _suspended;
 
@@ -18,7 +23,7 @@ static NSTimeInterval kRequestTimeout = 60.0;
          queryStrings:(NSDictionary *)queryStrings
          reachability:(MS_Reachability *)reachability
        retryIntervals:(NSArray *)retryIntervals {
-  if (self = [super init]) {
+  if ((self = [super init])) {
     _httpHeaders = headers;
     _pendingCalls = [NSMutableDictionary new];
     _reachability = reachability;
@@ -26,6 +31,7 @@ static NSTimeInterval kRequestTimeout = 60.0;
     _suspended = NO;
     _delegates = [NSHashTable weakObjectsHashTable];
     _callsRetryIntervals = retryIntervals;
+    _apiPath = apiPath;
 
     // Construct the URL string with the query string.
     NSString *urlString = [baseUrl stringByAppendingString:apiPath];
@@ -39,8 +45,8 @@ static NSTimeInterval kRequestTimeout = 60.0;
     }];
     components.queryItems = queryItemArray;
 
-    // Set send URL.
-    _sendURL = components.URL;
+    // Set send URL which can't be null
+    _sendURL = (NSURL * _Nonnull) components.URL;
 
     // Hookup to reachability.
     [MS_NOTIFICATION_CENTER addObserver:self
@@ -56,19 +62,6 @@ static NSTimeInterval kRequestTimeout = 60.0;
 }
 
 #pragma mark - MSSender
-
-- (id)initWithBaseUrl:(NSString *)baseUrl
-              headers:(NSDictionary *)headers
-         queryStrings:(NSDictionary *)queryStrings
-         reachability:(MS_Reachability *)reachability
-       retryIntervals:(NSArray *)retryIntervals {
-  return [self initWithBaseUrl:baseUrl
-                       apiPath:@""
-                       headers:headers
-                  queryStrings:queryStrings
-                  reachability:reachability
-                retryIntervals:retryIntervals];
-}
 
 - (void)sendAsync:(NSObject *)data completionHandler:(MSSendAsyncCompletionHandler)handler {
   [self sendAsync:data callId:MS_UUID_STRING completionHandler:handler];
@@ -247,6 +240,40 @@ static NSTimeInterval kRequestTimeout = 60.0;
 
 #pragma mark - Private
 
+- (void)setBaseURL:(NSString *)baseURL {
+  @synchronized(self) {
+    BOOL success = false;
+    NSURLComponents *components;
+    _baseURL = baseURL;
+    NSURL *partialURL = [NSURL URLWithString:[baseURL stringByAppendingString:self.apiPath]];
+
+    // Merge new parial URL and current full URL.
+    if (partialURL) {
+      components = [NSURLComponents componentsWithURL:self.sendURL resolvingAgainstBaseURL:NO];
+      @try {
+        for (u_long i = 0; i < sizeof(kMSPartialURLComponentsName) / sizeof(*kMSPartialURLComponentsName); i++) {
+          NSString *propertyName = kMSPartialURLComponentsName[i];
+          [components setValue:[partialURL valueForKey:propertyName] forKey:propertyName];
+        }
+      } @catch (NSException *ex) {
+        MSLogInfo([MSMobileCenter logTag], @"Error while updating HTTP URL %@ with %@: \n%@",
+                  self.sendURL.absoluteString, baseURL, ex);
+      }
+
+      // Update full URL.
+      if (components.URL) {
+        self.sendURL = (NSURL * _Nonnull)components.URL;
+        success = true;
+      }
+    }
+
+    // Notify failure.
+    if (!success) {
+      MSLogInfo([MSMobileCenter logTag], @"Failed to update HTTP URL %@ with %@", self.sendURL.absoluteString, baseURL);
+    }
+  }
+}
+
 - (void)networkStateChanged {
   if ([self.reachability currentReachabilityStatus] == NotReachable) {
     MSLogInfo([MSMobileCenter logTag], @"Internet connection is down.");
@@ -314,4 +341,8 @@ static NSTimeInterval kRequestTimeout = 60.0;
   }
 }
 
+- (void)dealloc {
+  [self.reachability stopNotifier];
+  [MS_NOTIFICATION_CENTER removeObserver:self name:kMSReachabilityChangedNotification object:nil];
+}
 @end

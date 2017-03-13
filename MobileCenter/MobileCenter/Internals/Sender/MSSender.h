@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol MSSender <NSObject, MSSenderCallDelegate, MSEnable>
 
 /**
- *  Reachability library.
+ * Reachability library.
  */
 @property(nonatomic) MS_Reachability *reachability;
 
@@ -19,21 +19,6 @@ NS_ASSUME_NONNULL_BEGIN
  * A boolean value set to YES if the sender is suspended or NO otherwise.
  */
 @property(nonatomic) BOOL suspended;
-
-/**
- * Initialize the Sender.
- *
- * @param baseUrl Base url.
- * @param headers Http headers.
- * @param queryStrings An array of query strings.
- * @param reachability Network reachability helper.
- * @param retryIntervals An array for retry intervals in second.
- */
-- (id)initWithBaseUrl:(NSString *)baseUrl
-              headers:(NSDictionary *)headers
-         queryStrings:(NSDictionary *)queryStrings
-         reachability:(MS_Reachability *)reachability
-       retryIntervals:(NSArray *)retryIntervals;
 
 /**
  * Send data.

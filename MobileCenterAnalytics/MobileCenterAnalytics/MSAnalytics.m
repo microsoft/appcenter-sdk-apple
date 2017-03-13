@@ -24,7 +24,7 @@ static dispatch_once_t onceToken;
 #pragma mark - Service initialization
 
 - (instancetype)init {
-  if (self = [super init]) {
+  if ((self = [super init])) {
 
     // Set defaults.
     _autoPageTrackingEnabled = NO;
@@ -45,6 +45,10 @@ static dispatch_once_t onceToken;
     }
   });
   return sharedInstance;
+}
+
++ (NSString *)serviceName {
+  return kMSServiceName;
 }
 
 - (void)startWithLogManager:(id<MSLogManager>)logManager appSecret:(NSString *)appSecret {
@@ -88,7 +92,7 @@ static dispatch_once_t onceToken;
       // Track on the main queue to avoid race condition with page swizzling.
       dispatch_async(dispatch_get_main_queue(), ^{
         if ([[MSAnalyticsCategory missedPageViewName] length] > 0) {
-          [[self class] trackPage:[MSAnalyticsCategory missedPageViewName]];
+          [[self class] trackPage:(NSString * _Nonnull)[MSAnalyticsCategory missedPageViewName]];
         }
       });
     }

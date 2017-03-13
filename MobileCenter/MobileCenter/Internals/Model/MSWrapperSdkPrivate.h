@@ -8,27 +8,27 @@
  * the Xamarin specific version is populated into this field while sdkVersion refers to the original Android SDK.
  * [optional]
  */
-@property(nonatomic, copy, readwrite) NSString *wrapperSdkVersion;
+@property(nonatomic, copy) NSString *wrapperSdkVersion;
 
 /*
  * Name of the wrapper SDK (examples: Xamarin, Cordova).  [optional]
  */
-@property(nonatomic,copy, readwrite) NSString *wrapperSdkName;
+@property(nonatomic,copy) NSString *wrapperSdkName;
 
 /*
  * Label that is used to identify application code 'version' released via Live Update beacon running on device
  */
-@property(nonatomic, copy, readwrite) NSString *liveUpdateReleaseLabel;
+@property(nonatomic, copy) NSString *liveUpdateReleaseLabel;
 
 /*
  * Identifier of environment that current application release belongs to, deployment key then maps to environment like Production, Staging.
  */
-@property(nonatomic, copy, readwrite) NSString *liveUpdateDeploymentKey;
+@property(nonatomic, copy) NSString *liveUpdateDeploymentKey;
 
 /*
  * Hash of all files (ReactNative or Cordova) deployed to device via LiveUpdate beacon.
  * Helps identify the Release version on device or need to download updates in future
  */
-@property(nonatomic, copy, readwrite) NSString *liveUpdatePackageHash;
+@property(nonatomic, copy) NSString *liveUpdatePackageHash;
 
 @end

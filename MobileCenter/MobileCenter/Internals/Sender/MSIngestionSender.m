@@ -1,24 +1,30 @@
+#import "MSHttpSenderPrivate.h"
 #import "MSIngestionSender.h"
-#import "MobileCenter.h"
 #import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
-#import "MSHttpSenderPrivate.h"
+#import "MobileCenter.h"
 
 @implementation MSIngestionSender
 
+static NSString *const kMSAPIVersion = @"1.0.0-preview20160914";
+static NSString *const kMSAPIVersionKey = @"api_version";
 static NSString *const kMSApiPath = @"/logs";
 
 - (id)initWithBaseUrl:(NSString *)baseUrl
-              headers:(NSDictionary *)headers
-         queryStrings:(NSDictionary *)queryStrings
-         reachability:(MS_Reachability *)reachability
-       retryIntervals:(NSArray *)retryIntervals {
+              appSecret:(NSString *)appSecret
+              installId:(NSString *)installId {
   self = [super initWithBaseUrl:baseUrl
                         apiPath:kMSApiPath
-                        headers:headers
-                   queryStrings:queryStrings
-                   reachability:reachability
-                 retryIntervals:retryIntervals];
+                        headers:@{
+                                  kMSHeaderContentTypeKey : kMSContentType,
+                                  kMSHeaderAppSecretKey : appSecret,
+                                  kMSHeaderInstallIDKey : installId
+                                  }
+                   queryStrings:@{
+                                  kMSAPIVersionKey : kMSAPIVersion
+                                  }
+                   reachability:[MS_Reachability reachabilityForInternetConnection]
+                 retryIntervals:@[ @(10), @(5 * 60), @(20 * 60) ]];
   return self;
 }
 
@@ -61,7 +67,6 @@ static NSString *const kMSApiPath = @"/logs";
     MSLogVerbose([MSMobileCenter logTag], @"URL: %@", request.URL);
     MSLogVerbose([MSMobileCenter logTag], @"Headers: %@", [super prettyPrintHeaders:request.allHTTPHeaderFields]);
   }
-
   return request;
 }
 

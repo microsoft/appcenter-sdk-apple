@@ -11,7 +11,7 @@
       location = "group:MobileCenterCrashes/MobileCenterCrashes.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:MobileCenterUpdates/MobileCenterUpdates.xcodeproj">
+      location = "group:MobileCenterDistribute/MobileCenterDistribute.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Puppet/Puppet.xcodeproj">

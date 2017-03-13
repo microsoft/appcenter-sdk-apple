@@ -4,7 +4,7 @@
 @import MobileCenter;
 @import MobileCenterAnalytics;
 @import MobileCenterCrashes;
-@import MobileCenterUpdates;
+@import MobileCenterDistribute;
 
 @interface AppDelegate () <MSCrashesDelegate>
 
@@ -19,7 +19,7 @@
   // Start Mobile Center SDK
   [MSMobileCenter setLogLevel:MSLogLevelVerbose];
   [MSMobileCenter setLogUrl:@"http://in-integration.dev.avalanch.es:8081"];
-  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withServices:@[[MSAnalytics class], [MSCrashes class], [MSUpdates class]]];
+  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withServices:@[[MSAnalytics class], [MSCrashes class], [MSDistribute class]]];
   [MSCrashes setDelegate:self];
 
   // Print the install Id.

@@ -3,7 +3,7 @@
 @implementation MSStorageBucket
 
 - (instancetype)init {
-  if (self = [super init]) {
+  if ((self = [super init])) {
     _availableFiles = [NSMutableArray new];
     _blockedFiles = [NSMutableArray new];
     _currentLogs = [NSMutableArray<MSLog> new];
@@ -20,7 +20,7 @@
     results = [self.availableFiles filteredArrayUsingPredicate:predicte];
   }
 
-  return results.lastObject;
+  return (MSFile *_Nonnull) results.lastObject;
 }
 
 - (void)sortAvailableFilesByCreationDate {

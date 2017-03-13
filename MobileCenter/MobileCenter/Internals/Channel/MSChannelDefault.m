@@ -37,7 +37,7 @@
 #pragma mark - Initialization
 
 - (instancetype)init {
-  if (self = [super init]) {
+  if ((self = [super init])) {
     _itemsCount = 0;
     _pendingBatchIds = [NSMutableArray new];
     _pendingBatchQueueFull = NO;
@@ -53,7 +53,7 @@
                        storage:(id<MSStorage>)storage
                  configuration:(MSChannelConfiguration *)configuration
              logsDispatchQueue:(dispatch_queue_t)logsDispatchQueue {
-  if (self = [self init]) {
+  if ((self = [self init])) {
     _sender = sender;
     _storage = storage;
     _configuration = configuration;
@@ -149,7 +149,7 @@
   self.itemsCount = 0;
   self.availableBatchFromStorage = [self.storage
       loadLogsForStorageKey:self.configuration.name
-             withCompletion:^(BOOL succeeded, NSArray<MSLog> *_Nullable logArray, NSString *_Nullable batchId) {
+             withCompletion:^(BOOL succeeded, NSArray<MSLog> *_Nonnull logArray, NSString *_Nonnull batchId) {
 
                // Logs may be deleted from storage before this flush.
                if (succeeded) {
@@ -264,9 +264,8 @@
 }
 
 - (void)resetTimer {
-  if (self.timerSource) {
+  if(self.timerSource) {
     dispatch_source_cancel(self.timerSource);
-    self.timerSource = nil;
   }
 }
 

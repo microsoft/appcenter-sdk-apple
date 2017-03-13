@@ -87,7 +87,7 @@
     }
 
     case 2: {
-      cell.textLabel.text = NSLocalizedString(@"Updates", @"");
+      cell.textLabel.text = NSLocalizedString(@"Distribute", @"");
       break;
     }
 
@@ -159,7 +159,7 @@
 
   case 2: {
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"updates"];
+    UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"distribute"];
     [self.navigationController pushViewController:vc animated:YES];
     break;
   }

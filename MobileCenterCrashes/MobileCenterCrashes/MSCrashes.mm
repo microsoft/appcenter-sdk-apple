@@ -60,6 +60,7 @@ static void ms_save_log_buffer_callback(siginfo_t *info, ucontext_t *uap, void *
  */
 static void plcr_post_crash_callback(siginfo_t *info, ucontext_t *uap, void *context) {
   ms_save_log_buffer_callback(info, uap, context);
+  [MSCrashes wrapperCrashCallback];
 
   if (msCrashesCallbacks.handleSignal != NULL) {
     msCrashesCallbacks.handleSignal(context);
@@ -95,12 +96,12 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
  * @see lastSessionCrashReport
  */
-@property(atomic) BOOL didCrashInLastSession;
+@property BOOL didCrashInLastSession;
 
 /**
  * Detail information about the last crash.
  */
-@property(atomic, getter=getLastSessionCrashReport) MSErrorReport *lastSessionCrashReport;
+@property(getter=getLastSessionCrashReport) MSErrorReport *lastSessionCrashReport;
 
 @end
 
@@ -190,6 +191,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   return [[self sharedInstance] getLastSessionCrashReport];
 }
 
+/* This can never be binded to Xamarin */
 + (void)enableMachExceptionHandler {
   [[self sharedInstance] setEnableMachExceptionHandler:YES];
 }
@@ -210,7 +212,8 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     _didCrashInLastSession = NO;
     _bufferIndex = [[NSMutableDictionary alloc] initWithCapacity:kMSPriorityCount];
 
-    [self setupLogBuffer];
+    // FIXME: Crashes is getting way more logs than expected. Disable this functionality.
+    // [self setupLogBuffer];
   }
   return self;
 }
@@ -293,10 +296,16 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   return sharedInstance;
 }
 
++ (NSString *)serviceName {
+  return kMSServiceName;
+}
+
 - (void)startWithLogManager:(id<MSLogManager>)logManager appSecret:(NSString *)appSecret {
   [super startWithLogManager:logManager appSecret:appSecret];
   [logManager addDelegate:self];
-  [self processLogBufferAfterCrash];
+
+  // FIXME: Crashes is getting way more logs than expected. Disable this functionality.
+  // [self processLogBufferAfterCrash];
   MSLogVerbose([MSCrashes logTag], @"Started crash service.");
 }
 

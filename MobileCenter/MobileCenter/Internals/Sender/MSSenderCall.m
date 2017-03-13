@@ -11,7 +11,7 @@
 @synthesize delegate = _delegate;
 
 - (id)initWithRetryIntervals:(NSArray *)retryIntervals {
-  if (self = [super init]) {
+  if ((self = [super init])) {
     _retryIntervals = retryIntervals;
     _submitted = NO;
   }
@@ -59,7 +59,6 @@
 - (void)resetTimer {
   if (self.timerSource) {
     dispatch_source_cancel(self.timerSource);
-    self.timerSource = nil;
   }
 }
 

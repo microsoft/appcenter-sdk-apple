@@ -40,6 +40,14 @@
 + (instancetype)sharedInstance;
 
 /**
+ * Get a service name.
+ *
+ * @return the service name.
+ */
+// FIXME: need implement this static method in all services after merging
++ (NSString *)serviceName;
+
+/**
  * Get the log tag for this service.
  *
  * @return A name of logger tag for this service.

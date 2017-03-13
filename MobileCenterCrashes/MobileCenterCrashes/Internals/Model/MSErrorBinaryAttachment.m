@@ -9,7 +9,7 @@ static NSString *const kMSContentType = @"content_type";
 - (nonnull instancetype)initWithFileName:(nullable NSString *)fileName
                           attachmentData:(nonnull NSData *)data
                              contentType:(nonnull NSString *)contentType {
-  if (self = [super init]) {
+  if ((self = [super init])) {
     _fileName = fileName;
     _data = data;
     _contentType = contentType;
@@ -42,7 +42,7 @@ static NSString *const kMSContentType = @"content_type";
   if (!attachment)
     return NO;
 
-  return ((!self.fileName && !attachment.fileName) || [self.fileName isEqualToString:attachment.fileName]) &&
+  return ((!self.fileName && !attachment.fileName) || [self.fileName isEqualToString:(NSString *_Nonnull)attachment.fileName]) &&
       ((!self.data && !attachment.data) || [self.data isEqual:attachment.data]) &&
       ((!self.contentType && !attachment.contentType) || [self.contentType isEqualToString:attachment.contentType]);
 }

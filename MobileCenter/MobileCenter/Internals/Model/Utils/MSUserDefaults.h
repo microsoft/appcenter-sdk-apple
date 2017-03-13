@@ -49,7 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
  * Get an object in the settings, returning object if key was found, NULL otherwise.
  * @param key a unique key to identify the value.
  */
-- (id)objectForKey:(NSString *)key;
+- (nullable id)objectForKey:(NSString *)key;
 
 /**
  * Sets the value of the specified key in the settings.

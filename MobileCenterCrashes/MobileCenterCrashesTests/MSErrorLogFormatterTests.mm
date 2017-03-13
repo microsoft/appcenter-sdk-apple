@@ -42,7 +42,9 @@
   XCTAssertEqual(errorReport.exceptionReason, nil);
   assertThat(errorReport.appErrorTime, equalTo(crashReport.systemInfo.timestamp));
   assertThat(errorReport.appStartTime, equalTo(crashReport.processInfo.processStartTime));
-  XCTAssertTrue([errorReport.device isEqual:device]);
+
+  // FIXME: Crashes is getting way more logs than expected. Disable this functionality.
+  // XCTAssertTrue([errorReport.device isEqual:device]);
   XCTAssertEqual(errorReport.appProcessIdentifier, crashReport.processInfo.processID);
 
   crashData = [MSCrashesTestUtil dataOfFixtureCrashReportWithFileName:@"live_report_exception"];
@@ -59,7 +61,9 @@
   assertThat(errorReport.exceptionReason, equalTo(crashReport.exceptionInfo.exceptionReason));
   assertThat(errorReport.appErrorTime, equalTo(crashReport.systemInfo.timestamp));
   assertThat(errorReport.appStartTime, equalTo(crashReport.processInfo.processStartTime));
-  XCTAssertTrue([errorReport.device isEqual:device]);
+
+  // FIXME: Crashes is getting way more logs than expected. Disable this functionality.
+  // XCTAssertTrue([errorReport.device isEqual:device]);
   XCTAssertEqual(errorReport.appProcessIdentifier, crashReport.processInfo.processID);
 }
 
@@ -70,7 +74,7 @@
   NSError *error = nil;
   MSPLCrashReport *report = [[MSPLCrashReport alloc] initWithData:crashData error:&error];
 
-  NSString *expected = (NSString *) CFBridgingRelease(CFUUIDCreateString(NULL, report.uuidRef));
+  NSString *expected = (NSString *)CFBridgingRelease(CFUUIDCreateString(NULL, report.uuidRef));
   NSString *actual = [MSErrorLogFormatter errorIdForCrashReport:report];
   assertThat(actual, equalTo(expected));
 }
@@ -78,52 +82,52 @@
 - (void)testCrashProbeReports {
   // Crash with _pthread_list_lock held
   [self assertIsCrashProbeReportValidConverted:@"live_report_pthread_lock"];
-  
+
   // Throw C++ exception
   [self assertIsCrashProbeReportValidConverted:@"live_report_cpp_exception"];
-  
+
   // Throw Objective-C exception
   [self assertIsCrashProbeReportValidConverted:@"live_report_objc_exception"];
-  
+
   // Crash inside objc_msgSend()
   [self assertIsCrashProbeReportValidConverted:@"live_report_objc_msgsend"];
-  
+
   // Message a released object
   [self assertIsCrashProbeReportValidConverted:@"live_report_objc_released"];
-  
+
   // Write to a read-only page
   [self assertIsCrashProbeReportValidConverted:@"live_report_write_readonly"];
-  
+
   // Execute an undefined instruction
   [self assertIsCrashProbeReportValidConverted:@"live_report_undefined_instr"];
-  
+
   // Dereference a NULL pointer
   [self assertIsCrashProbeReportValidConverted:@"live_report_null_ptr"];
-  
+
   // Dereference a bad pointer
   [self assertIsCrashProbeReportValidConverted:@"live_report_bad_ptr"];
-  
+
   // Jump into an NX page
   [self assertIsCrashProbeReportValidConverted:@"live_report_jump_into_nx"];
-  
+
   // Call __builtin_trap()
   [self assertIsCrashProbeReportValidConverted:@"live_report_call_trap"];
-  
+
   // Call abort()
   [self assertIsCrashProbeReportValidConverted:@"live_report_call_abort"];
-  
+
   // Corrupt the Objective-C runtime's structures
   [self assertIsCrashProbeReportValidConverted:@"live_report_corrupt_objc"];
-  
+
   // Overwrite link register, then crash
   [self assertIsCrashProbeReportValidConverted:@"live_report_overwrite_link"];
-  
+
   // Smash the bottom of the stack
   [self assertIsCrashProbeReportValidConverted:@"live_report_smash_bottom"];
-  
+
   // Smash the top of the stack
   [self assertIsCrashProbeReportValidConverted:@"live_report_smash_top"];
-  
+
   // Swift
   [self assertIsCrashProbeReportValidConverted:@"live_report_swift_crash"];
 }
@@ -165,8 +169,8 @@
   XCTAssertNotNil(actual.applicationPath);
   // Not using the report.processInfo.processPath directly to compare as it will be anonymized in the Simulator.
   assertThat(actual.applicationPath, equalTo(@"/Users/USER/Library/Application Support/iPhone "
-          @"Simulator/7.0/Applications/E196971A-6809-48AF-BB06-FD67014A35B2/"
-          @"HockeySDK-iOSDemo.app/HockeySDK-iOSDemo"));
+                                             @"Simulator/7.0/Applications/E196971A-6809-48AF-BB06-FD67014A35B2/"
+                                             @"HockeySDK-iOSDemo.app/HockeySDK-iOSDemo"));
 
   XCTAssertEqual(actual.parentProcessName, report.processInfo.parentProcessName);
   assertThat(actual.parentProcessId, equalTo(@(report.processInfo.parentProcessID)));
@@ -197,7 +201,6 @@
   XCTAssertNotNil(lastExceptionStackTrace);
 }
 
-
 - (void)testAnonymizedPathWorks {
   NSString *testPath = @"/var/containers/Bundle/Application/2A0B0E6F-0BF2-419D-A699-FCDF8ADECD8C/Puppet.app/Puppet";
   NSString *expected = testPath;
@@ -205,9 +208,9 @@
   assertThat(actual, equalTo(expected));
 
   testPath = @"/Users/someone/Library/Developer/CoreSimulator/Devices/B8321AD0-C30B-41BD-BA54-5A7759CEC4CD/data/"
-          @"Containers/Bundle/Application/8CC7B5B5-7841-45C4-BAC2-6AA1B944A5E1/Puppet.app/Puppet";
+             @"Containers/Bundle/Application/8CC7B5B5-7841-45C4-BAC2-6AA1B944A5E1/Puppet.app/Puppet";
   expected = @"/Users/USER/Library/Developer/CoreSimulator/Devices/B8321AD0-C30B-41BD-BA54-5A7759CEC4CD/data/"
-          @"Containers/Bundle/Application/8CC7B5B5-7841-45C4-BAC2-6AA1B944A5E1/Puppet.app/Puppet";
+             @"Containers/Bundle/Application/8CC7B5B5-7841-45C4-BAC2-6AA1B944A5E1/Puppet.app/Puppet";
   actual = [MSErrorLogFormatter anonymizedPathFromPath:testPath];
   assertThat(actual, equalTo(expected));
   XCTAssertFalse([actual containsString:@"sampleuser"]);
@@ -229,7 +232,7 @@
 
   // Test with OS X LoginItems app helper path
   processPath = [appBundlePath
-          stringByAppendingString:@"/Contents/Library/LoginItems/net.hockeyapp.helper.app/Contents/MacOS/Helper"];
+      stringByAppendingString:@"/Contents/Library/LoginItems/net.hockeyapp.helper.app/Contents/MacOS/Helper"];
   [self testOSXNonAppSpecificImagesForProcessPath:processPath];
   [self assertIsOtherWithImagePath:processPath processPath:nil];
   [self assertIsOtherWithImagePath:nil processPath:processPath];
@@ -279,8 +282,8 @@
   [nonAppSpecificImagePaths addObject:@"/System/Library/Frameworks/CFNetwork.framework/Versions/A/CFNetwork"];
   [nonAppSpecificImagePaths addObject:@"/usr/lib/system/libsystem_platform.dylib"];
   [nonAppSpecificImagePaths
-          addObject:
-                  @"/System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/vecLib"];
+      addObject:
+          @"/System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/vecLib"];
   [nonAppSpecificImagePaths addObject:@"/System/Library/PrivateFrameworks/Sharing.framework/Versions/A/Sharing"];
   [nonAppSpecificImagePaths addObject:@"/usr/lib/libbsm.0.dylib"];
 
@@ -291,7 +294,7 @@
 
 - (void)testiOSAppFrameworkAtProcessPath:(NSString *)processPath appBundlePath:(NSString *)appBundlePath {
   NSString *frameworkPath =
-          [appBundlePath stringByAppendingString:@"/Frameworks/MyFrameworkLib.framework/MyFrameworkLib"];
+      [appBundlePath stringByAppendingString:@"/Frameworks/MyFrameworkLib.framework/MyFrameworkLib"];
   [self assertIsAppFrameworkWithFrameworkPath:frameworkPath processPath:processPath];
 
   frameworkPath = [appBundlePath stringByAppendingString:@"/Frameworks/libSwiftMyLib.framework/libSwiftMyLib"];
@@ -317,14 +320,14 @@
 
   // iOS frameworks
   [nonAppSpecificImagePaths
-          addObject:@"/System/Library/AccessibilityBundles/AccessibilitySettingsLoader.bundle/AccessibilitySettingsLoader"];
+      addObject:@"/System/Library/AccessibilityBundles/AccessibilitySettingsLoader.bundle/AccessibilitySettingsLoader"];
   [nonAppSpecificImagePaths addObject:@"/System/Library/Frameworks/AVFoundation.framework/AVFoundation"];
   [nonAppSpecificImagePaths addObject:@"/System/Library/Frameworks/AVFoundation.framework/libAVFAudio.dylib"];
   [nonAppSpecificImagePaths addObject:@"/System/Library/PrivateFrameworks/AOSNotification.framework/AOSNotification"];
   [nonAppSpecificImagePaths addObject:@"/System/Library/PrivateFrameworks/Accessibility.framework/Frameworks/"
-          @"AccessibilityUI.framework/AccessibilityUI"];
+                                      @"AccessibilityUI.framework/AccessibilityUI"];
   [nonAppSpecificImagePaths addObject:@"/System/Library/PrivateFrameworks/Accessibility.framework/Frameworks/"
-          @"AccessibilityUIUtilities.framework/AccessibilityUIUtilities"];
+                                      @"AccessibilityUIUtilities.framework/AccessibilityUIUtilities"];
   [nonAppSpecificImagePaths addObject:@"/usr/lib/libAXSafeCategoryBundle.dylib"];
   [nonAppSpecificImagePaths addObject:@"/usr/lib/libAXSpeechManager.dylib"];
   [nonAppSpecificImagePaths addObject:@"/usr/lib/libAccessibility.dylib"];
@@ -347,7 +350,7 @@
 - (void)assertIsAppFrameworkWithFrameworkPath:(NSString *)frameworkPath processPath:(NSString *)processPath {
   MSBinaryImageType imageType = [MSErrorLogFormatter imageTypeForImagePath:frameworkPath processPath:processPath];
   XCTAssertEqual(imageType, MSBinaryImageTypeAppFramework, @"Test framework %@ with process %@", frameworkPath,
-          processPath);
+                 processPath);
 }
 
 - (void)assertIsAppBinaryWithImagePath:(NSString *)imagePath processPath:(NSString *)processPath {
@@ -356,10 +359,9 @@
 }
 
 - (void)assertIsSwiftFrameworkWithFrameworkPath:(NSString *)swiftFrameworkPath processPath:(NSString *)processPath {
-  MSBinaryImageType imageType =
-          [MSErrorLogFormatter imageTypeForImagePath:swiftFrameworkPath processPath:processPath];
+  MSBinaryImageType imageType = [MSErrorLogFormatter imageTypeForImagePath:swiftFrameworkPath processPath:processPath];
   XCTAssertEqual(imageType, MSBinaryImageTypeOther, @"Test swift image %@ with process %@", swiftFrameworkPath,
-          processPath);
+                 processPath);
 }
 
 - (void)assertIsOtherWithImagePath:(NSString *)imagePath processPath:(NSString *)processPath {
@@ -367,11 +369,10 @@
   XCTAssertEqual(imageType, MSBinaryImageTypeOther, @"Test other image %@ with process %@", imagePath, processPath);
 }
 
-
 - (void)assertIsCrashProbeReportValidConverted:(NSString *)filename {
   NSData *crashData = [MSCrashesTestUtil dataOfFixtureCrashReportWithFileName:filename];
   XCTAssertNotNil(crashData);
-  
+
   NSError *error = nil;
   MSPLCrashReport *crashReport = [[MSPLCrashReport alloc] initWithData:crashData error:&error];
   XCTAssertNotNil(crashReport);
@@ -379,22 +380,24 @@
   XCTAssertNotNil(crashedThread);
   MSAppleErrorLog *errorLog = [MSErrorLogFormatter errorLogFromCrashReport:crashReport];
   XCTAssertNotNil(errorLog);
-  
+
   NSString *actualId = [MSErrorLogFormatter errorIdForCrashReport:crashReport];
   assertThat(errorLog.errorId, equalTo(actualId));
-  
+
   assertThat(errorLog.processId, equalTo(@(crashReport.processInfo.processID)));
   assertThat(errorLog.processName, equalTo(crashReport.processInfo.processName));
   assertThat(errorLog.parentProcessId, equalTo(@(crashReport.processInfo.parentProcessID)));
   assertThat(errorLog.parentProcessName, equalTo(crashReport.processInfo.parentProcessName));
-  
+
   assertThat(errorLog.errorThreadId, equalTo(@(crashedThread.threadNumber)));
-  
-  NSDate *appStartTime = [NSDate dateWithTimeIntervalSince1970:(([errorLog.toffset doubleValue] - [errorLog.appLaunchTOffset doubleValue])/1000)];
-  NSDate *appErrorTime = [NSDate dateWithTimeIntervalSince1970:([errorLog.toffset doubleValue]/1000)];
+
+  NSDate *appStartTime = [NSDate
+      dateWithTimeIntervalSince1970:(([errorLog.toffset doubleValue] - [errorLog.appLaunchTOffset doubleValue]) /
+                                     1000)];
+  NSDate *appErrorTime = [NSDate dateWithTimeIntervalSince1970:([errorLog.toffset doubleValue] / 1000)];
   assertThat(appErrorTime, equalTo(crashReport.systemInfo.timestamp));
   assertThat(appStartTime, equalTo(crashReport.processInfo.processStartTime));
-  
+
   NSArray *images = crashReport.images;
   for (MSPLCrashReportBinaryImageInfo *image in images) {
     if (image.codeType != nil && image.codeType.typeEncoding == PLCrashReportProcessorTypeEncodingMach) {
@@ -402,16 +405,18 @@
       assertThat(errorLog.architectureVariantId, equalTo(@(image.codeType.subtype)));
     }
   }
-  
+
   XCTAssertNotNil(errorLog.applicationPath);
   // Not using the report.processInfo.processPath directly to compare as it will be anonymized in the Simulator.
-  assertThat(errorLog.applicationPath, equalTo(@"/private/var/mobile/Containers/Bundle/Application/253BCE7D-4032-4FB2-AC63-C16F5C0BCBFA/CrashProbeiOS.app/CrashProbeiOS"));
-  
+  assertThat(errorLog.applicationPath,
+             equalTo(@"/private/var/mobile/Containers/Bundle/Application/253BCE7D-4032-4FB2-AC63-C16F5C0BCBFA/"
+                     @"CrashProbeiOS.app/CrashProbeiOS"));
+
   NSString *signalAdress = [NSString stringWithFormat:@"0x%" PRIx64, crashReport.signalInfo.address];
   assertThat(errorLog.osExceptionType, equalTo(crashReport.signalInfo.name));
   assertThat(errorLog.osExceptionCode, equalTo(crashReport.signalInfo.code));
   assertThat(errorLog.osExceptionAddress, equalTo(signalAdress));
-  
+
   if (crashReport.hasExceptionInfo) {
     assertThat(errorLog.exceptionType, equalTo(crashReport.exceptionInfo.exceptionName));
     assertThat(errorLog.exceptionReason, equalTo(crashReport.exceptionInfo.exceptionReason));
@@ -419,12 +424,12 @@
     XCTAssertEqual(errorLog.exceptionType, nil);
     XCTAssertEqual(errorLog.exceptionReason, nil);
   }
-  
+
   assertThat(errorLog.threads, hasCountOf([crashReport.threads count]));
   for (int i = 0; i < [errorLog.threads count]; i++) {
     MSThread *thread = errorLog.threads[i];
     MSPLCrashReportThreadInfo *plThread = crashReport.threads[i];
-    
+
     assertThat(thread.threadId, equalTo(@(plThread.threadNumber)));
     if (crashReport.hasExceptionInfo && [thread.threadId isEqualToNumber:@(crashedThread.threadNumber)]) {
       XCTAssertNotNil(thread.exception);
@@ -433,8 +438,6 @@
     }
   }
   assertThat(errorLog.registers, hasCountOf([crashedThread.registers count]));
-  
 }
-
 
 @end
