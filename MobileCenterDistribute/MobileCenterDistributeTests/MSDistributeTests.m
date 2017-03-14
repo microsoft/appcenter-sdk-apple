@@ -8,6 +8,7 @@
 #import "MSDistribute.h"
 #import "MSDistributeInternal.h"
 #import "MSDistributePrivate.h"
+#import "MSDistributeUtil.h"
 #import "MSKeychainUtil.h"
 #import "MSLogManager.h"
 #import "MSMobileCenter.h"
@@ -89,8 +90,8 @@ static NSURL *sfURL;
   ];
   id bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
-  OCMStub([bundleMock objectForInfoDictionaryKey:@"CFBundleShortVersionString"]).andReturn(@"1.0");
-  OCMStub([bundleMock objectForInfoDictionaryKey:@"CFBundleVersion"]).andReturn(@"1");
+  NSDictionary<NSString *, id> *plist = @{ @"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1" };
+  OCMStub([bundleMock infoDictionary]).andReturn(plist);
   OCMStub([bundleMock objectForInfoDictionaryKey:@"CFBundleURLTypes"]).andReturn(bundleArray);
   OCMStub([bundleMock objectForInfoDictionaryKey:@"MSAppName"]).andReturn(@"Something");
   id distributeMock = OCMPartialMock(self.sut);
@@ -535,11 +536,11 @@ static NSURL *sfURL;
   id distributeMock = OCMPartialMock(self.sut);
   id bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
-  OCMStub([bundleMock objectForInfoDictionaryKey:@"CFBundleShortVersionString"]).andReturn(@"1.0");
-  OCMStub([bundleMock objectForInfoDictionaryKey:@"CFBundleVersion"]).andReturn(@"1");
+  NSDictionary<NSString *, id> *plist = @{ @"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1" };
+  OCMStub([bundleMock infoDictionary]).andReturn(plist);
 
   // When
-  NSString *hash = [distributeMock packageHash];
+  NSString *hash = packageHash();
 
   // Then
   assertThat(hash, equalTo(@"1ddf47f8dda8928174c419d530adcc13bb63cebfaf823d83ad5269b41e638ef4"));

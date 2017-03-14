@@ -109,11 +109,4 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
  */
 - (BOOL)checkForUpdatesAllowed;
 
-/**
- * Get package hash of the application.
- *
- * @return A package hash string.
- */
-- (NSString *)packageHash;
-
 @end
