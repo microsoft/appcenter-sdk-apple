@@ -9,7 +9,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The directory for saving SDK related files within the app's folder.
  */
-@property(nonatomic, copy) NSString *baseDirectoryPath;
+@property(nonatomic, copy) NSURL *baseDirectoryURL;
 
 /**
  * A dictionary containing file names and their status for certain storage keys.
@@ -23,9 +23,9 @@ NS_ASSUME_NONNULL_BEGIN
  * log file
  * @param logsId The internal Id of the file
  *
- * @return the file path
+ * @return the file url
  */
-- (NSString *)filePathForStorageKey:(NSString *)storageKey logsId:(NSString *)logsId;
+- (NSURL *)fileURLForStorageKey:(NSString *)storageKey logsId:(NSString *)logsId;
 
 /**
  * Returns the bucket for a given storage key or creates a new one if it doesn't exist, yet.

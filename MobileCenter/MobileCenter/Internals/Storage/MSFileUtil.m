@@ -43,67 +43,64 @@
 #pragma mark - File I/O
 
 + (BOOL)writeData:(NSData *)data toFile:(MSFile *)file {
-  if (!data || !file.filePath) {
+  if (!data || !file.fileURL) {
     return NO;
   }
 
-  BOOL isDir;
-  if (![self.fileManager fileExistsAtPath:file.filePath isDirectory:&isDir]) {
-    [self createFileAtPath:file.filePath];
-  }
+  [self createFileAtURL:file.fileURL];
 
   NSError *error;
-  if ([data writeToFile:file.filePath options:NSDataWritingAtomic error:&error]) {
-    MSLogVerbose([MSMobileCenter logTag], @"File %@: has been successfully written", file.filePath);
+  if ([data writeToURL:file.fileURL options:NSDataWritingAtomic error:&error]) {
+    MSLogVerbose([MSMobileCenter logTag], @"File %@: has been successfully written", file.fileURL);
     return YES;
   } else {
-    MSLogError([MSMobileCenter logTag], @"Error writing file %@: %@", file.filePath, error.localizedDescription);
+    MSLogError([MSMobileCenter logTag], @"Error writing file %@: %@", file.fileURL, error.localizedDescription);
     return NO;
   }
 }
 
 + (BOOL)deleteFile:(MSFile *)file {
-  if (!file.filePath) {
+  if (!file.fileURL) {
     return NO;
   }
 
   NSError *error;
-  if ([self.fileManager removeItemAtPath:file.filePath error:&error]) {
-    MSLogVerbose([MSMobileCenter logTag], @"File %@: has been successfully deleted", file.filePath);
+  if ([self.fileManager removeItemAtURL:file.fileURL error:&error]) {
+    MSLogVerbose([MSMobileCenter logTag], @"File %@: has been successfully deleted", file.fileURL);
     return YES;
   } else {
-    MSLogError([MSMobileCenter logTag], @"Error deleting file %@: %@", file.filePath, error.localizedDescription);
+    MSLogError([MSMobileCenter logTag], @"Error deleting file %@: %@", file.fileURL, error.localizedDescription);
     return NO;
   }
 }
 
 + (nullable NSData *)dataForFile:(MSFile *)file {
-  if (!file.filePath) {
+  if (!file.fileURL) {
     return nil;
   }
 
   NSError *error;
-  NSData *data = [NSData dataWithContentsOfFile:file.filePath options:nil error:&error];
+  NSData *data = [NSData dataWithContentsOfURL:file.fileURL options:nil error:&error];
   if (error) {
-    MSLogError([MSMobileCenter logTag], @"Error writing file %@: %@", file.filePath, error.localizedDescription);
+    MSLogError([MSMobileCenter logTag], @"Error writing file %@: %@", file.fileURL, error.localizedDescription);
   } else {
-    MSLogVerbose([MSMobileCenter logTag], @"File %@: has been successfully written", file.filePath);
+    MSLogVerbose([MSMobileCenter logTag], @"File %@: has been successfully written", file.fileURL);
   }
   return data;
 }
 
-+ (nullable NSArray<MSFile *> *)filesForDirectory:(nullable NSString *)directoryPath
-                                 withFileExtension:(nullable NSString *)fileExtension {
++ (nullable NSArray<MSFile *> *)filesForDirectory:(nullable NSURL *)directoryURL
+                                withFileExtension:(nullable NSString *)fileExtension {
   NSFileManager *fileManager = [NSFileManager defaultManager];
 
   // Check validity.
-  if (!directoryPath || !fileExtension) {
+  if (!directoryURL || !fileExtension) {
     return nil;
   }
-  NSString * _Nonnull path = ( NSString* _Nonnull ) directoryPath;
+  NSString * path = [directoryURL path];
 
   // Check file existing
-  if (![fileManager fileExistsAtPath:path]) {
+  if (!path || ![fileManager fileExistsAtPath:path]) {
     return nil;
   }
 
@@ -120,10 +117,10 @@
 
     files = [NSMutableArray new];
     for (NSString *fileName in filteredFiles) {
-      NSString *filePath = [path stringByAppendingPathComponent:fileName];
+      NSURL *fileURL = [directoryURL URLByAppendingPathComponent:fileName];
       NSString *fileId = [fileName stringByDeletingPathExtension];
-      NSDate *creationDate = [self creationDateForFileAtPath:filePath];
-      MSFile *file = [[MSFile alloc] initWithPath:filePath fileId:fileId creationDate:creationDate];
+      NSDate *creationDate = [self creationDateForFileAtURL:fileURL];
+      MSFile *file = [[MSFile alloc] initWithURL:fileURL fileId:fileId creationDate:creationDate];
       [files addObject:file];
     }
 
@@ -133,41 +130,43 @@
 
 #pragma mark - Helpers
 
-+ (NSDate *)creationDateForFileAtPath:(NSString *)filePath {
++ (NSDate *)creationDateForFileAtURL:(NSURL *)fileURL {
   NSError *error;
   NSDate *creationDate;
-  NSDictionary *attributes = [self.fileManager attributesOfItemAtPath:filePath error:&error];
-  if (!error) {
-    creationDate = attributes[NSFileCreationDate];
-  } else {
-    MSLogWarning([MSMobileCenter logTag], @"Couldn't read creation date of file %@: %@", filePath, error.localizedDescription);
+  [fileURL getResourceValue:&creationDate forKey:NSURLContentModificationDateKey error:&error];
+  if (error) {
+    MSLogWarning([MSMobileCenter logTag], @"Couldn't read creation date of file %@: %@", fileURL, error.localizedDescription);
   }
 
   return creationDate;
 }
 
-+ (BOOL)createDirectoryAtPath:(NSString *)directoryPath {
-  if (directoryPath) {
++ (BOOL)createDirectoryAtURL:(NSURL *)directoryURL {
+  if (directoryURL) {
     NSError *error = nil;
-    if ([self.fileManager createDirectoryAtPath:directoryPath
+    if ([self.fileManager createDirectoryAtURL:directoryURL
                     withIntermediateDirectories:YES
                                      attributes:nil
                                           error:&error]) {
-      [self disableBackupForDirectoryPath:directoryPath];
+      [self disableBackupForDirectoryURL:directoryURL];
       return YES;
     } else {
-      MSLogError([MSMobileCenter logTag], @"Couldn't create directory at path %@: %@", directoryPath, error.localizedDescription);
+      MSLogError([MSMobileCenter logTag], @"Couldn't create directory at path %@: %@", directoryURL, error.localizedDescription);
     }
   }
   return NO;
 }
 
-+ (BOOL)createFileAtPath:(NSString *)filePath {
-  if (filePath) {
-    NSString *directoryPath = [filePath stringByDeletingLastPathComponent];
-    BOOL isDir;
-    if (![self.fileManager fileExistsAtPath:directoryPath isDirectory:&isDir]) {
-      [self createDirectoryAtPath:directoryPath];
++ (BOOL)createFileAtURL:(NSURL *)fileURL {
+  if (fileURL) {
+    NSString * filePath = [fileURL path];
+    if (!filePath || [self.fileManager fileExistsAtPath:filePath]) {
+        return NO;
+    }
+    NSURL * directoryURL = [fileURL URLByDeletingLastPathComponent];
+    NSString * directoryPath = [directoryURL path];
+    if (directoryPath && ![self.fileManager fileExistsAtPath:directoryPath]) {
+      [self createDirectoryAtURL:directoryURL];
     }
 
     if ([self.fileManager createFileAtPath:filePath contents:[NSData new] attributes:nil]) {
@@ -179,11 +178,10 @@
   return NO;
 }
 
-+ (BOOL)disableBackupForDirectoryPath:(nonnull NSString *)directoryPath {
++ (BOOL)disableBackupForDirectoryURL:(nonnull NSURL *)directoryURL {
   NSError *error = nil;
-  NSURL *url = [NSURL fileURLWithPath:directoryPath];
-  if (!url || ![url setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:&error]) {
-    MSLogError([MSMobileCenter logTag], @"Error excluding %@ from backup %@", directoryPath, error.localizedDescription);
+  if (!directoryURL || ![directoryURL setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:&error]) {
+    MSLogError([MSMobileCenter logTag], @"Error excluding %@ from backup %@", directoryURL, error.localizedDescription);
     return NO;
   } else {
     return YES;

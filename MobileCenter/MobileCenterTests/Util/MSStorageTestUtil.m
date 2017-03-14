@@ -36,7 +36,8 @@
   NSString *filePath = [self filePathForLogWithId:logsId extension:extension storageKey:storageKey];
   [[NSFileManager defaultManager] createFileAtPath:filePath contents:data attributes:nil];
 
-  MSFile *file = [[MSFile alloc] initWithPath:filePath fileId:logsId creationDate:creationDate];
+  NSURL *fileURL = [NSURL fileURLWithPath:filePath];
+  MSFile *file = [[MSFile alloc] initWithURL:fileURL fileId:logsId creationDate:creationDate];
 
   return file;
 }
