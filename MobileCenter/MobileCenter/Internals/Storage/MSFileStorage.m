@@ -171,13 +171,13 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
   [bucket.currentLogs removeAllObjects];
 }
 
-- (NSString *)directoryPathForStorageKey:(nonnull NSString *)storageKey {
+- (NSString *)directoryPathForStorageKey:(NSString *)storageKey {
   NSString *filePath = [self.baseDirectoryPath stringByAppendingPathComponent:storageKey];
 
   return filePath;
 }
 
-- (NSString *)filePathForStorageKey:(nonnull NSString *)storageKey logsId:(nonnull NSString *)logsId {
+- (NSString *)filePathForStorageKey:(NSString *)storageKey logsId:(nonnull NSString *)logsId {
   NSString *fileName = [logsId stringByAppendingPathExtension:kMSFileExtension];
   NSString *filePath = [[self directoryPathForStorageKey:storageKey] stringByAppendingPathComponent:fileName];
 

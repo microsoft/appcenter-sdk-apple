@@ -413,9 +413,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 }
 
 - (BOOL)isNewerVersion:(MSReleaseDetails *)details {
-  NSString *installedVersionPackageHash = [self packageHash];
-  NSArray<NSString *> *latestVersionPackageHashes = details.packageHashes;
-  return ![latestVersionPackageHashes containsObject:installedVersionPackageHash];
+  return MSCompareCurrentReleaseWithRelease(details) == NSOrderedAscending;
 }
 
 - (void)showConfirmationAlert:(MSReleaseDetails *)details {
