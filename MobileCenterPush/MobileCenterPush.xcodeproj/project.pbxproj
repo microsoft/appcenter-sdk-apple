@@ -120,6 +120,7 @@
 		D3AD5FD91E5DDF72001627AB /* libMobileCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobileCenter.a; path = "../MobileCenter/build/Debug-iphoneos/libMobileCenter.a"; sourceTree = "<group>"; };
 		D3C4E1FD1E6572D3006D3C0D /* MSPushDelegateTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSPushDelegateTests.m; sourceTree = "<group>"; };
 		D3D0CFE81E640ABD003015AF /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrestIOS.framework; path = ../Vendor/OCHamcrest/OCHamcrestIOS.framework; sourceTree = "<group>"; };
+		F86163611E769DBA00E3F06C /* Tests.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Tests.xcconfig; path = ../Tests.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -232,6 +233,7 @@
 				D3AD5F041E5C7FDF001627AB /* Global.xcconfig */,
 				D3AD5F051E5C7FFF001627AB /* MobileCenterPush.xcconfig */,
 				D3AD5F3E1E5D69B0001627AB /* module.modulemap */,
+				F86163611E769DBA00E3F06C /* Tests.xcconfig */,
 			);
 			name = Support;
 			path = ..;
@@ -583,6 +585,7 @@
 		};
 		D3AD5EC91E5C4F6A001627AB /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F86163611E769DBA00E3F06C /* Tests.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -592,10 +595,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-ObjC",
-				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenterpushtests;
 				PRODUCT_NAME = MobileCenterPush;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/**";
@@ -604,6 +603,7 @@
 		};
 		D3AD5ECA1E5C4F6A001627AB /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F86163611E769DBA00E3F06C /* Tests.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -613,10 +613,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-ObjC",
-				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenterpushtests;
 				PRODUCT_NAME = MobileCenterPush;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/**";
