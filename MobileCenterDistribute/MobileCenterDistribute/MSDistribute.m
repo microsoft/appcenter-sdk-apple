@@ -302,19 +302,13 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     return nil;
   }
 
-  /*
-   * BuildUUID is different on every build with code changes.
-   * BuildUUID is used in this case as key prefix to get values from Safari cookies.
-   * For testing purposes you can update the related Safari cookie keys to the BuildUUID of your choice
-   * using JavaScript via Safari Web Inspector.
-   */
-  NSString *buildUUID = [[[MSBasicMachOParser machOParserForMainBundle].uuid UUIDString] lowercaseString];
-  if (!buildUUID) {
-    MSLogError([MSDistribute logTag], @"Cannot retrieve build UUID.");
+  // Build release hash.
+  NSString *releaseHash = MSPackageHash();
+  if (!releaseHash) {
     return nil;
   }
 
-  // Check custom sheme is registered.
+  // Check custom scheme is registered.
   NSString *scheme = [NSString stringWithFormat:kMSDefaultCustomSchemeFormat, appSecret];
   if (![self checkURLSchemeRegistered:scheme]) {
     MSLogError([MSDistribute logTag], @"Custom URL scheme for Distribute not found.");
@@ -323,7 +317,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
   // Set URL query parameters.
   NSMutableArray *items = [NSMutableArray array];
-  [items addObject:[NSURLQueryItem queryItemWithName:kMSURLQueryReleaseHashKey value:buildUUID]];
+  [items addObject:[NSURLQueryItem queryItemWithName:kMSURLQueryReleaseHashKey value:releaseHash]];
   [items addObject:[NSURLQueryItem queryItemWithName:kMSURLQueryRedirectIdKey value:scheme]];
   [items addObject:[NSURLQueryItem queryItemWithName:kMSURLQueryRequestIdKey value:requestId]];
   [items addObject:[NSURLQueryItem queryItemWithName:kMSURLQueryPlatformKey value:kMSURLQueryPlatformValue]];

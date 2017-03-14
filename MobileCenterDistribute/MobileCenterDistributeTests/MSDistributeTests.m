@@ -8,6 +8,7 @@
 #import "MSDistribute.h"
 #import "MSDistributeInternal.h"
 #import "MSDistributePrivate.h"
+#import "MSDistributeUtil.h"
 #import "MSKeychainUtil.h"
 #import "MSLogManager.h"
 #import "MSMobileCenter.h"
@@ -64,7 +65,7 @@ static NSURL *sfURL;
   [MS_USER_DEFAULTS removeObjectForKey:kMSIgnoredReleaseIdKey];
   [MSKeychainUtil clear];
   self.sut = [MSDistribute new];
-    
+
   // MSBasicMachOParser may fail on test projects' main bundle. It's mocked to prevent it.
   id parserMock = OCMClassMock([MSBasicMachOParser class]);
   self.parserMock = parserMock;
@@ -89,6 +90,8 @@ static NSURL *sfURL;
   ];
   id bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
+  NSDictionary<NSString *, id> *plist = @{ @"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1" };
+  OCMStub([bundleMock infoDictionary]).andReturn(plist);
   OCMStub([bundleMock objectForInfoDictionaryKey:@"CFBundleURLTypes"]).andReturn(bundleArray);
   OCMStub([bundleMock objectForInfoDictionaryKey:@"MSAppName"]).andReturn(@"Something");
   id distributeMock = OCMPartialMock(self.sut);
@@ -524,6 +527,23 @@ static NSURL *sfURL;
 
   // Then
   OCMReject([distributeMock buildTokenRequestURLWithAppSecret:[OCMArg any]]);
+}
+
+- (void)testPackageHash {
+
+  // If
+  // cd55e7a9-7ad1-4ca6-b722-3d133f487da9:1.0:1 -> 1ddf47f8dda8928174c419d530adcc13bb63cebfaf823d83ad5269b41e638ef4
+  id distributeMock = OCMPartialMock(self.sut);
+  id bundleMock = OCMClassMock([NSBundle class]);
+  OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
+  NSDictionary<NSString *, id> *plist = @{ @"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1" };
+  OCMStub([bundleMock infoDictionary]).andReturn(plist);
+
+  // When
+  NSString *hash = MSPackageHash();
+
+  // Then
+  assertThat(hash, equalTo(@"1ddf47f8dda8928174c419d530adcc13bb63cebfaf823d83ad5269b41e638ef4"));
 }
 
 @end
