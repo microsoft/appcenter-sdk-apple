@@ -64,7 +64,7 @@ static NSURL *sfURL;
   [MS_USER_DEFAULTS removeObjectForKey:kMSIgnoredReleaseIdKey];
   [MSKeychainUtil clear];
   self.sut = [MSDistribute new];
-    
+
   // MSBasicMachOParser may fail on test projects' main bundle. It's mocked to prevent it.
   id parserMock = OCMClassMock([MSBasicMachOParser class]);
   self.parserMock = parserMock;
@@ -526,6 +526,23 @@ static NSURL *sfURL;
 
   // Then
   OCMReject([distributeMock buildTokenRequestURLWithAppSecret:[OCMArg any]]);
+}
+
+- (void)testPackageHash {
+
+  // If
+  // cd55e7a9-7ad1-4ca6-b722-3d133f487da9:1.0:1 -> 1ddf47f8dda8928174c419d530adcc13bb63cebfaf823d83ad5269b41e638ef4
+  id distributeMock = OCMPartialMock(self.sut);
+  id bundleMock = OCMClassMock([NSBundle class]);
+  OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
+  OCMStub([bundleMock objectForInfoDictionaryKey:@"CFBundleShortVersionString"]).andReturn(@"1.0");
+  OCMStub([bundleMock objectForInfoDictionaryKey:@"CFBundleVersion"]).andReturn(@"1");
+
+  // When
+  NSString *hash = [distributeMock packageHash];
+
+  // Then
+  assertThat(hash, equalTo(@"1ddf47f8dda8928174c419d530adcc13bb63cebfaf823d83ad5269b41e638ef4"));
 }
 
 @end

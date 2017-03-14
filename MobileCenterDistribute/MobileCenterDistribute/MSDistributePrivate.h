@@ -102,12 +102,18 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
  */
 - (BOOL)isNewerVersion:(MSReleaseDetails *)details;
 
-
 /**
  * Check all parameters that determine if it's okay to check for an update.
  *
  * @return BOOL indicating that it's okay to check for updates.
  */
 - (BOOL)checkForUpdatesAllowed;
+
+/**
+ * Get package hash of the application.
+ *
+ * @return A package hash string.
+ */
+- (NSString *)packageHash;
 
 @end
