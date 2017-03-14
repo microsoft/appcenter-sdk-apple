@@ -529,8 +529,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
   /*
    * BuildUUID is different on every build with code changes.
-   * BuildUUID is used in this case as key prefix to get values from Safari cookies.
-   * For testing purposes you can update the related Safari cookie keys to the BuildUUID of your choice
+   * For testing purposes you can update the related Safari cookie keys to the value of your choice
    * using JavaScript via Safari Web Inspector.
    */
   NSString *buildUUID = [[[MSBasicMachOParser machOParserForMainBundle].uuid UUIDString] lowercaseString];
