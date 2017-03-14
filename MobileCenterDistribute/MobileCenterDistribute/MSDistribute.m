@@ -303,7 +303,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   }
 
   // Build release hash.
-  NSString *releaseHash = packageHash();
+  NSString *releaseHash = MSPackageHash();
   if (!releaseHash) {
     return nil;
   }

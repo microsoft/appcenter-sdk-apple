@@ -14,21 +14,6 @@
 
 @implementation MobileCenterDistributeTests
 
-- (void)setUp {
-  [super setUp];
-
-  // MSBasicMachOParser may fail on test projects' main bundle. It's mocked to prevent it.
-  id parserMock = OCMClassMock([MSBasicMachOParser class]);
-  self.parserMock = parserMock;
-  OCMStub([parserMock machOParserForMainBundle]).andReturn(self.parserMock);
-  OCMStub([self.parserMock uuid])
-      .andReturn([[NSUUID alloc] initWithUUIDString:@"CD55E7A9-7AD1-4CA6-B722-3D133F487DA9"]);
-}
-
-- (void)tearDown {
-  [self.parserMock stopMocking];
-}
-
 - (void)testGetMainBundle {
 
   // When
@@ -106,7 +91,7 @@
   [parserMock stopMocking];
 }
 
-- (void)testCompareReleaseDifferentBuildUUIDs {
+- (void)testCompareReleaseDifferentPackageHashes {
 
   /*
    * If.
@@ -131,7 +116,7 @@
   MSReleaseDetails *details = [MSReleaseDetails new];
   details.shortVersion = expectedShortVer;
   details.version = expectedVersion;
-  details.packageHashes = @[ @"4255f7a9-2ed1-35a6-b831-3d144e473ce9" ];
+  details.packageHashes = @[ @"Something different package hash" ];
 
   /*
    * When
@@ -204,7 +189,7 @@
   [bundleMock stopMocking];
 }
 
-- (void)testCompareReleaseNoneSemVerButDifferentBuildUUIDs {
+- (void)testCompareReleaseNoneSemVerButDifferentPackageHashes {
 
   /*
    * If.
@@ -228,7 +213,7 @@
   MSReleaseDetails *details = [MSReleaseDetails new];
   details.shortVersion = @" still different but not sementic versioning";
   details.version = expectedVersion;
-  details.packageHashes = @[ @"4255f7a9-2ed1-35a6-b831-3d144e473ce9" ];
+  details.packageHashes = @[ @"Something different package hash" ];
 
   /*
    * When
@@ -243,7 +228,7 @@
   [parserMock stopMocking];
 }
 
-- (void)testCompareReleaseNoneSemVerButSameBuildUUIDs {
+- (void)testCompareReleaseNoneSemVerButSamePackageHashes {
 
   /*
    * If.
@@ -268,7 +253,7 @@
   MSReleaseDetails *details = [MSReleaseDetails new];
   details.shortVersion = @" still different but not sementic versioning";
   details.version = expectedVersion;
-  details.packageHashes = @[ packageHash() ];
+  details.packageHashes = @[ MSPackageHash() ];
 
   /*
    * When
@@ -308,7 +293,7 @@
   MSReleaseDetails *details = [MSReleaseDetails new];
   details.shortVersion = expectedShortVer;
   details.version = @"2.5.3.2";
-  details.packageHashes = @[ packageHash() ];
+  details.packageHashes = @[ MSPackageHash() ];
 
   /*
    * When

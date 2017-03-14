@@ -58,7 +58,7 @@ NSComparisonResult MSCompareCurrentReleaseWithRelease(MSReleaseDetails *releaseB
   MSSemVer *shortVersionA =
       [MSSemVer semVerWithString:[MS_APP_MAIN_BUNDLE infoDictionary][@"CFBundleShortVersionString"]];
   MSSemVer *shortVersionB = [MSSemVer semVerWithString:releaseB.shortVersion];
-  NSString *packageHashA = packageHash();
+  NSString *packageHashA = MSPackageHash();
 
   // Compare.
   if (!shortVersionA) {
@@ -98,7 +98,7 @@ NSComparisonResult MSCompareCurrentReleaseWithRelease(MSReleaseDetails *releaseB
 
 #pragma mark - Package hash
 
-NSString *packageHash(void) {
+NSString *MSPackageHash(void) {
 
   /*
    * BuildUUID is different on every build with code changes.

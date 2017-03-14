@@ -540,7 +540,7 @@ static NSURL *sfURL;
   OCMStub([bundleMock infoDictionary]).andReturn(plist);
 
   // When
-  NSString *hash = packageHash();
+  NSString *hash = MSPackageHash();
 
   // Then
   assertThat(hash, equalTo(@"1ddf47f8dda8928174c419d530adcc13bb63cebfaf823d83ad5269b41e638ef4"));
