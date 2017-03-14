@@ -172,7 +172,9 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
 
 #pragma mark - MSLogManagerDelegate
 
-- (void)onProcessingLog:(id<MSLog>)log withPriority:(MSPriority)priority {
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-parameter"
+- (void)onEnqueuingLog:(id<MSLog>)log withInternalId:(NSString *)internalId andPriority:(MSPriority)priority {
 
   // Start session log is created in this method, therefore, skip in order to avoid infinite loop.
   if ([((NSObject *)log) isKindOfClass:[MSStartSessionLog class]])
@@ -218,5 +220,7 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
   // Update last created log time stamp.
   self.lastCreatedLogTime = [NSDate date];
 }
+#pragma GCC diagnostic pop
+
 
 @end

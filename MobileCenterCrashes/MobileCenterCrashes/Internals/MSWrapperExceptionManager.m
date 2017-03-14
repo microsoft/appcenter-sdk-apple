@@ -169,7 +169,7 @@
 
 - (NSData*)loadWrapperExceptionDataWithUUIDString:(NSString*)uuidString {
   NSString *dataFilename = [[self class] getDataFilename:uuidString];
-  NSData *data = [self.wrapperExceptionData objectForKey:dataFilename];
+  NSData *data = self.wrapperExceptionData[dataFilename];
   if (data) {
     return data;
   }
@@ -186,7 +186,7 @@
   NSString* dataFilename = [[self class] getDataFilename:uuidString];
   NSData *data = [self loadWrapperExceptionDataWithUUIDString:uuidString];
   if (data) {
-    [self.wrapperExceptionData setObject:data forKey:dataFilename];
+    self.wrapperExceptionData[dataFilename] = data;
   }
   [[self class] deleteFile:dataFilename];
 }
@@ -259,7 +259,7 @@
 
   if (!path) {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *documentsDirectory = paths[0];
     path = [documentsDirectory stringByAppendingPathComponent:[self directoryName]];
   }
 

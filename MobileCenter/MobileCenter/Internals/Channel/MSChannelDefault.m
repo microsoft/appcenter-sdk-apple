@@ -86,15 +86,17 @@
 
 #pragma mark - Managing queue
 
-- (void)enqueueItem:(id<MSLog>)item {
-  [self enqueueItem:item withCompletion:nil];
-}
-
 - (void)enqueueItem:(id<MSLog>)item withCompletion:(enqueueCompletionBlock)completion {
-  // return fast in case our item is empty or we are discarding logs right now.
+  
+  // Return fast in case our item is empty or we are discarding logs right now.
   dispatch_async(self.logsDispatchQueue, ^{
     if (!item) {
-      MSLogWarning([MSMobileCenter logTag], @"TelemetryItem was nil.");
+      MSLogWarning([MSMobileCenter logTag], @"Log is nil.");
+
+      // Don't forget to execute completion block.
+      if (completion) {
+        completion(NO);
+      }
       return;
     } else if (self.discardLogs) {
       MSLogWarning([MSMobileCenter logTag], @"Channel disabled in log discarding mode, discard this log.");
@@ -102,6 +104,11 @@
                                            code:kMSMCConnectionSuspendedErrorCode
                                        userInfo:@{NSLocalizedDescriptionKey : kMSMCConnectionSuspendedErrorDesc}];
       [self notifyFailureBeforeSendingForItem:item withError:error];
+
+      // Don't forget to exectute the completion block.
+      if (completion) {
+        completion(NO);
+      }
       return;
     }
 
@@ -109,6 +116,8 @@
     MSLogDebug([MSMobileCenter logTag], @"Saving log, type: %@.", item.type);
     BOOL success = [self.storage saveLog:item withStorageKey:self.configuration.name];
     self.itemsCount += 1;
+    
+    // Execute the completion block.
     if (completion) {
       completion(success);
     }
