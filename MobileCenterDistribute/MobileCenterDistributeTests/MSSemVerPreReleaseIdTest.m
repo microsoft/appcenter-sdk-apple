@@ -2,6 +2,7 @@
 #import <XCTest/XCTest.h>
 
 #import "MSSemVerPreReleaseId.h"
+
 @interface MSSemVerPreReleaseIdTests : XCTestCase
 
 @end
