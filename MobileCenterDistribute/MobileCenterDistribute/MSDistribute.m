@@ -8,6 +8,7 @@
 #import "MSDistributePrivate.h"
 #import "MSDistributeSender.h"
 #import "MSDistributeUtil.h"
+#import "MSErrorDetails.h"
 #import "MSKeychainUtil.h"
 #import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
@@ -206,6 +207,9 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
               return;
             }
 
+            // Error instance for JSON parsing.
+            NSError *jsonError = nil;
+
             // Success.
             if (statusCode == MSHTTPCodesNo200OK) {
               id dictionary =
@@ -214,10 +218,11 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
               if (!details) {
                 MSLogError([MSDistribute logTag], @"Couldn't parse response payload.");
               } else {
-                NSData *jsonData =
-                    [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:&error];
+                NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
+                                                                   options:NSJSONWritingPrettyPrinted
+                                                                     error:&jsonError];
                 NSString *jsonString = nil;
-                if (!jsonData || error) {
+                if (!jsonData || jsonError) {
                   jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                 } else {
 
@@ -237,13 +242,14 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                          (unsigned long)statusCode);
               NSString *jsonString = nil;
               id dictionary =
-                  [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+                  [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&jsonError];
 
               // Failure can deliver non-JSON format of payload.
-              if (!error) {
-                NSData *jsonData =
-                    [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:&error];
-                if (jsonData && !error) {
+              if (!jsonError) {
+                NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
+                                                                   options:NSJSONWritingPrettyPrinted
+                                                                     error:&jsonError];
+                if (jsonData && !jsonError) {
 
                   // NSJSONSerialization escapes paths by default so we replace them.
                   jsonString = [[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]
@@ -251,8 +257,29 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                                                 withString:@"/"];
                 }
               }
-              MSLogError([MSDistribute logTag], @"Response:\n%@",
-                         jsonString ? jsonString : [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+
+              // Check the status code to clean up Distribute data for an unrecoverable error.
+              if (![MSSenderUtil isRecoverableError:statusCode]) {
+
+                // Deserialize payload to check if it contains error details.
+                MSErrorDetails *details = nil;
+                if (dictionary) {
+                  details = [[MSErrorDetails alloc] initWithDictionary:dictionary];
+                }
+
+                // If the response payload is MSErrorDetails, consider it as a recoverable error.
+                if (!details || ![details.code isEqualToString:kMSErrorCodeNoReleasesForUser]) {
+                  [MSKeychainUtil deleteStringForKey:kMSUpdateTokenKey];
+                  [MS_USER_DEFAULTS removeObjectForKey:kMSSDKHasLaunchedWithDistribute];
+                  [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
+                  [MS_USER_DEFAULTS removeObjectForKey:kMSIgnoredReleaseIdKey];
+                }
+              }
+
+              if (!jsonString) {
+                jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+              }
+              MSLogError([MSDistribute logTag], @"Response:\n%@", jsonString ? jsonString : @"No payload");
             }
           }];
     }
