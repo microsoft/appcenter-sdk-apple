@@ -171,9 +171,9 @@ If your app is supporting iOS8, you need to implement one of `UIApplicationDeleg
 ```swift
 func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
     
-    // Forward the URL to MSDistribute.
-    MSDistribute.open(url as URL!)
-    return true
+  // Pass the URL to MSDistribute.
+  MSDistribute.open(url as URL!)
+  return true
 }
 ```
 
