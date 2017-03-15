@@ -13,7 +13,7 @@
 - (instancetype)initWithStorage:(MSUserDefaults *)storage {
   if ((self = [super init])) {
     _started = NO;
-    _isEnabledKey = [NSString stringWithFormat:@"kMS%@IsEnabledKey", self.storageKey];
+    _isEnabledKey = [NSString stringWithFormat:@"kMS%@IsEnabledKey", self.groupID];
     _storage = storage;
   }
   return self;

@@ -15,7 +15,7 @@
  * @discussion: IMPORTANT, This string is used to point to the right storage value for this service.
  * Changing this string results in data loss if previous data is not migrated.
  */
-@property(nonatomic, copy, readonly) NSString *storageKey;
+@property(nonatomic, copy, readonly) NSString *groupID;
 
 /**
  * The channel priority for this service. Defined here as well as in MSServiceCommon to achieve abstraction.

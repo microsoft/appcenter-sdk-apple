@@ -33,7 +33,7 @@
   [super startWithLogManager:logManager appSecret:appSecret];
 }
 
-- (NSString *)storageKey {
+- (NSString *)groupID {
   return @"MSServiceAbstractImplementation";
 }
 

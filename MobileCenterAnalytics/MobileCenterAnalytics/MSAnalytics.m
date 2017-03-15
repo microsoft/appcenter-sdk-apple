@@ -63,7 +63,7 @@ static dispatch_once_t onceToken;
   return @"MobileCenterAnalytics";
 }
 
-- (NSString *)storageKey {
+- (NSString *)groupID {
   return kMSServiceName;
 }
 

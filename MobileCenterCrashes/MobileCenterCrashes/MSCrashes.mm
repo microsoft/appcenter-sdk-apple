@@ -318,7 +318,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   return @"MobileCenterCrashes";
 }
 
-- (NSString *)storageKey {
+- (NSString *)groupID {
   return kMSServiceName;
 }
 
