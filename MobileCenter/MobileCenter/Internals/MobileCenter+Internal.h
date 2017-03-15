@@ -1,6 +1,3 @@
-#import "Channel/MSLogManagerDelegate.h"
-#import "Channel/MSChannelDelegate.h"
-
 #import "Model/MSAbstractLog.h"
 #import "Model/MSLog.h"
 #import "Model/MSLogContainer.h"
@@ -14,3 +11,7 @@
 #import "MSUtility+Date.h"
 #import "MSUtility+Environment.h"
 #import "MSWrapperSdk.h"
+
+//Channel
+#import "Channel/MSLogManagerDelegate.h"
+#import "Channel/MSChannelDelegate.h"

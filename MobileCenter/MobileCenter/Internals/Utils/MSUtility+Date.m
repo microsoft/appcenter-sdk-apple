@@ -1,5 +1,10 @@
 #import "MSUtility+Date.h"
 
+/*
+ * Workaround for exporting symbols from category object files.
+ */
+NSString * MSUtilityDateCategory;
+
 @implementation MSUtility (Date)
 
 + (NSTimeInterval)nowInMilliseconds {

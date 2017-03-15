@@ -1,5 +1,10 @@
 #import "MSUtility+Environment.h"
 
+/*
+ * Workaround for exporting symbols from category object files.
+ */
+NSString * MSUtilityEnvironmentCategory;
+
 @implementation MSUtility (Environment)
 
 + (MSEnvironment)currentAppEnvironment {

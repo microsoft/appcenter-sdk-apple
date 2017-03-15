@@ -1,5 +1,10 @@
 #import "MSUtility+ApplicationPrivate.h"
 
+/*
+ * Workaround for exporting symbols from category object files.
+ */
+NSString * MSUtilityApplicationCategory;
+
 @implementation MSUtility (Application)
 
 + (MSApplicationState)applicationState {

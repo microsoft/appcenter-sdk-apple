@@ -1,6 +1,11 @@
 #import <Foundation/Foundation.h>
 #import "MSUtility.h"
 
+/*
+ * Workaround for exporting symbols from category object files.
+ */
+extern NSString * MSUtilityDateCategory;
+
 /**
  * Utility class that is used throughout the SDK.
  * Date part.

@@ -1,6 +1,11 @@
 #import <Foundation/Foundation.h>
 #import "MSUtility.h"
 
+/*
+ * Workaround for exporting symbols from category object files.
+ */
+extern NSString * MSUtilityApplicationCategory;
+
 /**
  *  App states
  */
