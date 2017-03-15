@@ -35,6 +35,10 @@
 
 #pragma mark - URL handling
 
+/**
+ *  This addition is required in case apps support iOS 8. Apps that are iOS 9 and later don't need to implement this
+ * as our SDK uses SFSafariViewController for MSDistribute.
+ */
 - (BOOL)application:(UIApplication *)application
             openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication
