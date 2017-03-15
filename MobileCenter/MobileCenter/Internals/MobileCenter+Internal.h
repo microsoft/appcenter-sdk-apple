@@ -12,6 +12,6 @@
 #import "MSUtility+Environment.h"
 #import "MSWrapperSdk.h"
 
-//Channel
+// Channel.
 #import "Channel/MSLogManagerDelegate.h"
 #import "Channel/MSChannelDelegate.h"

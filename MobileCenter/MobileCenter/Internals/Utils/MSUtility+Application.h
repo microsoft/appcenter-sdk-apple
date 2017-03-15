@@ -37,6 +37,7 @@ typedef NS_ENUM(NSInteger, MSApplicationState) {
  * Application part.
  */
 @interface MSUtility (Application)
+
 /**
  * Get current application state.
  *
