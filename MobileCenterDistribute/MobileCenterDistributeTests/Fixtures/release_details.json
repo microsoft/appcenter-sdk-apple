@@ -8,6 +8,7 @@
   "provisioning_profile_name": "Provisioning profile name",
   "size": 1234567,
   "min_os": "iOS 8.0",
+  "mandatory_update": true,
   "fingerprint": "b10a8db164e0754105b7a99be72e3fe5",
   "uploaded_at": "2017-01-01T00:00:00-0800",
   "download_url": "http://contoso.com/path/download/filename",
