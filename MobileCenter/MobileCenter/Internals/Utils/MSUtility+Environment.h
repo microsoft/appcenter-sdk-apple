@@ -1,7 +1,6 @@
 #import <Foundation/Foundation.h>
 #import "MSUtility.h"
 
-
 /**
  *  App environment
  */
@@ -29,9 +28,9 @@ typedef NS_ENUM(NSInteger, MSEnvironment) {
 
 /**
  * Detect the environment that the app is running in.
+ *
  * @return the MSEnvironment of the app.
  */
 + (MSEnvironment)currentAppEnvironment;
 
 @end
-

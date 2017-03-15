@@ -10,7 +10,6 @@
 #define MS_CLASS_NAME_WITHOUT_PREFIX [NSStringFromClass([self class]) substringFromIndex:2]
 #define MS_IS_APP_EXTENSION [[[NSBundle mainBundle] executablePath] containsString:@".appex/"]
 
-
 /**
  * Utility class that is used throughout the SDK.
  * Basic part.

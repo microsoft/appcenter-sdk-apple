@@ -1,6 +1,7 @@
 #import "MSUtility+ApplicationPrivate.h"
 
 @implementation MSUtility (Application)
+
 + (MSApplicationState)applicationState {
     
     // App extentions must not access sharedApplication.

@@ -2,7 +2,6 @@
 
 @implementation MSUtility (Environment)
 
-
 + (MSEnvironment)currentAppEnvironment {
 #if TARGET_OS_SIMULATOR
     return MSEnvironmentOther;

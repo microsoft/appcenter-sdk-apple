@@ -35,9 +35,10 @@ typedef NS_ENUM(NSInteger, MSApplicationState) {
 /**
  * Get current application state.
  *
+ * @return Current state of the application or MSApplicationStateUnknown while the state can't be determined.
+ *
  * @discussion The application state may not be available anywhere. Application extensions doesn't have it for instance,
  * in that case the MSApplicationStateUnknown value is returned.
- * @return Current state of the application or MSApplicationStateUnknown while the state can't be determined.
  */
 + (MSApplicationState)applicationState;
 
