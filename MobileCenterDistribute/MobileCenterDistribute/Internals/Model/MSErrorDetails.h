@@ -4,6 +4,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * Error code string for no_releases_for_user.
+ * TODO: The SDK is only interested in no_releases_for_user code so far.
+ * It needs to be an enum type if the SDK starts handling multiple error codes.
  */
 static NSString const *kMSErrorCodeNoReleasesForUser = @"no_releases_for_user";
 
