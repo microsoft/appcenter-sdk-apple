@@ -43,9 +43,10 @@
             openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation {
+  
+  // Forward the URL to MSDistribute.
   [MSDistribute openUrl:url];
   NSLog(@"%@ Got waken up via openURL: %@", kPUPLogTag, url);
-
   return YES;
 }
 
