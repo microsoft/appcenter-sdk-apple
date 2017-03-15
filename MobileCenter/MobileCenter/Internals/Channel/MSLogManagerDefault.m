@@ -1,11 +1,12 @@
+#import "MobileCenter+Internal.h"
 #import "MSChannelDefault.h"
+#import "MSDBStorage.h"
 #import "MSFileStorage.h"
 #import "MSHttpSender.h"
 #import "MSIngestionSender.h"
 #import "MSLogManagerDefault.h"
 #import "MSLogManagerDefaultPrivate.h"
 #import "MSMobileCenterErrors.h"
-#import "MobileCenter+Internal.h"
 
 static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecenter.LogManagerQueue";
 
@@ -37,7 +38,7 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
                                   }
                                   reachability:[MS_Reachability reachabilityForInternetConnection]
                                   retryIntervals:@[ @(10), @(5 * 60), @(20 * 60) ]]
-                      storage:[[MSFileStorage alloc] init]];
+                      storage:[[MSDBStorage alloc] init]];
   return self;
 }
 
