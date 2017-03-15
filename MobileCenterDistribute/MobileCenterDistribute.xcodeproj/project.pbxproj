@@ -301,10 +301,10 @@
 		048BB2FB1E60A40D009D92C2 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				BA6820A043C816916AF34A04 /* MSErrorDetails.h */,
+				BA6826E3C58372A269A6B43A /* MSErrorDetails.m */,
 				048BB2FC1E60A40D009D92C2 /* MSReleaseDetails.h */,
 				048BB2FD1E60A40D009D92C2 /* MSReleaseDetails.m */,
-				BA6826E3C58372A269A6B43A /* MSErrorDetails.m */,
-				BA6820A043C816916AF34A04 /* MSErrorDetails.h */,
 			);
 			name = Model;
 			path = Internals/Model;

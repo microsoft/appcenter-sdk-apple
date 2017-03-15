@@ -24,4 +24,25 @@
   assertThat(details.message, equalTo(@"Couldn't get a release because there are no releases for this app."));
 }
 
+- (void)testIsValid {
+
+  // If
+  MSErrorDetails *details = [MSErrorDetails new];
+
+  // Then
+  XCTAssertFalse([details isValid]);
+
+  // When
+  details.code = @"some_valid_code";
+
+  // Then
+  XCTAssertFalse([details isValid]);
+
+  // When
+  details.message = @"some_error_message";
+
+  // Then
+  XCTAssertTrue([details isValid]);
+}
+
 @end

@@ -17,4 +17,8 @@ static NSString *const kMSMessage = @"message";
   return self;
 }
 
+- (BOOL)isValid {
+  return (self.code && self.message);
+}
+
 @end

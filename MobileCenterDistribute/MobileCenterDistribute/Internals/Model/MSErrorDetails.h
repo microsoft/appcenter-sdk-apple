@@ -3,6 +3,11 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
+ * Error code string for no_releases_for_user.
+ */
+static NSString const *kMSErrorCodeNoReleasesForUser = @"no_releases_for_user";
+
+/**
  * Details of an error response.
  */
 @interface MSErrorDetails : NSObject
@@ -18,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
  *   internal_server_error
  *   not_supported
  *   no_releases_for_app
+ *   no_releases_for_user
  *   bad_request
  *   distribution_group_not_found
  *   not_implemented
@@ -41,6 +47,13 @@ NS_ASSUME_NONNULL_BEGIN
  * @return  A new instance.
  */
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dictionary;
+
+/**
+ * Checks if the values are valid.
+ *
+ * return YES if it is valid, otherwise NO.
+ */
+- (BOOL)isValid;
 
 @end
 
