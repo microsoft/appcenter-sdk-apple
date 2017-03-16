@@ -284,6 +284,7 @@
 		D35D61811E785FBA00D81A0F /* MSSqliteConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSSqliteConnection.m; sourceTree = "<group>"; };
 		D35D61831E785FD500D81A0F /* MSDatabaseConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDatabaseConnection.h; sourceTree = "<group>"; };
 		D35D618D1E79397D00D81A0F /* libtclsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libtclsqlite3.dylib; path = ../../../../Vendor/SQLite/libtclsqlite3.dylib; sourceTree = "<group>"; };
+		D36136771E7A80E7004AE043 /* MSDBLogs.sqlite */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = MSDBLogs.sqlite; path = MobileCenter/MSDBLogs.sqlite; sourceTree = "<group>"; };
 		D38023E61E6EFC7C00466558 /* MSStartServiceLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSStartServiceLog.m; sourceTree = "<group>"; };
 		D38023E71E6EFC7C00466558 /* MSStartServiceLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSStartServiceLog.h; sourceTree = "<group>"; };
 		D38024051E7126F500466558 /* MSServiceAbstract.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSServiceAbstract.m; sourceTree = "<group>"; };
@@ -357,6 +358,7 @@
 		6E0400FA1D1C98220051BCFA = {
 			isa = PBXGroup;
 			children = (
+				D36136771E7A80E7004AE043 /* MSDBLogs.sqlite */,
 				6E0401051D1C98220051BCFA /* MobileCenter */,
 				6E2395791D22EF4F00E543C8 /* MobileCenterTests */,
 				6E0401041D1C98220051BCFA /* Products */,

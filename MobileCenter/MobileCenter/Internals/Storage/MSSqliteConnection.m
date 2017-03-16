@@ -6,7 +6,7 @@
 
 @property (nonatomic, strong) NSString *documentsDirectory;
 @property (nonatomic, strong) NSString *databaseFilename;
-@property (nonatomic, strong) NSMutableArray *arrResults;
+@property (nonatomic, strong) NSMutableArray<NSMutableArray<NSString*>*> *arrResults;
 @property (nonatomic, strong) NSMutableArray *arrColumnNames;
 @property (nonatomic) int affectedRows;
 @property (nonatomic) long long lastInsertedRowID;
@@ -72,7 +72,7 @@
     [self.arrResults removeAllObjects];
     self.arrResults = nil;
   }
-  self.arrResults = [[NSMutableArray alloc] init];
+  self.arrResults = [NSMutableArray<NSMutableArray<NSString*>*> new];
 
   // Initialize the column names array.
   if (self.arrColumnNames != nil) {
@@ -98,13 +98,13 @@
         // In this case data must be loaded from the database.
 
         // Declare an array to keep the data for each fetched row.
-        NSMutableArray *arrDataRow;
+        NSMutableArray<NSString*> *arrDataRow;
 
         // Loop through the results and add them to the results array row by row.
         while(sqlite3_step(compiledStatement) == SQLITE_ROW) {
 
           // Initialize the mutable array that will contain the data of a fetched row.
-          arrDataRow = [[NSMutableArray alloc] init];
+          arrDataRow = [NSMutableArray new];
 
           // Get the total number of columns.
           unsigned int totalColumns = sqlite3_column_count(compiledStatement);
@@ -177,14 +177,14 @@
 
 #pragma mark - Public method implementation
 
--(NSArray<NSString*> *)loadDataFromDB:(NSString *)query{
+-(NSArray<NSArray<NSString*>*> *)loadDataFromDB:(NSString *)query{
 
   // Run the query and indicate that is not executable.
   // The query string is converted to a char* object.
   [self runQuery:[query UTF8String] isQueryExecutable:NO];
 
   // Returned the loaded results.
-  return (NSArray *)self.arrResults;
+  return (NSArray<NSArray<NSString*>*> *)self.arrResults;
 }
 
 -(BOOL)executeQuery:(NSString *)query{
