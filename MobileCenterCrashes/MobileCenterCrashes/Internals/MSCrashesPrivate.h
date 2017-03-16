@@ -9,20 +9,30 @@
 
 /**
  * Data structure for logs that need to be flushed at crash time to make sure no log is lost at crash time.
+ *
  * @property bufferPath The path where the buffered log should be persisted.
  * @property buffer The actual buffered data. It comes in the form of a std::string but actually contains an NSData
- * object
- * which is a serialized log.
+ * object which is a serialized log.
+ * @property internalId An internal id that helps keep track of logs.
+ * @property timestamp A timestamp that is used to determine which bufferedLog to delete in case the buffer is full.
  */
 struct MSCrashesBufferedLog {
   std::string bufferPath;
   std::string buffer;
+  std::string internalId;
+  std::string timestamp;
 
   MSCrashesBufferedLog() = default;
 
   MSCrashesBufferedLog(NSString *path, NSData *data)
   : bufferPath(path.UTF8String), buffer(&reinterpret_cast<const char *>(data.bytes)[0],
                                         &reinterpret_cast<const char *>(data.bytes)[data.length]) {}
+
+  
+  MSCrashesBufferedLog(NSString *path, NSData *data, NSString *internalLogId, NSString *timestamp)
+      : bufferPath(path.UTF8String), buffer(&reinterpret_cast<const char *>(data.bytes)[0],
+                                            &reinterpret_cast<const char *>(data.bytes)[data.length]),
+        internalId(internalLogId.UTF8String), timestamp(timestamp.UTF8String) {}
 };
 
 /**
@@ -34,9 +44,9 @@ const int ms_crashes_log_buffer_size = 20;
  * The log buffer object where we keep out BUFFERED_LOGs which will be written to disk in case of a crash.
  * It's a map that maps 1 array of MSCrashesBufferedLog to a MSPriority.
  */
-static std::unordered_map<MSPriority, std::array<MSCrashesBufferedLog, ms_crashes_log_buffer_size>> msCrashesLogBuffer;
+extern std::unordered_map<MSPriority, std::array<MSCrashesBufferedLog, ms_crashes_log_buffer_size>> msCrashesLogBuffer;
 
-@interface MSCrashes ()
+@interface MSCrashes () <MSChannelDelegate, MSLogManagerDelegate>
 
 /**
  * Prototype of a callback function used to execute additional user code. Called
@@ -83,15 +93,6 @@ typedef struct MSCrashesCallbacks {
  * The directory where all buffered logs are stored.
  */
 @property(nonatomic, copy) NSString *logBufferDir;
-
-/**
- * The index for our log buffer. It keeps track of where we want to buffer our next event.
- * The keys are MSPriority cast to NSNumber.
- * The values are the counters for each priority.
- *
- * @see MSPriority
- */
-@property(nonatomic) NSMutableDictionary<NSNumber *, NSNumber *> *bufferIndex;
 
 /**
  * A file used to indicate that a crash which occurred in the last session is
@@ -172,14 +173,26 @@ typedef struct MSCrashesCallbacks {
 - (void)setupLogBuffer;
 
 /**
- * Creates a file that can be used to save a buffered event log at crash time.
+ * Returns a file that can be used to save a buffered event log at crash time and triggers creation of a file if
+ * it doesn't exist.
  *
  * @param name The name for the file.
  * @param priority The priority for the new file.
  *
  * @return the path for the created or existing file, returns nil if the creation failed.
+ *
+ * @discussion This will either return the path to the buffer file if one already exists or trigger creation of a file
+ * asynchronously by using the @see createBufferFileAtPath: method.
  */
-- (NSString *)createBufferFileWithName:(NSString *)name forPriority:(MSPriority)priority;
+- (NSString *)filePathWithName:(NSString *)name forPriority:(MSPriority)priority;
+
+/**
+ * A method to create a file at a certain path. This method uses a synchronized block and should be called
+ * asynchronously.
+ *
+ * @param filePath the filePath.
+ */
+- (void)createBufferFileAtPath:(NSString *)filePath;
 
 /**
  * Does not delete the files for our log buffer but "resets" them to be empty. For this,
@@ -195,7 +208,5 @@ typedef struct MSCrashesCallbacks {
  * @return The path to the directory for a priority.
  */
 - (NSString *)bufferDirectoryForPriority:(MSPriority)priority;
-
-- (void)onProcessingLog:(id<MSLog>)log withPriority:(MSPriority)priority;
 
 @end
