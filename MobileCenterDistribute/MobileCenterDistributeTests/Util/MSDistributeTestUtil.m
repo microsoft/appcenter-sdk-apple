@@ -9,7 +9,7 @@ static id _utilMock;
 
 @implementation MSDistributeTestUtil
 
-+(void)mockUpdatesAllowedConditions{
++ (void)mockUpdatesAllowedConditions {
   self.mobileCenterMock = OCMClassMock([MSMobileCenter class]);
   OCMStub([self.mobileCenterMock isDebuggerAttached]).andReturn(NO);
   self.utilMock = OCMClassMock([MSUtil class]);
@@ -17,24 +17,24 @@ static id _utilMock;
   OCMStub([self.utilMock currentAppEnvironment]).andReturn(MSEnvironmentOther);
 }
 
-+(void)unMockUpdatesAllowedConditions{
++ (void)unMockUpdatesAllowedConditions {
   [self.mobileCenterMock stopMocking];
   [self.utilMock stopMocking];
 }
 
-+(id)mobileCenterMock{
++ (id)mobileCenterMock {
   return _mobileCenterMock;
 }
 
-+(void)setMobileCenterMock:(id) mobileCenterMock{
++ (void)setMobileCenterMock:(id)mobileCenterMock {
   _mobileCenterMock = mobileCenterMock;
 }
 
-+(id)utilMock{
++ (id)utilMock {
   return _utilMock;
 }
 
-+(void)setUtilMock:(id) utilMock{
++ (void)setUtilMock:(id)utilMock {
   _utilMock = utilMock;
 }
 

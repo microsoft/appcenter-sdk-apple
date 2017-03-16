@@ -382,11 +382,12 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   [self.safariHostingViewController presentViewController:safari animated:YES completion:nil];
 }
 
-- (void)dismissEmbeddedSafari{
+- (void)dismissEmbeddedSafari {
   __weak typeof(self) weakSelf = self;
   dispatch_async(dispatch_get_main_queue(), ^{
     typeof(self) strongSelf = weakSelf;
-    if (strongSelf && strongSelf.safariHostingViewController && !strongSelf.safariHostingViewController.isBeingDismissed){
+    if (strongSelf && strongSelf.safariHostingViewController &&
+        !strongSelf.safariHostingViewController.isBeingDismissed) {
       [strongSelf.safariHostingViewController dismissViewControllerAnimated:YES completion:nil];
     }
   });
@@ -541,7 +542,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     if (!(requestedId && queryRequestId && [requestedId isEqualToString:queryRequestId])) {
       return;
     }
-    
+
     // Dismiss the embedded Safari view.
     [self dismissEmbeddedSafari];
 

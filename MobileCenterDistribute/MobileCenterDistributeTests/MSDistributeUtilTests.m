@@ -65,9 +65,10 @@
   // Mock current versions.
   NSString *expectedShortVer = @"2.5.3-alpha+EF69A";
   NSString *expectedVersion = @"2.5.3.1";
-  NSDictionary<NSString *, id> *plist =
-      @{ @"CFBundleShortVersionString" : expectedShortVer,
-         @"CFBundleVersion" : expectedVersion };
+  NSDictionary<NSString *, id> *plist = @{
+    @"CFBundleShortVersionString" : expectedShortVer,
+    @"CFBundleVersion" : expectedVersion
+  };
   id bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
   OCMStub([bundleMock infoDictionary]).andReturn(plist);
@@ -105,9 +106,10 @@
   // Mock current versions.
   NSString *expectedShortVer = @"2.5.3-alpha+EF69A";
   NSString *expectedVersion = @"2.5.3.1";
-  NSDictionary<NSString *, id> *plist =
-      @{ @"CFBundleShortVersionString" : expectedShortVer,
-         @"CFBundleVersion" : expectedVersion };
+  NSDictionary<NSString *, id> *plist = @{
+    @"CFBundleShortVersionString" : expectedShortVer,
+    @"CFBundleVersion" : expectedVersion
+  };
   id bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
   OCMStub([bundleMock infoDictionary]).andReturn(plist);
@@ -202,9 +204,10 @@
 
   // Mock current versions.
   NSString *expectedVersion = @"2.5.3.1";
-  NSDictionary<NSString *, id> *plist =
-      @{ @"CFBundleShortVersionString" : @"not sementic versioning",
-         @"CFBundleVersion" : expectedVersion };
+  NSDictionary<NSString *, id> *plist = @{
+    @"CFBundleShortVersionString" : @"not sementic versioning",
+    @"CFBundleVersion" : expectedVersion
+  };
   id bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
   OCMStub([bundleMock infoDictionary]).andReturn(plist);
@@ -242,9 +245,10 @@
 
   // Mock current versions.
   NSString *expectedVersion = @"2.5.3.1";
-  NSDictionary<NSString *, id> *plist =
-      @{ @"CFBundleShortVersionString" : @"not sementic versioning",
-         @"CFBundleVersion" : expectedVersion };
+  NSDictionary<NSString *, id> *plist = @{
+    @"CFBundleShortVersionString" : @"not sementic versioning",
+    @"CFBundleVersion" : expectedVersion
+  };
   id bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
   OCMStub([bundleMock infoDictionary]).andReturn(plist);
@@ -282,9 +286,10 @@
 
   // Mock current versions.
   NSString *expectedShortVer = @"2.5.3-alpha+EF69A";
-  NSDictionary<NSString *, id> *plist =
-      @{ @"CFBundleShortVersionString" : expectedShortVer,
-         @"CFBundleVersion" : @"2.5.3.1" };
+  NSDictionary<NSString *, id> *plist = @{
+    @"CFBundleShortVersionString" : expectedShortVer,
+    @"CFBundleVersion" : @"2.5.3.1"
+  };
   id bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
   OCMStub([bundleMock infoDictionary]).andReturn(plist);

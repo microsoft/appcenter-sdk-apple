@@ -15,11 +15,11 @@
 /**
  * Mock the conditions to allow updates.
  */
-+(void)mockUpdatesAllowedConditions;
++ (void)mockUpdatesAllowedConditions;
 
 /**
  * Unmock the conditions to allow updates.
  */
-+(void)unMockUpdatesAllowedConditions;
++ (void)unMockUpdatesAllowedConditions;
 
 @end
