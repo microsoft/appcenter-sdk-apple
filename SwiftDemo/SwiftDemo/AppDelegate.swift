@@ -41,6 +41,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate {
 
     return true
   }
+  
+  /**
+   *  This addition is required in case apps support iOS 8. Apps that are iOS 9 and later don't need to implement this
+   * as our SDK uses SFSafariViewController for MSDistribute.
+   */
+  func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+    
+    // Forward the URL to MSDistribute.
+    MSDistribute.open(url as URL!)
+    return true
+  }
 
   func applicationWillResignActive(_ application: UIApplication) {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -69,11 +80,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate {
   func crashes(_ crashes: MSCrashes!, shouldProcessErrorReport errorReport: MSErrorReport!) -> Bool {
     return true;
     // return true if the crash report should be processed, otherwise false.
-  }
-
-  func attachment(with crashes: MSCrashes!, for errorReport: MSErrorReport!) -> MSErrorAttachment! {
-    let attachment = MSErrorAttachment.init(text: "TextAttachment", andBinaryData: (String("Hello World")?.data(using: String.Encoding.utf8))!, filename: "binary.txt", mimeType: "text/plain")
-    return attachment
   }
 
   func crashes(_ crashes: MSCrashes!, willSend errorReport: MSErrorReport!) {
