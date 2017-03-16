@@ -30,7 +30,7 @@
   NSMutableArray *cxxFrames = [NSMutableArray arrayWithCapacity:self.info->exception_frames_count];
   
   for (uint32_t i = 0; i < self.info->exception_frames_count; ++i) {
-    [cxxFrames addObject:[NSNumber numberWithUnsignedLongLong:self.info->exception_frames[i]]];
+    [cxxFrames addObject:@(self.info->exception_frames[i])];
   }
   
   return cxxFrames;

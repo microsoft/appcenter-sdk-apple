@@ -182,9 +182,8 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
   NetworkStatus returnValue = NotReachable;
 
   if ((flags & kSCNetworkReachabilityFlagsConnectionRequired) == 0) {
-    /*
-If the target host is reachable and no connection is required then we'll assume (for now) that you're on Wi-Fi...
-*/
+
+    // If the target host is reachable and no connection is required then we'll assume (for now) that you're on Wi-Fi...
     returnValue = ReachableViaWiFi;
   }
 
@@ -204,9 +203,8 @@ If the target host is reachable and no connection is required then we'll assume 
   }
 
   if ((flags & kSCNetworkReachabilityFlagsIsWWAN) == kSCNetworkReachabilityFlagsIsWWAN) {
-    /*
-... but WWAN connections are OK if the calling application is using the CFNetwork APIs.
-*/
+
+    // ... but WWAN connections are OK if the calling application is using the CFNetwork APIs.
     returnValue = ReachableViaWWAN;
   }
 

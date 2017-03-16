@@ -8,6 +8,7 @@
 #import "MSDistributePrivate.h"
 #import "MSDistributeSender.h"
 #import "MSDistributeUtil.h"
+#import "MSErrorDetails.h"
 #import "MSKeychainUtil.h"
 #import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
@@ -38,7 +39,7 @@ static NSString *const kMSUpdateTokenApiPathFormat = @"/apps/%@/update-setup";
 
 #pragma mark - Error constants
 
-static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid update API token URL:%@";
+static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid update token URL:%@";
 
 @implementation MSDistribute
 
@@ -50,13 +51,13 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     _installUrl = kMSDefaultInstallUrl;
 
     /*
-     * Delete API token if an application has been uninstalled and try to get a new one from server.
+     * Delete update token if an application has been uninstalled and try to get a new one from server.
      * For iOS version < 10.3, keychain data won't be automatically deleted by uninstall
      * so we should detect it and clean up keychain data when Distribute service gets initialized.
      */
     NSNumber *flag = [MS_USER_DEFAULTS objectForKey:kMSSDKHasLaunchedWithDistribute];
     if (!flag) {
-      MSLogInfo([MSDistribute logTag], @"Delete API token if exists.");
+      MSLogInfo([MSDistribute logTag], @"Delete update token if exists.");
       [MSKeychainUtil deleteStringForKey:kMSUpdateTokenKey];
       [MS_USER_DEFAULTS setObject:@(1) forKey:kMSSDKHasLaunchedWithDistribute];
     }
@@ -73,6 +74,10 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     sharedInstance = [[self alloc] init];
   });
   return sharedInstance;
+}
+
++ (NSString *)serviceName {
+  return kMSServiceName;
 }
 
 + (NSString *)logTag {
@@ -138,12 +143,12 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     if ([MS_Reachability reachabilityForInternetConnection].currentReachabilityStatus == NotReachable) {
       MSLogWarning(
           [MSDistribute logTag],
-          @"The device lost its internet connection. The SDK will retry to get an update API token in the next launch.");
+          @"The device lost its internet connection. The SDK will retry to get an update token in the next launch.");
       return;
     }
 
     NSURL *url;
-    MSLogInfo([MSDistribute logTag], @"Request Distribute API token.");
+    MSLogInfo([MSDistribute logTag], @"Request Distribute update token.");
 
     // Most failures here require an app update. Thus, it will be retried only on next App instance.
     url = [self buildTokenRequestURLWithAppSecret:self.appSecret];
@@ -202,6 +207,9 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
               return;
             }
 
+            // Error instance for JSON parsing.
+            NSError *jsonError = nil;
+
             // Success.
             if (statusCode == MSHTTPCodesNo200OK) {
               id dictionary =
@@ -210,10 +218,11 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
               if (!details) {
                 MSLogError([MSDistribute logTag], @"Couldn't parse response payload.");
               } else {
-                NSData *jsonData =
-                    [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:&error];
+                NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
+                                                                   options:NSJSONWritingPrettyPrinted
+                                                                     error:&jsonError];
                 NSString *jsonString = nil;
-                if (!jsonData || error) {
+                if (!jsonData || jsonError) {
                   jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                 } else {
 
@@ -233,13 +242,14 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                          (unsigned long)statusCode);
               NSString *jsonString = nil;
               id dictionary =
-                  [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+                  [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&jsonError];
 
               // Failure can deliver non-JSON format of payload.
-              if (!error) {
-                NSData *jsonData =
-                    [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:&error];
-                if (jsonData && !error) {
+              if (!jsonError) {
+                NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
+                                                                   options:NSJSONWritingPrettyPrinted
+                                                                     error:&jsonError];
+                if (jsonData && !jsonError) {
 
                   // NSJSONSerialization escapes paths by default so we replace them.
                   jsonString = [[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]
@@ -247,8 +257,29 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                                                 withString:@"/"];
                 }
               }
-              MSLogError([MSDistribute logTag], @"Response:\n%@",
-                         jsonString ? jsonString : [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+
+              // Check the status code to clean up Distribute data for an unrecoverable error.
+              if (![MSSenderUtil isRecoverableError:statusCode]) {
+
+                // Deserialize payload to check if it contains error details.
+                MSErrorDetails *details = nil;
+                if (dictionary) {
+                  details = [[MSErrorDetails alloc] initWithDictionary:dictionary];
+                }
+
+                // If the response payload is MSErrorDetails, consider it as a recoverable error.
+                if (!details || ![details.code isEqualToString:kMSErrorCodeNoReleasesForUser]) {
+                  [MSKeychainUtil deleteStringForKey:kMSUpdateTokenKey];
+                  [MS_USER_DEFAULTS removeObjectForKey:kMSSDKHasLaunchedWithDistribute];
+                  [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
+                  [MS_USER_DEFAULTS removeObjectForKey:kMSIgnoredReleaseIdKey];
+                }
+              }
+
+              if (!jsonString) {
+                jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+              }
+              MSLogError([MSDistribute logTag], @"Response:\n%@", jsonString ? jsonString : @"No payload");
             }
           }];
     }
@@ -298,19 +329,13 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     return nil;
   }
 
-  /*
-   * BuildUUID is different on every build with code changes.
-   * BuildUUID is used in this case as key prefix to get values from Safari cookies.
-   * For testing purposes you can update the related Safari cookie keys to the BuildUUID of your choice
-   * using JavaScript via Safari Web Inspector.
-   */
-  NSString *buildUUID = [[[MSBasicMachOParser machOParserForMainBundle].uuid UUIDString] lowercaseString];
-  if (!buildUUID) {
-    MSLogError([MSDistribute logTag], @"Cannot retrieve build UUID.");
+  // Build release hash.
+  NSString *releaseHash = MSPackageHash();
+  if (!releaseHash) {
     return nil;
   }
 
-  // Check custom sheme is registered.
+  // Check custom scheme is registered.
   NSString *scheme = [NSString stringWithFormat:kMSDefaultCustomSchemeFormat, appSecret];
   if (![self checkURLSchemeRegistered:scheme]) {
     MSLogError([MSDistribute logTag], @"Custom URL scheme for Distribute not found.");
@@ -319,7 +344,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
   // Set URL query parameters.
   NSMutableArray *items = [NSMutableArray array];
-  [items addObject:[NSURLQueryItem queryItemWithName:kMSURLQueryReleaseHashKey value:buildUUID]];
+  [items addObject:[NSURLQueryItem queryItemWithName:kMSURLQueryReleaseHashKey value:releaseHash]];
   [items addObject:[NSURLQueryItem queryItemWithName:kMSURLQueryRedirectIdKey value:scheme]];
   [items addObject:[NSURLQueryItem queryItemWithName:kMSURLQueryRequestIdKey value:requestId]];
   [items addObject:[NSURLQueryItem queryItemWithName:kMSURLQueryPlatformKey value:kMSURLQueryPlatformValue]];
@@ -414,9 +439,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 }
 
 - (BOOL)isNewerVersion:(MSReleaseDetails *)details {
-  NSString *installedVersionUUID = [[[MSBasicMachOParser machOParserForMainBundle].uuid UUIDString] lowercaseString];
-  NSArray<NSString *> *latestVersionUUIDs = details.packageHashes;
-  return ![latestVersionUUIDs containsObject:installedVersionUUID];
+  return MSCompareCurrentReleaseWithRelease(details) == NSOrderedAscending;
 }
 
 - (void)showConfirmationAlert:(MSReleaseDetails *)details {
