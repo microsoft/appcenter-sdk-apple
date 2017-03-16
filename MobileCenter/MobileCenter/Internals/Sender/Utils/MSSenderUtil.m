@@ -3,7 +3,7 @@
 @implementation MSSenderUtil
 
 + (BOOL)isRecoverableError:(NSInteger)statusCode {
-  return statusCode >= 500 || statusCode == 408 || statusCode == 429 || statusCode == 401;
+  return statusCode >= 500 || statusCode == 408 || statusCode == 429;
 }
 
 + (NSInteger)getStatusCode:(NSURLResponse *)response {
