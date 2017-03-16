@@ -383,7 +383,11 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
 - (void)openURLInSafariApp:(NSURL *)url {
   MSLogDebug([MSDistribute logTag], @"Using Safari browser to open URL: %@", url);
-  [MSUtil sharedAppOpenUrl:url options:@{} completionHandler:nil];
+  
+  /* Dispatch the open url call to the next loop to avoid freezing the App new instance start up */
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [MSUtil sharedAppOpenUrl:url options:@{} completionHandler:nil];
+  });
 }
 
 - (void)handleUpdate:(MSReleaseDetails *)details {
