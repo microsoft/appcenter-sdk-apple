@@ -92,34 +92,36 @@
 + (nullable NSArray<MSFile *> *)filesForDirectory:(nullable NSURL *)directoryURL
                                 withFileExtension:(nullable NSString *)fileExtension {
   NSFileManager *fileManager = [NSFileManager defaultManager];
+  NSError *error = nil;
 
   // Check validity.
   if (!directoryURL || !fileExtension) {
     return nil;
   }
-  NSString * path = [directoryURL path];
 
   // Check file existing
-  if (!path || ![fileManager fileExistsAtPath:path]) {
+  if (![directoryURL checkResourceIsReachableAndReturnError:&error]) {
     return nil;
   }
 
   NSMutableArray<MSFile *> *files;
-  NSError *error;
-  NSArray *allFiles = [fileManager contentsOfDirectoryAtPath:path error:&error];
+  NSArray *allFiles = [fileManager contentsOfDirectoryAtURL:directoryURL
+                                 includingPropertiesForKeys:@[NSURLCreationDateKey]
+                                                    options:NSDirectoryEnumerationSkipsHiddenFiles
+                                                      error:&error];
   if (error) {
-    MSLogError([MSMobileCenter logTag], @"Couldn't read %@-files for directory %@: %@", fileExtension, path,
+    MSLogError([MSMobileCenter logTag], @"Couldn't read %@-files for directory %@: %@", fileExtension, directoryURL,
                 error.localizedDescription);
     return nil;
   } else {
-    NSPredicate *extensionFilter = [NSPredicate predicateWithFormat:@"self ENDSWITH[cd] %@", fileExtension];
+    NSPredicate *extensionFilter = [NSPredicate predicateWithFormat:@"self.path ENDSWITH[cd] %@", fileExtension];
     NSArray *filteredFiles = [allFiles filteredArrayUsingPredicate:extensionFilter];
 
     files = [NSMutableArray new];
-    for (NSString *fileName in filteredFiles) {
-      NSURL *fileURL = [directoryURL URLByAppendingPathComponent:fileName];
-      NSString *fileId = [fileName stringByDeletingPathExtension];
-      NSDate *creationDate = [self creationDateForFileAtURL:fileURL];
+    for (NSURL *fileURL in filteredFiles) {
+      NSString *fileId = [[fileURL URLByDeletingPathExtension] lastPathComponent];
+      NSDate *creationDate = nil;
+      [fileURL getResourceValue:&creationDate forKey:NSURLCreationDateKey error:&error];
       MSFile *file = [[MSFile alloc] initWithURL:fileURL fileId:fileId creationDate:creationDate];
       [files addObject:file];
     }
@@ -129,17 +131,6 @@
 }
 
 #pragma mark - Helpers
-
-+ (NSDate *)creationDateForFileAtURL:(NSURL *)fileURL {
-  NSError *error;
-  NSDate *creationDate;
-  [fileURL getResourceValue:&creationDate forKey:NSURLContentModificationDateKey error:&error];
-  if (error) {
-    MSLogWarning([MSMobileCenter logTag], @"Couldn't read creation date of file %@: %@", fileURL, error.localizedDescription);
-  }
-
-  return creationDate;
-}
 
 + (BOOL)createDirectoryAtURL:(NSURL *)directoryURL {
   if (directoryURL) {
@@ -159,20 +150,20 @@
 
 + (BOOL)createFileAtURL:(NSURL *)fileURL {
   if (fileURL) {
-    NSString * filePath = [fileURL path];
-    if (!filePath || [self.fileManager fileExistsAtPath:filePath]) {
-        return NO;
+    NSError *error = nil;
+    if ([fileURL checkResourceIsReachableAndReturnError:&error]) {
+      return NO;
     }
     NSURL * directoryURL = [fileURL URLByDeletingLastPathComponent];
     NSString * directoryPath = [directoryURL path];
-    if (directoryPath && ![self.fileManager fileExistsAtPath:directoryPath]) {
+    if (![directoryURL checkResourceIsReachableAndReturnError:&error]) {
       [self createDirectoryAtURL:directoryURL];
     }
 
-    if ([self.fileManager createFileAtPath:filePath contents:[NSData new] attributes:nil]) {
+    if ([[NSData data] writeToURL:fileURL atomically:NO]) {
       return YES;
     } else {
-      MSLogError([MSMobileCenter logTag], @"Couldn't create new file at path %@", filePath);
+      MSLogError([MSMobileCenter logTag], @"Couldn't create new file at path %@", fileURL);
     }
   }
   return NO;
