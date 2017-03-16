@@ -116,7 +116,7 @@ import MobileCenterDistribute
 
 ### 2. Start the SDK
 
-Mobile Center provides you with three modules to get started: `MobileCenter` (required), `MobileCenterAnalytics`,  `MobileCenterCrashes` and  `MobileCenterDistribute` (all other are optional). In order to use Mobile Center services, you need to opt in for the module(s) that you'd like, meaning by default no modules are started and you will have to explicitly call each of them - Analytics, Crashes and Distribute when starting the SDK.
+Mobile Center provides you with four modules to get started: `MobileCenter` (required), `MobileCenterAnalytics`,  `MobileCenterCrashes` and  `MobileCenterDistribute` (all but the first one are optional). In order to use Mobile Center services, you need to opt in for the module(s) that you'd like, meaning by default no modules are started and you will have to explicitly call each of them - Analytics, Crashes and Distribute when starting the SDK.
 
 **Objective-C** 
 
@@ -138,23 +138,54 @@ You can also copy paste the `start` method call from the Overview page on Mobile
     
 The example above shows how to use the `start` method and include all the services offered in the SDK. If you wish not to use any of these services - say Analytics, remove the parameter from the method call above. Note that, unless you explicitly specify each module as parameters in the start method, you can't use that Mobile Center service. Also, the `start` API can be used only once in the lifecycle of your app – all other calls will log a warning to the console and only the modules included in the first call will be available.
 
-### 3. If you are adding the Distribute service or use the default variant of the SDK
+### 3. Enable MSDistribute to provide in-app-updates
 
 1. Open your `Info.plist`.
 2. Add a new key for `URL types` or `CFBundleURLTypes` (in case Xcode displays your `Info.plist` as source code).
 3. Change the key of the first child item to URL Schemes or `CFBundleURLSchemes`.
-4. Enter `mobilecenter-${APP_SECRET}` as the URL scheme and replace `${APP_SECRET}` with the App Secret of your app.  
+4. Enter `mobilecenter-${APP_SECRET}` as the URL scheme and replace `${APP_SECRET}` with the App Secret of your app.
 
+If your app supports iOS 9 and later, congratulations, you are done!
+
+#### Implement UIApplicationDelegate callback to enable MSDistribute on iOS 8
+
+If your app is supporting iOS8, you need to implement one of `UIApplicationDelegate`'s callbacks to pass the installation URL to `MobileCenterDistribute`.
+
+**Objective-C**
+
+```objectivec
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation {
+         
+  // Pass the url to MSDistribute.
+  [MSDistribute openUrl:url];
+  return YES;
+}
+
+```
+
+**Swift**
+
+```swift
+func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+    
+  // Pass the URL to MSDistribute.
+  MSDistribute.open(url as URL!)
+  return true
+}
+```
 
 ## 4. Analytics APIs
 
-### Track Session, Device Properties
+### Track Session and device properties
 
 Once the Analytics module is included in your app and the SDK is started, it will automatically track sessions, device properties like OS version, model, manufacturer etc. and you don’t need to add any additional code.
 
 Look at the section above on how to [Start the SDK](#3-start-the-sdk) if you haven't started it yet.
 
-### Custom Events
+### Custom events
 
 You can track your own custom events with specific properties to know what's happening in your app, understand user actions, and see the aggregates in the Mobile Center portal. Once you have started the SDK, use the `trackEvent` method to track your events with properties.
 
@@ -338,7 +369,7 @@ func crashes(_ crashes: MSCrashes!, shouldProcessErrorReport errorReport: MSErro
 }
 ```
         
-#### User Confirmation
+#### User confirmation
 
 By default the SDK automatically sends crash reports to Mobile Center. However, the SDK exposes a callback where you can tell it to await user confirmation before sending any crash reports. This requires at least one additional step.
 
@@ -528,7 +559,9 @@ Your typical setup code would look like this:
 
 ## 6. Distribute APIs
 
-You can easily let your users get the latest version of your app by integrating the `Distribute` service of the Mobile Center SDK. All you need to do is pass the service name as a parameter in the `start` API call. Once that is done, the SDK checks for new updates in the background. If it finds a new update, users will see a dialog with three options - `Download`, `Postpone` and `Ignore`. If the user presses `Download`, it will trigger the new version to be installed. `Postpone` will delay the download until the app is opened again. `Ignore` will not prompt the user again for that particular app version.
+You can easily let your users get the latest version of your app by integrating the `Distribute` service of the Mobile Center SDK. Please follow the paragraph in [Start the SDK](#3-start-the-sdk) to setup MobileCenterDistribute.
+
+Once that is done, the SDK checks for new updates once per the app's lifetime. If the app is currently in the foreground or suspended in the background, you might need to kill the app to get the latest update. If it finds a new update, users will see a dialog with three options - `Download`, `Postpone` and `Ignore`. If the user presses `Download`, the SDK will trigger the new version to be installed. `Postpone` will delay the download until the app is opened again. `Ignore` will not prompt the user again for that particular app version.
 
 You can easily provide your own resource strings if you'd like to localize the text displayed in the update dialog. Look at the string files [here](https://github.com/Microsoft/mobile-center-sdk-ios/blob/base/updates/MobileCenterUpdates/MobileCenterUpdates/Resources/en.lproj/MobileCenterUpdates.strings). Use the same string name and specify the localized value to be reflected in the dialog in your own app resource files.  
 
@@ -578,7 +611,7 @@ You can control the amount of log messages by the SDK that show up. Use the `set
 MSMobileCenter.setLogLevel(MSLogLevel.Verbose)
 ```
 
-### Get Install Identifier
+### Get install identifier
 
 The SDK creates a UUID for each device once the app is installed. This identifier remains the same for a device when the app is updated and a new one is generated only when the app is re-installed. The following API is useful for debugging purposes:
 
