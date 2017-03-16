@@ -285,6 +285,7 @@
 				046FDBD21E5682FA00AF9DD1 /* MSAlertController.m */,
 			);
 			name = Vendor;
+			path = MobileCenterDistribute;
 			sourceTree = "<group>";
 		};
 		0471B5F31E45466F0022F951 /* Support */ = {
@@ -332,6 +333,7 @@
 				04FD4A321E453531009B4468 /* MobileCenterDistributeTests */,
 				B2C070B91E5E68540076D6A9 /* Resources */,
 				04FD4A1D1E451E12009B4468 /* Products */,
+				046FDBD51E56830400AF9DD1 /* Vendor */,
 			);
 			sourceTree = "<group>";
 		};
@@ -353,7 +355,6 @@
 				0471B8981E4547480022F951 /* MSDistribute.m */,
 				04690E841E4E39850056B916 /* Internals */,
 				0471B5F31E45466F0022F951 /* Support */,
-				046FDBD51E56830400AF9DD1 /* Vendor */,
 			);
 			path = MobileCenterDistribute;
 			sourceTree = "<group>";
