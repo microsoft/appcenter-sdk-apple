@@ -142,6 +142,7 @@ static NSURL *sfURL;
 - (void)testOpenURLInSafariApp {
 
   // If
+  XCTestExpectation *openURLCalledExpectation = [self expectationWithDescription:@"openURL Called."];
   NSURL *url = [NSURL URLWithString:@"https://contoso.com"];
   id appMock = OCMClassMock([UIApplication class]);
   OCMStub([appMock sharedApplication]).andReturn(appMock);
@@ -150,9 +151,19 @@ static NSURL *sfURL;
 
   // When
   [self.sut openURLInSafariApp:url];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [openURLCalledExpectation fulfill];
+  });
 
   // Then
-  OCMVerify([appMock openURL:url]);
+  [self
+   waitForExpectationsWithTimeout:1
+   handler:^(NSError *error) {
+     OCMVerify([appMock openURL:url]);
+     if (error) {
+       XCTFail(@"Expectation Failed with error: %@", error);
+     }
+   }];
 }
 
 - (void)testOpenURLInEmbeddedSafari {
