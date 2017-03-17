@@ -13,6 +13,7 @@
 		B219241D1DCD0C7500D5797D /* MobileCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B219241C1DCD0C7500D5797D /* MobileCenterAnalytics.framework */; };
 		B219241F1DCD0C8400D5797D /* MobileCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B219241E1DCD0C8400D5797D /* MobileCenterCrashes.framework */; };
 		B27DCBA91DDA96F100B97C84 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = B27DCBA81DDA96F100B97C84 /* MSAlertController.m */; };
+		D341DBC71E77E1E300D385F9 /* MobileCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D341DBC61E77E1E300D385F9 /* MobileCenterPush.framework */; };
 		E118DF2C1DE5791600E63722 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E118DF191DE5791600E63722 /* AppDelegate.swift */; };
 		E118DF2D1DE5791600E63722 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E118DF1A1DE5791600E63722 /* Assets.xcassets */; };
 		E118DF2E1DE5791600E63722 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E118DF1B1DE5791600E63722 /* LaunchScreen.storyboard */; };
@@ -42,6 +43,7 @@
 		B2CDD1031DCCFAAC00610725 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B2CDD10C1DCCFAAC00610725 /* SwiftDemoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDemoUITests.swift; sourceTree = "<group>"; };
 		B2CDD10E1DCCFAAC00610725 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D341DBC61E77E1E300D385F9 /* MobileCenterPush.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterPush.framework; path = "../MobileCenter-SDK-iOS/MobileCenterPush.framework"; sourceTree = "<group>"; };
 		E118DF191DE5791600E63722 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E118DF1A1DE5791600E63722 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E118DF1C1DE5791600E63722 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -66,6 +68,7 @@
 				B219241F1DCD0C8400D5797D /* MobileCenterCrashes.framework in Frameworks */,
 				B219241D1DCD0C7500D5797D /* MobileCenterAnalytics.framework in Frameworks */,
 				B219241B1DCD0C6D00D5797D /* MobileCenter.framework in Frameworks */,
+				D341DBC71E77E1E300D385F9 /* MobileCenterPush.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,6 +78,7 @@
 		38C9C58C1E56958C00B0FA0D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D341DBC61E77E1E300D385F9 /* MobileCenterPush.framework */,
 				38C9C58D1E56958C00B0FA0D /* SafariServices.framework */,
 			);
 			name = Frameworks;
@@ -247,6 +251,11 @@
 						DevelopmentTeam = L4RARDNZ2Y;
 						LastSwiftMigration = 0810;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
