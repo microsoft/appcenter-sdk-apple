@@ -11,7 +11,7 @@
 		04CCCA461D88AA93005D8180 /* MobileCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04CCCA451D88AA93005D8180 /* MobileCenterAnalytics.framework */; };
 		04CCCA481D88AA9F005D8180 /* MobileCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04CCCA471D88AA9F005D8180 /* MobileCenterCrashes.framework */; };
 		382EC1DB1DDB805400A60DBD /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 382EC1DA1DDB805400A60DBD /* NotificationCenter.framework */; };
-		382EC1E61DDB805400A60DBD /* DemoWidget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 382EC1D81DDB805400A60DBD /* DemoWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		382EC1E61DDB805400A60DBD /* SasquatchObjCWidget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 382EC1D81DDB805400A60DBD /* SasquatchObjCWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		382EC1F91DDB9F7F00A60DBD /* TodayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 382EC1F71DDB9F7F00A60DBD /* TodayViewController.m */; };
 		382EC1FC1DDB9FA400A60DBD /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 382EC1FA1DDB9FA400A60DBD /* MainInterface.storyboard */; };
 		382EC2001DDBBB6800A60DBD /* MobileCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04CCCA471D88AA9F005D8180 /* MobileCenterCrashes.framework */; };
@@ -31,7 +31,7 @@
 			containerPortal = 6E2307CD1D22083C0031C598 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 382EC1D71DDB805400A60DBD;
-			remoteInfo = DemoWidget;
+			remoteInfo = SasquatchObjCWidget;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -42,7 +42,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				382EC1E61DDB805400A60DBD /* DemoWidget.appex in Embed App Extensions */,
+				382EC1E61DDB805400A60DBD /* SasquatchObjCWidget.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -53,14 +53,14 @@
 		04CCCA431D88AA86005D8180 /* MobileCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenter.framework; path = ../Products/MobileCenter/MobileCenter.framework; sourceTree = "<group>"; };
 		04CCCA451D88AA93005D8180 /* MobileCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterAnalytics.framework; path = ../Products/MobileCenterAnalytics/MobileCenterAnalytics.framework; sourceTree = "<group>"; };
 		04CCCA471D88AA9F005D8180 /* MobileCenterCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterCrashes.framework; path = ../Products/MobileCenterCrashes/MobileCenterCrashes.framework; sourceTree = "<group>"; };
-		382EC1D81DDB805400A60DBD /* DemoWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = DemoWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		382EC1D81DDB805400A60DBD /* SasquatchObjCWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SasquatchObjCWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		382EC1DA1DDB805400A60DBD /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		382EC1E31DDB805400A60DBD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		382EC1F71DDB9F7F00A60DBD /* TodayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TodayViewController.m; sourceTree = "<group>"; };
 		382EC1F81DDB9F7F00A60DBD /* TodayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TodayViewController.h; sourceTree = "<group>"; };
 		382EC1FB1DDB9FA400A60DBD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		384959E81D49786A008F6B3A /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
-		6E2307D51D22083C0031C598 /* Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E2307D51D22083C0031C598 /* SasquatchObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SasquatchObjC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E2307D91D22083C0031C598 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6E2307DB1D22083C0031C598 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		6E2307DC1D22083C0031C598 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -105,7 +105,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		382EC1DC1DDB805400A60DBD /* DemoWidget */ = {
+		382EC1DC1DDB805400A60DBD /* SasquatchObjCWidget */ = {
 			isa = PBXGroup;
 			children = (
 				382EC1F81DDB9F7F00A60DBD /* TodayViewController.h */,
@@ -113,15 +113,15 @@
 				382EC1FA1DDB9FA400A60DBD /* MainInterface.storyboard */,
 				382EC1E31DDB805400A60DBD /* Info.plist */,
 			);
-			path = DemoWidget;
+			path = SasquatchObjCWidget;
 			sourceTree = "<group>";
 		};
 		6E2307CC1D22083C0031C598 = {
 			isa = PBXGroup;
 			children = (
 				6E2307EF1D2208670031C598 /* Vendor */,
-				6E2307D71D22083C0031C598 /* Demo */,
-				382EC1DC1DDB805400A60DBD /* DemoWidget */,
+				6E2307D71D22083C0031C598 /* SasquatchObjC */,
+				382EC1DC1DDB805400A60DBD /* SasquatchObjCWidget */,
 				382EC1D91DDB805400A60DBD /* Frameworks */,
 				6E2307D61D22083C0031C598 /* Products */,
 			);
@@ -130,13 +130,13 @@
 		6E2307D61D22083C0031C598 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6E2307D51D22083C0031C598 /* Demo.app */,
-				382EC1D81DDB805400A60DBD /* DemoWidget.appex */,
+				6E2307D51D22083C0031C598 /* SasquatchObjC.app */,
+				382EC1D81DDB805400A60DBD /* SasquatchObjCWidget.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		6E2307D71D22083C0031C598 /* Demo */ = {
+		6E2307D71D22083C0031C598 /* SasquatchObjC */ = {
 			isa = PBXGroup;
 			children = (
 				384959E81D49786A008F6B3A /* Constants.h */,
@@ -150,7 +150,7 @@
 				6E2307E91D22083C0031C598 /* Info.plist */,
 				6E2307D81D22083C0031C598 /* Supporting Files */,
 			);
-			path = Demo;
+			path = SasquatchObjC;
 			sourceTree = "<group>";
 		};
 		6E2307D81D22083C0031C598 /* Supporting Files */ = {
@@ -174,9 +174,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		382EC1D71DDB805400A60DBD /* DemoWidget */ = {
+		382EC1D71DDB805400A60DBD /* SasquatchObjCWidget */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 382EC1E91DDB805400A60DBD /* Build configuration list for PBXNativeTarget "DemoWidget" */;
+			buildConfigurationList = 382EC1E91DDB805400A60DBD /* Build configuration list for PBXNativeTarget "SasquatchObjCWidget" */;
 			buildPhases = (
 				382EC1D41DDB805400A60DBD /* Sources */,
 				382EC1D51DDB805400A60DBD /* Frameworks */,
@@ -186,14 +186,14 @@
 			);
 			dependencies = (
 			);
-			name = DemoWidget;
-			productName = DemoWidget;
-			productReference = 382EC1D81DDB805400A60DBD /* DemoWidget.appex */;
+			name = SasquatchObjCWidget;
+			productName = SasquatchObjCWidget;
+			productReference = 382EC1D81DDB805400A60DBD /* SasquatchObjCWidget.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
-		6E2307D41D22083C0031C598 /* Demo */ = {
+		6E2307D41D22083C0031C598 /* SasquatchObjC */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6E2307EC1D22083C0031C598 /* Build configuration list for PBXNativeTarget "Demo" */;
+			buildConfigurationList = 6E2307EC1D22083C0031C598 /* Build configuration list for PBXNativeTarget "SasquatchObjC" */;
 			buildPhases = (
 				6E2307D11D22083C0031C598 /* Sources */,
 				6E2307D21D22083C0031C598 /* Frameworks */,
@@ -205,9 +205,9 @@
 			dependencies = (
 				382EC1E51DDB805400A60DBD /* PBXTargetDependency */,
 			);
-			name = Demo;
-			productName = Demo;
-			productReference = 6E2307D51D22083C0031C598 /* Demo.app */;
+			name = SasquatchObjC;
+			productName = SasquatchObjC;
+			productReference = 6E2307D51D22083C0031C598 /* SasquatchObjC.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -230,7 +230,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 6E2307D01D22083C0031C598 /* Build configuration list for PBXProject "Demo" */;
+			buildConfigurationList = 6E2307D01D22083C0031C598 /* Build configuration list for PBXProject "SasquatchObjC" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -243,8 +243,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6E2307D41D22083C0031C598 /* Demo */,
-				382EC1D71DDB805400A60DBD /* DemoWidget */,
+				6E2307D41D22083C0031C598 /* SasquatchObjC */,
+				382EC1D71DDB805400A60DBD /* SasquatchObjCWidget */,
 			);
 		};
 /* End PBXProject section */
@@ -294,7 +294,7 @@
 /* Begin PBXTargetDependency section */
 		382EC1E51DDB805400A60DBD /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 382EC1D71DDB805400A60DBD /* DemoWidget */;
+			target = 382EC1D71DDB805400A60DBD /* SasquatchObjCWidget */;
 			targetProxy = 382EC1E41DDB805400A60DBD /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -332,10 +332,10 @@
 			buildSettings = {
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)/**";
-				INFOPLIST_FILE = DemoWidget/Info.plist;
+				INFOPLIST_FILE = SasquatchObjCWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.demo.DemoWidget;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc.SasquatchObjCWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -346,10 +346,10 @@
 			buildSettings = {
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)/**";
-				INFOPLIST_FILE = DemoWidget/Info.plist;
+				INFOPLIST_FILE = SasquatchObjCWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.demo.DemoWidget;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc.SasquatchObjCWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -454,10 +454,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = Demo/Info.plist;
+				INFOPLIST_FILE = SasquatchObjC/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.demo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -469,10 +469,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = Demo/Info.plist;
+				INFOPLIST_FILE = SasquatchObjC/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.demo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -480,7 +480,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		382EC1E91DDB805400A60DBD /* Build configuration list for PBXNativeTarget "DemoWidget" */ = {
+		382EC1E91DDB805400A60DBD /* Build configuration list for PBXNativeTarget "SasquatchObjCWidget" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				382EC1E71DDB805400A60DBD /* Debug */,
@@ -489,7 +489,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6E2307D01D22083C0031C598 /* Build configuration list for PBXProject "Demo" */ = {
+		6E2307D01D22083C0031C598 /* Build configuration list for PBXProject "SasquatchObjC" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6E2307EA1D22083C0031C598 /* Debug */,
@@ -498,7 +498,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6E2307EC1D22083C0031C598 /* Build configuration list for PBXNativeTarget "Demo" */ = {
+		6E2307EC1D22083C0031C598 /* Build configuration list for PBXNativeTarget "SasquatchObjC" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6E2307ED1D22083C0031C598 /* Debug */,

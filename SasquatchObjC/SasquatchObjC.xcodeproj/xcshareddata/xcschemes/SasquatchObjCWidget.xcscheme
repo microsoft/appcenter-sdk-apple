@@ -58,9 +58,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "382EC1D71DDB805400A60DBD"
-               BuildableName = "DemoWidget.appex"
-               BlueprintName = "DemoWidget"
-               ReferencedContainer = "container:Demo.xcodeproj">
+               BuildableName = "SasquatchObjCWidget.appex"
+               BlueprintName = "SasquatchObjCWidget"
+               ReferencedContainer = "container:SasquatchObjC.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -72,9 +72,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6E2307D41D22083C0031C598"
-               BuildableName = "Demo.app"
-               BlueprintName = "Demo"
-               ReferencedContainer = "container:Demo.xcodeproj">
+               BuildableName = "SasquatchObjC.app"
+               BlueprintName = "SasquatchObjC"
+               ReferencedContainer = "container:SasquatchObjC.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -90,9 +90,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6E2307D41D22083C0031C598"
-            BuildableName = "Demo.app"
-            BlueprintName = "Demo"
-            ReferencedContainer = "container:Demo.xcodeproj">
+            BuildableName = "SasquatchObjC.app"
+            BlueprintName = "SasquatchObjC"
+            ReferencedContainer = "container:SasquatchObjC.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -128,9 +128,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6E2307D41D22083C0031C598"
-            BuildableName = "Demo.app"
-            BlueprintName = "Demo"
-            ReferencedContainer = "container:Demo.xcodeproj">
+            BuildableName = "SasquatchObjC.app"
+            BlueprintName = "SasquatchObjC"
+            ReferencedContainer = "container:SasquatchObjC.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -148,9 +148,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6E2307D41D22083C0031C598"
-            BuildableName = "Demo.app"
-            BlueprintName = "Demo"
-            ReferencedContainer = "container:Demo.xcodeproj">
+            BuildableName = "SasquatchObjC.app"
+            BlueprintName = "SasquatchObjC"
+            ReferencedContainer = "container:SasquatchObjC.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
