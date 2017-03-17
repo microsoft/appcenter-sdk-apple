@@ -1,5 +1,5 @@
 #import "MSAnalyticsInternal.h"
-#import "MSUtil.h"
+#import "MSUtility+Date.h"
 #import "MSSessionTracker.h"
 #import "MSStartSessionLog.h"
 
@@ -64,7 +64,7 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
       // Record session.
       MSSessionHistoryInfo *sessionInfo = [[MSSessionHistoryInfo alloc] init];
       sessionInfo.sessionId = _sessionId;
-      sessionInfo.toffset = [NSNumber numberWithLongLong:[MSUtil nowInMilliseconds]];
+      sessionInfo.toffset = [NSNumber numberWithLongLong:[MSUtility  nowInMilliseconds]];
 
       // Insert at the beginning of the list.
       [self.pastSessions insertObject:sessionInfo atIndex:0];
@@ -91,8 +91,8 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
   if (!self.started) {
 
     // Request a new session id depending on the application state.
-    if ([MSUtil applicationState] == MSApplicationStateInactive ||
-        [MSUtil applicationState] == MSApplicationStateActive) {
+    if ([MSUtility  applicationState] == MSApplicationStateInactive ||
+        [MSUtility  applicationState] == MSApplicationStateActive) {
       [self sessionId];
     }
 
