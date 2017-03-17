@@ -15,6 +15,12 @@ static dispatch_once_t onceToken;
 // Base URL for HTTP backend API calls.
 static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 
+// Service name for initialization.
+static NSString *const kMSServiceName = @"MobileCenter";
+
+// The group ID for storage.
+static NSString *const kMSGroupID = @"MobileCenter";
+
 @implementation MSMobileCenter
 
 @synthesize installId = _installId;
@@ -123,7 +129,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 }
 
 + (NSString *)logTag {
-  return @"MobileCenter";
+  return kMSServiceName;
 }
 
 #pragma mark - private
@@ -351,7 +357,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 - (void)sendStartServiceLog:(NSArray<NSString *> *)servicesNames {
   MSStartServiceLog *serviceLog = [MSStartServiceLog new];
   serviceLog.services = servicesNames;
-  [self.logManager processLog:serviceLog withPriority:MSPriorityDefault];
+  [self.logManager processLog:serviceLog withPriority:MSPriorityDefault andGroupID:kMSGroupID];
 }
 
 + (void)resetSharedInstance {

@@ -6,19 +6,13 @@
 #import "MSServiceAbstractProtected.h"
 #import "MSAnalyticsInternal.h"
 
-/**
- * Service storage key name.
- */
+// Service name for initialization.
 static NSString *const kMSServiceName = @"Analytics";
 
-/**
- *  GroupID.
- */
+// The group ID for storage.
 static NSString *const kMSGroupID = @"Analytics";
 
-/**
- * Singleton
- */
+// Singleton
 static MSAnalytics *sharedInstance = nil;
 static dispatch_once_t onceToken;
 
@@ -220,7 +214,7 @@ static dispatch_once_t onceToken;
 - (void)sendLog:(id<MSLog>)log withPriority:(MSPriority)priority {
 
   // Send log to log manager.
-  [self.logManager processLog:log withPriority:priority];
+  [self.logManager processLog:log withPriority:priority andGroupID:self.groupID];
 }
 
 + (void)resetSharedInstance {

@@ -42,8 +42,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param log The log item that should be enqueued.
  * @param priority The priority for processing the log.
+ * @param groupID The groupID for processing the log.
  */
-- (void)processLog:(id<MSLog>)log withPriority:(MSPriority)priority;
+- (void)processLog:(id<MSLog>)log withPriority:(MSPriority)priority andGroupID:(NSString *)groupID;
 
 /**
  *  Enable/disable this instance and delete data on disabled state.

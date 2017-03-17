@@ -90,7 +90,7 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 
 #pragma mark - Process items
 
-- (void)processLog:(id<MSLog>)log withPriority:(MSPriority)priority {
+- (void)processLog:(id<MSLog>)log withPriority:(MSPriority)priority andGroupID:(NSString *)groupID {
   if (!log) {
     return;
   }

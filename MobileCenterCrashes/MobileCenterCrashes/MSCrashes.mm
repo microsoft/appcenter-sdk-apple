@@ -10,12 +10,10 @@
 #import "MSWrapperExceptionManager.h"
 #import "MSUtility+Environment.h"
 
-/**
- *  Service name.
- */
+// Service name for initialization.
 static NSString *const kMSServiceName = @"Crashes";
 
-// Group ID
+// The group ID for storage.
 static NSString *const kMSGroupID = @"Crashes";
 
 /**
@@ -187,7 +185,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     }
 
     // Send log to log manager.
-    [crashes.logManager processLog:log withPriority:crashes.priority];
+    [crashes.logManager processLog:log withPriority:crashes.priority andGroupID:crashes.groupID];
     [crashes deleteCrashReportWithFilePath:filePath];
     [MSWrapperExceptionManager deleteWrapperExceptionDataWithUUIDString:report.incidentIdentifier];
     [crashes.crashFiles removeObject:filePath];
@@ -652,7 +650,8 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
         if (serializedLog && serializedLog.length && serializedLog.length > 0) {
           id<MSLog> item = [NSKeyedUnarchiver unarchiveObjectWithData:serializedLog];
           if (item) {
-            [self.logManager processLog:item withPriority:(MSPriority)priority];
+            // TODO check which groupID to use here!
+            [self.logManager processLog:item withPriority:(MSPriority)priority andGroupID:@"CrashBuffer"];
           }
         }
 
