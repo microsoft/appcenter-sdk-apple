@@ -117,7 +117,7 @@
 		D35D61821E785FBA00D81A0F /* MSSqliteConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = D35D61811E785FBA00D81A0F /* MSSqliteConnection.m */; };
 		D35D61841E785FD500D81A0F /* MSDatabaseConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = D35D61831E785FD500D81A0F /* MSDatabaseConnection.h */; };
 		D35D61851E78617400D81A0F /* MSSqliteConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = D35D617F1E785FAB00D81A0F /* MSSqliteConnection.h */; };
-		D35D618E1E79397D00D81A0F /* libtclsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D35D618D1E79397D00D81A0F /* libtclsqlite3.dylib */; };
+		D36136831E7BB338004AE043 /* MSStoragePerfomanceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D36136821E7BB338004AE043 /* MSStoragePerfomanceTests.m */; };
 		D38023E81E6EFC7C00466558 /* MSStartServiceLog.m in Sources */ = {isa = PBXBuildFile; fileRef = D38023E61E6EFC7C00466558 /* MSStartServiceLog.m */; };
 		D38023E91E6EFC7C00466558 /* MSStartServiceLog.h in Headers */ = {isa = PBXBuildFile; fileRef = D38023E71E6EFC7C00466558 /* MSStartServiceLog.h */; };
 		D38024061E7126F500466558 /* MSServiceAbstract.m in Sources */ = {isa = PBXBuildFile; fileRef = D38024051E7126F500466558 /* MSServiceAbstract.m */; };
@@ -283,8 +283,8 @@
 		D35D617F1E785FAB00D81A0F /* MSSqliteConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSSqliteConnection.h; sourceTree = "<group>"; };
 		D35D61811E785FBA00D81A0F /* MSSqliteConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSSqliteConnection.m; sourceTree = "<group>"; };
 		D35D61831E785FD500D81A0F /* MSDatabaseConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDatabaseConnection.h; sourceTree = "<group>"; };
-		D35D618D1E79397D00D81A0F /* libtclsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libtclsqlite3.dylib; path = ../../../../Vendor/SQLite/libtclsqlite3.dylib; sourceTree = "<group>"; };
 		D36136771E7A80E7004AE043 /* MSDBLogs.sqlite */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = MSDBLogs.sqlite; path = MobileCenter/MSDBLogs.sqlite; sourceTree = "<group>"; };
+		D36136821E7BB338004AE043 /* MSStoragePerfomanceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSStoragePerfomanceTests.m; sourceTree = "<group>"; };
 		D38023E61E6EFC7C00466558 /* MSStartServiceLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSStartServiceLog.m; sourceTree = "<group>"; };
 		D38023E71E6EFC7C00466558 /* MSStartServiceLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSStartServiceLog.h; sourceTree = "<group>"; };
 		D38024051E7126F500466558 /* MSServiceAbstract.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSServiceAbstract.m; sourceTree = "<group>"; };
@@ -325,7 +325,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D35D618E1E79397D00D81A0F /* libtclsqlite3.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -529,6 +528,7 @@
 				04FD126A1E4103CC007ABFE7 /* MSKeychainUtilTests.m */,
 				B2FD53641E567BCF0050F909 /* MSDeviceHistoryInfoTests.m */,
 				D38024111E7130C700466558 /* MSStartServiceLogTests.m */,
+				D36136821E7BB338004AE043 /* MSStoragePerfomanceTests.m */,
 			);
 			path = MobileCenterTests;
 			sourceTree = "<group>";
@@ -559,7 +559,6 @@
 		E83283C21D46C62E000B029E /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
-				D35D618D1E79397D00D81A0F /* libtclsqlite3.dylib */,
 				E83283C31D46C62E000B029E /* Reachability */,
 			);
 			path = Vendor;
@@ -882,6 +881,7 @@
 				385FC0551D37EBD700A1799F /* MSDeviceTrackerTests.m in Sources */,
 				6EB1F40E1D2443B7005F9F99 /* MSChannelDefaultTests.m in Sources */,
 				384959D51D491D4F008F6B3A /* MSMobileCenterTests.m in Sources */,
+				D36136831E7BB338004AE043 /* MSStoragePerfomanceTests.m in Sources */,
 				6E5D8A801D25B91F00C033B1 /* MSFileUtilTests.m in Sources */,
 				386E8D931E25932100EECF0F /* MSHttpTestUtil.m in Sources */,
 				B2FD53651E567BCF0050F909 /* MSDeviceHistoryInfoTests.m in Sources */,
@@ -1011,7 +1011,6 @@
 			buildSettings = {
 				"ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				OTHER_LDFLAGS = "-ObjC";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenter;
 				PRODUCT_NAME = MobileCenter;
@@ -1026,7 +1025,6 @@
 			buildSettings = {
 				"ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				OTHER_LDFLAGS = "-ObjC";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenter;
 				PRODUCT_NAME = MobileCenter;

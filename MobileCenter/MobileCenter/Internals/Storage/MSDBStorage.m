@@ -41,29 +41,14 @@ static NSString *const kMSDataColumnName = @"data";
 #pragma mark - Public
 
 - (BOOL)saveLog:(id <MSLog>)log withStorageKey:(NSString *)storageKey {
-
-  MSLogVerbose(@"MSDBStorage", @"saving log with storage key %@", storageKey);
-
   if (!log) {
     return NO;
   }
-
   NSData *logData = [NSKeyedArchiver archivedDataWithRootObject:log];
   NSString *base64Data = [logData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
-
-  /////////
-  MSLogVerbose(@"MSDBStorage", @"base64Data: %@", base64Data);
-  /////////
-
   NSString *addLogQuery = [NSString stringWithFormat:@"insert or replace into %@ values ('%@', '%@')",
                                    kMSLogTableName, storageKey, base64Data];
-
-
-  BOOL result = [self.connection executeQuery:addLogQuery];
-
-  MSLogVerbose(@"MSDBStorage", @"Log has been saved successfully %d", result);
-
-  return result;
+  return [self.connection executeQuery:addLogQuery];
 }
 
 - (NSArray <MSLog> *)deleteLogsForStorageKey:(NSString *)storageKey {
@@ -104,15 +89,7 @@ static NSString *const kMSDataColumnName = @"data";
   for (NSArray<NSString*> *row in result) {
     NSString *base64Data = row[1];
     NSData *logData = [[NSData alloc] initWithBase64EncodedString:base64Data options:NSDataBase64DecodingIgnoreUnknownCharacters];
-
-    //////
-    MSLogVerbose(@"MSDBStorage", @"base64Data: %@", base64Data);
-    //////
-
     id<MSLog> log = [NSKeyedUnarchiver unarchiveObjectWithData:logData];
-
-    MSLogVerbose(@"MSDBStorage", @"Restored log not nil? %@", log != nil ? @"YES, not nil" : @"NO, it's nil");
-
     [logs addObject:log];
   }
   return logs;

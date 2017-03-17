@@ -115,8 +115,6 @@
             // Convert the column data to text (characters).
             const char *dbDataAsChars = (const char*) sqlite3_column_text(compiledStatement, i);
 
-            NSLog(@"dbDataAsChars %s", dbDataAsChars);
-
             // If there are contents in the currenct column (field) then add them to the current row array.
             if (dbDataAsChars != NULL) {
 
@@ -192,7 +190,6 @@
 -(BOOL)executeQuery:(NSString *)query{
   
   // Run the query and indicate that is executable.
-  NSLog(@"query %@", query);
   return [self runQuery:[query UTF8String] isQueryExecutable:YES];
 }
 

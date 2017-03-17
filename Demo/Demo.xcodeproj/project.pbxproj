@@ -23,8 +23,6 @@
 		6E2307E31D22083C0031C598 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6E2307E11D22083C0031C598 /* Main.storyboard */; };
 		6E2307E51D22083C0031C598 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E2307E41D22083C0031C598 /* Assets.xcassets */; };
 		6E2307E81D22083C0031C598 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6E2307E61D22083C0031C598 /* LaunchScreen.storyboard */; };
-		D36136721E7A79D7004AE043 /* libtclsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D36136711E7A79D7004AE043 /* libtclsqlite3.dylib */; };
-		D36136731E7A7AF5004AE043 /* libtclsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D36136711E7A79D7004AE043 /* libtclsqlite3.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,7 +70,6 @@
 		6E2307E41D22083C0031C598 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6E2307E71D22083C0031C598 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6E2307E91D22083C0031C598 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D36136711E7A79D7004AE043 /* libtclsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libtclsqlite3.dylib; path = ../Vendor/SQLite/libtclsqlite3.dylib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,7 +77,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D36136721E7A79D7004AE043 /* libtclsqlite3.dylib in Frameworks */,
 				382EC1DB1DDB805400A60DBD /* NotificationCenter.framework in Frameworks */,
 				382EC2001DDBBB6800A60DBD /* MobileCenterCrashes.framework in Frameworks */,
 				382EC2011DDBBB6800A60DBD /* MobileCenterAnalytics.framework in Frameworks */,
@@ -92,7 +88,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D36136731E7A7AF5004AE043 /* libtclsqlite3.dylib in Frameworks */,
 				04CCCA481D88AA9F005D8180 /* MobileCenterCrashes.framework in Frameworks */,
 				04CCCA461D88AA93005D8180 /* MobileCenterAnalytics.framework in Frameworks */,
 				04CCCA441D88AA86005D8180 /* MobileCenter.framework in Frameworks */,
@@ -105,7 +100,6 @@
 		382EC1D91DDB805400A60DBD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D36136711E7A79D7004AE043 /* libtclsqlite3.dylib */,
 				382EC1DA1DDB805400A60DBD /* NotificationCenter.framework */,
 			);
 			name = Frameworks;
