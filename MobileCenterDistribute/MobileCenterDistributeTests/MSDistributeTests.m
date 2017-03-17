@@ -2,12 +2,15 @@
 #import <Foundation/Foundation.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
+#import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 
+#import "MSAlertController.h"
 #import "MSBasicMachOParser.h"
 #import "MSDistribute.h"
 #import "MSDistributeInternal.h"
 #import "MSDistributePrivate.h"
+#import "MSDistributeTestUtil.h"
 #import "MSDistributeUtil.h"
 #import "MSKeychainUtil.h"
 #import "MSLogManager.h"
@@ -66,6 +69,9 @@ static NSURL *sfURL;
   [MSKeychainUtil clear];
   self.sut = [MSDistribute new];
 
+  // Make sure we disable the debug-mode checks so we can actually test the logic.
+  [MSDistributeTestUtil mockUpdatesAllowedConditions];
+
   // MSBasicMachOParser may fail on test projects' main bundle. It's mocked to prevent it.
   id parserMock = OCMClassMock([MSBasicMachOParser class]);
   self.parserMock = parserMock;
@@ -80,14 +86,16 @@ static NSURL *sfURL;
   [MS_USER_DEFAULTS removeObjectForKey:kMSIgnoredReleaseIdKey];
   [MSKeychainUtil clear];
   [self.parserMock stopMocking];
+  [MSDistributeTestUtil unMockUpdatesAllowedConditions];
 }
 
 - (void)testUpdateURL {
 
   // If
-  NSArray *bundleArray = @[
-    @{ @"CFBundleURLSchemes" : @[ [NSString stringWithFormat:@"mobilecenter-%@", kMSTestAppSecret] ] }
-  ];
+  NSArray *bundleArray =
+      @[ @{
+        @"CFBundleURLSchemes" : @[ [NSString stringWithFormat:@"mobilecenter-%@", kMSTestAppSecret] ]
+      } ];
   id bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
   NSDictionary<NSString *, id> *plist = @{ @"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1" };
@@ -141,6 +149,7 @@ static NSURL *sfURL;
 - (void)testOpenURLInSafariApp {
 
   // If
+  XCTestExpectation *openURLCalledExpectation = [self expectationWithDescription:@"openURL Called."];
   NSURL *url = [NSURL URLWithString:@"https://contoso.com"];
   id appMock = OCMClassMock([UIApplication class]);
   OCMStub([appMock sharedApplication]).andReturn(appMock);
@@ -149,9 +158,19 @@ static NSURL *sfURL;
 
   // When
   [self.sut openURLInSafariApp:url];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [openURLCalledExpectation fulfill];
+  });
 
   // Then
-  OCMVerify([appMock openURL:url]);
+  [self
+   waitForExpectationsWithTimeout:1
+   handler:^(NSError *error) {
+     OCMVerify([appMock openURL:url]);
+     if (error) {
+       XCTFail(@"Expectation Failed with error: %@", error);
+     }
+   }];
 }
 
 - (void)testOpenURLInEmbeddedSafari {
@@ -260,14 +279,69 @@ static NSURL *sfURL;
   OCMVerify([distributeMock showConfirmationAlert:[OCMArg any]]);
 }
 
-- (void)testOpenUrl {
+- (void)testShowConfirmationAlert {
 
-  // Make sure we disable the debug-mode checks so we can actually test the logic.
-  id mobileCenterMock = OCMClassMock([MSMobileCenter class]);
-  OCMStub([mobileCenterMock isDebuggerAttached]).andReturn(NO);
-  id utilMock = OCMClassMock([MSUtil class]);
-  OCMStub([utilMock isRunningInDebugConfiguration]).andReturn(NO);
-  OCMStub([utilMock currentAppEnvironment]).andReturn(MSEnvironmentOther);
+  // If
+  id mobileCenterMock = OCMPartialMock(self.sut);
+  id alertControllerMock = OCMClassMock([MSAlertController class]);
+  MSReleaseDetails *details = [MSReleaseDetails new];
+  OCMStub([alertControllerMock alertControllerWithTitle:[OCMArg any] message:[OCMArg any]])
+      .andReturn(alertControllerMock);
+  details.releaseNotes = @"Release Note";
+  details.mandatoryUpdate = false;
+
+  // When
+  XCTestExpectation *expection = [self expectationWithDescription:@"Confirmation alert has been displayed"];
+  [mobileCenterMock showConfirmationAlert:details];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [expection fulfill];
+  });
+
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+
+                                 // Then
+                                 OCMVerify([alertControllerMock alertControllerWithTitle:[OCMArg any]
+                                                                                 message:details.releaseNotes]);
+                                 OCMVerify(
+                                     [alertControllerMock addDefaultActionWithTitle:[OCMArg any] handler:[OCMArg any]]);
+                                 OCMVerify(
+                                     [alertControllerMock addCancelActionWithTitle:[OCMArg any] handler:[OCMArg any]]);
+                               }];
+}
+
+- (void)testShowConfirmationAlertForMandatoryUpdate {
+
+  // If
+  id mobileCenterMock = OCMPartialMock(self.sut);
+  id alertControllerMock = OCMClassMock([MSAlertController class]);
+  MSReleaseDetails *details = [MSReleaseDetails new];
+  OCMStub([alertControllerMock alertControllerWithTitle:[OCMArg any] message:[OCMArg any]])
+      .andReturn(alertControllerMock);
+  details.releaseNotes = @"Release Note";
+  details.mandatoryUpdate = true;
+
+  // When
+  XCTestExpectation *expection = [self expectationWithDescription:@"Confirmation alert has been displayed"];
+  [mobileCenterMock showConfirmationAlert:details];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [expection fulfill];
+  });
+
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+
+                                 // Then
+                                 OCMVerify([alertControllerMock alertControllerWithTitle:[OCMArg any]
+                                                                                 message:details.releaseNotes]);
+                                 OCMReject(
+                                     [alertControllerMock addDefaultActionWithTitle:[OCMArg any] handler:[OCMArg any]]);
+                                 OCMVerify(
+                                     [alertControllerMock addCancelActionWithTitle:[OCMArg any] handler:[OCMArg any]]);
+                               }];
+}
+
+- (void)testOpenUrl {
 
   // If
   NSString *scheme = [NSString stringWithFormat:kMSDefaultCustomSchemeFormat, kMSTestAppSecret];
@@ -375,13 +449,6 @@ static NSURL *sfURL;
 
 - (void)testApplyEnabledStateTrue {
 
-  // Make sure we disable the debug-mode checks so we can actually test the logic.
-  id mobileCenterMock = OCMClassMock([MSMobileCenter class]);
-  OCMStub([mobileCenterMock isDebuggerAttached]).andReturn(NO);
-  id utilMock = OCMClassMock([MSUtil class]);
-  OCMStub([utilMock isRunningInDebugConfiguration]).andReturn(NO);
-  OCMStub([utilMock currentAppEnvironment]).andReturn(MSEnvironmentOther);
-
   // If
   id distributeMock = OCMPartialMock(self.sut);
   OCMStub([distributeMock checkLatestRelease:[OCMArg any]]).andDo(nil);
@@ -422,6 +489,7 @@ static NSURL *sfURL;
 - (void)testcheckForUpdatesAllConditionsMet {
 
   // If
+  [MSDistributeTestUtil unMockUpdatesAllowedConditions];
   id mobileCenterMock = OCMClassMock([MSMobileCenter class]);
   id utilMock = OCMClassMock([MSUtil class]);
   id distributeMock = OCMPartialMock(self.sut);
@@ -447,6 +515,7 @@ static NSURL *sfURL;
 - (void)testcheckForUpdatesDebuggerAttached {
 
   // When
+  [MSDistributeTestUtil unMockUpdatesAllowedConditions];
   id mobileCenterMock = OCMClassMock([MSMobileCenter class]);
   id utilMock = OCMClassMock([MSUtil class]);
   OCMStub([mobileCenterMock isDebuggerAttached]).andReturn(YES);
@@ -460,6 +529,7 @@ static NSURL *sfURL;
 - (void)testcheckForUpdatesDebugConfig {
 
   // When
+  [MSDistributeTestUtil unMockUpdatesAllowedConditions];
   id mobileCenterMock = OCMClassMock([MSMobileCenter class]);
   id utilMock = OCMClassMock([MSUtil class]);
   OCMStub([mobileCenterMock isDebuggerAttached]).andReturn(NO);
@@ -473,6 +543,7 @@ static NSURL *sfURL;
 - (void)testcheckForUpdatesInvalidEnvironment {
 
   // When
+  [MSDistributeTestUtil unMockUpdatesAllowedConditions];
   id mobileCenterMock = OCMClassMock([MSMobileCenter class]);
   id utilMock = OCMClassMock([MSUtil class]);
   OCMStub([mobileCenterMock isDebuggerAttached]).andReturn(NO);
@@ -544,6 +615,162 @@ static NSURL *sfURL;
 
   // Then
   assertThat(hash, equalTo(@"1ddf47f8dda8928174c419d530adcc13bb63cebfaf823d83ad5269b41e638ef4"));
+}
+
+- (void)testDismissEmbeddedSafari {
+
+  // If
+  XCTestExpectation *safariDismissedExpectation = [self expectationWithDescription:@"Safari dismissed processed"];
+  id viewControllerMock = OCMClassMock([UIViewController class]);
+  self.sut.safariHostingViewController = nil;
+
+  // When
+  [self.sut dismissEmbeddedSafari];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [safariDismissedExpectation fulfill];
+  });
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 OCMReject([viewControllerMock dismissViewControllerAnimated:OCMOCK_ANY
+                                                                                  completion:OCMOCK_ANY]);
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
+- (void)testDismissEmbeddedSafariWithNilVC {
+
+  // If
+  XCTestExpectation *safariDismissedExpectation = [self expectationWithDescription:@"Safari dismissed processed"];
+  self.sut.safariHostingViewController = nil;
+
+  // When
+  [self.sut dismissEmbeddedSafari];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [safariDismissedExpectation fulfill];
+  });
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+
+                                 // No exceptions so far test succeeded.
+                                 assertThat(self.sut.safariHostingViewController, nilValue());
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
+- (void)testDismissEmbeddedSafariWithNilSelf {
+
+  // If
+  XCTestExpectation *safariDismissedExpectation = [self expectationWithDescription:@"Safari dismissed processed"];
+  self.sut.safariHostingViewController = nil;
+
+  // When
+  [self.sut dismissEmbeddedSafari];
+  self.sut = nil;
+
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [safariDismissedExpectation fulfill];
+  });
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+
+                                 // No exceptions so far test succeeded.
+                                 assertThat(self.sut, nilValue());
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
+- (void)testDismissEmbeddedSafariWithValidVC {
+
+  // If
+  XCTestExpectation *safariDismissedExpectation = [self expectationWithDescription:@"Safari dismissed processed"];
+  id viewControllerMock = OCMClassMock([UIViewController class]);
+  self.sut.safariHostingViewController = viewControllerMock;
+
+  // When
+  [self.sut dismissEmbeddedSafari];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [safariDismissedExpectation fulfill];
+  });
+
+  // Then
+  [self
+      waitForExpectationsWithTimeout:1
+                             handler:^(NSError *error) {
+                               OCMVerify([viewControllerMock dismissViewControllerAnimated:YES completion:OCMOCK_ANY]);
+                               if (error) {
+                                 XCTFail(@"Expectation Failed with error: %@", error);
+                               }
+                             }];
+}
+
+- (void)testDismissEmbeddedSafariWhenOpenURL {
+
+  // If
+  id distributeMock = OCMPartialMock(self.sut);
+  OCMStub([distributeMock sharedInstance]).andReturn(distributeMock);
+  OCMStub([distributeMock isEnabled]).andReturn(YES);
+  ((MSDistribute *)distributeMock).appSecret = kMSTestAppSecret;
+  id userDefaultsMock = OCMClassMock([MSUserDefaults class]);
+  OCMStub([userDefaultsMock shared]).andReturn(userDefaultsMock);
+  OCMStub([userDefaultsMock objectForKey:kMSUpdateTokenRequestIdKey]).andReturn(@"FIRST-REQUEST");
+  NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://?request_id=FIRST-REQUEST&update_token=token",
+                                                               [NSString stringWithFormat:kMSDefaultCustomSchemeFormat,
+                                                                                          kMSTestAppSecret]]];
+  XCTestExpectation *safariDismissedExpectation = [self expectationWithDescription:@"Safari dismissed processed"];
+  id viewControllerMock = OCMClassMock([UIViewController class]);
+  self.sut.safariHostingViewController = viewControllerMock;
+
+  // When
+  [MSDistribute openUrl:url];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [safariDismissedExpectation fulfill];
+  });
+
+  // Then
+  [self
+      waitForExpectationsWithTimeout:1
+                             handler:^(NSError *error) {
+                               OCMVerify([viewControllerMock dismissViewControllerAnimated:YES completion:OCMOCK_ANY]);
+                               if (error) {
+                                 XCTFail(@"Expectation Failed with error: %@", error);
+                               }
+                             }];
+}
+
+- (void)testDismissEmbeddedSafariWhenDisabling {
+
+  // If
+  XCTestExpectation *safariDismissedExpectation = [self expectationWithDescription:@"Safari dismissed processed"];
+  id viewControllerMock = OCMClassMock([UIViewController class]);
+  self.sut.safariHostingViewController = viewControllerMock;
+
+  // When
+  [self.sut applyEnabledState:NO];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [safariDismissedExpectation fulfill];
+  });
+
+  // Then
+  [self
+      waitForExpectationsWithTimeout:1
+                             handler:^(NSError *error) {
+                               OCMVerify([viewControllerMock dismissViewControllerAnimated:YES completion:OCMOCK_ANY]);
+                               if (error) {
+                                 XCTFail(@"Expectation Failed with error: %@", error);
+                               }
+                             }];
 }
 
 @end

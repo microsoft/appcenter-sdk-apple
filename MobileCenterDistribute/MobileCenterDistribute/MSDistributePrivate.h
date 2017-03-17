@@ -1,4 +1,5 @@
 #import <Foundation/Foundation.h>
+
 #import "MSDistribute.h"
 
 /**
@@ -41,6 +42,11 @@ static NSString *const kMSSDKHasLaunchedWithDistribute = @"MSSDKHasLaunchedWithD
 static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
 
 @interface MSDistribute ()
+
+/**
+ * View controller presenting the `SFSafariViewController`.
+ */
+@property(nonatomic) UIViewController *safariHostingViewController;
 
 /**
  * Build the install URL for token request with the given application secret.
@@ -108,5 +114,10 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
  * @return BOOL indicating that it's okay to check for updates.
  */
 - (BOOL)checkForUpdatesAllowed;
+
+/**
+ * Dismiss the Safari hosting view controller.
+ */
+- (void)dismissEmbeddedSafari;
 
 @end
