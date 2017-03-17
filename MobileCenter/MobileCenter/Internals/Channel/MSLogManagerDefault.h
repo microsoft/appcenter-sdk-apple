@@ -55,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * A dictionary containing priority keys and their channel.
  */
-@property(nonatomic, copy) NSMutableDictionary<NSNumber *, id<MSChannel>> *channels;
+@property(nonatomic, copy) NSMutableDictionary<NSString *, id<MSChannel>> *channels;
 
 @end
 

@@ -45,7 +45,7 @@
 - (void)applyEnabledState:(BOOL)isEnabled {
 
   // Propagate isEnabled and delete logs on disabled.
-  [self.logManager setEnabled:isEnabled andDeleteDataOnDisabled:YES forPriority:self.priority];
+  [self.logManager setEnabled:isEnabled andDeleteDataOnDisabled:YES forGroupID:self.groupID withPriority:self.priority];
 }
 
 - (BOOL)canBeUsed {

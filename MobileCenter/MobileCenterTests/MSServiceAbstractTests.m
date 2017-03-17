@@ -280,12 +280,14 @@
    *  If
    */
   __block MSPriority priority;
+  __block NSString *groupID;
   __block BOOL deleteLogs;
   __block BOOL forwardedEnabled;
   id<MSLogManager> logManagerMock = OCMClassMock([MSLogManagerDefault class]);
-  OCMStub([logManagerMock setEnabled:NO andDeleteDataOnDisabled:YES forPriority:self.abstractService.priority])
+  OCMStub([logManagerMock setEnabled:NO andDeleteDataOnDisabled:YES forGroupID:self.abstractService.groupID withPriority:self.abstractService.priority])
       .andDo(^(NSInvocation *invocation) {
-        [invocation getArgument:&priority atIndex:4];
+        [invocation getArgument:&priority atIndex:5];
+        [invocation getArgument:&groupID atIndex:4];
         [invocation getArgument:&deleteLogs atIndex:3];
         [invocation getArgument:&forwardedEnabled atIndex:2];
       });
@@ -302,16 +304,19 @@
    */
 
   // Check that log deletion has been triggered.
-  OCMVerify([logManagerMock setEnabled:NO andDeleteDataOnDisabled:YES forPriority:self.abstractService.priority]);
+  OCMVerify([logManagerMock setEnabled:NO andDeleteDataOnDisabled:YES forGroupID:self.abstractService.groupID withPriority:self.abstractService.priority]);
 
+  // GroupID from the service must match the groupID used to delete logs.
+  XCTAssertTrue(self.abstractService.groupID == groupID);
+  
   // Priority from the service must match priority used to delete logs.
-  assertThatBool((self.abstractService.priority == priority), isTrue());
+  XCTAssertTrue(self.abstractService.priority == priority);
 
   // Must request for deletion.
-  assertThatBool(deleteLogs, isTrue());
+  XCTAssertTrue(deleteLogs);
 
   // Must request for disabling.
-  assertThatBool(forwardedEnabled, isFalse());
+  XCTAssertFalse(forwardedEnabled);
 }
 
 - (void)testEnableLogManagerOnstartWithLogManager {
@@ -324,7 +329,7 @@
   [self.abstractService startWithLogManager:logManagerMock appSecret:@"TestAppSecret"];
 
   // Then
-  OCMVerify([logManagerMock setEnabled:YES andDeleteDataOnDisabled:YES forPriority:self.abstractService.priority]);
+  OCMVerify([logManagerMock setEnabled:YES andDeleteDataOnDisabled:YES forGroupID:self.abstractService.groupID withPriority:self.abstractService.priority]);
 }
 
 - (void)testInitializationPriorityCorrect {

@@ -48,7 +48,7 @@
   [sut processLog:log withPriority:priority andGroupID:groupID];
 
   // Then
-  assertThat(sut.channels[@(priority)], notNilValue());
+  assertThat(sut.channels[groupID], notNilValue());
 }
 
 - (void)testProcessingLogWillTriggerOnProcessingCall {

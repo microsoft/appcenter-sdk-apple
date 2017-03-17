@@ -257,7 +257,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     self.crashFiles = [self persistedCrashReports];
 
     // Set self as delegate of crashes' channel.
-    [self.logManager addChannelDelegate:self forPriority:MSPriorityHigh];
+    [self.logManager addChannelDelegate:self forGroupID:self.groupID withPriority:self.priority];
 
     // Process PLCrashReports, this will format the PLCrashReport into our schema and then trigger sending.
     // This mostly happens on the start of the service.
@@ -286,9 +286,9 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     [self.plCrashReporter purgePendingCrashReport];
 
     // Remove as ChannelDelegate from LogManager
-    [self.logManager removeChannelDelegate:self forPriority:MSPriorityHigh];
-    [self.logManager removeChannelDelegate:self forPriority:MSPriorityDefault];
-    [self.logManager removeChannelDelegate:self forPriority:MSPriorityBackground];
+    [self.logManager removeChannelDelegate:self forGroupID:self.groupID withPriority:self.priority];
+    [self.logManager removeChannelDelegate:self forGroupID:self.groupID withPriority:self.priority];
+    [self.logManager removeChannelDelegate:self forGroupID:self.groupID withPriority:self.priority];
     MSLogInfo([MSCrashes logTag], @"Crashes service has been disabled.");
   }
 }

@@ -87,7 +87,7 @@ static dispatch_once_t onceToken;
     [self.logManager addDelegate:self.sessionTracker];
 
     // Set self as delegate of analytics channel.
-    [self.logManager addChannelDelegate:self forPriority:self.priority];
+    [self.logManager addChannelDelegate:self forGroupID:self.groupID withPriority:self.priority];
 
     // Report current page while auto page traking is on.
     if (self.autoPageTrackingEnabled) {
@@ -103,7 +103,7 @@ static dispatch_once_t onceToken;
     MSLogInfo([MSAnalytics logTag], @"Analytics service has been enabled.");
   } else {
     [self.logManager removeDelegate:self.sessionTracker];
-    [self.logManager removeChannelDelegate:self forPriority:self.priority];
+    [self.logManager removeChannelDelegate:self forGroupID:self.groupID withPriority:self.priority];
     [self.sessionTracker stop];
     [self.sessionTracker clearSessions];
     MSLogInfo([MSAnalytics logTag], @"Analytics service has been disabled.");
