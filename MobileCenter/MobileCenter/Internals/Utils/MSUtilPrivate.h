@@ -1,12 +1,8 @@
-#import "MSUtility+Application.h"
+#import "MSUtil.h"
 
 #import <UIKit/UIKit.h>
 
-/**
- * Utility class that is used throughout the SDK.
- * Application private part.
- */
-@interface MSUtility (Application)
+@interface MSUtil ()
 
 /**
  * Get the shared app state.

@@ -1,17 +1,16 @@
+#import "MSServiceAbstractInternal.h"
+#import "MSServiceInternal.h"
+#import "MSLogger.h"
+
 #import "Model/MSAbstractLog.h"
+#import "MSDevice.h"
 #import "Model/MSLog.h"
 #import "Model/MSLogContainer.h"
 #import "Model/MSLogWithProperties.h"
 #import "Model/Utils/MSUserDefaults.h"
-#import "MSDevice.h"
-#import "MSLogger.h"
-#import "MSServiceAbstractInternal.h"
-#import "MSServiceInternal.h"
-#import "MSUtility+Application.h"
-#import "MSUtility+Date.h"
-#import "MSUtility+Environment.h"
 #import "MSWrapperSdk.h"
+#import "MSUtil.h"
 
-// Channel.
+// Channel
 #import "Channel/MSLogManagerDelegate.h"
 #import "Channel/MSChannelDelegate.h"
