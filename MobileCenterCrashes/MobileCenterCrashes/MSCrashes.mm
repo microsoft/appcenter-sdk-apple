@@ -15,6 +15,9 @@
  */
 static NSString *const kMSServiceName = @"Crashes";
 
+// Group ID
+static NSString *const kMSGroupID = @"Crashes";
+
 /**
  * Name for the AnalyzerInProgress file. Some background info here: writing the file to signal that we are processing
  * crashes proved to be faster and more reliable as e.g. storing a flag in the NSUserDefaults.
@@ -320,7 +323,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 }
 
 - (NSString *)groupID {
-  return kMSServiceName;
+  return kMSGroupID;
 }
 
 - (MSPriority)priority {

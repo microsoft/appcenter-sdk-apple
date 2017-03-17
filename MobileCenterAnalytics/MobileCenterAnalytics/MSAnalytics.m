@@ -12,6 +12,11 @@
 static NSString *const kMSServiceName = @"Analytics";
 
 /**
+ *  GroupID.
+ */
+static NSString *const kMSGroupID = @"Analytics";
+
+/**
  * Singleton
  */
 static MSAnalytics *sharedInstance = nil;
@@ -64,7 +69,7 @@ static dispatch_once_t onceToken;
 }
 
 - (NSString *)groupID {
-  return kMSServiceName;
+  return kMSGroupID;
 }
 
 - (MSPriority)priority {
