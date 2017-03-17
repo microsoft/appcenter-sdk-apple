@@ -4,6 +4,7 @@
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
+#import "MSAlertController.h"
 #import "MSBasicMachOParser.h"
 #import "MSDistribute.h"
 #import "MSDistributeInternal.h"
@@ -269,6 +270,68 @@ static NSURL *sfURL;
 
   // Then
   OCMVerify([distributeMock showConfirmationAlert:[OCMArg any]]);
+}
+
+- (void)testShowConfirmationAlert {
+
+  // If
+  id mobileCenterMock = OCMPartialMock(self.sut);
+  id alertControllerMock = OCMClassMock([MSAlertController class]);
+  MSReleaseDetails *details = [MSReleaseDetails new];
+  OCMStub([alertControllerMock alertControllerWithTitle:[OCMArg any] message:[OCMArg any]])
+      .andReturn(alertControllerMock);
+  details.releaseNotes = @"Release Note";
+  details.mandatoryUpdate = false;
+
+  // When
+  XCTestExpectation *expection = [self expectationWithDescription:@"Confirmation alert has been displayed"];
+  [mobileCenterMock showConfirmationAlert:details];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [expection fulfill];
+  });
+
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+
+                                 // Then
+                                 OCMVerify([alertControllerMock alertControllerWithTitle:[OCMArg any]
+                                                                                 message:details.releaseNotes]);
+                                 OCMVerify(
+                                     [alertControllerMock addDefaultActionWithTitle:[OCMArg any] handler:[OCMArg any]]);
+                                 OCMVerify(
+                                     [alertControllerMock addCancelActionWithTitle:[OCMArg any] handler:[OCMArg any]]);
+                               }];
+}
+
+- (void)testShowConfirmationAlertForMandatoryUpdate {
+
+  // If
+  id mobileCenterMock = OCMPartialMock(self.sut);
+  id alertControllerMock = OCMClassMock([MSAlertController class]);
+  MSReleaseDetails *details = [MSReleaseDetails new];
+  OCMStub([alertControllerMock alertControllerWithTitle:[OCMArg any] message:[OCMArg any]])
+      .andReturn(alertControllerMock);
+  details.releaseNotes = @"Release Note";
+  details.mandatoryUpdate = true;
+
+  // When
+  XCTestExpectation *expection = [self expectationWithDescription:@"Confirmation alert has been displayed"];
+  [mobileCenterMock showConfirmationAlert:details];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [expection fulfill];
+  });
+
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+
+                                 // Then
+                                 OCMVerify([alertControllerMock alertControllerWithTitle:[OCMArg any]
+                                                                                 message:details.releaseNotes]);
+                                 OCMReject(
+                                     [alertControllerMock addDefaultActionWithTitle:[OCMArg any] handler:[OCMArg any]]);
+                                 OCMVerify(
+                                     [alertControllerMock addCancelActionWithTitle:[OCMArg any] handler:[OCMArg any]]);
+                               }];
 }
 
 - (void)testOpenUrl {

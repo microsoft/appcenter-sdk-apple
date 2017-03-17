@@ -63,6 +63,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy) NSString *minOs;
 
 /**
+ * The flag that indicates whether the release is a mandatory update or not.
+ */
+@property(nonatomic) BOOL mandatoryUpdate;
+
+/**
  * MD5 checksum of the release binary.
  */
 @property(nonatomic, copy) NSString *fingerprint;
