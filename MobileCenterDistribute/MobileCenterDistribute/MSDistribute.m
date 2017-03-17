@@ -487,20 +487,18 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 #if TARGET_IPHONE_SIMULATOR
   MSLogWarning([MSDistribute logTag], @"Couldn't download a new release on simulator.");
 #else
-
-  /*
-   * We've seen the behavior on iOS 8.x devices in HockeyApp that it doesn't download until the application
-   * goes in background by pressing home button. Simply exit the app to start the update process.
-   * For iOS version >= 9.0, we still need to exit the app if it is a mandatory update.
-   */
-  BOOL exitBeforeDownload =
-      (floor(NSFoundationVersionNumber) < NSFoundationVersionNumber_iOS_9_0) || details.mandatoryUpdate;
   [MSUtil sharedAppOpenUrl:details.installUrl
       options:@{}
       completionHandler:^(BOOL success) {
         if (success) {
           MSLogDebug([MSDistribute logTag], @"Start updating the application.");
-          if (exitBeforeDownload) {
+
+          /*
+           * We've seen the behavior on iOS 8.x devices in HockeyApp that it doesn't download until the application
+           * goes in background by pressing home button. Simply exit the app to start the update process.
+           * For iOS version >= 9.0, we still need to exit the app if it is a mandatory update.
+           */
+          if ((floor(NSFoundationVersionNumber) < NSFoundationVersionNumber_iOS_9_0) || details.mandatoryUpdate) {
             exit(0);
           }
         } else {
