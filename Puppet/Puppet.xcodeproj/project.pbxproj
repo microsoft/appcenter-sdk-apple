@@ -20,7 +20,6 @@
 		380A4DC91DD68D3F00E99219 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A271D4152FA0016C325 /* libc++.tbd */; };
 		38484F6D1E53D57E00C5631C /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38484F691E537B9300C5631C /* SafariServices.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		38E1B65A1DDCDDF4000EFED1 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38E1B6591DDCDDF4000EFED1 /* MSAlertController.m */; };
-		38F2606F1E649FE5004F0FDC /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38F2606E1E649FE5004F0FDC /* Security.framework */; };
 		6EC99A211D4151A00016C325 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A201D4151A00016C325 /* CrashReporter.framework */; };
 		6EC99A281D4152FA0016C325 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A271D4152FA0016C325 /* libc++.tbd */; };
 		B21B26C71DDE490400FF0378 /* MSCrashesDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B21B26C61DDE490400FF0378 /* MSCrashesDetailViewController.m */; };
@@ -264,7 +263,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				38F2606F1E649FE5004F0FDC /* Security.framework in Frameworks */,
 				38484F6D1E53D57E00C5631C /* SafariServices.framework in Frameworks */,
 				6EC99A281D4152FA0016C325 /* libc++.tbd in Frameworks */,
 				6EC99A211D4151A00016C325 /* CrashReporter.framework in Frameworks */,
@@ -820,6 +818,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-fno-optimize-sibling-calls";
 				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -866,6 +865,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_CFLAGS = "-fno-optimize-sibling-calls";
 				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

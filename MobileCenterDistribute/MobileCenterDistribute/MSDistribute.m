@@ -107,6 +107,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       [self requestUpdateToken];
     }
   } else {
+    [self dismissEmbeddedSafari];
     [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
     [MS_USER_DEFAULTS removeObjectForKey:kMSIgnoredReleaseIdKey];
     MSLogInfo([MSDistribute logTag], @"Distribute service has been disabled.");
@@ -369,16 +370,27 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   id safari = [[clazz alloc] initWithURL:url];
 
   // Create an empty window + viewController to host the Safari UI.
-  UIViewController *emptyViewController = [[UIViewController alloc] init];
+  self.safariHostingViewController = [[UIViewController alloc] init];
   UIWindow *window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-  window.rootViewController = emptyViewController;
+  window.rootViewController = self.safariHostingViewController;
 
   // Place it at the lowest level within the stack, less visible.
-  window.windowLevel = -CGFLOAT_MAX;
+  window.windowLevel = +CGFLOAT_MAX;
 
   // Run it.
   [window makeKeyAndVisible];
-  [emptyViewController presentViewController:safari animated:false completion:nil];
+  [self.safariHostingViewController presentViewController:safari animated:YES completion:nil];
+}
+
+- (void)dismissEmbeddedSafari {
+  __weak typeof(self) weakSelf = self;
+  dispatch_async(dispatch_get_main_queue(), ^{
+    typeof(self) strongSelf = weakSelf;
+    if (strongSelf && strongSelf.safariHostingViewController &&
+        !strongSelf.safariHostingViewController.isBeingDismissed) {
+      [strongSelf.safariHostingViewController dismissViewControllerAnimated:YES completion:nil];
+    }
+  });
 }
 
 - (void)openURLInSafariApp:(NSURL *)url {
@@ -434,7 +446,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
   // Make sure it's not a DEBUG configuration.
   BOOL configurationOkay = ![MSUtil isRunningInDebugConfiguration];
-
   return environmentOkay && noDebuggerAttached && configurationOkay;
 }
 
@@ -454,18 +465,21 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
         [MSAlertController alertControllerWithTitle:MSDistributeLocalizedString(@"Update available")
                                             message:releaseNotes];
 
-    // Add a "Postpone"-Button
-    [alertController addDefaultActionWithTitle:MSDistributeLocalizedString(@"Postpone")
-                                       handler:^(UIAlertAction *action) {
-                                         MSLogDebug([MSDistribute logTag], @"Postpone the update for now.");
-                                       }];
+    if (!details.mandatoryUpdate) {
 
-    // Add a "Ignore"-Button
-    [alertController addDefaultActionWithTitle:MSDistributeLocalizedString(@"Ignore")
-                                       handler:^(UIAlertAction *action) {
-                                         MSLogDebug([MSDistribute logTag], @"Ignore the release id: %@.", details.id);
-                                         [MS_USER_DEFAULTS setObject:details.id forKey:kMSIgnoredReleaseIdKey];
-                                       }];
+      // Add a "Postpone"-Button
+      [alertController addDefaultActionWithTitle:MSDistributeLocalizedString(@"Postpone")
+                                         handler:^(UIAlertAction *action) {
+                                           MSLogDebug([MSDistribute logTag], @"Postpone the update for now.");
+                                         }];
+
+      // Add a "Ignore"-Button
+      [alertController addDefaultActionWithTitle:MSDistributeLocalizedString(@"Ignore")
+                                         handler:^(UIAlertAction *action) {
+                                           MSLogDebug([MSDistribute logTag], @"Ignore the release id: %@.", details.id);
+                                           [MS_USER_DEFAULTS setObject:details.id forKey:kMSIgnoredReleaseIdKey];
+                                         }];
+    }
 
     // Add a "Download"-Button
     [alertController addCancelActionWithTitle:MSDistributeLocalizedString(@"Download")
@@ -493,8 +507,9 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
           /*
            * We've seen the behavior on iOS 8.x devices in HockeyApp that it doesn't download until the application
            * goes in background by pressing home button. Simply exit the app to start the update process.
+           * For iOS version >= 9.0, we still need to exit the app if it is a mandatory update.
            */
-          if (floor(NSFoundationVersionNumber) < NSFoundationVersionNumber_iOS_9_0) {
+          if ((floor(NSFoundationVersionNumber) < NSFoundationVersionNumber_iOS_9_0) || details.mandatoryUpdate) {
             exit(0);
           }
         } else {
@@ -531,6 +546,9 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     if (!(requestedId && queryRequestId && [requestedId isEqualToString:queryRequestId])) {
       return;
     }
+
+    // Dismiss the embedded Safari view.
+    [self dismissEmbeddedSafari];
 
     // Delete stored request ID
     [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
