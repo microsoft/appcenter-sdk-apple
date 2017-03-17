@@ -137,7 +137,8 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   NSString *expectedName = @"gotACoffee";
   id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
   OCMStub([logManagerMock processLog:[OCMArg isKindOfClass:[MSLogWithProperties class]]
-                        withPriority:([MSAnalytics sharedInstance].priority) andGroupID:])
+                        withPriority:([MSAnalytics sharedInstance].priority)
+                          andGroupID:[OCMArg any]])
       .andDo(^(NSInvocation *invocation) {
         MSEventLog *log;
         [invocation getArgument:&log atIndex:2];
@@ -165,7 +166,8 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   NSDictionary *expectedProperties = @{ @"milk" : @"yes", @"cookie" : @"of course" };
   id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
   OCMStub([logManagerMock processLog:[OCMArg isKindOfClass:[MSLogWithProperties class]]
-                        withPriority:([MSAnalytics sharedInstance].priority)])
+                        withPriority:([MSAnalytics sharedInstance].priority)
+                          andGroupID:[OCMArg any]])
       .andDo(^(NSInvocation *invocation) {
         MSEventLog *log;
         [invocation getArgument:&log atIndex:2];
@@ -193,7 +195,8 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   NSString *expectedName = @"HomeSweetHome";
   id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
   OCMStub([logManagerMock processLog:[OCMArg isKindOfClass:[MSLogWithProperties class]]
-                        withPriority:([MSAnalytics sharedInstance].priority)])
+                        withPriority:([MSAnalytics sharedInstance].priority)
+                          andGroupID:[OCMArg any]])
       .andDo(^(NSInvocation *invocation) {
         MSEventLog *log;
         [invocation getArgument:&log atIndex:2];
@@ -221,7 +224,8 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   NSDictionary *expectedProperties = @{ @"Sofa" : @"yes", @"TV" : @"of course" };
   id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
   OCMStub([logManagerMock processLog:[OCMArg isKindOfClass:[MSLogWithProperties class]]
-                        withPriority:([MSAnalytics sharedInstance].priority)])
+                        withPriority:([MSAnalytics sharedInstance].priority)
+                          andGroupID:[OCMArg any]])
       .andDo(^(NSInvocation *invocation) {
         MSEventLog *log;
         [invocation getArgument:&log atIndex:2];
