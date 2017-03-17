@@ -149,12 +149,29 @@
 }
 
 - (void)testSharedAppOpenEmptyCallCallback {
+  
+  // If
+  XCTestExpectation *openURLCalledExpectation = [self expectationWithDescription:@"openURL Called."];
   __block BOOL handlerHasBeenCalled = NO;
+  
+  // When
   [MSUtil sharedAppOpenUrl:[NSURL URLWithString:@""] options:@{} completionHandler:^(BOOL success) {
     handlerHasBeenCalled = YES;
     XCTAssertFalse(success);
   }];
-  XCTAssertTrue(handlerHasBeenCalled);
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [openURLCalledExpectation fulfill];
+  });
+  
+  // Then
+  [self
+   waitForExpectationsWithTimeout:1
+   handler:^(NSError *error) {
+     XCTAssertTrue(handlerHasBeenCalled);
+     if (error) {
+       XCTFail(@"Expectation Failed with error: %@", error);
+     }
+   }];
 }
 
 @end

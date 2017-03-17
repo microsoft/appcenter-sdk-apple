@@ -465,18 +465,21 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
         [MSAlertController alertControllerWithTitle:MSDistributeLocalizedString(@"Update available")
                                             message:releaseNotes];
 
-    // Add a "Postpone"-Button
-    [alertController addDefaultActionWithTitle:MSDistributeLocalizedString(@"Postpone")
-                                       handler:^(UIAlertAction *action) {
-                                         MSLogDebug([MSDistribute logTag], @"Postpone the update for now.");
-                                       }];
+    if (!details.mandatoryUpdate) {
 
-    // Add a "Ignore"-Button
-    [alertController addDefaultActionWithTitle:MSDistributeLocalizedString(@"Ignore")
-                                       handler:^(UIAlertAction *action) {
-                                         MSLogDebug([MSDistribute logTag], @"Ignore the release id: %@.", details.id);
-                                         [MS_USER_DEFAULTS setObject:details.id forKey:kMSIgnoredReleaseIdKey];
-                                       }];
+      // Add a "Postpone"-Button
+      [alertController addDefaultActionWithTitle:MSDistributeLocalizedString(@"Postpone")
+                                         handler:^(UIAlertAction *action) {
+                                           MSLogDebug([MSDistribute logTag], @"Postpone the update for now.");
+                                         }];
+
+      // Add a "Ignore"-Button
+      [alertController addDefaultActionWithTitle:MSDistributeLocalizedString(@"Ignore")
+                                         handler:^(UIAlertAction *action) {
+                                           MSLogDebug([MSDistribute logTag], @"Ignore the release id: %@.", details.id);
+                                           [MS_USER_DEFAULTS setObject:details.id forKey:kMSIgnoredReleaseIdKey];
+                                         }];
+    }
 
     // Add a "Download"-Button
     [alertController addCancelActionWithTitle:MSDistributeLocalizedString(@"Download")
@@ -504,8 +507,9 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
           /*
            * We've seen the behavior on iOS 8.x devices in HockeyApp that it doesn't download until the application
            * goes in background by pressing home button. Simply exit the app to start the update process.
+           * For iOS version >= 9.0, we still need to exit the app if it is a mandatory update.
            */
-          if (floor(NSFoundationVersionNumber) < NSFoundationVersionNumber_iOS_9_0) {
+          if ((floor(NSFoundationVersionNumber) < NSFoundationVersionNumber_iOS_9_0) || details.mandatoryUpdate) {
             exit(0);
           }
         } else {

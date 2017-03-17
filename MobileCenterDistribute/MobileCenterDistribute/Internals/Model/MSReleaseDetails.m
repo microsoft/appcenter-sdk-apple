@@ -10,6 +10,7 @@ static NSString *const kMSReleaseNotes = @"release_notes";
 static NSString *const kMSProvisioningProfileName = @"provisioning_profile_name";
 static NSString *const kMSSize = @"size";
 static NSString *const kMSMinOs = @"min_os";
+static NSString *const kMSMandatoryUpdate = @"mandatory_update";
 static NSString *const kMSFingerprint = @"fingerprint";
 static NSString *const kMSUploadedAt = @"uploaded_at";
 static NSString *const kMSDownloadUrl = @"download_url";
@@ -52,6 +53,9 @@ static NSString *const kMSPackageHashes = @"package_hashes";
     }
     if (dictionary[kMSMinOs]) {
       self.minOs = dictionary[kMSMinOs];
+    }
+    if (dictionary[kMSMandatoryUpdate]) {
+      self.mandatoryUpdate = [dictionary[kMSMandatoryUpdate] isEqual:@YES] ? YES : NO;
     }
     if (dictionary[kMSFingerprint]) {
       self.fingerprint = dictionary[kMSFingerprint];

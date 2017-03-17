@@ -31,6 +31,7 @@
   assertThat(details.provisioningProfileName, equalTo(@"Provisioning profile name"));
   assertThat(details.size, equalTo(@1234567));
   assertThat(details.minOs, equalTo(@"iOS 8.0"));
+  assertThatBool(details.mandatoryUpdate, equalToLong(YES));
   assertThat(details.fingerprint, equalTo(@"b10a8db164e0754105b7a99be72e3fe5"));
   assertThat(details.uploadedAt, equalTo([NSDate dateWithTimeIntervalSince1970:(1483257600)]));
   assertThat(details.downloadUrl, equalTo([NSURL URLWithString:@"http://contoso.com/path/download/filename"]));
