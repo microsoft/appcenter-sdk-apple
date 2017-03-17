@@ -1,6 +1,6 @@
 //
 //  MSSwitchTableViewCell.swift
-//  SwiftDemo
+//  SasquatchSwift
 //
 //  Created by Vineet Choudhary on 22/11/16.
 //  Copyright © 2016 Microsoft. All rights reserved.

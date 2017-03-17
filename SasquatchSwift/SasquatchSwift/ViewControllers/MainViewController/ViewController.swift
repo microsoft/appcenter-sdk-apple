@@ -1,6 +1,6 @@
 //
 //  ViewController.swift
-//  SwiftDemo
+//  SasquatchSwift
 //
 //  Created by Benjamin Reimold on 11/4/16.
 //  Copyright © 2016 Microsoft. All rights reserved.

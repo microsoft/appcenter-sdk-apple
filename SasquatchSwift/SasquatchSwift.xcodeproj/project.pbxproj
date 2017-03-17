@@ -29,13 +29,13 @@
 		B219241A1DCD0C6D00D5797D /* MobileCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenter.framework; path = Products/MobileCenter/MobileCenter.framework; sourceTree = "<group>"; };
 		B219241C1DCD0C7500D5797D /* MobileCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterAnalytics.framework; path = Products/MobileCenterAnalytics/MobileCenterAnalytics.framework; sourceTree = "<group>"; };
 		B219241E1DCD0C8400D5797D /* MobileCenterCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterCrashes.framework; path = Products/MobileCenterCrashes/MobileCenterCrashes.framework; sourceTree = "<group>"; };
-		B27DCBA61DDA96F000B97C84 /* SwiftDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SwiftDemo-Bridging-Header.h"; sourceTree = "<group>"; };
+		B27DCBA61DDA96F000B97C84 /* SasquatchSwift-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SasquatchSwift-Bridging-Header.h"; sourceTree = "<group>"; };
 		B27DCBA71DDA96F100B97C84 /* MSAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSAlertController.h; path = ../Vendor/MSAlertController/MSAlertController.h; sourceTree = "<group>"; };
 		B27DCBA81DDA96F100B97C84 /* MSAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSAlertController.m; path = ../Vendor/MSAlertController/MSAlertController.m; sourceTree = "<group>"; };
-		B2CDD0E91DCCFAAC00610725 /* SwiftDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		B2CDD1011DCCFAAC00610725 /* SwiftDemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDemoTests.swift; sourceTree = "<group>"; };
+		B2CDD0E91DCCFAAC00610725 /* SasquatchSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SasquatchSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B2CDD1011DCCFAAC00610725 /* SasquatchSwiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SasquatchSwiftTests.swift; sourceTree = "<group>"; };
 		B2CDD1031DCCFAAC00610725 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B2CDD10C1DCCFAAC00610725 /* SwiftDemoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDemoUITests.swift; sourceTree = "<group>"; };
+		B2CDD10C1DCCFAAC00610725 /* SasquatchSwiftUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SasquatchSwiftUITests.swift; sourceTree = "<group>"; };
 		B2CDD10E1DCCFAAC00610725 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E118DF191DE5791600E63722 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E118DF1A1DE5791600E63722 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -71,18 +71,18 @@
 			children = (
 				B27DCBA71DDA96F100B97C84 /* MSAlertController.h */,
 				B27DCBA81DDA96F100B97C84 /* MSAlertController.m */,
-				B27DCBA61DDA96F000B97C84 /* SwiftDemo-Bridging-Header.h */,
+				B27DCBA61DDA96F000B97C84 /* SasquatchSwift-Bridging-Header.h */,
 			);
 			name = MSAlertController;
-			path = SwiftDemo;
+			path = SasquatchSwift;
 			sourceTree = "<group>";
 		};
 		B2CDD0E01DCCFAAC00610725 = {
 			isa = PBXGroup;
 			children = (
-				E118DF181DE5791600E63722 /* SwiftDemo */,
-				B2CDD1001DCCFAAC00610725 /* SwiftDemoTests */,
-				B2CDD10B1DCCFAAC00610725 /* SwiftDemoUITests */,
+				E118DF181DE5791600E63722 /* SasquatchSwift */,
+				B2CDD1001DCCFAAC00610725 /* SasquatchSwiftTests */,
+				B2CDD10B1DCCFAAC00610725 /* SasquatchSwiftUITests */,
 				B2CDD0EA1DCCFAAC00610725 /* Products */,
 				B2CDD1361DCCFE9400610725 /* Vendor */,
 			);
@@ -91,27 +91,27 @@
 		B2CDD0EA1DCCFAAC00610725 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				B2CDD0E91DCCFAAC00610725 /* SwiftDemo.app */,
+				B2CDD0E91DCCFAAC00610725 /* SasquatchSwift.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		B2CDD1001DCCFAAC00610725 /* SwiftDemoTests */ = {
+		B2CDD1001DCCFAAC00610725 /* SasquatchSwiftTests */ = {
 			isa = PBXGroup;
 			children = (
-				B2CDD1011DCCFAAC00610725 /* SwiftDemoTests.swift */,
+				B2CDD1011DCCFAAC00610725 /* SasquatchSwiftTests.swift */,
 				B2CDD1031DCCFAAC00610725 /* Info.plist */,
 			);
-			path = SwiftDemoTests;
+			path = SasquatchSwiftTests;
 			sourceTree = "<group>";
 		};
-		B2CDD10B1DCCFAAC00610725 /* SwiftDemoUITests */ = {
+		B2CDD10B1DCCFAAC00610725 /* SasquatchSwiftUITests */ = {
 			isa = PBXGroup;
 			children = (
-				B2CDD10C1DCCFAAC00610725 /* SwiftDemoUITests.swift */,
+				B2CDD10C1DCCFAAC00610725 /* SasquatchSwiftUITests.swift */,
 				B2CDD10E1DCCFAAC00610725 /* Info.plist */,
 			);
-			path = SwiftDemoUITests;
+			path = SasquatchSwiftUITests;
 			sourceTree = "<group>";
 		};
 		B2CDD1361DCCFE9400610725 /* Vendor */ = {
@@ -126,7 +126,7 @@
 			path = ..;
 			sourceTree = "<group>";
 		};
-		E118DF181DE5791600E63722 /* SwiftDemo */ = {
+		E118DF181DE5791600E63722 /* SasquatchSwift */ = {
 			isa = PBXGroup;
 			children = (
 				E118DF3A1DE5794100E63722 /* Storyboard */,
@@ -135,7 +135,7 @@
 				E118DF1F1DE5791600E63722 /* CommonTableViewCell */,
 				E118DF191DE5791600E63722 /* AppDelegate.swift */,
 			);
-			path = SwiftDemo;
+			path = SasquatchSwift;
 			sourceTree = "<group>";
 		};
 		E118DF1F1DE5791600E63722 /* CommonTableViewCell */ = {
@@ -197,9 +197,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		B2CDD0E81DCCFAAC00610725 /* SwiftDemo */ = {
+		B2CDD0E81DCCFAAC00610725 /* SasquatchSwift */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B2CDD1111DCCFAAC00610725 /* Build configuration list for PBXNativeTarget "SwiftDemo" */;
+			buildConfigurationList = B2CDD1111DCCFAAC00610725 /* Build configuration list for PBXNativeTarget "SasquatchSwift" */;
 			buildPhases = (
 				B2CDD0E51DCCFAAC00610725 /* Sources */,
 				B2CDD0E61DCCFAAC00610725 /* Frameworks */,
@@ -209,9 +209,9 @@
 			);
 			dependencies = (
 			);
-			name = SwiftDemo;
-			productName = SwiftDemo;
-			productReference = B2CDD0E91DCCFAAC00610725 /* SwiftDemo.app */;
+			name = SasquatchSwift;
+			productName = SasquatchSwift;
+			productReference = B2CDD0E91DCCFAAC00610725 /* SasquatchSwift.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -233,7 +233,7 @@
 					};
 				};
 			};
-			buildConfigurationList = B2CDD0E41DCCFAAC00610725 /* Build configuration list for PBXProject "SwiftDemo" */;
+			buildConfigurationList = B2CDD0E41DCCFAAC00610725 /* Build configuration list for PBXProject "SasquatchSwift" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -246,7 +246,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				B2CDD0E81DCCFAAC00610725 /* SwiftDemo */,
+				B2CDD0E81DCCFAAC00610725 /* SasquatchSwift */,
 			);
 		};
 /* End PBXProject section */
@@ -409,12 +409,12 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/../MobileCenter-SDK-iOS/**",
 				);
-				INFOPLIST_FILE = SwiftDemo/Info.plist;
+				INFOPLIST_FILE = SasquatchSwift/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.swiftdemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchswift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "SwiftDemo-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "SasquatchSwift-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
@@ -431,12 +431,12 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/../MobileCenter-SDK-iOS/**",
 				);
-				INFOPLIST_FILE = SwiftDemo/Info.plist;
+				INFOPLIST_FILE = SasquatchSwift/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.swiftdemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchswift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "SwiftDemo-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "SasquatchSwift-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -444,7 +444,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		B2CDD0E41DCCFAAC00610725 /* Build configuration list for PBXProject "SwiftDemo" */ = {
+		B2CDD0E41DCCFAAC00610725 /* Build configuration list for PBXProject "SasquatchSwift" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B2CDD10F1DCCFAAC00610725 /* Debug */,
@@ -453,7 +453,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B2CDD1111DCCFAAC00610725 /* Build configuration list for PBXNativeTarget "SwiftDemo" */ = {
+		B2CDD1111DCCFAAC00610725 /* Build configuration list for PBXNativeTarget "SasquatchSwift" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B2CDD1121DCCFAAC00610725 /* Debug */,

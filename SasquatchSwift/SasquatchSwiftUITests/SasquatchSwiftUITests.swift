@@ -1,6 +1,6 @@
 //
-//  SwiftDemoUITests.swift
-//  SwiftDemoUITests
+//  SasquatchSwiftUITests.swift
+//  SasquatchSwiftUITests
 //
 //  Created by Benjamin Reimold on 11/4/16.
 //  Copyright © 2016 Microsoft. All rights reserved.
@@ -8,7 +8,7 @@
 
 import XCTest
 
-class SwiftDemoUITests: XCTestCase {
+class SasquatchSwiftUITests: XCTestCase {
         
     override func setUp() {
         super.setUp()

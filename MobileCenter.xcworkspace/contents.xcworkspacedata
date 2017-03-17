@@ -20,6 +20,6 @@
       location = "group:SasquatchObjC/SasquatchObjC.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Puppet/Puppet/../../SwiftDemo/SwiftDemo.xcodeproj">
+      location = "group:SasquatchSwift/SasquatchSwift.xcodeproj">
    </FileRef>
 </Workspace>

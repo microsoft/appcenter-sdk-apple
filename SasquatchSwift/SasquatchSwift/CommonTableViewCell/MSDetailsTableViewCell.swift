@@ -1,6 +1,6 @@
 //
-//  MSTitleTableViewCell.swift
-//  SwiftDemo
+//  MSDetailsTableViewCell.swift
+//  SasquatchSwift
 //
 //  Created by Vineet Choudhary on 22/11/16.
 //  Copyright © 2016 Microsoft. All rights reserved.
@@ -8,10 +8,10 @@
 
 import UIKit
 
-
-class MSTitleTableViewCell: UITableViewCell {
+class MSDetailsTableViewCell: UITableViewCell {
 
     @IBOutlet weak var titleNameLabel: UILabel!
+    @IBOutlet weak var detailLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -25,10 +25,11 @@ class MSTitleTableViewCell: UITableViewCell {
     }
     
     class func name()->String {
-        return String(describing: MSTitleTableViewCell.self)
+        return String(describing: MSDetailsTableViewCell.self)
     }
     
     class func nib()->UINib{
-        return UINib(nibName: MSTitleTableViewCell.name() , bundle: nil)
+        return UINib(nibName: MSDetailsTableViewCell.name() , bundle: nil)
     }
+
 }

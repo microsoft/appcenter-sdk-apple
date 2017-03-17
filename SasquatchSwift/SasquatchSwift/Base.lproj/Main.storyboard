@@ -28,7 +28,7 @@
         <!--MobileCenter-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="SwiftDemo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="SasquatchSwift" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -67,7 +67,7 @@
         <!--Crash Report View Controller-->
         <scene sceneID="b3D-Me-l5G">
             <objects>
-                <viewController id="JNK-tn-TZh" customClass="MSCrashReportViewController" customModule="SwiftDemo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="JNK-tn-TZh" customClass="MSCrashReportViewController" customModule="SasquatchSwift" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Vf1-yT-hid"/>
                         <viewControllerLayoutGuide type="bottom" id="Qzo-nj-iQj"/>
