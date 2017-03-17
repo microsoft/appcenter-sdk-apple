@@ -37,7 +37,7 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
 - (void)tearDown {
   [super tearDown];
   [self.sut deleteAllFromCrashesDirectory];
-  [MSCrashesTestUtil deleteAllFilesInDirectory:self.sut.logBufferDir];
+  [MSCrashesTestUtil deleteAllFilesInDirectory:[self.sut.logBufferDir path]];
 }
 
 #pragma mark - Tests
@@ -61,7 +61,7 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
   // Creation of buffer files is done asynchronously, we need to give it some time to create the files.
   [NSThread sleepForTimeInterval:0.05];
   for (NSInteger priority = 0; priority < kMSPriorityCount; priority++) {
-    NSString *dirPath = [self.sut.logBufferDir stringByAppendingFormat:@"/%ld/", static_cast<long>(priority)];
+    NSString *dirPath = [[self.sut.logBufferDir path] stringByAppendingFormat:@"/%ld/", static_cast<long>(priority)];
     NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:dirPath error:NULL];
     XCTAssertTrue(files.count == 20);
   }
@@ -133,7 +133,7 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
 
   // Then
   assertThat(self.sut.crashFiles, hasCountOf(0));
-  assertThatLong([self.sut.fileManager contentsOfDirectoryAtPath:self.sut.crashesDir error:nil].count, equalToLong(0));
+  assertThatLong([self.sut.fileManager contentsOfDirectoryAtPath:[self.sut.crashesDir path] error:nil].count, equalToLong(0));
 }
 
 - (void)testDeleteCrashReportsFromDisabledToEnabled {
@@ -150,7 +150,7 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
 
   // Then
   assertThat(self.sut.crashFiles, hasCountOf(0));
-  assertThatLong([self.sut.fileManager contentsOfDirectoryAtPath:self.sut.crashesDir error:nil].count, equalToLong(0));
+  assertThatLong([self.sut.fileManager contentsOfDirectoryAtPath:[self.sut.crashesDir path] error:nil].count, equalToLong(0));
 }
 
 // FIXME: Crashes is getting way more logs than expected. Disable this functionality.
@@ -161,7 +161,7 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
 
   // Then
   for (NSInteger priority = 0; priority < kMSPriorityCount; priority++) {
-    NSString *dirPath = [self.sut.logBufferDir stringByAppendingFormat:@"/%ld/", static_cast<long>(priority)];
+    NSString *dirPath = [[self.sut.logBufferDir path] stringByAppendingFormat:@"/%ld/", static_cast<long>(priority)];
 
     NSArray *first = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:dirPath error:NULL];
     XCTAssertTrue(first.count == 20);
@@ -185,10 +185,10 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
   // When
   NSString *testName = @"afilename";
   NSString *priorityDirectory =
-      [self.sut.logBufferDir stringByAppendingFormat:@"/%ld/", static_cast<long>(MSPriorityDefault)];
+      [[self.sut.logBufferDir path] stringByAppendingFormat:@"/%ld/", static_cast<long>(MSPriorityDefault)];
   NSString *filePath =
       [priorityDirectory stringByAppendingPathComponent:[testName stringByAppendingString:@".mscrasheslogbuffer"]];
-  [self.sut createBufferFileAtPath:filePath];
+  [self.sut createBufferFileAtURL:[NSURL fileURLWithPath:filePath]];
 
   // Then
   BOOL success = [[NSFileManager defaultManager] fileExistsAtPath:filePath];
@@ -201,7 +201,7 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
   NSString *dataString = @"SomeBufferedData";
   NSData *someData = [dataString dataUsingEncoding:NSUTF8StringEncoding];
   NSString *priorityDirectory =
-      [self.sut.logBufferDir stringByAppendingFormat:@"/%ld/", static_cast<long>(MSPriorityHigh)];
+      [[self.sut.logBufferDir path] stringByAppendingFormat:@"/%ld/", static_cast<long>(MSPriorityHigh)];
 
   NSString *filePath =
       [priorityDirectory stringByAppendingPathComponent:[testName stringByAppendingString:@".mscrasheslogbuffer"]];
@@ -338,25 +338,25 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
 - (void)testBufferDirectoryWorks {
 
   // When
-  NSString *expected = [[MSCrashesUtil logBufferDir]
-      stringByAppendingString:[NSString stringWithFormat:@"/%ld/", static_cast<long>(MSPriorityBackground)]];
-  NSString *actual = [self.sut bufferDirectoryForPriority:MSPriorityBackground];
+  NSString *expected = [[[MSCrashesUtil logBufferDir] path]
+      stringByAppendingString:[NSString stringWithFormat:@"/%ld", static_cast<long>(MSPriorityBackground)]];
+  NSString *actual = [[self.sut bufferDirectoryForPriority:MSPriorityBackground] path];
 
   // Then
   XCTAssertTrue([expected isEqualToString:actual]);
 
   // When
-  expected = [[MSCrashesUtil logBufferDir]
-      stringByAppendingString:[NSString stringWithFormat:@"/%ld/", static_cast<long>(MSPriorityDefault)]];
-  actual = [self.sut bufferDirectoryForPriority:MSPriorityDefault];
+  expected = [[[MSCrashesUtil logBufferDir] path]
+      stringByAppendingString:[NSString stringWithFormat:@"/%ld", static_cast<long>(MSPriorityDefault)]];
+  actual = [[self.sut bufferDirectoryForPriority:MSPriorityDefault] path];
 
   // Then
   XCTAssertTrue([expected isEqualToString:actual]);
 
   // When
-  expected = [[MSCrashesUtil logBufferDir]
-      stringByAppendingString:[NSString stringWithFormat:@"/%ld/", static_cast<long>(MSPriorityHigh)]];
-  actual = [self.sut bufferDirectoryForPriority:MSPriorityHigh];
+  expected = [[[MSCrashesUtil logBufferDir] path]
+      stringByAppendingString:[NSString stringWithFormat:@"/%ld", static_cast<long>(MSPriorityHigh)]];
+  actual = [[self.sut bufferDirectoryForPriority:MSPriorityHigh] path];
 
   // Then
   XCTAssertTrue([expected isEqualToString:actual]);

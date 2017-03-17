@@ -105,7 +105,7 @@
   }
 
   NSMutableArray<MSFile *> *files;
-  NSArray *allFiles = [fileManager contentsOfDirectoryAtURL:directoryURL
+  NSArray *allFiles = [fileManager contentsOfDirectoryAtURL:(NSURL * _Nonnull)directoryURL
                                  includingPropertiesForKeys:@[NSURLCreationDateKey]
                                                     options:NSDirectoryEnumerationSkipsHiddenFiles
                                                       error:&error];
@@ -155,7 +155,6 @@
       return NO;
     }
     NSURL * directoryURL = [fileURL URLByDeletingLastPathComponent];
-    NSString * directoryPath = [directoryURL path];
     if (![directoryURL checkResourceIsReachableAndReturnError:&error]) {
       [self createDirectoryAtURL:directoryURL];
     }

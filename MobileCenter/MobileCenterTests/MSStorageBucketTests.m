@@ -37,9 +37,9 @@
 - (void)testSortingFilesByCreationDate {
 
   // If
-  MSFile *file1 = [[MSFile alloc] initWithPath:@"3" fileId:@"3" creationDate:[NSDate dateWithTimeIntervalSinceNow:1]];
-  MSFile *file2 = [[MSFile alloc] initWithPath:@"2" fileId:@"2" creationDate:[NSDate dateWithTimeIntervalSinceNow:2]];
-  MSFile *file3 = [[MSFile alloc] initWithPath:@"1" fileId:@"1" creationDate:[NSDate dateWithTimeIntervalSinceNow:3]];
+  MSFile *file1 = [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:@"3"] fileId:@"3" creationDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+  MSFile *file2 = [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:@"2"] fileId:@"2" creationDate:[NSDate dateWithTimeIntervalSinceNow:2]];
+  MSFile *file3 = [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:@"1"] fileId:@"1" creationDate:[NSDate dateWithTimeIntervalSinceNow:3]];
   NSMutableArray *unsortedFiles = [NSMutableArray arrayWithObjects:file2, file3, file1, nil];
   _sut.availableFiles = unsortedFiles;
 
@@ -55,19 +55,19 @@
 
   // If
   MSFile *availableFile1 =
-      [[MSFile alloc] initWithPath:@"1" fileId:@"1" creationDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+      [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:@"1"] fileId:@"1" creationDate:[NSDate dateWithTimeIntervalSinceNow:1]];
   MSFile *availableFile2 =
-      [[MSFile alloc] initWithPath:@"2" fileId:@"2" creationDate:[NSDate dateWithTimeIntervalSinceNow:2]];
+      [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:@"2"] fileId:@"2" creationDate:[NSDate dateWithTimeIntervalSinceNow:2]];
   MSFile *availableFile3 =
-      [[MSFile alloc] initWithPath:@"3" fileId:@"3" creationDate:[NSDate dateWithTimeIntervalSinceNow:3]];
+      [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:@"3"] fileId:@"3" creationDate:[NSDate dateWithTimeIntervalSinceNow:3]];
   _sut.availableFiles = [NSMutableArray arrayWithObjects:availableFile1, availableFile2, availableFile3, nil];
 
   MSFile *blockedFile1 =
-      [[MSFile alloc] initWithPath:@"4" fileId:@"4" creationDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+      [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:@"4"] fileId:@"4" creationDate:[NSDate dateWithTimeIntervalSinceNow:1]];
   MSFile *blockedFile2 =
-      [[MSFile alloc] initWithPath:@"5" fileId:@"5" creationDate:[NSDate dateWithTimeIntervalSinceNow:2]];
+      [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:@"5"] fileId:@"5" creationDate:[NSDate dateWithTimeIntervalSinceNow:2]];
   MSFile *blockedFile3 =
-      [[MSFile alloc] initWithPath:@"6" fileId:@"6" creationDate:[NSDate dateWithTimeIntervalSinceNow:3]];
+      [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:@"6"] fileId:@"6" creationDate:[NSDate dateWithTimeIntervalSinceNow:3]];
   self.sut.blockedFiles = [NSMutableArray arrayWithObjects:blockedFile1, blockedFile2, blockedFile3, nil];
 
   // When
@@ -83,11 +83,11 @@
 
   // If
   MSFile *availableFile1 =
-      [[MSFile alloc] initWithPath:@"1" fileId:@"1" creationDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+      [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:@"1"] fileId:@"1" creationDate:[NSDate dateWithTimeIntervalSinceNow:1]];
   MSFile *availableFile2 =
-      [[MSFile alloc] initWithPath:@"2" fileId:@"2" creationDate:[NSDate dateWithTimeIntervalSinceNow:2]];
+      [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:@"2"] fileId:@"2" creationDate:[NSDate dateWithTimeIntervalSinceNow:2]];
   MSFile *availableFile3 =
-      [[MSFile alloc] initWithPath:@"3" fileId:@"3" creationDate:[NSDate dateWithTimeIntervalSinceNow:3]];
+      [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:@"3"] fileId:@"3" creationDate:[NSDate dateWithTimeIntervalSinceNow:3]];
   self.sut.availableFiles = [NSMutableArray arrayWithObjects:availableFile1, availableFile2, availableFile3, nil];
 
   // When
@@ -100,8 +100,8 @@
 - (void)testRemovingFileRemovesItFromBlockedAndAvailableList {
 
   // If
-  MSFile *file1 = [[MSFile alloc] initWithPath:@"1" fileId:@"1" creationDate:[NSDate dateWithTimeIntervalSinceNow:1]];
-  MSFile *file2 = [[MSFile alloc] initWithPath:@"2" fileId:@"2" creationDate:[NSDate dateWithTimeIntervalSinceNow:2]];
+  MSFile *file1 = [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:@"1"] fileId:@"1" creationDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+  MSFile *file2 = [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:@"2"] fileId:@"2" creationDate:[NSDate dateWithTimeIntervalSinceNow:2]];
   self.sut.availableFiles = [NSMutableArray arrayWithObjects:file1, file2, nil];
   self.sut.blockedFiles = [NSMutableArray arrayWithObjects:file2, file1, nil];
 
