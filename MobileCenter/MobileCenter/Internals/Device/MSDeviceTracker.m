@@ -2,7 +2,7 @@
 #import "MSDeviceHistoryInfo.h"
 #import "MSDeviceTracker.h"
 #import "MSDeviceTrackerPrivate.h"
-#import "MSUtility+Date.h"
+#import "MSUtil.h"
 #import "MSDevicePrivate.h"
 #import "MSWrapperSdkPrivate.h"
 #import "MSUserDefaults.h"
@@ -98,7 +98,7 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
       _device = [self updatedDevice];
 
       // Create new MSDeviceHistoryInfo.
-      NSNumber *tOffset = [NSNumber numberWithLongLong:[MSUtility  nowInMilliseconds]];
+      NSNumber *tOffset = [NSNumber numberWithLongLong:[MSUtil nowInMilliseconds]];
       MSDeviceHistoryInfo *deviceHistoryInfo = [[MSDeviceHistoryInfo alloc] initWithTOffset:tOffset andDevice:_device];
 
       // Insert new MSDeviceHistoryInfo at the proper index to keep self.deviceHistory sorted.

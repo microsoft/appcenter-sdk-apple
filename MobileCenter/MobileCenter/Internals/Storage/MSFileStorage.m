@@ -3,7 +3,7 @@
 #import "MSFileUtil.h"
 #import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
-#import "MSUtility.h"
+#import "MSUtil.h"
 
 static NSString *const kMSLogsDirectory = @"com.microsoft.azure.mobile.mobilecenter/logs";
 static NSString *const kMSFileExtension = @"ms";

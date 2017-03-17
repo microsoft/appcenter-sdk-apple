@@ -1,6 +1,6 @@
-#import "MSUtility+ApplicationPrivate.h"
-#import "MSUtility+Date.h"
-#import <OCMock/OCMock.h>
+#import "MSUtil.h"
+#import "MSUtilPrivate.h"
+#import "OCMock.h"
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <XCTest/XCTest.h>
 
@@ -16,7 +16,7 @@
   [super setUp];
 
   // Set up application mock.
-  self.utils = OCMClassMock([MSUtility class]);
+  self.utils = OCMClassMock([MSUtil class]);
 }
 
 - (void)tearDown {
@@ -27,7 +27,7 @@
 - (void)testMSAppStateMatchesUIAppStateWhenAvailable {
 
   // Then
-  assertThat(@([MSUtility applicationState]), is(@([UIApplication sharedApplication].applicationState)));
+  assertThat(@([MSUtil applicationState]), is(@([UIApplication sharedApplication].applicationState)));
 }
 
 - (void)testMSAppReturnsUnknownOnAppExtensions {
@@ -44,7 +44,7 @@
   /**
    * Then
    */
-  assertThat(@([MSUtility applicationState]), is(@(MSApplicationStateUnknown)));
+  assertThat(@([MSUtil applicationState]), is(@(MSApplicationStateUnknown)));
 
   // Make sure the sharedApplication as not been called, it's forbidden within app extensions
   OCMReject([self.utils sharedAppState]);
@@ -58,7 +58,7 @@
   OCMStub([self.utils sharedAppState]).andReturn(expectedState);
 
   // When
-  MSApplicationState state = [MSUtility applicationState];
+  MSApplicationState state = [MSUtil applicationState];
 
   // Then
   assertThat(@(state), is(@(expectedState)));
@@ -71,7 +71,7 @@
   OCMStub([self.utils sharedAppState]).andReturn(expectedState);
 
   // When
-  MSApplicationState state = [MSUtility applicationState];
+  MSApplicationState state = [MSUtil applicationState];
 
   // Then
   assertThat(@(state), is(@(expectedState)));
@@ -84,7 +84,7 @@
   OCMStub([self.utils sharedAppState]).andReturn(expectedState);
 
   // When
-  MSApplicationState state = [MSUtility applicationState];
+  MSApplicationState state = [MSUtil applicationState];
 
   // Then
   assertThat(@(state), is(@(expectedState)));
@@ -95,7 +95,7 @@
   /**
    * When
    */
-  long long actual = [MSUtility nowInMilliseconds] / 10;
+  long long actual = [MSUtil nowInMilliseconds] / 10;
   long long expected = [[NSDate date] timeIntervalSince1970] * 100;
 
   /**
