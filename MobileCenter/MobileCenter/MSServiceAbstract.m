@@ -38,7 +38,7 @@
     [self applyEnabledState:isEnabled];
 
     // Persist the enabled status.
-    [self.storage setObject:[NSNumber numberWithBool:isEnabled] forKey:self.isEnabledKey];
+    [self.storage setObject:@(isEnabled) forKey:self.isEnabledKey];
   }
 }
 
@@ -91,11 +91,7 @@
 
 + (BOOL)isEnabled {
   @synchronized([self sharedInstance]) {
-    if ([[self sharedInstance] canBeUsed]) {
-      return [[self sharedInstance] isEnabled];
-    } else {
-      return NO;
-    }
+    return [[self sharedInstance] canBeUsed] && [[self sharedInstance] isEnabled];
   }
 }
 
