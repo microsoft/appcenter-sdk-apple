@@ -20,10 +20,15 @@ typedef void (^enqueueCompletionBlock)(BOOL);
 
 @required
 
-/*
+/**
  * The configuration used by this channel.
  */
 @property(nonatomic) MSChannelConfiguration *configuration;
+
+/**
+ * The groupID for this channel. This is used to determine storage buckets.
+ */
+@property(nonatomic, copy, readonly) NSString *groupID;
 
 /**
  * Initializes a new `MSChannelDefault` instance.
@@ -39,6 +44,7 @@ typedef void (^enqueueCompletionBlock)(BOOL);
 - (instancetype)initWithSender:(id<MSSender>)sender
                        storage:(id<MSStorage>)storage
                  configuration:(MSChannelConfiguration *)configuration
+                       groupID:(NSString *)groupID
              logsDispatchQueue:(dispatch_queue_t)logsDispatchQueue;
 
 /**

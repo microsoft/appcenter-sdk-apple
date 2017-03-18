@@ -20,6 +20,8 @@ static NSString *const kMSTestPriorityName = @"Prio";
 
 @property(nonatomic) MSChannelConfiguration *configMock;
 
+@property(nonatomic, copy) NSString *groupID;
+
 @property(nonatomic) id<MSStorage> storageMock;
 
 @property(nonatomic) id<MSSender> senderMock;
@@ -40,14 +42,16 @@ static NSString *const kMSTestPriorityName = @"Prio";
 - (void)setUp {
   [super setUp];
 
-  _logsDispatchQueue = dispatch_get_main_queue();
-  _configMock = OCMClassMock([MSChannelConfiguration class]);
-  _storageMock = OCMProtocolMock(@protocol(MSStorage));
-  _senderMock = OCMProtocolMock(@protocol(MSSender));
-  _sut = [[MSChannelDefault alloc] initWithSender:_senderMock
-                                          storage:_storageMock
-                                    configuration:_configMock
-                                logsDispatchQueue:_logsDispatchQueue];
+  self.logsDispatchQueue = dispatch_get_main_queue();
+  self.configMock = OCMClassMock([MSChannelConfiguration class]);
+  self.groupID = @"MobileCenter";
+  self.storageMock = OCMProtocolMock(@protocol(MSStorage));
+  self.senderMock = OCMProtocolMock(@protocol(MSSender));
+  self.sut = [[MSChannelDefault alloc] initWithSender:self.senderMock
+                                          storage:self.storageMock
+                                    configuration:self.configMock
+                                              groupID:self.groupID
+                                logsDispatchQueue:self.logsDispatchQueue];
 }
 
 - (void)tearDown {
@@ -101,7 +105,7 @@ static NSString *const kMSTestPriorityName = @"Prio";
                                                                           flushInterval:0.0
                                                                          batchSizeLimit:3
                                                                     pendingBatchesLimit:3];
-  _sut.configuration = config;
+  self.sut.configuration = config;
   int itemsToAdd = 3;
   XCTestExpectation *expectation = [self expectationWithDescription:@"All items enqueued"];
 
@@ -163,6 +167,7 @@ static NSString *const kMSTestPriorityName = @"Prio";
   MSChannelDefault *sut = [[MSChannelDefault alloc] initWithSender:senderMock
                                                            storage:storageMock
                                                      configuration:config
+                                                           groupID:self.groupID
                                                  logsDispatchQueue:self.logsDispatchQueue];
 
   // When
@@ -230,10 +235,11 @@ static NSString *const kMSTestPriorityName = @"Prio";
                                                                           flushInterval:0.0
                                                                          batchSizeLimit:1
                                                                     pendingBatchesLimit:1];
-  _sut.configuration = config;
+  self.sut.configuration = config;
   MSChannelDefault *sut = [[MSChannelDefault alloc] initWithSender:senderMock
                                                            storage:storageMock
                                                      configuration:config
+                                                           groupID:self.groupID
                                                  logsDispatchQueue:dispatch_get_main_queue()];
 
   /**
@@ -300,6 +306,7 @@ static NSString *const kMSTestPriorityName = @"Prio";
   MSChannelDefault *sut = [[MSChannelDefault alloc] initWithSender:senderMock
                                                            storage:storageMock
                                                      configuration:config
+                                                           groupID:self.groupID
                                                  logsDispatchQueue:dispatch_get_main_queue()];
   /**
    * When
@@ -336,10 +343,11 @@ static NSString *const kMSTestPriorityName = @"Prio";
                                                                           flushInterval:0.0
                                                                          batchSizeLimit:1
                                                                     pendingBatchesLimit:10];
-  _sut.configuration = config;
+  self.sut.configuration = config;
   MSChannelDefault *sut = [[MSChannelDefault alloc] initWithSender:senderMock
                                                            storage:storageMock
                                                      configuration:config
+                                                           groupID:self.groupID
                                                  logsDispatchQueue:dispatch_get_main_queue()];
   // When
   [sut enqueueItem:log withCompletion:nil];
@@ -370,6 +378,7 @@ static NSString *const kMSTestPriorityName = @"Prio";
   MSChannelDefault *sut = [[MSChannelDefault alloc] initWithSender:nil
                                                            storage:nil
                                                      configuration:nil
+                                                           groupID:nil
                                                  logsDispatchQueue:dispatch_get_main_queue()];
 #pragma clang diagnostic pop
 
@@ -457,6 +466,7 @@ static NSString *const kMSTestPriorityName = @"Prio";
   self.sut = [[MSChannelDefault alloc] initWithSender:senderMock
                                               storage:storageMock
                                         configuration:config
+                                              groupID:self.groupID
                                     logsDispatchQueue:self.logsDispatchQueue];
   [self.sut addDelegate:delegateMock];
 

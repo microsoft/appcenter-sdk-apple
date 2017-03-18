@@ -33,6 +33,7 @@
 @implementation MSChannelDefault
 
 @synthesize configuration = _configuration;
+@synthesize groupID = _groupID;
 
 #pragma mark - Initialization
 
@@ -52,11 +53,13 @@
 - (instancetype)initWithSender:(id<MSSender>)sender
                        storage:(id<MSStorage>)storage
                  configuration:(MSChannelConfiguration *)configuration
+                       groupID:(NSString *)groupID
              logsDispatchQueue:(dispatch_queue_t)logsDispatchQueue {
   if ((self = [self init])) {
     _sender = sender;
     _storage = storage;
     _configuration = configuration;
+    _groupID = groupID;
     _logsDispatchQueue = logsDispatchQueue;
 
     // Register as sender delegate.
@@ -105,7 +108,7 @@
                                        userInfo:@{NSLocalizedDescriptionKey : kMSMCConnectionSuspendedErrorDesc}];
       [self notifyFailureBeforeSendingForItem:item withError:error];
 
-      // Don't forget to exectute the completion block.
+      // Don't forget to execute the completion block.
       if (completion) {
         completion(NO);
       }
