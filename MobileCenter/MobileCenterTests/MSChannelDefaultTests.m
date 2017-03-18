@@ -45,9 +45,9 @@ static NSString *const kMSTestGroupID = @"GroupID";
   self.storageMock = OCMProtocolMock(@protocol(MSStorage));
   self.senderMock = OCMProtocolMock(@protocol(MSSender));
   self.sut = [[MSChannelDefault alloc] initWithSender:self.senderMock
-                                          storage:self.storageMock
-                                    configuration:self.configMock
-                                logsDispatchQueue:self.logsDispatchQueue];
+                                              storage:self.storageMock
+                                        configuration:self.configMock
+                                    logsDispatchQueue:self.logsDispatchQueue];
 }
 
 - (void)tearDown {
@@ -290,8 +290,8 @@ static NSString *const kMSTestGroupID = @"GroupID";
   OCMStub([senderMock sendAsync:[OCMArg any] completionHandler:[OCMArg any]]);
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
   OCMStub([storageMock
-          loadLogsForGroupID:kMSTestGroupID
-              withCompletion:([OCMArg invokeBlockWithArgs:@YES, ((NSArray <MSLog> *) @[log]), @"1", nil])]);
+      loadLogsForGroupID:kMSTestGroupID
+          withCompletion:([OCMArg invokeBlockWithArgs:@YES, ((NSArray<MSLog> *)@[ log ]), @"1", nil])]);
   MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithGroupID:kMSTestGroupID
                                                                      flushInterval:0.0
                                                                     batchSizeLimit:1
@@ -330,8 +330,8 @@ static NSString *const kMSTestGroupID = @"GroupID";
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
   id<MSLog> log = [MSAbstractLog new];
   OCMStub([storageMock
-          loadLogsForGroupID:kMSTestGroupID
-              withCompletion:([OCMArg invokeBlockWithArgs:@YES, ((NSArray <MSLog> *) @[log]), @"1", nil])]);
+      loadLogsForGroupID:kMSTestGroupID
+          withCompletion:([OCMArg invokeBlockWithArgs:@YES, ((NSArray<MSLog> *)@[ log ]), @"1", nil])]);
   MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithGroupID:kMSTestGroupID
                                                                      flushInterval:0.0
                                                                     batchSizeLimit:1

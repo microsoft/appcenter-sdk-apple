@@ -95,8 +95,7 @@
   assertThat(actual.filePath, equalTo(expected.filePath));
   assertThat(actual.fileId, equalTo(expected.fileId));
 
-  //Sometimes we can get a difference between times in one second
-  //And it is a valid result
+  // Sometimes we can get a difference between times in one second and it is a valid result.
   double maxAllowedDifference = 1;
   double difference = [actual.creationDate timeIntervalSinceDate:expected.creationDate];
   XCTAssertLessThanOrEqual(difference, maxAllowedDifference);
@@ -234,8 +233,8 @@
   // When
   __block NSString *batchId;
   [self.sut loadLogsForGroupID:groupID
-                withCompletion:^(BOOL succeeded, NSArray<NSObject <MSLog> *> *logs, NSString *logsId) {
-                    batchId = logsId;
+                withCompletion:^(BOOL succeeded, NSArray<NSObject<MSLog> *> *logs, NSString *logsId) {
+                  batchId = logsId;
                 }];
 
   // Verify
@@ -255,7 +254,7 @@
 
   // When
   [self.sut loadLogsForGroupID:groupID
-                withCompletion:^(BOOL succeeded, NSArray<NSObject <MSLog> *> *logs, NSString *logsId) {
+                withCompletion:^(BOOL succeeded, NSArray<NSObject<MSLog> *> *logs, NSString *logsId){
                 }];
 
   // Verify
@@ -275,7 +274,7 @@
 
   // When
   [self.sut loadLogsForGroupID:groupID
-                withCompletion:^(BOOL succeeded, NSArray<NSObject <MSLog> *> *logs, NSString *logsId) {
+                withCompletion:^(BOOL succeeded, NSArray<NSObject<MSLog> *> *logs, NSString *logsId){
                 }];
 
   // Verify

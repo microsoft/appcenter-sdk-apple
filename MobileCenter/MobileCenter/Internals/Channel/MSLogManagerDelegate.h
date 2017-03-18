@@ -1,3 +1,7 @@
+ 
+                                                                   
+                                                                 
+    
 #import "MSConstants+Internal.h"
 #import <Foundation/Foundation.h>
 
@@ -5,12 +9,10 @@
 
 @optional
 
-// TODO: add groupID to the LogManagerDelegate-Callbacks?!
-
 /**
  *  A callback that is called when a log has been enqueued, before a log has been forwarded to persistence, etc.
  *
- *  @param log      log.
+ *  @param log The log.
  *  @param internalId An internal Id that can be used to keep track of logs.
  *  @param priority priority.
  */
@@ -20,7 +22,7 @@
  * Callback that is called when a log has been persisted successfully. This was introduced to implement the
  * log buffer for Crashes.
  *
- *  @param log      log.
+ *  @param log The log.
  *  @param internalId An internal Id that can be used to keep track of logs.
  *  @param priority The log's priority.
  *
@@ -33,11 +35,10 @@
 - (void)onFinishedPersistingLog:(id<MSLog>)log withInternalId:(NSString *)internalId andPriority:(MSPriority)priority;
 
 /**
- * Callback that is called when persisting a log has failed, meaning it has not been saved to disk because the log was empty,
- * . This was introduced
- * to implement the log buffer for Crashes.
+ *  Callback that is called when persisting a log has failed, meaning it has not been saved to disk because the log was
+ *  empty. This was introduced to implement the log buffer for Crashes.
  *
- *  @param log      log.
+ *  @param log The log.
  *  @param internalId An internal Id that can be used to keep track of logs.
  *  @param priority priority.
  *

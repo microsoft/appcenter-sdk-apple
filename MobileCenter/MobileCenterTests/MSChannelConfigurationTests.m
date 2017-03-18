@@ -63,7 +63,8 @@
 - (void)testClassWillReturnCorrectConfigurationForGivenBackgroundPriority {
 
   // When
-  MSChannelConfiguration *sut = [MSChannelConfiguration configurationForPriority:MSPriorityBackground groupID:@"GroupID"];
+  MSChannelConfiguration *sut =
+      [MSChannelConfiguration configurationForPriority:MSPriorityBackground groupID:@"GroupID"];
 
   // Then
   assertThat(sut, notNilValue());

@@ -13,9 +13,7 @@
   return [[self logsDir] stringByAppendingPathComponent:groupID];
 }
 
-+ (NSString *)filePathForLogWithId:(NSString *)logsId
-                         extension:(NSString *)extension
-                           groupID:(NSString *)groupID {
++ (NSString *)filePathForLogWithId:(NSString *)logsId extension:(NSString *)extension groupID:(NSString *)groupID {
   NSString *fileName = [logsId stringByAppendingPathExtension:extension];
   NSString *logFilePath = [groupID stringByAppendingPathComponent:fileName];
   NSString *logsPath = [self logsDir];
@@ -54,4 +52,3 @@
 }
 
 @end
-

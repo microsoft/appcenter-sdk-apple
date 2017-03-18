@@ -8,12 +8,12 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- Defines A log manager which triggers and manages the processing of log items on
- different channels.
+ * Defines A log manager which triggers and manages the processing of log items on different channels.
  */
 @protocol MSLogManager <NSObject, MSEnable>
 
 @optional
+
 /**
  *  Add delegate.
  *
@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param logUrl base URL to use for backend communication.
  */
-- (void)setLogUrl:(NSString*)logUrl;
+- (void)setLogUrl:(NSString *)logUrl;
 
 /**
  * Triggers processing of a new log item.
@@ -54,7 +54,10 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param groupID A groupID to enable/disable.
  *  @param priority The priority of the groupID to enable/disable.
  */
-- (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData forGroupID:(NSString *)groupID withPriority:(MSPriority)priority;
+- (void)setEnabled:(BOOL)isEnabled
+    andDeleteDataOnDisabled:(BOOL)deleteData
+                 forGroupID:(NSString *)groupID
+               withPriority:(MSPriority)priority;
 
 /**
  * Add a delegate to each channel that has a certain priority.
@@ -63,7 +66,9 @@ NS_ASSUME_NONNULL_BEGIN
  * @param groupID The groupID of a channel.
  * @param priority The priority of a channel.
  */
-- (void)addChannelDelegate:(id <MSChannelDelegate>)channelDelegate forGroupID:(NSString *)groupID withPriority:(MSPriority)priority;
+- (void)addChannelDelegate:(id<MSChannelDelegate>)channelDelegate
+                forGroupID:(NSString *)groupID
+              withPriority:(MSPriority)priority;
 
 /**
  * Remove a delegate to each channel that has a certain priority.
@@ -72,7 +77,9 @@ NS_ASSUME_NONNULL_BEGIN
  * @param groupID The groupID of a channel.
  * @param priority The priority of a channel.
  */
-- (void)removeChannelDelegate:(id <MSChannelDelegate>)channelDelegate forGroupID:(NSString *)groupID withPriority:(MSPriority)priority;
+- (void)removeChannelDelegate:(id<MSChannelDelegate>)channelDelegate
+                   forGroupID:(NSString *)groupID
+                 withPriority:(MSPriority)priority;
 
 @end
 

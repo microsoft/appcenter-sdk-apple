@@ -32,7 +32,7 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
 
 #pragma mark - Public
 
-- (BOOL)saveLog:(id <MSLog>)log withGroupID:(NSString *)groupID {
+- (BOOL)saveLog:(id<MSLog>)log withGroupID:(NSString *)groupID {
   if (!log) {
     return NO;
   }
@@ -62,10 +62,10 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
   return [MSFileUtil writeData:logsData toFile:bucket.currentFile];
 }
 
-- (NSArray <MSLog> *)deleteLogsForGroupID:(NSString *)groupID {
+- (NSArray<MSLog> *)deleteLogsForGroupID:(NSString *)groupID {
 
   // Cache deleted logs
-  NSMutableArray <MSLog> *deletedLogs = [NSMutableArray < MSLog > new];
+  NSMutableArray<MSLog> *deletedLogs = [NSMutableArray<MSLog> new];
 
   // Remove all files from the bucket.
   MSStorageBucket *bucket = self.buckets[groupID];
@@ -86,14 +86,14 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
   [self deleteFile:[bucket fileWithId:logsId] fromBucket:bucket];
 }
 
-- (NSArray <MSLog> *)deleteFile:(MSFile *)file fromBucket:(MSStorageBucket *)bucket {
-  NSMutableArray <MSLog> *deletedLogs = [NSMutableArray < MSLog > new];
+- (NSArray<MSLog> *)deleteFile:(MSFile *)file fromBucket:(MSStorageBucket *)bucket {
+  NSMutableArray<MSLog> *deletedLogs = [NSMutableArray<MSLog> new];
   if (file) {
 
     // Cache logs from file.
     NSData *data = [MSFileUtil dataForFile:file];
     if (data) {
-      NSArray <MSLog> *logs = [NSKeyedUnarchiver unarchiveObjectWithData:(NSData * _Nonnull)data];
+      NSArray<MSLog> *logs = [NSKeyedUnarchiver unarchiveObjectWithData:(NSData * _Nonnull)data];
       if (logs) {
         [deletedLogs addObjectsFromArray:logs];
       }
@@ -107,7 +107,7 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
 }
 
 - (BOOL)loadLogsForGroupID:(NSString *)groupID withCompletion:(nullable MSLoadDataCompletionBlock)completion {
-  NSArray <MSLog> *logs;
+  NSArray<MSLog> *logs;
   NSString *fileId;
   MSStorageBucket *bucket = [self bucketForGroupID:groupID];
 
@@ -187,8 +187,8 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
 - (NSString *)baseDirectoryPath {
   if (!_baseDirectoryPath) {
     NSString *appSupportPath =
-            [[NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject]
-                    stringByStandardizingPath];
+        [[NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject]
+            stringByStandardizingPath];
     if (appSupportPath) {
       _baseDirectoryPath = [appSupportPath stringByAppendingPathComponent:kMSLogsDirectory];
     }

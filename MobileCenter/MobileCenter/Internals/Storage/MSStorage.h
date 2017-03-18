@@ -4,22 +4,21 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void (^MSLoadDataCompletionBlock)(BOOL succeeded, NSArray <MSLog> *logArray, NSString *batchId);
+typedef void (^MSLoadDataCompletionBlock)(BOOL succeeded, NSArray<MSLog> *logArray, NSString *batchId);
 
 /**
- Defines the storage component which is responsible for file i/o and file
- management.
+ * Defines the storage component which is responsible for file i/o and file management.
  */
 @protocol MSStorage <NSObject>
 
-/*
+/**
  * Defines the maximum count of app log files per storage key on the file system.
  *
  * Default: 7
  */
 @property(nonatomic) NSUInteger bucketFileCountLimit;
 
-/*
+/**
  * Defines the maximum count of app logs per storage key in a file.
  *
  * Default: 50
@@ -36,15 +35,16 @@ typedef void (^MSLoadDataCompletionBlock)(BOOL succeeded, NSArray <MSLog> *logAr
  *
  * @return BOOL that indicates if the log was saved successfully.
  */
-- (BOOL)saveLog:(id <MSLog>)log withGroupID:(NSString *)groupID;
+- (BOOL)saveLog:(id<MSLog>)log withGroupID:(NSString *)groupID;
 
 /**
  * Delete logs related to given storage key from the file system.
  *
  * @param groupID The groupID used for grouping.
+ *
  * @return the list of deleted logs.
  */
-- (NSArray <MSLog> *)deleteLogsForGroupID:(NSString *)groupID;
+- (NSArray<MSLog> *)deleteLogsForGroupID:(NSString *)groupID;
 
 /**
  * Delete a log from the file system.

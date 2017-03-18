@@ -19,9 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Returns the file path to a log file based on its id and storage key.
  *
- * @param groupID A groupID which identifies the group of the
- * log file
- * @param logsId The internal Id of the file
+ * @param groupID A groupID which identifies the group of the log file.
+ * @param logsId The internal Id of the file.
  *
  * @return the file path
  */
