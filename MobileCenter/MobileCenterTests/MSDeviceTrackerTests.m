@@ -3,7 +3,7 @@
 #import "MSDevicePrivate.h"
 #import "MSDeviceTracker.h"
 #import "MSDeviceTrackerPrivate.h"
-#import "MSUtility+Date.h"
+#import "MSUtil.h"
 #import "MSWrapperSdkPrivate.h"
 #import "MSUserDefaults.h"
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
@@ -429,7 +429,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   XCTAssertTrue([actual isEqual:first]);
   
   // When
-  NSNumber *now =  [NSNumber numberWithLongLong:[MSUtility nowInMilliseconds]];
+  NSNumber *now =  [NSNumber numberWithLongLong:[MSUtil nowInMilliseconds]];
   actual = [tracker deviceForToffset:now];
   
   // Then

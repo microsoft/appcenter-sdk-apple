@@ -36,7 +36,7 @@
   MSDevice *device = [MSDevice new];
   NSString *sessionId = @"1234567890";
   NSDictionary *properties = @{ @"Key" : @"Value" };
-  long long createTime = [MSUtility nowInMilliseconds];
+  long long createTime = [MSUtil nowInMilliseconds];
   NSNumber *tOffset = [NSNumber numberWithLongLong:createTime];
 
   self.sut.name = pageName;
@@ -57,7 +57,7 @@
   assertThat(actual[@"properties"], equalTo(properties));
   assertThat(actual[@"device"], notNilValue());
   NSTimeInterval seralizedToffset = [actual[@"toffset"] longLongValue];
-  NSTimeInterval actualToffset = [MSUtility nowInMilliseconds] - createTime;
+  NSTimeInterval actualToffset = [MSUtil nowInMilliseconds] - createTime;
   assertThat(@(seralizedToffset), lessThan(@(actualToffset)));
 
 }

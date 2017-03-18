@@ -2,7 +2,7 @@
 #import "MSLogger.h"
 #import "MSDevice.h"
 #import "MSDevicePrivate.h"
-#import "MSUtility+Date.h"
+#import "MSUtil.h"
 
 static NSString *const kMSSid = @"sid";
 static NSString *const kMSToffset = @"toffset";
@@ -25,7 +25,7 @@ NSString *const kMSType = @"type";
   if (self.toffset) {
 
     // Set the toffset relative to current time. The toffset needs to be up to date.    
-    long long now = [MSUtility nowInMilliseconds];
+    long long now = [MSUtil nowInMilliseconds];
     long long relativeTime = now - [self.toffset longLongValue];
     dict[kMSToffset] = @(relativeTime);
   }

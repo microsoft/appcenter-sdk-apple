@@ -173,7 +173,7 @@ static NSString *const kMSGroupID = @"MobileCenter";
        * If the loglevel hasn't been customized before and we are not running in an app store environment,
        * we set the default loglevel to MSLogLevelWarning.
        */
-      if ((![MSLogger isUserDefinedLogLevel]) && ([MSUtility currentAppEnvironment] == MSEnvironmentOther)) {
+      if ((![MSLogger isUserDefinedLogLevel]) && ([MSUtil currentAppEnvironment] == MSEnvironmentOther)) {
         [MSMobileCenter setLogLevel:MSLogLevelWarning];
       }
       success = true;
