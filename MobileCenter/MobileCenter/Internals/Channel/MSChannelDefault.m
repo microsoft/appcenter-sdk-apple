@@ -181,13 +181,13 @@
               // Forward logs to the sender.
               [self.sender
                           sendAsync:container
-                  completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
+                  completionHandler:^(NSString *senderBatchId, NSError *error, NSUInteger statusCode) {
                     dispatch_async(self.logsDispatchQueue, ^{
-                      if ([self.pendingBatchIds containsObject:batchId]) {
+                      if ([self.pendingBatchIds containsObject:senderBatchId]) {
 
                         // Success.
                         if (statusCode == MSHTTPCodesNo200OK) {
-                          MSLogDebug([MSMobileCenter logTag], @"Log(s) sent with success, batch Id:%@.", batchId);
+                          MSLogDebug([MSMobileCenter logTag], @"Log(s) sent with success, batch Id:%@.", senderBatchId);
 
                           // Notify delegates.
                           [self enumerateDelegatesForSelector:@selector(channel:didSucceedSendingLog:)
@@ -198,8 +198,8 @@
                                                     }];
 
                           // Remove from pending logs and storage.
-                          [self.pendingBatchIds removeObject:batchId];
-                          [self.storage deleteLogsForId:batchId withGroupID:self.configuration.groupID];
+                          [self.pendingBatchIds removeObject:senderBatchId];
+                          [self.storage deleteLogsForId:senderBatchId withGroupID:self.configuration.groupID];
 
                           // Try to flush again if batch queue is not full anymore.
                           if (self.pendingBatchQueueFull &&
@@ -214,7 +214,7 @@
                         // Failure.
                         else {
                           MSLogDebug([MSMobileCenter logTag], @"Log(s) sent with failure, batch Id:%@, status code:%lu",
-                                     batchId, (unsigned long)statusCode);
+                                     senderBatchId, (unsigned long)statusCode);
 
                           // Notify delegates.
                           [self enumerateDelegatesForSelector:@selector(channel:didFailSendingLog:withError:)
@@ -225,8 +225,8 @@
                                                     }];
 
                           // Remove from pending logs.
-                          [self.pendingBatchIds removeObject:batchId];
-                          [self.storage deleteLogsForId:batchId withGroupID:self.configuration.groupID];
+                          [self.pendingBatchIds removeObject:senderBatchId];
+                          [self.storage deleteLogsForId:senderBatchId withGroupID:self.configuration.groupID];
 
                           // Fatal error, disable sender with data deletion.
                           // This will in turn disable this channel and delete logs.
@@ -235,7 +235,7 @@
                           }
                         }
                       } else
-                        MSLogWarning([MSMobileCenter logTag], @"Batch Id %@ not expected, ignore.", batchId);
+                        MSLogWarning([MSMobileCenter logTag], @"Batch Id %@ not expected, ignore.", senderBatchId);
                     });
                   }];
             }
@@ -253,7 +253,12 @@
   [self resetTimer];
 
   self.timerSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, self.logsDispatchQueue);
-  dispatch_source_set_timer(self.timerSource, dispatch_walltime(NULL, NSEC_PER_SEC * self.configuration.flushInterval),
+
+  /**
+   * Cast (NSEC_PER_SEC * self.configuration.flushInterval) to (int64_t) silence warning. The compiler otherwise
+   * complains that we're using a float param (flushInterval) and implicitly downcast to int64_t.
+   */
+  dispatch_source_set_timer(self.timerSource, dispatch_walltime(NULL, (int64_t) (NSEC_PER_SEC * self.configuration.flushInterval)),
                             1ull * NSEC_PER_SEC, 1ull * NSEC_PER_SEC);
   __weak typeof(self) weakSelf = self;
   dispatch_source_set_event_handler(self.timerSource, ^{
