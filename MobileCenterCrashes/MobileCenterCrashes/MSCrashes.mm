@@ -649,7 +649,8 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
         if (serializedLog && serializedLog.length && serializedLog.length > 0) {
           id<MSLog> item = [NSKeyedUnarchiver unarchiveObjectWithData:serializedLog];
           if (item) {
-            // TODO check which groupID to use here!
+            
+            // Buffered logs are used sending their own channel. It will never contain more than 20 logs
             [self.logManager processLog:item withPriority:(MSPriority)priority andGroupID:@"CrashBuffer"];
           }
         }
