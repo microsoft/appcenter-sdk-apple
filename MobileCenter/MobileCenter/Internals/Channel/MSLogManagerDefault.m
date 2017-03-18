@@ -149,12 +149,11 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 
 - (id<MSChannel>)createChannelForGroupID:(NSString *)groupID withPriority:(MSPriority)priority {
   MSChannelDefault *channel;
-  MSChannelConfiguration *configuration = [MSChannelConfiguration configurationForPriority:priority];
+  MSChannelConfiguration *configuration = [MSChannelConfiguration configurationForPriority:priority groupID:groupID];
   if (configuration) {
     channel = [[MSChannelDefault alloc] initWithSender:self.sender
                                                storage:self.storage
                                          configuration:configuration
-                                               groupID:groupID
                                      logsDispatchQueue:self.logsDispatchQueue];
     self.channels[groupID] = channel;
   }
