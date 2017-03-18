@@ -96,7 +96,7 @@
 - (void)testDisableService {
 
   // If
-  [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:self.abstractService.isEnabledKey];
+  [self.settingsMock setObject:@YES forKey:self.abstractService.isEnabledKey];
 
   // When
   [self.abstractService setEnabled:NO];
@@ -108,7 +108,7 @@
 - (void)testEnableService {
 
   // If
-  [self.settingsMock setObject:[NSNumber numberWithBool:NO] forKey:self.abstractService.isEnabledKey];
+  [self.settingsMock setObject:@NO forKey:self.abstractService.isEnabledKey];
 
   // When
   [self.abstractService setEnabled:YES];
@@ -120,7 +120,7 @@
 - (void)testDisableServiceOnServiceDisabled {
 
   // If
-  [self.settingsMock setObject:[NSNumber numberWithBool:NO] forKey:self.abstractService.isEnabledKey];
+  [self.settingsMock setObject:@NO forKey:self.abstractService.isEnabledKey];
 
   // When
   [self.abstractService setEnabled:NO];
@@ -132,7 +132,7 @@
 - (void)testEnableServiceOnServiceEnabled {
 
   // If
-  [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:self.abstractService.isEnabledKey];
+  [self.settingsMock setObject:@YES forKey:self.abstractService.isEnabledKey];
 
   // When
   [self.abstractService setEnabled:YES];
@@ -150,7 +150,7 @@
   BOOL expected = NO;
 
   // Mock MSSettings and swizzle its setObject:forKey: method to check what's sent by the sut to the persistence.
-  OCMStub([self.settingsMock objectForKey:[OCMArg any]]).andReturn([NSNumber numberWithBool:YES]);
+  OCMStub([self.settingsMock objectForKey:[OCMArg any]]).andReturn(@YES);
   OCMStub([self.settingsMock setObject:[OCMArg any] forKey:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
     [invocation getArgument:&isEnabled atIndex:2];
   });
@@ -163,7 +163,7 @@
   /**
    *  Then
    */
-  assertThat(isEnabled, is([NSNumber numberWithBool:expected]));
+  assertThat(isEnabled, is(@(expected)));
 
   // Also check that the sut did access the persistence.
   OCMVerify([self.settingsMock setObject:[OCMArg any] forKey:[OCMArg any]]);
@@ -174,7 +174,7 @@
   /**
    *  If
    */
-  NSNumber *expected = [NSNumber numberWithBool:NO];
+  NSNumber *expected = @NO;
   OCMStub([self.settingsMock objectForKey:[OCMArg any]]).andReturn(expected);
 
   /**
@@ -185,7 +185,7 @@
   /**
    *  Then
    */
-  assertThat([NSNumber numberWithBool:isEnabled], is(expected));
+  assertThat(@(isEnabled), is(expected));
 
   // Also check that the sut did access the persistence.
   OCMVerify([self.settingsMock objectForKey:[OCMArg any]]);
@@ -205,8 +205,8 @@
 
   // If
   [MSMobileCenter resetSharedInstance];
-  [self.settingsMock setObject:[NSNumber numberWithBool:NO] forKey:kMSMobileCenterIsEnabledKey];
-  [self.settingsMock setObject:[NSNumber numberWithBool:NO] forKey:self.abstractService.isEnabledKey];
+  [self.settingsMock setObject:@NO forKey:kMSMobileCenterIsEnabledKey];
+  [self.settingsMock setObject:@NO forKey:self.abstractService.isEnabledKey];
   [MSMobileCenter start:MS_UUID_STRING withServices:@[ [MSServiceAbstractImplementation class] ]];
 
   // When
@@ -220,8 +220,8 @@
 
   // If
   [MSMobileCenter resetSharedInstance];
-  [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:kMSMobileCenterIsEnabledKey];
-  [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:self.abstractService.isEnabledKey];
+  [self.settingsMock setObject:@YES forKey:kMSMobileCenterIsEnabledKey];
+  [self.settingsMock setObject:@YES forKey:self.abstractService.isEnabledKey];
   [MSMobileCenter start:MS_UUID_STRING withServices:@[ [MSServiceAbstractImplementation class] ]];
 
   // When
@@ -235,8 +235,8 @@
 
   // If
   [MSMobileCenter resetSharedInstance];
-  [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:kMSMobileCenterIsEnabledKey];
-  [self.settingsMock setObject:[NSNumber numberWithBool:NO] forKey:self.abstractService.isEnabledKey];
+  [self.settingsMock setObject:@YES forKey:kMSMobileCenterIsEnabledKey];
+  [self.settingsMock setObject:@NO forKey:self.abstractService.isEnabledKey];
   [MSMobileCenter start:MS_UUID_STRING withServices:@[ [MSServiceAbstractImplementation class] ]];
 
   // When
@@ -249,8 +249,8 @@
 - (void)testReenableCoreOnServiceDisabled {
 
   // If
-  [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:kMSMobileCenterIsEnabledKey];
-  [self.settingsMock setObject:[NSNumber numberWithBool:NO] forKey:self.abstractService.isEnabledKey];
+  [self.settingsMock setObject:@YES forKey:kMSMobileCenterIsEnabledKey];
+  [self.settingsMock setObject:@NO forKey:self.abstractService.isEnabledKey];
   [MSMobileCenter start:MS_UUID_STRING withServices:@[ [MSServiceAbstractImplementation class] ]];
 
   // When
@@ -263,8 +263,8 @@
 - (void)testReenableCoreOnServiceEnabled {
 
   // If
-  [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:kMSMobileCenterIsEnabledKey];
-  [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:self.abstractService.isEnabledKey];
+  [self.settingsMock setObject:@YES forKey:kMSMobileCenterIsEnabledKey];
+  [self.settingsMock setObject:@YES forKey:self.abstractService.isEnabledKey];
   [MSMobileCenter start:MS_UUID_STRING withServices:@[ [MSServiceAbstractImplementation class] ]];
 
   // When
@@ -295,7 +295,7 @@
         [invocation getArgument:&forwardedEnabled atIndex:2];
       });
   self.abstractService.logManager = logManagerMock;
-  [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:self.abstractService.isEnabledKey];
+  [self.settingsMock setObject:@YES forKey:self.abstractService.isEnabledKey];
 
   /**
    *  When
@@ -325,7 +325,7 @@
   XCTAssertFalse(forwardedEnabled);
 }
 
-- (void)testEnableLogManagerOnstartWithLogManager {
+- (void)testEnableLogManagerOnStartWithLogManager {
 
   // If
   id<MSLogManager> logManagerMock = OCMClassMock([MSLogManagerDefault class]);

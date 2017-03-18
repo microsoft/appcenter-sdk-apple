@@ -51,11 +51,11 @@
   assertThat(expected, equalTo(actual));
 }
 
-- (void)testStorageSubDirectoriesAreExcludedDromBackupButAppSupportFolderIsNotAffected {
+- (void)testStorageSubDirectoriesAreExcludedFromBackupButAppSupportFolderIsNotAffected {
 
   // Explicitly do not exclude app support folder from backups
   NSError *getResourceError = nil;
-  NSNumber *resourveValue = nil;
+  NSNumber *resourceValue = nil;
   NSString *appSupportPath =
       [NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject];
   XCTAssertTrue([[NSURL fileURLWithPath:appSupportPath] setResourceValue:@NO
@@ -64,7 +64,7 @@
 
   // Create first file and verify that subdirectory is excluded from backups
   getResourceError = nil;
-  resourveValue = nil;
+  resourceValue = nil;
   NSString *subDirectory = @"testDirectory";
   NSString *fileId = @"fileId";
   NSString *filePath = [MSStorageTestUtil filePathForLogWithId:fileId extension:@"ms" groupID:subDirectory];
@@ -72,18 +72,18 @@
 
   [MSFileUtil writeData:[NSData new] toFile:file];
   NSString *storagePath = [MSStorageTestUtil storageDirForGroupID:subDirectory];
-  [[NSURL fileURLWithPath:storagePath] getResourceValue:&resourveValue
+  [[NSURL fileURLWithPath:storagePath] getResourceValue:&resourceValue
                                                  forKey:NSURLIsExcludedFromBackupKey
                                                   error:&getResourceError];
   XCTAssertNil(getResourceError);
-  XCTAssertEqual(resourveValue, @YES);
+  XCTAssertEqual(resourceValue, @YES);
 
   // Verify that app support folder still isn't excluded
-  [[NSURL fileURLWithPath:appSupportPath] getResourceValue:&resourveValue
+  [[NSURL fileURLWithPath:appSupportPath] getResourceValue:&resourceValue
                                                     forKey:NSURLIsExcludedFromBackupKey
                                                      error:&getResourceError];
   XCTAssertNil(getResourceError);
-  XCTAssertEqual(resourveValue, @NO);
+  XCTAssertEqual(resourceValue, @NO);
 }
 
 - (void)testOnlyExistingFileNamesWithExtensionInDirAreReturned {
@@ -103,7 +103,7 @@
                                          creationDate:[NSDate date]];
 
   // Create files with searched extension
-  NSArray<MSFile *> *expected = [NSArray arrayWithObjects:file1, file2, nil];
+  NSArray<MSFile *> *expected = @[file1, file2];
 
   // Create files with different extension
   [MSStorageTestUtil createFileWithId:@"3"
@@ -155,7 +155,7 @@
   assertThatBool(success, isTrue());
 }
 
-- (void)testDeletingUnexistingFileReturnsNo {
+- (void)testDeletingNonexistingFileReturnsNo {
 
   // If
   NSString *subDirectory = @"testDirectory";
@@ -210,7 +210,7 @@
   assertThat(actual, equalTo(expected));
 }
 
-- (void)testReadingUnexistingFileReturnsNil {
+- (void)testReadingNonexistingFileReturnsNil {
 
   // If
   NSString *directory = [MSStorageTestUtil logsDir];
@@ -240,7 +240,7 @@
   assertThat(expected, equalTo([NSData dataWithContentsOfFile:filePath]));
 }
 
-- (void)testAppendingDataToUnexistingDirWillCreateDirAndFile {
+- (void)testAppendingDataToNonexistingDirWillCreateDirAndFile {
 
   // If
   NSString *fileName = @"0";

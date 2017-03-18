@@ -148,7 +148,7 @@
   MSFile *availableFile3 =
       [[MSFile alloc] initWithPath:@"3" fileId:@"3" creationDate:[NSDate dateWithTimeIntervalSinceNow:5]];
   bucket.availableFiles =
-      [NSMutableArray<MSFile *> arrayWithObjects:availableFile1, availableFile2, availableFile3, nil];
+          [@[availableFile1, availableFile2, availableFile3] mutableCopy];
   self.sut.bucketFileCountLimit = bucket.availableFiles.count;
   MSAbstractLog *log = [MSAbstractLog new];
 
@@ -169,7 +169,7 @@
   self.sut.buckets[groupID] = [MSStorageBucket new];
   MSStorageBucket *bucket = self.sut.buckets[groupID];
   MSFile *blockedFile = [[MSFile alloc] initWithPath:@"333" fileId:batchId creationDate:[NSDate date]];
-  bucket.blockedFiles = [NSMutableArray arrayWithObject:blockedFile];
+  bucket.blockedFiles = [@[blockedFile] mutableCopy];
 
   // When
   [self.sut deleteLogsForId:batchId withGroupID:groupID];
@@ -187,7 +187,7 @@
   self.sut.buckets[groupID] = [MSStorageBucket new];
   MSStorageBucket *bucket = self.sut.buckets[groupID];
   MSFile *availableFile = [[MSFile alloc] initWithPath:@"333" fileId:batchId creationDate:[NSDate date]];
-  bucket.availableFiles = [NSMutableArray arrayWithObject:availableFile];
+  bucket.availableFiles = [@[availableFile] mutableCopy];
 
   // When
   [self.sut deleteLogsForId:batchId withGroupID:groupID];
@@ -226,7 +226,7 @@
   MSFile *availableFile3 =
       [[MSFile alloc] initWithPath:@"3" fileId:@"3" creationDate:[NSDate dateWithTimeIntervalSinceNow:5]];
   bucket.availableFiles =
-      [NSMutableArray<MSFile *> arrayWithObjects:availableFile1, availableFile2, availableFile3, nil];
+          [@[availableFile1, availableFile2, availableFile3] mutableCopy];
   MSFile *currentFile = [[MSFile alloc] initWithPath:@"333" fileId:@"333" creationDate:[NSDate date]];
   bucket.currentFile = currentFile;
 
@@ -250,7 +250,7 @@
 
   MSFile *availableFile =
       [[MSFile alloc] initWithPath:@"1" fileId:@"1" creationDate:[NSDate dateWithTimeIntervalSinceNow:1]];
-  bucket.availableFiles = [NSMutableArray<MSFile *> arrayWithObject:availableFile];
+  bucket.availableFiles = [@[availableFile] mutableCopy];
 
   // When
   [self.sut loadLogsForGroupID:groupID

@@ -77,7 +77,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   [[MSAnalytics sharedInstance] startWithLogManager:OCMProtocolMock(@protocol(MSLogManager))
                                           appSecret:kMSTestAppSecret];
 
-  MSServiceAbstract *service = (MSServiceAbstract *)[MSAnalytics sharedInstance];
+  MSServiceAbstract *service = [MSAnalytics sharedInstance];
 
   [service setEnabled:YES];
   XCTAssertTrue([service isEnabled]);

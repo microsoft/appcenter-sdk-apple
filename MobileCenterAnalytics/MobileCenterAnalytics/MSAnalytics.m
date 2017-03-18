@@ -89,7 +89,7 @@ static dispatch_once_t onceToken;
     // Set self as delegate of analytics channel.
     [self.logManager addChannelDelegate:self forGroupID:self.groupID withPriority:self.priority];
 
-    // Report current page while auto page traking is on.
+    // Report current page while auto page tracking is on.
     if (self.autoPageTrackingEnabled) {
 
       // Track on the main queue to avoid race condition with page swizzling.
@@ -152,7 +152,7 @@ static dispatch_once_t onceToken;
 
 - (BOOL)validateProperties:(NSDictionary<NSString *, NSString *> *)properties {
   for (id key in properties) {
-    if (![key isKindOfClass:[NSString class]] || ![[properties objectForKey:key] isKindOfClass:[NSString class]]) {
+    if (![key isKindOfClass:[NSString class]] || ![properties[key] isKindOfClass:[NSString class]]) {
       return NO;
     }
   }

@@ -134,7 +134,7 @@ static NSString *const kMSTestGroupID = @"GroupID";
   __block id<MSLog> log;
   __block int currentBatchId = 1;
   __block NSMutableArray<NSString *> *sentBatchIds = [NSMutableArray new];
-  int expectedMaxPendingBatched = 2;
+  NSUInteger expectedMaxPendingBatched = 2;
 
   // Set up mock and stubs.
   id senderMock = OCMProtocolMock(@protocol(MSSender));
@@ -398,7 +398,7 @@ static NSString *const kMSTestGroupID = @"GroupID";
    * If
    */
   [self initChannelEndJobExpectation];
-  NSInteger expectedHTTPCode = MSHTTPCodesNo404NotFound;
+  NSUInteger expectedHTTPCode = MSHTTPCodesNo404NotFound;
   NSDictionary *userInfo = @{
     NSLocalizedDescriptionKey : kMSMCConnectionHttpErrorDesc,
     kMSMCConnectionHttpCodeErrorKey : @(MSHTTPCodesNo404NotFound)
