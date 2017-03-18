@@ -67,6 +67,7 @@
 /* Begin PBXFileReference section */
 		044BAA741E7CA556002CF26E /* SasquatchObjC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SasquatchObjC.entitlements; sourceTree = "<group>"; };
 		0471B9451E455AD00022F951 /* MobileCenterDistribute.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterDistribute.framework; path = "../MobileCenter-SDK-iOS/MobileCenterDistribute.framework"; sourceTree = "<group>"; };
+		04940F1D1E7CB862006D265F /* SasquatchObjCWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SasquatchObjCWidget.entitlements; sourceTree = "<group>"; };
 		04CCCA431D88AA86005D8180 /* MobileCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenter.framework; path = ../Products/MobileCenter/MobileCenter.framework; sourceTree = "<group>"; };
 		04CCCA451D88AA93005D8180 /* MobileCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterAnalytics.framework; path = ../Products/MobileCenterAnalytics/MobileCenterAnalytics.framework; sourceTree = "<group>"; };
 		04CCCA471D88AA9F005D8180 /* MobileCenterCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterCrashes.framework; path = ../Products/MobileCenterCrashes/MobileCenterCrashes.framework; sourceTree = "<group>"; };
@@ -130,6 +131,7 @@
 		382EC1DC1DDB805400A60DBD /* SasquatchObjCWidget */ = {
 			isa = PBXGroup;
 			children = (
+				04940F1D1E7CB862006D265F /* SasquatchObjCWidget.entitlements */,
 				382EC1F81DDB9F7F00A60DBD /* TodayViewController.h */,
 				382EC1F71DDB9F7F00A60DBD /* TodayViewController.m */,
 				382EC1FA1DDB9FA400A60DBD /* MainInterface.storyboard */,
@@ -250,6 +252,11 @@
 					382EC1D71DDB805400A60DBD = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = L4RARDNZ2Y;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					6E2307D41D22083C0031C598 = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -364,6 +371,7 @@
 		382EC1E71DDB805400A60DBD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = SasquatchObjCWidget/SasquatchObjCWidget.entitlements;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)/**";
 				INFOPLIST_FILE = SasquatchObjCWidget/Info.plist;
@@ -378,6 +386,7 @@
 		382EC1E81DDB805400A60DBD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = SasquatchObjCWidget/SasquatchObjCWidget.entitlements;
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)/**";
 				INFOPLIST_FILE = SasquatchObjCWidget/Info.plist;
