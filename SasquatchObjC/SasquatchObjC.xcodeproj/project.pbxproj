@@ -253,11 +253,6 @@
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = L4RARDNZ2Y;
 						ProvisioningStyle = Automatic;
-						SystemCapabilities = {
-							com.apple.Push = {
-								enabled = 1;
-							};
-						};
 					};
 					6E2307D41D22083C0031C598 = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -373,7 +368,6 @@
 		382EC1E71DDB805400A60DBD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = SasquatchObjCWidget/SasquatchObjCWidget.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				ENABLE_BITCODE = NO;
@@ -392,7 +386,6 @@
 		382EC1E81DDB805400A60DBD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = SasquatchObjCWidget/SasquatchObjCWidget.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				ENABLE_BITCODE = YES;

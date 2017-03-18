@@ -500,11 +500,6 @@
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = L4RARDNZ2Y;
 						ProvisioningStyle = Automatic;
-						SystemCapabilities = {
-							com.apple.Push = {
-								enabled = 1;
-							};
-						};
 					};
 					E82E1B5E1D1CA58D00D281C1 = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -755,7 +750,6 @@
 		380A4DA51DD6892F00E99219 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = PuppetWidget/PuppetWidget.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
@@ -775,7 +769,6 @@
 		380A4DA61DD6892F00E99219 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = PuppetWidget/PuppetWidget.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
