@@ -32,16 +32,16 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
 
 #pragma mark - Public
 
-- (BOOL)saveLog:(id <MSLog>)log withStorageKey:(NSString *)storageKey {
+- (BOOL)saveLog:(id <MSLog>)log withGroupID:(NSString *)groupID {
   if (!log) {
     return NO;
   }
 
-  MSStorageBucket *bucket = [self bucketForStorageKey:storageKey];
+  MSStorageBucket *bucket = [self bucketForGroupID:groupID];
 
   if (bucket.currentLogs.count >= self.bucketFileLogCountLimit) {
     [bucket.currentLogs removeAllObjects];
-    [self renewCurrentFileForStorageKey:storageKey];
+    [self renewCurrentFileForGroupID:groupID];
   }
 
   if (bucket.currentLogs.count == 0) {
@@ -49,7 +49,7 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
     // Drop oldest files if needed
     if (bucket.availableFiles.count >= self.bucketFileCountLimit) {
       MSFile *oldestFile = [bucket.availableFiles lastObject];
-      [self deleteLogsForId:oldestFile.fileId withStorageKey:storageKey];
+      [self deleteLogsForId:oldestFile.fileId withGroupID:groupID];
     }
 
     // Make current file available and create new current file
@@ -62,13 +62,13 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
   return [MSFileUtil writeData:logsData toFile:bucket.currentFile];
 }
 
-- (NSArray <MSLog> *)deleteLogsForStorageKey:(NSString *)storageKey {
+- (NSArray <MSLog> *)deleteLogsForGroupID:(NSString *)groupID {
 
   // Cache deleted logs
   NSMutableArray <MSLog> *deletedLogs = [NSMutableArray < MSLog > new];
 
   // Remove all files from the bucket.
-  MSStorageBucket *bucket = self.buckets[storageKey];
+  MSStorageBucket *bucket = self.buckets[groupID];
   NSArray<MSFile *> *allFiles = [bucket removeAllFiles];
 
   // Delete all files.
@@ -77,12 +77,12 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
   }
 
   // Get ready for next time.
-  [self renewCurrentFileForStorageKey:storageKey];
+  [self renewCurrentFileForGroupID:groupID];
   return deletedLogs;
 }
 
-- (void)deleteLogsForId:(NSString *)logsId withStorageKey:(NSString *)storageKey {
-  MSStorageBucket *bucket = self.buckets[storageKey];
+- (void)deleteLogsForId:(NSString *)logsId withGroupID:(NSString *)groupID {
+  MSStorageBucket *bucket = self.buckets[groupID];
   [self deleteFile:[bucket fileWithId:logsId] fromBucket:bucket];
 }
 
@@ -106,12 +106,12 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
   return deletedLogs;
 }
 
-- (BOOL)loadLogsForStorageKey:(NSString *)storageKey withCompletion:(nullable MSLoadDataCompletionBlock)completion {
+- (BOOL)loadLogsForGroupID:(NSString *)groupID withCompletion:(nullable MSLoadDataCompletionBlock)completion {
   NSArray <MSLog> *logs;
   NSString *fileId;
-  MSStorageBucket *bucket = [self bucketForStorageKey:storageKey];
+  MSStorageBucket *bucket = [self bucketForGroupID:groupID];
 
-  [self renewCurrentFileForStorageKey:storageKey];
+  [self renewCurrentFileForGroupID:groupID];
 
   // Get data of oldest file
   if (bucket.availableFiles.count > 0) {
@@ -132,54 +132,54 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
   return (bucket.availableFiles.count > 0);
 }
 
-- (void)closeBatchWithStorageKey:(NSString *)storageKey {
-  [self renewCurrentFileForStorageKey:storageKey];
+- (void)closeBatchWithGroupID:(NSString *)groupID {
+  [self renewCurrentFileForGroupID:groupID];
 }
 
 #pragma mark - Helper
 
-- (MSStorageBucket *)createNewBucketForStorageKey:(NSString *)storageKey {
+- (MSStorageBucket *)createNewBucketForGroupID:(NSString *)groupID {
   MSStorageBucket *bucket = [MSStorageBucket new];
-  NSString *storageDirectory = [self directoryPathForStorageKey:storageKey];
+  NSString *storageDirectory = [self directoryPathForGroupID:groupID];
   NSArray *existingFiles = [MSFileUtil filesForDirectory:storageDirectory withFileExtension:kMSFileExtension];
   if (existingFiles) {
     [bucket.availableFiles addObjectsFromArray:existingFiles];
     [bucket sortAvailableFilesByCreationDate];
   }
-  self.buckets[storageKey] = bucket;
-  [self renewCurrentFileForStorageKey:storageKey];
+  self.buckets[groupID] = bucket;
+  [self renewCurrentFileForGroupID:groupID];
 
   return bucket;
 }
 
-- (MSStorageBucket *)bucketForStorageKey:(NSString *)storageKey {
-  MSStorageBucket *bucket = self.buckets[storageKey];
+- (MSStorageBucket *)bucketForGroupID:(NSString *)groupID {
+  MSStorageBucket *bucket = self.buckets[groupID];
   if (!bucket) {
-    bucket = [self createNewBucketForStorageKey:storageKey];
+    bucket = [self createNewBucketForGroupID:groupID];
   }
 
   return bucket;
 }
 
-- (void)renewCurrentFileForStorageKey:(NSString *)storageKey {
-  MSStorageBucket *bucket = [self bucketForStorageKey:storageKey];
+- (void)renewCurrentFileForGroupID:(NSString *)groupID {
+  MSStorageBucket *bucket = [self bucketForGroupID:groupID];
   NSDate *creationDate = [NSDate date];
   NSString *fileId = MS_UUID_STRING;
-  NSString *filePath = [self filePathForStorageKey:storageKey logsId:fileId];
+  NSString *filePath = [self filePathForGroupID:groupID logsId:fileId];
   MSFile *file = [[MSFile alloc] initWithPath:filePath fileId:fileId creationDate:creationDate];
   bucket.currentFile = file;
   [bucket.currentLogs removeAllObjects];
 }
 
-- (NSString *)directoryPathForStorageKey:(NSString *)storageKey {
-  NSString *filePath = [self.baseDirectoryPath stringByAppendingPathComponent:storageKey];
+- (NSString *)directoryPathForGroupID:(NSString *)groupID {
+  NSString *filePath = [self.baseDirectoryPath stringByAppendingPathComponent:groupID];
 
   return filePath;
 }
 
-- (NSString *)filePathForStorageKey:(NSString *)storageKey logsId:(nonnull NSString *)logsId {
+- (NSString *)filePathForGroupID:(NSString *)groupID logsId:(NSString *)logsId {
   NSString *fileName = [logsId stringByAppendingPathExtension:kMSFileExtension];
-  NSString *filePath = [[self directoryPathForStorageKey:storageKey] stringByAppendingPathComponent:fileName];
+  NSString *filePath = [[self directoryPathForGroupID:groupID] stringByAppendingPathComponent:fileName];
 
   return filePath;
 }

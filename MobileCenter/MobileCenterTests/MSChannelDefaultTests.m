@@ -146,7 +146,7 @@ static NSString *const kMSTestGroupID = @"GroupID";
     }
   });
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
-  OCMStub([storageMock loadLogsForStorageKey:kMSTestGroupID withCompletion:([OCMArg any])])
+  OCMStub([storageMock loadLogsForGroupID:kMSTestGroupID withCompletion:([OCMArg any])])
       .andDo(^(NSInvocation *invocation) {
 
         MSLoadDataCompletionBlock loadCallback;
@@ -211,7 +211,7 @@ static NSString *const kMSTestGroupID = @"GroupID";
 
   // Stub the storage load for that log.
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
-  OCMStub([storageMock loadLogsForStorageKey:kMSTestGroupID withCompletion:([OCMArg any])])
+  OCMStub([storageMock loadLogsForGroupID:kMSTestGroupID withCompletion:([OCMArg any])])
       .andDo(^(NSInvocation *invocation) {
         MSLoadDataCompletionBlock loadCallback;
 
@@ -290,8 +290,8 @@ static NSString *const kMSTestGroupID = @"GroupID";
   OCMStub([senderMock sendAsync:[OCMArg any] completionHandler:[OCMArg any]]);
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
   OCMStub([storageMock
-      loadLogsForStorageKey:kMSTestGroupID
-             withCompletion:([OCMArg invokeBlockWithArgs:@YES, ((NSArray<MSLog> *)@[ log ]), @"1", nil])]);
+          loadLogsForGroupID:kMSTestGroupID
+              withCompletion:([OCMArg invokeBlockWithArgs:@YES, ((NSArray <MSLog> *) @[log]), @"1", nil])]);
   MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithGroupID:kMSTestGroupID
                                                                      flushInterval:0.0
                                                                     batchSizeLimit:1
@@ -330,8 +330,8 @@ static NSString *const kMSTestGroupID = @"GroupID";
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
   id<MSLog> log = [MSAbstractLog new];
   OCMStub([storageMock
-      loadLogsForStorageKey:kMSTestGroupID
-             withCompletion:([OCMArg invokeBlockWithArgs:@YES, ((NSArray<MSLog> *)@[ log ]), @"1", nil])]);
+          loadLogsForGroupID:kMSTestGroupID
+              withCompletion:([OCMArg invokeBlockWithArgs:@YES, ((NSArray <MSLog> *) @[log]), @"1", nil])]);
   MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithGroupID:kMSTestGroupID
                                                                      flushInterval:0.0
                                                                     batchSizeLimit:1
@@ -351,7 +351,7 @@ static NSString *const kMSTestGroupID = @"GroupID";
                                handler:^(NSError *error) {
 
                                  // Check that logs as been requested for deletion and that there is no batch left.
-                                 OCMVerify([storageMock deleteLogsForStorageKey:kMSTestGroupID]);
+                                 OCMVerify([storageMock deleteLogsForGroupID:kMSTestGroupID]);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
@@ -428,7 +428,7 @@ static NSString *const kMSTestGroupID = @"GroupID";
 
   // Stub the storage load for that log.
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
-  OCMStub([storageMock loadLogsForStorageKey:kMSTestGroupID withCompletion:([OCMArg any])])
+  OCMStub([storageMock loadLogsForGroupID:kMSTestGroupID withCompletion:([OCMArg any])])
       .andDo(^(NSInvocation *invocation) {
         MSLoadDataCompletionBlock loadCallback;
 
@@ -440,7 +440,7 @@ static NSString *const kMSTestGroupID = @"GroupID";
       });
 
   // Stub the storage to return deleted values.
-  OCMStub([storageMock deleteLogsForStorageKey:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
+  OCMStub([storageMock deleteLogsForGroupID:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
     NSMutableArray<MSLog> *deletedLogs = [expectedLogs mutableCopy];
     [deletedLogs removeObjectAtIndex:0];
 

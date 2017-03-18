@@ -38,12 +38,12 @@
 - (void)testFileStorageUsesCorrectFilePath {
 
   // If
-  NSString *storageKey = @"TestDirectory";
+  NSString *groupID = @"TestGroupID";
   NSString *logsId = @"TestId";
-  NSString *expected = [MSStorageTestUtil filePathForLogWithId:logsId extension:@"ms" storageKey:storageKey];
+  NSString *expected = [MSStorageTestUtil filePathForLogWithId:logsId extension:@"ms" groupID:groupID];
 
   // When
-  NSString *actual = [self.sut filePathForStorageKey:storageKey logsId:logsId];
+  NSString *actual = [self.sut filePathForGroupID:groupID logsId:logsId];
 
   // Then
   assertThat(actual, equalTo(expected));
@@ -52,17 +52,17 @@
 - (void)testSavingFirstFileCreatesNewBucket {
 
   // If
-  NSString *storageKey = @"TestDirectory";
+  NSString *groupID = @"TestGroupID";
   id fileHelperMock = OCMClassMock([MSFileUtil class]);
   MSAbstractLog *log = [MSAbstractLog new];
-  MSStorageBucket *bucket = self.sut.buckets[storageKey];
+  MSStorageBucket *bucket = self.sut.buckets[groupID];
   assertThat(bucket, nilValue());
 
   // When
-  BOOL success = [self.sut saveLog:log withStorageKey:storageKey];
+  BOOL success = [self.sut saveLog:log withGroupID:groupID];
 
   // Verify
-  MSStorageBucket *actualBucket = self.sut.buckets[storageKey];
+  MSStorageBucket *actualBucket = self.sut.buckets[groupID];
   MSFile *actualCurrentFile = actualBucket.currentFile;
   XCTAssertTrue(success);
   assertThat(actualCurrentFile, notNilValue());
@@ -76,21 +76,21 @@
 - (void)testCreatingNewBucketsWillLoadExistingFiles {
 
   // If
-  NSString *storageKey = @"TestDirectory";
+  NSString *groupID = @"GroupID";
   MSAbstractLog *log = [MSAbstractLog new];
   MSFile *expected = [MSStorageTestUtil createFileWithId:@"test123"
                                                     data:[NSData new]
                                                extension:@"ms"
-                                              storageKey:storageKey
+                                                 groupID:groupID
                                             creationDate:[NSDate date]];
-  assertThat(self.sut.buckets[storageKey], nilValue());
+  assertThat(self.sut.buckets[groupID], nilValue());
 
   // When
-  BOOL success = [self.sut saveLog:log withStorageKey:storageKey];
+  BOOL success = [self.sut saveLog:log withGroupID:groupID];
 
   // Verify
   XCTAssertTrue(success);
-  MSStorageBucket *bucket = self.sut.buckets[storageKey];
+  MSStorageBucket *bucket = self.sut.buckets[groupID];
   MSFile *actual = bucket.availableFiles.lastObject;
   assertThat(actual.filePath, equalTo(expected.filePath));
   assertThat(actual.fileId, equalTo(expected.fileId));
@@ -105,12 +105,12 @@
 - (void)testSaveFirstLogOfABatchWillNotAddItToCurrentFileIfItIsNil {
 
   // If
-  NSString *storageKey = @"TestDirectory";
+  NSString *groupID = @"GroupID";
   MSAbstractLog *log = nil;
-  MSStorageBucket *bucket = [self.sut bucketForStorageKey:storageKey];
+  MSStorageBucket *bucket = [self.sut bucketForGroupID:groupID];
 
   // When
-  BOOL success = [self.sut saveLog:log withStorageKey:storageKey];
+  BOOL success = [self.sut saveLog:log withGroupID:groupID];
 
   // Verify
   XCTAssertFalse(success);
@@ -120,16 +120,16 @@
 - (void)testSaveFirstLogOfABatchWillAddCurrentFileToAvailableList {
 
   // If
-  NSString *storageKey = @"TestDirectory";
+  NSString *groupID = @"GroupID";
   MSAbstractLog *log = [MSAbstractLog new];
-  assertThat(self.sut.buckets[storageKey], nilValue());
+  assertThat(self.sut.buckets[groupID], nilValue());
 
   // When
-  BOOL success = [self.sut saveLog:log withStorageKey:storageKey];
+  BOOL success = [self.sut saveLog:log withGroupID:groupID];
 
   // Verify
   XCTAssertTrue(success);
-  MSStorageBucket *bucket = self.sut.buckets[storageKey];
+  MSStorageBucket *bucket = self.sut.buckets[groupID];
   MSFile *expected = bucket.currentFile;
   MSFile *actual = bucket.availableFiles.lastObject;
   assertThat(actual, equalTo(expected));
@@ -139,8 +139,8 @@
 - (void)testSaveFirstLogOfBatchWillDeleteOldestFileIfFileLimitHasBeenReached {
 
   // If
-  NSString *storageKey = @"TestDirectory";
-  MSStorageBucket *bucket = [self.sut bucketForStorageKey:storageKey];
+  NSString *groupID = @"GroupID";
+  MSStorageBucket *bucket = [self.sut bucketForGroupID:groupID];
 
   MSFile *availableFile1 =
       [[MSFile alloc] initWithPath:@"1" fileId:@"1" creationDate:[NSDate dateWithTimeIntervalSinceNow:1]];
@@ -154,7 +154,7 @@
   MSAbstractLog *log = [MSAbstractLog new];
 
   // When
-  BOOL success = [self.sut saveLog:log withStorageKey:storageKey];
+  BOOL success = [self.sut saveLog:log withGroupID:groupID];
 
   // Verify
   XCTAssertTrue(success);
@@ -165,33 +165,33 @@
 - (void)testDeleteFileRemovesLogsIdFromBlockedFilesList {
 
   // If
-  NSString *storageKey = @"TestDirectory";
+  NSString *groupID = @"GroupID";
   NSString *batchId = @"12345";
-  self.sut.buckets[storageKey] = [MSStorageBucket new];
-  MSStorageBucket *bucket = self.sut.buckets[storageKey];
+  self.sut.buckets[groupID] = [MSStorageBucket new];
+  MSStorageBucket *bucket = self.sut.buckets[groupID];
   MSFile *blockedFile = [[MSFile alloc] initWithPath:@"333" fileId:batchId creationDate:[NSDate date]];
   bucket.blockedFiles = [NSMutableArray arrayWithObject:blockedFile];
 
   // When
-  [self.sut deleteLogsForId:batchId withStorageKey:storageKey];
+  [self.sut deleteLogsForId:batchId withGroupID:groupID];
 
   // Verify
-  assertThatInteger(self.sut.buckets[storageKey].blockedFiles.count, equalToInteger(0));
+  assertThatInteger(self.sut.buckets[groupID].blockedFiles.count, equalToInteger(0));
 }
 
 - (void)testDeleteFileWillCallFileHelperMethod {
 
   // If
   id fileHelperMock = OCMClassMock([MSFileUtil class]);
-  NSString *storageKey = @"TestDirectory";
+  NSString *groupID = @"GroupID";
   NSString *batchId = @"12345";
-  self.sut.buckets[storageKey] = [MSStorageBucket new];
-  MSStorageBucket *bucket = self.sut.buckets[storageKey];
+  self.sut.buckets[groupID] = [MSStorageBucket new];
+  MSStorageBucket *bucket = self.sut.buckets[groupID];
   MSFile *availableFile = [[MSFile alloc] initWithPath:@"333" fileId:batchId creationDate:[NSDate date]];
   bucket.availableFiles = [NSMutableArray arrayWithObject:availableFile];
 
   // When
-  [self.sut deleteLogsForId:batchId withStorageKey:storageKey];
+  [self.sut deleteLogsForId:batchId withGroupID:groupID];
 
   // Verify
   OCMVerify([fileHelperMock deleteFile:availableFile]);
@@ -200,25 +200,25 @@
 - (void)testLoadBatchWillEmptyCurrentLogs {
 
   // If
-  NSString *storageKey = @"directory";
+  NSString *groupID = @"directory";
   MSAbstractLog *log = [MSAbstractLog new];
-  BOOL success = [self.sut saveLog:log withStorageKey:storageKey];
-  assertThatInteger(self.sut.buckets[storageKey].currentLogs.count, equalToInteger(1));
+  BOOL success = [self.sut saveLog:log withGroupID:groupID];
+  assertThatInteger(self.sut.buckets[groupID].currentLogs.count, equalToInteger(1));
 
   // When
   XCTAssertTrue(success);
-  [self.sut loadLogsForStorageKey:storageKey withCompletion:nil];
+  [self.sut loadLogsForGroupID:groupID withCompletion:nil];
 
   // Verify
-  assertThat(self.sut.buckets[storageKey].currentLogs, isEmpty());
+  assertThat(self.sut.buckets[groupID].currentLogs, isEmpty());
 }
 
 - (void)testLoadBatchWillReturnOldestFileFirst {
 
   // If
-  NSString *storageKey = @"TestDirectory";
-  self.sut.buckets[storageKey] = [MSStorageBucket new];
-  MSStorageBucket *bucket = self.sut.buckets[storageKey];
+  NSString *groupID = @"GroupID";
+  self.sut.buckets[groupID] = [MSStorageBucket new];
+  MSStorageBucket *bucket = self.sut.buckets[groupID];
 
   MSFile *availableFile1 =
       [[MSFile alloc] initWithPath:@"1" fileId:@"1" creationDate:[NSDate dateWithTimeIntervalSinceNow:1]];
@@ -233,10 +233,10 @@
 
   // When
   __block NSString *batchId;
-  [self.sut loadLogsForStorageKey:storageKey
-                   withCompletion:^(BOOL succeeded, NSArray<NSObject<MSLog> *> *logs, NSString *logsId) {
-                     batchId = logsId;
-                   }];
+  [self.sut loadLogsForGroupID:groupID
+                withCompletion:^(BOOL succeeded, NSArray<NSObject <MSLog> *> *logs, NSString *logsId) {
+                    batchId = logsId;
+                }];
 
   // Verify
   assertThat(batchId, equalTo(availableFile3.fileId));
@@ -245,18 +245,18 @@
 - (void)testLoadBatchWillAddItToBlockedFiles {
 
   // If
-  NSString *storageKey = @"TestDirectory";
-  self.sut.buckets[storageKey] = [MSStorageBucket new];
-  MSStorageBucket *bucket = self.sut.buckets[storageKey];
+  NSString *groupID = @"GroupID";
+  self.sut.buckets[groupID] = [MSStorageBucket new];
+  MSStorageBucket *bucket = self.sut.buckets[groupID];
 
   MSFile *availableFile =
       [[MSFile alloc] initWithPath:@"1" fileId:@"1" creationDate:[NSDate dateWithTimeIntervalSinceNow:1]];
   bucket.availableFiles = [NSMutableArray<MSFile *> arrayWithObject:availableFile];
 
   // When
-  [self.sut loadLogsForStorageKey:storageKey
-                   withCompletion:^(BOOL succeeded, NSArray<NSObject<MSLog> *> *logs, NSString *logsId){
-                   }];
+  [self.sut loadLogsForGroupID:groupID
+                withCompletion:^(BOOL succeeded, NSArray<NSObject <MSLog> *> *logs, NSString *logsId) {
+                }];
 
   // Verify
   assertThatInteger(bucket.availableFiles.count, equalToInteger(0));
@@ -267,16 +267,16 @@
 - (void)testLoadBatchWillCreateNewCurrentFile {
 
   // If
-  NSString *storageKey = @"TestDirectory";
-  self.sut.buckets[storageKey] = [MSStorageBucket new];
-  MSStorageBucket *bucket = self.sut.buckets[storageKey];
+  NSString *groupID = @"GroupID";
+  self.sut.buckets[groupID] = [MSStorageBucket new];
+  MSStorageBucket *bucket = self.sut.buckets[groupID];
   MSFile *currentFile = [[MSFile alloc] initWithPath:@"333" fileId:@"333" creationDate:[NSDate date]];
   bucket.currentFile = currentFile;
 
   // When
-  [self.sut loadLogsForStorageKey:storageKey
-                   withCompletion:^(BOOL succeeded, NSArray<NSObject<MSLog> *> *logs, NSString *logsId){
-                   }];
+  [self.sut loadLogsForGroupID:groupID
+                withCompletion:^(BOOL succeeded, NSArray<NSObject <MSLog> *> *logs, NSString *logsId) {
+                }];
 
   // Verify
   assertThat(bucket.currentFile, isNot(equalTo(currentFile)));

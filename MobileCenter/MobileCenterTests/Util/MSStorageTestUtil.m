@@ -9,15 +9,15 @@
   return [documentsDir stringByAppendingPathComponent:logsPath];
 }
 
-+ (NSString *)storageDirForStorageKey:(NSString *)storageKey {
-  return [[self logsDir] stringByAppendingPathComponent:storageKey];
++ (NSString *)storageDirForGroupID:(NSString *)groupID {
+  return [[self logsDir] stringByAppendingPathComponent:groupID];
 }
 
 + (NSString *)filePathForLogWithId:(NSString *)logsId
                          extension:(NSString *)extension
-                        storageKey:(NSString *)storageKey {
+                           groupID:(NSString *)groupID {
   NSString *fileName = [logsId stringByAppendingPathExtension:extension];
-  NSString *logFilePath = [storageKey stringByAppendingPathComponent:fileName];
+  NSString *logFilePath = [groupID stringByAppendingPathComponent:fileName];
   NSString *logsPath = [self logsDir];
 
   return [logsPath stringByAppendingPathComponent:logFilePath];
@@ -26,14 +26,14 @@
 + (MSFile *)createFileWithId:(NSString *)logsId
                         data:(NSData *)data
                    extension:(NSString *)extension
-                  storageKey:(NSString *)storageKey
+                     groupID:(NSString *)groupID
                 creationDate:(NSDate *)creationDate {
-  NSString *storagePath = [self storageDirForStorageKey:storageKey];
+  NSString *storagePath = [self storageDirForGroupID:groupID];
   if (![[NSFileManager defaultManager] fileExistsAtPath:storagePath]) {
     [self createDirectoryAtPath:storagePath];
   }
 
-  NSString *filePath = [self filePathForLogWithId:logsId extension:extension storageKey:storageKey];
+  NSString *filePath = [self filePathForLogWithId:logsId extension:extension groupID:groupID];
   [[NSFileManager defaultManager] createFileAtPath:filePath contents:data attributes:nil];
 
   MSFile *file = [[MSFile alloc] initWithPath:filePath fileId:logsId creationDate:creationDate];

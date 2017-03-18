@@ -32,45 +32,45 @@ typedef void (^MSLoadDataCompletionBlock)(BOOL succeeded, NSArray <MSLog> *logAr
  * Writes a log to the file system.
  *
  * @param log The log item that should be written to disk
- * @param storageKey The key used for grouping
+ * @param groupID The groupID used for grouping
  *
  * @return BOOL that indicates if the log was saved successfully.
  */
-- (BOOL)saveLog:(id <MSLog>)log withStorageKey:(NSString *)storageKey;
+- (BOOL)saveLog:(id <MSLog>)log withGroupID:(NSString *)groupID;
 
 /**
  * Delete logs related to given storage key from the file system.
  *
- * @param storageKey The key used for grouping.
+ * @param groupID The groupID used for grouping.
  * @return the list of deleted logs.
  */
-- (NSArray <MSLog> *)deleteLogsForStorageKey:(NSString *)storageKey;
+- (NSArray <MSLog> *)deleteLogsForGroupID:(NSString *)groupID;
 
 /**
  * Delete a log from the file system.
  *
  * @param logsId The log item that should be deleted from disk.
- * @param storageKey The key used for grouping.
+ * @param groupID The key used for grouping.
  */
-- (void)deleteLogsForId:(NSString *)logsId withStorageKey:(NSString *)storageKey;
+- (void)deleteLogsForId:(NSString *)logsId withGroupID:(NSString *)groupID;
 
 /**
  * Returns the most recent logs for a given storage key.
  *
- * @param storageKey The key used for grouping.
+ * @param groupID The key used for grouping.
  *
  * @return a list of logs.
  */
-- (BOOL)loadLogsForStorageKey:(NSString *)storageKey withCompletion:(nullable MSLoadDataCompletionBlock)completion;
+- (BOOL)loadLogsForGroupID:(NSString *)groupID withCompletion:(nullable MSLoadDataCompletionBlock)completion;
 
 /**
  * FIXME: The number of logs per batch and the number of logs per files are currently tied together. The storage loads
  * what's contained in the available file and this could be higher than the batch max size going to be sent. To mitigate
  * this kind of scenario the file is closed when the max size of the log batch is reached.
  *
- * @param storageKey The key used for grouping.
+ * @param groupID The key used for grouping.
  */
-- (void)closeBatchWithStorageKey:(NSString *)storageKey;
+- (void)closeBatchWithGroupID:(NSString *)groupID;
 
 @end
 
