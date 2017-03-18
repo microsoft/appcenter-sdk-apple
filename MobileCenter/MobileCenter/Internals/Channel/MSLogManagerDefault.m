@@ -163,7 +163,7 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 - (id<MSChannel>)channelForGroupID:(NSString *)groupID withPriority:(MSPriority)priority {
 
   // Return an existing channel or create it.
-  id<MSChannel> channel = [self.channels objectForKey:groupID];
+  id<MSChannel> channel = self.channels[groupID];
   return (channel) ? channel : [self createChannelForGroupID:groupID withPriority:priority];
 }
 
@@ -185,7 +185,7 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
           NSError *error = [NSError errorWithDomain:kMSMCErrorDomain
                                                code:kMSMCConnectionSuspendedErrorCode
                                            userInfo:@{NSLocalizedDescriptionKey : kMSMCConnectionSuspendedErrorDesc}];
-          [[self.channels objectForKey:groupID] deleteAllLogsWithError:error];
+          [self.channels[groupID] deleteAllLogsWithError:error];
         }
       }
     }
