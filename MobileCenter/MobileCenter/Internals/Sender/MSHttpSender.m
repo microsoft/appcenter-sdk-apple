@@ -39,7 +39,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     NSMutableArray *queryItemArray = [NSMutableArray array];
 
     // Set query parameter.
-    [queryStrings enumerateKeysAndObjectsUsingBlock:^(id _Nonnull key, id _Nonnull queryString, BOOL *_Nonnull stop) {
+    [queryStrings enumerateKeysAndObjectsUsingBlock:^(id _Nonnull key, id _Nonnull queryString, __attribute__((unused)) BOOL *_Nonnull stop) {
       NSURLQueryItem *queryItem = [NSURLQueryItem queryItemWithName:key value:queryString];
       [queryItemArray addObject:queryItem];
     }];
@@ -122,17 +122,17 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 
       // Suspend all tasks.
       [self.session getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> *_Nonnull dataTasks,
-                                                    NSArray<NSURLSessionUploadTask *> *_Nonnull uploadTasks,
-                                                    NSArray<NSURLSessionDownloadTask *> *_Nonnull downloadTasks) {
-        [dataTasks enumerateObjectsUsingBlock:^(__kindof NSURLSessionTask *_Nonnull call, NSUInteger idx,
-                                                BOOL *_Nonnull stop) {
+                                                    __attribute__((unused)) NSArray<NSURLSessionUploadTask *> *_Nonnull uploadTasks,
+                                                    __attribute__((unused)) NSArray<NSURLSessionDownloadTask *> *_Nonnull downloadTasks) {
+        [dataTasks enumerateObjectsUsingBlock:^(__kindof NSURLSessionTask *_Nonnull call, __attribute__((unused)) NSUInteger idx,
+                                                __attribute__((unused)) BOOL *_Nonnull stop) {
           [call suspend];
         }];
       }];
 
       // Suspend current calls' retry.
       [self.pendingCalls.allValues
-          enumerateObjectsUsingBlock:^(MSSenderCall *_Nonnull call, NSUInteger idx, BOOL *_Nonnull stop) {
+          enumerateObjectsUsingBlock:^(MSSenderCall *_Nonnull call, __attribute__((unused)) NSUInteger idx, __attribute__((unused)) BOOL *_Nonnull stop) {
             if (!call.submitted) {
               [call resetRetry];
             }
@@ -157,17 +157,17 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 
       // Resume existing calls.
       [self.session getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> *_Nonnull dataTasks,
-                                                    NSArray<NSURLSessionUploadTask *> *_Nonnull uploadTasks,
-                                                    NSArray<NSURLSessionDownloadTask *> *_Nonnull downloadTasks) {
-        [dataTasks enumerateObjectsUsingBlock:^(__kindof NSURLSessionTask *_Nonnull call, NSUInteger idx,
-                                                BOOL *_Nonnull stop) {
+                                                    __attribute__((unused)) NSArray<NSURLSessionUploadTask *> *_Nonnull uploadTasks,
+                                                    __attribute__((unused)) NSArray<NSURLSessionDownloadTask *> *_Nonnull downloadTasks) {
+        [dataTasks enumerateObjectsUsingBlock:^(__kindof NSURLSessionTask *_Nonnull call, __attribute__((unused)) NSUInteger idx,
+                                                __attribute__((unused)) BOOL *_Nonnull stop) {
           [call resume];
         }];
       }];
 
       // Resume calls.
       [self.pendingCalls.allValues
-          enumerateObjectsUsingBlock:^(MSSenderCall *_Nonnull call, NSUInteger idx, BOOL *_Nonnull stop) {
+          enumerateObjectsUsingBlock:^(MSSenderCall *_Nonnull call, __attribute__((unused)) NSUInteger idx, __attribute__((unused)) BOOL *_Nonnull stop) {
             if (!call.submitted) {
               [self sendCallAsync:call];
             }
@@ -200,7 +200,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     // Create a task for the request.
     NSURLSessionDataTask *task =
         [self.session dataTaskWithRequest:request
-                        completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                        completionHandler:^(__attribute__((unused)) NSData *data, NSURLResponse *response, NSError *error) {
                           @synchronized(self) {
                             NSInteger statusCode = [MSSenderUtil getStatusCode:response];
                             MSLogDebug([MSMobileCenter logTag], @"HTTP response received with status code:%lu",
@@ -235,6 +235,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 #pragma mark - Reachability
 
 - (void)networkStateChanged:(NSNotificationCenter *)notification {
+  (void)notification;
   [self networkStateChanged];
 }
 
@@ -288,6 +289,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
  * This is an empty method and expect to be overridden in sub classes.
  */
 - (NSURLRequest *)createRequest:(NSObject *)data {
+  (void)data;
   return nil;
 }
 

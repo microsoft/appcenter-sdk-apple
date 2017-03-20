@@ -357,18 +357,21 @@
 #pragma mark - MSSenderDelegate
 
 - (void)senderDidSuspend:(id<MSSender>)sender {
+  (void)sender;
   dispatch_async(self.logsDispatchQueue, ^{
     [self suspend];
   });
 }
 
 - (void)senderDidResume:(id<MSSender>)sender {
+  (void)sender;
   dispatch_async(self.logsDispatchQueue, ^{
     [self resume];
   });
 }
 
 - (void)sender:(id<MSSender>)sender didSetEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData {
+  (void)sender;
 
   // Reflect sender enabled state.
   [self setEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
