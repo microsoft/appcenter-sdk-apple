@@ -395,7 +395,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
 - (void)openURLInSafariApp:(NSURL *)url {
   MSLogDebug([MSDistribute logTag], @"Using Safari browser to open URL: %@", url);
-  [MSUtil sharedAppOpenUrl:url options:@{} completionHandler:nil];
+  [MSUtility sharedAppOpenUrl:url options:@{} completionHandler:nil];
 }
 
 - (void)handleUpdate:(MSReleaseDetails *)details {
@@ -439,13 +439,13 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 - (BOOL)checkForUpdatesAllowed {
 
   // Check if we are not in AppStore or TestFlight environments.
-  BOOL environmentOkay = [MSUtil currentAppEnvironment] == MSEnvironmentOther;
+  BOOL environmentOkay = [MSUtility currentAppEnvironment] == MSEnvironmentOther;
 
   // Check if a debugger is attached.
   BOOL noDebuggerAttached = ![MSMobileCenter isDebuggerAttached];
 
   // Make sure it's not a DEBUG configuration.
-  BOOL configurationOkay = ![MSUtil isRunningInDebugConfiguration];
+  BOOL configurationOkay = ![MSUtility isRunningInDebugConfiguration];
   return environmentOkay && noDebuggerAttached && configurationOkay;
 }
 
@@ -498,7 +498,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 #if TARGET_IPHONE_SIMULATOR
   MSLogWarning([MSDistribute logTag], @"Couldn't download a new release on simulator.");
 #else
-  [MSUtil sharedAppOpenUrl:details.installUrl
+  [MSUtility sharedAppOpenUrl:details.installUrl
       options:@{}
       completionHandler:^(BOOL success) {
         if (success) {

@@ -5,7 +5,7 @@
 #import "MSDistributeUtil.h"
 #import "MSLogger.h"
 #import "MSSemVer.h"
-#import "MSUtil.h"
+#import "MSUtility.h"
 
 NSBundle *MSDistributeBundle(void) {
   static NSBundle *bundle = nil;

@@ -2,7 +2,7 @@
 #import <OCMock/OCMock.h>
 #import "MSBasicMachOParser.h"
 #import "MSBasicMachOParserPrivate.h"
-#import "MSUtil.h"
+#import "MSUtility.h"
 
 static NSUInteger const kMSBytesToRead = 10;
 
