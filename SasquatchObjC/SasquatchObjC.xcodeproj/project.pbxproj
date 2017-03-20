@@ -65,11 +65,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		044BAA741E7CA556002CF26E /* SasquatchObjC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SasquatchObjC.entitlements; sourceTree = "<group>"; };
+		0471B9451E455AD00022F951 /* MobileCenterDistribute.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterDistribute.framework; path = "../MobileCenter-SDK-iOS/MobileCenterDistribute.framework"; sourceTree = "<group>"; };
+		04CB3A2B1E7D01B900B09776 /* SasquatchObjCWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SasquatchObjCWidget.entitlements; sourceTree = "<group>"; };
 		04CCCA431D88AA86005D8180 /* MobileCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenter.framework; path = ../Products/MobileCenter/MobileCenter.framework; sourceTree = "<group>"; };
 		04CCCA451D88AA93005D8180 /* MobileCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterAnalytics.framework; path = ../Products/MobileCenterAnalytics/MobileCenterAnalytics.framework; sourceTree = "<group>"; };
 		04CCCA471D88AA9F005D8180 /* MobileCenterCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterCrashes.framework; path = ../Products/MobileCenterCrashes/MobileCenterCrashes.framework; sourceTree = "<group>"; };
 		382EC1D81DDB805400A60DBD /* SasquatchObjCWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SasquatchObjCWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		0471B9451E455AD00022F951 /* MobileCenterDistribute.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterDistribute.framework; path = "../MobileCenter-SDK-iOS/MobileCenterDistribute.framework"; sourceTree = "<group>"; };
 		382EC1DA1DDB805400A60DBD /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		382EC1E31DDB805400A60DBD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		382EC1F71DDB9F7F00A60DBD /* TodayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TodayViewController.m; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 		382EC1DC1DDB805400A60DBD /* SasquatchObjCWidget */ = {
 			isa = PBXGroup;
 			children = (
+				04CB3A2B1E7D01B900B09776 /* SasquatchObjCWidget.entitlements */,
 				382EC1F81DDB9F7F00A60DBD /* TodayViewController.h */,
 				382EC1F71DDB9F7F00A60DBD /* TodayViewController.m */,
 				382EC1FA1DDB9FA400A60DBD /* MainInterface.storyboard */,
@@ -160,6 +163,7 @@
 		6E2307D71D22083C0031C598 /* SasquatchObjC */ = {
 			isa = PBXGroup;
 			children = (
+				044BAA741E7CA556002CF26E /* SasquatchObjC.entitlements */,
 				384959E81D49786A008F6B3A /* Constants.h */,
 				6E2307DB1D22083C0031C598 /* AppDelegate.h */,
 				6E2307DC1D22083C0031C598 /* AppDelegate.m */,
@@ -248,10 +252,17 @@
 					382EC1D71DDB805400A60DBD = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = L4RARDNZ2Y;
+						ProvisioningStyle = Manual;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 0;
+							};
+						};
 					};
 					6E2307D41D22083C0031C598 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = L4RARDNZ2Y;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;
@@ -362,6 +373,8 @@
 		382EC1E71DDB805400A60DBD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)/**";
 				INFOPLIST_FILE = SasquatchObjCWidget/Info.plist;
@@ -369,6 +382,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc.SasquatchObjCWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "09b92ad4-1d64-4bc9-acd8-60d0f8494bf6";
+				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter SasquatchObjCWidget App";
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -376,6 +391,7 @@
 		382EC1E81DDB805400A60DBD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)/**";
 				INFOPLIST_FILE = SasquatchObjCWidget/Info.plist;
@@ -383,6 +399,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc.SasquatchObjCWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "09b92ad4-1d64-4bc9-acd8-60d0f8494bf6";
+				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter SasquatchObjCWidget App";
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -492,6 +510,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
+				CODE_SIGN_ENTITLEMENTS = SasquatchObjC/SasquatchObjC.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = SasquatchObjC/Info.plist;
@@ -499,6 +520,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "5d22e3d5-b7f3-4b1c-820b-b0afd72835d1";
+				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter SasquatchObjC App";
 			};
 			name = Debug;
 		};
@@ -507,6 +530,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
+				CODE_SIGN_ENTITLEMENTS = SasquatchObjC/SasquatchObjC.entitlements;
+				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = SasquatchObjC/Info.plist;
@@ -514,6 +539,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "5d22e3d5-b7f3-4b1c-820b-b0afd72835d1";
+				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter SasquatchObjC App";
 			};
 			name = Release;
 		};
