@@ -25,12 +25,12 @@ static NSString *const kMSServiceName = @"Distribute";
 /**
  * Base URL for HTTP Distribute install API calls.
  */
-static NSString *const kMSDefaultInstallUrl = @"http://install.asgard-int.trafficmanager.net";
+static NSString *const kMSDefaultInstallUrl = @"https://install.mobile.azure.com";
 
 /**
  * Base URL for HTTP Distribute update API calls.
  */
-static NSString *const kMSDefaultApiUrl = @"https://asgard-int.trafficmanager.net/api/v0.1";
+static NSString *const kMSDefaultApiUrl = @"https://api.mobile.azure.com/v0.1";
 
 /**
  * The API path for update token request.

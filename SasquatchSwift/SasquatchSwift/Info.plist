@@ -40,10 +40,10 @@
 			<key>CFBundleTypeRole</key>
 			<string>None</string>
 			<key>CFBundleURLName</key>
-			<string>com.microsoft.azure.mobile.swiftdemo</string>
+			<string>com.microsoft.azure.mobile.sasquatchswift</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>mobilecenter-7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7</string>
+				<string>mobilecenter-0dbca56b-b9ae-4d53-856a-7c2856137d85</string>
 			</array>
 		</dict>
 	</array>
