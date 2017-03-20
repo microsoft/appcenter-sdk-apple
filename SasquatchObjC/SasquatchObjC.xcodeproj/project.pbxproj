@@ -255,7 +255,7 @@
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.Push = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
@@ -373,7 +373,6 @@
 		382EC1E71DDB805400A60DBD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = SasquatchObjCWidget/SasquatchObjCWidget.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				ENABLE_BITCODE = NO;
@@ -392,7 +391,6 @@
 		382EC1E81DDB805400A60DBD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = SasquatchObjCWidget/SasquatchObjCWidget.entitlements;
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)/**";
