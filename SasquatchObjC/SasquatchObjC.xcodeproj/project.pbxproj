@@ -252,12 +252,6 @@
 					382EC1D71DDB805400A60DBD = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = L4RARDNZ2Y;
-						ProvisioningStyle = Manual;
-						SystemCapabilities = {
-							com.apple.Push = {
-								enabled = 0;
-							};
-						};
 					};
 					6E2307D41D22083C0031C598 = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -373,8 +367,6 @@
 		382EC1E71DDB805400A60DBD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)/**";
 				INFOPLIST_FILE = SasquatchObjCWidget/Info.plist;
@@ -382,8 +374,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc.SasquatchObjCWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "09b92ad4-1d64-4bc9-acd8-60d0f8494bf6";
-				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter SasquatchObjCWidget App";
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -391,7 +381,6 @@
 		382EC1E81DDB805400A60DBD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)/**";
 				INFOPLIST_FILE = SasquatchObjCWidget/Info.plist;
@@ -399,8 +388,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc.SasquatchObjCWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "09b92ad4-1d64-4bc9-acd8-60d0f8494bf6";
-				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter SasquatchObjCWidget App";
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
