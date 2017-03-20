@@ -219,14 +219,14 @@ static NSURL *sfURL;
 
   // Then
   XCTAssertNotNil([self.sut installUrl]);
-  XCTAssertTrue([[self.sut installUrl] isEqualToString:@"http://install.asgard-int.trafficmanager.net"]);
+  XCTAssertTrue([[self.sut installUrl] isEqualToString:@"https://install.mobile.azure.com"]);
 }
 
 - (void)testDefaultApiUrlWorks {
 
   // Then
   XCTAssertNotNil([self.sut apiUrl]);
-  XCTAssertTrue([[self.sut apiUrl] isEqualToString:@"https://asgard-int.trafficmanager.net/api/v0.1"]);
+  XCTAssertTrue([[self.sut apiUrl] isEqualToString:@"https://api.mobile.azure.com/v0.1"]);
 }
 
 - (void)testHandleUpdate {
