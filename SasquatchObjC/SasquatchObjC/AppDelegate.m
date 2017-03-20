@@ -18,8 +18,7 @@
 
   // Start Mobile Center SDK
   [MSMobileCenter setLogLevel:MSLogLevelVerbose];
-  [MSMobileCenter setLogUrl:@"http://in-integration.dev.avalanch.es:8081"];
-  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withServices:@[[MSAnalytics class], [MSCrashes class], [MSDistribute class]]];
+  [MSMobileCenter start:@"3ccfe7f5-ec01-4de5-883c-f563bbbe147a" withServices:@[[MSAnalytics class], [MSCrashes class], [MSDistribute class]]];
   [MSCrashes setDelegate:self];
 
   // Print the install Id.
