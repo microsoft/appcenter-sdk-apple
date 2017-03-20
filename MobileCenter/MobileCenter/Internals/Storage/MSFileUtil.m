@@ -107,7 +107,7 @@
   NSMutableArray<MSFile *> *files;
   NSArray *allFiles = [fileManager contentsOfDirectoryAtURL:(NSURL * _Nonnull)directoryURL
                                  includingPropertiesForKeys:@[NSURLCreationDateKey]
-                                                    options:NSDirectoryEnumerationSkipsHiddenFiles
+                                                    options:(NSDirectoryEnumerationOptions)0
                                                       error:&error];
   if (error) {
     MSLogError([MSMobileCenter logTag], @"Couldn't read %@-files for directory %@: %@", fileExtension, directoryURL,

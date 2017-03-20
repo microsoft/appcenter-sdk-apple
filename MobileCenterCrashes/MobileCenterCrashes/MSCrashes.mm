@@ -643,7 +643,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     NSError *error = nil;
     NSArray *files = [self.fileManager contentsOfDirectoryAtURL:directoryForPriority
                                      includingPropertiesForKeys:nil
-                                                        options:NSDirectoryEnumerationSkipsHiddenFiles
+                                                        options:(NSDirectoryEnumerationOptions)0
                                                           error:&error];
     for (NSURL *fileURL in files) {
       if ([[fileURL pathExtension] isEqualToString:kMSLogBufferFileExtension]) {
@@ -668,7 +668,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   NSError *error = nil;
   NSArray *files = [self.fileManager contentsOfDirectoryAtURL:self.crashesDir
                                    includingPropertiesForKeys:nil
-                                                      options:NSDirectoryEnumerationSkipsHiddenFiles
+                                                      options:(NSDirectoryEnumerationOptions)0
                                                         error:&error];
   for (NSURL *fileURL in files) {
     [self.fileManager removeItemAtURL:fileURL error:&error];
@@ -728,7 +728,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   if ([self.crashesDir checkResourceIsReachableAndReturnError:&error]) {
     NSArray *files = [self.fileManager contentsOfDirectoryAtURL:self.crashesDir
                                         includingPropertiesForKeys:@[NSURLNameKey, NSURLFileSizeKey, NSURLIsRegularFileKey]
-                                                           options:NSDirectoryEnumerationSkipsHiddenFiles
+                                                           options:(NSDirectoryEnumerationOptions)0
                                                              error:&error];
     for (NSURL *fileURL in files) {
       NSString *fileName = nil;
@@ -841,7 +841,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     NSError *error = nil;
     NSArray *files = [self.fileManager contentsOfDirectoryAtURL:directoryForPriority
                                      includingPropertiesForKeys:@[NSURLFileSizeKey]
-                                                        options:NSDirectoryEnumerationSkipsHiddenFiles
+                                                        options:(NSDirectoryEnumerationOptions)0
                                                           error:&error];
     for (NSURL *fileURL in files) {
       if ([[fileURL pathExtension] isEqualToString:kMSLogBufferFileExtension]) {
