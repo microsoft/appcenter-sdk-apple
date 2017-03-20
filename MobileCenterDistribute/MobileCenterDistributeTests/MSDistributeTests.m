@@ -19,7 +19,7 @@
 #import "MSServiceAbstractProtected.h"
 #import "MSServiceInternal.h"
 #import "MSUserDefaults.h"
-#import "MSUtil.h"
+#import "MSUtility+Environment.h"
 
 static NSString *const kMSTestAppSecret = @"IAMSECRET";
 
@@ -491,7 +491,7 @@ static NSURL *sfURL;
   // If
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
   id mobileCenterMock = OCMClassMock([MSMobileCenter class]);
-  id utilMock = OCMClassMock([MSUtil class]);
+  id utilMock = OCMClassMock([MSUtility class]);
   id distributeMock = OCMPartialMock(self.sut);
   OCMStub([distributeMock checkLatestRelease:[OCMArg any]]).andDo(nil);
   OCMStub([distributeMock requestUpdateToken]).andDo(nil);
@@ -517,7 +517,7 @@ static NSURL *sfURL;
   // When
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
   id mobileCenterMock = OCMClassMock([MSMobileCenter class]);
-  id utilMock = OCMClassMock([MSUtil class]);
+  id utilMock = OCMClassMock([MSUtility class]);
   OCMStub([mobileCenterMock isDebuggerAttached]).andReturn(YES);
   OCMStub([utilMock isRunningInDebugConfiguration]).andReturn(NO);
   OCMStub([utilMock currentAppEnvironment]).andReturn(MSEnvironmentOther);
@@ -531,7 +531,7 @@ static NSURL *sfURL;
   // When
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
   id mobileCenterMock = OCMClassMock([MSMobileCenter class]);
-  id utilMock = OCMClassMock([MSUtil class]);
+  id utilMock = OCMClassMock([MSUtility class]);
   OCMStub([mobileCenterMock isDebuggerAttached]).andReturn(NO);
   OCMStub([utilMock isRunningInDebugConfiguration]).andReturn(YES);
   OCMStub([utilMock currentAppEnvironment]).andReturn(MSEnvironmentOther);
@@ -545,7 +545,7 @@ static NSURL *sfURL;
   // When
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
   id mobileCenterMock = OCMClassMock([MSMobileCenter class]);
-  id utilMock = OCMClassMock([MSUtil class]);
+  id utilMock = OCMClassMock([MSUtility class]);
   OCMStub([mobileCenterMock isDebuggerAttached]).andReturn(NO);
   OCMStub([utilMock isRunningInDebugConfiguration]).andReturn(NO);
   OCMStub([utilMock currentAppEnvironment]).andReturn(MSEnvironmentTestFlight);

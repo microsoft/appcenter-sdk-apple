@@ -1,8 +1,9 @@
-#import "MSUtility+Date.h"
-#import "MSUtility+ApplicationPrivate.h"
-#import "OCMock.h"
+#import <OCMock/OCMock.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <XCTest/XCTest.h>
+#import "MSUtility+ApplicationPrivate.h"
+#import "MSUtility+Date.h"
+#import "MSUtility+Environment.h"
 
 @interface MSUtilTests : XCTestCase
 
@@ -112,7 +113,7 @@
   /**
    * When
    */
-  MSEnvironment env = [MSUtil currentAppEnvironment];
+  MSEnvironment env = [MSUtility currentAppEnvironment];
 
   /**
    * Then
@@ -124,28 +125,7 @@
 - (void)testDebugConfiurationDetectionWorks {
   
   // When
-  XCTAssertTrue([MSUtil isRunningInDebugConfiguration]);
-}
-
-- (void)TestFormatToUUIDString {
-
-  // When
-  NSString *tooShort = [MSUtil formatToUUIDString:@"a12e234b"];
-
-  // Then
-  assertThat(tooShort, nilValue());
-
-  // When
-  NSString *badFormat = [MSUtil formatToUUIDString:@"thisbuildidcontainsforbiddenchar"];
-
-  // Then
-  assertThat(badFormat, nilValue());
-
-  // When
-  NSString *goodFormat = [MSUtil formatToUUIDString:@"ef039a0a0f7f3c1d87e26bfc87acf1b9"];
-
-  // Then
-  assertThat(goodFormat, is(@"ef039a0a-0f7f-3c1d-87e2-6bfc87acf1b9"));
+  XCTAssertTrue([MSUtility isRunningInDebugConfiguration]);
 }
 
 - (void)testSharedAppOpenEmptyCallCallback {
@@ -155,7 +135,7 @@
   __block BOOL handlerHasBeenCalled = NO;
   
   // When
-  [MSUtil sharedAppOpenUrl:[NSURL URLWithString:@""] options:@{} completionHandler:^(BOOL success) {
+  [MSUtility sharedAppOpenUrl:[NSURL URLWithString:@""] options:@{} completionHandler:^(BOOL success) {
     handlerHasBeenCalled = YES;
     XCTAssertFalse(success);
   }];

@@ -10,26 +10,26 @@ extern NSString *MSUtilityApplicationCategory;
  *  App states
  */
 typedef NS_ENUM(NSInteger, MSApplicationState) {
-    
-    /**
-     * Application is active.
-     */
-    MSApplicationStateActive = UIApplicationStateActive,
-    
-    /**
-     * Application is inactive.
-     */
-    MSApplicationStateInactive = UIApplicationStateInactive,
-    
-    /**
-     * Application is in background.
-     */
-    MSApplicationStateBackground = UIApplicationStateBackground,
-    
-    /**
-     * Application state can't be determined.
-     */
-    MSApplicationStateUnknown
+
+  /**
+   * Application is active.
+   */
+  MSApplicationStateActive = UIApplicationStateActive,
+
+  /**
+   * Application is inactive.
+   */
+  MSApplicationStateInactive = UIApplicationStateInactive,
+
+  /**
+   * Application is in background.
+   */
+  MSApplicationStateBackground = UIApplicationStateBackground,
+
+  /**
+   * Application state can't be determined.
+   */
+  MSApplicationStateUnknown
 };
 
 /**
@@ -48,4 +48,14 @@ typedef NS_ENUM(NSInteger, MSApplicationState) {
  */
 + (MSApplicationState)applicationState;
 
+/**
+ * Attempt to open the URL asynchronously.
+ *
+ * @param url The URL to open.
+ * @param options A dictionary of options to use when opening the URL.
+ * @param completion The block to execute with the results. A BOOL indicates whether the URL was opened successfully.
+ */
++ (void)sharedAppOpenUrl:(NSURL *)url
+                 options:(NSDictionary<NSString *, id> *)options
+       completionHandler:(void (^__nullable)(BOOL success))completion;
 @end

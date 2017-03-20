@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
 #import "MSKeychainUtil.h"
-#import "MSUtil.h"
+#import "MSUtility.h"
 
 @implementation MSKeychainUtil
 
