@@ -1,5 +1,5 @@
 #import "MSAnalyticsInternal.h"
-#import "MSUtil.h"
+#import "MSUtility+Date.h"
 #import "MSSessionTracker.h"
 #import "MSStartSessionLog.h"
 
@@ -12,7 +12,7 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
 /**
  * Current session id.
  */
-@property(nonatomic, copy, readwrite) NSString *sessionId;
+@property(nonatomic, copy) NSString *sessionId;
 
 /**
  * Flag to indicate if session tracking has started or not.
@@ -64,7 +64,7 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
       // Record session.
       MSSessionHistoryInfo *sessionInfo = [[MSSessionHistoryInfo alloc] init];
       sessionInfo.sessionId = _sessionId;
-      sessionInfo.toffset = [NSNumber numberWithLongLong:[MSUtil nowInMilliseconds]];
+      sessionInfo.toffset = [NSNumber numberWithLongLong:[MSUtility nowInMilliseconds]];
 
       // Insert at the beginning of the list.
       [self.pastSessions insertObject:sessionInfo atIndex:0];
@@ -91,8 +91,8 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
   if (!self.started) {
 
     // Request a new session id depending on the application state.
-    if ([MSUtil applicationState] == MSApplicationStateInactive ||
-        [MSUtil applicationState] == MSApplicationStateActive) {
+    if ([MSUtility applicationState] == MSApplicationStateInactive ||
+        [MSUtility applicationState] == MSApplicationStateActive) {
       [self sessionId];
     }
 
@@ -172,21 +172,44 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
 
 #pragma mark - MSLogManagerDelegate
 
-- (void)onProcessingLog:(id<MSLog>)log withPriority:(MSPriority)priority {
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-parameter"
+- (void)onEnqueuingLog:(id<MSLog>)log withInternalId:(NSString *)internalId andPriority:(MSPriority)priority {
 
   // Start session log is created in this method, therefore, skip in order to avoid infinite loop.
   if ([((NSObject *)log) isKindOfClass:[MSStartSessionLog class]])
     return;
 
   // Attach corresponding session id.
-  if (log.toffset != nil) {
-    [self.pastSessions
-        enumerateObjectsUsingBlock:^(MSSessionHistoryInfo *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
-          if ([log.toffset compare:obj.toffset] == NSOrderedDescending) {
-            log.sid = obj.sessionId;
-            *stop = YES;
-          }
-        }];
+  if (log.toffset) {
+    MSSessionHistoryInfo *find = [[MSSessionHistoryInfo alloc] initWithTOffset:log.toffset andSessionId:nil];
+    NSUInteger index =
+        [self.pastSessions indexOfObject:find
+                           inSortedRange:NSMakeRange(0, self.pastSessions.count)
+                                 options:(NSBinarySearchingFirstEqual|NSBinarySearchingInsertionIndex)
+                         usingComparator:^(id a, id b) {
+                           return [((MSSessionHistoryInfo *)a).toffset compare:((MSSessionHistoryInfo *)b).toffset];
+                         }];
+
+    // All toffsets are larger.
+    if (index == 0) {
+      log.sid = self.sessionId;
+    }
+
+    // All toffsets are smaller.
+    else if (index == self.pastSessions.count) {
+      log.sid = [self.pastSessions lastObject].sessionId;
+    }
+
+    // Either the pastSessions contains the exact toffset or we pick the smallest delta.
+    else {
+      long long leftDifference = [log.toffset longLongValue] - [self.pastSessions[index - 1].toffset longLongValue];
+      long long rightDifference = [self.pastSessions[index].toffset longLongValue] - [log.toffset longLongValue];
+      if (leftDifference < rightDifference) {
+        --index;
+      }
+      log.sid = self.pastSessions[index].sessionId;
+    }
   }
 
   // If log is not correlated to a past session.
@@ -197,5 +220,7 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
   // Update last created log time stamp.
   self.lastCreatedLogTime = [NSDate date];
 }
+#pragma GCC diagnostic pop
+
 
 @end

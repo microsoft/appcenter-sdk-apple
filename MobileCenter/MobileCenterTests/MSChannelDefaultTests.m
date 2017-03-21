@@ -8,28 +8,28 @@
 #import "MSChannelDefault.h"
 #import "MSChannelDelegate.h"
 #import "MSMobileCenterErrors.h"
-#import "MSUtil.h"
+#import "MSUtility.h"
 
 static NSString *const kMSTestPriorityName = @"Prio";
 
 @interface MSChannelDefaultTests : XCTestCase
 
-@property(nonatomic, strong) MSChannelDefault *sut;
+@property(nonatomic) MSChannelDefault *sut;
 
-@property(nonatomic, strong) dispatch_queue_t logsDispatchQueue;
+@property(nonatomic) dispatch_queue_t logsDispatchQueue;
 
-@property(nonatomic, strong) MSChannelConfiguration *configMock;
+@property(nonatomic) MSChannelConfiguration *configMock;
 
-@property(nonatomic, strong) id<MSStorage> storageMock;
+@property(nonatomic) id<MSStorage> storageMock;
 
-@property(nonatomic, strong) id<MSSender> senderMock;
+@property(nonatomic) id<MSSender> senderMock;
 
 /**
  * Most of the channel APIs are asynchronous, this expectation is meant to be enqueued to the data dispatch queue
  * at the end of the test before any asserts. Then it will be triggered on the next queue loop right after the channel
  * finished its job. Wrap asserts within the handler of a waitForExpectationsWithTimeout method.
  */
-@property(nonatomic, strong) XCTestExpectation *channelEndJobExpectation;
+@property(nonatomic) XCTestExpectation *channelEndJobExpectation;
 
 @end
 
@@ -79,7 +79,7 @@ static NSString *const kMSTestPriorityName = @"Prio";
 
   // When
   for (int i = 1; i <= itemsToAdd; i++) {
-    [self.sut enqueueItem:[MSAbstractLog new]];
+    [self.sut enqueueItem:[MSAbstractLog new] withCompletion:nil];
   }
   [self enqueueChannelEndJobExpectation];
 
@@ -168,7 +168,7 @@ static NSString *const kMSTestPriorityName = @"Prio";
   // When
   for (int i = 1; i <= expectedMaxPendingBatched + 1; i++) {
     log = [MSAbstractLog new];
-    [sut enqueueItem:log];
+    [sut enqueueItem:log withCompletion:nil];
   }
   [self enqueueChannelEndJobExpectation];
 
@@ -239,11 +239,11 @@ static NSString *const kMSTestPriorityName = @"Prio";
   /**
    * When
    */
-  [sut enqueueItem:log];
+  [sut enqueueItem:log withCompletion:nil];
 
   // Try to release one batch.
   dispatch_async(self.logsDispatchQueue, ^{
-    senderBlock([@(1) stringValue], nil, 200);
+    senderBlock([@(1) stringValue], 200, nil, nil);
 
     /**
      * Then
@@ -262,7 +262,7 @@ static NSString *const kMSTestPriorityName = @"Prio";
       currentBatchId++;
       log = [MSAbstractLog new];
       log.toffset = @(currentBatchId);
-      [sut enqueueItem:log];
+      [sut enqueueItem:log withCompletion:nil];
       [self enqueueChannelEndJobExpectation];
     });
   });
@@ -305,7 +305,7 @@ static NSString *const kMSTestPriorityName = @"Prio";
    * When
    */
   [sut setEnabled:NO andDeleteDataOnDisabled:NO];
-  [sut enqueueItem:log];
+  [sut enqueueItem:log withCompletion:nil];
   [self enqueueChannelEndJobExpectation];
 
   /**
@@ -342,7 +342,7 @@ static NSString *const kMSTestPriorityName = @"Prio";
                                                      configuration:config
                                                  logsDispatchQueue:dispatch_get_main_queue()];
   // When
-  [sut enqueueItem:log];
+  [sut enqueueItem:log withCompletion:nil];
   [sut setEnabled:NO andDeleteDataOnDisabled:YES];
   [self enqueueChannelEndJobExpectation];
 
@@ -376,7 +376,7 @@ static NSString *const kMSTestPriorityName = @"Prio";
   // When
   [sut addDelegate:delegateMock];
   [sut setEnabled:NO andDeleteDataOnDisabled:YES];
-  [sut enqueueItem:log];
+  [sut enqueueItem:log withCompletion:nil];
   [self enqueueChannelEndJobExpectation];
 
   // Then
@@ -497,7 +497,7 @@ static NSString *const kMSTestPriorityName = @"Prio";
 
   // Forward a non recoverable error.
   dispatch_async(self.logsDispatchQueue, ^{
-    senderBlock([@(0) stringValue], expectedHTTPError, expectedHTTPCode);
+    senderBlock([@(0) stringValue], expectedHTTPCode, nil, expectedHTTPError);
   });
 
   /**

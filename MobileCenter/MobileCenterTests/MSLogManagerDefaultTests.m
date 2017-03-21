@@ -66,7 +66,7 @@
   [sut processLog:log withPriority:priority];
 
   // Then
-  OCMVerify([mockDelegate onProcessingLog:log withPriority:priority]);
+  OCMVerify([mockDelegate onEnqueuingLog:log withInternalId:OCMOCK_ANY andPriority:priority]);
 }
 
 @end

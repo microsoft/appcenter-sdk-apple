@@ -3,7 +3,6 @@
 #import "MSFileUtil.h"
 #import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
-#import "MSUtil.h"
 
 static NSString *const kMSLogsDirectory = @"com.microsoft.azure.mobile.mobilecenter/logs";
 static NSString *const kMSFileExtension = @"ms";
@@ -91,9 +90,12 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
   if (file) {
 
     // Cache logs from file.
-    NSArray <MSLog> *logs = [NSKeyedUnarchiver unarchiveObjectWithData:[MSFileUtil dataForFile:file]];
-    if (logs) {
-      [deletedLogs addObjectsFromArray:logs];
+    NSData *data = [MSFileUtil dataForFile:file];
+    if (data) {
+      NSArray <MSLog> *logs = [NSKeyedUnarchiver unarchiveObjectWithData:(NSData * _Nonnull)data];
+      if (logs) {
+        [deletedLogs addObjectsFromArray:logs];
+      }
     }
 
     // Wipe it.
@@ -168,13 +170,13 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
   [bucket.currentLogs removeAllObjects];
 }
 
-- (NSString *)directoryPathForStorageKey:(nonnull NSString *)storageKey {
+- (NSString *)directoryPathForStorageKey:(NSString *)storageKey {
   NSString *filePath = [self.baseDirectoryPath stringByAppendingPathComponent:storageKey];
 
   return filePath;
 }
 
-- (NSString *)filePathForStorageKey:(nonnull NSString *)storageKey logsId:(nonnull NSString *)logsId {
+- (NSString *)filePathForStorageKey:(NSString *)storageKey logsId:(nonnull NSString *)logsId {
   NSString *fileName = [logsId stringByAppendingPathExtension:kMSFileExtension];
   NSString *filePath = [[self directoryPathForStorageKey:storageKey] stringByAppendingPathComponent:fileName];
 

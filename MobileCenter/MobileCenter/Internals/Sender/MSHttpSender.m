@@ -5,8 +5,13 @@
 
 static NSTimeInterval kRequestTimeout = 60.0;
 
+// URL components' name within a partial URL.
+static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"password", @"host", @"port", @"path"};
+
 @implementation MSHttpSender
 
+@synthesize baseURL = _baseURL;
+@synthesize apiPath = _apiPath;
 @synthesize reachability = _reachability;
 @synthesize suspended = _suspended;
 
@@ -26,6 +31,7 @@ static NSTimeInterval kRequestTimeout = 60.0;
     _suspended = NO;
     _delegates = [NSHashTable weakObjectsHashTable];
     _callsRetryIntervals = retryIntervals;
+    _apiPath = apiPath;
 
     // Construct the URL string with the query string.
     NSString *urlString = [baseUrl stringByAppendingString:apiPath];
@@ -34,13 +40,13 @@ static NSTimeInterval kRequestTimeout = 60.0;
 
     // Set query parameter.
     [queryStrings enumerateKeysAndObjectsUsingBlock:^(id _Nonnull key, id _Nonnull queryString, BOOL *_Nonnull stop) {
-        NSURLQueryItem *queryItem = [NSURLQueryItem queryItemWithName:key value:queryString];
-        [queryItemArray addObject:queryItem];
+      NSURLQueryItem *queryItem = [NSURLQueryItem queryItemWithName:key value:queryString];
+      [queryItemArray addObject:queryItem];
     }];
     components.queryItems = queryItemArray;
 
-    // Set send URL.
-    _sendURL = components.URL;
+    // Set send URL which can't be null
+    _sendURL = (NSURL * _Nonnull) components.URL;
 
     // Hookup to reachability.
     [MS_NOTIFICATION_CENTER addObserver:self
@@ -56,14 +62,6 @@ static NSTimeInterval kRequestTimeout = 60.0;
 }
 
 #pragma mark - MSSender
-
-- (id)initWithBaseUrl:(NSString *)baseUrl
-              headers:(NSDictionary *)headers
-         queryStrings:(NSDictionary *)queryStrings
-         reachability:(MS_Reachability *)reachability
-       retryIntervals:(NSArray *)retryIntervals {
-  return [self initWithBaseUrl:baseUrl apiPath:@"" headers:headers queryStrings:queryStrings reachability:reachability retryIntervals:retryIntervals];
-}
 
 - (void)sendAsync:(NSObject *)data completionHandler:(MSSendAsyncCompletionHandler)handler {
   [self sendAsync:data callId:MS_UUID_STRING completionHandler:handler];
@@ -211,7 +209,7 @@ static NSTimeInterval kRequestTimeout = 60.0;
                             // Call handles the completion.
                             if (call) {
                               call.submitted = NO;
-                              [call sender:self callCompletedWithStatus:statusCode error:error];
+                              [call sender:self callCompletedWithStatus:statusCode data:data error:error];
                             }
                           }
                         }];
@@ -242,6 +240,40 @@ static NSTimeInterval kRequestTimeout = 60.0;
 
 #pragma mark - Private
 
+- (void)setBaseURL:(NSString *)baseURL {
+  @synchronized(self) {
+    BOOL success = false;
+    NSURLComponents *components;
+    _baseURL = baseURL;
+    NSURL *partialURL = [NSURL URLWithString:[baseURL stringByAppendingString:self.apiPath]];
+
+    // Merge new parial URL and current full URL.
+    if (partialURL) {
+      components = [NSURLComponents componentsWithURL:self.sendURL resolvingAgainstBaseURL:NO];
+      @try {
+        for (u_long i = 0; i < sizeof(kMSPartialURLComponentsName) / sizeof(*kMSPartialURLComponentsName); i++) {
+          NSString *propertyName = kMSPartialURLComponentsName[i];
+          [components setValue:[partialURL valueForKey:propertyName] forKey:propertyName];
+        }
+      } @catch (NSException *ex) {
+        MSLogInfo([MSMobileCenter logTag], @"Error while updating HTTP URL %@ with %@: \n%@",
+                  self.sendURL.absoluteString, baseURL, ex);
+      }
+
+      // Update full URL.
+      if (components.URL) {
+        self.sendURL = (NSURL * _Nonnull)components.URL;
+        success = true;
+      }
+    }
+
+    // Notify failure.
+    if (!success) {
+      MSLogInfo([MSMobileCenter logTag], @"Failed to update HTTP URL %@ with %@", self.sendURL.absoluteString, baseURL);
+    }
+  }
+}
+
 - (void)networkStateChanged {
   if ([self.reachability currentReachabilityStatus] == NotReachable) {
     MSLogInfo([MSMobileCenter logTag], @"Internet connection is down.");
@@ -257,6 +289,10 @@ static NSTimeInterval kRequestTimeout = 60.0;
  */
 - (NSURLRequest *)createRequest:(NSObject *)data {
   return nil;
+}
+
+- (NSString *)obfuscateHeaderValue:(NSString *)key value:(NSString *)value {
+  return value;
 }
 
 - (NSURLSession *)session {
@@ -279,9 +315,9 @@ static NSTimeInterval kRequestTimeout = 60.0;
 - (NSString *)prettyPrintHeaders:(NSDictionary<NSString *, NSString *> *)headers {
   NSMutableArray<NSString *> *flattenedHeaders = [NSMutableArray<NSString *> new];
   for (NSString *headerKey in headers) {
-    NSString *header =
-        [headerKey isEqualToString:kMSHeaderAppSecretKey] ? [self hideSecret:headers[headerKey]] : headers[headerKey];
-    [flattenedHeaders addObject:[NSString stringWithFormat:@"%@ = %@", headerKey, header]];
+    [flattenedHeaders
+        addObject:[NSString stringWithFormat:@"%@ = %@", headerKey,
+                                             [self obfuscateHeaderValue:headerKey value:headers[headerKey]]]];
   }
   return [flattenedHeaders componentsJoinedByString:@", "];
 }
@@ -305,16 +341,8 @@ static NSTimeInterval kRequestTimeout = 60.0;
   }
 }
 
-- (NSString *)hideSecret:(NSString *)secret {
-
-  // Hide everything if secret is shorter than the max number of displayed characters.
-  NSUInteger appSecretHiddenPartLength =
-      (secret.length > kMSMaxCharactersDisplayedForAppSecret ? secret.length - kMSMaxCharactersDisplayedForAppSecret
-                                                             : secret.length);
-  NSString *appSecretHiddenPart =
-      [@"" stringByPaddingToLength:appSecretHiddenPartLength withString:kMSHidingStringForAppSecret startingAtIndex:0];
-  return [secret stringByReplacingCharactersInRange:NSMakeRange(0, appSecretHiddenPart.length)
-                                         withString:appSecretHiddenPart];
+- (void)dealloc {
+  [self.reachability stopNotifier];
+  [MS_NOTIFICATION_CENTER removeObserver:self name:kMSReachabilityChangedNotification object:nil];
 }
-
 @end

@@ -8,7 +8,7 @@
 
 @interface MSEventLogTests : XCTestCase
 
-@property(nonatomic, strong) MSEventLog *sut;
+@property(nonatomic) MSEventLog *sut;
 
 @end
 
@@ -38,7 +38,7 @@
   MSDevice *device = [MSDevice new];
   NSString *sessionId = @"1234567890";
   NSDictionary *properties = @{ @"Key" : @"Value" };
-  long long createTime = [MSUtil nowInMilliseconds];
+  long long createTime = [MSUtility nowInMilliseconds];
   NSNumber *tOffset = @(createTime);
 
   self.sut.eventId = eventId;
@@ -61,7 +61,7 @@
   assertThat(actual[@"properties"], equalTo(properties));
   assertThat(actual[@"device"], notNilValue());
   NSTimeInterval seralizedToffset = [actual[@"toffset"] longLongValue];
-  NSTimeInterval actualToffset = [MSUtil nowInMilliseconds] - createTime;
+  NSTimeInterval actualToffset = [MSUtility nowInMilliseconds] - createTime;
   assertThat(@(seralizedToffset), lessThan(@(actualToffset)));
 }
 

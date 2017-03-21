@@ -3,7 +3,7 @@
 #import "MSDevicePrivate.h"
 #import "MSDeviceTracker.h"
 #import "MSDeviceTrackerPrivate.h"
-#import "MSUtil.h"
+#import "MSUtility+Date.h"
 #import "MSWrapperSdkPrivate.h"
 #import "MSUserDefaults.h"
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
@@ -14,7 +14,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 
 @interface MSDeviceTrackerTests : XCTestCase
 
-@property(nonatomic, strong) MSDeviceTracker *sut;
+@property(nonatomic) MSDeviceTracker *sut;
 
 @end
 
@@ -332,11 +332,11 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   
   // Then
   XCTAssertTrue([self.sut.deviceHistory count] == 0);
-  XCTAssertNil([MS_USER_DEFAULTS objectForKey:@"pastDevicesKey"]);
+  XCTAssertNil([MS_USER_DEFAULTS objectForKey:kMSPastDevicesKey]);
   
   // When
   [self.sut device];
-  XCTAssertNotNil([MS_USER_DEFAULTS objectForKey:@"pastDevicesKey"]);
+  XCTAssertNotNil([MS_USER_DEFAULTS objectForKey:kMSPastDevicesKey]);
 }
 
 - (void)testEnqueuingAndRefreshWorks {
@@ -429,7 +429,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   XCTAssertTrue([actual isEqual:first]);
   
   // When
-  NSNumber *now =  [NSNumber numberWithLongLong:[MSUtil nowInMilliseconds]];
+  NSNumber *now =  [NSNumber numberWithLongLong:[MSUtility nowInMilliseconds]];
   actual = [tracker deviceForToffset:now];
   
   // Then

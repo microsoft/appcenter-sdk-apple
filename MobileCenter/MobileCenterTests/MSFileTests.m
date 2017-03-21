@@ -7,7 +7,7 @@
 
 @interface MSFileTests : XCTestCase
 
-@property(nonatomic, strong) MSFile *sut;
+@property(nonatomic) MSFile *sut;
 @end
 
 @implementation MSFileTests

@@ -17,7 +17,7 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 /**
  * A boolean value set to YES if this instance is enabled or NO otherwise.
  */
-@property(atomic) BOOL enabled;
+@property BOOL enabled;
 
 @end
 
@@ -27,21 +27,13 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 
 - (instancetype)initWithAppSecret:(NSString *)appSecret installId:(NSUUID *)installId logUrl:(NSString *)logUrl {
   self = [self initWithSender:[[MSIngestionSender alloc] initWithBaseUrl:logUrl
-                                  headers:@{
-                                    kMSHeaderContentTypeKey : kMSContentType,
-                                    kMSHeaderAppSecretKey : appSecret,
-                                    kMSHeaderInstallIDKey : [installId UUIDString]
-                                  }
-                                  queryStrings:@{
-                                    kMSAPIVersionKey : kMSAPIVersion
-                                  }
-                                  reachability:[MS_Reachability reachabilityForInternetConnection]
-                                  retryIntervals:@[ @(10), @(5 * 60), @(20 * 60) ]]
+                                                               appSecret:appSecret
+                                                               installId:[installId UUIDString]]
                       storage:[[MSFileStorage alloc] init]];
   return self;
 }
 
-- (instancetype)initWithSender:(id<MSSender>)sender storage:(id<MSStorage>)storage {
+- (instancetype)initWithSender:(MSHttpSender *)sender storage:(id<MSStorage>)storage {
   if ((self = [self init])) {
     dispatch_queue_t serialQueue = dispatch_queue_create(MSlogsDispatchQueue, DISPATCH_QUEUE_SERIAL);
     _enabled = YES;
@@ -91,22 +83,24 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 #pragma mark - Process items
 
 - (void)processLog:(id<MSLog>)log withPriority:(MSPriority)priority {
-
   if (!log) {
     return;
   }
 
+  // Internal ID to keep track of logs between modules.
+  NSString *internalLogId = MS_UUID_STRING;
+
   // Notify delegates.
-  [self enumerateDelegatesForSelector:@selector(onProcessingLog:withPriority:)
+  [self enumerateDelegatesForSelector:@selector(onEnqueuingLog:withInternalId:andPriority:)
                             withBlock:^(id<MSLogManagerDelegate> delegate) {
-                              [delegate onProcessingLog:log withPriority:priority];
+                              [delegate onEnqueuingLog:log withInternalId:internalLogId andPriority:priority];
                             }];
 
   // Get the channel.
   id<MSChannel> channel = [self channelForPriority:priority];
 
   // Set common log info.
-  log.toffset = [NSNumber numberWithLongLong:[MSUtil nowInMilliseconds]];
+  log.toffset = [NSNumber numberWithLongLong:[MSUtility nowInMilliseconds]];
 
   // Only add device info in case the log doesn't have one. In case the log is restored after a crash or for crashes,
   // We don't want the device information to be updated but want the old one preserved.
@@ -115,7 +109,25 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
   }
 
   // Asynchronously forward to channel by using the data dispatch queue.
-  [channel enqueueItem:log];
+  [channel
+         enqueueItem:log
+      withCompletion:^(BOOL success) {
+        if (success) {
+
+          // Notify delegates.
+          [self enumerateDelegatesForSelector:@selector(onFinishedPersistingLog:withInternalId:andPriority:)
+                                    withBlock:^(id<MSLogManagerDelegate> delegate) {
+                                      [delegate onFinishedPersistingLog:log withInternalId:internalLogId andPriority:priority];
+                                    }];
+        } else {
+
+          // Notify delegates.
+          [self enumerateDelegatesForSelector:@selector(onFailedPersistingLog:withInternalId:andPriority:)
+                                    withBlock:^(id<MSLogManagerDelegate> delegate) {
+                                      [delegate onFailedPersistingLog:log withInternalId:internalLogId andPriority:priority];
+                                    }];
+        }
+      }];
 }
 
 #pragma mark - Helpers
@@ -167,6 +179,12 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 
 - (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData forPriority:(MSPriority)priority {
   [[self channelForPriority:priority] setEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
+}
+
+#pragma mark - Other public methods
+
+- (void)setLogUrl:(NSString *)logUrl {
+  self.sender.baseURL = logUrl;
 }
 
 @end

@@ -50,6 +50,20 @@
          </BuildActionEntry>
          <BuildActionEntry
             buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "04FD4A1B1E451E12009B4468"
+               BuildableName = "libMobileCenterDistribute.a"
+               BlueprintName = "MobileCenterDistribute"
+               ReferencedContainer = "container:MobileCenterDistribute/MobileCenterDistribute.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
             buildForRunning = "NO"
             buildForProfiling = "NO"
             buildForArchiving = "NO"
@@ -60,6 +74,20 @@
                BuildableName = "MobileCenterCrashes.xctest"
                BlueprintName = "MobileCenterCrashesTests"
                ReferencedContainer = "container:MobileCenterCrashes/MobileCenterCrashes.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "04FD4A301E453531009B4468"
+               BuildableName = "MobileCenterDistribute.xctest"
+               BlueprintName = "MobileCenterDistributeTests"
+               ReferencedContainer = "container:MobileCenterDistribute/MobileCenterDistribute.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -99,6 +127,16 @@
                BuildableName = "MobileCenterCrashes.xctest"
                BlueprintName = "MobileCenterCrashesTests"
                ReferencedContainer = "container:MobileCenterCrashes/MobileCenterCrashes.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "04FD4A301E453531009B4468"
+               BuildableName = "MobileCenterDistribute.xctest"
+               BlueprintName = "MobileCenterDistributeTests"
+               ReferencedContainer = "container:MobileCenterDistribute/MobileCenterDistribute.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>

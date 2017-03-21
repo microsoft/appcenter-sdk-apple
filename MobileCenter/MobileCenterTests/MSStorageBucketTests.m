@@ -7,7 +7,7 @@
 
 @interface MSStorageBucketTests : XCTestCase
 
-@property(nonatomic, strong) MSStorageBucket *sut;
+@property(nonatomic) MSStorageBucket *sut;
 
 @end
 

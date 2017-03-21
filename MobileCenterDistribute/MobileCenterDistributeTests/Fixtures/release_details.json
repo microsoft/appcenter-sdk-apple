@@ -1,0 +1,18 @@
+{
+  "id": 1,
+  "status": "available",
+  "app_name": "Unittest",
+  "version": "1.0",
+  "short_version": "0",
+  "release_notes": "This is a release note for test",
+  "provisioning_profile_name": "Provisioning profile name",
+  "size": 1234567,
+  "min_os": "iOS 8.0",
+  "mandatory_update": true,
+  "fingerprint": "b10a8db164e0754105b7a99be72e3fe5",
+  "uploaded_at": "2017-01-01T00:00:00-0800",
+  "download_url": "http://contoso.com/path/download/filename",
+  "app_icon_url": "http://contoso.com/path/icon/filename",
+  "install_url": "itms-service://?action=download-manifest&url=contoso.com/release/filename",
+  "distribution_groups": [ ]
+}

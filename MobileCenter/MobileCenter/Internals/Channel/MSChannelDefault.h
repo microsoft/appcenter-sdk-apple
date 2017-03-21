@@ -7,14 +7,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void (^enqueueCompletionBlock)(BOOL);
-
 @interface MSChannelDefault : NSObject <MSChannel>
 
 /**
  * Queue used to process logs.
  */
-@property(nonatomic, strong) dispatch_queue_t logsDispatchQueue;
+@property(nonatomic) dispatch_queue_t logsDispatchQueue;
 
 /**
  * Hash table of channel delegate.
@@ -24,18 +22,18 @@ typedef void (^enqueueCompletionBlock)(BOOL);
 /**
  * A sender instance that is used to send batches of log items to the backend.
  */
-@property(nonatomic, strong, nullable) id<MSSender> sender;
+@property(nonatomic) id<MSSender> sender;
 
 /**
  * A storage instance to store and read enqueued log items.
  */
-@property(nonatomic, strong, nullable) id<MSStorage> storage;
+@property(nonatomic) id<MSStorage> storage;
 
 /**
  * A timer source which is used to flush the queue after a certain amount of
  * time.
  */
-@property(nonatomic, strong, nullable) dispatch_source_t timerSource;
+@property(nonatomic) dispatch_source_t timerSource;
 
 /**
  * A counter that keeps tracks of the number of logs added to the queue.
@@ -56,15 +54,6 @@ typedef void (^enqueueCompletionBlock)(BOOL);
  * A boolean value set to YES if the pending batch queue is full.
  */
 @property(nonatomic) BOOL pendingBatchQueueFull;
-
-/**
- * Enqueues a new log item.
- *
- * @param item The log item that should be enqueued.
- * @param completion A completion block that gets called after the item was
- * enqueued.
- */
-- (void)enqueueItem:(id<MSLog>)item withCompletion:(nullable enqueueCompletionBlock)completion;
 
 @end
 

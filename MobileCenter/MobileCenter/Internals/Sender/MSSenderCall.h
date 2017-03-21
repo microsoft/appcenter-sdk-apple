@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * A timer source which is used to flush the queue after a certain amount of time.
  */
-@property(nonatomic, strong, nullable) dispatch_source_t timerSource;
+@property(nonatomic) dispatch_source_t timerSource;
 
 /**
  * Number of retries performed for this call.
@@ -71,9 +71,13 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param sender     sender object.
  *  @param statusCode status code.
+ *  @param data       response data.
  *  @param error      call error.
  */
-- (void)sender:(id<MSSender>)sender callCompletedWithStatus:(NSUInteger)statusCode error:(NSError *)error;
+- (void)sender:(id<MSSender>)sender
+    callCompletedWithStatus:(NSUInteger)statusCode
+                       data:(NSData *)data
+                      error:(NSError *)error;
 
 @end
 

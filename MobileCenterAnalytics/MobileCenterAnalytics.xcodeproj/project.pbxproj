@@ -149,6 +149,7 @@
 		E8E48F9D1D515C3900A8C1B0 /* MSSessionTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSSessionTracker.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		E8E48FA01D51670100A8C1B0 /* MSStartSessionLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSStartSessionLog.h; sourceTree = "<group>"; };
 		E8E48FA11D51670100A8C1B0 /* MSStartSessionLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSStartSessionLog.m; sourceTree = "<group>"; };
+		F87A05581E72BDFC0038A6F9 /* Tests.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Tests.xcconfig; path = ../../../Tests.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -304,6 +305,7 @@
 				3856B47C1E032E7B0016AB05 /* Global.xcconfig */,
 				B2812EF21DA3148000307DCE /* MobileCenterAnalytics.xcconfig */,
 				B2812EF01DA3148000307DCE /* module.modulemap */,
+				F87A05581E72BDFC0038A6F9 /* Tests.xcconfig */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -573,6 +575,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "$(inherited)";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -614,6 +617,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "$(inherited)";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -623,7 +627,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				"ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenteranalytics;
@@ -639,7 +642,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				"ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenteranalytics;
@@ -653,6 +655,7 @@
 		};
 		E85547DE1D2D6723002DF6E2 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F87A05581E72BDFC0038A6F9 /* Tests.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -662,12 +665,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-framework",
-					Foundation,
-					"-ObjC",
-				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenteranalyticstests;
 				PRODUCT_NAME = MobileCenterAnalytics;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/**";
@@ -676,6 +673,7 @@
 		};
 		E85547DF1D2D6723002DF6E2 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F87A05581E72BDFC0038A6F9 /* Tests.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -685,12 +683,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-framework",
-					Foundation,
-					"-ObjC",
-				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenteranalyticstests;
 				PRODUCT_NAME = MobileCenterAnalytics;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/**";
@@ -714,7 +706,6 @@
 		E85547EB1D2D68C5002DF6E2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				OTHER_CFLAGS = "";
 				PRODUCT_NAME = MobileCenterAnalytics;
@@ -726,7 +717,6 @@
 		E85547EC1D2D68C5002DF6E2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
 				OTHER_CFLAGS = "";
 				PRODUCT_NAME = MobileCenterAnalytics;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"";

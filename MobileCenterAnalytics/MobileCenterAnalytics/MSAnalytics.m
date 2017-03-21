@@ -1,10 +1,10 @@
 #import "MSAnalytics.h"
 #import "MSAnalyticsCategory.h"
+#import "MSAnalyticsInternal.h"
 #import "MSAnalyticsPrivate.h"
 #import "MSEventLog.h"
 #import "MSPageLog.h"
 #import "MSServiceAbstractProtected.h"
-#import "MSAnalyticsInternal.h"
 
 /**
  * Service storage key name.
@@ -47,12 +47,16 @@ static dispatch_once_t onceToken;
   return sharedInstance;
 }
 
++ (NSString *)serviceName {
+  return kMSServiceName;
+}
+
 - (void)startWithLogManager:(id<MSLogManager>)logManager appSecret:(NSString *)appSecret {
   [super startWithLogManager:logManager appSecret:appSecret];
 
   // Set up swizzling for auto page tracking.
   [MSAnalyticsCategory activateCategory];
-  MSLogVerbose([MSAnalytics logTag], @"Started analytics service.");
+  MSLogVerbose([MSAnalytics logTag], @"Started Analytics service.");
 }
 
 + (NSString *)logTag {
@@ -65,10 +69,6 @@ static dispatch_once_t onceToken;
 
 - (MSPriority)priority {
   return MSPriorityDefault;
-}
-
-- (MSInitializationPriority)initializationPriority {
-  return MSInitializationPriorityDefault;
 }
 
 #pragma mark - MSServiceAbstract
@@ -92,7 +92,7 @@ static dispatch_once_t onceToken;
       // Track on the main queue to avoid race condition with page swizzling.
       dispatch_async(dispatch_get_main_queue(), ^{
         if ([[MSAnalyticsCategory missedPageViewName] length] > 0) {
-          [[self class] trackPage:[MSAnalyticsCategory missedPageViewName]];
+          [[self class] trackPage:(NSString * _Nonnull)[MSAnalyticsCategory missedPageViewName]];
         }
       });
     }

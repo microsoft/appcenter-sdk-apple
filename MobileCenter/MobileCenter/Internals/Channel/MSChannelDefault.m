@@ -86,15 +86,17 @@
 
 #pragma mark - Managing queue
 
-- (void)enqueueItem:(id<MSLog>)item {
-  [self enqueueItem:item withCompletion:nil];
-}
-
 - (void)enqueueItem:(id<MSLog>)item withCompletion:(enqueueCompletionBlock)completion {
-  // return fast in case our item is empty or we are discarding logs right now.
+  
+  // Return fast in case our item is empty or we are discarding logs right now.
   dispatch_async(self.logsDispatchQueue, ^{
     if (!item) {
-      MSLogWarning([MSMobileCenter logTag], @"TelemetryItem was nil.");
+      MSLogWarning([MSMobileCenter logTag], @"Log is nil.");
+
+      // Don't forget to execute completion block.
+      if (completion) {
+        completion(NO);
+      }
       return;
     } else if (self.discardLogs) {
       MSLogWarning([MSMobileCenter logTag], @"Channel disabled in log discarding mode, discard this log.");
@@ -102,6 +104,11 @@
                                            code:kMSMCConnectionSuspendedErrorCode
                                        userInfo:@{NSLocalizedDescriptionKey : kMSMCConnectionSuspendedErrorDesc}];
       [self notifyFailureBeforeSendingForItem:item withError:error];
+
+      // Don't forget to exectute the completion block.
+      if (completion) {
+        completion(NO);
+      }
       return;
     }
 
@@ -109,6 +116,8 @@
     MSLogDebug([MSMobileCenter logTag], @"Saving log, type: %@.", item.type);
     BOOL success = [self.storage saveLog:item withStorageKey:self.configuration.name];
     self.itemsCount += 1;
+    
+    // Execute the completion block.
     if (completion) {
       completion(success);
     }
@@ -149,7 +158,7 @@
   self.itemsCount = 0;
   self.availableBatchFromStorage = [self.storage
       loadLogsForStorageKey:self.configuration.name
-             withCompletion:^(BOOL succeeded, NSArray<MSLog> *_Nullable logArray, NSString *_Nullable batchId) {
+             withCompletion:^(BOOL succeeded, NSArray<MSLog> *_Nonnull logArray, NSString *_Nonnull batchId) {
 
                // Logs may be deleted from storage before this flush.
                if (succeeded) {
@@ -158,7 +167,7 @@
                    self.pendingBatchQueueFull = YES;
                  }
                  MSLogContainer *container = [[MSLogContainer alloc] initWithBatchId:batchId andLogs:logArray];
-                 MSLogDebug([MSMobileCenter logTag], @"Sending log(s), batch Id:%@, payload:\n %@", batchId,
+                 MSLogDebug([MSMobileCenter logTag], @"Sending log(s), batch Id:%@, payload:\n%@", batchId,
                             [container serializeLogWithPrettyPrinting:YES]);
 
                  // Notify delegates.
@@ -172,7 +181,7 @@
                  // Forward logs to the sender.
                  [self.sender
                              sendAsync:container
-                     completionHandler:^(NSString *batchId, NSError *error, NSUInteger statusCode) {
+                     completionHandler:^(NSString *batchId, NSUInteger statusCode, NSData *data, NSError *error) {
                        dispatch_async(self.logsDispatchQueue, ^{
                          if ([self.pendingBatchIds containsObject:batchId]) {
 
@@ -264,9 +273,8 @@
 }
 
 - (void)resetTimer {
-  if (self.timerSource) {
+  if(self.timerSource) {
     dispatch_source_cancel(self.timerSource);
-    self.timerSource = nil;
   }
 }
 

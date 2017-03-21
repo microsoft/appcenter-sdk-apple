@@ -59,7 +59,6 @@
 - (void)resetTimer {
   if (self.timerSource) {
     dispatch_source_cancel(self.timerSource);
-    self.timerSource = nil;
   }
 }
 
@@ -68,7 +67,10 @@
   [self resetTimer];
 }
 
-- (void)sender:(id<MSSender>)sender callCompletedWithStatus:(NSUInteger)statusCode error:(NSError *)error {
+- (void)sender:(id<MSSender>)sender
+    callCompletedWithStatus:(NSUInteger)statusCode
+                       data:(NSData *)data
+                      error:(NSError *)error {
   if ([MSSenderUtil isNoInternetConnectionError:error]) {
 
     // Reset the retry count, will retry once the connection is established again.
@@ -95,7 +97,7 @@
     }
 
     // Call completion.
-    self.completionHandler(self.callId, error, statusCode);
+    self.completionHandler(self.callId, statusCode, data, error);
 
     // Remove call from sender.
     [sender callCompletedWithId:self.callId];
