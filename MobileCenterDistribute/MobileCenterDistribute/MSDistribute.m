@@ -23,16 +23,6 @@ static NSString *const kMSServiceName = @"Distribute";
 #pragma mark - URL constants
 
 /**
- * Base URL for HTTP Distribute install API calls.
- */
-static NSString *const kMSDefaultInstallUrl = @"https://install.mobile.azure.com";
-
-/**
- * Base URL for HTTP Distribute update API calls.
- */
-static NSString *const kMSDefaultApiUrl = @"https://api.mobile.azure.com/v0.1";
-
-/**
  * The API path for update token request.
  */
 static NSString *const kMSUpdateTokenApiPathFormat = @"/apps/%@/update-setup";
@@ -147,7 +137,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
           @"The device lost its internet connection. The SDK will retry to get an update token in the next launch.");
       return;
     }
-
     NSURL *url;
     MSLogInfo([MSDistribute logTag], @"Request Distribute update token.");
 
@@ -177,6 +166,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       }
     }
   } else {
+
     // Log a message to notify the user why the SDK didn't check for updates.
     MSLogDebug(
         [MSDistribute logTag],
@@ -276,7 +266,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                   [MS_USER_DEFAULTS removeObjectForKey:kMSIgnoredReleaseIdKey];
                 }
               }
-
               if (!jsonString) {
                 jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
               }
@@ -321,7 +310,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   NSString *urlPath = [NSString stringWithFormat:kMSUpdateTokenApiPathFormat, appSecret];
 
   // Build URL string.
-  NSString *urlString = [kMSDefaultInstallUrl stringByAppendingString:urlPath];
+  NSString *urlString = [self.installUrl stringByAppendingString:urlPath];
   NSURLComponents *components = [NSURLComponents componentsWithString:urlString];
 
   // Check URL validity so far.

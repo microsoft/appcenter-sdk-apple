@@ -163,14 +163,13 @@ static NSURL *sfURL;
   });
 
   // Then
-  [self
-   waitForExpectationsWithTimeout:1
-   handler:^(NSError *error) {
-     OCMVerify([appMock openURL:url]);
-     if (error) {
-       XCTFail(@"Expectation Failed with error: %@", error);
-     }
-   }];
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 OCMVerify([appMock openURL:url]);
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
 }
 
 - (void)testOpenURLInEmbeddedSafari {
@@ -206,27 +205,55 @@ static NSURL *sfURL;
 
 - (void)testSetInstallUrlWorks {
 
-  // When
+  // If
   NSString *testUrl = @"https://example.com";
+  NSArray *bundleArray =
+      @[ @{
+        @"CFBundleURLSchemes" : @[ [NSString stringWithFormat:@"mobilecenter-%@", kMSTestAppSecret] ]
+      } ];
+  id bundleMock = OCMClassMock([NSBundle class]);
+  OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
+  NSDictionary<NSString *, id> *plist = @{ @"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1" };
+  OCMStub([bundleMock infoDictionary]).andReturn(plist);
+  OCMStub([bundleMock objectForInfoDictionaryKey:@"CFBundleURLTypes"]).andReturn(bundleArray);
+
+  // When
   [MSDistribute setInstallUrl:testUrl];
   MSDistribute *distribute = [MSDistribute sharedInstance];
+  NSURL *url = [distribute buildTokenRequestURLWithAppSecret:kMSTestAppSecret];
 
   // Then
   XCTAssertTrue([[distribute installUrl] isEqualToString:testUrl]);
+  XCTAssertTrue([url.absoluteString hasPrefix:testUrl]);
 }
 
 - (void)testDefaultInstallUrlWorks {
 
+  // If
+  NSArray *bundleArray =
+      @[ @{
+        @"CFBundleURLSchemes" : @[ [NSString stringWithFormat:@"mobilecenter-%@", kMSTestAppSecret] ]
+      } ];
+  id bundleMock = OCMClassMock([NSBundle class]);
+  OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
+  NSDictionary<NSString *, id> *plist = @{ @"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1" };
+  OCMStub([bundleMock infoDictionary]).andReturn(plist);
+  OCMStub([bundleMock objectForInfoDictionaryKey:@"CFBundleURLTypes"]).andReturn(bundleArray);
+
+  // When
+  NSString *instalURL = [self.sut installUrl];
+  NSURL *tokenRequestURL = [self.sut buildTokenRequestURLWithAppSecret:kMSTestAppSecret];
+
   // Then
-  XCTAssertNotNil([self.sut installUrl]);
-  XCTAssertTrue([[self.sut installUrl] isEqualToString:@"https://install.mobile.azure.com"]);
+  XCTAssertNotNil(instalURL);
+  XCTAssertTrue([tokenRequestURL.absoluteString hasPrefix:kMSDefaultInstallUrl]);
 }
 
 - (void)testDefaultApiUrlWorks {
 
   // Then
   XCTAssertNotNil([self.sut apiUrl]);
-  XCTAssertTrue([[self.sut apiUrl] isEqualToString:@"https://api.mobile.azure.com/v0.1"]);
+  XCTAssertTrue([[self.sut apiUrl] isEqualToString:kMSDefaultApiUrl]);
 }
 
 - (void)testHandleUpdate {
