@@ -84,4 +84,31 @@
   assertThatUnsignedInteger(sut.appProcessIdentifier, equalToUnsignedInteger(processIdentifier));
 }
 
+- (void)testIsAppKill {
+  MSErrorReport *sut = [MSErrorReport new];
+  XCTAssertFalse([sut isAppKill]);
+  
+  sut = [[MSErrorReport alloc] initWithErrorId:nil
+                                   reporterKey:nil
+                                        signal:@"SIGSEGV"
+                                 exceptionName:nil
+                               exceptionReason:nil
+                                  appStartTime:nil
+                                  appErrorTime:nil
+                                        device:nil
+                          appProcessIdentifier:0];
+  XCTAssertFalse([sut isAppKill]);
+  
+  sut = [[MSErrorReport alloc] initWithErrorId:nil
+                                   reporterKey:nil
+                                        signal:@"SIGKILL"
+                                 exceptionName:nil
+                               exceptionReason:nil
+                                  appStartTime:nil
+                                  appErrorTime:nil
+                                        device:nil
+                          appProcessIdentifier:0];
+  XCTAssertTrue([sut isAppKill]);
+}
+
 @end

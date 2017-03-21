@@ -18,9 +18,26 @@
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
 static NSString *const kMSCrashesServiceName = @"Crashes";
 
-@interface MSCrashesTests : XCTestCase
+@interface MSCrashes ()
+
+- (void)startCrashProcessing;
+
+- (void)channel:(id)channel willSendLog:(id<MSLog>)log;
+
+- (void)channel:(id<MSChannel>)channel didSucceedSendingLog:(id<MSLog>)log;
+
+- (void)channel:(id<MSChannel>)channel didFailSendingLog:(id<MSLog>)log withError:(NSError *)error;
+
+@end
+
+@interface MSCrashesTests : XCTestCase<MSCrashesDelegate>
 
 @property(nonatomic) MSCrashes *sut;
+
+@property BOOL shouldProcessErrorReportCalled;
+@property BOOL willSendErrorReportCalled;
+@property BOOL didSucceedSendingErrorReportCalled;
+@property BOOL didFailSendingErrorReportCalled;
 
 @end
 
@@ -92,6 +109,33 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
   XCTAssertEqual([MSCrashes sharedInstance].delegate, delegateMock);
 }
 
+- (void)testDelegateMethodsAreCalled {
+  
+  self.shouldProcessErrorReportCalled = true;
+  self.willSendErrorReportCalled = true;
+  self.didSucceedSendingErrorReportCalled = true;
+  self.didFailSendingErrorReportCalled = true;
+  
+  [[MSCrashes sharedInstance] setDelegate:self];
+  MSAppleErrorLog *errorLog = [MSAppleErrorLog new];
+  [[MSCrashes sharedInstance] channel:nil willSendLog:errorLog];
+  [[MSCrashes sharedInstance] channel:nil didSucceedSendingLog:errorLog];
+  [[MSCrashes sharedInstance] channel:nil didFailSendingLog:errorLog withError:nil];
+  [[MSCrashes sharedInstance] shouldProcessErrorReport:nil];
+  
+  XCTAssertTrue(self.shouldProcessErrorReportCalled);
+  XCTAssertTrue(self.willSendErrorReportCalled);
+  XCTAssertTrue(self.didSucceedSendingErrorReportCalled);
+  XCTAssertTrue(self.didFailSendingErrorReportCalled);
+}
+
+- (void)testSettingUserConfirmationHandler {
+  MSUserConfirmationHandler userConfirmationHandler = ^BOOL(NSArray<MSErrorReport *> * _Nonnull errorReports) { return NO; };
+  [MSCrashes setUserConfirmationHandler:userConfirmationHandler];
+  XCTAssertNotNil([MSCrashes sharedInstance].userConfirmationHandler);
+  XCTAssertEqual([MSCrashes sharedInstance].userConfirmationHandler, userConfirmationHandler);
+}
+
 - (void)testCrashesDelegateWithoutImplementations {
 
   // When
@@ -101,6 +145,24 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
   // Then
   assertThatBool([[MSCrashes sharedInstance] shouldProcessErrorReport:nil], isTrue());
   assertThatBool([[MSCrashes sharedInstance] delegateImplementsAttachmentCallback], isFalse());
+}
+
+- (void)testProcessCrashes {
+  assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
+  
+  // When
+  [[MSCrashes sharedInstance] startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
+  
+  // Then
+  assertThat([MSCrashes sharedInstance].crashFiles, hasCountOf(1));
+  
+  // When
+  MSUserConfirmationHandler userConfirmationHandler = ^BOOL(NSArray<MSErrorReport *> * _Nonnull errorReports) { return NO; };
+  [MSCrashes setUserConfirmationHandler:userConfirmationHandler];
+  [[MSCrashes sharedInstance] startCrashProcessing];
+  
+  // Then
+  assertThat([MSCrashes sharedInstance].crashFiles, hasCountOf(0));
 }
 
 - (void)testDeleteAllFromCrashesDirectory {
@@ -364,5 +426,23 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
 - (void)testCrashesServiceNameIsCorrect {
   XCTAssertEqual([MSCrashes serviceName], kMSCrashesServiceName);
 }
+
+- (BOOL)crashes:(MSCrashes *)crashes shouldProcessErrorReport:(MSErrorReport *)errorReport {
+  self.shouldProcessErrorReportCalled = true;
+  return YES;
+}
+
+- (void)crashes:(MSCrashes *)crashes willSendErrorReport:(MSErrorReport *)errorReport {
+  self.willSendErrorReportCalled = true;
+}
+
+- (void)crashes:(MSCrashes *)crashes didSucceedSendingErrorReport:(MSErrorReport *)errorReport {
+  self.didSucceedSendingErrorReportCalled = true;
+}
+
+- (void)crashes:(MSCrashes *)crashes didFailSendingErrorReport:(MSErrorReport *)errorReport withError:(NSError *)error {
+  self.didFailSendingErrorReportCalled = true;
+}
+
 
 @end
