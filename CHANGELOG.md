@@ -1,6 +1,28 @@
 # Mobile Center SDK for iOS Change Log
 
 
+## Version 0.6.0
+
+### MobileCenter
+
+* **[Bug]** `setLogUrl` API can now be called at anytime.
+* **[Bug]** 401 HTTP errors (caused by invalid appSecret) are now considered unrecoverable and are not retried.
+* **[Misc]** A new log is sent to server when MobileCenter is started with the list of MobileCenter services used in the application.
+
+### MobileCenterAnalytics
+
+* **[Bug]** Fix session Id's tOffset matching.
+
+### MobileCenterCrashes
+
+* **[Bug]** Restore log buffering and retrieving of device information from past sessions, log deduplication improved, crash logs not buffered.
+
+### MobileCenterDistribution
+
+* **[Feature]**  New service called Distribute to enable in-app updates for your Mobile Center builds.
+
+___
+
 ## Version 0.5.1
 
 This version reverts new implementations introduced in version 0.4.2.
