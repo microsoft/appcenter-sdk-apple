@@ -139,7 +139,7 @@
         // This is the case of an executable query (insert, update, ...).
 
         // Execute the query.
-        BOOL executeQueryResults = (BOOL) sqlite3_step(compiledStatement);
+        int executeQueryResults = sqlite3_step(compiledStatement);
         if (executeQueryResults == SQLITE_DONE) {
 
           // Keep the affected rows.
@@ -150,7 +150,7 @@
         } else {
 
           // If could not execute the query show the error message on the debugger.
-          NSLog(@"DB Error: %s", sqlite3_errmsg(sqlite3Database));
+          NSLog(@"DB Error: %s\nerror code: %d", sqlite3_errmsg(sqlite3Database), executeQueryResults);
 
           result = NO;
         }
@@ -158,7 +158,7 @@
     } else {
 
       // In the database cannot be opened then show the error message on the debugger.
-      NSLog(@"%s", sqlite3_errmsg(sqlite3Database));
+      NSLog(@"DB Error: %s\nquery: %s", sqlite3_errmsg(sqlite3Database), query);
 
       result = NO;
     }
@@ -171,6 +171,8 @@
 
   // Close the database.
   sqlite3_close(sqlite3Database);
+
+  NSLog(@"Successfull query: %@", result ? @"YES" : @"NO");
 
   return result;
 }

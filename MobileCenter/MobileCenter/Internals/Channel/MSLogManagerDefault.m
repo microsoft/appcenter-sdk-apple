@@ -38,8 +38,8 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
                                   }
                                   reachability:[MS_Reachability reachabilityForInternetConnection]
                                   retryIntervals:@[ @(10), @(5 * 60), @(20 * 60) ]]
-//                      storage:[MSDBStorage new];
-                        storage:[MSFileStorage new]];
+                      storage:[MSDBStorage new]];
+//                    storage:[MSFileStorage new]];
   return self;
 }
 

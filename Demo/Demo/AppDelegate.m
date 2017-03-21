@@ -23,6 +23,11 @@
 
   // Print the install Id.
   NSLog(@"%@ Install Id: %@", kDEMLogTag, [[MSMobileCenter installId] UUIDString]);
+
+  for(int i = 0; i < 100; ++i) {
+    [MSAnalytics trackEvent:[NSString stringWithFormat:@"%d", i]];
+  }
+
   return YES;
 }
 
