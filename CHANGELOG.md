@@ -17,7 +17,7 @@
 
 * **[Bug]** Restore log buffering and retrieving of device information from past sessions, log deduplication improved, crash logs not buffered.
 
-### MobileCenterDistribution
+### MobileCenterDistribute
 
 * **[Feature]**  New service called Distribute to enable in-app updates for your Mobile Center builds.
 
