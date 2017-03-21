@@ -260,14 +260,21 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 }
 
 - (void)analytics:(MSAnalytics *)analytics willSendEventLog:(MSEventLog *)eventLog {
+  (void)analytics;
+  (void)eventLog;
   self.willSendEventLogWasCalled = true;
 }
 
 - (void)analytics:(MSAnalytics *)analytics didSucceedSendingEventLog:(MSEventLog *)eventLog {
+  (void)analytics;
+  (void)eventLog;
   self.didSucceedSendingEventLogWasCalled = true;
 }
 
 - (void)analytics:(MSAnalytics *)analytics didFailSendingEventLog:(MSEventLog *)eventLog withError:(NSError *)error {
+  (void)analytics;
+  (void)eventLog;
+  (void)error;
   self.didFailSendingEventLogWasCalled = true;
 }
 
