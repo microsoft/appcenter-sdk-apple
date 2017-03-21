@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name              = 'MobileCenter'
-  s.version           = '0.5.1'
+  s.version           = '0.6.0'
 
   s.summary           = 'Add Mobile Center SDK to your app to collect crash reports & understand user behavior by analyzing the session, user or device information.'
   s.description       = <<-DESC
@@ -13,15 +13,12 @@ Pod::Spec.new do |s|
                       All the information captured is available in the Mobile Center portal for you to analyze the data.
 
                       2. Crashes: 
-                      The Mobile Center SDK will automatically generate a crash log every time your app crashes. The log is first written to the device's storage and when
+                      Mobile Center Crashes will automatically generate a crash log every time your app crashes. The log is first written to the device's storage and when
                       the user starts the app again, the crash report will be forwarded to Mobile Center. Collecting crashes works for both beta and live apps, i.e. those submitted to App Store.
                       Crash logs contain viable information for you to help resolve the issue. Crashes uses PLCrashReporter 1.2.1.
 
                       3. Distribute:
-                      The Mobile Center SDK will let your users install a new version of the app when you distribute it via Mobile Center. With a new version of the app available,
-                      the SDK will present an update dialog to the users to either download or ignore the latest version. Once they tap "Download", the SDK will start the installation
-                      process of your application. Note that this feature will `NOT` work if your app is deployed to the app store, TestFlight, if you are running it with a debugger attached
-                      or if the app was build using the DEBUG configuration.
+                      Mobile Center Distribute provides the capability to display in-app updates to your app users when a new version of the application is released.
 
                         DESC
 

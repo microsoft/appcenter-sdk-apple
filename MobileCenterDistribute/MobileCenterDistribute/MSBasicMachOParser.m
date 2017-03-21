@@ -5,7 +5,7 @@
 #import "MSBasicMachOParser.h"
 #import "MSDistributeInternal.h"
 #import "MSLogger.h"
-#import "MSUtil.h"
+#import "MSUtility.h"
 
 static NSString *const kMSBigEndianErrorDesc = @"Big-endian file not supported.";
 static NSString *const kMSNotMachOErrorDesc = @"File is not a known type of Mach-O file.";

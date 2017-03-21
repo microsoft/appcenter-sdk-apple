@@ -23,16 +23,6 @@ static NSString *const kMSServiceName = @"Distribute";
 #pragma mark - URL constants
 
 /**
- * Base URL for HTTP Distribute install API calls.
- */
-static NSString *const kMSDefaultInstallUrl = @"http://install.asgard-int.trafficmanager.net";
-
-/**
- * Base URL for HTTP Distribute update API calls.
- */
-static NSString *const kMSDefaultApiUrl = @"https://asgard-int.trafficmanager.net/api/v0.1";
-
-/**
  * The API path for update token request.
  */
 static NSString *const kMSUpdateTokenApiPathFormat = @"/apps/%@/update-setup";
@@ -147,7 +137,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
           @"The device lost its internet connection. The SDK will retry to get an update token in the next launch.");
       return;
     }
-
     NSURL *url;
     MSLogInfo([MSDistribute logTag], @"Request Distribute update token.");
 
@@ -177,6 +166,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       }
     }
   } else {
+
     // Log a message to notify the user why the SDK didn't check for updates.
     MSLogDebug(
         [MSDistribute logTag],
@@ -276,7 +266,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                   [MS_USER_DEFAULTS removeObjectForKey:kMSIgnoredReleaseIdKey];
                 }
               }
-
               if (!jsonString) {
                 jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
               }
@@ -321,7 +310,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   NSString *urlPath = [NSString stringWithFormat:kMSUpdateTokenApiPathFormat, appSecret];
 
   // Build URL string.
-  NSString *urlString = [kMSDefaultInstallUrl stringByAppendingString:urlPath];
+  NSString *urlString = [self.installUrl stringByAppendingString:urlPath];
   NSURLComponents *components = [NSURLComponents componentsWithString:urlString];
 
   // Check URL validity so far.
@@ -395,7 +384,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
 - (void)openURLInSafariApp:(NSURL *)url {
   MSLogDebug([MSDistribute logTag], @"Using Safari browser to open URL: %@", url);
-  [MSUtil sharedAppOpenUrl:url options:@{} completionHandler:nil];
+  [MSUtility sharedAppOpenUrl:url options:@{} completionHandler:nil];
 }
 
 - (void)handleUpdate:(MSReleaseDetails *)details {
@@ -439,13 +428,13 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 - (BOOL)checkForUpdatesAllowed {
 
   // Check if we are not in AppStore or TestFlight environments.
-  BOOL environmentOkay = [MSUtil currentAppEnvironment] == MSEnvironmentOther;
+  BOOL environmentOkay = [MSUtility currentAppEnvironment] == MSEnvironmentOther;
 
   // Check if a debugger is attached.
   BOOL noDebuggerAttached = ![MSMobileCenter isDebuggerAttached];
 
   // Make sure it's not a DEBUG configuration.
-  BOOL configurationOkay = ![MSUtil isRunningInDebugConfiguration];
+  BOOL configurationOkay = ![MSUtility isRunningInDebugConfiguration];
   return environmentOkay && noDebuggerAttached && configurationOkay;
 }
 
@@ -498,7 +487,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 #if TARGET_IPHONE_SIMULATOR
   MSLogWarning([MSDistribute logTag], @"Couldn't download a new release on simulator.");
 #else
-  [MSUtil sharedAppOpenUrl:details.installUrl
+  [MSUtility sharedAppOpenUrl:details.installUrl
       options:@{}
       completionHandler:^(BOOL success) {
         if (success) {
