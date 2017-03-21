@@ -5,7 +5,6 @@
 #import "MSDeviceTrackerPrivate.h"
 #import "MSUtility+Date.h"
 #import "MSWrapperSdkPrivate.h"
-#import "MSUserDefaults.h"
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
@@ -326,17 +325,25 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 }
 
 - (void)testClearingDeviceHistoryWorks {
+  __block id savedObject;
+  id NSUserDefaultsMock = OCMClassMock([NSUserDefaults class]);
+  OCMStub([NSUserDefaultsMock standardUserDefaults]).andReturn(NSUserDefaultsMock);
+  OCMStub([NSUserDefaultsMock setObject:[OCMArg any] forKey:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
+    id object;
+    [invocation getArgument:&object atIndex:2];
+    savedObject = object;
+  });
 
   // When
   [self.sut clearDevices];
   
   // Then
   XCTAssertTrue([self.sut.deviceHistory count] == 0);
-  XCTAssertNil([MS_USER_DEFAULTS objectForKey:@"pastDevicesKey"]);
+  XCTAssertNil(savedObject);
   
   // When
   [self.sut device];
-  XCTAssertNotNil([MS_USER_DEFAULTS objectForKey:@"pastDevicesKey"]);
+  XCTAssertNotNil(savedObject);
 }
 
 - (void)testEnqueuingAndRefreshWorks {

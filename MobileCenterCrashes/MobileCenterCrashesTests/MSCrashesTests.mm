@@ -121,7 +121,7 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
 - (void)testDeleteCrashReportsOnDisabled {
 
   // If
-  MSUserDefaults *settingsMock = OCMClassMock([MS_USER_DEFAULTS class]);
+  id settingsMock = OCMClassMock([NSUserDefaults class]);
   OCMStub([settingsMock objectForKey:[OCMArg any]]).andReturn(@YES);
   self.sut.storage = settingsMock;
   assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
@@ -138,7 +138,7 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
 - (void)testDeleteCrashReportsFromDisabledToEnabled {
 
   // If
-  MSUserDefaults *settingsMock = OCMClassMock([MS_USER_DEFAULTS class]);
+  id settingsMock = OCMClassMock([NSUserDefaults class]);
   OCMStub([settingsMock objectForKey:[OCMArg any]]).andReturn(@NO);
   self.sut.storage = settingsMock;
   assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());

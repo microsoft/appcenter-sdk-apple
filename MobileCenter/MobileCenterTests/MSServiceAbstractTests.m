@@ -60,6 +60,8 @@
  */
 @property(nonatomic) MSServiceAbstractImplementation *abstractService;
 
+@property(nonatomic) NSNumber *isEnabled;
+
 @end
 
 @implementation MSServiceAbstractTest
@@ -67,9 +69,20 @@
 - (void)setUp {
   [super setUp];
 
-  // Set up the mocked storage.
-  self.settingsMock = OCMPartialMock(MS_USER_DEFAULTS);
+  self.isEnabled = nil;
 
+  // Set up the mocked storage.
+  self.settingsMock = OCMClassMock([NSUserDefaults class]);
+  OCMStub([self.settingsMock standardUserDefaults]).andReturn(self.settingsMock);
+  OCMStub([self.settingsMock setObject:[OCMArg any]
+                                forKey:[OCMArg isEqual:@"kMSMSServiceAbstractImplementationIsEnabledKey"]]).andDo(^(NSInvocation *invocation) {
+    id object;
+    [invocation getArgument:&object atIndex:2];
+    self.isEnabled = object;
+    NSLog(@"setObject");
+  });
+  OCMStub([self.settingsMock objectForKey:[OCMArg isEqual:@"kMSMSServiceAbstractImplementationIsEnabledKey"]]).andCall(self,@selector(getIsEnabled));
+  
   // System Under Test.
   self.abstractService = [[MSServiceAbstractImplementation alloc] initWithStorage:self.settingsMock];
 
@@ -82,6 +95,10 @@
   [super tearDown];
 
   [self.settingsMock stopMocking];
+}
+
+-(NSNumber*)getIsEnabled{
+  return self.isEnabled;
 }
 
 - (void)testIsEnabledTrueByDefault {
@@ -146,15 +163,8 @@
   /**
    *  If
    */
-  __block NSNumber *isEnabled;
   BOOL expected = NO;
-
-  // Mock MSSettings and swizzle its setObject:forKey: method to check what's sent by the sut to the persistence.
-  OCMStub([self.settingsMock objectForKey:[OCMArg any]]).andReturn([NSNumber numberWithBool:YES]);
-  OCMStub([self.settingsMock setObject:[OCMArg any] forKey:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
-    [invocation getArgument:&isEnabled atIndex:2];
-  });
-
+  
   /**
    *  When
    */
@@ -163,7 +173,7 @@
   /**
    *  Then
    */
-  assertThat(isEnabled, is([NSNumber numberWithBool:expected]));
+  assertThat(self.isEnabled, is([NSNumber numberWithBool:expected]));
 
   // Also check that the sut did access the persistence.
   OCMVerify([self.settingsMock setObject:[OCMArg any] forKey:[OCMArg any]]);
@@ -175,7 +185,7 @@
    *  If
    */
   NSNumber *expected = [NSNumber numberWithBool:NO];
-  OCMStub([self.settingsMock objectForKey:[OCMArg any]]).andReturn(expected);
+  [self.settingsMock setObject:expected forKey:self.abstractService.isEnabledKey];
 
   /**
    *  When
@@ -202,6 +212,7 @@
 }
 
 - (void)testEnableServiceOnCoreDisabled {
+  OCMStub([self.settingsMock objectForKey:[OCMArg isEqual:@"MSMobileCenterIsEnabled"]]).andReturn([NSNumber numberWithBool:NO]);
 
   // If
   [MSMobileCenter resetSharedInstance];
