@@ -102,6 +102,7 @@
 		D38024031E71264600466558 /* MSErrorAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = D38024011E71264600466558 /* MSErrorAttachment.h */; };
 		D38024041E71264600466558 /* MSErrorBinaryAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = D38024021E71264600466558 /* MSErrorBinaryAttachment.h */; };
 		E8AEE9861D59744D00C0FF6C /* MSLogManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E8AEE9851D59744D00C0FF6C /* MSLogManager.h */; };
+		F851DAED1E81867D00525570 /* MSCrashesCXXExceptionHandlerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F851DAEC1E81867D00525570 /* MSCrashesCXXExceptionHandlerTests.m */; };
 		F859D1051E549B45008B2D8E /* live_report_bad_ptr.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D0F41E549B45008B2D8E /* live_report_bad_ptr.plcrash */; };
 		F859D1061E549B45008B2D8E /* live_report_call_abort.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D0F51E549B45008B2D8E /* live_report_call_abort.plcrash */; };
 		F859D1071E549B45008B2D8E /* live_report_call_trap.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D0F61E549B45008B2D8E /* live_report_call_trap.plcrash */; };
@@ -247,6 +248,7 @@
 		D38024011E71264600466558 /* MSErrorAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSErrorAttachment.h; path = Model/MSErrorAttachment.h; sourceTree = "<group>"; };
 		D38024021E71264600466558 /* MSErrorBinaryAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSErrorBinaryAttachment.h; path = Model/MSErrorBinaryAttachment.h; sourceTree = "<group>"; };
 		E8AEE9851D59744D00C0FF6C /* MSLogManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSLogManager.h; path = ../MobileCenter/MobileCenter/Internals/Channel/MSLogManager.h; sourceTree = "<group>"; };
+		F851DAEC1E81867D00525570 /* MSCrashesCXXExceptionHandlerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCrashesCXXExceptionHandlerTests.m; sourceTree = "<group>"; };
 		F859D0F41E549B45008B2D8E /* live_report_bad_ptr.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_bad_ptr.plcrash; sourceTree = "<group>"; };
 		F859D0F51E549B45008B2D8E /* live_report_call_abort.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_call_abort.plcrash; sourceTree = "<group>"; };
 		F859D0F61E549B45008B2D8E /* live_report_call_trap.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_call_trap.plcrash; sourceTree = "<group>"; };
@@ -375,6 +377,7 @@
 				6E7D5C831D3EC0F7009EC9AC /* MSThreadTests.m */,
 				B2A0A71D1D9C2AF200729A58 /* Util */,
 				59493B275715F01438B2E6FD /* MSCrashesUtilTests.m */,
+				F851DAEC1E81867D00525570 /* MSCrashesCXXExceptionHandlerTests.m */,
 			);
 			path = MobileCenterCrashesTests;
 			sourceTree = "<group>";
@@ -747,6 +750,7 @@
 				6E7D5C8A1D3EC504009EC9AC /* MSExceptionTests.m in Sources */,
 				B2F120D71D65469D0060DED7 /* MSErrorReportTests.m in Sources */,
 				6E7D5C871D3EC332009EC9AC /* MSStackFrameTests.m in Sources */,
+				F851DAED1E81867D00525570 /* MSCrashesCXXExceptionHandlerTests.m in Sources */,
 				6E7D5C841D3EC0F7009EC9AC /* MSThreadTests.m in Sources */,
 				B24F3F0F1D93368F00827213 /* MSErrorLogFormatterTests.mm in Sources */,
 				B2A0A71C1D9C2AE700729A58 /* MSCrashesTestUtil.m in Sources */,
