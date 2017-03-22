@@ -79,7 +79,6 @@
     id object;
     [invocation getArgument:&object atIndex:2];
     self.isEnabled = object;
-    NSLog(@"setObject");
   });
   OCMStub([self.settingsMock objectForKey:[OCMArg isEqual:@"kMSMSServiceAbstractImplementationIsEnabledKey"]]).andCall(self,@selector(getIsEnabled));
   
