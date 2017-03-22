@@ -29,16 +29,16 @@
 
   // If
   NSString *fileId = @"12345";
-  NSString *filePath = @"/Some/Path/To/File";
+  NSURL *fileURL = [NSURL fileURLWithPath:@"/Some/Path/To/File"];
   NSDate *creationDate = [NSDate dateWithTimeIntervalSinceNow:18];
 
   // When
-  _sut = [[MSFile alloc] initWithPath:filePath fileId:fileId creationDate:creationDate];
+  _sut = [[MSFile alloc] initWithURL:fileURL fileId:fileId creationDate:creationDate];
 
   // Then
   assertThat(_sut, notNilValue());
   assertThat(_sut.fileId, equalTo(fileId));
-  assertThat(_sut.filePath, equalTo(filePath));
+  assertThat(_sut.fileURL, equalTo(fileURL));
   assertThat(_sut.creationDate, equalTo(creationDate));
 }
 
