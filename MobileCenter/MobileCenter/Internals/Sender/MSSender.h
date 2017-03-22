@@ -21,21 +21,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) BOOL suspended;
 
 /**
- * Initialize the Sender.
- *
- * @param baseUrl Base url.
- * @param headers Http headers.
- * @param queryStrings An array of query strings.
- * @param reachability Network reachability helper.
- * @param retryIntervals An array for retry intervals in second.
- */
-- (id)initWithBaseUrl:(NSString *)baseUrl
-              headers:(NSDictionary *)headers
-         queryStrings:(NSDictionary *)queryStrings
-         reachability:(MS_Reachability *)reachability
-       retryIntervals:(NSArray *)retryIntervals;
-
-/**
  * Send data.
  *
  * @param data Instance that will be transformed to request body.

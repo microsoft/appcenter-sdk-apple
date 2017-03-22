@@ -1,8 +1,9 @@
-#import "MSUtility+Date.h"
-#import "MSUtility+ApplicationPrivate.h"
-#import "OCMock.h"
+#import <OCMock/OCMock.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <XCTest/XCTest.h>
+#import "MSUtility+ApplicationPrivate.h"
+#import "MSUtility+Date.h"
+#import "MSUtility+Environment.h"
 
 @interface MSUtilTests : XCTestCase
 
@@ -105,6 +106,52 @@
 
   // Negative in case of cast issue.
   XCTAssertGreaterThan(actual, 0);
+}
+
+- (void)testCurrentAppEnvironment {
+
+  /**
+   * When
+   */
+  MSEnvironment env = [MSUtility currentAppEnvironment];
+
+  /**
+   * Then
+   */
+  // Tests always run in simulators.
+  XCTAssertEqual(env, MSEnvironmentOther);
+}
+
+- (void)testDebugConfiurationDetectionWorks {
+  
+  // When
+  XCTAssertTrue([MSUtility isRunningInDebugConfiguration]);
+}
+
+- (void)testSharedAppOpenEmptyCallCallback {
+  
+  // If
+  XCTestExpectation *openURLCalledExpectation = [self expectationWithDescription:@"openURL Called."];
+  __block BOOL handlerHasBeenCalled = NO;
+  
+  // When
+  [MSUtility sharedAppOpenUrl:[NSURL URLWithString:@""] options:@{} completionHandler:^(BOOL success) {
+    handlerHasBeenCalled = YES;
+    XCTAssertFalse(success);
+  }];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [openURLCalledExpectation fulfill];
+  });
+  
+  // Then
+  [self
+   waitForExpectationsWithTimeout:1
+   handler:^(NSError *error) {
+     XCTAssertTrue(handlerHasBeenCalled);
+     if (error) {
+       XCTFail(@"Expectation Failed with error: %@", error);
+     }
+   }];
 }
 
 @end
