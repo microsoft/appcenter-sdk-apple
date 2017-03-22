@@ -234,7 +234,7 @@
   // When
   __block NSString *batchId;
   [self.sut loadLogsForStorageKey:storageKey
-                   withCompletion:^(__ BOOL succeeded, NSArray<NSObject<MSLog> *> *logs, NSString *logsId) {
+                   withCompletion:^(__attribute__((unused)) BOOL succeeded, __attribute__((unused)) NSArray<NSObject<MSLog> *> *logs, NSString *logsId) {
                      batchId = logsId;
                    }];
 

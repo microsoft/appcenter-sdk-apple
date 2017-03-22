@@ -69,7 +69,7 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
 
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Response 200"];
   [self.sut sendAsync:container
-      completionHandler:^(NSString *batchId, NSUInteger statusCode, NSData *data, NSError *error) {
+      completionHandler:^(NSString *batchId, NSUInteger statusCode, __attribute__((unused)) NSData *data, NSError *error) {
 
         XCTAssertNil(error);
         XCTAssertEqual(containerId, batchId);
@@ -95,7 +95,7 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
 
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Response 200"];
   [self.sut sendAsync:container
-      completionHandler:^(NSString *batchId, NSUInteger statusCode, NSData *data, NSError *error) {
+      completionHandler:^(NSString *batchId, NSUInteger statusCode, __attribute__((unused)) NSData *data, NSError *error) {
 
         XCTAssertEqual(containerId, batchId);
         XCTAssertEqual(statusCode, MSHTTPCodesNo404NotFound);

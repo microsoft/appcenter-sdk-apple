@@ -294,6 +294,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 }
 
 - (NSString *)obfuscateHeaderValue:(NSString *)key value:(NSString *)value {
+  (void)key;
   return value;
 }
 
