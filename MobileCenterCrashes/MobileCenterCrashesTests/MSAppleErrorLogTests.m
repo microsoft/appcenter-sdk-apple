@@ -114,6 +114,7 @@
   MSAppleErrorLog *actualLog = actual;
 
   assertThat(actualLog, equalTo(self.sut));
+  XCTAssertTrue([actualLog isEqual:self.sut]);
   assertThat(actualLog.type, equalTo(self.sut.type));
   assertThat(actualLog.primaryArchitectureId, equalTo(self.sut.primaryArchitectureId));
   assertThat(actualLog.architectureVariantId, equalTo(self.sut.architectureVariantId));
