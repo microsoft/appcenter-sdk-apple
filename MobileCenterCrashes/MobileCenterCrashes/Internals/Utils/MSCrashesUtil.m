@@ -17,52 +17,54 @@ NSString *ms_crashesDir(void);
 
 #pragma mark - Public
 
-+ (NSString *)crashesDir {
-  static NSString *crashesDir = nil;
++ (NSURL *)crashesDir {
+  static NSURL *crashesDir = nil;
   static dispatch_once_t predSettingsDir;
 
   dispatch_once(&predSettingsDir, ^{
+      NSError *error = nil;
       NSFileManager *fileManager = [[NSFileManager alloc] init];
 
       // temporary directory for crashes grabbed from PLCrashReporter
-      NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-      crashesDir = [paths[0] stringByAppendingPathComponent:kMSCrashesDirectory];
+      NSURL *cachesDirectory = [[fileManager URLsForDirectory:NSCachesDirectory inDomains:NSUserDomainMask] lastObject];
+      crashesDir = [cachesDirectory URLByAppendingPathComponent:kMSCrashesDirectory];
 
-      if (![fileManager fileExistsAtPath:crashesDir]) {
+      if (![crashesDir checkResourceIsReachableAndReturnError:&error]) {
         NSDictionary *attributes =
                 @{NSFilePosixPermissions: @0755};
         NSError *theError = NULL;
 
-        [fileManager createDirectoryAtPath:crashesDir
-               withIntermediateDirectories:YES
-                                attributes:attributes
-                                     error:&theError];
+        [fileManager createDirectoryAtURL:crashesDir
+              withIntermediateDirectories:YES
+                               attributes:attributes
+                                    error:&theError];
       }
   });
 
   return crashesDir;
 }
 
-+ (NSString *)logBufferDir {
-  static NSString *logBufferDir = nil;
++ (NSURL *)logBufferDir {
+  static NSURL *logBufferDir = nil;
   static dispatch_once_t predSettingsDir;
 
   dispatch_once(&predSettingsDir, ^{
+      NSError *error = nil;
       NSFileManager *fileManager = [[NSFileManager alloc] init];
 
       // temporary directory for crashes grabbed from PLCrashReporter
-      NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-      logBufferDir = [paths[0] stringByAppendingPathComponent:kMSLogBufferDirectory];
-
-      if (![fileManager fileExistsAtPath:logBufferDir]) {
+      NSURL *cachesDirectory = [[fileManager URLsForDirectory:NSCachesDirectory inDomains:NSUserDomainMask] lastObject];
+      logBufferDir = [cachesDirectory URLByAppendingPathComponent:kMSLogBufferDirectory];
+    
+      if (![logBufferDir checkResourceIsReachableAndReturnError:&error]) {
         NSDictionary *attributes =
                 @{NSFilePosixPermissions: @0755};
         NSError *theError = nil;
 
-        [fileManager createDirectoryAtPath:logBufferDir
-               withIntermediateDirectories:YES
-                                attributes:attributes
-                                     error:&theError];
+        [fileManager createDirectoryAtURL:logBufferDir
+              withIntermediateDirectories:YES
+                               attributes:attributes
+                                    error:&theError];
       }
   });
 

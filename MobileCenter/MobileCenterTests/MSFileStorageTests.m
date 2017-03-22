@@ -43,10 +43,10 @@
   NSString *expected = [MSStorageTestUtil filePathForLogWithId:logsId extension:@"ms" storageKey:storageKey];
 
   // When
-  NSString *actual = [self.sut filePathForStorageKey:storageKey logsId:logsId];
+  NSURL *actual = [self.sut fileURLForStorageKey:storageKey logsId:logsId];
 
   // Then
-  assertThat(actual, equalTo(expected));
+  assertThat(actual, equalTo([NSURL fileURLWithPath:expected]));
 }
 
 - (void)testSavingFirstFileCreatesNewBucket {
@@ -92,7 +92,7 @@
   XCTAssertTrue(success);
   MSStorageBucket *bucket = self.sut.buckets[storageKey];
   MSFile *actual = bucket.availableFiles.lastObject;
-  assertThat(actual.filePath, equalTo(expected.filePath));
+  assertThat(actual.fileURL, equalTo(expected.fileURL));
   assertThat(actual.fileId, equalTo(expected.fileId));
 
   //Sometimes we can get a difference between times in one second
@@ -143,11 +143,11 @@
   MSStorageBucket *bucket = [self.sut bucketForStorageKey:storageKey];
 
   MSFile *availableFile1 =
-      [[MSFile alloc] initWithPath:@"1" fileId:@"1" creationDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+      [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:@"1"] fileId:@"1" creationDate:[NSDate dateWithTimeIntervalSinceNow:1]];
   MSFile *availableFile2 =
-      [[MSFile alloc] initWithPath:@"2" fileId:@"2" creationDate:[NSDate dateWithTimeIntervalSinceNow:3]];
+      [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:@"2"] fileId:@"2" creationDate:[NSDate dateWithTimeIntervalSinceNow:3]];
   MSFile *availableFile3 =
-      [[MSFile alloc] initWithPath:@"3" fileId:@"3" creationDate:[NSDate dateWithTimeIntervalSinceNow:5]];
+      [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:@"3"] fileId:@"3" creationDate:[NSDate dateWithTimeIntervalSinceNow:5]];
   bucket.availableFiles =
       [NSMutableArray<MSFile *> arrayWithObjects:availableFile1, availableFile2, availableFile3, nil];
   self.sut.bucketFileCountLimit = bucket.availableFiles.count;
@@ -169,7 +169,7 @@
   NSString *batchId = @"12345";
   self.sut.buckets[storageKey] = [MSStorageBucket new];
   MSStorageBucket *bucket = self.sut.buckets[storageKey];
-  MSFile *blockedFile = [[MSFile alloc] initWithPath:@"333" fileId:batchId creationDate:[NSDate date]];
+  MSFile *blockedFile = [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:@"333"] fileId:batchId creationDate:[NSDate date]];
   bucket.blockedFiles = [NSMutableArray arrayWithObject:blockedFile];
 
   // When
@@ -187,7 +187,7 @@
   NSString *batchId = @"12345";
   self.sut.buckets[storageKey] = [MSStorageBucket new];
   MSStorageBucket *bucket = self.sut.buckets[storageKey];
-  MSFile *availableFile = [[MSFile alloc] initWithPath:@"333" fileId:batchId creationDate:[NSDate date]];
+  MSFile *availableFile = [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:@"333"] fileId:batchId creationDate:[NSDate date]];
   bucket.availableFiles = [NSMutableArray arrayWithObject:availableFile];
 
   // When
@@ -221,14 +221,14 @@
   MSStorageBucket *bucket = self.sut.buckets[storageKey];
 
   MSFile *availableFile1 =
-      [[MSFile alloc] initWithPath:@"1" fileId:@"1" creationDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+      [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:@"1"] fileId:@"1" creationDate:[NSDate dateWithTimeIntervalSinceNow:1]];
   MSFile *availableFile2 =
-      [[MSFile alloc] initWithPath:@"2" fileId:@"2" creationDate:[NSDate dateWithTimeIntervalSinceNow:3]];
+      [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:@"2"] fileId:@"2" creationDate:[NSDate dateWithTimeIntervalSinceNow:3]];
   MSFile *availableFile3 =
-      [[MSFile alloc] initWithPath:@"3" fileId:@"3" creationDate:[NSDate dateWithTimeIntervalSinceNow:5]];
+      [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:@"3"] fileId:@"3" creationDate:[NSDate dateWithTimeIntervalSinceNow:5]];
   bucket.availableFiles =
       [NSMutableArray<MSFile *> arrayWithObjects:availableFile1, availableFile2, availableFile3, nil];
-  MSFile *currentFile = [[MSFile alloc] initWithPath:@"333" fileId:@"333" creationDate:[NSDate date]];
+  MSFile *currentFile = [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:@"333"] fileId:@"333" creationDate:[NSDate date]];
   bucket.currentFile = currentFile;
 
   // When
@@ -250,7 +250,7 @@
   MSStorageBucket *bucket = self.sut.buckets[storageKey];
 
   MSFile *availableFile =
-      [[MSFile alloc] initWithPath:@"1" fileId:@"1" creationDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+      [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:@"1"] fileId:@"1" creationDate:[NSDate dateWithTimeIntervalSinceNow:1]];
   bucket.availableFiles = [NSMutableArray<MSFile *> arrayWithObject:availableFile];
 
   // When
@@ -270,7 +270,7 @@
   NSString *storageKey = @"TestDirectory";
   self.sut.buckets[storageKey] = [MSStorageBucket new];
   MSStorageBucket *bucket = self.sut.buckets[storageKey];
-  MSFile *currentFile = [[MSFile alloc] initWithPath:@"333" fileId:@"333" creationDate:[NSDate date]];
+  MSFile *currentFile = [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:@"333"] fileId:@"333" creationDate:[NSDate date]];
   bucket.currentFile = currentFile;
 
   // When
