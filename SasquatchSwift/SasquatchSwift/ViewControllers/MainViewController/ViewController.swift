@@ -156,7 +156,17 @@ extension ViewController : UITableViewDataSource {
             if let cell = tableView.dequeueReusableCell(withIdentifier: MSSwitchTableViewCell.name(), for: indexPath) as? MSSwitchTableViewCell {
                 cell.delegate = self
                 cell.titleNameLabel.text = _cellSetting.title
-                cell.titleSwitch.isOn = MobileCenterServicesType(rawValue : indexPath.section) == .Analytics ? MSAnalytics.isEnabled() : MSCrashes.isEnabled()
+                switch serviceType {
+                case .Analytics:
+                    cell.titleSwitch.isOn = MSAnalytics.isEnabled();
+                    break;
+                case .Crashes:
+                    cell.titleSwitch.isOn = MSCrashes.isEnabled();
+                    break;
+                case .Distribute:
+                    cell.titleSwitch.isOn = MSDistribute.isEnabled();
+                    break;
+                }
                 return cell;
             }
         } else {
