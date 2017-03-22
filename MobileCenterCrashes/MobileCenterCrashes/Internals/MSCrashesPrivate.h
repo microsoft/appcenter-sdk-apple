@@ -24,8 +24,14 @@ struct MSCrashesBufferedLog {
 
   MSCrashesBufferedLog() = default;
 
-  MSCrashesBufferedLog(NSString *path)
-  : bufferPath(path.UTF8String) {}
+  MSCrashesBufferedLog(NSString *path, NSData *data)
+    : bufferPath(path.UTF8String), buffer(&reinterpret_cast<const char *>(data.bytes)[0], &reinterpret_cast<const char *>(data.bytes)[data.length]) {}
+  
+  
+    MSCrashesBufferedLog(NSString *path, NSData *data, NSString *internalLogId, NSString *logTimestamp)
+  : bufferPath(path.UTF8String), buffer(&reinterpret_cast<const char *>(data.bytes)[0],
+                                        &reinterpret_cast<const char *>(data.bytes)[data.length]),
+  internalId(internalLogId.UTF8String), timestamp(logTimestamp.UTF8String) {}
 };
 
 /**
