@@ -83,8 +83,6 @@ Now that you've integrated the frameworks in your application, it's time to star
 	pod 'MobileCenter/MobileCenterDistribute`
 	```
 
-**NOTE:** If you are using the individual subspecs, you don't need to include `'MobileCenter/MobileCenter'` separately as the other subspecs will pull in this as a dependency anyway.
-
 2. Run `pod install` to install your newly defined pod, open your `.xcworkspace` and it's time to start the SDK and make use of the Mobile Center services.
 
 ## 3. Start the SDK
