@@ -19,6 +19,7 @@
 
   // If
   MSException *sut = [MSCrashesTestUtil exception];
+  sut.innerExceptions = @[[MSCrashesTestUtil exception]];
 
   // When
   NSMutableDictionary *actual = [sut serializeToDictionary];
@@ -35,6 +36,7 @@
 
   // If
   MSException *sut = [MSCrashesTestUtil exception];
+  sut.innerExceptions = @[[MSCrashesTestUtil exception]];
 
   // When
   NSData *serializedEvent =

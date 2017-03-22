@@ -21,6 +21,13 @@
 @property(nonatomic, copy, readonly) NSString *contentType;
 
 /**
+ * Checks if the values are valid.
+ *
+ * return YES if it is valid, otherwise NO.
+ */
+- (BOOL)isValid;
+
+/**
  * Is equal to another error binary attachment
  *
  * @param attachment Error binary attachment
