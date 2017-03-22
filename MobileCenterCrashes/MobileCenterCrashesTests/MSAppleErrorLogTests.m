@@ -3,9 +3,11 @@
 #import <XCTest/XCTest.h>
 
 #import "MSAppleErrorLog.h"
+#import "MSBinary.h"
 #import "MSCrashesTestUtil.h"
 #import "MSErrorAttachment.h"
 #import "MSException.h"
+#import "MSThread.h"
 
 @interface MSAppleErrorLogTests : XCTestCase
 
@@ -44,6 +46,8 @@
   appleLog.osExceptionAddress = @"0x124342345";
   appleLog.exceptionType = @"NSExceptionType";
   appleLog.exceptionReason = @"Trying to access array[12]";
+  appleLog.threads = @[[MSThread new]];
+  appleLog.binaries = @[[MSBinary new]];
   appleLog.exception = [MSCrashesTestUtil exception];
   appleLog.errorId = @"123";
   appleLog.processId = @123;
@@ -131,6 +135,22 @@
   assertThat(actualException.type, equalTo(self.sut.exception.type));
   assertThat(actualException.message, equalTo(self.sut.exception.message));
   assertThat(actualException.wrapperSdkName, equalTo(self.sut.exception.wrapperSdkName));
+}
+
+-(void)testIsEqual {
+  
+  // When
+  MSAppleErrorLog *first = [self appleErrorLog];
+  MSAppleErrorLog *second = [self appleErrorLog];
+  
+  // Then
+  XCTAssertTrue([first isEqual:second]);
+  
+  // When
+  second.processId = @345;
+  
+  // Then
+  XCTAssertFalse([first isEqual:second]);
 }
 
 -(void)testIsValid {

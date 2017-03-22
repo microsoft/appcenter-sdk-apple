@@ -86,6 +86,9 @@ static NSString *const kMSException = @"exception";
 - (BOOL)isEqual:(MSAppleErrorLog *)errorLog {
   if (!errorLog)
     return NO;
+  
+  if (![super isEqual:errorLog])
+    return NO;
 
   return ((!self.primaryArchitectureId && !errorLog.primaryArchitectureId) ||
           [self.primaryArchitectureId isEqual:errorLog.primaryArchitectureId]) &&
