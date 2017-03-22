@@ -3,6 +3,16 @@
 #import "MSDistribute.h"
 
 /**
+ * Base URL for HTTP Distribute install API calls.
+ */
+static NSString *const kMSDefaultInstallUrl = @"https://install.mobile.azure.com";
+
+/**
+ * Base URL for HTTP Distribute update API calls.
+ */
+static NSString *const kMSDefaultApiUrl = @"https://api.mobile.azure.com/v0.1";
+
+/**
  * Distribute url query parameter key strings.
  */
 static NSString *const kMSURLQueryPlatformKey = @"platform";

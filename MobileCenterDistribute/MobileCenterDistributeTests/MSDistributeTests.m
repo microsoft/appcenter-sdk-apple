@@ -19,7 +19,7 @@
 #import "MSServiceAbstractProtected.h"
 #import "MSServiceInternal.h"
 #import "MSUserDefaults.h"
-#import "MSUtil.h"
+#import "MSUtility+Environment.h"
 
 static NSString *const kMSTestAppSecret = @"IAMSECRET";
 
@@ -163,14 +163,13 @@ static NSURL *sfURL;
   });
 
   // Then
-  [self
-   waitForExpectationsWithTimeout:1
-   handler:^(NSError *error) {
-     OCMVerify([appMock openURL:url]);
-     if (error) {
-       XCTFail(@"Expectation Failed with error: %@", error);
-     }
-   }];
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 OCMVerify([appMock openURL:url]);
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
 }
 
 - (void)testOpenURLInEmbeddedSafari {
@@ -206,27 +205,55 @@ static NSURL *sfURL;
 
 - (void)testSetInstallUrlWorks {
 
-  // When
+  // If
   NSString *testUrl = @"https://example.com";
+  NSArray *bundleArray =
+      @[ @{
+        @"CFBundleURLSchemes" : @[ [NSString stringWithFormat:@"mobilecenter-%@", kMSTestAppSecret] ]
+      } ];
+  id bundleMock = OCMClassMock([NSBundle class]);
+  OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
+  NSDictionary<NSString *, id> *plist = @{ @"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1" };
+  OCMStub([bundleMock infoDictionary]).andReturn(plist);
+  OCMStub([bundleMock objectForInfoDictionaryKey:@"CFBundleURLTypes"]).andReturn(bundleArray);
+
+  // When
   [MSDistribute setInstallUrl:testUrl];
   MSDistribute *distribute = [MSDistribute sharedInstance];
+  NSURL *url = [distribute buildTokenRequestURLWithAppSecret:kMSTestAppSecret];
 
   // Then
   XCTAssertTrue([[distribute installUrl] isEqualToString:testUrl]);
+  XCTAssertTrue([url.absoluteString hasPrefix:testUrl]);
 }
 
 - (void)testDefaultInstallUrlWorks {
 
+  // If
+  NSArray *bundleArray =
+      @[ @{
+        @"CFBundleURLSchemes" : @[ [NSString stringWithFormat:@"mobilecenter-%@", kMSTestAppSecret] ]
+      } ];
+  id bundleMock = OCMClassMock([NSBundle class]);
+  OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
+  NSDictionary<NSString *, id> *plist = @{ @"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1" };
+  OCMStub([bundleMock infoDictionary]).andReturn(plist);
+  OCMStub([bundleMock objectForInfoDictionaryKey:@"CFBundleURLTypes"]).andReturn(bundleArray);
+
+  // When
+  NSString *instalURL = [self.sut installUrl];
+  NSURL *tokenRequestURL = [self.sut buildTokenRequestURLWithAppSecret:kMSTestAppSecret];
+
   // Then
-  XCTAssertNotNil([self.sut installUrl]);
-  XCTAssertTrue([[self.sut installUrl] isEqualToString:@"http://install.asgard-int.trafficmanager.net"]);
+  XCTAssertNotNil(instalURL);
+  XCTAssertTrue([tokenRequestURL.absoluteString hasPrefix:kMSDefaultInstallUrl]);
 }
 
 - (void)testDefaultApiUrlWorks {
 
   // Then
   XCTAssertNotNil([self.sut apiUrl]);
-  XCTAssertTrue([[self.sut apiUrl] isEqualToString:@"https://asgard-int.trafficmanager.net/api/v0.1"]);
+  XCTAssertTrue([[self.sut apiUrl] isEqualToString:kMSDefaultApiUrl]);
 }
 
 - (void)testHandleUpdate {
@@ -491,7 +518,7 @@ static NSURL *sfURL;
   // If
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
   id mobileCenterMock = OCMClassMock([MSMobileCenter class]);
-  id utilMock = OCMClassMock([MSUtil class]);
+  id utilMock = OCMClassMock([MSUtility class]);
   id distributeMock = OCMPartialMock(self.sut);
   OCMStub([distributeMock checkLatestRelease:[OCMArg any]]).andDo(nil);
   OCMStub([distributeMock requestUpdateToken]).andDo(nil);
@@ -517,7 +544,7 @@ static NSURL *sfURL;
   // When
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
   id mobileCenterMock = OCMClassMock([MSMobileCenter class]);
-  id utilMock = OCMClassMock([MSUtil class]);
+  id utilMock = OCMClassMock([MSUtility class]);
   OCMStub([mobileCenterMock isDebuggerAttached]).andReturn(YES);
   OCMStub([utilMock isRunningInDebugConfiguration]).andReturn(NO);
   OCMStub([utilMock currentAppEnvironment]).andReturn(MSEnvironmentOther);
@@ -531,7 +558,7 @@ static NSURL *sfURL;
   // When
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
   id mobileCenterMock = OCMClassMock([MSMobileCenter class]);
-  id utilMock = OCMClassMock([MSUtil class]);
+  id utilMock = OCMClassMock([MSUtility class]);
   OCMStub([mobileCenterMock isDebuggerAttached]).andReturn(NO);
   OCMStub([utilMock isRunningInDebugConfiguration]).andReturn(YES);
   OCMStub([utilMock currentAppEnvironment]).andReturn(MSEnvironmentOther);
@@ -545,7 +572,7 @@ static NSURL *sfURL;
   // When
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
   id mobileCenterMock = OCMClassMock([MSMobileCenter class]);
-  id utilMock = OCMClassMock([MSUtil class]);
+  id utilMock = OCMClassMock([MSUtility class]);
   OCMStub([mobileCenterMock isDebuggerAttached]).andReturn(NO);
   OCMStub([utilMock isRunningInDebugConfiguration]).andReturn(NO);
   OCMStub([utilMock currentAppEnvironment]).andReturn(MSEnvironmentTestFlight);
