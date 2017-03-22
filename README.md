@@ -74,16 +74,16 @@ Now that you've integrated the frameworks in your application, it's time to star
 1. Add the following to your `podfile` to include all services into your app. This will pull in `MobileCenter`, `MobileCenterAnalytics` and `MobileCenterCrashes`. Alternatively, you can specify which services you want to use in your app. Each service has it's own `subspec` and they all rely on `MobileCenter`. It will get pulled in automatically.
 
 	```ruby
- # Use the following line to use all services.
-  pod 'MobileCenter'
-	  
- # Use the following lines if you want to specify the individual services you want to use.
-pod 'MobileCenter/MobileCenterAnalytics'
-pod 'MobileCenter/MobileCenterCrashes'
-pod 'MobileCenter/MobileCenterDistribute'		
-```
-	
-	**NOTE:** If you are using the individual subspecs, you don't need to include `MobileCenter/MobileCenter' separately as the other subspecs will pull in this as a dependency anyway.
+	 # Use the following line to use all services.
+	pod 'MobileCenter'
+		  
+	# Use the following lines if you want to specify the individual services you want to use.
+	pod 'MobileCenter/MobileCenterAnalytics'
+	pod 'MobileCenter/MobileCenterCrashes'
+	pod 'MobileCenter/MobileCenterDistribute`
+	```
+
+**NOTE:** If you are using the individual subspecs, you don't need to include `'MobileCenter/MobileCenter'` separately as the other subspecs will pull in this as a dependency anyway.
 
 2. Run `pod install` to install your newly defined pod, open your `.xcworkspace` and it's time to start the SDK and make use of the Mobile Center services.
 
@@ -144,12 +144,7 @@ The example above shows how to use the `start` method and include all the servic
 2. Add a new key for `URL types` or `CFBundleURLTypes` (in case Xcode displays your `Info.plist` as source code).
 3. Change the key of the first child item to URL Schemes or `CFBundleURLSchemes`.
 4. Enter `mobilecenter-${APP_SECRET}` as the URL scheme and replace `${APP_SECRET}` with the App Secret of your app.
-
-If your app supports iOS 9 and later, congratulations, you are done!
-
-#### Implement UIApplicationDelegate callback to enable MSDistribute on iOS 8
-
-If your app is supporting iOS8, you need to implement one of `UIApplicationDelegate`'s callbacks to pass the installation URL to `MobileCenterDistribute`.
+5. Implement the `openURL`-callback in your `AppDelegate` to enable in-app-updates.
 
 **Objective-C**
 
@@ -559,7 +554,7 @@ Your typical setup code would look like this:
 
 ## 6. Distribute APIs
 
-You can easily let your users get the latest version of your app by integrating the `Distribute` service of the Mobile Center SDK. Please follow the paragraph in [Start the SDK](#3-start-the-sdk) to setup MobileCenterDistribute.
+You can easily let your users get the latest version of your app by integrating the `Distribute` service of the Mobile Center SDK. Please follow the paragraph in [Start the SDK](#3-start-the-sdk) to setup the Distribute service.
 
 Once that is done, the SDK checks for new updates once per the app's lifetime. If the app is currently in the foreground or suspended in the background, you might need to kill the app to get the latest update. If it finds a new update, users will see a dialog with three options - `Download`, `Postpone` and `Ignore`. If the user presses `Download`, the SDK will trigger the new version to be installed. `Postpone` will delay the download until the app is opened again. `Ignore` will not prompt the user again for that particular app version.
 
