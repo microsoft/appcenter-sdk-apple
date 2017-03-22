@@ -139,7 +139,7 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
 
 - (MSStorageBucket *)createNewBucketForGroupID:(NSString *)groupID {
   MSStorageBucket *bucket = [MSStorageBucket new];
-  NSString *storageDirectory = [self directoryPathForGroupID:groupID];
+  NSURL *storageDirectory = [self directoryURLForGroupID:groupID];
   NSArray *existingFiles = [MSFileUtil filesForDirectory:storageDirectory withFileExtension:kMSFileExtension];
   if (existingFiles) {
     [bucket.availableFiles addObjectsFromArray:existingFiles];
@@ -164,38 +164,35 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
   MSStorageBucket *bucket = [self bucketForGroupID:groupID];
   NSDate *creationDate = [NSDate date];
   NSString *fileId = MS_UUID_STRING;
-  NSString *filePath = [self filePathForGroupID:groupID logsId:fileId];
-  MSFile *file = [[MSFile alloc] initWithPath:filePath fileId:fileId creationDate:creationDate];
+  NSURL *fileURL = [self fileURLForGroupID:groupID logsId:fileId];
+  MSFile *file = [[MSFile alloc] initWithURL:fileURL fileId:fileId creationDate:creationDate];
   bucket.currentFile = file;
   [bucket.currentLogs removeAllObjects];
 }
 
-- (NSString *)directoryPathForGroupID:(NSString *)groupID {
-  NSString *filePath = [self.baseDirectoryPath stringByAppendingPathComponent:groupID];
+- (NSURL *)directoryURLForGroupID:(NSString *)groupID {
+  NSURL *fileURL = [self.baseDirectoryURL URLByAppendingPathComponent:groupID];
 
-  return filePath;
+  return fileURL;
 }
 
-- (NSString *)filePathForGroupID:(NSString *)groupID logsId:(NSString *)logsId {
+- (NSURL *)fileURLForGroupID:(NSString *)groupID logsId:(nonnull NSString *)logsId {
   NSString *fileName = [logsId stringByAppendingPathExtension:kMSFileExtension];
-  NSString *filePath = [[self directoryPathForGroupID:groupID] stringByAppendingPathComponent:fileName];
+  NSURL *fileURL = [[self directoryURLForGroupID:groupID] URLByAppendingPathComponent:fileName];
 
-  return filePath;
+  return fileURL;
 }
 
-- (NSString *)baseDirectoryPath {
-  if (!_baseDirectoryPath) {
-    NSString *appSupportPath =
-        [[NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject]
-            stringByStandardizingPath];
-    if (appSupportPath) {
-      _baseDirectoryPath = [appSupportPath stringByAppendingPathComponent:kMSLogsDirectory];
+- (NSURL *)baseDirectoryURL {
+  if (!_baseDirectoryURL) {
+    NSURL *appSupportURL = [[[NSFileManager defaultManager] URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask] lastObject];
+    if (appSupportURL) {
+      _baseDirectoryURL = (NSURL * _Nonnull)[appSupportURL URLByAppendingPathComponent:kMSLogsDirectory];
     }
-
-    MSLogVerbose([MSMobileCenter logTag], @"Storage Path:\n%@", self.baseDirectoryPath);
+    MSLogVerbose([MSMobileCenter logTag], @"Storage Path:\n%@", _baseDirectoryURL);
   }
 
-  return _baseDirectoryPath;
+  return _baseDirectoryURL;
 }
 
 @end

@@ -12,7 +12,9 @@
 static MSMobileCenter *sharedInstance = nil;
 static dispatch_once_t onceToken;
 
-// Base URL for HTTP backend API calls.
+/**
+ * Base URL for HTTP Ingestion backend API calls.
+ */
 static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 
 // Service name for initialization.
@@ -156,11 +158,8 @@ static NSString *const kMSGroupID = @"MobileCenter";
     } else {
       self.appSecret = appSecret;
 
-      // Set backend API version.
-      self.apiVersion = kMSAPIVersion;
-
-      // Init the main pipeline.
-      [self initializeLogManager];
+    // Init the main pipeline.
+    [self initializeLogManager];
 
       // Enable pipeline as needed.
       if (self.isEnabled) {
@@ -173,7 +172,7 @@ static NSString *const kMSGroupID = @"MobileCenter";
        * If the loglevel hasn't been customized before and we are not running in an app store environment,
        * we set the default loglevel to MSLogLevelWarning.
        */
-      if ((![MSLogger isUserDefinedLogLevel]) && ([MSUtil currentAppEnvironment] == MSEnvironmentOther)) {
+      if ((![MSLogger isUserDefinedLogLevel]) && ([MSUtility currentAppEnvironment] == MSEnvironmentOther)) {
         [MSMobileCenter setLogLevel:MSLogLevelWarning];
       }
       success = true;
@@ -316,10 +315,6 @@ static NSString *const kMSGroupID = @"MobileCenter";
 
 - (NSString *)appSecret {
   return _appSecret;
-}
-
-- (NSString *)apiVersion {
-  return _apiVersion;
 }
 
 - (NSUUID *)installId {

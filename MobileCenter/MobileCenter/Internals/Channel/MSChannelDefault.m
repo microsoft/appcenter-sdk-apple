@@ -160,15 +160,15 @@
       loadLogsForGroupID:self.configuration.groupID
           withCompletion:^(BOOL succeeded, NSArray<MSLog> *_Nonnull logArray, NSString *_Nonnull batchId) {
 
-            // Logs may be deleted from storage before this flush.
-            if (succeeded) {
-              [self.pendingBatchIds addObject:batchId];
-              if (self.pendingBatchIds.count >= self.configuration.pendingBatchesLimit) {
-                self.pendingBatchQueueFull = YES;
-              }
-              MSLogContainer *container = [[MSLogContainer alloc] initWithBatchId:batchId andLogs:logArray];
-              MSLogDebug([MSMobileCenter logTag], @"Sending log(s), batch Id:%@, payload:\n %@", batchId,
-                         [container serializeLogWithPrettyPrinting:YES]);
+               // Logs may be deleted from storage before this flush.
+               if (succeeded) {
+                 [self.pendingBatchIds addObject:batchId];
+                 if (self.pendingBatchIds.count >= self.configuration.pendingBatchesLimit) {
+                   self.pendingBatchQueueFull = YES;
+                 }
+                 MSLogContainer *container = [[MSLogContainer alloc] initWithBatchId:batchId andLogs:logArray];
+                 MSLogDebug([MSMobileCenter logTag], @"Sending log(s), batch Id:%@, payload:\n%@", batchId,
+                            [container serializeLogWithPrettyPrinting:YES]);
 
               // Notify delegates.
               [self enumerateDelegatesForSelector:@selector(channel:willSendLog:)
@@ -178,12 +178,12 @@
                                           }
                                         }];
 
-              // Forward logs to the sender.
-              [self.sender
-                          sendAsync:container
-                  completionHandler:^(NSString *senderBatchId, NSError *error, NSUInteger statusCode) {
-                    dispatch_async(self.logsDispatchQueue, ^{
-                      if ([self.pendingBatchIds containsObject:senderBatchId]) {
+                 // Forward logs to the sender.
+                 [self.sender
+                             sendAsync:container
+                     completionHandler:^(NSString *senderBatchId, NSUInteger statusCode, NSData *data, NSError *error) {
+                       dispatch_async(self.logsDispatchQueue, ^{
+                         if ([self.pendingBatchIds containsObject:senderBatchId]) {
 
                         // Success.
                         if (statusCode == MSHTTPCodesNo200OK) {

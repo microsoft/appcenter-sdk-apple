@@ -24,15 +24,8 @@ struct MSCrashesBufferedLog {
 
   MSCrashesBufferedLog() = default;
 
-  MSCrashesBufferedLog(NSString *path, NSData *data)
-  : bufferPath(path.UTF8String), buffer(&reinterpret_cast<const char *>(data.bytes)[0],
-                                        &reinterpret_cast<const char *>(data.bytes)[data.length]) {}
-
-  
-  MSCrashesBufferedLog(NSString *path, NSData *data, NSString *internalLogId, NSString *timestamp)
-      : bufferPath(path.UTF8String), buffer(&reinterpret_cast<const char *>(data.bytes)[0],
-                                            &reinterpret_cast<const char *>(data.bytes)[data.length]),
-        internalId(internalLogId.UTF8String), timestamp(timestamp.UTF8String) {}
+  MSCrashesBufferedLog(NSString *path)
+  : bufferPath(path.UTF8String) {}
 };
 
 /**
@@ -87,18 +80,18 @@ typedef struct MSCrashesCallbacks {
 /**
  * The directory where all crash reports are stored.
  */
-@property(nonatomic, copy) NSString *crashesDir;
+@property(nonatomic, copy) NSURL *crashesDir;
 
 /**
  * The directory where all buffered logs are stored.
  */
-@property(nonatomic, copy) NSString *logBufferDir;
+@property(nonatomic, copy) NSURL *logBufferDir;
 
 /**
  * A file used to indicate that a crash which occurred in the last session is
  * currently written to disk.
  */
-@property(nonatomic, copy) NSString *analyzerInProgressFile;
+@property(nonatomic, copy) NSURL *analyzerInProgressFile;
 
 /**
  * The object implements the protocol defined in `MSCrashesDelegate`.
@@ -184,15 +177,15 @@ typedef struct MSCrashesCallbacks {
  * @discussion This will either return the path to the buffer file if one already exists or trigger creation of a file
  * asynchronously by using the @see createBufferFileAtPath: method.
  */
-- (NSString *)filePathWithName:(NSString *)name forPriority:(MSPriority)priority;
+- (NSURL *)fileURLWithName:(NSString *)name forPriority:(MSPriority)priority;
 
 /**
  * A method to create a file at a certain path. This method uses a synchronized block and should be called
  * asynchronously.
  *
- * @param filePath the filePath.
+ * @param fileURL the file url.
  */
-- (void)createBufferFileAtPath:(NSString *)filePath;
+- (void)createBufferFileAtURL:(NSURL *)fileURL;
 
 /**
  * Does not delete the files for our log buffer but "resets" them to be empty. For this,
@@ -202,11 +195,11 @@ typedef struct MSCrashesCallbacks {
 - (void)emptyLogBufferFiles;
 
 /**
- * Return the path for buffered logs for a priority.
+ * Return the url for buffered logs for a priority.
  *
  * @param priority A priority for logs.
- * @return The path to the directory for a priority.
+ * @return The url to the directory for a priority.
  */
-- (NSString *)bufferDirectoryForPriority:(MSPriority)priority;
+- (NSURL *)bufferDirectoryForPriority:(MSPriority)priority;
 
 @end

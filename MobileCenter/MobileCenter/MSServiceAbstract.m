@@ -62,6 +62,10 @@
   return self.isEnabled && self.started;
 }
 
+- (MSInitializationPriority)initializationPriority {
+  return MSInitializationPriorityDefault;
+}
+
 #pragma mark : - MSService
 
 - (void)startWithLogManager:(id<MSLogManager>)logManager appSecret:(NSString *)appSecret {

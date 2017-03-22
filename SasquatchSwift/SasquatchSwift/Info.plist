@@ -34,5 +34,20 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>None</string>
+			<key>CFBundleURLName</key>
+			<string>com.microsoft.azure.mobile.sasquatchswift</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>mobilecenter-0dbca56b-b9ae-4d53-856a-7c2856137d85</string>
+			</array>
+		</dict>
+	</array>
+	<key>MSAppName</key>
+	<string>demo-ios</string>
 </dict>
 </plist>

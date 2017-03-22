@@ -68,7 +68,7 @@
   NSString *subDirectory = @"testDirectory";
   NSString *fileId = @"fileId";
   NSString *filePath = [MSStorageTestUtil filePathForLogWithId:fileId extension:@"ms" groupID:subDirectory];
-  MSFile *file = [[MSFile alloc] initWithPath:filePath fileId:fileId creationDate:[NSDate date]];
+  MSFile *file = [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:filePath] fileId:fileId creationDate:[NSDate date]];
 
   [MSFileUtil writeData:[NSData new] toFile:file];
   NSString *storagePath = [MSStorageTestUtil storageDirForGroupID:subDirectory];
@@ -114,12 +114,12 @@
 
   // When
   NSString *directory = [MSStorageTestUtil storageDirForGroupID:subDirectory];
-  NSArray<MSFile *> *actual = [MSFileUtil filesForDirectory:directory withFileExtension:extension];
+  NSArray<MSFile *> *actual = [MSFileUtil filesForDirectory:[NSURL fileURLWithPath:directory] withFileExtension:extension];
 
   // Then
   assertThatInteger(actual.count, equalToInteger(expected.count));
   for (int i = 0; i < actual.count; i++) {
-    assertThat(actual[i].filePath, equalTo(expected[i].filePath));
+    assertThat(actual[i].fileURL, equalTo(expected[i].fileURL));
     assertThat(actual[i].fileId, equalTo(expected[i].fileId));
     assertThat(actual[i].creationDate.description, equalTo(expected[i].creationDate.description));
   }
@@ -162,7 +162,7 @@
   NSString *extension = @"ms";
   NSString *fileName = @"foo";
   NSString *filePath = [MSStorageTestUtil filePathForLogWithId:fileName extension:extension groupID:subDirectory];
-  MSFile *file = [[MSFile alloc] initWithPath:filePath fileId:fileName creationDate:[NSDate date]];
+  MSFile *file = [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:filePath] fileId:fileName creationDate:[NSDate date]];
 
   // When
   BOOL success = [MSFileUtil deleteFile:file];
@@ -182,7 +182,7 @@
                                         creationDate:[NSDate date]];
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wnonnull"
-  file.filePath = nil;
+  file.fileURL = nil;
 #pragma clang diagnostic pop
 
   // When
@@ -215,7 +215,7 @@
   // If
   NSString *directory = [MSStorageTestUtil logsDir];
   MSFile *file = [MSFile new];
-  file.filePath = [directory stringByAppendingPathComponent:@"0.test"];
+  file.fileURL = [NSURL fileURLWithPath:[directory stringByAppendingPathComponent:@"0.test"]];
 
   // When
   NSData *actual = [MSFileUtil dataForFile:file];
@@ -230,7 +230,7 @@
   NSArray *items = @[ @"1", @"2" ];
   NSData *expected = [NSKeyedArchiver archivedDataWithRootObject:items];
   NSString *filePath = [MSStorageTestUtil filePathForLogWithId:@"0" extension:@"ms" groupID:@"directory"];
-  MSFile *file = [[MSFile alloc] initWithPath:filePath fileId:@"0" creationDate:[NSDate date]];
+  MSFile *file = [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:filePath] fileId:@"0" creationDate:[NSDate date]];
 
   // When
   BOOL success = [MSFileUtil writeData:expected toFile:file];
@@ -246,7 +246,7 @@
   NSString *fileName = @"0";
   NSString *filePath = [MSStorageTestUtil filePathForLogWithId:fileName extension:@"ms" groupID:@"testDirectory"];
   NSData *expected = [@"123456789" dataUsingEncoding:NSUTF8StringEncoding];
-  MSFile *file = [[MSFile alloc] initWithPath:filePath fileId:fileName creationDate:[NSDate date]];
+  MSFile *file = [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:filePath] fileId:fileName creationDate:[NSDate date]];
 
   // When
   NSData *actual;
