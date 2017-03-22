@@ -188,7 +188,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
           [[MSDistributeSender alloc] initWithBaseUrl:self.apiUrl appSecret:self.appSecret updateToken:updateToken];
       [self.sender
                   sendAsync:nil
-          completionHandler:^(__attribute__((unused)) NSString *callId, NSUInteger statusCode, __attribute__((unused)) NSData *data, __attribute__((unused)) NSError *error) {
+          completionHandler:^(__attribute__((unused)) NSString *callId, NSUInteger statusCode, NSData *data, __attribute__((unused)) NSError *error) {
 
             // Release sender instance.
             self.sender = nil;

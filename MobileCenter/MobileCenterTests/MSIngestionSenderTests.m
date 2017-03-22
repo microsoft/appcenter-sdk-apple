@@ -371,7 +371,7 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
   MSLogContainer *container = [[MSLogContainer alloc] initWithBatchId:@"1" andLogs:(NSArray<MSLog> *)@[ log1 ]];
 
   [self.sut sendAsync:container
-      completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode, __attribute__((unused)) NSData *data, __attribute__((unused)) NSError *error) {
+      completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode, __attribute__((unused)) NSData *data, NSError *error) {
 
         XCTAssertEqual(error.domain, kMSMCErrorDomain);
         XCTAssertEqual(error.code, kMSMCLogInvalidContainerErrorCode);
@@ -386,7 +386,7 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
 
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Network Down"];
   [self.sut sendAsync:container
-      completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode, __attribute__((unused)) NSData *data, __attribute__((unused)) NSError *error) {
+      completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode, __attribute__((unused)) NSData *data, NSError *error) {
 
         XCTAssertNotNil(error);
         [expectation fulfill];

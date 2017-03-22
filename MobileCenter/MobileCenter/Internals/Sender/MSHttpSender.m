@@ -200,7 +200,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     // Create a task for the request.
     NSURLSessionDataTask *task =
         [self.session dataTaskWithRequest:request
-                        completionHandler:^(__attribute__((unused)) NSData *data, NSURLResponse *response, NSError *error) {
+                        completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                           @synchronized(self) {
                             NSInteger statusCode = [MSSenderUtil getStatusCode:response];
                             MSLogDebug([MSMobileCenter logTag], @"HTTP response received with status code:%lu",
