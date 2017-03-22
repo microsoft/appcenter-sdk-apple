@@ -1,10 +1,10 @@
 #import "MSAnalytics.h"
 #import "MSAnalyticsCategory.h"
+#import "MSAnalyticsInternal.h"
 #import "MSAnalyticsPrivate.h"
 #import "MSEventLog.h"
 #import "MSPageLog.h"
 #import "MSServiceAbstractProtected.h"
-#import "MSAnalyticsInternal.h"
 
 /**
  * Service storage key name.
@@ -56,7 +56,7 @@ static dispatch_once_t onceToken;
 
   // Set up swizzling for auto page tracking.
   [MSAnalyticsCategory activateCategory];
-  MSLogVerbose([MSAnalytics logTag], @"Started analytics service.");
+  MSLogVerbose([MSAnalytics logTag], @"Started Analytics service.");
 }
 
 + (NSString *)logTag {
@@ -69,10 +69,6 @@ static dispatch_once_t onceToken;
 
 - (MSPriority)priority {
   return MSPriorityDefault;
-}
-
-- (MSInitializationPriority)initializationPriority {
-  return MSInitializationPriorityDefault;
 }
 
 #pragma mark - MSServiceAbstract

@@ -71,9 +71,13 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param sender     sender object.
  *  @param statusCode status code.
+ *  @param data       response data.
  *  @param error      call error.
  */
-- (void)sender:(id<MSSender>)sender callCompletedWithStatus:(NSUInteger)statusCode error:(NSError *)error;
+- (void)sender:(id<MSSender>)sender
+    callCompletedWithStatus:(NSUInteger)statusCode
+                       data:(NSData *)data
+                      error:(NSError *)error;
 
 @end
 

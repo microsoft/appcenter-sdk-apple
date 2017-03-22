@@ -209,7 +209,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
                             // Call handles the completion.
                             if (call) {
                               call.submitted = NO;
-                              [call sender:self callCompletedWithStatus:statusCode error:error];
+                              [call sender:self callCompletedWithStatus:statusCode data:data error:error];
                             }
                           }
                         }];
@@ -293,6 +293,10 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   return nil;
 }
 
+- (NSString *)obfuscateHeaderValue:(NSString *)key value:(NSString *)value {
+  return value;
+}
+
 - (NSURLSession *)session {
   if (!_session) {
     NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
@@ -313,9 +317,9 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 - (NSString *)prettyPrintHeaders:(NSDictionary<NSString *, NSString *> *)headers {
   NSMutableArray<NSString *> *flattenedHeaders = [NSMutableArray<NSString *> new];
   for (NSString *headerKey in headers) {
-    NSString *header =
-        [headerKey isEqualToString:kMSHeaderAppSecretKey] ? [self hideSecret:headers[headerKey]] : headers[headerKey];
-    [flattenedHeaders addObject:[NSString stringWithFormat:@"%@ = %@", headerKey, header]];
+    [flattenedHeaders
+        addObject:[NSString stringWithFormat:@"%@ = %@", headerKey,
+                                             [self obfuscateHeaderValue:headerKey value:headers[headerKey]]]];
   }
   return [flattenedHeaders componentsJoinedByString:@", "];
 }
@@ -339,16 +343,8 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   }
 }
 
-- (NSString *)hideSecret:(NSString *)secret {
-
-  // Hide everything if secret is shorter than the max number of displayed characters.
-  NSUInteger appSecretHiddenPartLength =
-      (secret.length > kMSMaxCharactersDisplayedForAppSecret ? secret.length - kMSMaxCharactersDisplayedForAppSecret
-                                                             : secret.length);
-  NSString *appSecretHiddenPart =
-      [@"" stringByPaddingToLength:appSecretHiddenPartLength withString:kMSHidingStringForAppSecret startingAtIndex:0];
-  return [secret stringByReplacingCharactersInRange:NSMakeRange(0, appSecretHiddenPart.length)
-                                         withString:appSecretHiddenPart];
+- (void)dealloc {
+  [self.reachability stopNotifier];
+  [MS_NOTIFICATION_CENTER removeObserver:self name:kMSReachabilityChangedNotification object:nil];
 }
-
 @end

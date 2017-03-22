@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0471B94E1E455C5C0022F951 /* MobileCenterDistribute.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0471B94D1E455C5C0022F951 /* MobileCenterDistribute.framework */; };
+		B20DE7B51E5F91FA0023075C /* MobileCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B20DE7B41E5F91FA0023075C /* MobileCenterDistributeResources.bundle */; };
 		B219241B1DCD0C6D00D5797D /* MobileCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B219241A1DCD0C6D00D5797D /* MobileCenter.framework */; };
 		B219241D1DCD0C7500D5797D /* MobileCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B219241C1DCD0C7500D5797D /* MobileCenterAnalytics.framework */; };
 		B219241F1DCD0C8400D5797D /* MobileCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B219241E1DCD0C8400D5797D /* MobileCenterCrashes.framework */; };
@@ -26,9 +28,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		B219241A1DCD0C6D00D5797D /* MobileCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenter.framework; path = Products/MobileCenter/MobileCenter.framework; sourceTree = "<group>"; };
-		B219241C1DCD0C7500D5797D /* MobileCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterAnalytics.framework; path = Products/MobileCenterAnalytics/MobileCenterAnalytics.framework; sourceTree = "<group>"; };
-		B219241E1DCD0C8400D5797D /* MobileCenterCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterCrashes.framework; path = Products/MobileCenterCrashes/MobileCenterCrashes.framework; sourceTree = "<group>"; };
+		0471B94D1E455C5C0022F951 /* MobileCenterDistribute.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterDistribute.framework; path = "MobileCenter-SDK-iOS/MobileCenterDistribute.framework"; sourceTree = "<group>"; };
+		38C9C58D1E56958C00B0FA0D /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
+		B20DE7B41E5F91FA0023075C /* MobileCenterDistributeResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = MobileCenterDistributeResources.bundle; path = "MobileCenter-SDK-iOS/MobileCenterDistributeResources.bundle"; sourceTree = "<group>"; };
+		B219241A1DCD0C6D00D5797D /* MobileCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenter.framework; path = "MobileCenter-SDK-iOS/MobileCenter.framework"; sourceTree = "<group>"; };
+		B219241C1DCD0C7500D5797D /* MobileCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterAnalytics.framework; path = "MobileCenter-SDK-iOS/MobileCenterAnalytics.framework"; sourceTree = "<group>"; };
+		B219241E1DCD0C8400D5797D /* MobileCenterCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterCrashes.framework; path = "MobileCenter-SDK-iOS/MobileCenterCrashes.framework"; sourceTree = "<group>"; };
 		B27DCBA61DDA96F000B97C84 /* SasquatchSwift-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SasquatchSwift-Bridging-Header.h"; sourceTree = "<group>"; };
 		B27DCBA71DDA96F100B97C84 /* MSAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSAlertController.h; path = ../Vendor/MSAlertController/MSAlertController.h; sourceTree = "<group>"; };
 		B27DCBA81DDA96F100B97C84 /* MSAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSAlertController.m; path = ../Vendor/MSAlertController/MSAlertController.m; sourceTree = "<group>"; };
@@ -57,6 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0471B94E1E455C5C0022F951 /* MobileCenterDistribute.framework in Frameworks */,
 				B219241F1DCD0C8400D5797D /* MobileCenterCrashes.framework in Frameworks */,
 				B219241D1DCD0C7500D5797D /* MobileCenterAnalytics.framework in Frameworks */,
 				B219241B1DCD0C6D00D5797D /* MobileCenter.framework in Frameworks */,
@@ -66,6 +72,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		38C9C58C1E56958C00B0FA0D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				38C9C58D1E56958C00B0FA0D /* SafariServices.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		B27DCB991DDA969C00B97C84 /* MSAlertController */ = {
 			isa = PBXGroup;
 			children = (
@@ -85,6 +99,7 @@
 				B2CDD10B1DCCFAAC00610725 /* SasquatchSwiftUITests */,
 				B2CDD0EA1DCCFAAC00610725 /* Products */,
 				B2CDD1361DCCFE9400610725 /* Vendor */,
+				38C9C58C1E56958C00B0FA0D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -117,10 +132,12 @@
 		B2CDD1361DCCFE9400610725 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				B20DE7B41E5F91FA0023075C /* MobileCenterDistributeResources.bundle */,
 				B27DCB991DDA969C00B97C84 /* MSAlertController */,
 				B219241A1DCD0C6D00D5797D /* MobileCenter.framework */,
 				B219241C1DCD0C7500D5797D /* MobileCenterAnalytics.framework */,
 				B219241E1DCD0C8400D5797D /* MobileCenterCrashes.framework */,
+				0471B94D1E455C5C0022F951 /* MobileCenterDistribute.framework */,
 			);
 			name = Vendor;
 			path = ..;
@@ -261,6 +278,7 @@
 				E118DF351DE5791600E63722 /* MSTitleTableViewCell.xib in Resources */,
 				E118DF331DE5791600E63722 /* MSSwitchTableViewCell.xib in Resources */,
 				E118DF2D1DE5791600E63722 /* Assets.xcassets in Resources */,
+				B20DE7B51E5F91FA0023075C /* MobileCenterDistributeResources.bundle in Resources */,
 				E118DF2E1DE5791600E63722 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -332,6 +350,10 @@
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)/../Vendor/**",
+					"$(PROJECT_DIR)/../MobileCenter-SDK-iOS/**",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -352,6 +374,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -382,6 +405,10 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)/../Vendor/**",
+					"$(PROJECT_DIR)/../MobileCenter-SDK-iOS/**",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -394,6 +421,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
