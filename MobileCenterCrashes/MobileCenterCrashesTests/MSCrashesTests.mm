@@ -185,7 +185,11 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
   assertThat([MSCrashes sharedInstance].crashFiles, hasCountOf(1));
   
   // When
+  MSUserConfirmationHandler userConfirmationHandlerYES = ^BOOL(__attribute__((unused)) NSArray<MSErrorReport *> * _Nonnull errorReports) { return YES; };
+  [MSCrashes setUserConfirmationHandler:userConfirmationHandlerYES];
+  [[MSCrashes sharedInstance] startCrashProcessing];
   [MSCrashes notifyWithUserConfirmation:MSUserConfirmationDontSend];
+  [MSCrashes setUserConfirmationHandler:nil];
   
   // Then
   assertThat([MSCrashes sharedInstance].crashFiles, hasCountOf(0));
@@ -198,8 +202,8 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
   assertThat([MSCrashes sharedInstance].crashFiles, hasCountOf(1));
   
   // When
-  MSUserConfirmationHandler userConfirmationHandler = ^BOOL(__attribute__((unused)) NSArray<MSErrorReport *> * _Nonnull errorReports) { return NO; };
-  [MSCrashes setUserConfirmationHandler:userConfirmationHandler];
+  MSUserConfirmationHandler userConfirmationHandlerNO = ^BOOL(__attribute__((unused)) NSArray<MSErrorReport *> * _Nonnull errorReports) { return NO; };
+  [MSCrashes setUserConfirmationHandler:userConfirmationHandlerNO];
   [[MSCrashes sharedInstance] startCrashProcessing];
   
   // Then

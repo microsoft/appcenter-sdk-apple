@@ -61,7 +61,8 @@
   NSDate *appStartTime = [NSDate new];
   NSDate *appErrorTime = [NSDate dateWithTimeIntervalSinceNow:20];
   NSUInteger processIdentifier = 4;
-
+  
+  // When
   MSErrorReport *sut = [[MSErrorReport alloc] initWithErrorId:errorId
                                                     reporterKey:reporterKey
                                                          signal:signal
@@ -71,7 +72,8 @@
                                                    appErrorTime:appErrorTime
                                                          device:device
                                            appProcessIdentifier:processIdentifier];
-
+  
+  // Then
   assertThat(sut, notNilValue());
   assertThat(sut.incidentIdentifier, equalTo(errorId));
   assertThat(sut.reporterKey, equalTo(reporterKey));
@@ -85,9 +87,14 @@
 }
 
 - (void)testIsAppKill {
+  
+  // When
   MSErrorReport *sut = [MSErrorReport new];
+  
+  // Then
   XCTAssertFalse([sut isAppKill]);
   
+  // When
   sut = [[MSErrorReport alloc] initWithErrorId:nil
                                    reporterKey:nil
                                         signal:@"SIGSEGV"
@@ -97,8 +104,11 @@
                                   appErrorTime:nil
                                         device:nil
                           appProcessIdentifier:0];
+  
+  // Then
   XCTAssertFalse([sut isAppKill]);
   
+  // When
   sut = [[MSErrorReport alloc] initWithErrorId:nil
                                    reporterKey:nil
                                         signal:@"SIGKILL"
@@ -108,6 +118,8 @@
                                   appErrorTime:nil
                                         device:nil
                           appProcessIdentifier:0];
+  
+  // Then
   XCTAssertTrue([sut isAppKill]);
 }
 
