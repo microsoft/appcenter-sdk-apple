@@ -90,9 +90,13 @@
     return nil;
   }
   NSString *filePath = [[NSBundle bundleForClass:self.class] pathForResource:filename ofType:@"plcrash"];
-  if (!filePath) return nil;
-  NSData *data = [NSData dataWithContentsOfFile:filePath];
-  return data;
+  if (!filePath) {
+    return nil;
+  }
+  else {
+    NSData *data = [NSData dataWithContentsOfFile:filePath];
+    return data;
+  }
 }
 
 + (MSException *)exception {

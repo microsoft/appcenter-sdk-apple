@@ -332,11 +332,11 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   
   // Then
   XCTAssertTrue([self.sut.deviceHistory count] == 0);
-  XCTAssertNil([MS_USER_DEFAULTS objectForKey:@"pastDevicesKey"]);
+  XCTAssertNil([MS_USER_DEFAULTS objectForKey:kMSPastDevicesKey]);
   
   // When
   [self.sut device];
-  XCTAssertNotNil([MS_USER_DEFAULTS objectForKey:@"pastDevicesKey"]);
+  XCTAssertNotNil([MS_USER_DEFAULTS objectForKey:kMSPastDevicesKey]);
 }
 
 - (void)testEnqueuingAndRefreshWorks {
