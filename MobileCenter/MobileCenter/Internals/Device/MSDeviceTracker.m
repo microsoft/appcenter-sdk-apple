@@ -2,10 +2,10 @@
 #import "MSDeviceHistoryInfo.h"
 #import "MSDeviceTracker.h"
 #import "MSDeviceTrackerPrivate.h"
-#import "MSUtil.h"
 #import "MSDevicePrivate.h"
 #import "MSWrapperSdkPrivate.h"
 #import "MSUserDefaults.h"
+#import "MSUtility+Date.h"
 
 // SDK versioning struct. Needs to be big enough to hold the info.
 typedef struct {
@@ -22,7 +22,6 @@ ms_info_t mobilecenter_library_info
                                                                          .ms_version = MOBILE_CENTER_C_VERSION,
                                                                          .ms_build = MOBILE_CENTER_C_BUILD};
 
-static NSString *const kMSPastDevicesKey = @"pastDevicesKey";
 static NSUInteger const kMSMaxDevicesHistoryCount = 5;
 
 @interface MSDeviceTracker ()
@@ -98,7 +97,7 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
       _device = [self updatedDevice];
 
       // Create new MSDeviceHistoryInfo.
-      NSNumber *tOffset = [NSNumber numberWithLongLong:[MSUtil nowInMilliseconds]];
+      NSNumber *tOffset = [NSNumber numberWithLongLong:[MSUtility nowInMilliseconds]];
       MSDeviceHistoryInfo *deviceHistoryInfo = [[MSDeviceHistoryInfo alloc] initWithTOffset:tOffset andDevice:_device];
 
       // Insert new MSDeviceHistoryInfo at the proper index to keep self.deviceHistory sorted.
@@ -129,7 +128,6 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
 - (MSDevice *)updatedDevice {
   @synchronized(self) {
     MSDevice *newDevice = [[MSDevice alloc] init];
-    NSBundle *appBundle = [NSBundle mainBundle];
     CTCarrier *carrier = [[[CTTelephonyNetworkInfo alloc] init] subscriberCellularProvider];
 
     // Collect device properties.
@@ -143,11 +141,11 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
     newDevice.locale = [self locale:MS_LOCALE];
     newDevice.timeZoneOffset = [self timeZoneOffset:[NSTimeZone localTimeZone]];
     newDevice.screenSize = [self screenSize];
-    newDevice.appVersion = [self appVersion:appBundle];
+    newDevice.appVersion = [self appVersion:MS_APP_MAIN_BUNDLE];
     newDevice.carrierCountry = [self carrierCountry:carrier];
     newDevice.carrierName = [self carrierName:carrier];
-    newDevice.appBuild = [self appBuild:appBundle];
-    newDevice.appNamespace = [self appNamespace:appBundle];
+    newDevice.appBuild = [self appBuild:MS_APP_MAIN_BUNDLE];
+    newDevice.appNamespace = [self appNamespace:MS_APP_MAIN_BUNDLE];
 
     // Add wrapper SDK information
     [self refreshWrapperSdk:newDevice];

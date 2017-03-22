@@ -118,7 +118,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 + (void)generateTestCrash {
   @synchronized([self sharedInstance]) {
     if ([[self sharedInstance] canBeUsed]) {
-      if ([MSUtil currentAppEnvironment] != MSEnvironmentAppStore) {
+      if ([MSUtility currentAppEnvironment] != MSEnvironmentAppStore) {
         if ([MSMobileCenter isDebuggerAttached]) {
           MSLogWarning([MSCrashes logTag],
                        @"The debugger is attached. The following crash cannot be detected by the SDK!");
@@ -141,7 +141,8 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 + (void)setUserConfirmationHandler:(_Nullable MSUserConfirmationHandler)userConfirmationHandler {
 
   // FIXME: Type cast is required at the moment. Need to fix the root cause.
-  ((MSCrashes *)[self sharedInstance]).userConfirmationHandler = userConfirmationHandler;
+  MSCrashes * crashes = static_cast<MSCrashes *>([self sharedInstance]);
+  crashes.userConfirmationHandler = userConfirmationHandler;
 }
 
 + (void)notifyWithUserConfirmation:(MSUserConfirmation)userConfirmation {
@@ -344,7 +345,8 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 - (void)onEnqueuingLog:(id<MSLog>)log withInternalId:(NSString *)internalId andPriority:(MSPriority)priority {
 
   // Don't buffer event if log is empty, crashes module is disabled or the log is a crash.
-  if (!log || ![self isEnabled] || [((NSObject *)log) isKindOfClass:[MSAppleErrorLog class]]) {
+  NSObject *logObject = static_cast<NSObject *>(log);
+  if (!log || ![self isEnabled] || [logObject isKindOfClass:[MSAppleErrorLog class]]) {
     return;
   }
 
@@ -377,9 +379,8 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
            * The current element is full. Save the timestamp if applicable and continue iterating unless we have
            * reached the last element.
            */
-          NSNumber *bufferedLogTimestamp = [timestampFormatter
-              numberFromString:((NSString * _Nonnull)
-                                    [NSString stringWithCString:it->timestamp.c_str() encoding:NSUTF8StringEncoding])];
+          NSString * timestamp = [NSString stringWithCString:it->timestamp.c_str() encoding:NSUTF8StringEncoding];
+          NSNumber *bufferedLogTimestamp = [timestampFormatter numberFromString:timestamp];
 
           // Remember the timestamp if the log is older than the previous one or the initial one.
           if (!oldestTimestamp || oldestTimestamp.doubleValue > bufferedLogTimestamp.doubleValue) {
@@ -441,8 +442,10 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
 - (void)channel:(id)channel willSendLog:(id<MSLog>)log {
   if (self.delegate && [self.delegate respondsToSelector:@selector(crashes:willSendErrorReport:)]) {
-    if ([((NSObject *)log) isKindOfClass:[MSAppleErrorLog class]]) {
-      MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:((MSAppleErrorLog *)log)];
+    NSObject *logObject = static_cast<NSObject *>(log);
+    if ([logObject isKindOfClass:[MSAppleErrorLog class]]) {
+      MSAppleErrorLog *appleErrorLog = static_cast<MSAppleErrorLog *>(log);
+      MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:appleErrorLog];
       [self.delegate crashes:self willSendErrorReport:report];
     }
   }
@@ -450,8 +453,10 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
 - (void)channel:(id<MSChannel>)channel didSucceedSendingLog:(id<MSLog>)log {
   if (self.delegate && [self.delegate respondsToSelector:@selector(crashes:didSucceedSendingErrorReport:)]) {
-    if ([((NSObject *)log) isKindOfClass:[MSAppleErrorLog class]]) {
-      MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:((MSAppleErrorLog *)log)];
+    NSObject *logObject = static_cast<NSObject *>(log);
+    if ([logObject isKindOfClass:[MSAppleErrorLog class]]) {
+      MSAppleErrorLog *appleErrorLog = static_cast<MSAppleErrorLog *>(log);
+      MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:appleErrorLog];
       [self.delegate crashes:self didSucceedSendingErrorReport:report];
     }
   }
@@ -459,8 +464,10 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
 - (void)channel:(id<MSChannel>)channel didFailSendingLog:(id<MSLog>)log withError:(NSError *)error {
   if (self.delegate && [self.delegate respondsToSelector:@selector(crashes:didFailSendingErrorReport:withError:)]) {
-    if ([((NSObject *)log) isKindOfClass:[MSAppleErrorLog class]]) {
-      MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:((MSAppleErrorLog *)log)];
+    NSObject *logObject = static_cast<NSObject *>(log);
+    if ([logObject isKindOfClass:[MSAppleErrorLog class]]) {
+      MSAppleErrorLog *appleErrorLog = static_cast<MSAppleErrorLog *>(log);
+      MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:appleErrorLog];
       [self.delegate crashes:self didFailSendingErrorReport:report withError:error];
     }
   }
@@ -534,7 +541,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 - (void)startCrashProcessing {
 
   // FIXME: There is no life cycle for app extensions yet so force start crash processing until then.
-  if ([MSUtil applicationState] != MSApplicationStateActive && [MSUtil applicationState] != MSApplicationStateUnknown) {
+  if ([MSUtility applicationState] != MSApplicationStateActive && [MSUtility applicationState] != MSApplicationStateUnknown) {
     return;
   }
   MSLogDebug([MSCrashes logTag], @"Start delayed CrashManager processing");
@@ -639,11 +646,11 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
      * Get directory for priority, iterate over each file in it with the kMSLogBufferFileExtension and send
      * the log if a log can be deserialized.
      */
-    NSURL *directoryForPriority = [self bufferDirectoryForPriority:(MSPriority)priority];
+    NSURL *directoryForPriority = [self bufferDirectoryForPriority:MSPriority(priority)];
     NSError *error = nil;
     NSArray *files = [self.fileManager contentsOfDirectoryAtURL:directoryForPriority
                                      includingPropertiesForKeys:nil
-                                                        options:(NSDirectoryEnumerationOptions)0
+                                                        options:NSDirectoryEnumerationOptions(0)
                                                           error:&error];
     for (NSURL *fileURL in files) {
       if ([[fileURL pathExtension] isEqualToString:kMSLogBufferFileExtension]) {
@@ -651,7 +658,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
         if (serializedLog && serializedLog.length && serializedLog.length > 0) {
           id<MSLog> item = [NSKeyedUnarchiver unarchiveObjectWithData:serializedLog];
           if (item) {
-            [self.logManager processLog:item withPriority:(MSPriority)priority];
+            [self.logManager processLog:item withPriority:MSPriority(priority)];
           }
         }
 
@@ -777,11 +784,11 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     for (NSInteger priority = 0; priority < kMSPriorityCount; priority++) {
 
       // Setup asynchronously.
-      NSArray<NSURL *> *files = [self createBufferFilesIfNeededForPriority:(MSPriority)priority];
+      NSArray<NSURL *> *files = [self createBufferFilesIfNeededForPriority:MSPriority(priority)];
 
       // Create a buffer for the priority. Making use of `{}` as we're using C++11.
       for (NSUInteger i = 0; i < ms_crashes_log_buffer_size; i++) {
-        msCrashesLogBuffer[(MSPriority)priority][i] = MSCrashesBufferedLog{[files[i] path], nil};
+        msCrashesLogBuffer[MSPriority(priority)][i] = MSCrashesBufferedLog{[files[i] path], nil};
       }
     }
   }
@@ -837,11 +844,11 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
 - (void)emptyLogBufferFiles {
   for (NSInteger priority = 0; priority < kMSPriorityCount; priority++) {
-    NSURL *directoryForPriority = [self bufferDirectoryForPriority:(MSPriority)priority];
+    NSURL *directoryForPriority = [self bufferDirectoryForPriority:MSPriority(priority)];
     NSError *error = nil;
     NSArray *files = [self.fileManager contentsOfDirectoryAtURL:directoryForPriority
                                      includingPropertiesForKeys:@[NSURLFileSizeKey]
-                                                        options:(NSDirectoryEnumerationOptions)0
+                                                        options:NSDirectoryEnumerationOptions(0)
                                                           error:&error];
     for (NSURL *fileURL in files) {
       if ([[fileURL pathExtension] isEqualToString:kMSLogBufferFileExtension]) {

@@ -2,8 +2,9 @@
 #import "Constants.h"
 
 @import MobileCenter;
-@import MobileCenterCrashes;
 @import MobileCenterAnalytics;
+@import MobileCenterCrashes;
+@import MobileCenterDistribute;
 
 @interface AppDelegate () <MSCrashesDelegate>
 
@@ -17,8 +18,7 @@
 
   // Start Mobile Center SDK
   [MSMobileCenter setLogLevel:MSLogLevelVerbose];
-  [MSMobileCenter setLogUrl:@"http://in-integration.dev.avalanch.es:8081"];
-  [MSMobileCenter start:[[NSUUID UUID] UUIDString] withServices:@[ [MSAnalytics class], [MSCrashes class] ]];
+  [MSMobileCenter start:@"3ccfe7f5-ec01-4de5-883c-f563bbbe147a" withServices:@[[MSAnalytics class], [MSCrashes class], [MSDistribute class]]];
   [MSCrashes setDelegate:self];
 
   // Print the install Id.
@@ -69,6 +69,23 @@
    * Called when the application is about to terminate. Save data if appropriate.
    * See also applicationDidEnterBackground:.
    */
+}
+
+#pragma mark - URL handling
+
+/**
+ *  This addition is required in case apps support iOS 8. Apps that are iOS 9 and later don't need to implement this
+ * as our SDK uses SFSafariViewController for MSDistribute.
+ */
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation {
+  
+  // Forward the URL to MSDistribute.
+  [MSDistribute openUrl:url];
+  NSLog(@"%@ Got waken up via openURL: %@", kDEMLogTag, url);
+  return YES;
 }
 
 #pragma mark - MSCrashesDelegate
