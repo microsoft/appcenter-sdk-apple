@@ -771,7 +771,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
       // Create a buffer for the priority. Making use of `{}` as we're using C++11.
       for (NSUInteger i = 0; i < ms_crashes_log_buffer_size; i++) {
-        msCrashesLogBuffer[MSPriority(priority)][i] = MSCrashesBufferedLog{files[i], nil};
+        msCrashesLogBuffer[MSPriority(priority)][i] = MSCrashesBufferedLog{files[i]};
       }
     }
   }

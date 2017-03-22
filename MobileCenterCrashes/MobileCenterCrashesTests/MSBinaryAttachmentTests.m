@@ -44,6 +44,21 @@
   assertThat(actual[@"content_type"], equalTo(sut.contentType));
 }
 
+- (void)testIsValid {
+  
+  // If
+  MSErrorBinaryAttachment *attachment = [self attachment];
+  
+  // Then
+  XCTAssertTrue([attachment isValid]);
+  
+  // If
+  attachment = [[MSErrorBinaryAttachment alloc] initWithFileName:@"" attachmentData:nil contentType:@""];
+  
+  // Then
+  XCTAssertFalse([attachment isValid]);
+}
+
 - (void)testNSCodingSerializationAndDeserializationWorks {
   // If
   MSErrorBinaryAttachment *sut = [self attachment];
