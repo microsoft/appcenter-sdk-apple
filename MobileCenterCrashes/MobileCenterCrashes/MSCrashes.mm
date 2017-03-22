@@ -186,7 +186,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
     // Send log to log manager.
     [crashes.logManager processLog:log withPriority:crashes.priority andGroupID:crashes.groupID];
-    [crashes deleteCrashReportWithFilePath:filePath];
+    [crashes deleteCrashReportWithFileURL:fileURL];
     [MSWrapperExceptionManager deleteWrapperExceptionDataWithUUIDString:report.incidentIdentifier];
     [crashes.crashFiles removeObject:fileURL];
   }

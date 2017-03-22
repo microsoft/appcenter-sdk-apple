@@ -20,6 +20,9 @@
  */
 static NSString *const kMSServiceName = @"Distribute";
 
+// The group ID for storage.
+static NSString *const kMSGroupID = @"Distribute";
+
 #pragma mark - URL constants
 
 /**
@@ -74,8 +77,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   return @"MobileCenterDistribute";
 }
 
-- (NSString *)storageKey {
-  return kMSServiceName;
+- (NSString *)groupID {
+  return kMSGroupID;
 }
 
 - (MSPriority)priority {
