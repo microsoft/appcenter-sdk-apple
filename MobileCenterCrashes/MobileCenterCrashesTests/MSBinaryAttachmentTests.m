@@ -15,11 +15,17 @@
 #pragma mark - Helper
 
 - (MSErrorBinaryAttachment *)attachment {
+  
+  // If
   NSString *fileName = @"binaryAttachmentFileName";
-  NSData *data = [[NSData alloc] initWithContentsOfFile:@"Binary"];
+  NSData *data = [[NSData alloc] initWithBytes:"Binary" length:7];
   NSString *contentType = @"image/jpeg";
+  
+  // When
   MSErrorBinaryAttachment *attachment = [[MSErrorBinaryAttachment alloc] initWithFileName:fileName attachmentData:data contentType:contentType];
-
+  
+  // Then
+  assertThat(data, notNilValue());
   assertThat(attachment, notNilValue());
   assertThat(attachment.fileName, equalTo(fileName));
   assertThat(attachment.data, equalTo(data));
@@ -40,7 +46,7 @@
   // Then
   assertThat(actual, notNilValue());
   assertThat(actual[@"file_name"], equalTo(sut.fileName));
-  assertThat(actual[@"data"], equalTo(sut.data));
+  assertThat(actual[@"data"], equalTo([sut.data base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithCarriageReturn]));
   assertThat(actual[@"content_type"], equalTo(sut.contentType));
 }
 
