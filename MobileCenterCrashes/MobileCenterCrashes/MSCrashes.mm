@@ -790,16 +790,18 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
       // Create a buffer for the priority. Making use of `{}` as we're using C++11.
       for (NSUInteger i = 0; i < ms_crashes_log_buffer_size; i++) {
 
+        // We need to convert the NSURL to NSString as we cannot safe NSURL to our async-safe log buffer.
+        NSString *path = files[i].path;
+        
         /**
-         * Some explanation why we are initializing the msCrashLogBuffer with `files[i], nil` instead of `files[i]`:
-         * Not assigning `nil` leads to potentially unpredictable runtime behavior if you have any code which assumes
-         * the second field is always some valid or `nil` value (since failing to explicitly initialize, it permits the
-         * compiler to leave garbage in that field - zero-init is only guaranteed for Objective-C objects and static
-         * data, it is especially NOT guaranteed for a stack temporary like here. Even if zero-init were guaranteed,
-         * this is [Objective-]C++ so it's not legal to borrow ObjC's "nil is always zero"-rule so technically it would
-         * still not be properly initialized despite being a trivial type.
+         * Some explanation into what actually happens, courtesy of Gwynne:
+         * "Passing nil does not initialize anything to nil here, what actually happens is an exploit of the Objective-C
+         * send-to-nil-returns-zero rule, so that the effective initialization becomes `buffer(&(0)[0], &(0)[0])`, and
+         * since `NULL` is zero, `[0]` is equivalent to a direct dereference, and `&(*(NULL))` cancels out to
+         * just `NULL`, it becomes `buffer(nullptr, nullptr)`, which is a no-op because the initializer code loops as
+         * `while(begin != end)`, so the `nil` pointer is never dereferenced."
          */
-        msCrashesLogBuffer[MSPriority(priority)][i] = MSCrashesBufferedLog{files[i], nil};
+        msCrashesLogBuffer[MSPriority(priority)][i] = MSCrashesBufferedLog(path, nil);
       }
     }
   }
