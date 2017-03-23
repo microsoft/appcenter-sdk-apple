@@ -19,22 +19,21 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Returns the file path to a log file based on its id and storage key.
  *
- * @param storageKey A storage key which identifies the group/priority of the
- * log file
- * @param logsId The internal Id of the file
+ * @param groupID A groupID which identifies the group of the log file.
+ * @param logsId The internal Id of the file.
  *
  * @return the file url
  */
-- (NSURL *)fileURLForStorageKey:(NSString *)storageKey logsId:(NSString *)logsId;
+- (NSString *) fileURLForGroupID:(NSString *)groupID logsId:(NSString *)logsId;
 
 /**
  * Returns the bucket for a given storage key or creates a new one if it doesn't exist, yet.
  *
- * @param storageKey The storage key for the bucket.
+ * @param groupID The groupID for the bucket.
  *
  * @return The bucket for a given storage key.
  */
-- (MSStorageBucket *)bucketForStorageKey:(NSString *)storageKey;
+- (MSStorageBucket *)bucketForGroupID:(NSString *)groupID;
 
 @end
 

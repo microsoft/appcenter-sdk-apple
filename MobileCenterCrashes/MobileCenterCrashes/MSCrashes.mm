@@ -9,10 +9,11 @@
 #import "MSServiceAbstractProtected.h"
 #import "MSWrapperExceptionManager.h"
 
-/**
- *  Service name.
- */
+// Service name for initialization.
 static NSString *const kMSServiceName = @"Crashes";
+
+// The group ID for storage.
+static NSString *const kMSGroupID = @"Crashes";
 
 /**
  * Name for the AnalyzerInProgress file. Some background info here: writing the file to signal that we are processing
@@ -184,7 +185,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     }
 
     // Send log to log manager.
-    [crashes.logManager processLog:log withPriority:crashes.priority];
+    [crashes.logManager processLog:log withPriority:crashes.priority andGroupID:crashes.groupID];
     [crashes deleteCrashReportWithFileURL:fileURL];
     [MSWrapperExceptionManager deleteWrapperExceptionDataWithUUIDString:report.incidentIdentifier];
     [crashes.crashFiles removeObject:fileURL];
@@ -256,7 +257,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     self.crashFiles = [self persistedCrashReports];
 
     // Set self as delegate of crashes' channel.
-    [self.logManager addChannelDelegate:self forPriority:MSPriorityHigh];
+    [self.logManager addChannelDelegate:self forGroupID:self.groupID withPriority:self.priority];
 
     // Process PLCrashReports, this will format the PLCrashReport into our schema and then trigger sending.
     // This mostly happens on the start of the service.
@@ -285,9 +286,9 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     [self.plCrashReporter purgePendingCrashReport];
 
     // Remove as ChannelDelegate from LogManager
-    [self.logManager removeChannelDelegate:self forPriority:MSPriorityHigh];
-    [self.logManager removeChannelDelegate:self forPriority:MSPriorityDefault];
-    [self.logManager removeChannelDelegate:self forPriority:MSPriorityBackground];
+    [self.logManager removeChannelDelegate:self forGroupID:self.groupID withPriority:self.priority];
+    [self.logManager removeChannelDelegate:self forGroupID:self.groupID withPriority:self.priority];
+    [self.logManager removeChannelDelegate:self forGroupID:self.groupID withPriority:self.priority];
     MSLogInfo([MSCrashes logTag], @"Crashes service has been disabled.");
   }
 }
@@ -319,8 +320,8 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   return @"MobileCenterCrashes";
 }
 
-- (NSString *)storageKey {
-  return kMSServiceName;
+- (NSString *)groupID {
+  return kMSGroupID;
 }
 
 - (MSPriority)priority {
@@ -658,7 +659,9 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
         if (serializedLog && serializedLog.length && serializedLog.length > 0) {
           id<MSLog> item = [NSKeyedUnarchiver unarchiveObjectWithData:serializedLog];
           if (item) {
-            [self.logManager processLog:item withPriority:MSPriority(priority)];
+            
+            // Buffered logs are used sending their own channel. It will never contain more than 20 logs
+            [self.logManager processLog:item withPriority:(MSPriority)priority andGroupID:@"CrashBuffer"];
           }
         }
 
