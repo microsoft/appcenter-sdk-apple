@@ -1,16 +1,25 @@
 Pod::Spec.new do |s|
   s.name              = 'MobileCenter'
-  s.version           = '0.5.1'
+  s.version           = '0.6.0'
 
   s.summary           = 'Add Mobile Center SDK to your app to collect crash reports & understand user behavior by analyzing the session, user or device information.'
   s.description       = <<-DESC
-                     Add Mobile Center services to your app and collect crash reports and understand user behavior by analyzing the session, user and device information for your app. The SDK is currently in public preview and supports the following services:
+                     Add Mobile Center services to your app and collect crash reports and understand user behavior by analyzing the session, user and device information for your app.
+                     The SDK is currently in public preview and supports the following services:
 
                       1. Analytics:
-                      Mobile Center Analytics helps you understand user behavior and customer engagement to improve your iOS app. The SDK automatically captures session count, device properties like model, OS version etc. and pages. You can define your own custom events to measure things that matter to your business. All the information captured is available in the Mobile Center portal for you to analyze the data.
+                      Mobile Center Analytics helps you understand user behavior and customer engagement to improve your iOS app. The SDK automatically captures session count,
+                      device properties like model, OS version etc. and pages. You can define your own custom events to measure things that matter to your business.
+                      All the information captured is available in the Mobile Center portal for you to analyze the data.
 
                       2. Crashes: 
-                      The Mobile Center SDK will automatically generate a crash log every time your app crashes. The log is first written to the device's storage and when the user starts the app again, the crash report will be forwarded to Mobile Center. Collecting crashes works for both beta and live apps, i.e. those submitted to App Store. Crash logs contain viable information for you to help resolve the issue. Crashes uses PLCrashReporter 1.3.
+                      Mobile Center Crashes will automatically generate a crash log every time your app crashes. The log is first written to the device's storage and when
+                      the user starts the app again, the crash report will be forwarded to Mobile Center. Collecting crashes works for both beta and live apps, i.e. those submitted to App Store.
+                      Crash logs contain valuable information for you to help resolve the issue. Crashes uses PLCrashReporter 1.2.1.
+
+                      3. Distribute:
+                      Mobile Center Distribute provides the capability to display in-app updates to your app users when a new version of the application is released.
+
                         DESC
 
   s.homepage          = 'https://mobile.azure.com'
@@ -22,12 +31,11 @@ Pod::Spec.new do |s|
   s.platform          = :ios, '8.0'  
   s.source = { :http => "https://github.com/microsoft/mobile-center-sdk-ios/releases/download/#{s.version}/MobileCenter-SDK-iOS-#{s.version}.zip" }
 
-
   s.preserve_path = "MobileCenter-SDK-iOS/LICENSE"
 
   s.frameworks = 'Foundation',  'SystemConfiguration', 'UIKit'
 
-  s.default_subspecs = 'MobileCenterAnalytics', 'MobileCenterCrashes'
+  s.default_subspecs = 'MobileCenterAnalytics', 'MobileCenterCrashes', 'MobileCenterDistribute'
 
   s.subspec 'MobileCenter' do |ss|
       ss.frameworks = 'Foundation',  'SystemConfiguration', 'UIKit'
@@ -47,5 +55,12 @@ Pod::Spec.new do |s|
       ss.vendored_frameworks = "MobileCenter-SDK-iOS/MobileCenterCrashes.framework"
   end
 
+ s.subspec 'MobileCenterDistribute' do |ss|
+   ss.frameworks = 'CoreTelephony', 'Foundation', 'UIKit'
+   ss.weak_frameworks = 'SafariServices'
+   ss.dependency 'MobileCenter/MobileCenter'
+   ss.resource_bundle = { 'MobileCenterDistributeResources' => ['MobileCenter-SDK-iOS/MobileCenterDistributeResources.bundle/*.lproj'] }
+   ss.vendored_frameworks = "MobileCenter-SDK-iOS/MobileCenterDistribute.framework"
+ end
 
 end

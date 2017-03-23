@@ -28,4 +28,9 @@ typedef void (*MSCrashesUncaughtCXXExceptionHandler)(const MSCrashesUncaughtCXXE
  */
 + (void)removeCXXExceptionHandler:(nonnull MSCrashesUncaughtCXXExceptionHandler)handler;
 
+/**
+ * Handlers count
+ */
++ (NSUInteger)countCXXExceptionHandler;
+
 @end

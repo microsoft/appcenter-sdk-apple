@@ -16,7 +16,6 @@ static NSString *const kMSMobileCenterIsEnabledKey = @"MSMobileCenterIsEnabled";
 @property(nonatomic, copy) NSString *appSecret;
 @property(nonatomic, copy) NSString *logUrl;
 @property(nonatomic, readonly) NSUUID *installId;
-@property(nonatomic, copy) NSString *apiVersion;
 @property BOOL sdkConfigured;
 @property BOOL enabledStateUpdating;
 
@@ -26,7 +25,6 @@ static NSString *const kMSMobileCenterIsEnabledKey = @"MSMobileCenterIsEnabled";
 + (instancetype)sharedInstance;
 - (NSString *)logUrl;
 - (NSString *)appSecret;
-- (NSString *)apiVersion;
 
 /**
  * Enable or disable the SDK as a whole. In addition to MobileCenter resources, it will also enable or

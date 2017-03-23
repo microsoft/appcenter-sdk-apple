@@ -3,7 +3,6 @@
 #import "MSFileUtil.h"
 #import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
-#import "MSUtil.h"
 
 static NSString *const kMSLogsDirectory = @"com.microsoft.azure.mobile.mobilecenter/logs";
 static NSString *const kMSFileExtension = @"ms";
@@ -140,7 +139,7 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
 
 - (MSStorageBucket *)createNewBucketForStorageKey:(NSString *)storageKey {
   MSStorageBucket *bucket = [MSStorageBucket new];
-  NSString *storageDirectory = [self directoryPathForStorageKey:storageKey];
+  NSURL *storageDirectory = [self directoryURLForStorageKey:storageKey];
   NSArray *existingFiles = [MSFileUtil filesForDirectory:storageDirectory withFileExtension:kMSFileExtension];
   if (existingFiles) {
     [bucket.availableFiles addObjectsFromArray:existingFiles];
@@ -165,38 +164,36 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
   MSStorageBucket *bucket = [self bucketForStorageKey:storageKey];
   NSDate *creationDate = [NSDate date];
   NSString *fileId = MS_UUID_STRING;
-  NSString *filePath = [self filePathForStorageKey:storageKey logsId:fileId];
-  MSFile *file = [[MSFile alloc] initWithPath:filePath fileId:fileId creationDate:creationDate];
+  NSURL *fileURL = [self fileURLForStorageKey:storageKey logsId:fileId];
+  MSFile *file = [[MSFile alloc] initWithURL:fileURL fileId:fileId creationDate:creationDate];
   bucket.currentFile = file;
   [bucket.currentLogs removeAllObjects];
 }
 
-- (NSString *)directoryPathForStorageKey:(NSString *)storageKey {
-  NSString *filePath = [self.baseDirectoryPath stringByAppendingPathComponent:storageKey];
+- (NSURL *)directoryURLForStorageKey:(NSString *)storageKey {
+  NSURL *fileURL = [self.baseDirectoryURL URLByAppendingPathComponent:storageKey];
 
-  return filePath;
+  return fileURL;
 }
 
-- (NSString *)filePathForStorageKey:(NSString *)storageKey logsId:(nonnull NSString *)logsId {
+- (NSURL *)fileURLForStorageKey:(NSString *)storageKey logsId:(nonnull NSString *)logsId {
   NSString *fileName = [logsId stringByAppendingPathExtension:kMSFileExtension];
-  NSString *filePath = [[self directoryPathForStorageKey:storageKey] stringByAppendingPathComponent:fileName];
+  NSURL *fileURL = [[self directoryURLForStorageKey:storageKey] URLByAppendingPathComponent:fileName];
 
-  return filePath;
+  return fileURL;
 }
 
-- (NSString *)baseDirectoryPath {
-  if (!_baseDirectoryPath) {
-    NSString *appSupportPath =
-            [[NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject]
-                    stringByStandardizingPath];
-    if (appSupportPath) {
-      _baseDirectoryPath = [appSupportPath stringByAppendingPathComponent:kMSLogsDirectory];
+- (NSURL *)baseDirectoryURL {
+  if (!_baseDirectoryURL) {
+    NSURL *appSupportURL = [[[NSFileManager defaultManager] URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask] lastObject];
+    if (appSupportURL) {
+      _baseDirectoryURL = (NSURL * _Nonnull)[appSupportURL URLByAppendingPathComponent:kMSLogsDirectory];
     }
 
-    MSLogVerbose([MSMobileCenter logTag], @"Storage Path:\n%@", _baseDirectoryPath);
+    MSLogVerbose([MSMobileCenter logTag], @"Storage Path:\n%@", _baseDirectoryURL);
   }
 
-  return _baseDirectoryPath;
+  return _baseDirectoryURL;
 }
 
 @end

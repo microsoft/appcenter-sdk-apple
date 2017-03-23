@@ -28,18 +28,10 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 
 - (instancetype)initWithAppSecret:(NSString *)appSecret installId:(NSUUID *)installId logUrl:(NSString *)logUrl {
   self = [self initWithSender:[[MSIngestionSender alloc] initWithBaseUrl:logUrl
-                                  headers:@{
-                                    kMSHeaderContentTypeKey : kMSContentType,
-                                    kMSHeaderAppSecretKey : appSecret,
-                                    kMSHeaderInstallIDKey : [installId UUIDString]
-                                  }
-                                  queryStrings:@{
-                                    kMSAPIVersionKey : kMSAPIVersion
-                                  }
-                                  reachability:[MS_Reachability reachabilityForInternetConnection]
-                                  retryIntervals:@[ @(10), @(5 * 60), @(20 * 60) ]]
+                                                               appSecret:appSecret
+                                                               installId:[installId UUIDString]]
                       storage:[MSDBStorage new]];
-//                    storage:[MSFileStorage new]];
+                      //storage:[[MSFileStorage alloc] init]];
   return self;
 }
 
@@ -110,7 +102,7 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
   id<MSChannel> channel = [self channelForPriority:priority];
 
   // Set common log info.
-  log.toffset = [NSNumber numberWithLongLong:[MSUtil nowInMilliseconds]];
+  log.toffset = [NSNumber numberWithLongLong:[MSUtility nowInMilliseconds]];
 
   // Only add device info in case the log doesn't have one. In case the log is restored after a crash or for crashes,
   // We don't want the device information to be updated but want the old one preserved.
