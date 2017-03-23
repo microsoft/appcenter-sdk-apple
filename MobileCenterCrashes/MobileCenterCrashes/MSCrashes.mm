@@ -142,7 +142,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 + (void)setUserConfirmationHandler:(_Nullable MSUserConfirmationHandler)userConfirmationHandler {
 
   // FIXME: Type cast is required at the moment. Need to fix the root cause.
-  MSCrashes * crashes = static_cast<MSCrashes *>([self sharedInstance]);
+  MSCrashes *crashes = static_cast<MSCrashes *>([self sharedInstance]);
   crashes.userConfirmationHandler = userConfirmationHandler;
 }
 
@@ -380,7 +380,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
            * The current element is full. Save the timestamp if applicable and continue iterating unless we have
            * reached the last element.
            */
-          NSString * timestamp = [NSString stringWithCString:it->timestamp.c_str() encoding:NSUTF8StringEncoding];
+          NSString *timestamp = [NSString stringWithCString:it->timestamp.c_str() encoding:NSUTF8StringEncoding];
           NSNumber *bufferedLogTimestamp = [timestampFormatter numberFromString:timestamp];
 
           // Remember the timestamp if the log is older than the previous one or the initial one.
@@ -542,7 +542,8 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 - (void)startCrashProcessing {
 
   // FIXME: There is no life cycle for app extensions yet so force start crash processing until then.
-  if ([MSUtility applicationState] != MSApplicationStateActive && [MSUtility applicationState] != MSApplicationStateUnknown) {
+  if ([MSUtility applicationState] != MSApplicationStateActive &&
+      [MSUtility applicationState] != MSApplicationStateUnknown) {
     return;
   }
   MSLogDebug([MSCrashes logTag], @"Start delayed CrashManager processing");
@@ -778,7 +779,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 }
 
 - (void)setupLogBuffer {
-  
+
   // We need to make this @synchronized here as we're setting up msCrashesLogBuffer.
   @synchronized(self) {
 
@@ -791,7 +792,19 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
       // Create a buffer for the priority. Making use of `{}` as we're using C++11.
       for (NSUInteger i = 0; i < ms_crashes_log_buffer_size; i++) {
-        msCrashesLogBuffer[MSPriority(priority)][i] = MSCrashesBufferedLog{[files[i] path]};
+
+        // We need to convert the NSURL to NSString as we cannot safe NSURL to our async-safe log buffer.
+        NSString *path = files[i].path;
+        
+        /**
+         * Some explanation into what actually happens, courtesy of Gwynne:
+         * "Passing nil does not initialize anything to nil here, what actually happens is an exploit of the Objective-C
+         * send-to-nil-returns-zero rule, so that the effective initialization becomes `buffer(&(0)[0], &(0)[0])`, and
+         * since `NULL` is zero, `[0]` is equivalent to a direct dereference, and `&(*(NULL))` cancels out to
+         * just `NULL`, it becomes `buffer(nullptr, nullptr)`, which is a no-op because the initializer code loops as
+         * `while(begin != end)`, so the `nil` pointer is never dereferenced."
+         */
+        msCrashesLogBuffer[MSPriority(priority)][i] = MSCrashesBufferedLog(path, nil);
       }
     }
   }
