@@ -8,9 +8,11 @@
 #import "MSCrashesInternal.h"
 #import "MSCrashesPrivate.h"
 #import "MSCrashesTestUtil.h"
+#import "MSException.h"
 #import "MSMockCrashesDelegate.h"
 #import "MSServiceAbstractPrivate.h"
 #import "MSServiceAbstractProtected.h"
+#import "MSWrapperExceptionManagerInternal.h"
 #import "MSCrashesUtil.h"
 
 @class MSMockCrashesDelegate;
@@ -481,6 +483,26 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
 
 - (void)testCrashesServiceNameIsCorrect {
   XCTAssertEqual([MSCrashes serviceName], kMSCrashesServiceName);
+}
+
+- (void)testWrapperCrashCallback {
+  
+  // If
+  MSException *exception = [[MSException alloc] init];
+  exception.message = @"a message";
+  exception.type = @"a type";
+  
+  // When
+  [[MSCrashes sharedInstance] startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
+  MSWrapperExceptionManager *manager = [MSWrapperExceptionManager sharedInstance];
+  manager.wrapperException = exception;
+  [MSCrashesTestUtil deleteAllFilesInDirectory:[MSWrapperExceptionManager directoryPath]];
+  assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
+  [MSCrashes wrapperCrashCallback];
+  
+  // Then
+  NSArray *first = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[MSWrapperExceptionManager directoryPath] error:NULL];
+  XCTAssertTrue(first.count == 1);
 }
 
 - (BOOL)crashes:(MSCrashes *)crashes shouldProcessErrorReport:(MSErrorReport *)errorReport {
