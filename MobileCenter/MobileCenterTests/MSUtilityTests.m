@@ -4,6 +4,7 @@
 #import "MSUtility+ApplicationPrivate.h"
 #import "MSUtility+Date.h"
 #import "MSUtility+Environment.h"
+#import "MSUtility+StringFormatting.h"
 
 @interface MSUtilTests : XCTestCase
 
@@ -152,6 +153,16 @@
        XCTFail(@"Expectation Failed with error: %@", error);
      }
    }];
+}
+
+- (void)testCreateSha256 {
+  
+  // When
+  NSString *test = @"TestString";
+  NSString *result = [MSUtility sha256:test];
+  
+  // Then
+  XCTAssertTrue([result isEqualToString:@"6dd79f2770a0bb38073b814a5ff000647b37be5abbde71ec9176c6ce0cb32a27"]);
 }
 
 @end

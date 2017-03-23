@@ -1,4 +1,3 @@
-#import <CommonCrypto/CommonDigest.h>
 #import "MSBasicMachOParser.h"
 #import "MSDistribute.h"
 #import "MSDistributeInternal.h"
@@ -6,6 +5,7 @@
 #import "MSLogger.h"
 #import "MSSemVer.h"
 #import "MSUtility.h"
+#import "MSUtility+StringFormatting.h"
 
 NSBundle *MSDistributeBundle(void) {
   static NSBundle *bundle = nil;
@@ -70,12 +70,12 @@ NSComparisonResult MSCompareCurrentReleaseWithRelease(MSReleaseDetails *releaseB
       }
     } else {
 
-      // Only verison B is semantic versioning.
+      // Only version B is semantic versioning.
       return NSOrderedAscending;
     }
   } else if (!shortVersionB) {
 
-    // Only verison A is semantic versioning.
+    // Only version A is semantic versioning.
     return NSOrderedDescending;
   } else {
 
@@ -118,25 +118,7 @@ NSString *MSPackageHash(void) {
     MSLogError([MSDistribute logTag], @"Cannot retrieve versions of the application.");
     return nil;
   }
-  return sha256([NSString stringWithFormat:@"%@:%@:%@", buildUUID, shortVersion, version]);
-}
-
-// TODO: Move this to MSUtil (MSUtility) once the branch gets merged from develop.
-NSString *sha256(NSString *string) {
-
-  // Hash string with SHA256.
-  const char *encodedString = [string cStringUsingEncoding:NSASCIIStringEncoding];
-  unsigned char hashedData[CC_SHA256_DIGEST_LENGTH];
-  CC_SHA256(encodedString, strlen(encodedString), hashedData);
-
-  // Convert hashed data to NSString.
-  NSData *data = [NSData dataWithBytes:hashedData length:sizeof(hashedData)];
-  NSMutableString *stringBuffer = [NSMutableString stringWithCapacity:([data length] * 2)];
-  const unsigned char *dataBuffer = [data bytes];
-  for (NSUInteger i = 0; i < [data length]; i++) {
-    [stringBuffer appendFormat:@"%02x", dataBuffer[i]];
-  }
-  return [stringBuffer copy];
+  return [MSUtility sha256:[NSString stringWithFormat:@"%@:%@:%@", buildUUID, shortVersion, version]];
 }
 
 @implementation MSDistributeUtil
