@@ -4,6 +4,7 @@
 #import "MSMobileCenter.h"
 #import "MSMobileCenterInternal.h"
 #import "MSMobileCenterPrivate.h"
+#import "MSMockUserDefaults.h"
 #import "MSServiceAbstractPrivate.h"
 #import "MSServiceAbstractProtected.h"
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
@@ -60,8 +61,6 @@
  */
 @property(nonatomic) MSServiceAbstractImplementation *abstractService;
 
-@property(nonatomic) NSNumber *isEnabled;
-
 @end
 
 @implementation MSServiceAbstractTest
@@ -69,35 +68,17 @@
 - (void)setUp {
   [super setUp];
 
-  self.isEnabled = nil;
-
   // Set up the mocked storage.
-  self.settingsMock = OCMClassMock([NSUserDefaults class]);
-  OCMStub([self.settingsMock standardUserDefaults]).andReturn(self.settingsMock);
-  OCMStub([self.settingsMock setObject:[OCMArg any]
-                                forKey:[OCMArg isEqual:@"kMSMSServiceAbstractImplementationIsEnabledKey"]]).andDo(^(NSInvocation *invocation) {
-    id object;
-    [invocation getArgument:&object atIndex:2];
-    self.isEnabled = object;
-  });
-  OCMStub([self.settingsMock objectForKey:[OCMArg isEqual:@"kMSMSServiceAbstractImplementationIsEnabledKey"]]).andCall(self,@selector(getIsEnabled));
+  self.settingsMock = [MSMockUserDefaults new];
   
   // System Under Test.
   self.abstractService = [[MSServiceAbstractImplementation alloc] initWithStorage:self.settingsMock];
-
-  // Clean storage.
-  [(MSUserDefaults *)self.settingsMock removeObjectForKey:self.abstractService.isEnabledKey];
-  [(MSUserDefaults *)self.settingsMock removeObjectForKey:kMSMobileCenterIsEnabledKey];
 }
 
 - (void)tearDown {
   [super tearDown];
 
   [self.settingsMock stopMocking];
-}
-
--(NSNumber*)getIsEnabled{
-  return self.isEnabled;
 }
 
 - (void)testIsEnabledTrueByDefault {
@@ -172,7 +153,7 @@
   /**
    *  Then
    */
-  assertThat(self.isEnabled, is([NSNumber numberWithBool:expected]));
+  assertThat([NSNumber numberWithBool:self.abstractService.isEnabled], is([NSNumber numberWithBool:expected]));
 
   // Also check that the sut did access the persistence.
   OCMVerify([self.settingsMock setObject:[OCMArg any] forKey:[OCMArg any]]);

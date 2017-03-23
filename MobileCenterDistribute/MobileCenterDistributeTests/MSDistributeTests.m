@@ -15,6 +15,7 @@
 #import "MSKeychainUtil.h"
 #import "MSLogManager.h"
 #import "MSMobileCenter.h"
+#import "MSMockUserDefaults.h"
 #import "MSServiceAbstract.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSServiceInternal.h"
@@ -57,6 +58,7 @@ static NSURL *sfURL;
 
 @property(nonatomic) MSDistribute *sut;
 @property(nonatomic) id parserMock;
+@property(nonatomic) id settingsMock;
 
 @end
 
@@ -64,10 +66,9 @@ static NSURL *sfURL;
 
 - (void)setUp {
   [super setUp];
-  [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
-  [MS_USER_DEFAULTS removeObjectForKey:kMSIgnoredReleaseIdKey];
   [MSKeychainUtil clear];
   self.sut = [MSDistribute new];
+  self.settingsMock = [MSMockUserDefaults new];
 
   // Make sure we disable the debug-mode checks so we can actually test the logic.
   [MSDistributeTestUtil mockUpdatesAllowedConditions];
@@ -82,10 +83,9 @@ static NSURL *sfURL;
 
 - (void)tearDown {
   [super tearDown];
-  [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
-  [MS_USER_DEFAULTS removeObjectForKey:kMSIgnoredReleaseIdKey];
   [MSKeychainUtil clear];
   [self.parserMock stopMocking];
+  [self.settingsMock stopMocking];
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
 }
 
@@ -451,8 +451,6 @@ static NSURL *sfURL;
 }
 
 - (void)testApplyEnabledStateTrueForDebugConfig {
-  [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
-  [MS_USER_DEFAULTS removeObjectForKey:kMSIgnoredReleaseIdKey];
 
   // If
   id distributeMock = OCMPartialMock(self.sut);
@@ -463,15 +461,15 @@ static NSURL *sfURL;
   [distributeMock applyEnabledState:YES];
 
   // Then
-  XCTAssertNil([MS_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey]);
-  XCTAssertNil([MS_USER_DEFAULTS objectForKey:kMSIgnoredReleaseIdKey]);
+  XCTAssertNil([self.settingsMock objectForKey:kMSUpdateTokenRequestIdKey]);
+  XCTAssertNil([self.settingsMock objectForKey:kMSIgnoredReleaseIdKey]);
 
   // When
   [distributeMock applyEnabledState:NO];
 
   // Then
-  XCTAssertNil([MS_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey]);
-  XCTAssertNil([MS_USER_DEFAULTS objectForKey:kMSIgnoredReleaseIdKey]);
+  XCTAssertNil([self.settingsMock objectForKey:kMSUpdateTokenRequestIdKey]);
+  XCTAssertNil([self.settingsMock objectForKey:kMSIgnoredReleaseIdKey]);
 }
 
 - (void)testApplyEnabledStateTrue {
@@ -498,19 +496,19 @@ static NSURL *sfURL;
   OCMVerify([distributeMock checkLatestRelease:[OCMArg any]]);
 
   // If
-  [MS_USER_DEFAULTS setObject:@"RequestID" forKey:kMSUpdateTokenRequestIdKey];
-  [MS_USER_DEFAULTS setObject:@"ReleaseID" forKey:kMSIgnoredReleaseIdKey];
+  [self.settingsMock setObject:@"RequestID" forKey:kMSUpdateTokenRequestIdKey];
+  [self.settingsMock setObject:@"ReleaseID" forKey:kMSIgnoredReleaseIdKey];
 
   // Then
-  XCTAssertNotNil([MS_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey]);
-  XCTAssertNotNil([MS_USER_DEFAULTS objectForKey:kMSIgnoredReleaseIdKey]);
+  XCTAssertNotNil([self.settingsMock objectForKey:kMSUpdateTokenRequestIdKey]);
+  XCTAssertNotNil([self.settingsMock objectForKey:kMSIgnoredReleaseIdKey]);
 
   // When
   [distributeMock applyEnabledState:NO];
 
   // Then
-  XCTAssertNil([MS_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey]);
-  XCTAssertNil([MS_USER_DEFAULTS objectForKey:kMSIgnoredReleaseIdKey]);
+  XCTAssertNil([self.settingsMock objectForKey:kMSUpdateTokenRequestIdKey]);
+  XCTAssertNil([self.settingsMock objectForKey:kMSIgnoredReleaseIdKey]);
 }
 
 - (void)testcheckForUpdatesAllConditionsMet {

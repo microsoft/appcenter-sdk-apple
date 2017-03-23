@@ -4,6 +4,7 @@
 #import "MSMobileCenter.h"
 #import "MSMobileCenterInternal.h"
 #import "MSMobileCenterPrivate.h"
+#import "MSMockUserDefaults.h"
 #import "MSServiceInternal.h"
 
 static NSString *const kMSInstallIdStringExample = @"F18499DA-5C3D-4F05-B4E8-D8C9C06A6F09";
@@ -14,7 +15,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 @interface MSMobileCenterTest : XCTestCase
 
 @property(nonatomic) MSMobileCenter *sut;
-@property(nonatomic) id settingsMock;
+@property(nonatomic) MSMockUserDefaults *settingsMock;
 @property(nonatomic) NSString *installId;
 
 @end
@@ -27,23 +28,13 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   // System Under Test.
   self.sut = [[MSMobileCenter alloc] init];
 
-  self.settingsMock = OCMClassMock([NSUserDefaults class]);
-  OCMStub([self.settingsMock standardUserDefaults]).andReturn(self.settingsMock);
-  OCMStub([self.settingsMock setObject:[OCMArg any]
-                                forKey:[OCMArg isEqual:@"MSInstallId"]]).andDo(^(NSInvocation *invocation) {
-    id object;
-    [invocation getArgument:&object atIndex:2];
-    self.installId = object;
-  });
-  OCMStub([self.settingsMock objectForKey:[OCMArg isEqual:@"MSInstallId"]]).andCall(self,@selector(getInstallId));
+  self.settingsMock = [MSMockUserDefaults new];
 }
 
 - (void)tearDown {
-  [super tearDown];
-}
+  [self.settingsMock stopMocking];
 
--(NSString*)getInstallId{
-  return self.installId;
+  [super tearDown];
 }
 
 #pragma mark - install Id
@@ -52,7 +43,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
   // If
   // InstallId is removed from the storage.
-  [[NSUserDefaults standardUserDefaults] removeObjectForKey:kMSInstallIdKey];
+  [self.settingsMock removeObjectForKey:kMSInstallIdKey];
 
   // When
   NSUUID *installId = self.sut.installId;
@@ -83,7 +74,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
   // If
   // Unexpected installId is added to the storage.
-  [[NSUserDefaults standardUserDefaults] setObject:MS_UUID_FROM_STRING(@"42") forKey:kMSInstallIdKey];
+  [self.settingsMock setObject:MS_UUID_FROM_STRING(@"42") forKey:kMSInstallIdKey];
 
   // When
   NSUUID *installId = self.sut.installId;
@@ -101,7 +92,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
   // If
   // InstallId is removed from the storage.
-  [[NSUserDefaults standardUserDefaults] removeObjectForKey:kMSInstallIdKey];
+  [self.settingsMock removeObjectForKey:kMSInstallIdKey];
 
   // When
   NSUUID *installId1 = self.sut.installId;
