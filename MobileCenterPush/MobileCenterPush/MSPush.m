@@ -104,7 +104,7 @@ static dispatch_once_t onceToken;
     UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
     UNAuthorizationOptions authOptions = (UNAuthorizationOptions) (UNAuthorizationOptionAlert | UNAuthorizationOptionSound | UNAuthorizationOptionBadge);
     [center requestAuthorizationWithOptions:authOptions
-                          completionHandler:^(BOOL granted, NSError * _Nullable error) {}];
+                          completionHandler:^(__attribute__((unused)) BOOL granted, __attribute__((unused)) NSError * _Nullable error) {}];
   }
   [[UIApplication sharedApplication] registerForRemoteNotifications];
 #endif
