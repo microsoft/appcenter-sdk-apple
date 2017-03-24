@@ -1,13 +1,4 @@
-//
-//  MSMockUserDefaults.h
-//  MobileCenter
-//
-//  Created by Евгений Рычагов on 23/03/2017.
-//  Copyright © 2017 Microsoft. All rights reserved.
-//
-
-#ifndef MSMockUserDefaults_h
-#define MSMockUserDefaults_h
+#import <Foundation/Foundation.h>
 
 @interface MSMockUserDefaults : NSObject
 
@@ -21,5 +12,3 @@
 -(void)stopMocking;
 
 @end
-
-#endif /* MSMockUserDefaults_h */

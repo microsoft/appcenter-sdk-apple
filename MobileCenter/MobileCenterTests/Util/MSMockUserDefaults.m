@@ -1,4 +1,3 @@
-#import <Foundation/Foundation.h>
 #import <OCMock/OCMock.h>
 #import "MSMockUserDefaults.h"
 
@@ -18,7 +17,6 @@
   self = [super init];
   if (self) {
     self.dictionary = [NSMutableDictionary new];
-
     self.mockUserDefaults = OCMClassMock([NSUserDefaults class]);
     OCMStub([self.mockUserDefaults standardUserDefaults]).andReturn(self.mockUserDefaults);
     OCMStub([self.mockUserDefaults objectForKey:[OCMArg any]]).andCall(self,@selector(objectForKey:));
@@ -26,21 +24,17 @@
       id object;
       [invocation getArgument:&object atIndex:2];
 
+      // Don't store nil objects.
       if (!object) {
         return;
       }
-      
       id key;
       [invocation getArgument:&key atIndex:3];
-
-      NSLog(@"setObject: forKey: %@", key);
       [self.dictionary setObject:object forKey:key];
     });
     OCMStub([self.mockUserDefaults removeObjectForKey:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
       id key;
       [invocation getArgument:&key atIndex:2];
-
-      NSLog(@"removeObjectForKey: %@", key);
       [self.dictionary removeObjectForKey:key];
     });
   }
@@ -52,7 +46,6 @@
 }
 
 -(nullable id)objectForKey:(NSString*)aKey {
-  NSLog(@"objectForKey: %@", aKey);
   return self.dictionary[aKey];
 }
 
