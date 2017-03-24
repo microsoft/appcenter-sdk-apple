@@ -116,7 +116,7 @@ static NSURL *sfURL;
   NSURLComponents *components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:NO];
   NSMutableDictionary<NSString *, NSString *> *queryStrings = [NSMutableDictionary<NSString *, NSString *> new];
   [components.queryItems
-      enumerateObjectsUsingBlock:^(__kindof NSURLQueryItem *_Nonnull queryItem, NSUInteger idx, BOOL *_Nonnull stop) {
+      enumerateObjectsUsingBlock:^(__kindof NSURLQueryItem *_Nonnull queryItem, __attribute__((unused)) NSUInteger idx, __attribute__((unused)) BOOL *_Nonnull stop) {
         if (queryItem.value) {
           [queryStrings setObject:(NSString * _Nonnull)queryItem.value forKey:queryItem.name];
         }
@@ -180,7 +180,7 @@ static NSURL *sfURL;
   // When
   @try {
     [self.sut openURLInEmbeddedSafari:url fromClass:[SFSafariViewController class]];
-  } @catch (NSException *ex) {
+  } @catch (__attribute__((unused)) NSException *ex) {
 
     /**
      * TODO: This is not a UI test so we expect it to fail with NSInternalInconsistencyException exception.
@@ -325,7 +325,7 @@ static NSURL *sfURL;
   });
 
   [self waitForExpectationsWithTimeout:1
-                               handler:^(NSError *error) {
+                               handler:^(__attribute__((unused)) NSError *error) {
 
                                  // Then
                                  OCMVerify([alertControllerMock alertControllerWithTitle:[OCMArg any]
@@ -356,7 +356,7 @@ static NSURL *sfURL;
   });
 
   [self waitForExpectationsWithTimeout:1
-                               handler:^(NSError *error) {
+                               handler:^(__attribute__((unused)) NSError *error) {
 
                                  // Then
                                  OCMVerify([alertControllerMock alertControllerWithTitle:[OCMArg any]
@@ -629,7 +629,6 @@ static NSURL *sfURL;
 
   // If
   // cd55e7a9-7ad1-4ca6-b722-3d133f487da9:1.0:1 -> 1ddf47f8dda8928174c419d530adcc13bb63cebfaf823d83ad5269b41e638ef4
-  id distributeMock = OCMPartialMock(self.sut);
   id bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
   NSDictionary<NSString *, id> *plist = @{ @"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1" };

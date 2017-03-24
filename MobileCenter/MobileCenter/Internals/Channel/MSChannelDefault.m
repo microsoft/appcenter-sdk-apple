@@ -181,7 +181,7 @@
                  // Forward logs to the sender.
                  [self.sender
                              sendAsync:container
-                     completionHandler:^(NSString *senderBatchId, NSUInteger statusCode, NSData *data, NSError *error) {
+                     completionHandler:^(NSString *senderBatchId, NSUInteger statusCode, __attribute__((unused)) NSData *data, NSError *error) {
                        dispatch_async(self.logsDispatchQueue, ^{
                          if ([self.pendingBatchIds containsObject:senderBatchId]) {
 
@@ -360,18 +360,21 @@
 #pragma mark - MSSenderDelegate
 
 - (void)senderDidSuspend:(id<MSSender>)sender {
+  (void)sender;
   dispatch_async(self.logsDispatchQueue, ^{
     [self suspend];
   });
 }
 
 - (void)senderDidResume:(id<MSSender>)sender {
+  (void)sender;
   dispatch_async(self.logsDispatchQueue, ^{
     [self resume];
   });
 }
 
 - (void)sender:(id<MSSender>)sender didSetEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData {
+  (void)sender;
 
   // Reflect sender enabled state.
   [self setEnabled:isEnabled andDeleteDataOnDisabled:deleteData];

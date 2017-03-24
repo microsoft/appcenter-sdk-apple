@@ -109,7 +109,7 @@ static NSString *const kMSTestGroupID = @"GroupID";
   for (int i = 1; i <= itemsToAdd; i++) {
 
     [self.sut enqueueItem:[MSAbstractLog new]
-           withCompletion:^(BOOL success) {
+           withCompletion:^(__attribute__((unused)) BOOL success) {
              if (i == itemsToAdd) {
                [expectation fulfill];
              }
@@ -480,7 +480,7 @@ static NSString *const kMSTestGroupID = @"GroupID";
       });
 
   // Stub sender suspended method.
-  OCMStub([senderMock setEnabled:NO andDeleteDataOnDisabled:YES]).andDo(^(NSInvocation *invocation) {
+  OCMStub([senderMock setEnabled:NO andDeleteDataOnDisabled:YES]).andDo(^(__attribute__((unused)) NSInvocation *invocation) {
     [self.sut sender:senderMock didSetEnabled:(NO) andDeleteDataOnDisabled:YES];
     [self enqueueChannelEndJobExpectation];
   });
