@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @see MSPushDelegate
  */
-+ (void)setDelegate:(nullable id <MSPushDelegate>)delegate;
++ (void)setDelegate:(nullable id<MSPushDelegate>)delegate;
 
 @end
 
