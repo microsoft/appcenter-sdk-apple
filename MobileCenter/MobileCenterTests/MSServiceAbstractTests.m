@@ -4,6 +4,7 @@
 #import "MSMobileCenter.h"
 #import "MSMobileCenterInternal.h"
 #import "MSMobileCenterPrivate.h"
+#import "MSMockUserDefaults.h"
 #import "MSServiceAbstractPrivate.h"
 #import "MSServiceAbstractProtected.h"
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
@@ -68,14 +69,10 @@
   [super setUp];
 
   // Set up the mocked storage.
-  self.settingsMock = OCMPartialMock(MS_USER_DEFAULTS);
-
+  self.settingsMock = [MSMockUserDefaults new];
+  
   // System Under Test.
   self.abstractService = [[MSServiceAbstractImplementation alloc] initWithStorage:self.settingsMock];
-
-  // Clean storage.
-  [(MSUserDefaults *)self.settingsMock removeObjectForKey:self.abstractService.isEnabledKey];
-  [(MSUserDefaults *)self.settingsMock removeObjectForKey:kMSMobileCenterIsEnabledKey];
 }
 
 - (void)tearDown {
@@ -146,14 +143,7 @@
   /**
    *  If
    */
-  __block NSNumber *isEnabled;
   BOOL expected = NO;
-
-  // Mock MSSettings and swizzle its setObject:forKey: method to check what's sent by the sut to the persistence.
-  OCMStub([self.settingsMock objectForKey:[OCMArg any]]).andReturn(@YES);
-  OCMStub([self.settingsMock setObject:[OCMArg any] forKey:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
-    [invocation getArgument:&isEnabled atIndex:2];
-  });
 
   /**
    *  When
@@ -163,7 +153,7 @@
   /**
    *  Then
    */
-  assertThat(isEnabled, is(@(expected)));
+  assertThat([NSNumber numberWithBool:self.abstractService.isEnabled], is([NSNumber numberWithBool:expected]));
 
   // Also check that the sut did access the persistence.
   OCMVerify([self.settingsMock setObject:[OCMArg any] forKey:[OCMArg any]]);
@@ -175,7 +165,7 @@
    *  If
    */
   NSNumber *expected = @NO;
-  OCMStub([self.settingsMock objectForKey:[OCMArg any]]).andReturn(expected);
+  [self.settingsMock setObject:expected forKey:self.abstractService.isEnabledKey];
 
   /**
    *  When
@@ -202,6 +192,7 @@
 }
 
 - (void)testEnableServiceOnCoreDisabled {
+  OCMStub([self.settingsMock objectForKey:[OCMArg isEqual:@"MSMobileCenterIsEnabled"]]).andReturn([NSNumber numberWithBool:NO]);
 
   // If
   [MSMobileCenter resetSharedInstance];

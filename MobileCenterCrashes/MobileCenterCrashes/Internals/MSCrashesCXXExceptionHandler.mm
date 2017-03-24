@@ -148,7 +148,7 @@ static void MSCrashesUncaughtCXXTerminateHandler(void) {
       } catch (const char *e) { // Plain string as exception.
         info.exception_message = e;
         MSCrashesIterateExceptionHandlers_unlocked(info);
-      } catch (id e) { // Objective-C exception. Pass it on to Foundation.
+      } catch (__attribute__((unused)) id e) { // Objective-C exception. Pass it on to Foundation.
         OSSpinLockUnlock(&_MSCrashesCXXExceptionHandlingLock);
         if (_MSCrashesOriginalTerminateHandler != nullptr) {
           _MSCrashesOriginalTerminateHandler();

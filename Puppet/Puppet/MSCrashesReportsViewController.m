@@ -165,18 +165,23 @@
     return cell;
 }
 
+#pragma mark - Table view delegate
 
-#pragma mark - Navigation
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-  if ([[segue identifier] isEqualToString:@"showCrashDetail"]) {
-    NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+  
+  BOOL isLast = (indexPath.section == ([tableView numberOfSections] -1));
+  [tableView deselectRowAtIndexPath:indexPath animated:YES];
+  
+  if(!isLast) {
+    //Crashes
+    
     MSCrash *crash = (MSCrash *)(((NSArray *)self.knownCrashes[self.sortedAllKeys[(NSUInteger)indexPath.section]])[(NSUInteger)indexPath.row]);
     
-    ((MSCrashesDetailViewController *)segue.destinationViewController).detailItem = crash;
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    MSCrashesDetailViewController *vc = [sb instantiateViewControllerWithIdentifier:@"crash-detail"];
+    vc.detailItem = crash;
+    [self.navigationController pushViewController:vc animated:YES];
   }
 }
-
 
 @end

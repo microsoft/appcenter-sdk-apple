@@ -28,6 +28,7 @@ static NSString *const kMSLatestReleaseApiPathFormat = @"/sdk/apps/%@/releases/l
 }
 
 - (NSURLRequest *)createRequest:(NSObject *)data {
+  (void)data;
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.sendURL];
 
   // Set method.
