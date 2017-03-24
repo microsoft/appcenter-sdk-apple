@@ -34,11 +34,9 @@ MSLogHandler const msDefaultLogHandler = ^(MSLogMessageProvider messageProvider,
     case MSLogLevelAssert:
       level = @"ASSERT";
       break;
-    default:
-        
-      // Ignore if log level is not valid. Will never fall to this default case. Added the value to silence a warning.
+    case MSLogLevelNone:
       level = @"";
-      return;
+      break;
     }
     NSLog((@"[%@] %@: %s/%d %@"), tag, level, function, line, messageProvider());
   }
