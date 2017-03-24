@@ -17,9 +17,6 @@ NSString *MSUtilityApplicationCategory;
 }
 
 + (UIApplicationState)sharedAppState {
-
-  // Compute selector at runtime for more discretion.
-  SEL sharedAppSel = NSSelectorFromString(@"sharedApplication");
   return [[[[self class] sharedApp] valueForKey:@"applicationState"] longValue];
 }
 

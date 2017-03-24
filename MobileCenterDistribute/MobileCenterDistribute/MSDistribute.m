@@ -20,6 +20,9 @@
  */
 static NSString *const kMSServiceName = @"Distribute";
 
+// The group ID for storage.
+static NSString *const kMSGroupID = @"Distribute";
+
 #pragma mark - URL constants
 
 /**
@@ -74,8 +77,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   return @"MobileCenterDistribute";
 }
 
-- (NSString *)storageKey {
-  return kMSServiceName;
+- (NSString *)groupID {
+  return kMSGroupID;
 }
 
 - (MSPriority)priority {
@@ -188,7 +191,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
           [[MSDistributeSender alloc] initWithBaseUrl:self.apiUrl appSecret:self.appSecret updateToken:updateToken];
       [self.sender
                   sendAsync:nil
-          completionHandler:^(NSString *callId, NSUInteger statusCode, NSData *data, NSError *error) {
+          completionHandler:^(__attribute__((unused)) NSString *callId, NSUInteger statusCode, NSData *data, __attribute__((unused)) NSError *error) {
 
             // Release sender instance.
             self.sender = nil;
@@ -458,13 +461,13 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
       // Add a "Postpone"-Button
       [alertController addDefaultActionWithTitle:MSDistributeLocalizedString(@"Postpone")
-                                         handler:^(UIAlertAction *action) {
+                                         handler:^(__attribute__((unused)) UIAlertAction *action) {
                                            MSLogDebug([MSDistribute logTag], @"Postpone the update for now.");
                                          }];
 
       // Add a "Ignore"-Button
       [alertController addDefaultActionWithTitle:MSDistributeLocalizedString(@"Ignore")
-                                         handler:^(UIAlertAction *action) {
+                                         handler:^(__attribute__((unused)) UIAlertAction *action) {
                                            MSLogDebug([MSDistribute logTag], @"Ignore the release id: %@.", details.id);
                                            [MS_USER_DEFAULTS setObject:details.id forKey:kMSIgnoredReleaseIdKey];
                                          }];
@@ -472,7 +475,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
     // Add a "Download"-Button
     [alertController addCancelActionWithTitle:MSDistributeLocalizedString(@"Download")
-                                      handler:^(UIAlertAction *action) {
+                                      handler:^(__attribute__((unused)) UIAlertAction *action) {
                                         MSLogDebug([MSDistribute logTag], @"Start download and install the update.");
                                         [self startDownload:details];
                                       }];
@@ -484,6 +487,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 }
 
 - (void)startDownload:(MSReleaseDetails *)details {
+  (void)details;
 #if TARGET_IPHONE_SIMULATOR
   MSLogWarning([MSDistribute logTag], @"Couldn't download a new release on simulator.");
 #else

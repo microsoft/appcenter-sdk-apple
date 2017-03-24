@@ -47,8 +47,6 @@ NSComparisonResult MSCompareCurrentReleaseWithRelease(MSReleaseDetails *release)
  */
 NSString *MSPackageHash(void);
 
-// TODO: Move this to MSUtil (MSUtility) once the branch gets merged from develop.
-NSString *sha256(NSString *string);
 
 @interface MSDistributeUtil : NSObject
 
