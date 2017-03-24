@@ -2,11 +2,9 @@
 #import <SafariServices/SafariServices.h>
 
 #import "MSAlertController.h"
-#import "MSBasicMachOParser.h"
 #import "MSDistribute.h"
 #import "MSDistributeInternal.h"
 #import "MSDistributePrivate.h"
-#import "MSDistributeSender.h"
 #import "MSDistributeUtil.h"
 #import "MSErrorDetails.h"
 #import "MSKeychainUtil.h"
@@ -150,7 +148,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 /*
  * iOS 9+ only, check for `SFSafariViewController` availability. `SafariServices` framework MUST be weakly linked.
  * We can't use `NSClassFromString` here to avoid the warning.
- * It doesn't detect the class correctly unless the application explicitely imports the related framework.
+ * It doesn't detect the class correctly unless the application explicitly imports the related framework.
  */
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpartial-availability"
@@ -462,26 +460,49 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       // Add a "Postpone"-Button
       [alertController addDefaultActionWithTitle:MSDistributeLocalizedString(@"Postpone")
                                          handler:^(UIAlertAction *action) {
+
+                                           // No need to check if the service isEnabled.
                                            MSLogDebug([MSDistribute logTag], @"Postpone the update for now.");
                                          }];
 
       // Add a "Ignore"-Button
-      [alertController addDefaultActionWithTitle:MSDistributeLocalizedString(@"Ignore")
-                                         handler:^(UIAlertAction *action) {
-                                           MSLogDebug([MSDistribute logTag], @"Ignore the release id: %@.", details.id);
-                                           [MS_USER_DEFAULTS setObject:details.id forKey:kMSIgnoredReleaseIdKey];
-                                         }];
+      [alertController
+          addDefaultActionWithTitle:MSDistributeLocalizedString(@"Ignore")
+                            handler:^(UIAlertAction *action) {
+                              if ([self isEnabled]) {
+                                MSLogDebug([MSDistribute logTag], @"Ignore the release id: %@.", details.id);
+                                [MS_USER_DEFAULTS setObject:details.id forKey:kMSIgnoredReleaseIdKey];
+                              } else {
+                                MSLogDebug([MSDistribute logTag], @"Distribute was disabled.");
+                                [self showDistributeDisabledAlert];
+                              }
+                            }];
     }
 
     // Add a "Download"-Button
     [alertController addCancelActionWithTitle:MSDistributeLocalizedString(@"Download")
                                       handler:^(UIAlertAction *action) {
-                                        MSLogDebug([MSDistribute logTag], @"Start download and install the update.");
-                                        [self startDownload:details];
+                                        if ([self isEnabled]) {
+                                          MSLogDebug([MSDistribute logTag], @"Start download and install the update.");
+                                          [self startDownload:details];
+                                        } else {
+                                          MSLogDebug([MSDistribute logTag], @"Distribute was disabled.");
+                                          [self showDistributeDisabledAlert];
+                                        }
                                       }];
 
     // Show the alert controller.
     MSLogDebug([MSDistribute logTag], @"Show update dialog.");
+    [alertController show];
+  });
+}
+
+- (void)showDistributeDisabledAlert {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    MSAlertController *alertController =
+        [MSAlertController alertControllerWithTitle:MSDistributeLocalizedString(@"In-app-updates are disabled.")
+                                            message:nil];
+    [alertController addCancelActionWithTitle:MSDistributeLocalizedString(@"Okay") handler:nil];
     [alertController show];
   });
 }
