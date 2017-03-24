@@ -143,7 +143,7 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
 - (void)testSettingUserConfirmationHandler {
   
   // When
-  MSUserConfirmationHandler userConfirmationHandler = ^BOOL(NSArray<MSErrorReport *> * _Nonnull errorReports) { return NO; };
+  MSUserConfirmationHandler userConfirmationHandler = ^BOOL(__attribute__((unused)) NSArray<MSErrorReport *> * _Nonnull errorReports) { return NO; };
   [MSCrashes setUserConfirmationHandler:userConfirmationHandler];
   
   // Then
@@ -506,19 +506,28 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
 }
 
 - (BOOL)crashes:(MSCrashes *)crashes shouldProcessErrorReport:(MSErrorReport *)errorReport {
+  (void)crashes;
+  (void)errorReport;
   self.shouldProcessErrorReportCalled = true;
   return YES;
 }
 
 - (void)crashes:(MSCrashes *)crashes willSendErrorReport:(MSErrorReport *)errorReport {
+  (void)crashes;
+  (void)errorReport;
   self.willSendErrorReportCalled = true;
 }
 
 - (void)crashes:(MSCrashes *)crashes didSucceedSendingErrorReport:(MSErrorReport *)errorReport {
+  (void)crashes;
+  (void)errorReport;
   self.didSucceedSendingErrorReportCalled = true;
 }
 
 - (void)crashes:(MSCrashes *)crashes didFailSendingErrorReport:(MSErrorReport *)errorReport withError:(NSError *)error {
+  (void)crashes;
+  (void)errorReport;
+  (void)error;
   self.didFailSendingErrorReportCalled = true;
 }
 
