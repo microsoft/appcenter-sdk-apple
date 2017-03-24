@@ -77,7 +77,7 @@ class ViewController: UIViewController {
             }
         }
 
-        static let allCases = [MSAnalyticsCases.SetEnabled]
+        static let allCases = [MSDistributeCases.SetEnabled]
     }
 
     @IBOutlet weak var tableView: UITableView!
@@ -194,13 +194,16 @@ extension ViewController : UITableViewDelegate{
         switch serviceType {
         case .Analytics:
             switch MSAnalyticsCases.allCases[indexPath.row] {
+
             //Track Event
             case .SetEnabled:
+
                 //Enable/Disable MSAnalytics
                 MSAnalytics.setEnabled(!MSAnalytics.isEnabled())
                 tableView.reloadRows(at: [indexPath], with: .automatic)
                 break
             case .TrackEvent:
+
                 //Track event with name only
                 MSAnalytics.trackEvent("Row Clicked")
                 if (MSAnalytics.isEnabled()) {
@@ -208,6 +211,7 @@ extension ViewController : UITableViewDelegate{
                 }
                 break
             case .TrackEventWithProperties:
+
                 //Track Event with Properties
                 MSAnalytics.trackEvent("Row Clicked", withProperties: ["Name" : "Track Event", "Row Number" : "\(indexPath.row)"])
                 if (MSAnalytics.isEnabled()) {
@@ -219,20 +223,24 @@ extension ViewController : UITableViewDelegate{
         case .Crashes:
             switch MSCrashesCases.allCases[indexPath.row] {
             case .SetEnabled:
+
                 //Enable/Disable MSCrashes
                 MSCrashes.setEnabled(!MSCrashes.isEnabled())
                 tableView.reloadRows(at: [indexPath], with: .automatic)
                 break
             case .GenerateTestCrash:
+
                 //Test either debugger attached
                 if (MSMobileCenter.isDebuggerAttached()) {
                     self.showAlertWithMessage(title: "", message: "Detecting crashes is NOT enabled due to running the app with a debugger attached.")
                 } else {
+
                     //Generate Crash
                     MSCrashes.generateTestCrash()
                 }
                 break
             case .AppCrashInLastSession:
+
                 //Check either app was crashed in last session
                 let message = "App \(MSCrashes.hasCrashedInLastSession() ? "has" : "has not") crashed in last session"
                 let alert = MSAlertController.init(title: "", message: message, preferredStyle: .alert)
@@ -252,8 +260,6 @@ extension ViewController : UITableViewDelegate{
 
                 //Enable/Disable MSDistribute
                 MSDistribute.setEnabled(!MSDistribute.isEnabled());
-                break;
-            default:
                 break;
             }
             break;
