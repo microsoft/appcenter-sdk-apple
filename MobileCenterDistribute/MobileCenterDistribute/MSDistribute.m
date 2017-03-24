@@ -503,7 +503,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     MSAlertController *alertController =
         [MSAlertController alertControllerWithTitle:MSDistributeLocalizedString(@"In-app-updates are disabled.")
                                             message:nil];
-    [alertController addCancelActionWithTitle:MSDistributeLocalizedString(@"Okay") handler:nil];
+    [alertController addCancelActionWithTitle:MSDistributeLocalizedString(@"Close") handler:nil];
     [alertController show];
   });
 }

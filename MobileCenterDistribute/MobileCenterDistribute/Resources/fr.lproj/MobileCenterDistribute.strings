@@ -1,6 +1,6 @@
 "Ignore" = "Ignorer";
 "Postpone" = "Reporter";
 "Download" = "Télécharger";
-"Update available" = "Mise à jourr disponible";
-"No release notes" = "Aucune Release Note n'est fournie pour cette version.";
-"In-app-updates are disabled" = "In-app-updates sont désactivées.";
+"Update available" = "Mise à jour disponible";
+"No release notes" = "Aucune note de version n'est fournie";
+"In-app-updates are disabled" = "Les mise à jour depuis l'application sont désactivées.";
