@@ -1,5 +1,9 @@
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+
 #import "MSUtility.h"
+
+#define MS_DEVICE [UIDevice currentDevice]
 
 /*
  * Workaround for exporting symbols from category object files.
