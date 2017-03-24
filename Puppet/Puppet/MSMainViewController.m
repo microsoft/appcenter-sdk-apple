@@ -74,6 +74,7 @@
 
   // Actions
   case 0: {
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     switch (indexPath.row) {
 
     case 0: {
@@ -97,7 +98,7 @@
     break;
   }
 
-  // Actions
+  // Settings
   case 1: {
     switch (indexPath.row) {
 
@@ -132,8 +133,6 @@
   }
   }
 
-  cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-
   return cell;
 }
 
@@ -142,6 +141,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
+  if ([indexPath section] != 0)
+    return;
+  
   switch (indexPath.row) {
   case 0: {
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
