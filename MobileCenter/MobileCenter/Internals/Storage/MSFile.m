@@ -2,9 +2,9 @@
 
 @implementation MSFile
 
-- (instancetype)initWithPath:(NSString *)filePath fileId:(NSString *)fileId creationDate:(NSDate *)creationDate {
+- (instancetype)initWithURL:(NSURL *)fileURL fileId:(NSString *)fileId creationDate:(NSDate *)creationDate {
   if ((self = [super init])) {
-    _filePath = filePath;
+    _fileURL = fileURL;
     _fileId = fileId;
     _creationDate = creationDate;
   }

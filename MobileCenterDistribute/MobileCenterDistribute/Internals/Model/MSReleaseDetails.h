@@ -2,8 +2,6 @@
 
 @class MSDistributionGroup;
 
-NS_ASSUME_NONNULL_BEGIN
-
 /**
  * Details of an uploaded release.
  */
@@ -120,5 +118,3 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)isValid;
 
 @end
-
-NS_ASSUME_NONNULL_END

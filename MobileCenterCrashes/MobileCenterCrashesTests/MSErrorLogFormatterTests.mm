@@ -2,6 +2,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
+#import <CrashReporter/CrashReporter.h>
 #import <Foundation/Foundation.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <XCTest/XCTest.h>
@@ -16,6 +17,14 @@
 #import "MSException.h"
 #import "MSMobileCenterInternal.h"
 #import "MSThread.h"
+
+@interface MSErrorLogFormatter ()
+
++ (NSString *)selectorForRegisterWithName:(NSString *)regName
+                                 ofThread:(MSPLCrashReportThreadInfo *)thread
+                                   report:(MSPLCrashReport *)report;
+
+@end
 
 @interface MSErrorLogFormatterTests : XCTestCase
 
@@ -152,6 +161,20 @@
       XCTAssertNil(thread.exception);
     }
   }
+}
+
+- (void)testSelectorForRegisterWithName {
+  NSData *crashData = [[[MSCrashes sharedInstance] plCrashReporter] generateLiveReport];
+  XCTAssertNotNil(crashData);
+  NSError *error = nil;
+  MSPLCrashReport *report = [[MSPLCrashReport alloc] initWithData:crashData error:&error];
+  MSPLCrashReportThreadInfo *crashedThread = [MSErrorLogFormatter findCrashedThreadInReport:report];
+  
+  MSPLCrashReportRegisterInfo *reg = crashedThread.registers[0];
+  [MSErrorLogFormatter selectorForRegisterWithName:reg.registerName ofThread:crashedThread report:report];
+  
+  // Selector may not be found here, but we are sure that its operation will not lead to an application crash
+  // XCTAssertNotNil(foundSelector);
 }
 
 - (void)testAddProcessInfoAndApplicationPath {

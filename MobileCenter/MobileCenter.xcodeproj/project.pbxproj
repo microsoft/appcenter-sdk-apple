@@ -109,6 +109,8 @@
 		842C13241E7FCF5300F16EA3 /* MSUtility+Date.m in Sources */ = {isa = PBXBuildFile; fileRef = 842C131B1E7FCF5300F16EA3 /* MSUtility+Date.m */; };
 		842C13251E7FCF5300F16EA3 /* MSUtility+Environment.h in Headers */ = {isa = PBXBuildFile; fileRef = 842C131C1E7FCF5300F16EA3 /* MSUtility+Environment.h */; };
 		842C13261E7FCF5300F16EA3 /* MSUtility+Environment.m in Sources */ = {isa = PBXBuildFile; fileRef = 842C131D1E7FCF5300F16EA3 /* MSUtility+Environment.m */; };
+		B21E29911E83521A00F9A22D /* MSUtility+StringFormatting.h in Headers */ = {isa = PBXBuildFile; fileRef = B21E298F1E83521A00F9A22D /* MSUtility+StringFormatting.h */; };
+		B21E29921E83521A00F9A22D /* MSUtility+StringFormatting.m in Sources */ = {isa = PBXBuildFile; fileRef = B21E29901E83521A00F9A22D /* MSUtility+StringFormatting.m */; };
 		B24F3F171D93A3FF00827213 /* MSLoggerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B24F3F161D93A3FF00827213 /* MSLoggerTests.m */; };
 		B2B9441E1DF0DF23009117D1 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2B9441D1DF0DF23009117D1 /* OHHTTPStubs.framework */; };
 		B2C3C1841DB83A3E00CB83F7 /* MSDevicePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = B2C3C1831DB83A3E00CB83F7 /* MSDevicePrivate.h */; };
@@ -275,6 +277,8 @@
 		842C131B1E7FCF5300F16EA3 /* MSUtility+Date.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MSUtility+Date.m"; sourceTree = "<group>"; };
 		842C131C1E7FCF5300F16EA3 /* MSUtility+Environment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MSUtility+Environment.h"; sourceTree = "<group>"; };
 		842C131D1E7FCF5300F16EA3 /* MSUtility+Environment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MSUtility+Environment.m"; sourceTree = "<group>"; };
+		B21E298F1E83521A00F9A22D /* MSUtility+StringFormatting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MSUtility+StringFormatting.h"; sourceTree = "<group>"; };
+		B21E29901E83521A00F9A22D /* MSUtility+StringFormatting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MSUtility+StringFormatting.m"; sourceTree = "<group>"; };
 		B24F3F161D93A3FF00827213 /* MSLoggerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLoggerTests.m; sourceTree = "<group>"; };
 		B2B9441D1DF0DF23009117D1 /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OHHTTPStubs.framework; sourceTree = "<group>"; };
 		B2C3C1831DB83A3E00CB83F7 /* MSDevicePrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDevicePrivate.h; sourceTree = "<group>"; };
@@ -436,6 +440,8 @@
 				842C131B1E7FCF5300F16EA3 /* MSUtility+Date.m */,
 				842C131C1E7FCF5300F16EA3 /* MSUtility+Environment.h */,
 				842C131D1E7FCF5300F16EA3 /* MSUtility+Environment.m */,
+				B21E298F1E83521A00F9A22D /* MSUtility+StringFormatting.h */,
+				B21E29901E83521A00F9A22D /* MSUtility+StringFormatting.m */,
 				E829E4241D25D07600F19DA1 /* MSConstants+Internal.h */,
 				045BC3161E3FD88600B6C960 /* MSKeychainUtil.m */,
 				045BC3181E3FD8AC00B6C960 /* MSKeychainUtil.h */,
@@ -678,6 +684,7 @@
 				D38023E91E6EFC7C00466558 /* MSStartServiceLog.h in Headers */,
 				387C76FD1D6C9CF100D68CC1 /* MSServiceAbstract.h in Headers */,
 				B2C3C1841DB83A3E00CB83F7 /* MSDevicePrivate.h in Headers */,
+				B21E29911E83521A00F9A22D /* MSUtility+StringFormatting.h in Headers */,
 				842C13251E7FCF5300F16EA3 /* MSUtility+Environment.h in Headers */,
 				6E3E2C9E1D35701000B1EE50 /* MSLog.h in Headers */,
 				842C13231E7FCF5300F16EA3 /* MSUtility+Date.h in Headers */,
@@ -848,6 +855,7 @@
 				B2C3C1911DB9864600CB83F7 /* MSDevice.m in Sources */,
 				3889933A1E29B26D00C27B36 /* MSMobileCenterErrors.m in Sources */,
 				B2FD53631E56501B0050F909 /* MSDeviceHistoryInfo.m in Sources */,
+				B21E29921E83521A00F9A22D /* MSUtility+StringFormatting.m in Sources */,
 				842C13261E7FCF5300F16EA3 /* MSUtility+Environment.m in Sources */,
 				E84B8E361D235226006FD231 /* MSHttpSender.m in Sources */,
 				D38024061E7126F500466558 /* MSServiceAbstract.m in Sources */,

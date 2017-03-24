@@ -218,4 +218,14 @@ static void MSCrashesUncaughtCXXTerminateHandler(void) {
   OSSpinLockUnlock(&_MSCrashesCXXExceptionHandlingLock);
 }
 
++ (NSUInteger)countCXXExceptionHandler {
+  NSUInteger count = 0;
+  OSSpinLockLock(&_MSCrashesCXXExceptionHandlingLock);
+  {
+    count = _MSCrashesUncaughtExceptionHandlerList.size();
+  }
+  OSSpinLockUnlock(&_MSCrashesCXXExceptionHandlingLock);
+  return count;
+}
+
 @end

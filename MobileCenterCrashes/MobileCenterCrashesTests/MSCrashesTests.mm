@@ -8,9 +8,11 @@
 #import "MSCrashesInternal.h"
 #import "MSCrashesPrivate.h"
 #import "MSCrashesTestUtil.h"
+#import "MSException.h"
 #import "MSMockCrashesDelegate.h"
 #import "MSServiceAbstractPrivate.h"
 #import "MSServiceAbstractProtected.h"
+#import "MSWrapperExceptionManagerInternal.h"
 #import "MSCrashesUtil.h"
 
 @class MSMockCrashesDelegate;
@@ -18,9 +20,28 @@
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
 static NSString *const kMSCrashesServiceName = @"Crashes";
 
-@interface MSCrashesTests : XCTestCase
+@interface MSCrashes ()
+
++ (void)notifyWithUserConfirmation:(MSUserConfirmation)userConfirmation;
+
+- (void)startCrashProcessing;
+
+- (void)channel:(id)channel willSendLog:(id<MSLog>)log;
+
+- (void)channel:(id<MSChannel>)channel didSucceedSendingLog:(id<MSLog>)log;
+
+- (void)channel:(id<MSChannel>)channel didFailSendingLog:(id<MSLog>)log withError:(NSError *)error;
+
+@end
+
+@interface MSCrashesTests : XCTestCase<MSCrashesDelegate>
 
 @property(nonatomic) MSCrashes *sut;
+
+@property BOOL shouldProcessErrorReportCalled;
+@property BOOL willSendErrorReportCalled;
+@property BOOL didSucceedSendingErrorReportCalled;
+@property BOOL didFailSendingErrorReportCalled;
 
 @end
 
@@ -36,7 +57,7 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
 - (void)tearDown {
   [super tearDown];
   [self.sut deleteAllFromCrashesDirectory];
-  [MSCrashesTestUtil deleteAllFilesInDirectory:self.sut.logBufferDir];
+  [MSCrashesTestUtil deleteAllFilesInDirectory:[self.sut.logBufferDir path]];
 }
 
 #pragma mark - Tests
@@ -60,9 +81,9 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
   // Creation of buffer files is done asynchronously, we need to give it some time to create the files.
   [NSThread sleepForTimeInterval:0.05];
   for (NSInteger priority = 0; priority < kMSPriorityCount; priority++) {
-    NSString *dirPath = [self.sut.logBufferDir stringByAppendingFormat:@"/%ld/", static_cast<long>(priority)];
+    NSString *dirPath = [[self.sut.logBufferDir path] stringByAppendingFormat:@"/%ld/", static_cast<long>(priority)];
     NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:dirPath error:NULL];
-    XCTAssertTrue(files.count == 20);
+    assertThat(files, hasCountOf(20));
   }
 }
 
@@ -86,10 +107,48 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
 }
 
 - (void)testSettingDelegateWorks {
+  
+  // When
   id<MSCrashesDelegate> delegateMock = OCMProtocolMock(@protocol(MSCrashesDelegate));
   [MSCrashes setDelegate:delegateMock];
+  
+  // Then
   XCTAssertNotNil([MSCrashes sharedInstance].delegate);
   XCTAssertEqual([MSCrashes sharedInstance].delegate, delegateMock);
+}
+
+- (void)testDelegateMethodsAreCalled {
+  
+  // If
+  self.shouldProcessErrorReportCalled = false;
+  self.willSendErrorReportCalled = false;
+  self.didSucceedSendingErrorReportCalled = false;
+  self.didFailSendingErrorReportCalled = false;
+  
+  // When
+  [[MSCrashes sharedInstance] setDelegate:self];
+  MSAppleErrorLog *errorLog = [MSAppleErrorLog new];
+  [[MSCrashes sharedInstance] channel:nil willSendLog:errorLog];
+  [[MSCrashes sharedInstance] channel:nil didSucceedSendingLog:errorLog];
+  [[MSCrashes sharedInstance] channel:nil didFailSendingLog:errorLog withError:nil];
+  [[MSCrashes sharedInstance] shouldProcessErrorReport:nil];
+  
+  // Then
+  XCTAssertTrue(self.shouldProcessErrorReportCalled);
+  XCTAssertTrue(self.willSendErrorReportCalled);
+  XCTAssertTrue(self.didSucceedSendingErrorReportCalled);
+  XCTAssertTrue(self.didFailSendingErrorReportCalled);
+}
+
+- (void)testSettingUserConfirmationHandler {
+  
+  // When
+  MSUserConfirmationHandler userConfirmationHandler = ^BOOL(NSArray<MSErrorReport *> * _Nonnull errorReports) { return NO; };
+  [MSCrashes setUserConfirmationHandler:userConfirmationHandler];
+  
+  // Then
+  XCTAssertNotNil([MSCrashes sharedInstance].userConfirmationHandler);
+  XCTAssertEqual([MSCrashes sharedInstance].userConfirmationHandler, userConfirmationHandler);
 }
 
 - (void)testCrashesDelegateWithoutImplementations {
@@ -101,6 +160,56 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
   // Then
   assertThatBool([[MSCrashes sharedInstance] shouldProcessErrorReport:nil], isTrue());
   assertThatBool([[MSCrashes sharedInstance] delegateImplementsAttachmentCallback], isFalse());
+}
+
+- (void)testProcessCrashes {
+  
+  // When
+  assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
+  [[MSCrashes sharedInstance] startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
+  
+  // Then
+  assertThat([MSCrashes sharedInstance].crashFiles, hasCountOf(1));
+  
+  // When
+  [MS_USER_DEFAULTS setObject:@YES forKey:@"MSUserConfirmation"];
+  [[MSCrashes sharedInstance] startCrashProcessing];
+  [MS_USER_DEFAULTS removeObjectForKey:@"MSUserConfirmation"];
+  
+  // Then
+  assertThat([MSCrashes sharedInstance].crashFiles, hasCountOf(0));
+  
+  // When
+  assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
+  [[MSCrashes sharedInstance] startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
+  
+  // Then
+  assertThat([MSCrashes sharedInstance].crashFiles, hasCountOf(1));
+  
+  // When
+  MSUserConfirmationHandler userConfirmationHandlerYES = ^BOOL(__attribute__((unused)) NSArray<MSErrorReport *> * _Nonnull errorReports) { return YES; };
+  [MSCrashes setUserConfirmationHandler:userConfirmationHandlerYES];
+  [[MSCrashes sharedInstance] startCrashProcessing];
+  [MSCrashes notifyWithUserConfirmation:MSUserConfirmationDontSend];
+  [MSCrashes setUserConfirmationHandler:nil];
+  
+  // Then
+  assertThat([MSCrashes sharedInstance].crashFiles, hasCountOf(0));
+  
+  // When
+  assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
+  [[MSCrashes sharedInstance] startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
+  
+  // Then
+  assertThat([MSCrashes sharedInstance].crashFiles, hasCountOf(1));
+  
+  // When
+  MSUserConfirmationHandler userConfirmationHandlerNO = ^BOOL(__attribute__((unused)) NSArray<MSErrorReport *> * _Nonnull errorReports) { return NO; };
+  [MSCrashes setUserConfirmationHandler:userConfirmationHandlerNO];
+  [[MSCrashes sharedInstance] startCrashProcessing];
+  
+  // Then
+  assertThat([MSCrashes sharedInstance].crashFiles, hasCountOf(0));
 }
 
 - (void)testDeleteAllFromCrashesDirectory {
@@ -132,7 +241,7 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
 
   // Then
   assertThat(self.sut.crashFiles, hasCountOf(0));
-  assertThatLong([self.sut.fileManager contentsOfDirectoryAtPath:self.sut.crashesDir error:nil].count, equalToLong(0));
+  assertThatLong([self.sut.fileManager contentsOfDirectoryAtPath:[self.sut.crashesDir path] error:nil].count, equalToLong(0));
 }
 
 - (void)testDeleteCrashReportsFromDisabledToEnabled {
@@ -149,7 +258,7 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
 
   // Then
   assertThat(self.sut.crashFiles, hasCountOf(0));
-  assertThatLong([self.sut.fileManager contentsOfDirectoryAtPath:self.sut.crashesDir error:nil].count, equalToLong(0));
+  assertThatLong([self.sut.fileManager contentsOfDirectoryAtPath:[self.sut.crashesDir path] error:nil].count, equalToLong(0));
 }
 
 // FIXME: Crashes is getting way more logs than expected. Disable this functionality.
@@ -160,7 +269,7 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
 
   // Then
   for (NSInteger priority = 0; priority < kMSPriorityCount; priority++) {
-    NSString *dirPath = [self.sut.logBufferDir stringByAppendingFormat:@"/%ld/", static_cast<long>(priority)];
+    NSString *dirPath = [[self.sut.logBufferDir path] stringByAppendingFormat:@"/%ld/", static_cast<long>(priority)];
 
     NSArray *first = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:dirPath error:NULL];
     XCTAssertTrue(first.count == 20);
@@ -184,10 +293,10 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
   // When
   NSString *testName = @"afilename";
   NSString *priorityDirectory =
-      [self.sut.logBufferDir stringByAppendingFormat:@"/%ld/", static_cast<long>(MSPriorityDefault)];
+      [[self.sut.logBufferDir path] stringByAppendingFormat:@"/%ld/", static_cast<long>(MSPriorityDefault)];
   NSString *filePath =
       [priorityDirectory stringByAppendingPathComponent:[testName stringByAppendingString:@".mscrasheslogbuffer"]];
-  [self.sut createBufferFileAtPath:filePath];
+  [self.sut createBufferFileAtURL:[NSURL fileURLWithPath:filePath]];
 
   // Then
   BOOL success = [[NSFileManager defaultManager] fileExistsAtPath:filePath];
@@ -200,7 +309,7 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
   NSString *dataString = @"SomeBufferedData";
   NSData *someData = [dataString dataUsingEncoding:NSUTF8StringEncoding];
   NSString *priorityDirectory =
-      [self.sut.logBufferDir stringByAppendingFormat:@"/%ld/", static_cast<long>(MSPriorityHigh)];
+      [[self.sut.logBufferDir path] stringByAppendingFormat:@"/%ld/", static_cast<long>(MSPriorityHigh)];
 
   NSString *filePath =
       [priorityDirectory stringByAppendingPathComponent:[testName stringByAppendingString:@".mscrasheslogbuffer"]];
@@ -221,21 +330,12 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
 
 - (void)testBufferIndexIncrementForAllPriorities {
 
-  // If
-  int buffercount = 0;
-
   // When
   MSLogWithProperties *log = [MSLogWithProperties new];
   [self.sut onEnqueuingLog:log withInternalId:MS_UUID_STRING andPriority:MSPriorityHigh];
-  for (auto it = msCrashesLogBuffer[MSPriorityHigh].begin(), end = msCrashesLogBuffer[MSPriorityHigh].end(); it != end;
-       ++it) {
-    if (!it->internalId.empty()) {
-      buffercount += 1;
-    }
-  }
 
   // Then
-  XCTAssertTrue(buffercount == 1);
+  XCTAssertTrue([self crashesLogBufferCount:MSPriorityHigh] == 1);
 }
 
 - (void)testBufferIndexOverflowForAllPriorities {
@@ -247,17 +347,9 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
       MSLogWithProperties *log = [MSLogWithProperties new];
       [self.sut onEnqueuingLog:log withInternalId:MS_UUID_STRING andPriority:static_cast<MSPriority>(priority)];
     }
-    int buffercount = 0;
-    for (auto it = msCrashesLogBuffer[static_cast<MSPriority>(priority)].begin(),
-              end = msCrashesLogBuffer[static_cast<MSPriority>(priority)].end();
-         it != end; ++it) {
-      if (!it->internalId.empty()) {
-        buffercount += 1;
-      }
-    }
 
     // Then
-    XCTAssertTrue(buffercount == 20);
+    XCTAssertTrue([self crashesLogBufferCount:static_cast<MSPriority>(priority)] == 20);
 
     // When
     MSLogWithProperties *log = [MSLogWithProperties new];
@@ -280,7 +372,7 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
     }
 
     // Then
-    XCTAssertTrue(buffercount == 20);
+    XCTAssertTrue([self crashesLogBufferCount:static_cast<MSPriority>(priority)] == 20);
     XCTAssertTrue(indexOfLatestObject == 1);
 
     // When
@@ -305,9 +397,37 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
     }
 
     // Then
-    XCTAssertTrue(buffercount == 20);
+    XCTAssertTrue([self crashesLogBufferCount:static_cast<MSPriority>(priority)] == 20);
     XCTAssertTrue(indexOfLatestObject == 11);
   }
+}
+
+
+- (void)testBufferIndexOnPersistingLog {
+  
+  // When
+  MSLogWithProperties *log = [MSLogWithProperties new];
+  NSString *uuid1 = MS_UUID_STRING;
+  NSString *uuid2 = MS_UUID_STRING;
+  NSString *uuid3 = MS_UUID_STRING;
+  [self.sut onEnqueuingLog:log withInternalId:uuid1 andPriority:MSPriorityHigh];
+  [self.sut onEnqueuingLog:log withInternalId:uuid2 andPriority:MSPriorityHigh];
+  [self.sut onEnqueuingLog:log withInternalId:uuid3 andPriority:MSPriorityHigh];
+  
+  // Then
+  XCTAssertTrue([self crashesLogBufferCount:MSPriorityHigh] == 3);
+  
+  // When
+  [self.sut onFinishedPersistingLog:nil withInternalId:uuid1 andPriority:MSPriorityHigh];
+  
+  // Then
+  XCTAssertTrue([self crashesLogBufferCount:MSPriorityHigh] == 2);
+  
+  // When
+  [self.sut onFailedPersistingLog:nil withInternalId:uuid2 andPriority:MSPriorityHigh];
+  
+  // Then
+  XCTAssertTrue([self crashesLogBufferCount:MSPriorityHigh] == 1);
 }
 
 - (void)testInitializationPriorityCorrect {
@@ -337,25 +457,25 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
 - (void)testBufferDirectoryWorks {
 
   // When
-  NSString *expected = [[MSCrashesUtil logBufferDir]
-      stringByAppendingString:[NSString stringWithFormat:@"/%ld/", static_cast<long>(MSPriorityBackground)]];
-  NSString *actual = [self.sut bufferDirectoryForPriority:MSPriorityBackground];
+  NSString *expected = [[[MSCrashesUtil logBufferDir] path]
+      stringByAppendingString:[NSString stringWithFormat:@"/%ld", static_cast<long>(MSPriorityBackground)]];
+  NSString *actual = [[self.sut bufferDirectoryForPriority:MSPriorityBackground] path];
 
   // Then
   XCTAssertTrue([expected isEqualToString:actual]);
 
   // When
-  expected = [[MSCrashesUtil logBufferDir]
-      stringByAppendingString:[NSString stringWithFormat:@"/%ld/", static_cast<long>(MSPriorityDefault)]];
-  actual = [self.sut bufferDirectoryForPriority:MSPriorityDefault];
+  expected = [[[MSCrashesUtil logBufferDir] path]
+      stringByAppendingString:[NSString stringWithFormat:@"/%ld", static_cast<long>(MSPriorityDefault)]];
+  actual = [[self.sut bufferDirectoryForPriority:MSPriorityDefault] path];
 
   // Then
   XCTAssertTrue([expected isEqualToString:actual]);
 
   // When
-  expected = [[MSCrashesUtil logBufferDir]
-      stringByAppendingString:[NSString stringWithFormat:@"/%ld/", static_cast<long>(MSPriorityHigh)]];
-  actual = [self.sut bufferDirectoryForPriority:MSPriorityHigh];
+  expected = [[[MSCrashesUtil logBufferDir] path]
+      stringByAppendingString:[NSString stringWithFormat:@"/%ld", static_cast<long>(MSPriorityHigh)]];
+  actual = [[self.sut bufferDirectoryForPriority:MSPriorityHigh] path];
 
   // Then
   XCTAssertTrue([expected isEqualToString:actual]);
@@ -363,6 +483,53 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
 
 - (void)testCrashesServiceNameIsCorrect {
   XCTAssertEqual([MSCrashes serviceName], kMSCrashesServiceName);
+}
+
+- (void)testWrapperCrashCallback {
+  
+  // If
+  MSException *exception = [[MSException alloc] init];
+  exception.message = @"a message";
+  exception.type = @"a type";
+  
+  // When
+  [[MSCrashes sharedInstance] startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
+  MSWrapperExceptionManager *manager = [MSWrapperExceptionManager sharedInstance];
+  manager.wrapperException = exception;
+  [MSCrashesTestUtil deleteAllFilesInDirectory:[MSWrapperExceptionManager directoryPath]];
+  assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
+  [MSCrashes wrapperCrashCallback];
+  
+  // Then
+  NSArray *first = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[MSWrapperExceptionManager directoryPath] error:NULL];
+  XCTAssertTrue(first.count == 1);
+}
+
+- (BOOL)crashes:(MSCrashes *)crashes shouldProcessErrorReport:(MSErrorReport *)errorReport {
+  self.shouldProcessErrorReportCalled = true;
+  return YES;
+}
+
+- (void)crashes:(MSCrashes *)crashes willSendErrorReport:(MSErrorReport *)errorReport {
+  self.willSendErrorReportCalled = true;
+}
+
+- (void)crashes:(MSCrashes *)crashes didSucceedSendingErrorReport:(MSErrorReport *)errorReport {
+  self.didSucceedSendingErrorReportCalled = true;
+}
+
+- (void)crashes:(MSCrashes *)crashes didFailSendingErrorReport:(MSErrorReport *)errorReport withError:(NSError *)error {
+  self.didFailSendingErrorReportCalled = true;
+}
+
+- (NSInteger)crashesLogBufferCount:(MSPriority)priority {
+  NSInteger bufferCount = 0;
+  for (auto it = msCrashesLogBuffer[priority].begin(), end = msCrashesLogBuffer[priority].end(); it != end; ++it) {
+    if (!it->internalId.empty()) {
+      bufferCount++;
+    }
+  }
+  return bufferCount;
 }
 
 @end
