@@ -34,7 +34,7 @@
   [super startWithLogManager:logManager appSecret:appSecret];
 }
 
-- (NSString *)storageKey {
+- (NSString *)groupID {
   return @"MSServiceAbstractImplementation";
 }
 
@@ -93,7 +93,7 @@
 - (void)testDisableService {
 
   // If
-  [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:self.abstractService.isEnabledKey];
+  [self.settingsMock setObject:@YES forKey:self.abstractService.isEnabledKey];
 
   // When
   [self.abstractService setEnabled:NO];
@@ -105,7 +105,7 @@
 - (void)testEnableService {
 
   // If
-  [self.settingsMock setObject:[NSNumber numberWithBool:NO] forKey:self.abstractService.isEnabledKey];
+  [self.settingsMock setObject:@NO forKey:self.abstractService.isEnabledKey];
 
   // When
   [self.abstractService setEnabled:YES];
@@ -117,7 +117,7 @@
 - (void)testDisableServiceOnServiceDisabled {
 
   // If
-  [self.settingsMock setObject:[NSNumber numberWithBool:NO] forKey:self.abstractService.isEnabledKey];
+  [self.settingsMock setObject:@NO forKey:self.abstractService.isEnabledKey];
 
   // When
   [self.abstractService setEnabled:NO];
@@ -129,7 +129,7 @@
 - (void)testEnableServiceOnServiceEnabled {
 
   // If
-  [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:self.abstractService.isEnabledKey];
+  [self.settingsMock setObject:@YES forKey:self.abstractService.isEnabledKey];
 
   // When
   [self.abstractService setEnabled:YES];
@@ -144,7 +144,7 @@
    *  If
    */
   BOOL expected = NO;
-  
+
   /**
    *  When
    */
@@ -164,7 +164,7 @@
   /**
    *  If
    */
-  NSNumber *expected = [NSNumber numberWithBool:NO];
+  NSNumber *expected = @NO;
   [self.settingsMock setObject:expected forKey:self.abstractService.isEnabledKey];
 
   /**
@@ -175,7 +175,7 @@
   /**
    *  Then
    */
-  assertThat([NSNumber numberWithBool:isEnabled], is(expected));
+  assertThat(@(isEnabled), is(expected));
 
   // Also check that the sut did access the persistence.
   OCMVerify([self.settingsMock objectForKey:[OCMArg any]]);
@@ -196,8 +196,8 @@
 
   // If
   [MSMobileCenter resetSharedInstance];
-  [self.settingsMock setObject:[NSNumber numberWithBool:NO] forKey:kMSMobileCenterIsEnabledKey];
-  [self.settingsMock setObject:[NSNumber numberWithBool:NO] forKey:self.abstractService.isEnabledKey];
+  [self.settingsMock setObject:@NO forKey:kMSMobileCenterIsEnabledKey];
+  [self.settingsMock setObject:@NO forKey:self.abstractService.isEnabledKey];
   [MSMobileCenter start:MS_UUID_STRING withServices:@[ [MSServiceAbstractImplementation class] ]];
 
   // When
@@ -211,8 +211,8 @@
 
   // If
   [MSMobileCenter resetSharedInstance];
-  [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:kMSMobileCenterIsEnabledKey];
-  [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:self.abstractService.isEnabledKey];
+  [self.settingsMock setObject:@YES forKey:kMSMobileCenterIsEnabledKey];
+  [self.settingsMock setObject:@YES forKey:self.abstractService.isEnabledKey];
   [MSMobileCenter start:MS_UUID_STRING withServices:@[ [MSServiceAbstractImplementation class] ]];
 
   // When
@@ -226,8 +226,8 @@
 
   // If
   [MSMobileCenter resetSharedInstance];
-  [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:kMSMobileCenterIsEnabledKey];
-  [self.settingsMock setObject:[NSNumber numberWithBool:NO] forKey:self.abstractService.isEnabledKey];
+  [self.settingsMock setObject:@YES forKey:kMSMobileCenterIsEnabledKey];
+  [self.settingsMock setObject:@NO forKey:self.abstractService.isEnabledKey];
   [MSMobileCenter start:MS_UUID_STRING withServices:@[ [MSServiceAbstractImplementation class] ]];
 
   // When
@@ -240,8 +240,8 @@
 - (void)testReenableCoreOnServiceDisabled {
 
   // If
-  [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:kMSMobileCenterIsEnabledKey];
-  [self.settingsMock setObject:[NSNumber numberWithBool:NO] forKey:self.abstractService.isEnabledKey];
+  [self.settingsMock setObject:@YES forKey:kMSMobileCenterIsEnabledKey];
+  [self.settingsMock setObject:@NO forKey:self.abstractService.isEnabledKey];
   [MSMobileCenter start:MS_UUID_STRING withServices:@[ [MSServiceAbstractImplementation class] ]];
 
   // When
@@ -254,8 +254,8 @@
 - (void)testReenableCoreOnServiceEnabled {
 
   // If
-  [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:kMSMobileCenterIsEnabledKey];
-  [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:self.abstractService.isEnabledKey];
+  [self.settingsMock setObject:@YES forKey:kMSMobileCenterIsEnabledKey];
+  [self.settingsMock setObject:@YES forKey:self.abstractService.isEnabledKey];
   [MSMobileCenter start:MS_UUID_STRING withServices:@[ [MSServiceAbstractImplementation class] ]];
 
   // When
@@ -271,17 +271,22 @@
    *  If
    */
   __block MSPriority priority;
+  __block NSString *groupID;
   __block BOOL deleteLogs;
   __block BOOL forwardedEnabled;
   id<MSLogManager> logManagerMock = OCMClassMock([MSLogManagerDefault class]);
-  OCMStub([logManagerMock setEnabled:NO andDeleteDataOnDisabled:YES forPriority:self.abstractService.priority])
+  OCMStub([logManagerMock setEnabled:NO
+              andDeleteDataOnDisabled:YES
+                           forGroupID:self.abstractService.groupID
+                         withPriority:self.abstractService.priority])
       .andDo(^(NSInvocation *invocation) {
-        [invocation getArgument:&priority atIndex:4];
+        [invocation getArgument:&priority atIndex:5];
+        [invocation getArgument:&groupID atIndex:4];
         [invocation getArgument:&deleteLogs atIndex:3];
         [invocation getArgument:&forwardedEnabled atIndex:2];
       });
   self.abstractService.logManager = logManagerMock;
-  [self.settingsMock setObject:[NSNumber numberWithBool:YES] forKey:self.abstractService.isEnabledKey];
+  [self.settingsMock setObject:@YES forKey:self.abstractService.isEnabledKey];
 
   /**
    *  When
@@ -293,19 +298,25 @@
    */
 
   // Check that log deletion has been triggered.
-  OCMVerify([logManagerMock setEnabled:NO andDeleteDataOnDisabled:YES forPriority:self.abstractService.priority]);
+  OCMVerify([logManagerMock setEnabled:NO
+               andDeleteDataOnDisabled:YES
+                            forGroupID:self.abstractService.groupID
+                          withPriority:self.abstractService.priority]);
+
+  // GroupID from the service must match the groupID used to delete logs.
+  XCTAssertTrue(self.abstractService.groupID == groupID);
 
   // Priority from the service must match priority used to delete logs.
-  assertThatBool((self.abstractService.priority == priority), isTrue());
+  XCTAssertTrue(self.abstractService.priority == priority);
 
   // Must request for deletion.
-  assertThatBool(deleteLogs, isTrue());
+  XCTAssertTrue(deleteLogs);
 
   // Must request for disabling.
-  assertThatBool(forwardedEnabled, isFalse());
+  XCTAssertFalse(forwardedEnabled);
 }
 
-- (void)testEnableLogManagerOnstartWithLogManager {
+- (void)testEnableLogManagerOnStartWithLogManager {
 
   // If
   id<MSLogManager> logManagerMock = OCMClassMock([MSLogManagerDefault class]);
@@ -315,7 +326,10 @@
   [self.abstractService startWithLogManager:logManagerMock appSecret:@"TestAppSecret"];
 
   // Then
-  OCMVerify([logManagerMock setEnabled:YES andDeleteDataOnDisabled:YES forPriority:self.abstractService.priority]);
+  OCMVerify([logManagerMock setEnabled:YES
+               andDeleteDataOnDisabled:YES
+                            forGroupID:self.abstractService.groupID
+                          withPriority:self.abstractService.priority]);
 }
 
 - (void)testInitializationPriorityCorrect {

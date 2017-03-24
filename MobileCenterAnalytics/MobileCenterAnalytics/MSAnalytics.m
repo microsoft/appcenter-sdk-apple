@@ -6,14 +6,13 @@
 #import "MSPageLog.h"
 #import "MSServiceAbstractProtected.h"
 
-/**
- * Service storage key name.
- */
+// Service name for initialization.
 static NSString *const kMSServiceName = @"Analytics";
 
-/**
- * Singleton
- */
+// The group ID for storage.
+static NSString *const kMSGroupID = @"Analytics";
+
+// Singleton
 static MSAnalytics *sharedInstance = nil;
 static dispatch_once_t onceToken;
 
@@ -63,8 +62,8 @@ static dispatch_once_t onceToken;
   return @"MobileCenterAnalytics";
 }
 
-- (NSString *)storageKey {
-  return kMSServiceName;
+- (NSString *)groupID {
+  return kMSGroupID;
 }
 
 - (MSPriority)priority {
@@ -84,9 +83,9 @@ static dispatch_once_t onceToken;
     [self.logManager addDelegate:self.sessionTracker];
 
     // Set self as delegate of analytics channel.
-    [self.logManager addChannelDelegate:self forPriority:self.priority];
+    [self.logManager addChannelDelegate:self forGroupID:self.groupID withPriority:self.priority];
 
-    // Report current page while auto page traking is on.
+    // Report current page while auto page tracking is on.
     if (self.autoPageTrackingEnabled) {
 
       // Track on the main queue to avoid race condition with page swizzling.
@@ -100,7 +99,7 @@ static dispatch_once_t onceToken;
     MSLogInfo([MSAnalytics logTag], @"Analytics service has been enabled.");
   } else {
     [self.logManager removeDelegate:self.sessionTracker];
-    [self.logManager removeChannelDelegate:self forPriority:self.priority];
+    [self.logManager removeChannelDelegate:self forGroupID:self.groupID withPriority:self.priority];
     [self.sessionTracker stop];
     [self.sessionTracker clearSessions];
     MSLogInfo([MSAnalytics logTag], @"Analytics service has been disabled.");
@@ -149,7 +148,7 @@ static dispatch_once_t onceToken;
 
 - (BOOL)validateProperties:(NSDictionary<NSString *, NSString *> *)properties {
   for (id key in properties) {
-    if (![key isKindOfClass:[NSString class]] || ![[properties objectForKey:key] isKindOfClass:[NSString class]]) {
+    if (![key isKindOfClass:[NSString class]] || ![properties[key] isKindOfClass:[NSString class]]) {
       return NO;
     }
   }
@@ -211,7 +210,7 @@ static dispatch_once_t onceToken;
 - (void)sendLog:(id<MSLog>)log withPriority:(MSPriority)priority {
 
   // Send log to log manager.
-  [self.logManager processLog:log withPriority:priority];
+  [self.logManager processLog:log withPriority:priority andGroupID:self.groupID];
 }
 
 + (void)resetSharedInstance {

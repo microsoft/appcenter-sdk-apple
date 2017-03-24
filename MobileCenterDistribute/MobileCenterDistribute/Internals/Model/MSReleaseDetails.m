@@ -63,16 +63,20 @@ static NSString *const kMSPackageHashes = @"package_hashes";
     if (dictionary[kMSUploadedAt]) {
       NSDateFormatter *formatter = [NSDateFormatter new];
       [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZZZZZ"];
-      self.uploadedAt = [formatter dateFromString:dictionary[kMSUploadedAt]];
+      NSString * _Nonnull uploadedAt = ( NSString * _Nonnull ) dictionary[kMSUploadedAt];
+      self.uploadedAt = [formatter dateFromString:uploadedAt];
     }
     if (dictionary[kMSDownloadUrl]) {
-      self.downloadUrl = [NSURL URLWithString:dictionary[kMSDownloadUrl]];
+      NSString * _Nonnull downloadUrl = ( NSString * _Nonnull ) dictionary[kMSDownloadUrl];
+      self.downloadUrl = [NSURL URLWithString:downloadUrl];
     }
     if (dictionary[kMSAppIconUrl]) {
-      self.appIconUrl = [NSURL URLWithString:dictionary[kMSAppIconUrl]];
+      NSString * _Nonnull appIconUrl = ( NSString * _Nonnull ) dictionary[kMSAppIconUrl];
+      self.appIconUrl = [NSURL URLWithString:appIconUrl];
     }
     if (dictionary[kMSInstallUrl]) {
-      self.installUrl = [NSURL URLWithString:dictionary[kMSInstallUrl]];
+      NSString * _Nonnull installUrl = ( NSString * _Nonnull ) dictionary[kMSInstallUrl];
+      self.installUrl = [NSURL URLWithString:installUrl];
     }
     if (dictionary[kMSDistributionGroups]) {
       // TODO: Implement here. There is no spec for DistributionGroup data model.
