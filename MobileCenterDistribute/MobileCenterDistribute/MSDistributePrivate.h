@@ -130,4 +130,14 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
  */
 - (void)dismissEmbeddedSafari;
 
+/**
+ * Start download for the given details.
+ */
+- (void)startDownload:(MSReleaseDetails *)details;
+
+/**
+ * Close application for update.
+ */
+- (void)closeApp;
+
 @end

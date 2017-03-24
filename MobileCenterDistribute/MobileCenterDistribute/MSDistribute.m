@@ -191,7 +191,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
           [[MSDistributeSender alloc] initWithBaseUrl:self.apiUrl appSecret:self.appSecret updateToken:updateToken];
       [self.sender
                   sendAsync:nil
-          completionHandler:^(__attribute__((unused)) NSString *callId, NSUInteger statusCode, NSData *data, __attribute__((unused)) NSError *error) {
+          completionHandler:^(__attribute__((unused)) NSString *callId, NSUInteger statusCode, NSData *data,
+                              __attribute__((unused)) NSError *error) {
 
             // Release sender instance.
             self.sender = nil;
@@ -474,11 +475,16 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     }
 
     // Add a "Download"-Button
-    [alertController addCancelActionWithTitle:MSDistributeLocalizedString(@"Download")
-                                      handler:^(__attribute__((unused)) UIAlertAction *action) {
-                                        MSLogDebug([MSDistribute logTag], @"Start download and install the update.");
-                                        [self startDownload:details];
-                                      }];
+    [alertController
+        addCancelActionWithTitle:MSDistributeLocalizedString(@"Download")
+                         handler:^(__attribute__((unused)) UIAlertAction *action) {
+                           MSLogDebug([MSDistribute logTag], @"Start download and install the update.");
+#if TARGET_IPHONE_SIMULATOR
+                           MSLogWarning([MSDistribute logTag], @"Couldn't download a new release on simulator.");
+#else
+                                          [self startDownload:details];
+#endif
+                         }];
 
     // Show the alert controller.
     MSLogDebug([MSDistribute logTag], @"Show update dialog.");
@@ -487,29 +493,25 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 }
 
 - (void)startDownload:(MSReleaseDetails *)details {
-  (void)details;
-#if TARGET_IPHONE_SIMULATOR
-  MSLogWarning([MSDistribute logTag], @"Couldn't download a new release on simulator.");
-#else
   [MSUtility sharedAppOpenUrl:details.installUrl
       options:@{}
       completionHandler:^(MSOpenURLState state) {
         switch (state) {
-          case MSOpenURLStateSucceed:
-            MSLogDebug([MSDistribute logTag], @"Start updating the application.");
-            break;
-          case MSOpenURLStateFailed:
-            MSLogError([MSDistribute logTag], @"System couldn't open the URL. Aborting update.");
-            return;
-          case MSOpenURLStateUnknown:
+        case MSOpenURLStateSucceed:
+          MSLogDebug([MSDistribute logTag], @"Start updating the application.");
+          break;
+        case MSOpenURLStateFailed:
+          MSLogError([MSDistribute logTag], @"System couldn't open the URL. Aborting update.");
+          return;
+        case MSOpenURLStateUnknown:
 
-            /*
-             * FIXME: We've observed a behavior in iOS 10+ that openURL and openURL:options:completionHandler don't say
-             * the operation is succeeded even though it successfully opens the URL.
-             * Log the result of openURL and openURL:options:completionHandler and keep moving forward for update.
-             */
-            MSLogWarning([MSDistribute logTag], @"System returned NO for update but processing.");
-            break;
+          /*
+           * FIXME: We've observed a behavior in iOS 10+ that openURL and openURL:options:completionHandler don't say
+           * the operation is succeeded even though it successfully opens the URL.
+           * Log the result of openURL and openURL:options:completionHandler and keep moving forward for update.
+           */
+          MSLogWarning([MSDistribute logTag], @"System returned NO for update but processing.");
+          break;
         }
 
         /*
@@ -518,10 +520,13 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
          * For iOS version >= 9.0, we still need to exit the app if it is a mandatory update.
          */
         if ((floor(NSFoundationVersionNumber) < NSFoundationVersionNumber_iOS_9_0) || details.mandatoryUpdate) {
-          exit(0);
+          [self closeApp];
         }
       }];
-#endif
+}
+
+- (void)closeApp {
+  exit(0);
 }
 
 - (void)openUrl:(NSURL *)url {
