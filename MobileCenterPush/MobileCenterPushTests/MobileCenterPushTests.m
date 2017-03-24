@@ -20,11 +20,11 @@ static NSString *const kMSTestDeviceToken = @"TestDeviceToken";
 
 @interface MSPush ()
 
-- (void)channel:(id)channel willSendLog:(id <MSLog>)log;
+- (void)channel:(id)channel willSendLog:(id<MSLog>)log;
 
-- (void)channel:(id <MSChannel>)channel didSucceedSendingLog:(id <MSLog>)log;
+- (void)channel:(id<MSChannel>)channel didSucceedSendingLog:(id<MSLog>)log;
 
-- (void)channel:(id <MSChannel>)channel didFailSendingLog:(id <MSLog>)log withError:(NSError *)error;
+- (void)channel:(id<MSChannel>)channel didFailSendingLog:(id<MSLog>)log withError:(NSError *)error;
 
 @end
 
@@ -49,7 +49,7 @@ static NSString *const kMSTestDeviceToken = @"TestDeviceToken";
 
   [[MSPush sharedInstance] startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
 
-  MSServiceAbstract *service = (MSServiceAbstract *) [MSPush sharedInstance];
+  MSServiceAbstract *service = (MSServiceAbstract *)[MSPush sharedInstance];
 
   [service setEnabled:YES];
   XCTAssertTrue([service isEnabled]);

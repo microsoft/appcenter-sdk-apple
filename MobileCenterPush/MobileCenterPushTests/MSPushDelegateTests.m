@@ -7,10 +7,9 @@
 #import "MSPushLog.h"
 #import "MSPushPrivate.h"
 
-
-typedef void(^WillSendInstallationLogCallback)(MSPush*, MSPushLog*);
-typedef void(^DidSucceedSendingEventLogCallback)(MSPush*, MSPushLog*);
-typedef void(^DidFailSendingEventLogCallback)(MSPush*, MSPushLog*, NSError*);
+typedef void (^WillSendInstallationLogCallback)(MSPush *, MSPushLog *);
+typedef void (^DidSucceedSendingEventLogCallback)(MSPush *, MSPushLog *);
+typedef void (^DidFailSendingEventLogCallback)(MSPush *, MSPushLog *, NSError *);
 
 @interface MSMockPushDelegate : NSObject <MSPushDelegate>
 @end
@@ -30,15 +29,15 @@ typedef void(^DidFailSendingEventLogCallback)(MSPush*, MSPushLog*, NSError*);
 
 #pragma mark - Push Delegate implementations
 
--(void)push:(MSPush *)push willSendInstallationLog:(MSPushLog *)pushLog {
+- (void)push:(MSPush *)push willSendInstallationLog:(MSPushLog *)pushLog {
   self.willSendEventLogCallback(push, pushLog);
 }
 
--(void)push:(MSPush *)push didSucceedSendingInstallationLog:(MSPushLog *)pushLog {
+- (void)push:(MSPush *)push didSucceedSendingInstallationLog:(MSPushLog *)pushLog {
   self.didSucceedSendingEventLogCallback(push, pushLog);
 }
 
--(void)push:(MSPush *)push didFailSendingInstallLog:(MSPushLog *)pushLog withError:(NSError *)error {
+- (void)push:(MSPush *)push didFailSendingInstallLog:(MSPushLog *)pushLog withError:(NSError *)error {
   self.didFailSendingEventLogCallback(push, pushLog, error);
 }
 
@@ -58,7 +57,7 @@ typedef void(^DidFailSendingEventLogCallback)(MSPush*, MSPushLog*, NSError*);
 
 - (void)testSettingDelegateWorks {
 
-  id <MSPushDelegate> delegateMock = OCMProtocolMock(@protocol(MSPushDelegate));
+  id<MSPushDelegate> delegateMock = OCMProtocolMock(@protocol(MSPushDelegate));
   [MSPush setDelegate:delegateMock];
   XCTAssertNotNil([MSPush sharedInstance].delegate);
   XCTAssertEqual([MSPush sharedInstance].delegate, delegateMock);
