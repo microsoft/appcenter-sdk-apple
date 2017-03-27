@@ -1,4 +1,3 @@
-
 #import <Foundation/Foundation.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
@@ -92,10 +91,9 @@ static NSURL *sfURL;
 - (void)testUpdateURL {
 
   // If
-  NSArray *bundleArray =
-      @[ @{
-        @"CFBundleURLSchemes" : @[ [NSString stringWithFormat:@"mobilecenter-%@", kMSTestAppSecret] ]
-      } ];
+  NSArray *bundleArray = @[
+    @{ @"CFBundleURLSchemes" : @[ [NSString stringWithFormat:@"mobilecenter-%@", kMSTestAppSecret] ] }
+  ];
   id bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
   NSDictionary<NSString *, id> *plist = @{ @"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1" };
@@ -116,7 +114,8 @@ static NSURL *sfURL;
   NSURLComponents *components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:NO];
   NSMutableDictionary<NSString *, NSString *> *queryStrings = [NSMutableDictionary<NSString *, NSString *> new];
   [components.queryItems
-      enumerateObjectsUsingBlock:^(__kindof NSURLQueryItem *_Nonnull queryItem, __attribute__((unused)) NSUInteger idx, __attribute__((unused)) BOOL *_Nonnull stop) {
+      enumerateObjectsUsingBlock:^(__kindof NSURLQueryItem *_Nonnull queryItem, __attribute__((unused)) NSUInteger idx,
+                                   __attribute__((unused)) BOOL *_Nonnull stop) {
         if (queryItem.value) {
           [queryStrings setObject:(NSString * _Nonnull)queryItem.value forKey:queryItem.name];
         }
@@ -207,10 +206,9 @@ static NSURL *sfURL;
 
   // If
   NSString *testUrl = @"https://example.com";
-  NSArray *bundleArray =
-      @[ @{
-        @"CFBundleURLSchemes" : @[ [NSString stringWithFormat:@"mobilecenter-%@", kMSTestAppSecret] ]
-      } ];
+  NSArray *bundleArray = @[
+    @{ @"CFBundleURLSchemes" : @[ [NSString stringWithFormat:@"mobilecenter-%@", kMSTestAppSecret] ] }
+  ];
   id bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
   NSDictionary<NSString *, id> *plist = @{ @"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1" };
@@ -230,10 +228,9 @@ static NSURL *sfURL;
 - (void)testDefaultInstallUrlWorks {
 
   // If
-  NSArray *bundleArray =
-      @[ @{
-        @"CFBundleURLSchemes" : @[ [NSString stringWithFormat:@"mobilecenter-%@", kMSTestAppSecret] ]
-      } ];
+  NSArray *bundleArray = @[
+    @{ @"CFBundleURLSchemes" : @[ [NSString stringWithFormat:@"mobilecenter-%@", kMSTestAppSecret] ] }
+  ];
   id bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
   NSDictionary<NSString *, id> *plist = @{ @"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1" };
@@ -795,6 +792,31 @@ static NSURL *sfURL;
                                  XCTFail(@"Expectation Failed with error: %@", error);
                                }
                              }];
+}
+
+- (void)testShowDistributeDisabledAlert {
+
+  // If
+  id mobileCenterMock = OCMPartialMock(self.sut);
+  id alertControllerMock = OCMClassMock([MSAlertController class]);
+  OCMStub([alertControllerMock alertControllerWithTitle:[OCMArg any] message:[OCMArg any]])
+      .andReturn(alertControllerMock);
+
+  // When
+  XCTestExpectation *expection = [self expectationWithDescription:@"Distribute disabled alert has been displayed"];
+  [mobileCenterMock showDistributeDisabledAlert];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [expection fulfill];
+  });
+
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(__attribute__((unused)) NSError *error) {
+
+                                 // Then
+                                 OCMVerify([alertControllerMock alertControllerWithTitle:[OCMArg any] message:nil]);
+                                 OCMVerify(
+                                     [alertControllerMock addCancelActionWithTitle:[OCMArg any] handler:[OCMArg any]]);
+                               }];
 }
 
 @end
