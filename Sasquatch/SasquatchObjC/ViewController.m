@@ -7,7 +7,6 @@
 //
 
 #import "ViewController.h"
-#import "SasquatchObjC-Swift.h"
 
 @interface ViewController ()
 

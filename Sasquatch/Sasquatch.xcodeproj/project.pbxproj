@@ -56,6 +56,9 @@
 		84226CE21E8911BC00798417 /* MSSwitchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84226CD01E8911A100798417 /* MSSwitchTableViewCell.xib */; };
 		84226CE31E8911BC00798417 /* MSTitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226CD11E8911A100798417 /* MSTitleTableViewCell.swift */; };
 		84226CE41E8911BC00798417 /* MSTitleTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84226CD21E8911A100798417 /* MSTitleTableViewCell.xib */; };
+		84226D0C1E891FBA00798417 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226D0B1E891FBA00798417 /* MSAlertController.m */; };
+		84226D0D1E891FEF00798417 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226D0B1E891FBA00798417 /* MSAlertController.m */; };
+		84226D0E1E891FF100798417 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226D0B1E891FBA00798417 /* MSAlertController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -151,6 +154,9 @@
 		84226CD01E8911A100798417 /* MSSwitchTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MSSwitchTableViewCell.xib; path = CommonTableViewCell/MSSwitchTableViewCell.xib; sourceTree = "<group>"; };
 		84226CD11E8911A100798417 /* MSTitleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MSTitleTableViewCell.swift; path = CommonTableViewCell/MSTitleTableViewCell.swift; sourceTree = "<group>"; };
 		84226CD21E8911A100798417 /* MSTitleTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MSTitleTableViewCell.xib; path = CommonTableViewCell/MSTitleTableViewCell.xib; sourceTree = "<group>"; };
+		84226D091E891FB900798417 /* Sasquatch-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Sasquatch-Bridging-Header.h"; sourceTree = "<group>"; };
+		84226D0A1E891FBA00798417 /* MSAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSAlertController.h; path = ../../Vendor/MSAlertController/MSAlertController.h; sourceTree = "<group>"; };
+		84226D0B1E891FBA00798417 /* MSAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSAlertController.m; path = ../../Vendor/MSAlertController/MSAlertController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -259,6 +265,7 @@
 				84226CB01E8909EA00798417 /* ViewControllers */,
 				84226CB21E8909FF00798417 /* Supporting Files */,
 				84226CCC1E89117800798417 /* CommonTableViewCell */,
+				84226D081E891FA300798417 /* MSAlertController */,
 				84226C151E88FEFC00798417 /* AppDelegate.swift */,
 			);
 			path = Sasquatch;
@@ -391,6 +398,16 @@
 				84226CD21E8911A100798417 /* MSTitleTableViewCell.xib */,
 			);
 			name = CommonTableViewCell;
+			sourceTree = "<group>";
+		};
+		84226D081E891FA300798417 /* MSAlertController */ = {
+			isa = PBXGroup;
+			children = (
+				84226D0A1E891FBA00798417 /* MSAlertController.h */,
+				84226D0B1E891FBA00798417 /* MSAlertController.m */,
+				84226D091E891FB900798417 /* Sasquatch-Bridging-Header.h */,
+			);
+			name = MSAlertController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -566,6 +583,7 @@
 				TargetAttributes = {
 					84226C111E88FEFC00798417 = {
 						CreatedOnToolsVersion = 8.2.1;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 					};
 					84226C251E88FEFC00798417 = {
@@ -727,6 +745,7 @@
 			files = (
 				84226CC31E890FA900798417 /* SasquatchViewController.swift in Sources */,
 				84226C181E88FEFC00798417 /* ViewController.swift in Sources */,
+				84226D0C1E891FBA00798417 /* MSAlertController.m in Sources */,
 				84226CD71E8911A100798417 /* MSTitleTableViewCell.swift in Sources */,
 				84226C161E88FEFC00798417 /* AppDelegate.swift in Sources */,
 				84226CC21E890FA900798417 /* MSCrashReportViewController.swift in Sources */,
@@ -757,6 +776,7 @@
 			files = (
 				84226C511E88FF4A00798417 /* ViewController.m in Sources */,
 				84226CD91E8911B200798417 /* MSDetailsTableViewCell.swift in Sources */,
+				84226D0D1E891FEF00798417 /* MSAlertController.m in Sources */,
 				84226CC61E89105600798417 /* MSCrashReportViewController.swift in Sources */,
 				84226CDF1E8911BB00798417 /* MSTitleTableViewCell.swift in Sources */,
 				84226CDD1E8911BB00798417 /* MSSwitchTableViewCell.swift in Sources */,
@@ -793,6 +813,7 @@
 				84226CAF1E89097F00798417 /* ViewController.swift in Sources */,
 				84226C851E8908CA00798417 /* ViewControllerSwift.swift in Sources */,
 				84226CC91E89105B00798417 /* SasquatchViewController.swift in Sources */,
+				84226D0E1E891FF100798417 /* MSAlertController.m in Sources */,
 				84226CDA1E8911B300798417 /* MSDetailsTableViewCell.swift in Sources */,
 				84226C831E8908CA00798417 /* AppDelegate.swift in Sources */,
 			);
@@ -976,11 +997,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = NO;
 				INFOPLIST_FILE = Sasquatch/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.Sasquatch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Sasquatch/Sasquatch-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -989,11 +1013,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = NO;
 				INFOPLIST_FILE = Sasquatch/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.Sasquatch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Sasquatch/Sasquatch-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -1061,6 +1087,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatch.SasquatchObjC;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Sasquatch/Sasquatch-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -1074,6 +1101,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatch.SasquatchObjC;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Sasquatch/Sasquatch-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -1136,6 +1164,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatch.SasquatchSwift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Sasquatch/Sasquatch-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -1148,6 +1177,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatch.SasquatchSwift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Sasquatch/Sasquatch-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

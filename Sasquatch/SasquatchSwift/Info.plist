@@ -21,7 +21,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
+	<string>Sasquatch</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Sasquatch</string>
 	<key>UIRequiredDeviceCapabilities</key>

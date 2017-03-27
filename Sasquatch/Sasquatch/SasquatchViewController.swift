@@ -92,12 +92,9 @@ class SasquatchViewController: UIViewController {
     }
     
     func showAlertWithMessage(title:String, message:String){
-        //TODO
-        /*
         let alert = MSAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
         self.present(alert, animated: true, completion: nil)
- */
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
