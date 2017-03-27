@@ -480,9 +480,14 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                          handler:^(__attribute__((unused)) UIAlertAction *action) {
                            MSLogDebug([MSDistribute logTag], @"Start download and install the update.");
 #if TARGET_IPHONE_SIMULATOR
+
+                           /*
+                            * iOS simulator doesn't support "itms-services" scheme, simulator will consider the scheme
+                            * as an invalid address. Skip download process if the application is running on simulator.
+                            */
                            MSLogWarning([MSDistribute logTag], @"Couldn't download a new release on simulator.");
 #else
-                                          [self startDownload:details];
+                           [self startDownload:details];
 #endif
                          }];
 
