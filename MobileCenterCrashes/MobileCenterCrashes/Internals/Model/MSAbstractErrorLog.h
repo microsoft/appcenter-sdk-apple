@@ -1,5 +1,5 @@
-#import "MobileCenter+Internal.h"
 #import <Foundation/Foundation.h>
+#import "MobileCenter+Internal.h"
 
 @class MSErrorAttachment;
 
