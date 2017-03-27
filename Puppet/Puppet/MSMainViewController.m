@@ -3,7 +3,8 @@
  */
 
 #import "MSMainViewController.h"
-#import "MobileCenter.h"
+#import "MSMobileCenter.h"
+#import "MSMobileCenterInternal.h"
 
 @implementation MSMainViewController
 
@@ -40,7 +41,7 @@
       
     // Miscellanrous
     case 1: {
-      return 2;
+      return 4;
     }
       
     // Settings
@@ -72,8 +73,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   static NSString *CellIdentifier = nil;
   
-  // All except install id
-  BOOL isSubMenu = !(indexPath.section == 1 && indexPath.row == 0);
+  BOOL isSubMenu = !(indexPath.section == 1 && indexPath.row != 0);
   
   CellIdentifier = isSubMenu ? @"sub-menu" : @"entry";
   
@@ -115,15 +115,29 @@
     case 1: {
       switch (indexPath.row) {
         case 0: {
+          cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+          cell.textLabel.text = NSLocalizedString(@"Device Info", @"");
+          break;
+        }
+          
+        case 1: {
           cell.accessoryType = UITableViewCellAccessoryNone;
           cell.textLabel.text = NSLocalizedString(@"Install ID", @"");
           cell.detailTextLabel.text = [[MSMobileCenter installId] UUIDString];
           break;
         }
           
-        case 1: {
-          cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-          cell.textLabel.text = NSLocalizedString(@"Device Info", @"");
+        case 2: {
+          cell.accessoryType = UITableViewCellAccessoryNone;
+          cell.textLabel.text = NSLocalizedString(@"App Secret", @"");
+          cell.detailTextLabel.text = [[MSMobileCenter sharedInstance] appSecret];
+          break;
+        }
+          
+        case 3: {
+          cell.accessoryType = UITableViewCellAccessoryNone;
+          cell.textLabel.text = NSLocalizedString(@"Log URL", @"");
+          cell.detailTextLabel.text = [[MSMobileCenter sharedInstance] logUrl];
           break;
         }
           
@@ -135,7 +149,6 @@
       
     // Settings
     case 2: {
-      cell.accessoryType = UITableViewCellAccessoryNone;
       switch (indexPath.row) {
         case 0: {
           
@@ -143,6 +156,8 @@
           NSString *title = NSLocalizedString(@"Set Enabled", nil);
           cell.textLabel.text = title;
           cell.accessibilityLabel = title;
+          cell.accessoryType = UITableViewCellAccessoryNone;
+          cell.selectionStyle = UITableViewCellSelectionStyleNone;
           
           // Define the switch control and add it to the cell.
           UISwitch *enabledSwitch = [[UISwitch alloc] init];
@@ -201,7 +216,7 @@
           [self.navigationController pushViewController:vc animated:YES];
           break;
         }
-          
+
         default:
           break;
       }
@@ -211,7 +226,7 @@
     // Miscellanrous
     case 1: {
       switch (indexPath.row) {
-        case 1: {
+        case 0: {
           UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
           UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"device-info"];
           [self.navigationController pushViewController:vc animated:YES];

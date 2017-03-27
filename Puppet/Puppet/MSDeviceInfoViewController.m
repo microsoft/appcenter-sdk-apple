@@ -6,7 +6,7 @@
 @interface MSDeviceInfoViewController ()
 
 @property(nonatomic,strong) NSArray *keys;
-@property(nonatomic,strong) NSDictionary *desc;
+@property(nonatomic, strong) NSDictionary *desc;
 @property(nonatomic,strong) NSDictionary *data;
 
 @end

@@ -111,6 +111,8 @@
       NSString *title = NSLocalizedString(@"Set Enabled", nil);
       cell.textLabel.text = title;
       cell.accessibilityLabel = title;
+      cell.accessoryType = UITableViewCellAccessoryNone;
+      cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
       // Define the switch control and add it to the cell.
       UISwitch *enabledSwitch = [[UISwitch alloc] init];
