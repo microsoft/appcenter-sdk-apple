@@ -73,7 +73,7 @@
   static NSString *CellIdentifier = nil;
   
   // All except install id
-  BOOL isSubMenu = !(indexPath.section == 2 && indexPath.row == 0);
+  BOOL isSubMenu = !(indexPath.section == 1 && indexPath.row == 0);
   
   CellIdentifier = isSubMenu ? @"sub-menu" : @"entry";
   
