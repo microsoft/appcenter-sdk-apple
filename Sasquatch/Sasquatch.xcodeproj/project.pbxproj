@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		84226C161E88FEFC00798417 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226C151E88FEFC00798417 /* AppDelegate.swift */; };
-		84226C181E88FEFC00798417 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226C171E88FEFC00798417 /* ViewController.swift */; };
-		84226C1B1E88FEFC00798417 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84226C191E88FEFC00798417 /* Main.storyboard */; };
 		84226C1D1E88FEFC00798417 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C1C1E88FEFC00798417 /* Assets.xcassets */; };
 		84226C201E88FEFC00798417 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84226C1E1E88FEFC00798417 /* LaunchScreen.storyboard */; };
 		84226C2B1E88FEFC00798417 /* SasquatchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226C2A1E88FEFC00798417 /* SasquatchTests.swift */; };
@@ -20,15 +18,11 @@
 		84226C561E88FF4A00798417 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C551E88FF4A00798417 /* Assets.xcassets */; };
 		84226C641E88FF4A00798417 /* SasquatchObjCTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226C631E88FF4A00798417 /* SasquatchObjCTests.m */; };
 		84226C6F1E88FF4A00798417 /* SasquatchObjCUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226C6E1E88FF4A00798417 /* SasquatchObjCUITests.m */; };
-		84226C7A1E88FF7000798417 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84226C191E88FEFC00798417 /* Main.storyboard */; };
-		84226C7B1E8901E200798417 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226C171E88FEFC00798417 /* ViewController.swift */; };
 		84226C831E8908CA00798417 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226C821E8908CA00798417 /* AppDelegate.swift */; };
 		84226C851E8908CA00798417 /* ViewControllerSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226C841E8908CA00798417 /* ViewControllerSwift.swift */; };
 		84226C8A1E8908CA00798417 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C891E8908CA00798417 /* Assets.xcassets */; };
 		84226C981E8908CA00798417 /* SasquatchSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226C971E8908CA00798417 /* SasquatchSwiftTests.swift */; };
 		84226CA31E8908CA00798417 /* SasquatchSwiftUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226CA21E8908CA00798417 /* SasquatchSwiftUITests.swift */; };
-		84226CAE1E8908F700798417 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84226C191E88FEFC00798417 /* Main.storyboard */; };
-		84226CAF1E89097F00798417 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226C171E88FEFC00798417 /* ViewController.swift */; };
 		84226CBF1E890EE200798417 /* Sasquatch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84226CBD1E890EE200798417 /* Sasquatch.storyboard */; };
 		84226CC21E890FA900798417 /* MSCrashReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226CC01E890FA900798417 /* MSCrashReportViewController.swift */; };
 		84226CC31E890FA900798417 /* SasquatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226CC11E890FA900798417 /* SasquatchViewController.swift */; };
@@ -109,8 +103,6 @@
 /* Begin PBXFileReference section */
 		84226C121E88FEFC00798417 /* Sasquatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sasquatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84226C151E88FEFC00798417 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		84226C171E88FEFC00798417 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		84226C1A1E88FEFC00798417 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		84226C1C1E88FEFC00798417 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		84226C1F1E88FEFC00798417 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		84226C211E88FEFC00798417 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -363,7 +355,6 @@
 			children = (
 				84226CC01E890FA900798417 /* MSCrashReportViewController.swift */,
 				84226CC11E890FA900798417 /* SasquatchViewController.swift */,
-				84226C171E88FEFC00798417 /* ViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -372,7 +363,6 @@
 			isa = PBXGroup;
 			children = (
 				84226CBD1E890EE200798417 /* Sasquatch.storyboard */,
-				84226C191E88FEFC00798417 /* Main.storyboard */,
 				84226C1E1E88FEFC00798417 /* LaunchScreen.storyboard */,
 			);
 			name = Storyboards;
@@ -662,7 +652,6 @@
 				84226C201E88FEFC00798417 /* LaunchScreen.storyboard in Resources */,
 				84226CD41E8911A100798417 /* MSDetailsTableViewCell.xib in Resources */,
 				84226C1D1E88FEFC00798417 /* Assets.xcassets in Resources */,
-				84226C1B1E88FEFC00798417 /* Main.storyboard in Resources */,
 				84226CD81E8911A100798417 /* MSTitleTableViewCell.xib in Resources */,
 				84226CD61E8911A100798417 /* MSSwitchTableViewCell.xib in Resources */,
 			);
@@ -690,7 +679,6 @@
 				84226C561E88FF4A00798417 /* Assets.xcassets in Resources */,
 				84226CE01E8911BB00798417 /* MSTitleTableViewCell.xib in Resources */,
 				84226CDE1E8911BB00798417 /* MSSwitchTableViewCell.xib in Resources */,
-				84226C7A1E88FF7000798417 /* Main.storyboard in Resources */,
 				84226CC41E89104D00798417 /* Sasquatch.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -717,7 +705,6 @@
 				84226C8A1E8908CA00798417 /* Assets.xcassets in Resources */,
 				84226CE41E8911BC00798417 /* MSTitleTableViewCell.xib in Resources */,
 				84226CE21E8911BC00798417 /* MSSwitchTableViewCell.xib in Resources */,
-				84226CAE1E8908F700798417 /* Main.storyboard in Resources */,
 				84226CC51E89104E00798417 /* Sasquatch.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -744,7 +731,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				84226CC31E890FA900798417 /* SasquatchViewController.swift in Sources */,
-				84226C181E88FEFC00798417 /* ViewController.swift in Sources */,
 				84226D0C1E891FBA00798417 /* MSAlertController.m in Sources */,
 				84226CD71E8911A100798417 /* MSTitleTableViewCell.swift in Sources */,
 				84226C161E88FEFC00798417 /* AppDelegate.swift in Sources */,
@@ -782,7 +768,6 @@
 				84226CDD1E8911BB00798417 /* MSSwitchTableViewCell.swift in Sources */,
 				84226CC81E89105A00798417 /* SasquatchViewController.swift in Sources */,
 				84226C4E1E88FF4A00798417 /* AppDelegate.m in Sources */,
-				84226C7B1E8901E200798417 /* ViewController.swift in Sources */,
 				84226C4B1E88FF4A00798417 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -810,7 +795,6 @@
 				84226CE11E8911BC00798417 /* MSSwitchTableViewCell.swift in Sources */,
 				84226CC71E89105700798417 /* MSCrashReportViewController.swift in Sources */,
 				84226CE31E8911BC00798417 /* MSTitleTableViewCell.swift in Sources */,
-				84226CAF1E89097F00798417 /* ViewController.swift in Sources */,
 				84226C851E8908CA00798417 /* ViewControllerSwift.swift in Sources */,
 				84226CC91E89105B00798417 /* SasquatchViewController.swift in Sources */,
 				84226D0E1E891FF100798417 /* MSAlertController.m in Sources */,
@@ -871,14 +855,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		84226C191E88FEFC00798417 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				84226C1A1E88FEFC00798417 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		84226C1E1E88FEFC00798417 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
