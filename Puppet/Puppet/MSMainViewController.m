@@ -26,113 +26,148 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
   // Return the number of sections.
-  return 2;
+  return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
+  
   switch (section) {
-
-  // Actions
-  case 0: {
-    return 3;
-  }
-
-  // Settings
-  case 1: {
-    return 1;
-  }
-  default:
-    return 0;
+      
+    // Actions
+    case 0: {
+      return 3;
+    }
+      
+    // Miscellanrous
+    case 1: {
+      return 2;
+    }
+      
+    // Settings
+    case 2: {
+      return 1;
+    }
+    default:
+      return 0;
   }
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
   switch (section) {
-  case 0: {
-    return @"Actions";
-  }
-  case 1: {
-    return @"Settings";
-  }
-  default:
-    return 0;
+    case 0: {
+      return @"Actions";
+    }
+    case 1: {
+      return @"Miscellanrous";
+    }
+    case 2: {
+      return @"Settings";
+    }
+    default:
+      return 0;
   }
 }
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-
-  static NSString *CellIdentifier = @"Cell";
-
+  static NSString *CellIdentifier = nil;
+  
+  // All except install id
+  BOOL isSubMenu = !(indexPath.section == 2 && indexPath.row == 0);
+  
+  CellIdentifier = isSubMenu ? @"sub-menu" : @"entry";
+  
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
   if (cell == nil) {
-    cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    UITableViewCellStyle style = isSubMenu ? UITableViewCellStyleDefault : UITableViewCellStyleValue1;
+    cell = [[UITableViewCell alloc] initWithStyle:style reuseIdentifier:CellIdentifier];
   }
-
+  
   switch ([indexPath section]) {
-
-  // Actions
-  case 0: {
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    switch (indexPath.row) {
-
+      
+      // Actions
     case 0: {
-      cell.textLabel.text = NSLocalizedString(@"Analytics", @"");
+      cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+      switch (indexPath.row) {
+          
+        case 0: {
+          cell.textLabel.text = NSLocalizedString(@"Analytics", @"");
+          break;
+        }
+          
+        case 1: {
+          cell.textLabel.text = NSLocalizedString(@"Crashes", @"");
+          break;
+        }
+          
+        case 2: {
+          cell.textLabel.text = NSLocalizedString(@"Distribute", @"");
+          break;
+        }
+          
+        default:
+          break;
+      }
       break;
     }
-
+      
+    // Miscellanrous
     case 1: {
-      cell.textLabel.text = NSLocalizedString(@"Crashes", @"");
+      switch (indexPath.row) {
+        case 0: {
+          cell.accessoryType = UITableViewCellAccessoryNone;
+          cell.textLabel.text = NSLocalizedString(@"Install ID", @"");
+          cell.detailTextLabel.text = [[MSMobileCenter installId] UUIDString];
+          break;
+        }
+          
+        case 1: {
+          cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+          cell.textLabel.text = NSLocalizedString(@"Device Info", @"");
+          break;
+        }
+          
+        default:
+          break;
+      }
       break;
     }
-
+      
+    // Settings
     case 2: {
-      cell.textLabel.text = NSLocalizedString(@"Distribute", @"");
+      cell.accessoryType = UITableViewCellAccessoryNone;
+      switch (indexPath.row) {
+        case 0: {
+          
+          // Define the cell title.
+          NSString *title = NSLocalizedString(@"Set Enabled", nil);
+          cell.textLabel.text = title;
+          cell.accessibilityLabel = title;
+          
+          // Define the switch control and add it to the cell.
+          UISwitch *enabledSwitch = [[UISwitch alloc] init];
+          enabledSwitch.on = [MSMobileCenter isEnabled];
+          CGSize switchSize = [enabledSwitch sizeThatFits:CGSizeZero];
+          enabledSwitch.frame = CGRectMake(cell.contentView.bounds.size.width - switchSize.width - 10.0f,
+                                           (cell.contentView.bounds.size.height - switchSize.height) / 2.0f,
+                                           switchSize.width, switchSize.height);
+          enabledSwitch.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+          [enabledSwitch addTarget:self
+                            action:@selector(enabledSwitchUpdated:)
+                  forControlEvents:UIControlEventValueChanged];
+          [cell.contentView addSubview:enabledSwitch];
+          break;
+        }
+        default:
+          break;
+      }
       break;
-    }
-
+      
     default:
       break;
     }
-    break;
   }
-
-  // Settings
-  case 1: {
-    switch (indexPath.row) {
-
-    case 0: {
-
-      // Define the cell title.
-      NSString *title = NSLocalizedString(@"Set Enabled", nil);
-      cell.textLabel.text = title;
-      cell.accessibilityLabel = title;
-
-      // Define the switch control and add it to the cell.
-      UISwitch *enabledSwitch = [[UISwitch alloc] init];
-      enabledSwitch.on = [MSMobileCenter isEnabled];
-      CGSize switchSize = [enabledSwitch sizeThatFits:CGSizeZero];
-      enabledSwitch.frame = CGRectMake(cell.contentView.bounds.size.width - switchSize.width - 10.0f,
-                                       (cell.contentView.bounds.size.height - switchSize.height) / 2.0f,
-                                       switchSize.width, switchSize.height);
-      enabledSwitch.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-      [enabledSwitch addTarget:self
-                        action:@selector(enabledSwitchUpdated:)
-              forControlEvents:UIControlEventValueChanged];
-      [cell.contentView addSubview:enabledSwitch];
-      break;
-    }
-    default:
-      break;
-    }
-    break;
-
-  default:
-    break;
-  }
-  }
-
+  
   return cell;
 }
 
@@ -140,34 +175,54 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   [tableView deselectRowAtIndexPath:indexPath animated:YES];
-
-  if ([indexPath section] != 0)
-    return;
   
-  switch (indexPath.row) {
-  case 0: {
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"analytics"];
-    [self.navigationController pushViewController:vc animated:YES];
-    break;
-  }
-
-  case 1: {
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"crashes"];
-    [self.navigationController pushViewController:vc animated:YES];
-    break;
-  }
-
-  case 2: {
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"distribute"];
-    [self.navigationController pushViewController:vc animated:YES];
-    break;
-  }
-
-  default:
-    break;
+  switch ([indexPath section]) {
+      
+    // Actions
+    case 0: {
+      switch (indexPath.row) {
+        case 0: {
+          UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+          UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"analytics"];
+          [self.navigationController pushViewController:vc animated:YES];
+          break;
+        }
+          
+        case 1: {
+          UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+          UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"crashes"];
+          [self.navigationController pushViewController:vc animated:YES];
+          break;
+        }
+          
+        case 2: {
+          UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+          UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"distribute"];
+          [self.navigationController pushViewController:vc animated:YES];
+          break;
+        }
+          
+        default:
+          break;
+      }
+      break;
+    }
+      
+    // Miscellanrous
+    case 1: {
+      switch (indexPath.row) {
+        case 1: {
+          UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+          UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"device-info"];
+          [self.navigationController pushViewController:vc animated:YES];
+          break;
+        }
+          
+        default:
+          break;
+      }
+      break;
+    }
   }
 }
 

@@ -92,6 +92,7 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
   return (NSInteger)self.knownCrashes.count + 1;
 }
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
   BOOL isLast = (section == ([tableView numberOfSections] -1));
