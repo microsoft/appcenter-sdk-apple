@@ -62,10 +62,11 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
  * Build the install URL for token request with the given application secret.
  *
  * @param appSecret Application secret.
+ * @param releaseHash The release hash of the current version.
  *
  * @return The finale install URL to request the token or nil if an error occurred.
  */
-- (NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret;
+- (NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret releaseHash:(NSString *)releaseHash;
 
 /**
  * Open the given URL using an `SFSafariViewController`. Must run on the UI thread! iOS 9+ only.
@@ -95,13 +96,16 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
  * Send a request to get the latest release.
  *
  * @param updateToken The update token stored in keychain.
+ * @param releaseHash The release hash of the current version.
  */
-- (void)checkLatestRelease:(NSString *)updateToken;
+- (void)checkLatestRelease:(NSString *)updateToken releaseHash:(NSString *)releaseHash;
 
 /**
  * Send a request to get update token.
+ *
+ * @param releaseHash The release hash of the current version.
  */
-- (void)requestUpdateToken;
+- (void)requestUpdateToken:(NSString *)releaseHash;
 
 /**
  * Update workflow to make a decision based on release details.

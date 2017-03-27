@@ -94,10 +94,15 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   if (isEnabled) {
     MSLogInfo([MSDistribute logTag], @"Distribute service has been enabled.");
     NSString *updateToken = [MSKeychainUtil stringForKey:kMSUpdateTokenKey];
-    if (updateToken) {
-      [self checkLatestRelease:updateToken];
+    NSString *releaseHash = MSPackageHash();
+    if (releaseHash) {
+      if (updateToken) {
+        [self checkLatestRelease:updateToken releaseHash:releaseHash];
+      } else {
+        [self requestUpdateToken:releaseHash];
+      }
     } else {
-      [self requestUpdateToken];
+      MSLogError([MSDistribute logTag], @"Failed to get a release hash.");
     }
   } else {
     [self dismissEmbeddedSafari];
@@ -128,7 +133,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
 #pragma mark - Private
 
-- (void)requestUpdateToken {
+- (void)requestUpdateToken:(NSString *)releaseHash {
 
   // Check if it's okay to check for updates.
   if ([self checkForUpdatesAllowed]) {
@@ -144,7 +149,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     MSLogInfo([MSDistribute logTag], @"Request Distribute update token.");
 
     // Most failures here require an app update. Thus, it will be retried only on next App instance.
-    url = [self buildTokenRequestURLWithAppSecret:self.appSecret];
+    url = [self buildTokenRequestURLWithAppSecret:self.appSecret releaseHash:releaseHash];
     if (url) {
 
 /*
@@ -180,18 +185,21 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   }
 }
 
-- (void)checkLatestRelease:(NSString *)updateToken {
+- (void)checkLatestRelease:(NSString *)updateToken releaseHash:(NSString *)releaseHash {
 
   // Check if it's okay to check for updates.
   if ([self checkForUpdatesAllowed]) {
 
     // Check if sender is still waiting for a response of the previous request.
     if (self.sender == nil) {
-      self.sender =
-          [[MSDistributeSender alloc] initWithBaseUrl:self.apiUrl appSecret:self.appSecret updateToken:updateToken];
+      self.sender = [[MSDistributeSender alloc] initWithBaseUrl:self.apiUrl
+                                                      appSecret:self.appSecret
+                                                    updateToken:updateToken
+                                                   queryStrings:@{kMSURLQueryReleaseHashKey : releaseHash}];
       [self.sender
                   sendAsync:nil
-          completionHandler:^(__attribute__((unused)) NSString *callId, NSUInteger statusCode, NSData *data, __attribute__((unused)) NSError *error) {
+          completionHandler:^(__attribute__((unused)) NSString *callId, NSUInteger statusCode, NSData *data,
+                              __attribute__((unused)) NSError *error) {
 
             // Release sender instance.
             self.sender = nil;
@@ -304,7 +312,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   return NO;
 }
 
-- (NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret {
+- (NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret releaseHash:(NSString *)releaseHash {
 
   // Create the request ID string.
   NSString *requestId = MS_UUID_STRING;
@@ -319,12 +327,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   // Check URL validity so far.
   if (!components) {
     MSLogError([MSDistribute logTag], kMSUpdateTokenURLInvalidErrorDescFormat, urlString);
-    return nil;
-  }
-
-  // Build release hash.
-  NSString *releaseHash = MSPackageHash();
-  if (!releaseHash) {
     return nil;
   }
 
@@ -553,7 +555,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
       // Storing the update token to keychain since the update token is considered as a sensitive information.
       [MSKeychainUtil storeString:queryUpdateToken forKey:kMSUpdateTokenKey];
-      [self checkLatestRelease:queryUpdateToken];
+      [self checkLatestRelease:queryUpdateToken releaseHash:MSPackageHash()];
     }
   } else {
     MSLogDebug([MSDistribute logTag], @"Distribute service has been disabled, ignore request.");
