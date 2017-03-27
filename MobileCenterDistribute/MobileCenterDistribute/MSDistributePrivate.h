@@ -2,6 +2,8 @@
 
 #import "MSDistribute.h"
 
+@class MSReleaseDetails;
+
 /**
  * Base URL for HTTP Distribute install API calls.
  */
@@ -59,6 +61,13 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
 @property(nonatomic) UIViewController *safariHostingViewController;
 
 /**
+ * Returns the singleton instance. Meant for testing/demo apps only.
+ *
+ * @return the singleton instance of MSDistribute.
+ */
++ (instancetype)sharedInstance;
+
+/**
  * Build the install URL for token request with the given application secret.
  *
  * @param appSecret Application secret.
@@ -112,6 +121,11 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
  * Show a dialog to ask a user to confirm update for a new release.
  */
 - (void)showConfirmationAlert:(MSReleaseDetails *)details;
+
+/**
+ * Show a dialog to the user in case MSDistribute was disabled while the updates-alert is shown.
+ */
+- (void)showDistributeDisabledAlert;
 
 /**
  * Check whether release details contain a newer version of release than current version.
