@@ -5,6 +5,10 @@
 @import MobileCenterCrashes;
 @import MobileCenterDistribute;
 
+/*
+ * MobileCenterDelegate implementation in Objective C.
+ */
+
 @implementation MobileCenterDelegateObjC
 
 - (BOOL) hasCrashedInLastSession{
@@ -106,4 +110,5 @@
 - (NSString *) lastCrashReportDeviceCarrierCountry{
     return [[[MSCrashes lastSessionCrashReport] device] carrierCountry];
 }
+
 @end

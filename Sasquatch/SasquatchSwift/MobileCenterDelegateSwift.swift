@@ -3,6 +3,10 @@ import MobileCenterAnalytics
 import MobileCenterCrashes
 import MobileCenterDistribute
 
+/*
+ * MobileCenterDelegate implementation in Swift.
+ */
+
 class MobileCenterDelegateSwift: MobileCenterDelegate {
     func hasCrashedInLastSession() -> Bool{
         return MSCrashes.hasCrashedInLastSession()
@@ -103,5 +107,4 @@ class MobileCenterDelegateSwift: MobileCenterDelegate {
     func lastCrashReportDeviceAppNamespace() -> String?{
         return MSCrashes.lastSessionCrashReport()?.device.appNamespace
     }
-
 }

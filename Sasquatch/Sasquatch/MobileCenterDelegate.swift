@@ -1,17 +1,30 @@
+/*
+ * Protocol for interacting with MobileCenter SDK.
+ * SasquatchSwift and SasquatchObjC implement this protocol 
+ * to show usage of MobileCenter SDK in a language specific way.
+ */
+
 @objc protocol MobileCenterDelegate {
-    func hasCrashedInLastSession() -> Bool
+    //Modules section.
     func isAnalyticsEnabled() -> Bool
     func isCrashesEnabled() -> Bool
     func isDistributeEnabled() -> Bool
     func setAnalyticsEnabled(_ isEnabled: Bool)
     func setCrashesEnabled(_ isEnabled: Bool)
     func setDistributeEnabled(_ isEnabled: Bool)
+    
+    //MSMobileCenter section.
     func isDebuggerAttached() -> Bool
+    
+    //MSCrashes section.
+    func hasCrashedInLastSession() -> Bool
     func generateTestCrash()
+    
+    //MSAnalytics section.
     func trackEvent(_ eventName: String)
     func trackEvent(_ eventName: String, withProperties: Dictionary<String, String>)
     
-    //Lasr crash report section
+    //Lasr crash report section.
     func lastCrashReportIncidentIdentifier() -> String?
     func lastCrashReportReporterKey() -> String?
     func lastCrashReportSignal() -> String?

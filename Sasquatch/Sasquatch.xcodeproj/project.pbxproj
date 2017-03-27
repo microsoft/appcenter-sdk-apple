@@ -634,6 +634,7 @@
 					};
 					84226C461E88FF4A00798417 = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 285W24646W;
 						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 					};
@@ -649,6 +650,7 @@
 					};
 					84226C7F1E8908C900798417 = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 285W24646W;
 						ProvisioningStyle = Automatic;
 					};
 					84226C921E8908CA00798417 = {
@@ -1107,6 +1109,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEFINES_MODULE = NO;
+				DEVELOPMENT_TEAM = 285W24646W;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-iOS/**";
 				INFOPLIST_FILE = SasquatchObjC/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1122,6 +1125,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEFINES_MODULE = NO;
+				DEVELOPMENT_TEAM = 285W24646W;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-iOS/**";
 				INFOPLIST_FILE = SasquatchObjC/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1186,6 +1190,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 285W24646W;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-iOS/**";
 				INFOPLIST_FILE = SasquatchSwift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1200,6 +1205,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 285W24646W;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-iOS/**";
 				INFOPLIST_FILE = SasquatchSwift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

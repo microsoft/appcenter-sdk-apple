@@ -13,7 +13,6 @@
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     [MSMobileCenter start:@"0dbca56b-b9ae-4d53-856a-7c2856137d85" withServices:@[[MSAnalytics class], [MSCrashes class], [MSDistribute class]]];
@@ -22,7 +21,6 @@
     [self setMobileCenterDelegate];
     return YES;
 }
-
 
 #pragma mark - URL handling
 
