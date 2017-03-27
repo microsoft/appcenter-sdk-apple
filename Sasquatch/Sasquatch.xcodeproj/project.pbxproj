@@ -53,6 +53,14 @@
 		84226D0C1E891FBA00798417 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226D0B1E891FBA00798417 /* MSAlertController.m */; };
 		84226D0D1E891FEF00798417 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226D0B1E891FBA00798417 /* MSAlertController.m */; };
 		84226D0E1E891FF100798417 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226D0B1E891FBA00798417 /* MSAlertController.m */; };
+		84226D141E8921DE00798417 /* libMobileCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D101E8921DE00798417 /* libMobileCenter.a */; };
+		84226D151E8921DE00798417 /* libMobileCenterAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D111E8921DE00798417 /* libMobileCenterAnalytics.a */; };
+		84226D161E8921DE00798417 /* libMobileCenterCrashes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D121E8921DE00798417 /* libMobileCenterCrashes.a */; };
+		84226D171E8921DE00798417 /* libMobileCenterDistribute.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D131E8921DE00798417 /* libMobileCenterDistribute.a */; };
+		84226D181E8921E600798417 /* libMobileCenterAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D111E8921DE00798417 /* libMobileCenterAnalytics.a */; };
+		84226D191E8921E600798417 /* libMobileCenterDistribute.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D131E8921DE00798417 /* libMobileCenterDistribute.a */; };
+		84226D1C1E8921E600798417 /* libMobileCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D1A1E8921E600798417 /* libMobileCenter.a */; };
+		84226D1D1E8921E600798417 /* libMobileCenterCrashes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D1B1E8921E600798417 /* libMobileCenterCrashes.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -149,6 +157,12 @@
 		84226D091E891FB900798417 /* Sasquatch-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Sasquatch-Bridging-Header.h"; sourceTree = "<group>"; };
 		84226D0A1E891FBA00798417 /* MSAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSAlertController.h; path = ../../Vendor/MSAlertController/MSAlertController.h; sourceTree = "<group>"; };
 		84226D0B1E891FBA00798417 /* MSAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSAlertController.m; path = ../../Vendor/MSAlertController/MSAlertController.m; sourceTree = "<group>"; };
+		84226D101E8921DE00798417 /* libMobileCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobileCenter.a; path = "../MobileCenter/build/Debug-iphoneos/libMobileCenter.a"; sourceTree = "<group>"; };
+		84226D111E8921DE00798417 /* libMobileCenterAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobileCenterAnalytics.a; path = "../../../../../Library/Developer/Xcode/DerivedData/MobileCenter-esvplyiwjujwxsefsvbrjzhzpfrv/Build/Products/Debug-iphonesimulator/libMobileCenterAnalytics.a"; sourceTree = "<group>"; };
+		84226D121E8921DE00798417 /* libMobileCenterCrashes.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobileCenterCrashes.a; path = "../MobileCenterCrashes/build/Debug-iphoneos/libMobileCenterCrashes.a"; sourceTree = "<group>"; };
+		84226D131E8921DE00798417 /* libMobileCenterDistribute.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobileCenterDistribute.a; path = "../../../../../Library/Developer/Xcode/DerivedData/MobileCenter-esvplyiwjujwxsefsvbrjzhzpfrv/Build/Products/Debug-iphonesimulator/libMobileCenterDistribute.a"; sourceTree = "<group>"; };
+		84226D1A1E8921E600798417 /* libMobileCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobileCenter.a; path = "../MobileCenter/build/Debug-iphoneos/libMobileCenter.a"; sourceTree = "<group>"; };
+		84226D1B1E8921E600798417 /* libMobileCenterCrashes.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobileCenterCrashes.a; path = "../MobileCenterCrashes/build/Debug-iphoneos/libMobileCenterCrashes.a"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -177,6 +191,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84226D141E8921DE00798417 /* libMobileCenter.a in Frameworks */,
+				84226D151E8921DE00798417 /* libMobileCenterAnalytics.a in Frameworks */,
+				84226D161E8921DE00798417 /* libMobileCenterCrashes.a in Frameworks */,
+				84226D171E8921DE00798417 /* libMobileCenterDistribute.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -198,6 +216,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84226D1C1E8921E600798417 /* libMobileCenter.a in Frameworks */,
+				84226D1D1E8921E600798417 /* libMobileCenterCrashes.a in Frameworks */,
+				84226D181E8921E600798417 /* libMobileCenterAnalytics.a in Frameworks */,
+				84226D191E8921E600798417 /* libMobileCenterDistribute.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -231,6 +253,7 @@
 				84226C961E8908CA00798417 /* SasquatchSwiftTests */,
 				84226CA11E8908CA00798417 /* SasquatchSwiftUITests */,
 				84226C131E88FEFC00798417 /* Products */,
+				84226D0F1E8921DE00798417 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -398,6 +421,19 @@
 				84226D091E891FB900798417 /* Sasquatch-Bridging-Header.h */,
 			);
 			name = MSAlertController;
+			sourceTree = "<group>";
+		};
+		84226D0F1E8921DE00798417 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				84226D1A1E8921E600798417 /* libMobileCenter.a */,
+				84226D1B1E8921E600798417 /* libMobileCenterCrashes.a */,
+				84226D101E8921DE00798417 /* libMobileCenter.a */,
+				84226D111E8921DE00798417 /* libMobileCenterAnalytics.a */,
+				84226D121E8921DE00798417 /* libMobileCenterCrashes.a */,
+				84226D131E8921DE00798417 /* libMobileCenterDistribute.a */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
