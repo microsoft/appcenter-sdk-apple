@@ -7,34 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		84226C1D1E88FEFC00798417 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C1C1E88FEFC00798417 /* Assets.xcassets */; };
-		84226C201E88FEFC00798417 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84226C1E1E88FEFC00798417 /* LaunchScreen.storyboard */; };
-		84226C2B1E88FEFC00798417 /* SasquatchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226C2A1E88FEFC00798417 /* SasquatchTests.swift */; };
-		84226C361E88FEFC00798417 /* SasquatchUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226C351E88FEFC00798417 /* SasquatchUITests.swift */; };
 		84226C4B1E88FF4A00798417 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226C4A1E88FF4A00798417 /* main.m */; };
 		84226C4E1E88FF4A00798417 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226C4D1E88FF4A00798417 /* AppDelegate.m */; };
 		84226C561E88FF4A00798417 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C551E88FF4A00798417 /* Assets.xcassets */; };
-		84226C641E88FF4A00798417 /* SasquatchObjCTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226C631E88FF4A00798417 /* SasquatchObjCTests.m */; };
-		84226C6F1E88FF4A00798417 /* SasquatchObjCUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226C6E1E88FF4A00798417 /* SasquatchObjCUITests.m */; };
 		84226C831E8908CA00798417 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226C821E8908CA00798417 /* AppDelegate.swift */; };
 		84226C8A1E8908CA00798417 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C891E8908CA00798417 /* Assets.xcassets */; };
-		84226C981E8908CA00798417 /* SasquatchSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226C971E8908CA00798417 /* SasquatchSwiftTests.swift */; };
-		84226CA31E8908CA00798417 /* SasquatchSwiftUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226CA21E8908CA00798417 /* SasquatchSwiftUITests.swift */; };
-		84226CBF1E890EE200798417 /* Sasquatch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84226CBD1E890EE200798417 /* Sasquatch.storyboard */; };
-		84226CC21E890FA900798417 /* MSCrashReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226CC01E890FA900798417 /* MSCrashReportViewController.swift */; };
-		84226CC31E890FA900798417 /* SasquatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226CC11E890FA900798417 /* SasquatchViewController.swift */; };
 		84226CC41E89104D00798417 /* Sasquatch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84226CBD1E890EE200798417 /* Sasquatch.storyboard */; };
 		84226CC51E89104E00798417 /* Sasquatch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84226CBD1E890EE200798417 /* Sasquatch.storyboard */; };
 		84226CC61E89105600798417 /* MSCrashReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226CC01E890FA900798417 /* MSCrashReportViewController.swift */; };
 		84226CC71E89105700798417 /* MSCrashReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226CC01E890FA900798417 /* MSCrashReportViewController.swift */; };
 		84226CC81E89105A00798417 /* SasquatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226CC11E890FA900798417 /* SasquatchViewController.swift */; };
 		84226CC91E89105B00798417 /* SasquatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226CC11E890FA900798417 /* SasquatchViewController.swift */; };
-		84226CD31E8911A100798417 /* MSDetailsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226CCD1E8911A100798417 /* MSDetailsTableViewCell.swift */; };
-		84226CD41E8911A100798417 /* MSDetailsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84226CCE1E8911A100798417 /* MSDetailsTableViewCell.xib */; };
-		84226CD51E8911A100798417 /* MSSwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226CCF1E8911A100798417 /* MSSwitchTableViewCell.swift */; };
-		84226CD61E8911A100798417 /* MSSwitchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84226CD01E8911A100798417 /* MSSwitchTableViewCell.xib */; };
-		84226CD71E8911A100798417 /* MSTitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226CD11E8911A100798417 /* MSTitleTableViewCell.swift */; };
-		84226CD81E8911A100798417 /* MSTitleTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84226CD21E8911A100798417 /* MSTitleTableViewCell.xib */; };
 		84226CD91E8911B200798417 /* MSDetailsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226CCD1E8911A100798417 /* MSDetailsTableViewCell.swift */; };
 		84226CDA1E8911B300798417 /* MSDetailsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226CCD1E8911A100798417 /* MSDetailsTableViewCell.swift */; };
 		84226CDB1E8911B600798417 /* MSDetailsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84226CCE1E8911A100798417 /* MSDetailsTableViewCell.xib */; };
@@ -47,7 +30,6 @@
 		84226CE21E8911BC00798417 /* MSSwitchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84226CD01E8911A100798417 /* MSSwitchTableViewCell.xib */; };
 		84226CE31E8911BC00798417 /* MSTitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226CD11E8911A100798417 /* MSTitleTableViewCell.swift */; };
 		84226CE41E8911BC00798417 /* MSTitleTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84226CD21E8911A100798417 /* MSTitleTableViewCell.xib */; };
-		84226D0C1E891FBA00798417 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226D0B1E891FBA00798417 /* MSAlertController.m */; };
 		84226D0D1E891FEF00798417 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226D0B1E891FBA00798417 /* MSAlertController.m */; };
 		84226D0E1E891FF100798417 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226D0B1E891FBA00798417 /* MSAlertController.m */; };
 		84226D321E89301B00798417 /* MobileCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D2E1E89301A00798417 /* MobileCenter.framework */; };
@@ -58,91 +40,26 @@
 		84226D371E89302900798417 /* MobileCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D2F1E89301B00798417 /* MobileCenterAnalytics.framework */; };
 		84226D381E89302900798417 /* MobileCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D301E89301B00798417 /* MobileCenterCrashes.framework */; };
 		84226D391E89302900798417 /* MobileCenterDistribute.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D311E89301B00798417 /* MobileCenterDistribute.framework */; };
-		84226D3B1E8937FF00798417 /* MobileCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226D3A1E8937FF00798417 /* MobileCenterDelegate.swift */; };
 		84226D3C1E8938D100798417 /* MobileCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226D3A1E8937FF00798417 /* MobileCenterDelegate.swift */; };
 		84226D3D1E8938D200798417 /* MobileCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226D3A1E8937FF00798417 /* MobileCenterDelegate.swift */; };
 		84226D3F1E8939B700798417 /* MobileCenterDelegateSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226D3E1E8939B700798417 /* MobileCenterDelegateSwift.swift */; };
 		84226D421E8953F100798417 /* MobileCenterDelegateObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226D411E8953F100798417 /* MobileCenterDelegateObjC.m */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		84226C271E88FEFC00798417 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 84226C0A1E88FEFC00798417 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 84226C111E88FEFC00798417;
-			remoteInfo = Sasquatch;
-		};
-		84226C321E88FEFC00798417 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 84226C0A1E88FEFC00798417 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 84226C111E88FEFC00798417;
-			remoteInfo = Sasquatch;
-		};
-		84226C601E88FF4A00798417 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 84226C0A1E88FEFC00798417 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 84226C461E88FF4A00798417;
-			remoteInfo = SasquatchObjC;
-		};
-		84226C6B1E88FF4A00798417 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 84226C0A1E88FEFC00798417 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 84226C461E88FF4A00798417;
-			remoteInfo = SasquatchObjC;
-		};
-		84226C941E8908CA00798417 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 84226C0A1E88FEFC00798417 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 84226C7F1E8908C900798417;
-			remoteInfo = SasquatchSwift;
-		};
-		84226C9F1E8908CA00798417 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 84226C0A1E88FEFC00798417 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 84226C7F1E8908C900798417;
-			remoteInfo = SasquatchSwift;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
-		84226C121E88FEFC00798417 /* Sasquatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sasquatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84226C1C1E88FEFC00798417 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		84226C1F1E88FEFC00798417 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		84226C211E88FEFC00798417 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		84226C261E88FEFC00798417 /* SasquatchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SasquatchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		84226C2A1E88FEFC00798417 /* SasquatchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SasquatchTests.swift; sourceTree = "<group>"; };
-		84226C2C1E88FEFC00798417 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		84226C311E88FEFC00798417 /* SasquatchUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SasquatchUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		84226C351E88FEFC00798417 /* SasquatchUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SasquatchUITests.swift; sourceTree = "<group>"; };
-		84226C371E88FEFC00798417 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		84226C471E88FF4A00798417 /* SasquatchObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SasquatchObjC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84226C4A1E88FF4A00798417 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		84226C4C1E88FF4A00798417 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		84226C4D1E88FF4A00798417 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		84226C551E88FF4A00798417 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		84226C5A1E88FF4A00798417 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		84226C5F1E88FF4A00798417 /* SasquatchObjCTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SasquatchObjCTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		84226C631E88FF4A00798417 /* SasquatchObjCTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SasquatchObjCTests.m; sourceTree = "<group>"; };
-		84226C651E88FF4A00798417 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		84226C6A1E88FF4A00798417 /* SasquatchObjCUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SasquatchObjCUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		84226C6E1E88FF4A00798417 /* SasquatchObjCUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SasquatchObjCUITests.m; sourceTree = "<group>"; };
-		84226C701E88FF4A00798417 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		84226C801E8908C900798417 /* SasquatchSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SasquatchSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84226C821E8908CA00798417 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		84226C891E8908CA00798417 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		84226C8E1E8908CA00798417 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		84226C931E8908CA00798417 /* SasquatchSwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SasquatchSwiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		84226C971E8908CA00798417 /* SasquatchSwiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SasquatchSwiftTests.swift; sourceTree = "<group>"; };
-		84226C991E8908CA00798417 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		84226C9E1E8908CA00798417 /* SasquatchSwiftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SasquatchSwiftUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		84226CA21E8908CA00798417 /* SasquatchSwiftUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SasquatchSwiftUITests.swift; sourceTree = "<group>"; };
-		84226CA41E8908CA00798417 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		84226CBE1E890EE200798417 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Sasquatch.storyboard; sourceTree = "<group>"; };
 		84226CC01E890FA900798417 /* MSCrashReportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSCrashReportViewController.swift; sourceTree = "<group>"; };
 		84226CC11E890FA900798417 /* SasquatchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SasquatchViewController.swift; sourceTree = "<group>"; };
@@ -172,27 +89,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		84226C0F1E88FEFC00798417 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		84226C231E88FEFC00798417 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		84226C2E1E88FEFC00798417 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		84226C441E88FF4A00798417 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -201,20 +97,6 @@
 				84226D371E89302900798417 /* MobileCenterAnalytics.framework in Frameworks */,
 				84226D381E89302900798417 /* MobileCenterCrashes.framework in Frameworks */,
 				84226D391E89302900798417 /* MobileCenterDistribute.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		84226C5C1E88FF4A00798417 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		84226C671E88FF4A00798417 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -229,20 +111,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		84226C901E8908CA00798417 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		84226C9B1E8908CA00798417 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -250,14 +118,8 @@
 			isa = PBXGroup;
 			children = (
 				84226C141E88FEFC00798417 /* Sasquatch */,
-				84226C291E88FEFC00798417 /* SasquatchTests */,
-				84226C341E88FEFC00798417 /* SasquatchUITests */,
 				84226C481E88FF4A00798417 /* SasquatchObjC */,
-				84226C621E88FF4A00798417 /* SasquatchObjCTests */,
-				84226C6D1E88FF4A00798417 /* SasquatchObjCUITests */,
 				84226C811E8908CA00798417 /* SasquatchSwift */,
-				84226C961E8908CA00798417 /* SasquatchSwiftTests */,
-				84226CA11E8908CA00798417 /* SasquatchSwiftUITests */,
 				84226C131E88FEFC00798417 /* Products */,
 				84226D0F1E8921DE00798417 /* Frameworks */,
 			);
@@ -266,15 +128,8 @@
 		84226C131E88FEFC00798417 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				84226C121E88FEFC00798417 /* Sasquatch.app */,
-				84226C261E88FEFC00798417 /* SasquatchTests.xctest */,
-				84226C311E88FEFC00798417 /* SasquatchUITests.xctest */,
 				84226C471E88FF4A00798417 /* SasquatchObjC.app */,
-				84226C5F1E88FF4A00798417 /* SasquatchObjCTests.xctest */,
-				84226C6A1E88FF4A00798417 /* SasquatchObjCUITests.xctest */,
 				84226C801E8908C900798417 /* SasquatchSwift.app */,
-				84226C931E8908CA00798417 /* SasquatchSwiftTests.xctest */,
-				84226C9E1E8908CA00798417 /* SasquatchSwiftUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -282,32 +137,14 @@
 		84226C141E88FEFC00798417 /* Sasquatch */ = {
 			isa = PBXGroup;
 			children = (
+				84226D3A1E8937FF00798417 /* MobileCenterDelegate.swift */,
 				84226CB11E8909F700798417 /* Storyboards */,
 				84226CB01E8909EA00798417 /* ViewControllers */,
-				84226CB21E8909FF00798417 /* Supporting Files */,
 				84226CCC1E89117800798417 /* CommonTableViewCell */,
 				84226D081E891FA300798417 /* MSAlertController */,
-				84226D3A1E8937FF00798417 /* MobileCenterDelegate.swift */,
+				84226CB21E8909FF00798417 /* Supporting Files */,
 			);
 			path = Sasquatch;
-			sourceTree = "<group>";
-		};
-		84226C291E88FEFC00798417 /* SasquatchTests */ = {
-			isa = PBXGroup;
-			children = (
-				84226C2A1E88FEFC00798417 /* SasquatchTests.swift */,
-				84226C2C1E88FEFC00798417 /* Info.plist */,
-			);
-			path = SasquatchTests;
-			sourceTree = "<group>";
-		};
-		84226C341E88FEFC00798417 /* SasquatchUITests */ = {
-			isa = PBXGroup;
-			children = (
-				84226C351E88FEFC00798417 /* SasquatchUITests.swift */,
-				84226C371E88FEFC00798417 /* Info.plist */,
-			);
-			path = SasquatchUITests;
 			sourceTree = "<group>";
 		};
 		84226C481E88FF4A00798417 /* SasquatchObjC */ = {
@@ -315,11 +152,9 @@
 			children = (
 				84226C4C1E88FF4A00798417 /* AppDelegate.h */,
 				84226C4D1E88FF4A00798417 /* AppDelegate.m */,
-				84226C551E88FF4A00798417 /* Assets.xcassets */,
-				84226C5A1E88FF4A00798417 /* Info.plist */,
-				84226C491E88FF4A00798417 /* Supporting Files */,
 				84226D401E89538D00798417 /* MobileCenterDelegateObjC.h */,
 				84226D411E8953F100798417 /* MobileCenterDelegateObjC.m */,
+				84226C491E88FF4A00798417 /* Supporting Files */,
 			);
 			path = SasquatchObjC;
 			sourceTree = "<group>";
@@ -327,56 +162,21 @@
 		84226C491E88FF4A00798417 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				84226C551E88FF4A00798417 /* Assets.xcassets */,
+				84226C5A1E88FF4A00798417 /* Info.plist */,
 				84226C4A1E88FF4A00798417 /* main.m */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		84226C621E88FF4A00798417 /* SasquatchObjCTests */ = {
-			isa = PBXGroup;
-			children = (
-				84226C631E88FF4A00798417 /* SasquatchObjCTests.m */,
-				84226C651E88FF4A00798417 /* Info.plist */,
-			);
-			path = SasquatchObjCTests;
-			sourceTree = "<group>";
-		};
-		84226C6D1E88FF4A00798417 /* SasquatchObjCUITests */ = {
-			isa = PBXGroup;
-			children = (
-				84226C6E1E88FF4A00798417 /* SasquatchObjCUITests.m */,
-				84226C701E88FF4A00798417 /* Info.plist */,
-			);
-			path = SasquatchObjCUITests;
 			sourceTree = "<group>";
 		};
 		84226C811E8908CA00798417 /* SasquatchSwift */ = {
 			isa = PBXGroup;
 			children = (
 				84226C821E8908CA00798417 /* AppDelegate.swift */,
-				84226C891E8908CA00798417 /* Assets.xcassets */,
-				84226C8E1E8908CA00798417 /* Info.plist */,
 				84226D3E1E8939B700798417 /* MobileCenterDelegateSwift.swift */,
+				84C7EA8C1E8968B900FAFE15 /* Supporting Files */,
 			);
 			path = SasquatchSwift;
-			sourceTree = "<group>";
-		};
-		84226C961E8908CA00798417 /* SasquatchSwiftTests */ = {
-			isa = PBXGroup;
-			children = (
-				84226C971E8908CA00798417 /* SasquatchSwiftTests.swift */,
-				84226C991E8908CA00798417 /* Info.plist */,
-			);
-			path = SasquatchSwiftTests;
-			sourceTree = "<group>";
-		};
-		84226CA11E8908CA00798417 /* SasquatchSwiftUITests */ = {
-			isa = PBXGroup;
-			children = (
-				84226CA21E8908CA00798417 /* SasquatchSwiftUITests.swift */,
-				84226CA41E8908CA00798417 /* Info.plist */,
-			);
-			path = SasquatchSwiftUITests;
 			sourceTree = "<group>";
 		};
 		84226CB01E8909EA00798417 /* ViewControllers */ = {
@@ -446,62 +246,18 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		84C7EA8C1E8968B900FAFE15 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				84226C891E8908CA00798417 /* Assets.xcassets */,
+				84226C8E1E8908CA00798417 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		84226C111E88FEFC00798417 /* Sasquatch */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 84226C3A1E88FEFC00798417 /* Build configuration list for PBXNativeTarget "Sasquatch" */;
-			buildPhases = (
-				84226C0E1E88FEFC00798417 /* Sources */,
-				84226C0F1E88FEFC00798417 /* Frameworks */,
-				84226C101E88FEFC00798417 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = Sasquatch;
-			productName = Sasquatch;
-			productReference = 84226C121E88FEFC00798417 /* Sasquatch.app */;
-			productType = "com.apple.product-type.application";
-		};
-		84226C251E88FEFC00798417 /* SasquatchTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 84226C3D1E88FEFC00798417 /* Build configuration list for PBXNativeTarget "SasquatchTests" */;
-			buildPhases = (
-				84226C221E88FEFC00798417 /* Sources */,
-				84226C231E88FEFC00798417 /* Frameworks */,
-				84226C241E88FEFC00798417 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				84226C281E88FEFC00798417 /* PBXTargetDependency */,
-			);
-			name = SasquatchTests;
-			productName = SasquatchTests;
-			productReference = 84226C261E88FEFC00798417 /* SasquatchTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		84226C301E88FEFC00798417 /* SasquatchUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 84226C401E88FEFC00798417 /* Build configuration list for PBXNativeTarget "SasquatchUITests" */;
-			buildPhases = (
-				84226C2D1E88FEFC00798417 /* Sources */,
-				84226C2E1E88FEFC00798417 /* Frameworks */,
-				84226C2F1E88FEFC00798417 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				84226C331E88FEFC00798417 /* PBXTargetDependency */,
-			);
-			name = SasquatchUITests;
-			productName = SasquatchUITests;
-			productReference = 84226C311E88FEFC00798417 /* SasquatchUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 		84226C461E88FF4A00798417 /* SasquatchObjC */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 84226C711E88FF4A00798417 /* Build configuration list for PBXNativeTarget "SasquatchObjC" */;
@@ -518,42 +274,6 @@
 			productName = SasquatchObjC;
 			productReference = 84226C471E88FF4A00798417 /* SasquatchObjC.app */;
 			productType = "com.apple.product-type.application";
-		};
-		84226C5E1E88FF4A00798417 /* SasquatchObjCTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 84226C741E88FF4A00798417 /* Build configuration list for PBXNativeTarget "SasquatchObjCTests" */;
-			buildPhases = (
-				84226C5B1E88FF4A00798417 /* Sources */,
-				84226C5C1E88FF4A00798417 /* Frameworks */,
-				84226C5D1E88FF4A00798417 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				84226C611E88FF4A00798417 /* PBXTargetDependency */,
-			);
-			name = SasquatchObjCTests;
-			productName = SasquatchObjCTests;
-			productReference = 84226C5F1E88FF4A00798417 /* SasquatchObjCTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		84226C691E88FF4A00798417 /* SasquatchObjCUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 84226C771E88FF4A00798417 /* Build configuration list for PBXNativeTarget "SasquatchObjCUITests" */;
-			buildPhases = (
-				84226C661E88FF4A00798417 /* Sources */,
-				84226C671E88FF4A00798417 /* Frameworks */,
-				84226C681E88FF4A00798417 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				84226C6C1E88FF4A00798417 /* PBXTargetDependency */,
-			);
-			name = SasquatchObjCUITests;
-			productName = SasquatchObjCUITests;
-			productReference = 84226C6A1E88FF4A00798417 /* SasquatchObjCUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 		84226C7F1E8908C900798417 /* SasquatchSwift */ = {
 			isa = PBXNativeTarget;
@@ -572,42 +292,6 @@
 			productReference = 84226C801E8908C900798417 /* SasquatchSwift.app */;
 			productType = "com.apple.product-type.application";
 		};
-		84226C921E8908CA00798417 /* SasquatchSwiftTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 84226CA81E8908CA00798417 /* Build configuration list for PBXNativeTarget "SasquatchSwiftTests" */;
-			buildPhases = (
-				84226C8F1E8908CA00798417 /* Sources */,
-				84226C901E8908CA00798417 /* Frameworks */,
-				84226C911E8908CA00798417 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				84226C951E8908CA00798417 /* PBXTargetDependency */,
-			);
-			name = SasquatchSwiftTests;
-			productName = SasquatchSwiftTests;
-			productReference = 84226C931E8908CA00798417 /* SasquatchSwiftTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		84226C9D1E8908CA00798417 /* SasquatchSwiftUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 84226CAB1E8908CA00798417 /* Build configuration list for PBXNativeTarget "SasquatchSwiftUITests" */;
-			buildPhases = (
-				84226C9A1E8908CA00798417 /* Sources */,
-				84226C9B1E8908CA00798417 /* Frameworks */,
-				84226C9C1E8908CA00798417 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				84226CA01E8908CA00798417 /* PBXTargetDependency */,
-			);
-			name = SasquatchSwiftUITests;
-			productName = SasquatchSwiftUITests;
-			productReference = 84226C9E1E8908CA00798417 /* SasquatchSwiftUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -617,51 +301,16 @@
 				LastSwiftUpdateCheck = 0820;
 				LastUpgradeCheck = 0820;
 				TargetAttributes = {
-					84226C111E88FEFC00798417 = {
-						CreatedOnToolsVersion = 8.2.1;
-						LastSwiftMigration = 0820;
-						ProvisioningStyle = Automatic;
-					};
-					84226C251E88FEFC00798417 = {
-						CreatedOnToolsVersion = 8.2.1;
-						ProvisioningStyle = Automatic;
-						TestTargetID = 84226C111E88FEFC00798417;
-					};
-					84226C301E88FEFC00798417 = {
-						CreatedOnToolsVersion = 8.2.1;
-						ProvisioningStyle = Automatic;
-						TestTargetID = 84226C111E88FEFC00798417;
-					};
 					84226C461E88FF4A00798417 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 285W24646W;
 						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 					};
-					84226C5E1E88FF4A00798417 = {
-						CreatedOnToolsVersion = 8.2.1;
-						ProvisioningStyle = Automatic;
-						TestTargetID = 84226C461E88FF4A00798417;
-					};
-					84226C691E88FF4A00798417 = {
-						CreatedOnToolsVersion = 8.2.1;
-						ProvisioningStyle = Automatic;
-						TestTargetID = 84226C461E88FF4A00798417;
-					};
 					84226C7F1E8908C900798417 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 285W24646W;
 						ProvisioningStyle = Automatic;
-					};
-					84226C921E8908CA00798417 = {
-						CreatedOnToolsVersion = 8.2.1;
-						ProvisioningStyle = Automatic;
-						TestTargetID = 84226C7F1E8908C900798417;
-					};
-					84226C9D1E8908CA00798417 = {
-						CreatedOnToolsVersion = 8.2.1;
-						ProvisioningStyle = Automatic;
-						TestTargetID = 84226C7F1E8908C900798417;
 					};
 				};
 			};
@@ -678,47 +327,13 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				84226C111E88FEFC00798417 /* Sasquatch */,
-				84226C251E88FEFC00798417 /* SasquatchTests */,
-				84226C301E88FEFC00798417 /* SasquatchUITests */,
 				84226C461E88FF4A00798417 /* SasquatchObjC */,
-				84226C5E1E88FF4A00798417 /* SasquatchObjCTests */,
-				84226C691E88FF4A00798417 /* SasquatchObjCUITests */,
 				84226C7F1E8908C900798417 /* SasquatchSwift */,
-				84226C921E8908CA00798417 /* SasquatchSwiftTests */,
-				84226C9D1E8908CA00798417 /* SasquatchSwiftUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		84226C101E88FEFC00798417 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				84226CBF1E890EE200798417 /* Sasquatch.storyboard in Resources */,
-				84226C201E88FEFC00798417 /* LaunchScreen.storyboard in Resources */,
-				84226CD41E8911A100798417 /* MSDetailsTableViewCell.xib in Resources */,
-				84226C1D1E88FEFC00798417 /* Assets.xcassets in Resources */,
-				84226CD81E8911A100798417 /* MSTitleTableViewCell.xib in Resources */,
-				84226CD61E8911A100798417 /* MSSwitchTableViewCell.xib in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		84226C241E88FEFC00798417 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		84226C2F1E88FEFC00798417 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		84226C451E88FF4A00798417 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -728,20 +343,6 @@
 				84226CE01E8911BB00798417 /* MSTitleTableViewCell.xib in Resources */,
 				84226CDE1E8911BB00798417 /* MSSwitchTableViewCell.xib in Resources */,
 				84226CC41E89104D00798417 /* Sasquatch.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		84226C5D1E88FF4A00798417 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		84226C681E88FF4A00798417 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -757,53 +358,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		84226C911E8908CA00798417 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		84226C9C1E8908CA00798417 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		84226C0E1E88FEFC00798417 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				84226CC31E890FA900798417 /* SasquatchViewController.swift in Sources */,
-				84226D3B1E8937FF00798417 /* MobileCenterDelegate.swift in Sources */,
-				84226D0C1E891FBA00798417 /* MSAlertController.m in Sources */,
-				84226CD71E8911A100798417 /* MSTitleTableViewCell.swift in Sources */,
-				84226CC21E890FA900798417 /* MSCrashReportViewController.swift in Sources */,
-				84226CD31E8911A100798417 /* MSDetailsTableViewCell.swift in Sources */,
-				84226CD51E8911A100798417 /* MSSwitchTableViewCell.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		84226C221E88FEFC00798417 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				84226C2B1E88FEFC00798417 /* SasquatchTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		84226C2D1E88FEFC00798417 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				84226C361E88FEFC00798417 /* SasquatchUITests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		84226C431E88FF4A00798417 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -818,22 +375,6 @@
 				84226C4E1E88FF4A00798417 /* AppDelegate.m in Sources */,
 				84226C4B1E88FF4A00798417 /* main.m in Sources */,
 				84226D3C1E8938D100798417 /* MobileCenterDelegate.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		84226C5B1E88FF4A00798417 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				84226C641E88FF4A00798417 /* SasquatchObjCTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		84226C661E88FF4A00798417 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				84226C6F1E88FF4A00798417 /* SasquatchObjCUITests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -853,56 +394,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		84226C8F1E8908CA00798417 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				84226C981E8908CA00798417 /* SasquatchSwiftTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		84226C9A1E8908CA00798417 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				84226CA31E8908CA00798417 /* SasquatchSwiftUITests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		84226C281E88FEFC00798417 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 84226C111E88FEFC00798417 /* Sasquatch */;
-			targetProxy = 84226C271E88FEFC00798417 /* PBXContainerItemProxy */;
-		};
-		84226C331E88FEFC00798417 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 84226C111E88FEFC00798417 /* Sasquatch */;
-			targetProxy = 84226C321E88FEFC00798417 /* PBXContainerItemProxy */;
-		};
-		84226C611E88FF4A00798417 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 84226C461E88FF4A00798417 /* SasquatchObjC */;
-			targetProxy = 84226C601E88FF4A00798417 /* PBXContainerItemProxy */;
-		};
-		84226C6C1E88FF4A00798417 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 84226C461E88FF4A00798417 /* SasquatchObjC */;
-			targetProxy = 84226C6B1E88FF4A00798417 /* PBXContainerItemProxy */;
-		};
-		84226C951E8908CA00798417 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 84226C7F1E8908C900798417 /* SasquatchSwift */;
-			targetProxy = 84226C941E8908CA00798417 /* PBXContainerItemProxy */;
-		};
-		84226CA01E8908CA00798417 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 84226C7F1E8908C900798417 /* SasquatchSwift */;
-			targetProxy = 84226C9F1E8908CA00798417 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		84226C1E1E88FEFC00798417 /* LaunchScreen.storyboard */ = {
@@ -1019,91 +511,6 @@
 			};
 			name = Release;
 		};
-		84226C3B1E88FEFC00798417 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ENABLE_MODULES = YES;
-				DEFINES_MODULE = NO;
-				INFOPLIST_FILE = Sasquatch/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.Sasquatch;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Sasquatch/Sasquatch-Bridging-Header.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
-			};
-			name = Debug;
-		};
-		84226C3C1E88FEFC00798417 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ENABLE_MODULES = YES;
-				DEFINES_MODULE = NO;
-				INFOPLIST_FILE = Sasquatch/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.Sasquatch;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Sasquatch/Sasquatch-Bridging-Header.h";
-				SWIFT_VERSION = 3.0;
-			};
-			name = Release;
-		};
-		84226C3E1E88FEFC00798417 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = SasquatchTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.SasquatchTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Sasquatch.app/Sasquatch";
-			};
-			name = Debug;
-		};
-		84226C3F1E88FEFC00798417 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = SasquatchTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.SasquatchTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Sasquatch.app/Sasquatch";
-			};
-			name = Release;
-		};
-		84226C411E88FEFC00798417 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				INFOPLIST_FILE = SasquatchUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.SasquatchUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
-				TEST_TARGET_NAME = Sasquatch;
-			};
-			name = Debug;
-		};
-		84226C421E88FEFC00798417 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				INFOPLIST_FILE = SasquatchUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.SasquatchUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
-				TEST_TARGET_NAME = Sasquatch;
-			};
-			name = Release;
-		};
 		84226C721E88FF4A00798417 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1133,56 +540,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Sasquatch/Sasquatch-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
-			};
-			name = Release;
-		};
-		84226C751E88FF4A00798417 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = SasquatchObjCTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatch.SasquatchObjCTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SasquatchObjC.app/SasquatchObjC";
-			};
-			name = Debug;
-		};
-		84226C761E88FF4A00798417 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = SasquatchObjCTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatch.SasquatchObjCTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SasquatchObjC.app/SasquatchObjC";
-			};
-			name = Release;
-		};
-		84226C781E88FF4A00798417 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				INFOPLIST_FILE = SasquatchObjCUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatch.SasquatchObjCUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_TARGET_NAME = SasquatchObjC;
-			};
-			name = Debug;
-		};
-		84226C791E88FF4A00798417 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				INFOPLIST_FILE = SasquatchObjCUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatch.SasquatchObjCUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_TARGET_NAME = SasquatchObjC;
 			};
 			name = Release;
 		};
@@ -1216,60 +573,6 @@
 			};
 			name = Release;
 		};
-		84226CA91E8908CA00798417 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = SasquatchSwiftTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatch.SasquatchSwiftTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SasquatchSwift.app/SasquatchSwift";
-			};
-			name = Debug;
-		};
-		84226CAA1E8908CA00798417 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = SasquatchSwiftTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatch.SasquatchSwiftTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SasquatchSwift.app/SasquatchSwift";
-			};
-			name = Release;
-		};
-		84226CAC1E8908CA00798417 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				INFOPLIST_FILE = SasquatchSwiftUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatch.SasquatchSwiftUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
-				TEST_TARGET_NAME = SasquatchSwift;
-			};
-			name = Debug;
-		};
-		84226CAD1E8908CA00798417 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				INFOPLIST_FILE = SasquatchSwiftUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatch.SasquatchSwiftUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
-				TEST_TARGET_NAME = SasquatchSwift;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1278,33 +581,6 @@
 			buildConfigurations = (
 				84226C381E88FEFC00798417 /* Debug */,
 				84226C391E88FEFC00798417 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		84226C3A1E88FEFC00798417 /* Build configuration list for PBXNativeTarget "Sasquatch" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				84226C3B1E88FEFC00798417 /* Debug */,
-				84226C3C1E88FEFC00798417 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		84226C3D1E88FEFC00798417 /* Build configuration list for PBXNativeTarget "SasquatchTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				84226C3E1E88FEFC00798417 /* Debug */,
-				84226C3F1E88FEFC00798417 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		84226C401E88FEFC00798417 /* Build configuration list for PBXNativeTarget "SasquatchUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				84226C411E88FEFC00798417 /* Debug */,
-				84226C421E88FEFC00798417 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1318,47 +594,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		84226C741E88FF4A00798417 /* Build configuration list for PBXNativeTarget "SasquatchObjCTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				84226C751E88FF4A00798417 /* Debug */,
-				84226C761E88FF4A00798417 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		84226C771E88FF4A00798417 /* Build configuration list for PBXNativeTarget "SasquatchObjCUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				84226C781E88FF4A00798417 /* Debug */,
-				84226C791E88FF4A00798417 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		84226CA51E8908CA00798417 /* Build configuration list for PBXNativeTarget "SasquatchSwift" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				84226CA61E8908CA00798417 /* Debug */,
 				84226CA71E8908CA00798417 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		84226CA81E8908CA00798417 /* Build configuration list for PBXNativeTarget "SasquatchSwiftTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				84226CA91E8908CA00798417 /* Debug */,
-				84226CAA1E8908CA00798417 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		84226CAB1E8908CA00798417 /* Build configuration list for PBXNativeTarget "SasquatchSwiftUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				84226CAC1E8908CA00798417 /* Debug */,
-				84226CAD1E8908CA00798417 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
