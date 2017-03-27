@@ -1,4 +1,4 @@
-protocol MobileCenterDelegate {
+@objc protocol MobileCenterDelegate {
     func hasCrashedInLastSession() -> Bool
     func isAnalyticsEnabled() -> Bool
     func isCrashesEnabled() -> Bool
@@ -19,8 +19,8 @@ protocol MobileCenterDelegate {
     func lastCrashReportExceptionReason() -> String?
     func lastCrashReportAppStartTimeDescription() -> String?
     func lastCrashReportAppErrorTimeDescription() -> String?
-    func lastCrashReportAppProcessIdentifier() -> UInt?
-    func lastCrashReportIsAppKill() -> Bool?
+    func lastCrashReportAppProcessIdentifier() -> UInt
+    func lastCrashReportIsAppKill() -> Bool
     func lastCrashReportDeviceModel() -> String?
     func lastCrashReportDeviceOemName() -> String?
     func lastCrashReportDeviceOsName() -> String?

@@ -58,11 +58,11 @@ class MobileCenterDelegateSwift: MobileCenterDelegate {
     func lastCrashReportAppErrorTimeDescription() -> String?{
         return MSCrashes.lastSessionCrashReport()?.appErrorTime.description
     }
-    func lastCrashReportAppProcessIdentifier() -> UInt?{
-        return MSCrashes.lastSessionCrashReport()?.appProcessIdentifier
+    func lastCrashReportAppProcessIdentifier() -> UInt{
+        return (MSCrashes.lastSessionCrashReport()?.appProcessIdentifier)!
     }
-    func lastCrashReportIsAppKill() -> Bool?{
-        return MSCrashes.lastSessionCrashReport()?.isAppKill()
+    func lastCrashReportIsAppKill() -> Bool{
+        return (MSCrashes.lastSessionCrashReport()?.isAppKill())!
     }
     func lastCrashReportDeviceModel() -> String?{
         return MSCrashes.lastSessionCrashReport()?.device.model

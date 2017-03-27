@@ -1,5 +1,6 @@
 #import "AppDelegate.h"
 #import "MSAlertController.h"
+#import "MobileCenterDelegateObjC.h"
 
 @import MobileCenter;
 @import MobileCenterAnalytics;
@@ -18,7 +19,7 @@
     [MSMobileCenter start:@"0dbca56b-b9ae-4d53-856a-7c2856137d85" withServices:@[[MSAnalytics class], [MSCrashes class], [MSDistribute class]]];
     
     [self crashes];
-    
+    [self setMobileCenterDelegate];
     return YES;
 }
 
@@ -120,6 +121,10 @@
     })];
 }
 
+-(void) setMobileCenterDelegate{
+    SasquatchViewController *sasquatchController = (SasquatchViewController *)[(UINavigationController *)[[self window] rootViewController] topViewController];
+    sasquatchController.mobileCenter = [[MobileCenterDelegateObjC alloc] init];
+}
 #pragma mark - MSCrashesDelegate
 
 - (BOOL)crashes:(MSCrashes *)crashes shouldProcessErrorReport:(MSErrorReport *)errorReport {

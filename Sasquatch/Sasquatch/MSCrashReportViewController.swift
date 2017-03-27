@@ -95,11 +95,11 @@ extension MSCrashReportViewController : UITableViewDataSource{
                 
             case .AppProcessIdentifier:
                 cell.titleNameLabel.text = CrashReportInfoType.AppProcessIdentifier.rawValue
-                cell.detailLabel.text = String(describing: (mobileCenter.lastCrashReportAppProcessIdentifier()!))
+                cell.detailLabel.text = String(describing: (mobileCenter.lastCrashReportAppProcessIdentifier()))
                 
             case .IsAppKill:
                 cell.titleNameLabel.text = CrashReportInfoType.IsAppKill.rawValue
-                cell.detailLabel.text = String(describing: (mobileCenter.lastCrashReportIsAppKill()!))
+                cell.detailLabel.text = String(describing: (mobileCenter.lastCrashReportIsAppKill()))
                 break
                 
             case .DeviceModel:
