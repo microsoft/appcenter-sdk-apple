@@ -1,11 +1,3 @@
-//
-//  ViewController.swift
-//  SasquatchSwift
-//
-//  Created by Alexander on 27/03/17.
-//
-//
-
 import UIKit
 
 class ViewControllerSwift: UIViewController {

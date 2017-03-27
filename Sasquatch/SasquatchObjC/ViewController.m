@@ -1,11 +1,3 @@
-//
-//  ViewController.m
-//  SasquatchObjC
-//
-//  Created by Alexander on 27/03/17.
-//
-//
-
 #import "ViewController.h"
 
 @interface ViewController ()

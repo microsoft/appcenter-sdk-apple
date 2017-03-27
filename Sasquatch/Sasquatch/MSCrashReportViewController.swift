@@ -37,9 +37,9 @@ class MSCrashReportViewController: UIViewController {
         static let allReports  = [CrashReportInfoType.Identifier, CrashReportInfoType.ReporterKey, CrashReportInfoType.Signal, CrashReportInfoType.ExceptionName, CrashReportInfoType.ExceptionReason, CrashReportInfoType.AppStartTime, CrashReportInfoType.AppErrorTime, CrashReportInfoType.AppProcessIdentifier, CrashReportInfoType.IsAppKill, CrashReportInfoType.DeviceModel, CrashReportInfoType.DeviceOEMName, CrashReportInfoType.DeviceOSName, CrashReportInfoType.DeviceOSVersion, CrashReportInfoType.DeviceOSBuild, CrashReportInfoType.DeviceLocale, CrashReportInfoType.DeviceTimeZoneOffset, CrashReportInfoType.DeviceScreenSize, CrashReportInfoType.AppVersion, CrashReportInfoType.AppBuild, CrashReportInfoType.CarrierName, CrashReportInfoType.CarrierCountry, CrashReportInfoType.AppNamespace]
     }
     
-    //TODO
-    //var crashReport:MSErrorReport!
+
     @IBOutlet weak var reportTableView: UITableView!
+    var mobileCenter:MobileCenterDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,125 +67,104 @@ extension MSCrashReportViewController : UITableViewDataSource{
             switch CrashReportInfoType.allReports[indexPath.row] {
             case .Identifier:
                 cell.titleNameLabel.text = CrashReportInfoType.Identifier.rawValue
-                //TODO
-                //cell.detailLabel.text = crashReport.incidentIdentifier ?? "N/A"
+                cell.detailLabel.text = mobileCenter.lastCrashReportIncidentIdentifier() ?? "N/A"
                 
             case .ReporterKey:
                 cell.titleNameLabel.text = CrashReportInfoType.ReporterKey.rawValue
-                //TODO
-                //cell.detailLabel.text = crashReport.reporterKey ?? "N/A"
+                cell.detailLabel.text = mobileCenter.lastCrashReportReporterKey() ?? "N/A"
                 
             case .Signal:
                 cell.titleNameLabel.text = CrashReportInfoType.Signal.rawValue
-                //TODO
-                //cell.detailLabel.text = crashReport.signal ?? "N/A"
+                cell.detailLabel.text = mobileCenter.lastCrashReportSignal() ?? "N/A"
                 
             case .ExceptionName:
                 cell.titleNameLabel.text = CrashReportInfoType.ExceptionName.rawValue
-                //TODO
-                //cell.detailLabel.text = crashReport.exceptionName ?? "N/A"
+                cell.detailLabel.text = mobileCenter.lastCrashReportExceptionName() ?? "N/A"
                 
             case .ExceptionReason:
                 cell.titleNameLabel.text = CrashReportInfoType.ExceptionReason.rawValue
-                //TODO
-                //cell.detailLabel.text = crashReport.exceptionReason ?? "N/A"
+                cell.detailLabel.text = mobileCenter.lastCrashReportExceptionReason() ?? "N/A"
                 
             case .AppStartTime:
                 cell.titleNameLabel.text = CrashReportInfoType.AppStartTime.rawValue
-                //TODO
-                //cell.detailLabel.text = crashReport.appStartTime.description
+                cell.detailLabel.text = mobileCenter.lastCrashReportAppStartTimeDescription() ?? "N/A"
                 
             case .AppErrorTime:
                 cell.titleNameLabel.text = CrashReportInfoType.AppErrorTime.rawValue
-                //TODO
-                //cell.detailLabel.text = crashReport.appErrorTime.description
+                cell.detailLabel.text = mobileCenter.lastCrashReportAppErrorTimeDescription() ?? "N/A"
                 
             case .AppProcessIdentifier:
                 cell.titleNameLabel.text = CrashReportInfoType.AppProcessIdentifier.rawValue
-                //TODO
-                //cell.detailLabel.text = String(describing: (crashReport.appProcessIdentifier))
+                cell.detailLabel.text = String(describing: (mobileCenter.lastCrashReportAppProcessIdentifier()!))
                 
             case .IsAppKill:
                 cell.titleNameLabel.text = CrashReportInfoType.IsAppKill.rawValue
-                //TODO
-                //cell.detailLabel.text = String(describing: (crashReport.isAppKill() ))
+                cell.detailLabel.text = String(describing: (mobileCenter.lastCrashReportIsAppKill()!))
                 break
                 
             case .DeviceModel:
                 cell.titleNameLabel.text = CrashReportInfoType.DeviceModel.rawValue
-                //TODO
-                //cell.detailLabel.text = crashReport.device.model ?? "N/A"
+                cell.detailLabel.text = mobileCenter.lastCrashReportDeviceModel() ?? "N/A"
                 break
                 
             case .DeviceOEMName:
                 cell.titleNameLabel.text = CrashReportInfoType.DeviceOEMName.rawValue
-                //TODO
-                //cell.detailLabel.text = crashReport.device.oemName ?? "N/A"
+                cell.detailLabel.text = mobileCenter.lastCrashReportDeviceOemName() ?? "N/A"
                 break
                 
             case .DeviceOSName:
                 cell.titleNameLabel.text = CrashReportInfoType.DeviceOSName.rawValue
-                //TODO
-                //cell.detailLabel.text = crashReport.device.osName ?? "N/A"
+                cell.detailLabel.text = mobileCenter.lastCrashReportDeviceOsName() ?? "N/A"
                 break
                 
             case .DeviceOSVersion:
                 cell.titleNameLabel.text = CrashReportInfoType.DeviceOSVersion.rawValue
-                //TODO
-                //cell.detailLabel.text = crashReport.device.osVersion ?? "N/A"
+                cell.detailLabel.text = mobileCenter.lastCrashReportDeviceOsVersion() ?? "N/A"
                 break
                 
             case .DeviceOSBuild:
                 cell.titleNameLabel.text = CrashReportInfoType.DeviceOSBuild.rawValue
-                //TODO
-                //cell.detailLabel.text = crashReport.device.osBuild ?? "N/A"
+                cell.detailLabel.text = mobileCenter.lastCrashReportDeviceOsBuild() ?? "N/A"
                 break
                 
             case .DeviceLocale:
                 cell.titleNameLabel.text = CrashReportInfoType.DeviceLocale.rawValue
-                //TODO
-                //cell.detailLabel.text = crashReport.device.locale ?? "N/A"
+                cell.detailLabel.text = mobileCenter.lastCrashReportDeviceLocale() ?? "N/A"
                 break
                 
             case .DeviceTimeZoneOffset:
                 cell.titleNameLabel.text = CrashReportInfoType.DeviceTimeZoneOffset.rawValue
-                //TODO
-                //cell.detailLabel.text = String(describing: crashReport.device.timeZoneOffset ?? 0)
+                cell.detailLabel.text = String(describing: mobileCenter.lastCrashReportDeviceTimeZoneOffset() ?? 0)
                 break
                 
             case .DeviceScreenSize:
                 cell.titleNameLabel.text = CrashReportInfoType.DeviceScreenSize.rawValue
-                //TODO
-                //cell.detailLabel.text = crashReport.device.screenSize ?? "N/A"
+                cell.detailLabel.text = mobileCenter.lastCrashReportDeviceScreenSize() ?? "N/A"
                 break
                 
             case .AppVersion:
                 cell.titleNameLabel.text = CrashReportInfoType.AppVersion.rawValue
-                //TODO
-                //cell.detailLabel.text = crashReport.device.appVersion ?? "N/A"
+                cell.detailLabel.text = mobileCenter.lastCrashReportDeviceAppVersion() ?? "N/A"
                 break
                 
             case .AppBuild:
                 cell.titleNameLabel.text = CrashReportInfoType.AppBuild.rawValue
-                //cell.detailLabel.text = crashReport.device.appBuild ?? "N/A"
+                cell.detailLabel.text = mobileCenter.lastCrashReportDeviceAppBuild() ?? "N/A"
                 break
                 
             case .CarrierName:
                 cell.titleNameLabel.text = CrashReportInfoType.CarrierName.rawValue
-                //TODO
-                //cell.detailLabel.text = crashReport.device.carrierName ?? "N/A"
+                cell.detailLabel.text = mobileCenter.lastCrashReportDeviceCarrierName() ?? "N/A"
                 break
                 
             case .CarrierCountry:
                 cell.titleNameLabel.text = CrashReportInfoType.CarrierCountry.rawValue
-                ////TODO
-                //cell.detailLabel.text = crashReport.device.carrierCountry ?? "N/A"
+                cell.detailLabel.text = mobileCenter.lastCrashReportDeviceCarrierCountry() ?? "N/A"
                 break
                 
             case .AppNamespace:
                 cell.titleNameLabel.text = CrashReportInfoType.AppNamespace.rawValue
-                //TODO
-                //cell.detailLabel.text = crashReport.device.appNamespace ?? "N/A"
+                cell.detailLabel.text = mobileCenter.lastCrashReportDeviceAppNamespace() ?? "N/A"
                 break
             }
             return cell

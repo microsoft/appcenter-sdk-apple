@@ -76,6 +76,7 @@ class SasquatchViewController: UIViewController {
     }
 
     @IBOutlet weak var tableView: UITableView!
+    var mobileCenter: MobileCenterDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -98,11 +99,9 @@ class SasquatchViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        /*
-        if (segue.identifier == "ShowCrashReport" && MSCrashes.hasCrashedInLastSession()){
-            (segue.destination as! MSCrashReportViewController).crashReport = MSCrashes.lastSessionCrashReport()
+        if (segue.identifier == "ShowCrashReport" && mobileCenter.hasCrashedInLastSession()){
+            (segue.destination as! MSCrashReportViewController).mobileCenter = mobileCenter
         }
- */
     }
 }
 
@@ -155,16 +154,13 @@ extension SasquatchViewController : UITableViewDataSource {
                 cell.titleNameLabel.text = _cellSetting.title
                 switch serviceType {
                 case .Analytics:
-                    //TODO
-                    //cell.titleSwitch.isOn = MSAnalytics.isEnabled();
+                    cell.titleSwitch.isOn = mobileCenter.isAnalyticsEnabled()
                     break;
                 case .Crashes:
-                    //TODO
-                    //cell.titleSwitch.isOn = MSCrashes.isEnabled();
+                    cell.titleSwitch.isOn = mobileCenter.isCrashesEnabled()
                     break;
                 case .Distribute:
-                    //TODO
-                    //cell.titleSwitch.isOn = MSDistribute.isEnabled();
+                    cell.titleSwitch.isOn = mobileCenter.isDistributeEnabled()
                     break;
                 }
                 return cell;
@@ -186,7 +182,7 @@ extension SasquatchViewController : UITableViewDataSource {
 extension SasquatchViewController : UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-/*
+
         guard let serviceType : MobileCenterServicesType = MobileCenterServicesType(rawValue: indexPath.section) else {
             return;
         }
@@ -199,22 +195,22 @@ extension SasquatchViewController : UITableViewDelegate{
             case .SetEnabled:
 
                 //Enable/Disable MSAnalytics
-                MSAnalytics.setEnabled(!MSAnalytics.isEnabled())
+                mobileCenter.setAnalyticsEnabled(!mobileCenter.isAnalyticsEnabled())
                 tableView.reloadRows(at: [indexPath], with: .automatic)
                 break
             case .TrackEvent:
 
                 //Track event with name only
-                MSAnalytics.trackEvent("Row Clicked")
-                if (MSAnalytics.isEnabled()) {
+                mobileCenter.trackEvent("Row Clicked")
+                if (mobileCenter.isAnalyticsEnabled()) {
                     showAlertWithMessage(title: "Success!", message: "")
                 }
                 break
             case .TrackEventWithProperties:
 
                 //Track Event with Properties
-                MSAnalytics.trackEvent("Row Clicked", withProperties: ["Name" : "Track Event", "Row Number" : "\(indexPath.row)"])
-                if (MSAnalytics.isEnabled()) {
+                mobileCenter.trackEvent("Row Clicked", withProperties: ["Name" : "Track Event", "Row Number" : "\(indexPath.row)"])
+                if (mobileCenter.isAnalyticsEnabled()) {
                     showAlertWithMessage(title: "Success!", message: "")
                 }
                 break
@@ -225,26 +221,26 @@ extension SasquatchViewController : UITableViewDelegate{
             case .SetEnabled:
 
                 //Enable/Disable MSCrashes
-                MSCrashes.setEnabled(!MSCrashes.isEnabled())
+                mobileCenter.setCrashesEnabled(!mobileCenter.isCrashesEnabled())
                 tableView.reloadRows(at: [indexPath], with: .automatic)
                 break
             case .GenerateTestCrash:
 
                 //Test either debugger attached
-                if (MSMobileCenter.isDebuggerAttached()) {
+                if (mobileCenter.isDebuggerAttached()) {
                     self.showAlertWithMessage(title: "", message: "Detecting crashes is NOT enabled due to running the app with a debugger attached.")
                 } else {
 
                     //Generate Crash
-                    MSCrashes.generateTestCrash()
+                    mobileCenter.generateTestCrash()
                 }
                 break
             case .AppCrashInLastSession:
 
                 //Check either app was crashed in last session
-                let message = "App \(MSCrashes.hasCrashedInLastSession() ? "has" : "has not") crashed in last session"
+                let message = "App \(mobileCenter.hasCrashedInLastSession() ? "has" : "has not") crashed in last session"
                 let alert = MSAlertController.init(title: "", message: message, preferredStyle: .alert)
-                if (MSCrashes.hasCrashedInLastSession()) {
+                if (mobileCenter.hasCrashedInLastSession()) {
                     alert.addAction(UIAlertAction(title: "Show Crash Report", style: .default, handler: { (alert) in
                         self.performSegue(withIdentifier: "ShowCrashReport", sender: self)
                     }))
@@ -259,12 +255,11 @@ extension SasquatchViewController : UITableViewDelegate{
             case .SetEnabled:
 
                 //Enable/Disable MSDistribute
-                MSDistribute.setEnabled(!MSDistribute.isEnabled());
+                mobileCenter.setDistributeEnabled(!mobileCenter.isDistributeEnabled())
                 break;
             }
             break;
         }
- */
     }
 }
 
@@ -280,16 +275,13 @@ extension SasquatchViewController : MSSwitchCellDelegate{
 
         switch serviceType {
         case .Analytics:
-            //TODO
-            //MSAnalytics.setEnabled(sender.isOn);
+            mobileCenter.setAnalyticsEnabled(sender.isOn)
             break;
         case .Crashes:
-            //TODO
-            //MSCrashes.setEnabled(sender.isOn);
+            mobileCenter.setCrashesEnabled(sender.isOn)
             break;
         case .Distribute:
-            //TODO
-            //MSDistribute.setEnabled(sender.isOn);
+            mobileCenter.setDistributeEnabled(sender.isOn)
             break;
         }
     }

@@ -1,12 +1,5 @@
-//
-//  SasquatchSwiftTests.swift
-//  SasquatchSwiftTests
-//
-//  Created by Alexander on 27/03/17.
-//
-//
-
 import XCTest
+
 @testable import SasquatchSwift
 
 class SasquatchSwiftTests: XCTestCase {

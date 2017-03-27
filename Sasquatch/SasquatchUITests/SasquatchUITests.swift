@@ -1,11 +1,3 @@
-//
-//  SasquatchUITests.swift
-//  SasquatchUITests
-//
-//  Created by Alexander on 27/03/17.
-//
-//
-
 import XCTest
 
 class SasquatchUITests: XCTestCase {

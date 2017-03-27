@@ -1,11 +1,3 @@
-//
-//  SasquatchObjCUITests.m
-//  SasquatchObjCUITests
-//
-//  Created by Alexander on 27/03/17.
-//
-//
-
 #import <XCTest/XCTest.h>
 
 @interface SasquatchObjCUITests : XCTestCase

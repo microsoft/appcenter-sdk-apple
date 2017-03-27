@@ -1,11 +1,3 @@
-//
-//  AppDelegate.swift
-//  SasquatchSwift
-//
-//  Created by Alexander on 27/03/17.
-//
-//
-
 import UIKit
 
 import MobileCenter
@@ -44,7 +36,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate {
             return true
         })
         
+        setMobileCenterDelegate()
+        
         return true
+    }
+    
+    private func setMobileCenterDelegate(){
+        let sasquatchController = (window?.rootViewController as! UINavigationController).topViewController as! SasquatchViewController
+        sasquatchController.mobileCenter = MobileCenterDelegateSwift()
     }
     
     /**
