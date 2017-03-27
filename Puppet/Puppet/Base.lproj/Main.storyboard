@@ -369,7 +369,7 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Miscellanrous" id="3h3-3G-53T">
+                            <tableViewSection headerTitle="Miscellaneous" id="3h3-3G-53T">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="LBI-iC-A32" style="IBUITableViewCellStyleDefault" id="A7j-Rq-EDE">
                                         <rect key="frame" x="0.0" y="245" width="375" height="44"/>
