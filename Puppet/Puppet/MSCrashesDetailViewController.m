@@ -21,7 +21,6 @@
   self.titleLabel.text = self.detailItem.title;
   self.descriptionLabel.text = self.detailItem.desc;
   //	self.descriptionImage.image = nil;
-  self.navigationItem.title = @"Crash";
 
 }
 

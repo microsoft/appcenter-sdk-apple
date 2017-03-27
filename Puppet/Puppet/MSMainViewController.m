@@ -8,6 +8,7 @@
 
 @interface MSMainViewController ()
 
+@property (weak, nonatomic) IBOutlet UISwitch *enabled;
 @property (weak, nonatomic) IBOutlet UILabel *installId;
 @property (weak, nonatomic) IBOutlet UILabel *appSecret;
 @property (weak, nonatomic) IBOutlet UILabel *logUrl;
@@ -21,6 +22,7 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   
+  self.enabled.on = [MSMobileCenter isEnabled];
   self.installId.text = [[MSMobileCenter installId] UUIDString];
   self.appSecret.text = [[MSMobileCenter sharedInstance] appSecret];
   self.logUrl.text = [[MSMobileCenter sharedInstance] logUrl];
@@ -34,10 +36,9 @@
   }
 }
 
-- (IBAction)enabledSwitchUpdated:(id)sender {
-  UISwitch *enabledSwitch = (UISwitch *)sender;
-  [MSMobileCenter setEnabled:enabledSwitch.on];
-  enabledSwitch.on = [MSMobileCenter isEnabled];
+- (IBAction)enabledSwitchUpdated:(UISwitch *)sender {
+  [MSMobileCenter setEnabled:sender.on];
+  sender.on = [MSMobileCenter isEnabled];
 }
 
 @end
