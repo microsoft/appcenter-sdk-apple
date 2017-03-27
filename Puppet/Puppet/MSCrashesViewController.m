@@ -121,6 +121,7 @@
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
   
   if(isLast) {
+    
     // Find switch in subviews
     for(id view in cell.contentView.subviews) {
       if([view isKindOfClass:[UISwitch class]]){

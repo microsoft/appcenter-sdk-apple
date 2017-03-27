@@ -17,7 +17,6 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  self.title = @"Device Info";
   
   self.data = [[[MSDeviceTracker sharedInstance] device] performSelector:@selector(serializeToDictionary)];
   self.desc = @{

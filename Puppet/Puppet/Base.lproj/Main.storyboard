@@ -408,6 +408,7 @@
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="NtN-Tm-B6i">
                                                     <rect key="frame" x="351" y="11" width="9" height="21"/>
                                                     <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -513,7 +514,7 @@
         <!--Device Info-->
         <scene sceneID="yB1-dB-fSf">
             <objects>
-                <tableViewController storyboardIdentifier="device-info" id="S1U-v1-0jg" userLabel="Device Info" customClass="MSDeviceInfoViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="device-info" title="Device Info" id="S1U-v1-0jg" customClass="MSDeviceInfoViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Efx-Bc-82c">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
