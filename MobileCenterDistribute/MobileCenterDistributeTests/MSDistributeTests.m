@@ -23,6 +23,7 @@
 #import "MSUtility+Environment.h"
 
 static NSString *const kMSTestAppSecret = @"IAMSECRET";
+static NSString *const kMSDistributeServiceName = @"Distribute";
 
 // Mocked SFSafariViewController for url validation.
 @interface SFSafariViewController : UIViewController
@@ -795,6 +796,46 @@ static NSURL *sfURL;
                                  XCTFail(@"Expectation Failed with error: %@", error);
                                }
                              }];
+}
+
+- (void)testServiceNameIsCorrect {
+  XCTAssertEqual([MSDistribute serviceName], kMSDistributeServiceName);
+}
+
+- (void)testUpdateURLWithUnregisteredScheme {
+
+  // If
+  NSArray *bundleArray =
+  @[ @{
+       @"CFBundleURLSchemes" : @[ @"mobilecenter-IAMSUPERSECRET" ]
+       } ];
+
+  id bundleMock = OCMClassMock([NSBundle class]);
+  OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
+
+  NSDictionary<NSString *, id> *plist = @{ @"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1" };
+  OCMStub([bundleMock infoDictionary]).andReturn(plist);
+  OCMStub([bundleMock objectForInfoDictionaryKey:@"CFBundleURLTypes"]).andReturn(bundleArray);
+  id distributeMock = OCMPartialMock(self.sut);
+
+  // When
+  NSURL *url = [distributeMock buildTokenRequestURLWithAppSecret:kMSTestAppSecret];
+
+  // Then
+  assertThat(url, nilValue());
+}
+
+- (void)testUpdateURLWithInvalidAppSecret {
+
+  // If
+  NSString *incorrectAppSecret = [NSString stringWithFormat:@" %@", kMSTestAppSecret];
+  id distributeMock = OCMPartialMock(self.sut);
+
+  // When
+  NSURL *url = [distributeMock buildTokenRequestURLWithAppSecret:incorrectAppSecret];
+
+  // Then
+  assertThat(url, nilValue());
 }
 
 @end
