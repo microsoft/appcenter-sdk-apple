@@ -8,14 +8,53 @@
 
 import UIKit
 
+import MobileCenter
+import MobileCenterAnalytics
+import MobileCenterCrashes
+import MobileCenterDistribute
+
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate {
 
     var window: UIWindow?
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        MSMobileCenter.start("0dbca56b-b9ae-4d53-856a-7c2856137d85", withServices: [MSAnalytics.self, MSCrashes.self, MSDistribute.self])
+        
+        // Crashes Delegate
+        MSCrashes.setUserConfirmationHandler({ (errorReports: [MSErrorReport]) in
+            
+            // Your code.
+            // Present your UI to the user, e.g. an UIAlertView.
+            
+            let alert = MSAlertController(title: "Sorry about that!",
+                                          message: "Do you want to send an anonymous crash report so we can fix the issue?")
+            alert?.addDefaultAction(withTitle: "Send", handler: { (alert) in
+                MSCrashes.notify(with: MSUserConfirmation.send)
+            })
+            alert?.addDefaultAction(withTitle: "Always Send", handler: { (alert) in
+                MSCrashes.notify(with: MSUserConfirmation.always)
+            })
+            alert?.addCancelAction(withTitle: "Don't Send", handler: { (alert) in
+                MSCrashes.notify(with: MSUserConfirmation.dontSend)
+            })
+            alert?.show()
+            return true
+        })
+        
+        return true
+    }
+    
+    /**
+     *  This addition is required in case apps support iOS 8. Apps that are iOS 9 and later don't need to implement this
+     * as our SDK uses SFSafariViewController for MSDistribute.
+     */
+    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        
+        // Forward the URL to MSDistribute.
+        MSDistribute.open(url as URL!)
         return true
     }
 
@@ -41,6 +80,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
-
+    // Crashes Delegate
+    
+    func crashes(_ crashes: MSCrashes!, shouldProcessErrorReport errorReport: MSErrorReport!) -> Bool {
+        return true;
+        // return true if the crash report should be processed, otherwise false.
+    }
+    
+    func crashes(_ crashes: MSCrashes!, willSend errorReport: MSErrorReport!) {
+        
+    }
+    
+    func crashes(_ crashes: MSCrashes!, didSucceedSending errorReport: MSErrorReport!) {
+        
+    }
+    
+    func crashes(_ crashes: MSCrashes!, didFailSending errorReport: MSErrorReport!, withError error: Error!) {
+        
+    }
 }
 
