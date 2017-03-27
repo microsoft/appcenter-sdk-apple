@@ -29,6 +29,33 @@
 		84226CA31E8908CA00798417 /* SasquatchSwiftUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226CA21E8908CA00798417 /* SasquatchSwiftUITests.swift */; };
 		84226CAE1E8908F700798417 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84226C191E88FEFC00798417 /* Main.storyboard */; };
 		84226CAF1E89097F00798417 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226C171E88FEFC00798417 /* ViewController.swift */; };
+		84226CBF1E890EE200798417 /* Sasquatch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84226CBD1E890EE200798417 /* Sasquatch.storyboard */; };
+		84226CC21E890FA900798417 /* MSCrashReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226CC01E890FA900798417 /* MSCrashReportViewController.swift */; };
+		84226CC31E890FA900798417 /* SasquatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226CC11E890FA900798417 /* SasquatchViewController.swift */; };
+		84226CC41E89104D00798417 /* Sasquatch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84226CBD1E890EE200798417 /* Sasquatch.storyboard */; };
+		84226CC51E89104E00798417 /* Sasquatch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84226CBD1E890EE200798417 /* Sasquatch.storyboard */; };
+		84226CC61E89105600798417 /* MSCrashReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226CC01E890FA900798417 /* MSCrashReportViewController.swift */; };
+		84226CC71E89105700798417 /* MSCrashReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226CC01E890FA900798417 /* MSCrashReportViewController.swift */; };
+		84226CC81E89105A00798417 /* SasquatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226CC11E890FA900798417 /* SasquatchViewController.swift */; };
+		84226CC91E89105B00798417 /* SasquatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226CC11E890FA900798417 /* SasquatchViewController.swift */; };
+		84226CD31E8911A100798417 /* MSDetailsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226CCD1E8911A100798417 /* MSDetailsTableViewCell.swift */; };
+		84226CD41E8911A100798417 /* MSDetailsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84226CCE1E8911A100798417 /* MSDetailsTableViewCell.xib */; };
+		84226CD51E8911A100798417 /* MSSwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226CCF1E8911A100798417 /* MSSwitchTableViewCell.swift */; };
+		84226CD61E8911A100798417 /* MSSwitchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84226CD01E8911A100798417 /* MSSwitchTableViewCell.xib */; };
+		84226CD71E8911A100798417 /* MSTitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226CD11E8911A100798417 /* MSTitleTableViewCell.swift */; };
+		84226CD81E8911A100798417 /* MSTitleTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84226CD21E8911A100798417 /* MSTitleTableViewCell.xib */; };
+		84226CD91E8911B200798417 /* MSDetailsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226CCD1E8911A100798417 /* MSDetailsTableViewCell.swift */; };
+		84226CDA1E8911B300798417 /* MSDetailsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226CCD1E8911A100798417 /* MSDetailsTableViewCell.swift */; };
+		84226CDB1E8911B600798417 /* MSDetailsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84226CCE1E8911A100798417 /* MSDetailsTableViewCell.xib */; };
+		84226CDC1E8911B700798417 /* MSDetailsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84226CCE1E8911A100798417 /* MSDetailsTableViewCell.xib */; };
+		84226CDD1E8911BB00798417 /* MSSwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226CCF1E8911A100798417 /* MSSwitchTableViewCell.swift */; };
+		84226CDE1E8911BB00798417 /* MSSwitchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84226CD01E8911A100798417 /* MSSwitchTableViewCell.xib */; };
+		84226CDF1E8911BB00798417 /* MSTitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226CD11E8911A100798417 /* MSTitleTableViewCell.swift */; };
+		84226CE01E8911BB00798417 /* MSTitleTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84226CD21E8911A100798417 /* MSTitleTableViewCell.xib */; };
+		84226CE11E8911BC00798417 /* MSSwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226CCF1E8911A100798417 /* MSSwitchTableViewCell.swift */; };
+		84226CE21E8911BC00798417 /* MSSwitchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84226CD01E8911A100798417 /* MSSwitchTableViewCell.xib */; };
+		84226CE31E8911BC00798417 /* MSTitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226CD11E8911A100798417 /* MSTitleTableViewCell.swift */; };
+		84226CE41E8911BC00798417 /* MSTitleTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84226CD21E8911A100798417 /* MSTitleTableViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -115,6 +142,15 @@
 		84226C9E1E8908CA00798417 /* SasquatchSwiftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SasquatchSwiftUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		84226CA21E8908CA00798417 /* SasquatchSwiftUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SasquatchSwiftUITests.swift; sourceTree = "<group>"; };
 		84226CA41E8908CA00798417 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		84226CBE1E890EE200798417 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Sasquatch.storyboard; sourceTree = "<group>"; };
+		84226CC01E890FA900798417 /* MSCrashReportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSCrashReportViewController.swift; sourceTree = "<group>"; };
+		84226CC11E890FA900798417 /* SasquatchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SasquatchViewController.swift; sourceTree = "<group>"; };
+		84226CCD1E8911A100798417 /* MSDetailsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MSDetailsTableViewCell.swift; path = CommonTableViewCell/MSDetailsTableViewCell.swift; sourceTree = "<group>"; };
+		84226CCE1E8911A100798417 /* MSDetailsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MSDetailsTableViewCell.xib; path = CommonTableViewCell/MSDetailsTableViewCell.xib; sourceTree = "<group>"; };
+		84226CCF1E8911A100798417 /* MSSwitchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MSSwitchTableViewCell.swift; path = CommonTableViewCell/MSSwitchTableViewCell.swift; sourceTree = "<group>"; };
+		84226CD01E8911A100798417 /* MSSwitchTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MSSwitchTableViewCell.xib; path = CommonTableViewCell/MSSwitchTableViewCell.xib; sourceTree = "<group>"; };
+		84226CD11E8911A100798417 /* MSTitleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MSTitleTableViewCell.swift; path = CommonTableViewCell/MSTitleTableViewCell.swift; sourceTree = "<group>"; };
+		84226CD21E8911A100798417 /* MSTitleTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MSTitleTableViewCell.xib; path = CommonTableViewCell/MSTitleTableViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -219,9 +255,10 @@
 		84226C141E88FEFC00798417 /* Sasquatch */ = {
 			isa = PBXGroup;
 			children = (
-				84226CB21E8909FF00798417 /* Supporting Files */,
 				84226CB11E8909F700798417 /* Storyboards */,
 				84226CB01E8909EA00798417 /* ViewControllers */,
+				84226CB21E8909FF00798417 /* Supporting Files */,
+				84226CCC1E89117800798417 /* CommonTableViewCell */,
 				84226C151E88FEFC00798417 /* AppDelegate.swift */,
 			);
 			path = Sasquatch;
@@ -317,6 +354,8 @@
 		84226CB01E8909EA00798417 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				84226CC01E890FA900798417 /* MSCrashReportViewController.swift */,
+				84226CC11E890FA900798417 /* SasquatchViewController.swift */,
 				84226C171E88FEFC00798417 /* ViewController.swift */,
 			);
 			name = ViewControllers;
@@ -325,6 +364,7 @@
 		84226CB11E8909F700798417 /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
+				84226CBD1E890EE200798417 /* Sasquatch.storyboard */,
 				84226C191E88FEFC00798417 /* Main.storyboard */,
 				84226C1E1E88FEFC00798417 /* LaunchScreen.storyboard */,
 			);
@@ -338,6 +378,19 @@
 				84226C211E88FEFC00798417 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		84226CCC1E89117800798417 /* CommonTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				84226CCD1E8911A100798417 /* MSDetailsTableViewCell.swift */,
+				84226CCE1E8911A100798417 /* MSDetailsTableViewCell.xib */,
+				84226CCF1E8911A100798417 /* MSSwitchTableViewCell.swift */,
+				84226CD01E8911A100798417 /* MSSwitchTableViewCell.xib */,
+				84226CD11E8911A100798417 /* MSTitleTableViewCell.swift */,
+				84226CD21E8911A100798417 /* MSTitleTableViewCell.xib */,
+			);
+			name = CommonTableViewCell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -587,9 +640,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84226CBF1E890EE200798417 /* Sasquatch.storyboard in Resources */,
 				84226C201E88FEFC00798417 /* LaunchScreen.storyboard in Resources */,
+				84226CD41E8911A100798417 /* MSDetailsTableViewCell.xib in Resources */,
 				84226C1D1E88FEFC00798417 /* Assets.xcassets in Resources */,
 				84226C1B1E88FEFC00798417 /* Main.storyboard in Resources */,
+				84226CD81E8911A100798417 /* MSTitleTableViewCell.xib in Resources */,
+				84226CD61E8911A100798417 /* MSSwitchTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -611,8 +668,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84226CDB1E8911B600798417 /* MSDetailsTableViewCell.xib in Resources */,
 				84226C561E88FF4A00798417 /* Assets.xcassets in Resources */,
+				84226CE01E8911BB00798417 /* MSTitleTableViewCell.xib in Resources */,
+				84226CDE1E8911BB00798417 /* MSSwitchTableViewCell.xib in Resources */,
 				84226C7A1E88FF7000798417 /* Main.storyboard in Resources */,
+				84226CC41E89104D00798417 /* Sasquatch.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -634,8 +695,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84226CDC1E8911B700798417 /* MSDetailsTableViewCell.xib in Resources */,
 				84226C8A1E8908CA00798417 /* Assets.xcassets in Resources */,
+				84226CE41E8911BC00798417 /* MSTitleTableViewCell.xib in Resources */,
+				84226CE21E8911BC00798417 /* MSSwitchTableViewCell.xib in Resources */,
 				84226CAE1E8908F700798417 /* Main.storyboard in Resources */,
+				84226CC51E89104E00798417 /* Sasquatch.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -660,8 +725,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84226CC31E890FA900798417 /* SasquatchViewController.swift in Sources */,
 				84226C181E88FEFC00798417 /* ViewController.swift in Sources */,
+				84226CD71E8911A100798417 /* MSTitleTableViewCell.swift in Sources */,
 				84226C161E88FEFC00798417 /* AppDelegate.swift in Sources */,
+				84226CC21E890FA900798417 /* MSCrashReportViewController.swift in Sources */,
+				84226CD31E8911A100798417 /* MSDetailsTableViewCell.swift in Sources */,
+				84226CD51E8911A100798417 /* MSSwitchTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -686,6 +756,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				84226C511E88FF4A00798417 /* ViewController.m in Sources */,
+				84226CD91E8911B200798417 /* MSDetailsTableViewCell.swift in Sources */,
+				84226CC61E89105600798417 /* MSCrashReportViewController.swift in Sources */,
+				84226CDF1E8911BB00798417 /* MSTitleTableViewCell.swift in Sources */,
+				84226CDD1E8911BB00798417 /* MSSwitchTableViewCell.swift in Sources */,
+				84226CC81E89105A00798417 /* SasquatchViewController.swift in Sources */,
 				84226C4E1E88FF4A00798417 /* AppDelegate.m in Sources */,
 				84226C7B1E8901E200798417 /* ViewController.swift in Sources */,
 				84226C4B1E88FF4A00798417 /* main.m in Sources */,
@@ -712,8 +787,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84226CE11E8911BC00798417 /* MSSwitchTableViewCell.swift in Sources */,
+				84226CC71E89105700798417 /* MSCrashReportViewController.swift in Sources */,
+				84226CE31E8911BC00798417 /* MSTitleTableViewCell.swift in Sources */,
 				84226CAF1E89097F00798417 /* ViewController.swift in Sources */,
 				84226C851E8908CA00798417 /* ViewControllerSwift.swift in Sources */,
+				84226CC91E89105B00798417 /* SasquatchViewController.swift in Sources */,
+				84226CDA1E8911B300798417 /* MSDetailsTableViewCell.swift in Sources */,
 				84226C831E8908CA00798417 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -784,6 +864,14 @@
 				84226C1F1E88FEFC00798417 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		84226CBD1E890EE200798417 /* Sasquatch.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				84226CBE1E890EE200798417 /* Base */,
+			);
+			name = Sasquatch.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -1137,6 +1225,7 @@
 				84226C3C1E88FEFC00798417 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		84226C3D1E88FEFC00798417 /* Build configuration list for PBXNativeTarget "SasquatchTests" */ = {
 			isa = XCConfigurationList;
@@ -1145,6 +1234,7 @@
 				84226C3F1E88FEFC00798417 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		84226C401E88FEFC00798417 /* Build configuration list for PBXNativeTarget "SasquatchUITests" */ = {
 			isa = XCConfigurationList;
@@ -1153,6 +1243,7 @@
 				84226C421E88FEFC00798417 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		84226C711E88FF4A00798417 /* Build configuration list for PBXNativeTarget "SasquatchObjC" */ = {
 			isa = XCConfigurationList;
@@ -1161,6 +1252,7 @@
 				84226C731E88FF4A00798417 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		84226C741E88FF4A00798417 /* Build configuration list for PBXNativeTarget "SasquatchObjCTests" */ = {
 			isa = XCConfigurationList;
@@ -1169,6 +1261,7 @@
 				84226C761E88FF4A00798417 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		84226C771E88FF4A00798417 /* Build configuration list for PBXNativeTarget "SasquatchObjCUITests" */ = {
 			isa = XCConfigurationList;
@@ -1177,6 +1270,7 @@
 				84226C791E88FF4A00798417 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		84226CA51E8908CA00798417 /* Build configuration list for PBXNativeTarget "SasquatchSwift" */ = {
 			isa = XCConfigurationList;
@@ -1185,6 +1279,7 @@
 				84226CA71E8908CA00798417 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		84226CA81E8908CA00798417 /* Build configuration list for PBXNativeTarget "SasquatchSwiftTests" */ = {
 			isa = XCConfigurationList;
@@ -1193,6 +1288,7 @@
 				84226CAA1E8908CA00798417 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		84226CAB1E8908CA00798417 /* Build configuration list for PBXNativeTarget "SasquatchSwiftUITests" */ = {
 			isa = XCConfigurationList;
@@ -1201,6 +1297,7 @@
 				84226CAD1E8908CA00798417 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
