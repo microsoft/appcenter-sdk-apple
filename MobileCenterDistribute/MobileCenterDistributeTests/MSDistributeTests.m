@@ -25,6 +25,7 @@
 
 static NSString *const kMSTestAppSecret = @"IAMSECRET";
 static NSString *const kMSTestReleaseHash = @"RELEASEHASH";
+static NSString *const kMSDistributeServiceName = @"Distribute";
 
 // Mocked SFSafariViewController for url validation.
 @interface SFSafariViewController : UIViewController
@@ -870,6 +871,75 @@ static NSURL *sfURL;
 
   // Then
   OCMReject([distributeMock closeApp]);
+}
+
+- (void)testServiceNameIsCorrect {
+  XCTAssertEqual([MSDistribute serviceName], kMSDistributeServiceName);
+}
+
+- (void)testUpdateURLWithUnregisteredScheme {
+
+  // If
+  NSArray *bundleArray =
+  @[ @{
+       @"CFBundleURLSchemes" : @[ @"mobilecenter-IAMSUPERSECRET" ]
+       } ];
+
+  id bundleMock = OCMClassMock([NSBundle class]);
+  OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
+
+  NSDictionary<NSString *, id> *plist = @{ @"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1" };
+  OCMStub([bundleMock infoDictionary]).andReturn(plist);
+  OCMStub([bundleMock objectForInfoDictionaryKey:@"CFBundleURLTypes"]).andReturn(bundleArray);
+  id distributeMock = OCMPartialMock(self.sut);
+
+  // When
+  NSURL *url = [distributeMock buildTokenRequestURLWithAppSecret:kMSTestAppSecret];
+
+  // Then
+  assertThat(url, nilValue());
+}
+
+- (void)testIsNewerVersionFunction {
+  id bundleMock = OCMClassMock([NSBundle class]);
+  OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
+  NSDictionary<NSString *, id> *plist = @{ @"CFBundleShortVersionString" : @"10.0", @"CFBundleVersion" : @"10" };
+  OCMStub([bundleMock infoDictionary]).andReturn(plist);
+
+  // If
+  MSReleaseDetails *newerRelease = [self generateReleaseDetailsWithVersion:@"20" andShortVersion:@"20.0"];
+
+  // When
+  BOOL result = [[MSDistribute sharedInstance] isNewerVersion:newerRelease];
+
+  // Then
+  XCTAssertTrue(result);
+
+  // If
+  MSReleaseDetails *olderRelease = [self generateReleaseDetailsWithVersion:@"5" andShortVersion:@"5.0"];
+
+  // When
+  result = [[MSDistribute sharedInstance] isNewerVersion:olderRelease];
+
+  // Then
+  XCTAssertFalse(result);
+
+  // If
+  MSReleaseDetails *sameRelease = [self generateReleaseDetailsWithVersion:@"10" andShortVersion:@"10.0"];
+  sameRelease.packageHashes = [[NSArray alloc] initWithObjects:MSPackageHash(), nil];
+
+  // When
+  result = [[MSDistribute sharedInstance] isNewerVersion:sameRelease];
+
+  // Then
+  XCTAssertFalse(result);
+}
+
+-(MSReleaseDetails*)generateReleaseDetailsWithVersion:(NSString*)version andShortVersion:(NSString*)shortVersion {
+  MSReleaseDetails *releaseDetails = [MSReleaseDetails new];
+  releaseDetails.version = version;
+  releaseDetails.shortVersion = shortVersion;
+  return releaseDetails;
 }
 
 - (id)mockMSPackageHash {
