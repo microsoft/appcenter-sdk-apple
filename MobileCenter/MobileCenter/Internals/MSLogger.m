@@ -37,7 +37,7 @@ MSLogHandler const msDefaultLogHandler = ^(MSLogMessageProvider messageProvider,
       level = @"";
       break;
     }
-    NSLog((@"[%@] %@: %s/%d %@"), tag, level, function, line, messageProvider());
+    NSLog(@"[%@] %@: %s/%d %@", tag, level, function, line, messageProvider());
   }
 };
 
