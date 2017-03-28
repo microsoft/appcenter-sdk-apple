@@ -894,7 +894,7 @@ static NSURL *sfURL;
   id distributeMock = OCMPartialMock(self.sut);
 
   // When
-  NSURL *url = [distributeMock buildTokenRequestURLWithAppSecret:kMSTestAppSecret];
+  NSURL *url = [distributeMock buildTokenRequestURLWithAppSecret:kMSTestAppSecret releaseHash:kMSTestReleaseHash];
 
   // Then
   assertThat(url, nilValue());
