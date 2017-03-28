@@ -2,7 +2,7 @@
 
 ## Version 0.6.1
 
-This version contains some bug fixes and improvements under the hood.
+This version contains some bug fixes, improvements under the hood and renamed the demo apps to Sasquatch to be consistent with the Android SDK.
 
 ### MobileCenter
 
@@ -14,8 +14,8 @@ This version contains some bug fixes and improvements under the hood.
 
 ### MobileCenterDistribute
 
-* **[Bug]**  Show an alert in case the update UI is shown but Distribute has been disabled.
-* **[Feature]** Show a blocking UI in case of a mandatory update.
+* **[Feature]**  Show an alert in case the update UI is shown but Distribute has been disabled.
+* **[Bug]** Exit the app in case of a mandatory update on iOS 10.
 
 ### Puppet
 
@@ -26,7 +26,6 @@ This version contains some bug fixes and improvements under the hood.
 * **[Feature]** Add ViewController that allows enabling/disabling Distribute. 
 
 ___
-
 
 ## Version 0.6.0
 
