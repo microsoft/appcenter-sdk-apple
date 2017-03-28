@@ -892,19 +892,6 @@ static NSURL *sfURL;
   assertThat(url, nilValue());
 }
 
-- (void)testUpdateURLWithInvalidAppSecret {
-
-  // If
-  NSString *incorrectAppSecret = [NSString stringWithFormat:@" %@", kMSTestAppSecret];
-  id distributeMock = OCMPartialMock(self.sut);
-
-  // When
-  NSURL *url = [distributeMock buildTokenRequestURLWithAppSecret:incorrectAppSecret];
-
-  // Then
-  assertThat(url, nilValue());
-}
-
 - (void)testIsNewerVersionFunction {
   id bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
