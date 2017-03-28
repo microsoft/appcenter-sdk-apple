@@ -29,11 +29,11 @@
 /**
  * Is equal to another thread
  *
- * @param thread Thread
+ * @param object Thread
  *
  * @return Return YES if equal and NO if not equal
  */
-- (BOOL)isEqual:(MSThread *)thread;
+- (BOOL)isEqual:(id)object;
 
 /**
  * Checks if the object's values are valid.

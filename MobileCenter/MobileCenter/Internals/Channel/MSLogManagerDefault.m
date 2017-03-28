@@ -38,7 +38,7 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
     dispatch_queue_t serialQueue = dispatch_queue_create(MSlogsDispatchQueue, DISPATCH_QUEUE_SERIAL);
     _enabled = YES;
     _logsDispatchQueue = serialQueue;
-    _channels = [NSMutableDictionary<NSNumber *, id<MSChannel>> new];
+    _channels = [NSMutableDictionary<NSString *, id<MSChannel>> new];
     _delegates = [NSHashTable weakObjectsHashTable];
     _sender = sender;
     _storage = storage;
@@ -58,16 +58,20 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 
 #pragma mark - Channel Delegate
 
-- (void)addChannelDelegate:(id<MSChannelDelegate>)channelDelegate forPriority:(MSPriority)priority {
+- (void)addChannelDelegate:(id<MSChannelDelegate>)channelDelegate
+                forGroupID:(NSString *)groupID
+              withPriority:(MSPriority)priority {
   if (channelDelegate) {
-    id<MSChannel> channel = [self channelForPriority:priority];
+    id<MSChannel> channel = [self channelForGroupID:groupID withPriority:priority];
     [channel addDelegate:channelDelegate];
   }
 }
 
-- (void)removeChannelDelegate:(id<MSChannelDelegate>)channelDelegate forPriority:(MSPriority)priority {
+- (void)removeChannelDelegate:(id<MSChannelDelegate>)channelDelegate
+                   forGroupID:(NSString *)groupID
+                 withPriority:(MSPriority)priority {
   if (channelDelegate) {
-    id<MSChannel> channel = [self channelForPriority:priority];
+    id<MSChannel> channel = [self channelForGroupID:groupID withPriority:priority];
     [channel removeDelegate:channelDelegate];
   }
 }
@@ -82,7 +86,7 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 
 #pragma mark - Process items
 
-- (void)processLog:(id<MSLog>)log withPriority:(MSPriority)priority {
+- (void)processLog:(id<MSLog>)log withPriority:(MSPriority)priority andGroupID:(NSString *)groupID {
   if (!log) {
     return;
   }
@@ -97,7 +101,7 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
                             }];
 
   // Get the channel.
-  id<MSChannel> channel = [self channelForPriority:priority];
+  id<MSChannel> channel = [self createChannelForGroupID:groupID withPriority:priority];
 
   // Set common log info.
   log.toffset = [NSNumber numberWithLongLong:[MSUtility nowInMilliseconds]];
@@ -109,47 +113,50 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
   }
 
   // Asynchronously forward to channel by using the data dispatch queue.
-  [channel
-         enqueueItem:log
-      withCompletion:^(BOOL success) {
-        if (success) {
+  [channel enqueueItem:log
+        withCompletion:^(BOOL success) {
+          if (success) {
 
-          // Notify delegates.
-          [self enumerateDelegatesForSelector:@selector(onFinishedPersistingLog:withInternalId:andPriority:)
-                                    withBlock:^(id<MSLogManagerDelegate> delegate) {
-                                      [delegate onFinishedPersistingLog:log withInternalId:internalLogId andPriority:priority];
-                                    }];
-        } else {
+            // Notify delegates.
+            [self enumerateDelegatesForSelector:@selector(onFinishedPersistingLog:withInternalId:andPriority:)
+                                      withBlock:^(id<MSLogManagerDelegate> delegate) {
+                                        [delegate onFinishedPersistingLog:log
+                                                           withInternalId:internalLogId
+                                                              andPriority:priority];
+                                      }];
+          } else {
 
-          // Notify delegates.
-          [self enumerateDelegatesForSelector:@selector(onFailedPersistingLog:withInternalId:andPriority:)
-                                    withBlock:^(id<MSLogManagerDelegate> delegate) {
-                                      [delegate onFailedPersistingLog:log withInternalId:internalLogId andPriority:priority];
-                                    }];
-        }
-      }];
+            // Notify delegates.
+            [self enumerateDelegatesForSelector:@selector(onFailedPersistingLog:withInternalId:andPriority:)
+                                      withBlock:^(id<MSLogManagerDelegate> delegate) {
+                                        [delegate onFailedPersistingLog:log
+                                                         withInternalId:internalLogId
+                                                            andPriority:priority];
+                                      }];
+          }
+        }];
 }
 
 #pragma mark - Helpers
 
-- (id<MSChannel>)createChannelForPriority:(MSPriority)priority {
+- (id<MSChannel>)createChannelForGroupID:(NSString *)groupID withPriority:(MSPriority)priority {
   MSChannelDefault *channel;
-  MSChannelConfiguration *configuration = [MSChannelConfiguration configurationForPriority:priority];
+  MSChannelConfiguration *configuration = [MSChannelConfiguration configurationForPriority:priority groupID:groupID];
   if (configuration) {
     channel = [[MSChannelDefault alloc] initWithSender:self.sender
                                                storage:self.storage
                                          configuration:configuration
                                      logsDispatchQueue:self.logsDispatchQueue];
-    self.channels[@(priority)] = channel;
+    self.channels[groupID] = channel;
   }
   return channel;
 }
 
-- (id<MSChannel>)channelForPriority:(MSPriority)priority {
+- (id<MSChannel>)channelForGroupID:(NSString *)groupID withPriority:(MSPriority)priority {
 
   // Return an existing channel or create it.
-  id<MSChannel> channel = [self.channels objectForKey:@(priority)];
-  return (channel) ? channel : [self createChannelForPriority:priority];
+  id<MSChannel> channel = self.channels[groupID];
+  return (channel) ? channel : [self createChannelForGroupID:groupID withPriority:priority];
 }
 
 #pragma mark - Enable / Disable
@@ -164,21 +171,24 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 
     // If requested, also delete logs from not started services.
     if (!isEnabled && deleteData) {
-      NSArray<NSNumber *> *runningPriorities = self.channels.allKeys;
-      for (NSInteger priority = 0; priority < kMSPriorityCount; priority++) {
-        if (![runningPriorities containsObject:@(priority)]) {
+      NSArray<NSString *> *runningChannels = self.channels.allKeys;
+      for (NSString *groupID in runningChannels) {
+        if (![runningChannels containsObject:groupID]) {
           NSError *error = [NSError errorWithDomain:kMSMCErrorDomain
                                                code:kMSMCConnectionSuspendedErrorCode
                                            userInfo:@{NSLocalizedDescriptionKey : kMSMCConnectionSuspendedErrorDesc}];
-          [[self channelForPriority:priority] deleteAllLogsWithError:error];
+          [self.channels[groupID] deleteAllLogsWithError:error];
         }
       }
     }
   }
 }
 
-- (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData forPriority:(MSPriority)priority {
-  [[self channelForPriority:priority] setEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
+- (void)setEnabled:(BOOL)isEnabled
+    andDeleteDataOnDisabled:(BOOL)deleteData
+                 forGroupID:(NSString *)groupID
+               withPriority:(MSPriority)priority {
+  [[self channelForGroupID:groupID withPriority:priority] setEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
 }
 
 #pragma mark - Other public methods

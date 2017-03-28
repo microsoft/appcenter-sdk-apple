@@ -45,13 +45,13 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Returns all file metadata of a given directory.
  *
- * @param directoryPath the absolute path to the directory
+ * @param directoryURL the url to the directory
  * @param fileExtension a file extension that should be used to filter the
  * results
  *
  * @return a list with file metadata
  */
-+ (nullable NSArray<MSFile *> *)filesForDirectory:(nullable NSString *)directoryPath
++ (nullable NSArray<MSFile *> *)filesForDirectory:(nullable NSURL *)directoryURL
                                  withFileExtension:(nullable NSString *)fileExtension;
 
 /**

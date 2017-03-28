@@ -11,31 +11,34 @@ import UIKit
 import MobileCenter
 import MobileCenterAnalytics
 import MobileCenterCrashes
+import MobileCenterDistribute
 
 class ViewController: UIViewController {
-    enum MSCellType : Int{
+    enum MSCellType : Int {
         case Title, Switch, Details
     }
     
-    enum MobileCenterServicesType : Int{
-        case Analytics, Crashes
+    enum MobileCenterServicesType : Int {
+        case Analytics, Crashes, Distribute
         
-        var stringValue : String{
+        var stringValue : String {
             switch self {
             case .Analytics:
                 return "Analytics"
             case .Crashes:
                 return "Crashes"
+            case .Distribute:
+                return "Distribute"
             }
         }
         
-        static let allServices = [MobileCenterServicesType.Analytics, MobileCenterServicesType.Crashes]
+        static let allServices = [MobileCenterServicesType.Analytics, MobileCenterServicesType.Crashes, MobileCenterServicesType.Distribute]
     }
     
     enum MSAnalyticsCases : Int {
         case SetEnabled, TrackEvent, TrackEventWithProperties
         
-        var cellSetting : (title:String, type:MSCellType){
+        var cellSetting : (title:String, type:MSCellType) {
             switch self {
             case .SetEnabled:
                 return ("Set Enabled", .Switch)
@@ -49,9 +52,9 @@ class ViewController: UIViewController {
         static let allCases = [MSAnalyticsCases.SetEnabled, MSAnalyticsCases.TrackEvent, MSAnalyticsCases.TrackEventWithProperties]
     }
     
-    enum MSCrashesCases : Int{
+    enum MSCrashesCases : Int {
         case SetEnabled, GenerateTestCrash, AppCrashInLastSession
-        var cellSetting : (title:String, type:MSCellType){
+        var cellSetting : (title:String, type:MSCellType) {
             switch self {
             case .SetEnabled:
                 return ("Set Enabled", .Switch)
@@ -64,7 +67,19 @@ class ViewController: UIViewController {
         
         static let allCases = [MSCrashesCases.SetEnabled, MSCrashesCases.GenerateTestCrash, MSCrashesCases.AppCrashInLastSession]
     }
-    
+
+    enum MSDistributeCases : Int {
+        case SetEnabled
+        var cellSetting : (title:String, type:MSCellType) {
+            switch self {
+            case .SetEnabled:
+                return ("Set Enabled", .Switch)
+            }
+        }
+
+        static let allCases = [MSDistributeCases.SetEnabled]
+    }
+
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
@@ -100,22 +115,63 @@ extension ViewController : UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return MobileCenterServicesType(rawValue: section) == .Analytics ? MSAnalyticsCases.allCases.count : MSCrashesCases.allCases.count
+        guard let serviceType : MobileCenterServicesType = MobileCenterServicesType(rawValue: section) else {
+            return 0;
+        }
+
+        switch serviceType {
+        case .Analytics:
+            return MSAnalyticsCases.allCases.count
+        case .Crashes:
+            return MSCrashesCases.allCases.count;
+        case .Distribute:
+            return MSDistributeCases.allCases.count;
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cellSetting = MobileCenterServicesType(rawValue: indexPath.section) == .Analytics ?  MSAnalyticsCases.allCases[indexPath.row].cellSetting : MSCrashesCases.allCases[indexPath.row].cellSetting
-        
-        if (cellSetting.type == .Switch){
-            if let cell = tableView.dequeueReusableCell(withIdentifier: MSSwitchTableViewCell.name(), for: indexPath) as? MSSwitchTableViewCell{
+        guard let serviceType : MobileCenterServicesType = MobileCenterServicesType(rawValue: indexPath.section) else {
+            return UITableViewCell();
+        }
+
+        var cellSetting : (title:String, type:MSCellType)? = nil;
+
+        switch serviceType {
+        case .Analytics:
+            cellSetting = MSAnalyticsCases.allCases[indexPath.row].cellSetting;
+            break;
+        case .Crashes:
+            cellSetting = MSCrashesCases.allCases[indexPath.row].cellSetting;
+            break;
+        case .Distribute:
+            cellSetting = MSDistributeCases.allCases[indexPath.row].cellSetting;
+            break;
+        }
+
+        guard let _cellSetting : (title:String, type:MSCellType) = cellSetting else {
+            return UITableViewCell();
+        }
+
+        if (_cellSetting.type == .Switch) {
+            if let cell = tableView.dequeueReusableCell(withIdentifier: MSSwitchTableViewCell.name(), for: indexPath) as? MSSwitchTableViewCell {
                 cell.delegate = self
-                cell.titleNameLabel.text = cellSetting.title
-                cell.titleSwitch.isOn = MobileCenterServicesType(rawValue : indexPath.section) == .Analytics ? MSAnalytics.isEnabled() : MSCrashes.isEnabled()
+                cell.titleNameLabel.text = _cellSetting.title
+                switch serviceType {
+                case .Analytics:
+                    cell.titleSwitch.isOn = MSAnalytics.isEnabled();
+                    break;
+                case .Crashes:
+                    cell.titleSwitch.isOn = MSCrashes.isEnabled();
+                    break;
+                case .Distribute:
+                    cell.titleSwitch.isOn = MSDistribute.isEnabled();
+                    break;
+                }
                 return cell;
             }
-        }else{
-            if let cell = tableView.dequeueReusableCell(withIdentifier: MSTitleTableViewCell.name(), for: indexPath) as? MSTitleTableViewCell{
-                cell.titleNameLabel.text = cellSetting.title
+        } else {
+            if let cell = tableView.dequeueReusableCell(withIdentifier: MSTitleTableViewCell.name(), for: indexPath) as? MSTitleTableViewCell {
+                cell.titleNameLabel.text = _cellSetting.title
                 return cell;
             }
         }
@@ -130,48 +186,65 @@ extension ViewController : UITableViewDataSource {
 extension ViewController : UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        if (MobileCenterServicesType(rawValue :indexPath.section) == .Analytics) {
+
+        guard let serviceType : MobileCenterServicesType = MobileCenterServicesType(rawValue: indexPath.section) else {
+            return;
+        }
+
+        switch serviceType {
+        case .Analytics:
             switch MSAnalyticsCases.allCases[indexPath.row] {
+
             //Track Event
             case .SetEnabled:
+
                 //Enable/Disable MSAnalytics
                 MSAnalytics.setEnabled(!MSAnalytics.isEnabled())
                 tableView.reloadRows(at: [indexPath], with: .automatic)
-                
+                break
             case .TrackEvent:
+
                 //Track event with name only
                 MSAnalytics.trackEvent("Row Clicked")
-                if (MSAnalytics.isEnabled()){
+                if (MSAnalytics.isEnabled()) {
                     showAlertWithMessage(title: "Success!", message: "")
                 }
-                
+                break
             case .TrackEventWithProperties:
+
                 //Track Event with Properties
                 MSAnalytics.trackEvent("Row Clicked", withProperties: ["Name" : "Track Event", "Row Number" : "\(indexPath.row)"])
-                if (MSAnalytics.isEnabled()){
+                if (MSAnalytics.isEnabled()) {
                     showAlertWithMessage(title: "Success!", message: "")
                 }
+                break
             }
-        }else{
+            break;
+        case .Crashes:
             switch MSCrashesCases.allCases[indexPath.row] {
             case .SetEnabled:
+
                 //Enable/Disable MSCrashes
                 MSCrashes.setEnabled(!MSCrashes.isEnabled())
                 tableView.reloadRows(at: [indexPath], with: .automatic)
-
+                break
             case .GenerateTestCrash:
+
                 //Test either debugger attached
-                if (MSMobileCenter.isDebuggerAttached()){
+                if (MSMobileCenter.isDebuggerAttached()) {
                     self.showAlertWithMessage(title: "", message: "Detecting crashes is NOT enabled due to running the app with a debugger attached.")
-                }else{
+                } else {
+
                     //Generate Crash
                     MSCrashes.generateTestCrash()
                 }
+                break
             case .AppCrashInLastSession:
+
                 //Check either app was crashed in last session
                 let message = "App \(MSCrashes.hasCrashedInLastSession() ? "has" : "has not") crashed in last session"
                 let alert = MSAlertController.init(title: "", message: message, preferredStyle: .alert)
-                if (MSCrashes.hasCrashedInLastSession()){
+                if (MSCrashes.hasCrashedInLastSession()) {
                     alert.addAction(UIAlertAction(title: "Show Crash Report", style: .default, handler: { (alert) in
                         self.performSegue(withIdentifier: "ShowCrashReport", sender: self)
                     }))
@@ -180,19 +253,40 @@ extension ViewController : UITableViewDelegate{
                 self.present(alert, animated: true, completion: nil)
                 break
             }
+            break;
+        case .Distribute:
+            switch MSDistributeCases.allCases[indexPath.row] {
+            case .SetEnabled:
+
+                //Enable/Disable MSDistribute
+                MSDistribute.setEnabled(!MSDistribute.isEnabled());
+                break;
+            }
+            break;
         }
     }
 }
 
-
 extension ViewController : MSSwitchCellDelegate{
     func switchValueChanged(cell: MSSwitchTableViewCell, sender: UISwitch) {
-        if let section = tableView.indexPath(for: cell)?.section{
-            if (MobileCenterServicesType.init(rawValue: section) == .Analytics){
-                MSAnalytics.setEnabled(sender.isOn)
-            }else{
-                MSCrashes.setEnabled(sender.isOn)
-            }
+        guard let section = tableView.indexPath(for: cell)?.section else {
+            return;
+        }
+
+        guard let serviceType : MobileCenterServicesType = MobileCenterServicesType.init(rawValue: section) else {
+            return;
+        }
+
+        switch serviceType {
+        case .Analytics:
+            MSAnalytics.setEnabled(sender.isOn);
+            break;
+        case .Crashes:
+            MSCrashes.setEnabled(sender.isOn);
+            break;
+        case .Distribute:
+            MSDistribute.setEnabled(sender.isOn);
+            break;
         }
     }
 }

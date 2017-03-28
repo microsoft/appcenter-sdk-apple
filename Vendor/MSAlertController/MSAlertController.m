@@ -73,6 +73,7 @@ static dispatch_queue_t alertsQueue;
 }
 
 - (void)showAnimated:(BOOL)animated {
+  (void)animated;
   dispatch_barrier_async(alertsQueue, ^{
       [alertsToBePresented addObject:self];
   });

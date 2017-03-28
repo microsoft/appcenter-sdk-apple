@@ -17,6 +17,12 @@ static dispatch_once_t onceToken;
  */
 static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 
+// Service name for initialization.
+static NSString *const kMSServiceName = @"MobileCenter";
+
+// The group ID for storage.
+static NSString *const kMSGroupID = @"MobileCenter";
+
 @implementation MSMobileCenter
 
 @synthesize installId = _installId;
@@ -125,7 +131,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 }
 
 + (NSString *)logTag {
-  return @"MobileCenter";
+  return kMSServiceName;
 }
 
 #pragma mark - private
@@ -181,7 +187,6 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
   @synchronized(self) {
     BOOL configured = [self configure:appSecret];
     if (configured) {
-
       NSArray *sortedServices = [self sortServices:services];
       NSMutableArray<NSString *> *servicesNames = [NSMutableArray arrayWithCapacity:sortedServices.count];
 
@@ -201,7 +206,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
  */
 - (NSArray *)sortServices:(NSArray<Class> *)services {
   if (services && services.count > 1) {
-    return [services sortedArrayUsingComparator:^NSComparisonResult(Class clazzA, Class clazzB) {
+    return [services sortedArrayUsingComparator:^NSComparisonResult(id clazzA, id clazzB) {
       id<MSServiceInternal> serviceA = [clazzA sharedInstance];
       id<MSServiceInternal> serviceB = [clazzB sharedInstance];
       if (serviceA.initializationPriority < serviceB.initializationPriority) {
@@ -253,7 +258,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
     [self applyPipelineEnabledState:isEnabled];
 
     // Persist the enabled status.
-    [MS_USER_DEFAULTS setObject:[NSNumber numberWithBool:isEnabled] forKey:kMSMobileCenterIsEnabledKey];
+    [MS_USER_DEFAULTS setObject:@(isEnabled) forKey:kMSMobileCenterIsEnabledKey];
   }
 
   // Propagate enable/disable on all services.
@@ -322,7 +327,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
         _installId = MS_UUID_FROM_STRING(savedInstallId);
       }
 
-      // Create a new random install Id if persistency failed.
+      // Create a new random install Id if persistence failed.
       if (!_installId) {
         _installId = [NSUUID UUID];
 
@@ -346,7 +351,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 - (void)sendStartServiceLog:(NSArray<NSString *> *)servicesNames {
   MSStartServiceLog *serviceLog = [MSStartServiceLog new];
   serviceLog.services = servicesNames;
-  [self.logManager processLog:serviceLog withPriority:MSPriorityDefault];
+  [self.logManager processLog:serviceLog withPriority:MSPriorityDefault andGroupID:kMSGroupID];
 }
 
 + (void)resetSharedInstance {

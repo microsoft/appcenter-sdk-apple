@@ -5,6 +5,7 @@
 #import "MSDevicePrivate.h"
 #import "MSWrapperSdkPrivate.h"
 #import "MSUserDefaults.h"
+#import "MSUtility+Application.h"
 #import "MSUtility+Date.h"
 
 // SDK versioning struct. Needs to be big enough to hold the info.
