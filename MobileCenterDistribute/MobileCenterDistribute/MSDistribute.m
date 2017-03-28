@@ -10,7 +10,6 @@
 #import "MSKeychainUtil.h"
 #import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
-#import "MSReleaseDetails.h"
 #import "MSServiceAbstractProtected.h"
 
 /**
