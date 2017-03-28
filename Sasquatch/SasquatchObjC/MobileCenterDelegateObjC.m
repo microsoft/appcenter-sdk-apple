@@ -11,6 +11,15 @@
 
 @implementation MobileCenterDelegateObjC
 
+- (BOOL) isMobileCenterEnabled{
+  return [MSMobileCenter isEnabled];
+}
+- (void) setMobileCenterEnabled:(BOOL)isEnabled{
+  return [MSMobileCenter setEnabled:isEnabled];
+}
+- (NSString *) installId{
+  return [[MSMobileCenter installId] UUIDString];
+}
 - (BOOL) hasCrashedInLastSession{
   return [MSCrashes hasCrashedInLastSession];
 }
@@ -43,6 +52,16 @@
 }
 - (void) trackEvent:(NSString *)eventName withProperties:(NSDictionary<NSString *, NSString *> *)properties{
   [MSAnalytics trackEvent:eventName withProperties:properties];
+}
+- (void) trackPage:(NSString *) eventName{
+  // TODO
+  // Uncomment when trackPage is moved from internal to public module
+  // [MSAnalytics trackPage:eventName];
+}
+- (void) trackPage:(NSString *)eventName withProperties:(NSDictionary<NSString *, NSString *> *)properties{
+  // TODO
+  // Uncomment when trackPage is moved from internal to public module
+  // [MSAnalytics trackPage:eventName withProperties:properties];
 }
 - (NSString *) lastCrashReportIncidentIdentifier{
   return [[MSCrashes lastSessionCrashReport] incidentIdentifier];

@@ -8,6 +8,16 @@ import MobileCenterDistribute
  */
 
 class MobileCenterDelegateSwift: MobileCenterDelegate {
+  func isMobileCenterEnabled() -> Bool{
+    return MSMobileCenter.isEnabled()
+  }
+  func setMobileCenterEnabled(_ isEnabled: Bool){
+    MSMobileCenter.setEnabled(isEnabled)
+  }
+  func installId() -> String{
+    return MSMobileCenter.installId()
+    MSDevice
+  }
   func hasCrashedInLastSession() -> Bool{
     return MSCrashes.hasCrashedInLastSession()
   }
@@ -40,6 +50,16 @@ class MobileCenterDelegateSwift: MobileCenterDelegate {
   }
   func trackEvent(_ eventName: String, withProperties properties: Dictionary<String, String>){
     MSAnalytics.trackEvent(eventName, withProperties: properties)
+  }
+  func trackPage(_ eventName: String){
+    // TODO
+    // Uncomment when trackPage is moved from internal to public module
+    // MSAnalytics.trackPage(eventName)
+  }
+  func trackPage(_ eventName: String, withProperties properties: Dictionary<String, String>){
+    // TODO
+    // Uncomment when trackPage is moved from internal to public module
+    // MSAnalytics.trackPage(eventName, withProperties: properties)
   }
   func lastCrashReportIncidentIdentifier() -> String?{
     return MSCrashes.lastSessionCrashReport()?.incidentIdentifier

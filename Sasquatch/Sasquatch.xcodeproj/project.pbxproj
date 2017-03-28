@@ -44,6 +44,19 @@
 		84226D3D1E8938D200798417 /* MobileCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226D3A1E8937FF00798417 /* MobileCenterDelegate.swift */; };
 		84226D3F1E8939B700798417 /* MobileCenterDelegateSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226D3E1E8939B700798417 /* MobileCenterDelegateSwift.swift */; };
 		84226D421E8953F100798417 /* MobileCenterDelegateObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226D411E8953F100798417 /* MobileCenterDelegateObjC.m */; };
+		845178ED1E8A8B0D004A0A6F /* MSMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845964AC1E8A7E9700BABA51 /* MSMainViewController.swift */; };
+		845964AB1E8A7E6600BABA51 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 845964A91E8A7E6600BABA51 /* Main.storyboard */; };
+		845964AD1E8A7E9700BABA51 /* MSMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845964AC1E8A7E9700BABA51 /* MSMainViewController.swift */; };
+		849A3E721E8A9922008711CB /* MobileCenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849A3E711E8A9922008711CB /* MobileCenterProtocol.swift */; };
+		849A3E731E8A9922008711CB /* MobileCenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849A3E711E8A9922008711CB /* MobileCenterProtocol.swift */; };
+		849A3E751E8AA78E008711CB /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 849A3E741E8AA78E008711CB /* CrashLibIOS.framework */; };
+		849A3E761E8AA9D7008711CB /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 849A3E741E8AA78E008711CB /* CrashLibIOS.framework */; };
+		84A0FF661E8A87B4000E7A28 /* MSCrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF651E8A87B4000E7A28 /* MSCrashesViewController.swift */; };
+		84A0FF671E8A87B4000E7A28 /* MSCrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF651E8A87B4000E7A28 /* MSCrashesViewController.swift */; };
+		84A0FF691E8A87C9000E7A28 /* MSAnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF681E8A87C9000E7A28 /* MSAnalyticsViewController.swift */; };
+		84A0FF6A1E8A87C9000E7A28 /* MSAnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF681E8A87C9000E7A28 /* MSAnalyticsViewController.swift */; };
+		84A0FF6C1E8A87E1000E7A28 /* MSDistributeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */; };
+		84A0FF6D1E8A87E1000E7A28 /* MSDistributeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -86,6 +99,13 @@
 		84226D3E1E8939B700798417 /* MobileCenterDelegateSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobileCenterDelegateSwift.swift; sourceTree = "<group>"; };
 		84226D401E89538D00798417 /* MobileCenterDelegateObjC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MobileCenterDelegateObjC.h; sourceTree = "<group>"; };
 		84226D411E8953F100798417 /* MobileCenterDelegateObjC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MobileCenterDelegateObjC.m; sourceTree = "<group>"; };
+		845964AA1E8A7E6600BABA51 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		845964AC1E8A7E9700BABA51 /* MSMainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSMainViewController.swift; sourceTree = "<group>"; };
+		849A3E711E8A9922008711CB /* MobileCenterProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobileCenterProtocol.swift; sourceTree = "<group>"; };
+		849A3E741E8AA78E008711CB /* CrashLibIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashLibIOS.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/MobileCenter-esvplyiwjujwxsefsvbrjzhzpfrv/Build/Products/Debug-iphonesimulator/CrashLibIOS.framework"; sourceTree = "<group>"; };
+		84A0FF651E8A87B4000E7A28 /* MSCrashesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSCrashesViewController.swift; sourceTree = "<group>"; };
+		84A0FF681E8A87C9000E7A28 /* MSAnalyticsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSAnalyticsViewController.swift; sourceTree = "<group>"; };
+		84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSDistributeViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +113,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				849A3E751E8AA78E008711CB /* CrashLibIOS.framework in Frameworks */,
 				84226D361E89302900798417 /* MobileCenter.framework in Frameworks */,
 				84226D371E89302900798417 /* MobileCenterAnalytics.framework in Frameworks */,
 				84226D381E89302900798417 /* MobileCenterCrashes.framework in Frameworks */,
@@ -104,6 +125,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				849A3E761E8AA9D7008711CB /* CrashLibIOS.framework in Frameworks */,
 				84226D321E89301B00798417 /* MobileCenter.framework in Frameworks */,
 				84226D331E89301B00798417 /* MobileCenterAnalytics.framework in Frameworks */,
 				84226D341E89301B00798417 /* MobileCenterCrashes.framework in Frameworks */,
@@ -138,6 +160,7 @@
 			isa = PBXGroup;
 			children = (
 				84226D3A1E8937FF00798417 /* MobileCenterDelegate.swift */,
+				849A3E711E8A9922008711CB /* MobileCenterProtocol.swift */,
 				84226CB11E8909F700798417 /* Storyboards */,
 				84226CB01E8909EA00798417 /* ViewControllers */,
 				84226CCC1E89117800798417 /* CommonTableViewCell */,
@@ -184,6 +207,10 @@
 			children = (
 				84226CC01E890FA900798417 /* MSCrashReportViewController.swift */,
 				84226CC11E890FA900798417 /* SasquatchViewController.swift */,
+				845964AC1E8A7E9700BABA51 /* MSMainViewController.swift */,
+				84A0FF651E8A87B4000E7A28 /* MSCrashesViewController.swift */,
+				84A0FF681E8A87C9000E7A28 /* MSAnalyticsViewController.swift */,
+				84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -191,6 +218,7 @@
 		84226CB11E8909F700798417 /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
+				845964A91E8A7E6600BABA51 /* Main.storyboard */,
 				84226CBD1E890EE200798417 /* Sasquatch.storyboard */,
 				84226C1E1E88FEFC00798417 /* LaunchScreen.storyboard */,
 			);
@@ -232,6 +260,7 @@
 		84226D0F1E8921DE00798417 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				849A3E741E8AA78E008711CB /* CrashLibIOS.framework */,
 				84226D2E1E89301A00798417 /* MobileCenter.framework */,
 				84226D2F1E89301B00798417 /* MobileCenterAnalytics.framework */,
 				84226D301E89301B00798417 /* MobileCenterCrashes.framework */,
@@ -339,6 +368,7 @@
 				84226CDB1E8911B600798417 /* MSDetailsTableViewCell.xib in Resources */,
 				84226C561E88FF4A00798417 /* Assets.xcassets in Resources */,
 				84226CE01E8911BB00798417 /* MSTitleTableViewCell.xib in Resources */,
+				845964AB1E8A7E6600BABA51 /* Main.storyboard in Resources */,
 				84226CDE1E8911BB00798417 /* MSSwitchTableViewCell.xib in Resources */,
 				84226CC41E89104D00798417 /* Sasquatch.storyboard in Resources */,
 			);
@@ -366,12 +396,17 @@
 				84226CD91E8911B200798417 /* MSDetailsTableViewCell.swift in Sources */,
 				84226D0D1E891FEF00798417 /* MSAlertController.m in Sources */,
 				84226CC61E89105600798417 /* MSCrashReportViewController.swift in Sources */,
+				849A3E721E8A9922008711CB /* MobileCenterProtocol.swift in Sources */,
+				845964AD1E8A7E9700BABA51 /* MSMainViewController.swift in Sources */,
 				84226CDF1E8911BB00798417 /* MSTitleTableViewCell.swift in Sources */,
+				84A0FF691E8A87C9000E7A28 /* MSAnalyticsViewController.swift in Sources */,
 				84226CDD1E8911BB00798417 /* MSSwitchTableViewCell.swift in Sources */,
 				84226D421E8953F100798417 /* MobileCenterDelegateObjC.m in Sources */,
 				84226CC81E89105A00798417 /* SasquatchViewController.swift in Sources */,
+				84A0FF661E8A87B4000E7A28 /* MSCrashesViewController.swift in Sources */,
 				84226C4E1E88FF4A00798417 /* AppDelegate.m in Sources */,
 				84226C4B1E88FF4A00798417 /* main.m in Sources */,
+				84A0FF6C1E8A87E1000E7A28 /* MSDistributeViewController.swift in Sources */,
 				84226D3C1E8938D100798417 /* MobileCenterDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -380,14 +415,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				849A3E731E8A9922008711CB /* MobileCenterProtocol.swift in Sources */,
+				84A0FF671E8A87B4000E7A28 /* MSCrashesViewController.swift in Sources */,
 				84226CE11E8911BC00798417 /* MSSwitchTableViewCell.swift in Sources */,
+				84A0FF6A1E8A87C9000E7A28 /* MSAnalyticsViewController.swift in Sources */,
 				84226D3D1E8938D200798417 /* MobileCenterDelegate.swift in Sources */,
 				84226CC71E89105700798417 /* MSCrashReportViewController.swift in Sources */,
 				84226CE31E8911BC00798417 /* MSTitleTableViewCell.swift in Sources */,
 				84226CC91E89105B00798417 /* SasquatchViewController.swift in Sources */,
 				84226D0E1E891FF100798417 /* MSAlertController.m in Sources */,
+				845178ED1E8A8B0D004A0A6F /* MSMainViewController.swift in Sources */,
 				84226D3F1E8939B700798417 /* MobileCenterDelegateSwift.swift in Sources */,
 				84226CDA1E8911B300798417 /* MSDetailsTableViewCell.swift in Sources */,
+				84A0FF6D1E8A87E1000E7A28 /* MSDistributeViewController.swift in Sources */,
 				84226C831E8908CA00798417 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -409,6 +449,14 @@
 				84226CBE1E890EE200798417 /* Base */,
 			);
 			name = Sasquatch.storyboard;
+			sourceTree = "<group>";
+		};
+		845964A91E8A7E6600BABA51 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				845964AA1E8A7E6600BABA51 /* Base */,
+			);
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -517,6 +565,7 @@
 				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-iOS/**";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../CrashLibIOS/CrashLibIOS";
 				INFOPLIST_FILE = SasquatchObjC/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -535,6 +584,7 @@
 				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-iOS/**";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../CrashLibIOS/CrashLibIOS";
 				INFOPLIST_FILE = SasquatchObjC/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

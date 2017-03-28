@@ -15,6 +15,9 @@
   
   //MSMobileCenter section.
   func isDebuggerAttached() -> Bool
+  func isMobileCenterEnabled() -> Bool
+  func setMobileCenterEnabled(_ isEnabled: Bool)
+  func installId() -> String
   
   //MSCrashes section.
   func hasCrashedInLastSession() -> Bool
@@ -23,6 +26,8 @@
   //MSAnalytics section.
   func trackEvent(_ eventName: String)
   func trackEvent(_ eventName: String, withProperties: Dictionary<String, String>)
+  func trackPage(_ eventName: String)
+  func trackPage(_ eventName: String, withProperties: Dictionary<String, String>)
   
   //Lasr crash report section.
   func lastCrashReportIncidentIdentifier() -> String?

@@ -14,62 +14,6 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6E04017D1D1CAC710051BCFA"
-               BuildableName = "MobileCenterFramework"
-               BlueprintName = "MobileCenterFramework"
-               ReferencedContainer = "container:../MobileCenter/MobileCenter.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E85547E41D2D681F002DF6E2"
-               BuildableName = "MobileCenterAnalyticsFramework"
-               BlueprintName = "MobileCenterAnalyticsFramework"
-               ReferencedContainer = "container:../MobileCenterAnalytics/MobileCenterAnalytics.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6E3729771D1DE83200F1E4AE"
-               BuildableName = "MobileCenterCrashesFramework"
-               BlueprintName = "MobileCenterCrashesFramework"
-               ReferencedContainer = "container:../MobileCenterCrashes/MobileCenterCrashes.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "04FD4A281E451E90009B4468"
-               BuildableName = "MobileCenterDistributeFramework"
-               BlueprintName = "MobileCenterDistributeFramework"
-               ReferencedContainer = "container:../MobileCenterDistribute/MobileCenterDistribute.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "84226C461E88FF4A00798417"
                BuildableName = "SasquatchObjC.app"
                BlueprintName = "SasquatchObjC"
