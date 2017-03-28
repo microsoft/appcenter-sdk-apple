@@ -136,9 +136,9 @@
   __block BOOL handlerHasBeenCalled = NO;
   
   // When
-  [MSUtility sharedAppOpenUrl:[NSURL URLWithString:@""] options:@{} completionHandler:^(BOOL success) {
+  [MSUtility sharedAppOpenUrl:[NSURL URLWithString:@""] options:@{} completionHandler:^(MSOpenURLState status) {
     handlerHasBeenCalled = YES;
-    XCTAssertFalse(success);
+    XCTAssertEqual(status, MSOpenURLStateFailed);
   }];
   dispatch_async(dispatch_get_main_queue(), ^{
     [openURLCalledExpectation fulfill];

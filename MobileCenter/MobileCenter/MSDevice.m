@@ -80,11 +80,11 @@ static NSString *const kMSAppNamespace = @"app_namespace";
          self.osVersion && self.locale && self.timeZoneOffset && self.screenSize && self.appVersion && self.appBuild;
 }
 
-- (BOOL)isEqual:(MSDevice *)device {
-
-  if (!device || ![super isEqual:device])
+- (BOOL)isEqual:(id)object {
+  if (!object || ![super isEqual:object] || ![object isKindOfClass:[MSDevice class]]) {
     return NO;
-
+  }
+  MSDevice *device = (MSDevice *)object;
   return ((!self.sdkName && !device.sdkName) || [self.sdkName isEqualToString:device.sdkName]) &&
          ((!self.sdkVersion && !device.sdkVersion) || [self.sdkVersion isEqualToString:device.sdkVersion]) &&
          ((!self.model && !device.model) || [self.model isEqualToString:device.model]) &&

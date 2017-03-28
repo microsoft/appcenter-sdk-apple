@@ -2,11 +2,9 @@
 #import <SafariServices/SafariServices.h>
 
 #import "MSAlertController.h"
-#import "MSBasicMachOParser.h"
 #import "MSDistribute.h"
 #import "MSDistributeInternal.h"
 #import "MSDistributePrivate.h"
-#import "MSDistributeSender.h"
 #import "MSDistributeUtil.h"
 #import "MSErrorDetails.h"
 #import "MSKeychainUtil.h"
@@ -150,7 +148,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 /*
  * iOS 9+ only, check for `SFSafariViewController` availability. `SafariServices` framework MUST be weakly linked.
  * We can't use `NSClassFromString` here to avoid the warning.
- * It doesn't detect the class correctly unless the application explicitely imports the related framework.
+ * It doesn't detect the class correctly unless the application explicitly imports the related framework.
  */
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpartial-availability"
@@ -191,7 +189,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
           [[MSDistributeSender alloc] initWithBaseUrl:self.apiUrl appSecret:self.appSecret updateToken:updateToken];
       [self.sender
                   sendAsync:nil
-          completionHandler:^(__attribute__((unused)) NSString *callId, NSUInteger statusCode, NSData *data, __attribute__((unused)) NSError *error) {
+          completionHandler:^(__attribute__((unused)) NSString *callId, NSUInteger statusCode, NSData *data,
+                              __attribute__((unused)) NSError *error) {
 
             // Release sender instance.
             self.sender = nil;
@@ -366,7 +365,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   UIWindow *window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   window.rootViewController = self.safariHostingViewController;
 
-  // Place it at the lowest level within the stack, less visible.
+  // Place it at the highest level within the stack.
   window.windowLevel = +CGFLOAT_MAX;
 
   // Run it.
@@ -462,22 +461,44 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       // Add a "Postpone"-Button
       [alertController addDefaultActionWithTitle:MSDistributeLocalizedString(@"Postpone")
                                          handler:^(__attribute__((unused)) UIAlertAction *action) {
+
+                                           // No need to check if the service isEnabled.
                                            MSLogDebug([MSDistribute logTag], @"Postpone the update for now.");
                                          }];
 
       // Add a "Ignore"-Button
-      [alertController addDefaultActionWithTitle:MSDistributeLocalizedString(@"Ignore")
-                                         handler:^(__attribute__((unused)) UIAlertAction *action) {
-                                           MSLogDebug([MSDistribute logTag], @"Ignore the release id: %@.", details.id);
-                                           [MS_USER_DEFAULTS setObject:details.id forKey:kMSIgnoredReleaseIdKey];
-                                         }];
+      [alertController
+          addDefaultActionWithTitle:MSDistributeLocalizedString(@"Ignore")
+                            handler:^(__attribute__((unused)) UIAlertAction *action) {
+                              if ([self isEnabled]) {
+                                MSLogDebug([MSDistribute logTag], @"Ignore the release id: %@.", details.id);
+                                [MS_USER_DEFAULTS setObject:details.id forKey:kMSIgnoredReleaseIdKey];
+                              } else {
+                                MSLogDebug([MSDistribute logTag], @"Distribute was disabled.");
+                                [self showDistributeDisabledAlert];
+                              }
+                            }];
     }
 
     // Add a "Download"-Button
     [alertController addCancelActionWithTitle:MSDistributeLocalizedString(@"Download")
                                       handler:^(__attribute__((unused)) UIAlertAction *action) {
-                                        MSLogDebug([MSDistribute logTag], @"Start download and install the update.");
-                                        [self startDownload:details];
+#if TARGET_IPHONE_SIMULATOR
+
+                                        /*
+                                         * iOS simulator doesn't support "itms-services" scheme, simulator will consider the scheme
+                                         * as an invalid address. Skip download process if the application is running on simulator.
+                                         */
+                                        MSLogWarning([MSDistribute logTag], @"Couldn't download a new release on simulator.");
+#else
+                                        if ([self isEnabled]) {
+                                          MSLogDebug([MSDistribute logTag], @"Start download and install the update.");
+                                          [self startDownload:details];
+                                        } else {
+                                          MSLogDebug([MSDistribute logTag], @"Distribute was disabled.");
+                                          [self showDistributeDisabledAlert];
+                                        }
+#endif
                                       }];
 
     // Show the alert controller.
@@ -486,30 +507,51 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   });
 }
 
+- (void)showDistributeDisabledAlert {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    MSAlertController *alertController =
+        [MSAlertController alertControllerWithTitle:MSDistributeLocalizedString(@"In-app-updates are disabled.")
+                                            message:nil];
+    [alertController addCancelActionWithTitle:MSDistributeLocalizedString(@"Close") handler:nil];
+    [alertController show];
+  });
+}
+
 - (void)startDownload:(MSReleaseDetails *)details {
-  (void)details;
-#if TARGET_IPHONE_SIMULATOR
-  MSLogWarning([MSDistribute logTag], @"Couldn't download a new release on simulator.");
-#else
   [MSUtility sharedAppOpenUrl:details.installUrl
       options:@{}
-      completionHandler:^(BOOL success) {
-        if (success) {
+      completionHandler:^(MSOpenURLState state) {
+        switch (state) {
+        case MSOpenURLStateSucceed:
           MSLogDebug([MSDistribute logTag], @"Start updating the application.");
+          break;
+        case MSOpenURLStateFailed:
+          MSLogError([MSDistribute logTag], @"System couldn't open the URL. Aborting update.");
+          return;
+        case MSOpenURLStateUnknown:
 
           /*
-           * We've seen the behavior on iOS 8.x devices in HockeyApp that it doesn't download until the application
-           * goes in background by pressing home button. Simply exit the app to start the update process.
-           * For iOS version >= 9.0, we still need to exit the app if it is a mandatory update.
+           * FIXME: We've observed a behavior in iOS 10+ that openURL and openURL:options:completionHandler don't say
+           * the operation is succeeded even though it successfully opens the URL.
+           * Log the result of openURL and openURL:options:completionHandler and keep moving forward for update.
            */
-          if ((floor(NSFoundationVersionNumber) < NSFoundationVersionNumber_iOS_9_0) || details.mandatoryUpdate) {
-            exit(0);
-          }
-        } else {
-          MSLogError([MSDistribute logTag], @"System couldn't open the URL. Aborting update.");
+          MSLogWarning([MSDistribute logTag], @"System returned NO for update but processing.");
+          break;
+        }
+
+        /*
+         * We've seen the behavior on iOS 8.x devices in HockeyApp that it doesn't download until the application
+         * goes in background by pressing home button. Simply exit the app to start the update process.
+         * For iOS version >= 9.0, we still need to exit the app if it is a mandatory update.
+         */
+        if ((floor(NSFoundationVersionNumber) < NSFoundationVersionNumber_iOS_9_0) || details.mandatoryUpdate) {
+          [self closeApp];
         }
       }];
-#endif
+}
+
+- (void)closeApp {
+  exit(0);
 }
 
 - (void)openUrl:(NSURL *)url {
