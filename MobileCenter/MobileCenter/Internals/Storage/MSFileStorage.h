@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return the file url
  */
-- (NSString *) fileURLForGroupID:(NSString *)groupID logsId:(NSString *)logsId;
+- (NSURL *) fileURLForGroupID:(NSString *)groupID logsId:(NSString *)logsId;
 
 /**
  * Returns the bucket for a given storage key or creates a new one if it doesn't exist, yet.

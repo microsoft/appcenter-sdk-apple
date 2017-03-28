@@ -72,10 +72,11 @@ static NSString *const kMSArchitecture = @"architecture";
   return self.errorId && self.processId && self.processName && self.appLaunchTOffset;
 }
 
-- (BOOL)isEqual:(MSAbstractErrorLog *)errorLog {
-  if (!errorLog)
+- (BOOL)isEqual:(id)object {
+  if (!object || ![object isKindOfClass:[MSAbstractErrorLog class]]) {
     return NO;
-
+  }
+  MSAbstractErrorLog *errorLog = (MSAbstractErrorLog *)object;
   return ((!self.errorId && !errorLog.errorId) || [self.errorId isEqualToString:errorLog.errorId]) &&
          ((!self.processId && !errorLog.processId) || [self.processId isEqual:errorLog.processId]) &&
          ((!self.processName && !errorLog.processName) || [self.processName isEqualToString:errorLog.processName]) &&

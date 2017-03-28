@@ -1,4 +1,3 @@
-
 #import <Foundation/Foundation.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
@@ -20,6 +19,7 @@
 #import "MSServiceAbstractProtected.h"
 #import "MSServiceInternal.h"
 #import "MSUserDefaults.h"
+#import "MSUtility+Application.h"
 #import "MSUtility+Environment.h"
 #import "MSUtility+StringFormatting.h"
 
@@ -801,6 +801,75 @@ static NSURL *sfURL;
                                  XCTFail(@"Expectation Failed with error: %@", error);
                                }
                              }];
+}
+
+- (void)testShowDistributeDisabledAlert {
+
+  // If
+  id mobileCenterMock = OCMPartialMock(self.sut);
+  id alertControllerMock = OCMClassMock([MSAlertController class]);
+  OCMStub([alertControllerMock alertControllerWithTitle:[OCMArg any] message:[OCMArg any]])
+      .andReturn(alertControllerMock);
+
+  // When
+  XCTestExpectation *expection = [self expectationWithDescription:@"Distribute disabled alert has been displayed"];
+  [mobileCenterMock showDistributeDisabledAlert];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [expection fulfill];
+  });
+
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(__attribute__((unused)) NSError *error) {
+
+                                 // Then
+                                 OCMVerify([alertControllerMock alertControllerWithTitle:[OCMArg any] message:nil]);
+                                 OCMVerify(
+                                     [alertControllerMock addCancelActionWithTitle:[OCMArg any] handler:[OCMArg any]]);
+                               }];
+}
+
+- (void)testStartDownload {
+
+  // If
+  MSReleaseDetails *details = [MSReleaseDetails new];
+  id distributeMock = OCMPartialMock(self.sut);
+  OCMStub([distributeMock closeApp]).andDo(nil);
+  id utilityMock = OCMClassMock([MSUtility class]);
+  OCMStub(ClassMethod([utilityMock sharedAppOpenUrl:[OCMArg any] options:[OCMArg any] completionHandler:[OCMArg any]]))
+      .andDo(^(NSInvocation *invocation) {
+        void (^handler)(MSOpenURLState);
+        [invocation getArgument:&handler atIndex:4];
+        handler(MSOpenURLStateUnknown);
+      });
+
+  // When
+  details.mandatoryUpdate = YES;
+  [distributeMock startDownload:details];
+
+  // Then
+  OCMVerify([distributeMock closeApp]);
+}
+
+- (void)testStartDownloadFailed {
+
+  // If
+  MSReleaseDetails *details = [MSReleaseDetails new];
+  id distributeMock = OCMPartialMock(self.sut);
+  OCMStub([distributeMock closeApp]).andDo(nil);
+  id utilityMock = OCMClassMock([MSUtility class]);
+  OCMStub(ClassMethod([utilityMock sharedAppOpenUrl:[OCMArg any] options:[OCMArg any] completionHandler:[OCMArg any]]))
+      .andDo(^(NSInvocation *invocation) {
+        void (^handler)(MSOpenURLState);
+        [invocation getArgument:&handler atIndex:4];
+        handler(MSOpenURLStateFailed);
+      });
+
+  // When
+  details.mandatoryUpdate = YES;
+  [distributeMock startDownload:details];
+
+  // Then
+  OCMReject([distributeMock closeApp]);
 }
 
 - (id)mockMSPackageHash {

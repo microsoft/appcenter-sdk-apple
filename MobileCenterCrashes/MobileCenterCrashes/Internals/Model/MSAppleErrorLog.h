@@ -88,10 +88,10 @@
 /**
  * Is equal to another apple error log
  *
- * @param errorLog Apple error log
+ * @param object Apple error log
  *
  * @return Return YES if equal and NO if not equal
  */
-- (BOOL)isEqual:(MSAppleErrorLog *)errorLog;
+- (BOOL)isEqual:(id)object;
 
 @end
