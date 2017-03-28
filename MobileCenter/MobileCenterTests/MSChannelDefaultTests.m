@@ -79,7 +79,9 @@ static NSString *const kMSTestGroupID = @"GroupID";
 
   // When
   for (int i = 1; i <= itemsToAdd; i++) {
-    [self.sut enqueueItem:[MSAbstractLog new] withCompletion:nil];
+    id logMock = OCMPartialMock([MSAbstractLog new]);
+    OCMStub([logMock isValid]).andReturn(YES);
+    [self.sut enqueueItem:logMock withCompletion:nil];
   }
   [self enqueueChannelEndJobExpectation];
 
@@ -104,11 +106,13 @@ static NSString *const kMSTestGroupID = @"GroupID";
   self.sut.configuration = config;
   int itemsToAdd = 3;
   XCTestExpectation *expectation = [self expectationWithDescription:@"All items enqueued"];
+  id logMock = OCMPartialMock([MSAbstractLog new]);
+  OCMStub([logMock isValid]).andReturn(YES);
 
   // When
   for (int i = 1; i <= itemsToAdd; i++) {
 
-    [self.sut enqueueItem:[MSAbstractLog new]
+    [self.sut enqueueItem:logMock
            withCompletion:^(__attribute__((unused)) BOOL success) {
              if (i == itemsToAdd) {
                [expectation fulfill];
@@ -131,7 +135,6 @@ static NSString *const kMSTestGroupID = @"GroupID";
 
   // If
   [self initChannelEndJobExpectation];
-  __block id<MSLog> log;
   __block int currentBatchId = 1;
   __block NSMutableArray<NSString *> *sentBatchIds = [NSMutableArray new];
   NSUInteger expectedMaxPendingBatched = 2;
@@ -153,7 +156,8 @@ static NSString *const kMSTestGroupID = @"GroupID";
 
         // Mock load.
         [invocation getArgument:&loadCallback atIndex:3];
-        loadCallback(YES, ((NSArray<MSLog> *)@[ log ]), [@(currentBatchId++) stringValue]);
+        loadCallback(YES, ((NSArray<MSLog> *)@[ OCMProtocolMock(@protocol(MSLog)) ]),
+                     [@(currentBatchId++) stringValue]);
       });
   MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithGroupID:kMSTestGroupID
                                                                      flushInterval:0.0
@@ -166,25 +170,27 @@ static NSString *const kMSTestGroupID = @"GroupID";
                                                  logsDispatchQueue:self.logsDispatchQueue];
 
   // When
-  for (int i = 1; i <= expectedMaxPendingBatched + 1; i++) {
-    log = [MSAbstractLog new];
-    [sut enqueueItem:log withCompletion:nil];
+  for (NSUInteger i = 1; i <= expectedMaxPendingBatched + 1; i++) {
+    id logMock = OCMPartialMock([MSAbstractLog new]);
+    OCMStub([logMock isValid]).andReturn(YES);
+    [sut enqueueItem:logMock withCompletion:nil];
   }
   [self enqueueChannelEndJobExpectation];
 
   // Then
-  [self
-      waitForExpectationsWithTimeout:1
-                             handler:^(NSError *error) {
-                               assertThatUnsignedLong(sut.pendingBatchIds.count, equalToInt(expectedMaxPendingBatched));
-                               assertThatUnsignedLong(sentBatchIds.count, equalToInt(expectedMaxPendingBatched));
-                               assertThat(sentBatchIds[0], is(@"1"));
-                               assertThat(sentBatchIds[1], is(@"2"));
-                               assertThatBool(sut.pendingBatchQueueFull, isTrue());
-                               if (error) {
-                                 XCTFail(@"Expectation Failed with error: %@", error);
-                               }
-                             }];
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 assertThatUnsignedLong(sut.pendingBatchIds.count,
+                                                        equalToUnsignedLong(expectedMaxPendingBatched));
+                                 assertThatUnsignedLong(sentBatchIds.count,
+                                                        equalToUnsignedLong(expectedMaxPendingBatched));
+                                 assertThat(sentBatchIds[0], is(@"1"));
+                                 assertThat(sentBatchIds[1], is(@"2"));
+                                 assertThatBool(sut.pendingBatchQueueFull, isTrue());
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
 }
 
 - (void)testNextBatchSentIfPendingQueueGotRoomAgain {
@@ -197,7 +203,6 @@ static NSString *const kMSTestGroupID = @"GroupID";
   __block MSSendAsyncCompletionHandler senderBlock;
   __block MSLogContainer *lastBatchLogContainer;
   __block int currentBatchId = 1;
-  __block id<MSLog> log = [MSAbstractLog new];
 
   // Init mocks.
   id senderMock = OCMProtocolMock(@protocol(MSSender));
@@ -219,11 +224,12 @@ static NSString *const kMSTestGroupID = @"GroupID";
         [invocation getArgument:&loadCallback atIndex:3];
 
         // Mock load.
-        loadCallback(YES, ((NSArray<MSLog> *)@[ log ]), [@(currentBatchId) stringValue]);
+        loadCallback(YES, ((NSArray<MSLog> *)@[ OCMProtocolMock(@protocol(MSLog)) ]), [@(currentBatchId) stringValue]);
       });
 
   // Send one batch to fulfill the queue.
-  log.toffset = @(currentBatchId);
+  id logMock = OCMPartialMock([MSAbstractLog new]);
+  OCMStub([logMock isValid]).andReturn(YES);
 
   // Configure channel.
   MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithGroupID:kMSTestGroupID
@@ -239,7 +245,7 @@ static NSString *const kMSTestGroupID = @"GroupID";
   /**
    * When
    */
-  [sut enqueueItem:log withCompletion:nil];
+  [sut enqueueItem:logMock withCompletion:nil];
 
   // Try to release one batch.
   dispatch_async(self.logsDispatchQueue, ^{
@@ -260,9 +266,9 @@ static NSString *const kMSTestGroupID = @"GroupID";
 
       // Send another batch.
       currentBatchId++;
-      log = [MSAbstractLog new];
-      log.toffset = @(currentBatchId);
-      [sut enqueueItem:log withCompletion:nil];
+      id anotherLogMock = OCMPartialMock([MSAbstractLog new]);
+      OCMStub([anotherLogMock isValid]).andReturn(YES);
+      [sut enqueueItem:anotherLogMock withCompletion:nil];
       [self enqueueChannelEndJobExpectation];
     });
   });
@@ -285,13 +291,14 @@ static NSString *const kMSTestGroupID = @"GroupID";
 
   // If
   [self initChannelEndJobExpectation];
-  __block id<MSLog> log = [MSAbstractLog new];
+  id logMock = OCMPartialMock([MSAbstractLog new]);
+  OCMStub([logMock isValid]).andReturn(YES);
   id senderMock = OCMProtocolMock(@protocol(MSSender));
   OCMStub([senderMock sendAsync:[OCMArg any] completionHandler:[OCMArg any]]);
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
   OCMStub([storageMock
       loadLogsForGroupID:kMSTestGroupID
-          withCompletion:([OCMArg invokeBlockWithArgs:@YES, ((NSArray<MSLog> *)@[ log ]), @"1", nil])]);
+          withCompletion:([OCMArg invokeBlockWithArgs:@YES, ((NSArray<MSLog> *)@[ logMock ]), @"1", nil])]);
   MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithGroupID:kMSTestGroupID
                                                                      flushInterval:0.0
                                                                     batchSizeLimit:1
@@ -305,7 +312,7 @@ static NSString *const kMSTestGroupID = @"GroupID";
    * When
    */
   [sut setEnabled:NO andDeleteDataOnDisabled:NO];
-  [sut enqueueItem:log withCompletion:nil];
+  [sut enqueueItem:logMock withCompletion:nil];
   [self enqueueChannelEndJobExpectation];
 
   /**
@@ -328,10 +335,11 @@ static NSString *const kMSTestGroupID = @"GroupID";
   [self initChannelEndJobExpectation];
   id senderMock = OCMProtocolMock(@protocol(MSSender));
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
-  id<MSLog> log = [MSAbstractLog new];
+  id logMock = OCMPartialMock([MSAbstractLog new]);
+  OCMStub([logMock isValid]).andReturn(YES);
   OCMStub([storageMock
       loadLogsForGroupID:kMSTestGroupID
-          withCompletion:([OCMArg invokeBlockWithArgs:@YES, ((NSArray<MSLog> *)@[ log ]), @"1", nil])]);
+          withCompletion:([OCMArg invokeBlockWithArgs:@YES, ((NSArray<MSLog> *)@[ logMock ]), @"1", nil])]);
   MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithGroupID:kMSTestGroupID
                                                                      flushInterval:0.0
                                                                     batchSizeLimit:1
@@ -342,7 +350,7 @@ static NSString *const kMSTestGroupID = @"GroupID";
                                                      configuration:config
                                                  logsDispatchQueue:dispatch_get_main_queue()];
   // When
-  [sut enqueueItem:log withCompletion:nil];
+  [sut enqueueItem:logMock withCompletion:nil];
   [sut setEnabled:NO andDeleteDataOnDisabled:YES];
   [self enqueueChannelEndJobExpectation];
 
@@ -363,7 +371,8 @@ static NSString *const kMSTestGroupID = @"GroupID";
   // If
   [self initChannelEndJobExpectation];
   id<MSChannelDelegate> delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
-  id<MSLog> log = [MSAbstractLog new];
+  id logMock = OCMPartialMock([MSAbstractLog new]);
+  OCMStub([logMock isValid]).andReturn(YES);
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wnonnull"
@@ -376,7 +385,7 @@ static NSString *const kMSTestGroupID = @"GroupID";
   // When
   [sut addDelegate:delegateMock];
   [sut setEnabled:NO andDeleteDataOnDisabled:YES];
-  [sut enqueueItem:log withCompletion:nil];
+  [sut enqueueItem:logMock withCompletion:nil];
   [self enqueueChannelEndJobExpectation];
 
   // Then
@@ -384,8 +393,8 @@ static NSString *const kMSTestGroupID = @"GroupID";
                                handler:^(NSError *error) {
 
                                  // Check the callbacks were invoked for logs.
-                                 OCMVerify([delegateMock channel:sut willSendLog:log]);
-                                 OCMVerify([delegateMock channel:sut didFailSendingLog:log withError:anything()]);
+                                 OCMVerify([delegateMock channel:sut willSendLog:logMock]);
+                                 OCMVerify([delegateMock channel:sut didFailSendingLog:logMock withError:anything()]);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
@@ -411,11 +420,16 @@ static NSString *const kMSTestGroupID = @"GroupID";
                       userInfo:@{NSLocalizedDescriptionKey : kMSMCConnectionSuspendedErrorDesc}];
 
   __block MSSendAsyncCompletionHandler senderBlock;
-  __block NSArray<MSAbstractLog *> *expectedLogs = @[ [MSAbstractLog new], [MSAbstractLog new], [MSAbstractLog new] ];
+  __block NSMutableArray<MSAbstractLog *> *expectedLogs = [NSMutableArray<MSAbstractLog *> new];
   __block NSMutableArray<MSLog> *failedForwardedLogs = [NSMutableArray<MSLog> new];
   __block NSMutableArray<NSError *> *failedForwardedErrors = [NSMutableArray<NSError *> new];
   __block NSMutableArray<MSLog> *willSendForwardedLogs = [NSMutableArray<MSLog> new];
   id<MSChannelDelegate> delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
+  for (int i = 0; i < 3; i++) {
+    id logMock = OCMPartialMock([MSAbstractLog new]);
+    OCMStub([logMock isValid]).andReturn(YES);
+    [expectedLogs addObject:logMock];
+  }
 
   // Stub the sender for that log.
   id senderMock = OCMProtocolMock(@protocol(MSSender));
@@ -480,10 +494,11 @@ static NSString *const kMSTestGroupID = @"GroupID";
       });
 
   // Stub sender suspended method.
-  OCMStub([senderMock setEnabled:NO andDeleteDataOnDisabled:YES]).andDo(^(__attribute__((unused)) NSInvocation *invocation) {
-    [self.sut sender:senderMock didSetEnabled:(NO) andDeleteDataOnDisabled:YES];
-    [self enqueueChannelEndJobExpectation];
-  });
+  OCMStub([senderMock setEnabled:NO andDeleteDataOnDisabled:YES])
+      .andDo(^(__attribute__((unused)) NSInvocation *invocation) {
+        [self.sut sender:senderMock didSetEnabled:(NO) andDeleteDataOnDisabled:YES];
+        [self enqueueChannelEndJobExpectation];
+      });
 
   // Enqueue items to the channel.
   for (id<MSLog> log in expectedLogs) {
