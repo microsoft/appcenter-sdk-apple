@@ -1,5 +1,4 @@
 #import "MSAbstractLog.h"
-#import "MSLogger.h"
 #import "MSDevice.h"
 #import "MSDevicePrivate.h"
 #import "MSUtility+Date.h"

@@ -14,7 +14,6 @@
 
 static NSTimeInterval const kMSTestTimeout = 5.0;
 static NSString *const kMSBaseUrl = @"https://test.com";
-static NSString *const kMSAppSecret = @"mockAppSecret";
 
 @interface MSIngestionSenderTests : XCTestCase
 
