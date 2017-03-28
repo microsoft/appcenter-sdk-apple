@@ -19,6 +19,7 @@
 #import "MSServiceAbstractProtected.h"
 #import "MSServiceInternal.h"
 #import "MSUserDefaults.h"
+#import "MSUtility+Application.h"
 #import "MSUtility+Environment.h"
 
 static NSString *const kMSTestAppSecret = @"IAMSECRET";
@@ -817,6 +818,50 @@ static NSURL *sfURL;
                                  OCMVerify(
                                      [alertControllerMock addCancelActionWithTitle:[OCMArg any] handler:[OCMArg any]]);
                                }];
+}
+
+- (void)testStartDownload {
+
+  // If
+  MSReleaseDetails *details = [MSReleaseDetails new];
+  id distributeMock = OCMPartialMock(self.sut);
+  OCMStub([distributeMock closeApp]).andDo(nil);
+  id utilityMock = OCMClassMock([MSUtility class]);
+  OCMStub(ClassMethod([utilityMock sharedAppOpenUrl:[OCMArg any] options:[OCMArg any] completionHandler:[OCMArg any]]))
+      .andDo(^(NSInvocation *invocation) {
+        void (^handler)(MSOpenURLState);
+        [invocation getArgument:&handler atIndex:4];
+        handler(MSOpenURLStateUnknown);
+      });
+
+  // When
+  details.mandatoryUpdate = YES;
+  [distributeMock startDownload:details];
+
+  // Then
+  OCMVerify([distributeMock closeApp]);
+}
+
+- (void)testStartDownloadFailed {
+
+  // If
+  MSReleaseDetails *details = [MSReleaseDetails new];
+  id distributeMock = OCMPartialMock(self.sut);
+  OCMStub([distributeMock closeApp]).andDo(nil);
+  id utilityMock = OCMClassMock([MSUtility class]);
+  OCMStub(ClassMethod([utilityMock sharedAppOpenUrl:[OCMArg any] options:[OCMArg any] completionHandler:[OCMArg any]]))
+      .andDo(^(NSInvocation *invocation) {
+        void (^handler)(MSOpenURLState);
+        [invocation getArgument:&handler atIndex:4];
+        handler(MSOpenURLStateFailed);
+      });
+
+  // When
+  details.mandatoryUpdate = YES;
+  [distributeMock startDownload:details];
+
+  // Then
+  OCMReject([distributeMock closeApp]);
 }
 
 @end
