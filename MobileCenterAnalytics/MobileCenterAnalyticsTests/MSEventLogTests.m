@@ -101,4 +101,28 @@
   assertThat(actualEvent.properties, equalTo(properties));
 }
 
+- (void)testIsValid {
+
+  // If
+  self.sut.device = OCMClassMock([MSDevice class]);
+  OCMStub([self.sut.device isValid]).andReturn(YES);
+  self.sut.toffset = @(3);
+  self.sut.sid = @"1234567890";
+
+  // Then
+  XCTAssertFalse([self.sut isValid]);
+
+  // When
+  self.sut.eventId = MS_UUID_STRING;
+
+  // Then
+  XCTAssertFalse([self.sut isValid]);
+
+  // When
+  self.sut.name = @"eventName";
+
+  // Then
+  XCTAssertTrue([self.sut isValid]);
+}
+
 @end
