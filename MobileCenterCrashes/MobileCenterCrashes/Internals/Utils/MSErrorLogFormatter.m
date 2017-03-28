@@ -381,7 +381,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
 + (NSNumber *)calculateTOffsetFromReport:(MSPLCrashReport *)report {
   NSDate *crashTime = report.systemInfo.timestamp;
-  long long difference = ([crashTime timeIntervalSince1970] * 1000);
+  long long difference = (long long)([crashTime timeIntervalSince1970] * 1000);
   return @(difference);
 }
 
