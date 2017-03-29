@@ -1,4 +1,4 @@
-#import "MSAbstractLog.h"
+#import "MSAbstractLogInternal.h"
 #import <Foundation/Foundation.h>
 
 @interface MSWrapperSdk () <MSSerializableObject>
@@ -13,7 +13,7 @@
 /*
  * Name of the wrapper SDK (examples: Xamarin, Cordova).  [optional]
  */
-@property(nonatomic,copy) NSString *wrapperSdkName;
+@property(nonatomic, copy) NSString *wrapperSdkName;
 
 /*
  * Label that is used to identify application code 'version' released via Live Update beacon running on device
@@ -21,7 +21,8 @@
 @property(nonatomic, copy) NSString *liveUpdateReleaseLabel;
 
 /*
- * Identifier of environment that current application release belongs to, deployment key then maps to environment like Production, Staging.
+ * Identifier of environment that current application release belongs to, deployment key then maps to environment like
+ * Production, Staging.
  */
 @property(nonatomic, copy) NSString *liveUpdateDeploymentKey;
 

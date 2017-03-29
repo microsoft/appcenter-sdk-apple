@@ -5,7 +5,6 @@
 #import "MSAppleErrorLog.h"
 #import "MSBinary.h"
 #import "MSCrashesTestUtil.h"
-#import "MSErrorAttachment.h"
 #import "MSException.h"
 #import "MSThread.h"
 
@@ -13,12 +12,9 @@
 
 @property(nonatomic) MSAppleErrorLog *sut;
 
-
 @end
 
-
 @implementation MSAppleErrorLogTests
-
 
 #pragma mark - Housekeeping
 
@@ -46,8 +42,8 @@
   appleLog.osExceptionAddress = @"0x124342345";
   appleLog.exceptionType = @"NSExceptionType";
   appleLog.exceptionReason = @"Trying to access array[12]";
-  appleLog.threads = @[[MSThread new]];
-  appleLog.binaries = @[[MSBinary new]];
+  appleLog.threads = @[ [MSThread new] ];
+  appleLog.binaries = @[ [MSBinary new] ];
   appleLog.exception = [MSCrashesTestUtil exception];
   appleLog.errorId = @"123";
   appleLog.processId = @123;
@@ -56,9 +52,8 @@
   appleLog.parentProcessName = @"234";
   appleLog.errorThreadId = @2;
   appleLog.errorThreadName = @"2";
-  appleLog.fatal = @YES;
+  appleLog.fatal = YES;
   appleLog.appLaunchTOffset = @123;
-  appleLog.errorAttachment = [MSErrorAttachment attachmentWithText:@"test"];
   appleLog.architecture = @"test";
 
   return appleLog;
@@ -98,17 +93,12 @@
   assertThat(exceptionDicationary[@"type"], equalTo(self.sut.exception.type));
   assertThat(exceptionDicationary[@"message"], equalTo(self.sut.exception.message));
   assertThat(exceptionDicationary[@"wrapper_sdk_name"], equalTo(self.sut.exception.wrapperSdkName));
-  
-  NSDictionary *attachmentDicationary = actual[@"error_attachment"];
-  XCTAssertNotNil(attachmentDicationary);
-  assertThat(attachmentDicationary[@"text_attachment"], equalTo(self.sut.errorAttachment.textAttachment));
 }
 
 - (void)testNSCodingSerializationAndDeserializationWorks {
 
   // When
-  NSData *serializedEvent =
-          [NSKeyedArchiver archivedDataWithRootObject:self.sut];
+  NSData *serializedEvent = [NSKeyedArchiver archivedDataWithRootObject:self.sut];
   id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedEvent];
 
   // Then
@@ -137,23 +127,23 @@
   assertThat(actualException.wrapperSdkName, equalTo(self.sut.exception.wrapperSdkName));
 }
 
--(void)testIsEqual {
-  
+- (void)testIsEqual {
+
   // When
   MSAppleErrorLog *first = [self appleErrorLog];
   MSAppleErrorLog *second = [self appleErrorLog];
-  
+
   // Then
   XCTAssertTrue([first isEqual:second]);
-  
+
   // When
   second.processId = @345;
-  
+
   // Then
   XCTAssertFalse([first isEqual:second]);
 }
 
--(void)testIsValid {
+- (void)testIsValid {
 
   // When
   MSAppleErrorLog *log = [MSAppleErrorLog new];
@@ -161,6 +151,9 @@
   log.processId = @123;
   log.processName = @"processName";
   log.appLaunchTOffset = @1234567;
+  log.toffset = @(1);
+  log.sid = MS_UUID_STRING;
+  log.device = [MSDevice new];
 
   // Then
   XCTAssertFalse([log isValid]);

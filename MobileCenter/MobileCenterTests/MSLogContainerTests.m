@@ -2,7 +2,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "MSAbstractLog.h"
+#import "MSAbstractLogInternal.h"
 #import "MSLogContainer.h"
 #import "MobileCenter+Internal.h"
 #import <XCTest/XCTest.h>

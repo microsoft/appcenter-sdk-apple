@@ -1,5 +1,7 @@
-#import "MobileCenter+Internal.h"
 #import <Foundation/Foundation.h>
+
+#import "MSSerializableObject.h"
+#import "MobileCenter+Internal.h"
 
 @class MSStackFrame;
 

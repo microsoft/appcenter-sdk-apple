@@ -1,5 +1,7 @@
-#import "MobileCenter+Internal.h"
 #import <Foundation/Foundation.h>
+
+#import "MSLogWithPropertiesInternal.h"
+#import "MobileCenter+Internal.h"
 
 @class MSErrorAttachment;
 
@@ -8,7 +10,7 @@
 /*
  * Error identifier.
  */
-@property(nonatomic,copy) NSString *errorId;
+@property(nonatomic, copy) NSString *errorId;
 
 /*
  * Process identifier.
@@ -49,11 +51,6 @@
  * Corresponds to the number of milliseconds elapsed between the time the error occurred and the app was launched.
  */
 @property(nonatomic) NSNumber *appLaunchTOffset;
-
-/*
- * Error attachment. [optional]
- */
-@property(nonatomic) MSErrorAttachment *errorAttachment;
 
 /*
  * CPU Architecture. [optional]

@@ -5,12 +5,11 @@ static NSString *const kMSServices = @"services";
 
 @implementation MSStartServiceLog
 
-@synthesize type = _type;
 @synthesize services = _services;
 
 - (instancetype)init {
   self = [super init];
-  if( self ) {
+  if (self) {
     self.type = kMSStartService;
   }
   return self;
@@ -20,7 +19,7 @@ static NSString *const kMSServices = @"services";
 
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [super serializeToDictionary];
-  if( self.services ) {
+  if (self.services) {
     dict[kMSServices] = self.services;
   }
   return dict;
@@ -30,8 +29,7 @@ static NSString *const kMSServices = @"services";
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
   self = [super initWithCoder:coder];
-  if( self ) {
-    self.type = [coder decodeObjectForKey:kMSStartService];
+  if (self) {
     self.services = [coder decodeObjectForKey:kMSServices];
   }
   return self;
@@ -39,7 +37,6 @@ static NSString *const kMSServices = @"services";
 
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
-  [coder encodeObject:self.type forKey:kMSStartService];
   [coder encodeObject:self.services forKey:kMSServices];
 }
 

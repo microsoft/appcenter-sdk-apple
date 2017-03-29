@@ -1,9 +1,11 @@
 #import "MSAppleErrorLog.h"
 #import "MSCrashesCXXExceptionWrapperException.h"
 #import "MSCrashesDelegate.h"
-#import "MSCrashesUtil.h"
 #import "MSCrashesInternal.h"
 #import "MSCrashesPrivate.h"
+#import "MSCrashesUtil.h"
+#import "MSErrorAttachmentLog.h"
+#import "MSErrorAttachmentLogInternal.h"
 #import "MSErrorLogFormatter.h"
 #import "MSMobileCenterInternal.h"
 #import "MSServiceAbstractProtected.h"
@@ -148,7 +150,9 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
 + (void)notifyWithUserConfirmation:(MSUserConfirmation)userConfirmation {
   MSCrashes *crashes = [self sharedInstance];
+  NSArray<MSErrorAttachmentLog *> *attachments;
 
+  // Check for user confirmation.
   if (userConfirmation == MSUserConfirmationDontSend) {
 
     // Don't send logs, clean up the files.
@@ -164,8 +168,10 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     return;
   } else if (userConfirmation == MSUserConfirmationAlways) {
 
-    // Always send logs. Set the flag YES to bypass user confirmation next time.
-    // Continue crash processing afterwards.
+    /*
+     * Always send logs. Set the flag YES to bypass user confirmation next time.
+     * Continue crash processing afterwards.
+     */
     [MS_USER_DEFAULTS setObject:[[NSNumber alloc] initWithBool:YES] forKey:kMSUserConfirmationKey];
   }
 
@@ -175,17 +181,23 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     MSErrorReport *report = crashes.unprocessedReports[i];
     NSURL *fileURL = crashes.unprocessedFilePaths[i];
 
-    // Get error attachment.
+    // Get error attachments.
     if ([crashes delegateImplementsAttachmentCallback]) {
-
-      // TODO (attachmentWithCrashes): Bring this back when the backend supports attachment for Crashes.
-      //      [log setErrorAttachment:[crashes.delegate attachmentWithCrashes:crashes forErrorReport:report]];
+      attachments = [crashes.delegate attachmentWithCrashes:crashes forErrorReport:report];
     } else {
       MSLogDebug([MSCrashes logTag], @"attachmentWithCrashes is not implemented");
     }
 
-    // Send log to log manager.
+    // First send crash to log manager.
     [crashes.logManager processLog:log withPriority:crashes.priority andGroupID:crashes.groupID];
+
+    // Then send attachements to log manager.
+    for (MSErrorAttachmentLog *attachment in attachments) {
+      attachment.errorId = log.errorId;
+      [crashes.logManager processLog:attachment withPriority:crashes.priority andGroupID:crashes.groupID];
+    }
+
+    // Clean up.
     [crashes deleteCrashReportWithFileURL:fileURL];
     [MSWrapperExceptionManager deleteWrapperExceptionDataWithUUIDString:report.incidentIdentifier];
     [crashes.crashFiles removeObject:fileURL];
@@ -345,9 +357,10 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
  **/
 - (void)onEnqueuingLog:(id<MSLog>)log withInternalId:(NSString *)internalId andPriority:(MSPriority)priority {
 
-  // Don't buffer event if log is empty, crashes module is disabled or the log is a crash.
+  // Don't buffer event if log is empty, crashes module is disabled or the log is related to crash.
   NSObject *logObject = static_cast<NSObject *>(log);
-  if (!log || ![self isEnabled] || [logObject isKindOfClass:[MSAppleErrorLog class]]) {
+  if (!log || ![self isEnabled] || [logObject isKindOfClass:[MSAppleErrorLog class]] ||
+      [logObject isKindOfClass:[MSErrorAttachmentLog class]]) {
     return;
   }
 
@@ -376,7 +389,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
           return;
         } else {
 
-          /**
+          /*
            * The current element is full. Save the timestamp if applicable and continue iterating unless we have
            * reached the last element.
            */
@@ -392,11 +405,11 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
           }
         }
 
-        /**
+        /*
          * Continue to iterate until we reach en empty element, in which case we store the log in it and stop, or until
          * we
          * reach the end of the buffer. In the later case, we will replace the oldest log with the current one
-        */
+         */
       }
 
       // We've reached the last element in our buffer and we now go ahead and replace the oldest element.
@@ -410,8 +423,8 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
       NSTimeInterval now = [[NSDate date] timeIntervalSince1970];
       msCrashesLogBuffer[priority][indexToDelete].timestamp =
           [[NSString stringWithFormat:@"%f", now] cStringUsingEncoding:NSUTF8StringEncoding];
-
       MSLogVerbose([MSCrashes logTag], @"Overwrote buffered log at index %ld.", indexToDelete);
+
       // We're done, no need to iterate any more. But no need to `return;` as we're at the end of the buffer.
     }
   }
@@ -644,7 +657,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   // Iterate over priorities, check if we have buffered logs for each one.
   for (NSInteger priority = 0; priority < kMSPriorityCount; priority++) {
 
-    /**
+    /*
      * Get directory for priority, iterate over each file in it with the kMSLogBufferFileExtension and send
      * the log if a log can be deserialized.
      */
@@ -660,7 +673,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
         if (serializedLog && serializedLog.length && serializedLog.length > 0) {
           id<MSLog> item = [NSKeyedUnarchiver unarchiveObjectWithData:serializedLog];
           if (item) {
-            
+
             // Buffered logs are used sending their own channel. It will never contain more than 20 logs
             [self.logManager processLog:item withPriority:(MSPriority)priority andGroupID:@"CrashBuffer"];
           }
@@ -735,12 +748,13 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 - (NSMutableArray *)persistedCrashReports {
   NSError *error = nil;
   NSMutableArray *persistedCrashReports = [NSMutableArray new];
-  
+
   if ([self.crashesDir checkResourceIsReachableAndReturnError:&error]) {
-    NSArray *files = [self.fileManager contentsOfDirectoryAtURL:self.crashesDir
-                                        includingPropertiesForKeys:@[NSURLNameKey, NSURLFileSizeKey, NSURLIsRegularFileKey]
-                                                           options:(NSDirectoryEnumerationOptions)0
-                                                             error:&error];
+    NSArray *files =
+        [self.fileManager contentsOfDirectoryAtURL:self.crashesDir
+                        includingPropertiesForKeys:@[ NSURLNameKey, NSURLFileSizeKey, NSURLIsRegularFileKey ]
+                                           options:(NSDirectoryEnumerationOptions)0
+                                             error:&error];
     for (NSURL *fileURL in files) {
       NSString *fileName = nil;
       [fileURL getResourceValue:&fileName forKey:NSURLNameKey error:&error];
@@ -748,10 +762,10 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
       [fileURL getResourceValue:&fileSizeNumber forKey:NSURLFileSizeKey error:&error];
       NSNumber *isRegular = nil;
       [fileURL getResourceValue:&isRegular forKey:NSURLIsRegularFileKey error:&error];
-      
-      if ([isRegular boolValue] && [fileSizeNumber intValue] > 0 &&
-          ![fileName hasSuffix:@".DS_Store"] && ![fileName hasSuffix:@".analyzer"] && ![fileName hasSuffix:@".plist"] &&
-          ![fileName hasSuffix:@".data"] && ![fileName hasSuffix:@".meta"] && ![fileName hasSuffix:@".desc"]) {
+
+      if ([isRegular boolValue] && [fileSizeNumber intValue] > 0 && ![fileName hasSuffix:@".DS_Store"] &&
+          ![fileName hasSuffix:@".analyzer"] && ![fileName hasSuffix:@".plist"] && ![fileName hasSuffix:@".data"] &&
+          ![fileName hasSuffix:@".meta"] && ![fileName hasSuffix:@".desc"]) {
         [persistedCrashReports addObject:fileURL];
       }
     }
@@ -795,7 +809,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
         // We need to convert the NSURL to NSString as we cannot safe NSURL to our async-safe log buffer.
         NSString *path = files[i].path;
-        
+
         /**
          * Some explanation into what actually happens, courtesy of Gwynne:
          * "Passing nil does not initialize anything to nil here, what actually happens is an exploit of the Objective-C
@@ -863,7 +877,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     NSURL *directoryForPriority = [self bufferDirectoryForPriority:MSPriority(priority)];
     NSError *error = nil;
     NSArray *files = [self.fileManager contentsOfDirectoryAtURL:directoryForPriority
-                                     includingPropertiesForKeys:@[NSURLFileSizeKey]
+                                     includingPropertiesForKeys:@[ NSURLFileSizeKey ]
                                                         options:NSDirectoryEnumerationOptions(0)
                                                           error:&error];
     for (NSURL *fileURL in files) {
@@ -890,9 +904,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 }
 
 - (BOOL)delegateImplementsAttachmentCallback {
-  // TODO (attachmentWithCrashes): Bring this back when the backend supports attachment for Crashes.
-  //   return self.delegate && [self.delegate respondsToSelector:@selector(attachmentWithCrashes:forErrorReport:)];
-  return NO;
+  return self.delegate && [self.delegate respondsToSelector:@selector(attachmentWithCrashes:forErrorReport:)];
 }
 
 + (void)wrapperCrashCallback {

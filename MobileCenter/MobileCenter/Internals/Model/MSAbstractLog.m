@@ -1,13 +1,13 @@
-#import "MSAbstractLog.h"
-#import "MSLogger.h"
+#import "MSAbstractLogInternal.h"
 #import "MSDevice.h"
 #import "MSDevicePrivate.h"
+#import "MSLogger.h"
 #import "MSUtility+Date.h"
 
 static NSString *const kMSSid = @"sid";
 static NSString *const kMSToffset = @"toffset";
 static NSString *const kMSDevice = @"device";
-NSString *const kMSType = @"type";
+static NSString *const kMSType = @"type";
 
 @implementation MSAbstractLog
 
@@ -24,7 +24,7 @@ NSString *const kMSType = @"type";
   }
   if (self.toffset) {
 
-    // Set the toffset relative to current time. The toffset needs to be up to date.    
+    // Set the toffset relative to current time. The toffset needs to be up to date.
     long long now = [MSUtility nowInMilliseconds];
     long long relativeTime = now - [self.toffset longLongValue];
     dict[kMSToffset] = @(relativeTime);
@@ -47,6 +47,7 @@ NSString *const kMSType = @"type";
 - (instancetype)initWithCoder:(NSCoder *)coder {
   self = [super init];
   if (self) {
+    _type = [coder decodeObjectForKey:kMSType];
     _toffset = [coder decodeObjectForKey:kMSToffset];
     _sid = [coder decodeObjectForKey:kMSSid];
     _device = [coder decodeObjectForKey:kMSDevice];
@@ -55,6 +56,7 @@ NSString *const kMSType = @"type";
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
+  [coder encodeObject:self.type forKey:kMSType];
   [coder encodeObject:self.toffset forKey:kMSToffset];
   [coder encodeObject:self.sid forKey:kMSSid];
   [coder encodeObject:self.device forKey:kMSDevice];

@@ -6,11 +6,9 @@ static NSString *const kMSName = @"name";
 
 @implementation MSPageLog
 
-@synthesize type = _type;
-
 - (instancetype)init {
   if ((self = [super init])) {
-    _type = kMSTypePage;
+    self.type = kMSTypePage;
   }
   return self;
 }
@@ -36,7 +34,6 @@ static NSString *const kMSName = @"name";
 - (instancetype)initWithCoder:(NSCoder *)coder {
   self = [super initWithCoder:coder];
   if (self) {
-    _type = [coder decodeObjectForKey:kMSType];
     _name = [coder decodeObjectForKey:kMSName];
   }
 
@@ -45,7 +42,6 @@ static NSString *const kMSName = @"name";
 
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
-  [coder encodeObject:self.type forKey:kMSType];
   [coder encodeObject:self.name forKey:kMSName];
 }
 

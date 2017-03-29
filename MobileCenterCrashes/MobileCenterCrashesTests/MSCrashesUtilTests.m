@@ -2,10 +2,10 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import <XCTest/XCTest.h>
+#import "MSCrashesUtil.h"
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
-#import "MSCrashesUtil.h"
+#import <XCTest/XCTest.h>
 
 @interface MSCrashesUtilTests : XCTestCase
 
@@ -23,7 +23,6 @@
   [super tearDown];
 }
 
-
 #pragma mark - Tests
 
 - (void)testCreateCrashesDir {
@@ -38,11 +37,35 @@
 - (void)testCreateLogBufferDir {
   NSString *bufferDir = [[MSCrashesUtil logBufferDir] path];
   XCTAssertNotNil(bufferDir);
-  XCTAssertTrue([bufferDir containsString:@"data/Library/Caches/com.microsoft.azure.mobile.mobilecenter/crasheslogbuffer"]);
+  XCTAssertTrue(
+      [bufferDir containsString:@"data/Library/Caches/com.microsoft.azure.mobile.mobilecenter/crasheslogbuffer"]);
   BOOL isDir = YES;
   BOOL dirExists = [[NSFileManager defaultManager] fileExistsAtPath:bufferDir isDirectory:&isDir];
   XCTAssertTrue(dirExists);
 }
 
+- (void)testGenerateFilenameForValidMimeType {
+
+  // When
+  NSString *filename = [MSCrashesUtil generateFilenameForMimeType:nil];
+
+  // Then
+  assertThat(filename, notNilValue());
+  assertThat(filename.pathExtension, is(@""));
+
+  // When
+  filename = [MSCrashesUtil generateFilenameForMimeType:@"bad&mime#type"];
+
+  // Then
+  assertThat(filename, notNilValue());
+  assertThat(filename.pathExtension, is(@""));
+
+  // When
+  filename = [MSCrashesUtil generateFilenameForMimeType:@"text/plain"];
+
+  // Then
+  assertThat(filename.pathExtension, is(@"txt"));
+  assertThat(@(filename.length), greaterThan(@(filename.pathExtension.length + 1)));
+}
 
 @end

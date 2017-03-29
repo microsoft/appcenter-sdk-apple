@@ -18,7 +18,8 @@
 
   // Start Mobile Center SDK
   [MSMobileCenter setLogLevel:MSLogLevelVerbose];
-  [MSMobileCenter start:@"3ccfe7f5-ec01-4de5-883c-f563bbbe147a" withServices:@[[MSAnalytics class], [MSCrashes class], [MSDistribute class]]];
+  [MSMobileCenter start:@"3ccfe7f5-ec01-4de5-883c-f563bbbe147a"
+           withServices:@[ [MSAnalytics class], [MSCrashes class], [MSDistribute class] ]];
   [MSCrashes setDelegate:self];
 
   // Print the install Id.
@@ -81,7 +82,7 @@
             openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation {
-  
+
   // Forward the URL to MSDistribute.
   [MSDistribute openUrl:url];
   NSLog(@"%@ Got waken up via openURL: %@", kDEMLogTag, url);
@@ -102,5 +103,15 @@
 
 - (void)crashes:(MSCrashes *)crashes didFailSendingErrorReport:(MSErrorReport *)errorReport withError:(NSError *)error {
 }
-
+- (NSArray<MSErrorAttachmentLog *> *)attachmentWithCrashes:(MSCrashes *)crashes
+                                            forErrorReport:(MSErrorReport *)errorReport {
+  NSData *data = [[NSString stringWithFormat:@"<xml><text>Binary attachment for crash</text><id>%@</id></xml>",
+                                             errorReport.incidentIdentifier] dataUsingEncoding:NSUTF8StringEncoding];
+  NSString *text = [NSString stringWithFormat:@"Text attachement for crash #%@", errorReport.incidentIdentifier];
+  MSErrorAttachmentLog *attachment1 =
+      [MSErrorAttachmentLog attachmentWithText:text filename:@"demo-crash-attachment.log"];
+  MSErrorAttachmentLog *attachment2 =
+      [MSErrorAttachmentLog attachmentWithBinaryData:data filename:nil contentType:@"text/xml"];
+  return @[ attachment1, attachment2 ];
+}
 @end

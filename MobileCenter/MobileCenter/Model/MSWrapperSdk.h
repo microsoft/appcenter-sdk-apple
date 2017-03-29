@@ -47,4 +47,3 @@
                     liveUpdatePackageHash:(NSString *)liveUpdatePackageHash;
 
 @end
-

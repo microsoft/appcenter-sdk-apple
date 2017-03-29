@@ -17,4 +17,11 @@
  */
 + (NSURL *)logBufferDir;
 
+/**
+ * Generate a filename based on a given MimeType, 
+ * the name is a UUID but the extension reflects the type i.e.:1387A633-618E-4322-BD90-C6EAAAD60143.xml.
+ *
+ * @return A generated filename based on a given MimeType.
+ */ +(NSString *)generateFilenameForMimeType : (NSString *)mimeType;
+
 @end

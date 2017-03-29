@@ -1,5 +1,7 @@
-#import "MobileCenter+Internal.h"
 #import <Foundation/Foundation.h>
+
+#import "MSLogWithProperties.h"
+#import "MobileCenter+Internal.h"
 
 @interface MSPageLog : MSLogWithProperties
 

@@ -1,6 +1,4 @@
 #import "MSAbstractErrorLog.h"
-#import "MSErrorAttachment.h"
-#import "MSErrorAttachmentPrivate.h"
 
 static NSString *const kMSId = @"id";
 static NSString *const kMSProcessId = @"process_id";
@@ -11,7 +9,6 @@ static NSString *const kMSErrorThreadId = @"error_thread_id";
 static NSString *const kMSErrorThreadName = @"error_thread_name";
 static NSString *const kMSFatal = @"fatal";
 static NSString *const kMSAppLaunchTOffset = @"app_launch_toffset";
-static NSString *const kMSErrorAttachment = @"error_attachment";
 static NSString *const kMSArchitecture = @"architecture";
 
 @implementation MSAbstractErrorLog
@@ -25,7 +22,6 @@ static NSString *const kMSArchitecture = @"architecture";
 @synthesize errorThreadName = _errorThreadName;
 @synthesize fatal = _fatal;
 @synthesize appLaunchTOffset = _appLaunchTOffset;
-@synthesize errorAttachment = _errorAttachment;
 @synthesize architecture = _architecture;
 
 - (NSMutableDictionary *)serializeToDictionary {
@@ -52,14 +48,17 @@ static NSString *const kMSArchitecture = @"architecture";
   if (self.errorThreadName) {
     dict[kMSErrorThreadName] = self.errorThreadName;
   }
+
+  /*
+   * FIXME: There is no need for nil check here, it's a bool.
+   * Worst, if NO then it'll be skipped from dictionary.
+   * TODO: Check this situation in other model where a property is a primitive type.
+   */
   if (self.fatal) {
     dict[kMSFatal] = self.fatal ? @YES : @NO;
   }
   if (self.appLaunchTOffset) {
     dict[kMSAppLaunchTOffset] = self.appLaunchTOffset;
-  }
-  if (self.errorAttachment) {
-    dict[kMSErrorAttachment] = [self.errorAttachment serializeToDictionary];
   }
   if (self.architecture) {
     dict[kMSArchitecture] = self.architecture;
@@ -69,13 +68,17 @@ static NSString *const kMSArchitecture = @"architecture";
 }
 
 - (BOOL)isValid {
-  return self.errorId && self.processId && self.processName && self.appLaunchTOffset;
+  return [super isValid] && self.errorId && self.processId && self.processName && self.appLaunchTOffset;
 }
 
 - (BOOL)isEqual:(MSAbstractErrorLog *)errorLog {
+
+  // TODO: We should also check for parent equalty with `![super isEqual:object]` but isEqual is not implemented
+  // everywhere.
   if (!errorLog)
     return NO;
 
+  // Check properties are the same.
   return ((!self.errorId && !errorLog.errorId) || [self.errorId isEqualToString:errorLog.errorId]) &&
          ((!self.processId && !errorLog.processId) || [self.processId isEqual:errorLog.processId]) &&
          ((!self.processName && !errorLog.processName) || [self.processName isEqualToString:errorLog.processName]) &&
@@ -88,8 +91,6 @@ static NSString *const kMSArchitecture = @"architecture";
           [self.errorThreadName isEqualToString:errorLog.errorThreadName]) &&
          (self.fatal == errorLog.fatal) && ((!self.appLaunchTOffset && !errorLog.appLaunchTOffset) ||
                                             [self.appLaunchTOffset isEqual:errorLog.appLaunchTOffset]) &&
-         ((!self.errorAttachment && !errorLog.errorAttachment) ||
-          [self.errorAttachment isEqual:errorLog.errorAttachment]) &&
          ((!self.architecture && !errorLog.architecture) || [self.architecture isEqualToString:errorLog.architecture]);
 }
 
@@ -107,7 +108,6 @@ static NSString *const kMSArchitecture = @"architecture";
     _errorThreadName = [coder decodeObjectForKey:kMSErrorThreadName];
     _fatal = [coder decodeBoolForKey:kMSFatal];
     _appLaunchTOffset = [coder decodeObjectForKey:kMSAppLaunchTOffset];
-    _errorAttachment = [coder decodeObjectForKey:kMSErrorAttachment];
     _architecture = [coder decodeObjectForKey:kMSArchitecture];
   }
   return self;
@@ -124,7 +124,6 @@ static NSString *const kMSArchitecture = @"architecture";
   [coder encodeObject:self.errorThreadName forKey:kMSErrorThreadName];
   [coder encodeBool:self.fatal forKey:kMSFatal];
   [coder encodeObject:self.appLaunchTOffset forKey:kMSAppLaunchTOffset];
-  [coder encodeObject:self.errorAttachment forKey:kMSErrorAttachment];
   [coder encodeObject:self.architecture forKey:kMSArchitecture];
 }
 
