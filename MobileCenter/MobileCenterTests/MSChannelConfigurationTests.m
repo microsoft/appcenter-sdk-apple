@@ -16,12 +16,14 @@
 
   // If
   NSString *groupID = @"FooBar";
+  MSPriority priority = MSPriorityDefault;
   NSUInteger batchSizeLimit = 10;
   NSUInteger pendingBatchesLimit = 20;
   float flushInterval = 9.9;
 
   // When
   MSChannelConfiguration *sut = [[MSChannelConfiguration alloc] initWithGroupID:groupID
+                                                                       priority:priority
                                                                   flushInterval:flushInterval
                                                                  batchSizeLimit:batchSizeLimit
                                                             pendingBatchesLimit:pendingBatchesLimit];
@@ -29,11 +31,13 @@
   // Then
   assertThat(sut, notNilValue());
   assertThat(sut.groupID, equalTo(groupID));
+  XCTAssertTrue(sut.priority == priority);
   assertThatUnsignedInteger(sut.batchSizeLimit, equalToUnsignedInteger(batchSizeLimit));
   assertThatUnsignedInteger(sut.pendingBatchesLimit, equalToUnsignedInteger(pendingBatchesLimit));
   assertThatFloat(sut.flushInterval, equalToFloat(flushInterval));
 }
 
+// TODO (jaelim): This method will be removed, unnecessary test once configuration relocates to each service.
 - (void)testClassWillReturnCorrectConfigurationForGivenDefaultPriority {
 
   // When
@@ -42,6 +46,7 @@
   // Then
   assertThat(sut, notNilValue());
   assertThat(sut.groupID, equalTo(@"GroupID"));
+  XCTAssertTrue(sut.priority == MSPriorityDefault);
   assertThatUnsignedInteger(sut.batchSizeLimit, equalToUnsignedInteger(50));
   assertThatUnsignedInteger(sut.pendingBatchesLimit, equalToUnsignedInteger(3));
   assertThatFloat(sut.flushInterval, equalToFloat(3.0));

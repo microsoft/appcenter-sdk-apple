@@ -1,5 +1,4 @@
 #import <Foundation/Foundation.h>
-
 #import "MSConstants+Internal.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -7,9 +6,14 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MSChannelConfiguration : NSObject
 
 /**
- * The groupID that will be used for storage by this channel configuration.
+ * The groupID that will be used for storage by this channel.
  */
 @property(nonatomic, copy, readonly) NSString *groupID;
+
+/**
+ * The priority of logs for this channel
+ */
+@property(nonatomic, readonly) MSPriority priority;
 
 /**
  * Threshold after which the queue will be flushed.
@@ -32,6 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
  * Initializes new `MSChannelConfiguration' instance based on given settings.
  *
  * @param groupID The id used by the channel to determine a group of logs.
+ * @param priority The priority of logs being sent by the channel.
  * @param flushInterval The interval after which a new batch will be finished.
  * @param batchSizeLimit The maximum number of logs after which a new batch will be finished.
  * @param pendingBatchesLimit The maximum number of batches that have currently been forwarded to another component.
@@ -39,6 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @return a fully configured `MSChannelConfiguration` instance.
  */
 - (instancetype)initWithGroupID:(NSString *)groupID
+                       priority:(MSPriority)priority
                   flushInterval:(float)flushInterval
                  batchSizeLimit:(NSUInteger)batchSizeLimit
             pendingBatchesLimit:(NSUInteger)pendingBatchesLimit;
