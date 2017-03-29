@@ -78,8 +78,15 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   return kMSGroupID;
 }
 
-- (MSPriority)priority {
-  return MSPriorityHigh;
+// TODO (jaelim): There is a property of channelConfiguration in MSServiceCommon. Use property and not to init
+// configuration every time.
+- (MSChannelConfiguration *)channelConfiguration {
+  MSChannelConfiguration *configuration = [[MSChannelConfiguration alloc] initWithGroupID:[self groupID]
+                                                                                 priority:MSPriorityDefault
+                                                                            flushInterval:3.0
+                                                                           batchSizeLimit:50
+                                                                      pendingBatchesLimit:3];
+  return configuration;
 }
 
 #pragma mark - MSServiceAbstract
@@ -481,15 +488,16 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     }
 
     // Add a "Download"-Button
-    [alertController addCancelActionWithTitle:MSDistributeLocalizedString(@"Download")
-                                      handler:^(__attribute__((unused)) UIAlertAction *action) {
+    [alertController
+        addCancelActionWithTitle:MSDistributeLocalizedString(@"Download")
+                         handler:^(__attribute__((unused)) UIAlertAction *action) {
 #if TARGET_IPHONE_SIMULATOR
 
-                                        /*
-                                         * iOS simulator doesn't support "itms-services" scheme, simulator will consider the scheme
-                                         * as an invalid address. Skip download process if the application is running on simulator.
-                                         */
-                                        MSLogWarning([MSDistribute logTag], @"Couldn't download a new release on simulator.");
+                           /*
+                            * iOS simulator doesn't support "itms-services" scheme, simulator will consider the scheme
+                            * as an invalid address. Skip download process if the application is running on simulator.
+                            */
+                           MSLogWarning([MSDistribute logTag], @"Couldn't download a new release on simulator.");
 #else
                                         if ([self isEnabled]) {
                                           MSLogDebug([MSDistribute logTag], @"Start download and install the update.");
@@ -499,7 +507,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                                           [self showDistributeDisabledAlert];
                                         }
 #endif
-                                      }];
+                         }];
 
     // Show the alert controller.
     MSLogDebug([MSDistribute logTag], @"Show update dialog.");

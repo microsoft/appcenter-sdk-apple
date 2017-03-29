@@ -34,7 +34,9 @@ std::unordered_map<MSPriority, std::array<MSCrashesBufferedLog, ms_crashes_log_b
 static MSCrashesCallbacks msCrashesCallbacks = {.context = NULL, .handleSignal = NULL};
 static NSString *const kMSUserConfirmationKey = @"MSUserConfirmation";
 
-static void ms_save_log_buffer_callback(__attribute__((unused)) siginfo_t *info, __attribute__((unused)) ucontext_t *uap, __attribute__((unused)) void *context) {
+static void ms_save_log_buffer_callback(__attribute__((unused)) siginfo_t *info,
+                                        __attribute__((unused)) ucontext_t *uap,
+                                        __attribute__((unused)) void *context) {
 
   // Do not save the buffer if it is empty.
   if (msCrashesLogBuffer.size() == 0) {
@@ -185,7 +187,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     }
 
     // Send log to log manager.
-    [crashes.logManager processLog:log withPriority:crashes.priority andGroupID:crashes.groupID];
+    [crashes.logManager processLog:log withPriority:crashes.channelConfiguration.priority andGroupID:crashes.groupID];
     [crashes deleteCrashReportWithFileURL:fileURL];
     [MSWrapperExceptionManager deleteWrapperExceptionDataWithUUIDString:report.incidentIdentifier];
     [crashes.crashFiles removeObject:fileURL];
@@ -257,7 +259,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     self.crashFiles = [self persistedCrashReports];
 
     // Set self as delegate of crashes' channel.
-    [self.logManager addChannelDelegate:self forGroupID:self.groupID withPriority:self.priority];
+    [self.logManager addChannelDelegate:self forGroupID:self.groupID withPriority:self.channelConfiguration.priority];
 
     // Process PLCrashReports, this will format the PLCrashReport into our schema and then trigger sending.
     // This mostly happens on the start of the service.
@@ -286,9 +288,15 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     [self.plCrashReporter purgePendingCrashReport];
 
     // Remove as ChannelDelegate from LogManager
-    [self.logManager removeChannelDelegate:self forGroupID:self.groupID withPriority:self.priority];
-    [self.logManager removeChannelDelegate:self forGroupID:self.groupID withPriority:self.priority];
-    [self.logManager removeChannelDelegate:self forGroupID:self.groupID withPriority:self.priority];
+    [self.logManager removeChannelDelegate:self
+                                forGroupID:self.groupID
+                              withPriority:self.channelConfiguration.priority];
+    [self.logManager removeChannelDelegate:self
+                                forGroupID:self.groupID
+                              withPriority:self.channelConfiguration.priority];
+    [self.logManager removeChannelDelegate:self
+                                forGroupID:self.groupID
+                              withPriority:self.channelConfiguration.priority];
     MSLogInfo([MSCrashes logTag], @"Crashes service has been disabled.");
   }
 }
@@ -324,8 +332,15 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   return kMSGroupID;
 }
 
-- (MSPriority)priority {
-  return MSPriorityHigh;
+// TODO (jaelim): There is a property of channelConfiguration in MSServiceCommon. Use property and not to init
+// configuration every time.
+- (MSChannelConfiguration *)channelConfiguration {
+  MSChannelConfiguration *configuration = [[MSChannelConfiguration alloc] initWithGroupID:[self groupID]
+                                                                                 priority:MSPriorityHigh
+                                                                            flushInterval:1.0
+                                                                           batchSizeLimit:10
+                                                                      pendingBatchesLimit:6];
+  return configuration;
 }
 
 - (MSInitializationPriority)initializationPriority {
@@ -665,7 +680,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
         if (serializedLog && serializedLog.length && serializedLog.length > 0) {
           id<MSLog> item = [NSKeyedUnarchiver unarchiveObjectWithData:serializedLog];
           if (item) {
-            
+
             // Buffered logs are used sending their own channel. It will never contain more than 20 logs
             [self.logManager processLog:item withPriority:(MSPriority)priority andGroupID:@"CrashBuffer"];
           }
@@ -740,12 +755,13 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 - (NSMutableArray *)persistedCrashReports {
   NSError *error = nil;
   NSMutableArray *persistedCrashReports = [NSMutableArray new];
-  
+
   if ([self.crashesDir checkResourceIsReachableAndReturnError:&error]) {
-    NSArray *files = [self.fileManager contentsOfDirectoryAtURL:self.crashesDir
-                                        includingPropertiesForKeys:@[NSURLNameKey, NSURLFileSizeKey, NSURLIsRegularFileKey]
-                                                           options:(NSDirectoryEnumerationOptions)0
-                                                             error:&error];
+    NSArray *files =
+        [self.fileManager contentsOfDirectoryAtURL:self.crashesDir
+                        includingPropertiesForKeys:@[ NSURLNameKey, NSURLFileSizeKey, NSURLIsRegularFileKey ]
+                                           options:(NSDirectoryEnumerationOptions)0
+                                             error:&error];
     for (NSURL *fileURL in files) {
       NSString *fileName = nil;
       [fileURL getResourceValue:&fileName forKey:NSURLNameKey error:&error];
@@ -753,10 +769,10 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
       [fileURL getResourceValue:&fileSizeNumber forKey:NSURLFileSizeKey error:&error];
       NSNumber *isRegular = nil;
       [fileURL getResourceValue:&isRegular forKey:NSURLIsRegularFileKey error:&error];
-      
-      if ([isRegular boolValue] && [fileSizeNumber intValue] > 0 &&
-          ![fileName hasSuffix:@".DS_Store"] && ![fileName hasSuffix:@".analyzer"] && ![fileName hasSuffix:@".plist"] &&
-          ![fileName hasSuffix:@".data"] && ![fileName hasSuffix:@".meta"] && ![fileName hasSuffix:@".desc"]) {
+
+      if ([isRegular boolValue] && [fileSizeNumber intValue] > 0 && ![fileName hasSuffix:@".DS_Store"] &&
+          ![fileName hasSuffix:@".analyzer"] && ![fileName hasSuffix:@".plist"] && ![fileName hasSuffix:@".data"] &&
+          ![fileName hasSuffix:@".meta"] && ![fileName hasSuffix:@".desc"]) {
         [persistedCrashReports addObject:fileURL];
       }
     }
@@ -800,7 +816,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
         // We need to convert the NSURL to NSString as we cannot safe NSURL to our async-safe log buffer.
         NSString *path = files[i].path;
-        
+
         /**
          * Some explanation into what actually happens, courtesy of Gwynne:
          * "Passing nil does not initialize anything to nil here, what actually happens is an exploit of the Objective-C
@@ -868,7 +884,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     NSURL *directoryForPriority = [self bufferDirectoryForPriority:MSPriority(priority)];
     NSError *error = nil;
     NSArray *files = [self.fileManager contentsOfDirectoryAtURL:directoryForPriority
-                                     includingPropertiesForKeys:@[NSURLFileSizeKey]
+                                     includingPropertiesForKeys:@[ NSURLFileSizeKey ]
                                                         options:NSDirectoryEnumerationOptions(0)
                                                           error:&error];
     for (NSURL *fileURL in files) {

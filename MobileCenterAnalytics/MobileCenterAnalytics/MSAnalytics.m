@@ -66,8 +66,15 @@ static dispatch_once_t onceToken;
   return kMSGroupID;
 }
 
-- (MSPriority)priority {
-  return MSPriorityDefault;
+// TODO (jaelim): There is a property of channelConfiguration in MSServiceCommon. Use property and not to init
+// configuration every time.
+- (MSChannelConfiguration *)channelConfiguration {
+  MSChannelConfiguration *configuration = [[MSChannelConfiguration alloc] initWithGroupID:[self groupID]
+                                                                                 priority:MSPriorityDefault
+                                                                            flushInterval:3.0
+                                                                           batchSizeLimit:50
+                                                                      pendingBatchesLimit:3];
+  return configuration;
 }
 
 #pragma mark - MSServiceAbstract
@@ -83,7 +90,7 @@ static dispatch_once_t onceToken;
     [self.logManager addDelegate:self.sessionTracker];
 
     // Set self as delegate of analytics channel.
-    [self.logManager addChannelDelegate:self forGroupID:self.groupID withPriority:self.priority];
+    [self.logManager addChannelDelegate:self forGroupID:self.groupID withPriority:self.channelConfiguration.priority];
 
     // Report current page while auto page tracking is on.
     if (self.autoPageTrackingEnabled) {
@@ -99,7 +106,9 @@ static dispatch_once_t onceToken;
     MSLogInfo([MSAnalytics logTag], @"Analytics service has been enabled.");
   } else {
     [self.logManager removeDelegate:self.sessionTracker];
-    [self.logManager removeChannelDelegate:self forGroupID:self.groupID withPriority:self.priority];
+    [self.logManager removeChannelDelegate:self
+                                forGroupID:self.groupID
+                              withPriority:self.channelConfiguration.priority];
     [self.sessionTracker stop];
     [self.sessionTracker clearSessions];
     MSLogInfo([MSAnalytics logTag], @"Analytics service has been disabled.");
@@ -175,7 +184,7 @@ static dispatch_once_t onceToken;
   }
 
   // Send log to log manager.
-  [self sendLog:log withPriority:self.priority];
+  [self sendLog:log withPriority:self.channelConfiguration.priority];
 }
 
 - (void)trackPage:(NSString *)pageName withProperties:(NSDictionary<NSString *, NSString *> *)properties {
@@ -196,7 +205,7 @@ static dispatch_once_t onceToken;
   }
 
   // Send log to log manager.
-  [self sendLog:log withPriority:self.priority];
+  [self sendLog:log withPriority:self.channelConfiguration.priority];
 }
 
 - (void)setAutoPageTrackingEnabled:(BOOL)isEnabled {

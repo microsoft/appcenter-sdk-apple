@@ -38,8 +38,12 @@
   return @"MSServiceAbstractImplementation";
 }
 
-- (MSPriority)priority {
-  return MSPriorityDefault;
+- (MSChannelConfiguration *)channelConfiguration {
+  return [[MSChannelConfiguration alloc] initWithGroupID:[self groupID]
+                                                priority:MSPriorityDefault
+                                           flushInterval:3.0
+                                          batchSizeLimit:50
+                                     pendingBatchesLimit:3];
 }
 
 - (MSInitializationPriority)initializationPriority {
@@ -70,7 +74,7 @@
 
   // Set up the mocked storage.
   self.settingsMock = [MSMockUserDefaults new];
-  
+
   // System Under Test.
   self.abstractService = [[MSServiceAbstractImplementation alloc] initWithStorage:self.settingsMock];
 }
@@ -192,7 +196,8 @@
 }
 
 - (void)testEnableServiceOnCoreDisabled {
-  OCMStub([self.settingsMock objectForKey:[OCMArg isEqual:@"MSMobileCenterIsEnabled"]]).andReturn([NSNumber numberWithBool:NO]);
+  OCMStub([self.settingsMock objectForKey:[OCMArg isEqual:@"MSMobileCenterIsEnabled"]])
+      .andReturn([NSNumber numberWithBool:NO]);
 
   // If
   [MSMobileCenter resetSharedInstance];
@@ -278,7 +283,7 @@
   OCMStub([logManagerMock setEnabled:NO
               andDeleteDataOnDisabled:YES
                            forGroupID:self.abstractService.groupID
-                         withPriority:self.abstractService.priority])
+                         withPriority:self.abstractService.channelConfiguration.priority])
       .andDo(^(NSInvocation *invocation) {
         [invocation getArgument:&priority atIndex:5];
         [invocation getArgument:&groupID atIndex:4];
@@ -301,13 +306,13 @@
   OCMVerify([logManagerMock setEnabled:NO
                andDeleteDataOnDisabled:YES
                             forGroupID:self.abstractService.groupID
-                          withPriority:self.abstractService.priority]);
+                          withPriority:self.abstractService.channelConfiguration.priority]);
 
   // GroupID from the service must match the groupID used to delete logs.
   XCTAssertTrue(self.abstractService.groupID == groupID);
 
   // Priority from the service must match priority used to delete logs.
-  XCTAssertTrue(self.abstractService.priority == priority);
+  XCTAssertTrue(self.abstractService.channelConfiguration.priority == priority);
 
   // Must request for deletion.
   XCTAssertTrue(deleteLogs);
@@ -329,7 +334,7 @@
   OCMVerify([logManagerMock setEnabled:YES
                andDeleteDataOnDisabled:YES
                             forGroupID:self.abstractService.groupID
-                          withPriority:self.abstractService.priority]);
+                          withPriority:self.abstractService.channelConfiguration.priority]);
 }
 
 - (void)testInitializationPriorityCorrect {
