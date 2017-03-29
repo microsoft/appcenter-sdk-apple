@@ -26,21 +26,57 @@ class MSCrashesViewController: UITableViewController, MobileCenterProtocol {
     }
   }
   
-  override func didReceiveMemoryWarning() {
-    super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    if segue.identifier == "crash-detail"{
+      if let selectedRow = tableView.indexPathForSelectedRow{
+        let crash = categories[categoryForSection(selectedRow.section)]![selectedRow.row]
+        (segue.destination as! MSCrashesDetailViewController).crash = crash;
+      }
+    }
+  }
+  
+  override func numberOfSections(in tableView: UITableView) -> Int {
+    return categories.count + 1
+  }
+  
+  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    let isLast = section == tableView.numberOfSections - 1
+    if isLast{
+      return 1
+    } else {
+      return categories[categoryForSection(section)]!.count
+    }
+  }
+  
+  override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    let isLast = section == tableView.numberOfSections - 1
+    if isLast{
+      return "Settings"
+    } else {
+      return categoryForSection(section)
+    }
+  }
+  
+  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    let isLast = indexPath.section == tableView.numberOfSections - 1
+    let cellIdentifier = isLast ? "enable" : "crash"
+    let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier)!
+    if isLast{
+      for view in cell.contentView.subviews {
+        if let switchView = view as? UISwitch{
+          switchView.isOn = mobileCenter.isCrashesEnabled()
+        }
+      }
+    } else {
+      let crash = categories[categoryForSection(indexPath.section)]![indexPath.row]
+      cell.textLabel?.text = crash.title;
+    }
+    return cell;
   }
   
   @IBAction func enabledSwitchUpdated(_ sender: UISwitch) {
     mobileCenter.setCrashesEnabled(sender.isOn)
     sender.isOn = mobileCenter.isCrashesEnabled()
-  }
-  
-  override func numberOfSections(in tableView: UITableView) -> Int {
-    return categories.count
-  }
-  
-  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
   }
   
   private func pokeAllCrashes(){
@@ -53,5 +89,9 @@ class MSCrashesViewController: UITableViewController, MobileCenterProtocol {
         MSCrash.register((className as! MSCrash.Type).init())
       }
     }
+  }
+  
+  private func categoryForSection(_ section: Int) -> String{
+    return categories.keys.sorted()[section]
   }
 }

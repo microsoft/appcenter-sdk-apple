@@ -10,11 +10,6 @@ class MSDistributeViewController: UITableViewController, MobileCenterProtocol {
     self.enabled.isOn = mobileCenter.isDistributeEnabled()
   }
   
-  override func didReceiveMemoryWarning() {
-    super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
-  }
-  
   @IBAction func enabledSwitchUpdated(_ sender: UISwitch) {
     mobileCenter.setDistributeEnabled(sender.isOn)
     sender.isOn = mobileCenter.isDistributeEnabled()
