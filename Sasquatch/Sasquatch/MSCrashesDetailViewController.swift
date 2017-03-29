@@ -4,7 +4,6 @@ class MSCrashesDetailViewController: UIViewController {
   
   @IBOutlet weak var titleLabel: UILabel!
   @IBOutlet weak var descriptionLabel: UILabel!
-  
   var crash: MSCrash!
   
   override func viewDidLoad() {

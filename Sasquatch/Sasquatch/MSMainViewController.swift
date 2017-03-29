@@ -6,7 +6,6 @@ class MSMainViewController: UITableViewController, MobileCenterProtocol {
   @IBOutlet weak var installId: UILabel!
   @IBOutlet weak var appSecret: UILabel!
   @IBOutlet weak var logUrl: UILabel!
-  
   var mobileCenter: MobileCenterDelegate!
   
   override func viewDidLoad() {
