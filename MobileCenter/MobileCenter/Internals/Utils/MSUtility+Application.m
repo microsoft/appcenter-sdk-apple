@@ -33,13 +33,13 @@ NSString *MSUtilityApplicationCategory;
        completionHandler:(void (^__nullable)(MSOpenURLState state))completion {
   UIApplication *sharedApp = [[self class] sharedApp];
 
-  // FIXME: App extensions does support openURL through NSExtensionContest, we may use this somehow.
+  // FIXME: App extensions don't support openURL through NSExtensionContest, we may use this somehow.
   if (MS_IS_APP_EXTENSION || ![sharedApp canOpenURL:url]) {
     completion(MSOpenURLStateFailed);
     return;
   }
 
-  /* Dispatch the open url call to the next loop to avoid freezing the App new instance start up */
+  // Dispatch the open url call to the next loop to avoid freezing the App new instance start up.
   dispatch_async(dispatch_get_main_queue(), ^{
     SEL selector = NSSelectorFromString(@"openURL:options:completionHandler:");
     if ([sharedApp respondsToSelector:selector]) {
@@ -50,8 +50,10 @@ NSString *MSUtilityApplicationCategory;
           [NSInvocation invocationWithMethodSignature:[sharedApp methodSignatureForSelector:selector]];
       [invocation setSelector:selector];
       [invocation setTarget:sharedApp];
-      [invocation setArgument:(__bridge void *)(url) atIndex:2];
-      [invocation setArgument:(__bridge void *)(options) atIndex:3];
+      
+      // FIXME: get rid of the warnings, but be careful (__bridge void *)(url) will cause the app to crash on update.
+      [invocation setArgument:&url atIndex:2];
+      [invocation setArgument:&options atIndex:3];
       [invocation setArgument:&handler atIndex:4];
       [invocation invoke];
     } else {
