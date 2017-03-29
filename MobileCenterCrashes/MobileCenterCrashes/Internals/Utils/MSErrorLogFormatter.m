@@ -301,7 +301,8 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   NSString *exceptionReason = errorLog.exceptionReason;
   NSString *exceptionName = errorLog.exceptionType;
 
-  /** errorlog.toffset represents the timestamp when the app crashed, appLaunchTOffset is the difference/offset between
+  /**
+   * errorlog.toffset represents the timestamp when the app crashed, appLaunchTOffset is the difference/offset between
    * the moment the app was launched and when the app crashed.
    */
   NSDate *appStartTime = [NSDate
