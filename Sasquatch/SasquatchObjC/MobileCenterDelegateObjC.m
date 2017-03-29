@@ -11,6 +11,7 @@
 
 @implementation MobileCenterDelegateObjC
 
+#pragma mark - MSMobileCenter section.
 - (BOOL) isMobileCenterEnabled{
   return [MSMobileCenter isEnabled];
 }
@@ -20,9 +21,11 @@
 - (NSString *) installId{
   return [[MSMobileCenter installId] UUIDString];
 }
-- (BOOL) hasCrashedInLastSession{
-  return [MSCrashes hasCrashedInLastSession];
+- (BOOL) isDebuggerAttached{
+  return [MSMobileCenter isDebuggerAttached];
 }
+
+#pragma mark - Modules section.
 - (BOOL) isAnalyticsEnabled{
   return [MSAnalytics isEnabled];
 }
@@ -41,12 +44,8 @@
 - (void) setDistributeEnabled:(BOOL)isEnabled{
   return [MSDistribute setEnabled:isEnabled];
 }
-- (BOOL) isDebuggerAttached{
-  return [MSMobileCenter isDebuggerAttached];
-}
-- (void) generateTestCrash{
-  return [MSCrashes generateTestCrash];
-}
+
+#pragma mark - MSAnalytics section.
 - (void) trackEvent:(NSString *) eventName{
   [MSAnalytics trackEvent:eventName];
 }
@@ -63,6 +62,16 @@
   // Uncomment when trackPage is moved from internal to public module
   // [MSAnalytics trackPage:eventName withProperties:properties];
 }
+
+#pragma mark - MSCrashes section.
+- (BOOL) hasCrashedInLastSession{
+  return [MSCrashes hasCrashedInLastSession];
+}
+- (void) generateTestCrash{
+  return [MSCrashes generateTestCrash];
+}
+
+#pragma mark - Last crash report section.
 - (NSString *) lastCrashReportIncidentIdentifier{
   return [[MSCrashes lastSessionCrashReport] incidentIdentifier];
 }

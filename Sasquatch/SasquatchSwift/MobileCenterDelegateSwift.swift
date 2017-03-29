@@ -8,6 +8,8 @@ import MobileCenterDistribute
  */
 
 class MobileCenterDelegateSwift: MobileCenterDelegate {
+  
+  //MSMobileCenter section.
   func isMobileCenterEnabled() -> Bool{
     return MSMobileCenter.isEnabled()
   }
@@ -15,12 +17,13 @@ class MobileCenterDelegateSwift: MobileCenterDelegate {
     MSMobileCenter.setEnabled(isEnabled)
   }
   func installId() -> String{
-    return MSMobileCenter.installId()
-    MSDevice
+    return MSMobileCenter.installId().uuidString
   }
-  func hasCrashedInLastSession() -> Bool{
-    return MSCrashes.hasCrashedInLastSession()
+  func isDebuggerAttached() -> Bool{
+    return MSMobileCenter.isDebuggerAttached()
   }
+  
+  //Modules section.
   func isAnalyticsEnabled() -> Bool{
     return MSAnalytics.isEnabled()
   }
@@ -39,12 +42,8 @@ class MobileCenterDelegateSwift: MobileCenterDelegate {
   func setDistributeEnabled(_ isEnabled: Bool){
     MSDistribute.setEnabled(isEnabled)
   }
-  func isDebuggerAttached() -> Bool{
-    return MSMobileCenter.isDebuggerAttached()
-  }
-  func generateTestCrash() {
-    MSCrashes.generateTestCrash()
-  }
+
+  //MSAnalytics section.
   func trackEvent(_ eventName: String){
     MSAnalytics.trackEvent(eventName)
   }
@@ -53,14 +52,24 @@ class MobileCenterDelegateSwift: MobileCenterDelegate {
   }
   func trackPage(_ eventName: String){
     // TODO
-    // Uncomment when trackPage is moved from internal to public module
+    // Uncomment when trackPage is moved from internal to public
     // MSAnalytics.trackPage(eventName)
   }
   func trackPage(_ eventName: String, withProperties properties: Dictionary<String, String>){
     // TODO
-    // Uncomment when trackPage is moved from internal to public module
+    // Uncomment when trackPage is moved from internal to public
     // MSAnalytics.trackPage(eventName, withProperties: properties)
   }
+  
+  //MSCrashes section.
+  func hasCrashedInLastSession() -> Bool{
+    return MSCrashes.hasCrashedInLastSession()
+  }
+  func generateTestCrash() {
+    MSCrashes.generateTestCrash()
+  }
+  
+  //Last crash report section.
   func lastCrashReportIncidentIdentifier() -> String?{
     return MSCrashes.lastSessionCrashReport()?.incidentIdentifier
   }
