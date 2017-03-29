@@ -59,7 +59,7 @@
 
 static NSString *unknownString = @"???";
 
-/**
+/*
  * Sort PLCrashReportBinaryImageInfo instances by their starting address.
  */
 static NSInteger bit_binaryImageSort(id binary1, id binary2, void *__unused context) {
@@ -74,7 +74,7 @@ static NSInteger bit_binaryImageSort(id binary1, id binary2, void *__unused cont
     return NSOrderedSame;
 }
 
-/**
+/*
  * Validates that the given @a string terminates prior to @a limit.
  */
 static const char *safer_string_read(const char *string, const char *limit) {
@@ -109,16 +109,15 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
     const struct mach_header_64 *header64 = (const struct mach_header_64 *)header;
     const char *name = _dyld_get_image_name(i);
 
-    /* Image disappeared? */
+    // Image disappeared?.
     if (name == NULL || header == NULL)
       continue;
 
-    /* Check if this is the correct image. If we were being even more careful,
-     * we'd check the LC_UUID */
+    // Check if this is the correct image. If we were being even more careful,  we'd check the LC_UUID.
     if (strcmp(name, imageName) != 0)
       continue;
 
-    /* Determine whether this is a 64-bit or 32-bit Mach-O file */
+    // Determine whether this is a 64-bit or 32-bit Mach-O file.
     BOOL m64 = NO;
     if (header->magic == MH_MAGIC_64)
       m64 = YES;
@@ -150,7 +149,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
       }
     }
 
-    // Check if this is the correct image by comparing the UUIDs
+    // Check if this is the correct image by comparing the UUIDs.
     if (!uuidString || ![uuidString isEqualToString:imageUUID])
       continue;
 
@@ -188,7 +187,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
 @implementation MSErrorLogFormatter
 
-/**
+/*
  * Formats the provided report as human-readable text in the given @a textFormat, and return the formatted result as a
  * string.
  *
@@ -220,7 +219,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   // All errors are fatal for now, until we add support for handled exceptions.
   errorLog.fatal = YES;
 
-  /**
+  /*
    * appLaunchTOffset - the difference between crashtime and initialization time, so the "age" of the crashreport before
    * it's forwarded to the channel.
    * We don't care about a negative difference (will happen if the user's time on the device changes to a time before
@@ -238,16 +237,16 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
     }
   }
 
-  /**
+  /*
    * errorLog.architecture is an optional. The Android SDK will set it while for iOS, the file will be set on the
    * server using primaryArchitectureId and architectureVariantId.
    */
 
-  /**
-  * HockeyApp didn't use report.exceptionInfo for this field but exception.name in case of an unhandled exception or
-  * the report.signalInfo.name. More so, for BITCrashDetails, we used the exceptionInfo.exceptionName for a field
-  called exceptionName.
-  */
+  /*
+   * HockeyApp didn't use report.exceptionInfo for this field but exception.name in case of an unhandled exception or
+   * the report.signalInfo.name. More so, for BITCrashDetails, we used the exceptionInfo.exceptionName for a field
+   * called exceptionName.
+   */
   errorLog.osExceptionType = report.signalInfo.name;
   errorLog.osExceptionCode = report.signalInfo.code;
   errorLog.osExceptionAddress = [NSString stringWithFormat:@"0x%" PRIx64, report.signalInfo.address];
@@ -267,7 +266,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   // Set the exception from the wrapper sdk
   errorLog.exception = [MSWrapperExceptionManager loadWrapperException:report.uuidRef];
 
-  /**
+  /*
    * Set the device here to make sure we don't use the current device information but the one from history that matches
    * the time of our crash.
    */
@@ -291,7 +290,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   MSErrorReport *errorReport = nil;
   NSString *errorId = errorLog.errorId;
 
-  /**
+  /*
    * There should always be an installId. Leaving the empty string out of paranoia as [UUID UUID] – used in
    * [MSMobileCenter installId] – might, in theory, return nil.
    */
@@ -301,7 +300,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   NSString *exceptionReason = errorLog.exceptionReason;
   NSString *exceptionName = errorLog.exceptionType;
 
-  /**
+  /*
    * errorlog.toffset represents the timestamp when the app crashed, appLaunchTOffset is the difference/offset between
    * the moment the app was launched and when the app crashed.
    */
@@ -354,7 +353,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
     errorLog.processId = @(crashReport.processInfo.processID);
     errorLog.processName = crashReport.processInfo.processName ?: errorLog.processName;
 
-    /* Process Path */
+    // Process Path.
     if (crashReport.processInfo.processPath != nil) {
       NSString *processPath = crashReport.processInfo.processPath;
 
@@ -421,7 +420,8 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
     lastException.frames = exceptionThread.frames;
     lastException.type = report.exceptionInfo.exceptionName ?: report.signalInfo.name;
 
-    /** Don't add the thread to the array of threads (as in HockeyApp), the exception will be added to the crashed
+    /*
+     * Don't add the thread to the array of threads (as in HockeyApp), the exception will be added to the crashed
      * thread instead.
      */
   }
@@ -436,7 +436,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
       thread.exception = lastException;
     }
 
-    /**
+    /*
      * Write out the frames. In raw reports, Apple writes this out as a simple list of PCs. In the minimally
      * post-processed report, Apple writes this out as full frame entries. We use the latter format.
      */
@@ -463,7 +463,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
  */
 + (NSString *)formatStackFrame:(MSPLCrashReportStackFrameInfo *)frameInfo report:(MSPLCrashReport *)report {
 
-  /**
+  /*
    * Base image address containing instrumentation pointer, offset of the IP from that base address, and the
    * associated image name.
    */
@@ -477,7 +477,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
     pcOffset = frameInfo.instructionPointer - imageInfo.imageBaseAddress;
   }
 
-  /**
+  /*
    * If symbol info is available, the format used in Apple's reports is Sym + OffsetFromSym. Otherwise,
    * the format used is imageBaseAddress + offsetToIP.
    */
@@ -501,7 +501,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
     symbolString = [NSString stringWithFormat:@"0x%" PRIx64 " + %" PRId64, baseAddress, pcOffset];
   }
 
-  /**
+  /*
    * Note that width specifiers are ignored for %@, but work for C strings. UTF-8 is not correctly handled with %s
    * (it depends on the system encoding), but UTF-16 is supported via %S, so we use it here.
    */
@@ -533,7 +533,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
     exceptionReason = [NSString stringWithString:report.exceptionInfo.exceptionReason];
   } else if (crashedThread != nil) {
 
-    /**
+    /*
      * Try to find the selector in case this was a crash in obj_msgSend.
      * We search this whether the crash happened in obj_msgSend or not since we don't have the symbol!
      */
@@ -607,6 +607,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
       // Fetch the UUID if it exists.
       binary.binaryId = (imageInfo.hasImageUUID) ? imageInfo.imageUUID : unknownString;
+
       // Determine the architecture string.
       // TODO binary.architecture already exists in AbstractErrorLog. Can be deleted (requires schema update) ?
       binary.primaryArchitectureId = codeType;
@@ -712,7 +713,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
   NSRange appRange = [standardizedImagePath rangeOfString:@".app/"];
 
-  /**
+  /*
    * Exclude iOS swift dylibs. These are provided as part of the app binary by Xcode for now, but we never get a dSYM
    * for those.
    */
@@ -721,7 +722,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   if (appRange.location != NSNotFound && !(swiftLibRange.location != NSNotFound && dylibSuffix)) {
     NSString *appBundleContentsPath = [standardizedImagePath substringToIndex:appRange.location + 5];
 
-    /**
+    /*
      * Fix issue with iOS 8 `stringByStandardizingPath` removing leading `/private` path (when not running in the
      * debugger or simulator only).
      */
@@ -747,14 +748,15 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   };
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-  /* Attempt to derive the code type from the binary images */
+
+  // Attempt to derive the code type from the binary images.
   NSNumber *codeType = nil;
   for (MSPLCrashReportBinaryImageInfo *image in report.images) {
     codeType = (image.codeType != nil && image.codeType.typeEncoding == PLCrashReportProcessorTypeEncodingMach)
                    ? @(image.codeType.type)
                    : legacyTypes[@(report.systemInfo.architecture)];
 
-    /* Stop immediately if code type was discovered */
+    // Stop immediately if code type was discovered.
     if (codeType != nil)
       break;
   }
