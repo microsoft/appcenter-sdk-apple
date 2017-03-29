@@ -7,10 +7,6 @@
  */
 
 #import <arpa/inet.h>
-#import <ifaddrs.h>
-#import <netdb.h>
-#import <netinet/in.h>
-#import <sys/socket.h>
 
 #import <CoreFoundation/CoreFoundation.h>
 

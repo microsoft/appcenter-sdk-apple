@@ -48,7 +48,6 @@
 #import "MSBinary.h"
 #import "MSCrashesInternal.h"
 #import "MSErrorLogFormatter.h"
-#import "MSErrorReport.h"
 #import "MSErrorReportPrivate.h"
 #import "MSException.h"
 #import "MSMobileCenterInternal.h"

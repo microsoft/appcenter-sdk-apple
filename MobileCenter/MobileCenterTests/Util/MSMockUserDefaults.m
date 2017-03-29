@@ -10,9 +10,6 @@
 
 @implementation MSMockUserDefaults
 
-@synthesize dictionary;
-@synthesize mockUserDefaults;
-
 - (instancetype)init {
   self = [super init];
   if (self) {

@@ -10,7 +10,6 @@
 #import "MSKeychainUtil.h"
 #import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
-#import "MSReleaseDetails.h"
 #import "MSServiceAbstractProtected.h"
 
 /**
@@ -268,7 +267,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                 }
 
                 // If the response payload is MSErrorDetails, consider it as a recoverable error.
-                if (!details || ![details.code isEqualToString:kMSErrorCodeNoReleasesForUser]) {
+                if (!details || ![kMSErrorCodeNoReleasesForUser isEqualToString:details.code]) {
                   [MSKeychainUtil deleteStringForKey:kMSUpdateTokenKey];
                   [MS_USER_DEFAULTS removeObjectForKey:kMSSDKHasLaunchedWithDistribute];
                   [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
@@ -559,7 +558,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   if ([self isEnabled]) {
 
     // If the request is not for Mobile Center Distribute, ignore.
-    if (![[NSString stringWithFormat:kMSDefaultCustomSchemeFormat, self.appSecret] isEqualToString:[url scheme]]) {
+    if (![[url scheme] isEqualToString:[NSString stringWithFormat:kMSDefaultCustomSchemeFormat, self.appSecret]]) {
       return;
     }
 

@@ -69,7 +69,7 @@
   NSDictionary *dictionary = @{ @"release_notes" : [NSNull new] };
 
   // When
-  MSReleaseDetails *details = [[MSReleaseDetails alloc] initWithDictionary:dictionary];
+  MSReleaseDetails *details = [[MSReleaseDetails alloc] initWithDictionary:[[NSMutableDictionary alloc] initWithDictionary:dictionary]];
 
   // Then
   XCTAssertNil(details.releaseNotes);
