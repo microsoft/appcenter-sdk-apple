@@ -8,6 +8,12 @@
 #import "MobileCenterAnalytics.h"
 #import "MobileCenterCrashes.h"
 #import "MobileCenterDistribute.h"
+#import "MobileCenterPush.h"
+#import <UserNotifications/UserNotifications.h>
+
+static NSString *const kMSDefaultInstallUrl = @"https://install.asgard-int.trafficmanager.net";
+static NSString *const kMSDefaultApiUrl = @"https://asgard-int.trafficmanager.net/api/v0.1";
+static NSString *const kMSLogUrl = @"https://in-integration.dev.avalanch.es";
 
 #import "MSAlertController.h"
 
@@ -22,8 +28,12 @@
   // Start Mobile Center SDK.
   [MSMobileCenter setLogLevel:MSLogLevelVerbose];
 
-  [MSMobileCenter start:@"7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7"
-           withServices:@[ [MSAnalytics class], [MSCrashes class], [MSDistribute class] ]];
+  [MSDistribute setApiUrl:kMSDefaultApiUrl];
+  [MSDistribute setInstallUrl:kMSDefaultInstallUrl];
+  [MSMobileCenter setLogUrl:kMSLogUrl];
+
+  [MSMobileCenter start:@"9ace8f29-ca40-4fe6-b879-ffb0ed8f1a39"
+           withServices:@[ [MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class] ]];
 
   [self crashes];
 
@@ -50,6 +60,29 @@
 }
 
 #pragma mark - Application life cycle
+
+- (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
+{
+  [MSPush didRegisterForRemoteNotificationsWith:deviceToken];
+}
+
+- (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(nonnull NSError *)error
+{
+  [MSPush didFailToRegisterForRemoteNotificationsWith:error];
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification: (NSDictionary *)userInfo {
+  NSLog(@"%@", userInfo);
+  [self MessageBox:@"Notification" message:[[[userInfo objectForKey:@"aps"] valueForKey:@"alert"] description] ];
+}
+
+-(void)MessageBox:(NSString *)title message:(NSString *)messageText
+{
+  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:messageText delegate:self
+                                        cancelButtonTitle:@"OK" otherButtonTitles: nil];
+  [alert show];
+}
+
 
 - (void)applicationWillResignActive:(UIApplication *)application {
   // Sent when the application is about to move from active to inactive state. This can occur for certain types of
