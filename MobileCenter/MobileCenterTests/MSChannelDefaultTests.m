@@ -79,9 +79,7 @@ static NSString *const kMSTestGroupID = @"GroupID";
 
   // When
   for (int i = 1; i <= itemsToAdd; i++) {
-    id logMock = OCMPartialMock([MSAbstractLog new]);
-    OCMStub([logMock isValid]).andReturn(YES);
-    [self.sut enqueueItem:logMock withCompletion:nil];
+    [self.sut enqueueItem:[self getValidMockLog] withCompletion:nil];
   }
   [self enqueueChannelEndJobExpectation];
 
@@ -106,13 +104,11 @@ static NSString *const kMSTestGroupID = @"GroupID";
   self.sut.configuration = config;
   int itemsToAdd = 3;
   XCTestExpectation *expectation = [self expectationWithDescription:@"All items enqueued"];
-  id logMock = OCMPartialMock([MSAbstractLog new]);
-  OCMStub([logMock isValid]).andReturn(YES);
 
   // When
   for (int i = 1; i <= itemsToAdd; i++) {
 
-    [self.sut enqueueItem:logMock
+    [self.sut enqueueItem:[self getValidMockLog]
            withCompletion:^(__attribute__((unused)) BOOL success) {
              if (i == itemsToAdd) {
                [expectation fulfill];
@@ -171,9 +167,7 @@ static NSString *const kMSTestGroupID = @"GroupID";
 
   // When
   for (NSUInteger i = 1; i <= expectedMaxPendingBatched + 1; i++) {
-    id logMock = OCMPartialMock([MSAbstractLog new]);
-    OCMStub([logMock isValid]).andReturn(YES);
-    [sut enqueueItem:logMock withCompletion:nil];
+    [sut enqueueItem:[self getValidMockLog] withCompletion:nil];
   }
   [self enqueueChannelEndJobExpectation];
 
@@ -227,10 +221,6 @@ static NSString *const kMSTestGroupID = @"GroupID";
         loadCallback(YES, ((NSArray<MSLog> *)@[ OCMProtocolMock(@protocol(MSLog)) ]), [@(currentBatchId) stringValue]);
       });
 
-  // Send one batch to fulfill the queue.
-  id logMock = OCMPartialMock([MSAbstractLog new]);
-  OCMStub([logMock isValid]).andReturn(YES);
-
   // Configure channel.
   MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithGroupID:kMSTestGroupID
                                                                      flushInterval:0.0
@@ -245,7 +235,7 @@ static NSString *const kMSTestGroupID = @"GroupID";
   /**
    * When
    */
-  [sut enqueueItem:logMock withCompletion:nil];
+  [sut enqueueItem:[self getValidMockLog] withCompletion:nil];
 
   // Try to release one batch.
   dispatch_async(self.logsDispatchQueue, ^{
@@ -266,9 +256,7 @@ static NSString *const kMSTestGroupID = @"GroupID";
 
       // Send another batch.
       currentBatchId++;
-      id anotherLogMock = OCMPartialMock([MSAbstractLog new]);
-      OCMStub([anotherLogMock isValid]).andReturn(YES);
-      [sut enqueueItem:anotherLogMock withCompletion:nil];
+      [sut enqueueItem:[self getValidMockLog] withCompletion:nil];
       [self enqueueChannelEndJobExpectation];
     });
   });
@@ -291,8 +279,7 @@ static NSString *const kMSTestGroupID = @"GroupID";
 
   // If
   [self initChannelEndJobExpectation];
-  id logMock = OCMPartialMock([MSAbstractLog new]);
-  OCMStub([logMock isValid]).andReturn(YES);
+  id logMock = [self getValidMockLog];
   id senderMock = OCMProtocolMock(@protocol(MSSender));
   OCMStub([senderMock sendAsync:[OCMArg any] completionHandler:[OCMArg any]]);
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
@@ -335,8 +322,7 @@ static NSString *const kMSTestGroupID = @"GroupID";
   [self initChannelEndJobExpectation];
   id senderMock = OCMProtocolMock(@protocol(MSSender));
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
-  id logMock = OCMPartialMock([MSAbstractLog new]);
-  OCMStub([logMock isValid]).andReturn(YES);
+  id logMock = [self getValidMockLog];
   OCMStub([storageMock
       loadLogsForGroupID:kMSTestGroupID
           withCompletion:([OCMArg invokeBlockWithArgs:@YES, ((NSArray<MSLog> *)@[ logMock ]), @"1", nil])]);
@@ -371,8 +357,7 @@ static NSString *const kMSTestGroupID = @"GroupID";
   // If
   [self initChannelEndJobExpectation];
   id<MSChannelDelegate> delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
-  id logMock = OCMPartialMock([MSAbstractLog new]);
-  OCMStub([logMock isValid]).andReturn(YES);
+  id logMock = [self getValidMockLog];
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wnonnull"
@@ -426,9 +411,7 @@ static NSString *const kMSTestGroupID = @"GroupID";
   __block NSMutableArray<MSLog> *willSendForwardedLogs = [NSMutableArray<MSLog> new];
   id<MSChannelDelegate> delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
   for (int i = 0; i < 3; i++) {
-    id logMock = OCMPartialMock([MSAbstractLog new]);
-    OCMStub([logMock isValid]).andReturn(YES);
-    [expectedLogs addObject:logMock];
+    [expectedLogs addObject:[self getValidMockLog]];
   }
 
   // Stub the sender for that log.
@@ -547,6 +530,12 @@ static NSString *const kMSTestGroupID = @"GroupID";
   dispatch_async(self.logsDispatchQueue, ^{
     [self.channelEndJobExpectation fulfill];
   });
+}
+
+- (id)getValidMockLog {
+  id logMock = OCMPartialMock([MSAbstractLog new]);
+  OCMStub([logMock isValid]).andReturn(YES);
+  return logMock;
 }
 
 @end
