@@ -46,11 +46,11 @@ static NSString *const kMSLiveUpdatePackageHash = @"live_update_package_hash";
   return dict;
 }
 
-- (BOOL)isEqual:(MSWrapperSdk *)wrapperSdk {
-
-  if (!wrapperSdk)
+- (BOOL)isEqual:(id)object {
+  if (!object || ![object isKindOfClass:[MSWrapperSdk class]]) {
     return NO;
-
+  }
+  MSWrapperSdk *wrapperSdk = (MSWrapperSdk *)object;
   return ((!self.wrapperSdkVersion && !wrapperSdk.wrapperSdkVersion) ||
           [self.wrapperSdkVersion isEqualToString:wrapperSdk.wrapperSdkVersion]) &&
          ((!self.wrapperSdkName && !wrapperSdk.wrapperSdkName) ||
