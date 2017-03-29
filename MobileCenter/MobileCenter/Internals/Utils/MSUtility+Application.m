@@ -33,7 +33,7 @@ NSString *MSUtilityApplicationCategory;
        completionHandler:(void (^__nullable)(MSOpenURLState state))completion {
   UIApplication *sharedApp = [[self class] sharedApp];
 
-  // FIXME: App extensions don't support openURL through NSExtensionContest, we may use this somehow.
+  // FIXME: App extensions does support openURL through NSExtensionContest, we may use this somehow.
   if (MS_IS_APP_EXTENSION || ![sharedApp canOpenURL:url]) {
     completion(MSOpenURLStateFailed);
     return;
