@@ -190,7 +190,7 @@ NSTimeInterval const kMSTestSessionTimeout = 1.5;
   OCMVerify([delegateMock sessionTracker:sut processLog:[OCMArg isKindOfClass:[MSStartSessionLog class]]]);
 }
 
-- (void)testOnProcessingLogWithPriority {
+- (void)testOnProcessingLog {
 
   // When
   MSLogWithProperties *log = [MSLogWithProperties new];
@@ -200,7 +200,7 @@ NSTimeInterval const kMSTestSessionTimeout = 1.5;
   XCTAssertNil(log.toffset);
 
   // When
-  [self.sut onEnqueuingLog:log withInternalId:nil andPriority:MSPriorityDefault];
+  [self.sut onEnqueuingLog:log withInternalId:nil];
 
   // Then
   XCTAssertNil(log.toffset);
@@ -208,7 +208,7 @@ NSTimeInterval const kMSTestSessionTimeout = 1.5;
 
   // When
   log.toffset = 0;
-  [self.sut onEnqueuingLog:log withInternalId:nil andPriority:MSPriorityDefault];
+  [self.sut onEnqueuingLog:log withInternalId:nil];
 
   // Then
   XCTAssertEqual(0, log.toffset.integerValue);
@@ -216,7 +216,7 @@ NSTimeInterval const kMSTestSessionTimeout = 1.5;
 
   // When
   log.toffset = [NSNumber numberWithUnsignedLongLong:UINT64_MAX];
-  [self.sut onEnqueuingLog:log withInternalId:nil andPriority:MSPriorityDefault];
+  [self.sut onEnqueuingLog:log withInternalId:nil];
 
   // Then
   XCTAssertEqual(UINT64_MAX, log.toffset.unsignedLongLongValue);

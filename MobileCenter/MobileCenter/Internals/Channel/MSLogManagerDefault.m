@@ -110,11 +110,9 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
   NSString *internalLogId = MS_UUID_STRING;
 
   // Notify delegates.
-  [self enumerateDelegatesForSelector:@selector(onEnqueuingLog:withInternalId:andPriority:)
+  [self enumerateDelegatesForSelector:@selector(onEnqueuingLog:withInternalId:)
                             withBlock:^(id<MSLogManagerDelegate> delegate) {
-                              [delegate onEnqueuingLog:log
-                                        withInternalId:internalLogId
-                                           andPriority:channel.configuration.priority];
+                              [delegate onEnqueuingLog:log withInternalId:internalLogId];
                             }];
 
   // Set common log info.
@@ -132,20 +130,16 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
           if (success) {
 
             // Notify delegates.
-            [self enumerateDelegatesForSelector:@selector(onFinishedPersistingLog:withInternalId:andPriority:)
+            [self enumerateDelegatesForSelector:@selector(onFinishedPersistingLog:withInternalId:)
                                       withBlock:^(id<MSLogManagerDelegate> delegate) {
-                                        [delegate onFinishedPersistingLog:log
-                                                           withInternalId:internalLogId
-                                                              andPriority:channel.configuration.priority];
+                                        [delegate onFinishedPersistingLog:log withInternalId:internalLogId];
                                       }];
           } else {
 
             // Notify delegates.
-            [self enumerateDelegatesForSelector:@selector(onFailedPersistingLog:withInternalId:andPriority:)
+            [self enumerateDelegatesForSelector:@selector(onFailedPersistingLog:withInternalId:)
                                       withBlock:^(id<MSLogManagerDelegate> delegate) {
-                                        [delegate onFailedPersistingLog:log
-                                                         withInternalId:internalLogId
-                                                            andPriority:channel.configuration.priority];
+                                        [delegate onFailedPersistingLog:log withInternalId:internalLogId];
                                       }];
           }
         }];
