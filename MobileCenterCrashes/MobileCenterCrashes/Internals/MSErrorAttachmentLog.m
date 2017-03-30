@@ -83,17 +83,11 @@ static NSString *const kMSData = @"data";
   if (!object || ![object isKindOfClass:[MSErrorAttachmentLog class]])
     return NO;
   MSErrorAttachmentLog *attachment = (MSErrorAttachmentLog *)object;
-
-  // Check properties are the same.
-  BOOL isIdSame =
-      ((!self.attachmentId && !attachment.attachmentId) || [self.attachmentId isEqualToString:attachment.attachmentId]);
-  BOOL isErrorIdSame = ((!self.errorId && !attachment.errorId) || [self.errorId isEqualToString:attachment.errorId]);
-  BOOL isContentTypeSame =
-      ((!self.contentType && !attachment.contentType) || [self.contentType isEqualToString:attachment.contentType]);
-  BOOL isFileNameSame =
-      ((!self.filename && !attachment.filename) || [self.filename isEqualToString:attachment.filename]);
-  BOOL isDataSame = ((!self.data && !attachment.data) || [self.data isEqualToString:attachment.data]);
-  return isIdSame && isErrorIdSame && isContentTypeSame && isFileNameSame && isDataSame;
+  return ((!self.attachmentId && !attachment.attachmentId) || [self.attachmentId isEqualToString:attachment.attachmentId]) &&
+         ((!self.errorId && !attachment.errorId) || [self.errorId isEqualToString:attachment.errorId]) &&
+         ((!self.contentType && !attachment.contentType) || [self.contentType isEqualToString:attachment.contentType]) &&
+         ((!self.filename && !attachment.filename) || [self.filename isEqualToString:attachment.filename]) &&
+         ((!self.data && !attachment.data) || [self.data isEqualToString:attachment.data]);
 }
 
 - (BOOL)isValid {
