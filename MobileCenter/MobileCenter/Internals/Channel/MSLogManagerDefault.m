@@ -69,9 +69,7 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 
 #pragma mark - Channel Delegate
 
-- (void)addChannelDelegate:(id<MSChannelDelegate>)channelDelegate
-                forGroupID:(NSString *)groupID
-              withPriority:(MSPriority)priority {
+- (void)addChannelDelegate:(id<MSChannelDelegate>)channelDelegate forGroupID:(NSString *)groupID {
   if (channelDelegate) {
 
     // TODO (jaelim): TBD to log or ignore if channel doesn't exist.
@@ -79,9 +77,7 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
   }
 }
 
-- (void)removeChannelDelegate:(id<MSChannelDelegate>)channelDelegate
-                   forGroupID:(NSString *)groupID
-                 withPriority:(MSPriority)priority {
+- (void)removeChannelDelegate:(id<MSChannelDelegate>)channelDelegate forGroupID:(NSString *)groupID {
   if (channelDelegate) {
     // TODO (jaelim): TBD to log or ignore if channel doesn't exist.
     [self.channels[groupID] removeDelegate:channelDelegate];
@@ -98,7 +94,7 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 
 #pragma mark - Process items
 
-- (void)processLog:(id<MSLog>)log withPriority:(MSPriority)priority andGroupID:(NSString *)groupID {
+- (void)processLog:(id<MSLog>)log forGroupID:(NSString *)groupID {
   if (!log) {
     return;
   }
@@ -116,7 +112,9 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
   // Notify delegates.
   [self enumerateDelegatesForSelector:@selector(onEnqueuingLog:withInternalId:andPriority:)
                             withBlock:^(id<MSLogManagerDelegate> delegate) {
-                              [delegate onEnqueuingLog:log withInternalId:internalLogId andPriority:priority];
+                              [delegate onEnqueuingLog:log
+                                        withInternalId:internalLogId
+                                           andPriority:channel.configuration.priority];
                             }];
 
   // Set common log info.
@@ -138,7 +136,7 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
                                       withBlock:^(id<MSLogManagerDelegate> delegate) {
                                         [delegate onFinishedPersistingLog:log
                                                            withInternalId:internalLogId
-                                                              andPriority:priority];
+                                                              andPriority:channel.configuration.priority];
                                       }];
           } else {
 
@@ -147,7 +145,7 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
                                       withBlock:^(id<MSLogManagerDelegate> delegate) {
                                         [delegate onFailedPersistingLog:log
                                                          withInternalId:internalLogId
-                                                            andPriority:priority];
+                                                            andPriority:channel.configuration.priority];
                                       }];
           }
         }];
@@ -178,10 +176,8 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
   }
 }
 
-- (void)setEnabled:(BOOL)isEnabled
-    andDeleteDataOnDisabled:(BOOL)deleteData
-                 forGroupID:(NSString *)groupID
-               withPriority:(MSPriority)priority {
+- (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData forGroupID:(NSString *)groupID {
+
   // TODO (jaelim): TBD to log or ignore if channel doesn't exist.
   [self.channels[groupID] setEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
 }

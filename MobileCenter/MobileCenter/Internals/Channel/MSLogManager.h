@@ -49,10 +49,9 @@ NS_ASSUME_NONNULL_BEGIN
  * Triggers processing of a new log item.
  *
  * @param log The log item that should be enqueued.
- * @param priority The priority for processing the log.
  * @param groupID The groupID for processing the log.
  */
-- (void)processLog:(id<MSLog>)log withPriority:(MSPriority)priority andGroupID:(NSString *)groupID;
+- (void)processLog:(id<MSLog>)log forGroupID:(NSString *)groupID;
 
 /**
  *  Enable/disable this instance and delete data on disabled state.
@@ -60,34 +59,24 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param isEnabled  A boolean value set to YES to enable the instance or NO to disable it.
  *  @param deleteData A boolean value set to YES to delete data or NO to keep it.
  *  @param groupID A groupID to enable/disable.
- *  @param priority The priority of the groupID to enable/disable.
  */
-- (void)setEnabled:(BOOL)isEnabled
-    andDeleteDataOnDisabled:(BOOL)deleteData
-                 forGroupID:(NSString *)groupID
-               withPriority:(MSPriority)priority;
+- (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData forGroupID:(NSString *)groupID;
 
 /**
  * Add a delegate to each channel that has a certain priority.
  *
  * @param channelDelegate A delegate for the channel.
  * @param groupID The groupID of a channel.
- * @param priority The priority of a channel.
  */
-- (void)addChannelDelegate:(id<MSChannelDelegate>)channelDelegate
-                forGroupID:(NSString *)groupID
-              withPriority:(MSPriority)priority;
+- (void)addChannelDelegate:(id<MSChannelDelegate>)channelDelegate forGroupID:(NSString *)groupID;
 
 /**
  * Remove a delegate to each channel that has a certain priority.
  *
  * @param channelDelegate A delegate for the channel.
  * @param groupID The groupID of a channel.
- * @param priority The priority of a channel.
  */
-- (void)removeChannelDelegate:(id<MSChannelDelegate>)channelDelegate
-                   forGroupID:(NSString *)groupID
-                 withPriority:(MSPriority)priority;
+- (void)removeChannelDelegate:(id<MSChannelDelegate>)channelDelegate forGroupID:(NSString *)groupID;
 
 @end
 

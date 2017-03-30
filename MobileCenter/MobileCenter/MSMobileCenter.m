@@ -157,8 +157,8 @@ static NSString *const kMSGroupID = @"MobileCenter";
     } else {
       self.appSecret = appSecret;
 
-    // Init the main pipeline.
-    [self initializeLogManager];
+      // Init the main pipeline.
+      [self initializeLogManager];
 
       // Enable pipeline as needed.
       if (self.isEnabled) {
@@ -350,7 +350,9 @@ static NSString *const kMSGroupID = @"MobileCenter";
 - (void)sendStartServiceLog:(NSArray<NSString *> *)servicesNames {
   MSStartServiceLog *serviceLog = [MSStartServiceLog new];
   serviceLog.services = servicesNames;
-  [self.logManager processLog:serviceLog withPriority:MSPriorityDefault andGroupID:kMSGroupID];
+
+  // TODO (jaelim): Channel for start service log is not ready yet. Need to initialize. Priority is MSPriorityDefault.
+  [self.logManager processLog:serviceLog forGroupID:kMSGroupID];
 }
 
 + (void)resetSharedInstance {

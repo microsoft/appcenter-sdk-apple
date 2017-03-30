@@ -166,9 +166,7 @@ NSTimeInterval const kMSTestSessionTimeout = 1.5;
   [sut start];
 
   // Then
-  OCMVerify([delegateMock sessionTracker:sut
-                              processLog:[OCMArg isKindOfClass:[MSStartSessionLog class]]
-                            withPriority:MSPriorityDefault]);
+  OCMVerify([delegateMock sessionTracker:sut processLog:[OCMArg isKindOfClass:[MSStartSessionLog class]]]);
 }
 
 - (void)testStartSessionOnAppForegrounded {
@@ -189,9 +187,7 @@ NSTimeInterval const kMSTestSessionTimeout = 1.5;
   [MSSessionTrackerUtil simulateWillEnterForegroundNotification];
 
   // Then
-  OCMVerify([delegateMock sessionTracker:sut
-                              processLog:[OCMArg isKindOfClass:[MSStartSessionLog class]]
-                            withPriority:MSPriorityDefault]);
+  OCMVerify([delegateMock sessionTracker:sut processLog:[OCMArg isKindOfClass:[MSStartSessionLog class]]]);
 }
 
 - (void)testOnProcessingLogWithPriority {

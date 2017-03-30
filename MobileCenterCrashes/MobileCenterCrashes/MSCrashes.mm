@@ -92,9 +92,8 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
  * Use this on startup, to check if the app starts the first time after it crashed previously.
  * You can use this also to disable specific events, like asking the user to rate your app.
  *
- * @warning This property only has a correct value, once the sdk has been
- properly initialized!
-
+ * @warning This property only has a correct value, once the sdk has been properly initialized!
+ *
  * @see lastSessionCrashReport
  */
 @property BOOL didCrashInLastSession;
@@ -187,7 +186,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     }
 
     // Send log to log manager.
-    [crashes.logManager processLog:log withPriority:crashes.channelConfiguration.priority andGroupID:crashes.groupID];
+    [crashes.logManager processLog:log forGroupID:crashes.groupID];
     [crashes deleteCrashReportWithFileURL:fileURL];
     [MSWrapperExceptionManager deleteWrapperExceptionDataWithUUIDString:report.incidentIdentifier];
     [crashes.crashFiles removeObject:fileURL];
@@ -259,7 +258,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     self.crashFiles = [self persistedCrashReports];
 
     // Set self as delegate of crashes' channel.
-    [self.logManager addChannelDelegate:self forGroupID:self.groupID withPriority:self.channelConfiguration.priority];
+    [self.logManager addChannelDelegate:self forGroupID:self.groupID];
 
     // Process PLCrashReports, this will format the PLCrashReport into our schema and then trigger sending.
     // This mostly happens on the start of the service.
@@ -288,15 +287,9 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     [self.plCrashReporter purgePendingCrashReport];
 
     // Remove as ChannelDelegate from LogManager
-    [self.logManager removeChannelDelegate:self
-                                forGroupID:self.groupID
-                              withPriority:self.channelConfiguration.priority];
-    [self.logManager removeChannelDelegate:self
-                                forGroupID:self.groupID
-                              withPriority:self.channelConfiguration.priority];
-    [self.logManager removeChannelDelegate:self
-                                forGroupID:self.groupID
-                              withPriority:self.channelConfiguration.priority];
+    [self.logManager removeChannelDelegate:self forGroupID:self.groupID];
+    [self.logManager removeChannelDelegate:self forGroupID:self.groupID];
+    [self.logManager removeChannelDelegate:self forGroupID:self.groupID];
     MSLogInfo([MSCrashes logTag], @"Crashes service has been disabled.");
   }
 }
@@ -682,7 +675,8 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
           if (item) {
 
             // Buffered logs are used sending their own channel. It will never contain more than 20 logs
-            [self.logManager processLog:item withPriority:(MSPriority)priority andGroupID:@"CrashBuffer"];
+            // TODO (jaelim): Revisit crash buffer.
+            [self.logManager processLog:item forGroupID:@"CrashBuffer"];
           }
         }
 

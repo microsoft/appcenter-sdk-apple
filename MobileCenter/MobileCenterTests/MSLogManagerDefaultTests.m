@@ -82,7 +82,7 @@
   MSAbstractLog *log = [MSAbstractLog new];
 
   // When
-  [sut processLog:log withPriority:priority andGroupID:groupID];
+  [sut processLog:log forGroupID:groupID];
 
   // Then
   OCMVerify([mockDelegate onEnqueuingLog:log withInternalId:OCMOCK_ANY andPriority:priority]);
