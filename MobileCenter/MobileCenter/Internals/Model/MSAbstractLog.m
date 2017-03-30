@@ -1,5 +1,4 @@
 #import "MSAbstractLog.h"
-#import "MSLogger.h"
 #import "MSDevice.h"
 #import "MSDevicePrivate.h"
 #import "MSUtility+Date.h"
@@ -39,7 +38,7 @@ NSString *const kMSType = @"type";
 }
 
 - (BOOL)isValid {
-  return self.type && self.toffset && self.device;
+  return self.type && self.toffset && self.device && [self.device isValid];
 }
 
 #pragma mark - NSCoding

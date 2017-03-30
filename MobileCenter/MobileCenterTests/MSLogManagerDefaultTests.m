@@ -38,22 +38,24 @@
 
   // If
   MSPriority priority = MSPriorityDefault;
+  NSString *groupID = @"MobileCenter";
   MSLogManagerDefault *sut = [[MSLogManagerDefault alloc] initWithSender:OCMProtocolMock(@protocol(MSSender))
                                                                  storage:OCMProtocolMock(@protocol(MSStorage))];
   MSAbstractLog *log = [MSAbstractLog new];
   assertThat(sut.channels, isEmpty());
 
   // When
-  [sut processLog:log withPriority:priority];
+  [sut processLog:log withPriority:priority andGroupID:groupID];
 
   // Then
-  assertThat(sut.channels[@(priority)], notNilValue());
+  assertThat(sut.channels[groupID], notNilValue());
 }
 
 - (void)testProcessingLogWillTriggerOnProcessingCall {
 
   // If
   MSPriority priority = MSPriorityDefault;
+  NSString *groupID = @"MobileCenter";
   MSLogManagerDefault *sut = [[MSLogManagerDefault alloc] initWithSender:OCMProtocolMock(@protocol(MSSender))
                                                                  storage:OCMProtocolMock(@protocol(MSStorage))];
 
@@ -63,7 +65,7 @@
   MSAbstractLog *log = [MSAbstractLog new];
 
   // When
-  [sut processLog:log withPriority:priority];
+  [sut processLog:log withPriority:priority andGroupID:groupID];
 
   // Then
   OCMVerify([mockDelegate onEnqueuingLog:log withInternalId:OCMOCK_ANY andPriority:priority]);

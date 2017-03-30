@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param data Instance that will be transformed to request body.
  * @param handler Completion handler.
  */
-- (void)sendAsync:(NSObject *)data completionHandler:(MSSendAsyncCompletionHandler)handler;
+- (void)sendAsync:(nullable NSObject *)data completionHandler:(MSSendAsyncCompletionHandler)handler;
 
 /**
  *  Add the given delegate to the sender.

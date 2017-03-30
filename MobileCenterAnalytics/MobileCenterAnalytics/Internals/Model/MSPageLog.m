@@ -25,10 +25,7 @@ static NSString *const kMSName = @"name";
 }
 
 - (BOOL)isValid {
-  if (!self.name)
-    return NO;
-
-  return [super isValid];
+  return [super isValid] && self.name;
 }
 
 #pragma mark - NSCoding

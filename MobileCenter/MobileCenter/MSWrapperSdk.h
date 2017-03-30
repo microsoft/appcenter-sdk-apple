@@ -34,17 +34,24 @@
 /**
  * Is equal to another wrapper SDK
  *
- * @param wrapperSdk Wrapper SDK
+ * @param object Wrapper SDK
  *
  * @return Return YES if equal and NO if not equal
  */
-- (BOOL)isEqual:(MSWrapperSdk *)wrapperSdk;
+- (BOOL)isEqual:(id)object;
 
 - (instancetype)initWithWrapperSdkVersion:(NSString *)wrapperSdkVersion
                            wrapperSdkName:(NSString *)wrapperSdkName
                    liveUpdateReleaseLabel:(NSString *)liveUpdateReleaseLabel
                   liveUpdateDeploymentKey:(NSString *)liveUpdateDeploymentKey
                     liveUpdatePackageHash:(NSString *)liveUpdatePackageHash;
+
+/**
+ * Checks if the object's values are valid.
+ *
+ * return YES, if the object is valid
+ */
+- (BOOL) isValid;
 
 @end
 

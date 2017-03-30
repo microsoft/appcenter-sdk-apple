@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name              = 'MobileCenter'
-  s.version           = '0.6.0'
+  s.version           = '0.6.1'
 
   s.summary           = 'Add Mobile Center SDK to your app to collect crash reports & understand user behavior by analyzing the session, user or device information.'
   s.description       = <<-DESC
@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
                       2. Crashes: 
                       Mobile Center Crashes will automatically generate a crash log every time your app crashes. The log is first written to the device's storage and when
                       the user starts the app again, the crash report will be forwarded to Mobile Center. Collecting crashes works for both beta and live apps, i.e. those submitted to App Store.
-                      Crash logs contain viable information for you to help resolve the issue. Crashes uses PLCrashReporter 1.2.1.
+                      Crash logs contain valuable information for you to help resolve the issue. Crashes uses PLCrashReporter 1.2.1.
 
                       3. Distribute:
                       Mobile Center Distribute provides the capability to display in-app updates to your app users when a new version of the application is released.

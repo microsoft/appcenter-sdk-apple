@@ -38,7 +38,6 @@
  * Save the wrapper exception in memory to disk
  *
  * @param uuidRef The UUID of the associated incident
- * @return The wrapper exception corresponding to uuidRef
  */
 + (void)saveWrapperException:(CFUUIDRef)uuidRef;
 

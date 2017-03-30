@@ -7,10 +7,6 @@
  */
 
 #import <arpa/inet.h>
-#import <ifaddrs.h>
-#import <netdb.h>
-#import <netinet/in.h>
-#import <sys/socket.h>
 
 #import <CoreFoundation/CoreFoundation.h>
 
@@ -24,7 +20,7 @@ NSString *kMSReachabilityChangedNotification = @"kMSNetworkReachabilityChangedNo
 
 #define kShouldPrintReachabilityFlags 0
 
-static void PrintReachabilityFlags(SCNetworkReachabilityFlags flags, const char *comment) {
+static void PrintReachabilityFlags(__attribute__((unused)) SCNetworkReachabilityFlags flags, __attribute__((unused)) const char *comment) {
 #if kShouldPrintReachabilityFlags
 
   NSLog(@"Reachability Flag Status: %c%c %c%c%c%c%c%c%c %s\n", (flags & kSCNetworkReachabilityFlagsIsWWAN) ? 'W' : '-',

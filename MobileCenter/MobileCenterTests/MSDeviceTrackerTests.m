@@ -3,9 +3,9 @@
 #import "MSDevicePrivate.h"
 #import "MSDeviceTracker.h"
 #import "MSDeviceTrackerPrivate.h"
+#import "MSMockUserDefaults.h"
 #import "MSUtility+Date.h"
 #import "MSWrapperSdkPrivate.h"
-#import "MSUserDefaults.h"
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
@@ -328,16 +328,18 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 //FIXME: build falls each time because of this test. 
 - (void)clearingDeviceHistoryWorks {
 
+  MSMockUserDefaults *defaults = [MSMockUserDefaults new];
+
   // When
   [self.sut clearDevices];
   
   // Then
   XCTAssertTrue([self.sut.deviceHistory count] == 0);
-  XCTAssertNil([MS_USER_DEFAULTS objectForKey:kMSPastDevicesKey]);
+  XCTAssertNil([defaults objectForKey:kMSPastDevicesKey]);
   
   // When
   [self.sut device];
-  XCTAssertNotNil([MS_USER_DEFAULTS objectForKey:kMSPastDevicesKey]);
+  XCTAssertNotNil([defaults objectForKey:kMSPastDevicesKey]);
 }
 
 - (void)testEnqueuingAndRefreshWorks {
@@ -365,6 +367,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   
   // Then
   XCTAssertTrue([[tracker deviceHistory] count] == 3);
+  XCTAssertTrue([fourth isEqual:third]);
   
   // When
   [MSDeviceTracker refreshDeviceNextTime];

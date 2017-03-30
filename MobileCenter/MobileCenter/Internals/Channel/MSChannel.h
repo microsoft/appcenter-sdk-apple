@@ -20,7 +20,7 @@ typedef void (^enqueueCompletionBlock)(BOOL);
 
 @required
 
-/*
+/**
  * The configuration used by this channel.
  */
 @property(nonatomic) MSChannelConfiguration *configuration;

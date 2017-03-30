@@ -7,7 +7,7 @@
  *
  * @return The directory containing crash reports for this app.
  */
-+ (NSString *)crashesDir;
++ (NSURL *)crashesDir;
 
 /**
  * Returns the directory for storing and reading buffered logs. It will be used in case we crash to make sure we don't
@@ -15,6 +15,6 @@
  *
  * @return The directory containing buffered events for an app
  */
-+ (NSString *)logBufferDir;
++ (NSURL *)logBufferDir;
 
 @end
