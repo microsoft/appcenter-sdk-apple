@@ -5,6 +5,7 @@
 #import "MSLogManagerDefault.h"
 #import "MSLogManagerDefaultPrivate.h"
 #import "MSMobileCenterErrors.h"
+#import "MSMobileCenterInternal.h"
 #import "MobileCenter+Internal.h"
 
 static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecenter.LogManagerQueue";
@@ -71,16 +72,21 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 
 - (void)addChannelDelegate:(id<MSChannelDelegate>)channelDelegate forGroupID:(NSString *)groupID {
   if (channelDelegate) {
-
-    // TODO (jaelim): TBD to log or ignore if channel doesn't exist.
-    [self.channels[groupID] addDelegate:channelDelegate];
+    if (self.channels[groupID]) {
+      [self.channels[groupID] addDelegate:channelDelegate];
+    } else {
+      MSLogWarning([MSMobileCenter logTag], @"Channel has not been initialized for the group ID: %@", groupID);
+    }
   }
 }
 
 - (void)removeChannelDelegate:(id<MSChannelDelegate>)channelDelegate forGroupID:(NSString *)groupID {
   if (channelDelegate) {
-    // TODO (jaelim): TBD to log or ignore if channel doesn't exist.
-    [self.channels[groupID] removeDelegate:channelDelegate];
+    if (self.channels[groupID]) {
+      [self.channels[groupID] removeDelegate:channelDelegate];
+    } else {
+      MSLogWarning([MSMobileCenter logTag], @"Channel has not been initialized for the group ID: %@", groupID);
+    }
   }
 }
 
@@ -102,7 +108,7 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
   // Get the channel.
   id<MSChannel> channel = self.channels[groupID];
   if (!channel) {
-    // TODO (jaelim): Log that channel for group ID isn't initialized.
+    MSLogWarning([MSMobileCenter logTag], @"Channel has not been initialized for the group ID: %@", groupID);
     return;
   }
 
@@ -171,9 +177,11 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 }
 
 - (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData forGroupID:(NSString *)groupID {
-
-  // TODO (jaelim): TBD to log or ignore if channel doesn't exist.
-  [self.channels[groupID] setEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
+  if (self.channels[groupID]) {
+    [self.channels[groupID] setEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
+  } else {
+    MSLogWarning([MSMobileCenter logTag], @"Channel has not been initialized for the group ID: %@", groupID);
+  }
 }
 
 #pragma mark - Other public methods
