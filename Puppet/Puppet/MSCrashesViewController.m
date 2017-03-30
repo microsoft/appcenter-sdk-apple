@@ -3,24 +3,22 @@
  */
 
 #import "MSCrashes.h"
-#import "MSCrashesReportsViewController.h"
+#import "MSCrashesViewController.h"
 #import "MSCrashesDetailViewController.h"
 
 #import "CrashLib.h"
 #import <objc/runtime.h>
 
+@interface MSCrashesViewController ()
 
-@interface MSCrashesReportsViewController ()
-
-@property(nonatomic,strong) NSDictionary *knownCrashes;
+@property (strong, nonatomic) NSDictionary *knownCrashes;
 
 @end
 
-@implementation MSCrashesReportsViewController
+@implementation MSCrashesViewController
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  self.title = @"Crashes";
   
   [self pokeAllCrashes];
   
@@ -79,19 +77,17 @@
   return [result copy];
 }
 
-
-- (void)enabledSwitchUpdated:(id)sender {
-  UISwitch *enabledSwitch = (UISwitch *)sender;
-  [MSCrashes setEnabled:enabledSwitch.on];
-  enabledSwitch.on = [MSCrashes isEnabled];
+- (IBAction)enabledSwitchUpdated:(UISwitch *)sender {
+  [MSCrashes setEnabled:sender.on];
+  sender.on = [MSCrashes isEnabled];
 }
-
 
 #pragma mark - Tableview datasource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
   return (NSInteger)self.knownCrashes.count + 1;
 }
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
   BOOL isLast = (section == ([tableView numberOfSections] -1));
@@ -121,66 +117,33 @@
   
   BOOL isLast = (indexPath.section == ([tableView numberOfSections] -1));
   
-  CellIdentifier = isLast ? @"settings" : @"crash";
-  
+  CellIdentifier = isLast ? @"enable" : @"crash";
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-  if (cell == nil) {
-    cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-  }
   
-      if(isLast) {
-        // Settings
-        switch (indexPath.row) {
-          case 0: {
-            // Define the cell title.
-            NSString *title = NSLocalizedString(@"Set Enabled", nil);
-            cell.textLabel.text = title;
-            cell.accessibilityLabel = title;
-            
-            // Define the switch control and add it to the cell.
-            UISwitch *enabledSwitch = [[UISwitch alloc] init];
-            enabledSwitch.on = [MSCrashes isEnabled];
-            CGSize switchSize = [enabledSwitch sizeThatFits:CGSizeZero];
-            enabledSwitch.frame = CGRectMake(cell.contentView.bounds.size.width - switchSize.width - 10.0f,
-                                             (cell.contentView.bounds.size.height - switchSize.height) / 2.0f,
-                                             switchSize.width, switchSize.height);
-            enabledSwitch.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-            [enabledSwitch addTarget:self
-                              action:@selector(enabledSwitchUpdated:)
-                    forControlEvents:UIControlEventValueChanged];
-            [cell.contentView addSubview:enabledSwitch];
-            break;
-          }
-          default:
-            break;
-        }
+  if(isLast) {
+    
+    // Find switch in subviews
+    for(id view in cell.contentView.subviews) {
+      if([view isKindOfClass:[UISwitch class]]){
+        ((UISwitch *)view).on = [MSCrashes isEnabled];
+        break;
       }
-      else {
-        //Crashes
-        MSCrash *crash = (MSCrash *)(((NSArray *)self.knownCrashes[self.sortedAllKeys[(NSUInteger)indexPath.section]])[(NSUInteger)indexPath.row]);
-        
-        cell.textLabel.text = crash.title;
-        
-      }
-    return cell;
+    }
+  }
+  else {
+    MSCrash *crash = (MSCrash *)(((NSArray *)self.knownCrashes[self.sortedAllKeys[(NSUInteger)indexPath.section]])[(NSUInteger)indexPath.row]);
+    cell.textLabel.text = crash.title;
+  }
+  return cell;
 }
 
-#pragma mark - Table view delegate
+#pragma mark - Navigation
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  
-  BOOL isLast = (indexPath.section == ([tableView numberOfSections] -1));
-  [tableView deselectRowAtIndexPath:indexPath animated:YES];
-  
-  if(!isLast) {
-    //Crashes
-    
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+  if ([[segue identifier] isEqualToString:@"crash-detail"]) {
+    NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
     MSCrash *crash = (MSCrash *)(((NSArray *)self.knownCrashes[self.sortedAllKeys[(NSUInteger)indexPath.section]])[(NSUInteger)indexPath.row]);
-    
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    MSCrashesDetailViewController *vc = [sb instantiateViewControllerWithIdentifier:@"crash-detail"];
-    vc.detailItem = crash;
-    [self.navigationController pushViewController:vc animated:YES];
+    ((MSCrashesDetailViewController *)segue.destinationViewController).detailItem = crash;
   }
 }
 
