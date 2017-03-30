@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6E0401021D1C98220051BCFA"
-               BuildableName = "libMobileCenter.a"
-               BlueprintName = "MobileCenter"
+               BlueprintIdentifier = "6E04017D1D1CAC710051BCFA"
+               BuildableName = "MobileCenterFramework"
+               BlueprintName = "MobileCenterFramework"
                ReferencedContainer = "container:../MobileCenter/MobileCenter.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -28,9 +28,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E85547BF1D2D6253002DF6E2"
-               BuildableName = "libMobileCenterAnalytics.a"
-               BlueprintName = "MobileCenterAnalytics"
+               BlueprintIdentifier = "E85547E41D2D681F002DF6E2"
+               BuildableName = "MobileCenterAnalyticsFramework"
+               BlueprintName = "MobileCenterAnalyticsFramework"
                ReferencedContainer = "container:../MobileCenterAnalytics/MobileCenterAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -42,9 +42,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6E0401321D1C98690051BCFA"
-               BuildableName = "libMobileCenterCrashes.a"
-               BlueprintName = "MobileCenterCrashes"
+               BlueprintIdentifier = "6E3729771D1DE83200F1E4AE"
+               BuildableName = "MobileCenterCrashesFramework"
+               BlueprintName = "MobileCenterCrashesFramework"
                ReferencedContainer = "container:../MobileCenterCrashes/MobileCenterCrashes.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -56,9 +56,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "04FD4A1B1E451E12009B4468"
-               BuildableName = "libMobileCenterDistribute.a"
-               BlueprintName = "MobileCenterDistribute"
+               BlueprintIdentifier = "04FD4A281E451E90009B4468"
+               BuildableName = "MobileCenterDistributeFramework"
+               BlueprintName = "MobileCenterDistributeFramework"
                ReferencedContainer = "container:../MobileCenterDistribute/MobileCenterDistribute.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
