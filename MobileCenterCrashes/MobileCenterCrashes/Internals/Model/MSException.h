@@ -41,11 +41,11 @@
 /**
  * Is equal to another exception
  *
- * @param exception Exception
+ * @param object Exception
  *
  * @return Return YES if equal and NO if not equal
  */
-- (BOOL)isEqual:(MSException *)exception;
+- (BOOL)isEqual:(id)objet;
 
 /**
  * Checks if the object's values are valid.

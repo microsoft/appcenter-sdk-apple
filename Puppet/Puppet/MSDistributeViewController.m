@@ -1,5 +1,6 @@
 #import "MSDistributeViewController.h"
 #import "MobileCenterDistribute.h"
+#import "MSDistributePrivate.h"
 
 @implementation MSDistributeViewController
 
@@ -21,16 +22,18 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-  return 1;
+  return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
   switch (section) {
 
   // Settings
   case 0: {
     return 1;
+  }
+  case 1: {
+    return 2;
   }
   default:
     return 0;
@@ -42,6 +45,9 @@
   case 0: {
     return @"Settings";
   }
+  case 1: {
+    return @"Alerts";
+  }
   default:
     return 0;
   }
@@ -49,19 +55,17 @@
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-
-  static NSString *CellIdentifier = @"Cell";
-
-  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-  if (cell == nil) {
-    cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-  }
-
+  static NSString *CellIdentifier;
+  UITableViewCell *cell;
   switch ([indexPath section]) {
 
+  // Enable/diable-cell section.
   case 0: {
-
-    // Configure setting cell...
+    CellIdentifier = @"EnabledCell";
+    cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+      cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    }
     switch (indexPath.row) {
     case 0: {
 
@@ -84,15 +88,48 @@
       [cell.contentView addSubview:enabledSwitch];
       break;
     }
-
     default:
       break;
     }
     break;
   }
 
+  // Alerts section.
+  case 1: {
+    CellIdentifier = @"AlertCell";
+    cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+      cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    }
+    switch (indexPath.row) {
+    case 0: {
+
+      // Define the cell title.
+      NSString *title = NSLocalizedString(@"Show Update Alert", nil);
+      cell.textLabel.text = title;
+      cell.accessibilityLabel = title;
+      break;
+    }
+    case 1: {
+
+      // Define the cell title.
+      NSString *title = NSLocalizedString(@"Show Disabled Alert", nil);
+      cell.textLabel.text = title;
+      cell.accessibilityLabel = title;
+      break;
+    }
+    default: { break; }
+    }
+  }
+
+  // Default Section just in case.
   default:
+    CellIdentifier = @"Default";
     break;
+  }
+
+  if (cell == nil) {
+    cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
   }
 
   return cell;
@@ -107,12 +144,25 @@
 
   // Settings
   case 0: {
-
     switch (indexPath.row) {
     default:
       break;
     }
     break;
+  }
+
+  // Section with alerts.
+  case 1: {
+    switch (indexPath.row) {
+    case 0:
+      [[MSDistribute sharedInstance] showConfirmationAlert:nil];
+      break;
+    case 1:
+      [[MSDistribute sharedInstance] showDistributeDisabledAlert];
+      break;
+    default:
+      break;
+    }
   }
 
   default:

@@ -431,8 +431,8 @@
 				B21B26C61DDE490400FF0378 /* MSCrashesDetailViewController.m */,
 				B2E611F51DDE72BA00A9DF86 /* MSFakeCXXClass.h */,
 				B2E611F41DDE72BA00A9DF86 /* MSFakeCXXClass.mm */,
-				BA682342F94E25F75943E4F6 /* MSDistributeViewController.m */,
 				BA68238A942EEAA10612D006 /* MSDistributeViewController.h */,
+				BA682342F94E25F75943E4F6 /* MSDistributeViewController.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";

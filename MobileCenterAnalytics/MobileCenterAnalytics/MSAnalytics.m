@@ -223,6 +223,7 @@ static dispatch_once_t onceToken;
 #pragma mark - MSSessionTracker
 
 - (void)sessionTracker:(id)sessionTracker processLog:(id<MSLog>)log withPriority:(MSPriority)priority {
+  (void)sessionTracker;
   [self sendLog:log withPriority:priority];
 }
 
@@ -233,6 +234,7 @@ static dispatch_once_t onceToken;
 #pragma mark - MSChannelDelegate
 
 - (void)channel:(id)channel willSendLog:(id<MSLog>)log {
+  (void)channel;
   if (!self.delegate) {
     return;
   }
@@ -249,6 +251,7 @@ static dispatch_once_t onceToken;
 }
 
 - (void)channel:(id<MSChannel>)channel didSucceedSendingLog:(id<MSLog>)log {
+  (void)channel;
   if (!self.delegate) {
     return;
   }
@@ -265,6 +268,7 @@ static dispatch_once_t onceToken;
 }
 
 - (void)channel:(id<MSChannel>)channel didFailSendingLog:(id<MSLog>)log withError:(NSError *)error {
+  (void)channel;
   if (!self.delegate) {
     return;
   }

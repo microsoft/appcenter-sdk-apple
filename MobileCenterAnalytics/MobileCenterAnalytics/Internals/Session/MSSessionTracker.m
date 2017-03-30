@@ -64,7 +64,7 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
       // Record session.
       MSSessionHistoryInfo *sessionInfo = [[MSSessionHistoryInfo alloc] init];
       sessionInfo.sessionId = _sessionId;
-      sessionInfo.toffset = [NSNumber numberWithLongLong:[MSUtility nowInMilliseconds]];
+      sessionInfo.toffset = @((long long) [MSUtility nowInMilliseconds]);
 
       // Insert at the beginning of the list.
       [self.pastSessions insertObject:sessionInfo atIndex:0];
@@ -172,9 +172,9 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
 
 #pragma mark - MSLogManagerDelegate
 
-#pragma clang diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-parameter"
 - (void)onEnqueuingLog:(id<MSLog>)log withInternalId:(NSString *)internalId andPriority:(MSPriority)priority {
+  (void)internalId;
+  (void)priority;
 
   // Start session log is created in this method, therefore, skip in order to avoid infinite loop.
   if ([((NSObject *)log) isKindOfClass:[MSStartSessionLog class]])
@@ -186,7 +186,7 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
     NSUInteger index =
         [self.pastSessions indexOfObject:find
                            inSortedRange:NSMakeRange(0, self.pastSessions.count)
-                                 options:(NSBinarySearchingFirstEqual|NSBinarySearchingInsertionIndex)
+                                 options:(NSBinarySearchingFirstEqual | NSBinarySearchingInsertionIndex)
                          usingComparator:^(id a, id b) {
                            return [((MSSessionHistoryInfo *)a).toffset compare:((MSSessionHistoryInfo *)b).toffset];
                          }];
@@ -220,7 +220,5 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
   // Update last created log time stamp.
   self.lastCreatedLogTime = [NSDate date];
 }
-#pragma GCC diagnostic pop
-
 
 @end

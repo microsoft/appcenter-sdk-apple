@@ -1,4 +1,5 @@
 #import <Foundation/Foundation.h>
+#import "MobileCenter+Internal.h"
 
 #import "MSLogWithPropertiesInternal.h"
 #import "MobileCenter+Internal.h"

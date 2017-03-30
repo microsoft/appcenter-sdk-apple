@@ -1,5 +1,9 @@
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+
 #import "MSUtility.h"
+
+#define MS_DEVICE [UIDevice currentDevice]
 
 /*
  * Workaround for exporting symbols from category object files.
@@ -32,6 +36,24 @@ typedef NS_ENUM(NSInteger, MSApplicationState) {
   MSApplicationStateUnknown
 };
 
+typedef NS_ENUM(NSInteger, MSOpenURLState) {
+
+  /**
+   * Not being able to determine whether a URL has been processed or not.
+   */
+  MSOpenURLStateUnknown,
+
+  /**
+   * A URL has been processed successfully.
+   */
+  MSOpenURLStateSucceed,
+
+  /**
+   * A URL could not be processed.
+   */
+  MSOpenURLStateFailed
+};
+
 /**
  * Utility class that is used throughout the SDK.
  * Application part.
@@ -53,9 +75,9 @@ typedef NS_ENUM(NSInteger, MSApplicationState) {
  *
  * @param url The URL to open.
  * @param options A dictionary of options to use when opening the URL.
- * @param completion The block to execute with the results. A BOOL indicates whether the URL was opened successfully.
+ * @param completion The block to execute with the results.
  */
 + (void)sharedAppOpenUrl:(NSURL *)url
                  options:(NSDictionary<NSString *, id> *)options
-       completionHandler:(void (^__nullable)(BOOL success))completion;
+       completionHandler:(void (^__nullable)(MSOpenURLState state))completion;
 @end

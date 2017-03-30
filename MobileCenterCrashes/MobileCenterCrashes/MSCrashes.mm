@@ -36,7 +36,7 @@ std::unordered_map<MSPriority, std::array<MSCrashesBufferedLog, ms_crashes_log_b
 static MSCrashesCallbacks msCrashesCallbacks = {.context = NULL, .handleSignal = NULL};
 static NSString *const kMSUserConfirmationKey = @"MSUserConfirmation";
 
-static void ms_save_log_buffer_callback(siginfo_t *info, ucontext_t *uap, void *context) {
+static void ms_save_log_buffer_callback(__attribute__((unused)) siginfo_t *info, __attribute__((unused)) ucontext_t *uap, __attribute__((unused)) void *context) {
 
   // Do not save the buffer if it is empty.
   if (msCrashesLogBuffer.size() == 0) {
@@ -431,10 +431,12 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 }
 
 - (void)onFinishedPersistingLog:(id<MSLog>)log withInternalId:(NSString *)internalId andPriority:(MSPriority)priority {
+  (void)log;
   [self deleteBufferedLogWithInternalId:internalId andPriority:priority];
 }
 
 - (void)onFailedPersistingLog:(id<MSLog>)log withInternalId:(NSString *)internalId andPriority:(MSPriority)priority {
+  (void)log;
   [self deleteBufferedLogWithInternalId:internalId andPriority:priority];
 }
 
@@ -455,6 +457,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 #pragma mark - MSChannelDelegate
 
 - (void)channel:(id)channel willSendLog:(id<MSLog>)log {
+  (void)channel;
   if (self.delegate && [self.delegate respondsToSelector:@selector(crashes:willSendErrorReport:)]) {
     NSObject *logObject = static_cast<NSObject *>(log);
     if ([logObject isKindOfClass:[MSAppleErrorLog class]]) {
@@ -466,6 +469,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 }
 
 - (void)channel:(id<MSChannel>)channel didSucceedSendingLog:(id<MSLog>)log {
+  (void)channel;
   if (self.delegate && [self.delegate respondsToSelector:@selector(crashes:didSucceedSendingErrorReport:)]) {
     NSObject *logObject = static_cast<NSObject *>(log);
     if ([logObject isKindOfClass:[MSAppleErrorLog class]]) {
@@ -477,6 +481,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 }
 
 - (void)channel:(id<MSChannel>)channel didFailSendingLog:(id<MSLog>)log withError:(NSError *)error {
+  (void)channel;
   if (self.delegate && [self.delegate respondsToSelector:@selector(crashes:didFailSendingErrorReport:withError:)]) {
     NSObject *logObject = static_cast<NSObject *>(log);
     if ([logObject isKindOfClass:[MSAppleErrorLog class]]) {

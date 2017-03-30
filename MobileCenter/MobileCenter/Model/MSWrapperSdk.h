@@ -34,11 +34,11 @@
 /**
  * Is equal to another wrapper SDK
  *
- * @param wrapperSdk Wrapper SDK
+ * @param object Wrapper SDK
  *
  * @return Return YES if equal and NO if not equal
  */
-- (BOOL)isEqual:(MSWrapperSdk *)wrapperSdk;
+- (BOOL)isEqual:(id)object;
 
 - (instancetype)initWithWrapperSdkVersion:(NSString *)wrapperSdkVersion
                            wrapperSdkName:(NSString *)wrapperSdkName

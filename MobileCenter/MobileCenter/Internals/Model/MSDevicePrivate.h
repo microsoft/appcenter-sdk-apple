@@ -43,7 +43,7 @@
 /*
  * API level when applicable like in Android (example: 15).  [optional]
  */
-@property(nonatomic) NSNumber *osApiLevel;
+@property(nonatomic, copy) NSNumber *osApiLevel;
 
 /*
  * Language code (example: en_US).

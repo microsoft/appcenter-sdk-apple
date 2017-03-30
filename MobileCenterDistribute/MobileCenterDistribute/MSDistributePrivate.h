@@ -2,6 +2,8 @@
 
 #import "MSDistribute.h"
 
+@class MSReleaseDetails;
+
 /**
  * Base URL for HTTP Distribute install API calls.
  */
@@ -59,13 +61,21 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
 @property(nonatomic) UIViewController *safariHostingViewController;
 
 /**
+ * Returns the singleton instance. Meant for testing/demo apps only.
+ *
+ * @return the singleton instance of MSDistribute.
+ */
++ (instancetype)sharedInstance;
+
+/**
  * Build the install URL for token request with the given application secret.
  *
  * @param appSecret Application secret.
+ * @param releaseHash The release hash of the current version.
  *
  * @return The finale install URL to request the token or nil if an error occurred.
  */
-- (NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret;
+- (NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret releaseHash:(NSString *)releaseHash;
 
 /**
  * Open the given URL using an `SFSafariViewController`. Must run on the UI thread! iOS 9+ only.
@@ -95,13 +105,16 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
  * Send a request to get the latest release.
  *
  * @param updateToken The update token stored in keychain.
+ * @param releaseHash The release hash of the current version.
  */
-- (void)checkLatestRelease:(NSString *)updateToken;
+- (void)checkLatestRelease:(NSString *)updateToken releaseHash:(NSString *)releaseHash;
 
 /**
  * Send a request to get update token.
+ *
+ * @param releaseHash The release hash of the current version.
  */
-- (void)requestUpdateToken;
+- (void)requestUpdateToken:(NSString *)releaseHash;
 
 /**
  * Update workflow to make a decision based on release details.
@@ -112,6 +125,11 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
  * Show a dialog to ask a user to confirm update for a new release.
  */
 - (void)showConfirmationAlert:(MSReleaseDetails *)details;
+
+/**
+ * Show a dialog to the user in case MSDistribute was disabled while the updates-alert is shown.
+ */
+- (void)showDistributeDisabledAlert;
 
 /**
  * Check whether release details contain a newer version of release than current version.
@@ -129,5 +147,15 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
  * Dismiss the Safari hosting view controller.
  */
 - (void)dismissEmbeddedSafari;
+
+/**
+ * Start download for the given details.
+ */
+- (void)startDownload:(MSReleaseDetails *)details;
+
+/**
+ * Close application for update.
+ */
+- (void)closeApp;
 
 @end

@@ -82,13 +82,11 @@ static NSString *const kMSException = @"exception";
          self.osExceptionCode && self.osExceptionAddress;
 }
 
-- (BOOL)isEqual:(MSAppleErrorLog *)errorLog {
-  if (!errorLog)
+- (BOOL)isEqual:(id)object {
+  if (!object || ![super isEqual:object] || ![object isKindOfClass:[MSAppleErrorLog class]]) {
     return NO;
-
-  if (![super isEqual:errorLog])
-    return NO;
-
+  }
+  MSAppleErrorLog *errorLog = (MSAppleErrorLog *)object;
   return ((!self.primaryArchitectureId && !errorLog.primaryArchitectureId) ||
           [self.primaryArchitectureId isEqual:errorLog.primaryArchitectureId]) &&
          ((!self.architectureVariantId && !errorLog.architectureVariantId) ||

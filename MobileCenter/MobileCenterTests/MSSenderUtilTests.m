@@ -1,7 +1,6 @@
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <XCTest/XCTest.h>
 #import "MSIngestionSender.h"
-#import "MSSenderUtil.h"
 
 @interface MSSenderUtilTests : XCTestCase
 

@@ -39,10 +39,10 @@
 /**
  * Is equal to another stack frame
  *
- * @param frame Stack frame
+ * @param object Stack frame
  *
  * @return Return YES if equal and NO if not equal
  */
-- (BOOL)isEqual:(MSStackFrame *)frame;
+- (BOOL)isEqual:(id)object;
 
 @end

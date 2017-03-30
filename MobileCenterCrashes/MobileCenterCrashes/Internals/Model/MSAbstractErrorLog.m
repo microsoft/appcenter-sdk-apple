@@ -71,14 +71,14 @@ static NSString *const kMSArchitecture = @"architecture";
   return [super isValid] && self.errorId && self.processId && self.processName && self.appLaunchTOffset;
 }
 
-- (BOOL)isEqual:(MSAbstractErrorLog *)errorLog {
-
+- (BOOL)isEqual:(id)object {
+  
   // TODO: We should also check for parent equalty with `![super isEqual:object]` but isEqual is not implemented
   // everywhere.
-  if (!errorLog)
+  if (!object || ![object isKindOfClass:[MSAbstractErrorLog class]]) {
     return NO;
-
-  // Check properties are the same.
+  }
+  MSAbstractErrorLog *errorLog = (MSAbstractErrorLog *)object;
   return ((!self.errorId && !errorLog.errorId) || [self.errorId isEqualToString:errorLog.errorId]) &&
          ((!self.processId && !errorLog.processId) || [self.processId isEqual:errorLog.processId]) &&
          ((!self.processName && !errorLog.processName) || [self.processName isEqualToString:errorLog.processName]) &&

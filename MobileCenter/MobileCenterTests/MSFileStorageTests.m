@@ -240,7 +240,7 @@
   // When
   __block NSString *batchId;
   [self.sut loadLogsForGroupID:groupID
-                withCompletion:^(BOOL succeeded, NSArray<NSObject<MSLog> *> *logs, NSString *logsId) {
+                withCompletion:^(__attribute__((unused)) BOOL succeeded, __attribute__((unused)) NSArray<NSObject<MSLog> *> *logs, NSString *logsId) {
                   batchId = logsId;
                 }];
 
@@ -262,7 +262,7 @@
 
   // When
   [self.sut loadLogsForGroupID:groupID
-                withCompletion:^(BOOL succeeded, NSArray<NSObject<MSLog> *> *logs, NSString *logsId){
+                withCompletion:^(__attribute__((unused)) BOOL succeeded, __attribute__((unused)) NSArray<NSObject<MSLog> *> *logs, __attribute__((unused)) NSString *logsId) {
                 }];
 
   // Verify
@@ -283,7 +283,7 @@
 
   // When
   [self.sut loadLogsForGroupID:groupID
-                withCompletion:^(BOOL succeeded, NSArray<NSObject<MSLog> *> *logs, NSString *logsId){
+                withCompletion:^(__attribute__((unused)) BOOL succeeded, __attribute__((unused)) NSArray<NSObject<MSLog> *> *logs, __attribute__((unused)) NSString *logsId) {
                 }];
 
   // Verify
