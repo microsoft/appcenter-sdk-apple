@@ -76,6 +76,9 @@
   self.logManager = logManager;
   self.appSecret = appSecret;
 
+  // Initialize channel for the service in log manager.
+  [self.logManager initChannelWithConfiguration:self.channelConfiguration];
+
   // Enable this service as needed.
   if (self.isEnabled) {
     [self applyEnabledState:self.isEnabled];

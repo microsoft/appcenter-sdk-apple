@@ -1,7 +1,8 @@
-#import "../Model/MSLog.h"
-#import "MSEnable.h"
-#import "MSLogManagerDelegate.h"
 #import <Foundation/Foundation.h>
+#import "MSChannelConfiguration.h"
+#import "MSEnable.h"
+#import "MSLog.h"
+#import "MSLogManagerDelegate.h"
 
 @protocol MSChannelDelegate;
 
@@ -29,6 +30,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)removeDelegate:(id<MSLogManagerDelegate>)delegate;
 
 @required
+
+/**
+ * Initialize a channel with the given configuration.
+ *
+ * @param configuration channel configuration.
+ */
+- (void)initChannelWithConfiguration:(MSChannelConfiguration *)configuration;
 
 /**
  * Change the base URL (schema + authority + port only) used to communicate with the backend.

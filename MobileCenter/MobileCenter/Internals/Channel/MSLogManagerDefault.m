@@ -46,6 +46,17 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
   return self;
 }
 
+- (void)initChannelWithConfiguration:(MSChannelConfiguration *)configuration {
+  MSChannelDefault *channel;
+  if (configuration) {
+    channel = [[MSChannelDefault alloc] initWithSender:self.sender
+                                               storage:self.storage
+                                         configuration:configuration
+                                     logsDispatchQueue:self.logsDispatchQueue];
+    self.channels[configuration.groupID] = channel;
+  }
+}
+
 #pragma mark - Delegate
 
 - (void)addDelegate:(id<MSLogManagerDelegate>)delegate {
@@ -62,8 +73,9 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
                 forGroupID:(NSString *)groupID
               withPriority:(MSPriority)priority {
   if (channelDelegate) {
-    id<MSChannel> channel = [self channelForGroupID:groupID withPriority:priority];
-    [channel addDelegate:channelDelegate];
+
+    // TODO (jaelim): TBD to log or ignore if channel doesn't exist.
+    [self.channels[groupID] addDelegate:channelDelegate];
   }
 }
 
@@ -71,8 +83,8 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
                    forGroupID:(NSString *)groupID
                  withPriority:(MSPriority)priority {
   if (channelDelegate) {
-    id<MSChannel> channel = [self channelForGroupID:groupID withPriority:priority];
-    [channel removeDelegate:channelDelegate];
+    // TODO (jaelim): TBD to log or ignore if channel doesn't exist.
+    [self.channels[groupID] removeDelegate:channelDelegate];
   }
 }
 
@@ -91,6 +103,13 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
     return;
   }
 
+  // Get the channel.
+  id<MSChannel> channel = self.channels[groupID];
+  if (!channel) {
+    // TODO (jaelim): Log that channel for group ID isn't initialized.
+    return;
+  }
+
   // Internal ID to keep track of logs between modules.
   NSString *internalLogId = MS_UUID_STRING;
 
@@ -99,9 +118,6 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
                             withBlock:^(id<MSLogManagerDelegate> delegate) {
                               [delegate onEnqueuingLog:log withInternalId:internalLogId andPriority:priority];
                             }];
-
-  // Get the channel.
-  id<MSChannel> channel = [self createChannelForGroupID:groupID withPriority:priority];
 
   // Set common log info.
   log.toffset = [NSNumber numberWithLongLong:[MSUtility nowInMilliseconds]];
@@ -137,28 +153,6 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
         }];
 }
 
-#pragma mark - Helpers
-
-- (id<MSChannel>)createChannelForGroupID:(NSString *)groupID withPriority:(MSPriority)priority {
-  MSChannelDefault *channel;
-  MSChannelConfiguration *configuration = [MSChannelConfiguration configurationForPriority:priority groupID:groupID];
-  if (configuration) {
-    channel = [[MSChannelDefault alloc] initWithSender:self.sender
-                                               storage:self.storage
-                                         configuration:configuration
-                                     logsDispatchQueue:self.logsDispatchQueue];
-    self.channels[groupID] = channel;
-  }
-  return channel;
-}
-
-- (id<MSChannel>)channelForGroupID:(NSString *)groupID withPriority:(MSPriority)priority {
-
-  // Return an existing channel or create it.
-  id<MSChannel> channel = self.channels[groupID];
-  return (channel) ? channel : [self createChannelForGroupID:groupID withPriority:priority];
-}
-
 #pragma mark - Enable / Disable
 
 - (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData {
@@ -188,7 +182,8 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
     andDeleteDataOnDisabled:(BOOL)deleteData
                  forGroupID:(NSString *)groupID
                withPriority:(MSPriority)priority {
-  [[self channelForGroupID:groupID withPriority:priority] setEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
+  // TODO (jaelim): TBD to log or ignore if channel doesn't exist.
+  [self.channels[groupID] setEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
 }
 
 #pragma mark - Other public methods
