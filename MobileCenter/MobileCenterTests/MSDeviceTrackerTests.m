@@ -366,6 +366,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   
   // Then
   XCTAssertTrue([[tracker deviceHistory] count] == 3);
+  XCTAssertTrue([fourth isEqual:third]);
   
   // When
   [MSDeviceTracker refreshDeviceNextTime];
