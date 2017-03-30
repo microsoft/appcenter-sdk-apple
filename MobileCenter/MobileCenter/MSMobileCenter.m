@@ -310,6 +310,10 @@ static NSString *const kMSGroupID = @"MobileCenter";
   // Construct log manager.
   self.logManager =
       [[MSLogManagerDefault alloc] initWithAppSecret:self.appSecret installId:self.installId logUrl:self.logUrl];
+
+  // Initialize a channel for start service logs.
+  [self.logManager
+      initChannelWithConfiguration:[[MSChannelConfiguration alloc] initDefaultChannelWithGroupID:kMSGroupID]];
 }
 
 - (NSString *)appSecret {
@@ -350,8 +354,6 @@ static NSString *const kMSGroupID = @"MobileCenter";
 - (void)sendStartServiceLog:(NSArray<NSString *> *)servicesNames {
   MSStartServiceLog *serviceLog = [MSStartServiceLog new];
   serviceLog.services = servicesNames;
-
-  // TODO (jaelim): Channel for start service log is not ready yet. Need to initialize. Priority is MSPriorityDefault.
   [self.logManager processLog:serviceLog forGroupID:kMSGroupID];
 }
 

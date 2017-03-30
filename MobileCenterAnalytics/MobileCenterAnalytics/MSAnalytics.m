@@ -69,11 +69,7 @@ static dispatch_once_t onceToken;
 // TODO (jaelim): There is a property of channelConfiguration in MSServiceCommon. Use property and not to init
 // configuration every time.
 - (MSChannelConfiguration *)channelConfiguration {
-  MSChannelConfiguration *configuration = [[MSChannelConfiguration alloc] initWithGroupID:[self groupID]
-                                                                                 priority:MSPriorityDefault
-                                                                            flushInterval:3.0
-                                                                           batchSizeLimit:50
-                                                                      pendingBatchesLimit:3];
+  MSChannelConfiguration *configuration = [[MSChannelConfiguration alloc] initDefaultChannelWithGroupID:[self groupID]];
   return configuration;
 }
 

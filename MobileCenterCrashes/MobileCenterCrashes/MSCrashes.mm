@@ -9,11 +9,20 @@
 #import "MSServiceAbstractProtected.h"
 #import "MSWrapperExceptionManager.h"
 
-// Service name for initialization.
+/**
+ * Service name for initialization.
+ */
 static NSString *const kMSServiceName = @"Crashes";
 
-// The group ID for storage.
+/**
+ * The group ID for storage.
+ */
 static NSString *const kMSGroupID = @"Crashes";
+
+/**
+ * The group ID for log buffer.
+ */
+static NSString *const kMSBufferGroupID = @"CrashesBuffer";
 
 /**
  * Name for the AnalyzerInProgress file. Some background info here: writing the file to signal that we are processing
@@ -310,6 +319,13 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 - (void)startWithLogManager:(id<MSLogManager>)logManager appSecret:(NSString *)appSecret {
   [super startWithLogManager:logManager appSecret:appSecret];
   [logManager addDelegate:self];
+
+  // Initialize a dedicated channel for log buffer.
+  [logManager initChannelWithConfiguration:[[MSChannelConfiguration alloc] initWithGroupID:kMSBufferGroupID
+                                                                                  priority:MSPriorityHigh
+                                                                             flushInterval:1.0
+                                                                            batchSizeLimit:60
+                                                                       pendingBatchesLimit:1]];
 
   [self processLogBufferAfterCrash];
   MSLogVerbose([MSCrashes logTag], @"Started crash service.");
@@ -666,8 +682,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
         if (item) {
 
           // Buffered logs are used sending their own channel. It will never contain more than 20 logs
-          // TODO (jaelim): Revisit crash buffer.
-          [self.logManager processLog:item forGroupID:@"CrashBuffer"];
+          [self.logManager processLog:item forGroupID:kMSBufferGroupID];
         }
       }
 

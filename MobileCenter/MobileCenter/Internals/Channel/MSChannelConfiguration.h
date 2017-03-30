@@ -27,13 +27,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * Interval for flushing the queue.
- *
- * Default: 15.0
  */
 @property(nonatomic, readonly) float flushInterval;
 
 /**
- * Initializes new `MSChannelConfiguration' instance based on given settings.
+ * Initializes a new instance based on given settings.
  *
  * @param groupID The id used by the channel to determine a group of logs.
  * @param priority The priority of logs being sent by the channel.
@@ -48,6 +46,15 @@ NS_ASSUME_NONNULL_BEGIN
                   flushInterval:(float)flushInterval
                  batchSizeLimit:(NSUInteger)batchSizeLimit
             pendingBatchesLimit:(NSUInteger)pendingBatchesLimit;
+
+/**
+ * Initializes a new instance with default settings.
+ *
+ * @param groupID The id used by the channel to determine a group of logs.
+ *
+ * @return a fully configured `MSChannelConfiguration` instance with default settings.
+ */
+- (instancetype)initDefaultChannelWithGroupID:(NSString *)groupID;
 
 @end
 

@@ -17,4 +17,12 @@
   return self;
 }
 
+- (instancetype)initDefaultChannelWithGroupID:(NSString *)groupID {
+  return [self initWithGroupID:groupID
+                      priority:MSPriorityDefault
+                 flushInterval:3.0
+                batchSizeLimit:50
+           pendingBatchesLimit:3];
+}
+
 @end
