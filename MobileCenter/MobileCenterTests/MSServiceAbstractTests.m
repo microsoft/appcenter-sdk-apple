@@ -17,6 +17,8 @@
 
 @implementation MSServiceAbstractImplementation
 
+@synthesize channelConfiguration = _channelConfiguration;
+
 + (instancetype)sharedInstance {
   static id sharedInstance = nil;
   static dispatch_once_t onceToken;
@@ -24,6 +26,17 @@
     sharedInstance = [[self alloc] init];
   });
   return sharedInstance;
+}
+
+- (instancetype)init {
+  if ((self = [super init])) {
+    _channelConfiguration = [[MSChannelConfiguration alloc] initWithGroupID:[self groupID]
+                                                                   priority:MSPriorityDefault
+                                                              flushInterval:3.0
+                                                             batchSizeLimit:50
+                                                        pendingBatchesLimit:3];
+  }
+  return self;
 }
 
 + (NSString *)serviceName {
@@ -36,14 +49,6 @@
 
 - (NSString *)groupID {
   return @"MSServiceAbstractImplementation";
-}
-
-- (MSChannelConfiguration *)channelConfiguration {
-  return [[MSChannelConfiguration alloc] initWithGroupID:[self groupID]
-                                                priority:MSPriorityDefault
-                                           flushInterval:3.0
-                                          batchSizeLimit:50
-                                     pendingBatchesLimit:3];
 }
 
 - (MSInitializationPriority)initializationPriority {

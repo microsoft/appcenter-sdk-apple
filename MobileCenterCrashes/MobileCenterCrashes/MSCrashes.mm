@@ -121,6 +121,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
 @synthesize delegate = _delegate;
 @synthesize logManager = _logManager;
+@synthesize channelConfiguration = _channelConfiguration;
 
 #pragma mark - Public Methods
 
@@ -223,6 +224,11 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     _logBufferDir = [MSCrashesUtil logBufferDir];
     _analyzerInProgressFile = [_crashesDir URLByAppendingPathComponent:kMSAnalyzerFilename];
     _didCrashInLastSession = NO;
+    _channelConfiguration = [[MSChannelConfiguration alloc] initWithGroupID:[self groupID]
+                                                                   priority:MSPriorityHigh
+                                                              flushInterval:1.0
+                                                             batchSizeLimit:10
+                                                        pendingBatchesLimit:6];
 
     /**
      * Using our own queue with high priority as the default main queue is slower and we want the files to be created
@@ -337,17 +343,6 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
 - (NSString *)groupID {
   return kMSGroupID;
-}
-
-// TODO (jaelim): There is a property of channelConfiguration in MSServiceCommon. Use property and not to init
-// configuration every time.
-- (MSChannelConfiguration *)channelConfiguration {
-  MSChannelConfiguration *configuration = [[MSChannelConfiguration alloc] initWithGroupID:[self groupID]
-                                                                                 priority:MSPriorityHigh
-                                                                            flushInterval:1.0
-                                                                           batchSizeLimit:10
-                                                                      pendingBatchesLimit:6];
-  return configuration;
 }
 
 - (MSInitializationPriority)initializationPriority {

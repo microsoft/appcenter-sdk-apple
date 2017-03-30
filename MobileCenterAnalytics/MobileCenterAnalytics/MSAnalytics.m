@@ -19,6 +19,7 @@ static dispatch_once_t onceToken;
 @implementation MSAnalytics
 
 @synthesize autoPageTrackingEnabled = _autoPageTrackingEnabled;
+@synthesize channelConfiguration = _channelConfiguration;
 
 #pragma mark - Service initialization
 
@@ -31,6 +32,9 @@ static dispatch_once_t onceToken;
     // Init session tracker.
     _sessionTracker = [[MSSessionTracker alloc] init];
     _sessionTracker.delegate = self;
+
+    // Init channel configuration.
+    _channelConfiguration = [[MSChannelConfiguration alloc] initDefaultChannelWithGroupID:[self groupID]];
   }
   return self;
 }
@@ -64,13 +68,6 @@ static dispatch_once_t onceToken;
 
 - (NSString *)groupID {
   return kMSGroupID;
-}
-
-// TODO (jaelim): There is a property of channelConfiguration in MSServiceCommon. Use property and not to init
-// configuration every time.
-- (MSChannelConfiguration *)channelConfiguration {
-  MSChannelConfiguration *configuration = [[MSChannelConfiguration alloc] initDefaultChannelWithGroupID:[self groupID]];
-  return configuration;
 }
 
 #pragma mark - MSServiceAbstract

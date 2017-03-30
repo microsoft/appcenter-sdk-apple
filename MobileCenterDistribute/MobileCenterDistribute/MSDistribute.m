@@ -33,12 +33,15 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
 @implementation MSDistribute
 
+@synthesize channelConfiguration = _channelConfiguration;
+
 #pragma mark - Service initialization
 
 - (instancetype)init {
   if ((self = [super init])) {
     _apiUrl = kMSDefaultApiUrl;
     _installUrl = kMSDefaultInstallUrl;
+    _channelConfiguration = [[MSChannelConfiguration alloc] initDefaultChannelWithGroupID:[self groupID]];
 
     /*
      * Delete update token if an application has been uninstalled and try to get a new one from server.
@@ -76,13 +79,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
 - (NSString *)groupID {
   return kMSGroupID;
-}
-
-// TODO (jaelim): There is a property of channelConfiguration in MSServiceCommon. Use property and not to init
-// configuration every time.
-- (MSChannelConfiguration *)channelConfiguration {
-  MSChannelConfiguration *configuration = [[MSChannelConfiguration alloc] initDefaultChannelWithGroupID:[self groupID]];
-  return configuration;
 }
 
 #pragma mark - MSServiceAbstract

@@ -47,7 +47,6 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The channel configuration for this service.
  */
-// TODO (jaelim): Use this property for channel configuration of each service.
 @property(nonatomic, copy, readonly) MSChannelConfiguration *channelConfiguration;
 
 /**
