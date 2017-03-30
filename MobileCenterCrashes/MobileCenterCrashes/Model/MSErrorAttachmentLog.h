@@ -51,7 +51,7 @@
  *
  * @return An instance of `MSErrorAttachmentLog`.
  */
-+ (nonnull MSErrorAttachmentLog *)attachmentWithText:(NSString *)text filename:(NSString *)filename;
++ (MSErrorAttachmentLog *)attachmentWithText:(NSString *)text filename:(NSString *)filename;
 /**
  * Create an attachement with a given filename and `NSData` object.
  *
