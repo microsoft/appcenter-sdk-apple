@@ -84,13 +84,4 @@
  */
 @property(nonatomic, copy, readonly) NSString *appNamespace;
 
-/**
- * Is equal to another device log
- *
- * @param device Device log
- *
- * @return Return YES if equal and NO if not equal
- */
-- (BOOL)isEqual:(MSDevice *)device;
-
 @end

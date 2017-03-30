@@ -12,15 +12,18 @@
  */
 static NSString *const kMSLatestReleaseApiPathFormat = @"/sdk/apps/%@/releases/latest";
 
-- (id)initWithBaseUrl:(NSString *)baseUrl appSecret:(NSString *)appSecret updateToken:(NSString *)updateToken {
+- (id)initWithBaseUrl:(NSString *)baseUrl
+            appSecret:(NSString *)appSecret
+          updateToken:(NSString *)updateToken
+         queryStrings:(NSDictionary *)queryStrings {
   if ((self = [super initWithBaseUrl:baseUrl
                              apiPath:[NSString stringWithFormat:kMSLatestReleaseApiPathFormat, appSecret]
                              headers:@{
                                kMSHeaderUpdateApiToken : updateToken
                              }
-                        queryStrings:nil
+                        queryStrings:queryStrings
                         reachability:[MS_Reachability reachabilityForInternetConnection]
-                      retryIntervals:@[ @(10) ]])) {
+                      retryIntervals:@[ @(10), @(5 * 60), @(20 * 60) ]])) {
     self.appSecret = [[MSDistribute sharedInstance] appSecret];
   }
 
@@ -28,6 +31,7 @@ static NSString *const kMSLatestReleaseApiPathFormat = @"/sdk/apps/%@/releases/l
 }
 
 - (NSURLRequest *)createRequest:(NSObject *)data {
+  (void)data;
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.sendURL];
 
   // Set method.

@@ -27,7 +27,7 @@
 #pragma mark - Tests
 
 - (void)testCreateCrashesDir {
-  NSString *crashesDir = [MSCrashesUtil crashesDir];
+  NSString *crashesDir = [[MSCrashesUtil crashesDir] path];
   XCTAssertNotNil(crashesDir);
   XCTAssertTrue([crashesDir containsString:@"data/Library/Caches/com.microsoft.azure.mobile.mobilecenter/crashes"]);
   BOOL isDir = YES;
@@ -36,7 +36,7 @@
 }
 
 - (void)testCreateLogBufferDir {
-  NSString *bufferDir = [MSCrashesUtil logBufferDir];
+  NSString *bufferDir = [[MSCrashesUtil logBufferDir] path];
   XCTAssertNotNil(bufferDir);
   XCTAssertTrue([bufferDir containsString:@"data/Library/Caches/com.microsoft.azure.mobile.mobilecenter/crasheslogbuffer"]);
   BOOL isDir = YES;

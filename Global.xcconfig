@@ -1,5 +1,5 @@
 BUILD_NUMBER = 1
-VERSION_STRING = 0.6.1
+VERSION_STRING = 0.6.2
 
 SDK_NAME = mobilecenter.ios
 
@@ -61,7 +61,10 @@ GCC_PREPROCESSOR_DEFINITIONS = $(inherited) $(XCODEBUILD_GCC_PREPROCESSOR_DEFINI
 // -auto-import
 // Standard ``import`` is used by tons of files and C++ code limits the possibility to use @import so we don't . => Disabled.
 
-WARNING_CFLAGS = -Weverything -Wno-objc-missing-property-synthesis -Wno-float-equal -Wno-pedantic -Wno-padded  -Wno-sign-conversion -Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-auto-import
+// -assign-enum
+// A lot of api use enums as params but Apple's docs suggest passing in 0 which causes annoying warnings.
+
+WARNING_CFLAGS = -Weverything -Wno-objc-missing-property-synthesis -Wno-float-equal -Wno-pedantic -Wno-padded  -Wno-sign-conversion -Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-auto-import -Wno-assign-enum
 
 
 // These are all partially (but not completely?) independent of WARNING_CFLAGS

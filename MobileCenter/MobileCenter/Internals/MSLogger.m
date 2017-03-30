@@ -1,5 +1,4 @@
 #import "MSLogger.h"
-#import "MSWrapperLogger.h"
 
 @implementation MSLogger
 
@@ -8,7 +7,7 @@ static MSLogHandler currentLogHandler;
 static BOOL _isUserDefinedLogLevel = NO;
 
 MSLogHandler const msDefaultLogHandler = ^(MSLogMessageProvider messageProvider, MSLogLevel logLevel, NSString *tag,
-                                           const char *file, const char *function, uint line) {
+                                           __attribute__((unused)) const char *file, const char *function, uint line) {
   if (messageProvider) {
     if (_currentLogLevel > logLevel) {
       return;
@@ -34,11 +33,11 @@ MSLogHandler const msDefaultLogHandler = ^(MSLogMessageProvider messageProvider,
     case MSLogLevelAssert:
       level = @"ASSERT";
       break;
-    default:
-      // Ignore if log level is not valid. Will never fall to this default case.
-      return;
+    case MSLogLevelNone:
+      level = @"";
+      break;
     }
-    NSLog((@"[%@] %@: %s/%d %@"), tag, level, function, line, messageProvider());
+    NSLog(@"[%@] %@: %s/%d %@", tag, level, function, line, messageProvider());
   }
 };
 

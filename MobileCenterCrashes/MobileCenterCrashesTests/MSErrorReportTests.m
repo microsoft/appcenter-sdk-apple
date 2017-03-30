@@ -1,6 +1,5 @@
 #import <Foundation/Foundation.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
 #import "MSErrorReportPrivate.h"
@@ -61,7 +60,8 @@
   NSDate *appStartTime = [NSDate new];
   NSDate *appErrorTime = [NSDate dateWithTimeIntervalSinceNow:20];
   NSUInteger processIdentifier = 4;
-
+  
+  // When
   MSErrorReport *sut = [[MSErrorReport alloc] initWithErrorId:errorId
                                                     reporterKey:reporterKey
                                                          signal:signal
@@ -71,7 +71,8 @@
                                                    appErrorTime:appErrorTime
                                                          device:device
                                            appProcessIdentifier:processIdentifier];
-
+  
+  // Then
   assertThat(sut, notNilValue());
   assertThat(sut.incidentIdentifier, equalTo(errorId));
   assertThat(sut.reporterKey, equalTo(reporterKey));
@@ -82,6 +83,43 @@
   assertThat(sut.appErrorTime, equalTo(appErrorTime));
   assertThat(sut.device, equalTo(device));
   assertThatUnsignedInteger(sut.appProcessIdentifier, equalToUnsignedInteger(processIdentifier));
+}
+
+- (void)testIsAppKill {
+  
+  // When
+  MSErrorReport *sut = [MSErrorReport new];
+  
+  // Then
+  XCTAssertFalse([sut isAppKill]);
+  
+  // When
+  sut = [[MSErrorReport alloc] initWithErrorId:nil
+                                   reporterKey:nil
+                                        signal:@"SIGSEGV"
+                                 exceptionName:nil
+                               exceptionReason:nil
+                                  appStartTime:nil
+                                  appErrorTime:nil
+                                        device:nil
+                          appProcessIdentifier:0];
+  
+  // Then
+  XCTAssertFalse([sut isAppKill]);
+  
+  // When
+  sut = [[MSErrorReport alloc] initWithErrorId:nil
+                                   reporterKey:nil
+                                        signal:@"SIGKILL"
+                                 exceptionName:nil
+                               exceptionReason:nil
+                                  appStartTime:nil
+                                  appErrorTime:nil
+                                        device:nil
+                          appProcessIdentifier:0];
+  
+  // Then
+  XCTAssertTrue([sut isAppKill]);
 }
 
 @end
