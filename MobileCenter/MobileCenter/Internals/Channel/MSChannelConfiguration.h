@@ -49,16 +49,6 @@ NS_ASSUME_NONNULL_BEGIN
                  batchSizeLimit:(NSUInteger)batchSizeLimit
             pendingBatchesLimit:(NSUInteger)pendingBatchesLimit;
 
-/**
- * Initializes and configures a predefined `MSChannelConfiguration' instance based on a given priority enum value.
- *
- * @param priority the enum value which determines which configurations to us as presets.
- * @param groupID The groupID that will be used to determine a group of logs.
- *
- * @return a fully configured `MSChannelConfiguration` instance.
- */
-+ (instancetype)configurationForPriority:(MSPriority)priority groupID:(NSString *)groupID;
-
 @end
 
 NS_ASSUME_NONNULL_END
