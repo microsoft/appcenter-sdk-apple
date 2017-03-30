@@ -2,6 +2,7 @@ import MobileCenter
 import MobileCenterAnalytics
 import MobileCenterCrashes
 import MobileCenterDistribute
+import MobileCenterPush
 
 /*
  * MobileCenterDelegate implementation in Swift.
@@ -20,6 +21,9 @@ class MobileCenterDelegateSwift: MobileCenterDelegate {
   func isDistributeEnabled() -> Bool{
     return MSDistribute.isEnabled()
   }
+  func isPushEnabled() -> Bool{
+    return MSPush.isEnabled()
+  }
   func setAnalyticsEnabled(_ isEnabled: Bool){
     MSAnalytics.setEnabled(isEnabled)
   }
@@ -28,6 +32,9 @@ class MobileCenterDelegateSwift: MobileCenterDelegate {
   }
   func setDistributeEnabled(_ isEnabled: Bool){
     MSDistribute.setEnabled(isEnabled)
+  }
+  func setPushEnabled(_ isEnabled: Bool){
+    MSPush.setEnabled(isEnabled)
   }
   func isDebuggerAttached() -> Bool{
     return MSMobileCenter.isDebuggerAttached()

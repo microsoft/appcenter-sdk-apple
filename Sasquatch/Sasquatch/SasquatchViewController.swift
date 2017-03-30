@@ -10,11 +10,11 @@ import UIKit
 
 class SasquatchViewController: UIViewController {
   enum MSCellType : Int {
-    case Title, Switch, Details
+    case Title, Switch, Push, Details
   }
   
   enum MobileCenterServicesType : Int {
-    case Analytics, Crashes, Distribute
+    case Analytics, Crashes, Distribute, Push
     
     var stringValue : String {
       switch self {
@@ -24,10 +24,12 @@ class SasquatchViewController: UIViewController {
         return "Crashes"
       case .Distribute:
         return "Distribute"
+      case .Push:
+        return "Push"
       }
     }
     
-    static let allServices = [MobileCenterServicesType.Analytics, MobileCenterServicesType.Crashes, MobileCenterServicesType.Distribute]
+    static let allServices = [MobileCenterServicesType.Analytics, MobileCenterServicesType.Crashes, MobileCenterServicesType.Distribute, MobileCenterServicesType.Push]
   }
   
   enum MSAnalyticsCases : Int {
@@ -75,6 +77,18 @@ class SasquatchViewController: UIViewController {
     static let allCases = [MSDistributeCases.SetEnabled]
   }
   
+  enum MSPushCases : Int {
+    case SetEnabled
+    var cellSetting : (title:String, type:MSCellType) {
+      switch self {
+      case .SetEnabled:
+        return ("Set Enabled", .Switch)
+      }
+    }
+
+    static let allCases = [MSPushCases.SetEnabled]
+  }
+
   @IBOutlet weak var tableView: UITableView!
   var mobileCenter: MobileCenterDelegate!
   
@@ -122,6 +136,8 @@ extension SasquatchViewController : UITableViewDataSource {
       return MSCrashesCases.allCases.count;
     case .Distribute:
       return MSDistributeCases.allCases.count;
+    case .Push:
+      return MSPushCases.allCases.count;
     }
   }
   
@@ -142,6 +158,9 @@ extension SasquatchViewController : UITableViewDataSource {
     case .Distribute:
       cellSetting = MSDistributeCases.allCases[indexPath.row].cellSetting;
       break;
+    case .Push:
+      cellSetting = MSPushCases.allCases[indexPath.row].cellSetting;
+      break;
     }
     
     guard let _cellSetting : (title:String, type:MSCellType) = cellSetting else {
@@ -161,6 +180,9 @@ extension SasquatchViewController : UITableViewDataSource {
           break;
         case .Distribute:
           cell.titleSwitch.isOn = mobileCenter.isDistributeEnabled()
+          break;
+        case .Push:
+          cell.titleSwitch.isOn = mobileCenter.isPushEnabled()
           break;
         }
         return cell;
@@ -259,6 +281,15 @@ extension SasquatchViewController : UITableViewDelegate{
         break;
       }
       break;
+    case .Push:
+      switch MSPushCases.allCases[indexPath.row] {
+      case .SetEnabled:
+
+        //Enable/Disable MSPush
+        mobileCenter.setPushEnabled(!mobileCenter.isPushEnabled())
+        break;
+      }
+      break;
     }
   }
 }
@@ -282,6 +313,9 @@ extension SasquatchViewController : MSSwitchCellDelegate{
       break;
     case .Distribute:
       mobileCenter.setDistributeEnabled(sender.isOn)
+      break;
+    case .Push:
+      mobileCenter.setPushEnabled(sender.isOn)
       break;
     }
   }
