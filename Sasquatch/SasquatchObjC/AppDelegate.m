@@ -15,7 +15,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   // Override point for customization after application launch.
-  [MSMobileCenter start:@"0dbca56b-b9ae-4d53-856a-7c2856137d85" withServices:@[[MSAnalytics class], [MSCrashes class], [MSDistribute class]]];
+  [MSMobileCenter start:@"3ccfe7f5-ec01-4de5-883c-f563bbbe147a" withServices:@[[MSAnalytics class], [MSCrashes class], [MSDistribute class]]];
   
   [self crashes];
   [self setMobileCenterDelegate];
