@@ -76,8 +76,8 @@ static NSString *const kMSAppNamespace = @"app_namespace";
 }
 
 - (BOOL)isValid {
-  return self.sdkName && self.sdkVersion && self.model && self.oemName && self.osName && self.osBuild &&
-         self.osVersion && self.locale && self.timeZoneOffset && self.screenSize && self.appVersion && self.appBuild;
+  return [super isValid] && self.sdkName && self.sdkVersion && self.osName && self.osVersion && self.locale &&
+         self.timeZoneOffset && self.appVersion && self.appBuild;
 }
 
 - (BOOL)isEqual:(id)object {

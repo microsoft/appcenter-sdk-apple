@@ -4,6 +4,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MSCrashesReportsViewController : UITableViewController
+@interface MSCrashesViewController : UITableViewController
 
 @end

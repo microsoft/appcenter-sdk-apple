@@ -28,6 +28,10 @@ static NSString *const kMSName = @"name";
   return dict;
 }
 
+- (BOOL)isValid {
+  return [super isValid] && self.eventId && self.name;
+}
+
 #pragma mark - NSCoding
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
