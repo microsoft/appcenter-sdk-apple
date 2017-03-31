@@ -1,7 +1,6 @@
 #import "MSCustomProperties.h"
 #import "MSCustomPropertiesPrivate.h"
 #import "MSMobileCenterInternal.h"
-#import "MSStartServiceLog.h"
 
 static NSString *const kKeyPattern = @"^[a-zA-Z][a-zA-Z0-9]*$";
 static NSString *const kValueNullErrorMessage = @"Custom property value cannot be null, did you mean to call clear?";

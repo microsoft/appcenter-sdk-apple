@@ -34,7 +34,10 @@ static NSString *const kMSPropertyTypeString = @"string";
     for (NSString *key in self.properties) {
       NSObject *value = [self.properties objectForKey:key];
       NSMutableDictionary *property = [MSCustomPropertiesLog serializeProperty: value];
-      [property setObject:key forKey:kMSPropertyName];
+      if (property) {
+        [property setObject:key forKey:kMSPropertyName];
+        [propertiesArray addObject:property];
+      }
     }
     dict[kMSProperties] = propertiesArray;
   }  return dict;
@@ -66,6 +69,8 @@ static NSString *const kMSPropertyTypeString = @"string";
   } else if ([value isKindOfClass:[NSString class]]) {
     [property setObject:kMSPropertyTypeString forKey:kMSPropertyType];
     [property setObject:value forKey:kMSPropertyValue];
+  } else {
+    return nil;
   }
   return property;
 }

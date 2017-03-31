@@ -164,8 +164,8 @@ static NSString *const kMSGroupID = @"MobileCenter";
     } else {
       self.appSecret = appSecret;
 
-    // Init the main pipeline.
-    [self initializeLogManager];
+      // Init the main pipeline.
+      [self initializeLogManager];
 
       // Enable pipeline as needed.
       if (self.isEnabled) {
