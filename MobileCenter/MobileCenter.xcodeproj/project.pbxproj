@@ -156,6 +156,8 @@
 		F803BBF31E8E3677004B1E7A /* MSCustomProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = F803BBF11E8E3677004B1E7A /* MSCustomProperties.h */; };
 		F803BBF41E8E3677004B1E7A /* MSCustomProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = F803BBF21E8E3677004B1E7A /* MSCustomProperties.m */; };
 		F803BBF91E8E3989004B1E7A /* MSCustomPropertiesLog.m in Sources */ = {isa = PBXBuildFile; fileRef = F803BBF81E8E3989004B1E7A /* MSCustomPropertiesLog.m */; };
+		F803BC381E8E6927004B1E7A /* MSCustomPropertiesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F803BC371E8E6927004B1E7A /* MSCustomPropertiesTests.m */; };
+		F803BC3A1E8E6963004B1E7A /* MSCustomPropertiesLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F803BC391E8E6963004B1E7A /* MSCustomPropertiesLogTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -334,6 +336,8 @@
 		F803BBF51E8E383E004B1E7A /* MSCustomPropertiesPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSCustomPropertiesPrivate.h; sourceTree = "<group>"; };
 		F803BBF81E8E3989004B1E7A /* MSCustomPropertiesLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCustomPropertiesLog.m; sourceTree = "<group>"; };
 		F803BBFA1E8E39AB004B1E7A /* MSCustomPropertiesLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSCustomPropertiesLog.h; sourceTree = "<group>"; };
+		F803BC371E8E6927004B1E7A /* MSCustomPropertiesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCustomPropertiesTests.m; sourceTree = "<group>"; };
+		F803BC391E8E6963004B1E7A /* MSCustomPropertiesLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCustomPropertiesLogTests.m; sourceTree = "<group>"; };
 		F87A05571E72BD7C0038A6F9 /* Tests.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Tests.xcconfig; path = ../../../Tests.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -558,6 +562,8 @@
 				B2FD53641E567BCF0050F909 /* MSDeviceHistoryInfoTests.m */,
 				D38024111E7130C700466558 /* MSStartServiceLogTests.m */,
 				04B7BBEE1E5FAD4D001A0CE1 /* MSSenderUtilTests.m */,
+				F803BC371E8E6927004B1E7A /* MSCustomPropertiesTests.m */,
+				F803BC391E8E6963004B1E7A /* MSCustomPropertiesLogTests.m */,
 			);
 			path = MobileCenterTests;
 			sourceTree = "<group>";
@@ -907,6 +913,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F803BC3A1E8E6963004B1E7A /* MSCustomPropertiesLogTests.m in Sources */,
 				D377A30D1E83A05900B2C97A /* MSMockUserDefaults.m in Sources */,
 				6E58E2B71D2F12A70039D062 /* MSStorageBucketTests.m in Sources */,
 				6E363AE51D2C2C320079043D /* MSFileStorageTests.m in Sources */,
@@ -927,6 +934,7 @@
 				387C75961D64EE1900D68CC1 /* MSServiceAbstractTests.m in Sources */,
 				6E48A5A41D3831FE006E8B5F /* MSChannelConfigurationTests.m in Sources */,
 				B24F3F171D93A3FF00827213 /* MSLoggerTests.m in Sources */,
+				F803BC381E8E6927004B1E7A /* MSCustomPropertiesTests.m in Sources */,
 				04B7BBEF1E5FAD4D001A0CE1 /* MSSenderUtilTests.m in Sources */,
 				6E58E2BE1D2F18DA0039D062 /* MSFileTests.m in Sources */,
 				E88D17061D35B6B500A5EA57 /* MSMockLog.m in Sources */,
