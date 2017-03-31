@@ -16,7 +16,7 @@ static NSString *const kMSServices = @"services";
 }
 
 - (BOOL)isEqual:(id)object {
-  if (!object || ![super isEqual:object] || ![object isKindOfClass:[MSStartServiceLog class]]) {
+  if (![object isKindOfClass:[MSStartServiceLog class]] || ![super isEqual:object]) {
     return NO;
   }
   MSStartServiceLog *log = (MSStartServiceLog *)object;

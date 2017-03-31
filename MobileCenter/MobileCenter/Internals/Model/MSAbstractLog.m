@@ -42,7 +42,7 @@ NSString *const kMSType = @"type";
 }
 
 - (BOOL)isEqual:(id)object {
-  if (!object || ![super isEqual:object] || ![object isKindOfClass:[MSAbstractLog class]]) {
+  if (![object isKindOfClass:[MSAbstractLog class]]) {
     return NO;
   }
   MSAbstractLog *log = (MSAbstractLog *)object;

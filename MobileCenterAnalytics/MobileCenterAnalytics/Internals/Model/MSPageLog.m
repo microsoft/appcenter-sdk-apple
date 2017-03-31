@@ -29,7 +29,7 @@ static NSString *const kMSName = @"name";
 }
 
 - (BOOL)isEqual:(id)object {
-  if (!object || ![super isEqual:object] || ![object isKindOfClass:[MSPageLog class]]) {
+  if (![object isKindOfClass:[MSPageLog class]] || ![super isEqual:object]) {
     return NO;
   }
   MSPageLog *pageLog = (MSPageLog *)object;
