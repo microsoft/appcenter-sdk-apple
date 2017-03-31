@@ -41,6 +41,17 @@ NSString *const kMSType = @"type";
   return self.type && self.toffset && self.device && [self.device isValid];
 }
 
+- (BOOL)isEqual:(id)object {
+  if (!object || ![super isEqual:object] || ![object isKindOfClass:[MSAbstractLog class]]) {
+    return NO;
+  }
+  MSAbstractLog *log = (MSAbstractLog *)object;
+  return ((!self.type && !log.type) || [self.type isEqualToString:log.type]) &&
+         ((!self.toffset && !log.toffset) || [self.toffset isEqualToNumber:log.toffset]) &&
+         ((!self.sid && !log.sid) || [self.sid isEqualToString:log.sid]) &&
+         ((!self.device && !log.device) || [self.device isEqual:log.device]);
+}
+
 #pragma mark - NSCoding
 
 - (instancetype)initWithCoder:(NSCoder *)coder {

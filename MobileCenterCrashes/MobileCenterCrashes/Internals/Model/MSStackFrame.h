@@ -1,5 +1,5 @@
-#import "MobileCenter+Internal.h"
 #import <Foundation/Foundation.h>
+#import "MobileCenter+Internal.h"
 
 @interface MSStackFrame : NSObject <MSSerializableObject>
 
@@ -35,12 +35,10 @@
 @property(nonatomic, copy) NSString *fileName;
 
 /**
- * Is equal to another stack frame
- *
- * @param object Stack frame
- *
- * @return Return YES if equal and NO if not equal
- */
-- (BOOL)isEqual:(id)object;
+ * Checks if the object's values are valid.
+ *
+ * @return YES, if the object is valid.
+ */
+- (BOOL)isValid;
 
 @end

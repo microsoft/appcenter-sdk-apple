@@ -15,6 +15,14 @@ static NSString *const kMSProperties = @"properties";
   return dict;
 }
 
+- (BOOL)isEqual:(id)object {
+  if (!object || ![super isEqual:object] || ![object isKindOfClass:[MSLogWithProperties class]]) {
+    return NO;
+  }
+  MSLogWithProperties *log = (MSLogWithProperties *)object;
+  return ((!self.properties && !log.properties) || [self.properties isEqualToDictionary:log.properties]);
+}
+
 #pragma mark - NSCoding
 
 - (instancetype)initWithCoder:(NSCoder *)coder {

@@ -32,6 +32,15 @@ static NSString *const kMSName = @"name";
   return [super isValid] && self.eventId && self.name;
 }
 
+- (BOOL)isEqual:(id)object {
+  if (!object || ![super isEqual:object] || ![object isKindOfClass:[MSEventLog class]]) {
+    return NO;
+  }
+  MSEventLog *eventLog = (MSEventLog *)object;
+  return ((!self.eventId && !eventLog.eventId) || [self.eventId isEqualToString:eventLog.eventId]) &&
+         ((!self.name && !eventLog.name) || [self.name isEqualToString:eventLog.name]);
+}
+
 #pragma mark - NSCoding
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
