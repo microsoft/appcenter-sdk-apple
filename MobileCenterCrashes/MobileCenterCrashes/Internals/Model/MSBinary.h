@@ -49,11 +49,11 @@
 /**
  * Is equal to another binary
  *
- * @param binary Binary
+ * @param object Binary
  *
  * @return Return YES if equal and NO if not equal
  */
-- (BOOL)isEqual:(MSBinary *)binary;
+- (BOOL)isEqual:(id)object;
 
 /**
  * Checks if the object's values are valid.

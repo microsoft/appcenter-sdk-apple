@@ -17,7 +17,9 @@
  */
 static NSString *const kMSServiceName = @"Distribute";
 
-// The group ID for storage.
+/**
+ * The group ID for storage.
+ */
 static NSString *const kMSGroupID = @"Distribute";
 
 #pragma mark - URL constants
@@ -481,15 +483,16 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     }
 
     // Add a "Download"-Button
-    [alertController addCancelActionWithTitle:MSDistributeLocalizedString(@"Download")
-                                      handler:^(__attribute__((unused)) UIAlertAction *action) {
+    [alertController
+        addCancelActionWithTitle:MSDistributeLocalizedString(@"Download")
+                         handler:^(__attribute__((unused)) UIAlertAction *action) {
 #if TARGET_IPHONE_SIMULATOR
 
-                                        /*
-                                         * iOS simulator doesn't support "itms-services" scheme, simulator will consider the scheme
-                                         * as an invalid address. Skip download process if the application is running on simulator.
-                                         */
-                                        MSLogWarning([MSDistribute logTag], @"Couldn't download a new release on simulator.");
+                           /*
+                            * iOS simulator doesn't support "itms-services" scheme, simulator will consider the scheme
+                            * as an invalid address. Skip download process if the application is running on simulator.
+                            */
+                           MSLogWarning([MSDistribute logTag], @"Couldn't download a new release on simulator.");
 #else
                                         if ([self isEnabled]) {
                                           MSLogDebug([MSDistribute logTag], @"Start download and install the update.");
@@ -499,7 +502,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                                           [self showDistributeDisabledAlert];
                                         }
 #endif
-                                      }];
+                         }];
 
     // Show the alert controller.
     MSLogDebug([MSDistribute logTag], @"Show update dialog.");
