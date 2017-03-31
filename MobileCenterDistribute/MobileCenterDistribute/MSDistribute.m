@@ -434,10 +434,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
   // Check if a debugger is attached.
   BOOL noDebuggerAttached = ![MSMobileCenter isDebuggerAttached];
-
-  // Make sure it's not a DEBUG configuration.
-  BOOL configurationOkay = ![MSUtility isRunningInDebugConfiguration];
-  return environmentOkay && noDebuggerAttached && configurationOkay;
+  return environmentOkay && noDebuggerAttached;
 }
 
 - (BOOL)isNewerVersion:(MSReleaseDetails *)details {

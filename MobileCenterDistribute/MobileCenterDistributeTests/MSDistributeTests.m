@@ -528,7 +528,7 @@ static NSURL *sfURL;
   XCTAssertNil([self.settingsMock objectForKey:kMSIgnoredReleaseIdKey]);
 }
 
-- (void)testcheckForUpdatesAllConditionsMet {
+- (void)testCheckForUpdatesAllConditionsMet {
 
   // If
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
@@ -540,7 +540,6 @@ static NSURL *sfURL;
 
   // When
   OCMStub([mobileCenterMock isDebuggerAttached]).andReturn(NO);
-  OCMStub([utilityMock isRunningInDebugConfiguration]).andReturn(NO);
   OCMStub([utilityMock currentAppEnvironment]).andReturn(MSEnvironmentOther);
 
   // Then
@@ -553,42 +552,26 @@ static NSURL *sfURL;
   OCMVerify([distributeMock requestUpdateToken:kMSTestReleaseHash]);
 }
 
-- (void)testcheckForUpdatesDebuggerAttached {
+- (void)testCheckForUpdatesDebuggerAttached {
 
   // When
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
   id mobileCenterMock = OCMClassMock([MSMobileCenter class]);
   id utilityMock = OCMClassMock([MSUtility class]);
   OCMStub([mobileCenterMock isDebuggerAttached]).andReturn(YES);
-  OCMStub([utilityMock isRunningInDebugConfiguration]).andReturn(NO);
   OCMStub([utilityMock currentAppEnvironment]).andReturn(MSEnvironmentOther);
 
   // Then
   XCTAssertFalse([self.sut checkForUpdatesAllowed]);
 }
 
-- (void)testcheckForUpdatesDebugConfig {
+- (void)testCheckForUpdatesInvalidEnvironment {
 
   // When
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
   id mobileCenterMock = OCMClassMock([MSMobileCenter class]);
   id utilityMock = OCMClassMock([MSUtility class]);
   OCMStub([mobileCenterMock isDebuggerAttached]).andReturn(NO);
-  OCMStub([utilityMock isRunningInDebugConfiguration]).andReturn(YES);
-  OCMStub([utilityMock currentAppEnvironment]).andReturn(MSEnvironmentOther);
-
-  // Then
-  XCTAssertFalse([self.sut checkForUpdatesAllowed]);
-}
-
-- (void)testcheckForUpdatesInvalidEnvironment {
-
-  // When
-  [MSDistributeTestUtil unMockUpdatesAllowedConditions];
-  id mobileCenterMock = OCMClassMock([MSMobileCenter class]);
-  id utilityMock = OCMClassMock([MSUtility class]);
-  OCMStub([mobileCenterMock isDebuggerAttached]).andReturn(NO);
-  OCMStub([utilityMock isRunningInDebugConfiguration]).andReturn(NO);
   OCMStub([utilityMock currentAppEnvironment]).andReturn(MSEnvironmentTestFlight);
 
   // Then

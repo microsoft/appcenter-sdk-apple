@@ -49,14 +49,4 @@ NSString *MSUtilityEnvironmentCategory;
 #endif
 }
 
-+ (BOOL)isRunningInDebugConfiguration {
-  BOOL isRunningInDebugConfiguration;
-#if DEBUG
-  isRunningInDebugConfiguration = YES;
-#else
-  isRunningInDebugConfiguration = NO;
-#endif
-  return isRunningInDebugConfiguration;
-}
-
 @end
