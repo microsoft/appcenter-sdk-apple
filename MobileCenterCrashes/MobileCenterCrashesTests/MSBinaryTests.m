@@ -97,6 +97,12 @@
   XCTAssertTrue([sut isValid]);
 }
 
+- (void)testIsNotEqualToNil {
+
+  // Then
+  XCTAssertFalse([[MSBinary new] isEqual:nil]);
+}
+
 #pragma mark - Helper
 
 - (MSBinary *)binary {
