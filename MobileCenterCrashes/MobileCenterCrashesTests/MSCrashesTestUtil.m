@@ -1,15 +1,13 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
 #import "MSCrashesTestUtil.h"
 #import "MSException.h"
 #import "MSStackFrame.h"
 
 @implementation MSCrashesTestUtil
 
-// loads test fixture from json file
-// http://blog.roberthoglund.com/2010/12/ios-unit-testing-loading-bundle.html
+/*
+ * loads test fixture from json file
+ * http://blog.roberthoglund.com/2010/12/ios-unit-testing-loading-bundle.html
+ */
 + (NSString *)jsonFixture:(NSString *)fixture {
   NSString *path = [[NSBundle bundleForClass:self.class] pathForResource:fixture ofType:@"json"];
   NSError *error = nil;
@@ -26,7 +24,7 @@
   NSFileManager *fm = [[NSFileManager alloc] init];
 
   if (![fm fileExistsAtPath:directory]) {
-    NSDictionary *attributes = @{NSFilePosixPermissions: @0755};
+    NSDictionary *attributes = @{ NSFilePosixPermissions : @0755 };
     NSError *error;
     [fm createDirectoryAtPath:directory withIntermediateDirectories:YES attributes:attributes error:&error];
     if (error)
@@ -40,7 +38,7 @@
   NSFileManager *fm = [[NSFileManager alloc] init];
 
   if (![fm fileExistsAtPath:directory]) {
-    NSDictionary *attributes = @{NSFilePosixPermissions: @0755};
+    NSDictionary *attributes = @{ NSFilePosixPermissions : @0755 };
     NSError *error;
     [fm createDirectoryAtPath:directory withIntermediateDirectories:YES attributes:attributes error:&error];
     if (error)
@@ -74,8 +72,11 @@
   NSString *filePath = [[NSBundle bundleForClass:self.class] pathForResource:filename ofType:@"plcrash"];
   NSError *error = NULL;
 
-  if (!filePath) return NO;
-  [fm copyItemAtPath:filePath toPath:[plcrCrashesDir stringByAppendingPathComponent:@"live_report.plcrash"] error:&error];
+  if (!filePath)
+    return NO;
+  [fm copyItemAtPath:filePath
+              toPath:[plcrCrashesDir stringByAppendingPathComponent:@"live_report.plcrash"]
+               error:&error];
 
   if (error)
     return NO;
@@ -92,8 +93,7 @@
   NSString *filePath = [[NSBundle bundleForClass:self.class] pathForResource:filename ofType:@"plcrash"];
   if (!filePath) {
     return nil;
-  }
-  else {
+  } else {
     NSData *data = [NSData dataWithContentsOfFile:filePath];
     return data;
   }
@@ -102,12 +102,20 @@
 + (MSException *)exception {
   NSString *type = @"exception_type";
   NSString *message = @"message";
-  NSString *stackTrace = @"at (wrapper managed-to-native) UIKit.UIApplication:UIApplicationMain (int,string[],intptr,intptr) \n at UIKit.UIApplication.Main (System.String[] args, System.IntPtr principal, System.IntPtr delegate) [0x00005] in /Users/builder/data/lanes/3969/44931ae8/source/xamarin-macios/src/UIKit/UIApplication.cs:79 \n at UIKit.UIApplication.Main (System.String[] args, System.String principalClassName, System.String delegateClassName) [0x00038] in /Users/builder/data/lanes/3969/44931ae8/source/xamarin-macios/src/UIKit/UIApplication.cs:63 \n   at HockeySDKXamarinDemo.Application.Main (System.String[] args) [0x00008] in /Users/benny/Repositories/MS/HockeySDK-XamarinDemo/iOS/Main.cs:17";
+  NSString *stackTrace = @"at (wrapper managed-to-native) UIKit.UIApplication:UIApplicationMain "
+                         @"(int,string[],intptr,intptr) \n at UIKit.UIApplication.Main (System.String[] args, "
+                         @"System.IntPtr principal, System.IntPtr delegate) [0x00005] in "
+                         @"/Users/builder/data/lanes/3969/44931ae8/source/xamarin-macios/src/UIKit/"
+                         @"UIApplication.cs:79 \n at UIKit.UIApplication.Main (System.String[] args, System.String "
+                         @"principalClassName, System.String delegateClassName) [0x00038] in "
+                         @"/Users/builder/data/lanes/3969/44931ae8/source/xamarin-macios/src/UIKit/"
+                         @"UIApplication.cs:63 \n   at HockeySDKXamarinDemo.Application.Main (System.String[] args) "
+                         @"[0x00008] in /Users/benny/Repositories/MS/HockeySDK-XamarinDemo/iOS/Main.cs:17";
   NSString *wrapperSdkName = @"mobilecenter.xamarin";
   MSStackFrame *frame = [MSStackFrame new];
   frame.address = @"frameAddress";
   frame.code = @"frameSymbol";
-  NSArray<MSStackFrame *> *frames = @[frame];
+  NSArray<MSStackFrame *> *frames = @[ frame ];
 
   MSException *exception = [MSException new];
   exception.type = type;
@@ -119,11 +127,12 @@
   return exception;
 }
 
-+ (void) deleteAllFilesInDirectory:(NSString *)directoryPath {
++ (void)deleteAllFilesInDirectory:(NSString *)directoryPath {
   NSError *error = nil;
   for (NSString *filePath in [[NSFileManager defaultManager] enumeratorAtPath:directoryPath]) {
     NSString *path = [directoryPath stringByAppendingPathComponent:filePath];
-    [[NSFileManager defaultManager] removeItemAtPath:path error:&error];}
+    [[NSFileManager defaultManager] removeItemAtPath:path error:&error];
+  }
 }
 
 @end
