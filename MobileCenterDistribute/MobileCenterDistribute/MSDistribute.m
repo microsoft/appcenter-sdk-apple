@@ -16,7 +16,9 @@
  */
 static NSString *const kMSServiceName = @"Distribute";
 
-// The group ID for storage.
+/**
+ * The group ID for storage.
+ */
 static NSString *const kMSGroupID = @"Distribute";
 
 #pragma mark - URL constants
@@ -470,10 +472,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
   // Check if a debugger is attached.
   BOOL noDebuggerAttached = ![MSMobileCenter isDebuggerAttached];
-
-  // Make sure it's not a DEBUG configuration.
-  BOOL configurationOkay = ![MSUtility isRunningInDebugConfiguration];
-  return environmentOkay && noDebuggerAttached && configurationOkay;
+  return environmentOkay && noDebuggerAttached;
 }
 
 - (void)deleteMandatoryRelease {
@@ -523,7 +522,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     // Add a "Download"-Button
     [alertController
         addCancelActionWithTitle:MSDistributeLocalizedString(@"Download")
-                         handler:^(__attribute__((unused)) UIAlertAction * action) {
+                         handler:^(__attribute__((unused)) UIAlertAction *action) {
 #if TARGET_IPHONE_SIMULATOR
 
                            /*
