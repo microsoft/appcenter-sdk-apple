@@ -52,9 +52,7 @@ static NSString *const kMSArchitecture = @"architecture";
   if (self.errorThreadName) {
     dict[kMSErrorThreadName] = self.errorThreadName;
   }
-  if (self.fatal) {
-    dict[kMSFatal] = self.fatal ? @YES : @NO;
-  }
+  dict[kMSFatal] = self.fatal ? @YES : @NO;
   if (self.appLaunchTOffset) {
     dict[kMSAppLaunchTOffset] = self.appLaunchTOffset;
   }

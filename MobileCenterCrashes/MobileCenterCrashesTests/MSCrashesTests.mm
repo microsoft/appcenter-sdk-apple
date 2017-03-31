@@ -19,6 +19,7 @@
 
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
 static NSString *const kMSCrashesServiceName = @"Crashes";
+static NSString *const kMSFatal = @"fatal";
 
 @interface MSCrashes ()
 
@@ -503,6 +504,28 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
   // Then
   NSArray *first = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[MSWrapperExceptionManager directoryPath] error:NULL];
   XCTAssertTrue(first.count == 1);
+}
+
+- (void)testAbstractErrorLogSerialization {
+  MSAbstractErrorLog *log = [MSAbstractErrorLog new];
+
+  // If
+  log.fatal = NO;
+
+  // When
+  NSDictionary *serializedLog = [log serializeToDictionary];
+
+  // Then
+  XCTAssertNotNil([serializedLog objectForKey:kMSFatal]);
+
+  // If
+  log.fatal = YES;
+
+  // When
+  serializedLog = [log serializeToDictionary];
+
+  // Then
+  XCTAssertNotNil([serializedLog objectForKey:kMSFatal]);
 }
 
 - (BOOL)crashes:(MSCrashes *)crashes shouldProcessErrorReport:(MSErrorReport *)errorReport {
