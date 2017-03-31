@@ -6,8 +6,8 @@
 #import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
 #import "MSStartServiceLog.h"
-#import "MSCustomPropertiesLog.h"
 #import "MSCustomProperties.h"
+#import "MSCustomPropertiesLog.h"
 #import "MSCustomPropertiesPrivate.h"
 
 // Singleton
