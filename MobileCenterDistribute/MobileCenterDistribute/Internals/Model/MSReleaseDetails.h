@@ -111,6 +111,13 @@
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dictionary;
 
 /**
+ * Serialize this object to a dictionary.
+ *
+ * @return A dictionary representing this object.
+ */
+- (NSDictionary *)serializeToDictionary;
+
+/**
  * Checks if the values are valid.
  *
  * return YES if it is valid, otherwise NO.

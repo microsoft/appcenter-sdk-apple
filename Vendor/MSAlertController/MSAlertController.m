@@ -1,5 +1,5 @@
-#import <UIKit/UIWindow.h>
 #import <UIKit/UIScreen.h>
+#import <UIKit/UIWindow.h>
 
 #import "MSAlertController.h"
 
@@ -53,7 +53,7 @@ static dispatch_queue_t alertsQueue;
 - (void)viewDidDisappear:(BOOL)animated {
   [super viewDidDisappear:animated];
   alertIsBeingPresented = NO;
-  [MSAlertController presentNextPendingAlertController];
+  [MSAlertController presentNextAlertAnimated:animated];
 }
 
 - (void)addDefaultActionWithTitle:(NSString *)title handler:(void (^)(UIAlertAction *))handler {
@@ -68,34 +68,66 @@ static dispatch_queue_t alertsQueue;
   [self addAction:[MSAlertAction destructiveActionWithTitle:title handler:handler]];
 }
 
+- (void)replaceAlert:(MSAlertController *)alert {
+  [self replaceAlert:alert animated:YES];
+}
+
+- (void)replaceAlert:(MSAlertController *)alert animated:(BOOL)animated {
+  if (alert) {
+    __block MSAlertController *alertToReplace = alert;
+    dispatch_sync(alertsQueue, ^{
+      NSUInteger toReplaceIndex = [alertsToBePresented indexOfObjectIdenticalTo:alertToReplace];
+      if (toReplaceIndex != NSNotFound) {
+        [alertsToBePresented replaceObjectAtIndex:toReplaceIndex withObject:self];
+      } else {
+        [alertsToBePresented addObject:self];
+      }
+    });
+
+    // Try to present the alert now.
+    [MSAlertController presentNextAlertAnimated:animated];
+
+    // The alert to replace might be presenting, dismissing it.
+    dispatch_async(dispatch_get_main_queue(), ^{
+      if (window.rootViewController.presentedViewController == alertToReplace) {
+        [alertToReplace dismissViewControllerAnimated:animated completion:nil];
+      }
+    });
+  }
+
+  // The alert to replace is nil, follow the basic workflow.
+  else {
+    [self showAnimated:YES];
+  }
+}
+
 - (void)show {
   [self showAnimated:YES];
 }
 
 - (void)showAnimated:(BOOL)animated {
-  (void)animated;
   dispatch_barrier_async(alertsQueue, ^{
-      [alertsToBePresented addObject:self];
+    [alertsToBePresented addObject:self];
   });
-  [MSAlertController presentNextPendingAlertController];
+  [MSAlertController presentNextAlertAnimated:animated];
 }
 
-+ (void)presentNextPendingAlertController {
++ (void)presentNextAlertAnimated:(BOOL)animated {
   if (alertIsBeingPresented) {
     return;
   }
   MSAlertController *__block nextAlert;
   dispatch_sync(alertsQueue, ^{
-      nextAlert = alertsToBePresented.firstObject;
+    nextAlert = alertsToBePresented.firstObject;
   });
   if (nextAlert) {
     alertIsBeingPresented = YES;
     dispatch_barrier_async(alertsQueue, ^{
-        [alertsToBePresented removeObjectAtIndex:0];
+      [alertsToBePresented removeObjectAtIndex:0];
     });
     dispatch_async(dispatch_get_main_queue(), ^{
-        [window makeKeyAndVisible];
-        [window.rootViewController presentViewController:nextAlert animated:YES completion:nil];
+      [window makeKeyAndVisible];
+      [window.rootViewController presentViewController:nextAlert animated:animated completion:nil];
     });
   } else {
     window.hidden = YES;
