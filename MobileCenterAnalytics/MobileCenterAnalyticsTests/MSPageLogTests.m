@@ -13,13 +13,11 @@
 
 @implementation MSPageLogTests
 
-@synthesize sut = _sut;
-
 #pragma mark - Houskeeping
 
 - (void)setUp {
   [super setUp];
-  _sut = [MSPageLog new];
+  self.sut = [MSPageLog new];
 }
 
 - (void)tearDown {
@@ -36,7 +34,7 @@
   MSDevice *device = [MSDevice new];
   NSString *sessionId = @"1234567890";
   NSDictionary *properties = @{ @"Key" : @"Value" };
-  long long createTime = [MSUtility nowInMilliseconds];
+  long long createTime = (long long)[MSUtility nowInMilliseconds];
   NSNumber *tOffset = [NSNumber numberWithLongLong:createTime];
 
   self.sut.name = pageName;

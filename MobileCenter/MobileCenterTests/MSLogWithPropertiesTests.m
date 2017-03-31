@@ -13,13 +13,11 @@
 
 @implementation MSLogWithPropertiesTests
 
-@synthesize sut = _sut;
-
 #pragma mark - Housekeeping
 
 - (void)setUp {
   [super setUp];
-  _sut = [MSLogWithProperties new];
+  self.sut = [MSLogWithProperties new];
 }
 
 - (void)tearDown {

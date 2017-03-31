@@ -22,12 +22,12 @@
   return self.retryCount >= self.retryIntervals.count;
 }
 
-- (NSTimeInterval)delayForRetryCount:(NSUInteger)retryCount {
+- (uint32_t)delayForRetryCount:(NSUInteger)retryCount {
   if (retryCount >= self.retryIntervals.count)
     return 0;
 
   // Create a random delay.
-  NSTimeInterval delay = [self.retryIntervals[retryCount] doubleValue] / 2;
+  uint32_t delay = [self.retryIntervals[retryCount] unsignedIntValue] / 2;
   delay += arc4random_uniform(delay);
 
   return delay;
