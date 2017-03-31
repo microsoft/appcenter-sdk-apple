@@ -2,6 +2,7 @@
 #import "MSConstants.h"
 
 @class MSWrapperSdk;
+@class MSCustomProperties;
 
 /**
  * Class comment: Some Introduction.
@@ -96,6 +97,13 @@
  * @param wrapperSdk wrapper SDK information.
  */
 + (void)setWrapperSdk:(MSWrapperSdk *)wrapperSdk;
+
+/**
+ * Set the custom properties.
+ *
+ * @param customProperties custom properties object.
+ */
++ (void)setCustomProperties:(MSCustomProperties *)customProperties;
 
 /**
  * Get unique installation identifier.

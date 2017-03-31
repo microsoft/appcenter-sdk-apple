@@ -3,6 +3,6 @@
  */
 @interface MSCustomProperties ()
 
-@property(nonatomic, retain) NSMutableDictionary *properties;
+@property(nonatomic, retain) NSMutableDictionary<NSString *, NSObject *> *properties;
 
 @end

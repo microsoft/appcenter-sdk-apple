@@ -6,6 +6,9 @@
 #import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
 #import "MSStartServiceLog.h"
+#import "MSCustomPropertiesLog.h"
+#import "MSCustomProperties.h"
+#import "MSCustomPropertiesPrivate.h"
 
 // Singleton
 static MSMobileCenter *sharedInstance = nil;
@@ -92,6 +95,10 @@ static NSString *const kMSGroupID = @"MobileCenter";
 
 + (void)setWrapperSdk:(MSWrapperSdk *)wrapperSdk {
   [[MSDeviceTracker sharedInstance] setWrapperSdk:wrapperSdk];
+}
+
++ (void)setCustomProperties:(MSCustomProperties *)customProperties {
+  [[self sharedInstance] setCustomProperties:customProperties];
 }
 
 /**
@@ -249,6 +256,19 @@ static NSString *const kMSGroupID = @"MobileCenter";
   }
 }
 
+- (void)setCustomProperties:(MSCustomProperties *)customProperties {
+  if (!customProperties) {
+    MSLogError([MSMobileCenter logTag], @"Custom properties may not be null");
+    return;
+  }
+  NSDictionary<NSString *, NSObject *> *properties = customProperties.properties;
+  if (properties.count == 0) {
+    MSLogError([MSMobileCenter logTag], @"Custom properties may not be empty");
+    return;
+  }
+  [self sendCustomPropertiesLog:properties];
+}
+
 - (void)setEnabled:(BOOL)isEnabled {
   self.enabledStateUpdating = YES;
   if ([self isEnabled] != isEnabled) {
@@ -351,6 +371,12 @@ static NSString *const kMSGroupID = @"MobileCenter";
   MSStartServiceLog *serviceLog = [MSStartServiceLog new];
   serviceLog.services = servicesNames;
   [self.logManager processLog:serviceLog withPriority:MSPriorityDefault andGroupID:kMSGroupID];
+}
+
+- (void)sendCustomPropertiesLog:(NSDictionary<NSString *, NSObject *> *)properties {
+  MSCustomPropertiesLog *customPropertiesLog = [MSCustomPropertiesLog new];
+  customPropertiesLog.properties = properties;
+  [self.logManager processLog:customPropertiesLog withPriority:MSPriorityDefault andGroupID:kMSGroupID];
 }
 
 + (void)resetSharedInstance {
