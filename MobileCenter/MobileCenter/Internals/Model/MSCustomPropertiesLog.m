@@ -82,7 +82,6 @@ static NSString *const kMSPropertyTypeString = @"string";
   if (self) {
     _properties = [coder decodeObjectForKey:kMSProperties];
   }
-  
   return self;
 }
 
