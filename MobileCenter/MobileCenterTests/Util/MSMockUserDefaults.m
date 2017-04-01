@@ -38,7 +38,7 @@
   return self;
 }
 
--(void)setObject:(NSObject*)anObject forKey:(NSString*)aKey {
+-(void)setObject:(id)anObject forKey:(NSString*)aKey {
   [self.mockUserDefaults setObject:anObject forKey:aKey];
 }
 
