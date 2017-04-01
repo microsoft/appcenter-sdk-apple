@@ -64,7 +64,10 @@ GCC_PREPROCESSOR_DEFINITIONS = $(inherited) $(XCODEBUILD_GCC_PREPROCESSOR_DEFINI
 // -assign-enum
 // A lot of api use enums as params but Apple's docs suggest passing in 0 which causes annoying warnings.
 
-WARNING_CFLAGS = -Weverything -Wno-objc-missing-property-synthesis -Wno-float-equal -Wno-pedantic -Wno-padded  -Wno-sign-conversion -Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-auto-import -Wno-assign-enum
+// -exit-time-destructors
+// Global destructors are obvious, no need to warn about them.
+
+WARNING_CFLAGS = -Weverything -Wno-objc-missing-property-synthesis -Wno-float-equal -Wno-pedantic -Wno-padded  -Wno-sign-conversion -Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-auto-import -Wno-assign-enum -Wno-exit-time-destructors
 
 
 // These are all partially (but not completely?) independent of WARNING_CFLAGS
