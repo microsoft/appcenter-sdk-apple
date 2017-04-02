@@ -14,4 +14,20 @@ class MSDistributeViewController: UITableViewController, MobileCenterProtocol {
     mobileCenter.setDistributeEnabled(sender.isOn)
     sender.isOn = mobileCenter.isDistributeEnabled()
   }
+  
+  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    switch (indexPath.section) {
+      
+    // Section with alerts.
+    case 0:
+      switch (indexPath.row) {
+      case 0:
+        mobileCenter.showConfirmationAlert()
+      case 1:
+        mobileCenter.showDistributeDisabledAlert()
+      default: ()
+      }
+    default: ()
+    }
+  }
 }

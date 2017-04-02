@@ -16,22 +16,16 @@ class MSAnalyticsViewController: UITableViewController, MobileCenterProtocol {
       switch indexPath.row {
       case 0:
         mobileCenter.trackEvent("myEvent")
-        break
       case 1:
         mobileCenter.trackEvent("myEvent", withProperties: ["gender" : "Male", "age" : "20", "title" : "SDE"])
-        break
       case 2:
         mobileCenter.trackPage("myPage")
-        break
       case 3:
         mobileCenter.trackPage("myPage", withProperties: ["gender" : "Male", "age" : "28", "title" : "PM"])
-        break
-      default:
-        break
+      default: ()
       }
       break
-    default:
-      break
+    default: ()
     }
   }
   

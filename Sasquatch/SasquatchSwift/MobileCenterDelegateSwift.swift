@@ -9,7 +9,7 @@ import MobileCenterDistribute
 
 class MobileCenterDelegateSwift: MobileCenterDelegate {
   
-  //MSMobileCenter section.
+  // MSMobileCenter section.
   func isMobileCenterEnabled() -> Bool{
     return MSMobileCenter.isEnabled()
   }
@@ -19,11 +19,21 @@ class MobileCenterDelegateSwift: MobileCenterDelegate {
   func installId() -> String{
     return MSMobileCenter.installId().uuidString
   }
+  func appSecret() -> String{
+    // TODO: Uncomment when appSecret is moved from internal to public
+    // return MSMobileCenter.sharedInstance().appSecret()
+    return "Internal"
+  }
+  func logUrl() -> String{
+    // TODO: Uncomment when logUrl is moved from internal to public
+    // return MSMobileCenter.sharedInstance().logUrl()
+    return "Internal"
+  }
   func isDebuggerAttached() -> Bool{
     return MSMobileCenter.isDebuggerAttached()
   }
   
-  //Modules section.
+  // Modules section.
   func isAnalyticsEnabled() -> Bool{
     return MSAnalytics.isEnabled()
   }
@@ -43,7 +53,7 @@ class MobileCenterDelegateSwift: MobileCenterDelegate {
     MSDistribute.setEnabled(isEnabled)
   }
 
-  //MSAnalytics section.
+  // MSAnalytics section.
   func trackEvent(_ eventName: String){
     MSAnalytics.trackEvent(eventName)
   }
@@ -51,17 +61,15 @@ class MobileCenterDelegateSwift: MobileCenterDelegate {
     MSAnalytics.trackEvent(eventName, withProperties: properties)
   }
   func trackPage(_ eventName: String){
-    // TODO
-    // Uncomment when trackPage is moved from internal to public
+    // TODO: Uncomment when trackPage is moved from internal to public
     // MSAnalytics.trackPage(eventName)
   }
   func trackPage(_ eventName: String, withProperties properties: Dictionary<String, String>){
-    // TODO
-    // Uncomment when trackPage is moved from internal to public
+    // TODO: Uncomment when trackPage is moved from internal to public
     // MSAnalytics.trackPage(eventName, withProperties: properties)
   }
   
-  //MSCrashes section.
+  // MSCrashes section.
   func hasCrashedInLastSession() -> Bool{
     return MSCrashes.hasCrashedInLastSession()
   }
@@ -69,7 +77,25 @@ class MobileCenterDelegateSwift: MobileCenterDelegate {
     MSCrashes.generateTestCrash()
   }
   
-  //Last crash report section.
+  // MSDistribute section
+  func showConfirmationAlert() {
+    // TODO: Uncomment when showConfirmationAlert is moved from internal to public module
+    // MSDistribute.sharedInstance().showConfirmationUrl()
+    let alert = MSAlertController(title: "Info",
+                                  message: "ConfirmationAlert is private!")
+    alert?.addDefaultAction(withTitle: "Ok", handler: nil)
+    alert?.show()
+  }
+  func showDistributeDisabledAlert() {
+    // TODO: Uncomment when showDistributeDisabledAlert is moved from internal to public module
+    // MSDistribute.sharedInstance().showDistributeDisabledAlert()
+    let alert = MSAlertController(title: "Info",
+                                  message: "DistributeDisabledAlert is private!")
+    alert?.addDefaultAction(withTitle: "Ok", handler: nil)
+    alert?.show()
+  }
+  
+  // Last crash report section.
   func lastCrashReportIncidentIdentifier() -> String?{
     return MSCrashes.lastSessionCrashReport()?.incidentIdentifier
   }

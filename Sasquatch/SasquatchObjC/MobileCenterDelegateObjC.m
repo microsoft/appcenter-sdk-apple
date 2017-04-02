@@ -1,3 +1,4 @@
+#import "MSAlertController.h"
 #import "MobileCenterDelegateObjC.h"
 
 @import MobileCenter;
@@ -20,6 +21,16 @@
 }
 - (NSString *) installId{
   return [[MSMobileCenter installId] UUIDString];
+}
+- (NSString *) appSecret{
+  // TODO: Uncomment when appSecret is moved from internal to public
+  // return [[MSMobileCenter sharedInstance] appSecret];
+  return @"Internal";
+}
+- (NSString *) logUrl{
+  // TODO: Uncomment when logUrl is moved from internal to public
+  // return [[MSMobileCenter sharedInstance] logUrl];
+  return @"Internal";
 }
 - (BOOL) isDebuggerAttached{
   return [MSMobileCenter isDebuggerAttached];
@@ -53,13 +64,11 @@
   [MSAnalytics trackEvent:eventName withProperties:properties];
 }
 - (void) trackPage:(NSString *) eventName{
-  // TODO
-  // Uncomment when trackPage is moved from internal to public module
+  // TODO: Uncomment when trackPage is moved from internal to public module
   // [MSAnalytics trackPage:eventName];
 }
 - (void) trackPage:(NSString *)eventName withProperties:(NSDictionary<NSString *, NSString *> *)properties{
-  // TODO
-  // Uncomment when trackPage is moved from internal to public module
+  // TODO: Uncomment when trackPage is moved from internal to public module
   // [MSAnalytics trackPage:eventName withProperties:properties];
 }
 
@@ -69,6 +78,28 @@
 }
 - (void) generateTestCrash{
   return [MSCrashes generateTestCrash];
+}
+
+#pragma mark - MSDistribute section.
+- (void) showConfirmationAlert{
+  // TODO: Uncomment when showConfirmationAlert is moved from internal to public module
+  // [[MSDistribute sharedInstance] showConfirmationAlert:nil];
+  MSAlertController *alertController = [MSAlertController
+                                        alertControllerWithTitle:@"Info"
+                                        message:@"ConfirmationAlert is private!"];
+  [alertController addDefaultActionWithTitle:@"Ok"
+                                     handler:nil];
+  [alertController show];
+}
+- (void) showDistributeDisabledAlert{
+  // TODO: Uncomment when showDistributeDisabledAlert is moved from internal to public module
+  // [[MSDistribute sharedInstance] showDistributeDisabledAlert];
+  MSAlertController *alertController = [MSAlertController
+                                        alertControllerWithTitle:@"Info"
+                                        message:@"DistributeDisabledAlert is private!"];
+  [alertController addDefaultActionWithTitle:@"Ok"
+                                     handler:nil];
+  [alertController show];
 }
 
 #pragma mark - Last crash report section.

@@ -6,13 +6,15 @@
 
 @objc protocol MobileCenterDelegate {
 
-  //MSMobileCenter section.
+  // MSMobileCenter section.
   func isMobileCenterEnabled() -> Bool
   func setMobileCenterEnabled(_ isEnabled: Bool)
   func installId() -> String
+  func appSecret() -> String
+  func logUrl() -> String
   func isDebuggerAttached() -> Bool
   
-  //Modules section.
+  // Modules section.
   func isAnalyticsEnabled() -> Bool
   func isCrashesEnabled() -> Bool
   func isDistributeEnabled() -> Bool
@@ -20,17 +22,21 @@
   func setCrashesEnabled(_ isEnabled: Bool)
   func setDistributeEnabled(_ isEnabled: Bool)
   
-  //MSAnalytics section.
+  // MSAnalytics section.
   func trackEvent(_ eventName: String)
   func trackEvent(_ eventName: String, withProperties: Dictionary<String, String>)
   func trackPage(_ eventName: String)
   func trackPage(_ eventName: String, withProperties: Dictionary<String, String>)
   
-  //MSCrashes section.
+  // MSCrashes section.
   func hasCrashedInLastSession() -> Bool
   func generateTestCrash()
   
-  //Last crash report section.
+  // MSDistribute section
+  func showConfirmationAlert()
+  func showDistributeDisabledAlert()
+  
+  // Last crash report section.
   func lastCrashReportIncidentIdentifier() -> String?
   func lastCrashReportReporterKey() -> String?
   func lastCrashReportSignal() -> String?

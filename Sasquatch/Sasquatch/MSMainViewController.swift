@@ -12,9 +12,8 @@ class MSMainViewController: UITableViewController, MobileCenterProtocol {
     super.viewDidLoad()
     self.enabled.isOn = mobileCenter.isMobileCenterEnabled()
     self.installId.text = mobileCenter.installId()
-    //appSecret and logUrl are internal
-    self.appSecret.text = "Internal"
-    self.logUrl.text = "Internal"
+    self.appSecret.text = mobileCenter.appSecret()
+    self.logUrl.text = mobileCenter.logUrl()
   }
   
   @IBAction func enabledSwitchUpdated(_ sender: UISwitch) {
