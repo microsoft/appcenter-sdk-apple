@@ -1,5 +1,31 @@
 # Mobile Center SDK for iOS Change Log
 
+## Version 0.6.1
+
+This version contains some bug fixes, improvements under the hood and renamed the demo apps to Sasquatch to be consistent with the Android SDK.
+
+### MobileCenter
+
+* **[Misc]** Limit UIKit usage.
+
+### MobileCenterCrashes
+
+* **[Bug]** Fix bug in LogBuffer implementation.
+
+### MobileCenterDistribute
+
+* **[Feature]**  Show an alert in case the update UI is shown but Distribute has been disabled.
+* **[Bug]** Exit the app in case of a mandatory update on iOS 10.
+
+### Puppet
+
+* **[Bug]** Fixed navigaton issues in Puppet app.
+ 
+### SasquatchSwift
+
+* **[Feature]** Add ViewController that allows enabling/disabling Distribute. 
+
+___
 
 ## Version 0.6.0
 

@@ -1,5 +1,4 @@
 #import "MSAbstractLog.h"
-#import "MSLogger.h"
 #import "MSDevice.h"
 #import "MSDevicePrivate.h"
 #import "MSUtility+Date.h"
@@ -24,8 +23,8 @@ NSString *const kMSType = @"type";
   }
   if (self.toffset) {
 
-    // Set the toffset relative to current time. The toffset needs to be up to date.    
-    long long now = [MSUtility nowInMilliseconds];
+    // Set the toffset relative to current time. The toffset needs to be up to date.
+    long long now = @((long long)[MSUtility nowInMilliseconds]);
     long long relativeTime = now - [self.toffset longLongValue];
     dict[kMSToffset] = @(relativeTime);
   }
@@ -39,7 +38,7 @@ NSString *const kMSType = @"type";
 }
 
 - (BOOL)isValid {
-  return self.type && self.toffset && self.device;
+  return self.type && self.toffset && self.device && [self.device isValid];
 }
 
 #pragma mark - NSCoding

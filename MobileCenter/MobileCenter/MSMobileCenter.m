@@ -1,7 +1,6 @@
 #import "MSConstants+Internal.h"
 #import "MSDeviceTracker.h"
 #import "MSDeviceTrackerPrivate.h"
-#import "MSFileStorage.h"
 #import "MSHttpSender.h"
 #import "MSLogManagerDefault.h"
 #import "MSLogger.h"

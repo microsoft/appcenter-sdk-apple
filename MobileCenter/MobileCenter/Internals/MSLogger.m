@@ -1,5 +1,4 @@
 #import "MSLogger.h"
-#import "MSWrapperLogger.h"
 
 @implementation MSLogger
 
@@ -38,7 +37,8 @@ MSLogHandler const msDefaultLogHandler = ^(MSLogMessageProvider messageProvider,
       level = @"";
       break;
     }
-    NSLog((@"[%@] %@: %s/%d %@"), tag, level, function, line, messageProvider());
+    NSLog(@"[%@] %@: %@/%d %@", tag, level, [NSString stringWithCString:function encoding:NSUTF8StringEncoding], line,
+          messageProvider());
   }
 };
 

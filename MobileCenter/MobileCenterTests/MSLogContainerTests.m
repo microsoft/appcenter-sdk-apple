@@ -1,11 +1,7 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
+#import <XCTest/XCTest.h>
+#import "MobileCenter+Internal.h"
 #import "MSAbstractLog.h"
 #import "MSLogContainer.h"
-#import "MobileCenter+Internal.h"
-#import <XCTest/XCTest.h>
 
 @interface MSLogContainerTests : XCTestCase
 

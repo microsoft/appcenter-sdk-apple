@@ -90,8 +90,8 @@
 
   // Return fast in case our item is empty or we are discarding logs right now.
   dispatch_async(self.logsDispatchQueue, ^{
-    if (!item) {
-      MSLogWarning([MSMobileCenter logTag], @"Log is nil.");
+    if (!item || ![item isValid]) {
+      MSLogWarning([MSMobileCenter logTag], @"Log is not valid.");
 
       // Don't forget to execute completion block.
       if (completion) {

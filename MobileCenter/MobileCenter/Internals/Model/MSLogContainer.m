@@ -31,7 +31,7 @@ static NSString *const kMSLogs = @"logs";
   [logContainer setValue:jsonArray forKey:kMSLogs];
   
   NSError *error;
-  NSJSONWritingOptions printOptions = prettyPrint ? NSJSONWritingPrettyPrinted : 0;
+  NSJSONWritingOptions printOptions = prettyPrint ? NSJSONWritingPrettyPrinted : (NSJSONWritingOptions)0;
   NSData *jsonData = [NSJSONSerialization dataWithJSONObject:logContainer options:printOptions error:&error];
 
   if (!jsonData) {
