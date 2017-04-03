@@ -26,7 +26,7 @@
 /**
  * Serialize logs into a JSON string.
  *
- * @return A JSON stringl.
+ * @return A JSON string.
  */
 - (NSString *)serializeLog;
 
