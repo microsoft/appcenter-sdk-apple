@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The priority of logs for this channel
  */
-@property(nonatomic, readonly) MSPriority priority;
+@property(nonatomic, assign, readonly) MSPriority priority;
 
 /**
  * Threshold after which the queue will be flushed.

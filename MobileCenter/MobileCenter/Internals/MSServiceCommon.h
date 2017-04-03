@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The channel configuration for this service.
  */
-@property(nonatomic, copy, readonly) MSChannelConfiguration *channelConfiguration;
+@property(nonatomic, readonly) MSChannelConfiguration *channelConfiguration;
 
 /**
  * The initialization priority for this service.
