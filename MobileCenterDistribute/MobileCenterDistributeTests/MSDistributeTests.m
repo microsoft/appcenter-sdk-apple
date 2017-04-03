@@ -614,7 +614,7 @@ static NSURL *sfURL;
   // If
   id reachabilityMock = OCMClassMock([MS_Reachability class]);
   OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
-  [reachabilityMock setValue:NotReachable forKey:@"currentReachabilityStatus"];
+  OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(NotReachable);
   id distributeMock = OCMPartialMock(self.sut);
 
   // When

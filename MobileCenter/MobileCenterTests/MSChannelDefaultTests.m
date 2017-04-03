@@ -159,7 +159,7 @@ static NSString *const kMSTestGroupID = @"GroupID";
                                                                      flushInterval:0.0
                                                                     batchSizeLimit:1
                                                                pendingBatchesLimit:expectedMaxPendingBatched];
-  _sut.configuration = config;
+  self.sut.configuration = config;
   MSChannelDefault *sut = [[MSChannelDefault alloc] initWithSender:senderMock
                                                            storage:storageMock
                                                      configuration:config
@@ -290,7 +290,7 @@ static NSString *const kMSTestGroupID = @"GroupID";
                                                                      flushInterval:0.0
                                                                     batchSizeLimit:1
                                                                pendingBatchesLimit:10];
-  _sut.configuration = config;
+  self.sut.configuration = config;
   MSChannelDefault *sut = [[MSChannelDefault alloc] initWithSender:senderMock
                                                            storage:storageMock
                                                      configuration:config
@@ -521,7 +521,7 @@ static NSString *const kMSTestGroupID = @"GroupID";
 #pragma mark - Helper
 
 - (void)initChannelEndJobExpectation {
-  _channelEndJobExpectation = [self expectationWithDescription:@"Channel job should be finished"];
+  self.channelEndJobExpectation = [self expectationWithDescription:@"Channel job should be finished"];
 }
 
 - (void)enqueueChannelEndJobExpectation {
