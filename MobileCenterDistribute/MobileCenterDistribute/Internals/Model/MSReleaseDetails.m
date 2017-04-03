@@ -21,7 +21,7 @@ static NSString *const kMSPackageHashes = @"package_hashes";
 
 @implementation MSReleaseDetails
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dictionary {
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
   if (!dictionary) {
     return nil;
   }

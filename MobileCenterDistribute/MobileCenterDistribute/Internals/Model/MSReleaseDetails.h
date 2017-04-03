@@ -108,7 +108,7 @@
  *
  * @return  A new instance.
  */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dictionary;
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
 /**
  * Serialize this object to a dictionary.
