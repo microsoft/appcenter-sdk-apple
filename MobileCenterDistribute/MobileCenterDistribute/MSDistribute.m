@@ -248,16 +248,13 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                  * Handle this update.
                  *
                  * NOTE: There is one glitch when this release is the same than the currently displayed mandatory
-                 * release.
-                 * In this case the current UI will be dismissed then redisplayed with the same UI content.
-                 * This is an edge case since it's only happening if there was no network at app start then network came
-                 * back
-                 * along with the same mandatory release from the server. In addition to that and even though the
-                 * releases
-                 * are the same, the URL links gerenarted by the server will be different. This means there is the
-                 * overhead
-                 * of updated the currently displayed download action with the new URL. In the end fixing this edge case
-                 * adds too much complexity for no worthy advantages so it will not be fixed for now.
+                 * release. In this case the current UI will be dismissed then redisplayed with the same UI content.
+                 * This is an edge case since it's only happening if there was no network at app start then network
+                 * came back along with the same mandatory release from the server. In addition to that and even though
+                 * the releases are the same, the URL links gerenarted by the server will be different.
+                 * Thus, there is the overhead of updating the currently displayed download action with the new URL.
+                 * In the end fixing this edge case adds too much complexity for no worthy advantages, 
+                 * keeping it as it is for now.
                  */
                 [self handleUpdate:details];
               }
