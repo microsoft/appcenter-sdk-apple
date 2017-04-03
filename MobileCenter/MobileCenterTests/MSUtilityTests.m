@@ -123,12 +123,6 @@
   XCTAssertEqual(env, MSEnvironmentOther);
 }
 
-- (void)testDebugConfiurationDetectionWorks {
-  
-  // When
-  XCTAssertTrue([MSUtility isRunningInDebugConfiguration]);
-}
-
 - (void)testSharedAppOpenEmptyCallCallback {
   
   // If

@@ -14,13 +14,13 @@
 #pragma mark - Tests
 
 - (void)testSerializingBinaryToDictionaryWorks {
-  
+
   // If
   MSBinary *sut = [self binary];
-  
+
   // When
   NSMutableDictionary *actual = [sut serializeToDictionary];
-  
+
   // Then
   assertThat(actual, notNilValue());
   assertThat(actual[@"id"], equalTo(sut.binaryId));
@@ -31,22 +31,21 @@
   assertThat(actual[@"architecture"], equalTo(sut.architecture));
   assertThat(actual[@"primary_architecture_id"], equalTo(sut.primaryArchitectureId));
   assertThat(actual[@"architecture_variant_id"], equalTo(sut.architectureVariantId));
-
 }
 
 - (void)testNSCodingSerializationAndDeserializationWorks {
-  
+
   // If
   MSBinary *sut = [self binary];
 
   // When
   NSData *serializedEvent = [NSKeyedArchiver archivedDataWithRootObject:sut];
   id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedEvent];
-  
+
   // Then
   assertThat(actual, notNilValue());
   assertThat(actual, instanceOf([MSBinary class]));
-  
+
   MSBinary *actualBinary = actual;
   assertThat(actualBinary, equalTo(actual));
   assertThat(actualBinary.binaryId, equalTo(sut.binaryId));
@@ -57,6 +56,45 @@
   assertThat(actualBinary.architecture, equalTo(sut.architecture));
   assertThat(actualBinary.primaryArchitectureId, equalTo(sut.primaryArchitectureId));
   assertThat(actualBinary.architectureVariantId, equalTo(sut.architectureVariantId));
+}
+
+- (void)testIsValid {
+
+  // If
+  MSBinary *sut = [MSBinary new];
+
+  // Then
+  XCTAssertFalse([sut isValid]);
+
+  // When
+  sut.binaryId = @"binaryId";
+
+  // Then
+  XCTAssertFalse([sut isValid]);
+
+  // When
+  sut.startAddress = @"startAddress";
+
+  // Then
+  XCTAssertFalse([sut isValid]);
+
+  // When
+  sut.endAddress = @"endAddress";
+
+  // Then
+  XCTAssertFalse([sut isValid]);
+
+  // When
+  sut.name = @"name";
+
+  // Then
+  XCTAssertFalse([sut isValid]);
+
+  // When
+  sut.path = @"path";
+
+  // Then
+  XCTAssertTrue([sut isValid]);
 }
 
 #pragma mark - Helper
@@ -71,7 +109,7 @@
   binary.architecture = @"architecture";
   binary.primaryArchitectureId = @12;
   binary.architectureVariantId = @23;
-  
+
   return binary;
 }
 

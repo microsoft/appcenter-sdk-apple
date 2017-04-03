@@ -36,7 +36,9 @@ std::unordered_map<MSPriority, std::array<MSCrashesBufferedLog, ms_crashes_log_b
 static MSCrashesCallbacks msCrashesCallbacks = {.context = NULL, .handleSignal = NULL};
 static NSString *const kMSUserConfirmationKey = @"MSUserConfirmation";
 
-static void ms_save_log_buffer_callback(__attribute__((unused)) siginfo_t *info, __attribute__((unused)) ucontext_t *uap, __attribute__((unused)) void *context) {
+static void ms_save_log_buffer_callback(__attribute__((unused)) siginfo_t *info,
+                                        __attribute__((unused)) ucontext_t *uap,
+                                        __attribute__((unused)) void *context) {
 
   // Do not save the buffer if it is empty.
   if (msCrashesLogBuffer.size() == 0) {
@@ -456,7 +458,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
 #pragma mark - MSChannelDelegate
 
-- (void)channel:(id)channel willSendLog:(id<MSLog>)log {
+- (void)channel:(id<MSChannel>)channel willSendLog:(id<MSLog>)log {
   (void)channel;
   if (self.delegate && [self.delegate respondsToSelector:@selector(crashes:willSendErrorReport:)]) {
     NSObject *logObject = static_cast<NSObject *>(log);

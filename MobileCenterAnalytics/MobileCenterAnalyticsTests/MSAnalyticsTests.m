@@ -30,7 +30,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
 @interface MSAnalytics ()
 
-- (void)channel:(id)channel willSendLog:(id<MSLog>)log;
+- (void)channel:(id<MSChannel>)channel willSendLog:(id<MSLog>)log;
 
 - (void)channel:(id<MSChannel>)channel didSucceedSendingLog:(id<MSLog>)log;
 

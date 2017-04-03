@@ -1,11 +1,7 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
-#import "MSCrashesUtil.h"
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
+#import "MSCrashesUtil.h"
 
 @interface MSCrashesUtilTests : XCTestCase
 
@@ -67,5 +63,4 @@
   assertThat(filename.pathExtension, is(@"txt"));
   assertThat(@(filename.length), greaterThan(@(filename.pathExtension.length + 1)));
 }
-
 @end

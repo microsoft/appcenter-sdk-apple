@@ -46,6 +46,10 @@ static NSString *const kMSLiveUpdatePackageHash = @"live_update_package_hash";
   return dict;
 }
 
+- (BOOL)isValid {
+  return YES;
+}
+
 - (BOOL)isEqual:(id)object {
   if (!object || ![object isKindOfClass:[MSWrapperSdk class]]) {
     return NO;

@@ -201,7 +201,8 @@
 - (void)setDummyParentProperties:(MSErrorAttachmentLog *)attachment {
   attachment.toffset = @(1);
   attachment.sid = MS_UUID_STRING;
-  attachment.device = [MSDevice new];
+  attachment.device = OCMClassMock([MSDevice class]);
+  OCMStub([attachment.device isValid]).andReturn(YES);
 }
 
 @end

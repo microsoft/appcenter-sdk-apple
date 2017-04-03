@@ -68,7 +68,7 @@ static NSString *const kMSArchitecture = @"architecture";
 }
 
 - (BOOL)isValid {
-  return [super isValid] && self.errorId && self.processId && self.processName && self.appLaunchTOffset;
+  return [super isValid] && self.errorId && self.processId && self.processName;
 }
 
 - (BOOL)isEqual:(id)object {

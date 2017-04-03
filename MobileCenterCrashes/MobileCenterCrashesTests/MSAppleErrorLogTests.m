@@ -1,4 +1,5 @@
 #import <Foundation/Foundation.h>
+#import <OCMock/OCMock.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <XCTest/XCTest.h>
 
@@ -147,13 +148,16 @@
 
   // When
   MSAppleErrorLog *log = [MSAppleErrorLog new];
+  log.device = OCMClassMock([MSDevice class]);
+  OCMStub([log.device isValid]).andReturn(YES);
+  log.sid = @"sid";
+  log.toffset = @123;
   log.errorId = @"errorId";
   log.processId = @123;
   log.processName = @"processName";
   log.appLaunchTOffset = @1234567;
   log.toffset = @(1);
   log.sid = MS_UUID_STRING;
-  log.device = [MSDevice new];
 
   // Then
   XCTAssertFalse([log isValid]);

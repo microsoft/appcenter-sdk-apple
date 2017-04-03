@@ -10,21 +10,19 @@ static NSString *const kMSAPIVersion = @"1.0.0-preview20160914";
 static NSString *const kMSAPIVersionKey = @"api_version";
 static NSString *const kMSApiPath = @"/logs";
 
-- (id)initWithBaseUrl:(NSString *)baseUrl
-              appSecret:(NSString *)appSecret
-              installId:(NSString *)installId {
+- (id)initWithBaseUrl:(NSString *)baseUrl appSecret:(NSString *)appSecret installId:(NSString *)installId {
   self = [super initWithBaseUrl:baseUrl
-                        apiPath:kMSApiPath
-                        headers:@{
-                                  kMSHeaderContentTypeKey : kMSContentType,
-                                  kMSHeaderAppSecretKey : appSecret,
-                                  kMSHeaderInstallIDKey : installId
-                                  }
-                   queryStrings:@{
-                                  kMSAPIVersionKey : kMSAPIVersion
-                                  }
-                   reachability:[MS_Reachability reachabilityForInternetConnection]
-                 retryIntervals:@[ @(10), @(5 * 60), @(20 * 60) ]];
+      apiPath:kMSApiPath
+      headers:@{
+        kMSHeaderContentTypeKey : kMSContentType,
+        kMSHeaderAppSecretKey : appSecret,
+        kMSHeaderInstallIDKey : installId
+      }
+      queryStrings:@{
+        kMSAPIVersionKey : kMSAPIVersion
+      }
+      reachability:[MS_Reachability reachabilityForInternetConnection]
+      retryIntervals:@[ @(10), @(5 * 60), @(20 * 60) ]];
   return self;
 }
 
@@ -32,6 +30,11 @@ static NSString *const kMSApiPath = @"/logs";
   MSLogContainer *container = (MSLogContainer *)data;
   NSString *batchId = container.batchId;
 
+  /*
+   * FIXME: All logs are already validated at the time the logs are enqueued to Channel. It is not necessary but it can
+   * still protect against invalid logs being sent to server that are messed up somehow in Storage. If we see
+   * performance issues due to this validation, we will remove `[container isValid]` call below.
+   */
   // Verify container.
   if (!container || ![container isValid]) {
     NSDictionary *userInfo = @{NSLocalizedDescriptionKey : kMSMCLogInvalidContainerErrorDesc};

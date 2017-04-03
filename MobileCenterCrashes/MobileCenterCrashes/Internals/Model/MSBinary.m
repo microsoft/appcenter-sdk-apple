@@ -46,10 +46,11 @@ static NSString *const kMSArchitectureVariantId = @"architecture_variant_id";
   return self.binaryId && self.startAddress && self.endAddress && self.name && self.path;
 }
 
-- (BOOL)isEqual:(MSBinary *)binary {
-  if (!binary)
+- (BOOL)isEqual:(id)object {
+  if (!object || ![object isKindOfClass:[MSBinary class]])
     return NO;
 
+  MSBinary *binary = (MSBinary *)object;
   return ((!self.binaryId && !binary.binaryId) || [self.binaryId isEqualToString:binary.binaryId]) &&
          ((!self.startAddress && !binary.startAddress) || [self.startAddress isEqualToString:binary.startAddress]) &&
          ((!self.endAddress && !binary.endAddress) || [self.endAddress isEqualToString:binary.endAddress]) &&

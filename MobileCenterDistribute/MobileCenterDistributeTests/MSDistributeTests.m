@@ -12,12 +12,9 @@
 #import "MSDistributeTestUtil.h"
 #import "MSDistributeUtil.h"
 #import "MSKeychainUtil.h"
-#import "MSLogManager.h"
 #import "MSMobileCenter.h"
 #import "MSMockUserDefaults.h"
-#import "MSServiceAbstract.h"
 #import "MSServiceAbstractProtected.h"
-#import "MSServiceInternal.h"
 #import "MSUserDefaults.h"
 #import "MSUtility+Application.h"
 #import "MSUtility+Environment.h"
@@ -92,9 +89,10 @@ static NSURL *sfURL;
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
 }
 
-- (void)testUpdateURL {
+- (void)testInstallURL {
 
   // If
+  XCTestExpectation *openURLCalledExpectation = [self expectationWithDescription:@"openURL Called."];
   NSArray *bundleArray = @[
     @{ @"CFBundleURLSchemes" : @[ [NSString stringWithFormat:@"mobilecenter-%@", kMSTestAppSecret] ] }
   ];
@@ -105,6 +103,7 @@ static NSURL *sfURL;
   OCMStub([bundleMock objectForInfoDictionaryKey:@"CFBundleURLTypes"]).andReturn(bundleArray);
   OCMStub([bundleMock objectForInfoDictionaryKey:@"MSAppName"]).andReturn(@"Something");
   id distributeMock = OCMPartialMock(self.sut);
+  OCMStub([distributeMock openURLInEmbeddedSafari:[OCMArg any] fromClass:[OCMArg any]]).andDo(nil);
 
   // Disable for now to bypass initializing sender.
   [distributeMock setEnabled:NO];
@@ -114,6 +113,9 @@ static NSURL *sfURL;
   [distributeMock setEnabled:YES];
 
   // When
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [openURLCalledExpectation fulfill];
+  });
   NSURL *url = [distributeMock buildTokenRequestURLWithAppSecret:kMSTestAppSecret releaseHash:kMSTestReleaseHash];
   NSURLComponents *components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:NO];
   NSMutableDictionary<NSString *, NSString *> *queryStrings = [NSMutableDictionary<NSString *, NSString *> new];
@@ -126,14 +128,21 @@ static NSURL *sfURL;
       }];
 
   // Then
-  assertThat(url, notNilValue());
-  assertThatLong(queryStrings.count, equalToLong(4));
-  assertThatBool([components.path containsString:kMSTestAppSecret], isTrue());
-  assertThat(queryStrings[kMSURLQueryPlatformKey], is(kMSURLQueryPlatformValue));
-  assertThat(queryStrings[kMSURLQueryRedirectIdKey],
-             is([NSString stringWithFormat:kMSDefaultCustomSchemeFormat, kMSTestAppSecret]));
-  assertThat(queryStrings[kMSURLQueryRequestIdKey], notNilValue());
-  assertThat(queryStrings[kMSURLQueryReleaseHashKey], equalTo(kMSTestReleaseHash));
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 assertThat(url, notNilValue());
+                                 assertThatLong(queryStrings.count, equalToLong(4));
+                                 assertThatBool([components.path containsString:kMSTestAppSecret], isTrue());
+                                 assertThat(queryStrings[kMSURLQueryPlatformKey], is(kMSURLQueryPlatformValue));
+                                 assertThat(
+                                     queryStrings[kMSURLQueryRedirectIdKey],
+                                     is([NSString stringWithFormat:kMSDefaultCustomSchemeFormat, kMSTestAppSecret]));
+                                 assertThat(queryStrings[kMSURLQueryRequestIdKey], notNilValue());
+                                 assertThat(queryStrings[kMSURLQueryReleaseHashKey], equalTo(kMSTestReleaseHash));
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
 }
 
 - (void)testMalformedUpdateURL {
@@ -519,7 +528,7 @@ static NSURL *sfURL;
   XCTAssertNil([self.settingsMock objectForKey:kMSIgnoredReleaseIdKey]);
 }
 
-- (void)testcheckForUpdatesAllConditionsMet {
+- (void)testCheckForUpdatesAllConditionsMet {
 
   // If
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
@@ -531,7 +540,6 @@ static NSURL *sfURL;
 
   // When
   OCMStub([mobileCenterMock isDebuggerAttached]).andReturn(NO);
-  OCMStub([utilityMock isRunningInDebugConfiguration]).andReturn(NO);
   OCMStub([utilityMock currentAppEnvironment]).andReturn(MSEnvironmentOther);
 
   // Then
@@ -544,42 +552,26 @@ static NSURL *sfURL;
   OCMVerify([distributeMock requestUpdateToken:kMSTestReleaseHash]);
 }
 
-- (void)testcheckForUpdatesDebuggerAttached {
+- (void)testCheckForUpdatesDebuggerAttached {
 
   // When
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
   id mobileCenterMock = OCMClassMock([MSMobileCenter class]);
   id utilityMock = OCMClassMock([MSUtility class]);
   OCMStub([mobileCenterMock isDebuggerAttached]).andReturn(YES);
-  OCMStub([utilityMock isRunningInDebugConfiguration]).andReturn(NO);
   OCMStub([utilityMock currentAppEnvironment]).andReturn(MSEnvironmentOther);
 
   // Then
   XCTAssertFalse([self.sut checkForUpdatesAllowed]);
 }
 
-- (void)testcheckForUpdatesDebugConfig {
+- (void)testCheckForUpdatesInvalidEnvironment {
 
   // When
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
   id mobileCenterMock = OCMClassMock([MSMobileCenter class]);
   id utilityMock = OCMClassMock([MSUtility class]);
   OCMStub([mobileCenterMock isDebuggerAttached]).andReturn(NO);
-  OCMStub([utilityMock isRunningInDebugConfiguration]).andReturn(YES);
-  OCMStub([utilityMock currentAppEnvironment]).andReturn(MSEnvironmentOther);
-
-  // Then
-  XCTAssertFalse([self.sut checkForUpdatesAllowed]);
-}
-
-- (void)testcheckForUpdatesInvalidEnvironment {
-
-  // When
-  [MSDistributeTestUtil unMockUpdatesAllowedConditions];
-  id mobileCenterMock = OCMClassMock([MSMobileCenter class]);
-  id utilityMock = OCMClassMock([MSUtility class]);
-  OCMStub([mobileCenterMock isDebuggerAttached]).andReturn(NO);
-  OCMStub([utilityMock isRunningInDebugConfiguration]).andReturn(NO);
   OCMStub([utilityMock currentAppEnvironment]).andReturn(MSEnvironmentTestFlight);
 
   // Then
@@ -880,10 +872,7 @@ static NSURL *sfURL;
 - (void)testUpdateURLWithUnregisteredScheme {
 
   // If
-  NSArray *bundleArray =
-  @[ @{
-       @"CFBundleURLSchemes" : @[ @"mobilecenter-IAMSUPERSECRET" ]
-       } ];
+  NSArray *bundleArray = @[ @{ @"CFBundleURLSchemes" : @[ @"mobilecenter-IAMSUPERSECRET" ] } ];
 
   id bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
@@ -935,7 +924,7 @@ static NSURL *sfURL;
   XCTAssertFalse(result);
 }
 
--(MSReleaseDetails*)generateReleaseDetailsWithVersion:(NSString*)version andShortVersion:(NSString*)shortVersion {
+- (MSReleaseDetails *)generateReleaseDetailsWithVersion:(NSString *)version andShortVersion:(NSString *)shortVersion {
   MSReleaseDetails *releaseDetails = [MSReleaseDetails new];
   releaseDetails.version = version;
   releaseDetails.shortVersion = shortVersion;
