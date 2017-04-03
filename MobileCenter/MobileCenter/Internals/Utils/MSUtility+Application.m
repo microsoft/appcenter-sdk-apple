@@ -45,9 +45,9 @@ NSString *MSUtilityApplicationCategory;
   dispatch_async(dispatch_get_main_queue(), ^{
     SEL selector = NSSelectorFromString(@"openURL:options:completionHandler:");
     if ([sharedApp respondsToSelector:selector]) {
-      id _url = url;
-      id _options = options;
-      id _handler = ^(BOOL success) {
+      id resourceUrl = url;
+      id urlOptions = options;
+      id completionHandler = ^(BOOL success) {
         if (completion) {
           completion(success ? MSOpenURLStateSucceed : MSOpenURLStateUnknown);
         }
@@ -56,9 +56,9 @@ NSString *MSUtilityApplicationCategory;
           [NSInvocation invocationWithMethodSignature:[sharedApp methodSignatureForSelector:selector]];
       [invocation setSelector:selector];
       [invocation setTarget:sharedApp];
-      [invocation setArgument:&_url atIndex:2];
-      [invocation setArgument:&_options atIndex:3];
-      [invocation setArgument:&_handler atIndex:4];
+      [invocation setArgument:&resourceUrl atIndex:2];
+      [invocation setArgument:&urlOptions atIndex:3];
+      [invocation setArgument:&completionHandler atIndex:4];
       [invocation invoke];
     } else {
       BOOL success = [sharedApp performSelector:@selector(openURL:) withObject:url];
