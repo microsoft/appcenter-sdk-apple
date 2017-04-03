@@ -153,7 +153,7 @@
 		E8A8D1EC1D3057A90022931E /* MSUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A8D1EA1D3057A90022931E /* MSUserDefaults.m */; };
 		E8AEE9821D5970A400C0FF6C /* MSLogManagerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = E8AEE9811D5970A400C0FF6C /* MSLogManagerDelegate.h */; };
 		E8E48F951D50FF4300A8C1B0 /* MSSenderCallDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = E8E48F941D50FF4300A8C1B0 /* MSSenderCallDelegate.h */; };
-		F803BBF31E8E3677004B1E7A /* MSCustomProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = F803BBF11E8E3677004B1E7A /* MSCustomProperties.h */; };
+		F803BBF31E8E3677004B1E7A /* MSCustomProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = F803BBF11E8E3677004B1E7A /* MSCustomProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F803BBF41E8E3677004B1E7A /* MSCustomProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = F803BBF21E8E3677004B1E7A /* MSCustomProperties.m */; };
 		F803BBF91E8E3989004B1E7A /* MSCustomPropertiesLog.m in Sources */ = {isa = PBXBuildFile; fileRef = F803BBF81E8E3989004B1E7A /* MSCustomPropertiesLog.m */; };
 		F803BC381E8E6927004B1E7A /* MSCustomPropertiesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F803BC371E8E6927004B1E7A /* MSCustomPropertiesTests.m */; };
@@ -689,6 +689,7 @@
 				387C758F1D64E50800D68CC1 /* MSServiceCommon.h in Headers */,
 				B2C3C1901DB9864600CB83F7 /* MSDevice.h in Headers */,
 				842C131E1E7FCF5300F16EA3 /* MSUtility.h in Headers */,
+				F803BBF31E8E3677004B1E7A /* MSCustomProperties.h in Headers */,
 				B2C3C1921DB9864600CB83F7 /* MSWrapperSdk.h in Headers */,
 				6E04016A1D1C9E1F0051BCFA /* MSMobileCenter.h in Headers */,
 				04FD126F1E415697007ABFE7 /* MSLogManagerDefaultPrivate.h in Headers */,
@@ -733,7 +734,6 @@
 				385AD9221D95898D008B354A /* MSServiceAbstractProtected.h in Headers */,
 				38EAD9AC1DA6A8C500CE6030 /* MSEnable.h in Headers */,
 				842C13201E7FCF5300F16EA3 /* MSUtility+Application.h in Headers */,
-				F803BBF31E8E3677004B1E7A /* MSCustomProperties.h in Headers */,
 				6E2BA1AF1D2499F9002D7B88 /* MSFileUtil.h in Headers */,
 				381C91E91D3DB65D004512F1 /* MSDeviceTracker.h in Headers */,
 				842C13221E7FCF5300F16EA3 /* MSUtility+ApplicationPrivate.h in Headers */,
