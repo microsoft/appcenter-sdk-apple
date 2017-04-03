@@ -6,7 +6,7 @@
 #import "MSSessionTrackerUtil.h"
 #import "MSStartSessionLog.h"
 
-NSTimeInterval const kMSTestSessionTimeout = 1.5;
+static NSTimeInterval const kMSTestSessionTimeout = 1.5;
 
 @interface MSSessionTrackerTests : XCTestCase
 
@@ -19,9 +19,9 @@ NSTimeInterval const kMSTestSessionTimeout = 1.5;
 - (void)setUp {
   [super setUp];
 
-  _sut = [[MSSessionTracker alloc] init];
-  [_sut setSessionTimeout:kMSTestSessionTimeout];
-  [_sut start];
+  self.sut = [[MSSessionTracker alloc] init];
+  [self.sut setSessionTimeout:kMSTestSessionTimeout];
+  [self.sut start];
 
   [MSSessionTrackerUtil simulateDidEnterBackgroundNotification];
   [NSThread sleepForTimeInterval:0.1];
@@ -38,14 +38,14 @@ NSTimeInterval const kMSTestSessionTimeout = 1.5;
 
   // Verify the creation of sid and device log
   {
-    expectedSid = _sut.sessionId;
+    expectedSid = self.sut.sessionId;
 
     XCTAssertNotNil(expectedSid);
   }
 
   // Verify reuse of the same session id on next get
   {
-    NSString *sid = _sut.sessionId;
+    NSString *sid = self.sut.sessionId;
 
     XCTAssertEqual(expectedSid, sid);
   }
@@ -53,21 +53,21 @@ NSTimeInterval const kMSTestSessionTimeout = 1.5;
 
 // Apps is in foreground for longer than the timeout time, still same session
 - (void)testLongForegroundSession {
-  NSString *expectedSid = _sut.sessionId;
+  NSString *expectedSid = self.sut.sessionId;
   // mock a log creation
-  _sut.lastCreatedLogTime = [NSDate date];
+  self.sut.lastCreatedLogTime = [NSDate date];
 
   // Wait for longer than timeout in foreground
   [NSThread sleepForTimeInterval:kMSTestSessionTimeout + 1];
 
-  NSString *sid = _sut.sessionId;
+  NSString *sid = self.sut.sessionId;
   XCTAssertEqual(expectedSid, sid);
 }
 
 - (void)testShortBackgroundSession {
-  NSString *expectedSid = _sut.sessionId;
+  NSString *expectedSid = self.sut.sessionId;
   // mock a log creation
-  _sut.lastCreatedLogTime = [NSDate date];
+  self.sut.lastCreatedLogTime = [NSDate date];
 
   // Enter background
   [MSSessionTrackerUtil simulateDidEnterBackgroundNotification];
@@ -78,18 +78,18 @@ NSTimeInterval const kMSTestSessionTimeout = 1.5;
   // Enter foreground
   [MSSessionTrackerUtil simulateWillEnterForegroundNotification];
 
-  NSString *sid = _sut.sessionId;
+  NSString *sid = self.sut.sessionId;
 
   XCTAssertEqual(expectedSid, sid);
 }
 
 - (void)testLongBackgroundSession {
-  NSString *expectedSid = _sut.sessionId;
+  NSString *expectedSid = self.sut.sessionId;
   // mock a log creation
-  _sut.lastCreatedLogTime = [NSDate date];
+  self.sut.lastCreatedLogTime = [NSDate date];
 
   // mock a log creation
-  _sut.lastCreatedLogTime = [NSDate date];
+  self.sut.lastCreatedLogTime = [NSDate date];
 
   XCTAssertNotNil(expectedSid);
 
@@ -102,18 +102,18 @@ NSTimeInterval const kMSTestSessionTimeout = 1.5;
   // Enter foreground
   [MSSessionTrackerUtil simulateWillEnterForegroundNotification];
 
-  NSString *sid = _sut.sessionId;
+  NSString *sid = self.sut.sessionId;
   XCTAssertNotEqual(expectedSid, sid);
 }
 
 - (void)testLongBackgroundSessionWithSessionTrackingStopped {
 
   // Stop session tracking
-  [_sut stop];
+  [self.sut stop];
 
-  NSString *expectedSid = _sut.sessionId;
+  NSString *expectedSid = self.sut.sessionId;
   // mock a log creation
-  _sut.lastCreatedLogTime = [NSDate date];
+  self.sut.lastCreatedLogTime = [NSDate date];
 
   XCTAssertNotNil(expectedSid);
 
@@ -125,29 +125,31 @@ NSTimeInterval const kMSTestSessionTimeout = 1.5;
 
   [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillEnterForegroundNotification object:self];
 
-  NSString *sid = _sut.sessionId;
+  NSString *sid = self.sut.sessionId;
   XCTAssertEqual(expectedSid, sid);
 }
 
 - (void)testTooLongInBackground {
-  NSString *expectedSid = _sut.sessionId;
 
+  // If
+  NSString *expectedSid = self.sut.sessionId;
+
+  // Then
   XCTAssertNotNil(expectedSid);
 
+  // When
   [MSSessionTrackerUtil simulateWillEnterForegroundNotification];
-
   [NSThread sleepForTimeInterval:1];
+
   // Enter background
   [MSSessionTrackerUtil simulateDidEnterBackgroundNotification];
 
   // mock a log creation while app is in background
-  _sut.lastCreatedLogTime = [NSDate date];
-
+  self.sut.lastCreatedLogTime = [NSDate date];
   [NSThread sleepForTimeInterval:kMSTestSessionTimeout + 1];
+  NSString *sid = self.sut.sessionId;
 
-  //_sut.lastCreatedLogTime = [NSDate date];
-
-  NSString *sid = _sut.sessionId;
+  // Then
   XCTAssertNotEqual(expectedSid, sid);
 }
 

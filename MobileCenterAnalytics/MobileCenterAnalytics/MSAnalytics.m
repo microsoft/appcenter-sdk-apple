@@ -233,7 +233,7 @@ static dispatch_once_t onceToken;
 
 #pragma mark - MSChannelDelegate
 
-- (void)channel:(id)channel willSendLog:(id<MSLog>)log {
+- (void)channel:(id<MSChannel>)channel willSendLog:(id<MSLog>)log {
   (void)channel;
   if (!self.delegate) {
     return;

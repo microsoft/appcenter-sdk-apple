@@ -122,7 +122,7 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
                             }];
 
   // Set common log info.
-  log.toffset = [NSNumber numberWithLongLong:[MSUtility nowInMilliseconds]];
+  log.toffset = [NSNumber numberWithLongLong:(long long)([MSUtility nowInMilliseconds])];
 
   // Only add device info in case the log doesn't have one. In case the log is restored after a crash or for crashes,
   // We don't want the device information to be updated but want the old one preserved.

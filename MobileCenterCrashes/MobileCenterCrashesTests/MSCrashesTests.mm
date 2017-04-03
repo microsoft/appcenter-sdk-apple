@@ -8,12 +8,12 @@
 #import "MSCrashesInternal.h"
 #import "MSCrashesPrivate.h"
 #import "MSCrashesTestUtil.h"
+#import "MSCrashesUtil.h"
 #import "MSException.h"
 #import "MSMockCrashesDelegate.h"
 #import "MSServiceAbstractPrivate.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSWrapperExceptionManagerInternal.h"
-#import "MSCrashesUtil.h"
 
 @class MSMockCrashesDelegate;
 
@@ -26,7 +26,7 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
 
 - (void)startCrashProcessing;
 
-- (void)channel:(id)channel willSendLog:(id<MSLog>)log;
+- (void)channel:(id<MSChannel>)channel willSendLog:(id<MSLog>)log;
 
 - (void)channel:(id<MSChannel>)channel didSucceedSendingLog:(id<MSLog>)log;
 
@@ -239,14 +239,14 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
   self.sut.storage = settingsMock;
   assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
   [self.sut startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
+  NSString *path = [self.sut.crashesDir path];
 
   // When
   [self.sut setEnabled:NO];
 
   // Then
   assertThat(self.sut.crashFiles, hasCountOf(0));
-  assertThatLong([self.sut.fileManager contentsOfDirectoryAtPath:[self.sut.crashesDir path] error:nil].count,
-                 equalToLong(0));
+  assertThatLong([self.sut.fileManager contentsOfDirectoryAtPath:path error:nil].count, equalToLong(0));
 }
 
 - (void)testDeleteCrashReportsFromDisabledToEnabled {
@@ -257,14 +257,14 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
   self.sut.storage = settingsMock;
   assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
   [self.sut startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
+  NSString *path = [self.sut.crashesDir path];
 
   // When
   [self.sut setEnabled:YES];
 
   // Then
   assertThat(self.sut.crashFiles, hasCountOf(0));
-  assertThatLong([self.sut.fileManager contentsOfDirectoryAtPath:[self.sut.crashesDir path] error:nil].count,
-                 equalToLong(0));
+  assertThatLong([self.sut.fileManager contentsOfDirectoryAtPath:path error:nil].count, equalToLong(0));
 }
 
 - (void)testSetupLogBufferWorks {
@@ -354,13 +354,13 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
   int indexOfLatestObject = 0;
   NSNumber *oldestTimestamp;
   for (auto it = msCrashesLogBuffer.begin(), end = msCrashesLogBuffer.end(); it != end; ++it) {
-    NSNumber *bufferedLogTimestamp = [timestampFormatter
-        numberFromString:[NSString stringWithCString:it->timestamp.c_str() encoding:NSUTF8StringEncoding]];
+    NSString *timestampString = [NSString stringWithCString:it->timestamp.c_str() encoding:NSUTF8StringEncoding];
+    NSNumber *bufferedLogTimestamp = [timestampFormatter numberFromString:timestampString];
 
     // Remember the timestamp if the log is older than the previous one or the initial one.
     if (!oldestTimestamp || oldestTimestamp.doubleValue > bufferedLogTimestamp.doubleValue) {
       oldestTimestamp = bufferedLogTimestamp;
-      indexOfLatestObject = it - msCrashesLogBuffer.begin();
+      indexOfLatestObject = static_cast<int>(it - msCrashesLogBuffer[static_cast<MSPriority>(priority)].begin());
     }
   }
   // Then
@@ -378,13 +378,13 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
   indexOfLatestObject = 0;
   oldestTimestamp = nil;
   for (auto it = msCrashesLogBuffer.begin(), end = msCrashesLogBuffer.end(); it != end; ++it) {
-    NSNumber *bufferedLogTimestamp = [timestampFormatter
-        numberFromString:[NSString stringWithCString:it->timestamp.c_str() encoding:NSUTF8StringEncoding]];
+    NSString *timestampString = [NSString stringWithCString:it->timestamp.c_str() encoding:NSUTF8StringEncoding];
+    NSNumber *bufferedLogTimestamp = [timestampFormatter numberFromString:timestampString];
 
     // Remember the timestamp if the log is older than the previous one or the initial one.
     if (!oldestTimestamp || oldestTimestamp.doubleValue > bufferedLogTimestamp.doubleValue) {
       oldestTimestamp = bufferedLogTimestamp;
-      indexOfLatestObject = it - msCrashesLogBuffer.begin();
+	  indexOfLatestObject = static_cast<int>(it - msCrashesLogBuffer[static_cast<MSPriority>(priority)].begin());
     }
   }
 

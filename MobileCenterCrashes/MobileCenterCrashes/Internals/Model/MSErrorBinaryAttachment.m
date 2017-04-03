@@ -38,13 +38,14 @@ static NSString *const kMSContentType = @"content_type";
   return self.contentType && self.data;
 }
 
-- (BOOL)isEqual:(MSErrorBinaryAttachment *)attachment {
-  if (!attachment)
+- (BOOL)isEqual:(id)object {
+  if (!object)
     return NO;
-
-  return ((!self.fileName && !attachment.fileName) || [self.fileName isEqualToString:(NSString *_Nonnull)attachment.fileName]) &&
-      ((!self.data && !attachment.data) || [self.data isEqual:attachment.data]) &&
-      ((!self.contentType && !attachment.contentType) || [self.contentType isEqualToString:attachment.contentType]);
+  MSErrorBinaryAttachment *attachment = (MSErrorBinaryAttachment *)object;
+  return ((!self.fileName && !attachment.fileName) ||
+          [self.fileName isEqualToString:(NSString * _Nonnull)attachment.fileName]) &&
+         ((!self.data && !attachment.data) || [self.data isEqual:attachment.data]) &&
+         ((!self.contentType && !attachment.contentType) || [self.contentType isEqualToString:attachment.contentType]);
 }
 
 #pragma mark - NSCoding

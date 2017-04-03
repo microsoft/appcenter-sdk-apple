@@ -64,7 +64,7 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
       // Record session.
       MSSessionHistoryInfo *sessionInfo = [[MSSessionHistoryInfo alloc] init];
       sessionInfo.sessionId = _sessionId;
-      sessionInfo.toffset = @((long long)[MSUtility nowInMilliseconds]);
+      sessionInfo.toffset = [NSNumber numberWithDouble:[MSUtility nowInMilliseconds]];
 
       // Insert at the beginning of the list.
       [self.pastSessions insertObject:sessionInfo atIndex:0];
@@ -76,7 +76,8 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
       // Persist the session history in NSData format.
       [MS_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.pastSessions]
                            forKey:kMSPastSessionsKey];
-      MSLogInfo([MSAnalytics logTag], @"New session ID: %@", _sessionId);
+      NSString *session = _sessionId;
+      MSLogInfo([MSAnalytics logTag], @"New session ID: %@", session);
 
       // Create a start session log.
       MSStartSessionLog *log = [[MSStartSessionLog alloc] init];

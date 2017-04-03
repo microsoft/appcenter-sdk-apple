@@ -15,13 +15,11 @@
 
 @implementation MSDeviceTests
 
-@synthesize sut = _sut;
-
 #pragma mark - Housekeeping
 
 - (void)setUp {
   [super setUp];
-  _sut = [MSDevice new];
+  self.sut = [MSDevice new];
 }
 
 - (void)tearDown {
