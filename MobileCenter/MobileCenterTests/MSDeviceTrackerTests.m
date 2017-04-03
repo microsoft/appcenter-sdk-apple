@@ -1,3 +1,6 @@
+#import <OCHamcrestIOS/OCHamcrestIOS.h>
+#import <OCMock/OCMock.h>
+#import <XCTest/XCTest.h>
 #import "MSDevice.h"
 #import "MSDeviceHistoryInfo.h"
 #import "MSDevicePrivate.h"
@@ -6,9 +9,6 @@
 #import "MSMockUserDefaults.h"
 #import "MSUtility+Date.h"
 #import "MSWrapperSdkPrivate.h"
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <OCMock/OCMock.h>
-#import <XCTest/XCTest.h>
 
 static NSString *const kMSDeviceManufacturerTest = @"Apple";
 
@@ -287,41 +287,41 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 }
 
 - (void)testCreationOfNewDeviceWorks {
-  
+
   // When
   MSDevice *expected = [[MSDeviceTracker sharedInstance] updatedDevice];
-  
+
   // Then
-  
+
   assertThat(expected.sdkVersion, notNilValue());
   assertThatInteger([expected.sdkVersion length], greaterThan(@(0)));
-  
+
   assertThat(expected.model, notNilValue());
   assertThatInteger([expected.model length], greaterThan(@(0)));
-  
+
   assertThat(expected.oemName, is(kMSDeviceManufacturerTest));
-  
+
   assertThat(expected.osName, notNilValue());
   assertThatInteger([expected.osName length], greaterThan(@(0)));
-  
+
   assertThat(expected.osVersion, notNilValue());
   assertThatInteger([expected.osVersion length], greaterThan(@(0)));
   assertThatFloat([expected.osVersion floatValue], greaterThan(@(0.0)));
-  
+
   assertThat(expected.locale, notNilValue());
   assertThatInteger([expected.locale length], greaterThan(@(0)));
-  
+
   assertThat(expected.timeZoneOffset, notNilValue());
-  
+
   assertThat(expected.screenSize, notNilValue());
-  
+
   // Can't access carrier name and country in test context but it's optional and in that case it has to be nil.
   assertThat(expected.carrierCountry, nilValue());
   assertThat(expected.carrierName, nilValue());
-  
+
   // Can't access a valid main bundle from test context so we can't test for App namespace (bundle ID), version and
   // build.
-  
+
   XCTAssertNotEqual(expected, self.sut.device);
 }
 
@@ -331,47 +331,47 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 
   // When
   [self.sut clearDevices];
-  
+
   // Then
   XCTAssertTrue([self.sut.deviceHistory count] == 0);
   XCTAssertNil([defaults objectForKey:kMSPastDevicesKey]);
-  
+
   // When
   [self.sut device];
   XCTAssertNotNil([defaults objectForKey:kMSPastDevicesKey]);
 }
 
 - (void)testEnqueuingAndRefreshWorks {
-  
+
   // If
   MSDeviceTracker *tracker = [[MSDeviceTracker alloc] init];
   [tracker clearDevices];
-  
+
   // When
   MSDevice *first = [tracker device];
   [MSDeviceTracker refreshDeviceNextTime];
   MSDevice *second = [tracker device];
   [MSDeviceTracker refreshDeviceNextTime];
   MSDevice *third = [tracker device];
-  
+
   // Then
   XCTAssertTrue([[tracker deviceHistory] count] == 3);
   XCTAssertTrue([tracker.deviceHistory[0].device isEqual:first]);
   XCTAssertTrue([tracker.deviceHistory[1].device isEqual:second]);
   XCTAssertTrue([tracker.deviceHistory[2].device isEqual:third]);
-  
+
   // When
   // We haven't called setNeedsRefresh: so device won't be refreshed.
   MSDevice *fourth = [tracker device];
-  
+
   // Then
   XCTAssertTrue([[tracker deviceHistory] count] == 3);
   XCTAssertTrue([fourth isEqual:third]);
-  
+
   // When
   [MSDeviceTracker refreshDeviceNextTime];
   fourth = [tracker device];
-  
+
   // Then
   XCTAssertTrue([[tracker deviceHistory] count] == 4);
   XCTAssertTrue([tracker.deviceHistory[3].device isEqual:fourth]);
@@ -379,7 +379,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   // When
   [MSDeviceTracker refreshDeviceNextTime];
   MSDevice *fifth = [tracker device];
-  
+
   // Then
   XCTAssertTrue([[tracker deviceHistory] count] == 5);
   XCTAssertTrue([tracker.deviceHistory[4].device isEqual:fifth]);
@@ -387,17 +387,17 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   // When
   [MSDeviceTracker refreshDeviceNextTime];
   MSDevice *sixth = [tracker device];
-  
+
   // Then
   // The new device should be added at the end and the first one removed so that second is at index 0
   XCTAssertTrue([[tracker deviceHistory] count] == 5);
   XCTAssertTrue([tracker.deviceHistory[0].device isEqual:second]);
   XCTAssertTrue([tracker.deviceHistory[4].device isEqual:sixth]);
-  
+
   // When
   [MSDeviceTracker refreshDeviceNextTime];
   MSDevice *seventh = [tracker device];
-  
+
   // Then
   // The new device should be added at the end and the first one removed so that third is at index 0
   XCTAssertTrue([[tracker deviceHistory] count] == 5);
@@ -406,7 +406,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 }
 
 - (void)testHistoryReturnsClosestDevice {
-  
+
   // If
   MSDeviceTracker *tracker = [MSDeviceTracker sharedInstance];
   [tracker clearDevices];
@@ -424,17 +424,17 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   [tracker device]; // we don't need the second device history info
   [MSDeviceTracker refreshDeviceNextTime];
   MSDevice *third = [tracker device];
-  
+
   // When
   actual = [tracker deviceForToffset:@1];
-  
+
   // Then
   XCTAssertTrue([actual isEqual:first]);
-  
+
   // When
-  NSNumber *now =  [NSNumber numberWithLongLong:[MSUtility nowInMilliseconds]];
+  NSNumber *now = [NSNumber numberWithLongLong:(long long)([MSUtility nowInMilliseconds])];
   actual = [tracker deviceForToffset:now];
-  
+
   // Then
   XCTAssertTrue([actual isEqual:third]);
 }
