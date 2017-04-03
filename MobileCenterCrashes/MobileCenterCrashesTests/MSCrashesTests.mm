@@ -512,8 +512,8 @@ static NSString *const kMSFatal = @"fatal";
   // When
   NSDictionary *serializedLog = [log serializeToDictionary];
 
-  // Then
-  XCTAssertFalse([serializedLog objectForKey:kMSFatal]);
+  // Then static_cast<NSObject *>
+  XCTAssertFalse([static_cast<NSNumber*>([serializedLog objectForKey:kMSFatal]) boolValue]);
 
   // If
   log.fatal = NO;
@@ -522,7 +522,7 @@ static NSString *const kMSFatal = @"fatal";
   serializedLog = [log serializeToDictionary];
 
   // Then
-  XCTAssertFalse([serializedLog objectForKey:kMSFatal]);
+  XCTAssertFalse([static_cast<NSNumber*>([serializedLog objectForKey:kMSFatal]) boolValue]);
 
   // If
   log.fatal = YES;
@@ -531,7 +531,7 @@ static NSString *const kMSFatal = @"fatal";
   serializedLog = [log serializeToDictionary];
 
   // Then
-  XCTAssertTrue([serializedLog objectForKey:kMSFatal]);
+  XCTAssertTrue([static_cast<NSNumber*>([serializedLog objectForKey:kMSFatal]) boolValue]);
 }
 
 - (BOOL)crashes:(MSCrashes *)crashes shouldProcessErrorReport:(MSErrorReport *)errorReport {
