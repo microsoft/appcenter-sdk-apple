@@ -509,14 +509,20 @@ static NSString *const kMSFatal = @"fatal";
 - (void)testAbstractErrorLogSerialization {
   MSAbstractErrorLog *log = [MSAbstractErrorLog new];
 
-  // If
-  log.fatal = NO;
-
   // When
   NSDictionary *serializedLog = [log serializeToDictionary];
 
   // Then
-  XCTAssertNotNil([serializedLog objectForKey:kMSFatal]);
+  XCTAssertFalse([serializedLog objectForKey:kMSFatal]);
+
+  // If
+  log.fatal = NO;
+
+  // When
+  serializedLog = [log serializeToDictionary];
+
+  // Then
+  XCTAssertFalse([serializedLog objectForKey:kMSFatal]);
 
   // If
   log.fatal = YES;
@@ -525,7 +531,7 @@ static NSString *const kMSFatal = @"fatal";
   serializedLog = [log serializeToDictionary];
 
   // Then
-  XCTAssertNotNil([serializedLog objectForKey:kMSFatal]);
+  XCTAssertTrue([serializedLog objectForKey:kMSFatal]);
 }
 
 - (BOOL)crashes:(MSCrashes *)crashes shouldProcessErrorReport:(MSErrorReport *)errorReport {
