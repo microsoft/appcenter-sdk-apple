@@ -130,24 +130,26 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
 }
 
 - (void)testTooLongInBackground {
+
+  // If
   NSString *expectedSid = self.sut.sessionId;
 
+  // Then
   XCTAssertNotNil(expectedSid);
 
+  // When
   [MSSessionTrackerUtil simulateWillEnterForegroundNotification];
-
   [NSThread sleepForTimeInterval:1];
+
   // Enter background
   [MSSessionTrackerUtil simulateDidEnterBackgroundNotification];
 
   // mock a log creation while app is in background
   self.sut.lastCreatedLogTime = [NSDate date];
-
   [NSThread sleepForTimeInterval:kMSTestSessionTimeout + 1];
-
-  // self.sut.lastCreatedLogTime = [NSDate date];
-
   NSString *sid = self.sut.sessionId;
+
+  // Then
   XCTAssertNotEqual(expectedSid, sid);
 }
 
