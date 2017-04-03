@@ -3,10 +3,9 @@ import MobileCenterAnalytics
 import MobileCenterCrashes
 import MobileCenterDistribute
 
-/*
+/**
  * MobileCenterDelegate implementation in Swift.
  */
-
 class MobileCenterDelegateSwift: MobileCenterDelegate {
   
   // MSMobileCenter section.

@@ -1,9 +1,8 @@
-/*
+/**
  * Protocol for interacting with MobileCenter SDK.
  * SasquatchSwift and SasquatchObjC implement this protocol
  * to show usage of MobileCenter SDK in a language specific way.
  */
-
 @objc protocol MobileCenterDelegate {
 
   // MSMobileCenter section.

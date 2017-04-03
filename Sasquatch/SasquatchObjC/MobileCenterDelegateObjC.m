@@ -6,10 +6,9 @@
 @import MobileCenterCrashes;
 @import MobileCenterDistribute;
 
-/*
+/**
  * MobileCenterDelegate implementation in Objective C.
  */
-
 @implementation MobileCenterDelegateObjC
 
 #pragma mark - MSMobileCenter section.
