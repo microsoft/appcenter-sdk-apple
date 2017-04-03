@@ -113,8 +113,9 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
   [MSCrashes setDelegate:delegateMock];
 
   // Then
-  XCTAssertNotNil([MSCrashes sharedInstance].delegate);
-  XCTAssertEqual([MSCrashes sharedInstance].delegate, delegateMock);
+  id<MSCrashesDelegate> strongDelegate = [MSCrashes sharedInstance].delegate;
+  XCTAssertNotNil(strongDelegate);
+  XCTAssertEqual(strongDelegate, delegateMock);
 }
 
 - (void)testDelegateMethodsAreCalled {
