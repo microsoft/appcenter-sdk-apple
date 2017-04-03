@@ -76,7 +76,8 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
       // Persist the session history in NSData format.
       [MS_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.pastSessions]
                            forKey:kMSPastSessionsKey];
-      MSLogInfo([MSAnalytics logTag], @"New session ID: %@", _sessionId);
+      NSString *session = _sessionId;
+      MSLogInfo([MSAnalytics logTag], @"New session ID: %@", session);
 
       // Create a start session log.
       MSStartSessionLog *log = [[MSStartSessionLog alloc] init];

@@ -16,7 +16,7 @@ typedef struct {
 } ms_info_t;
 
 // SDK versioning.
-ms_info_t mobilecenter_library_info
+static ms_info_t mobilecenter_library_info
     __attribute__((section("__TEXT,__ms_ios,regular,no_dead_strip"))) = {.info_version = 1,
                                                                          .ms_name = MOBILE_CENTER_C_NAME,
                                                                          .ms_version = MOBILE_CENTER_C_VERSION,

@@ -6,13 +6,13 @@
 #import "MSUtility+Environment.h"
 #import "MSUtility+StringFormatting.h"
 
-@interface MSUtilTests : XCTestCase
+@interface MSUtilityTests : XCTestCase
 
 @property(nonatomic) id utils;
 
 @end
 
-@implementation MSUtilTests
+@implementation MSUtilityTests
 
 - (void)setUp {
   [super setUp];
@@ -97,8 +97,8 @@
   /**
    * When
    */
-  long long actual = [MSUtility nowInMilliseconds] / 10;
-  long long expected = [[NSDate date] timeIntervalSince1970] * 100;
+  long long actual = (long long)([MSUtility nowInMilliseconds] / 10);
+  long long expected = (long long)([[NSDate date] timeIntervalSince1970] * 100);
 
   /**
    * Then
@@ -124,37 +124,38 @@
 }
 
 - (void)testSharedAppOpenEmptyCallCallback {
-  
+
   // If
   XCTestExpectation *openURLCalledExpectation = [self expectationWithDescription:@"openURL Called."];
   __block BOOL handlerHasBeenCalled = NO;
-  
+
   // When
-  [MSUtility sharedAppOpenUrl:[NSURL URLWithString:@""] options:@{} completionHandler:^(MSOpenURLState status) {
-    handlerHasBeenCalled = YES;
-    XCTAssertEqual(status, MSOpenURLStateFailed);
-  }];
+  [MSUtility sharedAppOpenUrl:[NSURL URLWithString:@""]
+      options:@{}
+      completionHandler:^(MSOpenURLState status) {
+        handlerHasBeenCalled = YES;
+        XCTAssertEqual(status, MSOpenURLStateFailed);
+      }];
   dispatch_async(dispatch_get_main_queue(), ^{
     [openURLCalledExpectation fulfill];
   });
-  
+
   // Then
-  [self
-   waitForExpectationsWithTimeout:1
-   handler:^(NSError *error) {
-     XCTAssertTrue(handlerHasBeenCalled);
-     if (error) {
-       XCTFail(@"Expectation Failed with error: %@", error);
-     }
-   }];
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 XCTAssertTrue(handlerHasBeenCalled);
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
 }
 
 - (void)testCreateSha256 {
-  
+
   // When
   NSString *test = @"TestString";
   NSString *result = [MSUtility sha256:test];
-  
+
   // Then
   XCTAssertTrue([result isEqualToString:@"6dd79f2770a0bb38073b814a5ff000647b37be5abbde71ec9176c6ce0cb32a27"]);
 }

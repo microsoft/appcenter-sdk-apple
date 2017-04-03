@@ -118,7 +118,7 @@
 
   // Then
   assertThatInteger(actual.count, equalToInteger(expected.count));
-  for (int i = 0; i < actual.count; i++) {
+  for (NSUInteger i = 0; i < actual.count; i++) {
     assertThat(actual[i].fileURL, equalTo(expected[i].fileURL));
     assertThat(actual[i].fileId, equalTo(expected[i].fileId));
     assertThat(actual[i].creationDate.description, equalTo(expected[i].creationDate.description));

@@ -16,8 +16,9 @@
 
   // If
   NSString *filename = [[NSBundle bundleForClass:[self class]] pathForResource:@"release_details" ofType:@"json"];
+  NSData *data = [NSData dataWithContentsOfFile:filename];
   MSReleaseDetails *details = [[MSReleaseDetails alloc]
-      initWithDictionary:[NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:filename]
+      initWithDictionary:[NSJSONSerialization JSONObjectWithData:data
                                                          options:NSJSONReadingMutableContainers
                                                            error:nil]];
 
