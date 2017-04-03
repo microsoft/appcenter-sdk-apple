@@ -596,7 +596,7 @@
 				TargetAttributes = {
 					84226C461E88FF4A00798417 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = UBF8T346G9;
+						DevelopmentTeam = L4RARDNZ2Y;
 					};
 					84226C7F1E8908C900798417 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -604,22 +604,22 @@
 					};
 					D35C02681E9242ED00B4651B = {
 						CreatedOnToolsVersion = 8.3;
-						DevelopmentTeam = UBF8T346G9;
+						DevelopmentTeam = L4RARDNZ2Y;
 						ProvisioningStyle = Automatic;
 					};
 					D35C02741E9242ED00B4651B = {
 						CreatedOnToolsVersion = 8.3;
-						DevelopmentTeam = UBF8T346G9;
+						DevelopmentTeam = L4RARDNZ2Y;
 						ProvisioningStyle = Automatic;
 					};
 					D35C02981E9243C500B4651B = {
 						CreatedOnToolsVersion = 8.3;
-						DevelopmentTeam = UBF8T346G9;
+						DevelopmentTeam = L4RARDNZ2Y;
 						ProvisioningStyle = Automatic;
 					};
 					D35C02A41E9243C500B4651B = {
 						CreatedOnToolsVersion = 8.3;
-						DevelopmentTeam = UBF8T346G9;
+						DevelopmentTeam = L4RARDNZ2Y;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -924,7 +924,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = NO;
-				DEVELOPMENT_TEAM = UBF8T346G9;
+				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-iOS/**";
 				INFOPLIST_FILE = SasquatchObjC/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -942,7 +942,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = NO;
-				DEVELOPMENT_TEAM = UBF8T346G9;
+				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-iOS/**";
 				INFOPLIST_FILE = SasquatchObjC/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -991,7 +991,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				DEVELOPMENT_TEAM = UBF8T346G9;
+				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-iOS";
 				INFOPLIST_FILE = "SasquatchWatchObjC Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
@@ -1009,7 +1009,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				DEVELOPMENT_TEAM = UBF8T346G9;
+				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-iOS";
 				INFOPLIST_FILE = "SasquatchWatchObjC Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
@@ -1027,7 +1027,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				DEVELOPMENT_TEAM = UBF8T346G9;
+				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-iOS";
 				IBSC_MODULE = SasquatchWatchObjC_Extension;
 				INFOPLIST_FILE = SasquatchWatchObjC/Info.plist;
@@ -1045,7 +1045,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				DEVELOPMENT_TEAM = UBF8T346G9;
+				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-iOS";
 				IBSC_MODULE = SasquatchWatchObjC_Extension;
 				INFOPLIST_FILE = SasquatchWatchObjC/Info.plist;
@@ -1063,7 +1063,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				DEVELOPMENT_TEAM = UBF8T346G9;
+				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-iOS";
 				INFOPLIST_FILE = "SasquatchWatchSwift Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
@@ -1082,7 +1082,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				DEVELOPMENT_TEAM = UBF8T346G9;
+				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-iOS";
 				INFOPLIST_FILE = "SasquatchWatchSwift Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
@@ -1102,7 +1102,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				DEVELOPMENT_TEAM = UBF8T346G9;
+				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-iOS";
 				IBSC_MODULE = SasquatchWatchSwift_Extension;
 				INFOPLIST_FILE = SasquatchWatchSwift/Info.plist;
@@ -1122,7 +1122,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				DEVELOPMENT_TEAM = UBF8T346G9;
+				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-iOS";
 				IBSC_MODULE = SasquatchWatchSwift_Extension;
 				INFOPLIST_FILE = SasquatchWatchSwift/Info.plist;
