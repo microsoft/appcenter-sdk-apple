@@ -34,7 +34,9 @@ std::unordered_map<MSPriority, std::array<MSCrashesBufferedLog, ms_crashes_log_b
 static MSCrashesCallbacks msCrashesCallbacks = {.context = NULL, .handleSignal = NULL};
 static NSString *const kMSUserConfirmationKey = @"MSUserConfirmation";
 
-static void ms_save_log_buffer_callback(__attribute__((unused)) siginfo_t *info, __attribute__((unused)) ucontext_t *uap, __attribute__((unused)) void *context) {
+static void ms_save_log_buffer_callback(__attribute__((unused)) siginfo_t *info,
+                                        __attribute__((unused)) ucontext_t *uap,
+                                        __attribute__((unused)) void *context) {
 
   // Do not save the buffer if it is empty.
   if (msCrashesLogBuffer.size() == 0) {
@@ -443,7 +445,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
 #pragma mark - MSChannelDelegate
 
-- (void)channel:(id)channel willSendLog:(id<MSLog>)log {
+- (void)channel:(id<MSChannel>)channel willSendLog:(id<MSLog>)log {
   (void)channel;
   if (self.delegate && [self.delegate respondsToSelector:@selector(crashes:willSendErrorReport:)]) {
     NSObject *logObject = static_cast<NSObject *>(log);
@@ -665,7 +667,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
         if (serializedLog && serializedLog.length && serializedLog.length > 0) {
           id<MSLog> item = [NSKeyedUnarchiver unarchiveObjectWithData:serializedLog];
           if (item) {
-            
+
             // Buffered logs are used sending their own channel. It will never contain more than 20 logs
             [self.logManager processLog:item withPriority:(MSPriority)priority andGroupID:@"CrashBuffer"];
           }
@@ -740,12 +742,13 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 - (NSMutableArray *)persistedCrashReports {
   NSError *error = nil;
   NSMutableArray *persistedCrashReports = [NSMutableArray new];
-  
+
   if ([self.crashesDir checkResourceIsReachableAndReturnError:&error]) {
-    NSArray *files = [self.fileManager contentsOfDirectoryAtURL:self.crashesDir
-                                        includingPropertiesForKeys:@[NSURLNameKey, NSURLFileSizeKey, NSURLIsRegularFileKey]
-                                                           options:(NSDirectoryEnumerationOptions)0
-                                                             error:&error];
+    NSArray *files =
+        [self.fileManager contentsOfDirectoryAtURL:self.crashesDir
+                        includingPropertiesForKeys:@[ NSURLNameKey, NSURLFileSizeKey, NSURLIsRegularFileKey ]
+                                           options:(NSDirectoryEnumerationOptions)0
+                                             error:&error];
     for (NSURL *fileURL in files) {
       NSString *fileName = nil;
       [fileURL getResourceValue:&fileName forKey:NSURLNameKey error:&error];
@@ -753,10 +756,10 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
       [fileURL getResourceValue:&fileSizeNumber forKey:NSURLFileSizeKey error:&error];
       NSNumber *isRegular = nil;
       [fileURL getResourceValue:&isRegular forKey:NSURLIsRegularFileKey error:&error];
-      
-      if ([isRegular boolValue] && [fileSizeNumber intValue] > 0 &&
-          ![fileName hasSuffix:@".DS_Store"] && ![fileName hasSuffix:@".analyzer"] && ![fileName hasSuffix:@".plist"] &&
-          ![fileName hasSuffix:@".data"] && ![fileName hasSuffix:@".meta"] && ![fileName hasSuffix:@".desc"]) {
+
+      if ([isRegular boolValue] && [fileSizeNumber intValue] > 0 && ![fileName hasSuffix:@".DS_Store"] &&
+          ![fileName hasSuffix:@".analyzer"] && ![fileName hasSuffix:@".plist"] && ![fileName hasSuffix:@".data"] &&
+          ![fileName hasSuffix:@".meta"] && ![fileName hasSuffix:@".desc"]) {
         [persistedCrashReports addObject:fileURL];
       }
     }
@@ -800,7 +803,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
         // We need to convert the NSURL to NSString as we cannot safe NSURL to our async-safe log buffer.
         NSString *path = files[i].path;
-        
+
         /**
          * Some explanation into what actually happens, courtesy of Gwynne:
          * "Passing nil does not initialize anything to nil here, what actually happens is an exploit of the Objective-C
@@ -868,7 +871,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     NSURL *directoryForPriority = [self bufferDirectoryForPriority:MSPriority(priority)];
     NSError *error = nil;
     NSArray *files = [self.fileManager contentsOfDirectoryAtURL:directoryForPriority
-                                     includingPropertiesForKeys:@[NSURLFileSizeKey]
+                                     includingPropertiesForKeys:@[ NSURLFileSizeKey ]
                                                         options:NSDirectoryEnumerationOptions(0)
                                                           error:&error];
     for (NSURL *fileURL in files) {

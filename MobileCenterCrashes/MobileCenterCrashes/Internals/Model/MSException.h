@@ -1,5 +1,5 @@
-#import "MobileCenter+Internal.h"
 #import <Foundation/Foundation.h>
+#import "MobileCenter+Internal.h"
 
 @class MSStackFrame;
 
@@ -43,7 +43,7 @@
  *
  * @return Return YES if equal and NO if not equal
  */
-- (BOOL)isEqual:(id)objet;
+- (BOOL)isEqual:(id)object;
 
 /**
  * Checks if the object's values are valid.
