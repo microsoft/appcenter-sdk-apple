@@ -512,7 +512,7 @@ static NSString *const kMSFatal = @"fatal";
   // When
   NSDictionary *serializedLog = [log serializeToDictionary];
 
-  // Then static_cast<NSObject *>
+  // Then
   XCTAssertFalse([static_cast<NSNumber*>([serializedLog objectForKey:kMSFatal]) boolValue]);
 
   // If
