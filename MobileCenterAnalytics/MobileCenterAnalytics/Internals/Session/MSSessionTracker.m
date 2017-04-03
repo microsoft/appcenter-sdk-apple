@@ -64,7 +64,7 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
       // Record session.
       MSSessionHistoryInfo *sessionInfo = [[MSSessionHistoryInfo alloc] init];
       sessionInfo.sessionId = _sessionId;
-      sessionInfo.toffset = @((long long) [MSUtility nowInMilliseconds]);
+      sessionInfo.toffset = [NSNumber numberWithDouble:[MSUtility nowInMilliseconds]];
 
       // Insert at the beginning of the list.
       [self.pastSessions insertObject:sessionInfo atIndex:0];

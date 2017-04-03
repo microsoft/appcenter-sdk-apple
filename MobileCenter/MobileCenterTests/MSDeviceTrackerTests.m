@@ -432,7 +432,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   XCTAssertTrue([actual isEqual:first]);
 
   // When
-  NSNumber *now = [NSNumber numberWithLongLong:@((long long)[MSUtility nowInMilliseconds])];
+  NSNumber *now = [NSNumber numberWithLongLong:(long long)([MSUtility nowInMilliseconds])];
   actual = [tracker deviceForToffset:now];
 
   // Then
