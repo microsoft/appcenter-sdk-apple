@@ -76,7 +76,7 @@ static PLCrashReporterCallbacks plCrashCallbacks = {
 /**
  * C++ Exception Handler
  */
-static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionInfo *info) {
+__attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionInfo *info) {
 
   // This relies on a LOT of sneaky internal knowledge of how PLCR works and
   // should not be considered a long-term solution.
@@ -447,36 +447,39 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
 - (void)channel:(id<MSChannel>)channel willSendLog:(id<MSLog>)log {
   (void)channel;
-  if (self.delegate && [self.delegate respondsToSelector:@selector(crashes:willSendErrorReport:)]) {
+  id<MSCrashesDelegate> strongDelegate = self.delegate;
+  if (strongDelegate && [strongDelegate respondsToSelector:@selector(crashes:willSendErrorReport:)]) {
     NSObject *logObject = static_cast<NSObject *>(log);
     if ([logObject isKindOfClass:[MSAppleErrorLog class]]) {
       MSAppleErrorLog *appleErrorLog = static_cast<MSAppleErrorLog *>(log);
       MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:appleErrorLog];
-      [self.delegate crashes:self willSendErrorReport:report];
+      [strongDelegate crashes:self willSendErrorReport:report];
     }
   }
 }
 
 - (void)channel:(id<MSChannel>)channel didSucceedSendingLog:(id<MSLog>)log {
   (void)channel;
-  if (self.delegate && [self.delegate respondsToSelector:@selector(crashes:didSucceedSendingErrorReport:)]) {
+  id<MSCrashesDelegate> strongDelegate = self.delegate;
+  if (strongDelegate && [strongDelegate respondsToSelector:@selector(crashes:didSucceedSendingErrorReport:)]) {
     NSObject *logObject = static_cast<NSObject *>(log);
     if ([logObject isKindOfClass:[MSAppleErrorLog class]]) {
       MSAppleErrorLog *appleErrorLog = static_cast<MSAppleErrorLog *>(log);
       MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:appleErrorLog];
-      [self.delegate crashes:self didSucceedSendingErrorReport:report];
+      [strongDelegate crashes:self didSucceedSendingErrorReport:report];
     }
   }
 }
 
 - (void)channel:(id<MSChannel>)channel didFailSendingLog:(id<MSLog>)log withError:(NSError *)error {
   (void)channel;
-  if (self.delegate && [self.delegate respondsToSelector:@selector(crashes:didFailSendingErrorReport:withError:)]) {
+  id<MSCrashesDelegate> strongDelegate = self.delegate;
+  if (strongDelegate && [strongDelegate respondsToSelector:@selector(crashes:didFailSendingErrorReport:withError:)]) {
     NSObject *logObject = static_cast<NSObject *>(log);
     if ([logObject isKindOfClass:[MSAppleErrorLog class]]) {
       MSAppleErrorLog *appleErrorLog = static_cast<MSAppleErrorLog *>(log);
       MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:appleErrorLog];
-      [self.delegate crashes:self didFailSendingErrorReport:report withError:error];
+      [strongDelegate crashes:self didFailSendingErrorReport:report withError:error];
     }
   }
 }
@@ -893,8 +896,9 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 }
 
 - (BOOL)shouldProcessErrorReport:(MSErrorReport *)errorReport {
-  return (!self.delegate || ![self.delegate respondsToSelector:@selector(crashes:shouldProcessErrorReport:)] ||
-          [self.delegate crashes:self shouldProcessErrorReport:errorReport]);
+  id<MSCrashesDelegate> strongDelegate = self.delegate;
+  return (!strongDelegate || ![strongDelegate respondsToSelector:@selector(crashes:shouldProcessErrorReport:)] ||
+          [strongDelegate crashes:self shouldProcessErrorReport:errorReport]);
 }
 
 - (BOOL)delegateImplementsAttachmentCallback {
