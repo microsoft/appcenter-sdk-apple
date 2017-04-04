@@ -617,7 +617,7 @@ static NSURL *sfURL;
   OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(NotReachable);
   id distributeMock = OCMPartialMock(self.sut);
   // We should not touch UI in a unit testing environment.
-  OCMStub([distributeMock requestUpdateToken:[OCMArg any]]).andDo(nil);
+  OCMStub([distributeMock openURLInSafariApp:[OCMArg any]]);
 
   // When
   [distributeMock requestUpdateToken:kMSTestReleaseHash];
