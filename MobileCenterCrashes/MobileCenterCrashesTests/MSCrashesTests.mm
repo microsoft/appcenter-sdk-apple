@@ -360,7 +360,7 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
     // Remember the timestamp if the log is older than the previous one or the initial one.
     if (!oldestTimestamp || oldestTimestamp.doubleValue > bufferedLogTimestamp.doubleValue) {
       oldestTimestamp = bufferedLogTimestamp;
-      indexOfLatestObject = static_cast<int>(it - msCrashesLogBuffer[static_cast<MSPriority>(priority)].begin());
+      indexOfLatestObject = static_cast<int>(it - msCrashesLogBuffer.begin());
     }
   }
   // Then
@@ -384,7 +384,7 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
     // Remember the timestamp if the log is older than the previous one or the initial one.
     if (!oldestTimestamp || oldestTimestamp.doubleValue > bufferedLogTimestamp.doubleValue) {
       oldestTimestamp = bufferedLogTimestamp;
-	  indexOfLatestObject = static_cast<int>(it - msCrashesLogBuffer[static_cast<MSPriority>(priority)].begin());
+	  indexOfLatestObject = static_cast<int>(it - msCrashesLogBuffer.begin());
     }
   }
 
