@@ -81,7 +81,7 @@
   MSAbstractLog *log = [MSAbstractLog new];
   for (int j = 0; j < 10; j++) {
     id mockDelegate = OCMProtocolMock(@protocol(MSLogManagerDelegate));
-    [sut addDelegate: mockDelegate];
+    [sut addDelegate:mockDelegate];
   }
   
   // When
@@ -90,7 +90,7 @@
       [sut processLog:log withPriority:priority andGroupID:groupID];
     }
     for (int i = 0; i < 100; i++) {
-      [sut addDelegate: OCMProtocolMock(@protocol(MSLogManagerDelegate))];
+      [sut addDelegate:OCMProtocolMock(@protocol(MSLogManagerDelegate))];
     }
   };
   
