@@ -1,11 +1,11 @@
 #import <Foundation/Foundation.h>
 
-#import "MSLogWithProperties.h"
+#import "MSAbstractLog.h"
 
 /**
  * Error attachment log.
  */
-@interface MSErrorAttachmentLog : MSLogWithProperties
+@interface MSErrorAttachmentLog : MSAbstractLog
 
 /**
  * Content type (text/plain for text).
