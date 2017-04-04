@@ -13,13 +13,11 @@
 
 @implementation MSLogWithPropertiesTests
 
-@synthesize sut = _sut;
-
 #pragma mark - Housekeeping
 
 - (void)setUp {
   [super setUp];
-  _sut = [MSLogWithProperties new];
+  self.sut = [MSLogWithProperties new];
 }
 
 - (void)tearDown {
@@ -61,6 +59,7 @@
 }
 
 - (void)testIsEqual {
+
   // If
   NSDictionary *properties = @{ @"key1" : @"value1", @"key2" : @"value" };
   self.sut.properties = properties;
@@ -72,6 +71,12 @@
 
   // then
   XCTAssertTrue([self.sut.properties isEqual:actualLogWithProperties.properties]);
+}
+
+- (void)testIsNotEqualToNil {
+
+  // Then
+  XCTAssertFalse([self.sut isEqual:nil]);
 }
 
 @end

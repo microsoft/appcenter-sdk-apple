@@ -71,4 +71,30 @@
   OCMVerify([mockDelegate onEnqueuingLog:log withInternalId:OCMOCK_ANY andPriority:priority]);
 }
 
+- (void)testDelegatesConcurrentAccess {
+  
+  // If
+  MSPriority priority = MSPriorityDefault;
+  NSString *groupID = @"MobileCenter";
+  MSLogManagerDefault *sut = [[MSLogManagerDefault alloc] initWithSender:OCMProtocolMock(@protocol(MSSender))
+                                                                 storage:OCMProtocolMock(@protocol(MSStorage))];
+  MSAbstractLog *log = [MSAbstractLog new];
+  for (int j = 0; j < 10; j++) {
+    id mockDelegate = OCMProtocolMock(@protocol(MSLogManagerDelegate));
+    [sut addDelegate:mockDelegate];
+  }
+  
+  // When
+  void (^block)() = ^{
+    for (int i = 0; i < 10; i++) {
+      [sut processLog:log withPriority:priority andGroupID:groupID];
+    }
+    for (int i = 0; i < 100; i++) {
+      [sut addDelegate:OCMProtocolMock(@protocol(MSLogManagerDelegate))];
+    }
+  };
+  
+  // Then
+  XCTAssertNoThrow(block());
+}
 @end

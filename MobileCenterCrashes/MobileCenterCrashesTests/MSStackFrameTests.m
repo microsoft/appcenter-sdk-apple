@@ -35,13 +35,13 @@
 #pragma mark - Tests
 
 - (void)testSerializingBinaryToDictionaryWorks {
-  
+
   // If
   MSStackFrame *sut = [self stackFrame];
-  
+
   // When
   NSMutableDictionary *actual = [sut serializeToDictionary];
-  
+
   // Then
   assertThat(actual, notNilValue());
   assertThat(actual[@"address"], equalTo(sut.address));
@@ -53,19 +53,18 @@
 }
 
 - (void)testNSCodingSerializationAndDeserializationWorks {
-  
+
   // If
   MSStackFrame *sut = [self stackFrame];
-  
+
   // When
-  NSData *serializedEvent =
-  [NSKeyedArchiver archivedDataWithRootObject:sut];
+  NSData *serializedEvent = [NSKeyedArchiver archivedDataWithRootObject:sut];
   id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedEvent];
-  
+
   // Then
   assertThat(actual, notNilValue());
   assertThat(actual, instanceOf([MSStackFrame class]));
-  
+
   MSStackFrame *actualThreadFrame = actual;
   assertThat(actualThreadFrame, equalTo(sut));
   assertThat(actualThreadFrame.address, equalTo(sut.address));
@@ -74,6 +73,12 @@
   assertThat(actualThreadFrame.methodName, equalTo(sut.methodName));
   assertThat(actualThreadFrame.lineNumber, equalTo(sut.lineNumber));
   assertThat(actualThreadFrame.fileName, equalTo(sut.fileName));
+}
+
+- (void)testIsNotEqualToNil {
+
+  // Then
+  XCTAssertFalse([[MSStackFrame new] isEqual:nil]);
 }
 
 @end

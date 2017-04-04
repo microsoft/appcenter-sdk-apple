@@ -64,7 +64,18 @@ GCC_PREPROCESSOR_DEFINITIONS = $(inherited) $(XCODEBUILD_GCC_PREPROCESSOR_DEFINI
 // -assign-enum
 // A lot of api use enums as params but Apple's docs suggest passing in 0 which causes annoying warnings.
 
-WARNING_CFLAGS = -Weverything -Wno-objc-missing-property-synthesis -Wno-float-equal -Wno-pedantic -Wno-padded  -Wno-sign-conversion -Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-auto-import -Wno-assign-enum
+// -exit-time-destructors
+// Global destructors are obvious, no need to warn about them.
+
+// -global-constructors
+// Global constructors are obvious, no need to warn about them.
+
+// -cast-align
+// We're not interested in this one as the Mach-O format is itself well-aligned and the original memory allocation
+// happens through malloc() and mmap() which always return at least 16byte alignment.
+// Reas more about alignment in the c++ reference: http://en.cppreference.com/w/cpp/language/object#Alignment.
+
+WARNING_CFLAGS = -Weverything -Wno-objc-missing-property-synthesis -Wno-float-equal -Wno-pedantic -Wno-padded  -Wno-sign-conversion -Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-auto-import -Wno-assign-enum -Wno-exit-time-destructors -Wno-global-constructors -Wno-cast-align
 
 
 // These are all partially (but not completely?) independent of WARNING_CFLAGS

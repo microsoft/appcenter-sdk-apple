@@ -59,7 +59,6 @@
 		04FD4A4B1E453930009B4468 /* libMobileCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04FD4A4A1E453930009B4468 /* libMobileCenter.a */; };
 		380304441E7B007E006A55FB /* Changes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 380304331E7B007E006A55FB /* Changes.txt */; };
 		380304461E7B007E006A55FB /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 380304411E7B007E006A55FB /* LICENSE.txt */; };
-		380304481E7B007E006A55FB /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 380304431E7B007E006A55FB /* README.md */; };
 		388B559B1E64B3FD00E4F1D7 /* MSBasicMachOParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 388B55991E64B3FD00E4F1D7 /* MSBasicMachOParser.m */; };
 		388B559C1E64B3FD00E4F1D7 /* MSBasicMachOParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 388B559A1E64B3FD00E4F1D7 /* MSBasicMachOParser.h */; };
 		389638A41E79F59D007C3809 /* MSDistributeTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 389638A31E79F59D007C3809 /* MSDistributeTestUtil.m */; };
@@ -84,7 +83,6 @@
 		BA682AC831677E0806CA2359 /* MSErrorDetails.h in Headers */ = {isa = PBXBuildFile; fileRef = BA6820A043C816916AF34A04 /* MSErrorDetails.h */; };
 		BA682C81BA750CA5FCB63A51 /* MSErrorDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6826E3C58372A269A6B43A /* MSErrorDetails.m */; };
 		D377A3121E83C16400B2C97A /* MSMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = D377A3111E83C16400B2C97A /* MSMockUserDefaults.m */; };
-		F861639B1E76A04A00E3F06C /* Tests.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = F861639A1E76A04A00E3F06C /* Tests.xcconfig */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -549,7 +547,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = MS;
-				LastUpgradeCheck = 0820;
+				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = Microsoft;
 				TargetAttributes = {
 					04FD4A1B1E451E12009B4468 = {
@@ -620,7 +618,6 @@
 			files = (
 				B2C070C51E5E6A200076D6A9 /* MobileCenterDistributeResources.bundle in Resources */,
 				040AF0121E523AC2005C1174 /* release_details.json in Resources */,
-				F861639B1E76A04A00E3F06C /* Tests.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -686,7 +683,6 @@
 				D377A3121E83C16400B2C97A /* MSMockUserDefaults.m in Sources */,
 				38A683651E774DCE00A63BC8 /* MSSemVerPreReleaseIdTest.m in Sources */,
 				848860451E6EC32B003A9B96 /* MSBasicMachOParserTests.m in Sources */,
-				380304481E7B007E006A55FB /* README.md in Sources */,
 				389638A41E79F59D007C3809 /* MSDistributeTestUtil.m in Sources */,
 				38A683641E774DCE00A63BC8 /* MSSemVerTests.m in Sources */,
 			);
@@ -745,6 +741,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -795,6 +792,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";

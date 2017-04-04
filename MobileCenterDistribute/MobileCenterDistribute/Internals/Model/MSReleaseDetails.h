@@ -113,7 +113,7 @@
 /**
  * Checks if the values are valid.
  *
- * return YES if it is valid, otherwise NO.
+ * @return YES if it is valid, otherwise NO.
  */
 - (BOOL)isValid;
 

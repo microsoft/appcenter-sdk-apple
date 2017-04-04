@@ -1,6 +1,6 @@
-#import "MSAbstractErrorLog.h"
-#import "MobileCenter+Internal.h"
 #import <Foundation/Foundation.h>
+#import "MobileCenter+Internal.h"
+#import "MSAbstractErrorLog.h"
 
 @class MSThread, MSBinary, MSException;
 
@@ -84,14 +84,5 @@
  * The last exception backtrace.
  */
 @property(nonatomic) MSException *exception;
-
-/**
- * Is equal to another apple error log
- *
- * @param object Apple error log
- *
- * @return Return YES if equal and NO if not equal
- */
-- (BOOL)isEqual:(id)object;
 
 @end

@@ -49,11 +49,15 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 #pragma mark - Delegate
 
 - (void)addDelegate:(id<MSLogManagerDelegate>)delegate {
-  [self.delegates addObject:delegate];
+  @synchronized (self) {
+    [self.delegates addObject:delegate];
+  }
 }
 
 - (void)removeDelegate:(id<MSLogManagerDelegate>)delegate {
-  [self.delegates removeObject:delegate];
+  @synchronized (self) {
+    [self.delegates removeObject:delegate];
+  }
 }
 
 #pragma mark - Channel Delegate
@@ -77,9 +81,11 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 }
 
 - (void)enumerateDelegatesForSelector:(SEL)selector withBlock:(void (^)(id<MSLogManagerDelegate> delegate))block {
-  for (id<MSLogManagerDelegate> delegate in self.delegates) {
-    if (delegate && [delegate respondsToSelector:selector]) {
-      block(delegate);
+  @synchronized (self) {
+    for (id<MSLogManagerDelegate> delegate in self.delegates) {
+      if (delegate && [delegate respondsToSelector:selector]) {
+        block(delegate);
+      }
     }
   }
 }
@@ -104,7 +110,7 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
   id<MSChannel> channel = [self createChannelForGroupID:groupID withPriority:priority];
 
   // Set common log info.
-  log.toffset = [NSNumber numberWithLongLong:@((long long)[MSUtility nowInMilliseconds])];
+  log.toffset = [NSNumber numberWithLongLong:(long long)([MSUtility nowInMilliseconds])];
 
   // Only add device info in case the log doesn't have one. In case the log is restored after a crash or for crashes,
   // We don't want the device information to be updated but want the old one preserved.

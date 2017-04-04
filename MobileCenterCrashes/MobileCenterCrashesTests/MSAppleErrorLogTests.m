@@ -57,7 +57,7 @@
   appleLog.parentProcessName = @"234";
   appleLog.errorThreadId = @2;
   appleLog.errorThreadName = @"2";
-  appleLog.fatal = @YES;
+  appleLog.fatal = YES;
   appleLog.appLaunchTOffset = @123;
   appleLog.errorAttachment = [MSErrorAttachment attachmentWithText:@"test"];
   appleLog.architecture = @"test";

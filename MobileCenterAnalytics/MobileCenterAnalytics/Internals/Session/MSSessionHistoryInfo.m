@@ -4,9 +4,8 @@ static NSString *const kMSSessionIdKey = @"sessionIdKey";
 static NSString *const kMSToffsetKey = @"toffsetKey";
 
 /**
- This class is used to associate session id with the timestamp that it was created.
+ * This class is used to associate session id with the timestamp that it was created.
  */
-
 @implementation MSSessionHistoryInfo
 
 - (instancetype)initWithCoder:(NSCoder *)coder {

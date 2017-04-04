@@ -21,14 +21,14 @@ static NSString *const kMSBinaryAttachment = @"binary_attachment";
   return dict;
 }
 
-- (BOOL)isEqual:(MSErrorAttachment *)attachment {
-  if (!attachment)
+- (BOOL)isEqual:(id)object {
+  if (!object)
     return NO;
-
+  MSErrorAttachment *attachment = (MSErrorAttachment *)object;
   return ((!self.textAttachment && !attachment.textAttachment) ||
-      [self.textAttachment isEqualToString:(NSString *_Nonnull)attachment.textAttachment]) &&
-      ((!self.binaryAttachment && !attachment.binaryAttachment) ||
-          [self.binaryAttachment isEqual:(MSErrorBinaryAttachment *_Nonnull)attachment.binaryAttachment]);
+          [self.textAttachment isEqualToString:(NSString * _Nonnull)attachment.textAttachment]) &&
+         ((!self.binaryAttachment && !attachment.binaryAttachment) ||
+          [self.binaryAttachment isEqual:(MSErrorBinaryAttachment * _Nonnull)attachment.binaryAttachment]);
 }
 
 #pragma mark - NSCoding
@@ -56,8 +56,8 @@ static NSString *const kMSBinaryAttachment = @"binary_attachment";
 }
 
 + (nonnull MSErrorAttachment *)attachmentWithBinaryData:(nonnull NSData *)data
-                                                filename:(nullable NSString *)filename
-                                                mimeType:(nonnull NSString *)mimeType {
+                                               filename:(nullable NSString *)filename
+                                               mimeType:(nonnull NSString *)mimeType {
   MSErrorAttachment *attachment = [MSErrorAttachment new];
   attachment.binaryAttachment =
       [[MSErrorBinaryAttachment alloc] initWithFileName:filename attachmentData:data contentType:mimeType];
@@ -66,9 +66,9 @@ static NSString *const kMSBinaryAttachment = @"binary_attachment";
 }
 
 + (nonnull MSErrorAttachment *)attachmentWithText:(nonnull NSString *)text
-                                     andBinaryData:(nonnull NSData *)data
-                                          filename:(nullable NSString *)filename
-                                          mimeType:(nonnull NSString *)mimeType {
+                                    andBinaryData:(nonnull NSData *)data
+                                         filename:(nullable NSString *)filename
+                                         mimeType:(nonnull NSString *)mimeType {
   MSErrorAttachment *attachment = [MSErrorAttachment new];
   attachment.textAttachment = text;
   attachment.binaryAttachment =

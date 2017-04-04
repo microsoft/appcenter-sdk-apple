@@ -6,8 +6,8 @@
 
 /**
  * Remove user information from a path when the crash happened in the simulator.
- * @param path
- * @return
+ * @param path The path that needs to be anonymized.
+ * @return The anonymized path.
  */
 + (NSString *)anonymizedPathFromPath:(NSString *)path;
 
@@ -27,7 +27,7 @@
  *
  * @param errorLog The error log object that will be returned.
  * @param crashReport The crash
- * @return
+ * @return The error log with process informaton and the application path.
  */
 + (MSAppleErrorLog *)addProcessInfoAndApplicationPathTo:(MSAppleErrorLog *)errorLog
                                          fromCrashReport:(MSPLCrashReport *)crashReport;
