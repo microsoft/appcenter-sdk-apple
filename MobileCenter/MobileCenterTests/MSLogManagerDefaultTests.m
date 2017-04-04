@@ -91,7 +91,6 @@
 - (void)testDelegatesConcurrentAccess {
   
   // If
-  MSPriority priority = MSPriorityDefault;
   NSString *groupID = @"MobileCenter";
   MSLogManagerDefault *sut = [[MSLogManagerDefault alloc] initWithSender:OCMProtocolMock(@protocol(MSSender))
                                                                  storage:OCMProtocolMock(@protocol(MSStorage))];
@@ -104,7 +103,7 @@
   // When
   void (^block)() = ^{
     for (int i = 0; i < 10; i++) {
-      [sut processLog:log withPriority:priority andGroupID:groupID];
+      [sut processLog:log forGroupID:groupID];
     }
     for (int i = 0; i < 100; i++) {
       [sut addDelegate:OCMProtocolMock(@protocol(MSLogManagerDelegate))];
