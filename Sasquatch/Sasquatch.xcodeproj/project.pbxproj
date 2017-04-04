@@ -31,8 +31,6 @@
 		845964AD1E8A7E9700BABA51 /* MSMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845964AC1E8A7E9700BABA51 /* MSMainViewController.swift */; };
 		849A3E721E8A9922008711CB /* MobileCenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849A3E711E8A9922008711CB /* MobileCenterProtocol.swift */; };
 		849A3E731E8A9922008711CB /* MobileCenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849A3E711E8A9922008711CB /* MobileCenterProtocol.swift */; };
-		849A3E751E8AA78E008711CB /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 849A3E741E8AA78E008711CB /* CrashLibIOS.framework */; };
-		849A3E761E8AA9D7008711CB /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 849A3E741E8AA78E008711CB /* CrashLibIOS.framework */; };
 		84A0FF661E8A87B4000E7A28 /* MSCrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF651E8A87B4000E7A28 /* MSCrashesViewController.swift */; };
 		84A0FF671E8A87B4000E7A28 /* MSCrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF651E8A87B4000E7A28 /* MSCrashesViewController.swift */; };
 		84A0FF691E8A87C9000E7A28 /* MSAnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF681E8A87C9000E7A28 /* MSAnalyticsViewController.swift */; };
@@ -42,11 +40,39 @@
 		84D63FF71E8BA838004C9F86 /* MSCrashesDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D63FF61E8BA838004C9F86 /* MSCrashesDetailViewController.swift */; };
 		84D63FF81E8BA838004C9F86 /* MSCrashesDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D63FF61E8BA838004C9F86 /* MSCrashesDetailViewController.swift */; };
 		84D63FF91E8BAA90004C9F86 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 845964A91E8A7E6600BABA51 /* Main.storyboard */; };
+		F89D79091E93DA3A0094521F /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F89D79081E93DA3A0094521F /* CrashLibIOS.framework */; };
+		F89D790A1E93DA3A0094521F /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F89D79081E93DA3A0094521F /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F89D790C1E93DA500094521F /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F89D79081E93DA3A0094521F /* CrashLibIOS.framework */; };
+		F89D790D1E93DA500094521F /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F89D79081E93DA3A0094521F /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F89D790B1E93DA3B0094521F /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				F89D790A1E93DA3A0094521F /* CrashLibIOS.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F89D790E1E93DA500094521F /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				F89D790D1E93DA500094521F /* CrashLibIOS.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		84226C1C1E88FEFC00798417 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		84226C1F1E88FEFC00798417 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		84226C471E88FF4A00798417 /* SasquatchObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SasquatchObjC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84226C4A1E88FF4A00798417 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		84226C4C1E88FF4A00798417 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -82,6 +108,7 @@
 		84A0FF681E8A87C9000E7A28 /* MSAnalyticsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSAnalyticsViewController.swift; sourceTree = "<group>"; };
 		84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSDistributeViewController.swift; sourceTree = "<group>"; };
 		84D63FF61E8BA838004C9F86 /* MSCrashesDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSCrashesDetailViewController.swift; sourceTree = "<group>"; };
+		F89D79081E93DA3A0094521F /* CrashLibIOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CrashLibIOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,7 +116,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				849A3E751E8AA78E008711CB /* CrashLibIOS.framework in Frameworks */,
+				F89D79091E93DA3A0094521F /* CrashLibIOS.framework in Frameworks */,
 				84226D361E89302900798417 /* MobileCenter.framework in Frameworks */,
 				84226D371E89302900798417 /* MobileCenterAnalytics.framework in Frameworks */,
 				84226D381E89302900798417 /* MobileCenterCrashes.framework in Frameworks */,
@@ -101,7 +128,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				849A3E761E8AA9D7008711CB /* CrashLibIOS.framework in Frameworks */,
+				F89D790C1E93DA500094521F /* CrashLibIOS.framework in Frameworks */,
 				84226D321E89301B00798417 /* MobileCenter.framework in Frameworks */,
 				84226D331E89301B00798417 /* MobileCenterAnalytics.framework in Frameworks */,
 				84226D341E89301B00798417 /* MobileCenterCrashes.framework in Frameworks */,
@@ -115,6 +142,7 @@
 		84226C091E88FEFC00798417 = {
 			isa = PBXGroup;
 			children = (
+				F89D79081E93DA3A0094521F /* CrashLibIOS.framework */,
 				84226C141E88FEFC00798417 /* Sasquatch */,
 				84226C481E88FF4A00798417 /* SasquatchObjC */,
 				84226C811E8908CA00798417 /* SasquatchSwift */,
@@ -252,6 +280,7 @@
 				84226C431E88FF4A00798417 /* Sources */,
 				84226C441E88FF4A00798417 /* Frameworks */,
 				84226C451E88FF4A00798417 /* Resources */,
+				F89D790B1E93DA3B0094521F /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -269,6 +298,7 @@
 				84226C7C1E8908C900798417 /* Sources */,
 				84226C7D1E8908C900798417 /* Frameworks */,
 				84226C7E1E8908C900798417 /* Resources */,
+				F89D790E1E93DA500094521F /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -416,6 +446,11 @@
 				DEFINES_MODULE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../MobileCenter-SDK-iOS/**",
+					"$(SRCROOT)/../CrashLibIOS/CrashLibIOS",
+					"$(SRCROOT)/../Vendor/**",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -467,6 +502,11 @@
 				DEFINES_MODULE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../MobileCenter-SDK-iOS/**",
+					"$(SRCROOT)/../CrashLibIOS/CrashLibIOS",
+					"$(SRCROOT)/../Vendor/**",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -491,7 +531,6 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = "";
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-iOS/**";
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/../CrashLibIOS/CrashLibIOS";
 				INFOPLIST_FILE = SasquatchObjC/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -510,7 +549,6 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = "";
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-iOS/**";
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/../CrashLibIOS/CrashLibIOS";
 				INFOPLIST_FILE = SasquatchObjC/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -527,7 +565,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = "";
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-iOS/**";
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/../CrashLibIOS/CrashLibIOS";
 				INFOPLIST_FILE = SasquatchSwift/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -544,7 +581,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = "";
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-iOS/**";
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/../CrashLibIOS/CrashLibIOS";
 				INFOPLIST_FILE = SasquatchSwift/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
