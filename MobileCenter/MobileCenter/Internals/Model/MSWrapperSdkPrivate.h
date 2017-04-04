@@ -1,5 +1,6 @@
-#import "MSAbstractLogInternal.h"
 #import <Foundation/Foundation.h>
+
+#import "MSAbstractLogInternal.h"
 
 @interface MSWrapperSdk () <MSSerializableObject>
 

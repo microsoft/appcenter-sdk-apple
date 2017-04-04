@@ -190,10 +190,10 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
       MSLogDebug([MSCrashes logTag], @"attachmentWithCrashes is not implemented");
     }
 
-    // First send crash to log manager.
+    // First, send crash log to log manager.
     [crashes.logManager processLog:log withPriority:crashes.priority andGroupID:crashes.groupID];
 
-    // Then send attachements to log manager.
+    // Then, send attachements log to log manager.
     for (MSErrorAttachmentLog *attachment in attachments) {
       attachment.errorId = log.errorId;
       [crashes.logManager processLog:attachment withPriority:crashes.priority andGroupID:crashes.groupID];
