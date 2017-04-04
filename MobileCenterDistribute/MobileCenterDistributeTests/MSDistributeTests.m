@@ -616,6 +616,8 @@ static NSURL *sfURL;
   OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
   OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(NotReachable);
   id distributeMock = OCMPartialMock(self.sut);
+  // We should not touch UI in a unit testing environment.
+  OCMStub([distributeMock requestUpdateToken:[OCMArg any]]).andDo(nil);
 
   // When
   [distributeMock requestUpdateToken:kMSTestReleaseHash];
