@@ -73,7 +73,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 
         XCTAssertNil(error);
         XCTAssertEqual(containerId, batchId);
-        XCTAssertEqual((NSInteger)statusCode, MSHTTPCodesNo200OK);
+        XCTAssertEqual(statusCode, MSHTTPCodesNo200OK);
 
         [expectation fulfill];
       }];
@@ -99,7 +99,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
                           NSError *error) {
 
         XCTAssertEqual(containerId, batchId);
-        XCTAssertEqual((NSInteger)statusCode, MSHTTPCodesNo404NotFound);
+        XCTAssertEqual(statusCode, MSHTTPCodesNo404NotFound);
         XCTAssertEqual(error.domain, kMSMCErrorDomain);
         XCTAssertEqual(error.code, kMSMCConnectionHttpErrorCode);
         XCTAssertEqual(error.localizedDescription, kMSMCConnectionHttpErrorDesc);
