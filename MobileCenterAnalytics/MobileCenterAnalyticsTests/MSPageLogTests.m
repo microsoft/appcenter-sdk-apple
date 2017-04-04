@@ -82,7 +82,6 @@
   // Then
   assertThat(actual, notNilValue());
   assertThat(actual, instanceOf([MSPageLog class]));
-
   MSPageLog *actualPage = actual;
   assertThat(actualPage.name, equalTo(pageName));
   assertThat(actualPage.device, notNilValue());
@@ -90,6 +89,7 @@
   assertThat(actualPage.type, equalTo(typeName));
   assertThat(actualPage.sid, equalTo(sessionId));
   assertThat(actualPage.properties, equalTo(properties));
+  XCTAssertTrue([self.sut isEqual:actualPage]);
 }
 
 - (void)testIsValid {
@@ -108,6 +108,12 @@
 
   // Then
   XCTAssertTrue([self.sut isValid]);
+}
+
+- (void)testIsNotEqualToNil {
+
+  // Then
+  XCTAssertFalse([self.sut isEqual:nil]);
 }
 
 @end

@@ -202,11 +202,27 @@
   id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedEvent];
   MSDevice *actualDevice = actual;
 
-  // then
+  // Then
   XCTAssertTrue([self.sut isEqual:actualDevice]);
 
+  // When
   self.sut.carrierCountry = @"newCarrierCountry";
+
+  // Then
   XCTAssertFalse([self.sut isEqual:actualDevice]);
+
+  // When
+  self.sut.carrierCountry = carrierCountry;
+  self.sut.wrapperSdkName = @"new-wrapper-sdk";
+
+  // Then
+  XCTAssertFalse([self.sut isEqual:actualDevice]);
+}
+
+- (void)testIsNotEqualToNil {
+
+  // Then
+  XCTAssertFalse([[MSWrapperSdk new] isEqual:nil]);
 }
 
 @end

@@ -53,7 +53,7 @@ static NSString const *kMSErrorCodeNoReleasesForUser = @"no_releases_for_user";
 /**
  * Checks if the values are valid.
  *
- * return YES if it is valid, otherwise NO.
+ * @return YES if it is valid, otherwise NO.
  */
 - (BOOL)isValid;
 

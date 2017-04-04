@@ -1,5 +1,5 @@
-#import "MSLog.h"
 #import <Foundation/Foundation.h>
+#import "MSLog.h"
 
 @interface MSLogContainer : NSObject
 
@@ -14,30 +14,36 @@
 @property(nonatomic) NSArray<MSLog> *logs;
 
 /**
- * Initializer
+ * Initializer.
  *
- * batchID Unique batch Id
- * logs Array of logs
+ * @param batchId Unique batch ID.
+ * @param logs Array of logs.
+ *
+ * @return A log container instance for the given batch ID.
  */
 - (id)initWithBatchId:(NSString *)batchId andLogs:(NSArray<MSLog> *)logs;
 
 /**
- * Serialize logs into a JSON string
+ * Serialize logs into a JSON string.
+ *
+ * @return A JSON string.
  */
 - (NSString *)serializeLog;
 
 /**
- *  Serialize logs into a JSON string.
+ * Serialize logs into a JSON string.
  *
- *  @param prettyPrint boolean indicates pretty printing.
+ * @param prettyPrint boolean indicates pretty printing.
  *
- *  @return serialized string.
+ * @return A serialized string.
  */
 - (NSString *)serializeLogWithPrettyPrinting:(BOOL)prettyPrint;
 
 /**
- * Is valid container
- */
+ * Checks if the object's values are valid.
+ *
+ * @return YES, if the object is valid.
+ */
 - (BOOL)isValid;
 
 @end

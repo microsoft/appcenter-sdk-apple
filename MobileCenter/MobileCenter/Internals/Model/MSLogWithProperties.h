@@ -1,13 +1,9 @@
-/**
- * OpenAPI spec version: 1.0.0-preview20160708
- */
-
-#import "MSAbstractLog.h"
 #import <Foundation/Foundation.h>
+#import "MSAbstractLog.h"
 
 @interface MSLogWithProperties : MSAbstractLog
 
-/** 
+/**
  * Additional key/value pair parameters.  [optional]
  */
 @property(nonatomic) NSDictionary<NSString *, NSString *> *properties;

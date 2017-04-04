@@ -5,7 +5,6 @@
 
 FOUNDATION_EXPORT NSString *const kMSType;
 
-
 @interface MSAbstractLog : NSObject <MSLog, MSSerializableObject>
 
 @end

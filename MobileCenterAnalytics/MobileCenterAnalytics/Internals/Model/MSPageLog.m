@@ -28,6 +28,14 @@ static NSString *const kMSName = @"name";
   return [super isValid] && self.name;
 }
 
+- (BOOL)isEqual:(id)object {
+  if (![object isKindOfClass:[MSPageLog class]] || ![super isEqual:object]) {
+    return NO;
+  }
+  MSPageLog *pageLog = (MSPageLog *)object;
+  return ((!self.name && !pageLog.name) || [self.name isEqualToString:pageLog.name]);
+}
+
 #pragma mark - NSCoding
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
