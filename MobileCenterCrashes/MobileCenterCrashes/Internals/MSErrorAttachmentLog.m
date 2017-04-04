@@ -1,4 +1,5 @@
 #import "MSCrashesUtil.h"
+#import "MSErrorAttachmentLog+Utility.h"
 #import "MSErrorAttachmentLogInternal.h"
 #import "MSUtility.h"
 
@@ -13,6 +14,15 @@ static NSString *const kMSFileName = @"file_name";
 static NSString *const kMSData = @"data";
 
 @implementation MSErrorAttachmentLog
+
+/**
+ * @discussion
+ * Workaround for exporting symbols from category object files.
+ * See article https://medium.com/ios-os-x-development/categories-in-static-libraries-78e41f8ddb96#.aedfl1kl0
+ */
+__attribute__((used)) static void importCategories () {
+  [NSString stringWithFormat:@"%@", MSMSErrorLogAttachmentLogUtilityCategory];
+}
 
 - (instancetype)init {
   if ((self = [super init])) {
@@ -115,18 +125,6 @@ static NSString *const kMSData = @"data";
   [coder encodeObject:self.contentType forKey:kMSContentType];
   [coder encodeObject:self.filename forKey:kMSFileName];
   [coder encodeObject:self.data forKey:kMSData];
-}
-
-#pragma mark - Public Interface
-
-+ (nonnull MSErrorAttachmentLog *)attachmentWithText:(nonnull NSString *)text filename:(nullable NSString *)filename {
-  return [[MSErrorAttachmentLog alloc] initWithFilename:filename attachmentText:text];
-}
-
-+ (nonnull MSErrorAttachmentLog *)attachmentWithBinaryData:(nonnull NSData *)data
-                                                  filename:(nullable NSString *)filename
-                                               contentType:(nonnull NSString *)contentType {
-  return [[MSErrorAttachmentLog alloc] initWithFilename:filename attachmentData:data contentType:contentType];
 }
 
 @end

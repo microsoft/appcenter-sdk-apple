@@ -5,6 +5,7 @@
 #import "AppDelegate.h"
 #import "Constants.h"
 #import "MSErrorAttachmentLog.h"
+#import "MSErrorAttachmentLog+Utility.h"
 #import "MobileCenter.h"
 #import "MobileCenterAnalytics.h"
 #import "MobileCenterCrashes.h"

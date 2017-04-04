@@ -5,6 +5,7 @@
 
 #import "MSDevice.h"
 #import "MSErrorAttachmentLog.h"
+#import "MSErrorAttachmentLog+Utility.h"
 #import "MSErrorAttachmentLogInternal.h"
 #import "MSUtility.h"
 
