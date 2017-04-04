@@ -538,7 +538,11 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 #endif
                          }];
 
-    // Show the alert controller.
+    /*
+     * Show the alert controller.
+     * It will replace any previous release alert. This happens when the network was down so the persisted release
+     * was displayed but the network came back with a fresh release.
+     */
     MSLogDebug([MSDistribute logTag], @"Show update dialog.");
     [alertController replaceAlert:self.updateAlertController];
     self.updateAlertController = alertController;
