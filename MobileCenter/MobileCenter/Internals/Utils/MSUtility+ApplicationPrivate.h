@@ -4,7 +4,7 @@
  * Utility class that is used throughout the SDK.
  * Application private part.
  */
-@interface MSUtility (Application)
+@interface MSUtility (ApplicationPrivate)
 
 /**
  * Get the shared app state.

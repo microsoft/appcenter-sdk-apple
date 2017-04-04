@@ -12,13 +12,11 @@
 
 @implementation MSEventLogTests
 
-@synthesize sut = _sut;
-
 #pragma mark - Houskeeping
 
 - (void)setUp {
   [super setUp];
-  _sut = [MSEventLog new];
+  self.sut = [MSEventLog new];
 }
 
 - (void)tearDown {
@@ -36,7 +34,7 @@
   MSDevice *device = [MSDevice new];
   NSString *sessionId = @"1234567890";
   NSDictionary *properties = @{ @"Key" : @"Value" };
-  long long createTime = [MSUtility nowInMilliseconds];
+  long long createTime = (long long)[MSUtility nowInMilliseconds];
   NSNumber *tOffset = @(createTime);
 
   self.sut.eventId = eventId;

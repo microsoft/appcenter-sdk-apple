@@ -1,3 +1,6 @@
+#import <OCHamcrestIOS/OCHamcrestIOS.h>
+#import <OCMock/OCMock.h>
+#import <XCTest/XCTest.h>
 #import "MSDevice.h"
 #import "MSDeviceHistoryInfo.h"
 #import "MSDevicePrivate.h"
@@ -6,9 +9,6 @@
 #import "MSMockUserDefaults.h"
 #import "MSUtility+Date.h"
 #import "MSWrapperSdkPrivate.h"
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <OCMock/OCMock.h>
-#import <XCTest/XCTest.h>
 
 static NSString *const kMSDeviceManufacturerTest = @"Apple";
 
@@ -432,7 +432,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   XCTAssertTrue([actual isEqual:first]);
 
   // When
-  NSNumber *now = [NSNumber numberWithLongLong:[MSUtility nowInMilliseconds]];
+  NSNumber *now = [NSNumber numberWithLongLong:(long long)([MSUtility nowInMilliseconds])];
   actual = [tracker deviceForToffset:now];
 
   // Then

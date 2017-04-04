@@ -18,7 +18,7 @@
   NSString *groupID = @"FooBar";
   NSUInteger batchSizeLimit = 10;
   NSUInteger pendingBatchesLimit = 20;
-  float flushInterval = 9.9;
+  float flushInterval = 9.9f;
 
   // When
   MSChannelConfiguration *sut = [[MSChannelConfiguration alloc] initWithGroupID:groupID

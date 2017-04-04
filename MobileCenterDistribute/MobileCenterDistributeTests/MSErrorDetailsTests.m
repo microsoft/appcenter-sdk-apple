@@ -15,8 +15,9 @@
 
 - (void)testInitializeWithDictionary {
   NSString *filename = [[NSBundle bundleForClass:[self class]] pathForResource:@"error_details" ofType:@"json"];
+  NSData *data = [NSData dataWithContentsOfFile:filename];
   MSErrorDetails *details = [[MSErrorDetails alloc]
-      initWithDictionary:[NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:filename]
+      initWithDictionary:[NSJSONSerialization JSONObjectWithData:data
                                                          options:NSJSONReadingMutableContainers
                                                            error:nil]];
 
