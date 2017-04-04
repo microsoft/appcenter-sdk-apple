@@ -55,22 +55,106 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
 #pragma mark - Tests
 
-- (void)testValidatePropertyType {
+- (void)testValidateEventName {
 
   // If
-  NSDictionary *validProperties = @{ @"Key1" : @"Value1", @"Key2" : @"Value2", @"Key3" : @"Value3" };
-  NSDictionary *invalidKeyInProperties = @{ @"Key1" : @"Value1", @"Key2" : @(2), @"Key3" : @"Value3" };
-  NSDictionary *invalidValueInProperties = @{ @"Key1" : @"Value1", @(2) : @"Value2", @"Key3" : @"Value3" };
+  NSString *validEventName = @"validEventName";
+  NSString *shortEventName = @"e";
+  NSString *eventName256 = [NSString stringWithFormat:@"%@%@",
+                            @"_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256",
+                            @"_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_265_256_256_256_256_256_256"];
+  NSString *nullableEventName = nil;
+  NSString *emptyEventName = @"";
+  NSString *tooLongEventName = [NSString stringWithFormat:@"%@%@%@%@",
+                                @"tooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventName",
+                                @"tooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventName",
+                                @"tooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventName",
+                                @"tooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventName"];
+
 
   // When
-  BOOL valid = [[MSAnalytics sharedInstance] validateProperties:validProperties];
-  BOOL invalidKey = [[MSAnalytics sharedInstance] validateProperties:invalidKeyInProperties];
-  BOOL invalidValue = [[MSAnalytics sharedInstance] validateProperties:invalidValueInProperties];
+  BOOL valid = [[MSAnalytics sharedInstance] validateEventName:validEventName];
+  BOOL validShortEventName = [[MSAnalytics sharedInstance] validateEventName:shortEventName];
+  BOOL validEventName256 = [[MSAnalytics sharedInstance] validateEventName:eventName256];
+  BOOL validNullableEventName = [[MSAnalytics sharedInstance] validateEventName:nullableEventName];
+  BOOL validEmptyEventName = [[MSAnalytics sharedInstance] validateEventName:emptyEventName];
+  BOOL validTooLongEventName = [[MSAnalytics sharedInstance] validateEventName:tooLongEventName];
 
   // Then
   XCTAssertTrue(valid);
-  XCTAssertFalse(invalidKey);
-  XCTAssertFalse(invalidValue);
+  XCTAssertTrue(validShortEventName);
+  XCTAssertTrue(validEventName256);
+  XCTAssertFalse(validNullableEventName);
+  XCTAssertFalse(validEmptyEventName);
+  XCTAssertFalse(validTooLongEventName);
+}
+
+- (void)testValidatePropertyType {
+  const int maxPropertriesPerEvent = 5;
+  NSString *longStringValue = [NSString stringWithFormat:@"%@",
+                               @"valueValueValueValueValueValueValueValueValueValueValueValueValue"];
+  NSString *stringValue64 = [NSString stringWithFormat:@"%@",
+                               @"valueValueValueValueValueValueValueValueValueValueValueValueValu"];
+
+  // Test valid properties
+  // If
+  NSDictionary *validProperties = @{ @"Key1" : @"Value1", stringValue64 : @"Value2", @"Key3" : stringValue64, @"Key4" : @"Value4", @"Key5" : @"" };
+
+  // When
+  NSDictionary *validatedProperties = [[MSAnalytics sharedInstance] validateProperties:validProperties];
+
+  // Then
+  XCTAssertTrue([validatedProperties count] == [validProperties count]);
+
+  // Test too many properties in one event
+  // If
+  NSDictionary *tooManyProperties = @{ @"Key1" : @"Value1", @"Key2" : @"Value2", @"Key3" : @"Value3", @"Key4" : @"Value4", @"Key5" : @"Value5", @"Key6" : @"Value6", @"Key7" : @"Value7" };
+
+  // When
+  validatedProperties = [[MSAnalytics sharedInstance] validateProperties:tooManyProperties];
+
+  // Then
+  XCTAssertTrue([validatedProperties count] == maxPropertriesPerEvent);
+
+  // Test invalid properties
+  // If
+  NSDictionary *invalidKeysInProperties = @{ @"Key1" : @"Value1", @(2) : @"Value2", longStringValue : @"Value3", @"" : @"Value4" };
+
+  // When
+  validatedProperties = [[MSAnalytics sharedInstance] validateProperties:invalidKeysInProperties];
+
+  // Then
+  XCTAssertTrue([validatedProperties count] == 1);
+
+  // Test invalid values
+  // If
+  NSDictionary *invalidValuesInProperties = @{ @"Key1" : @"Value1", @"Key2" : @(2), @"Key3" : longStringValue };
+
+  // When
+  validatedProperties = [[MSAnalytics sharedInstance] validateProperties:invalidValuesInProperties];
+
+  // Then
+  XCTAssertTrue([validatedProperties count] == 1);
+
+  // Test mixed variant
+  // If
+  NSDictionary *mixedEventProperties = @{ @"Key1" : @"Value1", @(2) : @"Value2",
+                                          stringValue64 : @"Value3", @"Key4" : stringValue64,
+                                          @"Key5" : @"Value5", @"Key6" : @(2),
+                                          @"Key7" : longStringValue, @"Key8" : @"" };
+
+  // When
+  validatedProperties = [[MSAnalytics sharedInstance] validateProperties:mixedEventProperties];
+
+  // Then
+  XCTAssertTrue([validatedProperties count] == maxPropertriesPerEvent);
+  XCTAssertNotNil([validatedProperties objectForKey:@"Key1"]);
+  XCTAssertNotNil([validatedProperties objectForKey:stringValue64]);
+  XCTAssertNotNil([validatedProperties objectForKey:@"Key4"]);
+  XCTAssertNotNil([validatedProperties objectForKey:@"Key5"]);
+  XCTAssertNotNil([validatedProperties objectForKey:@"Key8"]);
+  XCTAssertNil([validatedProperties objectForKey:@"Key6"]);
+  XCTAssertNil([validatedProperties objectForKey:@"Key7"]);
 }
 
 - (void)testApplyEnabledStateWorks {

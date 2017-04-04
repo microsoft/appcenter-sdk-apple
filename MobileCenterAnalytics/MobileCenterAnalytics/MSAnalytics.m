@@ -17,12 +17,12 @@ static MSAnalytics *sharedInstance = nil;
 static dispatch_once_t onceToken;
 
 // Events values limitations
-const int minEventNameLength = 1;
-const int maxEventNameLength = 256;
-const int maxPropertriesPerEvent = 5;
-const int minPropertyKeyLength = 1;
-const int maxPropertyKeyLength = 64;
-const int maxPropertyValueLength = 1;
+static const int minEventNameLength = 1;
+static const int maxEventNameLength = 256;
+static const int maxPropertriesPerEvent = 5;
+static const int minPropertyKeyLength = 1;
+static const int maxPropertyKeyLength = 64;
+static const int maxPropertyValueLength = 64;
 
 @implementation MSAnalytics
 
@@ -205,7 +205,7 @@ const int maxPropertyValueLength = 1;
                    value);
       continue;
     }
-    if(!value || (value && [value length] > maxPropertyValueLength)) {
+    if(value && [value length] > maxPropertyValueLength) {
       MSLogWarning([MSAnalytics logTag],
                    @"The properties contain invalid value %@. Property will be skipped.",
                    value);
