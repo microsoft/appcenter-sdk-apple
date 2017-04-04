@@ -19,6 +19,7 @@
 
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
 static NSString *const kMSCrashesServiceName = @"Crashes";
+static NSString *const kMSFatal = @"fatal";
 
 @interface MSCrashes ()
 
@@ -108,8 +109,9 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
   [MSCrashes setDelegate:delegateMock];
 
   // Then
-  XCTAssertNotNil([MSCrashes sharedInstance].delegate);
-  XCTAssertEqual([MSCrashes sharedInstance].delegate, delegateMock);
+  id<MSCrashesDelegate> strongDelegate = [MSCrashes sharedInstance].delegate;
+  XCTAssertNotNil(strongDelegate);
+  XCTAssertEqual(strongDelegate, delegateMock);
 }
 
 - (void)testDelegateMethodsAreCalled {
@@ -463,6 +465,34 @@ static NSString *const kMSCrashesServiceName = @"Crashes";
   NSArray *first =
       [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[MSWrapperExceptionManager directoryPath] error:NULL];
   XCTAssertTrue(first.count == 1);
+}
+
+- (void)testAbstractErrorLogSerialization {
+  MSAbstractErrorLog *log = [MSAbstractErrorLog new];
+
+  // When
+  NSDictionary *serializedLog = [log serializeToDictionary];
+
+  // Then
+  XCTAssertFalse([static_cast<NSNumber*>([serializedLog objectForKey:kMSFatal]) boolValue]);
+
+  // If
+  log.fatal = NO;
+
+  // When
+  serializedLog = [log serializeToDictionary];
+
+  // Then
+  XCTAssertFalse([static_cast<NSNumber*>([serializedLog objectForKey:kMSFatal]) boolValue]);
+
+  // If
+  log.fatal = YES;
+
+  // When
+  serializedLog = [log serializeToDictionary];
+
+  // Then
+  XCTAssertTrue([static_cast<NSNumber*>([serializedLog objectForKey:kMSFatal]) boolValue]);
 }
 
 - (BOOL)crashes:(MSCrashes *)crashes shouldProcessErrorReport:(MSErrorReport *)errorReport {

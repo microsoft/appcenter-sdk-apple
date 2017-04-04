@@ -549,7 +549,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       }];
 }
 
-- (void)closeApp {
+- (void)closeApp __attribute__((noreturn)) {
   exit(0);
 }
 

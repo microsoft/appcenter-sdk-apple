@@ -81,7 +81,7 @@ static NSString *const kMSAppNamespace = @"app_namespace";
 }
 
 - (BOOL)isEqual:(id)object {
-  if (!object || ![super isEqual:object] || ![object isKindOfClass:[MSDevice class]]) {
+  if (![object isKindOfClass:[MSDevice class]] || ![super isEqual:object]) {
     return NO;
   }
   MSDevice *device = (MSDevice *)object;
