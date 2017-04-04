@@ -359,25 +359,25 @@
 		6E171AE21D22F781000DC480 /* MobileCenterCrashesTests */ = {
 			isa = PBXGroup;
 			children = (
-				0444496D1DD3D26D00D33BAE /* Model */,
-				6EC99A2F1D416CCF0016C325 /* Fixtures */,
-				6E171AEC1D22F7AB000DC480 /* Frameworks */,
-				6E171AE51D22F781000DC480 /* Info.plist */,
 				6E7D5C811D3EC06C009EC9AC /* MSConstants.h */,
 				B2FF130B1DD12F61003DC677 /* MSAppleErrorLogTests.m */,
 				B2F120D21D6546560060DED7 /* MSBinaryAttachmentTests.m */,
-				35EF18DF1DDBCF6C00731CA8 /* MSWrapperExceptionManagerTests.m */,
 				6E7D5C7F1D3EAEB5009EC9AC /* MSBinaryTests.m */,
-				6EC99A2D1D4166C50016C325 /* MSCrashesTests.mm */,
+				59493B275715F01438B2E6FD /* MSCrashesUtilTests.m */,
 				B2F120D41D6546740060DED7 /* MSErrorAttachmentTests.m */,
-				B24F3F0E1D93368F00827213 /* MSErrorLogFormatterTests.mm */,
 				B2F120D61D65469D0060DED7 /* MSErrorReportTests.m */,
 				6E7D5C891D3EC504009EC9AC /* MSExceptionTests.m */,
 				6E7D5C861D3EC332009EC9AC /* MSStackFrameTests.m */,
 				6E7D5C831D3EC0F7009EC9AC /* MSThreadTests.m */,
-				B2A0A71D1D9C2AF200729A58 /* Util */,
-				59493B275715F01438B2E6FD /* MSCrashesUtilTests.m */,
+				35EF18DF1DDBCF6C00731CA8 /* MSWrapperExceptionManagerTests.m */,
 				F851DAEC1E81867D00525570 /* MSCrashesCXXExceptionTests.mm */,
+				6EC99A2D1D4166C50016C325 /* MSCrashesTests.mm */,
+				B24F3F0E1D93368F00827213 /* MSErrorLogFormatterTests.mm */,
+				6E171AE51D22F781000DC480 /* Info.plist */,
+				6EC99A2F1D416CCF0016C325 /* Fixtures */,
+				6E171AEC1D22F7AB000DC480 /* Frameworks */,
+				0444496D1DD3D26D00D33BAE /* Model */,
+				B2A0A71D1D9C2AF200729A58 /* Util */,
 			);
 			path = MobileCenterCrashesTests;
 			sourceTree = "<group>";
@@ -386,8 +386,8 @@
 			isa = PBXGroup;
 			children = (
 				6E171AEF1D22F841000DC480 /* libMobileCenter.a */,
-				6E171B041D22FABA000DC480 /* OCMock */,
 				6E171AED1D22F7BE000DC480 /* OCHamcrestIOS.framework */,
+				6E171B041D22FABA000DC480 /* OCMock */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
