@@ -16,6 +16,14 @@ static NSString *const kMSGroupID = @"Analytics";
 static MSAnalytics *sharedInstance = nil;
 static dispatch_once_t onceToken;
 
+// Events values limitations
+const int minEventNameLength = 1;
+const int maxEventNameLength = 256;
+const int maxPropertriesPerEvent = 5;
+const int minPropertyKeyLength = 1;
+const int maxPropertyKeyLength = 64;
+const int maxPropertyValueLength = 1;
+
 @implementation MSAnalytics
 
 @synthesize autoPageTrackingEnabled = _autoPageTrackingEnabled;
@@ -146,18 +154,81 @@ static dispatch_once_t onceToken;
 
 #pragma mark - Private methods
 
-- (BOOL)validateProperties:(NSDictionary<NSString *, NSString *> *)properties {
-  for (id key in properties) {
-    if (![key isKindOfClass:[NSString class]] || ![properties[key] isKindOfClass:[NSString class]]) {
-      return NO;
-    }
+- (BOOL)validateEventName:(NSString *)eventName {
+  if (!eventName) {
+    MSLogError([MSAnalytics logTag],
+               @"The event name is null. It can not be null.");
+    return NO;
+  }
+  if ([eventName length] < minEventNameLength) {
+    MSLogError([MSAnalytics logTag],
+               @"The event name is too short. It should be more then %d", minEventNameLength);
+    return NO;
+  }
+  if ([eventName length] > maxEventNameLength) {
+    MSLogError([MSAnalytics logTag],
+               @"The event name is too long. It should be less then %d", maxEventNameLength);
+    return NO;
   }
   return YES;
+}
+
+- (NSDictionary<NSString *, NSString *> *)validateProperties:(NSDictionary<NSString *, NSString *> *)properties {
+  if([properties count] > maxPropertriesPerEvent) {
+    MSLogWarning([MSAnalytics logTag],
+                 @"The log contains too many properties. Only first %d valid properties will be send.",
+                 maxPropertriesPerEvent);
+  }
+  int totalValidProps = 0;
+  NSMutableDictionary<NSString *, NSString *> *validProperties = [NSMutableDictionary new];
+  for (id key in properties) {
+    if (![key isKindOfClass:[NSString class]] || ![properties[key] isKindOfClass:[NSString class]]) {
+      continue;
+    }
+
+    // Validate key
+    NSString *strKey = key;
+    if (!strKey ||
+        [strKey length] < minPropertyKeyLength ||
+        [strKey length] > maxPropertyKeyLength) {
+      MSLogWarning([MSAnalytics logTag],
+                   @"The properties contain invalid key %@. Property will be skipped.",
+                   strKey);
+      continue;
+    }
+
+    // Validate value
+    NSString *value = properties[key];
+    if (!value) {
+      MSLogWarning([MSAnalytics logTag],
+                   @"The properties contain invalid value %@. Property will be skipped.",
+                   value);
+      continue;
+    }
+    if(!value || (value && [value length] > maxPropertyValueLength)) {
+      MSLogWarning([MSAnalytics logTag],
+                   @"The properties contain invalid value %@. Property will be skipped.",
+                   value);
+      continue;
+    }
+
+    // Save valid properties
+    [validProperties setObject:value forKey:key];
+    if (++totalValidProps == maxPropertriesPerEvent) {
+      break;
+    }
+  }
+  return validProperties;
 }
 
 - (void)trackEvent:(NSString *)eventName withProperties:(NSDictionary<NSString *, NSString *> *)properties {
   if (![self isEnabled])
     return;
+
+  // Validate event name length
+  if (![self validateEventName:eventName]) {
+    return;
+  }
 
   // Create and set properties of the event log.
   MSEventLog *log = [[MSEventLog alloc] init];
@@ -165,13 +236,8 @@ static dispatch_once_t onceToken;
   log.eventId = MS_UUID_STRING;
   if (properties && properties.count > 0) {
 
-    // Check if property dictionary contains non-string values.
-    if (![self validateProperties:properties]) {
-      MSLogError([MSAnalytics logTag],
-                 @"The event contains unsupported value type(s). Values should be NSString type.");
-      return;
-    }
-    log.properties = properties;
+    // Send only valid properties
+    log.properties = [self validateProperties:properties];
   }
 
   // Send log to log manager.
@@ -187,12 +253,8 @@ static dispatch_once_t onceToken;
   log.name = pageName;
   if (properties && properties.count > 0) {
 
-    // Check if property dictionary contains non-string values.
-    if (![self validateProperties:properties]) {
-      MSLogError([MSAnalytics logTag], @"The page contains unsupported value type(s). Values should be NSString type.");
-      return;
-    }
-    log.properties = properties;
+    // Send only valid properties
+    log.properties = [self validateProperties:properties];
   }
 
   // Send log to log manager.
