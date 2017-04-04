@@ -34,7 +34,7 @@ static dispatch_once_t onceToken;
     _sessionTracker.delegate = self;
 
     // Init channel configuration.
-    _channelConfiguration = [[MSChannelConfiguration alloc] initDefaultChannelWithGroupID:[self groupID]];
+    _channelConfiguration = [[MSChannelConfiguration alloc] initDefaultConfigurationWithGroupID:[self groupID]];
   }
   return self;
 }

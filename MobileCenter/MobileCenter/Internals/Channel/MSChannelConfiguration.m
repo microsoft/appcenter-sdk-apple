@@ -17,7 +17,7 @@
   return self;
 }
 
-- (instancetype)initDefaultChannelWithGroupID:(NSString *)groupID {
+- (instancetype)initDefaultConfigurationWithGroupID:(NSString *)groupID {
   return [self initWithGroupID:groupID
                       priority:MSPriorityDefault
                  flushInterval:3.0

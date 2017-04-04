@@ -313,7 +313,7 @@ static NSString *const kMSGroupID = @"MobileCenter";
 
   // Initialize a channel for start service logs.
   [self.logManager
-      initChannelWithConfiguration:[[MSChannelConfiguration alloc] initDefaultChannelWithGroupID:kMSGroupID]];
+      initChannelWithConfiguration:[[MSChannelConfiguration alloc] initDefaultConfigurationWithGroupID:kMSGroupID]];
 }
 
 - (NSString *)appSecret {

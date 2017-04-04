@@ -43,7 +43,7 @@
   NSString *groupID = @"FooBar";
 
   // When
-  MSChannelConfiguration *sut = [[MSChannelConfiguration alloc] initDefaultChannelWithGroupID:groupID];
+  MSChannelConfiguration *sut = [[MSChannelConfiguration alloc] initDefaultConfigurationWithGroupID:groupID];
 
   // Then
   assertThat(sut, notNilValue());

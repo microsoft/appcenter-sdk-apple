@@ -54,7 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return a fully configured `MSChannelConfiguration` instance with default settings.
  */
-- (instancetype)initDefaultChannelWithGroupID:(NSString *)groupID;
+- (instancetype)initDefaultConfigurationWithGroupID:(NSString *)groupID;
 
 @end
 
