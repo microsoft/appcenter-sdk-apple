@@ -1,6 +1,10 @@
 #import <Foundation/Foundation.h>
 #import "MSConstants.h"
 
+/**
+ * Use forward declarations instead of import to minimize the amount of code seen by the compiler and linker.
+ * It avoids potential problems that may come with importing files that import still other files.
+ */
 @class MSWrapperSdk;
 @class MSCustomProperties;
 

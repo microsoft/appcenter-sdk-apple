@@ -2,7 +2,7 @@
 
 /**
  * Custom properties builder.
- * Collect multiple properties for send its at once in the same log.
+ * Collects multiple properties to send in one log.
  */
 @interface MSCustomProperties : NSObject
 
