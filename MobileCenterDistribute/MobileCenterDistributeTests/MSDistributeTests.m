@@ -618,6 +618,7 @@ static NSURL *sfURL;
   id distributeMock = OCMPartialMock(self.sut);
   // We should not touch UI in a unit testing environment.
   OCMStub([distributeMock openURLInSafariApp:[OCMArg any]]);
+  OCMStub([distributeMock openURLInEmbeddedSafari:[OCMArg any] fromClass:[OCMArg any]]);
 
   // When
   [distributeMock requestUpdateToken:kMSTestReleaseHash];
