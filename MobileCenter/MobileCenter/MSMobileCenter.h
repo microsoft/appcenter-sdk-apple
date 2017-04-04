@@ -8,9 +8,6 @@
 @class MSWrapperSdk;
 @class MSCustomProperties;
 
-/**
- * Class comment: Some Introduction.
- */
 @interface MSMobileCenter : NSObject
 
 /**
