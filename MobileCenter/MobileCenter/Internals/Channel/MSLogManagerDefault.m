@@ -49,11 +49,15 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 #pragma mark - Delegate
 
 - (void)addDelegate:(id<MSLogManagerDelegate>)delegate {
-  [self.delegates addObject:delegate];
+  @synchronized (self) {
+    [self.delegates addObject:delegate];
+  }
 }
 
 - (void)removeDelegate:(id<MSLogManagerDelegate>)delegate {
-  [self.delegates removeObject:delegate];
+  @synchronized (self) {
+    [self.delegates removeObject:delegate];
+  }
 }
 
 #pragma mark - Channel Delegate
@@ -77,9 +81,11 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 }
 
 - (void)enumerateDelegatesForSelector:(SEL)selector withBlock:(void (^)(id<MSLogManagerDelegate> delegate))block {
-  for (id<MSLogManagerDelegate> delegate in self.delegates) {
-    if (delegate && [delegate respondsToSelector:selector]) {
-      block(delegate);
+  @synchronized (self) {
+    for (id<MSLogManagerDelegate> delegate in self.delegates) {
+      if (delegate && [delegate respondsToSelector:selector]) {
+        block(delegate);
+      }
     }
   }
 }
