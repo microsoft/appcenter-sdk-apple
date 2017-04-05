@@ -150,6 +150,9 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   // If
   [MSMobileCenter start:MS_UUID_STRING withServices:nil];
   id logManager = OCMProtocolMock(@protocol(MSLogManager));
+  OCMStub([logManager processLog:[OCMArg isKindOfClass:[MSCustomPropertiesLog class]]
+                        withPriority:MSPriorityDefault
+                          andGroupID:[OCMArg any]]).andDo(nil);
   [MSMobileCenter sharedInstance].logManager = logManager;
   
   // When

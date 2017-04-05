@@ -90,6 +90,15 @@
   // Then
   assertThat([customProperties properties], hasCountOf(0));
   
+  // Empty value.
+  // When
+  NSString *emptyValue = @"";
+  [customProperties setString:emptyValue forKey:key];
+  
+  // Then
+  assertThat([customProperties properties], hasCountOf(1));
+  assertThat([customProperties properties][key], is(emptyValue));
+  
   // Normal value.
   // When
   NSString *normalValue = @"test";
@@ -97,6 +106,7 @@
   
   // Then
   assertThat([customProperties properties], hasCountOf(1));
+  assertThat([customProperties properties][key], is(normalValue));
 }
 
 - (void)testSetDate {
@@ -123,6 +133,7 @@
   
   // Then
   assertThat([customProperties properties], hasCountOf(1));
+  assertThat([customProperties properties][key], is(normalValue));
 }
 
 - (void)testSetNumber {
@@ -151,6 +162,7 @@
   
   // Then
   assertThat([customProperties properties], hasCountOf(1));
+  assertThat([customProperties properties][key], is(normalValue));
 }
 
 - (void)testSetBool {
@@ -171,6 +183,7 @@
   
   // Then
   assertThat([customProperties properties], hasCountOf(1));
+  assertThat([customProperties properties][key], is(@(normalValue)));
 }
 
 - (void)testClear {
@@ -189,6 +202,7 @@
   
   // Then
   assertThat([customProperties properties], hasCountOf(1));
+  assertThat([customProperties properties][key], is([NSNull null]));
 }
 
 @end

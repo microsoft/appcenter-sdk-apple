@@ -24,7 +24,6 @@ static NSString *const kMSPropertyTypeString = @"string";
   return self;
 }
 
-
 - (BOOL)isEqual:(id)object {
   if (![object isKindOfClass:[MSCustomPropertiesLog class]] || ![super isEqual:object]) {
     return NO;
@@ -101,13 +100,15 @@ static NSString *const kMSPropertyTypeString = @"string";
 - (instancetype)initWithCoder:(NSCoder *)coder {
   self = [super initWithCoder:coder];
   if (self) {
-    _properties = [coder decodeObjectForKey:kMSProperties];
+    self.type = [coder decodeObjectForKey:kMSCustomProperties];
+    self.properties = [coder decodeObjectForKey:kMSProperties];
   }
   return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
+  [coder encodeObject:self.type forKey:kMSCustomProperties];
   [coder encodeObject:self.properties forKey:kMSProperties];
 }
 
