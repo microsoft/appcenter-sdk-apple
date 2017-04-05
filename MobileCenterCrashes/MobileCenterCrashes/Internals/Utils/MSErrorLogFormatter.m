@@ -541,9 +541,9 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
                                       is64bit:(BOOL)is64bit {
 
   /*
-     * Try to find the selector in case this was a crash in obj_msgSend.
-     * We search this whether the crash happened in obj_msgSend or not since we don't have the symbol!
-     */
+   * Try to find the selector in case this was a crash in obj_msgSend.
+   * We search this whether the crash happened in obj_msgSend or not since we don't have the symbol!
+   */
   NSString *foundSelector = nil;
 
 // Search the registers value for the current architecture.
