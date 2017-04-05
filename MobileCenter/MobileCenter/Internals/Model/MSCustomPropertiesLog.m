@@ -50,8 +50,14 @@ static NSString *const kMSPropertyTypeString = @"string";
   if ([value isKindOfClass:[NSNull class]]) {
     [property setObject:kMSPropertyTypeClear forKey:kMSPropertyType];
   } else if ([value isKindOfClass:[NSNumber class]]) {
-    NSNumber * numberValue = (NSNumber *)value;
-    if (!strcmp([numberValue objCType], @encode(BOOL))) {
+    
+    /**
+     * NSNumber is “toll-free bridged” with its Core Foundation counterparts:
+     * CFNumber for integer and floating point values, and CFBoolean for Boolean values.
+     *
+     * NSCFBoolean is a private class in the NSNumber class cluster.
+     */
+    if ([NSStringFromClass([value class]) isEqualToString:@"__NSCFBoolean"]) {
       [property setObject:kMSPropertyTypeBoolean forKey:kMSPropertyType];
       [property setObject:value forKey:kMSPropertyValue];
     } else {
