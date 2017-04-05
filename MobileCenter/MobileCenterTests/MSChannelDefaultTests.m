@@ -71,6 +71,7 @@ static NSString *const kMSTestGroupID = @"GroupID";
   // If
   [self initChannelEndJobExpectation];
   MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithGroupID:kMSTestGroupID
+                                                                          priority:MSPriorityDefault
                                                                      flushInterval:5
                                                                     batchSizeLimit:10
                                                                pendingBatchesLimit:3];
@@ -98,6 +99,7 @@ static NSString *const kMSTestGroupID = @"GroupID";
   // If
   [self initChannelEndJobExpectation];
   MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithGroupID:kMSTestGroupID
+                                                                          priority:MSPriorityDefault
                                                                      flushInterval:0.0
                                                                     batchSizeLimit:3
                                                                pendingBatchesLimit:3];
@@ -156,6 +158,7 @@ static NSString *const kMSTestGroupID = @"GroupID";
                      [@(currentBatchId++) stringValue]);
       });
   MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithGroupID:kMSTestGroupID
+                                                                          priority:MSPriorityDefault
                                                                      flushInterval:0.0
                                                                     batchSizeLimit:1
                                                                pendingBatchesLimit:expectedMaxPendingBatched];
@@ -223,6 +226,7 @@ static NSString *const kMSTestGroupID = @"GroupID";
 
   // Configure channel.
   MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithGroupID:kMSTestGroupID
+                                                                          priority:MSPriorityDefault
                                                                      flushInterval:0.0
                                                                     batchSizeLimit:1
                                                                pendingBatchesLimit:1];
@@ -287,6 +291,7 @@ static NSString *const kMSTestGroupID = @"GroupID";
       loadLogsForGroupID:kMSTestGroupID
           withCompletion:([OCMArg invokeBlockWithArgs:@YES, ((NSArray<MSLog> *)@[ mockLog ]), @"1", nil])]);
   MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithGroupID:kMSTestGroupID
+                                                                          priority:MSPriorityDefault
                                                                      flushInterval:0.0
                                                                     batchSizeLimit:1
                                                                pendingBatchesLimit:10];
@@ -327,6 +332,7 @@ static NSString *const kMSTestGroupID = @"GroupID";
       loadLogsForGroupID:kMSTestGroupID
           withCompletion:([OCMArg invokeBlockWithArgs:@YES, ((NSArray<MSLog> *)@[ mockLog ]), @"1", nil])]);
   MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithGroupID:kMSTestGroupID
+                                                                          priority:MSPriorityDefault
                                                                      flushInterval:0.0
                                                                     batchSizeLimit:1
                                                                pendingBatchesLimit:10];
@@ -448,6 +454,7 @@ static NSString *const kMSTestGroupID = @"GroupID";
 
   // Configure channel.
   MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithGroupID:kMSTestGroupID
+                                                                          priority:MSPriorityDefault
                                                                      flushInterval:0.0
                                                                     batchSizeLimit:1
                                                                pendingBatchesLimit:1];

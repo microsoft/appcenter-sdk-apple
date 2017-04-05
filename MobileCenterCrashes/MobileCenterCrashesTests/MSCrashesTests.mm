@@ -75,17 +75,12 @@ static NSString *const kMSFatal = @"fatal";
   assertThat(self.sut.logBufferDir, notNilValue());
   assertThat(self.sut.crashesDir, notNilValue());
   assertThat(self.sut.analyzerInProgressFile, notNilValue());
-  XCTAssertTrue(msCrashesLogBuffer[MSPriorityHigh].size() == 20);
-  XCTAssertTrue(msCrashesLogBuffer[MSPriorityDefault].size() == 20);
-  XCTAssertTrue(msCrashesLogBuffer[MSPriorityBackground].size() == 20);
+  XCTAssertTrue(msCrashesLogBuffer.size() == ms_crashes_log_buffer_size);
 
   // Creation of buffer files is done asynchronously, we need to give it some time to create the files.
   [NSThread sleepForTimeInterval:0.05];
-  for (NSInteger priority = 0; priority < kMSPriorityCount; priority++) {
-    NSString *dirPath = [[self.sut.logBufferDir path] stringByAppendingFormat:@"/%ld/", static_cast<long>(priority)];
-    NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:dirPath error:NULL];
-    assertThat(files, hasCountOf(20));
-  }
+  NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[self.sut.logBufferDir path] error:NULL];
+  assertThat(files, hasCountOf(ms_crashes_log_buffer_size));
 }
 
 - (void)testStartingManagerInitializesPLCrashReporter {
@@ -274,41 +269,35 @@ static NSString *const kMSFatal = @"fatal";
   assertThatLong([self.sut.fileManager contentsOfDirectoryAtPath:path error:nil].count, equalToLong(0));
 }
 
-// FIXME: Crashes is getting way more logs than expected. Disable this functionality.
-- (void)setupLogBufferWorks {
+- (void)testSetupLogBufferWorks {
 
-  // When
-  // This is the directly after initialization.
+  // If
+  // Creation of buffer files is done asynchronously, we need to give it some time to create the files.
+  [NSThread sleepForTimeInterval:0.05];
 
   // Then
-  for (NSInteger priority = 0; priority < kMSPriorityCount; priority++) {
-    NSString *dirPath = [[self.sut.logBufferDir path] stringByAppendingFormat:@"/%ld/", static_cast<long>(priority)];
+  NSArray *first = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[self.sut.logBufferDir path] error:NULL];
+  XCTAssertTrue(first.count == ms_crashes_log_buffer_size);
+  for (NSString *path in first) {
+    unsigned long long fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:path error:nil] fileSize];
+    XCTAssertTrue(fileSize == 0);
+  }
 
-    NSArray *first = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:dirPath error:NULL];
-    XCTAssertTrue(first.count == 20);
-    for (NSString *path in first) {
-      unsigned long long fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:path error:nil] fileSize];
-      XCTAssertTrue(fileSize == 0);
-    }
+  // When
+  [self.sut setupLogBuffer];
 
-    // When
-    [self.sut setupLogBuffer];
-
-    // Then
-    NSArray *second = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:dirPath error:NULL];
-    for (int i = 0; i < 20; i++) {
-      XCTAssertTrue([first[i] isEqualToString:second[i]]);
-    }
+  // Then
+  NSArray *second = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[self.sut.logBufferDir path] error:NULL];
+  for (int i = 0; i < ms_crashes_log_buffer_size; i++) {
+    XCTAssertTrue([first[i] isEqualToString:second[i]]);
   }
 }
 
 - (void)testCreateBufferFile {
   // When
   NSString *testName = @"afilename";
-  NSString *priorityDirectory =
-      [[self.sut.logBufferDir path] stringByAppendingFormat:@"/%ld/", static_cast<long>(MSPriorityDefault)];
-  NSString *filePath =
-      [priorityDirectory stringByAppendingPathComponent:[testName stringByAppendingString:@".mscrasheslogbuffer"]];
+  NSString *filePath = [[self.sut.logBufferDir path]
+      stringByAppendingPathComponent:[testName stringByAppendingString:@".mscrasheslogbuffer"]];
   [self.sut createBufferFileAtURL:[NSURL fileURLWithPath:filePath]];
 
   // Then
@@ -321,11 +310,8 @@ static NSString *const kMSFatal = @"fatal";
   NSString *testName = @"afilename";
   NSString *dataString = @"SomeBufferedData";
   NSData *someData = [dataString dataUsingEncoding:NSUTF8StringEncoding];
-  NSString *priorityDirectory =
-      [[self.sut.logBufferDir path] stringByAppendingFormat:@"/%ld/", static_cast<long>(MSPriorityHigh)];
-
-  NSString *filePath =
-      [priorityDirectory stringByAppendingPathComponent:[testName stringByAppendingString:@".mscrasheslogbuffer"]];
+  NSString *filePath = [[self.sut.logBufferDir path]
+      stringByAppendingPathComponent:[testName stringByAppendingString:@".mscrasheslogbuffer"]];
 
   [someData writeToFile:filePath options:NSDataWritingFileProtectionNone error:nil];
 
@@ -345,74 +331,68 @@ static NSString *const kMSFatal = @"fatal";
 
   // When
   MSLogWithProperties *log = [MSLogWithProperties new];
-  [self.sut onEnqueuingLog:log withInternalId:MS_UUID_STRING andPriority:MSPriorityHigh];
+  [self.sut onEnqueuingLog:log withInternalId:MS_UUID_STRING];
 
   // Then
-  XCTAssertTrue([self crashesLogBufferCount:MSPriorityHigh] == 1);
+  XCTAssertTrue([self crashesLogBufferCount] == 1);
 }
 
 - (void)testBufferIndexOverflowForAllPriorities {
 
-  for (NSInteger priority = 0; priority < kMSPriorityCount; priority++) {
-
-    // When
-    for (int i = 0; i < 20; i++) {
-      MSLogWithProperties *log = [MSLogWithProperties new];
-      [self.sut onEnqueuingLog:log withInternalId:MS_UUID_STRING andPriority:static_cast<MSPriority>(priority)];
-    }
-
-    // Then
-    XCTAssertTrue([self crashesLogBufferCount:static_cast<MSPriority>(priority)] == 20);
-
-    // When
+  // When
+  for (int i = 0; i < ms_crashes_log_buffer_size; i++) {
     MSLogWithProperties *log = [MSLogWithProperties new];
-    [self.sut onEnqueuingLog:log withInternalId:MS_UUID_STRING andPriority:static_cast<MSPriority>(priority)];
-    NSNumberFormatter *timestampFormatter = [[NSNumberFormatter alloc] init];
-    timestampFormatter.numberStyle = NSNumberFormatterDecimalStyle;
-    int indexOfLatestObject = 0;
-    NSNumber *oldestTimestamp;
-    for (auto it = msCrashesLogBuffer[static_cast<MSPriority>(priority)].begin(),
-              end = msCrashesLogBuffer[static_cast<MSPriority>(priority)].end();
-         it != end; ++it) {
-      NSString *timestampString = [NSString stringWithCString:it->timestamp.c_str() encoding:NSUTF8StringEncoding];
-      NSNumber *bufferedLogTimestamp = [timestampFormatter numberFromString:timestampString];
-
-      // Remember the timestamp if the log is older than the previous one or the initial one.
-      if (!oldestTimestamp || oldestTimestamp.doubleValue > bufferedLogTimestamp.doubleValue) {
-        oldestTimestamp = bufferedLogTimestamp;
-        indexOfLatestObject = static_cast<int>(it - msCrashesLogBuffer[static_cast<MSPriority>(priority)].begin());
-      }
-    }
-
-    // Then
-    XCTAssertTrue([self crashesLogBufferCount:static_cast<MSPriority>(priority)] == 20);
-    XCTAssertTrue(indexOfLatestObject == 1);
-
-    // When
-    for (int i = 0; i < 50; i++) {
-      MSLogWithProperties *aLog = [MSLogWithProperties new];
-      [self.sut onEnqueuingLog:aLog withInternalId:MS_UUID_STRING andPriority:static_cast<MSPriority>(priority)];
-    }
-
-    indexOfLatestObject = 0;
-    oldestTimestamp = nil;
-    for (auto it = msCrashesLogBuffer[static_cast<MSPriority>(priority)].begin(),
-              end = msCrashesLogBuffer[static_cast<MSPriority>(priority)].end();
-         it != end; ++it) {
-      NSString *timestampString = [NSString stringWithCString:it->timestamp.c_str() encoding:NSUTF8StringEncoding];
-      NSNumber *bufferedLogTimestamp = [timestampFormatter numberFromString:timestampString];
-
-      // Remember the timestamp if the log is older than the previous one or the initial one.
-      if (!oldestTimestamp || oldestTimestamp.doubleValue > bufferedLogTimestamp.doubleValue) {
-        oldestTimestamp = bufferedLogTimestamp;
-        indexOfLatestObject = static_cast<int>(it - msCrashesLogBuffer[static_cast<MSPriority>(priority)].begin());
-      }
-    }
-
-    // Then
-    XCTAssertTrue([self crashesLogBufferCount:static_cast<MSPriority>(priority)] == 20);
-    XCTAssertTrue(indexOfLatestObject == 11);
+    [self.sut onEnqueuingLog:log withInternalId:MS_UUID_STRING];
   }
+
+  // Then
+  XCTAssertTrue([self crashesLogBufferCount] == ms_crashes_log_buffer_size);
+
+  // When
+  MSLogWithProperties *log = [MSLogWithProperties new];
+  [self.sut onEnqueuingLog:log withInternalId:MS_UUID_STRING];
+  NSNumberFormatter *timestampFormatter = [[NSNumberFormatter alloc] init];
+  timestampFormatter.numberStyle = NSNumberFormatterDecimalStyle;
+  int indexOfLatestObject = 0;
+  NSNumber *oldestTimestamp;
+  for (auto it = msCrashesLogBuffer.begin(), end = msCrashesLogBuffer.end(); it != end; ++it) {
+    NSString *timestampString = [NSString stringWithCString:it->timestamp.c_str() encoding:NSUTF8StringEncoding];
+    NSNumber *bufferedLogTimestamp = [timestampFormatter numberFromString:timestampString];
+
+    // Remember the timestamp if the log is older than the previous one or the initial one.
+    if (!oldestTimestamp || oldestTimestamp.doubleValue > bufferedLogTimestamp.doubleValue) {
+      oldestTimestamp = bufferedLogTimestamp;
+      indexOfLatestObject = static_cast<int>(it - msCrashesLogBuffer.begin());
+    }
+  }
+  // Then
+  XCTAssertTrue([self crashesLogBufferCount] == ms_crashes_log_buffer_size);
+  XCTAssertTrue(indexOfLatestObject == 1);
+
+  // If
+  int numberOfLogs = 50;
+  // When
+  for (int i = 0; i < numberOfLogs; i++) {
+    MSLogWithProperties *aLog = [MSLogWithProperties new];
+    [self.sut onEnqueuingLog:aLog withInternalId:MS_UUID_STRING];
+  }
+
+  indexOfLatestObject = 0;
+  oldestTimestamp = nil;
+  for (auto it = msCrashesLogBuffer.begin(), end = msCrashesLogBuffer.end(); it != end; ++it) {
+    NSString *timestampString = [NSString stringWithCString:it->timestamp.c_str() encoding:NSUTF8StringEncoding];
+    NSNumber *bufferedLogTimestamp = [timestampFormatter numberFromString:timestampString];
+
+    // Remember the timestamp if the log is older than the previous one or the initial one.
+    if (!oldestTimestamp || oldestTimestamp.doubleValue > bufferedLogTimestamp.doubleValue) {
+      oldestTimestamp = bufferedLogTimestamp;
+	  indexOfLatestObject = static_cast<int>(it - msCrashesLogBuffer.begin());
+    }
+  }
+
+  // Then
+  XCTAssertTrue([self crashesLogBufferCount] == ms_crashes_log_buffer_size);
+  XCTAssertTrue(indexOfLatestObject == (1 + (numberOfLogs % ms_crashes_log_buffer_size)));
 }
 
 - (void)testBufferIndexOnPersistingLog {
@@ -422,24 +402,24 @@ static NSString *const kMSFatal = @"fatal";
   NSString *uuid1 = MS_UUID_STRING;
   NSString *uuid2 = MS_UUID_STRING;
   NSString *uuid3 = MS_UUID_STRING;
-  [self.sut onEnqueuingLog:log withInternalId:uuid1 andPriority:MSPriorityHigh];
-  [self.sut onEnqueuingLog:log withInternalId:uuid2 andPriority:MSPriorityHigh];
-  [self.sut onEnqueuingLog:log withInternalId:uuid3 andPriority:MSPriorityHigh];
+  [self.sut onEnqueuingLog:log withInternalId:uuid1];
+  [self.sut onEnqueuingLog:log withInternalId:uuid2];
+  [self.sut onEnqueuingLog:log withInternalId:uuid3];
 
   // Then
-  XCTAssertTrue([self crashesLogBufferCount:MSPriorityHigh] == 3);
+  XCTAssertTrue([self crashesLogBufferCount] == 3);
 
   // When
-  [self.sut onFinishedPersistingLog:nil withInternalId:uuid1 andPriority:MSPriorityHigh];
+  [self.sut onFinishedPersistingLog:nil withInternalId:uuid1];
 
   // Then
-  XCTAssertTrue([self crashesLogBufferCount:MSPriorityHigh] == 2);
+  XCTAssertTrue([self crashesLogBufferCount] == 2);
 
   // When
-  [self.sut onFailedPersistingLog:nil withInternalId:uuid2 andPriority:MSPriorityHigh];
+  [self.sut onFailedPersistingLog:nil withInternalId:uuid2];
 
   // Then
-  XCTAssertTrue([self crashesLogBufferCount:MSPriorityHigh] == 1);
+  XCTAssertTrue([self crashesLogBufferCount] == 1);
 }
 
 - (void)testInitializationPriorityCorrect {
@@ -464,37 +444,6 @@ static NSString *const kMSFatal = @"fatal";
 
   // Then
   XCTAssertTrue([self.sut isMachExceptionHandlerEnabled]);
-}
-
-- (void)testBufferDirectoryWorks {
-
-  // When
-  NSString *expected = [[[MSCrashesUtil logBufferDir] path]
-      stringByAppendingString:[NSString stringWithFormat:@"/%ld", static_cast<long>(MSPriorityBackground)]];
-  NSString *actual = [[self.sut bufferDirectoryForPriority:MSPriorityBackground] path];
-
-  // Then
-  XCTAssertTrue([expected isEqualToString:actual]);
-
-  // When
-  expected = [[[MSCrashesUtil logBufferDir] path]
-      stringByAppendingString:[NSString stringWithFormat:@"/%ld", static_cast<long>(MSPriorityDefault)]];
-  actual = [[self.sut bufferDirectoryForPriority:MSPriorityDefault] path];
-
-  // Then
-  XCTAssertTrue([expected isEqualToString:actual]);
-
-  // When
-  expected = [[[MSCrashesUtil logBufferDir] path]
-      stringByAppendingString:[NSString stringWithFormat:@"/%ld", static_cast<long>(MSPriorityHigh)]];
-  actual = [[self.sut bufferDirectoryForPriority:MSPriorityHigh] path];
-
-  // Then
-  XCTAssertTrue([expected isEqualToString:actual]);
-}
-
-- (void)testCrashesServiceNameIsCorrect {
-  XCTAssertEqual([MSCrashes serviceName], kMSCrashesServiceName);
 }
 
 - (void)testWrapperCrashCallback {
@@ -572,9 +521,9 @@ static NSString *const kMSFatal = @"fatal";
   self.didFailSendingErrorReportCalled = true;
 }
 
-- (NSInteger)crashesLogBufferCount:(MSPriority)priority {
+- (NSInteger)crashesLogBufferCount {
   NSInteger bufferCount = 0;
-  for (auto it = msCrashesLogBuffer[priority].begin(), end = msCrashesLogBuffer[priority].end(); it != end; ++it) {
+  for (auto it = msCrashesLogBuffer.begin(), end = msCrashesLogBuffer.end(); it != end; ++it) {
     if (!it->internalId.empty()) {
       bufferCount++;
     }

@@ -54,4 +54,30 @@
  */
 - (void)show;
 
+/**
+ * Show the alert controller to the user.
+ *
+ * @param animated Whether this alert will be displayed animated or not.
+ */
+- (void)showAnimated:(BOOL)animated;
+
+/**
+ * Replace an existing alert controller submitted to this class.
+ *
+ * @param alert  Alert to replace.
+ *
+ * @discussion If the alert to replace is not found then this call is equivalent to @see show.
+ */
+- (void)replaceAlert:(MSAlertController *)alert;
+
+/**
+ * Replace an existing alert controller submitted to this class.
+ *
+ * @param alert  Alert to replace.
+ * @param animated Whether this alert will be displayed animated or not.
+ *
+ * @discussion If the alert to replace is not found then this call is equivalent to @see showAnimated:.
+ */
+- (void)replaceAlert:(MSAlertController *)alert animated:(BOOL)animated;
+
 @end

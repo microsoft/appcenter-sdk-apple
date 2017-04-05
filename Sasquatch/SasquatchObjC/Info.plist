@@ -23,7 +23,7 @@
 	<key>UILaunchStoryboardName</key>
 	<string>Sasquatch</string>
 	<key>UIMainStoryboardFile</key>
-	<string>Sasquatch</string>
+	<string>Main</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>

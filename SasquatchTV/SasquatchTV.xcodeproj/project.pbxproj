@@ -1,0 +1,489 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D322EFDB1E8E97C800A8EDA5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D322EFDA1E8E97C800A8EDA5 /* AppDelegate.swift */; };
+		D322EFE21E8E97C800A8EDA5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D322EFE11E8E97C800A8EDA5 /* Assets.xcassets */; };
+		D322EFEF1E8E97DF00A8EDA5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D322EFEE1E8E97DF00A8EDA5 /* main.m */; };
+		D322EFF21E8E97DF00A8EDA5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D322EFF11E8E97DF00A8EDA5 /* AppDelegate.m */; };
+		D322EFFA1E8E97DF00A8EDA5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D322EFF91E8E97DF00A8EDA5 /* Assets.xcassets */; };
+		D322F0041E8E98D000A8EDA5 /* SasquatchTV.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D322EFC91E8E97A100A8EDA5 /* SasquatchTV.storyboard */; };
+		D322F0051E8E98D500A8EDA5 /* SasquatchTV.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D322EFC91E8E97A100A8EDA5 /* SasquatchTV.storyboard */; };
+		D322F00B1E8E98DF00A8EDA5 /* MobileCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D322F0071E8E98DF00A8EDA5 /* MobileCenter.framework */; };
+		D322F00C1E8E98DF00A8EDA5 /* MobileCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D322F0081E8E98DF00A8EDA5 /* MobileCenterAnalytics.framework */; };
+		D322F00D1E8E98DF00A8EDA5 /* MobileCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D322F0091E8E98DF00A8EDA5 /* MobileCenterCrashes.framework */; };
+		D322F00E1E8E98DF00A8EDA5 /* MobileCenterDistribute.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D322F00A1E8E98DF00A8EDA5 /* MobileCenterDistribute.framework */; };
+		D322F00F1E8E98EA00A8EDA5 /* MobileCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D322F0071E8E98DF00A8EDA5 /* MobileCenter.framework */; };
+		D322F0101E8E98EA00A8EDA5 /* MobileCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D322F0081E8E98DF00A8EDA5 /* MobileCenterAnalytics.framework */; };
+		D322F0111E8E98EA00A8EDA5 /* MobileCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D322F0091E8E98DF00A8EDA5 /* MobileCenterCrashes.framework */; };
+		D322F0121E8E98EA00A8EDA5 /* MobileCenterDistribute.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D322F00A1E8E98DF00A8EDA5 /* MobileCenterDistribute.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		D322EFC71E8E97A100A8EDA5 /* SasquatchTVViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SasquatchTVViewController.swift; sourceTree = "<group>"; };
+		D322EFCA1E8E97A100A8EDA5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/SasquatchTV.storyboard; sourceTree = "<group>"; };
+		D322EFCC1E8E97A100A8EDA5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D322EFCE1E8E97A100A8EDA5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D322EFD81E8E97C800A8EDA5 /* SasquatchTVSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SasquatchTVSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D322EFDA1E8E97C800A8EDA5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		D322EFE11E8E97C800A8EDA5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D322EFE31E8E97C800A8EDA5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D322EFEB1E8E97DF00A8EDA5 /* SasquatchTVObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SasquatchTVObjC.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D322EFEE1E8E97DF00A8EDA5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		D322EFF01E8E97DF00A8EDA5 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		D322EFF11E8E97DF00A8EDA5 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		D322EFF91E8E97DF00A8EDA5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D322EFFB1E8E97DF00A8EDA5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D322F0071E8E98DF00A8EDA5 /* MobileCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenter.framework; path = "../MobileCenter-SDK-iOS/MobileCenter.framework"; sourceTree = "<group>"; };
+		D322F0081E8E98DF00A8EDA5 /* MobileCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterAnalytics.framework; path = "../MobileCenter-SDK-iOS/MobileCenterAnalytics.framework"; sourceTree = "<group>"; };
+		D322F0091E8E98DF00A8EDA5 /* MobileCenterCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterCrashes.framework; path = "../MobileCenter-SDK-iOS/MobileCenterCrashes.framework"; sourceTree = "<group>"; };
+		D322F00A1E8E98DF00A8EDA5 /* MobileCenterDistribute.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterDistribute.framework; path = "../MobileCenter-SDK-iOS/MobileCenterDistribute.framework"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D322EFD51E8E97C800A8EDA5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D322F00B1E8E98DF00A8EDA5 /* MobileCenter.framework in Frameworks */,
+				D322F00C1E8E98DF00A8EDA5 /* MobileCenterAnalytics.framework in Frameworks */,
+				D322F00D1E8E98DF00A8EDA5 /* MobileCenterCrashes.framework in Frameworks */,
+				D322F00E1E8E98DF00A8EDA5 /* MobileCenterDistribute.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D322EFE81E8E97DF00A8EDA5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D322F00F1E8E98EA00A8EDA5 /* MobileCenter.framework in Frameworks */,
+				D322F0101E8E98EA00A8EDA5 /* MobileCenterAnalytics.framework in Frameworks */,
+				D322F0111E8E98EA00A8EDA5 /* MobileCenterCrashes.framework in Frameworks */,
+				D322F0121E8E98EA00A8EDA5 /* MobileCenterDistribute.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D322EFB91E8E97A100A8EDA5 = {
+			isa = PBXGroup;
+			children = (
+				D322EFC41E8E97A100A8EDA5 /* SasquatchTV */,
+				D322EFD91E8E97C800A8EDA5 /* SasquatchTVSwift */,
+				D322EFEC1E8E97DF00A8EDA5 /* SasquatchTVObjC */,
+				D322EFC31E8E97A100A8EDA5 /* Products */,
+				D322F0061E8E98DF00A8EDA5 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		D322EFC31E8E97A100A8EDA5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D322EFD81E8E97C800A8EDA5 /* SasquatchTVSwift.app */,
+				D322EFEB1E8E97DF00A8EDA5 /* SasquatchTVObjC.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D322EFC41E8E97A100A8EDA5 /* SasquatchTV */ = {
+			isa = PBXGroup;
+			children = (
+				D322F0031E8E985B00A8EDA5 /* Supporting Files */,
+				D322F0011E8E983B00A8EDA5 /* Storyboards */,
+				D322F0021E8E984400A8EDA5 /* ViewControllers */,
+			);
+			path = SasquatchTV;
+			sourceTree = "<group>";
+		};
+		D322EFD91E8E97C800A8EDA5 /* SasquatchTVSwift */ = {
+			isa = PBXGroup;
+			children = (
+				D322EFDA1E8E97C800A8EDA5 /* AppDelegate.swift */,
+				D322EFFF1E8E981800A8EDA5 /* Supporting Files */,
+			);
+			path = SasquatchTVSwift;
+			sourceTree = "<group>";
+		};
+		D322EFEC1E8E97DF00A8EDA5 /* SasquatchTVObjC */ = {
+			isa = PBXGroup;
+			children = (
+				D322EFF01E8E97DF00A8EDA5 /* AppDelegate.h */,
+				D322EFF11E8E97DF00A8EDA5 /* AppDelegate.m */,
+				D322EFED1E8E97DF00A8EDA5 /* Supporting Files */,
+			);
+			path = SasquatchTVObjC;
+			sourceTree = "<group>";
+		};
+		D322EFED1E8E97DF00A8EDA5 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D322EFF91E8E97DF00A8EDA5 /* Assets.xcassets */,
+				D322EFFB1E8E97DF00A8EDA5 /* Info.plist */,
+				D322EFEE1E8E97DF00A8EDA5 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D322EFFF1E8E981800A8EDA5 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D322EFE11E8E97C800A8EDA5 /* Assets.xcassets */,
+				D322EFE31E8E97C800A8EDA5 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D322F0011E8E983B00A8EDA5 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				D322EFC91E8E97A100A8EDA5 /* SasquatchTV.storyboard */,
+			);
+			name = Storyboards;
+			sourceTree = "<group>";
+		};
+		D322F0021E8E984400A8EDA5 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				D322EFC71E8E97A100A8EDA5 /* SasquatchTVViewController.swift */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		D322F0031E8E985B00A8EDA5 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D322EFCE1E8E97A100A8EDA5 /* Info.plist */,
+				D322EFCC1E8E97A100A8EDA5 /* Assets.xcassets */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D322F0061E8E98DF00A8EDA5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D322F0071E8E98DF00A8EDA5 /* MobileCenter.framework */,
+				D322F0081E8E98DF00A8EDA5 /* MobileCenterAnalytics.framework */,
+				D322F0091E8E98DF00A8EDA5 /* MobileCenterCrashes.framework */,
+				D322F00A1E8E98DF00A8EDA5 /* MobileCenterDistribute.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D322EFD71E8E97C800A8EDA5 /* SasquatchTVSwift */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D322EFE41E8E97C800A8EDA5 /* Build configuration list for PBXNativeTarget "SasquatchTVSwift" */;
+			buildPhases = (
+				D322EFD41E8E97C800A8EDA5 /* Sources */,
+				D322EFD51E8E97C800A8EDA5 /* Frameworks */,
+				D322EFD61E8E97C800A8EDA5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SasquatchTVSwift;
+			productName = SasquatchTVSwift;
+			productReference = D322EFD81E8E97C800A8EDA5 /* SasquatchTVSwift.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D322EFEA1E8E97DF00A8EDA5 /* SasquatchTVObjC */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D322EFFC1E8E97DF00A8EDA5 /* Build configuration list for PBXNativeTarget "SasquatchTVObjC" */;
+			buildPhases = (
+				D322EFE71E8E97DF00A8EDA5 /* Sources */,
+				D322EFE81E8E97DF00A8EDA5 /* Frameworks */,
+				D322EFE91E8E97DF00A8EDA5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SasquatchTVObjC;
+			productName = SasquatchTVObjC;
+			productReference = D322EFEB1E8E97DF00A8EDA5 /* SasquatchTVObjC.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D322EFBA1E8E97A100A8EDA5 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0820;
+				LastUpgradeCheck = 0820;
+				ORGANIZATIONNAME = Microsoft;
+				TargetAttributes = {
+					D322EFD71E8E97C800A8EDA5 = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = UBF8T346G9;
+						ProvisioningStyle = Automatic;
+					};
+					D322EFEA1E8E97DF00A8EDA5 = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = UBF8T346G9;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = D322EFBD1E8E97A100A8EDA5 /* Build configuration list for PBXProject "SasquatchTV" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = D322EFB91E8E97A100A8EDA5;
+			productRefGroup = D322EFC31E8E97A100A8EDA5 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D322EFEA1E8E97DF00A8EDA5 /* SasquatchTVObjC */,
+				D322EFD71E8E97C800A8EDA5 /* SasquatchTVSwift */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D322EFD61E8E97C800A8EDA5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D322F0051E8E98D500A8EDA5 /* SasquatchTV.storyboard in Resources */,
+				D322EFE21E8E97C800A8EDA5 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D322EFE91E8E97DF00A8EDA5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D322F0041E8E98D000A8EDA5 /* SasquatchTV.storyboard in Resources */,
+				D322EFFA1E8E97DF00A8EDA5 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D322EFD41E8E97C800A8EDA5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D322EFDB1E8E97C800A8EDA5 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D322EFE71E8E97DF00A8EDA5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D322EFF21E8E97DF00A8EDA5 /* AppDelegate.m in Sources */,
+				D322EFEF1E8E97DF00A8EDA5 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		D322EFC91E8E97A100A8EDA5 /* SasquatchTV.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D322EFCA1E8E97A100A8EDA5 /* Base */,
+			);
+			name = SasquatchTV.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		D322EFCF1E8E97A100A8EDA5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = appletvos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 10.1;
+			};
+			name = Debug;
+		};
+		D322EFD01E8E97A100A8EDA5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = appletvos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 10.1;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D322EFE51E8E97C800A8EDA5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				DEVELOPMENT_TEAM = UBF8T346G9;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-iOS/**";
+				INFOPLIST_FILE = SasquatchTVSwift/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatch.SasquatchTVSwift.SasquatchTVSwift;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		D322EFE61E8E97C800A8EDA5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				DEVELOPMENT_TEAM = UBF8T346G9;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-iOS/**";
+				INFOPLIST_FILE = SasquatchTVSwift/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatch.SasquatchTVSwift.SasquatchTVSwift;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		D322EFFD1E8E97DF00A8EDA5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				DEVELOPMENT_TEAM = UBF8T346G9;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-iOS/**";
+				INFOPLIST_FILE = SasquatchTVObjC/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatch.SasquatchTVObjC.SasquatchTVObjC;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		D322EFFE1E8E97DF00A8EDA5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				DEVELOPMENT_TEAM = UBF8T346G9;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-iOS/**";
+				INFOPLIST_FILE = SasquatchTVObjC/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatch.SasquatchTVObjC.SasquatchTVObjC;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D322EFBD1E8E97A100A8EDA5 /* Build configuration list for PBXProject "SasquatchTV" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D322EFCF1E8E97A100A8EDA5 /* Debug */,
+				D322EFD01E8E97A100A8EDA5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D322EFE41E8E97C800A8EDA5 /* Build configuration list for PBXNativeTarget "SasquatchTVSwift" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D322EFE51E8E97C800A8EDA5 /* Debug */,
+				D322EFE61E8E97C800A8EDA5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		D322EFFC1E8E97DF00A8EDA5 /* Build configuration list for PBXNativeTarget "SasquatchTVObjC" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D322EFFD1E8E97DF00A8EDA5 /* Debug */,
+				D322EFFE1E8E97DF00A8EDA5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D322EFBA1E8E97A100A8EDA5 /* Project object */;
+}
