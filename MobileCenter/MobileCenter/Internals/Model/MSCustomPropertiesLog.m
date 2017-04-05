@@ -24,6 +24,19 @@ static NSString *const kMSPropertyTypeString = @"string";
   return self;
 }
 
+
+- (BOOL)isEqual:(id)object {
+  if (![object isKindOfClass:[MSCustomPropertiesLog class]] || ![super isEqual:object]) {
+    return NO;
+  }
+  MSCustomPropertiesLog *log = (MSCustomPropertiesLog *)object;
+  return ((!self.properties && !log.properties) || [self.properties isEqualToDictionary:log.properties]);
+}
+
+- (BOOL)isValid {
+  return [super isValid] && self.properties && self.properties.count > 0;
+}
+
 #pragma mark - MSSerializableObject
 
 - (NSMutableDictionary *)serializeToDictionary {

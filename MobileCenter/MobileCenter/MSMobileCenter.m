@@ -371,6 +371,8 @@ static NSString *const kMSGroupID = @"MobileCenter";
 - (void)sendCustomPropertiesLog:(NSDictionary<NSString *, NSObject *> *)properties {
   MSCustomPropertiesLog *customPropertiesLog = [MSCustomPropertiesLog new];
   customPropertiesLog.properties = properties;
+  
+  // FIXME: withPriority parameter need to be removed on merge.
   [self.logManager processLog:customPropertiesLog withPriority:MSPriorityDefault andGroupID:kMSGroupID];
 }
 
