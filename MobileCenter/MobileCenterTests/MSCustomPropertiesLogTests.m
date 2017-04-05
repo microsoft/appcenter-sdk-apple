@@ -22,7 +22,7 @@
 
 #pragma mark - Tests
 
-- (void)testSerializingEventToDictionaryWorks {
+- (void)testSerializingToDictionaryWorks {
   
   // If
   NSString *string = @"test";

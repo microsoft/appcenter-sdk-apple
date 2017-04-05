@@ -257,16 +257,11 @@ static NSString *const kMSGroupID = @"MobileCenter";
 }
 
 - (void)setCustomProperties:(MSCustomProperties *)customProperties {
-  if (!customProperties) {
-    MSLogError([MSMobileCenter logTag], @"Custom properties may not be null");
+  if (!customProperties || customProperties.properties == 0) {
+    MSLogError([MSMobileCenter logTag], @"Custom properties may not be null or empty");
     return;
   }
-  NSDictionary<NSString *, NSObject *> *properties = customProperties.properties;
-  if (properties.count == 0) {
-    MSLogError([MSMobileCenter logTag], @"Custom properties may not be empty");
-    return;
-  }
-  [self sendCustomPropertiesLog:properties];
+  [self sendCustomPropertiesLog:customProperties.properties];
 }
 
 - (void)setEnabled:(BOOL)isEnabled {

@@ -16,7 +16,7 @@ static NSString *const kValueNullErrorMessage = @"Custom property value cannot b
   return self;
 }
 
-- (MSCustomProperties *)setString:(NSString *)value forKey:(NSString *)key {
+- (instancetype)setString:(NSString *)value forKey:(NSString *)key {
   if ([self isValidKey:key]) {
     if (value) {
       [self.properties setObject:value forKey:key];
@@ -27,7 +27,7 @@ static NSString *const kValueNullErrorMessage = @"Custom property value cannot b
   return self;
 }
 
-- (MSCustomProperties *)setNumber:(NSNumber *)value forKey:(NSString *)key {
+- (instancetype)setNumber:(NSNumber *)value forKey:(NSString *)key {
   if ([self isValidKey:key]) {
     if (value) {
       [self.properties setObject:value forKey:key];
@@ -38,14 +38,14 @@ static NSString *const kValueNullErrorMessage = @"Custom property value cannot b
   return self;
 }
 
-- (MSCustomProperties *)setBool:(BOOL)value forKey:(NSString *)key {
+- (instancetype)setBool:(BOOL)value forKey:(NSString *)key {
   if ([self isValidKey:key]) {
     [self.properties setObject:[NSNumber numberWithBool:value] forKey:key];
   }
   return self;
 }
 
-- (MSCustomProperties *)setDate:(NSDate *)value forKey:(NSString *)key {
+- (instancetype)setDate:(NSDate *)value forKey:(NSString *)key {
   if ([self isValidKey:key]) {
     if (value) {
       [self.properties setObject:value forKey:key];
@@ -56,7 +56,7 @@ static NSString *const kValueNullErrorMessage = @"Custom property value cannot b
   return self;
 }
 
-- (MSCustomProperties *)clearPropertyForKey:(NSString *)key {
+- (instancetype)clearPropertyForKey:(NSString *)key {
   if ([self isValidKey:key]) {
     [self.properties setObject:[NSNull null] forKey:key];
   }
@@ -67,9 +67,9 @@ static NSString *const kValueNullErrorMessage = @"Custom property value cannot b
   static NSRegularExpression *regex = nil;
   if (!regex) {
     NSError *error = nil;
-    regex = [NSRegularExpression regularExpressionWithPattern:kKeyPattern options:0 error:&error];
+    regex = [NSRegularExpression regularExpressionWithPattern:kKeyPattern options:(NSRegularExpressionOptions)0 error:&error];
   }
-  if (!key || ![regex matchesInString:key options:0 range:NSMakeRange(0, key.length)].count) {
+  if (!key || ![regex matchesInString:key options:(NSMatchingOptions)0 range:NSMakeRange(0, key.length)].count) {
     MSLogError([MSMobileCenter logTag], @"Custom property \"%@\" must match \"%@\"", key, kKeyPattern);
     return NO;
   }

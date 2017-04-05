@@ -8,54 +8,55 @@
 
 /**
  * Set the specified property value with the specified key.
- * If the properties previously contained a property for the key, the old
- * value is replaced.
+ * If the properties previously contained a property for the key, the old value is replaced.
  *
- * @param key   key with which the specified value is to be set.
- * @param value value to be set with the specified key.
- * @return this instance.
+ * @param key   Key with which the specified value is to be set.
+ * @param value Value to be set with the specified key.
+ *
+ * @return This instance.
  */
-- (MSCustomProperties *)setString:(NSString *)value forKey:(NSString *)key;
+- (instancetype)setString:(NSString *)value forKey:(NSString *)key;
 
 /**
  * Set the specified property value with the specified key.
- * If the properties previously contained a property for the key, the old
- * value is replaced.
+ * If the properties previously contained a property for the key, the old value is replaced.
  *
- * @param key   key with which the specified value is to be set.
- * @param value value to be set with the specified key.
- * @return this instance.
+ * @param key   Key with which the specified value is to be set.
+ * @param value Value to be set with the specified key.
+ *
+ * @return This instance.
  */
-- (MSCustomProperties *)setNumber:(NSNumber *)value forKey:(NSString *)key;
+- (instancetype)setNumber:(NSNumber *)value forKey:(NSString *)key;
 
 /**
  * Set the specified property value with the specified key.
- * If the properties previously contained a property for the key, the old
- * value is replaced.
+ * If the properties previously contained a property for the key, the old value is replaced.
  *
- * @param key   key with which the specified value is to be set.
- * @param value value to be set with the specified key.
- * @return this instance.
+ * @param key   Key with which the specified value is to be set.
+ * @param value Value to be set with the specified key.
+ *
+ * @return This instance.
  */
-- (MSCustomProperties *)setBool:(BOOL)value forKey:(NSString *)key;
+- (instancetype)setBool:(BOOL)value forKey:(NSString *)key;
 
 /**
  * Set the specified property value with the specified key.
- * If the properties previously contained a property for the key, the old
- * value is replaced.
+ * If the properties previously contained a property for the key, the old value is replaced.
  *
- * @param key   key with which the specified value is to be set.
- * @param value value to be set with the specified key.
- * @return this instance.
+ * @param key   Key with which the specified value is to be set.
+ * @param value Value to be set with the specified key.
+ *
+ * @return This instance.
  */
-- (MSCustomProperties *)setDate:(NSDate *)value forKey:(NSString *)key;
+- (instancetype)setDate:(NSDate *)value forKey:(NSString *)key;
 
 /**
  * Clear the property for the specified key.
  *
- * @param key key whose mapping is to be cleared.
- * @return this instance.
+ * @param key Key whose mapping is to be cleared.
+ *
+ * @return This instance.
  */
-- (MSCustomProperties *)clearPropertyForKey:(NSString *)key;
+- (instancetype)clearPropertyForKey:(NSString *)key;
 
 @end

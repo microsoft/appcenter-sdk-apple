@@ -1,5 +1,5 @@
 /**
- *  Protected declarations for MSCustomProperties.
+ *  Private declarations for MSCustomProperties.
  */
 @interface MSCustomProperties ()
 

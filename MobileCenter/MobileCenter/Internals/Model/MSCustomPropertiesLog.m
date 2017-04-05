@@ -28,7 +28,6 @@ static NSString *const kMSPropertyTypeString = @"string";
 
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [super serializeToDictionary];
-  
   if (self.properties) {
     NSMutableArray *propertiesArray = [NSMutableArray array];
     for (NSString *key in self.properties) {
@@ -43,14 +42,10 @@ static NSString *const kMSPropertyTypeString = @"string";
   }  return dict;
 }
 
+/**
+ * Serialize the value as custom property.
+ */
 + (NSMutableDictionary *)serializeProperty:(NSObject *)value {
-  static NSDateFormatter *dateFormatter = nil;
-  if (!dateFormatter) {
-    dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setLocale:[NSLocale systemLocale]];
-    [dateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation: @"UTC"]];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
-  }
   NSMutableDictionary *property = [NSMutableDictionary new];
   if ([value isKindOfClass:[NSNull class]]) {
     [property setObject:kMSPropertyTypeClear forKey:kMSPropertyType];
@@ -64,6 +59,13 @@ static NSString *const kMSPropertyTypeString = @"string";
       [property setObject:value forKey:kMSPropertyValue];
     }
   } else if ([value isKindOfClass:[NSDate class]]) {
+    static NSDateFormatter *dateFormatter = nil;
+    if (!dateFormatter) {
+      dateFormatter = [[NSDateFormatter alloc] init];
+      [dateFormatter setLocale:[NSLocale systemLocale]];
+      [dateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation: @"UTC"]];
+      [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
+    }
     [property setObject:kMSPropertyTypeDateTime forKey:kMSPropertyType];
     [property setObject:[dateFormatter stringFromDate:(NSDate *)value] forKey:kMSPropertyValue];
   } else if ([value isKindOfClass:[NSString class]]) {

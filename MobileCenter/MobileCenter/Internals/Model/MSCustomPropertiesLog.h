@@ -4,7 +4,7 @@
 @interface MSCustomPropertiesLog : MSAbstractLog
 
 /**
- * Properties key/value pairs.
+ * Key/value pair properties.
  */
 @property(nonatomic) NSDictionary<NSString *, NSObject *> *properties;
 

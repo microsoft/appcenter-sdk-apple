@@ -49,7 +49,7 @@
 /**
  * Change the base URL (schema + authority + port only) used to communicate with the backend.
  *
- * @param logUrl base URL to use for backend communication.
+ * @param logUrl Base URL to use for backend communication.
  */
 + (void)setLogUrl:(NSString *)logUrl;
 
@@ -73,21 +73,21 @@
 /**
  * Get log level.
  *
- * @return log level.
+ * @return Log level.
  */
 + (MSLogLevel)logLevel;
 
 /**
  * Set log level.
  *
- * @param logLevel the log level.
+ * @param logLevel The log level.
  */
 + (void)setLogLevel:(MSLogLevel)logLevel;
 
 /**
  * Set log level handler.
  *
- * @param logHandler handler.
+ * @param logHandler Handler.
  */
 + (void)setLogHandler:(MSLogHandler)logHandler;
 
@@ -95,21 +95,21 @@
  * Set wrapper SDK information to use when building device properties. This is intended in case you are building a SDK
  * that uses the Mobile Center SDK under the hood, e.g. our Xamarin SDK or ReactNative SDk.
  *
- * @param wrapperSdk wrapper SDK information.
+ * @param wrapperSdk Wrapper SDK information.
  */
 + (void)setWrapperSdk:(MSWrapperSdk *)wrapperSdk;
 
 /**
  * Set the custom properties.
  *
- * @param customProperties custom properties object.
+ * @param customProperties Custom properties object.
  */
 + (void)setCustomProperties:(MSCustomProperties *)customProperties;
 
 /**
  * Get unique installation identifier.
  *
- * @return unique installation identifier.
+ * @return Unique installation identifier.
  */
 + (NSUUID *)installId;
 
