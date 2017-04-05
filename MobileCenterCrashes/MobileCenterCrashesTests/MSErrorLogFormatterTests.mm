@@ -48,8 +48,7 @@
   assertThat(errorReport.appErrorTime, equalTo(crashReport.systemInfo.timestamp));
   assertThat(errorReport.appStartTime, equalTo(crashReport.processInfo.processStartTime));
 
-  // FIXME: Crashes is getting way more logs than expected. Disable this functionality.
-  // XCTAssertTrue([errorReport.device isEqual:device]);
+  XCTAssertTrue([errorReport.device isEqual:device]);
   XCTAssertEqual(errorReport.appProcessIdentifier, crashReport.processInfo.processID);
 
   crashData = [MSCrashesTestUtil dataOfFixtureCrashReportWithFileName:@"live_report_exception"];
@@ -67,8 +66,7 @@
   assertThat(errorReport.appErrorTime, equalTo(crashReport.systemInfo.timestamp));
   assertThat(errorReport.appStartTime, equalTo(crashReport.processInfo.processStartTime));
 
-  // FIXME: Crashes is getting way more logs than expected. Disable this functionality.
-  // XCTAssertTrue([errorReport.device isEqual:device]);
+  XCTAssertTrue([errorReport.device isEqual:device]);
   XCTAssertEqual(errorReport.appProcessIdentifier, crashReport.processInfo.processID);
 }
 
