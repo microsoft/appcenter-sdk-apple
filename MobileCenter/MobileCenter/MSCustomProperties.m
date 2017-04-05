@@ -3,7 +3,6 @@
 #import "MSMobileCenterInternal.h"
 
 static NSString *const kKeyPattern = @"^[a-zA-Z][a-zA-Z0-9]*$";
-static NSString *const kValueNullErrorMessage = @"Custom property value cannot be null, did you mean to call clear?";
 
 @implementation MSCustomProperties
 
@@ -17,40 +16,27 @@ static NSString *const kValueNullErrorMessage = @"Custom property value cannot b
 }
 
 - (instancetype)setString:(NSString *)value forKey:(NSString *)key {
-  if ([self isValidKey:key]) {
-    if (value) {
-      [self.properties setObject:value forKey:key];
-    } else {
-      MSLogError([MSMobileCenter logTag], kValueNullErrorMessage);
-    }
-  }
-  return self;
+  return [self setObject:value forKey:key];
 }
 
 - (instancetype)setNumber:(NSNumber *)value forKey:(NSString *)key {
-  if ([self isValidKey:key]) {
-    if (value) {
-      [self.properties setObject:value forKey:key];
-    } else {
-      MSLogError([MSMobileCenter logTag], kValueNullErrorMessage);
-    }
-  }
-  return self;
+  return [self setObject:value forKey:key];
 }
 
 - (instancetype)setBool:(BOOL)value forKey:(NSString *)key {
-  if ([self isValidKey:key]) {
-    [self.properties setObject:[NSNumber numberWithBool:value] forKey:key];
-  }
-  return self;
+  return [self setObject:[NSNumber numberWithBool:value] forKey:key];
 }
 
 - (instancetype)setDate:(NSDate *)value forKey:(NSString *)key {
+  return [self setObject:value forKey:key];
+}
+
+- (instancetype)setObject:(NSObject *)value forKey:(NSString *)key {
   if ([self isValidKey:key]) {
     if (value) {
       [self.properties setObject:value forKey:key];
     } else {
-      MSLogError([MSMobileCenter logTag], kValueNullErrorMessage);
+      MSLogError([MSMobileCenter logTag], @"Custom property value cannot be null, did you mean to call clear?");
     }
   }
   return self;
