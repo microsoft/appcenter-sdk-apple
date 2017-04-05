@@ -19,6 +19,7 @@ static dispatch_once_t onceToken;
 @implementation MSAnalytics
 
 @synthesize autoPageTrackingEnabled = _autoPageTrackingEnabled;
+@synthesize channelConfiguration = _channelConfiguration;
 
 #pragma mark - Service initialization
 
@@ -31,6 +32,9 @@ static dispatch_once_t onceToken;
     // Init session tracker.
     _sessionTracker = [[MSSessionTracker alloc] init];
     _sessionTracker.delegate = self;
+
+    // Init channel configuration.
+    _channelConfiguration = [[MSChannelConfiguration alloc] initDefaultConfigurationWithGroupID:[self groupID]];
   }
   return self;
 }
@@ -66,10 +70,6 @@ static dispatch_once_t onceToken;
   return kMSGroupID;
 }
 
-- (MSPriority)priority {
-  return MSPriorityDefault;
-}
-
 #pragma mark - MSServiceAbstract
 
 - (void)applyEnabledState:(BOOL)isEnabled {
@@ -83,7 +83,7 @@ static dispatch_once_t onceToken;
     [self.logManager addDelegate:self.sessionTracker];
 
     // Set self as delegate of analytics channel.
-    [self.logManager addChannelDelegate:self forGroupID:self.groupID withPriority:self.priority];
+    [self.logManager addChannelDelegate:self forGroupID:self.groupID];
 
     // Report current page while auto page tracking is on.
     if (self.autoPageTrackingEnabled) {
@@ -99,7 +99,7 @@ static dispatch_once_t onceToken;
     MSLogInfo([MSAnalytics logTag], @"Analytics service has been enabled.");
   } else {
     [self.logManager removeDelegate:self.sessionTracker];
-    [self.logManager removeChannelDelegate:self forGroupID:self.groupID withPriority:self.priority];
+    [self.logManager removeChannelDelegate:self forGroupID:self.groupID];
     [self.sessionTracker stop];
     [self.sessionTracker clearSessions];
     MSLogInfo([MSAnalytics logTag], @"Analytics service has been disabled.");
@@ -175,7 +175,7 @@ static dispatch_once_t onceToken;
   }
 
   // Send log to log manager.
-  [self sendLog:log withPriority:self.priority];
+  [self sendLog:log];
 }
 
 - (void)trackPage:(NSString *)pageName withProperties:(NSDictionary<NSString *, NSString *> *)properties {
@@ -196,7 +196,7 @@ static dispatch_once_t onceToken;
   }
 
   // Send log to log manager.
-  [self sendLog:log withPriority:self.priority];
+  [self sendLog:log];
 }
 
 - (void)setAutoPageTrackingEnabled:(BOOL)isEnabled {
@@ -207,10 +207,10 @@ static dispatch_once_t onceToken;
   return self.autoPageTrackingEnabled;
 }
 
-- (void)sendLog:(id<MSLog>)log withPriority:(MSPriority)priority {
+- (void)sendLog:(id<MSLog>)log {
 
   // Send log to log manager.
-  [self.logManager processLog:log withPriority:priority andGroupID:self.groupID];
+  [self.logManager processLog:log forGroupID:self.groupID];
 }
 
 + (void)resetSharedInstance {
@@ -222,9 +222,9 @@ static dispatch_once_t onceToken;
 
 #pragma mark - MSSessionTracker
 
-- (void)sessionTracker:(id)sessionTracker processLog:(id<MSLog>)log withPriority:(MSPriority)priority {
+- (void)sessionTracker:(id)sessionTracker processLog:(id<MSLog>)log {
   (void)sessionTracker;
-  [self sendLog:log withPriority:priority];
+  [self sendLog:log];
 }
 
 + (void)setDelegate:(nullable id<MSAnalyticsDelegate>)delegate {

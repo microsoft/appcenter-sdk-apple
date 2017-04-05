@@ -157,8 +157,8 @@ static NSString *const kMSGroupID = @"MobileCenter";
     } else {
       self.appSecret = appSecret;
 
-    // Init the main pipeline.
-    [self initializeLogManager];
+      // Init the main pipeline.
+      [self initializeLogManager];
 
       // Enable pipeline as needed.
       if (self.isEnabled) {
@@ -310,6 +310,10 @@ static NSString *const kMSGroupID = @"MobileCenter";
   // Construct log manager.
   self.logManager =
       [[MSLogManagerDefault alloc] initWithAppSecret:self.appSecret installId:self.installId logUrl:self.logUrl];
+
+  // Initialize a channel for start service logs.
+  [self.logManager
+      initChannelWithConfiguration:[[MSChannelConfiguration alloc] initDefaultConfigurationWithGroupID:kMSGroupID]];
 }
 
 - (NSString *)appSecret {
@@ -350,7 +354,7 @@ static NSString *const kMSGroupID = @"MobileCenter";
 - (void)sendStartServiceLog:(NSArray<NSString *> *)servicesNames {
   MSStartServiceLog *serviceLog = [MSStartServiceLog new];
   serviceLog.services = servicesNames;
-  [self.logManager processLog:serviceLog withPriority:MSPriorityDefault andGroupID:kMSGroupID];
+  [self.logManager processLog:serviceLog forGroupID:kMSGroupID];
 }
 
 + (void)resetSharedInstance {

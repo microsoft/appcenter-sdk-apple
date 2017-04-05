@@ -1,9 +1,5 @@
-/**
- * OpenAPI spec version: 1.0.0-preview20160708
- */
-
-#import "MobileCenter+Internal.h"
 #import <Foundation/Foundation.h>
+#import "MobileCenter+Internal.h"
 
 @interface MSEventLog : MSLogWithProperties
 

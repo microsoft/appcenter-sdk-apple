@@ -37,18 +37,9 @@
 @property(nonatomic, copy) NSString *wrapperSdkName;
 
 /**
- * Is equal to another exception
- *
- * @param object Exception
- *
- * @return Return YES if equal and NO if not equal
- */
-- (BOOL)isEqual:(id)object;
-
-/**
  * Checks if the object's values are valid.
  *
- * return YES, if the object is valid
+ * @return YES, if the object is valid.
  */
 - (BOOL)isValid;
 

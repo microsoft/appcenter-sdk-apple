@@ -1,7 +1,3 @@
-/*
- * OpenAPI spec version: 1.0.0-preview20160708
- */
-
 #import <Foundation/Foundation.h>
 
 @class MSDevice;
@@ -20,10 +16,8 @@
 @property(nonatomic) NSNumber *toffset;
 
 /**
- * A session identifier is used to correlate logs together. A session is an
- * abstract concept in the API and
- * is not necessarily an analytics session, it can be used to only track
- * crashes.
+ * A session identifier is used to correlate logs together. A session is an abstract concept in the API and
+ * is not necessarily an analytics session, it can be used to only track crashes.
  */
 @property(nonatomic, copy) NSString *sid;
 
@@ -35,7 +29,7 @@
 /**
  * Checks if the object's values are valid.
  *
- * return YES, if the object is valid
+ * @return YES, if the object is valid.
  */
 - (BOOL)isValid;
 

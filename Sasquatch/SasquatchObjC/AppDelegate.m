@@ -120,7 +120,7 @@
 }
 
 -(void) setMobileCenterDelegate{
-  SasquatchViewController *sasquatchController = (SasquatchViewController *)[(UINavigationController *)[[self window] rootViewController] topViewController];
+  MSMainViewController *sasquatchController = (MSMainViewController *)[(UINavigationController *)[[self window] rootViewController] topViewController];
   sasquatchController.mobileCenter = [[MobileCenterDelegateObjC alloc] init];
 }
 #pragma mark - MSCrashesDelegate

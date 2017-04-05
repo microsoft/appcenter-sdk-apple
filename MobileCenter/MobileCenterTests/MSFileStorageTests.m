@@ -32,7 +32,7 @@
 #pragma mark - Tests
 
 - (void)testNewInstanceWasInitialisedCorrectly {
-  assertThat(_sut, notNilValue());
+  assertThat(self.sut, notNilValue());
 }
 
 - (void)testFileStorageUsesCorrectFilePath {
@@ -141,14 +141,16 @@
   NSString *groupID = @"GroupID";
   MSStorageBucket *bucket = [self.sut bucketForGroupID:groupID];
 
-  MSFile *availableFile1 =
-      [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:@"1"] fileId:@"1" creationDate:[NSDate dateWithTimeIntervalSinceNow:1]];
-  MSFile *availableFile2 =
-      [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:@"2"] fileId:@"2" creationDate:[NSDate dateWithTimeIntervalSinceNow:3]];
-  MSFile *availableFile3 =
-      [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:@"3"] fileId:@"3" creationDate:[NSDate dateWithTimeIntervalSinceNow:5]];
-  bucket.availableFiles =
-          [@[availableFile1, availableFile2, availableFile3] mutableCopy];
+  MSFile *availableFile1 = [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:@"1"]
+                                                fileId:@"1"
+                                          creationDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+  MSFile *availableFile2 = [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:@"2"]
+                                                fileId:@"2"
+                                          creationDate:[NSDate dateWithTimeIntervalSinceNow:3]];
+  MSFile *availableFile3 = [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:@"3"]
+                                                fileId:@"3"
+                                          creationDate:[NSDate dateWithTimeIntervalSinceNow:5]];
+  bucket.availableFiles = [@[ availableFile1, availableFile2, availableFile3 ] mutableCopy];
   self.sut.bucketFileCountLimit = bucket.availableFiles.count;
   MSAbstractLog *log = [MSAbstractLog new];
 
@@ -168,7 +170,8 @@
   NSString *batchId = @"12345";
   self.sut.buckets[groupID] = [MSStorageBucket new];
   MSStorageBucket *bucket = self.sut.buckets[groupID];
-  MSFile *blockedFile = [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:@"333"] fileId:batchId creationDate:[NSDate date]];
+  MSFile *blockedFile =
+      [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:@"333"] fileId:batchId creationDate:[NSDate date]];
   bucket.blockedFiles = [NSMutableArray arrayWithObject:blockedFile];
 
   // When
@@ -186,8 +189,9 @@
   NSString *batchId = @"12345";
   self.sut.buckets[groupID] = [MSStorageBucket new];
   MSStorageBucket *bucket = self.sut.buckets[groupID];
-  MSFile *availableFile = [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:@"333"] fileId:batchId creationDate:[NSDate date]];
-  bucket.availableFiles = [@[availableFile] mutableCopy];
+  MSFile *availableFile =
+      [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:@"333"] fileId:batchId creationDate:[NSDate date]];
+  bucket.availableFiles = [@[ availableFile ] mutableCopy];
 
   // When
   [self.sut deleteLogsForId:batchId withGroupID:groupID];
@@ -219,21 +223,25 @@
   self.sut.buckets[groupID] = [MSStorageBucket new];
   MSStorageBucket *bucket = self.sut.buckets[groupID];
 
-  MSFile *availableFile1 =
-      [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:@"1"] fileId:@"1" creationDate:[NSDate dateWithTimeIntervalSinceNow:1]];
-  MSFile *availableFile2 =
-      [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:@"2"] fileId:@"2" creationDate:[NSDate dateWithTimeIntervalSinceNow:3]];
-  MSFile *availableFile3 =
-      [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:@"3"] fileId:@"3" creationDate:[NSDate dateWithTimeIntervalSinceNow:5]];
-  bucket.availableFiles =
-          [@[availableFile1, availableFile2, availableFile3] mutableCopy];
-  MSFile *currentFile = [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:@"333"] fileId:@"333" creationDate:[NSDate date]];
+  MSFile *availableFile1 = [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:@"1"]
+                                                fileId:@"1"
+                                          creationDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+  MSFile *availableFile2 = [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:@"2"]
+                                                fileId:@"2"
+                                          creationDate:[NSDate dateWithTimeIntervalSinceNow:3]];
+  MSFile *availableFile3 = [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:@"3"]
+                                                fileId:@"3"
+                                          creationDate:[NSDate dateWithTimeIntervalSinceNow:5]];
+  bucket.availableFiles = [@[ availableFile1, availableFile2, availableFile3 ] mutableCopy];
+  MSFile *currentFile =
+      [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:@"333"] fileId:@"333" creationDate:[NSDate date]];
   bucket.currentFile = currentFile;
 
   // When
   __block NSString *batchId;
   [self.sut loadLogsForGroupID:groupID
-                withCompletion:^(__attribute__((unused)) BOOL succeeded, __attribute__((unused)) NSArray<NSObject<MSLog> *> *logs, NSString *logsId) {
+                withCompletion:^(__attribute__((unused)) BOOL succeeded,
+                                 __attribute__((unused)) NSArray<NSObject<MSLog> *> *logs, NSString *logsId) {
                   batchId = logsId;
                 }];
 
@@ -248,13 +256,16 @@
   self.sut.buckets[groupID] = [MSStorageBucket new];
   MSStorageBucket *bucket = self.sut.buckets[groupID];
 
-  MSFile *availableFile =
-      [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:@"1"] fileId:@"1" creationDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+  MSFile *availableFile = [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:@"1"]
+                                               fileId:@"1"
+                                         creationDate:[NSDate dateWithTimeIntervalSinceNow:1]];
   bucket.availableFiles = [NSMutableArray<MSFile *> arrayWithObject:availableFile];
 
   // When
   [self.sut loadLogsForGroupID:groupID
-                withCompletion:^(__attribute__((unused)) BOOL succeeded, __attribute__((unused)) NSArray<NSObject<MSLog> *> *logs, __attribute__((unused)) NSString *logsId) {
+                withCompletion:^(__attribute__((unused)) BOOL succeeded,
+                                 __attribute__((unused)) NSArray<NSObject<MSLog> *> *logs,
+                                 __attribute__((unused)) NSString *logsId){
                 }];
 
   // Verify
@@ -269,12 +280,15 @@
   NSString *groupID = @"TestDirectory";
   self.sut.buckets[groupID] = [MSStorageBucket new];
   MSStorageBucket *bucket = self.sut.buckets[groupID];
-  MSFile *currentFile = [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:@"333"] fileId:@"333" creationDate:[NSDate date]];
+  MSFile *currentFile =
+      [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:@"333"] fileId:@"333" creationDate:[NSDate date]];
   bucket.currentFile = currentFile;
 
   // When
   [self.sut loadLogsForGroupID:groupID
-                withCompletion:^(__attribute__((unused)) BOOL succeeded, __attribute__((unused)) NSArray<NSObject<MSLog> *> *logs, __attribute__((unused)) NSString *logsId) {
+                withCompletion:^(__attribute__((unused)) BOOL succeeded,
+                                 __attribute__((unused)) NSArray<NSObject<MSLog> *> *logs,
+                                 __attribute__((unused)) NSString *logsId){
                 }];
 
   // Verify

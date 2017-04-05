@@ -13,11 +13,6 @@ static NSString *const kMSTypeEndSession = @"start_session";
   return self;
 }
 
-- (NSMutableDictionary *)serializeToDictionary {
-  NSMutableDictionary *dict = [super serializeToDictionary];
-  return dict;
-}
-
 #pragma mark - NSCoding
 
 - (instancetype)initWithCoder:(NSCoder *)coder {

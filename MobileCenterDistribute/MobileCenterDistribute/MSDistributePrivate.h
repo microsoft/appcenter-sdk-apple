@@ -1,6 +1,9 @@
 #import <Foundation/Foundation.h>
 
+#import "MSAlertController.h"
 #import "MSDistribute.h"
+
+// TODO add nullability here.
 
 @class MSReleaseDetails;
 
@@ -49,6 +52,11 @@ static NSString *const kMSUpdateTokenRequestIdKey = @"MSUpdateTokenRequestId";
 static NSString *const kMSSDKHasLaunchedWithDistribute = @"MSSDKHasLaunchedWithDistribute";
 
 /**
+ * The storage key for last madatory release details.
+ */
+static NSString *const kMSMandatoryReleaseKey = @"MSMandatoryRelease";
+
+/**
  * The keychain key for update token.
  */
 static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
@@ -56,9 +64,19 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
 @interface MSDistribute ()
 
 /**
- * View controller presenting the `SFSafariViewController`.
+ * Current view controller presenting the `SFSafariViewController` if any.
  */
 @property(nonatomic) UIViewController *safariHostingViewController;
+
+/**
+ * Current update alert view controller if any.
+ */
+@property(nonatomic) MSAlertController *updateAlertController;
+
+/**
+ * Current mandatory release if any.
+ */
+@property(nonatomic) MSReleaseDetails *mandatoryRelease;
 
 /**
  * Returns the singleton instance. Meant for testing/demo apps only.
@@ -118,8 +136,12 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
 
 /**
  * Update workflow to make a decision based on release details.
+ *
+ * @param details Release details to handle.
+ *
+ * @return `YES` if this update is handled or `NO` otherwise.
  */
-- (void)handleUpdate:(MSReleaseDetails *)details;
+- (BOOL)handleUpdate:(MSReleaseDetails *)details;
 
 /**
  * Show a dialog to ask a user to confirm update for a new release.
