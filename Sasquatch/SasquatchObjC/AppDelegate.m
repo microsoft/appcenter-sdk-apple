@@ -14,7 +14,9 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-  // Override point for customization after application launch.
+  
+  // Start Mobile Center SDK.
+  [MSMobileCenter setLogLevel:MSLogLevelVerbose];
   [MSMobileCenter start:@"3ccfe7f5-ec01-4de5-883c-f563bbbe147a" withServices:@[[MSAnalytics class], [MSCrashes class], [MSDistribute class]]];
   
   [self crashes];
