@@ -168,9 +168,7 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
   [sut start];
 
   // Then
-  OCMVerify([delegateMock sessionTracker:sut
-                              processLog:[OCMArg isKindOfClass:[MSStartSessionLog class]]
-                            withPriority:MSPriorityDefault]);
+  OCMVerify([delegateMock sessionTracker:sut processLog:[OCMArg isKindOfClass:[MSStartSessionLog class]]]);
 }
 
 - (void)testStartSessionOnAppForegrounded {
@@ -191,12 +189,10 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
   [MSSessionTrackerUtil simulateWillEnterForegroundNotification];
 
   // Then
-  OCMVerify([delegateMock sessionTracker:sut
-                              processLog:[OCMArg isKindOfClass:[MSStartSessionLog class]]
-                            withPriority:MSPriorityDefault]);
+  OCMVerify([delegateMock sessionTracker:sut processLog:[OCMArg isKindOfClass:[MSStartSessionLog class]]]);
 }
 
-- (void)testOnProcessingLogWithPriority {
+- (void)testOnProcessingLog {
 
   // When
   MSLogWithProperties *log = [MSLogWithProperties new];
@@ -206,7 +202,7 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
   XCTAssertNil(log.toffset);
 
   // When
-  [self.sut onEnqueuingLog:log withInternalId:nil andPriority:MSPriorityDefault];
+  [self.sut onEnqueuingLog:log withInternalId:nil];
 
   // Then
   XCTAssertNil(log.toffset);
@@ -214,7 +210,7 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
 
   // When
   log.toffset = 0;
-  [self.sut onEnqueuingLog:log withInternalId:nil andPriority:MSPriorityDefault];
+  [self.sut onEnqueuingLog:log withInternalId:nil];
 
   // Then
   XCTAssertEqual(0, log.toffset.integerValue);
@@ -222,7 +218,7 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
 
   // When
   log.toffset = [NSNumber numberWithUnsignedLongLong:UINT64_MAX];
-  [self.sut onEnqueuingLog:log withInternalId:nil andPriority:MSPriorityDefault];
+  [self.sut onEnqueuingLog:log withInternalId:nil];
 
   // Then
   XCTAssertEqual(UINT64_MAX, log.toffset.unsignedLongLongValue);

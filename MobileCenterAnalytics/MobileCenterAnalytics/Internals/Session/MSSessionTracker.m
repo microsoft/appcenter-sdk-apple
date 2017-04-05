@@ -82,7 +82,7 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
       // Create a start session log.
       MSStartSessionLog *log = [[MSStartSessionLog alloc] init];
       log.sid = _sessionId;
-      [self.delegate sessionTracker:self processLog:log withPriority:MSPriorityDefault];
+      [self.delegate sessionTracker:self processLog:log];
     }
     return _sessionId;
   }
@@ -173,9 +173,8 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
 
 #pragma mark - MSLogManagerDelegate
 
-- (void)onEnqueuingLog:(id<MSLog>)log withInternalId:(NSString *)internalId andPriority:(MSPriority)priority {
+- (void)onEnqueuingLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
   (void)internalId;
-  (void)priority;
 
   // Start session log is created in this method, therefore, skip in order to avoid infinite loop.
   if ([((NSObject *)log) isKindOfClass:[MSStartSessionLog class]])
