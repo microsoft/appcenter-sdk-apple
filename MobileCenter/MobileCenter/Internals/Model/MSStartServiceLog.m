@@ -36,7 +36,6 @@ static NSString *const kMSServices = @"services";
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
   if ((self = [super initWithCoder:coder])) {
-    self.type = [coder decodeObjectForKey:kMSStartService];
     self.services = [coder decodeObjectForKey:kMSServices];
   }
   return self;
