@@ -155,30 +155,20 @@ static const int maxPropertyValueLength = 64;
 #pragma mark - Private methods
 
 - (BOOL)validateEventName:(NSString *)eventName {
-  if (!eventName) {
+  if (!eventName || [eventName length] < minEventNameLength) {
     MSLogError([MSAnalytics logTag],
-               @"The event name is null. It must not be null.");
-    return NO;
-  }
-  if ([eventName length] < minEventNameLength) {
-    MSLogError([MSAnalytics logTag],
-               @"The event name is too short. It should be more then %d", minEventNameLength);
+               @"Event name cannot be null or empty");
     return NO;
   }
   if ([eventName length] > maxEventNameLength) {
     MSLogError([MSAnalytics logTag],
-               @"The event name is too long. It should be less then %d", maxEventNameLength);
+               @"Event name length cannot be longer then %d characters", minEventNameLength);
     return NO;
   }
   return YES;
 }
 
 - (NSDictionary<NSString *, NSString *> *)validateProperties:(NSDictionary<NSString *, NSString *> *)properties {
-  if([properties count] > maxPropertiesPerEvent) {
-    MSLogWarning([MSAnalytics logTag],
-                 @"The log contains too many properties. Only first %d valid properties will be send.",
-                 maxPropertiesPerEvent);
-  }
   NSMutableDictionary<NSString *, NSString *> *validProperties = [NSMutableDictionary new];
   for (id key in properties) {
     if (![key isKindOfClass:[NSString class]] || ![properties[key] isKindOfClass:[NSString class]]) {
@@ -187,35 +177,39 @@ static const int maxPropertyValueLength = 64;
 
     // Validate key
     NSString *strKey = key;
-    if (!strKey ||
-        [strKey length] < minPropertyKeyLength ||
-        [strKey length] > maxPropertyKeyLength) {
+    if ([strKey length] < minPropertyKeyLength) {
       MSLogWarning([MSAnalytics logTag],
-                   @"The properties contain invalid key %@. Property will be skipped.",
+                   @"Property key cannot be empty. Property will be skipped.");
+      continue;
+    }
+    if ([strKey length] > maxPropertyKeyLength) {
+      MSLogWarning([MSAnalytics logTag],
+                   @"Property key length cannot be longer than %d characters. Property %@ will be skipped.",
+                   maxPropertyKeyLength,
                    strKey);
       continue;
     }
 
     // Validate value
     NSString *value = properties[key];
-    if (!value) {
-      MSLogWarning([MSAnalytics logTag],
-                   @"The properties contain invalid value %@. Property will be skipped.",
-                   value);
-      continue;
-    }
     if(value && [value length] > maxPropertyValueLength) {
       MSLogWarning([MSAnalytics logTag],
-                   @"The properties contain invalid value %@. Property will be skipped.",
-                   value);
+                   @"Property value length cannot be longer than %d characters. Property %@ will be skipped.",
+                   maxPropertyValueLength,
+                   strKey);
       continue;
     }
 
-    // Save valid properties
-    [validProperties setObject:value forKey:key];
+    if ([validProperties count] < maxPropertiesPerEvent) {
 
-    // Don't send more properties than we can
-    if ([validProperties count] == maxPropertiesPerEvent) {
+      // Save valid properties
+      [validProperties setObject:value forKey:key];
+    } else {
+
+      // Don't send more properties than we can
+      MSLogWarning([MSAnalytics logTag],
+                   @"Properties cannot contain more than %d items. Skipping other properties.",
+                   maxPropertiesPerEvent);
       break;
     }
   }
