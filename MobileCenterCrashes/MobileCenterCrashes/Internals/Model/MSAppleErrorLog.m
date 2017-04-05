@@ -109,7 +109,7 @@ static NSString *const kMSException = @"exception";
           [self.exceptionType isEqualToString:errorLog.exceptionType]) &&
          ((!self.exceptionReason && !errorLog.exceptionReason) ||
           [self.exceptionReason isEqualToString:errorLog.exceptionReason]) &&
-         ((!self.selectorRegisterValue && !errorLog.selectorRegisterValue) &&
+         ((!self.selectorRegisterValue && !errorLog.selectorRegisterValue) ||
           ([self.selectorRegisterValue isEqualToString:errorLog.selectorRegisterValue])) &&
          ((!self.threads && !errorLog.threads) || [self.threads isEqualToArray:errorLog.threads]) &&
          ((!self.binaries && !errorLog.binaries) || [self.binaries isEqualToArray:errorLog.binaries]) &&
