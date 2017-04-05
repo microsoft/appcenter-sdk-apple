@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Validate keys and values of properties.
  *
- * @return dictionary which contained only valid properties.
+ * @return dictionary which contains only valid properties.
  */
 - (NSDictionary<NSString *, NSString *> *)validateProperties:(NSDictionary<NSString *, NSString *> *)properties;
 

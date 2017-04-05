@@ -19,7 +19,7 @@ static dispatch_once_t onceToken;
 // Events values limitations
 static const int minEventNameLength = 1;
 static const int maxEventNameLength = 256;
-static const int maxPropertriesPerEvent = 5;
+static const int maxPropertiesPerEvent = 5;
 static const int minPropertyKeyLength = 1;
 static const int maxPropertyKeyLength = 64;
 static const int maxPropertyValueLength = 64;
@@ -157,7 +157,7 @@ static const int maxPropertyValueLength = 64;
 - (BOOL)validateEventName:(NSString *)eventName {
   if (!eventName) {
     MSLogError([MSAnalytics logTag],
-               @"The event name is null. It can not be null.");
+               @"The event name is null. It must not be null.");
     return NO;
   }
   if ([eventName length] < minEventNameLength) {
@@ -174,12 +174,11 @@ static const int maxPropertyValueLength = 64;
 }
 
 - (NSDictionary<NSString *, NSString *> *)validateProperties:(NSDictionary<NSString *, NSString *> *)properties {
-  if([properties count] > maxPropertriesPerEvent) {
+  if([properties count] > maxPropertiesPerEvent) {
     MSLogWarning([MSAnalytics logTag],
                  @"The log contains too many properties. Only first %d valid properties will be send.",
-                 maxPropertriesPerEvent);
+                 maxPropertiesPerEvent);
   }
-  int totalValidProps = 0;
   NSMutableDictionary<NSString *, NSString *> *validProperties = [NSMutableDictionary new];
   for (id key in properties) {
     if (![key isKindOfClass:[NSString class]] || ![properties[key] isKindOfClass:[NSString class]]) {
@@ -214,7 +213,9 @@ static const int maxPropertyValueLength = 64;
 
     // Save valid properties
     [validProperties setObject:value forKey:key];
-    if (++totalValidProps == maxPropertriesPerEvent) {
+
+    // Don't send more properties than we can
+    if ([validProperties count] == maxPropertiesPerEvent) {
       break;
     }
   }
