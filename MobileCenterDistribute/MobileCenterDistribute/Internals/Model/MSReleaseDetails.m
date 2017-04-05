@@ -21,7 +21,10 @@ static NSString *const kMSPackageHashes = @"package_hashes";
 
 @implementation MSReleaseDetails
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dictionary {
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
+  if (!dictionary) {
+    return nil;
+  }
   if ((self = [super init])) {
     if (dictionary[kMSId]) {
       self.id = dictionary[kMSId];
@@ -63,19 +66,19 @@ static NSString *const kMSPackageHashes = @"package_hashes";
     if (dictionary[kMSUploadedAt]) {
       NSDateFormatter *formatter = [NSDateFormatter new];
       [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZZZZZ"];
-      NSString * _Nonnull uploadedAt = ( NSString * _Nonnull ) dictionary[kMSUploadedAt];
+      NSString *_Nonnull uploadedAt = (NSString * _Nonnull)dictionary[kMSUploadedAt];
       self.uploadedAt = [formatter dateFromString:uploadedAt];
     }
     if (dictionary[kMSDownloadUrl]) {
-      NSString * _Nonnull downloadUrl = ( NSString * _Nonnull ) dictionary[kMSDownloadUrl];
+      NSString *_Nonnull downloadUrl = (NSString * _Nonnull)dictionary[kMSDownloadUrl];
       self.downloadUrl = [NSURL URLWithString:downloadUrl];
     }
     if (dictionary[kMSAppIconUrl]) {
-      NSString * _Nonnull appIconUrl = ( NSString * _Nonnull ) dictionary[kMSAppIconUrl];
+      NSString *_Nonnull appIconUrl = (NSString * _Nonnull)dictionary[kMSAppIconUrl];
       self.appIconUrl = [NSURL URLWithString:appIconUrl];
     }
     if (dictionary[kMSInstallUrl]) {
-      NSString * _Nonnull installUrl = ( NSString * _Nonnull ) dictionary[kMSInstallUrl];
+      NSString *_Nonnull installUrl = (NSString * _Nonnull)dictionary[kMSInstallUrl];
       self.installUrl = [NSURL URLWithString:installUrl];
     }
     if (dictionary[kMSDistributionGroups]) {
@@ -88,8 +91,65 @@ static NSString *const kMSPackageHashes = @"package_hashes";
   return self;
 }
 
+- (NSDictionary *)serializeToDictionary {
+  NSMutableDictionary *dictionary = [NSMutableDictionary new];
+
+  // Fill in the dictionary with properties.
+  if (self.id) {
+    dictionary[kMSId] = self.id;
+  }
+  if (self.status) {
+    dictionary[kMSStatus] = self.status;
+  }
+  if (self.appName) {
+    dictionary[kMSAppName] = self.appName;
+  }
+  if (self.version) {
+    dictionary[kMSVersion] = self.version;
+  }
+  if (self.shortVersion) {
+    dictionary[kMSShortVersion] = self.shortVersion;
+  }
+  if (self.releaseNotes) {
+    dictionary[kMSReleaseNotes] = self.releaseNotes;
+  }
+  if (self.provisioningProfileName) {
+    dictionary[kMSProvisioningProfileName] = self.provisioningProfileName;
+  }
+  if (self.size) {
+    dictionary[kMSSize] = self.size;
+  }
+  if (self.minOs) {
+    dictionary[kMSMinOs] = self.minOs;
+  }
+  dictionary[kMSMandatoryUpdate] = @(self.mandatoryUpdate);
+  if (self.fingerprint) {
+    dictionary[kMSFingerprint] = self.fingerprint;
+  }
+  if (self.uploadedAt) {
+    NSDateFormatter *formatter = [NSDateFormatter new];
+    [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZZZZZ"];
+    dictionary[kMSUploadedAt] = [formatter stringFromDate:(NSDate * _Nonnull)self.uploadedAt];
+  }
+  if (self.downloadUrl) {
+    dictionary[kMSDownloadUrl] = [self.downloadUrl absoluteString];
+  }
+  if (self.appIconUrl) {
+    dictionary[kMSAppIconUrl] = [self.appIconUrl absoluteString];
+  }
+  if (self.installUrl) {
+    dictionary[kMSInstallUrl] = [self.installUrl absoluteString];
+  }
+  if (self.distributionGroups) {
+    // TODO: Implement here. There is no spec for DistributionGroup data model.
+  }
+  if (self.packageHashes) {
+    dictionary[kMSPackageHashes] = self.packageHashes;
+  }
+  return dictionary;
+}
+
 - (BOOL)isValid {
   return (self.id && self.downloadUrl);
 }
-
 @end

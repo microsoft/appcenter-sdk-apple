@@ -48,15 +48,7 @@ static NSString *const kMSArchitecture = @"architecture";
   if (self.errorThreadName) {
     dict[kMSErrorThreadName] = self.errorThreadName;
   }
-
-  /*
-   * FIXME: There is no need for nil check here, it's a bool.
-   * Worst, if NO then it'll be skipped from dictionary.
-   * TODO: Check this situation in other model where a property is a primitive type.
-   */
-  if (self.fatal) {
-    dict[kMSFatal] = self.fatal ? @YES : @NO;
-  }
+  dict[kMSFatal] = self.fatal ? @YES : @NO;
   if (self.appLaunchTOffset) {
     dict[kMSAppLaunchTOffset] = self.appLaunchTOffset;
   }
@@ -72,10 +64,7 @@ static NSString *const kMSArchitecture = @"architecture";
 }
 
 - (BOOL)isEqual:(id)object {
-  
-  // TODO: We should also check for parent equalty with `![super isEqual:object]` but isEqual is not implemented
-  // everywhere.
-  if (!object || ![object isKindOfClass:[MSAbstractErrorLog class]]) {
+  if (![object isKindOfClass:[MSAbstractErrorLog class]] || ![super isEqual:object]) {
     return NO;
   }
   MSAbstractErrorLog *errorLog = (MSAbstractErrorLog *)object;

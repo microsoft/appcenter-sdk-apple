@@ -8,11 +8,18 @@ static NSString *const kMSServices = @"services";
 @synthesize services = _services;
 
 - (instancetype)init {
-  self = [super init];
-  if (self) {
+  if ((self = [super init])) {
     self.type = kMSStartService;
   }
   return self;
+}
+
+- (BOOL)isEqual:(id)object {
+  if (![object isKindOfClass:[MSStartServiceLog class]] || ![super isEqual:object]) {
+    return NO;
+  }
+  MSStartServiceLog *log = (MSStartServiceLog *)object;
+  return ((!self.services && !log.services) || [self.services isEqualToArray:log.services]);
 }
 
 #pragma mark - MSSerializableObject
@@ -28,8 +35,8 @@ static NSString *const kMSServices = @"services";
 #pragma mark - NSCoding
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
-  self = [super initWithCoder:coder];
-  if (self) {
+  if ((self = [super initWithCoder:coder])) {
+    self.type = [coder decodeObjectForKey:kMSStartService];
     self.services = [coder decodeObjectForKey:kMSServices];
   }
   return self;

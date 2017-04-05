@@ -1,4 +1,5 @@
 #import <Foundation/Foundation.h>
+#import "MobileCenter+Internal.h"
 
 #import "MSSerializableObject.h"
 #import "MobileCenter+Internal.h"
@@ -49,18 +50,9 @@
 @property(nonatomic) NSNumber *architectureVariantId;
 
 /**
- * Is equal to another binary
- *
- * @param object Binary
- *
- * @return Return YES if equal and NO if not equal
- */
-- (BOOL)isEqual:(id)object;
-
-/**
  * Checks if the object's values are valid.
  *
- * return YES, if the object is valid
+ * @return YES, if the object is valid.
  */
 - (BOOL)isValid;
 

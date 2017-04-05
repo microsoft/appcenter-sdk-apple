@@ -86,7 +86,6 @@
   // Then
   assertThat(actual, notNilValue());
   assertThat(actual, instanceOf([MSEventLog class]));
-
   MSEventLog *actualEvent = actual;
   assertThat(actualEvent.name, equalTo(eventName));
   assertThat(actualEvent.eventId, equalTo(eventId));
@@ -95,6 +94,7 @@
   assertThat(actualEvent.type, equalTo(typeName));
   assertThat(actualEvent.sid, equalTo(sessionId));
   assertThat(actualEvent.properties, equalTo(properties));
+  XCTAssertTrue([self.sut isEqual:actualEvent]);
 }
 
 - (void)testIsValid {
@@ -119,6 +119,12 @@
 
   // Then
   XCTAssertTrue([self.sut isValid]);
+}
+
+- (void)testIsNotEqualToNil {
+
+  // Then
+  XCTAssertFalse([self.sut isEqual:nil]);
 }
 
 @end
