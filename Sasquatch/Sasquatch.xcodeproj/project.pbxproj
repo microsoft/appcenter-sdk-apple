@@ -40,6 +40,8 @@
 		84D63FF71E8BA838004C9F86 /* MSCrashesDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D63FF61E8BA838004C9F86 /* MSCrashesDetailViewController.swift */; };
 		84D63FF81E8BA838004C9F86 /* MSCrashesDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D63FF61E8BA838004C9F86 /* MSCrashesDetailViewController.swift */; };
 		84D63FF91E8BAA90004C9F86 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 845964A91E8A7E6600BABA51 /* Main.storyboard */; };
+		B2F3FA9A1E96DB7E0065A3BE /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B2F3FA991E96DB7E0065A3BE /* libsqlite3.tbd */; };
+		B2F3FA9B1E96DB870065A3BE /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B2F3FA991E96DB7E0065A3BE /* libsqlite3.tbd */; };
 		F89D79091E93DA3A0094521F /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F89D79081E93DA3A0094521F /* CrashLibIOS.framework */; };
 		F89D790A1E93DA3A0094521F /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F89D79081E93DA3A0094521F /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F89D790C1E93DA500094521F /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F89D79081E93DA3A0094521F /* CrashLibIOS.framework */; };
@@ -108,6 +110,7 @@
 		84A0FF681E8A87C9000E7A28 /* MSAnalyticsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSAnalyticsViewController.swift; sourceTree = "<group>"; };
 		84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSDistributeViewController.swift; sourceTree = "<group>"; };
 		84D63FF61E8BA838004C9F86 /* MSCrashesDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSCrashesDetailViewController.swift; sourceTree = "<group>"; };
+		B2F3FA991E96DB7E0065A3BE /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		F89D79081E93DA3A0094521F /* CrashLibIOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CrashLibIOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -116,6 +119,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B2F3FA9B1E96DB870065A3BE /* libsqlite3.tbd in Frameworks */,
 				F89D79091E93DA3A0094521F /* CrashLibIOS.framework in Frameworks */,
 				84226D361E89302900798417 /* MobileCenter.framework in Frameworks */,
 				84226D371E89302900798417 /* MobileCenterAnalytics.framework in Frameworks */,
@@ -128,6 +132,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B2F3FA9A1E96DB7E0065A3BE /* libsqlite3.tbd in Frameworks */,
 				F89D790C1E93DA500094521F /* CrashLibIOS.framework in Frameworks */,
 				84226D321E89301B00798417 /* MobileCenter.framework in Frameworks */,
 				84226D331E89301B00798417 /* MobileCenterAnalytics.framework in Frameworks */,
@@ -246,6 +251,7 @@
 		84226D0F1E8921DE00798417 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B2F3FA991E96DB7E0065A3BE /* libsqlite3.tbd */,
 				849A3E741E8AA78E008711CB /* CrashLibIOS.framework */,
 				84226D2E1E89301A00798417 /* MobileCenter.framework */,
 				84226D2F1E89301B00798417 /* MobileCenterAnalytics.framework */,
