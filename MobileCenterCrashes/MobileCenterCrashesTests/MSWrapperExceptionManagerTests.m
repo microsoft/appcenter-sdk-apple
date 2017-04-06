@@ -1,11 +1,9 @@
 #import <Foundation/Foundation.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
-
-#import "MSWrapperExceptionManagerInternal.h"
-#import "MSException.h"
 #import "MSCrashes.h"
+#import "MSException.h"
+#import "MSWrapperExceptionManagerInternal.h"
 
 @interface MSWrapperExceptionManagerTests : XCTestCase<MSWrapperCrashesInitializationDelegate>
 

@@ -1,6 +1,5 @@
 #import <Foundation/Foundation.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
 #import "MSFile.h"
@@ -8,6 +7,7 @@
 @interface MSFileTests : XCTestCase
 
 @property(nonatomic) MSFile *sut;
+
 @end
 
 @implementation MSFileTests
@@ -16,7 +16,7 @@
 
 - (void)setUp {
   [super setUp];
-  _sut = [MSFile new];
+  self.sut = [MSFile new];
 }
 
 - (void)tearDown {
@@ -33,13 +33,13 @@
   NSDate *creationDate = [NSDate dateWithTimeIntervalSinceNow:18];
 
   // When
-  _sut = [[MSFile alloc] initWithURL:fileURL fileId:fileId creationDate:creationDate];
+  self.sut = [[MSFile alloc] initWithURL:fileURL fileId:fileId creationDate:creationDate];
 
   // Then
-  assertThat(_sut, notNilValue());
-  assertThat(_sut.fileId, equalTo(fileId));
-  assertThat(_sut.fileURL, equalTo(fileURL));
-  assertThat(_sut.creationDate, equalTo(creationDate));
+  assertThat(self.sut, notNilValue());
+  assertThat(self.sut.fileId, equalTo(fileId));
+  assertThat(self.sut.fileURL, equalTo(fileURL));
+  assertThat(self.sut.creationDate, equalTo(creationDate));
 }
 
 @end

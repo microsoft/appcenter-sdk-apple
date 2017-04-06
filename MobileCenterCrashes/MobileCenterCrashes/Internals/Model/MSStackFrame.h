@@ -1,5 +1,5 @@
-#import "MobileCenter+Internal.h"
 #import <Foundation/Foundation.h>
+#import "MobileCenter+Internal.h"
 
 @interface MSStackFrame : NSObject <MSSerializableObject>
 
@@ -33,14 +33,5 @@
  * The name of the file containing the execution point represented by this stack trace element [optional].
  */
 @property(nonatomic, copy) NSString *fileName;
-
-/**
- * Is equal to another stack frame
- *
- * @param frame Stack frame
- *
- * @return Return YES if equal and NO if not equal
- */
-- (BOOL)isEqual:(MSStackFrame *)frame;
 
 @end

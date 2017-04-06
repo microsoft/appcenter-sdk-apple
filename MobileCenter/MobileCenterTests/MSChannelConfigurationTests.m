@@ -15,79 +15,43 @@
 - (void)testNewInstanceWasInitialisedCorrectly {
 
   // If
-  NSString *name = @"FooBar";
+  NSString *groupID = @"FooBar";
+  MSPriority priority = MSPriorityDefault;
   NSUInteger batchSizeLimit = 10;
   NSUInteger pendingBatchesLimit = 20;
-  float flushInterval = 9.9;
+  float flushInterval = 9.9f;
 
   // When
-  MSChannelConfiguration *sut = [[MSChannelConfiguration alloc] initWithPriorityName:name
-                                                                       flushInterval:flushInterval
-                                                                      batchSizeLimit:batchSizeLimit
-                                                                 pendingBatchesLimit:pendingBatchesLimit];
+  MSChannelConfiguration *sut = [[MSChannelConfiguration alloc] initWithGroupID:groupID
+                                                                       priority:priority
+                                                                  flushInterval:flushInterval
+                                                                 batchSizeLimit:batchSizeLimit
+                                                            pendingBatchesLimit:pendingBatchesLimit];
 
   // Then
   assertThat(sut, notNilValue());
-  assertThat(sut.name, equalTo(name));
+  assertThat(sut.groupID, equalTo(groupID));
+  XCTAssertTrue(sut.priority == priority);
   assertThatUnsignedInteger(sut.batchSizeLimit, equalToUnsignedInteger(batchSizeLimit));
   assertThatUnsignedInteger(sut.pendingBatchesLimit, equalToUnsignedInteger(pendingBatchesLimit));
   assertThatFloat(sut.flushInterval, equalToFloat(flushInterval));
 }
 
-- (void)testClassWillReturnCorrectConfigurationForGivenDefaultPriority {
-
-  // When
-  MSChannelConfiguration *sut = [MSChannelConfiguration configurationForPriority:MSPriorityDefault];
-
-  // Then
-  assertThat(sut, notNilValue());
-  assertThat(sut.name, equalTo(@"MSPriorityDefault"));
-  assertThatUnsignedInteger(sut.batchSizeLimit, equalToUnsignedInteger(50));
-  assertThatUnsignedInteger(sut.pendingBatchesLimit, equalToUnsignedInteger(3));
-  assertThatFloat(sut.flushInterval, equalToFloat(3.0));
-}
-
-- (void)testClassWillReturnCorrectConfigurationForGivenHighPriority {
-
-  // When
-  MSChannelConfiguration *sut = [MSChannelConfiguration configurationForPriority:MSPriorityHigh];
-
-  // Then
-  assertThat(sut, notNilValue());
-  assertThat(sut.name, equalTo(@"MSPriorityHigh"));
-  assertThatUnsignedInteger(sut.batchSizeLimit, equalToUnsignedInteger(10));
-  assertThatUnsignedInteger(sut.pendingBatchesLimit, equalToUnsignedInteger(6));
-  assertThatFloat(sut.flushInterval, equalToFloat(1.0));
-}
-
-- (void)testClassWillReturnCorrectConfigurationForGivenBackgroundPriority {
-
-  // When
-  MSChannelConfiguration *sut = [MSChannelConfiguration configurationForPriority:MSPriorityBackground];
-
-  // Then
-  assertThat(sut, notNilValue());
-  assertThat(sut.name, equalTo(@"MSPriorityBackground"));
-  assertThatUnsignedInteger(sut.batchSizeLimit, equalToUnsignedInteger(100));
-  assertThatUnsignedInteger(sut.pendingBatchesLimit, equalToUnsignedInteger(1));
-  assertThatFloat(sut.flushInterval, equalToFloat(60.0));
-}
-
-- (void)testRequestingSamePredefinedConfigurationMultipleTimesReturnsSameObject {
+- (void)testNewInstanceWithDefaultSettings {
 
   // If
-  NSArray *priorities = @[ @(MSPriorityHigh), @(MSPriorityDefault), @(MSPriorityBackground) ];
+  NSString *groupID = @"FooBar";
 
-  for (NSNumber *priority in priorities) {
-    MSPriority prio = priority.integerValue;
+  // When
+  MSChannelConfiguration *sut = [[MSChannelConfiguration alloc] initDefaultConfigurationWithGroupID:groupID];
 
-    // When
-    MSChannelConfiguration *sut1 = [MSChannelConfiguration configurationForPriority:prio];
-    MSChannelConfiguration *sut2 = [MSChannelConfiguration configurationForPriority:prio];
-
-    // Then
-    assertThat(sut2, equalTo(sut1));
-  }
+  // Then
+  assertThat(sut, notNilValue());
+  assertThat(sut.groupID, equalTo(groupID));
+  XCTAssertTrue(sut.priority == MSPriorityDefault);
+  assertThatUnsignedInteger(sut.batchSizeLimit, equalToUnsignedInteger(50));
+  assertThatUnsignedInteger(sut.pendingBatchesLimit, equalToUnsignedInteger(3));
+  assertThatFloat(sut.flushInterval, equalToFloat(3));
 }
 
 @end

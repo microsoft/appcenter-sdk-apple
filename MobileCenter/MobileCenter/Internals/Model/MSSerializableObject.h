@@ -3,9 +3,9 @@
 @protocol MSSerializableObject <NSCoding>
 
 /**
- * Checks if the object's values are valid.
+ * Serialize this object to a dictionary.
  *
- * return YES, if the object is valid
+ * @return A dictionary representing this object.
  */
 - (NSMutableDictionary *)serializeToDictionary;
 

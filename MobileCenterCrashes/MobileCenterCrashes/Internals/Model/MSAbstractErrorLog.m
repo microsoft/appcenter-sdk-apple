@@ -52,9 +52,7 @@ static NSString *const kMSArchitecture = @"architecture";
   if (self.errorThreadName) {
     dict[kMSErrorThreadName] = self.errorThreadName;
   }
-  if (self.fatal) {
-    dict[kMSFatal] = self.fatal ? @YES : @NO;
-  }
+  dict[kMSFatal] = self.fatal ? @YES : @NO;
   if (self.appLaunchTOffset) {
     dict[kMSAppLaunchTOffset] = self.appLaunchTOffset;
   }
@@ -69,13 +67,14 @@ static NSString *const kMSArchitecture = @"architecture";
 }
 
 - (BOOL)isValid {
-  return self.errorId && self.processId && self.processName && self.appLaunchTOffset;
+  return [super isValid] && self.errorId && self.processId && self.processName;
 }
 
-- (BOOL)isEqual:(MSAbstractErrorLog *)errorLog {
-  if (!errorLog)
+- (BOOL)isEqual:(id)object {
+  if (![object isKindOfClass:[MSAbstractErrorLog class]] || ![super isEqual:object]) {
     return NO;
-
+  }
+  MSAbstractErrorLog *errorLog = (MSAbstractErrorLog *)object;
   return ((!self.errorId && !errorLog.errorId) || [self.errorId isEqualToString:errorLog.errorId]) &&
          ((!self.processId && !errorLog.processId) || [self.processId isEqual:errorLog.processId]) &&
          ((!self.processName && !errorLog.processName) || [self.processName isEqualToString:errorLog.processName]) &&

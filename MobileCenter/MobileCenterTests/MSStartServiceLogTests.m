@@ -2,9 +2,7 @@
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
-
 #import "MSStartServiceLog.h"
-#import "MobileCenter+Internal.h"
 
 @interface MSStartServiceLogTests : XCTestCase
 
@@ -28,7 +26,7 @@
 - (void)testSerializingEventToDictionaryWorks {
 
   // If
-  NSArray<NSString*>* services = @[@"Service0", @"Service1", @"Service2"];
+  NSArray<NSString *> *services = @[ @"Service0", @"Service1", @"Service2" ];
   self.sut.services = services;
 
   // When
@@ -38,7 +36,7 @@
   assertThat(actual, notNilValue());
   NSArray *actualServices = actual[@"services"];
   XCTAssertEqual(actualServices.count, services.count);
-  for(NSUInteger i = 0; i < actualServices.count; ++i) {
+  for (NSUInteger i = 0; i < actualServices.count; ++i) {
     assertThat(actualServices[i], equalTo(services[i]));
   }
 }
@@ -46,7 +44,7 @@
 - (void)testNSCodingSerializationAndDeserializationWorks {
 
   // If
-  NSArray<NSString*>* services = @[@"Service0", @"Service1", @"Service2"];
+  NSArray<NSString *> *services = @[ @"Service0", @"Service1", @"Service2" ];
   self.sut.services = services;
 
   // When
@@ -56,13 +54,20 @@
   // Then
   assertThat(actual, notNilValue());
   assertThat(actual, instanceOf([MSStartServiceLog class]));
+  XCTAssertTrue([actual isEqual:self.sut]);
 
   MSStartServiceLog *log = actual;
   NSArray *actualServices = log.services;
   XCTAssertEqual(actualServices.count, services.count);
-  for(NSUInteger i = 0; i < actualServices.count; ++i) {
+  for (NSUInteger i = 0; i < actualServices.count; ++i) {
     assertThat(actualServices[i], equalTo(services[i]));
   }
+}
+
+- (void)testIsNotEqual {
+
+  // Then
+  XCTAssertFalse([self.sut isEqual:[MSAbstractLog new]]);
 }
 
 @end

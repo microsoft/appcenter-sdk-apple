@@ -6,20 +6,20 @@
 #import "MSPageLog.h"
 #import "MSServiceAbstractProtected.h"
 
-/**
- * Service storage key name.
- */
+// Service name for initialization.
 static NSString *const kMSServiceName = @"Analytics";
 
-/**
- * Singleton
- */
+// The group ID for storage.
+static NSString *const kMSGroupID = @"Analytics";
+
+// Singleton
 static MSAnalytics *sharedInstance = nil;
 static dispatch_once_t onceToken;
 
 @implementation MSAnalytics
 
 @synthesize autoPageTrackingEnabled = _autoPageTrackingEnabled;
+@synthesize channelConfiguration = _channelConfiguration;
 
 #pragma mark - Service initialization
 
@@ -32,6 +32,9 @@ static dispatch_once_t onceToken;
     // Init session tracker.
     _sessionTracker = [[MSSessionTracker alloc] init];
     _sessionTracker.delegate = self;
+
+    // Init channel configuration.
+    _channelConfiguration = [[MSChannelConfiguration alloc] initDefaultConfigurationWithGroupID:[self groupID]];
   }
   return self;
 }
@@ -63,12 +66,8 @@ static dispatch_once_t onceToken;
   return @"MobileCenterAnalytics";
 }
 
-- (NSString *)storageKey {
-  return kMSServiceName;
-}
-
-- (MSPriority)priority {
-  return MSPriorityDefault;
+- (NSString *)groupID {
+  return kMSGroupID;
 }
 
 #pragma mark - MSServiceAbstract
@@ -84,9 +83,9 @@ static dispatch_once_t onceToken;
     [self.logManager addDelegate:self.sessionTracker];
 
     // Set self as delegate of analytics channel.
-    [self.logManager addChannelDelegate:self forPriority:self.priority];
+    [self.logManager addChannelDelegate:self forGroupID:self.groupID];
 
-    // Report current page while auto page traking is on.
+    // Report current page while auto page tracking is on.
     if (self.autoPageTrackingEnabled) {
 
       // Track on the main queue to avoid race condition with page swizzling.
@@ -100,7 +99,7 @@ static dispatch_once_t onceToken;
     MSLogInfo([MSAnalytics logTag], @"Analytics service has been enabled.");
   } else {
     [self.logManager removeDelegate:self.sessionTracker];
-    [self.logManager removeChannelDelegate:self forPriority:self.priority];
+    [self.logManager removeChannelDelegate:self forGroupID:self.groupID];
     [self.sessionTracker stop];
     [self.sessionTracker clearSessions];
     MSLogInfo([MSAnalytics logTag], @"Analytics service has been disabled.");
@@ -149,7 +148,7 @@ static dispatch_once_t onceToken;
 
 - (BOOL)validateProperties:(NSDictionary<NSString *, NSString *> *)properties {
   for (id key in properties) {
-    if (![key isKindOfClass:[NSString class]] || ![[properties objectForKey:key] isKindOfClass:[NSString class]]) {
+    if (![key isKindOfClass:[NSString class]] || ![properties[key] isKindOfClass:[NSString class]]) {
       return NO;
     }
   }
@@ -176,7 +175,7 @@ static dispatch_once_t onceToken;
   }
 
   // Send log to log manager.
-  [self sendLog:log withPriority:self.priority];
+  [self sendLog:log];
 }
 
 - (void)trackPage:(NSString *)pageName withProperties:(NSDictionary<NSString *, NSString *> *)properties {
@@ -197,7 +196,7 @@ static dispatch_once_t onceToken;
   }
 
   // Send log to log manager.
-  [self sendLog:log withPriority:self.priority];
+  [self sendLog:log];
 }
 
 - (void)setAutoPageTrackingEnabled:(BOOL)isEnabled {
@@ -208,10 +207,10 @@ static dispatch_once_t onceToken;
   return self.autoPageTrackingEnabled;
 }
 
-- (void)sendLog:(id<MSLog>)log withPriority:(MSPriority)priority {
+- (void)sendLog:(id<MSLog>)log {
 
   // Send log to log manager.
-  [self.logManager processLog:log withPriority:priority];
+  [self.logManager processLog:log forGroupID:self.groupID];
 }
 
 + (void)resetSharedInstance {
@@ -223,8 +222,9 @@ static dispatch_once_t onceToken;
 
 #pragma mark - MSSessionTracker
 
-- (void)sessionTracker:(id)sessionTracker processLog:(id<MSLog>)log withPriority:(MSPriority)priority {
-  [self sendLog:log withPriority:priority];
+- (void)sessionTracker:(id)sessionTracker processLog:(id<MSLog>)log {
+  (void)sessionTracker;
+  [self sendLog:log];
 }
 
 + (void)setDelegate:(nullable id<MSAnalyticsDelegate>)delegate {
@@ -233,7 +233,8 @@ static dispatch_once_t onceToken;
 
 #pragma mark - MSChannelDelegate
 
-- (void)channel:(id)channel willSendLog:(id<MSLog>)log {
+- (void)channel:(id<MSChannel>)channel willSendLog:(id<MSLog>)log {
+  (void)channel;
   if (!self.delegate) {
     return;
   }
@@ -250,6 +251,7 @@ static dispatch_once_t onceToken;
 }
 
 - (void)channel:(id<MSChannel>)channel didSucceedSendingLog:(id<MSLog>)log {
+  (void)channel;
   if (!self.delegate) {
     return;
   }
@@ -266,6 +268,7 @@ static dispatch_once_t onceToken;
 }
 
 - (void)channel:(id<MSChannel>)channel didFailSendingLog:(id<MSLog>)log withError:(NSError *)error {
+  (void)channel;
   if (!self.delegate) {
     return;
   }

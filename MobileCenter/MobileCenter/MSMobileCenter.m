@@ -1,7 +1,6 @@
 #import "MSConstants+Internal.h"
 #import "MSDeviceTracker.h"
 #import "MSDeviceTrackerPrivate.h"
-#import "MSFileStorage.h"
 #import "MSHttpSender.h"
 #import "MSLogManagerDefault.h"
 #import "MSLogger.h"
@@ -16,6 +15,12 @@ static dispatch_once_t onceToken;
  * Base URL for HTTP Ingestion backend API calls.
  */
 static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
+
+// Service name for initialization.
+static NSString *const kMSServiceName = @"MobileCenter";
+
+// The group ID for storage.
+static NSString *const kMSGroupID = @"MobileCenter";
 
 @implementation MSMobileCenter
 
@@ -125,7 +130,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 }
 
 + (NSString *)logTag {
-  return @"MobileCenter";
+  return kMSServiceName;
 }
 
 #pragma mark - private
@@ -152,8 +157,8 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
     } else {
       self.appSecret = appSecret;
 
-    // Init the main pipeline.
-    [self initializeLogManager];
+      // Init the main pipeline.
+      [self initializeLogManager];
 
       // Enable pipeline as needed.
       if (self.isEnabled) {
@@ -181,7 +186,6 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
   @synchronized(self) {
     BOOL configured = [self configure:appSecret];
     if (configured) {
-
       NSArray *sortedServices = [self sortServices:services];
       NSMutableArray<NSString *> *servicesNames = [NSMutableArray arrayWithCapacity:sortedServices.count];
 
@@ -201,7 +205,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
  */
 - (NSArray *)sortServices:(NSArray<Class> *)services {
   if (services && services.count > 1) {
-    return [services sortedArrayUsingComparator:^NSComparisonResult(Class clazzA, Class clazzB) {
+    return [services sortedArrayUsingComparator:^NSComparisonResult(id clazzA, id clazzB) {
       id<MSServiceInternal> serviceA = [clazzA sharedInstance];
       id<MSServiceInternal> serviceB = [clazzB sharedInstance];
       if (serviceA.initializationPriority < serviceB.initializationPriority) {
@@ -253,7 +257,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
     [self applyPipelineEnabledState:isEnabled];
 
     // Persist the enabled status.
-    [MS_USER_DEFAULTS setObject:[NSNumber numberWithBool:isEnabled] forKey:kMSMobileCenterIsEnabledKey];
+    [MS_USER_DEFAULTS setObject:@(isEnabled) forKey:kMSMobileCenterIsEnabledKey];
   }
 
   // Propagate enable/disable on all services.
@@ -306,6 +310,10 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
   // Construct log manager.
   self.logManager =
       [[MSLogManagerDefault alloc] initWithAppSecret:self.appSecret installId:self.installId logUrl:self.logUrl];
+
+  // Initialize a channel for start service logs.
+  [self.logManager
+      initChannelWithConfiguration:[[MSChannelConfiguration alloc] initDefaultConfigurationWithGroupID:kMSGroupID]];
 }
 
 - (NSString *)appSecret {
@@ -322,7 +330,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
         _installId = MS_UUID_FROM_STRING(savedInstallId);
       }
 
-      // Create a new random install Id if persistency failed.
+      // Create a new random install Id if persistence failed.
       if (!_installId) {
         _installId = [NSUUID UUID];
 
@@ -346,7 +354,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 - (void)sendStartServiceLog:(NSArray<NSString *> *)servicesNames {
   MSStartServiceLog *serviceLog = [MSStartServiceLog new];
   serviceLog.services = servicesNames;
-  [self.logManager processLog:serviceLog withPriority:MSPriorityDefault];
+  [self.logManager processLog:serviceLog forGroupID:kMSGroupID];
 }
 
 + (void)resetSharedInstance {

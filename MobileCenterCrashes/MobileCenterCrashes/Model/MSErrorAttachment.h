@@ -20,11 +20,11 @@
 /**
  * Is equal to another error attachment
  *
- * @param attachment Error attachment
+ * @param object Error attachment
  *
  * @return Return YES if equal and NO if not equal
  */
-- (BOOL)isEqual:(MSErrorAttachment *)attachment;
+- (BOOL)isEqual:(id)object;
 
 + (MSErrorAttachment *)attachmentWithText:(NSString *)text;
 

@@ -32,11 +32,11 @@ static NSString *const kMSUserDefaultsTs = @"_ts";
 
   /* Get from local store */
   NSDictionary *store = [[NSUserDefaults standardUserDefaults] dictionaryForKey:key];
-  CFAbsoluteTime ts = [store[kMSUserDefaultsTs] floatValue];
+  CFAbsoluteTime ts = [store[kMSUserDefaultsTs] doubleValue];
   MSLogVerbose([MSMobileCenter logTag], @"Settings:store[%@]=%@", key, store);
 
   /* Force update if timestamp expiration is reached */
-  if (ts <= 0.0 || expiration <= 0.0 || fabs(CFAbsoluteTimeGetCurrent() - ts) < expiration) {
+  if (ts <= 0.0 || expiration <= 0.0f || fabs(CFAbsoluteTimeGetCurrent() - ts) < (double)expiration) {
     /* Remove if already in store and value is the same */
     for (NSString *k in [store allKeys]) {
       if (update[k] != nil && [update[k] isEqual:store[k]])

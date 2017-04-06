@@ -46,10 +46,11 @@ static NSString *const kMSException = @"exception";
   return self.threadId && [self.frames count] > 0;
 }
 
-- (BOOL)isEqual:(MSThread *)thread {
-  if (!thread)
+- (BOOL)isEqual:(id)object {
+  if (![object isKindOfClass:[MSThread class]]) {
     return NO;
-
+  }
+  MSThread *thread = (MSThread *)object;
   return ((!self.threadId && !thread.threadId) || [self.threadId isEqual:thread.threadId]) &&
          ((!self.name && !thread.name) || [self.name isEqualToString:thread.name]) &&
          ((!self.frames && !thread.frames) || [self.frames isEqualToArray:thread.frames]) &&

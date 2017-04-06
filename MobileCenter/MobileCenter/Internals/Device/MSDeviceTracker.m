@@ -2,9 +2,9 @@
 #import "MSDeviceHistoryInfo.h"
 #import "MSDeviceTracker.h"
 #import "MSDeviceTrackerPrivate.h"
-#import "MSDevicePrivate.h"
 #import "MSWrapperSdkPrivate.h"
 #import "MSUserDefaults.h"
+#import "MSUtility+Application.h"
 #import "MSUtility+Date.h"
 
 // SDK versioning struct. Needs to be big enough to hold the info.
@@ -16,7 +16,7 @@ typedef struct {
 } ms_info_t;
 
 // SDK versioning.
-ms_info_t mobilecenter_library_info
+static ms_info_t mobilecenter_library_info
     __attribute__((section("__TEXT,__ms_ios,regular,no_dead_strip"))) = {.info_version = 1,
                                                                          .ms_name = MOBILE_CENTER_C_NAME,
                                                                          .ms_version = MOBILE_CENTER_C_VERSION,
@@ -42,7 +42,7 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
   static MSDeviceTracker *sharedInstance = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
-      sharedInstance = [[self alloc] init];
+    sharedInstance = [[self alloc] init];
   });
   return sharedInstance;
 }
@@ -97,7 +97,7 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
       _device = [self updatedDevice];
 
       // Create new MSDeviceHistoryInfo.
-      NSNumber *tOffset = [NSNumber numberWithLongLong:[MSUtility nowInMilliseconds]];
+      NSNumber *tOffset = [NSNumber numberWithLongLong:(long long)([MSUtility nowInMilliseconds])];
       MSDeviceHistoryInfo *deviceHistoryInfo = [[MSDeviceHistoryInfo alloc] initWithTOffset:tOffset andDevice:_device];
 
       // Insert new MSDeviceHistoryInfo at the proper index to keep self.deviceHistory sorted.

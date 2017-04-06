@@ -8,7 +8,7 @@ static NSString *const kMSLogsDirectory = @"com.microsoft.azure.mobile.mobilecen
 static NSString *const kMSFileExtension = @"ms";
 // FIXME Need a different storage such as database to make it work properly.
 //       For now, persistence will maintain up to 350 logs and remove the oldest 50 logs in a file.
-//       Plus, the requirement is to keep 300 logs for all the logs stored accross the bucckets but the limit is
+//       Plus, the requirement is to keep 300 logs for all the logs stored across the buckets but the limit is
 //       currently only applied per bucket.
 static NSUInteger const MSDefaultFileCountLimit = 7;
 static NSUInteger const MSDefaultLogCountLimit = 50;
@@ -31,16 +31,16 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
 
 #pragma mark - Public
 
-- (BOOL)saveLog:(id <MSLog>)log withStorageKey:(NSString *)storageKey {
+- (BOOL)saveLog:(id<MSLog>)log withGroupID:(NSString *)groupID {
   if (!log) {
     return NO;
   }
 
-  MSStorageBucket *bucket = [self bucketForStorageKey:storageKey];
+  MSStorageBucket *bucket = [self bucketForGroupID:groupID];
 
   if (bucket.currentLogs.count >= self.bucketFileLogCountLimit) {
     [bucket.currentLogs removeAllObjects];
-    [self renewCurrentFileForStorageKey:storageKey];
+    [self renewCurrentFileForGroupID:groupID];
   }
 
   if (bucket.currentLogs.count == 0) {
@@ -48,7 +48,7 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
     // Drop oldest files if needed
     if (bucket.availableFiles.count >= self.bucketFileCountLimit) {
       MSFile *oldestFile = [bucket.availableFiles lastObject];
-      [self deleteLogsForId:oldestFile.fileId withStorageKey:storageKey];
+      [self deleteLogsForId:oldestFile.fileId withGroupID:groupID];
     }
 
     // Make current file available and create new current file
@@ -61,13 +61,13 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
   return [MSFileUtil writeData:logsData toFile:bucket.currentFile];
 }
 
-- (NSArray <MSLog> *)deleteLogsForStorageKey:(NSString *)storageKey {
+- (NSArray<MSLog> *)deleteLogsForGroupID:(NSString *)groupID {
 
   // Cache deleted logs
-  NSMutableArray <MSLog> *deletedLogs = [NSMutableArray < MSLog > new];
+  NSMutableArray<MSLog> *deletedLogs = [NSMutableArray<MSLog> new];
 
   // Remove all files from the bucket.
-  MSStorageBucket *bucket = self.buckets[storageKey];
+  MSStorageBucket *bucket = self.buckets[groupID];
   NSArray<MSFile *> *allFiles = [bucket removeAllFiles];
 
   // Delete all files.
@@ -76,23 +76,23 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
   }
 
   // Get ready for next time.
-  [self renewCurrentFileForStorageKey:storageKey];
+  [self renewCurrentFileForGroupID:groupID];
   return deletedLogs;
 }
 
-- (void)deleteLogsForId:(NSString *)logsId withStorageKey:(NSString *)storageKey {
-  MSStorageBucket *bucket = self.buckets[storageKey];
+- (void)deleteLogsForId:(NSString *)logsId withGroupID:(NSString *)groupID {
+  MSStorageBucket *bucket = self.buckets[groupID];
   [self deleteFile:[bucket fileWithId:logsId] fromBucket:bucket];
 }
 
-- (NSArray <MSLog> *)deleteFile:(MSFile *)file fromBucket:(MSStorageBucket *)bucket {
-  NSMutableArray <MSLog> *deletedLogs = [NSMutableArray < MSLog > new];
+- (NSArray<MSLog> *)deleteFile:(MSFile *)file fromBucket:(MSStorageBucket *)bucket {
+  NSMutableArray<MSLog> *deletedLogs = [NSMutableArray<MSLog> new];
   if (file) {
 
     // Cache logs from file.
     NSData *data = [MSFileUtil dataForFile:file];
     if (data) {
-      NSArray <MSLog> *logs = [NSKeyedUnarchiver unarchiveObjectWithData:(NSData * _Nonnull)data];
+      NSArray<MSLog> *logs = [NSKeyedUnarchiver unarchiveObjectWithData:(NSData * _Nonnull)data];
       if (logs) {
         [deletedLogs addObjectsFromArray:logs];
       }
@@ -105,12 +105,12 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
   return deletedLogs;
 }
 
-- (BOOL)loadLogsForStorageKey:(NSString *)storageKey withCompletion:(nullable MSLoadDataCompletionBlock)completion {
-  NSArray <MSLog> *logs;
+- (BOOL)loadLogsForGroupID:(NSString *)groupID withCompletion:(nullable MSLoadDataCompletionBlock)completion {
+  NSArray<MSLog> *logs;
   NSString *fileId;
-  MSStorageBucket *bucket = [self bucketForStorageKey:storageKey];
+  MSStorageBucket *bucket = [self bucketForGroupID:groupID];
 
-  [self renewCurrentFileForStorageKey:storageKey];
+  [self renewCurrentFileForGroupID:groupID];
 
   // Get data of oldest file
   if (bucket.availableFiles.count > 0) {
@@ -131,54 +131,54 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
   return (bucket.availableFiles.count > 0);
 }
 
-- (void)closeBatchWithStorageKey:(NSString *)storageKey {
-  [self renewCurrentFileForStorageKey:storageKey];
+- (void)closeBatchWithGroupID:(NSString *)groupID {
+  [self renewCurrentFileForGroupID:groupID];
 }
 
 #pragma mark - Helper
 
-- (MSStorageBucket *)createNewBucketForStorageKey:(NSString *)storageKey {
+- (MSStorageBucket *)createNewBucketForGroupID:(NSString *)groupID {
   MSStorageBucket *bucket = [MSStorageBucket new];
-  NSURL *storageDirectory = [self directoryURLForStorageKey:storageKey];
+  NSURL *storageDirectory = [self directoryURLForGroupID:groupID];
   NSArray *existingFiles = [MSFileUtil filesForDirectory:storageDirectory withFileExtension:kMSFileExtension];
   if (existingFiles) {
     [bucket.availableFiles addObjectsFromArray:existingFiles];
     [bucket sortAvailableFilesByCreationDate];
   }
-  self.buckets[storageKey] = bucket;
-  [self renewCurrentFileForStorageKey:storageKey];
+  self.buckets[groupID] = bucket;
+  [self renewCurrentFileForGroupID:groupID];
 
   return bucket;
 }
 
-- (MSStorageBucket *)bucketForStorageKey:(NSString *)storageKey {
-  MSStorageBucket *bucket = self.buckets[storageKey];
+- (MSStorageBucket *)bucketForGroupID:(NSString *)groupID {
+  MSStorageBucket *bucket = self.buckets[groupID];
   if (!bucket) {
-    bucket = [self createNewBucketForStorageKey:storageKey];
+    bucket = [self createNewBucketForGroupID:groupID];
   }
 
   return bucket;
 }
 
-- (void)renewCurrentFileForStorageKey:(NSString *)storageKey {
-  MSStorageBucket *bucket = [self bucketForStorageKey:storageKey];
+- (void)renewCurrentFileForGroupID:(NSString *)groupID {
+  MSStorageBucket *bucket = [self bucketForGroupID:groupID];
   NSDate *creationDate = [NSDate date];
   NSString *fileId = MS_UUID_STRING;
-  NSURL *fileURL = [self fileURLForStorageKey:storageKey logsId:fileId];
+  NSURL *fileURL = [self fileURLForGroupID:groupID logsId:fileId];
   MSFile *file = [[MSFile alloc] initWithURL:fileURL fileId:fileId creationDate:creationDate];
   bucket.currentFile = file;
   [bucket.currentLogs removeAllObjects];
 }
 
-- (NSURL *)directoryURLForStorageKey:(NSString *)storageKey {
-  NSURL *fileURL = [self.baseDirectoryURL URLByAppendingPathComponent:storageKey];
+- (NSURL *)directoryURLForGroupID:(NSString *)groupID {
+  NSURL *fileURL = [self.baseDirectoryURL URLByAppendingPathComponent:groupID];
 
   return fileURL;
 }
 
-- (NSURL *)fileURLForStorageKey:(NSString *)storageKey logsId:(nonnull NSString *)logsId {
+- (NSURL *)fileURLForGroupID:(NSString *)groupID logsId:(nonnull NSString *)logsId {
   NSString *fileName = [logsId stringByAppendingPathExtension:kMSFileExtension];
-  NSURL *fileURL = [[self directoryURLForStorageKey:storageKey] URLByAppendingPathComponent:fileName];
+  NSURL *fileURL = [[self directoryURLForGroupID:groupID] URLByAppendingPathComponent:fileName];
 
   return fileURL;
 }
@@ -189,8 +189,8 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
     if (appSupportURL) {
       _baseDirectoryURL = (NSURL * _Nonnull)[appSupportURL URLByAppendingPathComponent:kMSLogsDirectory];
     }
-
-    MSLogVerbose([MSMobileCenter logTag], @"Storage Path:\n%@", _baseDirectoryURL);
+    NSURL *url = _baseDirectoryURL;
+    MSLogVerbose([MSMobileCenter logTag], @"Storage Path:\n%@", url);
   }
 
   return _baseDirectoryURL;

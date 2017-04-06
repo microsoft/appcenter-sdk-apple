@@ -20,9 +20,12 @@
       location = "group:CrashLibIOS/CrashLibIOS.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:SasquatchObjC/SasquatchObjC.xcodeproj">
+      location = "group:Sasquatch/Sasquatch.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:SasquatchSwift/SasquatchSwift.xcodeproj">
+      location = "group:SasquatchTV/SasquatchTV.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:SasquatchMac/SasquatchMac.xcodeproj">
    </FileRef>
 </Workspace>

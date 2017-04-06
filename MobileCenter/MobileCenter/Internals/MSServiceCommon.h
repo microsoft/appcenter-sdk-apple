@@ -1,5 +1,6 @@
-#import "MSLogManager.h"
 #import <Foundation/Foundation.h>
+#import "MSChannelConfiguration.h"
+#import "MSLogManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -41,12 +42,12 @@ NS_ASSUME_NONNULL_BEGIN
  * @discussion: IMPORTANT, This string is used to point to the right storage value for this service.
  * Changing this string results in data lost if previous data is not migrated.
  */
-@property(nonatomic, copy, readonly) NSString *storageKey;
+@property(nonatomic, copy, readonly) NSString *groupID;
 
 /**
- * The channel priority for this service.
+ * The channel configuration for this service.
  */
-@property(nonatomic, readonly) MSPriority priority;
+@property(nonatomic, readonly) MSChannelConfiguration *channelConfiguration;
 
 /**
  * The initialization priority for this service.

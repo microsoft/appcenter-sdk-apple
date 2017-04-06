@@ -1,6 +1,4 @@
 #import "MSLogWithProperties.h"
-#import "MSLogger.h"
-#import "MSLogContainer.h"
 
 static NSString *const kMSProperties = @"properties";
 
@@ -15,6 +13,14 @@ static NSString *const kMSProperties = @"properties";
     dict[kMSProperties] = self.properties;
   }
   return dict;
+}
+
+- (BOOL)isEqual:(id)object {
+  if (![object isKindOfClass:[MSLogWithProperties class]] || ![super isEqual:object]) {
+    return NO;
+  }
+  MSLogWithProperties *log = (MSLogWithProperties *)object;
+  return ((!self.properties && !log.properties) || [self.properties isEqualToDictionary:log.properties]);
 }
 
 #pragma mark - NSCoding

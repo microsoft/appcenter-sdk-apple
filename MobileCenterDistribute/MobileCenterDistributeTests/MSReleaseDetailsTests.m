@@ -16,8 +16,9 @@
 
   // If
   NSString *filename = [[NSBundle bundleForClass:[self class]] pathForResource:@"release_details" ofType:@"json"];
+  NSData *data = [NSData dataWithContentsOfFile:filename];
   MSReleaseDetails *details = [[MSReleaseDetails alloc]
-      initWithDictionary:[NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:filename]
+      initWithDictionary:[NSJSONSerialization JSONObjectWithData:data
                                                          options:NSJSONReadingMutableContainers
                                                            error:nil]];
 
@@ -39,7 +40,31 @@
   assertThat(
       details.installUrl,
       equalTo([NSURL URLWithString:@"itms-service://?action=download-manifest&url=contoso.com/release/filename"]));
+  assertThat(details.packageHashes, equalTo(@[@"builId1",@"builId2"]));
   assertThat(details.distributionGroups, equalTo(nil));
+}
+
+- (void)testSerializeToDictionary {
+  MSReleaseDetails *details = [MSReleaseDetails new];
+  details.id = @(1);
+  details.status = @"available";
+  details.appName = @"Unittest";
+  details.version = @"1.0";
+  details.shortVersion = @"0";
+  details.releaseNotes = @"This is a release note for test";
+  details.provisioningProfileName = @"provisioning_profile_name";
+  details.size = @(1234567);
+  details.minOs = @"iOS 8.0";
+  details.mandatoryUpdate = YES;
+  details.fingerprint = @"b10a8db164e0754105b7a99be72e3fe5";
+  NSDateFormatter *formatter = [NSDateFormatter new];
+  [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZZZZZ"];
+  details.uploadedAt = [formatter dateFromString:@"2017-01-01T00:00:00-0800"];
+  details.downloadUrl = [NSURL URLWithString:@"http://contoso.com/path/download/filename"];
+  details.appIconUrl = [NSURL URLWithString:@"http://contoso.com/path/icon/filename"];
+  details.installUrl = [NSURL URLWithString:@"itms-service://?action=download-manifest&url=contoso.com/release/filename"];
+  details.packageHashes = @[@"builId1",@"builId2"];
+  details.distributionGroups = @[];
 }
 
 - (void)testIsValid {
@@ -69,7 +94,7 @@
   NSDictionary *dictionary = @{ @"release_notes" : [NSNull new] };
 
   // When
-  MSReleaseDetails *details = [[MSReleaseDetails alloc] initWithDictionary:dictionary];
+  MSReleaseDetails *details = [[MSReleaseDetails alloc] initWithDictionary:[[NSMutableDictionary alloc] initWithDictionary:dictionary]];
 
   // Then
   XCTAssertNil(details.releaseNotes);

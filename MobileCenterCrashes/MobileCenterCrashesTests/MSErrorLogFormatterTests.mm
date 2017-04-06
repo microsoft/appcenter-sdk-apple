@@ -1,7 +1,4 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- */
-
+#import <CrashReporter/CrashReporter.h>
 #import <Foundation/Foundation.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <XCTest/XCTest.h>
@@ -16,6 +13,14 @@
 #import "MSException.h"
 #import "MSMobileCenterInternal.h"
 #import "MSThread.h"
+
+@interface MSErrorLogFormatter ()
+
++ (NSString *)selectorForRegisterWithName:(NSString *)regName
+                                 ofThread:(MSPLCrashReportThreadInfo *)thread
+                                   report:(MSPLCrashReport *)report;
+
+@end
 
 @interface MSErrorLogFormatterTests : XCTestCase
 
@@ -43,8 +48,7 @@
   assertThat(errorReport.appErrorTime, equalTo(crashReport.systemInfo.timestamp));
   assertThat(errorReport.appStartTime, equalTo(crashReport.processInfo.processStartTime));
 
-  // FIXME: Crashes is getting way more logs than expected. Disable this functionality.
-  // XCTAssertTrue([errorReport.device isEqual:device]);
+  XCTAssertTrue([errorReport.device isEqual:device]);
   XCTAssertEqual(errorReport.appProcessIdentifier, crashReport.processInfo.processID);
 
   crashData = [MSCrashesTestUtil dataOfFixtureCrashReportWithFileName:@"live_report_exception"];
@@ -62,8 +66,7 @@
   assertThat(errorReport.appErrorTime, equalTo(crashReport.systemInfo.timestamp));
   assertThat(errorReport.appStartTime, equalTo(crashReport.processInfo.processStartTime));
 
-  // FIXME: Crashes is getting way more logs than expected. Disable this functionality.
-  // XCTAssertTrue([errorReport.device isEqual:device]);
+  XCTAssertTrue([errorReport.device isEqual:device]);
   XCTAssertEqual(errorReport.appProcessIdentifier, crashReport.processInfo.processID);
 }
 
@@ -74,7 +77,7 @@
   NSError *error = nil;
   MSPLCrashReport *report = [[MSPLCrashReport alloc] initWithData:crashData error:&error];
 
-  NSString *expected = (NSString *)CFBridgingRelease(CFUUIDCreateString(NULL, report.uuidRef));
+  NSString *expected = (__bridge NSString *)CFUUIDCreateString(NULL, report.uuidRef);
   NSString *actual = [MSErrorLogFormatter errorIdForCrashReport:report];
   assertThat(actual, equalTo(expected));
 }
@@ -152,6 +155,20 @@
       XCTAssertNil(thread.exception);
     }
   }
+}
+
+- (void)testSelectorForRegisterWithName {
+  NSData *crashData = [[[MSCrashes sharedInstance] plCrashReporter] generateLiveReport];
+  XCTAssertNotNil(crashData);
+  NSError *error = nil;
+  MSPLCrashReport *report = [[MSPLCrashReport alloc] initWithData:crashData error:&error];
+  MSPLCrashReportThreadInfo *crashedThread = [MSErrorLogFormatter findCrashedThreadInReport:report];
+
+  MSPLCrashReportRegisterInfo *reg = crashedThread.registers[0];
+  [MSErrorLogFormatter selectorForRegisterWithName:reg.registerName ofThread:crashedThread report:report];
+
+  // Selector may not be found here, but we are sure that its operation will not lead to an application crash
+  // XCTAssertNotNil(foundSelector);
 }
 
 - (void)testAddProcessInfoAndApplicationPath {
@@ -426,7 +443,7 @@
   }
 
   assertThat(errorLog.threads, hasCountOf([crashReport.threads count]));
-  for (int i = 0; i < [errorLog.threads count]; i++) {
+  for (NSUInteger i = 0; i < [errorLog.threads count]; i++) {
     MSThread *thread = errorLog.threads[i];
     MSPLCrashReportThreadInfo *plThread = crashReport.threads[i];
 

@@ -13,7 +13,7 @@
 - (instancetype)initWithStorage:(MSUserDefaults *)storage {
   if ((self = [super init])) {
     _started = NO;
-    _isEnabledKey = [NSString stringWithFormat:@"kMS%@IsEnabledKey", self.storageKey];
+    _isEnabledKey = [NSString stringWithFormat:@"kMS%@IsEnabledKey", self.groupID];
     _storage = storage;
   }
   return self;
@@ -38,14 +38,14 @@
     [self applyEnabledState:isEnabled];
 
     // Persist the enabled status.
-    [self.storage setObject:[NSNumber numberWithBool:isEnabled] forKey:self.isEnabledKey];
+    [self.storage setObject:@(isEnabled) forKey:self.isEnabledKey];
   }
 }
 
 - (void)applyEnabledState:(BOOL)isEnabled {
 
   // Propagate isEnabled and delete logs on disabled.
-  [self.logManager setEnabled:isEnabled andDeleteDataOnDisabled:YES forPriority:self.priority];
+  [self.logManager setEnabled:isEnabled andDeleteDataOnDisabled:YES forGroupID:self.groupID];
 }
 
 - (BOOL)canBeUsed {
@@ -73,6 +73,9 @@
   self.logManager = logManager;
   self.appSecret = appSecret;
 
+  // Initialize channel for the service in log manager.
+  [self.logManager initChannelWithConfiguration:self.channelConfiguration];
+
   // Enable this service as needed.
   if (self.isEnabled) {
     [self applyEnabledState:self.isEnabled];
@@ -95,11 +98,7 @@
 
 + (BOOL)isEnabled {
   @synchronized([self sharedInstance]) {
-    if ([[self sharedInstance] canBeUsed]) {
-      return [[self sharedInstance] isEnabled];
-    } else {
-      return NO;
-    }
+    return [[self sharedInstance] canBeUsed] && [[self sharedInstance] isEnabled];
   }
 }
 

@@ -33,10 +33,11 @@ static NSString *const kMSFileName = @"file_name";
   return dict;
 }
 
-- (BOOL)isEqual:(MSStackFrame *)frame {
-  if (!frame)
+- (BOOL)isEqual:(id)object {
+  if (![object isKindOfClass:[MSStackFrame class]]) {
     return NO;
-
+  }
+  MSStackFrame *frame = (MSStackFrame *)object;
   return ((!self.address && !frame.address) || [self.address isEqualToString:frame.address]) &&
          ((!self.code && !frame.code) || [self.code isEqualToString:frame.code]) &&
          ((!self.className && !frame.className) || [self.className isEqualToString:frame.className]) &&
