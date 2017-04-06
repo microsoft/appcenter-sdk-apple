@@ -67,7 +67,7 @@
 
   // Then
   assertThat(self.sut.attachmentId, notNilValue());
-  assertThat(self.sut.filename, notNilValue());
+  assertThat(self.sut.filename, nilValue());
   assertThat(self.sut.data,
              is([expectedData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithCarriageReturn]));
   assertThat(self.sut.contentType, is(expectedMimeType));
@@ -126,12 +126,12 @@
   // If
   NSString *text = @"Please attach me, I am a nice text.";
   NSString *filename = @"niceFile.txt";
-  MSErrorAttachmentLog *exAttachment = [MSErrorAttachmentLog attachmentWithText:text filename:filename];
-  [self setDummyParentProperties:exAttachment];
-  exAttachment.errorId = MS_UUID_STRING;
-
+  
   // When
-  BOOL validity = [exAttachment isValid];
+  self.sut = [MSErrorAttachmentLog attachmentWithText:text filename:filename];
+  [self setDummyParentProperties:self.sut];
+  self.sut.errorId = MS_UUID_STRING;
+  BOOL validity = [self.sut isValid];
 
   // Then
   assertThatBool(validity, isTrue());
@@ -139,6 +139,7 @@
   // When
   self.sut = [MSErrorAttachmentLog attachmentWithText:[text copy] filename:[filename copy]];
   [self setDummyParentProperties:self.sut];
+  self.sut.errorId = MS_UUID_STRING;
   self.sut.attachmentId = nil;
   validity = [self.sut isValid];
 
@@ -148,15 +149,7 @@
   // When
   self.sut = [MSErrorAttachmentLog attachmentWithText:[text copy] filename:[filename copy]];
   [self setDummyParentProperties:self.sut];
-  self.sut.filename = nil;
-  validity = [self.sut isValid];
-
-  // Then
-  assertThatBool(validity, isFalse());
-
-  // When
-  self.sut = [MSErrorAttachmentLog attachmentWithText:[text copy] filename:[filename copy]];
-  [self setDummyParentProperties:self.sut];
+  self.sut.errorId = MS_UUID_STRING;
   self.sut.data = nil;
   validity = [self.sut isValid];
 
@@ -166,6 +159,7 @@
   // When
   self.sut = [MSErrorAttachmentLog attachmentWithText:[text copy] filename:[filename copy]];
   [self setDummyParentProperties:self.sut];
+  self.sut.errorId = MS_UUID_STRING;
   self.sut.contentType = nil;
   validity = [self.sut isValid];
 

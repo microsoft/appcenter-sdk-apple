@@ -38,9 +38,7 @@ __attribute__((used)) static void importCategories () {
   if ((self = [self init])) {
     _data = data;
     _contentType = contentType;
-
-    // Generate a filename if none is available.
-    _filename = (filename.length > 0) ? filename : [MSCrashesUtil generateFilenameForMimeType:contentType];
+    _filename = filename;
   }
   return self;
 }
@@ -77,7 +75,7 @@ __attribute__((used)) static void importCategories () {
   if (self.contentType) {
     dict[kMSContentType] = self.contentType;
   }
-  if (self.filename) {
+  if (self.filename && self.filename.length > 0) {
     dict[kMSFileName] = self.filename;
   }
   if (self.data) {
@@ -98,7 +96,7 @@ __attribute__((used)) static void importCategories () {
 }
 
 - (BOOL)isValid {
-  return [super isValid] && self.errorId && self.attachmentId && self.filename && self.data && self.contentType;
+  return [super isValid] && self.errorId && self.attachmentId && self.data && self.contentType;
 }
 
 #pragma mark - NSCoding
