@@ -154,64 +154,74 @@ static const int maxPropertyValueLength = 64;
 
 #pragma mark - Private methods
 
-- (BOOL)validateEventName:(NSString *)eventName {
+- (BOOL)validateEventName:(NSString *)eventName forLogType:(NSString *)logType {
   if (!eventName || [eventName length] < minEventNameLength) {
     MSLogError([MSAnalytics logTag],
-               @"Event name cannot be null or empty");
+               @"%@ name cannot be null or empty", logType);
     return NO;
   }
   if ([eventName length] > maxEventNameLength) {
     MSLogError([MSAnalytics logTag],
-               @"Event name length cannot be longer then %d characters", minEventNameLength);
+               @"%@ '%@' : name length cannot be longer than %d characters", logType, eventName, maxEventNameLength);
     return NO;
   }
   return YES;
 }
 
-- (NSDictionary<NSString *, NSString *> *)validateProperties:(NSDictionary<NSString *, NSString *> *)properties {
+- (NSDictionary<NSString *, NSString *> *)validateProperties:(NSDictionary<NSString *, NSString *> *)properties
+                                                  forLogName:(NSString *)logName
+                                                     andType:(NSString *)logType {
   NSMutableDictionary<NSString *, NSString *> *validProperties = [NSMutableDictionary new];
   for (id key in properties) {
+
+    // Don't send more properties than we can
+    if ([validProperties count] >= maxPropertiesPerEvent) {
+      MSLogWarning([MSAnalytics logTag],
+                   @"%@ '%@' : properties cannot contain more than %d items. Skipping other properties.",
+                   logType,
+                   logName,
+                   maxPropertiesPerEvent);
+      break;
+    }
     if (![key isKindOfClass:[NSString class]] || ![properties[key] isKindOfClass:[NSString class]]) {
       continue;
     }
 
-    // Validate key
+    // Validate key.
     NSString *strKey = key;
     if ([strKey length] < minPropertyKeyLength) {
       MSLogWarning([MSAnalytics logTag],
-                   @"Property key cannot be empty. Property will be skipped.");
+                   @"%@ '%@' : a property key cannot be null or empty. Property will be skipped.",
+                   logType,
+                   logName);
       continue;
     }
     if ([strKey length] > maxPropertyKeyLength) {
       MSLogWarning([MSAnalytics logTag],
-                   @"Property key length cannot be longer than %d characters. Property %@ will be skipped.",
+                   @"%@ '%@' : property %@ : property key length cannot be longer than %d characters. Property %@ will be skipped.",
+                   logType,
+                   logName,
+                   strKey,
                    maxPropertyKeyLength,
                    strKey);
       continue;
     }
 
-    // Validate value
+    // Validate value.
     NSString *value = properties[key];
-    if(value && [value length] > maxPropertyValueLength) {
+    if([value length] > maxPropertyValueLength) {
       MSLogWarning([MSAnalytics logTag],
-                   @"Property value length cannot be longer than %d characters. Property %@ will be skipped.",
+                   @"%@ '%@' : property '%@' : property value cannot be longer than %d characters. Property %@ will be skipped.",
+                   logType,
+                   logName,
+                   strKey,
                    maxPropertyValueLength,
                    strKey);
       continue;
     }
 
-    if ([validProperties count] < maxPropertiesPerEvent) {
-
-      // Save valid properties
-      [validProperties setObject:value forKey:key];
-    } else {
-
-      // Don't send more properties than we can
-      MSLogWarning([MSAnalytics logTag],
-                   @"Properties cannot contain more than %d items. Skipping other properties.",
-                   maxPropertiesPerEvent);
-      break;
-    }
+    // Save valid properties.
+    [validProperties setObject:value forKey:key];
   }
   return validProperties;
 }
@@ -220,19 +230,21 @@ static const int maxPropertyValueLength = 64;
   if (![self isEnabled])
     return;
 
-  // Validate event name length
-  if (![self validateEventName:eventName]) {
+  // Create an event log.
+  MSEventLog *log = [MSEventLog new];
+
+  // Validate event name
+  if (![self validateEventName:eventName forLogType:log.type]) {
     return;
   }
 
-  // Create and set properties of the event log.
-  MSEventLog *log = [[MSEventLog alloc] init];
+  // Set properties of the event log
   log.name = eventName;
   log.eventId = MS_UUID_STRING;
   if (properties && properties.count > 0) {
 
     // Send only valid properties
-    log.properties = [self validateProperties:properties];
+    log.properties = [self validateProperties:properties forLogName:log.name andType:log.type];
   }
 
   // Send log to log manager.
@@ -243,13 +255,20 @@ static const int maxPropertyValueLength = 64;
   if (![super isEnabled])
     return;
 
-  // Create and set properties of the event log.
-  MSPageLog *log = [[MSPageLog alloc] init];
+  // Create an event log
+  MSPageLog *log = [MSPageLog new];
+
+  // Validate event name
+  if (![self validateEventName:pageName forLogType:log.type]) {
+    return;
+  }
+
+  // Set properties of the event log.
   log.name = pageName;
   if (properties && properties.count > 0) {
 
     // Send only valid properties
-    log.properties = [self validateProperties:properties];
+    log.properties = [self validateProperties:properties forLogName:log.name andType:log.type];
   }
 
   // Send log to log manager.

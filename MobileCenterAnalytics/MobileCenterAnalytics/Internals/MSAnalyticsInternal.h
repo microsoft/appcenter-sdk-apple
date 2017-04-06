@@ -42,14 +42,16 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return YES if event name is valid, NO otherwise.
  */
-- (BOOL)validateEventName:(NSString *)eventName;
+- (BOOL)validateEventName:(NSString *)eventName forLogType:(NSString *)logType;
 
 /**
  * Validate keys and values of properties.
  *
  * @return dictionary which contains only valid properties.
  */
-- (NSDictionary<NSString *, NSString *> *)validateProperties:(NSDictionary<NSString *, NSString *> *)properties;
+- (NSDictionary<NSString *, NSString *> *)validateProperties:(NSDictionary<NSString *, NSString *> *)properties
+                                                  forLogName:(NSString *)logName
+                                                     andType:(NSString *)logType;
 
 + (void)setDelegate:(nullable id <MSAnalyticsDelegate>)delegate;
 

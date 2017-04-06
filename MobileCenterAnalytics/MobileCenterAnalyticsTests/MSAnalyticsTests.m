@@ -73,12 +73,12 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
 
   // When
-  BOOL valid = [[MSAnalytics sharedInstance] validateEventName:validEventName];
-  BOOL validShortEventName = [[MSAnalytics sharedInstance] validateEventName:shortEventName];
-  BOOL validEventName256 = [[MSAnalytics sharedInstance] validateEventName:eventName256];
-  BOOL validNullableEventName = [[MSAnalytics sharedInstance] validateEventName:nullableEventName];
-  BOOL validEmptyEventName = [[MSAnalytics sharedInstance] validateEventName:emptyEventName];
-  BOOL validTooLongEventName = [[MSAnalytics sharedInstance] validateEventName:tooLongEventName];
+  BOOL valid = [[MSAnalytics sharedInstance] validateEventName:validEventName forLogType:kMSTypeEvent];
+  BOOL validShortEventName = [[MSAnalytics sharedInstance] validateEventName:shortEventName forLogType:kMSTypeEvent];
+  BOOL validEventName256 = [[MSAnalytics sharedInstance] validateEventName:eventName256 forLogType:kMSTypeEvent];
+  BOOL validNullableEventName = [[MSAnalytics sharedInstance] validateEventName:nullableEventName forLogType:kMSTypeEvent];
+  BOOL validEmptyEventName = [[MSAnalytics sharedInstance] validateEventName:emptyEventName forLogType:kMSTypeEvent];
+  BOOL validTooLongEventName = [[MSAnalytics sharedInstance] validateEventName:tooLongEventName forLogType:kMSTypeEvent];
 
   // Then
   XCTAssertTrue(valid);
@@ -101,7 +101,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   NSDictionary *validProperties = @{ @"Key1" : @"Value1", stringValue64 : @"Value2", @"Key3" : stringValue64, @"Key4" : @"Value4", @"Key5" : @"" };
 
   // When
-  NSDictionary *validatedProperties = [[MSAnalytics sharedInstance] validateProperties:validProperties];
+  NSDictionary *validatedProperties = [[MSAnalytics sharedInstance] validateProperties:validProperties forLogName:kMSTypeEvent andType:kMSTypeEvent];
 
   // Then
   XCTAssertTrue([validatedProperties count] == [validProperties count]);
@@ -111,7 +111,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   NSDictionary *tooManyProperties = @{ @"Key1" : @"Value1", @"Key2" : @"Value2", @"Key3" : @"Value3", @"Key4" : @"Value4", @"Key5" : @"Value5", @"Key6" : @"Value6", @"Key7" : @"Value7" };
 
   // When
-  validatedProperties = [[MSAnalytics sharedInstance] validateProperties:tooManyProperties];
+  validatedProperties = [[MSAnalytics sharedInstance] validateProperties:tooManyProperties forLogName:kMSTypeEvent andType:kMSTypeEvent];
 
   // Then
   XCTAssertTrue([validatedProperties count] == maxPropertriesPerEvent);
@@ -121,7 +121,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   NSDictionary *invalidKeysInProperties = @{ @"Key1" : @"Value1", @(2) : @"Value2", longStringValue : @"Value3", @"" : @"Value4" };
 
   // When
-  validatedProperties = [[MSAnalytics sharedInstance] validateProperties:invalidKeysInProperties];
+  validatedProperties = [[MSAnalytics sharedInstance] validateProperties:invalidKeysInProperties forLogName:kMSTypeEvent andType:kMSTypeEvent];
 
   // Then
   XCTAssertTrue([validatedProperties count] == 1);
@@ -131,7 +131,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   NSDictionary *invalidValuesInProperties = @{ @"Key1" : @"Value1", @"Key2" : @(2), @"Key3" : longStringValue };
 
   // When
-  validatedProperties = [[MSAnalytics sharedInstance] validateProperties:invalidValuesInProperties];
+  validatedProperties = [[MSAnalytics sharedInstance] validateProperties:invalidValuesInProperties forLogName:kMSTypeEvent andType:kMSTypeEvent];
 
   // Then
   XCTAssertTrue([validatedProperties count] == 1);
@@ -144,7 +144,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
                                           @"Key7" : longStringValue, @"Key8" : @"" };
 
   // When
-  validatedProperties = [[MSAnalytics sharedInstance] validateProperties:mixedEventProperties];
+  validatedProperties = [[MSAnalytics sharedInstance] validateProperties:mixedEventProperties forLogName:kMSTypeEvent andType:kMSTypeEvent];
 
   // Then
   XCTAssertTrue([validatedProperties count] == maxPropertriesPerEvent);
