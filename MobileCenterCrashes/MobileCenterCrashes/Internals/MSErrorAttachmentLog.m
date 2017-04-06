@@ -87,10 +87,7 @@ __attribute__((used)) static void importCategories () {
 }
 
 - (BOOL)isEqual:(id)object {
-
-  // TODO: We should also check for parent equalty with `![super isEqual:object]` but isEqual is not implemented
-  // everywhere.
-  if (!object || ![object isKindOfClass:[MSErrorAttachmentLog class]])
+  if (![object isKindOfClass:[MSErrorAttachmentLog class]] && ![super isEqual:object])
     return NO;
   MSErrorAttachmentLog *attachment = (MSErrorAttachmentLog *)object;
   return ((!self.attachmentId && !attachment.attachmentId) || [self.attachmentId isEqualToString:attachment.attachmentId]) &&
