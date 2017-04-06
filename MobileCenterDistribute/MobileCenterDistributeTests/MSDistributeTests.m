@@ -72,10 +72,6 @@ static NSURL *sfURL;
   self.sut = [MSDistribute new];
   self.settingsMock = [MSMockUserDefaults new];
   
-  // Mock MSUserDefaults shared method to return settingsMock.
-  id userDefaultsMock = OCMClassMock([MSUserDefaults class]);
-  OCMStub([userDefaultsMock shared]).andReturn(self.settingsMock);
-
   // Make sure we disable the debug-mode checks so we can actually test the logic.
   [MSDistributeTestUtil mockUpdatesAllowedConditions];
 
