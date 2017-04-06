@@ -75,7 +75,7 @@ __attribute__((used)) static void importCategories () {
   if (self.contentType) {
     dict[kMSContentType] = self.contentType;
   }
-  if (self.filename && self.filename.length > 0) {
+  if (self.filename) {
     dict[kMSFileName] = self.filename;
   }
   if (self.data) {
