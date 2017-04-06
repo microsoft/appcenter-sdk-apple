@@ -174,7 +174,7 @@ static const int maxPropertyValueLength = 64;
   NSMutableDictionary<NSString *, NSString *> *validProperties = [NSMutableDictionary new];
   for (id key in properties) {
 
-    // Don't send more properties than we can
+    // Don't send more properties than we can.
     if ([validProperties count] >= maxPropertiesPerEvent) {
       MSLogWarning([MSAnalytics logTag],
                    @"%@ '%@' : properties cannot contain more than %d items. Skipping other properties.",
@@ -233,17 +233,17 @@ static const int maxPropertyValueLength = 64;
   // Create an event log.
   MSEventLog *log = [MSEventLog new];
 
-  // Validate event name
+  // Validate event name.
   if (![self validateEventName:eventName forLogType:log.type]) {
     return;
   }
 
-  // Set properties of the event log
+  // Set properties of the event log.
   log.name = eventName;
   log.eventId = MS_UUID_STRING;
   if (properties && properties.count > 0) {
 
-    // Send only valid properties
+    // Send only valid properties.
     log.properties = [self validateProperties:properties forLogName:log.name andType:log.type];
   }
 
@@ -255,10 +255,10 @@ static const int maxPropertyValueLength = 64;
   if (![super isEnabled])
     return;
 
-  // Create an event log
+  // Create an event log.
   MSPageLog *log = [MSPageLog new];
 
-  // Validate event name
+  // Validate event name.
   if (![self validateEventName:pageName forLogType:log.type]) {
     return;
   }
@@ -267,7 +267,7 @@ static const int maxPropertyValueLength = 64;
   log.name = pageName;
   if (properties && properties.count > 0) {
 
-    // Send only valid properties
+    // Send only valid properties.
     log.properties = [self validateProperties:properties forLogName:log.name andType:log.type];
   }
 
@@ -291,7 +291,7 @@ static const int maxPropertyValueLength = 64;
 
 + (void)resetSharedInstance {
 
-  // resets the once_token so dispatch_once will run again
+  // resets the once_token so dispatch_once will run again.
   onceToken = 0;
   sharedInstance = nil;
 }
