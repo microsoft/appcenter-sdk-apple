@@ -12,7 +12,7 @@ The Microsoft Mobile Center iOS SDK allows you to add Mobile Center services to 
 
 1. **Analytics**: Mobile Center Analytics helps you understand user behavior and customer engagement to improve your iOS app. The SDK automatically captures session count, device properties like model, OS version etc. and pages. You can define your own custom events to measure things that matter to your business. All the information captured is available in the Mobile Center portal for you to analyze the data.
 
-2. **Crashes**: Mobile Center Crashes will automatically generate a crash log every time your app crashes. The log is first written to the device's storage and when the user starts the app again, the crash report will be forwarded to Mobile Center. Collecting crashes works for both beta and live apps, i.e. those submitted to Google Play or other app stores. Crash logs contain viable information for you to help resolve the cause of the crash. The SDK gives you a lot of flexibility how to handle a crash log. As a developer you can collect and add additional information to the report if you like. Crashes uses PLCrashReporter 1.2.1.
+2. **Crashes**: Mobile Center Crashes will automatically generate a crash log every time your app crashes. The log is first written to the device's storage and and on the next app start, the crash report is forwarded to Mobile Center. Collecting crashes works for both beta and live apps, i.e. those submitted to Google Play or other app stores. Crash logs contain valuable information for you to help resolve the cause of the crash. The SDK gives you a lot of flexibility how to handle a crash log. As a developer you can collect and add additional information to the report if you like. Crashes uses PLCrashReporter 1.2.1.
 
 3. **Distribute**: Mobile Center Distribute enables your users to install a new version of the app when you distribute it via Mobile Center. With a new version of the app available, the SDK will present an update dialog to the users to either download, postpone or ignore the latest version. Once they tap **Download**, the SDK will update the application. If necessary, you can force your users to update the app to continue to use it. Note that this feature will `NOT` work if your app is deployed to the app store, if you are developing locally or if you are distributing new versions through a channel other than mobile center.
 
@@ -549,10 +549,9 @@ Your typical setup code would look like this:
  MSMobileCenter.start("YOUR_APP_ID", withServices: [MSAnalytics.self, MSCrashes.self])
 ```
 
-
 ## 6. Distribute APIs
 
-You can easily let your users get the latest version of your app by integrating `Distribute` service of Mobile Center SDK. All you need to do is pass the service name as a parameter in the `start()` API call. Once the activity is created, the SDK checks for new updates in the background. If it finds a new update, users will see a dialog with three options - `Download`,`Postpone` and `Ignore`. If the user presses `Download`, it will trigger the new version to be installed. `Postpone` will delay the download until the app is opened again. `Ignore` will not prompt the user again for that particular app version.
+You can easily let your users get the latest version of your app by integrating Mobile Center Distribute. All you need to do is pass the service name as a parameter in the `start()` API call. Once the app launches, the SDK checks for new updates in the background. If it finds a new update, users will see a dialog with three options - **Download**, **Postpone** and **Ignore**. If the user taps **Download**, Mobile Center Distribute will trigger the new version to be installed. **Postpone** will delay the download until the app is opened again. **Ignore** will not prompt the user again for that particular app version. In case of a required update, the user will only have the option to tap **Download**.
 
 Please follow the paragraph in [Start the SDK](#3-start-the-sdk) to setup the Distribute service.
 
