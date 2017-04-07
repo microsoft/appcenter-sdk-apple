@@ -72,23 +72,4 @@ NSString *ms_crashesDir(void);
   return logBufferDir;
 }
 
-+ (NSString *)generateFilenameForMimeType:(NSString *)mimeType {
-  NSString *filename = MS_UUID_STRING;
-
-  // File extension that suits the MimeType.
-  CFStringRef cMimeType = (__bridge CFStringRef)mimeType;
-  if (cMimeType) {
-    CFStringRef uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, cMimeType, NULL);
-    CFStringRef extension = UTTypeCopyPreferredTagWithClass(uti, kUTTagClassFilenameExtension);
-    if (extension) {
-      filename = [filename stringByAppendingPathExtension:(__bridge NSString *)(extension)];
-      CFRelease(extension);
-    }
-    if (uti) {
-      CFRelease(uti);
-    }
-  }
-  return filename;
-}
-
 @end
