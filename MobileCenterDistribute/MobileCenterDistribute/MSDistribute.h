@@ -1,3 +1,4 @@
+#import "MSDistributeDelegate.h"
 #import "MSServiceAbstract.h"
 
 /**
@@ -6,7 +7,19 @@
 @interface MSDistribute : MSServiceAbstract
 
 /**
- * Change The URL that will be used for generic update related tasks.
+ * Set the Distribute delegate
+ *
+ * @param delegate The Distribute delegate.
+ */
++ (void)setDelegate:(id<MSDistributeDelegate>)delegate;
+
+/**
+ * Notify SDK with a user action to handle the update.
+ */
++ (void)notifyUserUpdateAction:(MSUserUpdateAction)action;
+
+/**
+ * Change the URL that will be used for generic update related tasks.
  *
  * @param apiUrl The new URL.
  */

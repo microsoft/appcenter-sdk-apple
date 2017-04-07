@@ -82,6 +82,7 @@ static NSString *const kMSPackageHashes = @"package_hashes";
       self.installUrl = [NSURL URLWithString:installUrl];
     }
     if (dictionary[kMSDistributionGroups]) {
+
       // TODO: Implement here. There is no spec for DistributionGroup data model.
     }
     if (dictionary[kMSPackageHashes]) {

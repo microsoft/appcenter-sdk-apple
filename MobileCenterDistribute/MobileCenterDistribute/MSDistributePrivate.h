@@ -74,9 +74,14 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
 @property(nonatomic) MSAlertController *updateAlertController;
 
 /**
- * Current mandatory release if any.
+ * Current release details.
  */
-@property(nonatomic) MSReleaseDetails *mandatoryRelease;
+@property(nonatomic) MSReleaseDetails *releaseDetails;
+
+/**
+ * A Distribute delegate that will be called whenever a new release is available for update
+ */
+@property(nonatomic, weak) id<MSDistributeDelegate> delegate;
 
 /**
  * Returns the singleton instance. Meant for testing/demo apps only.

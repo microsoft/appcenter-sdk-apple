@@ -6,7 +6,7 @@ import MobileCenterCrashes
 import MobileCenterDistribute
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDistributeDelegate {
   
   var window: UIWindow?
   
@@ -36,7 +36,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate {
       alert?.show()
       return true
     })
-    
+
+    // Distribute Delegate.
+    MSDistribute.setDelegate(self)
+
     setMobileCenterDelegate()
     
     return true
@@ -97,6 +100,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate {
   
   func crashes(_ crashes: MSCrashes!, didFailSending errorReport: MSErrorReport!, withError error: Error!) {
     
+  }
+
+  // Distribute Delegate
+
+  func onNewUpdateAvailable(_ releaseDetails: MSReleaseDetails!) -> Bool {
+    return false;
   }
 }
 

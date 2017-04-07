@@ -11,7 +11,7 @@
 
 #import "MSAlertController.h"
 
-@interface AppDelegate () <MSCrashesDelegate>
+@interface AppDelegate () <MSCrashesDelegate, MSDistributeDelegate>
 
 @end
 
@@ -26,6 +26,7 @@
            withServices:@[ [MSAnalytics class], [MSCrashes class], [MSDistribute class] ]];
 
   [self crashes];
+  [MSDistribute setDelegate:self];
 
   // Print the install Id.
   NSLog(@"%@ Install Id: %@", kPUPLogTag, [[MSMobileCenter installId] UUIDString]);
@@ -39,10 +40,10 @@
  * as our SDK uses SFSafariViewController for MSDistribute.
  */
 - (BOOL)application:(UIApplication *)application
-            openURL:(NSURL *)url
-  sourceApplication:(NSString *)sourceApplication
-         annotation:(id)annotation {
-  
+              openURL:(NSURL *)url
+    sourceApplication:(NSString *)sourceApplication
+           annotation:(id)annotation {
+
   // Forward the URL to MSDistribute.
   [MSDistribute openUrl:url];
   NSLog(@"%@ Got waken up via openURL: %@", kPUPLogTag, url);
@@ -100,8 +101,7 @@
   [MSCrashes
       setUserConfirmationHandler:(^(NSArray<MSErrorReport *> *errorReports) {
 
-        // Use MSAlertViewController to show a dialog to the user where they can choose if they want to provide a crash
-        // report.
+        // Show a dialog to the user where they can choose if they want to provide a crash report.
         MSAlertController *alertController = [MSAlertController
             alertControllerWithTitle:NSLocalizedStringFromTable(@"crash_alert_title", @"Main", @"")
                              message:NSLocalizedStringFromTable(@"crash_alert_message", @"Main", @"")];
@@ -147,6 +147,35 @@
 
 - (void)crashes:(MSCrashes *)crashes didFailSendingErrorReport:(MSErrorReport *)errorReport withError:(NSError *)error {
   NSLog(@"Did fail sending report with: %@, and error: %@", errorReport.exceptionReason, error.localizedDescription);
+}
+
+#pragma mark - MSDistributeDelegate
+
+- (BOOL)onNewUpdateAvailable:(MSReleaseDetails *)releaseDetails {
+
+  if ([[[NSUserDefaults new] objectForKey:kMSCustomizedUpdateAlertKey] isEqual:@1]) {
+
+    // Show a dialog to the user where they can choose if they want to update.
+    MSAlertController *alertController = [MSAlertController
+        alertControllerWithTitle:NSLocalizedStringFromTable(@"distribute_alert_title", @"Main", @"")
+                         message:NSLocalizedStringFromTable(@"distribute_alert_message", @"Main", @"")];
+
+    // Add a "Download"-Button and call the notifyUserUpdateAction-callback with MSUserUpdateActionUpdate
+    [alertController addCancelActionWithTitle:NSLocalizedStringFromTable(@"distribute_alert_yes", @"Main", @"")
+                                      handler:^(UIAlertAction *action) {
+                                        [MSDistribute notifyUserUpdateAction:MSUserUpdateActionUpdate];
+                                      }];
+
+    // Add a "Don't ask me again"-Button and call the notifyUserUpdateAction-callback with MSUserUpdateActionPostpone
+    [alertController addDefaultActionWithTitle:NSLocalizedStringFromTable(@"distribute_alert_no", @"Main", @"")
+                                       handler:^(UIAlertAction *action) {
+                                         [MSDistribute notifyUserUpdateAction:MSUserUpdateActionPostpone];
+                                       }];
+    // Show the alert controller.
+    [alertController show];
+    return YES;
+  }
+  return NO;
 }
 
 @end
