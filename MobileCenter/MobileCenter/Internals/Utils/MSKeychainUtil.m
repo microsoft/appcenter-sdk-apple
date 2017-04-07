@@ -4,7 +4,7 @@
 
 @implementation MSKeychainUtil
 
-NSString *MobileCenterKeychainServiceName(void) {
+static NSString *MobileCenterKeychainServiceName(void) {
   static NSString *serviceName = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
