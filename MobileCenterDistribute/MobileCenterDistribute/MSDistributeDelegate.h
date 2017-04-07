@@ -15,11 +15,6 @@ typedef NS_ENUM(NSInteger, MSUserUpdateAction) {
    * Action to postpone update.
    */
   MSUserUpdateActionPostpone,
-
-  /**
-   * Action to ignore current update.
-   */
-  MSUserUpdateActionIgnore
 };
 
 @optional

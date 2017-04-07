@@ -37,11 +37,6 @@ static NSString *const kMSURLQueryPlatformValue = @"iOS";
 static NSString *const kMSDefaultCustomSchemeFormat = @"mobilecenter-%@";
 
 /**
- * The storage key for ignored release ID.
- */
-static NSString *const kMSIgnoredReleaseIdKey = @"MSIgnoredReleaseId";
-
-/**
  * The storage key for request ID.
  */
 static NSString *const kMSUpdateTokenRequestIdKey = @"MSUpdateTokenRequestId";

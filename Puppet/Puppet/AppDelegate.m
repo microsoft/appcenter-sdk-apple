@@ -160,13 +160,13 @@
         alertControllerWithTitle:NSLocalizedStringFromTable(@"distribute_alert_title", @"Main", @"")
                          message:NSLocalizedStringFromTable(@"distribute_alert_message", @"Main", @"")];
 
-    // Add a "Download"-Button and call the notifyUserUpdateAction-callback with MSUserUpdateActionUpdate
+    // Add a "Yes"-Button and call the notifyUserUpdateAction-callback with MSUserUpdateActionUpdate
     [alertController addCancelActionWithTitle:NSLocalizedStringFromTable(@"distribute_alert_yes", @"Main", @"")
                                       handler:^(UIAlertAction *action) {
                                         [MSDistribute notifyUserUpdateAction:MSUserUpdateActionUpdate];
                                       }];
 
-    // Add a "Don't ask me again"-Button and call the notifyUserUpdateAction-callback with MSUserUpdateActionPostpone
+    // Add a "No"-Button and call the notifyUserUpdateAction-callback with MSUserUpdateActionPostpone
     [alertController addDefaultActionWithTitle:NSLocalizedStringFromTable(@"distribute_alert_no", @"Main", @"")
                                        handler:^(UIAlertAction *action) {
                                          [MSDistribute notifyUserUpdateAction:MSUserUpdateActionPostpone];

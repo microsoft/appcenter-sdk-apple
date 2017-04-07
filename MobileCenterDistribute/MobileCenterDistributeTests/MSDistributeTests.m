@@ -620,14 +620,12 @@ static NSURL *sfURL;
 
   // Then
   XCTAssertNil([self.settingsMock objectForKey:kMSUpdateTokenRequestIdKey]);
-  XCTAssertNil([self.settingsMock objectForKey:kMSIgnoredReleaseIdKey]);
 
   // When
   [distributeMock applyEnabledState:NO];
 
   // Then
   XCTAssertNil([self.settingsMock objectForKey:kMSUpdateTokenRequestIdKey]);
-  XCTAssertNil([self.settingsMock objectForKey:kMSIgnoredReleaseIdKey]);
 }
 
 - (void)testApplyEnabledStateTrue {
@@ -655,18 +653,15 @@ static NSURL *sfURL;
 
   // If
   [self.settingsMock setObject:@"RequestID" forKey:kMSUpdateTokenRequestIdKey];
-  [self.settingsMock setObject:@"ReleaseID" forKey:kMSIgnoredReleaseIdKey];
 
   // Then
   XCTAssertNotNil([self.settingsMock objectForKey:kMSUpdateTokenRequestIdKey]);
-  XCTAssertNotNil([self.settingsMock objectForKey:kMSIgnoredReleaseIdKey]);
 
   // When
   [distributeMock applyEnabledState:NO];
 
   // Then
   XCTAssertNil([self.settingsMock objectForKey:kMSUpdateTokenRequestIdKey]);
-  XCTAssertNil([self.settingsMock objectForKey:kMSIgnoredReleaseIdKey]);
 }
 
 - (void)testCheckForUpdatesAllConditionsMet {
@@ -1192,12 +1187,6 @@ static NSURL *sfURL;
 
   // Then
   OCMVerify([distributeMock notifyUserUpdateAction:MSUserUpdateActionUpdate]);
-
-  // When
-  [MSDistribute notifyUserUpdateAction:MSUserUpdateActionIgnore];
-
-  // Then
-  OCMVerify([distributeMock notifyUserUpdateAction:MSUserUpdateActionIgnore]);
 
   // When
   [MSDistribute notifyUserUpdateAction:MSUserUpdateActionPostpone];

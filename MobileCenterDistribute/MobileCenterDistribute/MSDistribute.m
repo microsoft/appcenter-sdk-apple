@@ -95,7 +95,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   } else {
     [self dismissEmbeddedSafari];
     [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
-    [MS_USER_DEFAULTS removeObjectForKey:kMSIgnoredReleaseIdKey];
     [MS_USER_DEFAULTS removeObjectForKey:kMSMandatoryReleaseKey];
     MSLogInfo([MSDistribute logTag], @"Distribute service has been disabled.");
   }
@@ -168,15 +167,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     break;
   case MSUserUpdateActionPostpone:
     MSLogDebug([MSDistribute logTag], @"Postpone the update for now.");
-    break;
-  case MSUserUpdateActionIgnore:
-    if ([self isEnabled]) {
-      MSLogDebug([MSDistribute logTag], @"Ignore the release id: %@.", self.releaseDetails.id);
-      [MS_USER_DEFAULTS setObject:self.releaseDetails.id forKey:kMSIgnoredReleaseIdKey];
-    } else {
-      MSLogDebug([MSDistribute logTag], @"Distribute was disabled.");
-      [self showDistributeDisabledAlert];
-    }
     break;
   }
 }
@@ -346,7 +336,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                   [MSKeychainUtil deleteStringForKey:kMSUpdateTokenKey];
                   [MS_USER_DEFAULTS removeObjectForKey:kMSSDKHasLaunchedWithDistribute];
                   [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
-                  [MS_USER_DEFAULTS removeObjectForKey:kMSIgnoredReleaseIdKey];
                 }
               }
               if (!jsonString) {
@@ -478,27 +467,20 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     return NO;
   }
 
-  // Step 3. Check if the release ID was ignored by a user.
-  NSNumber *releaseId = [MS_USER_DEFAULTS objectForKey:kMSIgnoredReleaseIdKey];
-  if (releaseId && releaseId == details.id) {
-    MSLogDebug([MSDistribute logTag], @"A user already ignored updating this release, skip update.");
-    return NO;
-  }
-
-  // Step 4. Check min OS version.
+  // Step 3. Check min OS version.
   if ([MS_DEVICE.systemVersion compare:details.minOs options:NSNumericSearch] == NSOrderedAscending) {
     MSLogDebug([MSDistribute logTag], @"The new release doesn't support this iOS version: %@, skip update.",
                MS_DEVICE.systemVersion);
     return NO;
   }
 
-  // Step 5. Check version/hash to identify a newer version.
+  // Step 4. Check version/hash to identify a newer version.
   if (![self isNewerVersion:details]) {
     MSLogDebug([MSDistribute logTag], @"The application is already up-to-date.");
     return NO;
   }
 
-  // Step 6. Persist mandatory update to cover offline scenario.
+  // Step 5. Persist mandatory update to cover offline scenario.
   if (details.mandatoryUpdate) {
 
     // Persist this mandatory update now.
@@ -509,7 +491,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     [MS_USER_DEFAULTS removeObjectForKey:kMSMandatoryReleaseKey];
   }
 
-  // Step 7. Call the delegate and process update based on selection.
+  // Step 6. Call the delegate and process update based on selection.
   if (!self.releaseDetails) {
     self.releaseDetails = details;
     id<MSDistributeDelegate> strongDelegate = self.delegate;
@@ -560,12 +542,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       [alertController addDefaultActionWithTitle:MSDistributeLocalizedString(@"Postpone")
                                          handler:^(__attribute__((unused)) UIAlertAction *action) {
                                            [self notifyUserUpdateAction:MSUserUpdateActionPostpone];
-                                         }];
-
-      // Add a "Ignore"-Button
-      [alertController addDefaultActionWithTitle:MSDistributeLocalizedString(@"Ignore")
-                                         handler:^(__attribute__((unused)) UIAlertAction *action) {
-                                           [self notifyUserUpdateAction:MSUserUpdateActionIgnore];
                                          }];
     }
 
