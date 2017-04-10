@@ -61,6 +61,7 @@ static NSURL *sfURL;
 @property(nonatomic) MSDistribute *sut;
 @property(nonatomic) id parserMock;
 @property(nonatomic) id settingsMock;
+@property(nonatomic) id bundleMock;
 
 @end
 
@@ -71,6 +72,10 @@ static NSURL *sfURL;
   [MSKeychainUtil clear];
   self.sut = [MSDistribute new];
   self.settingsMock = [MSMockUserDefaults new];
+  
+  // Mock NSBundle
+  self.bundleMock = OCMClassMock([NSBundle class]);
+  OCMStub([self.bundleMock mainBundle]).andReturn(self.bundleMock);
   
   // Make sure we disable the debug-mode checks so we can actually test the logic.
   [MSDistributeTestUtil mockUpdatesAllowedConditions];
@@ -88,6 +93,7 @@ static NSURL *sfURL;
   [MSKeychainUtil clear];
   [self.parserMock stopMocking];
   [self.settingsMock stopMocking];
+  [self.bundleMock stopMocking];
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
 }
 
@@ -98,12 +104,8 @@ static NSURL *sfURL;
   NSArray *bundleArray = @[
     @{ @"CFBundleURLSchemes" : @[ [NSString stringWithFormat:@"mobilecenter-%@", kMSTestAppSecret] ] }
   ];
-  id bundleMock = OCMClassMock([NSBundle class]);
-  OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
-  NSDictionary<NSString *, id> *plist = @{ @"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1" };
-  OCMStub([bundleMock infoDictionary]).andReturn(plist);
-  OCMStub([bundleMock objectForInfoDictionaryKey:@"CFBundleURLTypes"]).andReturn(bundleArray);
-  OCMStub([bundleMock objectForInfoDictionaryKey:@"MSAppName"]).andReturn(@"Something");
+  OCMStub([self.bundleMock objectForInfoDictionaryKey:@"CFBundleURLTypes"]).andReturn(bundleArray);
+  OCMStub([self.bundleMock objectForInfoDictionaryKey:@"MSAppName"]).andReturn(@"Something");
   id distributeMock = OCMPartialMock(self.sut);
   OCMStub([distributeMock openURLInEmbeddedSafari:[OCMArg any] fromClass:[OCMArg any]]).andDo(nil);
 
@@ -151,12 +153,11 @@ static NSURL *sfURL;
 
   // If
   NSString *badAppSecret = @"weird\\app\\secret";
-  id bundleMock = OCMClassMock([NSBundle class]);
-  OCMStub([bundleMock mainBundle]).andReturn([NSBundle bundleForClass:[self class]]);
 
   // When
   NSURL *url = [self.sut buildTokenRequestURLWithAppSecret:badAppSecret releaseHash:kMSTestReleaseHash];
 
+  // Then
   assertThat(url, nilValue());
 }
 
@@ -224,11 +225,7 @@ static NSURL *sfURL;
   NSArray *bundleArray = @[
     @{ @"CFBundleURLSchemes" : @[ [NSString stringWithFormat:@"mobilecenter-%@", kMSTestAppSecret] ] }
   ];
-  id bundleMock = OCMClassMock([NSBundle class]);
-  OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
-  NSDictionary<NSString *, id> *plist = @{ @"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1" };
-  OCMStub([bundleMock infoDictionary]).andReturn(plist);
-  OCMStub([bundleMock objectForInfoDictionaryKey:@"CFBundleURLTypes"]).andReturn(bundleArray);
+  OCMStub([self.bundleMock objectForInfoDictionaryKey:@"CFBundleURLTypes"]).andReturn(bundleArray);
 
   // When
   [MSDistribute setInstallUrl:testUrl];
@@ -246,11 +243,7 @@ static NSURL *sfURL;
   NSArray *bundleArray = @[
     @{ @"CFBundleURLSchemes" : @[ [NSString stringWithFormat:@"mobilecenter-%@", kMSTestAppSecret] ] }
   ];
-  id bundleMock = OCMClassMock([NSBundle class]);
-  OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
-  NSDictionary<NSString *, id> *plist = @{ @"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1" };
-  OCMStub([bundleMock infoDictionary]).andReturn(plist);
-  OCMStub([bundleMock objectForInfoDictionaryKey:@"CFBundleURLTypes"]).andReturn(bundleArray);
+  OCMStub([self.bundleMock objectForInfoDictionaryKey:@"CFBundleURLTypes"]).andReturn(bundleArray);
 
   // When
   NSString *instalURL = [self.sut installUrl];
@@ -577,10 +570,7 @@ static NSURL *sfURL;
   OCMReject([distributeMock checkLatestRelease:[OCMArg any] releaseHash:[OCMArg any]]);
 
   // If
-  id userDefaultsMock = OCMClassMock([MSUserDefaults class]);
-  OCMStub([userDefaultsMock shared]).andReturn(userDefaultsMock);
-  OCMStub([userDefaultsMock objectForKey:kMSUpdateTokenRequestIdKey]).andReturn(requestId);
-
+  [MS_USER_DEFAULTS setObject:requestId forKey:kMSUpdateTokenRequestIdKey];
   url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://?request_id=%@&update_token=%@",
                                                         [NSString stringWithFormat:kMSDefaultCustomSchemeFormat,
                                                                                    @"Invalid-app-secret"],
@@ -637,6 +627,8 @@ static NSURL *sfURL;
 - (void)testApplyEnabledStateTrue {
 
   // If
+  NSDictionary<NSString *, id> *plist = @{ @"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1" };
+  OCMStub([self.bundleMock infoDictionary]).andReturn(plist);
   id distributeMock = OCMPartialMock(self.sut);
   OCMStub([distributeMock checkLatestRelease:[OCMArg any] releaseHash:[OCMArg any]]).andDo(nil);
   OCMStub([distributeMock requestUpdateToken:[OCMArg any]]).andDo(nil);
@@ -726,9 +718,7 @@ static NSURL *sfURL;
 - (void)testNotDeleteUpdateToken {
 
   // If
-  id userDefaultsMock = OCMClassMock([MSUserDefaults class]);
-  OCMStub([userDefaultsMock shared]).andReturn(userDefaultsMock);
-  OCMStub([userDefaultsMock objectForKey:kMSSDKHasLaunchedWithDistribute]).andReturn(@1);
+  [MS_USER_DEFAULTS setObject:@1 forKey:kMSSDKHasLaunchedWithDistribute];
   id keychainMock = OCMClassMock([MSKeychainUtil class]);
 
   // When
@@ -741,9 +731,6 @@ static NSURL *sfURL;
 - (void)testDeleteUpdateTokenAfterReinstall {
 
   // If
-  id userDefaultsMock = OCMClassMock([MSUserDefaults class]);
-  OCMStub([userDefaultsMock shared]).andReturn(userDefaultsMock);
-  OCMStub([userDefaultsMock objectForKey:kMSSDKHasLaunchedWithDistribute]).andReturn(nil);
   id keychainMock = OCMClassMock([MSKeychainUtil class]);
 
   // When
@@ -751,7 +738,7 @@ static NSURL *sfURL;
 
   // Then
   OCMVerify([keychainMock deleteStringForKey:kMSUpdateTokenKey]);
-  OCMVerify([userDefaultsMock setObject:@(1) forKey:kMSSDKHasLaunchedWithDistribute]);
+  OCMVerify([self.settingsMock setObject:@(1) forKey:kMSSDKHasLaunchedWithDistribute]);
 }
 
 - (void)testWithoutNetwork {
@@ -773,13 +760,11 @@ static NSURL *sfURL;
 }
 
 - (void)testPackageHash {
-
+  
   // If
   // cd55e7a9-7ad1-4ca6-b722-3d133f487da9:1.0:1 -> 1ddf47f8dda8928174c419d530adcc13bb63cebfaf823d83ad5269b41e638ef4
-  id bundleMock = OCMClassMock([NSBundle class]);
-  OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
   NSDictionary<NSString *, id> *plist = @{ @"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1" };
-  OCMStub([bundleMock infoDictionary]).andReturn(plist);
+  OCMStub([self.bundleMock infoDictionary]).andReturn(plist);
 
   // When
   NSString *hash = MSPackageHash();
@@ -893,9 +878,9 @@ static NSURL *sfURL;
   OCMStub([distributeMock sharedInstance]).andReturn(distributeMock);
   OCMStub([distributeMock isEnabled]).andReturn(YES);
   ((MSDistribute *)distributeMock).appSecret = kMSTestAppSecret;
-  id userDefaultsMock = OCMClassMock([MSUserDefaults class]);
-  OCMStub([userDefaultsMock shared]).andReturn(userDefaultsMock);
-  OCMStub([userDefaultsMock objectForKey:kMSUpdateTokenRequestIdKey]).andReturn(@"FIRST-REQUEST");
+  [MS_USER_DEFAULTS setObject:@"FIRST-REQUEST" forKey:kMSUpdateTokenRequestIdKey];
+  NSDictionary<NSString *, id> *plist = @{ @"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1" };
+  OCMStub([self.bundleMock infoDictionary]).andReturn(plist);
   NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://?request_id=FIRST-REQUEST&update_token=token",
                                                                [NSString stringWithFormat:kMSDefaultCustomSchemeFormat,
                                                                                           kMSTestAppSecret]]];
@@ -1021,13 +1006,7 @@ static NSURL *sfURL;
 
   // If
   NSArray *bundleArray = @[ @{ @"CFBundleURLSchemes" : @[ @"mobilecenter-IAMSUPERSECRET" ] } ];
-
-  id bundleMock = OCMClassMock([NSBundle class]);
-  OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
-
-  NSDictionary<NSString *, id> *plist = @{ @"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1" };
-  OCMStub([bundleMock infoDictionary]).andReturn(plist);
-  OCMStub([bundleMock objectForInfoDictionaryKey:@"CFBundleURLTypes"]).andReturn(bundleArray);
+  OCMStub([self.bundleMock objectForInfoDictionaryKey:@"CFBundleURLTypes"]).andReturn(bundleArray);
   id distributeMock = OCMPartialMock(self.sut);
 
   // When
@@ -1038,10 +1017,8 @@ static NSURL *sfURL;
 }
 
 - (void)testIsNewerVersionFunction {
-  id bundleMock = OCMClassMock([NSBundle class]);
-  OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
   NSDictionary<NSString *, id> *plist = @{ @"CFBundleShortVersionString" : @"10.0", @"CFBundleVersion" : @"10" };
-  OCMStub([bundleMock infoDictionary]).andReturn(plist);
+  OCMStub([self.bundleMock infoDictionary]).andReturn(plist);
 
   // If
   MSReleaseDetails *newerRelease = [self generateReleaseDetailsWithVersion:@"20" andShortVersion:@"20.0"];
@@ -1082,10 +1059,8 @@ static NSURL *sfURL;
 - (id)mockMSPackageHash {
   id utilityMock = OCMClassMock([MSUtility class]);
   OCMStub(ClassMethod([utilityMock sha256:[OCMArg any]])).andReturn(kMSTestReleaseHash);
-  id bundleMock = OCMClassMock([NSBundle class]);
-  OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
   NSDictionary<NSString *, id> *plist = @{ @"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1" };
-  OCMStub([bundleMock infoDictionary]).andReturn(plist);
+  OCMStub([self.bundleMock infoDictionary]).andReturn(plist);
   return utilityMock;
 }
 
