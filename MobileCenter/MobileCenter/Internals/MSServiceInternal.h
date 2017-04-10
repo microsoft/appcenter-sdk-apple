@@ -11,17 +11,17 @@
 @protocol MSServiceInternal <MSService, MSServiceCommon>
 
 /**
- * Service unique key for storage purpose.
- * @discussion: IMPORTANT, This string is used to point to the right storage value for this service.
- * Changing this string results in data loss if previous data is not migrated.
- */
-@property(nonatomic, copy, readonly) NSString *storageKey;
-
-/**
  * The channel priority for this service. Defined here as well as in MSServiceCommon to achieve abstraction.
  */
 @property(nonatomic, readonly) MSPriority priority;
 
+/**
+ * Service unique key for storage purpose.
+ *
+ * @discussion: IMPORTANT, This string is used to point to the right storage value for this service.
+ * Changing this string results in data lost if previous data is not migrated.
+ */
+@property(nonatomic, copy, readonly) NSString *groupID;
 /**
  * The initialization priority for this service. Defined here as well as in MSServiceCommon to achieve abstraction.
  */
@@ -43,6 +43,8 @@
  * Get a service name.
  *
  * @return the service name.
+ *
+ * @discussion This is used to initialize each service.
  */
 // FIXME: need implement this static method in all services after merging
 + (NSString *)serviceName;

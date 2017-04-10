@@ -28,10 +28,10 @@ static NSString *const kMSStubLongResponseTimeOutName = @"httpStub_LongResponseT
 }
 
 + (void)stubLongTimeOutResponse {
-  [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+  [OHHTTPStubs stubRequestsPassingTest:^BOOL(__attribute__((unused)) NSURLRequest *request) {
     return YES;
   }
-      withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+      withStubResponse:^OHHTTPStubsResponse *(__attribute__((unused)) NSURLRequest *request) {
         OHHTTPStubsResponse *responseStub = [OHHTTPStubsResponse new];
         responseStub.statusCode = MSHTTPCodesNo200OK;
         return [responseStub responseTime:kMSStubbedResponseTimeout];
@@ -40,10 +40,10 @@ static NSString *const kMSStubLongResponseTimeOutName = @"httpStub_LongResponseT
 }
 
 + (void)stubResponseWithCode:(NSInteger)code name:(NSString *)name {
-  [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+  [OHHTTPStubs stubRequestsPassingTest:^BOOL(__attribute__((unused)) NSURLRequest *request) {
     return YES;
   }
-      withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+      withStubResponse:^OHHTTPStubsResponse *(__attribute__((unused)) NSURLRequest *request) {
         OHHTTPStubsResponse *responseStub = [OHHTTPStubsResponse new];
         responseStub.statusCode = (int)code;
         return responseStub;
@@ -52,10 +52,10 @@ static NSString *const kMSStubLongResponseTimeOutName = @"httpStub_LongResponseT
 }
 
 + (void)stubResponseWithError:(NSError *)error name:(NSString *)name {
-  [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+  [OHHTTPStubs stubRequestsPassingTest:^BOOL(__attribute__((unused)) NSURLRequest *request) {
     return YES;
   }
-      withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+      withStubResponse:^OHHTTPStubsResponse *(__attribute__((unused)) NSURLRequest *request) {
         return [OHHTTPStubsResponse responseWithError:error];
       }]
       .name = name;

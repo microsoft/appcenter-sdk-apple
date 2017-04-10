@@ -1,6 +1,6 @@
 #import "MSErrorReport.h"
 
-extern NSString *const __attribute__((unused)) kMSErrorReportKillSignal;
+extern NSString *const kMSErrorReportKillSignal;
 
 @interface MSErrorReport ()
 

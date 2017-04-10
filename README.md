@@ -8,11 +8,11 @@
 
 ## Introduction
 
-Add Mobile Center services to your app and collect crash reports and understand user behavior by analyzing the session, user and device information for your app. The SDK is currently in public preview and supports the following services:
+Add Mobile Center services to your app and collect crash reports and understand user behavior by analyzing the session, user and device information for your app. The SDK currently supports the following services:
 
 1. **Analytics**: Mobile Center Analytics helps you understand user behavior and customer engagement to improve your iOS app. The SDK automatically captures session count, device properties like model, OS version etc. and pages. You can define your own custom events to measure things that matter to your business. All the information captured is available in the Mobile Center portal for you to analyze the data.
 
-2. **Crashes**: The Mobile Center SDK will automatically generate a crash log every time your app crashes. The log is first written to the device's storage and when the user starts the app again, the crash report will be forwarded to Mobile Center. Collecting crashes works for both beta and live apps, i.e. those submitted to App Store. Crash logs contain viable information for you to help resolve the issue. Crashes uses PLCrashReporter 1.2.1.
+2. **Crashes**: The Mobile Center SDK will automatically generate a crash log every time your app crashes. The log is first written to the device's storage and when the user starts the app again, the crash report will be forwarded to Mobile Center. Collecting crashes works for both beta and live apps, i.e. those submitted to App Store. Crash logs contain valuable information for you to help resolve the issue. Crashes uses PLCrashReporter 1.2.1.
 
 3. **Distribute**: The Mobile Center SDK will let your users install a new version of the app when you distribute it via Mobile Center. With a new version of the app available, the SDK will present an update dialog to the users to either download or ignore the latest version. Once they tap "Download", the SDK will start to update your application. Note that this feature will `NOT` work if your app is deployed to the app store, if you are developing locally or if the app is a running with the DEBUG configuration.
 
@@ -74,16 +74,14 @@ Now that you've integrated the frameworks in your application, it's time to star
 1. Add the following to your `podfile` to include all services into your app. This will pull in `MobileCenter`, `MobileCenterAnalytics` and `MobileCenterCrashes`. Alternatively, you can specify which services you want to use in your app. Each service has it's own `subspec` and they all rely on `MobileCenter`. It will get pulled in automatically.
 
 	```ruby
- # Use the following line to use all services.
-  pod 'MobileCenter'
-	  
- # Use the following lines if you want to specify the individual services you want to use.
-pod 'MobileCenter/MobileCenterAnalytics'
-pod 'MobileCenter/MobileCenterCrashes'
-pod 'MobileCenter/MobileCenterDistribute'		
-```
-	
-	**NOTE:** If you are using the individual subspecs, you don't need to include `MobileCenter/MobileCenter' separately as the other subspecs will pull in this as a dependency anyway.
+	 # Use the following line to use all services.
+	pod 'MobileCenter'
+		  
+	# Use the following lines if you want to specify the individual services you want to use.
+	pod 'MobileCenter/MobileCenterAnalytics'
+	pod 'MobileCenter/MobileCenterCrashes'
+	pod 'MobileCenter/MobileCenterDistribute`
+	```
 
 2. Run `pod install` to install your newly defined pod, open your `.xcworkspace` and it's time to start the SDK and make use of the Mobile Center services.
 
@@ -144,12 +142,7 @@ The example above shows how to use the `start` method and include all the servic
 2. Add a new key for `URL types` or `CFBundleURLTypes` (in case Xcode displays your `Info.plist` as source code).
 3. Change the key of the first child item to URL Schemes or `CFBundleURLSchemes`.
 4. Enter `mobilecenter-${APP_SECRET}` as the URL scheme and replace `${APP_SECRET}` with the App Secret of your app.
-
-If your app supports iOS 9 and later, congratulations, you are done!
-
-#### Implement UIApplicationDelegate callback to enable MSDistribute on iOS 8
-
-If your app is supporting iOS8, you need to implement one of `UIApplicationDelegate`'s callbacks to pass the installation URL to `MobileCenterDistribute`.
+5. Implement the `openURL`-callback in your `AppDelegate` to enable in-app-updates.
 
 **Objective-C**
 
@@ -559,13 +552,17 @@ Your typical setup code would look like this:
 
 ## 6. Distribute APIs
 
-You can easily let your users get the latest version of your app by integrating the `Distribute` service of the Mobile Center SDK. Please follow the paragraph in [Start the SDK](#3-start-the-sdk) to setup MobileCenterDistribute.
+You can easily let your users get the latest version of your app by integrating the `Distribute` service of the Mobile Center SDK. Please follow the paragraph in [Start the SDK](#3-start-the-sdk) to setup the Distribute service.
 
 Once that is done, the SDK checks for new updates once per the app's lifetime. If the app is currently in the foreground or suspended in the background, you might need to kill the app to get the latest update. If it finds a new update, users will see a dialog with three options - `Download`, `Postpone` and `Ignore`. If the user presses `Download`, the SDK will trigger the new version to be installed. `Postpone` will delay the download until the app is opened again. `Ignore` will not prompt the user again for that particular app version.
 
-You can easily provide your own resource strings if you'd like to localize the text displayed in the update dialog. Look at the string files [here](https://github.com/Microsoft/mobile-center-sdk-ios/blob/base/updates/MobileCenterUpdates/MobileCenterUpdates/Resources/en.lproj/MobileCenterUpdates.strings). Use the same string name and specify the localized value to be reflected in the dialog in your own app resource files.  
+### Localization of the update UI
 
-* **Enable or disable Distribute:**  You can change the enabled state by calling the `setEnabled` API. If you disable it, the SDK will not prompt your users when a new version is available for install. To re-enable it, pass `YES` or `true` as a parameter in the same method.
+You can easily provide your own resource strings if you'd like to localize the text displayed in the update dialog. Look at the string files [here](https://github.com/Microsoft/mobile-center-sdk-ios/blob/develop/MobileCenterDistribute/MobileCenterDistribute/Resources/en.lproj/MobileCenterDistribute.strings). Use the same string name and specify the localized value to be reflected in the dialog in your own app resource files.  
+
+### Enable or disable Distribute
+
+You can change the enabled state by calling the `setEnabled` API. If you disable it, the SDK will not prompt your users when a new version is available for install. To re-enable it, pass `YES` or `true` as a parameter in the same method.
 
 **Objective-C**
 

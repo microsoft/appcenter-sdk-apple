@@ -2,9 +2,7 @@
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
-
 #import "MSStartServiceLog.h"
-#import "MobileCenter+Internal.h"
 
 @interface MSStartServiceLogTests : XCTestCase
 

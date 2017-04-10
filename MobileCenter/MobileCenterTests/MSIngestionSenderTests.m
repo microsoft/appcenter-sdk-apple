@@ -14,7 +14,6 @@
 
 static NSTimeInterval const kMSTestTimeout = 5.0;
 static NSString *const kMSBaseUrl = @"https://test.com";
-static NSString *const kMSAppSecret = @"mockAppSecret";
 
 @interface MSIngestionSenderTests : XCTestCase
 
@@ -69,7 +68,8 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
 
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Response 200"];
   [self.sut sendAsync:container
-      completionHandler:^(NSString *batchId, NSUInteger statusCode, NSData *data, NSError *error) {
+      completionHandler:^(NSString *batchId, NSUInteger statusCode, __attribute__((unused)) NSData *data,
+                          NSError *error) {
 
         XCTAssertNil(error);
         XCTAssertEqual(containerId, batchId);
@@ -95,7 +95,8 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
 
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Response 200"];
   [self.sut sendAsync:container
-      completionHandler:^(NSString *batchId, NSUInteger statusCode, NSData *data, NSError *error) {
+      completionHandler:^(NSString *batchId, NSUInteger statusCode, __attribute__((unused)) NSData *data,
+                          NSError *error) {
 
         XCTAssertEqual(containerId, batchId);
         XCTAssertEqual(statusCode, MSHTTPCodesNo404NotFound);
@@ -123,14 +124,15 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
 
   // Set a delegate for suspending event.
   id delegateMock = OCMProtocolMock(@protocol(MSSenderDelegate));
-  OCMStub([delegateMock senderDidSuspend:self.sut]).andDo(^(NSInvocation *invocation) {
+  OCMStub([delegateMock senderDidSuspend:self.sut]).andDo(^(__attribute__((unused)) NSInvocation *invocation) {
     [requestCompletedExcpectation fulfill];
   });
   [self.sut addDelegate:delegateMock];
 
   // When
   [self.sut sendAsync:container
-      completionHandler:^(NSString *batchId, NSUInteger statusCode, NSData *data, NSError *error) {
+      completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
+                          __attribute__((unused)) NSData *data, __attribute__((unused)) NSError *error) {
 
         // This should not be happening.
         XCTFail(@"Completion handler should'nt be called on recoverable errors.");
@@ -163,11 +165,12 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
   // Set a delegate for suspending/resuming event.
   id delegateMock = OCMProtocolMock(@protocol(MSSenderDelegate));
   [self.sut addDelegate:delegateMock];
-  OCMStub([delegateMock senderDidSuspend:self.sut]).andDo(^(NSInvocation *invocation) {
+  OCMStub([delegateMock senderDidSuspend:self.sut]).andDo(^(__attribute__((unused)) NSInvocation *invocation) {
 
     // Send one batch now that the sender is suspended.
     [self.sut sendAsync:container
-        completionHandler:^(NSString *batchId, NSUInteger statusCode, NSData *data, NSError *error) {
+        completionHandler:^(__attribute__((unused)) NSString *batchId, NSUInteger statusCode,
+                            __attribute__((unused)) NSData *data, NSError *error) {
           forwardedStatus = statusCode;
           forwardedError = error;
           [requestCompletedExcpectation fulfill];
@@ -212,19 +215,22 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
 
   // Send logs
   [self.sut sendAsync:container1
-      completionHandler:^(NSString *batchId, NSUInteger statusCode, NSData *data, NSError *error) {
+      completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
+                          __attribute__((unused)) NSData *data, __attribute__((unused)) NSError *error) {
         XCTFail(@"Completion handler shouldn't be called as test will finish before the response timeout.");
       }];
   [self.sut sendAsync:container2
-      completionHandler:^(NSString *batchId, NSUInteger statusCode, NSData *data, NSError *error) {
+      completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
+                          __attribute__((unused)) NSData *data, __attribute__((unused)) NSError *error) {
         XCTFail(@"Completion handler shouldn't be called as test will finish before the response timeout.");
       }];
 
   // When
   [self.sut suspend];
-  [self.sut.session getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> *_Nonnull dataTasks,
-                                                    NSArray<NSURLSessionUploadTask *> *_Nonnull uploadTasks,
-                                                    NSArray<NSURLSessionDownloadTask *> *_Nonnull downloadTasks) {
+  [self.sut.session getTasksWithCompletionHandler:^(
+                        NSArray<NSURLSessionDataTask *> *_Nonnull dataTasks,
+                        __attribute__((unused)) NSArray<NSURLSessionUploadTask *> *_Nonnull uploadTasks,
+                        __attribute__((unused)) NSArray<NSURLSessionDownloadTask *> *_Nonnull downloadTasks) {
     tasks = dataTasks;
     [tasksListedExpectation fulfill];
   }];
@@ -238,7 +244,8 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
 
                                  // Tasks must be suspended.
                                  [tasks enumerateObjectsUsingBlock:^(__kindof NSURLSessionTask *_Nonnull task,
-                                                                     NSUInteger idx, BOOL *_Nonnull stop) {
+                                                                     __attribute__((unused)) NSUInteger idx,
+                                                                     __attribute__((unused)) BOOL *_Nonnull stop) {
                                    assertThatInteger(task.state, equalToInteger(NSURLSessionTaskStateSuspended));
                                  }];
 
@@ -265,20 +272,23 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
 
   // Send logs
   [self.sut sendAsync:container1
-      completionHandler:^(NSString *batchId, NSUInteger statusCode, NSData *data, NSError *error) {
+      completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
+                          __attribute__((unused)) NSData *data, __attribute__((unused)) NSError *error) {
         XCTFail(@"Completion handler shouldn't be called as test will finish before the response timeout.");
       }];
   [self.sut sendAsync:container2
-      completionHandler:^(NSString *batchId, NSUInteger statusCode, NSData *data, NSError *error) {
+      completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
+                          __attribute__((unused)) NSData *data, __attribute__((unused)) NSError *error) {
         XCTFail(@"Completion handler shouldn't be called as test will finish before the response timeout.");
       }];
   [self.sut suspend];
 
   // When
   [self.sut resume];
-  [self.sut.session getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> *_Nonnull dataTasks,
-                                                    NSArray<NSURLSessionUploadTask *> *_Nonnull uploadTasks,
-                                                    NSArray<NSURLSessionDownloadTask *> *_Nonnull downloadTasks) {
+  [self.sut.session getTasksWithCompletionHandler:^(
+                        NSArray<NSURLSessionDataTask *> *_Nonnull dataTasks,
+                        __attribute__((unused)) NSArray<NSURLSessionUploadTask *> *_Nonnull uploadTasks,
+                        __attribute__((unused)) NSArray<NSURLSessionDownloadTask *> *_Nonnull downloadTasks) {
     // Capture tasks state.
     tasks = dataTasks;
     [tasksListedExpectation fulfill];
@@ -296,7 +306,8 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
 
                                  // Tasks must have been resumed.
                                  [tasks enumerateObjectsUsingBlock:^(__kindof NSURLSessionDataTask *_Nonnull task,
-                                                                     NSUInteger idx, BOOL *_Nonnull stop) {
+                                                                     __attribute__((unused)) NSUInteger idx,
+                                                                     __attribute__((unused)) BOOL *_Nonnull stop) {
                                    assertThatInteger(task.state, equalToInteger(NSURLSessionTaskStateRunning));
                                  }];
 
@@ -326,7 +337,7 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
                                  data:[OCMArg any]
                                 error:[OCMArg any]])
       .andForwardToRealObject()
-      .andDo(^(NSInvocation *invocation) {
+      .andDo(^(__attribute__((unused)) NSInvocation *invocation) {
         [responseReceivedExcpectation fulfill];
       });
   self.sut.pendingCalls[containerId] = mockedCall;
@@ -351,7 +362,8 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
                                   */
 
                                  // Retry must be stopped.
-                                 XCTAssertNotEqual(0, dispatch_testcancel(((MSSenderCall *)self.sut.pendingCalls[@"1"]).timerSource));
+                                 XCTAssertNotEqual(
+                                     0, dispatch_testcancel(((MSSenderCall *)self.sut.pendingCalls[@"1"]).timerSource));
 
                                  // No call submitted to the session.
                                  assertThatBool(self.sut.pendingCalls[@"1"].submitted, isFalse());
@@ -363,21 +375,22 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
 
 - (void)testInvalidContainer {
 
-  MSMockLog *log1 = [[MSMockLog alloc] init];
-  log1.sid = MS_UUID_STRING;
-  log1.toffset = [NSNumber numberWithLongLong:[MSUtility nowInMilliseconds]];
+  MSAbstractLog *log = [MSAbstractLog new];
+  log.sid = MS_UUID_STRING;
+  log.toffset = [NSNumber numberWithLongLong:@((long long)[MSUtility nowInMilliseconds])];
 
   // Log does not have device info, therefore, it's an invalid log
-  MSLogContainer *container = [[MSLogContainer alloc] initWithBatchId:@"1" andLogs:(NSArray<MSLog> *)@[ log1 ]];
+  MSLogContainer *container = [[MSLogContainer alloc] initWithBatchId:@"1" andLogs:(NSArray<MSLog> *)@[ log ]];
 
   [self.sut sendAsync:container
-      completionHandler:^(NSString *batchId, NSUInteger statusCode, NSData *data, NSError *error) {
+      completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
+                          __attribute__((unused)) NSData *data, NSError *error) {
 
         XCTAssertEqual(error.domain, kMSMCErrorDomain);
         XCTAssertEqual(error.code, kMSMCLogInvalidContainerErrorCode);
       }];
 
-  XCTAssertEqual([self.sut.pendingCalls count], 0);
+  XCTAssertEqual([self.sut.pendingCalls count], (unsigned long)0);
 }
 
 - (void)testNilContainer {
@@ -386,7 +399,8 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
 
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Network Down"];
   [self.sut sendAsync:container
-      completionHandler:^(NSString *batchId, NSUInteger statusCode, NSData *data, NSError *error) {
+      completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
+                          __attribute__((unused)) NSData *data, NSError *error) {
 
         XCTAssertNotNil(error);
         [expectation fulfill];
@@ -614,18 +628,18 @@ static NSString *const kMSAppSecret = @"mockAppSecret";
 
 - (MSLogContainer *)createLogContainerWithId:(NSString *)batchId {
 
-  MSDevice *device = [[MSDevice alloc] init];
-  device.sdkVersion = @"1.0.0";
+  id deviceMock = OCMPartialMock([MSDevice new]);
+  OCMStub([deviceMock isValid]).andReturn(YES);
 
   MSMockLog *log1 = [[MSMockLog alloc] init];
   log1.sid = MS_UUID_STRING;
-  log1.toffset = [NSNumber numberWithLongLong:[MSUtility nowInMilliseconds]];
-  log1.device = device;
+  log1.toffset = [NSNumber numberWithLongLong:@((long long)[MSUtility nowInMilliseconds])];
+  log1.device = deviceMock;
 
   MSMockLog *log2 = [[MSMockLog alloc] init];
   log2.sid = MS_UUID_STRING;
-  log2.toffset = [NSNumber numberWithLongLong:[MSUtility nowInMilliseconds]];
-  log2.device = device;
+  log2.toffset = [NSNumber numberWithLongLong:@((long long)[MSUtility nowInMilliseconds])];
+  log2.device = deviceMock;
 
   MSLogContainer *logContainer =
       [[MSLogContainer alloc] initWithBatchId:batchId andLogs:(NSArray<MSLog> *)@[ log1, log2 ]];

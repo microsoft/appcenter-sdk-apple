@@ -4,16 +4,21 @@
 #import "MSMobileCenter.h"
 #import "MSMobileCenterInternal.h"
 #import "MSMobileCenterPrivate.h"
-#import "MSServiceInternal.h"
+#import "MSMockUserDefaults.h"
+#import "MSLogManager.h"
+#import "MSCustomProperties.h"
+#import "MSCustomPropertiesLog.h"
 
-static NSString *const kSMInstallIdStringExample = @"F18499DA-5C3D-4F05-B4E8-D8C9C06A6F09";
+static NSString *const kMSInstallIdStringExample = @"F18499DA-5C3D-4F05-B4E8-D8C9C06A6F09";
 
 // NSUUID can return this nullified InstallId while creating a UUID from a nil string, we want to avoid this.
-static NSString *const kSMNullifiedInstallIdString = @"00000000-0000-0000-0000-000000000000";
+static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-000000000000";
 
 @interface MSMobileCenterTest : XCTestCase
 
 @property(nonatomic) MSMobileCenter *sut;
+@property(nonatomic) MSMockUserDefaults *settingsMock;
+@property(nonatomic) NSString *installId;
 
 @end
 
@@ -24,9 +29,13 @@ static NSString *const kSMNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
   // System Under Test.
   self.sut = [[MSMobileCenter alloc] init];
+
+  self.settingsMock = [MSMockUserDefaults new];
 }
 
 - (void)tearDown {
+  [self.settingsMock stopMocking];
+
   [super tearDown];
 }
 
@@ -36,7 +45,7 @@ static NSString *const kSMNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
   // If
   // InstallId is removed from the storage.
-  [[NSUserDefaults standardUserDefaults] removeObjectForKey:kMSInstallIdKey];
+  [self.settingsMock removeObjectForKey:kMSInstallIdKey];
 
   // When
   NSUUID *installId = self.sut.installId;
@@ -46,28 +55,28 @@ static NSString *const kSMNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   assertThat(installId, notNilValue());
   assertThat(installIdString, notNilValue());
   assertThatInteger([installIdString length], greaterThan(@(0)));
-  assertThat(installIdString, isNot(kSMNullifiedInstallIdString));
+  assertThat(installIdString, isNot(kMSNullifiedInstallIdString));
 }
 
 - (void)testGetInstallIdFromStorage {
 
   // If
   // Expected installId is added to the storage.
-  [[NSUserDefaults standardUserDefaults] setObject:kSMInstallIdStringExample forKey:kMSInstallIdKey];
+  [self.settingsMock setObject:kMSInstallIdStringExample forKey:kMSInstallIdKey];
 
   // When
   NSUUID *installId = self.sut.installId;
 
   // Then
-  assertThat(installId, is(MS_UUID_FROM_STRING(kSMInstallIdStringExample)));
-  assertThat([installId UUIDString], is(kSMInstallIdStringExample));
+  assertThat(installId, is(MS_UUID_FROM_STRING(kMSInstallIdStringExample)));
+  assertThat([installId UUIDString], is(kMSInstallIdStringExample));
 }
 
 - (void)testGetInstallIdFromBadStorage {
 
   // If
   // Unexpected installId is added to the storage.
-  [[NSUserDefaults standardUserDefaults] setObject:MS_UUID_FROM_STRING(@"42") forKey:kMSInstallIdKey];
+  [self.settingsMock setObject:MS_UUID_FROM_STRING(@"42") forKey:kMSInstallIdKey];
 
   // When
   NSUUID *installId = self.sut.installId;
@@ -77,7 +86,7 @@ static NSString *const kSMNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   assertThat(installId, notNilValue());
   assertThat(installIdString, notNilValue());
   assertThatInteger([installIdString length], greaterThan(@(0)));
-  assertThat(installIdString, isNot(kSMNullifiedInstallIdString));
+  assertThat(installIdString, isNot(kMSNullifiedInstallIdString));
   assertThat([installId UUIDString], isNot(@"42"));
 }
 
@@ -85,7 +94,7 @@ static NSString *const kSMNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
   // If
   // InstallId is removed from the storage.
-  [[NSUserDefaults standardUserDefaults] removeObjectForKey:kMSInstallIdKey];
+  [self.settingsMock removeObjectForKey:kMSInstallIdKey];
 
   // When
   NSUUID *installId1 = self.sut.installId;
@@ -95,7 +104,7 @@ static NSString *const kSMNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   assertThat(installId1, notNilValue());
   assertThat(installId1String, notNilValue());
   assertThatInteger([installId1String length], greaterThan(@(0)));
-  assertThat(installId1String, isNot(kSMNullifiedInstallIdString));
+  assertThat(installId1String, isNot(kMSNullifiedInstallIdString));
 
   // When
   // Second pick
@@ -110,7 +119,7 @@ static NSString *const kSMNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
   // If
   // InstallId is removed from the storage.
-  [[NSUserDefaults standardUserDefaults] removeObjectForKey:kMSInstallIdKey];
+  [self.settingsMock removeObjectForKey:kMSInstallIdKey];
 
   // When
   NSUUID *installId1 = self.sut.installId;
@@ -136,6 +145,35 @@ static NSString *const kSMNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   XCTAssertTrue([[[MSMobileCenter sharedInstance] logUrl] isEqualToString:@"https://in.mobile.azure.com"]);
 }
 
+- (void)testSetCustomProperties {
+  
+  // If
+  [MSMobileCenter start:MS_UUID_STRING withServices:nil];
+  id logManager = OCMProtocolMock(@protocol(MSLogManager));
+  OCMStub([logManager processLog:[OCMArg isKindOfClass:[MSCustomPropertiesLog class]]
+                        withPriority:MSPriorityDefault
+                          andGroupID:[OCMArg any]]).andDo(nil);
+  [MSMobileCenter sharedInstance].logManager = logManager;
+  
+  // When
+  MSCustomProperties *customProperties = [MSCustomProperties new];
+  [customProperties setString:@"test" forKey:@"test"];
+  [MSMobileCenter setCustomProperties:customProperties];
+  
+  // Then
+  OCMVerify([logManager processLog:[OCMArg isKindOfClass:[MSCustomPropertiesLog class]]
+                          withPriority:MSPriorityDefault
+                            andGroupID:[OCMArg any]]);
+  
+  // When
+  // Not allow processLog more
+  OCMReject([logManager processLog:[OCMArg isKindOfClass:[MSCustomPropertiesLog class]]
+                      withPriority:MSPriorityDefault
+                        andGroupID:[OCMArg any]]);
+  [MSMobileCenter setCustomProperties:nil];
+  [MSMobileCenter setCustomProperties:[MSCustomProperties new]];
+}
+
 - (void)testConfigureWithAppSecret {
   [MSMobileCenter configureWithAppSecret:@"App-Secret"];
   XCTAssertTrue([MSMobileCenter isConfigured]);
@@ -153,7 +191,8 @@ static NSString *const kSMNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   OCMStub([mockServiceDefaultPrio initializationPriority]).andReturn(MSInitializationPriorityDefault);
 
   // When
-  NSArray<MSServiceAbstract *> *sorted = [self.sut sortServices:@[ mockServiceDefaultPrio, mockServiceMaxPrio ]];
+  NSArray<MSServiceAbstract *> *sorted =
+      [self.sut sortServices:@[ (Class)mockServiceDefaultPrio, (Class)mockServiceMaxPrio ]];
 
   // Then
   XCTAssertTrue([sorted[0] initializationPriority] == MSInitializationPriorityMax);

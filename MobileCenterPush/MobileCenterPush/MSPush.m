@@ -11,6 +11,11 @@
 static NSString *const kMSServiceName = @"Push";
 
 /**
+ * The group ID for storage.
+ */
+static NSString *const kMSGroupID = @"Push";
+
+/**
  * Key for storing push token
  */
 static NSString *const kMSPushServiceStorageKey = @"pushServiceStorageKey";
@@ -48,12 +53,16 @@ static dispatch_once_t onceToken;
   MSLogVerbose([MSPush logTag], @"Started push service.");
 }
 
++ (NSString *)serviceName {
+  return kMSServiceName;
+}
+
 + (NSString *)logTag {
   return @"MobileCenterPush";
 }
 
-- (NSString *)storageKey {
-  return kMSServiceName;
+- (NSString *)groupID {
+  return kMSGroupID;
 }
 
 + (NSString *)serviceName {
@@ -139,7 +148,7 @@ static dispatch_once_t onceToken;
 - (void) sendDeviceToken: (NSString *)token {
   MSPushLog *log = [MSPushLog new];
   log.deviceToken = token;
-  [self.logManager processLog:log withPriority:self.priority];
+  [self.logManager processLog:log withPriority:self.priority andGroupID:self.groupID];
   self.deviceTokenHasBeenSent = YES;
 }
 
