@@ -81,7 +81,7 @@ static dispatch_once_t onceToken;
   [super applyEnabledState:isEnabled];
   if (isEnabled) {
     MSLogInfo([MSPush logTag], @"Push service has been enabled.");
-    if(!self.deviceTokenHasBeenSent ) {
+    if (!self.deviceTokenHasBeenSent) {
       [self registerForRemoteNotifications];
     }
   } else {

@@ -41,6 +41,8 @@
 		E89E6A2C1D396D7900CAA2CD /* MSCrashesReportsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89E6A291D396D7900CAA2CD /* MSCrashesReportsViewController.m */; };
 		E89E6A2D1D396D7900CAA2CD /* MSMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89E6A2B1D396D7900CAA2CD /* MSMainViewController.m */; };
 		E89E6A301D39704900CAA2CD /* MSAnalyticsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89E6A2F1D39704900CAA2CD /* MSAnalyticsViewController.m */; };
+		E8F4AD541E8B8BBE009ADBBD /* NotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = E8F4AD531E8B8BBE009ADBBD /* NotificationService.m */; };
+		E8F4AD581E8B8BBE009ADBBD /* NotifExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = E8F4AD501E8B8BBE009ADBBD /* NotifExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -177,6 +179,13 @@
 			remoteGlobalIDString = 6E3729681D1DE7EC00F1E4AE;
 			remoteInfo = MobileCenterCrashesTests;
 		};
+		E8F4AD561E8B8BBE009ADBBD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E82E1B571D1CA58D00D281C1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E8F4AD4F1E8B8BBE009ADBBD;
+			remoteInfo = NotifExtension;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -187,6 +196,7 @@
 			dstSubfolderSpec = 13;
 			files = (
 				380A4DA41DD6892F00E99219 /* PuppetWidget.appex in Embed App Extensions */,
+				E8F4AD581E8B8BBE009ADBBD /* NotifExtension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -249,6 +259,10 @@
 		E89E6A2B1D396D7900CAA2CD /* MSMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSMainViewController.m; sourceTree = "<group>"; };
 		E89E6A2E1D39704900CAA2CD /* MSAnalyticsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAnalyticsViewController.h; sourceTree = "<group>"; };
 		E89E6A2F1D39704900CAA2CD /* MSAnalyticsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAnalyticsViewController.m; sourceTree = "<group>"; };
+		E8F4AD501E8B8BBE009ADBBD /* NotifExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotifExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		E8F4AD521E8B8BBE009ADBBD /* NotificationService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationService.h; sourceTree = "<group>"; };
+		E8F4AD531E8B8BBE009ADBBD /* NotificationService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationService.m; sourceTree = "<group>"; };
+		E8F4AD551E8B8BBE009ADBBD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -279,6 +293,13 @@
 				E85548081D2D6C9D002DF6E2 /* libMobileCenterAnalytics.a in Frameworks */,
 				E82E1B8F1D1CA65D00D281C1 /* libMobileCenterCrashes.a in Frameworks */,
 				0415D7151E492D0B00245485 /* libMobileCenterDistribute.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E8F4AD4D1E8B8BBE009ADBBD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -346,6 +367,7 @@
 				6EC99A251D4152EB0016C325 /* libz.tbd */,
 				E82E1B611D1CA58D00D281C1 /* Puppet */,
 				380A4D9A1DD6892F00E99219 /* PuppetWidget */,
+				E8F4AD511E8B8BBE009ADBBD /* NotifExtension */,
 				380A4D971DD6892F00E99219 /* Frameworks */,
 				E82E1B601D1CA58D00D281C1 /* Products */,
 			);
@@ -356,6 +378,7 @@
 			children = (
 				E82E1B5F1D1CA58D00D281C1 /* Puppet.app */,
 				380A4D961DD6892F00E99219 /* PuppetWidget.appex */,
+				E8F4AD501E8B8BBE009ADBBD /* NotifExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -445,6 +468,16 @@
 			name = Classes;
 			sourceTree = "<group>";
 		};
+		E8F4AD511E8B8BBE009ADBBD /* NotifExtension */ = {
+			isa = PBXGroup;
+			children = (
+				E8F4AD521E8B8BBE009ADBBD /* NotificationService.h */,
+				E8F4AD531E8B8BBE009ADBBD /* NotificationService.m */,
+				E8F4AD551E8B8BBE009ADBBD /* Info.plist */,
+			);
+			path = NotifExtension;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -488,11 +521,29 @@
 				0471B9481E455B630022F951 /* PBXTargetDependency */,
 				380A4DA31DD6892F00E99219 /* PBXTargetDependency */,
 				B2C070CE1E5F59A90076D6A9 /* PBXTargetDependency */,
+				E8F4AD571E8B8BBE009ADBBD /* PBXTargetDependency */,
 			);
 			name = Puppet;
 			productName = Puppet;
 			productReference = E82E1B5F1D1CA58D00D281C1 /* Puppet.app */;
 			productType = "com.apple.product-type.application";
+		};
+		E8F4AD4F1E8B8BBE009ADBBD /* NotifExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E8F4AD591E8B8BBE009ADBBD /* Build configuration list for PBXNativeTarget "NotifExtension" */;
+			buildPhases = (
+				E8F4AD4C1E8B8BBE009ADBBD /* Sources */,
+				E8F4AD4D1E8B8BBE009ADBBD /* Frameworks */,
+				E8F4AD4E1E8B8BBE009ADBBD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NotifExtension;
+			productName = NotifExtension;
+			productReference = E8F4AD501E8B8BBE009ADBBD /* NotifExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -517,6 +568,11 @@
 								enabled = 1;
 							};
 						};
+					};
+					E8F4AD4F1E8B8BBE009ADBBD = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = L4RARDNZ2Y;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -553,6 +609,7 @@
 			targets = (
 				E82E1B5E1D1CA58D00D281C1 /* Puppet */,
 				380A4D951DD6892F00E99219 /* PuppetWidget */,
+				E8F4AD4F1E8B8BBE009ADBBD /* NotifExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -644,6 +701,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E8F4AD4E1E8B8BBE009ADBBD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -668,6 +732,14 @@
 				E89E6A301D39704900CAA2CD /* MSAnalyticsViewController.m in Sources */,
 				E82E1B641D1CA58D00D281C1 /* main.m in Sources */,
 				BA6827C9F0410233C245D989 /* MSDistributeViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E8F4AD4C1E8B8BBE009ADBBD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E8F4AD541E8B8BBE009ADBBD /* NotificationService.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -723,6 +795,11 @@
 			isa = PBXTargetDependency;
 			name = MobileCenterAnalytics;
 			targetProxy = E85548061D2D6C98002DF6E2 /* PBXContainerItemProxy */;
+		};
+		E8F4AD571E8B8BBE009ADBBD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E8F4AD4F1E8B8BBE009ADBBD /* NotifExtension */;
+			targetProxy = E8F4AD561E8B8BBE009ADBBD /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -945,6 +1022,35 @@
 			};
 			name = Release;
 		};
+		E8F4AD5A1E8B8BBE009ADBBD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				DEVELOPMENT_TEAM = L4RARDNZ2Y;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INFOPLIST_FILE = NotifExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.puppet.NotifExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		E8F4AD5B1E8B8BBE009ADBBD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				DEVELOPMENT_TEAM = L4RARDNZ2Y;
+				INFOPLIST_FILE = NotifExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.puppet.NotifExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -971,6 +1077,15 @@
 			buildConfigurations = (
 				E82E1B771D1CA58D00D281C1 /* Debug */,
 				E82E1B781D1CA58D00D281C1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E8F4AD591E8B8BBE009ADBBD /* Build configuration list for PBXNativeTarget "NotifExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E8F4AD5A1E8B8BBE009ADBBD /* Debug */,
+				E8F4AD5B1E8B8BBE009ADBBD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

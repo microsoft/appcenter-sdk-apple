@@ -71,7 +71,8 @@ static NSString *const kMSLogUrl = @"https://in-integration.dev.avalanch.es";
   [MSPush didFailToRegisterForRemoteNotificationsWith:error];
 }
 
-- (void)application:(UIApplication *)application didReceiveRemoteNotification: (NSDictionary *)userInfo {
+-(void) application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void(^)(UIBackgroundFetchResult))completionHandler
+{
   NSLog(@"%@", userInfo);
   [self MessageBox:@"Notification" message:[[[userInfo objectForKey:@"aps"] valueForKey:@"alert"] description] ];
 }
