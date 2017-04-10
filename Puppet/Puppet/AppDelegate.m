@@ -11,10 +11,6 @@
 #import "MobileCenterPush.h"
 #import <UserNotifications/UserNotifications.h>
 
-static NSString *const kMSDefaultInstallUrl = @"https://install.asgard-int.trafficmanager.net";
-static NSString *const kMSDefaultApiUrl = @"https://asgard-int.trafficmanager.net/api/v0.1";
-static NSString *const kMSLogUrl = @"https://in-integration.dev.avalanch.es";
-
 #import "MSAlertController.h"
 
 @interface AppDelegate () <MSCrashesDelegate>
@@ -28,11 +24,7 @@ static NSString *const kMSLogUrl = @"https://in-integration.dev.avalanch.es";
   // Start Mobile Center SDK.
   [MSMobileCenter setLogLevel:MSLogLevelVerbose];
 
-  [MSDistribute setApiUrl:kMSDefaultApiUrl];
-  [MSDistribute setInstallUrl:kMSDefaultInstallUrl];
-  [MSMobileCenter setLogUrl:kMSLogUrl];
-
-  [MSMobileCenter start:@"9ace8f29-ca40-4fe6-b879-ffb0ed8f1a39"
+  [MSMobileCenter start:@"7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7"
            withServices:@[ [MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class] ]];
 
   [self crashes];
