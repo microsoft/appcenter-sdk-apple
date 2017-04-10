@@ -38,11 +38,10 @@
 		E82E1B901D1CA65D00D281C1 /* libMobileCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E82E1B881D1CA63000D281C1 /* libMobileCenter.a */; };
 		E85548081D2D6C9D002DF6E2 /* libMobileCenterAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E85548031D2D6C8D002DF6E2 /* libMobileCenterAnalytics.a */; };
 		E89A7D321E84E5330053DFEA /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E89A7D311E84E5330053DFEA /* UserNotifications.framework */; };
-		E8F4AD541E8B8BBE009ADBBD /* NotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = E8F4AD531E8B8BBE009ADBBD /* NotificationService.m */; };
-		E8F4AD581E8B8BBE009ADBBD /* NotifExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = E8F4AD501E8B8BBE009ADBBD /* NotifExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		E89E6A2C1D396D7900CAA2CD /* MSCrashesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89E6A291D396D7900CAA2CD /* MSCrashesViewController.m */; };
 		E89E6A2D1D396D7900CAA2CD /* MSMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89E6A2B1D396D7900CAA2CD /* MSMainViewController.m */; };
 		E89E6A301D39704900CAA2CD /* MSAnalyticsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89E6A2F1D39704900CAA2CD /* MSAnalyticsViewController.m */; };
+		E8F4AD541E8B8BBE009ADBBD /* NotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = E8F4AD531E8B8BBE009ADBBD /* NotificationService.m */; };
+		E8F4AD581E8B8BBE009ADBBD /* NotifExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = E8F4AD501E8B8BBE009ADBBD /* NotifExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		F85AAE251E890226006797CA /* MSDeviceInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F85AAE241E890226006797CA /* MSDeviceInfoViewController.m */; };
 		F8FF73DD1E922C9100D2B67D /* MSCustomPropertiesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F8FF73DC1E922C9100D2B67D /* MSCustomPropertiesViewController.m */; };
 /* End PBXBuildFile section */
@@ -255,8 +254,6 @@
 		E82E1B821D1CA63000D281C1 /* MobileCenter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MobileCenter.xcodeproj; path = ../../MobileCenter/MobileCenter.xcodeproj; sourceTree = "<group>"; };
 		E85547FB1D2D6C8D002DF6E2 /* MobileCenterAnalytics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MobileCenterAnalytics.xcodeproj; path = ../../MobileCenterAnalytics/MobileCenterAnalytics.xcodeproj; sourceTree = "<group>"; };
 		E89A7D311E84E5330053DFEA /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
-		E89E6A281D396D7900CAA2CD /* MSCrashesReportsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrashesReportsViewController.h; sourceTree = "<group>"; };
-		E89E6A291D396D7900CAA2CD /* MSCrashesReportsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCrashesReportsViewController.m; sourceTree = "<group>"; };
 		E89E6A2A1D396D7900CAA2CD /* MSMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSMainViewController.h; sourceTree = "<group>"; };
 		E89E6A2B1D396D7900CAA2CD /* MSMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSMainViewController.m; sourceTree = "<group>"; };
 		E89E6A2E1D39704900CAA2CD /* MSAnalyticsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAnalyticsViewController.h; sourceTree = "<group>"; };
@@ -462,8 +459,6 @@
 				E89E6A2F1D39704900CAA2CD /* MSAnalyticsViewController.m */,
 				B21B26C51DDE490400FF0378 /* MSCrashesDetailViewController.h */,
 				B21B26C61DDE490400FF0378 /* MSCrashesDetailViewController.m */,
-				E89E6A281D396D7900CAA2CD /* MSCrashesViewController.h */,
-				E89E6A291D396D7900CAA2CD /* MSCrashesViewController.m */,
 				F8FF73DB1E922C9100D2B67D /* MSCustomPropertiesViewController.h */,
 				F8FF73DC1E922C9100D2B67D /* MSCustomPropertiesViewController.m */,
 				F85AAE231E890226006797CA /* MSDeviceInfoViewController.h */,
@@ -740,7 +735,6 @@
 				E89E6A2D1D396D7900CAA2CD /* MSMainViewController.m in Sources */,
 				B21B26C71DDE490400FF0378 /* MSCrashesDetailViewController.m in Sources */,
 				B2E611F61DDE72BA00A9DF86 /* MSFakeCXXClass.mm in Sources */,
-				E89E6A2C1D396D7900CAA2CD /* MSCrashesViewController.m in Sources */,
 				E89E6A301D39704900CAA2CD /* MSAnalyticsViewController.m in Sources */,
 				E82E1B641D1CA58D00D281C1 /* main.m in Sources */,
 				BA6827C9F0410233C245D989 /* MSDistributeViewController.m in Sources */,

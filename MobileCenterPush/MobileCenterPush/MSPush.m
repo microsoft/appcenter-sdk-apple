@@ -65,10 +65,6 @@ static dispatch_once_t onceToken;
   return kMSGroupID;
 }
 
-+ (NSString *)serviceName {
-  return kMSServiceName;
-}
-
 - (MSPriority)priority {
   return MSPriorityDefault;
 }
