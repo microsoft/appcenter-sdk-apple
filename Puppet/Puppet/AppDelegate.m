@@ -44,7 +44,7 @@
             openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation {
-  
+
   // Forward the URL to MSDistribute.
   [MSDistribute openUrl:url];
   NSLog(@"%@ Got waken up via openURL: %@", kPUPLogTag, url);
@@ -53,29 +53,31 @@
 
 #pragma mark - Application life cycle
 
-- (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
-{
+- (void)application:(UIApplication *)application
+    didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
   [MSPush didRegisterForRemoteNotificationsWith:deviceToken];
 }
 
-- (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(nonnull NSError *)error
-{
+- (void)application:(UIApplication *)application
+    didFailToRegisterForRemoteNotificationsWithError:(nonnull NSError *)error {
   [MSPush didFailToRegisterForRemoteNotificationsWith:error];
 }
 
--(void) application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void(^)(UIBackgroundFetchResult))completionHandler
-{
+- (void)application:(UIApplication *)application
+    didReceiveRemoteNotification:(NSDictionary *)userInfo
+          fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
   NSLog(@"%@", userInfo);
-  [self MessageBox:@"Notification" message:[[[userInfo objectForKey:@"aps"] valueForKey:@"alert"] description] ];
+  [self MessageBox:@"Notification" message:[[[userInfo objectForKey:@"aps"] valueForKey:@"alert"] description]];
 }
 
--(void)MessageBox:(NSString *)title message:(NSString *)messageText
-{
-  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:messageText delegate:self
-                                        cancelButtonTitle:@"OK" otherButtonTitles: nil];
+- (void)MessageBox:(NSString *)title message:(NSString *)messageText {
+  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
+                                                  message:messageText
+                                                 delegate:self
+                                        cancelButtonTitle:@"OK"
+                                        otherButtonTitles:nil];
   [alert show];
 }
-
 
 - (void)applicationWillResignActive:(UIApplication *)application {
   // Sent when the application is about to move from active to inactive state. This can occur for certain types of

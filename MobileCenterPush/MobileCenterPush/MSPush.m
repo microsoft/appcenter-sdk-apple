@@ -1,9 +1,9 @@
-#import <UserNotifications/UserNotifications.h>
 #import "MSMobileCenterInternal.h"
 #import "MSPush.h"
 #import "MSPushInternal.h"
 #import "MSPushLog.h"
 #import "MSPushPrivate.h"
+#import <UserNotifications/UserNotifications.h>
 
 /**
  * Service storage key name.
@@ -102,26 +102,31 @@ static dispatch_once_t onceToken;
   sharedInstance = nil;
 }
 
-- (void) registerForRemoteNotifications {
+- (void)registerForRemoteNotifications {
   MSLogVerbose([MSPush logTag], @"Registering for push notifications");
 #if !(TARGET_OS_SIMULATOR)
   if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_9_x_Max) {
-    UIUserNotificationType allNotificationTypes = (UIUserNotificationType) (UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge);
-    UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:allNotificationTypes categories:nil];
+    UIUserNotificationType allNotificationTypes = (UIUserNotificationType)(
+        UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge);
+    UIUserNotificationSettings *settings =
+        [UIUserNotificationSettings settingsForTypes:allNotificationTypes categories:nil];
     [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
   } else {
     UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
-    UNAuthorizationOptions authOptions = (UNAuthorizationOptions) (UNAuthorizationOptionAlert | UNAuthorizationOptionSound | UNAuthorizationOptionBadge);
+    UNAuthorizationOptions authOptions =
+        (UNAuthorizationOptions)(UNAuthorizationOptionAlert | UNAuthorizationOptionSound | UNAuthorizationOptionBadge);
     [center requestAuthorizationWithOptions:authOptions
-                          completionHandler:^(BOOL granted, NSError * _Nullable error) {}];
+                          completionHandler:^(BOOL granted, NSError *_Nullable error){
+                          }];
   }
   [[UIApplication sharedApplication] registerForRemoteNotifications];
 #endif
 }
 
 #ifdef __IPHONE_8_0
-- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSetting {
-  //register to receive notifications
+- (void)application:(UIApplication *)application
+    didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSetting {
+  // register to receive notifications
   [application registerForRemoteNotifications];
 }
 #endif
@@ -129,7 +134,7 @@ static dispatch_once_t onceToken;
 - (NSString *)convertTokenToString:(NSData *)token {
   if (!token)
     return nil;
-  const unsigned char* dataBuffer = token.bytes;
+  const unsigned char *dataBuffer = token.bytes;
   NSMutableString *stringBuffer = [NSMutableString stringWithCapacity:(token.length * 2)];
   for (NSUInteger i = 0; i < token.length; ++i) {
     [stringBuffer appendFormat:@"%02x", dataBuffer[i]];
@@ -137,7 +142,7 @@ static dispatch_once_t onceToken;
   return [NSString stringWithString:stringBuffer];
 }
 
-- (void) sendDeviceToken: (NSString *)token {
+- (void)sendDeviceToken:(NSString *)token {
   MSPushLog *log = [MSPushLog new];
   log.deviceToken = token;
   [self.logManager processLog:log withPriority:self.priority andGroupID:self.groupID];
@@ -155,7 +160,7 @@ static dispatch_once_t onceToken;
       ![self.delegate respondsToSelector:@selector(push:willSendInstallationLog:)]) {
     return;
   }
-  MSPushLog *installationLog = (MSPushLog*) log;
+  MSPushLog *installationLog = (MSPushLog *)log;
   [self.delegate push:self willSendInstallationLog:installationLog];
 }
 
@@ -168,7 +173,7 @@ static dispatch_once_t onceToken;
       ![self.delegate respondsToSelector:@selector(push:didSucceedSendingInstallationLog:)]) {
     return;
   }
-  MSPushLog *installationLog = (MSPushLog*) log;
+  MSPushLog *installationLog = (MSPushLog *)log;
   [self.delegate push:self didSucceedSendingInstallationLog:installationLog];
 }
 
@@ -181,7 +186,7 @@ static dispatch_once_t onceToken;
       ![self.delegate respondsToSelector:@selector(push:didFailSendingInstallLog:withError:)]) {
     return;
   }
-  MSPushLog *installationLog = (MSPushLog*) log;
+  MSPushLog *installationLog = (MSPushLog *)log;
   [self.delegate push:self didFailSendingInstallLog:installationLog withError:error];
 }
 
@@ -194,8 +199,9 @@ static dispatch_once_t onceToken;
   [self sendDeviceToken:strDeviceToken];
 }
 
--(void)didFailToRegisterForRemoteNotificationsWith:(NSError *)error {
-  MSLogVerbose([MSPush logTag], @"Registering for push notifications has been finished with error: %@", error.description);
+- (void)didFailToRegisterForRemoteNotificationsWith:(NSError *)error {
+  MSLogVerbose([MSPush logTag], @"Registering for push notifications has been finished with error: %@",
+               error.description);
 }
 
 #pragma mark - Delegate
