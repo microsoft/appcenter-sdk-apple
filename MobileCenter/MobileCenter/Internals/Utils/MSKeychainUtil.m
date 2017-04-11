@@ -36,7 +36,7 @@ static NSString *MobileCenterKeychainServiceName(void) {
 
 + (NSString *)stringForKey:(NSString *)key {
   NSMutableDictionary *item = [MSKeychainUtil generateItem:key];
-  item[(__bridge id)kSecReturnData] = (id)kCFBooleanTrue;
+  item[(__bridge id)kSecReturnData] = (__bridge id)kCFBooleanTrue;
   item[(__bridge id)kSecMatchLimit] = (__bridge id)kSecMatchLimitOne;
 
   CFTypeRef data = nil;
