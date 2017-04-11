@@ -7,6 +7,8 @@
 
 #define MOBILE_CENTER_DISTRIBUTE_BUNDLE @"MobileCenterDistributeResources.bundle"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface MSDistribute () <MSServiceInternal>
 
 /**
@@ -25,3 +27,6 @@
 @property(nonatomic, nullable) MSDistributeSender *sender;
 
 @end
+
+NS_ASSUME_NONNULL_END
+
