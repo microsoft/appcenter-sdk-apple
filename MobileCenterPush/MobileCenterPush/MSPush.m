@@ -82,7 +82,6 @@ static dispatch_once_t onceToken;
 #pragma mark - MSServiceAbstract
 
 - (void)applyEnabledState:(BOOL)isEnabled {
-  
   [super applyEnabledState:isEnabled];
   if (isEnabled) {
     MSLogInfo([MSPush logTag], @"Push service has been enabled.");
@@ -115,16 +114,13 @@ static dispatch_once_t onceToken;
     UNAuthorizationOptions authOptions = (UNAuthorizationOptions) (UNAuthorizationOptionAlert | UNAuthorizationOptionSound | UNAuthorizationOptionBadge);
     [center requestAuthorizationWithOptions:authOptions
                           completionHandler:^(BOOL granted, NSError * _Nullable error) {}];
-    
-    [[UNUserNotificationCenter currentNotificationCenter] setDelegate:[[UIApplication sharedApplication] delegate]];
   }
   [[UIApplication sharedApplication] registerForRemoteNotifications];
 #endif
 }
 
 #ifdef __IPHONE_8_0
-- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
-{
+- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSetting {
   //register to receive notifications
   [application registerForRemoteNotifications];
 }
