@@ -113,4 +113,10 @@
   XCTAssertNil(details.releaseNotes);
 }
 
+- (void)testIsNotEqualToNil {
+
+  // Then
+  XCTAssertFalse([[MSReleaseDetails new] isEqual:nil]);
+}
+
 @end

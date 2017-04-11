@@ -1080,6 +1080,44 @@ static NSURL *sfURL;
   XCTAssertFalse(result);
 }
 
+- (void)testStartUpdateWhenApplicationEnterForeground {
+
+  // If
+  id notificationCenterMock = OCMPartialMock([NSNotificationCenter new]);
+  OCMStub([notificationCenterMock defaultCenter]).andReturn(notificationCenterMock);
+  id distributeMock = OCMPartialMock([MSDistribute new]);
+  __block int startUpdateCounter = 0;
+  OCMStub([distributeMock startUpdate]).andDo(^(__attribute((unused)) NSInvocation *invocation) {
+    startUpdateCounter++;
+  });
+
+  // When
+  [distributeMock setEnabled:NO];
+  [notificationCenterMock postNotificationName:UIApplicationWillEnterForegroundNotification object:nil];
+
+  // Then
+  OCMVerify([distributeMock isEnabled]);
+  OCMReject([distributeMock startUpdate]);
+  XCTAssertEqual(startUpdateCounter, 0);
+
+  // When
+  [distributeMock setEnabled:YES];
+
+  // Then
+  OCMVerify([distributeMock startUpdate]);
+  XCTAssertEqual(startUpdateCounter, 1);
+
+  // When
+  [notificationCenterMock postNotificationName:UIApplicationWillEnterForegroundNotification object:nil];
+
+  // Then
+  OCMVerify([distributeMock isEnabled]);
+  OCMVerify([distributeMock startUpdate]);
+  XCTAssertEqual(startUpdateCounter, 2);
+}
+
+#pragma mark - Helper
+
 - (MSReleaseDetails *)generateReleaseDetailsWithVersion:(NSString *)version andShortVersion:(NSString *)shortVersion {
   MSReleaseDetails *releaseDetails = [MSReleaseDetails new];
   releaseDetails.version = version;

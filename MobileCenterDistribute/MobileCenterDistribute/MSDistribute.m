@@ -554,13 +554,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
         [MSAlertController alertControllerWithTitle:MSDistributeLocalizedString(@"MSDistributeAppUpdateAvailable")
                                             message:message];
 
-    // Add a "Update now"-Button.
-    // Preferred action is only available iOS 9.0 or newer, default action will be displayed for iOS < 9.0.
-    [alertController addPreferredActionWithTitle:MSDistributeLocalizedString(@"MSDistributeUpdateNow")
-                                         handler:^(__attribute__((unused)) UIAlertAction *action) {
-                                           [self notifyUserUpdateAction:MSUserUpdateActionUpdate];
-                                         }];
-
     if (!details.mandatoryUpdate) {
 
       // Add a "Ask me in a day"-Button.
@@ -584,6 +577,13 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                                                 options:@{}
                                       completionHandler:nil];
                           }];
+
+    // Add a "Update now"-Button.
+    // Preferred action is only available iOS 9.0 or newer, cancel action will be displayed for iOS < 9.0.
+    [alertController addPreferredActionWithTitle:MSDistributeLocalizedString(@"MSDistributeUpdateNow")
+                                         handler:^(__attribute__((unused)) UIAlertAction *action) {
+                                           [self notifyUserUpdateAction:MSUserUpdateActionUpdate];
+                                         }];
 
     /*
      * Show the alert controller.
@@ -696,6 +696,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     [self startUpdate];
   }
 }
+
 - (void)dealloc {
   [MS_NOTIFICATION_CENTER removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
 }
