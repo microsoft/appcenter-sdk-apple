@@ -1,7 +1,15 @@
-"Ignore" = "Ignorieren";
-"Postpone" = "Aufschieben";
-"Download" = "Herunterladen";
-"Update available" = "Update verfügbar";
-"No release notes" = "Für diese Versionen wurden keine Release Notes bereit gestellt.";
-"In-app-updates are disabled" = "In-App-Updates wurden deaktiviert.";
-"Close" = "Schließen";
+/*
+ * Update dialog buttons
+ */
+"MSDistributeUpdateNow" = "Jetzt aktualisieren";
+"MSDistributeAskMeInADay" = "In einem Tag erneut nachfragen";
+"MSDistributeViewReleaseNotes" = "Release Notes anzeigen";
+"MSDistributeClose" = "Schließen";
+
+/*
+ * Update dialog titles/messages
+ */
+"MSDistributeAppUpdateAvailable" = "App update verfügbar";
+"MSDistributeAppUpdateAvailableOptionalUpdateMessage" = "Das Update auf Version %@ %@ (%@) ist ein verpflichtendes Update.";
+"MSDistributeAppUpdateAvailableMandatoryUpdateMessage" = "%@ %@ (%@) steht zum Download bereit.";
+"MSDistributeInAppUpdatesAreDisabled" = "In-app-updates wurden deaktiviert.";

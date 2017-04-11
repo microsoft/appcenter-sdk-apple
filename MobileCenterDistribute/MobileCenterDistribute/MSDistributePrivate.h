@@ -7,6 +7,20 @@
 
 @class MSReleaseDetails;
 
+// TODO: Move this to another protocol when delegate is introduced.
+typedef NS_ENUM(NSInteger, MSUserUpdateAction) {
+
+  /**
+   * Action to trigger update.
+   */
+  MSUserUpdateActionUpdate,
+
+  /**
+   * Action to postpone update.
+   */
+  MSUserUpdateActionPostpone
+};
+
 /**
  * Base URL for HTTP Distribute install API calls.
  */
@@ -37,9 +51,9 @@ static NSString *const kMSURLQueryPlatformValue = @"iOS";
 static NSString *const kMSDefaultCustomSchemeFormat = @"mobilecenter-%@";
 
 /**
- * The storage key for ignored release ID.
+ * The storage key for postponed timestamp.
  */
-static NSString *const kMSIgnoredReleaseIdKey = @"MSIgnoredReleaseId";
+static NSString *const kMSPostponedTimestampKey = @"MSPostponedTimestamp";
 
 /**
  * The storage key for request ID.
@@ -74,9 +88,9 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
 @property(nonatomic) MSAlertController *updateAlertController;
 
 /**
- * Current mandatory release if any.
+ * Current release details.
  */
-@property(nonatomic) MSReleaseDetails *mandatoryRelease;
+@property(nonatomic) MSReleaseDetails *releaseDetails;
 
 /**
  * Returns the singleton instance. Meant for testing/demo apps only.

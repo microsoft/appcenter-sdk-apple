@@ -50,6 +50,16 @@
 - (void)addDestructiveActionWithTitle:(NSString *)title handler:(void (^)(UIAlertAction *action))handler;
 
 /**
+ * Add a preferred action to the alert controller.
+ *
+ * @param title  The action's title.
+ * @param handler A block that will be executed if the user chosses the action.
+ *
+ * @discussion This method is only available iOS 9.0 or newer. The default action will be used for iOS < 9.0.
+ */
+- (void)addPreferredActionWithTitle:(NSString *)title handler:(void (^)(UIAlertAction *action))handler;
+
+/**
  * Show the alert controller to the user.
  */
 - (void)show;

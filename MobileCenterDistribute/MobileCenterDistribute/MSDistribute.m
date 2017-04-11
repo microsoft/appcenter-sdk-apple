@@ -10,6 +10,7 @@
 #import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
 #import "MSServiceAbstractProtected.h"
+#import "MSUtility+Date.h"
 
 /**
  * Service storage key name.
@@ -20,6 +21,12 @@ static NSString *const kMSServiceName = @"Distribute";
  * The group ID for storage.
  */
 static NSString *const kMSGroupID = @"Distribute";
+
+/**
+ * A day in milliseconds.
+ */
+static long long const kMSDayInMillisecond =
+    24 /* Hours */ * 60 /* Minutes */ * 60 /* Seconds */ * 1000 /* Milliseconds */;
 
 #pragma mark - URL constants
 
@@ -55,6 +62,12 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       [MSKeychainUtil deleteStringForKey:kMSUpdateTokenKey];
       [MS_USER_DEFAULTS setObject:@(1) forKey:kMSSDKHasLaunchedWithDistribute];
     }
+
+    // Proceed update whenever an application is restarted in users perspective.
+    [MS_NOTIFICATION_CENTER addObserver:self
+                               selector:@selector(applicationWillEnterForeground)
+                                   name:UIApplicationWillEnterForegroundNotification
+                                 object:nil];
   }
   return self;
 }
@@ -90,22 +103,42 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   // Enabling
   if (isEnabled) {
     MSLogInfo([MSDistribute logTag], @"Distribute service has been enabled.");
-    NSString *updateToken = [MSKeychainUtil stringForKey:kMSUpdateTokenKey];
-    NSString *releaseHash = MSPackageHash();
-    if (releaseHash) {
-      if (updateToken) {
-        [self checkLatestRelease:updateToken releaseHash:releaseHash];
-      } else {
-        [self requestUpdateToken:releaseHash];
-      }
-    } else {
-      MSLogError([MSDistribute logTag], @"Failed to get a release hash.");
-    }
+    self.releaseDetails = nil;
+    [self startUpdate];
   } else {
     [self dismissEmbeddedSafari];
     [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
-    [MS_USER_DEFAULTS removeObjectForKey:kMSIgnoredReleaseIdKey];
+    [MS_USER_DEFAULTS removeObjectForKey:kMSPostponedTimestampKey];
+    [MS_USER_DEFAULTS removeObjectForKey:kMSMandatoryReleaseKey];
     MSLogInfo([MSDistribute logTag], @"Distribute service has been disabled.");
+  }
+}
+
+- (void)notifyUserUpdateAction:(MSUserUpdateAction)action {
+  switch (action) {
+  case MSUserUpdateActionUpdate:
+#if TARGET_IPHONE_SIMULATOR
+
+    /*
+     * iOS simulator doesn't support "itms-services" scheme, simulator will consider the scheme
+     * as an invalid address. Skip download process if the application is running on simulator.
+     */
+    MSLogWarning([MSDistribute logTag], @"Couldn't download a new release on simulator.");
+#else
+    if ([self isEnabled]) {
+      MSLogDebug([MSDistribute logTag], @"'Update now' is seleted. Start download and install the update.");
+      [self startDownload:self.releaseDetails];
+    } else {
+      MSLogDebug([MSDistribute logTag], @"'Update now' is seleted but Distribute was disabled.");
+      [self showDistributeDisabledAlert];
+    }
+#endif
+    break;
+  case MSUserUpdateActionPostpone:
+    MSLogDebug([MSDistribute logTag], @"The SDK will ask the update tomorrow again.");
+    [MS_USER_DEFAULTS setObject:[NSNumber numberWithLongLong:(long long)[MSUtility nowInMilliseconds]]
+                         forKey:kMSPostponedTimestampKey];
+    break;
   }
 }
 
@@ -129,6 +162,20 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 }
 
 #pragma mark - Private
+
+- (void)startUpdate {
+  NSString *updateToken = [MSKeychainUtil stringForKey:kMSUpdateTokenKey];
+  NSString *releaseHash = MSPackageHash();
+  if (releaseHash) {
+    if (updateToken) {
+      [self checkLatestRelease:updateToken releaseHash:releaseHash];
+    } else {
+      [self requestUpdateToken:releaseHash];
+    }
+  } else {
+    MSLogError([MSDistribute logTag], @"Failed to get a release hash.");
+  }
+}
 
 - (void)requestUpdateToken:(NSString *)releaseHash {
 
@@ -189,12 +236,12 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
     // Use persisted mandatory update while network is down.
     if ([MS_Reachability reachabilityForInternetConnection].currentReachabilityStatus == NotReachable) {
-      self.mandatoryRelease =
+      MSReleaseDetails *details =
           [[MSReleaseDetails alloc] initWithDictionary:[MS_USER_DEFAULTS objectForKey:kMSMandatoryReleaseKey]];
-      if (self.mandatoryRelease && ![self handleUpdate:self.mandatoryRelease]) {
+      if (details && ![self handleUpdate:details]) {
 
         // This release is no more a candidate for update, deleting it.
-        [self deleteMandatoryRelease];
+        [MS_USER_DEFAULTS removeObjectForKey:kMSMandatoryReleaseKey];
       }
     }
 
@@ -206,8 +253,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                                                    queryStrings:@{kMSURLQueryReleaseHashKey : releaseHash}];
       [self.sender
                   sendAsync:nil
-          completionHandler:^(__attribute__((unused)) NSString * callId, NSUInteger statusCode, NSData * data,
-                              __attribute__((unused)) NSError * error) {
+          completionHandler:^(__attribute__((unused)) NSString *callId, NSUInteger statusCode, NSData *data,
+                              __attribute__((unused)) NSError *error) {
 
             // Release sender instance.
             self.sender = nil;
@@ -252,7 +299,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                  * came back along with the same mandatory release from the server. In addition to that and even though
                  * the releases are the same, the URL links gerenarted by the server will be different.
                  * Thus, there is the overhead of updating the currently displayed download action with the new URL.
-                 * In the end fixing this edge case adds too much complexity for no worthy advantages, 
+                 * In the end fixing this edge case adds too much complexity for no worthy advantages,
                  * keeping it as it is for now.
                  */
                 [self handleUpdate:details];
@@ -261,7 +308,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
             // Failure.
             else {
-              MSLogDebug([MSDistribute logTag], @"Failed to get a update response, status code:%lu",
+              MSLogDebug([MSDistribute logTag], @"Failed to get an update response, status code:%lu",
                          (unsigned long)statusCode);
               NSString *jsonString = nil;
               id dictionary =
@@ -295,7 +342,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                   [MSKeychainUtil deleteStringForKey:kMSUpdateTokenKey];
                   [MS_USER_DEFAULTS removeObjectForKey:kMSSDKHasLaunchedWithDistribute];
                   [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
-                  [MS_USER_DEFAULTS removeObjectForKey:kMSIgnoredReleaseIdKey];
+                  [MS_USER_DEFAULTS removeObjectForKey:kMSPostponedTimestampKey];
                 }
               }
               if (!jsonString) {
@@ -416,7 +463,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 - (BOOL)handleUpdate:(MSReleaseDetails *)details {
 
   // Step 1. Validate release details.
-  if (![details isValid]) {
+  if (!details || ![details isValid]) {
     MSLogError([MSDistribute logTag], @"Received invalid release details.");
     return NO;
   }
@@ -427,11 +474,20 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     return NO;
   }
 
-  // Step 3. Check if the release ID was ignored by a user.
-  NSNumber *releaseId = [MS_USER_DEFAULTS objectForKey:kMSIgnoredReleaseIdKey];
-  if (releaseId && releaseId == details.id) {
-    MSLogDebug([MSDistribute logTag], @"A user already ignored updating this release, skip update.");
-    return NO;
+  // Step 3. Check if the update is postponed by a user.
+  NSNumber *postponedTimestamp = [MS_USER_DEFAULTS objectForKey:kMSPostponedTimestampKey];
+  if (postponedTimestamp) {
+    long long duration = (long long)[MSUtility nowInMilliseconds] - [postponedTimestamp longLongValue];
+    if (duration >= 0 && duration < kMSDayInMillisecond) {
+      if (details.mandatoryUpdate) {
+        MSLogDebug([MSDistribute logTag], @"The update was postponed within a day ago but the update is a mandatory "
+                                          @"update. The SDK will proceed update for the release.");
+      } else {
+        MSLogDebug([MSDistribute logTag], @"The update was postponed within a day ago, skip update.");
+        return NO;
+      }
+    }
+    [MS_USER_DEFAULTS removeObjectForKey:kMSPostponedTimestampKey];
   }
 
   // Step 4. Check min OS version.
@@ -447,17 +503,22 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     return NO;
   }
 
-  // Persist this mandatory update now.
+  // Step 6. Persist this mandatory update to cover offline scenario.
   if (details.mandatoryUpdate) {
+
+    // Persist this mandatory update now.
     [MS_USER_DEFAULTS setObject:[details serializeToDictionary] forKey:kMSMandatoryReleaseKey];
   } else {
 
-    // New release not mandatory anymore.
-    [self deleteMandatoryRelease];
+    // Clean up mandatory release cache.
+    [MS_USER_DEFAULTS removeObjectForKey:kMSMandatoryReleaseKey];
   }
 
-  // Step 6. Open a dialog and ask a user to choose options for the update.
-  [self showConfirmationAlert:details];
+  // Step 7. Open a dialog and ask a user to choose options for the update.
+  if (!self.releaseDetails || ![self.releaseDetails isEqual:details]) {
+    self.releaseDetails = details;
+    [self showConfirmationAlert:details];
+  }
   return YES;
 }
 
@@ -471,11 +532,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   return environmentOkay && noDebuggerAttached;
 }
 
-- (void)deleteMandatoryRelease {
-  [MS_USER_DEFAULTS removeObjectForKey:kMSMandatoryReleaseKey];
-  self.mandatoryRelease = nil;
-}
-
 - (BOOL)isNewerVersion:(MSReleaseDetails *)details {
   return MSCompareCurrentReleaseWithRelease(details) == NSOrderedAscending;
 }
@@ -486,56 +542,48 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   dispatch_async(dispatch_get_main_queue(), ^{
 
     // Init the alert controller.
-    NSString *releaseNotes =
-        details.releaseNotes ? details.releaseNotes : MSDistributeLocalizedString(@"No release notes");
+    NSString *messageFormat = details.mandatoryUpdate
+                                  ? MSDistributeLocalizedString(@"MSDistributeAppUpdateAvailableMandatoryUpdateMessage")
+                                  : MSDistributeLocalizedString(@"MSDistributeAppUpdateAvailableOptionalUpdateMessage");
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wformat-nonliteral"
+    NSString *message =
+        [NSString stringWithFormat:messageFormat, details.appName, details.shortVersion, details.version];
+#pragma clang diagnostic pop
     MSAlertController *alertController =
-        [MSAlertController alertControllerWithTitle:MSDistributeLocalizedString(@"Update available")
-                                            message:releaseNotes];
-    if (!details.mandatoryUpdate) {
+        [MSAlertController alertControllerWithTitle:MSDistributeLocalizedString(@"MSDistributeAppUpdateAvailable")
+                                            message:message];
 
-      // Add a "Postpone"-Button
-      [alertController addDefaultActionWithTitle:MSDistributeLocalizedString(@"Postpone")
-                                         handler:^(__attribute__((unused)) UIAlertAction * action) {
-
-                                           // No need to check if the service isEnabled.
-                                           MSLogDebug([MSDistribute logTag], @"Postpone the update for now.");
+    // Add a "Update now"-Button.
+    // Preferred action is only available iOS 9.0 or newer, default action will be displayed for iOS < 9.0.
+    [alertController addPreferredActionWithTitle:MSDistributeLocalizedString(@"MSDistributeUpdateNow")
+                                         handler:^(__attribute__((unused)) UIAlertAction *action) {
+                                           [self notifyUserUpdateAction:MSUserUpdateActionUpdate];
                                          }];
 
-      // Add a "Ignore"-Button
-      [alertController
-          addDefaultActionWithTitle:MSDistributeLocalizedString(@"Ignore")
-                            handler:^(__attribute__((unused)) UIAlertAction * action) {
-                              if ([self isEnabled]) {
-                                MSLogDebug([MSDistribute logTag], @"Ignore the release id: %@.", details.id);
-                                [MS_USER_DEFAULTS setObject:details.id forKey:kMSIgnoredReleaseIdKey];
-                              } else {
-                                MSLogDebug([MSDistribute logTag], @"Distribute was disabled.");
-                                [self showDistributeDisabledAlert];
-                              }
-                            }];
+    if (!details.mandatoryUpdate) {
+
+      // Add a "Ask me in a day"-Button.
+      [alertController addDefaultActionWithTitle:MSDistributeLocalizedString(@"MSDistributeAskMeInADay")
+                                         handler:^(__attribute__((unused)) UIAlertAction *action) {
+
+                                           // No need to check if the service isEnabled.
+                                           [self notifyUserUpdateAction:MSUserUpdateActionUpdate];
+                                         }];
     }
 
-    // Add a "Download"-Button
+    // Add a "View release notes"-Button.
     [alertController
-        addCancelActionWithTitle:MSDistributeLocalizedString(@"Download")
-                         handler:^(__attribute__((unused)) UIAlertAction *action) {
-#if TARGET_IPHONE_SIMULATOR
+        addDefaultActionWithTitle:MSDistributeLocalizedString(@"MSDistributeViewReleaseNotes")
+                          handler:^(__attribute__((unused)) UIAlertAction *action) {
+                            MSLogDebug([MSDistribute logTag],
+                                       @"'View release notes' is selected. Open a browser and show release notes.");
 
-                           /*
-                            * iOS simulator doesn't support "itms-services" scheme, simulator will consider the scheme
-                            * as an invalid address. Skip download process if the application is running on simulator.
-                            */
-                           MSLogWarning([MSDistribute logTag], @"Couldn't download a new release on simulator.");
-#else
-                                        if ([self isEnabled]) {
-                                          MSLogDebug([MSDistribute logTag], @"Start download and install the update.");
-                                          [self startDownload:details];
-                                        } else {
-                                          MSLogDebug([MSDistribute logTag], @"Distribute was disabled.");
-                                          [self showDistributeDisabledAlert];
-                                        }
-#endif
-                         }];
+                            // TODO: Release details don't have release notes URL because the backend doesn't support.
+                            [MSUtility sharedAppOpenUrl:[NSURL URLWithString:@"https://www.microsoft.com"]
+                                                options:@{}
+                                      completionHandler:nil];
+                          }];
 
     /*
      * Show the alert controller.
@@ -551,9 +599,9 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 - (void)showDistributeDisabledAlert {
   dispatch_async(dispatch_get_main_queue(), ^{
     MSAlertController *alertController =
-        [MSAlertController alertControllerWithTitle:MSDistributeLocalizedString(@"In-app-updates are disabled.")
+        [MSAlertController alertControllerWithTitle:MSDistributeLocalizedString(@"MSDistributeInAppUpdatesAreDisabled")
                                             message:nil];
-    [alertController addCancelActionWithTitle:MSDistributeLocalizedString(@"Close") handler:nil];
+    [alertController addCancelActionWithTitle:MSDistributeLocalizedString(@"MSDistributeClose") handler:nil];
     [alertController show];
   });
 }
@@ -641,6 +689,15 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   } else {
     MSLogDebug([MSDistribute logTag], @"Distribute service has been disabled, ignore request.");
   }
+}
+
+- (void)applicationWillEnterForeground {
+  if ([self isEnabled]) {
+    [self startUpdate];
+  }
+}
+- (void)dealloc {
+  [MS_NOTIFICATION_CENTER removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
 }
 
 @end

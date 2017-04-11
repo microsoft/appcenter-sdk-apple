@@ -72,11 +72,11 @@ static NSURL *sfURL;
   [MSKeychainUtil clear];
   self.sut = [MSDistribute new];
   self.settingsMock = [MSMockUserDefaults new];
-  
+
   // Mock NSBundle
   self.bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([self.bundleMock mainBundle]).andReturn(self.bundleMock);
-  
+
   // Make sure we disable the debug-mode checks so we can actually test the logic.
   [MSDistributeTestUtil mockUpdatesAllowedConditions];
 
@@ -319,8 +319,16 @@ static NSURL *sfURL;
   MSReleaseDetails *details = [MSReleaseDetails new];
   OCMStub([alertControllerMock alertControllerWithTitle:[OCMArg any] message:[OCMArg any]])
       .andReturn(alertControllerMock);
-  details.releaseNotes = @"Release Note";
+  details.appName = @"Test App";
+  details.shortVersion = @"2.5";
+  details.version = @"11";
   details.mandatoryUpdate = false;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wformat-nonliteral"
+  NSString *message =
+      [NSString stringWithFormat:MSDistributeLocalizedString(@"MSDistributeAppUpdateAvailableOptionalUpdateMessage"),
+                                 details.appName, details.shortVersion, details.version];
+#pragma clang diagnostic pop
 
   // When
   XCTestExpectation *expection = [self expectationWithDescription:@"Confirmation alert has been displayed"];
@@ -333,12 +341,16 @@ static NSURL *sfURL;
                                handler:^(__attribute__((unused)) NSError *error) {
 
                                  // Then
-                                 OCMVerify([alertControllerMock alertControllerWithTitle:[OCMArg any]
-                                                                                 message:details.releaseNotes]);
-                                 OCMVerify(
-                                     [alertControllerMock addDefaultActionWithTitle:[OCMArg any] handler:[OCMArg any]]);
-                                 OCMVerify(
-                                     [alertControllerMock addCancelActionWithTitle:[OCMArg any] handler:[OCMArg any]]);
+                                 OCMVerify([alertControllerMock alertControllerWithTitle:[OCMArg any] message:message]);
+                                 OCMVerify([alertControllerMock
+                                     addDefaultActionWithTitle:MSDistributeLocalizedString(@"MSDistributeAskMeInADay")
+                                                       handler:[OCMArg any]]);
+                                 OCMVerify([alertControllerMock
+                                     addDefaultActionWithTitle:MSDistributeLocalizedString(
+                                                                   @"MSDistributeViewReleaseNotes")
+                                                       handler:[OCMArg any]]);
+                                 OCMVerify([alertControllerMock addPreferredActionWithTitle:[OCMArg any]
+                                                                                    handler:[OCMArg any]]);
                                }];
 }
 
@@ -350,8 +362,16 @@ static NSURL *sfURL;
   MSReleaseDetails *details = [MSReleaseDetails new];
   OCMStub([alertControllerMock alertControllerWithTitle:[OCMArg any] message:[OCMArg any]])
       .andReturn(alertControllerMock);
-  details.releaseNotes = @"Release Note";
+  details.appName = @"Test App";
+  details.shortVersion = @"2.5";
+  details.version = @"11";
   details.mandatoryUpdate = true;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wformat-nonliteral"
+  NSString *message =
+      [NSString stringWithFormat:MSDistributeLocalizedString(@"MSDistributeAppUpdateAvailableMandatoryUpdateMessage"),
+                                 details.appName, details.shortVersion, details.version];
+#pragma clang diagnostic pop
 
   // When
   XCTestExpectation *expection = [self expectationWithDescription:@"Confirmation alert has been displayed"];
@@ -364,16 +384,20 @@ static NSURL *sfURL;
                                handler:^(__attribute__((unused)) NSError *error) {
 
                                  // Then
-                                 OCMVerify([alertControllerMock alertControllerWithTitle:[OCMArg any]
-                                                                                 message:details.releaseNotes]);
-                                 OCMReject(
-                                     [alertControllerMock addDefaultActionWithTitle:[OCMArg any] handler:[OCMArg any]]);
-                                 OCMVerify(
-                                     [alertControllerMock addCancelActionWithTitle:[OCMArg any] handler:[OCMArg any]]);
+                                 OCMVerify([alertControllerMock alertControllerWithTitle:[OCMArg any] message:message]);
+                                 OCMReject([alertControllerMock
+                                     addDefaultActionWithTitle:MSDistributeLocalizedString(@"MSDistributeAskMeInADay")
+                                                       handler:[OCMArg any]]);
+                                 OCMVerify([alertControllerMock
+                                     addDefaultActionWithTitle:MSDistributeLocalizedString(
+                                                                   @"MSDistributeViewReleaseNotes")
+                                                       handler:[OCMArg any]]);
+                                 OCMVerify([alertControllerMock addPreferredActionWithTitle:[OCMArg any]
+                                                                                    handler:[OCMArg any]]);
                                }];
 }
 
- - (void)testShowConfirmationAlertForMandatoryUpdateWhileNoNetwork {
+- (void)testShowConfirmationAlertForMandatoryUpdateWhileNoNetwork {
 
   /*
    * If
@@ -383,22 +407,30 @@ static NSURL *sfURL;
   // Mock alert.
   id alertControllerMock = OCMClassMock([MSAlertController class]);
   OCMStub([alertControllerMock alertControllerWithTitle:[OCMArg any] message:[OCMArg any]])
-  .andReturn(alertControllerMock);
+      .andReturn(alertControllerMock);
 
   // Init mandatory release.
   MSReleaseDetails *details = [MSReleaseDetails new];
 
   // Use UUID to identify this release and verify later.
-  details.releaseNotes = MS_UUID_STRING;
   details.id = @(42);
+  details.appName = @"Test App";
+  details.shortVersion = @"2.5";
+  details.version = @"11";
   details.downloadUrl = [NSURL URLWithString:@"https://www.contoso.com"];
   details.mandatoryUpdate = YES;
   details.status = @"available";
-  
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wformat-nonliteral"
+  NSString *message =
+      [NSString stringWithFormat:MSDistributeLocalizedString(@"MSDistributeAppUpdateAvailableMandatoryUpdateMessage"),
+                                 details.appName, details.shortVersion, details.version];
+#pragma clang diagnostic pop
+
   // Mock MSDistribute isNewerVersion to return YES.
   id distributeMock = OCMPartialMock(self.sut);
   OCMStub([distributeMock isNewerVersion:[OCMArg any]]).andReturn(YES);
-   
+
   // Mock reachability.
   id reachabilityMock = OCMClassMock([MS_Reachability class]);
   OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
@@ -409,7 +441,7 @@ static NSURL *sfURL;
 
   // Persist release to be picked up.
   [MS_USER_DEFAULTS setObject:[details serializeToDictionary] forKey:kMSMandatoryReleaseKey];
-   
+
   /*
    * When
    */
@@ -423,27 +455,31 @@ static NSURL *sfURL;
                                  /*
                                   * Then
                                   */
-                                 OCMVerify([alertControllerMock alertControllerWithTitle:[OCMArg any]
-                                                                                 message:details.releaseNotes]);
-                                 OCMReject(
-                                           [alertControllerMock addDefaultActionWithTitle:[OCMArg any] handler:[OCMArg any]]);
-                                 OCMVerify(
-                                           [alertControllerMock addCancelActionWithTitle:[OCMArg any] handler:[OCMArg any]]);
+                                 OCMVerify([alertControllerMock alertControllerWithTitle:[OCMArg any] message:message]);
+                                 OCMReject([alertControllerMock
+                                     addDefaultActionWithTitle:MSDistributeLocalizedString(@"MSDistributeAskMeInADay")
+                                                       handler:[OCMArg any]]);
+                                 OCMVerify([alertControllerMock
+                                     addDefaultActionWithTitle:MSDistributeLocalizedString(
+                                                                   @"MSDistributeViewReleaseNotes")
+                                                       handler:[OCMArg any]]);
+                                 OCMVerify([alertControllerMock addPreferredActionWithTitle:[OCMArg any]
+                                                                                    handler:[OCMArg any]]);
                                }];
 }
 
 - (void)testDontShowConfirmationAlertIfNoMandatoryReleaseWhileNoNetwork {
-  
+
   /*
    * If
    */
   XCTestExpectation *expection = [self expectationWithDescription:@"Confirmation alert has been displayed"];
-  
+
   // Mock alert.
   id alertControllerMock = OCMClassMock([MSAlertController class]);
   OCMStub([alertControllerMock alertControllerWithTitle:[OCMArg any] message:[OCMArg any]])
-  .andReturn(alertControllerMock);
-  
+      .andReturn(alertControllerMock);
+
   // Mock reachability.
   id reachabilityMock = OCMClassMock([MS_Reachability class]);
   OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
@@ -451,7 +487,7 @@ static NSURL *sfURL;
     NetworkStatus test = NotReachable;
     [invocation setReturnValue:&test];
   });
-  
+
   /*
    * When
    */
@@ -461,16 +497,16 @@ static NSURL *sfURL;
   });
   [self waitForExpectationsWithTimeout:1
                                handler:^(__attribute__((unused)) NSError *error) {
-                                 
+
                                  /*
                                   * Then
                                   */
-                                 OCMReject([alertControllerMock alertControllerWithTitle:[OCMArg any]
-                                                                                 message:[OCMArg any]]);
                                  OCMReject(
-                                           [alertControllerMock addDefaultActionWithTitle:[OCMArg any] handler:[OCMArg any]]);
+                                     [alertControllerMock alertControllerWithTitle:[OCMArg any] message:[OCMArg any]]);
                                  OCMReject(
-                                           [alertControllerMock addCancelActionWithTitle:[OCMArg any] handler:[OCMArg any]]);
+                                     [alertControllerMock addDefaultActionWithTitle:[OCMArg any] handler:[OCMArg any]]);
+                                 OCMReject(
+                                     [alertControllerMock addCancelActionWithTitle:[OCMArg any] handler:[OCMArg any]]);
                                }];
 }
 
@@ -483,11 +519,11 @@ static NSURL *sfURL;
   details.downloadUrl = [NSURL URLWithString:@"https://www.contoso.com"];
   details.mandatoryUpdate = YES;
   details.status = @"available";
-    
+
   // Mock MSDistribute isNewerVersion to return YES.
   id distributeMock = OCMPartialMock(self.sut);
   OCMStub([distributeMock isNewerVersion:[OCMArg any]]).andReturn(YES);
-  
+
   // When
   [self.sut handleUpdate:details];
 
@@ -507,10 +543,10 @@ static NSURL *sfURL;
   details.downloadUrl = [NSURL URLWithString:@"https://www.contoso.com"];
   details.mandatoryUpdate = NO;
   details.status = @"available";
-  
+
   // When
   [self.sut handleUpdate:details];
-  
+
   // Then
   NSMutableDictionary *persistedDict = [self.settingsMock objectForKey:kMSMandatoryReleaseKey];
   assertThat(persistedDict, nilValue());
@@ -614,14 +650,12 @@ static NSURL *sfURL;
 
   // Then
   XCTAssertNil([self.settingsMock objectForKey:kMSUpdateTokenRequestIdKey]);
-  XCTAssertNil([self.settingsMock objectForKey:kMSIgnoredReleaseIdKey]);
 
   // When
   [distributeMock applyEnabledState:NO];
 
   // Then
   XCTAssertNil([self.settingsMock objectForKey:kMSUpdateTokenRequestIdKey]);
-  XCTAssertNil([self.settingsMock objectForKey:kMSIgnoredReleaseIdKey]);
 }
 
 - (void)testApplyEnabledStateTrue {
@@ -651,18 +685,15 @@ static NSURL *sfURL;
 
   // If
   [self.settingsMock setObject:@"RequestID" forKey:kMSUpdateTokenRequestIdKey];
-  [self.settingsMock setObject:@"ReleaseID" forKey:kMSIgnoredReleaseIdKey];
 
   // Then
   XCTAssertNotNil([self.settingsMock objectForKey:kMSUpdateTokenRequestIdKey]);
-  XCTAssertNotNil([self.settingsMock objectForKey:kMSIgnoredReleaseIdKey]);
 
   // When
   [distributeMock applyEnabledState:NO];
 
   // Then
   XCTAssertNil([self.settingsMock objectForKey:kMSUpdateTokenRequestIdKey]);
-  XCTAssertNil([self.settingsMock objectForKey:kMSIgnoredReleaseIdKey]);
 }
 
 - (void)testCheckForUpdatesAllConditionsMet {
@@ -748,7 +779,7 @@ static NSURL *sfURL;
   OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
   OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(NotReachable);
   id distributeMock = OCMPartialMock(self.sut);
-  
+
   // We should not touch UI in a unit testing environment.
   OCMStub([distributeMock openURLInEmbeddedSafari:[OCMArg any] fromClass:[OCMArg any]]).andDo(nil);
 
@@ -760,7 +791,7 @@ static NSURL *sfURL;
 }
 
 - (void)testPackageHash {
-  
+
   // If
   // cd55e7a9-7ad1-4ca6-b722-3d133f487da9:1.0:1 -> 1ddf47f8dda8928174c419d530adcc13bb63cebfaf823d83ad5269b41e638ef4
   NSDictionary<NSString *, id> *plist = @{ @"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1" };
