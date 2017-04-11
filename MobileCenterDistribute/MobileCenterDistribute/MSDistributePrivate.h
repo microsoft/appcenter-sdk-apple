@@ -22,6 +22,12 @@ typedef NS_ENUM(NSInteger, MSUserUpdateAction) {
 };
 
 /**
+ * A day in milliseconds.
+ */
+static long long const kMSDayInMillisecond =
+    24 /* Hours */ * 60 /* Minutes */ * 60 /* Seconds */ * 1000 /* Milliseconds */;
+
+/**
  * Base URL for HTTP Distribute install API calls.
  */
 static NSString *const kMSDefaultInstallUrl = @"https://install.mobile.azure.com";
@@ -161,6 +167,15 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
  * Show a dialog to ask a user to confirm update for a new release.
  */
 - (void)showConfirmationAlert:(MSReleaseDetails *)details;
+
+/**
+ * Notify custom user action for current release.
+ *
+ * @param action The action for the release.
+ *
+ * @discussion This method will be moved to public once Distribute allows to customize the update dialog.
+ */
+- (void)notifyUserUpdateAction:(MSUserUpdateAction)action;
 
 /**
  * Show a dialog to the user in case MSDistribute was disabled while the updates-alert is shown.

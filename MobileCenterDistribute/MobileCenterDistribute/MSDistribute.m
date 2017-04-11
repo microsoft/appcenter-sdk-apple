@@ -22,12 +22,6 @@ static NSString *const kMSServiceName = @"Distribute";
  */
 static NSString *const kMSGroupID = @"Distribute";
 
-/**
- * A day in milliseconds.
- */
-static long long const kMSDayInMillisecond =
-    24 /* Hours */ * 60 /* Minutes */ * 60 /* Seconds */ * 1000 /* Milliseconds */;
-
 #pragma mark - URL constants
 
 /**

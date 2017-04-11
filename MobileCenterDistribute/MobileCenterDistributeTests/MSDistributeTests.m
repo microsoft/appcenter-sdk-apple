@@ -19,6 +19,7 @@
 #import "MSUserDefaults.h"
 #import "MSUtility.h"
 #import "MSUtility+Application.h"
+#import "MSUtility+Date.h"
 #import "MSUtility+Environment.h"
 #import "MSUtility+StringFormatting.h"
 
@@ -332,6 +333,94 @@ static NSURL *sfURL;
    * more explict checks.
    */
   XCTAssertEqual(showConfirmationAlertCounter, 1);
+}
+
+/**
+ * This test is for various cases after update is postponed. This test doesn't complete handleUpdate method and just
+ * check whether it passes the check and then move to the next step or not.
+ */
+- (void)testHandleUpdateAfterPostpone {
+
+  // If
+  id distributeMock = OCMPartialMock(self.sut);
+  __block int isNewerVersionCounter = 0;
+  OCMStub([distributeMock isNewerVersion:[OCMArg any]]).andDo(^(__attribute((unused)) NSInvocation *invocation) {
+    isNewerVersionCounter++;
+  });
+  int actualCounter = 0;
+  MSReleaseDetails *details = [self generateReleaseDetailsWithVersion:@"1" andShortVersion:@"1.0"];
+  details.id = @1;
+  details.downloadUrl = [NSURL URLWithString:@"https://contoso.com/valid/url"];
+  details.status = @"available";
+  details.mandatoryUpdate = false;
+  [MS_USER_DEFAULTS setObject:[NSNumber numberWithLongLong:(long long)[MSUtility nowInMilliseconds] - 100000]
+                       forKey:kMSPostponedTimestampKey];
+
+  // When
+  BOOL result = [distributeMock handleUpdate:details];
+
+  // Then
+  XCTAssertFalse(result);
+  OCMReject([distributeMock isNewerVersion:[OCMArg any]]);
+  XCTAssertEqual(isNewerVersionCounter, 0);
+
+  // If
+  details.mandatoryUpdate = true;
+
+  // When
+  [distributeMock handleUpdate:details];
+
+  // Then
+  OCMVerify([distributeMock isNewerVersion:[OCMArg any]]);
+  XCTAssertEqual(isNewerVersionCounter, ++actualCounter);
+
+  // If
+  details.mandatoryUpdate = false;
+  [MS_USER_DEFAULTS setObject:@1 forKey:kMSPostponedTimestampKey];
+
+  // When
+  [distributeMock handleUpdate:details];
+
+  // Then
+  OCMVerify([distributeMock isNewerVersion:[OCMArg any]]);
+  XCTAssertEqual(isNewerVersionCounter, ++actualCounter);
+
+  // If
+  details.mandatoryUpdate = true;
+  [MS_USER_DEFAULTS setObject:@1 forKey:kMSPostponedTimestampKey];
+
+  // When
+  [distributeMock handleUpdate:details];
+
+  // Then
+  OCMVerify([distributeMock isNewerVersion:[OCMArg any]]);
+  XCTAssertEqual(isNewerVersionCounter, ++actualCounter);
+
+  // If
+  details.mandatoryUpdate = false;
+  [MS_USER_DEFAULTS
+      setObject:[NSNumber numberWithLongLong:(long long)[MSUtility nowInMilliseconds] + kMSDayInMillisecond * 2]
+         forKey:kMSPostponedTimestampKey];
+
+  // When
+  [distributeMock handleUpdate:details];
+
+  // Then
+  OCMVerify([distributeMock isNewerVersion:[OCMArg any]]);
+  XCTAssertEqual(isNewerVersionCounter, ++actualCounter);
+
+  // If
+  details.mandatoryUpdate = true;
+  [MS_USER_DEFAULTS
+      setObject:[NSNumber numberWithLongLong:(long long)[MSUtility nowInMilliseconds] + kMSDayInMillisecond * 2]
+         forKey:kMSPostponedTimestampKey];
+
+  // When
+  [distributeMock handleUpdate:details];
+
+  // Then
+  OCMVerify([distributeMock isNewerVersion:[OCMArg any]]);
+  XCTAssertEqual(isNewerVersionCounter, ++actualCounter);
 }
 
 - (void)testShowConfirmationAlert {
@@ -1137,6 +1226,21 @@ static NSURL *sfURL;
   OCMVerify([distributeMock isEnabled]);
   OCMVerify([distributeMock startUpdate]);
   XCTAssertEqual(startUpdateCounter, 2);
+}
+
+- (void)testNotifyUserUpdateAction {
+
+  // If
+  id distributeMock = OCMPartialMock(self.sut);
+  id utilityMock = OCMClassMock([MSUtility class]);
+  double time = 1.1;
+  OCMStub(ClassMethod([utilityMock nowInMilliseconds])).andReturn(time);
+
+  // When
+  [distributeMock notifyUserUpdateAction:MSUserUpdateActionPostpone];
+
+  // Then
+  assertThat([self.settingsMock objectForKey:kMSPostponedTimestampKey], equalToLongLong((long long)time));
 }
 
 #pragma mark - Helper
