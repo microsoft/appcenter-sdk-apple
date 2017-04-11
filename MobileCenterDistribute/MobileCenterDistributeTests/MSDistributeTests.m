@@ -261,7 +261,7 @@ static NSURL *sfURL;
   XCTAssertTrue([[self.sut apiUrl] isEqualToString:kMSDefaultApiUrl]);
 }
 
-- (void)testHandleUpdate {
+- (void)testHandleInvalidUpdate {
 
   // If
   MSReleaseDetails *details = [MSReleaseDetails new];
@@ -296,19 +296,42 @@ static NSURL *sfURL;
 
   // If
   details.minOs = @"1.0";
-  OCMStub([distributeMock isNewerVersion:[OCMArg any]]).andReturn(NO).andReturn(YES);
+  OCMStub([distributeMock isNewerVersion:[OCMArg any]]).andReturn(NO);
 
   // When
   [distributeMock handleUpdate:details];
 
   // Then
   OCMReject([distributeMock showConfirmationAlert:[OCMArg any]]);
+}
+
+- (void)testHandleValidUpdate {
+
+  // If
+  MSReleaseDetails *details = [MSReleaseDetails new];
+  id distributeMock = OCMPartialMock(self.sut);
+  __block int showConfirmationAlertCounter = 0;
+  OCMStub([distributeMock showConfirmationAlert:[OCMArg any]]).andDo(^(__attribute((unused)) NSInvocation *invocation) {
+    showConfirmationAlertCounter++;
+  });
+  OCMStub([distributeMock isNewerVersion:[OCMArg any]]).andReturn(YES);
+  details.id = @1;
+  details.downloadUrl = [NSURL URLWithString:@"https://contoso.com/valid/url"];
+  details.status = @"available";
+  details.minOs = @"1.0";
 
   // When
   [distributeMock handleUpdate:details];
 
   // Then
-  OCMVerify([distributeMock showConfirmationAlert:[OCMArg any]]);
+  OCMVerify([distributeMock showConfirmationAlert:details]);
+
+  /*
+   * The reason of this additional checking is that OCMock doesn't work properly sometimes for OCMVerify and OCMReject.
+   * The test won't be failed even though the above line is changed to OCMReject, we are preventing the issue by adding
+   * more explict checks.
+   */
+  XCTAssertEqual(showConfirmationAlertCounter, 1);
 }
 
 - (void)testShowConfirmationAlert {
