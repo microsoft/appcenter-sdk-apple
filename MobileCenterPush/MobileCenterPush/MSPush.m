@@ -199,16 +199,14 @@ static dispatch_once_t onceToken;
 
 #pragma mark - Register callbacks
 
-- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithPushToken:(NSData *)pushToken {
-  (void)application;
+- (void)didRegisterForRemoteNotificationsWith:(NSData *)pushToken {
   MSLogVerbose([MSPush logTag], @"Registering for push notifications has been finished successfully");
   NSString *strPushToken = [self convertTokenToString:pushToken];
   [MS_USER_DEFAULTS setObject:strPushToken forKey:kMSPushServiceStorageKey];
   [self sendPushToken:strPushToken];
 }
 
-- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-  (void)application;
+- (void)didFailToRegisterForRemoteNotificationsWith:(NSError *)error {
   MSLogVerbose([MSPush logTag], @"Registering for push notifications has been finished with error: %@",
                error.description);
 }
