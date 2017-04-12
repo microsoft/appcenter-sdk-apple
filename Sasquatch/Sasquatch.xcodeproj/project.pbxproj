@@ -427,8 +427,6 @@
 				D31EF9401E9517B600450162 /* ExtensionDelegate.m */,
 				D31EF9421E9517B600450162 /* NotificationController.h */,
 				D31EF9431E9517B600450162 /* NotificationController.m */,
-				D31EF9451E9517B600450162 /* Assets.xcassets */,
-				D31EF9471E9517B600450162 /* Info.plist */,
 				D31EF93A1E9517B600450162 /* Supporting Files */,
 			);
 			path = "SasquatchWatchObjC Extension";
@@ -437,6 +435,8 @@
 		D31EF93A1E9517B600450162 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D31EF9451E9517B600450162 /* Assets.xcassets */,
+				D31EF9471E9517B600450162 /* Info.plist */,
 				D31EF93B1E9517B600450162 /* PushNotificationPayload.apns */,
 			);
 			name = "Supporting Files";
@@ -458,8 +458,6 @@
 				D31EF9671E9517C600450162 /* InterfaceController.swift */,
 				D31EF9691E9517C600450162 /* ExtensionDelegate.swift */,
 				D31EF96B1E9517C600450162 /* NotificationController.swift */,
-				D31EF96D1E9517C600450162 /* Assets.xcassets */,
-				D31EF96F1E9517C600450162 /* Info.plist */,
 				D31EF9651E9517C600450162 /* Supporting Files */,
 			);
 			path = "SasquatchWatchSwift Extension";
@@ -468,6 +466,8 @@
 		D31EF9651E9517C600450162 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D31EF96D1E9517C600450162 /* Assets.xcassets */,
+				D31EF96F1E9517C600450162 /* Info.plist */,
 				D31EF9661E9517C600450162 /* PushNotificationPayload.apns */,
 			);
 			name = "Supporting Files";
