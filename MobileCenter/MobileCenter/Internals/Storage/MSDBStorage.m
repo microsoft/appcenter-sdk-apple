@@ -72,7 +72,7 @@ static NSString *const kMSDataColumnName = @"data";
 }
 
 - (void)closeBatchWithGroupID:(NSString *)groupID {
-  // TODO:
+  [self deleteLogsForGroupID:groupID];
 }
 
 #pragma mark - Private
