@@ -425,8 +425,6 @@
 				D31EF9401E9517B600450162 /* ExtensionDelegate.m */,
 				D31EF9421E9517B600450162 /* NotificationController.h */,
 				D31EF9431E9517B600450162 /* NotificationController.m */,
-				D31EF9451E9517B600450162 /* Assets.xcassets */,
-				D31EF9471E9517B600450162 /* Info.plist */,
 				D31EF93A1E9517B600450162 /* Supporting Files */,
 			);
 			path = "SasquatchWatchObjC Extension";
@@ -435,6 +433,8 @@
 		D31EF93A1E9517B600450162 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D31EF9451E9517B600450162 /* Assets.xcassets */,
+				D31EF9471E9517B600450162 /* Info.plist */,
 				D31EF93B1E9517B600450162 /* PushNotificationPayload.apns */,
 			);
 			name = "Supporting Files";
@@ -456,8 +456,6 @@
 				D31EF9671E9517C600450162 /* InterfaceController.swift */,
 				D31EF9691E9517C600450162 /* ExtensionDelegate.swift */,
 				D31EF96B1E9517C600450162 /* NotificationController.swift */,
-				D31EF96D1E9517C600450162 /* Assets.xcassets */,
-				D31EF96F1E9517C600450162 /* Info.plist */,
 				D31EF9651E9517C600450162 /* Supporting Files */,
 			);
 			path = "SasquatchWatchSwift Extension";
@@ -466,6 +464,8 @@
 		D31EF9651E9517C600450162 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D31EF96D1E9517C600450162 /* Assets.xcassets */,
+				D31EF96F1E9517C600450162 /* Info.plist */,
 				D31EF9661E9517C600450162 /* PushNotificationPayload.apns */,
 			);
 			name = "Supporting Files";
@@ -1018,7 +1018,7 @@
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				INFOPLIST_FILE = "SasquatchWatchObjC Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatch.SasquatchObjC.watchkitapp.watchkitextension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -1035,7 +1035,7 @@
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				INFOPLIST_FILE = "SasquatchWatchObjC Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatch.SasquatchObjC.watchkitapp.watchkitextension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -1052,7 +1052,7 @@
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				IBSC_MODULE = SasquatchWatchObjC_Extension;
 				INFOPLIST_FILE = SasquatchWatchObjC/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatch.SasquatchObjC.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -1069,7 +1069,7 @@
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				IBSC_MODULE = SasquatchWatchObjC_Extension;
 				INFOPLIST_FILE = SasquatchWatchObjC/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatch.SasquatchObjC.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -1086,7 +1086,7 @@
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				INFOPLIST_FILE = "SasquatchWatchSwift Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatch.SasquatchSwift.watchkitapp.watchkitextension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchswift.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -1104,7 +1104,7 @@
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				INFOPLIST_FILE = "SasquatchWatchSwift Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatch.SasquatchSwift.watchkitapp.watchkitextension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchswift.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -1123,7 +1123,7 @@
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				IBSC_MODULE = SasquatchWatchSwift_Extension;
 				INFOPLIST_FILE = SasquatchWatchSwift/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatch.SasquatchSwift.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchswift.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -1142,7 +1142,7 @@
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				IBSC_MODULE = SasquatchWatchSwift_Extension;
 				INFOPLIST_FILE = SasquatchWatchSwift/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatch.SasquatchSwift.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchswift.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
