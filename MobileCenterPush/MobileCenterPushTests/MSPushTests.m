@@ -13,7 +13,7 @@
 #import "MSPushTestUtil.h"
 
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
-static NSString *const kMSTestDeviceToken = @"TestDeviceToken";
+static NSString *const kMSTestPushToken = @"TestPushToken";
 
 @interface MSPushTests : XCTestCase
 @end
@@ -66,18 +66,18 @@ static NSString *const kMSTestDeviceToken = @"TestDeviceToken";
   XCTAssertTrue([[MSPush sharedInstance] initializationPriority] == MSInitializationPriorityDefault);
 }
 
-- (void)testSendDeviceTokenMethod {
+- (void)testSendPushTokenMethod {
 
-  XCTAssertFalse([MSPush sharedInstance].deviceTokenHasBeenSent);
+  XCTAssertFalse([MSPush sharedInstance].pushTokenHasBeenSent);
 
-  [[MSPush sharedInstance] sendDeviceToken:kMSTestDeviceToken];
+  [[MSPush sharedInstance] sendPushToken:kMSTestPushToken];
 
-  XCTAssertTrue([MSPush sharedInstance].deviceTokenHasBeenSent);
+  XCTAssertTrue([MSPush sharedInstance].pushTokenHasBeenSent);
 }
 
 - (void)testConvertTokenToString {
   NSString *originalToken = @"563084c4934486547307ea41c780b93e21fe98372dc902426e97390a84011f72";
-  NSData *rawOriginaloken = [MSPushTestUtil convertDeviceTokenToNSData:originalToken];
+  NSData *rawOriginaloken = [MSPushTestUtil convertPushTokenToNSData:originalToken];
   NSString *convertedToken = [[MSPush sharedInstance] convertTokenToString:rawOriginaloken];
 
   XCTAssertEqualObjects(originalToken, convertedToken);

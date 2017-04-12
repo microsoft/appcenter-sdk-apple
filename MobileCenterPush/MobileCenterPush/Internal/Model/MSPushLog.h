@@ -4,8 +4,8 @@
 @interface MSPushLog : MSAbstractLog
 
 /**
- * Device token for push service
+ * Push token for push service
  */
-@property(nonatomic) NSString *deviceToken;
+@property(nonatomic) NSString *pushToken;
 
 @end

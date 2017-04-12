@@ -9,11 +9,11 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MSPush : MSServiceAbstract
 
 /**
- * Callback for successful registration with device token
+ * Callback for successful registration with push token
  *
- * @param deviceToken The device token for remote notifications
+ * @param pushToken The push token for remote notifications
  */
-+ (void)didRegisterForRemoteNotificationsWith:(NSData *)deviceToken;
++ (void)didRegisterForRemoteNotificationsWith:(NSData *)pushToken;
 
 /**
  * Callback for unsuccessful registration with error

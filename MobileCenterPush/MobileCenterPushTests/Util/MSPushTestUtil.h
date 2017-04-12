@@ -2,6 +2,6 @@
 
 @interface MSPushTestUtil : NSObject
 
-+ (NSData*)convertDeviceTokenToNSData:(NSString*)token;
++ (NSData *)convertPushTokenToNSData:(NSString *)token;
 
 @end

@@ -28,7 +28,7 @@ static dispatch_once_t onceToken;
 
 @implementation MSPush
 
-@synthesize deviceTokenHasBeenSent;
+@synthesize pushTokenHasBeenSent;
 @synthesize channelConfiguration = _channelConfiguration;
 
 #pragma mark - Service initialization
@@ -72,8 +72,8 @@ static dispatch_once_t onceToken;
 
 #pragma mark - MSPush
 
-+ (void)didRegisterForRemoteNotificationsWith:(NSData *)deviceToken {
-  [[self sharedInstance] didRegisterForRemoteNotificationsWith:deviceToken];
++ (void)didRegisterForRemoteNotificationsWith:(NSData *)pushToken {
+  [[self sharedInstance] didRegisterForRemoteNotificationsWith:pushToken];
 }
 
 + (void)didFailToRegisterForRemoteNotificationsWith:(NSError *)error {
@@ -86,7 +86,7 @@ static dispatch_once_t onceToken;
   [super applyEnabledState:isEnabled];
   if (isEnabled) {
     MSLogInfo([MSPush logTag], @"Push service has been enabled.");
-    if (!self.deviceTokenHasBeenSent) {
+    if (!self.pushTokenHasBeenSent) {
       [self registerForRemoteNotifications];
     }
   } else {
@@ -146,11 +146,11 @@ static dispatch_once_t onceToken;
   return [NSString stringWithString:stringBuffer];
 }
 
-- (void)sendDeviceToken:(NSString *)token {
+- (void)sendPushToken:(NSString *)token {
   MSPushLog *log = [MSPushLog new];
-  log.deviceToken = token;
+  log.pushToken = token;
   [self.logManager processLog:log forGroupID:self.groupID];
-  self.deviceTokenHasBeenSent = YES;
+  self.pushTokenHasBeenSent = YES;
 }
 
 #pragma mark - MSChannelDelegate
@@ -199,13 +199,12 @@ static dispatch_once_t onceToken;
 
 #pragma mark - Register callbacks
 
-- (void)application:(UIApplication *)application
-    didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithPushToken:(NSData *)pushToken {
   (void)application;
   MSLogVerbose([MSPush logTag], @"Registering for push notifications has been finished successfully");
-  NSString *strDeviceToken = [self convertTokenToString:deviceToken];
-  [MS_USER_DEFAULTS setObject:strDeviceToken forKey:kMSPushServiceStorageKey];
-  [self sendDeviceToken:strDeviceToken];
+  NSString *strPushToken = [self convertTokenToString:pushToken];
+  [MS_USER_DEFAULTS setObject:strPushToken forKey:kMSPushServiceStorageKey];
+  [self sendPushToken:strPushToken];
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
