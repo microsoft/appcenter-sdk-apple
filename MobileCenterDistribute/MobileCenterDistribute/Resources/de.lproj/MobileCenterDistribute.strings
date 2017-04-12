@@ -10,6 +10,6 @@
  * Update dialog titles/messages
  */
 "MSDistributeAppUpdateAvailable" = "App update verfügbar";
-"MSDistributeAppUpdateAvailableOptionalUpdateMessage" = "Das Update auf Version %@ %@ (%@) ist ein verpflichtendes Update.";
-"MSDistributeAppUpdateAvailableMandatoryUpdateMessage" = "%@ %@ (%@) steht zum Download bereit.";
+"MSDistributeAppUpdateAvailableMandatoryUpdateMessage" = "Das Update auf Version %@ %@ (%@) ist ein verpflichtendes Update.";
+"MSDistributeAppUpdateAvailableOptionalUpdateMessage" = "%@ %@ (%@) steht zum Download bereit.";
 "MSDistributeInAppUpdatesAreDisabled" = "In-app-updates wurden deaktiviert.";

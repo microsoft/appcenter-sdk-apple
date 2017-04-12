@@ -10,6 +10,6 @@
  * Update dialog titles/messages
  */
 "MSDistributeAppUpdateAvailable" = "Mise à jour d'application disponible";
-"MSDistributeAppUpdateAvailableOptionalUpdateMessage" = "Les développeurs de cette application vous demande de mettre jour vers %@ %@ (%@).";
-"MSDistributeAppUpdateAvailableMandatoryUpdateMessage" = "%@ %@ (%@) est disponible au téléchargement et à l'installation.";
+"MSDistributeAppUpdateAvailableMandatoryUpdateMessage" = "Les développeurs de cette application vous demande de mettre jour vers %@ %@ (%@).";
+"MSDistributeAppUpdateAvailableOptionalUpdateMessage" = "%@ %@ (%@) est disponible au téléchargement et à l'installation.";
 "MSDistributeInAppUpdatesAreDisabled" = "Les mises à jour depuis l'application sont désactivées.";
