@@ -29,11 +29,16 @@ static dispatch_once_t onceToken;
 @implementation MSPush
 
 @synthesize deviceTokenHasBeenSent;
+@synthesize channelConfiguration = _channelConfiguration;
 
 #pragma mark - Service initialization
 
 - (instancetype)init {
-  self = [super init];
+  if ((self = [super init])) {
+
+    // Init channel configuration.
+    _channelConfiguration = [[MSChannelConfiguration alloc] initDefaultConfigurationWithGroupID:[self groupID]];
+  }
   return self;
 }
 
@@ -63,10 +68,6 @@ static dispatch_once_t onceToken;
 
 - (NSString *)groupID {
   return kMSGroupID;
-}
-
-- (MSPriority)priority {
-  return MSPriorityDefault;
 }
 
 #pragma mark - MSPush
@@ -148,7 +149,7 @@ static dispatch_once_t onceToken;
 - (void)sendDeviceToken:(NSString *)token {
   MSPushLog *log = [MSPushLog new];
   log.deviceToken = token;
-  [self.logManager processLog:log withPriority:self.priority andGroupID:self.groupID];
+  [self.logManager processLog:log forGroupID:self.groupID];
   self.deviceTokenHasBeenSent = YES;
 }
 
