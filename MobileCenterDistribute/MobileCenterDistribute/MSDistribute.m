@@ -555,7 +555,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                                          handler:^(__attribute__((unused)) UIAlertAction *action) {
 
                                            // No need to check if the service isEnabled.
-                                           [self notifyUserUpdateAction:MSUserUpdateActionUpdate];
+                                           [self notifyUserUpdateAction:MSUserUpdateActionPostpone];
                                          }];
     }
 
@@ -570,6 +570,12 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                             [MSUtility sharedAppOpenUrl:[NSURL URLWithString:@"https://www.microsoft.com"]
                                                 options:@{}
                                       completionHandler:nil];
+
+                            /*
+                             * Clear release details so that the SDK can get the latest release again after coming back
+                             * from release notes.
+                             */
+                            self.releaseDetails = nil;
                           }];
 
     // Add a "Update now"-Button.
