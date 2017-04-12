@@ -45,7 +45,7 @@
 - (void)applyEnabledState:(BOOL)isEnabled {
 
   // Propagate isEnabled and delete logs on disabled.
-  [self.logManager setEnabled:isEnabled andDeleteDataOnDisabled:YES forGroupID:self.groupID withPriority:self.priority];
+  [self.logManager setEnabled:isEnabled andDeleteDataOnDisabled:YES forGroupID:self.groupID];
 }
 
 - (BOOL)canBeUsed {
@@ -72,6 +72,9 @@
   self.started = YES;
   self.logManager = logManager;
   self.appSecret = appSecret;
+
+  // Initialize channel for the service in log manager.
+  [self.logManager initChannelWithConfiguration:self.channelConfiguration];
 
   // Enable this service as needed.
   if (self.isEnabled) {

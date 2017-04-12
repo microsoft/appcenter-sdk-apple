@@ -1,3 +1,4 @@
+#import "MSAlertController.h"
 #import "MobileCenterDelegateObjC.h"
 
 @import MobileCenter;
@@ -6,15 +7,36 @@
 @import MobileCenterDistribute;
 @import MobileCenterPush;
 
-/*
+/**
  * MobileCenterDelegate implementation in Objective C.
  */
-
 @implementation MobileCenterDelegateObjC
 
-- (BOOL) hasCrashedInLastSession{
-  return [MSCrashes hasCrashedInLastSession];
+#pragma mark - MSMobileCenter section.
+- (BOOL) isMobileCenterEnabled{
+  return [MSMobileCenter isEnabled];
 }
+- (void) setMobileCenterEnabled:(BOOL)isEnabled{
+  return [MSMobileCenter setEnabled:isEnabled];
+}
+- (NSString *) installId{
+  return [[MSMobileCenter installId] UUIDString];
+}
+- (NSString *) appSecret{
+  // TODO: Uncomment when appSecret is moved from internal to public
+  // return [[MSMobileCenter sharedInstance] appSecret];
+  return @"Internal";
+}
+- (NSString *) logUrl{
+  // TODO: Uncomment when logUrl is moved from internal to public
+  // return [[MSMobileCenter sharedInstance] logUrl];
+  return @"Internal";
+}
+- (BOOL) isDebuggerAttached{
+  return [MSMobileCenter isDebuggerAttached];
+}
+
+#pragma mark - Modules section.
 - (BOOL) isAnalyticsEnabled{
   return [MSAnalytics isEnabled];
 }
@@ -39,18 +61,54 @@
 - (void) setPushEnabled:(BOOL)isEnabled{
   return [MSPush setEnabled:isEnabled];
 }
-- (BOOL) isDebuggerAttached{
-  return [MSMobileCenter isDebuggerAttached];
-}
-- (void) generateTestCrash{
-  return [MSCrashes generateTestCrash];
-}
+
+#pragma mark - MSAnalytics section.
 - (void) trackEvent:(NSString *) eventName{
   [MSAnalytics trackEvent:eventName];
 }
 - (void) trackEvent:(NSString *)eventName withProperties:(NSDictionary<NSString *, NSString *> *)properties{
   [MSAnalytics trackEvent:eventName withProperties:properties];
 }
+- (void) trackPage:(NSString *) eventName{
+  // TODO: Uncomment when trackPage is moved from internal to public module
+  // [MSAnalytics trackPage:eventName];
+}
+- (void) trackPage:(NSString *)eventName withProperties:(NSDictionary<NSString *, NSString *> *)properties{
+  // TODO: Uncomment when trackPage is moved from internal to public module
+  // [MSAnalytics trackPage:eventName withProperties:properties];
+}
+
+#pragma mark - MSCrashes section.
+- (BOOL) hasCrashedInLastSession{
+  return [MSCrashes hasCrashedInLastSession];
+}
+- (void) generateTestCrash{
+  return [MSCrashes generateTestCrash];
+}
+
+#pragma mark - MSDistribute section.
+- (void) showConfirmationAlert{
+  // TODO: Uncomment when showConfirmationAlert is moved from internal to public module
+  // [[MSDistribute sharedInstance] showConfirmationAlert:nil];
+  MSAlertController *alertController = [MSAlertController
+                                        alertControllerWithTitle:@"Info"
+                                        message:@"ConfirmationAlert is private!"];
+  [alertController addDefaultActionWithTitle:@"Ok"
+                                     handler:nil];
+  [alertController show];
+}
+- (void) showDistributeDisabledAlert{
+  // TODO: Uncomment when showDistributeDisabledAlert is moved from internal to public module
+  // [[MSDistribute sharedInstance] showDistributeDisabledAlert];
+  MSAlertController *alertController = [MSAlertController
+                                        alertControllerWithTitle:@"Info"
+                                        message:@"DistributeDisabledAlert is private!"];
+  [alertController addDefaultActionWithTitle:@"Ok"
+                                     handler:nil];
+  [alertController show];
+}
+
+#pragma mark - Last crash report section.
 - (NSString *) lastCrashReportIncidentIdentifier{
   return [[MSCrashes lastSessionCrashReport] incidentIdentifier];
 }

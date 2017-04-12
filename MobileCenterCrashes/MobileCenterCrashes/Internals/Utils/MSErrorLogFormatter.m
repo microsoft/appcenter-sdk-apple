@@ -251,10 +251,14 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   errorLog.osExceptionAddress = [NSString stringWithFormat:@"0x%" PRIx64, report.signalInfo.address];
 
   // We need the architecture of the system and the crashed thread to get the exceptionReason, threads and registers.
-  errorLog.exceptionReason =
-      [self extractExceptionReasonFromReport:report ofCrashedThread:crashedThread is64bit:is64bit];
+  errorLog.exceptionReason = [self extractExceptionReasonFromReport:report];
   errorLog.exceptionType = report.hasExceptionInfo ? report.exceptionInfo.exceptionName : nil;
 
+  // The registers of the crashed thread might contain the last method call, this can be very helpful.
+  errorLog.selectorRegisterValue =
+      [self selectorRegisterValueFromReport:report ofCrashedThread:crashedThread is64bit:is64bit];
+
+  // Extract all threads and registers,
   errorLog.threads = [self extractThreadsFromReport:report crashedThread:crashedThread is64bit:is64bit];
   errorLog.registers = [self extractRegistersFromCrashedThread:crashedThread is64bit:is64bit];
 
@@ -522,48 +526,46 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   return registers;
 }
 
-+ (NSString *)extractExceptionReasonFromReport:(MSPLCrashReport *)report
-                               ofCrashedThread:(MSPLCrashReportThreadInfo *)crashedThread
-                                       is64bit:(BOOL)is64bit {
++ (NSString *)extractExceptionReasonFromReport:(MSPLCrashReport *)report {
   NSString *exceptionReason = nil;
 
   // Uncaught Exception.
   if (report.hasExceptionInfo) {
     exceptionReason = [NSString stringWithString:report.exceptionInfo.exceptionReason];
-  } else if (crashedThread != nil) {
+  }
+  return exceptionReason;
+}
 
-    /*
-     * Try to find the selector in case this was a crash in obj_msgSend.
-     * We search this whether the crash happened in obj_msgSend or not since we don't have the symbol!
-     */
++ (NSString *)selectorRegisterValueFromReport:(MSPLCrashReport *)report
+                              ofCrashedThread:(MSPLCrashReportThreadInfo *)crashedThread
+                                      is64bit:(BOOL)is64bit {
 
-    NSString *foundSelector = nil;
+  /*
+   * Try to find the selector in case this was a crash in obj_msgSend.
+   * We search this whether the crash happened in obj_msgSend or not since we don't have the symbol!
+   */
+  NSString *foundSelector = nil;
 
-// search the registers value for the current arch
+// Search the registers value for the current architecture.
 #if TARGET_OS_SIMULATOR
-    if (is64bit) {
-      foundSelector = [[self class] selectorForRegisterWithName:@"rsi" ofThread:crashedThread report:report];
-      if (foundSelector == NULL)
-        foundSelector = [[self class] selectorForRegisterWithName:@"rdx" ofThread:crashedThread report:report];
-    } else {
-      foundSelector = [[self class] selectorForRegisterWithName:@"ecx" ofThread:crashedThread report:report];
-    }
+  if (is64bit) {
+    foundSelector = [[self class] selectorForRegisterWithName:@"rsi" ofThread:crashedThread report:report];
+    if (foundSelector == NULL)
+      foundSelector = [[self class] selectorForRegisterWithName:@"rdx" ofThread:crashedThread report:report];
+  } else {
+    foundSelector = [[self class] selectorForRegisterWithName:@"ecx" ofThread:crashedThread report:report];
+  }
 #else
-    if (is64bit) {
-      foundSelector = [[self class] selectorForRegisterWithName:@"x1" ofThread:crashedThread report:report];
-    } else {
-      foundSelector = [[self class] selectorForRegisterWithName:@"r1" ofThread:crashedThread report:report];
-      if (foundSelector == NULL)
-        foundSelector = [[self class] selectorForRegisterWithName:@"r2" ofThread:crashedThread report:report];
-    }
+  if (is64bit) {
+    foundSelector = [[self class] selectorForRegisterWithName:@"x1" ofThread:crashedThread report:report];
+  } else {
+    foundSelector = [[self class] selectorForRegisterWithName:@"r1" ofThread:crashedThread report:report];
+    if (foundSelector == NULL)
+      foundSelector = [[self class] selectorForRegisterWithName:@"r2" ofThread:crashedThread report:report];
+  }
 #endif
 
-    if (foundSelector) {
-      exceptionReason = foundSelector;
-    }
-  }
-
-  return exceptionReason;
+  return foundSelector;
 }
 
 + (NSArray<MSBinary *> *)extractBinaryImagesFromReport:(MSPLCrashReport *)report

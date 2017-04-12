@@ -9,11 +9,20 @@
 #import "MSServiceAbstractProtected.h"
 #import "MSWrapperExceptionManager.h"
 
-// Service name for initialization.
+/**
+ * Service name for initialization.
+ */
 static NSString *const kMSServiceName = @"Crashes";
 
-// The group ID for storage.
+/**
+ * The group ID for storage.
+ */
 static NSString *const kMSGroupID = @"Crashes";
+
+/**
+ * The group ID for log buffer.
+ */
+static NSString *const kMSBufferGroupID = @"CrashesBuffer";
 
 /**
  * Name for the AnalyzerInProgress file. Some background info here: writing the file to signal that we are processing
@@ -27,34 +36,29 @@ static NSString *const kMSAnalyzerFilename = @"MSCrashes.analyzer";
  */
 static NSString *const kMSLogBufferFileExtension = @"mscrasheslogbuffer";
 
-std::unordered_map<MSPriority, std::array<MSCrashesBufferedLog, ms_crashes_log_buffer_size>> msCrashesLogBuffer;
+std::array<MSCrashesBufferedLog, ms_crashes_log_buffer_size> msCrashesLogBuffer;
 
 #pragma mark - Callbacks Setup
 
 static MSCrashesCallbacks msCrashesCallbacks = {.context = NULL, .handleSignal = NULL};
 static NSString *const kMSUserConfirmationKey = @"MSUserConfirmation";
 
-static void ms_save_log_buffer_callback(__attribute__((unused)) siginfo_t *info, __attribute__((unused)) ucontext_t *uap, __attribute__((unused)) void *context) {
-
-  // Do not save the buffer if it is empty.
-  if (msCrashesLogBuffer.size() == 0) {
-    return;
-  }
+static void ms_save_log_buffer_callback(__attribute__((unused)) siginfo_t *info,
+                                        __attribute__((unused)) ucontext_t *uap,
+                                        __attribute__((unused)) void *context) {
 
   // Iterate over the buffered logs and write them to disk.
-  for (auto it = msCrashesLogBuffer.begin(), end = msCrashesLogBuffer.end(); it != end; ++it) {
-    for (int i = 0; i < ms_crashes_log_buffer_size; i++) {
+  for (int i = 0; i < ms_crashes_log_buffer_size; i++) {
 
-      // Make sure not to allocate any memory (e.g. copy).
-      const std::string &data = it->second[i].buffer;
-      const std::string &path = it->second[i].bufferPath;
-      int fd = open(path.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0644);
-      if (fd < 0) {
-        continue;
-      }
-      write(fd, data.data(), data.size());
-      close(fd);
+    // Make sure not to allocate any memory (e.g. copy).
+    const std::string &data = msCrashesLogBuffer[i].buffer;
+    const std::string &path = msCrashesLogBuffer[i].bufferPath;
+    int fd = open(path.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    if (fd < 0) {
+      continue;
     }
+    write(fd, data.data(), data.size());
+    close(fd);
   }
 }
 
@@ -74,7 +78,7 @@ static PLCrashReporterCallbacks plCrashCallbacks = {
 /**
  * C++ Exception Handler
  */
-static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionInfo *info) {
+__attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionInfo *info) {
 
   // This relies on a LOT of sneaky internal knowledge of how PLCR works and
   // should not be considered a long-term solution.
@@ -90,9 +94,8 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
  * Use this on startup, to check if the app starts the first time after it crashed previously.
  * You can use this also to disable specific events, like asking the user to rate your app.
  *
- * @warning This property only has a correct value, once the sdk has been
- properly initialized!
-
+ * @warning This property only has a correct value, once the sdk has been properly initialized!
+ *
  * @see lastSessionCrashReport
  */
 @property BOOL didCrashInLastSession;
@@ -113,6 +116,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
 @synthesize delegate = _delegate;
 @synthesize logManager = _logManager;
+@synthesize channelConfiguration = _channelConfiguration;
 
 #pragma mark - Public Methods
 
@@ -185,7 +189,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     }
 
     // Send log to log manager.
-    [crashes.logManager processLog:log withPriority:crashes.priority andGroupID:crashes.groupID];
+    [crashes.logManager processLog:log forGroupID:crashes.groupID];
     [crashes deleteCrashReportWithFileURL:fileURL];
     [MSWrapperExceptionManager deleteWrapperExceptionDataWithUUIDString:report.incidentIdentifier];
     [crashes.crashFiles removeObject:fileURL];
@@ -215,6 +219,11 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     _logBufferDir = [MSCrashesUtil logBufferDir];
     _analyzerInProgressFile = [_crashesDir URLByAppendingPathComponent:kMSAnalyzerFilename];
     _didCrashInLastSession = NO;
+    _channelConfiguration = [[MSChannelConfiguration alloc] initWithGroupID:[self groupID]
+                                                                   priority:MSPriorityHigh
+                                                              flushInterval:1.0
+                                                             batchSizeLimit:10
+                                                        pendingBatchesLimit:6];
 
     /**
      * Using our own queue with high priority as the default main queue is slower and we want the files to be created
@@ -257,7 +266,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     self.crashFiles = [self persistedCrashReports];
 
     // Set self as delegate of crashes' channel.
-    [self.logManager addChannelDelegate:self forGroupID:self.groupID withPriority:self.priority];
+    [self.logManager addChannelDelegate:self forGroupID:self.groupID];
 
     // Process PLCrashReports, this will format the PLCrashReport into our schema and then trigger sending.
     // This mostly happens on the start of the service.
@@ -286,9 +295,9 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
     [self.plCrashReporter purgePendingCrashReport];
 
     // Remove as ChannelDelegate from LogManager
-    [self.logManager removeChannelDelegate:self forGroupID:self.groupID withPriority:self.priority];
-    [self.logManager removeChannelDelegate:self forGroupID:self.groupID withPriority:self.priority];
-    [self.logManager removeChannelDelegate:self forGroupID:self.groupID withPriority:self.priority];
+    [self.logManager removeChannelDelegate:self forGroupID:self.groupID];
+    [self.logManager removeChannelDelegate:self forGroupID:self.groupID];
+    [self.logManager removeChannelDelegate:self forGroupID:self.groupID];
     MSLogInfo([MSCrashes logTag], @"Crashes service has been disabled.");
   }
 }
@@ -312,6 +321,13 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   [super startWithLogManager:logManager appSecret:appSecret];
   [logManager addDelegate:self];
 
+  // Initialize a dedicated channel for log buffer.
+  [logManager initChannelWithConfiguration:[[MSChannelConfiguration alloc] initWithGroupID:kMSBufferGroupID
+                                                                                  priority:MSPriorityHigh
+                                                                             flushInterval:1.0
+                                                                            batchSizeLimit:60
+                                                                       pendingBatchesLimit:1]];
+
   [self processLogBufferAfterCrash];
   MSLogVerbose([MSCrashes logTag], @"Started crash service.");
 }
@@ -322,10 +338,6 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
 - (NSString *)groupID {
   return kMSGroupID;
-}
-
-- (MSPriority)priority {
-  return MSPriorityHigh;
 }
 
 - (MSInitializationPriority)initializationPriority {
@@ -341,9 +353,9 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
  * 2. Don't allocate new memory when crashing.
  * 3. Only use async-safe C/C++ methods.
  * This means the Crashes module can't message any other module. All logic related to the buffer needs to happen before
- * the crash and then, at crashtime, crashes has all info in place to save the buffer safely.
+ * the crash and then, at crash time, crashes has all info in place to save the buffer safely.
  **/
-- (void)onEnqueuingLog:(id<MSLog>)log withInternalId:(NSString *)internalId andPriority:(MSPriority)priority {
+- (void)onEnqueuingLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
 
   // Don't buffer event if log is empty, crashes module is disabled or the log is a crash.
   NSObject *logObject = static_cast<NSObject *>(log);
@@ -360,7 +372,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
       NSNumberFormatter *timestampFormatter = [[NSNumberFormatter alloc] init];
       timestampFormatter.numberStyle = NSNumberFormatterDecimalStyle;
       long indexToDelete = 0;
-      for (auto it = msCrashesLogBuffer[priority].begin(), end = msCrashesLogBuffer[priority].end(); it != end; ++it) {
+      for (auto it = msCrashesLogBuffer.begin(), end = msCrashesLogBuffer.end(); it != end; ++it) {
 
         // We've found an empty element, buffer our log.
         if (it->buffer.empty()) {
@@ -386,7 +398,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
           // Remember the timestamp if the log is older than the previous one or the initial one.
           if (!oldestTimestamp || oldestTimestamp.doubleValue > bufferedLogTimestamp.doubleValue) {
             oldestTimestamp = bufferedLogTimestamp;
-            indexToDelete = it - msCrashesLogBuffer[priority].begin();
+            indexToDelete = it - msCrashesLogBuffer.begin();
             MSLogVerbose([MSCrashes logTag], @"Remembering index %ld for oldest timestamp %@.", indexToDelete,
                          oldestTimestamp);
           }
@@ -394,8 +406,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
         /**
          * Continue to iterate until we reach en empty element, in which case we store the log in it and stop, or until
-         * we
-         * reach the end of the buffer. In the later case, we will replace the oldest log with the current one
+         * we reach the end of the buffer. In the later case, we will replace the oldest log with the current one
         */
       }
 
@@ -403,33 +414,34 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
       MSLogVerbose([MSCrashes logTag], @"Reached end of buffer. Next step is overwriting the oldest one.");
 
       // Overwrite the oldest buffered log.
-      msCrashesLogBuffer[priority][indexToDelete].buffer =
+      msCrashesLogBuffer[indexToDelete].buffer =
           std::string(&reinterpret_cast<const char *>(serializedLog.bytes)[0],
                       &reinterpret_cast<const char *>(serializedLog.bytes)[serializedLog.length]);
-      msCrashesLogBuffer[priority][indexToDelete].internalId = internalId.UTF8String;
+      msCrashesLogBuffer[indexToDelete].internalId = internalId.UTF8String;
       NSTimeInterval now = [[NSDate date] timeIntervalSince1970];
-      msCrashesLogBuffer[priority][indexToDelete].timestamp =
+      msCrashesLogBuffer[indexToDelete].timestamp =
           [[NSString stringWithFormat:@"%f", now] cStringUsingEncoding:NSUTF8StringEncoding];
 
       MSLogVerbose([MSCrashes logTag], @"Overwrote buffered log at index %ld.", indexToDelete);
+
       // We're done, no need to iterate any more. But no need to `return;` as we're at the end of the buffer.
     }
   }
 }
 
-- (void)onFinishedPersistingLog:(id<MSLog>)log withInternalId:(NSString *)internalId andPriority:(MSPriority)priority {
+- (void)onFinishedPersistingLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
   (void)log;
-  [self deleteBufferedLogWithInternalId:internalId andPriority:priority];
+  [self deleteBufferedLogWithInternalId:internalId];
 }
 
-- (void)onFailedPersistingLog:(id<MSLog>)log withInternalId:(NSString *)internalId andPriority:(MSPriority)priority {
+- (void)onFailedPersistingLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
   (void)log;
-  [self deleteBufferedLogWithInternalId:internalId andPriority:priority];
+  [self deleteBufferedLogWithInternalId:internalId];
 }
 
-- (void)deleteBufferedLogWithInternalId:(NSString *)internalId andPriority:(MSPriority)priority {
+- (void)deleteBufferedLogWithInternalId:(NSString *)internalId {
   @synchronized(self) {
-    for (auto it = msCrashesLogBuffer[priority].begin(), end = msCrashesLogBuffer[priority].end(); it != end; ++it) {
+    for (auto it = msCrashesLogBuffer.begin(), end = msCrashesLogBuffer.end(); it != end; ++it) {
       NSString *bufferId = [NSString stringWithCString:it->internalId.c_str() encoding:NSUTF8StringEncoding];
       if (bufferId && bufferId.length > 0 && [bufferId isEqualToString:internalId]) {
         MSLogVerbose([MSCrashes logTag], @"Deleting item from buffer with id %@", internalId);
@@ -443,38 +455,41 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
 #pragma mark - MSChannelDelegate
 
-- (void)channel:(id)channel willSendLog:(id<MSLog>)log {
+- (void)channel:(id<MSChannel>)channel willSendLog:(id<MSLog>)log {
   (void)channel;
-  if (self.delegate && [self.delegate respondsToSelector:@selector(crashes:willSendErrorReport:)]) {
+  id<MSCrashesDelegate> strongDelegate = self.delegate;
+  if (strongDelegate && [strongDelegate respondsToSelector:@selector(crashes:willSendErrorReport:)]) {
     NSObject *logObject = static_cast<NSObject *>(log);
     if ([logObject isKindOfClass:[MSAppleErrorLog class]]) {
       MSAppleErrorLog *appleErrorLog = static_cast<MSAppleErrorLog *>(log);
       MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:appleErrorLog];
-      [self.delegate crashes:self willSendErrorReport:report];
+      [strongDelegate crashes:self willSendErrorReport:report];
     }
   }
 }
 
 - (void)channel:(id<MSChannel>)channel didSucceedSendingLog:(id<MSLog>)log {
   (void)channel;
-  if (self.delegate && [self.delegate respondsToSelector:@selector(crashes:didSucceedSendingErrorReport:)]) {
+  id<MSCrashesDelegate> strongDelegate = self.delegate;
+  if (strongDelegate && [strongDelegate respondsToSelector:@selector(crashes:didSucceedSendingErrorReport:)]) {
     NSObject *logObject = static_cast<NSObject *>(log);
     if ([logObject isKindOfClass:[MSAppleErrorLog class]]) {
       MSAppleErrorLog *appleErrorLog = static_cast<MSAppleErrorLog *>(log);
       MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:appleErrorLog];
-      [self.delegate crashes:self didSucceedSendingErrorReport:report];
+      [strongDelegate crashes:self didSucceedSendingErrorReport:report];
     }
   }
 }
 
 - (void)channel:(id<MSChannel>)channel didFailSendingLog:(id<MSLog>)log withError:(NSError *)error {
   (void)channel;
-  if (self.delegate && [self.delegate respondsToSelector:@selector(crashes:didFailSendingErrorReport:withError:)]) {
+  id<MSCrashesDelegate> strongDelegate = self.delegate;
+  if (strongDelegate && [strongDelegate respondsToSelector:@selector(crashes:didFailSendingErrorReport:withError:)]) {
     NSObject *logObject = static_cast<NSObject *>(log);
     if ([logObject isKindOfClass:[MSAppleErrorLog class]]) {
       MSAppleErrorLog *appleErrorLog = static_cast<MSAppleErrorLog *>(log);
       MSErrorReport *report = [MSErrorLogFormatter errorReportFromLog:appleErrorLog];
-      [self.delegate crashes:self didFailSendingErrorReport:report withError:error];
+      [strongDelegate crashes:self didFailSendingErrorReport:report withError:error];
     }
   }
 }
@@ -646,34 +661,26 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 
 - (void)processLogBufferAfterCrash {
 
-  // Iterate over priorities, check if we have buffered logs for each one.
-  for (NSInteger priority = 0; priority < kMSPriorityCount; priority++) {
+  // Iterate over each file in it with the kMSLogBufferFileExtension and send the log if a log can be deserialized.
+  NSError *error = nil;
+  NSArray *files = [self.fileManager contentsOfDirectoryAtURL:self.logBufferDir
+                                   includingPropertiesForKeys:nil
+                                                      options:NSDirectoryEnumerationOptions(0)
+                                                        error:&error];
+  for (NSURL *fileURL in files) {
+    if ([[fileURL pathExtension] isEqualToString:kMSLogBufferFileExtension]) {
+      NSData *serializedLog = [NSData dataWithContentsOfURL:fileURL];
+      if (serializedLog && serializedLog.length && serializedLog.length > 0) {
+        id<MSLog> item = [NSKeyedUnarchiver unarchiveObjectWithData:serializedLog];
+        if (item) {
 
-    /**
-     * Get directory for priority, iterate over each file in it with the kMSLogBufferFileExtension and send
-     * the log if a log can be deserialized.
-     */
-    NSURL *directoryForPriority = [self bufferDirectoryForPriority:MSPriority(priority)];
-    NSError *error = nil;
-    NSArray *files = [self.fileManager contentsOfDirectoryAtURL:directoryForPriority
-                                     includingPropertiesForKeys:nil
-                                                        options:NSDirectoryEnumerationOptions(0)
-                                                          error:&error];
-    for (NSURL *fileURL in files) {
-      if ([[fileURL pathExtension] isEqualToString:kMSLogBufferFileExtension]) {
-        NSData *serializedLog = [NSData dataWithContentsOfURL:fileURL];
-        if (serializedLog && serializedLog.length && serializedLog.length > 0) {
-          id<MSLog> item = [NSKeyedUnarchiver unarchiveObjectWithData:serializedLog];
-          if (item) {
-            
-            // Buffered logs are used sending their own channel. It will never contain more than 20 logs
-            [self.logManager processLog:item withPriority:(MSPriority)priority andGroupID:@"CrashBuffer"];
-          }
+          // Buffered logs are used sending their own channel. It will never contain more than 20 logs
+          [self.logManager processLog:item forGroupID:kMSBufferGroupID];
         }
-
-        // Create empty new file, overwrites the old one.
-        [[NSData data] writeToURL:fileURL atomically:NO];
       }
+
+      // Create empty new file, overwrites the old one.
+      [[NSData data] writeToURL:fileURL atomically:NO];
     }
   }
 }
@@ -684,7 +691,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   NSError *error = nil;
   NSArray *files = [self.fileManager contentsOfDirectoryAtURL:self.crashesDir
                                    includingPropertiesForKeys:nil
-                                                      options:(NSDirectoryEnumerationOptions)0
+                                                      options:NSDirectoryEnumerationOptions(0)
                                                         error:&error];
   for (NSURL *fileURL in files) {
     [self.fileManager removeItemAtURL:fileURL error:&error];
@@ -740,12 +747,13 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 - (NSMutableArray *)persistedCrashReports {
   NSError *error = nil;
   NSMutableArray *persistedCrashReports = [NSMutableArray new];
-  
+
   if ([self.crashesDir checkResourceIsReachableAndReturnError:&error]) {
-    NSArray *files = [self.fileManager contentsOfDirectoryAtURL:self.crashesDir
-                                        includingPropertiesForKeys:@[NSURLNameKey, NSURLFileSizeKey, NSURLIsRegularFileKey]
-                                                           options:(NSDirectoryEnumerationOptions)0
-                                                             error:&error];
+    NSArray *files =
+        [self.fileManager contentsOfDirectoryAtURL:self.crashesDir
+                        includingPropertiesForKeys:@[ NSURLNameKey, NSURLFileSizeKey, NSURLIsRegularFileKey ]
+                                           options:NSDirectoryEnumerationOptions(0)
+                                             error:&error];
     for (NSURL *fileURL in files) {
       NSString *fileName = nil;
       [fileURL getResourceValue:&fileName forKey:NSURLNameKey error:&error];
@@ -753,10 +761,10 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
       [fileURL getResourceValue:&fileSizeNumber forKey:NSURLFileSizeKey error:&error];
       NSNumber *isRegular = nil;
       [fileURL getResourceValue:&isRegular forKey:NSURLIsRegularFileKey error:&error];
-      
-      if ([isRegular boolValue] && [fileSizeNumber intValue] > 0 &&
-          ![fileName hasSuffix:@".DS_Store"] && ![fileName hasSuffix:@".analyzer"] && ![fileName hasSuffix:@".plist"] &&
-          ![fileName hasSuffix:@".data"] && ![fileName hasSuffix:@".meta"] && ![fileName hasSuffix:@".desc"]) {
+
+      if ([isRegular boolValue] && [fileSizeNumber intValue] > 0 && ![fileName hasSuffix:@".DS_Store"] &&
+          ![fileName hasSuffix:@".analyzer"] && ![fileName hasSuffix:@".plist"] && ![fileName hasSuffix:@".data"] &&
+          ![fileName hasSuffix:@".meta"] && ![fileName hasSuffix:@".desc"]) {
         [persistedCrashReports addObject:fileURL];
       }
     }
@@ -788,57 +796,47 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   // We need to make this @synchronized here as we're setting up msCrashesLogBuffer.
   @synchronized(self) {
 
-    // Array of 20 buffer file paths per priority.
-    // Each priority has 0.mscrasheslogbuffer ... 19.mscrasheslogbuffer.
-    for (NSInteger priority = 0; priority < kMSPriorityCount; priority++) {
+    // Setup asynchronously.
+    NSMutableArray<NSURL *> *files = [NSMutableArray arrayWithCapacity:ms_crashes_log_buffer_size];
 
-      // Setup asynchronously.
-      NSArray<NSURL *> *files = [self createBufferFilesIfNeededForPriority:MSPriority(priority)];
+    // Create missing buffer files if needed. We don't care about which one's are already there, we'll skip existing
+    // ones.
+    for (int i = 0; i < ms_crashes_log_buffer_size; i++) {
 
-      // Create a buffer for the priority. Making use of `{}` as we're using C++11.
-      for (NSUInteger i = 0; i < ms_crashes_log_buffer_size; i++) {
+      // Files are named N.mscrasheslogbuffer where N is between 0 and ms_crashes_log_buffer_size.
+      NSString *logId = @(i).stringValue;
+      [files addObject:[self fileURLWithName:logId]];
+    }
 
-        // We need to convert the NSURL to NSString as we cannot safe NSURL to our async-safe log buffer.
-        NSString *path = files[i].path;
-        
-        /**
-         * Some explanation into what actually happens, courtesy of Gwynne:
-         * "Passing nil does not initialize anything to nil here, what actually happens is an exploit of the Objective-C
-         * send-to-nil-returns-zero rule, so that the effective initialization becomes `buffer(&(0)[0], &(0)[0])`, and
-         * since `NULL` is zero, `[0]` is equivalent to a direct dereference, and `&(*(NULL))` cancels out to
-         * just `NULL`, it becomes `buffer(nullptr, nullptr)`, which is a no-op because the initializer code loops as
-         * `while(begin != end)`, so the `nil` pointer is never dereferenced."
-         */
-        msCrashesLogBuffer[MSPriority(priority)][i] = MSCrashesBufferedLog(path, nil);
-      }
+    // Create a buffer. Making use of `{}` as we're using C++11.
+    for (NSUInteger i = 0; i < ms_crashes_log_buffer_size; i++) {
+
+      // We need to convert the NSURL to NSString as we cannot safe NSURL to our async-safe log buffer.
+      NSString *path = files[i].path;
+
+      /**
+       * Some explanation into what actually happens, courtesy of Gwynne:
+       * "Passing nil does not initialize anything to nil here, what actually happens is an exploit of the Objective-C
+       * send-to-nil-returns-zero rule, so that the effective initialization becomes `buffer(&(0)[0], &(0)[0])`, and
+       * since `NULL` is zero, `[0]` is equivalent to a direct dereference, and `&(*(NULL))` cancels out to
+       * just `NULL`, it becomes `buffer(nullptr, nullptr)`, which is a no-op because the initializer code loops as
+       * `while(begin != end)`, so the `nil` pointer is never dereferenced."
+       */
+      msCrashesLogBuffer[i] = MSCrashesBufferedLog(path, nil);
     }
   }
 }
 
-- (NSArray<NSURL *> *)createBufferFilesIfNeededForPriority:(MSPriority)priority {
-  NSMutableArray<NSURL *> *files = [NSMutableArray arrayWithCapacity:ms_crashes_log_buffer_size];
-
-  // Create missing buffer files if needed. We don't care about which one's are already there, we'll skip existing ones.
-  for (int i = 0; i < ms_crashes_log_buffer_size; i++) {
-
-    // Files are named N.mscrasheslogbuffer where N is between 0 and ms_crashes_log_buffer_size.
-    NSString *logId = @(i).stringValue;
-    [files addObject:[self fileURLWithName:logId forPriority:priority]];
-  }
-  return files;
-}
-
-- (NSURL *)fileURLWithName:(NSString *)name forPriority:(MSPriority)priority {
+- (NSURL *)fileURLWithName:(NSString *)name {
   NSError *error = nil;
   NSString *fileName = [NSString stringWithFormat:@"%@.%@", name, kMSLogBufferFileExtension];
-  NSURL *directoryForPriority = [self bufferDirectoryForPriority:priority];
-  if (![directoryForPriority checkResourceIsReachableAndReturnError:&error]) {
-    [[NSFileManager defaultManager] createDirectoryAtURL:directoryForPriority
+  if (![self.logBufferDir checkResourceIsReachableAndReturnError:&error]) {
+    [[NSFileManager defaultManager] createDirectoryAtURL:self.logBufferDir
                              withIntermediateDirectories:YES
                                               attributes:nil
                                                    error:nil];
   }
-  NSURL *fileURL = [directoryForPriority URLByAppendingPathComponent:fileName];
+  NSURL *fileURL = [self.logBufferDir URLByAppendingPathComponent:fileName];
   if (![fileURL checkResourceIsReachableAndReturnError:&error]) {
 
     // Create files asynchronously. We don't really care as they are only ever used post-crash.
@@ -856,7 +854,7 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
   @synchronized(self) {
     BOOL success = [[NSData data] writeToURL:fileURL atomically:NO];
     if (success) {
-      MSLogVerbose([MSCrashes logTag], @"Created file for log buffer.");
+      MSLogVerbose([MSCrashes logTag], @"Created file for log buffer: %@", [fileURL absoluteString]);
     } else {
       MSLogError([MSCrashes logTag], @"Couldn't create file for log buffer.");
     }
@@ -864,34 +862,28 @@ static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionIn
 }
 
 - (void)emptyLogBufferFiles {
-  for (NSInteger priority = 0; priority < kMSPriorityCount; priority++) {
-    NSURL *directoryForPriority = [self bufferDirectoryForPriority:MSPriority(priority)];
-    NSError *error = nil;
-    NSArray *files = [self.fileManager contentsOfDirectoryAtURL:directoryForPriority
-                                     includingPropertiesForKeys:@[NSURLFileSizeKey]
-                                                        options:NSDirectoryEnumerationOptions(0)
-                                                          error:&error];
-    for (NSURL *fileURL in files) {
-      if ([[fileURL pathExtension] isEqualToString:kMSLogBufferFileExtension]) {
+  NSError *error = nil;
+  NSArray *files = [self.fileManager contentsOfDirectoryAtURL:self.logBufferDir
+                                   includingPropertiesForKeys:@[ NSURLFileSizeKey ]
+                                                      options:NSDirectoryEnumerationOptions(0)
+                                                        error:&error];
+  for (NSURL *fileURL in files) {
+    if ([[fileURL pathExtension] isEqualToString:kMSLogBufferFileExtension]) {
 
-        // Create empty new file, overwrites the old one.
-        NSNumber *fileSizeNumber = nil;
-        [fileURL getResourceValue:&fileSizeNumber forKey:NSURLFileSizeKey error:&error];
-        if ([fileSizeNumber intValue] > 0) {
-          [[NSData data] writeToURL:fileURL atomically:NO];
-        }
+      // Create empty new file, overwrites the old one.
+      NSNumber *fileSizeNumber = nil;
+      [fileURL getResourceValue:&fileSizeNumber forKey:NSURLFileSizeKey error:&error];
+      if ([fileSizeNumber intValue] > 0) {
+        [[NSData data] writeToURL:fileURL atomically:NO];
       }
     }
   }
 }
 
-- (NSURL *)bufferDirectoryForPriority:(MSPriority)priority {
-  return [self.logBufferDir URLByAppendingPathComponent:[NSString stringWithFormat:@"%ld", priority]];
-}
-
 - (BOOL)shouldProcessErrorReport:(MSErrorReport *)errorReport {
-  return (!self.delegate || ![self.delegate respondsToSelector:@selector(crashes:shouldProcessErrorReport:)] ||
-          [self.delegate crashes:self shouldProcessErrorReport:errorReport]);
+  id<MSCrashesDelegate> strongDelegate = self.delegate;
+  return (!strongDelegate || ![strongDelegate respondsToSelector:@selector(crashes:shouldProcessErrorReport:)] ||
+          [strongDelegate crashes:self shouldProcessErrorReport:errorReport]);
 }
 
 - (BOOL)delegateImplementsAttachmentCallback {

@@ -5,6 +5,7 @@
 #import "MSLogManagerDefault.h"
 #import "MSLogManagerDefaultPrivate.h"
 #import "MSMobileCenterErrors.h"
+#import "MSMobileCenterInternal.h"
 #import "MobileCenter+Internal.h"
 
 static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecenter.LogManagerQueue";
@@ -46,48 +47,74 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
   return self;
 }
 
+- (void)initChannelWithConfiguration:(MSChannelConfiguration *)configuration {
+  MSChannelDefault *channel;
+  if (configuration) {
+    channel = [[MSChannelDefault alloc] initWithSender:self.sender
+                                               storage:self.storage
+                                         configuration:configuration
+                                     logsDispatchQueue:self.logsDispatchQueue];
+    self.channels[configuration.groupID] = channel;
+  }
+}
+
 #pragma mark - Delegate
 
 - (void)addDelegate:(id<MSLogManagerDelegate>)delegate {
-  [self.delegates addObject:delegate];
+  @synchronized (self) {
+    [self.delegates addObject:delegate];
+  }
 }
 
 - (void)removeDelegate:(id<MSLogManagerDelegate>)delegate {
-  [self.delegates removeObject:delegate];
+  @synchronized (self) {
+    [self.delegates removeObject:delegate];
+  }
 }
 
 #pragma mark - Channel Delegate
 
-- (void)addChannelDelegate:(id<MSChannelDelegate>)channelDelegate
-                forGroupID:(NSString *)groupID
-              withPriority:(MSPriority)priority {
+- (void)addChannelDelegate:(id<MSChannelDelegate>)channelDelegate forGroupID:(NSString *)groupID {
   if (channelDelegate) {
-    id<MSChannel> channel = [self channelForGroupID:groupID withPriority:priority];
-    [channel addDelegate:channelDelegate];
+    if (self.channels[groupID]) {
+      [self.channels[groupID] addDelegate:channelDelegate];
+    } else {
+      MSLogWarning([MSMobileCenter logTag], @"Channel has not been initialized for the group ID: %@", groupID);
+    }
   }
 }
 
-- (void)removeChannelDelegate:(id<MSChannelDelegate>)channelDelegate
-                   forGroupID:(NSString *)groupID
-                 withPriority:(MSPriority)priority {
+- (void)removeChannelDelegate:(id<MSChannelDelegate>)channelDelegate forGroupID:(NSString *)groupID {
   if (channelDelegate) {
-    id<MSChannel> channel = [self channelForGroupID:groupID withPriority:priority];
-    [channel removeDelegate:channelDelegate];
+    if (self.channels[groupID]) {
+      [self.channels[groupID] removeDelegate:channelDelegate];
+    } else {
+      MSLogWarning([MSMobileCenter logTag], @"Channel has not been initialized for the group ID: %@", groupID);
+    }
   }
 }
 
 - (void)enumerateDelegatesForSelector:(SEL)selector withBlock:(void (^)(id<MSLogManagerDelegate> delegate))block {
-  for (id<MSLogManagerDelegate> delegate in self.delegates) {
-    if (delegate && [delegate respondsToSelector:selector]) {
-      block(delegate);
+  @synchronized (self) {
+    for (id<MSLogManagerDelegate> delegate in self.delegates) {
+      if (delegate && [delegate respondsToSelector:selector]) {
+        block(delegate);
+      }
     }
   }
 }
 
 #pragma mark - Process items
 
-- (void)processLog:(id<MSLog>)log withPriority:(MSPriority)priority andGroupID:(NSString *)groupID {
+- (void)processLog:(id<MSLog>)log forGroupID:(NSString *)groupID {
   if (!log) {
+    return;
+  }
+
+  // Get the channel.
+  id<MSChannel> channel = self.channels[groupID];
+  if (!channel) {
+    MSLogWarning([MSMobileCenter logTag], @"Channel has not been initialized for the group ID: %@", groupID);
     return;
   }
 
@@ -95,16 +122,13 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
   NSString *internalLogId = MS_UUID_STRING;
 
   // Notify delegates.
-  [self enumerateDelegatesForSelector:@selector(onEnqueuingLog:withInternalId:andPriority:)
+  [self enumerateDelegatesForSelector:@selector(onEnqueuingLog:withInternalId:)
                             withBlock:^(id<MSLogManagerDelegate> delegate) {
-                              [delegate onEnqueuingLog:log withInternalId:internalLogId andPriority:priority];
+                              [delegate onEnqueuingLog:log withInternalId:internalLogId];
                             }];
 
-  // Get the channel.
-  id<MSChannel> channel = [self createChannelForGroupID:groupID withPriority:priority];
-
   // Set common log info.
-  log.toffset = [NSNumber numberWithLongLong:[MSUtility nowInMilliseconds]];
+  log.toffset = [NSNumber numberWithLongLong:(long long)([MSUtility nowInMilliseconds])];
 
   // Only add device info in case the log doesn't have one. In case the log is restored after a crash or for crashes,
   // We don't want the device information to be updated but want the old one preserved.
@@ -118,45 +142,19 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
           if (success) {
 
             // Notify delegates.
-            [self enumerateDelegatesForSelector:@selector(onFinishedPersistingLog:withInternalId:andPriority:)
+            [self enumerateDelegatesForSelector:@selector(onFinishedPersistingLog:withInternalId:)
                                       withBlock:^(id<MSLogManagerDelegate> delegate) {
-                                        [delegate onFinishedPersistingLog:log
-                                                           withInternalId:internalLogId
-                                                              andPriority:priority];
+                                        [delegate onFinishedPersistingLog:log withInternalId:internalLogId];
                                       }];
           } else {
 
             // Notify delegates.
-            [self enumerateDelegatesForSelector:@selector(onFailedPersistingLog:withInternalId:andPriority:)
+            [self enumerateDelegatesForSelector:@selector(onFailedPersistingLog:withInternalId:)
                                       withBlock:^(id<MSLogManagerDelegate> delegate) {
-                                        [delegate onFailedPersistingLog:log
-                                                         withInternalId:internalLogId
-                                                            andPriority:priority];
+                                        [delegate onFailedPersistingLog:log withInternalId:internalLogId];
                                       }];
           }
         }];
-}
-
-#pragma mark - Helpers
-
-- (id<MSChannel>)createChannelForGroupID:(NSString *)groupID withPriority:(MSPriority)priority {
-  MSChannelDefault *channel;
-  MSChannelConfiguration *configuration = [MSChannelConfiguration configurationForPriority:priority groupID:groupID];
-  if (configuration) {
-    channel = [[MSChannelDefault alloc] initWithSender:self.sender
-                                               storage:self.storage
-                                         configuration:configuration
-                                     logsDispatchQueue:self.logsDispatchQueue];
-    self.channels[groupID] = channel;
-  }
-  return channel;
-}
-
-- (id<MSChannel>)channelForGroupID:(NSString *)groupID withPriority:(MSPriority)priority {
-
-  // Return an existing channel or create it.
-  id<MSChannel> channel = self.channels[groupID];
-  return (channel) ? channel : [self createChannelForGroupID:groupID withPriority:priority];
 }
 
 #pragma mark - Enable / Disable
@@ -184,11 +182,12 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
   }
 }
 
-- (void)setEnabled:(BOOL)isEnabled
-    andDeleteDataOnDisabled:(BOOL)deleteData
-                 forGroupID:(NSString *)groupID
-               withPriority:(MSPriority)priority {
-  [[self channelForGroupID:groupID withPriority:priority] setEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
+- (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData forGroupID:(NSString *)groupID {
+  if (self.channels[groupID]) {
+    [self.channels[groupID] setEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
+  } else {
+    MSLogWarning([MSMobileCenter logTag], @"Channel has not been initialized for the group ID: %@", groupID);
+  }
 }
 
 #pragma mark - Other public methods

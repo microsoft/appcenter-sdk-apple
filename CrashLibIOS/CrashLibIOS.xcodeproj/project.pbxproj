@@ -263,7 +263,7 @@
 		B21A71D21DD2A38C0044BB1C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0810;
+				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = Microsoft;
 				TargetAttributes = {
 					B21A71DA1DD2A38C0044BB1C = {

@@ -1,5 +1,6 @@
-#import "MSLogManager.h"
 #import <Foundation/Foundation.h>
+#import "MSChannelConfiguration.h"
+#import "MSLogManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -44,9 +45,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy, readonly) NSString *groupID;
 
 /**
- * The channel priority for this service.
+ * The channel configuration for this service.
  */
-@property(nonatomic, readonly) MSPriority priority;
+@property(nonatomic, readonly) MSChannelConfiguration *channelConfiguration;
 
 /**
  * The initialization priority for this service.

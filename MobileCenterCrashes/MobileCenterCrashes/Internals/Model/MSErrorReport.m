@@ -3,9 +3,9 @@
 
 NSString *const kMSErrorReportKillSignal = @"SIGKILL";
 
-@interface MSErrorReport()
+@interface MSErrorReport ()
 
-@property (nonatomic,copy) NSString *signal;
+@property(nonatomic, copy) NSString *signal;
 
 @end
 

@@ -13,7 +13,6 @@
 
 @implementation MSThreadTests
 
-
 #pragma mark - Helper
 
 - (MSThread *)thread {
@@ -24,13 +23,13 @@
   exception.type = @"exception_type";
   exception.message = @"message";
   MSStackFrame *frame = [self stackFrame];
-  exception.frames = @[frame];
+  exception.frames = @[ frame ];
 
   MSThread *thread = [MSThread new];
   thread.threadId = threadId;
   thread.name = name;
   thread.exception = exception;
-  thread.frames = [@[frame] mutableCopy];
+  thread.frames = [@[ frame ] mutableCopy];
 
   return thread;
 }
@@ -113,6 +112,12 @@
 
   // Then
   XCTAssertTrue([thread isValid]);
+}
+
+- (void)testIsNotEqualToNil {
+
+  // Then
+  XCTAssertFalse([[MSThread new] isEqual:nil]);
 }
 
 @end

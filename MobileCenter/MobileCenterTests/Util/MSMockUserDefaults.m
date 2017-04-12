@@ -1,5 +1,6 @@
 #import <OCMock/OCMock.h>
 #import "MSMockUserDefaults.h"
+#import "MSUserDefaults.h"
 
 @interface MSMockUserDefaults()
 
@@ -13,33 +14,27 @@
 - (instancetype)init {
   self = [super init];
   if (self) {
-    self.dictionary = [NSMutableDictionary new];
-    self.mockUserDefaults = OCMClassMock([NSUserDefaults class]);
-    OCMStub([self.mockUserDefaults standardUserDefaults]).andReturn(self.mockUserDefaults);
-    OCMStub([self.mockUserDefaults objectForKey:[OCMArg any]]).andCall(self,@selector(objectForKey:));
-    OCMStub([self.mockUserDefaults setObject:[OCMArg any] forKey:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
-      id object;
-      [invocation getArgument:&object atIndex:2];
-
-      // Don't store nil objects.
-      if (!object) {
-        return;
-      }
-      id key;
-      [invocation getArgument:&key atIndex:3];
-      [self.dictionary setObject:object forKey:key];
-    });
-    OCMStub([self.mockUserDefaults removeObjectForKey:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
-      id key;
-      [invocation getArgument:&key atIndex:2];
-      [self.dictionary removeObjectForKey:key];
-    });
+    _dictionary = [NSMutableDictionary new];
+    _mockUserDefaults = OCMClassMock([NSUserDefaults class]);
+    OCMStub([_mockUserDefaults objectForKey:[OCMArg any]]).andCall(self,@selector(objectForKey:));
+    OCMStub([_mockUserDefaults setObject:[OCMArg any] forKey:[OCMArg any]]).andCall(self,@selector(setObject:forKey:));
+    OCMStub([_mockUserDefaults removeObjectForKey:[OCMArg any]]).andCall(self,@selector(removeObjectForKey:));
+    OCMStub([_mockUserDefaults standardUserDefaults]).andReturn(self.mockUserDefaults);
+    
+    // Mock MSUserDefaults shared method to return this instance.
+    id userDefaultsMock = OCMClassMock([MSUserDefaults class]);
+    OCMStub([userDefaultsMock shared]).andReturn(self);
   }
   return self;
 }
 
--(void)setObject:(NSObject*)anObject forKey:(NSString*)aKey {
-  [self.mockUserDefaults setObject:anObject forKey:aKey];
+-(void)setObject:(id)anObject forKey:(NSString*)aKey {
+  
+  // Don't store nil objects.
+  if (!anObject) {
+    return;
+  }
+  [self.dictionary setObject:anObject forKey:aKey];
 }
 
 -(nullable id)objectForKey:(NSString*)aKey {
@@ -47,7 +42,7 @@
 }
 
 - (void)removeObjectForKey:(NSString *)aKey {
-  [self.mockUserDefaults removeObjectForKey:aKey];
+  [self.dictionary removeObjectForKey:aKey];
 }
 
 -(void)stopMocking {

@@ -1,11 +1,19 @@
-/*
+/**
  * Protocol for interacting with MobileCenter SDK.
  * SasquatchSwift and SasquatchObjC implement this protocol
  * to show usage of MobileCenter SDK in a language specific way.
  */
-
 @objc protocol MobileCenterDelegate {
-  //Modules section.
+
+  // MSMobileCenter section.
+  func isMobileCenterEnabled() -> Bool
+  func setMobileCenterEnabled(_ isEnabled: Bool)
+  func installId() -> String
+  func appSecret() -> String
+  func logUrl() -> String
+  func isDebuggerAttached() -> Bool
+  
+  // Modules section.
   func isAnalyticsEnabled() -> Bool
   func isCrashesEnabled() -> Bool
   func isDistributeEnabled() -> Bool
@@ -15,18 +23,21 @@
   func setDistributeEnabled(_ isEnabled: Bool)
   func setPushEnabled(_ isEnabled: Bool)
   
-  //MSMobileCenter section.
-  func isDebuggerAttached() -> Bool
+  // MSAnalytics section.
+  func trackEvent(_ eventName: String)
+  func trackEvent(_ eventName: String, withProperties: Dictionary<String, String>)
+  func trackPage(_ eventName: String)
+  func trackPage(_ eventName: String, withProperties: Dictionary<String, String>)
   
-  //MSCrashes section.
+  // MSCrashes section.
   func hasCrashedInLastSession() -> Bool
   func generateTestCrash()
   
-  //MSAnalytics section.
-  func trackEvent(_ eventName: String)
-  func trackEvent(_ eventName: String, withProperties: Dictionary<String, String>)
+  // MSDistribute section
+  func showConfirmationAlert()
+  func showDistributeDisabledAlert()
   
-  //Lasr crash report section.
+  // Last crash report section.
   func lastCrashReportIncidentIdentifier() -> String?
   func lastCrashReportReporterKey() -> String?
   func lastCrashReportSignal() -> String?

@@ -25,19 +25,19 @@ struct MSCrashesBufferedLog {
   MSCrashesBufferedLog() = default;
 
   MSCrashesBufferedLog(NSString *path, NSData *data)
-    : bufferPath(path.UTF8String), buffer(&reinterpret_cast<const char *>(data.bytes)[0], &reinterpret_cast<const char *>(data.bytes)[data.length]) {}
+      : bufferPath(path.UTF8String), buffer(&reinterpret_cast<const char *>(data.bytes)[0],
+                                            &reinterpret_cast<const char *>(data.bytes)[data.length]) {}
 };
 
 /**
  * Constant for size of our log buffer.
  */
-const int ms_crashes_log_buffer_size = 20;
+const int ms_crashes_log_buffer_size = 60;
 
 /**
  * The log buffer object where we keep out BUFFERED_LOGs which will be written to disk in case of a crash.
- * It's a map that maps 1 array of MSCrashesBufferedLog to a MSPriority.
  */
-extern std::unordered_map<MSPriority, std::array<MSCrashesBufferedLog, ms_crashes_log_buffer_size>> msCrashesLogBuffer;
+extern std::array<MSCrashesBufferedLog, ms_crashes_log_buffer_size> msCrashesLogBuffer;
 
 @interface MSCrashes () <MSChannelDelegate, MSLogManagerDelegate>
 
@@ -170,14 +170,13 @@ typedef struct MSCrashesCallbacks {
  * it doesn't exist.
  *
  * @param name The name for the file.
- * @param priority The priority for the new file.
  *
  * @return the path for the created or existing file, returns nil if the creation failed.
  *
  * @discussion This will either return the path to the buffer file if one already exists or trigger creation of a file
  * asynchronously by using the @see createBufferFileAtPath: method.
  */
-- (NSURL *)fileURLWithName:(NSString *)name forPriority:(MSPriority)priority;
+- (NSURL *)fileURLWithName:(NSString *)name;
 
 /**
  * A method to create a file at a certain path. This method uses a synchronized block and should be called
@@ -193,13 +192,5 @@ typedef struct MSCrashesCallbacks {
  * The reason why we are not truly deleting the files is that they need to exist at crash time.
  */
 - (void)emptyLogBufferFiles;
-
-/**
- * Return the url for buffered logs for a priority.
- *
- * @param priority A priority for logs.
- * @return The url to the directory for a priority.
- */
-- (NSURL *)bufferDirectoryForPriority:(MSPriority)priority;
 
 @end
