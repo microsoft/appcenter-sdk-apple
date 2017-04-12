@@ -16,9 +16,18 @@ static NSString *const kMSGroupID = @"Analytics";
 static MSAnalytics *sharedInstance = nil;
 static dispatch_once_t onceToken;
 
+// Events values limitations
+static const int minEventNameLength = 1;
+static const int maxEventNameLength = 256;
+static const int maxPropertiesPerEvent = 5;
+static const int minPropertyKeyLength = 1;
+static const int maxPropertyKeyLength = 64;
+static const int maxPropertyValueLength = 64;
+
 @implementation MSAnalytics
 
 @synthesize autoPageTrackingEnabled = _autoPageTrackingEnabled;
+@synthesize channelConfiguration = _channelConfiguration;
 
 #pragma mark - Service initialization
 
@@ -31,6 +40,9 @@ static dispatch_once_t onceToken;
     // Init session tracker.
     _sessionTracker = [[MSSessionTracker alloc] init];
     _sessionTracker.delegate = self;
+
+    // Init channel configuration.
+    _channelConfiguration = [[MSChannelConfiguration alloc] initDefaultConfigurationWithGroupID:[self groupID]];
   }
   return self;
 }
@@ -66,10 +78,6 @@ static dispatch_once_t onceToken;
   return kMSGroupID;
 }
 
-- (MSPriority)priority {
-  return MSPriorityDefault;
-}
-
 #pragma mark - MSServiceAbstract
 
 - (void)applyEnabledState:(BOOL)isEnabled {
@@ -83,7 +91,7 @@ static dispatch_once_t onceToken;
     [self.logManager addDelegate:self.sessionTracker];
 
     // Set self as delegate of analytics channel.
-    [self.logManager addChannelDelegate:self forGroupID:self.groupID withPriority:self.priority];
+    [self.logManager addChannelDelegate:self forGroupID:self.groupID];
 
     // Report current page while auto page tracking is on.
     if (self.autoPageTrackingEnabled) {
@@ -99,7 +107,7 @@ static dispatch_once_t onceToken;
     MSLogInfo([MSAnalytics logTag], @"Analytics service has been enabled.");
   } else {
     [self.logManager removeDelegate:self.sessionTracker];
-    [self.logManager removeChannelDelegate:self forGroupID:self.groupID withPriority:self.priority];
+    [self.logManager removeChannelDelegate:self forGroupID:self.groupID];
     [self.sessionTracker stop];
     [self.sessionTracker clearSessions];
     MSLogInfo([MSAnalytics logTag], @"Analytics service has been disabled.");
@@ -146,57 +154,125 @@ static dispatch_once_t onceToken;
 
 #pragma mark - Private methods
 
-- (BOOL)validateProperties:(NSDictionary<NSString *, NSString *> *)properties {
-  for (id key in properties) {
-    if (![key isKindOfClass:[NSString class]] || ![properties[key] isKindOfClass:[NSString class]]) {
-      return NO;
-    }
+- (BOOL)validateEventName:(NSString *)eventName forLogType:(NSString *)logType {
+  if (!eventName || [eventName length] < minEventNameLength) {
+    MSLogError([MSAnalytics logTag],
+               @"%@ name cannot be null or empty", logType);
+    return NO;
+  }
+  if ([eventName length] > maxEventNameLength) {
+    MSLogError([MSAnalytics logTag],
+               @"%@ '%@' : name length cannot be longer than %d characters", logType, eventName, maxEventNameLength);
+    return NO;
   }
   return YES;
+}
+
+- (NSDictionary<NSString *, NSString *> *)validateProperties:(NSDictionary<NSString *, NSString *> *)properties
+                                                  forLogName:(NSString *)logName
+                                                     andType:(NSString *)logType {
+  NSMutableDictionary<NSString *, NSString *> *validProperties = [NSMutableDictionary new];
+  for (id key in properties) {
+
+    // Don't send more properties than we can.
+    if ([validProperties count] >= maxPropertiesPerEvent) {
+      MSLogWarning([MSAnalytics logTag],
+                   @"%@ '%@' : properties cannot contain more than %d items. Skipping other properties.",
+                   logType,
+                   logName,
+                   maxPropertiesPerEvent);
+      break;
+    }
+    if (![key isKindOfClass:[NSString class]] || ![properties[key] isKindOfClass:[NSString class]]) {
+      continue;
+    }
+
+    // Validate key.
+    NSString *strKey = key;
+    if ([strKey length] < minPropertyKeyLength) {
+      MSLogWarning([MSAnalytics logTag],
+                   @"%@ '%@' : a property key cannot be null or empty. Property will be skipped.",
+                   logType,
+                   logName);
+      continue;
+    }
+    if ([strKey length] > maxPropertyKeyLength) {
+      MSLogWarning([MSAnalytics logTag],
+                   @"%@ '%@' : property %@ : property key length cannot be longer than %d characters. Property %@ will be skipped.",
+                   logType,
+                   logName,
+                   strKey,
+                   maxPropertyKeyLength,
+                   strKey);
+      continue;
+    }
+
+    // Validate value.
+    NSString *value = properties[key];
+    if([value length] > maxPropertyValueLength) {
+      MSLogWarning([MSAnalytics logTag],
+                   @"%@ '%@' : property '%@' : property value cannot be longer than %d characters. Property %@ will be skipped.",
+                   logType,
+                   logName,
+                   strKey,
+                   maxPropertyValueLength,
+                   strKey);
+      continue;
+    }
+
+    // Save valid properties.
+    [validProperties setObject:value forKey:key];
+  }
+  return validProperties;
 }
 
 - (void)trackEvent:(NSString *)eventName withProperties:(NSDictionary<NSString *, NSString *> *)properties {
   if (![self isEnabled])
     return;
 
-  // Create and set properties of the event log.
-  MSEventLog *log = [[MSEventLog alloc] init];
+  // Create an event log.
+  MSEventLog *log = [MSEventLog new];
+
+  // Validate event name.
+  if (![self validateEventName:eventName forLogType:log.type]) {
+    return;
+  }
+
+  // Set properties of the event log.
   log.name = eventName;
   log.eventId = MS_UUID_STRING;
   if (properties && properties.count > 0) {
 
-    // Check if property dictionary contains non-string values.
-    if (![self validateProperties:properties]) {
-      MSLogError([MSAnalytics logTag],
-                 @"The event contains unsupported value type(s). Values should be NSString type.");
-      return;
-    }
-    log.properties = properties;
+    // Send only valid properties.
+    log.properties = [self validateProperties:properties forLogName:log.name andType:log.type];
   }
 
   // Send log to log manager.
-  [self sendLog:log withPriority:self.priority];
+  [self sendLog:log];
 }
 
 - (void)trackPage:(NSString *)pageName withProperties:(NSDictionary<NSString *, NSString *> *)properties {
   if (![super isEnabled])
     return;
 
-  // Create and set properties of the event log.
-  MSPageLog *log = [[MSPageLog alloc] init];
+  // Create an event log.
+  MSPageLog *log = [MSPageLog new];
+
+  // Validate event name.
+  if (![self validateEventName:pageName forLogType:log.type]) {
+    return;
+  }
+
+  // Set properties of the event log.
   log.name = pageName;
   if (properties && properties.count > 0) {
 
-    // Check if property dictionary contains non-string values.
-    if (![self validateProperties:properties]) {
-      MSLogError([MSAnalytics logTag], @"The page contains unsupported value type(s). Values should be NSString type.");
-      return;
-    }
-    log.properties = properties;
+    // Send only valid properties.
+    log.properties = [self validateProperties:properties forLogName:log.name andType:log.type];
   }
 
   // Send log to log manager.
-  [self sendLog:log withPriority:self.priority];
+  [self sendLog:log];
 }
 
 - (void)setAutoPageTrackingEnabled:(BOOL)isEnabled {
@@ -207,24 +283,24 @@ static dispatch_once_t onceToken;
   return self.autoPageTrackingEnabled;
 }
 
-- (void)sendLog:(id<MSLog>)log withPriority:(MSPriority)priority {
+- (void)sendLog:(id<MSLog>)log {
 
   // Send log to log manager.
-  [self.logManager processLog:log withPriority:priority andGroupID:self.groupID];
+  [self.logManager processLog:log forGroupID:self.groupID];
 }
 
 + (void)resetSharedInstance {
 
-  // resets the once_token so dispatch_once will run again
+  // resets the once_token so dispatch_once will run again.
   onceToken = 0;
   sharedInstance = nil;
 }
 
 #pragma mark - MSSessionTracker
 
-- (void)sessionTracker:(id)sessionTracker processLog:(id<MSLog>)log withPriority:(MSPriority)priority {
+- (void)sessionTracker:(id)sessionTracker processLog:(id<MSLog>)log {
   (void)sessionTracker;
-  [self sendLog:log withPriority:priority];
+  [self sendLog:log];
 }
 
 + (void)setDelegate:(nullable id<MSAnalyticsDelegate>)delegate {
@@ -233,7 +309,7 @@ static dispatch_once_t onceToken;
 
 #pragma mark - MSChannelDelegate
 
-- (void)channel:(id)channel willSendLog:(id<MSLog>)log {
+- (void)channel:(id<MSChannel>)channel willSendLog:(id<MSLog>)log {
   (void)channel;
   if (!self.delegate) {
     return;

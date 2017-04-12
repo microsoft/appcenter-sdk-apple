@@ -1,5 +1,5 @@
-#import "MSConstants+Internal.h"
 #import <Foundation/Foundation.h>
+#import "MSConstants+Internal.h"
 
 @protocol MSLogManagerDelegate <NSObject>
 
@@ -10,9 +10,8 @@
  *
  *  @param log The log.
  *  @param internalId An internal Id that can be used to keep track of logs.
- *  @param priority priority.
  */
-- (void)onEnqueuingLog:(id<MSLog>)log withInternalId:(NSString *)internalId andPriority:(MSPriority)priority;
+- (void)onEnqueuingLog:(id<MSLog>)log withInternalId:(NSString *)internalId;
 
 /**
  * Callback that is called when a log has been persisted successfully. This was introduced to implement the
@@ -20,15 +19,14 @@
  *
  *  @param log The log.
  *  @param internalId An internal Id that can be used to keep track of logs.
- *  @param priority The log's priority.
  *
  *  @discussion We had some discussion about the naming of the method. To match the
- *  onEnqueueingLog:withInternalId:andPriority (@see onEnqueueingLog:withInternalId:andPriority) callback, it should
+ *  onEnqueueingLog:withInternalId (@see onEnqueueingLog:withInternalId) callback, it should
  *  also use `enqueuing` in it's signature, yet, as of now, it indicates successful persistence of a log. This
  *  method's name might change in the future to make a distinction between a successfully enqueued log and a persisted
  *  log.
  */
-- (void)onFinishedPersistingLog:(id<MSLog>)log withInternalId:(NSString *)internalId andPriority:(MSPriority)priority;
+- (void)onFinishedPersistingLog:(id<MSLog>)log withInternalId:(NSString *)internalId;
 
 /**
  *  Callback that is called when persisting a log has failed, meaning it has not been saved to disk because the log was
@@ -36,14 +34,13 @@
  *
  *  @param log The log.
  *  @param internalId An internal Id that can be used to keep track of logs.
- *  @param priority priority.
  *
  *  @discussion We had some discussion about the naming of the method. To match the
- *  onEnqueueingLog:withInternalId:andPriority (@see onEnqueueingLog:withInternalId:andPriority) callback, it should
+ *  onEnqueueingLog:withInternalId (@see onEnqueueingLog:withInternalId) callback, it should
  *  also use `enqueuing` in it's signature, yet, as of now, it indicates successful persistence of a log. This
  *  method's name might change in the future to make a distinction between a successfully enqueued log and a persisted
  *  log.
  */
-- (void)onFailedPersistingLog:(id<MSLog>)log withInternalId:(NSString *)internalId andPriority:(MSPriority)priority;
+- (void)onFailedPersistingLog:(id<MSLog>)log withInternalId:(NSString *)internalId;
 
 @end

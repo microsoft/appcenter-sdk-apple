@@ -4,7 +4,7 @@
 
 @implementation MSKeychainUtil
 
-NSString *MobileCenterKeychainServiceName(void) {
+static NSString *MobileCenterKeychainServiceName(void) {
   static NSString *serviceName = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
@@ -36,7 +36,7 @@ NSString *MobileCenterKeychainServiceName(void) {
 
 + (NSString *)stringForKey:(NSString *)key {
   NSMutableDictionary *item = [MSKeychainUtil generateItem:key];
-  item[(__bridge id)kSecReturnData] = (id)kCFBooleanTrue;
+  item[(__bridge id)kSecReturnData] = (__bridge id)kCFBooleanTrue;
   item[(__bridge id)kSecMatchLimit] = (__bridge id)kSecMatchLimitOne;
 
   CFTypeRef data = nil;

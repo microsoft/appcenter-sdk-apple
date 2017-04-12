@@ -20,7 +20,8 @@ static NSString *const kMSLogs = @"logs";
 - (NSString *)serializeLogWithPrettyPrinting:(BOOL)prettyPrint {
   NSString *jsonString;
   NSMutableArray *jsonArray = [NSMutableArray array];
-  [self.logs enumerateObjectsUsingBlock:^(id _Nonnull obj, __attribute__((unused)) NSUInteger idx, __attribute__((unused)) BOOL *_Nonnull stop) {
+  [self.logs enumerateObjectsUsingBlock:^(id _Nonnull obj, __attribute__((unused)) NSUInteger idx,
+                                          __attribute__((unused)) BOOL *_Nonnull stop) {
     NSMutableDictionary *dict = [obj serializeToDictionary];
     if (dict) {
       [jsonArray addObject:dict];
@@ -29,7 +30,7 @@ static NSString *const kMSLogs = @"logs";
 
   NSMutableDictionary *logContainer = [[NSMutableDictionary alloc] init];
   [logContainer setValue:jsonArray forKey:kMSLogs];
-  
+
   NSError *error;
   NSJSONWritingOptions printOptions = prettyPrint ? NSJSONWritingPrettyPrinted : (NSJSONWritingOptions)0;
   NSData *jsonData = [NSJSONSerialization dataWithJSONObject:logContainer options:printOptions error:&error];
@@ -38,10 +39,11 @@ static NSString *const kMSLogs = @"logs";
     NSLog(@"Got an error: %@", error);
   } else {
     jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    // NSJSONSerialization escapes paths by default. We don't need that extra bytes going over the wire, so we replace
-    // them.
+    /*
+     * NSJSONSerialization escapes paths by default.
+     * We don't need that extra bytes going over the wire, so we replace them.
+     */
     jsonString = [jsonString stringByReplacingOccurrencesOfString:@"\\/" withString:@"/"];
-
   }
   return jsonString;
 }
@@ -53,13 +55,14 @@ static NSString *const kMSLogs = @"logs";
     return NO;
 
   __block BOOL isValid = YES;
-  [self.logs enumerateObjectsUsingBlock:^(id _Nonnull obj, __attribute__((unused)) NSUInteger idx, BOOL *_Nonnull stop) {
-    if (![obj isValid]) {
-      *stop = YES;
-      isValid = NO;
-      return;
-    }
-  }];
+  [self.logs
+      enumerateObjectsUsingBlock:^(id _Nonnull obj, __attribute__((unused)) NSUInteger idx, BOOL *_Nonnull stop) {
+        if (![obj isValid]) {
+          *stop = YES;
+          isValid = NO;
+          return;
+        }
+      }];
   return isValid;
 }
 

@@ -12,13 +12,11 @@
 
 @implementation MSEventLogTests
 
-@synthesize sut = _sut;
-
 #pragma mark - Houskeeping
 
 - (void)setUp {
   [super setUp];
-  _sut = [MSEventLog new];
+  self.sut = [MSEventLog new];
 }
 
 - (void)tearDown {
@@ -36,7 +34,7 @@
   MSDevice *device = [MSDevice new];
   NSString *sessionId = @"1234567890";
   NSDictionary *properties = @{ @"Key" : @"Value" };
-  long long createTime = [MSUtility nowInMilliseconds];
+  long long createTime = (long long)[MSUtility nowInMilliseconds];
   NSNumber *tOffset = @(createTime);
 
   self.sut.eventId = eventId;
@@ -88,7 +86,6 @@
   // Then
   assertThat(actual, notNilValue());
   assertThat(actual, instanceOf([MSEventLog class]));
-
   MSEventLog *actualEvent = actual;
   assertThat(actualEvent.name, equalTo(eventName));
   assertThat(actualEvent.eventId, equalTo(eventId));
@@ -97,6 +94,7 @@
   assertThat(actualEvent.type, equalTo(typeName));
   assertThat(actualEvent.sid, equalTo(sessionId));
   assertThat(actualEvent.properties, equalTo(properties));
+  XCTAssertTrue([self.sut isEqual:actualEvent]);
 }
 
 - (void)testIsValid {
@@ -121,6 +119,12 @@
 
   // Then
   XCTAssertTrue([self.sut isValid]);
+}
+
+- (void)testIsNotEqualToNil {
+
+  // Then
+  XCTAssertFalse([self.sut isEqual:nil]);
 }
 
 @end

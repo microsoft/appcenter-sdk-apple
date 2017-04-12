@@ -38,11 +38,20 @@ NS_ASSUME_NONNULL_BEGIN
 + (BOOL)isAutoPageTrackingEnabled;
 
 /**
+ * Validate event name
+ *
+ * @return YES if event name is valid, NO otherwise.
+ */
+- (BOOL)validateEventName:(NSString *)eventName forLogType:(NSString *)logType;
+
+/**
  * Validate keys and values of properties.
  *
- * @return YES if properties have valid keys and values, NO otherwise.
+ * @return dictionary which contains only valid properties.
  */
-- (BOOL)validateProperties:(NSDictionary<NSString *, NSString *> *)properties;
+- (NSDictionary<NSString *, NSString *> *)validateProperties:(NSDictionary<NSString *, NSString *> *)properties
+                                                  forLogName:(NSString *)logName
+                                                     andType:(NSString *)logType;
 
 + (void)setDelegate:(nullable id <MSAnalyticsDelegate>)delegate;
 

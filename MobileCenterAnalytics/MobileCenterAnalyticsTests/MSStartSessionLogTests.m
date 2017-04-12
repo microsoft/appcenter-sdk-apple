@@ -13,13 +13,11 @@
 
 @implementation MSStartSessionLogTests
 
-@synthesize sut = _sut;
-
 #pragma mark - Houskeeping
 
 - (void)setUp {
   [super setUp];
-  _sut = [MSStartSessionLog new];
+  self.sut = [MSStartSessionLog new];
 }
 
 - (void)tearDown {
@@ -34,7 +32,7 @@
   MSDevice *device = [MSDevice new];
   NSString *typeName = @"start_session";
   NSString *sessionId = @"1234567890";
-  long long createTime = [MSUtility nowInMilliseconds];
+  long long createTime = (long long)[MSUtility nowInMilliseconds];
   NSNumber *tOffset = @(createTime);
 
   self.sut.device = device;

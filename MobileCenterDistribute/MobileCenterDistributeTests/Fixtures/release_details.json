@@ -14,5 +14,6 @@
   "download_url": "http://contoso.com/path/download/filename",
   "app_icon_url": "http://contoso.com/path/icon/filename",
   "install_url": "itms-service://?action=download-manifest&url=contoso.com/release/filename",
+  "package_hashes" : ["builId1","builId2"],
   "distribution_groups": [ ]
 }

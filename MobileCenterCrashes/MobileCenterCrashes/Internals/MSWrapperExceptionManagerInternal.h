@@ -8,9 +8,9 @@
 @property CFUUIDRef currentUUIDRef;
 @property(weak, nonatomic) id<MSWrapperCrashesInitializationDelegate> crashesDelegate;
 
-@property(class, copy, readonly) NSString *dataFileExtension;
-@property(class, copy, readonly) NSString *directoryName;
-@property(class, copy, readonly) NSString *directoryPath;
+@property(copy, readonly) NSString *dataFileExtension;
+@property(copy, readonly) NSString *directoryName;
+@property(copy, readonly) NSString *directoryPath;
 
 + (MSWrapperExceptionManager*)sharedInstance;
 - (BOOL)hasException;

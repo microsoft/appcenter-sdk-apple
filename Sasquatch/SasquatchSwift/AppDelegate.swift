@@ -12,10 +12,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate {
   var window: UIWindow?
   
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-    // Override point for customization after application launch.
+    
+    // Start Mobile Center SDK.
+    MSMobileCenter.setLogLevel(MSLogLevel.verbose)
     MSMobileCenter.start("0dbca56b-b9ae-4d53-856a-7c2856137d85", withServices: [MSAnalytics.self, MSCrashes.self, MSDistribute.self])
     
-    // Crashes Delegate
+    // Crashes Delegate.
     MSCrashes.setUserConfirmationHandler({ (errorReports: [MSErrorReport]) in
       
       // Your code.
@@ -42,7 +44,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate {
   }
   
   private func setMobileCenterDelegate(){
-    let sasquatchController = (window?.rootViewController as! UINavigationController).topViewController as! SasquatchViewController
+    let sasquatchController = (window?.rootViewController as! UINavigationController).topViewController as! MSMainViewController
     sasquatchController.mobileCenter = MobileCenterDelegateSwift()
   }
   
