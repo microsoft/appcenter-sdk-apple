@@ -45,7 +45,3 @@ Log in to the [Mobile Center portal](https://mobile.azure.com) and use the blue 
 
 ### 3.2 Twitter
 We're on Twitter as [@mobilecenter](https://www.twitter.com/mobilecenter).
-
-### 3.3 Stackoverflow
-Engage with other Mobile Center users and developers on [StackOverflow](http://stackoverflow.com/questions/tagged/mobile-center).
-
