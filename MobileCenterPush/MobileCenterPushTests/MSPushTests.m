@@ -77,8 +77,8 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
 
 - (void)testConvertTokenToString {
   NSString *originalToken = @"563084c4934486547307ea41c780b93e21fe98372dc902426e97390a84011f72";
-  NSData *rawOriginaloken = [MSPushTestUtil convertPushTokenToNSData:originalToken];
-  NSString *convertedToken = [[MSPush sharedInstance] convertTokenToString:rawOriginaloken];
+  NSData *rawOriginalToken = [MSPushTestUtil convertPushTokenToNSData:originalToken];
+  NSString *convertedToken = [[MSPush sharedInstance] convertTokenToString:rawOriginalToken];
 
   XCTAssertEqualObjects(originalToken, convertedToken);
 }
