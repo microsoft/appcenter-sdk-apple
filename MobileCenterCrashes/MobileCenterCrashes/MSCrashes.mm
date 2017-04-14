@@ -247,7 +247,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     // then the wrapper SDK will call [self configureCrashReporter].
     if (![[MSWrapperExceptionManager getDelegate] respondsToSelector:@selector(setUpCrashHandlers)] ||
         ![[MSWrapperExceptionManager getDelegate] setUpCrashHandlers]) {
-      [self configureCrashReporter];
+      [self configureCrashReporterWithUncaughtExceptionHandlerEnabled:YES];
     }
 
     // PLCrashReporter keeps collecting crash reports even when the SDK is disabled,
@@ -496,10 +496,16 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
 #pragma mark - Crash reporter configuration
 
-- (void)configureCrashReporter {
+- (void)configureCrashReporterWithUncaughtExceptionHandlerEnabled:(BOOL)enableUncaughtExceptionHandler {
   if (self.plCrashReporter) {
     MSLogDebug([MSCrashes logTag], @"Already configured PLCrashReporter.");
     return;
+  }
+
+  if (enableUncaughtExceptionHandler) {
+    MSLogDebug([MSCrashes logTag], @"EnableUncaughtExceptionHandler is set to YES");
+  } else {
+    MSLogDebug([MSCrashes logTag], @"EnableUncaughtExceptionHandler is set to NO, we're running in a Xamarin runtime.");
   }
 
   PLCrashReporterSignalHandlerType signalHandlerType = PLCrashReporterSignalHandlerTypeBSD;
@@ -508,8 +514,10 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     MSLogVerbose([MSCrashes logTag], @"Enabled Mach exception handler.");
   }
   PLCrashReporterSymbolicationStrategy symbolicationStrategy = PLCrashReporterSymbolicationStrategyNone;
-  MSPLCrashReporterConfig *config = [[MSPLCrashReporterConfig alloc] initWithSignalHandlerType:signalHandlerType
-                                                                         symbolicationStrategy:symbolicationStrategy];
+  MSPLCrashReporterConfig *config =
+      [[MSPLCrashReporterConfig alloc] initWithSignalHandlerType:signalHandlerType
+                                           symbolicationStrategy:symbolicationStrategy
+                          shouldRegisterUncaughtExceptionHandler:enableUncaughtExceptionHandler];
   self.plCrashReporter = [[MSPLCrashReporter alloc] initWithConfiguration:config];
 
   /**
@@ -548,6 +556,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       MSLogError([MSCrashes logTag],
                  @"Exception handler could not be set. Make sure there is no other exception handler set up!");
     }
+
+    // Add a handler for C++-Exceptions.
     [MSCrashesUncaughtCXXExceptionHandlerManager addCXXExceptionHandler:uncaught_cxx_exception_handler];
   }
 }
