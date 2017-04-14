@@ -63,15 +63,6 @@ typedef void (^MSLoadDataCompletionBlock)(BOOL succeeded, NSArray<MSLog> *logArr
  */
 - (BOOL)loadLogsForGroupID:(NSString *)groupID withCompletion:(nullable MSLoadDataCompletionBlock)completion;
 
-/**
- * FIXME: The number of logs per batch and the number of logs per files are currently tied together. The storage loads
- * what's contained in the available file and this could be higher than the batch max size going to be sent. To mitigate
- * this kind of scenario the file is closed when the max size of the log batch is reached.
- *
- * @param groupID The key used for grouping.
- */
-- (void)closeBatchWithGroupID:(NSString *)groupID;
-
 @end
 
 NS_ASSUME_NONNULL_END

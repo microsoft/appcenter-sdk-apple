@@ -76,10 +76,6 @@ static NSString *const kMSDataColumnName = @"data";
   return logs.count > 0;
 }
 
-- (void)closeBatchWithGroupID:(NSString *)groupID {
-  [self deleteLogsForGroupID:groupID];
-}
-
 #pragma mark - Private
 
 - (NSMutableArray<MSLog>*) getLogsWith:(NSString*)storageKey {

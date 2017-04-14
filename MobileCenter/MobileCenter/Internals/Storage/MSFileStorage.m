@@ -136,10 +136,6 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
   return (bucket.availableFiles.count > 0);
 }
 
-- (void)closeBatchWithGroupID:(NSString *)groupID {
-  [self renewCurrentFileForGroupID:groupID];
-}
-
 #pragma mark - Helper
 
 - (MSStorageBucket *)createNewBucketForGroupID:(NSString *)groupID {
