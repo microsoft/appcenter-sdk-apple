@@ -3,8 +3,8 @@
 #import "MSDBStorage.h"
 #import "MSFileStorage.h"
 
-const int numLogs = 100;
-const int numServices = 100;
+static const int numLogs = 100;
+static const int numServices = 100;
 
 @interface MSStoragePerfomanceTests : XCTestCase
 @end
@@ -32,8 +32,8 @@ const int numServices = 100;
   // Put teardown code here. This method is called after the invocation of each test method in the class.
   [super tearDown];
 
-  [self.dbStorage deleteLogsForStorageKey:@"anyKey"];
-  [self.fStorage deleteLogsForStorageKey:@"anyKey"];
+  [self.dbStorage deleteLogsForGroupID:@"anyKey"];
+  [self.fStorage deleteLogsForGroupID:@"anyKey"];
 }
 
 #pragma mark - Database storage tests
@@ -43,7 +43,7 @@ const int numServices = 100;
 
   [self measureBlock:^{
     for (MSStartServiceLog *log in arrayOfLogs) {
-      [self.dbStorage saveLog:log withStorageKey:@"anyKey"];
+      [self.dbStorage saveLog:log withGroupID:@"anyKey"];
     }
   }];
 }
@@ -53,7 +53,7 @@ const int numServices = 100;
 
   [self measureBlock:^{
     for (MSStartServiceLog *log in arrayOfLogs) {
-      [self.dbStorage saveLog:log withStorageKey:@"anyKey"];
+      [self.dbStorage saveLog:log withGroupID:@"anyKey"];
     }
   }];
 }
@@ -63,7 +63,7 @@ const int numServices = 100;
 
   [self measureBlock:^{
     for (MSStartServiceLog *log in arrayOfLogs) {
-      [self.dbStorage saveLog:log withStorageKey:@"anyKey"];
+      [self.dbStorage saveLog:log withGroupID:@"anyKey"];
     }
   }];
 }
@@ -71,31 +71,31 @@ const int numServices = 100;
 #pragma mark - File storage tests
 
 - (void)testFileStorageWriteShortLogsPerformance {
-  NSMutableArray<MSStartServiceLog*>* arrayOfLogs = [self generateLogsWithShortServicesNames:numLogs withNumService:numServices];
+  NSArray<MSStartServiceLog*>* arrayOfLogs = [self generateLogsWithShortServicesNames:numLogs withNumService:numServices];
 
   [self measureBlock:^{
     for (MSStartServiceLog *log in arrayOfLogs) {
-      [self.dbStorage saveLog:log withStorageKey:@"anyKey"];
+      [self.dbStorage saveLog:log withGroupID:@"anyKey"];
     }
   }];
 }
 
 - (void)testFileStorageWriteLongLogsPerformance {
-  NSMutableArray<MSStartServiceLog*>* arrayOfLogs = [self generateLogsWithLongServicesNames:numLogs withNumService:numServices];
+  NSArray<MSStartServiceLog*>* arrayOfLogs = [self generateLogsWithLongServicesNames:numLogs withNumService:numServices];
 
   [self measureBlock:^{
     for (MSStartServiceLog *log in arrayOfLogs) {
-      [self.dbStorage saveLog:log withStorageKey:@"anyKey"];
+      [self.dbStorage saveLog:log withGroupID:@"anyKey"];
     }
   }];
 }
 
 - (void)testFileStorageWriteVeryLongLogsPerformance {
-  NSMutableArray<MSStartServiceLog*>* arrayOfLogs = [self generateLogsWithVeryLongServicesNames:numLogs withNumService:numServices];
+  NSArray<MSStartServiceLog*>* arrayOfLogs = [self generateLogsWithVeryLongServicesNames:numLogs withNumService:numServices];
 
   [self measureBlock:^{
     for (MSStartServiceLog *log in arrayOfLogs) {
-      [self.dbStorage saveLog:log withStorageKey:@"anyKey"];
+      [self.dbStorage saveLog:log withGroupID:@"anyKey"];
     }
   }];
 }

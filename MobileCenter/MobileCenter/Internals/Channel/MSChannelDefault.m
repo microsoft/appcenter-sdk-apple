@@ -145,7 +145,6 @@
 
     // Still close the current batch it will be flushed later.
     if (self.itemsCount >= self.configuration.batchSizeLimit) {
-      [self.storage closeBatchWithGroupID:self.configuration.groupID];
 
       // That batch becomes available.
       self.availableBatchFromStorage = YES;

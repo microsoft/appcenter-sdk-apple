@@ -295,4 +295,39 @@
   assertThat(bucket.currentFile, isNot(equalTo(currentFile)));
 }
 
+- (void)testLoadTooManyLogs {
+  id classMock = OCMClassMock([NSKeyedUnarchiver class]);
+  OCMStub([classMock unarchiveObjectWithData:[OCMArg any]]).andReturn([self generateLogs:self.sut.bucketFileLogCountLimit]);
+
+  // If
+  NSString *groupID = @"GroupID";
+  self.sut.buckets[groupID] = [MSStorageBucket new];
+  MSStorageBucket *bucket = self.sut.buckets[groupID];
+
+  MSFile *availableFile1 = [[MSFile alloc] initWithURL:[NSURL fileURLWithPath:@"1"]
+                                                fileId:@"1"
+                                          creationDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+  bucket.availableFiles = [@[ availableFile1 ] mutableCopy];
+
+  // When
+  [self.sut loadLogsForGroupID:groupID withCompletion:^(BOOL succeeded, NSArray<MSLog> *_Nonnull logArray, __attribute__((unused)) NSString *_Nonnull batchId) {
+
+    // Then
+    XCTAssertTrue(succeeded);
+    XCTAssertTrue(self.sut.bucketFileLogCountLimit == logArray.count);
+  }];
+
+  // Restoring the class
+  [classMock stopMocking];
+}
+
+- (NSArray*)generateLogs:(NSUInteger)maxCountLogs  {
+  NSUInteger totalLogs = maxCountLogs * 2;
+  NSMutableArray *logs = [NSMutableArray arrayWithCapacity:totalLogs];
+  for (NSUInteger i = 0; i < totalLogs; ++i) {
+    [logs addObject:[MSAbstractLog new]];
+  }
+  return logs;
+}
+
 @end

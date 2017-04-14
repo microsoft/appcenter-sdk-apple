@@ -106,7 +106,7 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
 }
 
 - (BOOL)loadLogsForGroupID:(NSString *)groupID withCompletion:(nullable MSLoadDataCompletionBlock)completion {
-  NSArray<MSLog> *logs;
+  NSMutableArray<MSLog> *logs;
   NSString *fileId;
   MSStorageBucket *bucket = [self bucketForGroupID:groupID];
 
@@ -122,6 +122,11 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
     [bucket.availableFiles removeLastObject];
   }
 
+  // Remove excess logs
+  if (logs.count > self.bucketFileLogCountLimit) {
+    [logs removeObjectsInRange:NSMakeRange(self.bucketFileLogCountLimit, logs.count - self.bucketFileLogCountLimit)];
+  }
+
   // Load fails if no logs found.
   if (completion) {
     completion((logs.count > 0), logs, fileId);
@@ -129,10 +134,6 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
 
   // Return YES if there are more logs to send.
   return (bucket.availableFiles.count > 0);
-}
-
-- (void)closeBatchWithGroupID:(NSString *)groupID {
-  [self renewCurrentFileForGroupID:groupID];
 }
 
 #pragma mark - Helper

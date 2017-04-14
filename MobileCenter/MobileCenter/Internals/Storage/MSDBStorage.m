@@ -40,47 +40,45 @@ static NSString *const kMSDataColumnName = @"data";
 
 #pragma mark - Public
 
-- (BOOL)saveLog:(id <MSLog>)log withStorageKey:(NSString *)storageKey {
+- (BOOL)saveLog:(id<MSLog>)log withGroupID:(NSString *)groupID {
   if (!log) {
     return NO;
   }
   NSData *logData = [NSKeyedArchiver archivedDataWithRootObject:log];
   NSString *base64Data = [logData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
   NSString *addLogQuery = [NSString stringWithFormat:@"insert or replace into %@ values ('%@', '%@')",
-                                   kMSLogTableName, storageKey, base64Data];
+                           kMSLogTableName, groupID, base64Data];
   return [self.connection executeQuery:addLogQuery];
 }
 
-- (NSArray <MSLog> *)deleteLogsForStorageKey:(NSString *)storageKey {
-  NSArray<MSLog> *logs = [self getLogsWith:storageKey];
-  [self deleteLogsWith:storageKey];
+- (NSArray<MSLog> *)deleteLogsForGroupID:(NSString *)groupID {
+  NSArray<MSLog> *logs = [self getLogsWith:groupID];
+  [self deleteLogsWith:groupID];
   return logs;
 }
 
-- (void)deleteLogsForId:(NSString *)logsId withStorageKey:(NSString *)storageKey {
+- (void)deleteLogsForId:(NSString *)logsId withGroupID:(NSString *)groupID {
 
   // FIXME: logsId ?
-  [self deleteLogsWith:storageKey];
+  [self deleteLogsWith:groupID];
 }
 
-- (BOOL)loadLogsForStorageKey:(NSString *)storageKey withCompletion:(nullable MSLoadDataCompletionBlock)completion {
-  NSArray<MSLog> *logs = [self getLogsWith:storageKey];
+- (BOOL)loadLogsForGroupID:(NSString *)groupID withCompletion:(nullable MSLoadDataCompletionBlock)completion {
+  NSMutableArray<MSLog> *logs = [self getLogsWith:groupID];
 
+  // Remove excess logs
+  if (logs.count > self.bucketFileLogCountLimit) {
+    [logs removeObjectsInRange:NSMakeRange(self.bucketFileLogCountLimit, logs.count - self.bucketFileLogCountLimit)];
+  }
   if (completion) {
-
-    // FIXME: batchId ?
     completion(logs.count > 0, logs, @"");
   }
-
   return logs.count > 0;
 }
 
-- (void)closeBatchWithStorageKey:(NSString *)storageKey {
-  // TODO:
-}
+#pragma mark - Private
 
-//------
-- (NSArray<MSLog>*) getLogsWith:(NSString*)storageKey {
+- (NSMutableArray<MSLog>*) getLogsWith:(NSString*)storageKey {
   NSString *selectLogQuery = [NSString stringWithFormat:@"select * from %@ where %@ == '%@'",
                               kMSLogTableName, kMSStorageKeyColumnName, storageKey];
   NSArray<NSArray<NSString*>*> *result = [self.connection loadDataFromDB:selectLogQuery];
