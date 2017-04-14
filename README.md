@@ -15,7 +15,7 @@ The Mobile Center SDK uses a modular architecture so you can use any or all of t
 
 2. **Mobile Center Crashes**: Mobile Center Crashes will automatically generate a crash log every time your app crashes. The log is first written to the device's storage and when the user starts the app again, the crash report will be sent to Mobile Center. Collecting crashes works for both beta and live apps, i.e. those submitted to the App Store. Crash logs contain valuable information for you to help fix the crash.
 
-3. **Mobile Center Distribute**: Mobile Center Distribute will let your users install a new version of the app when you distribute it via Mobile Center. With a new version of the app available, the SDK will present an update dialog to the users to either download or ignore the latest version. Once they chose to update, the SDK will start to update your application. This feature will NOT work if your app is deployed to the app store, if you are developing locally or if the app is running with the DEBUG configuration.
+3. **Mobile Center Distribute**: Mobile Center Distribute will let your users install a new version of the app when you distribute it via Mobile Center. With a new version of the app available, the SDK will present an update dialog to the users to either download or ignore the latest version. Once they chose to update, the SDK will start to update your application. This feature will NOT work if your app is deployed to the app store and while you are developing your app.
 
 ## 1. Get started
 It is super easy to use Mobile Center. Have a look at our [get started documentation]() and onboard your app within minutes. Our [detailed documentation]() is available as well.
