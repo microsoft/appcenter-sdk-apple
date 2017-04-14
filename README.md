@@ -643,7 +643,7 @@ MSMobileCenter.setEnabled(false)
 
 ### Skip Distribute while developing
  
-Distribute does popup UI/browser at application start. While this is an expected behavior for your end users it could be disruptive for you during the development stage of your application. In this case you can simply skip Distribute from the SDK start:
+The Distribute service does popup UI/browser at application start. While this is an expected behavior for your end users it could be disruptive for you during the development stage of your application. In this case you can simply skip the Distribute service from the SDK start:
 
  **Objective-C**
  
