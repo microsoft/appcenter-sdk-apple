@@ -25,7 +25,7 @@
 		<key>NSExtensionAttributes</key>
 		<dict>
 			<key>WKAppBundleIdentifier</key>
-			<string>com.microsoft.azure.mobile.sasquatch.SasquatchObjC.watchkitapp</string>
+			<string>com.microsoft.azure.mobile.sasquatchobjc.watchkitapp</string>
 		</dict>
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.watchkit</string>
