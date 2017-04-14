@@ -64,7 +64,12 @@ static NSString *const kMSDataColumnName = @"data";
 }
 
 - (BOOL)loadLogsForGroupID:(NSString *)groupID withCompletion:(nullable MSLoadDataCompletionBlock)completion {
-  NSArray<MSLog> *logs = [self getLogsWith:groupID];
+  NSMutableArray<MSLog> *logs = [self getLogsWith:groupID];
+
+  // Remove excess logs
+  if (logs.count > self.bucketFileLogCountLimit) {
+    [logs removeObjectsInRange:NSMakeRange(self.bucketFileLogCountLimit, logs.count - self.bucketFileLogCountLimit)];
+  }
   if (completion) {
     completion(logs.count > 0, logs, @"");
   }
@@ -77,7 +82,7 @@ static NSString *const kMSDataColumnName = @"data";
 
 #pragma mark - Private
 
-- (NSArray<MSLog>*) getLogsWith:(NSString*)storageKey {
+- (NSMutableArray<MSLog>*) getLogsWith:(NSString*)storageKey {
   NSString *selectLogQuery = [NSString stringWithFormat:@"select * from %@ where %@ == '%@'",
                               kMSLogTableName, kMSStorageKeyColumnName, storageKey];
   NSArray<NSArray<NSString*>*> *result = [self.connection loadDataFromDB:selectLogQuery];
