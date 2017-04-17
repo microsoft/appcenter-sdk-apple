@@ -1,14 +1,14 @@
 import XCTest
 
-class SasquatchSwiftUITests: XCTestCase {
+class PuppetUITests: XCTestCase {
   private var app : XCUIApplication?;
   private let AnalyticsCellIndex : UInt = 0;
   private let CrashesCellIndex : UInt = 1;
   private let DistributeCellIndex : UInt = 2;
-        
+
   override func setUp() {
     super.setUp()
-    
+
     // In UI tests it is usually best to stop immediately when a failure occurs.
     continueAfterFailure = false
 
@@ -163,7 +163,7 @@ class SasquatchSwiftUITests: XCTestCase {
 
     // Go to distribute page
     app.tables.cells.element(boundBy: AnalyticsCellIndex).tap();
-
+    
     // Service should be enabled
     XCTAssertEqual("1", distributeButton.value as! String);
   }
