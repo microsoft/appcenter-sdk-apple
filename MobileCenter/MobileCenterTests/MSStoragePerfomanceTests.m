@@ -1,7 +1,6 @@
 #import <XCTest/XCTest.h>
 #import "MSStartServiceLog.h"
 #import "MSDBStorage.h"
-#import "MSFileStorage.h"
 
 static const int numLogs = 100;
 static const int numServices = 100;
@@ -12,20 +11,17 @@ static const int numServices = 100;
 @interface MSStoragePerfomanceTests()
 
 @property(nonatomic) MSDBStorage *dbStorage;
-@property(nonatomic) MSFileStorage *fStorage;
 
 @end
 
 @implementation MSStoragePerfomanceTests
 
 @synthesize dbStorage;
-@synthesize fStorage;
 
 - (void)setUp {
   [super setUp];
 
   self.dbStorage = [MSDBStorage new];
-  self.fStorage = [MSFileStorage new];
 }
 
 - (void)tearDown {
@@ -33,7 +29,6 @@ static const int numServices = 100;
   [super tearDown];
 
   [self.dbStorage deleteLogsForGroupID:@"anyKey"];
-  [self.fStorage deleteLogsForGroupID:@"anyKey"];
 }
 
 #pragma mark - Database storage tests

@@ -17,7 +17,6 @@ static NSString *const kMSDataColumnName = @"data";
 
 @implementation MSDBStorage
 
-@synthesize bucketFileCountLimit;
 @synthesize bucketFileLogCountLimit;
 @synthesize connection;
 

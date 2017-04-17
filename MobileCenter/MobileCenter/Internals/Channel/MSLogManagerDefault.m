@@ -1,7 +1,6 @@
 #import "MobileCenter+Internal.h"
 #import "MSChannelDefault.h"
 #import "MSDBStorage.h"
-#import "MSFileStorage.h"
 #import "MSHttpSender.h"
 #import "MSIngestionSender.h"
 #import "MSLogManagerDefault.h"
@@ -33,7 +32,6 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
                                                                appSecret:appSecret
                                                                installId:[installId UUIDString]]
                       storage:[MSDBStorage new]];
-                      //storage:[[MSFileStorage alloc] init]];
   return self;
 }
 
