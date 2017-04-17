@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5CD700E81EA4B74600FC5D12 /* SasquatchSwiftUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD700E71EA4B74600FC5D12 /* SasquatchSwiftUITests.swift */; };
 		84226C4B1E88FF4A00798417 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226C4A1E88FF4A00798417 /* main.m */; };
 		84226C4E1E88FF4A00798417 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226C4D1E88FF4A00798417 /* AppDelegate.m */; };
 		84226C561E88FF4A00798417 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C551E88FF4A00798417 /* Assets.xcassets */; };
@@ -63,6 +64,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		5CD700EA1EA4B74600FC5D12 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 84226C0A1E88FEFC00798417 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 84226C7F1E8908C900798417;
+			remoteInfo = SasquatchSwift;
+		};
 		D31EF9371E9517B600450162 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 84226C0A1E88FEFC00798417 /* Project object */;
@@ -163,6 +171,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5CD700E51EA4B74500FC5D12 /* SasquatchSwiftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SasquatchSwiftUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5CD700E71EA4B74600FC5D12 /* SasquatchSwiftUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SasquatchSwiftUITests.swift; sourceTree = "<group>"; };
+		5CD700E91EA4B74600FC5D12 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		84226C1C1E88FEFC00798417 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		84226C471E88FF4A00798417 /* SasquatchObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SasquatchObjC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84226C4A1E88FF4A00798417 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -269,6 +280,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5CD700E61EA4B74600FC5D12 /* SasquatchSwiftUITests */ = {
+			isa = PBXGroup;
+			children = (
+				5CD700E71EA4B74600FC5D12 /* SasquatchSwiftUITests.swift */,
+				5CD700E91EA4B74600FC5D12 /* Info.plist */,
+			);
+			path = SasquatchSwiftUITests;
+			sourceTree = "<group>";
+		};
 		84226C091E88FEFC00798417 = {
 			isa = PBXGroup;
 			children = (
@@ -280,6 +300,7 @@
 				D31EF9391E9517B600450162 /* SasquatchWatchObjC Extension */,
 				D31EF9551E9517C500450162 /* SasquatchWatchSwift */,
 				D31EF9641E9517C600450162 /* SasquatchWatchSwift Extension */,
+				5CD700E61EA4B74600FC5D12 /* SasquatchSwiftUITests */,
 				84226C131E88FEFC00798417 /* Products */,
 				84226D0F1E8921DE00798417 /* Frameworks */,
 			);
@@ -294,6 +315,7 @@
 				D31EF9351E9517B600450162 /* SasquatchWatchObjC Extension.appex */,
 				D31EF9541E9517C500450162 /* SasquatchWatchSwift.app */,
 				D31EF9601E9517C600450162 /* SasquatchWatchSwift Extension.appex */,
+				5CD700E51EA4B74500FC5D12 /* SasquatchSwiftUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -476,6 +498,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		5CD700E41EA4B74500FC5D12 /* SasquatchSwiftUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5CD700EE1EA4B74600FC5D12 /* Build configuration list for PBXNativeTarget "SasquatchSwiftUITests" */;
+			buildPhases = (
+				5CD700E11EA4B74500FC5D12 /* Sources */,
+				5CD700E31EA4B74500FC5D12 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5CD700EB1EA4B74600FC5D12 /* PBXTargetDependency */,
+			);
+			name = SasquatchSwiftUITests;
+			productName = SasquatchSwiftUITests;
+			productReference = 5CD700E51EA4B74500FC5D12 /* SasquatchSwiftUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		84226C461E88FF4A00798417 /* SasquatchObjC */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 84226C711E88FF4A00798417 /* Build configuration list for PBXNativeTarget "SasquatchObjC" */;
@@ -594,6 +633,12 @@
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Microsoft Corp.";
 				TargetAttributes = {
+					5CD700E41EA4B74500FC5D12 = {
+						CreatedOnToolsVersion = 8.3.1;
+						DevelopmentTeam = L4RARDNZ2Y;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 84226C7F1E8908C900798417;
+					};
 					84226C461E88FF4A00798417 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = L4RARDNZ2Y;
@@ -643,11 +688,19 @@
 				84226C7F1E8908C900798417 /* SasquatchSwift */,
 				D31EF9531E9517C500450162 /* SasquatchWatchSwift */,
 				D31EF95F1E9517C600450162 /* SasquatchWatchSwift Extension */,
+				5CD700E41EA4B74500FC5D12 /* SasquatchSwiftUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		5CD700E31EA4B74500FC5D12 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		84226C451E88FF4A00798417 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -703,6 +756,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		5CD700E11EA4B74500FC5D12 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5CD700E81EA4B74600FC5D12 /* SasquatchSwiftUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		84226C431E88FF4A00798417 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -761,6 +822,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		5CD700EB1EA4B74600FC5D12 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 84226C7F1E8908C900798417 /* SasquatchSwift */;
+			targetProxy = 5CD700EA1EA4B74600FC5D12 /* PBXContainerItemProxy */;
+		};
 		D31EF9381E9517B600450162 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = D31EF9341E9517B600450162 /* SasquatchWatchObjC Extension */;
@@ -811,6 +877,36 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		5CD700EC1EA4B74600FC5D12 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				DEVELOPMENT_TEAM = L4RARDNZ2Y;
+				INFOPLIST_FILE = SasquatchSwiftUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.SasquatchSwiftUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = SasquatchSwift;
+			};
+			name = Debug;
+		};
+		5CD700ED1EA4B74600FC5D12 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				DEVELOPMENT_TEAM = L4RARDNZ2Y;
+				INFOPLIST_FILE = SasquatchSwiftUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.SasquatchSwiftUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = SasquatchSwift;
+			};
+			name = Release;
+		};
 		84226C381E88FEFC00798417 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1129,6 +1225,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		5CD700EE1EA4B74600FC5D12 /* Build configuration list for PBXNativeTarget "SasquatchSwiftUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5CD700EC1EA4B74600FC5D12 /* Debug */,
+				5CD700ED1EA4B74600FC5D12 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		84226C0D1E88FEFC00798417 /* Build configuration list for PBXProject "Sasquatch" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

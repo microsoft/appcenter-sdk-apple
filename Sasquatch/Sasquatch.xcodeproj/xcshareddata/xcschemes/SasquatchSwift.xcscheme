@@ -98,6 +98,16 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "5CD700E41EA4B74500FC5D12"
+               BuildableName = "SasquatchSwiftUITests.xctest"
+               BlueprintName = "SasquatchSwiftUITests"
+               ReferencedContainer = "container:Sasquatch.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
