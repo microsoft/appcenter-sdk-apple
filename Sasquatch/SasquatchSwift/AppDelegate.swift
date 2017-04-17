@@ -14,7 +14,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate {
     
     // Start Mobile Center SDK.
     MSMobileCenter.setLogLevel(MSLogLevel.verbose)
-    MSMobileCenter.start("0dbca56b-b9ae-4d53-856a-7c2856137d85", withServices: [MSAnalytics.self, MSCrashes.self, MSDistribute.self])
+    #if DEBUG
+      MSMobileCenter.start("0dbca56b-b9ae-4d53-856a-7c2856137d85", withServices: [MSAnalytics.self, MSCrashes.self])
+    #else
+      MSMobileCenter.start("0dbca56b-b9ae-4d53-856a-7c2856137d85", withServices: [MSAnalytics.self, MSCrashes.self, MSDistribute.self])
+    #endif
     
     // Crashes Delegate.
     MSCrashes.setUserConfirmationHandler({ (errorReports: [MSErrorReport]) in
