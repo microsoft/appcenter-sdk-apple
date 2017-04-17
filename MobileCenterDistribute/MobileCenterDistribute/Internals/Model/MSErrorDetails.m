@@ -8,10 +8,10 @@ static NSString *const kMSMessage = @"message";
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dictionary {
   if ((self = [super init])) {
     if (dictionary[kMSCode]) {
-      self.code = dictionary[kMSCode];
+      self.code = (NSString *)dictionary[kMSCode];
     }
     if (dictionary[kMSMessage]) {
-      self.message = dictionary[kMSMessage];
+      self.message = (NSString *)dictionary[kMSMessage];
     }
   }
   return self;

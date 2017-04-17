@@ -47,11 +47,6 @@ static void ms_save_log_buffer_callback(__attribute__((unused)) siginfo_t *info,
                                         __attribute__((unused)) ucontext_t *uap,
                                         __attribute__((unused)) void *context) {
 
-  // Do not save the buffer if it is empty.
-  if (msCrashesLogBuffer.size() == 0) {
-    return;
-  }
-
   // Iterate over the buffered logs and write them to disk.
   for (int i = 0; i < ms_crashes_log_buffer_size; i++) {
 
@@ -252,7 +247,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     // then the wrapper SDK will call [self configureCrashReporter].
     if (![[MSWrapperExceptionManager getDelegate] respondsToSelector:@selector(setUpCrashHandlers)] ||
         ![[MSWrapperExceptionManager getDelegate] setUpCrashHandlers]) {
-      [self configureCrashReporter];
+      [self configureCrashReporterWithUncaughtExceptionHandlerEnabled:YES];
     }
 
     // PLCrashReporter keeps collecting crash reports even when the SDK is disabled,
@@ -501,10 +496,16 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
 #pragma mark - Crash reporter configuration
 
-- (void)configureCrashReporter {
+- (void)configureCrashReporterWithUncaughtExceptionHandlerEnabled:(BOOL)enableUncaughtExceptionHandler {
   if (self.plCrashReporter) {
     MSLogDebug([MSCrashes logTag], @"Already configured PLCrashReporter.");
     return;
+  }
+
+  if (enableUncaughtExceptionHandler) {
+    MSLogDebug([MSCrashes logTag], @"EnableUncaughtExceptionHandler is set to YES");
+  } else {
+    MSLogDebug([MSCrashes logTag], @"EnableUncaughtExceptionHandler is set to NO, we're running in a Xamarin runtime.");
   }
 
   PLCrashReporterSignalHandlerType signalHandlerType = PLCrashReporterSignalHandlerTypeBSD;
@@ -513,8 +514,10 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     MSLogVerbose([MSCrashes logTag], @"Enabled Mach exception handler.");
   }
   PLCrashReporterSymbolicationStrategy symbolicationStrategy = PLCrashReporterSymbolicationStrategyNone;
-  MSPLCrashReporterConfig *config = [[MSPLCrashReporterConfig alloc] initWithSignalHandlerType:signalHandlerType
-                                                                         symbolicationStrategy:symbolicationStrategy];
+  MSPLCrashReporterConfig *config =
+      [[MSPLCrashReporterConfig alloc] initWithSignalHandlerType:signalHandlerType
+                                           symbolicationStrategy:symbolicationStrategy
+                          shouldRegisterUncaughtExceptionHandler:enableUncaughtExceptionHandler];
   self.plCrashReporter = [[MSPLCrashReporter alloc] initWithConfiguration:config];
 
   /**
@@ -553,6 +556,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       MSLogError([MSCrashes logTag],
                  @"Exception handler could not be set. Make sure there is no other exception handler set up!");
     }
+
+    // Add a handler for C++-Exceptions.
     [MSCrashesUncaughtCXXExceptionHandlerManager addCXXExceptionHandler:uncaught_cxx_exception_handler];
   }
 }
@@ -696,7 +701,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   NSError *error = nil;
   NSArray *files = [self.fileManager contentsOfDirectoryAtURL:self.crashesDir
                                    includingPropertiesForKeys:nil
-                                                      options:(NSDirectoryEnumerationOptions)0
+                                                      options:NSDirectoryEnumerationOptions(0)
                                                         error:&error];
   for (NSURL *fileURL in files) {
     [self.fileManager removeItemAtURL:fileURL error:&error];
@@ -757,7 +762,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     NSArray *files =
         [self.fileManager contentsOfDirectoryAtURL:self.crashesDir
                         includingPropertiesForKeys:@[ NSURLNameKey, NSURLFileSizeKey, NSURLIsRegularFileKey ]
-                                           options:(NSDirectoryEnumerationOptions)0
+                                           options:NSDirectoryEnumerationOptions(0)
                                              error:&error];
     for (NSURL *fileURL in files) {
       NSString *fileName = nil;
