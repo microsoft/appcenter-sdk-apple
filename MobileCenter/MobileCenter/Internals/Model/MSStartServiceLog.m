@@ -5,7 +5,6 @@ static NSString *const kMSServices = @"services";
 
 @implementation MSStartServiceLog
 
-@synthesize type = _type;
 @synthesize services = _services;
 
 - (instancetype)init {
@@ -37,7 +36,6 @@ static NSString *const kMSServices = @"services";
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
   if ((self = [super initWithCoder:coder])) {
-    self.type = [coder decodeObjectForKey:kMSStartService];
     self.services = [coder decodeObjectForKey:kMSServices];
   }
   return self;
@@ -45,7 +43,6 @@ static NSString *const kMSServices = @"services";
 
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
-  [coder encodeObject:self.type forKey:kMSStartService];
   [coder encodeObject:self.services forKey:kMSServices];
 }
 

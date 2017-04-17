@@ -6,7 +6,6 @@
 #import "MSAppleErrorLog.h"
 #import "MSBinary.h"
 #import "MSCrashesTestUtil.h"
-#import "MSErrorAttachment.h"
 #import "MSException.h"
 #import "MSThread.h"
 
@@ -14,12 +13,9 @@
 
 @property(nonatomic) MSAppleErrorLog *sut;
 
-
 @end
 
-
 @implementation MSAppleErrorLogTests
-
 
 #pragma mark - Housekeeping
 
@@ -60,7 +56,6 @@
   appleLog.errorThreadName = @"2";
   appleLog.fatal = YES;
   appleLog.appLaunchTOffset = @123;
-  appleLog.errorAttachment = [MSErrorAttachment attachmentWithText:@"test"];
   appleLog.architecture = @"test";
 
   return appleLog;
@@ -102,18 +97,12 @@
   assertThat(exceptionDicationary[@"type"], equalTo(self.sut.exception.type));
   assertThat(exceptionDicationary[@"message"], equalTo(self.sut.exception.message));
   assertThat(exceptionDicationary[@"wrapper_sdk_name"], equalTo(self.sut.exception.wrapperSdkName));
-
-  // Error attachment fields.
-  NSDictionary *attachmentDicationary = actual[@"error_attachment"];
-  XCTAssertNotNil(attachmentDicationary);
-  assertThat(attachmentDicationary[@"text_attachment"], equalTo(self.sut.errorAttachment.textAttachment));
 }
 
 - (void)testNSCodingSerializationAndDeserializationWorks {
 
   // When
-  NSData *serializedEvent =
-          [NSKeyedArchiver archivedDataWithRootObject:self.sut];
+  NSData *serializedEvent = [NSKeyedArchiver archivedDataWithRootObject:self.sut];
   id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedEvent];
 
   // Then
@@ -143,23 +132,23 @@
   assertThat(actualException.wrapperSdkName, equalTo(self.sut.exception.wrapperSdkName));
 }
 
--(void)testIsEqual {
-  
+- (void)testIsEqual {
+
   // When
   MSAppleErrorLog *first = [self appleErrorLog];
   MSAppleErrorLog *second = [self appleErrorLog];
-  
+
   // Then
   XCTAssertTrue([first isEqual:second]);
-  
+
   // When
   second.processId = @345;
-  
+
   // Then
   XCTAssertFalse([first isEqual:second]);
 }
 
--(void)testIsValid {
+- (void)testIsValid {
 
   // When
   MSAppleErrorLog *log = [MSAppleErrorLog new];
@@ -170,6 +159,9 @@
   log.errorId = @"errorId";
   log.processId = @123;
   log.processName = @"processName";
+  log.appLaunchTOffset = @1234567;
+  log.toffset = @(1);
+  log.sid = MS_UUID_STRING;
 
   // Then
   XCTAssertFalse([log isValid]);

@@ -1,9 +1,11 @@
 #import "MSAppleErrorLog.h"
 #import "MSCrashesCXXExceptionWrapperException.h"
 #import "MSCrashesDelegate.h"
-#import "MSCrashesUtil.h"
 #import "MSCrashesInternal.h"
 #import "MSCrashesPrivate.h"
+#import "MSCrashesUtil.h"
+#import "MSErrorAttachmentLog.h"
+#import "MSErrorAttachmentLogInternal.h"
 #import "MSErrorLogFormatter.h"
 #import "MSMobileCenterInternal.h"
 #import "MSServiceAbstractProtected.h"
@@ -152,7 +154,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
 + (void)notifyWithUserConfirmation:(MSUserConfirmation)userConfirmation {
   MSCrashes *crashes = [self sharedInstance];
+  NSArray<MSErrorAttachmentLog *> *attachments;
 
+  // Check for user confirmation.
   if (userConfirmation == MSUserConfirmationDontSend) {
 
     // Don't send logs, clean up the files.
@@ -168,8 +172,10 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     return;
   } else if (userConfirmation == MSUserConfirmationAlways) {
 
-    // Always send logs. Set the flag YES to bypass user confirmation next time.
-    // Continue crash processing afterwards.
+    /*
+     * Always send logs. Set the flag YES to bypass user confirmation next time.
+     * Continue crash processing afterwards.
+     */
     [MS_USER_DEFAULTS setObject:[[NSNumber alloc] initWithBool:YES] forKey:kMSUserConfirmationKey];
   }
 
@@ -179,17 +185,23 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     MSErrorReport *report = crashes.unprocessedReports[i];
     NSURL *fileURL = crashes.unprocessedFilePaths[i];
 
-    // Get error attachment.
+    // Get error attachments.
     if ([crashes delegateImplementsAttachmentCallback]) {
-
-      // TODO (attachmentWithCrashes): Bring this back when the backend supports attachment for Crashes.
-      //      [log setErrorAttachment:[crashes.delegate attachmentWithCrashes:crashes forErrorReport:report]];
+      attachments = [crashes.delegate attachmentWithCrashes:crashes forErrorReport:report];
     } else {
       MSLogDebug([MSCrashes logTag], @"attachmentWithCrashes is not implemented");
     }
 
-    // Send log to log manager.
+    // First, send crash log to log manager.
     [crashes.logManager processLog:log forGroupID:crashes.groupID];
+
+    // Then, send attachements log to log manager.
+    for (MSErrorAttachmentLog *attachment in attachments) {
+      attachment.errorId = log.errorId;
+      [crashes.logManager processLog:attachment forGroupID:crashes.groupID];
+    }
+
+    // Clean up.
     [crashes deleteCrashReportWithFileURL:fileURL];
     [MSWrapperExceptionManager deleteWrapperExceptionDataWithUUIDString:report.incidentIdentifier];
     [crashes.crashFiles removeObject:fileURL];
@@ -357,9 +369,10 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
  **/
 - (void)onEnqueuingLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
 
-  // Don't buffer event if log is empty, crashes module is disabled or the log is a crash.
+  // Don't buffer event if log is empty, crashes module is disabled or the log is related to crash.
   NSObject *logObject = static_cast<NSObject *>(log);
-  if (!log || ![self isEnabled] || [logObject isKindOfClass:[MSAppleErrorLog class]]) {
+  if (!log || ![self isEnabled] || [logObject isKindOfClass:[MSAppleErrorLog class]] ||
+      [logObject isKindOfClass:[MSErrorAttachmentLog class]]) {
     return;
   }
 
@@ -388,7 +401,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
           return;
         } else {
 
-          /**
+          /*
            * The current element is full. Save the timestamp if applicable and continue iterating unless we have
            * reached the last element.
            */
@@ -404,10 +417,10 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
           }
         }
 
-        /**
+        /*
          * Continue to iterate until we reach en empty element, in which case we store the log in it and stop, or until
          * we reach the end of the buffer. In the later case, we will replace the oldest log with the current one
-        */
+         */
       }
 
       // We've reached the last element in our buffer and we now go ahead and replace the oldest element.
@@ -421,7 +434,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       NSTimeInterval now = [[NSDate date] timeIntervalSince1970];
       msCrashesLogBuffer[indexToDelete].timestamp =
           [[NSString stringWithFormat:@"%f", now] cStringUsingEncoding:NSUTF8StringEncoding];
-
       MSLogVerbose([MSCrashes logTag], @"Overwrote buffered log at index %ld.", indexToDelete);
 
       // We're done, no need to iterate any more. But no need to `return;` as we're at the end of the buffer.
@@ -897,9 +909,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 }
 
 - (BOOL)delegateImplementsAttachmentCallback {
-  // TODO (attachmentWithCrashes): Bring this back when the backend supports attachment for Crashes.
-  //   return self.delegate && [self.delegate respondsToSelector:@selector(attachmentWithCrashes:forErrorReport:)];
-  return NO;
+  return self.delegate && [self.delegate respondsToSelector:@selector(attachmentWithCrashes:forErrorReport:)];
 }
 
 + (void)wrapperCrashCallback {

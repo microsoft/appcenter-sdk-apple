@@ -1,4 +1,4 @@
-#import "MSAbstractLog.h"
+#import "MSAbstractLogInternal.h"
 #import "MSDevice.h"
 
 #import <Foundation/Foundation.h>
@@ -85,6 +85,5 @@
  * com.microsoft.example.  [optional]
  */
 @property(nonatomic, copy) NSString *appNamespace;
-
 
 @end

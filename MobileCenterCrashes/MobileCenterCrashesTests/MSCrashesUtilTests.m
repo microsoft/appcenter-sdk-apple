@@ -40,4 +40,27 @@
   XCTAssertTrue(dirExists);
 }
 
+- (void)testGenerateFilenameForValidMimeType {
+
+  // When
+  NSString *filename = [MSCrashesUtil generateFilenameForMimeType:nil];
+
+  // Then
+  assertThat(filename, notNilValue());
+  assertThat(filename.pathExtension, is(@""));
+
+  // When
+  filename = [MSCrashesUtil generateFilenameForMimeType:@"bad&mime#type"];
+
+  // Then
+  assertThat(filename, notNilValue());
+  assertThat(filename.pathExtension, is(@""));
+
+  // When
+  filename = [MSCrashesUtil generateFilenameForMimeType:@"text/plain"];
+
+  // Then
+  assertThat(filename.pathExtension, is(@"txt"));
+  assertThat(@(filename.length), greaterThan(@(filename.pathExtension.length + 1)));
+}
 @end
