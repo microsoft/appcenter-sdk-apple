@@ -45,7 +45,7 @@
  * Add a desctructive action to the alert controller.
  *
  * @param title  The action's title.
- * @param handler A block that will be executed if the user chosses the action.
+ * @param handler A block that will be executed if the user chooses the action.
  */
 - (void)addDestructiveActionWithTitle:(NSString *)title handler:(void (^)(UIAlertAction *action))handler;
 
@@ -53,9 +53,9 @@
  * Add a preferred action to the alert controller.
  *
  * @param title  The action's title.
- * @param handler A block that will be executed if the user chosses the action.
+ * @param handler A block that will be executed if the user chooses the action.
  *
- * @discussion This method is only available iOS 9.0 or newer. The default action will be used for iOS < 9.0.
+ * @discussion This method is only available in iOS 9.0 or newer. The default action will be used for iOS < 9.0.
  */
 - (void)addPreferredActionWithTitle:(NSString *)title handler:(void (^)(UIAlertAction *action))handler;
 
