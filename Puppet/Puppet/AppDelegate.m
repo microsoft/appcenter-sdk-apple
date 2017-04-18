@@ -23,8 +23,8 @@
   // Start Mobile Center SDK.
   [MSMobileCenter setLogLevel:MSLogLevelVerbose];
 
-  [MSMobileCenter start:@"7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7"
-           withServices:@[ [MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class] ]];
+  [MSMobileCenter setLogUrl:@"https://in-integration.dev.avalanch.es"];
+  [MSMobileCenter start:@"2dcf4840-f4d8-49d6-bcf0-e967f01203fb" withServices:@[ [MSAnalytics class], [MSPush class] ]];
 
   [self crashes];
 
@@ -54,12 +54,12 @@
 
 - (void)application:(UIApplication *)application
     didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-  [MSPush didRegisterForRemoteNotificationsWith:deviceToken];
+  [MSPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 }
 
 - (void)application:(UIApplication *)application
     didFailToRegisterForRemoteNotificationsWithError:(nonnull NSError *)error {
-  [MSPush didFailToRegisterForRemoteNotificationsWith:error];
+  [MSPush didFailToRegisterForRemoteNotificationsWithError:error];
 }
 
 - (void)application:(UIApplication *)application
