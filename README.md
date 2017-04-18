@@ -640,6 +640,30 @@ If you want the Mobile Center SDK to be disabled completely, use the `setEnabled
 ```swift
 MSMobileCenter.setEnabled(false)
 ```
+
+### Skip Distribute while developing
+ 
+The Distribute service does popup a UI/browser at application start. While this is an expected behavior for your end users it could be disruptive for you during the development stage of your application. In this case you can simply skip the Distribute service from the SDK start:
+
+ **Objective-C**
+ 
+ ```objectivec
+ #if DEBUG
+ [MSMobileCenter start:@"YOUR_APP_ID" withServices:@[[MSAnalytics class], [MSCrashes class]]];
+ #else
+ [MSMobileCenter start:@"YOUR_APP_ID" withServices:@[[MSAnalytics class], [MSCrashes class], [MSDistribute class]]];
+ #endif
+ ```
+ 
+ **Swift**
+ 
+ ```swift
+ #if DEBUG
+ MSMobileCenter.start("YOUR_APP_ID", withServices: [MSAnalytics.self, MSCrashes.self])
+ #else
+ MSMobileCenter.start("YOUR_APP_ID", withServices: [MSAnalytics.self, MSCrashes.self, MSDistribute.self])
+ #endif
+ ``` 
         
 ## 8. Troubleshooting
 
