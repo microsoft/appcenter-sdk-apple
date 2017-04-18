@@ -12,13 +12,6 @@ typedef void (^MSLoadDataCompletionBlock)(BOOL succeeded, NSArray<MSLog> *logArr
 @protocol MSStorage <NSObject>
 
 /**
- * Defines the maximum count of app log files per storage key on the file system.
- *
- * Default: 7
- */
-@property(nonatomic) NSUInteger bucketFileCountLimit;
-
-/**
  * Defines the maximum count of app logs per storage key in a file.
  *
  * Default: 50
