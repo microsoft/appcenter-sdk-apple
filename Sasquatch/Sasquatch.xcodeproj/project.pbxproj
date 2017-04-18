@@ -188,8 +188,7 @@
 		5CE2587B1EA5F5EB00DA8FB9 /* CrashesUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CrashesUITests.swift; path = SasquatchUITests/CrashesUITests.swift; sourceTree = SOURCE_ROOT; };
 		5CE2587D1EA5F5FC00DA8FB9 /* DistributeUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DistributeUITests.swift; path = SasquatchUITests/DistributeUITests.swift; sourceTree = SOURCE_ROOT; };
 		5CE258871EA5F62400DA8FB9 /* SasquatchObjCUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SasquatchObjCUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		5CE2588B1EA5F62400DA8FB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5CE258961EA5FAE100DA8FB9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = SasquatchSwiftUITests/Info.plist; sourceTree = "<group>"; };
+		5CE258961EA5FAE100DA8FB9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		84226C1C1E88FEFC00798417 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		84226C471E88FF4A00798417 /* SasquatchObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SasquatchObjC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84226C4A1E88FF4A00798417 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -309,25 +308,10 @@
 				5CE258791EA5F5DF00DA8FB9 /* AnalyticsUITests.swift */,
 				5CE2587B1EA5F5EB00DA8FB9 /* CrashesUITests.swift */,
 				5CE2587D1EA5F5FC00DA8FB9 /* DistributeUITests.swift */,
+				5CE258961EA5FAE100DA8FB9 /* Info.plist */,
 			);
 			name = SasquatchUITests;
 			path = SasquatchSwiftUITests;
-			sourceTree = "<group>";
-		};
-		5CE258881EA5F62400DA8FB9 /* SasquatchObjCUITests */ = {
-			isa = PBXGroup;
-			children = (
-				5CE2588B1EA5F62400DA8FB9 /* Info.plist */,
-			);
-			path = SasquatchObjCUITests;
-			sourceTree = "<group>";
-		};
-		5CE258951EA5FA7500DA8FB9 /* SasquatchSwiftUITests */ = {
-			isa = PBXGroup;
-			children = (
-				5CE258961EA5FAE100DA8FB9 /* Info.plist */,
-			);
-			name = SasquatchSwiftUITests;
 			sourceTree = "<group>";
 		};
 		84226C091E88FEFC00798417 = {
@@ -342,8 +326,6 @@
 				D31EF9551E9517C500450162 /* SasquatchWatchSwift */,
 				D31EF9641E9517C600450162 /* SasquatchWatchSwift Extension */,
 				5CD700E61EA4B74600FC5D12 /* SasquatchUITests */,
-				5CE258951EA5FA7500DA8FB9 /* SasquatchSwiftUITests */,
-				5CE258881EA5F62400DA8FB9 /* SasquatchObjCUITests */,
 				84226C131E88FEFC00798417 /* Products */,
 				84226D0F1E8921DE00798417 /* Frameworks */,
 			);
@@ -975,7 +957,7 @@
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				INFOPLIST_FILE = SasquatchSwiftUITests/Info.plist;
+				INFOPLIST_FILE = SasquatchUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.SasquatchSwiftUITests;
@@ -990,7 +972,7 @@
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				INFOPLIST_FILE = SasquatchSwiftUITests/Info.plist;
+				INFOPLIST_FILE = SasquatchUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.SasquatchSwiftUITests;
@@ -1005,7 +987,7 @@
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				INFOPLIST_FILE = SasquatchObjCUITests/Info.plist;
+				INFOPLIST_FILE = SasquatchUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.SasquatchObjCUITests;
@@ -1020,7 +1002,7 @@
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				INFOPLIST_FILE = SasquatchObjCUITests/Info.plist;
+				INFOPLIST_FILE = SasquatchUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.SasquatchObjCUITests;
