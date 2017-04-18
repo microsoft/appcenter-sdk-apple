@@ -72,12 +72,12 @@ static dispatch_once_t onceToken;
 
 #pragma mark - MSPush
 
-+ (void)didRegisterForRemoteNotificationsWith:(NSData *)pushToken {
-  [[self sharedInstance] didRegisterForRemoteNotificationsWith:pushToken];
++ (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+  [[self sharedInstance] didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 }
 
-+ (void)didFailToRegisterForRemoteNotificationsWith:(NSError *)error {
-  [[self sharedInstance] didFailToRegisterForRemoteNotificationsWith:error];
++ (void)didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+  [[self sharedInstance] didFailToRegisterForRemoteNotificationsWithError:error];
 }
 
 #pragma mark - MSServiceAbstract
@@ -199,14 +199,14 @@ static dispatch_once_t onceToken;
 
 #pragma mark - Register callbacks
 
-- (void)didRegisterForRemoteNotificationsWith:(NSData *)pushToken {
+- (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
   MSLogVerbose([MSPush logTag], @"Registering for push notifications has been finished successfully");
-  NSString *strPushToken = [self convertTokenToString:pushToken];
+  NSString *strPushToken = [self convertTokenToString:deviceToken];
   [MS_USER_DEFAULTS setObject:strPushToken forKey:kMSPushServiceStorageKey];
   [self sendPushToken:strPushToken];
 }
 
-- (void)didFailToRegisterForRemoteNotificationsWith:(NSError *)error {
+- (void)didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
   MSLogVerbose([MSPush logTag], @"Registering for push notifications has been finished with error: %@",
                error.description);
 }
