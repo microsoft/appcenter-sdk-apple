@@ -20,7 +20,9 @@
 		380A4DC91DD68D3F00E99219 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A271D4152FA0016C325 /* libc++.tbd */; };
 		38484F6D1E53D57E00C5631C /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38484F691E537B9300C5631C /* SafariServices.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		38E1B65A1DDCDDF4000EFED1 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38E1B6591DDCDDF4000EFED1 /* MSAlertController.m */; };
-		5CE2583A1EA5097100DA8FB9 /* PuppetUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE258391EA5097100DA8FB9 /* PuppetUITests.swift */; };
+		5CE258991EA5FBCA00DA8FB9 /* AnalyticsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE258981EA5FBCA00DA8FB9 /* AnalyticsUITests.swift */; };
+		5CE2589B1EA5FBD400DA8FB9 /* CrashesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE2589A1EA5FBD400DA8FB9 /* CrashesUITests.swift */; };
+		5CE2589D1EA5FBE900DA8FB9 /* DistributeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE2589C1EA5FBE900DA8FB9 /* DistributeUITests.swift */; };
 		6EC99A211D4151A00016C325 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A201D4151A00016C325 /* CrashReporter.framework */; };
 		6EC99A281D4152FA0016C325 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A271D4152FA0016C325 /* libc++.tbd */; };
 		B21B26C71DDE490400FF0378 /* MSCrashesDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B21B26C61DDE490400FF0378 /* MSCrashesDetailViewController.m */; };
@@ -226,8 +228,10 @@
 		38E1B6591DDCDDF4000EFED1 /* MSAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAlertController.m; sourceTree = "<group>"; };
 		38F2606E1E649FE5004F0FDC /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		5CE258371EA5097100DA8FB9 /* PuppetUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PuppetUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		5CE258391EA5097100DA8FB9 /* PuppetUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuppetUITests.swift; sourceTree = "<group>"; };
 		5CE2583B1EA5097100DA8FB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5CE258981EA5FBCA00DA8FB9 /* AnalyticsUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsUITests.swift; sourceTree = "<group>"; };
+		5CE2589A1EA5FBD400DA8FB9 /* CrashesUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrashesUITests.swift; sourceTree = "<group>"; };
+		5CE2589C1EA5FBE900DA8FB9 /* DistributeUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistributeUITests.swift; sourceTree = "<group>"; };
 		6EC99A201D4151A00016C325 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = ../../Vendor/PLCrashReporter/CrashReporter.framework; sourceTree = "<group>"; };
 		6EC99A251D4152EB0016C325 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		6EC99A271D4152FA0016C325 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
@@ -335,8 +339,10 @@
 		5CE258381EA5097100DA8FB9 /* PuppetUITests */ = {
 			isa = PBXGroup;
 			children = (
-				5CE258391EA5097100DA8FB9 /* PuppetUITests.swift */,
 				5CE2583B1EA5097100DA8FB9 /* Info.plist */,
+				5CE258981EA5FBCA00DA8FB9 /* AnalyticsUITests.swift */,
+				5CE2589A1EA5FBD400DA8FB9 /* CrashesUITests.swift */,
+				5CE2589C1EA5FBE900DA8FB9 /* DistributeUITests.swift */,
 			);
 			path = PuppetUITests;
 			sourceTree = "<group>";
@@ -699,7 +705,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5CE2583A1EA5097100DA8FB9 /* PuppetUITests.swift in Sources */,
+				5CE258991EA5FBCA00DA8FB9 /* AnalyticsUITests.swift in Sources */,
+				5CE2589D1EA5FBE900DA8FB9 /* DistributeUITests.swift in Sources */,
+				5CE2589B1EA5FBD400DA8FB9 /* CrashesUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1046,6 +1054,7 @@
 				5CE2583F1EA5097100DA8FB9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E82E1B5A1D1CA58D00D281C1 /* Build configuration list for PBXProject "Puppet" */ = {
 			isa = XCConfigurationList;
