@@ -434,6 +434,8 @@ static NSURL *sfURL;
   details.appName = @"Test App";
   details.shortVersion = @"2.5";
   details.version = @"11";
+  details.releaseNotes = @"Release notes";
+  details.releaseNotesUrl = [NSURL URLWithString:@"https://contoso.com/release_notes"];
   details.mandatoryUpdate = false;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wformat-nonliteral"
@@ -466,7 +468,95 @@ static NSURL *sfURL;
                                }];
 }
 
+- (void)testShowConfirmationAlertWithoutViewReleaseNotesButton {
+
+  // If
+  id mobileCenterMock = OCMPartialMock(self.sut);
+  id alertControllerMock = OCMClassMock([MSAlertController class]);
+  MSReleaseDetails *details = [MSReleaseDetails new];
+  OCMStub([alertControllerMock alertControllerWithTitle:[OCMArg any] message:[OCMArg any]])
+      .andReturn(alertControllerMock);
+  details.appName = @"Test App";
+  details.shortVersion = @"2.5";
+  details.version = @"11";
+  details.mandatoryUpdate = false;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wformat-nonliteral"
+  NSString *message =
+      [NSString stringWithFormat:MSDistributeLocalizedString(@"MSDistributeAppUpdateAvailableOptionalUpdateMessage"),
+                                 details.appName, details.shortVersion, details.version];
+#pragma clang diagnostic pop
+
+  // When
+  XCTestExpectation *expection = [self expectationWithDescription:@"Confirmation alert has been displayed"];
+  [mobileCenterMock showConfirmationAlert:details];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [expection fulfill];
+  });
+
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(__attribute__((unused)) NSError *error) {
+
+                                 // Then
+                                 OCMVerify([alertControllerMock alertControllerWithTitle:[OCMArg any] message:message]);
+                                 OCMVerify([alertControllerMock
+                                     addDefaultActionWithTitle:MSDistributeLocalizedString(@"MSDistributeAskMeInADay")
+                                                       handler:[OCMArg any]]);
+                                 OCMReject([alertControllerMock
+                                     addDefaultActionWithTitle:MSDistributeLocalizedString(
+                                                                   @"MSDistributeViewReleaseNotes")
+                                                       handler:[OCMArg any]]);
+                                 OCMVerify([alertControllerMock addPreferredActionWithTitle:[OCMArg any]
+                                                                                    handler:[OCMArg any]]);
+                               }];
+}
+
 - (void)testShowConfirmationAlertForMandatoryUpdate {
+
+  // If
+  id mobileCenterMock = OCMPartialMock(self.sut);
+  id alertControllerMock = OCMClassMock([MSAlertController class]);
+  MSReleaseDetails *details = [MSReleaseDetails new];
+  OCMStub([alertControllerMock alertControllerWithTitle:[OCMArg any] message:[OCMArg any]])
+      .andReturn(alertControllerMock);
+  details.appName = @"Test App";
+  details.shortVersion = @"2.5";
+  details.version = @"11";
+  details.releaseNotes = @"Release notes";
+  details.releaseNotesUrl = [NSURL URLWithString:@"https://contoso.com/release_notes"];
+  details.mandatoryUpdate = true;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wformat-nonliteral"
+  NSString *message =
+      [NSString stringWithFormat:MSDistributeLocalizedString(@"MSDistributeAppUpdateAvailableMandatoryUpdateMessage"),
+                                 details.appName, details.shortVersion, details.version];
+#pragma clang diagnostic pop
+
+  // When
+  XCTestExpectation *expection = [self expectationWithDescription:@"Confirmation alert has been displayed"];
+  [mobileCenterMock showConfirmationAlert:details];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [expection fulfill];
+  });
+
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(__attribute__((unused)) NSError *error) {
+
+                                 // Then
+                                 OCMVerify([alertControllerMock alertControllerWithTitle:[OCMArg any] message:message]);
+                                 OCMReject([alertControllerMock
+                                     addDefaultActionWithTitle:MSDistributeLocalizedString(@"MSDistributeAskMeInADay")
+                                                       handler:[OCMArg any]]);
+                                 OCMVerify([alertControllerMock
+                                     addDefaultActionWithTitle:MSDistributeLocalizedString(
+                                                                   @"MSDistributeViewReleaseNotes")
+                                                       handler:[OCMArg any]]);
+                                 OCMVerify([alertControllerMock addPreferredActionWithTitle:[OCMArg any]
+                                                                                    handler:[OCMArg any]]);
+                               }];
+}
+
+- (void)testShowConfirmationAlertWithoutViewReleaseNotesButtonForMandatoryUpdate {
 
   // If
   id mobileCenterMock = OCMPartialMock(self.sut);
@@ -500,7 +590,7 @@ static NSURL *sfURL;
                                  OCMReject([alertControllerMock
                                      addDefaultActionWithTitle:MSDistributeLocalizedString(@"MSDistributeAskMeInADay")
                                                        handler:[OCMArg any]]);
-                                 OCMVerify([alertControllerMock
+                                 OCMReject([alertControllerMock
                                      addDefaultActionWithTitle:MSDistributeLocalizedString(
                                                                    @"MSDistributeViewReleaseNotes")
                                                        handler:[OCMArg any]]);
@@ -529,7 +619,9 @@ static NSURL *sfURL;
   details.appName = @"Test App";
   details.shortVersion = @"2.5";
   details.version = @"11";
-  details.downloadUrl = [NSURL URLWithString:@"https://www.contoso.com"];
+  details.downloadUrl = [NSURL URLWithString:@"https://contoso.com"];
+  details.releaseNotes = @"Release notes";
+  details.releaseNotesUrl = [NSURL URLWithString:@"https://contoso.com/release_notes"];
   details.mandatoryUpdate = YES;
   details.status = @"available";
 #pragma clang diagnostic push
@@ -628,7 +720,7 @@ static NSURL *sfURL;
   MSReleaseDetails *details = [MSReleaseDetails new];
   details.releaseNotes = MS_UUID_STRING;
   details.id = @(42);
-  details.downloadUrl = [NSURL URLWithString:@"https://www.contoso.com"];
+  details.downloadUrl = [NSURL URLWithString:@"https://contoso.com"];
   details.mandatoryUpdate = YES;
   details.status = @"available";
 
@@ -652,7 +744,7 @@ static NSURL *sfURL;
   MSReleaseDetails *details = [MSReleaseDetails new];
   details.releaseNotes = MS_UUID_STRING;
   details.id = @(42);
-  details.downloadUrl = [NSURL URLWithString:@"https://www.contoso.com"];
+  details.downloadUrl = [NSURL URLWithString:@"https://contoso.com"];
   details.mandatoryUpdate = NO;
   details.status = @"available";
 
