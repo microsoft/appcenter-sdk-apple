@@ -1,23 +1,16 @@
 #import "MSDatabaseConnection.h"
-#import "MSDBStorage.h"
+#import "MSDBStoragePrivate.h"
 #import "MSLogger.h"
 #import "MSSqliteConnection.h"
 
 static NSString *const kMSLogEntityName = @"MSDBLog";
 static NSString *const kMSDBFileName = @"MSDBLogs.sqlite";
 static NSString *const kMSLogTableName = @"MSLog";
-static NSString *const kMSStorageKeyColumnName = @"storageKey";
+static NSString *const kMSGroupIDColumnName = @"groupID";
 static NSString *const kMSDataColumnName = @"data";
-
-@interface MSDBStorage()
-
-@property (nonatomic) id<MSDatabaseConnection> connection;
-
-@end
 
 @implementation MSDBStorage
 
-@synthesize bucketFileLogCountLimit;
 @synthesize connection;
 
 #pragma mark - Initialization
@@ -33,7 +26,7 @@ static NSString *const kMSDataColumnName = @"data";
 
 -(void)initTables {
   NSString *createLogTableQuery = [NSString stringWithFormat:@"create table if not exists %@ (%@ text, %@ text);",
-                                   kMSLogTableName, kMSStorageKeyColumnName, kMSDataColumnName];
+                                   kMSLogTableName, kMSGroupIDColumnName, kMSDataColumnName];
   [self.connection executeQuery:createLogTableQuery];
 }
 
@@ -51,38 +44,59 @@ static NSString *const kMSDataColumnName = @"data";
 }
 
 - (NSArray<MSLog> *)deleteLogsForGroupID:(NSString *)groupID {
-  NSArray<MSLog> *logs = [self getLogsWith:groupID];
-  [self deleteLogsWith:groupID];
+  NSArray<MSLog> *logs = [self getLogsWithGroupID:groupID];
+  [self deleteLogsWithGroupID:groupID];
   return logs;
 }
 
-- (void)deleteLogsForId:(NSString *)logsId withGroupID:(NSString *)groupID {
+- (void)deleteLogsForId:(NSString *)batchId withGroupID:(NSString *)groupID {
 
-  // FIXME: logsId ?
-  [self deleteLogsWith:groupID];
+  // FIXME: Restore batch deletion.
+  [self deleteLogsWithGroupID:groupID];
 }
 
-- (BOOL)loadLogsForGroupID:(NSString *)groupID withCompletion:(nullable MSLoadDataCompletionBlock)completion {
-  NSMutableArray<MSLog> *logs = [self getLogsWith:groupID];
+- (BOOL)loadLogsForGroupID:(NSString *)groupID limit:(NSUInteger)limit withCompletion:(nullable MSLoadDataCompletionBlock)completion {
+  
+  /*
+   * There is a need to determine if there will be more log available than those under the limit.
+   * So this is just about knowing if there is at least 1 log above the limit.
+   * Thus, just 1 log is added to the requested limit and then removed later as needed.
+   */
+  NSMutableArray<MSLog> *logs = (NSMutableArray<MSLog> *)[self getLogsWithGroupID:groupID limit:(limit+1)];
+  BOOL moreLogsAvailable = NO;
 
-  // Remove excess logs
-  if (logs.count > self.bucketFileLogCountLimit) {
-    [logs removeObjectsInRange:NSMakeRange(self.bucketFileLogCountLimit, logs.count - self.bucketFileLogCountLimit)];
+  // Remove the log in excess, it means there is more logs available.
+  if (logs.count > limit) {
+    [logs removeLastObject];
+    moreLogsAvailable = YES;
   }
   if (completion) {
-    completion(logs.count > 0, logs, @"");
+    completion(logs.count > 0, logs, groupID);
   }
-  return logs.count > 0;
+  
+  // Return YES if more logs available.
+  return moreLogsAvailable;
 }
 
 #pragma mark - Private
 
-- (NSMutableArray<MSLog>*) getLogsWith:(NSString*)storageKey {
+- (NSArray<MSLog>*) getLogsWithGroupID:(NSString*)groupID{
   NSString *selectLogQuery = [NSString stringWithFormat:@"select * from %@ where %@ == '%@'",
-                              kMSLogTableName, kMSStorageKeyColumnName, storageKey];
-  NSArray<NSArray<NSString*>*> *result = [self.connection loadDataFromDB:selectLogQuery];
-  NSMutableArray<MSLog> *logs = [NSMutableArray<MSLog> arrayWithCapacity:100];
+                              kMSLogTableName, kMSGroupIDColumnName, groupID];
+  return [self getLogsWithQwery:selectLogQuery];
+}
 
+- (NSArray<MSLog>*) getLogsWithGroupID:(NSString*)groupID limit:(NSUInteger)limit{
+  NSString *selectLogQuery = [NSString stringWithFormat:@"select * from %@ where %@ == '%@' limit %lu",
+                              kMSLogTableName, kMSGroupIDColumnName, groupID, (unsigned long)limit];
+  return [self getLogsWithQwery:selectLogQuery];
+}
+
+- (NSArray<MSLog>*) getLogsWithQwery:(NSString*)qwery{
+  NSArray<NSArray<NSString*>*> *result = [self.connection loadDataFromDB:qwery];
+  NSMutableArray<MSLog> *logs = [NSMutableArray<MSLog> new];
+  
+  // Deserialize logs from DB.
   for (NSArray<NSString*> *row in result) {
     NSString *base64Data = row[1];
     NSData *logData = [[NSData alloc] initWithBase64EncodedString:base64Data options:NSDataBase64DecodingIgnoreUnknownCharacters];
@@ -92,9 +106,9 @@ static NSString *const kMSDataColumnName = @"data";
   return logs;
 }
 
-- (void) deleteLogsWith:(NSString*)storageKey {
+- (void) deleteLogsWithGroupID:(NSString*)groupID {
   NSString *deleteLogQuery = [NSString stringWithFormat:@"delete from %@ where %@ == '%@'",
-                              kMSLogTableName, kMSStorageKeyColumnName, storageKey];
+                              kMSLogTableName, kMSGroupIDColumnName, groupID];
   [self.connection executeQuery:deleteLogQuery];
 }
 

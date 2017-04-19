@@ -67,6 +67,7 @@
   // Set the database file path.
   NSString *databasePath = [self.documentsDirectory stringByAppendingPathComponent:self.databaseFilename];
 
+  //TODO looks like we can optimize those 2 initializations.
   // Initialize the results array.
   if (self.arrResults != nil) {
     [self.arrResults removeAllObjects];
@@ -151,7 +152,6 @@
 
           // If could not execute the query show the error message on the debugger.
           NSLog(@"DB Error: %s\nerror code: %d", sqlite3_errmsg(sqlite3Database), executeQueryResults);
-
           result = NO;
         }
       }
@@ -159,7 +159,6 @@
 
       // In the database cannot be opened then show the error message on the debugger.
       NSLog(@"DB Error: %s\nquery: %s", sqlite3_errmsg(sqlite3Database), query);
-
       result = NO;
     }
 

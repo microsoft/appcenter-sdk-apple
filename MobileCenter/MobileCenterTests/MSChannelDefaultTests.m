@@ -133,6 +133,7 @@ static NSString *const kMSTestGroupID = @"GroupID";
 
   // If
   [self initChannelEndJobExpectation];
+  int batchSizeLimit = 1;
   __block int currentBatchId = 1;
   __block NSMutableArray<NSString *> *sentBatchIds = [NSMutableArray new];
   NSUInteger expectedMaxPendingBatched = 2;
@@ -147,20 +148,20 @@ static NSString *const kMSTestGroupID = @"GroupID";
     }
   });
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
-  OCMStub([storageMock loadLogsForGroupID:kMSTestGroupID withCompletion:([OCMArg any])])
+  OCMStub([storageMock loadLogsForGroupID:kMSTestGroupID limit:batchSizeLimit
+ withCompletion:([OCMArg any])])
       .andDo(^(NSInvocation *invocation) {
-
         MSLoadDataCompletionBlock loadCallback;
 
         // Mock load.
-        [invocation getArgument:&loadCallback atIndex:3];
+        [invocation getArgument:&loadCallback atIndex:4];
         loadCallback(YES, ((NSArray<MSLog> *)@[ OCMProtocolMock(@protocol(MSLog)) ]),
                      [@(currentBatchId++) stringValue]);
       });
   MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithGroupID:kMSTestGroupID
                                                                           priority:MSPriorityDefault
                                                                      flushInterval:0.0
-                                                                    batchSizeLimit:1
+                                                                    batchSizeLimit:batchSizeLimit
                                                                pendingBatchesLimit:expectedMaxPendingBatched];
   self.sut.configuration = config;
   MSChannelDefault *sut = [[MSChannelDefault alloc] initWithSender:senderMock
@@ -175,7 +176,7 @@ static NSString *const kMSTestGroupID = @"GroupID";
   [self enqueueChannelEndJobExpectation];
 
   // Then
-  [self waitForExpectationsWithTimeout:1
+  [self waitForExpectationsWithTimeout:100
                                handler:^(NSError *error) {
                                  assertThatUnsignedLong(sut.pendingBatchIds.count,
                                                         equalToUnsignedLong(expectedMaxPendingBatched));
@@ -200,6 +201,7 @@ static NSString *const kMSTestGroupID = @"GroupID";
   __block MSSendAsyncCompletionHandler senderBlock;
   __block MSLogContainer *lastBatchLogContainer;
   __block int currentBatchId = 1;
+  int batchSizeLimit = 1;
 
   // Init mocks.
   id senderMock = OCMProtocolMock(@protocol(MSSender));
@@ -213,12 +215,12 @@ static NSString *const kMSTestGroupID = @"GroupID";
 
   // Stub the storage load for that log.
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
-  OCMStub([storageMock loadLogsForGroupID:kMSTestGroupID withCompletion:([OCMArg any])])
+  OCMStub([storageMock loadLogsForGroupID:kMSTestGroupID limit:batchSizeLimit withCompletion:([OCMArg any])])
       .andDo(^(NSInvocation *invocation) {
         MSLoadDataCompletionBlock loadCallback;
 
         // Get sender bloc for later call.
-        [invocation getArgument:&loadCallback atIndex:3];
+        [invocation getArgument:&loadCallback atIndex:4];
 
         // Mock load.
         loadCallback(YES, ((NSArray<MSLog> *)@[ OCMProtocolMock(@protocol(MSLog)) ]), [@(currentBatchId) stringValue]);
@@ -228,7 +230,7 @@ static NSString *const kMSTestGroupID = @"GroupID";
   MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithGroupID:kMSTestGroupID
                                                                           priority:MSPriorityDefault
                                                                      flushInterval:0.0
-                                                                    batchSizeLimit:1
+                                                                    batchSizeLimit:batchSizeLimit
                                                                pendingBatchesLimit:1];
   self.sut.configuration = config;
   MSChannelDefault *sut = [[MSChannelDefault alloc] initWithSender:senderMock
@@ -283,17 +285,19 @@ static NSString *const kMSTestGroupID = @"GroupID";
 
   // If
   [self initChannelEndJobExpectation];
+  int batchSizeLimit = 1;
   id mockLog = [self getValidMockLog];
   id senderMock = OCMProtocolMock(@protocol(MSSender));
   OCMStub([senderMock sendAsync:[OCMArg any] completionHandler:[OCMArg any]]);
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
   OCMStub([storageMock
       loadLogsForGroupID:kMSTestGroupID
+                limit:batchSizeLimit
           withCompletion:([OCMArg invokeBlockWithArgs:@YES, ((NSArray<MSLog> *)@[ mockLog ]), @"1", nil])]);
   MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithGroupID:kMSTestGroupID
                                                                           priority:MSPriorityDefault
                                                                      flushInterval:0.0
-                                                                    batchSizeLimit:1
+                                                                    batchSizeLimit:batchSizeLimit
                                                                pendingBatchesLimit:10];
   self.sut.configuration = config;
   MSChannelDefault *sut = [[MSChannelDefault alloc] initWithSender:senderMock
@@ -325,16 +329,18 @@ static NSString *const kMSTestGroupID = @"GroupID";
 
   // If
   [self initChannelEndJobExpectation];
+  int batchSizeLimit = 1;
   id senderMock = OCMProtocolMock(@protocol(MSSender));
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
   id mockLog = [self getValidMockLog];
   OCMStub([storageMock
       loadLogsForGroupID:kMSTestGroupID
+                limit:batchSizeLimit
           withCompletion:([OCMArg invokeBlockWithArgs:@YES, ((NSArray<MSLog> *)@[ mockLog ]), @"1", nil])]);
   MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithGroupID:kMSTestGroupID
                                                                           priority:MSPriorityDefault
                                                                      flushInterval:0.0
-                                                                    batchSizeLimit:1
+                                                                    batchSizeLimit:batchSizeLimit
                                                                pendingBatchesLimit:10];
   self.sut.configuration = config;
   MSChannelDefault *sut = [[MSChannelDefault alloc] initWithSender:senderMock
@@ -398,6 +404,7 @@ static NSString *const kMSTestGroupID = @"GroupID";
    * If
    */
   [self initChannelEndJobExpectation];
+  int batchSizeLimit = 1;
   NSUInteger expectedHTTPCode = MSHTTPCodesNo404NotFound;
   NSDictionary *userInfo = @{
     NSLocalizedDescriptionKey : kMSMCConnectionHttpErrorDesc,
@@ -431,12 +438,12 @@ static NSString *const kMSTestGroupID = @"GroupID";
 
   // Stub the storage load for that log.
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
-  OCMStub([storageMock loadLogsForGroupID:kMSTestGroupID withCompletion:([OCMArg any])])
+  OCMStub([storageMock loadLogsForGroupID:kMSTestGroupID limit:batchSizeLimit withCompletion:([OCMArg any])])
       .andDo(^(NSInvocation *invocation) {
         MSLoadDataCompletionBlock loadCallback;
 
         // Get sender bloc for later call.
-        [invocation getArgument:&loadCallback atIndex:3];
+        [invocation getArgument:&loadCallback atIndex:4];
 
         // Mock load of the first log.
         loadCallback(YES, ((NSArray<MSLog> *)@[ expectedLogs[0] ]), @"0");
@@ -456,7 +463,7 @@ static NSString *const kMSTestGroupID = @"GroupID";
   MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithGroupID:kMSTestGroupID
                                                                           priority:MSPriorityDefault
                                                                      flushInterval:0.0
-                                                                    batchSizeLimit:1
+                                                                    batchSizeLimit:batchSizeLimit
                                                                pendingBatchesLimit:1];
   self.sut = [[MSChannelDefault alloc] initWithSender:senderMock
                                               storage:storageMock
