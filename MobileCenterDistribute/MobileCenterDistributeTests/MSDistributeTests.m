@@ -433,17 +433,17 @@ static NSURL *sfURL;
 }
 
 - (void)testDontShowConfirmationAlertIfNoMandatoryReleaseWhileNoNetwork {
-  
+
   /*
    * If
    */
   XCTestExpectation *expection = [self expectationWithDescription:@"Confirmation alert has been displayed"];
-  
+
   // Mock alert.
   id alertControllerMock = OCMClassMock([MSAlertController class]);
   OCMStub([alertControllerMock alertControllerWithTitle:[OCMArg any] message:[OCMArg any]])
-  .andReturn(alertControllerMock);
-  
+      .andReturn(alertControllerMock);
+
   // Mock reachability.
   id reachabilityMock = OCMClassMock([MS_Reachability class]);
   OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
@@ -451,7 +451,7 @@ static NSURL *sfURL;
     NetworkStatus test = NotReachable;
     [invocation setReturnValue:&test];
   });
-  
+
   /*
    * When
    */
@@ -461,16 +461,16 @@ static NSURL *sfURL;
   });
   [self waitForExpectationsWithTimeout:1
                                handler:^(__attribute__((unused)) NSError *error) {
-                                 
+
                                  /*
                                   * Then
                                   */
-                                 OCMReject([alertControllerMock alertControllerWithTitle:[OCMArg any]
-                                                                                 message:[OCMArg any]]);
                                  OCMReject(
-                                           [alertControllerMock addDefaultActionWithTitle:[OCMArg any] handler:[OCMArg any]]);
+                                     [alertControllerMock alertControllerWithTitle:[OCMArg any] message:[OCMArg any]]);
                                  OCMReject(
-                                           [alertControllerMock addCancelActionWithTitle:[OCMArg any] handler:[OCMArg any]]);
+                                     [alertControllerMock addDefaultActionWithTitle:[OCMArg any] handler:[OCMArg any]]);
+                                 OCMReject(
+                                     [alertControllerMock addCancelActionWithTitle:[OCMArg any] handler:[OCMArg any]]);
                                }];
 }
 
@@ -507,10 +507,10 @@ static NSURL *sfURL;
   details.downloadUrl = [NSURL URLWithString:@"https://www.contoso.com"];
   details.mandatoryUpdate = NO;
   details.status = @"available";
-  
+
   // When
   [self.sut handleUpdate:details];
-  
+
   // Then
   NSMutableDictionary *persistedDict = [self.settingsMock objectForKey:kMSMandatoryReleaseKey];
   assertThat(persistedDict, nilValue());
@@ -614,14 +614,12 @@ static NSURL *sfURL;
 
   // Then
   XCTAssertNil([self.settingsMock objectForKey:kMSUpdateTokenRequestIdKey]);
-  XCTAssertNil([self.settingsMock objectForKey:kMSIgnoredReleaseIdKey]);
 
   // When
   [distributeMock applyEnabledState:NO];
 
   // Then
   XCTAssertNil([self.settingsMock objectForKey:kMSUpdateTokenRequestIdKey]);
-  XCTAssertNil([self.settingsMock objectForKey:kMSIgnoredReleaseIdKey]);
 }
 
 - (void)testApplyEnabledStateTrue {
@@ -651,18 +649,15 @@ static NSURL *sfURL;
 
   // If
   [self.settingsMock setObject:@"RequestID" forKey:kMSUpdateTokenRequestIdKey];
-  [self.settingsMock setObject:@"ReleaseID" forKey:kMSIgnoredReleaseIdKey];
 
   // Then
   XCTAssertNotNil([self.settingsMock objectForKey:kMSUpdateTokenRequestIdKey]);
-  XCTAssertNotNil([self.settingsMock objectForKey:kMSIgnoredReleaseIdKey]);
 
   // When
   [distributeMock applyEnabledState:NO];
 
   // Then
   XCTAssertNil([self.settingsMock objectForKey:kMSUpdateTokenRequestIdKey]);
-  XCTAssertNil([self.settingsMock objectForKey:kMSIgnoredReleaseIdKey]);
 }
 
 - (void)testCheckForUpdatesAllConditionsMet {
@@ -748,7 +743,7 @@ static NSURL *sfURL;
   OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
   OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(NotReachable);
   id distributeMock = OCMPartialMock(self.sut);
-  
+
   // We should not touch UI in a unit testing environment.
   OCMStub([distributeMock openURLInEmbeddedSafari:[OCMArg any] fromClass:[OCMArg any]]).andDo(nil);
 
@@ -1048,6 +1043,140 @@ static NSURL *sfURL;
   // Then
   XCTAssertFalse(result);
 }
+
+- (void)testSetDelegate {
+
+  // Then
+  XCTAssertNil([[MSDistribute sharedInstance] delegate]);
+
+  // If
+  id delegateMock = OCMProtocolMock(@protocol(MSDistributeDelegate));
+
+  // When
+  [MSDistribute setDelegate:delegateMock];
+  id strongDelegate = [[MSDistribute sharedInstance] delegate];
+
+  // Then
+  XCTAssertEqual(strongDelegate, delegateMock);
+}
+
+- (void)testDefaultUpdateAlert {
+
+  // If
+  XCTestExpectation *showConfirmationAlertExpectation =
+      [self expectationWithDescription:@"showConfirmationAlert Called."];
+
+  MSReleaseDetails *details = [MSReleaseDetails new];
+  details.status = @"available";
+  id detailsMock = OCMPartialMock(details);
+  OCMStub([detailsMock isValid]).andReturn(YES);
+  id distributeMock = OCMPartialMock(self.sut);
+  OCMStub([distributeMock isNewerVersion:detailsMock]).andReturn(YES);
+  OCMStub([distributeMock showConfirmationAlert:detailsMock]).andDo(nil);
+
+  // When
+  [distributeMock handleUpdate:detailsMock];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [showConfirmationAlertExpectation fulfill];
+  });
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                                 OCMVerify([distributeMock showConfirmationAlert:detailsMock]);
+                               }];
+}
+
+- (void)testDefaultUpdateAlertWithDelegate {
+
+  // If
+  XCTestExpectation *showConfirmationAlertExpectation =
+      [self expectationWithDescription:@"showConfirmationAlert Called."];
+
+  MSReleaseDetails *details = [MSReleaseDetails new];
+  details.status = @"available";
+  id detailsMock = OCMPartialMock(details);
+  OCMStub([detailsMock isValid]).andReturn(YES);
+  id delegateMock = OCMProtocolMock(@protocol(MSDistributeDelegate));
+  id distributeMock = OCMPartialMock(self.sut);
+  OCMStub([distributeMock isNewerVersion:detailsMock]).andReturn(YES);
+  OCMStub([distributeMock showConfirmationAlert:detailsMock]).andDo(nil);
+
+  // When
+  OCMStub([delegateMock onNewUpdateAvailable:[OCMArg any]]).andReturn(NO);
+  [distributeMock setDelegate:delegateMock];
+  [distributeMock handleUpdate:detailsMock];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [showConfirmationAlertExpectation fulfill];
+  });
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                                 OCMVerify([distributeMock showConfirmationAlert:detailsMock]);
+                               }];
+}
+
+- (void)testCustomizedUpdateAlert {
+
+  // If
+  XCTestExpectation *showConfirmationAlertExpectation =
+      [self expectationWithDescription:@"showConfirmationAlert Called."];
+
+  MSReleaseDetails *details = [MSReleaseDetails new];
+  details.status = @"available";
+  id detailsMock = OCMPartialMock(details);
+  OCMStub([detailsMock isValid]).andReturn(YES);
+  id delegateMock = OCMProtocolMock(@protocol(MSDistributeDelegate));
+  id distributeMock = OCMPartialMock(self.sut);
+  OCMStub([distributeMock isNewerVersion:detailsMock]).andReturn(YES);
+  OCMStub([distributeMock showConfirmationAlert:detailsMock]).andDo(nil);
+
+  // When
+  OCMStub([delegateMock onNewUpdateAvailable:[OCMArg any]]).andReturn(YES);
+  [distributeMock setDelegate:delegateMock];
+  [distributeMock handleUpdate:detailsMock];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [showConfirmationAlertExpectation fulfill];
+  });
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                                 OCMReject([distributeMock showConfirmationAlert:detailsMock]);
+                               }];
+}
+
+- (void)testNotifyUserUpdateAction {
+
+  // If
+  id distributeMock = OCMClassMock([MSDistribute class]);
+  OCMStub([distributeMock sharedInstance]).andReturn(distributeMock);
+  OCMStub([distributeMock notifyUserUpdateAction:[OCMArg any]]).andDo(nil);
+
+  // When
+  [MSDistribute notifyUserUpdateAction:MSUserUpdateActionUpdate];
+
+  // Then
+  OCMVerify([distributeMock notifyUserUpdateAction:MSUserUpdateActionUpdate]);
+
+  // When
+  [MSDistribute notifyUserUpdateAction:MSUserUpdateActionPostpone];
+
+  // Then
+  OCMVerify([distributeMock notifyUserUpdateAction:MSUserUpdateActionPostpone]);
+}
+
+#pragma mark - Helpers
 
 - (MSReleaseDetails *)generateReleaseDetailsWithVersion:(NSString *)version andShortVersion:(NSString *)shortVersion {
   MSReleaseDetails *releaseDetails = [MSReleaseDetails new];

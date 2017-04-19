@@ -7,7 +7,7 @@
 @import MobileCenterCrashes;
 @import MobileCenterDistribute;
 
-@interface AppDelegate () <MSCrashesDelegate>
+@interface AppDelegate () <MSCrashesDelegate, MSDistributeDelegate>
 
 @end
 
@@ -25,6 +25,7 @@
   
   [self crashes];
   [self setMobileCenterDelegate];
+  [MSDistribute setDelegate:self];
   return YES;
 }
 
@@ -129,6 +130,7 @@
   MSMainViewController *sasquatchController = (MSMainViewController *)[(UINavigationController *)[[self window] rootViewController] topViewController];
   sasquatchController.mobileCenter = [[MobileCenterDelegateObjC alloc] init];
 }
+
 #pragma mark - MSCrashesDelegate
 
 - (BOOL)crashes:(MSCrashes *)crashes shouldProcessErrorReport:(MSErrorReport *)errorReport {
@@ -148,6 +150,10 @@
   NSLog(@"Did fail sending report with: %@, and error: %@", errorReport.exceptionReason, error.localizedDescription);
 }
 
+#pragma mark - MSDistributeDelegate
 
+- (BOOL)onNewUpdateAvailable:(MSReleaseDetails *)releaseDetails {
+  return NO;
+}
 
 @end
