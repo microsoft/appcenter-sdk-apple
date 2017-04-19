@@ -1,15 +1,15 @@
+#import "MSSqliteConnection.h"
 #import <Foundation/Foundation.h>
 #import <sqlite3.h>
-#import "MSSqliteConnection.h"
 
-@interface MSSqliteConnection()
+@interface MSSqliteConnection ()
 
-@property (nonatomic, strong) NSString *documentsDirectory;
-@property (nonatomic, strong) NSString *databaseFilename;
-@property (nonatomic, strong) NSMutableArray<NSMutableArray<NSString*>*> *arrResults;
-@property (nonatomic, strong) NSMutableArray *arrColumnNames;
-@property (nonatomic) int affectedRows;
-@property (nonatomic) long long lastInsertedRowID;
+@property(nonatomic, strong) NSString *documentsDirectory;
+@property(nonatomic, strong) NSString *databaseFilename;
+@property(nonatomic, strong) NSMutableArray<NSMutableArray<NSString *> *> *arrResults;
+@property(nonatomic, strong) NSMutableArray *arrColumnNames;
+@property(nonatomic) int affectedRows;
+@property(nonatomic) long long lastInsertedRowID;
 
 @end
 
@@ -18,7 +18,7 @@
 @synthesize documentsDirectory;
 @synthesize databaseFilename;
 
--(instancetype)initWithDatabaseFilename:(NSString *)dbFilename {
+- (instancetype)initWithDatabaseFilename:(NSString *)dbFilename {
   self = [super init];
   if (self) {
 
@@ -37,7 +37,7 @@
 
 #pragma mark - Private
 
--(void)copyDatabaseIntoDocumentsDirectory{
+- (void)copyDatabaseIntoDocumentsDirectory {
 
   // Check if the database file exists in the documents directory.
   NSString *destinationPath = [self.documentsDirectory stringByAppendingPathComponent:self.databaseFilename];
@@ -55,8 +55,7 @@
   }
 }
 
-
--(BOOL)runQuery:(const char *)query isQueryExecutable:(BOOL)queryExecutable{
+- (BOOL)runQuery:(const char *)query isQueryExecutable:(BOOL)queryExecutable {
 
   // Total query result
   BOOL result = YES;
@@ -67,13 +66,13 @@
   // Set the database file path.
   NSString *databasePath = [self.documentsDirectory stringByAppendingPathComponent:self.databaseFilename];
 
-  //TODO looks like we can optimize those 2 initializations.
+  // TODO looks like we can optimize those 2 initializations.
   // Initialize the results array.
   if (self.arrResults != nil) {
     [self.arrResults removeAllObjects];
     self.arrResults = nil;
   }
-  self.arrResults = [NSMutableArray<NSMutableArray<NSString*>*> new];
+  self.arrResults = [NSMutableArray<NSMutableArray<NSString *> *> new];
 
   // Initialize the column names array.
   if (self.arrColumnNames != nil) {
@@ -83,15 +82,16 @@
   self.arrColumnNames = [[NSMutableArray alloc] init];
 
   // Open the database.
-  BOOL openDatabaseResult = (BOOL) sqlite3_open([databasePath UTF8String], &sqlite3Database);
-  if(openDatabaseResult == SQLITE_OK) {
+  BOOL openDatabaseResult = (BOOL)sqlite3_open([databasePath UTF8String], &sqlite3Database);
+  if (openDatabaseResult == SQLITE_OK) {
 
-    // Declare a sqlite3_stmt object in which will be stored the query after having been compiled into a SQLite statement.
+    // Declare a sqlite3_stmt object in which will be stored the query after having been compiled into a SQLite
+    // statement.
     sqlite3_stmt *compiledStatement;
 
     // Load all data from database to memory.
-    BOOL prepareStatementResult = (BOOL) sqlite3_prepare_v2(sqlite3Database, query, -1, &compiledStatement, NULL);
-    if(prepareStatementResult == SQLITE_OK) {
+    BOOL prepareStatementResult = (BOOL)sqlite3_prepare_v2(sqlite3Database, query, -1, &compiledStatement, NULL);
+    if (prepareStatementResult == SQLITE_OK) {
 
       // Check if the query is non-executable.
       if (!queryExecutable) {
@@ -99,10 +99,10 @@
         // In this case data must be loaded from the database.
 
         // Declare an array to keep the data for each fetched row.
-        NSMutableArray<NSString*> *arrDataRow;
+        NSMutableArray<NSString *> *arrDataRow;
 
         // Loop through the results and add them to the results array row by row.
-        while(sqlite3_step(compiledStatement) == SQLITE_ROW) {
+        while (sqlite3_step(compiledStatement) == SQLITE_ROW) {
 
           // Initialize the mutable array that will contain the data of a fetched row.
           arrDataRow = [NSMutableArray new];
@@ -114,7 +114,7 @@
           for (unsigned int i = 0; i < totalColumns; ++i) {
 
             // Convert the column data to text (characters).
-            const char *dbDataAsChars = (const char*) sqlite3_column_text(compiledStatement, i);
+            const char *dbDataAsChars = (const char *)sqlite3_column_text(compiledStatement, i);
 
             // If there are contents in the currenct column (field) then add them to the current row array.
             if (dbDataAsChars != NULL) {
@@ -178,18 +178,18 @@
 
 #pragma mark - Public method implementation
 
--(NSArray<NSArray<NSString*>*> *)loadDataFromDB:(NSString *)query{
+- (NSArray<NSArray<NSString *> *> *)loadDataFromDB:(NSString *)query {
 
   // Run the query and indicate that is not executable.
   // The query string is converted to a char* object.
   [self runQuery:[query UTF8String] isQueryExecutable:NO];
 
   // Returned the loaded results.
-  return (NSArray<NSArray<NSString*>*> *)self.arrResults;
+  return (NSArray<NSArray<NSString *> *> *)self.arrResults;
 }
 
--(BOOL)executeQuery:(NSString *)query{
-  
+- (BOOL)executeQuery:(NSString *)query {
+
   // Run the query and indicate that is executable.
   return [self runQuery:[query UTF8String] isQueryExecutable:YES];
 }

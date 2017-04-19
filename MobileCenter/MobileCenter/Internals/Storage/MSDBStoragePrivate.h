@@ -1,10 +1,10 @@
 #import "MSDBStorage.h"
 
-@class MSDatabaseConnection;
+@protocol MSDatabaseConnection;
 
 @interface MSDBStorage ()
 
-@property (nonatomic) id<MSDatabaseConnection> connection;
+@property(nonatomic) id<MSDatabaseConnection> connection;
 
 /**
  * Get all logs with the given group ID from the storage.
@@ -14,7 +14,6 @@
  * @return Logs corresponding to the given group ID from the storage.
  *
  */
-- (NSArray<MSLog>*) getLogsWithGroupID:(NSString*)groupID;
+- (NSArray<MSLog> *)getLogsWithGroupID:(NSString *)groupID;
 
 @end
-
