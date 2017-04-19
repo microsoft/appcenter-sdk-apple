@@ -42,7 +42,6 @@
  *
  * @discussion This is used to initialize each service.
  */
-// FIXME: need implement this static method in all services after merging
 + (NSString *)serviceName;
 
 /**

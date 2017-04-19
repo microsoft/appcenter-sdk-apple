@@ -35,16 +35,19 @@
   assertThatBool(details.mandatoryUpdate, equalToLong(YES));
   assertThat(details.fingerprint, equalTo(@"b10a8db164e0754105b7a99be72e3fe5"));
   assertThat(details.uploadedAt, equalTo([NSDate dateWithTimeIntervalSince1970:(1483257600)]));
-  assertThat(details.downloadUrl, equalTo([NSURL URLWithString:@"http://contoso.com/path/download/filename"]));
-  assertThat(details.appIconUrl, equalTo([NSURL URLWithString:@"http://contoso.com/path/icon/filename"]));
+  assertThat(details.downloadUrl, equalTo([NSURL URLWithString:@"https://contoso.com/path/download/filename"]));
+  assertThat(details.appIconUrl, equalTo([NSURL URLWithString:@"https://contoso.com/path/icon/filename"]));
   assertThat(
       details.installUrl,
       equalTo([NSURL URLWithString:@"itms-service://?action=download-manifest&url=contoso.com/release/filename"]));
-  assertThat(details.packageHashes, equalTo(@[@"builId1",@"builId2"]));
+  assertThat(details.releaseNotesUrl, equalTo([NSURL URLWithString:@"https://contoso.com/path/release/notes?skip_registration=true"]));
+  assertThat(details.packageHashes, equalTo(@[ @"builId1", @"builId2" ]));
   assertThat(details.distributionGroups, equalTo(nil));
 }
 
 - (void)testSerializeToDictionary {
+
+  // If
   MSReleaseDetails *details = [MSReleaseDetails new];
   details.id = @(1);
   details.status = @"available";
@@ -60,11 +63,22 @@
   NSDateFormatter *formatter = [NSDateFormatter new];
   [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZZZZZ"];
   details.uploadedAt = [formatter dateFromString:@"2017-01-01T00:00:00-0800"];
-  details.downloadUrl = [NSURL URLWithString:@"http://contoso.com/path/download/filename"];
-  details.appIconUrl = [NSURL URLWithString:@"http://contoso.com/path/icon/filename"];
-  details.installUrl = [NSURL URLWithString:@"itms-service://?action=download-manifest&url=contoso.com/release/filename"];
-  details.packageHashes = @[@"builId1",@"builId2"];
+  details.downloadUrl = [NSURL URLWithString:@"https://contoso.com/path/download/filename"];
+  details.appIconUrl = [NSURL URLWithString:@"https://contoso.com/path/icon/filename"];
+  details.installUrl =
+      [NSURL URLWithString:@"itms-service://?action=download-manifest&url=contoso.com/release/filename"];
+  details.releaseNotesUrl = [NSURL URLWithString:@"https://contoso.com/path/release/notes?skip_registration=true"];
+  details.packageHashes = @[ @"builId1", @"builId2" ];
   details.distributionGroups = @[];
+
+  // When
+  NSDictionary *dictionary = [details serializeToDictionary];
+
+  // Then
+  XCTAssertTrue([[[MSReleaseDetails alloc] initWithDictionary:dictionary] isEqual:details]);
+
+  // Additional check for downloadUrl which is not compared in isEqual
+  assertThat(dictionary[@"download_url"], equalTo(details.downloadUrl.absoluteString));
 }
 
 - (void)testIsValid {
@@ -94,10 +108,17 @@
   NSDictionary *dictionary = @{ @"release_notes" : [NSNull new] };
 
   // When
-  MSReleaseDetails *details = [[MSReleaseDetails alloc] initWithDictionary:[[NSMutableDictionary alloc] initWithDictionary:dictionary]];
+  MSReleaseDetails *details =
+      [[MSReleaseDetails alloc] initWithDictionary:[[NSMutableDictionary alloc] initWithDictionary:dictionary]];
 
   // Then
   XCTAssertNil(details.releaseNotes);
+}
+
+- (void)testIsNotEqualToNil {
+
+  // Then
+  XCTAssertFalse([[MSReleaseDetails new] isEqual:nil]);
 }
 
 @end
