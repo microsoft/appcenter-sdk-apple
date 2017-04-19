@@ -559,24 +559,25 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                                          }];
     }
 
-    // Add a "View release notes"-Button.
-    [alertController
-        addDefaultActionWithTitle:MSDistributeLocalizedString(@"MSDistributeViewReleaseNotes")
-                          handler:^(__attribute__((unused)) UIAlertAction *action) {
-                            MSLogDebug([MSDistribute logTag],
-                                       @"'View release notes' is selected. Open a browser and show release notes.");
+    if ([details.releaseNotes length] > 0) {
 
-                            // TODO: Release details don't have release notes URL because the backend doesn't support.
-                            [MSUtility sharedAppOpenUrl:[NSURL URLWithString:@"https://www.microsoft.com"]
-                                                options:@{}
-                                      completionHandler:nil];
+      // Add a "View release notes"-Button.
+      [alertController
+          addDefaultActionWithTitle:MSDistributeLocalizedString(@"MSDistributeViewReleaseNotes")
+                            handler:^(__attribute__((unused)) UIAlertAction *action) {
+                              MSLogDebug([MSDistribute logTag],
+                                         @"'View release notes' is selected. Open a browser and show release notes.");
 
-                            /*
-                             * Clear release details so that the SDK can get the latest release again after coming back
-                             * from release notes.
-                             */
-                            self.releaseDetails = nil;
-                          }];
+                              [MSUtility sharedAppOpenUrl:details.releaseNotesUrl options:@{} completionHandler:nil];
+
+                              /*
+                               * Clear release details so that the SDK can get the latest release again after coming
+                               * back
+                               * from release notes.
+                               */
+                              self.releaseDetails = nil;
+                            }];
+    }
 
     // Add a "Update now"-Button.
     // Preferred action is only available iOS 9.0 or newer, cancel action will be displayed for iOS < 9.0.

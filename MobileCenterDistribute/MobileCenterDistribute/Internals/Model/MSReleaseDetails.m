@@ -16,6 +16,7 @@ static NSString *const kMSUploadedAt = @"uploaded_at";
 static NSString *const kMSDownloadUrl = @"download_url";
 static NSString *const kMSAppIconUrl = @"app_icon_url";
 static NSString *const kMSInstallUrl = @"install_url";
+static NSString *const kMSReleaseNotesUrl = @"release_notes_url";
 static NSString *const kMSDistributionGroups = @"distribution_groups";
 static NSString *const kMSPackageHashes = @"package_hashes";
 
@@ -81,6 +82,10 @@ static NSString *const kMSPackageHashes = @"package_hashes";
       NSString *_Nonnull installUrl = (NSString * _Nonnull)dictionary[kMSInstallUrl];
       self.installUrl = [NSURL URLWithString:installUrl];
     }
+    if (dictionary[kMSReleaseNotesUrl]) {
+      NSString *_Nonnull releaseNotesUrl = (NSString * _Nonnull)dictionary[kMSReleaseNotesUrl];
+      self.releaseNotesUrl = [NSURL URLWithString:releaseNotesUrl];
+    }
     if (dictionary[kMSDistributionGroups]) {
       // TODO: Implement here. There is no spec for DistributionGroup data model.
     }
@@ -140,6 +145,9 @@ static NSString *const kMSPackageHashes = @"package_hashes";
   if (self.installUrl) {
     dictionary[kMSInstallUrl] = [self.installUrl absoluteString];
   }
+  if (self.releaseNotesUrl) {
+    dictionary[kMSReleaseNotesUrl] = [self.releaseNotesUrl absoluteString];
+  }
   if (self.distributionGroups) {
 
     // TODO: Implement here. There is no spec for DistributionGroup data model.
@@ -177,6 +185,8 @@ static NSString *const kMSPackageHashes = @"package_hashes";
          // ((!self.downloadUrl && !details.downloadUrl) || [self.downloadUrl isEqual:details.downloadUrl]) &&
          ((!self.appIconUrl && !details.appIconUrl) || [self.appIconUrl isEqual:details.appIconUrl]) &&
          ((!self.installUrl && !details.installUrl) || [self.installUrl isEqual:details.installUrl]) &&
+         ((!self.releaseNotesUrl && !details.releaseNotesUrl) ||
+          [self.releaseNotesUrl isEqual:details.releaseNotesUrl]) &&
 
          // Don't compare distributionGroups. The property has no spec so it is not implemented yet.
          // ((!self.distributionGroups && !details.distributionGroups) ||
