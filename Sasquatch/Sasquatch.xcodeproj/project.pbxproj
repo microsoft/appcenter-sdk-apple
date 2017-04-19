@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5CE2587F1EA5F60200DA8FB9 /* DistributeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE2587D1EA5F5FC00DA8FB9 /* DistributeUITests.swift */; };
+		5CE258801EA5F60500DA8FB9 /* CrashesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE2587B1EA5F5EB00DA8FB9 /* CrashesUITests.swift */; };
+		5CE258811EA5F60900DA8FB9 /* AnalyticsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE258791EA5F5DF00DA8FB9 /* AnalyticsUITests.swift */; };
+		5CE258921EA5F62E00DA8FB9 /* AnalyticsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE258791EA5F5DF00DA8FB9 /* AnalyticsUITests.swift */; };
+		5CE258931EA5F62E00DA8FB9 /* CrashesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE2587B1EA5F5EB00DA8FB9 /* CrashesUITests.swift */; };
+		5CE258941EA5F62E00DA8FB9 /* DistributeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE2587D1EA5F5FC00DA8FB9 /* DistributeUITests.swift */; };
 		84226C4B1E88FF4A00798417 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226C4A1E88FF4A00798417 /* main.m */; };
 		84226C4E1E88FF4A00798417 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226C4D1E88FF4A00798417 /* AppDelegate.m */; };
 		84226C561E88FF4A00798417 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C551E88FF4A00798417 /* Assets.xcassets */; };
@@ -63,6 +69,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		5CD700EA1EA4B74600FC5D12 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 84226C0A1E88FEFC00798417 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 84226C7F1E8908C900798417;
+			remoteInfo = SasquatchSwift;
+		};
+		5CE2588C1EA5F62400DA8FB9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 84226C0A1E88FEFC00798417 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 84226C461E88FF4A00798417;
+			remoteInfo = SasquatchObjC;
+		};
 		D31EF9371E9517B600450162 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 84226C0A1E88FEFC00798417 /* Project object */;
@@ -163,6 +183,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5CD700E51EA4B74500FC5D12 /* SasquatchSwiftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SasquatchSwiftUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5CE258791EA5F5DF00DA8FB9 /* AnalyticsUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AnalyticsUITests.swift; path = SasquatchUITests/AnalyticsUITests.swift; sourceTree = SOURCE_ROOT; };
+		5CE2587B1EA5F5EB00DA8FB9 /* CrashesUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CrashesUITests.swift; path = SasquatchUITests/CrashesUITests.swift; sourceTree = SOURCE_ROOT; };
+		5CE2587D1EA5F5FC00DA8FB9 /* DistributeUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DistributeUITests.swift; path = SasquatchUITests/DistributeUITests.swift; sourceTree = SOURCE_ROOT; };
+		5CE258871EA5F62400DA8FB9 /* SasquatchObjCUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SasquatchObjCUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5CE258961EA5FAE100DA8FB9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		84226C1C1E88FEFC00798417 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		84226C471E88FF4A00798417 /* SasquatchObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SasquatchObjC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84226C4A1E88FF4A00798417 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -228,6 +254,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		5CE258841EA5F62400DA8FB9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		84226C441E88FF4A00798417 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -269,6 +302,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5CD700E61EA4B74600FC5D12 /* SasquatchUITests */ = {
+			isa = PBXGroup;
+			children = (
+				5CE258791EA5F5DF00DA8FB9 /* AnalyticsUITests.swift */,
+				5CE2587B1EA5F5EB00DA8FB9 /* CrashesUITests.swift */,
+				5CE2587D1EA5F5FC00DA8FB9 /* DistributeUITests.swift */,
+				5CE258961EA5FAE100DA8FB9 /* Info.plist */,
+			);
+			name = SasquatchUITests;
+			path = SasquatchSwiftUITests;
+			sourceTree = "<group>";
+		};
 		84226C091E88FEFC00798417 = {
 			isa = PBXGroup;
 			children = (
@@ -280,6 +325,7 @@
 				D31EF9391E9517B600450162 /* SasquatchWatchObjC Extension */,
 				D31EF9551E9517C500450162 /* SasquatchWatchSwift */,
 				D31EF9641E9517C600450162 /* SasquatchWatchSwift Extension */,
+				5CD700E61EA4B74600FC5D12 /* SasquatchUITests */,
 				84226C131E88FEFC00798417 /* Products */,
 				84226D0F1E8921DE00798417 /* Frameworks */,
 			);
@@ -294,6 +340,8 @@
 				D31EF9351E9517B600450162 /* SasquatchWatchObjC Extension.appex */,
 				D31EF9541E9517C500450162 /* SasquatchWatchSwift.app */,
 				D31EF9601E9517C600450162 /* SasquatchWatchSwift Extension.appex */,
+				5CD700E51EA4B74500FC5D12 /* SasquatchSwiftUITests.xctest */,
+				5CE258871EA5F62400DA8FB9 /* SasquatchObjCUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -427,8 +475,6 @@
 				D31EF9401E9517B600450162 /* ExtensionDelegate.m */,
 				D31EF9421E9517B600450162 /* NotificationController.h */,
 				D31EF9431E9517B600450162 /* NotificationController.m */,
-				D31EF9451E9517B600450162 /* Assets.xcassets */,
-				D31EF9471E9517B600450162 /* Info.plist */,
 				D31EF93A1E9517B600450162 /* Supporting Files */,
 			);
 			path = "SasquatchWatchObjC Extension";
@@ -437,6 +483,8 @@
 		D31EF93A1E9517B600450162 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D31EF9451E9517B600450162 /* Assets.xcassets */,
+				D31EF9471E9517B600450162 /* Info.plist */,
 				D31EF93B1E9517B600450162 /* PushNotificationPayload.apns */,
 			);
 			name = "Supporting Files";
@@ -458,8 +506,6 @@
 				D31EF9671E9517C600450162 /* InterfaceController.swift */,
 				D31EF9691E9517C600450162 /* ExtensionDelegate.swift */,
 				D31EF96B1E9517C600450162 /* NotificationController.swift */,
-				D31EF96D1E9517C600450162 /* Assets.xcassets */,
-				D31EF96F1E9517C600450162 /* Info.plist */,
 				D31EF9651E9517C600450162 /* Supporting Files */,
 			);
 			path = "SasquatchWatchSwift Extension";
@@ -468,6 +514,8 @@
 		D31EF9651E9517C600450162 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D31EF96D1E9517C600450162 /* Assets.xcassets */,
+				D31EF96F1E9517C600450162 /* Info.plist */,
 				D31EF9661E9517C600450162 /* PushNotificationPayload.apns */,
 			);
 			name = "Supporting Files";
@@ -476,6 +524,41 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		5CD700E41EA4B74500FC5D12 /* SasquatchSwiftUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5CD700EE1EA4B74600FC5D12 /* Build configuration list for PBXNativeTarget "SasquatchSwiftUITests" */;
+			buildPhases = (
+				5CD700E11EA4B74500FC5D12 /* Sources */,
+				5CD700E31EA4B74500FC5D12 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5CD700EB1EA4B74600FC5D12 /* PBXTargetDependency */,
+			);
+			name = SasquatchSwiftUITests;
+			productName = SasquatchSwiftUITests;
+			productReference = 5CD700E51EA4B74500FC5D12 /* SasquatchSwiftUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		5CE258861EA5F62400DA8FB9 /* SasquatchObjCUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5CE2588E1EA5F62400DA8FB9 /* Build configuration list for PBXNativeTarget "SasquatchObjCUITests" */;
+			buildPhases = (
+				5CE258831EA5F62400DA8FB9 /* Sources */,
+				5CE258841EA5F62400DA8FB9 /* Frameworks */,
+				5CE258851EA5F62400DA8FB9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5CE2588D1EA5F62400DA8FB9 /* PBXTargetDependency */,
+			);
+			name = SasquatchObjCUITests;
+			productName = SasquatchObjCUITests;
+			productReference = 5CE258871EA5F62400DA8FB9 /* SasquatchObjCUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		84226C461E88FF4A00798417 /* SasquatchObjC */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 84226C711E88FF4A00798417 /* Build configuration list for PBXNativeTarget "SasquatchObjC" */;
@@ -594,6 +677,18 @@
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Microsoft Corp.";
 				TargetAttributes = {
+					5CD700E41EA4B74500FC5D12 = {
+						CreatedOnToolsVersion = 8.3.1;
+						DevelopmentTeam = L4RARDNZ2Y;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 84226C7F1E8908C900798417;
+					};
+					5CE258861EA5F62400DA8FB9 = {
+						CreatedOnToolsVersion = 8.3.1;
+						DevelopmentTeam = L4RARDNZ2Y;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 84226C461E88FF4A00798417;
+					};
 					84226C461E88FF4A00798417 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = L4RARDNZ2Y;
@@ -643,11 +738,27 @@
 				84226C7F1E8908C900798417 /* SasquatchSwift */,
 				D31EF9531E9517C500450162 /* SasquatchWatchSwift */,
 				D31EF95F1E9517C600450162 /* SasquatchWatchSwift Extension */,
+				5CD700E41EA4B74500FC5D12 /* SasquatchSwiftUITests */,
+				5CE258861EA5F62400DA8FB9 /* SasquatchObjCUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		5CD700E31EA4B74500FC5D12 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5CE258851EA5F62400DA8FB9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		84226C451E88FF4A00798417 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -703,6 +814,26 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		5CD700E11EA4B74500FC5D12 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5CE2587F1EA5F60200DA8FB9 /* DistributeUITests.swift in Sources */,
+				5CE258801EA5F60500DA8FB9 /* CrashesUITests.swift in Sources */,
+				5CE258811EA5F60900DA8FB9 /* AnalyticsUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5CE258831EA5F62400DA8FB9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5CE258931EA5F62E00DA8FB9 /* CrashesUITests.swift in Sources */,
+				5CE258921EA5F62E00DA8FB9 /* AnalyticsUITests.swift in Sources */,
+				5CE258941EA5F62E00DA8FB9 /* DistributeUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		84226C431E88FF4A00798417 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -761,6 +892,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		5CD700EB1EA4B74600FC5D12 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 84226C7F1E8908C900798417 /* SasquatchSwift */;
+			targetProxy = 5CD700EA1EA4B74600FC5D12 /* PBXContainerItemProxy */;
+		};
+		5CE2588D1EA5F62400DA8FB9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 84226C461E88FF4A00798417 /* SasquatchObjC */;
+			targetProxy = 5CE2588C1EA5F62400DA8FB9 /* PBXContainerItemProxy */;
+		};
 		D31EF9381E9517B600450162 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = D31EF9341E9517B600450162 /* SasquatchWatchObjC Extension */;
@@ -811,6 +952,66 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		5CD700EC1EA4B74600FC5D12 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				DEVELOPMENT_TEAM = L4RARDNZ2Y;
+				INFOPLIST_FILE = SasquatchUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.SasquatchSwiftUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = SasquatchSwift;
+			};
+			name = Debug;
+		};
+		5CD700ED1EA4B74600FC5D12 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				DEVELOPMENT_TEAM = L4RARDNZ2Y;
+				INFOPLIST_FILE = SasquatchUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.SasquatchSwiftUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = SasquatchSwift;
+			};
+			name = Release;
+		};
+		5CE2588F1EA5F62400DA8FB9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				DEVELOPMENT_TEAM = L4RARDNZ2Y;
+				INFOPLIST_FILE = SasquatchUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.SasquatchObjCUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = SasquatchObjC;
+			};
+			name = Debug;
+		};
+		5CE258901EA5F62400DA8FB9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				DEVELOPMENT_TEAM = L4RARDNZ2Y;
+				INFOPLIST_FILE = SasquatchUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.SasquatchObjCUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = SasquatchObjC;
+			};
+			name = Release;
+		};
 		84226C381E88FEFC00798417 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -927,7 +1128,7 @@
 				INFOPLIST_FILE = SasquatchObjC/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatch.SasquatchObjC;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Sasquatch/Sasquatch-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
@@ -945,7 +1146,7 @@
 				INFOPLIST_FILE = SasquatchObjC/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatch.SasquatchObjC;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Sasquatch/Sasquatch-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
@@ -961,7 +1162,7 @@
 				INFOPLIST_FILE = SasquatchSwift/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatch.SasquatchSwift;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchswift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Sasquatch/Sasquatch-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
@@ -977,7 +1178,7 @@
 				INFOPLIST_FILE = SasquatchSwift/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatch.SasquatchSwift;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchswift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Sasquatch/Sasquatch-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
@@ -992,7 +1193,7 @@
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				INFOPLIST_FILE = "SasquatchWatchObjC Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatch.SasquatchObjC.watchkitapp.watchkitextension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -1009,7 +1210,7 @@
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				INFOPLIST_FILE = "SasquatchWatchObjC Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatch.SasquatchObjC.watchkitapp.watchkitextension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -1026,7 +1227,7 @@
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				IBSC_MODULE = SasquatchWatchObjC_Extension;
 				INFOPLIST_FILE = SasquatchWatchObjC/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatch.SasquatchObjC.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -1043,7 +1244,7 @@
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				IBSC_MODULE = SasquatchWatchObjC_Extension;
 				INFOPLIST_FILE = SasquatchWatchObjC/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatch.SasquatchObjC.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -1060,7 +1261,7 @@
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				INFOPLIST_FILE = "SasquatchWatchSwift Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatch.SasquatchSwift.watchkitapp.watchkitextension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchswift.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -1078,7 +1279,7 @@
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				INFOPLIST_FILE = "SasquatchWatchSwift Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatch.SasquatchSwift.watchkitapp.watchkitextension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchswift.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -1097,7 +1298,7 @@
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				IBSC_MODULE = SasquatchWatchSwift_Extension;
 				INFOPLIST_FILE = SasquatchWatchSwift/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatch.SasquatchSwift.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchswift.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -1116,7 +1317,7 @@
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				IBSC_MODULE = SasquatchWatchSwift_Extension;
 				INFOPLIST_FILE = SasquatchWatchSwift/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatch.SasquatchSwift.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchswift.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -1129,6 +1330,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		5CD700EE1EA4B74600FC5D12 /* Build configuration list for PBXNativeTarget "SasquatchSwiftUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5CD700EC1EA4B74600FC5D12 /* Debug */,
+				5CD700ED1EA4B74600FC5D12 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5CE2588E1EA5F62400DA8FB9 /* Build configuration list for PBXNativeTarget "SasquatchObjCUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5CE2588F1EA5F62400DA8FB9 /* Debug */,
+				5CE258901EA5F62400DA8FB9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		84226C0D1E88FEFC00798417 /* Build configuration list for PBXProject "Sasquatch" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
