@@ -81,7 +81,7 @@
 @property(nonatomic) NSURL *downloadUrl;
 
 /**
- * A URL to the app's icon.
+ * The URL to the app's icon.
  */
 @property(nonatomic) NSURL *appIconUrl;
 
@@ -90,6 +90,11 @@
  * On iOS devices will be prefixed with 'itms-services://?action=download-manifest&url='
  */
 @property(nonatomic) NSURL *installUrl;
+
+/**
+ * The URL that hosts the release notes for this release.
+ */
+@property(nonatomic) NSURL *releaseNotesUrl;
 
 /**
  * A list of distribution groups that are associated with this release.

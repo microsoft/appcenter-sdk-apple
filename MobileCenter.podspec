@@ -35,7 +35,7 @@ Pod::Spec.new do |s|
 
   s.frameworks = 'Foundation',  'SystemConfiguration', 'UIKit'
 
-  s.default_subspecs = 'MobileCenterAnalytics', 'MobileCenterCrashes', 'MobileCenterDistribute'
+  s.default_subspecs = 'MobileCenterAnalytics', 'MobileCenterCrashes'
 
   s.subspec 'MobileCenter' do |ss|
       ss.frameworks = 'Foundation',  'SystemConfiguration', 'UIKit'

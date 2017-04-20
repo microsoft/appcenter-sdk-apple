@@ -1,10 +1,11 @@
 #import "MSDistributeViewController.h"
 #import "MobileCenterDistribute.h"
 #import "MSDistributePrivate.h"
+#import "MSReleaseDetails.h"
 
 @interface MSDistributeViewController ()
 
-@property (weak, nonatomic) IBOutlet UISwitch *enabled;
+@property(weak, nonatomic) IBOutlet UISwitch *enabled;
 
 @end
 
@@ -14,7 +15,7 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  
+
   self.enabled.on = [MSDistribute isEnabled];
 }
 
@@ -30,20 +31,25 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   [tableView deselectRowAtIndexPath:indexPath animated:YES];
-  
+
   switch ([indexPath section]) {
-      
-    // Section with alerts.
+
+  // Section with alerts.
+  case 0: {
+    switch (indexPath.row) {
     case 0: {
-      switch (indexPath.row) {
-        case 0:
-          [[MSDistribute sharedInstance] showConfirmationAlert:nil];
-          break;
-        case 1:
-          [[MSDistribute sharedInstance] showDistributeDisabledAlert];
-          break;
-      }
+      MSReleaseDetails *details = [MSReleaseDetails new];
+      details.appName = @"Puppet";
+      details.version = @"10";
+      details.shortVersion = @"1.0";
+      [[MSDistribute sharedInstance] showConfirmationAlert:details];
+      break;
     }
+    case 1:
+      [[MSDistribute sharedInstance] showDistributeDisabledAlert];
+      break;
+    }
+  }
   }
 }
 
