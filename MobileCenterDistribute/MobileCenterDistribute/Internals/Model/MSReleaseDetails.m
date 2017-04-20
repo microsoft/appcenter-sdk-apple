@@ -16,6 +16,7 @@ static NSString *const kMSUploadedAt = @"uploaded_at";
 static NSString *const kMSDownloadUrl = @"download_url";
 static NSString *const kMSAppIconUrl = @"app_icon_url";
 static NSString *const kMSInstallUrl = @"install_url";
+static NSString *const kMSReleaseNotesUrl = @"release_notes_url";
 static NSString *const kMSDistributionGroups = @"distribution_groups";
 static NSString *const kMSPackageHashes = @"package_hashes";
 
@@ -81,6 +82,10 @@ static NSString *const kMSPackageHashes = @"package_hashes";
       NSString *_Nonnull installUrl = (NSString * _Nonnull)dictionary[kMSInstallUrl];
       self.installUrl = [NSURL URLWithString:installUrl];
     }
+    if (dictionary[kMSReleaseNotesUrl]) {
+      NSString *_Nonnull releaseNotesUrl = (NSString * _Nonnull)dictionary[kMSReleaseNotesUrl];
+      self.releaseNotesUrl = [NSURL URLWithString:releaseNotesUrl];
+    }
     if (dictionary[kMSDistributionGroups]) {
       // TODO: Implement here. There is no spec for DistributionGroup data model.
     }
@@ -140,7 +145,11 @@ static NSString *const kMSPackageHashes = @"package_hashes";
   if (self.installUrl) {
     dictionary[kMSInstallUrl] = [self.installUrl absoluteString];
   }
+  if (self.releaseNotesUrl) {
+    dictionary[kMSReleaseNotesUrl] = [self.releaseNotesUrl absoluteString];
+  }
   if (self.distributionGroups) {
+
     // TODO: Implement here. There is no spec for DistributionGroup data model.
   }
   if (self.packageHashes) {
@@ -152,4 +161,37 @@ static NSString *const kMSPackageHashes = @"package_hashes";
 - (BOOL)isValid {
   return (self.id && self.downloadUrl);
 }
+
+- (BOOL)isEqual:(id)object {
+  if (![object isKindOfClass:[MSReleaseDetails class]]) {
+    return NO;
+  }
+  MSReleaseDetails *details = (MSReleaseDetails *)object;
+  return ((!self.id && !details.id) || [self.id isEqualToNumber:details.id]) &&
+         ((!self.status && !details.status) || [self.status isEqualToString:details.status]) &&
+         ((!self.appName && !details.appName) || [self.appName isEqualToString:details.appName]) &&
+         ((!self.version && !details.version) || [self.version isEqualToString:details.version]) &&
+         ((!self.shortVersion && !details.shortVersion) || [self.shortVersion isEqualToString:details.shortVersion]) &&
+         ((!self.releaseNotes && !details.releaseNotes) || [self.releaseNotes isEqualToString:details.releaseNotes]) &&
+         ((!self.provisioningProfileName && !details.provisioningProfileName) ||
+          [self.provisioningProfileName isEqualToString:details.provisioningProfileName]) &&
+         ((!self.size && !details.size) || [self.size isEqualToNumber:details.size]) &&
+         ((!self.minOs && !details.minOs) || [self.minOs isEqualToString:details.minOs]) &&
+         (self.mandatoryUpdate == details.mandatoryUpdate) &&
+         ((!self.fingerprint && !details.fingerprint) || [self.fingerprint isEqualToString:details.fingerprint]) &&
+         ((!self.uploadedAt && !details.uploadedAt) || [self.uploadedAt isEqual:details.uploadedAt]) &&
+
+         // Don't compare downloadUrl. downloadUrl contains pltoken param which will have different values every time.
+         // ((!self.downloadUrl && !details.downloadUrl) || [self.downloadUrl isEqual:details.downloadUrl]) &&
+         ((!self.appIconUrl && !details.appIconUrl) || [self.appIconUrl isEqual:details.appIconUrl]) &&
+         ((!self.installUrl && !details.installUrl) || [self.installUrl isEqual:details.installUrl]) &&
+         ((!self.releaseNotesUrl && !details.releaseNotesUrl) ||
+          [self.releaseNotesUrl isEqual:details.releaseNotesUrl]) &&
+
+         // Don't compare distributionGroups. The property has no spec so it is not implemented yet.
+         // ((!self.distributionGroups && !details.distributionGroups) ||
+         //  [self.distributionGroups isEqualToArray:details.distributionGroups]) &&
+         ((!self.packageHashes && !details.packageHashes) || [self.packageHashes isEqualToArray:details.packageHashes]);
+}
+
 @end
