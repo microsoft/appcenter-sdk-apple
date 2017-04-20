@@ -45,6 +45,7 @@
   NSString *carrierCountry = @"United States";
   NSString *wrapperSdkVersion = @"6.7.8";
   NSString *wrapperSdkName = @"wrapper-sdk";
+  NSString *wrapperRuntimeVersion = @"9.10";
   NSString *liveUpdateReleaseLabel = @"live-update-release";
   NSString *liveUpdateDeploymentKey = @"deployment-key";
   NSString *liveUpdatePackageHash = @"b10a8db164e0754105b7a99be72e3fe5";
@@ -63,6 +64,7 @@
   self.sut.carrierCountry = carrierCountry;
   self.sut.wrapperSdkVersion = wrapperSdkVersion;
   self.sut.wrapperSdkName = wrapperSdkName;
+  self.sut.wrapperRuntimeVersion = wrapperRuntimeVersion;
   self.sut.liveUpdateReleaseLabel = liveUpdateReleaseLabel;
   self.sut.liveUpdateDeploymentKey = liveUpdateDeploymentKey;
   self.sut.liveUpdatePackageHash = liveUpdatePackageHash;
@@ -108,6 +110,7 @@
   NSString *carrierCountry = @"United States";
   NSString *wrapperSdkVersion = @"6.7.8";
   NSString *wrapperSdkName = @"wrapper-sdk";
+  NSString *wrapperRuntimeVersion = @"9.10";
   NSString *liveUpdateReleaseLabel = @"live-update-release";
   NSString *liveUpdateDeploymentKey = @"deployment-key";
   NSString *liveUpdatePackageHash = @"b10a8db164e0754105b7a99be72e3fe5";
@@ -126,6 +129,7 @@
   self.sut.carrierCountry = carrierCountry;
   self.sut.wrapperSdkVersion = wrapperSdkVersion;
   self.sut.wrapperSdkName = wrapperSdkName;
+  self.sut.wrapperRuntimeVersion = wrapperRuntimeVersion;
   self.sut.liveUpdateReleaseLabel = liveUpdateReleaseLabel;
   self.sut.liveUpdateDeploymentKey = liveUpdateDeploymentKey;
   self.sut.liveUpdatePackageHash = liveUpdatePackageHash;
@@ -153,6 +157,7 @@
   assertThat(actualDevice.carrierCountry, equalTo(carrierCountry));
   assertThat(actualDevice.wrapperSdkVersion, equalTo(wrapperSdkVersion));
   assertThat(actualDevice.wrapperSdkName, equalTo(wrapperSdkName));
+  assertThat(actualDevice.wrapperRuntimeVersion, equalTo(wrapperRuntimeVersion));
   assertThat(actualDevice.liveUpdateReleaseLabel, equalTo(liveUpdateReleaseLabel));
   assertThat(actualDevice.liveUpdateDeploymentKey, equalTo(liveUpdateDeploymentKey));
   assertThat(actualDevice.liveUpdatePackageHash, equalTo(liveUpdatePackageHash));
@@ -175,6 +180,7 @@
   NSString *carrierCountry = @"United States";
   NSString *wrapperSdkVersion = @"6.7.8";
   NSString *wrapperSdkName = @"wrapper-sdk";
+  NSString *wrapperRuntimeVersion = @"9.10";
   NSString *liveUpdateReleaseLabel = @"live-update-release";
   NSString *liveUpdateDeploymentKey = @"deployment-key";
   NSString *liveUpdatePackageHash = @"b10a8db164e0754105b7a99be72e3fe5";
@@ -193,6 +199,7 @@
   self.sut.carrierCountry = carrierCountry;
   self.sut.wrapperSdkVersion = wrapperSdkVersion;
   self.sut.wrapperSdkName = wrapperSdkName;
+  self.sut.wrapperRuntimeVersion = wrapperRuntimeVersion;
   self.sut.liveUpdateReleaseLabel = liveUpdateReleaseLabel;
   self.sut.liveUpdateDeploymentKey = liveUpdateDeploymentKey;
   self.sut.liveUpdatePackageHash = liveUpdatePackageHash;
