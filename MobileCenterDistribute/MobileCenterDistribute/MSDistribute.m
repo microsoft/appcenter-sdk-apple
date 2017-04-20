@@ -559,7 +559,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                                          }];
     }
 
-    if ([details.releaseNotes length] > 0) {
+    if ([details.releaseNotes length] > 0 && details.releaseNotesUrl) {
 
       // Add a "View release notes"-Button.
       [alertController
