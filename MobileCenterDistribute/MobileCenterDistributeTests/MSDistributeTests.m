@@ -1024,7 +1024,7 @@ static NSURL *sfURL;
   // Then
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
-                                 OCMReject([viewControllerMock dismissViewControllerAnimated:OCMOCK_ANY
+                                 OCMReject([viewControllerMock dismissViewControllerAnimated:(BOOL)OCMOCK_ANY
                                                                                   completion:OCMOCK_ANY]);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
@@ -1346,7 +1346,11 @@ static NSURL *sfURL;
 
 - (id)mockMSPackageHash {
   id utilityMock = OCMClassMock([MSUtility class]);
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wcast-qual"
   OCMStub(ClassMethod([utilityMock sha256:[OCMArg any]])).andReturn(kMSTestReleaseHash);
+#pragma GCC diagnostic pop
+
   NSDictionary<NSString *, id> *plist = @{ @"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1" };
   OCMStub([self.bundleMock infoDictionary]).andReturn(plist);
   return utilityMock;

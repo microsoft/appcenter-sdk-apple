@@ -17,10 +17,10 @@
   NSString *filename = [[NSBundle bundleForClass:[self class]] pathForResource:@"error_details" ofType:@"json"];
   NSData *data = [NSData dataWithContentsOfFile:filename];
   MSErrorDetails *details = [[MSErrorDetails alloc]
-      initWithDictionary:[NSJSONSerialization JSONObjectWithData:data
-                                                         options:NSJSONReadingMutableContainers
-                                                           error:nil]];
-
+      initWithDictionary:(NSMutableDictionary *
+                          _Nonnull)[NSJSONSerialization JSONObjectWithData:data
+                                                                   options:NSJSONReadingMutableContainers
+                                                                     error:NULL]];
   assertThat(details.code, equalTo(@"no_releases_for_app"));
   assertThat(details.message, equalTo(@"Couldn't get a release because there are no releases for this app."));
 }
