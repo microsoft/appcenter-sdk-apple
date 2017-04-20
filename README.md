@@ -15,11 +15,10 @@ The Mobile Center SDK uses a modular architecture so you can use any or all of t
 
 2. **Mobile Center Crashes**: Mobile Center Crashes will automatically generate a crash log every time your app crashes. The log is first written to the device's storage and when the user starts the app again, the crash report will be sent to Mobile Center. Collecting crashes works for both beta and live apps, i.e. those submitted to the App Store. Crash logs contain valuable information for you to help fix the crash.
 
-3. **Mobile Center Distribute**: Mobile Center Distribute will let your users install a new version of the app when you distribute it via the Mobile Center. With a new version of the app available, the SDK will present an update dialog to the users to either download or postpone the new version. Once they choose to update, the SDK will start to update your application. This feature will NOT work if your app is deployed to the app store and while you are developing your app.
+3. **Mobile Center Distribute**: Mobile Center Distribute will let your users install a new version of the app when you distribute it via the Mobile Center. With a new version of the app available, the SDK will present an update dialog to the users to either download or postpone the new version. Once they choose to update, the SDK will start to update your application. This feature will NOT work if your app is deployed to the app store.
 
 ## 1. Get started
 It is super easy to use Mobile Center. Have a look at our [get started documentation](https://docs.microsoft.com/en-us/mobile-center/sdk/getting-started/ios) and onboard your app within minutes. Our [detailed documentation](https://docs.microsoft.com/en-us/mobile-center/sdk/) is available as well.
-
 
 ## 2. Contributing
 
@@ -35,13 +34,9 @@ You must sign a [Contributor License Agreement](https://cla.microsoft.com/) befo
 
 ## 3. Contact
 
-If you have further questions, want to provide feedback or you are running into issues, feel free to [open a Github issue](https://github.com/Microsoft/mobile-center-sdk-ios/issues).
+### 3.1 Intercom
 
-### 3.1 E-Mail
-Don't hesitate to get in touch via email to [mobilecentersdk@microsoft.com](mailto:mobilecentersdk@microsoft.com).
-
-### 3.2 Intercom
-Log in to the [Mobile Center portal](https://mobile.azure.com) and use the blue Intercom button on the bottom right to start a conversation with us.
+If you have further questions, want to provide feedback or you are running into issues, log in to the [Mobile Center portal](https://mobile.azure.com) and use the blue Intercom button on the bottom right to start a conversation with us.
 
 ### 3.2 Twitter
 We're on Twitter as [@mobilecenter](https://www.twitter.com/mobilecenter).
