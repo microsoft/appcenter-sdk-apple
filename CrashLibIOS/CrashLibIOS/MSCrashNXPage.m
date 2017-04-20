@@ -2,8 +2,9 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "MSCrashNXPage.h"
 #import <sys/mman.h>
+
+#import "MSCrashNXPage.h"
 
 @implementation MSCrashNXPage
 
@@ -20,6 +21,7 @@
 }
 
 - (void)crash {
+  
   /**
    * Solution and explanation by Gwynne:
    * When generating an NX crash, previously the code would explicitly jump to NULL, which modern versions of Clang
