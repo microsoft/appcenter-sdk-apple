@@ -20,8 +20,7 @@
   return @"Call a function pointer to memory in a non-executable page.";
 }
 
-- (void)crash {
-  
+static void __attribute__((noinline)) real_NXcrash(void) {
   /**
    * Solution and explanation by Gwynne:
    * When generating an NX crash, previously the code would explicitly jump to NULL, which modern versions of Clang
@@ -33,6 +32,11 @@
   if (ptr != MAP_FAILED) {
     ((void (*)(void))ptr)();
   }
+  munmap(ptr, (size_t)getpagesize());
+}
+
+- (void)crash {
+  real_NXcrash();
 }
 
 @end
