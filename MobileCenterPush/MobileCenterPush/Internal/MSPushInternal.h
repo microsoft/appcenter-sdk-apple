@@ -8,11 +8,11 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MSPush () <MSServiceInternal, MSChannelDelegate>
 
 /**
- * Set the delegate
+ * Set the delegate.
  *
- * Defines the class that implements the optional protocol `MSPushDelegate`
+ * Defines the class that implements the optional protocol `MSPushDelegate`.
  *
- * @param delegate Sender's delegate
+ * @param delegate Sender's delegate.
  *
  * @see MSPushDelegate
  */

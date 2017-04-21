@@ -28,7 +28,6 @@ static dispatch_once_t onceToken;
 
 @implementation MSPush
 
-@synthesize pushTokenHasBeenSent;
 @synthesize channelConfiguration = _channelConfiguration;
 
 #pragma mark - Service initialization
