@@ -681,6 +681,7 @@
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/** \"$(SRCROOT)/../MobileCenter/MobileCenterMac\"/** \"$(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics\"/** \"$(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalyticsMac\"/**";
+				USE_HEADERMAP = NO;
 				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
 			};
 			name = Debug;
@@ -697,6 +698,7 @@
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/** \"$(SRCROOT)/../MobileCenter/MobileCenterMac\"/** \"$(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics\"/** \"$(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalyticsMac\"/**";
+				USE_HEADERMAP = NO;
 				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
 			};
 			name = Release;
@@ -804,6 +806,7 @@
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SKIP_INSTALL = YES;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/** \"$(SRCROOT)/../MobileCenter/MobileCenterIos\"/** \"$(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics\"/** \"$(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalyticsIos\"/**";
+				USE_HEADERMAP = NO;
 				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
 			};
 			name = Debug;
@@ -819,6 +822,7 @@
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SKIP_INSTALL = YES;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/** \"$(SRCROOT)/../MobileCenter/MobileCenterIos\"/** \"$(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics\"/** \"$(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalyticsIos\"/**";
+				USE_HEADERMAP = NO;
 				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
 			};
 			name = Release;
