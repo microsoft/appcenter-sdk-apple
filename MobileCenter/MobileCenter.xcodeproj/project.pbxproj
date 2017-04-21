@@ -1250,8 +1250,8 @@
 				"ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = (
-					"./MobileCenter/**",
-					"./MobileCenterMac/**",
+					"\"$(SRCROOT)/../MobileCenter/MobileCenter\"/**",
+					"\"$(SRCROOT)/../MobileCenter/MobileCenterMac\"/**",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
@@ -1271,8 +1271,8 @@
 				"ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = (
-					"./MobileCenter/**",
-					"./MobileCenterMac/**",
+					"\"$(SRCROOT)/../MobileCenter/MobileCenter\"/**",
+					"\"$(SRCROOT)/../MobileCenter/MobileCenterMac\"/**",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
@@ -1383,8 +1383,8 @@
 				"ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = (
-					"./MobileCenter/**",
-					"./MobileCenterIos/**",
+					"\"$(SRCROOT)/../MobileCenter/MobileCenter\"/**",
+					"\"$(SRCROOT)/../MobileCenter/MobileCenterIos\"/**",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
@@ -1403,8 +1403,8 @@
 				"ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = (
-					"./MobileCenter/**",
-					"./MobileCenterIos/**",
+					"\"$(SRCROOT)/../MobileCenter/MobileCenter\"/**",
+					"\"$(SRCROOT)/../MobileCenter/MobileCenterIos\"/**",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
