@@ -64,13 +64,9 @@ static NSString *MSMissedPageViewName;
 
 BOOL ms_shouldTrackPageView(UIViewController *viewController) {
 
-  // For container view controllers, auto page tracking is disabled(to avoid
-  // noise).
+  // For container view controllers, auto page tracking is disabled(to avoid noise).
   NSSet *viewControllerSet = [NSSet setWithArray:@[
-    @"UINavigationController",
-    @"UITabBarController",
-    @"UISplitViewController",
-    @"UIInputWindowController",
+    @"UINavigationController", @"UITabBarController", @"UISplitViewController", @"UIInputWindowController",
     @"UIPageViewController"
   ]];
   NSString *className = NSStringFromClass([viewController class]);

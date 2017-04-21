@@ -98,13 +98,22 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
     }
 
     // Hookup to application events.
+    // TODO: Haven't tested on macOS. Need to verify the notifications work properly.
     [MS_NOTIFICATION_CENTER addObserver:self
                                selector:@selector(applicationDidEnterBackground)
+#if TARGET_OS_IPHONE
                                    name:UIApplicationDidEnterBackgroundNotification
+#else
+                                   name:NSApplicationDidResignActiveNotification
+#endif
                                  object:nil];
     [MS_NOTIFICATION_CENTER addObserver:self
                                selector:@selector(applicationWillEnterForeground)
+#if TARGET_OS_IPHONE
                                    name:UIApplicationWillEnterForegroundNotification
+#else
+                                   name:NSApplicationWillBecomeActiveNotification
+#endif
                                  object:nil];
     self.started = YES;
   }
