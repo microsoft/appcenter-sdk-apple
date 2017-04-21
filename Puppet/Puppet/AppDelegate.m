@@ -2,13 +2,14 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
+#import <UserNotifications/UserNotifications.h>
 #import "AppDelegate.h"
 #import "Constants.h"
 #import "MobileCenter.h"
 #import "MobileCenterAnalytics.h"
 #import "MobileCenterCrashes.h"
 #import "MobileCenterDistribute.h"
-
+#import "MobileCenterPush.h"
 #import "MSAlertController.h"
 
 @interface AppDelegate () <MSCrashesDelegate>
@@ -22,8 +23,8 @@
   // Start Mobile Center SDK.
   [MSMobileCenter setLogLevel:MSLogLevelVerbose];
 
-  [MSMobileCenter start:@"7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7"
-           withServices:@[ [MSAnalytics class], [MSCrashes class], [MSDistribute class] ]];
+  [MSMobileCenter setLogUrl:@"https://in-integration.dev.avalanch.es"];
+  [MSMobileCenter start:@"2dcf4840-f4d8-49d6-bcf0-e967f01203fb" withServices:@[ [MSAnalytics class], [MSPush class] ]];
 
   [self crashes];
 
@@ -39,10 +40,10 @@
  * as our SDK uses SFSafariViewController for MSDistribute.
  */
 - (BOOL)application:(UIApplication *)application
-            openURL:(NSURL *)url
-  sourceApplication:(NSString *)sourceApplication
-         annotation:(id)annotation {
-  
+              openURL:(NSURL *)url
+    sourceApplication:(NSString *)sourceApplication
+           annotation:(id)annotation {
+
   // Forward the URL to MSDistribute.
   [MSDistribute openUrl:url];
   NSLog(@"%@ Got waken up via openURL: %@", kPUPLogTag, url);
@@ -50,6 +51,32 @@
 }
 
 #pragma mark - Application life cycle
+
+- (void)application:(UIApplication *)application
+    didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+  [MSPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+}
+
+- (void)application:(UIApplication *)application
+    didFailToRegisterForRemoteNotificationsWithError:(nonnull NSError *)error {
+  [MSPush didFailToRegisterForRemoteNotificationsWithError:error];
+}
+
+- (void)application:(UIApplication *)application
+    didReceiveRemoteNotification:(NSDictionary *)userInfo
+          fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+  NSLog(@"%@", userInfo);
+  [self MessageBox:@"Notification" message:[[[userInfo objectForKey:@"aps"] valueForKey:@"alert"] description]];
+}
+
+- (void)MessageBox:(NSString *)title message:(NSString *)messageText {
+  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
+                                                  message:messageText
+                                                 delegate:self
+                                        cancelButtonTitle:@"OK"
+                                        otherButtonTitles:nil];
+  [alert show];
+}
 
 - (void)applicationWillResignActive:(UIApplication *)application {
   // Sent when the application is about to move from active to inactive state. This can occur for certain types of

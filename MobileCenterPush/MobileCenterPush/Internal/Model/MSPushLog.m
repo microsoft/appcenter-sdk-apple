@@ -1,7 +1,7 @@
 #import "MSPushLog.h"
 
-static NSString *const kMSTypePushInstallationType = @"push_type";
-static NSString *const kMSDeviceToken = @"device_token";
+static NSString *const kMSTypePushInstallationType = @"push_installation";
+static NSString *const kMSPushToken = @"push_token";
 
 @implementation MSPushLog
 
@@ -17,14 +17,22 @@ static NSString *const kMSDeviceToken = @"device_token";
 
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [super serializeToDictionary];
-  if (self.deviceToken) {
-    dict[kMSDeviceToken] = self.deviceToken;
+  if (self.pushToken) {
+    dict[kMSPushToken] = self.pushToken;
   }
   return dict;
 }
 
 - (BOOL)isValid {
-  return [super isValid] && self.deviceToken;
+  return [super isValid] && self.pushToken;
+}
+
+- (BOOL)isEqual:(id)object {
+  if (![object isKindOfClass:[MSPushLog class]] || ![super isEqual:object]) {
+    return NO;
+  }
+  MSPushLog *log = (MSPushLog *)object;
+  return ((!self.pushToken && !log.pushToken) || [self.pushToken isEqualToString:log.pushToken]);
 }
 
 #pragma mark - NSCoding
@@ -33,7 +41,7 @@ static NSString *const kMSDeviceToken = @"device_token";
   self = [super initWithCoder:coder];
   if (self) {
     _type = [coder decodeObjectForKey:kMSTypePushInstallationType];
-    _deviceToken = [coder decodeObjectForKey:kMSDeviceToken];
+    _pushToken = [coder decodeObjectForKey:kMSPushToken];
   }
   return self;
 }
@@ -41,7 +49,7 @@ static NSString *const kMSDeviceToken = @"device_token";
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
   [coder encodeObject:self.type forKey:kMSTypePushInstallationType];
-  [coder encodeObject:self.deviceToken forKey:kMSDeviceToken];
+  [coder encodeObject:self.pushToken forKey:kMSPushToken];
 }
 
 @end
