@@ -1,9 +1,10 @@
-#import "MSAbstractLog.h"
-#import "MSDBStoragePrivate.h"
-#import "MSDatabaseConnection.h"
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
+
+#import "MSAbstractLog.h"
+#import "MSDBStoragePrivate.h"
+#import "MSDatabaseConnection.h"
 
 static NSString *const kMSTestGroupID = @"TestGroupID";
 

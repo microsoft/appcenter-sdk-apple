@@ -49,7 +49,7 @@ static NSString *const kMSDataColumnName = @"data";
   return logs;
 }
 
-- (void)deleteLogsForId:(NSString *)batchId withGroupID:(NSString *)groupID {
+- (void)deleteLogsForId:(__attribute__((unused)) NSString *)batchId withGroupID:(NSString *)groupID {
 
   // FIXME: Restore batch deletion.
   [self deleteLogsWithGroupID:groupID];
@@ -60,7 +60,7 @@ static NSString *const kMSDataColumnName = @"data";
             withCompletion:(nullable MSLoadDataCompletionBlock)completion {
 
   /*
-   * There is a need to determine if there will be more log available than those under the limit.
+   * There is a need to determine if there will be more logs available than those under the limit.
    * So this is just about knowing if there is at least 1 log above the limit.
    * Thus, just 1 log is added to the requested limit and then removed later as needed.
    */

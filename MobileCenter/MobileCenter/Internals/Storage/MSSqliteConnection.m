@@ -1,6 +1,7 @@
-#import "MSSqliteConnection.h"
 #import <Foundation/Foundation.h>
 #import <sqlite3.h>
+
+#import "MSSqliteConnection.h"
 
 @interface MSSqliteConnection ()
 
