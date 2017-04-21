@@ -7,24 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04ED31D51EAAC7510033BAAE /* MobileCenterAnalyticsMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D31EAAC7510033BAAE /* MobileCenterAnalyticsMac.framework */; };
+		04ED31D61EAAC7510033BAAE /* MobileCenterMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D41EAAC7510033BAAE /* MobileCenterMac.framework */; };
 		D3C31C261E8E75B300B288CE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C31C251E8E75B300B288CE /* AppDelegate.m */; };
 		D3C31C291E8E75B300B288CE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C31C281E8E75B300B288CE /* main.m */; };
 		D3C31C2E1E8E75B300B288CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3C31C2D1E8E75B300B288CE /* Assets.xcassets */; };
 		D3C31C631E8E763600B288CE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3C31C621E8E763600B288CE /* AppDelegate.swift */; };
 		D3C31C671E8E763600B288CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3C31C661E8E763600B288CE /* Assets.xcassets */; };
-		D3C31C781E8E782900B288CE /* MobileCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3C31C741E8E782900B288CE /* MobileCenter.framework */; };
-		D3C31C791E8E782900B288CE /* MobileCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3C31C751E8E782900B288CE /* MobileCenterAnalytics.framework */; };
-		D3C31C7A1E8E782900B288CE /* MobileCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3C31C761E8E782900B288CE /* MobileCenterCrashes.framework */; };
-		D3C31C7B1E8E782900B288CE /* MobileCenterDistribute.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3C31C771E8E782900B288CE /* MobileCenterDistribute.framework */; };
-		D3C31C7C1E8E783700B288CE /* MobileCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3C31C741E8E782900B288CE /* MobileCenter.framework */; };
-		D3C31C7D1E8E783700B288CE /* MobileCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3C31C751E8E782900B288CE /* MobileCenterAnalytics.framework */; };
-		D3C31C7E1E8E783700B288CE /* MobileCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3C31C761E8E782900B288CE /* MobileCenterCrashes.framework */; };
-		D3C31C7F1E8E783700B288CE /* MobileCenterDistribute.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3C31C771E8E782900B288CE /* MobileCenterDistribute.framework */; };
 		D3C31C801E8E7BD200B288CE /* SasquatchMac.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3C31C151E8E757300B288CE /* SasquatchMac.storyboard */; };
 		D3C31C811E8E7BEE00B288CE /* SasquatchMac.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3C31C151E8E757300B288CE /* SasquatchMac.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		04ED31D31EAAC7510033BAAE /* MobileCenterAnalyticsMac.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterAnalyticsMac.framework; path = "../MobileCenter-SDK-iOS/MobileCenterAnalyticsMac.framework"; sourceTree = "<group>"; };
+		04ED31D41EAAC7510033BAAE /* MobileCenterMac.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterMac.framework; path = "../MobileCenter-SDK-iOS/MobileCenterMac.framework"; sourceTree = "<group>"; };
 		D3C31C111E8E757300B288CE /* SasquatchMacViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SasquatchMacViewController.swift; sourceTree = "<group>"; };
 		D3C31C131E8E757300B288CE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D3C31C161E8E757300B288CE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/SasquatchMac.storyboard; sourceTree = "<group>"; };
@@ -39,10 +35,6 @@
 		D3C31C621E8E763600B288CE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D3C31C661E8E763600B288CE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D3C31C6B1E8E763600B288CE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D3C31C741E8E782900B288CE /* MobileCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenter.framework; path = "../MobileCenter-SDK-iOS/MobileCenter.framework"; sourceTree = "<group>"; };
-		D3C31C751E8E782900B288CE /* MobileCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterAnalytics.framework; path = "../MobileCenter-SDK-iOS/MobileCenterAnalytics.framework"; sourceTree = "<group>"; };
-		D3C31C761E8E782900B288CE /* MobileCenterCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterCrashes.framework; path = "../MobileCenter-SDK-iOS/MobileCenterCrashes.framework"; sourceTree = "<group>"; };
-		D3C31C771E8E782900B288CE /* MobileCenterDistribute.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterDistribute.framework; path = "../MobileCenter-SDK-iOS/MobileCenterDistribute.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,10 +42,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D3C31C7C1E8E783700B288CE /* MobileCenter.framework in Frameworks */,
-				D3C31C7D1E8E783700B288CE /* MobileCenterAnalytics.framework in Frameworks */,
-				D3C31C7E1E8E783700B288CE /* MobileCenterCrashes.framework in Frameworks */,
-				D3C31C7F1E8E783700B288CE /* MobileCenterDistribute.framework in Frameworks */,
+				04ED31D51EAAC7510033BAAE /* MobileCenterAnalyticsMac.framework in Frameworks */,
+				04ED31D61EAAC7510033BAAE /* MobileCenterMac.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,10 +51,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D3C31C781E8E782900B288CE /* MobileCenter.framework in Frameworks */,
-				D3C31C791E8E782900B288CE /* MobileCenterAnalytics.framework in Frameworks */,
-				D3C31C7A1E8E782900B288CE /* MobileCenterCrashes.framework in Frameworks */,
-				D3C31C7B1E8E782900B288CE /* MobileCenterDistribute.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -167,10 +153,8 @@
 		D3C31C731E8E782900B288CE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D3C31C741E8E782900B288CE /* MobileCenter.framework */,
-				D3C31C751E8E782900B288CE /* MobileCenterAnalytics.framework */,
-				D3C31C761E8E782900B288CE /* MobileCenterCrashes.framework */,
-				D3C31C771E8E782900B288CE /* MobileCenterDistribute.framework */,
+				04ED31D31EAAC7510033BAAE /* MobileCenterAnalyticsMac.framework */,
+				04ED31D41EAAC7510033BAAE /* MobileCenterMac.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -224,7 +208,7 @@
 				TargetAttributes = {
 					D3C31C211E8E75B300B288CE = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = UBF8T346G9;
+						DevelopmentTeam = L4RARDNZ2Y;
 						ProvisioningStyle = Automatic;
 					};
 					D3C31C5F1E8E763600B288CE = {
@@ -400,13 +384,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = UBF8T346G9;
+				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-iOS/**";
 				INFOPLIST_FILE = SasquatchMacObjC/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc.mac;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -414,13 +400,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = UBF8T346G9;
+				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-iOS/**";
 				INFOPLIST_FILE = SasquatchMacObjC/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc.mac;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
