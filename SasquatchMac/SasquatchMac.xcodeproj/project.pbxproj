@@ -7,8 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		04ED31D51EAAC7510033BAAE /* MobileCenterAnalyticsMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D31EAAC7510033BAAE /* MobileCenterAnalyticsMac.framework */; };
-		04ED31D61EAAC7510033BAAE /* MobileCenterMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D41EAAC7510033BAAE /* MobileCenterMac.framework */; };
+		042319CD1EAAD720008FACA0 /* MobileCenterCrashesMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 042319CC1EAAD720008FACA0 /* MobileCenterCrashesMac.framework */; };
+		042319CE1EAAD73F008FACA0 /* MobileCenterAnalyticsMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D31EAAC7510033BAAE /* MobileCenterAnalyticsMac.framework */; };
+		042319CF1EAAD73F008FACA0 /* MobileCenterCrashesMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 042319CC1EAAD720008FACA0 /* MobileCenterCrashesMac.framework */; };
+		042319D01EAAD73F008FACA0 /* MobileCenterMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D41EAAC7510033BAAE /* MobileCenterMac.framework */; };
+		04ED31E61EAAD1B30033BAAE /* MobileCenterAnalyticsMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D31EAAC7510033BAAE /* MobileCenterAnalyticsMac.framework */; };
+		04ED31E71EAAD1B30033BAAE /* MobileCenterMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D41EAAC7510033BAAE /* MobileCenterMac.framework */; };
 		D3C31C261E8E75B300B288CE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C31C251E8E75B300B288CE /* AppDelegate.m */; };
 		D3C31C291E8E75B300B288CE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C31C281E8E75B300B288CE /* main.m */; };
 		D3C31C2E1E8E75B300B288CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3C31C2D1E8E75B300B288CE /* Assets.xcassets */; };
@@ -19,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		042319CC1EAAD720008FACA0 /* MobileCenterCrashesMac.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterCrashesMac.framework; path = "../MobileCenter-SDK-iOS/MobileCenterCrashesMac.framework"; sourceTree = "<group>"; };
 		04ED31D31EAAC7510033BAAE /* MobileCenterAnalyticsMac.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterAnalyticsMac.framework; path = "../MobileCenter-SDK-iOS/MobileCenterAnalyticsMac.framework"; sourceTree = "<group>"; };
 		04ED31D41EAAC7510033BAAE /* MobileCenterMac.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterMac.framework; path = "../MobileCenter-SDK-iOS/MobileCenterMac.framework"; sourceTree = "<group>"; };
 		D3C31C111E8E757300B288CE /* SasquatchMacViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SasquatchMacViewController.swift; sourceTree = "<group>"; };
@@ -42,8 +47,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04ED31D51EAAC7510033BAAE /* MobileCenterAnalyticsMac.framework in Frameworks */,
-				04ED31D61EAAC7510033BAAE /* MobileCenterMac.framework in Frameworks */,
+				04ED31E71EAAD1B30033BAAE /* MobileCenterMac.framework in Frameworks */,
+				04ED31E61EAAD1B30033BAAE /* MobileCenterAnalyticsMac.framework in Frameworks */,
+				042319CD1EAAD720008FACA0 /* MobileCenterCrashesMac.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -51,6 +57,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				042319D01EAAD73F008FACA0 /* MobileCenterMac.framework in Frameworks */,
+				042319CE1EAAD73F008FACA0 /* MobileCenterAnalyticsMac.framework in Frameworks */,
+				042319CF1EAAD73F008FACA0 /* MobileCenterCrashesMac.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -153,6 +162,7 @@
 		D3C31C731E8E782900B288CE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				042319CC1EAAD720008FACA0 /* MobileCenterCrashesMac.framework */,
 				04ED31D31EAAC7510033BAAE /* MobileCenterAnalyticsMac.framework */,
 				04ED31D41EAAC7510033BAAE /* MobileCenterMac.framework */,
 			);
