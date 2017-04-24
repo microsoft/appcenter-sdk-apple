@@ -49,34 +49,34 @@ NS_ASSUME_NONNULL_BEGIN
  * Triggers processing of a new log item.
  *
  * @param log The log item that should be enqueued.
- * @param groupID The groupID for processing the log.
+ * @param groupId The groupId for processing the log.
  */
-- (void)processLog:(id<MSLog>)log forGroupID:(NSString *)groupID;
+- (void)processLog:(id<MSLog>)log forGroupId:(NSString *)groupId;
 
 /**
  *  Enable/disable this instance and delete data on disabled state.
  *
  *  @param isEnabled  A boolean value set to YES to enable the instance or NO to disable it.
  *  @param deleteData A boolean value set to YES to delete data or NO to keep it.
- *  @param groupID A groupID to enable/disable.
+ *  @param groupId A groupId to enable/disable.
  */
-- (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData forGroupID:(NSString *)groupID;
+- (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData forGroupId:(NSString *)groupId;
 
 /**
  * Add a delegate to each channel that has a certain priority.
  *
  * @param channelDelegate A delegate for the channel.
- * @param groupID The groupID of a channel.
+ * @param groupId The groupId of a channel.
  */
-- (void)addChannelDelegate:(id<MSChannelDelegate>)channelDelegate forGroupID:(NSString *)groupID;
+- (void)addChannelDelegate:(id<MSChannelDelegate>)channelDelegate forGroupId:(NSString *)groupId;
 
 /**
  * Remove a delegate to each channel that has a certain priority.
  *
  * @param channelDelegate A delegate for the channel.
- * @param groupID The groupID of a channel.
+ * @param groupId The groupId of a channel.
  */
-- (void)removeChannelDelegate:(id<MSChannelDelegate>)channelDelegate forGroupID:(NSString *)groupID;
+- (void)removeChannelDelegate:(id<MSChannelDelegate>)channelDelegate forGroupId:(NSString *)groupId;
 
 @end
 

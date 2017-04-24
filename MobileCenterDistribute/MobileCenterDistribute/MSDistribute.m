@@ -20,7 +20,7 @@ static NSString *const kMSServiceName = @"Distribute";
 /**
  * The group ID for storage.
  */
-static NSString *const kMSGroupID = @"Distribute";
+static NSString *const kMSGroupId = @"Distribute";
 
 #pragma mark - URL constants
 
@@ -43,7 +43,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   if ((self = [super init])) {
     _apiUrl = kMSDefaultApiUrl;
     _installUrl = kMSDefaultInstallUrl;
-    _channelConfiguration = [[MSChannelConfiguration alloc] initDefaultConfigurationWithGroupID:[self groupID]];
+    _channelConfiguration = [[MSChannelConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
 
     /*
      * Delete update token if an application has been uninstalled and try to get a new one from server.
@@ -85,8 +85,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   return @"MobileCenterDistribute";
 }
 
-- (NSString *)groupID {
-  return kMSGroupID;
+- (NSString *)groupId {
+  return kMSGroupId;
 }
 
 #pragma mark - MSServiceAbstract
