@@ -165,6 +165,7 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
   if (wrapperSdkInformation) {
     device.wrapperSdkVersion = wrapperSdkInformation.wrapperSdkVersion;
     device.wrapperSdkName = wrapperSdkInformation.wrapperSdkName;
+    device.wrapperRuntimeVersion = wrapperSdkInformation.wrapperRuntimeVersion;
     device.liveUpdateReleaseLabel = wrapperSdkInformation.liveUpdateReleaseLabel;
     device.liveUpdateDeploymentKey = wrapperSdkInformation.liveUpdateDeploymentKey;
     device.liveUpdatePackageHash = wrapperSdkInformation.liveUpdatePackageHash;
