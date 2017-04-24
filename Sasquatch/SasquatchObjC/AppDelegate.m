@@ -144,7 +144,7 @@
   NSLog(@"Did fail sending report with: %@, and error: %@", errorReport.exceptionReason, error.localizedDescription);
 }
 
-- (NSArray<MSErrorAttachmentLog *> *)attachmentWithCrashes:(MSCrashes *)crashes
+- (NSArray<MSErrorAttachmentLog *> *)attachmentsWithCrashes:(MSCrashes *)crashes
                                             forErrorReport:(MSErrorReport *)errorReport {
   NSData *data = [[NSString stringWithFormat:@"<xml><text>Binary attachment for crash</text><id>%@</id></xml>", errorReport.incidentIdentifier] dataUsingEncoding:NSUTF8StringEncoding];
   NSString *text = [NSString stringWithFormat:@"Text attachement for crash #%@", errorReport.incidentIdentifier];
