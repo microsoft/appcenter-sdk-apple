@@ -24,8 +24,8 @@ extern NSString *MSMSErrorLogAttachmentLogUtilityCategory;
  *
  * @return An instance of `MSErrorAttachmentLog`.
  */
-+ (MSErrorAttachmentLog *)attachmentWithBinaryData:(NSData *)data
-                                          filename:(NSString *)filename
-                                       contentType:(NSString *)contentType;
++ (MSErrorAttachmentLog *)attachmentWithBinary:(NSData *)data
+                                      filename:(NSString *)filename
+                                   contentType:(NSString *)contentType;
 
 @end

@@ -149,7 +149,7 @@
   NSData *data = [[NSString stringWithFormat:@"<xml><text>Binary attachment for crash</text><id>%@</id></xml>", errorReport.incidentIdentifier] dataUsingEncoding:NSUTF8StringEncoding];
   NSString *text = [NSString stringWithFormat:@"Text attachement for crash #%@", errorReport.incidentIdentifier];
   MSErrorAttachmentLog *attachment1 = [MSErrorAttachmentLog attachmentWithText:text filename:@"demo-crash-attachment.log"];
-  MSErrorAttachmentLog *attachment2 = [MSErrorAttachmentLog attachmentWithBinaryData:data filename:nil contentType:@"text/xml"];
+  MSErrorAttachmentLog *attachment2 = [MSErrorAttachmentLog attachmentWithBinary:data filename:nil contentType:@"text/xml"];
   return @[ attachment1, attachment2 ];
 }
 

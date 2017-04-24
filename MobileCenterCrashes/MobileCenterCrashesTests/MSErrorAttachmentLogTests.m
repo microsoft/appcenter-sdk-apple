@@ -102,9 +102,9 @@
       dataUsingEncoding:NSUTF8StringEncoding];
   NSString *mimeType = @"text/xml";
   filename = @"niceFile.xml";
-  self.sut = [MSErrorAttachmentLog attachmentWithBinaryData:data filename:filename contentType:mimeType];
+  self.sut = [MSErrorAttachmentLog attachmentWithBinary:data filename:filename contentType:mimeType];
   MSErrorAttachmentLog *other2 = [MSErrorAttachmentLog
-      attachmentWithBinaryData:[@"<file><request>Please attach me</request><reason>I am a nice data.</reason></file>"
+      attachmentWithBinary:[@"<file><request>Please attach me</request><reason>I am a nice data.</reason></file>"
                                    dataUsingEncoding:NSUTF8StringEncoding]
                       filename:@"niceFile.xml"
                    contentType:@"text/xml"];
