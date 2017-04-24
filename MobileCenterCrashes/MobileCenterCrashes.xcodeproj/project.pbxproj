@@ -44,6 +44,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		042360481EAE9D64006EA17A /* libCrashReporter-MacOSX-Static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 042360461EAE9D5D006EA17A /* libCrashReporter-MacOSX-Static.a */; };
 		044C45F91DB6EA0C00F3C29E /* MSErrorAttachmentPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 044C45F81DB6EA0C00F3C29E /* MSErrorAttachmentPrivate.h */; };
 		044C45FB1DB6EC1C00F3C29E /* MSErrorBinaryAttachmentPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 044C45FA1DB6EC1C00F3C29E /* MSErrorBinaryAttachmentPrivate.h */; };
 		0485AFA11EAA887500C10CAF /* MSErrorReport.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120DF1D657CF10060DED7 /* MSErrorReport.m */; };
@@ -61,7 +62,6 @@
 		0485AFAD1EAA887500C10CAF /* MSWrapperExceptionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D504CE1DDD140500D58B40 /* MSWrapperExceptionManager.m */; };
 		0485AFAE1EAA887500C10CAF /* MSCrashesUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E73FE6E1D4032AB008CDC15 /* MSCrashesUtil.m */; };
 		0485AFAF1EAA887500C10CAF /* MSBinary.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C661D3E9321009EC9AC /* MSBinary.m */; };
-		0485AFB11EAA887500C10CAF /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A141D41517B0016C325 /* CrashReporter.framework */; };
 		0485AFB41EAA887500C10CAF /* MSWrapperExceptionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 35D504CD1DDD140500D58B40 /* MSWrapperExceptionManager.h */; };
 		0485AFB51EAA887500C10CAF /* MSErrorBinaryAttachmentPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 044C45FA1DB6EC1C00F3C29E /* MSErrorBinaryAttachmentPrivate.h */; };
 		0485AFB61EAA887500C10CAF /* MSStackFrame.h in Headers */ = {isa = PBXBuildFile; fileRef = 3507AE3B1DD14C240030878F /* MSStackFrame.h */; };
@@ -223,6 +223,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		042360461EAE9D5D006EA17A /* libCrashReporter-MacOSX-Static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libCrashReporter-MacOSX-Static.a"; path = "../Vendor/PLCrashReporter/libCrashReporter-MacOSX-Static.a"; sourceTree = "<group>"; };
 		044C45F81DB6EA0C00F3C29E /* MSErrorAttachmentPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSErrorAttachmentPrivate.h; sourceTree = "<group>"; };
 		044C45FA1DB6EC1C00F3C29E /* MSErrorBinaryAttachmentPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSErrorBinaryAttachmentPrivate.h; sourceTree = "<group>"; };
 		0485AFD31EAA887500C10CAF /* libMobileCenterCrashesMac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMobileCenterCrashesMac.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -338,7 +339,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0485AFB11EAA887500C10CAF /* CrashReporter.framework in Frameworks */,
+				042360481EAE9D64006EA17A /* libCrashReporter-MacOSX-Static.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -577,6 +578,7 @@
 		6EC99A221D4151C60016C325 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				042360461EAE9D5D006EA17A /* libCrashReporter-MacOSX-Static.a */,
 				6EC99A141D41517B0016C325 /* CrashReporter.framework */,
 			);
 			name = Vendor;
@@ -860,7 +862,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=MobileCenterCrashes\nTGT_NAME=${FMK_NAME}Mac\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-iOS\nINSTALL_DIR=${PRODUCTS_DIR}/${TGT_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\"\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${TGT_NAME}/Support/module.modulemap\" \"${INSTALL_DIR}/Modules/\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release/include/${TGT_NAME}/\" \"${INSTALL_DIR}/Headers/\"\n\n# Uses the Lipo Tool to copy binary file (x86_64) into final product.\nlipo -create \"${DEVICE_DIR}/lib${TGT_NAME}.a\" -output \"${INSTALL_DIR}/${TGT_NAME}\"\n\nif [ -z $(otool -L \"${INSTALL_DIR}/${TGT_NAME}\" | grep 'libCrashReporter') ]\nthen\nlibtool -static -o \"${INSTALL_DIR}/${TGT_NAME}\" \"${INSTALL_DIR}/${TGT_NAME}\" \"${SRCROOT}/../Vendor/PLCrashReporter/CrashReporter.framework/Versions/A/CrashReporter\"\nfi\n\nrm -r \"${WRK_DIR}\"";
+			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=MobileCenterCrashes\nTGT_NAME=${FMK_NAME}Mac\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-iOS\nINSTALL_DIR=${PRODUCTS_DIR}/${TGT_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\"\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${TGT_NAME}/Support/module.modulemap\" \"${INSTALL_DIR}/Modules/\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release/include/${TGT_NAME}/\" \"${INSTALL_DIR}/Headers/\"\n\n# Uses the Lipo Tool to copy binary file (x86_64) into final product.\nlipo -create \"${DEVICE_DIR}/lib${TGT_NAME}.a\" -output \"${INSTALL_DIR}/${TGT_NAME}\"\n\nif [ -z $(otool -L \"${INSTALL_DIR}/${TGT_NAME}\" | grep 'libCrashReporter') ]\nthen\nlibtool -static -o \"${INSTALL_DIR}/${TGT_NAME}\" \"${INSTALL_DIR}/${TGT_NAME}\" \"${SRCROOT}/../Vendor/PLCrashReporter/libCrashReporter-MacOSX-Static.a\"\nfi\n\nrm -r \"${WRK_DIR}\"";
 		};
 		6E37297B1D1DE85000F1E4AE /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -978,6 +980,7 @@
 			buildSettings = {
 				ARCHS = "$(MS_MAC_ARCHS)";
 				"ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/PLCrashReporter";
 				OTHER_LDFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecentercrashes;
@@ -997,6 +1000,7 @@
 			buildSettings = {
 				ARCHS = "$(MS_MAC_ARCHS)";
 				"ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/PLCrashReporter";
 				OTHER_LDFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecentercrashes;

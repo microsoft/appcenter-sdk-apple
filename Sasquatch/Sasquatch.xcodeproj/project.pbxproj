@@ -211,12 +211,6 @@
 		84226D091E891FB900798417 /* Sasquatch-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Sasquatch-Bridging-Header.h"; sourceTree = "<group>"; };
 		84226D0A1E891FBA00798417 /* MSAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSAlertController.h; path = ../../Vendor/MSAlertController/MSAlertController.h; sourceTree = "<group>"; };
 		84226D0B1E891FBA00798417 /* MSAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSAlertController.m; path = ../../Vendor/MSAlertController/MSAlertController.m; sourceTree = "<group>"; };
-		84226D101E8921DE00798417 /* libMobileCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobileCenter.a; path = "../MobileCenter/build/Debug-iphoneos/libMobileCenter.a"; sourceTree = "<group>"; };
-		84226D111E8921DE00798417 /* libMobileCenterAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobileCenterAnalytics.a; path = "../../../../../Library/Developer/Xcode/DerivedData/MobileCenter-esvplyiwjujwxsefsvbrjzhzpfrv/Build/Products/Debug-iphonesimulator/libMobileCenterAnalytics.a"; sourceTree = "<group>"; };
-		84226D121E8921DE00798417 /* libMobileCenterCrashes.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobileCenterCrashes.a; path = "../MobileCenterCrashes/build/Debug-iphoneos/libMobileCenterCrashes.a"; sourceTree = "<group>"; };
-		84226D131E8921DE00798417 /* libMobileCenterDistribute.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobileCenterDistribute.a; path = "../../../../../Library/Developer/Xcode/DerivedData/MobileCenter-esvplyiwjujwxsefsvbrjzhzpfrv/Build/Products/Debug-iphonesimulator/libMobileCenterDistribute.a"; sourceTree = "<group>"; };
-		84226D1A1E8921E600798417 /* libMobileCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobileCenter.a; path = "../MobileCenter/build/Debug-iphoneos/libMobileCenter.a"; sourceTree = "<group>"; };
-		84226D1B1E8921E600798417 /* libMobileCenterCrashes.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobileCenterCrashes.a; path = "../MobileCenterCrashes/build/Debug-iphoneos/libMobileCenterCrashes.a"; sourceTree = "<group>"; };
 		84226D2E1E89301A00798417 /* MobileCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenter.framework; path = "../MobileCenter-SDK-iOS/MobileCenter.framework"; sourceTree = "<group>"; };
 		84226D2F1E89301B00798417 /* MobileCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterAnalytics.framework; path = "../MobileCenter-SDK-iOS/MobileCenterAnalytics.framework"; sourceTree = "<group>"; };
 		84226D301E89301B00798417 /* MobileCenterCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterCrashes.framework; path = "../MobileCenter-SDK-iOS/MobileCenterCrashes.framework"; sourceTree = "<group>"; };
@@ -453,12 +447,6 @@
 				84226D2F1E89301B00798417 /* MobileCenterAnalytics.framework */,
 				84226D301E89301B00798417 /* MobileCenterCrashes.framework */,
 				84226D311E89301B00798417 /* MobileCenterDistribute.framework */,
-				84226D1A1E8921E600798417 /* libMobileCenter.a */,
-				84226D1B1E8921E600798417 /* libMobileCenterCrashes.a */,
-				84226D101E8921DE00798417 /* libMobileCenter.a */,
-				84226D111E8921DE00798417 /* libMobileCenterAnalytics.a */,
-				84226D121E8921DE00798417 /* libMobileCenterCrashes.a */,
-				84226D131E8921DE00798417 /* libMobileCenterDistribute.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

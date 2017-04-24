@@ -378,14 +378,18 @@ static NSString *const kMSGroupID = @"MobileCenter";
  *  The application will go to the foreground.
  */
 - (void)applicationWillEnterForeground {
+#if TARGET_OS_IPHONE
   [self.logManager setEnabled:YES andDeleteDataOnDisabled:NO];
+#endif
 }
 
 /**
  *  The application will go to the background.
  */
 - (void)applicationDidEnterBackground {
+#if TARGET_OS_IPHONE
   [self.logManager setEnabled:NO andDeleteDataOnDisabled:NO];
+#endif
 }
 
 @end
