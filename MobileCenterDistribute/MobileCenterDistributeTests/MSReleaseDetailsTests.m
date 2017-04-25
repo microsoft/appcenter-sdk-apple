@@ -2,7 +2,7 @@
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
-#import "MSReleaseDetails.h"
+#import "MSReleaseDetailsPrivate.h"
 
 @interface MSReleaseDetailsTests : XCTestCase
 
