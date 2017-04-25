@@ -13,7 +13,7 @@ static NSString *const kMSServiceName = @"Push";
 /**
  * The group ID for storage.
  */
-static NSString *const kMSGroupID = @"Push";
+static NSString *const kMSGroupId = @"Push";
 
 /**
  * Key for storing push token
@@ -36,7 +36,7 @@ static dispatch_once_t onceToken;
   if ((self = [super init])) {
 
     // Init channel configuration.
-    _channelConfiguration = [[MSChannelConfiguration alloc] initDefaultConfigurationWithGroupID:[self groupID]];
+    _channelConfiguration = [[MSChannelConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
   }
   return self;
 }
@@ -65,8 +65,8 @@ static dispatch_once_t onceToken;
   return @"MobileCenterPush";
 }
 
-- (NSString *)groupID {
-  return kMSGroupID;
+- (NSString *)groupId {
+  return kMSGroupId;
 }
 
 #pragma mark - MSPush
@@ -148,7 +148,7 @@ static dispatch_once_t onceToken;
 - (void)sendPushToken:(NSString *)token {
   MSPushLog *log = [MSPushLog new];
   log.pushToken = token;
-  [self.logManager processLog:log forGroupID:self.groupID];
+  [self.logManager processLog:log forGroupId:self.groupId];
   self.pushTokenHasBeenSent = YES;
 }
 
