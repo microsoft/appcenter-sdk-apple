@@ -156,6 +156,7 @@
                                        handler:^(UIAlertAction *action) {
                                          [MSDistribute notifyUpdateAction:MSUpdateActionPostpone];
                                        }];
+
     // Show the alert controller.
     [alertController show];
     return YES;

@@ -143,7 +143,27 @@
 #pragma mark - MSDistributeDelegate
 
 - (BOOL)distribute:(MSDistribute *)distribute releaseAvailableWithDetails:(MSReleaseDetails *)details {
-  return NO;
+
+  // Show a dialog to the user where they can choose if they want to update.
+  MSAlertController *alertController = [MSAlertController
+      alertControllerWithTitle:NSLocalizedStringFromTable(@"distribute_alert_title", @"Main", @"")
+                       message:NSLocalizedStringFromTable(@"distribute_alert_message", @"Main", @"")];
+
+  // Add a "Yes"-Button and call the notifyUpdateAction-callback with MSUpdateActionUpdate
+  [alertController addCancelActionWithTitle:NSLocalizedStringFromTable(@"distribute_alert_yes", @"Main", @"")
+                                    handler:^(UIAlertAction *action) {
+                                      [MSDistribute notifyUpdateAction:MSUpdateActionUpdate];
+                                    }];
+
+  // Add a "No"-Button and call the notifyUpdateAction-callback with MSUpdateActionPostpone
+  [alertController addDefaultActionWithTitle:NSLocalizedStringFromTable(@"distribute_alert_no", @"Main", @"")
+                                     handler:^(UIAlertAction *action) {
+                                       [MSDistribute notifyUpdateAction:MSUpdateActionPostpone];
+                                     }];
+
+  // Show the alert controller.
+  [alertController show];
+  return YES;
 }
 
 @end
