@@ -108,7 +108,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
 
   // Distribute Delegate
 
-  func distribute(_ distribute: MSDistribute!, onReleaseAvailableWith details: MSReleaseDetails!) -> Bool {
+  func distribute(_ distribute: MSDistribute!, releaseAvailableWith details: MSReleaseDetails!) -> Bool {
     return false;
   }
 }

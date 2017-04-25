@@ -142,7 +142,7 @@
 
 #pragma mark - MSDistributeDelegate
 
-- (BOOL)distribute:(MSDistribute *)distribute onReleaseAvailableWith:(MSReleaseDetails *)details {
+- (BOOL)distribute:(MSDistribute *)distribute releaseAvailableWithDetails:(MSReleaseDetails *)details {
   return NO;
 }
 

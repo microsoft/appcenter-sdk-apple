@@ -137,7 +137,7 @@
 
 #pragma mark - MSDistributeDelegate
 
-- (BOOL)distribute:(MSDistribute *)distribute onReleaseAvailableWith:(MSReleaseDetails *)details {
+- (BOOL)distribute:(MSDistribute *)distribute releaseAvailableWithDetails:(MSReleaseDetails *)details {
   if ([[[NSUserDefaults new] objectForKey:kPUPCustomizedUpdateAlertKey] isEqual:@1]) {
 
     // Show a dialog to the user where they can choose if they want to update.

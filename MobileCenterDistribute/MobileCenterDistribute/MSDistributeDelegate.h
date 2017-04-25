@@ -29,6 +29,6 @@ typedef NS_ENUM(NSInteger, MSUpdateAction) {
  *
  * @see [MSDistribute notifyUpdateAction:]
  */
-- (BOOL)distribute:(MSDistribute *)distribute onReleaseAvailableWith:(MSReleaseDetails *)details;
+- (BOOL)distribute:(MSDistribute *)distribute releaseAvailableWithDetails:(MSReleaseDetails *)details;
 
 @end

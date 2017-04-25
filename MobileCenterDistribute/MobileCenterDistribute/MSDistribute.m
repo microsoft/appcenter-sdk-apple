@@ -529,10 +529,11 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   if (!self.releaseDetails || ![self.releaseDetails isEqual:details]) {
     self.releaseDetails = details;
     id<MSDistributeDelegate> strongDelegate = self.delegate;
-    if (strongDelegate && [strongDelegate respondsToSelector:@selector(distribute:onReleaseAvailableWith:)]) {
+    if (strongDelegate && [strongDelegate respondsToSelector:@selector(distribute:releaseAvailableWithDetails:)]) {
       dispatch_async(dispatch_get_main_queue(), ^{
-        BOOL customized = [strongDelegate distribute:self onReleaseAvailableWith:details];
-        MSLogDebug([MSDistribute logTag], @"onReleaseAvailableWith delegate returned %@.", customized ? @"YES" : @"NO");
+        BOOL customized = [strongDelegate distribute:self releaseAvailableWithDetails:details];
+        MSLogDebug([MSDistribute logTag], @"releaseAvailableWithDetails delegate returned %@.",
+                   customized ? @"YES" : @"NO");
         if (!customized) {
           [self showConfirmationAlert:details];
         }

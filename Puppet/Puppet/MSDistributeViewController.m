@@ -47,7 +47,7 @@
       details.shortVersion = @"1.0";
       if (self.customized.on) {
         MSDistribute *distribute = [MSDistribute sharedInstance];
-        [[distribute delegate] distribute:distribute onReleaseAvailableWith:details];
+        [[distribute delegate] distribute:distribute releaseAvailableWithDetails:details];
       } else {
         [[MSDistribute sharedInstance] showConfirmationAlert:details];
       }

@@ -11,10 +11,10 @@
  *
  * @param delegate A Distribute delegate.
  *
- * @discussion If Distirbute delegate is set and onReleaseAvailableWith is returning <code>YES</code>, you must
- * call notifyUpdateAciton: with one of update actions to handle a release properly.
+ * @discussion If Distribute delegate is set and releaseAvailableWithDetails is returning <code>YES</code>, you must
+ * call notifyUpdateAction: with one of update actions to handle a release properly.
  *
- * @see onReleaseAvailableWith:
+ * @see releaseAvailableWithDetails:
  * @see notifyUpdateAction:
  */
 + (void)setDelegate:(id<MSDistributeDelegate>)delegate;

@@ -1423,7 +1423,7 @@ static NSURL *sfURL;
   OCMStub([distributeMock showConfirmationAlert:detailsMock]).andDo(nil);
 
   // When
-  OCMStub([delegateMock distribute:distributeMock onReleaseAvailableWith:[OCMArg any]]).andReturn(NO);
+  OCMStub([delegateMock distribute:distributeMock releaseAvailableWithDetails:[OCMArg any]]).andReturn(NO);
   [distributeMock setDelegate:delegateMock];
   [distributeMock handleUpdate:detailsMock];
   dispatch_async(dispatch_get_main_queue(), ^{
@@ -1437,7 +1437,7 @@ static NSURL *sfURL;
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                  OCMVerify([[distributeMock delegate] distribute:distributeMock
-                                                          onReleaseAvailableWith:detailsMock]);
+                                                     releaseAvailableWithDetails:detailsMock]);
                                  OCMVerify([distributeMock showConfirmationAlert:detailsMock]);
                                }];
 }
@@ -1458,7 +1458,7 @@ static NSURL *sfURL;
   OCMStub([distributeMock showConfirmationAlert:detailsMock]).andDo(nil);
 
   // When
-  OCMStub([delegateMock distribute:distributeMock onReleaseAvailableWith:[OCMArg any]]).andReturn(YES);
+  OCMStub([delegateMock distribute:distributeMock releaseAvailableWithDetails:[OCMArg any]]).andReturn(YES);
   [distributeMock setDelegate:delegateMock];
   [distributeMock handleUpdate:detailsMock];
   dispatch_async(dispatch_get_main_queue(), ^{
@@ -1472,7 +1472,7 @@ static NSURL *sfURL;
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                  OCMVerify([[distributeMock delegate] distribute:distributeMock
-                                                          onReleaseAvailableWith:detailsMock]);
+                                                     releaseAvailableWithDetails:detailsMock]);
                                  OCMReject([distributeMock showConfirmationAlert:detailsMock]);
                                }];
 }
