@@ -7,20 +7,6 @@
 
 @class MSReleaseDetails;
 
-// TODO: Move this to another protocol when delegate is introduced.
-typedef NS_ENUM(NSInteger, MSUserUpdateAction) {
-
-  /**
-   * Action to trigger update.
-   */
-  MSUserUpdateActionUpdate,
-
-  /**
-   * Action to postpone update.
-   */
-  MSUserUpdateActionPostpone
-};
-
 /**
  * A day in milliseconds.
  */
@@ -99,6 +85,11 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
 @property(nonatomic) MSReleaseDetails *releaseDetails;
 
 /**
+ * A Distribute delegate that will be called whenever a new release is available for update.
+ */
+@property(nonatomic, weak) id<MSDistributeDelegate> delegate;
+
+/**
  * Returns the singleton instance. Meant for testing/demo apps only.
  *
  * @return the singleton instance of MSDistribute.
@@ -175,7 +166,7 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
  *
  * @discussion This method will be moved to public once Distribute allows to customize the update dialog.
  */
-- (void)notifyUserUpdateAction:(MSUserUpdateAction)action;
+- (void)notifyUpdateAction:(MSUpdateAction)action;
 
 /**
  * Show a dialog to the user in case MSDistribute was disabled while the updates-alert is shown.

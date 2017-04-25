@@ -87,6 +87,7 @@ static NSString *const kMSPackageHashes = @"package_hashes";
       self.releaseNotesUrl = [NSURL URLWithString:releaseNotesUrl];
     }
     if (dictionary[kMSDistributionGroups]) {
+
       // TODO: Implement here. There is no spec for DistributionGroup data model.
     }
     if (dictionary[kMSPackageHashes]) {
