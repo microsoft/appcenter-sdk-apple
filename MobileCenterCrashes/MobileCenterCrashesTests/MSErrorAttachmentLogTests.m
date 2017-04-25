@@ -51,7 +51,7 @@
   NSString *expectedMimeType = @"text/xml";
   expectedFilename = @"niceFile.xml";
   self.sut = [[MSErrorAttachmentLog alloc] initWithFilename:expectedFilename
-                                             attachmentData:expectedData
+                                           attachmentBinary:expectedData
                                                 contentType:expectedMimeType];
 
   // Then
@@ -63,7 +63,7 @@
 
   // When
   self.sut =
-      [[MSErrorAttachmentLog alloc] initWithFilename:nil attachmentData:expectedData contentType:expectedMimeType];
+      [[MSErrorAttachmentLog alloc] initWithFilename:nil attachmentBinary:expectedData contentType:expectedMimeType];
 
   // Then
   assertThat(self.sut.attachmentId, notNilValue());
@@ -74,7 +74,7 @@
   
   // When
   self.sut =
-  [[MSErrorAttachmentLog alloc] initWithFilename:@"" attachmentData:expectedData contentType:expectedMimeType];
+  [[MSErrorAttachmentLog alloc] initWithFilename:@"" attachmentBinary:expectedData contentType:expectedMimeType];
   
   // Then
   assertThat(self.sut.attachmentId, notNilValue());

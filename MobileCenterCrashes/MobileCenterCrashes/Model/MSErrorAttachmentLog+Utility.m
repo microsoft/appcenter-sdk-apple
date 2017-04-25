@@ -13,7 +13,7 @@ NSString *MSMSErrorLogAttachmentLogUtilityCategory;
 + (nonnull MSErrorAttachmentLog *)attachmentWithBinary:(nonnull NSData *)data
                                               filename:(nullable NSString *)filename
                                            contentType:(nonnull NSString *)contentType {
-  return [[MSErrorAttachmentLog alloc] initWithFilename:filename attachmentData:data contentType:contentType];
+  return [[MSErrorAttachmentLog alloc] initWithFilename:filename attachmentBinary:data contentType:contentType];
 }
 
 @end
