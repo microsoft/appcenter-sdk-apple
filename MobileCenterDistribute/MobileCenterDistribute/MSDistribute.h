@@ -1,9 +1,28 @@
+#import "MSDistributeDelegate.h"
 #import "MSServiceAbstract.h"
 
 /**
  * Mobile Center Distribute service.
  */
 @interface MSDistribute : MSServiceAbstract
+
+/**
+ * Set a Distribute delegate
+ *
+ * @param delegate A Distribute delegate.
+ *
+ * @discussion If Distirbute delegate is set and onReleaseAvailableWithDetails is returning <code>YES</code>, you must
+ * call notifyUpdateAciton: with one of update actions to handle a release properly.
+ *
+ * @see onReleaseAvailableWithDetails:
+ * @see notifyUpdateAction:
+ */
++ (void)setDelegate:(id<MSDistributeDelegate>)delegate;
+
+/**
+ * Notify SDK with an update action to handle the release.
+ */
++ (void)notifyUpdateAction:(MSUpdateAction)action;
 
 /**
  * Change The URL that will be used for generic update related tasks.

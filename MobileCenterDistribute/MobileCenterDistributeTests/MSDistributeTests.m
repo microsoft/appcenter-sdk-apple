@@ -1320,7 +1320,7 @@ static NSURL *sfURL;
   XCTAssertEqual(startUpdateCounter, 2);
 }
 
-- (void)testNotifyUserUpdateAction {
+- (void)testNotifyUpdateAction {
 
   // If
   id distributeMock = OCMPartialMock(self.sut);
@@ -1329,10 +1329,126 @@ static NSURL *sfURL;
   OCMStub(ClassMethod([utilityMock nowInMilliseconds])).andReturn(time);
 
   // When
-  [distributeMock notifyUserUpdateAction:MSUserUpdateActionPostpone];
+  [distributeMock notifyUpdateAction:MSUpdateActionPostpone];
 
   // Then
   assertThat([self.settingsMock objectForKey:kMSPostponedTimestampKey], equalToLongLong((long long)time));
+}
+
+- (void)testSetDelegate {
+
+  // Then
+  XCTAssertNil([[MSDistribute sharedInstance] delegate]);
+
+  // If
+  id delegateMock = OCMProtocolMock(@protocol(MSDistributeDelegate));
+
+  // When
+  [MSDistribute setDelegate:delegateMock];
+  id strongDelegate = [[MSDistribute sharedInstance] delegate];
+
+  // Then
+  XCTAssertEqual(strongDelegate, delegateMock);
+}
+
+- (void)testDefaultUpdateAlert {
+
+  // If
+  XCTestExpectation *showConfirmationAlertExpectation =
+      [self expectationWithDescription:@"showConfirmationAlert Called."];
+
+  MSReleaseDetails *details = [MSReleaseDetails new];
+  details.status = @"available";
+  id detailsMock = OCMPartialMock(details);
+  OCMStub([detailsMock isValid]).andReturn(YES);
+  id distributeMock = OCMPartialMock(self.sut);
+  OCMStub([distributeMock isNewerVersion:detailsMock]).andReturn(YES);
+  OCMStub([distributeMock showConfirmationAlert:detailsMock]).andDo(nil);
+
+  // When
+  [distributeMock handleUpdate:detailsMock];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [showConfirmationAlertExpectation fulfill];
+  });
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                                 OCMVerify([distributeMock showConfirmationAlert:detailsMock]);
+                               }];
+}
+
+- (void)testDefaultUpdateAlertWithDelegate {
+
+  // If
+  XCTestExpectation *showConfirmationAlertExpectation =
+      [self expectationWithDescription:@"showConfirmationAlert Called."];
+
+  MSReleaseDetails *details = [MSReleaseDetails new];
+  details.status = @"available";
+  id detailsMock = OCMPartialMock(details);
+  OCMStub([detailsMock isValid]).andReturn(YES);
+  id delegateMock = OCMProtocolMock(@protocol(MSDistributeDelegate));
+  id distributeMock = OCMPartialMock(self.sut);
+  OCMStub([distributeMock isNewerVersion:detailsMock]).andReturn(YES);
+  OCMStub([distributeMock showConfirmationAlert:detailsMock]).andDo(nil);
+
+  // When
+  OCMStub([delegateMock distribute:distributeMock onReleaseAvailableWithDetails:[OCMArg any]]).andReturn(NO);
+  [distributeMock setDelegate:delegateMock];
+  [distributeMock handleUpdate:detailsMock];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [showConfirmationAlertExpectation fulfill];
+  });
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                                 OCMVerify([[distributeMock delegate] distribute:distributeMock
+                                                   onReleaseAvailableWithDetails:detailsMock]);
+                                 OCMVerify([distributeMock showConfirmationAlert:detailsMock]);
+                               }];
+}
+
+- (void)testCustomizedUpdateAlert {
+
+  // If
+  XCTestExpectation *showConfirmationAlertExpectation =
+      [self expectationWithDescription:@"showConfirmationAlert Called."];
+
+  MSReleaseDetails *details = [MSReleaseDetails new];
+  details.status = @"available";
+  id detailsMock = OCMPartialMock(details);
+  OCMStub([detailsMock isValid]).andReturn(YES);
+  id delegateMock = OCMProtocolMock(@protocol(MSDistributeDelegate));
+  id distributeMock = OCMPartialMock(self.sut);
+  OCMStub([distributeMock isNewerVersion:detailsMock]).andReturn(YES);
+  OCMStub([distributeMock showConfirmationAlert:detailsMock]).andDo(nil);
+
+  // When
+  OCMStub([delegateMock distribute:distributeMock onReleaseAvailableWithDetails:[OCMArg any]]).andReturn(YES);
+  [distributeMock setDelegate:delegateMock];
+  [distributeMock handleUpdate:detailsMock];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [showConfirmationAlertExpectation fulfill];
+  });
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                                 OCMVerify([[distributeMock delegate] distribute:distributeMock
+                                                   onReleaseAvailableWithDetails:detailsMock]);
+                                 OCMReject([distributeMock showConfirmationAlert:detailsMock]);
+                               }];
 }
 
 #pragma mark - Helper
