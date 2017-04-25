@@ -4,12 +4,12 @@
 @interface MSStorageTestUtil : NSObject
 
 + (NSString *)logsDir;
-+ (NSString *)storageDirForGroupID:(NSString *)groupID;
-+ (NSString *)filePathForLogWithId:(NSString *)logsId extension:(NSString *)extension groupID:(NSString *)groupID;
++ (NSString *)storageDirForGroupId:(NSString *)groupId;
++ (NSString *)filePathForLogWithId:(NSString *)logsId extension:(NSString *)extension groupId:(NSString *)groupId;
 + (MSFile *)createFileWithId:(NSString *)logsId
                         data:(NSData *)data
                    extension:(NSString *)extension
-                     groupID:(NSString *)groupID
+                     groupId:(NSString *)groupId
                 creationDate:(NSDate *)creationDate;
 + (void)createDirectoryAtPath:(NSString *)directoryPath;
 + (void)resetLogsDirectory;
