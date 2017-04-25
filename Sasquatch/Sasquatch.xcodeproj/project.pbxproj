@@ -15,6 +15,9 @@
 		043E977E1EA7EED20056A2E6 /* MobileCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D2F1E89301B00798417 /* MobileCenterAnalytics.framework */; };
 		043E977F1EA7EED20056A2E6 /* MobileCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D301E89301B00798417 /* MobileCenterCrashes.framework */; };
 		043E97801EA7EED20056A2E6 /* MobileCenterDistribute.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D311E89301B00798417 /* MobileCenterDistribute.framework */; };
+		047D13721EAFBDBE00D699BA /* MobileCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 047D13711EAFBDBE00D699BA /* MobileCenterDistributeResources.bundle */; };
+		047D13781EAFD77E00D699BA /* Main.strings in Resources */ = {isa = PBXBuildFile; fileRef = 047D13771EAFD77E00D699BA /* Main.strings */; };
+		047D13791EAFD77E00D699BA /* Main.strings in Resources */ = {isa = PBXBuildFile; fileRef = 047D13771EAFD77E00D699BA /* Main.strings */; };
 		5CE2587F1EA5F60200DA8FB9 /* DistributeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE2587D1EA5F5FC00DA8FB9 /* DistributeUITests.swift */; };
 		5CE258801EA5F60500DA8FB9 /* CrashesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE2587B1EA5F5EB00DA8FB9 /* CrashesUITests.swift */; };
 		5CE258811EA5F60900DA8FB9 /* AnalyticsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE258791EA5F5DF00DA8FB9 /* AnalyticsUITests.swift */; };
@@ -191,6 +194,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		047D13711EAFBDBE00D699BA /* MobileCenterDistributeResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = MobileCenterDistributeResources.bundle; path = "../MobileCenter-SDK-iOS/MobileCenterDistributeResources.bundle"; sourceTree = "<group>"; };
+		047D13771EAFD77E00D699BA /* Main.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Main.strings; sourceTree = "<group>"; };
 		5CD700E51EA4B74500FC5D12 /* SasquatchSwiftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SasquatchSwiftUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CE258791EA5F5DF00DA8FB9 /* AnalyticsUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AnalyticsUITests.swift; path = SasquatchUITests/AnalyticsUITests.swift; sourceTree = SOURCE_ROOT; };
 		5CE2587B1EA5F5EB00DA8FB9 /* CrashesUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CrashesUITests.swift; path = SasquatchUITests/CrashesUITests.swift; sourceTree = SOURCE_ROOT; };
@@ -425,6 +430,7 @@
 			isa = PBXGroup;
 			children = (
 				84226C1C1E88FEFC00798417 /* Assets.xcassets */,
+				047D13771EAFD77E00D699BA /* Main.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -442,6 +448,7 @@
 		84226D0F1E8921DE00798417 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				047D13711EAFBDBE00D699BA /* MobileCenterDistributeResources.bundle */,
 				849A3E741E8AA78E008711CB /* CrashLibIOS.framework */,
 				84226D2E1E89301A00798417 /* MobileCenter.framework */,
 				84226D2F1E89301B00798417 /* MobileCenterAnalytics.framework */,
@@ -768,6 +775,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				84226C561E88FF4A00798417 /* Assets.xcassets in Resources */,
+				047D13781EAFD77E00D699BA /* Main.strings in Resources */,
+				047D13721EAFBDBE00D699BA /* MobileCenterDistributeResources.bundle in Resources */,
 				845964AB1E8A7E6600BABA51 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -776,6 +785,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				047D13791EAFD77E00D699BA /* Main.strings in Resources */,
 				84226C8A1E8908CA00798417 /* Assets.xcassets in Resources */,
 				84D63FF91E8BAA90004C9F86 /* Main.storyboard in Resources */,
 			);

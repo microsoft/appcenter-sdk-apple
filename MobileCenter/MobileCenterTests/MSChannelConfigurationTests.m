@@ -15,14 +15,14 @@
 - (void)testNewInstanceWasInitialisedCorrectly {
 
   // If
-  NSString *groupID = @"FooBar";
+  NSString *groupId = @"FooBar";
   MSPriority priority = MSPriorityDefault;
   NSUInteger batchSizeLimit = 10;
   NSUInteger pendingBatchesLimit = 20;
   float flushInterval = 9.9f;
 
   // When
-  MSChannelConfiguration *sut = [[MSChannelConfiguration alloc] initWithGroupID:groupID
+  MSChannelConfiguration *sut = [[MSChannelConfiguration alloc] initWithGroupId:groupId
                                                                        priority:priority
                                                                   flushInterval:flushInterval
                                                                  batchSizeLimit:batchSizeLimit
@@ -30,7 +30,7 @@
 
   // Then
   assertThat(sut, notNilValue());
-  assertThat(sut.groupID, equalTo(groupID));
+  assertThat(sut.groupId, equalTo(groupId));
   XCTAssertTrue(sut.priority == priority);
   assertThatUnsignedInteger(sut.batchSizeLimit, equalToUnsignedInteger(batchSizeLimit));
   assertThatUnsignedInteger(sut.pendingBatchesLimit, equalToUnsignedInteger(pendingBatchesLimit));
@@ -40,14 +40,14 @@
 - (void)testNewInstanceWithDefaultSettings {
 
   // If
-  NSString *groupID = @"FooBar";
+  NSString *groupId = @"FooBar";
 
   // When
-  MSChannelConfiguration *sut = [[MSChannelConfiguration alloc] initDefaultConfigurationWithGroupID:groupID];
+  MSChannelConfiguration *sut = [[MSChannelConfiguration alloc] initDefaultConfigurationWithGroupId:groupId];
 
   // Then
   assertThat(sut, notNilValue());
-  assertThat(sut.groupID, equalTo(groupID));
+  assertThat(sut.groupId, equalTo(groupId));
   XCTAssertTrue(sut.priority == MSPriorityDefault);
   assertThatUnsignedInteger(sut.batchSizeLimit, equalToUnsignedInteger(50));
   assertThatUnsignedInteger(sut.pendingBatchesLimit, equalToUnsignedInteger(3));

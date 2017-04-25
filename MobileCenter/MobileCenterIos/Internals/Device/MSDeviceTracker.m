@@ -234,10 +234,13 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
 - (NSString *)deviceModel {
   size_t size;
   sysctlbyname("hw.machine", NULL, &size, NULL, 0);
-  char *machine = malloc(size);
-  sysctlbyname("hw.machine", machine, &size, NULL, 0);
-  NSString *model = [NSString stringWithCString:machine encoding:NSUTF8StringEncoding];
-  free(machine);
+  char *answer = (char *)malloc(size);
+  if (answer == NULL) {
+    return nil;
+  }
+  sysctlbyname("hw.machine", answer, &size, NULL, 0);
+  NSString *model = [NSString stringWithCString:answer encoding:NSUTF8StringEncoding];
+  free(answer);
   return model;
 }
 
@@ -253,8 +256,9 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
   size_t size;
   sysctlbyname("kern.osversion", NULL, &size, NULL, 0);
   char *answer = (char *)malloc(size);
-  if (answer == NULL)
-    return nil; // returning nil to avoid a possible crash.
+  if (answer == NULL) {
+    return nil;
+  }
   sysctlbyname("kern.osversion", answer, &size, NULL, 0);
   NSString *osBuild = [NSString stringWithCString:answer encoding:NSUTF8StringEncoding];
   free(answer);
