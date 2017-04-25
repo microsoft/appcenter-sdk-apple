@@ -568,10 +568,18 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     NSString *messageFormat = details.mandatoryUpdate
                                   ? MSDistributeLocalizedString(@"MSDistributeAppUpdateAvailableMandatoryUpdateMessage")
                                   : MSDistributeLocalizedString(@"MSDistributeAppUpdateAvailableOptionalUpdateMessage");
+    NSString *appName = [MS_APP_MAIN_BUNDLE objectForInfoDictionaryKey:@"CFBundleDisplayName"];
+    if (!appName) {
+      appName = [MS_APP_MAIN_BUNDLE objectForInfoDictionaryKey:@"CFBundleName"];
+    }
+
+/*
+ * FIXME: Format string should be a string literal but its format is in string resource so it won't be. Disable the
+ * warning temporarily.
+ */
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wformat-nonliteral"
-    NSString *message =
-        [NSString stringWithFormat:messageFormat, details.appName, details.shortVersion, details.version];
+    NSString *message = [NSString stringWithFormat:messageFormat, appName, details.shortVersion, details.version];
 #pragma clang diagnostic pop
     MSAlertController *alertController =
         [MSAlertController alertControllerWithTitle:MSDistributeLocalizedString(@"MSDistributeAppUpdateAvailable")
@@ -586,7 +594,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                                          }];
     }
 
-    if ([details.releaseNotes length] > 0) {
+    if ([details.releaseNotes length] > 0 && details.releaseNotesUrl) {
 
       // Add a "View release notes"-Button.
       [alertController

@@ -426,12 +426,13 @@ static NSURL *sfURL;
 - (void)testShowConfirmationAlert {
 
   // If
+  NSString *appName = @"Test App";
+  OCMStub([self.bundleMock objectForInfoDictionaryKey:@"CFBundleDisplayName"]).andReturn(appName);
   id mobileCenterMock = OCMPartialMock(self.sut);
   id alertControllerMock = OCMClassMock([MSAlertController class]);
   MSReleaseDetails *details = [MSReleaseDetails new];
   OCMStub([alertControllerMock alertControllerWithTitle:[OCMArg any] message:[OCMArg any]])
       .andReturn(alertControllerMock);
-  details.appName = @"Test App";
   details.shortVersion = @"2.5";
   details.version = @"11";
   details.releaseNotes = @"Release notes";
@@ -441,7 +442,7 @@ static NSURL *sfURL;
 #pragma clang diagnostic ignored "-Wformat-nonliteral"
   NSString *message =
       [NSString stringWithFormat:MSDistributeLocalizedString(@"MSDistributeAppUpdateAvailableOptionalUpdateMessage"),
-                                 details.appName, details.shortVersion, details.version];
+                                 appName, details.shortVersion, details.version];
 #pragma clang diagnostic pop
 
   // When
@@ -471,12 +472,13 @@ static NSURL *sfURL;
 - (void)testShowConfirmationAlertWithoutViewReleaseNotesButton {
 
   // If
+  NSString *appName = @"Test App";
+  OCMStub([self.bundleMock objectForInfoDictionaryKey:@"CFBundleDisplayName"]).andReturn(appName);
   id mobileCenterMock = OCMPartialMock(self.sut);
   id alertControllerMock = OCMClassMock([MSAlertController class]);
   MSReleaseDetails *details = [MSReleaseDetails new];
   OCMStub([alertControllerMock alertControllerWithTitle:[OCMArg any] message:[OCMArg any]])
       .andReturn(alertControllerMock);
-  details.appName = @"Test App";
   details.shortVersion = @"2.5";
   details.version = @"11";
   details.mandatoryUpdate = false;
@@ -484,7 +486,7 @@ static NSURL *sfURL;
 #pragma clang diagnostic ignored "-Wformat-nonliteral"
   NSString *message =
       [NSString stringWithFormat:MSDistributeLocalizedString(@"MSDistributeAppUpdateAvailableOptionalUpdateMessage"),
-                                 details.appName, details.shortVersion, details.version];
+                                 appName, details.shortVersion, details.version];
 #pragma clang diagnostic pop
 
   // When
@@ -514,12 +516,13 @@ static NSURL *sfURL;
 - (void)testShowConfirmationAlertForMandatoryUpdate {
 
   // If
+  NSString *appName = @"Test App";
+  OCMStub([self.bundleMock objectForInfoDictionaryKey:@"CFBundleDisplayName"]).andReturn(appName);
   id mobileCenterMock = OCMPartialMock(self.sut);
   id alertControllerMock = OCMClassMock([MSAlertController class]);
   MSReleaseDetails *details = [MSReleaseDetails new];
   OCMStub([alertControllerMock alertControllerWithTitle:[OCMArg any] message:[OCMArg any]])
       .andReturn(alertControllerMock);
-  details.appName = @"Test App";
   details.shortVersion = @"2.5";
   details.version = @"11";
   details.releaseNotes = @"Release notes";
@@ -529,7 +532,7 @@ static NSURL *sfURL;
 #pragma clang diagnostic ignored "-Wformat-nonliteral"
   NSString *message =
       [NSString stringWithFormat:MSDistributeLocalizedString(@"MSDistributeAppUpdateAvailableMandatoryUpdateMessage"),
-                                 details.appName, details.shortVersion, details.version];
+                                 appName, details.shortVersion, details.version];
 #pragma clang diagnostic pop
 
   // When
@@ -559,12 +562,13 @@ static NSURL *sfURL;
 - (void)testShowConfirmationAlertWithoutViewReleaseNotesButtonForMandatoryUpdate {
 
   // If
+  NSString *appName = @"Test App";
+  OCMStub([self.bundleMock objectForInfoDictionaryKey:@"CFBundleDisplayName"]).andReturn(appName);
   id mobileCenterMock = OCMPartialMock(self.sut);
   id alertControllerMock = OCMClassMock([MSAlertController class]);
   MSReleaseDetails *details = [MSReleaseDetails new];
   OCMStub([alertControllerMock alertControllerWithTitle:[OCMArg any] message:[OCMArg any]])
       .andReturn(alertControllerMock);
-  details.appName = @"Test App";
   details.shortVersion = @"2.5";
   details.version = @"11";
   details.mandatoryUpdate = true;
@@ -572,7 +576,7 @@ static NSURL *sfURL;
 #pragma clang diagnostic ignored "-Wformat-nonliteral"
   NSString *message =
       [NSString stringWithFormat:MSDistributeLocalizedString(@"MSDistributeAppUpdateAvailableMandatoryUpdateMessage"),
-                                 details.appName, details.shortVersion, details.version];
+                                 appName, details.shortVersion, details.version];
 #pragma clang diagnostic pop
 
   // When
@@ -611,12 +615,15 @@ static NSURL *sfURL;
   OCMStub([alertControllerMock alertControllerWithTitle:[OCMArg any] message:[OCMArg any]])
       .andReturn(alertControllerMock);
 
+  // Mock Bundle.
+  NSString *appName = @"Test App";
+  OCMStub([self.bundleMock objectForInfoDictionaryKey:@"CFBundleDisplayName"]).andReturn(appName);
+
   // Init mandatory release.
   MSReleaseDetails *details = [MSReleaseDetails new];
 
   // Use UUID to identify this release and verify later.
   details.id = @(42);
-  details.appName = @"Test App";
   details.shortVersion = @"2.5";
   details.version = @"11";
   details.downloadUrl = [NSURL URLWithString:@"https://contoso.com"];
@@ -628,7 +635,7 @@ static NSURL *sfURL;
 #pragma clang diagnostic ignored "-Wformat-nonliteral"
   NSString *message =
       [NSString stringWithFormat:MSDistributeLocalizedString(@"MSDistributeAppUpdateAvailableMandatoryUpdateMessage"),
-                                 details.appName, details.shortVersion, details.version];
+                                 appName, details.shortVersion, details.version];
 #pragma clang diagnostic pop
 
   // Mock MSDistribute isNewerVersion to return YES.
