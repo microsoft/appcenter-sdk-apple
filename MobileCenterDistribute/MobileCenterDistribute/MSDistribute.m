@@ -543,6 +543,11 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     if (!appName) {
       appName = [MS_APP_MAIN_BUNDLE objectForInfoDictionaryKey:@"CFBundleName"];
     }
+
+/*
+ * FIXME: Format string should be a string literal but its format is in string resource so it won't be. Disable the
+ * warning temporarily.
+ */
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wformat-nonliteral"
     NSString *message = [NSString stringWithFormat:messageFormat, appName, details.shortVersion, details.version];
