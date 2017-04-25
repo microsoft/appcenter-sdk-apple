@@ -1,5 +1,25 @@
 # Mobile Center SDK for iOS Change Log
 
+## Version 0.7.0
+
+This version contains bug fixes, improvements and new features.
+
+### MobileCenter
+
+* **[Misc]** Change Channel to handle logs based on service instead of priority.
+* **[Misc]** Fix all compile warnings and set configuration to consider all warnings as errors.
+
+### MobileCenterCrashes
+
+* **[Misc]** Update PLCrashReporter to 1.2.2.
+
+### MobileCenterDistribute
+
+* **[Feature]** New Distribute delegate to provide an ability of in-app update customization.
+* **[Feature]** New default update dialog with release notes view.
+
+___
+
 ## Version 0.6.1
 
 This version contains some bug fixes, improvements under the hood and renamed the demo apps to Sasquatch to be consistent with the Android SDK.
