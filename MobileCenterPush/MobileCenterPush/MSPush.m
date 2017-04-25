@@ -112,6 +112,10 @@ static dispatch_once_t onceToken;
         [UIUserNotificationSettings settingsForTypes:allNotificationTypes categories:nil];
     [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
   } else {
+
+    // Ignore the partial availability warning as the compiler doesn't get that we checked for pre-iOS 10 already.
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpartial-availability"
     UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
     UNAuthorizationOptions authOptions =
         (UNAuthorizationOptions)(UNAuthorizationOptionAlert | UNAuthorizationOptionSound | UNAuthorizationOptionBadge);
@@ -119,6 +123,7 @@ static dispatch_once_t onceToken;
                           completionHandler:^(__attribute__((unused)) BOOL granted,
                                               __attribute__((unused)) NSError *_Nullable error){
                           }];
+#pragma clang diagnostic pop
   }
   [[UIApplication sharedApplication] registerForRemoteNotifications];
 #endif
