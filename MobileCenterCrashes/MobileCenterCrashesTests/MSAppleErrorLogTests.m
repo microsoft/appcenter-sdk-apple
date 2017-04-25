@@ -14,12 +14,9 @@
 
 @property(nonatomic) MSAppleErrorLog *sut;
 
-
 @end
 
-
 @implementation MSAppleErrorLogTests
-
 
 #pragma mark - Housekeeping
 
@@ -48,8 +45,8 @@
   appleLog.exceptionType = @"NSExceptionType";
   appleLog.exceptionReason = @"Trying to access array[12]";
   appleLog.selectorRegisterValue = @"release()";
-  appleLog.threads = @[[MSThread new]];
-  appleLog.binaries = @[[MSBinary new]];
+  appleLog.threads = @[ [MSThread new] ];
+  appleLog.binaries = @[ [MSBinary new] ];
   appleLog.exception = [MSCrashesTestUtil exception];
   appleLog.errorId = @"123";
   appleLog.processId = @123;
@@ -72,7 +69,7 @@
   XCTAssertNotNil(self.sut);
 }
 
-- (void)testSerializationToDicationaryWorks {
+- (void)testSerializationToDictionaryWorks {
   NSDictionary *actual = [self.sut serializeToDictionary];
   XCTAssertNotNil(actual);
   assertThat(actual[@"type"], equalTo(self.sut.type));
@@ -97,23 +94,22 @@
   assertThat(actual[@"architecture"], equalTo(self.sut.architecture));
 
   // Exception fields.
-  NSDictionary *exceptionDicationary = actual[@"exception"];
-  XCTAssertNotNil(exceptionDicationary);
-  assertThat(exceptionDicationary[@"type"], equalTo(self.sut.exception.type));
-  assertThat(exceptionDicationary[@"message"], equalTo(self.sut.exception.message));
-  assertThat(exceptionDicationary[@"wrapper_sdk_name"], equalTo(self.sut.exception.wrapperSdkName));
+  NSDictionary *exceptionDictionary = actual[@"exception"];
+  XCTAssertNotNil(exceptionDictionary);
+  assertThat(exceptionDictionary[@"type"], equalTo(self.sut.exception.type));
+  assertThat(exceptionDictionary[@"message"], equalTo(self.sut.exception.message));
+  assertThat(exceptionDictionary[@"wrapper_sdk_name"], equalTo(self.sut.exception.wrapperSdkName));
 
   // Error attachment fields.
-  NSDictionary *attachmentDicationary = actual[@"error_attachment"];
-  XCTAssertNotNil(attachmentDicationary);
-  assertThat(attachmentDicationary[@"text_attachment"], equalTo(self.sut.errorAttachment.textAttachment));
+  NSDictionary *attachmentDictionary = actual[@"error_attachment"];
+  XCTAssertNotNil(attachmentDictionary);
+  assertThat(attachmentDictionary[@"text_attachment"], equalTo(self.sut.errorAttachment.textAttachment));
 }
 
 - (void)testNSCodingSerializationAndDeserializationWorks {
 
   // When
-  NSData *serializedEvent =
-          [NSKeyedArchiver archivedDataWithRootObject:self.sut];
+  NSData *serializedEvent = [NSKeyedArchiver archivedDataWithRootObject:self.sut];
   id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedEvent];
 
   // Then
@@ -143,23 +139,23 @@
   assertThat(actualException.wrapperSdkName, equalTo(self.sut.exception.wrapperSdkName));
 }
 
--(void)testIsEqual {
-  
+- (void)testIsEqual {
+
   // When
   MSAppleErrorLog *first = [self appleErrorLog];
   MSAppleErrorLog *second = [self appleErrorLog];
-  
+
   // Then
   XCTAssertTrue([first isEqual:second]);
-  
+
   // When
   second.processId = @345;
-  
+
   // Then
   XCTAssertFalse([first isEqual:second]);
 }
 
--(void)testIsValid {
+- (void)testIsValid {
 
   // When
   MSAppleErrorLog *log = [MSAppleErrorLog new];
