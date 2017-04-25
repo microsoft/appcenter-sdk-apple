@@ -44,7 +44,7 @@ __attribute__((used)) static void importCategories () {
 }
 
 - (instancetype)initWithFilename:(nullable NSString *)filename
-                  attachmentData:(NSData *)data
+                attachmentBinary:(NSData *)data
                      contentType:(NSString *)contentType {
   if ((self = [self init])) {
 

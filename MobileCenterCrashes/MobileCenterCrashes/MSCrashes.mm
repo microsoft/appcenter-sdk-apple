@@ -192,9 +192,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
     // Get error attachments.
     if ([crashes delegateImplementsAttachmentCallback]) {
-      attachments = [crashes.delegate attachmentWithCrashes:crashes forErrorReport:report];
+      attachments = [crashes.delegate attachmentsWithCrashes:crashes forErrorReport:report];
     } else {
-      MSLogDebug([MSCrashes logTag], @"attachmentWithCrashes is not implemented");
+      MSLogDebug([MSCrashes logTag], @"attachmentsWithCrashes is not implemented");
     }
 
     // First, send crash log to log manager.
@@ -904,7 +904,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 }
 
 - (BOOL)delegateImplementsAttachmentCallback {
-  return self.delegate && [self.delegate respondsToSelector:@selector(attachmentWithCrashes:forErrorReport:)];
+  return self.delegate && [self.delegate respondsToSelector:@selector(attachmentsWithCrashes:forErrorReport:)];
 }
 
 + (void)wrapperCrashCallback {

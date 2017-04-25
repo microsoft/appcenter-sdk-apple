@@ -151,7 +151,7 @@
   NSLog(@"Did fail sending report with: %@, and error: %@", errorReport.exceptionReason, error.localizedDescription);
 }
 
-- (NSArray<MSErrorAttachmentLog *> *)attachmentWithCrashes:(MSCrashes *)crashes
+- (NSArray<MSErrorAttachmentLog *> *)attachmentsWithCrashes:(MSCrashes *)crashes
                                             forErrorReport:(MSErrorReport *)errorReport {
   NSData *data = [[NSString stringWithFormat:@"<xml><text>Binary attachment for crash</text><id>%@</id></xml>",
                                              errorReport.incidentIdentifier] dataUsingEncoding:NSUTF8StringEncoding];
@@ -159,7 +159,7 @@
   MSErrorAttachmentLog *attachment1 =
       [MSErrorAttachmentLog attachmentWithText:text filename:@"pup-crash-attachment.log"];
   MSErrorAttachmentLog *attachment2 =
-      [MSErrorAttachmentLog attachmentWithBinaryData:data filename:nil contentType:@"text/xml"];
+      [MSErrorAttachmentLog attachmentWithBinary:data filename:nil contentType:@"text/xml"];
   return @[ attachment1, attachment2 ];
 }
 
