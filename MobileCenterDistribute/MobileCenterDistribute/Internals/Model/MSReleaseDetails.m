@@ -1,5 +1,5 @@
 #import "MSDistributionGroup.h"
-#import "MSReleaseDetails.h"
+#import "MSReleaseDetailsPrivate.h"
 
 static NSString *const kMSId = @"id";
 static NSString *const kMSStatus = @"status";
