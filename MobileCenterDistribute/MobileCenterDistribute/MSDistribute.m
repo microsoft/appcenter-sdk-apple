@@ -110,6 +110,11 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 }
 
 - (void)notifyUpdateAction:(MSUpdateAction)action {
+  if (!self.releaseDetails) {
+    MSLogDebug([MSDistribute logTag], @"The release has already been processed.");
+    return;
+  }
+
   switch (action) {
   case MSUpdateActionUpdate:
 #if TARGET_IPHONE_SIMULATOR
@@ -135,6 +140,9 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                          forKey:kMSPostponedTimestampKey];
     break;
   }
+
+  // The release details have been processed. Clean up the variable.
+  self.releaseDetails = nil;
 }
 
 - (void)startWithLogManager:(id<MSLogManager>)logManager appSecret:(NSString *)appSecret {

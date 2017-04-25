@@ -1327,12 +1327,38 @@ static NSURL *sfURL;
   id utilityMock = OCMClassMock([MSUtility class]);
   double time = 1.1;
   OCMStub(ClassMethod([utilityMock nowInMilliseconds])).andReturn(time);
+  [distributeMock setValue:OCMClassMock([MSReleaseDetails class]) forKey:@"releaseDetails"];
 
   // When
   [distributeMock notifyUpdateAction:MSUpdateActionPostpone];
 
   // Then
   assertThat([self.settingsMock objectForKey:kMSPostponedTimestampKey], equalToLongLong((long long)time));
+}
+
+- (void)testNotifyUpdateActionTwice {
+
+  // If
+  id distributeMock = OCMPartialMock(self.sut);
+  id utilityMock = OCMClassMock([MSUtility class]);
+  double time = 1.1;
+  OCMStub(ClassMethod([utilityMock nowInMilliseconds])).andReturn(time);
+  [distributeMock setValue:OCMClassMock([MSReleaseDetails class]) forKey:@"releaseDetails"];
+
+  // When
+  [distributeMock notifyUpdateAction:MSUpdateActionPostpone];
+
+  // Then
+  assertThat([self.settingsMock objectForKey:kMSPostponedTimestampKey], equalToLongLong((long long)time));
+
+  // If
+  [MS_USER_DEFAULTS removeObjectForKey:kMSPostponedTimestampKey];
+
+  // When
+  [distributeMock notifyUpdateAction:MSUpdateActionPostpone];
+
+  // Then
+  XCTAssertNil([self.settingsMock objectForKey:kMSPostponedTimestampKey]);
 }
 
 - (void)testSetDelegate {
