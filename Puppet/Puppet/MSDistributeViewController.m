@@ -42,7 +42,6 @@
     switch (indexPath.row) {
     case 0: {
       MSReleaseDetails *details = [MSReleaseDetails new];
-      details.appName = @"Puppet";
       details.version = @"10";
       details.shortVersion = @"1.0";
       if (self.customized.on) {
