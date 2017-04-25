@@ -2,13 +2,13 @@
 
 @implementation MSChannelConfiguration
 
-- (instancetype)initWithGroupID:(NSString *)groupID
+- (instancetype)initWithGroupId:(NSString *)groupId
                        priority:(MSPriority)priority
                   flushInterval:(float)flushInterval
                  batchSizeLimit:(NSUInteger)batchSizeLimit
             pendingBatchesLimit:(NSUInteger)pendingBatchesLimit {
   if ((self = [super init])) {
-    _groupID = groupID;
+    _groupId = groupId;
     _priority = priority;
     _flushInterval = flushInterval;
     _batchSizeLimit = batchSizeLimit;
@@ -17,8 +17,8 @@
   return self;
 }
 
-- (instancetype)initDefaultConfigurationWithGroupID:(NSString *)groupID {
-  return [self initWithGroupID:groupID
+- (instancetype)initDefaultConfigurationWithGroupId:(NSString *)groupId {
+  return [self initWithGroupId:groupId
                       priority:MSPriorityDefault
                  flushInterval:3.0
                 batchSizeLimit:50

@@ -30,7 +30,7 @@
 
 - (instancetype)init {
   if ((self = [super init])) {
-    _channelConfiguration = [[MSChannelConfiguration alloc] initWithGroupID:[self groupID]
+    _channelConfiguration = [[MSChannelConfiguration alloc] initWithGroupId:[self groupId]
                                                                    priority:MSPriorityDefault
                                                               flushInterval:3.0
                                                              batchSizeLimit:50
@@ -47,7 +47,7 @@
   [super startWithLogManager:logManager appSecret:appSecret];
 }
 
-- (NSString *)groupID {
+- (NSString *)groupId {
   return @"MSServiceAbstractImplementation";
 }
 
@@ -280,13 +280,13 @@
   /**
    *  If
    */
-  __block NSString *groupID;
+  __block NSString *groupId;
   __block BOOL deleteLogs;
   __block BOOL forwardedEnabled;
   id<MSLogManager> logManagerMock = OCMClassMock([MSLogManagerDefault class]);
-  OCMStub([logManagerMock setEnabled:NO andDeleteDataOnDisabled:YES forGroupID:self.abstractService.groupID])
+  OCMStub([logManagerMock setEnabled:NO andDeleteDataOnDisabled:YES forGroupId:self.abstractService.groupId])
       .andDo(^(NSInvocation *invocation) {
-        [invocation getArgument:&groupID atIndex:4];
+        [invocation getArgument:&groupId atIndex:4];
         [invocation getArgument:&deleteLogs atIndex:3];
         [invocation getArgument:&forwardedEnabled atIndex:2];
       });
@@ -303,10 +303,10 @@
    */
 
   // Check that log deletion has been triggered.
-  OCMVerify([logManagerMock setEnabled:NO andDeleteDataOnDisabled:YES forGroupID:self.abstractService.groupID]);
+  OCMVerify([logManagerMock setEnabled:NO andDeleteDataOnDisabled:YES forGroupId:self.abstractService.groupId]);
 
-  // GroupID from the service must match the groupID used to delete logs.
-  XCTAssertTrue(self.abstractService.groupID == groupID);
+  // GroupId from the service must match the groupId used to delete logs.
+  XCTAssertTrue(self.abstractService.groupId == groupId);
 
   // Must request for deletion.
   XCTAssertTrue(deleteLogs);
@@ -325,7 +325,7 @@
   [self.abstractService startWithLogManager:logManagerMock appSecret:@"TestAppSecret"];
 
   // Then
-  OCMVerify([logManagerMock setEnabled:YES andDeleteDataOnDisabled:YES forGroupID:self.abstractService.groupID]);
+  OCMVerify([logManagerMock setEnabled:YES andDeleteDataOnDisabled:YES forGroupId:self.abstractService.groupId]);
 }
 
 - (void)testInitializationPriorityCorrect {
