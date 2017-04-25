@@ -1,3 +1,5 @@
+
+
 #import "MSConstants+Internal.h"
 #import "MSDeviceHistoryInfo.h"
 #import "MSDeviceTracker.h"
@@ -234,31 +236,50 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
 - (NSString *)deviceModel {
   size_t size;
   sysctlbyname("hw.machine", NULL, &size, NULL, 0);
-  char *machine = malloc(size);
-  sysctlbyname("hw.machine", machine, &size, NULL, 0);
-  NSString *model = [NSString stringWithCString:machine encoding:NSUTF8StringEncoding];
-  free(machine);
+  char *answer = (char *)malloc(size);
+  if (answer == NULL) {
+    return nil;
+  }
+  sysctlbyname("hw.machine", answer, &size, NULL, 0);
+  NSString *model = [NSString stringWithCString:answer encoding:NSUTF8StringEncoding];
+  free(answer);
   return model;
 }
 
 - (NSString *)osName {
-
-  // TODO: [NSProcessInfo operatingSystemName is deprecated on macOS 10.10.
-  return [[NSProcessInfo processInfo] operatingSystemVersionString];
+  return @"macOS";
 }
 
 - (NSString *)osVersion {
+  NSString *osVersion = nil;
 
-  // TODO: [NSProcessInfo operatingSystemVersionString returns human readable and localized string.
-  return [[NSProcessInfo processInfo] operatingSystemVersionString];
+#if __MAC_OS_X_VERSION_MAX_ALLOWED > 1090
+  if ([[NSProcessInfo processInfo] respondsToSelector:@selector(operatingSystemVersion)]) {
+    NSOperatingSystemVersion osSystemVersion = [[NSProcessInfo processInfo] operatingSystemVersion];
+    osVersion = [NSString stringWithFormat:@"%ld.%ld.%ld", (long)osSystemVersion.majorVersion,
+                                           (long)osSystemVersion.minorVersion, (long)osSystemVersion.patchVersion];
+  }
+#else
+  SInt32 major, minor, bugfix;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+  OSErr err1 = Gestalt(gestaltSystemVersionMajor, &major);
+  OSErr err2 = Gestalt(gestaltSystemVersionMinor, &minor);
+  OSErr err3 = Gestalt(gestaltSystemVersionBugFix, &bugfix);
+  if ((!err1) && (!err2) && (!err3)) {
+    osVersion = [NSString stringWithFormat:@"%ld.%ld.%ld", (long)major, (long)minor, (long)bugfix];
+  }
+#endif
+  return osVersion;
 }
 
 - (NSString *)osBuild {
   size_t size;
   sysctlbyname("kern.osversion", NULL, &size, NULL, 0);
   char *answer = (char *)malloc(size);
-  if (answer == NULL)
-    return nil; // returning nil to avoid a possible crash.
+  if (answer == NULL) {
+    return nil;
+  }
   sysctlbyname("kern.osversion", answer, &size, NULL, 0);
   NSString *osBuild = [NSString stringWithCString:answer encoding:NSUTF8StringEncoding];
   free(answer);
@@ -274,9 +295,10 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
 }
 
 - (NSString *)screenSize {
-
-  NSRect screenRect = [[NSScreen mainScreen] frame];
-  return [NSString stringWithFormat:@"%dx%d", (int)(screenRect.size.height), (int)(screenRect.size.width)];
+  NSScreen *focusScreen = [NSScreen mainScreen];
+  CGFloat scale = focusScreen.backingScaleFactor;
+  CGSize screenSize = [focusScreen frame].size;
+  return [NSString stringWithFormat:@"%dx%d", (int)(screenSize.width * scale), (int)(screenSize.height * scale)];
 }
 
 - (NSString *)appVersion:(NSBundle *)appBundle {

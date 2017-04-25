@@ -32,7 +32,7 @@ NSString *MSUtilityApplicationCategory;
 
   /*
    * TODO: iOS SDK has an issue that openURL returns NO even though it was able to open a browser. Need to make sure
-   * openURL returns YES/NO properly.
+   * openURL returns YES/NO on macOS properly.
    */
   // Dispatch the open url call to the next loop to avoid freezing the App new instance start up.
   dispatch_async(dispatch_get_main_queue(), ^{
