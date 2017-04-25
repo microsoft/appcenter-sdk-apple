@@ -254,6 +254,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   // If
   MSWrapperSdk *wrapperSdk = [[MSWrapperSdk alloc] initWithWrapperSdkVersion:@"10.11.12"
                                                               wrapperSdkName:@"Wrapper SDK for iOS"
+                                                       wrapperRuntimeVersion:@"13.14"
                                                       liveUpdateReleaseLabel:@"Release Label"
                                                      liveUpdateDeploymentKey:@"Deployment Key"
                                                        liveUpdatePackageHash:@"Package Hash"];
@@ -265,6 +266,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   // Then
   XCTAssertEqual(device.wrapperSdkVersion, wrapperSdk.wrapperSdkVersion);
   XCTAssertEqual(device.wrapperSdkName, wrapperSdk.wrapperSdkName);
+  XCTAssertEqual(device.wrapperRuntimeVersion, wrapperSdk.wrapperRuntimeVersion);
   XCTAssertEqual(device.liveUpdateReleaseLabel, wrapperSdk.liveUpdateReleaseLabel);
   XCTAssertEqual(device.liveUpdateDeploymentKey, wrapperSdk.liveUpdateDeploymentKey);
   XCTAssertEqual(device.liveUpdatePackageHash, wrapperSdk.liveUpdatePackageHash);

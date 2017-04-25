@@ -220,7 +220,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   __block NSString *type;
   NSString *expectedName = @"gotACoffee";
   id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
-  OCMStub([logManagerMock processLog:[OCMArg isKindOfClass:[MSLogWithProperties class]] forGroupID:[OCMArg any]])
+  OCMStub([logManagerMock processLog:[OCMArg isKindOfClass:[MSLogWithProperties class]] forGroupId:[OCMArg any]])
       .andDo(^(NSInvocation *invocation) {
         MSEventLog *log;
         [invocation getArgument:&log atIndex:2];
@@ -247,7 +247,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   NSString *expectedName = @"gotACoffee";
   NSDictionary *expectedProperties = @{ @"milk" : @"yes", @"cookie" : @"of course" };
   id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
-  OCMStub([logManagerMock processLog:[OCMArg isKindOfClass:[MSLogWithProperties class]] forGroupID:[OCMArg any]])
+  OCMStub([logManagerMock processLog:[OCMArg isKindOfClass:[MSLogWithProperties class]] forGroupId:[OCMArg any]])
       .andDo(^(NSInvocation *invocation) {
         MSEventLog *log;
         [invocation getArgument:&log atIndex:2];
@@ -274,7 +274,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   __block NSString *type;
   NSString *expectedName = @"HomeSweetHome";
   id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
-  OCMStub([logManagerMock processLog:[OCMArg isKindOfClass:[MSLogWithProperties class]] forGroupID:[OCMArg any]])
+  OCMStub([logManagerMock processLog:[OCMArg isKindOfClass:[MSLogWithProperties class]] forGroupId:[OCMArg any]])
       .andDo(^(NSInvocation *invocation) {
         MSEventLog *log;
         [invocation getArgument:&log atIndex:2];
@@ -301,7 +301,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   NSString *expectedName = @"HomeSweetHome";
   NSDictionary *expectedProperties = @{ @"Sofa" : @"yes", @"TV" : @"of course" };
   id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
-  OCMStub([logManagerMock processLog:[OCMArg isKindOfClass:[MSLogWithProperties class]] forGroupID:[OCMArg any]])
+  OCMStub([logManagerMock processLog:[OCMArg isKindOfClass:[MSLogWithProperties class]] forGroupId:[OCMArg any]])
       .andDo(^(NSInvocation *invocation) {
         MSEventLog *log;
         [invocation getArgument:&log atIndex:2];

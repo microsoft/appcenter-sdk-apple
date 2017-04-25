@@ -10,7 +10,7 @@
 static NSString *const kMSServiceName = @"Analytics";
 
 // The group ID for storage.
-static NSString *const kMSGroupID = @"Analytics";
+static NSString *const kMSGroupId = @"Analytics";
 
 // Singleton
 static MSAnalytics *sharedInstance = nil;
@@ -42,7 +42,7 @@ static const int maxPropertyValueLength = 64;
     _sessionTracker.delegate = self;
 
     // Init channel configuration.
-    _channelConfiguration = [[MSChannelConfiguration alloc] initDefaultConfigurationWithGroupID:[self groupID]];
+    _channelConfiguration = [[MSChannelConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
   }
   return self;
 }
@@ -74,8 +74,8 @@ static const int maxPropertyValueLength = 64;
   return @"MobileCenterAnalytics";
 }
 
-- (NSString *)groupID {
-  return kMSGroupID;
+- (NSString *)groupId {
+  return kMSGroupId;
 }
 
 #pragma mark - MSServiceAbstract
@@ -91,7 +91,7 @@ static const int maxPropertyValueLength = 64;
     [self.logManager addDelegate:self.sessionTracker];
 
     // Set self as delegate of analytics channel.
-    [self.logManager addChannelDelegate:self forGroupID:self.groupID];
+    [self.logManager addChannelDelegate:self forGroupId:self.groupId];
 
     // Report current page while auto page tracking is on.
     if (self.autoPageTrackingEnabled) {
@@ -107,7 +107,7 @@ static const int maxPropertyValueLength = 64;
     MSLogInfo([MSAnalytics logTag], @"Analytics service has been enabled.");
   } else {
     [self.logManager removeDelegate:self.sessionTracker];
-    [self.logManager removeChannelDelegate:self forGroupID:self.groupID];
+    [self.logManager removeChannelDelegate:self forGroupId:self.groupId];
     [self.sessionTracker stop];
     [self.sessionTracker clearSessions];
     MSLogInfo([MSAnalytics logTag], @"Analytics service has been disabled.");
@@ -286,7 +286,7 @@ static const int maxPropertyValueLength = 64;
 - (void)sendLog:(id<MSLog>)log {
 
   // Send log to log manager.
-  [self.logManager processLog:log forGroupID:self.groupID];
+  [self.logManager processLog:log forGroupId:self.groupId];
 }
 
 + (void)resetSharedInstance {

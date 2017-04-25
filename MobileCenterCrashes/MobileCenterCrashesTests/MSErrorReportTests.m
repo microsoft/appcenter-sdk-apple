@@ -29,6 +29,7 @@
   NSString *carrierCountry = @"United States";
   NSString *wrapperSdkVersion = @"6.7.8";
   NSString *wrapperSdkName = @"wrapper-sdk";
+  NSString *wrapperRuntimeVersion = @"9.10";
   NSString *liveUpdateReleaseLabel = @"live-update-release";
   NSString *liveUpdateDeploymentKey = @"deployment-key";
   NSString *liveUpdatePackageHash = @"b10a8db164e0754105b7a99be72e3fe5";
@@ -48,6 +49,7 @@
   device.carrierCountry = carrierCountry;
   device.wrapperSdkVersion = wrapperSdkVersion;
   device.wrapperSdkName = wrapperSdkName;
+  device.wrapperRuntimeVersion = wrapperRuntimeVersion;
   device.liveUpdateReleaseLabel = liveUpdateReleaseLabel;
   device.liveUpdateDeploymentKey = liveUpdateDeploymentKey;
   device.liveUpdatePackageHash = liveUpdatePackageHash;

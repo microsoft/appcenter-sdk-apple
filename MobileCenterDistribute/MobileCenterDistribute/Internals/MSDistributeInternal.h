@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 #import "MSDistribute.h"
 #import "MSDistributeSender.h"
-#import "MSReleaseDetails.h"
+#import "MSReleaseDetailsPrivate.h"
 #import "MSSender.h"
 #import "MSServiceInternal.h"
 

@@ -23,7 +23,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 static NSString *const kMSServiceName = @"MobileCenter";
 
 // The group ID for storage.
-static NSString *const kMSGroupID = @"MobileCenter";
+static NSString *const kMSGroupId = @"MobileCenter";
 
 @implementation MSMobileCenter
 
@@ -328,7 +328,7 @@ static NSString *const kMSGroupID = @"MobileCenter";
 
   // Initialize a channel for start service logs.
   [self.logManager
-      initChannelWithConfiguration:[[MSChannelConfiguration alloc] initDefaultConfigurationWithGroupID:kMSGroupID]];
+      initChannelWithConfiguration:[[MSChannelConfiguration alloc] initDefaultConfigurationWithGroupId:kMSGroupId]];
 }
 
 - (NSString *)appSecret {
@@ -369,7 +369,7 @@ static NSString *const kMSGroupID = @"MobileCenter";
 - (void)sendStartServiceLog:(NSArray<NSString *> *)servicesNames {
   MSStartServiceLog *serviceLog = [MSStartServiceLog new];
   serviceLog.services = servicesNames;
-  [self.logManager processLog:serviceLog forGroupID:kMSGroupID];
+  [self.logManager processLog:serviceLog forGroupId:kMSGroupId];
 }
 
 - (void)sendCustomPropertiesLog:(NSDictionary<NSString *, NSObject *> *)properties {

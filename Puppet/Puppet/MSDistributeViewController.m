@@ -1,10 +1,13 @@
-#import "MSDistributeViewController.h"
-#import "MobileCenterDistribute.h"
+#import "Constants.h"
 #import "MSDistributePrivate.h"
+#import "MSDistributeViewController.h"
+#import "MSReleaseDetails.h"
+#import "MobileCenterDistribute.h"
 
 @interface MSDistributeViewController ()
 
-@property (weak, nonatomic) IBOutlet UISwitch *enabled;
+@property(weak, nonatomic) IBOutlet UISwitch *customized;
+@property(weak, nonatomic) IBOutlet UISwitch *enabled;
 
 @end
 
@@ -14,7 +17,8 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  
+
+  self.customized.on = [[[NSUserDefaults new] objectForKey:kPUPCustomizedUpdateAlertKey] isEqual:@1];
   self.enabled.on = [MSDistribute isEnabled];
 }
 
@@ -30,21 +34,34 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   [tableView deselectRowAtIndexPath:indexPath animated:YES];
-  
+
   switch ([indexPath section]) {
-      
-    // Section with alerts.
+
+  // Section with alerts.
+  case 0: {
+    switch (indexPath.row) {
     case 0: {
-      switch (indexPath.row) {
-        case 0:
-          [[MSDistribute sharedInstance] showConfirmationAlert:nil];
-          break;
-        case 1:
-          [[MSDistribute sharedInstance] showDistributeDisabledAlert];
-          break;
+      MSReleaseDetails *details = [MSReleaseDetails new];
+      details.version = @"10";
+      details.shortVersion = @"1.0";
+      if (self.customized.on) {
+        MSDistribute *distribute = [MSDistribute sharedInstance];
+        [[distribute delegate] distribute:distribute releaseAvailableWithDetails:details];
+      } else {
+        [[MSDistribute sharedInstance] showConfirmationAlert:details];
       }
+      break;
+    }
+    case 1:
+      [[MSDistribute sharedInstance] showDistributeDisabledAlert];
+      break;
     }
   }
+  }
+}
+
+- (IBAction)customizedSwitchUpdated:(UISwitch *)sender {
+  [[NSUserDefaults new] setObject:sender.on ? @1 : @0 forKey:kPUPCustomizedUpdateAlertKey];
 }
 
 - (IBAction)enabledSwitchUpdated:(UISwitch *)sender {
