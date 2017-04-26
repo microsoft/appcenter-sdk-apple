@@ -15,7 +15,12 @@
 @property(nonatomic, copy, readonly) NSString *wrapperSdkName;
 
 /*
- * Label that is used to identify application code 'version' released via Live Update beacon running on device
+ * Version of the wrapper technology framework (Xamarin runtime version or ReactNative or Cordova etc...).  [optional]
+ */
+@property(nonatomic, copy, readonly) NSString *wrapperRuntimeVersion;
+
+/*
+ * Label that is used to identify application code 'version' released via Live Update beacon running on device.
  */
 @property(nonatomic, copy, readonly) NSString *liveUpdateReleaseLabel;
 
@@ -31,20 +36,18 @@
  */
 @property(nonatomic, copy, readonly) NSString *liveUpdatePackageHash;
 
-/**
- * Is equal to another wrapper SDK
- *
- * @param object Wrapper SDK
- *
- * @return Return YES if equal and NO if not equal
- */
-- (BOOL)isEqual:(id)object;
-
 - (instancetype)initWithWrapperSdkVersion:(NSString *)wrapperSdkVersion
                            wrapperSdkName:(NSString *)wrapperSdkName
+                    wrapperRuntimeVersion:(NSString *)wrapperRuntimeVersion
                    liveUpdateReleaseLabel:(NSString *)liveUpdateReleaseLabel
                   liveUpdateDeploymentKey:(NSString *)liveUpdateDeploymentKey
                     liveUpdatePackageHash:(NSString *)liveUpdatePackageHash;
 
-@end
+/**
+ * Checks if the object's values are valid.
+ *
+ * @return YES, if the object is valid.
+ */
+- (BOOL)isValid;
 
+@end

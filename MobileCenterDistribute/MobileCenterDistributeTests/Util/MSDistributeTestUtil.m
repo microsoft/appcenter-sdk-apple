@@ -13,7 +13,6 @@ static id _utilMock;
   self.mobileCenterMock = OCMClassMock([MSMobileCenter class]);
   OCMStub([self.mobileCenterMock isDebuggerAttached]).andReturn(NO);
   self.utilMock = OCMClassMock([MSUtility class]);
-  OCMStub([self.utilMock isRunningInDebugConfiguration]).andReturn(NO);
   OCMStub([self.utilMock currentAppEnvironment]).andReturn(MSEnvironmentOther);
 }
 

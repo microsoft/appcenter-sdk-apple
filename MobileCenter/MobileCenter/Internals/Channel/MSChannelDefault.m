@@ -90,8 +90,8 @@
 
   // Return fast in case our item is empty or we are discarding logs right now.
   dispatch_async(self.logsDispatchQueue, ^{
-    if (!item) {
-      MSLogWarning([MSMobileCenter logTag], @"Log is nil.");
+    if (!item || ![item isValid]) {
+      MSLogWarning([MSMobileCenter logTag], @"Log is not valid.");
 
       // Don't forget to execute completion block.
       if (completion) {
@@ -114,7 +114,7 @@
 
     // Save the log first.
     MSLogDebug([MSMobileCenter logTag], @"Saving log, type: %@.", item.type);
-    BOOL success = [self.storage saveLog:item withGroupID:self.configuration.groupID];
+    BOOL success = [self.storage saveLog:item withGroupId:self.configuration.groupId];
     self.itemsCount += 1;
 
     // Execute the completion block.
@@ -145,7 +145,7 @@
 
     // Still close the current batch it will be flushed later.
     if (self.itemsCount >= self.configuration.batchSizeLimit) {
-      [self.storage closeBatchWithGroupID:self.configuration.groupID];
+      [self.storage closeBatchWithGroupId:self.configuration.groupId];
 
       // That batch becomes available.
       self.availableBatchFromStorage = YES;
@@ -157,7 +157,7 @@
   // Reset item count and load data from the storage.
   self.itemsCount = 0;
   self.availableBatchFromStorage = [self.storage
-      loadLogsForGroupID:self.configuration.groupID
+      loadLogsForGroupId:self.configuration.groupId
           withCompletion:^(BOOL succeeded, NSArray<MSLog> *_Nonnull logArray, NSString *_Nonnull batchId) {
 
                // Logs may be deleted from storage before this flush.
@@ -199,7 +199,7 @@
 
                           // Remove from pending logs and storage.
                           [self.pendingBatchIds removeObject:senderBatchId];
-                          [self.storage deleteLogsForId:senderBatchId withGroupID:self.configuration.groupID];
+                          [self.storage deleteLogsForId:senderBatchId withGroupId:self.configuration.groupId];
 
                           // Try to flush again if batch queue is not full anymore.
                           if (self.pendingBatchQueueFull &&
@@ -226,7 +226,7 @@
 
                           // Remove from pending logs.
                           [self.pendingBatchIds removeObject:senderBatchId];
-                          [self.storage deleteLogsForId:senderBatchId withGroupID:self.configuration.groupID];
+                          [self.storage deleteLogsForId:senderBatchId withGroupId:self.configuration.groupId];
 
                           // Fatal error, disable sender with data deletion.
                           // This will in turn disable this channel and delete logs.
@@ -345,11 +345,11 @@
 
   // Delete pending batches first.
   for (NSString *batchId in self.pendingBatchIds) {
-    [self.storage deleteLogsForId:batchId withGroupID:self.configuration.groupID];
+    [self.storage deleteLogsForId:batchId withGroupId:self.configuration.groupId];
   }
 
   // Delete remaining logs.
-  deletedLogs = [self.storage deleteLogsForGroupID:self.configuration.groupID];
+  deletedLogs = [self.storage deleteLogsForGroupId:self.configuration.groupId];
 
   // Notify failure of remaining logs.
   for (id<MSLog> log in deletedLogs) {

@@ -1,11 +1,13 @@
 #import <Foundation/Foundation.h>
 #import "MSDistribute.h"
 #import "MSDistributeSender.h"
-#import "MSReleaseDetails.h"
+#import "MSReleaseDetailsPrivate.h"
 #import "MSSender.h"
 #import "MSServiceInternal.h"
 
 #define MOBILE_CENTER_DISTRIBUTE_BUNDLE @"MobileCenterDistributeResources.bundle"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface MSDistribute () <MSServiceInternal>
 
@@ -25,3 +27,6 @@
 @property(nonatomic, nullable) MSDistributeSender *sender;
 
 @end
+
+NS_ASSUME_NONNULL_END
+

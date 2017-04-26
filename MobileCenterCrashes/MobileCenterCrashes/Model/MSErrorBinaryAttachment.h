@@ -30,11 +30,11 @@
 /**
  * Is equal to another error binary attachment
  *
- * @param attachment Error binary attachment
+ * @param object Error binary attachment
  *
  * @return Return YES if equal and NO if not equal
  */
-- (BOOL)isEqual:(MSErrorBinaryAttachment *)attachment;
+- (BOOL)isEqual:(id)object;
 
 /**
  * Create an MSErrorBinaryAttachment instance with a given filename and NSData object

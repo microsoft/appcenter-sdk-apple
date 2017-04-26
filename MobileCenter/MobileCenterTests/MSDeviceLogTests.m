@@ -15,13 +15,11 @@
 
 @implementation MSDeviceTests
 
-@synthesize sut = _sut;
-
 #pragma mark - Housekeeping
 
 - (void)setUp {
   [super setUp];
-  _sut = [MSDevice new];
+  self.sut = [MSDevice new];
 }
 
 - (void)tearDown {
@@ -47,6 +45,7 @@
   NSString *carrierCountry = @"United States";
   NSString *wrapperSdkVersion = @"6.7.8";
   NSString *wrapperSdkName = @"wrapper-sdk";
+  NSString *wrapperRuntimeVersion = @"9.10";
   NSString *liveUpdateReleaseLabel = @"live-update-release";
   NSString *liveUpdateDeploymentKey = @"deployment-key";
   NSString *liveUpdatePackageHash = @"b10a8db164e0754105b7a99be72e3fe5";
@@ -65,6 +64,7 @@
   self.sut.carrierCountry = carrierCountry;
   self.sut.wrapperSdkVersion = wrapperSdkVersion;
   self.sut.wrapperSdkName = wrapperSdkName;
+  self.sut.wrapperRuntimeVersion = wrapperRuntimeVersion;
   self.sut.liveUpdateReleaseLabel = liveUpdateReleaseLabel;
   self.sut.liveUpdateDeploymentKey = liveUpdateDeploymentKey;
   self.sut.liveUpdatePackageHash = liveUpdatePackageHash;
@@ -110,6 +110,7 @@
   NSString *carrierCountry = @"United States";
   NSString *wrapperSdkVersion = @"6.7.8";
   NSString *wrapperSdkName = @"wrapper-sdk";
+  NSString *wrapperRuntimeVersion = @"9.10";
   NSString *liveUpdateReleaseLabel = @"live-update-release";
   NSString *liveUpdateDeploymentKey = @"deployment-key";
   NSString *liveUpdatePackageHash = @"b10a8db164e0754105b7a99be72e3fe5";
@@ -128,6 +129,7 @@
   self.sut.carrierCountry = carrierCountry;
   self.sut.wrapperSdkVersion = wrapperSdkVersion;
   self.sut.wrapperSdkName = wrapperSdkName;
+  self.sut.wrapperRuntimeVersion = wrapperRuntimeVersion;
   self.sut.liveUpdateReleaseLabel = liveUpdateReleaseLabel;
   self.sut.liveUpdateDeploymentKey = liveUpdateDeploymentKey;
   self.sut.liveUpdatePackageHash = liveUpdatePackageHash;
@@ -155,6 +157,7 @@
   assertThat(actualDevice.carrierCountry, equalTo(carrierCountry));
   assertThat(actualDevice.wrapperSdkVersion, equalTo(wrapperSdkVersion));
   assertThat(actualDevice.wrapperSdkName, equalTo(wrapperSdkName));
+  assertThat(actualDevice.wrapperRuntimeVersion, equalTo(wrapperRuntimeVersion));
   assertThat(actualDevice.liveUpdateReleaseLabel, equalTo(liveUpdateReleaseLabel));
   assertThat(actualDevice.liveUpdateDeploymentKey, equalTo(liveUpdateDeploymentKey));
   assertThat(actualDevice.liveUpdatePackageHash, equalTo(liveUpdatePackageHash));
@@ -177,6 +180,7 @@
   NSString *carrierCountry = @"United States";
   NSString *wrapperSdkVersion = @"6.7.8";
   NSString *wrapperSdkName = @"wrapper-sdk";
+  NSString *wrapperRuntimeVersion = @"9.10";
   NSString *liveUpdateReleaseLabel = @"live-update-release";
   NSString *liveUpdateDeploymentKey = @"deployment-key";
   NSString *liveUpdatePackageHash = @"b10a8db164e0754105b7a99be72e3fe5";
@@ -195,6 +199,7 @@
   self.sut.carrierCountry = carrierCountry;
   self.sut.wrapperSdkVersion = wrapperSdkVersion;
   self.sut.wrapperSdkName = wrapperSdkName;
+  self.sut.wrapperRuntimeVersion = wrapperRuntimeVersion;
   self.sut.liveUpdateReleaseLabel = liveUpdateReleaseLabel;
   self.sut.liveUpdateDeploymentKey = liveUpdateDeploymentKey;
   self.sut.liveUpdatePackageHash = liveUpdatePackageHash;
@@ -204,11 +209,27 @@
   id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedEvent];
   MSDevice *actualDevice = actual;
 
-  // then
+  // Then
   XCTAssertTrue([self.sut isEqual:actualDevice]);
 
+  // When
   self.sut.carrierCountry = @"newCarrierCountry";
+
+  // Then
   XCTAssertFalse([self.sut isEqual:actualDevice]);
+
+  // When
+  self.sut.carrierCountry = carrierCountry;
+  self.sut.wrapperSdkName = @"new-wrapper-sdk";
+
+  // Then
+  XCTAssertFalse([self.sut isEqual:actualDevice]);
+}
+
+- (void)testIsNotEqualToNil {
+
+  // Then
+  XCTAssertFalse([[MSWrapperSdk new] isEqual:nil]);
 }
 
 @end

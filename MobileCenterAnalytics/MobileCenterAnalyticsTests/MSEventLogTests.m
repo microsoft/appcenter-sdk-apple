@@ -2,9 +2,7 @@
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
-
 #import "MSEventLog.h"
-#import "MobileCenter+Internal.h"
 
 @interface MSEventLogTests : XCTestCase
 
@@ -14,13 +12,11 @@
 
 @implementation MSEventLogTests
 
-@synthesize sut = _sut;
-
 #pragma mark - Houskeeping
 
 - (void)setUp {
   [super setUp];
-  _sut = [MSEventLog new];
+  self.sut = [MSEventLog new];
 }
 
 - (void)tearDown {
@@ -38,7 +34,7 @@
   MSDevice *device = [MSDevice new];
   NSString *sessionId = @"1234567890";
   NSDictionary *properties = @{ @"Key" : @"Value" };
-  long long createTime = [MSUtility nowInMilliseconds];
+  long long createTime = (long long)[MSUtility nowInMilliseconds];
   NSNumber *tOffset = @(createTime);
 
   self.sut.eventId = eventId;
@@ -90,7 +86,6 @@
   // Then
   assertThat(actual, notNilValue());
   assertThat(actual, instanceOf([MSEventLog class]));
-
   MSEventLog *actualEvent = actual;
   assertThat(actualEvent.name, equalTo(eventName));
   assertThat(actualEvent.eventId, equalTo(eventId));
@@ -99,6 +94,37 @@
   assertThat(actualEvent.type, equalTo(typeName));
   assertThat(actualEvent.sid, equalTo(sessionId));
   assertThat(actualEvent.properties, equalTo(properties));
+  XCTAssertTrue([self.sut isEqual:actualEvent]);
+}
+
+- (void)testIsValid {
+
+  // If
+  self.sut.device = OCMClassMock([MSDevice class]);
+  OCMStub([self.sut.device isValid]).andReturn(YES);
+  self.sut.toffset = @(3);
+  self.sut.sid = @"1234567890";
+
+  // Then
+  XCTAssertFalse([self.sut isValid]);
+
+  // When
+  self.sut.eventId = MS_UUID_STRING;
+
+  // Then
+  XCTAssertFalse([self.sut isValid]);
+
+  // When
+  self.sut.name = @"eventName";
+
+  // Then
+  XCTAssertTrue([self.sut isValid]);
+}
+
+- (void)testIsNotEqualToNil {
+
+  // Then
+  XCTAssertFalse([self.sut isEqual:nil]);
 }
 
 @end

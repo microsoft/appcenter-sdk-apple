@@ -1,5 +1,5 @@
-#import "MobileCenter+Internal.h"
 #import <Foundation/Foundation.h>
+#import "MobileCenter+Internal.h"
 
 /*
  * Binary (library) definition for any platform.
@@ -47,18 +47,9 @@
 @property(nonatomic) NSNumber *architectureVariantId;
 
 /**
- * Is equal to another binary
- *
- * @param binary Binary
- *
- * @return Return YES if equal and NO if not equal
- */
-- (BOOL)isEqual:(MSBinary *)binary;
-
-/**
  * Checks if the object's values are valid.
  *
- * return YES, if the object is valid
+ * @return YES, if the object is valid.
  */
 - (BOOL)isValid;
 

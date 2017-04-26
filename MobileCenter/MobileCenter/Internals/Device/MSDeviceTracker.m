@@ -16,7 +16,7 @@ typedef struct {
 } ms_info_t;
 
 // SDK versioning.
-ms_info_t mobilecenter_library_info
+static ms_info_t mobilecenter_library_info
     __attribute__((section("__TEXT,__ms_ios,regular,no_dead_strip"))) = {.info_version = 1,
                                                                          .ms_name = MOBILE_CENTER_C_NAME,
                                                                          .ms_version = MOBILE_CENTER_C_VERSION,
@@ -42,7 +42,7 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
   static MSDeviceTracker *sharedInstance = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
-      sharedInstance = [[self alloc] init];
+    sharedInstance = [[self alloc] init];
   });
   return sharedInstance;
 }
@@ -97,7 +97,7 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
       _device = [self updatedDevice];
 
       // Create new MSDeviceHistoryInfo.
-      NSNumber *tOffset = [NSNumber numberWithLongLong:[MSUtility nowInMilliseconds]];
+      NSNumber *tOffset = [NSNumber numberWithLongLong:(long long)([MSUtility nowInMilliseconds])];
       MSDeviceHistoryInfo *deviceHistoryInfo = [[MSDeviceHistoryInfo alloc] initWithTOffset:tOffset andDevice:_device];
 
       // Insert new MSDeviceHistoryInfo at the proper index to keep self.deviceHistory sorted.
@@ -165,6 +165,7 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
   if (wrapperSdkInformation) {
     device.wrapperSdkVersion = wrapperSdkInformation.wrapperSdkVersion;
     device.wrapperSdkName = wrapperSdkInformation.wrapperSdkName;
+    device.wrapperRuntimeVersion = wrapperSdkInformation.wrapperRuntimeVersion;
     device.liveUpdateReleaseLabel = wrapperSdkInformation.liveUpdateReleaseLabel;
     device.liveUpdateDeploymentKey = wrapperSdkInformation.liveUpdateDeploymentKey;
     device.liveUpdatePackageHash = wrapperSdkInformation.liveUpdatePackageHash;
@@ -233,10 +234,13 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
 - (NSString *)deviceModel {
   size_t size;
   sysctlbyname("hw.machine", NULL, &size, NULL, 0);
-  char *machine = malloc(size);
-  sysctlbyname("hw.machine", machine, &size, NULL, 0);
-  NSString *model = [NSString stringWithCString:machine encoding:NSUTF8StringEncoding];
-  free(machine);
+  char *answer = (char *)malloc(size);
+  if (answer == NULL) {
+    return nil;
+  }
+  sysctlbyname("hw.machine", answer, &size, NULL, 0);
+  NSString *model = [NSString stringWithCString:answer encoding:NSUTF8StringEncoding];
+  free(answer);
   return model;
 }
 
@@ -252,8 +256,9 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
   size_t size;
   sysctlbyname("kern.osversion", NULL, &size, NULL, 0);
   char *answer = (char *)malloc(size);
-  if (answer == NULL)
-    return nil; // returning nil to avoid a possible crash.
+  if (answer == NULL) {
+    return nil;
+  }
   sysctlbyname("kern.osversion", answer, &size, NULL, 0);
   NSString *osBuild = [NSString stringWithCString:answer encoding:NSUTF8StringEncoding];
   free(answer);

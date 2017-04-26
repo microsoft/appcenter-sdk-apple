@@ -20,7 +20,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 static NSString *const kMSServiceName = @"MobileCenter";
 
 // The group ID for storage.
-static NSString *const kMSGroupID = @"MobileCenter";
+static NSString *const kMSGroupId = @"MobileCenter";
 
 @implementation MSMobileCenter
 
@@ -157,8 +157,8 @@ static NSString *const kMSGroupID = @"MobileCenter";
     } else {
       self.appSecret = appSecret;
 
-    // Init the main pipeline.
-    [self initializeLogManager];
+      // Init the main pipeline.
+      [self initializeLogManager];
 
       // Enable pipeline as needed.
       if (self.isEnabled) {
@@ -310,6 +310,10 @@ static NSString *const kMSGroupID = @"MobileCenter";
   // Construct log manager.
   self.logManager =
       [[MSLogManagerDefault alloc] initWithAppSecret:self.appSecret installId:self.installId logUrl:self.logUrl];
+
+  // Initialize a channel for start service logs.
+  [self.logManager
+      initChannelWithConfiguration:[[MSChannelConfiguration alloc] initDefaultConfigurationWithGroupId:kMSGroupId]];
 }
 
 - (NSString *)appSecret {
@@ -350,7 +354,7 @@ static NSString *const kMSGroupID = @"MobileCenter";
 - (void)sendStartServiceLog:(NSArray<NSString *> *)servicesNames {
   MSStartServiceLog *serviceLog = [MSStartServiceLog new];
   serviceLog.services = servicesNames;
-  [self.logManager processLog:serviceLog withPriority:MSPriorityDefault andGroupID:kMSGroupID];
+  [self.logManager processLog:serviceLog forGroupId:kMSGroupId];
 }
 
 + (void)resetSharedInstance {

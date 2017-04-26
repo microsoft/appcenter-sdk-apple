@@ -1,8 +1,17 @@
 #import <Foundation/Foundation.h>
 
+#import "MSAlertController.h"
 #import "MSDistribute.h"
 
+// TODO add nullability here.
+
 @class MSReleaseDetails;
+
+/**
+ * A day in milliseconds.
+ */
+static long long const kMSDayInMillisecond =
+    24 /* Hours */ * 60 /* Minutes */ * 60 /* Seconds */ * 1000 /* Milliseconds */;
 
 /**
  * Base URL for HTTP Distribute install API calls.
@@ -34,9 +43,9 @@ static NSString *const kMSURLQueryPlatformValue = @"iOS";
 static NSString *const kMSDefaultCustomSchemeFormat = @"mobilecenter-%@";
 
 /**
- * The storage key for ignored release ID.
+ * The storage key for postponed timestamp.
  */
-static NSString *const kMSIgnoredReleaseIdKey = @"MSIgnoredReleaseId";
+static NSString *const kMSPostponedTimestampKey = @"MSPostponedTimestamp";
 
 /**
  * The storage key for request ID.
@@ -49,6 +58,11 @@ static NSString *const kMSUpdateTokenRequestIdKey = @"MSUpdateTokenRequestId";
 static NSString *const kMSSDKHasLaunchedWithDistribute = @"MSSDKHasLaunchedWithDistribute";
 
 /**
+ * The storage key for last madatory release details.
+ */
+static NSString *const kMSMandatoryReleaseKey = @"MSMandatoryRelease";
+
+/**
  * The keychain key for update token.
  */
 static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
@@ -56,9 +70,24 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
 @interface MSDistribute ()
 
 /**
- * View controller presenting the `SFSafariViewController`.
+ * Current view controller presenting the `SFSafariViewController` if any.
  */
 @property(nonatomic) UIViewController *safariHostingViewController;
+
+/**
+ * Current update alert view controller if any.
+ */
+@property(nonatomic) MSAlertController *updateAlertController;
+
+/**
+ * Current release details.
+ */
+@property(nonatomic) MSReleaseDetails *releaseDetails;
+
+/**
+ * A Distribute delegate that will be called whenever a new release is available for update.
+ */
+@property(nonatomic, weak) id<MSDistributeDelegate> delegate;
 
 /**
  * Returns the singleton instance. Meant for testing/demo apps only.
@@ -118,13 +147,26 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
 
 /**
  * Update workflow to make a decision based on release details.
+ *
+ * @param details Release details to handle.
+ *
+ * @return `YES` if this update is handled or `NO` otherwise.
  */
-- (void)handleUpdate:(MSReleaseDetails *)details;
+- (BOOL)handleUpdate:(MSReleaseDetails *)details;
 
 /**
  * Show a dialog to ask a user to confirm update for a new release.
  */
 - (void)showConfirmationAlert:(MSReleaseDetails *)details;
+
+/**
+ * Notify custom user action for current release.
+ *
+ * @param action The action for the release.
+ *
+ * @discussion This method will be moved to public once Distribute allows to customize the update dialog.
+ */
+- (void)notifyUpdateAction:(MSUpdateAction)action;
 
 /**
  * Show a dialog to the user in case MSDistribute was disabled while the updates-alert is shown.
@@ -147,6 +189,11 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
  * Dismiss the Safari hosting view controller.
  */
 - (void)dismissEmbeddedSafari;
+
+/**
+ * Start update workflow
+ */
+- (void)startUpdate;
 
 /**
  * Start download for the given details.

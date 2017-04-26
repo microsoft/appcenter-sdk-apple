@@ -1,5 +1,5 @@
 #import "MSDistributionGroup.h"
-#import "MSReleaseDetails.h"
+#import "MSReleaseDetailsPrivate.h"
 
 static NSString *const kMSId = @"id";
 static NSString *const kMSStatus = @"status";
@@ -16,12 +16,16 @@ static NSString *const kMSUploadedAt = @"uploaded_at";
 static NSString *const kMSDownloadUrl = @"download_url";
 static NSString *const kMSAppIconUrl = @"app_icon_url";
 static NSString *const kMSInstallUrl = @"install_url";
+static NSString *const kMSReleaseNotesUrl = @"release_notes_url";
 static NSString *const kMSDistributionGroups = @"distribution_groups";
 static NSString *const kMSPackageHashes = @"package_hashes";
 
 @implementation MSReleaseDetails
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dictionary {
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
+  if (!dictionary) {
+    return nil;
+  }
   if ((self = [super init])) {
     if (dictionary[kMSId]) {
       self.id = dictionary[kMSId];
@@ -63,22 +67,27 @@ static NSString *const kMSPackageHashes = @"package_hashes";
     if (dictionary[kMSUploadedAt]) {
       NSDateFormatter *formatter = [NSDateFormatter new];
       [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZZZZZ"];
-      NSString * _Nonnull uploadedAt = ( NSString * _Nonnull ) dictionary[kMSUploadedAt];
+      NSString *_Nonnull uploadedAt = (NSString * _Nonnull)dictionary[kMSUploadedAt];
       self.uploadedAt = [formatter dateFromString:uploadedAt];
     }
     if (dictionary[kMSDownloadUrl]) {
-      NSString * _Nonnull downloadUrl = ( NSString * _Nonnull ) dictionary[kMSDownloadUrl];
+      NSString *_Nonnull downloadUrl = (NSString * _Nonnull)dictionary[kMSDownloadUrl];
       self.downloadUrl = [NSURL URLWithString:downloadUrl];
     }
     if (dictionary[kMSAppIconUrl]) {
-      NSString * _Nonnull appIconUrl = ( NSString * _Nonnull ) dictionary[kMSAppIconUrl];
+      NSString *_Nonnull appIconUrl = (NSString * _Nonnull)dictionary[kMSAppIconUrl];
       self.appIconUrl = [NSURL URLWithString:appIconUrl];
     }
     if (dictionary[kMSInstallUrl]) {
-      NSString * _Nonnull installUrl = ( NSString * _Nonnull ) dictionary[kMSInstallUrl];
+      NSString *_Nonnull installUrl = (NSString * _Nonnull)dictionary[kMSInstallUrl];
       self.installUrl = [NSURL URLWithString:installUrl];
     }
+    if (dictionary[kMSReleaseNotesUrl]) {
+      NSString *_Nonnull releaseNotesUrl = (NSString * _Nonnull)dictionary[kMSReleaseNotesUrl];
+      self.releaseNotesUrl = [NSURL URLWithString:releaseNotesUrl];
+    }
     if (dictionary[kMSDistributionGroups]) {
+
       // TODO: Implement here. There is no spec for DistributionGroup data model.
     }
     if (dictionary[kMSPackageHashes]) {
@@ -88,8 +97,102 @@ static NSString *const kMSPackageHashes = @"package_hashes";
   return self;
 }
 
+- (NSDictionary *)serializeToDictionary {
+  NSMutableDictionary *dictionary = [NSMutableDictionary new];
+
+  // Fill in the dictionary with properties.
+  if (self.id) {
+    dictionary[kMSId] = self.id;
+  }
+  if (self.status) {
+    dictionary[kMSStatus] = self.status;
+  }
+  if (self.appName) {
+    dictionary[kMSAppName] = self.appName;
+  }
+  if (self.version) {
+    dictionary[kMSVersion] = self.version;
+  }
+  if (self.shortVersion) {
+    dictionary[kMSShortVersion] = self.shortVersion;
+  }
+  if (self.releaseNotes) {
+    dictionary[kMSReleaseNotes] = self.releaseNotes;
+  }
+  if (self.provisioningProfileName) {
+    dictionary[kMSProvisioningProfileName] = self.provisioningProfileName;
+  }
+  if (self.size) {
+    dictionary[kMSSize] = self.size;
+  }
+  if (self.minOs) {
+    dictionary[kMSMinOs] = self.minOs;
+  }
+  dictionary[kMSMandatoryUpdate] = @(self.mandatoryUpdate);
+  if (self.fingerprint) {
+    dictionary[kMSFingerprint] = self.fingerprint;
+  }
+  if (self.uploadedAt) {
+    NSDateFormatter *formatter = [NSDateFormatter new];
+    [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZZZZZ"];
+    dictionary[kMSUploadedAt] = [formatter stringFromDate:(NSDate * _Nonnull)self.uploadedAt];
+  }
+  if (self.downloadUrl) {
+    dictionary[kMSDownloadUrl] = [self.downloadUrl absoluteString];
+  }
+  if (self.appIconUrl) {
+    dictionary[kMSAppIconUrl] = [self.appIconUrl absoluteString];
+  }
+  if (self.installUrl) {
+    dictionary[kMSInstallUrl] = [self.installUrl absoluteString];
+  }
+  if (self.releaseNotesUrl) {
+    dictionary[kMSReleaseNotesUrl] = [self.releaseNotesUrl absoluteString];
+  }
+  if (self.distributionGroups) {
+
+    // TODO: Implement here. There is no spec for DistributionGroup data model.
+  }
+  if (self.packageHashes) {
+    dictionary[kMSPackageHashes] = self.packageHashes;
+  }
+  return dictionary;
+}
+
 - (BOOL)isValid {
   return (self.id && self.downloadUrl);
+}
+
+- (BOOL)isEqual:(id)object {
+  if (![object isKindOfClass:[MSReleaseDetails class]]) {
+    return NO;
+  }
+  MSReleaseDetails *details = (MSReleaseDetails *)object;
+  return ((!self.id && !details.id) || [self.id isEqualToNumber:details.id]) &&
+         ((!self.status && !details.status) || [self.status isEqualToString:details.status]) &&
+         ((!self.appName && !details.appName) || [self.appName isEqualToString:details.appName]) &&
+         ((!self.version && !details.version) || [self.version isEqualToString:details.version]) &&
+         ((!self.shortVersion && !details.shortVersion) || [self.shortVersion isEqualToString:details.shortVersion]) &&
+         ((!self.releaseNotes && !details.releaseNotes) || [self.releaseNotes isEqualToString:details.releaseNotes]) &&
+         ((!self.provisioningProfileName && !details.provisioningProfileName) ||
+          [self.provisioningProfileName isEqualToString:details.provisioningProfileName]) &&
+         ((!self.size && !details.size) || [self.size isEqualToNumber:details.size]) &&
+         ((!self.minOs && !details.minOs) || [self.minOs isEqualToString:details.minOs]) &&
+         (self.mandatoryUpdate == details.mandatoryUpdate) &&
+         ((!self.fingerprint && !details.fingerprint) || [self.fingerprint isEqualToString:details.fingerprint]) &&
+         ((!self.uploadedAt && !details.uploadedAt) || [self.uploadedAt isEqual:details.uploadedAt]) &&
+
+         // Don't compare downloadUrl. downloadUrl contains pltoken param which will have different values every time.
+         // ((!self.downloadUrl && !details.downloadUrl) || [self.downloadUrl isEqual:details.downloadUrl]) &&
+         ((!self.appIconUrl && !details.appIconUrl) || [self.appIconUrl isEqual:details.appIconUrl]) &&
+         ((!self.installUrl && !details.installUrl) || [self.installUrl isEqual:details.installUrl]) &&
+         ((!self.releaseNotesUrl && !details.releaseNotesUrl) ||
+          [self.releaseNotesUrl isEqual:details.releaseNotesUrl]) &&
+
+         // Don't compare distributionGroups. The property has no spec so it is not implemented yet.
+         // ((!self.distributionGroups && !details.distributionGroups) ||
+         //  [self.distributionGroups isEqualToArray:details.distributionGroups]) &&
+         ((!self.packageHashes && !details.packageHashes) || [self.packageHashes isEqualToArray:details.packageHashes]);
 }
 
 @end

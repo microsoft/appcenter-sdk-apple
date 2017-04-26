@@ -1,0 +1,490 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D3C31C261E8E75B300B288CE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C31C251E8E75B300B288CE /* AppDelegate.m */; };
+		D3C31C291E8E75B300B288CE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C31C281E8E75B300B288CE /* main.m */; };
+		D3C31C2E1E8E75B300B288CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3C31C2D1E8E75B300B288CE /* Assets.xcassets */; };
+		D3C31C631E8E763600B288CE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3C31C621E8E763600B288CE /* AppDelegate.swift */; };
+		D3C31C671E8E763600B288CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3C31C661E8E763600B288CE /* Assets.xcassets */; };
+		D3C31C781E8E782900B288CE /* MobileCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3C31C741E8E782900B288CE /* MobileCenter.framework */; };
+		D3C31C791E8E782900B288CE /* MobileCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3C31C751E8E782900B288CE /* MobileCenterAnalytics.framework */; };
+		D3C31C7A1E8E782900B288CE /* MobileCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3C31C761E8E782900B288CE /* MobileCenterCrashes.framework */; };
+		D3C31C7B1E8E782900B288CE /* MobileCenterDistribute.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3C31C771E8E782900B288CE /* MobileCenterDistribute.framework */; };
+		D3C31C7C1E8E783700B288CE /* MobileCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3C31C741E8E782900B288CE /* MobileCenter.framework */; };
+		D3C31C7D1E8E783700B288CE /* MobileCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3C31C751E8E782900B288CE /* MobileCenterAnalytics.framework */; };
+		D3C31C7E1E8E783700B288CE /* MobileCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3C31C761E8E782900B288CE /* MobileCenterCrashes.framework */; };
+		D3C31C7F1E8E783700B288CE /* MobileCenterDistribute.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3C31C771E8E782900B288CE /* MobileCenterDistribute.framework */; };
+		D3C31C801E8E7BD200B288CE /* SasquatchMac.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3C31C151E8E757300B288CE /* SasquatchMac.storyboard */; };
+		D3C31C811E8E7BEE00B288CE /* SasquatchMac.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3C31C151E8E757300B288CE /* SasquatchMac.storyboard */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		D3C31C111E8E757300B288CE /* SasquatchMacViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SasquatchMacViewController.swift; sourceTree = "<group>"; };
+		D3C31C131E8E757300B288CE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D3C31C161E8E757300B288CE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/SasquatchMac.storyboard; sourceTree = "<group>"; };
+		D3C31C181E8E757300B288CE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D3C31C221E8E75B300B288CE /* SasquatchMacObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SasquatchMacObjC.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D3C31C241E8E75B300B288CE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		D3C31C251E8E75B300B288CE /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		D3C31C281E8E75B300B288CE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		D3C31C2D1E8E75B300B288CE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D3C31C321E8E75B300B288CE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D3C31C601E8E763600B288CE /* SasquatchMacSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SasquatchMacSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D3C31C621E8E763600B288CE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		D3C31C661E8E763600B288CE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D3C31C6B1E8E763600B288CE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D3C31C741E8E782900B288CE /* MobileCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenter.framework; path = "../MobileCenter-SDK-iOS/MobileCenter.framework"; sourceTree = "<group>"; };
+		D3C31C751E8E782900B288CE /* MobileCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterAnalytics.framework; path = "../MobileCenter-SDK-iOS/MobileCenterAnalytics.framework"; sourceTree = "<group>"; };
+		D3C31C761E8E782900B288CE /* MobileCenterCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterCrashes.framework; path = "../MobileCenter-SDK-iOS/MobileCenterCrashes.framework"; sourceTree = "<group>"; };
+		D3C31C771E8E782900B288CE /* MobileCenterDistribute.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterDistribute.framework; path = "../MobileCenter-SDK-iOS/MobileCenterDistribute.framework"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D3C31C1F1E8E75B300B288CE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D3C31C7C1E8E783700B288CE /* MobileCenter.framework in Frameworks */,
+				D3C31C7D1E8E783700B288CE /* MobileCenterAnalytics.framework in Frameworks */,
+				D3C31C7E1E8E783700B288CE /* MobileCenterCrashes.framework in Frameworks */,
+				D3C31C7F1E8E783700B288CE /* MobileCenterDistribute.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D3C31C5D1E8E763600B288CE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D3C31C781E8E782900B288CE /* MobileCenter.framework in Frameworks */,
+				D3C31C791E8E782900B288CE /* MobileCenterAnalytics.framework in Frameworks */,
+				D3C31C7A1E8E782900B288CE /* MobileCenterCrashes.framework in Frameworks */,
+				D3C31C7B1E8E782900B288CE /* MobileCenterDistribute.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D3C31C031E8E757300B288CE = {
+			isa = PBXGroup;
+			children = (
+				D3C31C0E1E8E757300B288CE /* SasquatchMac */,
+				D3C31C231E8E75B300B288CE /* SasquatchMacObjC */,
+				D3C31C611E8E763600B288CE /* SasquatchMacSwift */,
+				D3C31C0D1E8E757300B288CE /* Products */,
+				D3C31C731E8E782900B288CE /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		D3C31C0D1E8E757300B288CE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D3C31C221E8E75B300B288CE /* SasquatchMacObjC.app */,
+				D3C31C601E8E763600B288CE /* SasquatchMacSwift.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D3C31C0E1E8E757300B288CE /* SasquatchMac */ = {
+			isa = PBXGroup;
+			children = (
+				D3C31C6F1E8E772E00B288CE /* Storyboards */,
+				D3C31C711E8E775100B288CE /* ViewControllers */,
+				D3C31C701E8E774000B288CE /* Supporting Files */,
+			);
+			path = SasquatchMac;
+			sourceTree = "<group>";
+		};
+		D3C31C231E8E75B300B288CE /* SasquatchMacObjC */ = {
+			isa = PBXGroup;
+			children = (
+				D3C31C241E8E75B300B288CE /* AppDelegate.h */,
+				D3C31C251E8E75B300B288CE /* AppDelegate.m */,
+				D3C31C271E8E75B300B288CE /* Supporting Files */,
+			);
+			path = SasquatchMacObjC;
+			sourceTree = "<group>";
+		};
+		D3C31C271E8E75B300B288CE /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D3C31C2D1E8E75B300B288CE /* Assets.xcassets */,
+				D3C31C321E8E75B300B288CE /* Info.plist */,
+				D3C31C281E8E75B300B288CE /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D3C31C611E8E763600B288CE /* SasquatchMacSwift */ = {
+			isa = PBXGroup;
+			children = (
+				D3C31C621E8E763600B288CE /* AppDelegate.swift */,
+				D3C31C721E8E77BE00B288CE /* Supporting Files */,
+			);
+			path = SasquatchMacSwift;
+			sourceTree = "<group>";
+		};
+		D3C31C6F1E8E772E00B288CE /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				D3C31C151E8E757300B288CE /* SasquatchMac.storyboard */,
+			);
+			name = Storyboards;
+			sourceTree = "<group>";
+		};
+		D3C31C701E8E774000B288CE /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D3C31C131E8E757300B288CE /* Assets.xcassets */,
+				D3C31C181E8E757300B288CE /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D3C31C711E8E775100B288CE /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				D3C31C111E8E757300B288CE /* SasquatchMacViewController.swift */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		D3C31C721E8E77BE00B288CE /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D3C31C661E8E763600B288CE /* Assets.xcassets */,
+				D3C31C6B1E8E763600B288CE /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D3C31C731E8E782900B288CE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D3C31C741E8E782900B288CE /* MobileCenter.framework */,
+				D3C31C751E8E782900B288CE /* MobileCenterAnalytics.framework */,
+				D3C31C761E8E782900B288CE /* MobileCenterCrashes.framework */,
+				D3C31C771E8E782900B288CE /* MobileCenterDistribute.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D3C31C211E8E75B300B288CE /* SasquatchMacObjC */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D3C31C331E8E75B300B288CE /* Build configuration list for PBXNativeTarget "SasquatchMacObjC" */;
+			buildPhases = (
+				D3C31C1E1E8E75B300B288CE /* Sources */,
+				D3C31C1F1E8E75B300B288CE /* Frameworks */,
+				D3C31C201E8E75B300B288CE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SasquatchMacObjC;
+			productName = SasquatchMacObjC;
+			productReference = D3C31C221E8E75B300B288CE /* SasquatchMacObjC.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D3C31C5F1E8E763600B288CE /* SasquatchMacSwift */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D3C31C6C1E8E763600B288CE /* Build configuration list for PBXNativeTarget "SasquatchMacSwift" */;
+			buildPhases = (
+				D3C31C5C1E8E763600B288CE /* Sources */,
+				D3C31C5D1E8E763600B288CE /* Frameworks */,
+				D3C31C5E1E8E763600B288CE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SasquatchMacSwift;
+			productName = SasquatchMacSwift;
+			productReference = D3C31C601E8E763600B288CE /* SasquatchMacSwift.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D3C31C041E8E757300B288CE /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0820;
+				LastUpgradeCheck = 0820;
+				ORGANIZATIONNAME = Microsoft;
+				TargetAttributes = {
+					D3C31C211E8E75B300B288CE = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = UBF8T346G9;
+						ProvisioningStyle = Automatic;
+					};
+					D3C31C5F1E8E763600B288CE = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = UBF8T346G9;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = D3C31C071E8E757300B288CE /* Build configuration list for PBXProject "SasquatchMac" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = D3C31C031E8E757300B288CE;
+			productRefGroup = D3C31C0D1E8E757300B288CE /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D3C31C211E8E75B300B288CE /* SasquatchMacObjC */,
+				D3C31C5F1E8E763600B288CE /* SasquatchMacSwift */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D3C31C201E8E75B300B288CE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D3C31C811E8E7BEE00B288CE /* SasquatchMac.storyboard in Resources */,
+				D3C31C2E1E8E75B300B288CE /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D3C31C5E1E8E763600B288CE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D3C31C801E8E7BD200B288CE /* SasquatchMac.storyboard in Resources */,
+				D3C31C671E8E763600B288CE /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D3C31C1E1E8E75B300B288CE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D3C31C291E8E75B300B288CE /* main.m in Sources */,
+				D3C31C261E8E75B300B288CE /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D3C31C5C1E8E763600B288CE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D3C31C631E8E763600B288CE /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		D3C31C151E8E757300B288CE /* SasquatchMac.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D3C31C161E8E757300B288CE /* Base */,
+			);
+			name = SasquatchMac.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		D3C31C191E8E757300B288CE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		D3C31C1A1E8E757300B288CE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+			};
+			name = Release;
+		};
+		D3C31C341E8E75B300B288CE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = UBF8T346G9;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-iOS/**";
+				INFOPLIST_FILE = SasquatchMacObjC/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc.mac;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		D3C31C351E8E75B300B288CE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = UBF8T346G9;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-iOS/**";
+				INFOPLIST_FILE = SasquatchMacObjC/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc.mac;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		D3C31C6D1E8E763600B288CE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = UBF8T346G9;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-iOS/**";
+				INFOPLIST_FILE = SasquatchMacSwift/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchswift.mac;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		D3C31C6E1E8E763600B288CE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = UBF8T346G9;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-iOS/**";
+				INFOPLIST_FILE = SasquatchMacSwift/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchswift.mac;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D3C31C071E8E757300B288CE /* Build configuration list for PBXProject "SasquatchMac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D3C31C191E8E757300B288CE /* Debug */,
+				D3C31C1A1E8E757300B288CE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D3C31C331E8E75B300B288CE /* Build configuration list for PBXNativeTarget "SasquatchMacObjC" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D3C31C341E8E75B300B288CE /* Debug */,
+				D3C31C351E8E75B300B288CE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D3C31C6C1E8E763600B288CE /* Build configuration list for PBXNativeTarget "SasquatchMacSwift" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D3C31C6D1E8E763600B288CE /* Debug */,
+				D3C31C6E1E8E763600B288CE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D3C31C041E8E757300B288CE /* Project object */;
+}

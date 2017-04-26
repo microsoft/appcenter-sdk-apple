@@ -45,11 +45,11 @@ static NSString *const kMSWrapperSDKName = @"wrapper_sdk_name";
 }
 
 - (BOOL)isValid {
-  return self.type && self.frames;
+  return self.type && [self.frames count] > 0;
 }
 
 - (BOOL)isEqual:(id)object {
-  if (!object || ![object isKindOfClass:[MSException class]]) {
+  if (![object isKindOfClass:[MSException class]]) {
     return NO;
   }
   MSException *exception = (MSException *)object;

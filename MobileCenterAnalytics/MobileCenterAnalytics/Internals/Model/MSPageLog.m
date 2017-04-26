@@ -25,10 +25,15 @@ static NSString *const kMSName = @"name";
 }
 
 - (BOOL)isValid {
-  if (!self.name)
-    return NO;
+  return [super isValid] && self.name;
+}
 
-  return [super isValid];
+- (BOOL)isEqual:(id)object {
+  if (![object isKindOfClass:[MSPageLog class]] || ![super isEqual:object]) {
+    return NO;
+  }
+  MSPageLog *pageLog = (MSPageLog *)object;
+  return ((!self.name && !pageLog.name) || [self.name isEqualToString:pageLog.name]);
 }
 
 #pragma mark - NSCoding

@@ -20,6 +20,9 @@
 		380A4DC91DD68D3F00E99219 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A271D4152FA0016C325 /* libc++.tbd */; };
 		38484F6D1E53D57E00C5631C /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38484F691E537B9300C5631C /* SafariServices.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		38E1B65A1DDCDDF4000EFED1 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38E1B6591DDCDDF4000EFED1 /* MSAlertController.m */; };
+		5CE258991EA5FBCA00DA8FB9 /* AnalyticsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE258981EA5FBCA00DA8FB9 /* AnalyticsUITests.swift */; };
+		5CE2589B1EA5FBD400DA8FB9 /* CrashesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE2589A1EA5FBD400DA8FB9 /* CrashesUITests.swift */; };
+		5CE2589D1EA5FBE900DA8FB9 /* DistributeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE2589C1EA5FBE900DA8FB9 /* DistributeUITests.swift */; };
 		6EC99A211D4151A00016C325 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A201D4151A00016C325 /* CrashReporter.framework */; };
 		6EC99A281D4152FA0016C325 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A271D4152FA0016C325 /* libc++.tbd */; };
 		B21B26C71DDE490400FF0378 /* MSCrashesDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B21B26C61DDE490400FF0378 /* MSCrashesDetailViewController.m */; };
@@ -36,9 +39,10 @@
 		E82E1B8F1D1CA65D00D281C1 /* libMobileCenterCrashes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E82E1B811D1CA62900D281C1 /* libMobileCenterCrashes.a */; };
 		E82E1B901D1CA65D00D281C1 /* libMobileCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E82E1B881D1CA63000D281C1 /* libMobileCenter.a */; };
 		E85548081D2D6C9D002DF6E2 /* libMobileCenterAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E85548031D2D6C8D002DF6E2 /* libMobileCenterAnalytics.a */; };
-		E89E6A2C1D396D7900CAA2CD /* MSCrashesReportsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89E6A291D396D7900CAA2CD /* MSCrashesReportsViewController.m */; };
+		E89E6A2C1D396D7900CAA2CD /* MSCrashesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89E6A291D396D7900CAA2CD /* MSCrashesViewController.m */; };
 		E89E6A2D1D396D7900CAA2CD /* MSMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89E6A2B1D396D7900CAA2CD /* MSMainViewController.m */; };
 		E89E6A301D39704900CAA2CD /* MSAnalyticsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89E6A2F1D39704900CAA2CD /* MSAnalyticsViewController.m */; };
+		F85AAE251E890226006797CA /* MSDeviceInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F85AAE241E890226006797CA /* MSDeviceInfoViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,6 +101,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 6E0401321D1C98690051BCFA;
 			remoteInfo = MobileCenterCrashes;
+		};
+		5CE2583C1EA5097100DA8FB9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E82E1B571D1CA58D00D281C1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E82E1B5E1D1CA58D00D281C1;
+			remoteInfo = Puppet;
 		};
 		B2C070CA1E5F59A90076D6A9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -216,6 +227,11 @@
 		38E1B6581DDCDDF4000EFED1 /* MSAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAlertController.h; sourceTree = "<group>"; };
 		38E1B6591DDCDDF4000EFED1 /* MSAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAlertController.m; sourceTree = "<group>"; };
 		38F2606E1E649FE5004F0FDC /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		5CE258371EA5097100DA8FB9 /* PuppetUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PuppetUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5CE2583B1EA5097100DA8FB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5CE258981EA5FBCA00DA8FB9 /* AnalyticsUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsUITests.swift; sourceTree = "<group>"; };
+		5CE2589A1EA5FBD400DA8FB9 /* CrashesUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrashesUITests.swift; sourceTree = "<group>"; };
+		5CE2589C1EA5FBE900DA8FB9 /* DistributeUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistributeUITests.swift; sourceTree = "<group>"; };
 		6EC99A201D4151A00016C325 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = ../../Vendor/PLCrashReporter/CrashReporter.framework; sourceTree = "<group>"; };
 		6EC99A251D4152EB0016C325 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		6EC99A271D4152FA0016C325 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
@@ -237,12 +253,14 @@
 		E82E1B7C1D1CA62900D281C1 /* MobileCenterCrashes.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MobileCenterCrashes.xcodeproj; path = ../../MobileCenterCrashes/MobileCenterCrashes.xcodeproj; sourceTree = "<group>"; };
 		E82E1B821D1CA63000D281C1 /* MobileCenter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MobileCenter.xcodeproj; path = ../../MobileCenter/MobileCenter.xcodeproj; sourceTree = "<group>"; };
 		E85547FB1D2D6C8D002DF6E2 /* MobileCenterAnalytics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MobileCenterAnalytics.xcodeproj; path = ../../MobileCenterAnalytics/MobileCenterAnalytics.xcodeproj; sourceTree = "<group>"; };
-		E89E6A281D396D7900CAA2CD /* MSCrashesReportsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrashesReportsViewController.h; sourceTree = "<group>"; };
-		E89E6A291D396D7900CAA2CD /* MSCrashesReportsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCrashesReportsViewController.m; sourceTree = "<group>"; };
+		E89E6A281D396D7900CAA2CD /* MSCrashesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrashesViewController.h; sourceTree = "<group>"; };
+		E89E6A291D396D7900CAA2CD /* MSCrashesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCrashesViewController.m; sourceTree = "<group>"; };
 		E89E6A2A1D396D7900CAA2CD /* MSMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSMainViewController.h; sourceTree = "<group>"; };
 		E89E6A2B1D396D7900CAA2CD /* MSMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSMainViewController.m; sourceTree = "<group>"; };
 		E89E6A2E1D39704900CAA2CD /* MSAnalyticsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAnalyticsViewController.h; sourceTree = "<group>"; };
 		E89E6A2F1D39704900CAA2CD /* MSAnalyticsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAnalyticsViewController.m; sourceTree = "<group>"; };
+		F85AAE231E890226006797CA /* MSDeviceInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDeviceInfoViewController.h; sourceTree = "<group>"; };
+		F85AAE241E890226006797CA /* MSDeviceInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDeviceInfoViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -318,6 +336,17 @@
 			path = ../../Vendor/MSAlertController;
 			sourceTree = "<group>";
 		};
+		5CE258381EA5097100DA8FB9 /* PuppetUITests */ = {
+			isa = PBXGroup;
+			children = (
+				5CE2583B1EA5097100DA8FB9 /* Info.plist */,
+				5CE258981EA5FBCA00DA8FB9 /* AnalyticsUITests.swift */,
+				5CE2589A1EA5FBD400DA8FB9 /* CrashesUITests.swift */,
+				5CE2589C1EA5FBE900DA8FB9 /* DistributeUITests.swift */,
+			);
+			path = PuppetUITests;
+			sourceTree = "<group>";
+		};
 		B25D927E1DDA75EA0077B73D /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
@@ -335,6 +364,7 @@
 				6EC99A251D4152EB0016C325 /* libz.tbd */,
 				E82E1B611D1CA58D00D281C1 /* Puppet */,
 				380A4D9A1DD6892F00E99219 /* PuppetWidget */,
+				5CE258381EA5097100DA8FB9 /* PuppetUITests */,
 				380A4D971DD6892F00E99219 /* Frameworks */,
 				E82E1B601D1CA58D00D281C1 /* Products */,
 			);
@@ -345,6 +375,7 @@
 			children = (
 				E82E1B5F1D1CA58D00D281C1 /* Puppet.app */,
 				380A4D961DD6892F00E99219 /* PuppetWidget.appex */,
+				5CE258371EA5097100DA8FB9 /* PuppetUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -416,19 +447,21 @@
 			children = (
 				E82E1B651D1CA58D00D281C1 /* AppDelegate.h */,
 				E82E1B661D1CA58D00D281C1 /* AppDelegate.m */,
+				384959D81D4972DA008F6B3A /* Constants.h */,
 				E89E6A2E1D39704900CAA2CD /* MSAnalyticsViewController.h */,
 				E89E6A2F1D39704900CAA2CD /* MSAnalyticsViewController.m */,
-				E89E6A281D396D7900CAA2CD /* MSCrashesReportsViewController.h */,
-				E89E6A291D396D7900CAA2CD /* MSCrashesReportsViewController.m */,
-				E89E6A2A1D396D7900CAA2CD /* MSMainViewController.h */,
-				E89E6A2B1D396D7900CAA2CD /* MSMainViewController.m */,
-				384959D81D4972DA008F6B3A /* Constants.h */,
 				B21B26C51DDE490400FF0378 /* MSCrashesDetailViewController.h */,
 				B21B26C61DDE490400FF0378 /* MSCrashesDetailViewController.m */,
-				B2E611F51DDE72BA00A9DF86 /* MSFakeCXXClass.h */,
-				B2E611F41DDE72BA00A9DF86 /* MSFakeCXXClass.mm */,
+				E89E6A281D396D7900CAA2CD /* MSCrashesViewController.h */,
+				E89E6A291D396D7900CAA2CD /* MSCrashesViewController.m */,
+				F85AAE231E890226006797CA /* MSDeviceInfoViewController.h */,
+				F85AAE241E890226006797CA /* MSDeviceInfoViewController.m */,
 				BA68238A942EEAA10612D006 /* MSDistributeViewController.h */,
 				BA682342F94E25F75943E4F6 /* MSDistributeViewController.m */,
+				B2E611F51DDE72BA00A9DF86 /* MSFakeCXXClass.h */,
+				B2E611F41DDE72BA00A9DF86 /* MSFakeCXXClass.mm */,
+				E89E6A2A1D396D7900CAA2CD /* MSMainViewController.h */,
+				E89E6A2B1D396D7900CAA2CD /* MSMainViewController.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -456,6 +489,23 @@
 			productName = PuppetWidget;
 			productReference = 380A4D961DD6892F00E99219 /* PuppetWidget.appex */;
 			productType = "com.apple.product-type.app-extension";
+		};
+		5CE258361EA5097100DA8FB9 /* PuppetUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5CE2584C1EA5097100DA8FB9 /* Build configuration list for PBXNativeTarget "PuppetUITests" */;
+			buildPhases = (
+				5CE258331EA5097100DA8FB9 /* Sources */,
+				5CE258351EA5097100DA8FB9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5CE2583D1EA5097100DA8FB9 /* PBXTargetDependency */,
+			);
+			name = PuppetUITests;
+			productName = PuppetUITests;
+			productReference = 5CE258371EA5097100DA8FB9 /* PuppetUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 		E82E1B5E1D1CA58D00D281C1 /* Puppet */ = {
 			isa = PBXNativeTarget;
@@ -496,6 +546,12 @@
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = L4RARDNZ2Y;
 					};
+					5CE258361EA5097100DA8FB9 = {
+						CreatedOnToolsVersion = 8.3.1;
+						DevelopmentTeam = L4RARDNZ2Y;
+						ProvisioningStyle = Automatic;
+						TestTargetID = E82E1B5E1D1CA58D00D281C1;
+					};
 					E82E1B5E1D1CA58D00D281C1 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = L4RARDNZ2Y;
@@ -535,6 +591,7 @@
 			targets = (
 				E82E1B5E1D1CA58D00D281C1 /* Puppet */,
 				380A4D951DD6892F00E99219 /* PuppetWidget */,
+				5CE258361EA5097100DA8FB9 /* PuppetUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -614,6 +671,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		5CE258351EA5097100DA8FB9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E82E1B5D1D1CA58D00D281C1 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -637,16 +701,27 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		5CE258331EA5097100DA8FB9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5CE258991EA5FBCA00DA8FB9 /* AnalyticsUITests.swift in Sources */,
+				5CE2589D1EA5FBE900DA8FB9 /* DistributeUITests.swift in Sources */,
+				5CE2589B1EA5FBD400DA8FB9 /* CrashesUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E82E1B5B1D1CA58D00D281C1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F85AAE251E890226006797CA /* MSDeviceInfoViewController.m in Sources */,
 				38E1B65A1DDCDDF4000EFED1 /* MSAlertController.m in Sources */,
 				E82E1B671D1CA58D00D281C1 /* AppDelegate.m in Sources */,
 				E89E6A2D1D396D7900CAA2CD /* MSMainViewController.m in Sources */,
 				B21B26C71DDE490400FF0378 /* MSCrashesDetailViewController.m in Sources */,
 				B2E611F61DDE72BA00A9DF86 /* MSFakeCXXClass.mm in Sources */,
-				E89E6A2C1D396D7900CAA2CD /* MSCrashesReportsViewController.m in Sources */,
+				E89E6A2C1D396D7900CAA2CD /* MSCrashesViewController.m in Sources */,
 				E89E6A301D39704900CAA2CD /* MSAnalyticsViewController.m in Sources */,
 				E82E1B641D1CA58D00D281C1 /* main.m in Sources */,
 				BA6827C9F0410233C245D989 /* MSDistributeViewController.m in Sources */,
@@ -685,6 +760,11 @@
 			isa = PBXTargetDependency;
 			name = MobileCenterCrashes;
 			targetProxy = 380A4DC21DD68D0500E99219 /* PBXContainerItemProxy */;
+		};
+		5CE2583D1EA5097100DA8FB9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E82E1B5E1D1CA58D00D281C1 /* Puppet */;
+			targetProxy = 5CE2583C1EA5097100DA8FB9 /* PBXContainerItemProxy */;
 		};
 		B2C070CE1E5F59A90076D6A9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -765,6 +845,42 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../MobileCenter/MobileCenter/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashes/**";
+			};
+			name = Release;
+		};
+		5CE2583E1EA5097100DA8FB9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				DEVELOPMENT_TEAM = L4RARDNZ2Y;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INFOPLIST_FILE = PuppetUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.PuppetUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = Puppet;
+			};
+			name = Debug;
+		};
+		5CE2583F1EA5097100DA8FB9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				DEVELOPMENT_TEAM = L4RARDNZ2Y;
+				INFOPLIST_FILE = PuppetUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.PuppetUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = Puppet;
 			};
 			name = Release;
 		};
@@ -927,6 +1043,15 @@
 			buildConfigurations = (
 				380A4DA51DD6892F00E99219 /* Debug */,
 				380A4DA61DD6892F00E99219 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5CE2584C1EA5097100DA8FB9 /* Build configuration list for PBXNativeTarget "PuppetUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5CE2583E1EA5097100DA8FB9 /* Debug */,
+				5CE2583F1EA5097100DA8FB9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

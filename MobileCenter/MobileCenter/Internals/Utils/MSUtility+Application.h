@@ -79,5 +79,5 @@ typedef NS_ENUM(NSInteger, MSOpenURLState) {
  */
 + (void)sharedAppOpenUrl:(NSURL *)url
                  options:(NSDictionary<NSString *, id> *)options
-       completionHandler:(void (^__nullable)(MSOpenURLState state))completion;
+       completionHandler:(void (^)(MSOpenURLState state))completion;
 @end

@@ -17,6 +17,8 @@
 
 @implementation MSServiceAbstractImplementation
 
+@synthesize channelConfiguration = _channelConfiguration;
+
 + (instancetype)sharedInstance {
   static id sharedInstance = nil;
   static dispatch_once_t onceToken;
@@ -24,6 +26,17 @@
     sharedInstance = [[self alloc] init];
   });
   return sharedInstance;
+}
+
+- (instancetype)init {
+  if ((self = [super init])) {
+    _channelConfiguration = [[MSChannelConfiguration alloc] initWithGroupId:[self groupId]
+                                                                   priority:MSPriorityDefault
+                                                              flushInterval:3.0
+                                                             batchSizeLimit:50
+                                                        pendingBatchesLimit:3];
+  }
+  return self;
 }
 
 + (NSString *)serviceName {
@@ -34,12 +47,8 @@
   [super startWithLogManager:logManager appSecret:appSecret];
 }
 
-- (NSString *)groupID {
+- (NSString *)groupId {
   return @"MSServiceAbstractImplementation";
-}
-
-- (MSPriority)priority {
-  return MSPriorityDefault;
 }
 
 - (MSInitializationPriority)initializationPriority {
@@ -70,7 +79,7 @@
 
   // Set up the mocked storage.
   self.settingsMock = [MSMockUserDefaults new];
-  
+
   // System Under Test.
   self.abstractService = [[MSServiceAbstractImplementation alloc] initWithStorage:self.settingsMock];
 }
@@ -192,7 +201,8 @@
 }
 
 - (void)testEnableServiceOnCoreDisabled {
-  OCMStub([self.settingsMock objectForKey:[OCMArg isEqual:@"MSMobileCenterIsEnabled"]]).andReturn([NSNumber numberWithBool:NO]);
+  OCMStub([self.settingsMock objectForKey:[OCMArg isEqual:@"MSMobileCenterIsEnabled"]])
+      .andReturn([NSNumber numberWithBool:NO]);
 
   // If
   [MSMobileCenter resetSharedInstance];
@@ -270,18 +280,13 @@
   /**
    *  If
    */
-  __block MSPriority priority;
-  __block NSString *groupID;
+  __block NSString *groupId;
   __block BOOL deleteLogs;
   __block BOOL forwardedEnabled;
   id<MSLogManager> logManagerMock = OCMClassMock([MSLogManagerDefault class]);
-  OCMStub([logManagerMock setEnabled:NO
-              andDeleteDataOnDisabled:YES
-                           forGroupID:self.abstractService.groupID
-                         withPriority:self.abstractService.priority])
+  OCMStub([logManagerMock setEnabled:NO andDeleteDataOnDisabled:YES forGroupId:self.abstractService.groupId])
       .andDo(^(NSInvocation *invocation) {
-        [invocation getArgument:&priority atIndex:5];
-        [invocation getArgument:&groupID atIndex:4];
+        [invocation getArgument:&groupId atIndex:4];
         [invocation getArgument:&deleteLogs atIndex:3];
         [invocation getArgument:&forwardedEnabled atIndex:2];
       });
@@ -298,16 +303,10 @@
    */
 
   // Check that log deletion has been triggered.
-  OCMVerify([logManagerMock setEnabled:NO
-               andDeleteDataOnDisabled:YES
-                            forGroupID:self.abstractService.groupID
-                          withPriority:self.abstractService.priority]);
+  OCMVerify([logManagerMock setEnabled:NO andDeleteDataOnDisabled:YES forGroupId:self.abstractService.groupId]);
 
-  // GroupID from the service must match the groupID used to delete logs.
-  XCTAssertTrue(self.abstractService.groupID == groupID);
-
-  // Priority from the service must match priority used to delete logs.
-  XCTAssertTrue(self.abstractService.priority == priority);
+  // GroupId from the service must match the groupId used to delete logs.
+  XCTAssertTrue(self.abstractService.groupId == groupId);
 
   // Must request for deletion.
   XCTAssertTrue(deleteLogs);
@@ -326,10 +325,7 @@
   [self.abstractService startWithLogManager:logManagerMock appSecret:@"TestAppSecret"];
 
   // Then
-  OCMVerify([logManagerMock setEnabled:YES
-               andDeleteDataOnDisabled:YES
-                            forGroupID:self.abstractService.groupID
-                          withPriority:self.abstractService.priority]);
+  OCMVerify([logManagerMock setEnabled:YES andDeleteDataOnDisabled:YES forGroupId:self.abstractService.groupId]);
 }
 
 - (void)testInitializationPriorityCorrect {

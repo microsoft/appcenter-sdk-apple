@@ -31,16 +31,16 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
 
 #pragma mark - Public
 
-- (BOOL)saveLog:(id<MSLog>)log withGroupID:(NSString *)groupID {
+- (BOOL)saveLog:(id<MSLog>)log withGroupId:(NSString *)groupId {
   if (!log) {
     return NO;
   }
 
-  MSStorageBucket *bucket = [self bucketForGroupID:groupID];
+  MSStorageBucket *bucket = [self bucketForGroupId:groupId];
 
   if (bucket.currentLogs.count >= self.bucketFileLogCountLimit) {
     [bucket.currentLogs removeAllObjects];
-    [self renewCurrentFileForGroupID:groupID];
+    [self renewCurrentFileForGroupId:groupId];
   }
 
   if (bucket.currentLogs.count == 0) {
@@ -48,7 +48,7 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
     // Drop oldest files if needed
     if (bucket.availableFiles.count >= self.bucketFileCountLimit) {
       MSFile *oldestFile = [bucket.availableFiles lastObject];
-      [self deleteLogsForId:oldestFile.fileId withGroupID:groupID];
+      [self deleteLogsForId:oldestFile.fileId withGroupId:groupId];
     }
 
     // Make current file available and create new current file
@@ -61,13 +61,13 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
   return [MSFileUtil writeData:logsData toFile:bucket.currentFile];
 }
 
-- (NSArray<MSLog> *)deleteLogsForGroupID:(NSString *)groupID {
+- (NSArray<MSLog> *)deleteLogsForGroupId:(NSString *)groupId {
 
   // Cache deleted logs
   NSMutableArray<MSLog> *deletedLogs = [NSMutableArray<MSLog> new];
 
   // Remove all files from the bucket.
-  MSStorageBucket *bucket = self.buckets[groupID];
+  MSStorageBucket *bucket = self.buckets[groupId];
   NSArray<MSFile *> *allFiles = [bucket removeAllFiles];
 
   // Delete all files.
@@ -76,12 +76,12 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
   }
 
   // Get ready for next time.
-  [self renewCurrentFileForGroupID:groupID];
+  [self renewCurrentFileForGroupId:groupId];
   return deletedLogs;
 }
 
-- (void)deleteLogsForId:(NSString *)logsId withGroupID:(NSString *)groupID {
-  MSStorageBucket *bucket = self.buckets[groupID];
+- (void)deleteLogsForId:(NSString *)logsId withGroupId:(NSString *)groupId {
+  MSStorageBucket *bucket = self.buckets[groupId];
   [self deleteFile:[bucket fileWithId:logsId] fromBucket:bucket];
 }
 
@@ -105,12 +105,12 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
   return deletedLogs;
 }
 
-- (BOOL)loadLogsForGroupID:(NSString *)groupID withCompletion:(nullable MSLoadDataCompletionBlock)completion {
+- (BOOL)loadLogsForGroupId:(NSString *)groupId withCompletion:(nullable MSLoadDataCompletionBlock)completion {
   NSArray<MSLog> *logs;
   NSString *fileId;
-  MSStorageBucket *bucket = [self bucketForGroupID:groupID];
+  MSStorageBucket *bucket = [self bucketForGroupId:groupId];
 
-  [self renewCurrentFileForGroupID:groupID];
+  [self renewCurrentFileForGroupId:groupId];
 
   // Get data of oldest file
   if (bucket.availableFiles.count > 0) {
@@ -131,54 +131,54 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
   return (bucket.availableFiles.count > 0);
 }
 
-- (void)closeBatchWithGroupID:(NSString *)groupID {
-  [self renewCurrentFileForGroupID:groupID];
+- (void)closeBatchWithGroupId:(NSString *)groupId {
+  [self renewCurrentFileForGroupId:groupId];
 }
 
 #pragma mark - Helper
 
-- (MSStorageBucket *)createNewBucketForGroupID:(NSString *)groupID {
+- (MSStorageBucket *)createNewBucketForGroupId:(NSString *)groupId {
   MSStorageBucket *bucket = [MSStorageBucket new];
-  NSURL *storageDirectory = [self directoryURLForGroupID:groupID];
+  NSURL *storageDirectory = [self directoryURLForGroupId:groupId];
   NSArray *existingFiles = [MSFileUtil filesForDirectory:storageDirectory withFileExtension:kMSFileExtension];
   if (existingFiles) {
     [bucket.availableFiles addObjectsFromArray:existingFiles];
     [bucket sortAvailableFilesByCreationDate];
   }
-  self.buckets[groupID] = bucket;
-  [self renewCurrentFileForGroupID:groupID];
+  self.buckets[groupId] = bucket;
+  [self renewCurrentFileForGroupId:groupId];
 
   return bucket;
 }
 
-- (MSStorageBucket *)bucketForGroupID:(NSString *)groupID {
-  MSStorageBucket *bucket = self.buckets[groupID];
+- (MSStorageBucket *)bucketForGroupId:(NSString *)groupId {
+  MSStorageBucket *bucket = self.buckets[groupId];
   if (!bucket) {
-    bucket = [self createNewBucketForGroupID:groupID];
+    bucket = [self createNewBucketForGroupId:groupId];
   }
 
   return bucket;
 }
 
-- (void)renewCurrentFileForGroupID:(NSString *)groupID {
-  MSStorageBucket *bucket = [self bucketForGroupID:groupID];
+- (void)renewCurrentFileForGroupId:(NSString *)groupId {
+  MSStorageBucket *bucket = [self bucketForGroupId:groupId];
   NSDate *creationDate = [NSDate date];
   NSString *fileId = MS_UUID_STRING;
-  NSURL *fileURL = [self fileURLForGroupID:groupID logsId:fileId];
+  NSURL *fileURL = [self fileURLForGroupId:groupId logsId:fileId];
   MSFile *file = [[MSFile alloc] initWithURL:fileURL fileId:fileId creationDate:creationDate];
   bucket.currentFile = file;
   [bucket.currentLogs removeAllObjects];
 }
 
-- (NSURL *)directoryURLForGroupID:(NSString *)groupID {
-  NSURL *fileURL = [self.baseDirectoryURL URLByAppendingPathComponent:groupID];
+- (NSURL *)directoryURLForGroupId:(NSString *)groupId {
+  NSURL *fileURL = [self.baseDirectoryURL URLByAppendingPathComponent:groupId];
 
   return fileURL;
 }
 
-- (NSURL *)fileURLForGroupID:(NSString *)groupID logsId:(nonnull NSString *)logsId {
+- (NSURL *)fileURLForGroupId:(NSString *)groupId logsId:(nonnull NSString *)logsId {
   NSString *fileName = [logsId stringByAppendingPathExtension:kMSFileExtension];
-  NSURL *fileURL = [[self directoryURLForGroupID:groupID] URLByAppendingPathComponent:fileName];
+  NSURL *fileURL = [[self directoryURLForGroupId:groupId] URLByAppendingPathComponent:fileName];
 
   return fileURL;
 }
@@ -189,7 +189,8 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
     if (appSupportURL) {
       _baseDirectoryURL = (NSURL * _Nonnull)[appSupportURL URLByAppendingPathComponent:kMSLogsDirectory];
     }
-    MSLogVerbose([MSMobileCenter logTag], @"Storage Path:\n%@", _baseDirectoryURL);
+    NSURL *url = _baseDirectoryURL;
+    MSLogVerbose([MSMobileCenter logTag], @"Storage Path:\n%@", url);
   }
 
   return _baseDirectoryURL;
