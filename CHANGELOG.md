@@ -9,6 +9,17 @@ This version contains bug fixes, improvements and new features.
 * **[Misc]** Change Channel to handle logs based on service instead of priority.
 * **[Misc]** Fix all compile warnings and set configuration to consider all warnings as errors.
 
+### MobileCenterAnalytics
+
+* **[Misc]** Events have some validation and you will see the following in logs:
+ 
+    * An error if the event name is null, empty or longer than 256 characters (event is not sent in that case).
+    * A warning for invalid event properties (the event is sent but without invalid properties):
+ 
+       * More than 5 properties per event (in that case we send only 5 of them and log warnings).
+       * Property key null, empty or longer than 64 characters.
+       * Property value null or longer than 64 characters.
+
 ### MobileCenterCrashes
 
 * **[Misc]** Update PLCrashReporter to 1.2.2.
