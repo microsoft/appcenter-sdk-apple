@@ -640,7 +640,7 @@
 					048A769A1E9EC0230075A6D6 = {
 						CreatedOnToolsVersion = 8.3.1;
 						DevelopmentTeam = L4RARDNZ2Y;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 					380A4D951DD6892F00E99219 = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -980,6 +980,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.puppet.NotifExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "ba121ce3-29db-420c-ac94-7a92f7b59b3c";
+				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Puppet Notification Extension";
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -995,6 +997,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.puppet.NotifExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "ba121ce3-29db-420c-ac94-7a92f7b59b3c";
+				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Puppet Notification Extension";
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
