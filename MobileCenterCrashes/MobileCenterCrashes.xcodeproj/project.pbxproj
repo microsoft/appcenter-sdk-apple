@@ -1019,6 +1019,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(MS_MAC_ARCHS)";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					AppKit,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				VALID_ARCHS = "$(MS_MAC_ARCHS)";
@@ -1029,6 +1034,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(MS_MAC_ARCHS)";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					AppKit,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				VALID_ARCHS = "$(MS_MAC_ARCHS)";
@@ -1210,6 +1220,11 @@
 		6E3729791D1DE83200F1E4AE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					UIKit,
+				);
 				PRODUCT_NAME = MobileCenterCrashes;
 			};
 			name = Debug;
@@ -1217,6 +1232,11 @@
 		6E37297A1D1DE83200F1E4AE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					UIKit,
+				);
 				PRODUCT_NAME = MobileCenterCrashes;
 			};
 			name = Release;
