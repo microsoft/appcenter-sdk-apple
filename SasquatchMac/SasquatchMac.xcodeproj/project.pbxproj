@@ -13,6 +13,8 @@
 		042319D01EAAD73F008FACA0 /* MobileCenterMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D41EAAC7510033BAAE /* MobileCenterMac.framework */; };
 		04ED31E61EAAD1B30033BAAE /* MobileCenterAnalyticsMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D31EAAC7510033BAAE /* MobileCenterAnalyticsMac.framework */; };
 		04ED31E71EAAD1B30033BAAE /* MobileCenterMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D41EAAC7510033BAAE /* MobileCenterMac.framework */; };
+		04FF3E481EB2ACD300158138 /* SasquatchMacViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3C31C111E8E757300B288CE /* SasquatchMacViewController.swift */; };
+		04FF3E491EB2ACD400158138 /* SasquatchMacViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3C31C111E8E757300B288CE /* SasquatchMacViewController.swift */; };
 		D3C31C261E8E75B300B288CE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C31C251E8E75B300B288CE /* AppDelegate.m */; };
 		D3C31C291E8E75B300B288CE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C31C281E8E75B300B288CE /* main.m */; };
 		D3C31C2E1E8E75B300B288CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3C31C2D1E8E75B300B288CE /* Assets.xcassets */; };
@@ -275,6 +277,7 @@
 			files = (
 				D3C31C291E8E75B300B288CE /* main.m in Sources */,
 				D3C31C261E8E75B300B288CE /* AppDelegate.m in Sources */,
+				04FF3E481EB2ACD300158138 /* SasquatchMacViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -282,6 +285,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04FF3E491EB2ACD400158138 /* SasquatchMacViewController.swift in Sources */,
 				D3C31C631E8E763600B288CE /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -404,6 +408,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "53c1192d-4b44-4736-adaa-26ae32a577fb";
 				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Sasquatch Mac ObjC App";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -421,6 +426,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "53c1192d-4b44-4736-adaa-26ae32a577fb";
 				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Sasquatch Mac ObjC App";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
