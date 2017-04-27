@@ -331,7 +331,12 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   mockedCall.delegate = self.sut;
   mockedCall.data = container;
   mockedCall.callId = container.batchId;
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnonnull"
   mockedCall.completionHandler = nil;
+#pragma clang diagnostic pop
+
   OCMStub([mockedCall sender:self.sut
               callCompletedWithStatus:MSHTTPCodesNo500InternalServerError
                                  data:[OCMArg any]

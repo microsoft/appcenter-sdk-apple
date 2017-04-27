@@ -68,6 +68,16 @@ static dispatch_queue_t alertsQueue;
   [self addAction:[MSAlertAction destructiveActionWithTitle:title handler:handler]];
 }
 
+- (void)addPreferredActionWithTitle:(NSString *)title handler:(void (^)(UIAlertAction *))handler {
+
+  // Use cancel style to render button text in bold.
+  UIAlertAction *preferredAction = [MSAlertAction cancelActionWithTitle:title handler:handler];
+  [self addAction:preferredAction];
+  if ([self respondsToSelector:@selector(setPreferredAction:)]) {
+    [self performSelector:@selector(setPreferredAction:) withObject:preferredAction];
+  }
+}
+
 - (void)replaceAlert:(MSAlertController *)alert {
   [self replaceAlert:alert animated:YES];
 }

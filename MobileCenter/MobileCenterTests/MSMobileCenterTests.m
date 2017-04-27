@@ -150,7 +150,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   // If
   [MSMobileCenter start:MS_UUID_STRING withServices:nil];
   id logManager = OCMProtocolMock(@protocol(MSLogManager));
-  OCMStub([logManager processLog:[OCMArg isKindOfClass:[MSCustomPropertiesLog class]] forGroupID:[OCMArg any]])
+  OCMStub([logManager processLog:[OCMArg isKindOfClass:[MSCustomPropertiesLog class]] forGroupId:[OCMArg any]])
       .andDo(nil);
   [MSMobileCenter sharedInstance].logManager = logManager;
 
@@ -160,11 +160,11 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   [MSMobileCenter setCustomProperties:customProperties];
 
   // Then
-  OCMVerify([logManager processLog:[OCMArg isKindOfClass:[MSCustomPropertiesLog class]] forGroupID:[OCMArg any]]);
+  OCMVerify([logManager processLog:[OCMArg isKindOfClass:[MSCustomPropertiesLog class]] forGroupId:[OCMArg any]]);
 
   // When
   // Not allow processLog more
-  OCMReject([logManager processLog:[OCMArg isKindOfClass:[MSCustomPropertiesLog class]] forGroupID:[OCMArg any]]);
+  OCMReject([logManager processLog:[OCMArg isKindOfClass:[MSCustomPropertiesLog class]] forGroupId:[OCMArg any]]);
   [MSMobileCenter setCustomProperties:nil];
   [MSMobileCenter setCustomProperties:[MSCustomProperties new]];
 }
