@@ -1508,6 +1508,7 @@
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecentertests;
 				PRODUCT_NAME = MobileCenter;
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/** \"$(SRCROOT)/../MobileCenter/MobileCenterIos\"/**";
 			};
 			name = Debug;
 		};
@@ -1525,6 +1526,7 @@
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecentertests;
 				PRODUCT_NAME = MobileCenter;
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/** \"$(SRCROOT)/../MobileCenter/MobileCenterIos\"/**";
 			};
 			name = Release;
 		};
