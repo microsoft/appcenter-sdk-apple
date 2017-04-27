@@ -37,7 +37,7 @@
 - (void)testInitNewChannel {
 
   // If
-  NSString *groupID = @"MobileCenter";
+  NSString *groupId = @"MobileCenter";
   MSPriority priority = MSPriorityDefault;
   float flushInterval = 1.0;
   NSUInteger batchSizeLimit = 10;
@@ -49,14 +49,14 @@
   assertThat(sut.channels, isEmpty());
 
   // When
-  [sut initChannelWithConfiguration:[[MSChannelConfiguration alloc] initWithGroupID:groupID
+  [sut initChannelWithConfiguration:[[MSChannelConfiguration alloc] initWithGroupId:groupId
                                                                            priority:priority
                                                                       flushInterval:flushInterval
                                                                      batchSizeLimit:batchSizeLimit
                                                                 pendingBatchesLimit:pendingBatchesLimit]];
 
   // Then
-  MSChannelDefault *channel = sut.channels[groupID];
+  MSChannelDefault *channel = sut.channels[groupId];
   assertThat(channel, notNilValue());
   XCTAssertTrue(channel.configuration.priority == priority);
   assertThatFloat(channel.configuration.flushInterval, equalToFloat(flushInterval));
@@ -68,12 +68,12 @@
 
   // If
   MSPriority priority = MSPriorityDefault;
-  NSString *groupID = @"MobileCenter";
+  NSString *groupId = @"MobileCenter";
   MSLogManagerDefault *sut = [[MSLogManagerDefault alloc] initWithSender:OCMProtocolMock(@protocol(MSSender))
                                                                  storage:OCMProtocolMock(@protocol(MSStorage))];
   id mockDelegate = OCMProtocolMock(@protocol(MSLogManagerDelegate));
   [sut addDelegate:mockDelegate];
-  [sut initChannelWithConfiguration:[[MSChannelConfiguration alloc] initWithGroupID:groupID
+  [sut initChannelWithConfiguration:[[MSChannelConfiguration alloc] initWithGroupId:groupId
                                                                            priority:priority
                                                                       flushInterval:1.0
                                                                      batchSizeLimit:10
@@ -82,7 +82,7 @@
   MSAbstractLog *log = [MSAbstractLog new];
 
   // When
-  [sut processLog:log forGroupID:groupID];
+  [sut processLog:log forGroupId:groupId];
 
   // Then
   OCMVerify([mockDelegate onEnqueuingLog:log withInternalId:OCMOCK_ANY]);
@@ -91,7 +91,7 @@
 - (void)testDelegatesConcurrentAccess {
   
   // If
-  NSString *groupID = @"MobileCenter";
+  NSString *groupId = @"MobileCenter";
   MSLogManagerDefault *sut = [[MSLogManagerDefault alloc] initWithSender:OCMProtocolMock(@protocol(MSSender))
                                                                  storage:OCMProtocolMock(@protocol(MSStorage))];
   MSAbstractLog *log = [MSAbstractLog new];
@@ -103,7 +103,7 @@
   // When
   void (^block)() = ^{
     for (int i = 0; i < 10; i++) {
-      [sut processLog:log forGroupID:groupID];
+      [sut processLog:log forGroupId:groupId];
     }
     for (int i = 0; i < 100; i++) {
       [sut addDelegate:OCMProtocolMock(@protocol(MSLogManagerDelegate))];

@@ -6,9 +6,9 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MSChannelConfiguration : NSObject
 
 /**
- * The groupID that will be used for storage by this channel.
+ * The groupId that will be used for storage by this channel.
  */
-@property(nonatomic, copy, readonly) NSString *groupID;
+@property(nonatomic, copy, readonly) NSString *groupId;
 
 /**
  * The priority of logs for this channel
@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Initializes a new instance based on given settings.
  *
- * @param groupID The id used by the channel to determine a group of logs.
+ * @param groupId The id used by the channel to determine a group of logs.
  * @param priority The priority of logs being sent by the channel.
  * @param flushInterval The interval after which a new batch will be finished.
  * @param batchSizeLimit The maximum number of logs after which a new batch will be finished.
@@ -41,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return a fully configured `MSChannelConfiguration` instance.
  */
-- (instancetype)initWithGroupID:(NSString *)groupID
+- (instancetype)initWithGroupId:(NSString *)groupId
                        priority:(MSPriority)priority
                   flushInterval:(float)flushInterval
                  batchSizeLimit:(NSUInteger)batchSizeLimit
@@ -50,11 +50,11 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Initializes a new instance with default settings.
  *
- * @param groupID The id used by the channel to determine a group of logs.
+ * @param groupId The id used by the channel to determine a group of logs.
  *
  * @return a fully configured `MSChannelConfiguration` instance with default settings.
  */
-- (instancetype)initDefaultConfigurationWithGroupID:(NSString *)groupID;
+- (instancetype)initDefaultConfigurationWithGroupId:(NSString *)groupId;
 
 @end
 

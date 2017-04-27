@@ -4,7 +4,7 @@
 
 #import "MSBasicMachOParser.h"
 #import "MSDistributeUtil.h"
-#import "MSReleaseDetails.h"
+#import "MSReleaseDetailsPrivate.h"
 
 @interface MobileCenterDistributeTests : XCTestCase
 

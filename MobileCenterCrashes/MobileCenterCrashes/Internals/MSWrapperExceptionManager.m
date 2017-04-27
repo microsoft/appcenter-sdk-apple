@@ -11,7 +11,7 @@
   return [[self sharedInstance] hasException];
 }
 
-+ (void)setWrapperException:(MSException*)wrapperException {
++ (void)setWrapperException:(MSException *)wrapperException {
   [self sharedInstance].wrapperException = wrapperException;
 }
 
@@ -19,11 +19,11 @@
   [[self sharedInstance] saveWrapperExceptionData:uuidRef];
 }
 
-+ (NSData*)loadWrapperExceptionDataWithUUIDString:(NSString*)uuidString {
++ (NSData *)loadWrapperExceptionDataWithUUIDString:(NSString *)uuidString {
   return [[self sharedInstance] loadWrapperExceptionDataWithUUIDString:uuidString];
 }
 
-+ (MSException*)loadWrapperException:(CFUUIDRef)uuidRef {
++ (MSException *)loadWrapperException:(CFUUIDRef)uuidRef {
   return [[self sharedInstance] loadWrapperException:uuidRef];
 }
 
@@ -43,14 +43,14 @@
   [[self sharedInstance] deleteAllWrapperExceptions];
 }
 
-+ (void)deleteWrapperExceptionDataWithUUIDString:(NSString*)uuidString {
++ (void)deleteWrapperExceptionDataWithUUIDString:(NSString *)uuidString {
   [[self sharedInstance] deleteWrapperExceptionDataWithUUIDString:uuidString];
 }
 + (void)deleteAllWrapperExceptionData {
   [[self sharedInstance] deleteAllWrapperExceptionData];
 }
 
-+ (void)setDelegate:(id<MSWrapperCrashesInitializationDelegate>) delegate {
++ (void)setDelegate:(id<MSWrapperCrashesInitializationDelegate>)delegate {
   [self sharedInstance].crashesDelegate = delegate;
 }
 
@@ -58,7 +58,7 @@
   return [self sharedInstance].crashesDelegate;
 }
 
-+ (void) startCrashReportingFromWrapperSdk {
++ (void)startCrashReportingFromWrapperSdk {
   [[self sharedInstance] startCrashReportingFromWrapperSdk];
 }
 
@@ -82,12 +82,12 @@
                                  attributes:nil
                                       error:&error];
       if (error) {
-        MSLogError([MSCrashes logTag], @"Failed to create directory %@: %@",
-                   [[self class] directoryPath], error.localizedDescription);
+        MSLogError([MSCrashes logTag], @"Failed to create directory %@: %@", [[self class] directoryPath],
+                   error.localizedDescription);
       }
     }
   }
-  
+
   return self;
 }
 
@@ -104,7 +104,7 @@
   return self.wrapperException != nil;
 }
 
-- (MSException*)loadWrapperException:(CFUUIDRef)uuidRef {
+- (MSException *)loadWrapperException:(CFUUIDRef)uuidRef {
   if (self.wrapperException && [[self class] isCurrentUUIDRef:uuidRef]) {
     return self.wrapperException;
   }
@@ -162,11 +162,11 @@
   if (!self.unsavedWrapperExceptionData) {
     return;
   }
-  NSString* dataFilename = [[self class] getDataFilenameWithUUIDRef:uuidRef];
+  NSString *dataFilename = [[self class] getDataFilenameWithUUIDRef:uuidRef];
   [self.unsavedWrapperExceptionData writeToFile:dataFilename atomically:YES];
 }
 
-- (NSData*)loadWrapperExceptionDataWithUUIDString:(NSString*)uuidString {
+- (NSData *)loadWrapperExceptionDataWithUUIDString:(NSString *)uuidString {
   NSString *dataFilename = [[self class] getDataFilename:uuidString];
   NSData *data = self.wrapperExceptionData[dataFilename];
   if (data) {
@@ -175,14 +175,13 @@
   NSError *error = nil;
   data = [NSData dataWithContentsOfFile:dataFilename options:NSDataReadingMappedIfSafe error:&error];
   if (error) {
-    MSLogError([MSCrashes logTag], @"Error loading file %@: %@",
-               dataFilename, error.localizedDescription);
+    MSLogError([MSCrashes logTag], @"Error loading file %@: %@", dataFilename, error.localizedDescription);
   }
   return data;
 }
 
-- (void)deleteWrapperExceptionDataWithUUIDString:(NSString*)uuidString {
-  NSString* dataFilename = [[self class] getDataFilename:uuidString];
+- (void)deleteWrapperExceptionDataWithUUIDString:(NSString *)uuidString {
+  NSString *dataFilename = [[self class] getDataFilename:uuidString];
   NSData *data = [self loadWrapperExceptionDataWithUUIDString:uuidString];
   if (data) {
     self.wrapperExceptionData[dataFilename] = data;
@@ -200,24 +199,23 @@
   }
 }
 
-+ (void)deleteFile:(NSString*)path {
++ (void)deleteFile:(NSString *)path {
   if (![[NSFileManager defaultManager] fileExistsAtPath:path]) {
     return;
   }
   NSError *error = nil;
   [[NSFileManager defaultManager] removeItemAtPath:path error:&error];
   if (error) {
-    MSLogError([MSCrashes logTag], @"Error deleting file %@: %@",
-               path, error.localizedDescription);
+    MSLogError([MSCrashes logTag], @"Error deleting file %@: %@", path, error.localizedDescription);
   }
 }
 
-+ (NSString*)uuidRefToString:(CFUUIDRef)uuidRef {
++ (NSString *)uuidRefToString:(CFUUIDRef)uuidRef {
   if (!uuidRef) {
     return nil;
   }
   CFStringRef uuidStringRef = CFUUIDCreateString(kCFAllocatorDefault, uuidRef);
-  return (__bridge_transfer NSString*)uuidStringRef;
+  return (__bridge_transfer NSString *)uuidStringRef;
 }
 
 + (BOOL)isCurrentUUIDRef:(CFUUIDRef)uuidRef {
@@ -240,21 +238,27 @@
   return [uuidString isEqualToString:currentUUIDString];
 }
 
-- (void) startCrashReportingFromWrapperSdk {
-  [[MSCrashes sharedInstance] configureCrashReporter];
+- (void)startCrashReportingFromWrapperSdk {
+
+  /**
+   * Do not register an UncaughtExceptionHandler for Xamarin as we rely on the xamarin runtime to report NSExceptions.
+   * Registering our own UncaughtExceptionHandler will cause the Xamarin debugger to not work properly (it will not stop
+   * for NSExceptions).
+   */
+  [[MSCrashes sharedInstance] configureCrashReporterWithUncaughtExceptionHandlerEnabled:NO];
 }
 
-+ (NSString*)dataFileExtension {
++ (NSString *)dataFileExtension {
   return @"ms";
 }
 
-+ (NSString*)directoryName {
++ (NSString *)directoryName {
   return @"wrapper_exceptions";
 }
 
-+ (NSString*)directoryPath {
++ (NSString *)directoryPath {
 
-  static NSString* path = nil;
+  static NSString *path = nil;
 
   if (!path) {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -265,26 +269,26 @@
   return path;
 }
 
-+ (NSString*)getFilename:(NSString*)uuidString {
++ (NSString *)getFilename:(NSString *)uuidString {
   return [[self directoryPath] stringByAppendingPathComponent:uuidString];
 }
 
-+ (NSString*)getDataFilename:(NSString*)uuidString {
++ (NSString *)getDataFilename:(NSString *)uuidString {
   NSString *filename = [MSWrapperExceptionManager getFilename:uuidString];
   return [filename stringByAppendingPathExtension:[self dataFileExtension]];
 }
 
-+ (NSString*)getFilenameWithUUIDRef:(CFUUIDRef)uuidRef {
++ (NSString *)getFilenameWithUUIDRef:(CFUUIDRef)uuidRef {
   NSString *uuidString = [MSWrapperExceptionManager uuidRefToString:uuidRef];
   return [MSWrapperExceptionManager getFilename:uuidString];
 }
 
-+ (NSString*)getDataFilenameWithUUIDRef:(CFUUIDRef)uuidRef {
++ (NSString *)getDataFilenameWithUUIDRef:(CFUUIDRef)uuidRef {
   NSString *uuidString = [MSWrapperExceptionManager uuidRefToString:uuidRef];
   return [MSWrapperExceptionManager getDataFilename:uuidString];
 }
 
-+ (BOOL) isDataFile:(NSString*)path {
++ (BOOL)isDataFile:(NSString *)path {
   return [path hasSuffix:[@"." stringByAppendingString:[self dataFileExtension]]];
 }
 
