@@ -15,7 +15,12 @@
 @property(nonatomic, copy, readonly) NSString *wrapperSdkName;
 
 /*
- * Label that is used to identify application code 'version' released via Live Update beacon running on device
+ * Version of the wrapper technology framework (Xamarin runtime version or ReactNative or Cordova etc...).  [optional]
+ */
+@property(nonatomic, copy, readonly) NSString *wrapperRuntimeVersion;
+
+/*
+ * Label that is used to identify application code 'version' released via Live Update beacon running on device.
  */
 @property(nonatomic, copy, readonly) NSString *liveUpdateReleaseLabel;
 
@@ -33,6 +38,7 @@
 
 - (instancetype)initWithWrapperSdkVersion:(NSString *)wrapperSdkVersion
                            wrapperSdkName:(NSString *)wrapperSdkName
+                    wrapperRuntimeVersion:(NSString *)wrapperRuntimeVersion
                    liveUpdateReleaseLabel:(NSString *)liveUpdateReleaseLabel
                   liveUpdateDeploymentKey:(NSString *)liveUpdateDeploymentKey
                     liveUpdatePackageHash:(NSString *)liveUpdatePackageHash;

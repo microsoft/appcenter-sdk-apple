@@ -19,12 +19,12 @@ static NSString *const kMSServiceName = @"Crashes";
 /**
  * The group ID for storage.
  */
-static NSString *const kMSGroupID = @"Crashes";
+static NSString *const kMSGroupId = @"Crashes";
 
 /**
  * The group ID for log buffer.
  */
-static NSString *const kMSBufferGroupID = @"CrashesBuffer";
+static NSString *const kMSBufferGroupId = @"CrashesBuffer";
 
 /**
  * Name for the AnalyzerInProgress file. Some background info here: writing the file to signal that we are processing
@@ -48,11 +48,6 @@ static NSString *const kMSUserConfirmationKey = @"MSUserConfirmation";
 static void ms_save_log_buffer_callback(__attribute__((unused)) siginfo_t *info,
                                         __attribute__((unused)) ucontext_t *uap,
                                         __attribute__((unused)) void *context) {
-
-  // Do not save the buffer if it is empty.
-  if (msCrashesLogBuffer.size() == 0) {
-    return;
-  }
 
   // Iterate over the buffered logs and write them to disk.
   for (int i = 0; i < ms_crashes_log_buffer_size; i++) {
@@ -198,12 +193,12 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     }
 
     // First, send crash log to log manager.
-    [crashes.logManager processLog:log forGroupID:crashes.groupID];
+    [crashes.logManager processLog:log forGroupId:crashes.groupId];
 
     // Then, send attachements log to log manager.
     for (MSErrorAttachmentLog *attachment in attachments) {
       attachment.errorId = log.errorId;
-      [crashes.logManager processLog:attachment forGroupID:crashes.groupID];
+      [crashes.logManager processLog:attachment forGroupId:crashes.groupId];
     }
 
     // Clean up.
@@ -236,7 +231,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     _logBufferDir = [MSCrashesUtil logBufferDir];
     _analyzerInProgressFile = [_crashesDir URLByAppendingPathComponent:kMSAnalyzerFilename];
     _didCrashInLastSession = NO;
-    _channelConfiguration = [[MSChannelConfiguration alloc] initWithGroupID:[self groupID]
+    _channelConfiguration = [[MSChannelConfiguration alloc] initWithGroupId:[self groupId]
                                                                    priority:MSPriorityHigh
                                                               flushInterval:1.0
                                                              batchSizeLimit:10
@@ -264,7 +259,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     // then the wrapper SDK will call [self configureCrashReporter].
     if (![[MSWrapperExceptionManager getDelegate] respondsToSelector:@selector(setUpCrashHandlers)] ||
         ![[MSWrapperExceptionManager getDelegate] setUpCrashHandlers]) {
-      [self configureCrashReporter];
+      [self configureCrashReporterWithUncaughtExceptionHandlerEnabled:YES];
     }
 
     // PLCrashReporter keeps collecting crash reports even when the SDK is disabled,
@@ -283,7 +278,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     self.crashFiles = [self persistedCrashReports];
 
     // Set self as delegate of crashes' channel.
-    [self.logManager addChannelDelegate:self forGroupID:self.groupID];
+    [self.logManager addChannelDelegate:self forGroupId:self.groupId];
 
     // Process PLCrashReports, this will format the PLCrashReport into our schema and then trigger sending.
     // This mostly happens on the start of the service.
@@ -312,9 +307,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     [self.plCrashReporter purgePendingCrashReport];
 
     // Remove as ChannelDelegate from LogManager
-    [self.logManager removeChannelDelegate:self forGroupID:self.groupID];
-    [self.logManager removeChannelDelegate:self forGroupID:self.groupID];
-    [self.logManager removeChannelDelegate:self forGroupID:self.groupID];
+    [self.logManager removeChannelDelegate:self forGroupId:self.groupId];
+    [self.logManager removeChannelDelegate:self forGroupId:self.groupId];
+    [self.logManager removeChannelDelegate:self forGroupId:self.groupId];
     MSLogInfo([MSCrashes logTag], @"Crashes service has been disabled.");
   }
 }
@@ -339,7 +334,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   [logManager addDelegate:self];
 
   // Initialize a dedicated channel for log buffer.
-  [logManager initChannelWithConfiguration:[[MSChannelConfiguration alloc] initWithGroupID:kMSBufferGroupID
+  [logManager initChannelWithConfiguration:[[MSChannelConfiguration alloc] initWithGroupId:kMSBufferGroupId
                                                                                   priority:MSPriorityHigh
                                                                              flushInterval:1.0
                                                                             batchSizeLimit:60
@@ -353,8 +348,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   return @"MobileCenterCrashes";
 }
 
-- (NSString *)groupID {
-  return kMSGroupID;
+- (NSString *)groupId {
+  return kMSGroupId;
 }
 
 - (MSInitializationPriority)initializationPriority {
@@ -513,10 +508,16 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
 #pragma mark - Crash reporter configuration
 
-- (void)configureCrashReporter {
+- (void)configureCrashReporterWithUncaughtExceptionHandlerEnabled:(BOOL)enableUncaughtExceptionHandler {
   if (self.plCrashReporter) {
     MSLogDebug([MSCrashes logTag], @"Already configured PLCrashReporter.");
     return;
+  }
+
+  if (enableUncaughtExceptionHandler) {
+    MSLogDebug([MSCrashes logTag], @"EnableUncaughtExceptionHandler is set to YES");
+  } else {
+    MSLogDebug([MSCrashes logTag], @"EnableUncaughtExceptionHandler is set to NO, we're running in a Xamarin runtime.");
   }
 
   PLCrashReporterSignalHandlerType signalHandlerType = PLCrashReporterSignalHandlerTypeBSD;
@@ -525,8 +526,10 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     MSLogVerbose([MSCrashes logTag], @"Enabled Mach exception handler.");
   }
   PLCrashReporterSymbolicationStrategy symbolicationStrategy = PLCrashReporterSymbolicationStrategyNone;
-  MSPLCrashReporterConfig *config = [[MSPLCrashReporterConfig alloc] initWithSignalHandlerType:signalHandlerType
-                                                                         symbolicationStrategy:symbolicationStrategy];
+  MSPLCrashReporterConfig *config =
+      [[MSPLCrashReporterConfig alloc] initWithSignalHandlerType:signalHandlerType
+                                           symbolicationStrategy:symbolicationStrategy
+                          shouldRegisterUncaughtExceptionHandler:enableUncaughtExceptionHandler];
   self.plCrashReporter = [[MSPLCrashReporter alloc] initWithConfiguration:config];
 
   /**
@@ -565,6 +568,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       MSLogError([MSCrashes logTag],
                  @"Exception handler could not be set. Make sure there is no other exception handler set up!");
     }
+
+    // Add a handler for C++-Exceptions.
     [MSCrashesUncaughtCXXExceptionHandlerManager addCXXExceptionHandler:uncaught_cxx_exception_handler];
   }
 }
@@ -692,7 +697,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
         if (item) {
 
           // Buffered logs are used sending their own channel. It will never contain more than 20 logs
-          [self.logManager processLog:item forGroupID:kMSBufferGroupID];
+          [self.logManager processLog:item forGroupId:kMSBufferGroupId];
         }
       }
 
@@ -708,7 +713,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   NSError *error = nil;
   NSArray *files = [self.fileManager contentsOfDirectoryAtURL:self.crashesDir
                                    includingPropertiesForKeys:nil
-                                                      options:(NSDirectoryEnumerationOptions)0
+                                                      options:NSDirectoryEnumerationOptions(0)
                                                         error:&error];
   for (NSURL *fileURL in files) {
     [self.fileManager removeItemAtURL:fileURL error:&error];
@@ -769,7 +774,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     NSArray *files =
         [self.fileManager contentsOfDirectoryAtURL:self.crashesDir
                         includingPropertiesForKeys:@[ NSURLNameKey, NSURLFileSizeKey, NSURLIsRegularFileKey ]
-                                           options:(NSDirectoryEnumerationOptions)0
+                                           options:NSDirectoryEnumerationOptions(0)
                                              error:&error];
     for (NSURL *fileURL in files) {
       NSString *fileName = nil;

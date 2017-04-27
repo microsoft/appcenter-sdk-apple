@@ -8,6 +8,12 @@
 @class MSReleaseDetails;
 
 /**
+ * A day in milliseconds.
+ */
+static long long const kMSDayInMillisecond =
+    24 /* Hours */ * 60 /* Minutes */ * 60 /* Seconds */ * 1000 /* Milliseconds */;
+
+/**
  * Base URL for HTTP Distribute install API calls.
  */
 static NSString *const kMSDefaultInstallUrl = @"https://install.mobile.azure.com";
@@ -37,9 +43,9 @@ static NSString *const kMSURLQueryPlatformValue = @"iOS";
 static NSString *const kMSDefaultCustomSchemeFormat = @"mobilecenter-%@";
 
 /**
- * The storage key for ignored release ID.
+ * The storage key for postponed timestamp.
  */
-static NSString *const kMSIgnoredReleaseIdKey = @"MSIgnoredReleaseId";
+static NSString *const kMSPostponedTimestampKey = @"MSPostponedTimestamp";
 
 /**
  * The storage key for request ID.
@@ -74,9 +80,14 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
 @property(nonatomic) MSAlertController *updateAlertController;
 
 /**
- * Current mandatory release if any.
+ * Current release details.
  */
-@property(nonatomic) MSReleaseDetails *mandatoryRelease;
+@property(nonatomic) MSReleaseDetails *releaseDetails;
+
+/**
+ * A Distribute delegate that will be called whenever a new release is available for update.
+ */
+@property(nonatomic, weak) id<MSDistributeDelegate> delegate;
 
 /**
  * Returns the singleton instance. Meant for testing/demo apps only.
@@ -149,6 +160,15 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
 - (void)showConfirmationAlert:(MSReleaseDetails *)details;
 
 /**
+ * Notify custom user action for current release.
+ *
+ * @param action The action for the release.
+ *
+ * @discussion This method will be moved to public once Distribute allows to customize the update dialog.
+ */
+- (void)notifyUpdateAction:(MSUpdateAction)action;
+
+/**
  * Show a dialog to the user in case MSDistribute was disabled while the updates-alert is shown.
  */
 - (void)showDistributeDisabledAlert;
@@ -169,6 +189,11 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
  * Dismiss the Safari hosting view controller.
  */
 - (void)dismissEmbeddedSafari;
+
+/**
+ * Start update workflow
+ */
+- (void)startUpdate;
 
 /**
  * Start download for the given details.

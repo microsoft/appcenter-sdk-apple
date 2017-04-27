@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name              = 'MobileCenter'
-  s.version           = '0.6.1'
+  s.version           = '0.7.0'
 
   s.summary           = 'Add Mobile Center SDK to your app to collect crash reports & understand user behavior by analyzing the session, user or device information.'
   s.description       = <<-DESC
@@ -35,7 +35,7 @@ Pod::Spec.new do |s|
 
   s.frameworks = 'Foundation',  'SystemConfiguration', 'UIKit'
 
-  s.default_subspecs = 'MobileCenterAnalytics', 'MobileCenterCrashes', 'MobileCenterDistribute'
+  s.default_subspecs = 'MobileCenterAnalytics', 'MobileCenterCrashes'
 
   s.subspec 'MobileCenter' do |ss|
       ss.frameworks = 'Foundation',  'SystemConfiguration', 'UIKit'

@@ -73,7 +73,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 
         XCTAssertNil(error);
         XCTAssertEqual(containerId, batchId);
-        XCTAssertEqual(statusCode, MSHTTPCodesNo200OK);
+        XCTAssertEqual((MSHTTPCodesNo)statusCode, MSHTTPCodesNo200OK);
 
         [expectation fulfill];
       }];
@@ -99,7 +99,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
                           NSError *error) {
 
         XCTAssertEqual(containerId, batchId);
-        XCTAssertEqual(statusCode, MSHTTPCodesNo404NotFound);
+        XCTAssertEqual((MSHTTPCodesNo)statusCode, MSHTTPCodesNo404NotFound);
         XCTAssertEqual(error.domain, kMSMCErrorDomain);
         XCTAssertEqual(error.code, kMSMCConnectionHttpErrorCode);
         XCTAssertEqual(error.localizedDescription, kMSMCConnectionHttpErrorDesc);
@@ -331,7 +331,12 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   mockedCall.delegate = self.sut;
   mockedCall.data = container;
   mockedCall.callId = container.batchId;
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnonnull"
   mockedCall.completionHandler = nil;
+#pragma clang diagnostic pop
+
   OCMStub([mockedCall sender:self.sut
               callCompletedWithStatus:MSHTTPCodesNo500InternalServerError
                                  data:[OCMArg any]

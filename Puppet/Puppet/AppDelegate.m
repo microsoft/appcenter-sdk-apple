@@ -13,7 +13,7 @@
 
 #import "MSAlertController.h"
 
-@interface AppDelegate () <MSCrashesDelegate>
+@interface AppDelegate () <MSCrashesDelegate, MSDistributeDelegate>
 
 @end
 
@@ -21,9 +21,11 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
-  // Start Mobile Center SDK.
+  // Customize Mobile Center SDK.
+  [MSDistribute setDelegate:self];
   [MSMobileCenter setLogLevel:MSLogLevelVerbose];
 
+  // Start Mobile Center SDK.
   [MSMobileCenter start:@"7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7"
            withServices:@[ [MSAnalytics class], [MSCrashes class], [MSDistribute class] ]];
 
@@ -54,33 +56,18 @@
 #pragma mark - Application life cycle
 
 - (void)applicationWillResignActive:(UIApplication *)application {
-  // Sent when the application is about to move from active to inactive state. This can occur for certain types of
-  // temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and
-  // it begins the transition to the background state.
-  // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use
-  // this method to pause the game.
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-  // Use this method to release shared resources, save user data, invalidate timers, and store enough application state
-  // information to restore your application to its current state in case it is terminated later.
-  // If your application supports background execution, this method is called instead of applicationWillTerminate: when
-  // the user quits.
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
-  // Called as part of the transition from the background to the inactive state; here you can undo many of the changes
-  // made on entering the background.
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-  // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was
-  // previously in the background, optionally refresh the user interface.
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
-  // Called when the application is about to terminate. Save data if appropriate. See also
-  // applicationDidEnterBackground:.
 }
 
 #pragma mark - Private
@@ -102,8 +89,7 @@
   [MSCrashes
       setUserConfirmationHandler:(^(NSArray<MSErrorReport *> *errorReports) {
 
-        // Use MSAlertViewController to show a dialog to the user where they can choose if they want to provide a crash
-        // report.
+        // Show a dialog to the user where they can choose if they want to provide a crash report.
         MSAlertController *alertController = [MSAlertController
             alertControllerWithTitle:NSLocalizedStringFromTable(@"crash_alert_title", @"Main", @"")
                              message:NSLocalizedStringFromTable(@"crash_alert_message", @"Main", @"")];
@@ -161,6 +147,35 @@
   MSErrorAttachmentLog *attachment2 =
       [MSErrorAttachmentLog attachmentWithBinary:data filename:nil contentType:@"text/xml"];
   return @[ attachment1, attachment2 ];
+}
+
+#pragma mark - MSDistributeDelegate
+
+- (BOOL)distribute:(MSDistribute *)distribute releaseAvailableWithDetails:(MSReleaseDetails *)details {
+  if ([[[NSUserDefaults new] objectForKey:kPUPCustomizedUpdateAlertKey] isEqual:@1]) {
+
+    // Show a dialog to the user where they can choose if they want to update.
+    MSAlertController *alertController = [MSAlertController
+        alertControllerWithTitle:NSLocalizedStringFromTable(@"distribute_alert_title", @"Main", @"")
+                         message:NSLocalizedStringFromTable(@"distribute_alert_message", @"Main", @"")];
+
+    // Add a "Yes"-Button and call the notifyUpdateAction-callback with MSUpdateActionUpdate
+    [alertController addCancelActionWithTitle:NSLocalizedStringFromTable(@"distribute_alert_yes", @"Main", @"")
+                                      handler:^(UIAlertAction *action) {
+                                        [MSDistribute notifyUpdateAction:MSUpdateActionUpdate];
+                                      }];
+
+    // Add a "No"-Button and call the notifyUpdateAction-callback with MSUpdateActionPostpone
+    [alertController addDefaultActionWithTitle:NSLocalizedStringFromTable(@"distribute_alert_no", @"Main", @"")
+                                       handler:^(UIAlertAction *action) {
+                                         [MSDistribute notifyUpdateAction:MSUpdateActionPostpone];
+                                       }];
+
+    // Show the alert controller.
+    [alertController show];
+    return YES;
+  }
+  return NO;
 }
 
 @end

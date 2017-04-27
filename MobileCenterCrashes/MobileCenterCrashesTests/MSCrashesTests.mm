@@ -79,7 +79,10 @@ static NSString *const kMSFatal = @"fatal";
 
   // Creation of buffer files is done asynchronously, we need to give it some time to create the files.
   [NSThread sleepForTimeInterval:0.05];
-  NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[self.sut.logBufferDir path] error:NULL];
+  NSError *error = [NSError errorWithDomain:@"MSTestingError" code:-57 userInfo:nil];
+  NSArray *files = [[NSFileManager defaultManager]
+      contentsOfDirectoryAtPath:reinterpret_cast<NSString *_Nonnull>([self.sut.logBufferDir path])
+                          error:&error];
   assertThat(files, hasCountOf(ms_crashes_log_buffer_size));
 }
 
@@ -276,7 +279,10 @@ static NSString *const kMSFatal = @"fatal";
   [NSThread sleepForTimeInterval:0.05];
 
   // Then
-  NSArray *first = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[self.sut.logBufferDir path] error:NULL];
+  NSError *error = [NSError errorWithDomain:@"MSTestingError" code:-57 userInfo:nil];
+  NSArray *first = [[NSFileManager defaultManager]
+      contentsOfDirectoryAtPath:reinterpret_cast<NSString *_Nonnull>([self.sut.logBufferDir path])
+                          error:&error];
   XCTAssertTrue(first.count == ms_crashes_log_buffer_size);
   for (NSString *path in first) {
     unsigned long long fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:path error:nil] fileSize];
@@ -287,7 +293,9 @@ static NSString *const kMSFatal = @"fatal";
   [self.sut setupLogBuffer];
 
   // Then
-  NSArray *second = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[self.sut.logBufferDir path] error:NULL];
+  NSArray *second = [[NSFileManager defaultManager]
+      contentsOfDirectoryAtPath:reinterpret_cast<NSString *_Nonnull>([self.sut.logBufferDir path])
+                          error:&error];
   for (int i = 0; i < ms_crashes_log_buffer_size; i++) {
     XCTAssertTrue([first[i] isEqualToString:second[i]]);
   }
@@ -386,7 +394,7 @@ static NSString *const kMSFatal = @"fatal";
     // Remember the timestamp if the log is older than the previous one or the initial one.
     if (!oldestTimestamp || oldestTimestamp.doubleValue > bufferedLogTimestamp.doubleValue) {
       oldestTimestamp = bufferedLogTimestamp;
-	  indexOfLatestObject = static_cast<int>(it - msCrashesLogBuffer.begin());
+      indexOfLatestObject = static_cast<int>(it - msCrashesLogBuffer.begin());
     }
   }
 
@@ -474,7 +482,7 @@ static NSString *const kMSFatal = @"fatal";
   NSDictionary *serializedLog = [log serializeToDictionary];
 
   // Then
-  XCTAssertFalse([static_cast<NSNumber*>([serializedLog objectForKey:kMSFatal]) boolValue]);
+  XCTAssertFalse([static_cast<NSNumber *>([serializedLog objectForKey:kMSFatal]) boolValue]);
 
   // If
   log.fatal = NO;
@@ -483,7 +491,7 @@ static NSString *const kMSFatal = @"fatal";
   serializedLog = [log serializeToDictionary];
 
   // Then
-  XCTAssertFalse([static_cast<NSNumber*>([serializedLog objectForKey:kMSFatal]) boolValue]);
+  XCTAssertFalse([static_cast<NSNumber *>([serializedLog objectForKey:kMSFatal]) boolValue]);
 
   // If
   log.fatal = YES;
@@ -492,7 +500,7 @@ static NSString *const kMSFatal = @"fatal";
   serializedLog = [log serializeToDictionary];
 
   // Then
-  XCTAssertTrue([static_cast<NSNumber*>([serializedLog objectForKey:kMSFatal]) boolValue]);
+  XCTAssertTrue([static_cast<NSNumber *>([serializedLog objectForKey:kMSFatal]) boolValue]);
 }
 
 - (BOOL)crashes:(MSCrashes *)crashes shouldProcessErrorReport:(MSErrorReport *)errorReport {

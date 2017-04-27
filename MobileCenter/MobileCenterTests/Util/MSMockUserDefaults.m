@@ -1,5 +1,6 @@
 #import <OCMock/OCMock.h>
 #import "MSMockUserDefaults.h"
+#import "MSUserDefaults.h"
 
 @interface MSMockUserDefaults()
 
@@ -19,6 +20,10 @@
     OCMStub([_mockUserDefaults setObject:[OCMArg any] forKey:[OCMArg any]]).andCall(self,@selector(setObject:forKey:));
     OCMStub([_mockUserDefaults removeObjectForKey:[OCMArg any]]).andCall(self,@selector(removeObjectForKey:));
     OCMStub([_mockUserDefaults standardUserDefaults]).andReturn(self.mockUserDefaults);
+    
+    // Mock MSUserDefaults shared method to return this instance.
+    id userDefaultsMock = OCMClassMock([MSUserDefaults class]);
+    OCMStub([userDefaultsMock shared]).andReturn(self);
   }
   return self;
 }
