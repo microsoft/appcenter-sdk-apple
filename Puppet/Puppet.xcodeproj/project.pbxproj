@@ -645,6 +645,7 @@
 					380A4D951DD6892F00E99219 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = L4RARDNZ2Y;
+						ProvisioningStyle = Manual;
 					};
 					5CE258361EA5097100DA8FB9 = {
 						CreatedOnToolsVersion = 8.3.1;
@@ -1003,12 +1004,15 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = PuppetWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.puppet.PuppetWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "efe8c6b2-d14d-4958-ba71-8817551a535b";
+				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter PuppetWidget Extension";
 				SKIP_INSTALL = YES;
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../MobileCenter/MobileCenter/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashes/**";
 			};
@@ -1019,12 +1023,15 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = PuppetWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.puppet.PuppetWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "efe8c6b2-d14d-4958-ba71-8817551a535b";
+				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter PuppetWidget Extension";
 				SKIP_INSTALL = YES;
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../MobileCenter/MobileCenter/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashes/**";
 			};
@@ -1189,7 +1196,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.puppet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "083ba75a-124b-4128-8bb8-439dc83b282b";
+				PROVISIONING_PROFILE = "bb861002-b29b-4a0e-bdcc-08d1f7e5d38e";
 				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Puppet App";
 				SWIFT_VERSION = 3.0;
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../MobileCenter/MobileCenter/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashes/** $(SRCROOT)/../MobileCenterDistribute/MobileCenterDistribute/** $(SRCROOT)/../MobileCenterPush/MobileCenterPush/**";
@@ -1216,7 +1223,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.puppet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "083ba75a-124b-4128-8bb8-439dc83b282b";
+				PROVISIONING_PROFILE = "bb861002-b29b-4a0e-bdcc-08d1f7e5d38e";
 				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Puppet App";
 				SWIFT_VERSION = 3.0;
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../MobileCenter/MobileCenter/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashes/** $(SRCROOT)/../MobileCenterDistribute/MobileCenterDistribute/** $(SRCROOT)/../MobileCenterPush/MobileCenterPush/**";
