@@ -202,9 +202,10 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
         [self.session dataTaskWithRequest:request
                         completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                           @synchronized(self) {
+                            NSString* payload = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                             NSInteger statusCode = [MSSenderUtil getStatusCode:response];
-                            MSLogDebug([MSMobileCenter logTag], @"HTTP response received with status code:%lu",
-                                       (unsigned long)statusCode);
+                            MSLogDebug([MSMobileCenter logTag], @"HTTP response received with status code=%lu and payload=%@",
+                                       (unsigned long)statusCode, payload);
 
                             // Call handles the completion.
                             if (call) {
