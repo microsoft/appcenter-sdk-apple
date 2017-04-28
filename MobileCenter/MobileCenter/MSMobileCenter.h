@@ -100,13 +100,6 @@
 + (void)setWrapperSdk:(MSWrapperSdk *)wrapperSdk;
 
 /**
- * Set the custom properties.
- *
- * @param customProperties Custom properties object.
- */
-+ (void)setCustomProperties:(MSCustomProperties *)customProperties;
-
-/**
  * Get unique installation identifier.
  *
  * @return Unique installation identifier.
