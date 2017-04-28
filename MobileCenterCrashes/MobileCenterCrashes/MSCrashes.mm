@@ -15,14 +15,14 @@
 static NSString *const kMSServiceName = @"Crashes";
 
 /**
- * The group ID for storage.
+ * The group Id for storage.
  */
-static NSString *const kMSGroupID = @"Crashes";
+static NSString *const kMSGroupId = @"Crashes";
 
 /**
- * The group ID for log buffer.
+ * The group Id for log buffer.
  */
-static NSString *const kMSBufferGroupID = @"CrashesBuffer";
+static NSString *const kMSBufferGroupId = @"CrashesBuffer";
 
 /**
  * Name for the AnalyzerInProgress file. Some background info here: writing the file to signal that we are processing
@@ -189,7 +189,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     }
 
     // Send log to log manager.
-    [crashes.logManager processLog:log forGroupID:crashes.groupID];
+    [crashes.logManager processLog:log forGroupId:crashes.groupId];
     [crashes deleteCrashReportWithFileURL:fileURL];
     [MSWrapperExceptionManager deleteWrapperExceptionDataWithUUIDString:report.incidentIdentifier];
     [crashes.crashFiles removeObject:fileURL];
@@ -219,7 +219,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     _logBufferDir = [MSCrashesUtil logBufferDir];
     _analyzerInProgressFile = [_crashesDir URLByAppendingPathComponent:kMSAnalyzerFilename];
     _didCrashInLastSession = NO;
-    _channelConfiguration = [[MSChannelConfiguration alloc] initWithGroupID:[self groupID]
+    _channelConfiguration = [[MSChannelConfiguration alloc] initWithGroupId:[self groupId]
                                                                    priority:MSPriorityHigh
                                                               flushInterval:1.0
                                                              batchSizeLimit:10
@@ -266,7 +266,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     self.crashFiles = [self persistedCrashReports];
 
     // Set self as delegate of crashes' channel.
-    [self.logManager addChannelDelegate:self forGroupID:self.groupID];
+    [self.logManager addChannelDelegate:self forGroupId:self.groupId];
 
     // Process PLCrashReports, this will format the PLCrashReport into our schema and then trigger sending.
     // This mostly happens on the start of the service.
@@ -295,9 +295,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     [self.plCrashReporter purgePendingCrashReport];
 
     // Remove as ChannelDelegate from LogManager
-    [self.logManager removeChannelDelegate:self forGroupID:self.groupID];
-    [self.logManager removeChannelDelegate:self forGroupID:self.groupID];
-    [self.logManager removeChannelDelegate:self forGroupID:self.groupID];
+    [self.logManager removeChannelDelegate:self forGroupId:self.groupId];
+    [self.logManager removeChannelDelegate:self forGroupId:self.groupId];
+    [self.logManager removeChannelDelegate:self forGroupId:self.groupId];
     MSLogInfo([MSCrashes logTag], @"Crashes service has been disabled.");
   }
 }
@@ -322,7 +322,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   [logManager addDelegate:self];
 
   // Initialize a dedicated channel for log buffer.
-  [logManager initChannelWithConfiguration:[[MSChannelConfiguration alloc] initWithGroupID:kMSBufferGroupID
+  [logManager initChannelWithConfiguration:[[MSChannelConfiguration alloc] initWithGroupId:kMSBufferGroupId
                                                                                   priority:MSPriorityHigh
                                                                              flushInterval:1.0
                                                                             batchSizeLimit:60
@@ -336,8 +336,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   return @"MobileCenterCrashes";
 }
 
-- (NSString *)groupID {
-  return kMSGroupID;
+- (NSString *)groupId {
+  return kMSGroupId;
 }
 
 - (MSInitializationPriority)initializationPriority {
@@ -685,7 +685,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
         if (item) {
 
           // Buffered logs are used sending their own channel. It will never contain more than 20 logs
-          [self.logManager processLog:item forGroupID:kMSBufferGroupID];
+          [self.logManager processLog:item forGroupId:kMSBufferGroupId];
         }
       }
 

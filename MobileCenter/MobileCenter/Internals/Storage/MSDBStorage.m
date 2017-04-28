@@ -6,7 +6,7 @@
 static NSString *const kMSLogEntityName = @"MSDBLog";
 static NSString *const kMSDBFileName = @"MSDBLogs.sqlite";
 static NSString *const kMSLogTableName = @"MSLog";
-static NSString *const kMSGroupIDColumnName = @"groupID";
+static NSString *const kMSGroupIdColumnName = @"groupId";
 static NSString *const kMSDataColumnName = @"data";
 
 @implementation MSDBStorage
@@ -26,36 +26,36 @@ static NSString *const kMSDataColumnName = @"data";
 
 - (void)initTables {
   NSString *createLogTableQuery = [NSString stringWithFormat:@"create table if not exists %@ (%@ text, %@ text);",
-                                                             kMSLogTableName, kMSGroupIDColumnName, kMSDataColumnName];
+                                                             kMSLogTableName, kMSGroupIdColumnName, kMSDataColumnName];
   [self.connection executeQuery:createLogTableQuery];
 }
 
 #pragma mark - Public
 
-- (BOOL)saveLog:(id<MSLog>)log withGroupID:(NSString *)groupID {
+- (BOOL)saveLog:(id<MSLog>)log withGroupId:(NSString *)groupId {
   if (!log) {
     return NO;
   }
   NSData *logData = [NSKeyedArchiver archivedDataWithRootObject:log];
   NSString *base64Data = [logData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
   NSString *addLogQuery = [NSString
-      stringWithFormat:@"insert or replace into %@ values ('%@', '%@')", kMSLogTableName, groupID, base64Data];
+      stringWithFormat:@"insert or replace into %@ values ('%@', '%@')", kMSLogTableName, groupId, base64Data];
   return [self.connection executeQuery:addLogQuery];
 }
 
-- (NSArray<MSLog> *)deleteLogsForGroupID:(NSString *)groupID {
-  NSArray<MSLog> *logs = [self getLogsWithGroupID:groupID];
-  [self deleteLogsWithGroupID:groupID];
+- (NSArray<MSLog> *)deleteLogsForGroupId:(NSString *)groupId {
+  NSArray<MSLog> *logs = [self getLogsWithGroupId:groupId];
+  [self deleteLogsWithGroupId:groupId];
   return logs;
 }
 
-- (void)deleteLogsForId:(__attribute__((unused)) NSString *)batchId withGroupID:(NSString *)groupID {
+- (void)deleteLogsForId:(__attribute__((unused)) NSString *)batchId withGroupId:(NSString *)groupId {
 
   // FIXME: Restore batch deletion.
-  [self deleteLogsWithGroupID:groupID];
+  [self deleteLogsWithGroupId:groupId];
 }
 
-- (BOOL)loadLogsForGroupID:(NSString *)groupID
+- (BOOL)loadLogsForGroupId:(NSString *)groupId
                      limit:(NSUInteger)limit
             withCompletion:(nullable MSLoadDataCompletionBlock)completion {
 
@@ -64,7 +64,7 @@ static NSString *const kMSDataColumnName = @"data";
    * So this is just about knowing if there is at least 1 log above the limit.
    * Thus, just 1 log is added to the requested limit and then removed later as needed.
    */
-  NSMutableArray<MSLog> *logs = (NSMutableArray<MSLog> *)[self getLogsWithGroupID:groupID limit:(limit + 1)];
+  NSMutableArray<MSLog> *logs = (NSMutableArray<MSLog> *)[self getLogsWithGroupId:groupId limit:(limit + 1)];
   BOOL moreLogsAvailable = NO;
 
   // Remove the log in excess, it means there is more logs available.
@@ -73,7 +73,7 @@ static NSString *const kMSDataColumnName = @"data";
     moreLogsAvailable = YES;
   }
   if (completion) {
-    completion(logs.count > 0, logs, groupID);
+    completion(logs.count > 0, logs, groupId);
   }
 
   // Return YES if more logs available.
@@ -82,15 +82,15 @@ static NSString *const kMSDataColumnName = @"data";
 
 #pragma mark - Private
 
-- (NSArray<MSLog> *)getLogsWithGroupID:(NSString *)groupID {
+- (NSArray<MSLog> *)getLogsWithGroupId:(NSString *)groupId {
   NSString *selectLogQuery =
-      [NSString stringWithFormat:@"select * from %@ where %@ == '%@'", kMSLogTableName, kMSGroupIDColumnName, groupID];
+      [NSString stringWithFormat:@"select * from %@ where %@ == '%@'", kMSLogTableName, kMSGroupIdColumnName, groupId];
   return [self getLogsWithQwery:selectLogQuery];
 }
 
-- (NSArray<MSLog> *)getLogsWithGroupID:(NSString *)groupID limit:(NSUInteger)limit {
+- (NSArray<MSLog> *)getLogsWithGroupId:(NSString *)groupId limit:(NSUInteger)limit {
   NSString *selectLogQuery = [NSString stringWithFormat:@"select * from %@ where %@ == '%@' limit %lu", kMSLogTableName,
-                                                        kMSGroupIDColumnName, groupID, (unsigned long)limit];
+                                                        kMSGroupIdColumnName, groupId, (unsigned long)limit];
   return [self getLogsWithQwery:selectLogQuery];
 }
 
@@ -109,9 +109,9 @@ static NSString *const kMSDataColumnName = @"data";
   return logs;
 }
 
-- (void)deleteLogsWithGroupID:(NSString *)groupID {
+- (void)deleteLogsWithGroupId:(NSString *)groupId {
   NSString *deleteLogQuery =
-      [NSString stringWithFormat:@"delete from %@ where %@ == '%@'", kMSLogTableName, kMSGroupIDColumnName, groupID];
+      [NSString stringWithFormat:@"delete from %@ where %@ == '%@'", kMSLogTableName, kMSGroupIdColumnName, groupId];
   [self.connection executeQuery:deleteLogQuery];
 }
 

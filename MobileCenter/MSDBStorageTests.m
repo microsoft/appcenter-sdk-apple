@@ -6,7 +6,7 @@
 #import "MSDBStoragePrivate.h"
 #import "MSDatabaseConnection.h"
 
-static NSString *const kMSTestGroupID = @"TestGroupID";
+static NSString *const kMSTestGroupId = @"TestGroupId";
 
 @interface MSDBStorageTests : XCTestCase
 
@@ -33,7 +33,7 @@ static NSString *const kMSTestGroupID = @"TestGroupID";
       .andReturn([self generateSerializedLogsWithCount:expectedLogsCount + 1]);
 
   // When
-  BOOL moreLogsAvailable = [self.sut loadLogsForGroupID:kMSTestGroupID
+  BOOL moreLogsAvailable = [self.sut loadLogsForGroupId:kMSTestGroupId
                                                   limit:expectedLogsCount
                                          withCompletion:^(BOOL succeeded, NSArray<MSLog> *_Nonnull logArray,
                                                           __attribute__((unused)) NSString * _Nonnull batchId) {
@@ -53,7 +53,7 @@ static NSString *const kMSTestGroupID = @"TestGroupID";
       .andReturn([self generateSerializedLogsWithCount:expectedLogsCount]);
 
   // When
-  BOOL moreLogsAvailable = [self.sut loadLogsForGroupID:kMSTestGroupID
+  BOOL moreLogsAvailable = [self.sut loadLogsForGroupId:kMSTestGroupId
                                                   limit:expectedLogsCount
                                          withCompletion:^(BOOL succeeded, NSArray<MSLog> *_Nonnull logArray,
                                                           __attribute__((unused)) NSString * _Nonnull batchId) {
@@ -74,7 +74,7 @@ static NSString *const kMSTestGroupID = @"TestGroupID";
       .andReturn([self generateSerializedLogsWithCount:expectedLogsCount]);
 
   // When
-  BOOL moreLogsAvailable = [self.sut loadLogsForGroupID:kMSTestGroupID
+  BOOL moreLogsAvailable = [self.sut loadLogsForGroupId:kMSTestGroupId
                                                   limit:limit
                                          withCompletion:^(BOOL succeeded, NSArray<MSLog> *_Nonnull logArray,
                                                           __attribute__((unused)) NSString * _Nonnull batchId) {
@@ -94,7 +94,7 @@ static NSString *const kMSTestGroupID = @"TestGroupID";
       .andReturn([self generateSerializedLogsWithCount:expectedLogsCount]);
 
   // When
-  NSArray<MSAbstractLog *> *logs = [self.sut getLogsWithGroupID:kMSTestGroupID];
+  NSArray<MSAbstractLog *> *logs = [self.sut getLogsWithGroupId:kMSTestGroupId];
 
   // Then
   XCTAssertTrue(expectedLogsCount == logs.count);
@@ -105,7 +105,7 @@ static NSString *const kMSTestGroupID = @"TestGroupID";
   for (NSUInteger i = 0; i < count; ++i) {
     NSData *logData = [NSKeyedArchiver archivedDataWithRootObject:[MSAbstractLog new]];
     NSString *base64Data = [logData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
-    [logs addObject:@[ kMSTestGroupID, base64Data ]];
+    [logs addObject:@[ kMSTestGroupId, base64Data ]];
   }
   return logs;
 }

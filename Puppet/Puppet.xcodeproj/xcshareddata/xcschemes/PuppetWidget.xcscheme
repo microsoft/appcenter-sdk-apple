@@ -43,13 +43,23 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "5CE258361EA5097100DA8FB9"
+               BuildableName = "PuppetUITests.xctest"
+               BlueprintName = "PuppetUITests"
+               ReferencedContainer = "container:Puppet.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "380A4D951DD6892F00E99219"
-            BuildableName = "PuppetWidget.appex"
-            BlueprintName = "PuppetWidget"
+            BlueprintIdentifier = "E82E1B5E1D1CA58D00D281C1"
+            BuildableName = "Puppet.app"
+            BlueprintName = "Puppet"
             ReferencedContainer = "container:Puppet.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

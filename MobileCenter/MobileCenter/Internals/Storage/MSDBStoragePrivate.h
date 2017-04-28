@@ -7,13 +7,13 @@
 @property(nonatomic) id<MSDatabaseConnection> connection;
 
 /**
- * Get all logs with the given group ID from the storage.
+ * Get all logs with the given group Id from the storage.
  *
- * @param groupID The groupID used for grouping logs.
+ * @param groupId The key used for grouping logs.
  *
- * @return Logs corresponding to the given group ID from the storage.
+ * @return Logs corresponding to the given group Id from the storage.
  *
  */
-- (NSArray<MSLog> *)getLogsWithGroupID:(NSString *)groupID;
+- (NSArray<MSLog> *)getLogsWithGroupId:(NSString *)groupId;
 
 @end
