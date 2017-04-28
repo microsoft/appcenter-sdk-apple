@@ -55,7 +55,7 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
                                                storage:self.storage
                                          configuration:configuration
                                      logsDispatchQueue:self.logsDispatchQueue];
-    self.channels[configuration.groupID] = channel;
+    self.channels[configuration.groupId] = channel;
   }
 }
 
@@ -75,22 +75,22 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 
 #pragma mark - Channel Delegate
 
-- (void)addChannelDelegate:(id<MSChannelDelegate>)channelDelegate forGroupID:(NSString *)groupID {
+- (void)addChannelDelegate:(id<MSChannelDelegate>)channelDelegate forGroupId:(NSString *)groupId {
   if (channelDelegate) {
-    if (self.channels[groupID]) {
-      [self.channels[groupID] addDelegate:channelDelegate];
+    if (self.channels[groupId]) {
+      [self.channels[groupId] addDelegate:channelDelegate];
     } else {
-      MSLogWarning([MSMobileCenter logTag], @"Channel has not been initialized for the group ID: %@", groupID);
+      MSLogWarning([MSMobileCenter logTag], @"Channel has not been initialized for the group Id: %@", groupId);
     }
   }
 }
 
-- (void)removeChannelDelegate:(id<MSChannelDelegate>)channelDelegate forGroupID:(NSString *)groupID {
+- (void)removeChannelDelegate:(id<MSChannelDelegate>)channelDelegate forGroupId:(NSString *)groupId {
   if (channelDelegate) {
-    if (self.channels[groupID]) {
-      [self.channels[groupID] removeDelegate:channelDelegate];
+    if (self.channels[groupId]) {
+      [self.channels[groupId] removeDelegate:channelDelegate];
     } else {
-      MSLogWarning([MSMobileCenter logTag], @"Channel has not been initialized for the group ID: %@", groupID);
+      MSLogWarning([MSMobileCenter logTag], @"Channel has not been initialized for the group Id: %@", groupId);
     }
   }
 }
@@ -107,15 +107,15 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 
 #pragma mark - Process items
 
-- (void)processLog:(id<MSLog>)log forGroupID:(NSString *)groupID {
+- (void)processLog:(id<MSLog>)log forGroupId:(NSString *)groupId {
   if (!log) {
     return;
   }
 
   // Get the channel.
-  id<MSChannel> channel = self.channels[groupID];
+  id<MSChannel> channel = self.channels[groupId];
   if (!channel) {
-    MSLogWarning([MSMobileCenter logTag], @"Channel has not been initialized for the group ID: %@", groupID);
+    MSLogWarning([MSMobileCenter logTag], @"Channel has not been initialized for the group Id: %@", groupId);
     return;
   }
 
@@ -171,23 +171,23 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
     // If requested, also delete logs from not started services.
     if (!isEnabled && deleteData) {
       NSArray<NSString *> *runningChannels = self.channels.allKeys;
-      for (NSString *groupID in runningChannels) {
-        if (![runningChannels containsObject:groupID]) {
+      for (NSString *groupId in runningChannels) {
+        if (![runningChannels containsObject:groupId]) {
           NSError *error = [NSError errorWithDomain:kMSMCErrorDomain
                                                code:kMSMCConnectionSuspendedErrorCode
                                            userInfo:@{NSLocalizedDescriptionKey : kMSMCConnectionSuspendedErrorDesc}];
-          [self.channels[groupID] deleteAllLogsWithError:error];
+          [self.channels[groupId] deleteAllLogsWithError:error];
         }
       }
     }
   }
 }
 
-- (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData forGroupID:(NSString *)groupID {
-  if (self.channels[groupID]) {
-    [self.channels[groupID] setEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
+- (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData forGroupId:(NSString *)groupId {
+  if (self.channels[groupId]) {
+    [self.channels[groupId] setEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
   } else {
-    MSLogWarning([MSMobileCenter logTag], @"Channel has not been initialized for the group ID: %@", groupID);
+    MSLogWarning([MSMobileCenter logTag], @"Channel has not been initialized for the group Id: %@", groupId);
   }
 }
 

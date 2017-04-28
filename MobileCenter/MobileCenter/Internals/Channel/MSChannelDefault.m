@@ -114,7 +114,7 @@
 
     // Save the log first.
     MSLogDebug([MSMobileCenter logTag], @"Saving log, type: %@.", item.type);
-    BOOL success = [self.storage saveLog:item withGroupID:self.configuration.groupID];
+    BOOL success = [self.storage saveLog:item withGroupId:self.configuration.groupId];
     self.itemsCount += 1;
 
     // Execute the completion block.
@@ -156,7 +156,8 @@
   // Reset item count and load data from the storage.
   self.itemsCount = 0;
   self.availableBatchFromStorage = [self.storage
-      loadLogsForGroupID:self.configuration.groupID
+      loadLogsForGroupId:self.configuration.groupId
+                   limit:self.configuration.batchSizeLimit
           withCompletion:^(BOOL succeeded, NSArray<MSLog> *_Nonnull logArray, NSString *_Nonnull batchId) {
 
                // Logs may be deleted from storage before this flush.
@@ -169,8 +170,8 @@
                  MSLogDebug([MSMobileCenter logTag], @"Sending log(s), batch Id:%@, payload:\n%@", batchId,
                             [container serializeLogWithPrettyPrinting:YES]);
 
-              // Notify delegates.
-              [self enumerateDelegatesForSelector:@selector(channel:willSendLog:)
+                 // Notify delegates.
+                 [self enumerateDelegatesForSelector:@selector(channel:willSendLog:)
                                         withBlock:^(id<MSChannelDelegate> delegate) {
                                           for (id<MSLog> aLog in logArray) {
                                             [delegate channel:self willSendLog:aLog];
@@ -198,7 +199,7 @@
 
                           // Remove from pending logs and storage.
                           [self.pendingBatchIds removeObject:senderBatchId];
-                          [self.storage deleteLogsForId:senderBatchId withGroupID:self.configuration.groupID];
+                          [self.storage deleteLogsForId:senderBatchId withGroupId:self.configuration.groupId];
 
                           // Try to flush again if batch queue is not full anymore.
                           if (self.pendingBatchQueueFull &&
@@ -225,7 +226,7 @@
 
                           // Remove from pending logs.
                           [self.pendingBatchIds removeObject:senderBatchId];
-                          [self.storage deleteLogsForId:senderBatchId withGroupID:self.configuration.groupID];
+                          [self.storage deleteLogsForId:senderBatchId withGroupId:self.configuration.groupId];
 
                           // Fatal error, disable sender with data deletion.
                           // This will in turn disable this channel and delete logs.
@@ -344,11 +345,12 @@
 
   // Delete pending batches first.
   for (NSString *batchId in self.pendingBatchIds) {
-    [self.storage deleteLogsForId:batchId withGroupID:self.configuration.groupID];
+    [self.storage deleteLogsForId:batchId withGroupId:self.configuration.groupId];
   }
 
+  // TODO: What about the database schema, it will stay on disc even after disabling?
   // Delete remaining logs.
-  deletedLogs = [self.storage deleteLogsForGroupID:self.configuration.groupID];
+  deletedLogs = [self.storage deleteLogsForGroupId:self.configuration.groupId];
 
   // Notify failure of remaining logs.
   for (id<MSLog> log in deletedLogs) {

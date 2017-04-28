@@ -1,12 +1,17 @@
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
+
 #import "MSAbstractLog.h"
-#import "MSDBStorage.h"
+#import "MSDBStoragePrivate.h"
+#import "MSDatabaseConnection.h"
+
+static NSString *const kMSTestGroupId = @"TestGroupId";
 
 @interface MSDBStorageTests : XCTestCase
 
-@property (nonatomic) MSDBStorage *sut;
+@property(nonatomic) MSDBStorage *sut;
+@property(nonatomic) id<MSDatabaseConnection> dbConnectionMock;
 
 @end
 
@@ -16,29 +21,91 @@
 - (void)setUp {
   [super setUp];
   self.sut = [MSDBStorage new];
+  self.dbConnectionMock = OCMProtocolMock(@protocol(MSDatabaseConnection));
+  self.sut.connection = self.dbConnectionMock;
 }
 
 - (void)testLoadTooManyLogs {
 
   // If
-  id partialMock = OCMPartialMock(self.sut);
-  OCMStub([partialMock bucketFileLogCountLimit]).andReturn(50);
-  OCMStub([partialMock getLogsWith:[OCMArg any]]).andReturn([self generateLogs:self.sut.bucketFileLogCountLimit]);
+  NSUInteger expectedLogsCount = 5;
+  OCMStub([self.dbConnectionMock loadDataFromDB:[OCMArg any]])
+      .andReturn([self generateSerializedLogsWithCount:expectedLogsCount + 1]);
 
   // When
-  [self.sut loadLogsForGroupID:@"" withCompletion:^(BOOL succeeded, NSArray<MSLog> *_Nonnull logArray, __attribute__((unused)) NSString *_Nonnull batchId) {
+  BOOL moreLogsAvailable = [self.sut loadLogsForGroupId:kMSTestGroupId
+                                                  limit:expectedLogsCount
+                                         withCompletion:^(BOOL succeeded, NSArray<MSLog> *_Nonnull logArray,
+                                                          __attribute__((unused)) NSString * _Nonnull batchId) {
 
-    // Then
-    XCTAssertTrue(succeeded);
-    XCTAssertTrue(self.sut.bucketFileLogCountLimit == logArray.count);
-  }];
+                                           // Then
+                                           XCTAssertTrue(succeeded);
+                                           XCTAssertTrue(expectedLogsCount == logArray.count);
+                                         }];
+  XCTAssertTrue(moreLogsAvailable);
 }
 
-- (NSArray*)generateLogs:(NSUInteger)maxCountLogs  {
-  NSUInteger totalLogs = maxCountLogs * 2;
-  NSMutableArray *logs = [NSMutableArray arrayWithCapacity:totalLogs];
-  for (NSUInteger i = 0; i < totalLogs; ++i) {
-    [logs addObject:[MSAbstractLog new]];
+- (void)testLoadJustEnoughLogs {
+
+  // If
+  NSUInteger expectedLogsCount = 5;
+  OCMStub([self.dbConnectionMock loadDataFromDB:[OCMArg any]])
+      .andReturn([self generateSerializedLogsWithCount:expectedLogsCount]);
+
+  // When
+  BOOL moreLogsAvailable = [self.sut loadLogsForGroupId:kMSTestGroupId
+                                                  limit:expectedLogsCount
+                                         withCompletion:^(BOOL succeeded, NSArray<MSLog> *_Nonnull logArray,
+                                                          __attribute__((unused)) NSString * _Nonnull batchId) {
+
+                                           // Then
+                                           XCTAssertTrue(succeeded);
+                                           XCTAssertTrue(expectedLogsCount == logArray.count);
+                                         }];
+  XCTAssertFalse(moreLogsAvailable);
+}
+
+- (void)testLoadNotEnoughLogs {
+
+  // If
+  NSUInteger expectedLogsCount = 2;
+  NSUInteger limit = 5;
+  OCMStub([self.dbConnectionMock loadDataFromDB:[OCMArg any]])
+      .andReturn([self generateSerializedLogsWithCount:expectedLogsCount]);
+
+  // When
+  BOOL moreLogsAvailable = [self.sut loadLogsForGroupId:kMSTestGroupId
+                                                  limit:limit
+                                         withCompletion:^(BOOL succeeded, NSArray<MSLog> *_Nonnull logArray,
+                                                          __attribute__((unused)) NSString * _Nonnull batchId) {
+
+                                           // Then
+                                           XCTAssertTrue(succeeded);
+                                           XCTAssertTrue(expectedLogsCount == logArray.count);
+                                         }];
+  XCTAssertFalse(moreLogsAvailable);
+}
+
+- (void)testLoadUnlimitedLogs {
+
+  // If
+  NSUInteger expectedLogsCount = 42;
+  OCMStub([self.dbConnectionMock loadDataFromDB:[OCMArg any]])
+      .andReturn([self generateSerializedLogsWithCount:expectedLogsCount]);
+
+  // When
+  NSArray<MSAbstractLog *> *logs = [self.sut getLogsWithGroupId:kMSTestGroupId];
+
+  // Then
+  XCTAssertTrue(expectedLogsCount == logs.count);
+}
+
+- (NSArray<NSArray<NSString *> *> *)generateSerializedLogsWithCount:(NSUInteger)count {
+  NSMutableArray<NSArray<NSString *> *> *logs = [NSMutableArray arrayWithCapacity:count];
+  for (NSUInteger i = 0; i < count; ++i) {
+    NSData *logData = [NSKeyedArchiver archivedDataWithRootObject:[MSAbstractLog new]];
+    NSString *base64Data = [logData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
+    [logs addObject:@[ kMSTestGroupId, base64Data ]];
   }
   return logs;
 }

@@ -28,7 +28,7 @@ static const int numServices = 100;
   // Put teardown code here. This method is called after the invocation of each test method in the class.
   [super tearDown];
 
-  [self.dbStorage deleteLogsForGroupID:@"anyKey"];
+  [self.dbStorage deleteLogsForGroupId:@"anyKey"];
 }
 
 #pragma mark - Database storage tests
@@ -38,7 +38,7 @@ static const int numServices = 100;
 
   [self measureBlock:^{
     for (MSStartServiceLog *log in arrayOfLogs) {
-      [self.dbStorage saveLog:log withGroupID:@"anyKey"];
+      [self.dbStorage saveLog:log withGroupId:@"anyKey"];
     }
   }];
 }
@@ -48,7 +48,7 @@ static const int numServices = 100;
 
   [self measureBlock:^{
     for (MSStartServiceLog *log in arrayOfLogs) {
-      [self.dbStorage saveLog:log withGroupID:@"anyKey"];
+      [self.dbStorage saveLog:log withGroupId:@"anyKey"];
     }
   }];
 }
@@ -58,7 +58,7 @@ static const int numServices = 100;
 
   [self measureBlock:^{
     for (MSStartServiceLog *log in arrayOfLogs) {
-      [self.dbStorage saveLog:log withGroupID:@"anyKey"];
+      [self.dbStorage saveLog:log withGroupId:@"anyKey"];
     }
   }];
 }
@@ -70,7 +70,7 @@ static const int numServices = 100;
 
   [self measureBlock:^{
     for (MSStartServiceLog *log in arrayOfLogs) {
-      [self.dbStorage saveLog:log withGroupID:@"anyKey"];
+      [self.dbStorage saveLog:log withGroupId:@"anyKey"];
     }
   }];
 }
@@ -80,7 +80,7 @@ static const int numServices = 100;
 
   [self measureBlock:^{
     for (MSStartServiceLog *log in arrayOfLogs) {
-      [self.dbStorage saveLog:log withGroupID:@"anyKey"];
+      [self.dbStorage saveLog:log withGroupId:@"anyKey"];
     }
   }];
 }
@@ -90,7 +90,7 @@ static const int numServices = 100;
 
   [self measureBlock:^{
     for (MSStartServiceLog *log in arrayOfLogs) {
-      [self.dbStorage saveLog:log withGroupID:@"anyKey"];
+      [self.dbStorage saveLog:log withGroupId:@"anyKey"];
     }
   }];
 }

@@ -16,7 +16,7 @@
  * @discussion: IMPORTANT, This string is used to point to the right storage value for this service.
  * Changing this string results in data lost if previous data is not migrated.
  */
-@property(nonatomic, copy, readonly) NSString *groupID;
+@property(nonatomic, copy, readonly) NSString *groupId;
 
 /**
  * The initialization priority for this service. Defined here as well as in MSServiceCommon to achieve abstraction.
@@ -42,7 +42,6 @@
  *
  * @discussion This is used to initialize each service.
  */
-// FIXME: need implement this static method in all services after merging
 + (NSString *)serviceName;
 
 /**
