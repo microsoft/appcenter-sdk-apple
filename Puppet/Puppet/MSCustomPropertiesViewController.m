@@ -1,5 +1,6 @@
 #import "MSCustomPropertiesViewController.h"
 #import "MobileCenter.h"
+#import "MSMobileCenterPrivate.h"
 
 @interface MSCustomPropertiesViewController ()
 
