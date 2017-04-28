@@ -1,6 +1,7 @@
 #import <Foundation/Foundation.h>
 #import <sqlite3.h>
 
+#import "MSMobileCenterInternal.h"
 #import "MSSqliteConnection.h"
 
 @interface MSSqliteConnection ()
@@ -51,7 +52,7 @@
 
     // Check if any error occurred during copying and display it.
     if (error != nil) {
-      NSLog(@"%@", [error localizedDescription]);
+      MSLogError(MSMobileCenter.logTag, @"%@", [error localizedDescription]);
     }
   }
 }
@@ -83,7 +84,7 @@
   self.arrColumnNames = [[NSMutableArray alloc] init];
 
   // Open the database.
-  BOOL openDatabaseResult = (BOOL)sqlite3_open([databasePath UTF8String], &sqlite3Database);
+  BOOL openDatabaseResult = sqlite3_open([databasePath UTF8String], &sqlite3Database);
   if (openDatabaseResult == SQLITE_OK) {
 
     // Declare a sqlite3_stmt object in which will be stored the query after having been compiled into a SQLite
@@ -91,7 +92,7 @@
     sqlite3_stmt *compiledStatement;
 
     // Load all data from database to memory.
-    BOOL prepareStatementResult = (BOOL)sqlite3_prepare_v2(sqlite3Database, query, -1, &compiledStatement, NULL);
+    BOOL prepareStatementResult = sqlite3_prepare_v2(sqlite3Database, query, -1, &compiledStatement, NULL);
     if (prepareStatementResult == SQLITE_OK) {
 
       // Check if the query is non-executable.
@@ -121,13 +122,15 @@
             if (dbDataAsChars != NULL) {
 
               // Convert the characters to string.
-              [arrDataRow addObject:[NSString stringWithUTF8String:dbDataAsChars]];
+              [arrDataRow addObject:(NSString * _Nonnull)[NSString stringWithUTF8String:dbDataAsChars]];
             }
 
             // Keep the current column name.
             if (self.arrColumnNames.count != totalColumns) {
               dbDataAsChars = sqlite3_column_name(compiledStatement, i);
-              [self.arrColumnNames addObject:[NSString stringWithUTF8String:dbDataAsChars]];
+              if (dbDataAsChars != NULL) {
+                [self.arrColumnNames addObject:(NSString * _Nonnull)[NSString stringWithUTF8String:dbDataAsChars]];
+              }
             }
           }
 
@@ -150,16 +153,18 @@
           // Keep the last inserted row ID.
           self.lastInsertedRowID = sqlite3_last_insert_rowid(sqlite3Database);
         } else {
-
+          
           // If could not execute the query show the error message on the debugger.
-          NSLog(@"DB Error: %s\nerror code: %d", sqlite3_errmsg(sqlite3Database), executeQueryResults);
+          NSString *errorMsg = [NSString stringWithUTF8String:sqlite3_errmsg(sqlite3Database)];
+          MSLogError(MSMobileCenter.logTag, @"DB Error: %@\nerror code: %d", errorMsg, executeQueryResults);
           result = NO;
         }
       }
     } else {
 
       // In the database cannot be opened then show the error message on the debugger.
-      NSLog(@"DB Error: %s\nquery: %s", sqlite3_errmsg(sqlite3Database), query);
+      NSString *errorMsg = [NSString stringWithUTF8String:sqlite3_errmsg(sqlite3Database)];
+      MSLogError(MSMobileCenter.logTag,@"DB Error: %@\nquery: %@", errorMsg,  [NSString stringWithUTF8String:query]);
       result = NO;
     }
 
@@ -171,9 +176,7 @@
 
   // Close the database.
   sqlite3_close(sqlite3Database);
-
-  NSLog(@"Successfull query: %@", result ? @"YES" : @"NO");
-
+  MSLogVerbose(MSMobileCenter.logTag, @"Successfull query: %@", result ? @"YES" : @"NO");
   return result;
 }
 
