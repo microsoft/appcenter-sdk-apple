@@ -909,7 +909,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 }
 
 - (BOOL)delegateImplementsAttachmentCallback {
-  return self.delegate && [self.delegate respondsToSelector:@selector(attachmentsWithCrashes:forErrorReport:)];
+  id<MSCrashesDelegate> strongDelegate = self.delegate;
+  return strongDelegate && [strongDelegate respondsToSelector:@selector(attachmentsWithCrashes:forErrorReport:)];
 }
 
 + (void)wrapperCrashCallback {
