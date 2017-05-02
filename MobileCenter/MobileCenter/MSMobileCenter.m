@@ -1,3 +1,4 @@
+#import "MSAppDelegateForwarder.h"
 #import "MSConstants+Internal.h"
 #import "MSDeviceTracker.h"
 #import "MSDeviceTrackerPrivate.h"
@@ -11,9 +12,7 @@
 static MSMobileCenter *sharedInstance = nil;
 static dispatch_once_t onceToken;
 
-/**
- * Base URL for HTTP Ingestion backend API calls.
- */
+// Base URL for HTTP Ingestion backend API calls.
 static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 
 // Service name for initialization.
@@ -72,6 +71,18 @@ static NSString *const kMSGroupID = @"MobileCenter";
     }
   }
   return NO;
+}
+
++ (void)setAppDelegateForwardingEnabled:(BOOL)isEnabled{
+  @synchronized([self sharedInstance]) {
+    MSAppDelegateForwarder.enabled = isEnabled;
+  }
+}
+
++ (BOOL)isAppDelegateForwardingEnabled {
+  @synchronized([self sharedInstance]) {
+    return MSAppDelegateForwarder.enabled;
+  }
 }
 
 + (NSUUID *)installId {

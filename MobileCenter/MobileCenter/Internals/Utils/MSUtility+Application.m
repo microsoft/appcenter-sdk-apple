@@ -16,16 +16,21 @@ NSString *MSUtilityApplicationCategory;
   return MSApplicationStateUnknown;
 }
 
-+ (UIApplicationState)sharedAppState {
-  return [[[[self class] sharedApp] valueForKey:@"applicationState"] longValue];
-}
-
 + (UIApplication *)sharedApp {
 
   // Compute selector at runtime for more discretion.
   SEL sharedAppSel = NSSelectorFromString(@"sharedApplication");
   return ((UIApplication * (*)(id, SEL))[[UIApplication class] methodForSelector:sharedAppSel])([UIApplication class],
                                                                                                 sharedAppSel);
+}
+
++ (id<UIApplicationDelegate>)sharedAppDelegate {
+  return [self sharedApp].delegate;
+}
+
+
++ (UIApplicationState)sharedAppState {
+  return [[[[self class] sharedApp] valueForKey:@"applicationState"] longValue];
 }
 
 + (void)sharedAppOpenUrl:(NSURL *)url

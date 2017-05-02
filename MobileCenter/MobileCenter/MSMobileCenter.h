@@ -1,4 +1,5 @@
 #import <Foundation/Foundation.h>
+
 #import "MSConstants.h"
 
 @class MSWrapperSdk;
@@ -96,6 +97,29 @@
  * @param wrapperSdk wrapper SDK information.
  */
 + (void)setWrapperSdk:(MSWrapperSdk *)wrapperSdk;
+
+/**
+ * Enable or disable the app delegate forwarding featrue. 
+ *
+ * @param isEnabled YES to enable, NO to disable.
+ *
+ * @discussion App delegate forwarding feature intercepts messages targetting application delegate methods via swizzling
+ * to forward them to the SDK. This simplify the SDK integration but may be an issue for some situations.
+ * if that is the case then disable App delegate forwarding using `setAppDelegateForwardingEnabled` and forward any application
+ * delegate needed by the SDK manually.
+ *
+ * @see isAppDelegateForwardingEnabled
+ */
++ (void)setAppDelegateForwardingEnabled:(BOOL)isEnabled;
+
+/**
+ * Check whether the app delegate forwarding feature is enabled or not.
+ *
+ * @return YES if enabled, NO otherwise.
+ *
+ * @see setAppDelegateForwardingEnabled:
+ */
++ (BOOL)isAppDelegateForwardingEnabled;
 
 /**
  * Get unique installation identifier.

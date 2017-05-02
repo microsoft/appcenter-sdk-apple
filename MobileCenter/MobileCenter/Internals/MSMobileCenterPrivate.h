@@ -1,3 +1,5 @@
+#import "MSMobileCenter.h"
+
 @interface MSMobileCenter ()
 
 /**

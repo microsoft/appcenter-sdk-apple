@@ -1,9 +1,12 @@
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
+
+#import "MSAppDelegateForwarderPrivate.h"
 #import "MSMobileCenter.h"
 #import "MSMobileCenterInternal.h"
 #import "MSMobileCenterPrivate.h"
+#import "MSMockAppDelegate.h"
 #import "MSMockUserDefaults.h"
 
 static NSString *const kMSInstallIdStringExample = @"F18499DA-5C3D-4F05-B4E8-D8C9C06A6F09";
@@ -32,7 +35,10 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
 - (void)tearDown {
   [self.settingsMock stopMocking];
-
+  
+  // Restore app forwarder.
+  MSAppDelegateForwarder.enabled = YES;
+  [MSAppDelegateForwarder.delegates removeAllObjects];
   [super tearDown];
 }
 
@@ -166,5 +172,49 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   XCTAssertTrue([sorted[0] initializationPriority] == MSInitializationPriorityMax);
   XCTAssertTrue([sorted[1] initializationPriority] == MSInitializationPriorityDefault);
 }
+
+- (void)testDisableAppDelegateForwarding {
+  
+  // If
+  MSMockAppDelegate *delegate = [MSMockAppDelegate new];
+  id utilMock = OCMClassMock([MSUtility class]);
+  OCMStub([utilMock sharedAppDelegate]).andReturn(delegate);
+  
+  // When
+  [MSMobileCenter setAppDelegateForwardingEnabled:NO];
+  
+  // Then
+  assertThatInt(MSAppDelegateForwarder.delegates.count, equalToInt(0));
+
+  // When
+  [MSAppDelegateForwarder registerSwizzlingForDelegate:delegate];
+  [MSAppDelegateForwarder addDelegate:delegate];
+  
+  // Then
+  assertThatInt(MSAppDelegateForwarder.delegates.count, equalToInt(0));
+}
+
+- (void)testEnableAppDelegateForwarding {
+  
+  // If
+  MSMockAppDelegate *delegate = [MSMockAppDelegate new];
+  id utilMock = OCMClassMock([MSUtility class]);
+  OCMStub([utilMock sharedAppDelegate]).andReturn(delegate);
+  [MSMobileCenter setAppDelegateForwardingEnabled:NO];
+  
+  // When
+  [MSMobileCenter setAppDelegateForwardingEnabled:YES];
+  
+  // Then
+  assertThatInt(MSAppDelegateForwarder.delegates.count, equalToInt(0));
+  
+  // When
+  [MSAppDelegateForwarder registerSwizzlingForDelegate:delegate];
+  [MSAppDelegateForwarder addDelegate:delegate];
+  
+  // Then
+  assertThatInt(MSAppDelegateForwarder.delegates.count, equalToInt(1));
+}
+
 
 @end
