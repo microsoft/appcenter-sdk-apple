@@ -202,8 +202,30 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
         [self.session dataTaskWithRequest:request
                         completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                           @synchronized(self) {
-                            NSString* payload = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                            NSString *payload = nil;
                             NSInteger statusCode = [MSSenderUtil getStatusCode:response];
+                            if (data){
+                              
+                              // Error instance for JSON parsing.
+                              NSError *jsonError = nil;
+                              id dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&jsonError];
+                              if (jsonError){
+                                payload = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                              } else {
+                                NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
+                                                                                   options:NSJSONWritingPrettyPrinted
+                                                                                     error:&jsonError];
+                                if (!jsonData || jsonError) {
+                                  payload = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                                } else {
+                                  
+                                  // NSJSONSerialization escapes paths by default so we replace them.
+                                  payload = [[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]
+                                             stringByReplacingOccurrencesOfString:@"\\/"
+                                             withString:@"/"];
+                                }
+                              }
+                            }
                             MSLogDebug([MSMobileCenter logTag], @"HTTP response received with status code=%lu and payload=%@",
                                        (unsigned long)statusCode, payload);
 
