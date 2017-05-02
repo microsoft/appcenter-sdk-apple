@@ -409,7 +409,10 @@
   [MSAppDelegateForwarder addDelegate:self.appDelegateMock];
 
   // When
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpartial-availability"
   BOOL returnedValue = [self.appDelegateMock application:self.appMock openURL:expectedURL options:expectedOptions];
+#pragma clang diagnostic pop
 
   // Then
   assertThatBool(returnedValue, is(@(expectedReturnedValue)));
