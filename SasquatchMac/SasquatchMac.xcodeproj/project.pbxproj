@@ -13,8 +13,10 @@
 		042319D01EAAD73F008FACA0 /* MobileCenterMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D41EAAC7510033BAAE /* MobileCenterMac.framework */; };
 		04ED31E61EAAD1B30033BAAE /* MobileCenterAnalyticsMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D31EAAC7510033BAAE /* MobileCenterAnalyticsMac.framework */; };
 		04ED31E71EAAD1B30033BAAE /* MobileCenterMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D41EAAC7510033BAAE /* MobileCenterMac.framework */; };
-		04FF3E481EB2ACD300158138 /* SasquatchMacViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3C31C111E8E757300B288CE /* SasquatchMacViewController.swift */; };
-		04FF3E491EB2ACD400158138 /* SasquatchMacViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3C31C111E8E757300B288CE /* SasquatchMacViewController.swift */; };
+		5C6F9BAD1EB8B730009E52D8 /* AnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6F9BAC1EB8B730009E52D8 /* AnalyticsViewController.swift */; };
+		5C6F9BAF1EB8B755009E52D8 /* SasquatchMacViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6F9BAE1EB8B755009E52D8 /* SasquatchMacViewController.swift */; };
+		5C6F9BB51EB8EEF9009E52D8 /* SasquatchMacViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6F9BAE1EB8B755009E52D8 /* SasquatchMacViewController.swift */; };
+		5C6F9BB61EB8EEFC009E52D8 /* AnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6F9BAC1EB8B730009E52D8 /* AnalyticsViewController.swift */; };
 		D3C31C261E8E75B300B288CE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C31C251E8E75B300B288CE /* AppDelegate.m */; };
 		D3C31C291E8E75B300B288CE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C31C281E8E75B300B288CE /* main.m */; };
 		D3C31C2E1E8E75B300B288CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3C31C2D1E8E75B300B288CE /* Assets.xcassets */; };
@@ -28,7 +30,8 @@
 		042319CC1EAAD720008FACA0 /* MobileCenterCrashesMac.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterCrashesMac.framework; path = "../MobileCenter-SDK-iOS/MobileCenterCrashesMac.framework"; sourceTree = "<group>"; };
 		04ED31D31EAAC7510033BAAE /* MobileCenterAnalyticsMac.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterAnalyticsMac.framework; path = "../MobileCenter-SDK-iOS/MobileCenterAnalyticsMac.framework"; sourceTree = "<group>"; };
 		04ED31D41EAAC7510033BAAE /* MobileCenterMac.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterMac.framework; path = "../MobileCenter-SDK-iOS/MobileCenterMac.framework"; sourceTree = "<group>"; };
-		D3C31C111E8E757300B288CE /* SasquatchMacViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SasquatchMacViewController.swift; sourceTree = "<group>"; };
+		5C6F9BAC1EB8B730009E52D8 /* AnalyticsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AnalyticsViewController.swift; path = ViewControllers/AnalyticsViewController.swift; sourceTree = "<group>"; };
+		5C6F9BAE1EB8B755009E52D8 /* SasquatchMacViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SasquatchMacViewController.swift; path = ViewControllers/SasquatchMacViewController.swift; sourceTree = "<group>"; };
 		D3C31C131E8E757300B288CE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D3C31C161E8E757300B288CE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/SasquatchMac.storyboard; sourceTree = "<group>"; };
 		D3C31C181E8E757300B288CE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -147,7 +150,8 @@
 		D3C31C711E8E775100B288CE /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				D3C31C111E8E757300B288CE /* SasquatchMacViewController.swift */,
+				5C6F9BAE1EB8B755009E52D8 /* SasquatchMacViewController.swift */,
+				5C6F9BAC1EB8B730009E52D8 /* AnalyticsViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -275,9 +279,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C6F9BAF1EB8B755009E52D8 /* SasquatchMacViewController.swift in Sources */,
 				D3C31C291E8E75B300B288CE /* main.m in Sources */,
 				D3C31C261E8E75B300B288CE /* AppDelegate.m in Sources */,
-				04FF3E481EB2ACD300158138 /* SasquatchMacViewController.swift in Sources */,
+				5C6F9BAD1EB8B730009E52D8 /* AnalyticsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -285,8 +290,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04FF3E491EB2ACD400158138 /* SasquatchMacViewController.swift in Sources */,
+				5C6F9BB51EB8EEF9009E52D8 /* SasquatchMacViewController.swift in Sources */,
 				D3C31C631E8E763600B288CE /* AppDelegate.swift in Sources */,
+				5C6F9BB61EB8EEFC009E52D8 /* AnalyticsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
