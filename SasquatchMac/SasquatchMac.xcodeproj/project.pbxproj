@@ -10,13 +10,15 @@
 		042319CD1EAAD720008FACA0 /* MobileCenterCrashesMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 042319CC1EAAD720008FACA0 /* MobileCenterCrashesMac.framework */; };
 		042319CE1EAAD73F008FACA0 /* MobileCenterAnalyticsMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D31EAAC7510033BAAE /* MobileCenterAnalyticsMac.framework */; };
 		042319CF1EAAD73F008FACA0 /* MobileCenterCrashesMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 042319CC1EAAD720008FACA0 /* MobileCenterCrashesMac.framework */; };
-		042319D01EAAD73F008FACA0 /* MobileCenterMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D41EAAC7510033BAAE /* MobileCenterMac.framework */; };
 		04ED31E61EAAD1B30033BAAE /* MobileCenterAnalyticsMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D31EAAC7510033BAAE /* MobileCenterAnalyticsMac.framework */; };
 		04ED31E71EAAD1B30033BAAE /* MobileCenterMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D41EAAC7510033BAAE /* MobileCenterMac.framework */; };
 		5C6F9BAD1EB8B730009E52D8 /* AnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6F9BAC1EB8B730009E52D8 /* AnalyticsViewController.swift */; };
 		5C6F9BAF1EB8B755009E52D8 /* SasquatchMacViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6F9BAE1EB8B755009E52D8 /* SasquatchMacViewController.swift */; };
 		5C6F9BB51EB8EEF9009E52D8 /* SasquatchMacViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6F9BAE1EB8B755009E52D8 /* SasquatchMacViewController.swift */; };
 		5C6F9BB61EB8EEFC009E52D8 /* AnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6F9BAC1EB8B730009E52D8 /* AnalyticsViewController.swift */; };
+		5C6F9BB81EB8F2E9009E52D8 /* CrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6F9BB71EB8F2E9009E52D8 /* CrashesViewController.swift */; };
+		5C6F9BB91EB8F2E9009E52D8 /* CrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6F9BB71EB8F2E9009E52D8 /* CrashesViewController.swift */; };
+		5C6F9BCD1EB8FBE6009E52D8 /* MobileCenterMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D41EAAC7510033BAAE /* MobileCenterMac.framework */; };
 		D3C31C261E8E75B300B288CE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C31C251E8E75B300B288CE /* AppDelegate.m */; };
 		D3C31C291E8E75B300B288CE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C31C281E8E75B300B288CE /* main.m */; };
 		D3C31C2E1E8E75B300B288CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3C31C2D1E8E75B300B288CE /* Assets.xcassets */; };
@@ -32,6 +34,8 @@
 		04ED31D41EAAC7510033BAAE /* MobileCenterMac.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterMac.framework; path = "../MobileCenter-SDK-iOS/MobileCenterMac.framework"; sourceTree = "<group>"; };
 		5C6F9BAC1EB8B730009E52D8 /* AnalyticsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AnalyticsViewController.swift; path = ViewControllers/AnalyticsViewController.swift; sourceTree = "<group>"; };
 		5C6F9BAE1EB8B755009E52D8 /* SasquatchMacViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SasquatchMacViewController.swift; path = ViewControllers/SasquatchMacViewController.swift; sourceTree = "<group>"; };
+		5C6F9BB71EB8F2E9009E52D8 /* CrashesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CrashesViewController.swift; path = ViewControllers/CrashesViewController.swift; sourceTree = "<group>"; };
+		5C6F9BD21EB8FC43009E52D8 /* CrashLibIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashLibIOS.framework; path = "../../../Library/Developer/Xcode/DerivedData/MobileCenter-ezwarcphjfkpbddualoymtufwezg/Build/Products/Debug-iphoneos/CrashLibIOS.framework"; sourceTree = "<group>"; };
 		D3C31C131E8E757300B288CE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D3C31C161E8E757300B288CE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/SasquatchMac.storyboard; sourceTree = "<group>"; };
 		D3C31C181E8E757300B288CE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -62,7 +66,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				042319D01EAAD73F008FACA0 /* MobileCenterMac.framework in Frameworks */,
+				5C6F9BCD1EB8FBE6009E52D8 /* MobileCenterMac.framework in Frameworks */,
 				042319CE1EAAD73F008FACA0 /* MobileCenterAnalyticsMac.framework in Frameworks */,
 				042319CF1EAAD73F008FACA0 /* MobileCenterCrashesMac.framework in Frameworks */,
 			);
@@ -95,8 +99,8 @@
 			isa = PBXGroup;
 			children = (
 				D3C31C6F1E8E772E00B288CE /* Storyboards */,
-				D3C31C711E8E775100B288CE /* ViewControllers */,
 				D3C31C701E8E774000B288CE /* Supporting Files */,
+				D3C31C711E8E775100B288CE /* ViewControllers */,
 			);
 			path = SasquatchMac;
 			sourceTree = "<group>";
@@ -152,6 +156,7 @@
 			children = (
 				5C6F9BAE1EB8B755009E52D8 /* SasquatchMacViewController.swift */,
 				5C6F9BAC1EB8B730009E52D8 /* AnalyticsViewController.swift */,
+				5C6F9BB71EB8F2E9009E52D8 /* CrashesViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -279,6 +284,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C6F9BB81EB8F2E9009E52D8 /* CrashesViewController.swift in Sources */,
 				5C6F9BAF1EB8B755009E52D8 /* SasquatchMacViewController.swift in Sources */,
 				D3C31C291E8E75B300B288CE /* main.m in Sources */,
 				D3C31C261E8E75B300B288CE /* AppDelegate.m in Sources */,
@@ -292,6 +298,7 @@
 			files = (
 				5C6F9BB51EB8EEF9009E52D8 /* SasquatchMacViewController.swift in Sources */,
 				D3C31C631E8E763600B288CE /* AppDelegate.swift in Sources */,
+				5C6F9BB91EB8F2E9009E52D8 /* CrashesViewController.swift in Sources */,
 				5C6F9BB61EB8EEFC009E52D8 /* AnalyticsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -14,20 +14,6 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D3C31C5F1E8E763600B288CE"
-               BuildableName = "SasquatchMacSwift.app"
-               BlueprintName = "SasquatchMacSwift"
-               ReferencedContainer = "container:SasquatchMac.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "0485AFE61EAA937000C10CAF"
                BuildableName = "MobileCenterMacFramework"
                BlueprintName = "MobileCenterMacFramework"
@@ -60,6 +46,20 @@
                BuildableName = "MobileCenterCrashesMacFramework"
                BlueprintName = "MobileCenterCrashesMacFramework"
                ReferencedContainer = "container:../MobileCenterCrashes/MobileCenterCrashes.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "D3C31C5F1E8E763600B288CE"
+               BuildableName = "SasquatchMacSwift.app"
+               BlueprintName = "SasquatchMacSwift"
+               ReferencedContainer = "container:SasquatchMac.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
