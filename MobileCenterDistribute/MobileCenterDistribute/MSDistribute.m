@@ -2,6 +2,7 @@
 #import <SafariServices/SafariServices.h>
 
 #import "MSDistribute.h"
+#import "MSDistributeDelegate.h"
 #import "MSDistributeInternal.h"
 #import "MSDistributePrivate.h"
 #import "MSDistributeUtil.h"
@@ -20,7 +21,7 @@ static NSString *const kMSServiceName = @"Distribute";
 /**
  * The group ID for storage.
  */
-static NSString *const kMSGroupID = @"Distribute";
+static NSString *const kMSGroupId = @"Distribute";
 
 #pragma mark - URL constants
 
@@ -43,7 +44,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   if ((self = [super init])) {
     _apiUrl = kMSDefaultApiUrl;
     _installUrl = kMSDefaultInstallUrl;
-    _channelConfiguration = [[MSChannelConfiguration alloc] initDefaultConfigurationWithGroupID:[self groupID]];
+    _channelConfiguration = [[MSChannelConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
 
     /*
      * Delete update token if an application has been uninstalled and try to get a new one from server.
@@ -85,8 +86,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   return @"MobileCenterDistribute";
 }
 
-- (NSString *)groupID {
-  return kMSGroupID;
+- (NSString *)groupId {
+  return kMSGroupId;
 }
 
 #pragma mark - MSServiceAbstract
@@ -108,9 +109,14 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   }
 }
 
-- (void)notifyUserUpdateAction:(MSUserUpdateAction)action {
+- (void)notifyUpdateAction:(MSUpdateAction)action {
+  if (!self.releaseDetails) {
+    MSLogDebug([MSDistribute logTag], @"The release has already been processed.");
+    return;
+  }
+
   switch (action) {
-  case MSUserUpdateActionUpdate:
+  case MSUpdateActionUpdate:
 #if TARGET_IPHONE_SIMULATOR
 
     /*
@@ -128,12 +134,15 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     }
 #endif
     break;
-  case MSUserUpdateActionPostpone:
+  case MSUpdateActionPostpone:
     MSLogDebug([MSDistribute logTag], @"The SDK will ask the update tomorrow again.");
     [MS_USER_DEFAULTS setObject:[NSNumber numberWithLongLong:(long long)[MSUtility nowInMilliseconds]]
                          forKey:kMSPostponedTimestampKey];
     break;
   }
+
+  // The release details have been processed. Clean up the variable.
+  self.releaseDetails = nil;
 }
 
 - (void)startWithLogManager:(id<MSLogManager>)logManager appSecret:(NSString *)appSecret {
@@ -153,6 +162,14 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
 + (void)openUrl:(NSURL *)url {
   [[self sharedInstance] openUrl:url];
+}
+
++ (void)notifyUpdateAction:(MSUpdateAction)action {
+  [[self sharedInstance] notifyUpdateAction:action];
+}
+
++ (void)setDelegate:(id<MSDistributeDelegate>)delegate {
+  [[self sharedInstance] setDelegate:delegate];
 }
 
 #pragma mark - Private
@@ -511,7 +528,19 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   // Step 7. Open a dialog and ask a user to choose options for the update.
   if (!self.releaseDetails || ![self.releaseDetails isEqual:details]) {
     self.releaseDetails = details;
-    [self showConfirmationAlert:details];
+    id<MSDistributeDelegate> strongDelegate = self.delegate;
+    if (strongDelegate && [strongDelegate respondsToSelector:@selector(distribute:releaseAvailableWithDetails:)]) {
+      dispatch_async(dispatch_get_main_queue(), ^{
+        BOOL customized = [strongDelegate distribute:self releaseAvailableWithDetails:details];
+        MSLogDebug([MSDistribute logTag], @"releaseAvailableWithDetails delegate returned %@.",
+                   customized ? @"YES" : @"NO");
+        if (!customized) {
+          [self showConfirmationAlert:details];
+        }
+      });
+    } else {
+      [self showConfirmationAlert:details];
+    }
   }
   return YES;
 }
@@ -539,10 +568,18 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     NSString *messageFormat = details.mandatoryUpdate
                                   ? MSDistributeLocalizedString(@"MSDistributeAppUpdateAvailableMandatoryUpdateMessage")
                                   : MSDistributeLocalizedString(@"MSDistributeAppUpdateAvailableOptionalUpdateMessage");
+    NSString *appName = [MS_APP_MAIN_BUNDLE objectForInfoDictionaryKey:@"CFBundleDisplayName"];
+    if (!appName) {
+      appName = [MS_APP_MAIN_BUNDLE objectForInfoDictionaryKey:@"CFBundleName"];
+    }
+
+/*
+ * FIXME: Format string should be a string literal but its format is in string resource so it won't be. Disable the
+ * warning temporarily.
+ */
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wformat-nonliteral"
-    NSString *message =
-        [NSString stringWithFormat:messageFormat, details.appName, details.shortVersion, details.version];
+    NSString *message = [NSString stringWithFormat:messageFormat, appName, details.shortVersion, details.version];
 #pragma clang diagnostic pop
     MSAlertController *alertController =
         [MSAlertController alertControllerWithTitle:MSDistributeLocalizedString(@"MSDistributeAppUpdateAvailable")
@@ -553,13 +590,11 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       // Add a "Ask me in a day"-Button.
       [alertController addDefaultActionWithTitle:MSDistributeLocalizedString(@"MSDistributeAskMeInADay")
                                          handler:^(__attribute__((unused)) UIAlertAction *action) {
-
-                                           // No need to check if the service isEnabled.
-                                           [self notifyUserUpdateAction:MSUserUpdateActionPostpone];
+                                           [self notifyUpdateAction:MSUpdateActionPostpone];
                                          }];
     }
 
-    if ([details.releaseNotes length] > 0) {
+    if ([details.releaseNotes length] > 0 && details.releaseNotesUrl) {
 
       // Add a "View release notes"-Button.
       [alertController
@@ -583,7 +618,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     // Preferred action is only available iOS 9.0 or newer, cancel action will be displayed for iOS < 9.0.
     [alertController addPreferredActionWithTitle:MSDistributeLocalizedString(@"MSDistributeUpdateNow")
                                          handler:^(__attribute__((unused)) UIAlertAction *action) {
-                                           [self notifyUserUpdateAction:MSUserUpdateActionUpdate];
+                                           [self notifyUpdateAction:MSUpdateActionUpdate];
                                          }];
 
     /*
@@ -693,7 +728,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 }
 
 - (void)applicationWillEnterForeground {
-  if ([self isEnabled]) {
+  if ([self isEnabled] && ![MS_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey]) {
     [self startUpdate];
   }
 }

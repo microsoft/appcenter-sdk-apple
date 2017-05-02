@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @discussion: IMPORTANT, This string is used to point to the right storage value for this service.
  * Changing this string results in data lost if previous data is not migrated.
  */
-@property(nonatomic, copy, readonly) NSString *groupID;
+@property(nonatomic, copy, readonly) NSString *groupId;
 
 /**
  * The channel configuration for this service.

@@ -6,14 +6,17 @@ import MobileCenterCrashes
 import MobileCenterDistribute
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDistributeDelegate {
   
   var window: UIWindow?
   
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-    
-    // Start Mobile Center SDK.
+
+    // Customize Mobile Center SDK.
+    MSDistribute.setDelegate(self);
     MSMobileCenter.setLogLevel(MSLogLevel.verbose)
+
+    // Start Mobile Center SDK.
     #if DEBUG
       MSMobileCenter.start("0dbca56b-b9ae-4d53-856a-7c2856137d85", withServices: [MSAnalytics.self, MSCrashes.self])
     #else
@@ -101,6 +104,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate {
   
   func crashes(_ crashes: MSCrashes!, didFailSending errorReport: MSErrorReport!, withError error: Error!) {
     
+  }
+
+  // Distribute Delegate
+
+  func distribute(_ distribute: MSDistribute!, releaseAvailableWith details: MSReleaseDetails!) -> Bool {
+    return false;
   }
 }
 
