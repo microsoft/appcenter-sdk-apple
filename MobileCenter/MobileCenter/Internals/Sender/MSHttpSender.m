@@ -32,29 +32,30 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     _delegates = [NSHashTable weakObjectsHashTable];
     _callsRetryIntervals = retryIntervals;
     _apiPath = apiPath;
-
+    
     // Construct the URL string with the query string.
     NSString *urlString = [baseUrl stringByAppendingString:apiPath];
     NSURLComponents *components = [NSURLComponents componentsWithString:urlString];
     NSMutableArray *queryItemArray = [NSMutableArray array];
-
+    
     // Set query parameter.
-    [queryStrings enumerateKeysAndObjectsUsingBlock:^(id _Nonnull key, id _Nonnull queryString, __attribute__((unused)) BOOL *_Nonnull stop) {
+    [queryStrings enumerateKeysAndObjectsUsingBlock:^(id _Nonnull key, id _Nonnull queryString,
+                                                      __attribute__((unused)) BOOL *_Nonnull stop) {
       NSURLQueryItem *queryItem = [NSURLQueryItem queryItemWithName:key value:queryString];
       [queryItemArray addObject:queryItem];
     }];
     components.queryItems = queryItemArray;
-
+    
     // Set send URL which can't be null
     _sendURL = (NSURL * _Nonnull) components.URL;
-
+    
     // Hookup to reachability.
     [MS_NOTIFICATION_CENTER addObserver:self
                                selector:@selector(networkStateChanged:)
                                    name:kMSReachabilityChangedNotification
                                  object:nil];
     [self.reachability startNotifier];
-
+    
     // Apply current network state.
     [self networkStateChanged];
   }
@@ -91,25 +92,25 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
       } else {
         [self.reachability stopNotifier];
         [self suspend];
-
+        
         // Data deletion is required.
         if (deleteData) {
-
+          
           // Cancel all the tasks and invalidate current session to free resources.
           [self.session invalidateAndCancel];
           self.session = nil;
-
+          
           // Remove pending calls.
           [self.pendingCalls removeAllObjects];
         }
       }
-
+      
       // Forward enabled state.
       [self
-          enumerateDelegatesForSelector:@selector(senderDidSuspend:)
-                              withBlock:^(id<MSSenderDelegate> delegate) {
-                                [delegate sender:self didSetEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:deleteData];
-                              }];
+       enumerateDelegatesForSelector:@selector(senderDidSuspend:)
+       withBlock:^(id<MSSenderDelegate> delegate) {
+         [delegate sender:self didSetEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:deleteData];
+       }];
     }
   }
 }
@@ -119,25 +120,28 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     if (!self.suspended) {
       MSLogInfo([MSMobileCenter logTag], @"Suspend sender.");
       self.suspended = YES;
-
+      
       // Suspend all tasks.
-      [self.session getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> *_Nonnull dataTasks,
+      [self.session getTasksWithCompletionHandler:^(
+                                                    NSArray<NSURLSessionDataTask *> *_Nonnull dataTasks,
                                                     __attribute__((unused)) NSArray<NSURLSessionUploadTask *> *_Nonnull uploadTasks,
                                                     __attribute__((unused)) NSArray<NSURLSessionDownloadTask *> *_Nonnull downloadTasks) {
-        [dataTasks enumerateObjectsUsingBlock:^(__kindof NSURLSessionTask *_Nonnull call, __attribute__((unused)) NSUInteger idx,
+        [dataTasks enumerateObjectsUsingBlock:^(__kindof NSURLSessionTask *_Nonnull call,
+                                                __attribute__((unused)) NSUInteger idx,
                                                 __attribute__((unused)) BOOL *_Nonnull stop) {
           [call suspend];
         }];
       }];
-
+      
       // Suspend current calls' retry.
       [self.pendingCalls.allValues
-          enumerateObjectsUsingBlock:^(MSSenderCall *_Nonnull call, __attribute__((unused)) NSUInteger idx, __attribute__((unused)) BOOL *_Nonnull stop) {
-            if (!call.submitted) {
-              [call resetRetry];
-            }
-          }];
-
+       enumerateObjectsUsingBlock:^(MSSenderCall *_Nonnull call, __attribute__((unused)) NSUInteger idx,
+                                    __attribute__((unused)) BOOL *_Nonnull stop) {
+         if (!call.submitted) {
+           [call resetRetry];
+         }
+       }];
+      
       // Notify delegates.
       [self enumerateDelegatesForSelector:@selector(senderDidSuspend:)
                                 withBlock:^(id<MSSenderDelegate> delegate) {
@@ -149,30 +153,33 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 
 - (void)resume {
   @synchronized(self) {
-
+    
     // Resume only while enabled.
     if (self.suspended && self.enabled) {
       MSLogInfo([MSMobileCenter logTag], @"Resume sender.");
       self.suspended = NO;
-
+      
       // Resume existing calls.
-      [self.session getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> *_Nonnull dataTasks,
+      [self.session getTasksWithCompletionHandler:^(
+                                                    NSArray<NSURLSessionDataTask *> *_Nonnull dataTasks,
                                                     __attribute__((unused)) NSArray<NSURLSessionUploadTask *> *_Nonnull uploadTasks,
                                                     __attribute__((unused)) NSArray<NSURLSessionDownloadTask *> *_Nonnull downloadTasks) {
-        [dataTasks enumerateObjectsUsingBlock:^(__kindof NSURLSessionTask *_Nonnull call, __attribute__((unused)) NSUInteger idx,
+        [dataTasks enumerateObjectsUsingBlock:^(__kindof NSURLSessionTask *_Nonnull call,
+                                                __attribute__((unused)) NSUInteger idx,
                                                 __attribute__((unused)) BOOL *_Nonnull stop) {
           [call resume];
         }];
       }];
-
+      
       // Resume calls.
       [self.pendingCalls.allValues
-          enumerateObjectsUsingBlock:^(MSSenderCall *_Nonnull call, __attribute__((unused)) NSUInteger idx, __attribute__((unused)) BOOL *_Nonnull stop) {
-            if (!call.submitted) {
-              [self sendCallAsync:call];
-            }
-          }];
-
+       enumerateObjectsUsingBlock:^(MSSenderCall *_Nonnull call, __attribute__((unused)) NSUInteger idx,
+                                    __attribute__((unused)) BOOL *_Nonnull stop) {
+         if (!call.submitted) {
+           [self sendCallAsync:call];
+         }
+       }];
+      
       // Propagate.
       [self enumerateDelegatesForSelector:@selector(senderDidResume:)
                                 withBlock:^(id<MSSenderDelegate> delegate) {
@@ -188,55 +195,57 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   @synchronized(self) {
     if (self.suspended)
       return;
-
+    
     if (!call)
       return;
-
+    
     // Create the request.
     NSURLRequest *request = [self createRequest:call.data];
     if (!request)
       return;
-
+    
     // Create a task for the request.
-    NSURLSessionDataTask *task =
-        [self.session dataTaskWithRequest:request
-                        completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                          @synchronized(self) {
-                            NSString *payload = nil;
-                            NSInteger statusCode = [MSSenderUtil getStatusCode:response];
-                            if (data){
-                              
-                              // Error instance for JSON parsing.
-                              NSError *jsonError = nil;
-                              id dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&jsonError];
-                              if (jsonError){
-                                payload = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-                              } else {
-                                NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
-                                                                                   options:NSJSONWritingPrettyPrinted
-                                                                                     error:&jsonError];
-                                if (!jsonData || jsonError) {
-                                  payload = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-                                } else {
-                                  
-                                  // NSJSONSerialization escapes paths by default so we replace them.
-                                  payload = [[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]
-                                             stringByReplacingOccurrencesOfString:@"\\/"
-                                             withString:@"/"];
-                                }
-                              }
-                            }
-                            MSLogDebug([MSMobileCenter logTag], @"HTTP response received with status code=%lu and payload=%@",
-                                       (unsigned long)statusCode, payload);
-
-                            // Call handles the completion.
-                            if (call) {
-                              call.submitted = NO;
-                              [call sender:self callCompletedWithStatus:statusCode data:data error:error];
-                            }
-                          }
-                        }];
-
+    NSURLSessionDataTask *task = [self.session
+                                  dataTaskWithRequest:request
+                                  completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                                    @synchronized(self) {
+                                      NSString *payload = nil;
+                                      NSInteger statusCode = [MSSenderUtil getStatusCode:response];
+                                      if (data) {
+                                        
+                                        // Error instance for JSON parsing.
+                                        NSError *jsonError = nil;
+                                        id dictionary = [NSJSONSerialization JSONObjectWithData:data
+                                                                                        options:NSJSONReadingMutableContainers
+                                                                                          error:&jsonError];
+                                        if (jsonError) {
+                                          payload = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                                        } else {
+                                          NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
+                                                                                             options:NSJSONWritingPrettyPrinted
+                                                                                               error:&jsonError];
+                                          if (!jsonData || jsonError) {
+                                            payload = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                                          } else {
+                                            
+                                            // NSJSONSerialization escapes paths by default so we replace them.
+                                            payload = [[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]
+                                                       stringByReplacingOccurrencesOfString:@"\\/"
+                                                       withString:@"/"];
+                                          }
+                                        }
+                                      }
+                                      MSLogDebug([MSMobileCenter logTag], @"HTTP response received with status code=%lu and payload=%@",
+                                                 (unsigned long)statusCode, payload);
+                                      
+                                      // Call handles the completion.
+                                      if (call) {
+                                        call.submitted = NO;
+                                        [call sender:self callCompletedWithStatus:statusCode data:data error:error];
+                                      }
+                                    }
+                                  }];
+    
     // TODO: Set task priority.
     [task resume];
     call.submitted = YES;
@@ -270,7 +279,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     NSURLComponents *components;
     _baseURL = baseURL;
     NSURL *partialURL = [NSURL URLWithString:[baseURL stringByAppendingString:self.apiPath]];
-
+    
     // Merge new parial URL and current full URL.
     if (partialURL) {
       components = [NSURLComponents componentsWithURL:self.sendURL resolvingAgainstBaseURL:NO];
@@ -283,14 +292,14 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
         MSLogInfo([MSMobileCenter logTag], @"Error while updating HTTP URL %@ with %@: \n%@",
                   self.sendURL.absoluteString, baseURL, ex);
       }
-
+      
       // Update full URL.
       if (components.URL) {
-        self.sendURL = (NSURL * _Nonnull)components.URL;
+        self.sendURL = (NSURL * _Nonnull) components.URL;
         success = true;
       }
     }
-
+    
     // Notify failure.
     if (!success) {
       MSLogInfo([MSMobileCenter logTag], @"Failed to update HTTP URL %@ with %@", self.sendURL.absoluteString, baseURL);
@@ -342,15 +351,15 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   NSMutableArray<NSString *> *flattenedHeaders = [NSMutableArray<NSString *> new];
   for (NSString *headerKey in headers) {
     [flattenedHeaders
-        addObject:[NSString stringWithFormat:@"%@ = %@", headerKey,
-                                             [self obfuscateHeaderValue:headerKey value:headers[headerKey]]]];
+     addObject:[NSString stringWithFormat:@"%@ = %@", headerKey,
+                [self obfuscateHeaderValue:headerKey value:headers[headerKey]]]];
   }
   return [flattenedHeaders componentsJoinedByString:@", "];
 }
 
 - (void)sendAsync:(NSObject *)data callId:(NSString *)callId completionHandler:(MSSendAsyncCompletionHandler)handler {
   @synchronized(self) {
-
+    
     // Check if call has already been created(retry scenario).
     MSSenderCall *call = self.pendingCalls[callId];
     if (call == nil) {
@@ -359,7 +368,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
       call.data = data;
       call.callId = callId;
       call.completionHandler = handler;
-
+      
       // Store call in calls array.
       self.pendingCalls[callId] = call;
     }
