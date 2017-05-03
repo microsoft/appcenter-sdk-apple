@@ -44,7 +44,7 @@
   NSLog(@"%@ Got waken up via openURL:sourceApplication:annotation: %@", kPUPLogTag, url);
 
   // Forward the URL to MSDistribute.
-  return [MSDistribute openUrl:url];
+  return [MSDistribute openURL:url];
 }
 
 // Open URL for iOS 9+.
@@ -52,7 +52,7 @@
   NSLog(@"%@ Got waken up via openURL:options: %@", kPUPLogTag, url);
   
   // Forward the URL to MSDistribute.
-  return [MSDistribute openUrl:url];
+  return [MSDistribute openURL:url];
 }
 
 #pragma mark - Application life cycle

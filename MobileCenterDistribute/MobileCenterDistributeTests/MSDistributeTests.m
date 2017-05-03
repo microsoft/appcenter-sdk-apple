@@ -776,7 +776,7 @@ static NSURL *sfURL;
   
   // When
   NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://?", scheme]];
-  BOOL result = [MSDistribute openUrl:url];
+  BOOL result = [MSDistribute openURL:url];
   
   // Then
   assertThatBool(result, isFalse());
@@ -792,7 +792,7 @@ static NSURL *sfURL;
   url = [NSURL URLWithString:@"invalid://?"];
 
   // When
-  result = [MSDistribute openUrl:url];
+  result = [MSDistribute openURL:url];
 
   // Then
   assertThatBool(result, isFalse());
@@ -802,7 +802,7 @@ static NSURL *sfURL;
   url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://?", scheme]];
 
   // When
-  result = [MSDistribute openUrl:url];
+  result = [MSDistribute openURL:url];
 
   // Then
   assertThatBool(result, isTrue());
@@ -813,7 +813,7 @@ static NSURL *sfURL;
   url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://?request_id=%@", scheme, requestId]];
 
   // When
-  result = [MSDistribute openUrl:url];
+  result = [MSDistribute openURL:url];
 
   // Then
   assertThatBool(result, isTrue());
@@ -825,7 +825,7 @@ static NSURL *sfURL;
       URLWithString:[NSString stringWithFormat:@"%@://?request_id=%@&update_token=%@", scheme, requestId, token]];
 
   // When
-  result = [MSDistribute openUrl:url];
+  result = [MSDistribute openURL:url];
 
   // Then
   assertThatBool(result, isTrue());
@@ -839,7 +839,7 @@ static NSURL *sfURL;
                                                         requestId, token]];
 
   // When
-  result = [MSDistribute openUrl:url];
+  result = [MSDistribute openURL:url];
 
   // Then
   assertThatBool(result, isFalse());
@@ -850,7 +850,7 @@ static NSURL *sfURL;
       URLWithString:[NSString stringWithFormat:@"%@://?request_id=%@&update_token=%@", scheme, requestId, token]];
 
   // When
-  result = [MSDistribute openUrl:url];
+  result = [MSDistribute openURL:url];
 
   // Then
   assertThatBool(result, isTrue());
@@ -860,7 +860,7 @@ static NSURL *sfURL;
   [distributeMock setEnabled:NO];
 
   // When
-  [MSDistribute openUrl:url];
+  [MSDistribute openURL:url];
 
   // Then
   assertThatBool(result, isTrue());
@@ -1149,7 +1149,7 @@ static NSURL *sfURL;
   self.sut.safariHostingViewController = viewControllerMock;
 
   // When
-  [MSDistribute openUrl:url];
+  [MSDistribute openURL:url];
   dispatch_async(dispatch_get_main_queue(), ^{
     [safariDismissedExpectation fulfill];
   });

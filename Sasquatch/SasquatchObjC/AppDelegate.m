@@ -42,14 +42,14 @@
          annotation:(id)annotation {
   
   // Forward the URL to MSDistribute.
-  return [MSDistribute openUrl:url];
+  return [MSDistribute openURL:url];
 }
 
 // Open URL for iOS 9+.
 - (BOOL)application:(UIApplication *)application openURL:(nonnull NSURL *)url options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options{
   
   // Forward the URL to MSDistribute.
-  return [MSDistribute openUrl:url];
+  return [MSDistribute openURL:url];
 }
 
 #pragma mark - Application life cycle

@@ -160,8 +160,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   [[self sharedInstance] setInstallUrl:installUrl];
 }
 
-+ (BOOL)openUrl:(NSURL *)url {
-  return [[self sharedInstance] openUrl:url];
++ (BOOL)openURL:(NSURL *)url {
+  return [[self sharedInstance] openURL:url];
 }
 
 + (void)notifyUpdateAction:(MSUpdateAction)action {
@@ -679,7 +679,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   exit(0);
 }
 
-- (BOOL)openUrl:(NSURL *)url {
+- (BOOL)openURL:(NSURL *)url {
   
   /*
    * Ignore if app secret not set, can't test scheme.
