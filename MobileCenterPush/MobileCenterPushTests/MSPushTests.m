@@ -105,6 +105,12 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
 
   // Then
   XCTAssertEqualObjects(originalToken, convertedToken);
+
+  // When
+  convertedToken = [self.sut convertTokenToString:nil];
+
+  // Then
+  XCTAssertNil(convertedToken);
 }
 
 - (void)testDidRegisterForRemoteNotificationsWithDeviceToken {
