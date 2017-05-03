@@ -197,7 +197,7 @@ static dispatch_once_t onceToken;
   NSString *message = [alert valueForKey:kMSPushNotificationMessageKey];
   NSDictionary *customData = [userInfo objectForKey:kMSPushNotificationCustomDataKey];
 
-  // TODO: Should it always in the payload?
+  // The notification is not for Mobile Center if customData is nil. Ignore the notification.
   if (customData) {
     MSLogDebug([MSPush logTag], @"Notification received.\nTitle: %@\nMessage:%@\nCustom data: %@", title, message,
                [customData description]);
@@ -210,9 +210,6 @@ static dispatch_once_t onceToken;
     dispatch_async(dispatch_get_main_queue(), ^{
       [self.delegate push:self didReceivePushNotification:pushNotification];
     });
-
-    // TODO: What if the notification is not for Mobile Center, completionHandler won't be called unless host
-    // application calls.
     completionHandler(UIBackgroundFetchResultNewData);
   }
 }
