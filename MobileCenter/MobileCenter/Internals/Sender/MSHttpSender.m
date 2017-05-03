@@ -47,7 +47,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     components.queryItems = queryItemArray;
 
     // Set send URL which can't be null
-    _sendURL = (NSURL * _Nonnull) components.URL;
+    _sendURL = (NSURL * _Nonnull)components.URL;
 
     // Hookup to reachability.
     [MS_NOTIFICATION_CENTER addObserver:self
@@ -107,10 +107,10 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 
       // Forward enabled state.
       [self
-       enumerateDelegatesForSelector:@selector(senderDidSuspend:)
-       withBlock:^(id<MSSenderDelegate> delegate) {
-         [delegate sender:self didSetEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:deleteData];
-       }];
+          enumerateDelegatesForSelector:@selector(senderDidSuspend:)
+                              withBlock:^(id<MSSenderDelegate> delegate) {
+                                [delegate sender:self didSetEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:deleteData];
+                              }];
     }
   }
 }
@@ -123,9 +123,9 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 
       // Suspend all tasks.
       [self.session getTasksWithCompletionHandler:^(
-                                                    NSArray<NSURLSessionDataTask *> *_Nonnull dataTasks,
-                                                    __attribute__((unused)) NSArray<NSURLSessionUploadTask *> *_Nonnull uploadTasks,
-                                                    __attribute__((unused)) NSArray<NSURLSessionDownloadTask *> *_Nonnull downloadTasks) {
+                        NSArray<NSURLSessionDataTask *> *_Nonnull dataTasks,
+                        __attribute__((unused)) NSArray<NSURLSessionUploadTask *> *_Nonnull uploadTasks,
+                        __attribute__((unused)) NSArray<NSURLSessionDownloadTask *> *_Nonnull downloadTasks) {
         [dataTasks enumerateObjectsUsingBlock:^(__kindof NSURLSessionTask *_Nonnull call,
                                                 __attribute__((unused)) NSUInteger idx,
                                                 __attribute__((unused)) BOOL *_Nonnull stop) {
@@ -135,12 +135,12 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 
       // Suspend current calls' retry.
       [self.pendingCalls.allValues
-       enumerateObjectsUsingBlock:^(MSSenderCall *_Nonnull call, __attribute__((unused)) NSUInteger idx,
-                                    __attribute__((unused)) BOOL *_Nonnull stop) {
-         if (!call.submitted) {
-           [call resetRetry];
-         }
-       }];
+          enumerateObjectsUsingBlock:^(MSSenderCall *_Nonnull call, __attribute__((unused)) NSUInteger idx,
+                                       __attribute__((unused)) BOOL *_Nonnull stop) {
+            if (!call.submitted) {
+              [call resetRetry];
+            }
+          }];
 
       // Notify delegates.
       [self enumerateDelegatesForSelector:@selector(senderDidSuspend:)
@@ -161,9 +161,9 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 
       // Resume existing calls.
       [self.session getTasksWithCompletionHandler:^(
-                                                    NSArray<NSURLSessionDataTask *> *_Nonnull dataTasks,
-                                                    __attribute__((unused)) NSArray<NSURLSessionUploadTask *> *_Nonnull uploadTasks,
-                                                    __attribute__((unused)) NSArray<NSURLSessionDownloadTask *> *_Nonnull downloadTasks) {
+                        NSArray<NSURLSessionDataTask *> *_Nonnull dataTasks,
+                        __attribute__((unused)) NSArray<NSURLSessionUploadTask *> *_Nonnull uploadTasks,
+                        __attribute__((unused)) NSArray<NSURLSessionDownloadTask *> *_Nonnull downloadTasks) {
         [dataTasks enumerateObjectsUsingBlock:^(__kindof NSURLSessionTask *_Nonnull call,
                                                 __attribute__((unused)) NSUInteger idx,
                                                 __attribute__((unused)) BOOL *_Nonnull stop) {
@@ -173,12 +173,12 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 
       // Resume calls.
       [self.pendingCalls.allValues
-       enumerateObjectsUsingBlock:^(MSSenderCall *_Nonnull call, __attribute__((unused)) NSUInteger idx,
-                                    __attribute__((unused)) BOOL *_Nonnull stop) {
-         if (!call.submitted) {
-           [self sendCallAsync:call];
-         }
-       }];
+          enumerateObjectsUsingBlock:^(MSSenderCall *_Nonnull call, __attribute__((unused)) NSUInteger idx,
+                                       __attribute__((unused)) BOOL *_Nonnull stop) {
+            if (!call.submitted) {
+              [self sendCallAsync:call];
+            }
+          }];
 
       // Propagate.
       [self enumerateDelegatesForSelector:@selector(senderDidResume:)
@@ -295,7 +295,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 
       // Update full URL.
       if (components.URL) {
-        self.sendURL = (NSURL * _Nonnull) components.URL;
+        self.sendURL = (NSURL * _Nonnull)components.URL;
         success = true;
       }
     }
@@ -351,15 +351,15 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   NSMutableArray<NSString *> *flattenedHeaders = [NSMutableArray<NSString *> new];
   for (NSString *headerKey in headers) {
     [flattenedHeaders
-     addObject:[NSString stringWithFormat:@"%@ = %@", headerKey,
-                [self obfuscateHeaderValue:headerKey value:headers[headerKey]]]];
+        addObject:[NSString stringWithFormat:@"%@ = %@", headerKey,
+                                             [self obfuscateHeaderValue:headerKey value:headers[headerKey]]]];
   }
   return [flattenedHeaders componentsJoinedByString:@", "];
 }
 
 - (void)sendAsync:(NSObject *)data callId:(NSString *)callId completionHandler:(MSSendAsyncCompletionHandler)handler {
   @synchronized(self) {
-    
+
     // Check if call has already been created(retry scenario).
     MSSenderCall *call = self.pendingCalls[callId];
     if (call == nil) {
@@ -368,7 +368,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
       call.data = data;
       call.callId = callId;
       call.completionHandler = handler;
-      
+
       // Store call in calls array.
       self.pendingCalls[callId] = call;
     }
@@ -380,4 +380,5 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   [self.reachability stopNotifier];
   [MS_NOTIFICATION_CENTER removeObserver:self name:kMSReachabilityChangedNotification object:nil];
 }
+
 @end
