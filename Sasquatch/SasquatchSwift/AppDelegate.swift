@@ -54,15 +54,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
     sasquatchController.mobileCenter = MobileCenterDelegateSwift()
   }
   
-  /**
-   *  This addition is required in case apps support iOS 8. Apps that are iOS 9 and later don't need to implement this
-   * as our SDK uses SFSafariViewController for MSDistribute.
-   */
+  // Open URL for iOS 8.
   func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
     
     // Forward the URL to MSDistribute.
-    MSDistribute.open(url as URL!)
-    return true
+    return MSDistribute.open(url as URL!)
+  }
+  
+  // Open URL for iOS 9+.
+  func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+    
+    // Forward the URL to MSDistribute.
+    return MSDistribute.open(url as URL!)
   }
   
   func applicationWillResignActive(_ application: UIApplication) {

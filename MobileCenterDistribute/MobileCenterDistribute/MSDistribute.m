@@ -160,8 +160,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   [[self sharedInstance] setInstallUrl:installUrl];
 }
 
-+ (void)openUrl:(NSURL *)url {
-  [[self sharedInstance] openUrl:url];
++ (BOOL)openUrl:(NSURL *)url {
+  return [[self sharedInstance] openUrl:url];
 }
 
 + (void)notifyUpdateAction:(MSUpdateAction)action {
@@ -679,13 +679,18 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   exit(0);
 }
 
-- (void)openUrl:(NSURL *)url {
+- (BOOL)openUrl:(NSURL *)url {
+  
+  /*
+   * Ignore if app secret not set, can't test scheme.
+   * Also ignore if request is not for Mobile Center Distribute and this app.
+   */
+  if (!self.appSecret || ![[url scheme] isEqualToString:[NSString stringWithFormat:kMSDefaultCustomSchemeFormat, self.appSecret]]) {
+    return NO;
+  }
+  
+  // Process it if enabled.
   if ([self isEnabled]) {
-
-    // If the request is not for Mobile Center Distribute, ignore.
-    if (![[url scheme] isEqualToString:[NSString stringWithFormat:kMSDefaultCustomSchemeFormat, self.appSecret]]) {
-      return;
-    }
 
     // Parse query parameters
     NSString *requestedId = [MS_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey];
@@ -704,7 +709,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
     // If the request ID doesn't match, ignore.
     if (!(requestedId && queryRequestId && [requestedId isEqualToString:queryRequestId])) {
-      return;
+      return YES;
     }
 
     // Dismiss the embedded Safari view.
@@ -724,7 +729,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     }
   } else {
     MSLogDebug([MSDistribute logTag], @"Distribute service has been disabled, ignore request.");
-  }
+  }  
+  return YES;
 }
 
 - (void)applicationWillEnterForeground {
