@@ -7,7 +7,6 @@
 #import "MSServiceInternal.h"
 
 #import "MSPush.h"
-#import "MSPushInternal.h"
 #import "MSPushLog.h"
 #import "MSPushPrivate.h"
 #import "MSPushTestUtil.h"
