@@ -147,7 +147,6 @@ static dispatch_once_t onceToken;
 #endif
 }
 
-#ifdef __IPHONE_8_0
 - (void)application:(UIApplication *)application
     didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
   (void)notificationSettings;
@@ -155,7 +154,6 @@ static dispatch_once_t onceToken;
   // register to receive notifications
   [application registerForRemoteNotifications];
 }
-#endif
 
 - (NSString *)convertTokenToString:(NSData *)token {
   if (!token)
