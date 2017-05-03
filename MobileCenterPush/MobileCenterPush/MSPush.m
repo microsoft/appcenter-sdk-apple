@@ -1,8 +1,8 @@
 #import <UserNotifications/UserNotifications.h>
 #import "MSMobileCenterInternal.h"
 #import "MSPush.h"
-#import "MSPushInternal.h"
 #import "MSPushLog.h"
+#import "MSPushNotificationInternal.h"
 #import "MSPushPrivate.h"
 
 /**
@@ -19,6 +19,15 @@ static NSString *const kMSGroupId = @"Push";
  * Key for storing push token
  */
 static NSString *const kMSPushServiceStorageKey = @"pushServiceStorageKey";
+
+/**
+ * Keys for payload in push notification.
+ */
+static NSString *const kMSPushNotificationApsKey = @"aps";
+static NSString *const kMSPushNotificationAlertKey = @"alert";
+static NSString *const kMSPushNotificationTitleKey = @"title";
+static NSString *const kMSPushNotificationMessageKey = @"body";
+static NSString *const kMSPushNotificationCustomDataKey = @"mobile_center";
 
 /**
  * Singleton
@@ -77,6 +86,15 @@ static dispatch_once_t onceToken;
 
 + (void)didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
   [[self sharedInstance] didFailToRegisterForRemoteNotificationsWithError:error];
+}
+
++ (void)didReceiveRemoteNotification:(NSDictionary *)userInfo
+              fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+  [[self sharedInstance] didReceiveRemoteNotification:userInfo fetchCompletionHandler:completionHandler];
+}
+
++ (void)setDelegate:(nullable id<MSPushDelegate>)delegate {
+  [[self sharedInstance] setDelegate:delegate];
 }
 
 #pragma mark - MSServiceAbstract
@@ -169,6 +187,34 @@ static dispatch_once_t onceToken;
 - (void)didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
   MSLogVerbose([MSPush logTag], @"Registering for push notifications has been finished with error: %@",
                error.description);
+}
+
+- (void)didReceiveRemoteNotification:(NSDictionary *)userInfo
+              fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+  (void)completionHandler;
+
+  MSLogVerbose([MSPush logTag], @"User info for notification has forwarded to Push: %@", [userInfo description]);
+  NSDictionary *alert = [[userInfo objectForKey:kMSPushNotificationApsKey] objectForKey:kMSPushNotificationAlertKey];
+  NSString *title = [alert valueForKey:kMSPushNotificationTitleKey];
+  NSString *message = [alert valueForKey:kMSPushNotificationMessageKey];
+  NSDictionary *customData = [userInfo objectForKey:kMSPushNotificationCustomDataKey];
+
+  if (customData) {
+    MSLogDebug([MSPush logTag], @"Notification received.\nTitle: %@\nMessage:%@\nCustom data: %@", title, message,
+               [customData description]);
+
+    // Initialize push notification model.
+    MSPushNotification *pushNotification =
+        [[MSPushNotification alloc] initWithTitle:title message:message customData:customData];
+
+    // Call push delegate and deliver notification back to the application.
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [self.delegate push:self didReceivePushNotification:pushNotification];
+    });
+
+    // TODO: What if the notification is not for Mobile Center, completionHandler won't be called unless host application calls.
+    completionHandler(UIBackgroundFetchResultNewData);
+  }
 }
 
 @end

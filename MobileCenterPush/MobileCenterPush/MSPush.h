@@ -1,4 +1,5 @@
 #import <UIKit/UIKit.h>
+#import "MSPushDelegate.h"
 #import "MSServiceAbstract.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -22,6 +23,26 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (void)didFailToRegisterForRemoteNotificationsWithError:(NSError *)error;
 
-@end
+/**
+ * Callback for notification with user info.
+ *
+ * @param userInfo The user info for the remote notification.
+ * @param completionHandler The completion handler.
+ */
++ (void)didReceiveRemoteNotification:(NSDictionary *)userInfo
+              fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler;
+
+/**
+ * Set the delegate.
+ *
+ * Defines the class that implements the optional protocol `MSPushDelegate`.
+ *
+ * @param delegate Sender's delegate.
+ *
+ * @see MSPushDelegate
+ */
++ (void)setDelegate:(nullable id<MSPushDelegate>)delegate;
 
 NS_ASSUME_NONNULL_END
+
+@end
