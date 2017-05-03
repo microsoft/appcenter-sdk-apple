@@ -43,10 +43,10 @@
  *
  * @param url  The url with parameters.
  *
- * @return `YES` if the URL was handled by Mobile Center Distribute, `NO` otherwise.
+ * @return `YES` if the URL is intended for Mobile Center Distribute and your application, `NO` otherwise.
  *
- * @discussion Place this method call into your app delegate's openUrl method.
+ * @discussion Place this method call into your app delegate's openURL method.
  */
-+ (BOOL)openUrl:(NSURL *)url;
++ (BOOL)openURL:(NSURL *)url;
 
 @end
