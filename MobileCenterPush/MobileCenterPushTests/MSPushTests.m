@@ -55,39 +55,55 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
 
 - (void)testApplyEnabledStateWorks {
 
+  // If
   [[MSPush sharedInstance] startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
-
   MSServiceAbstract *service = (MSServiceAbstract *)[MSPush sharedInstance];
 
+  // When
   [service setEnabled:YES];
+
+  // Then
   XCTAssertTrue([service isEnabled]);
 
+  // When
   [service setEnabled:NO];
+
+  // Then
   XCTAssertFalse([service isEnabled]);
 
+  // When
   [service setEnabled:YES];
+
+  // Then
   XCTAssertTrue([service isEnabled]);
 }
 
 - (void)testInitializationPriorityCorrect {
 
-  XCTAssertTrue([[MSPush sharedInstance] initializationPriority] == MSInitializationPriorityDefault);
+  // Then
+  XCTAssertTrue(self.sut.initializationPriority == MSInitializationPriorityDefault);
 }
 
 - (void)testSendPushTokenMethod {
 
-  XCTAssertFalse([MSPush sharedInstance].pushTokenHasBeenSent);
+  // Then
+  XCTAssertFalse(self.sut.pushTokenHasBeenSent);
 
-  [[MSPush sharedInstance] sendPushToken:kMSTestPushToken];
+  // When
+  [self.sut sendPushToken:kMSTestPushToken];
 
-  XCTAssertTrue([MSPush sharedInstance].pushTokenHasBeenSent);
+  // Then
+  XCTAssertTrue(self.sut.pushTokenHasBeenSent);
 }
 
 - (void)testConvertTokenToString {
+
+  // If
   NSString *originalToken = @"563084c4934486547307ea41c780b93e21fe98372dc902426e97390a84011f72";
   NSData *rawOriginalToken = [MSPushTestUtil convertPushTokenToNSData:originalToken];
-  NSString *convertedToken = [[MSPush sharedInstance] convertTokenToString:rawOriginalToken];
+  NSString *convertedToken = [self.sut convertTokenToString:rawOriginalToken];
 
+  // Then
   XCTAssertEqualObjects(originalToken, convertedToken);
 }
 
