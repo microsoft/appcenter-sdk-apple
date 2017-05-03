@@ -1,6 +1,6 @@
 import Cocoa
 
-class SasquatchMacViewController: NSViewController {
+class SasquatchMacViewController: NSTabViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
