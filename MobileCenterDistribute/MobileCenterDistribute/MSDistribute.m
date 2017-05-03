@@ -547,12 +547,18 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
 - (BOOL)checkForUpdatesAllowed {
 
+  // Check if ms is ui testing
+  BOOL isUITesting = NO;
+  if([[NSProcessInfo processInfo] environment][@"MS_IS_UI_TESTING"]) {
+    isUITesting = YES;
+  }
+
   // Check if we are not in AppStore or TestFlight environments.
   BOOL environmentOkay = [MSUtility currentAppEnvironment] == MSEnvironmentOther;
 
   // Check if a debugger is attached.
   BOOL noDebuggerAttached = ![MSMobileCenter isDebuggerAttached];
-  return environmentOkay && noDebuggerAttached;
+  return environmentOkay && noDebuggerAttached && !isUITesting;
 }
 
 - (BOOL)isNewerVersion:(MSReleaseDetails *)details {
