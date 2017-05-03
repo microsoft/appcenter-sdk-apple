@@ -234,9 +234,9 @@
 			children = (
 				04849D771E9E911E0093ECA6 /* Model */,
 				D3AD5F661E5D73F2001627AB /* Frameworks */,
+				D39B04E11E66FBA70048E397 /* Util */,
 				D3AD5EC41E5C4F6A001627AB /* Info.plist */,
 				D3AD5EC21E5C4F6A001627AB /* MSPushTests.m */,
-				D39B04E11E66FBA70048E397 /* Util */,
 			);
 			path = MobileCenterPushTests;
 			sourceTree = "<group>";
@@ -369,6 +369,7 @@
 					};
 					D3AD5EBF1E5C4F6A001627AB = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = L4RARDNZ2Y;
 					};
 					D3AD5F221E5C9562001627AB = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -607,6 +608,7 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				INFOPLIST_FILE = MobileCenterPushTests/Info.plist;
@@ -625,6 +627,7 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				INFOPLIST_FILE = MobileCenterPushTests/Info.plist;
