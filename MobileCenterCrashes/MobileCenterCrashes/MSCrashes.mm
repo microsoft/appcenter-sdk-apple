@@ -274,8 +274,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       [self startDelayedCrashProcessing];
     }
 
-    MSLogInfo([MSCrashes logTag], @"Crashes service has been enabled.");
-
     // More details on log if a debugger is attached.
     if ([MSMobileCenter isDebuggerAttached]) {
       MSLogInfo([MSCrashes logTag], @"Crashes service has been enabled but the service cannot detect crashes due to "
@@ -552,6 +550,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     if (currentHandler && currentHandler != initialHandler) {
       self.exceptionHandler = currentHandler;
       MSLogDebug([MSCrashes logTag], @"Exception handler successfully initialized.");
+    } else if (currentHandler && !enableUncaughtExceptionHandler) {
+      self.exceptionHandler = currentHandler;
+      MSLogDebug([MSCrashes logTag], @"Exception handler successfully initialized but it has not been registered due to the wrapper SDK.");
     } else {
       MSLogError([MSCrashes logTag],
                  @"Exception handler could not be set. Make sure there is no other exception handler set up!");

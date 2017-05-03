@@ -126,9 +126,9 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
  *
  * @param url  The url with parameters.
  *
- * @discussion Place this method call into app delegate openUrl method.
+ * @return `YES` if the URL was handled by Mobile Center Distribute, `NO` otherwise.
  */
-- (void)openUrl:(NSURL *)url;
+- (BOOL)openUrl:(NSURL *)url;
 
 /**
  * Send a request to get the latest release.
