@@ -1,5 +1,22 @@
 # Mobile Center SDK for iOS Change Log
 
+## Version 0.8.0
+
+This release adds the Mobile Center Push module and contains additional improvements. The various test apps now contain individual icons so they are easily distinguishable when they are installed on a device.
+
+## MobileCenter
+
+* **[Improvement]** In case the developer has turned on a more verbose logleve, the whole response body is logged to the Console.
+
+## MobileCenterCrashes
+
+* **[Improvement]** We have fixed a couple of log messages that indicated that something was going wrong when setting up Mobile Center Crashes when everything was actually working as expected. This confused a lot of people.
+
+## MobileCenterPush
+
+* **[Feature]** This is the first release that contains Mobile Center Push.
+
+
 ## Version 0.7.0
 
 This version contains bug fixes, improvements and new features.
