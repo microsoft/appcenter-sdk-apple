@@ -12,7 +12,7 @@
 #import "MobileCenterPush.h"
 #import "MSAlertController.h"
 
-@interface AppDelegate () <MSCrashesDelegate, MSDistributeDelegate>
+@interface AppDelegate () <MSCrashesDelegate, MSDistributeDelegate, MSPushDelegate>
 
 @end
 
@@ -22,6 +22,7 @@
 
   // Customize Mobile Center SDK.
   [MSDistribute setDelegate:self];
+  [MSPush setDelegate:self];
   [MSMobileCenter setLogLevel:MSLogLevelVerbose];
 
   // Start Mobile Center SDK.
@@ -67,17 +68,12 @@
 - (void)application:(UIApplication *)application
     didReceiveRemoteNotification:(NSDictionary *)userInfo
           fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
-  NSLog(@"%@", userInfo);
-  [self MessageBox:@"Notification" message:[[[userInfo objectForKey:@"aps"] valueForKey:@"alert"] description]];
-}
-
-- (void)MessageBox:(NSString *)title message:(NSString *)messageText {
-  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-                                                  message:messageText
-                                                 delegate:self
-                                        cancelButtonTitle:@"OK"
-                                        otherButtonTitles:nil];
-  [alert show];
+  BOOL result = [MSPush didReceiveRemoteNotification:userInfo];
+  if (result) {
+    completionHandler(UIBackgroundFetchResultNewData);
+  } else {
+    completionHandler(UIBackgroundFetchResultNoData);
+  }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -189,6 +185,21 @@
     return YES;
   }
   return NO;
+}
+
+#pragma mark - MSPushDelegate
+
+- (void)push:(MSPush *)push didReceivePushNotification:(MSPushNotification *)pushNotification {
+  NSString *message = pushNotification.message;
+  for (NSString *key in pushNotification.customData) {
+    message = [NSString stringWithFormat:@"%@\n%@: %@", message, key, [pushNotification.customData objectForKey:key]];
+  }
+  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:pushNotification.title
+                                                  message:message
+                                                 delegate:self
+                                        cancelButtonTitle:@"OK"
+                                        otherButtonTitles:nil];
+  [alert show];
 }
 
 @end

@@ -1,8 +1,8 @@
 #import <UserNotifications/UserNotifications.h>
 #import "MSMobileCenterInternal.h"
 #import "MSPush.h"
-#import "MSPushInternal.h"
 #import "MSPushLog.h"
+#import "MSPushNotificationInternal.h"
 #import "MSPushPrivate.h"
 
 /**
@@ -19,6 +19,15 @@ static NSString *const kMSGroupId = @"Push";
  * Key for storing push token
  */
 static NSString *const kMSPushServiceStorageKey = @"pushServiceStorageKey";
+
+/**
+ * Keys for payload in push notification.
+ */
+static NSString *const kMSPushNotificationApsKey = @"aps";
+static NSString *const kMSPushNotificationAlertKey = @"alert";
+static NSString *const kMSPushNotificationTitleKey = @"title";
+static NSString *const kMSPushNotificationMessageKey = @"body";
+static NSString *const kMSPushNotificationCustomDataKey = @"mobile_center";
 
 /**
  * Singleton
@@ -79,6 +88,14 @@ static dispatch_once_t onceToken;
   [[self sharedInstance] didFailToRegisterForRemoteNotificationsWithError:error];
 }
 
++ (BOOL)didReceiveRemoteNotification:(NSDictionary *)userInfo {
+  return [[self sharedInstance] didReceiveRemoteNotification:userInfo];
+}
+
++ (void)setDelegate:(nullable id<MSPushDelegate>)delegate {
+  [[self sharedInstance] setDelegate:delegate];
+}
+
 #pragma mark - MSServiceAbstract
 
 - (void)applyEnabledState:(BOOL)isEnabled {
@@ -113,7 +130,7 @@ static dispatch_once_t onceToken;
     [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
   } else {
 
-    // Ignore the partial availability warning as the compiler doesn't get that we checked for pre-iOS 10 already.
+// Ignore the partial availability warning as the compiler doesn't get that we checked for pre-iOS 10 already.
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpartial-availability"
     UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
@@ -129,7 +146,6 @@ static dispatch_once_t onceToken;
 #endif
 }
 
-#ifdef __IPHONE_8_0
 - (void)application:(UIApplication *)application
     didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
   (void)notificationSettings;
@@ -137,7 +153,6 @@ static dispatch_once_t onceToken;
   // register to receive notifications
   [application registerForRemoteNotifications];
 }
-#endif
 
 - (NSString *)convertTokenToString:(NSData *)token {
   if (!token)
@@ -157,50 +172,6 @@ static dispatch_once_t onceToken;
   self.pushTokenHasBeenSent = YES;
 }
 
-#pragma mark - MSChannelDelegate
-
-- (void)channel:(id<MSChannel>)channel willSendLog:(id<MSLog>)log {
-  (void)channel;
-  if (!self.delegate) {
-    return;
-  }
-  NSObject *logObject = (NSObject *)log;
-  if (![logObject isKindOfClass:[MSPushLog class]] ||
-      ![self.delegate respondsToSelector:@selector(push:willSendInstallationLog:)]) {
-    return;
-  }
-  MSPushLog *installationLog = (MSPushLog *)log;
-  [self.delegate push:self willSendInstallationLog:installationLog];
-}
-
-- (void)channel:(id<MSChannel>)channel didSucceedSendingLog:(id<MSLog>)log {
-  (void)channel;
-  if (!self.delegate) {
-    return;
-  }
-  NSObject *logObject = (NSObject *)log;
-  if (![logObject isKindOfClass:[MSPushLog class]] ||
-      ![self.delegate respondsToSelector:@selector(push:didSucceedSendingInstallationLog:)]) {
-    return;
-  }
-  MSPushLog *installationLog = (MSPushLog *)log;
-  [self.delegate push:self didSucceedSendingInstallationLog:installationLog];
-}
-
-- (void)channel:(id<MSChannel>)channel didFailSendingLog:(id<MSLog>)log withError:(NSError *)error {
-  (void)channel;
-  if (!self.delegate) {
-    return;
-  }
-  NSObject *logObject = (NSObject *)log;
-  if (![logObject isKindOfClass:[MSPushLog class]] ||
-      ![self.delegate respondsToSelector:@selector(push:didFailSendingInstallLog:withError:)]) {
-    return;
-  }
-  MSPushLog *installationLog = (MSPushLog *)log;
-  [self.delegate push:self didFailSendingInstallLog:installationLog withError:error];
-}
-
 #pragma mark - Register callbacks
 
 - (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
@@ -215,10 +186,29 @@ static dispatch_once_t onceToken;
                error.description);
 }
 
-#pragma mark - Delegate
+- (BOOL)didReceiveRemoteNotification:(NSDictionary *)userInfo {
+  MSLogVerbose([MSPush logTag], @"User info for notification has forwarded to Push: %@", [userInfo description]);
+  NSDictionary *alert = [[userInfo objectForKey:kMSPushNotificationApsKey] objectForKey:kMSPushNotificationAlertKey];
+  NSString *title = [alert valueForKey:kMSPushNotificationTitleKey];
+  NSString *message = [alert valueForKey:kMSPushNotificationMessageKey];
+  NSDictionary *customData = [userInfo objectForKey:kMSPushNotificationCustomDataKey];
 
-+ (void)setDelegate:(nullable id<MSPushDelegate>)delegate {
-  [[self sharedInstance] setDelegate:delegate];
+  // The notification is not for Mobile Center if customData is nil. Ignore the notification.
+  if (customData) {
+    MSLogDebug([MSPush logTag], @"Notification received.\nTitle: %@\nMessage:%@\nCustom data: %@", title, message,
+               [customData description]);
+
+    // Initialize push notification model.
+    MSPushNotification *pushNotification =
+        [[MSPushNotification alloc] initWithTitle:title message:message customData:customData];
+
+    // Call push delegate and deliver notification back to the application.
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [self.delegate push:self didReceivePushNotification:pushNotification];
+    });
+    return YES;
+  }
+  return NO;
 }
 
 @end
