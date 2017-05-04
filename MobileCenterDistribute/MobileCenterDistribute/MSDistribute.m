@@ -377,7 +377,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   return NO;
 }
 
-- (NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret releaseHash:(NSString *)releaseHash {
+- (nullable NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret releaseHash:(NSString *)releaseHash {
 
   // Create the request ID string.
   NSString *requestId = MS_UUID_STRING;
@@ -628,7 +628,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   });
 }
 
-- (void)startDownload:(MSReleaseDetails *)details {
+- (void)startDownload:(nullable MSReleaseDetails *)details {
   [MSUtility sharedAppOpenUrl:details.installUrl
       options:@{}
       completionHandler:^(MSOpenURLState state) {
