@@ -17,11 +17,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
     MSDistribute.setDelegate(self)
     MSPush.setDelegate(self)
     MSMobileCenter.setLogLevel(MSLogLevel.verbose)
-    MSMobileCenter.setLogUrl("https://in-integration.dev.avalanch.es")
 
     // Start Mobile Center SDK.
     #if DEBUG
-      MSMobileCenter.start("c20e61b6-63d2-402b-89b2-150fc28ce16a", withServices: [MSAnalytics.self, MSCrashes.self, MSPush.self])
+      MSMobileCenter.start("0dbca56b-b9ae-4d53-856a-7c2856137d85", withServices: [MSAnalytics.self, MSCrashes.self, MSPush.self])
     #else
       MSMobileCenter.start("0dbca56b-b9ae-4d53-856a-7c2856137d85", withServices: [MSAnalytics.self, MSCrashes.self, MSDistribute.self, MSPush.self])
     #endif
