@@ -68,9 +68,12 @@
 - (void)application:(UIApplication *)application
     didReceiveRemoteNotification:(NSDictionary *)userInfo
           fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
-
-  // TODO: Do we use completionHandler? When?
-  [MSPush didReceiveRemoteNotification:userInfo fetchCompletionHandler:completionHandler];
+  BOOL result = [MSPush didReceiveRemoteNotification:userInfo];
+  if (result) {
+    completionHandler(UIBackgroundFetchResultNewData);
+  } else {
+    completionHandler(UIBackgroundFetchResultNoData);
+  }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

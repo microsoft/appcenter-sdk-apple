@@ -88,9 +88,8 @@ static dispatch_once_t onceToken;
   [[self sharedInstance] didFailToRegisterForRemoteNotificationsWithError:error];
 }
 
-+ (void)didReceiveRemoteNotification:(NSDictionary *)userInfo
-              fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
-  [[self sharedInstance] didReceiveRemoteNotification:userInfo fetchCompletionHandler:completionHandler];
++ (BOOL)didReceiveRemoteNotification:(NSDictionary *)userInfo {
+  return [[self sharedInstance] didReceiveRemoteNotification:userInfo];
 }
 
 + (void)setDelegate:(nullable id<MSPushDelegate>)delegate {
@@ -187,10 +186,7 @@ static dispatch_once_t onceToken;
                error.description);
 }
 
-- (void)didReceiveRemoteNotification:(NSDictionary *)userInfo
-              fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
-  (void)completionHandler;
-
+- (BOOL)didReceiveRemoteNotification:(NSDictionary *)userInfo {
   MSLogVerbose([MSPush logTag], @"User info for notification has forwarded to Push: %@", [userInfo description]);
   NSDictionary *alert = [[userInfo objectForKey:kMSPushNotificationApsKey] objectForKey:kMSPushNotificationAlertKey];
   NSString *title = [alert valueForKey:kMSPushNotificationTitleKey];
@@ -210,8 +206,9 @@ static dispatch_once_t onceToken;
     dispatch_async(dispatch_get_main_queue(), ^{
       [self.delegate push:self didReceivePushNotification:pushNotification];
     });
-    completionHandler(UIBackgroundFetchResultNewData);
+    return YES;
   }
+  return NO;
 }
 
 @end

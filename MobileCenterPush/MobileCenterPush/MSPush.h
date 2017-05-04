@@ -27,10 +27,10 @@ NS_ASSUME_NONNULL_BEGIN
  * Callback for notification with user info.
  *
  * @param userInfo The user info for the remote notification.
- * @param completionHandler The completion handler.
+ *
+ * @return YES if the notification was sent via Mobile Center.
  */
-+ (void)didReceiveRemoteNotification:(NSDictionary *)userInfo
-              fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler;
++ (BOOL)didReceiveRemoteNotification:(NSDictionary *)userInfo;
 
 /**
  * Set the delegate.

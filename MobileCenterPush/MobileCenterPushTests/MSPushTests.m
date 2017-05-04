@@ -167,13 +167,9 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   NSDictionary *userInfo =
       @{ @"aps" : @{@"alert" : @{@"title" : title, @"body" : message}},
          @"mobile_center" : customData };
-  __block UIBackgroundFetchResult fetchResult;
-  void (^handler)(UIBackgroundFetchResult) = ^(UIBackgroundFetchResult result) {
-    fetchResult = result;
-  };
 
   // When
-  [MSPush didReceiveRemoteNotification:userInfo fetchCompletionHandler:handler];
+  BOOL result = [MSPush didReceiveRemoteNotification:userInfo];
   dispatch_async(dispatch_get_main_queue(), ^{
     [didReceiveRemoteNotification fulfill];
   });
@@ -182,7 +178,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
                                  OCMVerify(
-                                     [pushMock didReceiveRemoteNotification:userInfo fetchCompletionHandler:handler]);
+                                     [pushMock didReceiveRemoteNotification:userInfo]);
                                  OCMVerify([pushDelegateMock push:self.sut didReceivePushNotification:[OCMArg any]]);
                                  XCTAssertNotNil(pushNotification);
                                  XCTAssertEqual(pushNotification.title, title);
@@ -192,7 +188,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
-  XCTAssertEqual(fetchResult, UIBackgroundFetchResultNewData);
+  XCTAssertTrue(result);
 }
 
 - (void)testDidReceiveRemoteNotificationForNonMobileCenterNotification {
@@ -212,13 +208,9 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   __block NSString *title = @"notificationTitle";
   __block NSString *message = @"notificationMessage";
   NSDictionary *userInfo = @{ @"aps" : @{@"alert" : @{@"title" : title, @"body" : message}} };
-  void (^handler)(UIBackgroundFetchResult) = ^(UIBackgroundFetchResult result) {
-    (void)result;
-    XCTFail(@"Handler call is not expected.");
-  };
 
   // When
-  [MSPush didReceiveRemoteNotification:userInfo fetchCompletionHandler:handler];
+  BOOL result = [MSPush didReceiveRemoteNotification:userInfo];
   dispatch_async(dispatch_get_main_queue(), ^{
     [didReceiveRemoteNotification fulfill];
   });
@@ -227,13 +219,14 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
                                  OCMReject(
-                                     [pushMock didReceiveRemoteNotification:userInfo fetchCompletionHandler:handler]);
+                                     [pushMock didReceiveRemoteNotification:userInfo]);
                                  OCMReject([pushDelegateMock push:self.sut didReceivePushNotification:[OCMArg any]]);
                                  XCTAssertNil(pushNotification);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
+  XCTAssertFalse(result);
 }
 
 @end

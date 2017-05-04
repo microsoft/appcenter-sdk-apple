@@ -76,8 +76,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
     MSPush.didFailToRegisterForRemoteNotificationsWithError(error)
   }
 
-  func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-    MSPush.didReceiveRemoteNotification(userInfo, fetchCompletionHandler: completionHandler)
+  func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any] -> Void) {
+    MSPush.didReceiveRemoteNotification(userInfo)
   }
 
   func applicationWillResignActive(_ application: UIApplication) {
