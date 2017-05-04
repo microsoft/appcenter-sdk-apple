@@ -198,7 +198,7 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
 /**
  * Start download for the given details.
  */
-- (void)startDownload:(MSReleaseDetails *)details;
+- (void)startDownload:(nullable MSReleaseDetails *)details;
 
 /**
  * Close application for update.

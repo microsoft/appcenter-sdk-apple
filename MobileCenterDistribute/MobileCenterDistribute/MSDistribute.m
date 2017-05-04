@@ -628,7 +628,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   });
 }
 
-- (void)startDownload:(MSReleaseDetails *)details {
+- (void)startDownload:(nullable MSReleaseDetails *)details {
   [MSUtility sharedAppOpenUrl:details.installUrl
       options:@{}
       completionHandler:^(MSOpenURLState state) {
