@@ -377,7 +377,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   return NO;
 }
 
-- (NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret releaseHash:(NSString *)releaseHash {
+- (nullable NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret releaseHash:(NSString *)releaseHash {
 
   // Create the request ID string.
   NSString *requestId = MS_UUID_STRING;
