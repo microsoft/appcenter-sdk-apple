@@ -6,7 +6,7 @@ This release adds the Mobile Center Push module and contains additional improvem
 
 ## MobileCenter
 
-* **[Improvement]** In case the developer has turned on a more verbose logleve, the whole response body is logged to the Console.
+* **[Improvement]** In case the developer has turned on a more verbose log level, the whole response body is logged to the Console.
 
 ## MobileCenterCrashes
 
