@@ -62,6 +62,20 @@
                ReferencedContainer = "container:MobileCenterDistribute/MobileCenterDistribute.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "D3AD5F271E5C9633001627AB"
+               BuildableName = "MobileCenterPushDoc"
+               BlueprintName = "MobileCenterPushDoc"
+               ReferencedContainer = "container:MobileCenterPush/MobileCenterPush.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction

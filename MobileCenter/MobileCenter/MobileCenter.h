@@ -7,4 +7,5 @@
 #import "MSMobileCenter.h"
 #import "MSWrapperSdk.h"
 #import "MSMobileCenterErrors.h"
+#import "MSCustomProperties.h"
 
