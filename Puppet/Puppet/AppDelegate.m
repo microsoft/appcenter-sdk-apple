@@ -165,3 +165,17 @@
 }
 
 @end
+
+@interface MSDistribute (DisableDistribute)
+
+-(BOOL)isUITesting;
+
+@end
+
+@implementation MSDistribute (DisableDistribute)
+
+-(BOOL)isUITesting {
+  return YES;
+}
+
+@end

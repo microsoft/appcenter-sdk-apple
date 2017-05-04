@@ -546,6 +546,15 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 }
 
 - (BOOL)checkForUpdatesAllowed {
+  SEL isUITesting = NSSelectorFromString(@"isUITesting");
+  if ([self respondsToSelector:isUITesting]) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+    if([self performSelector:isUITesting]) {
+#pragma clang diagnostic pop
+      return NO;
+    }
+  }
 
   // Check if we are not in AppStore or TestFlight environments.
   BOOL environmentOkay = [MSUtility currentAppEnvironment] == MSEnvironmentOther;
