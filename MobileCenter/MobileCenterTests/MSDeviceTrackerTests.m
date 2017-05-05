@@ -3,12 +3,12 @@
 #import <XCTest/XCTest.h>
 #import "MSDevice.h"
 #import "MSDeviceHistoryInfo.h"
-#import "MSDevicePrivate.h"
+#import "MSDeviceInternal.h"
 #import "MSDeviceTracker.h"
 #import "MSDeviceTrackerPrivate.h"
 #import "MSMockUserDefaults.h"
 #import "MSUtility+Date.h"
-#import "MSWrapperSdkPrivate.h"
+#import "MSWrapperSdkInternal.h"
 
 static NSString *const kMSDeviceManufacturerTest = @"Apple";
 

@@ -1,6 +1,6 @@
 #import "MSDevice.h"
-#import "MSDevicePrivate.h"
-#import "MSWrapperSdkPrivate.h"
+#import "MSDeviceInternal.h"
+#import "MSWrapperSdkInternal.h"
 
 static NSString *const kMSSdkName = @"sdk_name";
 static NSString *const kMSSdkVersion = @"sdk_version";
