@@ -4,23 +4,25 @@ import MobileCenter
 import MobileCenterAnalytics
 import MobileCenterCrashes
 import MobileCenterDistribute
+import MobileCenterPush
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDistributeDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDistributeDelegate, MSPushDelegate {
   
   var window: UIWindow?
   
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
     // Customize Mobile Center SDK.
-    MSDistribute.setDelegate(self);
+    MSDistribute.setDelegate(self)
+    MSPush.setDelegate(self)
     MSMobileCenter.setLogLevel(MSLogLevel.verbose)
 
     // Start Mobile Center SDK.
     #if DEBUG
-      MSMobileCenter.start("0dbca56b-b9ae-4d53-856a-7c2856137d85", withServices: [MSAnalytics.self, MSCrashes.self])
+      MSMobileCenter.start("0dbca56b-b9ae-4d53-856a-7c2856137d85", withServices: [MSAnalytics.self, MSCrashes.self, MSPush.self])
     #else
-      MSMobileCenter.start("0dbca56b-b9ae-4d53-856a-7c2856137d85", withServices: [MSAnalytics.self, MSCrashes.self, MSDistribute.self])
+      MSMobileCenter.start("0dbca56b-b9ae-4d53-856a-7c2856137d85", withServices: [MSAnalytics.self, MSCrashes.self, MSDistribute.self, MSPush.self])
     #endif
     
     // Crashes Delegate.
@@ -64,7 +66,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
     MSDistribute.open(url as URL!)
     return true
   }
-  
+
+  func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+    MSPush.didRegisterForRemoteNotifications(withDeviceToken: deviceToken)
+  }
+
+  func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+    MSPush.didFailToRegisterForRemoteNotificationsWithError(error)
+  }
+
+  func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+    MSPush.didReceiveRemoteNotification(userInfo)
+  }
+
   func applicationWillResignActive(_ application: UIApplication) {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
@@ -90,8 +104,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
   // Crashes Delegate
   
   func crashes(_ crashes: MSCrashes!, shouldProcessErrorReport errorReport: MSErrorReport!) -> Bool {
-    return true;
+
     // return true if the crash report should be processed, otherwise false.
+    return true
   }
   
   func crashes(_ crashes: MSCrashes!, willSend errorReport: MSErrorReport!) {
@@ -109,7 +124,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
   // Distribute Delegate
 
   func distribute(_ distribute: MSDistribute!, releaseAvailableWith details: MSReleaseDetails!) -> Bool {
-    return false;
+    return false
+  }
+
+  // Push Delegate
+
+  func push(_ push: MSPush!, didReceive pushNotification: MSPushNotification!) {
+    var message: String = pushNotification.message
+    for item in pushNotification.customData {
+      message = String(format: "%@\n%@: %@", message, item.key, item.value)
+    }
+    let alert = UIAlertView(title: pushNotification.title, message: message, delegate: self, cancelButtonTitle: "OK")
+    alert.show()
   }
 }
 

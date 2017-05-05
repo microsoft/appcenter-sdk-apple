@@ -6,6 +6,9 @@
 #import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
 #import "MSStartServiceLog.h"
+#import "MSCustomProperties.h"
+#import "MSCustomPropertiesLog.h"
+#import "MSCustomPropertiesPrivate.h"
 
 // Singleton
 static MSMobileCenter *sharedInstance = nil;
@@ -92,6 +95,10 @@ static NSString *const kMSGroupId = @"MobileCenter";
 
 + (void)setWrapperSdk:(MSWrapperSdk *)wrapperSdk {
   [[MSDeviceTracker sharedInstance] setWrapperSdk:wrapperSdk];
+}
+
++ (void)setCustomProperties:(MSCustomProperties *)customProperties {
+  [[self sharedInstance] setCustomProperties:customProperties];
 }
 
 /**
@@ -249,6 +256,14 @@ static NSString *const kMSGroupId = @"MobileCenter";
   }
 }
 
+- (void)setCustomProperties:(MSCustomProperties *)customProperties {
+  if (!customProperties || customProperties.properties == 0) {
+    MSLogError([MSMobileCenter logTag], @"Custom properties may not be null or empty");
+    return;
+  }
+  [self sendCustomPropertiesLog:customProperties.properties];
+}
+
 - (void)setEnabled:(BOOL)isEnabled {
   self.enabledStateUpdating = YES;
   if ([self isEnabled] != isEnabled) {
@@ -365,6 +380,14 @@ static NSString *const kMSGroupId = @"MobileCenter";
   MSStartServiceLog *serviceLog = [MSStartServiceLog new];
   serviceLog.services = servicesNames;
   [self.logManager processLog:serviceLog forGroupId:kMSGroupId];
+}
+
+- (void)sendCustomPropertiesLog:(NSDictionary<NSString *, NSObject *> *)properties {
+  MSCustomPropertiesLog *customPropertiesLog = [MSCustomPropertiesLog new];
+  customPropertiesLog.properties = properties;
+  
+  // FIXME: withPriority parameter need to be removed on merge.
+  [self.logManager processLog:customPropertiesLog forGroupId:kMSGroupId];
 }
 
 + (void)resetSharedInstance {
