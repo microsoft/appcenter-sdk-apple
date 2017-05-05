@@ -44,6 +44,9 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		044864C51EBD12F200031019 /* MSCustomProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = F803BBF11E8E3677004B1E7A /* MSCustomProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		044864C61EBD130300031019 /* MSCustomProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = F803BBF21E8E3677004B1E7A /* MSCustomProperties.m */; };
+		044864C71EBD13B400031019 /* MSCustomPropertiesLog.m in Sources */ = {isa = PBXBuildFile; fileRef = F803BBF81E8E3989004B1E7A /* MSCustomPropertiesLog.m */; };
 		045660FB1D99EEEB002F7055 /* MSLogWithPropertiesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 045660FA1D99EEEB002F7055 /* MSLogWithPropertiesTests.m */; };
 		045BC3171E3FD88600B6C960 /* MSKeychainUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 045BC3161E3FD88600B6C960 /* MSKeychainUtil.m */; };
 		045BC3191E3FD8AC00B6C960 /* MSKeychainUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 045BC3181E3FD8AC00B6C960 /* MSKeychainUtil.h */; };
@@ -940,6 +943,7 @@
 				04754FBE1EA9828B002CBA46 /* MSUtility+ApplicationPrivate.h in Headers */,
 				04754F971EA98182002CBA46 /* MSChannelConfiguration.h in Headers */,
 				04754F981EA98182002CBA46 /* MSMobileCenterInternal.h in Headers */,
+				044864C51EBD12F200031019 /* MSCustomProperties.h in Headers */,
 				04754F991EA98182002CBA46 /* MSService.h in Headers */,
 				04754FBC1EA98282002CBA46 /* MSUtility+Application.h in Headers */,
 				04754F9B1EA98182002CBA46 /* MSServiceInternal.h in Headers */,
@@ -1202,6 +1206,7 @@
 				04754F561EA98182002CBA46 /* MSLogManagerDefault.m in Sources */,
 				04754F571EA98182002CBA46 /* MSStartServiceLog.m in Sources */,
 				04754F581EA98182002CBA46 /* MSSenderUtil.m in Sources */,
+				044864C71EBD13B400031019 /* MSCustomPropertiesLog.m in Sources */,
 				04754F591EA98182002CBA46 /* MSAbstractLog.m in Sources */,
 				04754F5A1EA98182002CBA46 /* MSKeychainUtil.m in Sources */,
 				04754F5B1EA98182002CBA46 /* MSWrapperLogger.m in Sources */,
@@ -1217,6 +1222,7 @@
 				04754F651EA98182002CBA46 /* MSUtility+Date.m in Sources */,
 				04754F661EA98182002CBA46 /* MSFile.m in Sources */,
 				04754F671EA98182002CBA46 /* MSUtility.m in Sources */,
+				044864C61EBD130300031019 /* MSCustomProperties.m in Sources */,
 				04754F681EA98182002CBA46 /* MSIngestionSender.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
