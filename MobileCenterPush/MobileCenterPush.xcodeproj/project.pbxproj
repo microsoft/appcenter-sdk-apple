@@ -581,7 +581,7 @@
 				PRODUCT_NAME = MobileCenterPush;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/** \"$(SRCROOT)/../MobileCenter/MobileCenterIos\"/**";
 				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
 			};
 			name = Debug;
@@ -597,7 +597,7 @@
 				PRODUCT_NAME = MobileCenterPush;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/** \"$(SRCROOT)/../MobileCenter/MobileCenterIos\"/**";
 				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
 			};
 			name = Release;
