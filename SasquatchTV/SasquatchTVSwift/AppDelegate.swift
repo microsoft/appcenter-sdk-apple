@@ -2,9 +2,6 @@ import UIKit
 
 import MobileCenter
 import MobileCenterAnalytics
-import MobileCenterCrashes
-// TODO: SafariServices framework not found
-//import MobileCenterDistribute;
 
 @UIApplicationMain
 

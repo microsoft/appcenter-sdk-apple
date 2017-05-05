@@ -904,8 +904,6 @@
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
-					Foundation,
-					"-framework",
 					UIKit,
 					"-ObjC",
 				);
@@ -929,8 +927,6 @@
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
-					"-framework",
-					Foundation,
 					"-framework",
 					UIKit,
 					"-ObjC",

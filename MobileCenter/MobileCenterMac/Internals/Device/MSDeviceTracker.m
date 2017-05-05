@@ -250,6 +250,7 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
   return @"macOS";
 }
 
+// TODO: Think about the best practice to get macOS version.
 - (NSString *)osVersion {
   NSString *osVersion = nil;
 
