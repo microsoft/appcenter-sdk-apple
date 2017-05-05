@@ -220,7 +220,7 @@
 		B21E29921E83521A00F9A22D /* MSUtility+StringFormatting.m in Sources */ = {isa = PBXBuildFile; fileRef = B21E29901E83521A00F9A22D /* MSUtility+StringFormatting.m */; };
 		B24F3F171D93A3FF00827213 /* MSLoggerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B24F3F161D93A3FF00827213 /* MSLoggerTests.m */; };
 		B2B9441E1DF0DF23009117D1 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2B9441D1DF0DF23009117D1 /* OHHTTPStubs.framework */; };
-		B2C3C1841DB83A3E00CB83F7 /* MSDevicePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = B2C3C1831DB83A3E00CB83F7 /* MSDevicePrivate.h */; };
+		B2C3C1841DB83A3E00CB83F7 /* MSDeviceInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = B2C3C1831DB83A3E00CB83F7 /* MSDeviceInternal.h */; };
 		B2C3C1901DB9864600CB83F7 /* MSDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = B2C3C18C1DB9864600CB83F7 /* MSDevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B2C3C1911DB9864600CB83F7 /* MSDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = B2C3C18D1DB9864600CB83F7 /* MSDevice.m */; };
 		B2C3C1921DB9864600CB83F7 /* MSWrapperSdk.h in Headers */ = {isa = PBXBuildFile; fileRef = B2C3C18E1DB9864600CB83F7 /* MSWrapperSdk.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -411,8 +411,8 @@
 		B21E29901E83521A00F9A22D /* MSUtility+StringFormatting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MSUtility+StringFormatting.m"; sourceTree = "<group>"; };
 		B24F3F161D93A3FF00827213 /* MSLoggerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLoggerTests.m; sourceTree = "<group>"; };
 		B2B9441D1DF0DF23009117D1 /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OHHTTPStubs.framework; sourceTree = "<group>"; };
-		B2C3C1831DB83A3E00CB83F7 /* MSDevicePrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDevicePrivate.h; sourceTree = "<group>"; };
-		B2C3C1851DB841ED00CB83F7 /* MSWrapperSdkPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSWrapperSdkPrivate.h; sourceTree = "<group>"; };
+		B2C3C1831DB83A3E00CB83F7 /* MSDeviceInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDeviceInternal.h; sourceTree = "<group>"; };
+		B2C3C1851DB841ED00CB83F7 /* MSWrapperSdkInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSWrapperSdkInternal.h; sourceTree = "<group>"; };
 		B2C3C18C1DB9864600CB83F7 /* MSDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDevice.h; sourceTree = "<group>"; };
 		B2C3C18D1DB9864600CB83F7 /* MSDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDevice.m; sourceTree = "<group>"; };
 		B2C3C18E1DB9864600CB83F7 /* MSWrapperSdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSWrapperSdk.h; sourceTree = "<group>"; };
@@ -739,7 +739,7 @@
 				E88EBBEB1D2C612E007E7785 /* MSAbstractLog.m */,
 				F803BBFA1E8E39AB004B1E7A /* MSCustomPropertiesLog.h */,
 				F803BBF81E8E3989004B1E7A /* MSCustomPropertiesLog.m */,
-				B2C3C1831DB83A3E00CB83F7 /* MSDevicePrivate.h */,
+				B2C3C1831DB83A3E00CB83F7 /* MSDeviceInternal.h */,
 				6E3E2C9D1D35701000B1EE50 /* MSLog.h */,
 				6E171B581D234717000DC480 /* MSLogContainer.h */,
 				6E171B591D234717000DC480 /* MSLogContainer.m */,
@@ -748,7 +748,7 @@
 				6E7D5C791D3E94F8009EC9AC /* MSSerializableObject.h */,
 				D38023E71E6EFC7C00466558 /* MSStartServiceLog.h */,
 				D38023E61E6EFC7C00466558 /* MSStartServiceLog.m */,
-				B2C3C1851DB841ED00CB83F7 /* MSWrapperSdkPrivate.h */,
+				B2C3C1851DB841ED00CB83F7 /* MSWrapperSdkInternal.h */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -992,7 +992,7 @@
 				384772A61DA5691F009365DE /* MSSenderDelegate.h in Headers */,
 				D38023E91E6EFC7C00466558 /* MSStartServiceLog.h in Headers */,
 				387C76FD1D6C9CF100D68CC1 /* MSServiceAbstract.h in Headers */,
-				B2C3C1841DB83A3E00CB83F7 /* MSDevicePrivate.h in Headers */,
+				B2C3C1841DB83A3E00CB83F7 /* MSDeviceInternal.h in Headers */,
 				B21E29911E83521A00F9A22D /* MSUtility+StringFormatting.h in Headers */,
 				842C13251E7FCF5300F16EA3 /* MSUtility+Environment.h in Headers */,
 				6E3E2C9E1D35701000B1EE50 /* MSLog.h in Headers */,

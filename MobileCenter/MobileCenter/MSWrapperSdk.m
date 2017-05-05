@@ -1,5 +1,5 @@
 #import "MSWrapperSdk.h"
-#import "MSWrapperSdkPrivate.h"
+#import "MSWrapperSdkInternal.h"
 
 static NSString *const kMSWrapperSdkVersion = @"wrapper_sdk_version";
 static NSString *const kMSWrapperSdkName = @"wrapper_sdk_name";

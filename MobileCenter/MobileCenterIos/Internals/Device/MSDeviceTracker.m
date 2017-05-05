@@ -2,7 +2,7 @@
 #import "MSDeviceHistoryInfo.h"
 #import "MSDeviceTracker.h"
 #import "MSDeviceTrackerPrivate.h"
-#import "MSWrapperSdkPrivate.h"
+#import "MSWrapperSdkInternal.h"
 #import "MSUserDefaults.h"
 #import "MSUtility+Application.h"
 #import "MSUtility+Date.h"

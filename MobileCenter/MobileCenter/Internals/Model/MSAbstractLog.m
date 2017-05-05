@@ -1,6 +1,6 @@
 #import "MSAbstractLog.h"
 #import "MSDevice.h"
-#import "MSDevicePrivate.h"
+#import "MSDeviceInternal.h"
 #import "MSUtility+Date.h"
 
 static NSString *const kMSSid = @"sid";
