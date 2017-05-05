@@ -3,7 +3,7 @@
 #import <CoreTelephony/CTTelephonyNetworkInfo.h>
 #import <sys/sysctl.h>
 
-#import "MSDevicePrivate.h"
+#import "MSDeviceInternal.h"
 #import "MSDeviceTracker.h"
 #import "MSWrapperSdk.h"
 
