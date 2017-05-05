@@ -16,6 +16,7 @@ This release adds the Mobile Center Push module and contains additional improvem
 
 * **[Feature]** This is the first release that contains Mobile Center Push.
 
+___
 
 ## Version 0.7.0
 

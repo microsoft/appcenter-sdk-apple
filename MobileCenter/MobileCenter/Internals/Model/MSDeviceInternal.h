@@ -86,5 +86,4 @@
  */
 @property(nonatomic, copy) NSString *appNamespace;
 
-
 @end
