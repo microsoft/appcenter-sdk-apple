@@ -102,6 +102,27 @@
 			remoteGlobalIDString = 6E0401321D1C98690051BCFA;
 			remoteInfo = MobileCenterCrashes;
 		};
+		5CA19FB11EBCD01A0074D9C6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E82E1B821D1CA63000D281C1 /* MobileCenter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 04754FAB1EA98182002CBA46;
+			remoteInfo = MobileCenterMac;
+		};
+		5CA19FB81EBCD01A0074D9C6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E85547FB1D2D6C8D002DF6E2 /* MobileCenterAnalytics.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0485AF851EAA79E300C10CAF;
+			remoteInfo = MobileCenterAnalyticsMac;
+		};
+		5CA19FBF1EBCD01A0074D9C6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E82E1B7C1D1CA62900D281C1 /* MobileCenterCrashes.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0485AFD31EAA887500C10CAF;
+			remoteInfo = MobileCenterCrashesMac;
+		};
 		5CE2583C1EA5097100DA8FB9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E82E1B571D1CA58D00D281C1 /* Project object */;
@@ -227,6 +248,7 @@
 		38E1B6581DDCDDF4000EFED1 /* MSAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAlertController.h; sourceTree = "<group>"; };
 		38E1B6591DDCDDF4000EFED1 /* MSAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAlertController.m; sourceTree = "<group>"; };
 		38F2606E1E649FE5004F0FDC /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		5CA19FAB1EBCD0190074D9C6 /* Test.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Test.xcconfig; sourceTree = "<group>"; };
 		5CE258371EA5097100DA8FB9 /* PuppetUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PuppetUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CE2583B1EA5097100DA8FB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5CE258981EA5FBCA00DA8FB9 /* AnalyticsUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsUITests.swift; sourceTree = "<group>"; };
@@ -343,6 +365,7 @@
 				5CE258981EA5FBCA00DA8FB9 /* AnalyticsUITests.swift */,
 				5CE2589A1EA5FBD400DA8FB9 /* CrashesUITests.swift */,
 				5CE2589C1EA5FBE900DA8FB9 /* DistributeUITests.swift */,
+				5CA19FAB1EBCD0190074D9C6 /* Test.xcconfig */,
 			);
 			path = PuppetUITests;
 			sourceTree = "<group>";
@@ -420,6 +443,7 @@
 			children = (
 				E82E1B811D1CA62900D281C1 /* libMobileCenterCrashes.a */,
 				E8DF1C2C1D21A8F5006310CF /* MobileCenterCrashes.xctest */,
+				5CA19FC01EBCD01A0074D9C6 /* libMobileCenterCrashesMac.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -429,6 +453,7 @@
 			children = (
 				E82E1B881D1CA63000D281C1 /* libMobileCenter.a */,
 				E82E1B8A1D1CA63000D281C1 /* MobileCenter.xctest */,
+				5CA19FB21EBCD01A0074D9C6 /* libMobileCenterMac.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -438,6 +463,7 @@
 			children = (
 				E85548031D2D6C8D002DF6E2 /* libMobileCenterAnalytics.a */,
 				E85548051D2D6C8D002DF6E2 /* MobileCenterAnalytics.xctest */,
+				5CA19FB91EBCD01A0074D9C6 /* libMobileCenterAnalyticsMac.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -611,6 +637,27 @@
 			fileType = wrapper.cfbundle;
 			path = MobileCenterDistribute.xctest;
 			remoteRef = 0471B9301E4550670022F951 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5CA19FB21EBCD01A0074D9C6 /* libMobileCenterMac.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libMobileCenterMac.a;
+			remoteRef = 5CA19FB11EBCD01A0074D9C6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5CA19FB91EBCD01A0074D9C6 /* libMobileCenterAnalyticsMac.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libMobileCenterAnalyticsMac.a;
+			remoteRef = 5CA19FB81EBCD01A0074D9C6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5CA19FC01EBCD01A0074D9C6 /* libMobileCenterCrashesMac.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libMobileCenterCrashesMac.a;
+			remoteRef = 5CA19FBF1EBCD01A0074D9C6 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		B2C070CB1E5F59A90076D6A9 /* MobileCenterDistributeResources.bundle */ = {
@@ -856,6 +903,126 @@
 			};
 			name = Release;
 		};
+		5CA19FC81EBCD5160074D9C6 /* TestConfig */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../MobileCenter-SDK-iOS/**",
+					"$(SRCROOT)/../CrashLibIOS/CrashLibIOS",
+					"$(SRCROOT)/../Vendor/**",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "-fno-optimize-sibling-calls";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = TestConfig;
+		};
+		5CA19FC91EBCD5160074D9C6 /* TestConfig */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5CA19FAB1EBCD0190074D9C6 /* Test.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_WARN_OBJC_RECEIVER_WEAK = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = L4RARDNZ2Y;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../CrashLibIOS/CrashLibIOS";
+				INFOPLIST_FILE = Puppet/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.puppet;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "bb861002-b29b-4a0e-bdcc-08d1f7e5d38e";
+				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Puppet App";
+				SWIFT_VERSION = 3.0;
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../MobileCenter/MobileCenter/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashes/** $(SRCROOT)/../MobileCenterDistribute/MobileCenterDistribute/** $(SRCROOT)/../MobileCenter/MobileCenterIos/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalyticsIos/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashesIos/**";
+			};
+			name = TestConfig;
+		};
+		5CA19FCA1EBCD5160074D9C6 /* TestConfig */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = L4RARDNZ2Y;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = PuppetWidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.puppet.PuppetWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "efe8c6b2-d14d-4958-ba71-8817551a535b";
+				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter PuppetWidget Extension";
+				SKIP_INSTALL = YES;
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../MobileCenter/MobileCenter/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashes/** $(SRCROOT)/../MobileCenter/MobileCenterIos/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalyticsIos/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashesIos/**";
+			};
+			name = TestConfig;
+		};
+		5CA19FCB1EBCD5160074D9C6 /* TestConfig */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				DEVELOPMENT_TEAM = L4RARDNZ2Y;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INFOPLIST_FILE = PuppetUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.PuppetUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = Puppet;
+			};
+			name = TestConfig;
+		};
 		5CE2583E1EA5097100DA8FB9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -996,6 +1163,7 @@
 		};
 		E82E1B771D1CA58D00D281C1 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5CA19FAB1EBCD0190074D9C6 /* Test.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1054,6 +1222,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				380A4DA51DD6892F00E99219 /* Debug */,
+				5CA19FCA1EBCD5160074D9C6 /* TestConfig */,
 				380A4DA61DD6892F00E99219 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1063,6 +1232,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5CE2583E1EA5097100DA8FB9 /* Debug */,
+				5CA19FCB1EBCD5160074D9C6 /* TestConfig */,
 				5CE2583F1EA5097100DA8FB9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1072,6 +1242,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E82E1B741D1CA58D00D281C1 /* Debug */,
+				5CA19FC81EBCD5160074D9C6 /* TestConfig */,
 				E82E1B751D1CA58D00D281C1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1081,6 +1252,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E82E1B771D1CA58D00D281C1 /* Debug */,
+				5CA19FC91EBCD5160074D9C6 /* TestConfig */,
 				E82E1B781D1CA58D00D281C1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;

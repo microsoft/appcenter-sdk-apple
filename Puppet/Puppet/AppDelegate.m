@@ -175,7 +175,11 @@
 @implementation MSDistribute (DisableDistribute)
 
 -(BOOL)isUITesting {
+#ifdef MS_IS_UI_TESTING
   return YES;
+#else
+  return NO;
+#endif
 }
 
 @end
