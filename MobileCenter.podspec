@@ -44,7 +44,7 @@ Pod::Spec.new do |s|
   end
 
  s.subspec 'MobileCenterAnalytics' do |ss|
-      ss.frameworks = 'CoreTelephony', 'Foundation', 'UIKit'
+      ss.frameworks = 'Foundation', 'UIKit'
       ss.dependency 'MobileCenter/MobileCenter'
       ss.vendored_frameworks = "MobileCenter-SDK-iOS/MobileCenterAnalytics.framework"
   end
@@ -57,7 +57,7 @@ Pod::Spec.new do |s|
   end
 
  s.subspec 'MobileCenterDistribute' do |ss|
-   ss.frameworks = 'CoreTelephony', 'Foundation', 'UIKit'
+   ss.frameworks = 'Foundation', 'UIKit'
    ss.weak_frameworks = 'SafariServices'
    ss.dependency 'MobileCenter/MobileCenter'
    ss.resource_bundle = { 'MobileCenterDistributeResources' => ['MobileCenter-SDK-iOS/MobileCenterDistributeResources.bundle/*.lproj'] }
