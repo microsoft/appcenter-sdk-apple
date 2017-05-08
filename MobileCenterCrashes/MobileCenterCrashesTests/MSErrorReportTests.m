@@ -4,8 +4,8 @@
 
 #import "MSErrorReportPrivate.h"
 #import "MSDevice.h"
-#import "MSDevicePrivate.h"
-#import "MSWrapperSdkPrivate.h"
+#import "MSDeviceInternal.h"
+#import "MSWrapperSdkInternal.h"
 
 @interface MSErrorReportTests : XCTestCase
 

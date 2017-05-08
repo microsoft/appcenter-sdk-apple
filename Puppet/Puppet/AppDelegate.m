@@ -2,6 +2,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
+#import <UserNotifications/UserNotifications.h>
 #import "AppDelegate.h"
 #import "Constants.h"
 #import "MSErrorAttachmentLog.h"
@@ -10,10 +11,10 @@
 #import "MobileCenterAnalytics.h"
 #import "MobileCenterCrashes.h"
 #import "MobileCenterDistribute.h"
-
+#import "MobileCenterPush.h"
 #import "MSAlertController.h"
 
-@interface AppDelegate () <MSCrashesDelegate, MSDistributeDelegate>
+@interface AppDelegate () <MSCrashesDelegate, MSDistributeDelegate, MSPushDelegate>
 
 @end
 
@@ -23,11 +24,12 @@
 
   // Customize Mobile Center SDK.
   [MSDistribute setDelegate:self];
+  [MSPush setDelegate:self];
   [MSMobileCenter setLogLevel:MSLogLevelVerbose];
 
   // Start Mobile Center SDK.
   [MSMobileCenter start:@"7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7"
-           withServices:@[ [MSAnalytics class], [MSCrashes class], [MSDistribute class] ]];
+           withServices:@[ [MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class] ]];
 
   [self crashes];
 
@@ -54,6 +56,27 @@
 }
 
 #pragma mark - Application life cycle
+
+- (void)application:(UIApplication *)application
+    didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+  [MSPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+}
+
+- (void)application:(UIApplication *)application
+    didFailToRegisterForRemoteNotificationsWithError:(nonnull NSError *)error {
+  [MSPush didFailToRegisterForRemoteNotificationsWithError:error];
+}
+
+- (void)application:(UIApplication *)application
+    didReceiveRemoteNotification:(NSDictionary *)userInfo
+          fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+  BOOL result = [MSPush didReceiveRemoteNotification:userInfo];
+  if (result) {
+    completionHandler(UIBackgroundFetchResultNewData);
+  } else {
+    completionHandler(UIBackgroundFetchResultNoData);
+  }
+}
 
 - (void)applicationWillResignActive:(UIApplication *)application {
 }
@@ -176,6 +199,21 @@
     return YES;
   }
   return NO;
+}
+
+#pragma mark - MSPushDelegate
+
+- (void)push:(MSPush *)push didReceivePushNotification:(MSPushNotification *)pushNotification {
+  NSString *message = pushNotification.message;
+  for (NSString *key in pushNotification.customData) {
+    message = [NSString stringWithFormat:@"%@\n%@: %@", message, key, [pushNotification.customData objectForKey:key]];
+  }
+  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:pushNotification.title
+                                                  message:message
+                                                 delegate:self
+                                        cancelButtonTitle:@"OK"
+                                        otherButtonTitles:nil];
+  [alert show];
 }
 
 @end
