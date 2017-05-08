@@ -64,6 +64,20 @@
          </BuildActionEntry>
          <BuildActionEntry
             buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "D33A94501E5B11BB003966DB"
+               BuildableName = "libMobileCenterPush.a"
+               BlueprintName = "MobileCenterPush"
+               ReferencedContainer = "container:MobileCenterPush/MobileCenterPush.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
             buildForRunning = "NO"
             buildForProfiling = "NO"
             buildForArchiving = "NO"
@@ -88,6 +102,20 @@
                BuildableName = "MobileCenterDistribute.xctest"
                BlueprintName = "MobileCenterDistributeTests"
                ReferencedContainer = "container:MobileCenterDistribute/MobileCenterDistribute.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "D3AD5EBF1E5C4F6A001627AB"
+               BuildableName = "MobileCenterPush.xctest"
+               BlueprintName = "MobileCenterPushTests"
+               ReferencedContainer = "container:MobileCenterPush/MobileCenterPush.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -137,6 +165,16 @@
                BuildableName = "MobileCenterDistribute.xctest"
                BlueprintName = "MobileCenterDistributeTests"
                ReferencedContainer = "container:MobileCenterDistribute/MobileCenterDistribute.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "D3AD5EBF1E5C4F6A001627AB"
+               BuildableName = "MobileCenterPush.xctest"
+               BlueprintName = "MobileCenterPushTests"
+               ReferencedContainer = "container:MobileCenterPush/MobileCenterPush.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>

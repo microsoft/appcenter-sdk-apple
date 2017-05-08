@@ -3,7 +3,7 @@
 #import "MSAlertController.h"
 #import "MSDistribute.h"
 
-// TODO add nullability here.
+NS_ASSUME_NONNULL_BEGIN
 
 @class MSReleaseDetails;
 
@@ -72,7 +72,7 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
 /**
  * Current view controller presenting the `SFSafariViewController` if any.
  */
-@property(nonatomic) UIViewController *safariHostingViewController;
+@property(nullable, nonatomic) UIViewController *safariHostingViewController;
 
 /**
  * Current update alert view controller if any.
@@ -82,7 +82,7 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
 /**
  * Current release details.
  */
-@property(nonatomic) MSReleaseDetails *releaseDetails;
+@property(nullable, nonatomic) MSReleaseDetails *releaseDetails;
 
 /**
  * A Distribute delegate that will be called whenever a new release is available for update.
@@ -104,7 +104,7 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
  *
  * @return The finale install URL to request the token or nil if an error occurred.
  */
-- (NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret releaseHash:(NSString *)releaseHash;
+- (nullable NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret releaseHash:(NSString *)releaseHash;
 
 /**
  * Open the given URL using an `SFSafariViewController`. Must run on the UI thread! iOS 9+ only.
@@ -198,7 +198,7 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
 /**
  * Start download for the given details.
  */
-- (void)startDownload:(MSReleaseDetails *)details;
+- (void)startDownload:(nullable MSReleaseDetails *)details;
 
 /**
  * Close application for update.
@@ -206,3 +206,5 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
 - (void)closeApp;
 
 @end
+
+NS_ASSUME_NONNULL_END

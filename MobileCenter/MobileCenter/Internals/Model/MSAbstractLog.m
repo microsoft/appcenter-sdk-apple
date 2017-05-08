@@ -1,6 +1,6 @@
 #import "MSAbstractLogInternal.h"
 #import "MSDevice.h"
-#import "MSDevicePrivate.h"
+#import "MSDeviceInternal.h"
 #import "MSLogger.h"
 #import "MSUtility+Date.h"
 

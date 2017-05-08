@@ -5,6 +5,9 @@
 #import "MSMobileCenterInternal.h"
 #import "MSMobileCenterPrivate.h"
 #import "MSMockUserDefaults.h"
+#import "MSLogManager.h"
+#import "MSCustomProperties.h"
+#import "MSCustomPropertiesLog.h"
 
 static NSString *const kMSInstallIdStringExample = @"F18499DA-5C3D-4F05-B4E8-D8C9C06A6F09";
 
@@ -140,6 +143,30 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   [MSMobileCenter resetSharedInstance];
   [MSMobileCenter start:MS_UUID_STRING withServices:nil];
   XCTAssertTrue([[[MSMobileCenter sharedInstance] logUrl] isEqualToString:@"https://in.mobile.azure.com"]);
+}
+
+- (void)testSetCustomProperties {
+
+  // If
+  [MSMobileCenter start:MS_UUID_STRING withServices:nil];
+  id logManager = OCMProtocolMock(@protocol(MSLogManager));
+  OCMStub([logManager processLog:[OCMArg isKindOfClass:[MSCustomPropertiesLog class]] forGroupId:[OCMArg any]])
+      .andDo(nil);
+  [MSMobileCenter sharedInstance].logManager = logManager;
+
+  // When
+  MSCustomProperties *customProperties = [MSCustomProperties new];
+  [customProperties setString:@"test" forKey:@"test"];
+  [MSMobileCenter setCustomProperties:customProperties];
+
+  // Then
+  OCMVerify([logManager processLog:[OCMArg isKindOfClass:[MSCustomPropertiesLog class]] forGroupId:[OCMArg any]]);
+
+  // When
+  // Not allow processLog more
+  OCMReject([logManager processLog:[OCMArg isKindOfClass:[MSCustomPropertiesLog class]] forGroupId:[OCMArg any]]);
+  [MSMobileCenter setCustomProperties:nil];
+  [MSMobileCenter setCustomProperties:[MSCustomProperties new]];
 }
 
 - (void)testConfigureWithAppSecret {

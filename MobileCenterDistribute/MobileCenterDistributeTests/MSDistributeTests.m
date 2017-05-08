@@ -55,6 +55,13 @@ static NSURL *sfURL;
 }
 @end
 
+@interface UIApplication (ForTests)
+
+// Available since iOS 10.
+- (void)openURL:(NSURL*)url options:(NSDictionary<NSString *, id> *)options completionHandler:(void (^ __nullable)(BOOL success))completion;
+
+@end
+
 static NSURL *sfURL;
 
 @interface MSDistributeTests : XCTestCase
@@ -170,7 +177,13 @@ static NSURL *sfURL;
   id appMock = OCMClassMock([UIApplication class]);
   OCMStub([appMock sharedApplication]).andReturn(appMock);
   OCMStub([appMock canOpenURL:url]).andReturn(YES);
-  OCMStub([appMock openURL:url]).andDo(nil);
+  SEL selector = NSSelectorFromString(@"openURL:options:completionHandler:");
+  BOOL newOpenURL = [appMock respondsToSelector:selector];
+  if (newOpenURL) {
+    OCMStub([appMock openURL:url options:[OCMArg any] completionHandler:[OCMArg any]]).andDo(nil);
+  } else {
+    OCMStub([appMock openURL:url]).andDo(nil);
+  }
 
   // When
   [self.sut openURLInSafariApp:url];
@@ -181,7 +194,11 @@ static NSURL *sfURL;
   // Then
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
-                                 OCMVerify([appMock openURL:url]);
+                                 if (newOpenURL) {
+                                   OCMVerify([appMock openURL:url options:[OCMArg any] completionHandler:[OCMArg any]]);
+                                 } else {
+                                   OCMVerify([appMock openURL:url]);
+                                 }
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }

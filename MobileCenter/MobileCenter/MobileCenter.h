@@ -9,3 +9,5 @@
 #import "MSService.h"
 #import "MSServiceAbstract.h"
 #import "MSWrapperSdk.h"
+#import "MSMobileCenterErrors.h"
+#import "MSCustomProperties.h"
