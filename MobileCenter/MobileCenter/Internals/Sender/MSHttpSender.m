@@ -39,14 +39,15 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     NSMutableArray *queryItemArray = [NSMutableArray array];
 
     // Set query parameter.
-    [queryStrings enumerateKeysAndObjectsUsingBlock:^(id _Nonnull key, id _Nonnull queryString, __attribute__((unused)) BOOL *_Nonnull stop) {
+    [queryStrings enumerateKeysAndObjectsUsingBlock:^(id _Nonnull key, id _Nonnull queryString,
+                                                      __attribute__((unused)) BOOL *_Nonnull stop) {
       NSURLQueryItem *queryItem = [NSURLQueryItem queryItemWithName:key value:queryString];
       [queryItemArray addObject:queryItem];
     }];
     components.queryItems = queryItemArray;
 
     // Set send URL which can't be null
-    _sendURL = (NSURL * _Nonnull) components.URL;
+    _sendURL = (NSURL * _Nonnull)components.URL;
 
     // Hookup to reachability.
     [MS_NOTIFICATION_CENTER addObserver:self
@@ -121,10 +122,12 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
       self.suspended = YES;
 
       // Suspend all tasks.
-      [self.session getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> *_Nonnull dataTasks,
-                                                    __attribute__((unused)) NSArray<NSURLSessionUploadTask *> *_Nonnull uploadTasks,
-                                                    __attribute__((unused)) NSArray<NSURLSessionDownloadTask *> *_Nonnull downloadTasks) {
-        [dataTasks enumerateObjectsUsingBlock:^(__kindof NSURLSessionTask *_Nonnull call, __attribute__((unused)) NSUInteger idx,
+      [self.session getTasksWithCompletionHandler:^(
+                        NSArray<NSURLSessionDataTask *> *_Nonnull dataTasks,
+                        __attribute__((unused)) NSArray<NSURLSessionUploadTask *> *_Nonnull uploadTasks,
+                        __attribute__((unused)) NSArray<NSURLSessionDownloadTask *> *_Nonnull downloadTasks) {
+        [dataTasks enumerateObjectsUsingBlock:^(__kindof NSURLSessionTask *_Nonnull call,
+                                                __attribute__((unused)) NSUInteger idx,
                                                 __attribute__((unused)) BOOL *_Nonnull stop) {
           [call suspend];
         }];
@@ -132,7 +135,8 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 
       // Suspend current calls' retry.
       [self.pendingCalls.allValues
-          enumerateObjectsUsingBlock:^(MSSenderCall *_Nonnull call, __attribute__((unused)) NSUInteger idx, __attribute__((unused)) BOOL *_Nonnull stop) {
+          enumerateObjectsUsingBlock:^(MSSenderCall *_Nonnull call, __attribute__((unused)) NSUInteger idx,
+                                       __attribute__((unused)) BOOL *_Nonnull stop) {
             if (!call.submitted) {
               [call resetRetry];
             }
@@ -156,10 +160,12 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
       self.suspended = NO;
 
       // Resume existing calls.
-      [self.session getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> *_Nonnull dataTasks,
-                                                    __attribute__((unused)) NSArray<NSURLSessionUploadTask *> *_Nonnull uploadTasks,
-                                                    __attribute__((unused)) NSArray<NSURLSessionDownloadTask *> *_Nonnull downloadTasks) {
-        [dataTasks enumerateObjectsUsingBlock:^(__kindof NSURLSessionTask *_Nonnull call, __attribute__((unused)) NSUInteger idx,
+      [self.session getTasksWithCompletionHandler:^(
+                        NSArray<NSURLSessionDataTask *> *_Nonnull dataTasks,
+                        __attribute__((unused)) NSArray<NSURLSessionUploadTask *> *_Nonnull uploadTasks,
+                        __attribute__((unused)) NSArray<NSURLSessionDownloadTask *> *_Nonnull downloadTasks) {
+        [dataTasks enumerateObjectsUsingBlock:^(__kindof NSURLSessionTask *_Nonnull call,
+                                                __attribute__((unused)) NSUInteger idx,
                                                 __attribute__((unused)) BOOL *_Nonnull stop) {
           [call resume];
         }];
@@ -167,7 +173,8 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 
       // Resume calls.
       [self.pendingCalls.allValues
-          enumerateObjectsUsingBlock:^(MSSenderCall *_Nonnull call, __attribute__((unused)) NSUInteger idx, __attribute__((unused)) BOOL *_Nonnull stop) {
+          enumerateObjectsUsingBlock:^(MSSenderCall *_Nonnull call, __attribute__((unused)) NSUInteger idx,
+                                       __attribute__((unused)) BOOL *_Nonnull stop) {
             if (!call.submitted) {
               [self sendCallAsync:call];
             }
@@ -198,21 +205,46 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
       return;
 
     // Create a task for the request.
-    NSURLSessionDataTask *task =
-        [self.session dataTaskWithRequest:request
-                        completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                          @synchronized(self) {
-                            NSInteger statusCode = [MSSenderUtil getStatusCode:response];
-                            MSLogDebug([MSMobileCenter logTag], @"HTTP response received with status code:%lu",
-                                       (unsigned long)statusCode);
+    NSURLSessionDataTask *task = [self.session
+        dataTaskWithRequest:request
+          completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+            @synchronized(self) {
+              NSString *payload = nil;
+              NSInteger statusCode = [MSSenderUtil getStatusCode:response];
+              if (data) {
 
-                            // Call handles the completion.
-                            if (call) {
-                              call.submitted = NO;
-                              [call sender:self callCompletedWithStatus:statusCode data:data error:error];
-                            }
-                          }
-                        }];
+                // Error instance for JSON parsing.
+                NSError *jsonError = nil;
+                id dictionary = [NSJSONSerialization JSONObjectWithData:data
+                                                                options:NSJSONReadingMutableContainers
+                                                                  error:&jsonError];
+                if (jsonError) {
+                  payload = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                } else {
+                  NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
+                                                                     options:NSJSONWritingPrettyPrinted
+                                                                       error:&jsonError];
+                  if (!jsonData || jsonError) {
+                    payload = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                  } else {
+
+                    // NSJSONSerialization escapes paths by default so we replace them.
+                    payload = [[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]
+                        stringByReplacingOccurrencesOfString:@"\\/"
+                                                  withString:@"/"];
+                  }
+                }
+              }
+              MSLogDebug([MSMobileCenter logTag], @"HTTP response received with status code=%lu and payload=%@",
+                         (unsigned long)statusCode, payload);
+
+              // Call handles the completion.
+              if (call) {
+                call.submitted = NO;
+                [call sender:self callCompletedWithStatus:statusCode data:data error:error];
+              }
+            }
+          }];
 
     // TODO: Set task priority.
     [task resume];
@@ -348,4 +380,5 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   [self.reachability stopNotifier];
   [MS_NOTIFICATION_CENTER removeObserver:self name:kMSReachabilityChangedNotification object:nil];
 }
+
 @end
