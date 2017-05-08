@@ -286,21 +286,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
               if (!details) {
                 MSLogError([MSDistribute logTag], @"Couldn't parse response payload.");
               } else {
-                NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
-                                                                   options:NSJSONWritingPrettyPrinted
-                                                                     error:&jsonError];
-                NSString *jsonString = nil;
-                if (!jsonData || jsonError) {
-                  jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-                } else {
-
-                  // NSJSONSerialization escapes paths by default so we replace them.
-                  jsonString = [[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]
-                      stringByReplacingOccurrencesOfString:@"\\/"
-                                                withString:@"/"];
-                }
-                MSLogDebug([MSDistribute logTag], @"Received a response of update request:\n%@", jsonString);
-
+                
                 /*
                  * Handle this update.
                  *
@@ -391,7 +377,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   return NO;
 }
 
-- (NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret releaseHash:(NSString *)releaseHash {
+- (nullable NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret releaseHash:(NSString *)releaseHash {
 
   // Create the request ID string.
   NSString *requestId = MS_UUID_STRING;
@@ -642,7 +628,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   });
 }
 
-- (void)startDownload:(MSReleaseDetails *)details {
+- (void)startDownload:(nullable MSReleaseDetails *)details {
   [MSUtility sharedAppOpenUrl:details.installUrl
       options:@{}
       completionHandler:^(MSOpenURLState state) {

@@ -2,7 +2,7 @@
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 #import "MSDevice.h"
-#import "MSDevicePrivate.h"
+#import "MSDeviceInternal.h"
 #import "MSHttpSenderPrivate.h"
 #import "MSHttpTestUtil.h"
 #import "MSIngestionSender.h"
