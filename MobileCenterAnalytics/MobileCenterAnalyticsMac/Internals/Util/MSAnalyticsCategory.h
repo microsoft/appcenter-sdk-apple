@@ -1,7 +1,8 @@
+#import <AppKit/AppKit.h>
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
+
 @interface MSAnalyticsCategory : NSObject
 
 /**
@@ -25,6 +26,6 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return YES if should track page, NO otherwise
  */
-BOOL ms_shouldTrackPageView(UIViewController *viewController);
+BOOL ms_shouldTrackPageView(NSViewController *viewController);
 
 NS_ASSUME_NONNULL_END

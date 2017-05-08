@@ -6,6 +6,8 @@ SDK_NAME = mobilecenter.ios
 // :Mark: Architectures
 
 MS_ARM_ARCHS = armv7 armv7s arm64
+MS_WATCH_ARCHS = armv7k
+MS_MAC_ARCHS = x86_64
 MS_SIM_ARCHS = x86_64 i386
 ARCHS = $(MS_ARM_ARCHS)
 VALID_ARCHS = $(MS_ARM_ARCHS)

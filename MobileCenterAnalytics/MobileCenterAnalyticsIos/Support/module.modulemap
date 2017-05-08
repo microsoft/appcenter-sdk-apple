@@ -5,5 +5,4 @@ framework module MobileCenterAnalytics {
   module * { export * }
   
   link framework "Foundation"
-  link framework "CoreTelephony"
 }

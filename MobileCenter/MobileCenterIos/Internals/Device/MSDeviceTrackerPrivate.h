@@ -1,10 +1,11 @@
-#import "MSDeviceInternal.h"
-#import "MSDeviceTracker.h"
-#import "MSWrapperSdk.h"
 #import <CoreTelephony/CTCarrier.h>
 #import <CoreTelephony/CTTelephonyNetworkInfo.h>
 #import <UIKit/UIKit.h>
 #import <sys/sysctl.h>
+
+#import "MSDeviceInternal.h"
+#import "MSDeviceTracker.h"
+#import "MSWrapperSdk.h"
 
 // Key to device history.
 static NSString *const kMSPastDevicesKey = @"pastDevicesKey";

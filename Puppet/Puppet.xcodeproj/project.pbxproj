@@ -1018,7 +1018,7 @@
 				PROVISIONING_PROFILE = "efe8c6b2-d14d-4958-ba71-8817551a535b";
 				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter PuppetWidget Extension";
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../MobileCenter/MobileCenter/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashes/**";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../MobileCenter/MobileCenter/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashes/** $(SRCROOT)/../MobileCenter/MobileCenterIos/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalyticsIos/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashesIos/**";
 			};
 			name = Debug;
 		};
@@ -1037,7 +1037,7 @@
 				PROVISIONING_PROFILE = "efe8c6b2-d14d-4958-ba71-8817551a535b";
 				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter PuppetWidget Extension";
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../MobileCenter/MobileCenter/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashes/**";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../MobileCenter/MobileCenter/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashes/** $(SRCROOT)/../MobileCenter/MobileCenterIos/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalyticsIos/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashesIos/**";
 			};
 			name = Release;
 		};
@@ -1203,7 +1203,7 @@
 				PROVISIONING_PROFILE = "bb861002-b29b-4a0e-bdcc-08d1f7e5d38e";
 				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Puppet App";
 				SWIFT_VERSION = 3.0;
-				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../MobileCenter/MobileCenter/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashes/** $(SRCROOT)/../MobileCenterDistribute/MobileCenterDistribute/** $(SRCROOT)/../MobileCenterPush/MobileCenterPush/**";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../MobileCenter/MobileCenter/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashes/** $(SRCROOT)/../MobileCenterDistribute/MobileCenterDistribute/** $(SRCROOT)/../MobileCenterPush/MobileCenterPush/** $(SRCROOT)/../MobileCenter/MobileCenterIos/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalyticsIos/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashesIos/**";
 			};
 			name = Debug;
 		};
@@ -1230,7 +1230,7 @@
 				PROVISIONING_PROFILE = "bb861002-b29b-4a0e-bdcc-08d1f7e5d38e";
 				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Puppet App";
 				SWIFT_VERSION = 3.0;
-				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../MobileCenter/MobileCenter/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashes/** $(SRCROOT)/../MobileCenterDistribute/MobileCenterDistribute/** $(SRCROOT)/../MobileCenterPush/MobileCenterPush/**";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../MobileCenter/MobileCenter/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashes/** $(SRCROOT)/../MobileCenterDistribute/MobileCenterDistribute/** $(SRCROOT)/../MobileCenterPush/MobileCenterPush/** $(SRCROOT)/../MobileCenter/MobileCenterIos/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalyticsIos/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashesIos/**";
 			};
 			name = Release;
 		};
