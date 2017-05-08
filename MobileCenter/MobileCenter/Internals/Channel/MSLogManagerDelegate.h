@@ -43,4 +43,26 @@
  */
 - (void)onFailedPersistingLog:(id<MSLog>)log withInternalId:(NSString *)internalId;
 
+/**
+ * Callback method that will be called before each log will be send to the server.
+ *
+ * @param log The log to be sent.
+ */
+- (void)willSendLog:(id <MSLog>)log;
+
+/**
+ * Callback method that will be called in case the SDK was able to send a log.
+ *
+ * @param log The log to be sent.
+ */
+- (void)didSucceedSendingLog:(id <MSLog>)log;
+
+/**
+ * Callback method that will be called in case the SDK was unable to send a log.
+ *
+ * @param log The log to be sent.
+ * @param error The error that occured.
+ */
+- (void)didFailSendingLog:(id <MSLog>)log withError:(NSError *)error;
+
 @end
