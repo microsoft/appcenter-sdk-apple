@@ -4,7 +4,7 @@
 #import <XCTest/XCTest.h>
 
 #import "MSAppDelegateForwarderPrivate.h"
-#import "MSCustomAppDelegate.h"
+#import "MSAppDelegate.h"
 #import "MSMockAppDelegate.h"
 #import "MSUtility+Application.h"
 
@@ -41,7 +41,34 @@
   [super tearDown];
 }
 
+- (void)testAddAppDelegateSelectorToSwizzle {
+  
+  // If
+  NSUInteger currentCount = MSAppDelegateForwarder.selectorsToSwizzle.count;
+  SEL expectedSelector = @selector(testAddAppDelegateSelectorToSwizzle);
+  NSString *expectedSelectorStr = NSStringFromSelector(expectedSelector);
+  
+  // Then
+  assertThatBool([MSAppDelegateForwarder.selectorsToSwizzle containsObject:expectedSelectorStr], isFalse());
+  
+  // When
+  [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:expectedSelector];
+  
+  // Then
+  assertThatInteger(MSAppDelegateForwarder.selectorsToSwizzle.count, equalToInteger(currentCount+1));
+  assertThatBool([MSAppDelegateForwarder.selectorsToSwizzle containsObject:expectedSelectorStr], isTrue());
+  
+  // When
+  [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:expectedSelector];
+  
+  // Then
+  assertThatInteger(MSAppDelegateForwarder.selectorsToSwizzle.count, equalToInteger(currentCount+1));
+  assertThatBool([MSAppDelegateForwarder.selectorsToSwizzle containsObject:expectedSelectorStr], isTrue());
+  [MSAppDelegateForwarder.selectorsToSwizzle removeObject:expectedSelectorStr];
+}
+
 - (void)testForwardUnknownSelector {
+  
   /*
    * If
    */
@@ -137,7 +164,7 @@
         [customCalledExpectation fulfill];
         return expectedReturnedValue;
       };
-  [MSAppDelegateForwarder registerSwizzlingForDelegate:self.appDelegateMock];
+  [MSAppDelegateForwarder swizzleOriginalDelegate:self.appDelegateMock];
   [MSAppDelegateForwarder addDelegate:self.appDelegateMock];
 
   // When
@@ -202,8 +229,8 @@
         [customCalledExpectation2 fulfill];
         return expectedReturnedValue;
       };
-  [MSAppDelegateForwarder registerSwizzlingForDelegate:customAppDelegateMock1];
-  [MSAppDelegateForwarder registerSwizzlingForDelegate:customAppDelegateMock2];
+  [MSAppDelegateForwarder swizzleOriginalDelegate:customAppDelegateMock1];
+  [MSAppDelegateForwarder swizzleOriginalDelegate:customAppDelegateMock2];
   [MSAppDelegateForwarder addDelegate:customAppDelegateMock1];
   [MSAppDelegateForwarder addDelegate:customAppDelegateMock2];
 
@@ -249,7 +276,7 @@
         XCTFail(@"Custom delegate got called but is removed.");
         return expectedReturnedValue;
       };
-  [MSAppDelegateForwarder registerSwizzlingForDelegate:self.appDelegateMock];
+  [MSAppDelegateForwarder swizzleOriginalDelegate:self.appDelegateMock];
   [MSAppDelegateForwarder addDelegate:self.appDelegateMock];
   [MSAppDelegateForwarder removeDelegate:self.appDelegateMock];
 
@@ -296,7 +323,7 @@
         XCTFail(@"Custom delegate got called but is removed.");
         return expectedReturnedValue;
       };
-  [MSAppDelegateForwarder registerSwizzlingForDelegate:self.appDelegateMock];
+  [MSAppDelegateForwarder swizzleOriginalDelegate:self.appDelegateMock];
   [MSAppDelegateForwarder addDelegate:self.appDelegateMock];
   MSAppDelegateForwarder.enabled = NO;
 
@@ -367,8 +394,8 @@
         [customCalledExpectation2 fulfill];
         return expectedReturnedValue;
       };
-  [MSAppDelegateForwarder registerSwizzlingForDelegate:customAppDelegateMock1];
-  [MSAppDelegateForwarder registerSwizzlingForDelegate:customAppDelegateMock2];
+  [MSAppDelegateForwarder swizzleOriginalDelegate:customAppDelegateMock1];
+  [MSAppDelegateForwarder swizzleOriginalDelegate:customAppDelegateMock2];
   [MSAppDelegateForwarder addDelegate:customAppDelegateMock1];
   [MSAppDelegateForwarder addDelegate:customAppDelegateMock2];
 
@@ -405,7 +432,7 @@
         [customCalledExpectation fulfill];
         return expectedReturnedValue;
       };
-  [MSAppDelegateForwarder registerSwizzlingForDelegate:self.appDelegateMock];
+  [MSAppDelegateForwarder swizzleOriginalDelegate:self.appDelegateMock];
   [MSAppDelegateForwarder addDelegate:self.appDelegateMock];
 
   // When

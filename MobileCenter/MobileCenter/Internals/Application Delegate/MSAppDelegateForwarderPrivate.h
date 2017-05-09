@@ -9,23 +9,29 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Hash table containing all the delegates as weak references.
  */
-@property(nonatomic, class) NSHashTable<id<MSCustomAppDelegate>> *delegates;
+@property(nonatomic, class) NSHashTable<id<MSAppDelegate>> *delegates;
 
 /**
  * Keep track of swizzled methods.
  */
-@property(nonatomic, class) NSMutableArray<NSString *> *swizzledSelectors;
+@property(nonatomic, class, readonly) NSMutableSet<NSString *> *selectorsToSwizzle;
 
 /**
- * Swizzle the given selector.
- *
- * @param selector A selector to swizzle.
- *
- * @discussion App delegate swizzling must be registered within the `application:didFinishLaunchingWithOptions:`
- * to avoid unpredictible behaviors. That's were the SDK is started.
- * Because it can't be activated anywhere swizzling should be registered whatever the enabled state.
+ * Keep track of the original delegate's method implementations.
  */
-+ (void)swizzleSelector:(SEL)selector;
+@property(nonatomic, class, readonly) NSMutableDictionary<NSString *, NSValue *> *originalImplementations;
+
+/**
+ * Hold the original @see UIApplication#setDelegate: implementation.
+ */
+@property(nonatomic, class) IMP originalSetDelegateImp;
+
+/**
+ * Register swizzling for the given original application delegate.
+ * 
+ * @param originalDelegate The original application delegate.
+ */
++ (void)swizzleOriginalDelegate:(id<UIApplicationDelegate>) originalDelegate;
 
 @end
 

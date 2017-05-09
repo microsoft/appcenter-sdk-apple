@@ -1,5 +1,6 @@
 #import <Foundation/Foundation.h>
 
+#import "MSAppDelegateForwarder.h"
 #import "MSMockAppDelegate.h"
 
 @implementation MSMockAppDelegate
@@ -23,7 +24,7 @@
   return validator(app, url, sourceApplication, annotation);
 }
 
-#pragma mark - MSCustomAppDelegate
+#pragma mark - MSAppDelegate
 
 - (BOOL)application:(UIApplication *)app
               openURL:(NSURL *)url
@@ -46,3 +47,15 @@
 
 @end
 
+#pragma mark - Swizzling
+
+@implementation MSAppDelegateForwarder (MSDistribute)
+
++ (void)load{
+  
+  // Register selectors to swizzle for Ditribute.
+  [self addAppDelegateSelectorToSwizzle:@selector(application:openURL:options:)];
+  [self addAppDelegateSelectorToSwizzle:@selector(application:openURL:sourceApplication:annotation:)];
+}
+
+@end

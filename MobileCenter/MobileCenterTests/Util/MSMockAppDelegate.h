@@ -1,6 +1,6 @@
 #import <UIKit/UIKit.h>
 
-#import "MSCustomAppDelegate.h"
+#import "MSAppDelegate.h"
 
 typedef BOOL (^OriginalOpenURLiOS42Validator)(UIApplication *, NSURL *, NSString *, id);
 typedef BOOL (^CustomOpenURLiOS42Validator)(UIApplication *, NSURL *, NSString *, id, BOOL);
@@ -12,7 +12,7 @@ typedef BOOL (^CustomOpenURLiOS9Validator)(UIApplication *, NSURL *, NSDictionar
  * We also can't use OCMock's protocol mocks since they artificially responds to any selector from the protocol.
  * Adding this class that can be used for both custom and original delegate to solve the issue for some tests.
  */
-@interface MSMockAppDelegate : NSObject <UIApplicationDelegate, MSCustomAppDelegate>
+@interface MSMockAppDelegate : NSObject <UIApplicationDelegate, MSAppDelegate>
 
 @property(nonatomic, readonly) NSMutableDictionary<NSString *, id> *originalDelegateValidators;
 @property(nonatomic, readonly) NSMutableDictionary<NSString *, id> *customDelegateValidators;

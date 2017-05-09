@@ -28,7 +28,6 @@ NSString *MSUtilityApplicationCategory;
   return [self sharedApp].delegate;
 }
 
-
 + (UIApplicationState)sharedAppState {
   return [[[[self class] sharedApp] valueForKey:@"applicationState"] longValue];
 }

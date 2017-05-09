@@ -187,7 +187,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   assertThatInt(MSAppDelegateForwarder.delegates.count, equalToInt(0));
 
   // When
-  [MSAppDelegateForwarder registerSwizzlingForDelegate:delegate];
+  [MSAppDelegateForwarder swizzleOriginalDelegate:delegate];
   [MSAppDelegateForwarder addDelegate:delegate];
   
   // Then
@@ -201,7 +201,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   id utilMock = OCMClassMock([MSUtility class]);
   OCMStub([utilMock sharedAppDelegate]).andReturn(delegate);
   [MSMobileCenter setAppDelegateForwardingEnabled:NO];
-  
+
   // When
   [MSMobileCenter setAppDelegateForwardingEnabled:YES];
   
@@ -209,7 +209,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   assertThatInt(MSAppDelegateForwarder.delegates.count, equalToInt(0));
   
   // When
-  [MSAppDelegateForwarder registerSwizzlingForDelegate:delegate];
+  [MSAppDelegateForwarder swizzleOriginalDelegate:delegate];
   [MSAppDelegateForwarder addDelegate:delegate];
   
   // Then

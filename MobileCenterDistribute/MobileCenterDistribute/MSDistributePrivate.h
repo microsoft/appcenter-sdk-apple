@@ -1,6 +1,7 @@
 #import <Foundation/Foundation.h>
 
 #import "MSAlertController.h"
+#import "MSAppDelegate.h"
 #import "MSDistribute.h"
 
 // TODO add nullability here.
@@ -88,6 +89,12 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
  * A Distribute delegate that will be called whenever a new release is available for update.
  */
 @property(nonatomic, weak) id<MSDistributeDelegate> delegate;
+
+/**
+ * Custom application delegate dedicated to Distribute.
+ */
+@property(nonatomic) id<MSAppDelegate> appDelegate;
+
 
 /**
  * Returns the singleton instance. Meant for testing/demo apps only.

@@ -1,10 +1,10 @@
 #import <Foundation/Foundation.h>
 
-#import "MSCustomAppDelegate.h"
+#import "MSAppDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MSAppDelegateForwarder : NSObject <UIApplicationDelegate, MSCustomAppDelegate>
+@interface MSAppDelegateForwarder : NSObject <UIApplicationDelegate, MSAppDelegate>
 
 /**
  * Enable/Disable Application forwarding.
@@ -12,29 +12,29 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, class) BOOL enabled;
 
 /**
- * Register method swizzling over the original App delegate for the given delegate.
- *
- * @param delegate A delegate registering its methods for swizzling.
- *
- * @discussion App delegate swizzling must be registered within the `application:didFinishLaunchingWithOptions:`
- * to avoid unpredictible behaviors. That is where the SDK is started.
- * Because it can't be activated anywhere swizzling should be registered whatever the enabled state.
- */
-+ (void)registerSwizzlingForDelegate:(id<MSCustomAppDelegate>)delegate;
-
-/**
  * Add a delegate.
  *
  * @param delegate A delegate.
  */
-+ (void)addDelegate:(id<MSCustomAppDelegate>)delegate;
++ (void)addDelegate:(id<MSAppDelegate>)delegate;
 
 /**
  * Remove a delegate.
  *
  * @param delegate A delegate.
  */
-+ (void)removeDelegate:(id<MSCustomAppDelegate>)delegate;
++ (void)removeDelegate:(id<MSAppDelegate>)delegate;
+
+/**
+ * Add an app delegate selector to swizzle.
+ *
+ * @param selector An app delegate selector to swizzle.
+ *
+ * @discussion Due to the early registration of swizzling on the original app delegate
+ * each custom delegate must sign up for selectors to swizzle within the `load` method of a category over
+ * the @see MSAppDelegateForwarder class.
+ */
++ (void)addAppDelegateSelectorToSwizzle:(SEL)selector;
 
 @end
 

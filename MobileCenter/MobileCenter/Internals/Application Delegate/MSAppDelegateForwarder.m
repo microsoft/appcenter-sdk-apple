@@ -2,37 +2,55 @@
 #import <UIKit/UIKit.h>
 
 #import "MSAppDelegateForwarderPrivate.h"
-#import "MSCustomAppDelegate.h"
-#import "MSOriginalAppDelegate.h"
+#import "MSAppDelegate.h"
 #import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
 #import "MSUtility+Application.h"
 
-static const NSString *kMSOriginalSelectorPrefix = @"ms_original_";
-static const NSString *kMSReturnedValueSelectorPart = @"returnedValue:";
+static NSString *const kMSReturnedValueSelectorPart = @"returnedValue:";
+static NSString *const kMSIsSwizzlingEnabledKey = @"MSAppDelegateForwarderEnabled";
 
-static NSHashTable<id<MSCustomAppDelegate>> *_delegates = nil;
-static NSMutableArray<NSString *> *_swizzledSelectors = nil;
+static NSHashTable<id<MSAppDelegate>> *_delegates = nil;
+static NSMutableSet<NSString *> *_selectorsToSwizzle = nil;
+static NSMutableDictionary<NSString *, NSValue *> *_originalImplementations = nil;
+static IMP _originalSetDelegateImp = NULL;
 static BOOL _enabled = YES;
 
 @implementation MSAppDelegateForwarder
 
++ (instancetype)sharedInstance {
+  static MSAppDelegateForwarder *sharedInstance = nil;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    sharedInstance = [self new];
+  });
+  return sharedInstance;
+}
+
 #pragma mark - Accessors
 
-+ (NSHashTable<id<MSCustomAppDelegate>> *)delegates {
++ (NSHashTable<id<MSAppDelegate>> *)delegates {
   return _delegates ?: (_delegates = [NSHashTable weakObjectsHashTable]);
 }
 
-+ (void)setDelegates:(NSHashTable<id<MSCustomAppDelegate>> *)delegates {
++ (void)setDelegates:(NSHashTable<id<MSAppDelegate>> *)delegates{
   _delegates = delegates;
 }
 
-+ (NSMutableArray<NSString *> *)swizzledSelectors {
-  return _swizzledSelectors ?: (_swizzledSelectors = [NSMutableArray new]);
++ (NSMutableSet<NSString *> *)selectorsToSwizzle {
+  return _selectorsToSwizzle ?: (_selectorsToSwizzle = [NSMutableSet new]);
 }
 
-+ (void)setSwizzledSelectors:(NSMutableArray<NSString *> *)swizzledSelectors {
-  _swizzledSelectors = swizzledSelectors;
++ (NSMutableDictionary<NSString*, NSValue *> *)originalImplementations {
+  return _originalImplementations ?: (_originalImplementations = [NSMutableDictionary new]);
+}
+
++ (IMP)originalSetDelegateImp {
+  return _originalSetDelegateImp;
+}
+
++ (void)setOriginalSetDelegateImp:(IMP)originalSetDelegateImp {
+  _originalSetDelegateImp = originalSetDelegateImp;
 }
 
 + (BOOL)enabled {
@@ -52,33 +70,7 @@ static BOOL _enabled = YES;
 
 #pragma mark - Delegates
 
-+ (void)registerSwizzlingForDelegate:(id<MSCustomAppDelegate>)delegate {
-  @synchronized(self) {
-    if (self.enabled) {
-      unsigned int count;
-      NSString *selectorString;
-      NSString *appDelegateSelector;
-
-      // Browse methods from delegate and swizzle if needed.
-      struct objc_method_description *methods =
-          protocol_copyMethodDescriptionList(@protocol(MSCustomAppDelegate), NO, YES, &count);
-      for (unsigned int i = 0; i < count; i++) {
-        SEL selector = methods[i].name;
-        selectorString = NSStringFromSelector(selector);
-
-        // Make sure the delegate implements the selector.
-        if ([delegate respondsToSelector:selector]) {
-          appDelegateSelector =
-              [selectorString substringToIndex:(selectorString.length - kMSReturnedValueSelectorPart.length)];
-          [self swizzleSelector:NSSelectorFromString(appDelegateSelector)];
-        }
-      }
-      free(methods);
-    }
-  }
-}
-
-+ (void)addDelegate:(id<MSCustomAppDelegate>)delegate {
++ (void)addDelegate:(id<MSAppDelegate>)delegate {
   @synchronized(self) {
     if (self.enabled) {
       [self.delegates addObject:delegate];
@@ -86,7 +78,7 @@ static BOOL _enabled = YES;
   }
 }
 
-+ (void)removeDelegate:(id<MSCustomAppDelegate>)delegate {
++ (void)removeDelegate:(id<MSAppDelegate>)delegate {
   @synchronized(self) {
     if (self.enabled) {
       [self.delegates removeObject:delegate];
@@ -96,47 +88,82 @@ static BOOL _enabled = YES;
 
 #pragma mark - Swizzling
 
-+ (void)swizzleSelector:(SEL)selector {
-  NSString *oldOriginalSelector = NSStringFromSelector(selector);
-  NSString *newOriginalSelector;
-
-  // Don't swizzle twice the same selector.
-  if (![self.swizzledSelectors containsObject:oldOriginalSelector]) {
-    id delegate = [MSUtility sharedAppDelegate];
-    Class appDelegateClass = [delegate class];
-
-    // Shared application not always available (i.e.:App extensions).
-    if (appDelegateClass) {
-
-      // Capture methods.
-      Method originalMethod = class_getInstanceMethod(appDelegateClass, selector);
-      Method customMethod = class_getInstanceMethod(self, selector);
-
-      // FIXME: Search super classes if current class doesn't implement the selector. Use respondsToSelector:.
-
-      // Create a new prefixed method to hold the existing implementation.
-      newOriginalSelector = [kMSOriginalSelectorPrefix stringByAppendingString:oldOriginalSelector];
-      BOOL methodAdded =
-          class_addMethod(appDelegateClass, NSSelectorFromString(newOriginalSelector),
-                          method_getImplementation(originalMethod), method_getTypeEncoding(originalMethod));
-
-      // Replace the original method by the new implementation.
-      if (methodAdded || ![delegate respondsToSelector:selector]) {
-        class_replaceMethod(appDelegateClass, selector, method_getImplementation(customMethod),
-                            method_getTypeEncoding(customMethod));
-        [self.swizzledSelectors addObject:oldOriginalSelector];
-        MSLogDebug([MSMobileCenter logTag], @"App delegate selector %@ swizzled.", oldOriginalSelector);
-      }
-
-      // The new method may not be added (i.e.: in case of conflicts), should be rare as it's prefixed.
-      else {
-        MSLogError([MSMobileCenter logTag],
-                   @"Cannot swizzle selector %@. You will have to explicitly call the coresponding API from "
-                   @"Mobile Center in your app delegate implementation.",
-                   oldOriginalSelector);
-        return;
-      }
++ (void)swizzleOriginalDelegate:(id<UIApplicationDelegate>) originalDelegate {
+  IMP originalImp = NULL;
+  Class delegateClass = [originalDelegate class];
+  SEL selector;
+  
+  // Swizzle all registered selectors.
+  for (NSString *selectorString in self.selectorsToSwizzle){
+    
+    // The same selector is used on both forwarder and delegate.
+    selector = NSSelectorFromString(selectorString);
+    originalImp = [self swizzleOriginalSelector:selector withCustomSelector:selector originalClass:delegateClass];
+    if (originalImp){
+      
+      // Save the original implementation for later use.
+      MSAppDelegateForwarder.originalImplementations[selectorString] = [NSValue valueWithBytes:&originalImp objCType:@encode(IMP)];
     }
+  }
+  [self.selectorsToSwizzle removeAllObjects];
+}
+
++ (IMP)swizzleOriginalSelector:(SEL)originalSelector withCustomSelector:(SEL)customSelector originalClass:(Class)originalClass{
+  
+  // Replace original implementation
+  NSString * originalSelectorString = NSStringFromSelector(originalSelector);
+  Method originalMethod = class_getInstanceMethod(originalClass, originalSelector);
+  IMP customImp = class_getMethodImplementation(self, customSelector);
+  IMP originalImp = NULL;
+  BOOL methodAdded = NO;
+  
+  // Replace original implementation by the custom one.
+  if (originalMethod){
+    originalImp = method_setImplementation(originalMethod, customImp);
+  }
+  
+  /*
+   * The original class may not implement the selector (e.g.: optional method from protocol), 
+   * add the method to the original class and associate it to the custom implementation.
+   */
+  else {
+    Method customMethod = class_getInstanceMethod(self, customSelector);
+    methodAdded = class_addMethod(originalClass, originalSelector, customImp, method_getTypeEncoding(customMethod));
+  }
+  
+  // Validate swizzling.
+  if (!originalImp && !methodAdded) {
+    MSLogError([MSMobileCenter logTag],
+                @"Cannot swizzle selector %@ of class %@. You will have to explicitly call APIs from "
+                @"Mobile Center in your app delegate implementation.", originalSelectorString, originalClass);
+  }else{
+    MSLogDebug([MSMobileCenter logTag],
+               @"Selector %@ of class %@ is swizzled.", originalSelectorString, originalClass);
+  }
+  return originalImp;
+}
+
++ (void)addAppDelegateSelectorToSwizzle:(SEL)selector {
+  [self.selectorsToSwizzle addObject:NSStringFromSelector(selector)];
+}
+
+#pragma mark - UIApplication setDelegate
+
+
+-(void)customSetDelegate:(id<UIApplicationDelegate>) delegate{
+  
+  // Swizzle only once.
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+  
+    // Swizzle the app delegate before it's actually set.
+    [MSAppDelegateForwarder swizzleOriginalDelegate:delegate];
+  });
+    
+  // Forward to the original `setDelegate:` implementation.
+  IMP originalImp = MSAppDelegateForwarder.originalSetDelegateImp;
+  if(originalImp){
+    ((void(*)(id,SEL,id<UIApplicationDelegate>))originalImp)(self, _cmd, delegate);
   }
 }
 
@@ -153,18 +180,16 @@ static BOOL _enabled = YES;
     sourceApplication:(nullable NSString *)sourceApplication
            annotation:(id)annotation {
   BOOL result = NO;
-  MSAppDelegateForwarder *forwarder = [MSAppDelegateForwarder new];
-
-  // Execute original method if any.
-  if ([self respondsToSelector:@selector(ms_original_application:openURL:sourceApplication:annotation:)]) {
-    result = [((id<MSOriginalAppDelegate>)self) ms_original_application:app
-                                                                openURL:url
-                                                      sourceApplication:sourceApplication
-                                                             annotation:annotation];
+  IMP originalImp = NULL;
+  
+  // Forward to the original delegate.
+  [MSAppDelegateForwarder.originalImplementations[NSStringFromSelector(_cmd)] getValue:&originalImp];
+  if(originalImp){
+    result = ((BOOL(*)(id, SEL, UIApplication *, NSURL *, NSString *, id))originalImp)(self, _cmd, app, url, sourceApplication, annotation);
   }
 
-  // Forward method.
-  return [forwarder application:app
+  // Forward to custom delegates.
+  return [[MSAppDelegateForwarder sharedInstance] application:app
                         openURL:url
               sourceApplication:sourceApplication
                      annotation:annotation
@@ -175,14 +200,16 @@ static BOOL _enabled = YES;
             openURL:(nonnull NSURL *)url
             options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
   BOOL result = NO;
+  IMP originalImp = NULL;
 
-  // Execute original method if any.
-  if ([self respondsToSelector:@selector(ms_original_application:openURL:options:)]) {
-    result = [((id<MSOriginalAppDelegate>)self) ms_original_application:app openURL:url options:options];
+  // Forward to the original delegate.
+  [MSAppDelegateForwarder.originalImplementations[NSStringFromSelector(_cmd)] getValue:&originalImp];
+  if(originalImp){
+    result = ((BOOL(*)(id, SEL, UIApplication *, NSURL *, NSDictionary<UIApplicationOpenURLOptionsKey, id> *))originalImp)(self, _cmd, app, url, options);
   }
 
-  // Forward method.
-  return [[MSAppDelegateForwarder new] application:app openURL:url options:options returnedValue:result];
+  // Forward to custom delegates.
+  return [[MSAppDelegateForwarder sharedInstance] application:app openURL:url options:options returnedValue:result];
 }
 
 #pragma mark - Forwarding
@@ -196,7 +223,7 @@ static BOOL _enabled = YES;
     void *returnedValuePtr = malloc(invocation.methodSignature.methodReturnLength);
 
     // Forward to delegates executing a custom method.
-    for (id<MSCustomAppDelegate> delegate in [self class].delegates) {
+    for (id<MSAppDelegate> delegate in [self class].delegates) {
       if ([delegate respondsToSelector:invocation.selector]) {
         [invocation invokeWithTarget:delegate];
 
@@ -217,3 +244,34 @@ static BOOL _enabled = YES;
 }
 
 @end
+
+/*
+ * The application starts querying its delegate for its implementation as soon as it is set then may never query again.
+ * It means that if the application delegate doesn't implement an optional method of the `UIApplicationDelegate` protocol 
+ * at that time then that method may never be called even if added later via swizzling. This is why the application
+ * delegate swizzling should happen at the time it is set to the application object.
+ */
+
+@implementation UIApplication (MSSwizzling)
+
++ (void)load{
+  NSDictionary *swizzlingEnabledNum = [[NSBundle mainBundle] objectForInfoDictionaryKey:kMSIsSwizzlingEnabledKey];
+  BOOL swizzlingEnabled = swizzlingEnabledNum ? [((NSNumber *)swizzlingEnabledNum) boolValue]: YES;
+  MSAppDelegateForwarder.enabled = swizzlingEnabled;
+  
+  // Swizzle `setDelegate:` of class `UIApplication`.
+  if (swizzlingEnabled){
+    MSLogDebug([MSMobileCenter logTag], @"Swizzling enabled.");
+    MSAppDelegateForwarder.originalSetDelegateImp = [MSAppDelegateForwarder swizzleOriginalSelector:@selector(setDelegate:) withCustomSelector:@selector(customSetDelegate:) originalClass:[UIApplication class]];
+  } else {
+    
+    /*
+     * FIXME: We should not use logging during UIApplication swizzling, MSLogger and MSMobileCenter may not be loaded yet. 
+     * Plus, log level < Assert is not printed before SDK init.
+     */
+    MSLogDebug([MSMobileCenter logTag], @"Swizzling disabled.");
+  }
+}
+
+@end
+
