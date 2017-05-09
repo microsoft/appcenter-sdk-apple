@@ -44,17 +44,13 @@
     sourceApplication:(NSString *)sourceApplication
            annotation:(id)annotation {
   NSLog(@"%@ Got waken up via openURL:sourceApplication:annotation: %@", kPUPLogTag, url);
-
-  // Forward the URL to MSDistribute.
-  return [MSDistribute openURL:url];
+  return NO;
 }
 
 // Open URL for iOS 9+.
 - (BOOL)application:(UIApplication *)application openURL:(nonnull NSURL *)url options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options{
   NSLog(@"%@ Got waken up via openURL:options: %@", kPUPLogTag, url);
-  
-  // Forward the URL to MSDistribute.
-  return [MSDistribute openURL:url];
+  return NO;
 }
 
 #pragma mark - Application life cycle

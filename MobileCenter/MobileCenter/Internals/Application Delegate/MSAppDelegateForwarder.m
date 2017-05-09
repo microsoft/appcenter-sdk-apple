@@ -147,7 +147,7 @@ static BOOL _enabled = YES;
   [self.selectorsToSwizzle addObject:NSStringFromSelector(selector)];
 }
 
-#pragma mark - UIApplication setDelegate
+#pragma mark - UIApplication
 
 
 -(void)customSetDelegate:(id<UIApplicationDelegate>) delegate{

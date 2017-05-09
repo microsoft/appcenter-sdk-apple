@@ -35,25 +35,6 @@
   return YES;
 }
 
-#pragma mark - URL handling
-
-// Open URL for iOS 8.
-- (BOOL)application:(UIApplication *)application
-            openURL:(NSURL *)url
-  sourceApplication:(NSString *)sourceApplication
-         annotation:(id)annotation {
-  
-  // Forward the URL to MSDistribute.
-  return [MSDistribute openURL:url];
-}
-
-// Open URL for iOS 9+.
-- (BOOL)application:(UIApplication *)application openURL:(nonnull NSURL *)url options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options{
-  
-  // Forward the URL to MSDistribute.
-  return [MSDistribute openURL:url];
-}
-
 #pragma mark - Application life cycle
 
 - (void)application:(UIApplication *)application
