@@ -7,4 +7,12 @@
  */
 + (void)resetSharedInstance;
 
+/**
+ * Set the custom properties.
+ *
+ * @param customProperties Custom properties object.
+ */
+// TODO: Move to MSMobileCenter.h when backend is ready.
++ (void)setCustomProperties:(MSCustomProperties *)customProperties;
+
 @end

@@ -1,6 +1,8 @@
 #import "MSDistributeDelegate.h"
 #import "MSServiceAbstract.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  * Mobile Center Distribute service.
  */
@@ -50,3 +52,5 @@
 + (BOOL)openURL:(NSURL *)url;
 
 @end
+
+NS_ASSUME_NONNULL_END

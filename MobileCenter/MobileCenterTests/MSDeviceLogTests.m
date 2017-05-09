@@ -4,8 +4,8 @@
 #import <XCTest/XCTest.h>
 
 #import "MSDevice.h"
-#import "MSDevicePrivate.h"
-#import "MSWrapperSdkPrivate.h"
+#import "MSDeviceInternal.h"
+#import "MSWrapperSdkInternal.h"
 
 @interface MSDeviceTests : XCTestCase
 
