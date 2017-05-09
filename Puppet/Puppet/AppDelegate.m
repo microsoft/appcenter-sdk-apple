@@ -41,7 +41,7 @@
               openURL:(NSURL *)url
     sourceApplication:(NSString *)sourceApplication
            annotation:(id)annotation {
-  NSLog(@"%@ Got waken up via openURL:sourceApplication:annotation: %@", kPUPLogTag, url);
+  NSLog(@"%@ Was woken up via openURL:sourceApplication:annotation: %@", kPUPLogTag, url);
 
   // Forward the URL to MSDistribute.
   return [MSDistribute openURL:url];
@@ -49,7 +49,7 @@
 
 // Open URL for iOS 9+.
 - (BOOL)application:(UIApplication *)application openURL:(nonnull NSURL *)url options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options{
-  NSLog(@"%@ Got waken up via openURL:options: %@", kPUPLogTag, url);
+  NSLog(@"%@ Was woken up via openURL:options: %@", kPUPLogTag, url);
   
   // Forward the URL to MSDistribute.
   return [MSDistribute openURL:url];

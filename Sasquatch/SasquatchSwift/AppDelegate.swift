@@ -54,14 +54,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
     sasquatchController.mobileCenter = MobileCenterDelegateSwift()
   }
   
-  // Open URL for iOS 8.
-  func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+  /**
+   * (iOS 8) Asks the delegate to open a resource specified by a URL, and provides a dictionary of launch options.
+   *
+   * @param app The singleton app object.
+   * @param url The URL resource to open. This resource can be a network resource or a file.
+   * @param sourceApplication The bundle ID of the app that is requesting your app to open the URL (url).
+   * @param annotation A Property list supplied by the source app to communicate information to the receiving app.
+   *
+   * @return `YES` if the delegate successfully handled the request or `NO` if the attempt to open the URL resource
+   * failed.
+   */
+  func application(_ app: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
     
     // Forward the URL to MSDistribute.
     return MSDistribute.open(url as URL!)
   }
   
-  // Open URL for iOS 9+.
+  /**
+   * (iOS 9+) Asks the delegate to open a resource specified by a URL, and provides a dictionary of launch options.
+   *
+   * @param app The singleton app object.
+   * @param url The URL resource to open. This resource can be a network resource or a file.
+   * @param options A dictionary of URL handling options.
+   * For information about the possible keys in this dictionary and how to handle them, @see
+   * UIApplicationOpenURLOptionsKey. By default, the value of this parameter is an empty dictionary.
+   *
+   * @return `YES` if the delegate successfully handled the request or `NO` if the attempt to open the URL resource
+   * failed.
+   */
   func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
     
     // Forward the URL to MSDistribute.
