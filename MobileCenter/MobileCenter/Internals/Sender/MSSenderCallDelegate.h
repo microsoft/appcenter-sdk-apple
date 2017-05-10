@@ -14,8 +14,8 @@
 /**
  *  Call completed callback.
  *
- *  @param callId call id.
+ *  @param call Call object.
  */
-- (void)callCompletedWithId:(NSString *)callId;
+- (void)call:(MSSenderCall *)call completedWithFatalError:(BOOL)fatalError;
 
 @end

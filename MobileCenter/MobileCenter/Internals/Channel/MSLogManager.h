@@ -78,6 +78,16 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)removeChannelDelegate:(id<MSChannelDelegate>)channelDelegate forGroupId:(NSString *)groupId;
 
+/**
+ * Suspend log manager, logs will not be sent but still stored.
+ */
+- (void)suspend;
+
+/**
+ * Resume log manager, logs can be sent again.
+ */
+- (void)resume;
+
 @end
 
 NS_ASSUME_NONNULL_END

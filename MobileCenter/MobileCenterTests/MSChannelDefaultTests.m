@@ -6,7 +6,9 @@
 #import "MSAbstractLog.h"
 #import "MSChannelConfiguration.h"
 #import "MSChannelDefault.h"
+#import "MSChannelDefaultPrivate.h"
 #import "MSChannelDelegate.h"
+#import "MSHttpSender.h"
 #import "MSMobileCenterErrors.h"
 #import "MSUtility.h"
 
@@ -358,6 +360,175 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                }];
 }
 
+- (void)testDisableAndDeleteDataOnSenderFatalError {
+  
+  // If
+  [self initChannelEndJobExpectation];
+  id senderMock = OCMProtocolMock(@protocol(MSSender));
+  id storageMock = OCMProtocolMock(@protocol(MSStorage));
+  id mockLog = [self getValidMockLog];
+  OCMStub([storageMock
+           loadLogsForGroupId:kMSTestGroupId
+           withCompletion:([OCMArg invokeBlockWithArgs:@YES, ((NSArray<MSLog> *)@[ mockLog ]), @"1", nil])]);
+  MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithGroupId:kMSTestGroupId
+                                                                          priority:MSPriorityDefault
+                                                                     flushInterval:0.0
+                                                                    batchSizeLimit:1
+                                                               pendingBatchesLimit:10];
+  self.sut.configuration = config;
+  MSChannelDefault *sut = [[MSChannelDefault alloc] initWithSender:senderMock
+                                                           storage:storageMock
+                                                     configuration:config
+                                                 logsDispatchQueue:dispatch_get_main_queue()];
+  // When
+  [sut enqueueItem:mockLog withCompletion:nil];
+  [sut senderDidReceiveFatalError:senderMock];
+  [self enqueueChannelEndJobExpectation];
+  
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 
+                                 // Check that logs as been requested for deletion and that there is no batch left.
+                                 OCMVerify([storageMock deleteLogsForGroupId:kMSTestGroupId]);
+                                 assertThatBool(sut.enabled, isFalse());
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
+- (void)testSuspendOnDisabled{
+  
+  // If
+  [self initChannelEndJobExpectation];
+  [self.sut setEnabled:YES andDeleteDataOnDisabled:NO];
+  
+  // When
+  [self.sut setEnabled:NO andDeleteDataOnDisabled:NO];
+  
+  // Then
+  [self enqueueChannelEndJobExpectation];
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 assertThatBool(self.sut.enabled, isFalse());
+                                 assertThatBool(self.sut.suspended, isTrue());
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
+- (void)testResumeOnEnabled{
+  
+  // If
+  __block BOOL result1, result2;
+  [self initChannelEndJobExpectation];
+  MSHttpSender *sender = [MSHttpSender new];
+  self.sut.sender = sender;
+  [self.sut setEnabled:NO andDeleteDataOnDisabled:NO];
+  dispatch_async(self.logsDispatchQueue, ^{
+    sender.suspended = NO;
+  });
+  
+  // When
+  [self.sut setEnabled:YES andDeleteDataOnDisabled:NO];
+  dispatch_async(self.logsDispatchQueue, ^{
+    result1 = self.sut.suspended;
+  });
+  
+  // If
+  [self.sut setEnabled:NO andDeleteDataOnDisabled:NO];
+  dispatch_async(self.logsDispatchQueue, ^{
+    sender.suspended = YES;
+  });
+  
+  // When
+  [self.sut setEnabled:YES andDeleteDataOnDisabled:NO];
+  dispatch_async(self.logsDispatchQueue, ^{
+    result2 = self.sut.suspended;
+  });
+  
+  // Then
+  [self enqueueChannelEndJobExpectation];
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 assertThatBool(result1, isFalse());
+                                 assertThatBool(result2, isTrue());
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
+
+- (void)testSuspendOnSenderSuspended{
+  
+  // If
+  __block BOOL result1, result2;
+  [self initChannelEndJobExpectation];
+  [self.sut setEnabled:NO andDeleteDataOnDisabled:NO];
+  
+  // When
+  [self.sut senderDidSuspend:self.senderMock];
+  dispatch_async(self.logsDispatchQueue, ^{
+    result1 = self.sut.suspended;
+  });
+  
+  // If
+  [self.sut setEnabled:YES andDeleteDataOnDisabled:NO];
+  
+  // When
+  [self.sut senderDidSuspend:self.senderMock];
+  dispatch_async(self.logsDispatchQueue, ^{
+    result2 = self.sut.suspended;
+  });
+  [self enqueueChannelEndJobExpectation];
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 assertThatBool(result1, isTrue());
+                                 assertThatBool(result2, isTrue());
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
+- (void)testSuspendOnSenderResumed{
+  
+  // If
+  __block BOOL result1, result2;
+  [self initChannelEndJobExpectation];
+  [self.sut setEnabled:NO andDeleteDataOnDisabled:NO];
+  
+  // When
+  [self.sut senderDidResume:self.senderMock];
+  dispatch_async(self.logsDispatchQueue, ^{
+    result1 = self.sut.suspended;
+  });
+  
+  // If
+  [self.sut setEnabled:YES andDeleteDataOnDisabled:NO];
+  [self.sut senderDidSuspend:self.senderMock];
+  
+  // When
+  [self.sut senderDidResume:self.senderMock];
+  dispatch_async(self.logsDispatchQueue, ^{
+    result2 = self.sut.suspended;
+  });
+  
+  // Then
+  [self enqueueChannelEndJobExpectation];
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 assertThatBool(result1, isTrue());
+                                 assertThatBool(result2, isFalse());
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
 - (void)testDelegateAfterChannelDisabled {
 
   // If
@@ -386,139 +557,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                  // Check the callbacks were invoked for logs.
                                  OCMVerify([delegateMock channel:sut willSendLog:mockLog]);
                                  OCMVerify([delegateMock channel:sut didFailSendingLog:mockLog withError:anything()]);
-                                 if (error) {
-                                   XCTFail(@"Expectation Failed with error: %@", error);
-                                 }
-                               }];
-}
-
-- (void)testDelegateCalledOnNonRecouverableError {
-
-  /**
-   * If
-   */
-  [self initChannelEndJobExpectation];
-  NSUInteger expectedHTTPCode = MSHTTPCodesNo404NotFound;
-  NSDictionary *userInfo = @{
-    NSLocalizedDescriptionKey : kMSMCConnectionHttpErrorDesc,
-    kMSMCConnectionHttpCodeErrorKey : @(MSHTTPCodesNo404NotFound)
-  };
-  NSError *expectedHTTPError =
-      [NSError errorWithDomain:kMSMCErrorDomain code:kMSMCConnectionHttpErrorCode userInfo:userInfo];
-  NSError *expectedSuspendedError =
-      [NSError errorWithDomain:kMSMCErrorDomain
-                          code:kMSMCConnectionSuspendedErrorCode
-                      userInfo:@{NSLocalizedDescriptionKey : kMSMCConnectionSuspendedErrorDesc}];
-
-  __block MSSendAsyncCompletionHandler senderBlock;
-  __block NSMutableArray<MSAbstractLog *> *expectedLogs = [NSMutableArray<MSAbstractLog *> new];
-  __block NSMutableArray<MSLog> *failedForwardedLogs = [NSMutableArray<MSLog> new];
-  __block NSMutableArray<NSError *> *failedForwardedErrors = [NSMutableArray<NSError *> new];
-  __block NSMutableArray<MSLog> *willSendForwardedLogs = [NSMutableArray<MSLog> new];
-  id<MSChannelDelegate> delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
-  for (int i = 0; i < 3; i++) {
-    [expectedLogs addObject:[self getValidMockLog]];
-  }
-
-  // Stub the sender for that log.
-  id senderMock = OCMProtocolMock(@protocol(MSSender));
-  OCMStub([senderMock sendAsync:[OCMArg any] completionHandler:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
-
-    // Get sender bloc for later call.
-    [invocation retainArguments];
-    [invocation getArgument:&senderBlock atIndex:3];
-  });
-
-  // Stub the storage load for that log.
-  id storageMock = OCMProtocolMock(@protocol(MSStorage));
-  OCMStub([storageMock loadLogsForGroupId:kMSTestGroupId withCompletion:([OCMArg any])])
-      .andDo(^(NSInvocation *invocation) {
-        MSLoadDataCompletionBlock loadCallback;
-
-        // Get sender bloc for later call.
-        [invocation getArgument:&loadCallback atIndex:3];
-
-        // Mock load of the first log.
-        loadCallback(YES, ((NSArray<MSLog> *)@[ expectedLogs[0] ]), @"0");
-      });
-
-  // Stub the storage to return deleted values.
-  OCMStub([storageMock deleteLogsForGroupId:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
-    NSMutableArray<MSLog> *deletedLogs = [expectedLogs mutableCopy];
-    [deletedLogs removeObjectAtIndex:0];
-
-    // Return the supposed deleted logs.
-    [invocation setReturnValue:&deletedLogs];
-    [invocation retainArguments];
-  });
-
-  // Configure channel.
-  MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithGroupId:kMSTestGroupId
-                                                                          priority:MSPriorityDefault
-                                                                     flushInterval:0.0
-                                                                    batchSizeLimit:1
-                                                               pendingBatchesLimit:1];
-  self.sut = [[MSChannelDefault alloc] initWithSender:senderMock
-                                              storage:storageMock
-                                        configuration:config
-                                    logsDispatchQueue:self.logsDispatchQueue];
-  [self.sut addDelegate:delegateMock];
-
-  // Monitor will send callback.
-  OCMStub([delegateMock channel:self.sut willSendLog:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
-    id<MSLog> log;
-    [invocation getArgument:&log atIndex:3];
-    [willSendForwardedLogs addObject:log];
-  });
-
-  // Monitor did fail callback.
-  OCMStub([delegateMock channel:self.sut didFailSendingLog:[OCMArg any] withError:[OCMArg any]])
-      .andDo(^(NSInvocation *invocation) {
-        id<MSLog> log;
-        NSError *error;
-        [invocation retainArguments];
-        [invocation getArgument:&error atIndex:4];
-        [invocation getArgument:&log atIndex:3];
-        [failedForwardedErrors addObject:error];
-        [failedForwardedLogs addObject:log];
-      });
-
-  // Stub sender suspended method.
-  OCMStub([senderMock setEnabled:NO andDeleteDataOnDisabled:YES])
-      .andDo(^(__attribute__((unused)) NSInvocation *invocation) {
-        [self.sut sender:senderMock didSetEnabled:(NO) andDeleteDataOnDisabled:YES];
-        [self enqueueChannelEndJobExpectation];
-      });
-
-  // Enqueue items to the channel.
-  for (id<MSLog> log in expectedLogs) {
-    log.sid = MS_UUID_STRING;
-    [self.sut enqueueItem:log withCompletion:nil];
-  }
-
-  /**
-   * When
-   */
-
-  // Forward a non recoverable error.
-  dispatch_async(self.logsDispatchQueue, ^{
-    senderBlock([@(0) stringValue], expectedHTTPCode, nil, expectedHTTPError);
-  });
-
-  /**
-   * Then
-   */
-  [self waitForExpectationsWithTimeout:1
-                               handler:^(NSError *error) {
-
-                                 // Forwarded logs are equal to expected logs.
-                                 assertThatBool([willSendForwardedLogs isEqualToArray:expectedLogs], isTrue());
-                                 assertThatBool([failedForwardedLogs isEqualToArray:expectedLogs], isTrue());
-
-                                 // Forwarded errors must match
-                                 assertThat(failedForwardedErrors[0], is(expectedHTTPError));
-                                 assertThat(failedForwardedErrors[1], is(expectedSuspendedError));
-                                 assertThat(failedForwardedErrors[2], is(expectedSuspendedError));
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }

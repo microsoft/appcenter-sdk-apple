@@ -86,8 +86,9 @@
 
   // Callback to Channel.
   else {
+    BOOL fatalError;
 
-    // Wrap the status code in an error.
+    // Wrap the status code in an error whenever the call failed.
     if (!error && statusCode != MSHTTPCodesNo200OK) {
       NSDictionary *userInfo = @{
         NSLocalizedDescriptionKey : kMSMCConnectionHttpErrorDesc,
@@ -95,12 +96,15 @@
       };
       error = [NSError errorWithDomain:kMSMCErrorDomain code:kMSMCConnectionHttpErrorCode userInfo:userInfo];
     }
+    
+    // Detect fatal error.
+    fatalError = (error && error.code != NSURLErrorCancelled);
 
     // Call completion.
     self.completionHandler(self.callId, statusCode, data, error);
 
     // Remove call from sender.
-    [sender callCompletedWithId:self.callId];
+    [sender call:self completedWithFatalError:fatalError];
   }
 }
 
