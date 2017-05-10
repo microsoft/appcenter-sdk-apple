@@ -247,15 +247,30 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   }
 }
 
-- (void)callCompletedWithId:(NSString *)callId {
+- (void)call:(MSSenderCall *)call completedWithFatalError:(BOOL)fatalError {
   @synchronized(self) {
-    if (!callId) {
+    NSString *callId = call.callId;
+    if (callId.length == 0) {
       MSLogWarning([MSMobileCenter logTag], @"Call object is invalid");
       return;
     }
     [self.pendingCalls removeObjectForKey:callId];
     MSLogInfo([MSMobileCenter logTag], @"Removed call id:%@ from pending calls:%@", callId,
               [self.pendingCalls description]);
+    
+    // Process fatal error.
+    if (fatalError) {
+      
+      // Disable and delete data.
+      [self setEnabled:NO andDeleteDataOnDisabled:YES];
+      
+      // Notify delegates.
+      [self enumerateDelegatesForSelector:@selector(senderDidReceiveFatalError:)
+                                withBlock:^(id<MSSenderDelegate> delegate) {
+                                  [delegate senderDidReceiveFatalError:self];
+                                }];
+
+    }
   }
 }
 

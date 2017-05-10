@@ -227,12 +227,6 @@
                           // Remove from pending logs.
                           [self.pendingBatchIds removeObject:senderBatchId];
                           [self.storage deleteLogsForId:senderBatchId withGroupId:self.configuration.groupId];
-
-                          // Fatal error, disable sender with data deletion.
-                          // This will in turn disable this channel and delete logs.
-                          if (error.code != NSURLErrorCancelled) {
-                            [self.sender setEnabled:NO andDeleteDataOnDisabled:YES];
-                          }
                         }
                       } else
                         MSLogWarning([MSMobileCenter logTag], @"Batch Id %@ not expected, ignore.", senderBatchId);
@@ -296,7 +290,7 @@
 
     // Even if it's already disabled we might also want to delete logs this time.
     if (!isEnabled && deleteData) {
-      MSLogDebug([MSMobileCenter logTag], @"Delete all logs.");
+      MSLogDebug([MSMobileCenter logTag], @"Delete all logs for goup Id %@", self.configuration.groupId);
       NSError *error = [NSError errorWithDomain:kMSMCErrorDomain
                                            code:kMSMCConnectionSuspendedErrorCode
                                        userInfo:@{NSLocalizedDescriptionKey : kMSMCConnectionSuspendedErrorDesc}];
@@ -369,6 +363,13 @@
   dispatch_async(self.logsDispatchQueue, ^{
     [self resume];
   });
+}
+
+- (void)senderDidReceiveFatalError:(id<MSSender>)sender {
+  (void)sender;
+  
+  // Disable and delete data on fatal errors.
+  [self setEnabled:NO andDeleteDataOnDisabled:YES];
 }
 
 #pragma mark - Helper

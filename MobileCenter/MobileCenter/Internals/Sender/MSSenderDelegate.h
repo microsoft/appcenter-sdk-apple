@@ -18,4 +18,11 @@
  */
 - (void)senderDidResume:(id<MSSender>)sender;
 
+/**
+ * Triggered when sender receives a fatal error.
+ *
+ * @param sender Sender.
+ */
+- (void)senderDidReceiveFatalError:(id<MSSender>)sender;
+
 @end
