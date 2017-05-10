@@ -15,7 +15,7 @@
   // Insert code here to initialize your application
   [MSMobileCenter setLogLevel:MSLogLevelVerbose];
   [MSMobileCenter setLogUrl:@"https://in-integration.dev.avalanch.es"];
-  [MSMobileCenter start:@"d7382cb6-a64d-4ef1-91a4-d32e885d3029"
+  [MSMobileCenter start:@"8649b73e-6df0-4985-a039-8ab1453d44f3"
            withServices:@[ [MSAnalytics class], [MSCrashes class] ]];
 }
 
