@@ -32,7 +32,7 @@ class DistributeUITests: XCTestCase {
 
     // Go to distribute page and find "Set Enabled" button.
     app.tables.cells.element(boundBy: DistributeCellIndex).tap();
-    let distributeButton : XCUIElement = app.switches.element(boundBy: 0);
+    let distributeButton : XCUIElement = app.switches.element(matching: XCUIElementType.switch, identifier: "Set Enabled");
 
     // Service should be enabled by default.
     XCTAssertEqual("1", distributeButton.value as! String);
