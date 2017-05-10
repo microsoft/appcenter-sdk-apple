@@ -1,3 +1,5 @@
+#import <Foundation/Foundation.h>
+
 #import "MSChannelConfiguration.h"
 #import "MSConstants+Internal.h"
 #import "MSEnable.h"
@@ -5,10 +7,6 @@
 #import "MSSender.h"
 #import "MSSenderDelegate.h"
 #import "MSStorage.h"
-#import <Foundation/Foundation.h>
-
-#import "MSEnable.h"
-#import "MSSenderDelegate.h"
 
 @protocol MSChannelDelegate;
 
