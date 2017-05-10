@@ -10,6 +10,11 @@
 		042319CD1EAAD720008FACA0 /* MobileCenterCrashesMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 042319CC1EAAD720008FACA0 /* MobileCenterCrashesMac.framework */; };
 		042319CE1EAAD73F008FACA0 /* MobileCenterAnalyticsMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D31EAAC7510033BAAE /* MobileCenterAnalyticsMac.framework */; };
 		042319CF1EAAD73F008FACA0 /* MobileCenterCrashesMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 042319CC1EAAD720008FACA0 /* MobileCenterCrashesMac.framework */; };
+		042496851EC3CE2F00502B62 /* MobileCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042496831EC3CE2F00502B62 /* MobileCenterDelegate.swift */; };
+		042496861EC3CE2F00502B62 /* MobileCenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042496841EC3CE2F00502B62 /* MobileCenterProtocol.swift */; };
+		042496871EC3CE3500502B62 /* MobileCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042496831EC3CE2F00502B62 /* MobileCenterDelegate.swift */; };
+		042496881EC3CE3700502B62 /* MobileCenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042496841EC3CE2F00502B62 /* MobileCenterProtocol.swift */; };
+		0424968B1EC3D29900502B62 /* MobileCenterDelegateObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0424968A1EC3D29900502B62 /* MobileCenterDelegateObjC.m */; };
 		04ED31E61EAAD1B30033BAAE /* MobileCenterAnalyticsMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D31EAAC7510033BAAE /* MobileCenterAnalyticsMac.framework */; };
 		04ED31E71EAAD1B30033BAAE /* MobileCenterMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D41EAAC7510033BAAE /* MobileCenterMac.framework */; };
 		5C6F9BAD1EB8B730009E52D8 /* AnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6F9BAC1EB8B730009E52D8 /* AnalyticsViewController.swift */; };
@@ -30,6 +35,10 @@
 
 /* Begin PBXFileReference section */
 		042319CC1EAAD720008FACA0 /* MobileCenterCrashesMac.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterCrashesMac.framework; path = "../MobileCenter-SDK-iOS/MobileCenterCrashesMac.framework"; sourceTree = "<group>"; };
+		042496831EC3CE2F00502B62 /* MobileCenterDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobileCenterDelegate.swift; sourceTree = "<group>"; };
+		042496841EC3CE2F00502B62 /* MobileCenterProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobileCenterProtocol.swift; sourceTree = "<group>"; };
+		042496891EC3D29900502B62 /* MobileCenterDelegateObjC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobileCenterDelegateObjC.h; sourceTree = "<group>"; };
+		0424968A1EC3D29900502B62 /* MobileCenterDelegateObjC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MobileCenterDelegateObjC.m; sourceTree = "<group>"; };
 		04ED31D31EAAC7510033BAAE /* MobileCenterAnalyticsMac.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterAnalyticsMac.framework; path = "../MobileCenter-SDK-iOS/MobileCenterAnalyticsMac.framework"; sourceTree = "<group>"; };
 		04ED31D41EAAC7510033BAAE /* MobileCenterMac.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterMac.framework; path = "../MobileCenter-SDK-iOS/MobileCenterMac.framework"; sourceTree = "<group>"; };
 		5C6F9BAC1EB8B730009E52D8 /* AnalyticsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AnalyticsViewController.swift; path = ViewControllers/AnalyticsViewController.swift; sourceTree = "<group>"; };
@@ -97,6 +106,8 @@
 		D3C31C0E1E8E757300B288CE /* SasquatchMac */ = {
 			isa = PBXGroup;
 			children = (
+				042496831EC3CE2F00502B62 /* MobileCenterDelegate.swift */,
+				042496841EC3CE2F00502B62 /* MobileCenterProtocol.swift */,
 				D3C31C6F1E8E772E00B288CE /* Storyboards */,
 				D3C31C701E8E774000B288CE /* Supporting Files */,
 				D3C31C711E8E775100B288CE /* ViewControllers */,
@@ -109,6 +120,8 @@
 			children = (
 				D3C31C241E8E75B300B288CE /* AppDelegate.h */,
 				D3C31C251E8E75B300B288CE /* AppDelegate.m */,
+				042496891EC3D29900502B62 /* MobileCenterDelegateObjC.h */,
+				0424968A1EC3D29900502B62 /* MobileCenterDelegateObjC.m */,
 				D3C31C271E8E75B300B288CE /* Supporting Files */,
 			);
 			path = SasquatchMacObjC;
@@ -283,11 +296,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				042496861EC3CE2F00502B62 /* MobileCenterProtocol.swift in Sources */,
 				5C6F9BB81EB8F2E9009E52D8 /* CrashesViewController.swift in Sources */,
+				042496851EC3CE2F00502B62 /* MobileCenterDelegate.swift in Sources */,
 				5C6F9BAF1EB8B755009E52D8 /* SasquatchMacViewController.swift in Sources */,
 				D3C31C291E8E75B300B288CE /* main.m in Sources */,
 				D3C31C261E8E75B300B288CE /* AppDelegate.m in Sources */,
 				5C6F9BAD1EB8B730009E52D8 /* AnalyticsViewController.swift in Sources */,
+				0424968B1EC3D29900502B62 /* MobileCenterDelegateObjC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -295,10 +311,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				042496881EC3CE3700502B62 /* MobileCenterProtocol.swift in Sources */,
 				5C6F9BB51EB8EEF9009E52D8 /* SasquatchMacViewController.swift in Sources */,
 				D3C31C631E8E763600B288CE /* AppDelegate.swift in Sources */,
 				5C6F9BB91EB8F2E9009E52D8 /* CrashesViewController.swift in Sources */,
 				5C6F9BB61EB8EEFC009E52D8 /* AnalyticsViewController.swift in Sources */,
+				042496871EC3CE3500502B62 /* MobileCenterDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -422,6 +440,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "53c1192d-4b44-4736-adaa-26ae32a577fb";
 				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Sasquatch Mac ObjC App";
+				SWIFT_OBJC_BRIDGING_HEADER = "SasquatchMac/SasquatchMac-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -440,6 +459,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "53c1192d-4b44-4736-adaa-26ae32a577fb";
 				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Sasquatch Mac ObjC App";
+				SWIFT_OBJC_BRIDGING_HEADER = "SasquatchMac/SasquatchMac-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
