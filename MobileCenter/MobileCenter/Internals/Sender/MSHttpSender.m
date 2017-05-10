@@ -87,8 +87,10 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     if (self.enabled != isEnabled) {
       self.enabled = isEnabled;
       if (isEnabled) {
-        [self resume];
         [self.reachability startNotifier];
+        
+        // Apply current network state, this will resume if network state allows it.
+        [self networkStateChanged];
       } else {
         [self.reachability stopNotifier];
         [self suspend];
@@ -104,13 +106,6 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
           [self.pendingCalls removeAllObjects];
         }
       }
-
-      // Forward enabled state.
-      [self
-          enumerateDelegatesForSelector:@selector(senderDidSuspend:)
-                              withBlock:^(id<MSSenderDelegate> delegate) {
-                                [delegate sender:self didSetEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:deleteData];
-                              }];
     }
   }
 }

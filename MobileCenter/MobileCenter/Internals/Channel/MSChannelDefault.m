@@ -287,11 +287,9 @@
   dispatch_async(self.logsDispatchQueue, ^{
     if (self.enabled != isEnabled) {
       self.enabled = isEnabled;
-      if (isEnabled) {
+      if (isEnabled && !self.sender.suspended) {
         [self resume];
-        [self.sender addDelegate:self];
       } else {
-        [self.sender removeDelegate:self];
         [self suspend];
       }
     }
@@ -317,7 +315,7 @@
 
 - (void)suspend {
   if (!self.suspended) {
-    MSLogDebug([MSMobileCenter logTag], @"Suspend channel.");
+    MSLogDebug([MSMobileCenter logTag], @"Suspend channel for group Id %@.", self.configuration.groupId);
     self.suspended = YES;
     [self resetTimer];
   }
@@ -325,7 +323,7 @@
 
 - (void)resume {
   if (self.suspended && self.enabled) {
-    MSLogDebug([MSMobileCenter logTag], @"Resume channel.");
+    MSLogDebug([MSMobileCenter logTag], @"Resume channel for group Id %@.", self.configuration.groupId);
     self.suspended = NO;
     self.discardLogs = NO;
     [self flushQueue];
@@ -371,13 +369,6 @@
   dispatch_async(self.logsDispatchQueue, ^{
     [self resume];
   });
-}
-
-- (void)sender:(id<MSSender>)sender didSetEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData {
-  (void)sender;
-
-  // Reflect sender enabled state.
-  [self setEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
 }
 
 #pragma mark - Helper

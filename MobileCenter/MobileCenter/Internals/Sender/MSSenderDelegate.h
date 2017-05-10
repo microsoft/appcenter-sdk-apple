@@ -18,13 +18,4 @@
  */
 - (void)senderDidResume:(id<MSSender>)sender;
 
-/**
- *  Triggered after the sender has set its enabled state.
- *
- *  @param sender     Sender.
- *  @param isEnabled  A boolean reflecting the sender's enabled state.
- *  @param deleteData A boolean value set to YES if sender's data deletion was requested, NO otherwise.
- */
-- (void)sender:(id<MSSender>)sender didSetEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData;
-
 @end

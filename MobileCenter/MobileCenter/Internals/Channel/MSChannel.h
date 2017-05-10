@@ -7,6 +7,9 @@
 #import "MSStorage.h"
 #import <Foundation/Foundation.h>
 
+#import "MSEnable.h"
+#import "MSSenderDelegate.h"
+
 @protocol MSChannelDelegate;
 
 NS_ASSUME_NONNULL_BEGIN
