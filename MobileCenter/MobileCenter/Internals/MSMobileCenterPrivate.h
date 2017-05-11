@@ -15,4 +15,13 @@
 // TODO: Move to MSMobileCenter.h when backend is ready.
 + (void)setCustomProperties:(MSCustomProperties *)customProperties;
 
+/**
+ * Configure the SDK.
+ *
+ * @discussion This may be called only once per application process lifetime.
+ * @param appSecret A unique and secret key used to identify the application.
+ */
+// FIXME: Rename to configureWithAppSecret
+- (BOOL)configure:(NSString *)appSecret;
+
 @end

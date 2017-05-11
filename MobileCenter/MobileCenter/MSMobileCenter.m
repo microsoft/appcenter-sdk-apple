@@ -404,14 +404,14 @@ static NSString *const kMSGroupId = @"MobileCenter";
  *  The application will go to the foreground.
  */
 - (void)applicationWillEnterForeground {
-  [self.logManager setEnabled:YES andDeleteDataOnDisabled:NO];
+  [self.logManager resume];
 }
 
 /**
  *  The application will go to the background.
  */
 - (void)applicationDidEnterBackground {
-  [self.logManager setEnabled:NO andDeleteDataOnDisabled:NO];
+  [self.logManager suspend];
 }
 
 @end
