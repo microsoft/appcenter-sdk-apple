@@ -20,12 +20,10 @@ extern NSString *MSMSErrorLogAttachmentLogUtilityCategory;
  *
  * @param filename The filename the attachment should get. If nil will get an automatically generated filename.
  * @param data The attachment data as NSData.
- * @param contentType The content type of your data as MIME type.
  *
  * @return An instance of `MSErrorAttachmentLog`.
  */
 + (MSErrorAttachmentLog *)attachmentWithBinary:(NSData *)data
-                                      filename:(NSString *)filename
-                                   contentType:(NSString *)contentType;
+                                      filename:(NSString *)filename;
 
 @end

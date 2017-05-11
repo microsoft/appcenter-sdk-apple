@@ -3,13 +3,10 @@
 #import "MSErrorAttachmentLogInternal.h"
 #import "MSUtility.h"
 
-static NSString *const kMSTextType = @"text/plain";
-
 // API property names.
 static NSString *const kMSTypeAttachment = @"error_attachment";
 static NSString *const kMSId = @"id";
 static NSString *const kMSErrorId = @"error_id";
-static NSString *const kMSContentType = @"content_type";
 static NSString *const kMSFileName = @"file_name";
 static NSString *const kMSData = @"data";
 
@@ -32,32 +29,17 @@ __attribute__((used)) static void importCategories () {
   return self;
 }
 
-- (instancetype)initWithFilename:(nullable NSString *)filename
-                attachmentString:(NSString *)data
-                     contentType:(NSString *)contentType {
+- (instancetype)initWithFilename:(nullable NSString *)filename attachmentBinary:(NSData *)data {
   if ((self = [self init])) {
     _data = data;
-    _contentType = contentType;
     _filename = filename;
-  }
-  return self;
-}
-
-- (instancetype)initWithFilename:(nullable NSString *)filename
-                attachmentBinary:(NSData *)data
-                     contentType:(NSString *)contentType {
-  if ((self = [self init])) {
-
-    // Convert NSData to base64 string.
-    NSString *dataString = [data base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithCarriageReturn];
-    self = [self initWithFilename:filename attachmentString:dataString contentType:contentType];
   }
   return self;
 }
 
 - (instancetype)initWithFilename:(nullable NSString *)filename attachmentText:(NSString *)text {
   if ((self = [self init])) {
-    self = [self initWithFilename:filename attachmentString:text contentType:kMSTextType];
+    self = [self initWithFilename:filename attachmentBinary:[text dataUsingEncoding:NSUTF8StringEncoding]];
   }
   return self;
 }
@@ -72,14 +54,11 @@ __attribute__((used)) static void importCategories () {
   if (self.errorId) {
     dict[kMSErrorId] = self.errorId;
   }
-  if (self.contentType) {
-    dict[kMSContentType] = self.contentType;
-  }
   if (self.filename) {
     dict[kMSFileName] = self.filename;
   }
   if (self.data) {
-    dict[kMSData] = self.data;
+    dict[kMSData] = [self.data base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithCarriageReturn];
   }
   return dict;
 }
@@ -90,13 +69,12 @@ __attribute__((used)) static void importCategories () {
   MSErrorAttachmentLog *attachment = (MSErrorAttachmentLog *)object;
   return ((!self.attachmentId && !attachment.attachmentId) || [self.attachmentId isEqualToString:attachment.attachmentId]) &&
          ((!self.errorId && !attachment.errorId) || [self.errorId isEqualToString:attachment.errorId]) &&
-         ((!self.contentType && !attachment.contentType) || [self.contentType isEqualToString:attachment.contentType]) &&
          ((!self.filename && !attachment.filename) || [self.filename isEqualToString:attachment.filename]) &&
-         ((!self.data && !attachment.data) || [self.data isEqualToString:attachment.data]);
+         ((!self.data && !attachment.data) || [self.data isEqualToData:attachment.data]);
 }
 
 - (BOOL)isValid {
-  return [super isValid] && self.errorId && self.attachmentId && self.data && self.contentType;
+  return [super isValid] && self.errorId && self.attachmentId && self.data;
 }
 
 #pragma mark - NSCoding
@@ -106,7 +84,6 @@ __attribute__((used)) static void importCategories () {
   if (self) {
     _attachmentId = [coder decodeObjectForKey:kMSId];
     _errorId = [coder decodeObjectForKey:kMSErrorId];
-    _contentType = [coder decodeObjectForKey:kMSContentType];
     _filename = [coder decodeObjectForKey:kMSFileName];
     _data = [coder decodeObjectForKey:kMSData];
   }
@@ -117,7 +94,6 @@ __attribute__((used)) static void importCategories () {
   [super encodeWithCoder:coder];
   [coder encodeObject:self.attachmentId forKey:kMSId];
   [coder encodeObject:self.errorId forKey:kMSErrorId];
-  [coder encodeObject:self.contentType forKey:kMSContentType];
   [coder encodeObject:self.filename forKey:kMSFileName];
   [coder encodeObject:self.data forKey:kMSData];
 }
