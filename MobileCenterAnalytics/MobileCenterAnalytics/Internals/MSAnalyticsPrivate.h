@@ -1,8 +1,8 @@
 #import "MSAnalytics.h"
+#import "MSAnalyticsDelegate.h"
 #import "MSServiceInternal.h"
 #import "MSSessionTracker.h"
 #import "MSSessionTrackerDelegate.h"
-#import "MSAnalyticsDelegate.h"
 
 @interface MSAnalytics () <MSSessionTrackerDelegate>
 
@@ -35,4 +35,5 @@
  * Method to reset the singleton when running unit tests only. So calling sharedInstance returns a fresh instance.
  */
 + (void)resetSharedInstance;
+
 @end

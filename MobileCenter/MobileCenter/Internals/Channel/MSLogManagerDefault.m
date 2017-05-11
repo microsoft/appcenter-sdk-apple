@@ -6,7 +6,6 @@
 #import "MSLogManagerDefaultPrivate.h"
 #import "MSMobileCenterErrors.h"
 #import "MSMobileCenterInternal.h"
-#import "MobileCenter+Internal.h"
 
 static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecenter.LogManagerQueue";
 
@@ -14,11 +13,6 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
  * Private declaration of the log manager.
  */
 @interface MSLogManagerDefault (MSChannelDelegate)
-
-/**
- * A boolean value set to YES if this instance is enabled or NO otherwise.
- */
-@property BOOL enabled;
 
 @end
 
@@ -107,21 +101,27 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 - (void)channel:(id <MSChannel>)channel willSendLog:(id <MSLog>)log {
   [self enumerateDelegatesForSelector:@selector(willSendLog:)
                             withBlock:^(id<MSLogManagerDelegate> delegate) {
-                              [delegate willSendLog:log];
+                              if ([[delegate groupId] isEqualToString:[channel.configuration groupId]]) {
+                                [delegate willSendLog:log];
+                              }
                             }];
 }
 
 - (void)channel:(id <MSChannel>)channel didSucceedSendingLog:(id <MSLog>)log{
   [self enumerateDelegatesForSelector:@selector(didSucceedSendingLog:)
                             withBlock:^(id<MSLogManagerDelegate> delegate) {
-                              [delegate didSucceedSendingLog:log];
+                              if ([[delegate groupId] isEqualToString:[channel.configuration groupId]]) {
+                                [delegate didSucceedSendingLog:log];
+                              }
                             }];
 }
 
 - (void)channel:(id <MSChannel>)channel didFailSendingLog:(id <MSLog>)log withError:(NSError *)error{
   [self enumerateDelegatesForSelector:@selector(didFailSendingLog:withError:)
                             withBlock:^(id<MSLogManagerDelegate> delegate) {
-                              [delegate didFailSendingLog:log withError:error];
+                              if ([[delegate groupId] isEqualToString:[channel.configuration groupId]]) {
+                                [delegate didFailSendingLog:log withError:error];
+                              }
                             }];
 }
 

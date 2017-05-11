@@ -87,11 +87,11 @@ static const int maxPropertyValueLength = 64;
     // Start session tracker.
     [self.sessionTracker start];
 
-    // Add delegate to log manager.
+    // Add session tracker delegate to log manager.
     [self.logManager addDelegate:self.sessionTracker];
 
-    // Set self as delegate of analytics channel.
-    [self.logManager addChannelDelegate:self forGroupId:self.groupId];
+    // Add delegate to log manager.
+    [self.logManager addDelegate:self];
 
     // Report current page while auto page tracking is on.
     if (self.autoPageTrackingEnabled) {
@@ -107,7 +107,7 @@ static const int maxPropertyValueLength = 64;
     MSLogInfo([MSAnalytics logTag], @"Analytics service has been enabled.");
   } else {
     [self.logManager removeDelegate:self.sessionTracker];
-    [self.logManager removeChannelDelegate:self forGroupId:self.groupId];
+    [self.logManager removeDelegate:self];
     [self.sessionTracker stop];
     [self.sessionTracker clearSessions];
     MSLogInfo([MSAnalytics logTag], @"Analytics service has been disabled.");
@@ -156,13 +156,12 @@ static const int maxPropertyValueLength = 64;
 
 - (BOOL)validateEventName:(NSString *)eventName forLogType:(NSString *)logType {
   if (!eventName || [eventName length] < minEventNameLength) {
-    MSLogError([MSAnalytics logTag],
-               @"%@ name cannot be null or empty", logType);
+    MSLogError([MSAnalytics logTag], @"%@ name cannot be null or empty", logType);
     return NO;
   }
   if ([eventName length] > maxEventNameLength) {
-    MSLogError([MSAnalytics logTag],
-               @"%@ '%@' : name length cannot be longer than %d characters", logType, eventName, maxEventNameLength);
+    MSLogError([MSAnalytics logTag], @"%@ '%@' : name length cannot be longer than %d characters", logType, eventName,
+               maxEventNameLength);
     return NO;
   }
   return YES;
@@ -177,10 +176,8 @@ static const int maxPropertyValueLength = 64;
     // Don't send more properties than we can.
     if ([validProperties count] >= maxPropertiesPerEvent) {
       MSLogWarning([MSAnalytics logTag],
-                   @"%@ '%@' : properties cannot contain more than %d items. Skipping other properties.",
-                   logType,
-                   logName,
-                   maxPropertiesPerEvent);
+                   @"%@ '%@' : properties cannot contain more than %d items. Skipping other properties.", logType,
+                   logName, maxPropertiesPerEvent);
       break;
     }
     if (![key isKindOfClass:[NSString class]] || ![properties[key] isKindOfClass:[NSString class]]) {
@@ -190,33 +187,24 @@ static const int maxPropertyValueLength = 64;
     // Validate key.
     NSString *strKey = key;
     if ([strKey length] < minPropertyKeyLength) {
-      MSLogWarning([MSAnalytics logTag],
-                   @"%@ '%@' : a property key cannot be null or empty. Property will be skipped.",
-                   logType,
-                   logName);
+      MSLogWarning([MSAnalytics logTag], @"%@ '%@' : a property key cannot be null or empty. Property will be skipped.",
+                   logType, logName);
       continue;
     }
     if ([strKey length] > maxPropertyKeyLength) {
-      MSLogWarning([MSAnalytics logTag],
-                   @"%@ '%@' : property %@ : property key length cannot be longer than %d characters. Property %@ will be skipped.",
-                   logType,
-                   logName,
-                   strKey,
-                   maxPropertyKeyLength,
-                   strKey);
+      MSLogWarning([MSAnalytics logTag], @"%@ '%@' : property %@ : property key length cannot be longer than %d "
+                                         @"characters. Property %@ will be skipped.",
+                   logType, logName, strKey, maxPropertyKeyLength, strKey);
       continue;
     }
 
     // Validate value.
     NSString *value = properties[key];
-    if([value length] > maxPropertyValueLength) {
-      MSLogWarning([MSAnalytics logTag],
-                   @"%@ '%@' : property '%@' : property value cannot be longer than %d characters. Property %@ will be skipped.",
-                   logType,
-                   logName,
-                   strKey,
-                   maxPropertyValueLength,
-                   strKey);
+    if ([value length] > maxPropertyValueLength) {
+      MSLogWarning(
+          [MSAnalytics logTag],
+          @"%@ '%@' : property '%@' : property value cannot be longer than %d characters. Property %@ will be skipped.",
+          logType, logName, strKey, maxPropertyValueLength, strKey);
       continue;
     }
 
@@ -307,10 +295,9 @@ static const int maxPropertyValueLength = 64;
   [[self sharedInstance] setDelegate:delegate];
 }
 
-#pragma mark - MSChannelDelegate
+#pragma mark - MSLogManagerDelegate
 
-- (void)channel:(id<MSChannel>)channel willSendLog:(id<MSLog>)log {
-  (void)channel;
+- (void)willSendLog:(id<MSLog>)log {
   if (!self.delegate) {
     return;
   }
@@ -326,8 +313,7 @@ static const int maxPropertyValueLength = 64;
   }
 }
 
-- (void)channel:(id<MSChannel>)channel didSucceedSendingLog:(id<MSLog>)log {
-  (void)channel;
+- (void)didSucceedSendingLog:(id<MSLog>)log {
   if (!self.delegate) {
     return;
   }
@@ -343,8 +329,7 @@ static const int maxPropertyValueLength = 64;
   }
 }
 
-- (void)channel:(id<MSChannel>)channel didFailSendingLog:(id<MSLog>)log withError:(NSError *)error {
-  (void)channel;
+- (void)didFailSendingLog:(id<MSLog>)log withError:(NSError *)error {
   if (!self.delegate) {
     return;
   }
