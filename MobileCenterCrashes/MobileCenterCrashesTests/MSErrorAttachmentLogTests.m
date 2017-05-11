@@ -42,46 +42,35 @@
   // Then
   assertThat(self.sut.attachmentId, notNilValue());
   assertThat(self.sut.filename, is(expectedFilename));
-  assertThat(self.sut.data, is(expectedText));
-  assertThat(self.sut.contentType, is(@"text/plain"));
+  assertThat(self.sut.data, is([expectedText dataUsingEncoding:NSUTF8StringEncoding]));
 
   // When
   NSData *expectedData = [@"<file><request>Please attach me</request><reason>I am a nice data.</reason></file>"
       dataUsingEncoding:NSUTF8StringEncoding];
-  NSString *expectedMimeType = @"text/xml";
   expectedFilename = @"niceFile.xml";
   self.sut = [[MSErrorAttachmentLog alloc] initWithFilename:expectedFilename
-                                           attachmentBinary:expectedData
-                                                contentType:expectedMimeType];
+                                           attachmentBinary:expectedData];
 
   // Then
   assertThat(self.sut.attachmentId, notNilValue());
   assertThat(self.sut.filename, is(expectedFilename));
-  assertThat(self.sut.data,
-             is([expectedData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithCarriageReturn]));
-  assertThat(self.sut.contentType, is(expectedMimeType));
+  assertThat(self.sut.data, is(expectedData));
 
   // When
-  self.sut =
-      [[MSErrorAttachmentLog alloc] initWithFilename:nil attachmentBinary:expectedData contentType:expectedMimeType];
+  self.sut = [[MSErrorAttachmentLog alloc] initWithFilename:nil attachmentBinary:expectedData];
 
   // Then
   assertThat(self.sut.attachmentId, notNilValue());
   assertThat(self.sut.filename, nilValue());
-  assertThat(self.sut.data,
-             is([expectedData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithCarriageReturn]));
-  assertThat(self.sut.contentType, is(expectedMimeType));
+  assertThat(self.sut.data, is(expectedData));
   
   // When
-  self.sut =
-  [[MSErrorAttachmentLog alloc] initWithFilename:@"" attachmentBinary:expectedData contentType:expectedMimeType];
+  self.sut = [[MSErrorAttachmentLog alloc] initWithFilename:@"" attachmentBinary:expectedData];
   
   // Then
   assertThat(self.sut.attachmentId, notNilValue());
   assertThat(self.sut.filename, notNilValue());
-  assertThat(self.sut.data,
-             is([expectedData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithCarriageReturn]));
-  assertThat(self.sut.contentType, is(expectedMimeType));
+  assertThat(self.sut.data, is(expectedData));
 }
 
 - (void)testEquals {
@@ -100,14 +89,12 @@
   // When
   NSData *data = [@"<file><request>Please attach me</request><reason>I am a nice data.</reason></file>"
       dataUsingEncoding:NSUTF8StringEncoding];
-  NSString *mimeType = @"text/xml";
   filename = @"niceFile.xml";
-  self.sut = [MSErrorAttachmentLog attachmentWithBinary:data filename:filename contentType:mimeType];
+  self.sut = [MSErrorAttachmentLog attachmentWithBinary:data filename:filename];
   MSErrorAttachmentLog *other2 = [MSErrorAttachmentLog
       attachmentWithBinary:[@"<file><request>Please attach me</request><reason>I am a nice data.</reason></file>"
                                    dataUsingEncoding:NSUTF8StringEncoding]
-                      filename:@"niceFile.xml"
-                   contentType:@"text/xml"];
+                      filename:@"niceFile.xml"];
   other2.attachmentId = self.sut.attachmentId;
 
   // Then
@@ -155,16 +142,6 @@
 
   // Then
   assertThatBool(validity, isFalse());
-
-  // When
-  self.sut = [MSErrorAttachmentLog attachmentWithText:[text copy] filename:[filename copy]];
-  [self setDummyParentProperties:self.sut];
-  self.sut.errorId = MS_UUID_STRING;
-  self.sut.contentType = nil;
-  validity = [self.sut isValid];
-
-  // Then
-  assertThatBool(validity, isFalse());
 }
 
 - (void)testSerialilzingToDictionary {
@@ -175,8 +152,7 @@
   // Then
   assertThat(actual, notNilValue());
   assertThat(actual[@"file_name"], equalTo(self.sut.filename));
-  assertThat(actual[@"data"], equalTo(self.sut.data));
-  assertThat(actual[@"content_type"], equalTo(self.sut.contentType));
+  assertThat(actual[@"data"], equalTo([self.sut.data base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithCarriageReturn]));
 }
 
 - (void)testNSCodingSerializationAndDeserialization {
