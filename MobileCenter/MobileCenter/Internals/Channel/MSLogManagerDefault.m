@@ -55,13 +55,13 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 #pragma mark - Delegate
 
 - (void)addDelegate:(id<MSLogManagerDelegate>)delegate {
-  @synchronized (self) {
+  @synchronized(self) {
     [self.delegates addObject:delegate];
   }
 }
 
 - (void)removeDelegate:(id<MSLogManagerDelegate>)delegate {
-  @synchronized (self) {
+  @synchronized(self) {
     [self.delegates removeObject:delegate];
   }
 }
@@ -89,7 +89,7 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 }
 
 - (void)enumerateDelegatesForSelector:(SEL)selector withBlock:(void (^)(id<MSLogManagerDelegate> delegate))block {
-  @synchronized (self) {
+  @synchronized(self) {
     for (id<MSLogManagerDelegate> delegate in self.delegates) {
       if (delegate && [delegate respondsToSelector:selector]) {
         block(delegate);
@@ -185,8 +185,12 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
     self.enabled = isEnabled;
 
     // Propagate to sender.
-    // Sender will in turn propagates to its channel delegates.
     [self.sender setEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
+
+    // Propagate to initialized channels.
+    for (NSString *groupId in self.channels) {
+      [self.channels[groupId] setEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
+    }
 
     // If requested, also delete logs from not started services.
     if (!isEnabled && deleteData) {
@@ -209,6 +213,20 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
   } else {
     MSLogWarning([MSMobileCenter logTag], @"Channel has not been initialized for the group ID: %@", groupId);
   }
+}
+
+#pragma mark - Suspend / Resume
+
+- (void)suspend {
+
+  // Disable sender, sending log will not be possible but they'll still be stored.
+  [self.sender setEnabled:NO andDeleteDataOnDisabled:NO];
+}
+
+- (void)resume {
+
+  // Resume sender, logs can be sent again. Pending logs are sent.
+  [self.sender setEnabled:YES andDeleteDataOnDisabled:NO];
 }
 
 #pragma mark - Other public methods

@@ -1,34 +1,7 @@
 #import "MSChannelDefault.h"
+#import "MSChannelDefaultPrivate.h"
 #import "MSMobileCenterErrors.h"
 #import "MSMobileCenterInternal.h"
-
-/**
- * Private declarations.
- */
-@interface MSChannelDefault ()
-
-/**
- * A boolean value set to YES if the channel is enabled or NO otherwise.
- * Enable/disable does resume/suspend the channel as needed under the hood.
- * When a channel is disabled with data deletion it deletes persisted logs and discards incoming logs.
- */
-@property(nonatomic) BOOL enabled;
-
-/**
- * A boolean value set to YES if the channel is suspended or NO otherwise.
- * A channel is suspended when it becomes disabled or when its sender becomes suspended itself.
- * A suspended channel doesn't forward logs to the sender.
- * A suspended state doesn't impact the current enabled state.
- */
-@property(nonatomic) BOOL suspended;
-
-/**
- * A boolean value set to YES if logs are discarded (not persisted) or NO otherwise.
- * Logs are discarded when the related service is disabled or an unrecoverable error happened.
- */
-@property(nonatomic) BOOL discardLogs;
-
-@end
 
 @implementation MSChannelDefault
 
@@ -227,12 +200,6 @@
                           // Remove from pending logs.
                           [self.pendingBatchIds removeObject:senderBatchId];
                           [self.storage deleteLogsForId:senderBatchId withGroupId:self.configuration.groupId];
-
-                          // Fatal error, disable sender with data deletion.
-                          // This will in turn disable this channel and delete logs.
-                          if (error.code != NSURLErrorCancelled) {
-                            [self.sender setEnabled:NO andDeleteDataOnDisabled:YES];
-                          }
                         }
                       } else
                         MSLogWarning([MSMobileCenter logTag], @"Batch Id %@ not expected, ignore.", senderBatchId);
@@ -288,17 +255,17 @@
     if (self.enabled != isEnabled) {
       self.enabled = isEnabled;
       if (isEnabled) {
-        [self resume];
-        [self.sender addDelegate:self];
+        if (!self.sender.suspended){
+          [self resume];
+        }
       } else {
-        [self.sender removeDelegate:self];
         [self suspend];
       }
     }
 
     // Even if it's already disabled we might also want to delete logs this time.
     if (!isEnabled && deleteData) {
-      MSLogDebug([MSMobileCenter logTag], @"Delete all logs.");
+      MSLogDebug([MSMobileCenter logTag], @"Delete all logs for goup Id %@", self.configuration.groupId);
       NSError *error = [NSError errorWithDomain:kMSMCErrorDomain
                                            code:kMSMCConnectionSuspendedErrorCode
                                        userInfo:@{NSLocalizedDescriptionKey : kMSMCConnectionSuspendedErrorDesc}];
@@ -317,7 +284,7 @@
 
 - (void)suspend {
   if (!self.suspended) {
-    MSLogDebug([MSMobileCenter logTag], @"Suspend channel.");
+    MSLogDebug([MSMobileCenter logTag], @"Suspend channel for group Id %@.", self.configuration.groupId);
     self.suspended = YES;
     [self resetTimer];
   }
@@ -325,7 +292,7 @@
 
 - (void)resume {
   if (self.suspended && self.enabled) {
-    MSLogDebug([MSMobileCenter logTag], @"Resume channel.");
+    MSLogDebug([MSMobileCenter logTag], @"Resume channel for group Id %@.", self.configuration.groupId);
     self.suspended = NO;
     self.discardLogs = NO;
     [self flushQueue];
@@ -373,11 +340,11 @@
   });
 }
 
-- (void)sender:(id<MSSender>)sender didSetEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData {
+- (void)senderDidReceiveFatalError:(id<MSSender>)sender {
   (void)sender;
-
-  // Reflect sender enabled state.
-  [self setEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
+  
+  // Disable and delete data on fatal errors.
+  [self setEnabled:NO andDeleteDataOnDisabled:YES];
 }
 
 #pragma mark - Helper

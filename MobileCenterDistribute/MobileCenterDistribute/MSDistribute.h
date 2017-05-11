@@ -45,9 +45,11 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param url  The url with parameters.
  *
- * @discussion Place this method call into app delegate openUrl method.
+ * @return `YES` if the URL is intended for Mobile Center Distribute and your application, `NO` otherwise.
+ *
+ * @discussion Place this method call into your app delegate's openURL method.
  */
-+ (void)openUrl:(NSURL *)url;
++ (BOOL)openURL:(NSURL *)url;
 
 @end
 
