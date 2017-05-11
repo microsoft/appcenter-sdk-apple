@@ -88,16 +88,20 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 
 - (void)testUnrecoverableError {
 
-  // Stub http response
+  // If
   [MSHttpTestUtil stubHttp404Response];
   NSString *containerId = @"1";
   MSLogContainer *container = [self createLogContainerWithId:containerId];
-
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Response 200"];
+  id delegateMock = OCMProtocolMock(@protocol(MSSenderDelegate));
+  [self.sut addDelegate:delegateMock];
+  
+  // When
   [self.sut sendAsync:container
       completionHandler:^(NSString *batchId, NSUInteger statusCode, __attribute__((unused)) NSData *data,
                           NSError *error) {
-
+        
+        // Then
         XCTAssertEqual(containerId, batchId);
         XCTAssertEqual((MSHTTPCodesNo)statusCode, MSHTTPCodesNo404NotFound);
         XCTAssertEqual(error.domain, kMSMCErrorDomain);
@@ -107,8 +111,11 @@ static NSString *const kMSBaseUrl = @"https://test.com";
         [expectation fulfill];
       }];
 
+  // Then
   [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *_Nullable error) {
+                                 assertThatBool(self.sut.enabled, isFalse());
+                                 OCMVerify([delegateMock senderDidReceiveFatalError:self.sut]);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
