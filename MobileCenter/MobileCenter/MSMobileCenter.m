@@ -402,7 +402,7 @@ static NSString *const kMSGroupId = @"MobileCenter";
  */
 - (void)applicationWillEnterForeground {
 #if TARGET_OS_IPHONE
-  [self.logManager setEnabled:YES andDeleteDataOnDisabled:NO];
+  [self.logManager resume];
 #endif
 }
 
@@ -411,7 +411,7 @@ static NSString *const kMSGroupId = @"MobileCenter";
  */
 - (void)applicationDidEnterBackground {
 #if TARGET_OS_IPHONE
-  [self.logManager setEnabled:NO andDeleteDataOnDisabled:NO];
+  [self.logManager suspend];
 #endif
 }
 
