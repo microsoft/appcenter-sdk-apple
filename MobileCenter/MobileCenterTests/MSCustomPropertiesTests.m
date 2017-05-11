@@ -92,10 +92,24 @@
   const int maxPropertiesCount = 60;
   MSCustomProperties *customProperties = [MSCustomProperties new];
 
+  // Maximum properties count.
   // When
-  for (int i = 0; i < maxPropertiesCount + 5; i++) {
+  for (int i = 0; i < maxPropertiesCount; i++) {
     [customProperties setNumber:@(i) forKey:[NSString stringWithFormat:@"key%d", i]];
   }
+
+  // Then
+  assertThat([customProperties properties], hasCountOf(maxPropertiesCount));
+
+  // Exceeding maximum properties count.
+  // When
+  [customProperties setNumber:@(1) forKey:@"extra1"];
+
+  // Then
+  assertThat([customProperties properties], hasCountOf(maxPropertiesCount));
+
+  // When
+  [customProperties setNumber:@(1) forKey:@"extra2"];
 
   // Then
   assertThat([customProperties properties], hasCountOf(maxPropertiesCount));
@@ -206,7 +220,7 @@
   // When
   NSNumber *normalValue = @0;
   [customProperties setNumber:normalValue forKey:key];
-  
+
   // Then
   assertThat([customProperties properties], hasCountOf(1));
   assertThat([customProperties properties][key], is(normalValue));
