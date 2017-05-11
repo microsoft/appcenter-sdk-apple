@@ -90,9 +90,6 @@ static const int maxPropertyValueLength = 64;
     // Add session tracker delegate to log manager.
     [self.logManager addDelegate:self.sessionTracker];
 
-    // Add delegate to log manager.
-    [self.logManager addDelegate:self];
-
     // Report current page while auto page tracking is on.
     if (self.autoPageTrackingEnabled) {
 
@@ -107,7 +104,6 @@ static const int maxPropertyValueLength = 64;
     MSLogInfo([MSAnalytics logTag], @"Analytics service has been enabled.");
   } else {
     [self.logManager removeDelegate:self.sessionTracker];
-    [self.logManager removeDelegate:self];
     [self.sessionTracker stop];
     [self.sessionTracker clearSessions];
     MSLogInfo([MSAnalytics logTag], @"Analytics service has been disabled.");
@@ -289,60 +285,6 @@ static const int maxPropertyValueLength = 64;
 - (void)sessionTracker:(id)sessionTracker processLog:(id<MSLog>)log {
   (void)sessionTracker;
   [self sendLog:log];
-}
-
-+ (void)setDelegate:(nullable id<MSAnalyticsDelegate>)delegate {
-  [[self sharedInstance] setDelegate:delegate];
-}
-
-#pragma mark - MSLogManagerDelegate
-
-- (void)willSendLog:(id<MSLog>)log {
-  if (!self.delegate) {
-    return;
-  }
-  NSObject *logObject = (NSObject *)log;
-  if ([logObject isKindOfClass:[MSEventLog class]] &&
-      [self.delegate respondsToSelector:@selector(analytics:willSendEventLog:)]) {
-    MSEventLog *eventLog = (MSEventLog *)log;
-    [self.delegate analytics:self willSendEventLog:eventLog];
-  } else if ([logObject isKindOfClass:[MSPageLog class]] &&
-             [self.delegate respondsToSelector:@selector(analytics:willSendPageLog:)]) {
-    MSPageLog *pageLog = (MSPageLog *)log;
-    [self.delegate analytics:self willSendPageLog:pageLog];
-  }
-}
-
-- (void)didSucceedSendingLog:(id<MSLog>)log {
-  if (!self.delegate) {
-    return;
-  }
-  NSObject *logObject = (NSObject *)log;
-  if ([logObject isKindOfClass:[MSEventLog class]] &&
-      [self.delegate respondsToSelector:@selector(analytics:didSucceedSendingEventLog:)]) {
-    MSEventLog *eventLog = (MSEventLog *)log;
-    [self.delegate analytics:self didSucceedSendingEventLog:eventLog];
-  } else if ([logObject isKindOfClass:[MSPageLog class]] &&
-             [self.delegate respondsToSelector:@selector(analytics:didSucceedSendingPageLog:)]) {
-    MSPageLog *pageLog = (MSPageLog *)log;
-    [self.delegate analytics:self didSucceedSendingPageLog:pageLog];
-  }
-}
-
-- (void)didFailSendingLog:(id<MSLog>)log withError:(NSError *)error {
-  if (!self.delegate) {
-    return;
-  }
-  NSObject *logObject = (NSObject *)log;
-  if ([logObject isKindOfClass:[MSEventLog class]] &&
-      [self.delegate respondsToSelector:@selector(analytics:didFailSendingEventLog:withError:)]) {
-    MSEventLog *eventLog = (MSEventLog *)log;
-    [self.delegate analytics:self didFailSendingEventLog:eventLog withError:error];
-  } else if ([logObject isKindOfClass:[MSPageLog class]] &&
-             [self.delegate respondsToSelector:@selector(analytics:didFailSendingPageLog:withError:)]) {
-    MSPageLog *pageLog = (MSPageLog *)log;
-    [self.delegate analytics:self didFailSendingPageLog:pageLog withError:error];
-  }
 }
 
 @end

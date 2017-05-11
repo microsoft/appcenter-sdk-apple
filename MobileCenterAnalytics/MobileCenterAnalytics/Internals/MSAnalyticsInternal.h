@@ -1,11 +1,9 @@
 #import "MSAnalytics.h"
-#import "MSAnalyticsDelegate.h"
-#import "MSLogManagerDelegate.h"
 #import "MSServiceInternal.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MSAnalytics () <MSServiceInternal, MSLogManagerDelegate>
+@interface MSAnalytics () <MSServiceInternal>
 
 // Temporarily hiding tracking page feature.
 /**
@@ -52,8 +50,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSDictionary<NSString *, NSString *> *)validateProperties:(NSDictionary<NSString *, NSString *> *)properties
                                                   forLogName:(NSString *)logName
                                                      andType:(NSString *)logType;
-
-+ (void)setDelegate:(nullable id<MSAnalyticsDelegate>)delegate;
 
 @end
 
