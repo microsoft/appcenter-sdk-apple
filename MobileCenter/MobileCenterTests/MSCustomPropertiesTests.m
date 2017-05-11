@@ -87,6 +87,7 @@
 }
 
 - (void) testMaxPropertiesCount {
+
   // If
   const int maxPropertiesCount = 60;
   MSCustomProperties *customProperties = [MSCustomProperties new];
