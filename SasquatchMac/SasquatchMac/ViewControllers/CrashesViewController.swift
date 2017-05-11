@@ -1,21 +1,35 @@
 import Cocoa
-import MobileCenterCrashesMac
 
-class CrashesViewController : NSViewController {
+class CrashesViewController : NSViewController, MobileCenterProtocol {
+
+  var mobileCenter: MobileCenterDelegate? {
+    didSet {
+      if let `mobileCenter` = mobileCenter {
+        setEnabledButton?.state = mobileCenter.isCrashesEnabled() ? 1 : 0
+      }
+    }
+  }
 
   @IBOutlet var setEnabledButton : NSButton?;
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    setEnabledButton?.state = MSCrashes.isEnabled() ? 1 : 0
+    if let `mobileCenter` = mobileCenter {
+      setEnabledButton?.state = mobileCenter.isCrashesEnabled() ? 1 : 0
+    }
   }
 
   @IBAction func stackOverflowCrash(_ : Any) {
-    stackOverflowCrash(self)
+    if let `mobileCenter` = mobileCenter {
+      mobileCenter.generateTestCrash()
+    }
   }
 
   @IBAction func setEnabled(sender : NSButton) {
-    MSCrashes.setEnabled(sender.state == 1)
-    sender.state = MSCrashes.isEnabled() ? 1 : 0
+    guard let `mobileCenter` = mobileCenter else {
+      return
+    }
+    mobileCenter.setCrashesEnabled(sender.state == 1)
+    sender.state = mobileCenter.isCrashesEnabled() ? 1 : 0
   }
 }
