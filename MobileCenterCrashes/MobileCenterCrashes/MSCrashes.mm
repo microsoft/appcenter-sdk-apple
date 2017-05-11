@@ -449,8 +449,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   }
 }
 
-#pragma mark - MSLogManagerDelegate
-
 - (void)willSendLog:(id<MSLog>)log {
   id<MSCrashesDelegate> strongDelegate = self.delegate;
   if (strongDelegate && [strongDelegate respondsToSelector:@selector(crashes:willSendErrorReport:)]) {
