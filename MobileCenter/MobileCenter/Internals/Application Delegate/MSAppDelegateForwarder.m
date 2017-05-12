@@ -117,6 +117,7 @@ static BOOL _enabled = YES;
   IMP originalImp = NULL;
   BOOL methodAdded = NO;
 
+  // Replace implementation in super classes
   Class baseClass = originalClass.superclass;
   if( baseClass != [NSObject class]) {
     [MSAppDelegateForwarder swizzleOriginalSelector:originalSelector
