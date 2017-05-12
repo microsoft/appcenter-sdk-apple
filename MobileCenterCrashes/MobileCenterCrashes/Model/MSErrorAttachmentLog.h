@@ -8,6 +8,11 @@
 @interface MSErrorAttachmentLog : MSAbstractLog
 
 /**
+ * Content type (text/plain for text).
+ */
+@property(nonatomic, copy) NSString *contentType;
+
+/**
  * File name.
  */
 @property(nonatomic, copy) NSString *filename;
@@ -22,10 +27,11 @@
  *
  * @param filename The filename the attachment should get. If nil will get an automatically generated filename.
  * @param data The attachment data as `NSData`.
+ * @param contentType The content type of your data as MIME type.
  *
  * @return An instance of `MSErrorAttachmentLog`.
  */
-- (instancetype)initWithFilename:(NSString *)filename attachmentBinary:(NSData *)data;
+- (instancetype)initWithFilename:(NSString *)filename attachmentBinary:(NSData *)data contentType:(NSString *)contentType;
 
 /**
  * Initialize an attachment with a given filename and text.
