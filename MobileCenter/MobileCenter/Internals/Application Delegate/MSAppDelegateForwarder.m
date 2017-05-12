@@ -33,7 +33,7 @@ static BOOL _enabled = YES;
   return _delegates ?: (_delegates = [NSHashTable weakObjectsHashTable]);
 }
 
-+ (void)setDelegates:(NSHashTable<id<MSAppDelegate>> *)delegates{
++ (void)setDelegates:(NSHashTable<id<MSAppDelegate>> *)delegates {
   _delegates = delegates;
 }
 
@@ -116,7 +116,14 @@ static BOOL _enabled = YES;
   IMP customImp = class_getMethodImplementation(self, customSelector);
   IMP originalImp = NULL;
   BOOL methodAdded = NO;
-  
+
+  Class baseClass = originalClass.superclass;
+  if( baseClass != [NSObject class]) {
+    [MSAppDelegateForwarder swizzleOriginalSelector:originalSelector
+                                 withCustomSelector:customSelector
+                                      originalClass:baseClass];
+  }
+
   // Replace original implementation by the custom one.
   if (originalMethod){
     originalImp = method_setImplementation(originalMethod, customImp);
