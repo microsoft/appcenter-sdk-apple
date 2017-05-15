@@ -6,7 +6,8 @@
 #import "MSMobileCenter.h"
 #import "MSMobileCenterInternal.h"
 #import "MSMobileCenterPrivate.h"
-#import "MSMockAppDelegate.h"
+#import "MSMockCustomAppDelegate.h"
+#import "MSMockOriginalAppDelegate.h"
 #import "MSMockUserDefaults.h"
 #import "MSLogManager.h"
 #import "MSCustomProperties.h"
@@ -38,7 +39,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
 - (void)tearDown {
   [self.settingsMock stopMocking];
-  
+
   // Restore app forwarder.
   MSAppDelegateForwarder.enabled = YES;
   [MSAppDelegateForwarder.delegates removeAllObjects];
@@ -201,44 +202,46 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 }
 
 - (void)testDisableAppDelegateForwarding {
-  
+
   // If
-  MSMockAppDelegate *delegate = [MSMockAppDelegate new];
+  MSMockOriginalAppDelegate *originalDelegate = [MSMockOriginalAppDelegate new];
+  MSMockCustomAppDelegate *customDelegate = [MSMockCustomAppDelegate new];
   id utilMock = OCMClassMock([MSUtility class]);
-  OCMStub([utilMock sharedAppDelegate]).andReturn(delegate);
-  
+  OCMStub([utilMock sharedAppDelegate]).andReturn(originalDelegate);
+
   // When
   [MSMobileCenter setAppDelegateForwardingEnabled:NO];
-  
+
   // Then
   assertThatInt(MSAppDelegateForwarder.delegates.count, equalToInt(0));
 
   // When
-  [MSAppDelegateForwarder swizzleOriginalDelegate:delegate];
-  [MSAppDelegateForwarder addDelegate:delegate];
-  
+  [MSAppDelegateForwarder swizzleOriginalDelegate:originalDelegate];
+  [MSAppDelegateForwarder addDelegate:customDelegate];
+
   // Then
   assertThatInt(MSAppDelegateForwarder.delegates.count, equalToInt(0));
 }
 
 - (void)testEnableAppDelegateForwarding {
-  
+
   // If
-  MSMockAppDelegate *delegate = [MSMockAppDelegate new];
+  MSMockOriginalAppDelegate *originalDelegate = [MSMockOriginalAppDelegate new];
+  MSMockCustomAppDelegate *customDelegate = [MSMockCustomAppDelegate new];
   id utilMock = OCMClassMock([MSUtility class]);
-  OCMStub([utilMock sharedAppDelegate]).andReturn(delegate);
+  OCMStub([utilMock sharedAppDelegate]).andReturn(originalDelegate);
   [MSMobileCenter setAppDelegateForwardingEnabled:NO];
 
   // When
   [MSMobileCenter setAppDelegateForwardingEnabled:YES];
-  
+
   // Then
   assertThatInt(MSAppDelegateForwarder.delegates.count, equalToInt(0));
-  
+
   // When
-  [MSAppDelegateForwarder swizzleOriginalDelegate:delegate];
-  [MSAppDelegateForwarder addDelegate:delegate];
-  
+  [MSAppDelegateForwarder swizzleOriginalDelegate:originalDelegate];
+  [MSAppDelegateForwarder addDelegate:customDelegate];
+
   // Then
   assertThatInt(MSAppDelegateForwarder.delegates.count, equalToInt(1));
 }
@@ -250,22 +253,20 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   [self.sut configure:@"AnAppSecret"];
   self.sut.logManager = logManager;
 
-  
   // When
   [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidEnterBackgroundNotification
-                                                        object:self.sut];
+                                                      object:self.sut];
   // Then
   OCMVerify([logManager suspend]);
 }
 
 - (void)testAppIsForegrounded {
-  
+
   // If
   id<MSLogManager> logManager = OCMProtocolMock(@protocol(MSLogManager));
   [self.sut configure:@"AnAppSecret"];
   self.sut.logManager = logManager;
-  
-  
+
   // When
   [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillEnterForegroundNotification
                                                       object:self.sut];

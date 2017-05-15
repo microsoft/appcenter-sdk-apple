@@ -5,12 +5,14 @@
 
 #import "MSAppDelegateForwarderPrivate.h"
 #import "MSAppDelegate.h"
-#import "MSMockAppDelegate.h"
+#import "MSMockCustomAppDelegate.h"
+#import "MSMockOriginalAppDelegate.h"
 #import "MSUtility+Application.h"
 
 @interface MSAppDelegateForwarderTest : XCTestCase
 
-@property(nonatomic) MSMockAppDelegate *appDelegateMock;
+@property(nonatomic) MSMockOriginalAppDelegate *originalAppDelegateMock;
+@property(nonatomic) MSMockCustomAppDelegate *customAppDelegateMock;
 @property(nonatomic) UIApplication *appMock;
 
 @end
@@ -29,9 +31,10 @@
 
   // Mock app delegate.
   self.appMock = OCMClassMock([UIApplication class]);
-  self.appDelegateMock = [MSMockAppDelegate new];
+  self.originalAppDelegateMock = [MSMockOriginalAppDelegate new];
+  self.customAppDelegateMock = [MSMockCustomAppDelegate new];
   id utilMock = OCMClassMock([MSUtility class]);
-  OCMStub([utilMock sharedAppDelegate]).andReturn(self.appDelegateMock);
+  OCMStub([utilMock sharedAppDelegate]).andReturn(self.originalAppDelegateMock);
 }
 
 - (void)tearDown {
@@ -42,33 +45,33 @@
 }
 
 - (void)testAddAppDelegateSelectorToSwizzle {
-  
+
   // If
   NSUInteger currentCount = MSAppDelegateForwarder.selectorsToSwizzle.count;
   SEL expectedSelector = @selector(testAddAppDelegateSelectorToSwizzle);
   NSString *expectedSelectorStr = NSStringFromSelector(expectedSelector);
-  
+
   // Then
   assertThatBool([MSAppDelegateForwarder.selectorsToSwizzle containsObject:expectedSelectorStr], isFalse());
-  
+
   // When
   [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:expectedSelector];
-  
+
   // Then
-  assertThatInteger(MSAppDelegateForwarder.selectorsToSwizzle.count, equalToInteger(currentCount+1));
+  assertThatInteger(MSAppDelegateForwarder.selectorsToSwizzle.count, equalToInteger(currentCount + 1));
   assertThatBool([MSAppDelegateForwarder.selectorsToSwizzle containsObject:expectedSelectorStr], isTrue());
-  
+
   // When
   [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:expectedSelector];
-  
+
   // Then
-  assertThatInteger(MSAppDelegateForwarder.selectorsToSwizzle.count, equalToInteger(currentCount+1));
+  assertThatInteger(MSAppDelegateForwarder.selectorsToSwizzle.count, equalToInteger(currentCount + 1));
   assertThatBool([MSAppDelegateForwarder.selectorsToSwizzle containsObject:expectedSelectorStr], isTrue());
   [MSAppDelegateForwarder.selectorsToSwizzle removeObject:expectedSelectorStr];
 }
 
 - (void)testForwardUnknownSelector {
-  
+
   /*
    * If
    */
@@ -104,7 +107,7 @@
   XCTestExpectation *originalCalledExpectation = [self expectationWithDescription:@"Original delegate called."];
   NSString *originalOpenURLiOS42Selector =
       NSStringFromSelector(@selector(application:openURL:sourceApplication:annotation:));
-  self.appDelegateMock.originalDelegateValidators[originalOpenURLiOS42Selector] =
+  self.originalAppDelegateMock.delegateValidators[originalOpenURLiOS42Selector] =
       ^(UIApplication *application, NSURL *url, NSString *sApplication, id annotation) {
 
         // Then
@@ -117,10 +120,10 @@
       };
 
   // When
-  BOOL returnedValue = [self.appDelegateMock application:self.appMock
-                                                 openURL:expectedURL
-                                       sourceApplication:nil
-                                              annotation:expectedAnnotation];
+  BOOL returnedValue = [self.originalAppDelegateMock application:self.appMock
+                                                         openURL:expectedURL
+                                               sourceApplication:nil
+                                                      annotation:expectedAnnotation];
 
   // Then
   assertThatInt(MSAppDelegateForwarder.delegates.count, equalToInt(0));
@@ -139,7 +142,7 @@
   XCTestExpectation *customCalledExpectation = [self expectationWithDescription:@"Custom delegate called."];
   NSString *originalOpenURLiOS42Selector =
       NSStringFromSelector(@selector(application:openURL:sourceApplication:annotation:));
-  self.appDelegateMock.originalDelegateValidators[originalOpenURLiOS42Selector] =
+  self.originalAppDelegateMock.delegateValidators[originalOpenURLiOS42Selector] =
       ^(UIApplication *application, NSURL *url, NSString *sApplication, id annotation) {
 
         // Then
@@ -152,7 +155,7 @@
       };
   NSString *customOpenURLiOS42Selector =
       NSStringFromSelector(@selector(application:openURL:sourceApplication:annotation:returnedValue:));
-  self.appDelegateMock.customDelegateValidators[customOpenURLiOS42Selector] =
+  self.customAppDelegateMock.delegateValidators[customOpenURLiOS42Selector] =
       ^(UIApplication *application, NSURL *url, NSString *sApplication, id annotation, BOOL returnedValue) {
 
         // Then
@@ -164,18 +167,92 @@
         [customCalledExpectation fulfill];
         return expectedReturnedValue;
       };
-  [MSAppDelegateForwarder swizzleOriginalDelegate:self.appDelegateMock];
-  [MSAppDelegateForwarder addDelegate:self.appDelegateMock];
+  [MSAppDelegateForwarder swizzleOriginalDelegate:self.originalAppDelegateMock];
+  [MSAppDelegateForwarder addDelegate:self.customAppDelegateMock];
 
   // When
-  BOOL returnedValue = [self.appDelegateMock application:self.appMock
-                                                 openURL:expectedURL
-                                       sourceApplication:nil
-                                              annotation:expectedAnnotation];
+  BOOL returnedValue = [self.originalAppDelegateMock application:self.appMock
+                                                         openURL:expectedURL
+                                               sourceApplication:nil
+                                                      annotation:expectedAnnotation];
 
   // Then
   assertThatBool(returnedValue, is(@(expectedReturnedValue)));
   [self waitForExpectations:@[ originalCalledExpectation, customCalledExpectation ] timeout:1];
+}
+
+- (void)testWithOneCustomDelegateNotReturningValue {
+
+  // If
+  NSData *expectedToken = [@"Device token" dataUsingEncoding:NSUTF8StringEncoding];
+  UIApplication *appMock = self.appMock;
+  XCTestExpectation *originalCalledExpectation = [self expectationWithDescription:@"Original delegate called."];
+  XCTestExpectation *customCalledExpectation = [self expectationWithDescription:@"Custom delegate called."];
+  NSString *didRegisterNotificationSelector =
+      NSStringFromSelector(@selector(application:didRegisterForRemoteNotificationsWithDeviceToken:));
+  self.originalAppDelegateMock.delegateValidators[didRegisterNotificationSelector] =
+      ^(UIApplication *application, NSData *deviceToken) {
+
+        // Then
+        assertThat(application, is(appMock));
+        assertThat(deviceToken, is(expectedToken));
+        [originalCalledExpectation fulfill];
+      };
+  self.customAppDelegateMock.delegateValidators[didRegisterNotificationSelector] =
+      ^(UIApplication *application, NSData *deviceToken) {
+
+        // Then
+        assertThat(application, is(appMock));
+        assertThat(deviceToken, is(expectedToken));
+        [customCalledExpectation fulfill];
+      };
+  [MSAppDelegateForwarder swizzleOriginalDelegate:self.originalAppDelegateMock];
+  [MSAppDelegateForwarder addDelegate:self.customAppDelegateMock];
+
+  // When
+  [self.originalAppDelegateMock application:appMock didRegisterForRemoteNotificationsWithDeviceToken:expectedToken];
+
+  // Then
+  [self waitForExpectations:@[ originalCalledExpectation, customCalledExpectation ] timeout:1];
+}
+
+- (void)testDontForwardSelectorsNotToOverrideIfAlreadyImplementedByOriginalDelegate {
+
+  // If
+  NSDictionary *expectedUserInfo = @{ @"key" : @"value" };
+  void (^expectedCompletionHandler)(UIBackgroundFetchResult result) =
+      ^(__attribute__((unused)) UIBackgroundFetchResult result) {
+      };
+  UIApplication *appMock = self.appMock;
+  XCTestExpectation *originalCalledExpectation = [self expectationWithDescription:@"Original delegate called."];
+  NSString *selector =
+      NSStringFromSelector(@selector(application:didReceiveRemoteNotification:fetchCompletionHandler:));
+  self.originalAppDelegateMock.delegateValidators[selector] =
+      ^(UIApplication *application, NSDictionary *userInfo, void (^completionHandler)(UIBackgroundFetchResult result)) {
+
+        // Then
+        assertThat(application, is(appMock));
+        assertThat(userInfo, is(expectedUserInfo));
+        assertThat(completionHandler, is(expectedCompletionHandler));
+        [originalCalledExpectation fulfill];
+      };
+  self.customAppDelegateMock.delegateValidators[selector] =
+      ^(__attribute__((unused)) UIApplication *application, __attribute__((unused)) NSData *deviceToken) {
+
+        // Then
+        XCTFail(@"This method is already implemented in the original delegate and is marked not to be swizzled.");
+      };
+  [MSAppDelegateForwarder swizzleOriginalDelegate:self.originalAppDelegateMock];
+  [MSAppDelegateForwarder addDelegate:self.customAppDelegateMock];
+
+  // When
+  [self.originalAppDelegateMock application:appMock
+               didReceiveRemoteNotification:expectedUserInfo
+                     fetchCompletionHandler:expectedCompletionHandler];
+
+  // Then
+  assertThatBool([MSAppDelegateForwarder.selectorsNotToOverride containsObject:selector], isTrue());
+  [self waitForExpectations:@[ originalCalledExpectation ] timeout:1];
 }
 
 - (void)testWithMultipleCustomDelegates {
@@ -190,7 +267,7 @@
   UIApplication *appMock = self.appMock;
   NSString *originalOpenURLiOS42Selector =
       NSStringFromSelector(@selector(application:openURL:sourceApplication:annotation:));
-  self.appDelegateMock.originalDelegateValidators[originalOpenURLiOS42Selector] =
+  self.originalAppDelegateMock.delegateValidators[originalOpenURLiOS42Selector] =
       ^(UIApplication *application, NSURL *url, NSString *sApplication, id annotation) {
 
         // Then
@@ -201,10 +278,10 @@
         [originalCalledExpectation fulfill];
         return expectedReturnedValue;
       };
-  MSMockAppDelegate *customAppDelegateMock1 = [MSMockAppDelegate new];
+  MSMockCustomAppDelegate *customAppDelegateMock1 = [MSMockCustomAppDelegate new];
   NSString *customOpenURLiOS42Selector =
       NSStringFromSelector(@selector(application:openURL:sourceApplication:annotation:returnedValue:));
-  customAppDelegateMock1.customDelegateValidators[customOpenURLiOS42Selector] =
+  customAppDelegateMock1.delegateValidators[customOpenURLiOS42Selector] =
       ^(UIApplication *application, NSURL *url, NSString *sApplication, id annotation, BOOL returnedValue) {
 
         // Then
@@ -216,8 +293,8 @@
         [customCalledExpectation1 fulfill];
         return expectedReturnedValue;
       };
-  MSMockAppDelegate *customAppDelegateMock2 = [MSMockAppDelegate new];
-  customAppDelegateMock2.customDelegateValidators[customOpenURLiOS42Selector] =
+  MSMockCustomAppDelegate *customAppDelegateMock2 = [MSMockCustomAppDelegate new];
+  customAppDelegateMock2.delegateValidators[customOpenURLiOS42Selector] =
       ^(UIApplication *application, NSURL *url, NSString *sApplication, id annotation, BOOL returnedValue) {
 
         // Then
@@ -235,10 +312,10 @@
   [MSAppDelegateForwarder addDelegate:customAppDelegateMock2];
 
   // When
-  BOOL returnedValue = [self.appDelegateMock application:self.appMock
-                                                 openURL:expectedURL
-                                       sourceApplication:nil
-                                              annotation:expectedAnnotation];
+  BOOL returnedValue = [self.originalAppDelegateMock application:self.appMock
+                                                         openURL:expectedURL
+                                               sourceApplication:nil
+                                                      annotation:expectedAnnotation];
 
   // Then
   assertThatBool(returnedValue, is(@(expectedReturnedValue)));
@@ -256,7 +333,7 @@
   XCTestExpectation *originalCalledExpectation = [self expectationWithDescription:@"Original delegate called."];
   NSString *originalOpenURLiOS42Selector =
       NSStringFromSelector(@selector(application:openURL:sourceApplication:annotation:));
-  self.appDelegateMock.originalDelegateValidators[originalOpenURLiOS42Selector] =
+  self.originalAppDelegateMock.delegateValidators[originalOpenURLiOS42Selector] =
       ^(UIApplication *application, NSURL *url, NSString *sApplication, id annotation) {
 
         // Then
@@ -269,22 +346,24 @@
       };
   NSString *customOpenURLiOS42Selector =
       NSStringFromSelector(@selector(application:openURL:sourceApplication:annotation:returnedValue:));
-  self.appDelegateMock.customDelegateValidators[customOpenURLiOS42Selector] =
-      ^(__attribute__((unused))UIApplication *application, __attribute__((unused))NSURL *url, __attribute__((unused))NSString *sApplication, __attribute__((unused))id annotation, __attribute__((unused))BOOL returnedValue) {
+  self.customAppDelegateMock.delegateValidators[customOpenURLiOS42Selector] =
+      ^(__attribute__((unused)) UIApplication *application, __attribute__((unused)) NSURL *url,
+        __attribute__((unused)) NSString *sApplication, __attribute__((unused)) id annotation,
+        __attribute__((unused)) BOOL returnedValue) {
 
         // Then
         XCTFail(@"Custom delegate got called but is removed.");
         return expectedReturnedValue;
       };
-  [MSAppDelegateForwarder swizzleOriginalDelegate:self.appDelegateMock];
-  [MSAppDelegateForwarder addDelegate:self.appDelegateMock];
-  [MSAppDelegateForwarder removeDelegate:self.appDelegateMock];
+  [MSAppDelegateForwarder swizzleOriginalDelegate:self.originalAppDelegateMock];
+  [MSAppDelegateForwarder addDelegate:self.customAppDelegateMock];
+  [MSAppDelegateForwarder removeDelegate:self.customAppDelegateMock];
 
   // When
-  BOOL returnedValue = [self.appDelegateMock application:self.appMock
-                                                 openURL:expectedURL
-                                       sourceApplication:nil
-                                              annotation:expectedAnnotation];
+  BOOL returnedValue = [self.originalAppDelegateMock application:self.appMock
+                                                         openURL:expectedURL
+                                               sourceApplication:nil
+                                                      annotation:expectedAnnotation];
 
   // Then
   assertThatBool(returnedValue, is(@(expectedReturnedValue)));
@@ -301,7 +380,7 @@
   XCTestExpectation *originalCalledExpectation = [self expectationWithDescription:@"Original delegate called."];
   NSString *originalOpenURLiOS42Selector =
       NSStringFromSelector(@selector(application:openURL:sourceApplication:annotation:));
-  self.appDelegateMock.originalDelegateValidators[originalOpenURLiOS42Selector] =
+  self.originalAppDelegateMock.delegateValidators[originalOpenURLiOS42Selector] =
       ^(UIApplication *application, NSURL *url, NSString *sApplication, id annotation) {
 
         // Then
@@ -314,7 +393,7 @@
       };
   NSString *customOpenURLiOS42Selector =
       NSStringFromSelector(@selector(application:openURL:sourceApplication:annotation:returnedValue:));
-  self.appDelegateMock.customDelegateValidators[customOpenURLiOS42Selector] =
+  self.customAppDelegateMock.delegateValidators[customOpenURLiOS42Selector] =
       ^(__attribute__((unused)) UIApplication *application, __attribute__((unused)) NSURL *url,
         __attribute__((unused)) NSString *sApplication, __attribute__((unused)) id annotation,
         __attribute__((unused)) BOOL returnedValue) {
@@ -323,15 +402,15 @@
         XCTFail(@"Custom delegate got called but is removed.");
         return expectedReturnedValue;
       };
-  [MSAppDelegateForwarder swizzleOriginalDelegate:self.appDelegateMock];
-  [MSAppDelegateForwarder addDelegate:self.appDelegateMock];
+  [MSAppDelegateForwarder swizzleOriginalDelegate:self.originalAppDelegateMock];
+  [MSAppDelegateForwarder addDelegate:self.customAppDelegateMock];
   MSAppDelegateForwarder.enabled = NO;
 
   // When
-  BOOL returnedValue = [self.appDelegateMock application:self.appMock
-                                                 openURL:expectedURL
-                                       sourceApplication:nil
-                                              annotation:expectedAnnotation];
+  BOOL returnedValue = [self.originalAppDelegateMock application:self.appMock
+                                                         openURL:expectedURL
+                                               sourceApplication:nil
+                                                      annotation:expectedAnnotation];
 
   // Then
   assertThatBool(returnedValue, is(@(expectedReturnedValue)));
@@ -352,7 +431,7 @@
   UIApplication *appMock = self.appMock;
   NSString *originalOpenURLiOS42Selector =
       NSStringFromSelector(@selector(application:openURL:sourceApplication:annotation:));
-  self.appDelegateMock.originalDelegateValidators[originalOpenURLiOS42Selector] =
+  self.originalAppDelegateMock.delegateValidators[originalOpenURLiOS42Selector] =
       ^(UIApplication *application, NSURL *url, NSString *sApplication, id annotation) {
 
         // Then
@@ -364,11 +443,11 @@
         expectedReturnedValue = initialReturnValue;
         return expectedReturnedValue;
       };
-  MSMockAppDelegate *customAppDelegateMock1 = [MSMockAppDelegate new];
-  MSMockAppDelegate *customAppDelegateMock2 = [MSMockAppDelegate new];
+  MSMockCustomAppDelegate *customAppDelegateMock1 = [MSMockCustomAppDelegate new];
+  MSMockCustomAppDelegate *customAppDelegateMock2 = [MSMockCustomAppDelegate new];
   NSString *customOpenURLiOS42Selector =
       NSStringFromSelector(@selector(application:openURL:sourceApplication:annotation:returnedValue:));
-  customAppDelegateMock1.customDelegateValidators[customOpenURLiOS42Selector] =
+  customAppDelegateMock1.delegateValidators[customOpenURLiOS42Selector] =
       ^(UIApplication *application, NSURL *url, NSString *sApplication, id annotation, BOOL returnedValue) {
 
         // Then
@@ -381,7 +460,7 @@
         [customCalledExpectation1 fulfill];
         return expectedReturnedValue;
       };
-  customAppDelegateMock2.customDelegateValidators[customOpenURLiOS42Selector] =
+  customAppDelegateMock2.delegateValidators[customOpenURLiOS42Selector] =
       ^(UIApplication *application, NSURL *url, NSString *sApplication, id annotation, BOOL returnedValue) {
 
         // Then
@@ -400,10 +479,10 @@
   [MSAppDelegateForwarder addDelegate:customAppDelegateMock2];
 
   // When
-  BOOL returnedValue = [self.appDelegateMock application:self.appMock
-                                                 openURL:expectedURL
-                                       sourceApplication:nil
-                                              annotation:expectedAnnotation];
+  BOOL returnedValue = [self.originalAppDelegateMock application:self.appMock
+                                                         openURL:expectedURL
+                                               sourceApplication:nil
+                                                      annotation:expectedAnnotation];
 
   // Then
   assertThatBool(returnedValue, is(@(expectedReturnedValue)));
@@ -420,7 +499,7 @@
   UIApplication *appMock = self.appMock;
   XCTestExpectation *customCalledExpectation = [self expectationWithDescription:@"Custom delegate called."];
   NSString *customOpenURLiOS42Selector = NSStringFromSelector(@selector(application:openURL:options:returnedValue:));
-  self.appDelegateMock.customDelegateValidators[customOpenURLiOS42Selector] =
+  self.customAppDelegateMock.delegateValidators[customOpenURLiOS42Selector] =
       ^(UIApplication *application, NSURL *url, NSDictionary<UIApplicationOpenURLOptionsKey, id> *options,
         BOOL returnedValue) {
 
@@ -432,13 +511,14 @@
         [customCalledExpectation fulfill];
         return expectedReturnedValue;
       };
-  [MSAppDelegateForwarder swizzleOriginalDelegate:self.appDelegateMock];
-  [MSAppDelegateForwarder addDelegate:self.appDelegateMock];
+  [MSAppDelegateForwarder swizzleOriginalDelegate:self.originalAppDelegateMock];
+  [MSAppDelegateForwarder addDelegate:self.customAppDelegateMock];
 
-  // When
+// When
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpartial-availability"
-  BOOL returnedValue = [self.appDelegateMock application:self.appMock openURL:expectedURL options:expectedOptions];
+  BOOL returnedValue =
+      [self.originalAppDelegateMock application:self.appMock openURL:expectedURL options:expectedOptions];
 #pragma clang diagnostic pop
 
   // Then
