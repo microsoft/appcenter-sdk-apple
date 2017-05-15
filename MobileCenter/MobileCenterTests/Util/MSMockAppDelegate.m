@@ -19,8 +19,7 @@
               openURL:(NSURL *)url
     sourceApplication:(NSString *)sourceApplication
            annotation:(id)annotation {
-  SEL selector = @selector(application:openURL:sourceApplication:annotation:);
-  OriginalOpenURLiOS42Validator validator = self.originalDelegateValidators[NSStringFromSelector(selector)];
+  OriginalOpenURLiOS42Validator validator = self.originalDelegateValidators[NSStringFromSelector(_cmd)];
   return validator(app, url, sourceApplication, annotation);
 }
 
@@ -31,8 +30,7 @@
     sourceApplication:(NSString *)sourceApplication
            annotation:(id)annotation
         returnedValue:(BOOL)returnedValue {
-  SEL selector = @selector(application:openURL:sourceApplication:annotation:returnedValue:);
-  CustomOpenURLiOS42Validator validator = self.customDelegateValidators[NSStringFromSelector(selector)];
+  CustomOpenURLiOS42Validator validator = self.customDelegateValidators[NSStringFromSelector(_cmd)];
   return validator(app, url, sourceApplication, annotation, returnedValue);
 }
 
@@ -40,8 +38,7 @@
             openURL:(NSURL *)url
             options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options
       returnedValue:(BOOL)returnedValue {
-  SEL selector = @selector(application:openURL:options:returnedValue:);
-  CustomOpenURLiOS9Validator validator = self.customDelegateValidators[NSStringFromSelector(selector)];
+  CustomOpenURLiOS9Validator validator = self.customDelegateValidators[NSStringFromSelector(_cmd)];
   return validator(app, url, options, returnedValue);
 }
 
