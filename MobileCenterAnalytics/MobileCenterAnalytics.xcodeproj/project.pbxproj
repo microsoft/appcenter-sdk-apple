@@ -45,6 +45,17 @@
 
 /* Begin PBXBuildFile section */
 		042A17A81DEFA950003BA80A /* MSAnalyticsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 042A17A71DEFA950003BA80A /* MSAnalyticsTests.m */; };
+		046AEAB61ECA51AF00CBE511 /* MSAnalyticsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 042A17A71DEFA950003BA80A /* MSAnalyticsTests.m */; };
+		046AEAB71ECA51AF00CBE511 /* MSMockAnalyticsDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 35BF19E41DF9D59E00193027 /* MSMockAnalyticsDelegate.m */; };
+		046AEAB81ECA51AF00CBE511 /* MSSessionTrackerUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = E81591311D526C3B003D5F3C /* MSSessionTrackerUtil.m */; };
+		046AEAB91ECA51AF00CBE511 /* MSEventLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3E2CD01D359F3300B1EE50 /* MSEventLogTests.m */; };
+		046AEABA1ECA51AF00CBE511 /* MSPageLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3E2CD11D359F3300B1EE50 /* MSPageLogTests.m */; };
+		046AEABB1ECA51AF00CBE511 /* MSSessionTrackerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E815912B1D526A09003D5F3C /* MSSessionTrackerTests.m */; };
+		046AEABC1ECA51AF00CBE511 /* MSStartSessionLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E81591291D526956003D5F3C /* MSStartSessionLogTests.m */; };
+		046AEABF1ECA51AF00CBE511 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E06843A1D35A3C800A8CC6C /* libOCMock.a */; };
+		046AEAC11ECA51AF00CBE511 /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E0684371D35A3B900A8CC6C /* OCHamcrestIOS.framework */; };
+		046AEACB1ECA554600CBE511 /* libMobileCenterAnalyticsMac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0485AF851EAA79E300C10CAF /* libMobileCenterAnalyticsMac.a */; };
+		046AEACC1ECA559900CBE511 /* libMobileCenterMac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 046AEAC91ECA553F00CBE511 /* libMobileCenterMac.a */; };
 		0485AF691EAA79E300C10CAF /* MSSessionHistoryInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = E89B33E61D5A526D00FDE8FB /* MSSessionHistoryInfo.m */; };
 		0485AF6A1EAA79E300C10CAF /* MSAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E85547C51D2D6253002DF6E2 /* MSAnalytics.m */; };
 		0485AF6B1EAA79E300C10CAF /* MSSessionTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = E8E48F9D1D515C3900A8C1B0 /* MSSessionTracker.m */; };
@@ -102,6 +113,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		046AEACD1ECA55BC00CBE511 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0485AF671EAA79E300C10CAF;
+			remoteInfo = MobileCenterAnalyticsMac;
+		};
 		386352E31D51047400D0D450 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
@@ -141,6 +159,8 @@
 
 /* Begin PBXFileReference section */
 		042A17A71DEFA950003BA80A /* MSAnalyticsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAnalyticsTests.m; sourceTree = "<group>"; };
+		046AEAC61ECA51AF00CBE511 /* MobileCenterAnalyticsMacTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MobileCenterAnalyticsMacTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		046AEAC91ECA553F00CBE511 /* libMobileCenterMac.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobileCenterMac.a; path = ../../MobileCenter/build/Debug/libMobileCenterMac.a; sourceTree = "<group>"; };
 		0485AF851EAA79E300C10CAF /* libMobileCenterAnalyticsMac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMobileCenterAnalyticsMac.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		0485AF8D1EAA852A00C10CAF /* MSAnalyticsCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAnalyticsCategory.h; sourceTree = "<group>"; };
 		0485AF8E1EAA852A00C10CAF /* MSAnalyticsCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAnalyticsCategory.m; sourceTree = "<group>"; };
@@ -199,6 +219,17 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		046AEABD1ECA51AF00CBE511 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				046AEACC1ECA559900CBE511 /* libMobileCenterMac.a in Frameworks */,
+				046AEABF1ECA51AF00CBE511 /* libOCMock.a in Frameworks */,
+				046AEACB1ECA554600CBE511 /* libMobileCenterAnalyticsMac.a in Frameworks */,
+				046AEAC11ECA51AF00CBE511 /* OCHamcrestIOS.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0485AF701EAA79E300C10CAF /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -308,6 +339,7 @@
 			isa = PBXGroup;
 			children = (
 				6E06844C1D35A4CA00A8CC6C /* libMobileCenter.a */,
+				046AEAC91ECA553F00CBE511 /* libMobileCenterMac.a */,
 				6E0684391D35A3C800A8CC6C /* OCMock */,
 				6E0684371D35A3B900A8CC6C /* OCHamcrestIOS.framework */,
 			);
@@ -383,6 +415,7 @@
 				E85547C01D2D6253002DF6E2 /* libMobileCenterAnalytics.a */,
 				E85547D51D2D6723002DF6E2 /* MobileCenterAnalytics.xctest */,
 				0485AF851EAA79E300C10CAF /* libMobileCenterAnalyticsMac.a */,
+				046AEAC61ECA51AF00CBE511 /* MobileCenterAnalyticsMacTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -425,15 +458,15 @@
 		E85547D61D2D6723002DF6E2 /* MobileCenterAnalyticsTests */ = {
 			isa = PBXGroup;
 			children = (
-				E815912F1D526C22003D5F3C /* Util */,
-				6E0684361D35A39300A8CC6C /* Frameworks */,
 				042A17A71DEFA950003BA80A /* MSAnalyticsTests.m */,
 				E815912B1D526A09003D5F3C /* MSSessionTrackerTests.m */,
 				E81591291D526956003D5F3C /* MSStartSessionLogTests.m */,
 				6E3E2CD01D359F3300B1EE50 /* MSEventLogTests.m */,
 				6E3E2CD11D359F3300B1EE50 /* MSPageLogTests.m */,
 				E85547D91D2D6723002DF6E2 /* Info.plist */,
+				6E0684361D35A39300A8CC6C /* Frameworks */,
 				35BF19E61DF9D5A400193027 /* Model */,
+				E815912F1D526C22003D5F3C /* Util */,
 			);
 			path = MobileCenterAnalyticsTests;
 			sourceTree = "<group>";
@@ -500,6 +533,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		046AEAB21ECA51AF00CBE511 /* MobileCenterAnalyticsMacTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 046AEAC31ECA51AF00CBE511 /* Build configuration list for PBXNativeTarget "MobileCenterAnalyticsMacTests" */;
+			buildPhases = (
+				046AEAB51ECA51AF00CBE511 /* Sources */,
+				046AEABD1ECA51AF00CBE511 /* Frameworks */,
+				046AEAC21ECA51AF00CBE511 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				046AEACE1ECA55BC00CBE511 /* PBXTargetDependency */,
+			);
+			name = MobileCenterAnalyticsMacTests;
+			productName = MobileCenterAnalyticsTests;
+			productReference = 046AEAC61ECA51AF00CBE511 /* MobileCenterAnalyticsMacTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		0485AF671EAA79E300C10CAF /* MobileCenterAnalyticsMac */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0485AF821EAA79E300C10CAF /* Build configuration list for PBXNativeTarget "MobileCenterAnalyticsMac" */;
@@ -564,6 +615,10 @@
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = Microsoft;
 				TargetAttributes = {
+					046AEAB21ECA51AF00CBE511 = {
+						DevelopmentTeam = L4RARDNZ2Y;
+						ProvisioningStyle = Automatic;
+					};
 					E85547BF1D2D6253002DF6E2 = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
@@ -596,11 +651,19 @@
 				E85547E91D2D68C5002DF6E2 /* MobileCenterAnalyticsDoc */,
 				0485AF671EAA79E300C10CAF /* MobileCenterAnalyticsMac */,
 				0485AFEF1EAAADAC00C10CAF /* MobileCenterAnalyticsMacFramework */,
+				046AEAB21ECA51AF00CBE511 /* MobileCenterAnalyticsMacTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		046AEAC21ECA51AF00CBE511 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E85547D31D2D6723002DF6E2 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -654,6 +717,20 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		046AEAB51ECA51AF00CBE511 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				046AEAB61ECA51AF00CBE511 /* MSAnalyticsTests.m in Sources */,
+				046AEAB71ECA51AF00CBE511 /* MSMockAnalyticsDelegate.m in Sources */,
+				046AEAB81ECA51AF00CBE511 /* MSSessionTrackerUtil.m in Sources */,
+				046AEAB91ECA51AF00CBE511 /* MSEventLogTests.m in Sources */,
+				046AEABA1ECA51AF00CBE511 /* MSPageLogTests.m in Sources */,
+				046AEABB1ECA51AF00CBE511 /* MSSessionTrackerTests.m in Sources */,
+				046AEABC1ECA51AF00CBE511 /* MSStartSessionLogTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0485AF681EAA79E300C10CAF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -699,6 +776,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		046AEACE1ECA55BC00CBE511 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0485AF671EAA79E300C10CAF /* MobileCenterAnalyticsMac */;
+			targetProxy = 046AEACD1ECA55BC00CBE511 /* PBXContainerItemProxy */;
+		};
 		386352E41D51047400D0D450 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = E85547E41D2D681F002DF6E2 /* MobileCenterAnalyticsFramework */;
@@ -712,6 +794,80 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		046AEAC41ECA51AF00CBE511 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F87A05581E72BDFC0038A6F9 /* Tests.xcconfig */;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
+				ARCHS = "$(MS_MAC_ARCHS)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Mac Developer";
+				DEVELOPMENT_TEAM = L4RARDNZ2Y;
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../Vendor/Common\"/**",
+					"\"$(SRCROOT)/../Vendor/macOS\"/**",
+				);
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../Vendor/Common\"/**",
+					"\"$(SRCROOT)/../Vendor/macOS\"/**",
+				);
+				INFOPLIST_FILE = MobileCenterAnalyticsTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../Vendor/Common\"/**",
+					"\"$(SRCROOT)/../Vendor/macOS\"/**",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					AppKit,
+					"-ObjC",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenteranalyticstests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/** \"$(SRCROOT)/../MobileCenter/MobileCenterMac\"/**";
+				VALID_ARCHS = "$(MS_MAC_ARCHS)";
+			};
+			name = Debug;
+		};
+		046AEAC51ECA51AF00CBE511 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F87A05581E72BDFC0038A6F9 /* Tests.xcconfig */;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
+				ARCHS = "$(MS_MAC_ARCHS)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Mac Developer";
+				DEVELOPMENT_TEAM = L4RARDNZ2Y;
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../Vendor/Common\"/**",
+					"\"$(SRCROOT)/../Vendor/macOS\"/**",
+				);
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../Vendor/Common\"/**",
+					"\"$(SRCROOT)/../Vendor/macOS\"/**",
+				);
+				INFOPLIST_FILE = MobileCenterAnalyticsTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../Vendor/Common\"/**",
+					"\"$(SRCROOT)/../Vendor/macOS\"/**",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					AppKit,
+					"-ObjC",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenteranalyticstests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/** \"$(SRCROOT)/../MobileCenter/MobileCenterMac\"/**";
+				VALID_ARCHS = "$(MS_MAC_ARCHS)";
+			};
+			name = Release;
+		};
 		0485AF831EAA79E300C10CAF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -826,6 +982,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "$(inherited)";
@@ -869,6 +1026,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "$(inherited)";
 				SDKROOT = iphoneos;
@@ -914,12 +1072,21 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/Common\"/**";
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/Common\"/**";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../Vendor/Common\"/**",
+					"\"$(SRCROOT)/../Vendor/iOS\"/**",
+				);
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../Vendor/Common\"/**",
+					"\"$(SRCROOT)/../Vendor/iOS\"/**",
+				);
 				INFOPLIST_FILE = MobileCenterAnalyticsTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/Common\"/**";
+				LIBRARY_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../Vendor/Common\"/**",
+					"\"$(SRCROOT)/../Vendor/iOS\"/**",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -938,12 +1105,21 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/Common\"/**";
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/Common\"/**";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../Vendor/Common\"/**",
+					"\"$(SRCROOT)/../Vendor/iOS\"/**",
+				);
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../Vendor/Common\"/**",
+					"\"$(SRCROOT)/../Vendor/iOS\"/**",
+				);
 				INFOPLIST_FILE = MobileCenterAnalyticsTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/Common\"/**";
+				LIBRARY_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../Vendor/Common\"/**",
+					"\"$(SRCROOT)/../Vendor/iOS\"/**",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -1004,6 +1180,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		046AEAC31ECA51AF00CBE511 /* Build configuration list for PBXNativeTarget "MobileCenterAnalyticsMacTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				046AEAC41ECA51AF00CBE511 /* Debug */,
+				046AEAC51ECA51AF00CBE511 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		0485AF821EAA79E300C10CAF /* Build configuration list for PBXNativeTarget "MobileCenterAnalyticsMac" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

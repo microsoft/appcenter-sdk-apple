@@ -20,15 +20,49 @@
                ReferencedContainer = "container:MobileCenterAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "046AEAB21ECA51AF00CBE511"
+               BuildableName = "MobileCenterAnalyticsMacTests.xctest"
+               BlueprintName = "MobileCenterAnalyticsMacTests"
+               ReferencedContainer = "container:MobileCenterAnalytics.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      codeCoverageEnabled = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "046AEAB21ECA51AF00CBE511"
+               BuildableName = "MobileCenterAnalyticsMacTests.xctest"
+               BlueprintName = "MobileCenterAnalyticsMacTests"
+               ReferencedContainer = "container:MobileCenterAnalytics.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "0485AF671EAA79E300C10CAF"
+            BuildableName = "libMobileCenterAnalyticsMac.a"
+            BlueprintName = "MobileCenterAnalyticsMac"
+            ReferencedContainer = "container:MobileCenterAnalytics.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
