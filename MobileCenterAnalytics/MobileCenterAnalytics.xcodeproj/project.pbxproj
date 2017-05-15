@@ -155,7 +155,7 @@
 		3856B47C1E032E7B0016AB05 /* Global.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Global.xcconfig; path = ../../../Global.xcconfig; sourceTree = "<group>"; };
 		387C77041D6CC39400D68CC1 /* MSServiceAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSServiceAbstract.h; path = ../MobileCenter/MobileCenter/MSServiceAbstract.h; sourceTree = "<group>"; };
 		38D4BB9F1D5A98D1001A30A0 /* ../MobileCenter/MobileCenter/MSService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ../MobileCenter/MobileCenter/MSService.h; sourceTree = "<group>"; };
-		6E0684371D35A3B900A8CC6C /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrestIOS.framework; path = ../../Vendor/OCHamcrest/OCHamcrestIOS.framework; sourceTree = "<group>"; };
+		6E0684371D35A3B900A8CC6C /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrestIOS.framework; path = ../../Vendor/Common/OCHamcrest/OCHamcrestIOS.framework; sourceTree = "<group>"; };
 		6E06843A1D35A3C800A8CC6C /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOCMock.a; sourceTree = "<group>"; };
 		6E06843C1D35A3C800A8CC6C /* NSNotificationCenter+OCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNotificationCenter+OCMAdditions.h"; sourceTree = "<group>"; };
 		6E06843D1D35A3C800A8CC6C /* OCMArg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMArg.h; sourceTree = "<group>"; };
@@ -321,7 +321,7 @@
 				6E06843B1D35A3C800A8CC6C /* OCMock */,
 			);
 			name = OCMock;
-			path = ../../Vendor/OCMock;
+			path = ../../Vendor/Common/OCMock;
 			sourceTree = "<group>";
 		};
 		6E06843B1D35A3C800A8CC6C /* OCMock */ = {
@@ -914,12 +914,12 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/Common\"/**";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/Common\"/**";
 				INFOPLIST_FILE = MobileCenterAnalyticsTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/Common\"/**";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -938,12 +938,12 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/Common\"/**";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/Common\"/**";
 				INFOPLIST_FILE = MobileCenterAnalyticsTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/Common\"/**";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",

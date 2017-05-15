@@ -106,7 +106,7 @@
 		D33A94511E5B11BB003966DB /* libMobileCenterPush.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMobileCenterPush.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D33A94541E5B11BB003966DB /* MobileCenterPush.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MobileCenterPush.h; sourceTree = "<group>"; };
 		D38023C01E6DE01700466558 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
-		D38023C31E6DF38800466558 /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOCMock.a; path = ../Vendor/OCMock/libOCMock.a; sourceTree = "<group>"; };
+		D38023C31E6DF38800466558 /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOCMock.a; path = ../Vendor/Common/OCMock/libOCMock.a; sourceTree = "<group>"; };
 		D39B04E21E66FBC60048E397 /* MSPushTestUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MSPushTestUtil.h; path = Util/MSPushTestUtil.h; sourceTree = "<group>"; };
 		D39B04E31E66FBD50048E397 /* MSPushTestUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSPushTestUtil.m; path = Util/MSPushTestUtil.m; sourceTree = "<group>"; };
 		D3AD5EC01E5C4F6A001627AB /* MobileCenterPush.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MobileCenterPush.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -124,7 +124,7 @@
 		D3AD5F6A1E5D7464001627AB /* MSPushLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSPushLog.h; path = Internal/Model/MSPushLog.h; sourceTree = "<group>"; };
 		D3AD5F6B1E5D7464001627AB /* MSPushLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSPushLog.m; path = Internal/Model/MSPushLog.m; sourceTree = "<group>"; };
 		D3AD5FD91E5DDF72001627AB /* libMobileCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobileCenter.a; path = "../MobileCenter/build/Debug-iphoneos/libMobileCenter.a"; sourceTree = "<group>"; };
-		D3D0CFE81E640ABD003015AF /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrestIOS.framework; path = ../Vendor/OCHamcrest/OCHamcrestIOS.framework; sourceTree = "<group>"; };
+		D3D0CFE81E640ABD003015AF /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrestIOS.framework; path = ../Vendor/Common/OCHamcrest/OCHamcrestIOS.framework; sourceTree = "<group>"; };
 		F86163611E769DBA00E3F06C /* Tests.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Tests.xcconfig; path = ../Tests.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -166,7 +166,7 @@
 				0415FF4F1E689036004E8C16 /* OCMStubRecorder.h */,
 			);
 			name = OCMock;
-			path = ../Vendor/OCMock/OCMock;
+			path = ../Vendor/Common/OCMock/OCMock;
 			sourceTree = "<group>";
 		};
 		04849D771E9E911E0093ECA6 /* Model */ = {
@@ -609,12 +609,12 @@
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/Common\"/**";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/Common\"/**";
 				INFOPLIST_FILE = MobileCenterPushTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/Common\"/**";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -632,12 +632,12 @@
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/Common\"/**";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/Common\"/**";
 				INFOPLIST_FILE = MobileCenterPushTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/Common\"/**";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

@@ -138,8 +138,8 @@
 		040AF0321E52859F005C1174 /* MSSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSSender.h; path = ../MobileCenter/MobileCenter/Internals/Sender/MSSender.h; sourceTree = "<group>"; };
 		0415974A1E9D639D00EC6BDA /* MSDistributionGroupTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDistributionGroupTests.m; sourceTree = "<group>"; };
 		046EF5881EAEB524002F6436 /* MSDistributeDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDistributeDelegate.h; sourceTree = "<group>"; };
-		046FDBD11E5682FA00AF9DD1 /* MSAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSAlertController.h; path = ../../Vendor/MSAlertController/MSAlertController.h; sourceTree = "<group>"; };
-		046FDBD21E5682FA00AF9DD1 /* MSAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSAlertController.m; path = ../../Vendor/MSAlertController/MSAlertController.m; sourceTree = "<group>"; };
+		046FDBD11E5682FA00AF9DD1 /* MSAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSAlertController.h; path = ../../Vendor/Common/MSAlertController/MSAlertController.h; sourceTree = "<group>"; };
+		046FDBD21E5682FA00AF9DD1 /* MSAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSAlertController.m; path = ../../Vendor/Common/MSAlertController/MSAlertController.m; sourceTree = "<group>"; };
 		0471B5F41E45466F0022F951 /* MobileCenterDistribute.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = MobileCenterDistribute.xcconfig; sourceTree = "<group>"; };
 		0471B5F51E45466F0022F951 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		0471B8941E4546B00022F951 /* Global.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Global.xcconfig; path = ../../../Global.xcconfig; sourceTree = "<group>"; };
@@ -387,7 +387,7 @@
 				380304351E7B007E006A55FB /* OCMock */,
 			);
 			name = OCMock;
-			path = ../../Vendor/OCMock;
+			path = ../../Vendor/Common/OCMock;
 			sourceTree = "<group>";
 		};
 		380304351E7B007E006A55FB /* OCMock */ = {
@@ -415,7 +415,7 @@
 				380304431E7B007E006A55FB /* README.md */,
 			);
 			name = OCHamcrest;
-			path = ../../Vendor/OCHamcrest;
+			path = ../../Vendor/Common/OCHamcrest;
 			sourceTree = "<group>";
 		};
 		389638A21E79F557007C3809 /* Util */ = {
@@ -895,12 +895,12 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/Common\"/**";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/Common\"/**";
 				INFOPLIST_FILE = MobileCenterDistributeTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/Common\"/**";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -919,12 +919,12 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/Common\"/**";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/Common\"/**";
 				INFOPLIST_FILE = MobileCenterDistributeTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/Common\"/**";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
