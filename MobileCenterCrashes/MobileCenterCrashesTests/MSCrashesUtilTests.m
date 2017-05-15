@@ -1,6 +1,7 @@
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
+
 #import "MSCrashesUtil.h"
 
 @interface MSCrashesUtilTests : XCTestCase
@@ -24,7 +25,7 @@
 - (void)testCreateCrashesDir {
   NSString *crashesDir = [[MSCrashesUtil crashesDir] path];
   XCTAssertNotNil(crashesDir);
-  XCTAssertTrue([crashesDir containsString:@"data/Library/Caches/com.microsoft.azure.mobile.mobilecenter/crashes"]);
+  XCTAssertTrue([crashesDir containsString:@"/Library/Caches/com.microsoft.azure.mobile.mobilecenter/crashes"]);
   BOOL isDir = YES;
   BOOL dirExists = [[NSFileManager defaultManager] fileExistsAtPath:crashesDir isDirectory:&isDir];
   XCTAssertTrue(dirExists);
@@ -34,7 +35,7 @@
   NSString *bufferDir = [[MSCrashesUtil logBufferDir] path];
   XCTAssertNotNil(bufferDir);
   XCTAssertTrue(
-      [bufferDir containsString:@"data/Library/Caches/com.microsoft.azure.mobile.mobilecenter/crasheslogbuffer"]);
+      [bufferDir containsString:@"/Library/Caches/com.microsoft.azure.mobile.mobilecenter/crasheslogbuffer"]);
   BOOL isDir = YES;
   BOOL dirExists = [[NSFileManager defaultManager] fileExistsAtPath:bufferDir isDirectory:&isDir];
   XCTAssertTrue(dirExists);

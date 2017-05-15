@@ -184,10 +184,16 @@
   assertThat(actual.processId, equalTo(@(report.processInfo.processID)));
   XCTAssertEqual(actual.processName, report.processInfo.processName);
   XCTAssertNotNil(actual.applicationPath);
-  // Not using the report.processInfo.processPath directly to compare as it will be anonymized in the Simulator.
-  assertThat(actual.applicationPath, equalTo(@"/Users/USER/Library/Application Support/iPhone "
-                                             @"Simulator/7.0/Applications/E196971A-6809-48AF-BB06-FD67014A35B2/"
-                                             @"HockeySDK-iOSDemo.app/HockeySDK-iOSDemo"));
+
+  /*
+   * Not using the report.processInfo.processPath directly to compare.
+   * The path will be anonymized in the Simulator for iOS.
+   * The path will be exactly same as the one in the fixture for macOS.
+   * To cover both scenario, it will be checking with endsWith instead of equalTo.
+   */
+  assertThat(actual.applicationPath,
+             endsWith(@"/Library/Application Support/iPhone Simulator/7.0/Applications"
+                      @"/E196971A-6809-48AF-BB06-FD67014A35B2/HockeySDK-iOSDemo.app/HockeySDK-iOSDemo"));
 
   XCTAssertEqual(actual.parentProcessName, report.processInfo.parentProcessName);
   assertThat(actual.parentProcessId, equalTo(@(report.processInfo.parentProcessID)));

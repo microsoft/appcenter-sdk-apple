@@ -936,12 +936,14 @@
 				TargetAttributes = {
 					049327611ECA170D00D0187A = {
 						DevelopmentTeam = L4RARDNZ2Y;
+						ProvisioningStyle = Automatic;
 					};
 					6E0401321D1C98690051BCFA = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
 					6E171AE01D22F781000DC480 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = L4RARDNZ2Y;
 					};
 					6E3729771D1DE83200F1E4AE = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -1296,6 +1298,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecentercrashestests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/** \"$(SRCROOT)/../MobileCenter/MobileCenterMac\"/**";
 				VALID_ARCHS = "$(MS_MAC_ARCHS)";
@@ -1331,6 +1334,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecentercrashestests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/** \"$(SRCROOT)/../MobileCenter/MobileCenterMac\"/**";
 				VALID_ARCHS = "$(MS_MAC_ARCHS)";
@@ -1480,6 +1484,7 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../Vendor/Common\"/**",
 					"\"$(SRCROOT)/../Vendor/iOS\"/**",
@@ -1528,6 +1533,7 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../Vendor/Common\"/**",
 					"\"$(SRCROOT)/../Vendor/iOS\"/**",
