@@ -321,7 +321,13 @@ static NSString *const kMSFatal = @"fatal";
   NSString *filePath = [[self.sut.logBufferDir path]
       stringByAppendingPathComponent:[testName stringByAppendingString:@".mscrasheslogbuffer"]];
 
+#if TARGET_OS_IPHONE
   [someData writeToFile:filePath options:NSDataWritingFileProtectionNone error:nil];
+#else
+
+  // TODO: Make sure this is a right replacement.
+  [someData writeToFile:filePath atomically:YES];
+#endif
 
   // When
   BOOL success = [[NSFileManager defaultManager] fileExistsAtPath:filePath];

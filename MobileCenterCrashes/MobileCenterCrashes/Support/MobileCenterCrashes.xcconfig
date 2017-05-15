@@ -1,4 +1,4 @@
 #include "../../../Global.xcconfig"
 
-OTHER_CFLAGS = $(OTHER_CFLAGS) -iframework "$(SRCROOT)/../Vendor/Common/PLCrashReporter";
-OTHER_LDFLAGS = $(inherited) -framework CrashReporter -framework Foundation -lc++ -lz;
+OTHER_CFLAGS = $(OTHER_CFLAGS);
+OTHER_LDFLAGS = $(inherited) -framework Foundation -lc++ -lz;
