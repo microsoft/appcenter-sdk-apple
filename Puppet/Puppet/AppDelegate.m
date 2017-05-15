@@ -168,7 +168,7 @@
   MSErrorAttachmentLog *attachment1 =
       [MSErrorAttachmentLog attachmentWithText:text filename:@"pup-crash-attachment.log"];
   MSErrorAttachmentLog *attachment2 =
-      [MSErrorAttachmentLog attachmentWithBinary:data filename:nil];
+      [MSErrorAttachmentLog attachmentWithBinary:data filename:nil contentType:@"text/xml"];
   return @[ attachment1, attachment2 ];
 }
 
