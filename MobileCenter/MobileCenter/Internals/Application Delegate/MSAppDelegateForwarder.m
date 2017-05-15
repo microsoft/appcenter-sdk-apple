@@ -108,22 +108,22 @@ static BOOL _enabled = YES;
   [self.selectorsToSwizzle removeAllObjects];
 }
 
-+ (IMP)swizzleOriginalSelector:(SEL)originalSelector withCustomSelector:(SEL)customSelector originalClass:(Class)originalClass{
-  
++ (IMP)swizzleOriginalSelector:(SEL)originalSelector withCustomSelector:(SEL)customSelector originalClass:(Class)originalClass {
+
+  // Replace implementation in super class
+  Class baseClass = originalClass.superclass;
+  if ([baseClass resolveInstanceMethod:originalSelector]) {
+    return [MSAppDelegateForwarder swizzleOriginalSelector:originalSelector
+                                        withCustomSelector:customSelector
+                                             originalClass:baseClass];
+  }
+
   // Replace original implementation
   NSString * originalSelectorString = NSStringFromSelector(originalSelector);
   Method originalMethod = class_getInstanceMethod(originalClass, originalSelector);
   IMP customImp = class_getMethodImplementation(self, customSelector);
   IMP originalImp = NULL;
   BOOL methodAdded = NO;
-
-  // Replace implementation in super classes
-  Class baseClass = originalClass.superclass;
-  if( baseClass != [NSObject class]) {
-    [MSAppDelegateForwarder swizzleOriginalSelector:originalSelector
-                                 withCustomSelector:customSelector
-                                      originalClass:baseClass];
-  }
 
   // Replace original implementation by the custom one.
   if (originalMethod){
@@ -144,7 +144,7 @@ static BOOL _enabled = YES;
     MSLogError([MSMobileCenter logTag],
                 @"Cannot swizzle selector %@ of class %@. You will have to explicitly call APIs from "
                 @"Mobile Center in your app delegate implementation.", originalSelectorString, originalClass);
-  }else{
+  } else {
     MSLogDebug([MSMobileCenter logTag],
                @"Selector %@ of class %@ is swizzled.", originalSelectorString, originalClass);
   }
