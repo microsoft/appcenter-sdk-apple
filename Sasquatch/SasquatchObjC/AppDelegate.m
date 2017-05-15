@@ -8,7 +8,7 @@
 @import MobileCenterDistribute;
 @import MobileCenterPush;
 
-@interface AppDelegate () <MSCrashesDelegate, MSDistributeDelegate>
+@interface AppDelegate () <MSCrashesDelegate, MSDistributeDelegate, MSPushDelegate>
 
 @end
 
@@ -36,27 +36,6 @@
 }
 
 #pragma mark - Application life cycle
-
-- (void)application:(UIApplication *)application
-    didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-  [MSPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
-}
-
-- (void)application:(UIApplication *)application
-    didFailToRegisterForRemoteNotificationsWithError:(nonnull NSError *)error {
-  [MSPush didFailToRegisterForRemoteNotificationsWithError:error];
-}
-
-- (void)application:(UIApplication *)application
-    didReceiveRemoteNotification:(NSDictionary *)userInfo
-          fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
-  BOOL result = [MSPush didReceiveRemoteNotification:userInfo];
-  if (result) {
-    completionHandler(UIBackgroundFetchResultNewData);
-  } else {
-    completionHandler(UIBackgroundFetchResultNoData);
-  }
-}
 
 - (void)applicationWillResignActive:(UIApplication *)application {
 }

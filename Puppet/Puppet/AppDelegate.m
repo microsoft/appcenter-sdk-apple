@@ -43,13 +43,13 @@
               openURL:(NSURL *)url
     sourceApplication:(NSString *)sourceApplication
            annotation:(id)annotation {
-  NSLog(@"%@ Was woken up via openURL:sourceApplication:annotation: %@", kPUPLogTag, url);
+  NSLog(@"%@ Was woken up via openURL:sourceApplication:annotation: %@.", kPUPLogTag, url);
   return NO;
 }
 
 // Open URL for iOS 9+.
 - (BOOL)application:(UIApplication *)application openURL:(nonnull NSURL *)url options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options{
-  NSLog(@"%@ Was waken up via openURL:options: %@", kPUPLogTag, url);
+  NSLog(@"%@ Was waken up via openURL:options: %@.", kPUPLogTag, url);
   return NO;
 }
 
@@ -57,12 +57,12 @@
 
 - (void)application:(UIApplication *)application
     didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-  [MSPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+  NSLog(@"%@ Did register for remote notifications with device token.", kPUPLogTag);
 }
 
 - (void)application:(UIApplication *)application
     didFailToRegisterForRemoteNotificationsWithError:(nonnull NSError *)error {
-  [MSPush didFailToRegisterForRemoteNotificationsWithError:error];
+  NSLog(@"%@ Did FAIL to register for remote notifications with error %@.", kPUPLogTag, [error localizedDescription]);
 }
 
 - (void)application:(UIApplication *)application
