@@ -561,6 +561,12 @@
 }
 
 - (void)testSwizzleOriginalSelectorInChildClass {
+  
+  //  If we start this test separately then method `load` will be called automatically
+  //  If we start more than 1 test then `selectorsToSwizzle` will be empty for this test so we should fill it manually using method `load`
+  if ([MSAppDelegateForwarder selectorsToSwizzle].count == 0) {
+    [MSAppDelegateForwarder load];
+  }
 
   // Mock app delegate.
   MSChildMockAppDelegateWithoutImpInBaseClass *appDelegateMock = [MSChildMockAppDelegateWithoutImpInBaseClass new];
