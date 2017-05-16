@@ -111,20 +111,23 @@ static BOOL _enabled = YES;
 
 + (IMP)swizzleOriginalSelector:(SEL)originalSelector withCustomSelector:(SEL)customSelector originalClass:(Class)originalClass {
 
-  // Replace implementation in super class
-  Class baseClass = originalClass.superclass;
-  if ([baseClass resolveInstanceMethod:originalSelector]) {
-    return [MSAppDelegateForwarder swizzleOriginalSelector:originalSelector
-                                        withCustomSelector:customSelector
-                                             originalClass:baseClass];
-  }
-
-  // Replace original implementation
+  // Replace original implementation.
   NSString *originalSelectorString = NSStringFromSelector(originalSelector);
   Method originalMethod = class_getInstanceMethod(originalClass, originalSelector);
   IMP customImp = class_getMethodImplementation(self, customSelector);
   IMP originalImp = NULL;
   BOOL methodAdded = NO;
+
+  if (!customImp) {
+
+    // Replace implementation in super class.
+    Class baseClass = originalClass.superclass;
+    if([baseClass instancesRespondToSelector:originalSelector]) {
+      return [MSAppDelegateForwarder swizzleOriginalSelector:originalSelector
+                                          withCustomSelector:customSelector
+                                               originalClass:baseClass];
+    }
+  }
 
   // Replace original implementation by the custom one.
   if (originalMethod) {
