@@ -295,7 +295,7 @@
 		044C45F81DB6EA0C00F3C29E /* MSErrorAttachmentPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSErrorAttachmentPrivate.h; sourceTree = "<group>"; };
 		044C45FA1DB6EC1C00F3C29E /* MSErrorBinaryAttachmentPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSErrorBinaryAttachmentPrivate.h; sourceTree = "<group>"; };
 		0485AFD31EAA887500C10CAF /* libMobileCenterCrashesMac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMobileCenterCrashesMac.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		049327961ECA170D00D0187A /* MobileCenterCrashesMacTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MobileCenterCrashesMacTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		049327961ECA170D00D0187A /* MobileCenterCrashesMac.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MobileCenterCrashesMac.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		049327B11ECA19FD00D0187A /* libCrashReporter-MacOSX-Static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libCrashReporter-MacOSX-Static.a"; sourceTree = "<group>"; };
 		049327CC1ECA1A5600D0187A /* libMobileCenterMac.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobileCenterMac.a; path = "../../../../../Library/Developer/Xcode/DerivedData/MobileCenter-cxbmzrupyysdsehdxmozcvjphajr/Build/Products/Debug/libMobileCenterMac.a"; sourceTree = "<group>"; };
 		049327CF1ECA1BA100D0187A /* CrashReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrashReporter.h; sourceTree = "<group>"; };
@@ -599,7 +599,7 @@
 				6E0401331D1C98690051BCFA /* libMobileCenterCrashes.a */,
 				6E171AE11D22F781000DC480 /* MobileCenterCrashes.xctest */,
 				0485AFD31EAA887500C10CAF /* libMobileCenterCrashesMac.a */,
-				049327961ECA170D00D0187A /* MobileCenterCrashesMacTests.xctest */,
+				049327961ECA170D00D0187A /* MobileCenterCrashesMac.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -906,7 +906,7 @@
 			);
 			name = MobileCenterCrashesMacTests;
 			productName = MobileCenterCrashesTests;
-			productReference = 049327961ECA170D00D0187A /* MobileCenterCrashesMacTests.xctest */;
+			productReference = 049327961ECA170D00D0187A /* MobileCenterCrashesMac.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		6E0401321D1C98690051BCFA /* MobileCenterCrashes */ = {
@@ -1219,10 +1219,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(MS_MAC_ARCHS)";
-				"ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/macOS\"/**";
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/macOS/**";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_LDFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecentercrashes;
@@ -1233,7 +1231,6 @@
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/** \"$(SRCROOT)/../MobileCenter/MobileCenterMac\"/**";
 				USE_HEADERMAP = YES;
 				VALID_ARCHS = "$(MS_MAC_ARCHS)";
-				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
 			};
 			name = Debug;
 		};
@@ -1241,10 +1238,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(MS_MAC_ARCHS)";
-				"ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/macOS\"/**";
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/macOS/**";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_LDFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecentercrashes;
@@ -1255,7 +1250,6 @@
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/** \"$(SRCROOT)/../MobileCenter/MobileCenterMac\"/**";
 				USE_HEADERMAP = YES;
 				VALID_ARCHS = "$(MS_MAC_ARCHS)";
-				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
 			};
 			name = Release;
 		};
@@ -1263,7 +1257,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(MS_MAC_ARCHS)";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -1279,7 +1272,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(MS_MAC_ARCHS)";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -1327,7 +1319,7 @@
 					AppKit,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecentercrashestests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = MobileCenterCrashesMac;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/** \"$(SRCROOT)/../MobileCenter/MobileCenterMac\"/**";
@@ -1371,7 +1363,7 @@
 					AppKit,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecentercrashestests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = MobileCenterCrashesMac;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/** \"$(SRCROOT)/../MobileCenter/MobileCenterMac\"/**";

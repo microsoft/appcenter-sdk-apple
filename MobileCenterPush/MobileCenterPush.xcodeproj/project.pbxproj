@@ -613,11 +613,20 @@
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/Common\"/**";
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/Common\"/**";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../Vendor/Common\"/**",
+					"\"$(SRCROOT)/../Vendor/iOS\"/**",
+				);
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../Vendor/Common\"/**",
+					"\"$(SRCROOT)/../Vendor/iOS\"/**",
+				);
 				INFOPLIST_FILE = MobileCenterPushTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/Common\"/**";
+				LIBRARY_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../Vendor/Common\"/**",
+					"\"$(SRCROOT)/../Vendor/iOS\"/**",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -634,11 +643,20 @@
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/Common\"/**";
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/Common\"/**";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../Vendor/Common\"/**",
+					"\"$(SRCROOT)/../Vendor/iOS\"/**",
+				);
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../Vendor/Common\"/**",
+					"\"$(SRCROOT)/../Vendor/iOS\"/**",
+				);
 				INFOPLIST_FILE = MobileCenterPushTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/Common\"/**";
+				LIBRARY_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../Vendor/Common\"/**",
+					"\"$(SRCROOT)/../Vendor/iOS\"/**",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

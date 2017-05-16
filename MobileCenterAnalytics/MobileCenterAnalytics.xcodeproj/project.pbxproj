@@ -187,7 +187,7 @@
 		0420A6861ECA7A4B00915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../macOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
 		0420A6921ECA7B1100915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../iOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
 		042A17A71DEFA950003BA80A /* MSAnalyticsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAnalyticsTests.m; sourceTree = "<group>"; };
-		046AEAC61ECA51AF00CBE511 /* MobileCenterAnalyticsMacTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MobileCenterAnalyticsMacTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		046AEAC61ECA51AF00CBE511 /* MobileCenterAnalyticsMac.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MobileCenterAnalyticsMac.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		046AEAC91ECA553F00CBE511 /* libMobileCenterMac.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobileCenterMac.a; path = ../../MobileCenter/build/Debug/libMobileCenterMac.a; sourceTree = "<group>"; };
 		0485AF851EAA79E300C10CAF /* libMobileCenterAnalyticsMac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMobileCenterAnalyticsMac.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		0485AF8D1EAA852A00C10CAF /* MSAnalyticsCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAnalyticsCategory.h; sourceTree = "<group>"; };
@@ -456,7 +456,7 @@
 				E85547C01D2D6253002DF6E2 /* libMobileCenterAnalytics.a */,
 				E85547D51D2D6723002DF6E2 /* MobileCenterAnalytics.xctest */,
 				0485AF851EAA79E300C10CAF /* libMobileCenterAnalyticsMac.a */,
-				046AEAC61ECA51AF00CBE511 /* MobileCenterAnalyticsMacTests.xctest */,
+				046AEAC61ECA51AF00CBE511 /* MobileCenterAnalyticsMac.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -589,7 +589,7 @@
 			);
 			name = MobileCenterAnalyticsMacTests;
 			productName = MobileCenterAnalyticsTests;
-			productReference = 046AEAC61ECA51AF00CBE511 /* MobileCenterAnalyticsMacTests.xctest */;
+			productReference = 046AEAC61ECA51AF00CBE511 /* MobileCenterAnalyticsMac.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		0485AF671EAA79E300C10CAF /* MobileCenterAnalyticsMac */ = {
@@ -873,7 +873,7 @@
 					"-ObjC",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenteranalyticstests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = MobileCenterAnalyticsMac;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/** \"$(SRCROOT)/../MobileCenter/MobileCenterMac\"/**";
@@ -918,7 +918,7 @@
 					"-ObjC",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenteranalyticstests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = MobileCenterAnalyticsMac;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/** \"$(SRCROOT)/../MobileCenter/MobileCenterMac\"/**";
@@ -930,8 +930,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(MS_MAC_ARCHS)";
-				"ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_LDFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenteranalytics;
@@ -942,7 +940,6 @@
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/** \"$(SRCROOT)/../MobileCenter/MobileCenterMac\"/** \"$(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics\"/** \"$(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalyticsMac\"/**";
 				USE_HEADERMAP = NO;
 				VALID_ARCHS = "$(MS_MAC_ARCHS)";
-				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
 			};
 			name = Debug;
 		};
@@ -950,8 +947,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(MS_MAC_ARCHS)";
-				"ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_LDFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenteranalytics;
@@ -962,7 +957,6 @@
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/** \"$(SRCROOT)/../MobileCenter/MobileCenterMac\"/** \"$(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics\"/** \"$(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalyticsMac\"/**";
 				USE_HEADERMAP = NO;
 				VALID_ARCHS = "$(MS_MAC_ARCHS)";
-				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
 			};
 			name = Release;
 		};
@@ -970,7 +964,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(MS_MAC_ARCHS)";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -986,7 +979,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(MS_MAC_ARCHS)";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
