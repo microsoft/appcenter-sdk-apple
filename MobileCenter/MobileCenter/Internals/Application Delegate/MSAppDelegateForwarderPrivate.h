@@ -28,10 +28,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * Register swizzling for the given original application delegate.
- * 
+ *
  * @param originalDelegate The original application delegate.
  */
-+ (void)swizzleOriginalDelegate:(id<UIApplicationDelegate>) originalDelegate;
++ (void)swizzleOriginalDelegate:(id<UIApplicationDelegate>)originalDelegate;
 
 @end
 

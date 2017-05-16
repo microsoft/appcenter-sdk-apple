@@ -41,7 +41,7 @@ static BOOL _enabled = YES;
   return _selectorsToSwizzle ?: (_selectorsToSwizzle = [NSMutableSet new]);
 }
 
-+ (NSMutableDictionary<NSString*, NSValue *> *)originalImplementations {
++ (NSMutableDictionary<NSString *, NSValue *> *)originalImplementations {
   return _originalImplementations ?: (_originalImplementations = [NSMutableDictionary new]);
 }
 
@@ -88,21 +88,22 @@ static BOOL _enabled = YES;
 
 #pragma mark - Swizzling
 
-+ (void)swizzleOriginalDelegate:(id<UIApplicationDelegate>) originalDelegate {
++ (void)swizzleOriginalDelegate:(id<UIApplicationDelegate>)originalDelegate {
   IMP originalImp = NULL;
   Class delegateClass = [originalDelegate class];
   SEL selector;
-  
+
   // Swizzle all registered selectors.
-  for (NSString *selectorString in self.selectorsToSwizzle){
-    
+  for (NSString *selectorString in self.selectorsToSwizzle) {
+
     // The same selector is used on both forwarder and delegate.
     selector = NSSelectorFromString(selectorString);
     originalImp = [self swizzleOriginalSelector:selector withCustomSelector:selector originalClass:delegateClass];
-    if (originalImp){
-      
+    if (originalImp) {
+
       // Save the original implementation for later use.
-      MSAppDelegateForwarder.originalImplementations[selectorString] = [NSValue valueWithBytes:&originalImp objCType:@encode(IMP)];
+      MSAppDelegateForwarder.originalImplementations[selectorString] =
+          [NSValue valueWithBytes:&originalImp objCType:@encode(IMP)];
     }
   }
   [self.selectorsToSwizzle removeAllObjects];
@@ -119,26 +120,25 @@ static BOOL _enabled = YES;
   }
 
   // Replace original implementation
-  NSString * originalSelectorString = NSStringFromSelector(originalSelector);
+  NSString *originalSelectorString = NSStringFromSelector(originalSelector);
   Method originalMethod = class_getInstanceMethod(originalClass, originalSelector);
   IMP customImp = class_getMethodImplementation(self, customSelector);
   IMP originalImp = NULL;
   BOOL methodAdded = NO;
 
   // Replace original implementation by the custom one.
-  if (originalMethod){
+  if (originalMethod) {
     originalImp = method_setImplementation(originalMethod, customImp);
-  }
-  
-  /*
-   * The original class may not implement the selector (e.g.: optional method from protocol), 
-   * add the method to the original class and associate it to the custom implementation.
-   */
-  else {
+  } else {
+
+    /*
+     * The original class may not implement the selector (e.g.: optional method from protocol),
+     * add the method to the original class and associate it with the custom implementation.
+     */
     Method customMethod = class_getInstanceMethod(self, customSelector);
     methodAdded = class_addMethod(originalClass, originalSelector, customImp, method_getTypeEncoding(customMethod));
   }
-  
+
   // Validate swizzling.
   if (!originalImp && !methodAdded) {
     MSLogError([MSMobileCenter logTag],
@@ -157,21 +157,20 @@ static BOOL _enabled = YES;
 
 #pragma mark - UIApplication
 
+- (void)customSetDelegate:(id<UIApplicationDelegate>)delegate {
 
--(void)customSetDelegate:(id<UIApplicationDelegate>) delegate{
-  
   // Swizzle only once.
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
-  
+
     // Swizzle the app delegate before it's actually set.
     [MSAppDelegateForwarder swizzleOriginalDelegate:delegate];
   });
-    
+
   // Forward to the original `setDelegate:` implementation.
   IMP originalImp = MSAppDelegateForwarder.originalSetDelegateImp;
-  if(originalImp){
-    ((void(*)(id,SEL,id<UIApplicationDelegate>))originalImp)(self, _cmd, delegate);
+  if (originalImp) {
+    ((void (*)(id, SEL, id<UIApplicationDelegate>))originalImp)(self, _cmd, delegate);
   }
 }
 
@@ -189,19 +188,20 @@ static BOOL _enabled = YES;
            annotation:(id)annotation {
   BOOL result = NO;
   IMP originalImp = NULL;
-  
+
   // Forward to the original delegate.
   [MSAppDelegateForwarder.originalImplementations[NSStringFromSelector(_cmd)] getValue:&originalImp];
-  if(originalImp){
-    result = ((BOOL(*)(id, SEL, UIApplication *, NSURL *, NSString *, id))originalImp)(self, _cmd, app, url, sourceApplication, annotation);
+  if (originalImp) {
+    result = ((BOOL(*)(id, SEL, UIApplication *, NSURL *, NSString *, id))originalImp)(self, _cmd, app, url,
+                                                                                       sourceApplication, annotation);
   }
 
   // Forward to custom delegates.
   return [[MSAppDelegateForwarder sharedInstance] application:app
-                        openURL:url
-              sourceApplication:sourceApplication
-                     annotation:annotation
-                  returnedValue:result];
+                                                      openURL:url
+                                            sourceApplication:sourceApplication
+                                                   annotation:annotation
+                                                returnedValue:result];
 }
 
 - (BOOL)application:(UIApplication *)app
@@ -212,8 +212,9 @@ static BOOL _enabled = YES;
 
   // Forward to the original delegate.
   [MSAppDelegateForwarder.originalImplementations[NSStringFromSelector(_cmd)] getValue:&originalImp];
-  if(originalImp){
-    result = ((BOOL(*)(id, SEL, UIApplication *, NSURL *, NSDictionary<UIApplicationOpenURLOptionsKey, id> *))originalImp)(self, _cmd, app, url, options);
+  if (originalImp) {
+    result = ((BOOL(*)(id, SEL, UIApplication *, NSURL *,
+                       NSDictionary<UIApplicationOpenURLOptionsKey, id> *))originalImp)(self, _cmd, app, url, options);
   }
 
   // Forward to custom delegates.
@@ -255,31 +256,33 @@ static BOOL _enabled = YES;
 
 /*
  * The application starts querying its delegate for its implementation as soon as it is set then may never query again.
- * It means that if the application delegate doesn't implement an optional method of the `UIApplicationDelegate` protocol 
- * at that time then that method may never be called even if added later via swizzling. This is why the application
- * delegate swizzling should happen at the time it is set to the application object.
+ * It means that if the application delegate doesn't implement an optional method of the `UIApplicationDelegate`
+ * protocol at that time then that method may never be called even if added later via swizzling. This is why the
+ * application delegate swizzling should happen at the time it is set to the application object.
  */
 
 @implementation UIApplication (MSSwizzling)
 
-+ (void)load{
++ (void)load {
   NSDictionary *swizzlingEnabledNum = [[NSBundle mainBundle] objectForInfoDictionaryKey:kMSIsSwizzlingEnabledKey];
-  BOOL swizzlingEnabled = swizzlingEnabledNum ? [((NSNumber *)swizzlingEnabledNum) boolValue]: YES;
+  BOOL swizzlingEnabled = swizzlingEnabledNum ? [((NSNumber *)swizzlingEnabledNum)boolValue] : YES;
   MSAppDelegateForwarder.enabled = swizzlingEnabled;
-  
+
   // Swizzle `setDelegate:` of class `UIApplication`.
-  if (swizzlingEnabled){
+  if (swizzlingEnabled) {
     MSLogDebug([MSMobileCenter logTag], @"Swizzling enabled.");
-    MSAppDelegateForwarder.originalSetDelegateImp = [MSAppDelegateForwarder swizzleOriginalSelector:@selector(setDelegate:) withCustomSelector:@selector(customSetDelegate:) originalClass:[UIApplication class]];
+    MSAppDelegateForwarder.originalSetDelegateImp =
+        [MSAppDelegateForwarder swizzleOriginalSelector:@selector(setDelegate:)
+                                     withCustomSelector:@selector(customSetDelegate:)
+                                          originalClass:[UIApplication class]];
   } else {
-    
+
     /*
-     * FIXME: We should not use logging during UIApplication swizzling, MSLogger and MSMobileCenter may not be loaded yet. 
-     * Plus, log level < Assert is not printed before SDK init.
+     * FIXME: We should not use logging during UIApplication swizzling, MSLogger and MSMobileCenter may not be loaded
+     * yet. Plus, log level < Assert is not printed before SDK init.
      */
     MSLogDebug([MSMobileCenter logTag], @"Swizzling disabled.");
   }
 }
 
 @end
-
