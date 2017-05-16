@@ -39,6 +39,8 @@
 		040AF02A1E52748D005C1174 /* MSDistributeSenderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 040AF0291E52748D005C1174 /* MSDistributeSenderTests.m */; };
 		040AF0331E52859F005C1174 /* MSSender.h in Headers */ = {isa = PBXBuildFile; fileRef = 040AF0321E52859F005C1174 /* MSSender.h */; };
 		0415974B1E9D639D00EC6BDA /* MSDistributionGroupTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0415974A1E9D639D00EC6BDA /* MSDistributionGroupTests.m */; };
+		0420A69C1ECA7C8E00915619 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0420A69B1ECA7C8E00915619 /* OCMock.framework */; };
+		0420A69F1ECA7CD600915619 /* OCMock.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0420A69B1ECA7C8E00915619 /* OCMock.framework */; };
 		046EF5891EAEB524002F6436 /* MSDistributeDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 046EF5881EAEB524002F6436 /* MSDistributeDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		046FDBD31E5682FA00AF9DD1 /* MSAlertController.h in Headers */ = {isa = PBXBuildFile; fileRef = 046FDBD11E5682FA00AF9DD1 /* MSAlertController.h */; };
 		046FDBD41E5682FA00AF9DD1 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 046FDBD21E5682FA00AF9DD1 /* MSAlertController.m */; };
@@ -60,7 +62,6 @@
 		04DC2ECB1E78A3E3003F23B5 /* MSErrorDetailsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DC2ECA1E78A3E3003F23B5 /* MSErrorDetailsTests.m */; };
 		04FD4A341E453531009B4468 /* MSDistributeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FD4A331E453531009B4468 /* MSDistributeTests.m */; };
 		04FD4A4B1E453930009B4468 /* libMobileCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04FD4A4A1E453930009B4468 /* libMobileCenter.a */; };
-		380304441E7B007E006A55FB /* Changes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 380304331E7B007E006A55FB /* Changes.txt */; };
 		380304461E7B007E006A55FB /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 380304411E7B007E006A55FB /* LICENSE.txt */; };
 		388B559B1E64B3FD00E4F1D7 /* MSBasicMachOParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 388B55991E64B3FD00E4F1D7 /* MSBasicMachOParser.m */; };
 		388B559C1E64B3FD00E4F1D7 /* MSBasicMachOParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 388B559A1E64B3FD00E4F1D7 /* MSBasicMachOParser.h */; };
@@ -72,7 +73,6 @@
 		38A683641E774DCE00A63BC8 /* MSSemVerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A683621E774DCE00A63BC8 /* MSSemVerTests.m */; };
 		38A683651E774DCE00A63BC8 /* MSSemVerPreReleaseIdTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A683631E774DCE00A63BC8 /* MSSemVerPreReleaseIdTest.m */; };
 		38C9C56C1E565BF600B0FA0D /* MSDistributePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C9C56B1E565BF600B0FA0D /* MSDistributePrivate.h */; };
-		38D25E381E7B0AAC00033FC4 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 380304341E7B007E006A55FB /* libOCMock.a */; };
 		38D25E391E7B0AAC00033FC4 /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 380304421E7B007E006A55FB /* OCHamcrestIOS.framework */; };
 		848860451E6EC32B003A9B96 /* MSBasicMachOParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 848860441E6EC32B003A9B96 /* MSBasicMachOParserTests.m */; };
 		B20DE7B71E5F97330023075C /* MSDistributeUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B20DE7B61E5F97330023075C /* MSDistributeUtilTests.m */; };
@@ -120,6 +120,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		0420A69E1ECA7CCC00915619 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+				0420A69F1ECA7CD600915619 /* OCMock.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		04FD4A1A1E451E12009B4468 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 12;
@@ -137,6 +147,7 @@
 		040AF0291E52748D005C1174 /* MSDistributeSenderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDistributeSenderTests.m; sourceTree = "<group>"; };
 		040AF0321E52859F005C1174 /* MSSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSSender.h; path = ../MobileCenter/MobileCenter/Internals/Sender/MSSender.h; sourceTree = "<group>"; };
 		0415974A1E9D639D00EC6BDA /* MSDistributionGroupTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDistributionGroupTests.m; sourceTree = "<group>"; };
+		0420A69B1ECA7C8E00915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../iOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
 		046EF5881EAEB524002F6436 /* MSDistributeDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDistributeDelegate.h; sourceTree = "<group>"; };
 		046FDBD11E5682FA00AF9DD1 /* MSAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSAlertController.h; path = ../../Vendor/Common/MSAlertController/MSAlertController.h; sourceTree = "<group>"; };
 		046FDBD21E5682FA00AF9DD1 /* MSAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSAlertController.m; path = ../../Vendor/Common/MSAlertController/MSAlertController.m; sourceTree = "<group>"; };
@@ -163,18 +174,6 @@
 		04FD4A331E453531009B4468 /* MSDistributeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDistributeTests.m; sourceTree = "<group>"; };
 		04FD4A351E453531009B4468 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		04FD4A4A1E453930009B4468 /* libMobileCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobileCenter.a; path = "../../../../Library/Developer/Xcode/DerivedData/MobileCenter-cxbmzrupyysdsehdxmozcvjphajr/Build/Products/Debug-iphonesimulator/libMobileCenter.a"; sourceTree = "<group>"; };
-		380304331E7B007E006A55FB /* Changes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Changes.txt; sourceTree = "<group>"; };
-		380304341E7B007E006A55FB /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOCMock.a; sourceTree = "<group>"; };
-		380304361E7B007E006A55FB /* NSNotificationCenter+OCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNotificationCenter+OCMAdditions.h"; sourceTree = "<group>"; };
-		380304371E7B007E006A55FB /* OCMArg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMArg.h; sourceTree = "<group>"; };
-		380304381E7B007E006A55FB /* OCMConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMConstraint.h; sourceTree = "<group>"; };
-		380304391E7B007E006A55FB /* OCMFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMFunctions.h; sourceTree = "<group>"; };
-		3803043A1E7B007E006A55FB /* OCMLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMLocation.h; sourceTree = "<group>"; };
-		3803043B1E7B007E006A55FB /* OCMMacroState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMMacroState.h; sourceTree = "<group>"; };
-		3803043C1E7B007E006A55FB /* OCMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMock.h; sourceTree = "<group>"; };
-		3803043D1E7B007E006A55FB /* OCMockObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMockObject.h; sourceTree = "<group>"; };
-		3803043E1E7B007E006A55FB /* OCMRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMRecorder.h; sourceTree = "<group>"; };
-		3803043F1E7B007E006A55FB /* OCMStubRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMStubRecorder.h; sourceTree = "<group>"; };
 		380304411E7B007E006A55FB /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		380304421E7B007E006A55FB /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OCHamcrestIOS.framework; sourceTree = "<group>"; };
 		380304431E7B007E006A55FB /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -219,10 +218,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				38D25E381E7B0AAC00033FC4 /* libOCMock.a in Frameworks */,
-				38D25E391E7B0AAC00033FC4 /* OCHamcrestIOS.framework in Frameworks */,
 				04FD4A4B1E453930009B4468 /* libMobileCenter.a in Frameworks */,
 				0471B5E41E4544000022F951 /* libMobileCenterDistribute.a in Frameworks */,
+				38D25E391E7B0AAC00033FC4 /* OCHamcrestIOS.framework in Frameworks */,
+				0420A69C1ECA7C8E00915619 /* OCMock.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -253,6 +252,14 @@
 				0415974A1E9D639D00EC6BDA /* MSDistributionGroupTests.m */,
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		0420A69D1ECA7CAD00915619 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				0420A69B1ECA7C8E00915619 /* OCMock.framework */,
+			);
+			name = iOS;
 			sourceTree = "<group>";
 		};
 		04690E841E4E39850056B916 /* Internals */ = {
@@ -354,17 +361,17 @@
 		04FD4A321E453531009B4468 /* MobileCenterDistributeTests */ = {
 			isa = PBXGroup;
 			children = (
-				040AF0101E523AC2005C1174 /* Fixtures */,
-				04FD4A491E453930009B4468 /* Frameworks */,
-				040AF0211E523B36005C1174 /* Model */,
-				389638A21E79F557007C3809 /* Util */,
+				04FD4A351E453531009B4468 /* Info.plist */,
 				848860441E6EC32B003A9B96 /* MSBasicMachOParserTests.m */,
 				04FD4A331E453531009B4468 /* MSDistributeTests.m */,
 				B20DE7B61E5F97330023075C /* MSDistributeUtilTests.m */,
 				040AF0291E52748D005C1174 /* MSDistributeSenderTests.m */,
 				38A683631E774DCE00A63BC8 /* MSSemVerPreReleaseIdTest.m */,
 				38A683621E774DCE00A63BC8 /* MSSemVerTests.m */,
-				04FD4A351E453531009B4468 /* Info.plist */,
+				040AF0101E523AC2005C1174 /* Fixtures */,
+				04FD4A491E453930009B4468 /* Frameworks */,
+				040AF0211E523B36005C1174 /* Model */,
+				389638A21E79F557007C3809 /* Util */,
 			);
 			path = MobileCenterDistributeTests;
 			sourceTree = "<group>";
@@ -372,9 +379,9 @@
 		04FD4A491E453930009B4468 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				380304321E7B007E006A55FB /* OCMock */,
-				380304401E7B007E006A55FB /* OCHamcrest */,
 				04FD4A4A1E453930009B4468 /* libMobileCenter.a */,
+				380304401E7B007E006A55FB /* OCHamcrest */,
+				380304321E7B007E006A55FB /* OCMock */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -382,29 +389,10 @@
 		380304321E7B007E006A55FB /* OCMock */ = {
 			isa = PBXGroup;
 			children = (
-				380304331E7B007E006A55FB /* Changes.txt */,
-				380304341E7B007E006A55FB /* libOCMock.a */,
-				380304351E7B007E006A55FB /* OCMock */,
+				0420A69D1ECA7CAD00915619 /* iOS */,
 			);
 			name = OCMock;
 			path = ../../Vendor/Common/OCMock;
-			sourceTree = "<group>";
-		};
-		380304351E7B007E006A55FB /* OCMock */ = {
-			isa = PBXGroup;
-			children = (
-				380304361E7B007E006A55FB /* NSNotificationCenter+OCMAdditions.h */,
-				380304371E7B007E006A55FB /* OCMArg.h */,
-				380304381E7B007E006A55FB /* OCMConstraint.h */,
-				380304391E7B007E006A55FB /* OCMFunctions.h */,
-				3803043A1E7B007E006A55FB /* OCMLocation.h */,
-				3803043B1E7B007E006A55FB /* OCMMacroState.h */,
-				3803043C1E7B007E006A55FB /* OCMock.h */,
-				3803043D1E7B007E006A55FB /* OCMockObject.h */,
-				3803043E1E7B007E006A55FB /* OCMRecorder.h */,
-				3803043F1E7B007E006A55FB /* OCMStubRecorder.h */,
-			);
-			path = OCMock;
 			sourceTree = "<group>";
 		};
 		380304401E7B007E006A55FB /* OCHamcrest */ = {
@@ -523,6 +511,7 @@
 				04FD4A2D1E453531009B4468 /* Sources */,
 				04FD4A2E1E453531009B4468 /* Frameworks */,
 				04FD4A2F1E453531009B4468 /* Resources */,
+				0420A69E1ECA7CCC00915619 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -608,7 +597,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B270108D1E5FA2E4008552EF /* release_details.json in Resources */,
-				380304441E7B007E006A55FB /* Changes.txt in Resources */,
 				380304461E7B007E006A55FB /* LICENSE.txt in Resources */,
 				B2C070C01E5E69AD0076D6A9 /* MobileCenterDistributeResources.bundle in Resources */,
 				04DC2EC91E78A3B4003F23B5 /* error_details.json in Resources */,
@@ -898,7 +886,6 @@
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/Common\"/**";
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/Common\"/**";
 				INFOPLIST_FILE = MobileCenterDistributeTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/Common\"/**";
 				OTHER_LDFLAGS = (
@@ -922,7 +909,6 @@
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/Common\"/**";
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/Common\"/**";
 				INFOPLIST_FILE = MobileCenterDistributeTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/Common\"/**";
 				OTHER_LDFLAGS = (
