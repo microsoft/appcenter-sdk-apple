@@ -9,7 +9,7 @@ NSString *MSUtilityApplicationCategory;
 
 + (MSApplicationState)applicationState {
 
-  // App extentions must not access sharedApplication.
+  // App extensions must not access sharedApplication.
   if (!MS_IS_APP_EXTENSION) {
     return (MSApplicationState)[[self class] sharedAppState];
   }
