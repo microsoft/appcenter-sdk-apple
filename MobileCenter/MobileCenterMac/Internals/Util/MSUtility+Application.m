@@ -9,20 +9,23 @@ NSString *MSUtilityApplicationCategory;
 
 + (MSApplicationState)applicationState {
 
-  // App extentions must not access sharedApplication.
+  // App extensions must not access sharedApplication.
   if (!MS_IS_APP_EXTENSION) {
     return (MSApplicationState)[[self class] sharedAppState];
   }
   return MSApplicationStateUnknown;
 }
 
-// TODO: Always return MSApplicationStateActive for now. Need an actual implementation when we support macOS officially.
 + (MSApplicationState)sharedAppState {
-  return MSApplicationStateActive;
+  return [[[self class] sharedApp] isHidden] ? MSApplicationStateBackground : MSApplicationStateActive;
 }
 
 + (NSApplication *)sharedApp {
-  return [NSApplication sharedApplication];
+
+  // Compute selector at runtime for more discretion.
+  SEL sharedAppSel = NSSelectorFromString(@"sharedApplication");
+  return ((NSApplication * (*)(id, SEL))[[NSApplication class] methodForSelector:sharedAppSel])([NSApplication class],
+                                                                                                sharedAppSel);
 }
 
 + (void)sharedAppOpenUrl:(NSURL *)url
