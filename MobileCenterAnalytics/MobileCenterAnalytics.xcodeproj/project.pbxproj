@@ -864,8 +864,6 @@
 					"-iframework",
 					"\"$(SRCROOT)/../Vendor/macOS/OCHamcrest\"",
 					"-iframework",
-					"\"$(SRCROOT)/../Vendor/Common/OHHTTPStubs\"",
-					"-iframework",
 					"\"$(PLATFORM_DIR)/Developer/Library/Frameworks\"",
 				);
 				OTHER_LDFLAGS = (
@@ -910,8 +908,6 @@
 					"\"$(SRCROOT)/../Vendor/macOS/OCMock\"",
 					"-iframework",
 					"\"$(SRCROOT)/../Vendor/macOS/OCHamcrest\"",
-					"-iframework",
-					"\"$(SRCROOT)/../Vendor/Common/OHHTTPStubs\"",
 					"-iframework",
 					"\"$(PLATFORM_DIR)/Developer/Library/Frameworks\"",
 				);
@@ -1147,6 +1143,15 @@
 					"\"$(SRCROOT)/../Vendor/Common\"/**",
 					"\"$(SRCROOT)/../Vendor/iOS\"/**",
 				);
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-iframework",
+					"\"$(SRCROOT)/../Vendor/iOS/OCMock\"",
+					"-iframework",
+					"\"$(SRCROOT)/../Vendor/iOS/OCHamcrest\"",
+					"-iframework",
+					"\"$(PLATFORM_DIR)/Developer/Library/Frameworks\"",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -1177,6 +1182,15 @@
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../Vendor/Common\"/**",
 					"\"$(SRCROOT)/../Vendor/iOS\"/**",
+				);
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-iframework",
+					"\"$(SRCROOT)/../Vendor/iOS/OCMock\"",
+					"-iframework",
+					"\"$(SRCROOT)/../Vendor/iOS/OCHamcrest\"",
+					"-iframework",
+					"\"$(PLATFORM_DIR)/Developer/Library/Frameworks\"",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",

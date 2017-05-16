@@ -71,7 +71,6 @@
 		046AEAEA1ECA562A00CBE511 /* MSFileTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E58E2BD1D2F18DA0039D062 /* MSFileTests.m */; };
 		046AEAEB1ECA562A00CBE511 /* MSMockLog.m in Sources */ = {isa = PBXBuildFile; fileRef = E88D17051D35B6B500A5EA57 /* MSMockLog.m */; };
 		046AEAEC1ECA562A00CBE511 /* MSLogManagerDefaultTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E48A5A61D383893006E8B5F /* MSLogManagerDefaultTests.m */; };
-		046AEAEF1ECA562A00CBE511 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2B9441D1DF0DF23009117D1 /* OHHTTPStubs.framework */; };
 		046AEAFA1ECA570500CBE511 /* libMobileCenterMac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04754FAB1EA98182002CBA46 /* libMobileCenterMac.a */; };
 		046AEB091ECA727200CBE511 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046AEB081ECA727200CBE511 /* OCMock.framework */; };
 		046AEB0C1ECA729400CBE511 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046AEB0B1ECA729400CBE511 /* OCMock.framework */; };
@@ -175,6 +174,9 @@
 		04BED7101ECB63A800E20975 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04BED70E1ECB63A100E20975 /* OCHamcrest.framework */; };
 		04BED7111ECB649400E20975 /* OCHamcrest.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 04BED70E1ECB63A100E20975 /* OCHamcrest.framework */; };
 		04BED7121ECB649D00E20975 /* OCHamcrestIOS.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6E171ADB1D22F6ED000DC480 /* OCHamcrestIOS.framework */; };
+		04F21A071ECB74200074978D /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04F21A041ECB73EE0074978D /* OHHTTPStubs.framework */; };
+		04F21A081ECB74AB0074978D /* OHHTTPStubs.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 04F21A041ECB73EE0074978D /* OHHTTPStubs.framework */; };
+		04F21A091ECB74BF0074978D /* OHHTTPStubs.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B2B9441D1DF0DF23009117D1 /* OHHTTPStubs.framework */; };
 		04FD126B1E4103CC007ABFE7 /* MSKeychainUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FD126A1E4103CC007ABFE7 /* MSKeychainUtilTests.m */; };
 		04FD126F1E415697007ABFE7 /* MSLogManagerDefaultPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 04FD126E1E415697007ABFE7 /* MSLogManagerDefaultPrivate.h */; };
 		3592ABA71DC90E3600EF4592 /* MSLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 3592ABA51DC90E3600EF4592 /* MSLogger.h */; };
@@ -324,6 +326,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
+				04F21A091ECB74BF0074978D /* OHHTTPStubs.framework in CopyFiles */,
 				04BED7121ECB649D00E20975 /* OCHamcrestIOS.framework in CopyFiles */,
 				0420A6811ECA79C300915619 /* OCMock.framework in CopyFiles */,
 			);
@@ -335,6 +338,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
+				04F21A081ECB74AB0074978D /* OHHTTPStubs.framework in CopyFiles */,
 				04BED7111ECB649400E20975 /* OCHamcrest.framework in CopyFiles */,
 				0420A6831ECA79E200915619 /* OCMock.framework in CopyFiles */,
 			);
@@ -384,6 +388,7 @@
 		0485AFEE1EAAAD0000C10CAF /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		04B7BBEE1E5FAD4D001A0CE1 /* MSSenderUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSSenderUtilTests.m; sourceTree = "<group>"; };
 		04BED70E1ECB63A100E20975 /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = ../../Vendor/macOS/OCHamcrest/OCHamcrest.framework; sourceTree = "<group>"; };
+		04F21A041ECB73EE0074978D /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = ../../macOS/OHHTTPStubs/OHHTTPStubs.framework; sourceTree = "<group>"; };
 		04FD126A1E4103CC007ABFE7 /* MSKeychainUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSKeychainUtilTests.m; sourceTree = "<group>"; };
 		04FD126E1E415697007ABFE7 /* MSLogManagerDefaultPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSLogManagerDefaultPrivate.h; sourceTree = "<group>"; };
 		3592ABA51DC90E3600EF4592 /* MSLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSLogger.h; sourceTree = "<group>"; };
@@ -521,7 +526,7 @@
 				046AEAFA1ECA570500CBE511 /* libMobileCenterMac.a in Frameworks */,
 				04BED7101ECB63A800E20975 /* OCHamcrest.framework in Frameworks */,
 				046AEB0C1ECA729400CBE511 /* OCMock.framework in Frameworks */,
-				046AEAEF1ECA562A00CBE511 /* OHHTTPStubs.framework in Frameworks */,
+				04F21A071ECB74200074978D /* OHHTTPStubs.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -684,6 +689,22 @@
 			name = iOS;
 			sourceTree = "<group>";
 		};
+		04F21A021ECB73AA0074978D /* macOS */ = {
+			isa = PBXGroup;
+			children = (
+				04F21A041ECB73EE0074978D /* OHHTTPStubs.framework */,
+			);
+			name = macOS;
+			sourceTree = "<group>";
+		};
+		04F21A031ECB73AE0074978D /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				B2B9441D1DF0DF23009117D1 /* OHHTTPStubs.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
 		381C91E21D3DB65D004512F1 /* Device */ = {
 			isa = PBXGroup;
 			children = (
@@ -810,10 +831,11 @@
 		6E171B221D22FF40000DC480 /* OHHTTPStubs */ = {
 			isa = PBXGroup;
 			children = (
-				B2B9441D1DF0DF23009117D1 /* OHHTTPStubs.framework */,
+				04F21A031ECB73AE0074978D /* iOS */,
+				04F21A021ECB73AA0074978D /* macOS */,
 			);
 			name = OHHTTPStubs;
-			path = ../../Vendor/Common/OHHTTPStubs;
+			path = ../../Vendor/iOS/OHHTTPStubs;
 			sourceTree = "<group>";
 		};
 		6E171B511D234717000DC480 /* Model */ = {
@@ -1492,7 +1514,7 @@
 					"-iframework",
 					"\"$(SRCROOT)/../Vendor/macOS/OCHamcrest\"",
 					"-iframework",
-					"\"$(SRCROOT)/../Vendor/Common/OHHTTPStubs\"",
+					"\"$(SRCROOT)/../Vendor/macOS/OHHTTPStubs\"",
 					"-iframework",
 					"\"$(PLATFORM_DIR)/Developer/Library/Frameworks\"",
 				);
@@ -1538,7 +1560,7 @@
 					"-iframework",
 					"\"$(SRCROOT)/../Vendor/macOS/OCHamcrest\"",
 					"-iframework",
-					"\"$(SRCROOT)/../Vendor/Common/OHHTTPStubs\"",
+					"\"$(SRCROOT)/../Vendor/macOS/OHHTTPStubs\"",
 					"-iframework",
 					"\"$(PLATFORM_DIR)/Developer/Library/Frameworks\"",
 				);
@@ -1815,7 +1837,7 @@
 					"-iframework",
 					"\"$(SRCROOT)/../Vendor/iOS/OCHamcrest\"",
 					"-iframework",
-					"\"$(SRCROOT)/../Vendor/Common/OHHTTPStubs\"",
+					"\"$(SRCROOT)/../Vendor/iOS/OHHTTPStubs\"",
 					"-iframework",
 					"\"$(PLATFORM_DIR)/Developer/Library/Frameworks\"",
 				);
@@ -1857,7 +1879,7 @@
 					"-iframework",
 					"\"$(SRCROOT)/../Vendor/iOS/OCHamcrest\"",
 					"-iframework",
-					"\"$(SRCROOT)/../Vendor/Common/OHHTTPStubs\"",
+					"\"$(SRCROOT)/../Vendor/iOS/OHHTTPStubs\"",
 					"-iframework",
 					"\"$(PLATFORM_DIR)/Developer/Library/Frameworks\"",
 				);

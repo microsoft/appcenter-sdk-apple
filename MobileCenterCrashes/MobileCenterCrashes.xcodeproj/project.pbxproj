@@ -1319,8 +1319,6 @@
 					"-iframework",
 					"\"$(SRCROOT)/../Vendor/macOS/OCHamcrest\"",
 					"-iframework",
-					"\"$(SRCROOT)/../Vendor/Common/OHHTTPStubs\"",
-					"-iframework",
 					"\"$(PLATFORM_DIR)/Developer/Library/Frameworks\"",
 				);
 				OTHER_LDFLAGS = (
@@ -1364,8 +1362,6 @@
 					"\"$(SRCROOT)/../Vendor/macOS/OCMock\"",
 					"-iframework",
 					"\"$(SRCROOT)/../Vendor/macOS/OCHamcrest\"",
-					"-iframework",
-					"\"$(SRCROOT)/../Vendor/Common/OHHTTPStubs\"",
 					"-iframework",
 					"\"$(PLATFORM_DIR)/Developer/Library/Frameworks\"",
 				);
@@ -1547,8 +1543,6 @@
 					"-iframework",
 					"\"$(SRCROOT)/../Vendor/iOS/OCHamcrest\"",
 					"-iframework",
-					"\"$(SRCROOT)/../Vendor/Common/OHHTTPStubs\"",
-					"-iframework",
 					"\"$(PLATFORM_DIR)/Developer/Library/Frameworks\"",
 					"-iframework",
 					"\"$(SRCROOT)/../Vendor/iOS/PLCrashReporter\"",
@@ -1593,8 +1587,6 @@
 					"\"$(SRCROOT)/../Vendor/iOS/OCMock\"",
 					"-iframework",
 					"\"$(SRCROOT)/../Vendor/iOS/OCHamcrest\"",
-					"-iframework",
-					"\"$(SRCROOT)/../Vendor/Common/OHHTTPStubs\"",
 					"-iframework",
 					"\"$(PLATFORM_DIR)/Developer/Library/Frameworks\"",
 					"-iframework",
