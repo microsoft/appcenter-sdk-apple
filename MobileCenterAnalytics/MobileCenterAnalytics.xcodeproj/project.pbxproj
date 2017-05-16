@@ -56,7 +56,6 @@
 		046AEABA1ECA51AF00CBE511 /* MSPageLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3E2CD11D359F3300B1EE50 /* MSPageLogTests.m */; };
 		046AEABB1ECA51AF00CBE511 /* MSSessionTrackerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E815912B1D526A09003D5F3C /* MSSessionTrackerTests.m */; };
 		046AEABC1ECA51AF00CBE511 /* MSStartSessionLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E81591291D526956003D5F3C /* MSStartSessionLogTests.m */; };
-		046AEAC11ECA51AF00CBE511 /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E0684371D35A3B900A8CC6C /* OCHamcrestIOS.framework */; };
 		046AEACB1ECA554600CBE511 /* libMobileCenterAnalyticsMac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0485AF851EAA79E300C10CAF /* libMobileCenterAnalyticsMac.a */; };
 		046AEACC1ECA559900CBE511 /* libMobileCenterMac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 046AEAC91ECA553F00CBE511 /* libMobileCenterMac.a */; };
 		0485AF691EAA79E300C10CAF /* MSSessionHistoryInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = E89B33E61D5A526D00FDE8FB /* MSSessionHistoryInfo.m */; };
@@ -83,6 +82,9 @@
 		0485AF901EAA852A00C10CAF /* MSAnalyticsCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485AF8E1EAA852A00C10CAF /* MSAnalyticsCategory.m */; };
 		0485AF9D1EAA85E200C10CAF /* MSAnalyticsCategory.h in Headers */ = {isa = PBXBuildFile; fileRef = 0485AF991EAA85D500C10CAF /* MSAnalyticsCategory.h */; };
 		0485AF9E1EAA85E500C10CAF /* MSAnalyticsCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485AF9A1EAA85D500C10CAF /* MSAnalyticsCategory.m */; };
+		04BED7181ECB64FB00E20975 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04BED7161ECB64CE00E20975 /* OCHamcrest.framework */; };
+		04BED7191ECB650F00E20975 /* OCHamcrest.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 04BED7161ECB64CE00E20975 /* OCHamcrest.framework */; };
+		04BED71A1ECB651900E20975 /* OCHamcrest.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 04BED7161ECB64CE00E20975 /* OCHamcrest.framework */; };
 		35BF19E51DF9D59E00193027 /* MSMockAnalyticsDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 35BF19E41DF9D59E00193027 /* MSMockAnalyticsDelegate.m */; };
 		3813B9651DBFE68200831214 /* MSAnalyticsInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 3813B9641DBFE68200831214 /* MSAnalyticsInternal.h */; };
 		387C77051D6CC39400D68CC1 /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C77041D6CC39400D68CC1 /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -145,6 +147,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
+				04BED7191ECB650F00E20975 /* OCHamcrest.framework in CopyFiles */,
 				0420A6911ECA7B0000915619 /* OCMock.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -155,6 +158,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
+				04BED71A1ECB651900E20975 /* OCHamcrest.framework in CopyFiles */,
 				0420A6951ECA7B2900915619 /* OCMock.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -190,6 +194,7 @@
 		0485AF8E1EAA852A00C10CAF /* MSAnalyticsCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAnalyticsCategory.m; sourceTree = "<group>"; };
 		0485AF991EAA85D500C10CAF /* MSAnalyticsCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAnalyticsCategory.h; sourceTree = "<group>"; };
 		0485AF9A1EAA85D500C10CAF /* MSAnalyticsCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAnalyticsCategory.m; sourceTree = "<group>"; };
+		04BED7161ECB64CE00E20975 /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = ../../Vendor/macOS/OCHamcrest/OCHamcrest.framework; sourceTree = "<group>"; };
 		04ED31E91EAAD32B0033BAAE /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		04ED31EB1EAAD3390033BAAE /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		35BF19E21DF9C43F00193027 /* MSAnalyticsDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAnalyticsDelegate.h; sourceTree = "<group>"; };
@@ -199,7 +204,7 @@
 		3856B47C1E032E7B0016AB05 /* Global.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Global.xcconfig; path = ../../../Global.xcconfig; sourceTree = "<group>"; };
 		387C77041D6CC39400D68CC1 /* MSServiceAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSServiceAbstract.h; path = ../MobileCenter/MobileCenter/MSServiceAbstract.h; sourceTree = "<group>"; };
 		38D4BB9F1D5A98D1001A30A0 /* ../MobileCenter/MobileCenter/MSService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ../MobileCenter/MobileCenter/MSService.h; sourceTree = "<group>"; };
-		6E0684371D35A3B900A8CC6C /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrestIOS.framework; path = ../../Vendor/Common/OCHamcrest/OCHamcrestIOS.framework; sourceTree = "<group>"; };
+		6E0684371D35A3B900A8CC6C /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrestIOS.framework; path = ../../Vendor/iOS/OCHamcrest/OCHamcrestIOS.framework; sourceTree = "<group>"; };
 		6E06844C1D35A4CA00A8CC6C /* libMobileCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobileCenter.a; path = "../../../../../Library/Developer/Xcode/DerivedData/AvalancheSDK-gjtjaobzkdgbqkdiexolxdrcgdjg/Build/Products/Debug-iphonesimulator/libMobileCenter.a"; sourceTree = "<group>"; };
 		6E3E2CC51D359D5E00B1EE50 /* MSEventLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSEventLog.h; sourceTree = "<group>"; };
 		6E3E2CC61D359D5E00B1EE50 /* MSEventLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSEventLog.m; sourceTree = "<group>"; };
@@ -228,7 +233,6 @@
 		E8E48F9D1D515C3900A8C1B0 /* MSSessionTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSSessionTracker.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		E8E48FA01D51670100A8C1B0 /* MSStartSessionLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSStartSessionLog.h; sourceTree = "<group>"; };
 		E8E48FA11D51670100A8C1B0 /* MSStartSessionLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSStartSessionLog.m; sourceTree = "<group>"; };
-		F87A05581E72BDFC0038A6F9 /* Tests.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Tests.xcconfig; path = ../../../Tests.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -238,7 +242,7 @@
 			files = (
 				046AEACC1ECA559900CBE511 /* libMobileCenterMac.a in Frameworks */,
 				046AEACB1ECA554600CBE511 /* libMobileCenterAnalyticsMac.a in Frameworks */,
-				046AEAC11ECA51AF00CBE511 /* OCHamcrestIOS.framework in Frameworks */,
+				04BED7181ECB64FB00E20975 /* OCHamcrest.framework in Frameworks */,
 				0420A6871ECA7A4B00915619 /* OCMock.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -339,6 +343,31 @@
 			path = Util;
 			sourceTree = "<group>";
 		};
+		04BED7131ECB64B100E20975 /* OCHamcrest */ = {
+			isa = PBXGroup;
+			children = (
+				04BED7151ECB64C000E20975 /* iOS */,
+				04BED7141ECB64BB00E20975 /* macOS */,
+			);
+			name = OCHamcrest;
+			sourceTree = "<group>";
+		};
+		04BED7141ECB64BB00E20975 /* macOS */ = {
+			isa = PBXGroup;
+			children = (
+				04BED7161ECB64CE00E20975 /* OCHamcrest.framework */,
+			);
+			name = macOS;
+			sourceTree = "<group>";
+		};
+		04BED7151ECB64C000E20975 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				6E0684371D35A3B900A8CC6C /* OCHamcrestIOS.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
 		04ED31E81EAAD32B0033BAAE /* Support */ = {
 			isa = PBXGroup;
 			children = (
@@ -369,7 +398,7 @@
 			children = (
 				6E06844C1D35A4CA00A8CC6C /* libMobileCenter.a */,
 				046AEAC91ECA553F00CBE511 /* libMobileCenterMac.a */,
-				6E0684371D35A3B900A8CC6C /* OCHamcrestIOS.framework */,
+				04BED7131ECB64B100E20975 /* OCHamcrest */,
 				6E0684391D35A3C800A8CC6C /* OCMock */,
 			);
 			name = Frameworks;
@@ -462,7 +491,6 @@
 			children = (
 				3856B47C1E032E7B0016AB05 /* Global.xcconfig */,
 				B2812EF21DA3148000307DCE /* MobileCenterAnalytics.xcconfig */,
-				F87A05581E72BDFC0038A6F9 /* Tests.xcconfig */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -810,7 +838,6 @@
 /* Begin XCBuildConfiguration section */
 		046AEAC41ECA51AF00CBE511 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F87A05581E72BDFC0038A6F9 /* Tests.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				ARCHS = "$(MS_MAC_ARCHS)";
@@ -835,7 +862,7 @@
 					"-iframework",
 					"\"$(SRCROOT)/../Vendor/macOS/OCMock\"",
 					"-iframework",
-					"\"$(SRCROOT)/../Vendor/Common/OCHamcrest\"",
+					"\"$(SRCROOT)/../Vendor/macOS/OCHamcrest\"",
 					"-iframework",
 					"\"$(SRCROOT)/../Vendor/Common/OHHTTPStubs\"",
 					"-iframework",
@@ -858,7 +885,6 @@
 		};
 		046AEAC51ECA51AF00CBE511 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F87A05581E72BDFC0038A6F9 /* Tests.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				ARCHS = "$(MS_MAC_ARCHS)";
@@ -883,7 +909,7 @@
 					"-iframework",
 					"\"$(SRCROOT)/../Vendor/macOS/OCMock\"",
 					"-iframework",
-					"\"$(SRCROOT)/../Vendor/Common/OCHamcrest\"",
+					"\"$(SRCROOT)/../Vendor/macOS/OCHamcrest\"",
 					"-iframework",
 					"\"$(SRCROOT)/../Vendor/Common/OHHTTPStubs\"",
 					"-iframework",
@@ -1104,7 +1130,6 @@
 		};
 		E85547DE1D2D6723002DF6E2 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F87A05581E72BDFC0038A6F9 /* Tests.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1136,7 +1161,6 @@
 		};
 		E85547DF1D2D6723002DF6E2 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F87A05581E72BDFC0038A6F9 /* Tests.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
