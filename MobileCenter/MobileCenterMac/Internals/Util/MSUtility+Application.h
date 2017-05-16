@@ -11,22 +11,22 @@ extern NSString *MSUtilityApplicationCategory;
  *  App states
  */
 typedef NS_ENUM(NSInteger, MSApplicationState) {
-  
+
   /**
    * Application is active.
    */
-  MSApplicationStateActive = 0,
-  
+  MSApplicationStateActive,
+
   /**
    * Application is inactive.
    */
-  MSApplicationStateInactive = 1,
-  
+  MSApplicationStateInactive,
+
   /**
    * Application is in background.
    */
-  MSApplicationStateBackground = 2,
-  
+  MSApplicationStateBackground,
+
   /**
    * Application state can't be determined.
    */
@@ -34,17 +34,17 @@ typedef NS_ENUM(NSInteger, MSApplicationState) {
 };
 
 typedef NS_ENUM(NSInteger, MSOpenURLState) {
-  
+
   /**
    * Not being able to determine whether a URL has been processed or not.
    */
   MSOpenURLStateUnknown,
-  
+
   /**
    * A URL has been processed successfully.
    */
   MSOpenURLStateSucceed,
-  
+
   /**
    * A URL could not be processed.
    */

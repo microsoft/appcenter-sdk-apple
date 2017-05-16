@@ -303,13 +303,12 @@ static NSString *const kMSGroupId = @"MobileCenter";
   // Hookup to application life-cycle events
   if (isEnabled) {
 
-    // TODO: Haven't tested on macOS. Need to verify the notifications work properly.
     [MS_NOTIFICATION_CENTER addObserver:self
                                selector:@selector(applicationDidEnterBackground)
 #if TARGET_OS_IPHONE
                                    name:UIApplicationDidEnterBackgroundNotification
 #else
-                                   name:NSApplicationDidResignActiveNotification
+                                   name:NSApplicationDidHideNotification
 #endif
                                  object:nil];
     [MS_NOTIFICATION_CENTER addObserver:self
@@ -317,7 +316,7 @@ static NSString *const kMSGroupId = @"MobileCenter";
 #if TARGET_OS_IPHONE
                                    name:UIApplicationWillEnterForegroundNotification
 #else
-                                   name:NSApplicationWillBecomeActiveNotification
+                                   name:NSApplicationDidUnhideNotification
 #endif
                                  object:nil];
   } else {
@@ -401,18 +400,14 @@ static NSString *const kMSGroupId = @"MobileCenter";
  *  The application will go to the foreground.
  */
 - (void)applicationWillEnterForeground {
-#if TARGET_OS_IPHONE
   [self.logManager resume];
-#endif
 }
 
 /**
  *  The application will go to the background.
  */
 - (void)applicationDidEnterBackground {
-#if TARGET_OS_IPHONE
   [self.logManager suspend];
-#endif
 }
 
 @end

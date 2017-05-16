@@ -10,8 +10,6 @@
  * Get the shared app state.
  *
  * @return The shared app state.
- *
- * @discussion TODO: This method is not properly implemented.
  */
 + (MSApplicationState)sharedAppState;
 
