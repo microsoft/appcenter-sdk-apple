@@ -18,3 +18,34 @@ typedef BOOL (^CustomOpenURLiOS9Validator)(UIApplication *, NSURL *, NSDictionar
 @property(nonatomic, readonly) NSMutableDictionary<NSString *, id> *customDelegateValidators;
 
 @end
+
+/*
+ * Class without UIApplicationDelegate implementation
+ */
+@interface MSChildMockAppDelegateWithoutImplementation : MSMockAppDelegate
+
+@end
+
+/*
+ * Class with UIApplicationDelegate implementation
+ */
+@interface MSChildMockAppDelegateWithImplementation : MSMockAppDelegate
+
+@end
+
+/*
+ * Base class without UIApplicationDelegate implementation
+ */
+@interface MCBaseMockAppDelegateWithoutImplementation : NSObject <UIApplicationDelegate, MSAppDelegate>
+
+@property(nonatomic, readonly) NSMutableDictionary<NSString *, id> *originalDelegateValidators;
+@property(nonatomic, readonly) NSMutableDictionary<NSString *, id> *customDelegateValidators;
+
+@end
+
+/*
+ * Class with UIApplicationDelegate implementation
+ */
+@interface MSChildMockAppDelegateWithoutImpInBaseClass : MCBaseMockAppDelegateWithoutImplementation
+
+@end

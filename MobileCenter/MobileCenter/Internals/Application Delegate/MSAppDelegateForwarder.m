@@ -109,16 +109,25 @@ static BOOL _enabled = YES;
   [self.selectorsToSwizzle removeAllObjects];
 }
 
-+ (IMP)swizzleOriginalSelector:(SEL)originalSelector
-            withCustomSelector:(SEL)customSelector
-                 originalClass:(Class)originalClass {
++ (IMP)swizzleOriginalSelector:(SEL)originalSelector withCustomSelector:(SEL)customSelector originalClass:(Class)originalClass {
 
-  // Replace original implementation
+  // Replace original implementation.
   NSString *originalSelectorString = NSStringFromSelector(originalSelector);
   Method originalMethod = class_getInstanceMethod(originalClass, originalSelector);
   IMP customImp = class_getMethodImplementation(self, customSelector);
   IMP originalImp = NULL;
   BOOL methodAdded = NO;
+
+  if (!customImp) {
+
+    // Replace implementation in super class.
+    Class baseClass = originalClass.superclass;
+    if([baseClass instancesRespondToSelector:originalSelector]) {
+      return [MSAppDelegateForwarder swizzleOriginalSelector:originalSelector
+                                          withCustomSelector:customSelector
+                                               originalClass:baseClass];
+    }
+  }
 
   // Replace original implementation by the custom one.
   if (originalMethod) {
@@ -136,11 +145,11 @@ static BOOL _enabled = YES;
   // Validate swizzling.
   if (!originalImp && !methodAdded) {
     MSLogError([MSMobileCenter logTag],
-               @"Cannot swizzle selector %@ of class %@. You will have to explicitly call APIs from "
-               @"Mobile Center in your app delegate implementation.",
-               originalSelectorString, originalClass);
+                @"Cannot swizzle selector %@ of class %@. You will have to explicitly call APIs from "
+                @"Mobile Center in your app delegate implementation.", originalSelectorString, originalClass);
   } else {
-    MSLogDebug([MSMobileCenter logTag], @"Selector %@ of class %@ is swizzled.", originalSelectorString, originalClass);
+    MSLogDebug([MSMobileCenter logTag],
+               @"Selector %@ of class %@ is swizzled.", originalSelectorString, originalClass);
   }
   return originalImp;
 }
