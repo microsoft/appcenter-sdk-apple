@@ -404,7 +404,7 @@
 		385FC0541D37EBD700A1799F /* MSDeviceTrackerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDeviceTrackerTests.m; sourceTree = "<group>"; };
 		386E8D911E25932100EECF0F /* MSHttpTestUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSHttpTestUtil.m; sourceTree = "<group>"; };
 		386E8D921E25932100EECF0F /* MSHttpTestUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSHttpTestUtil.h; sourceTree = "<group>"; };
-		386E970B1E0371D2000D37FE /* Global.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Global.xcconfig; path = ../../../Global.xcconfig; sourceTree = "<group>"; };
+		386E970B1E0371D2000D37FE /* Global.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Global.xcconfig; path = ../../../../Global.xcconfig; sourceTree = "<group>"; };
 		387C757F1D6270A300D68CC1 /* MSServiceAbstractInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MSServiceAbstractInternal.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		387C758D1D64DF2500D68CC1 /* MSServiceCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MSServiceCommon.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		387C75951D64EE1900D68CC1 /* MSServiceAbstractTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSServiceAbstractTests.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -648,6 +648,30 @@
 			path = Util;
 			sourceTree = "<group>";
 		};
+		048494B01ECCC0D60020B0FC /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				6E0401401D1C99AC0051BCFA /* MobileCenter.h */,
+				6E04013F1D1C99AC0051BCFA /* MSConstants.h */,
+				F803BBF11E8E3677004B1E7A /* MSCustomProperties.h */,
+				F803BBF21E8E3677004B1E7A /* MSCustomProperties.m */,
+				B2C3C18C1DB9864600CB83F7 /* MSDevice.h */,
+				B2C3C18D1DB9864600CB83F7 /* MSDevice.m */,
+				6E0401551D1C9AAA0051BCFA /* MSMobileCenter.h */,
+				6E0401561D1C9AAA0051BCFA /* MSMobileCenter.m */,
+				3889932E1E29829700C27B36 /* MSMobileCenterErrors.h */,
+				388993391E29B26D00C27B36 /* MSMobileCenterErrors.m */,
+				6E0401451D1C99AC0051BCFA /* MSService.h */,
+				387C76FC1D6C9CF100D68CC1 /* MSServiceAbstract.h */,
+				D38024051E7126F500466558 /* MSServiceAbstract.m */,
+				B2C3C18E1DB9864600CB83F7 /* MSWrapperSdk.h */,
+				B2C3C18F1DB9864600CB83F7 /* MSWrapperSdk.m */,
+				6E0401421D1C99AC0051BCFA /* Internals */,
+				6E0401821D1CAD810051BCFA /* Support */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
 		0485AFEB1EAAAC3B00C10CAF /* Support */ = {
 			isa = PBXGroup;
 			children = (
@@ -741,23 +765,7 @@
 		6E0401051D1C98220051BCFA /* MobileCenter */ = {
 			isa = PBXGroup;
 			children = (
-				6E0401401D1C99AC0051BCFA /* MobileCenter.h */,
-				6E04013F1D1C99AC0051BCFA /* MSConstants.h */,
-				F803BBF11E8E3677004B1E7A /* MSCustomProperties.h */,
-				F803BBF21E8E3677004B1E7A /* MSCustomProperties.m */,
-				B2C3C18C1DB9864600CB83F7 /* MSDevice.h */,
-				B2C3C18D1DB9864600CB83F7 /* MSDevice.m */,
-				6E0401551D1C9AAA0051BCFA /* MSMobileCenter.h */,
-				6E0401561D1C9AAA0051BCFA /* MSMobileCenter.m */,
-				3889932E1E29829700C27B36 /* MSMobileCenterErrors.h */,
-				388993391E29B26D00C27B36 /* MSMobileCenterErrors.m */,
-				6E0401451D1C99AC0051BCFA /* MSService.h */,
-				387C76FC1D6C9CF100D68CC1 /* MSServiceAbstract.h */,
-				D38024051E7126F500466558 /* MSServiceAbstract.m */,
-				B2C3C18E1DB9864600CB83F7 /* MSWrapperSdk.h */,
-				B2C3C18F1DB9864600CB83F7 /* MSWrapperSdk.m */,
-				6E0401421D1C99AC0051BCFA /* Internals */,
-				6E0401821D1CAD810051BCFA /* Support */,
+				048494B01ECCC0D60020B0FC /* Common */,
 			);
 			path = MobileCenter;
 			sourceTree = "<group>";
