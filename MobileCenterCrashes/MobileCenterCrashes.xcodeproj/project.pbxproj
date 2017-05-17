@@ -44,8 +44,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		041CFF921ECD00DC00B4654B /* Tests.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 041CFF911ECD00DC00B4654B /* Tests.xcconfig */; };
-		041CFF9E1ECD0D2100B4654B /* Tests.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 041CFF981ECD010000B4654B /* Tests.xcconfig */; };
 		0420A6961ECA7BF500915619 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0420A68C1ECA7AA800915619 /* OCMock.framework */; };
 		0420A6971ECA7C0400915619 /* OCMock.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0420A68C1ECA7AA800915619 /* OCMock.framework */; };
 		0420A6981ECA7C1700915619 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0420A68A1ECA7A9B00915619 /* OCMock.framework */; };
@@ -1073,7 +1071,6 @@
 				049327871ECA170D00D0187A /* live_report_undefined_instr.plcrash in Resources */,
 				049327881ECA170D00D0187A /* live_report_null_ptr.plcrash in Resources */,
 				049327891ECA170D00D0187A /* log_report_xamarin in Resources */,
-				041CFF9E1ECD0D2100B4654B /* Tests.xcconfig in Resources */,
 				0493278A1ECA170D00D0187A /* live_report_jump_into_nx.plcrash in Resources */,
 				0493278B1ECA170D00D0187A /* live_report_pthread_lock.plcrash in Resources */,
 				0493278C1ECA170D00D0187A /* live_report_bad_ptr.plcrash in Resources */,
@@ -1105,7 +1102,6 @@
 				F859D1141E549B45008B2D8E /* live_report_undefined_instr.plcrash in Resources */,
 				F859D10B1E549B45008B2D8E /* live_report_null_ptr.plcrash in Resources */,
 				6EC99A3D1D416CCF0016C325 /* log_report_xamarin in Resources */,
-				041CFF921ECD00DC00B4654B /* Tests.xcconfig in Resources */,
 				F859D10A1E549B45008B2D8E /* live_report_jump_into_nx.plcrash in Resources */,
 				F859D1101E549B45008B2D8E /* live_report_pthread_lock.plcrash in Resources */,
 				F859D1051E549B45008B2D8E /* live_report_bad_ptr.plcrash in Resources */,

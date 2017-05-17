@@ -44,7 +44,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		041CFFA01ECD0D3300B4654B /* Tests.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 041CFF8D1ECCFFD200B4654B /* Tests.xcconfig */; };
 		0420A6811ECA79C300915619 /* OCMock.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 046AEB081ECA727200CBE511 /* OCMock.framework */; };
 		0420A6831ECA79E200915619 /* OCMock.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 046AEB0B1ECA729400CBE511 /* OCMock.framework */; };
 		044864C51EBD12F200031019 /* MSCustomProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = F803BBF11E8E3677004B1E7A /* MSCustomProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -171,7 +170,6 @@
 		04754FBC1EA98282002CBA46 /* MSUtility+Application.h in Headers */ = {isa = PBXBuildFile; fileRef = 04754FB21EA9826E002CBA46 /* MSUtility+Application.h */; };
 		04754FBD1EA98285002CBA46 /* MSUtility+Application.m in Sources */ = {isa = PBXBuildFile; fileRef = 04754FB31EA9826E002CBA46 /* MSUtility+Application.m */; };
 		04754FBE1EA9828B002CBA46 /* MSUtility+ApplicationPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 04754FB41EA9826E002CBA46 /* MSUtility+ApplicationPrivate.h */; };
-		04840CD81ECCF6560020B0FC /* Tests.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 04840CD71ECCF6560020B0FC /* Tests.xcconfig */; };
 		04B7BBEF1E5FAD4D001A0CE1 /* MSSenderUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B7BBEE1E5FAD4D001A0CE1 /* MSSenderUtilTests.m */; };
 		04BED7101ECB63A800E20975 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04BED70E1ECB63A100E20975 /* OCHamcrest.framework */; };
 		04BED7111ECB649400E20975 /* OCHamcrest.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 04BED70E1ECB63A100E20975 /* OCHamcrest.framework */; };
@@ -1324,7 +1322,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				041CFFA01ECD0D3300B4654B /* Tests.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1332,7 +1329,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04840CD81ECCF6560020B0FC /* Tests.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

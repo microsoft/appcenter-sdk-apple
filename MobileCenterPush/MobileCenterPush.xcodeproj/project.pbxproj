@@ -33,7 +33,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		041CFFA81ECD0E9A00B4654B /* Tests.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 041CFFA71ECD0E9A00B4654B /* Tests.xcconfig */; };
 		0420A6A21ECA7D7200915619 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0420A6A11ECA7D7200915619 /* OCMock.framework */; };
 		0420A6A51ECA7D9300915619 /* OCMock.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0420A6A11ECA7D7200915619 /* OCMock.framework */; };
 		047919B31EBA3AC5004834A6 /* MSPushNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = 047919B21EBA3AC5004834A6 /* MSPushNotification.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -443,7 +442,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				041CFFA81ECD0E9A00B4654B /* Tests.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
