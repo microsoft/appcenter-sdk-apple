@@ -419,6 +419,7 @@
 		380A4D971DD6892F00E99219 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B27397A31DE3D27700AC7761 /* CrashLibIOS.framework */,
 				38F2606E1E649FE5004F0FDC /* Security.framework */,
 				38484F691E537B9300C5631C /* SafariServices.framework */,
 				380A4D981DD6892F00E99219 /* NotificationCenter.framework */,
@@ -471,7 +472,6 @@
 		E82E1B561D1CA58D00D281C1 = {
 			isa = PBXGroup;
 			children = (
-				B27397A31DE3D27700AC7761 /* CrashLibIOS.framework */,
 				6EC99A271D4152FA0016C325 /* libc++.tbd */,
 				6EC99A251D4152EB0016C325 /* libz.tbd */,
 				E82E1B611D1CA58D00D281C1 /* Puppet */,

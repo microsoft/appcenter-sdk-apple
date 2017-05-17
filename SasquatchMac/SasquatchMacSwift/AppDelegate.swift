@@ -1,8 +1,8 @@
 import Cocoa
 
-import MobileCenterMac
-import MobileCenterAnalyticsMac
-import MobileCenterCrashesMac
+import MobileCenter
+import MobileCenterAnalytics
+import MobileCenterCrashes
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
