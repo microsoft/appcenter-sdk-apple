@@ -1,6 +1,11 @@
 #import <Foundation/Foundation.h>
+#if TARGET_OS_IPHONE
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
+#else
+#import <OCHamcrest/OCHamcrest.h>
+#endif
 #import <XCTest/XCTest.h>
+
 #import "MSCrashes.h"
 #import "MSException.h"
 #import "MSWrapperExceptionManagerInternal.h"

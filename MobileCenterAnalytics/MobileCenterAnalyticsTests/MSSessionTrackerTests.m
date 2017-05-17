@@ -1,5 +1,6 @@
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
+
 #import "MSAnalytics.h"
 #import "MSConstants+Internal.h"
 #import "MSSessionTracker.h"
@@ -123,7 +124,13 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
   // Wait for longer than the timeout time in background
   [NSThread sleepForTimeInterval:kMSTestSessionTimeout + 1];
 
-  [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillEnterForegroundNotification object:self];
+  [[NSNotificationCenter defaultCenter]
+#if TARGET_OS_IPHONE
+      postNotificationName:UIApplicationWillEnterForegroundNotification
+#else
+      postNotificationName:NSApplicationWillBecomeActiveNotification
+#endif
+                    object:self];
 
   NSString *sid = self.sut.sessionId;
   XCTAssertEqual(expectedSid, sid);

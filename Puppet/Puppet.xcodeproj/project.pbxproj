@@ -50,6 +50,34 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		046AEA991ECA509000CBE511 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E82E1B821D1CA63000D281C1 /* MobileCenter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 04754FAB1EA98182002CBA46;
+			remoteInfo = MobileCenterMac;
+		};
+		046AEAA01ECA509000CBE511 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E85547FB1D2D6C8D002DF6E2 /* MobileCenterAnalytics.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0485AF851EAA79E300C10CAF;
+			remoteInfo = MobileCenterAnalyticsMac;
+		};
+		046AEAA81ECA509000CBE511 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E82E1B7C1D1CA62900D281C1 /* MobileCenterCrashes.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0485AFD31EAA887500C10CAF;
+			remoteInfo = MobileCenterCrashesMac;
+		};
+		046AEAAA1ECA509000CBE511 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E82E1B7C1D1CA62900D281C1 /* MobileCenterCrashes.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 049327961ECA170D00D0187A;
+			remoteInfo = MobileCenterCrashesMacTests;
+		};
 		0471B92E1E4550670022F951 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0471B91E1E4550670022F951 /* MobileCenterDistribute.xcodeproj */;
@@ -272,7 +300,7 @@
 		5CE258981EA5FBCA00DA8FB9 /* AnalyticsUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsUITests.swift; sourceTree = "<group>"; };
 		5CE2589A1EA5FBD400DA8FB9 /* CrashesUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrashesUITests.swift; sourceTree = "<group>"; };
 		5CE2589C1EA5FBE900DA8FB9 /* DistributeUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistributeUITests.swift; sourceTree = "<group>"; };
-		6EC99A201D4151A00016C325 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = ../../Vendor/PLCrashReporter/CrashReporter.framework; sourceTree = "<group>"; };
+		6EC99A201D4151A00016C325 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = ../../Vendor/iOS/PLCrashReporter/CrashReporter.framework; sourceTree = "<group>"; };
 		6EC99A251D4152EB0016C325 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		6EC99A271D4152FA0016C325 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		B21B26C51DDE490400FF0378 /* MSCrashesDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrashesDetailViewController.h; sourceTree = "<group>"; };
@@ -403,7 +431,7 @@
 				38E1B6591DDCDDF4000EFED1 /* MSAlertController.m */,
 			);
 			name = MSAlertController;
-			path = ../../Vendor/MSAlertController;
+			path = ../../Vendor/Common/MSAlertController;
 			sourceTree = "<group>";
 		};
 		5CE258381EA5097100DA8FB9 /* PuppetUITests */ = {
@@ -494,6 +522,8 @@
 			children = (
 				E82E1B811D1CA62900D281C1 /* libMobileCenterCrashes.a */,
 				E8DF1C2C1D21A8F5006310CF /* MobileCenterCrashes.xctest */,
+				046AEAA91ECA509000CBE511 /* libMobileCenterCrashesMac.a */,
+				046AEAAB1ECA509000CBE511 /* MobileCenterCrashesMacTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -503,6 +533,7 @@
 			children = (
 				E82E1B881D1CA63000D281C1 /* libMobileCenter.a */,
 				E82E1B8A1D1CA63000D281C1 /* MobileCenter.xctest */,
+				046AEA9A1ECA509000CBE511 /* libMobileCenterMac.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -512,6 +543,7 @@
 			children = (
 				E85548031D2D6C8D002DF6E2 /* libMobileCenterAnalytics.a */,
 				E85548051D2D6C8D002DF6E2 /* MobileCenterAnalytics.xctest */,
+				046AEAA11ECA509000CBE511 /* libMobileCenterAnalyticsMac.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -709,6 +741,34 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		046AEA9A1ECA509000CBE511 /* libMobileCenterMac.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libMobileCenterMac.a;
+			remoteRef = 046AEA991ECA509000CBE511 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		046AEAA11ECA509000CBE511 /* libMobileCenterAnalyticsMac.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libMobileCenterAnalyticsMac.a;
+			remoteRef = 046AEAA01ECA509000CBE511 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		046AEAA91ECA509000CBE511 /* libMobileCenterCrashesMac.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libMobileCenterCrashesMac.a;
+			remoteRef = 046AEAA81ECA509000CBE511 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		046AEAAB1ECA509000CBE511 /* MobileCenterCrashesMacTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = MobileCenterCrashesMacTests.xctest;
+			remoteRef = 046AEAAA1ECA509000CBE511 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		0471B92F1E4550670022F951 /* libMobileCenterDistribute.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1106,7 +1166,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/../MobileCenter-SDK-iOS/**",
 					"$(SRCROOT)/../CrashLibIOS/CrashLibIOS",
-					"$(SRCROOT)/../Vendor/**",
+					"$(SRCROOT)/../Vendor/Common/**",
+					"$(SRCROOT)/../Vendor/iOS/**",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1160,7 +1221,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/../MobileCenter-SDK-iOS/**",
 					"$(SRCROOT)/../CrashLibIOS/CrashLibIOS",
-					"$(SRCROOT)/../Vendor/**",
+					"$(SRCROOT)/../Vendor/Common/**",
+					"$(SRCROOT)/../Vendor/iOS/**",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
