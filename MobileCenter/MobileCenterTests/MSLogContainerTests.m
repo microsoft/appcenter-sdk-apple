@@ -1,4 +1,5 @@
 #import <XCTest/XCTest.h>
+
 #import "MobileCenter+Internal.h"
 #import "MSAbstractLog.h"
 #import "MSLogContainer.h"
