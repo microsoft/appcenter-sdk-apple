@@ -62,7 +62,7 @@
 
 - (void)application:(UIApplication *)application
     didFailToRegisterForRemoteNotificationsWithError:(nonnull NSError *)error {
-  NSLog(@"%@ Did FAIL to register for remote notifications with error %@.", kPUPLogTag, [error localizedDescription]);
+  NSLog(@"%@ Did fail to register for remote notifications with error %@.", kPUPLogTag, [error localizedDescription]);
 }
 
 - (void)application:(UIApplication *)application
