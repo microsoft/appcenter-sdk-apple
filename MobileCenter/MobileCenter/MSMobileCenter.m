@@ -78,13 +78,7 @@ static NSString *const kMSGroupId = @"MobileCenter";
   return NO;
 }
 
-+ (void)setAppDelegateForwardingEnabled:(BOOL)isEnabled{
-  @synchronized([self sharedInstance]) {
-    MSAppDelegateForwarder.enabled = isEnabled;
-  }
-}
-
-+ (BOOL)isAppDelegateForwardingEnabled {
++ (BOOL)isAppDelegateForwarderEnabled {
   @synchronized([self sharedInstance]) {
     return MSAppDelegateForwarder.enabled;
   }

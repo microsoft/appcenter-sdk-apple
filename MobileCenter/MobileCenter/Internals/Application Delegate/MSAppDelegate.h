@@ -9,8 +9,8 @@ NS_ASSUME_NONNULL_BEGIN
  * Custom delegate matching `UIApplicationDelegate`.
  *
  * @discussion Delegates here are using swizzling. Any delegate that can be registered through the notification center
- * should not be registered through swizzling. Due to the early registration of swizzling on the original app delegate 
- * each custom delegate must sign up for selectors to swizzle within the `load` method of a category over 
+ * should not be registered through swizzling. Due to the early registration of swizzling on the original app delegate
+ * each custom delegate must sign up for selectors to swizzle within the `load` method of a category over
  * the @see MSAppDelegateForwarder class.
  */
 @protocol MSAppDelegate <NSObject>
@@ -56,3 +56,5 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
+
+D
