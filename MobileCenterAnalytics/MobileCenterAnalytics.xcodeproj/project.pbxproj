@@ -44,6 +44,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		041CFF8C1ECCFF6700B4654B /* Tests.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 041CFF8B1ECCFF6700B4654B /* Tests.xcconfig */; };
+		041CFF9F1ECD0D2700B4654B /* Tests.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 041CFF891ECCFF5D00B4654B /* Tests.xcconfig */; };
 		0420A6871ECA7A4B00915619 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0420A6861ECA7A4B00915619 /* OCMock.framework */; };
 		0420A6911ECA7B0000915619 /* OCMock.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0420A6861ECA7A4B00915619 /* OCMock.framework */; };
 		0420A6931ECA7B1100915619 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0420A6921ECA7B1100915619 /* OCMock.framework */; };
@@ -184,6 +186,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		041CFF891ECCFF5D00B4654B /* Tests.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Tests.xcconfig; path = ../../../XCConfig/macOS/Tests.xcconfig; sourceTree = "<group>"; };
+		041CFF8B1ECCFF6700B4654B /* Tests.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Tests.xcconfig; path = ../../../XCConfig/iOS/Tests.xcconfig; sourceTree = "<group>"; };
 		0420A6861ECA7A4B00915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../macOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
 		0420A6921ECA7B1100915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../iOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
 		042A17A71DEFA950003BA80A /* MSAnalyticsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAnalyticsTests.m; sourceTree = "<group>"; };
@@ -275,6 +279,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		041CFF871ECCFF2800B4654B /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				041CFF8B1ECCFF6700B4654B /* Tests.xcconfig */,
+			);
+			name = Support;
+			sourceTree = "<group>";
+		};
+		041CFF881ECCFF4000B4654B /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				041CFF891ECCFF5D00B4654B /* Tests.xcconfig */,
+			);
+			name = Support;
+			sourceTree = "<group>";
+		};
 		0420A68F1ECA7ACD00915619 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
@@ -324,6 +344,7 @@
 		048494FD1ECCF1ED0020B0FC /* macOS */ = {
 			isa = PBXGroup;
 			children = (
+				041CFF881ECCFF4000B4654B /* Support */,
 			);
 			path = macOS;
 			sourceTree = "<group>";
@@ -331,6 +352,7 @@
 		048494FE1ECCF1F50020B0FC /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				041CFF871ECCFF2800B4654B /* Support */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -735,6 +757,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				041CFF9F1ECD0D2700B4654B /* Tests.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -742,6 +765,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				041CFF8C1ECCFF6700B4654B /* Tests.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -870,6 +894,7 @@
 /* Begin XCBuildConfiguration section */
 		046AEAC41ECA51AF00CBE511 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 041CFF891ECCFF5D00B4654B /* Tests.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				ARCHS = "$(MS_MAC_ARCHS)";
@@ -888,21 +913,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../Vendor/Common\"/**",
 					"\"$(SRCROOT)/../Vendor/macOS\"/**",
-				);
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					"-iframework",
-					"\"$(SRCROOT)/../Vendor/macOS/OCMock\"",
-					"-iframework",
-					"\"$(SRCROOT)/../Vendor/macOS/OCHamcrest\"",
-					"-iframework",
-					"\"$(PLATFORM_DIR)/Developer/Library/Frameworks\"",
-				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-framework",
-					AppKit,
-					"-ObjC",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenteranalyticstests;
 				PRODUCT_NAME = MobileCenterAnalyticsMac;
@@ -915,6 +925,7 @@
 		};
 		046AEAC51ECA51AF00CBE511 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 041CFF891ECCFF5D00B4654B /* Tests.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				ARCHS = "$(MS_MAC_ARCHS)";
@@ -933,21 +944,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../Vendor/Common\"/**",
 					"\"$(SRCROOT)/../Vendor/macOS\"/**",
-				);
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					"-iframework",
-					"\"$(SRCROOT)/../Vendor/macOS/OCMock\"",
-					"-iframework",
-					"\"$(SRCROOT)/../Vendor/macOS/OCHamcrest\"",
-					"-iframework",
-					"\"$(PLATFORM_DIR)/Developer/Library/Frameworks\"",
-				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-framework",
-					AppKit,
-					"-ObjC",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenteranalyticstests;
 				PRODUCT_NAME = MobileCenterAnalyticsMac;
@@ -1150,6 +1146,7 @@
 		};
 		E85547DE1D2D6723002DF6E2 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 041CFF8B1ECCFF6700B4654B /* Tests.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1166,21 +1163,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../Vendor/Common\"/**",
 					"\"$(SRCROOT)/../Vendor/iOS\"/**",
-				);
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					"-iframework",
-					"\"$(SRCROOT)/../Vendor/iOS/OCMock\"",
-					"-iframework",
-					"\"$(SRCROOT)/../Vendor/iOS/OCHamcrest\"",
-					"-iframework",
-					"\"$(PLATFORM_DIR)/Developer/Library/Frameworks\"",
-				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-framework",
-					UIKit,
-					"-ObjC",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenteranalyticstests;
 				PRODUCT_NAME = MobileCenterAnalytics;
@@ -1190,6 +1172,7 @@
 		};
 		E85547DF1D2D6723002DF6E2 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 041CFF8B1ECCFF6700B4654B /* Tests.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1206,21 +1189,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../Vendor/Common\"/**",
 					"\"$(SRCROOT)/../Vendor/iOS\"/**",
-				);
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					"-iframework",
-					"\"$(SRCROOT)/../Vendor/iOS/OCMock\"",
-					"-iframework",
-					"\"$(SRCROOT)/../Vendor/iOS/OCHamcrest\"",
-					"-iframework",
-					"\"$(PLATFORM_DIR)/Developer/Library/Frameworks\"",
-				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-framework",
-					UIKit,
-					"-ObjC",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenteranalyticstests;
 				PRODUCT_NAME = MobileCenterAnalytics;

@@ -33,6 +33,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		041CFFA81ECD0E9A00B4654B /* Tests.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 041CFFA71ECD0E9A00B4654B /* Tests.xcconfig */; };
 		0420A6A21ECA7D7200915619 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0420A6A11ECA7D7200915619 /* OCMock.framework */; };
 		0420A6A51ECA7D9300915619 /* OCMock.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0420A6A11ECA7D7200915619 /* OCMock.framework */; };
 		047919B31EBA3AC5004834A6 /* MSPushNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = 047919B21EBA3AC5004834A6 /* MSPushNotification.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -98,6 +99,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		041CFFA71ECD0E9A00B4654B /* Tests.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Tests.xcconfig; path = ../../../XCConfig/iOS/Tests.xcconfig; sourceTree = "<group>"; };
 		0420A6A11ECA7D7200915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../Vendor/iOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
 		047919B21EBA3AC5004834A6 /* MSPushNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSPushNotification.h; path = Internal/Model/MSPushNotification.h; sourceTree = "<group>"; };
 		047919B41EBA3B1B004834A6 /* MSPushDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSPushDelegate.h; sourceTree = "<group>"; };
@@ -151,6 +153,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		041CFFA51ECD0E8400B4654B /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				041CFFA61ECD0E8C00B4654B /* Support */,
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
+		041CFFA61ECD0E8C00B4654B /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				041CFFA71ECD0E9A00B4654B /* Tests.xcconfig */,
+			);
+			name = Support;
+			sourceTree = "<group>";
+		};
 		0420A6A41ECA7D8800915619 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
@@ -257,6 +275,7 @@
 			children = (
 				D3AD5EC41E5C4F6A001627AB /* Info.plist */,
 				048495041ECCF3F40020B0FC /* Common */,
+				041CFFA51ECD0E8400B4654B /* iOS */,
 				D3AD5F661E5D73F2001627AB /* Frameworks */,
 			);
 			path = MobileCenterPushTests;
@@ -424,6 +443,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				041CFFA81ECD0E9A00B4654B /* Tests.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -624,6 +644,7 @@
 		};
 		D3AD5EC91E5C4F6A001627AB /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 041CFFA71ECD0E9A00B4654B /* Tests.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -641,10 +662,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../Vendor/Common\"/**",
 					"\"$(SRCROOT)/../Vendor/iOS\"/**",
-				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-ObjC",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenterpushtests;
 				PRODUCT_NAME = MobileCenterPush;
@@ -654,6 +671,7 @@
 		};
 		D3AD5ECA1E5C4F6A001627AB /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 041CFFA71ECD0E9A00B4654B /* Tests.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -671,10 +689,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../Vendor/Common\"/**",
 					"\"$(SRCROOT)/../Vendor/iOS\"/**",
-				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-ObjC",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenterpushtests;
 				PRODUCT_NAME = MobileCenterPush;

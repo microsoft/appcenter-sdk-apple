@@ -44,6 +44,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		041CFFA01ECD0D3300B4654B /* Tests.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 041CFF8D1ECCFFD200B4654B /* Tests.xcconfig */; };
 		0420A6811ECA79C300915619 /* OCMock.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 046AEB081ECA727200CBE511 /* OCMock.framework */; };
 		0420A6831ECA79E200915619 /* OCMock.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 046AEB0B1ECA729400CBE511 /* OCMock.framework */; };
 		044864C51EBD12F200031019 /* MSCustomProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = F803BBF11E8E3677004B1E7A /* MSCustomProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -170,6 +171,7 @@
 		04754FBC1EA98282002CBA46 /* MSUtility+Application.h in Headers */ = {isa = PBXBuildFile; fileRef = 04754FB21EA9826E002CBA46 /* MSUtility+Application.h */; };
 		04754FBD1EA98285002CBA46 /* MSUtility+Application.m in Sources */ = {isa = PBXBuildFile; fileRef = 04754FB31EA9826E002CBA46 /* MSUtility+Application.m */; };
 		04754FBE1EA9828B002CBA46 /* MSUtility+ApplicationPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 04754FB41EA9826E002CBA46 /* MSUtility+ApplicationPrivate.h */; };
+		04840CD81ECCF6560020B0FC /* Tests.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 04840CD71ECCF6560020B0FC /* Tests.xcconfig */; };
 		04B7BBEF1E5FAD4D001A0CE1 /* MSSenderUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B7BBEE1E5FAD4D001A0CE1 /* MSSenderUtilTests.m */; };
 		04BED7101ECB63A800E20975 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04BED70E1ECB63A100E20975 /* OCHamcrest.framework */; };
 		04BED7111ECB649400E20975 /* OCHamcrest.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 04BED70E1ECB63A100E20975 /* OCHamcrest.framework */; };
@@ -367,6 +369,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		041CFF8D1ECCFFD200B4654B /* Tests.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Tests.xcconfig; path = ../../../XCConfig/macOS/Tests.xcconfig; sourceTree = "<group>"; };
 		045660FA1D99EEEB002F7055 /* MSLogWithPropertiesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLogWithPropertiesTests.m; sourceTree = "<group>"; };
 		045BC3161E3FD88600B6C960 /* MSKeychainUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSKeychainUtil.m; sourceTree = "<group>"; };
 		045BC3181E3FD8AC00B6C960 /* MSKeychainUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSKeychainUtil.h; sourceTree = "<group>"; };
@@ -384,6 +387,7 @@
 		04754FB21EA9826E002CBA46 /* MSUtility+Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MSUtility+Application.h"; sourceTree = "<group>"; };
 		04754FB31EA9826E002CBA46 /* MSUtility+Application.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MSUtility+Application.m"; sourceTree = "<group>"; };
 		04754FB41EA9826E002CBA46 /* MSUtility+ApplicationPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MSUtility+ApplicationPrivate.h"; sourceTree = "<group>"; };
+		04840CD71ECCF6560020B0FC /* Tests.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Tests.xcconfig; path = ../../../XCConfig/iOS/Tests.xcconfig; sourceTree = "<group>"; };
 		0485AFEC1EAAAC3B00C10CAF /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		0485AFEE1EAAAD0000C10CAF /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		04B7BBEE1E5FAD4D001A0CE1 /* MSSenderUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSSenderUtilTests.m; sourceTree = "<group>"; };
@@ -630,6 +634,22 @@
 			path = Util;
 			sourceTree = "<group>";
 		};
+		04840CD61ECCF62F0020B0FC /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				04840CD71ECCF6560020B0FC /* Tests.xcconfig */,
+			);
+			name = Support;
+			sourceTree = "<group>";
+		};
+		04840CD91ECCF6920020B0FC /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				041CFF8D1ECCFFD200B4654B /* Tests.xcconfig */,
+			);
+			name = Support;
+			sourceTree = "<group>";
+		};
 		048494B01ECCC0D60020B0FC /* Common */ = {
 			isa = PBXGroup;
 			children = (
@@ -675,6 +695,7 @@
 		048494FA1ECCF10F0020B0FC /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				04840CD61ECCF62F0020B0FC /* Support */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -682,6 +703,7 @@
 		048494FB1ECCF1160020B0FC /* macOS */ = {
 			isa = PBXGroup;
 			children = (
+				04840CD91ECCF6920020B0FC /* Support */,
 			);
 			path = macOS;
 			sourceTree = "<group>";
@@ -1302,6 +1324,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				041CFFA01ECD0D3300B4654B /* Tests.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1309,6 +1332,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04840CD81ECCF6560020B0FC /* Tests.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1521,6 +1545,7 @@
 /* Begin XCBuildConfiguration section */
 		046AEAF41ECA562A00CBE511 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 041CFF8D1ECCFFD200B4654B /* Tests.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				APPLICATION_EXTENSION_API_ONLY = NO;
@@ -1539,23 +1564,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../Vendor/Common\"/**",
 					"\"$(SRCROOT)/../Vendor/macOS\"/**",
-				);
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					"-iframework",
-					"\"$(SRCROOT)/../Vendor/macOS/OCMock\"",
-					"-iframework",
-					"\"$(SRCROOT)/../Vendor/macOS/OCHamcrest\"",
-					"-iframework",
-					"\"$(SRCROOT)/../Vendor/macOS/OHHTTPStubs\"",
-					"-iframework",
-					"\"$(PLATFORM_DIR)/Developer/Library/Frameworks\"",
-				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-framework",
-					AppKit,
-					"-ObjC",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecentertests;
 				PRODUCT_NAME = MobileCenterMac;
@@ -1567,6 +1575,7 @@
 		};
 		046AEAF51ECA562A00CBE511 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 041CFF8D1ECCFFD200B4654B /* Tests.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				APPLICATION_EXTENSION_API_ONLY = NO;
@@ -1585,23 +1594,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../Vendor/Common\"/**",
 					"\"$(SRCROOT)/../Vendor/macOS\"/**",
-				);
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					"-iframework",
-					"\"$(SRCROOT)/../Vendor/macOS/OCMock\"",
-					"-iframework",
-					"\"$(SRCROOT)/../Vendor/macOS/OCHamcrest\"",
-					"-iframework",
-					"\"$(SRCROOT)/../Vendor/macOS/OHHTTPStubs\"",
-					"-iframework",
-					"\"$(PLATFORM_DIR)/Developer/Library/Frameworks\"",
-				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-framework",
-					AppKit,
-					"-ObjC",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecentertests;
 				PRODUCT_NAME = MobileCenterMac;
@@ -1838,6 +1830,7 @@
 		};
 		6E2395811D22EF4F00E543C8 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 04840CD71ECCF6560020B0FC /* Tests.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1855,23 +1848,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../Vendor/Common\"/**",
 					"\"$(SRCROOT)/../Vendor/iOS\"/**",
-				);
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					"-iframework",
-					"\"$(SRCROOT)/../Vendor/iOS/OCMock\"",
-					"-iframework",
-					"\"$(SRCROOT)/../Vendor/iOS/OCHamcrest\"",
-					"-iframework",
-					"\"$(SRCROOT)/../Vendor/iOS/OHHTTPStubs\"",
-					"-iframework",
-					"\"$(PLATFORM_DIR)/Developer/Library/Frameworks\"",
-				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-framework",
-					UIKit,
-					"-ObjC",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecentertests;
 				PRODUCT_NAME = MobileCenter;
@@ -1881,6 +1857,7 @@
 		};
 		6E2395821D22EF4F00E543C8 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 04840CD71ECCF6560020B0FC /* Tests.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1898,23 +1875,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../Vendor/Common\"/**",
 					"\"$(SRCROOT)/../Vendor/iOS\"/**",
-				);
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					"-iframework",
-					"\"$(SRCROOT)/../Vendor/iOS/OCMock\"",
-					"-iframework",
-					"\"$(SRCROOT)/../Vendor/iOS/OCHamcrest\"",
-					"-iframework",
-					"\"$(SRCROOT)/../Vendor/iOS/OHHTTPStubs\"",
-					"-iframework",
-					"\"$(PLATFORM_DIR)/Developer/Library/Frameworks\"",
-				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-framework",
-					UIKit,
-					"-ObjC",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecentertests;
 				PRODUCT_NAME = MobileCenter;

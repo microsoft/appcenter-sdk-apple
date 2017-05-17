@@ -44,6 +44,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		041CFF921ECD00DC00B4654B /* Tests.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 041CFF911ECD00DC00B4654B /* Tests.xcconfig */; };
+		041CFF9E1ECD0D2100B4654B /* Tests.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 041CFF981ECD010000B4654B /* Tests.xcconfig */; };
 		0420A6961ECA7BF500915619 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0420A68C1ECA7AA800915619 /* OCMock.framework */; };
 		0420A6971ECA7C0400915619 /* OCMock.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0420A68C1ECA7AA800915619 /* OCMock.framework */; };
 		0420A6981ECA7C1700915619 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0420A68A1ECA7A9B00915619 /* OCMock.framework */; };
@@ -290,6 +292,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		041CFF911ECD00DC00B4654B /* Tests.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Tests.xcconfig; path = ../../../XCConfig/iOS/Tests.xcconfig; sourceTree = "<group>"; };
+		041CFF981ECD010000B4654B /* Tests.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Tests.xcconfig; path = ../../../XCConfig/macOS/Tests.xcconfig; sourceTree = "<group>"; };
 		0420A68A1ECA7A9B00915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../iOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
 		0420A68C1ECA7AA800915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../macOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
 		044C45F81DB6EA0C00F3C29E /* MSErrorAttachmentPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSErrorAttachmentPrivate.h; sourceTree = "<group>"; };
@@ -360,7 +364,7 @@
 		6E7D5C721D3E9381009EC9AC /* MSThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSThread.m; sourceTree = "<group>"; };
 		6E7D5C761D3E9395009EC9AC /* MSStackFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSStackFrame.m; sourceTree = "<group>"; };
 		6E7D5C7F1D3EAEB5009EC9AC /* MSBinaryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSBinaryTests.m; sourceTree = "<group>"; };
-		6E7D5C811D3EC06C009EC9AC /* MSConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSConstants.h; path = ../../MobileCenter/MobileCenter/Common/MSConstants.h; sourceTree = "<group>"; };
+		6E7D5C811D3EC06C009EC9AC /* MSConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSConstants.h; path = ../../../MobileCenter/MobileCenter/Common/MSConstants.h; sourceTree = "<group>"; };
 		6E7D5C831D3EC0F7009EC9AC /* MSThreadTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSThreadTests.m; sourceTree = "<group>"; };
 		6E7D5C861D3EC332009EC9AC /* MSStackFrameTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSStackFrameTests.m; sourceTree = "<group>"; };
 		6E7D5C891D3EC504009EC9AC /* MSExceptionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSExceptionTests.m; sourceTree = "<group>"; };
@@ -458,6 +462,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		041CFF8F1ECD00C900B4654B /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				041CFF911ECD00DC00B4654B /* Tests.xcconfig */,
+			);
+			name = Support;
+			sourceTree = "<group>";
+		};
+		041CFF901ECD00CF00B4654B /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				041CFF981ECD010000B4654B /* Tests.xcconfig */,
+			);
+			name = Support;
+			sourceTree = "<group>";
+		};
 		0420A6881ECA7A7000915619 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
@@ -518,6 +538,7 @@
 		048495001ECCF29A0020B0FC /* macOS */ = {
 			isa = PBXGroup;
 			children = (
+				041CFF901ECD00CF00B4654B /* Support */,
 			);
 			path = macOS;
 			sourceTree = "<group>";
@@ -525,6 +546,7 @@
 		048495011ECCF2A20020B0FC /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				041CFF8F1ECD00C900B4654B /* Support */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -1051,6 +1073,7 @@
 				049327871ECA170D00D0187A /* live_report_undefined_instr.plcrash in Resources */,
 				049327881ECA170D00D0187A /* live_report_null_ptr.plcrash in Resources */,
 				049327891ECA170D00D0187A /* log_report_xamarin in Resources */,
+				041CFF9E1ECD0D2100B4654B /* Tests.xcconfig in Resources */,
 				0493278A1ECA170D00D0187A /* live_report_jump_into_nx.plcrash in Resources */,
 				0493278B1ECA170D00D0187A /* live_report_pthread_lock.plcrash in Resources */,
 				0493278C1ECA170D00D0187A /* live_report_bad_ptr.plcrash in Resources */,
@@ -1082,6 +1105,7 @@
 				F859D1141E549B45008B2D8E /* live_report_undefined_instr.plcrash in Resources */,
 				F859D10B1E549B45008B2D8E /* live_report_null_ptr.plcrash in Resources */,
 				6EC99A3D1D416CCF0016C325 /* log_report_xamarin in Resources */,
+				041CFF921ECD00DC00B4654B /* Tests.xcconfig in Resources */,
 				F859D10A1E549B45008B2D8E /* live_report_jump_into_nx.plcrash in Resources */,
 				F859D1101E549B45008B2D8E /* live_report_pthread_lock.plcrash in Resources */,
 				F859D1051E549B45008B2D8E /* live_report_bad_ptr.plcrash in Resources */,
@@ -1317,6 +1341,7 @@
 		};
 		049327941ECA170D00D0187A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 041CFF981ECD010000B4654B /* Tests.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				ARCHS = "$(MS_MAC_ARCHS)";
@@ -1335,20 +1360,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../Vendor/Common\"/**",
 					"\"$(SRCROOT)/../Vendor/macOS\"/**",
-				);
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					"-iframework",
-					"\"$(SRCROOT)/../Vendor/macOS/OCMock\"",
-					"-iframework",
-					"\"$(SRCROOT)/../Vendor/macOS/OCHamcrest\"",
-					"-iframework",
-					"\"$(PLATFORM_DIR)/Developer/Library/Frameworks\"",
-				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-framework",
-					AppKit,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecentercrashestests;
 				PRODUCT_NAME = MobileCenterCrashesMac;
@@ -1361,6 +1372,7 @@
 		};
 		049327951ECA170D00D0187A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 041CFF981ECD010000B4654B /* Tests.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				ARCHS = "$(MS_MAC_ARCHS)";
@@ -1379,20 +1391,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../Vendor/Common\"/**",
 					"\"$(SRCROOT)/../Vendor/macOS\"/**",
-				);
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					"-iframework",
-					"\"$(SRCROOT)/../Vendor/macOS/OCMock\"",
-					"-iframework",
-					"\"$(SRCROOT)/../Vendor/macOS/OCHamcrest\"",
-					"-iframework",
-					"\"$(PLATFORM_DIR)/Developer/Library/Frameworks\"",
-				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-framework",
-					AppKit,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecentercrashestests;
 				PRODUCT_NAME = MobileCenterCrashesMac;
@@ -1542,6 +1540,7 @@
 		};
 		6E171AEA1D22F781000DC480 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 041CFF911ECD00DC00B4654B /* Tests.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1560,23 +1559,12 @@
 					"\"$(SRCROOT)/../Vendor/Common\"/**",
 					"\"$(SRCROOT)/../Vendor/iOS\"/**",
 				);
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					"-iframework",
-					"\"$(SRCROOT)/../Vendor/iOS/OCMock\"",
-					"-iframework",
-					"\"$(SRCROOT)/../Vendor/iOS/OCHamcrest\"",
-					"-iframework",
-					"\"$(PLATFORM_DIR)/Developer/Library/Frameworks\"",
-					"-iframework",
-					"\"$(SRCROOT)/../Vendor/iOS/PLCrashReporter\"",
-				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
-					CrashReporter,
-					"-framework",
 					UIKit,
+					"-framework",
+					CrashReporter,
 					"-ObjC",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecentercrashestests;
@@ -1587,6 +1575,7 @@
 		};
 		6E171AEB1D22F781000DC480 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 041CFF911ECD00DC00B4654B /* Tests.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1605,23 +1594,12 @@
 					"\"$(SRCROOT)/../Vendor/Common\"/**",
 					"\"$(SRCROOT)/../Vendor/iOS\"/**",
 				);
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					"-iframework",
-					"\"$(SRCROOT)/../Vendor/iOS/OCMock\"",
-					"-iframework",
-					"\"$(SRCROOT)/../Vendor/iOS/OCHamcrest\"",
-					"-iframework",
-					"\"$(PLATFORM_DIR)/Developer/Library/Frameworks\"",
-					"-iframework",
-					"\"$(SRCROOT)/../Vendor/iOS/PLCrashReporter\"",
-				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
-					CrashReporter,
-					"-framework",
 					UIKit,
+					"-framework",
+					CrashReporter,
 					"-ObjC",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecentercrashestests;
