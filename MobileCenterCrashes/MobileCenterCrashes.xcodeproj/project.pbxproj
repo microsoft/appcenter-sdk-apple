@@ -499,6 +499,22 @@
 			path = Common;
 			sourceTree = "<group>";
 		};
+		048494C31ECCD5AC0020B0FC /* macOS */ = {
+			isa = PBXGroup;
+			children = (
+				04ED31F41EAAD6070033BAAE /* Support */,
+			);
+			path = macOS;
+			sourceTree = "<group>";
+		};
+		048494C41ECCD5B50020B0FC /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				04ED31F11EAAD6070033BAAE /* Support */,
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
 		049327981ECA19FD00D0187A /* PLCrashReporter */ = {
 			isa = PBXGroup;
 			children = (
@@ -563,28 +579,12 @@
 			name = iOS;
 			sourceTree = "<group>";
 		};
-		04ED31F01EAAD6070033BAAE /* MobileCenterCrashesIos */ = {
-			isa = PBXGroup;
-			children = (
-				04ED31F11EAAD6070033BAAE /* Support */,
-			);
-			path = MobileCenterCrashesIos;
-			sourceTree = "<group>";
-		};
 		04ED31F11EAAD6070033BAAE /* Support */ = {
 			isa = PBXGroup;
 			children = (
 				04ED31F21EAAD6070033BAAE /* module.modulemap */,
 			);
 			path = Support;
-			sourceTree = "<group>";
-		};
-		04ED31F31EAAD6070033BAAE /* MobileCenterCrashesMac */ = {
-			isa = PBXGroup;
-			children = (
-				04ED31F41EAAD6070033BAAE /* Support */,
-			);
-			path = MobileCenterCrashesMac;
 			sourceTree = "<group>";
 		};
 		04ED31F41EAAD6070033BAAE /* Support */ = {
@@ -602,8 +602,6 @@
 				E8AEE9851D59744D00C0FF6C /* MSLogManager.h */,
 				6E0401351D1C98690051BCFA /* MobileCenterCrashes */,
 				6E171AE21D22F781000DC480 /* MobileCenterCrashesTests */,
-				04ED31F01EAAD6070033BAAE /* MobileCenterCrashesIos */,
-				04ED31F31EAAD6070033BAAE /* MobileCenterCrashesMac */,
 				6EC99A221D4151C60016C325 /* Vendor */,
 				6E0401341D1C98690051BCFA /* Products */,
 			);
@@ -624,6 +622,8 @@
 			isa = PBXGroup;
 			children = (
 				048494B21ECCC4FE0020B0FC /* Common */,
+				048494C41ECCD5B50020B0FC /* iOS */,
+				048494C31ECCD5AC0020B0FC /* macOS */,
 			);
 			path = MobileCenterCrashes;
 			sourceTree = "<group>";
@@ -1236,7 +1236,7 @@
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/** \"$(SRCROOT)/../MobileCenter/MobileCenterMac\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/** \"$(SRCROOT)/../MobileCenter/MobileCenter/macOS\"/**";
 				USE_HEADERMAP = YES;
 				VALID_ARCHS = "$(MS_MAC_ARCHS)";
 			};
@@ -1255,7 +1255,7 @@
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/** \"$(SRCROOT)/../MobileCenter/MobileCenterMac\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/** \"$(SRCROOT)/../MobileCenter/MobileCenter/macOS\"/**";
 				USE_HEADERMAP = YES;
 				VALID_ARCHS = "$(MS_MAC_ARCHS)";
 			};
@@ -1330,7 +1330,7 @@
 				PRODUCT_NAME = MobileCenterCrashesMac;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/** \"$(SRCROOT)/../MobileCenter/MobileCenterMac\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/** \"$(SRCROOT)/../MobileCenter/MobileCenter/macOS\"/**";
 				VALID_ARCHS = "$(MS_MAC_ARCHS)";
 			};
 			name = Debug;
@@ -1374,7 +1374,7 @@
 				PRODUCT_NAME = MobileCenterCrashesMac;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/** \"$(SRCROOT)/../MobileCenter/MobileCenterMac\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/** \"$(SRCROOT)/../MobileCenter/MobileCenter/macOS\"/**";
 				VALID_ARCHS = "$(MS_MAC_ARCHS)";
 			};
 			name = Release;
@@ -1489,7 +1489,7 @@
 				PRODUCT_NAME = MobileCenterCrashes;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/** \"$(SRCROOT)/../MobileCenter/MobileCenterIos\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/** \"$(SRCROOT)/../MobileCenter/MobileCenter/iOS\"/**";
 				USE_HEADERMAP = YES;
 				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
 			};
@@ -1510,7 +1510,7 @@
 				PRODUCT_NAME = MobileCenterCrashes;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/** \"$(SRCROOT)/../MobileCenter/MobileCenterIos\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/** \"$(SRCROOT)/../MobileCenter/MobileCenter/iOS\"/**";
 				USE_HEADERMAP = YES;
 				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
 			};
@@ -1557,7 +1557,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecentercrashestests;
 				PRODUCT_NAME = MobileCenterCrashes;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/** \"$(SRCROOT)/../MobileCenter/MobileCenterIos\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/** \"$(SRCROOT)/../MobileCenter/MobileCenter/iOS\"/**";
 			};
 			name = Debug;
 		};
@@ -1602,7 +1602,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecentercrashestests;
 				PRODUCT_NAME = MobileCenterCrashes;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/** \"$(SRCROOT)/../MobileCenter/MobileCenterIos\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/** \"$(SRCROOT)/../MobileCenter/MobileCenter/iOS\"/**";
 			};
 			name = Release;
 		};
@@ -1651,7 +1651,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				OTHER_CFLAGS = "";
 				PRODUCT_NAME = MobileCenterCrashes;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"";
 				VALID_ARCHS = "";
 			};
 			name = Debug;
@@ -1662,7 +1662,7 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				OTHER_CFLAGS = "";
 				PRODUCT_NAME = MobileCenterCrashes;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"";
 				VALID_ARCHS = "";
 			};
 			name = Release;
