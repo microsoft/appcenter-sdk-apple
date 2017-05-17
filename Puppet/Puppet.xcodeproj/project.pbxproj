@@ -106,6 +106,20 @@
 			remoteGlobalIDString = 04FD4A1B1E451E12009B4468;
 			remoteInfo = MobileCenterDistribute;
 		};
+		048494D01ECCD9E40020B0FC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E82E1B821D1CA63000D281C1 /* MobileCenter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 046AEAF61ECA562A00CBE511;
+			remoteInfo = MobileCenterMacTests;
+		};
+		048494D81ECCD9E40020B0FC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E85547FB1D2D6C8D002DF6E2 /* MobileCenterAnalytics.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 046AEAC61ECA51AF00CBE511;
+			remoteInfo = MobileCenterAnalyticsMacTests;
+		};
 		048A76A11E9EC0240075A6D6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E82E1B571D1CA58D00D281C1 /* Project object */;
@@ -405,6 +419,7 @@
 		380A4D971DD6892F00E99219 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B27397A31DE3D27700AC7761 /* CrashLibIOS.framework */,
 				38F2606E1E649FE5004F0FDC /* Security.framework */,
 				38484F691E537B9300C5631C /* SafariServices.framework */,
 				380A4D981DD6892F00E99219 /* NotificationCenter.framework */,
@@ -457,7 +472,6 @@
 		E82E1B561D1CA58D00D281C1 = {
 			isa = PBXGroup;
 			children = (
-				B27397A31DE3D27700AC7761 /* CrashLibIOS.framework */,
 				6EC99A271D4152FA0016C325 /* libc++.tbd */,
 				6EC99A251D4152EB0016C325 /* libz.tbd */,
 				E82E1B611D1CA58D00D281C1 /* Puppet */,
@@ -523,7 +537,7 @@
 				E82E1B811D1CA62900D281C1 /* libMobileCenterCrashes.a */,
 				E8DF1C2C1D21A8F5006310CF /* MobileCenterCrashes.xctest */,
 				046AEAA91ECA509000CBE511 /* libMobileCenterCrashesMac.a */,
-				046AEAAB1ECA509000CBE511 /* MobileCenterCrashesMacTests.xctest */,
+				046AEAAB1ECA509000CBE511 /* MobileCenterCrashesMac.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -534,6 +548,7 @@
 				E82E1B881D1CA63000D281C1 /* libMobileCenter.a */,
 				E82E1B8A1D1CA63000D281C1 /* MobileCenter.xctest */,
 				046AEA9A1ECA509000CBE511 /* libMobileCenterMac.a */,
+				048494D11ECCD9E40020B0FC /* MobileCenterMac.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -544,6 +559,7 @@
 				E85548031D2D6C8D002DF6E2 /* libMobileCenterAnalytics.a */,
 				E85548051D2D6C8D002DF6E2 /* MobileCenterAnalytics.xctest */,
 				046AEAA11ECA509000CBE511 /* libMobileCenterAnalyticsMac.a */,
+				048494D91ECCD9E40020B0FC /* MobileCenterAnalyticsMac.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -762,10 +778,10 @@
 			remoteRef = 046AEAA81ECA509000CBE511 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		046AEAAB1ECA509000CBE511 /* MobileCenterCrashesMacTests.xctest */ = {
+		046AEAAB1ECA509000CBE511 /* MobileCenterCrashesMac.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = MobileCenterCrashesMacTests.xctest;
+			path = MobileCenterCrashesMac.xctest;
 			remoteRef = 046AEAAA1ECA509000CBE511 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -781,6 +797,20 @@
 			fileType = wrapper.cfbundle;
 			path = MobileCenterDistribute.xctest;
 			remoteRef = 0471B9301E4550670022F951 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		048494D11ECCD9E40020B0FC /* MobileCenterMac.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = MobileCenterMac.xctest;
+			remoteRef = 048494D01ECCD9E40020B0FC /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		048494D91ECCD9E40020B0FC /* MobileCenterAnalyticsMac.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = MobileCenterAnalyticsMac.xctest;
+			remoteRef = 048494D81ECCD9E40020B0FC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		048A76BD1E9EC2D50075A6D6 /* libMobileCenterPush.a */ = {
@@ -1078,7 +1108,7 @@
 				PROVISIONING_PROFILE = "efe8c6b2-d14d-4958-ba71-8817551a535b";
 				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter PuppetWidget Extension";
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../MobileCenter/MobileCenter/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashes/** $(SRCROOT)/../MobileCenter/MobileCenterIos/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalyticsIos/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashesIos/**";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../MobileCenter/MobileCenter/Common/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/Common/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashes/Common/** $(SRCROOT)/../MobileCenter/MobileCenter/iOS/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/iOS/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashes/iOS/**";
 			};
 			name = Debug;
 		};
@@ -1097,7 +1127,7 @@
 				PROVISIONING_PROFILE = "efe8c6b2-d14d-4958-ba71-8817551a535b";
 				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter PuppetWidget Extension";
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../MobileCenter/MobileCenter/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashes/** $(SRCROOT)/../MobileCenter/MobileCenterIos/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalyticsIos/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashesIos/**";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../MobileCenter/MobileCenter/Common/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/Common/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashes/Common/** $(SRCROOT)/../MobileCenter/MobileCenter/iOS/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/iOS/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashes/iOS/**";
 			};
 			name = Release;
 		};
@@ -1265,7 +1295,7 @@
 				PROVISIONING_PROFILE = "bb861002-b29b-4a0e-bdcc-08d1f7e5d38e";
 				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Puppet App";
 				SWIFT_VERSION = 3.0;
-				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../MobileCenter/MobileCenter/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashes/** $(SRCROOT)/../MobileCenterDistribute/MobileCenterDistribute/** $(SRCROOT)/../MobileCenterPush/MobileCenterPush/** $(SRCROOT)/../MobileCenter/MobileCenterIos/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalyticsIos/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashesIos/**";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../MobileCenter/MobileCenter/Common/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/Common/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashes/Common/** $(SRCROOT)/../MobileCenterDistribute/MobileCenterDistribute/Common/** $(SRCROOT)/../MobileCenterPush/MobileCenterPush/Common/** $(SRCROOT)/../MobileCenter/MobileCenter/iOS/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/iOS/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashes/iOS/**";
 			};
 			name = Debug;
 		};
@@ -1292,7 +1322,7 @@
 				PROVISIONING_PROFILE = "bb861002-b29b-4a0e-bdcc-08d1f7e5d38e";
 				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Puppet App";
 				SWIFT_VERSION = 3.0;
-				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../MobileCenter/MobileCenter/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashes/** $(SRCROOT)/../MobileCenterDistribute/MobileCenterDistribute/** $(SRCROOT)/../MobileCenterPush/MobileCenterPush/** $(SRCROOT)/../MobileCenter/MobileCenterIos/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalyticsIos/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashesIos/**";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../MobileCenter/MobileCenter/Common/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/Common/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashes/Common/** $(SRCROOT)/../MobileCenterDistribute/MobileCenterDistribute/Common/** $(SRCROOT)/../MobileCenterPush/MobileCenterPush/Common/** $(SRCROOT)/../MobileCenter/MobileCenter/iOS/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/iOS/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashes/iOS/**";
 			};
 			name = Release;
 		};

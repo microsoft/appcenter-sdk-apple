@@ -76,7 +76,7 @@
 		0485AF7D1EAA79E300C10CAF /* MSSessionHistoryInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = E89B33E51D5A526D00FDE8FB /* MSSessionHistoryInfo.h */; };
 		0485AF7E1EAA79E300C10CAF /* MSAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547C31D2D6253002DF6E2 /* MSAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0485AF7F1EAA79E300C10CAF /* MSEventLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E3E2CC51D359D5E00B1EE50 /* MSEventLog.h */; };
-		0485AF801EAA79E300C10CAF /* ../MobileCenter/MobileCenter/MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 38D4BB9F1D5A98D1001A30A0 /* ../MobileCenter/MobileCenter/MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0485AF801EAA79E300C10CAF /* ../MobileCenter/MobileCenter/Common/MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 38D4BB9F1D5A98D1001A30A0 /* ../MobileCenter/MobileCenter/Common/MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0485AF811EAA79E300C10CAF /* MSSessionTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = E8E48F9C1D515C3900A8C1B0 /* MSSessionTracker.h */; };
 		0485AF8F1EAA852A00C10CAF /* MSAnalyticsCategory.h in Headers */ = {isa = PBXBuildFile; fileRef = 0485AF8D1EAA852A00C10CAF /* MSAnalyticsCategory.h */; };
 		0485AF901EAA852A00C10CAF /* MSAnalyticsCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485AF8E1EAA852A00C10CAF /* MSAnalyticsCategory.m */; };
@@ -88,7 +88,7 @@
 		35BF19E51DF9D59E00193027 /* MSMockAnalyticsDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 35BF19E41DF9D59E00193027 /* MSMockAnalyticsDelegate.m */; };
 		3813B9651DBFE68200831214 /* MSAnalyticsInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 3813B9641DBFE68200831214 /* MSAnalyticsInternal.h */; };
 		387C77051D6CC39400D68CC1 /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C77041D6CC39400D68CC1 /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		38D4BBA11D5A98D1001A30A0 /* ../MobileCenter/MobileCenter/MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 38D4BB9F1D5A98D1001A30A0 /* ../MobileCenter/MobileCenter/MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		38D4BBA11D5A98D1001A30A0 /* ../MobileCenter/MobileCenter/Common/MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 38D4BB9F1D5A98D1001A30A0 /* ../MobileCenter/MobileCenter/Common/MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E0684381D35A3B900A8CC6C /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E0684371D35A3B900A8CC6C /* OCHamcrestIOS.framework */; };
 		6E06844D1D35A4CA00A8CC6C /* libMobileCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E06844C1D35A4CA00A8CC6C /* libMobileCenter.a */; };
 		6E3E2CCB1D359D5E00B1EE50 /* MSEventLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E3E2CC51D359D5E00B1EE50 /* MSEventLog.h */; };
@@ -201,9 +201,9 @@
 		35BF19E31DF9D58F00193027 /* MSMockAnalyticsDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSMockAnalyticsDelegate.h; sourceTree = "<group>"; };
 		35BF19E41DF9D59E00193027 /* MSMockAnalyticsDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSMockAnalyticsDelegate.m; sourceTree = "<group>"; };
 		3813B9641DBFE68200831214 /* MSAnalyticsInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAnalyticsInternal.h; sourceTree = "<group>"; };
-		3856B47C1E032E7B0016AB05 /* Global.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Global.xcconfig; path = ../../../Global.xcconfig; sourceTree = "<group>"; };
-		387C77041D6CC39400D68CC1 /* MSServiceAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSServiceAbstract.h; path = ../MobileCenter/MobileCenter/MSServiceAbstract.h; sourceTree = "<group>"; };
-		38D4BB9F1D5A98D1001A30A0 /* ../MobileCenter/MobileCenter/MSService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ../MobileCenter/MobileCenter/MSService.h; sourceTree = "<group>"; };
+		3856B47C1E032E7B0016AB05 /* Global.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Global.xcconfig; path = ../../../../Global.xcconfig; sourceTree = "<group>"; };
+		387C77041D6CC39400D68CC1 /* MSServiceAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSServiceAbstract.h; path = ../MobileCenter/MobileCenter/Common/MSServiceAbstract.h; sourceTree = "<group>"; };
+		38D4BB9F1D5A98D1001A30A0 /* ../MobileCenter/MobileCenter/Common/MSService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ../MobileCenter/MobileCenter/Common/MSService.h; sourceTree = "<group>"; };
 		6E0684371D35A3B900A8CC6C /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrestIOS.framework; path = ../../Vendor/iOS/OCHamcrest/OCHamcrestIOS.framework; sourceTree = "<group>"; };
 		6E06844C1D35A4CA00A8CC6C /* libMobileCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobileCenter.a; path = "../../../../../Library/Developer/Xcode/DerivedData/AvalancheSDK-gjtjaobzkdgbqkdiexolxdrcgdjg/Build/Products/Debug-iphonesimulator/libMobileCenter.a"; sourceTree = "<group>"; };
 		6E3E2CC51D359D5E00B1EE50 /* MSEventLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSEventLog.h; sourceTree = "<group>"; };
@@ -222,13 +222,13 @@
 		E85547C51D2D6253002DF6E2 /* MSAnalytics.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSAnalytics.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		E85547CC1D2D63EF002DF6E2 /* MobileCenterAnalytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MobileCenterAnalytics.h; sourceTree = "<group>"; };
 		E85547CE1D2D64F0002DF6E2 /* MSAnalyticsPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAnalyticsPrivate.h; sourceTree = "<group>"; };
-		E85547CF1D2D6521002DF6E2 /* MobileCenter+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "MobileCenter+Internal.h"; path = "../../../MobileCenter/MobileCenter/Internals/MobileCenter+Internal.h"; sourceTree = "<group>"; };
+		E85547CF1D2D6521002DF6E2 /* MobileCenter+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "MobileCenter+Internal.h"; path = "../../../../MobileCenter/MobileCenter/Common/Internals/MobileCenter+Internal.h"; sourceTree = "<group>"; };
 		E85547D51D2D6723002DF6E2 /* MobileCenterAnalytics.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MobileCenterAnalytics.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E85547D91D2D6723002DF6E2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E89B33E51D5A526D00FDE8FB /* MSSessionHistoryInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSSessionHistoryInfo.h; sourceTree = "<group>"; };
 		E89B33E61D5A526D00FDE8FB /* MSSessionHistoryInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSSessionHistoryInfo.m; sourceTree = "<group>"; };
 		E89B33EB1D5A8F3500FDE8FB /* MSSessionTrackerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSSessionTrackerDelegate.h; sourceTree = "<group>"; };
-		E8AEE97F1D596C8B00C0FF6C /* MSLogManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSLogManager.h; path = ../MobileCenter/MobileCenter/Internals/Channel/MSLogManager.h; sourceTree = "<group>"; };
+		E8AEE97F1D596C8B00C0FF6C /* MSLogManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSLogManager.h; path = ../MobileCenter/MobileCenter/Common/Internals/Channel/MSLogManager.h; sourceTree = "<group>"; };
 		E8E48F9C1D515C3900A8C1B0 /* MSSessionTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSSessionTracker.h; sourceTree = "<group>"; };
 		E8E48F9D1D515C3900A8C1B0 /* MSSessionTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSSessionTracker.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		E8E48FA01D51670100A8C1B0 /* MSStartSessionLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSStartSessionLog.h; sourceTree = "<group>"; };
@@ -291,13 +291,34 @@
 			name = macOS;
 			sourceTree = "<group>";
 		};
-		0485AF8A1EAA852A00C10CAF /* MobileCenterAnalyticsIos */ = {
+		048494B11ECCC4B40020B0FC /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				E85547CC1D2D63EF002DF6E2 /* MobileCenterAnalytics.h */,
+				E85547C31D2D6253002DF6E2 /* MSAnalytics.h */,
+				E85547C51D2D6253002DF6E2 /* MSAnalytics.m */,
+				E85547CD1D2D64B0002DF6E2 /* Internals */,
+				E85547D01D2D65AF002DF6E2 /* Support */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		048494C11ECCCF970020B0FC /* macOS */ = {
+			isa = PBXGroup;
+			children = (
+				0485AF971EAA85D500C10CAF /* Internals */,
+				04ED31E81EAAD32B0033BAAE /* Support */,
+			);
+			path = macOS;
+			sourceTree = "<group>";
+		};
+		048494C21ECCCF9F0020B0FC /* iOS */ = {
 			isa = PBXGroup;
 			children = (
 				0485AF8B1EAA852A00C10CAF /* Internals */,
 				04ED31EA1EAAD3390033BAAE /* Support */,
 			);
-			path = MobileCenterAnalyticsIos;
+			path = iOS;
 			sourceTree = "<group>";
 		};
 		0485AF8B1EAA852A00C10CAF /* Internals */ = {
@@ -315,15 +336,6 @@
 				0485AF8E1EAA852A00C10CAF /* MSAnalyticsCategory.m */,
 			);
 			path = Utils;
-			sourceTree = "<group>";
-		};
-		0485AF961EAA85D500C10CAF /* MobileCenterAnalyticsMac */ = {
-			isa = PBXGroup;
-			children = (
-				0485AF971EAA85D500C10CAF /* Internals */,
-				04ED31E81EAAD32B0033BAAE /* Support */,
-			);
-			path = MobileCenterAnalyticsMac;
 			sourceTree = "<group>";
 		};
 		0485AF971EAA85D500C10CAF /* Internals */ = {
@@ -444,8 +456,6 @@
 				E8AEE97F1D596C8B00C0FF6C /* MSLogManager.h */,
 				E85547C21D2D6253002DF6E2 /* MobileCenterAnalytics */,
 				E85547D61D2D6723002DF6E2 /* MobileCenterAnalyticsTests */,
-				0485AF8A1EAA852A00C10CAF /* MobileCenterAnalyticsIos */,
-				0485AF961EAA85D500C10CAF /* MobileCenterAnalyticsMac */,
 				E85547C11D2D6253002DF6E2 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -464,11 +474,9 @@
 		E85547C21D2D6253002DF6E2 /* MobileCenterAnalytics */ = {
 			isa = PBXGroup;
 			children = (
-				E85547CC1D2D63EF002DF6E2 /* MobileCenterAnalytics.h */,
-				E85547C31D2D6253002DF6E2 /* MSAnalytics.h */,
-				E85547C51D2D6253002DF6E2 /* MSAnalytics.m */,
-				E85547CD1D2D64B0002DF6E2 /* Internals */,
-				E85547D01D2D65AF002DF6E2 /* Support */,
+				048494B11ECCC4B40020B0FC /* Common */,
+				048494C21ECCCF9F0020B0FC /* iOS */,
+				048494C11ECCCF970020B0FC /* macOS */,
 			);
 			path = MobileCenterAnalytics;
 			sourceTree = "<group>";
@@ -543,7 +551,7 @@
 				0485AF7D1EAA79E300C10CAF /* MSSessionHistoryInfo.h in Headers */,
 				0485AF7E1EAA79E300C10CAF /* MSAnalytics.h in Headers */,
 				0485AF7F1EAA79E300C10CAF /* MSEventLog.h in Headers */,
-				0485AF801EAA79E300C10CAF /* ../MobileCenter/MobileCenter/MSService.h in Headers */,
+				0485AF801EAA79E300C10CAF /* ../MobileCenter/MobileCenter/Common/MSService.h in Headers */,
 				0485AF811EAA79E300C10CAF /* MSSessionTracker.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -565,7 +573,7 @@
 				E89B33E71D5A526D00FDE8FB /* MSSessionHistoryInfo.h in Headers */,
 				E85547F81D2D6A7D002DF6E2 /* MSAnalytics.h in Headers */,
 				6E3E2CCB1D359D5E00B1EE50 /* MSEventLog.h in Headers */,
-				38D4BBA11D5A98D1001A30A0 /* ../MobileCenter/MobileCenter/MSService.h in Headers */,
+				38D4BBA11D5A98D1001A30A0 /* ../MobileCenter/MobileCenter/Common/MSService.h in Headers */,
 				E8E48F9E1D515C3900A8C1B0 /* MSSessionTracker.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -727,7 +735,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=MobileCenterAnalytics\nTGT_NAME=${FMK_NAME}Mac\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-iOS\nINSTALL_DIR=${PRODUCTS_DIR}/${TGT_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\"\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${TGT_NAME}/Support/module.modulemap\" \"${INSTALL_DIR}/Modules/\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release/include/${TGT_NAME}/\" \"${INSTALL_DIR}/Headers/\"\n\n# Uses the Lipo Tool to copy binary file (x86_64) into final product.\nlipo -create \"${DEVICE_DIR}/lib${TGT_NAME}.a\" -output \"${INSTALL_DIR}/${TGT_NAME}\"\n\nrm -r \"${WRK_DIR}\"";
+			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=MobileCenterAnalytics\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-iOS/macOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\"Mac clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\"Mac\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/macOS/Support/module.modulemap\" \"${INSTALL_DIR}/Modules/\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release/include/${FMK_NAME}Mac/\" \"${INSTALL_DIR}/Headers/\"\n\n# Uses the Lipo Tool to copy binary file (x86_64) into final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}Mac.a\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\n\nrm -r \"${WRK_DIR}\"";
 		};
 		E85547E81D2D6827002DF6E2 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -740,7 +748,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=MobileCenterAnalytics\nTGT_NAME=${FMK_NAME}Ios\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-iOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphoneos\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${TGT_NAME}/Support/module.modulemap\" \"${INSTALL_DIR}/Modules/\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Headers/\"\n\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" \"${SIMULATOR_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\n\nrm -r \"${WRK_DIR}\"";
+			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=MobileCenterAnalytics\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-iOS/iOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphoneos\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/iOS/Support/module.modulemap\" \"${INSTALL_DIR}/Modules/\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Headers/\"\n\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" \"${SIMULATOR_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\n\nrm -r \"${WRK_DIR}\"";
 		};
 		E85547ED1D2D68CF002DF6E2 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -754,7 +762,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "jazzy --config ../Documentation/MobileCenterAnalytics/.jazzy.yaml\n\nFMK_NAME=MobileCenterAnalytics\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-iOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\nDOCUMENTATION_DIR=${PRODUCTS_DIR}/Documentation/${FMK_NAME}\n\n# Create Documentation directory within folder.\nif [ ! -d \"${DOCUMENTATION_DIR}\" ]\nthen\nmkdir -p \"${DOCUMENTATION_DIR}\"\nfi\n\n# Copy generated documentation into the documentation folder\ncp -R \"${SRCROOT}/../Documentation/${FMK_NAME}/Generated/\" \"${DOCUMENTATION_DIR}\"";
+			shellScript = "jazzy --config ../Documentation/MobileCenterAnalytics/.jazzy.yaml\n\nFMK_NAME=MobileCenterAnalytics\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-iOS/iOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\nDOCUMENTATION_DIR=${PRODUCTS_DIR}/Documentation/${FMK_NAME}\n\n# Create Documentation directory within folder.\nif [ ! -d \"${DOCUMENTATION_DIR}\" ]\nthen\nmkdir -p \"${DOCUMENTATION_DIR}\"\nfi\n\n# Copy generated documentation into the documentation folder\ncp -R \"${SRCROOT}/../Documentation/${FMK_NAME}/Generated/\" \"${DOCUMENTATION_DIR}\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -876,7 +884,7 @@
 				PRODUCT_NAME = MobileCenterAnalyticsMac;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/** \"$(SRCROOT)/../MobileCenter/MobileCenterMac\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/** \"$(SRCROOT)/../MobileCenter/MobileCenter/macOS\"/**";
 				VALID_ARCHS = "$(MS_MAC_ARCHS)";
 			};
 			name = Debug;
@@ -921,7 +929,7 @@
 				PRODUCT_NAME = MobileCenterAnalyticsMac;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/** \"$(SRCROOT)/../MobileCenter/MobileCenterMac\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/** \"$(SRCROOT)/../MobileCenter/MobileCenter/macOS\"/**";
 				VALID_ARCHS = "$(MS_MAC_ARCHS)";
 			};
 			name = Release;
@@ -937,7 +945,7 @@
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/** \"$(SRCROOT)/../MobileCenter/MobileCenterMac\"/** \"$(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics\"/** \"$(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalyticsMac\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/** \"$(SRCROOT)/../MobileCenter/MobileCenter/macOS\"/** \"$(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/Common\"/** \"$(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/macOS\"/**";
 				USE_HEADERMAP = NO;
 				VALID_ARCHS = "$(MS_MAC_ARCHS)";
 			};
@@ -954,7 +962,7 @@
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/** \"$(SRCROOT)/../MobileCenter/MobileCenterMac\"/** \"$(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics\"/** \"$(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalyticsMac\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/** \"$(SRCROOT)/../MobileCenter/MobileCenter/macOS\"/** \"$(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/Common\"/** \"$(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/macOS\"/**";
 				USE_HEADERMAP = NO;
 				VALID_ARCHS = "$(MS_MAC_ARCHS)";
 			};
@@ -1094,7 +1102,7 @@
 				PRODUCT_NAME = MobileCenterAnalytics;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/** \"$(SRCROOT)/../MobileCenter/MobileCenterIos\"/** \"$(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics\"/** \"$(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalyticsIos\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/** \"$(SRCROOT)/../MobileCenter/MobileCenter/iOS\"/** \"$(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/Common\"/** \"$(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/iOS\"/**";
 				USE_HEADERMAP = NO;
 				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
 			};
@@ -1110,7 +1118,7 @@
 				PRODUCT_NAME = MobileCenterAnalytics;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/** \"$(SRCROOT)/../MobileCenter/MobileCenterIos\"/** \"$(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics\"/** \"$(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalyticsIos\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/** \"$(SRCROOT)/../MobileCenter/MobileCenter/iOS\"/** \"$(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/Common\"/** \"$(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/iOS\"/**";
 				USE_HEADERMAP = NO;
 				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
 			};
@@ -1152,7 +1160,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenteranalyticstests;
 				PRODUCT_NAME = MobileCenterAnalytics;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/** \"$(SRCROOT)/../MobileCenter/MobileCenterIos\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/** \"$(SRCROOT)/../MobileCenter/MobileCenter/iOS\"/**";
 			};
 			name = Debug;
 		};
@@ -1192,7 +1200,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenteranalyticstests;
 				PRODUCT_NAME = MobileCenterAnalytics;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/** \"$(SRCROOT)/../MobileCenter/MobileCenterIos\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/** \"$(SRCROOT)/../MobileCenter/MobileCenter/iOS\"/**";
 			};
 			name = Release;
 		};
@@ -1226,7 +1234,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				OTHER_CFLAGS = "";
 				PRODUCT_NAME = MobileCenterAnalytics;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"";
 				VALID_ARCHS = "";
 			};
 			name = Debug;
@@ -1236,7 +1244,7 @@
 			buildSettings = {
 				OTHER_CFLAGS = "";
 				PRODUCT_NAME = MobileCenterAnalytics;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"";
 				VALID_ARCHS = "";
 			};
 			name = Release;

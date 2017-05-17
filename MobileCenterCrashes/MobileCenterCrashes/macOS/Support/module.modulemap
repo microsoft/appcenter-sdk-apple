@@ -1,4 +1,4 @@
-framework module MobileCenterCrashesMac {
+framework module MobileCenterCrashes {
   umbrella header "MobileCenterCrashes.h"
   
   export *

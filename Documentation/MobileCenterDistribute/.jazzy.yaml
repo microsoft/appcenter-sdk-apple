@@ -16,8 +16,8 @@ custom_categories:
     children:
     - Installation
 
-umbrella_header: ../../MobileCenter-SDK-iOS/MobileCenterDistribute.framework/Headers/MobileCenterDistribute.h
-framework_root: ../../MobileCenter-SDK-iOS
+umbrella_header: ../../MobileCenter-SDK-iOS/iOS/MobileCenterDistribute.framework/Headers/MobileCenterDistribute.h
+framework_root: ../../MobileCenter-SDK-iOS/iOS/
 exclude: [../../MobileCenter-SDK-iOS/MobileCenterDistribute.framework/Headers/MSService.h, ../../MobileCenter-SDK-iOS/MobileCenterDistribute.framework/Headers/MSServiceAbstract.h]
 
 root_url: http://docs.mobile.azure.com/sdk/ios
