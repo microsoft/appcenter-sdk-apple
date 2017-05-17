@@ -23,7 +23,6 @@
 #pragma clang diagnostic ignored "-Warc-retain-cycles"
 
 // Silence application:openURL:options: availability warning (iOS 9) for the whole test.
-#pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpartial-availability"
 
 @implementation MSAppDelegateForwarderTest
