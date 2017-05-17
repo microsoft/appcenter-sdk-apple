@@ -143,13 +143,12 @@ static BOOL _enabled = YES;
     if (![self.selectorsNotToOverride containsObject:originalSelectorString]) {
       originalImp = method_setImplementation(originalMethod, customImp);
     }
-  }
-
-  /*
-   * The original class may not implement the selector (e.g.: optional method from protocol),
-   * add the method to the original class and associate it to the custom implementation.
-   */
-  else {
+  } else {
+    
+    /*
+     * The original class may not implement the selector (e.g.: optional method from protocol),
+     * add the method to the original class and associate it with the custom implementation.
+     */
     Method customMethod = class_getInstanceMethod(self, customSelector);
     methodAdded = class_addMethod(originalClass, originalSelector, customImp, method_getTypeEncoding(customMethod));
   }
@@ -332,7 +331,7 @@ static BOOL _enabled = YES;
 /*
  * The application starts querying its delegate for its implementation as soon as it is set then may never query again.
  * It means that if the application delegate doesn't implement an optional method of the `UIApplicationDelegate`
- * protocol at that time then that method may never be called even if added later via swizzling. This is why the 
+ * protocol at that time then that method may never be called even if added later via swizzling. This is why the
  * application delegate swizzling should happen at the time it is set to the application object.
  */
 

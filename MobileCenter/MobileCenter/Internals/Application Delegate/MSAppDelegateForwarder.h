@@ -12,14 +12,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, class) BOOL enabled;
 
 /**
- * Add a delegate.
+ * Add a delegate. This method is thread safe.
  *
  * @param delegate A delegate.
  */
 + (void)addDelegate:(id<MSAppDelegate>)delegate;
 
 /**
- * Remove a delegate.
+ * Remove a delegate. This method is thread safe.
  *
  * @param delegate A delegate.
  */
