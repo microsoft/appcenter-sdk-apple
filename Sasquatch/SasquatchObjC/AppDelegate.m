@@ -164,11 +164,12 @@
 }
 
 - (NSArray<MSErrorAttachmentLog *> *)attachmentsWithCrashes:(MSCrashes *)crashes
-                                            forErrorReport:(MSErrorReport *)errorReport {
-  NSData *data = [[NSString stringWithFormat:@"<xml><text>Binary attachment for crash</text><id>%@</id></xml>", errorReport.incidentIdentifier] dataUsingEncoding:NSUTF8StringEncoding];
-  NSString *text = [NSString stringWithFormat:@"Text attachement for crash #%@", errorReport.incidentIdentifier];
-  MSErrorAttachmentLog *attachment1 = [MSErrorAttachmentLog attachmentWithText:text filename:@"demo-crash-attachment.log"];
-  MSErrorAttachmentLog *attachment2 = [MSErrorAttachmentLog attachmentWithBinary:data filename:nil contentType:@"text/xml"];
+                                             forErrorReport:(MSErrorReport *)errorReport {
+  MSErrorAttachmentLog *attachment1 = [MSErrorAttachmentLog attachmentWithText:@"Hello world!" filename:@"hello.txt"];
+  MSErrorAttachmentLog *attachment2 =
+  [MSErrorAttachmentLog attachmentWithBinary:[@"Fake image" dataUsingEncoding:NSUTF8StringEncoding]
+                                    filename:@"fake_image.jpeg"
+                                 contentType:@"image/jpeg"];
   return @[ attachment1, attachment2 ];
 }
 
