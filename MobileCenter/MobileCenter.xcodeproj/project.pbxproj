@@ -672,6 +672,50 @@
 			path = macOS;
 			sourceTree = "<group>";
 		};
+		048494FA1ECCF10F0020B0FC /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
+		048494FB1ECCF1160020B0FC /* macOS */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = macOS;
+			sourceTree = "<group>";
+		};
+		048494FC1ECCF17A0020B0FC /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				6E48A5A31D3831FE006E8B5F /* MSChannelConfigurationTests.m */,
+				6EB1F40D1D2443B7005F9F99 /* MSChannelDefaultTests.m */,
+				F803BC391E8E6963004B1E7A /* MSCustomPropertiesLogTests.m */,
+				F803BC371E8E6927004B1E7A /* MSCustomPropertiesTests.m */,
+				B2FD53641E567BCF0050F909 /* MSDeviceHistoryInfoTests.m */,
+				6E3E2CC01D3596AE00B1EE50 /* MSDeviceLogTests.m */,
+				385FC0541D37EBD700A1799F /* MSDeviceTrackerTests.m */,
+				6E363AE41D2C2C320079043D /* MSFileStorageTests.m */,
+				6E58E2BD1D2F18DA0039D062 /* MSFileTests.m */,
+				6E5D8A7F1D25B91F00C033B1 /* MSFileUtilTests.m */,
+				E829E4221D25C8BA00F19DA1 /* MSIngestionSenderTests.m */,
+				04FD126A1E4103CC007ABFE7 /* MSKeychainUtilTests.m */,
+				E88EBBFA1D2C8CC7007E7785 /* MSLogContainerTests.m */,
+				B24F3F161D93A3FF00827213 /* MSLoggerTests.m */,
+				6E48A5A61D383893006E8B5F /* MSLogManagerDefaultTests.m */,
+				045660FA1D99EEEB002F7055 /* MSLogWithPropertiesTests.m */,
+				384959D41D491D4F008F6B3A /* MSMobileCenterTests.m */,
+				04B7BBEE1E5FAD4D001A0CE1 /* MSSenderUtilTests.m */,
+				387C75951D64EE1900D68CC1 /* MSServiceAbstractTests.m */,
+				D38024111E7130C700466558 /* MSStartServiceLogTests.m */,
+				6E58E2B61D2F12A70039D062 /* MSStorageBucketTests.m */,
+				380A4DCA1DD6908A00E99219 /* MSUtilityTests.m */,
+				6E363AEF1D2C84D60079043D /* Util */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
 		0485AFEB1EAAAC3B00C10CAF /* Support */ = {
 			isa = PBXGroup;
 			children = (
@@ -871,30 +915,10 @@
 			isa = PBXGroup;
 			children = (
 				6E23957C1D22EF4F00E543C8 /* Info.plist */,
-				6E48A5A31D3831FE006E8B5F /* MSChannelConfigurationTests.m */,
-				6EB1F40D1D2443B7005F9F99 /* MSChannelDefaultTests.m */,
-				F803BC391E8E6963004B1E7A /* MSCustomPropertiesLogTests.m */,
-				F803BC371E8E6927004B1E7A /* MSCustomPropertiesTests.m */,
-				B2FD53641E567BCF0050F909 /* MSDeviceHistoryInfoTests.m */,
-				6E3E2CC01D3596AE00B1EE50 /* MSDeviceLogTests.m */,
-				385FC0541D37EBD700A1799F /* MSDeviceTrackerTests.m */,
-				6E363AE41D2C2C320079043D /* MSFileStorageTests.m */,
-				6E58E2BD1D2F18DA0039D062 /* MSFileTests.m */,
-				6E5D8A7F1D25B91F00C033B1 /* MSFileUtilTests.m */,
-				E829E4221D25C8BA00F19DA1 /* MSIngestionSenderTests.m */,
-				04FD126A1E4103CC007ABFE7 /* MSKeychainUtilTests.m */,
-				E88EBBFA1D2C8CC7007E7785 /* MSLogContainerTests.m */,
-				B24F3F161D93A3FF00827213 /* MSLoggerTests.m */,
-				6E48A5A61D383893006E8B5F /* MSLogManagerDefaultTests.m */,
-				045660FA1D99EEEB002F7055 /* MSLogWithPropertiesTests.m */,
-				384959D41D491D4F008F6B3A /* MSMobileCenterTests.m */,
-				04B7BBEE1E5FAD4D001A0CE1 /* MSSenderUtilTests.m */,
-				387C75951D64EE1900D68CC1 /* MSServiceAbstractTests.m */,
-				D38024111E7130C700466558 /* MSStartServiceLogTests.m */,
-				6E58E2B61D2F12A70039D062 /* MSStorageBucketTests.m */,
-				380A4DCA1DD6908A00E99219 /* MSUtilityTests.m */,
+				048494FC1ECCF17A0020B0FC /* Common */,
+				048494FA1ECCF10F0020B0FC /* iOS */,
+				048494FB1ECCF1160020B0FC /* macOS */,
 				6E2395831D22EF5F00E543C8 /* Frameworks */,
-				6E363AEF1D2C84D60079043D /* Util */,
 			);
 			path = MobileCenterTests;
 			sourceTree = "<group>";

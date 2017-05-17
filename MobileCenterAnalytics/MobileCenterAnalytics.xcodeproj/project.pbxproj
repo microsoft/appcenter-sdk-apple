@@ -321,6 +321,34 @@
 			path = iOS;
 			sourceTree = "<group>";
 		};
+		048494FD1ECCF1ED0020B0FC /* macOS */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = macOS;
+			sourceTree = "<group>";
+		};
+		048494FE1ECCF1F50020B0FC /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
+		048494FF1ECCF1FB0020B0FC /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				042A17A71DEFA950003BA80A /* MSAnalyticsTests.m */,
+				E815912B1D526A09003D5F3C /* MSSessionTrackerTests.m */,
+				E81591291D526956003D5F3C /* MSStartSessionLogTests.m */,
+				6E3E2CD01D359F3300B1EE50 /* MSEventLogTests.m */,
+				6E3E2CD11D359F3300B1EE50 /* MSPageLogTests.m */,
+				35BF19E61DF9D5A400193027 /* Model */,
+				E815912F1D526C22003D5F3C /* Util */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
 		0485AF8B1EAA852A00C10CAF /* Internals */ = {
 			isa = PBXGroup;
 			children = (
@@ -506,15 +534,11 @@
 		E85547D61D2D6723002DF6E2 /* MobileCenterAnalyticsTests */ = {
 			isa = PBXGroup;
 			children = (
-				042A17A71DEFA950003BA80A /* MSAnalyticsTests.m */,
-				E815912B1D526A09003D5F3C /* MSSessionTrackerTests.m */,
-				E81591291D526956003D5F3C /* MSStartSessionLogTests.m */,
-				6E3E2CD01D359F3300B1EE50 /* MSEventLogTests.m */,
-				6E3E2CD11D359F3300B1EE50 /* MSPageLogTests.m */,
 				E85547D91D2D6723002DF6E2 /* Info.plist */,
+				048494FF1ECCF1FB0020B0FC /* Common */,
+				048494FE1ECCF1F50020B0FC /* iOS */,
+				048494FD1ECCF1ED0020B0FC /* macOS */,
 				6E0684361D35A39300A8CC6C /* Frameworks */,
-				35BF19E61DF9D5A400193027 /* Model */,
-				E815912F1D526C22003D5F3C /* Util */,
 			);
 			path = MobileCenterAnalyticsTests;
 			sourceTree = "<group>";

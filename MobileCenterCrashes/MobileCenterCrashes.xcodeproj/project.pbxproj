@@ -515,6 +515,44 @@
 			path = iOS;
 			sourceTree = "<group>";
 		};
+		048495001ECCF29A0020B0FC /* macOS */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = macOS;
+			sourceTree = "<group>";
+		};
+		048495011ECCF2A20020B0FC /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
+		048495021ECCF2A70020B0FC /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				6E7D5C811D3EC06C009EC9AC /* MSConstants.h */,
+				B2FF130B1DD12F61003DC677 /* MSAppleErrorLogTests.m */,
+				B2F120D21D6546560060DED7 /* MSBinaryAttachmentTests.m */,
+				6E7D5C7F1D3EAEB5009EC9AC /* MSBinaryTests.m */,
+				59493B275715F01438B2E6FD /* MSCrashesUtilTests.m */,
+				B2F120D41D6546740060DED7 /* MSErrorAttachmentTests.m */,
+				B2F120D61D65469D0060DED7 /* MSErrorReportTests.m */,
+				6E7D5C891D3EC504009EC9AC /* MSExceptionTests.m */,
+				6E7D5C861D3EC332009EC9AC /* MSStackFrameTests.m */,
+				6E7D5C831D3EC0F7009EC9AC /* MSThreadTests.m */,
+				35EF18DF1DDBCF6C00731CA8 /* MSWrapperExceptionManagerTests.m */,
+				F851DAEC1E81867D00525570 /* MSCrashesCXXExceptionTests.mm */,
+				6EC99A2D1D4166C50016C325 /* MSCrashesTests.mm */,
+				B24F3F0E1D93368F00827213 /* MSErrorLogFormatterTests.mm */,
+				6EC99A2F1D416CCF0016C325 /* Fixtures */,
+				0444496D1DD3D26D00D33BAE /* Model */,
+				B2A0A71D1D9C2AF200729A58 /* Util */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
 		049327981ECA19FD00D0187A /* PLCrashReporter */ = {
 			isa = PBXGroup;
 			children = (
@@ -649,25 +687,11 @@
 		6E171AE21D22F781000DC480 /* MobileCenterCrashesTests */ = {
 			isa = PBXGroup;
 			children = (
-				6E7D5C811D3EC06C009EC9AC /* MSConstants.h */,
-				B2FF130B1DD12F61003DC677 /* MSAppleErrorLogTests.m */,
-				B2F120D21D6546560060DED7 /* MSBinaryAttachmentTests.m */,
-				6E7D5C7F1D3EAEB5009EC9AC /* MSBinaryTests.m */,
-				59493B275715F01438B2E6FD /* MSCrashesUtilTests.m */,
-				B2F120D41D6546740060DED7 /* MSErrorAttachmentTests.m */,
-				B2F120D61D65469D0060DED7 /* MSErrorReportTests.m */,
-				6E7D5C891D3EC504009EC9AC /* MSExceptionTests.m */,
-				6E7D5C861D3EC332009EC9AC /* MSStackFrameTests.m */,
-				6E7D5C831D3EC0F7009EC9AC /* MSThreadTests.m */,
-				35EF18DF1DDBCF6C00731CA8 /* MSWrapperExceptionManagerTests.m */,
-				F851DAEC1E81867D00525570 /* MSCrashesCXXExceptionTests.mm */,
-				6EC99A2D1D4166C50016C325 /* MSCrashesTests.mm */,
-				B24F3F0E1D93368F00827213 /* MSErrorLogFormatterTests.mm */,
 				6E171AE51D22F781000DC480 /* Info.plist */,
-				6EC99A2F1D416CCF0016C325 /* Fixtures */,
+				048495021ECCF2A70020B0FC /* Common */,
+				048495011ECCF2A20020B0FC /* iOS */,
+				048495001ECCF29A0020B0FC /* macOS */,
 				6E171AEC1D22F7AB000DC480 /* Frameworks */,
-				0444496D1DD3D26D00D33BAE /* Model */,
-				B2A0A71D1D9C2AF200729A58 /* Util */,
 			);
 			path = MobileCenterCrashesTests;
 			sourceTree = "<group>";

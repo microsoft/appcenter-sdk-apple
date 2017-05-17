@@ -108,8 +108,8 @@
 		D33A94511E5B11BB003966DB /* libMobileCenterPush.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMobileCenterPush.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D33A94541E5B11BB003966DB /* MobileCenterPush.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MobileCenterPush.h; sourceTree = "<group>"; };
 		D38023C01E6DE01700466558 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
-		D39B04E21E66FBC60048E397 /* MSPushTestUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MSPushTestUtil.h; path = Util/MSPushTestUtil.h; sourceTree = "<group>"; };
-		D39B04E31E66FBD50048E397 /* MSPushTestUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSPushTestUtil.m; path = Util/MSPushTestUtil.m; sourceTree = "<group>"; };
+		D39B04E21E66FBC60048E397 /* MSPushTestUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSPushTestUtil.h; sourceTree = "<group>"; };
+		D39B04E31E66FBD50048E397 /* MSPushTestUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSPushTestUtil.m; sourceTree = "<group>"; };
 		D3AD5EC01E5C4F6A001627AB /* MobileCenterPush.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MobileCenterPush.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3AD5EC21E5C4F6A001627AB /* MSPushTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSPushTests.m; sourceTree = "<group>"; };
 		D3AD5EC41E5C4F6A001627AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -168,6 +168,16 @@
 				047919B41EBA3B1B004834A6 /* MSPushDelegate.h */,
 				D3AD5F071E5C8136001627AB /* Internal */,
 				D3AD5F031E5C7FC9001627AB /* Support */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		048495041ECCF3F40020B0FC /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				D3AD5EC21E5C4F6A001627AB /* MSPushTests.m */,
+				04849D771E9E911E0093ECA6 /* Model */,
+				D39B04E11E66FBA70048E397 /* Util */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -239,17 +249,15 @@
 				D39B04E21E66FBC60048E397 /* MSPushTestUtil.h */,
 				D39B04E31E66FBD50048E397 /* MSPushTestUtil.m */,
 			);
-			name = Util;
+			path = Util;
 			sourceTree = "<group>";
 		};
 		D3AD5EC11E5C4F6A001627AB /* MobileCenterPushTests */ = {
 			isa = PBXGroup;
 			children = (
 				D3AD5EC41E5C4F6A001627AB /* Info.plist */,
-				D3AD5EC21E5C4F6A001627AB /* MSPushTests.m */,
+				048495041ECCF3F40020B0FC /* Common */,
 				D3AD5F661E5D73F2001627AB /* Frameworks */,
-				04849D771E9E911E0093ECA6 /* Model */,
-				D39B04E11E66FBA70048E397 /* Util */,
 			);
 			path = MobileCenterPushTests;
 			sourceTree = "<group>";

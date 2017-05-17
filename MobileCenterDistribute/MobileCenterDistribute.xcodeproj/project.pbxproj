@@ -198,8 +198,8 @@
 		B2C070BA1E5E68540076D6A9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BA6820A043C816916AF34A04 /* MSErrorDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSErrorDetails.h; sourceTree = "<group>"; };
 		BA6826E3C58372A269A6B43A /* MSErrorDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSErrorDetails.m; sourceTree = "<group>"; };
-		D377A3101E83C16400B2C97A /* MSMockUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSMockUserDefaults.h; path = ../../../MobileCenter/MobileCenterTests/Util/MSMockUserDefaults.h; sourceTree = "<group>"; };
-		D377A3111E83C16400B2C97A /* MSMockUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSMockUserDefaults.m; path = ../../../MobileCenter/MobileCenterTests/Util/MSMockUserDefaults.m; sourceTree = "<group>"; };
+		D377A3101E83C16400B2C97A /* MSMockUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSMockUserDefaults.h; path = ../../../../MobileCenter/MobileCenterTests/Common/Util/MSMockUserDefaults.h; sourceTree = "<group>"; };
+		D377A3111E83C16400B2C97A /* MSMockUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSMockUserDefaults.m; path = ../../../../MobileCenter/MobileCenterTests/Common/Util/MSMockUserDefaults.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -304,6 +304,22 @@
 			path = Common;
 			sourceTree = "<group>";
 		};
+		048495031ECCF3560020B0FC /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				848860441E6EC32B003A9B96 /* MSBasicMachOParserTests.m */,
+				04FD4A331E453531009B4468 /* MSDistributeTests.m */,
+				B20DE7B61E5F97330023075C /* MSDistributeUtilTests.m */,
+				040AF0291E52748D005C1174 /* MSDistributeSenderTests.m */,
+				38A683631E774DCE00A63BC8 /* MSSemVerPreReleaseIdTest.m */,
+				38A683621E774DCE00A63BC8 /* MSSemVerTests.m */,
+				040AF0101E523AC2005C1174 /* Fixtures */,
+				040AF0211E523B36005C1174 /* Model */,
+				389638A21E79F557007C3809 /* Util */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
 		048BB2FB1E60A40D009D92C2 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -373,16 +389,8 @@
 			isa = PBXGroup;
 			children = (
 				04FD4A351E453531009B4468 /* Info.plist */,
-				848860441E6EC32B003A9B96 /* MSBasicMachOParserTests.m */,
-				04FD4A331E453531009B4468 /* MSDistributeTests.m */,
-				B20DE7B61E5F97330023075C /* MSDistributeUtilTests.m */,
-				040AF0291E52748D005C1174 /* MSDistributeSenderTests.m */,
-				38A683631E774DCE00A63BC8 /* MSSemVerPreReleaseIdTest.m */,
-				38A683621E774DCE00A63BC8 /* MSSemVerTests.m */,
-				040AF0101E523AC2005C1174 /* Fixtures */,
+				048495031ECCF3560020B0FC /* Common */,
 				04FD4A491E453930009B4468 /* Frameworks */,
-				040AF0211E523B36005C1174 /* Model */,
-				389638A21E79F557007C3809 /* Util */,
 			);
 			path = MobileCenterDistributeTests;
 			sourceTree = "<group>";
