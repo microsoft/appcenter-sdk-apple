@@ -40,19 +40,25 @@
 
 #pragma mark - URL handling
 
-/**
- *  This addition is required in case apps support iOS 8. Apps that are iOS 9 and later don't need to implement this
- * as our SDK uses SFSafariViewController for MSDistribute.
- */
+// Open URL for iOS 8.
 - (BOOL)application:(UIApplication *)application
-            openURL:(NSURL *)url
-  sourceApplication:(NSString *)sourceApplication
-         annotation:(id)annotation {
+              openURL:(NSURL *)url
+    sourceApplication:(NSString *)sourceApplication
+           annotation:(id)annotation {
+  NSLog(@"%@ Was woken up via openURL:sourceApplication:annotation: %@", kPUPLogTag, url);
 
   // Forward the URL to MSDistribute.
-  [MSDistribute openUrl:url];
-  NSLog(@"%@ Got waken up via openURL: %@", kPUPLogTag, url);
-  return YES;
+  return [MSDistribute openURL:url];
+}
+
+// Open URL for iOS 9+.
+- (BOOL)application:(UIApplication *)application
+            openURL:(nonnull NSURL *)url
+            options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
+  NSLog(@"%@ Was woken up via openURL:options: %@", kPUPLogTag, url);
+
+  // Forward the URL to MSDistribute.
+  return [MSDistribute openURL:url];
 }
 
 #pragma mark - Application life cycle
@@ -161,7 +167,7 @@
 }
 
 - (NSArray<MSErrorAttachmentLog *> *)attachmentsWithCrashes:(MSCrashes *)crashes
-                                            forErrorReport:(MSErrorReport *)errorReport {
+                                             forErrorReport:(MSErrorReport *)errorReport {
   NSData *data = [[NSString stringWithFormat:@"<xml><text>Binary attachment for crash</text><id>%@</id></xml>",
                                              errorReport.incidentIdentifier] dataUsingEncoding:NSUTF8StringEncoding];
   NSString *text = [NSString stringWithFormat:@"Text attachement for crash #%@", errorReport.incidentIdentifier];
