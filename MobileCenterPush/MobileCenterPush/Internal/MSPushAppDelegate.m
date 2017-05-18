@@ -6,17 +6,17 @@
 
 #pragma mark - MSAppDelegate
 
-- (void)application:(__attribute__((unused))UIApplication *)app
+- (void)application:(__attribute__((unused))UIApplication *)application
     didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
   [MSPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 }
 
-- (void)application:(__attribute__((unused))UIApplication *)app
+- (void)application:(__attribute__((unused))UIApplication *)application
     didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
   [MSPush didFailToRegisterForRemoteNotificationsWithError:error];
 }
 
-- (void)application:(__attribute__((unused))UIApplication *)app
+- (void)application:(__attribute__((unused))UIApplication *)application
     didReceiveRemoteNotification:(NSDictionary *)userInfo
           fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
   BOOL result = [MSPush didReceiveRemoteNotification:userInfo];

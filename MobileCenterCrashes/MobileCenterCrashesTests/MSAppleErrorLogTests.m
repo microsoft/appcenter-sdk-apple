@@ -6,7 +6,6 @@
 #import "MSAppleErrorLog.h"
 #import "MSBinary.h"
 #import "MSCrashesTestUtil.h"
-#import "MSErrorAttachment.h"
 #import "MSException.h"
 #import "MSThread.h"
 
@@ -57,7 +56,6 @@
   appleLog.errorThreadName = @"2";
   appleLog.fatal = YES;
   appleLog.appLaunchTOffset = @123;
-  appleLog.errorAttachment = [MSErrorAttachment attachmentWithText:@"test"];
   appleLog.architecture = @"test";
 
   return appleLog;
@@ -99,11 +97,6 @@
   assertThat(exceptionDictionary[@"type"], equalTo(self.sut.exception.type));
   assertThat(exceptionDictionary[@"message"], equalTo(self.sut.exception.message));
   assertThat(exceptionDictionary[@"wrapper_sdk_name"], equalTo(self.sut.exception.wrapperSdkName));
-
-  // Error attachment fields.
-  NSDictionary *attachmentDictionary = actual[@"error_attachment"];
-  XCTAssertNotNil(attachmentDictionary);
-  assertThat(attachmentDictionary[@"text_attachment"], equalTo(self.sut.errorAttachment.textAttachment));
 }
 
 - (void)testNSCodingSerializationAndDeserializationWorks {
@@ -166,6 +159,9 @@
   log.errorId = @"errorId";
   log.processId = @123;
   log.processName = @"processName";
+  log.appLaunchTOffset = @1234567;
+  log.toffset = @(1);
+  log.sid = MS_UUID_STRING;
 
   // Then
   XCTAssertFalse([log isValid]);

@@ -54,7 +54,7 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>MSAppDelegateForwarderEnabled</key>
+	<key>MobileCenterAppDelegateForwarderEnabled</key>
 	<false/>
 </dict>
 </plist>

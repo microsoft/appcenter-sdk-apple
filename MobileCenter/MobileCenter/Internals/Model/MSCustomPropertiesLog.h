@@ -1,4 +1,4 @@
-#import "MSAbstractLog.h"
+#import "MSAbstractLogInternal.h"
 #import <Foundation/Foundation.h>
 
 @interface MSCustomPropertiesLog : MSAbstractLog

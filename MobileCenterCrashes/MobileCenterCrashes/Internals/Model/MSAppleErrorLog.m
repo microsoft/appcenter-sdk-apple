@@ -20,11 +20,9 @@ static NSString *const kMSException = @"exception";
 
 @implementation MSAppleErrorLog
 
-@synthesize type = _type;
-
 - (instancetype)init {
   if ((self = [super init])) {
-    _type = kMSTypeError;
+    self.type = kMSTypeError;
   }
   return self;
 }
@@ -122,7 +120,6 @@ static NSString *const kMSException = @"exception";
 - (instancetype)initWithCoder:(NSCoder *)coder {
   self = [super initWithCoder:coder];
   if (self) {
-    _type = [coder decodeObjectForKey:kMSType];
     _primaryArchitectureId = [coder decodeObjectForKey:kMSPrimaryArchitectureId];
     _architectureVariantId = [coder decodeObjectForKey:kMSArchitectureVariantId];
     _applicationPath = [coder decodeObjectForKey:kMSApplicationPath];
@@ -142,7 +139,6 @@ static NSString *const kMSException = @"exception";
 
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
-  [coder encodeObject:self.type forKey:kMSType];
   [coder encodeObject:self.primaryArchitectureId forKey:kMSPrimaryArchitectureId];
   [coder encodeObject:self.architectureVariantId forKey:kMSArchitectureVariantId];
   [coder encodeObject:self.applicationPath forKey:kMSApplicationPath];
