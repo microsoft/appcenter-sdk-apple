@@ -97,27 +97,19 @@
 + (void)setWrapperSdk:(MSWrapperSdk *)wrapperSdk;
 
 /**
- * Enable or disable the app delegate forwarding featrue. 
- *
- * @param isEnabled YES to enable, NO to disable.
- *
- * @discussion App delegate forwarding feature intercepts messages targetting application delegate methods via swizzling
- * to forward them to the SDK. This simplify the SDK integration but may be an issue for some situations.
- * if that is the case then disable App delegate forwarding using `setAppDelegateForwardingEnabled` and forward any application
- * delegate needed by the SDK manually.
- *
- * @see isAppDelegateForwardingEnabled
- */
-+ (void)setAppDelegateForwardingEnabled:(BOOL)isEnabled;
-
-/**
- * Check whether the app delegate forwarding feature is enabled or not.
+ * Check whether the application delegate forwarder is enabled or not.
  *
  * @return YES if enabled, NO otherwise.
  *
- * @see setAppDelegateForwardingEnabled:
+ * @discussion The application delegate forwarder forwards messages targetting your application delegate methods via
+ * swizzling to the SDK. It simplifies the SDK integration but may not be suitable to any situations. For instance it
+ * should be disabled if you or one of your third party SDK is doing message forwarding on the application delegate.
+ * Message forwarding usually implies the implementation of @see NSObject#forwardingTargetForSelector: or @see
+ * NSObject#forwardInvocation: methods.
+ * To disable the application delegate forwarder just add the `MSAppDelegateForwarderEnabled` tag to your Info.plist
+ * file and set it to `0`. Then you will have to forward any application delegate needed by the SDK manually.
  */
-+ (BOOL)isAppDelegateForwardingEnabled;
++ (BOOL)isAppDelegateForwarderEnabled;
 
 /**
  * Get unique installation identifier.

@@ -78,13 +78,7 @@ static NSString *const kMSGroupId = @"MobileCenter";
   return NO;
 }
 
-+ (void)setAppDelegateForwardingEnabled:(BOOL)isEnabled{
-  @synchronized([self sharedInstance]) {
-    MSAppDelegateForwarder.enabled = isEnabled;
-  }
-}
-
-+ (BOOL)isAppDelegateForwardingEnabled {
++ (BOOL)isAppDelegateForwarderEnabled {
   @synchronized([self sharedInstance]) {
     return MSAppDelegateForwarder.enabled;
   }
@@ -100,6 +94,9 @@ static NSString *const kMSGroupId = @"MobileCenter";
 
 + (void)setLogLevel:(MSLogLevel)logLevel {
   MSLogger.currentLogLevel = logLevel;
+  
+  // The logger is not set at the time of swizzling but now may be a good time to flush the traces.
+  [MSAppDelegateForwarder flushTraceBuffer];
 }
 
 + (void)setLogHandler:(MSLogHandler)logHandler {

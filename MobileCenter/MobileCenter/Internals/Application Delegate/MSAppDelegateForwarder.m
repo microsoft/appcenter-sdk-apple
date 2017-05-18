@@ -15,6 +15,7 @@ static NSHashTable<id<MSAppDelegate>> *_delegates = nil;
 static NSMutableSet<NSString *> *_selectorsToSwizzle = nil;
 static NSArray<NSString *> *_selectorsNotToOverride = nil;
 static NSMutableDictionary<NSString *, NSValue *> *_originalImplementations = nil;
+static NSMutableArray<dispatch_block_t> *_traceBuffer = nil;
 static IMP _originalSetDelegateImp = NULL;
 static BOOL _enabled = YES;
 
@@ -53,6 +54,10 @@ static BOOL _enabled = YES;
 
 + (NSMutableDictionary<NSString *, NSValue *> *)originalImplementations {
   return _originalImplementations ?: (_originalImplementations = [NSMutableDictionary new]);
+}
+
++ (NSMutableArray<dispatch_block_t> *)traceBuffer {
+  return _traceBuffer ?: (_traceBuffer = [NSMutableArray new]);
 }
 
 + (IMP)originalSetDelegateImp {
@@ -143,7 +148,7 @@ static BOOL _enabled = YES;
     if (![self.selectorsNotToOverride containsObject:originalSelectorString]) {
       originalImp = method_setImplementation(originalMethod, customImp);
     }
-  } else {
+  } else if (![originalClass instancesRespondToSelector:originalSelector]) {
     
     /*
      * The original class may not implement the selector (e.g.: optional method from protocol),
@@ -153,14 +158,24 @@ static BOOL _enabled = YES;
     methodAdded = class_addMethod(originalClass, originalSelector, customImp, method_getTypeEncoding(customMethod));
   }
 
+  /*
+   * If class instances respond to the selector but no implementation is found it's likely that the original class
+   * is doing message forwarding, in this case we can't add our implementation to the class or we will break the
+   * forwarding.
+   */
+
   // Validate swizzling.
   if (!originalImp && !methodAdded) {
-    MSLogError([MSMobileCenter logTag],
-               @"Cannot swizzle selector %@ of class %@. You will have to explicitly call APIs from "
+    [self.traceBuffer addObject:^{
+      MSLogError([MSMobileCenter logTag],
+               @"Cannot swizzle selector '%@' of class '%@'. You will have to explicitly call APIs from "
                @"Mobile Center in your app delegate implementation.",
                originalSelectorString, originalClass);
+    }];
   } else {
-    MSLogDebug([MSMobileCenter logTag], @"Selector %@ of class %@ is swizzled.", originalSelectorString, originalClass);
+    [self.traceBuffer addObject:^{
+      MSLogDebug([MSMobileCenter logTag], @"Selector '%@' of class '%@' is swizzled.", originalSelectorString, originalClass);
+    }];
   }
   return originalImp;
 }
@@ -179,8 +194,8 @@ static BOOL _enabled = YES;
 - (void)custom_setDelegate:(id<UIApplicationDelegate>)delegate {
 
   // Swizzle only once.
-  static dispatch_once_t onceToken;
-  dispatch_once(&onceToken, ^{
+  static dispatch_once_t swizzleOnceToken;
+  dispatch_once(&swizzleOnceToken, ^{
 
     // Swizzle the app delegate before it's actually set.
     [MSAppDelegateForwarder swizzleOriginalDelegate:delegate];
@@ -197,8 +212,8 @@ static BOOL _enabled = YES;
 
 /*
  * Those methods will never get called but their implementation will be used by swizzling.
- * Those implementations will run within the delegate context.
- * Meaning that `self` will point to the original app delegate and not this forwarder.
+ * Those implementations will run within the delegate context. Meaning that `self` will point
+ * to the original app delegate and not this forwarder.
  */
 
 - (BOOL)custom_application:(UIApplication *)app
@@ -326,6 +341,20 @@ static BOOL _enabled = YES;
   }
 }
 
+#pragma mark - Logging
+
++ (void)flushTraceBuffer{
+  
+  // Only trace once.
+  static dispatch_once_t traceOnceToken;
+  dispatch_once(&traceOnceToken, ^{
+    for (dispatch_block_t traceBlock in self.traceBuffer){
+      traceBlock();
+    }
+    [self.traceBuffer removeAllObjects];
+  });
+}
+
 @end
 
 /*
@@ -350,18 +379,17 @@ static BOOL _enabled = YES;
 
   // Swizzle `setDelegate:` of class `UIApplication`.
   if (swizzlingEnabled) {
-    MSLogDebug([MSMobileCenter logTag], @"Swizzling enabled.");
+    [MSAppDelegateForwarder.traceBuffer addObject:^{
+      MSLogDebug([MSMobileCenter logTag], @"Swizzling enabled.");
+    }];
     MSAppDelegateForwarder.originalSetDelegateImp =
         [MSAppDelegateForwarder swizzleOriginalSelector:@selector(setDelegate:)
                                      withCustomSelector:@selector(custom_setDelegate:)
                                           originalClass:[UIApplication class]];
   } else {
-
-    /*
-     * FIXME: We should not use logging during UIApplication swizzling, MSLogger and MSMobileCenter may not be loaded
-     * yet. Plus, log level < Assert is not printed before SDK init.
-     */
-    MSLogDebug([MSMobileCenter logTag], @"Swizzling disabled.");
+    [MSAppDelegateForwarder.traceBuffer addObject:^{
+      MSLogDebug([MSMobileCenter logTag], @"Swizzling disabled.");
+    }];
   }
 }
 

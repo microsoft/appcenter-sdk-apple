@@ -6,7 +6,11 @@
 
 #pragma mark - MSAppDelegate
 
--(BOOL)application:(__attribute__((unused)) UIApplication *)app openURL:(NSURL *)url sourceApplication:(__attribute__((unused)) NSString *)sourceApplication annotation:(__attribute__((unused)) id)annotation returnedValue:(BOOL)returnedValue{
+- (BOOL)application:(__attribute__((unused))UIApplication *)app
+              openURL:(NSURL *)url
+    sourceApplication:(__attribute__((unused))NSString *)sourceApplication
+           annotation:(__attribute__((unused))id)annotation
+        returnedValue:(BOOL)returnedValue {
   return [self openURL:url returnedValue:returnedValue];
 }
 

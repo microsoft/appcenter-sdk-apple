@@ -24,6 +24,9 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-retain-cycles"
 
+// Silence application:openURL:options: availability warning (iOS 9) for the whole test.
+#pragma clang diagnostic ignored "-Wpartial-availability"
+
 @implementation MSAppDelegateForwarderTest
 
 - (void)setUp {
@@ -68,6 +71,159 @@
   assertThatInteger(MSAppDelegateForwarder.selectorsToSwizzle.count, equalToInteger(currentCount + 1));
   assertThatBool([MSAppDelegateForwarder.selectorsToSwizzle containsObject:expectedSelectorStr], isTrue());
   [MSAppDelegateForwarder.selectorsToSwizzle removeObject:expectedSelectorStr];
+}
+
+- (void)testSwizzleOriginalDelegate {
+
+  /*
+   * If
+   */
+
+  // Mock a custom app delegate.
+  id<MSAppDelegate> customDelegate = OCMProtocolMock(@protocol(MSAppDelegate));
+  [MSAppDelegateForwarder addDelegate:customDelegate];
+  NSURL *expectedURL = [NSURL URLWithString:@"https://www.contoso.com/sending-positive-waves"];
+  NSDictionary *expectedOptions = @{};
+
+  // App delegate not implementing any selector.
+  Class originalAppDelegateClass = [self createClassConformingToProtocol:@protocol(UIApplicationDelegate)];
+  id<UIApplicationDelegate> originalAppDelegate = [originalAppDelegateClass new];
+  SEL selectorToSwizzle = @selector(application:openURL:options:);
+  [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:selectorToSwizzle];
+
+  /*
+   * When
+   */
+  [MSAppDelegateForwarder swizzleOriginalDelegate:originalAppDelegate];
+  [originalAppDelegate application:self.appMock openURL:expectedURL options:expectedOptions];
+
+  /*
+   * Then
+   */
+  assertThatBool([originalAppDelegate respondsToSelector:selectorToSwizzle], isTrue());
+  OCMVerify([customDelegate application:self.appMock openURL:expectedURL options:expectedOptions returnedValue:NO]);
+
+  /*
+   * If
+   */
+
+  // App delegate implementing the selector directly.
+  originalAppDelegateClass = [self createClassConformingToProtocol:@protocol(UIApplicationDelegate)];
+  __block BOOL wasCalled = NO;
+  id selectorImp = ^{
+    wasCalled = YES;
+    return YES;
+  };
+  const char *types = method_getTypeEncoding(class_getInstanceMethod(originalAppDelegateClass, selectorToSwizzle));
+  [self addSelector:selectorToSwizzle implementation:selectorImp types:types toClass:originalAppDelegateClass];
+  originalAppDelegate = [originalAppDelegateClass new];
+  [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:selectorToSwizzle];
+
+  /*
+   * When
+   */
+  [MSAppDelegateForwarder swizzleOriginalDelegate:originalAppDelegate];
+  [originalAppDelegate application:self.appMock openURL:expectedURL options:expectedOptions];
+
+  /*
+   * Then
+   */
+  assertThatBool([originalAppDelegate respondsToSelector:selectorToSwizzle], isTrue());
+  assertThatBool(wasCalled, isTrue());
+  OCMVerify([customDelegate application:self.appMock openURL:expectedURL options:expectedOptions returnedValue:YES]);
+
+  /*
+   * If
+   */
+
+  // App delegate implementing the selector indirectly.
+  Class baseClass = [self createClassConformingToProtocol:@protocol(UIApplicationDelegate)];
+  [self addSelector:selectorToSwizzle implementation:selectorImp types:types toClass:baseClass];
+  originalAppDelegateClass = [self createClassWithBaseClass:baseClass andConformItToProtocol:nil];
+  wasCalled = NO;
+  originalAppDelegate = [originalAppDelegateClass new];
+  [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:selectorToSwizzle];
+
+  /*
+   * When
+   */
+  [MSAppDelegateForwarder swizzleOriginalDelegate:originalAppDelegate];
+  [originalAppDelegate application:self.appMock openURL:expectedURL options:expectedOptions];
+
+  /*
+   * Then
+   */
+  assertThatBool([originalAppDelegate respondsToSelector:selectorToSwizzle], isTrue());
+  assertThatBool(wasCalled, isTrue());
+  OCMVerify([customDelegate application:self.appMock openURL:expectedURL options:expectedOptions returnedValue:YES]);
+
+  /*
+   * If
+   */
+
+  // App delegate implementing the selector directly and indirectly.
+  wasCalled = NO;
+  __block BOOL baseWasCalled = NO;
+  id baseSelectorImp = ^{
+    baseWasCalled = YES;
+  };
+  baseClass = [self createClassConformingToProtocol:@protocol(UIApplicationDelegate)];
+  [self addSelector:selectorToSwizzle implementation:baseSelectorImp types:types toClass:baseClass];
+  originalAppDelegateClass = [self createClassWithBaseClass:baseClass andConformItToProtocol:nil];
+  [self addSelector:selectorToSwizzle implementation:selectorImp types:types toClass:originalAppDelegateClass];
+  originalAppDelegate = [originalAppDelegateClass new];
+  [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:selectorToSwizzle];
+
+  /*
+   * When
+   */
+  [MSAppDelegateForwarder swizzleOriginalDelegate:originalAppDelegate];
+  [originalAppDelegate application:self.appMock openURL:expectedURL options:expectedOptions];
+
+  /*
+   * Then
+   */
+  assertThatBool([originalAppDelegate respondsToSelector:selectorToSwizzle], isTrue());
+  assertThatBool(wasCalled, isTrue());
+  assertThatBool(baseWasCalled, isFalse());
+  OCMVerify([customDelegate application:self.appMock openURL:expectedURL options:expectedOptions returnedValue:YES]);
+
+  /*
+   * If
+   */
+
+  // App delegate not implementing any selector still responds to selector.
+  originalAppDelegateClass = [self createClassConformingToProtocol:@protocol(UIApplicationDelegate)];
+  SEL instancesRespondToSelector = @selector(instancesRespondToSelector:);
+  id instancesRespondToSelectorImp = ^{
+    return YES;
+  };
+  const char *instancesRespondToSelectorTypes =
+      method_getTypeEncoding(class_getClassMethod(originalAppDelegateClass, instancesRespondToSelector));
+
+  // Adding a class method to a class requires its meta class.
+  Class originalAppDelegateMetaClass = object_getClass(originalAppDelegateClass);
+  [self addSelector:instancesRespondToSelector
+      implementation:instancesRespondToSelectorImp
+               types:instancesRespondToSelectorTypes
+             toClass:originalAppDelegateMetaClass];
+  originalAppDelegate = [originalAppDelegateClass new];
+  [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:selectorToSwizzle];
+
+  /*
+   * When
+   */
+  [MSAppDelegateForwarder swizzleOriginalDelegate:originalAppDelegate];
+
+  /*
+   * Then
+   */
+
+  // Original delegate still responding to selector.
+  assertThatBool([originalAppDelegateClass instancesRespondToSelector:selectorToSwizzle], isTrue());
+
+  // Swizzling did not happened so no method added/replaced for this selector.
+  assertThatBool(class_getInstanceMethod(originalAppDelegateClass, selectorToSwizzle) == NULL, isTrue());
 }
 
 - (void)testForwardUnknownSelector {
@@ -514,18 +670,42 @@
   [MSAppDelegateForwarder swizzleOriginalDelegate:self.originalAppDelegateMock];
   [MSAppDelegateForwarder addDelegate:self.customAppDelegateMock];
 
-// When
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wpartial-availability"
+  // When
   BOOL returnedValue =
       [self.originalAppDelegateMock application:self.appMock openURL:expectedURL options:expectedOptions];
-#pragma clang diagnostic pop
 
   // Then
   assertThatBool(returnedValue, is(@(expectedReturnedValue)));
   [self waitForExpectations:@[ customCalledExpectation ] timeout:1];
 }
 
-#pragma clang diagnostic pop
+#pragma mark - Private
+
+- (NSString *)generateClassName {
+  return [@"C" stringByAppendingString:MS_UUID_STRING];
+}
+
+- (Class)createClassConformingToProtocol:(Protocol *)protocol {
+  return [self createClassWithBaseClass:[NSObject class] andConformItToProtocol:protocol];
+}
+
+- (Class)createClassWithBaseClass:(Class) class andConformItToProtocol:(Protocol *)protocol {
+
+  // Generate class name to prevent conflicts in runtime added classes.
+  Class newClass = objc_allocateClassPair(class, [[self generateClassName] UTF8String], 0);
+  if (protocol) {
+    class_addProtocol(newClass, protocol);
+  }
+  objc_registerClassPair(newClass);
+  return newClass;
+}
+
+    - (void)addSelector : (SEL)selector implementation : (id)block types : (const char *)types toClass : (Class) class {
+  IMP imp = imp_implementationWithBlock(block);
+  class_addMethod(class, selector, imp, types);
+}
 
 @end
+
+#pragma clang diagnostic pop
+

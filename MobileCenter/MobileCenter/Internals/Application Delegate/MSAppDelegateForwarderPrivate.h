@@ -27,6 +27,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, class, readonly) NSMutableDictionary<NSString *, NSValue *> *originalImplementations;
 
 /**
+ * Trace buffer storing debbuging traces.
+ */
+@property(nonatomic, class, readonly) NSMutableArray<dispatch_block_t> *traceBuffer;
+
+/**
  * Hold the original @see UIApplication#setDelegate: implementation.
  */
 @property(nonatomic, class) IMP originalSetDelegateImp;

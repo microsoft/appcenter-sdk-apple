@@ -95,7 +95,6 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
  */
 @property(nonatomic) id<MSAppDelegate> appDelegate;
 
-
 /**
  * Returns the singleton instance. Meant for testing/demo apps only.
  *
