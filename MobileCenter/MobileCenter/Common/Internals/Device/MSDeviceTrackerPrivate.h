@@ -1,6 +1,10 @@
 #import <CoreTelephony/CTCarrier.h>
 #import <CoreTelephony/CTTelephonyNetworkInfo.h>
+#if TARGET_OS_IPHONE
 #import <UIKit/UIKit.h>
+#else
+#import <AppKit/AppKit.h>
+#endif
 #import <sys/sysctl.h>
 
 #import "MSDeviceInternal.h"
@@ -46,6 +50,8 @@ static NSString *const kMSPastDevicesKey = @"pastDevicesKey";
  */
 - (NSString *)deviceModel;
 
+#if TARGET_OS_IPHONE
+
 /**
  *  Get the OS name.
  *
@@ -54,6 +60,17 @@ static NSString *const kMSPastDevicesKey = @"pastDevicesKey";
  *  @return The OS name as an NSString.
  */
 - (NSString *)osName:(UIDevice *)device;
+#else
+
+/**
+ *  Get the OS name.
+ *
+ *  @return The OS name as an NSString.
+ */
+- (NSString *)osName;
+#endif
+
+#if TARGET_OS_IPHONE
 
 /**
  *  Get the OS version.
@@ -63,6 +80,15 @@ static NSString *const kMSPastDevicesKey = @"pastDevicesKey";
  *  @return The OS version as an NSString.
  */
 - (NSString *)osVersion:(UIDevice *)device;
+#else
+
+/**
+ *  Get the OS version.
+ *
+ *  @return The OS version as an NSString.
+ */
+- (NSString *)osVersion;
+#endif
 
 /**
  *  Get the device current locale.
@@ -89,6 +115,8 @@ static NSString *const kMSPastDevicesKey = @"pastDevicesKey";
  */
 - (NSString *)screenSize;
 
+#if TARGET_OS_IPHONE
+
 /**
  *  Get the network carrier name.
  *
@@ -106,6 +134,7 @@ static NSString *const kMSPastDevicesKey = @"pastDevicesKey";
  *  @return The network carrier country as an NSString.
  */
 - (NSString *)carrierCountry:(CTCarrier *)carrier;
+#endif
 
 /**
  *  Get the application version.

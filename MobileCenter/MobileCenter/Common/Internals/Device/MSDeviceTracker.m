@@ -1,5 +1,3 @@
-
-
 #import "MSConstants+Internal.h"
 #import "MSDeviceHistoryInfo.h"
 #import "MSDeviceTracker.h"
@@ -130,25 +128,38 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
 - (MSDevice *)updatedDevice {
   @synchronized(self) {
     MSDevice *newDevice = [[MSDevice alloc] init];
+#if TARGET_OS_IPHONE
+    CTCarrier *carrier = [[[CTTelephonyNetworkInfo alloc] init] subscriberCellularProvider];
+#endif
 
     // Collect device properties.
     newDevice.sdkName = [self sdkName:mobilecenter_library_info.ms_name];
     newDevice.sdkVersion = [self sdkVersion:mobilecenter_library_info.ms_version];
     newDevice.model = [self deviceModel];
     newDevice.oemName = kMSDeviceManufacturer;
+#if TARGET_OS_IPHONE
+    newDevice.osName = [self osName:MS_DEVICE];
+    newDevice.osVersion = [self osVersion:MS_DEVICE];
+#else
     newDevice.osName = [self osName];
     newDevice.osVersion = [self osVersion];
+#endif
     newDevice.osBuild = [self osBuild];
     newDevice.locale = [self locale:MS_LOCALE];
     newDevice.timeZoneOffset = [self timeZoneOffset:[NSTimeZone localTimeZone]];
     newDevice.screenSize = [self screenSize];
     newDevice.appVersion = [self appVersion:MS_APP_MAIN_BUNDLE];
-    newDevice.appBuild = [self appBuild:MS_APP_MAIN_BUNDLE];
-    newDevice.appNamespace = [self appNamespace:MS_APP_MAIN_BUNDLE];
+#if TARGET_OS_IPHONE
+    newDevice.carrierCountry = [self carrierCountry:carrier];
+    newDevice.carrierName = [self carrierName:carrier];
+#else
 
     // TODO: Assume for now that macOS doesn't send any carrier information.
     newDevice.carrierCountry = nil;
     newDevice.carrierName = nil;
+#endif
+    newDevice.appBuild = [self appBuild:MS_APP_MAIN_BUNDLE];
+    newDevice.appNamespace = [self appNamespace:MS_APP_MAIN_BUNDLE];
 
     // Add wrapper SDK information
     [self refreshWrapperSdk:newDevice];
@@ -168,6 +179,7 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
   if (wrapperSdkInformation) {
     device.wrapperSdkVersion = wrapperSdkInformation.wrapperSdkVersion;
     device.wrapperSdkName = wrapperSdkInformation.wrapperSdkName;
+    device.wrapperRuntimeVersion = wrapperSdkInformation.wrapperRuntimeVersion;
     device.liveUpdateReleaseLabel = wrapperSdkInformation.liveUpdateReleaseLabel;
     device.liveUpdateDeploymentKey = wrapperSdkInformation.liveUpdateDeploymentKey;
     device.liveUpdatePackageHash = wrapperSdkInformation.liveUpdatePackageHash;
@@ -246,9 +258,21 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
   return model;
 }
 
+#if TARGET_OS_IPHONE
+- (NSString *)osName:(UIDevice *)device {
+  return device.systemName;
+}
+#else
 - (NSString *)osName {
   return @"macOS";
 }
+#endif
+
+#if TARGET_OS_IPHONE
+- (NSString *)osVersion:(UIDevice *)device {
+  return device.systemVersion;
+}
+#else
 
 // TODO: Think about the best practice to get macOS version.
 - (NSString *)osVersion {
@@ -273,6 +297,7 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
 #endif
   return osVersion;
 }
+#endif
 
 - (NSString *)osBuild {
   size_t size;
@@ -296,11 +321,27 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
 }
 
 - (NSString *)screenSize {
+
+#if TARGET_OS_IPHONE
+  CGFloat scale = [UIScreen mainScreen].scale;
+  CGSize screenSize = [UIScreen mainScreen].bounds.size;
+#else
   NSScreen *focusScreen = [NSScreen mainScreen];
   CGFloat scale = focusScreen.backingScaleFactor;
   CGSize screenSize = [focusScreen frame].size;
-  return [NSString stringWithFormat:@"%dx%d", (int)(screenSize.width * scale), (int)(screenSize.height * scale)];
+#endif
+  return [NSString stringWithFormat:@"%dx%d", (int)(screenSize.height * scale), (int)(screenSize.width * scale)];
 }
+
+#if TARGET_OS_IPHONE
+- (NSString *)carrierName:(CTCarrier *)carrier {
+  return ([carrier.carrierName length] > 0) ? carrier.carrierName : nil;
+}
+
+- (NSString *)carrierCountry:(CTCarrier *)carrier {
+  return ([carrier.isoCountryCode length] > 0) ? carrier.isoCountryCode : nil;
+}
+#endif
 
 - (NSString *)appVersion:(NSBundle *)appBundle {
   return [appBundle infoDictionary][@"CFBundleShortVersionString"];
