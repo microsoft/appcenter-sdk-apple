@@ -9,7 +9,7 @@
 
 static NSString *const kMSCustomSelectorPrefix = @"custom_";
 static NSString *const kMSReturnedValueSelectorPart = @"returnedValue:";
-static NSString *const kMSIsSwizzlingEnabledKey = @"MSAppDelegateForwarderEnabled";
+static NSString *const kMSIsAppDelegateForwarderEnabledKey = @"MobileCenterAppDelegateForwarderEnabled";
 
 static NSHashTable<id<MSAppDelegate>> *_delegates = nil;
 static NSMutableSet<NSString *> *_selectorsToSwizzle = nil;
@@ -381,14 +381,14 @@ static BOOL _enabled = YES;
    * method since this method is used by `MSAppDelegateForwarder` categories `load` methods. Load methods are executed
    * sequentially so should be safe. This allows us to not Swizzle at all if there is no need to.
    */
-  NSDictionary *swizzlingEnabledNum = [[NSBundle mainBundle] objectForInfoDictionaryKey:kMSIsSwizzlingEnabledKey];
-  BOOL swizzlingEnabled = swizzlingEnabledNum ? [((NSNumber *)swizzlingEnabledNum)boolValue] : YES;
-  MSAppDelegateForwarder.enabled = swizzlingEnabled;
+  NSDictionary *appForwarderEnabledNum = [[NSBundle mainBundle] objectForInfoDictionaryKey:kMSIsAppDelegateForwarderEnabledKey];
+  BOOL appForwarderEnabled = appForwarderEnabledNum ? [((NSNumber *)appForwarderEnabledNum)boolValue] : YES;
+  MSAppDelegateForwarder.enabled = appForwarderEnabled;
 
   // Swizzle `setDelegate:` of class `UIApplication`.
-  if (swizzlingEnabled) {
+  if (MSAppDelegateForwarder.enabled) {
     [MSAppDelegateForwarder.traceBuffer addObject:^{
-      MSLogDebug([MSMobileCenter logTag], @"Swizzling enabled.");
+      MSLogDebug([MSMobileCenter logTag], @"Application delegate forwarder is enabled, will do swizzling.");
     }];
     MSAppDelegateForwarder.originalSetDelegateImp =
         [MSAppDelegateForwarder swizzleOriginalSelector:@selector(setDelegate:)
@@ -396,7 +396,7 @@ static BOOL _enabled = YES;
                                           originalClass:[UIApplication class]];
   } else {
     [MSAppDelegateForwarder.traceBuffer addObject:^{
-      MSLogDebug([MSMobileCenter logTag], @"Swizzling disabled.");
+      MSLogDebug([MSMobileCenter logTag], @"Application delegate forwarder is disabled, will not do swizzling.");
     }];
   }
 }
