@@ -5,7 +5,8 @@
 #import "MSMobileCenter.h"
 #import "MSMobileCenterInternal.h"
 #import "MSMobileCenterPrivate.h"
-#import "MSMockAppDelegate.h"
+#import "MSMockCustomAppDelegate.h"
+#import "MSMockOriginalAppDelegate.h"
 #import "MSMockUserDefaults.h"
 #import "MSLogManager.h"
 #import "MSCustomProperties.h"
@@ -202,22 +203,20 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   [self.sut configure:@"AnAppSecret"];
   self.sut.logManager = logManager;
 
-  
   // When
   [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidEnterBackgroundNotification
-                                                        object:self.sut];
+                                                      object:self.sut];
   // Then
   OCMVerify([logManager suspend]);
 }
 
 - (void)testAppIsForegrounded {
-  
+
   // If
   id<MSLogManager> logManager = OCMProtocolMock(@protocol(MSLogManager));
   [self.sut configure:@"AnAppSecret"];
   self.sut.logManager = logManager;
-  
-  
+
   // When
   [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillEnterForegroundNotification
                                                       object:self.sut];
