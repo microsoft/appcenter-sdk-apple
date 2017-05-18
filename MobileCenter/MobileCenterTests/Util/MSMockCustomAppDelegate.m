@@ -37,6 +37,13 @@
   validator(application, deviceToken);
 }
 
+- (void)application:(UIApplication *)application
+    didReceiveRemoteNotification:(NSDictionary *)userInfo
+          fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+  CustomDidReceiveNotificationValidator validator = self.delegateValidators[NSStringFromSelector(_cmd)];
+  validator(application, userInfo, completionHandler);
+}
+
 @end
 
 #pragma mark - Swizzling
@@ -45,7 +52,7 @@
 
 + (void)load {
 
-  // Register selectors to swizzle for Ditribute.
+  // Register selectors to swizzle for this mock.
   [self addAppDelegateSelectorToSwizzle:@selector(application:openURL:options:)];
   [self addAppDelegateSelectorToSwizzle:@selector(application:openURL:sourceApplication:annotation:)];
   [self addAppDelegateSelectorToSwizzle:@selector(application:didRegisterForRemoteNotificationsWithDeviceToken:)];

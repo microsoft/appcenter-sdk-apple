@@ -331,9 +331,15 @@ static BOOL _enabled = YES;
     didReceiveRemoteNotification:(NSDictionary *)userInfo
           fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
 
+  // Collect `UIBackgroundFetchResult` from delegates in order to call the original completion handler later.
+  __block UIBackgroundFetchResult forwardedFetchResult = UIBackgroundFetchResultNoData;
+  void (^forwardedCompletionHandler)(UIBackgroundFetchResult) = ^(UIBackgroundFetchResult fetchResult) {
+    forwardedFetchResult = fetchResult;
+  };
+
   /*
-   * NOTE: There is only 1 module consuming this delegate method  for now but if there is more in the future then
-   * we'll have to make sure the completion handler to be called once and only once.
+   * FIXME: We still need to chain the forwardedFetchResult somehow in case of multiple custom delegate implementing
+   * this selector.
    */
 
   /*
@@ -343,7 +349,10 @@ static BOOL _enabled = YES;
    */
   [[MSAppDelegateForwarder sharedInstance] application:application
                           didReceiveRemoteNotification:userInfo
-                                fetchCompletionHandler:completionHandler];
+                                fetchCompletionHandler:forwardedCompletionHandler];
+
+  // Must call the original completion handler.
+  completionHandler(forwardedFetchResult);
 }
 
 #pragma mark - Forwarding

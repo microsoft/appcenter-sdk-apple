@@ -2,12 +2,19 @@
 
 #import "MSAppDelegateForwarder.h"
 #import "MSMockOriginalAppDelegate.h"
+#import "MSAppDelegateForwarderPrivate.h"
 
 @implementation MSMockOriginalAppDelegate
 
 - (instancetype)init {
   if ((self = [super init])) {
     _delegateValidators = [NSMutableDictionary new];
+
+    // Force swizzling for tests.
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+      [MSAppDelegateForwarder swizzleOriginalDelegate:self];
+    });
   }
   return self;
 }
