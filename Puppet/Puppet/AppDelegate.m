@@ -45,32 +45,28 @@
               openURL:(NSURL *)url
     sourceApplication:(NSString *)sourceApplication
            annotation:(id)annotation {
-  NSLog(@"%@ Was woken up via openURL:sourceApplication:annotation: %@", kPUPLogTag, url);
-
-  // Forward the URL to MSDistribute.
-  return [MSDistribute openURL:url];
+  NSLog(@"%@ Was woken up via openURL:sourceApplication:annotation: %@.", kPUPLogTag, url);
+  return NO;
 }
 
 // Open URL for iOS 9+.
 - (BOOL)application:(UIApplication *)application
             openURL:(nonnull NSURL *)url
             options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
-  NSLog(@"%@ Was woken up via openURL:options: %@", kPUPLogTag, url);
-
-  // Forward the URL to MSDistribute.
-  return [MSDistribute openURL:url];
+  NSLog(@"%@ Was waken up via openURL:options: %@.", kPUPLogTag, url);
+  return NO;
 }
 
 #pragma mark - Application life cycle
 
 - (void)application:(UIApplication *)application
     didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-  [MSPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+  NSLog(@"%@ Did register for remote notifications with device token.", kPUPLogTag);
 }
 
 - (void)application:(UIApplication *)application
     didFailToRegisterForRemoteNotificationsWithError:(nonnull NSError *)error {
-  [MSPush didFailToRegisterForRemoteNotificationsWithError:error];
+  NSLog(@"%@ Did fail to register for remote notifications with error %@.", kPUPLogTag, [error localizedDescription]);
 }
 
 - (void)application:(UIApplication *)application

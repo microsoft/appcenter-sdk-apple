@@ -8,7 +8,7 @@
 @import MobileCenterDistribute;
 @import MobileCenterPush;
 
-@interface AppDelegate () <MSCrashesDelegate, MSDistributeDelegate>
+@interface AppDelegate () <MSCrashesDelegate, MSDistributeDelegate, MSPushDelegate>
 
 @end
 
@@ -35,68 +35,7 @@
   return YES;
 }
 
-#pragma mark - URL handling
-
-/**
- * (iOS 8) Asks the delegate to open a resource specified by a URL, and provides a dictionary of launch options.
- *
- * @param application The singleton app object.
- * @param url The URL resource to open. This resource can be a network resource or a file.
- * @param sourceApplication The bundle ID of the app that is requesting your app to open the URL (url).
- * @param annotation A Property list supplied by the source app to communicate information to the receiving app.
- *
- * @return `YES` if the delegate successfully handled the request or `NO` if the attempt to open the URL resource
- * failed.
- */
-- (BOOL)application:(UIApplication *)application
-            openURL:(NSURL *)url
-  sourceApplication:(NSString *)sourceApplication
-         annotation:(id)annotation {
-  
-  // Forward the URL to MSDistribute.
-  return [MSDistribute openURL:url];
-}
-
-/**
- * (iOS 9+) Asks the delegate to open a resource specified by a URL, and provides a dictionary of launch options.
- *
- * @param application The singleton app object.
- * @param url The URL resource to open. This resource can be a network resource or a file.
- * @param options A dictionary of URL handling options.
- * For information about the possible keys in this dictionary and how to handle them, @see
- * UIApplicationOpenURLOptionsKey. By default, the value of this parameter is an empty dictionary.
- *
- * @return `YES` if the delegate successfully handled the request or `NO` if the attempt to open the URL resource
- * failed.
- */
-- (BOOL)application:(UIApplication *)application openURL:(nonnull NSURL *)url options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options{
-  
-  // Forward the URL to MSDistribute.
-  return [MSDistribute openURL:url];
-}
-
 #pragma mark - Application life cycle
-
-- (void)application:(UIApplication *)application
-    didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-  [MSPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
-}
-
-- (void)application:(UIApplication *)application
-    didFailToRegisterForRemoteNotificationsWithError:(nonnull NSError *)error {
-  [MSPush didFailToRegisterForRemoteNotificationsWithError:error];
-}
-
-- (void)application:(UIApplication *)application
-    didReceiveRemoteNotification:(NSDictionary *)userInfo
-          fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
-  BOOL result = [MSPush didReceiveRemoteNotification:userInfo];
-  if (result) {
-    completionHandler(UIBackgroundFetchResultNewData);
-  } else {
-    completionHandler(UIBackgroundFetchResultNoData);
-  }
-}
 
 - (void)applicationWillResignActive:(UIApplication *)application {
 }
