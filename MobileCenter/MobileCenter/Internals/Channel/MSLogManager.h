@@ -63,6 +63,22 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData forGroupId:(NSString *)groupId;
 
 /**
+ * Add a delegate to each channel that has a certain priority.
+ *
+ * @param channelDelegate A delegate for the channel.
+ * @param groupId The groupId of a channel.
+ */
+- (void)addChannelDelegate:(id<MSChannelDelegate>)channelDelegate forGroupId:(NSString *)groupId;
+
+/**
+ * Remove a delegate to each channel that has a certain priority.
+ *
+ * @param channelDelegate A delegate for the channel.
+ * @param groupId The groupId of a channel.
+ */
+- (void)removeChannelDelegate:(id<MSChannelDelegate>)channelDelegate forGroupId:(NSString *)groupId;
+
+/**
  * Suspend log manager, logs will not be sent but still stored.
  */
 - (void)suspend;

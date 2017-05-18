@@ -2,6 +2,7 @@
 #import "MSServiceInternal.h"
 #import "MSSessionTracker.h"
 #import "MSSessionTrackerDelegate.h"
+#import "MSAnalyticsDelegate.h"
 
 @interface MSAnalytics () <MSSessionTrackerDelegate>
 
@@ -11,6 +12,8 @@
 @property(nonatomic) MSSessionTracker *sessionTracker;
 
 @property(nonatomic) BOOL autoPageTrackingEnabled;
+
+@property(nonatomic) id<MSAnalyticsDelegate> delegate;
 
 /**
  * Track an event.
@@ -32,5 +35,4 @@
  * Method to reset the singleton when running unit tests only. So calling sharedInstance returns a fresh instance.
  */
 + (void)resetSharedInstance;
-
 @end
