@@ -16,10 +16,17 @@ NSString *MSUtilityApplicationCategory;
   return MSApplicationStateUnknown;
 }
 
+#if TARGET_OS_IPHONE
 + (UIApplicationState)sharedAppState {
   return [[[[self class] sharedApp] valueForKey:@"applicationState"] longValue];
 }
+#else
++ (MSApplicationState)sharedAppState {
+  return [[[self class] sharedApp] isHidden] ? MSApplicationStateBackground : MSApplicationStateActive;
+}
+#endif
 
+#if TARGET_OS_IPHONE
 + (UIApplication *)sharedApp {
 
   // Compute selector at runtime for more discretion.
@@ -27,10 +34,20 @@ NSString *MSUtilityApplicationCategory;
   return ((UIApplication * (*)(id, SEL))[[UIApplication class] methodForSelector:sharedAppSel])([UIApplication class],
                                                                                                 sharedAppSel);
 }
+#else
++ (NSApplication *)sharedApp {
+
+  // Compute selector at runtime for more discretion.
+  SEL sharedAppSel = NSSelectorFromString(@"sharedApplication");
+  return ((NSApplication * (*)(id, SEL))[[NSApplication class] methodForSelector:sharedAppSel])([NSApplication class],
+                                                                                                sharedAppSel);
+}
+#endif
 
 + (void)sharedAppOpenUrl:(NSURL *)url
                  options:(NSDictionary<NSString *, id> *)options
        completionHandler:(void (^)(MSOpenURLState state))completion {
+#if TARGET_OS_IPHONE
   UIApplication *sharedApp = [[self class] sharedApp];
 
   // FIXME: App extensions does support openURL through NSExtensionContest, we may use this somehow.
@@ -67,6 +84,18 @@ NSString *MSUtilityApplicationCategory;
       }
     }
   });
+#else
+  (void)options;
+
+  /*
+   * TODO: iOS SDK has an issue that openURL returns NO even though it was able to open a browser. Need to make sure
+   * openURL returns YES/NO on macOS properly.
+   */
+  // Dispatch the open url call to the next loop to avoid freezing the App new instance start up.
+  dispatch_async(dispatch_get_main_queue(), ^{
+    completion([[NSWorkspace sharedWorkspace] openURL:url]);
+  });
+#endif
 }
 
 @end

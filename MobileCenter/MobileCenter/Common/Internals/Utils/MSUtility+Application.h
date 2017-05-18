@@ -1,9 +1,15 @@
 #import <Foundation/Foundation.h>
+#if TARGET_OS_IPHONE
 #import <UIKit/UIKit.h>
+#else
+#import <AppKit/AppKit.h>
+#endif
 
 #import "MSUtility.h"
 
+#if TARGET_OS_IPHONE
 #define MS_DEVICE [UIDevice currentDevice]
+#endif
 
 /*
  * Workaround for exporting symbols from category object files.
@@ -18,17 +24,29 @@ typedef NS_ENUM(NSInteger, MSApplicationState) {
   /**
    * Application is active.
    */
+#if TARGET_OS_IPHONE
   MSApplicationStateActive = UIApplicationStateActive,
+#else
+  MSApplicationStateActive,
+#endif
 
   /**
    * Application is inactive.
    */
+#if TARGET_OS_IPHONE
   MSApplicationStateInactive = UIApplicationStateInactive,
+#else
+  MSApplicationStateInactive,
+#endif
 
   /**
    * Application is in background.
    */
+#if TARGET_OS_IPHONE
   MSApplicationStateBackground = UIApplicationStateBackground,
+#else
+  MSApplicationStateBackground,
+#endif
 
   /**
    * Application state can't be determined.
