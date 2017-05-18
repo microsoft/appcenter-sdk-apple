@@ -1,4 +1,4 @@
-#import "MSLogWithProperties.h"
+#import "MSLogWithPropertiesInternal.h"
 
 static NSString *const kMSProperties = @"properties";
 

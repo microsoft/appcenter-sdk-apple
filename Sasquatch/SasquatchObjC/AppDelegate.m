@@ -126,6 +126,16 @@
   NSLog(@"Did fail sending report with: %@, and error: %@", errorReport.exceptionReason, error.localizedDescription);
 }
 
+- (NSArray<MSErrorAttachmentLog *> *)attachmentsWithCrashes:(MSCrashes *)crashes
+                                             forErrorReport:(MSErrorReport *)errorReport {
+  MSErrorAttachmentLog *attachment1 = [MSErrorAttachmentLog attachmentWithText:@"Hello world!" filename:@"hello.txt"];
+  MSErrorAttachmentLog *attachment2 =
+  [MSErrorAttachmentLog attachmentWithBinary:[@"Fake image" dataUsingEncoding:NSUTF8StringEncoding]
+                                    filename:@"fake_image.jpeg"
+                                 contentType:@"image/jpeg"];
+  return @[ attachment1, attachment2 ];
+}
+
 #pragma mark - MSDistributeDelegate
 
 - (BOOL)distribute:(MSDistribute *)distribute releaseAvailableWithDetails:(MSReleaseDetails *)details {

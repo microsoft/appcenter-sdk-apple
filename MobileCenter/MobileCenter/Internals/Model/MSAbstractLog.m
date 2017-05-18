@@ -1,12 +1,13 @@
-#import "MSAbstractLog.h"
+#import "MSAbstractLogInternal.h"
 #import "MSDevice.h"
+#import "MSLogger.h"
 #import "MSDeviceInternal.h"
 #import "MSUtility+Date.h"
 
 static NSString *const kMSSid = @"sid";
 static NSString *const kMSToffset = @"toffset";
 static NSString *const kMSDevice = @"device";
-NSString *const kMSType = @"type";
+static NSString *const kMSType = @"type";
 
 @implementation MSAbstractLog
 
@@ -57,6 +58,7 @@ NSString *const kMSType = @"type";
 - (instancetype)initWithCoder:(NSCoder *)coder {
   self = [super init];
   if (self) {
+    _type = [coder decodeObjectForKey:kMSType];
     _toffset = [coder decodeObjectForKey:kMSToffset];
     _sid = [coder decodeObjectForKey:kMSSid];
     _device = [coder decodeObjectForKey:kMSDevice];
@@ -65,6 +67,7 @@ NSString *const kMSType = @"type";
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
+  [coder encodeObject:self.type forKey:kMSType];
   [coder encodeObject:self.toffset forKey:kMSToffset];
   [coder encodeObject:self.sid forKey:kMSSid];
   [coder encodeObject:self.device forKey:kMSDevice];
