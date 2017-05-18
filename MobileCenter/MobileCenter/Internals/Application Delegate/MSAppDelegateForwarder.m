@@ -128,7 +128,7 @@ static BOOL _enabled = YES;
   // Replace original implementation by the custom one.
   if (originalMethod) {
     originalImp = method_setImplementation(originalMethod, customImp);
-  } else {
+  } else if (![originalClass instancesRespondToSelector:originalSelector]) {
 
     /*
      * The original class may not implement the selector (e.g.: optional method from protocol),
@@ -137,6 +137,12 @@ static BOOL _enabled = YES;
     Method customMethod = class_getInstanceMethod(self, customSelector);
     methodAdded = class_addMethod(originalClass, originalSelector, customImp, method_getTypeEncoding(customMethod));
   }
+
+  /*
+   * If class instances respond to the selector but no implementation is found it's likely that the original class
+   * is doing message forwarding, in this case we can't add our implementation to the class or we will break the
+   * forwarding.
+   */
 
   // Validate swizzling.
   if (!originalImp && !methodAdded) {
@@ -181,8 +187,8 @@ static BOOL _enabled = YES;
 
 /*
  * Those methods will never get called but their implementation will be used by swizzling.
- * Those implementations will run within the delegate context.
- * Meaning that `self` will point to the original app delegate and not this forwarder.
+ * Those implementations will run within the delegate context. Meaning that `self` will point
+ * to the original app delegate and not this forwarder.
  */
 
 - (BOOL)application:(UIApplication *)app
