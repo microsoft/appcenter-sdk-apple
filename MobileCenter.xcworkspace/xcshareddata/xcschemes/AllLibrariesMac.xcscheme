@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "04754F471EA98182002CBA46"
-               BuildableName = "libMobileCenterMac.a"
+               BuildableName = "libMobileCenter.a"
                BlueprintName = "MobileCenterMac"
                ReferencedContainer = "container:MobileCenter/MobileCenter.xcodeproj">
             </BuildableReference>
@@ -29,7 +29,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "0485AF671EAA79E300C10CAF"
-               BuildableName = "libMobileCenterAnalyticsMac.a"
+               BuildableName = "libMobileCenterAnalytics.a"
                BlueprintName = "MobileCenterAnalyticsMac"
                ReferencedContainer = "container:MobileCenterAnalytics/MobileCenterAnalytics.xcodeproj">
             </BuildableReference>
@@ -43,7 +43,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "0485AF9F1EAA887500C10CAF"
-               BuildableName = "libMobileCenterCrashesMac.a"
+               BuildableName = "libMobileCenterCrashes.a"
                BlueprintName = "MobileCenterCrashesMac"
                ReferencedContainer = "container:MobileCenterCrashes/MobileCenterCrashes.xcodeproj">
             </BuildableReference>
@@ -57,7 +57,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "046AEACF1ECA562A00CBE511"
-               BuildableName = "MobileCenterMac.xctest"
+               BuildableName = "MobileCenter.xctest"
                BlueprintName = "MobileCenterMacTests"
                ReferencedContainer = "container:MobileCenter/MobileCenter.xcodeproj">
             </BuildableReference>
@@ -71,7 +71,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "046AEAB21ECA51AF00CBE511"
-               BuildableName = "MobileCenterAnalyticsMac.xctest"
+               BuildableName = "MobileCenterAnalytics.xctest"
                BlueprintName = "MobileCenterAnalyticsMacTests"
                ReferencedContainer = "container:MobileCenterAnalytics/MobileCenterAnalytics.xcodeproj">
             </BuildableReference>
@@ -85,7 +85,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "049327611ECA170D00D0187A"
-               BuildableName = "MobileCenterCrashesMac.xctest"
+               BuildableName = "MobileCenterCrashes.xctest"
                BlueprintName = "MobileCenterCrashesMacTests"
                ReferencedContainer = "container:MobileCenterCrashes/MobileCenterCrashes.xcodeproj">
             </BuildableReference>
@@ -104,7 +104,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "046AEACF1ECA562A00CBE511"
-               BuildableName = "MobileCenterMac.xctest"
+               BuildableName = "MobileCenter.xctest"
                BlueprintName = "MobileCenterMacTests"
                ReferencedContainer = "container:MobileCenter/MobileCenter.xcodeproj">
             </BuildableReference>
@@ -114,7 +114,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "046AEAB21ECA51AF00CBE511"
-               BuildableName = "MobileCenterAnalyticsMac.xctest"
+               BuildableName = "MobileCenterAnalytics.xctest"
                BlueprintName = "MobileCenterAnalyticsMacTests"
                ReferencedContainer = "container:MobileCenterAnalytics/MobileCenterAnalytics.xcodeproj">
             </BuildableReference>
@@ -124,7 +124,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "049327611ECA170D00D0187A"
-               BuildableName = "MobileCenterCrashesMac.xctest"
+               BuildableName = "MobileCenterCrashes.xctest"
                BlueprintName = "MobileCenterCrashesMacTests"
                ReferencedContainer = "container:MobileCenterCrashes/MobileCenterCrashes.xcodeproj">
             </BuildableReference>
@@ -134,7 +134,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "04754F471EA98182002CBA46"
-            BuildableName = "libMobileCenterMac.a"
+            BuildableName = "libMobileCenter.a"
             BlueprintName = "MobileCenterMac"
             ReferencedContainer = "container:MobileCenter/MobileCenter.xcodeproj">
          </BuildableReference>
@@ -156,7 +156,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "04754F471EA98182002CBA46"
-            BuildableName = "libMobileCenterMac.a"
+            BuildableName = "libMobileCenter.a"
             BlueprintName = "MobileCenterMac"
             ReferencedContainer = "container:MobileCenter/MobileCenter.xcodeproj">
          </BuildableReference>
@@ -174,7 +174,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "04754F471EA98182002CBA46"
-            BuildableName = "libMobileCenterMac.a"
+            BuildableName = "libMobileCenter.a"
             BlueprintName = "MobileCenterMac"
             ReferencedContainer = "container:MobileCenter/MobileCenter.xcodeproj">
          </BuildableReference>
