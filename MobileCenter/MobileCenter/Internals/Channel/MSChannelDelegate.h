@@ -1,8 +1,8 @@
 #import <Foundation/Foundation.h>
 #import "MSChannel.h"
 
-@class MSLogWithProperties;
 @class MSLog;
+@class MSLogWithProperties;
 
 @protocol MSChannelDelegate <NSObject>
 
@@ -10,6 +10,7 @@
 
 /**
  * Callback method that will be called before each log will be send to the server.
+ *
  * @param channel Instance of MSChannel.
  * @param log The log to be sent.
  */
@@ -17,6 +18,7 @@
 
 /**
  * Callback method that will be called in case the SDK was able to send a log.
+ *
  * @param channel Instance of MSChannel.
  * @param log The log to be sent.
  */
@@ -24,6 +26,7 @@
 
 /**
  * Callback method that will be called in case the SDK was unable to send a log.
+ *
  * @param channel Instance of MSChannel.
  * @param log The log to be sent.
  * @param error The error that occured.

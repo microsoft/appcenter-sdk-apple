@@ -1,9 +1,9 @@
-#import "MSCrashes.h"
 #import <CrashReporter/CrashReporter.h>
-
-#import <string>
 #import <array>
 #import <unordered_map>
+#import <string>
+
+#import "MSCrashes.h"
 
 @class MSMPLCrashReporter;
 
@@ -39,7 +39,7 @@ const int ms_crashes_log_buffer_size = 60;
  */
 extern std::array<MSCrashesBufferedLog, ms_crashes_log_buffer_size> msCrashesLogBuffer;
 
-@interface MSCrashes () <MSChannelDelegate, MSLogManagerDelegate>
+@interface MSCrashes () <MSLogManagerDelegate>
 
 /**
  * Prototype of a callback function used to execute additional user code. Called

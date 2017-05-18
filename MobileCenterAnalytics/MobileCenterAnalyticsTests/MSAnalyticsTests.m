@@ -10,7 +10,6 @@
 #import "MSAnalytics.h"
 #import "MSAnalyticsPrivate.h"
 #import "MSAnalyticsInternal.h"
-#import "MSMockAnalyticsDelegate.h"
 #import "MSEventLog.h"
 
 static NSString *const kMSTypeEvent = @"event";
@@ -20,7 +19,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
 @class MSMockAnalyticsDelegate;
 
-@interface MSAnalyticsTests : XCTestCase <MSAnalyticsDelegate>
+@interface MSAnalyticsTests : XCTestCase
 
 @property BOOL willSendEventLogWasCalled;
 @property BOOL didSucceedSendingEventLogWasCalled;
@@ -171,46 +170,6 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
   [service setEnabled:YES];
   XCTAssertTrue([service isEnabled]);
-}
-
-- (void)testSettingDelegateWorks {
-  id<MSAnalyticsDelegate> delegateMock = OCMProtocolMock(@protocol(MSAnalyticsDelegate));
-  [MSAnalytics setDelegate:delegateMock];
-  XCTAssertNotNil([MSAnalytics sharedInstance].delegate);
-  XCTAssertEqual([MSAnalytics sharedInstance].delegate, delegateMock);
-}
-
-- (void)testAnalyticsDelegateWithoutImplementations {
-
-  // When
-  MSMockAnalyticsDelegate *delegateMock = OCMPartialMock([MSMockAnalyticsDelegate new]);
-  [MSAnalytics setDelegate:delegateMock];
-
-  id<MSAnalyticsDelegate> delegate = [[MSAnalytics sharedInstance] delegate];
-
-  // Then
-  XCTAssertFalse([delegate respondsToSelector:@selector(analytics:willSendEventLog:)]);
-  XCTAssertFalse([delegate respondsToSelector:@selector(analytics:didSucceedSendingEventLog:)]);
-  XCTAssertFalse([delegate respondsToSelector:@selector(analytics:didFailSendingEventLog:withError:)]);
-  XCTAssertFalse([delegate respondsToSelector:@selector(analytics:willSendPageLog:)]);
-  XCTAssertFalse([delegate respondsToSelector:@selector(analytics:didSucceedSendingPageLog:)]);
-  XCTAssertFalse([delegate respondsToSelector:@selector(analytics:didFailSendingPageLog:withError:)]);
-}
-
-- (void)testAnalyticsDelegateMethodsAreCalled {
-
-  self.willSendEventLogWasCalled = false;
-  self.didSucceedSendingEventLogWasCalled = false;
-  self.didFailSendingEventLogWasCalled = false;
-  [[MSAnalytics sharedInstance] setDelegate:self];
-  MSEventLog *eventLog = [MSEventLog new];
-  [[MSAnalytics sharedInstance] channel:nil willSendLog:eventLog];
-  [[MSAnalytics sharedInstance] channel:nil didSucceedSendingLog:eventLog];
-  [[MSAnalytics sharedInstance] channel:nil didFailSendingLog:eventLog withError:nil];
-
-  XCTAssertTrue(self.willSendEventLogWasCalled);
-  XCTAssertTrue(self.didSucceedSendingEventLogWasCalled);
-  XCTAssertTrue(self.didFailSendingEventLogWasCalled);
 }
 
 - (void)testTrackEventWithoutProperties {

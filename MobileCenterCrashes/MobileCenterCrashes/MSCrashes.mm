@@ -277,8 +277,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     // Get persisted crash reports.
     self.crashFiles = [self persistedCrashReports];
 
-    // Set self as delegate of crashes' channel.
-    [self.logManager addChannelDelegate:self forGroupId:self.groupId];
+    // Add delegate to log manager.
+    [self.logManager addDelegate:self];
 
     // Process PLCrashReports, this will format the PLCrashReport into our schema and then trigger sending.
     // This mostly happens on the start of the service.
@@ -304,10 +304,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     [self removeAnalyzerFile];
     [self.plCrashReporter purgePendingCrashReport];
 
-    // Remove as ChannelDelegate from LogManager
-    [self.logManager removeChannelDelegate:self forGroupId:self.groupId];
-    [self.logManager removeChannelDelegate:self forGroupId:self.groupId];
-    [self.logManager removeChannelDelegate:self forGroupId:self.groupId];
+    // Remove delegate from LogManager
+    [self.logManager removeDelegate:self];
     MSLogInfo([MSCrashes logTag], @"Crashes service has been disabled.");
   }
 }
@@ -463,10 +461,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   }
 }
 
-#pragma mark - MSChannelDelegate
-
-- (void)channel:(id<MSChannel>)channel willSendLog:(id<MSLog>)log {
-  (void)channel;
+- (void)willSendLog:(id<MSLog>)log {
   id<MSCrashesDelegate> strongDelegate = self.delegate;
   if (strongDelegate && [strongDelegate respondsToSelector:@selector(crashes:willSendErrorReport:)]) {
     NSObject *logObject = static_cast<NSObject *>(log);
@@ -478,8 +473,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   }
 }
 
-- (void)channel:(id<MSChannel>)channel didSucceedSendingLog:(id<MSLog>)log {
-  (void)channel;
+- (void)didSucceedSendingLog:(id<MSLog>)log {
   id<MSCrashesDelegate> strongDelegate = self.delegate;
   if (strongDelegate && [strongDelegate respondsToSelector:@selector(crashes:didSucceedSendingErrorReport:)]) {
     NSObject *logObject = static_cast<NSObject *>(log);
@@ -491,8 +485,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   }
 }
 
-- (void)channel:(id<MSChannel>)channel didFailSendingLog:(id<MSLog>)log withError:(NSError *)error {
-  (void)channel;
+- (void)didFailSendingLog:(id<MSLog>)log withError:(NSError *)error {
   id<MSCrashesDelegate> strongDelegate = self.delegate;
   if (strongDelegate && [strongDelegate respondsToSelector:@selector(crashes:didFailSendingErrorReport:withError:)]) {
     NSObject *logObject = static_cast<NSObject *>(log);
@@ -564,7 +557,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       MSLogDebug([MSCrashes logTag], @"Exception handler successfully initialized.");
     } else if (currentHandler && !enableUncaughtExceptionHandler) {
       self.exceptionHandler = currentHandler;
-      MSLogDebug([MSCrashes logTag], @"Exception handler successfully initialized but it has not been registered due to the wrapper SDK.");
+      MSLogDebug([MSCrashes logTag],
+                 @"Exception handler successfully initialized but it has not been registered due to the wrapper SDK.");
     } else {
       MSLogError([MSCrashes logTag],
                  @"Exception handler could not be set. Make sure there is no other exception handler set up!");
