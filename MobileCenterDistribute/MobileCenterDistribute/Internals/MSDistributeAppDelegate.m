@@ -6,7 +6,7 @@
 
 #pragma mark - MSAppDelegate
 
-- (BOOL)application:(__attribute__((unused))UIApplication *)app
+- (BOOL)application:(__attribute__((unused))UIApplication *)application
               openURL:(NSURL *)url
     sourceApplication:(__attribute__((unused))NSString *)sourceApplication
            annotation:(__attribute__((unused))id)annotation
@@ -14,17 +14,20 @@
   return [self openURL:url returnedValue:returnedValue];
 }
 
--(BOOL)application:(__attribute__((unused)) UIApplication *)app openURL:(NSURL *)url options:(__attribute__((unused)) NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options returnedValue:(BOOL)returnedValue{
+- (BOOL)application:(__attribute__((unused))UIApplication *)application
+            openURL:(NSURL *)url
+            options:(__attribute__((unused))NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options
+      returnedValue:(BOOL)returnedValue {
   return [self openURL:url returnedValue:returnedValue];
 }
 
 #pragma mark - Private
 
--(BOOL)openURL:(NSURL *)url returnedValue:(BOOL)returnedValue{
+- (BOOL)openURL:(NSURL *)url returnedValue:(BOOL)returnedValue {
   BOOL returnValue = [MSDistribute openURL:url];
-  
+
   // Return original value if url not handled by the SDK.
-  return (BOOL)(returnValue?:returnedValue);
+  return (BOOL)(returnValue ?: returnedValue);
 }
 
 @end
@@ -33,7 +36,7 @@
 
 @implementation MSAppDelegateForwarder (MSDistribute)
 
-+ (void)load{
++ (void)load {
 
   // Register selectors to swizzle for Ditribute.
   [self addAppDelegateSelectorToSwizzle:@selector(application:openURL:options:)];

@@ -14,24 +14,25 @@
 
 #pragma mark - UIApplication
 
-- (BOOL)application:(UIApplication *)app
+- (BOOL)application:(UIApplication *)application
               openURL:(NSURL *)url
     sourceApplication:(NSString *)sourceApplication
            annotation:(id)annotation {
   OriginalOpenURLiOS42Validator validator = self.delegateValidators[NSStringFromSelector(_cmd)];
-  return validator(app, url, sourceApplication, annotation);
+  return validator(application, url, sourceApplication, annotation);
 }
 
-- (void)application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+- (void)application:(UIApplication *)application
+    didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
   OriginalDidRegisterNotificationValidator validator = self.delegateValidators[NSStringFromSelector(_cmd)];
-  validator(app, deviceToken);
+  validator(application, deviceToken);
 }
 
-- (void)application:(UIApplication *)app
+- (void)application:(UIApplication *)application
     didReceiveRemoteNotification:(NSDictionary *)userInfo
           fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
   OriginalDidReceiveNotification validator = self.delegateValidators[NSStringFromSelector(_cmd)];
-  validator(app, userInfo, completionHandler);
+  validator(application, userInfo, completionHandler);
 }
 
 @end

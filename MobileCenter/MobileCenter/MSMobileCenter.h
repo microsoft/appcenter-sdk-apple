@@ -106,7 +106,7 @@
  * should be disabled if you or one of your third party SDK is doing message forwarding on the application delegate.
  * Message forwarding usually implies the implementation of @see NSObject#forwardingTargetForSelector: or @see
  * NSObject#forwardInvocation: methods.
- * To disable the application delegate forwarder just add the `MSAppDelegateForwarderEnabled` tag to your Info.plist
+ * To disable the application delegate forwarder just add the `MobileCenterAppDelegateForwarderEnabled` tag to your Info.plist
  * file and set it to `0`. Then you will have to forward any application delegate needed by the SDK manually.
  */
 + (BOOL)isAppDelegateForwarderEnabled;
