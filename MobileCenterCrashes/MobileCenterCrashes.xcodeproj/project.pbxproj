@@ -18,27 +18,27 @@
 			name = MobileCenterCrashesMacFramework;
 			productName = "Fat Framework";
 		};
-		6E3729771D1DE83200F1E4AE /* MobileCenterCrashesFramework */ = {
+		6E3729771D1DE83200F1E4AE /* MobileCenterCrashesIosFramework */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 6E3729781D1DE83200F1E4AE /* Build configuration list for PBXAggregateTarget "MobileCenterCrashesFramework" */;
+			buildConfigurationList = 6E3729781D1DE83200F1E4AE /* Build configuration list for PBXAggregateTarget "MobileCenterCrashesIosFramework" */;
 			buildPhases = (
 				6E37297B1D1DE85000F1E4AE /* ShellScript */,
 			);
 			dependencies = (
 			);
-			name = MobileCenterCrashesFramework;
+			name = MobileCenterCrashesIosFramework;
 			productName = "Fat Framework";
 		};
-		6E6BFC361D23504F00DF7617 /* MobileCenterCrashesDoc */ = {
+		6E6BFC361D23504F00DF7617 /* MobileCenterCrashesIosDoc */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 6E6BFC391D23504F00DF7617 /* Build configuration list for PBXAggregateTarget "MobileCenterCrashesDoc" */;
+			buildConfigurationList = 6E6BFC391D23504F00DF7617 /* Build configuration list for PBXAggregateTarget "MobileCenterCrashesIosDoc" */;
 			buildPhases = (
 				6E6BFC3A1D23505600DF7617 /* ShellScript */,
 			);
 			dependencies = (
 				386352E61D51105800D0D450 /* PBXTargetDependency */,
 			);
-			name = MobileCenterCrashesDoc;
+			name = MobileCenterCrashesIosDoc;
 			productName = "Jazzy Docs";
 		};
 /* End PBXAggregateTarget section */
@@ -132,7 +132,7 @@
 		049327911ECA170D00D0187A /* live_report_exception.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A311D416CCF0016C325 /* live_report_exception.plcrash */; };
 		049327CA1ECA1A2B00D0187A /* libCrashReporter-MacOSX-Static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 049327B11ECA19FD00D0187A /* libCrashReporter-MacOSX-Static.a */; };
 		049327CD1ECA1A5600D0187A /* libMobileCenterMac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 049327CC1ECA1A5600D0187A /* libMobileCenterMac.a */; };
-		049327CE1ECA1A5F00D0187A /* libMobileCenterCrashesMac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0485AFD31EAA887500C10CAF /* libMobileCenterCrashesMac.a */; };
+		049327CE1ECA1A5F00D0187A /* libMobileCenterCrashes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0485AFD31EAA887500C10CAF /* libMobileCenterCrashes.a */; };
 		04BED7231ECB65E100E20975 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04BED7211ECB65DD00E20975 /* OCHamcrest.framework */; };
 		04BED7241ECB65F100E20975 /* OCHamcrestIOS.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6E171AED1D22F7BE000DC480 /* OCHamcrestIOS.framework */; };
 		04BED7251ECB65F900E20975 /* OCHamcrest.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 04BED7211ECB65DD00E20975 /* OCHamcrest.framework */; };
@@ -296,8 +296,8 @@
 		0420A68C1ECA7AA800915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../macOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
 		044C45F81DB6EA0C00F3C29E /* MSErrorAttachmentPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSErrorAttachmentPrivate.h; sourceTree = "<group>"; };
 		044C45FA1DB6EC1C00F3C29E /* MSErrorBinaryAttachmentPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSErrorBinaryAttachmentPrivate.h; sourceTree = "<group>"; };
-		0485AFD31EAA887500C10CAF /* libMobileCenterCrashesMac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMobileCenterCrashesMac.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		049327961ECA170D00D0187A /* MobileCenterCrashesMac.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MobileCenterCrashesMac.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0485AFD31EAA887500C10CAF /* libMobileCenterCrashes.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMobileCenterCrashes.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		049327961ECA170D00D0187A /* MobileCenterCrashes.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MobileCenterCrashes.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		049327B11ECA19FD00D0187A /* libCrashReporter-MacOSX-Static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libCrashReporter-MacOSX-Static.a"; sourceTree = "<group>"; };
 		049327CC1ECA1A5600D0187A /* libMobileCenterMac.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobileCenterMac.a; path = "../../../../../Library/Developer/Xcode/DerivedData/MobileCenter-cxbmzrupyysdsehdxmozcvjphajr/Build/Products/Debug/libMobileCenterMac.a"; sourceTree = "<group>"; };
 		049327CF1ECA1BA100D0187A /* CrashReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrashReporter.h; sourceTree = "<group>"; };
@@ -432,7 +432,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				049327CD1ECA1A5600D0187A /* libMobileCenterMac.a in Frameworks */,
-				049327CE1ECA1A5F00D0187A /* libMobileCenterCrashesMac.a in Frameworks */,
+				049327CE1ECA1A5F00D0187A /* libMobileCenterCrashes.a in Frameworks */,
 				04BED7231ECB65E100E20975 /* OCHamcrest.framework in Frameworks */,
 				0420A6961ECA7BF500915619 /* OCMock.framework in Frameworks */,
 			);
@@ -670,8 +670,8 @@
 			children = (
 				6E0401331D1C98690051BCFA /* libMobileCenterCrashes.a */,
 				6E171AE11D22F781000DC480 /* MobileCenterCrashes.xctest */,
-				0485AFD31EAA887500C10CAF /* libMobileCenterCrashesMac.a */,
-				049327961ECA170D00D0187A /* MobileCenterCrashesMac.xctest */,
+				0485AFD31EAA887500C10CAF /* libMobileCenterCrashes.a */,
+				049327961ECA170D00D0187A /* MobileCenterCrashes.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -939,7 +939,7 @@
 			);
 			name = MobileCenterCrashesMac;
 			productName = MobileCenterCrashes;
-			productReference = 0485AFD31EAA887500C10CAF /* libMobileCenterCrashesMac.a */;
+			productReference = 0485AFD31EAA887500C10CAF /* libMobileCenterCrashes.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		049327611ECA170D00D0187A /* MobileCenterCrashesMacTests */ = {
@@ -958,12 +958,12 @@
 			);
 			name = MobileCenterCrashesMacTests;
 			productName = MobileCenterCrashesTests;
-			productReference = 049327961ECA170D00D0187A /* MobileCenterCrashesMac.xctest */;
+			productReference = 049327961ECA170D00D0187A /* MobileCenterCrashes.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		6E0401321D1C98690051BCFA /* MobileCenterCrashes */ = {
+		6E0401321D1C98690051BCFA /* MobileCenterCrashesIos */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6E04013C1D1C98690051BCFA /* Build configuration list for PBXNativeTarget "MobileCenterCrashes" */;
+			buildConfigurationList = 6E04013C1D1C98690051BCFA /* Build configuration list for PBXNativeTarget "MobileCenterCrashesIos" */;
 			buildPhases = (
 				6E04012F1D1C98690051BCFA /* Sources */,
 				6E0401301D1C98690051BCFA /* Frameworks */,
@@ -974,14 +974,14 @@
 			);
 			dependencies = (
 			);
-			name = MobileCenterCrashes;
+			name = MobileCenterCrashesIos;
 			productName = MobileCenterCrashes;
 			productReference = 6E0401331D1C98690051BCFA /* libMobileCenterCrashes.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		6E171AE01D22F781000DC480 /* MobileCenterCrashesTests */ = {
+		6E171AE01D22F781000DC480 /* MobileCenterCrashesIosTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6E171AE91D22F781000DC480 /* Build configuration list for PBXNativeTarget "MobileCenterCrashesTests" */;
+			buildConfigurationList = 6E171AE91D22F781000DC480 /* Build configuration list for PBXNativeTarget "MobileCenterCrashesIosTests" */;
 			buildPhases = (
 				6E171ADD1D22F781000DC480 /* Sources */,
 				6E171ADE1D22F781000DC480 /* Frameworks */,
@@ -993,7 +993,7 @@
 			dependencies = (
 				6E171AE81D22F781000DC480 /* PBXTargetDependency */,
 			);
-			name = MobileCenterCrashesTests;
+			name = MobileCenterCrashesIosTests;
 			productName = MobileCenterCrashesTests;
 			productReference = 6E171AE11D22F781000DC480 /* MobileCenterCrashes.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -1039,10 +1039,10 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6E0401321D1C98690051BCFA /* MobileCenterCrashes */,
-				6E3729771D1DE83200F1E4AE /* MobileCenterCrashesFramework */,
-				6E171AE01D22F781000DC480 /* MobileCenterCrashesTests */,
-				6E6BFC361D23504F00DF7617 /* MobileCenterCrashesDoc */,
+				6E0401321D1C98690051BCFA /* MobileCenterCrashesIos */,
+				6E3729771D1DE83200F1E4AE /* MobileCenterCrashesIosFramework */,
+				6E171AE01D22F781000DC480 /* MobileCenterCrashesIosTests */,
+				6E6BFC361D23504F00DF7617 /* MobileCenterCrashesIosDoc */,
 				0485AF9F1EAA887500C10CAF /* MobileCenterCrashesMac */,
 				0485AFF91EAAB27E00C10CAF /* MobileCenterCrashesMacFramework */,
 				049327611ECA170D00D0187A /* MobileCenterCrashesMacTests */,
@@ -1127,7 +1127,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=MobileCenterCrashes\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-iOS/macOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\"Mac clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\"Mac\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/macOS/Support/module.modulemap\" \"${INSTALL_DIR}/Modules/\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release/include/${FMK_NAME}Mac/\" \"${INSTALL_DIR}/Headers/\"\n\n# Uses the Lipo Tool to copy binary file (x86_64) into final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}Mac.a\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\n\nif [ -z $(otool -L \"${INSTALL_DIR}/${FMK_NAME}\" | grep 'libCrashReporter') ]\nthen\nlibtool -static -o \"${INSTALL_DIR}/${FMK_NAME}\" \"${INSTALL_DIR}/${FMK_NAME}\" \"${SRCROOT}/../Vendor/macOS/PLCrashReporter/libCrashReporter-MacOSX-Static.a\"\nfi\n\nrm -r \"${WRK_DIR}\"";
+			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=MobileCenterCrashes\nTGT_NAME=${FMK_NAME}Mac\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-iOS/macOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\"\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/macOS/Support/module.modulemap\" \"${INSTALL_DIR}/Modules/\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Headers/\"\n\n# Uses the Lipo Tool to copy binary file (x86_64) into final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\n\nif [ -z $(otool -L \"${INSTALL_DIR}/${FMK_NAME}\" | grep 'libCrashReporter') ]\nthen\nlibtool -static -o \"${INSTALL_DIR}/${FMK_NAME}\" \"${INSTALL_DIR}/${FMK_NAME}\" \"${SRCROOT}/../Vendor/macOS/PLCrashReporter/libCrashReporter-MacOSX-Static.a\"\nfi\n\nrm -r \"${WRK_DIR}\"";
 		};
 		6E37297B1D1DE85000F1E4AE /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1140,7 +1140,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=MobileCenterCrashes\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-iOS/iOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphoneos\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/iOS/Support/module.modulemap\" \"${INSTALL_DIR}/Modules/\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Headers/\"\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" \"${SIMULATOR_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\n\nif [ -z $(otool -L \"${INSTALL_DIR}/${FMK_NAME}\" | grep 'libCrashReporter') ]\nthen\nlibtool -static -o \"${INSTALL_DIR}/${FMK_NAME}\" \"${INSTALL_DIR}/${FMK_NAME}\" \"${SRCROOT}/../Vendor/iOS/PLCrashReporter/CrashReporter.framework/Versions/A/CrashReporter\"\nfi\n\nrm -r \"${WRK_DIR}\"";
+			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=MobileCenterCrashes\nTGT_NAME=${FMK_NAME}Ios\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-iOS/iOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" -sdk iphoneos\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/iOS/Support/module.modulemap\" \"${INSTALL_DIR}/Modules/\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Headers/\"\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" \"${SIMULATOR_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\n\nif [ -z $(otool -L \"${INSTALL_DIR}/${FMK_NAME}\" | grep 'libCrashReporter') ]\nthen\nlibtool -static -o \"${INSTALL_DIR}/${FMK_NAME}\" \"${INSTALL_DIR}/${FMK_NAME}\" \"${SRCROOT}/../Vendor/iOS/PLCrashReporter/CrashReporter.framework/Versions/A/CrashReporter\"\nfi\n\nrm -r \"${WRK_DIR}\"";
 		};
 		6E6BFC3A1D23505600DF7617 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1251,17 +1251,17 @@
 /* Begin PBXTargetDependency section */
 		049327621ECA170D00D0187A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 6E0401321D1C98690051BCFA /* MobileCenterCrashes */;
+			target = 6E0401321D1C98690051BCFA /* MobileCenterCrashesIos */;
 			targetProxy = 049327631ECA170D00D0187A /* PBXContainerItemProxy */;
 		};
 		386352E61D51105800D0D450 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 6E3729771D1DE83200F1E4AE /* MobileCenterCrashesFramework */;
+			target = 6E3729771D1DE83200F1E4AE /* MobileCenterCrashesIosFramework */;
 			targetProxy = 386352E51D51105800D0D450 /* PBXContainerItemProxy */;
 		};
 		6E171AE81D22F781000DC480 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 6E0401321D1C98690051BCFA /* MobileCenterCrashes */;
+			target = 6E0401321D1C98690051BCFA /* MobileCenterCrashesIos */;
 			targetProxy = 6E171AE71D22F781000DC480 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -1276,7 +1276,6 @@
 				OTHER_LDFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecentercrashes;
-				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -1295,7 +1294,6 @@
 				OTHER_LDFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecentercrashes;
-				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -1314,7 +1312,6 @@
 					"-framework",
 					AppKit,
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				VALID_ARCHS = "$(MS_MAC_ARCHS)";
 			};
@@ -1329,7 +1326,6 @@
 					"-framework",
 					AppKit,
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				VALID_ARCHS = "$(MS_MAC_ARCHS)";
 			};
@@ -1358,7 +1354,6 @@
 					"\"$(SRCROOT)/../Vendor/macOS\"/**",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecentercrashestests;
-				PRODUCT_NAME = MobileCenterCrashesMac;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/** \"$(SRCROOT)/../MobileCenter/MobileCenter/macOS\"/**";
@@ -1389,7 +1384,6 @@
 					"\"$(SRCROOT)/../Vendor/macOS\"/**",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecentercrashestests;
-				PRODUCT_NAME = MobileCenterCrashesMac;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/** \"$(SRCROOT)/../MobileCenter/MobileCenter/macOS\"/**";
@@ -1444,6 +1438,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = "$(inherited)";
+				PRODUCT_NAME = "${PROJECT_NAME}";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1487,6 +1482,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "$(inherited)";
+				PRODUCT_NAME = "${PROJECT_NAME}";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1504,7 +1500,6 @@
 				OTHER_LDFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecentercrashes;
-				PRODUCT_NAME = MobileCenterCrashes;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SKIP_INSTALL = YES;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/** \"$(SRCROOT)/../MobileCenter/MobileCenter/iOS\"/**";
@@ -1525,7 +1520,6 @@
 				OTHER_LDFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecentercrashes;
-				PRODUCT_NAME = MobileCenterCrashes;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SKIP_INSTALL = YES;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/** \"$(SRCROOT)/../MobileCenter/MobileCenter/iOS\"/**";
@@ -1564,7 +1558,6 @@
 					"-ObjC",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecentercrashestests;
-				PRODUCT_NAME = MobileCenterCrashes;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/** \"$(SRCROOT)/../MobileCenter/MobileCenter/iOS\"/**";
 			};
 			name = Debug;
@@ -1599,7 +1592,6 @@
 					"-ObjC",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecentercrashestests;
-				PRODUCT_NAME = MobileCenterCrashes;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/** \"$(SRCROOT)/../MobileCenter/MobileCenter/iOS\"/**";
 			};
 			name = Release;
@@ -1619,7 +1611,6 @@
 					"-framework",
 					UIKit,
 				);
-				PRODUCT_NAME = MobileCenterCrashes;
 			};
 			name = Debug;
 		};
@@ -1638,7 +1629,6 @@
 					"-framework",
 					UIKit,
 				);
-				PRODUCT_NAME = MobileCenterCrashes;
 			};
 			name = Release;
 		};
@@ -1648,7 +1638,6 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				OTHER_CFLAGS = "";
-				PRODUCT_NAME = MobileCenterCrashes;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"";
 				VALID_ARCHS = "";
 			};
@@ -1659,7 +1648,6 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
 				OTHER_CFLAGS = "";
-				PRODUCT_NAME = MobileCenterCrashes;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"";
 				VALID_ARCHS = "";
 			};
@@ -1704,7 +1692,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6E04013C1D1C98690051BCFA /* Build configuration list for PBXNativeTarget "MobileCenterCrashes" */ = {
+		6E04013C1D1C98690051BCFA /* Build configuration list for PBXNativeTarget "MobileCenterCrashesIos" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6E04013D1D1C98690051BCFA /* Debug */,
@@ -1713,7 +1701,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6E171AE91D22F781000DC480 /* Build configuration list for PBXNativeTarget "MobileCenterCrashesTests" */ = {
+		6E171AE91D22F781000DC480 /* Build configuration list for PBXNativeTarget "MobileCenterCrashesIosTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6E171AEA1D22F781000DC480 /* Debug */,
@@ -1722,7 +1710,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6E3729781D1DE83200F1E4AE /* Build configuration list for PBXAggregateTarget "MobileCenterCrashesFramework" */ = {
+		6E3729781D1DE83200F1E4AE /* Build configuration list for PBXAggregateTarget "MobileCenterCrashesIosFramework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6E3729791D1DE83200F1E4AE /* Debug */,
@@ -1731,7 +1719,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6E6BFC391D23504F00DF7617 /* Build configuration list for PBXAggregateTarget "MobileCenterCrashesDoc" */ = {
+		6E6BFC391D23504F00DF7617 /* Build configuration list for PBXAggregateTarget "MobileCenterCrashesIosDoc" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6E6BFC371D23504F00DF7617 /* Debug */,

@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D3AD5F271E5C9633001627AB"
-               BuildableName = "MobileCenterPushDoc"
-               BlueprintName = "MobileCenterPushDoc"
+               BuildableName = "MobileCenterPushIosDoc"
+               BlueprintName = "MobileCenterPushIosDoc"
                ReferencedContainer = "container:MobileCenterPush.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -46,8 +46,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D3AD5F271E5C9633001627AB"
-            BuildableName = "MobileCenterPushDoc"
-            BlueprintName = "MobileCenterPushDoc"
+            BuildableName = "MobileCenterPushIosDoc"
+            BlueprintName = "MobileCenterPushIosDoc"
             ReferencedContainer = "container:MobileCenterPush.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -64,8 +64,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D3AD5F271E5C9633001627AB"
-            BuildableName = "MobileCenterPushDoc"
-            BlueprintName = "MobileCenterPushDoc"
+            BuildableName = "MobileCenterPushIosDoc"
+            BlueprintName = "MobileCenterPushIosDoc"
             ReferencedContainer = "container:MobileCenterPush.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

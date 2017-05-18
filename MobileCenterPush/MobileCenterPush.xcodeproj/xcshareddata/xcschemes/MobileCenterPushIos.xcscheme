@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D33A94501E5B11BB003966DB"
                BuildableName = "libMobileCenterPush.a"
-               BlueprintName = "MobileCenterPush"
+               BlueprintName = "MobileCenterPushIos"
                ReferencedContainer = "container:MobileCenterPush.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -35,7 +35,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D3AD5EBF1E5C4F6A001627AB"
                BuildableName = "MobileCenterPush.xctest"
-               BlueprintName = "MobileCenterPushTests"
+               BlueprintName = "MobileCenterPushIosTests"
                ReferencedContainer = "container:MobileCenterPush.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -45,7 +45,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D33A94501E5B11BB003966DB"
             BuildableName = "libMobileCenterPush.a"
-            BlueprintName = "MobileCenterPush"
+            BlueprintName = "MobileCenterPushIos"
             ReferencedContainer = "container:MobileCenterPush.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -67,7 +67,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D33A94501E5B11BB003966DB"
             BuildableName = "libMobileCenterPush.a"
-            BlueprintName = "MobileCenterPush"
+            BlueprintName = "MobileCenterPushIos"
             ReferencedContainer = "container:MobileCenterPush.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -85,7 +85,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D33A94501E5B11BB003966DB"
             BuildableName = "libMobileCenterPush.a"
-            BlueprintName = "MobileCenterPush"
+            BlueprintName = "MobileCenterPushIos"
             ReferencedContainer = "container:MobileCenterPush.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

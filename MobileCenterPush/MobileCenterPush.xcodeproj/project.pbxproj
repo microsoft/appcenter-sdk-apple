@@ -7,27 +7,27 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		D3AD5F221E5C9562001627AB /* MobileCenterPushFramework */ = {
+		D3AD5F221E5C9562001627AB /* MobileCenterPushIosFramework */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = D3AD5F251E5C9562001627AB /* Build configuration list for PBXAggregateTarget "MobileCenterPushFramework" */;
+			buildConfigurationList = D3AD5F251E5C9562001627AB /* Build configuration list for PBXAggregateTarget "MobileCenterPushIosFramework" */;
 			buildPhases = (
 				D3AD5F261E5C9588001627AB /* ShellScript */,
 			);
 			dependencies = (
 			);
-			name = MobileCenterPushFramework;
+			name = MobileCenterPushIosFramework;
 			productName = "Fat Framework";
 		};
-		D3AD5F271E5C9633001627AB /* MobileCenterPushDoc */ = {
+		D3AD5F271E5C9633001627AB /* MobileCenterPushIosDoc */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = D3AD5F281E5C9633001627AB /* Build configuration list for PBXAggregateTarget "MobileCenterPushDoc" */;
+			buildConfigurationList = D3AD5F281E5C9633001627AB /* Build configuration list for PBXAggregateTarget "MobileCenterPushIosDoc" */;
 			buildPhases = (
 				D3AD5F2B1E5C9636001627AB /* Run Script */,
 			);
 			dependencies = (
 				D3AD5F3D1E5D6809001627AB /* PBXTargetDependency */,
 			);
-			name = MobileCenterPushDoc;
+			name = MobileCenterPushIosDoc;
 			productName = "Jazzy Docs";
 		};
 /* End PBXAggregateTarget section */
@@ -355,9 +355,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		D33A94501E5B11BB003966DB /* MobileCenterPush */ = {
+		D33A94501E5B11BB003966DB /* MobileCenterPushIos */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D33A945A1E5B11BB003966DB /* Build configuration list for PBXNativeTarget "MobileCenterPush" */;
+			buildConfigurationList = D33A945A1E5B11BB003966DB /* Build configuration list for PBXNativeTarget "MobileCenterPushIos" */;
 			buildPhases = (
 				D33A944D1E5B11BB003966DB /* Sources */,
 				D33A944E1E5B11BB003966DB /* Frameworks */,
@@ -368,14 +368,14 @@
 			);
 			dependencies = (
 			);
-			name = MobileCenterPush;
+			name = MobileCenterPushIos;
 			productName = MobileCenterPush;
 			productReference = D33A94511E5B11BB003966DB /* libMobileCenterPush.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		D3AD5EBF1E5C4F6A001627AB /* MobileCenterPushTests */ = {
+		D3AD5EBF1E5C4F6A001627AB /* MobileCenterPushIosTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D3AD5EC81E5C4F6A001627AB /* Build configuration list for PBXNativeTarget "MobileCenterPushTests" */;
+			buildConfigurationList = D3AD5EC81E5C4F6A001627AB /* Build configuration list for PBXNativeTarget "MobileCenterPushIosTests" */;
 			buildPhases = (
 				D3AD5EBC1E5C4F6A001627AB /* Sources */,
 				D3AD5EBD1E5C4F6A001627AB /* Frameworks */,
@@ -387,7 +387,7 @@
 			dependencies = (
 				D3AD5EC71E5C4F6A001627AB /* PBXTargetDependency */,
 			);
-			name = MobileCenterPushTests;
+			name = MobileCenterPushIosTests;
 			productName = MobileCenterPushTests;
 			productReference = D3AD5EC01E5C4F6A001627AB /* MobileCenterPush.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -429,10 +429,10 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D33A94501E5B11BB003966DB /* MobileCenterPush */,
-				D3AD5F221E5C9562001627AB /* MobileCenterPushFramework */,
-				D3AD5EBF1E5C4F6A001627AB /* MobileCenterPushTests */,
-				D3AD5F271E5C9633001627AB /* MobileCenterPushDoc */,
+				D33A94501E5B11BB003966DB /* MobileCenterPushIos */,
+				D3AD5F221E5C9562001627AB /* MobileCenterPushIosFramework */,
+				D3AD5EBF1E5C4F6A001627AB /* MobileCenterPushIosTests */,
+				D3AD5F271E5C9633001627AB /* MobileCenterPushIosDoc */,
 			);
 		};
 /* End PBXProject section */
@@ -459,7 +459,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=MobileCenterPush\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-iOS/iOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphoneos\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Common/Support/module.modulemap\" \"${INSTALL_DIR}/Modules/\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Headers/\"\n\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" \"${SIMULATOR_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\n\nrm -r \"${WRK_DIR}\"";
+			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=MobileCenterPush\nTGT_NAME=${FMK_NAME}Ios\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-iOS/iOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" -sdk iphoneos\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Common/Support/module.modulemap\" \"${INSTALL_DIR}/Modules/\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Headers/\"\n\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" \"${SIMULATOR_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\n\nrm -r \"${WRK_DIR}\"";
 		};
 		D3AD5F2B1E5C9636001627AB /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -503,12 +503,12 @@
 /* Begin PBXTargetDependency section */
 		D3AD5EC71E5C4F6A001627AB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = D33A94501E5B11BB003966DB /* MobileCenterPush */;
+			target = D33A94501E5B11BB003966DB /* MobileCenterPushIos */;
 			targetProxy = D3AD5EC61E5C4F6A001627AB /* PBXContainerItemProxy */;
 		};
 		D3AD5F3D1E5D6809001627AB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = D3AD5F221E5C9562001627AB /* MobileCenterPushFramework */;
+			target = D3AD5F221E5C9562001627AB /* MobileCenterPushIosFramework */;
 			targetProxy = D3AD5F3C1E5D6809001627AB /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -560,6 +560,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "$(inherited)";
+				PRODUCT_NAME = "${PROJECT_NAME}";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -603,6 +604,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "$(inherited)";
+				PRODUCT_NAME = "${PROJECT_NAME}";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = NO;
 			};
@@ -616,7 +618,6 @@
 				OTHER_LDFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenterpush;
-				PRODUCT_NAME = MobileCenterPush;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SKIP_INSTALL = YES;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/** \"$(SRCROOT)/../MobileCenter/MobileCenter/iOS\"/**";
@@ -632,7 +633,6 @@
 				OTHER_LDFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenterpush;
-				PRODUCT_NAME = MobileCenterPush;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SKIP_INSTALL = YES;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/** \"$(SRCROOT)/../MobileCenter/MobileCenter/iOS\"/**";
@@ -662,7 +662,6 @@
 					"\"$(SRCROOT)/../Vendor/iOS\"/**",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenterpushtests;
-				PRODUCT_NAME = MobileCenterPush;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/** \"$(SRCROOT)/../MobileCenter/MobileCenter/iOS\"/**";
 			};
 			name = Debug;
@@ -689,7 +688,6 @@
 					"\"$(SRCROOT)/../Vendor/iOS\"/**",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenterpushtests;
-				PRODUCT_NAME = MobileCenterPush;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/** \"$(SRCROOT)/../MobileCenter/MobileCenter/iOS\"/**";
 			};
 			name = Release;
@@ -697,14 +695,12 @@
 		D3AD5F231E5C9562001627AB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				PRODUCT_NAME = MobileCenterPush;
 			};
 			name = Debug;
 		};
 		D3AD5F241E5C9562001627AB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				PRODUCT_NAME = MobileCenterPush;
 			};
 			name = Release;
 		};
@@ -713,7 +709,6 @@
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				OTHER_CFLAGS = "";
-				PRODUCT_NAME = MobileCenterPush;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"";
 				VALID_ARCHS = "";
 			};
@@ -724,7 +719,6 @@
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				OTHER_CFLAGS = "";
-				PRODUCT_NAME = MobileCenterPush;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"";
 				VALID_ARCHS = "";
 			};
@@ -742,7 +736,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D33A945A1E5B11BB003966DB /* Build configuration list for PBXNativeTarget "MobileCenterPush" */ = {
+		D33A945A1E5B11BB003966DB /* Build configuration list for PBXNativeTarget "MobileCenterPushIos" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D33A945B1E5B11BB003966DB /* Debug */,
@@ -751,7 +745,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D3AD5EC81E5C4F6A001627AB /* Build configuration list for PBXNativeTarget "MobileCenterPushTests" */ = {
+		D3AD5EC81E5C4F6A001627AB /* Build configuration list for PBXNativeTarget "MobileCenterPushIosTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D3AD5EC91E5C4F6A001627AB /* Debug */,
@@ -760,7 +754,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D3AD5F251E5C9562001627AB /* Build configuration list for PBXAggregateTarget "MobileCenterPushFramework" */ = {
+		D3AD5F251E5C9562001627AB /* Build configuration list for PBXAggregateTarget "MobileCenterPushIosFramework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D3AD5F231E5C9562001627AB /* Debug */,
@@ -769,7 +763,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D3AD5F281E5C9633001627AB /* Build configuration list for PBXAggregateTarget "MobileCenterPushDoc" */ = {
+		D3AD5F281E5C9633001627AB /* Build configuration list for PBXAggregateTarget "MobileCenterPushIosDoc" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D3AD5F291E5C9633001627AB /* Debug */,

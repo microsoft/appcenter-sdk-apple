@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E85547E91D2D68C5002DF6E2"
-               BuildableName = "MobileCenterAnalyticsDoc"
-               BlueprintName = "MobileCenterAnalyticsDoc"
-               ReferencedContainer = "container:MobileCenterAnalytics.xcodeproj">
+               BlueprintIdentifier = "04FD4A3C1E453640009B4468"
+               BuildableName = "MobileCenterDistributeIosDoc"
+               BlueprintName = "MobileCenterDistributeIosDoc"
+               ReferencedContainer = "container:MobileCenterDistribute.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,10 +45,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E85547E91D2D68C5002DF6E2"
-            BuildableName = "MobileCenterAnalyticsDoc"
-            BlueprintName = "MobileCenterAnalyticsDoc"
-            ReferencedContainer = "container:MobileCenterAnalytics.xcodeproj">
+            BlueprintIdentifier = "04FD4A3C1E453640009B4468"
+            BuildableName = "MobileCenterDistributeIosDoc"
+            BlueprintName = "MobileCenterDistributeIosDoc"
+            ReferencedContainer = "container:MobileCenterDistribute.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -63,10 +63,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E85547E91D2D68C5002DF6E2"
-            BuildableName = "MobileCenterAnalyticsDoc"
-            BlueprintName = "MobileCenterAnalyticsDoc"
-            ReferencedContainer = "container:MobileCenterAnalytics.xcodeproj">
+            BlueprintIdentifier = "04FD4A3C1E453640009B4468"
+            BuildableName = "MobileCenterDistributeIosDoc"
+            BlueprintName = "MobileCenterDistributeIosDoc"
+            ReferencedContainer = "container:MobileCenterDistribute.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

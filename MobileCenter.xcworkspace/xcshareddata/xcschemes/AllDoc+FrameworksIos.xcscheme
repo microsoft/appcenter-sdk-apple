@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6E6BFC311D234FAE00DF7617"
-               BuildableName = "MobileCenterDoc"
-               BlueprintName = "MobileCenterDoc"
+               BuildableName = "MobileCenterIosDoc"
+               BlueprintName = "MobileCenterIosDoc"
                ReferencedContainer = "container:MobileCenter/MobileCenter.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -29,8 +29,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E85547E91D2D68C5002DF6E2"
-               BuildableName = "MobileCenterAnalyticsDoc"
-               BlueprintName = "MobileCenterAnalyticsDoc"
+               BuildableName = "MobileCenterAnalyticsIosDoc"
+               BlueprintName = "MobileCenterAnalyticsIosDoc"
                ReferencedContainer = "container:MobileCenterAnalytics/MobileCenterAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -43,8 +43,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6E6BFC361D23504F00DF7617"
-               BuildableName = "MobileCenterCrashesDoc"
-               BlueprintName = "MobileCenterCrashesDoc"
+               BuildableName = "MobileCenterCrashesIosDoc"
+               BlueprintName = "MobileCenterCrashesIosDoc"
                ReferencedContainer = "container:MobileCenterCrashes/MobileCenterCrashes.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -57,8 +57,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "04FD4A3C1E453640009B4468"
-               BuildableName = "MobileCenterDistributeDoc"
-               BlueprintName = "MobileCenterDistributeDoc"
+               BuildableName = "MobileCenterDistributeIosDoc"
+               BlueprintName = "MobileCenterDistributeIosDoc"
                ReferencedContainer = "container:MobileCenterDistribute/MobileCenterDistribute.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -71,8 +71,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D3AD5F271E5C9633001627AB"
-               BuildableName = "MobileCenterPushDoc"
-               BlueprintName = "MobileCenterPushDoc"
+               BuildableName = "MobileCenterPushIosDoc"
+               BlueprintName = "MobileCenterPushIosDoc"
                ReferencedContainer = "container:MobileCenterPush/MobileCenterPush.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -90,8 +90,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6E6BFC311D234FAE00DF7617"
-            BuildableName = "MobileCenterDoc"
-            BlueprintName = "MobileCenterDoc"
+            BuildableName = "MobileCenterIosDoc"
+            BlueprintName = "MobileCenterIosDoc"
             ReferencedContainer = "container:MobileCenter/MobileCenter.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -112,8 +112,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6E6BFC311D234FAE00DF7617"
-            BuildableName = "MobileCenterDoc"
-            BlueprintName = "MobileCenterDoc"
+            BuildableName = "MobileCenterIosDoc"
+            BlueprintName = "MobileCenterIosDoc"
             ReferencedContainer = "container:MobileCenter/MobileCenter.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -130,8 +130,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6E6BFC311D234FAE00DF7617"
-            BuildableName = "MobileCenterDoc"
-            BlueprintName = "MobileCenterDoc"
+            BuildableName = "MobileCenterIosDoc"
+            BlueprintName = "MobileCenterIosDoc"
             ReferencedContainer = "container:MobileCenter/MobileCenter.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

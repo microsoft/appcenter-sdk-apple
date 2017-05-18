@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "04FD4A3C1E453640009B4468"
-               BuildableName = "MobileCenterDistributeDoc"
-               BlueprintName = "MobileCenterDistributeDoc"
-               ReferencedContainer = "container:MobileCenterDistribute.xcodeproj">
+               BlueprintIdentifier = "6E6BFC311D234FAE00DF7617"
+               BuildableName = "MobileCenterIosDoc"
+               BlueprintName = "MobileCenterIosDoc"
+               ReferencedContainer = "container:MobileCenter.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,10 +45,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "04FD4A3C1E453640009B4468"
-            BuildableName = "MobileCenterDistributeDoc"
-            BlueprintName = "MobileCenterDistributeDoc"
-            ReferencedContainer = "container:MobileCenterDistribute.xcodeproj">
+            BlueprintIdentifier = "6E6BFC311D234FAE00DF7617"
+            BuildableName = "MobileCenterIosDoc"
+            BlueprintName = "MobileCenterIosDoc"
+            ReferencedContainer = "container:MobileCenter.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -63,10 +63,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "04FD4A3C1E453640009B4468"
-            BuildableName = "MobileCenterDistributeDoc"
-            BlueprintName = "MobileCenterDistributeDoc"
-            ReferencedContainer = "container:MobileCenterDistribute.xcodeproj">
+            BlueprintIdentifier = "6E6BFC311D234FAE00DF7617"
+            BuildableName = "MobileCenterIosDoc"
+            BlueprintName = "MobileCenterIosDoc"
+            ReferencedContainer = "container:MobileCenter.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>
