@@ -388,6 +388,8 @@
 		04840CD71ECCF6560020B0FC /* Tests.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Tests.xcconfig; path = ../../XCConfig/iOS/Tests.xcconfig; sourceTree = "<group>"; };
 		0485AFEC1EAAAC3B00C10CAF /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		0485AFEE1EAAAD0000C10CAF /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		049BC8281ECE3A5200FB6719 /* MobileCenter.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = MobileCenter.xcconfig; sourceTree = "<group>"; };
+		049BC8291ECE3A5A00FB6719 /* MobileCenter.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = MobileCenter.xcconfig; sourceTree = "<group>"; };
 		04B7BBEE1E5FAD4D001A0CE1 /* MSSenderUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSSenderUtilTests.m; sourceTree = "<group>"; };
 		04BED70E1ECB63A100E20975 /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = ../../Vendor/macOS/OCHamcrest/OCHamcrest.framework; sourceTree = "<group>"; };
 		04F21A041ECB73EE0074978D /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = ../../macOS/OHHTTPStubs/OHHTTPStubs.framework; sourceTree = "<group>"; };
@@ -707,6 +709,7 @@
 		0485AFEB1EAAAC3B00C10CAF /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				049BC8291ECE3A5A00FB6719 /* MobileCenter.xcconfig */,
 				0485AFEC1EAAAC3B00C10CAF /* module.modulemap */,
 			);
 			path = Support;
@@ -715,6 +718,7 @@
 		0485AFED1EAAAD0000C10CAF /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				049BC8281ECE3A5200FB6719 /* MobileCenter.xcconfig */,
 				0485AFEE1EAAAD0000C10CAF /* module.modulemap */,
 			);
 			path = Support;
@@ -1599,10 +1603,10 @@
 		};
 		04754FA91EA98182002CBA46 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8291ECE3A5A00FB6719 /* MobileCenter.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(MS_MAC_ARCHS)";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				OTHER_LDFLAGS = "-ObjC";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenter;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
@@ -1616,10 +1620,10 @@
 		};
 		04754FAA1EA98182002CBA46 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8291ECE3A5A00FB6719 /* MobileCenter.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(MS_MAC_ARCHS)";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				OTHER_LDFLAGS = "-ObjC";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenter;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
@@ -1633,13 +1637,9 @@
 		};
 		0485AFE91EAA937000C10CAF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8291ECE3A5A00FB6719 /* MobileCenter.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(MS_MAC_ARCHS)";
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-framework",
-					AppKit,
-				);
 				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/** \"$(SRCROOT)/../MobileCenter/MobileCenter/macOS\"/**";
 				USE_HEADERMAP = NO;
@@ -1649,13 +1649,9 @@
 		};
 		0485AFEA1EAA937000C10CAF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8291ECE3A5A00FB6719 /* MobileCenter.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(MS_MAC_ARCHS)";
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-framework",
-					AppKit,
-				);
 				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/** \"$(SRCROOT)/../MobileCenter/MobileCenter/macOS\"/**";
 				USE_HEADERMAP = NO;
@@ -1760,10 +1756,10 @@
 		};
 		6E04010D1D1C98220051BCFA /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8281ECE3A5200FB6719 /* MobileCenter.xcconfig */;
 			buildSettings = {
 				"ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				OTHER_LDFLAGS = "-ObjC";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenter;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
@@ -1776,10 +1772,10 @@
 		};
 		6E04010E1D1C98220051BCFA /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8281ECE3A5200FB6719 /* MobileCenter.xcconfig */;
 			buildSettings = {
 				"ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				OTHER_LDFLAGS = "-ObjC";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenter;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
@@ -1792,12 +1788,8 @@
 		};
 		6E04017E1D1CAC710051BCFA /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8281ECE3A5200FB6719 /* MobileCenter.xcconfig */;
 			buildSettings = {
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-framework",
-					UIKit,
-				);
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/** \"$(SRCROOT)/../MobileCenter/MobileCenter/iOS\"/**";
 				USE_HEADERMAP = NO;
 			};
@@ -1805,12 +1797,8 @@
 		};
 		6E04017F1D1CAC710051BCFA /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8281ECE3A5200FB6719 /* MobileCenter.xcconfig */;
 			buildSettings = {
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-framework",
-					UIKit,
-				);
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/** \"$(SRCROOT)/../MobileCenter/MobileCenter/iOS\"/**";
 				USE_HEADERMAP = NO;
 			};

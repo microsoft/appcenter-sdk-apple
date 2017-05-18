@@ -184,7 +184,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		041CFF891ECCFF5D00B4654B /* Tests.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Tests.xcconfig; path = ../../XCConfig/macOS/Tests.xcconfig; sourceTree = "<group>"; };
 		041CFF8B1ECCFF6700B4654B /* Tests.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Tests.xcconfig; path = ../../XCConfig/iOS/Tests.xcconfig; sourceTree = "<group>"; };
 		0420A6861ECA7A4B00915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../macOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
 		0420A6921ECA7B1100915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../iOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
@@ -196,6 +195,9 @@
 		0485AF8E1EAA852A00C10CAF /* MSAnalyticsCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAnalyticsCategory.m; sourceTree = "<group>"; };
 		0485AF991EAA85D500C10CAF /* MSAnalyticsCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAnalyticsCategory.h; sourceTree = "<group>"; };
 		0485AF9A1EAA85D500C10CAF /* MSAnalyticsCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAnalyticsCategory.m; sourceTree = "<group>"; };
+		049BC82A1ECE3B9400FB6719 /* MobileCenterAnalytics.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = MobileCenterAnalytics.xcconfig; sourceTree = "<group>"; };
+		049BC82B1ECE3B9A00FB6719 /* MobileCenterAnalytics.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = MobileCenterAnalytics.xcconfig; sourceTree = "<group>"; };
+		049BC82C1ECE3CF000FB6719 /* Tests.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Tests.xcconfig; path = ../../XCConfig/macOS/Tests.xcconfig; sourceTree = "<group>"; };
 		04BED7161ECB64CE00E20975 /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = ../../Vendor/macOS/OCHamcrest/OCHamcrest.framework; sourceTree = "<group>"; };
 		04ED31E91EAAD32B0033BAAE /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		04ED31EB1EAAD3390033BAAE /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
@@ -398,7 +400,7 @@
 		049BC8131ECE19B600FB6719 /* Support */ = {
 			isa = PBXGroup;
 			children = (
-				041CFF891ECCFF5D00B4654B /* Tests.xcconfig */,
+				049BC82C1ECE3CF000FB6719 /* Tests.xcconfig */,
 			);
 			name = Support;
 			sourceTree = "<group>";
@@ -431,6 +433,7 @@
 		04ED31E81EAAD32B0033BAAE /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				049BC82B1ECE3B9A00FB6719 /* MobileCenterAnalytics.xcconfig */,
 				04ED31E91EAAD32B0033BAAE /* module.modulemap */,
 			);
 			path = Support;
@@ -439,6 +442,7 @@
 		04ED31EA1EAAD3390033BAAE /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				049BC82A1ECE3B9400FB6719 /* MobileCenterAnalytics.xcconfig */,
 				04ED31EB1EAAD3390033BAAE /* module.modulemap */,
 			);
 			path = Support;
@@ -890,7 +894,7 @@
 /* Begin XCBuildConfiguration section */
 		046AEAC41ECA51AF00CBE511 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 041CFF891ECCFF5D00B4654B /* Tests.xcconfig */;
+			baseConfigurationReference = 049BC82C1ECE3CF000FB6719 /* Tests.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				ARCHS = "$(MS_MAC_ARCHS)";
@@ -920,7 +924,7 @@
 		};
 		046AEAC51ECA51AF00CBE511 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 041CFF891ECCFF5D00B4654B /* Tests.xcconfig */;
+			baseConfigurationReference = 049BC82C1ECE3CF000FB6719 /* Tests.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				ARCHS = "$(MS_MAC_ARCHS)";
@@ -950,9 +954,9 @@
 		};
 		0485AF831EAA79E300C10CAF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC82B1ECE3B9A00FB6719 /* MobileCenterAnalytics.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(MS_MAC_ARCHS)";
-				OTHER_LDFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenteranalytics;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
@@ -966,9 +970,9 @@
 		};
 		0485AF841EAA79E300C10CAF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC82B1ECE3B9A00FB6719 /* MobileCenterAnalytics.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(MS_MAC_ARCHS)";
-				OTHER_LDFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenteranalytics;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
@@ -982,13 +986,9 @@
 		};
 		0485AFF21EAAADAC00C10CAF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC82B1ECE3B9A00FB6719 /* MobileCenterAnalytics.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(MS_MAC_ARCHS)";
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-framework",
-					AppKit,
-				);
 				SDKROOT = macosx;
 				VALID_ARCHS = "$(MS_MAC_ARCHS)";
 			};
@@ -996,13 +996,9 @@
 		};
 		0485AFF31EAAADAC00C10CAF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC82B1ECE3B9A00FB6719 /* MobileCenterAnalytics.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(MS_MAC_ARCHS)";
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-framework",
-					AppKit,
-				);
 				SDKROOT = macosx;
 				VALID_ARCHS = "$(MS_MAC_ARCHS)";
 			};
@@ -1053,7 +1049,6 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "${PROJECT_NAME}";
 				SDKROOT = iphoneos;
 			};
@@ -1097,7 +1092,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "${PROJECT_NAME}";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -1106,9 +1100,9 @@
 		};
 		E85547CA1D2D6253002DF6E2 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC82A1ECE3B9400FB6719 /* MobileCenterAnalytics.xcconfig */;
 			buildSettings = {
 				"ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
-				OTHER_LDFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenteranalytics;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
@@ -1121,9 +1115,9 @@
 		};
 		E85547CB1D2D6253002DF6E2 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC82A1ECE3B9400FB6719 /* MobileCenterAnalytics.xcconfig */;
 			buildSettings = {
 				"ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
-				OTHER_LDFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenteranalytics;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
@@ -1186,23 +1180,15 @@
 		};
 		E85547E61D2D681F002DF6E2 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC82A1ECE3B9400FB6719 /* MobileCenterAnalytics.xcconfig */;
 			buildSettings = {
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-framework",
-					UIKit,
-				);
 			};
 			name = Debug;
 		};
 		E85547E71D2D681F002DF6E2 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC82A1ECE3B9400FB6719 /* MobileCenterAnalytics.xcconfig */;
 			buildSettings = {
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-framework",
-					UIKit,
-				);
 			};
 			name = Release;
 		};

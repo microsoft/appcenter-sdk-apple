@@ -1,0 +1,2 @@
+SDK_NAME = mobilecenter.ios
+OTHER_CFLAGS = $(inherited) -iframework "$(SRCROOT)/../Vendor/iOS/PLCrashReporter"

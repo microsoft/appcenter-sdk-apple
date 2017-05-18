@@ -322,6 +322,8 @@
 		049327E21ECA1BA100D0187A /* PLCrashReportSystemInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportSystemInfo.h; sourceTree = "<group>"; };
 		049327E31ECA1BA100D0187A /* PLCrashReportTextFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportTextFormatter.h; sourceTree = "<group>"; };
 		049327E41ECA1BA100D0187A /* PLCrashReportThreadInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportThreadInfo.h; sourceTree = "<group>"; };
+		049BC8251ECE36D400FB6719 /* MobileCenterCrashes.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = MobileCenterCrashes.xcconfig; sourceTree = "<group>"; };
+		049BC8261ECE370100FB6719 /* MobileCenterCrashes.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = MobileCenterCrashes.xcconfig; sourceTree = "<group>"; };
 		04BED7211ECB65DD00E20975 /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = ../../Vendor/macOS/OCHamcrest/OCHamcrest.framework; sourceTree = "<group>"; };
 		04ED31F21EAAD6070033BAAE /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		04ED31F51EAAD6070033BAAE /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
@@ -640,6 +642,7 @@
 		04ED31F11EAAD6070033BAAE /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				049BC8251ECE36D400FB6719 /* MobileCenterCrashes.xcconfig */,
 				04ED31F21EAAD6070033BAAE /* module.modulemap */,
 			);
 			path = Support;
@@ -648,6 +651,7 @@
 		04ED31F41EAAD6070033BAAE /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				049BC8261ECE370100FB6719 /* MobileCenterCrashes.xcconfig */,
 				04ED31F51EAAD6070033BAAE /* module.modulemap */,
 			);
 			path = Support;
@@ -1269,11 +1273,11 @@
 /* Begin XCBuildConfiguration section */
 		0485AFD11EAA887500C10CAF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8261ECE370100FB6719 /* MobileCenterCrashes.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(MS_MAC_ARCHS)";
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/macOS\"/**";
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/macOS/**";
-				OTHER_LDFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecentercrashes;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
@@ -1287,11 +1291,11 @@
 		};
 		0485AFD21EAA887500C10CAF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8261ECE370100FB6719 /* MobileCenterCrashes.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(MS_MAC_ARCHS)";
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/macOS\"/**";
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/macOS/**";
-				OTHER_LDFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecentercrashes;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
@@ -1305,13 +1309,9 @@
 		};
 		0485AFFC1EAAB27E00C10CAF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8261ECE370100FB6719 /* MobileCenterCrashes.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(MS_MAC_ARCHS)";
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-framework",
-					AppKit,
-				);
 				SDKROOT = macosx;
 				VALID_ARCHS = "$(MS_MAC_ARCHS)";
 			};
@@ -1319,13 +1319,9 @@
 		};
 		0485AFFD1EAAB27E00C10CAF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8261ECE370100FB6719 /* MobileCenterCrashes.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(MS_MAC_ARCHS)";
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-framework",
-					AppKit,
-				);
 				SDKROOT = macosx;
 				VALID_ARCHS = "$(MS_MAC_ARCHS)";
 			};
@@ -1436,8 +1432,6 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_CFLAGS = "$(OTHER_CFLAGS)";
-				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "${PROJECT_NAME}";
 				SDKROOT = iphoneos;
 			};
@@ -1481,7 +1475,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "${PROJECT_NAME}";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -1490,14 +1483,9 @@
 		};
 		6E04013D1D1C98690051BCFA /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8251ECE36D400FB6719 /* MobileCenterCrashes.xcconfig */;
 			buildSettings = {
 				"ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
-				OTHER_CFLAGS = (
-					"$(OTHER_CFLAGS)",
-					"-iframework",
-					"\"$(SRCROOT)/../Vendor/iOS/PLCrashReporter\"",
-				);
-				OTHER_LDFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecentercrashes;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
@@ -1510,14 +1498,9 @@
 		};
 		6E04013E1D1C98690051BCFA /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8251ECE36D400FB6719 /* MobileCenterCrashes.xcconfig */;
 			buildSettings = {
 				"ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
-				OTHER_CFLAGS = (
-					"$(OTHER_CFLAGS)",
-					"-iframework",
-					"\"$(SRCROOT)/../Vendor/iOS/PLCrashReporter\"",
-				);
-				OTHER_LDFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecentercrashes;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
@@ -1592,37 +1575,15 @@
 		};
 		6E3729791D1DE83200F1E4AE /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8251ECE36D400FB6719 /* MobileCenterCrashes.xcconfig */;
 			buildSettings = {
-				OTHER_CFLAGS = (
-					"$(OTHER_CFLAGS)",
-					"-iframework",
-					"\"$(SRCROOT)/../Vendor/iOS/PLCrashReporter\"",
-				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-framework",
-					CrashReporter,
-					"-framework",
-					UIKit,
-				);
 			};
 			name = Debug;
 		};
 		6E37297A1D1DE83200F1E4AE /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8251ECE36D400FB6719 /* MobileCenterCrashes.xcconfig */;
 			buildSettings = {
-				OTHER_CFLAGS = (
-					"$(OTHER_CFLAGS)",
-					"-iframework",
-					"\"$(SRCROOT)/../Vendor/iOS/PLCrashReporter\"",
-				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-framework",
-					CrashReporter,
-					"-framework",
-					UIKit,
-				);
 			};
 			name = Release;
 		};

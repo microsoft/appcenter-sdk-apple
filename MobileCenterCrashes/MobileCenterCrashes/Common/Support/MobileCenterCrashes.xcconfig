@@ -1,4 +1,3 @@
 #include "../../../../Global.xcconfig"
 
-OTHER_CFLAGS = $(OTHER_CFLAGS);
-OTHER_LDFLAGS = $(inherited) -framework Foundation -lc++ -lz;
+OTHER_LDFLAGS = $(inherited) -framework Foundation -lc++ -lz

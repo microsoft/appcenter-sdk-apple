@@ -1,0 +1,2 @@
+SDK_NAME = mobilecenter.macos
+OTHER_LDFLAGS=$(inherited) -framework AppKit
