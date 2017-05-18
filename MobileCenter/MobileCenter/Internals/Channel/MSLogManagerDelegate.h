@@ -1,6 +1,7 @@
 #import "MSConstants+Internal.h"
 #import "MSLog.h"
 
+// TODO: We need to pass a sender instance in delegate methods or changing method name with a prefix of sender.
 @protocol MSLogManagerDelegate <NSObject>
 
 @optional
