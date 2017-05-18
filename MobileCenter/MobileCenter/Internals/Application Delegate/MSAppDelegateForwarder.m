@@ -21,6 +21,32 @@ static BOOL _enabled = YES;
 
 @implementation MSAppDelegateForwarder
 
++ (void)load {
+
+  /*
+   * The application starts querying its delegate for its implementation as soon as it is set then may never query
+   * again. It means that if the application delegate doesn't implement an optional method of the
+   * `UIApplicationDelegate` protocol at that time then that method may never be called even if added later via
+   * swizzling. This is why the application delegate swizzling should happen at the time it is set to the application
+   * object.
+   */
+  NSDictionary *appForwarderEnabledNum =
+      [[NSBundle mainBundle] objectForInfoDictionaryKey:kMSIsAppDelegateForwarderEnabledKey];
+  BOOL appForwarderEnabled = appForwarderEnabledNum ? [((NSNumber *)appForwarderEnabledNum)boolValue] : YES;
+  MSAppDelegateForwarder.enabled = appForwarderEnabled;
+
+  // Swizzle `setDelegate:` of class `UIApplication`.
+  if (MSAppDelegateForwarder.enabled) {
+    [MSAppDelegateForwarder.traceBuffer addObject:^{
+      MSLogDebug([MSMobileCenter logTag], @"Application delegate forwarder is enabled. It may use swizzling.");
+    }];
+  } else {
+    [MSAppDelegateForwarder.traceBuffer addObject:^{
+      MSLogDebug([MSMobileCenter logTag], @"Application delegate forwarder is disabled. It won't use swizzling.");
+    }];
+  }
+}
+
 + (instancetype)sharedInstance {
   static MSAppDelegateForwarder *sharedInstance = nil;
   static dispatch_once_t onceToken;
@@ -182,12 +208,23 @@ static BOOL _enabled = YES;
 }
 
 + (void)addAppDelegateSelectorToSwizzle:(SEL)selector {
+  if (self.enabled) {
 
-  /*
-   * TODO: We could register custom delegate classes and then query those classes if they responds to selector.
-   * If so just add that selector to be swizzled. Just make sure it doesn't have an heavy impact on performances.
-   */
-  [self.selectorsToSwizzle addObject:NSStringFromSelector(selector)];
+    // Swizzle only once and only if needed. No selector to swizzle then no swizzling at all.
+    static dispatch_once_t appSwizzleOnceToken;
+    dispatch_once(&appSwizzleOnceToken, ^{
+      MSAppDelegateForwarder.originalSetDelegateImp =
+          [MSAppDelegateForwarder swizzleOriginalSelector:@selector(setDelegate:)
+                                       withCustomSelector:@selector(custom_setDelegate:)
+                                            originalClass:[UIApplication class]];
+    });
+
+    /*
+     * TODO: We could register custom delegate classes and then query those classes if they responds to selector.
+     * If so just add that selector to be swizzled. Just make sure it doesn't have an heavy impact on performances.
+     */
+    [self.selectorsToSwizzle addObject:NSStringFromSelector(selector)];
+  }
 }
 
 #pragma mark - Custom UIApplication
@@ -195,8 +232,8 @@ static BOOL _enabled = YES;
 - (void)custom_setDelegate:(id<UIApplicationDelegate>)delegate {
 
   // Swizzle only once.
-  static dispatch_once_t swizzleOnceToken;
-  dispatch_once(&swizzleOnceToken, ^{
+  static dispatch_once_t delegateSwizzleOnceToken;
+  dispatch_once(&delegateSwizzleOnceToken, ^{
 
     // Swizzle the app delegate before it's actually set.
     [MSAppDelegateForwarder swizzleOriginalDelegate:delegate];
@@ -361,44 +398,6 @@ static BOOL _enabled = YES;
     }
     [self.traceBuffer removeAllObjects];
   });
-}
-
-@end
-
-/*
- * The application starts querying its delegate for its implementation as soon as it is set then may never query again.
- * It means that if the application delegate doesn't implement an optional method of the `UIApplicationDelegate`
- * protocol at that time then that method may never be called even if added later via swizzling. This is why the
- * application delegate swizzling should happen at the time it is set to the application object.
- */
-
-@implementation UIApplication (MSSwizzling)
-
-+ (void)load {
-
-  /*
-   * TODO: Prehaps we should do the UIApplication swizzling as needed only once in the `addAppDelegateSelectorToSwizzle`
-   * method since this method is used by `MSAppDelegateForwarder` categories `load` methods. Load methods are executed
-   * sequentially so should be safe. This allows us to not Swizzle at all if there is no need to.
-   */
-  NSDictionary *appForwarderEnabledNum = [[NSBundle mainBundle] objectForInfoDictionaryKey:kMSIsAppDelegateForwarderEnabledKey];
-  BOOL appForwarderEnabled = appForwarderEnabledNum ? [((NSNumber *)appForwarderEnabledNum)boolValue] : YES;
-  MSAppDelegateForwarder.enabled = appForwarderEnabled;
-
-  // Swizzle `setDelegate:` of class `UIApplication`.
-  if (MSAppDelegateForwarder.enabled) {
-    [MSAppDelegateForwarder.traceBuffer addObject:^{
-      MSLogDebug([MSMobileCenter logTag], @"Application delegate forwarder is enabled, will do swizzling.");
-    }];
-    MSAppDelegateForwarder.originalSetDelegateImp =
-        [MSAppDelegateForwarder swizzleOriginalSelector:@selector(setDelegate:)
-                                     withCustomSelector:@selector(custom_setDelegate:)
-                                          originalClass:[UIApplication class]];
-  } else {
-    [MSAppDelegateForwarder.traceBuffer addObject:^{
-      MSLogDebug([MSMobileCenter logTag], @"Application delegate forwarder is disabled, will not do swizzling.");
-    }];
-  }
 }
 
 @end
