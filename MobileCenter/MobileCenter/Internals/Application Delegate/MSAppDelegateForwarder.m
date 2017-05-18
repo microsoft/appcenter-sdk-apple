@@ -149,7 +149,7 @@ static BOOL _enabled = YES;
       originalImp = method_setImplementation(originalMethod, customImp);
     }
   } else if (![originalClass instancesRespondToSelector:originalSelector]) {
-    
+
     /*
      * The original class may not implement the selector (e.g.: optional method from protocol),
      * add the method to the original class and associate it with the custom implementation.
@@ -168,13 +168,14 @@ static BOOL _enabled = YES;
   if (!originalImp && !methodAdded) {
     [self.traceBuffer addObject:^{
       MSLogError([MSMobileCenter logTag],
-               @"Cannot swizzle selector '%@' of class '%@'. You will have to explicitly call APIs from "
-               @"Mobile Center in your app delegate implementation.",
-               originalSelectorString, originalClass);
+                 @"Cannot swizzle selector '%@' of class '%@'. You will have to explicitly call APIs from "
+                 @"Mobile Center in your app delegate implementation.",
+                 originalSelectorString, originalClass);
     }];
   } else {
     [self.traceBuffer addObject:^{
-      MSLogDebug([MSMobileCenter logTag], @"Selector '%@' of class '%@' is swizzled.", originalSelectorString, originalClass);
+      MSLogDebug([MSMobileCenter logTag], @"Selector '%@' of class '%@' is swizzled.", originalSelectorString,
+                 originalClass);
     }];
   }
   return originalImp;
@@ -216,7 +217,7 @@ static BOOL _enabled = YES;
  * to the original app delegate and not this forwarder.
  */
 
-- (BOOL)custom_application:(UIApplication *)app
+- (BOOL)custom_application:(UIApplication *)application
                    openURL:(NSURL *)url
          sourceApplication:(nullable NSString *)sourceApplication
                 annotation:(id)annotation {
@@ -226,19 +227,19 @@ static BOOL _enabled = YES;
   // Forward to the original delegate.
   [MSAppDelegateForwarder.originalImplementations[NSStringFromSelector(_cmd)] getValue:&originalImp];
   if (originalImp) {
-    result = ((BOOL(*)(id, SEL, UIApplication *, NSURL *, NSString *, id))originalImp)(self, _cmd, app, url,
+    result = ((BOOL(*)(id, SEL, UIApplication *, NSURL *, NSString *, id))originalImp)(self, _cmd, application, url,
                                                                                        sourceApplication, annotation);
   }
 
   // Forward to custom delegates.
-  return [[MSAppDelegateForwarder sharedInstance] application:app
+  return [[MSAppDelegateForwarder sharedInstance] application:application
                                                       openURL:url
                                             sourceApplication:sourceApplication
                                                    annotation:annotation
                                                 returnedValue:result];
 }
 
-- (BOOL)custom_application:(UIApplication *)app
+- (BOOL)custom_application:(UIApplication *)application
                    openURL:(nonnull NSURL *)url
                    options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
   BOOL result = NO;
@@ -247,42 +248,49 @@ static BOOL _enabled = YES;
   // Forward to the original delegate.
   [MSAppDelegateForwarder.originalImplementations[NSStringFromSelector(_cmd)] getValue:&originalImp];
   if (originalImp) {
-    result = ((BOOL(*)(id, SEL, UIApplication *, NSURL *,
-                       NSDictionary<UIApplicationOpenURLOptionsKey, id> *))originalImp)(self, _cmd, app, url, options);
+    result =
+        ((BOOL(*)(id, SEL, UIApplication *, NSURL *, NSDictionary<UIApplicationOpenURLOptionsKey, id> *))originalImp)(
+            self, _cmd, application, url, options);
   }
 
   // Forward to custom delegates.
-  return [[MSAppDelegateForwarder sharedInstance] application:app openURL:url options:options returnedValue:result];
+  return [[MSAppDelegateForwarder sharedInstance] application:application
+                                                      openURL:url
+                                                      options:options
+                                                returnedValue:result];
 }
 
-- (void)custom_application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+- (void)custom_application:(UIApplication *)application
+    didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
   IMP originalImp = NULL;
 
   // Forward to the original delegate.
   [MSAppDelegateForwarder.originalImplementations[NSStringFromSelector(_cmd)] getValue:&originalImp];
   if (originalImp) {
-    ((void (*)(id, SEL, UIApplication *, NSData *))originalImp)(self, _cmd, app, deviceToken);
+    ((void (*)(id, SEL, UIApplication *, NSData *))originalImp)(self, _cmd, application, deviceToken);
   }
 
   // Forward to custom delegates.
-  [[MSAppDelegateForwarder sharedInstance] application:app
+  [[MSAppDelegateForwarder sharedInstance] application:application
       didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 }
 
-- (void)custom_application:(UIApplication *)app didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+- (void)custom_application:(UIApplication *)application
+    didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
   IMP originalImp = NULL;
 
   // Forward to the original delegate.
   [MSAppDelegateForwarder.originalImplementations[NSStringFromSelector(_cmd)] getValue:&originalImp];
   if (originalImp) {
-    ((void (*)(id, SEL, UIApplication *, NSError *))originalImp)(self, _cmd, app, error);
+    ((void (*)(id, SEL, UIApplication *, NSError *))originalImp)(self, _cmd, application, error);
   }
 
   // Forward to custom delegates.
-  [[MSAppDelegateForwarder sharedInstance] application:app didFailToRegisterForRemoteNotificationsWithError:error];
+  [[MSAppDelegateForwarder sharedInstance] application:application
+      didFailToRegisterForRemoteNotificationsWithError:error];
 }
 
-- (void)custom_application:(UIApplication *)app
+- (void)custom_application:(UIApplication *)application
     didReceiveRemoteNotification:(NSDictionary *)userInfo
           fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
 
@@ -293,10 +301,10 @@ static BOOL _enabled = YES;
 
   /*
    * Forward to custom delegates. This method doesn't override original the delegate implementation so there is no need
-   * to forward to the original implementation. As a consequence customers must call the corresponding APIs in the SDK 
+   * to forward to the original implementation. As a consequence customers must call the corresponding APIs in the SDK
    * if they implement this selector in their delegate.
    */
-  [[MSAppDelegateForwarder sharedInstance] application:app
+  [[MSAppDelegateForwarder sharedInstance] application:application
                           didReceiveRemoteNotification:userInfo
                                 fetchCompletionHandler:completionHandler];
 }
@@ -343,12 +351,12 @@ static BOOL _enabled = YES;
 
 #pragma mark - Logging
 
-+ (void)flushTraceBuffer{
-  
++ (void)flushTraceBuffer {
+
   // Only trace once.
   static dispatch_once_t traceOnceToken;
   dispatch_once(&traceOnceToken, ^{
-    for (dispatch_block_t traceBlock in self.traceBuffer){
+    for (dispatch_block_t traceBlock in self.traceBuffer) {
       traceBlock();
     }
     [self.traceBuffer removeAllObjects];
@@ -370,7 +378,7 @@ static BOOL _enabled = YES;
 
   /*
    * TODO: Prehaps we should do the UIApplication swizzling as needed only once in the `addAppDelegateSelectorToSwizzle`
-   * method since this method is used by `MSAppDelegateForwarder` categories `load` methods. Load methods are executed 
+   * method since this method is used by `MSAppDelegateForwarder` categories `load` methods. Load methods are executed
    * sequentially so should be safe. This allows us to not Swizzle at all if there is no need to.
    */
   NSDictionary *swizzlingEnabledNum = [[NSBundle mainBundle] objectForInfoDictionaryKey:kMSIsSwizzlingEnabledKey];

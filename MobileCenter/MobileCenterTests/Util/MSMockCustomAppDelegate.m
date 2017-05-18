@@ -14,26 +14,27 @@
 
 #pragma mark - MSAppDelegate
 
-- (BOOL)application:(UIApplication *)app
+- (BOOL)application:(UIApplication *)application
               openURL:(NSURL *)url
     sourceApplication:(NSString *)sourceApplication
            annotation:(id)annotation
         returnedValue:(BOOL)returnedValue {
   CustomOpenURLiOS42Validator validator = self.delegateValidators[NSStringFromSelector(_cmd)];
-  return validator(app, url, sourceApplication, annotation, returnedValue);
+  return validator(application, url, sourceApplication, annotation, returnedValue);
 }
 
-- (BOOL)application:(UIApplication *)app
+- (BOOL)application:(UIApplication *)application
             openURL:(NSURL *)url
             options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options
       returnedValue:(BOOL)returnedValue {
   CustomOpenURLiOS9Validator validator = self.delegateValidators[NSStringFromSelector(_cmd)];
-  return validator(app, url, options, returnedValue);
+  return validator(application, url, options, returnedValue);
 }
 
-- (void)application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+- (void)application:(UIApplication *)application
+    didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
   CustomDidRegisterNotificationValidator validator = self.delegateValidators[NSStringFromSelector(_cmd)];
-  validator(app, deviceToken);
+  validator(application, deviceToken);
 }
 
 @end
