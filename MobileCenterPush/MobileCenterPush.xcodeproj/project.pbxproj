@@ -98,7 +98,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		041CFFA71ECD0E9A00B4654B /* Tests.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Tests.xcconfig; path = ../../../XCConfig/iOS/Tests.xcconfig; sourceTree = "<group>"; };
+		041CFFA71ECD0E9A00B4654B /* Tests.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Tests.xcconfig; path = ../../XCConfig/iOS/Tests.xcconfig; sourceTree = "<group>"; };
 		0420A6A11ECA7D7200915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../Vendor/iOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
 		047919B21EBA3AC5004834A6 /* MSPushNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSPushNotification.h; path = Internal/Model/MSPushNotification.h; sourceTree = "<group>"; };
 		047919B41EBA3B1B004834A6 /* MSPushDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSPushDelegate.h; sourceTree = "<group>"; };
@@ -152,22 +152,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		041CFFA51ECD0E8400B4654B /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				041CFFA61ECD0E8C00B4654B /* Support */,
-			);
-			path = iOS;
-			sourceTree = "<group>";
-		};
-		041CFFA61ECD0E8C00B4654B /* Support */ = {
-			isa = PBXGroup;
-			children = (
-				041CFFA71ECD0E9A00B4654B /* Tests.xcconfig */,
-			);
-			name = Support;
-			sourceTree = "<group>";
-		};
 		0420A6A41ECA7D8800915619 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
@@ -205,6 +189,22 @@
 				04849D781E9E913A0093ECA6 /* MSPushLogTests.m */,
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		049BC7FF1ECE177400FB6719 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				049BC8071ECE190A00FB6719 /* Support */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		049BC8071ECE190A00FB6719 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				041CFFA71ECD0E9A00B4654B /* Tests.xcconfig */,
+			);
+			name = Support;
 			sourceTree = "<group>";
 		};
 		04BED71B1ECB653800E20975 /* OCHamcrest */ = {
@@ -274,7 +274,7 @@
 			children = (
 				D3AD5EC41E5C4F6A001627AB /* Info.plist */,
 				048495041ECCF3F40020B0FC /* Common */,
-				041CFFA51ECD0E8400B4654B /* iOS */,
+				049BC7FF1ECE177400FB6719 /* iOS */,
 				D3AD5F661E5D73F2001627AB /* Frameworks */,
 			);
 			path = MobileCenterPushTests;

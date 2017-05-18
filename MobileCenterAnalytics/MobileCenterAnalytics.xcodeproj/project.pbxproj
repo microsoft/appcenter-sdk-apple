@@ -184,8 +184,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		041CFF891ECCFF5D00B4654B /* Tests.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Tests.xcconfig; path = ../../../XCConfig/macOS/Tests.xcconfig; sourceTree = "<group>"; };
-		041CFF8B1ECCFF6700B4654B /* Tests.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Tests.xcconfig; path = ../../../XCConfig/iOS/Tests.xcconfig; sourceTree = "<group>"; };
+		041CFF891ECCFF5D00B4654B /* Tests.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Tests.xcconfig; path = ../../XCConfig/macOS/Tests.xcconfig; sourceTree = "<group>"; };
+		041CFF8B1ECCFF6700B4654B /* Tests.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Tests.xcconfig; path = ../../XCConfig/iOS/Tests.xcconfig; sourceTree = "<group>"; };
 		0420A6861ECA7A4B00915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../macOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
 		0420A6921ECA7B1100915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../iOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
 		042A17A71DEFA950003BA80A /* MSAnalyticsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAnalyticsTests.m; sourceTree = "<group>"; };
@@ -277,22 +277,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		041CFF871ECCFF2800B4654B /* Support */ = {
-			isa = PBXGroup;
-			children = (
-				041CFF8B1ECCFF6700B4654B /* Tests.xcconfig */,
-			);
-			name = Support;
-			sourceTree = "<group>";
-		};
-		041CFF881ECCFF4000B4654B /* Support */ = {
-			isa = PBXGroup;
-			children = (
-				041CFF891ECCFF5D00B4654B /* Tests.xcconfig */,
-			);
-			name = Support;
-			sourceTree = "<group>";
-		};
 		0420A68F1ECA7ACD00915619 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
@@ -335,22 +319,6 @@
 			children = (
 				0485AF8B1EAA852A00C10CAF /* Internals */,
 				04ED31EA1EAAD3390033BAAE /* Support */,
-			);
-			path = iOS;
-			sourceTree = "<group>";
-		};
-		048494FD1ECCF1ED0020B0FC /* macOS */ = {
-			isa = PBXGroup;
-			children = (
-				041CFF881ECCFF4000B4654B /* Support */,
-			);
-			path = macOS;
-			sourceTree = "<group>";
-		};
-		048494FE1ECCF1F50020B0FC /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				041CFF871ECCFF2800B4654B /* Support */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -401,6 +369,38 @@
 				0485AF9A1EAA85D500C10CAF /* MSAnalyticsCategory.m */,
 			);
 			path = Util;
+			sourceTree = "<group>";
+		};
+		049BC7FA1ECE169D00FB6719 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				049BC80C1ECE192500FB6719 /* Support */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		049BC80C1ECE192500FB6719 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				041CFF8B1ECCFF6700B4654B /* Tests.xcconfig */,
+			);
+			name = Support;
+			sourceTree = "<group>";
+		};
+		049BC8121ECE199F00FB6719 /* macOS */ = {
+			isa = PBXGroup;
+			children = (
+				049BC8131ECE19B600FB6719 /* Support */,
+			);
+			name = macOS;
+			sourceTree = "<group>";
+		};
+		049BC8131ECE19B600FB6719 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				041CFF891ECCFF5D00B4654B /* Tests.xcconfig */,
+			);
+			name = Support;
 			sourceTree = "<group>";
 		};
 		04BED7131ECB64B100E20975 /* OCHamcrest */ = {
@@ -556,8 +556,8 @@
 			children = (
 				E85547D91D2D6723002DF6E2 /* Info.plist */,
 				048494FF1ECCF1FB0020B0FC /* Common */,
-				048494FE1ECCF1F50020B0FC /* iOS */,
-				048494FD1ECCF1ED0020B0FC /* macOS */,
+				049BC7FA1ECE169D00FB6719 /* iOS */,
+				049BC8121ECE199F00FB6719 /* macOS */,
 				6E0684361D35A39300A8CC6C /* Frameworks */,
 			);
 			path = MobileCenterAnalyticsTests;

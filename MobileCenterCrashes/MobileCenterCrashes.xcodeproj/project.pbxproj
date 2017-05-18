@@ -290,8 +290,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		041CFF911ECD00DC00B4654B /* Tests.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Tests.xcconfig; path = ../../../XCConfig/iOS/Tests.xcconfig; sourceTree = "<group>"; };
-		041CFF981ECD010000B4654B /* Tests.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Tests.xcconfig; path = ../../../XCConfig/macOS/Tests.xcconfig; sourceTree = "<group>"; };
+		041CFF911ECD00DC00B4654B /* Tests.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Tests.xcconfig; path = ../../XCConfig/iOS/Tests.xcconfig; sourceTree = "<group>"; };
+		041CFF981ECD010000B4654B /* Tests.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Tests.xcconfig; path = ../../XCConfig/macOS/Tests.xcconfig; sourceTree = "<group>"; };
 		0420A68A1ECA7A9B00915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../iOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
 		0420A68C1ECA7AA800915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../macOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
 		044C45F81DB6EA0C00F3C29E /* MSErrorAttachmentPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSErrorAttachmentPrivate.h; sourceTree = "<group>"; };
@@ -460,22 +460,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		041CFF8F1ECD00C900B4654B /* Support */ = {
-			isa = PBXGroup;
-			children = (
-				041CFF911ECD00DC00B4654B /* Tests.xcconfig */,
-			);
-			name = Support;
-			sourceTree = "<group>";
-		};
-		041CFF901ECD00CF00B4654B /* Support */ = {
-			isa = PBXGroup;
-			children = (
-				041CFF981ECD010000B4654B /* Tests.xcconfig */,
-			);
-			name = Support;
-			sourceTree = "<group>";
-		};
 		0420A6881ECA7A7000915619 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
@@ -529,22 +513,6 @@
 			isa = PBXGroup;
 			children = (
 				04ED31F11EAAD6070033BAAE /* Support */,
-			);
-			path = iOS;
-			sourceTree = "<group>";
-		};
-		048495001ECCF29A0020B0FC /* macOS */ = {
-			isa = PBXGroup;
-			children = (
-				041CFF901ECD00CF00B4654B /* Support */,
-			);
-			path = macOS;
-			sourceTree = "<group>";
-		};
-		048495011ECCF2A20020B0FC /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				041CFF8F1ECD00C900B4654B /* Support */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -610,6 +578,38 @@
 				049327E41ECA1BA100D0187A /* PLCrashReportThreadInfo.h */,
 			);
 			path = CrashReporter;
+			sourceTree = "<group>";
+		};
+		049BC7FC1ECE16D700FB6719 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				049BC80A1ECE191C00FB6719 /* Support */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		049BC7FD1ECE16DC00FB6719 /* macOS */ = {
+			isa = PBXGroup;
+			children = (
+				049BC8091ECE191800FB6719 /* Support */,
+			);
+			name = macOS;
+			sourceTree = "<group>";
+		};
+		049BC8091ECE191800FB6719 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				041CFF981ECD010000B4654B /* Tests.xcconfig */,
+			);
+			name = Support;
+			sourceTree = "<group>";
+		};
+		049BC80A1ECE191C00FB6719 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				041CFF911ECD00DC00B4654B /* Tests.xcconfig */,
+			);
+			name = Support;
 			sourceTree = "<group>";
 		};
 		04BED71E1ECB65BF00E20975 /* OCHamcrest */ = {
@@ -709,8 +709,8 @@
 			children = (
 				6E171AE51D22F781000DC480 /* Info.plist */,
 				048495021ECCF2A70020B0FC /* Common */,
-				048495011ECCF2A20020B0FC /* iOS */,
-				048495001ECCF29A0020B0FC /* macOS */,
+				049BC7FC1ECE16D700FB6719 /* iOS */,
+				049BC7FD1ECE16DC00FB6719 /* macOS */,
 				6E171AEC1D22F7AB000DC480 /* Frameworks */,
 			);
 			path = MobileCenterCrashesTests;
@@ -1552,10 +1552,7 @@
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
-					UIKit,
-					"-framework",
 					CrashReporter,
-					"-ObjC",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecentercrashestests;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/** \"$(SRCROOT)/../MobileCenter/MobileCenter/iOS\"/**";
@@ -1586,10 +1583,7 @@
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
-					UIKit,
-					"-framework",
 					CrashReporter,
-					"-ObjC",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecentercrashestests;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/** \"$(SRCROOT)/../MobileCenter/MobileCenter/iOS\"/**";

@@ -367,7 +367,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		041CFF8D1ECCFFD200B4654B /* Tests.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Tests.xcconfig; path = ../../../XCConfig/macOS/Tests.xcconfig; sourceTree = "<group>"; };
+		041CFF8D1ECCFFD200B4654B /* Tests.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Tests.xcconfig; path = ../../XCConfig/macOS/Tests.xcconfig; sourceTree = "<group>"; };
 		045660FA1D99EEEB002F7055 /* MSLogWithPropertiesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLogWithPropertiesTests.m; sourceTree = "<group>"; };
 		045BC3161E3FD88600B6C960 /* MSKeychainUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSKeychainUtil.m; sourceTree = "<group>"; };
 		045BC3181E3FD8AC00B6C960 /* MSKeychainUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSKeychainUtil.h; sourceTree = "<group>"; };
@@ -385,7 +385,7 @@
 		04754FB21EA9826E002CBA46 /* MSUtility+Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MSUtility+Application.h"; sourceTree = "<group>"; };
 		04754FB31EA9826E002CBA46 /* MSUtility+Application.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MSUtility+Application.m"; sourceTree = "<group>"; };
 		04754FB41EA9826E002CBA46 /* MSUtility+ApplicationPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MSUtility+ApplicationPrivate.h"; sourceTree = "<group>"; };
-		04840CD71ECCF6560020B0FC /* Tests.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Tests.xcconfig; path = ../../../XCConfig/iOS/Tests.xcconfig; sourceTree = "<group>"; };
+		04840CD71ECCF6560020B0FC /* Tests.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Tests.xcconfig; path = ../../XCConfig/iOS/Tests.xcconfig; sourceTree = "<group>"; };
 		0485AFEC1EAAAC3B00C10CAF /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		0485AFEE1EAAAD0000C10CAF /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		04B7BBEE1E5FAD4D001A0CE1 /* MSSenderUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSSenderUtilTests.m; sourceTree = "<group>"; };
@@ -632,22 +632,6 @@
 			path = Util;
 			sourceTree = "<group>";
 		};
-		04840CD61ECCF62F0020B0FC /* Support */ = {
-			isa = PBXGroup;
-			children = (
-				04840CD71ECCF6560020B0FC /* Tests.xcconfig */,
-			);
-			name = Support;
-			sourceTree = "<group>";
-		};
-		04840CD91ECCF6920020B0FC /* Support */ = {
-			isa = PBXGroup;
-			children = (
-				041CFF8D1ECCFFD200B4654B /* Tests.xcconfig */,
-			);
-			name = Support;
-			sourceTree = "<group>";
-		};
 		048494B01ECCC0D60020B0FC /* Common */ = {
 			isa = PBXGroup;
 			children = (
@@ -686,22 +670,6 @@
 			children = (
 				04754FAD1EA9826E002CBA46 /* Internals */,
 				0485AFEB1EAAAC3B00C10CAF /* Support */,
-			);
-			path = macOS;
-			sourceTree = "<group>";
-		};
-		048494FA1ECCF10F0020B0FC /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				04840CD61ECCF62F0020B0FC /* Support */,
-			);
-			path = iOS;
-			sourceTree = "<group>";
-		};
-		048494FB1ECCF1160020B0FC /* macOS */ = {
-			isa = PBXGroup;
-			children = (
-				04840CD91ECCF6920020B0FC /* Support */,
 			);
 			path = macOS;
 			sourceTree = "<group>";
@@ -750,6 +718,38 @@
 				0485AFEE1EAAAD0000C10CAF /* module.modulemap */,
 			);
 			path = Support;
+			sourceTree = "<group>";
+		};
+		049BC7F31ECE161D00FB6719 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				049BC8051ECE180000FB6719 /* Support */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		049BC7F41ECE164600FB6719 /* macOS */ = {
+			isa = PBXGroup;
+			children = (
+				049BC8061ECE189000FB6719 /* Support */,
+			);
+			name = macOS;
+			sourceTree = "<group>";
+		};
+		049BC8051ECE180000FB6719 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				04840CD71ECCF6560020B0FC /* Tests.xcconfig */,
+			);
+			name = Support;
+			sourceTree = "<group>";
+		};
+		049BC8061ECE189000FB6719 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				041CFF8D1ECCFFD200B4654B /* Tests.xcconfig */,
+			);
+			name = Support;
 			sourceTree = "<group>";
 		};
 		04BED70B1ECB636900E20975 /* OCHamcrest */ = {
@@ -936,8 +936,8 @@
 			children = (
 				6E23957C1D22EF4F00E543C8 /* Info.plist */,
 				048494FC1ECCF17A0020B0FC /* Common */,
-				048494FA1ECCF10F0020B0FC /* iOS */,
-				048494FB1ECCF1160020B0FC /* macOS */,
+				049BC7F31ECE161D00FB6719 /* iOS */,
+				049BC7F41ECE164600FB6719 /* macOS */,
 				6E2395831D22EF5F00E543C8 /* Frameworks */,
 			);
 			path = MobileCenterTests;
