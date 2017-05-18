@@ -5,6 +5,8 @@
 #import <UserNotifications/UserNotifications.h>
 #import "AppDelegate.h"
 #import "Constants.h"
+#import "MSErrorAttachmentLog.h"
+#import "MSErrorAttachmentLog+Utility.h"
 #import "MobileCenter.h"
 #import "MobileCenterAnalytics.h"
 #import "MobileCenterCrashes.h"
@@ -50,9 +52,11 @@
 }
 
 // Open URL for iOS 9+.
-- (BOOL)application:(UIApplication *)application openURL:(nonnull NSURL *)url options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options{
+- (BOOL)application:(UIApplication *)application
+            openURL:(nonnull NSURL *)url
+            options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
   NSLog(@"%@ Was woken up via openURL:options: %@", kPUPLogTag, url);
-  
+
   // Forward the URL to MSDistribute.
   return [MSDistribute openURL:url];
 }
@@ -160,6 +164,18 @@
 
 - (void)crashes:(MSCrashes *)crashes didFailSendingErrorReport:(MSErrorReport *)errorReport withError:(NSError *)error {
   NSLog(@"Did fail sending report with: %@, and error: %@", errorReport.exceptionReason, error.localizedDescription);
+}
+
+- (NSArray<MSErrorAttachmentLog *> *)attachmentsWithCrashes:(MSCrashes *)crashes
+                                             forErrorReport:(MSErrorReport *)errorReport {
+  NSData *data = [[NSString stringWithFormat:@"<xml><text>Binary attachment for crash</text><id>%@</id></xml>",
+                                             errorReport.incidentIdentifier] dataUsingEncoding:NSUTF8StringEncoding];
+  NSString *text = [NSString stringWithFormat:@"Text attachement for crash #%@", errorReport.incidentIdentifier];
+  MSErrorAttachmentLog *attachment1 =
+      [MSErrorAttachmentLog attachmentWithText:text filename:@"pup-crash-attachment.log"];
+  MSErrorAttachmentLog *attachment2 =
+      [MSErrorAttachmentLog attachmentWithBinary:data filename:nil contentType:@"text/xml"];
+  return @[ attachment1, attachment2 ];
 }
 
 #pragma mark - MSDistributeDelegate
