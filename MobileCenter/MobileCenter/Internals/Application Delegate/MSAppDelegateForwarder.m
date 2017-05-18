@@ -149,7 +149,7 @@ static BOOL _enabled = YES;
       originalImp = method_setImplementation(originalMethod, customImp);
     }
   } else if (![originalClass instancesRespondToSelector:originalSelector]) {
-    
+
     /*
      * The original class may not implement the selector (e.g.: optional method from protocol),
      * add the method to the original class and associate it with the custom implementation.
@@ -168,13 +168,14 @@ static BOOL _enabled = YES;
   if (!originalImp && !methodAdded) {
     [self.traceBuffer addObject:^{
       MSLogError([MSMobileCenter logTag],
-               @"Cannot swizzle selector '%@' of class '%@'. You will have to explicitly call APIs from "
-               @"Mobile Center in your app delegate implementation.",
-               originalSelectorString, originalClass);
+                 @"Cannot swizzle selector '%@' of class '%@'. You will have to explicitly call APIs from "
+                 @"Mobile Center in your app delegate implementation.",
+                 originalSelectorString, originalClass);
     }];
   } else {
     [self.traceBuffer addObject:^{
-      MSLogDebug([MSMobileCenter logTag], @"Selector '%@' of class '%@' is swizzled.", originalSelectorString, originalClass);
+      MSLogDebug([MSMobileCenter logTag], @"Selector '%@' of class '%@' is swizzled.", originalSelectorString,
+                 originalClass);
     }];
   }
   return originalImp;
@@ -286,19 +287,28 @@ static BOOL _enabled = YES;
     didReceiveRemoteNotification:(NSDictionary *)userInfo
           fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
 
+  // Collect `UIBackgroundFetchResult` from delegates in order to call the original completion handler later.
+  __block UIBackgroundFetchResult forwardedFetchResult = UIBackgroundFetchResultNoData;
+  void (^forwardedCompletionHandler)(UIBackgroundFetchResult) = ^(UIBackgroundFetchResult fetchResult) {
+    forwardedFetchResult = fetchResult;
+  };
+
   /*
-   * NOTE: There is only 1 module consuming this delegate method  for now but if there is more in the future then
-   * we'll have to make sure the completion handler to be called once and only once.
+   * FIXME: We still need to chain the forwardedFetchResult somehow in case of multiple custom delegate implementing
+   * this selector.
    */
 
   /*
    * Forward to custom delegates. This method doesn't override original the delegate implementation so there is no need
-   * to forward to the original implementation. As a consequence customers must call the corresponding APIs in the SDK 
+   * to forward to the original implementation. As a consequence customers must call the corresponding APIs in the SDK
    * if they implement this selector in their delegate.
    */
   [[MSAppDelegateForwarder sharedInstance] application:app
                           didReceiveRemoteNotification:userInfo
-                                fetchCompletionHandler:completionHandler];
+                                fetchCompletionHandler:forwardedCompletionHandler];
+
+  // Must call the original completion handler.
+  completionHandler(forwardedFetchResult);
 }
 
 #pragma mark - Forwarding
@@ -343,12 +353,12 @@ static BOOL _enabled = YES;
 
 #pragma mark - Logging
 
-+ (void)flushTraceBuffer{
-  
++ (void)flushTraceBuffer {
+
   // Only trace once.
   static dispatch_once_t traceOnceToken;
   dispatch_once(&traceOnceToken, ^{
-    for (dispatch_block_t traceBlock in self.traceBuffer){
+    for (dispatch_block_t traceBlock in self.traceBuffer) {
       traceBlock();
     }
     [self.traceBuffer removeAllObjects];
@@ -370,7 +380,7 @@ static BOOL _enabled = YES;
 
   /*
    * TODO: Prehaps we should do the UIApplication swizzling as needed only once in the `addAppDelegateSelectorToSwizzle`
-   * method since this method is used by `MSAppDelegateForwarder` categories `load` methods. Load methods are executed 
+   * method since this method is used by `MSAppDelegateForwarder` categories `load` methods. Load methods are executed
    * sequentially so should be safe. This allows us to not Swizzle at all if there is no need to.
    */
   NSDictionary *swizzlingEnabledNum = [[NSBundle mainBundle] objectForInfoDictionaryKey:kMSIsSwizzlingEnabledKey];
