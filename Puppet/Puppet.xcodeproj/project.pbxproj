@@ -148,6 +148,20 @@
 			remoteGlobalIDString = D33A94501E5B11BB003966DB;
 			remoteInfo = MobileCenterPush;
 		};
+		04A140D01ECE8ECF001CEE94 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E82E1B821D1CA63000D281C1 /* MobileCenter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6E2395781D22EF4F00E543C8;
+			remoteInfo = MobileCenterIosTests;
+		};
+		04A140DE1ECE8ECF001CEE94 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E82E1B7C1D1CA62900D281C1 /* MobileCenterCrashes.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6E171AE11D22F781000DC480;
+			remoteInfo = MobileCenterCrashesIosTests;
+		};
 		380A4DA21DD6892F00E99219 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E82E1B571D1CA58D00D281C1 /* Project object */;
@@ -211,13 +225,6 @@
 			remoteGlobalIDString = 6E0401031D1C98220051BCFA;
 			remoteInfo = MobileCenter;
 		};
-		E82E1B891D1CA63000D281C1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E82E1B821D1CA63000D281C1 /* MobileCenter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 6E04015E1D1C9DF40051BCFA;
-			remoteInfo = MobileCenterTests;
-		};
 		E82E1B8B1D1CA65600D281C1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E82E1B821D1CA63000D281C1 /* MobileCenter.xcodeproj */;
@@ -252,13 +259,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = E85547BF1D2D6253002DF6E2;
 			remoteInfo = MobileCenterAnalytics;
-		};
-		E8DF1C2B1D21A8F5006310CF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E82E1B7C1D1CA62900D281C1 /* MobileCenterCrashes.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 6E3729681D1DE7EC00F1E4AE;
-			remoteInfo = MobileCenterCrashesTests;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -535,9 +535,9 @@
 			isa = PBXGroup;
 			children = (
 				E82E1B811D1CA62900D281C1 /* libMobileCenterCrashes.a */,
-				E8DF1C2C1D21A8F5006310CF /* MobileCenterCrashes.xctest */,
-				046AEAA91ECA509000CBE511 /* libMobileCenterCrashesMac.a */,
-				046AEAAB1ECA509000CBE511 /* MobileCenterCrashesMac.xctest */,
+				04A140DF1ECE8ECF001CEE94 /* MobileCenterCrashes.xctest */,
+				046AEAA91ECA509000CBE511 /* libMobileCenterCrashes.a */,
+				046AEAAB1ECA509000CBE511 /* MobileCenterCrashes.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -546,9 +546,9 @@
 			isa = PBXGroup;
 			children = (
 				E82E1B881D1CA63000D281C1 /* libMobileCenter.a */,
-				E82E1B8A1D1CA63000D281C1 /* MobileCenter.xctest */,
-				046AEA9A1ECA509000CBE511 /* libMobileCenterMac.a */,
-				048494D11ECCD9E40020B0FC /* MobileCenterMac.xctest */,
+				04A140D11ECE8ECF001CEE94 /* MobileCenter.xctest */,
+				046AEA9A1ECA509000CBE511 /* libMobileCenter.a */,
+				048494D11ECCD9E40020B0FC /* MobileCenter.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -558,8 +558,8 @@
 			children = (
 				E85548031D2D6C8D002DF6E2 /* libMobileCenterAnalytics.a */,
 				E85548051D2D6C8D002DF6E2 /* MobileCenterAnalytics.xctest */,
-				046AEAA11ECA509000CBE511 /* libMobileCenterAnalyticsMac.a */,
-				048494D91ECCD9E40020B0FC /* MobileCenterAnalyticsMac.xctest */,
+				046AEAA11ECA509000CBE511 /* libMobileCenterAnalytics.a */,
+				048494D91ECCD9E40020B0FC /* MobileCenterAnalytics.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -757,31 +757,31 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		046AEA9A1ECA509000CBE511 /* libMobileCenterMac.a */ = {
+		046AEA9A1ECA509000CBE511 /* libMobileCenter.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libMobileCenterMac.a;
+			path = libMobileCenter.a;
 			remoteRef = 046AEA991ECA509000CBE511 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		046AEAA11ECA509000CBE511 /* libMobileCenterAnalyticsMac.a */ = {
+		046AEAA11ECA509000CBE511 /* libMobileCenterAnalytics.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libMobileCenterAnalyticsMac.a;
+			path = libMobileCenterAnalytics.a;
 			remoteRef = 046AEAA01ECA509000CBE511 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		046AEAA91ECA509000CBE511 /* libMobileCenterCrashesMac.a */ = {
+		046AEAA91ECA509000CBE511 /* libMobileCenterCrashes.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libMobileCenterCrashesMac.a;
+			path = libMobileCenterCrashes.a;
 			remoteRef = 046AEAA81ECA509000CBE511 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		046AEAAB1ECA509000CBE511 /* MobileCenterCrashesMac.xctest */ = {
+		046AEAAB1ECA509000CBE511 /* MobileCenterCrashes.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = MobileCenterCrashesMac.xctest;
+			path = MobileCenterCrashes.xctest;
 			remoteRef = 046AEAAA1ECA509000CBE511 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -799,17 +799,17 @@
 			remoteRef = 0471B9301E4550670022F951 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		048494D11ECCD9E40020B0FC /* MobileCenterMac.xctest */ = {
+		048494D11ECCD9E40020B0FC /* MobileCenter.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = MobileCenterMac.xctest;
+			path = MobileCenter.xctest;
 			remoteRef = 048494D01ECCD9E40020B0FC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		048494D91ECCD9E40020B0FC /* MobileCenterAnalyticsMac.xctest */ = {
+		048494D91ECCD9E40020B0FC /* MobileCenterAnalytics.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = MobileCenterAnalyticsMac.xctest;
+			path = MobileCenterAnalytics.xctest;
 			remoteRef = 048494D81ECCD9E40020B0FC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -825,6 +825,20 @@
 			fileType = wrapper.cfbundle;
 			path = MobileCenterPush.xctest;
 			remoteRef = 048A76BE1E9EC2D50075A6D6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		04A140D11ECE8ECF001CEE94 /* MobileCenter.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = MobileCenter.xctest;
+			remoteRef = 04A140D01ECE8ECF001CEE94 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		04A140DF1ECE8ECF001CEE94 /* MobileCenterCrashes.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = MobileCenterCrashes.xctest;
+			remoteRef = 04A140DE1ECE8ECF001CEE94 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		B2C070CB1E5F59A90076D6A9 /* MobileCenterDistributeResources.bundle */ = {
@@ -848,13 +862,6 @@
 			remoteRef = E82E1B871D1CA63000D281C1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		E82E1B8A1D1CA63000D281C1 /* MobileCenter.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = MobileCenter.xctest;
-			remoteRef = E82E1B891D1CA63000D281C1 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		E85548031D2D6C8D002DF6E2 /* libMobileCenterAnalytics.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -867,13 +874,6 @@
 			fileType = wrapper.cfbundle;
 			path = MobileCenterAnalytics.xctest;
 			remoteRef = E85548041D2D6C8D002DF6E2 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		E8DF1C2C1D21A8F5006310CF /* MobileCenterCrashes.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = MobileCenterCrashes.xctest;
-			remoteRef = E8DF1C2B1D21A8F5006310CF /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -1108,7 +1108,7 @@
 				PROVISIONING_PROFILE = "efe8c6b2-d14d-4958-ba71-8817551a535b";
 				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter PuppetWidget Extension";
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../MobileCenter/MobileCenter/Common/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/Common/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashes/Common/** $(SRCROOT)/../MobileCenter/MobileCenter/iOS/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/iOS/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashes/iOS/**";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../MobileCenter/MobileCenter/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashes/**";
 			};
 			name = Debug;
 		};
@@ -1127,7 +1127,7 @@
 				PROVISIONING_PROFILE = "efe8c6b2-d14d-4958-ba71-8817551a535b";
 				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter PuppetWidget Extension";
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../MobileCenter/MobileCenter/Common/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/Common/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashes/Common/** $(SRCROOT)/../MobileCenter/MobileCenter/iOS/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/iOS/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashes/iOS/**";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../MobileCenter/MobileCenter/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashes/**";
 			};
 			name = Release;
 		};
@@ -1295,7 +1295,7 @@
 				PROVISIONING_PROFILE = "bb861002-b29b-4a0e-bdcc-08d1f7e5d38e";
 				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Puppet App";
 				SWIFT_VERSION = 3.0;
-				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../MobileCenter/MobileCenter/Common/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/Common/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashes/Common/** $(SRCROOT)/../MobileCenterDistribute/MobileCenterDistribute/Common/** $(SRCROOT)/../MobileCenterPush/MobileCenterPush/Common/** $(SRCROOT)/../MobileCenter/MobileCenter/iOS/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/iOS/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashes/iOS/**";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../MobileCenter/MobileCenter/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashes/** $(SRCROOT)/../MobileCenterDistribute/MobileCenterDistribute/** $(SRCROOT)/../MobileCenterPush/MobileCenterPush/**";
 			};
 			name = Debug;
 		};
@@ -1322,7 +1322,7 @@
 				PROVISIONING_PROFILE = "bb861002-b29b-4a0e-bdcc-08d1f7e5d38e";
 				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Puppet App";
 				SWIFT_VERSION = 3.0;
-				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../MobileCenter/MobileCenter/Common/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/Common/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashes/Common/** $(SRCROOT)/../MobileCenterDistribute/MobileCenterDistribute/Common/** $(SRCROOT)/../MobileCenterPush/MobileCenterPush/Common/** $(SRCROOT)/../MobileCenter/MobileCenter/iOS/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/iOS/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashes/iOS/**";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../MobileCenter/MobileCenter/** $(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/** $(SRCROOT)/../MobileCenterCrashes/MobileCenterCrashes/** $(SRCROOT)/../MobileCenterDistribute/MobileCenterDistribute/** $(SRCROOT)/../MobileCenterPush/MobileCenterPush/**";
 			};
 			name = Release;
 		};
