@@ -1,5 +1,9 @@
-#import <AppKit/AppKit.h>
 #import <Foundation/Foundation.h>
+#if TARGET_OS_IPHONE
+#import <UIKit/UIKit.h>
+#else
+#import <AppKit/AppKit.h>
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -26,6 +30,10 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return YES if should track page, NO otherwise
  */
+#if TARGET_OS_IPHONE
+BOOL ms_shouldTrackPageView(UIViewController *viewController);
+#else
 BOOL ms_shouldTrackPageView(NSViewController *viewController);
+#endif
 
 NS_ASSUME_NONNULL_END

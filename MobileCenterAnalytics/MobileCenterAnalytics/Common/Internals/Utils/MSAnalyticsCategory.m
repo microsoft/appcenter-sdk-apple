@@ -1,15 +1,23 @@
+#import <objc/runtime.h>
+
 #import "MSAnalyticsCategory.h"
 #import "MSAnalyticsInternal.h"
-#import <objc/runtime.h>
 
 static NSString *const kMSViewControllerSuffix = @"ViewController";
 static NSString *MSMissedPageViewName;
 
+#if TARGET_OS_IPHONE
 @implementation UIViewController (PageViewLogging)
+#else
+@implementation NSViewController (PageViewLogging)
+#endif
 
 + (void)swizzleViewWillAppear {
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
+    
+    // FIXME: viewWillAppear is available in NSViewController but it doesn't know about the selector at compile time.
+#if TARGET_OS_IPHONE
     Class class = [self class];
 
     // Get selectors.
@@ -20,6 +28,7 @@ static NSString *MSMissedPageViewName;
     Method swizzledMethod = class_getInstanceMethod(class, swizzledSelector);
 
     method_exchangeImplementations(originalMethod, swizzledMethod);
+#endif
   });
 }
 
@@ -62,12 +71,21 @@ static NSString *MSMissedPageViewName;
 
 @end
 
+#if TARGET_OS_IPHONE
 BOOL ms_shouldTrackPageView(UIViewController *viewController) {
-
+#else
+BOOL ms_shouldTrackPageView(NSViewController *viewController) {
+#endif
+  
   // For container view controllers, auto page tracking is disabled(to avoid noise).
   NSSet *viewControllerSet = [NSSet setWithArray:@[
+#if TARGET_OS_IPHONE
     @"UINavigationController", @"UITabBarController", @"UISplitViewController", @"UIInputWindowController",
     @"UIPageViewController"
+#else
+    @"NSNavigationController", @"NSTabBarController", @"NSSplitViewController", @"NSInputWindowController",
+    @"NSPageViewController"
+#endif
   ]];
   NSString *className = NSStringFromClass([viewController class]);
 
@@ -77,7 +95,11 @@ BOOL ms_shouldTrackPageView(UIViewController *viewController) {
 @implementation MSAnalyticsCategory
 
 + (void)activateCategory {
+#if TARGET_OS_IPHONE
   [UIViewController swizzleViewWillAppear];
+#else
+  [NSViewController swizzleViewWillAppear];
+#endif
 }
 
 + (NSString *)missedPageViewName {
