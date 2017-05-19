@@ -684,7 +684,6 @@
                 <viewController id="XfG-lQ-9wD" customClass="SasquatchMacViewController" sceneMemberID="viewController">
                     <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
-                        <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gEh-WC-qBI">
                                 <rect key="frame" x="199" y="126" width="84" height="17"/>
