@@ -1,10 +1,7 @@
 #import <Foundation/Foundation.h>
+
 #import "MSConstants.h"
 
-/**
- * Use forward declarations instead of import to minimize the amount of code seen by the compiler and linker.
- * It avoids potential problems that may come with importing files that import still other files.
- */
 @class MSWrapperSdk;
 @class MSCustomProperties;
 
@@ -98,6 +95,21 @@
  * @param wrapperSdk Wrapper SDK information.
  */
 + (void)setWrapperSdk:(MSWrapperSdk *)wrapperSdk;
+
+/**
+ * Check whether the application delegate forwarder is enabled or not.
+ *
+ * @return YES if enabled, NO otherwise.
+ *
+ * @discussion The application delegate forwarder forwards messages targetting your application delegate methods via
+ * swizzling to the SDK. It simplifies the SDK integration but may not be suitable to any situations. For instance it
+ * should be disabled if you or one of your third party SDK is doing message forwarding on the application delegate.
+ * Message forwarding usually implies the implementation of @see NSObject#forwardingTargetForSelector: or @see
+ * NSObject#forwardInvocation: methods.
+ * To disable the application delegate forwarder just add the `MobileCenterAppDelegateForwarderEnabled` tag to your Info.plist
+ * file and set it to `0`. Then you will have to forward any application delegate needed by the SDK manually.
+ */
++ (BOOL)isAppDelegateForwarderEnabled;
 
 /**
  * Get unique installation identifier.

@@ -1,4 +1,6 @@
 #import <Foundation/Foundation.h>
+
+#import "MSLogWithProperties.h"
 #import "MobileCenter+Internal.h"
 
 @interface MSEventLog : MSLogWithProperties
