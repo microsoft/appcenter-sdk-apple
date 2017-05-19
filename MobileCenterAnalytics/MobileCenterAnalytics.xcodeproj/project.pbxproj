@@ -184,7 +184,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		041CFF8B1ECCFF6700B4654B /* Tests.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Tests.xcconfig; path = ../../XCConfig/iOS/Tests.xcconfig; sourceTree = "<group>"; };
+		041CFF8B1ECCFF6700B4654B /* Tests.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Tests.xcconfig; path = ../../../XCConfig/iOS/Tests.xcconfig; sourceTree = "<group>"; };
 		0420A6861ECA7A4B00915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../macOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
 		0420A6921ECA7B1100915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../iOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
 		042A17A71DEFA950003BA80A /* MSAnalyticsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAnalyticsTests.m; sourceTree = "<group>"; };
@@ -192,13 +192,13 @@
 		0485AF851EAA79E300C10CAF /* libMobileCenterAnalytics.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMobileCenterAnalytics.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		0485AF8D1EAA852A00C10CAF /* MSAnalyticsCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAnalyticsCategory.h; sourceTree = "<group>"; };
 		0485AF8E1EAA852A00C10CAF /* MSAnalyticsCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAnalyticsCategory.m; sourceTree = "<group>"; };
-		049BC82A1ECE3B9400FB6719 /* MobileCenterAnalytics.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = MobileCenterAnalytics.xcconfig; sourceTree = "<group>"; };
-		049BC82B1ECE3B9A00FB6719 /* MobileCenterAnalytics.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = MobileCenterAnalytics.xcconfig; sourceTree = "<group>"; };
-		049BC82C1ECE3CF000FB6719 /* Tests.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Tests.xcconfig; path = ../../XCConfig/macOS/Tests.xcconfig; sourceTree = "<group>"; };
+		049BC82A1ECE3B9400FB6719 /* iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS.xcconfig; sourceTree = "<group>"; };
+		049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
+		049BC82C1ECE3CF000FB6719 /* Tests.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Tests.xcconfig; path = ../../../XCConfig/macOS/Tests.xcconfig; sourceTree = "<group>"; };
 		04A1408D1ECE65F4001CEE94 /* libMobileCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobileCenter.a; path = "../../../../../Library/Developer/Xcode/DerivedData/MobileCenter-cxbmzrupyysdsehdxmozcvjphajr/Build/Products/Debug/libMobileCenter.a"; sourceTree = "<group>"; };
 		04BED7161ECB64CE00E20975 /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = ../../Vendor/macOS/OCHamcrest/OCHamcrest.framework; sourceTree = "<group>"; };
-		04ED31E91EAAD32B0033BAAE /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
-		04ED31EB1EAAD3390033BAAE /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		04ED31E91EAAD32B0033BAAE /* macOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = macOS.modulemap; sourceTree = "<group>"; };
+		04ED31EB1EAAD3390033BAAE /* iOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = iOS.modulemap; sourceTree = "<group>"; };
 		35BF19E21DF9C43F00193027 /* MSAnalyticsDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAnalyticsDelegate.h; sourceTree = "<group>"; };
 		35BF19E31DF9D58F00193027 /* MSMockAnalyticsDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSMockAnalyticsDelegate.h; sourceTree = "<group>"; };
 		35BF19E41DF9D59E00193027 /* MSMockAnalyticsDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSMockAnalyticsDelegate.m; sourceTree = "<group>"; };
@@ -305,22 +305,6 @@
 			path = Common;
 			sourceTree = "<group>";
 		};
-		048494C11ECCCF970020B0FC /* macOS */ = {
-			isa = PBXGroup;
-			children = (
-				04ED31E81EAAD32B0033BAAE /* Support */,
-			);
-			path = macOS;
-			sourceTree = "<group>";
-		};
-		048494C21ECCCF9F0020B0FC /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				04ED31EA1EAAD3390033BAAE /* Support */,
-			);
-			path = iOS;
-			sourceTree = "<group>";
-		};
 		048494FF1ECCF1FB0020B0FC /* Common */ = {
 			isa = PBXGroup;
 			children = (
@@ -330,41 +314,10 @@
 				6E3E2CD01D359F3300B1EE50 /* MSEventLogTests.m */,
 				6E3E2CD11D359F3300B1EE50 /* MSPageLogTests.m */,
 				35BF19E61DF9D5A400193027 /* Model */,
+				04A1409F1ECE75D1001CEE94 /* Support */,
 				E815912F1D526C22003D5F3C /* Util */,
 			);
 			path = Common;
-			sourceTree = "<group>";
-		};
-		049BC7FA1ECE169D00FB6719 /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				049BC80C1ECE192500FB6719 /* Support */,
-			);
-			name = iOS;
-			sourceTree = "<group>";
-		};
-		049BC80C1ECE192500FB6719 /* Support */ = {
-			isa = PBXGroup;
-			children = (
-				041CFF8B1ECCFF6700B4654B /* Tests.xcconfig */,
-			);
-			name = Support;
-			sourceTree = "<group>";
-		};
-		049BC8121ECE199F00FB6719 /* macOS */ = {
-			isa = PBXGroup;
-			children = (
-				049BC8131ECE19B600FB6719 /* Support */,
-			);
-			name = macOS;
-			sourceTree = "<group>";
-		};
-		049BC8131ECE19B600FB6719 /* Support */ = {
-			isa = PBXGroup;
-			children = (
-				049BC82C1ECE3CF000FB6719 /* Tests.xcconfig */,
-			);
-			name = Support;
 			sourceTree = "<group>";
 		};
 		04A1409C1ECE7245001CEE94 /* Utils */ = {
@@ -374,6 +327,31 @@
 				0485AF8E1EAA852A00C10CAF /* MSAnalyticsCategory.m */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		04A1409F1ECE75D1001CEE94 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				04A140A11ECE7635001CEE94 /* iOS */,
+				04A140A01ECE7631001CEE94 /* macOS */,
+			);
+			name = Support;
+			sourceTree = "<group>";
+		};
+		04A140A01ECE7631001CEE94 /* macOS */ = {
+			isa = PBXGroup;
+			children = (
+				049BC82C1ECE3CF000FB6719 /* Tests.xcconfig */,
+			);
+			name = macOS;
+			sourceTree = "<group>";
+		};
+		04A140A11ECE7635001CEE94 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				041CFF8B1ECCFF6700B4654B /* Tests.xcconfig */,
+			);
+			name = iOS;
 			sourceTree = "<group>";
 		};
 		04BED7131ECB64B100E20975 /* OCHamcrest */ = {
@@ -399,24 +377,6 @@
 				6E0684371D35A3B900A8CC6C /* OCHamcrestIOS.framework */,
 			);
 			name = iOS;
-			sourceTree = "<group>";
-		};
-		04ED31E81EAAD32B0033BAAE /* Support */ = {
-			isa = PBXGroup;
-			children = (
-				049BC82B1ECE3B9A00FB6719 /* MobileCenterAnalytics.xcconfig */,
-				04ED31E91EAAD32B0033BAAE /* module.modulemap */,
-			);
-			path = Support;
-			sourceTree = "<group>";
-		};
-		04ED31EA1EAAD3390033BAAE /* Support */ = {
-			isa = PBXGroup;
-			children = (
-				049BC82A1ECE3B9400FB6719 /* MobileCenterAnalytics.xcconfig */,
-				04ED31EB1EAAD3390033BAAE /* module.modulemap */,
-			);
-			path = Support;
 			sourceTree = "<group>";
 		};
 		35BF19E61DF9D5A400193027 /* Model */ = {
@@ -498,8 +458,6 @@
 			isa = PBXGroup;
 			children = (
 				048494B11ECCC4B40020B0FC /* Common */,
-				048494C21ECCCF9F0020B0FC /* iOS */,
-				048494C11ECCCF970020B0FC /* macOS */,
 			);
 			path = MobileCenterAnalytics;
 			sourceTree = "<group>";
@@ -523,6 +481,10 @@
 			children = (
 				3856B47C1E032E7B0016AB05 /* Global.xcconfig */,
 				B2812EF21DA3148000307DCE /* MobileCenterAnalytics.xcconfig */,
+				049BC82A1ECE3B9400FB6719 /* iOS.xcconfig */,
+				04ED31EB1EAAD3390033BAAE /* iOS.modulemap */,
+				049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */,
+				04ED31E91EAAD32B0033BAAE /* macOS.modulemap */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -532,8 +494,6 @@
 			children = (
 				E85547D91D2D6723002DF6E2 /* Info.plist */,
 				048494FF1ECCF1FB0020B0FC /* Common */,
-				049BC7FA1ECE169D00FB6719 /* iOS */,
-				049BC8121ECE199F00FB6719 /* macOS */,
 				6E0684361D35A39300A8CC6C /* Frameworks */,
 			);
 			path = MobileCenterAnalyticsTests;
@@ -755,7 +715,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=MobileCenterAnalytics\nTGT_NAME=${FMK_NAME}Mac\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-iOS/macOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\"\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/macOS/Support/module.modulemap\" \"${INSTALL_DIR}/Modules/\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Headers/\"\n\n# Uses the Lipo Tool to copy binary file (x86_64) into final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\n\nrm -r \"${WRK_DIR}\"";
+			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=MobileCenterAnalytics\nTGT_NAME=${FMK_NAME}Mac\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-iOS/macOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\"\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Common/Support/macOS.modulemap\" \"${INSTALL_DIR}/Modules/\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Headers/\"\n\n# Uses the Lipo Tool to copy binary file (x86_64) into final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\n\nrm -r \"${WRK_DIR}\"";
 		};
 		E85547E81D2D6827002DF6E2 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -768,7 +728,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=MobileCenterAnalytics\nTGT_NAME=${FMK_NAME}Ios\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-iOS/iOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" -sdk iphoneos\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/iOS/Support/module.modulemap\" \"${INSTALL_DIR}/Modules/\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Headers/\"\n\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" \"${SIMULATOR_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\n\nrm -r \"${WRK_DIR}\"";
+			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=MobileCenterAnalytics\nTGT_NAME=${FMK_NAME}Ios\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-iOS/iOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" -sdk iphoneos\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Common/Support/iOS.modulemap\" \"${INSTALL_DIR}/Modules/\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Headers/\"\n\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" \"${SIMULATOR_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\n\nrm -r \"${WRK_DIR}\"";
 		};
 		E85547ED1D2D68CF002DF6E2 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -889,7 +849,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenteranalyticstests;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/** \"$(SRCROOT)/../MobileCenter/MobileCenter/macOS\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/**";
 				VALID_ARCHS = "$(MS_MAC_ARCHS)";
 			};
 			name = Debug;
@@ -919,14 +879,14 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenteranalyticstests;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/** \"$(SRCROOT)/../MobileCenter/MobileCenter/macOS\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/**";
 				VALID_ARCHS = "$(MS_MAC_ARCHS)";
 			};
 			name = Release;
 		};
 		0485AF831EAA79E300C10CAF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC82B1ECE3B9A00FB6719 /* MobileCenterAnalytics.xcconfig */;
+			baseConfigurationReference = 049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(MS_MAC_ARCHS)";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
@@ -934,7 +894,7 @@
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/** \"$(SRCROOT)/../MobileCenter/MobileCenter/macOS\"/** \"$(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/Common\"/** \"$(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/macOS\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/** \"$(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/Common\"/**";
 				USE_HEADERMAP = NO;
 				VALID_ARCHS = "$(MS_MAC_ARCHS)";
 			};
@@ -942,7 +902,7 @@
 		};
 		0485AF841EAA79E300C10CAF /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC82B1ECE3B9A00FB6719 /* MobileCenterAnalytics.xcconfig */;
+			baseConfigurationReference = 049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(MS_MAC_ARCHS)";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
@@ -950,7 +910,7 @@
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/** \"$(SRCROOT)/../MobileCenter/MobileCenter/macOS\"/** \"$(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/Common\"/** \"$(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/macOS\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/** \"$(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/Common\"/**";
 				USE_HEADERMAP = NO;
 				VALID_ARCHS = "$(MS_MAC_ARCHS)";
 			};
@@ -958,20 +918,22 @@
 		};
 		0485AFF21EAAADAC00C10CAF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC82B1ECE3B9A00FB6719 /* MobileCenterAnalytics.xcconfig */;
+			baseConfigurationReference = 049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(MS_MAC_ARCHS)";
 				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/**";
 				VALID_ARCHS = "$(MS_MAC_ARCHS)";
 			};
 			name = Debug;
 		};
 		0485AFF31EAAADAC00C10CAF /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC82B1ECE3B9A00FB6719 /* MobileCenterAnalytics.xcconfig */;
+			baseConfigurationReference = 049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(MS_MAC_ARCHS)";
 				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/**";
 				VALID_ARCHS = "$(MS_MAC_ARCHS)";
 			};
 			name = Release;
@@ -1072,14 +1034,14 @@
 		};
 		E85547CA1D2D6253002DF6E2 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC82A1ECE3B9400FB6719 /* MobileCenterAnalytics.xcconfig */;
+			baseConfigurationReference = 049BC82A1ECE3B9400FB6719 /* iOS.xcconfig */;
 			buildSettings = {
 				"ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenteranalytics;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/** \"$(SRCROOT)/../MobileCenter/MobileCenter/iOS\"/** \"$(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/Common\"/** \"$(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/iOS\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/** \"$(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/Common\"/**";
 				USE_HEADERMAP = NO;
 				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
 			};
@@ -1087,14 +1049,14 @@
 		};
 		E85547CB1D2D6253002DF6E2 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC82A1ECE3B9400FB6719 /* MobileCenterAnalytics.xcconfig */;
+			baseConfigurationReference = 049BC82A1ECE3B9400FB6719 /* iOS.xcconfig */;
 			buildSettings = {
 				"ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenteranalytics;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/** \"$(SRCROOT)/../MobileCenter/MobileCenter/iOS\"/** \"$(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/Common\"/** \"$(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/iOS\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/** \"$(SRCROOT)/../MobileCenterAnalytics/MobileCenterAnalytics/Common\"/**";
 				USE_HEADERMAP = NO;
 				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
 			};
@@ -1121,7 +1083,7 @@
 					"\"$(SRCROOT)/../Vendor/iOS\"/**",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenteranalyticstests;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/** \"$(SRCROOT)/../MobileCenter/MobileCenter/iOS\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/**";
 			};
 			name = Debug;
 		};
@@ -1146,21 +1108,23 @@
 					"\"$(SRCROOT)/../Vendor/iOS\"/**",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenteranalyticstests;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/** \"$(SRCROOT)/../MobileCenter/MobileCenter/iOS\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/**";
 			};
 			name = Release;
 		};
 		E85547E61D2D681F002DF6E2 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC82A1ECE3B9400FB6719 /* MobileCenterAnalytics.xcconfig */;
+			baseConfigurationReference = 049BC82A1ECE3B9400FB6719 /* iOS.xcconfig */;
 			buildSettings = {
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/**";
 			};
 			name = Debug;
 		};
 		E85547E71D2D681F002DF6E2 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC82A1ECE3B9400FB6719 /* MobileCenterAnalytics.xcconfig */;
+			baseConfigurationReference = 049BC82A1ECE3B9400FB6719 /* iOS.xcconfig */;
 			buildSettings = {
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/**";
 			};
 			name = Release;
 		};
