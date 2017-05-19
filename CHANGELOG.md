@@ -1,5 +1,30 @@
 # Mobile Center SDK for iOS Change Log
 
+## Version 0.9.0
+
+This version has **breaking changes**.
+It contains improvements and new features.
+
+### MobileCenter
+
+* **[Feature]** Mobile Center now automatically forwards your application delegate's methods to the SDK. This is made possible by using method swizzling. It greatly improves the SDK integration but there is always a possibility of conflicts with other third party libraries or the application delegate itself. In this case you may want to disable the Mobile Center application delegate forwarder by adding the `MobileCenterAppDelegateForwarderEnabled` tag to your Info.plist file and set it to `0`, doing so will disable application delegate forwarding for all Mobile Center services.
+
+### MobileCenterCrash
+
+* **[Feature]** Crashes can now have attachments.
+
+### MobileCenterDistribute
+
+* **[Breaking]** The `openUrl:` API is renamed `openURL:` and returns `YES` if the URL is intended for Mobile Center Distribute and your application, `NO` otherwise.
+
+* **[Breaking]** The application delegate `openURL` method(s) are now automatically forwarded to the SDK by default. The Mobile Center Distribute `openURL` can be removed from your application delegate's `openURL` method(s). If you decide to keep it then you will have to disable the Mobile Center application delegate forwarder.
+
+### MobileCenterPush
+
+* **[Breaking]** The application delegate `didRegisterForRemoteNotificationsWithDeviceToken`, `didFailToRegisterForRemoteNotificationsWithError`, `didReceiveRemoteNotification` methods are now automatically forwarded to the SDK by default. The corresponding APIs from Mobile Center Push can be removed from your application delegate's methods. If you decide to keep them then you will have to disable the Mobile Center application delegate forwarder.
+
+___
+
 ## Version 0.8.1
 
 This version contains a bug fix.
