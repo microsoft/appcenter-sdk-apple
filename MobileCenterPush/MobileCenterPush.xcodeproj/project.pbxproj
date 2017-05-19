@@ -40,7 +40,7 @@
 		047919B71EBA42F0004834A6 /* MSPushNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 047919B61EBA42F0004834A6 /* MSPushNotification.m */; };
 		047919B91EBA4C44004834A6 /* MSPushNotificationInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 047919B81EBA4C44004834A6 /* MSPushNotificationInternal.h */; };
 		04849D791E9E913A0093ECA6 /* MSPushLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04849D781E9E913A0093ECA6 /* MSPushLogTests.m */; };
-		38D4BBA11D5A98D1001A30A0 /* ../MobileCenter/MobileCenter/Common/MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 38D4BB9F1D5A98D1001A30A0 /* ../MobileCenter/MobileCenter/Common/MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		38D4BBA11D5A98D1001A30A0 /* ../MobileCenter/MobileCenter/MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 38D4BB9F1D5A98D1001A30A0 /* ../MobileCenter/MobileCenter/MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D38023C11E6DE01700466558 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D38023C01E6DE01700466558 /* UserNotifications.framework */; };
 		D39B04E41E66FBD50048E397 /* MSPushTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = D39B04E31E66FBD50048E397 /* MSPushTestUtil.m */; };
 		D3AD5EC31E5C4F6A001627AB /* MSPushTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3AD5EC21E5C4F6A001627AB /* MSPushTests.m */; };
@@ -98,15 +98,15 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		041CFFA71ECD0E9A00B4654B /* Tests.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Tests.xcconfig; path = ../../../XCConfig/iOS/Tests.xcconfig; sourceTree = "<group>"; };
+		041CFFA71ECD0E9A00B4654B /* Tests.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Tests.xcconfig; path = ../../XCConfig/iOS/Tests.xcconfig; sourceTree = "<group>"; };
 		0420A6A11ECA7D7200915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../Vendor/iOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
-		047919B21EBA3AC5004834A6 /* MSPushNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSPushNotification.h; path = Internal/Model/MSPushNotification.h; sourceTree = "<group>"; };
+		047919B21EBA3AC5004834A6 /* MSPushNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSPushNotification.h; path = Model/MSPushNotification.h; sourceTree = "<group>"; };
 		047919B41EBA3B1B004834A6 /* MSPushDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSPushDelegate.h; sourceTree = "<group>"; };
-		047919B61EBA42F0004834A6 /* MSPushNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSPushNotification.m; path = Internal/Model/MSPushNotification.m; sourceTree = "<group>"; };
-		047919B81EBA4C44004834A6 /* MSPushNotificationInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSPushNotificationInternal.h; path = Internal/Model/MSPushNotificationInternal.h; sourceTree = "<group>"; };
+		047919B61EBA42F0004834A6 /* MSPushNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSPushNotification.m; path = Model/MSPushNotification.m; sourceTree = "<group>"; };
+		047919B81EBA4C44004834A6 /* MSPushNotificationInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSPushNotificationInternal.h; path = Model/MSPushNotificationInternal.h; sourceTree = "<group>"; };
 		04849D781E9E913A0093ECA6 /* MSPushLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSPushLogTests.m; sourceTree = "<group>"; };
-		049BC81E1ECE333700FB6719 /* iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = iOS.xcconfig; path = ../../iOS/Support/MobileCenterPush/Common/Support/iOS.xcconfig; sourceTree = "<group>"; };
-		38D4BB9F1D5A98D1001A30A0 /* ../MobileCenter/MobileCenter/Common/MSService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ../MobileCenter/MobileCenter/Common/MSService.h; sourceTree = "<group>"; };
+		049BC81E1ECE333700FB6719 /* iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS.xcconfig; sourceTree = "<group>"; };
+		38D4BB9F1D5A98D1001A30A0 /* ../MobileCenter/MobileCenter/MSService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ../MobileCenter/MobileCenter/MSService.h; sourceTree = "<group>"; };
 		D33A94511E5B11BB003966DB /* libMobileCenterPush.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMobileCenterPush.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D33A94541E5B11BB003966DB /* MobileCenterPush.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MobileCenterPush.h; sourceTree = "<group>"; };
 		D38023C01E6DE01700466558 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
@@ -115,17 +115,17 @@
 		D3AD5EC01E5C4F6A001627AB /* MobileCenterPush.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MobileCenterPush.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3AD5EC21E5C4F6A001627AB /* MSPushTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSPushTests.m; sourceTree = "<group>"; };
 		D3AD5EC41E5C4F6A001627AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D3AD5EFE1E5C7DAE001627AB /* MSServiceAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSServiceAbstract.h; path = ../MobileCenter/MobileCenter/Common/MSServiceAbstract.h; sourceTree = "<group>"; };
-		D3AD5EFF1E5C7E40001627AB /* MSLogManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSLogManager.h; path = ../MobileCenter/MobileCenter/Common/Internals/Channel/MSLogManager.h; sourceTree = "<group>"; };
+		D3AD5EFE1E5C7DAE001627AB /* MSServiceAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSServiceAbstract.h; path = ../MobileCenter/MobileCenter/MSServiceAbstract.h; sourceTree = "<group>"; };
+		D3AD5EFF1E5C7E40001627AB /* MSLogManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSLogManager.h; path = ../MobileCenter/MobileCenter/Internals/Channel/MSLogManager.h; sourceTree = "<group>"; };
 		D3AD5F001E5C7F56001627AB /* MSPush.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSPush.h; sourceTree = "<group>"; };
 		D3AD5F011E5C7F68001627AB /* MSPush.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSPush.m; sourceTree = "<group>"; };
-		D3AD5F041E5C7FDF001627AB /* Global.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Global.xcconfig; path = ../../../../Global.xcconfig; sourceTree = "<group>"; };
+		D3AD5F041E5C7FDF001627AB /* Global.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Global.xcconfig; path = ../../../Global.xcconfig; sourceTree = "<group>"; };
 		D3AD5F051E5C7FFF001627AB /* MobileCenterPush.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = MobileCenterPush.xcconfig; sourceTree = "<group>"; };
-		D3AD5F081E5C8156001627AB /* MSPushPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MSPushPrivate.h; path = Internal/MSPushPrivate.h; sourceTree = "<group>"; };
-		D3AD5F0B1E5C819A001627AB /* MobileCenter+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MobileCenter+Internal.h"; path = "../../../MobileCenter/MobileCenter/Common/Internals/MobileCenter+Internal.h"; sourceTree = "<group>"; };
-		D3AD5F3E1E5D69B0001627AB /* iOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; name = iOS.modulemap; path = ../../iOS/Support/MobileCenterPush/Common/Support/iOS.modulemap; sourceTree = "<group>"; };
-		D3AD5F6A1E5D7464001627AB /* MSPushLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSPushLog.h; path = Internal/Model/MSPushLog.h; sourceTree = "<group>"; };
-		D3AD5F6B1E5D7464001627AB /* MSPushLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSPushLog.m; path = Internal/Model/MSPushLog.m; sourceTree = "<group>"; };
+		D3AD5F081E5C8156001627AB /* MSPushPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSPushPrivate.h; sourceTree = "<group>"; };
+		D3AD5F0B1E5C819A001627AB /* MobileCenter+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MobileCenter+Internal.h"; path = "../../../MobileCenter/MobileCenter/Internals/MobileCenter+Internal.h"; sourceTree = "<group>"; };
+		D3AD5F3E1E5D69B0001627AB /* iOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = iOS.modulemap; sourceTree = "<group>"; };
+		D3AD5F6A1E5D7464001627AB /* MSPushLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSPushLog.h; path = Model/MSPushLog.h; sourceTree = "<group>"; };
+		D3AD5F6B1E5D7464001627AB /* MSPushLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSPushLog.m; path = Model/MSPushLog.m; sourceTree = "<group>"; };
 		D3AD5FD91E5DDF72001627AB /* libMobileCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobileCenter.a; path = "../MobileCenter/build/Debug-iphoneos/libMobileCenter.a"; sourceTree = "<group>"; };
 		D3D0CFE81E640ABD003015AF /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrestIOS.framework; path = ../Vendor/iOS/OCHamcrest/OCHamcrestIOS.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -161,31 +161,7 @@
 			name = iOS;
 			sourceTree = "<group>";
 		};
-		048494B41ECCC5680020B0FC /* Common */ = {
-			isa = PBXGroup;
-			children = (
-				D33A94541E5B11BB003966DB /* MobileCenterPush.h */,
-				D3AD5F001E5C7F56001627AB /* MSPush.h */,
-				D3AD5F011E5C7F68001627AB /* MSPush.m */,
-				047919B41EBA3B1B004834A6 /* MSPushDelegate.h */,
-				D3AD5F071E5C8136001627AB /* Internal */,
-				D3AD5F031E5C7FC9001627AB /* Support */,
-			);
-			path = Common;
-			sourceTree = "<group>";
-		};
-		048495041ECCF3F40020B0FC /* Common */ = {
-			isa = PBXGroup;
-			children = (
-				D3AD5EC21E5C4F6A001627AB /* MSPushTests.m */,
-				04849D771E9E911E0093ECA6 /* Model */,
-				04A140A91ECE7A18001CEE94 /* Support */,
-				D39B04E11E66FBA70048E397 /* Util */,
-			);
-			path = Common;
-			sourceTree = "<group>";
-		};
-		04849D771E9E911E0093ECA6 /* Model */ = {
+		04A140C21ECE8769001CEE94 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				04849D781E9E913A0093ECA6 /* MSPushLogTests.m */,
@@ -193,15 +169,15 @@
 			name = Model;
 			sourceTree = "<group>";
 		};
-		04A140A91ECE7A18001CEE94 /* Support */ = {
+		04A140C31ECE877A001CEE94 /* Support */ = {
 			isa = PBXGroup;
 			children = (
-				04A140AA1ECE7A21001CEE94 /* iOS */,
+				04A140C41ECE8786001CEE94 /* iOS */,
 			);
 			name = Support;
 			sourceTree = "<group>";
 		};
-		04A140AA1ECE7A21001CEE94 /* iOS */ = {
+		04A140C41ECE8786001CEE94 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
 				041CFFA71ECD0E9A00B4654B /* Tests.xcconfig */,
@@ -249,7 +225,12 @@
 		D33A94531E5B11BB003966DB /* MobileCenterPush */ = {
 			isa = PBXGroup;
 			children = (
-				048494B41ECCC5680020B0FC /* Common */,
+				D33A94541E5B11BB003966DB /* MobileCenterPush.h */,
+				D3AD5F001E5C7F56001627AB /* MSPush.h */,
+				D3AD5F011E5C7F68001627AB /* MSPush.m */,
+				047919B41EBA3B1B004834A6 /* MSPushDelegate.h */,
+				D3AD5F071E5C8136001627AB /* Internal */,
+				D3AD5F031E5C7FC9001627AB /* Support */,
 			);
 			path = MobileCenterPush;
 			sourceTree = "<group>";
@@ -275,8 +256,11 @@
 			isa = PBXGroup;
 			children = (
 				D3AD5EC41E5C4F6A001627AB /* Info.plist */,
-				048495041ECCF3F40020B0FC /* Common */,
+				D3AD5EC21E5C4F6A001627AB /* MSPushTests.m */,
 				D3AD5F661E5D73F2001627AB /* Frameworks */,
+				04A140C21ECE8769001CEE94 /* Model */,
+				04A140C31ECE877A001CEE94 /* Support */,
+				D39B04E11E66FBA70048E397 /* Util */,
 			);
 			path = MobileCenterPushTests;
 			sourceTree = "<group>";
@@ -299,7 +283,7 @@
 				D3AD5F0B1E5C819A001627AB /* MobileCenter+Internal.h */,
 				D3AD5F081E5C8156001627AB /* MSPushPrivate.h */,
 			);
-			name = Internal;
+			path = Internal;
 			sourceTree = "<group>";
 		};
 		D3AD5F661E5D73F2001627AB /* Frameworks */ = {
@@ -349,7 +333,7 @@
 				D3AD5F121E5C847B001627AB /* MSPushPrivate.h in Headers */,
 				D3AD5F6C1E5D7464001627AB /* MSPushLog.h in Headers */,
 				047919B31EBA3AC5004834A6 /* MSPushNotification.h in Headers */,
-				38D4BBA11D5A98D1001A30A0 /* ../MobileCenter/MobileCenter/Common/MSService.h in Headers */,
+				38D4BBA11D5A98D1001A30A0 /* ../MobileCenter/MobileCenter/MSService.h in Headers */,
 				D3AD5F0E1E5C8452001627AB /* MSLogManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -461,7 +445,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=MobileCenterPush\nTGT_NAME=${FMK_NAME}Ios\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-iOS/iOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" -sdk iphoneos\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Common/Support/iOS.modulemap\" \"${INSTALL_DIR}/Modules/\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Headers/\"\n\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" \"${SIMULATOR_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\n\nrm -r \"${WRK_DIR}\"";
+			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=MobileCenterPush\nTGT_NAME=${FMK_NAME}Ios\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-iOS/iOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" -sdk iphoneos\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Support/iOS.modulemap\" \"${INSTALL_DIR}/Modules/\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Headers/\"\n\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" \"${SIMULATOR_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\n\nrm -r \"${WRK_DIR}\"";
 		};
 		D3AD5F2B1E5C9636001627AB /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -622,7 +606,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenterpush;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/**";
 				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
 			};
 			name = Debug;
@@ -637,7 +621,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenterpush;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/**";
 				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
 			};
 			name = Release;
@@ -664,7 +648,7 @@
 					"\"$(SRCROOT)/../Vendor/iOS\"/**",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenterpushtests;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/**";
 			};
 			name = Debug;
 		};
@@ -690,7 +674,7 @@
 					"\"$(SRCROOT)/../Vendor/iOS\"/**",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenterpushtests;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/**";
 			};
 			name = Release;
 		};
@@ -698,7 +682,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC81E1ECE333700FB6719 /* iOS.xcconfig */;
 			buildSettings = {
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/**";
 			};
 			name = Debug;
 		};
@@ -706,7 +690,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC81E1ECE333700FB6719 /* iOS.xcconfig */;
 			buildSettings = {
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/**";
 			};
 			name = Release;
 		};
@@ -715,7 +699,7 @@
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				OTHER_CFLAGS = "";
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"";
 				VALID_ARCHS = "";
 			};
 			name = Debug;
@@ -725,7 +709,7 @@
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				OTHER_CFLAGS = "";
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter/Common\"";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"";
 				VALID_ARCHS = "";
 			};
 			name = Release;
