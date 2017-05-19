@@ -87,8 +87,11 @@ static const int maxPropertyValueLength = 64;
     // Start session tracker.
     [self.sessionTracker start];
 
-    // Add session tracker delegate to log manager.
+    // Add delegate to log manager.
     [self.logManager addDelegate:self.sessionTracker];
+
+    // Set self as delegate of analytics channel.
+    [self.logManager addChannelDelegate:self forGroupId:self.groupId];
 
     // Report current page while auto page tracking is on.
     if (self.autoPageTrackingEnabled) {
@@ -104,6 +107,7 @@ static const int maxPropertyValueLength = 64;
     MSLogInfo([MSAnalytics logTag], @"Analytics service has been enabled.");
   } else {
     [self.logManager removeDelegate:self.sessionTracker];
+    [self.logManager removeChannelDelegate:self forGroupId:self.groupId];
     [self.sessionTracker stop];
     [self.sessionTracker clearSessions];
     MSLogInfo([MSAnalytics logTag], @"Analytics service has been disabled.");
@@ -152,12 +156,13 @@ static const int maxPropertyValueLength = 64;
 
 - (BOOL)validateEventName:(NSString *)eventName forLogType:(NSString *)logType {
   if (!eventName || [eventName length] < minEventNameLength) {
-    MSLogError([MSAnalytics logTag], @"%@ name cannot be null or empty", logType);
+    MSLogError([MSAnalytics logTag],
+               @"%@ name cannot be null or empty", logType);
     return NO;
   }
   if ([eventName length] > maxEventNameLength) {
-    MSLogError([MSAnalytics logTag], @"%@ '%@' : name length cannot be longer than %d characters", logType, eventName,
-               maxEventNameLength);
+    MSLogError([MSAnalytics logTag],
+               @"%@ '%@' : name length cannot be longer than %d characters", logType, eventName, maxEventNameLength);
     return NO;
   }
   return YES;
@@ -172,8 +177,10 @@ static const int maxPropertyValueLength = 64;
     // Don't send more properties than we can.
     if ([validProperties count] >= maxPropertiesPerEvent) {
       MSLogWarning([MSAnalytics logTag],
-                   @"%@ '%@' : properties cannot contain more than %d items. Skipping other properties.", logType,
-                   logName, maxPropertiesPerEvent);
+                   @"%@ '%@' : properties cannot contain more than %d items. Skipping other properties.",
+                   logType,
+                   logName,
+                   maxPropertiesPerEvent);
       break;
     }
     if (![key isKindOfClass:[NSString class]] || ![properties[key] isKindOfClass:[NSString class]]) {
@@ -183,24 +190,33 @@ static const int maxPropertyValueLength = 64;
     // Validate key.
     NSString *strKey = key;
     if ([strKey length] < minPropertyKeyLength) {
-      MSLogWarning([MSAnalytics logTag], @"%@ '%@' : a property key cannot be null or empty. Property will be skipped.",
-                   logType, logName);
+      MSLogWarning([MSAnalytics logTag],
+                   @"%@ '%@' : a property key cannot be null or empty. Property will be skipped.",
+                   logType,
+                   logName);
       continue;
     }
     if ([strKey length] > maxPropertyKeyLength) {
-      MSLogWarning([MSAnalytics logTag], @"%@ '%@' : property %@ : property key length cannot be longer than %d "
-                                         @"characters. Property %@ will be skipped.",
-                   logType, logName, strKey, maxPropertyKeyLength, strKey);
+      MSLogWarning([MSAnalytics logTag],
+                   @"%@ '%@' : property %@ : property key length cannot be longer than %d characters. Property %@ will be skipped.",
+                   logType,
+                   logName,
+                   strKey,
+                   maxPropertyKeyLength,
+                   strKey);
       continue;
     }
 
     // Validate value.
     NSString *value = properties[key];
-    if ([value length] > maxPropertyValueLength) {
-      MSLogWarning(
-          [MSAnalytics logTag],
-          @"%@ '%@' : property '%@' : property value cannot be longer than %d characters. Property %@ will be skipped.",
-          logType, logName, strKey, maxPropertyValueLength, strKey);
+    if([value length] > maxPropertyValueLength) {
+      MSLogWarning([MSAnalytics logTag],
+                   @"%@ '%@' : property '%@' : property value cannot be longer than %d characters. Property %@ will be skipped.",
+                   logType,
+                   logName,
+                   strKey,
+                   maxPropertyValueLength,
+                   strKey);
       continue;
     }
 
@@ -285,6 +301,63 @@ static const int maxPropertyValueLength = 64;
 - (void)sessionTracker:(id)sessionTracker processLog:(id<MSLog>)log {
   (void)sessionTracker;
   [self sendLog:log];
+}
+
++ (void)setDelegate:(nullable id<MSAnalyticsDelegate>)delegate {
+  [[self sharedInstance] setDelegate:delegate];
+}
+
+#pragma mark - MSChannelDelegate
+
+- (void)channel:(id<MSChannel>)channel willSendLog:(id<MSLog>)log {
+  (void)channel;
+  if (!self.delegate) {
+    return;
+  }
+  NSObject *logObject = (NSObject *)log;
+  if ([logObject isKindOfClass:[MSEventLog class]] &&
+      [self.delegate respondsToSelector:@selector(analytics:willSendEventLog:)]) {
+    MSEventLog *eventLog = (MSEventLog *)log;
+    [self.delegate analytics:self willSendEventLog:eventLog];
+  } else if ([logObject isKindOfClass:[MSPageLog class]] &&
+             [self.delegate respondsToSelector:@selector(analytics:willSendPageLog:)]) {
+    MSPageLog *pageLog = (MSPageLog *)log;
+    [self.delegate analytics:self willSendPageLog:pageLog];
+  }
+}
+
+- (void)channel:(id<MSChannel>)channel didSucceedSendingLog:(id<MSLog>)log {
+  (void)channel;
+  if (!self.delegate) {
+    return;
+  }
+  NSObject *logObject = (NSObject *)log;
+  if ([logObject isKindOfClass:[MSEventLog class]] &&
+      [self.delegate respondsToSelector:@selector(analytics:didSucceedSendingEventLog:)]) {
+    MSEventLog *eventLog = (MSEventLog *)log;
+    [self.delegate analytics:self didSucceedSendingEventLog:eventLog];
+  } else if ([logObject isKindOfClass:[MSPageLog class]] &&
+             [self.delegate respondsToSelector:@selector(analytics:didSucceedSendingPageLog:)]) {
+    MSPageLog *pageLog = (MSPageLog *)log;
+    [self.delegate analytics:self didSucceedSendingPageLog:pageLog];
+  }
+}
+
+- (void)channel:(id<MSChannel>)channel didFailSendingLog:(id<MSLog>)log withError:(NSError *)error {
+  (void)channel;
+  if (!self.delegate) {
+    return;
+  }
+  NSObject *logObject = (NSObject *)log;
+  if ([logObject isKindOfClass:[MSEventLog class]] &&
+      [self.delegate respondsToSelector:@selector(analytics:didFailSendingEventLog:withError:)]) {
+    MSEventLog *eventLog = (MSEventLog *)log;
+    [self.delegate analytics:self didFailSendingEventLog:eventLog withError:error];
+  } else if ([logObject isKindOfClass:[MSPageLog class]] &&
+             [self.delegate respondsToSelector:@selector(analytics:didFailSendingPageLog:withError:)]) {
+    MSPageLog *pageLog = (MSPageLog *)log;
+    [self.delegate analytics:self didFailSendingPageLog:pageLog withError:error];
+  }
 }
 
 @end
