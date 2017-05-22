@@ -1,2 +1,0 @@
-OTHER_CFLAGS = $(inherited) -isystem "$(SRCROOT)/../Vendor/OCMock" -iframework "$(SRCROOT)/../Vendor/OCHamcrest" -iframework "$(SRCROOT)/../Vendor/OHHTTPStubs" -iframework "$(PLATFORM_DIR)/Developer/Library/Frameworks";
-OTHER_LDFLAGS = $(inherited) -framework Foundation -ObjC;

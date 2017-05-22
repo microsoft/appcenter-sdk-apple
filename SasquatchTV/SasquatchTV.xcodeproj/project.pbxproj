@@ -17,11 +17,9 @@
 		D322F00B1E8E98DF00A8EDA5 /* MobileCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D322F0071E8E98DF00A8EDA5 /* MobileCenter.framework */; };
 		D322F00C1E8E98DF00A8EDA5 /* MobileCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D322F0081E8E98DF00A8EDA5 /* MobileCenterAnalytics.framework */; };
 		D322F00D1E8E98DF00A8EDA5 /* MobileCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D322F0091E8E98DF00A8EDA5 /* MobileCenterCrashes.framework */; };
-		D322F00E1E8E98DF00A8EDA5 /* MobileCenterDistribute.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D322F00A1E8E98DF00A8EDA5 /* MobileCenterDistribute.framework */; };
 		D322F00F1E8E98EA00A8EDA5 /* MobileCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D322F0071E8E98DF00A8EDA5 /* MobileCenter.framework */; };
 		D322F0101E8E98EA00A8EDA5 /* MobileCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D322F0081E8E98DF00A8EDA5 /* MobileCenterAnalytics.framework */; };
 		D322F0111E8E98EA00A8EDA5 /* MobileCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D322F0091E8E98DF00A8EDA5 /* MobileCenterCrashes.framework */; };
-		D322F0121E8E98EA00A8EDA5 /* MobileCenterDistribute.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D322F00A1E8E98DF00A8EDA5 /* MobileCenterDistribute.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,10 +37,9 @@
 		D322EFF11E8E97DF00A8EDA5 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		D322EFF91E8E97DF00A8EDA5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D322EFFB1E8E97DF00A8EDA5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D322F0071E8E98DF00A8EDA5 /* MobileCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenter.framework; path = "../MobileCenter-SDK-iOS/MobileCenter.framework"; sourceTree = "<group>"; };
-		D322F0081E8E98DF00A8EDA5 /* MobileCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterAnalytics.framework; path = "../MobileCenter-SDK-iOS/MobileCenterAnalytics.framework"; sourceTree = "<group>"; };
-		D322F0091E8E98DF00A8EDA5 /* MobileCenterCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterCrashes.framework; path = "../MobileCenter-SDK-iOS/MobileCenterCrashes.framework"; sourceTree = "<group>"; };
-		D322F00A1E8E98DF00A8EDA5 /* MobileCenterDistribute.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterDistribute.framework; path = "../MobileCenter-SDK-iOS/MobileCenterDistribute.framework"; sourceTree = "<group>"; };
+		D322F0071E8E98DF00A8EDA5 /* MobileCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenter.framework; path = "../MobileCenter-SDK-iOS/iOS/MobileCenter.framework"; sourceTree = "<group>"; };
+		D322F0081E8E98DF00A8EDA5 /* MobileCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterAnalytics.framework; path = "../MobileCenter-SDK-iOS/iOS/MobileCenterAnalytics.framework"; sourceTree = "<group>"; };
+		D322F0091E8E98DF00A8EDA5 /* MobileCenterCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterCrashes.framework; path = "../MobileCenter-SDK-iOS/iOS/MobileCenterCrashes.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,7 +50,6 @@
 				D322F00B1E8E98DF00A8EDA5 /* MobileCenter.framework in Frameworks */,
 				D322F00C1E8E98DF00A8EDA5 /* MobileCenterAnalytics.framework in Frameworks */,
 				D322F00D1E8E98DF00A8EDA5 /* MobileCenterCrashes.framework in Frameworks */,
-				D322F00E1E8E98DF00A8EDA5 /* MobileCenterDistribute.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -64,7 +60,6 @@
 				D322F00F1E8E98EA00A8EDA5 /* MobileCenter.framework in Frameworks */,
 				D322F0101E8E98EA00A8EDA5 /* MobileCenterAnalytics.framework in Frameworks */,
 				D322F0111E8E98EA00A8EDA5 /* MobileCenterCrashes.framework in Frameworks */,
-				D322F0121E8E98EA00A8EDA5 /* MobileCenterDistribute.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -170,7 +165,6 @@
 				D322F0071E8E98DF00A8EDA5 /* MobileCenter.framework */,
 				D322F0081E8E98DF00A8EDA5 /* MobileCenterAnalytics.framework */,
 				D322F0091E8E98DF00A8EDA5 /* MobileCenterCrashes.framework */,
-				D322F00A1E8E98DF00A8EDA5 /* MobileCenterDistribute.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -404,7 +398,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-iOS/**";
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-iOS/iOS/**";
 				INFOPLIST_FILE = SasquatchTVSwift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchswift.tv;
@@ -419,7 +413,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-iOS/**";
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-iOS/iOS/**";
 				INFOPLIST_FILE = SasquatchTVSwift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchswift.tv;
@@ -435,7 +429,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = "";
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-iOS/**";
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-iOS/iOS/**";
 				INFOPLIST_FILE = SasquatchTVObjC/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc.tv;
@@ -452,7 +446,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = "";
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-iOS/**";
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-iOS/iOS/**";
 				INFOPLIST_FILE = SasquatchTVObjC/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc.tv;

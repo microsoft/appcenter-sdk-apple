@@ -129,4 +129,4 @@ CLANG_ANALYZER_NONNULL = YES
 
 // Enable warnings-are-errors for all modes. Don't do this just yet.
  SWIFT_TREAT_WARNINGS_AS_ERRORS = YES
- GCC_TREAT_WARNINGS_AS_ERRORS = YES
+ GCC_TREAT_WARNINGS_AS_ERRORS = NO

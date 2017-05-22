@@ -1,3 +1,0 @@
-#include "../../../Global.xcconfig"
-
-OTHER_LDFLAGS=$(inherited) -framework Foundation -weak_framework SafariServices

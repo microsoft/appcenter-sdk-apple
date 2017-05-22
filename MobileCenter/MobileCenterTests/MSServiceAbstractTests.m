@@ -1,3 +1,12 @@
+#import <Foundation/Foundation.h>
+#if TARGET_OS_IPHONE
+#import <OCHamcrestIOS/OCHamcrestIOS.h>
+#else
+#import <OCHamcrest/OCHamcrest.h>
+#endif
+#import <OCMock/OCMock.h>
+#import <XCTest/XCTest.h>
+
 #import "MSConstants+Internal.h"
 #import "MSLogManager.h"
 #import "MSLogManagerDefault.h"
@@ -7,9 +16,6 @@
 #import "MSMockUserDefaults.h"
 #import "MSServiceAbstractPrivate.h"
 #import "MSServiceAbstractProtected.h"
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <OCMock/OCMock.h>
-#import <XCTest/XCTest.h>
 
 @interface MSServiceAbstractImplementation : MSServiceAbstract <MSServiceInternal>
 

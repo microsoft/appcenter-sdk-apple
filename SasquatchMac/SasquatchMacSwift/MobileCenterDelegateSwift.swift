@@ -1,6 +1,6 @@
-import MobileCenterMac
-import MobileCenterAnalyticsMac
-import MobileCenterCrashesMac
+import MobileCenter
+import MobileCenterAnalytics
+import MobileCenterCrashes
 
 /**
  * MobileCenterDelegate implementation in Swift.

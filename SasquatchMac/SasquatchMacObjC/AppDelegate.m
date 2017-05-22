@@ -1,9 +1,9 @@
 #import "AppDelegate.h"
 #import "MobileCenterDelegateObjC.h"
 
-@import MobileCenterMac;
-@import MobileCenterAnalyticsMac;
-@import MobileCenterCrashesMac;
+@import MobileCenter;
+@import MobileCenterAnalytics;
+@import MobileCenterCrashes;
 
 @interface AppDelegate ()
 
