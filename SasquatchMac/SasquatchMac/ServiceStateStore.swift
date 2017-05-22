@@ -1,8 +1,8 @@
 import Foundation;
 
 @objc class ServiceStateStore : NSObject {
-  private static let AnalyticsKey : String = "MSAnalytics";
-  private static let CrashesKey : String = "MSCrashes";
+  private static let AnalyticsKey : String = "kMSAnalyticsIsEnabledKey";
+  private static let CrashesKey : String = "kMSCrashesIsEnabledKey";
 
   class var AnalyticsState : Bool {
     get {
