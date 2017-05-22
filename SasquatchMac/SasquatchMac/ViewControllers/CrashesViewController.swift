@@ -31,7 +31,6 @@ class CrashesViewController : NSViewController, MobileCenterProtocol {
     guard let `mobileCenter` = mobileCenter else {
       return
     }
-    ServiceStateStore.CrashesState = sender.state == 1
     mobileCenter.setCrashesEnabled(sender.state == 1)
     sender.state = mobileCenter.isCrashesEnabled() ? 1 : 0
   }
