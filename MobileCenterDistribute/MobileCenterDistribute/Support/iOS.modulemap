@@ -6,4 +6,5 @@ framework module MobileCenterDistribute {
   
   link framework "Foundation"
   link framework "SafariServices"
+  link framework "UIKit"
 }

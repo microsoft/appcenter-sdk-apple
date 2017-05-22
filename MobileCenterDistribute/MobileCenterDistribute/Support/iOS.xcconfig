@@ -1,1 +1,2 @@
 SDK_NAME = mobilecenter.ios
+OTHER_LDFLAGS=$(inherited) -framework UIKit
