@@ -1,2 +1,2 @@
 SDK_NAME = mobilecenter.ios
-OTHER_LDFLAGS = $(inherited) -framework UIKit
+OTHER_LDFLAGS = $(inherited) -framework CoreTelephony -framework UIKit
