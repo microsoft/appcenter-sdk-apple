@@ -1202,7 +1202,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8261ECE370100FB6719 /* macOS.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(MS_MAC_ARCHS)";
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/macOS\"/**";
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/macOS/**";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
@@ -1210,7 +1209,6 @@
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				VALID_ARCHS = "$(MS_MAC_ARCHS)";
 			};
 			name = Debug;
 		};
@@ -1218,7 +1216,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8261ECE370100FB6719 /* macOS.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(MS_MAC_ARCHS)";
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/macOS\"/**";
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/macOS/**";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
@@ -1226,7 +1223,6 @@
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				VALID_ARCHS = "$(MS_MAC_ARCHS)";
 			};
 			name = Release;
 		};
@@ -1234,9 +1230,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8261ECE370100FB6719 /* macOS.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(MS_MAC_ARCHS)";
 				SDKROOT = macosx;
-				VALID_ARCHS = "$(MS_MAC_ARCHS)";
 			};
 			name = Debug;
 		};
@@ -1244,9 +1238,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8261ECE370100FB6719 /* macOS.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(MS_MAC_ARCHS)";
 				SDKROOT = macosx;
-				VALID_ARCHS = "$(MS_MAC_ARCHS)";
 			};
 			name = Release;
 		};
@@ -1255,7 +1247,6 @@
 			baseConfigurationReference = 041CFF981ECD010000B4654B /* Tests macOS.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
-				ARCHS = "$(MS_MAC_ARCHS)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Mac Developer";
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1275,7 +1266,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecentercrashestests;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
-				VALID_ARCHS = "$(MS_MAC_ARCHS)";
 			};
 			name = Debug;
 		};
@@ -1284,7 +1274,6 @@
 			baseConfigurationReference = 041CFF981ECD010000B4654B /* Tests macOS.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
-				ARCHS = "$(MS_MAC_ARCHS)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Mac Developer";
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1304,7 +1293,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecentercrashestests;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
-				VALID_ARCHS = "$(MS_MAC_ARCHS)";
 			};
 			name = Release;
 		};
@@ -1505,21 +1493,17 @@
 		6E6BFC371D23504F00DF7617 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				OTHER_CFLAGS = "";
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"";
-				VALID_ARCHS = "";
 			};
 			name = Debug;
 		};
 		6E6BFC381D23504F00DF7617 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
 				OTHER_CFLAGS = "";
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"";
-				VALID_ARCHS = "";
 			};
 			name = Release;
 		};

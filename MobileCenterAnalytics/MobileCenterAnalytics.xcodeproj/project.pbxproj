@@ -796,7 +796,6 @@
 			baseConfigurationReference = 049BC82C1ECE3CF000FB6719 /* Tests macOS.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
-				ARCHS = "$(MS_MAC_ARCHS)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Mac Developer";
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -816,7 +815,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenteranalyticstests;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
-				VALID_ARCHS = "$(MS_MAC_ARCHS)";
 			};
 			name = Debug;
 		};
@@ -825,7 +823,6 @@
 			baseConfigurationReference = 049BC82C1ECE3CF000FB6719 /* Tests macOS.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
-				ARCHS = "$(MS_MAC_ARCHS)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Mac Developer";
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -845,7 +842,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenteranalyticstests;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
-				VALID_ARCHS = "$(MS_MAC_ARCHS)";
 			};
 			name = Release;
 		};
@@ -853,13 +849,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(MS_MAC_ARCHS)";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenteranalytics;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				VALID_ARCHS = "$(MS_MAC_ARCHS)";
 			};
 			name = Debug;
 		};
@@ -867,13 +861,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(MS_MAC_ARCHS)";
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenteranalytics;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				VALID_ARCHS = "$(MS_MAC_ARCHS)";
 			};
 			name = Release;
 		};
@@ -881,9 +873,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(MS_MAC_ARCHS)";
 				SDKROOT = macosx;
-				VALID_ARCHS = "$(MS_MAC_ARCHS)";
 			};
 			name = Debug;
 		};
@@ -891,9 +881,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(MS_MAC_ARCHS)";
 				SDKROOT = macosx;
-				VALID_ARCHS = "$(MS_MAC_ARCHS)";
 			};
 			name = Release;
 		};

@@ -1,2 +1,3 @@
-SDK_NAME = mobilecenter.macos
+#include "../../../Global macOS.xcconfig"
+
 OTHER_LDFLAGS=$(inherited) -framework AppKit

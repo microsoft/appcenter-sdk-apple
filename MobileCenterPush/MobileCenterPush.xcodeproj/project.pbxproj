@@ -686,7 +686,6 @@
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				OTHER_CFLAGS = "";
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"";
-				VALID_ARCHS = "";
 			};
 			name = Debug;
 		};
@@ -696,7 +695,6 @@
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				OTHER_CFLAGS = "";
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"";
-				VALID_ARCHS = "";
 			};
 			name = Release;
 		};
