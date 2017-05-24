@@ -12,8 +12,6 @@
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-
-  // Insert code here to initialize your application
   [MSMobileCenter setLogLevel:MSLogLevelVerbose];
   [MSMobileCenter setLogUrl:@"https://in-integration.dev.avalanch.es"];
   [MSMobileCenter start:@"8649b73e-6df0-4985-a039-8ab1453d44f3"

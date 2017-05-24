@@ -17,6 +17,8 @@ class AnalyticsViewController : NSViewController, MobileCenterProtocol {
     super.viewDidLoad()
     if let `mobileCenter` = mobileCenter {
       setEnabledButton?.state = `mobileCenter`.isAnalyticsEnabled() ? 1 : 0
+    } else {
+      setEnabledButton?.state = ServiceStateStore.AnalyticsState ? 1 : 0
     }
   }
 

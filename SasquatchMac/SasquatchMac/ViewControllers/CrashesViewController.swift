@@ -16,6 +16,8 @@ class CrashesViewController : NSViewController, MobileCenterProtocol {
     super.viewDidLoad()
     if let `mobileCenter` = mobileCenter {
       setEnabledButton?.state = mobileCenter.isCrashesEnabled() ? 1 : 0
+    } else {
+      setEnabledButton?.state = ServiceStateStore.CrashesState ? 1 : 0
     }
   }
 
