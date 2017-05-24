@@ -93,13 +93,23 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 
 - (void)testDeviceOSName {
 
-  // If
+// If
+
+#if TARGET_OS_IPHONE
   NSString *expected = @"iMock OS";
   UIDevice *deviceMock = OCMClassMock([UIDevice class]);
   OCMStub([deviceMock systemName]).andReturn(expected);
+#else
+  NSString *expected = @"macOS";
+#endif
 
-  // When
+// When
+
+#if TARGET_OS_IPHONE
   NSString *osName = [self.sut osName:deviceMock];
+#else
+  NSString *osName = [self.sut osName];
+#endif
 
   // Then
   assertThat(osName, is(expected));
@@ -109,11 +119,25 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 
   // If
   NSString *expected = @"4.5.6";
+#if TARGET_OS_IPHONE
   UIDevice *deviceMock = OCMClassMock([UIDevice class]);
   OCMStub([deviceMock systemVersion]).andReturn(expected);
+#else
+  id processInfoMock = OCMClassMock([NSProcessInfo class]);
+  OCMStub([processInfoMock processInfo]).andReturn(processInfoMock);
+  NSOperatingSystemVersion osSystemVersionMock;
+  osSystemVersionMock.majorVersion = 4;
+  osSystemVersionMock.minorVersion = 5;
+  osSystemVersionMock.patchVersion = 6;
+  OCMStub([processInfoMock operatingSystemVersion]).andReturn(osSystemVersionMock);
+#endif
 
-  // When
+// When
+#if TARGET_OS_IPHONE
   NSString *osVersion = [self.sut osVersion:deviceMock];
+#else
+  NSString *osVersion = [self.sut osVersion];
+#endif
 
   // Then
   assertThat(osVersion, is(expected));
@@ -123,14 +147,14 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 
   // If
   NSString *expected = @"en-US";
-  UIDevice *deviceMock = OCMClassMock([UIDevice class]);
-  OCMStub([deviceMock systemVersion]).andReturn(expected);
+  NSLocale *localeMock = OCMClassMock([NSLocale class]);
+  OCMStub([localeMock objectForKey:NSLocaleIdentifier]).andReturn(expected);
 
   // When
-  NSString *osVersion = [self.sut osVersion:deviceMock];
+  NSString *locale = [self.sut locale:localeMock];
 
   // Then
-  assertThat(osVersion, is(expected));
+  assertThat(locale, is(expected));
 }
 
 - (void)testDeviceTimezoneOffset {
@@ -157,6 +181,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   assertThatInteger([screenSize length], greaterThan(@(0)));
 }
 
+#if TARGET_OS_IPHONE
 - (void)testCarrierName {
 
   // If
@@ -170,7 +195,9 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   // Then
   assertThat(carrierName, is(expected));
 }
+#endif
 
+#if TARGET_OS_IPHONE
 - (void)testNoCarrierName {
 
   // If
@@ -183,7 +210,9 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   // Then
   assertThat(carrierName, nilValue());
 }
+#endif
 
+#if TARGET_OS_IPHONE
 - (void)testCarrierCountry {
 
   // If
@@ -197,7 +226,9 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   // Then
   assertThat(carrierCountry, is(expected));
 }
+#endif
 
+#if TARGET_OS_IPHONE
 - (void)testNoCarrierCountry {
 
   // If
@@ -210,6 +241,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   // Then
   assertThat(carrierCountry, nilValue());
 }
+#endif
 
 - (void)testAppVersion {
 
@@ -333,7 +365,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   XCTAssertNotEqual(expected, self.sut.device);
 }
 
-//FIXME: build falls each time because of this test. 
+// FIXME: build falls each time because of this test.
 - (void)clearingDeviceHistoryWorks {
 
   MSMockUserDefaults *defaults = [MSMockUserDefaults new];

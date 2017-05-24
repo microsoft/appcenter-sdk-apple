@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "0485AF9F1EAA887500C10CAF"
-               BuildableName = "libMobileCenterCrashesMac.a"
+               BuildableName = "libMobileCenterCrashes.a"
                BlueprintName = "MobileCenterCrashesMac"
                ReferencedContainer = "container:MobileCenterCrashes.xcodeproj">
             </BuildableReference>
@@ -29,7 +29,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "049327611ECA170D00D0187A"
-               BuildableName = "MobileCenterCrashesMac.xctest"
+               BuildableName = "MobileCenterCrashes.xctest"
                BlueprintName = "MobileCenterCrashesMacTests"
                ReferencedContainer = "container:MobileCenterCrashes.xcodeproj">
             </BuildableReference>
@@ -48,7 +48,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "049327611ECA170D00D0187A"
-               BuildableName = "MobileCenterCrashesMac.xctest"
+               BuildableName = "MobileCenterCrashes.xctest"
                BlueprintName = "MobileCenterCrashesMacTests"
                ReferencedContainer = "container:MobileCenterCrashes.xcodeproj">
             </BuildableReference>
@@ -58,7 +58,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "0485AF9F1EAA887500C10CAF"
-            BuildableName = "libMobileCenterCrashesMac.a"
+            BuildableName = "libMobileCenterCrashes.a"
             BlueprintName = "MobileCenterCrashesMac"
             ReferencedContainer = "container:MobileCenterCrashes.xcodeproj">
          </BuildableReference>
@@ -80,7 +80,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "0485AF9F1EAA887500C10CAF"
-            BuildableName = "libMobileCenterCrashesMac.a"
+            BuildableName = "libMobileCenterCrashes.a"
             BlueprintName = "MobileCenterCrashesMac"
             ReferencedContainer = "container:MobileCenterCrashes.xcodeproj">
          </BuildableReference>
@@ -98,7 +98,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "0485AF9F1EAA887500C10CAF"
-            BuildableName = "libMobileCenterCrashesMac.a"
+            BuildableName = "libMobileCenterCrashes.a"
             BlueprintName = "MobileCenterCrashesMac"
             ReferencedContainer = "container:MobileCenterCrashes.xcodeproj">
          </BuildableReference>

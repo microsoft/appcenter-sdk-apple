@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "04754F471EA98182002CBA46"
-               BuildableName = "libMobileCenterMac.a"
+               BuildableName = "libMobileCenter.a"
                BlueprintName = "MobileCenterMac"
                ReferencedContainer = "container:MobileCenter.xcodeproj">
             </BuildableReference>
@@ -29,7 +29,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "046AEACF1ECA562A00CBE511"
-               BuildableName = "MobileCenterMac.xctest"
+               BuildableName = "MobileCenter.xctest"
                BlueprintName = "MobileCenterMacTests"
                ReferencedContainer = "container:MobileCenter.xcodeproj">
             </BuildableReference>
@@ -48,7 +48,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "046AEACF1ECA562A00CBE511"
-               BuildableName = "MobileCenterMac.xctest"
+               BuildableName = "MobileCenter.xctest"
                BlueprintName = "MobileCenterMacTests"
                ReferencedContainer = "container:MobileCenter.xcodeproj">
             </BuildableReference>
@@ -58,7 +58,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "04754F471EA98182002CBA46"
-            BuildableName = "libMobileCenterMac.a"
+            BuildableName = "libMobileCenter.a"
             BlueprintName = "MobileCenterMac"
             ReferencedContainer = "container:MobileCenter.xcodeproj">
          </BuildableReference>
@@ -80,7 +80,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "04754F471EA98182002CBA46"
-            BuildableName = "libMobileCenterMac.a"
+            BuildableName = "libMobileCenter.a"
             BlueprintName = "MobileCenterMac"
             ReferencedContainer = "container:MobileCenter.xcodeproj">
          </BuildableReference>
@@ -98,7 +98,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "04754F471EA98182002CBA46"
-            BuildableName = "libMobileCenterMac.a"
+            BuildableName = "libMobileCenter.a"
             BlueprintName = "MobileCenterMac"
             ReferencedContainer = "container:MobileCenter.xcodeproj">
          </BuildableReference>
