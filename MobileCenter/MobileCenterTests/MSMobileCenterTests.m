@@ -207,25 +207,34 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   [self.sut configure:@"AnAppSecret"];
   self.sut.logManager = logManager;
 
-  
   // When
-  [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidEnterBackgroundNotification
-                                                        object:self.sut];
+  [[NSNotificationCenter defaultCenter]
+#if TARGET_OS_IPHONE
+      postNotificationName:UIApplicationDidEnterBackgroundNotification
+#else
+      postNotificationName:NSApplicationDidHideNotification
+#endif
+                    object:self.sut];
   // Then
   OCMVerify([logManager suspend]);
 }
 
 - (void)testAppIsForegrounded {
-  
+
   // If
   id<MSLogManager> logManager = OCMProtocolMock(@protocol(MSLogManager));
   [self.sut configure:@"AnAppSecret"];
   self.sut.logManager = logManager;
-  
-  
+
   // When
-  [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillEnterForegroundNotification
-                                                      object:self.sut];
+  [[NSNotificationCenter defaultCenter]
+#if TARGET_OS_IPHONE
+      postNotificationName:UIApplicationWillEnterForegroundNotification
+#else
+      postNotificationName:NSApplicationDidUnhideNotification
+#endif
+
+                    object:self.sut];
   // Then
   OCMVerify([logManager resume]);
 }

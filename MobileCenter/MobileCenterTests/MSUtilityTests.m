@@ -31,11 +31,13 @@
   [self.utils stopMocking];
 }
 
+#if TARGET_OS_IPHONE
 - (void)testMSAppStateMatchesUIAppStateWhenAvailable {
 
   // Then
   assertThat(@([MSUtility applicationState]), is(@([UIApplication sharedApplication].applicationState)));
 }
+#endif
 
 - (void)testMSAppReturnsUnknownOnAppExtensions {
 
@@ -61,8 +63,13 @@
 - (void)testAppActive {
 
   // If
+#if TARGET_OS_IPHONE
   UIApplicationState expectedState = UIApplicationStateActive;
   OCMStub([self.utils sharedAppState]).andReturn(expectedState);
+#else
+  MSApplicationState expectedState = MSApplicationStateActive;
+  OCMStub([self.utils sharedAppState]).andReturn(expectedState);
+#endif
 
   // When
   MSApplicationState state = [MSUtility applicationState];
@@ -71,6 +78,7 @@
   assertThat(@(state), is(@(expectedState)));
 }
 
+#if TARGET_OS_IPHONE
 - (void)testAppInactive {
 
   // If
@@ -83,12 +91,18 @@
   // Then
   assertThat(@(state), is(@(expectedState)));
 }
+#endif
 
 - (void)testAppInBackground {
 
   // If
+#if TARGET_OS_IPHONE
   UIApplicationState expectedState = UIApplicationStateBackground;
   OCMStub([self.utils sharedAppState]).andReturn(expectedState);
+#else
+  MSApplicationState expectedState = MSApplicationStateBackground;
+  OCMStub([self.utils sharedAppState]).andReturn(expectedState);
+#endif
 
   // When
   MSApplicationState state = [MSUtility applicationState];
@@ -128,6 +142,8 @@
   XCTAssertEqual(env, MSEnvironmentOther);
 }
 
+// FIXME: This method actually opens a dialog to ask to handle the URL on Mac.
+#if TARGET_OS_IPHONE
 - (void)testSharedAppOpenEmptyCallCallback {
 
   // If
@@ -154,6 +170,7 @@
                                  }
                                }];
 }
+#endif
 
 - (void)testCreateSha256 {
 
