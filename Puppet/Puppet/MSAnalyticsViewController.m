@@ -3,6 +3,7 @@
  */
 
 #import "MSAnalyticsViewController.h"
+#import "MSAnalyticsResultViewController.h"
 #import "MobileCenterAnalytics.h"
 // trackPage has been hidden in MSAnalytics temporarily. Use internal until the feature comes back.
 #import "MSAnalyticsInternal.h"
@@ -10,6 +11,8 @@
 @interface MSAnalyticsViewController ()
 
 @property (weak, nonatomic) IBOutlet UISwitch *enabled;
+@property (nonatomic) NSMutableDictionary<NSString*,NSString*> *properties;
+@property (nonatomic) MSAnalyticsResultViewController *analyticsResult;
 
 @end
 
@@ -21,6 +24,8 @@
   [super viewDidLoad];
   
   self.enabled.on = [MSAnalytics isEnabled];
+  self.properties = [NSMutableDictionary new];
+  self.analyticsResult = [self.storyboard instantiateViewControllerWithIdentifier:@"analyticsResult"];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
@@ -42,29 +47,29 @@
   case 0: {
     switch (indexPath.row) {
     case 0: {
-      [MSAnalytics trackEvent:@"myEvent"];
+      [MSAnalytics trackEvent:@"myEvent" withProperties:self.properties];
       break;
     }
     case 1: {
-      NSDictionary *properties = @{ @"gender" : @"male", @"age" : @"20", @"title" : @"SDE" };
-      [MSAnalytics trackEvent:@"myEvent" withProperties:properties];
+      [MSAnalytics trackPage:@"myPage" withProperties:self.properties];
       break;
     }
     case 2: {
-      [MSAnalytics trackPage:@"myPage"];
+      [self.properties setValue:[NSString stringWithFormat:@"Property value %d", self.properties.count + 1]
+                         forKey:[NSString stringWithFormat:@"Property name %d", self.properties.count + 1]];
       break;
     }
-
     case 3: {
-      NSDictionary *properties = @{ @"gender" : @"female", @"age" : @"28", @"title" : @"PM" };
-      [MSAnalytics trackPage:@"myPage" withProperties:properties];
+      [self.properties removeAllObjects];
       break;
     }
-
+    case 4: {
+      [self.navigationController pushViewController:self.analyticsResult animated:true];
+      break;
+    }
     default:
       break;
     }
-
     break;
     }
   }
