@@ -18,7 +18,8 @@
 		5CE258921EA5F62E00DA8FB9 /* AnalyticsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE258791EA5F5DF00DA8FB9 /* AnalyticsUITests.swift */; };
 		5CE258931EA5F62E00DA8FB9 /* CrashesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE2587B1EA5F5EB00DA8FB9 /* CrashesUITests.swift */; };
 		5CE258941EA5F62E00DA8FB9 /* DistributeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE2587D1EA5F5FC00DA8FB9 /* DistributeUITests.swift */; };
-		5CE3B4351ED8293800879FA9 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CE3B4341ED8293800879FA9 /* MSAlertController.m */; };
+		5CE3B4891ED8523F00879FA9 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CE3B4881ED8523F00879FA9 /* MSAlertController.m */; };
+		5CE3B48A1ED8529800879FA9 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CE3B4881ED8523F00879FA9 /* MSAlertController.m */; };
 		84226C4B1E88FF4A00798417 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226C4A1E88FF4A00798417 /* main.m */; };
 		84226C4E1E88FF4A00798417 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226C4D1E88FF4A00798417 /* AppDelegate.m */; };
 		84226C561E88FF4A00798417 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C551E88FF4A00798417 /* Assets.xcassets */; };
@@ -198,8 +199,8 @@
 		5CE2587D1EA5F5FC00DA8FB9 /* DistributeUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DistributeUITests.swift; path = SasquatchUITests/DistributeUITests.swift; sourceTree = SOURCE_ROOT; };
 		5CE258871EA5F62400DA8FB9 /* SasquatchObjCUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SasquatchObjCUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CE258961EA5FAE100DA8FB9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5CE3B4331ED8293800879FA9 /* MSAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSAlertController.h; path = ../../Vendor/Common/MSAlertController/iOS_tvOS/MSAlertController.h; sourceTree = "<group>"; };
-		5CE3B4341ED8293800879FA9 /* MSAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSAlertController.m; path = ../../Vendor/Common/MSAlertController/iOS_tvOS/MSAlertController.m; sourceTree = "<group>"; };
+		5CE3B4871ED8523F00879FA9 /* MSAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSAlertController.h; path = ../../Vendor/iOS/MSAlertController/MSAlertController.h; sourceTree = "<group>"; };
+		5CE3B4881ED8523F00879FA9 /* MSAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSAlertController.m; path = ../../Vendor/iOS/MSAlertController/MSAlertController.m; sourceTree = "<group>"; };
 		84226C1C1E88FEFC00798417 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		84226C471E88FF4A00798417 /* SasquatchObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SasquatchObjC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84226C4A1E88FF4A00798417 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -428,8 +429,8 @@
 		84226D081E891FA300798417 /* MSAlertController */ = {
 			isa = PBXGroup;
 			children = (
-				5CE3B4331ED8293800879FA9 /* MSAlertController.h */,
-				5CE3B4341ED8293800879FA9 /* MSAlertController.m */,
+				5CE3B4871ED8523F00879FA9 /* MSAlertController.h */,
+				5CE3B4881ED8523F00879FA9 /* MSAlertController.m */,
 				84226D091E891FB900798417 /* Sasquatch-Bridging-Header.h */,
 			);
 			name = MSAlertController;
@@ -860,9 +861,9 @@
 				845964AD1E8A7E9700BABA51 /* MSMainViewController.swift in Sources */,
 				84A0FF691E8A87C9000E7A28 /* MSAnalyticsViewController.swift in Sources */,
 				84226D421E8953F100798417 /* MobileCenterDelegateObjC.m in Sources */,
-				5CE3B4351ED8293800879FA9 /* MSAlertController.m in Sources */,
 				84A0FF661E8A87B4000E7A28 /* MSCrashesViewController.swift in Sources */,
 				84226C4E1E88FF4A00798417 /* AppDelegate.m in Sources */,
+				5CE3B4891ED8523F00879FA9 /* MSAlertController.m in Sources */,
 				84226C4B1E88FF4A00798417 /* main.m in Sources */,
 				84A0FF6C1E8A87E1000E7A28 /* MSDistributeViewController.swift in Sources */,
 				84226D3C1E8938D100798417 /* MobileCenterDelegate.swift in Sources */,
@@ -875,6 +876,7 @@
 			files = (
 				849A3E731E8A9922008711CB /* MobileCenterProtocol.swift in Sources */,
 				84A0FF671E8A87B4000E7A28 /* MSCrashesViewController.swift in Sources */,
+				5CE3B48A1ED8529800879FA9 /* MSAlertController.m in Sources */,
 				84A0FF6A1E8A87C9000E7A28 /* MSAnalyticsViewController.swift in Sources */,
 				84226D3D1E8938D200798417 /* MobileCenterDelegate.swift in Sources */,
 				845178ED1E8A8B0D004A0A6F /* MSMainViewController.swift in Sources */,
