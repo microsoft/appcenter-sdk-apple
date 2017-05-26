@@ -59,7 +59,7 @@ GCC_PREPROCESSOR_DEFINITIONS = $(inherited) $(XCODEBUILD_GCC_PREPROCESSOR_DEFINI
 // We don't want to compile our code for C++98, no need to be warned about incompatibility.
 
 // -auto-import
-// Standard ``import`` is used by tons of files and C++ code limits the possibility to use @import so we don't . => Disabled.
+// Standard ``import`` is used by tons of files and C++ code limits the possibility to use @import, so we don't. => Disabled.
 
 // -assign-enum
 // A lot of api use enums as params but Apple's docs suggest passing in 0 which causes annoying warnings.
@@ -73,10 +73,28 @@ GCC_PREPROCESSOR_DEFINITIONS = $(inherited) $(XCODEBUILD_GCC_PREPROCESSOR_DEFINI
 // -cast-align
 // We're not interested in this one as the Mach-O format is itself well-aligned and the original memory allocation
 // happens through malloc() and mmap() which always return at least 16byte alignment.
-// Reas more about alignment in the c++ reference: http://en.cppreference.com/w/cpp/language/object#Alignment.
+// Read more about alignment in the c++ reference: http://en.cppreference.com/w/cpp/language/object#Alignment.
 
-WARNING_CFLAGS = -Weverything -Wno-objc-missing-property-synthesis -Wno-float-equal -Wno-pedantic -Wno-padded  -Wno-sign-conversion -Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-auto-import -Wno-assign-enum -Wno-exit-time-destructors -Wno-global-constructors -Wno-cast-align
+// -reserved-id-macro
+// PLCrashReporter uses lots of _-prefixed macros and it's not an issue but enabling -Weveryting being too pedantic.
+// https://stackoverflow.com/questions/228783/what-are-the-rules-about-using-an-underscore-in-a-c-identifier explains
+// rules about using an underscore macro pretty well.
 
+// -disabled-macro-expansion
+// This silences warnings when consuming PLCrashReporter for macOS. The warning here actualy just complains about regular
+// Preprocessor behavior.
+
+// -objc-interface-ivars
+// This causes warnings when consuming PLCrashReporter for macOS. It complains about the old way of defining private ivars.
+// PLCrashReporter doesn't use ARC, so we cannot just remove the old ivars and be done. Changing PLCrashReporter just
+// because of this warning doesn't make any sense.
+
+// -documentation-unknown-command
+// This causes 1 warning when consuming PLCrashReporter for macOS. The reason for the warning is that PLCRashReporter
+// exposes Doxygen's @internal (it uses Doxygen to generate it's header docs) in a public header. There's no problem
+// not knowing @internal, so we just ignore the warning.
+
+WARNING_CFLAGS = -Weverything -Wno-objc-missing-property-synthesis -Wno-float-equal -Wno-pedantic -Wno-padded -Wno-sign-conversion -Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-auto-import -Wno-assign-enum -Wno-exit-time-destructors -Wno-global-constructors -Wno-cast-align -Wno-reserved-id-macro -Wno-disabled-macro-expansion -Wno-objc-interface-ivars -Wno-documentation-unknown-command
 
 // These are all partially (but not completely?) independent of WARNING_CFLAGS
 // and need to be specified explicitly.
