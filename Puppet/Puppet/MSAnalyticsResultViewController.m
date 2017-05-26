@@ -46,27 +46,33 @@
 #pragma mark - Callbacks
 
 -(void)willSendEventLog:(NSNotification *) notification {
-  id log = notification.object;
-  self.eventNameLabel.text = [log eventName];
-  self.eventPropsLabel.text = [NSString stringWithFormat:@"%d", [log properties].count];
-  self.didSendingEventLabel.text = kDidSendingEventText;
-  [self reloadCells];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    id log = notification.object;
+    self.eventNameLabel.text = [log eventName];
+    self.eventPropsLabel.text = [NSString stringWithFormat:@"%d", [log properties].count];
+    self.didSendingEventLabel.text = kDidSendingEventText;
+    [self reloadCells];
+  });
 }
 
 -(void)didSucceedSendingEventLog:(NSNotification *) notification {
-  id log = notification.object;
-  self.eventNameLabel.text = [log eventName];
-  self.eventPropsLabel.text = [NSString stringWithFormat:@"%d", [log properties].count];
-  self.didSentEventLabel.text = kDidSentEventText;
-  [self reloadCells];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    id log = notification.object;
+    self.eventNameLabel.text = [log eventName];
+    self.eventPropsLabel.text = [NSString stringWithFormat:@"%d", [log properties].count];
+    self.didSentEventLabel.text = kDidSentEventText;
+    [self reloadCells];
+  });
 }
 
 -(void)didFailSendingEventLog:(NSNotification *) notification {
-  id log = notification.object;
-  self.eventNameLabel.text = [log eventName];
-  self.eventPropsLabel.text = [NSString stringWithFormat:@"%d", [log properties].count];
-  self.didFailedToSendEventLabel.text = kDidFailedToSendEventText;
-  [self reloadCells];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    id log = notification.object;
+    self.eventNameLabel.text = [log eventName];
+    self.eventPropsLabel.text = [NSString stringWithFormat:@"%d", [log properties].count];
+    self.didFailedToSendEventLabel.text = kDidFailedToSendEventText;
+    [self reloadCells];
+  });
 }
 
 #pragma mark - Table view delegate
@@ -99,9 +105,8 @@
   [rows addObject:[NSIndexPath indexPathForRow:2 inSection:0]];
   [rows addObject:[NSIndexPath indexPathForRow:3 inSection:0]];
   [rows addObject:[NSIndexPath indexPathForRow:4 inSection:0]];
-  [self.refreshControl beginRefreshing];
-  [self.tableView reloadRowsAtIndexPaths:rows withRowAnimation:UITableViewRowAnimationNone];
-  [self.refreshControl beginRefreshing];
+  [self.tableView reloadRowsAtIndexPaths:rows
+                        withRowAnimation:UITableViewRowAnimationNone];
 }
 
 @end
