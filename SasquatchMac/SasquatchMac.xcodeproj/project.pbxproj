@@ -26,10 +26,10 @@
 		5C6F9BB81EB8F2E9009E52D8 /* CrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6F9BB71EB8F2E9009E52D8 /* CrashesViewController.swift */; };
 		5C6F9BB91EB8F2E9009E52D8 /* CrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6F9BB71EB8F2E9009E52D8 /* CrashesViewController.swift */; };
 		5C6F9BCD1EB8FBE6009E52D8 /* MobileCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D41EAAC7510033BAAE /* MobileCenter.framework */; };
+		5C9AFE241EDEC4F5003DF366 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C9AFE231EDEC4F5003DF366 /* MSAlertController.m */; };
+		5C9AFE251EDEC4F5003DF366 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C9AFE231EDEC4F5003DF366 /* MSAlertController.m */; };
 		5C9BBC811EC4829200CA77A3 /* MobileCenterDelegateSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9BBC801EC4829200CA77A3 /* MobileCenterDelegateSwift.swift */; };
 		5CD6257A1ECDA4280053DC6C /* MobileCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD625791ECDA4280053DC6C /* MobileCenterViewController.swift */; };
-		5CE3B4631ED8429100879FA9 /* MSAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE3B4621ED8429100879FA9 /* MSAlertController.swift */; };
-		5CE3B4641ED8442900879FA9 /* MSAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE3B4621ED8429100879FA9 /* MSAlertController.swift */; };
 		D3C31C261E8E75B300B288CE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C31C251E8E75B300B288CE /* AppDelegate.m */; };
 		D3C31C291E8E75B300B288CE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C31C281E8E75B300B288CE /* main.m */; };
 		D3C31C2E1E8E75B300B288CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3C31C2D1E8E75B300B288CE /* Assets.xcassets */; };
@@ -51,9 +51,11 @@
 		5C6F9BAC1EB8B730009E52D8 /* AnalyticsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AnalyticsViewController.swift; path = ViewControllers/AnalyticsViewController.swift; sourceTree = "<group>"; };
 		5C6F9BAE1EB8B755009E52D8 /* SasquatchMacViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SasquatchMacViewController.swift; path = ViewControllers/SasquatchMacViewController.swift; sourceTree = "<group>"; };
 		5C6F9BB71EB8F2E9009E52D8 /* CrashesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CrashesViewController.swift; path = ViewControllers/CrashesViewController.swift; sourceTree = "<group>"; };
+		5C9AFE211EDEC4D9003DF366 /* MSAlertController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MSAlertController.h; path = ../../Vendor/macOS/MSAlertController/MSAlertController.h; sourceTree = "<group>"; };
+		5C9AFE231EDEC4F5003DF366 /* MSAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSAlertController.m; path = ../../Vendor/macOS/MSAlertController/MSAlertController.m; sourceTree = "<group>"; };
+		5C9AFE261EDEC51B003DF366 /* SasquatchMac-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SasquatchMac-Bridging-Header.h"; sourceTree = "<group>"; };
 		5C9BBC801EC4829200CA77A3 /* MobileCenterDelegateSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobileCenterDelegateSwift.swift; sourceTree = "<group>"; };
 		5CD625791ECDA4280053DC6C /* MobileCenterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobileCenterViewController.swift; sourceTree = "<group>"; };
-		5CE3B4621ED8429100879FA9 /* MSAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MSAlertController.swift; path = ../../Vendor/macOS/MSAlertController/MSAlertController.swift; sourceTree = "<group>"; };
 		D3C31C131E8E757300B288CE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D3C31C161E8E757300B288CE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/SasquatchMac.storyboard; sourceTree = "<group>"; };
 		D3C31C181E8E757300B288CE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -96,7 +98,8 @@
 		5CE3B4261ED75F3100879FA9 /* MSAlertController */ = {
 			isa = PBXGroup;
 			children = (
-				5CE3B4621ED8429100879FA9 /* MSAlertController.swift */,
+				5C9AFE211EDEC4D9003DF366 /* MSAlertController.h */,
+				5C9AFE231EDEC4F5003DF366 /* MSAlertController.m */,
 			);
 			name = MSAlertController;
 			sourceTree = "<group>";
@@ -178,6 +181,7 @@
 		D3C31C701E8E774000B288CE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				5C9AFE261EDEC51B003DF366 /* SasquatchMac-Bridging-Header.h */,
 				D3C31C131E8E757300B288CE /* Assets.xcassets */,
 				D3C31C181E8E757300B288CE /* Info.plist */,
 			);
@@ -323,7 +327,7 @@
 				5C5FE6891EC4E87E00F85453 /* ServiceStateStore.swift in Sources */,
 				042496851EC3CE2F00502B62 /* MobileCenterDelegate.swift in Sources */,
 				5C6F9BAF1EB8B755009E52D8 /* SasquatchMacViewController.swift in Sources */,
-				5CE3B4631ED8429100879FA9 /* MSAlertController.swift in Sources */,
+				5C9AFE241EDEC4F5003DF366 /* MSAlertController.m in Sources */,
 				D3C31C291E8E75B300B288CE /* main.m in Sources */,
 				D3C31C261E8E75B300B288CE /* AppDelegate.m in Sources */,
 				5CD6257A1ECDA4280053DC6C /* MobileCenterViewController.swift in Sources */,
@@ -338,8 +342,8 @@
 			files = (
 				5C9BBC811EC4829200CA77A3 /* MobileCenterDelegateSwift.swift in Sources */,
 				5C5FE68A1EC4E87E00F85453 /* ServiceStateStore.swift in Sources */,
+				5C9AFE251EDEC4F5003DF366 /* MSAlertController.m in Sources */,
 				042496881EC3CE3700502B62 /* MobileCenterProtocol.swift in Sources */,
-				5CE3B4641ED8442900879FA9 /* MSAlertController.swift in Sources */,
 				5C6F9BB51EB8EEF9009E52D8 /* SasquatchMacViewController.swift in Sources */,
 				D3C31C631E8E763600B288CE /* AppDelegate.swift in Sources */,
 				5C6F9BB91EB8F2E9009E52D8 /* CrashesViewController.swift in Sources */,
@@ -498,6 +502,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
@@ -508,6 +513,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "9a41723a-23e1-4bb8-a894-27af3871eb60";
 				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Sasquatch Mac Swift App";
+				SWIFT_OBJC_BRIDGING_HEADER = "SasquatchMac/SasquatchMac-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -516,6 +523,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
@@ -526,6 +534,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "9a41723a-23e1-4bb8-a894-27af3871eb60";
 				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Sasquatch Mac Swift App";
+				SWIFT_OBJC_BRIDGING_HEADER = "SasquatchMac/SasquatchMac-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

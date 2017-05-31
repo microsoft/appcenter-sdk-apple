@@ -1,5 +1,6 @@
 #import "AppDelegate.h"
 #import "MobileCenterDelegateObjC.h"
+#import "MSAlertController.h"
 
 @import MobileCenter;
 @import MobileCenterAnalytics;

@@ -18,17 +18,16 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate {
 
       // Your code.
       // Present your UI to the user, e.g. an UIAlertView.
-
-      let alert = MSAlertController.alertController(title: "Sorry about that!",
-                                                    message: "Do you want to send an anonymous crash report so we can fix the issue?",
-                                                    style: .warning);
-      alert.addAction(title: "Always Send", handler: {() in
+      let alert = MSAlertController.init(title: "Sorry about that!",
+                             message: "Do you want to send an anonymous crash report so we can fix the issue?",
+                             style: .warning)
+      alert.addAction(withTitle: "Always Send", handler: {() in
         MSCrashes.notify(with: MSUserConfirmation.always)
       });
-      alert.addAction(title: "Send", handler: {() in
+      alert.addAction(withTitle: "Send", handler: {() in
         MSCrashes.notify(with: MSUserConfirmation.send)
       });
-      alert.addAction(title: "Don't Send", handler: {() in
+      alert.addAction(withTitle: "Don't Send", handler: {() in
         MSCrashes.notify(with: MSUserConfirmation.dontSend)
       });
       alert.show()
