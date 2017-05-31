@@ -14,6 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
     // Customize Mobile Center SDK.
+    MSCrashes.setDelegate(self);
     MSDistribute.setDelegate(self)
     MSPush.setDelegate(self)
     MSMobileCenter.setLogLevel(MSLogLevel.verbose)
@@ -101,7 +102,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
   }
   
-  // Crashes Delegate
+  //MARK: - Crashes Delegate
   
   func crashes(_ crashes: MSCrashes!, shouldProcessErrorReport errorReport: MSErrorReport!) -> Bool {
 
@@ -121,13 +122,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
     
   }
 
-  // Distribute Delegate
+  //MARK: - Distribute Delegate
 
   func distribute(_ distribute: MSDistribute!, releaseAvailableWith details: MSReleaseDetails!) -> Bool {
     return false
   }
 
-  // Push Delegate
+  //MARK: - Push Delegate
 
   func push(_ push: MSPush!, didReceive pushNotification: MSPushNotification!) {
     var message: String = pushNotification.message
