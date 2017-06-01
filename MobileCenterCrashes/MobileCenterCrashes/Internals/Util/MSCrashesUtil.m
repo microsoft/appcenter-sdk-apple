@@ -1,5 +1,9 @@
+#import <Foundation/Foundation.h>
+#if TARGET_OS_IPHONE
 #import <MobileCoreServices/MobileCoreServices.h>
-
+#else
+// TODO: Replace MobileCoreService by any one for macOS
+#endif
 #import "MSCrashesUtil.h"
 #import "MSUtility.h"
 
