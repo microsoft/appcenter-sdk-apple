@@ -7,10 +7,10 @@
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
-#import "MSAbstractLog.h"
+#import "MSAbstractLogInternal.h"
 #import "MSFile.h"
-#import "MSFileUtil.h"
 #import "MSFileStorage.h"
+#import "MSFileUtil.h"
 #import "MSStorageTestUtil.h"
 
 @interface MSFileStorageTests : XCTestCase

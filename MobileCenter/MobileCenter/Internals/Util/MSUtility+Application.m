@@ -17,16 +17,6 @@ NSString *MSUtilityApplicationCategory;
 }
 
 #if TARGET_OS_IPHONE
-+ (UIApplicationState)sharedAppState {
-  return [[[[self class] sharedApp] valueForKey:@"applicationState"] longValue];
-}
-#else
-+ (MSApplicationState)sharedAppState {
-  return [[[self class] sharedApp] isHidden] ? MSApplicationStateBackground : MSApplicationStateActive;
-}
-#endif
-
-#if TARGET_OS_IPHONE
 + (UIApplication *)sharedApp {
 
   // Compute selector at runtime for more discretion.
@@ -41,6 +31,24 @@ NSString *MSUtilityApplicationCategory;
   SEL sharedAppSel = NSSelectorFromString(@"sharedApplication");
   return ((NSApplication * (*)(id, SEL))[[NSApplication class] methodForSelector:sharedAppSel])([NSApplication class],
                                                                                                 sharedAppSel);
+}
+#endif
+
+#if TARGET_OS_IPHONE
++ (id<UIApplicationDelegate>)sharedAppDelegate {
+  return [self sharedApp].delegate;
+}
+#else
+// TODO: ApplicationDelegate is not yet implemented for macOS.
+#endif
+
+#if TARGET_OS_IPHONE
++ (UIApplicationState)sharedAppState {
+  return [[[[self class] sharedApp] valueForKey:@"applicationState"] longValue];
+}
+#else
++ (MSApplicationState)sharedAppState {
+  return [[[self class] sharedApp] isHidden] ? MSApplicationStateBackground : MSApplicationStateActive;
 }
 #endif
 

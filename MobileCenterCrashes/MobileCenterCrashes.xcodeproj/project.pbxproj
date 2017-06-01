@@ -48,18 +48,14 @@
 		0420A6971ECA7C0400915619 /* OCMock.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0420A68C1ECA7AA800915619 /* OCMock.framework */; };
 		0420A6981ECA7C1700915619 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0420A68A1ECA7A9B00915619 /* OCMock.framework */; };
 		0420A6991ECA7C2700915619 /* OCMock.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0420A68A1ECA7A9B00915619 /* OCMock.framework */; };
-		044C45F91DB6EA0C00F3C29E /* MSErrorAttachmentPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 044C45F81DB6EA0C00F3C29E /* MSErrorAttachmentPrivate.h */; };
-		044C45FB1DB6EC1C00F3C29E /* MSErrorBinaryAttachmentPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 044C45FA1DB6EC1C00F3C29E /* MSErrorBinaryAttachmentPrivate.h */; };
 		0485AFA11EAA887500C10CAF /* MSErrorReport.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120DF1D657CF10060DED7 /* MSErrorReport.m */; };
 		0485AFA21EAA887500C10CAF /* MSCrashesCXXExceptionHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6E73FE691D402F79008CDC15 /* MSCrashesCXXExceptionHandler.mm */; };
 		0485AFA31EAA887500C10CAF /* MSAbstractErrorLog.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD3BF81D80EE49000A8A91 /* MSAbstractErrorLog.m */; };
 		0485AFA41EAA887500C10CAF /* MSException.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C6E1D3E9346009EC9AC /* MSException.m */; };
-		0485AFA51EAA887500C10CAF /* MSErrorAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120DD1D657CF10060DED7 /* MSErrorAttachment.m */; };
 		0485AFA61EAA887500C10CAF /* MSCrashesCXXExceptionWrapperException.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E73FE721D4059E7008CDC15 /* MSCrashesCXXExceptionWrapperException.m */; };
 		0485AFA71EAA887500C10CAF /* MSAppleErrorLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C6A1D3E9332009EC9AC /* MSAppleErrorLog.m */; };
 		0485AFA81EAA887500C10CAF /* MSStackFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C761D3E9395009EC9AC /* MSStackFrame.m */; };
 		0485AFA91EAA887500C10CAF /* MSThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C721D3E9381009EC9AC /* MSThread.m */; };
-		0485AFAA1EAA887500C10CAF /* MSErrorBinaryAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120DB1D657CF10060DED7 /* MSErrorBinaryAttachment.m */; };
 		0485AFAB1EAA887500C10CAF /* MSCrashes.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6E0401501D1C9A4F0051BCFA /* MSCrashes.mm */; };
 		0485AFAC1EAA887500C10CAF /* MSErrorLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F375081D41AD5100F07032 /* MSErrorLogFormatter.m */; };
 		0485AFAD1EAA887500C10CAF /* MSWrapperExceptionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D504CE1DDD140500D58B40 /* MSWrapperExceptionManager.m */; };
@@ -101,9 +97,8 @@
 		0493276C1ECA170D00D0187A /* MSErrorLogFormatterTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = B24F3F0E1D93368F00827213 /* MSErrorLogFormatterTests.mm */; };
 		0493276D1ECA170D00D0187A /* MSCrashesTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = B2A0A71B1D9C2AE700729A58 /* MSCrashesTestUtil.m */; };
 		0493276E1ECA170D00D0187A /* MSBinaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C7F1D3EAEB5009EC9AC /* MSBinaryTests.m */; };
-		0493276F1ECA170D00D0187A /* MSBinaryAttachmentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120D21D6546560060DED7 /* MSBinaryAttachmentTests.m */; };
 		049327701ECA170D00D0187A /* MSWrapperExceptionManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 35EF18DF1DDBCF6C00731CA8 /* MSWrapperExceptionManagerTests.m */; };
-		049327711ECA170D00D0187A /* MSErrorAttachmentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120D41D6546740060DED7 /* MSErrorAttachmentTests.m */; };
+		049327711ECA170D00D0187A /* MSErrorAttachmentLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120D41D6546740060DED7 /* MSErrorAttachmentLogTests.m */; };
 		049327721ECA170D00D0187A /* MSMockCrashesDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BA68266A68B7F21A86A093B0 /* MSMockCrashesDelegate.m */; };
 		049327731ECA170D00D0187A /* MSCrashesUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 59493B275715F01438B2E6FD /* MSCrashesUtilTests.m */; };
 		0493277A1ECA170D00D0187A /* live_report_objc_exception.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D0FB1E549B45008B2D8E /* live_report_objc_exception.plcrash */; };
@@ -132,6 +127,12 @@
 		049327911ECA170D00D0187A /* live_report_exception.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A311D416CCF0016C325 /* live_report_exception.plcrash */; };
 		049327CA1ECA1A2B00D0187A /* libCrashReporter-MacOSX-Static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 049327B11ECA19FD00D0187A /* libCrashReporter-MacOSX-Static.a */; };
 		049327CE1ECA1A5F00D0187A /* libMobileCenterCrashes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0485AFD31EAA887500C10CAF /* libMobileCenterCrashes.a */; };
+		0499F8721EDFAE0B00C3EDDA /* MSErrorAttachmentLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 8024743A1EAE077800AEC284 /* MSErrorAttachmentLog.m */; };
+		0499F8731EDFAE0E00C3EDDA /* MSErrorAttachmentLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 38BD86511E8499EF004E8D7A /* MSErrorAttachmentLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0499F8741EDFAE1800C3EDDA /* MSErrorAttachmentLog+Utility.h in Headers */ = {isa = PBXBuildFile; fileRef = 3858A2171E93F37E00535A69 /* MSErrorAttachmentLog+Utility.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0499F8751EDFAE1D00C3EDDA /* MSErrorAttachmentLog+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 3858A2191E93F3B400535A69 /* MSErrorAttachmentLog+Utility.m */; };
+		0499F8761EDFAE3000C3EDDA /* MSLogWithProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 380B81311E8C540E001C76C9 /* MSLogWithProperties.h */; };
+		0499F8771EDFAE3500C3EDDA /* MSAbstractLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 380B81331E8C565E001C76C9 /* MSAbstractLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		04A140911ECE6625001CEE94 /* libMobileCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04A140901ECE6625001CEE94 /* libMobileCenter.a */; };
 		04BED7231ECB65E100E20975 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04BED7211ECB65DD00E20975 /* OCHamcrest.framework */; };
 		04BED7241ECB65F100E20975 /* OCHamcrestIOS.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6E171AED1D22F7BE000DC480 /* OCHamcrestIOS.framework */; };
@@ -143,7 +144,13 @@
 		35D504CF1DDD140500D58B40 /* MSWrapperExceptionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 35D504CD1DDD140500D58B40 /* MSWrapperExceptionManager.h */; };
 		35D504D01DDD140500D58B40 /* MSWrapperExceptionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D504CE1DDD140500D58B40 /* MSWrapperExceptionManager.m */; };
 		35EF18E01DDBCF6C00731CA8 /* MSWrapperExceptionManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 35EF18DF1DDBCF6C00731CA8 /* MSWrapperExceptionManagerTests.m */; };
+		380B81321E8C540E001C76C9 /* MSLogWithProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 380B81311E8C540E001C76C9 /* MSLogWithProperties.h */; };
+		380B81341E8C565E001C76C9 /* MSAbstractLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 380B81331E8C565E001C76C9 /* MSAbstractLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		382346421E8B3DAD001C3A76 /* MSErrorAttachmentLogInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 382346411E8B3DAD001C3A76 /* MSErrorAttachmentLogInternal.h */; };
+		3858A2181E93F37E00535A69 /* MSErrorAttachmentLog+Utility.h in Headers */ = {isa = PBXBuildFile; fileRef = 3858A2171E93F37E00535A69 /* MSErrorAttachmentLog+Utility.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3858A21A1E93F3B400535A69 /* MSErrorAttachmentLog+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 3858A2191E93F3B400535A69 /* MSErrorAttachmentLog+Utility.m */; };
 		387C77071D6CC41100D68CC1 /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C77061D6CC41100D68CC1 /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		38BD86521E8499EF004E8D7A /* MSErrorAttachmentLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 38BD86511E8499EF004E8D7A /* MSErrorAttachmentLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38D4BBA31D5A9962001A30A0 /* ../MobileCenter/MobileCenter/MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 38D4BBA21D5A9962001A30A0 /* ../MobileCenter/MobileCenter/MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5949328B0C188C5B6624AAC2 /* MSCrashesUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 59493B275715F01438B2E6FD /* MSCrashesUtilTests.m */; };
 		6E0401541D1C9A4F0051BCFA /* MSCrashes.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6E0401501D1C9A4F0051BCFA /* MSCrashes.mm */; };
@@ -181,17 +188,15 @@
 		6EC99A3B1D416CCF0016C325 /* live_report_signal_marketing.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A341D416CCF0016C325 /* live_report_signal_marketing.plcrash */; };
 		6EC99A3C1D416CCF0016C325 /* live_report_xamarin.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A351D416CCF0016C325 /* live_report_xamarin.plcrash */; };
 		6EC99A3D1D416CCF0016C325 /* log_report_xamarin in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A361D416CCF0016C325 /* log_report_xamarin */; };
+		8024743B1EAE077800AEC284 /* MSErrorAttachmentLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 8024743A1EAE077800AEC284 /* MSErrorAttachmentLog.m */; };
 		B24F3F0F1D93368F00827213 /* MSErrorLogFormatterTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = B24F3F0E1D93368F00827213 /* MSErrorLogFormatterTests.mm */; };
 		B24F3F121D9341BC00827213 /* MSErrorLogFormatterPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = B24F3F101D93417B00827213 /* MSErrorLogFormatterPrivate.h */; };
 		B2A0A71C1D9C2AE700729A58 /* MSCrashesTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = B2A0A71B1D9C2AE700729A58 /* MSCrashesTestUtil.m */; };
 		B2CD3BF91D80EE49000A8A91 /* MSAbstractErrorLog.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD3BF71D80EE49000A8A91 /* MSAbstractErrorLog.h */; };
 		B2CD3BFA1D80EE49000A8A91 /* MSAbstractErrorLog.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD3BF81D80EE49000A8A91 /* MSAbstractErrorLog.m */; };
 		B2DCB1361DAC03C400120F87 /* MSCrashesDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = B2DCB1351DAC03C400120F87 /* MSCrashesDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B2F120D31D6546560060DED7 /* MSBinaryAttachmentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120D21D6546560060DED7 /* MSBinaryAttachmentTests.m */; };
-		B2F120D51D6546740060DED7 /* MSErrorAttachmentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120D41D6546740060DED7 /* MSErrorAttachmentTests.m */; };
+		B2F120D51D6546740060DED7 /* MSErrorAttachmentLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120D41D6546740060DED7 /* MSErrorAttachmentLogTests.m */; };
 		B2F120D71D65469D0060DED7 /* MSErrorReportTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120D61D65469D0060DED7 /* MSErrorReportTests.m */; };
-		B2F120E11D657CF10060DED7 /* MSErrorBinaryAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120DB1D657CF10060DED7 /* MSErrorBinaryAttachment.m */; };
-		B2F120E31D657CF10060DED7 /* MSErrorAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120DD1D657CF10060DED7 /* MSErrorAttachment.m */; };
 		B2F120E41D657CF10060DED7 /* MSErrorReport.h in Headers */ = {isa = PBXBuildFile; fileRef = B2F120DE1D657CF10060DED7 /* MSErrorReport.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B2F120E51D657CF10060DED7 /* MSErrorReport.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120DF1D657CF10060DED7 /* MSErrorReport.m */; };
 		B2F120E71D657F4F0060DED7 /* MSErrorReportPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = B2F120E61D657F4F0060DED7 /* MSErrorReportPrivate.h */; };
@@ -199,8 +204,6 @@
 		B2F3750A1D41AD5100F07032 /* MSErrorLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F375081D41AD5100F07032 /* MSErrorLogFormatter.m */; };
 		B2FF130C1DD12F61003DC677 /* MSAppleErrorLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FF130B1DD12F61003DC677 /* MSAppleErrorLogTests.m */; };
 		BA682CFA6F4C5A8841507CF7 /* MSMockCrashesDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BA68266A68B7F21A86A093B0 /* MSMockCrashesDelegate.m */; };
-		D38024031E71264600466558 /* MSErrorAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = D38024011E71264600466558 /* MSErrorAttachment.h */; };
-		D38024041E71264600466558 /* MSErrorBinaryAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = D38024021E71264600466558 /* MSErrorBinaryAttachment.h */; };
 		E8AEE9861D59744D00C0FF6C /* MSLogManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E8AEE9851D59744D00C0FF6C /* MSLogManager.h */; };
 		F851DAED1E81867D00525570 /* MSCrashesCXXExceptionTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = F851DAEC1E81867D00525570 /* MSCrashesCXXExceptionTests.mm */; };
 		F859D1051E549B45008B2D8E /* live_report_bad_ptr.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D0F41E549B45008B2D8E /* live_report_bad_ptr.plcrash */; };
@@ -334,8 +337,14 @@
 		35D504CD1DDD140500D58B40 /* MSWrapperExceptionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSWrapperExceptionManager.h; sourceTree = "<group>"; };
 		35D504CE1DDD140500D58B40 /* MSWrapperExceptionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSWrapperExceptionManager.m; sourceTree = "<group>"; };
 		35EF18DF1DDBCF6C00731CA8 /* MSWrapperExceptionManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSWrapperExceptionManagerTests.m; sourceTree = "<group>"; };
+		380B81311E8C540E001C76C9 /* MSLogWithProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSLogWithProperties.h; path = ../MobileCenter/MobileCenter/Model/MSLogWithProperties.h; sourceTree = "<group>"; };
+		380B81331E8C565E001C76C9 /* MSAbstractLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSAbstractLog.h; path = ../MobileCenter/MobileCenter/Model/MSAbstractLog.h; sourceTree = "<group>"; };
+		382346411E8B3DAD001C3A76 /* MSErrorAttachmentLogInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSErrorAttachmentLogInternal.h; sourceTree = "<group>"; };
 		3856B47D1E032EC50016AB05 /* Global.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Global.xcconfig; path = ../../../Global.xcconfig; sourceTree = "<group>"; };
+		3858A2171E93F37E00535A69 /* MSErrorAttachmentLog+Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MSErrorAttachmentLog+Utility.h"; sourceTree = "<group>"; };
+		3858A2191E93F3B400535A69 /* MSErrorAttachmentLog+Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MSErrorAttachmentLog+Utility.m"; sourceTree = "<group>"; };
 		387C77061D6CC41100D68CC1 /* MSServiceAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSServiceAbstract.h; path = ../MobileCenter/MobileCenter/MSServiceAbstract.h; sourceTree = "<group>"; };
+		38BD86511E8499EF004E8D7A /* MSErrorAttachmentLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSErrorAttachmentLog.h; sourceTree = "<group>"; };
 		38D4BBA21D5A9962001A30A0 /* ../MobileCenter/MobileCenter/MSService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ../MobileCenter/MobileCenter/MSService.h; sourceTree = "<group>"; };
 		59493B275715F01438B2E6FD /* MSCrashesUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCrashesUtilTests.m; sourceTree = "<group>"; };
 		6E0401331D1C98690051BCFA /* libMobileCenterCrashes.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMobileCenterCrashes.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -377,6 +386,7 @@
 		6EC99A341D416CCF0016C325 /* live_report_signal_marketing.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_signal_marketing.plcrash; sourceTree = "<group>"; };
 		6EC99A351D416CCF0016C325 /* live_report_xamarin.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_xamarin.plcrash; sourceTree = "<group>"; };
 		6EC99A361D416CCF0016C325 /* log_report_xamarin */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = log_report_xamarin; sourceTree = "<group>"; };
+		8024743A1EAE077800AEC284 /* MSErrorAttachmentLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSErrorAttachmentLog.m; sourceTree = "<group>"; };
 		B24F3F0E1D93368F00827213 /* MSErrorLogFormatterTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MSErrorLogFormatterTests.mm; sourceTree = "<group>"; };
 		B24F3F101D93417B00827213 /* MSErrorLogFormatterPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSErrorLogFormatterPrivate.h; sourceTree = "<group>"; };
 		B2A0A71A1D9C2AE700729A58 /* MSCrashesTestUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrashesTestUtil.h; sourceTree = "<group>"; };
@@ -384,11 +394,8 @@
 		B2CD3BF71D80EE49000A8A91 /* MSAbstractErrorLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAbstractErrorLog.h; sourceTree = "<group>"; };
 		B2CD3BF81D80EE49000A8A91 /* MSAbstractErrorLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAbstractErrorLog.m; sourceTree = "<group>"; };
 		B2DCB1351DAC03C400120F87 /* MSCrashesDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrashesDelegate.h; sourceTree = "<group>"; };
-		B2F120D21D6546560060DED7 /* MSBinaryAttachmentTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSBinaryAttachmentTests.m; sourceTree = "<group>"; };
-		B2F120D41D6546740060DED7 /* MSErrorAttachmentTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSErrorAttachmentTests.m; sourceTree = "<group>"; };
+		B2F120D41D6546740060DED7 /* MSErrorAttachmentLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSErrorAttachmentLogTests.m; sourceTree = "<group>"; };
 		B2F120D61D65469D0060DED7 /* MSErrorReportTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSErrorReportTests.m; sourceTree = "<group>"; };
-		B2F120DB1D657CF10060DED7 /* MSErrorBinaryAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSErrorBinaryAttachment.m; sourceTree = "<group>"; };
-		B2F120DD1D657CF10060DED7 /* MSErrorAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSErrorAttachment.m; sourceTree = "<group>"; };
 		B2F120DE1D657CF10060DED7 /* MSErrorReport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSErrorReport.h; path = Internals/Model/MSErrorReport.h; sourceTree = "<group>"; };
 		B2F120DF1D657CF10060DED7 /* MSErrorReport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSErrorReport.m; sourceTree = "<group>"; };
 		B2F120E61D657F4F0060DED7 /* MSErrorReportPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSErrorReportPrivate.h; sourceTree = "<group>"; };
@@ -397,8 +404,6 @@
 		B2FF130B1DD12F61003DC677 /* MSAppleErrorLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAppleErrorLogTests.m; sourceTree = "<group>"; };
 		BA68266A68B7F21A86A093B0 /* MSMockCrashesDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSMockCrashesDelegate.m; sourceTree = "<group>"; };
 		BA6829F386854E39B92F77C4 /* MSMockCrashesDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSMockCrashesDelegate.h; sourceTree = "<group>"; };
-		D38024011E71264600466558 /* MSErrorAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSErrorAttachment.h; sourceTree = "<group>"; };
-		D38024021E71264600466558 /* MSErrorBinaryAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSErrorBinaryAttachment.h; sourceTree = "<group>"; };
 		E8AEE9851D59744D00C0FF6C /* MSLogManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSLogManager.h; path = ../MobileCenter/MobileCenter/Internals/Channel/MSLogManager.h; sourceTree = "<group>"; };
 		F851DAEC1E81867D00525570 /* MSCrashesCXXExceptionTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MSCrashesCXXExceptionTests.mm; sourceTree = "<group>"; };
 		F859D0F41E549B45008B2D8E /* live_report_bad_ptr.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_bad_ptr.plcrash; sourceTree = "<group>"; };
@@ -584,8 +589,10 @@
 		6E04012A1D1C98690051BCFA = {
 			isa = PBXGroup;
 			children = (
-				387C77061D6CC41100D68CC1 /* MSServiceAbstract.h */,
+				380B81331E8C565E001C76C9 /* MSAbstractLog.h */,
 				E8AEE9851D59744D00C0FF6C /* MSLogManager.h */,
+				380B81311E8C540E001C76C9 /* MSLogWithProperties.h */,
+				387C77061D6CC41100D68CC1 /* MSServiceAbstract.h */,
 				6E0401351D1C98690051BCFA /* MobileCenterCrashes */,
 				6E171AE21D22F781000DC480 /* MobileCenterCrashesTests */,
 				6EC99A221D4151C60016C325 /* Vendor */,
@@ -644,10 +651,9 @@
 				6E171AE51D22F781000DC480 /* Info.plist */,
 				6E7D5C811D3EC06C009EC9AC /* MSConstants.h */,
 				B2FF130B1DD12F61003DC677 /* MSAppleErrorLogTests.m */,
-				B2F120D21D6546560060DED7 /* MSBinaryAttachmentTests.m */,
+				B2F120D41D6546740060DED7 /* MSErrorAttachmentLogTests.m */,
 				6E7D5C7F1D3EAEB5009EC9AC /* MSBinaryTests.m */,
 				59493B275715F01438B2E6FD /* MSCrashesUtilTests.m */,
-				B2F120D41D6546740060DED7 /* MSErrorAttachmentTests.m */,
 				B2F120D61D65469D0060DED7 /* MSErrorReportTests.m */,
 				6E7D5C891D3EC504009EC9AC /* MSExceptionTests.m */,
 				6E7D5C861D3EC332009EC9AC /* MSStackFrameTests.m */,
@@ -702,6 +708,7 @@
 		6E7D5C641D3E92B1009EC9AC /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				382346411E8B3DAD001C3A76 /* MSErrorAttachmentLogInternal.h */,
 				3507AE3A1DD14C240030878F /* MSException.h */,
 				6E7D5C6E1D3E9346009EC9AC /* MSException.m */,
 				3507AE3B1DD14C240030878F /* MSStackFrame.h */,
@@ -712,10 +719,6 @@
 				6E7D5C661D3E9321009EC9AC /* MSBinary.m */,
 				6E7D5C691D3E9332009EC9AC /* MSAppleErrorLog.h */,
 				6E7D5C6A1D3E9332009EC9AC /* MSAppleErrorLog.m */,
-				044C45F81DB6EA0C00F3C29E /* MSErrorAttachmentPrivate.h */,
-				B2F120DD1D657CF10060DED7 /* MSErrorAttachment.m */,
-				044C45FA1DB6EC1C00F3C29E /* MSErrorBinaryAttachmentPrivate.h */,
-				B2F120DB1D657CF10060DED7 /* MSErrorBinaryAttachment.m */,
 				B2F120DF1D657CF10060DED7 /* MSErrorReport.m */,
 				B2F120E61D657F4F0060DED7 /* MSErrorReportPrivate.h */,
 				6E7D5C711D3E9381009EC9AC /* MSThread.h */,
@@ -751,8 +754,10 @@
 		D38024001E7125F500466558 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				D38024011E71264600466558 /* MSErrorAttachment.h */,
-				D38024021E71264600466558 /* MSErrorBinaryAttachment.h */,
+				38BD86511E8499EF004E8D7A /* MSErrorAttachmentLog.h */,
+				8024743A1EAE077800AEC284 /* MSErrorAttachmentLog.m */,
+				3858A2171E93F37E00535A69 /* MSErrorAttachmentLog+Utility.h */,
+				3858A2191E93F3B400535A69 /* MSErrorAttachmentLog+Utility.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -801,13 +806,17 @@
 				0485AFBF1EAA887500C10CAF /* MSErrorReportPrivate.h in Headers */,
 				0485AFC01EAA887500C10CAF /* MSAppleErrorLog.h in Headers */,
 				0485AFC11EAA887500C10CAF /* MSThread.h in Headers */,
+				0499F8761EDFAE3000C3EDDA /* MSLogWithProperties.h in Headers */,
 				0485AFC21EAA887500C10CAF /* MSCrashesUtil.h in Headers */,
 				0485AFC41EAA887500C10CAF /* MSAbstractErrorLog.h in Headers */,
 				0485AFC51EAA887500C10CAF /* MSCrashesInternal.h in Headers */,
+				0499F8731EDFAE0E00C3EDDA /* MSErrorAttachmentLog.h in Headers */,
 				0485AFC61EAA887500C10CAF /* MSException.h in Headers */,
 				0485AFC71EAA887500C10CAF /* MSServiceAbstract.h in Headers */,
 				0485AFC81EAA887500C10CAF /* MSErrorLogFormatterPrivate.h in Headers */,
+				0499F8741EDFAE1800C3EDDA /* MSErrorAttachmentLog+Utility.h in Headers */,
 				0485AFC91EAA887500C10CAF /* MobileCenter+Internal.h in Headers */,
+				0499F8771EDFAE3500C3EDDA /* MSAbstractLog.h in Headers */,
 				0485AFCA1EAA887500C10CAF /* MSCrashesCXXExceptionWrapperException.h in Headers */,
 				0485AFCB1EAA887500C10CAF /* MSCrashesCXXExceptionHandler.h in Headers */,
 				0485AFCC1EAA887500C10CAF /* ../MobileCenter/MobileCenter/MSService.h in Headers */,
@@ -822,23 +831,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				35D504CF1DDD140500D58B40 /* MSWrapperExceptionManager.h in Headers */,
-				044C45FB1DB6EC1C00F3C29E /* MSErrorBinaryAttachmentPrivate.h in Headers */,
 				3507AE3E1DD14C240030878F /* MSStackFrame.h in Headers */,
 				E8AEE9861D59744D00C0FF6C /* MSLogManager.h in Headers */,
 				6E7D5C671D3E9321009EC9AC /* MSBinary.h in Headers */,
 				6E0401761D1C9E750051BCFA /* MSCrashes.h in Headers */,
 				B2F120E41D657CF10060DED7 /* MSErrorReport.h in Headers */,
 				35B7D87A1DE4D4A300C846CD /* MSWrapperExceptionManagerInternal.h in Headers */,
-				D38024031E71264600466558 /* MSErrorAttachment.h in Headers */,
 				6E0401751D1C9E750051BCFA /* MobileCenterCrashes.h in Headers */,
+				38BD86521E8499EF004E8D7A /* MSErrorAttachmentLog.h in Headers */,
 				B2F375091D41AD5100F07032 /* MSErrorLogFormatter.h in Headers */,
 				B2F120E71D657F4F0060DED7 /* MSErrorReportPrivate.h in Headers */,
+				380B81341E8C565E001C76C9 /* MSAbstractLog.h in Headers */,
 				6E7D5C6B1D3E9332009EC9AC /* MSAppleErrorLog.h in Headers */,
 				6E7D5C731D3E9381009EC9AC /* MSThread.h in Headers */,
+				382346421E8B3DAD001C3A76 /* MSErrorAttachmentLogInternal.h in Headers */,
 				6E73FE6F1D4032AB008CDC15 /* MSCrashesUtil.h in Headers */,
-				D38024041E71264600466558 /* MSErrorBinaryAttachment.h in Headers */,
 				B2CD3BF91D80EE49000A8A91 /* MSAbstractErrorLog.h in Headers */,
 				3515F9C11DD63EC9005E6E27 /* MSCrashesInternal.h in Headers */,
+				3858A2181E93F37E00535A69 /* MSErrorAttachmentLog+Utility.h in Headers */,
 				3507AE3D1DD14C240030878F /* MSException.h in Headers */,
 				387C77071D6CC41100D68CC1 /* MSServiceAbstract.h in Headers */,
 				B24F3F121D9341BC00827213 /* MSErrorLogFormatterPrivate.h in Headers */,
@@ -846,7 +856,7 @@
 				6E73FE731D4059E7008CDC15 /* MSCrashesCXXExceptionWrapperException.h in Headers */,
 				6E73FE6A1D402F79008CDC15 /* MSCrashesCXXExceptionHandler.h in Headers */,
 				38D4BBA31D5A9962001A30A0 /* ../MobileCenter/MobileCenter/MSService.h in Headers */,
-				044C45F91DB6EA0C00F3C29E /* MSErrorAttachmentPrivate.h in Headers */,
+				380B81321E8C540E001C76C9 /* MSLogWithProperties.h in Headers */,
 				B2DCB1361DAC03C400120F87 /* MSCrashesDelegate.h in Headers */,
 				6E0401781D1C9EBE0051BCFA /* MSCrashesPrivate.h in Headers */,
 			);
@@ -1097,12 +1107,12 @@
 				0485AFA21EAA887500C10CAF /* MSCrashesCXXExceptionHandler.mm in Sources */,
 				0485AFA31EAA887500C10CAF /* MSAbstractErrorLog.m in Sources */,
 				0485AFA41EAA887500C10CAF /* MSException.m in Sources */,
-				0485AFA51EAA887500C10CAF /* MSErrorAttachment.m in Sources */,
+				0499F8751EDFAE1D00C3EDDA /* MSErrorAttachmentLog+Utility.m in Sources */,
 				0485AFA61EAA887500C10CAF /* MSCrashesCXXExceptionWrapperException.m in Sources */,
+				0499F8721EDFAE0B00C3EDDA /* MSErrorAttachmentLog.m in Sources */,
 				0485AFA71EAA887500C10CAF /* MSAppleErrorLog.m in Sources */,
 				0485AFA81EAA887500C10CAF /* MSStackFrame.m in Sources */,
 				0485AFA91EAA887500C10CAF /* MSThread.m in Sources */,
-				0485AFAA1EAA887500C10CAF /* MSErrorBinaryAttachment.m in Sources */,
 				0485AFAB1EAA887500C10CAF /* MSCrashes.mm in Sources */,
 				0485AFAC1EAA887500C10CAF /* MSErrorLogFormatter.m in Sources */,
 				0485AFAD1EAA887500C10CAF /* MSWrapperExceptionManager.m in Sources */,
@@ -1125,9 +1135,8 @@
 				0493276C1ECA170D00D0187A /* MSErrorLogFormatterTests.mm in Sources */,
 				0493276D1ECA170D00D0187A /* MSCrashesTestUtil.m in Sources */,
 				0493276E1ECA170D00D0187A /* MSBinaryTests.m in Sources */,
-				0493276F1ECA170D00D0187A /* MSBinaryAttachmentTests.m in Sources */,
 				049327701ECA170D00D0187A /* MSWrapperExceptionManagerTests.m in Sources */,
-				049327711ECA170D00D0187A /* MSErrorAttachmentTests.m in Sources */,
+				049327711ECA170D00D0187A /* MSErrorAttachmentLogTests.m in Sources */,
 				049327721ECA170D00D0187A /* MSMockCrashesDelegate.m in Sources */,
 				049327731ECA170D00D0187A /* MSCrashesUtilTests.m in Sources */,
 			);
@@ -1140,13 +1149,13 @@
 				B2F120E51D657CF10060DED7 /* MSErrorReport.m in Sources */,
 				6E73FE6B1D402F79008CDC15 /* MSCrashesCXXExceptionHandler.mm in Sources */,
 				B2CD3BFA1D80EE49000A8A91 /* MSAbstractErrorLog.m in Sources */,
+				3858A21A1E93F3B400535A69 /* MSErrorAttachmentLog+Utility.m in Sources */,
 				6E7D5C701D3E9346009EC9AC /* MSException.m in Sources */,
-				B2F120E31D657CF10060DED7 /* MSErrorAttachment.m in Sources */,
 				6E73FE741D4059E7008CDC15 /* MSCrashesCXXExceptionWrapperException.m in Sources */,
 				6E7D5C6C1D3E9332009EC9AC /* MSAppleErrorLog.m in Sources */,
 				6E7D5C781D3E9395009EC9AC /* MSStackFrame.m in Sources */,
+				8024743B1EAE077800AEC284 /* MSErrorAttachmentLog.m in Sources */,
 				6E7D5C741D3E9381009EC9AC /* MSThread.m in Sources */,
-				B2F120E11D657CF10060DED7 /* MSErrorBinaryAttachment.m in Sources */,
 				6E0401541D1C9A4F0051BCFA /* MSCrashes.mm in Sources */,
 				B2F3750A1D41AD5100F07032 /* MSErrorLogFormatter.m in Sources */,
 				35D504D01DDD140500D58B40 /* MSWrapperExceptionManager.m in Sources */,
@@ -1169,9 +1178,8 @@
 				B24F3F0F1D93368F00827213 /* MSErrorLogFormatterTests.mm in Sources */,
 				B2A0A71C1D9C2AE700729A58 /* MSCrashesTestUtil.m in Sources */,
 				6E7D5C801D3EAEB5009EC9AC /* MSBinaryTests.m in Sources */,
-				B2F120D31D6546560060DED7 /* MSBinaryAttachmentTests.m in Sources */,
 				35EF18E01DDBCF6C00731CA8 /* MSWrapperExceptionManagerTests.m in Sources */,
-				B2F120D51D6546740060DED7 /* MSErrorAttachmentTests.m in Sources */,
+				B2F120D51D6546740060DED7 /* MSErrorAttachmentLogTests.m in Sources */,
 				BA682CFA6F4C5A8841507CF7 /* MSMockCrashesDelegate.m in Sources */,
 				5949328B0C188C5B6624AAC2 /* MSCrashesUtilTests.m in Sources */,
 			);

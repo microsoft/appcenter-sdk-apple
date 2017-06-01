@@ -1,6 +1,7 @@
+#if TARGET_OS_IPHONE
+// TODO: CoreTelephony is also available in macOS SDK.
 #import <CoreTelephony/CTCarrier.h>
 #import <CoreTelephony/CTTelephonyNetworkInfo.h>
-#if TARGET_OS_IPHONE
 #import <UIKit/UIKit.h>
 #else
 #import <AppKit/AppKit.h>

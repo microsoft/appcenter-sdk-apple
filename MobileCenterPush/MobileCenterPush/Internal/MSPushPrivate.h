@@ -2,11 +2,18 @@
 #import "MSPushDelegate.h"
 #import "MSServiceInternal.h"
 
+@protocol MSAppDelegate;
+
 @interface MSPush ()
 
 @property(nonatomic) id<MSPushDelegate> delegate;
 
 @property(nonatomic) BOOL pushTokenHasBeenSent;
+
+/**
+ * Custom application delegate dedicated to Push.
+ */
+@property(nonatomic) id<MSAppDelegate> appDelegate;
 
 /**
  * Method to reset the singleton when running unit tests only. So calling sharedInstance returns a fresh instance.

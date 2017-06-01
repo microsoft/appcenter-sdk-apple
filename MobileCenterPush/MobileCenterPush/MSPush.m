@@ -1,6 +1,9 @@
 #import <UserNotifications/UserNotifications.h>
+
+#import "MSAppDelegateForwarder.h"
 #import "MSMobileCenterInternal.h"
 #import "MSPush.h"
+#import "MSPushAppDelegate.h"
 #import "MSPushLog.h"
 #import "MSPushNotificationInternal.h"
 #import "MSPushPrivate.h"
@@ -46,6 +49,7 @@ static dispatch_once_t onceToken;
 
     // Init channel configuration.
     _channelConfiguration = [[MSChannelConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
+    _appDelegate = [MSPushAppDelegate new];
   }
   return self;
 }
@@ -101,11 +105,13 @@ static dispatch_once_t onceToken;
 - (void)applyEnabledState:(BOOL)isEnabled {
   [super applyEnabledState:isEnabled];
   if (isEnabled) {
-    MSLogInfo([MSPush logTag], @"Push service has been enabled.");
+    [MSAppDelegateForwarder addDelegate:self.appDelegate];
     if (!self.pushTokenHasBeenSent) {
       [self registerForRemoteNotifications];
     }
+    MSLogInfo([MSPush logTag], @"Push service has been enabled.");
   } else {
+    [MSAppDelegateForwarder removeDelegate:self.appDelegate];
     MSLogInfo([MSPush logTag], @"Push service has been disabled.");
   }
 }
