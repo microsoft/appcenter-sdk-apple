@@ -1,21 +1,12 @@
-#import <Foundation/Foundation.h>
-#if TARGET_OS_IPHONE
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#else
-#import <OCHamcrest/OCHamcrest.h>
-#endif
-#import <OCMock/OCMock.h>
-#import <XCTest/XCTest.h>
-
-#import "MSMobileCenter.h"
-#import "MSServiceAbstract.h"
-#import "MSServiceInternal.h"
-
 #import "MSAnalytics.h"
 #import "MSAnalyticsPrivate.h"
 #import "MSAnalyticsInternal.h"
-#import "MSMockAnalyticsDelegate.h"
 #import "MSEventLog.h"
+#import "MSMobileCenter.h"
+#import "MSMockAnalyticsDelegate.h"
+#import "MSServiceAbstract.h"
+#import "MSServiceInternal.h"
+#import "MSTestFrameworks.h"
 
 static NSString *const kMSTypeEvent = @"event";
 static NSString *const kMSTypePage = @"page";
