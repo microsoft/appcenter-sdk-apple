@@ -38,6 +38,8 @@ static NSString *const kMSAnalyzerFilename = @"MSCrashes.analyzer";
  */
 static NSString *const kMSLogBufferFileExtension = @"mscrasheslogbuffer";
 
+static unsigned int kMaxAttachmentsPerCrashReport = 2;
+
 std::array<MSCrashesBufferedLog, ms_crashes_log_buffer_size> msCrashesLogBuffer;
 
 #pragma mark - Callbacks Setup
@@ -188,6 +190,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     // Get error attachments.
     if ([crashes delegateImplementsAttachmentCallback]) {
       attachments = [crashes.delegate attachmentsWithCrashes:crashes forErrorReport:report];
+      if (attachments.count > kMaxAttachmentsPerCrashReport) {
+        MSLogWarning([MSCrashes logTag], @"A limit of %ul attachments per error report might be enforced by server.", kMaxAttachmentsPerCrashReport);
+      }
     } else {
       MSLogDebug([MSCrashes logTag], @"attachmentsWithCrashes is not implemented");
     }
