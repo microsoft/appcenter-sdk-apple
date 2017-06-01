@@ -52,12 +52,10 @@
 		0485AFA21EAA887500C10CAF /* MSCrashesCXXExceptionHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6E73FE691D402F79008CDC15 /* MSCrashesCXXExceptionHandler.mm */; };
 		0485AFA31EAA887500C10CAF /* MSAbstractErrorLog.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD3BF81D80EE49000A8A91 /* MSAbstractErrorLog.m */; };
 		0485AFA41EAA887500C10CAF /* MSException.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C6E1D3E9346009EC9AC /* MSException.m */; };
-		0485AFA51EAA887500C10CAF /* (null) in Sources */ = {isa = PBXBuildFile; };
 		0485AFA61EAA887500C10CAF /* MSCrashesCXXExceptionWrapperException.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E73FE721D4059E7008CDC15 /* MSCrashesCXXExceptionWrapperException.m */; };
 		0485AFA71EAA887500C10CAF /* MSAppleErrorLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C6A1D3E9332009EC9AC /* MSAppleErrorLog.m */; };
 		0485AFA81EAA887500C10CAF /* MSStackFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C761D3E9395009EC9AC /* MSStackFrame.m */; };
 		0485AFA91EAA887500C10CAF /* MSThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C721D3E9381009EC9AC /* MSThread.m */; };
-		0485AFAA1EAA887500C10CAF /* (null) in Sources */ = {isa = PBXBuildFile; };
 		0485AFAB1EAA887500C10CAF /* MSCrashes.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6E0401501D1C9A4F0051BCFA /* MSCrashes.mm */; };
 		0485AFAC1EAA887500C10CAF /* MSErrorLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F375081D41AD5100F07032 /* MSErrorLogFormatter.m */; };
 		0485AFAD1EAA887500C10CAF /* MSWrapperExceptionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D504CE1DDD140500D58B40 /* MSWrapperExceptionManager.m */; };
@@ -99,7 +97,6 @@
 		0493276C1ECA170D00D0187A /* MSErrorLogFormatterTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = B24F3F0E1D93368F00827213 /* MSErrorLogFormatterTests.mm */; };
 		0493276D1ECA170D00D0187A /* MSCrashesTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = B2A0A71B1D9C2AE700729A58 /* MSCrashesTestUtil.m */; };
 		0493276E1ECA170D00D0187A /* MSBinaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C7F1D3EAEB5009EC9AC /* MSBinaryTests.m */; };
-		0493276F1ECA170D00D0187A /* (null) in Sources */ = {isa = PBXBuildFile; };
 		049327701ECA170D00D0187A /* MSWrapperExceptionManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 35EF18DF1DDBCF6C00731CA8 /* MSWrapperExceptionManagerTests.m */; };
 		049327711ECA170D00D0187A /* MSErrorAttachmentLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120D41D6546740060DED7 /* MSErrorAttachmentLogTests.m */; };
 		049327721ECA170D00D0187A /* MSMockCrashesDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BA68266A68B7F21A86A093B0 /* MSMockCrashesDelegate.m */; };
@@ -1110,14 +1107,12 @@
 				0485AFA21EAA887500C10CAF /* MSCrashesCXXExceptionHandler.mm in Sources */,
 				0485AFA31EAA887500C10CAF /* MSAbstractErrorLog.m in Sources */,
 				0485AFA41EAA887500C10CAF /* MSException.m in Sources */,
-				0485AFA51EAA887500C10CAF /* (null) in Sources */,
 				0499F8751EDFAE1D00C3EDDA /* MSErrorAttachmentLog+Utility.m in Sources */,
 				0485AFA61EAA887500C10CAF /* MSCrashesCXXExceptionWrapperException.m in Sources */,
 				0499F8721EDFAE0B00C3EDDA /* MSErrorAttachmentLog.m in Sources */,
 				0485AFA71EAA887500C10CAF /* MSAppleErrorLog.m in Sources */,
 				0485AFA81EAA887500C10CAF /* MSStackFrame.m in Sources */,
 				0485AFA91EAA887500C10CAF /* MSThread.m in Sources */,
-				0485AFAA1EAA887500C10CAF /* (null) in Sources */,
 				0485AFAB1EAA887500C10CAF /* MSCrashes.mm in Sources */,
 				0485AFAC1EAA887500C10CAF /* MSErrorLogFormatter.m in Sources */,
 				0485AFAD1EAA887500C10CAF /* MSWrapperExceptionManager.m in Sources */,
@@ -1140,7 +1135,6 @@
 				0493276C1ECA170D00D0187A /* MSErrorLogFormatterTests.mm in Sources */,
 				0493276D1ECA170D00D0187A /* MSCrashesTestUtil.m in Sources */,
 				0493276E1ECA170D00D0187A /* MSBinaryTests.m in Sources */,
-				0493276F1ECA170D00D0187A /* (null) in Sources */,
 				049327701ECA170D00D0187A /* MSWrapperExceptionManagerTests.m in Sources */,
 				049327711ECA170D00D0187A /* MSErrorAttachmentLogTests.m in Sources */,
 				049327721ECA170D00D0187A /* MSMockCrashesDelegate.m in Sources */,
