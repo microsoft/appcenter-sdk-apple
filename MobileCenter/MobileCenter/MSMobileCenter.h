@@ -96,6 +96,7 @@
  */
 + (void)setWrapperSdk:(MSWrapperSdk *)wrapperSdk;
 
+#if TARGET_OS_IPHONE
 /**
  * Check whether the application delegate forwarder is enabled or not.
  *
@@ -110,6 +111,9 @@
  * file and set it to `0`. Then you will have to forward any application delegate needed by the SDK manually.
  */
 + (BOOL)isAppDelegateForwarderEnabled;
+#else
+// TODO: ApplicationDelegate is not yet implemented for macOS.
+#endif
 
 /**
  * Get unique installation identifier.
