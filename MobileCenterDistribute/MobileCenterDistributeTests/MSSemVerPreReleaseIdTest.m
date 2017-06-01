@@ -1,7 +1,5 @@
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <XCTest/XCTest.h>
-
 #import "MSSemVerPreReleaseId.h"
+#import "MSTestFrameworks.h"
 
 @interface MSSemVerPreReleaseIdTests : XCTestCase
 

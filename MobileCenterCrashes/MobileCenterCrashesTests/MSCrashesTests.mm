@@ -1,12 +1,3 @@
-#import <Foundation/Foundation.h>
-#if TARGET_OS_IPHONE
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#else
-#import <OCHamcrest/OCHamcrest.h>
-#endif
-#import <OCMock/OCMock.h>
-#import <XCTest/XCTest.h>
-
 #import "MSAppleErrorLog.h"
 #import "MSCrashesDelegate.h"
 #import "MSCrashesInternal.h"
@@ -17,6 +8,7 @@
 #import "MSMockCrashesDelegate.h"
 #import "MSServiceAbstractPrivate.h"
 #import "MSServiceAbstractProtected.h"
+#import "MSTestFrameworks.h"
 #import "MSWrapperExceptionManagerInternal.h"
 
 @class MSMockCrashesDelegate;

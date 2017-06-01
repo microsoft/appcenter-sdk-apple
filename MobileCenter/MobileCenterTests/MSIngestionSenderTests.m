@@ -1,12 +1,3 @@
-#import <Foundation/Foundation.h>
-#if TARGET_OS_IPHONE
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#else
-#import <OCHamcrest/OCHamcrest.h>
-#endif
-#import <OCMock/OCMock.h>
-#import <XCTest/XCTest.h>
-
 #import "MSDevice.h"
 #import "MSDeviceInternal.h"
 #import "MSHttpSenderPrivate.h"
@@ -16,6 +7,7 @@
 #import "MSMockLog.h"
 #import "MSSenderCall.h"
 #import "MSSenderDelegate.h"
+#import "MSTestFrameworks.h"
 #import "MobileCenter+Internal.h"
 
 static NSTimeInterval const kMSTestTimeout = 5.0;

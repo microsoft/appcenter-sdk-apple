@@ -1,11 +1,9 @@
-#import <OCMock/OCMock.h>
-#import <XCTest/XCTest.h>
-
 #import "MSAnalytics.h"
 #import "MSConstants+Internal.h"
 #import "MSSessionTracker.h"
 #import "MSSessionTrackerUtil.h"
 #import "MSStartSessionLog.h"
+#import "MSTestFrameworks.h"
 
 static NSTimeInterval const kMSTestSessionTimeout = 1.5;
 

@@ -1,17 +1,9 @@
-#import <Foundation/Foundation.h>
-#if TARGET_OS_IPHONE
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#else
-#import <OCHamcrest/OCHamcrest.h>
-#endif
-#import <OCMock/OCMock.h>
-#import <XCTest/XCTest.h>
-
 #import "MSAbstractLogInternal.h"
 #import "MSFile.h"
 #import "MSFileStorage.h"
 #import "MSFileUtil.h"
 #import "MSStorageTestUtil.h"
+#import "MSTestFrameworks.h"
 
 @interface MSFileStorageTests : XCTestCase
 

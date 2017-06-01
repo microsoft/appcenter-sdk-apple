@@ -1,14 +1,7 @@
-#import <Foundation/Foundation.h>
-#if TARGET_OS_IPHONE
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#else
-#import <OCHamcrest/OCHamcrest.h>
-#endif
-#import <XCTest/XCTest.h>
-
 #import "MSErrorReportPrivate.h"
 #import "MSDevice.h"
 #import "MSDeviceInternal.h"
+#import "MSTestFrameworks.h"
 #import "MSWrapperSdkInternal.h"
 
 @interface MSErrorReportTests : XCTestCase

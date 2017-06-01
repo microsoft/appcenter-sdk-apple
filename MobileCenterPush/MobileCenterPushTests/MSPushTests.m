@@ -1,7 +1,3 @@
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <OCMock/OCMock.h>
-#import <XCTest/XCTest.h>
-
 #import "MSService.h"
 #import "MSServiceAbstract.h"
 #import "MSServiceInternal.h"
@@ -10,6 +6,7 @@
 #import "MSPushNotification.h"
 #import "MSPushPrivate.h"
 #import "MSPushTestUtil.h"
+#import "MSTestFrameworks.h"
 
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
 static NSString *const kMSTestPushToken = @"TestPushToken";

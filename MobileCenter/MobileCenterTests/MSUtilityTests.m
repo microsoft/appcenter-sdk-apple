@@ -1,11 +1,4 @@
-#import <OCMock/OCMock.h>
-#if TARGET_OS_IPHONE
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#else
-#import <OCHamcrest/OCHamcrest.h>
-#endif
-#import <XCTest/XCTest.h>
-
+#import "MSTestFrameworks.h"
 #import "MSUtility+ApplicationPrivate.h"
 #import "MSUtility+Date.h"
 #import "MSUtility+Environment.h"
