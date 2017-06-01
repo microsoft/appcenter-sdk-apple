@@ -1,6 +1,7 @@
 #import <Foundation/Foundation.h>
 
 #import "MSAlertController.h"
+#import "MSAppDelegate.h"
 #import "MSDistribute.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -90,6 +91,11 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
 @property(nonatomic, weak) id<MSDistributeDelegate> delegate;
 
 /**
+ * Custom application delegate dedicated to Distribute.
+ */
+@property(nonatomic) id<MSAppDelegate> appDelegate;
+
+/**
  * Returns the singleton instance. Meant for testing/demo apps only.
  *
  * @return the singleton instance of MSDistribute.
@@ -126,9 +132,9 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
  *
  * @param url  The url with parameters.
  *
- * @discussion Place this method call into app delegate openUrl method.
+ * @return `YES` if the URL is intended for Mobile Center Distribute and the current application, `NO` otherwise.
  */
-- (void)openUrl:(NSURL *)url;
+- (BOOL)openURL:(NSURL *)url;
 
 /**
  * Send a request to get the latest release.

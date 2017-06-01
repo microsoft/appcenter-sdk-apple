@@ -16,6 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
     // Customize Mobile Center SDK.
     MSDistribute.setDelegate(self)
     MSPush.setDelegate(self)
+    MSCrashes.setDelegate(self);
     MSMobileCenter.setLogLevel(MSLogLevel.verbose)
 
     // Start Mobile Center SDK.
@@ -57,14 +58,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
   }
   
   /**
-   *  This addition is required in case apps support iOS 8. Apps that are iOS 9 and later don't need to implement this
-   * as our SDK uses SFSafariViewController for MSDistribute.
+   * (iOS 8) Asks the delegate to open a resource specified by a URL, and provides a dictionary of launch options.
+   *
+   * @param app The singleton app object.
+   * @param url The URL resource to open. This resource can be a network resource or a file.
+   * @param sourceApplication The bundle ID of the app that is requesting your app to open the URL (url).
+   * @param annotation A Property list supplied by the source app to communicate information to the receiving app.
+   *
+   * @return `YES` if the delegate successfully handled the request or `NO` if the attempt to open the URL resource
+   * failed.
    */
-  func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+  func application(_ app: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
     
     // Forward the URL to MSDistribute.
-    MSDistribute.open(url as URL!)
-    return true
+    return MSDistribute.open(url as URL!)
+  }
+  
+  /**
+   * (iOS 9+) Asks the delegate to open a resource specified by a URL, and provides a dictionary of launch options.
+   *
+   * @param app The singleton app object.
+   * @param url The URL resource to open. This resource can be a network resource or a file.
+   * @param options A dictionary of URL handling options.
+   * For information about the possible keys in this dictionary and how to handle them, @see
+   * UIApplicationOpenURLOptionsKey. By default, the value of this parameter is an empty dictionary.
+   *
+   * @return `YES` if the delegate successfully handled the request or `NO` if the attempt to open the URL resource
+   * failed.
+   */
+  func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+    
+    // Forward the URL to MSDistribute.
+    return MSDistribute.open(url as URL!)
   }
 
   func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
@@ -100,7 +125,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
   func applicationWillTerminate(_ application: UIApplication) {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
   }
-  
+
   // Crashes Delegate
   
   func crashes(_ crashes: MSCrashes!, shouldProcessErrorReport errorReport: MSErrorReport!) -> Bool {
@@ -120,7 +145,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
   func crashes(_ crashes: MSCrashes!, didFailSending errorReport: MSErrorReport!, withError error: Error!) {
     
   }
-
+  
+  func attachments(with crashes: MSCrashes, for errorReport: MSErrorReport) -> [MSErrorAttachmentLog] {
+    let attachment1 = MSErrorAttachmentLog.attachment(withText: "Hello world!", filename: "hello.txt")
+    let attachment2 = MSErrorAttachmentLog.attachment(withBinary: "Fake image".data(using: String.Encoding.utf8), filename: nil, contentType: "image/jpeg")
+    return [attachment1!, attachment2!]
+  }
+  
   // Distribute Delegate
 
   func distribute(_ distribute: MSDistribute!, releaseAvailableWith details: MSReleaseDetails!) -> Bool {

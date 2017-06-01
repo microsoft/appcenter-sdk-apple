@@ -10,6 +10,8 @@
 #import "MSMobileCenter.h"
 #import "MSMobileCenterInternal.h"
 #import "MSMobileCenterPrivate.h"
+#import "MSMockCustomAppDelegate.h"
+#import "MSMockOriginalAppDelegate.h"
 #import "MSMockUserDefaults.h"
 #import "MSLogManager.h"
 #import "MSCustomProperties.h"
@@ -41,7 +43,6 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
 - (void)tearDown {
   [self.settingsMock stopMocking];
-
   [super tearDown];
 }
 

@@ -8,7 +8,7 @@
 @import MobileCenterDistribute;
 @import MobileCenterPush;
 
-@interface AppDelegate () <MSCrashesDelegate, MSDistributeDelegate>
+@interface AppDelegate () <MSCrashesDelegate, MSDistributeDelegate, MSPushDelegate>
 
 @end
 
@@ -35,44 +35,7 @@
   return YES;
 }
 
-#pragma mark - URL handling
-
-/**
- *  This addition is required in case apps support iOS 8. Apps that are iOS 9 and later don't need to implement this
- * as our SDK uses SFSafariViewController for MSDistribute.
- */
-- (BOOL)application:(UIApplication *)application
-              openURL:(NSURL *)url
-    sourceApplication:(NSString *)sourceApplication
-           annotation:(id)annotation {
-
-  // Forward the URL to MSDistribute.
-  [MSDistribute openUrl:url];
-  return YES;
-}
-
 #pragma mark - Application life cycle
-
-- (void)application:(UIApplication *)application
-    didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-  [MSPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
-}
-
-- (void)application:(UIApplication *)application
-    didFailToRegisterForRemoteNotificationsWithError:(nonnull NSError *)error {
-  [MSPush didFailToRegisterForRemoteNotificationsWithError:error];
-}
-
-- (void)application:(UIApplication *)application
-    didReceiveRemoteNotification:(NSDictionary *)userInfo
-          fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
-  BOOL result = [MSPush didReceiveRemoteNotification:userInfo];
-  if (result) {
-    completionHandler(UIBackgroundFetchResultNewData);
-  } else {
-    completionHandler(UIBackgroundFetchResultNoData);
-  }
-}
 
 - (void)applicationWillResignActive:(UIApplication *)application {
 }
@@ -161,6 +124,16 @@
 
 - (void)crashes:(MSCrashes *)crashes didFailSendingErrorReport:(MSErrorReport *)errorReport withError:(NSError *)error {
   NSLog(@"Did fail sending report with: %@, and error: %@", errorReport.exceptionReason, error.localizedDescription);
+}
+
+- (NSArray<MSErrorAttachmentLog *> *)attachmentsWithCrashes:(MSCrashes *)crashes
+                                             forErrorReport:(MSErrorReport *)errorReport {
+  MSErrorAttachmentLog *attachment1 = [MSErrorAttachmentLog attachmentWithText:@"Hello world!" filename:@"hello.txt"];
+  MSErrorAttachmentLog *attachment2 =
+  [MSErrorAttachmentLog attachmentWithBinary:[@"Fake image" dataUsingEncoding:NSUTF8StringEncoding]
+                                    filename:@"fake_image.jpeg"
+                                 contentType:@"image/jpeg"];
+  return @[ attachment1, attachment2 ];
 }
 
 #pragma mark - MSDistributeDelegate

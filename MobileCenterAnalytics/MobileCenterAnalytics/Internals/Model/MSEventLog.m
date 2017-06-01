@@ -7,11 +7,9 @@ static NSString *const kMSName = @"name";
 
 @implementation MSEventLog
 
-@synthesize type = _type;
-
 - (instancetype)init {
   if ((self = [super init])) {
-    _type = kMSTypeEvent;
+    self.type = kMSTypeEvent;
   }
   return self;
 }
@@ -46,7 +44,6 @@ static NSString *const kMSName = @"name";
 - (instancetype)initWithCoder:(NSCoder *)coder {
   self = [super initWithCoder:coder];
   if (self) {
-    _type = [coder decodeObjectForKey:kMSType];
     _eventId = [coder decodeObjectForKey:kMSId];
     _name = [coder decodeObjectForKey:kMSName];
   }
@@ -56,7 +53,6 @@ static NSString *const kMSName = @"name";
 
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
-  [coder encodeObject:self.type forKey:kMSType];
   [coder encodeObject:self.eventId forKey:kMSId];
   [coder encodeObject:self.name forKey:kMSName];
 }
