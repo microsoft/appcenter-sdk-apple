@@ -1,13 +1,8 @@
 #import <Foundation/Foundation.h>
-#if TARGET_OS_IPHONE
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#else
-#import <OCHamcrest/OCHamcrest.h>
-#endif
-#import <XCTest/XCTest.h>
 
 #import "MSCustomProperties.h"
 #import "MSCustomPropertiesPrivate.h"
+#import "MSTestFrameworks.h"
 
 @interface MSCustomPropertiesTests : XCTestCase
 

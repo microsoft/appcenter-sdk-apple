@@ -48,6 +48,10 @@
 		0420A6971ECA7C0400915619 /* OCMock.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0420A68C1ECA7AA800915619 /* OCMock.framework */; };
 		0420A6981ECA7C1700915619 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0420A68A1ECA7A9B00915619 /* OCMock.framework */; };
 		0420A6991ECA7C2700915619 /* OCMock.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0420A68A1ECA7A9B00915619 /* OCMock.framework */; };
+		04311FF51EE08697007054C5 /* MSTestFrameworks.h in Headers */ = {isa = PBXBuildFile; fileRef = 04311FF41EE08697007054C5 /* MSTestFrameworks.h */; };
+		04311FF61EE0869C007054C5 /* MSTestFrameworks.h in Headers */ = {isa = PBXBuildFile; fileRef = 04311FF41EE08697007054C5 /* MSTestFrameworks.h */; };
+		04311FFC1EE08885007054C5 /* MSCrashReporter.h in Headers */ = {isa = PBXBuildFile; fileRef = 04311FFB1EE08885007054C5 /* MSCrashReporter.h */; };
+		04311FFD1EE08898007054C5 /* MSCrashReporter.h in Headers */ = {isa = PBXBuildFile; fileRef = 04311FFB1EE08885007054C5 /* MSCrashReporter.h */; };
 		0485AFA11EAA887500C10CAF /* MSErrorReport.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120DF1D657CF10060DED7 /* MSErrorReport.m */; };
 		0485AFA21EAA887500C10CAF /* MSCrashesCXXExceptionHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6E73FE691D402F79008CDC15 /* MSCrashesCXXExceptionHandler.mm */; };
 		0485AFA31EAA887500C10CAF /* MSAbstractErrorLog.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD3BF81D80EE49000A8A91 /* MSAbstractErrorLog.m */; };
@@ -297,6 +301,8 @@
 		041CFF981ECD010000B4654B /* Tests macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests macOS.xcconfig"; path = "../../Tests macOS.xcconfig"; sourceTree = "<group>"; };
 		0420A68A1ECA7A9B00915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../iOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
 		0420A68C1ECA7AA800915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../macOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
+		04311FF41EE08697007054C5 /* MSTestFrameworks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSTestFrameworks.h; path = ../../MobileCenter/MobileCenterTests/Util/MSTestFrameworks.h; sourceTree = "<group>"; };
+		04311FFB1EE08885007054C5 /* MSCrashReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrashReporter.h; sourceTree = "<group>"; };
 		044C45F81DB6EA0C00F3C29E /* MSErrorAttachmentPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSErrorAttachmentPrivate.h; sourceTree = "<group>"; };
 		044C45FA1DB6EC1C00F3C29E /* MSErrorBinaryAttachmentPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSErrorBinaryAttachmentPrivate.h; sourceTree = "<group>"; };
 		0485AFD31EAA887500C10CAF /* libMobileCenterCrashes.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMobileCenterCrashes.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -545,6 +551,7 @@
 			children = (
 				B2A0A71A1D9C2AE700729A58 /* MSCrashesTestUtil.h */,
 				B2A0A71B1D9C2AE700729A58 /* MSCrashesTestUtil.m */,
+				04311FF41EE08697007054C5 /* MSTestFrameworks.h */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -552,11 +559,12 @@
 		04A140B81ECE8310001CEE94 /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				6E73FE6D1D4032AB008CDC15 /* MSCrashesUtil.h */,
+				6E73FE6E1D4032AB008CDC15 /* MSCrashesUtil.m */,
+				04311FFB1EE08885007054C5 /* MSCrashReporter.h */,
 				B24F3F101D93417B00827213 /* MSErrorLogFormatterPrivate.h */,
 				B2F375071D41AD5100F07032 /* MSErrorLogFormatter.h */,
 				B2F375081D41AD5100F07032 /* MSErrorLogFormatter.m */,
-				6E73FE6D1D4032AB008CDC15 /* MSCrashesUtil.h */,
-				6E73FE6E1D4032AB008CDC15 /* MSCrashesUtil.m */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -796,6 +804,7 @@
 				0485AFB41EAA887500C10CAF /* MSWrapperExceptionManager.h in Headers */,
 				0485AFB51EAA887500C10CAF /* MSErrorBinaryAttachmentPrivate.h in Headers */,
 				0485AFB61EAA887500C10CAF /* MSStackFrame.h in Headers */,
+				04311FF61EE0869C007054C5 /* MSTestFrameworks.h in Headers */,
 				0485AFB71EAA887500C10CAF /* MSLogManager.h in Headers */,
 				0485AFB81EAA887500C10CAF /* MSBinary.h in Headers */,
 				0485AFB91EAA887500C10CAF /* MSCrashes.h in Headers */,
@@ -803,6 +812,7 @@
 				0485AFBB1EAA887500C10CAF /* MSWrapperExceptionManagerInternal.h in Headers */,
 				0485AFBD1EAA887500C10CAF /* MobileCenterCrashes.h in Headers */,
 				0485AFBE1EAA887500C10CAF /* MSErrorLogFormatter.h in Headers */,
+				04311FFD1EE08898007054C5 /* MSCrashReporter.h in Headers */,
 				0485AFBF1EAA887500C10CAF /* MSErrorReportPrivate.h in Headers */,
 				0485AFC01EAA887500C10CAF /* MSAppleErrorLog.h in Headers */,
 				0485AFC11EAA887500C10CAF /* MSThread.h in Headers */,
@@ -831,6 +841,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				35D504CF1DDD140500D58B40 /* MSWrapperExceptionManager.h in Headers */,
+				04311FF51EE08697007054C5 /* MSTestFrameworks.h in Headers */,
 				3507AE3E1DD14C240030878F /* MSStackFrame.h in Headers */,
 				E8AEE9861D59744D00C0FF6C /* MSLogManager.h in Headers */,
 				6E7D5C671D3E9321009EC9AC /* MSBinary.h in Headers */,
@@ -851,6 +862,7 @@
 				3858A2181E93F37E00535A69 /* MSErrorAttachmentLog+Utility.h in Headers */,
 				3507AE3D1DD14C240030878F /* MSException.h in Headers */,
 				387C77071D6CC41100D68CC1 /* MSServiceAbstract.h in Headers */,
+				04311FFC1EE08885007054C5 /* MSCrashReporter.h in Headers */,
 				B24F3F121D9341BC00827213 /* MSErrorLogFormatterPrivate.h in Headers */,
 				6E0401771D1C9EBE0051BCFA /* MobileCenter+Internal.h in Headers */,
 				6E73FE731D4059E7008CDC15 /* MSCrashesCXXExceptionWrapperException.h in Headers */,
