@@ -1,6 +1,4 @@
 #import "MSAbstractErrorLog.h"
-#import "MSErrorAttachment.h"
-#import "MSErrorAttachmentPrivate.h"
 
 static NSString *const kMSId = @"id";
 static NSString *const kMSProcessId = @"process_id";
@@ -11,7 +9,6 @@ static NSString *const kMSErrorThreadId = @"error_thread_id";
 static NSString *const kMSErrorThreadName = @"error_thread_name";
 static NSString *const kMSFatal = @"fatal";
 static NSString *const kMSAppLaunchTOffset = @"app_launch_toffset";
-static NSString *const kMSErrorAttachment = @"error_attachment";
 static NSString *const kMSArchitecture = @"architecture";
 
 @implementation MSAbstractErrorLog
@@ -25,7 +22,6 @@ static NSString *const kMSArchitecture = @"architecture";
 @synthesize errorThreadName = _errorThreadName;
 @synthesize fatal = _fatal;
 @synthesize appLaunchTOffset = _appLaunchTOffset;
-@synthesize errorAttachment = _errorAttachment;
 @synthesize architecture = _architecture;
 
 - (NSMutableDictionary *)serializeToDictionary {
@@ -56,9 +52,6 @@ static NSString *const kMSArchitecture = @"architecture";
   if (self.appLaunchTOffset) {
     dict[kMSAppLaunchTOffset] = self.appLaunchTOffset;
   }
-  if (self.errorAttachment) {
-    dict[kMSErrorAttachment] = [self.errorAttachment serializeToDictionary];
-  }
   if (self.architecture) {
     dict[kMSArchitecture] = self.architecture;
   }
@@ -87,8 +80,6 @@ static NSString *const kMSArchitecture = @"architecture";
           [self.errorThreadName isEqualToString:errorLog.errorThreadName]) &&
          (self.fatal == errorLog.fatal) && ((!self.appLaunchTOffset && !errorLog.appLaunchTOffset) ||
                                             [self.appLaunchTOffset isEqual:errorLog.appLaunchTOffset]) &&
-         ((!self.errorAttachment && !errorLog.errorAttachment) ||
-          [self.errorAttachment isEqual:errorLog.errorAttachment]) &&
          ((!self.architecture && !errorLog.architecture) || [self.architecture isEqualToString:errorLog.architecture]);
 }
 
@@ -106,7 +97,6 @@ static NSString *const kMSArchitecture = @"architecture";
     _errorThreadName = [coder decodeObjectForKey:kMSErrorThreadName];
     _fatal = [coder decodeBoolForKey:kMSFatal];
     _appLaunchTOffset = [coder decodeObjectForKey:kMSAppLaunchTOffset];
-    _errorAttachment = [coder decodeObjectForKey:kMSErrorAttachment];
     _architecture = [coder decodeObjectForKey:kMSArchitecture];
   }
   return self;
@@ -123,7 +113,6 @@ static NSString *const kMSArchitecture = @"architecture";
   [coder encodeObject:self.errorThreadName forKey:kMSErrorThreadName];
   [coder encodeBool:self.fatal forKey:kMSFatal];
   [coder encodeObject:self.appLaunchTOffset forKey:kMSAppLaunchTOffset];
-  [coder encodeObject:self.errorAttachment forKey:kMSErrorAttachment];
   [coder encodeObject:self.architecture forKey:kMSArchitecture];
 }
 

@@ -7,7 +7,7 @@
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
-#import "MSAbstractLog.h"
+#import "MSAbstractLogInternal.h"
 #import "MSChannelConfiguration.h"
 #import "MSChannelDefault.h"
 #import "MSHttpSenderPrivate.h"

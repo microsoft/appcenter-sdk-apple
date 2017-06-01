@@ -7,7 +7,7 @@
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
-#import "MSLogWithProperties.h"
+#import "MSLogWithPropertiesInternal.h"
 
 @interface MSLogWithPropertiesTests : XCTestCase
 

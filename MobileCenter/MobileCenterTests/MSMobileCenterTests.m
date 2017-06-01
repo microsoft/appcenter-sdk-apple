@@ -10,6 +10,12 @@
 #import "MSMobileCenter.h"
 #import "MSMobileCenterInternal.h"
 #import "MSMobileCenterPrivate.h"
+#if TARGET_OS_IPHONE
+#import "MSMockCustomAppDelegate.h"
+#import "MSMockOriginalAppDelegate.h"
+#else
+// TODO: ApplicationDelegate is not yet implemented for macOS.
+#endif
 #import "MSMockUserDefaults.h"
 #import "MSLogManager.h"
 #import "MSCustomProperties.h"
@@ -41,7 +47,6 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
 - (void)tearDown {
   [self.settingsMock stopMocking];
-
   [super tearDown];
 }
 

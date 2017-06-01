@@ -3,6 +3,9 @@
 #import "MSMobileCenterInternal.h"
 
 static NSString *const kKeyPattern = @"^[a-zA-Z][a-zA-Z0-9]*$";
+static const int maxPropertiesCount = 60;
+static const int maxPropertyKeyLength = 128;
+static const int maxPropertyValueLength = 128;
 
 @implementation MSCustomProperties
 
@@ -32,12 +35,8 @@ static NSString *const kKeyPattern = @"^[a-zA-Z][a-zA-Z0-9]*$";
 }
 
 - (instancetype)setObject:(NSObject *)value forKey:(NSString *)key {
-  if ([self isValidKey:key]) {
-    if (value) {
-      [self.properties setObject:value forKey:key];
-    } else {
-      MSLogError([MSMobileCenter logTag], @"Custom property value cannot be null, did you mean to call clear?");
-    }
+  if ([self isValidKey:key] && [self isValidValue:value]) {
+    [self.properties setObject:value forKey:key];
   }
   return self;
 }
@@ -59,10 +58,32 @@ static NSString *const kKeyPattern = @"^[a-zA-Z][a-zA-Z0-9]*$";
     MSLogError([MSMobileCenter logTag], @"Custom property \"%@\" must match \"%@\"", key, kKeyPattern);
     return NO;
   }
+  if (key.length > maxPropertyKeyLength) {
+    MSLogError([MSMobileCenter logTag], @"Custom property \"%@\" length cannot be longer than \"%d\" characters.", key, maxPropertyKeyLength);
+    return NO;
+  }
   if ([self.properties objectForKey:key]) {
     MSLogWarning([MSMobileCenter logTag], @"Custom property \"%@\" is already set or cleared and will be overridden.", key);
+  } else if ([self properties].count >= maxPropertiesCount) {
+    MSLogError([MSMobileCenter logTag], @"Custom properties cannot contain more than \"%d\" items.", maxPropertiesCount);
+    return NO;
   }
   return YES;
 }
 
+- (BOOL) isValidValue:(NSObject *)value {
+  if (value) {
+    if ([value isKindOfClass:[NSString class]]) {
+      NSString *stringValue = (NSString *) value;
+      if (stringValue.length > maxPropertyValueLength) {
+        MSLogError([MSMobileCenter logTag], @"Custom property value length cannot be longer than \"%d\" characters.", maxPropertyValueLength);
+        return NO;
+      }
+    }
+  } else {
+    MSLogError([MSMobileCenter logTag], @"Custom property value cannot be null, did you mean to call clear?");
+    return NO;
+  }
+  return YES;
+}
 @end

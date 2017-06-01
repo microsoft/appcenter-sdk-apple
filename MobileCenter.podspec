@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name              = 'MobileCenter'
-  s.version           = '0.8.1'
+  s.version           = '0.9.0'
 
   s.summary           = 'Mobile Center is mission control for mobile apps. Get faster release cycles, higher-quality apps, and the insights to build what users want.'
   s.description       = <<-DESC
@@ -36,38 +36,38 @@ Pod::Spec.new do |s|
 
   s.frameworks = 'Foundation',  'SystemConfiguration', 'UIKit'
 
-  s.default_subspecs = 'MobileCenterAnalytics', 'MobileCenterCrashes'
+  s.default_subspecs = 'Analytics', 'Crashes'
 
-  s.subspec 'MobileCenter' do |ss|
-      ss.frameworks = 'Foundation',  'SystemConfiguration', 'UIKit'
+  s.subspec 'Core' do |ss|
+      ss.frameworks = 'Foundation', 'CoreTelephony', 'SystemConfiguration', 'UIKit'
       ss.vendored_frameworks = "MobileCenter-SDK-iOS/MobileCenter.framework"
   end
 
- s.subspec 'MobileCenterAnalytics' do |ss|
+ s.subspec 'Analytics' do |ss|
       ss.frameworks = 'Foundation', 'UIKit'
-      ss.dependency 'MobileCenter/MobileCenter'
+      ss.dependency 'MobileCenter/Core'
       ss.vendored_frameworks = "MobileCenter-SDK-iOS/MobileCenterAnalytics.framework"
   end
 
-  s.subspec 'MobileCenterCrashes' do |ss|
-      ss.frameworks = 'Foundation', 'UIKit'
+  s.subspec 'Crashes' do |ss|
+      ss.frameworks = 'Foundation', 'MobileCoreService'
       ss.libraries = 'z', 'c++'
-      ss.dependency 'MobileCenter/MobileCenter'
+      ss.dependency 'MobileCenter/Core'
       ss.vendored_frameworks = "MobileCenter-SDK-iOS/MobileCenterCrashes.framework"
   end
 
- s.subspec 'MobileCenterDistribute' do |ss|
+ s.subspec 'Distribute' do |ss|
    ss.frameworks = 'Foundation', 'UIKit'
    ss.weak_frameworks = 'SafariServices'
-   ss.dependency 'MobileCenter/MobileCenter'
+   ss.dependency 'MobileCenter/Core'
    ss.resource_bundle = { 'MobileCenterDistributeResources' => ['MobileCenter-SDK-iOS/MobileCenterDistributeResources.bundle/*.lproj'] }
    ss.vendored_frameworks = "MobileCenter-SDK-iOS/MobileCenterDistribute.framework"
  end
 
- s.subspec 'MobileCenterPush' do |ss|
+ s.subspec 'Push' do |ss|
    ss.frameworks = 'Foundation', 'UIKit'
    ss.weak_frameworks = 'UserNotifications'
-   ss.dependency 'MobileCenter/MobileCenter'
+   ss.dependency 'MobileCenter/Core'
    ss.vendored_frameworks = "MobileCenter-SDK-iOS/MobileCenterPush.framework"
  end
 

@@ -1,7 +1,7 @@
-#import <Foundation/Foundation.h>
-#import "MSAbstractLog.h"
+#import "MSAbstractLogInternal.h"
+#import "MSLogWithProperties.h"
 
-@interface MSLogWithProperties : MSAbstractLog
+@interface MSLogWithProperties ()
 
 /**
  * Additional key/value pair parameters.  [optional]
