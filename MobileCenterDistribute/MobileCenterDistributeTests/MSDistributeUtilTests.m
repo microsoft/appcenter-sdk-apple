@@ -1,10 +1,7 @@
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <OCMock/OCMock.h>
-#import <XCTest/XCTest.h>
-
 #import "MSBasicMachOParser.h"
 #import "MSDistributeUtil.h"
 #import "MSReleaseDetailsPrivate.h"
+#import "MSTestFrameworks.h"
 
 @interface MobileCenterDistributeTests : XCTestCase
 

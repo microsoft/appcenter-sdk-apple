@@ -77,26 +77,7 @@ GCC_PREPROCESSOR_DEFINITIONS = $(inherited) $(XCODEBUILD_GCC_PREPROCESSOR_DEFINI
 // happens through malloc() and mmap() which always return at least 16byte alignment.
 // Read more about alignment in the c++ reference: http://en.cppreference.com/w/cpp/language/object#Alignment.
 
-// -reserved-id-macro
-// PLCrashReporter uses lots of _-prefixed macros and it's not an issue but enabling -Weveryting being too pedantic.
-// https://stackoverflow.com/questions/228783/what-are-the-rules-about-using-an-underscore-in-a-c-identifier explains
-// rules about using an underscore macro pretty well.
-
-// -disabled-macro-expansion
-// This silences warnings when consuming PLCrashReporter for macOS. The warning here actualy just complains about regular
-// Preprocessor behavior.
-
-// -objc-interface-ivars
-// This causes warnings when consuming PLCrashReporter for macOS. It complains about the old way of defining private ivars.
-// PLCrashReporter doesn't use ARC, so we cannot just remove the old ivars and be done. Changing PLCrashReporter just
-// because of this warning doesn't make any sense.
-
-// -documentation-unknown-command
-// This causes 1 warning when consuming PLCrashReporter for macOS. The reason for the warning is that PLCRashReporter
-// exposes Doxygen's @internal (it uses Doxygen to generate it's header docs) in a public header. There's no problem
-// not knowing @internal, so we just ignore the warning.
-
-WARNING_CFLAGS = -Weverything -Wno-objc-missing-property-synthesis -Wno-float-equal -Wno-pedantic -Wno-padded -Wno-sign-conversion -Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-auto-import -Wno-assign-enum -Wno-exit-time-destructors -Wno-global-constructors -Wno-cast-align -Wno-reserved-id-macro -Wno-disabled-macro-expansion -Wno-objc-interface-ivars -Wno-documentation-unknown-command
+WARNING_CFLAGS = -Weverything -Wno-objc-missing-property-synthesis -Wno-float-equal -Wno-pedantic -Wno-padded -Wno-sign-conversion -Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-auto-import -Wno-assign-enum -Wno-exit-time-destructors -Wno-global-constructors -Wno-cast-align
 
 // These are all partially (but not completely?) independent of WARNING_CFLAGS
 // and need to be specified explicitly.
@@ -147,4 +128,4 @@ CLANG_ANALYZER_NONNULL = YES
 
 // Enable warnings-are-errors for all modes. Don't do this just yet.
  SWIFT_TREAT_WARNINGS_AS_ERRORS = YES
- GCC_TREAT_WARNINGS_AS_ERRORS = NO
+ GCC_TREAT_WARNINGS_AS_ERRORS = YES

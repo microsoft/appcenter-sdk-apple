@@ -1,12 +1,10 @@
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <OCMock/OCMock.h>
 #import <UIKit/UIKit.h>
-#import <XCTest/XCTest.h>
 
 #import "MSAppDelegateForwarderPrivate.h"
 #import "MSAppDelegate.h"
 #import "MSMockCustomAppDelegate.h"
 #import "MSMockOriginalAppDelegate.h"
+#import "MSTestFrameworks.h"
 #import "MSUtility+Application.h"
 
 @interface MSAppDelegateForwarderTest : XCTestCase
