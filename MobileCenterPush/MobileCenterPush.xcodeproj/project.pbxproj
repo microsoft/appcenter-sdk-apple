@@ -35,7 +35,6 @@
 /* Begin PBXBuildFile section */
 		0420A6A21ECA7D7200915619 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0420A6A11ECA7D7200915619 /* OCMock.framework */; };
 		0420A6A51ECA7D9300915619 /* OCMock.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0420A6A11ECA7D7200915619 /* OCMock.framework */; };
-		04311FFA1EE08772007054C5 /* MSTestFrameworks.h in Headers */ = {isa = PBXBuildFile; fileRef = 04311FF91EE08772007054C5 /* MSTestFrameworks.h */; };
 		047919B31EBA3AC5004834A6 /* MSPushNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = 047919B21EBA3AC5004834A6 /* MSPushNotification.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		047919B51EBA3B1B004834A6 /* MSPushDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 047919B41EBA3B1B004834A6 /* MSPushDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		047919B71EBA42F0004834A6 /* MSPushNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 047919B61EBA42F0004834A6 /* MSPushNotification.m */; };
@@ -334,7 +333,6 @@
 				D3AD5F101E5C8466001627AB /* MSPush.h in Headers */,
 				D3AD5F121E5C847B001627AB /* MSPushPrivate.h in Headers */,
 				D3AD5F6C1E5D7464001627AB /* MSPushLog.h in Headers */,
-				04311FFA1EE08772007054C5 /* MSTestFrameworks.h in Headers */,
 				047919B31EBA3AC5004834A6 /* MSPushNotification.h in Headers */,
 				38D4BBA11D5A98D1001A30A0 /* ../MobileCenter/MobileCenter/MSService.h in Headers */,
 				D3AD5F0E1E5C8452001627AB /* MSLogManager.h in Headers */,
