@@ -41,7 +41,6 @@
 		0415974B1E9D639D00EC6BDA /* MSDistributionGroupTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0415974A1E9D639D00EC6BDA /* MSDistributionGroupTests.m */; };
 		0420A69C1ECA7C8E00915619 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0420A69B1ECA7C8E00915619 /* OCMock.framework */; };
 		0420A69F1ECA7CD600915619 /* OCMock.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0420A69B1ECA7C8E00915619 /* OCMock.framework */; };
-		04311FF81EE0871D007054C5 /* MSTestFrameworks.h in Headers */ = {isa = PBXBuildFile; fileRef = 04311FF71EE0871D007054C5 /* MSTestFrameworks.h */; };
 		046EF5891EAEB524002F6436 /* MSDistributeDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 046EF5881EAEB524002F6436 /* MSDistributeDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		046FDBD31E5682FA00AF9DD1 /* MSAlertController.h in Headers */ = {isa = PBXBuildFile; fileRef = 046FDBD11E5682FA00AF9DD1 /* MSAlertController.h */; };
 		046FDBD41E5682FA00AF9DD1 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 046FDBD21E5682FA00AF9DD1 /* MSAlertController.m */; };
@@ -485,7 +484,6 @@
 				38C9C56C1E565BF600B0FA0D /* MSDistributePrivate.h in Headers */,
 				B25895AA1E4E9FD400123632 /* MSDistributeInternal.h in Headers */,
 				0471B93C1E4557620022F951 /* MSServiceAbstract.h in Headers */,
-				04311FF81EE0871D007054C5 /* MSTestFrameworks.h in Headers */,
 				B2C070A51E5E62330076D6A9 /* MSDistributeUtil.h in Headers */,
 				0471B9331E4555F20022F951 /* MobileCenterDistribute.h in Headers */,
 				048BB3071E60A40D009D92C2 /* MSDistributeSender.h in Headers */,
