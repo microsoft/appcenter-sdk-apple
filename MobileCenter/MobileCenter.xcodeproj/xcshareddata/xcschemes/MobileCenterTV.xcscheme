@@ -46,7 +46,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "043120721EE0BCF9007054C5"
-            BuildableName = "libMobileCenterTV.a"
+            BuildableName = "libMobileCenter.a"
             BlueprintName = "MobileCenterTV"
             ReferencedContainer = "container:MobileCenter.xcodeproj">
          </BuildableReference>
@@ -64,7 +64,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "043120721EE0BCF9007054C5"
-            BuildableName = "libMobileCenterTV.a"
+            BuildableName = "libMobileCenter.a"
             BlueprintName = "MobileCenterTV"
             ReferencedContainer = "container:MobileCenter.xcodeproj">
          </BuildableReference>
