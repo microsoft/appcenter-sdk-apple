@@ -190,9 +190,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     // Get error attachments.
     if ([crashes delegateImplementsAttachmentCallback]) {
       attachments = [crashes.delegate attachmentsWithCrashes:crashes forErrorReport:report];
-      if (attachments.count > kMaxAttachmentsPerCrashReport) {
-        MSLogWarning([MSCrashes logTag], @"A limit of %u attachments per error report might be enforced by server.", kMaxAttachmentsPerCrashReport);
-      }
     } else {
       MSLogDebug([MSCrashes logTag], @"attachmentsWithCrashes is not implemented");
     }
@@ -201,9 +198,18 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     [crashes.logManager processLog:log forGroupId:crashes.groupId];
 
     // Then, send attachements log to log manager.
+    unsigned int totalProcessedAttachments = 0;
     for (MSErrorAttachmentLog *attachment in attachments) {
       attachment.errorId = log.errorId;
+      if(![attachment isValid]) {
+        MSLogError([MSCrashes logTag], @"Not all required fields are present in MSErrorAttachmentLog.");
+        continue;
+      }
       [crashes.logManager processLog:attachment forGroupId:crashes.groupId];
+      ++totalProcessedAttachments;
+    }
+    if( totalProcessedAttachments > kMaxAttachmentsPerCrashReport) {
+      MSLogWarning([MSCrashes logTag], @"A limit of %u attachments per error report might be enforced by server.", kMaxAttachmentsPerCrashReport);
     }
 
     // Clean up.

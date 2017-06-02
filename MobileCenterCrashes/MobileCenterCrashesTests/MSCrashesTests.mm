@@ -560,10 +560,15 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-parameter"
 - (NSArray<MSErrorAttachmentLog *> *)attachmentsWithCrashes:(MSCrashes *)crashes forErrorReport:(MSErrorReport *)errorReport {
+  id deviceMock = OCMPartialMock([MSDevice new]);
+  OCMStub([deviceMock isValid]).andReturn(YES);
+
   NSMutableArray *logs = [NSMutableArray new];
   for(unsigned int i = 0; i < kMaxAttachmentsPerCrashReport + 1; ++i) {
     NSString *text = [NSString stringWithFormat:@"%d", i];
     MSErrorAttachmentLog *log = [[MSErrorAttachmentLog alloc] initWithFilename:text attachmentText:text];
+    log.toffset = [NSNumber numberWithInt:0];
+    log.device = deviceMock;
     [logs addObject:log];
   }
   return logs;
