@@ -96,7 +96,7 @@
  */
 + (void)setWrapperSdk:(MSWrapperSdk *)wrapperSdk;
 
-#if TARGET_OS_IPHONE
+#if TARGET_OS_IPHONE && !TARGET_OS_TV
 /**
  * Check whether the application delegate forwarder is enabled or not.
  *
