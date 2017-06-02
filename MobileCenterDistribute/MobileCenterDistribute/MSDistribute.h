@@ -1,6 +1,8 @@
 #import "MSDistributeDelegate.h"
 #import "MSServiceAbstract.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  * Mobile Center Distribute service.
  */
@@ -43,8 +45,12 @@
  *
  * @param url  The url with parameters.
  *
- * @discussion Place this method call into app delegate openUrl method.
+ * @return `YES` if the URL is intended for Mobile Center Distribute and your application, `NO` otherwise.
+ *
+ * @discussion Place this method call into your app delegate's openURL method.
  */
-+ (void)openUrl:(NSURL *)url;
++ (BOOL)openURL:(NSURL *)url;
 
 @end
+
+NS_ASSUME_NONNULL_END

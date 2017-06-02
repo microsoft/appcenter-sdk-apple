@@ -1,3 +1,4 @@
+#import "MSAppDelegateForwarder.h"
 #import "MSConstants+Internal.h"
 #import "MSDeviceTracker.h"
 #import "MSDeviceTrackerPrivate.h"
@@ -6,6 +7,9 @@
 #import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
 #import "MSStartServiceLog.h"
+#import "MSCustomProperties.h"
+#import "MSCustomPropertiesLog.h"
+#import "MSCustomPropertiesPrivate.h"
 
 // Singleton
 static MSMobileCenter *sharedInstance = nil;
@@ -74,6 +78,12 @@ static NSString *const kMSGroupId = @"MobileCenter";
   return NO;
 }
 
++ (BOOL)isAppDelegateForwarderEnabled {
+  @synchronized([self sharedInstance]) {
+    return MSAppDelegateForwarder.enabled;
+  }
+}
+
 + (NSUUID *)installId {
   return [[self sharedInstance] installId];
 }
@@ -84,6 +94,9 @@ static NSString *const kMSGroupId = @"MobileCenter";
 
 + (void)setLogLevel:(MSLogLevel)logLevel {
   MSLogger.currentLogLevel = logLevel;
+  
+  // The logger is not set at the time of swizzling but now may be a good time to flush the traces.
+  [MSAppDelegateForwarder flushTraceBuffer];
 }
 
 + (void)setLogHandler:(MSLogHandler)logHandler {
@@ -92,6 +105,10 @@ static NSString *const kMSGroupId = @"MobileCenter";
 
 + (void)setWrapperSdk:(MSWrapperSdk *)wrapperSdk {
   [[MSDeviceTracker sharedInstance] setWrapperSdk:wrapperSdk];
+}
+
++ (void)setCustomProperties:(MSCustomProperties *)customProperties {
+  [[self sharedInstance] setCustomProperties:customProperties];
 }
 
 /**
@@ -249,6 +266,14 @@ static NSString *const kMSGroupId = @"MobileCenter";
   }
 }
 
+- (void)setCustomProperties:(MSCustomProperties *)customProperties {
+  if (!customProperties || customProperties.properties == 0) {
+    MSLogError([MSMobileCenter logTag], @"Custom properties may not be null or empty");
+    return;
+  }
+  [self sendCustomPropertiesLog:customProperties.properties];
+}
+
 - (void)setEnabled:(BOOL)isEnabled {
   self.enabledStateUpdating = YES;
   if ([self isEnabled] != isEnabled) {
@@ -357,6 +382,14 @@ static NSString *const kMSGroupId = @"MobileCenter";
   [self.logManager processLog:serviceLog forGroupId:kMSGroupId];
 }
 
+- (void)sendCustomPropertiesLog:(NSDictionary<NSString *, NSObject *> *)properties {
+  MSCustomPropertiesLog *customPropertiesLog = [MSCustomPropertiesLog new];
+  customPropertiesLog.properties = properties;
+  
+  // FIXME: withPriority parameter need to be removed on merge.
+  [self.logManager processLog:customPropertiesLog forGroupId:kMSGroupId];
+}
+
 + (void)resetSharedInstance {
   onceToken = 0; // resets the once_token so dispatch_once will run again
   sharedInstance = nil;
@@ -368,14 +401,14 @@ static NSString *const kMSGroupId = @"MobileCenter";
  *  The application will go to the foreground.
  */
 - (void)applicationWillEnterForeground {
-  [self.logManager setEnabled:YES andDeleteDataOnDisabled:NO];
+  [self.logManager resume];
 }
 
 /**
  *  The application will go to the background.
  */
 - (void)applicationDidEnterBackground {
-  [self.logManager setEnabled:NO andDeleteDataOnDisabled:NO];
+  [self.logManager suspend];
 }
 
 @end

@@ -5,6 +5,7 @@ framework module MobileCenter {
   module * { export * }
   
   link framework "Foundation"
+  link framework "CoreTelephony"
   link framework "SystemConfiguration"
   link framework "UIKit"
 }

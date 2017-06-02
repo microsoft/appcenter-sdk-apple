@@ -55,6 +55,13 @@ static NSURL *sfURL;
 }
 @end
 
+@interface UIApplication (ForTests)
+
+// Available since iOS 10.
+- (void)openURL:(NSURL*)url options:(NSDictionary<NSString *, id> *)options completionHandler:(void (^ __nullable)(BOOL success))completion;
+
+@end
+
 static NSURL *sfURL;
 
 @interface MSDistributeTests : XCTestCase
@@ -170,7 +177,13 @@ static NSURL *sfURL;
   id appMock = OCMClassMock([UIApplication class]);
   OCMStub([appMock sharedApplication]).andReturn(appMock);
   OCMStub([appMock canOpenURL:url]).andReturn(YES);
-  OCMStub([appMock openURL:url]).andDo(nil);
+  SEL selector = NSSelectorFromString(@"openURL:options:completionHandler:");
+  BOOL newOpenURL = [appMock respondsToSelector:selector];
+  if (newOpenURL) {
+    OCMStub([appMock openURL:url options:[OCMArg any] completionHandler:[OCMArg any]]).andDo(nil);
+  } else {
+    OCMStub([appMock openURL:url]).andDo(nil);
+  }
 
   // When
   [self.sut openURLInSafariApp:url];
@@ -181,7 +194,11 @@ static NSURL *sfURL;
   // Then
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
-                                 OCMVerify([appMock openURL:url]);
+                                 if (newOpenURL) {
+                                   OCMVerify([appMock openURL:url options:[OCMArg any] completionHandler:[OCMArg any]]);
+                                 } else {
+                                   OCMVerify([appMock openURL:url]);
+                                 }
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
@@ -770,29 +787,42 @@ static NSURL *sfURL;
   id distributeMock = OCMPartialMock(self.sut);
   OCMStub([distributeMock sharedInstance]).andReturn(distributeMock);
   OCMStub([distributeMock checkLatestRelease:[OCMArg any] releaseHash:kMSTestReleaseHash]).andDo(nil);
+  id mobileCeneterMock = OCMClassMock([MSMobileCenter class]);
+  OCMStub([mobileCeneterMock isConfigured]).andReturn(YES);
   [self mockMSPackageHash];
-
+  
+  // When
+  NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://?", scheme]];
+  BOOL result = [MSDistribute openURL:url];
+  
+  // Then
+  assertThatBool(result, isFalse());
+  OCMReject([distributeMock checkLatestRelease:[OCMArg any] releaseHash:[OCMArg any]]);
+  
   // Disable for now to bypass initializing sender.
   [distributeMock setEnabled:NO];
   [distributeMock startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
 
   // Enable again.
   [distributeMock setEnabled:YES];
-  NSURL *url = [NSURL URLWithString:@"invalid://?"];
+  
+  url = [NSURL URLWithString:@"invalid://?"];
 
   // When
-  [MSDistribute openUrl:url];
+  result = [MSDistribute openURL:url];
 
   // Then
+  assertThatBool(result, isFalse());
   OCMReject([distributeMock checkLatestRelease:[OCMArg any] releaseHash:[OCMArg any]]);
 
   // If
   url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://?", scheme]];
 
   // When
-  [MSDistribute openUrl:url];
+  result = [MSDistribute openURL:url];
 
   // Then
+  assertThatBool(result, isTrue());
   OCMReject([distributeMock checkLatestRelease:[OCMArg any] releaseHash:[OCMArg any]]);
 
   // If
@@ -800,9 +830,10 @@ static NSURL *sfURL;
   url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://?request_id=%@", scheme, requestId]];
 
   // When
-  [MSDistribute openUrl:url];
+  result = [MSDistribute openURL:url];
 
   // Then
+  assertThatBool(result, isTrue());
   OCMReject([distributeMock checkLatestRelease:[OCMArg any] releaseHash:[OCMArg any]]);
 
   // If
@@ -811,9 +842,10 @@ static NSURL *sfURL;
       URLWithString:[NSString stringWithFormat:@"%@://?request_id=%@&update_token=%@", scheme, requestId, token]];
 
   // When
-  [MSDistribute openUrl:url];
+  result = [MSDistribute openURL:url];
 
   // Then
+  assertThatBool(result, isTrue());
   OCMReject([distributeMock checkLatestRelease:[OCMArg any] releaseHash:[OCMArg any]]);
 
   // If
@@ -824,9 +856,10 @@ static NSURL *sfURL;
                                                         requestId, token]];
 
   // When
-  [MSDistribute openUrl:url];
+  result = [MSDistribute openURL:url];
 
   // Then
+  assertThatBool(result, isFalse());
   OCMReject([distributeMock checkLatestRelease:[OCMArg any] releaseHash:[OCMArg any]]);
 
   // If
@@ -834,18 +867,20 @@ static NSURL *sfURL;
       URLWithString:[NSString stringWithFormat:@"%@://?request_id=%@&update_token=%@", scheme, requestId, token]];
 
   // When
-  [MSDistribute openUrl:url];
+  result = [MSDistribute openURL:url];
 
   // Then
+  assertThatBool(result, isTrue());
   OCMVerify([distributeMock checkLatestRelease:token releaseHash:kMSTestReleaseHash]);
 
   // If
   [distributeMock setEnabled:NO];
 
   // When
-  [MSDistribute openUrl:url];
+  [MSDistribute openURL:url];
 
   // Then
+  assertThatBool(result, isTrue());
   OCMReject([distributeMock checkLatestRelease:[OCMArg any] releaseHash:[OCMArg any]]);
 }
 
@@ -1131,7 +1166,7 @@ static NSURL *sfURL;
   self.sut.safariHostingViewController = viewControllerMock;
 
   // When
-  [MSDistribute openUrl:url];
+  [MSDistribute openURL:url];
   dispatch_async(dispatch_get_main_queue(), ^{
     [safariDismissedExpectation fulfill];
   });

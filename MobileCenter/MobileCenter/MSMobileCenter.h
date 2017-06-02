@@ -1,11 +1,10 @@
 #import <Foundation/Foundation.h>
+
 #import "MSConstants.h"
 
 @class MSWrapperSdk;
+@class MSCustomProperties;
 
-/**
- * Class comment: Some Introduction.
- */
 @interface MSMobileCenter : NSObject
 
 /**
@@ -47,7 +46,7 @@
 /**
  * Change the base URL (schema + authority + port only) used to communicate with the backend.
  *
- * @param logUrl base URL to use for backend communication.
+ * @param logUrl Base URL to use for backend communication.
  */
 + (void)setLogUrl:(NSString *)logUrl;
 
@@ -71,21 +70,21 @@
 /**
  * Get log level.
  *
- * @return log level.
+ * @return Log level.
  */
 + (MSLogLevel)logLevel;
 
 /**
  * Set log level.
  *
- * @param logLevel the log level.
+ * @param logLevel The log level.
  */
 + (void)setLogLevel:(MSLogLevel)logLevel;
 
 /**
  * Set log level handler.
  *
- * @param logHandler handler.
+ * @param logHandler Handler.
  */
 + (void)setLogHandler:(MSLogHandler)logHandler;
 
@@ -93,14 +92,29 @@
  * Set wrapper SDK information to use when building device properties. This is intended in case you are building a SDK
  * that uses the Mobile Center SDK under the hood, e.g. our Xamarin SDK or ReactNative SDk.
  *
- * @param wrapperSdk wrapper SDK information.
+ * @param wrapperSdk Wrapper SDK information.
  */
 + (void)setWrapperSdk:(MSWrapperSdk *)wrapperSdk;
 
 /**
+ * Check whether the application delegate forwarder is enabled or not.
+ *
+ * @return YES if enabled, NO otherwise.
+ *
+ * @discussion The application delegate forwarder forwards messages targetting your application delegate methods via
+ * swizzling to the SDK. It simplifies the SDK integration but may not be suitable to any situations. For instance it
+ * should be disabled if you or one of your third party SDK is doing message forwarding on the application delegate.
+ * Message forwarding usually implies the implementation of @see NSObject#forwardingTargetForSelector: or @see
+ * NSObject#forwardInvocation: methods.
+ * To disable the application delegate forwarder just add the `MobileCenterAppDelegateForwarderEnabled` tag to your Info.plist
+ * file and set it to `0`. Then you will have to forward any application delegate needed by the SDK manually.
+ */
++ (BOOL)isAppDelegateForwarderEnabled;
+
+/**
  * Get unique installation identifier.
  *
- * @return unique installation identifier.
+ * @return Unique installation identifier.
  */
 + (NSUUID *)installId;
 

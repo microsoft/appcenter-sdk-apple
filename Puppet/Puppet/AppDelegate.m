@@ -2,16 +2,23 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
+#import <UserNotifications/UserNotifications.h>
 #import "AppDelegate.h"
 #import "Constants.h"
+#import "EventLog.h"
+#import "MSErrorAttachmentLog.h"
+#import "MSErrorAttachmentLog+Utility.h"
 #import "MobileCenter.h"
 #import "MobileCenterAnalytics.h"
 #import "MobileCenterCrashes.h"
 #import "MobileCenterDistribute.h"
-
+#import "MobileCenterPush.h"
 #import "MSAlertController.h"
+#import "MSAnalyticsDelegate.h"
+#import "MSAnalyticsInternal.h"
+#import "MSEventLog.h"
 
-@interface AppDelegate () <MSCrashesDelegate, MSDistributeDelegate>
+@interface AppDelegate () <MSCrashesDelegate, MSDistributeDelegate, MSPushDelegate, MSAnalyticsDelegate>
 
 @end
 
@@ -21,11 +28,13 @@
 
   // Customize Mobile Center SDK.
   [MSDistribute setDelegate:self];
+  [MSPush setDelegate:self];
+  [MSAnalytics setDelegate:self];
   [MSMobileCenter setLogLevel:MSLogLevelVerbose];
 
   // Start Mobile Center SDK.
   [MSMobileCenter start:@"7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7"
-           withServices:@[ [MSAnalytics class], [MSCrashes class], [MSDistribute class] ]];
+           withServices:@[ [MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class] ]];
 
   [self crashes];
 
@@ -36,22 +45,45 @@
 
 #pragma mark - URL handling
 
-/**
- *  This addition is required in case apps support iOS 8. Apps that are iOS 9 and later don't need to implement this
- * as our SDK uses SFSafariViewController for MSDistribute.
- */
+// Open URL for iOS 8.
 - (BOOL)application:(UIApplication *)application
               openURL:(NSURL *)url
     sourceApplication:(NSString *)sourceApplication
            annotation:(id)annotation {
+  NSLog(@"%@ Was woken up via openURL:sourceApplication:annotation: %@.", kPUPLogTag, url);
+  return NO;
+}
 
-  // Forward the URL to MSDistribute.
-  [MSDistribute openUrl:url];
-  NSLog(@"%@ Got waken up via openURL: %@", kPUPLogTag, url);
-  return YES;
+// Open URL for iOS 9+.
+- (BOOL)application:(UIApplication *)application
+            openURL:(nonnull NSURL *)url
+            options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
+  NSLog(@"%@ Was waken up via openURL:options: %@.", kPUPLogTag, url);
+  return NO;
 }
 
 #pragma mark - Application life cycle
+
+- (void)application:(UIApplication *)application
+    didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+  NSLog(@"%@ Did register for remote notifications with device token.", kPUPLogTag);
+}
+
+- (void)application:(UIApplication *)application
+    didFailToRegisterForRemoteNotificationsWithError:(nonnull NSError *)error {
+  NSLog(@"%@ Did fail to register for remote notifications with error %@.", kPUPLogTag, [error localizedDescription]);
+}
+
+- (void)application:(UIApplication *)application
+    didReceiveRemoteNotification:(NSDictionary *)userInfo
+          fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+  BOOL result = [MSPush didReceiveRemoteNotification:userInfo];
+  if (result) {
+    completionHandler(UIBackgroundFetchResultNewData);
+  } else {
+    completionHandler(UIBackgroundFetchResultNoData);
+  }
+}
 
 - (void)applicationWillResignActive:(UIApplication *)application {
 }
@@ -135,6 +167,18 @@
   NSLog(@"Did fail sending report with: %@, and error: %@", errorReport.exceptionReason, error.localizedDescription);
 }
 
+- (NSArray<MSErrorAttachmentLog *> *)attachmentsWithCrashes:(MSCrashes *)crashes
+                                             forErrorReport:(MSErrorReport *)errorReport {
+  NSData *data = [[NSString stringWithFormat:@"<xml><text>Binary attachment for crash</text><id>%@</id></xml>",
+                                             errorReport.incidentIdentifier] dataUsingEncoding:NSUTF8StringEncoding];
+  NSString *text = [NSString stringWithFormat:@"Text attachement for crash #%@", errorReport.incidentIdentifier];
+  MSErrorAttachmentLog *attachment1 =
+      [MSErrorAttachmentLog attachmentWithText:text filename:@"pup-crash-attachment.log"];
+  MSErrorAttachmentLog *attachment2 =
+      [MSErrorAttachmentLog attachmentWithBinary:data filename:nil contentType:@"text/xml"];
+  return @[ attachment1, attachment2 ];
+}
+
 #pragma mark - MSDistributeDelegate
 
 - (BOOL)distribute:(MSDistribute *)distribute releaseAvailableWithDetails:(MSReleaseDetails *)details {
@@ -162,6 +206,53 @@
     return YES;
   }
   return NO;
+}
+
+#pragma mark - MSPushDelegate
+
+- (void)push:(MSPush *)push didReceivePushNotification:(MSPushNotification *)pushNotification {
+  NSString *message = pushNotification.message;
+  for (NSString *key in pushNotification.customData) {
+    message = [NSString stringWithFormat:@"%@\n%@: %@", message, key, [pushNotification.customData objectForKey:key]];
+  }
+  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:pushNotification.title
+                                                  message:message
+                                                 delegate:self
+                                        cancelButtonTitle:@"OK"
+                                        otherButtonTitles:nil];
+  [alert show];
+}
+
+#pragma mark - MSAnalyticsDelegate
+
+- (void)analytics:(MSAnalytics *)analytics willSendEventLog:(MSEventLog *)eventLog {
+  [NSNotificationCenter.defaultCenter postNotificationName:kWillSendEventLog
+                                                    object:[self msLogEventToLocal:eventLog]];
+}
+
+- (void)analytics:(MSAnalytics *)analytics didSucceedSendingEventLog:(MSEventLog *)eventLog {
+  [NSNotificationCenter.defaultCenter postNotificationName:kDidSucceedSendingEventLog
+                                                    object:[self msLogEventToLocal:eventLog]];
+}
+
+- (void)analytics:(MSAnalytics *)analytics didFailSendingEventLog:(MSEventLog *)eventLog withError:(NSError *)error {
+  [NSNotificationCenter.defaultCenter postNotificationName:kDidFailSendingEventLog
+                                                    object:[self msLogEventToLocal:eventLog]];
+}
+
+- (EventLog*) msLogEventToLocal:(MSEventLog*) msLog {
+  EventLog *log = [EventLog new];
+  log.eventName = msLog.name;
+  if (!msLog.properties) {
+    return log;
+  }
+
+  //Collect props
+  for (NSString *key in msLog.properties) {
+    NSString *value = [msLog.properties objectForKey:key];
+    [log.properties setObject:value forKey:key];
+  }
+  return log;
 }
 
 @end

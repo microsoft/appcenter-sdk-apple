@@ -4,23 +4,26 @@ import MobileCenter
 import MobileCenterAnalytics
 import MobileCenterCrashes
 import MobileCenterDistribute
+import MobileCenterPush
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDistributeDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDistributeDelegate, MSPushDelegate {
   
   var window: UIWindow?
   
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
     // Customize Mobile Center SDK.
-    MSDistribute.setDelegate(self);
+    MSDistribute.setDelegate(self)
+    MSPush.setDelegate(self)
+    MSCrashes.setDelegate(self);
     MSMobileCenter.setLogLevel(MSLogLevel.verbose)
 
     // Start Mobile Center SDK.
     #if DEBUG
-      MSMobileCenter.start("0dbca56b-b9ae-4d53-856a-7c2856137d85", withServices: [MSAnalytics.self, MSCrashes.self])
+      MSMobileCenter.start("0dbca56b-b9ae-4d53-856a-7c2856137d85", withServices: [MSAnalytics.self, MSCrashes.self, MSPush.self])
     #else
-      MSMobileCenter.start("0dbca56b-b9ae-4d53-856a-7c2856137d85", withServices: [MSAnalytics.self, MSCrashes.self, MSDistribute.self])
+      MSMobileCenter.start("0dbca56b-b9ae-4d53-856a-7c2856137d85", withServices: [MSAnalytics.self, MSCrashes.self, MSDistribute.self, MSPush.self])
     #endif
     
     // Crashes Delegate.
@@ -55,16 +58,52 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
   }
   
   /**
-   *  This addition is required in case apps support iOS 8. Apps that are iOS 9 and later don't need to implement this
-   * as our SDK uses SFSafariViewController for MSDistribute.
+   * (iOS 8) Asks the delegate to open a resource specified by a URL, and provides a dictionary of launch options.
+   *
+   * @param app The singleton app object.
+   * @param url The URL resource to open. This resource can be a network resource or a file.
+   * @param sourceApplication The bundle ID of the app that is requesting your app to open the URL (url).
+   * @param annotation A Property list supplied by the source app to communicate information to the receiving app.
+   *
+   * @return `YES` if the delegate successfully handled the request or `NO` if the attempt to open the URL resource
+   * failed.
    */
-  func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+  func application(_ app: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
     
     // Forward the URL to MSDistribute.
-    MSDistribute.open(url as URL!)
-    return true
+    return MSDistribute.open(url as URL!)
   }
   
+  /**
+   * (iOS 9+) Asks the delegate to open a resource specified by a URL, and provides a dictionary of launch options.
+   *
+   * @param app The singleton app object.
+   * @param url The URL resource to open. This resource can be a network resource or a file.
+   * @param options A dictionary of URL handling options.
+   * For information about the possible keys in this dictionary and how to handle them, @see
+   * UIApplicationOpenURLOptionsKey. By default, the value of this parameter is an empty dictionary.
+   *
+   * @return `YES` if the delegate successfully handled the request or `NO` if the attempt to open the URL resource
+   * failed.
+   */
+  func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+    
+    // Forward the URL to MSDistribute.
+    return MSDistribute.open(url as URL!)
+  }
+
+  func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+    MSPush.didRegisterForRemoteNotifications(withDeviceToken: deviceToken)
+  }
+
+  func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+    MSPush.didFailToRegisterForRemoteNotificationsWithError(error)
+  }
+
+  func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+    MSPush.didReceiveRemoteNotification(userInfo)
+  }
+
   func applicationWillResignActive(_ application: UIApplication) {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
@@ -86,12 +125,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
   func applicationWillTerminate(_ application: UIApplication) {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
   }
-  
+
   // Crashes Delegate
   
   func crashes(_ crashes: MSCrashes!, shouldProcessErrorReport errorReport: MSErrorReport!) -> Bool {
-    return true;
+
     // return true if the crash report should be processed, otherwise false.
+    return true
   }
   
   func crashes(_ crashes: MSCrashes!, willSend errorReport: MSErrorReport!) {
@@ -105,11 +145,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
   func crashes(_ crashes: MSCrashes!, didFailSending errorReport: MSErrorReport!, withError error: Error!) {
     
   }
-
+  
+  func attachments(with crashes: MSCrashes, for errorReport: MSErrorReport) -> [MSErrorAttachmentLog] {
+    let attachment1 = MSErrorAttachmentLog.attachment(withText: "Hello world!", filename: "hello.txt")
+    let attachment2 = MSErrorAttachmentLog.attachment(withBinary: "Fake image".data(using: String.Encoding.utf8), filename: nil, contentType: "image/jpeg")
+    return [attachment1!, attachment2!]
+  }
+  
   // Distribute Delegate
 
   func distribute(_ distribute: MSDistribute!, releaseAvailableWith details: MSReleaseDetails!) -> Bool {
-    return false;
+    return false
+  }
+
+  // Push Delegate
+
+  func push(_ push: MSPush!, didReceive pushNotification: MSPushNotification!) {
+    var message: String = pushNotification.message
+    for item in pushNotification.customData {
+      message = String(format: "%@\n%@: %@", message, item.key, item.value)
+    }
+    let alert = UIAlertView(title: pushNotification.title, message: message, delegate: self, cancelButtonTitle: "OK")
+    alert.show()
   }
 }
 

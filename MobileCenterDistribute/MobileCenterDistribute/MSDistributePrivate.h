@@ -1,9 +1,10 @@
 #import <Foundation/Foundation.h>
 
 #import "MSAlertController.h"
+#import "MSAppDelegate.h"
 #import "MSDistribute.h"
 
-// TODO add nullability here.
+NS_ASSUME_NONNULL_BEGIN
 
 @class MSReleaseDetails;
 
@@ -72,7 +73,7 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
 /**
  * Current view controller presenting the `SFSafariViewController` if any.
  */
-@property(nonatomic) UIViewController *safariHostingViewController;
+@property(nullable, nonatomic) UIViewController *safariHostingViewController;
 
 /**
  * Current update alert view controller if any.
@@ -82,12 +83,17 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
 /**
  * Current release details.
  */
-@property(nonatomic) MSReleaseDetails *releaseDetails;
+@property(nullable, nonatomic) MSReleaseDetails *releaseDetails;
 
 /**
  * A Distribute delegate that will be called whenever a new release is available for update.
  */
 @property(nonatomic, weak) id<MSDistributeDelegate> delegate;
+
+/**
+ * Custom application delegate dedicated to Distribute.
+ */
+@property(nonatomic) id<MSAppDelegate> appDelegate;
 
 /**
  * Returns the singleton instance. Meant for testing/demo apps only.
@@ -104,7 +110,7 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
  *
  * @return The finale install URL to request the token or nil if an error occurred.
  */
-- (NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret releaseHash:(NSString *)releaseHash;
+- (nullable NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret releaseHash:(NSString *)releaseHash;
 
 /**
  * Open the given URL using an `SFSafariViewController`. Must run on the UI thread! iOS 9+ only.
@@ -126,9 +132,9 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
  *
  * @param url  The url with parameters.
  *
- * @discussion Place this method call into app delegate openUrl method.
+ * @return `YES` if the URL is intended for Mobile Center Distribute and the current application, `NO` otherwise.
  */
-- (void)openUrl:(NSURL *)url;
+- (BOOL)openURL:(NSURL *)url;
 
 /**
  * Send a request to get the latest release.
@@ -198,7 +204,7 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
 /**
  * Start download for the given details.
  */
-- (void)startDownload:(MSReleaseDetails *)details;
+- (void)startDownload:(nullable MSReleaseDetails *)details;
 
 /**
  * Close application for update.
@@ -206,3 +212,5 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
 - (void)closeApp;
 
 @end
+
+NS_ASSUME_NONNULL_END

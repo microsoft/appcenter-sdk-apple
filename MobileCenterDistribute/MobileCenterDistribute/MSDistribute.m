@@ -1,7 +1,9 @@
 #import <Foundation/Foundation.h>
 #import <SafariServices/SafariServices.h>
 
+#import "MSAppDelegateForwarder.h"
 #import "MSDistribute.h"
+#import "MSDistributeAppDelegate.h"
 #import "MSDistributeDelegate.h"
 #import "MSDistributeInternal.h"
 #import "MSDistributePrivate.h"
@@ -45,6 +47,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     _apiUrl = kMSDefaultApiUrl;
     _installUrl = kMSDefaultInstallUrl;
     _channelConfiguration = [[MSChannelConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
+    _appDelegate = [MSDistributeAppDelegate new];
 
     /*
      * Delete update token if an application has been uninstalled and try to get a new one from server.
@@ -100,8 +103,10 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     MSLogInfo([MSDistribute logTag], @"Distribute service has been enabled.");
     self.releaseDetails = nil;
     [self startUpdate];
+    [MSAppDelegateForwarder addDelegate:self.appDelegate];
   } else {
     [self dismissEmbeddedSafari];
+    [MSAppDelegateForwarder removeDelegate:self.appDelegate];
     [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
     [MS_USER_DEFAULTS removeObjectForKey:kMSPostponedTimestampKey];
     [MS_USER_DEFAULTS removeObjectForKey:kMSMandatoryReleaseKey];
@@ -160,8 +165,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   [[self sharedInstance] setInstallUrl:installUrl];
 }
 
-+ (void)openUrl:(NSURL *)url {
-  [[self sharedInstance] openUrl:url];
++ (BOOL)openURL:(NSURL *)url {
+  return [[self sharedInstance] openURL:url];
 }
 
 + (void)notifyUpdateAction:(MSUpdateAction)action {
@@ -286,21 +291,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
               if (!details) {
                 MSLogError([MSDistribute logTag], @"Couldn't parse response payload.");
               } else {
-                NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
-                                                                   options:NSJSONWritingPrettyPrinted
-                                                                     error:&jsonError];
-                NSString *jsonString = nil;
-                if (!jsonData || jsonError) {
-                  jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-                } else {
-
-                  // NSJSONSerialization escapes paths by default so we replace them.
-                  jsonString = [[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]
-                      stringByReplacingOccurrencesOfString:@"\\/"
-                                                withString:@"/"];
-                }
-                MSLogDebug([MSDistribute logTag], @"Received a response of update request:\n%@", jsonString);
-
+                
                 /*
                  * Handle this update.
                  *
@@ -391,7 +382,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   return NO;
 }
 
-- (NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret releaseHash:(NSString *)releaseHash {
+- (nullable NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret releaseHash:(NSString *)releaseHash {
 
   // Create the request ID string.
   NSString *requestId = MS_UUID_STRING;
@@ -642,7 +633,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   });
 }
 
-- (void)startDownload:(MSReleaseDetails *)details {
+- (void)startDownload:(nullable MSReleaseDetails *)details {
   [MSUtility sharedAppOpenUrl:details.installUrl
       options:@{}
       completionHandler:^(MSOpenURLState state) {
@@ -679,13 +670,18 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   exit(0);
 }
 
-- (void)openUrl:(NSURL *)url {
+- (BOOL)openURL:(NSURL *)url {
+  
+  /*
+   * Ignore if app secret not set, can't test scheme.
+   * Also ignore if request is not for Mobile Center Distribute and this app.
+   */
+  if (!self.appSecret || ![[url scheme] isEqualToString:[NSString stringWithFormat:kMSDefaultCustomSchemeFormat, self.appSecret]]) {
+    return NO;
+  }
+  
+  // Process it if enabled.
   if ([self isEnabled]) {
-
-    // If the request is not for Mobile Center Distribute, ignore.
-    if (![[url scheme] isEqualToString:[NSString stringWithFormat:kMSDefaultCustomSchemeFormat, self.appSecret]]) {
-      return;
-    }
 
     // Parse query parameters
     NSString *requestedId = [MS_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey];
@@ -704,7 +700,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
     // If the request ID doesn't match, ignore.
     if (!(requestedId && queryRequestId && [requestedId isEqualToString:queryRequestId])) {
-      return;
+      return YES;
     }
 
     // Dismiss the embedded Safari view.
@@ -724,7 +720,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     }
   } else {
     MSLogDebug([MSDistribute logTag], @"Distribute service has been disabled, ignore request.");
-  }
+  }  
+  return YES;
 }
 
 - (void)applicationWillEnterForeground {

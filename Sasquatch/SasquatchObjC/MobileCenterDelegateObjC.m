@@ -5,6 +5,7 @@
 @import MobileCenterAnalytics;
 @import MobileCenterCrashes;
 @import MobileCenterDistribute;
+@import MobileCenterPush;
 
 /**
  * MobileCenterDelegate implementation in Objective C.
@@ -45,6 +46,9 @@
 - (BOOL) isDistributeEnabled{
   return [MSDistribute isEnabled];
 }
+- (BOOL) isPushEnabled{
+  return [MSPush isEnabled];
+}
 - (void) setAnalyticsEnabled:(BOOL)isEnabled{
   return [MSAnalytics setEnabled:isEnabled];
 }
@@ -53,6 +57,9 @@
 }
 - (void) setDistributeEnabled:(BOOL)isEnabled{
   return [MSDistribute setEnabled:isEnabled];
+}
+- (void) setPushEnabled:(BOOL)isEnabled{
+  return [MSPush setEnabled:isEnabled];
 }
 
 #pragma mark - MSAnalytics section.

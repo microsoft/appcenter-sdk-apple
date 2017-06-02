@@ -3,9 +3,10 @@
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
-#import "MSAbstractLog.h"
+#import "MSAbstractLogInternal.h"
 #import "MSChannelConfiguration.h"
 #import "MSChannelDefault.h"
+#import "MSHttpSenderPrivate.h"
 #import "MSLogManagerDefault.h"
 #import "MSLogManagerDefaultPrivate.h"
 
@@ -112,5 +113,37 @@
   
   // Then
   XCTAssertNoThrow(block());
+}
+
+- (void)testResume{
+  
+  // If
+  MSHttpSender *senderMock = OCMClassMock([MSHttpSender class]);
+  id storageMock = OCMProtocolMock(@protocol(MSStorage));
+  
+  // When
+  MSLogManagerDefault *sut = [[MSLogManagerDefault alloc] initWithSender:senderMock storage:storageMock];
+  
+  // When
+  [sut resume];
+  
+  // Then
+  OCMVerify([senderMock setEnabled:YES andDeleteDataOnDisabled:NO]);
+}
+
+- (void)testSuspend{
+  
+  // If
+  MSHttpSender *senderMock = OCMClassMock([MSHttpSender class]);
+  id storageMock = OCMProtocolMock(@protocol(MSStorage));
+  
+  // When
+  MSLogManagerDefault *sut = [[MSLogManagerDefault alloc] initWithSender:senderMock storage:storageMock];
+  
+  // When
+  [sut suspend];
+  
+  // Then
+  OCMVerify([senderMock setEnabled:NO andDeleteDataOnDisabled:NO]);
 }
 @end

@@ -1,24 +1,25 @@
 Pod::Spec.new do |s|
   s.name              = 'MobileCenter'
-  s.version           = '0.7.0'
+  s.version           = '0.9.0'
 
-  s.summary           = 'Add Mobile Center SDK to your app to collect crash reports & understand user behavior by analyzing the session, user or device information.'
+  s.summary           = 'Mobile Center is mission control for mobile apps. Get faster release cycles, higher-quality apps, and the insights to build what users want.'
   s.description       = <<-DESC
-                     Add Mobile Center services to your app and collect crash reports and understand user behavior by analyzing the session, user and device information for your app.
-                     The SDK is currently in public preview and supports the following services:
+                     Mobile Center is mission control for mobile apps.
+                      Get faster release cycles, higher-quality apps, and the insights to build what users want.
 
-                      1. Analytics:
-                      Mobile Center Analytics helps you understand user behavior and customer engagement to improve your iOS app. The SDK automatically captures session count,
-                      device properties like model, OS version etc. and pages. You can define your own custom events to measure things that matter to your business.
-                      All the information captured is available in the Mobile Center portal for you to analyze the data.
+                      The Mobile Center SDK uses a modular architecture so you can use any or all of the following services: 
 
-                      2. Crashes: 
-                      Mobile Center Crashes will automatically generate a crash log every time your app crashes. The log is first written to the device's storage and when
-                      the user starts the app again, the crash report will be forwarded to Mobile Center. Collecting crashes works for both beta and live apps, i.e. those submitted to App Store.
-                      Crash logs contain valuable information for you to help resolve the issue. Crashes uses PLCrashReporter 1.2.1.
+                      1. Mobile Center Analytics:
+                      Mobile Center Analytics helps you understand user behavior and customer engagement to improve your app. The SDK automatically captures session count, device properties like model, OS version, etc. You can define your own custom events to measure things that matter to you. All the information captured is available in the Mobile Center portal for you to analyze the data.
 
-                      3. Distribute:
+                      2. Mobile Center Crashes: 
+                      Mobile Center Distribute will let your users install a new version of the app when you distribute it via the Mobile Center. With a new version of the app available, the SDK will present an update dialog to the users to either download or postpone the new version. Once they choose to update, the SDK will start to update your application. This feature will NOT work if your app is deployed to the app store.
+
+                      3. Mobile Center Distribute:
                       Mobile Center Distribute provides the capability to display in-app updates to your app users when a new version of the application is released.
+
+                      4. Mobile Center Push:
+                      Mobile Center Push enables you to send push notifications to users of your app from the Mobile Center portal.
 
                         DESC
 
@@ -35,32 +36,39 @@ Pod::Spec.new do |s|
 
   s.frameworks = 'Foundation',  'SystemConfiguration', 'UIKit'
 
-  s.default_subspecs = 'MobileCenterAnalytics', 'MobileCenterCrashes'
+  s.default_subspecs = 'Analytics', 'Crashes'
 
-  s.subspec 'MobileCenter' do |ss|
-      ss.frameworks = 'Foundation',  'SystemConfiguration', 'UIKit'
+  s.subspec 'Core' do |ss|
+      ss.frameworks = 'Foundation', 'CoreTelephony', 'SystemConfiguration', 'UIKit'
       ss.vendored_frameworks = "MobileCenter-SDK-iOS/MobileCenter.framework"
   end
 
- s.subspec 'MobileCenterAnalytics' do |ss|
-      ss.frameworks = 'CoreTelephony', 'Foundation', 'UIKit'
-      ss.dependency 'MobileCenter/MobileCenter'
+ s.subspec 'Analytics' do |ss|
+      ss.frameworks = 'Foundation', 'UIKit'
+      ss.dependency 'MobileCenter/Core'
       ss.vendored_frameworks = "MobileCenter-SDK-iOS/MobileCenterAnalytics.framework"
   end
 
-  s.subspec 'MobileCenterCrashes' do |ss|
-      ss.frameworks = 'Foundation', 'UIKit'
+  s.subspec 'Crashes' do |ss|
+      ss.frameworks = 'Foundation'
       ss.libraries = 'z', 'c++'
-      ss.dependency 'MobileCenter/MobileCenter'
+      ss.dependency 'MobileCenter/Core'
       ss.vendored_frameworks = "MobileCenter-SDK-iOS/MobileCenterCrashes.framework"
   end
 
- s.subspec 'MobileCenterDistribute' do |ss|
-   ss.frameworks = 'CoreTelephony', 'Foundation', 'UIKit'
+ s.subspec 'Distribute' do |ss|
+   ss.frameworks = 'Foundation', 'UIKit'
    ss.weak_frameworks = 'SafariServices'
-   ss.dependency 'MobileCenter/MobileCenter'
+   ss.dependency 'MobileCenter/Core'
    ss.resource_bundle = { 'MobileCenterDistributeResources' => ['MobileCenter-SDK-iOS/MobileCenterDistributeResources.bundle/*.lproj'] }
    ss.vendored_frameworks = "MobileCenter-SDK-iOS/MobileCenterDistribute.framework"
+ end
+
+ s.subspec 'Push' do |ss|
+   ss.frameworks = 'Foundation', 'UIKit'
+   ss.weak_frameworks = 'UserNotifications'
+   ss.dependency 'MobileCenter/Core'
+   ss.vendored_frameworks = "MobileCenter-SDK-iOS/MobileCenterPush.framework"
  end
 
 end

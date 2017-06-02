@@ -5,6 +5,7 @@
 #import "MSSessionTracker.h"
 #import "MSSessionTrackerUtil.h"
 #import "MSStartSessionLog.h"
+#import "MSStartServiceLog.h"
 
 static NSTimeInterval const kMSTestSessionTimeout = 1.5;
 
@@ -223,6 +224,51 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
   // Then
   XCTAssertEqual(UINT64_MAX, log.toffset.unsignedLongLongValue);
   XCTAssertEqual(log.sid, [self.sut.pastSessions lastObject].sessionId);
-};
+}
+
+- (void)testNoStartSessionWithStartSessionLog {
+
+  // When
+  MSLogWithProperties *log = [MSLogWithProperties new];
+
+  // Then
+  XCTAssertNil(log.sid);
+  XCTAssertNil(log.toffset);
+
+  // When
+  [self.sut onEnqueuingLog:log withInternalId:nil];
+
+  // Then
+  XCTAssertNil(log.toffset);
+  XCTAssertEqual(log.sid, self.sut.sessionId);
+
+  // If
+  MSStartSessionLog *sessionLog = [MSStartSessionLog new];
+
+  // Then
+  XCTAssertNil(sessionLog.sid);
+  XCTAssertNil(sessionLog.toffset);
+
+  // When
+  [self.sut onEnqueuingLog:sessionLog withInternalId:nil];
+
+  // Then
+  XCTAssertNil(sessionLog.toffset);
+  XCTAssertNil(sessionLog.sid);
+
+  // If
+  MSStartServiceLog *serviceLog = [MSStartServiceLog new];
+
+  // Then
+  XCTAssertNil(serviceLog.sid);
+  XCTAssertNil(serviceLog.toffset);
+
+  // When
+  [self.sut onEnqueuingLog:serviceLog withInternalId:nil];
+
+  // Then
+  XCTAssertNil(serviceLog.toffset);
+  XCTAssertNil(serviceLog.sid);
+}
 
 @end

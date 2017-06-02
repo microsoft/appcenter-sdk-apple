@@ -61,6 +61,13 @@ typedef NS_ENUM(NSInteger, MSOpenURLState) {
 @interface MSUtility (Application)
 
 /**
+ * Get the App Delegate.
+ *
+ * @return The delegate of the app object or nil if not accessible.
+ */
++ (id<UIApplicationDelegate>)sharedAppDelegate;
+
+/**
  * Get current application state.
  *
  * @return Current state of the application or MSApplicationStateUnknown while the state can't be determined.
