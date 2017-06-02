@@ -191,7 +191,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     if ([crashes delegateImplementsAttachmentCallback]) {
       attachments = [crashes.delegate attachmentsWithCrashes:crashes forErrorReport:report];
       if (attachments.count > kMaxAttachmentsPerCrashReport) {
-        MSLogWarning([MSCrashes logTag], @"A limit of %ul attachments per error report might be enforced by server.", kMaxAttachmentsPerCrashReport);
+        MSLogWarning([MSCrashes logTag], @"A limit of %u attachments per error report might be enforced by server.", kMaxAttachmentsPerCrashReport);
       }
     } else {
       MSLogDebug([MSCrashes logTag], @"attachmentsWithCrashes is not implemented");
