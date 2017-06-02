@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
 
-#if TARGET_OS_IPHONE
+#if TARGET_OS_IPHONE && !TARGET_OS_TV
 #import "MSAppDelegateForwarder.h"
 #else
 // TODO: ApplicationDelegate is not yet implemented for macOS.
@@ -84,7 +84,7 @@ static NSString *const kMSGroupId = @"MobileCenter";
   return NO;
 }
 
-#if TARGET_OS_IPHONE
+#if TARGET_OS_IPHONE && !TARGET_OS_TV
 + (BOOL)isAppDelegateForwarderEnabled {
   @synchronized([self sharedInstance]) {
     return MSAppDelegateForwarder.enabled;
@@ -105,7 +105,7 @@ static NSString *const kMSGroupId = @"MobileCenter";
 + (void)setLogLevel:(MSLogLevel)logLevel {
   MSLogger.currentLogLevel = logLevel;
   
-#if TARGET_OS_IPHONE
+#if TARGET_OS_IPHONE && !TARGET_OS_TV
   // The logger is not set at the time of swizzling but now may be a good time to flush the traces.
   [MSAppDelegateForwarder flushTraceBuffer];
 #else
