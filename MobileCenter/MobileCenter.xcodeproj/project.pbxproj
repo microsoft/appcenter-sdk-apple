@@ -1919,7 +1919,6 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_NAME = "${PROJECT_NAME}";
 				SDKROOT = iphoneos;
 				TVOS_DEPLOYMENT_TARGET = 10.0;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/**";
@@ -1965,7 +1964,6 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_NAME = "${PROJECT_NAME}";
 				SDKROOT = iphoneos;
 				TVOS_DEPLOYMENT_TARGET = 10.0;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"/**";
