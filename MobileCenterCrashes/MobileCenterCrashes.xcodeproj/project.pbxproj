@@ -1222,7 +1222,6 @@
 			buildSettings = {
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/macOS\"/**";
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/macOS/**";
-				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecentercrashes;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 			};
@@ -1234,7 +1233,6 @@
 			buildSettings = {
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/macOS\"/**";
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/macOS/**";
-				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecentercrashes;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 			};
@@ -1377,7 +1375,6 @@
 			baseConfigurationReference = 049BC8251ECE36D400FB6719 /* iOS.xcconfig */;
 			buildSettings = {
 				"ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
-				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecentercrashes;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
@@ -1389,7 +1386,6 @@
 			baseConfigurationReference = 049BC8251ECE36D400FB6719 /* iOS.xcconfig */;
 			buildSettings = {
 				"ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
-				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecentercrashes;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";

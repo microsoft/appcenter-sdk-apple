@@ -602,7 +602,6 @@
 			buildSettings = {
 				"ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenterpush;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
@@ -615,7 +614,6 @@
 			buildSettings = {
 				"ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenterpush;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";

@@ -922,7 +922,6 @@
 			baseConfigurationReference = 043121731EE0C248007054C5 /* tvOS.xcconfig */;
 			buildSettings = {
 				"ARCHS[sdk=appletvsimulator*]" = "$(MS_SIM_ARCHS)";
-				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenteranalytics;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				"VALID_ARCHS[sdk=appletvsimulator*]" = "$(MS_SIM_ARCHS)";
@@ -934,7 +933,6 @@
 			baseConfigurationReference = 043121731EE0C248007054C5 /* tvOS.xcconfig */;
 			buildSettings = {
 				"ARCHS[sdk=appletvsimulator*]" = "$(MS_SIM_ARCHS)";
-				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenteranalytics;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				"VALID_ARCHS[sdk=appletvsimulator*]" = "$(MS_SIM_ARCHS)";
@@ -985,7 +983,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */;
 			buildSettings = {
-				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenteranalytics;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 			};
@@ -995,7 +992,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */;
 			buildSettings = {
-				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenteranalytics;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 			};
@@ -1114,7 +1110,6 @@
 			baseConfigurationReference = 049BC82A1ECE3B9400FB6719 /* iOS.xcconfig */;
 			buildSettings = {
 				"ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
-				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenteranalytics;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
@@ -1126,7 +1121,6 @@
 			baseConfigurationReference = 049BC82A1ECE3B9400FB6719 /* iOS.xcconfig */;
 			buildSettings = {
 				"ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
-				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenteranalytics;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
