@@ -1,0 +1,1 @@
+USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../MobileCenter/MobileCenter"

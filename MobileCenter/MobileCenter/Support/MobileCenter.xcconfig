@@ -1,5 +1,7 @@
 #include "../../../Global.xcconfig"
 
+PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenter
+
 OTHER_LDFLAGS = $(inherited) -framework Foundation -framework SystemConfiguration
 
 CLANG_WARN_INT_CONVERSION = NO
