@@ -901,10 +901,6 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../Vendor/Common\"/**",
-					"\"$(SRCROOT)/../Vendor/iOS\"/**",
-				);
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../Vendor/Common\"/**",
 					"\"$(SRCROOT)/../Vendor/iOS\"/**",
@@ -925,10 +921,6 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../Vendor/Common\"/**",
-					"\"$(SRCROOT)/../Vendor/iOS\"/**",
-				);
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../Vendor/Common\"/**",
 					"\"$(SRCROOT)/../Vendor/iOS\"/**",

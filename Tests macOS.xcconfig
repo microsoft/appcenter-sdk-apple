@@ -3,5 +3,7 @@
 OTHER_CFLAGS = $(inherited) -iframework "$(SRCROOT)/../Vendor/macOS/OCMock" -iframework "$(SRCROOT)/../Vendor/macOS/OCHamcrest" -iframework "$(SRCROOT)/../Vendor/macOS/OHHTTPStubs"  -iframework "$(PLATFORM_DIR)/Developer/Library/Frameworks"
 OTHER_LDFLAGS = $(inherited) -framework AppKit -ObjC
 
+FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../Vendor/macOS"/**
+
 // OCMock and OCHamcrest have a bunch of warnings so we just diable this only for testing.
 GCC_TREAT_WARNINGS_AS_ERRORS = NO

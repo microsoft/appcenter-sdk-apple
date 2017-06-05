@@ -1263,10 +1263,6 @@
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Mac Developer";
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../Vendor/Common\"/**",
-					"\"$(SRCROOT)/../Vendor/macOS\"/**",
-				);
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../Vendor/Common\"/**",
 					"\"$(SRCROOT)/../Vendor/macOS\"/**",
@@ -1289,10 +1285,6 @@
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Mac Developer";
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../Vendor/Common\"/**",
-					"\"$(SRCROOT)/../Vendor/macOS\"/**",
-				);
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../Vendor/Common\"/**",
 					"\"$(SRCROOT)/../Vendor/macOS\"/**",
@@ -1435,10 +1427,6 @@
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../Vendor/Common\"/**",
-					"\"$(SRCROOT)/../Vendor/iOS\"/**",
-				);
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../Vendor/Common\"/**",
 					"\"$(SRCROOT)/../Vendor/iOS\"/**",
@@ -1465,10 +1453,6 @@
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../Vendor/Common\"/**",
-					"\"$(SRCROOT)/../Vendor/iOS\"/**",
-				);
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../Vendor/Common\"/**",
 					"\"$(SRCROOT)/../Vendor/iOS\"/**",
