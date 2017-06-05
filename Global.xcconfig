@@ -6,6 +6,14 @@ VERSION_STRING = 0.9.0
 MS_WATCH_ARCHS = armv7k
 MS_SIM_ARCHS = x86_64 i386
 
+// :Mark: Base SDK
+SDKROOT = iphoneos
+
+// :Mark: Deployment targets
+IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+TVOS_DEPLOYMENT_TARGET = 10.0;
+MACOSX_DEPLOYMENT_TARGET = 10.10;
+
 // :Mark: Product name
 PRODUCT_NAME = ${PROJECT_NAME}
 
