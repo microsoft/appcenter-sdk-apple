@@ -7,7 +7,7 @@
 static NSString *const kPUPLogTag = @"[Puppet]";
 static NSString *const kPUPCustomizedUpdateAlertKey = @"kPUPCustomizedUpdateAlertKey";
 
-// Analytics
+// Analytics.
 static NSString *const kWillSendEventLog = @"willSendEventLog";
 static NSString *const kDidSucceedSendingEventLog = @"didSucceedSendingEventLog";
 static NSString *const kDidFailSendingEventLog = @"didFailSendingEventLog";
@@ -16,7 +16,7 @@ static NSString *const kDidSentEventText = @"Sent event occurred";
 static NSString *const kDidFailedToSendEventText = @"Failed to send event occurred";
 static NSString *const kDidSendingEventText = @"Sending event occurred";
 
-// Crashes
+// Crashes.
 static NSString *const kShouldProcessErrorReportEvent = @"shouldProcessErrorReport";
 static NSString *const kWillSendErrorReportEvent = @"willSendErrorReport";
 static NSString *const kDidSucceedSendingErrorReportEvent = @"didSucceedSendingErrorReport";

@@ -71,34 +71,4 @@ class CrashesUITests: XCTestCase {
     // Service should be enabled.
     XCTAssertEqual("1", crashesButton.value as! String);
   }
-
-  func testCrashDelegate() {
-    guard let `app` = app else {
-      XCTFail();
-      return;
-    }
-
-    // Go to crashes page
-    app.tables.cells.element(boundBy: CrashesCellIndex).tap();
-
-    // Crash app and restart them
-    do {
-      app.tables.cells.element(boundBy: 0).tap();
-      app.buttons["Crash"].tap();
-    } catch {
-      self.app = XCUIApplication();
-      self.app?.launch();
-    }
-
-    guard let newApp = self.app else {
-      return;
-    }
-
-    // Go to crashes page
-    newApp.tables.cells.element(boundBy: CrashesCellIndex).tap();
-
-    // Go to crash result page
-    newApp.cells["Crashes result page"].tap();
-
-  }
 }

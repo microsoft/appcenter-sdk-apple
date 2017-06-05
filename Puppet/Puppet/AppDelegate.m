@@ -28,7 +28,7 @@ static UIViewController *crashResultViewController = nil;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
-  // View controller should register in NSNotificationCenter before SDK start
+  // View controller should register in NSNotificationCenter before SDK start.
   crashResultViewController = [[[[self window] rootViewController] storyboard] instantiateViewControllerWithIdentifier:@"crashResult"];
 
   // Customize Mobile Center SDK.

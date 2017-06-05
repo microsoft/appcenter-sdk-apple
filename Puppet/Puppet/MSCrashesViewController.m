@@ -91,12 +91,12 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-  // Settings section
+  // Settings section.
   if (section == [tableView numberOfSections] - 1) {
     return 1;
   }
 
-  // Crash result section
+  // Crash result section.
   if (section == [tableView numberOfSections] - 2) {
     return 1;
   }
@@ -105,12 +105,12 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 
-  // Settings section
+  // Settings section.
   if (section == [tableView numberOfSections] - 1) {
     return @"Settings";
   }
 
-  // Crash result section
+  // Crash result section.
   if (section == [tableView numberOfSections] - 2) {
     return @"Crash result";
   }
@@ -120,27 +120,27 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   NSString *CellIdentifier = nil;
 
-  // Settings cell id
+  // Settings cell id.
   if (indexPath.section == [tableView numberOfSections] - 1) {
     CellIdentifier = @"enable";
   }
 
-  // Crash result cell id
+  // Crash result cell id.
   else if (indexPath.section == [tableView numberOfSections] - 2) {
     CellIdentifier = @"crashResult";
   }
 
-  // Crash cell id
+  // Crash cell id.
   else {
     CellIdentifier = @"crash";
   }
 
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 
-  // Settings cell
+  // Settings cell.
   if (indexPath.section == [tableView numberOfSections] - 1) {
 
-    // Find switch in subviews
+    // Find switch in subviews.
     for(id view in cell.contentView.subviews) {
       if([view isKindOfClass:[UISwitch class]]){
         ((UISwitch *)view).on = [MSCrashes isEnabled];
@@ -149,7 +149,7 @@
     }
   }
 
-  // Crash cell
+  // Crash cell.
   else if (indexPath.section < [tableView numberOfSections] - 2) {
     MSCrash *crash = (MSCrash *)(((NSArray *)self.knownCrashes[self.sortedAllKeys[(NSUInteger)indexPath.section]])[(NSUInteger)indexPath.row]);
     cell.textLabel.text = crash.title;
