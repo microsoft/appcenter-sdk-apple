@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5C481B9C1EE5794A009329DD /* AnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C481B991EE5794A009329DD /* AnalyticsViewController.swift */; };
+		5C481B9D1EE5794A009329DD /* AnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C481B991EE5794A009329DD /* AnalyticsViewController.swift */; };
+		5C481B9E1EE5794A009329DD /* MobileCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C481B9A1EE5794A009329DD /* MobileCenterViewController.swift */; };
+		5C481B9F1EE5794A009329DD /* MobileCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C481B9A1EE5794A009329DD /* MobileCenterViewController.swift */; };
+		5C481BA61EE586D2009329DD /* MobileCenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C481BA31EE586D2009329DD /* MobileCenterProtocol.swift */; };
+		5C481BA71EE586D2009329DD /* MobileCenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C481BA31EE586D2009329DD /* MobileCenterProtocol.swift */; };
+		5C5A41801EE5AE7500C377A7 /* MobileCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB338A31EE59C0F0089A60B /* MobileCenterDelegate.swift */; };
+		5C5A41881EE5B07D00C377A7 /* MobileCenterDelegateSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5A41811EE5AEE800C377A7 /* MobileCenterDelegateSwift.swift */; };
+		5CB3389C1EE591AB0089A60B /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CB3389B1EE591AB0089A60B /* MSAlertController.m */; };
+		5CB338A21EE59B4B0089A60B /* MobileCenterDelegateObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CB338A11EE59B4B0089A60B /* MobileCenterDelegateObjC.m */; };
+		5CB338A41EE59C0F0089A60B /* MobileCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB338A31EE59C0F0089A60B /* MobileCenterDelegate.swift */; };
 		D322EFDB1E8E97C800A8EDA5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D322EFDA1E8E97C800A8EDA5 /* AppDelegate.swift */; };
 		D322EFE21E8E97C800A8EDA5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D322EFE11E8E97C800A8EDA5 /* Assets.xcassets */; };
 		D322EFEF1E8E97DF00A8EDA5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D322EFEE1E8E97DF00A8EDA5 /* main.m */; };
@@ -23,7 +34,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		D322EFC71E8E97A100A8EDA5 /* SasquatchTVViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SasquatchTVViewController.swift; sourceTree = "<group>"; };
+		5C481B991EE5794A009329DD /* AnalyticsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AnalyticsViewController.swift; path = ViewControllers/AnalyticsViewController.swift; sourceTree = "<group>"; };
+		5C481B9A1EE5794A009329DD /* MobileCenterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MobileCenterViewController.swift; path = ViewControllers/MobileCenterViewController.swift; sourceTree = "<group>"; };
+		5C481BA31EE586D2009329DD /* MobileCenterProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MobileCenterProtocol.swift; path = ../../Sasquatch/Sasquatch/MobileCenterProtocol.swift; sourceTree = "<group>"; };
+		5C5A41811EE5AEE800C377A7 /* MobileCenterDelegateSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobileCenterDelegateSwift.swift; sourceTree = "<group>"; };
+		5CB338991EE58EBC0089A60B /* SasquatchTV-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SasquatchTV-Bridging-Header.h"; sourceTree = "<group>"; };
+		5CB3389A1EE591AB0089A60B /* MSAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSAlertController.h; path = ../../Vendor/Common/MSAlertController/MSAlertController.h; sourceTree = "<group>"; };
+		5CB3389B1EE591AB0089A60B /* MSAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSAlertController.m; path = ../../Vendor/Common/MSAlertController/MSAlertController.m; sourceTree = "<group>"; };
+		5CB338A01EE59B250089A60B /* MobileCenterDelegateObjC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MobileCenterDelegateObjC.h; sourceTree = "<group>"; };
+		5CB338A11EE59B4B0089A60B /* MobileCenterDelegateObjC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MobileCenterDelegateObjC.m; sourceTree = "<group>"; };
+		5CB338A31EE59C0F0089A60B /* MobileCenterDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobileCenterDelegate.swift; sourceTree = "<group>"; };
 		D322EFCA1E8E97A100A8EDA5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/SasquatchTV.storyboard; sourceTree = "<group>"; };
 		D322EFCC1E8E97A100A8EDA5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D322EFCE1E8E97A100A8EDA5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -66,6 +86,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5C481BAB1EE58922009329DD /* MSAlertController */ = {
+			isa = PBXGroup;
+			children = (
+				5CB3389A1EE591AB0089A60B /* MSAlertController.h */,
+				5CB3389B1EE591AB0089A60B /* MSAlertController.m */,
+			);
+			name = MSAlertController;
+			sourceTree = "<group>";
+		};
 		D322EFB91E8E97A100A8EDA5 = {
 			isa = PBXGroup;
 			children = (
@@ -89,8 +118,11 @@
 		D322EFC41E8E97A100A8EDA5 /* SasquatchTV */ = {
 			isa = PBXGroup;
 			children = (
-				D322F0031E8E985B00A8EDA5 /* Supporting Files */,
+				5CB338A31EE59C0F0089A60B /* MobileCenterDelegate.swift */,
+				5C481BA31EE586D2009329DD /* MobileCenterProtocol.swift */,
+				5C481BAB1EE58922009329DD /* MSAlertController */,
 				D322F0011E8E983B00A8EDA5 /* Storyboards */,
+				D322F0031E8E985B00A8EDA5 /* Supporting Files */,
 				D322F0021E8E984400A8EDA5 /* ViewControllers */,
 			);
 			path = SasquatchTV;
@@ -100,6 +132,7 @@
 			isa = PBXGroup;
 			children = (
 				D322EFDA1E8E97C800A8EDA5 /* AppDelegate.swift */,
+				5C5A41811EE5AEE800C377A7 /* MobileCenterDelegateSwift.swift */,
 				D322EFFF1E8E981800A8EDA5 /* Supporting Files */,
 			);
 			path = SasquatchTVSwift;
@@ -108,6 +141,8 @@
 		D322EFEC1E8E97DF00A8EDA5 /* SasquatchTVObjC */ = {
 			isa = PBXGroup;
 			children = (
+				5CB338A01EE59B250089A60B /* MobileCenterDelegateObjC.h */,
+				5CB338A11EE59B4B0089A60B /* MobileCenterDelegateObjC.m */,
 				D322EFF01E8E97DF00A8EDA5 /* AppDelegate.h */,
 				D322EFF11E8E97DF00A8EDA5 /* AppDelegate.m */,
 				D322EFED1E8E97DF00A8EDA5 /* Supporting Files */,
@@ -145,7 +180,8 @@
 		D322F0021E8E984400A8EDA5 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				D322EFC71E8E97A100A8EDA5 /* SasquatchTVViewController.swift */,
+				5C481B991EE5794A009329DD /* AnalyticsViewController.swift */,
+				5C481B9A1EE5794A009329DD /* MobileCenterViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -153,8 +189,9 @@
 		D322F0031E8E985B00A8EDA5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				D322EFCE1E8E97A100A8EDA5 /* Info.plist */,
 				D322EFCC1E8E97A100A8EDA5 /* Assets.xcassets */,
+				D322EFCE1E8E97A100A8EDA5 /* Info.plist */,
+				5CB338991EE58EBC0089A60B /* SasquatchTV-Bridging-Header.h */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -223,6 +260,7 @@
 					};
 					D322EFEA1E8E97DF00A8EDA5 = {
 						CreatedOnToolsVersion = 8.2.1;
+						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -272,7 +310,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C481B9F1EE5794A009329DD /* MobileCenterViewController.swift in Sources */,
+				5C5A41881EE5B07D00C377A7 /* MobileCenterDelegateSwift.swift in Sources */,
+				5C5A41801EE5AE7500C377A7 /* MobileCenterDelegate.swift in Sources */,
 				D322EFDB1E8E97C800A8EDA5 /* AppDelegate.swift in Sources */,
+				5C481BA71EE586D2009329DD /* MobileCenterProtocol.swift in Sources */,
+				5C481B9D1EE5794A009329DD /* AnalyticsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,8 +323,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C481BA61EE586D2009329DD /* MobileCenterProtocol.swift in Sources */,
+				5CB3389C1EE591AB0089A60B /* MSAlertController.m in Sources */,
 				D322EFF21E8E97DF00A8EDA5 /* AppDelegate.m in Sources */,
 				D322EFEF1E8E97DF00A8EDA5 /* main.m in Sources */,
+				5C481B9E1EE5794A009329DD /* MobileCenterViewController.swift in Sources */,
+				5C481B9C1EE5794A009329DD /* AnalyticsViewController.swift in Sources */,
+				5CB338A41EE59C0F0089A60B /* MobileCenterDelegate.swift in Sources */,
+				5CB338A21EE59B4B0089A60B /* MobileCenterDelegateObjC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -399,10 +448,12 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-iOS/iOS/**";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../../Vendor/Common/**";
 				INFOPLIST_FILE = SasquatchTVSwift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchswift.tv;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "SasquatchTV/SasquatchTV-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -414,10 +465,12 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-iOS/iOS/**";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../../Vendor/Common/**";
 				INFOPLIST_FILE = SasquatchTVSwift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchswift.tv;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "SasquatchTV/SasquatchTV-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -427,6 +480,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-iOS/iOS/**";
@@ -436,6 +490,9 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "SasquatchTV/SasquatchTV-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -444,6 +501,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-iOS/iOS/**";
@@ -452,6 +510,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc.tv;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "SasquatchTV/SasquatchTV-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

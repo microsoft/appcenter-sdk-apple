@@ -1,5 +1,4 @@
 import UIKit
-
 import MobileCenter
 import MobileCenterAnalytics
 
@@ -13,7 +12,8 @@ class AppDelegate : UIResponder, UIApplicationDelegate {
 
     // Override point for customization after application launch.
     MSMobileCenter.setLogLevel(MSLogLevel.verbose)
-    MSMobileCenter.start("0dbca56b-b9ae-4d53-856a-7c2856137d85", withServices: [MSAnalytics.self, MSCrashes.self])
+    MSMobileCenter.start("0dbca56b-b9ae-4d53-856a-7c2856137d85", withServices: [MSAnalytics.self])
+    setMobileCenterDelegate()
     return true
   }
 
@@ -60,5 +60,10 @@ class AppDelegate : UIResponder, UIApplicationDelegate {
      * Called when the application is about to terminate. Save data if appropriate. See also
      * applicationDidEnterBackground:.
      */
+  }
+
+  private func setMobileCenterDelegate() {
+    let sasquatchController = (UIApplication.shared.windows[0].rootViewController as! UINavigationController).topViewController as! MobileCenterViewController
+    sasquatchController.mobileCenter = MobileCenterDelegateSwift()
   }
 }
