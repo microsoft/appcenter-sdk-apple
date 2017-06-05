@@ -63,7 +63,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate {
   }
 
   private func setMobileCenterDelegate() {
-    let sasquatchController = (UIApplication.shared.windows[0].rootViewController as! UINavigationController).topViewController as! MobileCenterViewController
+    let sasquatchController = self.window?.rootViewController as! MobileCenterViewController
     sasquatchController.mobileCenter = MobileCenterDelegateSwift()
   }
 }
