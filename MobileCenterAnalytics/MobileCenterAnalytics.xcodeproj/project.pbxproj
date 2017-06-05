@@ -953,9 +953,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC82C1ECE3CF000FB6719 /* Tests macOS.xcconfig */;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Mac Developer";
-				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -963,9 +960,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC82C1ECE3CF000FB6719 /* Tests macOS.xcconfig */;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Mac Developer";
-				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
@@ -1046,7 +1040,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 041CFF8B1ECCFF6700B4654B /* Tests iOS.xcconfig */;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 			};
 			name = Debug;
 		};
@@ -1054,7 +1047,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 041CFF8B1ECCFF6700B4654B /* Tests iOS.xcconfig */;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 			};
 			name = Release;
 		};

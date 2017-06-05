@@ -1814,7 +1814,6 @@
 			baseConfigurationReference = 041CFF8D1ECCFFD200B4654B /* Tests macOS.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Mac Developer";
 			};
 			name = Debug;
 		};
@@ -1823,7 +1822,6 @@
 			baseConfigurationReference = 041CFF8D1ECCFFD200B4654B /* Tests macOS.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Mac Developer";
 			};
 			name = Release;
 		};
@@ -1922,8 +1920,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 04840CD71ECCF6560020B0FC /* Tests iOS.xcconfig */;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 			};
 			name = Debug;
 		};
@@ -1931,8 +1927,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 04840CD71ECCF6560020B0FC /* Tests iOS.xcconfig */;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 			};
 			name = Release;
 		};

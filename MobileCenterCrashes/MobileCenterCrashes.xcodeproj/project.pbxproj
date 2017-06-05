@@ -1252,9 +1252,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 041CFF981ECD010000B4654B /* Tests macOS.xcconfig */;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Mac Developer";
-				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -1262,9 +1259,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 041CFF981ECD010000B4654B /* Tests macOS.xcconfig */;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Mac Developer";
-				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
@@ -1315,8 +1309,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 041CFF911ECD00DC00B4654B /* Tests iOS.xcconfig */;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -1329,8 +1321,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 041CFF911ECD00DC00B4654B /* Tests iOS.xcconfig */;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
