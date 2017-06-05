@@ -2,3 +2,4 @@ SDK_NAME = mobilecenter.ios
 SDKROOT = iphoneos
 ARCHS = armv7 armv7s arm64
 VALID_ARCHS = $(ARCHS)
+SKIP_INSTALL = YES

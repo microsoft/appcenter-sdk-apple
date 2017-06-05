@@ -2,3 +2,4 @@ SDK_NAME = mobilecenter.tvos
 SDKROOT = appletvos
 ARCHS = arm64
 VALID_ARCHS = $(ARCHS)
+SKIP_INSTALL = YES
