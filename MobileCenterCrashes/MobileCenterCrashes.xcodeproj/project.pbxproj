@@ -1222,6 +1222,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8261ECE370100FB6719 /* macOS.xcconfig */;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/macOS\"/**";
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/macOS\"/**";
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 			};
 			name = Debug;
@@ -1230,6 +1232,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8261ECE370100FB6719 /* macOS.xcconfig */;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/macOS\"/**";
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/macOS\"/**";
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 			};
 			name = Release;
