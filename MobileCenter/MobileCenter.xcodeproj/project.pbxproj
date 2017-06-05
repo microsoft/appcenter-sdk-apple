@@ -1784,7 +1784,6 @@
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenter;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
-				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
 				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
 			};
@@ -1799,7 +1798,6 @@
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenter;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
-				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
 				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
 			};
@@ -1809,7 +1807,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 043120711EE0BCC4007054C5 /* tvOS.xcconfig */;
 			buildSettings = {
-				SDKROOT = appletvos;
 			};
 			name = Debug;
 		};
@@ -1817,7 +1814,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 043120711EE0BCC4007054C5 /* tvOS.xcconfig */;
 			buildSettings = {
-				SDKROOT = appletvos;
 			};
 			name = Release;
 		};
@@ -1843,7 +1839,6 @@
 					"\"$(SRCROOT)/../Vendor/macOS\"/**",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecentertests;
-				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -1869,7 +1864,6 @@
 					"\"$(SRCROOT)/../Vendor/macOS\"/**",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecentertests;
-				SDKROOT = macosx;
 			};
 			name = Release;
 		};
@@ -1881,7 +1875,6 @@
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenter;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
-				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -1894,7 +1887,6 @@
 				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenter;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
-				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -1903,7 +1895,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8291ECE3A5A00FB6719 /* macOS.xcconfig */;
 			buildSettings = {
-				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -1911,7 +1902,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8291ECE3A5A00FB6719 /* macOS.xcconfig */;
 			buildSettings = {
-				SDKROOT = macosx;
 			};
 			name = Release;
 		};

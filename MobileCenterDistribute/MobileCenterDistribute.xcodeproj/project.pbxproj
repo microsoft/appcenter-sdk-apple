@@ -973,7 +973,6 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.distribute.resources.ios;
 				PRODUCT_NAME = "${PROJECT_NAME}Resources";
-				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = bundle;
@@ -992,7 +991,6 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.distribute.resources.ios;
 				PRODUCT_NAME = "${PROJECT_NAME}Resources";
-				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = bundle;
