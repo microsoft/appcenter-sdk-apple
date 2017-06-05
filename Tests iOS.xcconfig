@@ -1,11 +1,10 @@
+#include "./Global Tests.xcconfig"
 #include "./Global iOS.xcconfig"
+
+SEARCH_PATHS = "$(SRCROOT)/../Vendor/iOS"
 
 OTHER_CFLAGS = $(inherited) -iframework "$(SRCROOT)/../Vendor/iOS/OCMock" -iframework "$(SRCROOT)/../Vendor/iOS/OCHamcrest" -iframework "$(SRCROOT)/../Vendor/iOS/OHHTTPStubs" -iframework "$(PLATFORM_DIR)/Developer/Library/Frameworks"
 OTHER_LDFLAGS = $(inherited) -framework UIKit -ObjC
-
-FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../Vendor/iOS"/**
-HEADER_SEARCH_PATHS = "$(SRCROOT)/../Vendor/iOS"/**
-LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../Vendor/iOS"/**
 
 // OCMock and OCHamcrest have a bunch of warnings so we just diable this only for testing.
 GCC_TREAT_WARNINGS_AS_ERRORS = NO
