@@ -1,3 +1,5 @@
 #include "../../../Global.xcconfig"
 
 OTHER_LDFLAGS = $(inherited) -framework Foundation -framework SystemConfiguration
+
+CLANG_WARN_INT_CONVERSION = NO
