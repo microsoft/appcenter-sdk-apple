@@ -2,6 +2,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
+#import "AppDelegate.h"
 #import "MSCrashes.h"
 #import "MSCrashesViewController.h"
 #import "MSCrashesDetailViewController.h"
@@ -85,44 +86,61 @@
 #pragma mark - Tableview datasource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-  return (NSInteger)self.knownCrashes.count + 1;
+  return (NSInteger)self.knownCrashes.count + 2;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-  BOOL isLast = (section == ([tableView numberOfSections] -1));
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-  if(isLast) {
+  // Settings section.
+  if (section == [tableView numberOfSections] - 1) {
     return 1;
   }
-  else {
-    return (NSInteger)((NSArray *)self.knownCrashes[self.sortedAllKeys[(NSUInteger)section]]).count;
+
+  // Crash result section.
+  if (section == [tableView numberOfSections] - 2) {
+    return 1;
   }
+  return (NSInteger)((NSArray *)self.knownCrashes[self.sortedAllKeys[(NSUInteger)section]]).count;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-  
-  BOOL isLast = (section == ([tableView numberOfSections] -1));
-  
-  if(isLast) {
+
+  // Settings section.
+  if (section == [tableView numberOfSections] - 1) {
     return @"Settings";
   }
-  else {
-    return self.sortedAllKeys[(NSUInteger)section];
+
+  // Crash result section.
+  if (section == [tableView numberOfSections] - 2) {
+    return @"Crash result";
   }
+  return self.sortedAllKeys[(NSUInteger)section];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  static NSString *CellIdentifier = nil;
-  
-  BOOL isLast = (indexPath.section == ([tableView numberOfSections] -1));
-  
-  CellIdentifier = isLast ? @"enable" : @"crash";
+  NSString *CellIdentifier = nil;
+
+  // Settings cell id.
+  if (indexPath.section == [tableView numberOfSections] - 1) {
+    CellIdentifier = @"enable";
+  }
+
+  // Crash result cell id.
+  else if (indexPath.section == [tableView numberOfSections] - 2) {
+    CellIdentifier = @"crashResult";
+  }
+
+  // Crash cell id.
+  else {
+    CellIdentifier = @"crash";
+  }
+
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-  
-  if(isLast) {
-    
-    // Find switch in subviews
+
+  // Settings cell.
+  if (indexPath.section == [tableView numberOfSections] - 1) {
+
+    // Find switch in subviews.
     for(id view in cell.contentView.subviews) {
       if([view isKindOfClass:[UISwitch class]]){
         ((UISwitch *)view).on = [MSCrashes isEnabled];
@@ -130,11 +148,21 @@
       }
     }
   }
-  else {
+
+  // Crash cell.
+  else if (indexPath.section < [tableView numberOfSections] - 2) {
     MSCrash *crash = (MSCrash *)(((NSArray *)self.knownCrashes[self.sortedAllKeys[(NSUInteger)indexPath.section]])[(NSUInteger)indexPath.row]);
     cell.textLabel.text = crash.title;
   }
   return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+  UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+  if (![cell.reuseIdentifier isEqualToString:@"crashResult"]) {
+    return;
+  }
+  [self.navigationController pushViewController:[AppDelegate crashResultViewController] animated:true];
 }
 
 #pragma mark - Navigation
