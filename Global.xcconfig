@@ -1,5 +1,5 @@
 BUILD_NUMBER = 1
-VERSION_STRING = 0.8.2
+VERSION_STRING = 0.9.0
 
 // :Mark: Architectures
 
@@ -19,10 +19,13 @@ OTHER_CFLAGS = -Wshorten-64-to-32 -Wall -fstack-protector-strong -fpie
 
 // Use empty bitcode marker in simulators and debug configurations for real devices.
 OTHER_CFLAGS[sdk=iphonesimulator*] = $(OTHER_CFLAGS) -fembed-bitcode-marker
+OTHER_CFLAGS[sdk=appletvsimulator*] = $(OTHER_CFLAGS) -fembed-bitcode-marker
 OTHER_CFLAGS[config=Debug][sdk=iphoneos*] = $(OTHER_CFLAGS) -fembed-bitcode-marker
+OTHER_CFLAGS[config=Debug][sdk=appletvos*] = $(OTHER_CFLAGS) -fembed-bitcode-marker
 
 // Activate full bitcode on release configuration for real devices.
 OTHER_CFLAGS[config=Release][sdk=iphoneos*] = $(OTHER_CFLAGS) -fembed-bitcode
+OTHER_CFLAGS[config=Release][sdk=appletvos*] = $(OTHER_CFLAGS) -fembed-bitcode
 
 // :Mark: Extension API Only
 // Make sure we don't use API that are not available in extensions.
@@ -58,7 +61,7 @@ GCC_PREPROCESSOR_DEFINITIONS = $(inherited) $(XCODEBUILD_GCC_PREPROCESSOR_DEFINI
 // We don't want to compile our code for C++98, no need to be warned about incompatibility.
 
 // -auto-import
-// Standard ``import`` is used by tons of files and C++ code limits the possibility to use @import so we don't . => Disabled.
+// Standard ``import`` is used by tons of files and C++ code limits the possibility to use @import, so we don't. => Disabled.
 
 // -assign-enum
 // A lot of api use enums as params but Apple's docs suggest passing in 0 which causes annoying warnings.
@@ -72,10 +75,9 @@ GCC_PREPROCESSOR_DEFINITIONS = $(inherited) $(XCODEBUILD_GCC_PREPROCESSOR_DEFINI
 // -cast-align
 // We're not interested in this one as the Mach-O format is itself well-aligned and the original memory allocation
 // happens through malloc() and mmap() which always return at least 16byte alignment.
-// Reas more about alignment in the c++ reference: http://en.cppreference.com/w/cpp/language/object#Alignment.
+// Read more about alignment in the c++ reference: http://en.cppreference.com/w/cpp/language/object#Alignment.
 
-WARNING_CFLAGS = -Weverything -Wno-objc-missing-property-synthesis -Wno-float-equal -Wno-pedantic -Wno-padded  -Wno-sign-conversion -Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-auto-import -Wno-assign-enum -Wno-exit-time-destructors -Wno-global-constructors -Wno-cast-align
-
+WARNING_CFLAGS = -Weverything -Wno-objc-missing-property-synthesis -Wno-float-equal -Wno-pedantic -Wno-padded -Wno-sign-conversion -Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-auto-import -Wno-assign-enum -Wno-exit-time-destructors -Wno-global-constructors -Wno-cast-align
 
 // These are all partially (but not completely?) independent of WARNING_CFLAGS
 // and need to be specified explicitly.
@@ -126,4 +128,4 @@ CLANG_ANALYZER_NONNULL = YES
 
 // Enable warnings-are-errors for all modes. Don't do this just yet.
  SWIFT_TREAT_WARNINGS_AS_ERRORS = YES
- GCC_TREAT_WARNINGS_AS_ERRORS = NO
+ GCC_TREAT_WARNINGS_AS_ERRORS = YES

@@ -1,19 +1,17 @@
-#import <Foundation/Foundation.h>
-#if TARGET_OS_IPHONE
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#else
-#import <OCHamcrest/OCHamcrest.h>
-#endif
-#import <OCMock/OCMock.h>
-#import <XCTest/XCTest.h>
-
+#import "MSCustomProperties.h"
+#import "MSCustomPropertiesLog.h"
+#import "MSLogManager.h"
 #import "MSMobileCenter.h"
 #import "MSMobileCenterInternal.h"
 #import "MSMobileCenterPrivate.h"
+#if TARGET_OS_IPHONE
+#import "MSMockCustomAppDelegate.h"
+#import "MSMockOriginalAppDelegate.h"
+#else
+// TODO: ApplicationDelegate is not yet implemented for macOS.
+#endif
 #import "MSMockUserDefaults.h"
-#import "MSLogManager.h"
-#import "MSCustomProperties.h"
-#import "MSCustomPropertiesLog.h"
+#import "MSTestFrameworks.h"
 
 static NSString *const kMSInstallIdStringExample = @"F18499DA-5C3D-4F05-B4E8-D8C9C06A6F09";
 
@@ -41,7 +39,6 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
 - (void)tearDown {
   [self.settingsMock stopMocking];
-
   [super tearDown];
 }
 

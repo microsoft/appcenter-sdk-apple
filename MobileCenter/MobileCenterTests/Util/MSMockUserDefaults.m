@@ -1,5 +1,5 @@
-#import <OCMock/OCMock.h>
 #import "MSMockUserDefaults.h"
+#import "MSTestFrameworks.h"
 #import "MSUserDefaults.h"
 
 @interface MSMockUserDefaults()

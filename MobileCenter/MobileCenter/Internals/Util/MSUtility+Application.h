@@ -78,6 +78,17 @@ typedef NS_ENUM(NSInteger, MSOpenURLState) {
  */
 @interface MSUtility (Application)
 
+#if TARGET_OS_IPHONE
+/**
+ * Get the App Delegate.
+ *
+ * @return The delegate of the app object or nil if not accessible.
+ */
++ (id<UIApplicationDelegate>)sharedAppDelegate;
+#else
+// TODO: ApplicationDelegate is not yet implemented for macOS.
+#endif
+
 /**
  * Get current application state.
  *

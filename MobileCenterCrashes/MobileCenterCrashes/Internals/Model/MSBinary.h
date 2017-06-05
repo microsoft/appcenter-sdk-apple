@@ -1,6 +1,9 @@
 #import <Foundation/Foundation.h>
 #import "MobileCenter+Internal.h"
 
+#import "MSSerializableObject.h"
+#import "MobileCenter+Internal.h"
+
 /*
  * Binary (library) definition for any platform.
  */

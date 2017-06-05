@@ -1,20 +1,15 @@
-#import <CrashReporter/CrashReporter.h>
-#if TARGET_OS_IPHONE
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#else
-#import <OCHamcrest/OCHamcrest.h>
-#endif
-#import <XCTest/XCTest.h>
 #import <inttypes.h>
 
 #import "MSAppleErrorLog.h"
 #import "MSCrashesTestUtil.h"
 #import "MSCrashesInternal.h"
 #import "MSCrashesPrivate.h"
+#import "MSCrashReporter.h"
 #import "MSDeviceTracker.h"
 #import "MSErrorLogFormatterPrivate.h"
 #import "MSException.h"
 #import "MSMobileCenterInternal.h"
+#import "MSTestFrameworks.h"
 #import "MSThread.h"
 
 @interface MSErrorLogFormatter ()

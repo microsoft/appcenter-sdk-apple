@@ -1,6 +1,9 @@
+#if TARGET_OS_IPHONE && !TARGET_OS_TV
+// TODO: CoreTelephony is also available in macOS SDK.
 #import <CoreTelephony/CTCarrier.h>
 #import <CoreTelephony/CTTelephonyNetworkInfo.h>
-#if TARGET_OS_IPHONE
+#import <UIKit/UIKit.h>
+#elif TARGET_OS_TV
 #import <UIKit/UIKit.h>
 #else
 #import <AppKit/AppKit.h>
@@ -115,7 +118,7 @@ static NSString *const kMSPastDevicesKey = @"pastDevicesKey";
  */
 - (NSString *)screenSize;
 
-#if TARGET_OS_IPHONE
+#if TARGET_OS_IPHONE && !TARGET_OS_TV
 
 /**
  *  Get the network carrier name.
