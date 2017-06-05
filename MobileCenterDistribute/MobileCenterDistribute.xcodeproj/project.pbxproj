@@ -855,11 +855,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8221ECE349200FB6719 /* iOS.xcconfig */;
 			buildSettings = {
-				"ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenterdistribute;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
-				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
 			};
 			name = Debug;
 		};
@@ -867,11 +864,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8221ECE349200FB6719 /* iOS.xcconfig */;
 			buildSettings = {
-				"ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenterdistribute;
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
-				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
 			};
 			name = Release;
 		};
