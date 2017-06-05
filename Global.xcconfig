@@ -22,8 +22,18 @@ CLANG_CXX_LIBRARY = libc++
 CLANG_CXX_LANGUAGE_STANDARD = gnu++14
 GCC_C_LANGUAGE_STANDARD = gnu99
 
-// :Mark: USER_HEADER_SEARCH_PATHS
+// :Mark: Search paths
+ALWAYS_SEARCH_USER_PATHS = NO
 USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../MobileCenter/MobileCenter"/**
+
+// :Mark: Linking
+DEAD_CODE_STRIPPING = NO
+
+// :Mark: Code generation
+GCC_NO_COMMON_BLOCKS = YES
+
+// :Mark: Preprocessing
+ENABLE_STRICT_OBJC_MSGSEND = YES
 
 // :Mark: OTHER_CFLAGS
 

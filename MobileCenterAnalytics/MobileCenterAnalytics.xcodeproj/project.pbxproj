@@ -1011,13 +1011,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B2812EF21DA3148000307DCE /* MobileCenterAnalytics.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				DEAD_CODE_STRIPPING = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -1032,12 +1027,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B2812EF21DA3148000307DCE /* MobileCenterAnalytics.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				DEAD_CODE_STRIPPING = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1100,7 +1091,6 @@
 		E85547EB1D2D68C5002DF6E2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				OTHER_CFLAGS = "";
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"";
 			};

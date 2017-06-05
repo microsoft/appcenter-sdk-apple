@@ -506,14 +506,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D3AD5F051E5C7FFF001627AB /* MobileCenterPush.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				APPLICATION_EXTENSION_API_ONLY = NO;
-				DEAD_CODE_STRIPPING = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_TESTABILITY = YES;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -521,7 +516,6 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = "$(inherited)";
 			};
 			name = Debug;
 		};
@@ -529,15 +523,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D3AD5F051E5C7FFF001627AB /* MobileCenterPush.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				APPLICATION_EXTENSION_API_ONLY = NO;
-				DEAD_CODE_STRIPPING = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_NS_ASSERTIONS = YES;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
+				ENABLE_NS_ASSERTIONS = NO;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "$(inherited)";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -601,7 +590,6 @@
 		D3AD5F291E5C9633001627AB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				OTHER_CFLAGS = "";
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"";
 			};
@@ -610,7 +598,6 @@
 		D3AD5F2A1E5C9633001627AB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				OTHER_CFLAGS = "";
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"";
 			};
