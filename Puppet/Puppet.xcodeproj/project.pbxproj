@@ -29,6 +29,7 @@
 		5CE258991EA5FBCA00DA8FB9 /* AnalyticsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE258981EA5FBCA00DA8FB9 /* AnalyticsUITests.swift */; };
 		5CE2589B1EA5FBD400DA8FB9 /* CrashesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE2589A1EA5FBD400DA8FB9 /* CrashesUITests.swift */; };
 		5CE2589D1EA5FBE900DA8FB9 /* DistributeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE2589C1EA5FBE900DA8FB9 /* DistributeUITests.swift */; };
+		5CE60DF11EDF0B670060303A /* MSCrashResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CE60DF01EDF0B670060303A /* MSCrashResultViewController.m */; };
 		6EC99A211D4151A00016C325 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A201D4151A00016C325 /* CrashReporter.framework */; };
 		6EC99A281D4152FA0016C325 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A271D4152FA0016C325 /* libc++.tbd */; };
 		B21B26C71DDE490400FF0378 /* MSCrashesDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B21B26C61DDE490400FF0378 /* MSCrashesDetailViewController.m */; };
@@ -280,6 +281,8 @@
 		5CE258981EA5FBCA00DA8FB9 /* AnalyticsUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsUITests.swift; sourceTree = "<group>"; };
 		5CE2589A1EA5FBD400DA8FB9 /* CrashesUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrashesUITests.swift; sourceTree = "<group>"; };
 		5CE2589C1EA5FBE900DA8FB9 /* DistributeUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistributeUITests.swift; sourceTree = "<group>"; };
+		5CE60DE01EDF0B3C0060303A /* MSCrashResultViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSCrashResultViewController.h; sourceTree = "<group>"; };
+		5CE60DF01EDF0B670060303A /* MSCrashResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCrashResultViewController.m; sourceTree = "<group>"; };
 		6EC99A201D4151A00016C325 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = ../../Vendor/PLCrashReporter/CrashReporter.framework; sourceTree = "<group>"; };
 		6EC99A251D4152EB0016C325 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		6EC99A271D4152FA0016C325 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
@@ -550,6 +553,8 @@
 				B21B26C61DDE490400FF0378 /* MSCrashesDetailViewController.m */,
 				E89E6A281D396D7900CAA2CD /* MSCrashesViewController.h */,
 				E89E6A291D396D7900CAA2CD /* MSCrashesViewController.m */,
+				5CE60DE01EDF0B3C0060303A /* MSCrashResultViewController.h */,
+				5CE60DF01EDF0B670060303A /* MSCrashResultViewController.m */,
 				F8FF73DB1E922C9100D2B67D /* MSCustomPropertiesViewController.h */,
 				F8FF73DC1E922C9100D2B67D /* MSCustomPropertiesViewController.m */,
 				F85AAE231E890226006797CA /* MSDeviceInfoViewController.h */,
@@ -891,6 +896,7 @@
 				E89E6A301D39704900CAA2CD /* MSAnalyticsViewController.m in Sources */,
 				E82E1B641D1CA58D00D281C1 /* main.m in Sources */,
 				BA6827C9F0410233C245D989 /* MSDistributeViewController.m in Sources */,
+				5CE60DF11EDF0B670060303A /* MSCrashResultViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
