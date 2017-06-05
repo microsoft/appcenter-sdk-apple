@@ -1252,7 +1252,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 041CFF981ECD010000B4654B /* Tests macOS.xcconfig */;
 			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Mac Developer";
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				INFOPLIST_FILE = MobileCenterCrashesTests/Info.plist;
@@ -1265,7 +1264,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 041CFF981ECD010000B4654B /* Tests macOS.xcconfig */;
 			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Mac Developer";
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				INFOPLIST_FILE = MobileCenterCrashesTests/Info.plist;
@@ -1323,7 +1321,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 041CFF911ECD00DC00B4654B /* Tests iOS.xcconfig */;
 			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				INFOPLIST_FILE = MobileCenterCrashesTests/Info.plist;
@@ -1340,7 +1337,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 041CFF911ECD00DC00B4654B /* Tests iOS.xcconfig */;
 			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				INFOPLIST_FILE = MobileCenterCrashesTests/Info.plist;
