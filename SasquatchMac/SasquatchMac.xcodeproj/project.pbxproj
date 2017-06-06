@@ -35,6 +35,7 @@
 		D3C31C671E8E763600B288CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3C31C661E8E763600B288CE /* Assets.xcassets */; };
 		D3C31C801E8E7BD200B288CE /* SasquatchMac.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3C31C151E8E757300B288CE /* SasquatchMac.storyboard */; };
 		D3C31C811E8E7BEE00B288CE /* SasquatchMac.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3C31C151E8E757300B288CE /* SasquatchMac.storyboard */; };
+		F80615741EE6AA48008C8CDF /* MobileCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD625791ECDA4280053DC6C /* MobileCenterViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -329,6 +330,7 @@
 				5C6F9BB51EB8EEF9009E52D8 /* SasquatchMacViewController.swift in Sources */,
 				D3C31C631E8E763600B288CE /* AppDelegate.swift in Sources */,
 				5C6F9BB91EB8F2E9009E52D8 /* CrashesViewController.swift in Sources */,
+				F80615741EE6AA48008C8CDF /* MobileCenterViewController.swift in Sources */,
 				5C6F9BB61EB8EEFC009E52D8 /* AnalyticsViewController.swift in Sources */,
 				042496871EC3CE3500502B62 /* MobileCenterDelegate.swift in Sources */,
 			);
