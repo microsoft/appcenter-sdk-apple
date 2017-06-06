@@ -23,8 +23,6 @@
 		84226C561E88FF4A00798417 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C551E88FF4A00798417 /* Assets.xcassets */; };
 		84226C831E8908CA00798417 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226C821E8908CA00798417 /* AppDelegate.swift */; };
 		84226C8A1E8908CA00798417 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C891E8908CA00798417 /* Assets.xcassets */; };
-		84226D0D1E891FEF00798417 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226D0B1E891FBA00798417 /* MSAlertController.m */; };
-		84226D0E1E891FF100798417 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226D0B1E891FBA00798417 /* MSAlertController.m */; };
 		84226D321E89301B00798417 /* MobileCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D2E1E89301A00798417 /* MobileCenter.framework */; };
 		84226D331E89301B00798417 /* MobileCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D2F1E89301B00798417 /* MobileCenterAnalytics.framework */; };
 		84226D341E89301B00798417 /* MobileCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D301E89301B00798417 /* MobileCenterCrashes.framework */; };
@@ -857,7 +855,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				84D63FF71E8BA838004C9F86 /* MSCrashesDetailViewController.swift in Sources */,
-				84226D0D1E891FEF00798417 /* MSAlertController.m in Sources */,
 				849A3E721E8A9922008711CB /* MobileCenterProtocol.swift in Sources */,
 				845964AD1E8A7E9700BABA51 /* MSMainViewController.swift in Sources */,
 				84A0FF691E8A87C9000E7A28 /* MSAnalyticsViewController.swift in Sources */,
@@ -878,7 +875,6 @@
 				84A0FF671E8A87B4000E7A28 /* MSCrashesViewController.swift in Sources */,
 				84A0FF6A1E8A87C9000E7A28 /* MSAnalyticsViewController.swift in Sources */,
 				84226D3D1E8938D200798417 /* MobileCenterDelegate.swift in Sources */,
-				84226D0E1E891FF100798417 /* MSAlertController.m in Sources */,
 				845178ED1E8A8B0D004A0A6F /* MSMainViewController.swift in Sources */,
 				84226D3F1E8939B700798417 /* MobileCenterDelegateSwift.swift in Sources */,
 				84D63FF81E8BA838004C9F86 /* MSCrashesDetailViewController.swift in Sources */,
