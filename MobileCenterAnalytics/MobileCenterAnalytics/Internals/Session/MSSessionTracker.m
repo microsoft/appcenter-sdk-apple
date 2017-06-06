@@ -2,6 +2,7 @@
 #import "MSUtility+Date.h"
 #import "MSSessionTracker.h"
 #import "MSStartSessionLog.h"
+#import "MSStartServiceLog.h"
 
 static NSTimeInterval const kMSSessionTimeOut = 20;
 static NSString *const kMSPastSessionsKey = @"pastSessionsKey";
@@ -184,8 +185,11 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
 - (void)onEnqueuingLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
   (void)internalId;
 
-  // Start session log is created in this method, therefore, skip in order to avoid infinite loop.
-  if ([((NSObject *)log) isKindOfClass:[MSStartSessionLog class]])
+  /*
+   * Start session log is created in this method, therefore, skip in order to avoid infinite loop.
+   * Also skip start service log as it's always sent and should not trigger a session.
+   */
+  if ([((NSObject *)log) isKindOfClass:[MSStartSessionLog class]] || [((NSObject *)log) isKindOfClass:[MSStartServiceLog class]])
     return;
 
   // Attach corresponding session id.

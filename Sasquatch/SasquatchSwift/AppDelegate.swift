@@ -14,9 +14,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
     // Customize Mobile Center SDK.
+    MSCrashes.setDelegate(self)
     MSDistribute.setDelegate(self)
     MSPush.setDelegate(self)
-    MSCrashes.setDelegate(self);
     MSMobileCenter.setLogLevel(MSLogLevel.verbose)
 
     // Start Mobile Center SDK.
@@ -28,10 +28,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
     
     // Crashes Delegate.
     MSCrashes.setUserConfirmationHandler({ (errorReports: [MSErrorReport]) in
-      
-      // Your code.
-      // Present your UI to the user, e.g. an UIAlertView.
-      
       let alert = MSAlertController(title: "Sorry about that!",
                                     message: "Do you want to send an anonymous crash report so we can fix the issue?")
       alert?.addDefaultAction(withTitle: "Send", handler: { (alert) in
@@ -71,7 +67,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
   func application(_ app: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
     
     // Forward the URL to MSDistribute.
-    return MSDistribute.open(url as URL!)
+    return MSDistribute.open(url)
   }
   
   /**
@@ -89,7 +85,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
   func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
     
     // Forward the URL to MSDistribute.
-    return MSDistribute.open(url as URL!)
+    return MSDistribute.open(url)
   }
 
   func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {

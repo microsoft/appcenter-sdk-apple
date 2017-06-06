@@ -38,6 +38,8 @@ static NSString *const kMSAnalyzerFilename = @"MSCrashes.analyzer";
  */
 static NSString *const kMSLogBufferFileExtension = @"mscrasheslogbuffer";
 
+static unsigned int kMaxAttachmentsPerCrashReport = 2;
+
 std::array<MSCrashesBufferedLog, ms_crashes_log_buffer_size> msCrashesLogBuffer;
 
 #pragma mark - Callbacks Setup
@@ -196,9 +198,18 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     [crashes.logManager processLog:log forGroupId:crashes.groupId];
 
     // Then, send attachements log to log manager.
+    unsigned int totalProcessedAttachments = 0;
     for (MSErrorAttachmentLog *attachment in attachments) {
       attachment.errorId = log.errorId;
+      if(![attachment isValid]) {
+        MSLogError([MSCrashes logTag], @"Not all required fields are present in MSErrorAttachmentLog.");
+        continue;
+      }
       [crashes.logManager processLog:attachment forGroupId:crashes.groupId];
+      ++totalProcessedAttachments;
+    }
+    if( totalProcessedAttachments > kMaxAttachmentsPerCrashReport) {
+      MSLogWarning([MSCrashes logTag], @"A limit of %u attachments per error report might be enforced by server.", kMaxAttachmentsPerCrashReport);
     }
 
     // Clean up.
