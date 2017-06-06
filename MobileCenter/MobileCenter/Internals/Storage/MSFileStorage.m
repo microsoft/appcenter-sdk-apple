@@ -185,10 +185,16 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
 
 - (NSURL *)baseDirectoryURL {
   if (!_baseDirectoryURL) {
+#if TARGET_OS_TV
+
+    // TODO: This is a temporary change. Make sure this implementation is correct.
+    _baseDirectoryURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:kMSLogsDirectory]];
+#else
     NSURL *appSupportURL = [[[NSFileManager defaultManager] URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask] lastObject];
     if (appSupportURL) {
       _baseDirectoryURL = (NSURL * _Nonnull)[appSupportURL URLByAppendingPathComponent:kMSLogsDirectory];
     }
+#endif
     NSURL *url = _baseDirectoryURL;
     MSLogVerbose([MSMobileCenter logTag], @"Storage Path:\n%@", url);
   }

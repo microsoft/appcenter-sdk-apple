@@ -1,4 +1,7 @@
 #include "../../../Global.xcconfig"
 
+PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenterpush
+
 APPLICATION_EXTENSION_API_ONLY = NO;
+
 OTHER_LDFLAGS=$(inherited) -framework Foundation -weak_framework UserNotifications
