@@ -7,6 +7,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MSAlertController : NSAlert
 
+/**
+ * Initializes a alert controller object.
+ *
+ * @param title The title label of the alert controller.
+ * @param message The message of the alert controller.
+ * @param style The style of alert controller.
+ * @return instance of MSAlertController.
+ */
 + (MSAlertController *)alertControllerWithTitle:(NSString *)title message:(NSString *)message style:(NSAlertStyle)style;
 
 /**

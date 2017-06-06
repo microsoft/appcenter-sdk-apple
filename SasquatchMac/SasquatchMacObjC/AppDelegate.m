@@ -17,6 +17,7 @@
   [MSMobileCenter setLogUrl:@"https://in-integration.dev.avalanch.es"];
   [MSMobileCenter start:@"8649b73e-6df0-4985-a039-8ab1453d44f3"
            withServices:@[ [MSAnalytics class], [MSCrashes class] ]];
+  [self setupCrashes];
   [self setMobileCenterDelegate];
 }
 
@@ -48,7 +49,7 @@
                // crash
                // report.
                MSAlertController *alertController = [MSAlertController
-                   alertControllerWithTitle:@"Sorrty about that!"
+                   alertControllerWithTitle:@"Sorry about that!"
                                     message:@"Do you want to send an anonymous crash report so we can fix the issue?"
                                       style:NSAlertStyleWarning];
 
