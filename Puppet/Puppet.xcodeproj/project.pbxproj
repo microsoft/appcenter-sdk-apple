@@ -26,6 +26,7 @@
 		38E1B65A1DDCDDF4000EFED1 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38E1B6591DDCDDF4000EFED1 /* MSAlertController.m */; };
 		5C2BD19B1ED5D44400FB20C8 /* MSAnalyticsResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C2BD19A1ED5D44400FB20C8 /* MSAnalyticsResultViewController.m */; };
 		5C2BD1A31ED5DE5700FB20C8 /* EventLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C2BD1A21ED5DE5700FB20C8 /* EventLog.m */; };
+		5C4E0BFF1EE6F50F00FB0CF2 /* MobileCenterUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4E0BFE1EE6F50F00FB0CF2 /* MobileCenterUITests.swift */; };
 		5CE258991EA5FBCA00DA8FB9 /* AnalyticsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE258981EA5FBCA00DA8FB9 /* AnalyticsUITests.swift */; };
 		5CE2589B1EA5FBD400DA8FB9 /* CrashesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE2589A1EA5FBD400DA8FB9 /* CrashesUITests.swift */; };
 		5CE2589D1EA5FBE900DA8FB9 /* DistributeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE2589C1EA5FBE900DA8FB9 /* DistributeUITests.swift */; };
@@ -276,6 +277,7 @@
 		5C2BD19A1ED5D44400FB20C8 /* MSAnalyticsResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAnalyticsResultViewController.m; sourceTree = "<group>"; };
 		5C2BD1A11ED5DE4400FB20C8 /* EventLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = EventLog.h; path = Utils/EventLog.h; sourceTree = "<group>"; };
 		5C2BD1A21ED5DE5700FB20C8 /* EventLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EventLog.m; path = Utils/EventLog.m; sourceTree = "<group>"; };
+		5C4E0BFE1EE6F50F00FB0CF2 /* MobileCenterUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobileCenterUITests.swift; sourceTree = "<group>"; };
 		5CE258371EA5097100DA8FB9 /* PuppetUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PuppetUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CE2583B1EA5097100DA8FB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5CE258981EA5FBCA00DA8FB9 /* AnalyticsUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsUITests.swift; sourceTree = "<group>"; };
@@ -435,6 +437,7 @@
 				5CE258981EA5FBCA00DA8FB9 /* AnalyticsUITests.swift */,
 				5CE2589A1EA5FBD400DA8FB9 /* CrashesUITests.swift */,
 				5CE2589C1EA5FBE900DA8FB9 /* DistributeUITests.swift */,
+				5C4E0BFE1EE6F50F00FB0CF2 /* MobileCenterUITests.swift */,
 			);
 			path = PuppetUITests;
 			sourceTree = "<group>";
@@ -875,6 +878,7 @@
 			files = (
 				5CE258991EA5FBCA00DA8FB9 /* AnalyticsUITests.swift in Sources */,
 				5CE2589D1EA5FBE900DA8FB9 /* DistributeUITests.swift in Sources */,
+				5C4E0BFF1EE6F50F00FB0CF2 /* MobileCenterUITests.swift in Sources */,
 				5CE2589B1EA5FBD400DA8FB9 /* CrashesUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
