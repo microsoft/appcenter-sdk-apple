@@ -759,51 +759,16 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0471B5F41E45466F0022F951 /* MobileCenterDistribute.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				APPLICATION_EXTENSION_API_ONLY = YES;
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				COPY_PHASE_STRIP = NO;
-				DEAD_CODE_STRIPPING = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_NAME = "${PROJECT_NAME}";
-				SDKROOT = iphoneos;
 			};
 			name = Debug;
 		};
@@ -811,45 +776,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0471B5F41E45466F0022F951 /* MobileCenterDistribute.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				APPLICATION_EXTENSION_API_ONLY = YES;
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				COPY_PHASE_STRIP = NO;
-				DEAD_CODE_STRIPPING = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_NS_ASSERTIONS = YES;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				ENABLE_NS_ASSERTIONS = NO;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_NAME = "${PROJECT_NAME}";
-				SDKROOT = iphoneos;
-				VALIDATE_PRODUCT = NO;
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
@@ -857,13 +788,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8221ECE349200FB6719 /* iOS.xcconfig */;
 			buildSettings = {
-				"ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenterdistribute;
-				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
-				SKIP_INSTALL = YES;
-				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
 			};
 			name = Debug;
 		};
@@ -871,13 +795,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8221ECE349200FB6719 /* iOS.xcconfig */;
 			buildSettings = {
-				"ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenterdistribute;
-				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
-				SKIP_INSTALL = YES;
-				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
 			};
 			name = Release;
 		};
@@ -899,23 +816,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 041CFFA31ECD0E0E00B4654B /* Tests iOS.xcconfig */;
 			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = NO;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../Vendor/Common\"/**",
-					"\"$(SRCROOT)/../Vendor/iOS\"/**",
-				);
-				HEADER_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../Vendor/Common\"/**",
-					"\"$(SRCROOT)/../Vendor/iOS\"/**",
-				);
-				INFOPLIST_FILE = MobileCenterDistributeTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../Vendor/Common\"/**",
-					"\"$(SRCROOT)/../Vendor/iOS\"/**",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenterdistributetests;
 			};
 			name = Debug;
 		};
@@ -923,41 +823,18 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 041CFFA31ECD0E0E00B4654B /* Tests iOS.xcconfig */;
 			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = NO;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../Vendor/Common\"/**",
-					"\"$(SRCROOT)/../Vendor/iOS\"/**",
-				);
-				HEADER_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../Vendor/Common\"/**",
-					"\"$(SRCROOT)/../Vendor/iOS\"/**",
-				);
-				INFOPLIST_FILE = MobileCenterDistributeTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../Vendor/Common\"/**",
-					"\"$(SRCROOT)/../Vendor/iOS\"/**",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenterdistributetests;
 			};
 			name = Release;
 		};
 		04FD4A3E1E453640009B4468 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
-				OTHER_CFLAGS = "";
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"";
 			};
 			name = Debug;
 		};
 		04FD4A3F1E453640009B4468 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
-				OTHER_CFLAGS = "";
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"";
 			};
 			name = Release;
 		};
@@ -966,14 +843,12 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = MobileCenterDistributeResources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.distribute.resources.ios;
 				PRODUCT_NAME = "${PROJECT_NAME}Resources";
-				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = bundle;
@@ -985,14 +860,12 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = MobileCenterDistributeResources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.distribute.resources.ios;
 				PRODUCT_NAME = "${PROJECT_NAME}Resources";
-				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = bundle;
