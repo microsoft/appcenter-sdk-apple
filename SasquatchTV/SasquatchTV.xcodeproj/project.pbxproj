@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0431217A1EE0C65B007054C5 /* MobileCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 043121781EE0C65B007054C5 /* MobileCenter.framework */; };
+		0431217B1EE0C65B007054C5 /* MobileCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 043121791EE0C65B007054C5 /* MobileCenterAnalytics.framework */; };
+		0431217C1EE0C669007054C5 /* MobileCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 043121781EE0C65B007054C5 /* MobileCenter.framework */; };
+		0431217D1EE0C669007054C5 /* MobileCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 043121791EE0C65B007054C5 /* MobileCenterAnalytics.framework */; };
+		5C2CC7071EE6C08600E2BDA4 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5C2CC7051EE6C08600E2BDA4 /* Info.plist */; };
+		5C2CC70A1EE6C0B600E2BDA4 /* AnalyticsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2CC7061EE6C08600E2BDA4 /* AnalyticsUITests.swift */; };
+		5C2CC70B1EE6C0B600E2BDA4 /* AnalyticsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2CC7061EE6C08600E2BDA4 /* AnalyticsUITests.swift */; };
 		5C481B9C1EE5794A009329DD /* AnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C481B991EE5794A009329DD /* AnalyticsViewController.swift */; };
 		5C481B9D1EE5794A009329DD /* AnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C481B991EE5794A009329DD /* AnalyticsViewController.swift */; };
 		5C481B9E1EE5794A009329DD /* MobileCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C481B9A1EE5794A009329DD /* MobileCenterViewController.swift */; };
@@ -18,10 +25,6 @@
 		5CB3389C1EE591AB0089A60B /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CB3389B1EE591AB0089A60B /* MSAlertController.m */; };
 		5CB338A21EE59B4B0089A60B /* MobileCenterDelegateObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CB338A11EE59B4B0089A60B /* MobileCenterDelegateObjC.m */; };
 		5CB338A41EE59C0F0089A60B /* MobileCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB338A31EE59C0F0089A60B /* MobileCenterDelegate.swift */; };
-		0431217A1EE0C65B007054C5 /* MobileCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 043121781EE0C65B007054C5 /* MobileCenter.framework */; };
-		0431217B1EE0C65B007054C5 /* MobileCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 043121791EE0C65B007054C5 /* MobileCenterAnalytics.framework */; };
-		0431217C1EE0C669007054C5 /* MobileCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 043121781EE0C65B007054C5 /* MobileCenter.framework */; };
-		0431217D1EE0C669007054C5 /* MobileCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 043121791EE0C65B007054C5 /* MobileCenterAnalytics.framework */; };
 		D322EFDB1E8E97C800A8EDA5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D322EFDA1E8E97C800A8EDA5 /* AppDelegate.swift */; };
 		D322EFE21E8E97C800A8EDA5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D322EFE11E8E97C800A8EDA5 /* Assets.xcassets */; };
 		D322EFEF1E8E97DF00A8EDA5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D322EFEE1E8E97DF00A8EDA5 /* main.m */; };
@@ -31,7 +34,30 @@
 		D322F0051E8E98D500A8EDA5 /* SasquatchTV.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D322EFC91E8E97A100A8EDA5 /* SasquatchTV.storyboard */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		5C2CC6F21EE6BE5500E2BDA4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D322EFBA1E8E97A100A8EDA5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D322EFEA1E8E97DF00A8EDA5;
+			remoteInfo = SasquatchTVObjC;
+		};
+		5C2CC7001EE6BEE000E2BDA4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D322EFBA1E8E97A100A8EDA5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D322EFD71E8E97C800A8EDA5;
+			remoteInfo = SasquatchTVSwift;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		043121781EE0C65B007054C5 /* MobileCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenter.framework; path = "../MobileCenter-SDK-iOS/tvOS/MobileCenter.framework"; sourceTree = "<group>"; };
+		043121791EE0C65B007054C5 /* MobileCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterAnalytics.framework; path = "../MobileCenter-SDK-iOS/tvOS/MobileCenterAnalytics.framework"; sourceTree = "<group>"; };
+		5C2CC6ED1EE6BE5400E2BDA4 /* SasquatchTVObjCUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SasquatchTVObjCUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5C2CC6FB1EE6BEE000E2BDA4 /* SasquatchTVSwiftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SasquatchTVSwiftUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5C2CC7051EE6C08600E2BDA4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = SasquatchTVUITests/Info.plist; sourceTree = SOURCE_ROOT; };
+		5C2CC7061EE6C08600E2BDA4 /* AnalyticsUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AnalyticsUITests.swift; path = SasquatchTVUITests/AnalyticsUITests.swift; sourceTree = SOURCE_ROOT; };
 		5C481B991EE5794A009329DD /* AnalyticsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AnalyticsViewController.swift; path = ViewControllers/AnalyticsViewController.swift; sourceTree = "<group>"; };
 		5C481B9A1EE5794A009329DD /* MobileCenterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MobileCenterViewController.swift; path = ViewControllers/MobileCenterViewController.swift; sourceTree = "<group>"; };
 		5C481BA31EE586D2009329DD /* MobileCenterProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MobileCenterProtocol.swift; path = ../../Sasquatch/Sasquatch/MobileCenterProtocol.swift; sourceTree = "<group>"; };
@@ -42,9 +68,6 @@
 		5CB338A01EE59B250089A60B /* MobileCenterDelegateObjC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MobileCenterDelegateObjC.h; sourceTree = "<group>"; };
 		5CB338A11EE59B4B0089A60B /* MobileCenterDelegateObjC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MobileCenterDelegateObjC.m; sourceTree = "<group>"; };
 		5CB338A31EE59C0F0089A60B /* MobileCenterDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobileCenterDelegate.swift; sourceTree = "<group>"; };
-		043121781EE0C65B007054C5 /* MobileCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenter.framework; path = "../MobileCenter-SDK-iOS/tvOS/MobileCenter.framework"; sourceTree = "<group>"; };
-		043121791EE0C65B007054C5 /* MobileCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterAnalytics.framework; path = "../MobileCenter-SDK-iOS/tvOS/MobileCenterAnalytics.framework"; sourceTree = "<group>"; };
-		D322EFC71E8E97A100A8EDA5 /* SasquatchTVViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SasquatchTVViewController.swift; sourceTree = "<group>"; };
 		D322EFCA1E8E97A100A8EDA5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/SasquatchTV.storyboard; sourceTree = "<group>"; };
 		D322EFCC1E8E97A100A8EDA5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D322EFCE1E8E97A100A8EDA5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -61,6 +84,20 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		5C2CC6EA1EE6BE5400E2BDA4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5C2CC6F81EE6BEE000E2BDA4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D322EFD51E8E97C800A8EDA5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -82,6 +119,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5C2CC6EE1EE6BE5500E2BDA4 /* SasquatchTVUITests */ = {
+			isa = PBXGroup;
+			children = (
+				5C2CC7051EE6C08600E2BDA4 /* Info.plist */,
+				5C2CC7061EE6C08600E2BDA4 /* AnalyticsUITests.swift */,
+			);
+			name = SasquatchTVUITests;
+			path = SasquatchTVObjCUITests;
+			sourceTree = "<group>";
+		};
 		5C481BAB1EE58922009329DD /* MSAlertController */ = {
 			isa = PBXGroup;
 			children = (
@@ -97,6 +144,7 @@
 				D322EFC41E8E97A100A8EDA5 /* SasquatchTV */,
 				D322EFD91E8E97C800A8EDA5 /* SasquatchTVSwift */,
 				D322EFEC1E8E97DF00A8EDA5 /* SasquatchTVObjC */,
+				5C2CC6EE1EE6BE5500E2BDA4 /* SasquatchTVUITests */,
 				D322EFC31E8E97A100A8EDA5 /* Products */,
 				D322F0061E8E98DF00A8EDA5 /* Frameworks */,
 			);
@@ -107,6 +155,8 @@
 			children = (
 				D322EFD81E8E97C800A8EDA5 /* SasquatchTVSwift.app */,
 				D322EFEB1E8E97DF00A8EDA5 /* SasquatchTVObjC.app */,
+				5C2CC6ED1EE6BE5400E2BDA4 /* SasquatchTVObjCUITests.xctest */,
+				5C2CC6FB1EE6BEE000E2BDA4 /* SasquatchTVSwiftUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -204,6 +254,42 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		5C2CC6EC1EE6BE5400E2BDA4 /* SasquatchTVObjCUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5C2CC6F61EE6BE5500E2BDA4 /* Build configuration list for PBXNativeTarget "SasquatchTVObjCUITests" */;
+			buildPhases = (
+				5C2CC6E91EE6BE5400E2BDA4 /* Sources */,
+				5C2CC6EA1EE6BE5400E2BDA4 /* Frameworks */,
+				5C2CC6EB1EE6BE5400E2BDA4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5C2CC6F31EE6BE5500E2BDA4 /* PBXTargetDependency */,
+			);
+			name = SasquatchTVObjCUITests;
+			productName = SasquatchTVObjCUITests;
+			productReference = 5C2CC6ED1EE6BE5400E2BDA4 /* SasquatchTVObjCUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		5C2CC6FA1EE6BEE000E2BDA4 /* SasquatchTVSwiftUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5C2CC7021EE6BEE000E2BDA4 /* Build configuration list for PBXNativeTarget "SasquatchTVSwiftUITests" */;
+			buildPhases = (
+				5C2CC6F71EE6BEE000E2BDA4 /* Sources */,
+				5C2CC6F81EE6BEE000E2BDA4 /* Frameworks */,
+				5C2CC6F91EE6BEE000E2BDA4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5C2CC7011EE6BEE000E2BDA4 /* PBXTargetDependency */,
+			);
+			name = SasquatchTVSwiftUITests;
+			productName = SasquatchTVSwiftUITests;
+			productReference = 5C2CC6FB1EE6BEE000E2BDA4 /* SasquatchTVSwiftUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		D322EFD71E8E97C800A8EDA5 /* SasquatchTVSwift */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D322EFE41E8E97C800A8EDA5 /* Build configuration list for PBXNativeTarget "SasquatchTVSwift" */;
@@ -244,10 +330,22 @@
 		D322EFBA1E8E97A100A8EDA5 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0820;
+				LastSwiftUpdateCheck = 0830;
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = Microsoft;
 				TargetAttributes = {
+					5C2CC6EC1EE6BE5400E2BDA4 = {
+						CreatedOnToolsVersion = 8.3.2;
+						DevelopmentTeam = L4RARDNZ2Y;
+						ProvisioningStyle = Automatic;
+						TestTargetID = D322EFEA1E8E97DF00A8EDA5;
+					};
+					5C2CC6FA1EE6BEE000E2BDA4 = {
+						CreatedOnToolsVersion = 8.3.2;
+						DevelopmentTeam = L4RARDNZ2Y;
+						ProvisioningStyle = Automatic;
+						TestTargetID = D322EFD71E8E97C800A8EDA5;
+					};
 					D322EFD71E8E97C800A8EDA5 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = L4RARDNZ2Y;
@@ -276,11 +374,27 @@
 			targets = (
 				D322EFEA1E8E97DF00A8EDA5 /* SasquatchTVObjC */,
 				D322EFD71E8E97C800A8EDA5 /* SasquatchTVSwift */,
+				5C2CC6EC1EE6BE5400E2BDA4 /* SasquatchTVObjCUITests */,
+				5C2CC6FA1EE6BEE000E2BDA4 /* SasquatchTVSwiftUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		5C2CC6EB1EE6BE5400E2BDA4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5C2CC6F91EE6BEE000E2BDA4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D322EFD61E8E97C800A8EDA5 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -296,12 +410,29 @@
 			files = (
 				D322F0041E8E98D000A8EDA5 /* SasquatchTV.storyboard in Resources */,
 				D322EFFA1E8E97DF00A8EDA5 /* Assets.xcassets in Resources */,
+				5C2CC7071EE6C08600E2BDA4 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		5C2CC6E91EE6BE5400E2BDA4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5C2CC70B1EE6C0B600E2BDA4 /* AnalyticsUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5C2CC6F71EE6BEE000E2BDA4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5C2CC70A1EE6C0B600E2BDA4 /* AnalyticsUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D322EFD41E8E97C800A8EDA5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -332,6 +463,19 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		5C2CC6F31EE6BE5500E2BDA4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D322EFEA1E8E97DF00A8EDA5 /* SasquatchTVObjC */;
+			targetProxy = 5C2CC6F21EE6BE5500E2BDA4 /* PBXContainerItemProxy */;
+		};
+		5C2CC7011EE6BEE000E2BDA4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D322EFD71E8E97C800A8EDA5 /* SasquatchTVSwift */;
+			targetProxy = 5C2CC7001EE6BEE000E2BDA4 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		D322EFC91E8E97A100A8EDA5 /* SasquatchTV.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -344,6 +488,66 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		5C2CC6F41EE6BE5500E2BDA4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				DEVELOPMENT_TEAM = UBF8T346G9;
+				INFOPLIST_FILE = SasquatchTVUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.SasquatchTVObjCUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = SasquatchTVObjC;
+				TVOS_DEPLOYMENT_TARGET = 10.2;
+			};
+			name = Debug;
+		};
+		5C2CC6F51EE6BE5500E2BDA4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				DEVELOPMENT_TEAM = UBF8T346G9;
+				INFOPLIST_FILE = SasquatchTVUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.SasquatchTVObjCUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = SasquatchTVObjC;
+				TVOS_DEPLOYMENT_TARGET = 10.2;
+			};
+			name = Release;
+		};
+		5C2CC7031EE6BEE000E2BDA4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				DEVELOPMENT_TEAM = UBF8T346G9;
+				INFOPLIST_FILE = SasquatchTVUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.SasquatchTVSwiftUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = SasquatchTVSwift;
+				TVOS_DEPLOYMENT_TARGET = 10.2;
+			};
+			name = Debug;
+		};
+		5C2CC7041EE6BEE000E2BDA4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				DEVELOPMENT_TEAM = UBF8T346G9;
+				INFOPLIST_FILE = SasquatchTVUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.SasquatchTVSwiftUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = SasquatchTVSwift;
+				TVOS_DEPLOYMENT_TARGET = 10.2;
+			};
+			name = Release;
+		};
 		D322EFCF1E8E97A100A8EDA5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -509,6 +713,22 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		5C2CC6F61EE6BE5500E2BDA4 /* Build configuration list for PBXNativeTarget "SasquatchTVObjCUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5C2CC6F41EE6BE5500E2BDA4 /* Debug */,
+				5C2CC6F51EE6BE5500E2BDA4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		5C2CC7021EE6BEE000E2BDA4 /* Build configuration list for PBXNativeTarget "SasquatchTVSwiftUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5C2CC7031EE6BEE000E2BDA4 /* Debug */,
+				5C2CC7041EE6BEE000E2BDA4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		D322EFBD1E8E97A100A8EDA5 /* Build configuration list for PBXProject "SasquatchTV" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
