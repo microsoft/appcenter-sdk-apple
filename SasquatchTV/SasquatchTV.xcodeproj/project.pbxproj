@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		041EFD4F1EE22F36006DCD56 /* SasquatchTVViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D322EFC71E8E97A100A8EDA5 /* SasquatchTVViewController.swift */; };
+		041EFD501EE22F37006DCD56 /* SasquatchTVViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D322EFC71E8E97A100A8EDA5 /* SasquatchTVViewController.swift */; };
 		0431217A1EE0C65B007054C5 /* MobileCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 043121781EE0C65B007054C5 /* MobileCenter.framework */; };
 		0431217B1EE0C65B007054C5 /* MobileCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 043121791EE0C65B007054C5 /* MobileCenterAnalytics.framework */; };
 		0431217C1EE0C669007054C5 /* MobileCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 043121781EE0C65B007054C5 /* MobileCenter.framework */; };
@@ -218,6 +220,7 @@
 					D322EFEA1E8E97DF00A8EDA5 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = L4RARDNZ2Y;
+						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -267,6 +270,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				041EFD501EE22F37006DCD56 /* SasquatchTVViewController.swift in Sources */,
 				D322EFDB1E8E97C800A8EDA5 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -275,6 +279,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				041EFD4F1EE22F36006DCD56 /* SasquatchTVViewController.swift in Sources */,
 				D322EFF21E8E97DF00A8EDA5 /* AppDelegate.m in Sources */,
 				D322EFEF1E8E97DF00A8EDA5 /* main.m in Sources */,
 			);
@@ -431,6 +436,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -447,6 +453,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc.tv;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
