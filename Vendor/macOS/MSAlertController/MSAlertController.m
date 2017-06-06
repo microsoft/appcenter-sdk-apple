@@ -1,6 +1,9 @@
 #import "MSAlertController.h"
 
-// NSAlertFirstButtonReturn	= 1000
+/*
+ * Enum NSModalResponse starts with 1000.
+ * We should use 1000 to correct callback search.
+ */
 static const int DEFAULT_SHIFT = 1000;
 
 @interface MSAlertController ()

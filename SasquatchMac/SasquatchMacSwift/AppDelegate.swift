@@ -48,20 +48,19 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate {
   // Crashes Delegate
   
   func crashes(_ crashes: MSCrashes!, shouldProcessErrorReport errorReport: MSErrorReport!) -> Bool {
-    
-    // return true if the crash report should be processed, otherwise false.
+    NSLog("Should process error report with: %@", errorReport.exceptionReason);
     return true
   }
   
   func crashes(_ crashes: MSCrashes!, willSend errorReport: MSErrorReport!) {
-    
+    NSLog("Will send error report with: %@", errorReport.exceptionReason);
   }
   
   func crashes(_ crashes: MSCrashes!, didSucceedSending errorReport: MSErrorReport!) {
-    
+    NSLog("Did succeed error report sending with: %@", errorReport.exceptionReason);
   }
   
   func crashes(_ crashes: MSCrashes!, didFailSending errorReport: MSErrorReport!, withError error: Error!) {
-    
+    NSLog("Did fail sending report with: %@, and error: %@", errorReport.exceptionReason, error.localizedDescription);
   }
 }
