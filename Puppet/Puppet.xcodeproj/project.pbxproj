@@ -459,7 +459,7 @@
 				38E1B6591DDCDDF4000EFED1 /* MSAlertController.m */,
 			);
 			name = MSAlertController;
-			path = ../../Vendor/Common/MSAlertController;
+			path = ../../Vendor/iOS/MSAlertController;
 			sourceTree = "<group>";
 		};
 		5C2BD1A01ED5DE2100FB20C8 /* Utils */ = {
