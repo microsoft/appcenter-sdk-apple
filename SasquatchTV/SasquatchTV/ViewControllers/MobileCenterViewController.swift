@@ -1,19 +1,15 @@
-import UIKit
+import UIKit;
 
-enum MobileCenterSections : Int {
-  case actions = 0
-  case miscellaneous = 1
-  case settings = 2
-}
+enum MobileCenterSections : Int { case actions = 0; case miscellaneous = 1; case settings = 2; }
 
-@objc open class MobileCenterViewController: UITableViewController, MobileCenterProtocol {
+@objc open class MobileCenterViewController : UITableViewController, MobileCenterProtocol {
 
-  @IBOutlet weak var installIdLabel: UILabel!
-  @IBOutlet weak var appSecretLabel: UILabel!
-  @IBOutlet weak var logURLLabel: UILabel!
-  @IBOutlet weak var statusLabel: UILabel!
+  @IBOutlet weak var installIdLabel : UILabel!;
+  @IBOutlet weak var appSecretLabel : UILabel!;
+  @IBOutlet weak var logURLLabel : UILabel!;
+  @IBOutlet weak var statusLabel : UILabel!;
 
-  var mobileCenter: MobileCenterDelegate!
+  var mobileCenter : MobileCenterDelegate!;
 
   open override func viewDidLoad() {
     super.viewDidLoad();
@@ -23,14 +19,12 @@ enum MobileCenterSections : Int {
     self.statusLabel.text = mobileCenter.isMobileCenterEnabled() ? "Enabled" : "Disabled";
   }
 
-  open override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    tableView.deselectRow(at: indexPath, animated: true);
-    guard let section : MobileCenterSections = MobileCenterSections.init(rawValue: indexPath.section) else {
-      return;
-    }
-    switch(section) {
-    case .settings:
-      mobileCenter.setMobileCenterEnabled( !mobileCenter.isMobileCenterEnabled() );
+  open override func tableView(_ tableView : UITableView, didSelectRowAt indexPath : IndexPath) {
+    tableView.deselectRow(at : indexPath, animated : true);
+    guard let section : MobileCenterSections = MobileCenterSections.init(rawValue : indexPath.section) else { return; }
+    switch (section) {
+    case.settings:
+      mobileCenter.setMobileCenterEnabled(!mobileCenter.isMobileCenterEnabled());
       self.statusLabel.text = mobileCenter.isMobileCenterEnabled() ? "Enabled" : "Disabled";
       break;
     default:
@@ -39,9 +33,7 @@ enum MobileCenterSections : Int {
   }
 
   open override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    if let destination = segue.destination as? MobileCenterProtocol{
-      destination.mobileCenter = mobileCenter
-    }
+    if
+      let destination = segue.destination as? MobileCenterProtocol { destination.mobileCenter = mobileCenter; }
   }
 }
-

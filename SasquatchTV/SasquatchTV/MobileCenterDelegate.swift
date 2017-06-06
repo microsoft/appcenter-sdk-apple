@@ -1,36 +1,36 @@
+import Foundation;
+
 /**
  * Protocol for interacting with MobileCenter SDK.
- * SasquatchSwift and SasquatchObjC implement this protocol
+ * Swift and Objective C implement this protocol
  * to show usage of MobileCenter SDK in a language specific way.
  */
-import Foundation
-
 @objc protocol MobileCenterDelegate {
 
-  // MSMobileCenter section.
-  func isMobileCenterEnabled() -> Bool
-  func setMobileCenterEnabled(_ isEnabled: Bool)
-  func installId() -> String
-  func appSecret() -> String
-  func logUrl() -> String
-  func isDebuggerAttached() -> Bool
+  // MARK: MSMobileCenter section.
+  func isMobileCenterEnabled()->Bool;
+  func setMobileCenterEnabled(_ isEnabled : Bool);
+  func installId()->String;
+  func appSecret()->String;
+  func logUrl()->String;
+  func isDebuggerAttached()->Bool;
 
-  // Modules section.
-  func isAnalyticsEnabled() -> Bool
-  func setAnalyticsEnabled(_ isEnabled: Bool)
+  // MARK: Modules section.
+  func isAnalyticsEnabled()->Bool;
+  func setAnalyticsEnabled(_ isEnabled : Bool);
 
   // TODO: Uncomment when Crashes will allowed for tvOS.
 //  func isCrashesEnabled() -> Bool
 //  func setCrashesEnabled(_ isEnabled: Bool)
 
-  // MSAnalytics section.
-  func trackEvent(_ eventName: String)
-  func trackEvent(_ eventName: String, withProperties: Dictionary<String, String>)
-  func trackPage(_ eventName: String)
-  func trackPage(_ eventName: String, withProperties: Dictionary<String, String>)
+  // MARK: MSAnalytics section.
+  func trackEvent(_ eventName : String);
+  func trackEvent(_ eventName : String, withProperties : Dictionary<String, String>);
+  func trackPage(_ pageName : String);
+  func trackPage(_ pageName : String, withProperties : Dictionary<String, String>);
 
   // TODO: Uncomment when Crashes will allowed for tvOS.
-  // MSCrashes section.
+  // MARK: MSCrashes section.
 //  func hasCrashedInLastSession() -> Bool
 //  func generateTestCrash()
 

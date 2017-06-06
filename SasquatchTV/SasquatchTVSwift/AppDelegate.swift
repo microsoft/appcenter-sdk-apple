@@ -1,20 +1,20 @@
-import UIKit
-import MobileCenter
-import MobileCenterAnalytics
+import UIKit;
+import MobileCenter;
+import MobileCenterAnalytics;
 
 @UIApplicationMain
 
 class AppDelegate : UIResponder, UIApplicationDelegate {
 
-  var window : UIWindow?
+  var window : UIWindow?;
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
     // Override point for customization after application launch.
-    MSMobileCenter.setLogLevel(MSLogLevel.verbose)
-    MSMobileCenter.start("0dbca56b-b9ae-4d53-856a-7c2856137d85", withServices: [MSAnalytics.self])
-    setMobileCenterDelegate()
-    return true
+    MSMobileCenter.setLogLevel(MSLogLevel.verbose);
+    MSMobileCenter.start("0dbca56b-b9ae-4d53-856a-7c2856137d85", withServices : [MSAnalytics.self]);
+    setMobileCenterDelegate();
+    return true;
   }
 
   func applicationWillResignActive(_ application : UIApplication) {
@@ -63,7 +63,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate {
   }
 
   private func setMobileCenterDelegate() {
-    let sasquatchController = self.window?.rootViewController as! MobileCenterViewController
-    sasquatchController.mobileCenter = MobileCenterDelegateSwift()
+    let sasquatchController = self.window?.rootViewController as! MobileCenterViewController;
+    sasquatchController.mobileCenter = MobileCenterDelegateSwift();
   }
 }

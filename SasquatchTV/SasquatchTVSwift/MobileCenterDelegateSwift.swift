@@ -1,63 +1,49 @@
-import MobileCenter
-import MobileCenterAnalytics
+import MobileCenter;
+import MobileCenterAnalytics;
 
 /**
  * MobileCenterDelegate implementation in Swift.
  */
-class MobileCenterDelegateSwift: MobileCenterDelegate {
+class MobileCenterDelegateSwift : MobileCenterDelegate {
 
-  //MARK: MSMobileCenter section.
-  func isMobileCenterEnabled() -> Bool{
-    return MSMobileCenter.isEnabled()
-  }
-  func setMobileCenterEnabled(_ isEnabled: Bool){
-    MSMobileCenter.setEnabled(isEnabled)
-  }
-  func installId() -> String{
-    return MSMobileCenter.installId().uuidString
-  }
-  func appSecret() -> String{
+  // MARK: MSMobileCenter section.
+  func isMobileCenterEnabled()->Bool { return MSMobileCenter.isEnabled(); }
+  func setMobileCenterEnabled(_ isEnabled : Bool) { MSMobileCenter.setEnabled(isEnabled); }
+  func installId()->String { return MSMobileCenter.installId().uuidString; }
+  func appSecret()->String {
     // TODO: Uncomment when appSecret is moved from internal to public.
     // return MSMobileCenter.sharedInstance().appSecret()
-    return "Internal"
+    return "Internal";
   }
-  func logUrl() -> String{
+  func logUrl()->String {
     // TODO: Uncomment when logUrl is moved from internal to public.
     // return MSMobileCenter.sharedInstance().logUrl()
-    return "Internal"
+    return "Internal";
   }
-  func isDebuggerAttached() -> Bool{
-    return MSMobileCenter.isDebuggerAttached()
+  func isDebuggerAttached()->Bool { return MSMobileCenter.isDebuggerAttached(); }
+
+  // MARK: MSAnalytics section.
+  func isAnalyticsEnabled()->Bool { return MSAnalytics.isEnabled(); }
+
+  func setAnalyticsEnabled(_ isEnabled : Bool) { MSAnalytics.setEnabled(isEnabled); }
+
+  func trackEvent(_ eventName : String) { MSAnalytics.trackEvent(eventName); }
+
+  func trackEvent(_ eventName : String, withProperties properties : Dictionary<String, String>) {
+    MSAnalytics.trackEvent(eventName, withProperties : properties);
   }
 
-  //MARK: MSAnalytics section.
-  func isAnalyticsEnabled() -> Bool{
-    return MSAnalytics.isEnabled()
-  }
-
-  func setAnalyticsEnabled(_ isEnabled: Bool){
-    MSAnalytics.setEnabled(isEnabled)
-  }
-
-  func trackEvent(_ eventName: String){
-    MSAnalytics.trackEvent(eventName)
-  }
-
-  func trackEvent(_ eventName: String, withProperties properties: Dictionary<String, String>){
-    MSAnalytics.trackEvent(eventName, withProperties: properties)
-  }
-
-  func trackPage(_ eventName: String){
+  func trackPage(_ pageName : String) {
     // TODO: Uncomment when trackPage is moved from internal to public.
-    // MSAnalytics.trackPage(eventName)
+    // MSAnalytics.trackPage(pageName);
   }
 
-  func trackPage(_ eventName: String, withProperties properties: Dictionary<String, String>){
+  func trackPage(_ pageName : String, withProperties properties : Dictionary<String, String>) {
     // TODO: Uncomment when trackPage is moved from internal to public.
-    // MSAnalytics.trackPage(eventName, withProperties: properties)
+    // MSAnalytics.trackPage(pageName, withProperties: properties);
   }
 
-  //MARK: MSCrashes section.
+  // MARK: MSCrashes section.
   // TODO: Uncomment when Crashes will allowed for tvOS.
 
 //  func isCrashesEnabled() -> Bool{
