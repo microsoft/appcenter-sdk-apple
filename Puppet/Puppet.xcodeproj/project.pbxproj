@@ -23,6 +23,7 @@
 		380A4DC91DD68D3F00E99219 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A271D4152FA0016C325 /* libc++.tbd */; };
 		382346321E8B013F001C3A76 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 382346311E8B013F001C3A76 /* MobileCoreServices.framework */; };
 		38484F6D1E53D57E00C5631C /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38484F691E537B9300C5631C /* SafariServices.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		38E1B65A1DDCDDF4000EFED1 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38E1B6591DDCDDF4000EFED1 /* MSAlertController.m */; };
 		5C2BD19B1ED5D44400FB20C8 /* MSAnalyticsResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C2BD19A1ED5D44400FB20C8 /* MSAnalyticsResultViewController.m */; };
 		5C2BD1A31ED5DE5700FB20C8 /* EventLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C2BD1A21ED5DE5700FB20C8 /* EventLog.m */; };
 		5CE258991EA5FBCA00DA8FB9 /* AnalyticsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE258981EA5FBCA00DA8FB9 /* AnalyticsUITests.swift */; };

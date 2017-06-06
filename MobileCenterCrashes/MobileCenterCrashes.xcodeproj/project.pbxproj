@@ -128,6 +128,7 @@
 		0493278F1ECA170D00D0187A /* live_report_signal_marketing.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A341D416CCF0016C325 /* live_report_signal_marketing.plcrash */; };
 		049327901ECA170D00D0187A /* live_report_empty.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A301D416CCF0016C325 /* live_report_empty.plcrash */; };
 		049327911ECA170D00D0187A /* live_report_exception.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A311D416CCF0016C325 /* live_report_exception.plcrash */; };
+		049327CA1ECA1A2B00D0187A /* libCrashReporter-MacOSX-Static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 049327B11ECA19FD00D0187A /* libCrashReporter-MacOSX-Static.a */; };
 		049327CE1ECA1A5F00D0187A /* libMobileCenterCrashes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0485AFD31EAA887500C10CAF /* libMobileCenterCrashes.a */; };
 		0499F8721EDFAE0B00C3EDDA /* MSErrorAttachmentLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 8024743A1EAE077800AEC284 /* MSErrorAttachmentLog.m */; };
 		0499F8731EDFAE0E00C3EDDA /* MSErrorAttachmentLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 38BD86511E8499EF004E8D7A /* MSErrorAttachmentLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -181,6 +182,7 @@
 		6E7D5C841D3EC0F7009EC9AC /* MSThreadTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C831D3EC0F7009EC9AC /* MSThreadTests.m */; };
 		6E7D5C871D3EC332009EC9AC /* MSStackFrameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C861D3EC332009EC9AC /* MSStackFrameTests.m */; };
 		6E7D5C8A1D3EC504009EC9AC /* MSExceptionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C891D3EC504009EC9AC /* MSExceptionTests.m */; };
+		6EC99A151D41517B0016C325 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A141D41517B0016C325 /* CrashReporter.framework */; };
 		6EC99A2E1D4166C50016C325 /* MSCrashesTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6EC99A2D1D4166C50016C325 /* MSCrashesTests.mm */; };
 		6EC99A371D416CCF0016C325 /* live_report_empty.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A301D416CCF0016C325 /* live_report_empty.plcrash */; };
 		6EC99A381D416CCF0016C325 /* live_report_exception.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A311D416CCF0016C325 /* live_report_exception.plcrash */; };
@@ -433,6 +435,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				049327CA1ECA1A2B00D0187A /* libCrashReporter-MacOSX-Static.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -451,6 +454,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6EC99A151D41517B0016C325 /* CrashReporter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
