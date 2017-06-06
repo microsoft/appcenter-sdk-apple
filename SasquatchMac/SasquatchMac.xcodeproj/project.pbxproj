@@ -30,6 +30,7 @@
 		5C6F9BCD1EB8FBE6009E52D8 /* MobileCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D41EAAC7510033BAAE /* MobileCenter.framework */; };
 		5C9BBC811EC4829200CA77A3 /* MobileCenterDelegateSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9BBC801EC4829200CA77A3 /* MobileCenterDelegateSwift.swift */; };
 		5CD6257A1ECDA4280053DC6C /* MobileCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD625791ECDA4280053DC6C /* MobileCenterViewController.swift */; };
+		C2A4A2691EE7684A0080FD22 /* MobileCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD625791ECDA4280053DC6C /* MobileCenterViewController.swift */; };
 		D3C31C261E8E75B300B288CE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C31C251E8E75B300B288CE /* AppDelegate.m */; };
 		D3C31C291E8E75B300B288CE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C31C281E8E75B300B288CE /* main.m */; };
 		D3C31C2E1E8E75B300B288CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3C31C2D1E8E75B300B288CE /* Assets.xcassets */; };
@@ -340,6 +341,7 @@
 			files = (
 				5C9BBC811EC4829200CA77A3 /* MobileCenterDelegateSwift.swift in Sources */,
 				5C5FE68A1EC4E87E00F85453 /* ServiceStateStore.swift in Sources */,
+				C2A4A2691EE7684A0080FD22 /* MobileCenterViewController.swift in Sources */,
 				042496881EC3CE3700502B62 /* MobileCenterProtocol.swift in Sources */,
 				5C6F9BB51EB8EEF9009E52D8 /* SasquatchMacViewController.swift in Sources */,
 				D3C31C631E8E763600B288CE /* AppDelegate.swift in Sources */,

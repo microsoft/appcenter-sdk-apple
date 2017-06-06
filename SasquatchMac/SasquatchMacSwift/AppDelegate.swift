@@ -5,6 +5,7 @@ import MobileCenterAnalytics
 import MobileCenterCrashes
 
 @NSApplicationMain
+@objc(AppDelegate)
 class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate {
 
   func applicationDidFinishLaunching(_ aNotification: Notification) {
