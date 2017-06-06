@@ -514,7 +514,6 @@
 		043120701EE0BCC4007054C5 /* tvOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = tvOS.modulemap; sourceTree = "<group>"; };
 		043120711EE0BCC4007054C5 /* tvOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = tvOS.xcconfig; sourceTree = "<group>"; };
 		043120DA1EE0BCF9007054C5 /* libMobileCenter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMobileCenter.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		043B479F1EE61B9C001F1745 /* Global Documentation.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Global Documentation.xcconfig"; path = "../../../Global Documentation.xcconfig"; sourceTree = "<group>"; };
 		045660FA1D99EEEB002F7055 /* MSLogWithPropertiesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLogWithPropertiesTests.m; sourceTree = "<group>"; };
 		045BC3161E3FD88600B6C960 /* MSKeychainUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSKeychainUtil.m; sourceTree = "<group>"; };
 		045BC3181E3FD8AC00B6C960 /* MSKeychainUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSKeychainUtil.h; sourceTree = "<group>"; };
@@ -920,7 +919,6 @@
 		6E0401821D1CAD810051BCFA /* Support */ = {
 			isa = PBXGroup;
 			children = (
-				043B479F1EE61B9C001F1745 /* Global Documentation.xcconfig */,
 				386E970B1E0371D2000D37FE /* Global.xcconfig */,
 				6E0401841D1CAD810051BCFA /* MobileCenter.xcconfig */,
 				049BC8281ECE3A5200FB6719 /* iOS.xcconfig */,
@@ -1918,14 +1916,12 @@
 		};
 		6E6BFC321D234FAE00DF7617 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 043B479F1EE61B9C001F1745 /* Global Documentation.xcconfig */;
 			buildSettings = {
 			};
 			name = Debug;
 		};
 		6E6BFC331D234FAE00DF7617 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 043B479F1EE61B9C001F1745 /* Global Documentation.xcconfig */;
 			buildSettings = {
 			};
 			name = Release;

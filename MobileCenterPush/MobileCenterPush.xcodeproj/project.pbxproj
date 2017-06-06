@@ -103,7 +103,6 @@
 		041CFFA71ECD0E9A00B4654B /* Tests iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests iOS.xcconfig"; path = "../../Tests iOS.xcconfig"; sourceTree = "<group>"; };
 		0420A6A11ECA7D7200915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../Vendor/iOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
 		04311FF91EE08772007054C5 /* MSTestFrameworks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSTestFrameworks.h; path = ../../../MobileCenter/MobileCenterTests/Util/MSTestFrameworks.h; sourceTree = "<group>"; };
-		043B479E1EE61B60001F1745 /* Global Documentation.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Global Documentation.xcconfig"; path = "../../../Global Documentation.xcconfig"; sourceTree = "<group>"; };
 		047919B21EBA3AC5004834A6 /* MSPushNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSPushNotification.h; path = Model/MSPushNotification.h; sourceTree = "<group>"; };
 		047919B41EBA3B1B004834A6 /* MSPushDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSPushDelegate.h; sourceTree = "<group>"; };
 		047919B61EBA42F0004834A6 /* MSPushNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSPushNotification.m; path = Model/MSPushNotification.m; sourceTree = "<group>"; };
@@ -267,7 +266,6 @@
 		D3AD5F031E5C7FC9001627AB /* Support */ = {
 			isa = PBXGroup;
 			children = (
-				043B479E1EE61B60001F1745 /* Global Documentation.xcconfig */,
 				D3AD5F041E5C7FDF001627AB /* Global.xcconfig */,
 				D3AD5F051E5C7FFF001627AB /* MobileCenterPush.xcconfig */,
 				049BC81E1ECE333700FB6719 /* iOS.xcconfig */,
@@ -577,14 +575,12 @@
 		};
 		D3AD5F291E5C9633001627AB /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 043B479E1EE61B60001F1745 /* Global Documentation.xcconfig */;
 			buildSettings = {
 			};
 			name = Debug;
 		};
 		D3AD5F2A1E5C9633001627AB /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 043B479E1EE61B60001F1745 /* Global Documentation.xcconfig */;
 			buildSettings = {
 			};
 			name = Release;
