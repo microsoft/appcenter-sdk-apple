@@ -41,7 +41,6 @@
 		0415974B1E9D639D00EC6BDA /* MSDistributionGroupTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0415974A1E9D639D00EC6BDA /* MSDistributionGroupTests.m */; };
 		0420A69C1ECA7C8E00915619 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0420A69B1ECA7C8E00915619 /* OCMock.framework */; };
 		0420A69F1ECA7CD600915619 /* OCMock.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0420A69B1ECA7C8E00915619 /* OCMock.framework */; };
-		04311FF81EE0871D007054C5 /* MSTestFrameworks.h in Headers */ = {isa = PBXBuildFile; fileRef = 04311FF71EE0871D007054C5 /* MSTestFrameworks.h */; };
 		046EF5891EAEB524002F6436 /* MSDistributeDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 046EF5881EAEB524002F6436 /* MSDistributeDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		046FDBD31E5682FA00AF9DD1 /* MSAlertController.h in Headers */ = {isa = PBXBuildFile; fileRef = 046FDBD11E5682FA00AF9DD1 /* MSAlertController.h */; };
 		046FDBD41E5682FA00AF9DD1 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 046FDBD21E5682FA00AF9DD1 /* MSAlertController.m */; };
@@ -196,8 +195,8 @@
 		38A683621E774DCE00A63BC8 /* MSSemVerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSSemVerTests.m; sourceTree = "<group>"; };
 		38A683631E774DCE00A63BC8 /* MSSemVerPreReleaseIdTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSSemVerPreReleaseIdTest.m; sourceTree = "<group>"; };
 		38C9C56B1E565BF600B0FA0D /* MSDistributePrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSDistributePrivate.h; path = ../MSDistributePrivate.h; sourceTree = "<group>"; };
+		807432C31EE20731003295BA /* MSBasicMachOParserPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MSBasicMachOParserPrivate.h; path = ../MSBasicMachOParserPrivate.h; sourceTree = "<group>"; };
 		848860441E6EC32B003A9B96 /* MSBasicMachOParserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSBasicMachOParserTests.m; sourceTree = "<group>"; };
-		84C8AC771E7146970071CCB0 /* MSBasicMachOParserPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MSBasicMachOParserPrivate.h; path = ../../MSBasicMachOParserPrivate.h; sourceTree = "<group>"; };
 		B20DE7B61E5F97330023075C /* MSDistributeUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDistributeUtilTests.m; sourceTree = "<group>"; };
 		B25895A91E4E9BA100123632 /* MSDistributeInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSDistributeInternal.h; sourceTree = "<group>"; };
 		B29CE3481E5E5F9A00CEB04D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = MobileCenterDistribute/Resources/en.lproj/MobileCenterDistribute.strings; sourceTree = SOURCE_ROOT; };
@@ -454,7 +453,7 @@
 			children = (
 				388B559A1E64B3FD00E4F1D7 /* MSBasicMachOParser.h */,
 				388B55991E64B3FD00E4F1D7 /* MSBasicMachOParser.m */,
-				84C8AC771E7146970071CCB0 /* MSBasicMachOParserPrivate.h */,
+				807432C31EE20731003295BA /* MSBasicMachOParserPrivate.h */,
 				B2C070A31E5E62330076D6A9 /* MSDistributeUtil.h */,
 				B2C070A41E5E62330076D6A9 /* MSDistributeUtil.m */,
 			);
@@ -485,7 +484,6 @@
 				38C9C56C1E565BF600B0FA0D /* MSDistributePrivate.h in Headers */,
 				B25895AA1E4E9FD400123632 /* MSDistributeInternal.h in Headers */,
 				0471B93C1E4557620022F951 /* MSServiceAbstract.h in Headers */,
-				04311FF81EE0871D007054C5 /* MSTestFrameworks.h in Headers */,
 				B2C070A51E5E62330076D6A9 /* MSDistributeUtil.h in Headers */,
 				0471B9331E4555F20022F951 /* MobileCenterDistribute.h in Headers */,
 				048BB3071E60A40D009D92C2 /* MSDistributeSender.h in Headers */,

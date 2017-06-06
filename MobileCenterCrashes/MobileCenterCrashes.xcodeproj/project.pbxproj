@@ -44,12 +44,11 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		041EFD3F1EE205D8006DCD56 /* MSErrorAttachmentLogInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 382346411E8B3DAD001C3A76 /* MSErrorAttachmentLogInternal.h */; };
 		0420A6961ECA7BF500915619 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0420A68C1ECA7AA800915619 /* OCMock.framework */; };
 		0420A6971ECA7C0400915619 /* OCMock.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0420A68C1ECA7AA800915619 /* OCMock.framework */; };
 		0420A6981ECA7C1700915619 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0420A68A1ECA7A9B00915619 /* OCMock.framework */; };
 		0420A6991ECA7C2700915619 /* OCMock.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0420A68A1ECA7A9B00915619 /* OCMock.framework */; };
-		04311FF51EE08697007054C5 /* MSTestFrameworks.h in Headers */ = {isa = PBXBuildFile; fileRef = 04311FF41EE08697007054C5 /* MSTestFrameworks.h */; };
-		04311FF61EE0869C007054C5 /* MSTestFrameworks.h in Headers */ = {isa = PBXBuildFile; fileRef = 04311FF41EE08697007054C5 /* MSTestFrameworks.h */; };
 		04311FFC1EE08885007054C5 /* MSCrashReporter.h in Headers */ = {isa = PBXBuildFile; fileRef = 04311FFB1EE08885007054C5 /* MSCrashReporter.h */; };
 		04311FFD1EE08898007054C5 /* MSCrashReporter.h in Headers */ = {isa = PBXBuildFile; fileRef = 04311FFB1EE08885007054C5 /* MSCrashReporter.h */; };
 		0485AFA11EAA887500C10CAF /* MSErrorReport.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120DF1D657CF10060DED7 /* MSErrorReport.m */; };
@@ -804,7 +803,6 @@
 				0485AFB41EAA887500C10CAF /* MSWrapperExceptionManager.h in Headers */,
 				0485AFB51EAA887500C10CAF /* MSErrorBinaryAttachmentPrivate.h in Headers */,
 				0485AFB61EAA887500C10CAF /* MSStackFrame.h in Headers */,
-				04311FF61EE0869C007054C5 /* MSTestFrameworks.h in Headers */,
 				0485AFB71EAA887500C10CAF /* MSLogManager.h in Headers */,
 				0485AFB81EAA887500C10CAF /* MSBinary.h in Headers */,
 				0485AFB91EAA887500C10CAF /* MSCrashes.h in Headers */,
@@ -832,6 +830,7 @@
 				0485AFCC1EAA887500C10CAF /* ../MobileCenter/MobileCenter/MSService.h in Headers */,
 				0485AFCD1EAA887500C10CAF /* MSErrorAttachmentPrivate.h in Headers */,
 				0485AFCE1EAA887500C10CAF /* MSCrashesDelegate.h in Headers */,
+				041EFD3F1EE205D8006DCD56 /* MSErrorAttachmentLogInternal.h in Headers */,
 				0485AFCF1EAA887500C10CAF /* MSCrashesPrivate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -841,7 +840,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				35D504CF1DDD140500D58B40 /* MSWrapperExceptionManager.h in Headers */,
-				04311FF51EE08697007054C5 /* MSTestFrameworks.h in Headers */,
 				3507AE3E1DD14C240030878F /* MSStackFrame.h in Headers */,
 				E8AEE9861D59744D00C0FF6C /* MSLogManager.h in Headers */,
 				6E7D5C671D3E9321009EC9AC /* MSBinary.h in Headers */,

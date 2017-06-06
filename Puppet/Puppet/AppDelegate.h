@@ -7,5 +7,6 @@
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property(strong, nonatomic) UIWindow *window;
++(UIViewController*)crashResultViewController;
 
 @end

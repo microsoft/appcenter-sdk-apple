@@ -67,7 +67,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
   func application(_ app: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
     
     // Forward the URL to MSDistribute.
-    return MSDistribute.open(url as URL!)
+    return MSDistribute.open(url)
   }
   
   /**
@@ -85,7 +85,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
   func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
     
     // Forward the URL to MSDistribute.
-    return MSDistribute.open(url as URL!)
+    return MSDistribute.open(url)
   }
 
   func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
