@@ -4,21 +4,21 @@ Pod::Spec.new do |s|
 
   s.summary           = 'Mobile Center is mission control for mobile apps. Get faster release cycles, higher-quality apps, and the insights to build what users want.'
   s.description       = <<-DESC
-                     Mobile Center is mission control for mobile apps.
+                      Mobile Center is mission control for mobile apps.
                       Get faster release cycles, higher-quality apps, and the insights to build what users want.
 
                       The Mobile Center SDK uses a modular architecture so you can use any or all of the following services: 
 
-                      1. Mobile Center Analytics:
+                      1. Mobile Center Analytics (iOS and macOS):
                       Mobile Center Analytics helps you understand user behavior and customer engagement to improve your app. The SDK automatically captures session count, device properties like model, OS version, etc. You can define your own custom events to measure things that matter to you. All the information captured is available in the Mobile Center portal for you to analyze the data.
 
-                      2. Mobile Center Crashes: 
+                      2. Mobile Center Crashes (iOS and macOS):
                       Mobile Center Distribute will let your users install a new version of the app when you distribute it via the Mobile Center. With a new version of the app available, the SDK will present an update dialog to the users to either download or postpone the new version. Once they choose to update, the SDK will start to update your application. This feature will NOT work if your app is deployed to the app store.
 
-                      3. Mobile Center Distribute:
+                      3. Mobile Center Distribute (iOS only):
                       Mobile Center Distribute provides the capability to display in-app updates to your app users when a new version of the application is released. Not available for macOS SDK.
 
-                      4. Mobile Center Push:
+                      4. Mobile Center Push (iOS only):
                       Mobile Center Push enables you to send push notifications to users of your app from the Mobile Center portal. Not available for macOS SDK.
 
                         DESC
@@ -46,12 +46,12 @@ Pod::Spec.new do |s|
   end
 
  s.subspec 'Analytics' do |ss|
-      ss.frameworks = 'Foundation'
-      ss.dependency 'MobileCenter/Core'
-      ss.ios.frameworks = 'UIKit'
-      ss.osx.frameworks = 'AppKit'
-      ss.ios.vendored_frameworks = "MobileCenter-SDK-Apple/iOS/MobileCenterAnalytics.framework"
-      ss.osx.vendored_frameworks = "MobileCenter-SDK-Apple/macOS/MobileCenterAnalytics.framework"
+    ss.frameworks = 'Foundation'
+    ss.dependency 'MobileCenter/Core'
+    ss.ios.frameworks = 'UIKit'
+    ss.osx.frameworks = 'AppKit'
+    ss.ios.vendored_frameworks = "MobileCenter-SDK-Apple/iOS/MobileCenterAnalytics.framework"
+    ss.osx.vendored_frameworks = "MobileCenter-SDK-Apple/macOS/MobileCenterAnalytics.framework"
   end
 
   s.subspec 'Crashes' do |ss|
