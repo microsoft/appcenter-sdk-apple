@@ -2,7 +2,7 @@ import Foundation
 
 /**
  * Protocol for interacting with MobileCenter SDK.
- * SasquatchSwift and SasquatchMacObjC implement this protocol
+ * Swift and Objective C implement this protocol
  * to show usage of MobileCenter SDK in a language specific way.
  */
 @objc protocol MobileCenterDelegate {

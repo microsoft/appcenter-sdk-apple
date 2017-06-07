@@ -69,13 +69,13 @@
 - (void) trackEvent:(NSString *)eventName withProperties:(NSDictionary<NSString *, NSString *> *)properties{
   [MSAnalytics trackEvent:eventName withProperties:properties];
 }
-- (void) trackPage:(NSString *) eventName{
+- (void) trackPage:(NSString *) pageName{
   // TODO: Uncomment when trackPage is moved from internal to public module
-  // [MSAnalytics trackPage:eventName];
+  // [MSAnalytics trackPage:pageName];
 }
-- (void) trackPage:(NSString *)eventName withProperties:(NSDictionary<NSString *, NSString *> *)properties{
+- (void) trackPage:(NSString *)pageName withProperties:(NSDictionary<NSString *, NSString *> *)properties{
   // TODO: Uncomment when trackPage is moved from internal to public module
-  // [MSAnalytics trackPage:eventName withProperties:properties];
+  // [MSAnalytics trackPage:pageName withProperties:properties];
 }
 
 #pragma mark - MSCrashes section.
