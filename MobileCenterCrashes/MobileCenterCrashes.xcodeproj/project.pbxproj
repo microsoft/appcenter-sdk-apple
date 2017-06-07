@@ -128,7 +128,6 @@
 		0493278F1ECA170D00D0187A /* live_report_signal_marketing.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A341D416CCF0016C325 /* live_report_signal_marketing.plcrash */; };
 		049327901ECA170D00D0187A /* live_report_empty.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A301D416CCF0016C325 /* live_report_empty.plcrash */; };
 		049327911ECA170D00D0187A /* live_report_exception.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A311D416CCF0016C325 /* live_report_exception.plcrash */; };
-		049327CA1ECA1A2B00D0187A /* libCrashReporter-MacOSX-Static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 049327B11ECA19FD00D0187A /* libCrashReporter-MacOSX-Static.a */; };
 		049327CE1ECA1A5F00D0187A /* libMobileCenterCrashes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0485AFD31EAA887500C10CAF /* libMobileCenterCrashes.a */; };
 		0499F8721EDFAE0B00C3EDDA /* MSErrorAttachmentLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 8024743A1EAE077800AEC284 /* MSErrorAttachmentLog.m */; };
 		0499F8731EDFAE0E00C3EDDA /* MSErrorAttachmentLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 38BD86511E8499EF004E8D7A /* MSErrorAttachmentLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -207,6 +206,7 @@
 		B2F3750A1D41AD5100F07032 /* MSErrorLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F375081D41AD5100F07032 /* MSErrorLogFormatter.m */; };
 		B2FF130C1DD12F61003DC677 /* MSAppleErrorLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FF130B1DD12F61003DC677 /* MSAppleErrorLogTests.m */; };
 		BA682CFA6F4C5A8841507CF7 /* MSMockCrashesDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BA68266A68B7F21A86A093B0 /* MSMockCrashesDelegate.m */; };
+		C2A4A26F1EE76B970080FD22 /* libCrashReporter-MacOSX-Static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 049327B11ECA19FD00D0187A /* libCrashReporter-MacOSX-Static.a */; };
 		E8AEE9861D59744D00C0FF6C /* MSLogManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E8AEE9851D59744D00C0FF6C /* MSLogManager.h */; };
 		F851DAED1E81867D00525570 /* MSCrashesCXXExceptionTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = F851DAEC1E81867D00525570 /* MSCrashesCXXExceptionTests.mm */; };
 		F859D1051E549B45008B2D8E /* live_report_bad_ptr.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D0F41E549B45008B2D8E /* live_report_bad_ptr.plcrash */; };
@@ -435,7 +435,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				049327CA1ECA1A2B00D0187A /* libCrashReporter-MacOSX-Static.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -447,6 +446,7 @@
 				049327CE1ECA1A5F00D0187A /* libMobileCenterCrashes.a in Frameworks */,
 				04BED7231ECB65E100E20975 /* OCHamcrest.framework in Frameworks */,
 				0420A6961ECA7BF500915619 /* OCMock.framework in Frameworks */,
+				C2A4A26F1EE76B970080FD22 /* libCrashReporter-MacOSX-Static.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
