@@ -16,9 +16,9 @@ custom_categories:
     children:
     - Installation
 
-umbrella_header: ../../MobileCenter-SDK-iOS/iOS/MobileCenterAnalytics.framework/Headers/MobileCenterAnalytics.h
-framework_root: ../../MobileCenter-SDK-iOS/iOS/
-exclude: [../../MobileCenter-SDK-iOS/MobileCenterAnalytics.framework/Headers/MSService.h, ../../MobileCenter-SDK-iOS/MobileCenterAnalytics.framework/Headers/MSServiceAbstract.h]
+umbrella_header: ../../MobileCenter-SDK-Apple/iOS/MobileCenterAnalytics.framework/Headers/MobileCenterAnalytics.h
+framework_root: ../../MobileCenter-SDK-Apple/iOS/
+exclude: [../../MobileCenter-SDK-Apple/iOS/MobileCenterAnalytics.framework/Headers/MSService.h, ../../MobileCenter-SDK-Apple/iOS/MobileCenterAnalytics.framework/Headers/MSServiceAbstract.h]
 
 root_url: http://docs.mobile.azure.com/sdk/ios/
 github_url: https://github.com/Microsoft/mobile-center-sdk-ios
