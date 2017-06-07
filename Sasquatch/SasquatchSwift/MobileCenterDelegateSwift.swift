@@ -66,13 +66,13 @@ class MobileCenterDelegateSwift: MobileCenterDelegate {
   func trackEvent(_ eventName: String, withProperties properties: Dictionary<String, String>){
     MSAnalytics.trackEvent(eventName, withProperties: properties)
   }
-  func trackPage(_ eventName: String){
+  func trackPage(_ pageName: String){
     // TODO: Uncomment when trackPage is moved from internal to public
-    // MSAnalytics.trackPage(eventName)
+    // MSAnalytics.trackPage(pageName)
   }
-  func trackPage(_ eventName: String, withProperties properties: Dictionary<String, String>){
+  func trackPage(_ pageName: String, withProperties properties: Dictionary<String, String>){
     // TODO: Uncomment when trackPage is moved from internal to public
-    // MSAnalytics.trackPage(eventName, withProperties: properties)
+    // MSAnalytics.trackPage(pageName, withProperties: properties)
   }
   
   // MSCrashes section.
