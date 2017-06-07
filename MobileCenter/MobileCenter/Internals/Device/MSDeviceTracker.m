@@ -154,7 +154,7 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
     newDevice.carrierName = [self carrierName:carrier];
 #else
 
-    // TODO: Assume for now that macOS doesn't send any carrier information.
+    // Carrier information is not available on macOS.
     newDevice.carrierCountry = nil;
     newDevice.carrierName = nil;
 #endif
@@ -274,7 +274,7 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
 }
 #else
 
-// TODO: Think about the best practice to get macOS version.
+// TODO: Update below method once we have determined a minimum target version of macOS.
 - (NSString *)osVersion {
   NSString *osVersion = nil;
 
