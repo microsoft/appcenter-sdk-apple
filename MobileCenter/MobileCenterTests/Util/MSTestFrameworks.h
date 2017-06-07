@@ -1,5 +1,5 @@
 #import <Foundation/Foundation.h>
-#if TARGET_OS_IPHONE
+#if TARGET_OS_IOS
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #else
 #import <OCHamcrest/OCHamcrest.h>

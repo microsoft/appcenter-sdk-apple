@@ -128,7 +128,7 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
 - (MSDevice *)updatedDevice {
   @synchronized(self) {
     MSDevice *newDevice = [[MSDevice alloc] init];
-#if TARGET_OS_IPHONE && !TARGET_OS_TV
+#if TARGET_OS_IOS
     CTCarrier *carrier = [[[CTTelephonyNetworkInfo alloc] init] subscriberCellularProvider];
 #endif
 
@@ -149,12 +149,12 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
     newDevice.timeZoneOffset = [self timeZoneOffset:[NSTimeZone localTimeZone]];
     newDevice.screenSize = [self screenSize];
     newDevice.appVersion = [self appVersion:MS_APP_MAIN_BUNDLE];
-#if TARGET_OS_IPHONE && !TARGET_OS_TV
+#if TARGET_OS_IOS
     newDevice.carrierCountry = [self carrierCountry:carrier];
     newDevice.carrierName = [self carrierName:carrier];
 #else
 
-    // Carrier information is not available on macOS.
+    // Carrier information is not available on macOS/tvOS.
     newDevice.carrierCountry = nil;
     newDevice.carrierName = nil;
 #endif
@@ -333,7 +333,7 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
   return [NSString stringWithFormat:@"%dx%d", (int)(screenSize.height * scale), (int)(screenSize.width * scale)];
 }
 
-#if TARGET_OS_IPHONE && !TARGET_OS_TV
+#if TARGET_OS_IOS
 - (NSString *)carrierName:(CTCarrier *)carrier {
   return ([carrier.carrierName length] > 0) ? carrier.carrierName : nil;
 }

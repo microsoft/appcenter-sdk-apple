@@ -173,7 +173,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   assertThatInteger([screenSize length], greaterThan(@(0)));
 }
 
-#if TARGET_OS_IPHONE
+#if TARGET_OS_IOS
 - (void)testCarrierName {
 
   // If
@@ -189,7 +189,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 }
 #endif
 
-#if TARGET_OS_IPHONE
+#if TARGET_OS_IOS
 - (void)testNoCarrierName {
 
   // If
@@ -204,7 +204,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 }
 #endif
 
-#if TARGET_OS_IPHONE
+#if TARGET_OS_IOS
 - (void)testCarrierCountry {
 
   // If
@@ -220,7 +220,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 }
 #endif
 
-#if TARGET_OS_IPHONE
+#if TARGET_OS_IOS
 - (void)testNoCarrierCountry {
 
   // If
