@@ -322,8 +322,6 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 #if TARGET_OS_IPHONE
   [someData writeToFile:filePath options:NSDataWritingFileProtectionNone error:nil];
 #else
-
-  // TODO: Make sure this is a right replacement.
   [someData writeToFile:filePath atomically:YES];
 #endif
 
