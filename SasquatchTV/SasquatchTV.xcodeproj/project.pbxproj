@@ -20,9 +20,11 @@
 		5C481B9F1EE5794A009329DD /* MobileCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C481B9A1EE5794A009329DD /* MobileCenterViewController.swift */; };
 		5C481BA61EE586D2009329DD /* MobileCenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C481BA31EE586D2009329DD /* MobileCenterProtocol.swift */; };
 		5C481BA71EE586D2009329DD /* MobileCenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C481BA31EE586D2009329DD /* MobileCenterProtocol.swift */; };
+		5C4F92621EE83E08003140BF /* MobileCenterUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4F92611EE83E08003140BF /* MobileCenterUITests.swift */; };
+		5C4F92631EE83E08003140BF /* MobileCenterUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4F92611EE83E08003140BF /* MobileCenterUITests.swift */; };
+		5C4F926B1EE84260003140BF /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C4F926A1EE84260003140BF /* MSAlertController.m */; };
 		5C5A41801EE5AE7500C377A7 /* MobileCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB338A31EE59C0F0089A60B /* MobileCenterDelegate.swift */; };
 		5C5A41881EE5B07D00C377A7 /* MobileCenterDelegateSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5A41811EE5AEE800C377A7 /* MobileCenterDelegateSwift.swift */; };
-		5CB3389C1EE591AB0089A60B /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CB3389B1EE591AB0089A60B /* MSAlertController.m */; };
 		5CB338A21EE59B4B0089A60B /* MobileCenterDelegateObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CB338A11EE59B4B0089A60B /* MobileCenterDelegateObjC.m */; };
 		5CB338A41EE59C0F0089A60B /* MobileCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB338A31EE59C0F0089A60B /* MobileCenterDelegate.swift */; };
 		D322EFDB1E8E97C800A8EDA5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D322EFDA1E8E97C800A8EDA5 /* AppDelegate.swift */; };
@@ -61,10 +63,11 @@
 		5C481B991EE5794A009329DD /* AnalyticsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AnalyticsViewController.swift; path = ViewControllers/AnalyticsViewController.swift; sourceTree = "<group>"; };
 		5C481B9A1EE5794A009329DD /* MobileCenterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MobileCenterViewController.swift; path = ViewControllers/MobileCenterViewController.swift; sourceTree = "<group>"; };
 		5C481BA31EE586D2009329DD /* MobileCenterProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MobileCenterProtocol.swift; path = ../../Sasquatch/Sasquatch/MobileCenterProtocol.swift; sourceTree = "<group>"; };
+		5C4F92611EE83E08003140BF /* MobileCenterUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MobileCenterUITests.swift; path = SasquatchTVUITests/MobileCenterUITests.swift; sourceTree = SOURCE_ROOT; };
+		5C4F92691EE84260003140BF /* MSAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSAlertController.h; path = ../../Vendor/iOS/MSAlertController/MSAlertController.h; sourceTree = "<group>"; };
+		5C4F926A1EE84260003140BF /* MSAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSAlertController.m; path = ../../Vendor/iOS/MSAlertController/MSAlertController.m; sourceTree = "<group>"; };
 		5C5A41811EE5AEE800C377A7 /* MobileCenterDelegateSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobileCenterDelegateSwift.swift; sourceTree = "<group>"; };
 		5CB338991EE58EBC0089A60B /* SasquatchTV-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SasquatchTV-Bridging-Header.h"; sourceTree = "<group>"; };
-		5CB3389A1EE591AB0089A60B /* MSAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSAlertController.h; path = ../../Vendor/Common/MSAlertController/MSAlertController.h; sourceTree = "<group>"; };
-		5CB3389B1EE591AB0089A60B /* MSAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSAlertController.m; path = ../../Vendor/Common/MSAlertController/MSAlertController.m; sourceTree = "<group>"; };
 		5CB338A01EE59B250089A60B /* MobileCenterDelegateObjC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MobileCenterDelegateObjC.h; sourceTree = "<group>"; };
 		5CB338A11EE59B4B0089A60B /* MobileCenterDelegateObjC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MobileCenterDelegateObjC.m; sourceTree = "<group>"; };
 		5CB338A31EE59C0F0089A60B /* MobileCenterDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobileCenterDelegate.swift; sourceTree = "<group>"; };
@@ -124,6 +127,7 @@
 			children = (
 				5C2CC7051EE6C08600E2BDA4 /* Info.plist */,
 				5C2CC7061EE6C08600E2BDA4 /* AnalyticsUITests.swift */,
+				5C4F92611EE83E08003140BF /* MobileCenterUITests.swift */,
 			);
 			name = SasquatchTVUITests;
 			path = SasquatchTVObjCUITests;
@@ -132,8 +136,8 @@
 		5C481BAB1EE58922009329DD /* MSAlertController */ = {
 			isa = PBXGroup;
 			children = (
-				5CB3389A1EE591AB0089A60B /* MSAlertController.h */,
-				5CB3389B1EE591AB0089A60B /* MSAlertController.m */,
+				5C4F92691EE84260003140BF /* MSAlertController.h */,
+				5C4F926A1EE84260003140BF /* MSAlertController.m */,
 			);
 			name = MSAlertController;
 			sourceTree = "<group>";
@@ -421,6 +425,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C4F92621EE83E08003140BF /* MobileCenterUITests.swift in Sources */,
 				5C2CC70B1EE6C0B600E2BDA4 /* AnalyticsUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -429,6 +434,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C4F92631EE83E08003140BF /* MobileCenterUITests.swift in Sources */,
 				5C2CC70A1EE6C0B600E2BDA4 /* AnalyticsUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -451,8 +457,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				5C481BA61EE586D2009329DD /* MobileCenterProtocol.swift in Sources */,
-				5CB3389C1EE591AB0089A60B /* MSAlertController.m in Sources */,
 				D322EFF21E8E97DF00A8EDA5 /* AppDelegate.m in Sources */,
+				5C4F926B1EE84260003140BF /* MSAlertController.m in Sources */,
 				D322EFEF1E8E97DF00A8EDA5 /* main.m in Sources */,
 				5C481B9E1EE5794A009329DD /* MobileCenterViewController.swift in Sources */,
 				5C481B9C1EE5794A009329DD /* AnalyticsViewController.swift in Sources */,
