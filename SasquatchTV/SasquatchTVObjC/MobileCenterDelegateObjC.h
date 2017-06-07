@@ -1,4 +1,4 @@
-#import "SasquatchMacObjC-Swift.h"
+#import "SasquatchTVObjC-Swift.h"
 
 @interface MobileCenterDelegateObjC : NSObject <MobileCenterDelegate>
 

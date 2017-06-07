@@ -6,10 +6,6 @@
 @import MobileCenterAnalytics;
 @import MobileCenterCrashes;
 
-@interface AppDelegate () <MSCrashesDelegate>
-
-@end
-
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
