@@ -27,7 +27,7 @@ class AnalyticsViewController : UITableViewController, MobileCenterProtocol {
       switch
         action {
         case.trackEvent:
-          mobileCenter.trackPage("tvOS Event", withProperties : properties as! Dictionary<String, String>);
+          mobileCenter.trackEvent("tvOS Event", withProperties : properties as! Dictionary<String, String>);
           break;
         case.trackPage:
           mobileCenter.trackPage("tvOS Page", withProperties : properties as! Dictionary<String, String>);
