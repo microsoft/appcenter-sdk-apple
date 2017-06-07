@@ -1,5 +1,4 @@
 #if TARGET_OS_IPHONE && !TARGET_OS_TV
-// TODO: CoreTelephony is also available in macOS SDK.
 #import <CoreTelephony/CTCarrier.h>
 #import <CoreTelephony/CTTelephonyNetworkInfo.h>
 #import <UIKit/UIKit.h>

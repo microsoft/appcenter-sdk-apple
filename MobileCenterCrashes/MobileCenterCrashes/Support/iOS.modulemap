@@ -5,7 +5,6 @@ framework module MobileCenterCrashes {
   module * { export * }
   
   link framework "Foundation"
-  link framework "MobileCoreServices"
   link "c++"
   link "z"
 }

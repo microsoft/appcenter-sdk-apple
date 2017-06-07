@@ -50,7 +50,7 @@ Pod::Spec.new do |s|
   end
 
   s.subspec 'Crashes' do |ss|
-      ss.frameworks = 'Foundation', 'MobileCoreService'
+      ss.frameworks = 'Foundation'
       ss.libraries = 'z', 'c++'
       ss.dependency 'MobileCenter/Core'
       ss.vendored_frameworks = "MobileCenter-SDK-iOS/MobileCenterCrashes.framework"
