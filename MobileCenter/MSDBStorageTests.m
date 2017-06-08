@@ -33,15 +33,15 @@ static NSString *const kMSTestGroupId = @"TestGroupId";
       .andReturn([self generateSerializedLogsWithCount:expectedLogsCount + 1]);
 
   // When
-  BOOL moreLogsAvailable = [self.sut loadLogsForGroupId:kMSTestGroupId
-                                                  limit:expectedLogsCount
-                                         withCompletion:^(BOOL succeeded, NSArray<MSLog> *_Nonnull logArray,
-                                                          __attribute__((unused)) NSString * _Nonnull batchId) {
+  BOOL moreLogsAvailable =
+      [self.sut loadLogsWithGroupId:kMSTestGroupId
+                              limit:expectedLogsCount
+                     withCompletion:^(NSArray<MSLog> *_Nonnull logArray, NSString *_Nonnull batchId) {
 
-                                           // Then
-                                           XCTAssertTrue(succeeded);
-                                           XCTAssertTrue(expectedLogsCount == logArray.count);
-                                         }];
+                       // Then
+                       assertThat(batchId, notNilValue());
+                       XCTAssertTrue(expectedLogsCount == logArray.count);
+                     }];
   XCTAssertTrue(moreLogsAvailable);
 }
 
@@ -53,15 +53,15 @@ static NSString *const kMSTestGroupId = @"TestGroupId";
       .andReturn([self generateSerializedLogsWithCount:expectedLogsCount]);
 
   // When
-  BOOL moreLogsAvailable = [self.sut loadLogsForGroupId:kMSTestGroupId
-                                                  limit:expectedLogsCount
-                                         withCompletion:^(BOOL succeeded, NSArray<MSLog> *_Nonnull logArray,
-                                                          __attribute__((unused)) NSString * _Nonnull batchId) {
+  BOOL moreLogsAvailable =
+      [self.sut loadLogsWithGroupId:kMSTestGroupId
+                              limit:expectedLogsCount
+                     withCompletion:^(NSArray<MSLog> *_Nonnull logArray, NSString *_Nonnull batchId) {
 
-                                           // Then
-                                           XCTAssertTrue(succeeded);
-                                           XCTAssertTrue(expectedLogsCount == logArray.count);
-                                         }];
+                       // Then
+                       assertThat(batchId, notNilValue());
+                       XCTAssertTrue(expectedLogsCount == logArray.count);
+                     }];
   XCTAssertFalse(moreLogsAvailable);
 }
 
@@ -74,15 +74,15 @@ static NSString *const kMSTestGroupId = @"TestGroupId";
       .andReturn([self generateSerializedLogsWithCount:expectedLogsCount]);
 
   // When
-  BOOL moreLogsAvailable = [self.sut loadLogsForGroupId:kMSTestGroupId
-                                                  limit:limit
-                                         withCompletion:^(BOOL succeeded, NSArray<MSLog> *_Nonnull logArray,
-                                                          __attribute__((unused)) NSString * _Nonnull batchId) {
+  BOOL moreLogsAvailable =
+      [self.sut loadLogsWithGroupId:kMSTestGroupId
+                              limit:limit
+                     withCompletion:^(NSArray<MSLog> *_Nonnull logArray, NSString *_Nonnull batchId) {
 
-                                           // Then
-                                           XCTAssertTrue(succeeded);
-                                           XCTAssertTrue(expectedLogsCount == logArray.count);
-                                         }];
+                       // Then
+                       assertThat(batchId, notNilValue());
+                       XCTAssertTrue(expectedLogsCount == logArray.count);
+                     }];
   XCTAssertFalse(moreLogsAvailable);
 }
 
@@ -94,7 +94,7 @@ static NSString *const kMSTestGroupId = @"TestGroupId";
       .andReturn([self generateSerializedLogsWithCount:expectedLogsCount]);
 
   // When
-  NSArray<MSAbstractLog *> *logs = [self.sut getLogsWithGroupId:kMSTestGroupId];
+  NSDictionary<NSString *, id<MSLog>> *logs = [self.sut getLogsFromDBWithGroupId:kMSTestGroupId];
 
   // Then
   XCTAssertTrue(expectedLogsCount == logs.count);
@@ -105,7 +105,7 @@ static NSString *const kMSTestGroupId = @"TestGroupId";
   for (NSUInteger i = 0; i < count; ++i) {
     NSData *logData = [NSKeyedArchiver archivedDataWithRootObject:[MSAbstractLog new]];
     NSString *base64Data = [logData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
-    [logs addObject:@[ kMSTestGroupId, base64Data ]];
+    [logs addObject:@[ [@(i) stringValue], kMSTestGroupId, base64Data ]];
   }
   return logs;
 }
