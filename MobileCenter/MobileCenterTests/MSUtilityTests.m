@@ -24,7 +24,7 @@
   [self.utils stopMocking];
 }
 
-#if TARGET_OS_IPHONE
+#if !TARGET_OS_OSX
 - (void)testMSAppStateMatchesUIAppStateWhenAvailable {
 
   // Then
@@ -56,11 +56,11 @@
 - (void)testAppActive {
 
   // If
-#if TARGET_OS_IPHONE
-  UIApplicationState expectedState = UIApplicationStateActive;
+#if TARGET_OS_OSX
+  MSApplicationState expectedState = MSApplicationStateActive;
   OCMStub([self.utils sharedAppState]).andReturn(expectedState);
 #else
-  MSApplicationState expectedState = MSApplicationStateActive;
+  UIApplicationState expectedState = UIApplicationStateActive;
   OCMStub([self.utils sharedAppState]).andReturn(expectedState);
 #endif
 
@@ -71,7 +71,7 @@
   assertThat(@(state), is(@(expectedState)));
 }
 
-#if TARGET_OS_IPHONE
+#if !TARGET_OS_OSX
 - (void)testAppInactive {
 
   // If
@@ -89,11 +89,11 @@
 - (void)testAppInBackground {
 
   // If
-#if TARGET_OS_IPHONE
-  UIApplicationState expectedState = UIApplicationStateBackground;
+#if TARGET_OS_OSX
+  MSApplicationState expectedState = MSApplicationStateBackground;
   OCMStub([self.utils sharedAppState]).andReturn(expectedState);
 #else
-  MSApplicationState expectedState = MSApplicationStateBackground;
+  UIApplicationState expectedState = UIApplicationStateBackground;
   OCMStub([self.utils sharedAppState]).andReturn(expectedState);
 #endif
 
@@ -136,7 +136,7 @@
 }
 
 // FIXME: This method actually opens a dialog to ask to handle the URL on Mac.
-#if TARGET_OS_IPHONE
+#if !TARGET_OS_OSX
 - (void)testSharedAppOpenEmptyCallCallback {
 
   // If

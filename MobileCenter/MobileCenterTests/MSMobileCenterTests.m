@@ -4,11 +4,12 @@
 #import "MSMobileCenter.h"
 #import "MSMobileCenterInternal.h"
 #import "MSMobileCenterPrivate.h"
-#if TARGET_OS_IPHONE
+#if TARGET_OS_OSX
+
+// TODO: ApplicationDelegate is not yet implemented for macOS.
+#else
 #import "MSMockCustomAppDelegate.h"
 #import "MSMockOriginalAppDelegate.h"
-#else
-// TODO: ApplicationDelegate is not yet implemented for macOS.
 #endif
 #import "MSMockUserDefaults.h"
 #import "MSTestFrameworks.h"
@@ -206,10 +207,10 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
   // When
   [[NSNotificationCenter defaultCenter]
-#if TARGET_OS_IPHONE
-      postNotificationName:UIApplicationDidEnterBackgroundNotification
-#else
+#if TARGET_OS_OSX
       postNotificationName:NSApplicationDidHideNotification
+#else
+      postNotificationName:UIApplicationDidEnterBackgroundNotification
 #endif
                     object:self.sut];
   // Then
@@ -225,10 +226,10 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
   // When
   [[NSNotificationCenter defaultCenter]
-#if TARGET_OS_IPHONE
-      postNotificationName:UIApplicationWillEnterForegroundNotification
-#else
+#if TARGET_OS_OSX
       postNotificationName:NSApplicationDidUnhideNotification
+#else
+      postNotificationName:UIApplicationWillEnterForegroundNotification
 #endif
 
                     object:self.sut];

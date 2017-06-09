@@ -137,12 +137,12 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
     newDevice.sdkVersion = [self sdkVersion:mobilecenter_library_info.ms_version];
     newDevice.model = [self deviceModel];
     newDevice.oemName = kMSDeviceManufacturer;
-#if TARGET_OS_IPHONE
-    newDevice.osName = [self osName:MS_DEVICE];
-    newDevice.osVersion = [self osVersion:MS_DEVICE];
-#else
+#if TARGET_OS_OSX
     newDevice.osName = [self osName];
     newDevice.osVersion = [self osVersion];
+#else
+    newDevice.osName = [self osName:MS_DEVICE];
+    newDevice.osVersion = [self osVersion:MS_DEVICE];
 #endif
     newDevice.osBuild = [self osBuild];
     newDevice.locale = [self locale:MS_LOCALE];
@@ -258,21 +258,17 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
   return model;
 }
 
-#if TARGET_OS_IPHONE
-- (NSString *)osName:(UIDevice *)device {
-  return device.systemName;
-}
-#else
+#if TARGET_OS_OSX
 - (NSString *)osName {
   return @"macOS";
 }
+#else
+- (NSString *)osName:(UIDevice *)device {
+  return device.systemName;
+}
 #endif
 
-#if TARGET_OS_IPHONE
-- (NSString *)osVersion:(UIDevice *)device {
-  return device.systemVersion;
-}
-#else
+#if TARGET_OS_OSX
 
 // TODO: Update below method once we have determined a minimum target version of macOS.
 - (NSString *)osVersion {
@@ -296,6 +292,10 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
   }
 #endif
   return osVersion;
+}
+#else
+- (NSString *)osVersion:(UIDevice *)device {
+  return device.systemVersion;
 }
 #endif
 
@@ -322,13 +322,13 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
 
 - (NSString *)screenSize {
 
-#if TARGET_OS_IPHONE
-  CGFloat scale = [UIScreen mainScreen].scale;
-  CGSize screenSize = [UIScreen mainScreen].bounds.size;
-#else
+#if TARGET_OS_OSX
   NSScreen *focusScreen = [NSScreen mainScreen];
   CGFloat scale = focusScreen.backingScaleFactor;
   CGSize screenSize = [focusScreen frame].size;
+#else
+  CGFloat scale = [UIScreen mainScreen].scale;
+  CGSize screenSize = [UIScreen mainScreen].bounds.size;
 #endif
   return [NSString stringWithFormat:@"%dx%d", (int)(screenSize.height * scale), (int)(screenSize.width * scale)];
 }

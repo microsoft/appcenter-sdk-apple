@@ -87,20 +87,20 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 
 // If
 
-#if TARGET_OS_IPHONE
+#if TARGET_OS_OSX
+  NSString *expected = @"macOS";
+#else
   NSString *expected = @"iMock OS";
   UIDevice *deviceMock = OCMClassMock([UIDevice class]);
   OCMStub([deviceMock systemName]).andReturn(expected);
-#else
-  NSString *expected = @"macOS";
 #endif
 
 // When
 
-#if TARGET_OS_IPHONE
-  NSString *osName = [self.sut osName:deviceMock];
-#else
+#if TARGET_OS_OSX
   NSString *osName = [self.sut osName];
+#else
+  NSString *osName = [self.sut osName:deviceMock];
 #endif
 
   // Then
@@ -111,10 +111,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 
   // If
   NSString *expected = @"4.5.6";
-#if TARGET_OS_IPHONE
-  UIDevice *deviceMock = OCMClassMock([UIDevice class]);
-  OCMStub([deviceMock systemVersion]).andReturn(expected);
-#else
+#if TARGET_OS_OSX
   id processInfoMock = OCMClassMock([NSProcessInfo class]);
   OCMStub([processInfoMock processInfo]).andReturn(processInfoMock);
   NSOperatingSystemVersion osSystemVersionMock;
@@ -122,13 +119,16 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   osSystemVersionMock.minorVersion = 5;
   osSystemVersionMock.patchVersion = 6;
   OCMStub([processInfoMock operatingSystemVersion]).andReturn(osSystemVersionMock);
+#else
+  UIDevice *deviceMock = OCMClassMock([UIDevice class]);
+  OCMStub([deviceMock systemVersion]).andReturn(expected);
 #endif
 
 // When
-#if TARGET_OS_IPHONE
-  NSString *osVersion = [self.sut osVersion:deviceMock];
-#else
+#if TARGET_OS_OSX
   NSString *osVersion = [self.sut osVersion];
+#else
+  NSString *osVersion = [self.sut osVersion:deviceMock];
 #endif
 
   // Then
