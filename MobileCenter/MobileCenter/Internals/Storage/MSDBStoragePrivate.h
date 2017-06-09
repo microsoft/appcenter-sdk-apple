@@ -1,5 +1,12 @@
 #import "MSDBStorage.h"
 
+static NSString *const kMSLogEntityName = @"MSDBLog";
+static NSString *const kMSDBFileName = @"MSDBLogs.sqlite";
+static NSString *const kMSLogTableName = @"MSLog";
+static NSString *const kMSIdColumnName = @"id";
+static NSString *const kMSGroupIdColumnName = @"groupId";
+static NSString *const kMSDataColumnName = @"data";
+
 @protocol MSDatabaseConnection;
 
 @interface MSDBStorage ()

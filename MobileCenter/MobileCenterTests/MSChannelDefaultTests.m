@@ -156,7 +156,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
         // Mock load.
         [invocation getArgument:&loadCallback atIndex:4];
-        loadCallback(((NSArray<MSLog> *)@[ OCMProtocolMock(@protocol(MSLog)) ]), [@(currentBatchId++) stringValue]);
+        loadCallback(((NSArray<id<MSLog>> *)@[ OCMProtocolMock(@protocol(MSLog)) ]), [@(currentBatchId++) stringValue]);
       });
   MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithGroupId:kMSTestGroupId
                                                                           priority:MSPriorityDefault
@@ -223,7 +223,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
         [invocation getArgument:&loadCallback atIndex:4];
 
         // Mock load.
-        loadCallback(((NSArray<MSLog> *)@[ OCMProtocolMock(@protocol(MSLog)) ]), [@(currentBatchId) stringValue]);
+        loadCallback(((NSArray<id<MSLog>> *)@[ OCMProtocolMock(@protocol(MSLog)) ]), [@(currentBatchId) stringValue]);
       });
 
   // Configure channel.
@@ -290,9 +290,10 @@ static NSString *const kMSTestGroupId = @"GroupId";
   id senderMock = OCMProtocolMock(@protocol(MSSender));
   OCMStub([senderMock sendAsync:[OCMArg any] completionHandler:[OCMArg any]]);
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
-  OCMStub([storageMock loadLogsWithGroupId:kMSTestGroupId
-                                     limit:batchSizeLimit
-                            withCompletion:([OCMArg invokeBlockWithArgs:((NSArray<MSLog> *)@[ mockLog ]), @"1", nil])]);
+  OCMStub([storageMock
+      loadLogsWithGroupId:kMSTestGroupId
+                    limit:batchSizeLimit
+           withCompletion:([OCMArg invokeBlockWithArgs:((NSArray<id<MSLog>> *)@[ mockLog ]), @"1", nil])]);
   MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithGroupId:kMSTestGroupId
                                                                           priority:MSPriorityDefault
                                                                      flushInterval:0.0
@@ -332,9 +333,10 @@ static NSString *const kMSTestGroupId = @"GroupId";
   id senderMock = OCMProtocolMock(@protocol(MSSender));
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
   id mockLog = [self getValidMockLog];
-  OCMStub([storageMock loadLogsWithGroupId:kMSTestGroupId
-                                     limit:batchSizeLimit
-                            withCompletion:([OCMArg invokeBlockWithArgs:((NSArray<MSLog> *)@[ mockLog ]), @"1", nil])]);
+  OCMStub([storageMock
+      loadLogsWithGroupId:kMSTestGroupId
+                    limit:batchSizeLimit
+           withCompletion:([OCMArg invokeBlockWithArgs:((NSArray<id<MSLog>> *)@[ mockLog ]), @"1", nil])]);
   MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithGroupId:kMSTestGroupId
                                                                           priority:MSPriorityDefault
                                                                      flushInterval:0.0
@@ -369,9 +371,10 @@ static NSString *const kMSTestGroupId = @"GroupId";
   id senderMock = OCMProtocolMock(@protocol(MSSender));
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
   id mockLog = [self getValidMockLog];
-  OCMStub([storageMock loadLogsWithGroupId:kMSTestGroupId
-                                     limit:2
-                            withCompletion:([OCMArg invokeBlockWithArgs:((NSArray<MSLog> *)@[ mockLog ]), @"1", nil])]);
+  OCMStub([storageMock
+      loadLogsWithGroupId:kMSTestGroupId
+                    limit:2
+           withCompletion:([OCMArg invokeBlockWithArgs:((NSArray<id<MSLog>> *)@[ mockLog ]), @"1", nil])]);
   MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithGroupId:kMSTestGroupId
                                                                           priority:MSPriorityDefault
                                                                      flushInterval:0.0

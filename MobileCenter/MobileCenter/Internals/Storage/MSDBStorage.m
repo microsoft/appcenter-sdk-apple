@@ -5,13 +5,6 @@
 #import "MSSqliteConnection.h"
 #import "MSUtility.h"
 
-static NSString *const kMSLogEntityName = @"MSDBLog";
-static NSString *const kMSDBFileName = @"MSDBLogs.sqlite";
-static NSString *const kMSLogTableName = @"MSLog";
-static NSString *const kMSIdColumnName = @"id";
-static NSString *const kMSGroupIdColumnName = @"groupId";
-static NSString *const kMSDataColumnName = @"data";
-
 @implementation MSDBStorage
 
 #pragma mark - Initialization
@@ -50,7 +43,6 @@ static NSString *const kMSDataColumnName = @"data";
 
 #pragma mark - Load logs
 
-// TODO check all NSArray<MSLog> are NSArray<id<MSLog>>
 - (BOOL)loadLogsWithGroupId:(NSString *)groupId
                       limit:(NSUInteger)limit
              withCompletion:(nullable MSLoadDataCompletionBlock)completion {
@@ -108,10 +100,14 @@ static NSString *const kMSDataColumnName = @"data";
 - (void)deleteLogsWithBatchId:(NSString *)batchId groupId:(NSString *)groupId {
 
   // Get log Ids.
-  NSArray<NSString *> *Ids = self.batches[[groupId stringByAppendingString:batchId]];
+  NSString *batchIdKey = [groupId stringByAppendingString:batchId];
+  NSArray<NSString *> *Ids = self.batches[batchIdKey];
 
-  // Delete logs.
-  [self deleteLogsFromDBWithColumnValues:Ids columnName:kMSIdColumnName];
+  // Delete logs and associated batch.
+  if (Ids.count > 0) {
+    [self deleteLogsFromDBWithColumnValues:Ids columnName:kMSIdColumnName];
+    [self.batches removeObjectForKey:batchIdKey];
+  }
 }
 
 #pragma mark - DB selection
@@ -168,8 +164,8 @@ static NSString *const kMSDataColumnName = @"data";
 }
 
 - (void)deleteLogsFromDBWithColumnValues:(NSArray<NSString *> *)columnValues columnName:(NSString *)columnName {
-  NSString *deletionTrace = [NSString
-      stringWithFormat:@"Deletion of log(s) by %@ with value(s) '%@'", columnName, [columnValues componentsJoinedByString:@"','"]];
+  NSString *deletionTrace = [NSString stringWithFormat:@"Deletion of log(s) by %@ with value(s) '%@'", columnName,
+                                                       [columnValues componentsJoinedByString:@"','"]];
 
   // Build up delete query.
   NSString *deleteLogsQuery = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@ IN ('%@')", kMSLogTableName,
