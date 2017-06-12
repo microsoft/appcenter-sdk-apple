@@ -4,7 +4,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void (^MSLoadDataCompletionBlock)(BOOL succeeded, NSArray<MSLog> *logArray, NSString *batchId);
+/**
+ * Completion block triggered when data is loaded from the storage.
+ *
+ * @param logArray Array of logs loaded from the storage.
+ * @param batchId Batch Id associated with the logs, `nil` if no logs available.
+ */
+typedef void (^MSLoadDataCompletionBlock)(NSArray<id<MSLog>> *_Nullable logArray, NSString *_Nullable batchId);
 
 /**
  * Defines the storage component which is responsible for persisting logs.
@@ -30,15 +36,15 @@ typedef void (^MSLoadDataCompletionBlock)(BOOL succeeded, NSArray<MSLog> *logArr
  *
  * @return The list of deleted logs.
  */
-- (NSArray<MSLog> *)deleteLogsForGroupId:(NSString *)groupId;
+- (NSArray<id<MSLog>> *)deleteLogsWithGroupId:(NSString *)groupId;
 
 /**
  * Delete a log from the storage.
  *
- * @param logsId The log that should be deleted from storage.
+ * @param batchId Id of the log to be deleted from storage.
  * @param groupId The key used for grouping logs.
  */
-- (void)deleteLogsForId:(NSString *)logsId withGroupId:(NSString *)groupId;
+- (void)deleteLogsWithBatchId:(NSString *)batchId groupId:(NSString *)groupId;
 
 /**
  * Return the most recent logs for a Group Id.
@@ -48,8 +54,9 @@ typedef void (^MSLoadDataCompletionBlock)(BOOL succeeded, NSArray<MSLog> *logArr
  *
  * @return a list of logs.
  */
-- (BOOL)loadLogsForGroupId:(NSString *)groupId limit:(NSUInteger)limit withCompletion:(nullable MSLoadDataCompletionBlock)completion;
-
+- (BOOL)loadLogsWithGroupId:(NSString *)groupId
+                      limit:(NSUInteger)limit
+             withCompletion:(nullable MSLoadDataCompletionBlock)completion;
 
 @end
 

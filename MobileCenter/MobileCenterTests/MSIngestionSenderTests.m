@@ -95,12 +95,12 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Response 200"];
   id delegateMock = OCMProtocolMock(@protocol(MSSenderDelegate));
   [self.sut addDelegate:delegateMock];
-  
+
   // When
   [self.sut sendAsync:container
       completionHandler:^(NSString *batchId, NSUInteger statusCode, __attribute__((unused)) NSData *data,
                           NSError *error) {
-        
+
         // Then
         XCTAssertEqual(containerId, batchId);
         XCTAssertEqual((MSHTTPCodesNo)statusCode, MSHTTPCodesNo404NotFound);
@@ -392,7 +392,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   log.toffset = [NSNumber numberWithLongLong:(long long)([MSUtility nowInMilliseconds])];
 
   // Log does not have device info, therefore, it's an invalid log
-  MSLogContainer *container = [[MSLogContainer alloc] initWithBatchId:@"1" andLogs:(NSArray<MSLog> *)@[ log ]];
+  MSLogContainer *container = [[MSLogContainer alloc] initWithBatchId:@"1" andLogs:(NSArray<id<MSLog>> *)@[ log ]];
 
   [self.sut sendAsync:container
       completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
@@ -654,7 +654,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   log2.device = deviceMock;
 
   MSLogContainer *logContainer =
-      [[MSLogContainer alloc] initWithBatchId:batchId andLogs:(NSArray<MSLog> *)@[ log1, log2 ]];
+      [[MSLogContainer alloc] initWithBatchId:batchId andLogs:(NSArray<id<MSLog>> *)@[ log1, log2 ]];
   return logContainer;
 }
 

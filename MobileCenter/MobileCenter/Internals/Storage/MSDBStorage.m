@@ -1,36 +1,33 @@
 #import "MSDBStoragePrivate.h"
 #import "MSDatabaseConnection.h"
 #import "MSLogger.h"
+#import "MSMobileCenterInternal.h"
 #import "MSSqliteConnection.h"
-
-static NSString *const kMSLogEntityName = @"MSDBLog";
-static NSString *const kMSDBFileName = @"MSDBLogs.sqlite";
-static NSString *const kMSLogTableName = @"MSLog";
-static NSString *const kMSGroupIdColumnName = @"groupId";
-static NSString *const kMSDataColumnName = @"data";
+#import "MSUtility.h"
 
 @implementation MSDBStorage
-
-@synthesize connection;
 
 #pragma mark - Initialization
 
 - (instancetype)init {
   self = [super init];
   if (self) {
-    self.connection = [[MSSqliteConnection alloc] initWithDatabaseFilename:kMSDBFileName];
+    _connection = [[MSSqliteConnection alloc] initWithDatabaseFilename:kMSDBFileName];
+    _batches = [NSMutableDictionary<NSString *, NSArray<NSString *> *> new];
     [self initTables];
   }
   return self;
 }
 
 - (void)initTables {
-  NSString *createLogTableQuery = [NSString stringWithFormat:@"create table if not exists %@ (%@ text, %@ text);",
-                                                             kMSLogTableName, kMSGroupIdColumnName, kMSDataColumnName];
+  NSString *createLogTableQuery = [NSString
+      stringWithFormat:
+          @"CREATE TABLE IF NOT EXISTS %@ (%@ INTEGER PRIMARY KEY AUTOINCREMENT, %@ TEXT NOT NULL, %@ TEXT NOT NULL);",
+          kMSLogTableName, kMSIdColumnName, kMSGroupIdColumnName, kMSDataColumnName];
   [self.connection executeQuery:createLogTableQuery];
 }
 
-#pragma mark - Public
+#pragma mark - Save logs
 
 - (BOOL)saveLog:(id<MSLog>)log withGroupId:(NSString *)groupId {
   if (!log) {
@@ -38,81 +35,160 @@ static NSString *const kMSDataColumnName = @"data";
   }
   NSData *logData = [NSKeyedArchiver archivedDataWithRootObject:log];
   NSString *base64Data = [logData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
-  NSString *addLogQuery = [NSString
-      stringWithFormat:@"insert or replace into %@ values ('%@', '%@')", kMSLogTableName, groupId, base64Data];
+  NSString *addLogQuery =
+      [NSString stringWithFormat:@"INSERT INTO %@ ('%@', '%@') VALUES ('%@', '%@')", kMSLogTableName,
+                                 kMSGroupIdColumnName, kMSDataColumnName, groupId, base64Data];
   return [self.connection executeQuery:addLogQuery];
 }
 
-- (NSArray<MSLog> *)deleteLogsForGroupId:(NSString *)groupId {
-  NSArray<MSLog> *logs = [self getLogsWithGroupId:groupId];
-  [self deleteLogsWithGroupId:groupId];
-  return logs;
-}
+#pragma mark - Load logs
 
-- (void)deleteLogsForId:(__attribute__((unused)) NSString *)batchId withGroupId:(NSString *)groupId {
-
-  // FIXME: Restore batch deletion.
-  [self deleteLogsWithGroupId:groupId];
-}
-
-- (BOOL)loadLogsForGroupId:(NSString *)groupId
-                     limit:(NSUInteger)limit
-            withCompletion:(nullable MSLoadDataCompletionBlock)completion {
+- (BOOL)loadLogsWithGroupId:(NSString *)groupId
+                      limit:(NSUInteger)limit
+             withCompletion:(nullable MSLoadDataCompletionBlock)completion {
 
   /*
    * There is a need to determine if there will be more logs available than those under the limit.
-   * So this is just about knowing if there is at least 1 log above the limit.
-   * Thus, just 1 log is added to the requested limit and then removed later as needed.
+   * This is just about knowing if there is at least 1 log above the limit.
    */
-  NSMutableArray<MSLog> *logs = (NSMutableArray<MSLog> *)[self getLogsWithGroupId:groupId limit:(limit + 1)];
+  NSMutableDictionary<NSString *, id<MSLog>> *logs =
+      [[self getLogsFromDBWithGroupId:groupId limit:(limit + 1)] mutableCopy];
+  BOOL logsAvailable = NO;
   BOOL moreLogsAvailable = NO;
+  NSString *batchId;
 
-  // Remove the log in excess, it means there is more logs available.
-  if (logs.count > limit) {
-    [logs removeLastObject];
+  // More logs available for the next batch, remove the log in excess for this batch.
+  if (logs.count > 0 && logs.count > limit) {
+    [logs removeObjectForKey:(NSString * _Nonnull)[[logs allKeys] lastObject]];
     moreLogsAvailable = YES;
   }
+
+  // Generate batch Id.
+  logsAvailable = logs.count > 0;
+  if (logsAvailable) {
+    batchId = MS_UUID_STRING;
+    [self.batches setObject:(NSArray<NSString *> * _Nonnull)[logs allKeys]
+                     forKey:[groupId stringByAppendingString:batchId]];
+  }
+
+  // Load completed.
   if (completion) {
-    completion(logs.count > 0, logs, groupId);
+    completion([logs allValues], batchId);
   }
 
   // Return YES if more logs available.
   return moreLogsAvailable;
 }
 
-#pragma mark - Private
+#pragma mark - Delete logs
 
-- (NSArray<MSLog> *)getLogsWithGroupId:(NSString *)groupId {
-  NSString *selectLogQuery =
-      [NSString stringWithFormat:@"select * from %@ where %@ == '%@'", kMSLogTableName, kMSGroupIdColumnName, groupId];
-  return [self getLogsWithQwery:selectLogQuery];
-}
+- (NSArray<id<MSLog>> *)deleteLogsWithGroupId:(NSString *)groupId {
+  NSArray<id<MSLog>> *logs = [[self getLogsFromDBWithGroupId:groupId] allValues];
 
-- (NSArray<MSLog> *)getLogsWithGroupId:(NSString *)groupId limit:(NSUInteger)limit {
-  NSString *selectLogQuery = [NSString stringWithFormat:@"select * from %@ where %@ == '%@' limit %lu", kMSLogTableName,
-                                                        kMSGroupIdColumnName, groupId, (unsigned long)limit];
-  return [self getLogsWithQwery:selectLogQuery];
-}
+  // Delete logs
+  [self deleteLogsFromDBWithColumnValue:groupId columnName:kMSGroupIdColumnName];
 
-- (NSArray<MSLog> *)getLogsWithQwery:(NSString *)qwery {
-  NSArray<NSArray<NSString *> *> *result = [self.connection loadDataFromDB:qwery];
-  NSMutableArray<MSLog> *logs = [NSMutableArray<MSLog> new];
-
-  // Deserialize logs from DB.
-  for (NSArray<NSString *> *row in result) {
-    NSString *base64Data = row[1];
-    NSData *logData =
-        [[NSData alloc] initWithBase64EncodedString:base64Data options:NSDataBase64DecodingIgnoreUnknownCharacters];
-    id<MSLog> log = [NSKeyedUnarchiver unarchiveObjectWithData:logData];
-    [logs addObject:log];
+  // Delete related batches.
+  for (NSString *batchKey in [self.batches allKeys]) {
+    if ([batchKey hasPrefix:groupId]) {
+      [self.batches removeObjectForKey:batchKey];
+    }
   }
   return logs;
 }
 
-- (void)deleteLogsWithGroupId:(NSString *)groupId {
-  NSString *deleteLogQuery =
-      [NSString stringWithFormat:@"delete from %@ where %@ == '%@'", kMSLogTableName, kMSGroupIdColumnName, groupId];
-  [self.connection executeQuery:deleteLogQuery];
+- (void)deleteLogsWithBatchId:(NSString *)batchId groupId:(NSString *)groupId {
+
+  // Get log Ids.
+  NSString *batchIdKey = [groupId stringByAppendingString:batchId];
+  NSArray<NSString *> *Ids = self.batches[batchIdKey];
+
+  // Delete logs and associated batch.
+  if (Ids.count > 0) {
+    [self deleteLogsFromDBWithColumnValues:Ids columnName:kMSIdColumnName];
+    [self.batches removeObjectForKey:batchIdKey];
+  }
+}
+
+#pragma mark - DB selection
+
+- (NSDictionary<NSString *, id<MSLog>> *)getLogsFromDBWithGroupId:(NSString *)groupId {
+  NSString *selectLogQuery =
+      [NSString stringWithFormat:@"SELECT * FROM %@ WHERE %@ == '%@'", kMSLogTableName, kMSGroupIdColumnName, groupId];
+  return [self getLogsFromDBWithQuery:selectLogQuery];
+}
+
+- (NSDictionary<NSString *, id<MSLog>> *)getLogsFromDBWithGroupId:(NSString *)groupId limit:(NSUInteger)limit {
+
+  // Get ids from batches.
+  NSMutableArray<NSString *> *idsInBatches;
+  for (NSString *batchKey in [self.batches allKeys]) {
+    if ([batchKey hasPrefix:groupId]) {
+      [idsInBatches addObjectsFromArray:(NSArray<NSString *> * _Nonnull)self.batches[batchKey]];
+    }
+  }
+
+  // Get logs from DB that are not already part of a batch.
+  NSString *selectLogQuery =
+      [NSString stringWithFormat:@"SELECT * FROM %@ WHERE %@ == '%@' AND %@ NOT IN ('%@') LIMIT %lu", kMSLogTableName,
+                                 kMSGroupIdColumnName, groupId, kMSIdColumnName,
+                                 [idsInBatches componentsJoinedByString:@"','"], (unsigned long)limit];
+  return [self getLogsFromDBWithQuery:selectLogQuery];
+}
+
+- (NSDictionary<NSString *, id<MSLog>> *)getLogsFromDBWithQuery:(NSString *)query {
+  NSArray<NSArray<NSString *> *> *result = [self.connection loadDataFromDB:query];
+  NSMutableDictionary<NSString *, id<MSLog>> *logs = [NSMutableDictionary<NSString *, id<MSLog>> new];
+
+  // Get logs from DB.
+  for (NSArray<NSString *> *row in result) {
+
+    // TODO use constants for DB column indexes.
+    NSString *Id = row[0];
+    NSString *base64Data = row[2];
+    NSData *logData =
+        [[NSData alloc] initWithBase64EncodedString:base64Data options:NSDataBase64DecodingIgnoreUnknownCharacters];
+    id<MSLog> log;
+
+    // Deserialize the log.
+    @try {
+      log = [NSKeyedUnarchiver unarchiveObjectWithData:logData];
+    } @catch (NSException *exception) {
+
+      // The archived log is not valid.
+      MSLogError([MSMobileCenter logTag], @"Deserialization failed for log with Id %@: %@", Id, exception);
+      [self deleteLogFromDBWithId:Id];
+      continue;
+    }
+    [logs setObject:log forKey:Id];
+  }
+  return logs;
+}
+
+#pragma mark - DB deletion
+
+- (void)deleteLogFromDBWithId:(NSString *)Id {
+  [self deleteLogsFromDBWithColumnValue:Id columnName:kMSIdColumnName];
+}
+
+- (void)deleteLogsFromDBWithColumnValue:(NSString *)columnValue columnName:(NSString *)columnName {
+  [self deleteLogsFromDBWithColumnValues:@[ columnValue ] columnName:columnName];
+}
+
+- (void)deleteLogsFromDBWithColumnValues:(NSArray<NSString *> *)columnValues columnName:(NSString *)columnName {
+  NSString *deletionTrace = [NSString stringWithFormat:@"Deletion of log(s) by %@ with value(s) '%@'", columnName,
+                                                       [columnValues componentsJoinedByString:@"','"]];
+
+  // Build up delete query.
+  NSString *deleteLogsQuery = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@ IN ('%@')", kMSLogTableName,
+                                                         columnName, [columnValues componentsJoinedByString:@"','"]];
+
+  // Execute.
+  if ([self.connection executeQuery:deleteLogsQuery]) {
+    MSLogVerbose([MSMobileCenter logTag], @"%@ %@", deletionTrace, @"succeded");
+  } else {
+    MSLogError([MSMobileCenter logTag], @"%@ %@", deletionTrace, @"failed");
+  }
 }
 
 @end
