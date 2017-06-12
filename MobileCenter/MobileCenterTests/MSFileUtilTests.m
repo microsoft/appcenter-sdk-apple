@@ -99,7 +99,7 @@
                                          creationDate:[NSDate date]];
 
   // Create files with searched extension
-  NSArray<MSFile *> *expected = @[file1, file2];
+  NSDictionary *expected = @{ file1.fileId: file1, file2.fileId: file2 };
 
   // Create files with different extension
   [MSStorageTestUtil createFileWithId:@"3"
@@ -114,10 +114,13 @@
 
   // Then
   assertThatInteger(actual.count, equalToInteger(expected.count));
+
+  // The order of file is not guaranteed.
   for (NSUInteger i = 0; i < actual.count; i++) {
-    assertThat(actual[i].fileURL, equalTo(expected[i].fileURL));
-    assertThat(actual[i].fileId, equalTo(expected[i].fileId));
-    assertThat(actual[i].creationDate.description, equalTo(expected[i].creationDate.description));
+    MSFile *expectedFile = [expected valueForKey:actual[i].fileId];
+    XCTAssertNotNil(expectedFile);
+    assertThat(actual[i].fileURL, equalTo(expectedFile.fileURL));
+    assertThat(actual[i].creationDate.description, equalTo(expectedFile.creationDate.description));
   }
 }
 
