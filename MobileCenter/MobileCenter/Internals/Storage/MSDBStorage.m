@@ -119,8 +119,20 @@
 }
 
 - (NSDictionary<NSString *, id<MSLog>> *)getLogsFromDBWithGroupId:(NSString *)groupId limit:(NSUInteger)limit {
-  NSString *selectLogQuery = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE %@ == '%@' LIMIT %lu", kMSLogTableName,
-                                                        kMSGroupIdColumnName, groupId, (unsigned long)limit];
+
+  // Get ids from batches.
+  NSMutableArray<NSString *> *idsInBatches;
+  for (NSString *batchKey in [self.batches allKeys]) {
+    if ([batchKey hasPrefix:groupId]) {
+      [idsInBatches addObjectsFromArray:(NSArray<NSString *> * _Nonnull)self.batches[batchKey]];
+    }
+  }
+
+  // Get logs from DB that are not already part of a batch.
+  NSString *selectLogQuery =
+      [NSString stringWithFormat:@"SELECT * FROM %@ WHERE %@ == '%@' AND %@ NOT IN ('%@') LIMIT %lu", kMSLogTableName,
+                                 kMSGroupIdColumnName, groupId, kMSIdColumnName,
+                                 [idsInBatches componentsJoinedByString:@"','"], (unsigned long)limit];
   return [self getLogsFromDBWithQuery:selectLogQuery];
 }
 

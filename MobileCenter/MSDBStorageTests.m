@@ -129,7 +129,6 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
   /*
    * If
    */
-
   NSString *batchKeyToDelete = [kMSTestGroupId stringByAppendingString:MS_UUID_STRING];
   [self.sut.batches setObject:@[ @"27", @"35" ] forKey:batchKeyToDelete];
 
