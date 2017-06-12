@@ -203,7 +203,7 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
  * This flag indicates that the specified nodename or address can be reached via an EDGE, GPRS, or other "cell"
  * connection. Not available on macOS.
  */
-#if TARGET_OS_IPHONE
+#if !TARGET_OS_OSX
   if ((flags & kSCNetworkReachabilityFlagsIsWWAN) == kSCNetworkReachabilityFlagsIsWWAN) {
 
     // ... but WWAN connections are OK if the calling application is using the CFNetwork APIs.

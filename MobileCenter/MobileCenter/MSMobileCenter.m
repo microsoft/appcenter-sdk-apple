@@ -1,9 +1,10 @@
 #import <Foundation/Foundation.h>
 
-#if TARGET_OS_IPHONE && !TARGET_OS_TV
-#import "MSAppDelegateForwarder.h"
-#else
+#if TARGET_OS_OSX
+
 // TODO: ApplicationDelegate is not yet implemented for macOS.
+#else
+#import "MSAppDelegateForwarder.h"
 #endif
 #import "MSConstants+Internal.h"
 #import "MSDeviceTracker.h"
@@ -84,14 +85,15 @@ static NSString *const kMSGroupId = @"MobileCenter";
   return NO;
 }
 
-#if TARGET_OS_IPHONE && !TARGET_OS_TV
+#if TARGET_OS_OSX
+
+// TODO: ApplicationDelegate is not yet implemented for macOS.
+#else
 + (BOOL)isAppDelegateForwarderEnabled {
   @synchronized([self sharedInstance]) {
     return MSAppDelegateForwarder.enabled;
   }
 }
-#else
-// TODO: ApplicationDelegate is not yet implemented for macOS.
 #endif
 
 + (NSUUID *)installId {
@@ -104,12 +106,14 @@ static NSString *const kMSGroupId = @"MobileCenter";
 
 + (void)setLogLevel:(MSLogLevel)logLevel {
   MSLogger.currentLogLevel = logLevel;
-  
-#if TARGET_OS_IPHONE && !TARGET_OS_TV
+
+#if TARGET_OS_OSX
+
+// TODO: ApplicationDelegate is not yet implemented for macOS.
+#else
+
   // The logger is not set at the time of swizzling but now may be a good time to flush the traces.
   [MSAppDelegateForwarder flushTraceBuffer];
-#else
-// TODO: ApplicationDelegate is not yet implemented for macOS.
 #endif
 }
 
@@ -329,18 +333,18 @@ static NSString *const kMSGroupId = @"MobileCenter";
 
     [MS_NOTIFICATION_CENTER addObserver:self
                                selector:@selector(applicationDidEnterBackground)
-#if TARGET_OS_IPHONE
-                                   name:UIApplicationDidEnterBackgroundNotification
-#else
+#if TARGET_OS_OSX
                                    name:NSApplicationDidHideNotification
+#else
+                                   name:UIApplicationDidEnterBackgroundNotification
 #endif
                                  object:nil];
     [MS_NOTIFICATION_CENTER addObserver:self
                                selector:@selector(applicationWillEnterForeground)
-#if TARGET_OS_IPHONE
-                                   name:UIApplicationWillEnterForegroundNotification
-#else
+#if TARGET_OS_OSX
                                    name:NSApplicationDidUnhideNotification
+#else
+                                   name:UIApplicationWillEnterForegroundNotification
 #endif
                                  object:nil];
   } else {
@@ -408,7 +412,7 @@ static NSString *const kMSGroupId = @"MobileCenter";
 - (void)sendCustomPropertiesLog:(NSDictionary<NSString *, NSObject *> *)properties {
   MSCustomPropertiesLog *customPropertiesLog = [MSCustomPropertiesLog new];
   customPropertiesLog.properties = properties;
-  
+
   // FIXME: withPriority parameter need to be removed on merge.
   [self.logManager processLog:customPropertiesLog forGroupId:kMSGroupId];
 }

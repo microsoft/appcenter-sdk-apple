@@ -319,10 +319,10 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   NSString *filePath = [[self.sut.logBufferDir path]
       stringByAppendingPathComponent:[testName stringByAppendingString:@".mscrasheslogbuffer"]];
 
-#if TARGET_OS_IPHONE
-  [someData writeToFile:filePath options:NSDataWritingFileProtectionNone error:nil];
-#else
+#if TARGET_OS_OSX
   [someData writeToFile:filePath atomically:YES];
+#else
+  [someData writeToFile:filePath options:NSDataWritingFileProtectionNone error:nil];
 #endif
 
   // When

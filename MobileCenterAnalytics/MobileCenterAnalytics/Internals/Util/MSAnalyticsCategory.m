@@ -6,18 +6,18 @@
 static NSString *const kMSViewControllerSuffix = @"ViewController";
 static NSString *MSMissedPageViewName;
 
-#if TARGET_OS_IPHONE
-@implementation UIViewController (PageViewLogging)
-#else
+#if TARGET_OS_OSX
 @implementation NSViewController (PageViewLogging)
+#else
+@implementation UIViewController (PageViewLogging)
 #endif
 
 + (void)swizzleViewWillAppear {
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
-    
-    // FIXME: viewWillAppear is available in NSViewController but it doesn't know about the selector at compile time.
-#if TARGET_OS_IPHONE
+
+// FIXME: viewWillAppear is available in NSViewController but it doesn't know about the selector at compile time.
+#if !TARGET_OS_OSX
     Class class = [self class];
 
     // Get selectors.
@@ -71,20 +71,20 @@ static NSString *MSMissedPageViewName;
 
 @end
 
-#if TARGET_OS_IPHONE
-BOOL ms_shouldTrackPageView(UIViewController *viewController) {
-#else
+#if TARGET_OS_OSX
 BOOL ms_shouldTrackPageView(NSViewController *viewController) {
+#else
+BOOL ms_shouldTrackPageView(UIViewController *viewController) {
 #endif
-  
+
   // For container view controllers, auto page tracking is disabled(to avoid noise).
   NSSet *viewControllerSet = [NSSet setWithArray:@[
-#if TARGET_OS_IPHONE
-    @"UINavigationController", @"UITabBarController", @"UISplitViewController", @"UIInputWindowController",
-    @"UIPageViewController"
-#else
+#if TARGET_OS_OSX
     @"NSNavigationController", @"NSTabBarController", @"NSSplitViewController", @"NSInputWindowController",
     @"NSPageViewController"
+#else
+    @"UINavigationController", @"UITabBarController", @"UISplitViewController", @"UIInputWindowController",
+    @"UIPageViewController"
 #endif
   ]];
   NSString *className = NSStringFromClass([viewController class]);
@@ -95,10 +95,10 @@ BOOL ms_shouldTrackPageView(NSViewController *viewController) {
 @implementation MSAnalyticsCategory
 
 + (void)activateCategory {
-#if TARGET_OS_IPHONE
-  [UIViewController swizzleViewWillAppear];
-#else
+#if TARGET_OS_OSX
   [NSViewController swizzleViewWillAppear];
+#else
+  [UIViewController swizzleViewWillAppear];
 #endif
 }
 

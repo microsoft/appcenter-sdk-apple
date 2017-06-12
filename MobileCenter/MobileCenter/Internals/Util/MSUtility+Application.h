@@ -1,13 +1,13 @@
 #import <Foundation/Foundation.h>
-#if TARGET_OS_IPHONE
-#import <UIKit/UIKit.h>
-#else
+#if TARGET_OS_OSX
 #import <AppKit/AppKit.h>
+#else
+#import <UIKit/UIKit.h>
 #endif
 
 #import "MSUtility.h"
 
-#if TARGET_OS_IPHONE
+#if !TARGET_OS_OSX
 #define MS_DEVICE [UIDevice currentDevice]
 #endif
 
@@ -21,31 +21,31 @@ extern NSString *MSUtilityApplicationCategory;
  */
 typedef NS_ENUM(NSInteger, MSApplicationState) {
 
-  /**
-   * Application is active.
-   */
-#if TARGET_OS_IPHONE
-  MSApplicationStateActive = UIApplicationStateActive,
-#else
+/**
+ * Application is active.
+ */
+#if TARGET_OS_OSX
   MSApplicationStateActive,
+#else
+  MSApplicationStateActive = UIApplicationStateActive,
 #endif
 
-  /**
-   * Application is inactive.
-   */
-#if TARGET_OS_IPHONE
-  MSApplicationStateInactive = UIApplicationStateInactive,
-#else
+/**
+ * Application is inactive.
+ */
+#if TARGET_OS_OSX
   MSApplicationStateInactive,
+#else
+  MSApplicationStateInactive = UIApplicationStateInactive,
 #endif
 
-  /**
-   * Application is in background.
-   */
-#if TARGET_OS_IPHONE
-  MSApplicationStateBackground = UIApplicationStateBackground,
-#else
+/**
+ * Application is in background.
+ */
+#if TARGET_OS_OSX
   MSApplicationStateBackground,
+#else
+  MSApplicationStateBackground = UIApplicationStateBackground,
 #endif
 
   /**
@@ -78,15 +78,17 @@ typedef NS_ENUM(NSInteger, MSOpenURLState) {
  */
 @interface MSUtility (Application)
 
-#if TARGET_OS_IPHONE
+#if TARGET_OS_OSX
+
+// TODO: ApplicationDelegate is not yet implemented for macOS.
+#else
+
 /**
  * Get the App Delegate.
  *
  * @return The delegate of the app object or nil if not accessible.
  */
 + (id<UIApplicationDelegate>)sharedAppDelegate;
-#else
-// TODO: ApplicationDelegate is not yet implemented for macOS.
 #endif
 
 /**
