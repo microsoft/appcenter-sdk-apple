@@ -122,7 +122,7 @@
 
 - (void)reloadCells {
   NSMutableArray<NSIndexPath*> *rows = [NSMutableArray new];
-  int rowsInSection = [self.tableView numberOfRowsInSection:0];
+  int rowsInSection = (int)[self.tableView numberOfRowsInSection:0];
   for(int row = 0; row < rowsInSection; ++row) {
     [rows addObject:[NSIndexPath indexPathForRow:row inSection:0]];
   }

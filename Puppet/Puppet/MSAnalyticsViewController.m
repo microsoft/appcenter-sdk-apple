@@ -55,8 +55,8 @@
       break;
     }
     case 2: {
-      [self.properties setValue:[NSString stringWithFormat:@"Property value %d", self.properties.count + 1]
-                         forKey:[NSString stringWithFormat:@"Property name %d", self.properties.count + 1]];
+      [self.properties setValue:[NSString stringWithFormat:@"Property value %lu", self.properties.count + 1]
+                         forKey:[NSString stringWithFormat:@"Property name %lu", self.properties.count + 1]];
       break;
     }
     case 3: {
