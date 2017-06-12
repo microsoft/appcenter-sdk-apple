@@ -115,17 +115,17 @@
 - (NSDictionary<NSString *, id<MSLog>> *)getLogsFromDBWithGroupId:(NSString *)groupId {
   NSString *selectLogQuery =
       [NSString stringWithFormat:@"SELECT * FROM %@ WHERE %@ == '%@'", kMSLogTableName, kMSGroupIdColumnName, groupId];
-  return [self getLogsFromDBWithQwery:selectLogQuery];
+  return [self getLogsFromDBWithQuery:selectLogQuery];
 }
 
 - (NSDictionary<NSString *, id<MSLog>> *)getLogsFromDBWithGroupId:(NSString *)groupId limit:(NSUInteger)limit {
   NSString *selectLogQuery = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE %@ == '%@' LIMIT %lu", kMSLogTableName,
                                                         kMSGroupIdColumnName, groupId, (unsigned long)limit];
-  return [self getLogsFromDBWithQwery:selectLogQuery];
+  return [self getLogsFromDBWithQuery:selectLogQuery];
 }
 
-- (NSDictionary<NSString *, id<MSLog>> *)getLogsFromDBWithQwery:(NSString *)qwery {
-  NSArray<NSArray<NSString *> *> *result = [self.connection loadDataFromDB:qwery];
+- (NSDictionary<NSString *, id<MSLog>> *)getLogsFromDBWithQuery:(NSString *)query {
+  NSArray<NSArray<NSString *> *> *result = [self.connection loadDataFromDB:query];
   NSMutableDictionary<NSString *, id<MSLog>> *logs = [NSMutableDictionary<NSString *, id<MSLog>> new];
 
   // Get logs from DB.
