@@ -20,6 +20,17 @@ typedef void (^MSLoadDataCompletionBlock)(NSArray<id<MSLog>> *_Nullable logArray
 @required
 
 /**
+ * Create a storage with a capacity.
+ *
+ * @param capacity Maximum allowed capacity in this storage.
+ *
+ * @return Return an instance of this storage.
+ *
+ * @discussion The storage removes the oldest log whenever its capacity goes over limit.
+ */
+- (instancetype)initWithCapacity:(NSInteger)capacity;
+
+/**
  * Store a log.
  *
  * @param log The log to be stored.

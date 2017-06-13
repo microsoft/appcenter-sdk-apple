@@ -12,6 +12,11 @@ static NSString *const kMSDataColumnName = @"data";
 @interface MSDBStorage ()
 
 /**
+ * Maximum allowed capacity in this storage.
+ */
+@property(nonatomic, readonly) NSInteger capacity;
+
+/**
  * Connection to SQLite database.
  */
 @property(nonatomic) id<MSDatabaseConnection> connection;
@@ -27,7 +32,6 @@ static NSString *const kMSDataColumnName = @"data";
  * @param groupId The key used for grouping logs.
  *
  * @return Logs corresponding to the given group Id from the storage.
- *
  */
 - (NSDictionary<NSString *, id<MSLog>> *)getLogsFromDBWithGroupId:(NSString *)groupId;
 

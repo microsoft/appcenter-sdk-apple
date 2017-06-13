@@ -182,7 +182,7 @@
 
 #pragma mark - Public method implementation
 
-- (NSArray<NSArray<NSString *> *> *)loadDataFromDB:(NSString *)query {
+- (NSArray<NSArray<NSString *> *> *)selectDataFromDB:(NSString *)query {
 
   // Run the query and indicate that is not executable.
   // The query string is converted to a char* object.

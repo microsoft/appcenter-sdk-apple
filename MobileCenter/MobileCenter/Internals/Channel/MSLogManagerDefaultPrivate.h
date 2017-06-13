@@ -9,6 +9,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+static short *const kMSStorageMaxCapacity = 300;
+
 @class MSHttpSender;
 
 @interface MSLogManagerDefault ()
