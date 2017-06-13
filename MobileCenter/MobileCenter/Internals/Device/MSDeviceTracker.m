@@ -247,12 +247,17 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
 
 - (NSString *)deviceModel {
   size_t size;
-  sysctlbyname("hw.machine", NULL, &size, NULL, 0);
+#if TARGET_OS_OSX
+  const char *name = "hw.model";
+#else
+  const char *name = "hw.machine";
+#endif
+  sysctlbyname(name, NULL, &size, NULL, 0);
   char *answer = (char *)malloc(size);
   if (answer == NULL) {
     return nil;
   }
-  sysctlbyname("hw.machine", answer, &size, NULL, 0);
+  sysctlbyname(name, answer, &size, NULL, 0);
   NSString *model = [NSString stringWithCString:answer encoding:NSUTF8StringEncoding];
   free(answer);
   return model;
