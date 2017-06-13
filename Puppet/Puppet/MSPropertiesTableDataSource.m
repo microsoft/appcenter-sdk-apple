@@ -12,12 +12,13 @@
   self.values = [NSMutableArray new];
   self.tableView = tableView;
   self.tableView.dataSource = self;
+  self.count = 0;
   return self;
 }
 
 - (void) addNewProperty {
-  [self.keys addObject:[NSString stringWithFormat:@"key%lu", (unsigned long)self.keys.count]];
-  [self.values addObject:[NSString stringWithFormat:@"value%lu", (unsigned long)self.values.count]];
+  [self.keys addObject:[NSString stringWithFormat:@"key%d", self.count]];
+  [self.values addObject:[NSString stringWithFormat:@"value%d", self.count++]];
   [self.tableView reloadData];
 }
 
