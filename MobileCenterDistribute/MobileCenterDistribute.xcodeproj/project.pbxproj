@@ -7,28 +7,28 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		04FD4A281E451E90009B4468 /* MobileCenterDistributeIosFramework */ = {
+		04FD4A281E451E90009B4468 /* MobileCenterDistributeIOSFramework */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 04FD4A291E451E90009B4468 /* Build configuration list for PBXAggregateTarget "MobileCenterDistributeIosFramework" */;
+			buildConfigurationList = 04FD4A291E451E90009B4468 /* Build configuration list for PBXAggregateTarget "MobileCenterDistributeIOSFramework" */;
 			buildPhases = (
 				04FD4A2C1E453159009B4468 /* ShellScript */,
 			);
 			dependencies = (
 				B2C070C31E5E69E70076D6A9 /* PBXTargetDependency */,
 			);
-			name = MobileCenterDistributeIosFramework;
+			name = MobileCenterDistributeIOSFramework;
 			productName = "Fat Framework";
 		};
-		04FD4A3C1E453640009B4468 /* MobileCenterDistributeIosDoc */ = {
+		04FD4A3C1E453640009B4468 /* MobileCenterDistributeIOSDoc */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 04FD4A3D1E453640009B4468 /* Build configuration list for PBXAggregateTarget "MobileCenterDistributeIosDoc" */;
+			buildConfigurationList = 04FD4A3D1E453640009B4468 /* Build configuration list for PBXAggregateTarget "MobileCenterDistributeIOSDoc" */;
 			buildPhases = (
 				04FD4A401E4536B0009B4468 /* Run Script */,
 			);
 			dependencies = (
 				0471B9361E4556570022F951 /* PBXTargetDependency */,
 			);
-			name = MobileCenterDistributeIosDoc;
+			name = MobileCenterDistributeIOSDoc;
 			productName = "Jazzy Docs";
 		};
 /* End PBXAggregateTarget section */
@@ -58,7 +58,6 @@
 		048BB3061E60A40D009D92C2 /* MSDistributionGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 048BB3001E60A40D009D92C2 /* MSDistributionGroup.m */; };
 		048BB3071E60A40D009D92C2 /* MSDistributeSender.h in Headers */ = {isa = PBXBuildFile; fileRef = 048BB3011E60A40D009D92C2 /* MSDistributeSender.h */; };
 		048BB3081E60A40D009D92C2 /* MSDistributeSender.m in Sources */ = {isa = PBXBuildFile; fileRef = 048BB3021E60A40D009D92C2 /* MSDistributeSender.m */; };
-		049BC8231ECE349200FB6719 /* iOS.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 049BC8221ECE349200FB6719 /* iOS.xcconfig */; };
 		04A140C91ECE89BD001CEE94 /* MSMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A140C61ECE89B2001CEE94 /* MSMockUserDefaults.m */; };
 		04DC2EC91E78A3B4003F23B5 /* error_details.json in Resources */ = {isa = PBXBuildFile; fileRef = 04DC2EC81E78A3B4003F23B5 /* error_details.json */; };
 		04DC2ECB1E78A3E3003F23B5 /* MSErrorDetailsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DC2ECA1E78A3E3003F23B5 /* MSErrorDetailsTests.m */; };
@@ -503,9 +502,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		04FD4A1B1E451E12009B4468 /* MobileCenterDistributeIos */ = {
+		04FD4A1B1E451E12009B4468 /* MobileCenterDistributeIOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 04FD4A251E451E12009B4468 /* Build configuration list for PBXNativeTarget "MobileCenterDistributeIos" */;
+			buildConfigurationList = 04FD4A251E451E12009B4468 /* Build configuration list for PBXNativeTarget "MobileCenterDistributeIOS" */;
 			buildPhases = (
 				04FD4A181E451E12009B4468 /* Sources */,
 				04FD4A191E451E12009B4468 /* Frameworks */,
@@ -518,14 +517,14 @@
 			dependencies = (
 				B2C070BF1E5E697C0076D6A9 /* PBXTargetDependency */,
 			);
-			name = MobileCenterDistributeIos;
+			name = MobileCenterDistributeIOS;
 			productName = MobileCenterDistribute;
 			productReference = 04FD4A1C1E451E12009B4468 /* libMobileCenterDistribute.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		04FD4A301E453531009B4468 /* MobileCenterDistributeIosTests */ = {
+		04FD4A301E453531009B4468 /* MobileCenterDistributeIOSTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 04FD4A391E453531009B4468 /* Build configuration list for PBXNativeTarget "MobileCenterDistributeIosTests" */;
+			buildConfigurationList = 04FD4A391E453531009B4468 /* Build configuration list for PBXNativeTarget "MobileCenterDistributeIOSTests" */;
 			buildPhases = (
 				04FD4A2D1E453531009B4468 /* Sources */,
 				04FD4A2E1E453531009B4468 /* Frameworks */,
@@ -537,7 +536,7 @@
 			dependencies = (
 				04FD4A381E453531009B4468 /* PBXTargetDependency */,
 			);
-			name = MobileCenterDistributeIosTests;
+			name = MobileCenterDistributeIOSTests;
 			productName = MobileCenterDistributeTests;
 			productReference = 04FD4A311E453531009B4468 /* MobileCenterDistribute.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -601,11 +600,11 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				04FD4A1B1E451E12009B4468 /* MobileCenterDistributeIos */,
-				04FD4A281E451E90009B4468 /* MobileCenterDistributeIosFramework */,
-				04FD4A301E453531009B4468 /* MobileCenterDistributeIosTests */,
+				04FD4A1B1E451E12009B4468 /* MobileCenterDistributeIOS */,
+				04FD4A281E451E90009B4468 /* MobileCenterDistributeIOSFramework */,
+				04FD4A301E453531009B4468 /* MobileCenterDistributeIOSTests */,
+				04FD4A3C1E453640009B4468 /* MobileCenterDistributeIOSDoc */,
 				B2C070B71E5E68540076D6A9 /* MobileCenterDistributeResources */,
-				04FD4A3C1E453640009B4468 /* MobileCenterDistributeIosDoc */,
 			);
 		};
 /* End PBXProject section */
@@ -633,7 +632,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				049BC8231ECE349200FB6719 /* iOS.xcconfig in Resources */,
 				B2C070C51E5E6A200076D6A9 /* MobileCenterDistributeResources.bundle in Resources */,
 				040AF0121E523AC2005C1174 /* release_details.json in Resources */,
 			);
@@ -653,7 +651,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=MobileCenterDistribute\nTGT_NAME=${FMK_NAME}Ios\nFMK_RESOURCE_BUNDLE=MobileCenterDistributeResources\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-Apple/iOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" -sdk iphoneos\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Support/iOS.modulemap\" \"${INSTALL_DIR}/Modules/module.modulemap\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Headers/\"\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/${FMK_RESOURCE_BUNDLE}.bundle\" \"${PRODUCTS_DIR}\"\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" \"${SIMULATOR_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\n\nrm -r \"${WRK_DIR}\"";
+			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=MobileCenterDistribute\nTGT_NAME=${FMK_NAME}IOS\nFMK_RESOURCE_BUNDLE=MobileCenterDistributeResources\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-Apple/iOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" -sdk iphoneos\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Support/iOS.modulemap\" \"${INSTALL_DIR}/Modules/module.modulemap\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Headers/\"\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/${FMK_RESOURCE_BUNDLE}.bundle\" \"${PRODUCTS_DIR}\"\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" \"${SIMULATOR_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\n\nrm -r \"${WRK_DIR}\"";
 		};
 		04FD4A401E4536B0009B4468 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -720,12 +718,12 @@
 /* Begin PBXTargetDependency section */
 		0471B9361E4556570022F951 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 04FD4A281E451E90009B4468 /* MobileCenterDistributeIosFramework */;
+			target = 04FD4A281E451E90009B4468 /* MobileCenterDistributeIOSFramework */;
 			targetProxy = 0471B9351E4556570022F951 /* PBXContainerItemProxy */;
 		};
 		04FD4A381E453531009B4468 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 04FD4A1B1E451E12009B4468 /* MobileCenterDistributeIos */;
+			target = 04FD4A1B1E451E12009B4468 /* MobileCenterDistributeIOS */;
 			targetProxy = 04FD4A371E453531009B4468 /* PBXContainerItemProxy */;
 		};
 		B2C070BF1E5E697C0076D6A9 /* PBXTargetDependency */ = {
@@ -884,7 +882,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		04FD4A251E451E12009B4468 /* Build configuration list for PBXNativeTarget "MobileCenterDistributeIos" */ = {
+		04FD4A251E451E12009B4468 /* Build configuration list for PBXNativeTarget "MobileCenterDistributeIOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				04FD4A261E451E12009B4468 /* Debug */,
@@ -893,7 +891,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		04FD4A291E451E90009B4468 /* Build configuration list for PBXAggregateTarget "MobileCenterDistributeIosFramework" */ = {
+		04FD4A291E451E90009B4468 /* Build configuration list for PBXAggregateTarget "MobileCenterDistributeIOSFramework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				04FD4A2A1E451E90009B4468 /* Debug */,
@@ -902,7 +900,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		04FD4A391E453531009B4468 /* Build configuration list for PBXNativeTarget "MobileCenterDistributeIosTests" */ = {
+		04FD4A391E453531009B4468 /* Build configuration list for PBXNativeTarget "MobileCenterDistributeIOSTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				04FD4A3A1E453531009B4468 /* Debug */,
@@ -911,7 +909,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		04FD4A3D1E453640009B4468 /* Build configuration list for PBXAggregateTarget "MobileCenterDistributeIosDoc" */ = {
+		04FD4A3D1E453640009B4468 /* Build configuration list for PBXAggregateTarget "MobileCenterDistributeIOSDoc" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				04FD4A3E1E453640009B4468 /* Debug */,

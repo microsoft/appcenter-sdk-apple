@@ -14,10 +14,24 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6E04017D1D1CAC710051BCFA"
-               BuildableName = "MobileCenterIosFramework"
-               BlueprintName = "MobileCenterIosFramework"
-               ReferencedContainer = "container:MobileCenter.xcodeproj">
+               BlueprintIdentifier = "043120721EE0BCF9007054C5"
+               BuildableName = "libMobileCenter.a"
+               BlueprintName = "MobileCenterTVOS"
+               ReferencedContainer = "container:MobileCenter/MobileCenter.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0431214E1EE0C20A007054C5"
+               BuildableName = "libMobileCenterAnalytics.a"
+               BlueprintName = "MobileCenterAnalyticsTVOS"
+               ReferencedContainer = "container:MobileCenterAnalytics/MobileCenterAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -26,9 +40,19 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      codeCoverageEnabled = "YES">
       <Testables>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "04754F471EA98182002CBA46"
+            BuildableName = "libMobileCenter.a"
+            BlueprintName = "MobileCenterMacOS"
+            ReferencedContainer = "container:MobileCenter/MobileCenter.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -45,10 +69,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6E04017D1D1CAC710051BCFA"
-            BuildableName = "MobileCenterIosFramework"
-            BlueprintName = "MobileCenterIosFramework"
-            ReferencedContainer = "container:MobileCenter.xcodeproj">
+            BlueprintIdentifier = "043120721EE0BCF9007054C5"
+            BuildableName = "libMobileCenter.a"
+            BlueprintName = "MobileCenterTVOS"
+            ReferencedContainer = "container:MobileCenter/MobileCenter.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -60,15 +84,6 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6E04017D1D1CAC710051BCFA"
-            BuildableName = "MobileCenterIosFramework"
-            BlueprintName = "MobileCenterIosFramework"
-            ReferencedContainer = "container:MobileCenter.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

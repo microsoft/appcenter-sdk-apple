@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "043121491EE0BFC7007054C5"
-               BuildableName = "MobileCenterTVFramework"
-               BlueprintName = "MobileCenterTVFramework"
-               ReferencedContainer = "container:MobileCenter.xcodeproj">
+               BlueprintIdentifier = "0485AFEF1EAAADAC00C10CAF"
+               BuildableName = "MobileCenterAnalyticsMacOSFramework"
+               BlueprintName = "MobileCenterAnalyticsMacOSFramework"
+               ReferencedContainer = "container:MobileCenterAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,10 +45,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "043121491EE0BFC7007054C5"
-            BuildableName = "MobileCenterTVFramework"
-            BlueprintName = "MobileCenterTVFramework"
-            ReferencedContainer = "container:MobileCenter.xcodeproj">
+            BlueprintIdentifier = "0485AFEF1EAAADAC00C10CAF"
+            BuildableName = "MobileCenterAnalyticsMacOSFramework"
+            BlueprintName = "MobileCenterAnalyticsMacOSFramework"
+            ReferencedContainer = "container:MobileCenterAnalytics.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -63,10 +63,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "043121491EE0BFC7007054C5"
-            BuildableName = "MobileCenterTVFramework"
-            BlueprintName = "MobileCenterTVFramework"
-            ReferencedContainer = "container:MobileCenter.xcodeproj">
+            BlueprintIdentifier = "0485AFEF1EAAADAC00C10CAF"
+            BuildableName = "MobileCenterAnalyticsMacOSFramework"
+            BlueprintName = "MobileCenterAnalyticsMacOSFramework"
+            ReferencedContainer = "container:MobileCenterAnalytics.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

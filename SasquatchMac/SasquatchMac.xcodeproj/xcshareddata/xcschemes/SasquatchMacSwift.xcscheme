@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0820"
+   LastUpgradeVersion = "0830"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "NO"
@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "0485AFE61EAA937000C10CAF"
-               BuildableName = "MobileCenterMacFramework"
-               BlueprintName = "MobileCenterMacFramework"
+               BuildableName = "MobileCenterMacOSFramework"
+               BlueprintName = "MobileCenterMacOSFramework"
                ReferencedContainer = "container:../MobileCenter/MobileCenter.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -29,8 +29,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "0485AFEF1EAAADAC00C10CAF"
-               BuildableName = "MobileCenterAnalyticsMacFramework"
-               BlueprintName = "MobileCenterAnalyticsMacFramework"
+               BuildableName = "MobileCenterAnalyticsMacOSFramework"
+               BlueprintName = "MobileCenterAnalyticsMacOSFramework"
                ReferencedContainer = "container:../MobileCenterAnalytics/MobileCenterAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -43,8 +43,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "0485AFF91EAAB27E00C10CAF"
-               BuildableName = "MobileCenterCrashesMacFramework"
-               BlueprintName = "MobileCenterCrashesMacFramework"
+               BuildableName = "MobileCenterCrashesMacOSFramework"
+               BlueprintName = "MobileCenterCrashesMacOSFramework"
                ReferencedContainer = "container:../MobileCenterCrashes/MobileCenterCrashes.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

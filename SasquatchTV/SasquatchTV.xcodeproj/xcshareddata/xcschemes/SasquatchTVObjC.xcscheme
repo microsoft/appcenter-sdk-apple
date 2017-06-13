@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "043121491EE0BFC7007054C5"
-               BuildableName = "MobileCenterTVFramework"
-               BlueprintName = "MobileCenterTVFramework"
+               BuildableName = "MobileCenterTVOSFramework"
+               BlueprintName = "MobileCenterTVOSFramework"
                ReferencedContainer = "container:../MobileCenter/MobileCenter.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -29,8 +29,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "0431216D1EE0C213007054C5"
-               BuildableName = "MobileCenterAnalyticsTVFramework"
-               BlueprintName = "MobileCenterAnalyticsTVFramework"
+               BuildableName = "MobileCenterAnalyticsTVOSFramework"
+               BlueprintName = "MobileCenterAnalyticsTVOSFramework"
                ReferencedContainer = "container:../MobileCenterAnalytics/MobileCenterAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -56,6 +56,16 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "5C2CC6EC1EE6BE5400E2BDA4"
+               BuildableName = "SasquatchTVObjCUITests.xctest"
+               BlueprintName = "SasquatchTVObjCUITests"
+               ReferencedContainer = "container:SasquatchTV.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

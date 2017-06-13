@@ -14,38 +14,24 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0485AFE61EAA937000C10CAF"
-               BuildableName = "MobileCenterMacFramework"
-               BlueprintName = "MobileCenterMacFramework"
-               ReferencedContainer = "container:MobileCenter/MobileCenter.xcodeproj">
+               BlueprintIdentifier = "0485AF671EAA79E300C10CAF"
+               BuildableName = "libMobileCenterAnalytics.a"
+               BlueprintName = "MobileCenterAnalyticsMacOS"
+               ReferencedContainer = "container:MobileCenterAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
             buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0485AFEF1EAAADAC00C10CAF"
-               BuildableName = "MobileCenterAnalyticsMacFramework"
-               BlueprintName = "MobileCenterAnalyticsMacFramework"
-               ReferencedContainer = "container:MobileCenterAnalytics/MobileCenterAnalytics.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0485AFF91EAAB27E00C10CAF"
-               BuildableName = "MobileCenterCrashesMacFramework"
-               BlueprintName = "MobileCenterCrashesMacFramework"
-               ReferencedContainer = "container:MobileCenterCrashes/MobileCenterCrashes.xcodeproj">
+               BlueprintIdentifier = "046AEAB21ECA51AF00CBE511"
+               BuildableName = "MobileCenterAnalytics.xctest"
+               BlueprintName = "MobileCenterAnalyticsMacOSTests"
+               ReferencedContainer = "container:MobileCenterAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -57,14 +43,24 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       codeCoverageEnabled = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "046AEAB21ECA51AF00CBE511"
+               BuildableName = "MobileCenterAnalytics.xctest"
+               BlueprintName = "MobileCenterAnalyticsMacOSTests"
+               ReferencedContainer = "container:MobileCenterAnalytics.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0485AFE61EAA937000C10CAF"
-            BuildableName = "MobileCenterMacFramework"
-            BlueprintName = "MobileCenterMacFramework"
-            ReferencedContainer = "container:MobileCenter/MobileCenter.xcodeproj">
+            BlueprintIdentifier = "0485AF671EAA79E300C10CAF"
+            BuildableName = "libMobileCenterAnalytics.a"
+            BlueprintName = "MobileCenterAnalyticsMacOS"
+            ReferencedContainer = "container:MobileCenterAnalytics.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -83,10 +79,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0485AFE61EAA937000C10CAF"
-            BuildableName = "MobileCenterMacFramework"
-            BlueprintName = "MobileCenterMacFramework"
-            ReferencedContainer = "container:MobileCenter/MobileCenter.xcodeproj">
+            BlueprintIdentifier = "0485AF671EAA79E300C10CAF"
+            BuildableName = "libMobileCenterAnalytics.a"
+            BlueprintName = "MobileCenterAnalyticsMacOS"
+            ReferencedContainer = "container:MobileCenterAnalytics.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -101,10 +97,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0485AFE61EAA937000C10CAF"
-            BuildableName = "MobileCenterMacFramework"
-            BlueprintName = "MobileCenterMacFramework"
-            ReferencedContainer = "container:MobileCenter/MobileCenter.xcodeproj">
+            BlueprintIdentifier = "0485AF671EAA79E300C10CAF"
+            BuildableName = "libMobileCenterAnalytics.a"
+            BlueprintName = "MobileCenterAnalyticsMacOS"
+            ReferencedContainer = "container:MobileCenterAnalytics.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

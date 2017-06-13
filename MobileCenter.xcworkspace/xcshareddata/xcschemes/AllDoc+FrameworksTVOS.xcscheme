@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0820"
+   LastUpgradeVersion = "0830"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,10 +14,24 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D3AD5F221E5C9562001627AB"
-               BuildableName = "MobileCenterPushIosFramework"
-               BlueprintName = "MobileCenterPushIosFramework"
-               ReferencedContainer = "container:MobileCenterPush.xcodeproj">
+               BlueprintIdentifier = "043121491EE0BFC7007054C5"
+               BuildableName = "MobileCenterTVOSFramework"
+               BlueprintName = "MobileCenterTVOSFramework"
+               ReferencedContainer = "container:MobileCenter/MobileCenter.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0431216D1EE0C213007054C5"
+               BuildableName = "MobileCenterAnalyticsTVOSFramework"
+               BlueprintName = "MobileCenterAnalyticsTVOSFramework"
+               ReferencedContainer = "container:MobileCenterAnalytics/MobileCenterAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -26,9 +40,19 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      codeCoverageEnabled = "YES">
       <Testables>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "6E6BFC311D234FAE00DF7617"
+            BuildableName = "MobileCenterIOSDoc"
+            BlueprintName = "MobileCenterIOSDoc"
+            ReferencedContainer = "container:MobileCenter/MobileCenter.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -45,10 +69,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D3AD5F221E5C9562001627AB"
-            BuildableName = "MobileCenterPushIosFramework"
-            BlueprintName = "MobileCenterPushIosFramework"
-            ReferencedContainer = "container:MobileCenterPush.xcodeproj">
+            BlueprintIdentifier = "043121491EE0BFC7007054C5"
+            BuildableName = "MobileCenterTVOSFramework"
+            BlueprintName = "MobileCenterTVOSFramework"
+            ReferencedContainer = "container:MobileCenter/MobileCenter.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -60,15 +84,6 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D3AD5F221E5C9562001627AB"
-            BuildableName = "MobileCenterPushIosFramework"
-            BlueprintName = "MobileCenterPushIosFramework"
-            ReferencedContainer = "container:MobileCenterPush.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
