@@ -1,5 +1,5 @@
-#include "./Global Tests.xcconfig"
-#include "./Global iOS.xcconfig"
+#include "./Tests.xcconfig"
+#include "./iOS.xcconfig"
 
 SEARCH_PATHS = "$(SRCROOT)/../Vendor/iOS"
 

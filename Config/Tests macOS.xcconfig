@@ -1,5 +1,5 @@
-#include "./Global Tests.xcconfig"
-#include "./Global macOS.xcconfig"
+#include "./Tests.xcconfig"
+#include "./macOS.xcconfig"
 
 SEARCH_PATHS = "$(SRCROOT)/../Vendor/macOS"
 
