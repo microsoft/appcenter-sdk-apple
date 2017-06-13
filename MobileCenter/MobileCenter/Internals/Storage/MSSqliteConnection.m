@@ -153,7 +153,7 @@
           // Keep the last inserted row ID.
           self.lastInsertedRowID = sqlite3_last_insert_rowid(sqlite3Database);
         } else {
-          
+
           // If could not execute the query show the error message on the debugger.
           NSString *errorMsg = [NSString stringWithUTF8String:sqlite3_errmsg(sqlite3Database)];
           MSLogError(MSMobileCenter.logTag, @"DB Error: %@\nerror code: %d", errorMsg, executeQueryResults);
@@ -164,7 +164,7 @@
 
       // In the database cannot be opened then show the error message on the debugger.
       NSString *errorMsg = [NSString stringWithUTF8String:sqlite3_errmsg(sqlite3Database)];
-      MSLogError(MSMobileCenter.logTag,@"DB Error: %@\nquery: %@", errorMsg,  [NSString stringWithUTF8String:query]);
+      MSLogError(MSMobileCenter.logTag, @"DB Error: %@\nquery: %@", errorMsg, [NSString stringWithUTF8String:query]);
       result = NO;
     }
 

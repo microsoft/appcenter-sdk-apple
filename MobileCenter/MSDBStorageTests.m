@@ -24,7 +24,7 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
 #pragma mark - Setup
 - (void)setUp {
   [super setUp];
-  self.sut = [[MSDBStorage alloc]initWithCapacity:kMSTestMaxCapacity];
+  self.sut = [[MSDBStorage alloc] initWithCapacity:kMSTestMaxCapacity];
   self.dbConnectionMock = OCMProtocolMock(@protocol(MSDatabaseConnection));
   self.sut.connection = self.dbConnectionMock;
 }
@@ -278,14 +278,14 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
 }
 
 - (void)testStorageCapacity {
-  
+
   // If
   short expectedCapacity = 3;
   __block BOOL deletionHappened = NO;
-  self.sut = [[MSDBStorage alloc]initWithCapacity:expectedCapacity];
+  self.sut = [[MSDBStorage alloc] initWithCapacity:expectedCapacity];
   self.sut.connection = self.dbConnectionMock;
-  NSString *unExpectedQuery = [NSString stringWithFormat:@"DELETE FROM %@ WHERE groupId = '%@' ORDER BY id ASC LIMIT 1", kMSLogTableName,
-                             kMSTestGroupId];
+  NSString *unExpectedQuery = [NSString
+      stringWithFormat:@"DELETE FROM %@ WHERE groupId = '%@' ORDER BY id ASC LIMIT 1", kMSLogTableName, kMSTestGroupId];
   OCMStub([self.dbConnectionMock executeQuery:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
     NSString *query;
     [invocation getArgument:&query atIndex:2];
@@ -295,39 +295,37 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
     }
     [invocation setReturnValue:&returnValue];
   });
-  OCMStub([self.dbConnectionMock selectDataFromDB:[OCMArg any]])
-  .andReturn(@[@[@"2"]]);
+  OCMStub([self.dbConnectionMock selectDataFromDB:[OCMArg any]]).andReturn(@[ @[ @"2" ] ]);
 
   // When
   [self.sut saveLog:[MSAbstractLog new] withGroupId:kMSTestGroupId];
-  
+
   // Then
   assertThatBool(deletionHappened, isFalse());
-  
+
   // If
   expectedCapacity = 2;
-  self.sut = [[MSDBStorage alloc]initWithCapacity:expectedCapacity];
+  self.sut = [[MSDBStorage alloc] initWithCapacity:expectedCapacity];
   self.sut.connection = self.dbConnectionMock;
-  
+
   // When
-  for (short i; i < expectedCapacity; i++){
+  for (short i; i < expectedCapacity; i++) {
     [self.sut saveLog:[MSAbstractLog new] withGroupId:kMSTestGroupId];
   }
-  
+
   // Then
   assertThatBool(deletionHappened, isFalse());
-  
-  
+
   // If
   expectedCapacity = 1;
-  self.sut = [[MSDBStorage alloc]initWithCapacity:expectedCapacity];
+  self.sut = [[MSDBStorage alloc] initWithCapacity:expectedCapacity];
   self.sut.connection = self.dbConnectionMock;
-  
+
   // When
-  for (short i; i < expectedCapacity; i++){
+  for (short i; i < expectedCapacity; i++) {
     [self.sut saveLog:[MSAbstractLog new] withGroupId:kMSTestGroupId];
   }
-  
+
   // Then
   assertThatBool(deletionHappened, isTrue());
 }

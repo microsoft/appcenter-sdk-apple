@@ -15,12 +15,12 @@
     _connection = [[MSSqliteConnection alloc] initWithDatabaseFilename:kMSDBFileName];
     _batches = [NSMutableDictionary<NSString *, NSArray<NSString *> *> new];
     _capacity = NSIntegerMax;
-    
+
     // Create the DB.
-    NSString *createLogTableQuery = [NSString
-                                     stringWithFormat:
-                                     @"CREATE TABLE IF NOT EXISTS %@ (%@ INTEGER PRIMARY KEY AUTOINCREMENT, %@ TEXT NOT NULL, %@ TEXT NOT NULL);",
-                                     kMSLogTableName, kMSIdColumnName, kMSGroupIdColumnName, kMSDataColumnName];
+    NSString *createLogTableQuery =
+        [NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS %@ (%@ INTEGER PRIMARY KEY AUTOINCREMENT, %@ TEXT NOT "
+                                   @"NULL, %@ TEXT NOT NULL);",
+                                   kMSLogTableName, kMSIdColumnName, kMSGroupIdColumnName, kMSDataColumnName];
     [self.connection executeQuery:createLogTableQuery];
   }
   return self;
@@ -41,7 +41,7 @@
   if (!log) {
     return NO;
   }
-  
+
   // Insert this log to the DB.
   NSData *logData = [NSKeyedArchiver archivedDataWithRootObject:log];
   NSString *base64Data = [logData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
@@ -49,11 +49,11 @@
       [NSString stringWithFormat:@"INSERT INTO %@ ('%@', '%@') VALUES ('%@', '%@')", kMSLogTableName,
                                  kMSGroupIdColumnName, kMSDataColumnName, groupId, base64Data];
   succeeded = [self.connection executeQuery:addLogQuery];
-  
+
   // Max out DB.
-  if (succeeded && [self countLogsWithGroupId:groupId] > self.capacity){
+  if (succeeded && [self countLogsWithGroupId:groupId] > self.capacity) {
     [self deleteOldestLogWithGroupId:groupId];
-    MSLogDebug([MSMobileCenter logTag],@"Log storage reached its maximum capacity, oldest log deleted.");
+    MSLogDebug([MSMobileCenter logTag], @"Log storage reached its maximum capacity, oldest log deleted.");
   }
   return succeeded;
 }
@@ -202,7 +202,7 @@
 
   // Execute.
   if ([self.connection executeQuery:deleteLogsQuery]) {
-    MSLogVerbose([MSMobileCenter logTag], @"%@ %@", deletionTrace, @"succeded");
+    MSLogVerbose([MSMobileCenter logTag], @"%@ %@", deletionTrace, @"succeeded");
   } else {
     MSLogError([MSMobileCenter logTag], @"%@ %@", deletionTrace, @"failed");
   }
@@ -210,14 +210,16 @@
 
 - (void)deleteOldestLogWithGroupId:(NSString *)groupId {
   NSString *deleteLogQuery =
-  [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@ = '%@' ORDER BY %@ ASC LIMIT 1", kMSLogTableName, kMSGroupIdColumnName, groupId, kMSIdColumnName];
+      [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@ = '%@' ORDER BY %@ ASC LIMIT 1", kMSLogTableName,
+                                 kMSGroupIdColumnName, groupId, kMSIdColumnName];
   [self.connection executeQuery:deleteLogQuery];
 }
 
 #pragma mark - DB count
 
-- (NSInteger)countLogsWithGroupId:(NSString*) groupId{
-  NSString *countLogQuery = [NSString stringWithFormat:@"SELECT COUNT(*) FROM %@ WHERE %@ = '%@'", kMSLogTableName, kMSGroupIdColumnName, groupId];
+- (NSInteger)countLogsWithGroupId:(NSString *)groupId {
+  NSString *countLogQuery = [NSString
+      stringWithFormat:@"SELECT COUNT(*) FROM %@ WHERE %@ = '%@'", kMSLogTableName, kMSGroupIdColumnName, groupId];
   NSArray<NSArray<NSString *> *> *result = [self.connection selectDataFromDB:countLogQuery];
   return [result[0][0] integerValue];
 }
