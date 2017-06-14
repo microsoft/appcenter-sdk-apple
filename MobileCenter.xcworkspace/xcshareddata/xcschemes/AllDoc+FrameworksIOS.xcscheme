@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0820"
+   LastUpgradeVersion = "0830"
    version = "1.3">
    <BuildAction
-      parallelizeBuildables = "NO"
+      parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
       <BuildActionEntries>
          <BuildActionEntry
@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0485AFE61EAA937000C10CAF"
-               BuildableName = "MobileCenterMacOSFramework"
-               BlueprintName = "MobileCenterMacOSFramework"
-               ReferencedContainer = "container:../MobileCenter/MobileCenter.xcodeproj">
+               BlueprintIdentifier = "6E6BFC311D234FAE00DF7617"
+               BuildableName = "MobileCenterIOSDoc"
+               BlueprintName = "MobileCenterIOSDoc"
+               ReferencedContainer = "container:MobileCenter/MobileCenter.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -28,10 +28,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0485AFEF1EAAADAC00C10CAF"
-               BuildableName = "MobileCenterAnalyticsMacOSFramework"
-               BlueprintName = "MobileCenterAnalyticsMacOSFramework"
-               ReferencedContainer = "container:../MobileCenterAnalytics/MobileCenterAnalytics.xcodeproj">
+               BlueprintIdentifier = "E85547E91D2D68C5002DF6E2"
+               BuildableName = "MobileCenterAnalyticsIOSDoc"
+               BlueprintName = "MobileCenterAnalyticsIOSDoc"
+               ReferencedContainer = "container:MobileCenterAnalytics/MobileCenterAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -42,10 +42,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0485AFF91EAAB27E00C10CAF"
-               BuildableName = "MobileCenterCrashesMacOSFramework"
-               BlueprintName = "MobileCenterCrashesMacOSFramework"
-               ReferencedContainer = "container:../MobileCenterCrashes/MobileCenterCrashes.xcodeproj">
+               BlueprintIdentifier = "6E6BFC361D23504F00DF7617"
+               BuildableName = "MobileCenterCrashesIOSDoc"
+               BlueprintName = "MobileCenterCrashesIOSDoc"
+               ReferencedContainer = "container:MobileCenterCrashes/MobileCenterCrashes.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -56,10 +56,24 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D3C31C211E8E75B300B288CE"
-               BuildableName = "SasquatchMacObjC.app"
-               BlueprintName = "SasquatchMacObjC"
-               ReferencedContainer = "container:SasquatchMac.xcodeproj">
+               BlueprintIdentifier = "04FD4A3C1E453640009B4468"
+               BuildableName = "MobileCenterDistributeIOSDoc"
+               BlueprintName = "MobileCenterDistributeIOSDoc"
+               ReferencedContainer = "container:MobileCenterDistribute/MobileCenterDistribute.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "D3AD5F271E5C9633001627AB"
+               BuildableName = "MobileCenterPushIOSDoc"
+               BlueprintName = "MobileCenterPushIOSDoc"
+               ReferencedContainer = "container:MobileCenterPush/MobileCenterPush.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -68,16 +82,17 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      codeCoverageEnabled = "YES">
       <Testables>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D3C31C211E8E75B300B288CE"
-            BuildableName = "SasquatchMacObjC.app"
-            BlueprintName = "SasquatchMacObjC"
-            ReferencedContainer = "container:SasquatchMac.xcodeproj">
+            BlueprintIdentifier = "6E6BFC311D234FAE00DF7617"
+            BuildableName = "MobileCenterIOSDoc"
+            BlueprintName = "MobileCenterIOSDoc"
+            ReferencedContainer = "container:MobileCenter/MobileCenter.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -93,16 +108,15 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D3C31C211E8E75B300B288CE"
-            BuildableName = "SasquatchMacObjC.app"
-            BlueprintName = "SasquatchMacObjC"
-            ReferencedContainer = "container:SasquatchMac.xcodeproj">
+            BlueprintIdentifier = "6E6BFC311D234FAE00DF7617"
+            BuildableName = "MobileCenterIOSDoc"
+            BlueprintName = "MobileCenterIOSDoc"
+            ReferencedContainer = "container:MobileCenter/MobileCenter.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -112,16 +126,15 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D3C31C211E8E75B300B288CE"
-            BuildableName = "SasquatchMacObjC.app"
-            BlueprintName = "SasquatchMacObjC"
-            ReferencedContainer = "container:SasquatchMac.xcodeproj">
+            BlueprintIdentifier = "6E6BFC311D234FAE00DF7617"
+            BuildableName = "MobileCenterIOSDoc"
+            BlueprintName = "MobileCenterIOSDoc"
+            ReferencedContainer = "container:MobileCenter/MobileCenter.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
