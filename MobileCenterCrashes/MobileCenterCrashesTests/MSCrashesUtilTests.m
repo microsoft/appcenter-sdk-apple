@@ -30,9 +30,14 @@
 
 - (void)testCreateCrashesDir {
   NSString *crashesDir = [[MSCrashesUtil crashesDir] path];
-
+  NSString *expectedDir;
   XCTAssertNotNil(crashesDir);
-  XCTAssertTrue([crashesDir containsString:@"/Library/Caches/com.test.app/com.microsoft.azure.mobile.mobilecenter/crashes"]);
+#if TARGET_OS_OSX
+  expectedDir = @"/Library/Caches/com.test.app/com.microsoft.azure.mobile.mobilecenter/crashes";
+#else
+  expectedDir = @"/Library/Caches/com.microsoft.azure.mobile.mobilecenter/crashes";
+#endif
+  XCTAssertTrue([crashesDir containsString:expectedDir]);
   BOOL isDir = YES;
   BOOL dirExists = [[NSFileManager defaultManager] fileExistsAtPath:crashesDir isDirectory:&isDir];
   XCTAssertTrue(dirExists);
@@ -40,8 +45,14 @@
 
 - (void)testCreateLogBufferDir {
   NSString *bufferDir = [[MSCrashesUtil logBufferDir] path];
+  NSString *expectedDir;
   XCTAssertNotNil(bufferDir);
-  XCTAssertTrue([bufferDir containsString:@"/Library/Caches/com.test.app/com.microsoft.azure.mobile.mobilecenter/crasheslogbuffer"]);
+#if TARGET_OS_OSX
+  expectedDir = @"/Library/Caches/com.test.app/com.microsoft.azure.mobile.mobilecenter/crasheslogbuffer";
+#else
+  expectedDir = @"/Library/Caches/com.microsoft.azure.mobile.mobilecenter/crasheslogbuffer";
+#endif
+  XCTAssertTrue([bufferDir containsString:expectedDir]);
   BOOL isDir = YES;
   BOOL dirExists = [[NSFileManager defaultManager] fileExistsAtPath:bufferDir isDirectory:&isDir];
   XCTAssertTrue(dirExists);
