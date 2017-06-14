@@ -1,9 +1,13 @@
 #import "MSStorageTestUtil.h"
+#import "MSUtility.h"
 
 @implementation MSStorageTestUtil
 
 + (NSString *)logsDir {
   NSString *logsPath = @"com.microsoft.azure.mobile.mobilecenter/logs";
+#if TARGET_OS_OSX
+  logsPath = [NSString stringWithFormat:@"%@/%@", [MS_APP_MAIN_BUNDLE bundleIdentifier], logsPath];
+#endif
   NSString *documentsDir =
       [NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject];
   return [documentsDir stringByAppendingPathComponent:logsPath];
