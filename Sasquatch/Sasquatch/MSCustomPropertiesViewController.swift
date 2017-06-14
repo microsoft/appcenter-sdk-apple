@@ -35,13 +35,11 @@ class MSCustomPropertiesViewController : UITableViewController, MobileCenterProt
         mobileCenter.setCustomProperties(customProperties)
         break
         
-        
       // Set Date
       case 3:
         customProperties.setDate(Date(), forKey: "test")
         mobileCenter.setCustomProperties(customProperties)
         break
-        
         
       // Set Mutliple
       case 4:
@@ -51,7 +49,6 @@ class MSCustomPropertiesViewController : UITableViewController, MobileCenterProt
         customProperties.setBool(false, forKey: "t4")
         mobileCenter.setCustomProperties(customProperties)
         break
-        
         
       // Clear
       case 5:
