@@ -37,7 +37,6 @@
 #pragma mark - Save logs
 
 - (BOOL)saveLog:(id<MSLog>)log withGroupId:(NSString *)groupId {
-  BOOL succeeded = NO;
   if (!log) {
     return NO;
   }
@@ -48,12 +47,15 @@
   NSString *addLogQuery =
       [NSString stringWithFormat:@"INSERT INTO %@ ('%@', '%@') VALUES ('%@', '%@')", kMSLogTableName,
                                  kMSGroupIdColumnName, kMSDataColumnName, groupId, base64Data];
-  succeeded = [self.connection executeQuery:addLogQuery];
+  BOOL succeeded = [self.connection executeQuery:addLogQuery];
+  NSInteger logCount = [self countLogsWithGroupId:groupId];
 
   // Max out DB.
-  if (succeeded && [self countLogsWithGroupId:groupId] > self.capacity) {
-    [self deleteOldestLogWithGroupId:groupId];
-    MSLogDebug([MSMobileCenter logTag], @"Log storage reached its maximum capacity, oldest log deleted.");
+  if (succeeded && logCount > self.capacity) {
+    NSInteger overflowCount = logCount - self.capacity;
+    [self deleteOldestLogsWithGroupId:groupId count:overflowCount];
+    MSLogDebug([MSMobileCenter logTag], @"Log storage was over capacity, %ld oldest log(s) deleted.",
+               (long)overflowCount);
   }
   return succeeded;
 }
@@ -208,10 +210,10 @@
   }
 }
 
-- (void)deleteOldestLogWithGroupId:(NSString *)groupId {
+- (void)deleteOldestLogsWithGroupId:(NSString *)groupId count:(NSInteger)count {
   NSString *deleteLogQuery =
-      [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@ = '%@' ORDER BY %@ ASC LIMIT 1", kMSLogTableName,
-                                 kMSGroupIdColumnName, groupId, kMSIdColumnName];
+      [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@ = '%@' ORDER BY %@ ASC LIMIT %ld", kMSLogTableName,
+                                 kMSGroupIdColumnName, groupId, kMSIdColumnName, (long)count];
   [self.connection executeQuery:deleteLogQuery];
 }
 
