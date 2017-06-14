@@ -58,56 +58,56 @@
 			containerPortal = E82E1B821D1CA63000D281C1 /* MobileCenter.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 043120DA1EE0BCF9007054C5;
-			remoteInfo = MobileCenterTV;
+			remoteInfo = MobileCenterTVOS;
 		};
 		04685E6F1EE776AC00A1592F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E85547FB1D2D6C8D002DF6E2 /* MobileCenterAnalytics.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 0431216C1EE0C20A007054C5;
-			remoteInfo = MobileCenterAnalyticsTV;
+			remoteInfo = MobileCenterAnalyticsTVOS;
 		};
 		046AEA991ECA509000CBE511 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E82E1B821D1CA63000D281C1 /* MobileCenter.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 04754FAB1EA98182002CBA46;
-			remoteInfo = MobileCenterMac;
+			remoteInfo = MobileCenterMacOS;
 		};
 		046AEAA01ECA509000CBE511 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E85547FB1D2D6C8D002DF6E2 /* MobileCenterAnalytics.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 0485AF851EAA79E300C10CAF;
-			remoteInfo = MobileCenterAnalyticsMac;
+			remoteInfo = MobileCenterAnalyticsMacOS;
 		};
 		046AEAA81ECA509000CBE511 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E82E1B7C1D1CA62900D281C1 /* MobileCenterCrashes.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 0485AFD31EAA887500C10CAF;
-			remoteInfo = MobileCenterCrashesMac;
+			remoteInfo = MobileCenterCrashesMacOS;
 		};
 		046AEAAA1ECA509000CBE511 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E82E1B7C1D1CA62900D281C1 /* MobileCenterCrashes.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 049327961ECA170D00D0187A;
-			remoteInfo = MobileCenterCrashesMacTests;
+			remoteInfo = MobileCenterCrashesMacOSTests;
 		};
 		0471B92E1E4550670022F951 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0471B91E1E4550670022F951 /* MobileCenterDistribute.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 04FD4A1C1E451E12009B4468;
-			remoteInfo = MobileCenterDistribute;
+			remoteInfo = MobileCenterDistributeIOS;
 		};
 		0471B9301E4550670022F951 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0471B91E1E4550670022F951 /* MobileCenterDistribute.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 04FD4A311E453531009B4468;
-			remoteInfo = MobileCenterDistributeTests;
+			remoteInfo = MobileCenterDistributeIOSTests;
 		};
 		0471B9471E455B630022F951 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -128,14 +128,14 @@
 			containerPortal = E82E1B821D1CA63000D281C1 /* MobileCenter.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 046AEAF61ECA562A00CBE511;
-			remoteInfo = MobileCenterMacTests;
+			remoteInfo = MobileCenterMacOSTests;
 		};
 		048494D81ECCD9E40020B0FC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E85547FB1D2D6C8D002DF6E2 /* MobileCenterAnalytics.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 046AEAC61ECA51AF00CBE511;
-			remoteInfo = MobileCenterAnalyticsMacTests;
+			remoteInfo = MobileCenterAnalyticsMacOSTests;
 		};
 		048A76A11E9EC0240075A6D6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -149,14 +149,14 @@
 			containerPortal = 048A76B51E9EC2D50075A6D6 /* MobileCenterPush.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = D33A94511E5B11BB003966DB;
-			remoteInfo = MobileCenterPush;
+			remoteInfo = MobileCenterPushIOS;
 		};
 		048A76BE1E9EC2D50075A6D6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 048A76B51E9EC2D50075A6D6 /* MobileCenterPush.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = D3AD5EC01E5C4F6A001627AB;
-			remoteInfo = MobileCenterPushTests;
+			remoteInfo = MobileCenterPushIOSTests;
 		};
 		048A76C01E9EC2EF0075A6D6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -170,14 +170,14 @@
 			containerPortal = E82E1B821D1CA63000D281C1 /* MobileCenter.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 6E2395781D22EF4F00E543C8;
-			remoteInfo = MobileCenterIosTests;
+			remoteInfo = MobileCenterIOSTests;
 		};
 		04A140DE1ECE8ECF001CEE94 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E82E1B7C1D1CA62900D281C1 /* MobileCenterCrashes.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 6E171AE11D22F781000DC480;
-			remoteInfo = MobileCenterCrashesIosTests;
+			remoteInfo = MobileCenterCrashesIOSTests;
 		};
 		380A4DA21DD6892F00E99219 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -233,14 +233,14 @@
 			containerPortal = E82E1B7C1D1CA62900D281C1 /* MobileCenterCrashes.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 6E0401331D1C98690051BCFA;
-			remoteInfo = MobileCenterCrashes;
+			remoteInfo = MobileCenterCrashesIOS;
 		};
 		E82E1B871D1CA63000D281C1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E82E1B821D1CA63000D281C1 /* MobileCenter.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 6E0401031D1C98220051BCFA;
-			remoteInfo = MobileCenter;
+			remoteInfo = MobileCenterIOS;
 		};
 		E82E1B8B1D1CA65600D281C1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -261,14 +261,14 @@
 			containerPortal = E85547FB1D2D6C8D002DF6E2 /* MobileCenterAnalytics.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = E85547C01D2D6253002DF6E2;
-			remoteInfo = MobileCenterAnalytics;
+			remoteInfo = MobileCenterAnalyticsIOS;
 		};
 		E85548041D2D6C8D002DF6E2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E85547FB1D2D6C8D002DF6E2 /* MobileCenterAnalytics.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = E85547D51D2D6723002DF6E2;
-			remoteInfo = MobileCenterAnalyticsTests;
+			remoteInfo = MobileCenterAnalyticsIOSTests;
 		};
 		E85548061D2D6C98002DF6E2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;

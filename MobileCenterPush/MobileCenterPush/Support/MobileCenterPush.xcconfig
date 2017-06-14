@@ -1,4 +1,4 @@
-#include "../../../Global.xcconfig"
+#include "../../../Config/Global.xcconfig"
 
 PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenterpush
 
