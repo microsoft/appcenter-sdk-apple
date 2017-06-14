@@ -40,7 +40,7 @@ class MSCustomPropertiesViewController : UITableViewController, MobileCenterProt
       case 3:
         customProperties.setDate(Date(), forKey: "test")
         mobileCenter.setCustomProperties(customProperties)
-        break;
+        break
         
         
       // Set Mutliple
