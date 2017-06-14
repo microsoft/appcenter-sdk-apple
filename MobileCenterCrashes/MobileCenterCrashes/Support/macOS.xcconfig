@@ -1,1 +1,1 @@
-#include "../../../Global macOS.xcconfig"
+#include "../../../Config/macOS.xcconfig"

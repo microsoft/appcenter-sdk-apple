@@ -3,7 +3,7 @@
    LastUpgradeVersion = "0830"
    version = "1.3">
    <BuildAction
-      parallelizeBuildables = "NO"
+      parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
       <BuildActionEntries>
          <BuildActionEntry
@@ -17,7 +17,7 @@
                BlueprintIdentifier = "043121491EE0BFC7007054C5"
                BuildableName = "MobileCenterTVOSFramework"
                BlueprintName = "MobileCenterTVOSFramework"
-               ReferencedContainer = "container:../MobileCenter/MobileCenter.xcodeproj">
+               ReferencedContainer = "container:MobileCenter/MobileCenter.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -31,21 +31,7 @@
                BlueprintIdentifier = "0431216D1EE0C213007054C5"
                BuildableName = "MobileCenterAnalyticsTVOSFramework"
                BlueprintName = "MobileCenterAnalyticsTVOSFramework"
-               ReferencedContainer = "container:../MobileCenterAnalytics/MobileCenterAnalytics.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D322EFEA1E8E97DF00A8EDA5"
-               BuildableName = "SasquatchTVObjC.app"
-               BlueprintName = "SasquatchTVObjC"
-               ReferencedContainer = "container:SasquatchTV.xcodeproj">
+               ReferencedContainer = "container:MobileCenterAnalytics/MobileCenterAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -54,26 +40,17 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      codeCoverageEnabled = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5C2CC6EC1EE6BE5400E2BDA4"
-               BuildableName = "SasquatchTVObjCUITests.xctest"
-               BlueprintName = "SasquatchTVObjCUITests"
-               ReferencedContainer = "container:SasquatchTV.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D322EFEA1E8E97DF00A8EDA5"
-            BuildableName = "SasquatchTVObjC.app"
-            BlueprintName = "SasquatchTVObjC"
-            ReferencedContainer = "container:SasquatchTV.xcodeproj">
+            BlueprintIdentifier = "6E6BFC311D234FAE00DF7617"
+            BuildableName = "MobileCenterIOSDoc"
+            BlueprintName = "MobileCenterIOSDoc"
+            ReferencedContainer = "container:MobileCenter/MobileCenter.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -89,16 +66,15 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D322EFEA1E8E97DF00A8EDA5"
-            BuildableName = "SasquatchTVObjC.app"
-            BlueprintName = "SasquatchTVObjC"
-            ReferencedContainer = "container:SasquatchTV.xcodeproj">
+            BlueprintIdentifier = "043121491EE0BFC7007054C5"
+            BuildableName = "MobileCenterTVOSFramework"
+            BlueprintName = "MobileCenterTVOSFramework"
+            ReferencedContainer = "container:MobileCenter/MobileCenter.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -108,16 +84,6 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D322EFEA1E8E97DF00A8EDA5"
-            BuildableName = "SasquatchTVObjC.app"
-            BlueprintName = "SasquatchTVObjC"
-            ReferencedContainer = "container:SasquatchTV.xcodeproj">
-         </BuildableReference>
-      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
