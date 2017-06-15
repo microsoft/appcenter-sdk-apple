@@ -95,47 +95,47 @@ static NSString *const kMSTestGroupId = @"TestGroupId";
 
 #pragma mark - Private
 
-- (NSArray<MSStartServiceLog *> *)generateLogsWithShortServicesNames:(int)kMSNumLogs withNumService:(int)kMSNumServices {
+- (NSArray<MSStartServiceLog *> *)generateLogsWithShortServicesNames:(int)numLogs withNumService:(int)numServices {
   NSMutableArray<MSStartServiceLog *> *dic = [NSMutableArray new];
-  for (int i = 0; i < kMSNumLogs; ++i) {
+  for (int i = 0; i < numLogs; ++i) {
     MSStartServiceLog *log = [MSStartServiceLog new];
-    log.services = [self generateServicesWithShortNames:kMSNumServices];
+    log.services = [self generateServicesWithShortNames:numServices];
     [dic addObject:log];
   }
   return dic;
 }
 
-- (NSArray<MSStartServiceLog *> *)generateLogsWithLongServicesNames:(int)kMSNumLogs withNumService:(int)kMSNumServices {
+- (NSArray<MSStartServiceLog *> *)generateLogsWithLongServicesNames:(int)numLogs withNumService:(int)numServices {
   NSMutableArray<MSStartServiceLog *> *dic = [NSMutableArray new];
-  for (int i = 0; i < kMSNumLogs; ++i) {
+  for (int i = 0; i < numLogs; ++i) {
     MSStartServiceLog *log = [MSStartServiceLog new];
-    log.services = [self generateServicesWithLongNames:kMSNumServices];
+    log.services = [self generateServicesWithLongNames:numServices];
     [dic addObject:log];
   }
   return dic;
 }
 
-- (NSArray<MSStartServiceLog *> *)generateLogsWithVeryLongServicesNames:(int)kMSNumLogs withNumService:(int)kMSNumServices {
+- (NSArray<MSStartServiceLog *> *)generateLogsWithVeryLongServicesNames:(int)numLogs withNumService:(int)numServices {
   NSMutableArray<MSStartServiceLog *> *dic = [NSMutableArray new];
-  for (int i = 0; i < kMSNumLogs; ++i) {
+  for (int i = 0; i < numLogs; ++i) {
     MSStartServiceLog *log = [MSStartServiceLog new];
-    log.services = [self generateServicesWithVeryLongNames:kMSNumServices];
+    log.services = [self generateServicesWithVeryLongNames:numServices];
     [dic addObject:log];
   }
   return dic;
 }
 
-- (NSArray<NSString *> *)generateServicesWithShortNames:(int)kMSNumServices {
+- (NSArray<NSString *> *)generateServicesWithShortNames:(int)numServices {
   NSMutableArray<NSString *> *dic = [NSMutableArray new];
-  for (int i = 0; i < kMSNumServices; ++i) {
+  for (int i = 0; i < numServices; ++i) {
     [dic addObject:[[NSUUID UUID] UUIDString]];
   }
   return dic;
 }
 
-- (NSArray<NSString *> *)generateServicesWithLongNames:(int)kMSNumServices {
+- (NSArray<NSString *> *)generateServicesWithLongNames:(int)numServices {
   NSMutableArray<NSString *> *dic = [NSMutableArray new];
-  for (int i = 0; i < kMSNumServices; ++i) {
+  for (int i = 0; i < numServices; ++i) {
     NSString *value = @"";
     for (int j = 0; j < 10; ++j) {
       value = [value stringByAppendingString:[[NSUUID UUID] UUIDString]];
@@ -145,9 +145,9 @@ static NSString *const kMSTestGroupId = @"TestGroupId";
   return dic;
 }
 
-- (NSArray<NSString *> *)generateServicesWithVeryLongNames:(int)kMSNumServices {
+- (NSArray<NSString *> *)generateServicesWithVeryLongNames:(int)numServices {
   NSMutableArray<NSString *> *dic = [NSMutableArray new];
-  for (int i = 0; i < kMSNumServices; ++i) {
+  for (int i = 0; i < numServices; ++i) {
     NSString *value = @"";
     for (int j = 0; j < 50; ++j) {
       value = [value stringByAppendingString:[[NSUUID UUID] UUIDString]];
