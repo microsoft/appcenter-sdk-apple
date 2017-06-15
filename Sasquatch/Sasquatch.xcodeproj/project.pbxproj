@@ -51,6 +51,7 @@
 		84D63FF71E8BA838004C9F86 /* MSCrashesDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D63FF61E8BA838004C9F86 /* MSCrashesDetailViewController.swift */; };
 		84D63FF81E8BA838004C9F86 /* MSCrashesDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D63FF61E8BA838004C9F86 /* MSCrashesDetailViewController.swift */; };
 		84D63FF91E8BAA90004C9F86 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 845964A91E8A7E6600BABA51 /* Main.storyboard */; };
+		B27424851EF2193E00F591E5 /* MobileCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 047D13711EAFBDBE00D699BA /* MobileCenterDistributeResources.bundle */; };
 		B2B36CE21EEF49B700230341 /* MSCustomPropertiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */; };
 		B2B36CE31EEF49C400230341 /* MSCustomPropertiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */; };
 		D31EF92D1E9517B600450162 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D31EF92B1E9517B600450162 /* Interface.storyboard */; };
@@ -795,6 +796,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B27424851EF2193E00F591E5 /* MobileCenterDistributeResources.bundle in Resources */,
 				047D13791EAFD77E00D699BA /* Main.strings in Resources */,
 				84226C8A1E8908CA00798417 /* Assets.xcassets in Resources */,
 				84D63FF91E8BAA90004C9F86 /* Main.storyboard in Resources */,
