@@ -35,6 +35,9 @@
 - (BOOL) isDebuggerAttached{
   return [MSMobileCenter isDebuggerAttached];
 }
+- (void) setCustomProperties:(MSCustomProperties *)customProperties {
+  [MSMobileCenter setCustomProperties:customProperties];
+}
 
 #pragma mark - Modules section.
 - (BOOL) isAnalyticsEnabled{

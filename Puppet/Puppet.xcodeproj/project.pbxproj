@@ -1026,7 +1026,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.puppet.NotifExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "ba121ce3-29db-420c-ac94-7a92f7b59b3c";
+				PROVISIONING_PROFILE = "841a7281-b050-412e-ac94-9bcbdbedefad";
 				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Puppet Notification Extension";
 				SKIP_INSTALL = YES;
 			};
