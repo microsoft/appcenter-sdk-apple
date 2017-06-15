@@ -1,6 +1,6 @@
 objc: true
 clean: true
-sdk: appletvos
+sdk: appletvsimulator
 
 theme: ../../Themes/apple
 

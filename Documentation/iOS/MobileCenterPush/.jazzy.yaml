@@ -1,6 +1,6 @@
 objc: true
 clean: true
-sdk: iphoneos
+sdk: iphonesimulator
 
 theme: ../../Themes/apple
 
