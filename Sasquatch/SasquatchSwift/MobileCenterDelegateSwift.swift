@@ -16,6 +16,9 @@ class MobileCenterDelegateSwift: MobileCenterDelegate {
   func setMobileCenterEnabled(_ isEnabled: Bool){
     MSMobileCenter.setEnabled(isEnabled)
   }
+  func setCustomProperties(_ customProperties: MSCustomProperties){
+    MSMobileCenter.setCustomProperties(customProperties)
+  }
   func installId() -> String{
     return MSMobileCenter.installId().uuidString
   }
