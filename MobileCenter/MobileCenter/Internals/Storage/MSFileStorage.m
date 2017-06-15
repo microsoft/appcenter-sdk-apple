@@ -3,6 +3,7 @@
 #import "MSFileUtil.h"
 #import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
+#import "MSUtility.h"
 
 static NSString *const kMSLogsDirectory = @"com.microsoft.azure.mobile.mobilecenter/logs";
 static NSString *const kMSFileExtension = @"ms";
@@ -188,9 +189,17 @@ static NSUInteger const MSDefaultLogCountLimit = 50;
 #if TARGET_OS_TV
 
     // TODO: This is a temporary change. Make sure this implementation is correct.
-    _baseDirectoryURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:kMSLogsDirectory]];
+    _baseDirectoryURL =
+        [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:kMSLogsDirectory]];
 #else
-    NSURL *appSupportURL = [[[NSFileManager defaultManager] URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask] lastObject];
+    NSURL *appSupportURL = [[[NSFileManager defaultManager] URLsForDirectory:NSApplicationSupportDirectory
+                                                                   inDomains:NSUserDomainMask] lastObject];
+#if TARGET_OS_OSX
+
+    // To prevent placing all logs to the same place if host application doesn't enable sandbox.
+    appSupportURL = [appSupportURL
+        URLByAppendingPathComponent:[NSString stringWithFormat:@"%@/", [MS_APP_MAIN_BUNDLE bundleIdentifier]]];
+#endif
     if (appSupportURL) {
       _baseDirectoryURL = (NSURL * _Nonnull)[appSupportURL URLByAppendingPathComponent:kMSLogsDirectory];
     }

@@ -129,6 +129,8 @@
 		049327901ECA170D00D0187A /* live_report_empty.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A301D416CCF0016C325 /* live_report_empty.plcrash */; };
 		049327911ECA170D00D0187A /* live_report_exception.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A311D416CCF0016C325 /* live_report_exception.plcrash */; };
 		049327CE1ECA1A5F00D0187A /* libMobileCenterCrashes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0485AFD31EAA887500C10CAF /* libMobileCenterCrashes.a */; };
+		049553061EF19FB50097E071 /* MSCrashesUtilPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 049553051EF19F9F0097E071 /* MSCrashesUtilPrivate.h */; };
+		049553071EF19FB60097E071 /* MSCrashesUtilPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 049553051EF19F9F0097E071 /* MSCrashesUtilPrivate.h */; };
 		0499F8721EDFAE0B00C3EDDA /* MSErrorAttachmentLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 8024743A1EAE077800AEC284 /* MSErrorAttachmentLog.m */; };
 		0499F8731EDFAE0E00C3EDDA /* MSErrorAttachmentLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 38BD86511E8499EF004E8D7A /* MSErrorAttachmentLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0499F8741EDFAE1800C3EDDA /* MSErrorAttachmentLog+Utility.h in Headers */ = {isa = PBXBuildFile; fileRef = 3858A2171E93F37E00535A69 /* MSErrorAttachmentLog+Utility.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -329,6 +331,7 @@
 		049327E21ECA1BA100D0187A /* PLCrashReportSystemInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportSystemInfo.h; sourceTree = "<group>"; };
 		049327E31ECA1BA100D0187A /* PLCrashReportTextFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportTextFormatter.h; sourceTree = "<group>"; };
 		049327E41ECA1BA100D0187A /* PLCrashReportThreadInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportThreadInfo.h; sourceTree = "<group>"; };
+		049553051EF19F9F0097E071 /* MSCrashesUtilPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSCrashesUtilPrivate.h; sourceTree = "<group>"; };
 		049BC8251ECE36D400FB6719 /* iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS.xcconfig; sourceTree = "<group>"; };
 		049BC8261ECE370100FB6719 /* macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
 		04A140901ECE6625001CEE94 /* libMobileCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobileCenter.a; path = "../../../../../Library/Developer/Xcode/DerivedData/MobileCenter-cxbmzrupyysdsehdxmozcvjphajr/Build/Products/Debug/libMobileCenter.a"; sourceTree = "<group>"; };
@@ -560,6 +563,7 @@
 			children = (
 				6E73FE6D1D4032AB008CDC15 /* MSCrashesUtil.h */,
 				6E73FE6E1D4032AB008CDC15 /* MSCrashesUtil.m */,
+				049553051EF19F9F0097E071 /* MSCrashesUtilPrivate.h */,
 				04311FFB1EE08885007054C5 /* MSCrashReporter.h */,
 				B24F3F101D93417B00827213 /* MSErrorLogFormatterPrivate.h */,
 				B2F375071D41AD5100F07032 /* MSErrorLogFormatter.h */,
@@ -806,6 +810,7 @@
 				0485AFB71EAA887500C10CAF /* MSLogManager.h in Headers */,
 				0485AFB81EAA887500C10CAF /* MSBinary.h in Headers */,
 				0485AFB91EAA887500C10CAF /* MSCrashes.h in Headers */,
+				049553071EF19FB60097E071 /* MSCrashesUtilPrivate.h in Headers */,
 				0485AFBA1EAA887500C10CAF /* MSErrorReport.h in Headers */,
 				0485AFBB1EAA887500C10CAF /* MSWrapperExceptionManagerInternal.h in Headers */,
 				0485AFBD1EAA887500C10CAF /* MobileCenterCrashes.h in Headers */,
@@ -851,6 +856,7 @@
 				B2F375091D41AD5100F07032 /* MSErrorLogFormatter.h in Headers */,
 				B2F120E71D657F4F0060DED7 /* MSErrorReportPrivate.h in Headers */,
 				380B81341E8C565E001C76C9 /* MSAbstractLog.h in Headers */,
+				049553061EF19FB50097E071 /* MSCrashesUtilPrivate.h in Headers */,
 				6E7D5C6B1D3E9332009EC9AC /* MSAppleErrorLog.h in Headers */,
 				6E7D5C731D3E9381009EC9AC /* MSThread.h in Headers */,
 				382346421E8B3DAD001C3A76 /* MSErrorAttachmentLogInternal.h in Headers */,
