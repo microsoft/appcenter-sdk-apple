@@ -33,8 +33,8 @@
 		5CE60DF11EDF0B670060303A /* MSCrashResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CE60DF01EDF0B670060303A /* MSCrashResultViewController.m */; };
 		6EC99A211D4151A00016C325 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A201D4151A00016C325 /* CrashReporter.framework */; };
 		6EC99A281D4152FA0016C325 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A271D4152FA0016C325 /* libc++.tbd */; };
-		806A17EE1EEAD96B00230146 /* PropertyViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 806A17EC1EEAD96B00230146 /* PropertyViewCell.m */; };
-		80AD3DA11EEFF7A600EEECCA /* MSPropertiesTableDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 80AD3DA01EEFF7A600EEECCA /* MSPropertiesTableDataSource.m */; };
+		808A10FC1EF312A000DFD41B /* MSPropertiesTableDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 808A10F91EF312A000DFD41B /* MSPropertiesTableDataSource.m */; };
+		808A10FD1EF312A000DFD41B /* PropertyViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 808A10FB1EF312A000DFD41B /* PropertyViewCell.m */; };
 		B21B26C71DDE490400FF0378 /* MSCrashesDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B21B26C61DDE490400FF0378 /* MSCrashesDetailViewController.m */; };
 		B27397A41DE3D27700AC7761 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B27397A31DE3D27700AC7761 /* CrashLibIOS.framework */; };
 		B27397A51DE3D27700AC7761 /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B27397A31DE3D27700AC7761 /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -290,10 +290,10 @@
 		6EC99A201D4151A00016C325 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = ../../Vendor/PLCrashReporter/CrashReporter.framework; sourceTree = "<group>"; };
 		6EC99A251D4152EB0016C325 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		6EC99A271D4152FA0016C325 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
-		806A17EB1EEAD96B00230146 /* PropertyViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyViewCell.h; sourceTree = "<group>"; };
-		806A17EC1EEAD96B00230146 /* PropertyViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyViewCell.m; sourceTree = "<group>"; };
-		80AD3D9F1EEFF72A00EEECCA /* MSPropertiesTableDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSPropertiesTableDataSource.h; sourceTree = "<group>"; };
-		80AD3DA01EEFF7A600EEECCA /* MSPropertiesTableDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSPropertiesTableDataSource.m; sourceTree = "<group>"; };
+		808A10F81EF312A000DFD41B /* MSPropertiesTableDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSPropertiesTableDataSource.h; path = ../../Vendor/Utils/MSPropertiesTableDataSource.h; sourceTree = "<group>"; };
+		808A10F91EF312A000DFD41B /* MSPropertiesTableDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSPropertiesTableDataSource.m; path = ../../Vendor/Utils/MSPropertiesTableDataSource.m; sourceTree = "<group>"; };
+		808A10FA1EF312A000DFD41B /* PropertyViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PropertyViewCell.h; path = ../../Vendor/Utils/PropertyViewCell.h; sourceTree = "<group>"; };
+		808A10FB1EF312A000DFD41B /* PropertyViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PropertyViewCell.m; path = ../../Vendor/Utils/PropertyViewCell.m; sourceTree = "<group>"; };
 		B21B26C51DDE490400FF0378 /* MSCrashesDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrashesDetailViewController.h; sourceTree = "<group>"; };
 		B21B26C61DDE490400FF0378 /* MSCrashesDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCrashesDetailViewController.m; sourceTree = "<group>"; };
 		B27397A31DE3D27700AC7761 /* CrashLibIOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CrashLibIOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -430,12 +430,12 @@
 		5C2BD1A01ED5DE2100FB20C8 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				806A17EB1EEAD96B00230146 /* PropertyViewCell.h */,
-				806A17EC1EEAD96B00230146 /* PropertyViewCell.m */,
 				5C2BD1A11ED5DE4400FB20C8 /* EventLog.h */,
 				5C2BD1A21ED5DE5700FB20C8 /* EventLog.m */,
-				80AD3D9F1EEFF72A00EEECCA /* MSPropertiesTableDataSource.h */,
-				80AD3DA01EEFF7A600EEECCA /* MSPropertiesTableDataSource.m */,
+				808A10FA1EF312A000DFD41B /* PropertyViewCell.h */,
+				808A10FB1EF312A000DFD41B /* PropertyViewCell.m */,
+				808A10F81EF312A000DFD41B /* MSPropertiesTableDataSource.h */,
+				808A10F91EF312A000DFD41B /* MSPropertiesTableDataSource.m */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -905,12 +905,12 @@
 				B21B26C71DDE490400FF0378 /* MSCrashesDetailViewController.m in Sources */,
 				5C2BD1A31ED5DE5700FB20C8 /* EventLog.m in Sources */,
 				5C2BD19B1ED5D44400FB20C8 /* MSAnalyticsResultViewController.m in Sources */,
-				80AD3DA11EEFF7A600EEECCA /* MSPropertiesTableDataSource.m in Sources */,
 				B2E611F61DDE72BA00A9DF86 /* MSFakeCXXClass.mm in Sources */,
 				E89E6A2C1D396D7900CAA2CD /* MSCrashesViewController.m in Sources */,
-				806A17EE1EEAD96B00230146 /* PropertyViewCell.m in Sources */,
+				808A10FC1EF312A000DFD41B /* MSPropertiesTableDataSource.m in Sources */,
 				E89E6A301D39704900CAA2CD /* MSAnalyticsViewController.m in Sources */,
 				E82E1B641D1CA58D00D281C1 /* main.m in Sources */,
+				808A10FD1EF312A000DFD41B /* PropertyViewCell.m in Sources */,
 				BA6827C9F0410233C245D989 /* MSDistributeViewController.m in Sources */,
 				5CE60DF11EDF0B670060303A /* MSCrashResultViewController.m in Sources */,
 			);
