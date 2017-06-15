@@ -14,17 +14,24 @@
   if (self) {
     _connection = [[MSSqliteConnection alloc] initWithDatabaseFilename:kMSDBFileName];
     _batches = [NSMutableDictionary<NSString *, NSArray<NSString *> *> new];
-    [self initTables];
+    _capacity = NSUIntegerMax;
+
+    // Create the DB.
+    NSString *createLogTableQuery =
+        [NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS %@ (%@ INTEGER PRIMARY KEY AUTOINCREMENT, %@ TEXT NOT "
+                                   @"NULL, %@ TEXT NOT NULL);",
+                                   kMSLogTableName, kMSIdColumnName, kMSGroupIdColumnName, kMSDataColumnName];
+    [self.connection executeQuery:createLogTableQuery];
   }
   return self;
 }
 
-- (void)initTables {
-  NSString *createLogTableQuery = [NSString
-      stringWithFormat:
-          @"CREATE TABLE IF NOT EXISTS %@ (%@ INTEGER PRIMARY KEY AUTOINCREMENT, %@ TEXT NOT NULL, %@ TEXT NOT NULL);",
-          kMSLogTableName, kMSIdColumnName, kMSGroupIdColumnName, kMSDataColumnName];
-  [self.connection executeQuery:createLogTableQuery];
+- (instancetype)initWithCapacity:(NSUInteger)capacity {
+  self = [self init];
+  if (self) {
+    _capacity = capacity;
+  }
+  return self;
 }
 
 #pragma mark - Save logs
@@ -33,12 +40,24 @@
   if (!log) {
     return NO;
   }
+
+  // Insert this log to the DB.
   NSData *logData = [NSKeyedArchiver archivedDataWithRootObject:log];
   NSString *base64Data = [logData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
   NSString *addLogQuery =
       [NSString stringWithFormat:@"INSERT INTO %@ ('%@', '%@') VALUES ('%@', '%@')", kMSLogTableName,
                                  kMSGroupIdColumnName, kMSDataColumnName, groupId, base64Data];
-  return [self.connection executeQuery:addLogQuery];
+  BOOL succeeded = [self.connection executeQuery:addLogQuery];
+  NSUInteger logCount = [self countLogsWithGroupId:groupId];
+
+  // Max out DB.
+  if (succeeded && logCount > self.capacity) {
+    NSUInteger overflowCount = logCount - self.capacity;
+    [self deleteOldestLogsWithGroupId:groupId count:overflowCount];
+    MSLogDebug([MSMobileCenter logTag], @"Log storage was over capacity, %ld oldest log(s) deleted.",
+               (long)overflowCount);
+  }
+  return succeeded;
 }
 
 #pragma mark - Load logs
@@ -137,7 +156,7 @@
 }
 
 - (NSDictionary<NSString *, id<MSLog>> *)getLogsFromDBWithQuery:(NSString *)query {
-  NSArray<NSArray<NSString *> *> *result = [self.connection loadDataFromDB:query];
+  NSArray<NSArray<NSString *> *> *result = [self.connection selectDataFromDB:query];
   NSMutableDictionary<NSString *, id<MSLog>> *logs = [NSMutableDictionary<NSString *, id<MSLog>> new];
 
   // Get logs from DB.
@@ -185,10 +204,28 @@
 
   // Execute.
   if ([self.connection executeQuery:deleteLogsQuery]) {
-    MSLogVerbose([MSMobileCenter logTag], @"%@ %@", deletionTrace, @"succeded");
+    MSLogVerbose([MSMobileCenter logTag], @"%@ %@", deletionTrace, @"succeeded");
   } else {
     MSLogError([MSMobileCenter logTag], @"%@ %@", deletionTrace, @"failed");
   }
+}
+
+- (void)deleteOldestLogsWithGroupId:(NSString *)groupId count:(NSInteger)count {
+  NSString *deleteLogQuery =
+      [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@ = '%@' ORDER BY %@ ASC LIMIT %ld", kMSLogTableName,
+                                 kMSGroupIdColumnName, groupId, kMSIdColumnName, (long)count];
+  [self.connection executeQuery:deleteLogQuery];
+}
+
+#pragma mark - DB count
+
+- (NSUInteger)countLogsWithGroupId:(NSString *)groupId {
+  NSString *countLogQuery = [NSString
+      stringWithFormat:@"SELECT COUNT(*) FROM %@ WHERE %@ = '%@'", kMSLogTableName, kMSGroupIdColumnName, groupId];
+  NSArray<NSArray<NSString *> *> *result = [self.connection selectDataFromDB:countLogQuery];
+  NSNumberFormatter *formatter = [NSNumberFormatter new];
+  formatter.numberStyle = NSNumberFormatterDecimalStyle;
+  return [formatter numberFromString:result[0][0]].unsignedIntegerValue;
 }
 
 @end

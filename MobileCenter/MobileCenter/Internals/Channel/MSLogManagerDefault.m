@@ -9,7 +9,7 @@
 #import "MSMobileCenterInternal.h"
 #import "MobileCenter+Internal.h"
 
-static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecenter.LogManagerQueue";
+static char *const kMSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecenter.LogManagerQueue";
 
 /**
  * Private declaration of the log manager.
@@ -31,13 +31,13 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
   self = [self initWithSender:[[MSIngestionSender alloc] initWithBaseUrl:logUrl
                                                                appSecret:appSecret
                                                                installId:[installId UUIDString]]
-                      storage:[MSDBStorage new]];
+                      storage:[[MSDBStorage alloc] initWithCapacity:kMSStorageMaxCapacity]];
   return self;
 }
 
 - (instancetype)initWithSender:(MSHttpSender *)sender storage:(id<MSStorage>)storage {
   if ((self = [self init])) {
-    dispatch_queue_t serialQueue = dispatch_queue_create(MSlogsDispatchQueue, DISPATCH_QUEUE_SERIAL);
+    dispatch_queue_t serialQueue = dispatch_queue_create(kMSlogsDispatchQueue, DISPATCH_QUEUE_SERIAL);
     _enabled = YES;
     _logsDispatchQueue = serialQueue;
     _channels = [NSMutableDictionary<NSString *, id<MSChannel>> new];

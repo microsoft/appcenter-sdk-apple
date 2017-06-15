@@ -2,12 +2,14 @@
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
-#import "MSAbstractLog.h"
+#import "MSAbstractLogInternal.h"
 #import "MSDBStoragePrivate.h"
 #import "MSDatabaseConnection.h"
 #import "MSUtility.h"
+#import "MSUtility+Date.h"
 
 static NSString *const kMSTestGroupId = @"TestGroupId";
+static short const kMSTestMaxCapacity = 50;
 static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
 
 @interface MSDBStorageTests : XCTestCase
@@ -22,7 +24,7 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
 #pragma mark - Setup
 - (void)setUp {
   [super setUp];
-  self.sut = [MSDBStorage new];
+  self.sut = [[MSDBStorage alloc] initWithCapacity:kMSTestMaxCapacity];
   self.dbConnectionMock = OCMProtocolMock(@protocol(MSDatabaseConnection));
   self.sut.connection = self.dbConnectionMock;
 }
@@ -31,7 +33,7 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
 
   // If
   NSUInteger expectedLogsCount = 5;
-  OCMStub([self.dbConnectionMock loadDataFromDB:[OCMArg any]])
+  OCMStub([self.dbConnectionMock selectDataFromDB:[OCMArg any]])
       .andReturn([self generateSerializedLogsWithCount:expectedLogsCount + 1]);
 
   // When
@@ -51,7 +53,7 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
 
   // If
   NSUInteger expectedLogsCount = 5;
-  OCMStub([self.dbConnectionMock loadDataFromDB:[OCMArg any]])
+  OCMStub([self.dbConnectionMock selectDataFromDB:[OCMArg any]])
       .andReturn([self generateSerializedLogsWithCount:expectedLogsCount]);
 
   // When
@@ -72,7 +74,7 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
   // If
   NSUInteger expectedLogsCount = 2;
   NSUInteger limit = 5;
-  OCMStub([self.dbConnectionMock loadDataFromDB:[OCMArg any]])
+  OCMStub([self.dbConnectionMock selectDataFromDB:[OCMArg any]])
       .andReturn([self generateSerializedLogsWithCount:expectedLogsCount]);
 
   // When
@@ -92,7 +94,7 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
 
   // If
   NSUInteger expectedLogsCount = 42;
-  OCMStub([self.dbConnectionMock loadDataFromDB:[OCMArg any]])
+  OCMStub([self.dbConnectionMock selectDataFromDB:[OCMArg any]])
       .andReturn([self generateSerializedLogsWithCount:expectedLogsCount]);
 
   // When
@@ -273,6 +275,113 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
    * Then
    */
   assertThatInteger(self.sut.batches.count, equalToInteger(0));
+}
+
+- (void)testStorageCapacity {
+
+  /**
+   * If
+   */
+  
+  // Test just below the limit.
+  short expectedCapacity = 3;
+  __block BOOL deletionHappened = NO;
+  __block int overflowCount = 0;
+  __block int logCount = 2;
+  self.sut = [[MSDBStorage alloc] initWithCapacity:expectedCapacity];
+  self.sut.connection = self.dbConnectionMock;
+  NSString *deleteQuery = [NSString
+      stringWithFormat:@"DELETE FROM %@ WHERE groupId = '%@' ORDER BY id ASC LIMIT", kMSLogTableName, kMSTestGroupId];
+  
+  // Capture the overflow count and the query.
+  OCMStub([self.dbConnectionMock executeQuery:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
+    NSString *query;
+    BOOL returnValue = YES;
+    [invocation retainArguments];
+    [invocation getArgument:&query atIndex:2];
+    if ([query hasPrefix:deleteQuery]) {
+      overflowCount = [[query stringByReplacingOccurrencesOfString:deleteQuery withString:@""] intValue];
+      deletionHappened = YES;
+    }
+    [invocation setReturnValue:&returnValue];
+  });
+  
+  // Setup variable log count.
+  OCMStub([self.dbConnectionMock selectDataFromDB:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
+    NSArray<NSArray<NSString *> *> * returnValue = @[@[[@(logCount) stringValue]]];
+    [invocation retainArguments];
+    [invocation setReturnValue:&returnValue];
+  });
+
+  /**
+   * When
+   */
+  [self.sut saveLog:[MSAbstractLog new] withGroupId:kMSTestGroupId];
+
+  /**
+   * Then
+   */
+  assertThatBool(deletionHappened, isFalse());
+  
+  // Test at the limit.
+
+  /**
+   * If
+   */
+  expectedCapacity = 2;
+  self.sut = [[MSDBStorage alloc] initWithCapacity:expectedCapacity];
+  self.sut.connection = self.dbConnectionMock;
+
+  /**
+   * When
+   */
+  [self.sut saveLog:[MSAbstractLog new] withGroupId:kMSTestGroupId];
+
+  /**
+   * Then
+   */
+  assertThatBool(deletionHappened, isFalse());
+  
+  // Test just over the limit.
+
+  /**
+   * If
+   */
+  expectedCapacity = 1;
+  self.sut = [[MSDBStorage alloc] initWithCapacity:expectedCapacity];
+  self.sut.connection = self.dbConnectionMock;
+
+  /**
+   * When
+   */
+  [self.sut saveLog:[MSAbstractLog new] withGroupId:kMSTestGroupId];
+
+  /**
+   * Then
+   */
+  assertThatBool(deletionHappened, isTrue());
+  assertThatInt(overflowCount, equalToInt(1));
+  
+  // Test way over the limit.
+  
+  /**
+   * If
+   */
+  logCount = 10;
+  expectedCapacity = 1;
+  self.sut = [[MSDBStorage alloc] initWithCapacity:expectedCapacity];
+  self.sut.connection = self.dbConnectionMock;
+  
+  /**
+   * When
+   */
+  [self.sut saveLog:[MSAbstractLog new] withGroupId:kMSTestGroupId];
+  
+  /**
+   * Then
+   */
+  assertThatBool(deletionHappened, isTrue());
+  assertThatInt(overflowCount, equalToInt(9));
 }
 
 - (NSArray<NSArray<NSString *> *> *)generateSerializedLogsWithCount:(NSUInteger)count {

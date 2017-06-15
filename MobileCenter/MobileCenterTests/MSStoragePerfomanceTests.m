@@ -2,8 +2,9 @@
 #import "MSStartServiceLog.h"
 #import "MSDBStorage.h"
 
-static const int numLogs = 100;
-static const int numServices = 100;
+static const int kMSNumLogs = 50;
+static const int kMSNumServices = 5;
+static NSString *const kMSTestGroupId = @"TestGroupId";
 
 @interface MSStoragePerfomanceTests : XCTestCase
 @end
@@ -20,48 +21,42 @@ static const int numServices = 100;
 
 - (void)setUp {
   [super setUp];
-
   self.dbStorage = [MSDBStorage new];
 }
 
 - (void)tearDown {
-  // Put teardown code here. This method is called after the invocation of each test method in the class.
   [super tearDown];
-
-  [self.dbStorage deleteLogsWithGroupId:@"anyKey"];
+  [self.dbStorage deleteLogsWithGroupId:kMSTestGroupId];
 }
 
 #pragma mark - Database storage tests
 
 - (void)testDatabaseWriteShortLogsPerformance {
   NSArray<MSStartServiceLog *> *arrayOfLogs =
-      [self generateLogsWithShortServicesNames:numLogs withNumService:numServices];
-
+      [self generateLogsWithShortServicesNames:kMSNumLogs withNumService:kMSNumServices];
   [self measureBlock:^{
     for (MSStartServiceLog *log in arrayOfLogs) {
-      [self.dbStorage saveLog:log withGroupId:@"anyKey"];
+      [self.dbStorage saveLog:log withGroupId:kMSTestGroupId];
     }
   }];
 }
 
 - (void)testDatabaseWriteLongLogsPerformance {
   NSArray<MSStartServiceLog *> *arrayOfLogs =
-      [self generateLogsWithLongServicesNames:numLogs withNumService:numServices];
-
+      [self generateLogsWithLongServicesNames:kMSNumLogs withNumService:kMSNumServices];
   [self measureBlock:^{
     for (MSStartServiceLog *log in arrayOfLogs) {
-      [self.dbStorage saveLog:log withGroupId:@"anyKey"];
+      [self.dbStorage saveLog:log withGroupId:kMSTestGroupId];
     }
   }];
 }
 
 - (void)testDatabaseWriteVeryLongLogsPerformance {
   NSArray<MSStartServiceLog *> *arrayOfLogs =
-      [self generateLogsWithVeryLongServicesNames:numLogs withNumService:numServices];
-
+      [self generateLogsWithVeryLongServicesNames:kMSNumLogs withNumService:kMSNumServices];
   [self measureBlock:^{
     for (MSStartServiceLog *log in arrayOfLogs) {
-      [self.dbStorage saveLog:log withGroupId:@"anyKey"];
+      [self.dbStorage saveLog:log withGroupId:kMSTestGroupId];
     }
   }];
 }
@@ -70,33 +65,30 @@ static const int numServices = 100;
 
 - (void)testFileStorageWriteShortLogsPerformance {
   NSArray<MSStartServiceLog *> *arrayOfLogs =
-      [self generateLogsWithShortServicesNames:numLogs withNumService:numServices];
-
+      [self generateLogsWithShortServicesNames:kMSNumLogs withNumService:kMSNumServices];
   [self measureBlock:^{
     for (MSStartServiceLog *log in arrayOfLogs) {
-      [self.dbStorage saveLog:log withGroupId:@"anyKey"];
+      [self.dbStorage saveLog:log withGroupId:kMSTestGroupId];
     }
   }];
 }
 
 - (void)testFileStorageWriteLongLogsPerformance {
   NSArray<MSStartServiceLog *> *arrayOfLogs =
-      [self generateLogsWithLongServicesNames:numLogs withNumService:numServices];
-
+      [self generateLogsWithLongServicesNames:kMSNumLogs withNumService:kMSNumServices];
   [self measureBlock:^{
     for (MSStartServiceLog *log in arrayOfLogs) {
-      [self.dbStorage saveLog:log withGroupId:@"anyKey"];
+      [self.dbStorage saveLog:log withGroupId:kMSTestGroupId];
     }
   }];
 }
 
 - (void)testFileStorageWriteVeryLongLogsPerformance {
   NSArray<MSStartServiceLog *> *arrayOfLogs =
-      [self generateLogsWithVeryLongServicesNames:numLogs withNumService:numServices];
-
+      [self generateLogsWithVeryLongServicesNames:kMSNumLogs withNumService:kMSNumServices];
   [self measureBlock:^{
     for (MSStartServiceLog *log in arrayOfLogs) {
-      [self.dbStorage saveLog:log withGroupId:@"anyKey"];
+      [self.dbStorage saveLog:log withGroupId:kMSTestGroupId];
     }
   }];
 }
