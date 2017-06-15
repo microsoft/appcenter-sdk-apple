@@ -14,7 +14,7 @@ static NSString *const kMSDataColumnName = @"data";
 /**
  * Maximum allowed capacity in this storage.
  */
-@property(nonatomic, readonly) NSInteger capacity;
+@property(nonatomic, readonly) NSUInteger capacity;
 
 /**
  * Connection to SQLite database.

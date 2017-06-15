@@ -14,7 +14,7 @@
   if (self) {
     _connection = [[MSSqliteConnection alloc] initWithDatabaseFilename:kMSDBFileName];
     _batches = [NSMutableDictionary<NSString *, NSArray<NSString *> *> new];
-    _capacity = NSIntegerMax;
+    _capacity = NSUIntegerMax;
 
     // Create the DB.
     NSString *createLogTableQuery =
@@ -26,7 +26,7 @@
   return self;
 }
 
-- (instancetype)initWithCapacity:(NSInteger)capacity {
+- (instancetype)initWithCapacity:(NSUInteger)capacity {
   self = [self init];
   if (self) {
     _capacity = capacity;
@@ -48,11 +48,11 @@
       [NSString stringWithFormat:@"INSERT INTO %@ ('%@', '%@') VALUES ('%@', '%@')", kMSLogTableName,
                                  kMSGroupIdColumnName, kMSDataColumnName, groupId, base64Data];
   BOOL succeeded = [self.connection executeQuery:addLogQuery];
-  NSInteger logCount = [self countLogsWithGroupId:groupId];
+  NSUInteger logCount = [self countLogsWithGroupId:groupId];
 
   // Max out DB.
   if (succeeded && logCount > self.capacity) {
-    NSInteger overflowCount = logCount - self.capacity;
+    NSUInteger overflowCount = logCount - self.capacity;
     [self deleteOldestLogsWithGroupId:groupId count:overflowCount];
     MSLogDebug([MSMobileCenter logTag], @"Log storage was over capacity, %ld oldest log(s) deleted.",
                (long)overflowCount);
@@ -219,11 +219,13 @@
 
 #pragma mark - DB count
 
-- (NSInteger)countLogsWithGroupId:(NSString *)groupId {
+- (NSUInteger)countLogsWithGroupId:(NSString *)groupId {
   NSString *countLogQuery = [NSString
       stringWithFormat:@"SELECT COUNT(*) FROM %@ WHERE %@ = '%@'", kMSLogTableName, kMSGroupIdColumnName, groupId];
   NSArray<NSArray<NSString *> *> *result = [self.connection selectDataFromDB:countLogQuery];
-  return [result[0][0] integerValue];
+  NSNumberFormatter *formatter = [NSNumberFormatter new];
+  formatter.numberStyle = NSNumberFormatterDecimalStyle;
+  return [formatter numberFromString:result[0][0]].unsignedIntegerValue;
 }
 
 @end

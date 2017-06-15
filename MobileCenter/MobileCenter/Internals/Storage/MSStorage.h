@@ -28,7 +28,7 @@ typedef void (^MSLoadDataCompletionBlock)(NSArray<id<MSLog>> *_Nullable logArray
  *
  * @discussion The storage removes the oldest log whenever its capacity goes over limit.
  */
-- (instancetype)initWithCapacity:(NSInteger)capacity;
+- (instancetype)initWithCapacity:(NSUInteger)capacity;
 
 /**
  * Store a log.
