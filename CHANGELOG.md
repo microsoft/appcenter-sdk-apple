@@ -5,7 +5,7 @@
 This version has **breaking changes**.
 It contains improvements and new features.
 
-## Integration using cocoapods
+### Integration using cocoapods
 
 * **[Breaking]** The subspecs for cocoapods are now called `Analytics`, `Crashes`, `Distribute` and `Push` instead of `MobileCenter{MODULENAME}`.
 
@@ -13,9 +13,13 @@ It contains improvements and new features.
 
 * **[Feature]** It's possible to define custom properties. Custom properties can be used for various purposes, e.g. to segment users for targeted push notifications.
 
-### MobilecenterCrashes
+### MobileCenterCrashes
 
 * **[Improvement]** The sdk now logs a warning in case more than two attachments have been attached to a crash. 
+
+### MobileCenterDistribute
+
+* **[Bug]** Fix a potential crash that occured in case the request for updates returned a 200 but the data was empty.
 
 ## Version 0.9.0
 
