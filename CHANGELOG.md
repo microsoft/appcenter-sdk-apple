@@ -7,7 +7,7 @@ It contains improvements and new features.
 
 ## Integration using cocoapods
 
-* **[Breaking]** The subspecs for cocoapods are now called `Core`, `Analytics`, `Crashes`, `Distribute` and `Push` instead of `MobileCenter{MODULENAME}`.
+* **[Breaking]** The subspecs for cocoapods are now called `Analytics`, `Crashes`, `Distribute` and `Push` instead of `MobileCenter{MODULENAME}`.
 
 ### MobileCenter
 
