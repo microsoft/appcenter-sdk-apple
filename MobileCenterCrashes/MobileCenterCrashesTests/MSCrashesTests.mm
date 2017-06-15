@@ -130,9 +130,9 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   // When
   [[MSCrashes sharedInstance] setDelegate:self];
   MSAppleErrorLog *errorLog = [MSAppleErrorLog new];
-  [[MSCrashes sharedInstance] channel:nil willSendLog:errorLog];
-  [[MSCrashes sharedInstance] channel:nil didSucceedSendingLog:errorLog];
-  [[MSCrashes sharedInstance] channel:nil didFailSendingLog:errorLog withError:nil];
+  [[MSCrashes sharedInstance] willSendLog:errorLog];
+  [[MSCrashes sharedInstance] didSucceedSendingLog:errorLog];
+  [[MSCrashes sharedInstance] didFailSendingLog:errorLog withError:nil];
   [[MSCrashes sharedInstance] shouldProcessErrorReport:nil];
 
   // Then

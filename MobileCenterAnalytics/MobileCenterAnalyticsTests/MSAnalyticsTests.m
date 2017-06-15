@@ -204,9 +204,9 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   self.didFailSendingEventLogWasCalled = false;
   [[MSAnalytics sharedInstance] setDelegate:self];
   MSEventLog *eventLog = [MSEventLog new];
-  [[MSAnalytics sharedInstance] channel:nil willSendLog:eventLog];
-  [[MSAnalytics sharedInstance] channel:nil didSucceedSendingLog:eventLog];
-  [[MSAnalytics sharedInstance] channel:nil didFailSendingLog:eventLog withError:nil];
+  [[MSAnalytics sharedInstance] willSendLog:eventLog];
+  [[MSAnalytics sharedInstance] didSucceedSendingLog:eventLog];
+  [[MSAnalytics sharedInstance] didFailSendingLog:eventLog withError:nil];
 
   XCTAssertTrue(self.willSendEventLogWasCalled);
   XCTAssertTrue(self.didSucceedSendingEventLogWasCalled);

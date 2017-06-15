@@ -6,7 +6,6 @@
 #import "MSLogManagerDefaultPrivate.h"
 #import "MSMobileCenterErrors.h"
 #import "MSMobileCenterInternal.h"
-#import "MobileCenter+Internal.h"
 
 static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecenter.LogManagerQueue";
 
@@ -14,11 +13,6 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
  * Private declaration of the log manager.
  */
 @interface MSLogManagerDefault ()
-
-/**
- * A boolean value set to YES if this instance is enabled or NO otherwise.
- */
-@property BOOL enabled;
 
 @end
 
@@ -72,28 +66,6 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
   }
 }
 
-#pragma mark - Channel Delegate
-
-- (void)addChannelDelegate:(id<MSChannelDelegate>)channelDelegate forGroupId:(NSString *)groupId {
-  if (channelDelegate) {
-    if (self.channels[groupId]) {
-      [self.channels[groupId] addDelegate:channelDelegate];
-    } else {
-      MSLogWarning([MSMobileCenter logTag], @"Channel has not been initialized for the group ID: %@", groupId);
-    }
-  }
-}
-
-- (void)removeChannelDelegate:(id<MSChannelDelegate>)channelDelegate forGroupId:(NSString *)groupId {
-  if (channelDelegate) {
-    if (self.channels[groupId]) {
-      [self.channels[groupId] removeDelegate:channelDelegate];
-    } else {
-      MSLogWarning([MSMobileCenter logTag], @"Channel has not been initialized for the group ID: %@", groupId);
-    }
-  }
-}
-
 - (void)enumerateDelegatesForSelector:(SEL)selector withBlock:(void (^)(id<MSLogManagerDelegate> delegate))block {
   @synchronized(self) {
     for (id<MSLogManagerDelegate> delegate in self.delegates) {
@@ -102,6 +74,35 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
       }
     }
   }
+}
+
+#pragma mark - Channel Delegate
+
+- (void)channel:(id<MSChannel>)channel willSendLog:(id<MSLog>)log {
+  [self enumerateDelegatesForSelector:@selector(willSendLog:)
+                            withBlock:^(id<MSLogManagerDelegate> delegate) {
+                              if ([[delegate groupId] isEqualToString:[channel.configuration groupId]]) {
+                                [delegate willSendLog:log];
+                              }
+                            }];
+}
+
+- (void)channel:(id<MSChannel>)channel didSucceedSendingLog:(id<MSLog>)log {
+  [self enumerateDelegatesForSelector:@selector(didSucceedSendingLog:)
+                            withBlock:^(id<MSLogManagerDelegate> delegate) {
+                              if ([[delegate groupId] isEqualToString:[channel.configuration groupId]]) {
+                                [delegate didSucceedSendingLog:log];
+                              }
+                            }];
+}
+
+- (void)channel:(id<MSChannel>)channel didFailSendingLog:(id<MSLog>)log withError:(NSError *)error {
+  [self enumerateDelegatesForSelector:@selector(didFailSendingLog:withError:)
+                            withBlock:^(id<MSLogManagerDelegate> delegate) {
+                              if ([[delegate groupId] isEqualToString:[channel.configuration groupId]]) {
+                                [delegate didFailSendingLog:log withError:error];
+                              }
+                            }];
 }
 
 #pragma mark - Process items

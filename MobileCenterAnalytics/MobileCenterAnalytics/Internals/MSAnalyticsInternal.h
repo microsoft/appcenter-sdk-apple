@@ -1,11 +1,11 @@
 #import "MSAnalytics.h"
 #import "MSServiceInternal.h"
 #import "MSAnalyticsDelegate.h"
-#import "MSChannelDelegate.h"
+#import "MSLogManagerDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MSAnalytics () <MSServiceInternal, MSChannelDelegate>
+@interface MSAnalytics () <MSServiceInternal, MSLogManagerDelegate>
 
 // Temporarily hiding tracking page feature.
 /**
