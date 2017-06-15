@@ -25,18 +25,16 @@ class AnalyticsUITests: XCTestCase {
     }
 
     // Enable SDK (we need it in case SDK was disabled by the test, which then failed and didn't enabled SDK back).
-    if let mobileCenterButton : XCUIElement = app.switches["Set Enabled"] {
-      if (mobileCenterButton.value as! String == "0") {
-        mobileCenterButton.tap();
-      }
+    let mobileCenterButton : XCUIElement = app.switches["Set Enabled"];
+    if (mobileCenterButton.value as! String == "0") {
+      mobileCenterButton.tap();
     }
 
     // Enable Analytics
     app.tables.cells.element(boundBy: AnalyticsCellIndex).tap();
-    if let analyticsButton : XCUIElement = app.switches["Set Enabled"] {
-      if (analyticsButton.value as! String == "0") {
-        analyticsButton.tap();
-      }
+    let analyticsButton : XCUIElement = app.switches["Set Enabled"];
+    if (analyticsButton.value as! String == "0") {
+      analyticsButton.tap();
     }
 
     // Go back
