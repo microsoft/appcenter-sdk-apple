@@ -1,8 +1,8 @@
 objc: true
 clean: true
-sdk: iphonesimulator
+sdk: macosx
 
-theme: ../Themes/apple
+theme: ../../Themes/apple
 
 module: MobileCenter
 module_version: 0.10.0
@@ -10,14 +10,14 @@ author: Microsoft Corp
 author_url: http://www.microsoft.com
 
 readme: Guides/MobileCenter.md
-documentation: ../Guides/[^index]*.md
+documentation: ../../Guides/[^index]*.md
 custom_categories:
   - name: Guides
     children:
     - Installation
 
-umbrella_header: ../../MobileCenter-SDK-Apple/iOS/MobileCenter.framework/Headers/MobileCenter.h
-framework_root: ../../MobileCenter-SDK-Apple/iOS/
+umbrella_header: ../../../MobileCenter-SDK-Apple/macOS/MobileCenter.framework/Headers/MobileCenter.h
+framework_root: ../../../MobileCenter-SDK-Apple/macOS/
 
 root_url: http://docs.mobile.azure.com/sdk/ios
 github_url: https://github.com/Microsoft/mobile-center-sdk-ios

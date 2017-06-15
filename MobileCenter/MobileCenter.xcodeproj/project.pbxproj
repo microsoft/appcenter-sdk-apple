@@ -29,6 +29,30 @@
 			name = MobileCenterMacOSFramework;
 			productName = "Fat Framework";
 		};
+		04FD114C1EF2F5F0000C5A5C /* MobileCenterMacOSDoc */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 04FD11501EF2F5F0000C5A5C /* Build configuration list for PBXAggregateTarget "MobileCenterMacOSDoc" */;
+			buildPhases = (
+				04FD114F1EF2F5F0000C5A5C /* ShellScript */,
+			);
+			dependencies = (
+				04FD11541EF2F667000C5A5C /* PBXTargetDependency */,
+			);
+			name = MobileCenterMacOSDoc;
+			productName = "Jazzy Docs";
+		};
+		04FD11671EF2FE1D000C5A5C /* MobileCenterTVOSDoc */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 04FD116B1EF2FE1D000C5A5C /* Build configuration list for PBXAggregateTarget "MobileCenterTVOSDoc" */;
+			buildPhases = (
+				04FD116A1EF2FE1D000C5A5C /* ShellScript */,
+			);
+			dependencies = (
+				04FD116F1EF2FE2C000C5A5C /* PBXTargetDependency */,
+			);
+			name = MobileCenterTVOSDoc;
+			productName = "Jazzy Docs";
+		};
 		6E04017D1D1CAC710051BCFA /* MobileCenterIOSFramework */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 6E0401801D1CAC710051BCFA /* Build configuration list for PBXAggregateTarget "MobileCenterIOSFramework" */;
@@ -445,6 +469,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = 6E0401021D1C98220051BCFA;
 			remoteInfo = MobileCenter;
+		};
+		04FD11531EF2F667000C5A5C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E0400FB1D1C98220051BCFA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0485AFE61EAA937000C10CAF;
+			remoteInfo = MobileCenterMacOSFramework;
+		};
+		04FD116E1EF2FE2C000C5A5C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E0400FB1D1C98220051BCFA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 043121491EE0BFC7007054C5;
+			remoteInfo = MobileCenterTVOSFramework;
 		};
 		386352EE1D5114F200D0D450 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1487,8 +1525,10 @@
 				04754F471EA98182002CBA46 /* MobileCenterMacOS */,
 				0485AFE61EAA937000C10CAF /* MobileCenterMacOSFramework */,
 				046AEACF1ECA562A00CBE511 /* MobileCenterMacOSTests */,
+				04FD114C1EF2F5F0000C5A5C /* MobileCenterMacOSDoc */,
 				043120721EE0BCF9007054C5 /* MobileCenterTVOS */,
 				043121491EE0BFC7007054C5 /* MobileCenterTVOSFramework */,
+				04FD11671EF2FE1D000C5A5C /* MobileCenterTVOSDoc */,
 			);
 		};
 /* End PBXProject section */
@@ -1537,6 +1577,32 @@
 			shellPath = /bin/sh;
 			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=MobileCenter\nTGT_NAME=${FMK_NAME}MacOS\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-Apple/macOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\"\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Support/macOS.modulemap\" \"${INSTALL_DIR}/Modules/module.modulemap\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Headers/\"\n\n# Uses the Lipo Tool to copy binary file (x86_64) into final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\n\nrm -r \"${WRK_DIR}\"\n\n# Copy license and readme\ncp -f \"${SRCROOT}/../LICENSE\" \"${PRODUCTS_DIR}\"\ncp -f \"${SRCROOT}/../README.md\" \"${PRODUCTS_DIR}\"\ncp -f \"${SRCROOT}/../CHANGELOG.md\" \"${PRODUCTS_DIR}\"\n";
 		};
+		04FD114F1EF2F5F0000C5A5C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "jazzy --config ../Documentation/macOS/MobileCenter/.jazzy.yaml\n\nFMK_NAME=MobileCenter\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-Apple/macOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\nDOCUMENTATION_DIR=${PRODUCTS_DIR}/Documentation/${FMK_NAME}\n\n# Create Documentation directory within folder.\nif [ ! -d \"${DOCUMENTATION_DIR}\" ]\nthen\nmkdir -p \"${DOCUMENTATION_DIR}\"\nfi\n\n# Copy generated documentation into the documentation folder\ncp -R \"${SRCROOT}/../Documentation/macOS/${FMK_NAME}/Generated/\" \"${DOCUMENTATION_DIR}\"";
+		};
+		04FD116A1EF2FE1D000C5A5C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "jazzy --config ../Documentation/tvOS/MobileCenter/.jazzy.yaml\n\nFMK_NAME=MobileCenter\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-Apple/tvOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\nDOCUMENTATION_DIR=${PRODUCTS_DIR}/Documentation/${FMK_NAME}\n\n# Create Documentation directory within folder.\nif [ ! -d \"${DOCUMENTATION_DIR}\" ]\nthen\nmkdir -p \"${DOCUMENTATION_DIR}\"\nfi\n\n# Copy generated documentation into the documentation folder\ncp -R \"${SRCROOT}/../Documentation/tvOS/${FMK_NAME}/Generated/\" \"${DOCUMENTATION_DIR}\"";
+		};
 		6E0401811D1CAC770051BCFA /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1561,7 +1627,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "jazzy --config ../Documentation/MobileCenter/.jazzy.yaml\n\nFMK_NAME=MobileCenter\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-Apple/iOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\nDOCUMENTATION_DIR=${PRODUCTS_DIR}/Documentation/${FMK_NAME}\n\n# Create Documentation directory within folder.\nif [ ! -d \"${DOCUMENTATION_DIR}\" ]\nthen\nmkdir -p \"${DOCUMENTATION_DIR}\"\nfi\n\n# Copy generated documentation into the documentation folder\ncp -R \"${SRCROOT}/../Documentation/${FMK_NAME}/Generated/\" \"${DOCUMENTATION_DIR}\"";
+			shellScript = "jazzy --config ../Documentation/iOS/MobileCenter/.jazzy.yaml\n\nFMK_NAME=MobileCenter\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-Apple/iOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\nDOCUMENTATION_DIR=${PRODUCTS_DIR}/Documentation/${FMK_NAME}\n\n# Create Documentation directory within folder.\nif [ ! -d \"${DOCUMENTATION_DIR}\" ]\nthen\nmkdir -p \"${DOCUMENTATION_DIR}\"\nfi\n\n# Copy generated documentation into the documentation folder\ncp -R \"${SRCROOT}/../Documentation/iOS/${FMK_NAME}/Generated/\" \"${DOCUMENTATION_DIR}\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1775,6 +1841,16 @@
 			target = 6E0401021D1C98220051BCFA /* MobileCenterIOS */;
 			targetProxy = 046AEAFB1ECA57DF00CBE511 /* PBXContainerItemProxy */;
 		};
+		04FD11541EF2F667000C5A5C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0485AFE61EAA937000C10CAF /* MobileCenterMacOSFramework */;
+			targetProxy = 04FD11531EF2F667000C5A5C /* PBXContainerItemProxy */;
+		};
+		04FD116F1EF2FE2C000C5A5C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 043121491EE0BFC7007054C5 /* MobileCenterTVOSFramework */;
+			targetProxy = 04FD116E1EF2FE2C000C5A5C /* PBXContainerItemProxy */;
+		};
 		386352EF1D5114F200D0D450 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 6E04017D1D1CAC710051BCFA /* MobileCenterIOSFramework */;
@@ -1853,6 +1929,34 @@
 			};
 			name = Release;
 		};
+		04FD11511EF2F5F0000C5A5C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8291ECE3A5A00FB6719 /* macOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		04FD11521EF2F5F0000C5A5C /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8291ECE3A5A00FB6719 /* macOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		04FD116C1EF2FE1D000C5A5C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 043120711EE0BCC4007054C5 /* tvOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		04FD116D1EF2FE1D000C5A5C /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 043120711EE0BCC4007054C5 /* tvOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
 		6E04010A1D1C98220051BCFA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6E0401841D1CAD810051BCFA /* MobileCenter.xcconfig */;
@@ -1924,12 +2028,14 @@
 		};
 		6E6BFC321D234FAE00DF7617 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8281ECE3A5200FB6719 /* iOS.xcconfig */;
 			buildSettings = {
 			};
 			name = Debug;
 		};
 		6E6BFC331D234FAE00DF7617 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8281ECE3A5200FB6719 /* iOS.xcconfig */;
 			buildSettings = {
 			};
 			name = Release;
@@ -1978,6 +2084,24 @@
 			buildConfigurations = (
 				0485AFE91EAA937000C10CAF /* Debug */,
 				0485AFEA1EAA937000C10CAF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		04FD11501EF2F5F0000C5A5C /* Build configuration list for PBXAggregateTarget "MobileCenterMacOSDoc" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				04FD11511EF2F5F0000C5A5C /* Debug */,
+				04FD11521EF2F5F0000C5A5C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		04FD116B1EF2FE1D000C5A5C /* Build configuration list for PBXAggregateTarget "MobileCenterTVOSDoc" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				04FD116C1EF2FE1D000C5A5C /* Debug */,
+				04FD116D1EF2FE1D000C5A5C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

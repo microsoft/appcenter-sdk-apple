@@ -14,38 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "04FD114C1EF2F5F0000C5A5C"
-               BuildableName = "MobileCenterMacOSDoc"
-               BlueprintName = "MobileCenterMacOSDoc"
-               ReferencedContainer = "container:MobileCenter/MobileCenter.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "04FD11551EF2F818000C5A5C"
-               BuildableName = "MobileCenterAnalyticsMacOSDoc"
-               BlueprintName = "MobileCenterAnalyticsMacOSDoc"
-               ReferencedContainer = "container:MobileCenterAnalytics/MobileCenterAnalytics.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "04FD115E1EF2FA04000C5A5C"
                BuildableName = "MobileCenterCrashesMacOSDoc"
                BlueprintName = "MobileCenterCrashesMacOSDoc"
-               ReferencedContainer = "container:MobileCenterCrashes/MobileCenterCrashes.xcodeproj">
+               ReferencedContainer = "container:MobileCenterCrashes.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -54,19 +26,9 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES"
-      codeCoverageEnabled = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
       </Testables>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "04FD114C1EF2F5F0000C5A5C"
-            BuildableName = "MobileCenterMacOSDoc"
-            BlueprintName = "MobileCenterMacOSDoc"
-            ReferencedContainer = "container:MobileCenter/MobileCenter.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -83,10 +45,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "04FD114C1EF2F5F0000C5A5C"
-            BuildableName = "MobileCenterMacOSDoc"
-            BlueprintName = "MobileCenterMacOSDoc"
-            ReferencedContainer = "container:MobileCenter/MobileCenter.xcodeproj">
+            BlueprintIdentifier = "04FD115E1EF2FA04000C5A5C"
+            BuildableName = "MobileCenterCrashesMacOSDoc"
+            BlueprintName = "MobileCenterCrashesMacOSDoc"
+            ReferencedContainer = "container:MobileCenterCrashes.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -101,10 +63,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "04FD114C1EF2F5F0000C5A5C"
-            BuildableName = "MobileCenterMacOSDoc"
-            BlueprintName = "MobileCenterMacOSDoc"
-            ReferencedContainer = "container:MobileCenter/MobileCenter.xcodeproj">
+            BlueprintIdentifier = "04FD115E1EF2FA04000C5A5C"
+            BuildableName = "MobileCenterCrashesMacOSDoc"
+            BlueprintName = "MobileCenterCrashesMacOSDoc"
+            ReferencedContainer = "container:MobileCenterCrashes.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

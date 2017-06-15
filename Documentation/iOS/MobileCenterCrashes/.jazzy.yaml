@@ -2,7 +2,7 @@ objc: true
 clean: true
 sdk: iphonesimulator
 
-theme: ../Themes/apple
+theme: ../../Themes/apple
 
 module: Crashes
 module_version: 0.10.0
@@ -10,15 +10,15 @@ author: Microsoft Corp
 author_url: http://www.microsoft.com
 
 readme: Guides/Crashes.md
-documentation: ../Guides/[^index]*.md
+documentation: ../../Guides/[^index]*.md
 custom_categories:
   - name: Guides
     children:
     - Installation
 
-umbrella_header: ../../MobileCenter-SDK-Apple/iOS/MobileCenterCrashes.framework/Headers/MobileCenterCrashes.h
-framework_root: ../../MobileCenter-SDK-Apple/iOS/
-exclude: [../../MobileCenter-SDK-Apple/iOS/MobileCenterCrashes.framework/Headers/MSService.h, ../../MobileCenter-SDK-Apple/iOS/MobileCenterCrashes.framework/Headers/MSServiceAbstract.h]
+umbrella_header: ../../../MobileCenter-SDK-Apple/iOS/MobileCenterCrashes.framework/Headers/MobileCenterCrashes.h
+framework_root: ../../../MobileCenter-SDK-Apple/iOS/
+exclude: [../../../MobileCenter-SDK-Apple/iOS/MobileCenterCrashes.framework/Headers/MSService.h, ../../../MobileCenter-SDK-Apple/iOS/MobileCenterCrashes.framework/Headers/MSServiceAbstract.h]
 
 root_url: http://docs.mobile.azure.com/sdk/ios
 github_url: https://github.com/Microsoft/mobile-center-sdk-ios

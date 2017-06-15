@@ -1,8 +1,8 @@
 objc: true
 clean: true
-sdk: iphonesimulator
+sdk: macosx
 
-theme: ../Themes/apple
+theme: ../../Themes/apple
 
 module: MobileCenterAnalytics
 module_version: 0.10.0
@@ -10,15 +10,15 @@ author: Microsoft Corp
 author_url: http://www.microsoft.com
 
 readme: Guides/Analytics.md
-documentation: ../Guides/[^index]*.md
+documentation: ../../Guides/[^index]*.md
 custom_categories:
   - name: Guides
     children:
     - Installation
 
-umbrella_header: ../../MobileCenter-SDK-Apple/iOS/MobileCenterAnalytics.framework/Headers/MobileCenterAnalytics.h
-framework_root: ../../MobileCenter-SDK-Apple/iOS/
-exclude: [../../MobileCenter-SDK-Apple/iOS/MobileCenterAnalytics.framework/Headers/MSService.h, ../../MobileCenter-SDK-Apple/iOS/MobileCenterAnalytics.framework/Headers/MSServiceAbstract.h]
+umbrella_header: ../../../MobileCenter-SDK-Apple/macOS/MobileCenterAnalytics.framework/Headers/MobileCenterAnalytics.h
+framework_root: ../../../MobileCenter-SDK-Apple/macOS/
+exclude: [../../../MobileCenter-SDK-Apple/macOS/MobileCenterAnalytics.framework/Headers/MSService.h, ../../../MobileCenter-SDK-Apple/macOS/MobileCenterAnalytics.framework/Headers/MSServiceAbstract.h]
 
 root_url: http://docs.mobile.azure.com/sdk/ios/
 github_url: https://github.com/Microsoft/mobile-center-sdk-ios
