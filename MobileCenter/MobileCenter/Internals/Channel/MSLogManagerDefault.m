@@ -1,4 +1,5 @@
 #import "MSChannelDefault.h"
+#import "MSChannelDelegate.h"
 #import "MSFileStorage.h"
 #import "MSHttpSender.h"
 #import "MSIngestionSender.h"
@@ -12,7 +13,7 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 /**
  * Private declaration of the log manager.
  */
-@interface MSLogManagerDefault ()
+@interface MSLogManagerDefault (MSChannelDelegate)
 
 @end
 
@@ -48,6 +49,7 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
                                                storage:self.storage
                                          configuration:configuration
                                      logsDispatchQueue:self.logsDispatchQueue];
+    [channel addDelegate:(id<MSChannelDelegate>)self];
     self.channels[configuration.groupId] = channel;
   }
 }
