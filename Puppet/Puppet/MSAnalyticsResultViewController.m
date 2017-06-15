@@ -49,7 +49,7 @@
   dispatch_async(dispatch_get_main_queue(), ^{
     id log = notification.object;
     self.eventNameLabel.text = [log eventName];
-    self.eventPropsLabel.text = [NSString stringWithFormat:@"%u", [log properties].count];
+    self.eventPropsLabel.text = [NSString stringWithFormat:@"%lu", [log properties].count];
     self.didSendingEventLabel.text = kDidSendingEventText;
     [self reloadCells];
   });
@@ -59,7 +59,7 @@
   dispatch_async(dispatch_get_main_queue(), ^{
     id log = notification.object;
     self.eventNameLabel.text = [log eventName];
-    self.eventPropsLabel.text = [NSString stringWithFormat:@"%u", [log properties].count];
+    self.eventPropsLabel.text = [NSString stringWithFormat:@"%lu", [log properties].count];
     self.didSentEventLabel.text = kDidSentEventText;
     [self reloadCells];
   });
@@ -69,7 +69,7 @@
   dispatch_async(dispatch_get_main_queue(), ^{
     id log = notification.object;
     self.eventNameLabel.text = [log eventName];
-    self.eventPropsLabel.text = [NSString stringWithFormat:@"%u", [log properties].count];
+    self.eventPropsLabel.text = [NSString stringWithFormat:@"%lu", [log properties].count];
     self.didFailedToSendEventLabel.text = kDidFailedToSendEventText;
     [self reloadCells];
   });
@@ -100,7 +100,7 @@
 
 - (void)reloadCells {
   NSMutableArray<NSIndexPath*> *rows = [NSMutableArray new];
-  int rowsInSection = [self.tableView numberOfRowsInSection:0];
+  int rowsInSection = (int)[self.tableView numberOfRowsInSection:0];
   for(int row = 0; row < rowsInSection; ++row) {
     [rows addObject:[NSIndexPath indexPathForRow:row inSection:0]];
   }
