@@ -9,6 +9,7 @@
 #import "MSCrashesPrivate.h"
 #import "MSCrashesTestUtil.h"
 #import "MSCrashesUtil.h"
+#import "MSErrorAttachmentLog.h"
 #import "MSException.h"
 #import "MSMockCrashesDelegate.h"
 #import "MSServiceAbstractPrivate.h"
@@ -20,6 +21,7 @@
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
 static NSString *const kMSCrashesServiceName = @"Crashes";
 static NSString *const kMSFatal = @"fatal";
+static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
 @interface MSCrashes ()
 
@@ -503,6 +505,32 @@ static NSString *const kMSFatal = @"fatal";
   XCTAssertTrue([static_cast<NSNumber *>([serializedLog objectForKey:kMSFatal]) boolValue]);
 }
 
+- (void)testWarningMessageAboutTooManyErrorAttachments {
+
+  NSString *expectedMessage = [NSString stringWithFormat:@"A limit of %u attachments per error report might be enforced by server.", kMaxAttachmentsPerCrashReport];
+  __block bool warningMessageHasBeenPrinted = false;
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-parameter"
+  [MSLogger setLogHandler:^(MSLogMessageProvider messageProvider, MSLogLevel logLevel, NSString *tag, const char *file,
+                            const char *function, uint line) {
+    if(warningMessageHasBeenPrinted) {
+      return;
+    }
+    NSString *message = messageProvider();
+    warningMessageHasBeenPrinted = [message isEqualToString:expectedMessage];
+  }];
+#pragma clang diagnostic pop
+
+  // When
+  assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
+  [[MSCrashes sharedInstance] setDelegate:self];
+  [[MSCrashes sharedInstance] startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
+  [[MSCrashes sharedInstance] startCrashProcessing];
+
+  XCTAssertTrue(warningMessageHasBeenPrinted);
+}
+
 - (BOOL)crashes:(MSCrashes *)crashes shouldProcessErrorReport:(MSErrorReport *)errorReport {
   (void)crashes;
   (void)errorReport;
@@ -528,6 +556,24 @@ static NSString *const kMSFatal = @"fatal";
   (void)error;
   self.didFailSendingErrorReportCalled = true;
 }
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-parameter"
+- (NSArray<MSErrorAttachmentLog *> *)attachmentsWithCrashes:(MSCrashes *)crashes forErrorReport:(MSErrorReport *)errorReport {
+  id deviceMock = OCMPartialMock([MSDevice new]);
+  OCMStub([deviceMock isValid]).andReturn(YES);
+
+  NSMutableArray *logs = [NSMutableArray new];
+  for(unsigned int i = 0; i < kMaxAttachmentsPerCrashReport + 1; ++i) {
+    NSString *text = [NSString stringWithFormat:@"%d", i];
+    MSErrorAttachmentLog *log = [[MSErrorAttachmentLog alloc] initWithFilename:text attachmentText:text];
+    log.toffset = [NSNumber numberWithInt:0];
+    log.device = deviceMock;
+    [logs addObject:log];
+  }
+  return logs;
+}
+#pragma clang diagnostic pop
 
 - (NSInteger)crashesLogBufferCount {
   NSInteger bufferCount = 0;

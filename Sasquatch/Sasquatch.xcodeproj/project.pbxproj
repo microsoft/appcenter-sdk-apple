@@ -51,6 +51,9 @@
 		84D63FF71E8BA838004C9F86 /* MSCrashesDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D63FF61E8BA838004C9F86 /* MSCrashesDetailViewController.swift */; };
 		84D63FF81E8BA838004C9F86 /* MSCrashesDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D63FF61E8BA838004C9F86 /* MSCrashesDetailViewController.swift */; };
 		84D63FF91E8BAA90004C9F86 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 845964A91E8A7E6600BABA51 /* Main.storyboard */; };
+		B27424851EF2193E00F591E5 /* MobileCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 047D13711EAFBDBE00D699BA /* MobileCenterDistributeResources.bundle */; };
+		B2B36CE21EEF49B700230341 /* MSCustomPropertiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */; };
+		B2B36CE31EEF49C400230341 /* MSCustomPropertiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */; };
 		D31EF92D1E9517B600450162 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D31EF92B1E9517B600450162 /* Interface.storyboard */; };
 		D31EF92F1E9517B600450162 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D31EF92E1E9517B600450162 /* Assets.xcassets */; };
 		D31EF9361E9517B600450162 /* SasquatchWatchObjC Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = D31EF9351E9517B600450162 /* SasquatchWatchObjC Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -229,6 +232,7 @@
 		84A0FF681E8A87C9000E7A28 /* MSAnalyticsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSAnalyticsViewController.swift; sourceTree = "<group>"; };
 		84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSDistributeViewController.swift; sourceTree = "<group>"; };
 		84D63FF61E8BA838004C9F86 /* MSCrashesDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSCrashesDetailViewController.swift; sourceTree = "<group>"; };
+		B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSCustomPropertiesViewController.swift; sourceTree = "<group>"; };
 		D31EF9291E9517B500450162 /* SasquatchWatchObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SasquatchWatchObjC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D31EF92C1E9517B600450162 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
 		D31EF92E1E9517B600450162 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -407,6 +411,7 @@
 				84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */,
 				84A0FF651E8A87B4000E7A28 /* MSCrashesViewController.swift */,
 				84D63FF61E8BA838004C9F86 /* MSCrashesDetailViewController.swift */,
+				B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -791,6 +796,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B27424851EF2193E00F591E5 /* MobileCenterDistributeResources.bundle in Resources */,
 				047D13791EAFD77E00D699BA /* Main.strings in Resources */,
 				84226C8A1E8908CA00798417 /* Assets.xcassets in Resources */,
 				84D63FF91E8BAA90004C9F86 /* Main.storyboard in Resources */,
@@ -866,6 +872,7 @@
 				84226D421E8953F100798417 /* MobileCenterDelegateObjC.m in Sources */,
 				84A0FF661E8A87B4000E7A28 /* MSCrashesViewController.swift in Sources */,
 				84226C4E1E88FF4A00798417 /* AppDelegate.m in Sources */,
+				B2B36CE21EEF49B700230341 /* MSCustomPropertiesViewController.swift in Sources */,
 				84226C4B1E88FF4A00798417 /* main.m in Sources */,
 				84A0FF6C1E8A87E1000E7A28 /* MSDistributeViewController.swift in Sources */,
 				84226D3C1E8938D100798417 /* MobileCenterDelegate.swift in Sources */,
@@ -880,6 +887,7 @@
 				84A0FF671E8A87B4000E7A28 /* MSCrashesViewController.swift in Sources */,
 				84A0FF6A1E8A87C9000E7A28 /* MSAnalyticsViewController.swift in Sources */,
 				84226D3D1E8938D200798417 /* MobileCenterDelegate.swift in Sources */,
+				B2B36CE31EEF49C400230341 /* MSCustomPropertiesViewController.swift in Sources */,
 				84226D0E1E891FF100798417 /* MSAlertController.m in Sources */,
 				845178ED1E8A8B0D004A0A6F /* MSMainViewController.swift in Sources */,
 				84226D3F1E8939B700798417 /* MobileCenterDelegateSwift.swift in Sources */,

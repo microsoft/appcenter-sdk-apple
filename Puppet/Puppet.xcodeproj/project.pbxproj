@@ -24,11 +24,17 @@
 		382346321E8B013F001C3A76 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 382346311E8B013F001C3A76 /* MobileCoreServices.framework */; };
 		38484F6D1E53D57E00C5631C /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38484F691E537B9300C5631C /* SafariServices.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		38E1B65A1DDCDDF4000EFED1 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38E1B6591DDCDDF4000EFED1 /* MSAlertController.m */; };
+		5C2BD19B1ED5D44400FB20C8 /* MSAnalyticsResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C2BD19A1ED5D44400FB20C8 /* MSAnalyticsResultViewController.m */; };
+		5C2BD1A31ED5DE5700FB20C8 /* EventLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C2BD1A21ED5DE5700FB20C8 /* EventLog.m */; };
+		5C4E0BFF1EE6F50F00FB0CF2 /* MobileCenterUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4E0BFE1EE6F50F00FB0CF2 /* MobileCenterUITests.swift */; };
 		5CE258991EA5FBCA00DA8FB9 /* AnalyticsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE258981EA5FBCA00DA8FB9 /* AnalyticsUITests.swift */; };
 		5CE2589B1EA5FBD400DA8FB9 /* CrashesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE2589A1EA5FBD400DA8FB9 /* CrashesUITests.swift */; };
 		5CE2589D1EA5FBE900DA8FB9 /* DistributeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE2589C1EA5FBE900DA8FB9 /* DistributeUITests.swift */; };
+		5CE60DF11EDF0B670060303A /* MSCrashResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CE60DF01EDF0B670060303A /* MSCrashResultViewController.m */; };
 		6EC99A211D4151A00016C325 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A201D4151A00016C325 /* CrashReporter.framework */; };
 		6EC99A281D4152FA0016C325 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A271D4152FA0016C325 /* libc++.tbd */; };
+		806A17EE1EEAD96B00230146 /* PropertyViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 806A17EC1EEAD96B00230146 /* PropertyViewCell.m */; };
+		80AD3DA11EEFF7A600EEECCA /* MSPropertiesTableDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 80AD3DA01EEFF7A600EEECCA /* MSPropertiesTableDataSource.m */; };
 		B21B26C71DDE490400FF0378 /* MSCrashesDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B21B26C61DDE490400FF0378 /* MSCrashesDetailViewController.m */; };
 		B27397A41DE3D27700AC7761 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B27397A31DE3D27700AC7761 /* CrashLibIOS.framework */; };
 		B27397A51DE3D27700AC7761 /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B27397A31DE3D27700AC7761 /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -269,14 +275,25 @@
 		38E1B6581DDCDDF4000EFED1 /* MSAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAlertController.h; sourceTree = "<group>"; };
 		38E1B6591DDCDDF4000EFED1 /* MSAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAlertController.m; sourceTree = "<group>"; };
 		38F2606E1E649FE5004F0FDC /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		5C2BD1891ED5D3F200FB20C8 /* MSAnalyticsResultViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAnalyticsResultViewController.h; sourceTree = "<group>"; };
+		5C2BD19A1ED5D44400FB20C8 /* MSAnalyticsResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAnalyticsResultViewController.m; sourceTree = "<group>"; };
+		5C2BD1A11ED5DE4400FB20C8 /* EventLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = EventLog.h; path = Utils/EventLog.h; sourceTree = "<group>"; };
+		5C2BD1A21ED5DE5700FB20C8 /* EventLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EventLog.m; path = Utils/EventLog.m; sourceTree = "<group>"; };
+		5C4E0BFE1EE6F50F00FB0CF2 /* MobileCenterUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobileCenterUITests.swift; sourceTree = "<group>"; };
 		5CE258371EA5097100DA8FB9 /* PuppetUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PuppetUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CE2583B1EA5097100DA8FB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5CE258981EA5FBCA00DA8FB9 /* AnalyticsUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsUITests.swift; sourceTree = "<group>"; };
 		5CE2589A1EA5FBD400DA8FB9 /* CrashesUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrashesUITests.swift; sourceTree = "<group>"; };
 		5CE2589C1EA5FBE900DA8FB9 /* DistributeUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistributeUITests.swift; sourceTree = "<group>"; };
+		5CE60DE01EDF0B3C0060303A /* MSCrashResultViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSCrashResultViewController.h; sourceTree = "<group>"; };
+		5CE60DF01EDF0B670060303A /* MSCrashResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCrashResultViewController.m; sourceTree = "<group>"; };
 		6EC99A201D4151A00016C325 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = ../../Vendor/PLCrashReporter/CrashReporter.framework; sourceTree = "<group>"; };
 		6EC99A251D4152EB0016C325 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		6EC99A271D4152FA0016C325 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		806A17EB1EEAD96B00230146 /* PropertyViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyViewCell.h; sourceTree = "<group>"; };
+		806A17EC1EEAD96B00230146 /* PropertyViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyViewCell.m; sourceTree = "<group>"; };
+		80AD3D9F1EEFF72A00EEECCA /* MSPropertiesTableDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSPropertiesTableDataSource.h; sourceTree = "<group>"; };
+		80AD3DA01EEFF7A600EEECCA /* MSPropertiesTableDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSPropertiesTableDataSource.m; sourceTree = "<group>"; };
 		B21B26C51DDE490400FF0378 /* MSCrashesDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrashesDetailViewController.h; sourceTree = "<group>"; };
 		B21B26C61DDE490400FF0378 /* MSCrashesDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCrashesDetailViewController.m; sourceTree = "<group>"; };
 		B27397A31DE3D27700AC7761 /* CrashLibIOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CrashLibIOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -410,6 +427,19 @@
 			path = ../../Vendor/MSAlertController;
 			sourceTree = "<group>";
 		};
+		5C2BD1A01ED5DE2100FB20C8 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				806A17EB1EEAD96B00230146 /* PropertyViewCell.h */,
+				806A17EC1EEAD96B00230146 /* PropertyViewCell.m */,
+				5C2BD1A11ED5DE4400FB20C8 /* EventLog.h */,
+				5C2BD1A21ED5DE5700FB20C8 /* EventLog.m */,
+				80AD3D9F1EEFF72A00EEECCA /* MSPropertiesTableDataSource.h */,
+				80AD3DA01EEFF7A600EEECCA /* MSPropertiesTableDataSource.m */,
+			);
+			name = Utils;
+			sourceTree = "<group>";
+		};
 		5CE258381EA5097100DA8FB9 /* PuppetUITests */ = {
 			isa = PBXGroup;
 			children = (
@@ -417,6 +447,7 @@
 				5CE258981EA5FBCA00DA8FB9 /* AnalyticsUITests.swift */,
 				5CE2589A1EA5FBD400DA8FB9 /* CrashesUITests.swift */,
 				5CE2589C1EA5FBE900DA8FB9 /* DistributeUITests.swift */,
+				5C4E0BFE1EE6F50F00FB0CF2 /* MobileCenterUITests.swift */,
 			);
 			path = PuppetUITests;
 			sourceTree = "<group>";
@@ -523,15 +554,20 @@
 		E89E6A271D396D6700CAA2CD /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				5C2BD1A01ED5DE2100FB20C8 /* Utils */,
 				E82E1B651D1CA58D00D281C1 /* AppDelegate.h */,
 				E82E1B661D1CA58D00D281C1 /* AppDelegate.m */,
 				384959D81D4972DA008F6B3A /* Constants.h */,
+				5C2BD1891ED5D3F200FB20C8 /* MSAnalyticsResultViewController.h */,
+				5C2BD19A1ED5D44400FB20C8 /* MSAnalyticsResultViewController.m */,
 				E89E6A2E1D39704900CAA2CD /* MSAnalyticsViewController.h */,
 				E89E6A2F1D39704900CAA2CD /* MSAnalyticsViewController.m */,
 				B21B26C51DDE490400FF0378 /* MSCrashesDetailViewController.h */,
 				B21B26C61DDE490400FF0378 /* MSCrashesDetailViewController.m */,
 				E89E6A281D396D7900CAA2CD /* MSCrashesViewController.h */,
 				E89E6A291D396D7900CAA2CD /* MSCrashesViewController.m */,
+				5CE60DE01EDF0B3C0060303A /* MSCrashResultViewController.h */,
+				5CE60DF01EDF0B670060303A /* MSCrashResultViewController.m */,
 				F8FF73DB1E922C9100D2B67D /* MSCustomPropertiesViewController.h */,
 				F8FF73DC1E922C9100D2B67D /* MSCustomPropertiesViewController.m */,
 				F85AAE231E890226006797CA /* MSDeviceInfoViewController.h */,
@@ -852,6 +888,7 @@
 			files = (
 				5CE258991EA5FBCA00DA8FB9 /* AnalyticsUITests.swift in Sources */,
 				5CE2589D1EA5FBE900DA8FB9 /* DistributeUITests.swift in Sources */,
+				5C4E0BFF1EE6F50F00FB0CF2 /* MobileCenterUITests.swift in Sources */,
 				5CE2589B1EA5FBD400DA8FB9 /* CrashesUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -866,11 +903,16 @@
 				F8FF73DD1E922C9100D2B67D /* MSCustomPropertiesViewController.m in Sources */,
 				E89E6A2D1D396D7900CAA2CD /* MSMainViewController.m in Sources */,
 				B21B26C71DDE490400FF0378 /* MSCrashesDetailViewController.m in Sources */,
+				5C2BD1A31ED5DE5700FB20C8 /* EventLog.m in Sources */,
+				5C2BD19B1ED5D44400FB20C8 /* MSAnalyticsResultViewController.m in Sources */,
+				80AD3DA11EEFF7A600EEECCA /* MSPropertiesTableDataSource.m in Sources */,
 				B2E611F61DDE72BA00A9DF86 /* MSFakeCXXClass.mm in Sources */,
 				E89E6A2C1D396D7900CAA2CD /* MSCrashesViewController.m in Sources */,
+				806A17EE1EEAD96B00230146 /* PropertyViewCell.m in Sources */,
 				E89E6A301D39704900CAA2CD /* MSAnalyticsViewController.m in Sources */,
 				E82E1B641D1CA58D00D281C1 /* main.m in Sources */,
 				BA6827C9F0410233C245D989 /* MSDistributeViewController.m in Sources */,
+				5CE60DF11EDF0B670060303A /* MSCrashResultViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -984,7 +1026,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.puppet.NotifExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "ba121ce3-29db-420c-ac94-7a92f7b59b3c";
+				PROVISIONING_PROFILE = "841a7281-b050-412e-ac94-9bcbdbedefad";
 				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Puppet Notification Extension";
 				SKIP_INSTALL = YES;
 			};

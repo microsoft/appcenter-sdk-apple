@@ -3,13 +3,18 @@
  */
 
 #import "MSAnalyticsViewController.h"
+#import "MSAnalyticsResultViewController.h"
 #import "MobileCenterAnalytics.h"
 // trackPage has been hidden in MSAnalytics temporarily. Use internal until the feature comes back.
 #import "MSAnalyticsInternal.h"
+#import "MSPropertiesTableDataSource.h"
 
 @interface MSAnalyticsViewController ()
 
+@property (weak, nonatomic) IBOutlet UITableView *propertiesTable;
 @property (weak, nonatomic) IBOutlet UISwitch *enabled;
+@property (nonatomic) MSAnalyticsResultViewController *analyticsResult;
+@property (nonatomic) MSPropertiesTableDataSource *propertiesSource;
 
 @end
 
@@ -21,6 +26,8 @@
   [super viewDidLoad];
   
   self.enabled.on = [MSAnalytics isEnabled];
+  self.analyticsResult = [self.storyboard instantiateViewControllerWithIdentifier:@"analyticsResult"];
+  self.propertiesSource = [[MSPropertiesTableDataSource alloc] initWithTable:self.propertiesTable];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
@@ -31,48 +38,48 @@
   }
 }
 
+- (IBAction)enabledSwitchUpdated:(UISwitch *)sender {
+  [MSAnalytics setEnabled:sender.on];
+  sender.on = [MSAnalytics isEnabled];
+}
+
+- (IBAction)onAddProperty {
+  [self.propertiesSource addNewProperty];
+}
+
+- (IBAction)onDeleteProperty {
+  [self.propertiesSource deleteProperty];
+}
+
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
+  [self.propertiesSource updateProperties];
   switch ([indexPath section]) {
 
   // Actions
-  case 0: {
+  case 1: {
     switch (indexPath.row) {
     case 0: {
-      [MSAnalytics trackEvent:@"myEvent"];
+      [MSAnalytics trackEvent:@"myEvent" withProperties:self.propertiesSource.properties];
       break;
     }
     case 1: {
-      NSDictionary *properties = @{ @"gender" : @"male", @"age" : @"20", @"title" : @"SDE" };
-      [MSAnalytics trackEvent:@"myEvent" withProperties:properties];
+      [MSAnalytics trackPage:@"myPage" withProperties:self.propertiesSource.properties];
       break;
     }
     case 2: {
-      [MSAnalytics trackPage:@"myPage"];
+      [self.navigationController pushViewController:self.analyticsResult animated:true];
       break;
     }
-
-    case 3: {
-      NSDictionary *properties = @{ @"gender" : @"female", @"age" : @"28", @"title" : @"PM" };
-      [MSAnalytics trackPage:@"myPage" withProperties:properties];
-      break;
-    }
-
     default:
       break;
     }
-
     break;
     }
   }
-}
-
-- (IBAction)enabledSwitchUpdated:(UISwitch *)sender {
-  [MSAnalytics setEnabled:sender.on];
-  sender.on = [MSAnalytics isEnabled];
 }
 
 @end

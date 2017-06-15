@@ -1,3 +1,5 @@
+import MobileCenter
+
 /**
  * Protocol for interacting with MobileCenter SDK.
  * SasquatchSwift and SasquatchObjC implement this protocol
@@ -8,6 +10,7 @@
   // MSMobileCenter section.
   func isMobileCenterEnabled() -> Bool
   func setMobileCenterEnabled(_ isEnabled: Bool)
+  func setCustomProperties(_ customProperties: MSCustomProperties)
   func installId() -> String
   func appSecret() -> String
   func logUrl() -> String
