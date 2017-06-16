@@ -4,14 +4,17 @@
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 
 #import "MSMobileCenter.h"
+#import "MSMobileCenterInternal.h"
 #import "MSServiceAbstract.h"
 #import "MSServiceInternal.h"
 
 #import "MSAnalytics.h"
 #import "MSAnalyticsPrivate.h"
 #import "MSAnalyticsInternal.h"
-#import "MSMockAnalyticsDelegate.h"
+#import "MSChannelDefault.h"
 #import "MSEventLog.h"
+#import "MSLogManagerDefault.h"
+#import "MSMockAnalyticsDelegate.h"
 
 static NSString *const kMSTypeEvent = @"event";
 static NSString *const kMSTypePage = @"page";
@@ -22,19 +25,9 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
 @interface MSAnalyticsTests : XCTestCase <MSAnalyticsDelegate>
 
-@property BOOL willSendEventLogWasCalled;
-@property BOOL didSucceedSendingEventLogWasCalled;
-@property BOOL didFailSendingEventLogWasCalled;
-
 @end
 
 @interface MSAnalytics ()
-
-- (void)channel:(id<MSChannel>)channel willSendLog:(id<MSLog>)log;
-
-- (void)channel:(id<MSChannel>)channel didSucceedSendingLog:(id<MSLog>)log;
-
-- (void)channel:(id<MSChannel>)channel didFailSendingLog:(id<MSLog>)log withError:(NSError *)error;
 
 @end
 
@@ -71,14 +64,15 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
                                 @"tooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventName",
                                 @"tooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventName"];
 
-
   // When
   BOOL valid = [[MSAnalytics sharedInstance] validateEventName:validEventName forLogType:kMSTypeEvent];
   BOOL validShortEventName = [[MSAnalytics sharedInstance] validateEventName:shortEventName forLogType:kMSTypeEvent];
   BOOL validEventName256 = [[MSAnalytics sharedInstance] validateEventName:eventName256 forLogType:kMSTypeEvent];
-  BOOL validNullableEventName = [[MSAnalytics sharedInstance] validateEventName:nullableEventName forLogType:kMSTypeEvent];
+  BOOL validNullableEventName =
+      [[MSAnalytics sharedInstance] validateEventName:nullableEventName forLogType:kMSTypeEvent];
   BOOL validEmptyEventName = [[MSAnalytics sharedInstance] validateEventName:emptyEventName forLogType:kMSTypeEvent];
-  BOOL validTooLongEventName = [[MSAnalytics sharedInstance] validateEventName:tooLongEventName forLogType:kMSTypeEvent];
+  BOOL validTooLongEventName =
+      [[MSAnalytics sharedInstance] validateEventName:tooLongEventName forLogType:kMSTypeEvent];
 
   // Then
   XCTAssertTrue(valid);
@@ -91,37 +85,58 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
 - (void)testValidatePropertyType {
   const int maxPropertriesPerEvent = 5;
-  NSString *longStringValue = [NSString stringWithFormat:@"%@",
-                               @"valueValueValueValueValueValueValueValueValueValueValueValueValue"];
-  NSString *stringValue64 = [NSString stringWithFormat:@"%@",
-                               @"valueValueValueValueValueValueValueValueValueValueValueValueValu"];
+  NSString *longStringValue =
+      [NSString stringWithFormat:@"%@", @"valueValueValueValueValueValueValueValueValueValueValueValueValue"];
+  NSString *stringValue64 =
+      [NSString stringWithFormat:@"%@", @"valueValueValueValueValueValueValueValueValueValueValueValueValu"];
 
   // Test valid properties
   // If
-  NSDictionary *validProperties = @{ @"Key1" : @"Value1", stringValue64 : @"Value2", @"Key3" : stringValue64, @"Key4" : @"Value4", @"Key5" : @"" };
+  NSDictionary *validProperties =
+      @{ @"Key1" : @"Value1",
+         stringValue64 : @"Value2",
+         @"Key3" : stringValue64,
+         @"Key4" : @"Value4",
+         @"Key5" : @"" };
 
   // When
-  NSDictionary *validatedProperties = [[MSAnalytics sharedInstance] validateProperties:validProperties forLogName:kMSTypeEvent andType:kMSTypeEvent];
+  NSDictionary *validatedProperties =
+      [[MSAnalytics sharedInstance] validateProperties:validProperties forLogName:kMSTypeEvent andType:kMSTypeEvent];
 
   // Then
   XCTAssertTrue([validatedProperties count] == [validProperties count]);
 
   // Test too many properties in one event
   // If
-  NSDictionary *tooManyProperties = @{ @"Key1" : @"Value1", @"Key2" : @"Value2", @"Key3" : @"Value3", @"Key4" : @"Value4", @"Key5" : @"Value5", @"Key6" : @"Value6", @"Key7" : @"Value7" };
+  NSDictionary *tooManyProperties = @{
+    @"Key1" : @"Value1",
+    @"Key2" : @"Value2",
+    @"Key3" : @"Value3",
+    @"Key4" : @"Value4",
+    @"Key5" : @"Value5",
+    @"Key6" : @"Value6",
+    @"Key7" : @"Value7"
+  };
 
   // When
-  validatedProperties = [[MSAnalytics sharedInstance] validateProperties:tooManyProperties forLogName:kMSTypeEvent andType:kMSTypeEvent];
+  validatedProperties =
+      [[MSAnalytics sharedInstance] validateProperties:tooManyProperties forLogName:kMSTypeEvent andType:kMSTypeEvent];
 
   // Then
   XCTAssertTrue([validatedProperties count] == maxPropertriesPerEvent);
 
   // Test invalid properties
   // If
-  NSDictionary *invalidKeysInProperties = @{ @"Key1" : @"Value1", @(2) : @"Value2", longStringValue : @"Value3", @"" : @"Value4" };
+  NSDictionary *invalidKeysInProperties =
+      @{ @"Key1" : @"Value1",
+         @(2) : @"Value2",
+         longStringValue : @"Value3",
+         @"" : @"Value4" };
 
   // When
-  validatedProperties = [[MSAnalytics sharedInstance] validateProperties:invalidKeysInProperties forLogName:kMSTypeEvent andType:kMSTypeEvent];
+  validatedProperties = [[MSAnalytics sharedInstance] validateProperties:invalidKeysInProperties
+                                                              forLogName:kMSTypeEvent
+                                                                 andType:kMSTypeEvent];
 
   // Then
   XCTAssertTrue([validatedProperties count] == 1);
@@ -131,20 +146,30 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   NSDictionary *invalidValuesInProperties = @{ @"Key1" : @"Value1", @"Key2" : @(2), @"Key3" : longStringValue };
 
   // When
-  validatedProperties = [[MSAnalytics sharedInstance] validateProperties:invalidValuesInProperties forLogName:kMSTypeEvent andType:kMSTypeEvent];
+  validatedProperties = [[MSAnalytics sharedInstance] validateProperties:invalidValuesInProperties
+                                                              forLogName:kMSTypeEvent
+                                                                 andType:kMSTypeEvent];
 
   // Then
   XCTAssertTrue([validatedProperties count] == 1);
 
   // Test mixed variant
   // If
-  NSDictionary *mixedEventProperties = @{ @"Key1" : @"Value1", @(2) : @"Value2",
-                                          stringValue64 : @"Value3", @"Key4" : stringValue64,
-                                          @"Key5" : @"Value5", @"Key6" : @(2),
-                                          @"Key7" : longStringValue, @"Key8" : @"" };
+  NSDictionary *mixedEventProperties = @{
+    @"Key1" : @"Value1",
+    @(2) : @"Value2",
+    stringValue64 : @"Value3",
+    @"Key4" : stringValue64,
+    @"Key5" : @"Value5",
+    @"Key6" : @(2),
+    @"Key7" : longStringValue,
+    @"Key8" : @""
+  };
 
   // When
-  validatedProperties = [[MSAnalytics sharedInstance] validateProperties:mixedEventProperties forLogName:kMSTypeEvent andType:kMSTypeEvent];
+  validatedProperties = [[MSAnalytics sharedInstance] validateProperties:mixedEventProperties
+                                                              forLogName:kMSTypeEvent
+                                                                 andType:kMSTypeEvent];
 
   // Then
   XCTAssertTrue([validatedProperties count] == maxPropertriesPerEvent);
@@ -182,35 +207,68 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
 - (void)testAnalyticsDelegateWithoutImplementations {
 
-  // When
-  MSMockAnalyticsDelegate *delegateMock = OCMPartialMock([MSMockAnalyticsDelegate new]);
-  [MSAnalytics setDelegate:delegateMock];
+  // If
+  NSString *groupId = [[MSAnalytics sharedInstance] groupId];
+  id<MSAnalyticsDelegate> delegateMock = OCMProtocolMock(@protocol(MSAnalyticsDelegate));
+  [MSMobileCenter sharedInstance].sdkConfigured = NO;
+  [MSMobileCenter start:kMSTestAppSecret withServices:@[ [MSAnalytics class] ]];
+  NSMutableDictionary *channelsInLogManager =
+      ((MSLogManagerDefault *)([MSAnalytics sharedInstance].logManager)).channels;
+  MSChannelDefault *channelMock = channelsInLogManager[groupId] = OCMPartialMock(channelsInLogManager[groupId]);
+  OCMStub([channelMock enqueueItem:[OCMArg any] withCompletion:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
+    id<MSLog> log = nil;
+    [invocation getArgument:&log atIndex:2];
+    for (id<MSChannelDelegate> delegate in channelMock.delegates) {
 
-  id<MSAnalyticsDelegate> delegate = [[MSAnalytics sharedInstance] delegate];
+      // Call all channel delegate methods for testing.
+      [delegate channel:channelMock willSendLog:log];
+      [delegate channel:channelMock didSucceedSendingLog:log];
+      [delegate channel:channelMock didFailSendingLog:log withError:nil];
+    }
+  });
+
+  // When
+  MSEventLog *eventLog = OCMClassMock([MSEventLog class]);
+  [[MSAnalytics sharedInstance].logManager processLog:eventLog forGroupId:groupId];
 
   // Then
-  XCTAssertFalse([delegate respondsToSelector:@selector(analytics:willSendEventLog:)]);
-  XCTAssertFalse([delegate respondsToSelector:@selector(analytics:didSucceedSendingEventLog:)]);
-  XCTAssertFalse([delegate respondsToSelector:@selector(analytics:didFailSendingEventLog:withError:)]);
-  XCTAssertFalse([delegate respondsToSelector:@selector(analytics:willSendPageLog:)]);
-  XCTAssertFalse([delegate respondsToSelector:@selector(analytics:didSucceedSendingPageLog:)]);
-  XCTAssertFalse([delegate respondsToSelector:@selector(analytics:didFailSendingPageLog:withError:)]);
+  OCMReject([delegateMock analytics:[MSAnalytics sharedInstance] willSendEventLog:eventLog]);
+  OCMReject([delegateMock analytics:[MSAnalytics sharedInstance] didSucceedSendingEventLog:eventLog]);
+  OCMReject([delegateMock analytics:[MSAnalytics sharedInstance] didFailSendingEventLog:eventLog withError:nil]);
 }
 
 - (void)testAnalyticsDelegateMethodsAreCalled {
 
-  self.willSendEventLogWasCalled = false;
-  self.didSucceedSendingEventLogWasCalled = false;
-  self.didFailSendingEventLogWasCalled = false;
-  [[MSAnalytics sharedInstance] setDelegate:self];
-  MSEventLog *eventLog = [MSEventLog new];
-  [[MSAnalytics sharedInstance] willSendLog:eventLog];
-  [[MSAnalytics sharedInstance] didSucceedSendingLog:eventLog];
-  [[MSAnalytics sharedInstance] didFailSendingLog:eventLog withError:nil];
+  // If
+  [MSAnalytics resetSharedInstance];
+  NSString *groupId = [[MSAnalytics sharedInstance] groupId];
+  id<MSAnalyticsDelegate> delegateMock = OCMProtocolMock(@protocol(MSAnalyticsDelegate));
+  [MSMobileCenter sharedInstance].sdkConfigured = NO;
+  [MSMobileCenter start:kMSTestAppSecret withServices:@[ [MSAnalytics class] ]];
+  NSMutableDictionary *channelsInLogManager =
+      ((MSLogManagerDefault *)([MSAnalytics sharedInstance].logManager)).channels;
+  MSChannelDefault *channelMock = channelsInLogManager[groupId] = OCMPartialMock(channelsInLogManager[groupId]);
+  OCMStub([channelMock enqueueItem:[OCMArg any] withCompletion:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
+    id<MSLog> log = nil;
+    [invocation getArgument:&log atIndex:2];
+    for (id<MSChannelDelegate> delegate in channelMock.delegates) {
 
-  XCTAssertTrue(self.willSendEventLogWasCalled);
-  XCTAssertTrue(self.didSucceedSendingEventLogWasCalled);
-  XCTAssertTrue(self.didFailSendingEventLogWasCalled);
+      // Call all channel delegate methods for testing.
+      [delegate channel:channelMock willSendLog:log];
+      [delegate channel:channelMock didSucceedSendingLog:log];
+      [delegate channel:channelMock didFailSendingLog:log withError:nil];
+    }
+  });
+
+  // When
+  [[MSAnalytics sharedInstance] setDelegate:delegateMock];
+  MSEventLog *eventLog = OCMClassMock([MSEventLog class]);
+  [[MSAnalytics sharedInstance].logManager processLog:eventLog forGroupId:groupId];
+
+  // Then
+  OCMVerify([delegateMock analytics:[MSAnalytics sharedInstance] willSendEventLog:eventLog]);
+  OCMVerify([delegateMock analytics:[MSAnalytics sharedInstance] didSucceedSendingEventLog:eventLog]);
+  OCMVerify([delegateMock analytics:[MSAnalytics sharedInstance] didFailSendingEventLog:eventLog withError:nil]);
 }
 
 - (void)testTrackEventWithoutProperties {
@@ -337,25 +395,6 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
   // Then
   XCTAssertFalse([MSAnalytics isAutoPageTrackingEnabled]);
-}
-
-- (void)analytics:(MSAnalytics *)analytics willSendEventLog:(MSEventLog *)eventLog {
-  (void)analytics;
-  (void)eventLog;
-  self.willSendEventLogWasCalled = true;
-}
-
-- (void)analytics:(MSAnalytics *)analytics didSucceedSendingEventLog:(MSEventLog *)eventLog {
-  (void)analytics;
-  (void)eventLog;
-  self.didSucceedSendingEventLogWasCalled = true;
-}
-
-- (void)analytics:(MSAnalytics *)analytics didFailSendingEventLog:(MSEventLog *)eventLog withError:(NSError *)error {
-  (void)analytics;
-  (void)eventLog;
-  (void)error;
-  self.didFailSendingEventLogWasCalled = true;
 }
 
 - (void)testInitializationPriorityCorrect {
