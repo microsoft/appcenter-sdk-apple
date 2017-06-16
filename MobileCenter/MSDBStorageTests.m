@@ -113,7 +113,6 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
    */
   NSString *expectedQuery = [NSString
       stringWithFormat:@"DELETE FROM %@ WHERE %@ IN ('%@')", kMSLogTableName, kMSGroupIdColumnName, kMSTestGroupId];
-  [self.sut.batches removeAllObjects];
 
   /*
    * When
@@ -124,38 +123,33 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
    * Then
    */
   OCMVerify([self.dbConnectionMock executeQuery:expectedQuery]);
-  assertThatInteger(self.sut.batches.count, equalToInteger(0));
 
   // Test deletion with only the batch to delete.
 
   /*
    * If
    */
-  NSString *batchKeyToDelete = [kMSTestGroupId stringByAppendingString:MS_UUID_STRING];
-  [self.sut.batches setObject:@[ @"27", @"35" ] forKey:batchKeyToDelete];
-
+  NSString *selectLogQuery =
+  [NSString stringWithFormat:@"SELECT * FROM %@ WHERE %@ == '%@' AND %@ IN ('%@') ''", kMSLogTableName,
+   kMSGroupIdColumnName, kMSTestGroupId, kMSBatchIdColumnName, @"27','35"];
+  
   /*
    * When
    */
-  [self.sut deleteLogsWithGroupId:kMSTestGroupId];
+  [self.sut deleteLogsWithBatchId:@"27"];
+  [self.sut deleteLogsWithBatchId:@"35"];
 
   /*
    * Then
    */
   OCMVerify([self.dbConnectionMock executeQuery:expectedQuery]);
-  assertThatInteger(self.sut.batches.count, equalToInteger(0));
+  
+  int logCount = [self.dbConnectionMock  executeQuery:selectLogQuery];
+  assertThatInteger(logCount, equalToInteger(0));
 
   // Test deletion with more than one batch to delete.
 
   /*
-   * If
-   */
-  NSString *anotherBatchKeyToDelete = [kMSTestGroupId stringByAppendingString:MS_UUID_STRING];
-  NSArray<NSString *> *otherIdsToDelete = @[ @"45" ];
-  [self.sut.batches setObject:@[ @"27", @"28" ] forKey:batchKeyToDelete];
-  [self.sut.batches setObject:otherIdsToDelete forKey:anotherBatchKeyToDelete];
-
-  /*
    * When
    */
   [self.sut deleteLogsWithGroupId:kMSTestGroupId];
@@ -164,19 +158,10 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
    * Then
    */
   OCMVerify([self.dbConnectionMock executeQuery:expectedQuery]);
-  assertThatInteger(self.sut.batches.count, equalToInteger(0));
 
   // Test deletion with the batch to delete and batches from other groups.
 
   /*
-   * If
-   */
-  NSString *batchKeyNotToDelete = [kMSAnotherTestGroupId stringByAppendingString:MS_UUID_STRING];
-  NSArray<NSString *> *idsNotToDelete = @[ @"42", @"43", @"44" ];
-  [self.sut.batches setObject:@[ @"27", @"28" ] forKey:batchKeyToDelete];
-  [self.sut.batches setObject:idsNotToDelete forKey:batchKeyNotToDelete];
-
-  /*
    * When
    */
   [self.sut deleteLogsWithGroupId:kMSTestGroupId];
@@ -185,8 +170,6 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
    * Then
    */
   OCMVerify([self.dbConnectionMock executeQuery:expectedQuery]);
-  assertThatInteger(self.sut.batches.count, equalToInteger(1));
-  assertThat(self.sut.batches[batchKeyNotToDelete], is(idsNotToDelete));
 }
 
 - (void)testDeleteLogsWithBatchId {
@@ -196,85 +179,43 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
   /*
    * If
    */
-  NSArray<NSString *> *idsToDelete = @[ @"27", @"35" ];
-  NSString *expectedQuery = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@ IN ('%@')", kMSLogTableName,
-                                                       kMSIdColumnName, [idsToDelete componentsJoinedByString:@"','"]];
   NSString *batchToDelete = MS_UUID_STRING;
-  NSString *batchKeyToDelete = [kMSTestGroupId stringByAppendingString:batchToDelete];
-  [self.sut.batches setObject:idsToDelete forKey:batchKeyToDelete];
+  NSString *expectedQuery = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@ IN ('%@')", kMSLogTableName,
+                                                       kMSBatchIdColumnName, batchToDelete];
 
   /*
    * When
    */
-  [self.sut deleteLogsWithBatchId:batchToDelete groupId:kMSTestGroupId];
+  [self.sut deleteLogsWithBatchId:batchToDelete];
 
   /*
    * Then
    */
   OCMVerify([self.dbConnectionMock executeQuery:expectedQuery]);
-  assertThatInteger(self.sut.batches.count, equalToInteger(0));
 
   // Test deletion with more than one batch to delete.
 
   /*
-   * If
-   */
-  NSString *batchKeyNotToDelete = [kMSTestGroupId stringByAppendingString:MS_UUID_STRING];
-  NSArray<NSString *> *idsNotToDelete = @[ @"42", @"43", @"44" ];
-  [self.sut.batches setObject:@[ @"27", @"28" ] forKey:batchKeyToDelete];
-  [self.sut.batches setObject:idsNotToDelete forKey:batchKeyNotToDelete];
-
-  /*
    * When
    */
-  [self.sut deleteLogsWithBatchId:batchToDelete groupId:kMSTestGroupId];
+  [self.sut deleteLogsWithBatchId:batchToDelete];
 
   /*
    * Then
    */
   OCMVerify([self.dbConnectionMock executeQuery:expectedQuery]);
-  assertThatInteger(self.sut.batches.count, equalToInteger(1));
-  assertThat(self.sut.batches[batchKeyNotToDelete], is(idsNotToDelete));
 
   // Test deletion with more than one batch to delete.
 
   /*
-   * If
-   */
-  batchKeyNotToDelete = [kMSAnotherTestGroupId stringByAppendingString:MS_UUID_STRING];
-  [self.sut.batches removeAllObjects];
-  [self.sut.batches setObject:@[ @"27", @"28" ] forKey:batchKeyToDelete];
-  [self.sut.batches setObject:idsNotToDelete forKey:batchKeyNotToDelete];
-
-  /*
    * When
    */
-  [self.sut deleteLogsWithBatchId:batchToDelete groupId:kMSTestGroupId];
+  [self.sut deleteLogsWithBatchId:batchToDelete];
 
   /*
    * Then
    */
   OCMVerify([self.dbConnectionMock executeQuery:expectedQuery]);
-  assertThatInteger(self.sut.batches.count, equalToInteger(1));
-  assertThat(self.sut.batches[batchKeyNotToDelete], is(idsNotToDelete));
-
-  // Test deletion with no batch.
-
-  /*
-   * If
-   */
-  OCMReject([self.dbConnectionMock executeQuery:expectedQuery]);
-  [self.sut.batches removeAllObjects];
-
-  /*
-   * When
-   */
-  [self.sut deleteLogsWithBatchId:MS_UUID_STRING groupId:kMSTestGroupId];
-
-  /*
-   * Then
-   */
-  assertThatInteger(self.sut.batches.count, equalToInteger(0));
 }
 
 - (void)testStorageCapacity {

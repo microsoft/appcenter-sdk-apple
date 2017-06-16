@@ -173,7 +173,7 @@
 
                             // Remove from pending logs and storage.
                             [self.pendingBatchIds removeObject:senderBatchId];
-                            [self.storage deleteLogsWithBatchId:senderBatchId groupId:self.configuration.groupId];
+                            [self.storage deleteLogsWithBatchId:senderBatchId];
 
                             // Try to flush again if batch queue is not full anymore.
                             if (self.pendingBatchQueueFull &&
@@ -202,7 +202,7 @@
 
                             // Remove from pending logs.
                             [self.pendingBatchIds removeObject:senderBatchId];
-                            [self.storage deleteLogsWithBatchId:senderBatchId groupId:self.configuration.groupId];
+                            [self.storage deleteLogsWithBatchId:senderBatchId];
                           }
                         } else
                           MSLogWarning([MSMobileCenter logTag], @"Batch Id %@ not expected, ignore.", senderBatchId);
@@ -316,7 +316,7 @@
 
   // Delete pending batches first.
   for (NSString *batchId in self.pendingBatchIds) {
-    [self.storage deleteLogsWithBatchId:batchId groupId:self.configuration.groupId];
+    [self.storage deleteLogsWithBatchId:batchId];
   }
 
   // Delete remaining logs.
