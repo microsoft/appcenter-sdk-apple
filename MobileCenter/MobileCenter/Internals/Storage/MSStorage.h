@@ -53,9 +53,8 @@ typedef void (^MSLoadDataCompletionBlock)(NSArray<id<MSLog>> *_Nullable logArray
  * Delete a log from the storage.
  *
  * @param batchId Id of the log to be deleted from storage.
- * @param groupId The key used for grouping logs.
  */
-- (void)deleteLogsWithBatchId:(NSString *)batchId groupId:(NSString *)groupId;
+- (void)deleteLogsWithBatchId:(NSString *)batchId;
 
 /**
  * Return the most recent logs for a Group Id.

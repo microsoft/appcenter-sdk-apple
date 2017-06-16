@@ -6,6 +6,7 @@ static NSString *const kMSLogTableName = @"MSLog";
 static NSString *const kMSIdColumnName = @"id";
 static NSString *const kMSGroupIdColumnName = @"groupId";
 static NSString *const kMSDataColumnName = @"data";
+static NSString *const kMSBatchIdColumnName = @"batchId";
 
 @protocol MSDatabaseConnection;
 
@@ -20,11 +21,6 @@ static NSString *const kMSDataColumnName = @"data";
  * Connection to SQLite database.
  */
 @property(nonatomic) id<MSDatabaseConnection> connection;
-
-/**
- * Keep track of logs batches per group Id associated with their logs Ids.
- */
-@property(nonatomic) NSMutableDictionary<NSString *, NSArray<NSString *> *> *batches;
 
 /**
  * Get all logs with the given group Id from the storage.

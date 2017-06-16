@@ -13,14 +13,13 @@
   self = [super init];
   if (self) {
     _connection = [[MSSqliteConnection alloc] initWithDatabaseFilename:kMSDBFileName];
-    _batches = [NSMutableDictionary<NSString *, NSArray<NSString *> *> new];
     _capacity = NSUIntegerMax;
 
     // Create the DB.
     NSString *createLogTableQuery =
         [NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS %@ (%@ INTEGER PRIMARY KEY AUTOINCREMENT, %@ TEXT NOT "
-                                   @"NULL, %@ TEXT NOT NULL);",
-                                   kMSLogTableName, kMSIdColumnName, kMSGroupIdColumnName, kMSDataColumnName];
+                                   @"NULL, %@ TEXT NOT NULL, %@ TEXT);",
+                                   kMSLogTableName, kMSIdColumnName, kMSGroupIdColumnName, kMSDataColumnName, kMSBatchIdColumnName];
     [self.connection executeQuery:createLogTableQuery];
   }
   return self;
@@ -45,8 +44,8 @@
   NSData *logData = [NSKeyedArchiver archivedDataWithRootObject:log];
   NSString *base64Data = [logData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
   NSString *addLogQuery =
-      [NSString stringWithFormat:@"INSERT INTO %@ ('%@', '%@') VALUES ('%@', '%@')", kMSLogTableName,
-                                 kMSGroupIdColumnName, kMSDataColumnName, groupId, base64Data];
+      [NSString stringWithFormat:@"INSERT INTO %@ ('%@', '%@', '%@') VALUES ('%@', '%@', '%@')", kMSLogTableName,
+                                 kMSGroupIdColumnName, kMSDataColumnName, kMSBatchIdColumnName, groupId, base64Data, @""];
   BOOL succeeded = [self.connection executeQuery:addLogQuery];
   NSUInteger logCount = [self countLogsWithGroupId:groupId];
 
@@ -86,8 +85,18 @@
   logsAvailable = logs.count > 0;
   if (logsAvailable) {
     batchId = MS_UUID_STRING;
-    [self.batches setObject:(NSArray<NSString *> * _Nonnull)[logs allKeys]
-                     forKey:[groupId stringByAppendingString:batchId]];
+    
+    // Update the logs in the DB with the batchId
+    NSString *logIdsForBatch = [[logs allKeys] componentsJoinedByString:@"','"];
+    
+    NSString *updateLogsQuery = [NSString stringWithFormat:@"UPDATE %@ SET %@ = '%@' WHERE %@ IN ('%@')", kMSLogTableName, kMSBatchIdColumnName, batchId, kMSIdColumnName, logIdsForBatch];
+    BOOL succeeded = [self.connection executeQuery:updateLogsQuery];
+    if(succeeded) {
+      MSLogDebug([MSMobileCenter logTag], @"Successfully updated logs with batchId %@", batchId);
+    }
+    else {
+      MSLogError([MSMobileCenter logTag], @"Failed to update logs with batchId %@", batchId);
+    }
   }
 
   // Load completed.
@@ -106,26 +115,14 @@
 
   // Delete logs
   [self deleteLogsFromDBWithColumnValue:groupId columnName:kMSGroupIdColumnName];
-
-  // Delete related batches.
-  for (NSString *batchKey in [self.batches allKeys]) {
-    if ([batchKey hasPrefix:groupId]) {
-      [self.batches removeObjectForKey:batchKey];
-    }
-  }
   return logs;
 }
 
-- (void)deleteLogsWithBatchId:(NSString *)batchId groupId:(NSString *)groupId {
+- (void)deleteLogsWithBatchId:(NSString *)batchId {
 
-  // Get log Ids.
-  NSString *batchIdKey = [groupId stringByAppendingString:batchId];
-  NSArray<NSString *> *Ids = self.batches[batchIdKey];
-
-  // Delete logs and associated batch.
-  if (Ids.count > 0) {
-    [self deleteLogsFromDBWithColumnValues:Ids columnName:kMSIdColumnName];
-    [self.batches removeObjectForKey:batchIdKey];
+  // Delete logs.
+  if (batchId) {
+    [self deleteLogsFromDBWithColumnValue:batchId columnName:kMSBatchIdColumnName];
   }
 }
 
@@ -139,19 +136,10 @@
 
 - (NSDictionary<NSString *, id<MSLog>> *)getLogsFromDBWithGroupId:(NSString *)groupId limit:(NSUInteger)limit {
 
-  // Get ids from batches.
-  NSMutableArray<NSString *> *idsInBatches;
-  for (NSString *batchKey in [self.batches allKeys]) {
-    if ([batchKey hasPrefix:groupId]) {
-      [idsInBatches addObjectsFromArray:(NSArray<NSString *> * _Nonnull)self.batches[batchKey]];
-    }
-  }
-
   // Get logs from DB that are not already part of a batch.
   NSString *selectLogQuery =
-      [NSString stringWithFormat:@"SELECT * FROM %@ WHERE %@ == '%@' AND %@ NOT IN ('%@') LIMIT %lu", kMSLogTableName,
-                                 kMSGroupIdColumnName, groupId, kMSIdColumnName,
-                                 [idsInBatches componentsJoinedByString:@"','"], (unsigned long)limit];
+      [NSString stringWithFormat:@"SELECT * FROM %@ WHERE %@ == '%@' AND %@ == '' LIMIT %lu", kMSLogTableName,
+                                 kMSGroupIdColumnName, groupId, kMSBatchIdColumnName, (unsigned long)limit];
   return [self getLogsFromDBWithQuery:selectLogQuery];
 }
 
