@@ -69,9 +69,9 @@
 - (void)didFailSendingLog:(id<MSLog>)log withError:(NSError *)error;
 
 /**
- * Get service unique key for storage purpose.
+ * Get a unique identifier for processing logs.
  *
- * @return A group ID of the service.
+ * @return A group ID for the logs.
  */
 - (NSString *)groupId;
 
