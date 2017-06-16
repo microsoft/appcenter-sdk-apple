@@ -83,7 +83,15 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 - (void)channel:(id<MSChannel>)channel willSendLog:(id<MSLog>)log {
   [self enumerateDelegatesForSelector:@selector(willSendLog:)
                             withBlock:^(id<MSLogManagerDelegate> delegate) {
-                              if ([[delegate groupId] isEqualToString:[channel.configuration groupId]]) {
+
+                              /*
+                               * If the delegate doesn't have groupId implementation, it assumes that the delegate is
+                               * interested in all kinds of logs.
+                               */
+                              if (![delegate respondsToSelector:@selector(groupId)] ||
+
+                                  // If the delegate has groupId implementation, compare groupId.
+                                  [[delegate groupId] isEqualToString:[channel.configuration groupId]]) {
                                 [delegate willSendLog:log];
                               }
                             }];
@@ -92,7 +100,15 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 - (void)channel:(id<MSChannel>)channel didSucceedSendingLog:(id<MSLog>)log {
   [self enumerateDelegatesForSelector:@selector(didSucceedSendingLog:)
                             withBlock:^(id<MSLogManagerDelegate> delegate) {
-                              if ([[delegate groupId] isEqualToString:[channel.configuration groupId]]) {
+
+                              /*
+                               * If the delegate doesn't have groupId implementation, it assumes that the delegate is
+                               * interested in all kinds of logs.
+                               */
+                              if (![delegate respondsToSelector:@selector(groupId)] ||
+
+                                  // If the delegate has groupId implementation, compare groupId.
+                                  [[delegate groupId] isEqualToString:[channel.configuration groupId]]) {
                                 [delegate didSucceedSendingLog:log];
                               }
                             }];
@@ -101,7 +117,15 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 - (void)channel:(id<MSChannel>)channel didFailSendingLog:(id<MSLog>)log withError:(NSError *)error {
   [self enumerateDelegatesForSelector:@selector(didFailSendingLog:withError:)
                             withBlock:^(id<MSLogManagerDelegate> delegate) {
-                              if ([[delegate groupId] isEqualToString:[channel.configuration groupId]]) {
+
+                              /*
+                               * If the delegate doesn't have groupId implementation, it assumes that the delegate is
+                               * interested in all kinds of logs.
+                               */
+                              if (![delegate respondsToSelector:@selector(groupId)] ||
+
+                                  // If the delegate has groupId implementation, compare groupId.
+                                  [[delegate groupId] isEqualToString:[channel.configuration groupId]]) {
                                 [delegate didFailSendingLog:log withError:error];
                               }
                             }];

@@ -47,7 +47,7 @@
 - (void)onFailedPersistingLog:(id<MSLog>)log withInternalId:(NSString *)internalId;
 
 /**
- * Callback method that will be called before each log will be send to the server.
+ * Callback method that will be called before each log will be sent to the server.
  *
  * @param log The log to be sent.
  */
