@@ -201,7 +201,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     unsigned int totalProcessedAttachments = 0;
     for (MSErrorAttachmentLog *attachment in attachments) {
       attachment.errorId = log.errorId;
-      if(![self validPropertiesForAttachment:attachment]) {
+      if(![self validatePropertiesForAttachment:attachment]) {
         MSLogError([MSCrashes logTag], @"Not all required fields are present in MSErrorAttachmentLog.");
         continue;
       }
@@ -953,7 +953,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   _crashFiles = [[NSMutableArray alloc] initWithArray:crashFiles];
 }
 
-+ (BOOL)validPropertiesForAttachment:(MSErrorAttachmentLog *)attachment {
++ (BOOL)validatePropertiesForAttachment:(MSErrorAttachmentLog *)attachment {
   BOOL errorIdValid = attachment.errorId && ([attachment.errorId length] > 0);
   BOOL attachmentIdValid = attachment.attachmentId && ([attachment.attachmentId length] > 0);
   BOOL attachmentDataValid = attachment.data && ([attachment.data length] > 0);
