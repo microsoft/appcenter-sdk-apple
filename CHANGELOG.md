@@ -6,7 +6,7 @@ This version contains a bugfix for crash attachments.
 
 ### MobileCenterCrashes
 
-* **[Fix]** 0.10.0 broke sending of crash attachments and this release fixes it, so you can attach your custom data to crash reports. 
+* **[Fix]** Fix crash attachments which were broken in 0.10.0. 
 
 ___
 
