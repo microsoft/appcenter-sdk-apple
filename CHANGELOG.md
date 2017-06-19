@@ -1,5 +1,15 @@
 # Mobile Center SDK for iOS Change Log
 
+## Version 0.10.1
+
+This version contains a bugfix for crash attachments.
+
+### MobileCenterCrashes
+
+* **[Fix]** 0.10.0 broke sending of crash attachments and this release fixes it, so you can attach your custom data to crash reports. 
+
+___
+
 ## Version 0.10.0
 
 This version has **breaking changes**.
@@ -20,6 +30,8 @@ It contains improvements and new features.
 ### MobileCenterDistribute
 
 * **[Bug]** Fix a potential crash that occured in case the request for updates returned a 200 but the data was empty.
+
+___
 
 ## Version 0.9.0
 
