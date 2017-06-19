@@ -84,7 +84,7 @@ __attribute__((used)) static void importCategories () {
 }
 
 - (BOOL)isValid {
-  return self.errorId && self.attachmentId && self.data && self.contentType;
+  return [super isValid] && self.errorId && self.attachmentId && self.data && self.contentType;
 }
 
 #pragma mark - NSCoding
