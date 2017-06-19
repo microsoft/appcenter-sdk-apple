@@ -6,7 +6,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PropertyViewCell : UITableViewCell
+@interface MSPropertyViewCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UITextField *keyTextField;
 @property (weak, nonatomic) IBOutlet UITextField *valueTextField;

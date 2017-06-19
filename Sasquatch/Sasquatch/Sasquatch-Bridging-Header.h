@@ -4,5 +4,5 @@
 
 #import "CrashLib.h"
 #import "MSAlertController.h"
-#import "PropertyViewCell.h"
+#import "MSPropertyViewCell.h"
 #import "MSPropertiesTableDataSource.h"

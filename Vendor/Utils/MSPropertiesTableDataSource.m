@@ -5,7 +5,7 @@
 // TODO: The file should be relocated under iOS sub folder once multiple-platforms branch is merged into develop.
 
 #import "MSPropertiesTableDataSource.h"
-#import "PropertyViewCell.h"
+#import "MSPropertyViewCell.h"
 
 @implementation MSPropertiesTableDataSource
 
@@ -66,7 +66,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  PropertyViewCell *cell = (PropertyViewCell *) [tableView dequeueReusableCellWithIdentifier:@"PropertyViewCell" forIndexPath:indexPath];
+  MSPropertyViewCell *cell = (MSPropertyViewCell *) [tableView dequeueReusableCellWithIdentifier:@"PropertyViewCell" forIndexPath:indexPath];
   cell.keyTextField.delegate = self;
   cell.valueTextField.delegate = self;
   cell.keyTextField.tag = indexPath.row;

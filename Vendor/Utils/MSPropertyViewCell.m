@@ -4,9 +4,9 @@
 
 // TODO: The file should be relocated under iOS sub folder once multiple-platforms branch is merged into develop.
 
-#import "PropertyViewCell.h"
+#import "MSPropertyViewCell.h"
 
-@implementation PropertyViewCell
+@implementation MSPropertyViewCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
