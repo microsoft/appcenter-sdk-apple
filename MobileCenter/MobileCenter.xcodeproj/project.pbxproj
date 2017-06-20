@@ -1138,13 +1138,13 @@
 				E84B8E2C1D2351DB006FD231 /* MSLogManagerDefault.h */,
 				E84B8E2D1D2351DB006FD231 /* MSLogManagerDefault.m */,
 				04FD126E1E415697007ABFE7 /* MSLogManagerDefaultPrivate.h */,
+				E8AEE9811D5970A400C0FF6C /* MSLogManagerDelegate.h */,
 				6E0684651D36BCD500A8CC6C /* MSChannel.h */,
 				382CFCF01EC3817B003FE40B /* MSChannelDefaultPrivate.h */,
 				6E0684611D36BC8D00A8CC6C /* MSChannelDefault.h */,
 				6E0684621D36BC8D00A8CC6C /* MSChannelDefault.m */,
 				6EF628F21D371B1600CAFF64 /* MSChannelConfiguration.h */,
 				6EF628F31D371B1600CAFF64 /* MSChannelConfiguration.m */,
-				E8AEE9811D5970A400C0FF6C /* MSLogManagerDelegate.h */,
 				5949380E604D45340244FEF1 /* MSChannelDelegate.h */,
 			);
 			path = Channel;
