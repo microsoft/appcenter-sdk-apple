@@ -224,6 +224,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 }
 
 - (void)testProcessCrashesWithErrorAttachments {
+  
   // When
   id logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
   assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
