@@ -26,6 +26,8 @@ It is super easy to use Mobile Center. Have a look at our [get started documenta
 
 We are looking forward to your contributions via pull requests.
 
+To contribute to the SDK, you need a machine that runs macOS and the latest stable Xcode release. In addition, the SDK workspace requires [Jazzy](https://github.com/realm/jazzy) to generate documentation. 
+
 ### 2.1 Code of Conduct
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.

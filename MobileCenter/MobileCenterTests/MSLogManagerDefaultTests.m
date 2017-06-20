@@ -57,8 +57,8 @@
   assertThat(channel, notNilValue());
   XCTAssertTrue(channel.configuration.priority == priority);
   assertThatFloat(channel.configuration.flushInterval, equalToFloat(flushInterval));
-  assertThatUnsignedInt(channel.configuration.batchSizeLimit, equalToUnsignedInteger(batchSizeLimit));
-  assertThatUnsignedInt(channel.configuration.pendingBatchesLimit, equalToUnsignedInteger(pendingBatchesLimit));
+  assertThatUnsignedLong(channel.configuration.batchSizeLimit, equalToUnsignedLong(batchSizeLimit));
+  assertThatUnsignedLong(channel.configuration.pendingBatchesLimit, equalToUnsignedLong(pendingBatchesLimit));
 }
 
 - (void)testProcessingLogWillTriggerOnProcessingCall {
