@@ -28,12 +28,8 @@ class MSAnalyticsViewController: UITableViewController, MobileCenterProtocol {
     case 1:
       switch indexPath.row {
       case 0:
-        mobileCenter.trackEvent("myEvent")
-      case 1:
         mobileCenter.trackEvent("myEvent", withProperties: propertiesSource?.properties() as! Dictionary<String, String>)
-      case 2:
-        mobileCenter.trackPage("myPage")
-      case 3:
+      case 1:
         mobileCenter.trackPage("myPage", withProperties: propertiesSource?.properties() as! Dictionary<String, String>)
       default: ()
       }
