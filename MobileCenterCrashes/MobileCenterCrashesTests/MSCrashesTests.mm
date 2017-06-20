@@ -9,7 +9,7 @@
 #import "MSCrashesPrivate.h"
 #import "MSCrashesTestUtil.h"
 #import "MSCrashesUtil.h"
-#import "MSErrorAttachmentLog.h"
+#import "MSErrorAttachmentLogInternal.h"
 #import "MSException.h"
 #import "MSMockCrashesDelegate.h"
 #import "MSServiceAbstractPrivate.h"
@@ -221,6 +221,39 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // Then
   assertThat([MSCrashes sharedInstance].crashFiles, hasCountOf(0));
+}
+
+- (void)testProcessCrashesWithErrorAttachments {
+  // When
+  id logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
+  assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
+  [[MSCrashes sharedInstance] startWithLogManager:logManagerMock appSecret:kMSTestAppSecret];
+  NSString *validString = @"valid";
+  NSData *validData = [validString dataUsingEncoding:NSUTF8StringEncoding];
+  NSData *emptyData = [@"" dataUsingEncoding:NSUTF8StringEncoding];
+  NSArray *invalidLogs = @[
+    [self attachmentWithAttachmentId:nil attachmentData:validData contentType:validString],
+    [self attachmentWithAttachmentId:@"" attachmentData:validData contentType:validString],
+    [self attachmentWithAttachmentId:validString attachmentData:nil contentType:validString],
+    [self attachmentWithAttachmentId:validString attachmentData:emptyData contentType:validString],
+    [self attachmentWithAttachmentId:validString attachmentData:validData contentType:nil],
+    [self attachmentWithAttachmentId:validString attachmentData:validData contentType:@""]
+  ];
+  MSErrorAttachmentLog *validLog = [self attachmentWithAttachmentId:validString attachmentData:validData contentType:validString];
+  NSMutableArray *logs = invalidLogs.mutableCopy;
+  [logs addObject:validLog];
+  id crashesDelegateMock = OCMProtocolMock(@protocol(MSCrashesDelegate));
+  OCMStub([crashesDelegateMock attachmentsWithCrashes:[OCMArg any] forErrorReport:[OCMArg any]]).andReturn(logs);
+  OCMStub([crashesDelegateMock crashes:[OCMArg any] shouldProcessErrorReport:[OCMArg any]]).andReturn(YES);
+  [[MSCrashes sharedInstance] setDelegate:crashesDelegateMock];
+
+  //Then
+  for(NSUInteger i = 0; i < invalidLogs.count; i++) {
+    OCMReject([logManagerMock processLog:invalidLogs[i] forGroupId:[OCMArg any]]);
+  }
+  OCMExpect([logManagerMock processLog:validLog forGroupId:[OCMArg any]]);
+  [[MSCrashes sharedInstance] startCrashProcessing];
+  OCMVerifyAll(logManagerMock);
 }
 
 - (void)testDeleteAllFromCrashesDirectory {
@@ -583,6 +616,16 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
     }
   }
   return bufferCount;
+}
+
+- (MSErrorAttachmentLog *)attachmentWithAttachmentId:(NSString *)attachmentId
+                                      attachmentData:(NSData *)attachmentData
+                                         contentType:(NSString *)contentType {
+  MSErrorAttachmentLog *log = [MSErrorAttachmentLog alloc];
+  log.attachmentId = attachmentId;
+  log.data = attachmentData;
+  log.contentType = contentType;
+  return log;
 }
 
 @end
