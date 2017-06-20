@@ -34,6 +34,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithAppSecret:(NSString *)appSecret installId:(NSUUID *)installId logUrl:(NSString *)logUrl;
 
 /**
+ * A boolean value set to YES if this instance is enabled or NO otherwise.
+ */
+@property BOOL enabled;
+
+/**
  * Hash table of log manager delegate.
  */
 @property(nonatomic) NSHashTable<id<MSLogManagerDelegate>> *delegates;

@@ -283,7 +283,7 @@
                                                       annotation:expectedAnnotation];
 
   // Then
-  assertThatInt(MSAppDelegateForwarder.delegates.count, equalToInt(0));
+  assertThatUnsignedLong(MSAppDelegateForwarder.delegates.count, equalToUnsignedLong(0));
   assertThatBool(returnedValue, is(@(expectedReturnedValue)));
   [self waitForExpectations:@[ originalCalledExpectation ] timeout:1];
 }
