@@ -86,11 +86,9 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 
                               /*
                                * If the delegate doesn't have groupId implementation, it assumes that the delegate is
-                               * interested in all kinds of logs.
+                               * interested in all kinds of logs. Otherwise, compare groupId.
                                */
                               if (![delegate respondsToSelector:@selector(groupId)] ||
-
-                                  // If the delegate has groupId implementation, compare groupId.
                                   [[delegate groupId] isEqualToString:[channel.configuration groupId]]) {
                                 [delegate willSendLog:log];
                               }
@@ -103,11 +101,9 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 
                               /*
                                * If the delegate doesn't have groupId implementation, it assumes that the delegate is
-                               * interested in all kinds of logs.
+                               * interested in all kinds of logs. Otherwise, compare groupId.
                                */
                               if (![delegate respondsToSelector:@selector(groupId)] ||
-
-                                  // If the delegate has groupId implementation, compare groupId.
                                   [[delegate groupId] isEqualToString:[channel.configuration groupId]]) {
                                 [delegate didSucceedSendingLog:log];
                               }
@@ -120,11 +116,9 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
 
                               /*
                                * If the delegate doesn't have groupId implementation, it assumes that the delegate is
-                               * interested in all kinds of logs.
+                               * interested in all kinds of logs. Otherwise, compare groupId.
                                */
                               if (![delegate respondsToSelector:@selector(groupId)] ||
-
-                                  // If the delegate has groupId implementation, compare groupId.
                                   [[delegate groupId] isEqualToString:[channel.configuration groupId]]) {
                                 [delegate didFailSendingLog:log withError:error];
                               }
