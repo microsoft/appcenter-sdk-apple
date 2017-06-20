@@ -4,7 +4,7 @@
 [![CocoaPods](https://img.shields.io/cocoapods/dt/MobileCenter.svg)](https://cocoapods.org/pods/MobileCenter)
 [![license](https://img.shields.io/badge/license-MIT%20License-00AAAA.svg)](https://github.com/Microsoft/mobile-center-sdk-ios/blob/master/LICENSE)
 
-# Mobile Center SDK for iOS
+# Mobile Center SDK for iOS and macOS
 
 Mobile Center is mission control for mobile apps.
 Get faster release cycles, higher-quality apps, and the insights to build what users want.
@@ -15,9 +15,9 @@ The Mobile Center SDK uses a modular architecture so you can use any or all of t
 
 2. **Mobile Center Crashes**: Mobile Center Crashes will automatically generate a crash log every time your app crashes. The log is first written to the device's storage and when the user starts the app again, the crash report will be sent to Mobile Center. Collecting crashes works for both beta and live apps, i.e. those submitted to the App Store. Crash logs contain valuable information for you to help fix the crash.
 
-3. **Mobile Center Distribute**: Mobile Center Distribute will let your users install a new version of the app when you distribute it via the Mobile Center. With a new version of the app available, the SDK will present an update dialog to the users to either download or postpone the new version. Once they choose to update, the SDK will start to update your application. This feature will NOT work if your app is deployed to the app store.
+3. **Mobile Center Distribute**: Mobile Center Distribute will let your users install a new version of the app when you distribute it via the Mobile Center. With a new version of the app available, the SDK will present an update dialog to the users to either download or postpone the new version. Once they choose to update, the SDK will start to update your application. This feature will NOT work if your app is deployed to the app store. **Not available for macOS SDK*.
 
-4. **Mobile Center Push**: Mobile Center Push enables you to send push notifications to users of your app from the Mobile Center portal.
+4. **Mobile Center Push**: Mobile Center Push enables you to send push notifications to users of your app from the Mobile Center portal. **Not available for macOS SDK**.
 
 ## 1. Get started
 It is super easy to use Mobile Center. Have a look at our [get started documentation](https://docs.microsoft.com/en-us/mobile-center/sdk/getting-started/ios) and onboard your app within minutes. Our [detailed documentation](https://docs.microsoft.com/en-us/mobile-center/sdk/) is available as well.
