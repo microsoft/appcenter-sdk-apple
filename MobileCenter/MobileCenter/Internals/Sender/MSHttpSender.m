@@ -35,19 +35,22 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 
     // Construct the URL string with the query string.
     NSString *urlString = [baseUrl stringByAppendingString:apiPath];
-    NSURLComponents *components = [NSURLComponents componentsWithString:urlString];
-    NSMutableArray *queryItemArray = [NSMutableArray array];
+    __block NSString *queryStringForEncoding = @"";
 
     // Set query parameter.
     [queryStrings enumerateKeysAndObjectsUsingBlock:^(id _Nonnull key, id _Nonnull queryString,
                                                       __attribute__((unused)) BOOL *_Nonnull stop) {
-      NSURLQueryItem *queryItem = [NSURLQueryItem queryItemWithName:key value:queryString];
-      [queryItemArray addObject:queryItem];
+      queryStringForEncoding = [queryStringForEncoding
+          stringByAppendingFormat:@"%@%@=%@", [queryStringForEncoding length] > 0 ? @"&" : @"", key, queryString];
     }];
-    components.queryItems = queryItemArray;
+    if ([queryStringForEncoding length] > 0) {
+      queryStringForEncoding = [queryStringForEncoding
+          stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
+      urlString = [urlString stringByAppendingFormat:@"?%@", queryStringForEncoding];
+    }
 
     // Set send URL which can't be null
-    _sendURL = (NSURL * _Nonnull)components.URL;
+    _sendURL = (NSURL * _Nonnull)[[NSURL alloc] initWithString:urlString];
 
     // Hookup to reachability.
     [MS_NOTIFICATION_CENTER addObserver:self
@@ -88,7 +91,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
       self.enabled = isEnabled;
       if (isEnabled) {
         [self.reachability startNotifier];
-        
+
         // Apply current network state, this will resume if network state allows it.
         [self networkStateChanged];
       } else {
@@ -257,19 +260,18 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     [self.pendingCalls removeObjectForKey:callId];
     MSLogInfo([MSMobileCenter logTag], @"Removed call id:%@ from pending calls:%@", callId,
               [self.pendingCalls description]);
-    
+
     // Process fatal error.
     if (fatalError) {
-      
+
       // Disable and delete data.
       [self setEnabled:NO andDeleteDataOnDisabled:YES];
-      
+
       // Notify delegates.
       [self enumerateDelegatesForSelector:@selector(senderDidReceiveFatalError:)
                                 withBlock:^(id<MSSenderDelegate> delegate) {
                                   [delegate senderDidReceiveFatalError:self];
                                 }];
-
     }
   }
 }

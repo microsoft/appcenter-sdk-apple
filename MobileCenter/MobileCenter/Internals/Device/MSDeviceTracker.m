@@ -275,17 +275,9 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
 
 #if TARGET_OS_OSX
 
-// TODO: Update below method once we have determined a minimum target version of macOS.
 - (NSString *)osVersion {
   NSString *osVersion = nil;
 
-#if __MAC_OS_X_VERSION_MAX_ALLOWED > 1090
-  if ([[NSProcessInfo processInfo] respondsToSelector:@selector(operatingSystemVersion)]) {
-    NSOperatingSystemVersion osSystemVersion = [[NSProcessInfo processInfo] operatingSystemVersion];
-    osVersion = [NSString stringWithFormat:@"%ld.%ld.%ld", (long)osSystemVersion.majorVersion,
-                                           (long)osSystemVersion.minorVersion, (long)osSystemVersion.patchVersion];
-  }
-#else
   SInt32 major, minor, bugfix;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated"
@@ -295,7 +287,6 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
   if ((!err1) && (!err2) && (!err3)) {
     osVersion = [NSString stringWithFormat:@"%ld.%ld.%ld", (long)major, (long)minor, (long)bugfix];
   }
-#endif
   return osVersion;
 }
 #else
