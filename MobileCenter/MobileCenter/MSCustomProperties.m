@@ -53,7 +53,7 @@ static const int maxPropertyValueLength = 128;
   if (!regex) {
     NSError *error = nil;
     regex = [NSRegularExpression regularExpressionWithPattern:kKeyPattern options:(NSRegularExpressionOptions)0 error:&error];
-    if (!regex && error) {
+    if (!regex) {
       MSLogError([MSMobileCenter logTag], @"Couldn't create regular expression with pattern\"%@\": %@", kKeyPattern, error.localizedDescription);
       return NO;
     }

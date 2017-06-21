@@ -630,7 +630,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       MSLogVerbose([MSCrashes logTag], @"Crash report found");
       if (self.isEnabled) {
         MSPLCrashReport *report = [[MSPLCrashReport alloc] initWithData:crashFileData error:&error];
-        if (report && !error) {
+        if (report) {
           MSAppleErrorLog *log = [MSErrorLogFormatter errorLogFromCrashReport:report];
           MSErrorReport *errorReport = [MSErrorLogFormatter errorReportFromLog:log];
           uuidString = errorReport.incidentIdentifier;
@@ -692,7 +692,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
                                    includingPropertiesForKeys:nil
                                                       options:NSDirectoryEnumerationOptions(0)
                                                         error:&error];
-  if (!files && error) {
+  if (!files) {
     MSLogError([MSCrashes logTag], @"Couldn't get contents of directory \"%@\": %@", self.logBufferDir, error.localizedDescription);
     return;
   }
@@ -722,7 +722,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
                                    includingPropertiesForKeys:nil
                                                       options:NSDirectoryEnumerationOptions(0)
                                                         error:&error];
-  if (!files && error) {
+  if (!files) {
     MSLogError([MSCrashes logTag], @"Couldn't get contents of directory \"%@\": %@", self.crashesDir, error.localizedDescription);
     return;
   }
@@ -794,7 +794,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
                         includingPropertiesForKeys:@[ NSURLNameKey, NSURLFileSizeKey, NSURLIsRegularFileKey ]
                                            options:NSDirectoryEnumerationOptions(0)
                                              error:&error];
-    if (!files && error) {
+    if (!files) {
       MSLogError([MSCrashes logTag], @"Couldn't get contents of directory \"%@\": %@", self.crashesDir, error.localizedDescription);
       return persistedCrashReports;
     }
@@ -932,7 +932,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
                                    includingPropertiesForKeys:@[ NSURLFileSizeKey ]
                                                       options:NSDirectoryEnumerationOptions(0)
                                                         error:&error];
-  if (!files && error) {
+  if (!files) {
     MSLogError([MSCrashes logTag], @"Couldn't get contents of directory \"%@\": %@", self.logBufferDir, error.localizedDescription);
     return;
   }
