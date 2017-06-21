@@ -361,7 +361,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
       NSString *processPath = crashReport.processInfo.processPath;
 
 // Remove username from the path
-#if TARGET_OS_SIMULATOR
+#if TARGET_OS_SIMULATOR || TARGET_OS_OSX
       processPath = [self anonymizedPathFromPath:processPath];
 #endif
       errorLog.applicationPath = processPath;
@@ -591,13 +591,13 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
     if (binaryIsInAddresses || (imageType != MSBinaryImageTypeOther)) {
       NSString *imagePath = @"";
       if (imageInfo.imageName && [imageInfo.imageName length] > 0) {
-#if TARGET_IPHONE_SIMULATOR
+#if TARGET_OS_SIMULATOR
         imagePath = [imageInfo.imageName stringByAbbreviatingWithTildeInPath];
 #else
         imagePath = imageInfo.imageName;
 #endif
       }
-#if TARGET_IPHONE_SIMULATOR
+#if TARGET_OS_SIMULATOR || TARGET_OS_OSX
       imagePath = [self anonymizedPathFromPath:imagePath];
 #endif
 
