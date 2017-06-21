@@ -109,17 +109,18 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 
 - (void)testDeviceOSVersion {
 
-  // If
-  NSString *expected = @"4.5.6";
+// If
 #if TARGET_OS_OSX
-  id processInfoMock = OCMClassMock([NSProcessInfo class]);
-  OCMStub([processInfoMock processInfo]).andReturn(processInfoMock);
-  NSOperatingSystemVersion osSystemVersionMock;
-  osSystemVersionMock.majorVersion = 4;
-  osSystemVersionMock.minorVersion = 5;
-  osSystemVersionMock.patchVersion = 6;
-  OCMStub([processInfoMock operatingSystemVersion]).andReturn(osSystemVersionMock);
+
+  /*
+   * TODO: There is no way to mock C-style functions like Gestalt. This test will get a version of OS and verify
+   * instead of mocking things.
+   */
+  NSOperatingSystemVersion version = [[NSProcessInfo processInfo] operatingSystemVersion];
+  NSString *expected = [[NSString alloc]
+      initWithFormat:@"%ld.%ld.%ld", version.majorVersion, version.minorVersion, version.patchVersion];
 #else
+  NSString *expected = @"4.5.6";
   UIDevice *deviceMock = OCMClassMock([UIDevice class]);
   OCMStub([deviceMock systemVersion]).andReturn(expected);
 #endif
