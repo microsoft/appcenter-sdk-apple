@@ -53,6 +53,10 @@ static const int maxPropertyValueLength = 128;
   if (!regex) {
     NSError *error = nil;
     regex = [NSRegularExpression regularExpressionWithPattern:kKeyPattern options:(NSRegularExpressionOptions)0 error:&error];
+    if (!regex && error) {
+      MSLogError([MSMobileCenter logTag], @"Couldn't create regular expression with pattern\"%@\": %@", kKeyPattern, error.localizedDescription);
+      return NO;
+    }
   }
   if (!key || ![regex matchesInString:key options:(NSMatchingOptions)0 range:NSMakeRange(0, key.length)].count) {
     MSLogError([MSMobileCenter logTag], @"Custom property \"%@\" must match \"%@\"", key, kKeyPattern);

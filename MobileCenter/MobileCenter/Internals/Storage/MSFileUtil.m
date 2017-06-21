@@ -101,6 +101,10 @@
 
   // Check file existing
   if (![directoryURL checkResourceIsReachableAndReturnError:&error]) {
+    if (error) {
+      MSLogWarning([MSMobileCenter logTag], @"Check \"%@\" error: %@", directoryURL, error.localizedDescription);
+    }
+    
     return nil;
   }
 
@@ -153,9 +157,14 @@
     NSError *error = nil;
     if ([fileURL checkResourceIsReachableAndReturnError:&error]) {
       return NO;
+    } else if (error) {
+      MSLogWarning([MSMobileCenter logTag], @"Check \"%@\" error: %@", fileURL, error.localizedDescription);
     }
     NSURL * directoryURL = [fileURL URLByDeletingLastPathComponent];
     if (![directoryURL checkResourceIsReachableAndReturnError:&error]) {
+      if (error) {
+        MSLogWarning([MSMobileCenter logTag], @"Check \"%@\" error: %@", directoryURL, error.localizedDescription);
+      }
       [self createDirectoryAtURL:directoryURL];
     }
 

@@ -645,15 +645,15 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
   if (([path length] > 0) && [path hasPrefix:@"/Users/"]) {
     NSError *error = nil;
-    NSRegularExpression *regex =
-        [NSRegularExpression regularExpressionWithPattern:@"(/Users/[^/]+/)" options:0 error:&error];
+    NSString *regexPattern = @"(/Users/[^/]+/)";
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regexPattern options:0 error:&error];
+    if (error) {
+      MSLogError([MSCrashes logTag], @"Couldn't create regular expression with pattern\"%@\": %@", regexPattern, error.localizedDescription);
+    }
     anonymizedProcessPath = [regex stringByReplacingMatchesInString:path
                                                             options:0
                                                               range:NSMakeRange(0, [path length])
                                                        withTemplate:@"/Users/USER/"];
-    if (error) {
-      MSLogError([MSCrashes logTag], @"String replacing failed - %@", error.localizedDescription);
-    }
   } else if (([path length] > 0) && (![path containsString:@"Users"])) {
     return path;
   }
