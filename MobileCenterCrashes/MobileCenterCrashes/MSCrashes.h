@@ -102,12 +102,12 @@ typedef NS_ENUM(NSUInteger, MSUserConfirmation) {
  * method _BEFORE_ starting the SDK. Your typical setup code would look like this:
  *
  * `[MSCrashes disableMachExceptionHandler]`;
- * `[MSMobileCenter start:@"YOUR_APP+_ID" withServices:@[[MSCrashes class]]];`
+ * `[MSMobileCenter start:@"YOUR_APP_ID" withServices:@[[MSCrashes class]]];`
  *
  * or if you are using Swift:
  *
  * `MSCrashes.disableMachExceptionHandler()`
- * `MSMobileCenter.start("YOUR_APP+_ID", withServices: [MSAnalytics.self, MSCrashes.self])`
+ * `MSMobileCenter.start("YOUR_APP_ID", withServices: [MSAnalytics.self, MSCrashes.self])`
  *
  * Default: _YES_
  */
