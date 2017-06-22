@@ -24,6 +24,21 @@ static NSString *const kMSLogColumnName = @"log";
 @property(nonatomic) NSMutableDictionary<NSString *, NSArray<NSNumber *> *> *batches;
 
 /**
+ * "id" database column index.
+ */
+@property(nonatomic, readonly) NSUInteger idColumnIndex;
+
+/**
+ * "groupId" database column index.
+ */
+@property(nonatomic, readonly) NSUInteger groupIdColumnIndex;
+
+/**
+ * "log" database column index.
+ */
+@property(nonatomic, readonly) NSUInteger logColumnIndex;
+
+/**
  * Get all logs with the given group Id from the storage.
  *
  * @param groupId The key used for grouping logs.

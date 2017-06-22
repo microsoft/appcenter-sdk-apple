@@ -31,6 +31,13 @@ static NSString *const kMSSQLiteConstraintAutoincrement = @"AUTOINCREMENT";
 @interface MSDBStorage : NSObject
 
 /**
+ * Database tables columns indexes, usefull to determine indexes of columns per column name in arrays
+ * resulting from a selection query.
+ */
+@property(nonatomic, readonly, nullable)
+    NSDictionary<NSString *, NSDictionary<NSString *, NSNumber *> *> *columnIndexes;
+
+/**
  * Initialize this database with a schema and a filename for its creation.
  *
  * @param schema Schema describing the database.

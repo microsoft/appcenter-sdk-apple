@@ -17,6 +17,9 @@
   };
   self = [super initWithSchema:schema filename:kMSDBFileName];
   if (self) {
+    _idColumnIndex = self.columnIndexes[kMSLogTableName][kMSIdColumnName].unsignedIntegerValue;
+    _groupIdColumnIndex = self.columnIndexes[kMSLogTableName][kMSGroupIdColumnName].unsignedIntegerValue;
+    _logColumnIndex = self.columnIndexes[kMSLogTableName][kMSLogColumnName].unsignedIntegerValue;
     _capacity = NSUIntegerMax;
     _batches = [NSMutableDictionary<NSString *, NSArray<NSNumber *> *> new];
   }
@@ -105,10 +108,8 @@
 
   // Get lists of logs and DB ids.
   for (NSArray *logEntry in logEntries) {
-
-    // TODO use constants for DB columns.
-    [dbIds addObject:logEntry[0]];
-    [logs addObject:logEntry[2]];
+    [dbIds addObject:logEntry[self.idColumnIndex]];
+    [logs addObject:logEntry[self.logColumnIndex]];
   }
 
   // Generate batch Id.
@@ -168,7 +169,7 @@
   // Get logs only.
   NSMutableArray<id<MSLog>> *logs = [NSMutableArray<id<MSLog>> new];
   for (NSArray *logEntry in logEntries) {
-    [logs addObject:logEntry[2]];
+    [logs addObject:logEntry[self.logColumnIndex]];
   }
   return logs;
 }
@@ -183,11 +184,9 @@
 
   // Get logs from DB.
   for (NSMutableArray *row in entries) {
-
-    // TODO use constants for DB column indexes.
-    NSNumber *dbId = row[0];
-    NSData *logData =
-        [[NSData alloc] initWithBase64EncodedString:row[2] options:NSDataBase64DecodingIgnoreUnknownCharacters];
+    NSNumber *dbId = row[self.idColumnIndex];
+    NSData *logData = [[NSData alloc] initWithBase64EncodedString:row[self.logColumnIndex]
+                                                          options:NSDataBase64DecodingIgnoreUnknownCharacters];
     id<MSLog> log;
 
     // Deserialize the log.
@@ -202,7 +201,7 @@
     }
 
     // Update with deserialized log.
-    row[2] = log;
+    row[self.logColumnIndex] = log;
     [logEntries addObject:row];
   }
   return logEntries;
@@ -231,9 +230,9 @@
 
   // Execute.
   if ([self executeNonSelectionQuery:deleteLogsQuery]) {
-    MSLogVerbose([MSMobileCenter logTag], @"%@ %@", deletionTrace, @"succeeded");
+    MSLogVerbose([MSMobileCenter logTag], @"%@ %@", deletionTrace, @"succeeded.");
   } else {
-    MSLogError([MSMobileCenter logTag], @"%@ %@", deletionTrace, @"failed");
+    MSLogError([MSMobileCenter logTag], @"%@ %@", deletionTrace, @"failed.");
   }
 }
 

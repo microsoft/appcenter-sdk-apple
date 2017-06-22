@@ -10,6 +10,7 @@
 - (instancetype)initWithSchema:(MSDBSchema *)schema filename:(NSString *)filename {
   if ((self = [super init])) {
     NSMutableArray *tableQueries = [NSMutableArray new];
+    NSMutableDictionary *dbColumnsIndexes = [NSMutableDictionary new];
 
     // Path to the database.
     NSURL *appSupportURL = [[[NSFileManager defaultManager] URLsForDirectory:NSApplicationSupportDirectory
@@ -21,22 +22,33 @@
       _filePath = fileURL.absoluteString;
     }
 
-    // Flatten tables.
+    // Browse tables.
     for (NSString *tableName in schema) {
+      NSMutableDictionary *tableColumnsIndexes = [NSMutableDictionary new];
+      NSMutableArray *columnQueries = [NSMutableArray new];
+      NSArray<NSDictionary *> *columns = schema[tableName];
 
-      // Don't even compute the query if the table doesn't exist.
-      if (![self tableExists:tableName]) {
-        NSMutableArray *columnQueries = [NSMutableArray new];
+      // Optimization, don't even compute the query if the table already exists.
+      BOOL tableDontExist = ![self tableExists:tableName];
 
-        // Flatten columns.
-        for (NSDictionary *column in schema[tableName]) {
-          NSString *columnName = column.allKeys[0];
+      // Browse columns.
+      for (NSUInteger i = 0; i < columns.count; i++) {
+        NSString *columnName = columns[i].allKeys[0];
+        [tableColumnsIndexes setObject:@(i) forKey:columnName];
+
+        // Compute column query.
+        if (tableDontExist) {
           [columnQueries addObject:[NSString stringWithFormat:@"\"%@\" %@", columnName,
-                                                              [column[columnName] componentsJoinedByString:@" "]]];
+                                                              [columns[i][columnName] componentsJoinedByString:@" "]]];
         }
+      }
+
+      // Compute table query.
+      if (tableDontExist) {
         [tableQueries addObject:[NSString stringWithFormat:@"CREATE TABLE \"%@\" (%@);", tableName,
                                                            [columnQueries componentsJoinedByString:@", "]]];
       }
+      [dbColumnsIndexes setObject:tableColumnsIndexes forKey:tableName];
     }
 
     // Create the DB.
@@ -44,6 +56,9 @@
       NSString *createTablesQuery = [tableQueries componentsJoinedByString:@"; "];
       [self executeNonSelectionQuery:createTablesQuery];
     }
+
+    // Keep collected indexes.
+    _columnIndexes = dbColumnsIndexes;
   }
   return self;
 }
