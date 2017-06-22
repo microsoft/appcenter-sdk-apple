@@ -34,23 +34,25 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     _apiPath = apiPath;
 
     // Construct the URL string with the query string.
-    NSString *urlString = [baseUrl stringByAppendingString:apiPath];
-    __block NSString *queryStringForEncoding = @"";
+    NSMutableString *urlString = [NSMutableString stringWithFormat:@"%@%@", baseUrl, apiPath];
+    __block NSMutableString *queryStringForEncoding = [NSMutableString new];
 
     // Set query parameter.
     [queryStrings enumerateKeysAndObjectsUsingBlock:^(id _Nonnull key, id _Nonnull queryString,
                                                       __attribute__((unused)) BOOL *_Nonnull stop) {
-      queryStringForEncoding = [queryStringForEncoding
-          stringByAppendingFormat:@"%@%@=%@", [queryStringForEncoding length] > 0 ? @"&" : @"", key, queryString];
+      [queryStringForEncoding
+          appendString:[NSString stringWithFormat:@"%@%@=%@", [queryStringForEncoding length] > 0 ? @"&" : @"", key,
+                                                  queryString]];
     }];
     if ([queryStringForEncoding length] > 0) {
-      queryStringForEncoding = [queryStringForEncoding
-          stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
-      urlString = [urlString stringByAppendingFormat:@"?%@", queryStringForEncoding];
+      [urlString appendFormat:@"?%@",
+                              [queryStringForEncoding
+                                  stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet
+                                                                                         URLQueryAllowedCharacterSet]]];
     }
 
     // Set send URL which can't be null
-    _sendURL = (NSURL * _Nonnull)[[NSURL alloc] initWithString:urlString];
+    _sendURL = (NSURL * _Nonnull)[NSURL URLWithString:urlString];
 
     // Hookup to reachability.
     [MS_NOTIFICATION_CENTER addObserver:self
