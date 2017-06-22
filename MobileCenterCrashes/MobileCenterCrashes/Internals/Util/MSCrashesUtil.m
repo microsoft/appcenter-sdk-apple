@@ -41,10 +41,7 @@ static dispatch_once_t logBufferDirectoryOnceToken;
 #endif
     crashesDir = [cachesDirectory URLByAppendingPathComponent:kMSCrashesDirectory];
 
-    if (![crashesDir checkResourceIsReachableAndReturnError:&error]) {
-      if (error) {
-        MSLogWarning([MSCrashes logTag], @"Check \"%@\" error: %@", crashesDir, error.localizedDescription);
-      }
+    if (![crashesDir checkResourceIsReachableAndReturnError:nil]) {
       NSDictionary *attributes = @{ NSFilePosixPermissions : @0755 };
       if (![fileManager createDirectoryAtURL:crashesDir
                  withIntermediateDirectories:YES
@@ -75,10 +72,7 @@ static dispatch_once_t logBufferDirectoryOnceToken;
 #endif
     logBufferDir = [cachesDirectory URLByAppendingPathComponent:kMSLogBufferDirectory];
 
-    if (![logBufferDir checkResourceIsReachableAndReturnError:&error]) {
-      if (error) {
-        MSLogWarning([MSCrashes logTag], @"Check \"%@\" error: %@", logBufferDir, error.localizedDescription);
-      }
+    if (![logBufferDir checkResourceIsReachableAndReturnError:nil]) {
       NSDictionary *attributes = @{ NSFilePosixPermissions : @0755 };
       if (![fileManager createDirectoryAtURL:logBufferDir
                  withIntermediateDirectories:YES

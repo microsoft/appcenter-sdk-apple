@@ -737,13 +737,11 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
 - (void)deleteCrashReportWithFileURL:(NSURL *)fileURL {
   NSError *error = nil;
-  if ([fileURL checkResourceIsReachableAndReturnError:&error]) {
+  if ([fileURL checkResourceIsReachableAndReturnError:nil]) {
     [self.fileManager removeItemAtURL:fileURL error:&error];
     if (error) {
       MSLogError([MSCrashes logTag], @"Error deleting file \"%@\": %@", fileURL, error.localizedDescription);
     }
-  } else if (error) {
-    MSLogWarning([MSCrashes logTag], @"Check \"%@\" error: %@", fileURL, error.localizedDescription);
   }
 }
 
@@ -751,10 +749,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   NSError *error = nil;
 
   // Check if the next call ran successfully the last time
-  if (![self.analyzerInProgressFile checkResourceIsReachableAndReturnError:&error]) {
-    if (error) {
-      MSLogWarning([MSCrashes logTag], @"Check \"%@\" error: %@", self.analyzerInProgressFile, error.localizedDescription);
-    }
+  if (![self.analyzerInProgressFile checkResourceIsReachableAndReturnError:nil]) {
 
     // Mark the start of the routine
     [self createAnalyzerFile];
@@ -789,7 +784,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   NSError *error = nil;
   NSMutableArray *persistedCrashReports = [NSMutableArray new];
 
-  if ([self.crashesDir checkResourceIsReachableAndReturnError:&error]) {
+  if ([self.crashesDir checkResourceIsReachableAndReturnError:nil]) {
     NSArray *files = [self.fileManager contentsOfDirectoryAtURL:self.crashesDir
                         includingPropertiesForKeys:@[ NSURLNameKey, NSURLFileSizeKey, NSURLIsRegularFileKey ]
                                            options:NSDirectoryEnumerationOptions(0)
@@ -817,30 +812,22 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
         [persistedCrashReports addObject:fileURL];
       }
     }
-  } else if (error) {
-    MSLogWarning([MSCrashes logTag], @"Check \"%@\" error: %@", self.crashesDir, error.localizedDescription);
   }
   return persistedCrashReports;
 }
 
 - (void)removeAnalyzerFile {
   NSError *error = nil;
-  if ([self.analyzerInProgressFile checkResourceIsReachableAndReturnError:&error]) {
+  if ([self.analyzerInProgressFile checkResourceIsReachableAndReturnError:nil]) {
     if (![self.fileManager removeItemAtURL:self.analyzerInProgressFile error:&error]) {
       MSLogError([MSCrashes logTag], @"Couldn't remove analyzer file at %@ with error %@.", self.analyzerInProgressFile,
                  error.localizedDescription);
     }
-  } else if (error) {
-    MSLogWarning([MSCrashes logTag], @"Check \"%@\" error: %@", self.analyzerInProgressFile, error.localizedDescription);
   }
 }
 
 - (void)createAnalyzerFile {
-  NSError *error = nil;
-  if (![self.analyzerInProgressFile checkResourceIsReachableAndReturnError:&error]) {
-    if (error) {
-      MSLogWarning([MSCrashes logTag], @"Check \"%@\" error: %@", self.analyzerInProgressFile, error.localizedDescription);
-    }
+  if (![self.analyzerInProgressFile checkResourceIsReachableAndReturnError:nil]) {
     if (![[NSData data] writeToURL:self.analyzerInProgressFile atomically:NO]) {
       MSLogError([MSCrashes logTag], @"Couldn't create analyzer file at %@: ", self.analyzerInProgressFile);
     }
@@ -886,10 +873,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 - (NSURL *)fileURLWithName:(NSString *)name {
   NSError *error = nil;
   NSString *fileName = [NSString stringWithFormat:@"%@.%@", name, kMSLogBufferFileExtension];
-  if (![self.logBufferDir checkResourceIsReachableAndReturnError:&error]) {
-    if (error) {
-      MSLogWarning([MSCrashes logTag], @"Check \"%@\" error: %@", self.logBufferDir, error.localizedDescription);
-    }
+  if (![self.logBufferDir checkResourceIsReachableAndReturnError:nil]) {
     if (![[NSFileManager defaultManager] createDirectoryAtURL:self.logBufferDir
                                   withIntermediateDirectories:YES
                                                    attributes:nil
@@ -899,10 +883,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     }
   }
   NSURL *fileURL = [self.logBufferDir URLByAppendingPathComponent:fileName];
-  if (![fileURL checkResourceIsReachableAndReturnError:&error]) {
-    if (error) {
-      MSLogWarning([MSCrashes logTag], @"Check \"%@\" error: %@", fileURL, error.localizedDescription);
-    }
+  if (![fileURL checkResourceIsReachableAndReturnError:nil]) {
 
     // Create files asynchronously. We don't really care as they are only ever used post-crash.
     dispatch_async(self.bufferFileQueue, ^{
