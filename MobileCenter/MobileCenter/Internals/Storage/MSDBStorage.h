@@ -55,7 +55,7 @@ static NSString *const kMSSQLiteConstraintAutoincrement = @"AUTOINCREMENT";
  *
  * @return The count of entries for this query.
  */
-- (NSUInteger)countEntriesForTable:(NSString *)tableName where:(nullable NSString *)condition;
+- (NSUInteger)countEntriesForTable:(NSString *)tableName condition:(nullable NSString *)condition;
 
 /**
  * Execute a non selection SQLite query on the database (i.e.: "CREATE", "INSERTE", "UPDATE"... but not "SELECT").

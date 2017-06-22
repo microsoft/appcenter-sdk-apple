@@ -45,7 +45,7 @@ NSString *MSUtilityFileCategory;
       [self disableBackupForDirectoryURL:directoryURL];
       return YES;
     } else {
-      MSLogError([MSMobileCenter logTag], @"Couldn't create directory at path %@: %@", directoryURL,
+      MSLogError([MSMobileCenter logTag], @"Couldn't create directory at %@: %@", directoryURL,
                  error.localizedDescription);
     }
   }
@@ -53,11 +53,11 @@ NSString *MSUtilityFileCategory;
 }
 
 + (BOOL)removeItemAtURL:(NSURL *)itemURL {
-  NSError *error = NULL;
+  NSError *error = nil;
   BOOL succeeded;
   succeeded = [[NSFileManager defaultManager] removeItemAtURL:itemURL error:&error];
   if (error) {
-    MSLogError([MSMobileCenter logTag], @"Couldn't remove item at path %@: %@", itemURL, error.localizedDescription);
+    MSLogError([MSMobileCenter logTag], @"Couldn't remove item at %@: %@", itemURL, error.localizedDescription);
   }
   return succeeded;
 }

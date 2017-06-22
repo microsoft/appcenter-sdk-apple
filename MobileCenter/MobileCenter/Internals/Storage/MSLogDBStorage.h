@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 
-#import "MSStorage.h"
 #import "MSDBStorage.h"
+#import "MSStorage.h"
 
 @interface MSLogDBStorage : MSDBStorage <MSStorage>
 

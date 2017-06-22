@@ -98,7 +98,7 @@
   [condition appendFormat:@" LIMIT %lu", (unsigned long)((limit < NSUIntegerMax) ? limit + 1 : limit)];
 
   // Get log entries from DB.
-  logEntries = [[self logsFromDBWhere:condition] mutableCopy];
+  logEntries = [[self logsWithCondition:condition] mutableCopy];
 
   // More logs available for the next batch, remove the log in excess for this batch.
   if (logEntries.count > 0 && logEntries.count > limit) {
@@ -149,11 +149,11 @@
 
   // Get log Ids.
   NSString *batchIdKey = [groupId stringByAppendingString:batchId];
-  NSArray<NSNumber *> *Ids = self.batches[batchIdKey];
+  NSArray<NSNumber *> *ids = self.batches[batchIdKey];
 
   // Delete logs and associated batch.
-  if (Ids.count > 0) {
-    [self deleteLogsFromDBWithColumnValues:Ids columnName:kMSIdColumnName];
+  if (ids.count > 0) {
+    [self deleteLogsFromDBWithColumnValues:ids columnName:kMSIdColumnName];
     [self.batches removeObjectForKey:batchIdKey];
   }
 }
@@ -164,7 +164,7 @@
 
   // Get log entries for the given group Id.
   NSString *condition = [NSString stringWithFormat:@"\"%@\" = '%@'", kMSGroupIdColumnName, groupId];
-  NSArray<NSArray *> *logEntries = [self logsFromDBWhere:condition];
+  NSArray<NSArray *> *logEntries = [self logsWithCondition:condition];
 
   // Get logs only.
   NSMutableArray<id<MSLog>> *logs = [NSMutableArray<id<MSLog>> new];
@@ -174,7 +174,7 @@
   return logs;
 }
 
-- (NSArray<NSArray *> *)logsFromDBWhere:(NSString *_Nullable)condition {
+- (NSArray<NSArray *> *)logsWithCondition:(NSString *_Nullable)condition {
   NSMutableArray<NSArray *> *logEntries = [NSMutableArray<NSArray *> new];
   NSMutableString *query = [NSMutableString stringWithFormat:@"SELECT * FROM \"%@\"", kMSLogTableName];
   if (condition.length > 0) {
@@ -247,7 +247,7 @@
 
 - (NSUInteger)countLogsWithGroupId:(NSString *)groupId {
   NSString *condition = [NSString stringWithFormat:@"\"%@\" = '%@'", kMSGroupIdColumnName, groupId];
-  return [self countEntriesForTable:kMSLogTableName where:condition];
+  return [self countEntriesForTable:kMSLogTableName condition:condition];
 }
 
 @end

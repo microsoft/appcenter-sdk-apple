@@ -3,8 +3,8 @@
 #import <XCTest/XCTest.h>
 
 #import "MSAbstractLogInternal.h"
-#import "MSLogDBStoragePrivate.h"
 #import "MSDBStoragePrivate.h"
+#import "MSLogDBStoragePrivate.h"
 #import "MSUtility.h"
 #import "MSUtility+Date.h"
 
@@ -27,8 +27,8 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
 }
 
 - (void)tearDown {
-  [super tearDown];
   [self.sut deleteDB];
+  [super tearDown];
 }
 
 - (void)testLoadTooManyLogs {
@@ -208,7 +208,7 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
   /*
    * Then
    */
-  assertThatInteger([self.sut countEntriesForTable:kMSLogTableName where:nil], equalToInteger(0));
+  assertThatInteger([self.sut countEntriesForTable:kMSLogTableName condition:nil], equalToInteger(0));
   assertThatInteger(self.sut.batches.count, equalToInteger(0));
 
   // Test deletion with only the batch to delete.
@@ -229,7 +229,7 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
   /*
    * Then
    */
-  assertThatInteger([self.sut countEntriesForTable:kMSLogTableName where:nil], equalToInteger(0));
+  assertThatInteger([self.sut countEntriesForTable:kMSLogTableName condition:nil], equalToInteger(0));
   assertThatInteger(self.sut.batches.count, equalToInteger(0));
 
   // Test deletion with more than one batch to delete.
@@ -251,7 +251,7 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
   /*
    * Then
    */
-  assertThatInteger([self.sut countEntriesForTable:kMSLogTableName where:nil], equalToInteger(0));
+  assertThatInteger([self.sut countEntriesForTable:kMSLogTableName condition:nil], equalToInteger(0));
   assertThatInteger(self.sut.batches.count, equalToInteger(0));
 
   // Test deletion with the batch to delete and batches from other groups.
@@ -310,7 +310,7 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
   remainingLogs = [self loadLogsWhere:nil];
   condition =
       [NSString stringWithFormat:@"%@ IN (%@)", kMSIdColumnName, [logIdsToDelete componentsJoinedByString:@", "]];
-  assertThatInteger([self.sut countEntriesForTable:kMSLogTableName where:condition], equalToInteger(0));
+  assertThatInteger([self.sut countEntriesForTable:kMSLogTableName condition:condition], equalToInteger(0));
   assertThat(expectedLogs, is(remainingLogs));
   assertThatInteger(self.sut.batches.count, equalToInteger(0));
 }
@@ -351,7 +351,7 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
   remainingLogs = [self loadLogsWhere:nil];
   condition =
       [NSString stringWithFormat:@"%@ IN (%@)", kMSIdColumnName, [logIdsToDelete componentsJoinedByString:@", "]];
-  assertThatInteger([self.sut countEntriesForTable:kMSLogTableName where:condition], equalToInteger(0));
+  assertThatInteger([self.sut countEntriesForTable:kMSLogTableName condition:condition], equalToInteger(0));
   assertThat(expectedLogs, is(remainingLogs));
   assertThatInteger(self.sut.batches.count, equalToInteger(1));
 }
@@ -396,7 +396,7 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
   remainingLogs = [self loadLogsWhere:nil];
   condition =
       [NSString stringWithFormat:@"%@ IN (%@)", kMSIdColumnName, [logIdsToDelete componentsJoinedByString:@", "]];
-  assertThatInteger([self.sut countEntriesForTable:kMSLogTableName where:condition], equalToInteger(0));
+  assertThatInteger([self.sut countEntriesForTable:kMSLogTableName condition:condition], equalToInteger(0));
   assertThat(expectedLogs, is(remainingLogs));
   assertThatInteger(self.sut.batches.count, equalToInteger(1));
 }
@@ -412,7 +412,7 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
 
   // Then
   assertThatInteger(self.sut.batches.count, equalToInteger(0));
-  assertThatInteger([self.sut countEntriesForTable:kMSLogTableName where:nil], equalToInteger(5));
+  assertThatInteger([self.sut countEntriesForTable:kMSLogTableName condition:nil], equalToInteger(5));
 }
 
 - (void)testStorageCapacity {
@@ -546,23 +546,30 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
 
 - (NSArray<id<MSLog>> *)generateAndSaveLogsWithCount:(NSUInteger)count groupId:(NSString *)groupId {
   NSMutableArray<id<MSLog>> *logs = [NSMutableArray arrayWithCapacity:count];
+  NSUInteger truelogCount;
   for (NSUInteger i = 0; i < count; ++i) {
     id<MSLog> log = [MSAbstractLog new];
     log.sid = MS_UUID_STRING;
     NSData *logData = [NSKeyedArchiver archivedDataWithRootObject:log];
     NSString *base64Data = [logData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
     NSString *addLogQuery =
-        [NSString stringWithFormat:@"INSERT INTO '%@' ('%@', '%@') VALUES ('%@', '%@')", kMSLogTableName,
+        [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\") VALUES ('%@', '%@')", kMSLogTableName,
                                    kMSGroupIdColumnName, kMSLogColumnName, groupId, base64Data];
     [self.sut executeNonSelectionQuery:addLogQuery];
     [logs addObject:log];
   }
+
+  // Check the intertion worked.
+  truelogCount =
+      [self.sut countEntriesForTable:kMSLogTableName
+                           condition:[NSString stringWithFormat:@"\"%@\" = '%@'", kMSGroupIdColumnName, groupId]];
+  assertThatUnsignedInteger(truelogCount, equalToUnsignedInteger(count));
   return logs;
 }
 
 - (NSArray<id<MSLog>> *)loadLogsWhere:(nullable NSString *)whereCondition {
   NSMutableArray<id<MSLog>> *logs = [NSMutableArray<id<MSLog>> new];
-  NSMutableString *selectLogQuery = [NSMutableString stringWithFormat:@"SELECT * FROM %@", kMSLogTableName];
+  NSMutableString *selectLogQuery = [NSMutableString stringWithFormat:@"SELECT * FROM \"%@\"", kMSLogTableName];
   if (whereCondition.length > 0) {
     [selectLogQuery appendFormat:@" WHERE %@", whereCondition];
   }

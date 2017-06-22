@@ -39,8 +39,8 @@ static NSString *const kMSTestMealColName = @"meal";
 }
 
 - (void)tearDown {
-  [super tearDown];
   [self.sut deleteDB];
+  [super tearDown];
 }
 
 - (void)testInitWithSchema {
@@ -62,8 +62,9 @@ static NSString *const kMSTestMealColName = @"meal";
 
   // When
   self.sut = [[MSDBStorage alloc] initWithSchema:testSchema filename:kMSTestDBFileName];
-  result = [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='%@'",
-                                                                      testTableName]];
+  result = [self.sut
+      executeSelectionQuery:[NSString stringWithFormat:@"SELECT \"sql\" FROM \"sqlite_master\" WHERE \"name\"='%@'",
+                                                       testTableName]];
 
   // Then
   assertThat(result[0][0], is(expectedResult));
@@ -85,10 +86,12 @@ static NSString *const kMSTestMealColName = @"meal";
 
   // When
   self.sut = [[MSDBStorage alloc] initWithSchema:testSchema filename:kMSTestDBFileName];
-  result = [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='%@'",
-                                                                      testTableName]];
-  result2 = [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='%@'",
-                                                                       testTableName2]];
+  result = [self.sut
+      executeSelectionQuery:[NSString stringWithFormat:@"SELECT \"sql\" FROM \"sqlite_master\" WHERE \"name\"='%@'",
+                                                       testTableName]];
+  result2 = [self.sut
+      executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM \"sqlite_master\" WHERE \"name\"='%@'",
+                                                       testTableName2]];
 
   // Then
   assertThat(result[0][0], is(expectedResult));
@@ -107,7 +110,7 @@ static NSString *const kMSTestMealColName = @"meal";
   assertThatBool(tableExists, isTrue());
 
   // If
-  NSString *query = [NSString stringWithFormat:@"DROP TABLE '%@'", kMSTestTableName];
+  NSString *query = [NSString stringWithFormat:@"DROP TABLE \"%@\"", kMSTestTableName];
   [self.sut executeNonSelectionQuery:query];
 
   // When
@@ -124,9 +127,9 @@ static NSString *const kMSTestMealColName = @"meal";
   NSNumber *expectedHungriness = @(99);
   NSString *expectedMeal = @"Big burger";
   NSString *query =
-      [NSString stringWithFormat:@"INSERT INTO '%@' (%@, %@, %@) VALUES ('%@', %@, '%@')", kMSTestTableName,
-                                 kMSTestPersonColName, kMSTestHungrinessColName, kMSTestMealColName, expectedPerson,
-                                 expectedHungriness.stringValue, expectedMeal];
+      [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") VALUES ('%@', %@, '%@')",
+                                 kMSTestTableName, kMSTestPersonColName, kMSTestHungrinessColName, kMSTestMealColName,
+                                 expectedPerson, expectedHungriness.stringValue, expectedMeal];
   BOOL result;
   NSArray *entry;
 
@@ -137,7 +140,7 @@ static NSString *const kMSTestMealColName = @"meal";
   assertThatBool(result, isTrue());
 
   // If
-  query = [NSString stringWithFormat:@"SELECT * FROM '%@'", kMSTestTableName];
+  query = [NSString stringWithFormat:@"SELECT * FROM \"%@\"", kMSTestTableName];
 
   // When
   entry = [self.sut executeSelectionQuery:query];
@@ -147,8 +150,8 @@ static NSString *const kMSTestMealColName = @"meal";
 
   // If
   expectedMeal = @"Gigantic burger";
-  query = [NSString stringWithFormat:@"UPDATE '%@' SET %@ = '%@' WHERE %@ = %d", kMSTestTableName, kMSTestMealColName,
-                                     expectedMeal, kMSTestPositionColName, 1];
+  query = [NSString stringWithFormat:@"UPDATE \"%@\" SET \"%@\" = '%@' WHERE \"%@\" = %d", kMSTestTableName,
+                                     kMSTestMealColName, expectedMeal, kMSTestPositionColName, 1];
 
   // When
   result = [self.sut executeNonSelectionQuery:query];
@@ -157,7 +160,7 @@ static NSString *const kMSTestMealColName = @"meal";
   assertThatBool(result, isTrue());
 
   // If
-  query = [NSString stringWithFormat:@"SELECT * FROM '%@'", kMSTestTableName];
+  query = [NSString stringWithFormat:@"SELECT * FROM \"%@\"", kMSTestTableName];
 
   // When
   entry = [self.sut executeSelectionQuery:query];
@@ -166,7 +169,8 @@ static NSString *const kMSTestMealColName = @"meal";
   assertThat(entry, is(@[ @[ @(1), expectedPerson, expectedHungriness, expectedMeal ] ]));
 
   // If
-  query = [NSString stringWithFormat:@"DELETE FROM '%@' WHERE %@ = %d;", kMSTestTableName, kMSTestPositionColName, 1];
+  query =
+      [NSString stringWithFormat:@"DELETE FROM \"%@\" WHERE \"%@\" = %d;", kMSTestTableName, kMSTestPositionColName, 1];
 
   // When
   result = [self.sut executeNonSelectionQuery:query];
@@ -175,7 +179,7 @@ static NSString *const kMSTestMealColName = @"meal";
   assertThatBool(result, isTrue());
 
   // If
-  query = [NSString stringWithFormat:@"SELECT * FROM '%@'", kMSTestTableName];
+  query = [NSString stringWithFormat:@"SELECT * FROM \"%@\"", kMSTestTableName];
 
   // When
   entry = [self.sut executeSelectionQuery:query];
@@ -186,9 +190,11 @@ static NSString *const kMSTestMealColName = @"meal";
 
 - (void)testRetrieveMultipleEntries {
 
-  // When
+  // If
   id expectedGuys = [self addGuysToTheTableWithCount:20];
-  id result = [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT * FROM '%@'", kMSTestTableName]];
+
+  // When
+  id result = [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT * FROM \"%@\"", kMSTestTableName]];
 
   // Then
   assertThat(expectedGuys, is(result));
@@ -200,7 +206,7 @@ static NSString *const kMSTestMealColName = @"meal";
   NSUInteger count;
 
   // When
-  count = [self.sut countEntriesForTable:kMSTestTableName where:nil];
+  count = [self.sut countEntriesForTable:kMSTestTableName condition:nil];
 
   // Then
   assertThatUnsignedInteger(count, equalToInt(0));
@@ -210,13 +216,13 @@ static NSString *const kMSTestMealColName = @"meal";
   NSNumber *expectedHungriness = @(99);
   NSString *expectedMeal = @"Big burger";
   NSString *query =
-      [NSString stringWithFormat:@"INSERT INTO '%@' (%@, %@, %@) VALUES ('%@', %@, '%@')", kMSTestTableName,
-                                 kMSTestPersonColName, kMSTestHungrinessColName, kMSTestMealColName, expectedPerson,
-                                 expectedHungriness.stringValue, expectedMeal];
+      [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") VALUES ('%@', %@, '%@')",
+                                 kMSTestTableName, kMSTestPersonColName, kMSTestHungrinessColName, kMSTestMealColName,
+                                 expectedPerson, expectedHungriness.stringValue, expectedMeal];
   [self.sut executeNonSelectionQuery:query];
 
   // When
-  count = [self.sut countEntriesForTable:kMSTestTableName where:nil];
+  count = [self.sut countEntriesForTable:kMSTestTableName condition:nil];
 
   // Then
   assertThatUnsignedInteger(count, equalToInt(1));
@@ -224,20 +230,21 @@ static NSString *const kMSTestMealColName = @"meal";
   // If
   expectedPerson = @"Hungry Man";
   expectedMeal = @"Huge raclette";
-  query = [NSString stringWithFormat:@"INSERT INTO '%@' (%@, %@, %@) VALUES ('%@', %@, '%@')", kMSTestTableName,
-                                     kMSTestPersonColName, kMSTestHungrinessColName, kMSTestMealColName, expectedPerson,
-                                     expectedHungriness.stringValue, expectedMeal];
+  query = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") VALUES ('%@', %@, '%@')",
+                                     kMSTestTableName, kMSTestPersonColName, kMSTestHungrinessColName,
+                                     kMSTestMealColName, expectedPerson, expectedHungriness.stringValue, expectedMeal];
   [self.sut executeNonSelectionQuery:query];
 
   // When
-  count = [self.sut countEntriesForTable:kMSTestTableName where:nil];
+  count = [self.sut countEntriesForTable:kMSTestTableName condition:nil];
 
   // Then
   assertThatUnsignedInteger(count, equalToInt(2));
 
   // When
-  count = [self.sut countEntriesForTable:kMSTestTableName
-                                   where:[NSString stringWithFormat:@"%@ = '%@'", kMSTestMealColName, expectedMeal]];
+  count =
+      [self.sut countEntriesForTable:kMSTestTableName
+                           condition:[NSString stringWithFormat:@"\"%@\" = '%@'", kMSTestMealColName, expectedMeal]];
 
   // Then
   assertThatUnsignedInteger(count, equalToInt(1));

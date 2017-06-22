@@ -25,8 +25,8 @@ static NSString *const kMSTestGroupId = @"TestGroupId";
 }
 
 - (void)tearDown {
-  [super tearDown];
   [self.dbStorage deleteLogsWithGroupId:kMSTestGroupId];
+  [super tearDown];
 }
 
 #pragma mark - Database storage tests

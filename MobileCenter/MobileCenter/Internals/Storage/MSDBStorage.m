@@ -1,3 +1,5 @@
+
+                                                    
 #import <sqlite3.h>
 
 #import "MSDBStoragePrivate.h"
@@ -70,7 +72,7 @@
   return (result.count > 0) ? [result[0][0] boolValue] : NO;
 }
 
-- (NSUInteger)countEntriesForTable:(NSString *)tableName where:(nullable NSString *)condition {
+- (NSUInteger)countEntriesForTable:(NSString *)tableName condition:(nullable NSString *)condition {
   NSMutableString *countLogQuery = [NSMutableString stringWithFormat:@"SELECT COUNT(*) FROM \"%@\" ", tableName];
   if (condition.length > 0) {
     [countLogQuery appendFormat:@"WHERE %@", condition];
@@ -90,11 +92,10 @@
       MSLogError([MSMobileCenter logTag], @"Query \"%@\" failed with error: %d - %@", query, result,
                  [[NSString alloc] initWithUTF8String:errMsg]);
     }
-    sqlite3_close(db);
   } else {
-    sqlite3_close(db);
     MSLogError([MSMobileCenter logTag], @"Failed to open database.");
   }
+  sqlite3_close(db);
   return SQLITE_OK == result;
 }
 
@@ -136,11 +137,10 @@
       MSLogError([MSMobileCenter logTag], @"Query \"%@\" failed with error: %d - %@", query, result,
                  [[NSString alloc] initWithUTF8String:sqlite3_errstr(result)]);
     }
-    sqlite3_close(db);
   } else {
-    sqlite3_close(db);
     MSLogError([MSMobileCenter logTag], @"Failed to open database.");
   }
+  sqlite3_close(db);
   return entries;
 }
 
