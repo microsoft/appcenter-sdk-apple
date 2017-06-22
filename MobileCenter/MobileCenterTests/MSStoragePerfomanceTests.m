@@ -1,6 +1,6 @@
 #import <XCTest/XCTest.h>
 #import "MSStartServiceLog.h"
-#import "MSDBStorage.h"
+#import "MSLogDBStorage.h"
 
 static const int kMSNumLogs = 50;
 static const int kMSNumServices = 5;
@@ -11,7 +11,7 @@ static NSString *const kMSTestGroupId = @"TestGroupId";
 
 @interface MSStoragePerfomanceTests ()
 
-@property(nonatomic) MSDBStorage *dbStorage;
+@property(nonatomic) MSLogDBStorage *dbStorage;
 
 @end
 
@@ -21,7 +21,7 @@ static NSString *const kMSTestGroupId = @"TestGroupId";
 
 - (void)setUp {
   [super setUp];
-  self.dbStorage = [MSDBStorage new];
+  self.dbStorage = [MSLogDBStorage new];
 }
 
 - (void)tearDown {

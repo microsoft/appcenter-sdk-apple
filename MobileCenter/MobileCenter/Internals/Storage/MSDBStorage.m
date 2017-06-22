@@ -1,231 +1,137 @@
+#import <sqlite3.h>
+
 #import "MSDBStoragePrivate.h"
-#import "MSDatabaseConnection.h"
-#import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
-#import "MSSqliteConnection.h"
-#import "MSUtility.h"
+#import "MSStorage.h"
+#import "MSUtility+File.h"
 
 @implementation MSDBStorage
 
-#pragma mark - Initialization
+- (instancetype)initWithSchema:(MSDBSchema *)schema filename:(NSString *)filename {
+  if ((self = [super init])) {
+    NSMutableArray *tableQueries = [NSMutableArray new];
 
-- (instancetype)init {
-  self = [super init];
-  if (self) {
-    _connection = [[MSSqliteConnection alloc] initWithDatabaseFilename:kMSDBFileName];
-    _batches = [NSMutableDictionary<NSString *, NSArray<NSString *> *> new];
-    _capacity = NSUIntegerMax;
+    // Path to the database.
+    NSURL *appSupportURL = [[[NSFileManager defaultManager] URLsForDirectory:NSApplicationSupportDirectory
+                                                                   inDomains:NSUserDomainMask] lastObject];
+    if (appSupportURL) {
+      NSURL *fileURL =
+          [appSupportURL URLByAppendingPathComponent:[kMSStorageDirectory stringByAppendingPathComponent:filename]];
+      [MSUtility createFileAtURL:fileURL];
+      _filePath = fileURL.absoluteString;
+    }
+
+    // Flatten tables.
+    for (NSString *tableName in schema) {
+
+      // Don't even compute the query if the table doesn't exist.
+      if (![self tableExists:tableName]) {
+        NSMutableArray *columnQueries = [NSMutableArray new];
+
+        // Flatten columns.
+        for (NSDictionary *column in schema[tableName]) {
+          NSString *columnName = column.allKeys[0];
+          [columnQueries addObject:[NSString stringWithFormat:@"\"%@\" %@", columnName,
+                                                              [column[columnName] componentsJoinedByString:@" "]]];
+        }
+        [tableQueries addObject:[NSString stringWithFormat:@"CREATE TABLE \"%@\" (%@);", tableName,
+                                                           [columnQueries componentsJoinedByString:@", "]]];
+      }
+    }
 
     // Create the DB.
-    NSString *createLogTableQuery =
-        [NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS %@ (%@ INTEGER PRIMARY KEY AUTOINCREMENT, %@ TEXT NOT "
-                                   @"NULL, %@ TEXT NOT NULL);",
-                                   kMSLogTableName, kMSIdColumnName, kMSGroupIdColumnName, kMSDataColumnName];
-    [self.connection executeQuery:createLogTableQuery];
+    if (tableQueries.count > 0) {
+      NSString *createTablesQuery = [tableQueries componentsJoinedByString:@"; "];
+      [self executeNonSelectionQuery:createTablesQuery];
+    }
   }
   return self;
 }
 
-- (instancetype)initWithCapacity:(NSUInteger)capacity {
-  self = [self init];
-  if (self) {
-    _capacity = capacity;
-  }
-  return self;
+- (BOOL)tableExists:(NSString *)tableName {
+  NSString *query = [NSString
+      stringWithFormat:@"SELECT COUNT(*) FROM \"sqlite_master\" WHERE \"type\"='table' AND \"name\"='%@';", tableName];
+  NSArray *result = [self executeSelectionQuery:query];
+  return (result.count > 0) ? [result[0][0] boolValue] : NO;
 }
 
-#pragma mark - Save logs
-
-- (BOOL)saveLog:(id<MSLog>)log withGroupId:(NSString *)groupId {
-  if (!log) {
-    return NO;
+- (NSUInteger)countEntriesForTable:(NSString *)tableName where:(nullable NSString *)condition {
+  NSMutableString *countLogQuery = [NSMutableString stringWithFormat:@"SELECT COUNT(*) FROM \"%@\" ", tableName];
+  if (condition.length > 0) {
+    [countLogQuery appendFormat:@"WHERE %@", condition];
   }
-
-  // Insert this log to the DB.
-  NSData *logData = [NSKeyedArchiver archivedDataWithRootObject:log];
-  NSString *base64Data = [logData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
-  NSString *addLogQuery =
-      [NSString stringWithFormat:@"INSERT INTO %@ ('%@', '%@') VALUES ('%@', '%@')", kMSLogTableName,
-                                 kMSGroupIdColumnName, kMSDataColumnName, groupId, base64Data];
-  BOOL succeeded = [self.connection executeQuery:addLogQuery];
-  NSUInteger logCount = [self countLogsWithGroupId:groupId];
-
-  // Max out DB.
-  if (succeeded && logCount > self.capacity) {
-    NSUInteger overflowCount = logCount - self.capacity;
-    [self deleteOldestLogsWithGroupId:groupId count:overflowCount];
-    MSLogDebug([MSMobileCenter logTag], @"Log storage was over capacity, %ld oldest log(s) deleted.",
-               (long)overflowCount);
-  }
-  return succeeded;
+  NSArray<NSArray<NSNumber *> *> *result = [self executeSelectionQuery:countLogQuery];
+  return (result.count > 0) ? result[0][0].unsignedIntegerValue : 0;
 }
 
-#pragma mark - Load logs
-
-- (BOOL)loadLogsWithGroupId:(NSString *)groupId
-                      limit:(NSUInteger)limit
-             withCompletion:(nullable MSLoadDataCompletionBlock)completion {
-
-  /*
-   * There is a need to determine if there will be more logs available than those under the limit.
-   * This is just about knowing if there is at least 1 log above the limit.
-   */
-  NSMutableDictionary<NSString *, id<MSLog>> *logs =
-      [[self getLogsFromDBWithGroupId:groupId limit:(limit + 1)] mutableCopy];
-  BOOL logsAvailable = NO;
-  BOOL moreLogsAvailable = NO;
-  NSString *batchId;
-
-  // More logs available for the next batch, remove the log in excess for this batch.
-  if (logs.count > 0 && logs.count > limit) {
-    [logs removeObjectForKey:(NSString * _Nonnull)[[logs allKeys] lastObject]];
-    moreLogsAvailable = YES;
-  }
-
-  // Generate batch Id.
-  logsAvailable = logs.count > 0;
-  if (logsAvailable) {
-    batchId = MS_UUID_STRING;
-    [self.batches setObject:(NSArray<NSString *> * _Nonnull)[logs allKeys]
-                     forKey:[groupId stringByAppendingString:batchId]];
-  }
-
-  // Load completed.
-  if (completion) {
-    completion([logs allValues], batchId);
-  }
-
-  // Return YES if more logs available.
-  return moreLogsAvailable;
-}
-
-#pragma mark - Delete logs
-
-- (NSArray<id<MSLog>> *)deleteLogsWithGroupId:(NSString *)groupId {
-  NSArray<id<MSLog>> *logs = [[self getLogsFromDBWithGroupId:groupId] allValues];
-
-  // Delete logs
-  [self deleteLogsFromDBWithColumnValue:groupId columnName:kMSGroupIdColumnName];
-
-  // Delete related batches.
-  for (NSString *batchKey in [self.batches allKeys]) {
-    if ([batchKey hasPrefix:groupId]) {
-      [self.batches removeObjectForKey:batchKey];
+- (BOOL)executeNonSelectionQuery:(NSString *)query {
+  sqlite3 *db = NULL;
+  int result = SQLITE_OK;
+  result = sqlite3_open_v2([self.filePath UTF8String], &db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, NULL);
+  if (result == SQLITE_OK) {
+    char *errMsg;
+    result = sqlite3_exec(db, [query UTF8String], NULL, NULL, &errMsg);
+    if (result != SQLITE_OK) {
+      MSLogError([MSMobileCenter logTag], @"Query \"%@\" failed with error: %d - %@", query, result,
+                 [[NSString alloc] initWithUTF8String:errMsg]);
     }
-  }
-  return logs;
-}
-
-- (void)deleteLogsWithBatchId:(NSString *)batchId groupId:(NSString *)groupId {
-
-  // Get log Ids.
-  NSString *batchIdKey = [groupId stringByAppendingString:batchId];
-  NSArray<NSString *> *Ids = self.batches[batchIdKey];
-
-  // Delete logs and associated batch.
-  if (Ids.count > 0) {
-    [self deleteLogsFromDBWithColumnValues:Ids columnName:kMSIdColumnName];
-    [self.batches removeObjectForKey:batchIdKey];
-  }
-}
-
-#pragma mark - DB selection
-
-- (NSDictionary<NSString *, id<MSLog>> *)getLogsFromDBWithGroupId:(NSString *)groupId {
-  NSString *selectLogQuery =
-      [NSString stringWithFormat:@"SELECT * FROM %@ WHERE %@ == '%@'", kMSLogTableName, kMSGroupIdColumnName, groupId];
-  return [self getLogsFromDBWithQuery:selectLogQuery];
-}
-
-- (NSDictionary<NSString *, id<MSLog>> *)getLogsFromDBWithGroupId:(NSString *)groupId limit:(NSUInteger)limit {
-
-  // Get ids from batches.
-  NSMutableArray<NSString *> *idsInBatches;
-  for (NSString *batchKey in [self.batches allKeys]) {
-    if ([batchKey hasPrefix:groupId]) {
-      [idsInBatches addObjectsFromArray:(NSArray<NSString *> * _Nonnull)self.batches[batchKey]];
-    }
-  }
-
-  // Get logs from DB that are not already part of a batch.
-  NSString *selectLogQuery =
-      [NSString stringWithFormat:@"SELECT * FROM %@ WHERE %@ == '%@' AND %@ NOT IN ('%@') LIMIT %lu", kMSLogTableName,
-                                 kMSGroupIdColumnName, groupId, kMSIdColumnName,
-                                 [idsInBatches componentsJoinedByString:@"','"], (unsigned long)limit];
-  return [self getLogsFromDBWithQuery:selectLogQuery];
-}
-
-- (NSDictionary<NSString *, id<MSLog>> *)getLogsFromDBWithQuery:(NSString *)query {
-  NSArray<NSArray<NSString *> *> *result = [self.connection selectDataFromDB:query];
-  NSMutableDictionary<NSString *, id<MSLog>> *logs = [NSMutableDictionary<NSString *, id<MSLog>> new];
-
-  // Get logs from DB.
-  for (NSArray<NSString *> *row in result) {
-
-    // TODO use constants for DB column indexes.
-    NSString *Id = row[0];
-    NSString *base64Data = row[2];
-    NSData *logData =
-        [[NSData alloc] initWithBase64EncodedString:base64Data options:NSDataBase64DecodingIgnoreUnknownCharacters];
-    id<MSLog> log;
-
-    // Deserialize the log.
-    @try {
-      log = [NSKeyedUnarchiver unarchiveObjectWithData:logData];
-    } @catch (NSException *exception) {
-
-      // The archived log is not valid.
-      MSLogError([MSMobileCenter logTag], @"Deserialization failed for log with Id %@: %@", Id, exception);
-      [self deleteLogFromDBWithId:Id];
-      continue;
-    }
-    [logs setObject:log forKey:Id];
-  }
-  return logs;
-}
-
-#pragma mark - DB deletion
-
-- (void)deleteLogFromDBWithId:(NSString *)Id {
-  [self deleteLogsFromDBWithColumnValue:Id columnName:kMSIdColumnName];
-}
-
-- (void)deleteLogsFromDBWithColumnValue:(NSString *)columnValue columnName:(NSString *)columnName {
-  [self deleteLogsFromDBWithColumnValues:@[ columnValue ] columnName:columnName];
-}
-
-- (void)deleteLogsFromDBWithColumnValues:(NSArray<NSString *> *)columnValues columnName:(NSString *)columnName {
-  NSString *deletionTrace = [NSString stringWithFormat:@"Deletion of log(s) by %@ with value(s) '%@'", columnName,
-                                                       [columnValues componentsJoinedByString:@"','"]];
-
-  // Build up delete query.
-  NSString *deleteLogsQuery = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@ IN ('%@')", kMSLogTableName,
-                                                         columnName, [columnValues componentsJoinedByString:@"','"]];
-
-  // Execute.
-  if ([self.connection executeQuery:deleteLogsQuery]) {
-    MSLogVerbose([MSMobileCenter logTag], @"%@ %@", deletionTrace, @"succeeded");
+    sqlite3_close(db);
   } else {
-    MSLogError([MSMobileCenter logTag], @"%@ %@", deletionTrace, @"failed");
+    sqlite3_close(db);
+    MSLogError([MSMobileCenter logTag], @"Failed to open database.");
+  }
+  return SQLITE_OK == result;
+}
+
+- (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query {
+  NSMutableArray<NSMutableArray *> *entries = [[NSMutableArray<NSMutableArray *> alloc] init];
+  sqlite3 *db = NULL;
+  sqlite3_stmt *statement = NULL;
+  int result = 0;
+  result = sqlite3_open_v2([self.filePath UTF8String], &db, SQLITE_OPEN_READONLY, NULL);
+  if (result == SQLITE_OK) {
+    result = sqlite3_prepare_v2(db, [query UTF8String], -1, &statement, NULL);
+    if (result == SQLITE_OK) {
+      // Loop on rows.
+      while (sqlite3_step(statement) == SQLITE_ROW) {
+        NSMutableArray *entry = [NSMutableArray new];
+
+        // Loop on columns.
+        for (int i = 0; i < sqlite3_column_count(statement); i++) {
+          id value = nil;
+
+          // Convert values.
+          switch (sqlite3_column_type(statement, i)) {
+          case SQLITE_INTEGER:
+            value = [NSNumber numberWithInteger:sqlite3_column_int(statement, i)];
+            break;
+          case SQLITE_TEXT:
+            value = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(statement, i)];
+            break;
+          default:
+            value = [NSNull null];
+            break;
+          }
+          [entry addObject:value];
+        }
+        [entries addObject:entry];
+      }
+      sqlite3_finalize(statement);
+    } else {
+      MSLogError([MSMobileCenter logTag], @"Query \"%@\" failed with error: %d - %@", query, result,
+                 [[NSString alloc] initWithUTF8String:sqlite3_errstr(result)]);
+    }
+    sqlite3_close(db);
+  } else {
+    sqlite3_close(db);
+    MSLogError([MSMobileCenter logTag], @"Failed to open database.");
+  }
+  return entries;
+}
+
+- (void)deleteDB {
+  if (self.filePath.length > 0) {
+    [MSUtility removeItemAtURL:[NSURL URLWithString:(NSString * _Nonnull)self.filePath]];
   }
 }
-
-- (void)deleteOldestLogsWithGroupId:(NSString *)groupId count:(NSInteger)count {
-  NSString *deleteLogQuery =
-      [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@ = '%@' ORDER BY %@ ASC LIMIT %ld", kMSLogTableName,
-                                 kMSGroupIdColumnName, groupId, kMSIdColumnName, (long)count];
-  [self.connection executeQuery:deleteLogQuery];
-}
-
-#pragma mark - DB count
-
-- (NSUInteger)countLogsWithGroupId:(NSString *)groupId {
-  NSString *countLogQuery = [NSString
-      stringWithFormat:@"SELECT COUNT(*) FROM %@ WHERE %@ = '%@'", kMSLogTableName, kMSGroupIdColumnName, groupId];
-  NSArray<NSArray<NSString *> *> *result = [self.connection selectDataFromDB:countLogQuery];
-  NSNumberFormatter *formatter = [NSNumberFormatter new];
-  formatter.numberStyle = NSNumberFormatterDecimalStyle;
-  return [formatter numberFromString:result[0][0]].unsignedIntegerValue;
-}
-
 @end
