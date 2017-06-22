@@ -278,6 +278,10 @@
 
       // Prevent further logs from being persisted.
       self.discardLogs = YES;
+    }else {
+      
+      // Allow logs to be persisted.
+      self.discardLogs = NO;
     }
   });
 }
@@ -294,7 +298,6 @@
   if (self.suspended && self.enabled) {
     MSLogDebug([MSMobileCenter logTag], @"Resume channel for group Id %@.", self.configuration.groupId);
     self.suspended = NO;
-    self.discardLogs = NO;
     [self flushQueue];
   }
 }
