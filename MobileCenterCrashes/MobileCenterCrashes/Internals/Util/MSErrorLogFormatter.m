@@ -647,8 +647,9 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
     NSError *error = nil;
     NSString *regexPattern = @"(/Users/[^/]+/)";
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regexPattern options:0 error:&error];
-    if (error) {
+    if (!regex) {
       MSLogError([MSCrashes logTag], @"Couldn't create regular expression with pattern\"%@\": %@", regexPattern, error.localizedDescription);
+      return path;
     }
     anonymizedProcessPath = [regex stringByReplacingMatchesInString:path
                                                             options:0

@@ -69,7 +69,7 @@
     MSLogVerbose([MSMobileCenter logTag], @"File %@: has been successfully deleted", file.fileURL);
     return YES;
   } else {
-    MSLogError([MSMobileCenter logTag], @"Error deleting file %@: %@", file.fileURL, error.localizedDescription);
+    MSLogError([MSMobileCenter logTag], @"Couldn't delete a file \"%@\": %@", file.fileURL, error.localizedDescription);
     return NO;
   }
 }
@@ -121,7 +121,7 @@
     for (NSURL *fileURL in filteredFiles) {
       NSString *fileId = [[fileURL URLByDeletingPathExtension] lastPathComponent];
       NSDate *creationDate = nil;
-      [fileURL getResourceValue:&creationDate forKey:NSURLCreationDateKey error:&error];
+      [fileURL getResourceValue:&creationDate forKey:NSURLCreationDateKey error:nil];
       MSFile *file = [[MSFile alloc] initWithURL:fileURL fileId:fileId creationDate:creationDate];
       [files addObject:file];
     }

@@ -206,7 +206,7 @@
   NSError *error = nil;
   [[NSFileManager defaultManager] removeItemAtPath:path error:&error];
   if (error) {
-    MSLogError([MSCrashes logTag], @"Error deleting file %@: %@", path, error.localizedDescription);
+    MSLogError([MSCrashes logTag], @"Couldn't delete a file \"%@\": %@", path, error.localizedDescription);
   }
 }
 

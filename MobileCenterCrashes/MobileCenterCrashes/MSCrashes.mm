@@ -651,7 +651,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
                        report.debugDescription);
           }
         } else {
-          MSLogWarning([MSCrashes logTag], @"Couldn't parse crash report: %@", error.localizedDescription);
+          MSLogWarning([MSCrashes logTag], @"Couldn't parse crash report, discard the crash report: %@", error.localizedDescription);
         }
       } else {
         MSLogDebug([MSCrashes logTag], @"Crashes service is disabled, discard the crash report");
@@ -693,7 +693,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
                                                       options:NSDirectoryEnumerationOptions(0)
                                                         error:&error];
   if (!files) {
-    MSLogError([MSCrashes logTag], @"Couldn't get contents of directory \"%@\": %@", self.logBufferDir, error.localizedDescription);
+    MSLogError([MSCrashes logTag], @"Couldn't get files in the directory \"%@\": %@", self.logBufferDir, error.localizedDescription);
     return;
   }
   for (NSURL *fileURL in files) {
@@ -723,13 +723,13 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
                                                       options:NSDirectoryEnumerationOptions(0)
                                                         error:&error];
   if (!files) {
-    MSLogError([MSCrashes logTag], @"Couldn't get contents of directory \"%@\": %@", self.crashesDir, error.localizedDescription);
+    MSLogError([MSCrashes logTag], @"Couldn't get files in the directory \"%@\": %@", self.crashesDir, error.localizedDescription);
     return;
   }
   for (NSURL *fileURL in files) {
     [self.fileManager removeItemAtURL:fileURL error:&error];
     if (error) {
-      MSLogError([MSCrashes logTag], @"Error deleting file \"%@\": %@", fileURL, error.localizedDescription);
+      MSLogWarning([MSCrashes logTag], @"Couldn't delete a file \"%@\": %@", fileURL, error.localizedDescription);
     }
   }
   [self.crashFiles removeAllObjects];
@@ -740,7 +740,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   if ([fileURL checkResourceIsReachableAndReturnError:nil]) {
     [self.fileManager removeItemAtURL:fileURL error:&error];
     if (error) {
-      MSLogError([MSCrashes logTag], @"Error deleting file \"%@\": %@", fileURL, error.localizedDescription);
+      MSLogWarning([MSCrashes logTag], @"Couldn't delete a file \"%@\": %@", fileURL, error.localizedDescription);
     }
   }
 }
@@ -790,22 +790,16 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
                                            options:NSDirectoryEnumerationOptions(0)
                                              error:&error];
     if (!files) {
-      MSLogError([MSCrashes logTag], @"Couldn't get contents of directory \"%@\": %@", self.crashesDir, error.localizedDescription);
+      MSLogError([MSCrashes logTag], @"Couldn't get files in the directory \"%@\": %@", self.crashesDir, error.localizedDescription);
       return persistedCrashReports;
     }
     for (NSURL *fileURL in files) {
       NSString *fileName = nil;
-      if (![fileURL getResourceValue:&fileName forKey:NSURLNameKey error:&error]) {
-        MSLogWarning([MSCrashes logTag], @"Couldn't get resource value from \"%@\": %@", fileURL, error.localizedDescription);
-      }
+      [fileURL getResourceValue:&fileName forKey:NSURLNameKey error:nil];
       NSNumber *fileSizeNumber = nil;
-      if (![fileURL getResourceValue:&fileSizeNumber forKey:NSURLFileSizeKey error:&error]) {
-        MSLogWarning([MSCrashes logTag], @"Couldn't get resource value from \"%@\": %@", fileURL, error.localizedDescription);
-      }
+      [fileURL getResourceValue:&fileSizeNumber forKey:NSURLFileSizeKey error:nil];
       NSNumber *isRegular = nil;
-      if (![fileURL getResourceValue:&isRegular forKey:NSURLIsRegularFileKey error:&error]) {
-        MSLogWarning([MSCrashes logTag], @"Couldn't get resource value from \"%@\": %@", fileURL, error.localizedDescription);
-      }
+      [fileURL getResourceValue:&isRegular forKey:NSURLIsRegularFileKey error:nil];
       if ([isRegular boolValue] && [fileSizeNumber intValue] > 0 && ![fileName hasSuffix:@".DS_Store"] &&
           ![fileName hasSuffix:@".analyzer"] && ![fileName hasSuffix:@".plist"] && ![fileName hasSuffix:@".data"] &&
           ![fileName hasSuffix:@".meta"] && ![fileName hasSuffix:@".desc"]) {
@@ -914,7 +908,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
                                                       options:NSDirectoryEnumerationOptions(0)
                                                         error:&error];
   if (!files) {
-    MSLogError([MSCrashes logTag], @"Couldn't get contents of directory \"%@\": %@", self.logBufferDir, error.localizedDescription);
+    MSLogError([MSCrashes logTag], @"Couldn't get files in the directory \"%@\": %@", self.logBufferDir, error.localizedDescription);
     return;
   }
   for (NSURL *fileURL in files) {
@@ -922,9 +916,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
       // Create empty new file, overwrites the old one.
       NSNumber *fileSizeNumber = nil;
-      if (![fileURL getResourceValue:&fileSizeNumber forKey:NSURLFileSizeKey error:&error]) {
-        MSLogWarning([MSCrashes logTag], @"Couldn't get resource value from \"%@\": %@", fileURL, error.localizedDescription);
-      }
+      [fileURL getResourceValue:&fileSizeNumber forKey:NSURLFileSizeKey error:nil];
       if ([fileSizeNumber intValue] > 0) {
         [[NSData data] writeToURL:fileURL atomically:NO];
       }
