@@ -82,7 +82,7 @@
                                  attributes:nil
                                       error:&error];
       if (error) {
-        MSLogError([MSCrashes logTag], @"Failed to create directory %@: %@", [[self class] directoryPath],
+        MSLogError([MSCrashes logTag], @"Couldn't create directory at %@: %@", [[self class] directoryPath],
                    error.localizedDescription);
       }
     }
@@ -175,7 +175,7 @@
   NSError *error = nil;
   data = [NSData dataWithContentsOfFile:dataFilename options:NSDataReadingMappedIfSafe error:&error];
   if (error) {
-    MSLogError([MSCrashes logTag], @"Error loading file %@: %@", dataFilename, error.localizedDescription);
+    MSLogError([MSCrashes logTag], @"Couldn't load file at %@: %@", dataFilename, error.localizedDescription);
   }
   return data;
 }

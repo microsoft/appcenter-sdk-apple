@@ -142,7 +142,7 @@
       [self disableBackupForDirectoryURL:directoryURL];
       return YES;
     } else {
-      MSLogError([MSMobileCenter logTag], @"Couldn't create directory at path %@: %@", directoryURL, error.localizedDescription);
+      MSLogError([MSMobileCenter logTag], @"Couldn't create directory at %@: %@", directoryURL, error.localizedDescription);
     }
   }
   return NO;

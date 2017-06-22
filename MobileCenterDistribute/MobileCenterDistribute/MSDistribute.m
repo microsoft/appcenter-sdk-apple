@@ -286,8 +286,12 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
              if (statusCode == MSHTTPCodesNo200OK) {
                MSReleaseDetails *details = nil;
                if (data) {
-                 id dictionary =
-                     [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+                 id dictionary = [NSJSONSerialization JSONObjectWithData:data
+                                                                 options:NSJSONReadingMutableContainers
+                                                                   error:&jsonError];
+                 if (jsonError) {
+                   MSLogError([MSDistribute logTag], @"Couldn't parse json data: %@", jsonError.localizedDescription);
+                 }
                  details = [[MSReleaseDetails alloc] initWithDictionary:dictionary];
                }
                if (!details) {
@@ -312,7 +316,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
              // Failure.
              else {
-               MSLogDebug([MSDistribute logTag], @"Failed to get an update response, status code:%lu",
+               MSLogDebug([MSDistribute logTag], @"Failed to get an update response, status code: %lu",
                           (unsigned long)statusCode);
                NSString *jsonString = nil;
                id dictionary = nil;
@@ -320,8 +324,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                // Failure can deliver empty payload.
                if (data) {
                  dictionary = [NSJSONSerialization JSONObjectWithData:data
-                                                                 options:NSJSONReadingMutableContainers
-                                                                   error:&jsonError];
+                                                              options:NSJSONReadingMutableContainers
+                                                                error:&jsonError];
 
                  // Failure can deliver non-JSON format of payload.
                  if (!jsonError) {

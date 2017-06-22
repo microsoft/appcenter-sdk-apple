@@ -206,6 +206,8 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
             @synchronized(self) {
               NSString *payload = nil;
               NSInteger statusCode = [MSSenderUtil getStatusCode:response];
+              
+              // Trying to format json for log. Don't need to log json error here.
               if (data) {
 
                 // Error instance for JSON parsing.

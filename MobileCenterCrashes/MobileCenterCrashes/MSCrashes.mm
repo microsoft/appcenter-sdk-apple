@@ -872,7 +872,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
                                   withIntermediateDirectories:YES
                                                    attributes:nil
                                                         error:&error]) {
-      MSLogError([MSCrashes logTag], @"Couldn't create directory at path %@: %@", self.logBufferDir,
+      MSLogError([MSCrashes logTag], @"Couldn't create directory at %@: %@", self.logBufferDir,
                  error.localizedDescription);
     }
   }

@@ -494,7 +494,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
       if (report.systemInfo.operatingSystem == PLCrashReportOperatingSystemiPhoneSimulator) {
         symbolName = [symbolName substringFromIndex:1];
       } else {
-        NSLog(@"Symbol prefix rules are unknown for this OS!");
+        MSLogWarning([MSCrashes logTag], @"Symbol prefix rules are unknown for this OS!");
       }
     }
 
