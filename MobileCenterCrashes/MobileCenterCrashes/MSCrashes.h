@@ -98,8 +98,8 @@ typedef NS_ENUM(NSUInteger, MSUserConfirmation) {
  * Disable to trap fatal signals via a Mach exception server.
  *
  * By default, the SDK uses the Mach exception handler to catch fatal signals, e.g. stack overflows, via a Mach
- * exception server. If you want or need to disable the Mach exception handler by any reasons, you _MUST_ call this
- * method _BEFORE_ starting the SDK. Your typical setup code would look like this:
+ * exception server. If you want to disable the Mach exception handler, you should call this method _BEFORE_ starting
+ * the SDK. Your typical setup code would look like this:
  *
  * `[MSCrashes disableMachExceptionHandler]`;
  * `[MSMobileCenter start:@"YOUR_APP_ID" withServices:@[[MSCrashes class]]];`
