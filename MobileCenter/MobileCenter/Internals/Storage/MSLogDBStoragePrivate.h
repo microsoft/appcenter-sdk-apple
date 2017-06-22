@@ -30,7 +30,7 @@ static NSString *const kMSLogColumnName = @"log";
  *
  * @return Logs and their ids corresponding to the given group Id from the storage.
  */
-- (NSArray<id<MSLog>> *)getLogsFromDBWithGroupId:(NSString *)groupId;
+- (NSArray<id<MSLog>> *)logsFromDBWithGroupId:(NSString *)groupId;
 
 @end
 

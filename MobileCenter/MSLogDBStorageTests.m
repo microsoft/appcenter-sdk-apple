@@ -184,7 +184,7 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
   NSArray *expectedLogs = [self generateAndSaveLogsWithCount:expectedLogsCount groupId:kMSTestGroupId];
 
   // When
-  NSArray *logs = [self.sut getLogsFromDBWithGroupId:kMSTestGroupId];
+  NSArray *logs = [self.sut logsFromDBWithGroupId:kMSTestGroupId];
 
   // Then
   assertThat(expectedLogs, is(logs));

@@ -76,7 +76,7 @@
     }
   }
 
-  // Build the "WHERE" clause condition.
+  // Build the "WHERE" clause's condition.
   NSMutableString *condition = [NSMutableString stringWithFormat:@"\"%@\" = '%@'", kMSGroupIdColumnName, groupId];
 
   // Take only logs that are not already part of a batch.
@@ -130,7 +130,7 @@
 #pragma mark - Delete logs
 
 - (NSArray<id<MSLog>> *)deleteLogsWithGroupId:(NSString *)groupId {
-  NSArray<id<MSLog>> *logs = [self getLogsFromDBWithGroupId:groupId];
+  NSArray<id<MSLog>> *logs = [self logsFromDBWithGroupId:groupId];
 
   // Delete logs
   [self deleteLogsFromDBWithColumnValue:groupId columnName:kMSGroupIdColumnName];
@@ -159,8 +159,7 @@
 
 #pragma mark - DB selection
 
-// TODO fix naming remove 'get'
-- (NSArray<id<MSLog>> *)getLogsFromDBWithGroupId:(NSString *)groupId {
+- (NSArray<id<MSLog>> *)logsFromDBWithGroupId:(NSString *)groupId {
 
   // Get log entries for the given group Id.
   NSString *condition = [NSString stringWithFormat:@"\"%@\" = '%@'", kMSGroupIdColumnName, groupId];
