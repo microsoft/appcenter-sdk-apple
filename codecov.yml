@@ -1,2 +1,5 @@
 codecov:
   bot: xabldint
+ignore:
+  - "Vendor/**/*"
+  - "**/*Tests/**/*"
