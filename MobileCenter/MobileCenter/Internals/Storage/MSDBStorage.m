@@ -10,6 +10,8 @@
 @implementation MSDBStorage
 
 - (instancetype)initWithSchema:(MSDBSchema *)schema filename:(NSString *)filename {
+  
+  // TODO: Introduce a versioning / data migration system in case of updates on the schema.
   if ((self = [super init])) {
     NSMutableArray *tableQueries = [NSMutableArray new];
     NSMutableDictionary *dbColumnsIndexes = [NSMutableDictionary new];
