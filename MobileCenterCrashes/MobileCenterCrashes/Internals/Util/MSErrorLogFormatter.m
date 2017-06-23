@@ -655,7 +655,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
                                                             options:0
                                                               range:NSMakeRange(0, [path length])
                                                        withTemplate:@"/Users/USER/"];
-  } else if (([path length] > 0) && (![path containsString:@"Users"])) {
+  } else if (([path length] > 0) && ([path rangeOfString:@"Users"].length == 0)) {
     return path;
   }
   return anonymizedProcessPath;
