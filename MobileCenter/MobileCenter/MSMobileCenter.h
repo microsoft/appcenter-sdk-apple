@@ -96,17 +96,17 @@
  */
 + (void)setWrapperSdk:(MSWrapperSdk *)wrapperSdk;
 
-#if TARGET_OS_OSX
-
-  // TODO: ApplicationDelegate is not yet implemented for macOS.
-#else
-
 /**
  * Set the custom properties.
  *
  * @param customProperties Custom properties object.
  */
 + (void)setCustomProperties:(MSCustomProperties *)customProperties;
+
+#if TARGET_OS_OSX
+
+  // TODO: ApplicationDelegate is not yet implemented for macOS.
+#else
 
 /**
  * Check whether the application delegate forwarder is enabled or not.

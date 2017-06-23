@@ -275,15 +275,17 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
 
 #if TARGET_OS_OSX
 
-// TODO: Update below method once we have determined a minimum target version of macOS.
 - (NSString *)osVersion {
   NSString *osVersion = nil;
 
 #if __MAC_OS_X_VERSION_MAX_ALLOWED > 1090
   if ([[NSProcessInfo processInfo] respondsToSelector:@selector(operatingSystemVersion)]) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpartial-availability"
     NSOperatingSystemVersion osSystemVersion = [[NSProcessInfo processInfo] operatingSystemVersion];
     osVersion = [NSString stringWithFormat:@"%ld.%ld.%ld", (long)osSystemVersion.majorVersion,
                                            (long)osSystemVersion.minorVersion, (long)osSystemVersion.patchVersion];
+#pragma clang diagnostic pop
   }
 #else
   SInt32 major, minor, bugfix;
@@ -295,6 +297,7 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
   if ((!err1) && (!err2) && (!err3)) {
     osVersion = [NSString stringWithFormat:@"%ld.%ld.%ld", (long)major, (long)minor, (long)bugfix];
   }
+#pragma clang diagnostic pop
 #endif
   return osVersion;
 }
