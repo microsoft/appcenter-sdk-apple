@@ -2,4 +2,8 @@ codecov:
   bot: xabldint
 ignore:
   - "Vendor/**/*"
-  - "**/*Tests/**/*"
+  - "MobileCenter/MobileCenterTests/**/*"
+  - "MobileCenterAnalytics/MobileCenterAnalyticsTests/**/*"
+  - "MobileCenterCrashes/MobileCenterCrashesTests/**/*"
+  - "MobileCenterDistribute/MobileCenterDistributeTests/**/*"
+  - "MobileCenterPush/MobileCenterPushTests/**/*"
