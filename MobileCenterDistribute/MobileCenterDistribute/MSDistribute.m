@@ -122,7 +122,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
   switch (action) {
   case MSUpdateActionUpdate:
-#if TARGET_IPHONE_SIMULATOR
+#if TARGET_OS_SIMULATOR
 
     /*
      * iOS simulator doesn't support "itms-services" scheme, simulator will consider the scheme
