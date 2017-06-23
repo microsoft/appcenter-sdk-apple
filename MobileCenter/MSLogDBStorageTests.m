@@ -559,7 +559,7 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
     [logs addObject:log];
   }
 
-  // Check the intertion worked.
+  // Check the insertion worked.
   truelogCount =
       [self.sut countEntriesForTable:kMSLogTableName
                            condition:[NSString stringWithFormat:@"\"%@\" = '%@'", kMSGroupIdColumnName, groupId]];

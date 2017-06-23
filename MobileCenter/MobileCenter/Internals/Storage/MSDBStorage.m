@@ -118,7 +118,10 @@
         for (int i = 0; i < sqlite3_column_count(statement); i++) {
           id value = nil;
 
-          // Convert values.
+          /*
+           * Convert values.
+           * TODO: Add here any other type it needs.
+           */
           switch (sqlite3_column_type(statement, i)) {
           case SQLITE_INTEGER:
             value = [NSNumber numberWithInteger:sqlite3_column_int(statement, i)];
