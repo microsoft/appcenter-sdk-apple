@@ -367,17 +367,13 @@ static NSString *const kMSTestGroupId = @"GroupId";
   id mockLog = [self getValidMockLog];
   OCMReject([self.storageMock saveLog:[OCMArg any] withGroupId:[OCMArg any]]);
   
-  /**
-   * When
-   */
+  // When
   [self.sut setEnabled:NO andDeleteDataOnDisabled:YES];
   [self.sut enqueueItem:mockLog withCompletion:^(__attribute__((unused)) BOOL success) {
     [self enqueueChannelEndJobExpectation];
   }];
-  
-  /**
-   * Then
-   */
+
+  // Then
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
                                  assertThatBool(self.sut.discardLogs, isTrue());
