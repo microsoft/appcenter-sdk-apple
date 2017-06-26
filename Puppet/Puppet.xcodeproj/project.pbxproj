@@ -182,6 +182,13 @@
 			remoteGlobalIDString = 6E171AE11D22F781000DC480;
 			remoteInfo = MobileCenterCrashesIOSTests;
 		};
+		04EBBF1B1F01CCBE0006B8AE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E82E1B7C1D1CA62900D281C1 /* MobileCenterCrashes.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 04EBBEE81F01C0C90006B8AE;
+			remoteInfo = MobileCenterCrashesTVOS;
+		};
 		380A4DA21DD6892F00E99219 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E82E1B571D1CA58D00D281C1 /* Project object */;
@@ -583,6 +590,7 @@
 				04A140DF1ECE8ECF001CEE94 /* MobileCenterCrashes.xctest */,
 				046AEAA91ECA509000CBE511 /* libMobileCenterCrashes.a */,
 				046AEAAB1ECA509000CBE511 /* MobileCenterCrashes.xctest */,
+				04EBBF1C1F01CCBE0006B8AE /* libMobileCenterCrashes.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -907,6 +915,13 @@
 			remoteRef = 04A140DE1ECE8ECF001CEE94 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		04EBBF1C1F01CCBE0006B8AE /* libMobileCenterCrashes.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libMobileCenterCrashes.a;
+			remoteRef = 04EBBF1B1F01CCBE0006B8AE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		B2C070CB1E5F59A90076D6A9 /* MobileCenterDistributeResources.bundle */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
@@ -1171,7 +1186,6 @@
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = PuppetWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
@@ -1190,7 +1204,6 @@
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = PuppetWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
@@ -1268,7 +1281,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/../MobileCenter-SDK-Apple/**",
 					"$(SRCROOT)/../CrashLibIOS/CrashLibIOS",
-					"$(SRCROOT)/../Vendor/Common/**",
 					"$(SRCROOT)/../Vendor/iOS/**",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1323,7 +1335,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/../MobileCenter-SDK-Apple/**",
 					"$(SRCROOT)/../CrashLibIOS/CrashLibIOS",
-					"$(SRCROOT)/../Vendor/Common/**",
 					"$(SRCROOT)/../Vendor/iOS/**",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1354,7 +1365,6 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
@@ -1382,7 +1392,6 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/../CrashLibIOS/CrashLibIOS";
