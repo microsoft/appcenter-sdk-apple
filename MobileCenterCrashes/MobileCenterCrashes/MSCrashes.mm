@@ -224,8 +224,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 }
 
 /* This can never be binded to Xamarin */
-+ (void)enableMachExceptionHandler {
-  [[self sharedInstance] setEnableMachExceptionHandler:YES];
++ (void)disableMachExceptionHandler {
+  [[self sharedInstance] setEnableMachExceptionHandler:NO];
 }
 
 + (void)setDelegate:(_Nullable id<MSCrashesDelegate>)delegate {
@@ -242,6 +242,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     _logBufferDir = [MSCrashesUtil logBufferDir];
     _analyzerInProgressFile = [_crashesDir URLByAppendingPathComponent:kMSAnalyzerFilename];
     _didCrashInLastSession = NO;
+    _enableMachExceptionHandler = YES;
     _channelConfiguration = [[MSChannelConfiguration alloc] initWithGroupId:[self groupId]
                                                                    priority:MSPriorityHigh
                                                               flushInterval:1.0

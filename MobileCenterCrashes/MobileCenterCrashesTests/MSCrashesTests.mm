@@ -477,24 +477,25 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   XCTAssertTrue([[MSCrashes sharedInstance] initializationPriority] == MSInitializationPriorityMax);
 }
 
-- (void)testEnablingMachExceptionWorks {
-  // Then
-  XCTAssertFalse([[MSCrashes sharedInstance] isMachExceptionHandlerEnabled]);
-
-  // When
-  [MSCrashes enableMachExceptionHandler];
+- (void)testDisableMachExceptionWorks {
 
   // Then
   XCTAssertTrue([[MSCrashes sharedInstance] isMachExceptionHandlerEnabled]);
 
-  // Then
-  XCTAssertFalse([self.sut isMachExceptionHandlerEnabled]);
-
   // When
-  [self.sut setEnableMachExceptionHandler:YES];
+  [MSCrashes disableMachExceptionHandler];
+
+  // Then
+  XCTAssertFalse([[MSCrashes sharedInstance] isMachExceptionHandlerEnabled]);
 
   // Then
   XCTAssertTrue([self.sut isMachExceptionHandlerEnabled]);
+
+  // When
+  [self.sut setEnableMachExceptionHandler:NO];
+
+  // Then
+  XCTAssertFalse([self.sut isMachExceptionHandlerEnabled]);
 }
 
 - (void)testWrapperCrashCallback {
