@@ -61,16 +61,13 @@ typedef NS_ENUM(NSUInteger, MSUserConfirmation) {
  * The best way to use this is to trigger the crash with a button action.
  *
  * Make sure not to let the app crash in `applicationDidFinishLaunching` or any
- * other
- * startup method! Since otherwise the app would crash before the SDK could
+ * other startup method! Since otherwise the app would crash before the SDK could
  * process it.
  *
  * Note that our SDK provides support for handling crashes that happen early on
- * startup.
- * Check the documentation for more information on how to use this.
+ * startup. Check the documentation for more information on how to use this.
  *
- * If the SDK detects an App Store environment, it will _NOT_ cause the app to
- * crash!
+ * If the SDK detects an App Store environment, it will _NOT_ cause the app to crash!
  */
 + (void)generateTestCrash;
 
@@ -109,7 +106,7 @@ typedef NS_ENUM(NSUInteger, MSUserConfirmation) {
  * `MSCrashes.disableMachExceptionHandler()`
  * `MSMobileCenter.start("YOUR_APP_ID", withServices: [MSAnalytics.self, MSCrashes.self])`
  *
- * @discuss This can be useful to disable the Mach exception handler when you are debugging the Crashes service while
+ * @discussion This can be useful to disable the Mach exception handler when you are debugging the Crashes service while
  * developing, especially when you attach the debugger to your application after launch.
  */
 + (void)disableMachExceptionHandler;
