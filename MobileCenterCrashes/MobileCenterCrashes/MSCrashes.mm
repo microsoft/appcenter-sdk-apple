@@ -729,7 +729,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   for (NSURL *fileURL in files) {
     [self.fileManager removeItemAtURL:fileURL error:&error];
     if (error) {
-      MSLogWarning([MSCrashes logTag], @"Couldn't delete a file \"%@\": %@", fileURL, error.localizedDescription);
+      MSLogWarning([MSCrashes logTag], @"Couldn't delete file \"%@\": %@", fileURL, error.localizedDescription);
     }
   }
   [self.crashFiles removeAllObjects];
@@ -740,7 +740,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   if ([fileURL checkResourceIsReachableAndReturnError:nil]) {
     [self.fileManager removeItemAtURL:fileURL error:&error];
     if (error) {
-      MSLogWarning([MSCrashes logTag], @"Couldn't delete a file \"%@\": %@", fileURL, error.localizedDescription);
+      MSLogWarning([MSCrashes logTag], @"Couldn't delete file \"%@\": %@", fileURL, error.localizedDescription);
     }
   }
 }

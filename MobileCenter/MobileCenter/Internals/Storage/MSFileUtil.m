@@ -69,7 +69,7 @@
     MSLogVerbose([MSMobileCenter logTag], @"File %@: has been successfully deleted", file.fileURL);
     return YES;
   } else {
-    MSLogError([MSMobileCenter logTag], @"Couldn't delete a file \"%@\": %@", file.fileURL, error.localizedDescription);
+    MSLogError([MSMobileCenter logTag], @"Couldn't delete file \"%@\": %@", file.fileURL, error.localizedDescription);
     return NO;
   }
 }
