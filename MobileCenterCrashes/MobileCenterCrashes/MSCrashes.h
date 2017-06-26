@@ -61,16 +61,13 @@ typedef NS_ENUM(NSUInteger, MSUserConfirmation) {
  * The best way to use this is to trigger the crash with a button action.
  *
  * Make sure not to let the app crash in `applicationDidFinishLaunching` or any
- * other
- * startup method! Since otherwise the app would crash before the SDK could
+ * other startup method! Since otherwise the app would crash before the SDK could
  * process it.
  *
  * Note that our SDK provides support for handling crashes that happen early on
- * startup.
- * Check the documentation for more information on how to use this.
+ * startup. Check the documentation for more information on how to use this.
  *
- * If the SDK detects an App Store environment, it will _NOT_ cause the app to
- * crash!
+ * If the SDK detects an App Store environment, it will _NOT_ cause the app to crash!
  */
 + (void)generateTestCrash;
 
@@ -95,37 +92,24 @@ typedef NS_ENUM(NSUInteger, MSUserConfirmation) {
 ///-----------------------------------------------------------------------------
 
 /**
- *  Trap fatal signals via a Mach exception server.
+ * Disable the Mach exception server.
  *
- *  By default, the SDK is using the safe and proven in-process BSD Signals for catching crashes. This option provides
- *  an option to enable catching fatal signals via a Mach exception server instead.
+ * By default, the SDK uses the Mach exception handler to catch fatal signals, e.g. stack overflows, via a Mach
+ * exception server. If you want to disable the Mach exception handler, you should call this method _BEFORE_ starting
+ * the SDK. Your typical setup code would look like this:
  *
- *  The SDK will not check if the app is running in an AppStore environment or if a debugger is attached because some
- *  developers chose to do both at their own risk.
+ * `[MSCrashes disableMachExceptionHandler]`;
+ * `[MSMobileCenter start:@"YOUR_APP_ID" withServices:@[[MSCrashes class]]];`
  *
- *  If you want or need to enable the Mach exception handler, you _MUST_ call this method _BEFORE_ starting the SDK.
- *  Your typical setup code would look like this:
+ * or if you are using Swift:
  *
- *  `[MSCrashes enableMachExceptionHandler]`;
- *  `[MSMobileCenter start:@"YOUR_APP+_ID" withServices:@[[MSCrashes class]]];`
+ * `MSCrashes.disableMachExceptionHandler()`
+ * `MSMobileCenter.start("YOUR_APP_ID", withServices: [MSAnalytics.self, MSCrashes.self])`
  *
- *  or if you are using Swift:
- *
- *  `MSCrashes.enableMachExceptionHandler()`
- *  `MSMobileCenter.start("YOUR_APP+_ID", withServices: [MSAnalytics.self, MSCrashes.self])`
- *
- *  We strongly advice _NOT_ to enable Mach exception handler in release versions of your apps!
- *
- *  Default: _NO_
- *
- * @warning The Mach exception handler executes in-process, and will interfere with debuggers when
- *  they attempt to suspend all active threads (which will include the Mach exception handler).
- *  Mach-based handling should _NOT_ be used when a debugger is attached. The SDK will not
- *  enabled catching exceptions if the app is started with the debugger running. If you attach
- *  the debugger during runtime, this may cause issues if the Mach exception handler is enabled!
- * @see isDebuggerAttached
+ * @discussion This can be useful to disable the Mach exception handler when you are debugging the Crashes service while
+ * developing, especially when you attach the debugger to your application after launch.
  */
-+ (void)enableMachExceptionHandler;
++ (void)disableMachExceptionHandler;
 
 /**
  * Set the delegate
