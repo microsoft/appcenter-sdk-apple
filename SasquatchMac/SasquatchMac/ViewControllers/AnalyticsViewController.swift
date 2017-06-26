@@ -1,7 +1,12 @@
 import Cocoa
 
 // FIXME: trackPage has been hidden in MSAnalytics temporarily. Use internal until the feature comes back.
-class AnalyticsViewController : NSViewController, MobileCenterProtocol {
+class AnalyticsViewController : NSViewController, MobileCenterProtocol, NSTableViewDataSource, NSTableViewDelegate {
+
+  private enum CellIdentifiers {
+    static let keyCellId = "keyCellId";
+    static let valueCellId = "valueCellId";
+  }
 
   var mobileCenter: MobileCenterDelegate? {
     didSet {
@@ -12,34 +17,61 @@ class AnalyticsViewController : NSViewController, MobileCenterProtocol {
   }
 
   @IBOutlet var setEnabledButton : NSButton?;
+  @IBOutlet var table : NSTableView?;
+
+  private var properties : [String : String] = [String : String]();
+  private var textBeforeEditing : String = "";
 
   override func viewDidLoad() {
-    super.viewDidLoad()
+    super.viewDidLoad();
     if let `mobileCenter` = mobileCenter {
-      setEnabledButton?.state = `mobileCenter`.isAnalyticsEnabled() ? 1 : 0
+      setEnabledButton?.state = `mobileCenter`.isAnalyticsEnabled() ? 1 : 0;
     } else {
-      setEnabledButton?.state = ServiceStateStore.AnalyticsState ? 1 : 0
+      setEnabledButton?.state = ServiceStateStore.AnalyticsState ? 1 : 0;
     }
+    table?.delegate = self;
+    table?.dataSource = self;
+    NotificationCenter.default.addObserver(self, selector: #selector(self.editingDidBegin), name: .NSControlTextDidBeginEditing, object: nil);
+    NotificationCenter.default.addObserver(self, selector: #selector(self.editingDidEnd), name: .NSControlTextDidEndEditing, object: nil);
+  }
+
+  override func viewDidDisappear() {
+    super.viewDidDisappear();
+    NotificationCenter.default.removeObserver(self);
   }
 
   @IBAction func trackEvent(_ : AnyObject) {
     if let `mobileCenter` = mobileCenter {
-      mobileCenter.trackEvent("myEvent")
-    }
-  }
-
-  @IBAction func trackEventWithProperties(_ : AnyObject) {
-    if let `mobileCenter` = mobileCenter {
-      mobileCenter.trackEvent("myEvent", withProperties: ["gender":"male", "age":"20", "title":"SDE"]);
+      mobileCenter.trackEvent("myEvent", withProperties: properties);
     }
   }
 
   @IBAction func trackPage(_ : AnyObject) {
-    NSLog("trackPage");
+    NSLog("trackPageWithProperties: %d", properties.count);
   }
 
-  @IBAction func trackPageWithProperties(_ : AnyObject) {
-    NSLog("trackPageWithProperties");
+  @IBAction func addProperty(_ : AnyObject) {
+    let newKey = String(format:"key%d",properties.count);
+    let newValue = String(format:"value%d",properties.count);
+
+    properties.updateValue(newValue, forKey: newKey);
+    table?.reloadData();
+  }
+
+  @IBAction func deleteProperty(_ : AnyObject) {
+    if properties.isEmpty {
+      return;
+    }
+    guard let `table` = table else {
+      return;
+    }
+    if (table.selectedRow < 0) {
+      _ = properties.popFirst();
+    } else {
+      let key : String = Array(properties.keys)[table.selectedRow];
+      _ = properties.removeValue(forKey: key);
+    }
+    table.reloadData();
   }
 
   @IBAction func setEnabled(sender : NSButton) {
@@ -48,5 +80,74 @@ class AnalyticsViewController : NSViewController, MobileCenterProtocol {
     }
     mobileCenter.setAnalyticsEnabled(sender.state == 1)
     sender.state = mobileCenter.isAnalyticsEnabled() ? 1 : 0
+  }
+
+  //MARK: Table view source delegate
+
+  func numberOfRows(in tableView: NSTableView) -> Int {
+    return properties.count;
+  }
+
+  //MARK: Table view delegate
+  
+  func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+    guard let `tableColumn` = tableColumn else {
+      return nil;
+    }
+
+    var cellValue : String = "";
+    var cellId : String = "";
+    let key : String = Array(properties.keys)[row];
+
+    if (tableColumn == tableView.tableColumns[0]) {
+      cellValue = key;
+      cellId = CellIdentifiers.keyCellId;
+    } else if (tableColumn == tableView.tableColumns[1]) {
+      cellValue = properties[key]!;
+      cellId = CellIdentifiers.valueCellId;
+    }
+
+    if let cell = tableView.make(withIdentifier: cellId, owner: nil) as? NSTableCellView {
+      cell.textField?.stringValue = cellValue;
+      cell.textField?.isEditable = true;
+      return cell;
+    }
+
+    return nil;
+  }
+
+  //MARK: Text field events
+
+  func editingDidBegin(notification : NSNotification) {
+    guard let textField = notification.object as? NSTextField else {
+      return;
+    }
+    textBeforeEditing = textField.stringValue;
+  }
+
+  func editingDidEnd(notification : NSNotification) {
+    guard let textField = notification.object as? NSTextField else {
+      return;
+    }
+
+    // If key
+    if (properties.keys.contains(textBeforeEditing)) {
+      let oldKey : String = textBeforeEditing;
+      let newKey : String = textField.stringValue;
+      if let value = properties.removeValue(forKey: oldKey) {
+        properties.updateValue(value, forKey: newKey);
+      }
+    }
+
+    // If value
+    else {
+      guard let row = table?.row(for: textField) else {
+        return;
+      }
+      let key : String = Array(properties.keys)[row];
+      properties.updateValue(textField.stringValue, forKey: key);
+    }
+
+    table?.reloadData();
   }
 }
