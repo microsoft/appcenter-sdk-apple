@@ -108,6 +108,9 @@ typedef NS_ENUM(NSUInteger, MSUserConfirmation) {
  *
  * `MSCrashes.disableMachExceptionHandler()`
  * `MSMobileCenter.start("YOUR_APP_ID", withServices: [MSAnalytics.self, MSCrashes.self])`
+ *
+ * @discuss This can be useful to disable the Mach exception handler when you are debugging the Crashes service while
+ * developing, especially when you attach the debugger to your application after launch.
  */
 + (void)disableMachExceptionHandler;
 
