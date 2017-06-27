@@ -133,15 +133,15 @@
       loadLogsForGroupId:self.configuration.groupId
           withCompletion:^(BOOL succeeded, NSArray<MSLog> *_Nonnull logArray, NSString *_Nonnull batchId) {
 
-               // Logs may be deleted from storage before this flush.
-               if (succeeded) {
-                 [self.pendingBatchIds addObject:batchId];
-                 if (self.pendingBatchIds.count >= self.configuration.pendingBatchesLimit) {
-                   self.pendingBatchQueueFull = YES;
-                 }
-                 MSLogContainer *container = [[MSLogContainer alloc] initWithBatchId:batchId andLogs:logArray];
-                 MSLogDebug([MSMobileCenter logTag], @"Sending log(s), batch Id:%@, payload:\n%@", batchId,
-                            [container serializeLogWithPrettyPrinting:YES]);
+            // Logs may be deleted from storage before this flush.
+            if (succeeded) {
+              [self.pendingBatchIds addObject:batchId];
+              if (self.pendingBatchIds.count >= self.configuration.pendingBatchesLimit) {
+                self.pendingBatchQueueFull = YES;
+              }
+              MSLogContainer *container = [[MSLogContainer alloc] initWithBatchId:batchId andLogs:logArray];
+              MSLogDebug([MSMobileCenter logTag], @"Sending log(s), batch Id:%@, payload:\n%@", batchId,
+                         [container serializeLogWithPrettyPrinting:YES]);
 
               // Notify delegates.
               [self enumerateDelegatesForSelector:@selector(channel:willSendLog:)
@@ -151,12 +151,13 @@
                                           }
                                         }];
 
-                 // Forward logs to the sender.
-                 [self.sender
-                             sendAsync:container
-                     completionHandler:^(NSString *senderBatchId, NSUInteger statusCode, __attribute__((unused)) NSData *data, NSError *error) {
-                       dispatch_async(self.logsDispatchQueue, ^{
-                         if ([self.pendingBatchIds containsObject:senderBatchId]) {
+              // Forward logs to the sender.
+              [self.sender
+                          sendAsync:container
+                  completionHandler:^(NSString *senderBatchId, NSUInteger statusCode,
+                                      __attribute__((unused)) NSData *data, NSError *error) {
+                    dispatch_async(self.logsDispatchQueue, ^{
+                      if ([self.pendingBatchIds containsObject:senderBatchId]) {
 
                         // Success.
                         if (statusCode == MSHTTPCodesNo200OK) {
@@ -225,7 +226,8 @@
    * Cast (NSEC_PER_SEC * self.configuration.flushInterval) to (int64_t) silence warning. The compiler otherwise
    * complains that we're using a float param (flushInterval) and implicitly downcast to int64_t.
    */
-  dispatch_source_set_timer(self.timerSource, dispatch_walltime(NULL, (int64_t) (NSEC_PER_SEC * self.configuration.flushInterval)),
+  dispatch_source_set_timer(self.timerSource,
+                            dispatch_walltime(NULL, (int64_t)(NSEC_PER_SEC * self.configuration.flushInterval)),
                             1ull * NSEC_PER_SEC, 1ull * NSEC_PER_SEC);
   __weak typeof(self) weakSelf = self;
   dispatch_source_set_event_handler(self.timerSource, ^{
@@ -255,7 +257,7 @@
     if (self.enabled != isEnabled) {
       self.enabled = isEnabled;
       if (isEnabled) {
-        if (!self.sender.suspended){
+        if (!self.sender.suspended) {
           [self resume];
         }
       } else {
@@ -278,6 +280,10 @@
 
       // Prevent further logs from being persisted.
       self.discardLogs = YES;
+    } else {
+
+      // Allow logs to be persisted.
+      self.discardLogs = NO;
     }
   });
 }
@@ -294,7 +300,6 @@
   if (self.suspended && self.enabled) {
     MSLogDebug([MSMobileCenter logTag], @"Resume channel for group Id %@.", self.configuration.groupId);
     self.suspended = NO;
-    self.discardLogs = NO;
     [self flushQueue];
   }
 }
@@ -342,7 +347,7 @@
 
 - (void)senderDidReceiveFatalError:(id<MSSender>)sender {
   (void)sender;
-  
+
   // Disable and delete data on fatal errors.
   [self setEnabled:NO andDeleteDataOnDisabled:YES];
 }
