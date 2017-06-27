@@ -1,38 +1,30 @@
 #import "MSDBStorage.h"
 
-static NSString *const kMSLogEntityName = @"MSDBLog";
-static NSString *const kMSDBFileName = @"MSDBLogs.sqlite";
-static NSString *const kMSLogTableName = @"MSLog";
-static NSString *const kMSIdColumnName = @"id";
-static NSString *const kMSGroupIdColumnName = @"groupId";
-static NSString *const kMSDataColumnName = @"data";
+NS_ASSUME_NONNULL_BEGIN
 
-@protocol MSDatabaseConnection;
+static NSString *const kMSStorageDirectory = @"com.microsoft.azure.mobile.mobilecenter";
 
 @interface MSDBStorage ()
 
 /**
- * Maximum allowed capacity in this storage.
+ * Database absolute file path on the device's file system.
  */
-@property(nonatomic, readonly) NSUInteger capacity;
+@property(nonatomic, readonly, copy, nullable) NSString *filePath;
 
 /**
- * Connection to SQLite database.
- */
-@property(nonatomic) id<MSDatabaseConnection> connection;
-
-/**
- * Keep track of logs batches per group Id associated with their logs Ids.
- */
-@property(nonatomic) NSMutableDictionary<NSString *, NSArray<NSString *> *> *batches;
-
-/**
- * Get all logs with the given group Id from the storage.
+ * Check if a table exists in this database.
  *
- * @param groupId The key used for grouping logs.
+ * @param tableName Table name.
  *
- * @return Logs corresponding to the given group Id from the storage.
+ * @return `YES` if the table exists in the database, otherwise `NO`.
  */
-- (NSDictionary<NSString *, id<MSLog>> *)getLogsFromDBWithGroupId:(NSString *)groupId;
+- (BOOL)tableExists:(NSString *)tableName;
+
+/**
+ * Delete the database file, this can't be undone. Only used while testing.
+ */
+- (void)deleteDB;
 
 @end
+
+NS_ASSUME_NONNULL_END

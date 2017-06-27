@@ -1,6 +1,6 @@
 #import "MobileCenter+Internal.h"
 #import "MSChannelDefault.h"
-#import "MSDBStorage.h"
+#import "MSLogDBStorage.h"
 #import "MSHttpSender.h"
 #import "MSIngestionSender.h"
 #import "MSLogManagerDefault.h"
@@ -31,7 +31,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecent
   self = [self initWithSender:[[MSIngestionSender alloc] initWithBaseUrl:logUrl
                                                                appSecret:appSecret
                                                                installId:[installId UUIDString]]
-                      storage:[[MSDBStorage alloc] initWithCapacity:kMSStorageMaxCapacity]];
+                      storage:[[MSLogDBStorage alloc] initWithCapacity:kMSStorageMaxCapacity]];
   return self;
 }
 
