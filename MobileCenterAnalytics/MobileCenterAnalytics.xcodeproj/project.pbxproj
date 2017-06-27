@@ -265,8 +265,8 @@
 
 /* Begin PBXFileReference section */
 		041CFF8B1ECCFF6700B4654B /* Tests iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests iOS.xcconfig"; path = "../../Config/Tests iOS.xcconfig"; sourceTree = "<group>"; };
-		0420A6861ECA7A4B00915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../macOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
-		0420A6921ECA7B1100915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../iOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
+		0420A6861ECA7A4B00915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../Vendor/macOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
+		0420A6921ECA7B1100915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../Vendor/iOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
 		042A17A71DEFA950003BA80A /* MSAnalyticsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAnalyticsTests.m; sourceTree = "<group>"; };
 		04311FF11EE0858F007054C5 /* MSTestFrameworks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSTestFrameworks.h; path = ../../../MobileCenter/MobileCenterTests/Util/MSTestFrameworks.h; sourceTree = "<group>"; };
 		0431216C1EE0C20A007054C5 /* libMobileCenterAnalytics.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMobileCenterAnalytics.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -280,6 +280,8 @@
 		049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
 		049BC82C1ECE3CF000FB6719 /* Tests macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests macOS.xcconfig"; path = "../../Config/Tests macOS.xcconfig"; sourceTree = "<group>"; };
 		04A1408D1ECE65F4001CEE94 /* libMobileCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobileCenter.a; path = "../../../../../Library/Developer/Xcode/DerivedData/MobileCenter-cxbmzrupyysdsehdxmozcvjphajr/Build/Products/Debug/libMobileCenter.a"; sourceTree = "<group>"; };
+		04A394131F030666004EAFC7 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../Vendor/tvOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
+		04A3941F1F030722004EAFC7 /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = ../../Vendor/tvOS/OCHamcrest/OCHamcrest.framework; sourceTree = "<group>"; };
 		04BED7161ECB64CE00E20975 /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = ../../Vendor/macOS/OCHamcrest/OCHamcrest.framework; sourceTree = "<group>"; };
 		04ED31E91EAAD32B0033BAAE /* macOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = macOS.modulemap; sourceTree = "<group>"; };
 		04ED31EB1EAAD3390033BAAE /* iOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = iOS.modulemap; sourceTree = "<group>"; };
@@ -368,22 +370,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0420A68F1ECA7ACD00915619 /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				0420A6921ECA7B1100915619 /* OCMock.framework */,
-			);
-			name = iOS;
-			sourceTree = "<group>";
-		};
-		0420A6901ECA7AD400915619 /* macOS */ = {
-			isa = PBXGroup;
-			children = (
-				0420A6861ECA7A4B00915619 /* OCMock.framework */,
-			);
-			name = macOS;
-			sourceTree = "<group>";
-		};
 		04A1409C1ECE7245001CEE94 /* Util */ = {
 			isa = PBXGroup;
 			children = (
@@ -421,11 +407,54 @@
 			path = Util;
 			sourceTree = "<group>";
 		};
+		04A394031F030580004EAFC7 /* tvOS */ = {
+			isa = PBXGroup;
+			children = (
+				04A3941F1F030722004EAFC7 /* OCHamcrest.framework */,
+			);
+			name = tvOS;
+			sourceTree = "<group>";
+		};
+		04A3940F1F030640004EAFC7 /* OCMock */ = {
+			isa = PBXGroup;
+			children = (
+				04A394121F030650004EAFC7 /* iOS */,
+				04A394111F03064C004EAFC7 /* macOS */,
+				04A394101F030647004EAFC7 /* tvOS */,
+			);
+			name = OCMock;
+			sourceTree = "<group>";
+		};
+		04A394101F030647004EAFC7 /* tvOS */ = {
+			isa = PBXGroup;
+			children = (
+				04A394131F030666004EAFC7 /* OCMock.framework */,
+			);
+			name = tvOS;
+			sourceTree = "<group>";
+		};
+		04A394111F03064C004EAFC7 /* macOS */ = {
+			isa = PBXGroup;
+			children = (
+				0420A6861ECA7A4B00915619 /* OCMock.framework */,
+			);
+			name = macOS;
+			sourceTree = "<group>";
+		};
+		04A394121F030650004EAFC7 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				0420A6921ECA7B1100915619 /* OCMock.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
 		04BED7131ECB64B100E20975 /* OCHamcrest */ = {
 			isa = PBXGroup;
 			children = (
 				04BED7151ECB64C000E20975 /* iOS */,
 				04BED7141ECB64BB00E20975 /* macOS */,
+				04A394031F030580004EAFC7 /* tvOS */,
 			);
 			name = OCHamcrest;
 			sourceTree = "<group>";
@@ -452,19 +481,9 @@
 				6E06844C1D35A4CA00A8CC6C /* libMobileCenter.a */,
 				04A1408D1ECE65F4001CEE94 /* libMobileCenter.a */,
 				04BED7131ECB64B100E20975 /* OCHamcrest */,
-				6E0684391D35A3C800A8CC6C /* OCMock */,
+				04A3940F1F030640004EAFC7 /* OCMock */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		6E0684391D35A3C800A8CC6C /* OCMock */ = {
-			isa = PBXGroup;
-			children = (
-				0420A68F1ECA7ACD00915619 /* iOS */,
-				0420A6901ECA7AD400915619 /* macOS */,
-			);
-			name = OCMock;
-			path = ../../Vendor/Common/OCMock;
 			sourceTree = "<group>";
 		};
 		6E3E2CC21D359D5E00B1EE50 /* Model */ = {

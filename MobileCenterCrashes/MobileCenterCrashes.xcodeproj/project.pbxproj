@@ -407,8 +407,8 @@
 /* Begin PBXFileReference section */
 		041CFF911ECD00DC00B4654B /* Tests iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests iOS.xcconfig"; path = "../../Config/Tests iOS.xcconfig"; sourceTree = "<group>"; };
 		041CFF981ECD010000B4654B /* Tests macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests macOS.xcconfig"; path = "../../Config/Tests macOS.xcconfig"; sourceTree = "<group>"; };
-		0420A68A1ECA7A9B00915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../iOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
-		0420A68C1ECA7AA800915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../macOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
+		0420A68A1ECA7A9B00915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../Vendor/iOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
+		0420A68C1ECA7AA800915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../Vendor/macOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
 		04311FF41EE08697007054C5 /* MSTestFrameworks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSTestFrameworks.h; path = ../../MobileCenter/MobileCenterTests/Util/MSTestFrameworks.h; sourceTree = "<group>"; };
 		04311FFB1EE08885007054C5 /* MSCrashReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrashReporter.h; sourceTree = "<group>"; };
 		044C45F81DB6EA0C00F3C29E /* MSErrorAttachmentPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSErrorAttachmentPrivate.h; sourceTree = "<group>"; };
@@ -442,6 +442,8 @@
 		049BC8251ECE36D400FB6719 /* iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS.xcconfig; sourceTree = "<group>"; };
 		049BC8261ECE370100FB6719 /* macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
 		04A140901ECE6625001CEE94 /* libMobileCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobileCenter.a; path = "../../../../../Library/Developer/Xcode/DerivedData/MobileCenter-cxbmzrupyysdsehdxmozcvjphajr/Build/Products/Debug/libMobileCenter.a"; sourceTree = "<group>"; };
+		04A394071F0305B4004EAFC7 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../Vendor/tvOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
+		04A394091F0305DB004EAFC7 /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = ../../Vendor/tvOS/OCHamcrest/OCHamcrest.framework; sourceTree = "<group>"; };
 		04BED7211ECB65DD00E20975 /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = ../../Vendor/macOS/OCHamcrest/OCHamcrest.framework; sourceTree = "<group>"; };
 		04EBBEAE1F01C0B50006B8AE /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = ../Vendor/tvOS/PLCrashReporter/CrashReporter.framework; sourceTree = "<group>"; };
 		04EBBEE81F01C0C90006B8AE /* libMobileCenterCrashes.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMobileCenterCrashes.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -594,22 +596,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0420A6881ECA7A7000915619 /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				0420A68A1ECA7A9B00915619 /* OCMock.framework */,
-			);
-			name = iOS;
-			sourceTree = "<group>";
-		};
-		0420A6891ECA7A7800915619 /* macOS */ = {
-			isa = PBXGroup;
-			children = (
-				0420A68C1ECA7AA800915619 /* OCMock.framework */,
-			);
-			name = macOS;
-			sourceTree = "<group>";
-		};
 		049327981ECA19FD00D0187A /* PLCrashReporter */ = {
 			isa = PBXGroup;
 			children = (
@@ -691,11 +677,54 @@
 			path = Util;
 			sourceTree = "<group>";
 		};
+		04A394051F030598004EAFC7 /* tvOS */ = {
+			isa = PBXGroup;
+			children = (
+				04A394091F0305DB004EAFC7 /* OCHamcrest.framework */,
+			);
+			name = tvOS;
+			sourceTree = "<group>";
+		};
+		04A3940B1F0305F9004EAFC7 /* OCMock */ = {
+			isa = PBXGroup;
+			children = (
+				04A3940C1F030610004EAFC7 /* iOS */,
+				04A3940E1F030622004EAFC7 /* macOS */,
+				04A3940D1F03061C004EAFC7 /* tvOS */,
+			);
+			name = OCMock;
+			sourceTree = "<group>";
+		};
+		04A3940C1F030610004EAFC7 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				0420A68A1ECA7A9B00915619 /* OCMock.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		04A3940D1F03061C004EAFC7 /* tvOS */ = {
+			isa = PBXGroup;
+			children = (
+				04A394071F0305B4004EAFC7 /* OCMock.framework */,
+			);
+			name = tvOS;
+			sourceTree = "<group>";
+		};
+		04A3940E1F030622004EAFC7 /* macOS */ = {
+			isa = PBXGroup;
+			children = (
+				0420A68C1ECA7AA800915619 /* OCMock.framework */,
+			);
+			name = macOS;
+			sourceTree = "<group>";
+		};
 		04BED71E1ECB65BF00E20975 /* OCHamcrest */ = {
 			isa = PBXGroup;
 			children = (
 				04BED7201ECB65C900E20975 /* iOS */,
 				04BED71F1ECB65C500E20975 /* macOS */,
+				04A394051F030598004EAFC7 /* tvOS */,
 			);
 			name = OCHamcrest;
 			sourceTree = "<group>";
@@ -832,19 +861,9 @@
 				6E171AEF1D22F841000DC480 /* libMobileCenter.a */,
 				04A140901ECE6625001CEE94 /* libMobileCenter.a */,
 				04BED71E1ECB65BF00E20975 /* OCHamcrest */,
-				6E171B041D22FABA000DC480 /* OCMock */,
+				04A3940B1F0305F9004EAFC7 /* OCMock */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		6E171B041D22FABA000DC480 /* OCMock */ = {
-			isa = PBXGroup;
-			children = (
-				0420A6881ECA7A7000915619 /* iOS */,
-				0420A6891ECA7A7800915619 /* macOS */,
-			);
-			name = OCMock;
-			path = ../../Vendor/Common/OCMock;
 			sourceTree = "<group>";
 		};
 		6E37297E1D1DE93800F1E4AE /* Support */ = {
