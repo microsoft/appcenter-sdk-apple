@@ -26,9 +26,29 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      codeCoverageEnabled = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "04FD4A301E453531009B4468"
+               BuildableName = "MobileCenterDistribute.xctest"
+               BlueprintName = "MobileCenterDistributeIOSTests"
+               ReferencedContainer = "container:MobileCenterDistribute.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "04FD4A1B1E451E12009B4468"
+            BuildableName = "libMobileCenterDistribute.a"
+            BlueprintName = "MobileCenterDistributeIOS"
+            ReferencedContainer = "container:MobileCenterDistribute.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
