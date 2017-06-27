@@ -14,6 +14,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "80F991201F0265070040FAD7"
+               BuildableName = "CrashLibTV.framework"
+               BlueprintName = "CrashLibTV"
+               ReferencedContainer = "container:../CrashLibIOS/CrashLib.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "043121491EE0BFC7007054C5"
                BuildableName = "MobileCenterTVOSFramework"
                BlueprintName = "MobileCenterTVOSFramework"
@@ -32,6 +46,20 @@
                BuildableName = "MobileCenterAnalyticsTVOSFramework"
                BlueprintName = "MobileCenterAnalyticsTVOSFramework"
                ReferencedContainer = "container:../MobileCenterAnalytics/MobileCenterAnalytics.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "04EBBEE91F01C0E10006B8AE"
+               BuildableName = "MobileCenterCrashesTVOSFramework"
+               BlueprintName = "MobileCenterCrashesTVOSFramework"
+               ReferencedContainer = "container:../MobileCenterCrashes/MobileCenterCrashes.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
