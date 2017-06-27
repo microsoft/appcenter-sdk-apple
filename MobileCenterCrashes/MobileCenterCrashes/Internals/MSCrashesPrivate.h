@@ -70,7 +70,9 @@ typedef struct MSCrashesCallbacks {
   MSCrashesPostCrashSignalCallback handleSignal;
 } MSCrashesCallbacks;
 
+#if !TARGET_OS_TV
 @property(nonatomic, assign, getter=isMachExceptionHandlerEnabled) BOOL enableMachExceptionHandler;
+#endif
 
 /**
  * A list containing all crash files that currently stored on disk for this app.

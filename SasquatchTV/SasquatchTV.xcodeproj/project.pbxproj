@@ -11,6 +11,8 @@
 		0431217B1EE0C65B007054C5 /* MobileCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 043121791EE0C65B007054C5 /* MobileCenterAnalytics.framework */; };
 		0431217C1EE0C669007054C5 /* MobileCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 043121781EE0C65B007054C5 /* MobileCenter.framework */; };
 		0431217D1EE0C669007054C5 /* MobileCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 043121791EE0C65B007054C5 /* MobileCenterAnalytics.framework */; };
+		04EBBEFB1F01C88D0006B8AE /* MobileCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04EBBEFA1F01C88D0006B8AE /* MobileCenterCrashes.framework */; };
+		04EBBEFC1F01C89A0006B8AE /* MobileCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04EBBEFA1F01C88D0006B8AE /* MobileCenterCrashes.framework */; };
 		5C2CC7071EE6C08600E2BDA4 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5C2CC7051EE6C08600E2BDA4 /* Info.plist */; };
 		5C2CC70A1EE6C0B600E2BDA4 /* AnalyticsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2CC7061EE6C08600E2BDA4 /* AnalyticsUITests.swift */; };
 		5C2CC70B1EE6C0B600E2BDA4 /* AnalyticsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2CC7061EE6C08600E2BDA4 /* AnalyticsUITests.swift */; };
@@ -56,6 +58,7 @@
 /* Begin PBXFileReference section */
 		043121781EE0C65B007054C5 /* MobileCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenter.framework; path = "../MobileCenter-SDK-iOS/tvOS/MobileCenter.framework"; sourceTree = "<group>"; };
 		043121791EE0C65B007054C5 /* MobileCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterAnalytics.framework; path = "../MobileCenter-SDK-iOS/tvOS/MobileCenterAnalytics.framework"; sourceTree = "<group>"; };
+		04EBBEFA1F01C88D0006B8AE /* MobileCenterCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterCrashes.framework; path = "../MobileCenter-SDK-Apple/tvOS/MobileCenterCrashes.framework"; sourceTree = "<group>"; };
 		5C2CC6ED1EE6BE5400E2BDA4 /* SasquatchTVObjCUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SasquatchTVObjCUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C2CC6FB1EE6BEE000E2BDA4 /* SasquatchTVSwiftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SasquatchTVSwiftUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C2CC7051EE6C08600E2BDA4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = SasquatchTVUITests/Info.plist; sourceTree = SOURCE_ROOT; };
@@ -107,6 +110,7 @@
 			files = (
 				0431217C1EE0C669007054C5 /* MobileCenter.framework in Frameworks */,
 				0431217D1EE0C669007054C5 /* MobileCenterAnalytics.framework in Frameworks */,
+				04EBBEFC1F01C89A0006B8AE /* MobileCenterCrashes.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -116,6 +120,7 @@
 			files = (
 				0431217A1EE0C65B007054C5 /* MobileCenter.framework in Frameworks */,
 				0431217B1EE0C65B007054C5 /* MobileCenterAnalytics.framework in Frameworks */,
+				04EBBEFB1F01C88D0006B8AE /* MobileCenterCrashes.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -129,8 +134,7 @@
 				5C2CC7061EE6C08600E2BDA4 /* AnalyticsUITests.swift */,
 				5C4F92611EE83E08003140BF /* MobileCenterUITests.swift */,
 			);
-			name = SasquatchTVUITests;
-			path = SasquatchTVObjCUITests;
+			path = SasquatchTVUITests;
 			sourceTree = "<group>";
 		};
 		5C481BAB1EE58922009329DD /* MSAlertController */ = {
@@ -249,6 +253,7 @@
 		D322F0061E8E98DF00A8EDA5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				04EBBEFA1F01C88D0006B8AE /* MobileCenterCrashes.framework */,
 				043121781EE0C65B007054C5 /* MobileCenter.framework */,
 				043121791EE0C65B007054C5 /* MobileCenterAnalytics.framework */,
 			);
@@ -340,26 +345,26 @@
 				TargetAttributes = {
 					5C2CC6EC1EE6BE5400E2BDA4 = {
 						CreatedOnToolsVersion = 8.3.2;
-						DevelopmentTeam = L4RARDNZ2Y;
+						DevelopmentTeam = UBF8T346G9;
 						ProvisioningStyle = Automatic;
 						TestTargetID = D322EFEA1E8E97DF00A8EDA5;
 					};
 					5C2CC6FA1EE6BEE000E2BDA4 = {
 						CreatedOnToolsVersion = 8.3.2;
-						DevelopmentTeam = L4RARDNZ2Y;
+						DevelopmentTeam = UBF8T346G9;
 						ProvisioningStyle = Automatic;
 						TestTargetID = D322EFD71E8E97C800A8EDA5;
 					};
 					D322EFD71E8E97C800A8EDA5 = {
-						CreatedOnToolsVersion = 8.2.1;
+						CreatedOnToolsVersion = 8.3.2;
 						DevelopmentTeam = L4RARDNZ2Y;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 					D322EFEA1E8E97DF00A8EDA5 = {
-						CreatedOnToolsVersion = 8.2.1;
-						LastSwiftMigration = 0830;
+						CreatedOnToolsVersion = 8.3.2;
 						DevelopmentTeam = L4RARDNZ2Y;
-						ProvisioningStyle = Automatic;
+						LastSwiftMigration = 0830;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -575,11 +580,13 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-Apple/**";
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-Apple/tvOS/**";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -625,11 +632,13 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-Apple/**";
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-Apple/tvOS/**";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -653,11 +662,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-Apple/tvOS/**";
 				INFOPLIST_FILE = SasquatchTVSwift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchswift.tv;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "a971cd25-b836-44af-82e2-904a8a5d7fb4";
+				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Sasquatch TV Swift App";
 				SWIFT_OBJC_BRIDGING_HEADER = "SasquatchTV/SasquatchTV-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
@@ -669,11 +679,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-Apple/tvOS/**";
 				INFOPLIST_FILE = SasquatchTVSwift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchswift.tv;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "a971cd25-b836-44af-82e2-904a8a5d7fb4";
+				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Sasquatch TV Swift App";
 				SWIFT_OBJC_BRIDGING_HEADER = "SasquatchTV/SasquatchTV-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
@@ -684,15 +695,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-Apple/tvOS/**";
 				INFOPLIST_FILE = SasquatchTVObjC/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc.tv;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "6d1797a5-923e-4fd1-bab8-c88ff9830855";
+				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Sasquatch TV ObjC App";
 				SWIFT_OBJC_BRIDGING_HEADER = "SasquatchTV/SasquatchTV-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
@@ -703,14 +712,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-Apple/tvOS/**";
 				INFOPLIST_FILE = SasquatchTVObjC/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc.tv;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "6d1797a5-923e-4fd1-bab8-c88ff9830855";
+				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Sasquatch TV ObjC App";
 				SWIFT_OBJC_BRIDGING_HEADER = "SasquatchTV/SasquatchTV-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
@@ -726,6 +734,7 @@
 				5C2CC6F51EE6BE5500E2BDA4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5C2CC7021EE6BEE000E2BDA4 /* Build configuration list for PBXNativeTarget "SasquatchTVSwiftUITests" */ = {
 			isa = XCConfigurationList;
@@ -734,6 +743,7 @@
 				5C2CC7041EE6BEE000E2BDA4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D322EFBD1E8E97A100A8EDA5 /* Build configuration list for PBXProject "SasquatchTV" */ = {
 			isa = XCConfigurationList;
