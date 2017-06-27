@@ -33,7 +33,8 @@ enum MobileCenterSections : Int { case actions = 0; case miscellaneous = 1; case
   }
 
   open override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    if
-      let destination = segue.destination as? MobileCenterProtocol { destination.mobileCenter = mobileCenter; }
+    if let destination = segue.destination as? MobileCenterProtocol {
+      destination.mobileCenter = mobileCenter;
+    }
   }
 }

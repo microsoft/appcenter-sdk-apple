@@ -35,22 +35,25 @@ class AnalyticsCUITests : XCTestCase {
     XCUIRemote.shared().press(.select);
 
     // Check status.
-    var cell = app.cells.element(boundBy: 4);
-    var texts = cell.children(matching: .staticText);
-    XCTAssertTrue(texts.element(boundBy: 1).label == "Enabled");
+    let enabledButton = app.segmentedControls.buttons["Enabled"];
+    let disabledButton = app.segmentedControls.buttons["Disabled"];
 
-    // Select analytics status cell.
+    XCTAssertTrue(enabledButton.isSelected);
+    XCTAssertFalse(disabledButton.isSelected);
+
+    // Select analytics status control.
     press(button: .down, times: 4);
 
     // Disable Analytics.
+    XCUIRemote.shared().press(.right);
     XCUIRemote.shared().press(.select);
 
     // Go back.
     XCUIRemote.shared().press(.menu);
 
     // Check SDK status.
-    cell = app.cells.element(boundBy: 4);
-    texts = cell.children(matching: .staticText);
+    let cell = app.cells.element(boundBy: 4);
+    let texts = cell.children(matching: .staticText);
     XCTAssertTrue(texts.element(boundBy: 1).label == "Enabled");
 
     // Select Mobile Center status cell.
@@ -64,15 +67,18 @@ class AnalyticsCUITests : XCTestCase {
     XCUIRemote.shared().press(.select);
 
     // Check Analytics status.
-    cell = app.cells.element(boundBy: 4);
-    texts = cell.children(matching: .staticText);
-    XCTAssertTrue(texts.element(boundBy: 1).label == "Disabled");
+    XCTAssertFalse(enabledButton.isSelected);
+    XCTAssertTrue(disabledButton.isSelected);
 
     // Without this delay the app doesn't have time to go back and the test fails.
     sleep(1);
 
     // Go back and enable Mobile Center.
     XCUIRemote.shared().press(.menu);
+
+    // Without this delay the app doesn't have time to go down and the test fails.
+    sleep(1);
+
     press(button: .down, times: 4);
     XCUIRemote.shared().press(.select);
 
@@ -81,9 +87,8 @@ class AnalyticsCUITests : XCTestCase {
     XCUIRemote.shared().press(.select);
 
     // Check Analytics status.
-    cell = app.cells.element(boundBy: 4);
-    texts = cell.children(matching: .staticText);
-    XCTAssertTrue(texts.element(boundBy: 1).label == "Enabled");
+    XCTAssertTrue(enabledButton.isSelected);
+    XCTAssertFalse(disabledButton.isSelected);
   }
 
   private func press(button : XCUIRemoteButton, times : Int) {
