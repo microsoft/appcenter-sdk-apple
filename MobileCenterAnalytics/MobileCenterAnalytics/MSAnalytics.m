@@ -87,11 +87,9 @@ static const int maxPropertyValueLength = 64;
     // Start session tracker.
     [self.sessionTracker start];
 
-    // Add delegate to log manager.
+    // Add delegates to log manager.
     [self.logManager addDelegate:self.sessionTracker];
-
-    // Set self as delegate of analytics channel.
-    [self.logManager addChannelDelegate:self forGroupId:self.groupId];
+    [self.logManager addDelegate:self];
 
     // Report current page while auto page tracking is on.
     if (self.autoPageTrackingEnabled) {
@@ -107,7 +105,7 @@ static const int maxPropertyValueLength = 64;
     MSLogInfo([MSAnalytics logTag], @"Analytics service has been enabled.");
   } else {
     [self.logManager removeDelegate:self.sessionTracker];
-    [self.logManager removeChannelDelegate:self forGroupId:self.groupId];
+    [self.logManager removeDelegate:self];
     [self.sessionTracker stop];
     [self.sessionTracker clearSessions];
     MSLogInfo([MSAnalytics logTag], @"Analytics service has been disabled.");
@@ -307,10 +305,9 @@ static const int maxPropertyValueLength = 64;
   [[self sharedInstance] setDelegate:delegate];
 }
 
-#pragma mark - MSChannelDelegate
+#pragma mark - MSLogManagerDelegate
 
-- (void)channel:(id<MSChannel>)channel willSendLog:(id<MSLog>)log {
-  (void)channel;
+- (void)willSendLog:(id<MSLog>)log {
   if (!self.delegate) {
     return;
   }
@@ -326,8 +323,7 @@ static const int maxPropertyValueLength = 64;
   }
 }
 
-- (void)channel:(id<MSChannel>)channel didSucceedSendingLog:(id<MSLog>)log {
-  (void)channel;
+- (void)didSucceedSendingLog:(id<MSLog>)log {
   if (!self.delegate) {
     return;
   }
@@ -343,8 +339,7 @@ static const int maxPropertyValueLength = 64;
   }
 }
 
-- (void)channel:(id<MSChannel>)channel didFailSendingLog:(id<MSLog>)log withError:(NSError *)error {
-  (void)channel;
+- (void)didFailSendingLog:(id<MSLog>)log withError:(NSError *)error {
   if (!self.delegate) {
     return;
   }

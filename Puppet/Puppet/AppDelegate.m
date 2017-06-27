@@ -18,6 +18,8 @@
 #import "MSAnalyticsInternal.h"
 #import "MSEventLog.h"
 
+static UIViewController *crashResultViewController = nil;
+
 @interface AppDelegate () <MSCrashesDelegate, MSDistributeDelegate, MSPushDelegate, MSAnalyticsDelegate>
 
 @end
@@ -25,6 +27,9 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+
+  // View controller should register in NSNotificationCenter before SDK start.
+  crashResultViewController = [[[[self window] rootViewController] storyboard] instantiateViewControllerWithIdentifier:@"crashResult"];
 
   // Customize Mobile Center SDK.
   [MSDistribute setDelegate:self];
@@ -118,6 +123,8 @@
   [MSCrashes setDelegate:self];
   [MSCrashes
       setUserConfirmationHandler:(^(NSArray<MSErrorReport *> *errorReports) {
+        [NSNotificationCenter.defaultCenter postNotificationName:kDidShouldAwaitUserConfirmationEvent
+                                                      object:nil];
 
         // Show a dialog to the user where they can choose if they want to provide a crash report.
         MSAlertController *alertController = [MSAlertController
@@ -151,19 +158,27 @@
 #pragma mark - MSCrashesDelegate
 
 - (BOOL)crashes:(MSCrashes *)crashes shouldProcessErrorReport:(MSErrorReport *)errorReport {
+  [NSNotificationCenter.defaultCenter postNotificationName:kShouldProcessErrorReportEvent
+                                                    object:nil];
   NSLog(@"Should process error report with: %@", errorReport.exceptionReason);
   return YES;
 }
 
 - (void)crashes:(MSCrashes *)crashes willSendErrorReport:(MSErrorReport *)errorReport {
+  [NSNotificationCenter.defaultCenter postNotificationName:kWillSendErrorReportEvent
+                                                    object:nil];
   NSLog(@"Will send error report with: %@", errorReport.exceptionReason);
 }
 
 - (void)crashes:(MSCrashes *)crashes didSucceedSendingErrorReport:(MSErrorReport *)errorReport {
+  [NSNotificationCenter.defaultCenter postNotificationName:kDidSucceedSendingErrorReportEvent
+                                                    object:nil];
   NSLog(@"Did succeed error report sending with: %@", errorReport.exceptionReason);
 }
 
 - (void)crashes:(MSCrashes *)crashes didFailSendingErrorReport:(MSErrorReport *)errorReport withError:(NSError *)error {
+  [NSNotificationCenter.defaultCenter postNotificationName:kDidFailSendingErrorReportEvent
+                                                    object:nil];
   NSLog(@"Did fail sending report with: %@, and error: %@", errorReport.exceptionReason, error.localizedDescription);
 }
 
@@ -253,6 +268,12 @@
     [log.properties setObject:value forKey:key];
   }
   return log;
+}
+
+#pragma mark - Public
+
++(UIViewController*)crashResultViewController {
+  return crashResultViewController;
 }
 
 @end

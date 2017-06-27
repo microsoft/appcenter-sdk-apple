@@ -4,12 +4,18 @@
 #import <XCTest/XCTest.h>
 
 #import "MSAppleErrorLog.h"
+#import "MSChannelDefault.h"
 #import "MSCrashesDelegate.h"
 #import "MSCrashesInternal.h"
 #import "MSCrashesPrivate.h"
 #import "MSCrashesTestUtil.h"
 #import "MSCrashesUtil.h"
+#import "MSErrorAttachmentLogInternal.h"
+#import "MSErrorLogFormatter.h"
 #import "MSException.h"
+#import "MSLogManagerDefault.h"
+#import "MSMobileCenter.h"
+#import "MSMobileCenterInternal.h"
 #import "MSMockCrashesDelegate.h"
 #import "MSServiceAbstractPrivate.h"
 #import "MSServiceAbstractProtected.h"
@@ -20,6 +26,7 @@
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
 static NSString *const kMSCrashesServiceName = @"Crashes";
 static NSString *const kMSFatal = @"fatal";
+static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
 @interface MSCrashes ()
 
@@ -27,22 +34,11 @@ static NSString *const kMSFatal = @"fatal";
 
 - (void)startCrashProcessing;
 
-- (void)channel:(id<MSChannel>)channel willSendLog:(id<MSLog>)log;
-
-- (void)channel:(id<MSChannel>)channel didSucceedSendingLog:(id<MSLog>)log;
-
-- (void)channel:(id<MSChannel>)channel didFailSendingLog:(id<MSLog>)log withError:(NSError *)error;
-
 @end
 
 @interface MSCrashesTests : XCTestCase <MSCrashesDelegate>
 
 @property(nonatomic) MSCrashes *sut;
-
-@property BOOL shouldProcessErrorReportCalled;
-@property BOOL willSendErrorReportCalled;
-@property BOOL didSucceedSendingErrorReportCalled;
-@property BOOL didFailSendingErrorReportCalled;
 
 @end
 
@@ -120,24 +116,37 @@ static NSString *const kMSFatal = @"fatal";
 - (void)testDelegateMethodsAreCalled {
 
   // If
-  self.shouldProcessErrorReportCalled = false;
-  self.willSendErrorReportCalled = false;
-  self.didSucceedSendingErrorReportCalled = false;
-  self.didFailSendingErrorReportCalled = false;
+  NSString *groupId = [[MSCrashes sharedInstance] groupId];
+  id<MSCrashesDelegate> delegateMock = OCMProtocolMock(@protocol(MSCrashesDelegate));
+  [MSMobileCenter sharedInstance].sdkConfigured = NO;
+  [MSMobileCenter start:kMSTestAppSecret withServices:@[ [MSCrashes class] ]];
+  NSMutableDictionary *channelsInLogManager =
+      (static_cast<MSLogManagerDefault *>([MSCrashes sharedInstance].logManager)).channels;
+  MSChannelDefault *channelMock = channelsInLogManager[groupId] = OCMPartialMock(channelsInLogManager[groupId]);
+  OCMStub([channelMock enqueueItem:[OCMArg any] withCompletion:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
+    id<MSLog> log = nil;
+    [invocation getArgument:&log atIndex:2];
+    for (id<MSChannelDelegate> delegate in channelMock.delegates) {
+
+      // Call all channel delegate methods for testing.
+      [delegate channel:channelMock willSendLog:log];
+      [delegate channel:channelMock didSucceedSendingLog:log];
+      [delegate channel:channelMock didFailSendingLog:log withError:nil];
+    }
+  });
+  MSAppleErrorLog *errorLog = OCMClassMock([MSAppleErrorLog class]);
+  MSErrorReport *errorReport = OCMClassMock([MSErrorReport class]);
+  id errorLogFormatterMock = OCMClassMock([MSErrorLogFormatter class]);
+  OCMStub(ClassMethod([errorLogFormatterMock errorReportFromLog:errorLog])).andReturn(errorReport);
 
   // When
-  [[MSCrashes sharedInstance] setDelegate:self];
-  MSAppleErrorLog *errorLog = [MSAppleErrorLog new];
-  [[MSCrashes sharedInstance] channel:nil willSendLog:errorLog];
-  [[MSCrashes sharedInstance] channel:nil didSucceedSendingLog:errorLog];
-  [[MSCrashes sharedInstance] channel:nil didFailSendingLog:errorLog withError:nil];
-  [[MSCrashes sharedInstance] shouldProcessErrorReport:nil];
+  [[MSCrashes sharedInstance] setDelegate:delegateMock];
+  [[MSCrashes sharedInstance].logManager processLog:errorLog forGroupId:groupId];
 
   // Then
-  XCTAssertTrue(self.shouldProcessErrorReportCalled);
-  XCTAssertTrue(self.willSendErrorReportCalled);
-  XCTAssertTrue(self.didSucceedSendingErrorReportCalled);
-  XCTAssertTrue(self.didFailSendingErrorReportCalled);
+  OCMVerify([delegateMock crashes:[MSCrashes sharedInstance] willSendErrorReport:errorReport]);
+  OCMVerify([delegateMock crashes:[MSCrashes sharedInstance] didSucceedSendingErrorReport:errorReport]);
+  OCMVerify([delegateMock crashes:[MSCrashes sharedInstance] didFailSendingErrorReport:errorReport withError:nil]);
 }
 
 - (void)testSettingUserConfirmationHandler {
@@ -219,6 +228,40 @@ static NSString *const kMSFatal = @"fatal";
 
   // Then
   assertThat([MSCrashes sharedInstance].crashFiles, hasCountOf(0));
+}
+
+- (void)testProcessCrashesWithErrorAttachments {
+  
+  // When
+  id logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
+  assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
+  [[MSCrashes sharedInstance] startWithLogManager:logManagerMock appSecret:kMSTestAppSecret];
+  NSString *validString = @"valid";
+  NSData *validData = [validString dataUsingEncoding:NSUTF8StringEncoding];
+  NSData *emptyData = [@"" dataUsingEncoding:NSUTF8StringEncoding];
+  NSArray *invalidLogs = @[
+    [self attachmentWithAttachmentId:nil attachmentData:validData contentType:validString],
+    [self attachmentWithAttachmentId:@"" attachmentData:validData contentType:validString],
+    [self attachmentWithAttachmentId:validString attachmentData:nil contentType:validString],
+    [self attachmentWithAttachmentId:validString attachmentData:emptyData contentType:validString],
+    [self attachmentWithAttachmentId:validString attachmentData:validData contentType:nil],
+    [self attachmentWithAttachmentId:validString attachmentData:validData contentType:@""]
+  ];
+  MSErrorAttachmentLog *validLog = [self attachmentWithAttachmentId:validString attachmentData:validData contentType:validString];
+  NSMutableArray *logs = invalidLogs.mutableCopy;
+  [logs addObject:validLog];
+  id crashesDelegateMock = OCMProtocolMock(@protocol(MSCrashesDelegate));
+  OCMStub([crashesDelegateMock attachmentsWithCrashes:[OCMArg any] forErrorReport:[OCMArg any]]).andReturn(logs);
+  OCMStub([crashesDelegateMock crashes:[OCMArg any] shouldProcessErrorReport:[OCMArg any]]).andReturn(YES);
+  [[MSCrashes sharedInstance] setDelegate:crashesDelegateMock];
+
+  //Then
+  for(NSUInteger i = 0; i < invalidLogs.count; i++) {
+    OCMReject([logManagerMock processLog:invalidLogs[i] forGroupId:[OCMArg any]]);
+  }
+  OCMExpect([logManagerMock processLog:validLog forGroupId:[OCMArg any]]);
+  [[MSCrashes sharedInstance] startCrashProcessing];
+  OCMVerifyAll(logManagerMock);
 }
 
 - (void)testDeleteAllFromCrashesDirectory {
@@ -434,24 +477,25 @@ static NSString *const kMSFatal = @"fatal";
   XCTAssertTrue([[MSCrashes sharedInstance] initializationPriority] == MSInitializationPriorityMax);
 }
 
-- (void)testEnablingMachExceptionWorks {
-  // Then
-  XCTAssertFalse([[MSCrashes sharedInstance] isMachExceptionHandlerEnabled]);
-
-  // When
-  [MSCrashes enableMachExceptionHandler];
+- (void)testDisableMachExceptionWorks {
 
   // Then
   XCTAssertTrue([[MSCrashes sharedInstance] isMachExceptionHandlerEnabled]);
 
-  // Then
-  XCTAssertFalse([self.sut isMachExceptionHandlerEnabled]);
-
   // When
-  [self.sut setEnableMachExceptionHandler:YES];
+  [MSCrashes disableMachExceptionHandler];
+
+  // Then
+  XCTAssertFalse([[MSCrashes sharedInstance] isMachExceptionHandlerEnabled]);
 
   // Then
   XCTAssertTrue([self.sut isMachExceptionHandlerEnabled]);
+
+  // When
+  [self.sut setEnableMachExceptionHandler:NO];
+
+  // Then
+  XCTAssertFalse([self.sut isMachExceptionHandlerEnabled]);
 }
 
 - (void)testWrapperCrashCallback {
@@ -503,31 +547,49 @@ static NSString *const kMSFatal = @"fatal";
   XCTAssertTrue([static_cast<NSNumber *>([serializedLog objectForKey:kMSFatal]) boolValue]);
 }
 
-- (BOOL)crashes:(MSCrashes *)crashes shouldProcessErrorReport:(MSErrorReport *)errorReport {
-  (void)crashes;
-  (void)errorReport;
-  self.shouldProcessErrorReportCalled = true;
-  return YES;
+- (void)testWarningMessageAboutTooManyErrorAttachments {
+
+  NSString *expectedMessage = [NSString stringWithFormat:@"A limit of %u attachments per error report might be enforced by server.", kMaxAttachmentsPerCrashReport];
+  __block bool warningMessageHasBeenPrinted = false;
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-parameter"
+  [MSLogger setLogHandler:^(MSLogMessageProvider messageProvider, MSLogLevel logLevel, NSString *tag, const char *file,
+                            const char *function, uint line) {
+    if(warningMessageHasBeenPrinted) {
+      return;
+    }
+    NSString *message = messageProvider();
+    warningMessageHasBeenPrinted = [message isEqualToString:expectedMessage];
+  }];
+#pragma clang diagnostic pop
+
+  // When
+  assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
+  [[MSCrashes sharedInstance] setDelegate:self];
+  [[MSCrashes sharedInstance] startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
+  [[MSCrashes sharedInstance] startCrashProcessing];
+
+  XCTAssertTrue(warningMessageHasBeenPrinted);
 }
 
-- (void)crashes:(MSCrashes *)crashes willSendErrorReport:(MSErrorReport *)errorReport {
-  (void)crashes;
-  (void)errorReport;
-  self.willSendErrorReportCalled = true;
-}
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-parameter"
+- (NSArray<MSErrorAttachmentLog *> *)attachmentsWithCrashes:(MSCrashes *)crashes forErrorReport:(MSErrorReport *)errorReport {
+  id deviceMock = OCMPartialMock([MSDevice new]);
+  OCMStub([deviceMock isValid]).andReturn(YES);
 
-- (void)crashes:(MSCrashes *)crashes didSucceedSendingErrorReport:(MSErrorReport *)errorReport {
-  (void)crashes;
-  (void)errorReport;
-  self.didSucceedSendingErrorReportCalled = true;
+  NSMutableArray *logs = [NSMutableArray new];
+  for(unsigned int i = 0; i < kMaxAttachmentsPerCrashReport + 1; ++i) {
+    NSString *text = [NSString stringWithFormat:@"%d", i];
+    MSErrorAttachmentLog *log = [[MSErrorAttachmentLog alloc] initWithFilename:text attachmentText:text];
+    log.toffset = [NSNumber numberWithInt:0];
+    log.device = deviceMock;
+    [logs addObject:log];
+  }
+  return logs;
 }
-
-- (void)crashes:(MSCrashes *)crashes didFailSendingErrorReport:(MSErrorReport *)errorReport withError:(NSError *)error {
-  (void)crashes;
-  (void)errorReport;
-  (void)error;
-  self.didFailSendingErrorReportCalled = true;
-}
+#pragma clang diagnostic pop
 
 - (NSInteger)crashesLogBufferCount {
   NSInteger bufferCount = 0;
@@ -537,6 +599,16 @@ static NSString *const kMSFatal = @"fatal";
     }
   }
   return bufferCount;
+}
+
+- (MSErrorAttachmentLog *)attachmentWithAttachmentId:(NSString *)attachmentId
+                                      attachmentData:(NSData *)attachmentData
+                                         contentType:(NSString *)contentType {
+  MSErrorAttachmentLog *log = [MSErrorAttachmentLog alloc];
+  log.attachmentId = attachmentId;
+  log.data = attachmentData;
+  log.contentType = contentType;
+  return log;
 }
 
 @end

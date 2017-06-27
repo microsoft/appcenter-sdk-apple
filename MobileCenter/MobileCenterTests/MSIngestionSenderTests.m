@@ -57,6 +57,12 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   [super tearDown];
 
   [OHHTTPStubs removeAllStubs];
+
+  /*
+   * Setting the variable to nil. We are experiencing test failure on Xcode 9 beta because the instance that was used
+   * for previous test method is not disposed and still listening to network changes in other tests.
+   */
+  self.sut = nil;
 }
 
 - (void)testSendBatchLogs {

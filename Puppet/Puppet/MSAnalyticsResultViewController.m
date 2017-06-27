@@ -18,7 +18,7 @@
 
 @implementation MSAnalyticsResultViewController
 
-#pragma mark - view controller
+#pragma mark - View controller
 
 -(instancetype)initWithCoder:(NSCoder *)aDecoder {
   self = [super initWithCoder:aDecoder];
@@ -100,11 +100,10 @@
 
 - (void)reloadCells {
   NSMutableArray<NSIndexPath*> *rows = [NSMutableArray new];
-  [rows addObject:[NSIndexPath indexPathForRow:0 inSection:0]];
-  [rows addObject:[NSIndexPath indexPathForRow:1 inSection:0]];
-  [rows addObject:[NSIndexPath indexPathForRow:2 inSection:0]];
-  [rows addObject:[NSIndexPath indexPathForRow:3 inSection:0]];
-  [rows addObject:[NSIndexPath indexPathForRow:4 inSection:0]];
+  int rowsInSection = (int)[self.tableView numberOfRowsInSection:0];
+  for(int row = 0; row < rowsInSection; ++row) {
+    [rows addObject:[NSIndexPath indexPathForRow:row inSection:0]];
+  }
   [self.tableView reloadRowsAtIndexPaths:rows
                         withRowAnimation:UITableViewRowAnimationNone];
 }

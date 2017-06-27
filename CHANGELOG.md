@@ -1,5 +1,38 @@
 # Mobile Center SDK for iOS Change Log
 
+## Version 0.10.1
+
+This version contains a bugfix for crash attachments.
+
+### MobileCenterCrashes
+
+* **[Fix]** Fix crash attachments which were broken in 0.10.0. 
+
+___
+
+## Version 0.10.0
+
+This version has **breaking changes**.
+It contains improvements and new features.
+
+### Integration using cocoapods
+
+* **[Breaking]** The subspecs for cocoapods are now called `Analytics`, `Crashes`, `Distribute` and `Push` instead of `MobileCenter{MODULENAME}`.
+
+### MobileCenter
+
+* **[Feature]** It's possible to define custom properties. Custom properties can be used for various purposes, e.g. to segment users for targeted push notifications.
+
+### MobileCenterCrashes
+
+* **[Improvement]** The sdk now logs a warning in case more than two attachments have been attached to a crash. 
+
+### MobileCenterDistribute
+
+* **[Bug]** Fix a potential crash that occured in case the request for updates returned a 200 but the data was empty.
+
+___
+
 ## Version 0.9.0
 
 This version has **breaking changes**.
@@ -9,7 +42,7 @@ It contains improvements and new features.
 
 * **[Feature]** Mobile Center now automatically forwards your application delegate's methods to the SDK. This is made possible by using method swizzling. It greatly improves the SDK integration but there is a possibility of conflicts with other third party libraries or the application delegate itself. In this case you may want to disable the Mobile Center application delegate forwarder by adding the `MobileCenterAppDelegateForwarderEnabled` tag to your Info.plist file and set it to `0`, doing so will disable application delegate forwarding for all Mobile Center services.
 
-### MobileCenterCrash
+### MobileCenterCrashes
 
 * **[Feature]** Crashes can now have attachments.
 

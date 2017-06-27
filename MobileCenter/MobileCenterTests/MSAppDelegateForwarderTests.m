@@ -114,7 +114,8 @@
     wasCalled = YES;
     return YES;
   };
-  const char *types = method_getTypeEncoding(class_getInstanceMethod(originalAppDelegateClass, selectorToSwizzle));
+  Method method = class_getInstanceMethod(originalAppDelegateClass, selectorToSwizzle);
+  const char *types = method_getTypeEncoding(method);
   [self addSelector:selectorToSwizzle implementation:selectorImp types:types toClass:originalAppDelegateClass];
   originalAppDelegate = [originalAppDelegateClass new];
   [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:selectorToSwizzle];
@@ -198,8 +199,8 @@
   id instancesRespondToSelectorImp = ^{
     return YES;
   };
-  const char *instancesRespondToSelectorTypes =
-      method_getTypeEncoding(class_getClassMethod(originalAppDelegateClass, instancesRespondToSelector));
+  method = class_getClassMethod(originalAppDelegateClass, instancesRespondToSelector);
+  const char *instancesRespondToSelectorTypes = method_getTypeEncoding(method);
 
   // Adding a class method to a class requires its meta class.
   Class originalAppDelegateMetaClass = object_getClass(originalAppDelegateClass);
@@ -282,7 +283,7 @@
                                                       annotation:expectedAnnotation];
 
   // Then
-  assertThatInt(MSAppDelegateForwarder.delegates.count, equalToInt(0));
+  assertThatUnsignedLong(MSAppDelegateForwarder.delegates.count, equalToUnsignedLong(0));
   assertThatBool(returnedValue, is(@(expectedReturnedValue)));
   [self waitForExpectations:@[ originalCalledExpectation ] timeout:1];
 }
@@ -748,7 +749,8 @@
 - (Class)createClassWithBaseClass:(Class) class andConformItToProtocol:(Protocol *)protocol {
 
   // Generate class name to prevent conflicts in runtime added classes.
-  Class newClass = objc_allocateClassPair(class, [[self generateClassName] UTF8String], 0);
+  const char *name = [[self generateClassName] UTF8String];
+  Class newClass = objc_allocateClassPair(class, name, 0);
   if (protocol) {
     class_addProtocol(newClass, protocol);
   }
