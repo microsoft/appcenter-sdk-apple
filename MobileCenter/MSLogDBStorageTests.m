@@ -417,7 +417,7 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
 
 - (void)testStorageCapacity {
 
-  /**
+  /*
    * If
    */
 
@@ -428,7 +428,7 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
   NSMutableArray<id<MSLog>> *expectedLogs = [NSMutableArray<id<MSLog>> new];
   NSArray<id<MSLog>> *loadedLogs;
 
-  /**
+  /*
    * When
    */
   for (int i = 0; i < logCount; i++) {
@@ -438,7 +438,7 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
     [expectedLogs addObject:log];
   }
 
-  /**
+  /*
    * Then
    */
 
@@ -448,7 +448,7 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
 
   // Test at the limit.
 
-  /**
+  /*
    * If
    */
   [self.sut deleteDB];
@@ -456,7 +456,7 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
   expectedCapacity = 2;
   self.sut = [[MSLogDBStorage alloc] initWithCapacity:expectedCapacity];
 
-  /**
+  /*
    * When
    */
   for (int i = 0; i < logCount; i++) {
@@ -468,7 +468,7 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
     [expectedLogs addObject:log];
   }
 
-  /**
+  /*
    * Then
    */
 
@@ -478,7 +478,7 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
 
   // Test just over the limit.
 
-  /**
+  /*
    * If
    */
   [self.sut deleteDB];
@@ -486,7 +486,7 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
   expectedCapacity = 1;
   self.sut = [[MSLogDBStorage alloc] initWithCapacity:expectedCapacity];
 
-  /**
+  /*
    * When
    */
   for (int i = 0; i < logCount; i++) {
@@ -498,7 +498,7 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
     [expectedLogs addObject:log];
   }
 
-  /**
+  /*
    * Then
    */
 
@@ -511,7 +511,7 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
 
   // Test way over the limit.
 
-  /**
+  /*
    * If
    */
   [self.sut deleteDB];
@@ -520,7 +520,7 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
   expectedCapacity = 1;
   self.sut = [[MSLogDBStorage alloc] initWithCapacity:expectedCapacity];
 
-  /**
+  /*
    * When
    */
   for (int i = 0; i < logCount; i++) {
@@ -532,7 +532,7 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
     [expectedLogs addObject:log];
   }
 
-  /**
+  /*
    * Then
    */
 
