@@ -56,6 +56,8 @@
   assertThatBool([self.manager hasException], isTrue());
 }
 
+#if !TARGET_OS_TV
+// FIXME: TV OS can only use temporary cache directory. All file access needs to be reimplemented.
 - (void)testWrapperExceptionDiskOperations {
   self.manager.wrapperException = [self anException];
 
@@ -91,6 +93,7 @@
   assertThat(data, equalTo([self someData]));
   CFRelease(uuidRef);
 }
+#endif
 
 -(void)testDeleteAllMethods {
   // Setup

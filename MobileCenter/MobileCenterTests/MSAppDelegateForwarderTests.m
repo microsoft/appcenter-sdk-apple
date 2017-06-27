@@ -252,6 +252,8 @@
   [self waitForExpectations:@[ exceptionCaughtExpectation ] timeout:1];
 }
 
+#if !TARGET_OS_TV
+// FIXME: TV OS doesn't support application:openURL:sourceApplication:annotation:. Temporarily disable the test.
 - (void)testWithoutCustomDelegate {
 
   // If
@@ -285,7 +287,10 @@
   assertThatBool(returnedValue, is(@(expectedReturnedValue)));
   [self waitForExpectations:@[ originalCalledExpectation ] timeout:1];
 }
+#endif
 
+#if !TARGET_OS_TV
+// FIXME: TV OS doesn't support application:openURL:sourceApplication:annotation:. Temporarily disable the test.
 - (void)testWithOneCustomDelegate {
 
   // If
@@ -334,6 +339,7 @@
   assertThatBool(returnedValue, is(@(expectedReturnedValue)));
   [self waitForExpectations:@[ originalCalledExpectation, customCalledExpectation ] timeout:1];
 }
+#endif
 
 - (void)testWithOneCustomDelegateNotReturningValue {
 
@@ -410,6 +416,8 @@
   [self waitForExpectations:@[ originalCalledExpectation ] timeout:1];
 }
 
+#if !TARGET_OS_TV
+// FIXME: TV OS doesn't support application:openURL:sourceApplication:annotation:. Temporarily disable the test.
 - (void)testWithMultipleCustomDelegates {
 
   // If
@@ -475,7 +483,10 @@
   [self waitForExpectations:@[ originalCalledExpectation, customCalledExpectation1, customCalledExpectation2 ]
                     timeout:1];
 }
+#endif
 
+#if !TARGET_OS_TV
+// FIXME: TV OS doesn't support application:openURL:sourceApplication:annotation:. Temporarily disable the test.
 - (void)testWithRemovedCustomDelegate {
 
   // If
@@ -521,7 +532,10 @@
   assertThatBool(returnedValue, is(@(expectedReturnedValue)));
   [self waitForExpectations:@[ originalCalledExpectation ] timeout:1];
 }
+#endif
 
+#if !TARGET_OS_TV
+// FIXME: TV OS doesn't support application:openURL:sourceApplication:annotation:. Temporarily disable the test.
 - (void)testDontForwardOnDisable {
 
   // If
@@ -568,7 +582,10 @@
   [self waitForExpectations:@[ originalCalledExpectation ] timeout:1];
   MSAppDelegateForwarder.enabled = YES;
 }
+#endif
 
+#if !TARGET_OS_TV
+// FIXME: TV OS doesn't support application:openURL:sourceApplication:annotation:. Temporarily disable the test.
 - (void)testReturnValueChaining {
 
   // If
@@ -638,6 +655,7 @@
   [self waitForExpectations:@[ originalCalledExpectation, customCalledExpectation1, customCalledExpectation2 ]
                     timeout:1];
 }
+#endif
 
 - (void)testForwardMethodNotImplementedByOriginalDelegate {
 

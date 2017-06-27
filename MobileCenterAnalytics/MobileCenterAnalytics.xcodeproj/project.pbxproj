@@ -114,6 +114,19 @@
 		046AEABB1ECA51AF00CBE511 /* MSSessionTrackerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E815912B1D526A09003D5F3C /* MSSessionTrackerTests.m */; };
 		046AEABC1ECA51AF00CBE511 /* MSStartSessionLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E81591291D526956003D5F3C /* MSStartSessionLogTests.m */; };
 		046AEACB1ECA554600CBE511 /* libMobileCenterAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0485AF851EAA79E300C10CAF /* libMobileCenterAnalytics.a */; };
+		046EF8821F03137500C553D8 /* MSAnalyticsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 042A17A71DEFA950003BA80A /* MSAnalyticsTests.m */; };
+		046EF8831F03137500C553D8 /* MSMockAnalyticsDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 35BF19E41DF9D59E00193027 /* MSMockAnalyticsDelegate.m */; };
+		046EF8841F03137500C553D8 /* MSSessionTrackerUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = E81591311D526C3B003D5F3C /* MSSessionTrackerUtil.m */; };
+		046EF8851F03137500C553D8 /* MSEventLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3E2CD01D359F3300B1EE50 /* MSEventLogTests.m */; };
+		046EF8861F03137500C553D8 /* MSPageLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3E2CD11D359F3300B1EE50 /* MSPageLogTests.m */; };
+		046EF8871F03137500C553D8 /* MSSessionTrackerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E815912B1D526A09003D5F3C /* MSSessionTrackerTests.m */; };
+		046EF8881F03137500C553D8 /* MSStartSessionLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E81591291D526956003D5F3C /* MSStartSessionLogTests.m */; };
+		046EF89B1F03138D00C553D8 /* libMobileCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 046EF89A1F03138D00C553D8 /* libMobileCenter.a */; };
+		046EF89C1F0313AC00C553D8 /* libMobileCenterAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0431216C1EE0C20A007054C5 /* libMobileCenterAnalytics.a */; };
+		046EF89D1F0313BC00C553D8 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04A394131F030666004EAFC7 /* OCMock.framework */; };
+		046EF89E1F0313C400C553D8 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04A3941F1F030722004EAFC7 /* OCHamcrest.framework */; };
+		046EF8A01F03142000C553D8 /* OCHamcrest.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 04A3941F1F030722004EAFC7 /* OCHamcrest.framework */; };
+		046EF8A11F03142000C553D8 /* OCMock.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 04A394131F030666004EAFC7 /* OCMock.framework */; };
 		0485AF691EAA79E300C10CAF /* MSSessionHistoryInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = E89B33E61D5A526D00FDE8FB /* MSSessionHistoryInfo.m */; };
 		0485AF6A1EAA79E300C10CAF /* MSAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E85547C51D2D6253002DF6E2 /* MSAnalytics.m */; };
 		0485AF6B1EAA79E300C10CAF /* MSSessionTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = E8E48F9D1D515C3900A8C1B0 /* MSSessionTracker.m */; };
@@ -141,7 +154,6 @@
 		04A1409E1ECE7316001CEE94 /* MSAnalyticsCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485AF8E1EAA852A00C10CAF /* MSAnalyticsCategory.m */; };
 		04BED7181ECB64FB00E20975 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04BED7161ECB64CE00E20975 /* OCHamcrest.framework */; };
 		04BED7191ECB650F00E20975 /* OCHamcrest.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 04BED7161ECB64CE00E20975 /* OCHamcrest.framework */; };
-		04BED71A1ECB651900E20975 /* OCHamcrest.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 04BED7161ECB64CE00E20975 /* OCHamcrest.framework */; };
 		35BF19E51DF9D59E00193027 /* MSMockAnalyticsDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 35BF19E41DF9D59E00193027 /* MSMockAnalyticsDelegate.m */; };
 		3813B9651DBFE68200831214 /* MSAnalyticsInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 3813B9641DBFE68200831214 /* MSAnalyticsInternal.h */; };
 		387C77051D6CC39400D68CC1 /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C77041D6CC39400D68CC1 /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -180,6 +192,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 0485AF671EAA79E300C10CAF;
 			remoteInfo = MobileCenterAnalyticsMac;
+		};
+		046EF8971F03138400C553D8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0431214E1EE0C20A007054C5;
+			remoteInfo = MobileCenterAnalyticsTVOS;
 		};
 		04FD115C1EF2F849000C5A5C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -229,7 +248,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
-				04BED71A1ECB651900E20975 /* OCHamcrest.framework in CopyFiles */,
 				0420A6951ECA7B2900915619 /* OCMock.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -240,6 +258,17 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		046EF88F1F03137500C553D8 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+				046EF8A01F03142000C553D8 /* OCHamcrest.framework in CopyFiles */,
+				046EF8A11F03142000C553D8 /* OCMock.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -273,6 +302,9 @@
 		043121721EE0C248007054C5 /* tvOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = tvOS.modulemap; sourceTree = "<group>"; };
 		043121731EE0C248007054C5 /* tvOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = tvOS.xcconfig; sourceTree = "<group>"; };
 		046AEAC61ECA51AF00CBE511 /* MobileCenterAnalytics.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MobileCenterAnalytics.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		046EF8951F03137500C553D8 /* MobileCenterAnalytics.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MobileCenterAnalytics.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		046EF89A1F03138D00C553D8 /* libMobileCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobileCenter.a; path = "../../../../../Library/Developer/Xcode/DerivedData/MobileCenter-cxbmzrupyysdsehdxmozcvjphajr/Build/Products/Debug-appletvsimulator/libMobileCenter.a"; sourceTree = "<group>"; };
+		046EF89F1F0313E300C553D8 /* Tests tvOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests tvOS.xcconfig"; path = "../../Config/Tests tvOS.xcconfig"; sourceTree = "<group>"; };
 		0485AF851EAA79E300C10CAF /* libMobileCenterAnalytics.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMobileCenterAnalytics.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		0485AF8D1EAA852A00C10CAF /* MSAnalyticsCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAnalyticsCategory.h; sourceTree = "<group>"; };
 		0485AF8E1EAA852A00C10CAF /* MSAnalyticsCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAnalyticsCategory.m; sourceTree = "<group>"; };
@@ -342,6 +374,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		046EF8891F03137500C553D8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				046EF89B1F03138D00C553D8 /* libMobileCenter.a in Frameworks */,
+				046EF89D1F0313BC00C553D8 /* OCMock.framework in Frameworks */,
+				046EF89E1F0313C400C553D8 /* OCHamcrest.framework in Frameworks */,
+				046EF89C1F0313AC00C553D8 /* libMobileCenterAnalytics.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0485AF701EAA79E300C10CAF /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -384,6 +427,7 @@
 			children = (
 				041CFF8B1ECCFF6700B4654B /* Tests iOS.xcconfig */,
 				049BC82C1ECE3CF000FB6719 /* Tests macOS.xcconfig */,
+				046EF89F1F0313E300C553D8 /* Tests tvOS.xcconfig */,
 			);
 			name = Support;
 			sourceTree = "<group>";
@@ -480,6 +524,7 @@
 			children = (
 				6E06844C1D35A4CA00A8CC6C /* libMobileCenter.a */,
 				04A1408D1ECE65F4001CEE94 /* libMobileCenter.a */,
+				046EF89A1F03138D00C553D8 /* libMobileCenter.a */,
 				04BED7131ECB64B100E20975 /* OCHamcrest */,
 				04A3940F1F030640004EAFC7 /* OCMock */,
 			);
@@ -518,6 +563,7 @@
 				0485AF851EAA79E300C10CAF /* libMobileCenterAnalytics.a */,
 				046AEAC61ECA51AF00CBE511 /* MobileCenterAnalytics.xctest */,
 				0431216C1EE0C20A007054C5 /* libMobileCenterAnalytics.a */,
+				046EF8951F03137500C553D8 /* MobileCenterAnalytics.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -701,6 +747,25 @@
 			productReference = 046AEAC61ECA51AF00CBE511 /* MobileCenterAnalytics.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		046EF87E1F03137500C553D8 /* MobileCenterAnalyticsTVOSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 046EF8921F03137500C553D8 /* Build configuration list for PBXNativeTarget "MobileCenterAnalyticsTVOSTests" */;
+			buildPhases = (
+				046EF8811F03137500C553D8 /* Sources */,
+				046EF8891F03137500C553D8 /* Frameworks */,
+				046EF88E1F03137500C553D8 /* Resources */,
+				046EF88F1F03137500C553D8 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				046EF8981F03138400C553D8 /* PBXTargetDependency */,
+			);
+			name = MobileCenterAnalyticsTVOSTests;
+			productName = MobileCenterAnalyticsTests;
+			productReference = 046EF8951F03137500C553D8 /* MobileCenterAnalytics.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		0485AF671EAA79E300C10CAF /* MobileCenterAnalyticsMacOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0485AF821EAA79E300C10CAF /* Build configuration list for PBXNativeTarget "MobileCenterAnalyticsMacOS" */;
@@ -806,6 +871,7 @@
 				04FD11551EF2F818000C5A5C /* MobileCenterAnalyticsMacOSDoc */,
 				0431214E1EE0C20A007054C5 /* MobileCenterAnalyticsTVOS */,
 				0431216D1EE0C213007054C5 /* MobileCenterAnalyticsTVOSFramework */,
+				046EF87E1F03137500C553D8 /* MobileCenterAnalyticsTVOSTests */,
 				04FD11701EF2FE43000C5A5C /* MobileCenterAnalyticsTVOSDoc */,
 			);
 		};
@@ -813,6 +879,13 @@
 
 /* Begin PBXResourcesBuildPhase section */
 		046AEAC21ECA51AF00CBE511 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		046EF88E1F03137500C553D8 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -941,6 +1014,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		046EF8811F03137500C553D8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				046EF8821F03137500C553D8 /* MSAnalyticsTests.m in Sources */,
+				046EF8831F03137500C553D8 /* MSMockAnalyticsDelegate.m in Sources */,
+				046EF8841F03137500C553D8 /* MSSessionTrackerUtil.m in Sources */,
+				046EF8851F03137500C553D8 /* MSEventLogTests.m in Sources */,
+				046EF8861F03137500C553D8 /* MSPageLogTests.m in Sources */,
+				046EF8871F03137500C553D8 /* MSSessionTrackerTests.m in Sources */,
+				046EF8881F03137500C553D8 /* MSStartSessionLogTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0485AF681EAA79E300C10CAF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -990,6 +1077,11 @@
 			isa = PBXTargetDependency;
 			target = 0485AF671EAA79E300C10CAF /* MobileCenterAnalyticsMacOS */;
 			targetProxy = 046AEACD1ECA55BC00CBE511 /* PBXContainerItemProxy */;
+		};
+		046EF8981F03138400C553D8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0431214E1EE0C20A007054C5 /* MobileCenterAnalyticsTVOS */;
+			targetProxy = 046EF8971F03138400C553D8 /* PBXContainerItemProxy */;
 		};
 		04FD115D1EF2F849000C5A5C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1052,6 +1144,20 @@
 		046AEAC51ECA51AF00CBE511 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC82C1ECE3CF000FB6719 /* Tests macOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		046EF8931F03137500C553D8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 046EF89F1F0313E300C553D8 /* Tests tvOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		046EF8941F03137500C553D8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 046EF89F1F0313E300C553D8 /* Tests tvOS.xcconfig */;
 			buildSettings = {
 			};
 			name = Release;
@@ -1221,6 +1327,15 @@
 			buildConfigurations = (
 				046AEAC41ECA51AF00CBE511 /* Debug */,
 				046AEAC51ECA51AF00CBE511 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		046EF8921F03137500C553D8 /* Build configuration list for PBXNativeTarget "MobileCenterAnalyticsTVOSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				046EF8931F03137500C553D8 /* Debug */,
+				046EF8941F03137500C553D8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

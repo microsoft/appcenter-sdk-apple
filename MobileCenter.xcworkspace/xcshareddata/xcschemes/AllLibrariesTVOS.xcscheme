@@ -43,13 +43,33 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       codeCoverageEnabled = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "046EF87E1F03137500C553D8"
+               BuildableName = "MobileCenterAnalytics.xctest"
+               BlueprintName = "MobileCenterAnalyticsTVOSTests"
+               ReferencedContainer = "container:MobileCenterAnalytics/MobileCenterAnalytics.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "046EF8A21F03149E00C553D8"
+               BuildableName = "MobileCenterCrashes.xctest"
+               BlueprintName = "MobileCenterCrashesTVOSTests"
+               ReferencedContainer = "container:MobileCenterCrashes/MobileCenterCrashes.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "04754F471EA98182002CBA46"
+            BlueprintIdentifier = "043120721EE0BCF9007054C5"
             BuildableName = "libMobileCenter.a"
-            BlueprintName = "MobileCenterMacOS"
+            BlueprintName = "MobileCenterTVOS"
             ReferencedContainer = "container:MobileCenter/MobileCenter.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -84,6 +104,15 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "043120721EE0BCF9007054C5"
+            BuildableName = "libMobileCenter.a"
+            BlueprintName = "MobileCenterTVOS"
+            ReferencedContainer = "container:MobileCenter/MobileCenter.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
