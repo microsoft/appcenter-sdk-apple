@@ -1,6 +1,7 @@
 import UIKit;
 import MobileCenter;
 import MobileCenterAnalytics;
+import MobileCenterCrashes;
 
 @UIApplicationMain
 

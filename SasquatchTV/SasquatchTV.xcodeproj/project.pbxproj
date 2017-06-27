@@ -29,6 +29,14 @@
 		5C5A41881EE5B07D00C377A7 /* MobileCenterDelegateSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5A41811EE5AEE800C377A7 /* MobileCenterDelegateSwift.swift */; };
 		5CB338A21EE59B4B0089A60B /* MobileCenterDelegateObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CB338A11EE59B4B0089A60B /* MobileCenterDelegateObjC.m */; };
 		5CB338A41EE59C0F0089A60B /* MobileCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB338A31EE59C0F0089A60B /* MobileCenterDelegate.swift */; };
+		80F9915E1F0267590040FAD7 /* CrashLibTV.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80F9915C1F0267500040FAD7 /* CrashLibTV.framework */; };
+		80F9915F1F0267590040FAD7 /* CrashLibTV.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 80F9915C1F0267500040FAD7 /* CrashLibTV.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		80F991621F0267B40040FAD7 /* CrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F991611F0267B40040FAD7 /* CrashesViewController.swift */; };
+		80F991631F0267B40040FAD7 /* CrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F991611F0267B40040FAD7 /* CrashesViewController.swift */; };
+		80F991671F02696B0040FAD7 /* CrashLibTV.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80F9915C1F0267500040FAD7 /* CrashLibTV.framework */; };
+		80F991681F02696B0040FAD7 /* CrashLibTV.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 80F9915C1F0267500040FAD7 /* CrashLibTV.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		80F9916B1F027D250040FAD7 /* CrashesDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F9916A1F027D250040FAD7 /* CrashesDetailViewController.swift */; };
+		80F9916C1F027D250040FAD7 /* CrashesDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F9916A1F027D250040FAD7 /* CrashesDetailViewController.swift */; };
 		D322EFDB1E8E97C800A8EDA5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D322EFDA1E8E97C800A8EDA5 /* AppDelegate.swift */; };
 		D322EFE21E8E97C800A8EDA5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D322EFE11E8E97C800A8EDA5 /* Assets.xcassets */; };
 		D322EFEF1E8E97DF00A8EDA5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D322EFEE1E8E97DF00A8EDA5 /* main.m */; };
@@ -55,6 +63,31 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		80F991601F02675A0040FAD7 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				80F9915F1F0267590040FAD7 /* CrashLibTV.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		80F991691F02696C0040FAD7 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				80F991681F02696B0040FAD7 /* CrashLibTV.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		043121781EE0C65B007054C5 /* MobileCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenter.framework; path = "../MobileCenter-SDK-iOS/tvOS/MobileCenter.framework"; sourceTree = "<group>"; };
 		043121791EE0C65B007054C5 /* MobileCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterAnalytics.framework; path = "../MobileCenter-SDK-iOS/tvOS/MobileCenterAnalytics.framework"; sourceTree = "<group>"; };
@@ -74,6 +107,9 @@
 		5CB338A01EE59B250089A60B /* MobileCenterDelegateObjC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MobileCenterDelegateObjC.h; sourceTree = "<group>"; };
 		5CB338A11EE59B4B0089A60B /* MobileCenterDelegateObjC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MobileCenterDelegateObjC.m; sourceTree = "<group>"; };
 		5CB338A31EE59C0F0089A60B /* MobileCenterDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobileCenterDelegate.swift; sourceTree = "<group>"; };
+		80F9915C1F0267500040FAD7 /* CrashLibTV.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashLibTV.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/MobileCenter-gzzoukhobsrfomgiewjmdheqlofd/Build/Products/Debug-appletvsimulator/CrashLibTV.framework"; sourceTree = "<group>"; };
+		80F991611F0267B40040FAD7 /* CrashesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = CrashesViewController.swift; sourceTree = "<group>"; tabWidth = 2; };
+		80F9916A1F027D250040FAD7 /* CrashesDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrashesDetailViewController.swift; sourceTree = "<group>"; };
 		D322EFCA1E8E97A100A8EDA5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/SasquatchTV.storyboard; sourceTree = "<group>"; };
 		D322EFCC1E8E97A100A8EDA5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D322EFCE1E8E97A100A8EDA5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -108,6 +144,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				80F991671F02696B0040FAD7 /* CrashLibTV.framework in Frameworks */,
 				0431217C1EE0C669007054C5 /* MobileCenter.framework in Frameworks */,
 				0431217D1EE0C669007054C5 /* MobileCenterAnalytics.framework in Frameworks */,
 				04EBBEFC1F01C89A0006B8AE /* MobileCenterCrashes.framework in Frameworks */,
@@ -118,6 +155,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				80F9915E1F0267590040FAD7 /* CrashLibTV.framework in Frameworks */,
 				0431217A1EE0C65B007054C5 /* MobileCenter.framework in Frameworks */,
 				0431217B1EE0C65B007054C5 /* MobileCenterAnalytics.framework in Frameworks */,
 				04EBBEFB1F01C88D0006B8AE /* MobileCenterCrashes.framework in Frameworks */,
@@ -235,8 +273,10 @@
 		D322F0021E8E984400A8EDA5 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				5C481B991EE5794A009329DD /* AnalyticsViewController.swift */,
 				5C481B9A1EE5794A009329DD /* MobileCenterViewController.swift */,
+				5C481B991EE5794A009329DD /* AnalyticsViewController.swift */,
+				80F991611F0267B40040FAD7 /* CrashesViewController.swift */,
+				80F9916A1F027D250040FAD7 /* CrashesDetailViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -254,6 +294,7 @@
 		D322F0061E8E98DF00A8EDA5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				80F9915C1F0267500040FAD7 /* CrashLibTV.framework */,
 				04EBBEFA1F01C88D0006B8AE /* MobileCenterCrashes.framework */,
 				043121781EE0C65B007054C5 /* MobileCenter.framework */,
 				043121791EE0C65B007054C5 /* MobileCenterAnalytics.framework */,
@@ -307,6 +348,7 @@
 				D322EFD41E8E97C800A8EDA5 /* Sources */,
 				D322EFD51E8E97C800A8EDA5 /* Frameworks */,
 				D322EFD61E8E97C800A8EDA5 /* Resources */,
+				80F991691F02696C0040FAD7 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -324,6 +366,7 @@
 				D322EFE71E8E97DF00A8EDA5 /* Sources */,
 				D322EFE81E8E97DF00A8EDA5 /* Frameworks */,
 				D322EFE91E8E97DF00A8EDA5 /* Resources */,
+				80F991601F02675A0040FAD7 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -452,7 +495,9 @@
 				5C481B9F1EE5794A009329DD /* MobileCenterViewController.swift in Sources */,
 				5C5A41881EE5B07D00C377A7 /* MobileCenterDelegateSwift.swift in Sources */,
 				5C5A41801EE5AE7500C377A7 /* MobileCenterDelegate.swift in Sources */,
+				80F991631F0267B40040FAD7 /* CrashesViewController.swift in Sources */,
 				D322EFDB1E8E97C800A8EDA5 /* AppDelegate.swift in Sources */,
+				80F9916C1F027D250040FAD7 /* CrashesDetailViewController.swift in Sources */,
 				5C481BA71EE586D2009329DD /* MobileCenterProtocol.swift in Sources */,
 				5C481B9D1EE5794A009329DD /* AnalyticsViewController.swift in Sources */,
 			);
@@ -463,9 +508,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				5C481BA61EE586D2009329DD /* MobileCenterProtocol.swift in Sources */,
+				80F991621F0267B40040FAD7 /* CrashesViewController.swift in Sources */,
 				D322EFF21E8E97DF00A8EDA5 /* AppDelegate.m in Sources */,
 				5C4F926B1EE84260003140BF /* MSAlertController.m in Sources */,
 				D322EFEF1E8E97DF00A8EDA5 /* main.m in Sources */,
+				80F9916B1F027D250040FAD7 /* CrashesDetailViewController.swift in Sources */,
 				5C481B9E1EE5794A009329DD /* MobileCenterViewController.swift in Sources */,
 				5C481B9C1EE5794A009329DD /* AnalyticsViewController.swift in Sources */,
 				5CB338A41EE59C0F0089A60B /* MobileCenterDelegate.swift in Sources */,
