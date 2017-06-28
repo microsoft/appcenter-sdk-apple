@@ -16,6 +16,16 @@
   [MSPush didFailToRegisterForRemoteNotificationsWithError:error];
 }
 
+// Workaroud for iOS 10 bug. See https://forums.developer.apple.com/thread/54332
+- (void)application:(UIApplication *)application
+    didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+  [self application:application
+      didReceiveRemoteNotification:userInfo
+            fetchCompletionHandler:^(__attribute__((unused)) UIBackgroundFetchResult result) {
+            }];
+}
+
 - (void)application:(__attribute__((unused))UIApplication *)application
     didReceiveRemoteNotification:(NSDictionary *)userInfo
           fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
@@ -38,6 +48,7 @@
   // Register selectors to swizzle for Push.
   [self addAppDelegateSelectorToSwizzle:@selector(application:didRegisterForRemoteNotificationsWithDeviceToken:)];
   [self addAppDelegateSelectorToSwizzle:@selector(application:didFailToRegisterForRemoteNotificationsWithError:)];
+  [self addAppDelegateSelectorToSwizzle:@selector(application:didReceiveRemoteNotification:)];
   [self addAppDelegateSelectorToSwizzle:@selector(application:didReceiveRemoteNotification:fetchCompletionHandler:)];
 }
 
