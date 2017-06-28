@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		801C25311F04001300F4859B /* CrashLibiOS-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = B24187A21DD2A7F900D820D8 /* CrashLibiOS-Bridging-Header.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		80F991291F0265C60040FAD7 /* MSCrash.h in Headers */ = {isa = PBXBuildFile; fileRef = B24187891DD2A7F900D820D8 /* MSCrash.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		80F9912A1F0265C60040FAD7 /* MSCrash.m in Sources */ = {isa = PBXBuildFile; fileRef = B24187971DD2A7F900D820D8 /* MSCrash.m */; };
 		80F9912B1F0265C60040FAD7 /* MSCrashAbort.h in Headers */ = {isa = PBXBuildFile; fileRef = B241878D1DD2A7F900D820D8 /* MSCrashAbort.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -275,6 +276,7 @@
 				80F9912D1F0265C60040FAD7 /* MSCrashAsyncSafeThread.h in Headers */,
 				80F9912F1F0265C60040FAD7 /* MSCrashCXXException.h in Headers */,
 				80F991331F0265C60040FAD7 /* MSCrashCorruptObjC.h in Headers */,
+				801C25311F04001300F4859B /* CrashLibiOS-Bridging-Header.h in Headers */,
 				80F9913F1F0265C60040FAD7 /* MSCrashObjCException.h in Headers */,
 				80F991311F0265C60040FAD7 /* MSCrashCorruptMalloc.h in Headers */,
 				80F9914B1F0265C60040FAD7 /* MSCrashSmashStackBottom.h in Headers */,
@@ -767,6 +769,7 @@
 				80F991281F0265070040FAD7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B21A71D51DD2A38C0044BB1C /* Build configuration list for PBXProject "CrashLib" */ = {
 			isa = XCConfigurationList;
