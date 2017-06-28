@@ -29,12 +29,12 @@
 		5C5A41881EE5B07D00C377A7 /* MobileCenterDelegateSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5A41811EE5AEE800C377A7 /* MobileCenterDelegateSwift.swift */; };
 		5CB338A21EE59B4B0089A60B /* MobileCenterDelegateObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CB338A11EE59B4B0089A60B /* MobileCenterDelegateObjC.m */; };
 		5CB338A41EE59C0F0089A60B /* MobileCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB338A31EE59C0F0089A60B /* MobileCenterDelegate.swift */; };
-		80F9915E1F0267590040FAD7 /* CrashLibTV.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80F9915C1F0267500040FAD7 /* CrashLibTV.framework */; };
-		80F9915F1F0267590040FAD7 /* CrashLibTV.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 80F9915C1F0267500040FAD7 /* CrashLibTV.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		801C25651F040F3C00F4859B /* CrashLibTV.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 801C25641F040F3C00F4859B /* CrashLibTV.framework */; };
+		801C25661F040F3C00F4859B /* CrashLibTV.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 801C25641F040F3C00F4859B /* CrashLibTV.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		801C25691F040F5100F4859B /* CrashLibTV.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 801C25681F040F5100F4859B /* CrashLibTV.framework */; };
+		801C256A1F040F5100F4859B /* CrashLibTV.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 801C25681F040F5100F4859B /* CrashLibTV.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		80F991621F0267B40040FAD7 /* CrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F991611F0267B40040FAD7 /* CrashesViewController.swift */; };
 		80F991631F0267B40040FAD7 /* CrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F991611F0267B40040FAD7 /* CrashesViewController.swift */; };
-		80F991671F02696B0040FAD7 /* CrashLibTV.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80F9915C1F0267500040FAD7 /* CrashLibTV.framework */; };
-		80F991681F02696B0040FAD7 /* CrashLibTV.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 80F9915C1F0267500040FAD7 /* CrashLibTV.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		80F9916B1F027D250040FAD7 /* CrashesDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F9916A1F027D250040FAD7 /* CrashesDetailViewController.swift */; };
 		80F9916C1F027D250040FAD7 /* CrashesDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F9916A1F027D250040FAD7 /* CrashesDetailViewController.swift */; };
 		80F9916D1F0287B60040FAD7 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C4F926A1EE84260003140BF /* MSAlertController.m */; };
@@ -65,24 +65,24 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		80F991601F02675A0040FAD7 /* Embed Frameworks */ = {
+		801C25671F040F3C00F4859B /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				80F9915F1F0267590040FAD7 /* CrashLibTV.framework in Embed Frameworks */,
+				801C25661F040F3C00F4859B /* CrashLibTV.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		80F991691F02696C0040FAD7 /* Embed Frameworks */ = {
+		801C256B1F040F5100F4859B /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				80F991681F02696B0040FAD7 /* CrashLibTV.framework in Embed Frameworks */,
+				801C256A1F040F5100F4859B /* CrashLibTV.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -108,6 +108,8 @@
 		5CB338A01EE59B250089A60B /* MobileCenterDelegateObjC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MobileCenterDelegateObjC.h; sourceTree = "<group>"; };
 		5CB338A11EE59B4B0089A60B /* MobileCenterDelegateObjC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MobileCenterDelegateObjC.m; sourceTree = "<group>"; };
 		5CB338A31EE59C0F0089A60B /* MobileCenterDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobileCenterDelegate.swift; sourceTree = "<group>"; };
+		801C25641F040F3C00F4859B /* CrashLibTV.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CrashLibTV.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		801C25681F040F5100F4859B /* CrashLibTV.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CrashLibTV.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80F9915C1F0267500040FAD7 /* CrashLibTV.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashLibTV.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/MobileCenter-gzzoukhobsrfomgiewjmdheqlofd/Build/Products/Debug-appletvsimulator/CrashLibTV.framework"; sourceTree = "<group>"; };
 		80F991611F0267B40040FAD7 /* CrashesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = CrashesViewController.swift; sourceTree = "<group>"; tabWidth = 2; };
 		80F9916A1F027D250040FAD7 /* CrashesDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrashesDetailViewController.swift; sourceTree = "<group>"; };
@@ -145,7 +147,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				80F991671F02696B0040FAD7 /* CrashLibTV.framework in Frameworks */,
+				801C25691F040F5100F4859B /* CrashLibTV.framework in Frameworks */,
 				0431217C1EE0C669007054C5 /* MobileCenter.framework in Frameworks */,
 				0431217D1EE0C669007054C5 /* MobileCenterAnalytics.framework in Frameworks */,
 				04EBBEFC1F01C89A0006B8AE /* MobileCenterCrashes.framework in Frameworks */,
@@ -156,7 +158,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				80F9915E1F0267590040FAD7 /* CrashLibTV.framework in Frameworks */,
+				801C25651F040F3C00F4859B /* CrashLibTV.framework in Frameworks */,
 				0431217A1EE0C65B007054C5 /* MobileCenter.framework in Frameworks */,
 				0431217B1EE0C65B007054C5 /* MobileCenterAnalytics.framework in Frameworks */,
 				04EBBEFB1F01C88D0006B8AE /* MobileCenterCrashes.framework in Frameworks */,
@@ -188,6 +190,8 @@
 		D322EFB91E8E97A100A8EDA5 = {
 			isa = PBXGroup;
 			children = (
+				801C25681F040F5100F4859B /* CrashLibTV.framework */,
+				801C25641F040F3C00F4859B /* CrashLibTV.framework */,
 				D322EFC41E8E97A100A8EDA5 /* SasquatchTV */,
 				D322EFD91E8E97C800A8EDA5 /* SasquatchTVSwift */,
 				D322EFEC1E8E97DF00A8EDA5 /* SasquatchTVObjC */,
@@ -348,7 +352,7 @@
 				D322EFD41E8E97C800A8EDA5 /* Sources */,
 				D322EFD51E8E97C800A8EDA5 /* Frameworks */,
 				D322EFD61E8E97C800A8EDA5 /* Resources */,
-				80F991691F02696C0040FAD7 /* Embed Frameworks */,
+				801C256B1F040F5100F4859B /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -366,7 +370,7 @@
 				D322EFE71E8E97DF00A8EDA5 /* Sources */,
 				D322EFE81E8E97DF00A8EDA5 /* Frameworks */,
 				D322EFE91E8E97DF00A8EDA5 /* Resources */,
-				80F991601F02675A0040FAD7 /* Embed Frameworks */,
+				801C25671F040F3C00F4859B /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
