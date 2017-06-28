@@ -245,7 +245,7 @@
                                 <rect key="frame" x="760" y="790" width="400" height="86"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
-                                <state key="normal" title="Delete Property"/>
+                                <state key="normal" title="Delete properties"/>
                                 <connections>
                                     <action selector="deleteProperty:" destination="gle-ii-s7s" eventType="primaryActionTriggered" id="eFQ-ne-lgA"/>
                                 </connections>
