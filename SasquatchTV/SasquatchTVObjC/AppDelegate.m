@@ -3,6 +3,7 @@
 
 @import MobileCenter;
 @import MobileCenterAnalytics;
+@import MobileCenterCrashes;
 
 @interface AppDelegate ()
 
@@ -14,7 +15,7 @@
 
   [MSMobileCenter setLogLevel:MSLogLevelVerbose];
   [MSMobileCenter setLogUrl:@"https://in-integration.dev.avalanch.es"];
-  [MSMobileCenter start:@"7ee5f412-02f7-45ea-a49c-b4ebf2911325" withServices:@[ [MSAnalytics class] ]];
+  [MSMobileCenter start:@"7ee5f412-02f7-45ea-a49c-b4ebf2911325" withServices:@[ [MSAnalytics class], [MSCrashes class] ]];
   [self setMobileCenterDelegate];
   return YES;
 }

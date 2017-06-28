@@ -3,6 +3,7 @@
 
 @import MobileCenter;
 @import MobileCenterAnalytics;
+@import MobileCenterCrashes;
 
 /**
  * MobileCenterDelegate implementation in Objective C.
@@ -41,15 +42,13 @@
   [MSAnalytics setEnabled:isEnabled];
 }
 - (BOOL)isCrashesEnabled {
-  // TODO: Uncomment when Crashes will allowed for tvOS.
-//  return [MSCrashes isEnabled];
-  return NO;
+  return [MSCrashes isEnabled];
 }
 
 - (void)setCrashesEnabled:(BOOL)isEnabled {
 
   // TODO: Uncomment when Crashes will allowed for tvOS.
-//  [MSCrashes setEnabled:isEnabled];
+  [MSCrashes setEnabled:isEnabled];
 }
 
 #pragma mark - MSAnalytics section.
@@ -70,84 +69,78 @@
 
 #pragma mark - MSCrashes section.
 - (BOOL)hasCrashedInLastSession {
-
-  // TODO: Uncomment when Crashes will allowed for tvOS.
-//  return [MSCrashes hasCrashedInLastSession];
-  return NO;
+  return [MSCrashes hasCrashedInLastSession];
 }
 - (void)generateTestCrash {
-
-  // TODO: Uncomment when Crashes will allowed for tvOS.
-//  return [MSCrashes generateTestCrash];
+  return [MSCrashes generateTestCrash];
 }
 
 #pragma mark - Last crash report section.
-// TODO: Uncomment when Crashes will allowed for tvOS.
-//- (NSString *)lastCrashReportIncidentIdentifier {
-//  return [[MSCrashes lastSessionCrashReport] incidentIdentifier];
-//}
-//- (NSString *)lastCrashReportReporterKey {
-//  return [[MSCrashes lastSessionCrashReport] reporterKey];
-//}
-//- (NSString *)lastCrashReportSignal {
-//  return [[MSCrashes lastSessionCrashReport] signal];
-//}
-//- (NSString *)lastCrashReportExceptionName {
-//  return [[MSCrashes lastSessionCrashReport] exceptionName];
-//}
-//- (NSString *)lastCrashReportExceptionReason {
-//  return [[MSCrashes lastSessionCrashReport] exceptionReason];
-//}
-//- (NSString *)lastCrashReportAppStartTimeDescription {
-//  return [[[MSCrashes lastSessionCrashReport] appStartTime] description];
-//}
-//- (NSString *)lastCrashReportAppErrorTimeDescription {
-//  return [[[MSCrashes lastSessionCrashReport] appErrorTime] description];
-//}
-//- (NSUInteger)lastCrashReportAppProcessIdentifier {
-//  return [[MSCrashes lastSessionCrashReport] appProcessIdentifier];
-//}
-//- (BOOL)lastCrashReportIsAppKill {
-//  return [[MSCrashes lastSessionCrashReport] isAppKill];
-//}
-//- (NSString *)lastCrashReportDeviceModel {
-//  return [[[MSCrashes lastSessionCrashReport] device] model];
-//}
-//- (NSString *)lastCrashReportDeviceOemName {
-//  return [[[MSCrashes lastSessionCrashReport] device] oemName];
-//}
-//- (NSString *)lastCrashReportDeviceOsName {
-//  return [[[MSCrashes lastSessionCrashReport] device] osName];
-//}
-//- (NSString *)lastCrashReportDeviceOsVersion {
-//  return [[[MSCrashes lastSessionCrashReport] device] osVersion];
-//}
-//- (NSString *)lastCrashReportDeviceOsBuild {
-//  return [[[MSCrashes lastSessionCrashReport] device] osBuild];
-//}
-//- (NSString *)lastCrashReportDeviceLocale {
-//  return [[[MSCrashes lastSessionCrashReport] device] locale];
-//}
-//- (NSNumber *)lastCrashReportDeviceTimeZoneOffset {
-//  return [[[MSCrashes lastSessionCrashReport] device] timeZoneOffset];
-//}
-//- (NSString *)lastCrashReportDeviceScreenSize {
-//  return [[[MSCrashes lastSessionCrashReport] device] screenSize];
-//}
-//- (NSString *)lastCrashReportDeviceAppVersion {
-//  return [[[MSCrashes lastSessionCrashReport] device] appVersion];
-//}
-//- (NSString *)lastCrashReportDeviceAppBuild {
-//  return [[[MSCrashes lastSessionCrashReport] device] appBuild];
-//}
-//- (NSString *)lastCrashReportDeviceAppNamespace {
-//  return [[[MSCrashes lastSessionCrashReport] device] appNamespace];
-//}
-//- (NSString *)lastCrashReportDeviceCarrierName {
-//  return [[[MSCrashes lastSessionCrashReport] device] carrierName];
-//}
-//- (NSString *)lastCrashReportDeviceCarrierCountry {
-//  return [[[MSCrashes lastSessionCrashReport] device] carrierCountry];
-//}
+- (NSString *)lastCrashReportIncidentIdentifier {
+  return [[MSCrashes lastSessionCrashReport] incidentIdentifier];
+}
+- (NSString *)lastCrashReportReporterKey {
+  return [[MSCrashes lastSessionCrashReport] reporterKey];
+}
+- (NSString *)lastCrashReportSignal {
+  return [[MSCrashes lastSessionCrashReport] signal];
+}
+- (NSString *)lastCrashReportExceptionName {
+  return [[MSCrashes lastSessionCrashReport] exceptionName];
+}
+- (NSString *)lastCrashReportExceptionReason {
+  return [[MSCrashes lastSessionCrashReport] exceptionReason];
+}
+- (NSString *)lastCrashReportAppStartTimeDescription {
+  return [[[MSCrashes lastSessionCrashReport] appStartTime] description];
+}
+- (NSString *)lastCrashReportAppErrorTimeDescription {
+  return [[[MSCrashes lastSessionCrashReport] appErrorTime] description];
+}
+- (NSUInteger)lastCrashReportAppProcessIdentifier {
+  return [[MSCrashes lastSessionCrashReport] appProcessIdentifier];
+}
+- (BOOL)lastCrashReportIsAppKill {
+  return [[MSCrashes lastSessionCrashReport] isAppKill];
+}
+- (NSString *)lastCrashReportDeviceModel {
+  return [[[MSCrashes lastSessionCrashReport] device] model];
+}
+- (NSString *)lastCrashReportDeviceOemName {
+  return [[[MSCrashes lastSessionCrashReport] device] oemName];
+}
+- (NSString *)lastCrashReportDeviceOsName {
+  return [[[MSCrashes lastSessionCrashReport] device] osName];
+}
+- (NSString *)lastCrashReportDeviceOsVersion {
+  return [[[MSCrashes lastSessionCrashReport] device] osVersion];
+}
+- (NSString *)lastCrashReportDeviceOsBuild {
+  return [[[MSCrashes lastSessionCrashReport] device] osBuild];
+}
+- (NSString *)lastCrashReportDeviceLocale {
+  return [[[MSCrashes lastSessionCrashReport] device] locale];
+}
+- (NSNumber *)lastCrashReportDeviceTimeZoneOffset {
+  return [[[MSCrashes lastSessionCrashReport] device] timeZoneOffset];
+}
+- (NSString *)lastCrashReportDeviceScreenSize {
+  return [[[MSCrashes lastSessionCrashReport] device] screenSize];
+}
+- (NSString *)lastCrashReportDeviceAppVersion {
+  return [[[MSCrashes lastSessionCrashReport] device] appVersion];
+}
+- (NSString *)lastCrashReportDeviceAppBuild {
+  return [[[MSCrashes lastSessionCrashReport] device] appBuild];
+}
+- (NSString *)lastCrashReportDeviceAppNamespace {
+  return [[[MSCrashes lastSessionCrashReport] device] appNamespace];
+}
+- (NSString *)lastCrashReportDeviceCarrierName {
+  return [[[MSCrashes lastSessionCrashReport] device] carrierName];
+}
+- (NSString *)lastCrashReportDeviceCarrierCountry {
+  return [[[MSCrashes lastSessionCrashReport] device] carrierCountry];
+}
 
 @end
