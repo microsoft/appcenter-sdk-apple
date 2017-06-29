@@ -17,13 +17,10 @@
 }
 
 // Workaroud for iOS 10 bug. See https://forums.developer.apple.com/thread/54332
-- (void)application:(UIApplication *)application
+- (void)application:(__attribute__((unused))UIApplication *)application
     didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
-  [self application:application
-      didReceiveRemoteNotification:userInfo
-            fetchCompletionHandler:^(__attribute__((unused)) UIBackgroundFetchResult result) {
-            }];
+  [MSPush didReceiveRemoteNotification:userInfo];
 }
 
 - (void)application:(__attribute__((unused))UIApplication *)application
