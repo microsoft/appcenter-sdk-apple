@@ -328,6 +328,21 @@ static BOOL _enabled = YES;
 }
 
 - (void)custom_application:(UIApplication *)application
+    didReceiveRemoteNotification:(NSDictionary *)userInfo {
+  IMP originalImp = NULL;
+  
+  // Forward to the original delegate.
+  [MSAppDelegateForwarder.originalImplementations[NSStringFromSelector(_cmd)] getValue:&originalImp];
+  if (originalImp) {
+    ((void (*)(id, SEL, UIApplication *, NSDictionary *))originalImp)(self, _cmd, application, userInfo);
+  }
+  
+  // Forward to custom delegates.
+  [[MSAppDelegateForwarder sharedInstance] application:application
+                          didReceiveRemoteNotification:userInfo];
+}
+
+- (void)custom_application:(UIApplication *)application
     didReceiveRemoteNotification:(NSDictionary *)userInfo
           fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
 
