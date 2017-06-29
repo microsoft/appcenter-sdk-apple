@@ -6,6 +6,7 @@ typedef BOOL (^CustomOpenURLiOS42Validator)(UIApplication *, NSURL *, NSString *
 typedef BOOL (^CustomOpenURLiOS9Validator)(UIApplication *, NSURL *, NSDictionary<UIApplicationOpenURLOptionsKey, id> *,
                                            BOOL);
 typedef BOOL (^CustomDidRegisterNotificationValidator)(UIApplication *, NSData *);
+typedef BOOL (^CustomDidReceiveNotificationWorkaroundValidator)(UIApplication *application, NSDictionary *userInfo);
 typedef BOOL (^CustomDidReceiveNotificationValidator)(UIApplication *application, NSDictionary *userInfo,
                                                       void (^fetchHandler)(UIBackgroundFetchResult));
 
