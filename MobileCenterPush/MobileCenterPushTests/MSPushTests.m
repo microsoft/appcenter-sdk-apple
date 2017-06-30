@@ -205,12 +205,17 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
     [invocation getArgument:&pushNotification atIndex:3];
   });
   [MSPush setDelegate:pushDelegateMock];
-  __block NSString *title = @"notificationTitle";
-  __block NSString *message = @"notificationMessage";
-  NSDictionary *userInfo = @{ @"aps" : @{@"alert" : @{@"title" : title, @"body" : message}} };
+
+  NSArray *invalidUserInfos = @[
+    @{ @"aps" : @{@"alert" : @{@"title" : @"notificationTitle", @"body" : @"notificationMessage"} } },
+    @{ @"aps" : @{@"alert" : @"notificationMessage"} }
+  ];
 
   // When
-  BOOL result = [MSPush didReceiveRemoteNotification:userInfo];
+  for (NSDictionary *userInfo in invalidUserInfos) {
+    BOOL result = [MSPush didReceiveRemoteNotification:userInfo];
+    XCTAssertFalse(result);
+  }
   dispatch_async(dispatch_get_main_queue(), ^{
     [didReceiveRemoteNotification fulfill];
   });
@@ -218,15 +223,13 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   // Then
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
-                                 OCMReject(
-                                     [pushMock didReceiveRemoteNotification:userInfo]);
+                                 OCMReject([pushMock didReceiveRemoteNotification:[OCMArg any]]);
                                  OCMReject([pushDelegateMock push:self.sut didReceivePushNotification:[OCMArg any]]);
                                  XCTAssertNil(pushNotification);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
-  XCTAssertFalse(result);
 }
 
 @end
