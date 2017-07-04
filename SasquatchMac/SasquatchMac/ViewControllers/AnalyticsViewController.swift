@@ -1,35 +1,26 @@
 import Cocoa
 
 // FIXME: trackPage has been hidden in MSAnalytics temporarily. Use internal until the feature comes back.
-class AnalyticsViewController : NSViewController, MobileCenterProtocol {
+class AnalyticsViewController : NSViewController {
 
-  var mobileCenter: MobileCenterDelegate? {
-    didSet {
-      if let `mobileCenter` = mobileCenter {
-        setEnabledButton?.state = mobileCenter.isAnalyticsEnabled() ? 1 : 0
-      }
-    }
-  }
-
-  @IBOutlet var setEnabledButton : NSButton?;
+  var mobileCenter: MobileCenterDelegate?
+  
+  @IBOutlet var setEnabledButton : NSButton?
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    if let `mobileCenter` = mobileCenter {
-      setEnabledButton?.state = `mobileCenter`.isAnalyticsEnabled() ? 1 : 0
-    } else {
-      setEnabledButton?.state = ServiceStateStore.AnalyticsState ? 1 : 0
-    }
+    mobileCenter = MobileCenterProvider.shared().mobileCenter
+    setEnabledButton?.state = mobileCenter!.isAnalyticsEnabled() ? 1 : 0
   }
 
   @IBAction func trackEvent(_ : AnyObject) {
-    if let `mobileCenter` = mobileCenter {
+    if let mobileCenter = mobileCenter {
       mobileCenter.trackEvent("myEvent")
     }
   }
 
   @IBAction func trackEventWithProperties(_ : AnyObject) {
-    if let `mobileCenter` = mobileCenter {
+    if let mobileCenter = mobileCenter {
       mobileCenter.trackEvent("myEvent", withProperties: ["gender":"male", "age":"20", "title":"SDE"]);
     }
   }
@@ -43,10 +34,7 @@ class AnalyticsViewController : NSViewController, MobileCenterProtocol {
   }
 
   @IBAction func setEnabled(sender : NSButton) {
-    guard let `mobileCenter` = mobileCenter else {
-      return
-    }
-    mobileCenter.setAnalyticsEnabled(sender.state == 1)
-    sender.state = mobileCenter.isAnalyticsEnabled() ? 1 : 0
+    mobileCenter?.setAnalyticsEnabled(sender.state == 1)
+    sender.state = mobileCenter!.isAnalyticsEnabled() ? 1 : 0
   }
 }
