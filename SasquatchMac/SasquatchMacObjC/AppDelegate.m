@@ -19,10 +19,6 @@
   return self;
 }
 
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-
-}
-
 #pragma mark - Private
 
 - (void)setupCrashes {

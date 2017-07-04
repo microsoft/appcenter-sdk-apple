@@ -1,4 +1,3 @@
-
 @objc class MobileCenterProvider:NSObject {
 
   var mobileCenter: MobileCenterDelegate?

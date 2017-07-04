@@ -35,9 +35,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate {
     MobileCenterProvider.shared().mobileCenter = MobileCenterDelegateSwift()
   }
 
-  func applicationDidFinishLaunching(_ aNotification: Notification) {
-  }
-
   // Crashes Delegate
   
   func crashes(_ crashes: MSCrashes!, shouldProcessErrorReport errorReport: MSErrorReport!) -> Bool {
