@@ -9,7 +9,6 @@ class CrashesViewController : NSViewController {
     super.viewDidLoad()
     mobileCenter = MobileCenterProvider.shared().mobileCenter
     setEnabledButton?.state = mobileCenter!.isCrashesEnabled() ? 1 : 0
-
   }
 
   @IBAction func stackOverflowCrash(_ : Any) {
