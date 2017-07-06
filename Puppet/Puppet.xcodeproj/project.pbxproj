@@ -40,6 +40,8 @@
 		B27397A51DE3D27700AC7761 /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B27397A31DE3D27700AC7761 /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B296D4211E5F5DEF0089F013 /* MobileCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B2C070CB1E5F59A90076D6A9 /* MobileCenterDistributeResources.bundle */; };
 		B2E611F61DDE72BA00A9DF86 /* MSFakeCXXClass.mm in Sources */ = {isa = PBXBuildFile; fileRef = B2E611F41DDE72BA00A9DF86 /* MSFakeCXXClass.mm */; };
+		B2F3FA8B1E96DB5A0065A3BE /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B2F3FA8A1E96DB5A0065A3BE /* libsqlite3.tbd */; };
+		B2F3FA981E96DB690065A3BE /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B2F3FA8A1E96DB5A0065A3BE /* libsqlite3.tbd */; };
 		BA6827C9F0410233C245D989 /* MSDistributeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA682342F94E25F75943E4F6 /* MSDistributeViewController.m */; };
 		E82E1B641D1CA58D00D281C1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E82E1B631D1CA58D00D281C1 /* main.m */; };
 		E82E1B671D1CA58D00D281C1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E82E1B661D1CA58D00D281C1 /* AppDelegate.m */; };
@@ -299,6 +301,7 @@
 		B27397A31DE3D27700AC7761 /* CrashLibIOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CrashLibIOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2E611F41DDE72BA00A9DF86 /* MSFakeCXXClass.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MSFakeCXXClass.mm; sourceTree = "<group>"; };
 		B2E611F51DDE72BA00A9DF86 /* MSFakeCXXClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSFakeCXXClass.h; sourceTree = "<group>"; };
+		B2F3FA8A1E96DB5A0065A3BE /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		BA682342F94E25F75943E4F6 /* MSDistributeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDistributeViewController.m; sourceTree = "<group>"; };
 		BA68238A942EEAA10612D006 /* MSDistributeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDistributeViewController.h; sourceTree = "<group>"; };
 		E82E1B5F1D1CA58D00D281C1 /* Puppet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Puppet.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -336,6 +339,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B2F3FA981E96DB690065A3BE /* libsqlite3.tbd in Frameworks */,
 				380A4DC91DD68D3F00E99219 /* libc++.tbd in Frameworks */,
 				380A4DC81DD68D2B00E99219 /* CrashReporter.framework in Frameworks */,
 				380A4DC41DD68D1000E99219 /* libMobileCenter.a in Frameworks */,
@@ -349,6 +353,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B2F3FA8B1E96DB5A0065A3BE /* libsqlite3.tbd in Frameworks */,
 				382346321E8B013F001C3A76 /* MobileCoreServices.framework in Frameworks */,
 				38484F6D1E53D57E00C5631C /* SafariServices.framework in Frameworks */,
 				6EC99A281D4152FA0016C325 /* libc++.tbd in Frameworks */,
@@ -397,6 +402,7 @@
 		380A4D971DD6892F00E99219 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B2F3FA8A1E96DB5A0065A3BE /* libsqlite3.tbd */,
 				382346311E8B013F001C3A76 /* MobileCoreServices.framework */,
 				38F2606E1E649FE5004F0FDC /* Security.framework */,
 				38484F691E537B9300C5631C /* SafariServices.framework */,
