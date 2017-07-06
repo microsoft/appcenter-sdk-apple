@@ -1,5 +1,25 @@
 # Mobile Center SDK for iOS Change Log
 
+## Version 0.11.0
+
+This version has a **breaking change** in the Crashes module and contains other bugfixes and improvements.
+
+In addition, this release replaces the file-based persistence with a sqlite-based implementation. This change does not require any change from your side.
+
+### MobileCenter
+
+* **[Fix]** Fix a bug that caused logs to be discarded when re-enabling the sending of logs [#639](https://github.com/Microsoft/mobile-center-sdk-ios/pull/639).
+
+### MobileCenterCrashes
+
+* [**Breaking**] The SDK now uses Mach Exception Handling per default. Use `[MSCrashes disableMachExceptionHandler]`/`MSCrashes.disableMachExceptionHandler()` to disable that behavior. `[MSCrashes enableMachExceptionHandler]`/`MSCrashes.enableMachExceptionHandler()` has been removed [#637](https://github.com/Microsoft/mobile-center-sdk-ios/pull/637).
+
+### MobileCenterPush
+
+* **[Fix]** Fix a crash that was related to push notifications that were not intended for Mobile Center [#651](https://github.com/Microsoft/mobile-center-sdk-ios/pull/651).
+
+___
+
 ## Version 0.10.1
 
 This version contains a bugfix for crash attachments.
