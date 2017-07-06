@@ -110,6 +110,7 @@
   if (result == SQLITE_OK) {
     result = sqlite3_prepare_v2(db, [query UTF8String], -1, &statement, NULL);
     if (result == SQLITE_OK) {
+      
       // Loop on rows.
       while (sqlite3_step(statement) == SQLITE_ROW) {
         NSMutableArray *entry = [NSMutableArray new];
@@ -140,7 +141,7 @@
       sqlite3_finalize(statement);
     } else {
       MSLogError([MSMobileCenter logTag], @"Query \"%@\" failed with error: %d - %@", query, result,
-                 [[NSString alloc] initWithUTF8String:sqlite3_errstr(result)]);
+                 [[NSString alloc] initWithUTF8String:sqlite3_errmsg(db)]);
     }
   } else {
     MSLogError([MSMobileCenter logTag], @"Failed to open database.");
