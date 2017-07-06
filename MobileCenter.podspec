@@ -41,6 +41,7 @@ Pod::Spec.new do |s|
   s.subspec 'Core' do |ss|
       ss.frameworks = 'Foundation', 'CoreTelephony', 'SystemConfiguration', 'UIKit'
       ss.vendored_frameworks = "MobileCenter-SDK-iOS/MobileCenter.framework"
+      ss.libraries = 'sqlite3'
   end
 
  s.subspec 'Analytics' do |ss|

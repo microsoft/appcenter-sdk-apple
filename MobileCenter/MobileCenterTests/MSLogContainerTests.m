@@ -22,7 +22,7 @@
   log2.sid = MS_UUID_STRING;
   log2.toffset = [NSNumber numberWithLongLong:(long long)([MSUtility nowInMilliseconds])];
 
-  logContainer.logs = (NSArray<MSLog> *)@[ log1, log2 ];
+  logContainer.logs = (NSArray<id<MSLog>> *)@[ log1, log2 ];
 
   // When
   NSString *jsonString = [logContainer serializeLog];
