@@ -184,29 +184,29 @@
                                [self flushQueue];
                              }
                            }
+                         }
+                         
+                         // Failure.
+                         else {
+                           MSLogDebug([MSMobileCenter logTag],
+                                      @"Log(s) sent with failure, batch Id:%@, status code:%lu", senderBatchId,
+                                      (unsigned long)statusCode);
 
-                           // Failure.
-                           else {
-                             MSLogDebug([MSMobileCenter logTag],
-                                        @"Log(s) sent with failure, batch Id:%@, status code:%lu", senderBatchId,
-                                        (unsigned long)statusCode);
+                           // Notify delegates.
+                           [self
+                               enumerateDelegatesForSelector:@selector(channel:didFailSendingLog:withError:)
+                                                   withBlock:^(id<MSChannelDelegate> delegate) {
+                                                     for (id<MSLog> aLog in logArray) {
+                                                       [delegate channel:self didFailSendingLog:aLog withError:error];
+                                                     }
+                                                   }];
 
-                             // Notify delegates.
-                             [self
-                                 enumerateDelegatesForSelector:@selector(channel:didFailSendingLog:withError:)
-                                                     withBlock:^(id<MSChannelDelegate> delegate) {
-                                                       for (id<MSLog> aLog in logArray) {
-                                                         [delegate channel:self didFailSendingLog:aLog withError:error];
-                                                       }
-                                                     }];
-
-                             // Remove from pending logs.
-                             [self.pendingBatchIds removeObject:senderBatchId];
-                             [self.storage deleteLogsWithBatchId:senderBatchId groupId:self.configuration.groupId];
-                           }
-                         } else
-                           MSLogWarning([MSMobileCenter logTag], @"Batch Id %@ not expected, ignore.", senderBatchId);
-                       }
+                           // Remove from pending logs.
+                           [self.pendingBatchIds removeObject:senderBatchId];
+                           [self.storage deleteLogsWithBatchId:senderBatchId groupId:self.configuration.groupId];
+                         }
+                       } else
+                         MSLogWarning([MSMobileCenter logTag], @"Batch Id %@ not expected, ignore.", senderBatchId);
                      });
                    }];
              }
