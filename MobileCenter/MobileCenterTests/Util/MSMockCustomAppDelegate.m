@@ -38,6 +38,12 @@
 }
 
 - (void)application:(UIApplication *)application
+    didReceiveRemoteNotification:(NSDictionary *)userInfo {
+  CustomDidReceiveNotificationWorkaroundValidator validator = self.delegateValidators[NSStringFromSelector(_cmd)];
+  validator(application, userInfo);
+}
+
+- (void)application:(UIApplication *)application
     didReceiveRemoteNotification:(NSDictionary *)userInfo
           fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
   CustomDidReceiveNotificationValidator validator = self.delegateValidators[NSStringFromSelector(_cmd)];
@@ -56,6 +62,7 @@
   [self addAppDelegateSelectorToSwizzle:@selector(application:openURL:options:)];
   [self addAppDelegateSelectorToSwizzle:@selector(application:openURL:sourceApplication:annotation:)];
   [self addAppDelegateSelectorToSwizzle:@selector(application:didRegisterForRemoteNotificationsWithDeviceToken:)];
+  [self addAppDelegateSelectorToSwizzle:@selector(application:didReceiveRemoteNotification:)];
   [self addAppDelegateSelectorToSwizzle:@selector(application:didReceiveRemoteNotification:fetchCompletionHandler:)];
 }
 

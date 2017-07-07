@@ -33,13 +33,15 @@
 		5CE60DF11EDF0B670060303A /* MSCrashResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CE60DF01EDF0B670060303A /* MSCrashResultViewController.m */; };
 		6EC99A211D4151A00016C325 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A201D4151A00016C325 /* CrashReporter.framework */; };
 		6EC99A281D4152FA0016C325 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A271D4152FA0016C325 /* libc++.tbd */; };
-		806A17EE1EEAD96B00230146 /* PropertyViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 806A17EC1EEAD96B00230146 /* PropertyViewCell.m */; };
-		80AD3DA11EEFF7A600EEECCA /* MSPropertiesTableDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 80AD3DA01EEFF7A600EEECCA /* MSPropertiesTableDataSource.m */; };
+		808A10FC1EF312A000DFD41B /* MSPropertiesTableDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 808A10F91EF312A000DFD41B /* MSPropertiesTableDataSource.m */; };
+		808A10FD1EF312A000DFD41B /* MSPropertyViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 808A10FB1EF312A000DFD41B /* MSPropertyViewCell.m */; };
 		B21B26C71DDE490400FF0378 /* MSCrashesDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B21B26C61DDE490400FF0378 /* MSCrashesDetailViewController.m */; };
 		B27397A41DE3D27700AC7761 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B27397A31DE3D27700AC7761 /* CrashLibIOS.framework */; };
 		B27397A51DE3D27700AC7761 /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B27397A31DE3D27700AC7761 /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B296D4211E5F5DEF0089F013 /* MobileCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B2C070CB1E5F59A90076D6A9 /* MobileCenterDistributeResources.bundle */; };
 		B2E611F61DDE72BA00A9DF86 /* MSFakeCXXClass.mm in Sources */ = {isa = PBXBuildFile; fileRef = B2E611F41DDE72BA00A9DF86 /* MSFakeCXXClass.mm */; };
+		B2F3FA8B1E96DB5A0065A3BE /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B2F3FA8A1E96DB5A0065A3BE /* libsqlite3.tbd */; };
+		B2F3FA981E96DB690065A3BE /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B2F3FA8A1E96DB5A0065A3BE /* libsqlite3.tbd */; };
 		BA6827C9F0410233C245D989 /* MSDistributeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA682342F94E25F75943E4F6 /* MSDistributeViewController.m */; };
 		E82E1B641D1CA58D00D281C1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E82E1B631D1CA58D00D281C1 /* main.m */; };
 		E82E1B671D1CA58D00D281C1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E82E1B661D1CA58D00D281C1 /* AppDelegate.m */; };
@@ -290,15 +292,16 @@
 		6EC99A201D4151A00016C325 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = ../../Vendor/PLCrashReporter/CrashReporter.framework; sourceTree = "<group>"; };
 		6EC99A251D4152EB0016C325 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		6EC99A271D4152FA0016C325 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
-		806A17EB1EEAD96B00230146 /* PropertyViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyViewCell.h; sourceTree = "<group>"; };
-		806A17EC1EEAD96B00230146 /* PropertyViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyViewCell.m; sourceTree = "<group>"; };
-		80AD3D9F1EEFF72A00EEECCA /* MSPropertiesTableDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSPropertiesTableDataSource.h; sourceTree = "<group>"; };
-		80AD3DA01EEFF7A600EEECCA /* MSPropertiesTableDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSPropertiesTableDataSource.m; sourceTree = "<group>"; };
+		808A10F81EF312A000DFD41B /* MSPropertiesTableDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSPropertiesTableDataSource.h; path = ../../Vendor/Utils/MSPropertiesTableDataSource.h; sourceTree = "<group>"; };
+		808A10F91EF312A000DFD41B /* MSPropertiesTableDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSPropertiesTableDataSource.m; path = ../../Vendor/Utils/MSPropertiesTableDataSource.m; sourceTree = "<group>"; };
+		808A10FA1EF312A000DFD41B /* MSPropertyViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSPropertyViewCell.h; path = ../../Vendor/Utils/MSPropertyViewCell.h; sourceTree = "<group>"; };
+		808A10FB1EF312A000DFD41B /* MSPropertyViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSPropertyViewCell.m; path = ../../Vendor/Utils/MSPropertyViewCell.m; sourceTree = "<group>"; };
 		B21B26C51DDE490400FF0378 /* MSCrashesDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrashesDetailViewController.h; sourceTree = "<group>"; };
 		B21B26C61DDE490400FF0378 /* MSCrashesDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCrashesDetailViewController.m; sourceTree = "<group>"; };
 		B27397A31DE3D27700AC7761 /* CrashLibIOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CrashLibIOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2E611F41DDE72BA00A9DF86 /* MSFakeCXXClass.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MSFakeCXXClass.mm; sourceTree = "<group>"; };
 		B2E611F51DDE72BA00A9DF86 /* MSFakeCXXClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSFakeCXXClass.h; sourceTree = "<group>"; };
+		B2F3FA8A1E96DB5A0065A3BE /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		BA682342F94E25F75943E4F6 /* MSDistributeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDistributeViewController.m; sourceTree = "<group>"; };
 		BA68238A942EEAA10612D006 /* MSDistributeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDistributeViewController.h; sourceTree = "<group>"; };
 		E82E1B5F1D1CA58D00D281C1 /* Puppet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Puppet.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -336,6 +339,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B2F3FA981E96DB690065A3BE /* libsqlite3.tbd in Frameworks */,
 				380A4DC91DD68D3F00E99219 /* libc++.tbd in Frameworks */,
 				380A4DC81DD68D2B00E99219 /* CrashReporter.framework in Frameworks */,
 				380A4DC41DD68D1000E99219 /* libMobileCenter.a in Frameworks */,
@@ -349,6 +353,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B2F3FA8B1E96DB5A0065A3BE /* libsqlite3.tbd in Frameworks */,
 				382346321E8B013F001C3A76 /* MobileCoreServices.framework in Frameworks */,
 				38484F6D1E53D57E00C5631C /* SafariServices.framework in Frameworks */,
 				6EC99A281D4152FA0016C325 /* libc++.tbd in Frameworks */,
@@ -397,6 +402,7 @@
 		380A4D971DD6892F00E99219 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B2F3FA8A1E96DB5A0065A3BE /* libsqlite3.tbd */,
 				382346311E8B013F001C3A76 /* MobileCoreServices.framework */,
 				38F2606E1E649FE5004F0FDC /* Security.framework */,
 				38484F691E537B9300C5631C /* SafariServices.framework */,
@@ -430,12 +436,12 @@
 		5C2BD1A01ED5DE2100FB20C8 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				806A17EB1EEAD96B00230146 /* PropertyViewCell.h */,
-				806A17EC1EEAD96B00230146 /* PropertyViewCell.m */,
 				5C2BD1A11ED5DE4400FB20C8 /* EventLog.h */,
 				5C2BD1A21ED5DE5700FB20C8 /* EventLog.m */,
-				80AD3D9F1EEFF72A00EEECCA /* MSPropertiesTableDataSource.h */,
-				80AD3DA01EEFF7A600EEECCA /* MSPropertiesTableDataSource.m */,
+				808A10FA1EF312A000DFD41B /* MSPropertyViewCell.h */,
+				808A10FB1EF312A000DFD41B /* MSPropertyViewCell.m */,
+				808A10F81EF312A000DFD41B /* MSPropertiesTableDataSource.h */,
+				808A10F91EF312A000DFD41B /* MSPropertiesTableDataSource.m */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -905,12 +911,12 @@
 				B21B26C71DDE490400FF0378 /* MSCrashesDetailViewController.m in Sources */,
 				5C2BD1A31ED5DE5700FB20C8 /* EventLog.m in Sources */,
 				5C2BD19B1ED5D44400FB20C8 /* MSAnalyticsResultViewController.m in Sources */,
-				80AD3DA11EEFF7A600EEECCA /* MSPropertiesTableDataSource.m in Sources */,
 				B2E611F61DDE72BA00A9DF86 /* MSFakeCXXClass.mm in Sources */,
 				E89E6A2C1D396D7900CAA2CD /* MSCrashesViewController.m in Sources */,
-				806A17EE1EEAD96B00230146 /* PropertyViewCell.m in Sources */,
+				808A10FC1EF312A000DFD41B /* MSPropertiesTableDataSource.m in Sources */,
 				E89E6A301D39704900CAA2CD /* MSAnalyticsViewController.m in Sources */,
 				E82E1B641D1CA58D00D281C1 /* main.m in Sources */,
+				808A10FD1EF312A000DFD41B /* MSPropertyViewCell.m in Sources */,
 				BA6827C9F0410233C245D989 /* MSDistributeViewController.m in Sources */,
 				5CE60DF11EDF0B670060303A /* MSCrashResultViewController.m in Sources */,
 			);
