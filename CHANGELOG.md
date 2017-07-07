@@ -4,15 +4,14 @@
 
 This version has a **breaking change** in the Crashes module and contains other bugfixes and improvements.
 
-In addition, this release replaces the file-based persistence with a sqlite-based implementation. This change does not require any change from your side.
-
 ### MobileCenter
 
 * **[Fix]** Fix a bug that caused logs to be discarded when re-enabling the sending of logs [#639](https://github.com/Microsoft/mobile-center-sdk-ios/pull/639).
+* **[Misc]** This release replaces the file-based persistence with a sqlite-based implementation. This change does not require any change from your side.
 
 ### MobileCenterCrashes
 
-* [**Breaking**] The SDK now uses Mach Exception Handling per default. Use `[MSCrashes disableMachExceptionHandler]`/`MSCrashes.disableMachExceptionHandler()` to disable that behavior. `[MSCrashes enableMachExceptionHandler]`/`MSCrashes.enableMachExceptionHandler()` has been removed [#637](https://github.com/Microsoft/mobile-center-sdk-ios/pull/637).
+* [**Breaking**] The SDK now uses Mach Exception Handling by default. Use `[MSCrashes disableMachExceptionHandler]`/`MSCrashes.disableMachExceptionHandler()` to disable that behavior. `[MSCrashes enableMachExceptionHandler]`/`MSCrashes.enableMachExceptionHandler()` has been removed [#637](https://github.com/Microsoft/mobile-center-sdk-ios/pull/637).
 
 ### MobileCenterPush
 
