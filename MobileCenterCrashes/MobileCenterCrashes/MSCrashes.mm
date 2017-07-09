@@ -224,9 +224,11 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 }
 
 /* This can never be binded to Xamarin */
-+ (void)enableMachExceptionHandler {
-  [[self sharedInstance] setEnableMachExceptionHandler:YES];
+#if !TARGET_OS_TV
++ (void)disableMachExceptionHandler {
+  [[self sharedInstance] setEnableMachExceptionHandler:NO];
 }
+#endif
 
 + (void)setDelegate:(_Nullable id<MSCrashesDelegate>)delegate {
   [[self sharedInstance] setDelegate:delegate];
@@ -242,6 +244,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     _logBufferDir = [MSCrashesUtil logBufferDir];
     _analyzerInProgressFile = [_crashesDir URLByAppendingPathComponent:kMSAnalyzerFilename];
     _didCrashInLastSession = NO;
+#if !TARGET_OS_TV
+    _enableMachExceptionHandler = YES;
+#endif
     _channelConfiguration = [[MSChannelConfiguration alloc] initWithGroupId:[self groupId]
                                                                    priority:MSPriorityHigh
                                                               flushInterval:1.0
@@ -517,10 +522,12 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   }
 
   PLCrashReporterSignalHandlerType signalHandlerType = PLCrashReporterSignalHandlerTypeBSD;
+#if !TARGET_OS_TV
   if (self.isMachExceptionHandlerEnabled) {
     signalHandlerType = PLCrashReporterSignalHandlerTypeMach;
     MSLogVerbose([MSCrashes logTag], @"Enabled Mach exception handler.");
   }
+#endif
   PLCrashReporterSymbolicationStrategy symbolicationStrategy = PLCrashReporterSymbolicationStrategyNone;
   MSPLCrashReporterConfig *config =
       [[MSPLCrashReporterConfig alloc] initWithSignalHandlerType:signalHandlerType

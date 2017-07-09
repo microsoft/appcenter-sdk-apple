@@ -42,6 +42,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "04EBBEE91F01C0E10006B8AE"
+               BuildableName = "MobileCenterCrashesTVOSFramework"
+               BlueprintName = "MobileCenterCrashesTVOSFramework"
+               ReferencedContainer = "container:../MobileCenterCrashes/MobileCenterCrashes.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "D322EFEA1E8E97DF00A8EDA5"
                BuildableName = "SasquatchTVObjC.app"
                BlueprintName = "SasquatchTVObjC"
