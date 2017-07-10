@@ -34,13 +34,12 @@
   MSDevice *device = [MSDevice new];
   NSString *sessionId = @"1234567890";
   NSDictionary *properties = @{ @"Key" : @"Value" };
-  long long createTime = (long long)[MSUtility nowInMilliseconds];
-  NSNumber *tOffset = @(createTime);
+  NSDate *timestamp = [NSDate dateWithTimeIntervalSince1970:42];
 
   self.sut.eventId = eventId;
   self.sut.name = eventName;
   self.sut.device = device;
-  self.sut.toffset = tOffset;
+  self.sut.timestamp = timestamp;
   self.sut.sid = sessionId;
   self.sut.properties = properties;
 
@@ -56,9 +55,7 @@
   assertThat(actual[@"type"], equalTo(typeName));
   assertThat(actual[@"properties"], equalTo(properties));
   assertThat(actual[@"device"], notNilValue());
-  NSTimeInterval seralizedToffset = [actual[@"toffset"] longLongValue];
-  NSTimeInterval actualToffset = [MSUtility nowInMilliseconds] - createTime;
-  assertThat(@(seralizedToffset), lessThan(@(actualToffset)));
+  assertThat(actual[@"timestamp"], equalTo(@"1970-01-01T00:00:42Z"));
 }
 
 - (void)testNSCodingSerializationAndDeserializationWorks {
@@ -69,13 +66,13 @@
   NSString *eventName = @"eventName";
   MSDevice *device = [MSDevice new];
   NSString *sessionId = @"1234567890";
-  NSNumber *tOffset = @(3);
+  NSDate *timestamp = [NSDate dateWithTimeIntervalSince1970:42];
   NSDictionary *properties = @{ @"Key" : @"Value" };
 
   self.sut.eventId = eventId;
   self.sut.name = eventName;
   self.sut.device = device;
-  self.sut.toffset = tOffset;
+  self.sut.timestamp = timestamp;
   self.sut.sid = sessionId;
   self.sut.properties = properties;
 
@@ -90,7 +87,7 @@
   assertThat(actualEvent.name, equalTo(eventName));
   assertThat(actualEvent.eventId, equalTo(eventId));
   assertThat(actualEvent.device, notNilValue());
-  assertThat(actualEvent.toffset, equalTo(tOffset));
+  assertThat(actualEvent.timestamp, equalTo(timestamp));
   assertThat(actualEvent.type, equalTo(typeName));
   assertThat(actualEvent.sid, equalTo(sessionId));
   assertThat(actualEvent.properties, equalTo(properties));
@@ -102,7 +99,7 @@
   // If
   self.sut.device = OCMClassMock([MSDevice class]);
   OCMStub([self.sut.device isValid]).andReturn(YES);
-  self.sut.toffset = @(3);
+  self.sut.timestamp = [NSDate dateWithTimeIntervalSince1970:42];
   self.sut.sid = @"1234567890";
 
   // Then

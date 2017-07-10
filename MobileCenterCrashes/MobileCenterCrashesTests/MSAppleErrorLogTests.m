@@ -55,7 +55,7 @@
   appleLog.errorThreadId = @2;
   appleLog.errorThreadName = @"2";
   appleLog.fatal = YES;
-  appleLog.appLaunchTOffset = @123;
+  appleLog.appLaunchTimestamp = [NSDate dateWithTimeIntervalSince1970:42];
   appleLog.architecture = @"test";
 
   return appleLog;
@@ -88,7 +88,7 @@
   assertThat(actual[@"error_thread_id"], equalTo(self.sut.errorThreadId));
   assertThat(actual[@"error_thread_name"], equalTo(self.sut.errorThreadName));
   XCTAssertEqual([actual[@"fatal"] boolValue], self.sut.fatal);
-  assertThat(actual[@"app_launch_toffset"], equalTo(self.sut.appLaunchTOffset));
+  assertThat(actual[@"app_launch_timestamp"], equalTo(@"1970-01-01T00:00:42Z"));
   assertThat(actual[@"architecture"], equalTo(self.sut.architecture));
 
   // Exception fields.
@@ -155,12 +155,11 @@
   log.device = OCMClassMock([MSDevice class]);
   OCMStub([log.device isValid]).andReturn(YES);
   log.sid = @"sid";
-  log.toffset = @123;
+  log.timestamp = [NSDate dateWithTimeIntervalSince1970:42];
   log.errorId = @"errorId";
   log.processId = @123;
   log.processName = @"processName";
-  log.appLaunchTOffset = @1234567;
-  log.toffset = @(1);
+  log.appLaunchTimestamp = [NSDate dateWithTimeIntervalSince1970:442];
   log.sid = MS_UUID_STRING;
 
   // Then

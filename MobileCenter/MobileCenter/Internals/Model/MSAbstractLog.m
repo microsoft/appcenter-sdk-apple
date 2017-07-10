@@ -23,7 +23,7 @@ static NSString *const kMSType = @"type";
     dict[kMSType] = self.type;
   }
   if (self.timestamp) {
-    dict[kMSTimestamp] = [MSUtility dateToISO8601:[NSDate date]];
+    dict[kMSTimestamp] = [MSUtility dateToISO8601:self.timestamp];
   }
   if (self.sid) {
     dict[kMSSid] = self.sid;
