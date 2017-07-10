@@ -55,26 +55,27 @@
     [MSCrashes setDelegate:self];
     [MSCrashes setUserConfirmationHandler:(^(NSArray<MSErrorReport *> *errorReports) {
 
-        // Use MSAlertViewController to show a dialog to the user where they can choose if they want to provide a
-        // crash
-        // report.
+        /*
+         * Use MSAlertViewController to show a dialog to the user where they can choose if they want to provide a
+         * crash report.
+         */
         MSAlertController *alertController = [MSAlertController
                                               alertControllerWithTitle:@"Sorry about that!"
                                               message:@"Do you want to send an anonymous crash report so we can fix the issue?"];
 
-        // Add a "No"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationDontSend
+        // Add a "No"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationDontSend.
         [alertController addCancelActionWithTitle:@"Don't Send"
                                           handler:^(UIAlertAction *action) {
                                               [MSCrashes notifyWithUserConfirmation:MSUserConfirmationDontSend];
                                           }];
 
-        // Add a "Yes"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationSend
+        // Add a "Yes"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationSend.
         [alertController addDefaultActionWithTitle:@"Send"
                                            handler:^(UIAlertAction *action) {
                                                [MSCrashes notifyWithUserConfirmation:MSUserConfirmationSend];
                                            }];
 
-        // Add a "Always"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationAlways
+        // Add a "Always"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationAlways.
         [alertController addDefaultActionWithTitle:@"Always Send"
                                            handler:^(UIAlertAction *action) {
                                                [MSCrashes notifyWithUserConfirmation:MSUserConfirmationAlways];
