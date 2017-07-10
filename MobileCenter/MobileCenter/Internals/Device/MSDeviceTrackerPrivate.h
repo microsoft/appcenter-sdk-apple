@@ -154,9 +154,9 @@ static NSString *const kMSPastDevicesKey = @"pastDevicesKey";
  *
  * @param timestamp Timestamp that will be used to find a matching MSDevice in history.
  *
- * @return Instance of MSDevice that's closest to tOffset.
+ * @return Instance of MSDevice that's closest to timestamp.
  *
- * @discussion If we cannot find a device that's within the range of the tOffset, the latest device from history will be
+ * @discussion If we cannot find a device that's within the range of the timestamp, the latest device from history will be
  * returned. If there is no history, we return the current MSDevice.
  */
 - (MSDevice *)deviceForTimestamp:(NSDate *)timestamp;

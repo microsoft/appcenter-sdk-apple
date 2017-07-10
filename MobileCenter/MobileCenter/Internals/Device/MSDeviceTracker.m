@@ -174,7 +174,7 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
 - (MSDevice *)deviceForTimestamp:(NSDate *)timestamp {
   if (!timestamp || self.deviceHistory.count == 0) {
 
-    // Return a new device in case we don't have a device in our history or toffset is nil.
+    // Return a new device in case we don't have a device in our history or timestamp is nil.
     return [self device];
   } else {
 
@@ -188,16 +188,16 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
                             return [a.timestamp compare:b.timestamp];
                           }];
 
-    // All tOffsets are larger.
+    // All timestamps are larger.
     if (index == 0) {
       return self.deviceHistory[0].device;
     }
 
-    // All toffsets are smaller.
+    // All timestamps are smaller.
     else if (index == self.deviceHistory.count) {
       return [self.deviceHistory lastObject].device;
     } else {
-      // Either the deviceHistory contains the exact toffset or we pick the smallest delta.
+      // Either the deviceHistory contains the exact timestamp or we pick the smallest delta.
       NSTimeInterval leftDifference = [timestamp timeIntervalSinceDate:self.deviceHistory[index - 1].timestamp];
       NSTimeInterval rightDifference = [self.deviceHistory[index].timestamp timeIntervalSinceDate:timestamp];
       if (leftDifference < rightDifference) {

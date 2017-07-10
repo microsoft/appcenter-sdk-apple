@@ -195,17 +195,17 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
                            return [a.timestamp compare:b.timestamp];
                          }];
 
-    // All toffsets are larger.
+    // All timestamps are larger.
     if (index == 0) {
       log.sid = self.sessionId;
     }
 
-    // All toffsets are smaller.
+    // All timestamps are smaller.
     else if (index == self.pastSessions.count) {
       log.sid = [self.pastSessions lastObject].sessionId;
     }
 
-    // Either the pastSessions contains the exact toffset or we pick the smallest delta.
+    // Either the pastSessions contains the exact timestamp or we pick the smallest delta.
     else {
       NSTimeInterval leftDifference = [log.timestamp timeIntervalSinceDate:self.pastSessions[index - 1].timestamp];
       NSTimeInterval rightDifference = [self.pastSessions[index].timestamp timeIntervalSinceDate:log.timestamp];
