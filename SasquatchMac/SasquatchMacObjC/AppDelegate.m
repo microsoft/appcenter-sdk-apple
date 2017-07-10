@@ -8,19 +8,15 @@
 
 @implementation AppDelegate
 
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+- (instancetype)init{
+  self = [super init];
   [MSMobileCenter setLogLevel:MSLogLevelVerbose];
   [MSMobileCenter setLogUrl:@"https://in-integration.dev.avalanch.es"];
   [MSMobileCenter start:@"8649b73e-6df0-4985-a039-8ab1453d44f3"
            withServices:@[ [MSAnalytics class], [MSCrashes class] ]];
   [self setupCrashes];
-  [self setMobileCenterDelegate];
-}
-
-- (void)setMobileCenterDelegate {
-  SasquatchMacViewController *viewController =
-      (SasquatchMacViewController *)[[[NSApplication sharedApplication] mainWindow] contentViewController];
-  viewController.mobileCenter = [MobileCenterDelegateObjC new];
+  [MobileCenterProvider shared].mobileCenter = [[MobileCenterDelegateObjC alloc] init];
+  return self;
 }
 
 #pragma mark - Private

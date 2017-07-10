@@ -11,19 +11,15 @@
 		042319CE1EAAD73F008FACA0 /* MobileCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D31EAAC7510033BAAE /* MobileCenterAnalytics.framework */; };
 		042319CF1EAAD73F008FACA0 /* MobileCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 042319CC1EAAD720008FACA0 /* MobileCenterCrashes.framework */; };
 		042496851EC3CE2F00502B62 /* MobileCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042496831EC3CE2F00502B62 /* MobileCenterDelegate.swift */; };
-		042496861EC3CE2F00502B62 /* MobileCenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042496841EC3CE2F00502B62 /* MobileCenterProtocol.swift */; };
+		042496861EC3CE2F00502B62 /* MobileCenterProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042496841EC3CE2F00502B62 /* MobileCenterProvider.swift */; };
 		042496871EC3CE3500502B62 /* MobileCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042496831EC3CE2F00502B62 /* MobileCenterDelegate.swift */; };
-		042496881EC3CE3700502B62 /* MobileCenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042496841EC3CE2F00502B62 /* MobileCenterProtocol.swift */; };
+		042496881EC3CE3700502B62 /* MobileCenterProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042496841EC3CE2F00502B62 /* MobileCenterProvider.swift */; };
 		0424968B1EC3D29900502B62 /* MobileCenterDelegateObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0424968A1EC3D29900502B62 /* MobileCenterDelegateObjC.m */; };
 		0431219A1EE0DB4D007054C5 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 043121991EE0DB4D007054C5 /* MSAlertController.m */; };
 		0431219B1EE0DB5D007054C5 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 043121991EE0DB4D007054C5 /* MSAlertController.m */; };
 		04ED31E61EAAD1B30033BAAE /* MobileCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D31EAAC7510033BAAE /* MobileCenterAnalytics.framework */; };
 		04ED31E71EAAD1B30033BAAE /* MobileCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D41EAAC7510033BAAE /* MobileCenter.framework */; };
-		5C5FE6891EC4E87E00F85453 /* ServiceStateStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5FE6881EC4E87E00F85453 /* ServiceStateStore.swift */; };
-		5C5FE68A1EC4E87E00F85453 /* ServiceStateStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5FE6881EC4E87E00F85453 /* ServiceStateStore.swift */; };
 		5C6F9BAD1EB8B730009E52D8 /* AnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6F9BAC1EB8B730009E52D8 /* AnalyticsViewController.swift */; };
-		5C6F9BAF1EB8B755009E52D8 /* SasquatchMacViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6F9BAE1EB8B755009E52D8 /* SasquatchMacViewController.swift */; };
-		5C6F9BB51EB8EEF9009E52D8 /* SasquatchMacViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6F9BAE1EB8B755009E52D8 /* SasquatchMacViewController.swift */; };
 		5C6F9BB61EB8EEFC009E52D8 /* AnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6F9BAC1EB8B730009E52D8 /* AnalyticsViewController.swift */; };
 		5C6F9BB81EB8F2E9009E52D8 /* CrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6F9BB71EB8F2E9009E52D8 /* CrashesViewController.swift */; };
 		5C6F9BB91EB8F2E9009E52D8 /* CrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6F9BB71EB8F2E9009E52D8 /* CrashesViewController.swift */; };
@@ -43,19 +39,18 @@
 /* Begin PBXFileReference section */
 		042319CC1EAAD720008FACA0 /* MobileCenterCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterCrashes.framework; path = "../MobileCenter-SDK-Apple/macOS/MobileCenterCrashes.framework"; sourceTree = "<group>"; };
 		042496831EC3CE2F00502B62 /* MobileCenterDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobileCenterDelegate.swift; sourceTree = "<group>"; };
-		042496841EC3CE2F00502B62 /* MobileCenterProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobileCenterProtocol.swift; sourceTree = "<group>"; };
+		042496841EC3CE2F00502B62 /* MobileCenterProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobileCenterProvider.swift; sourceTree = "<group>"; };
 		042496891EC3D29900502B62 /* MobileCenterDelegateObjC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobileCenterDelegateObjC.h; sourceTree = "<group>"; };
 		0424968A1EC3D29900502B62 /* MobileCenterDelegateObjC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MobileCenterDelegateObjC.m; sourceTree = "<group>"; };
 		043121981EE0DB4D007054C5 /* MSAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSAlertController.h; path = ../../Vendor/macOS/MSAlertController/MSAlertController.h; sourceTree = "<group>"; };
 		043121991EE0DB4D007054C5 /* MSAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSAlertController.m; path = ../../Vendor/macOS/MSAlertController/MSAlertController.m; sourceTree = "<group>"; };
 		04ED31D31EAAC7510033BAAE /* MobileCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterAnalytics.framework; path = "../MobileCenter-SDK-Apple/macOS/MobileCenterAnalytics.framework"; sourceTree = "<group>"; };
 		04ED31D41EAAC7510033BAAE /* MobileCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenter.framework; path = "../MobileCenter-SDK-Apple/macOS/MobileCenter.framework"; sourceTree = "<group>"; };
-		5C5FE6881EC4E87E00F85453 /* ServiceStateStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceStateStore.swift; sourceTree = "<group>"; };
 		5C6F9BAC1EB8B730009E52D8 /* AnalyticsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AnalyticsViewController.swift; path = ViewControllers/AnalyticsViewController.swift; sourceTree = "<group>"; };
-		5C6F9BAE1EB8B755009E52D8 /* SasquatchMacViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SasquatchMacViewController.swift; path = ViewControllers/SasquatchMacViewController.swift; sourceTree = "<group>"; };
 		5C6F9BB71EB8F2E9009E52D8 /* CrashesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CrashesViewController.swift; path = ViewControllers/CrashesViewController.swift; sourceTree = "<group>"; };
 		5C9BBC801EC4829200CA77A3 /* MobileCenterDelegateSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobileCenterDelegateSwift.swift; sourceTree = "<group>"; };
 		5CD625791ECDA4280053DC6C /* MobileCenterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobileCenterViewController.swift; sourceTree = "<group>"; };
+		80A3A89A1F0BF30100FBE3B6 /* SasquatchMac-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SasquatchMac-Bridging-Header.h"; sourceTree = "<group>"; };
 		D3C31C131E8E757300B288CE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D3C31C161E8E757300B288CE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/SasquatchMac.storyboard; sourceTree = "<group>"; };
 		D3C31C181E8E757300B288CE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -128,8 +123,7 @@
 			isa = PBXGroup;
 			children = (
 				042496831EC3CE2F00502B62 /* MobileCenterDelegate.swift */,
-				042496841EC3CE2F00502B62 /* MobileCenterProtocol.swift */,
-				5C5FE6881EC4E87E00F85453 /* ServiceStateStore.swift */,
+				042496841EC3CE2F00502B62 /* MobileCenterProvider.swift */,
 				D3C31C6F1E8E772E00B288CE /* Storyboards */,
 				D3C31C701E8E774000B288CE /* Supporting Files */,
 				043121971EE0DB2C007054C5 /* MSAlertController */,
@@ -181,6 +175,7 @@
 		D3C31C701E8E774000B288CE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				80A3A89A1F0BF30100FBE3B6 /* SasquatchMac-Bridging-Header.h */,
 				D3C31C131E8E757300B288CE /* Assets.xcassets */,
 				D3C31C181E8E757300B288CE /* Info.plist */,
 			);
@@ -190,7 +185,6 @@
 		D3C31C711E8E775100B288CE /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				5C6F9BAE1EB8B755009E52D8 /* SasquatchMacViewController.swift */,
 				5C6F9BAC1EB8B730009E52D8 /* AnalyticsViewController.swift */,
 				5C6F9BB71EB8F2E9009E52D8 /* CrashesViewController.swift */,
 				5CD625791ECDA4280053DC6C /* MobileCenterViewController.swift */,
@@ -321,11 +315,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				042496861EC3CE2F00502B62 /* MobileCenterProtocol.swift in Sources */,
+				042496861EC3CE2F00502B62 /* MobileCenterProvider.swift in Sources */,
 				5C6F9BB81EB8F2E9009E52D8 /* CrashesViewController.swift in Sources */,
-				5C5FE6891EC4E87E00F85453 /* ServiceStateStore.swift in Sources */,
 				042496851EC3CE2F00502B62 /* MobileCenterDelegate.swift in Sources */,
-				5C6F9BAF1EB8B755009E52D8 /* SasquatchMacViewController.swift in Sources */,
 				D3C31C291E8E75B300B288CE /* main.m in Sources */,
 				D3C31C261E8E75B300B288CE /* AppDelegate.m in Sources */,
 				0431219A1EE0DB4D007054C5 /* MSAlertController.m in Sources */,
@@ -340,10 +332,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				5C9BBC811EC4829200CA77A3 /* MobileCenterDelegateSwift.swift in Sources */,
-				5C5FE68A1EC4E87E00F85453 /* ServiceStateStore.swift in Sources */,
 				C2A4A2691EE7684A0080FD22 /* MobileCenterViewController.swift in Sources */,
-				042496881EC3CE3700502B62 /* MobileCenterProtocol.swift in Sources */,
-				5C6F9BB51EB8EEF9009E52D8 /* SasquatchMacViewController.swift in Sources */,
+				042496881EC3CE3700502B62 /* MobileCenterProvider.swift in Sources */,
 				D3C31C631E8E763600B288CE /* AppDelegate.swift in Sources */,
 				5C6F9BB91EB8F2E9009E52D8 /* CrashesViewController.swift in Sources */,
 				0431219B1EE0DB5D007054C5 /* MSAlertController.m in Sources */,
