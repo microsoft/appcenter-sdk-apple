@@ -234,7 +234,7 @@
              @"Containers/Bundle/Application/8CC7B5B5-7841-45C4-BAC2-6AA1B944A5E1/Puppet.app/Puppet";
   actual = [MSErrorLogFormatter anonymizedPathFromPath:testPath];
   assertThat(actual, equalTo(expected));
-  XCTAssertFalse([actual containsString:@"sampleuser"]);
+  XCTAssertFalse([actual containsString:@"someone"]);
   XCTAssertTrue([actual hasPrefix:@"/Users/USER/"]);
 }
 
