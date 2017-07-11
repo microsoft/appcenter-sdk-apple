@@ -97,14 +97,15 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
       _device = [self updatedDevice];
 
       // Create new MSDeviceHistoryInfo.
-      MSDeviceHistoryInfo *deviceHistoryInfo = [[MSDeviceHistoryInfo alloc] initWithTimestamp:[NSDate date] andDevice:_device];
+      NSNumber *tOffset = [NSNumber numberWithLongLong:(long long)([MSUtility nowInMilliseconds])];
+      MSDeviceHistoryInfo *deviceHistoryInfo = [[MSDeviceHistoryInfo alloc] initWithTOffset:tOffset andDevice:_device];
 
       // Insert new MSDeviceHistoryInfo at the proper index to keep self.deviceHistory sorted.
       NSUInteger newIndex = [self.deviceHistory indexOfObject:deviceHistoryInfo
           inSortedRange:(NSRange) { 0, [self.deviceHistory count] }
           options:NSBinarySearchingInsertionIndex
-          usingComparator:^(MSDeviceHistoryInfo *a, MSDeviceHistoryInfo *b) {
-            return [a.timestamp compare:b.timestamp];
+          usingComparator:^(id a, id b) {
+            return [((MSDeviceHistoryInfo *)a).tOffset compare:((MSDeviceHistoryInfo *)b).tOffset];
           }];
       [self.deviceHistory insertObject:deviceHistoryInfo atIndex:newIndex];
 
@@ -171,35 +172,35 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
   }
 }
 
-- (MSDevice *)deviceForTimestamp:(NSDate *)timestamp {
-  if (!timestamp || self.deviceHistory.count == 0) {
+- (MSDevice *)deviceForToffset:(NSNumber *)toffset {
+  if (!toffset || self.deviceHistory.count == 0) {
 
-    // Return a new device in case we don't have a device in our history or timestamp is nil.
+    // Return a new device in case we don't have a device in our history or toffset is nil.
     return [self device];
   } else {
 
     // This implements a binary search with complexity O(log n).
-    MSDeviceHistoryInfo *find = [[MSDeviceHistoryInfo alloc] initWithTimestamp:timestamp andDevice:nil];
+    MSDeviceHistoryInfo *find = [[MSDeviceHistoryInfo alloc] initWithTOffset:toffset andDevice:nil];
     NSUInteger index =
         [self.deviceHistory indexOfObject:find
                             inSortedRange:NSMakeRange(0, self.deviceHistory.count)
                                   options:NSBinarySearchingFirstEqual | NSBinarySearchingInsertionIndex
-                          usingComparator:^(MSDeviceHistoryInfo *a, MSDeviceHistoryInfo *b) {
-                            return [a.timestamp compare:b.timestamp];
+                          usingComparator:^(id a, id b) {
+                            return [((MSDeviceHistoryInfo *)a).tOffset compare:((MSDeviceHistoryInfo *)b).tOffset];
                           }];
 
-    // All timestamps are larger.
+    // All tOffsets are larger.
     if (index == 0) {
       return self.deviceHistory[0].device;
     }
 
-    // All timestamps are smaller.
+    // All toffsets are smaller.
     else if (index == self.deviceHistory.count) {
       return [self.deviceHistory lastObject].device;
     } else {
-      // Either the deviceHistory contains the exact timestamp or we pick the smallest delta.
-      NSTimeInterval leftDifference = [timestamp timeIntervalSinceDate:self.deviceHistory[index - 1].timestamp];
-      NSTimeInterval rightDifference = [self.deviceHistory[index].timestamp timeIntervalSinceDate:timestamp];
+      // Either the deviceHistory contains the exact toffset or we pick the smallest delta.
+      long long leftDifference = [toffset longLongValue] - [self.deviceHistory[index - 1].tOffset longLongValue];
+      long long rightDifference = [self.deviceHistory[index].tOffset longLongValue] - [toffset longLongValue];
       if (leftDifference < rightDifference) {
         --index;
       }

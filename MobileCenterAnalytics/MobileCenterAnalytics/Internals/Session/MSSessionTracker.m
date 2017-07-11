@@ -65,7 +65,7 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
       // Record session.
       MSSessionHistoryInfo *sessionInfo = [[MSSessionHistoryInfo alloc] init];
       sessionInfo.sessionId = _sessionId;
-      sessionInfo.timestamp = [NSDate date];
+      sessionInfo.toffset = [NSNumber numberWithDouble:[MSUtility nowInMilliseconds]];
 
       // Insert at the beginning of the list.
       [self.pastSessions insertObject:sessionInfo atIndex:0];
@@ -185,30 +185,30 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
     return;
 
   // Attach corresponding session id.
-  if (log.timestamp) {
-    MSSessionHistoryInfo *find = [[MSSessionHistoryInfo alloc] initWithTimestamp:log.timestamp andSessionId:nil];
+  if (log.toffset) {
+    MSSessionHistoryInfo *find = [[MSSessionHistoryInfo alloc] initWithTOffset:log.toffset andSessionId:nil];
     NSUInteger index =
         [self.pastSessions indexOfObject:find
                            inSortedRange:NSMakeRange(0, self.pastSessions.count)
                                  options:(NSBinarySearchingFirstEqual | NSBinarySearchingInsertionIndex)
-                         usingComparator:^(MSSessionHistoryInfo *a, MSSessionHistoryInfo *b) {
-                           return [a.timestamp compare:b.timestamp];
+                         usingComparator:^(id a, id b) {
+                           return [((MSSessionHistoryInfo *)a).toffset compare:((MSSessionHistoryInfo *)b).toffset];
                          }];
 
-    // All timestamps are larger.
+    // All toffsets are larger.
     if (index == 0) {
       log.sid = self.sessionId;
     }
 
-    // All timestamps are smaller.
+    // All toffsets are smaller.
     else if (index == self.pastSessions.count) {
       log.sid = [self.pastSessions lastObject].sessionId;
     }
 
-    // Either the pastSessions contains the exact timestamp or we pick the smallest delta.
+    // Either the pastSessions contains the exact toffset or we pick the smallest delta.
     else {
-      NSTimeInterval leftDifference = [log.timestamp timeIntervalSinceDate:self.pastSessions[index - 1].timestamp];
-      NSTimeInterval rightDifference = [self.pastSessions[index].timestamp timeIntervalSinceDate:log.timestamp];
+      long long leftDifference = [log.toffset longLongValue] - [self.pastSessions[index - 1].toffset longLongValue];
+      long long rightDifference = [self.pastSessions[index].toffset longLongValue] - [log.toffset longLongValue];
       if (leftDifference < rightDifference) {
         --index;
       }

@@ -395,7 +395,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 
   MSAbstractLog *log = [MSAbstractLog new];
   log.sid = MS_UUID_STRING;
-  log.timestamp = [NSDate date];
+  log.toffset = [NSNumber numberWithLongLong:(long long)([MSUtility nowInMilliseconds])];
 
   // Log does not have device info, therefore, it's an invalid log
   MSLogContainer *container = [[MSLogContainer alloc] initWithBatchId:@"1" andLogs:(NSArray<id<MSLog>> *)@[ log ]];
@@ -651,12 +651,12 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 
   MSMockLog *log1 = [[MSMockLog alloc] init];
   log1.sid = MS_UUID_STRING;
-  log1.timestamp = [NSDate date];
+  log1.toffset = [NSNumber numberWithLongLong:(long long)([MSUtility nowInMilliseconds])];
   log1.device = deviceMock;
 
   MSMockLog *log2 = [[MSMockLog alloc] init];
   log2.sid = MS_UUID_STRING;
-  log2.timestamp = [NSDate date];
+  log2.toffset = [NSNumber numberWithLongLong:(long long)([MSUtility nowInMilliseconds])];
   log2.device = deviceMock;
 
   MSLogContainer *logContainer =

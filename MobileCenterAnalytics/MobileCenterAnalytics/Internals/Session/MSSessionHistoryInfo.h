@@ -5,10 +5,10 @@
 /**
  * Initializes a new `MSSessionHistoryInfo` instance.
  *
- * @param timestamp Timestamp
+ * @param toffset Time offset
  * @param sessionId Session Id
  */
-- (instancetype)initWithTimestamp:(NSDate *)timestamp andSessionId:(NSString *)sessionId;
+- (instancetype)initWithTOffset:(NSNumber *)toffset andSessionId:(NSString *)sessionId;
 
 /**
  *  Session Id.
@@ -16,8 +16,8 @@
 @property(nonatomic, copy) NSString *sessionId;
 
 /**
- *  Timestamp.
+ *  Time offset.
  */
-@property(nonatomic) NSDate *timestamp;
+@property(nonatomic) NSNumber *toffset;
 
 @end

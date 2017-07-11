@@ -8,15 +8,15 @@
 @interface MSDeviceHistoryInfo : NSObject <NSCoding>
 
 /**
- * The moment in time for the device history.
+ * The tOffset that indicates the moment in time for the device history.
  */
-@property (nonatomic) NSDate *timestamp;
+@property (nonatomic) NSNumber *tOffset;
 
 /**
  * Instance of MSDevice.
  */
 @property (nonatomic) MSDevice *device;
 
-- (instancetype)initWithTimestamp:(NSDate *)timestamp andDevice:(MSDevice *)device;
+- (instancetype)initWithTOffset:(NSNumber *)tOffset andDevice:(MSDevice *)device;
 
 @end
