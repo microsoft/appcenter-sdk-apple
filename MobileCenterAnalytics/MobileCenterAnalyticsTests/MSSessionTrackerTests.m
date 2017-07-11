@@ -200,23 +200,30 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
 
   // Then
   XCTAssertNil(log.sid);
-  XCTAssertNil(log.timestamp);
+  XCTAssertNil(log.toffset);
 
   // When
   [self.sut onEnqueuingLog:log withInternalId:nil];
 
   // Then
-  XCTAssertNil(log.timestamp);
+  XCTAssertNil(log.toffset);
   XCTAssertEqual(log.sid, self.sut.sessionId);
 
   // When
-  NSDate *timestamp = [NSDate dateWithTimeIntervalSince1970:42];
-  log.timestamp = timestamp;
+  log.toffset = 0;
   [self.sut onEnqueuingLog:log withInternalId:nil];
 
   // Then
-  XCTAssertEqual(timestamp, log.timestamp);
+  XCTAssertEqual(0, log.toffset.integerValue);
   XCTAssertEqual(log.sid, [self.sut.pastSessions firstObject].sessionId);
+
+  // When
+  log.toffset = [NSNumber numberWithUnsignedLongLong:UINT64_MAX];
+  [self.sut onEnqueuingLog:log withInternalId:nil];
+
+  // Then
+  XCTAssertEqual(UINT64_MAX, log.toffset.unsignedLongLongValue);
+  XCTAssertEqual(log.sid, [self.sut.pastSessions lastObject].sessionId);
 }
 
 - (void)testNoStartSessionWithStartSessionLog {
@@ -226,13 +233,13 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
 
   // Then
   XCTAssertNil(log.sid);
-  XCTAssertNil(log.timestamp);
+  XCTAssertNil(log.toffset);
 
   // When
   [self.sut onEnqueuingLog:log withInternalId:nil];
 
   // Then
-  XCTAssertNil(log.timestamp);
+  XCTAssertNil(log.toffset);
   XCTAssertEqual(log.sid, self.sut.sessionId);
 
   // If
@@ -240,13 +247,13 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
 
   // Then
   XCTAssertNil(sessionLog.sid);
-  XCTAssertNil(sessionLog.timestamp);
+  XCTAssertNil(sessionLog.toffset);
 
   // When
   [self.sut onEnqueuingLog:sessionLog withInternalId:nil];
 
   // Then
-  XCTAssertNil(sessionLog.timestamp);
+  XCTAssertNil(sessionLog.toffset);
   XCTAssertNil(sessionLog.sid);
 
   // If
@@ -254,13 +261,13 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
 
   // Then
   XCTAssertNil(serviceLog.sid);
-  XCTAssertNil(serviceLog.timestamp);
+  XCTAssertNil(serviceLog.toffset);
 
   // When
   [self.sut onEnqueuingLog:serviceLog withInternalId:nil];
 
   // Then
-  XCTAssertNil(serviceLog.timestamp);
+  XCTAssertNil(serviceLog.toffset);
   XCTAssertNil(serviceLog.sid);
 }
 

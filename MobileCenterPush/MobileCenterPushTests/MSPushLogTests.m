@@ -67,7 +67,7 @@
   // If
   self.sut.device = OCMClassMock([MSDevice class]);
   OCMStub([self.sut.device isValid]).andReturn(YES);
-  self.sut.timestamp = [NSDate dateWithTimeIntervalSince1970:42];
+  self.sut.toffset = @(3);
   self.sut.sid = @"1234567890";
 
   // Then

@@ -16,11 +16,11 @@
 
   MSAbstractLog *log1 = [MSAbstractLog new];
   log1.sid = MS_UUID_STRING;
-  log1.timestamp = [NSDate date];
+  log1.toffset = [NSNumber numberWithLongLong:(long long)([MSUtility nowInMilliseconds])];
 
   MSAbstractLog *log2 = [MSAbstractLog new];
   log2.sid = MS_UUID_STRING;
-  log2.timestamp = [NSDate date];
+  log2.toffset = [NSNumber numberWithLongLong:(long long)([MSUtility nowInMilliseconds])];
 
   logContainer.logs = (NSArray<id<MSLog>> *)@[ log1, log2 ];
 

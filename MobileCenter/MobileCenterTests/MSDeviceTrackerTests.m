@@ -415,7 +415,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   [tracker clearDevices];
 
   // When
-  MSDevice *actual = [tracker deviceForTimestamp:[NSDate dateWithTimeIntervalSince1970:1]];
+  MSDevice *actual = [tracker deviceForToffset:@1];
 
   // Then
   XCTAssertTrue([actual isEqual:tracker.device]);
@@ -429,13 +429,14 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   MSDevice *third = [tracker device];
 
   // When
-  actual = [tracker deviceForTimestamp:[NSDate dateWithTimeIntervalSince1970:1]];
+  actual = [tracker deviceForToffset:@1];
 
   // Then
   XCTAssertTrue([actual isEqual:first]);
 
   // When
-  actual = [tracker deviceForTimestamp:[NSDate date]];
+  NSNumber *now = [NSNumber numberWithLongLong:(long long)([MSUtility nowInMilliseconds])];
+  actual = [tracker deviceForToffset:now];
 
   // Then
   XCTAssertTrue([actual isEqual:third]);

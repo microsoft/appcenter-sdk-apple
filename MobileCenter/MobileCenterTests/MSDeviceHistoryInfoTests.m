@@ -18,14 +18,13 @@
   XCTAssertNotNil(expected);
   
   // When
-  NSDate *timestamp = [NSDate dateWithTimeIntervalSince1970:42];
   MSDevice *aDevice = [MSDevice new];
-  expected = [[MSDeviceHistoryInfo alloc] initWithTimestamp:timestamp andDevice:aDevice];
+  expected = [[MSDeviceHistoryInfo alloc] initWithTOffset:@1 andDevice:aDevice];
   
   // Then
   XCTAssertNotNil(expected);
-  XCTAssertTrue([expected.timestamp isEqual:timestamp]);
   XCTAssertTrue([expected.device isEqual:aDevice]);
+  XCTAssertTrue([expected.tOffset isEqualToNumber:@1]);
 }
 
 @end

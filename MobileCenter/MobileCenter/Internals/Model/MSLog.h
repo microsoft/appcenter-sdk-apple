@@ -10,9 +10,10 @@
 @property(nonatomic, copy) NSString *type;
 
 /**
- * Log timestamp.
+ * Corresponds to the number of milliseconds elapsed between the time the
+ * request is sent and the time the log is emitted.
  */
-@property(nonatomic) NSDate *timestamp;
+@property(nonatomic) NSNumber *toffset;
 
 /**
  * A session identifier is used to correlate logs together. A session is an abstract concept in the API and

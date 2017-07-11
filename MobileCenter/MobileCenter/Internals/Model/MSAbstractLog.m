@@ -5,14 +5,14 @@
 #import "MSUtility+Date.h"
 
 static NSString *const kMSSid = @"sid";
-static NSString *const kMSTimestamp = @"timestamp";
+static NSString *const kMSToffset = @"toffset";
 static NSString *const kMSDevice = @"device";
 static NSString *const kMSType = @"type";
 
 @implementation MSAbstractLog
 
 @synthesize type = _type;
-@synthesize timestamp = _timestamp;
+@synthesize toffset = _toffset;
 @synthesize sid = _sid;
 @synthesize device = _device;
 
@@ -22,8 +22,12 @@ static NSString *const kMSType = @"type";
   if (self.type) {
     dict[kMSType] = self.type;
   }
-  if (self.timestamp) {
-    dict[kMSTimestamp] = [MSUtility dateToISO8601:self.timestamp];
+  if (self.toffset) {
+
+    // Set the toffset relative to current time. The toffset needs to be up to date.
+    long long now = (long long)[MSUtility nowInMilliseconds];
+    long long relativeTime = now - [self.toffset longLongValue];
+    dict[kMSToffset] = @(relativeTime);
   }
   if (self.sid) {
     dict[kMSSid] = self.sid;
@@ -35,7 +39,7 @@ static NSString *const kMSType = @"type";
 }
 
 - (BOOL)isValid {
-  return self.type && self.timestamp && self.device && [self.device isValid];
+  return self.type && self.toffset && self.device && [self.device isValid];
 }
 
 - (BOOL)isEqual:(id)object {
@@ -44,7 +48,7 @@ static NSString *const kMSType = @"type";
   }
   MSAbstractLog *log = (MSAbstractLog *)object;
   return ((!self.type && !log.type) || [self.type isEqualToString:log.type]) &&
-         ((!self.timestamp && !log.timestamp) || [self.timestamp isEqualToDate:log.timestamp]) &&
+         ((!self.toffset && !log.toffset) || [self.toffset isEqualToNumber:log.toffset]) &&
          ((!self.sid && !log.sid) || [self.sid isEqualToString:log.sid]) &&
          ((!self.device && !log.device) || [self.device isEqual:log.device]);
 }
@@ -55,7 +59,7 @@ static NSString *const kMSType = @"type";
   self = [super init];
   if (self) {
     _type = [coder decodeObjectForKey:kMSType];
-    _timestamp = [coder decodeObjectForKey:kMSTimestamp];
+    _toffset = [coder decodeObjectForKey:kMSToffset];
     _sid = [coder decodeObjectForKey:kMSSid];
     _device = [coder decodeObjectForKey:kMSDevice];
   }
@@ -64,7 +68,7 @@ static NSString *const kMSType = @"type";
 
 - (void)encodeWithCoder:(NSCoder *)coder {
   [coder encodeObject:self.type forKey:kMSType];
-  [coder encodeObject:self.timestamp forKey:kMSTimestamp];
+  [coder encodeObject:self.toffset forKey:kMSToffset];
   [coder encodeObject:self.sid forKey:kMSSid];
   [coder encodeObject:self.device forKey:kMSDevice];
 }

@@ -1,5 +1,4 @@
 #import "MSCustomPropertiesLog.h"
-#import "MSUtility+Date.h"
 
 static NSString *const kMSCustomProperties = @"custom_properties";
 static NSString *const kMSProperties = @"properties";
@@ -78,8 +77,15 @@ static NSString *const kMSPropertyTypeString = @"string";
       [property setObject:value forKey:kMSPropertyValue];
     }
   } else if ([value isKindOfClass:[NSDate class]]) {
+    static NSDateFormatter *dateFormatter = nil;
+    if (!dateFormatter) {
+      dateFormatter = [[NSDateFormatter alloc] init];
+      [dateFormatter setLocale:[NSLocale systemLocale]];
+      [dateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation: @"UTC"]];
+      [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
+    }
     [property setObject:kMSPropertyTypeDateTime forKey:kMSPropertyType];
-    [property setObject:[MSUtility dateToISO8601:(NSDate *)value] forKey:kMSPropertyValue];
+    [property setObject:[dateFormatter stringFromDate:(NSDate *)value] forKey:kMSPropertyValue];
   } else if ([value isKindOfClass:[NSString class]]) {
     [property setObject:kMSPropertyTypeString forKey:kMSPropertyType];
     [property setObject:value forKey:kMSPropertyValue];
