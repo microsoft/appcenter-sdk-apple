@@ -405,15 +405,9 @@
   assertThat(errorLog.processName, equalTo(crashReport.processInfo.processName));
   assertThat(errorLog.parentProcessId, equalTo(@(crashReport.processInfo.parentProcessID)));
   assertThat(errorLog.parentProcessName, equalTo(crashReport.processInfo.parentProcessName));
-
   assertThat(errorLog.errorThreadId, equalTo(@(crashedThread.threadNumber)));
-
-  NSDate *appStartTime = [NSDate
-      dateWithTimeIntervalSince1970:(([errorLog.toffset doubleValue] - [errorLog.appLaunchTOffset doubleValue]) /
-                                     1000)];
-  NSDate *appErrorTime = [NSDate dateWithTimeIntervalSince1970:([errorLog.toffset doubleValue] / 1000)];
-  assertThat(appErrorTime, equalTo(crashReport.systemInfo.timestamp));
-  assertThat(appStartTime, equalTo(crashReport.processInfo.processStartTime));
+  assertThat(errorLog.timestamp, equalTo(crashReport.systemInfo.timestamp));
+  assertThat(errorLog.appLaunchTimestamp, equalTo(crashReport.processInfo.processStartTime));
 
   NSArray *images = crashReport.images;
   for (MSPLCrashReportBinaryImageInfo *image in images) {

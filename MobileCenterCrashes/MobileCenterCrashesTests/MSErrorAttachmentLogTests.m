@@ -189,7 +189,7 @@
 #pragma mark - Utility
 
 - (void)setDummyParentProperties:(MSErrorAttachmentLog *)attachment {
-  attachment.toffset = @(1);
+  attachment.timestamp = [NSDate dateWithTimeIntervalSince1970:42];
   attachment.sid = MS_UUID_STRING;
   attachment.device = OCMClassMock([MSDevice class]);
   OCMStub([attachment.device isValid]).andReturn(YES);
