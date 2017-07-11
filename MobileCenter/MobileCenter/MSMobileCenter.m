@@ -238,8 +238,13 @@ static NSString *const kMSGroupId = @"MobileCenter";
 
 - (BOOL)startService:(Class)clazz {
   @synchronized(self) {
-    id<MSServiceInternal> service = [clazz sharedInstance];
 
+    // Check if clazz is valid class
+    if (![clazz conformsToProtocol:@protocol(MSServiceCommon)]) {
+      MSLogError([MSMobileCenter logTag], @"Cannot start service %@. Provided value is nil or invalid.", clazz);
+      return NO;
+    }
+    id<MSServiceInternal> service = [clazz sharedInstance];
     if (service.isAvailable) {
 
       // Service already works, we shouldn't send log with this service name

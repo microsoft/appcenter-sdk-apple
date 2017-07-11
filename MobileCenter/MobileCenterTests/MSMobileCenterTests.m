@@ -176,6 +176,14 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   XCTAssertTrue([MSMobileCenter isConfigured]);
 }
 
+- (void)testStartServiceWithInvalidValues {
+  NSUInteger servicesCount = [[MSMobileCenter sharedInstance] services].count;
+  [MSMobileCenter startService:[MSMobileCenter class]];
+  [MSMobileCenter startService:[NSString class]];
+  [MSMobileCenter startService:nil];
+  XCTAssertEqual(servicesCount, [[MSMobileCenter sharedInstance] services].count);
+}
+
 - (void)testSortingServicesWorks {
 
   // If
