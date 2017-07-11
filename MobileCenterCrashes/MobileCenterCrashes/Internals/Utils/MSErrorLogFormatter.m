@@ -332,6 +332,15 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   return errorReport;
 }
 
++ (MSAppleErrorLog *)errorLogFromException:(MSException *)exception {
+  NSData *plCrashReportData = [[MSPLCrashReporter sharedReporter] generateLiveReport];
+  NSError * outError = [[NSError alloc] init];
+  MSPLCrashReport *crashReport = [[MSPLCrashReport alloc] initWithData:plCrashReportData error:&outError];
+  MSAppleErrorLog * errorLog = [self errorLogFromCrashReport:crashReport];
+  errorLog.exception = exception;
+  return errorLog;
+}
+
 #pragma mark - Private
 
 #pragma mark - Parse MSPLCrashReport

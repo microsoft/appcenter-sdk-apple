@@ -632,23 +632,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       if (self.isEnabled) {
         MSPLCrashReport *report = [[MSPLCrashReport alloc] initWithData:crashFileData error:&error];
         MSAppleErrorLog *log = [MSErrorLogFormatter errorLogFromCrashReport:report];
-        MSErrorReport *errorReport = [MSErrorLogFormatter errorReportFromLog:(log)];
-        uuidString = errorReport.incidentIdentifier;
-        if ([self shouldProcessErrorReport:errorReport]) {
-          MSLogDebug([MSCrashes logTag],
-                     @"shouldProcessErrorReport is not implemented or returned YES, processing the crash report: %@",
-                     report.debugDescription);
-
-          // Put the log to temporary space for next callbacks.
-          [self.unprocessedLogs addObject:log];
-          [self.unprocessedReports addObject:errorReport];
+        uuidString = [self prepareErrorLog:log];
+        if (uuidString) {
           [self.unprocessedFilePaths addObject:fileURL];
-
-          continue;
-
-        } else {
-          MSLogDebug([MSCrashes logTag], @"shouldProcessErrorReport returned NO, discard the crash report: %@",
-                     report.debugDescription);
         }
       } else {
         MSLogDebug([MSCrashes logTag], @"Crashes service is disabled, discard the crash report");
@@ -660,26 +646,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       [self.crashFiles removeObject:fileURL];
     }
   }
-
-  // Get a user confirmation if there are crash logs that need to be processed.
-  if ([self.unprocessedLogs count] > 0) {
-    NSNumber *flag = [MS_USER_DEFAULTS objectForKey:kMSUserConfirmationKey];
-    if (flag && [flag boolValue]) {
-
-      // User confirmation is set to MSUserConfirmationAlways.
-      MSLogDebug([MSCrashes logTag],
-                 @"The flag for user confirmation is set to MSUserConfirmationAlways, continue sending logs");
-      [MSCrashes notifyWithUserConfirmation:MSUserConfirmationSend];
-      return;
-    } else if (!self.userConfirmationHandler || !self.userConfirmationHandler(self.unprocessedReports)) {
-
-      // User confirmation handler doesn't exist or returned NO which means 'want to process'.
-      MSLogDebug([MSCrashes logTag],
-                 @"The user confirmation handler is not implemented or returned NO, continue sending logs");
-      [MSCrashes notifyWithUserConfirmation:MSUserConfirmationSend];
-    }
-  }
-}
+  [self sendCrashReports];
+ }
 
 - (void)processLogBufferAfterCrash {
 
@@ -707,7 +675,58 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   }
 }
 
+- (void)trackException:(MSException*)exception {
+  if (self.isEnabled) {
+    MSAppleErrorLog *errorLog = [MSErrorLogFormatter errorLogFromException:exception];
+    BOOL prepared = [self prepareErrorLog:errorLog];
+    if (prepared) {
+      [self sendCrashReports];
+    }
+  }
+  else {
+    MSLogDebug([MSCrashes logTag], @"Crashes service is disabled, discard the crash report");
+  }
+}
+
 #pragma mark - Helper
+
+/* Process the error report if appropriate; return report UUID if the conditions were appropriate; nil otherwise */
+- (NSString*)prepareErrorLog:(MSAppleErrorLog*)errorLog {
+  MSErrorReport *errorReport = [MSErrorLogFormatter errorReportFromLog:errorLog];
+  if (![self shouldProcessErrorReport:errorReport]) {
+    MSLogDebug([MSCrashes logTag], @"shouldProcessErrorReport returned NO, discard the crash report: %@",
+               errorReport.debugDescription);
+    return nil;
+  }
+  MSLogDebug([MSCrashes logTag],
+             @"shouldProcessErrorReport is not implemented or returned YES, processing the crash report: %@", errorReport.debugDescription);
+
+  // Put the log to temporary space for next callbacks.
+  [self.unprocessedLogs addObject:errorLog];
+  [self.unprocessedReports addObject:errorReport];
+  return errorReport.incidentIdentifier;
+}
+
+- (void)sendCrashReports {
+  // Get a user confirmation if there are crash logs that need to be processed.
+  if ([self.unprocessedLogs count] > 0) {
+    NSNumber *flag = [MS_USER_DEFAULTS objectForKey:kMSUserConfirmationKey];
+    if (flag && [flag boolValue]) {
+
+      // User confirmation is set to MSUserConfirmationAlways.
+      MSLogDebug([MSCrashes logTag],
+                 @"The flag for user confirmation is set to MSUserConfirmationAlways, continue sending logs");
+      [MSCrashes notifyWithUserConfirmation:MSUserConfirmationSend];
+      return;
+    } else if (!self.userConfirmationHandler || !self.userConfirmationHandler(self.unprocessedReports)) {
+
+      // User confirmation handler doesn't exist or returned NO which means 'want to process'.
+      MSLogDebug([MSCrashes logTag],
+                 @"The user confirmation handler is not implemented or returned NO, continue sending logs");
+      [MSCrashes notifyWithUserConfirmation:MSUserConfirmationSend];
+    }
+  }
+}
 
 - (void)deleteAllFromCrashesDirectory {
   NSError *error = nil;

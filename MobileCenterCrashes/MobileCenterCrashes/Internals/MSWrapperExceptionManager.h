@@ -108,4 +108,9 @@
  * are set up.
  */
 + (id<MSWrapperCrashesInitializationDelegate>)getDelegate;
+
+/*
+ * Exposes MSCrash's "trackException" for use by Wrapper SDKs
+ */
+- (void)trackException:(MSException*)exception;
 @end

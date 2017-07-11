@@ -1,8 +1,9 @@
 #import "MSCrashes.h"
 #import "MSServiceInternal.h"
 
-@interface MSCrashes () <MSServiceInternal>
+@class MSException;
 
+@interface MSCrashes () <MSServiceInternal>
 /**
  * Configure PLCrashreporter.
  *
@@ -20,5 +21,7 @@
  * crashes caused by NSExceptions, only those for the reasons mentioned in this paragraph.
  */
 - (void)configureCrashReporterWithUncaughtExceptionHandlerEnabled:(BOOL)enableUncaughtExceptionHandler;
+
+- (void)trackException:(MSException*)exception;
 
 @end

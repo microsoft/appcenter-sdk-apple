@@ -199,6 +199,11 @@
   }
 }
 
+-(void)trackException:(MSException*)exception
+{
+  [[MSCrashes sharedInstance] trackException:exception];
+}
+
 + (void)deleteFile:(NSString *)path {
   if (![[NSFileManager defaultManager] fileExistsAtPath:path]) {
     return;
