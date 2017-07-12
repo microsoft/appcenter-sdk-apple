@@ -169,7 +169,6 @@
 
   XCTAssertNotNil(errorLog);
   XCTAssertEqualObjects(errorLog.exception, exception);
-  XCTAssertTrue(errorLog.isValid);
 }
 
 - (void)testSelectorForRegisterWithName {

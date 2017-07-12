@@ -807,8 +807,8 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
    * the report.signalInfo.name. More so, for BITCrashDetails, we used the exceptionInfo.exceptionName for a field
    * called exceptionName.
    */
-  errorLog.osExceptionType = report.signalInfo.name ? report.signalInfo.name : unknownString;
-  errorLog.osExceptionCode = report.signalInfo.code ? report.signalInfo.code : unknownString;
+  errorLog.osExceptionType = report.signalInfo.name;
+  errorLog.osExceptionCode = report.signalInfo.code;
   errorLog.osExceptionAddress = [NSString stringWithFormat:@"0x%" PRIx64, report.signalInfo.address];
 
   // We need the architecture of the system and the crashed thread to get the exceptionReason, threads and registers.
