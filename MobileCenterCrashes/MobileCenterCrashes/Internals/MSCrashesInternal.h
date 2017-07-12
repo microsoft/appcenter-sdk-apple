@@ -22,6 +22,12 @@
  */
 - (void)configureCrashReporterWithUncaughtExceptionHandlerEnabled:(BOOL)enableUncaughtExceptionHandler;
 
-- (void)trackException:(MSException*)exception;
+/**
+ * Track an MSException independently of an application crash.
+ *
+ * @param exception An MSException to track.
+ * @param fatal YES if exception was fatal, NO otherwise.
+ */
+- (void)trackException:(MSException*)exception fatal:(BOOL)fatal;
 
 @end

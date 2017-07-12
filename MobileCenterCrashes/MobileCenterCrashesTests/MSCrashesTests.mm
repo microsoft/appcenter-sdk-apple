@@ -519,6 +519,66 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   XCTAssertTrue(first.count == 1);
 }
 
+- (void)testTrackExceptionWhenEnabled {
+  id logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
+  [[MSCrashes sharedInstance] setEnabled:YES];
+  [[MSCrashes sharedInstance] startWithLogManager:logManagerMock appSecret:kMSTestAppSecret];
+  MSException *exception = [[MSException alloc] init];
+  id errorLogFormatterMock = OCMClassMock([MSErrorLogFormatter class]);
+  MSAppleErrorLog *emptyLog = [[MSAppleErrorLog alloc] init];
+  OCMStub(ClassMethod([errorLogFormatterMock errorLogFromException:exception])).andReturn(emptyLog);
+
+  [[MSCrashes sharedInstance] trackException:exception fatal:YES];
+
+  OCMVerify([logManagerMock processLog:emptyLog forGroupId:[MSCrashes sharedInstance].groupId]);
+}
+
+- (void)testTrackExceptionWhenDisabled {
+  id logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
+  [[MSCrashes sharedInstance] startWithLogManager:logManagerMock appSecret:kMSTestAppSecret];
+  [[MSCrashes sharedInstance] setEnabled:NO];
+  MSException *exception = [[MSException alloc] init];
+  id errorLogFormatterMock = OCMClassMock([MSErrorLogFormatter class]);
+  MSAppleErrorLog *emptyLog = [[MSAppleErrorLog alloc] init];
+  OCMStub(ClassMethod([errorLogFormatterMock errorLogFromException:exception])).andReturn(emptyLog);
+
+  // Should not call process log
+  [[logManagerMock reject] processLog:emptyLog forGroupId:[MSCrashes sharedInstance].groupId];
+
+  [[MSCrashes sharedInstance] trackException:exception fatal:YES];
+}
+
+- (void)testTrackExceptionNonFatal {
+  id logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
+  [[MSCrashes sharedInstance] startWithLogManager:logManagerMock appSecret:kMSTestAppSecret];
+  [[MSCrashes sharedInstance] setEnabled:YES];
+  MSException *exception = [[MSException alloc] init];
+  id errorLogFormatterMock = OCMClassMock([MSErrorLogFormatter class]);
+  MSAppleErrorLog *emptyLog = [[MSAppleErrorLog alloc] init];
+  emptyLog.fatal = YES;
+  OCMStub(ClassMethod([errorLogFormatterMock errorLogFromException:exception])).andReturn(emptyLog);
+
+  [[MSCrashes sharedInstance] trackException:exception fatal:NO];
+
+  XCTAssertFalse(emptyLog.fatal);
+}
+
+- (void)testTrackExceptionFatal {
+  id logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
+  [[MSCrashes sharedInstance] startWithLogManager:logManagerMock appSecret:kMSTestAppSecret];
+  [[MSCrashes sharedInstance] setEnabled:YES];
+  MSException *exception = [[MSException alloc] init];
+  id errorLogFormatterMock = OCMClassMock([MSErrorLogFormatter class]);
+  MSAppleErrorLog *emptyLog = [[MSAppleErrorLog alloc] init];
+  emptyLog.fatal = NO;
+  OCMStub(ClassMethod([errorLogFormatterMock errorLogFromException:exception])).andReturn(emptyLog);
+
+  [[MSCrashes sharedInstance] trackException:exception fatal:YES];
+
+  XCTAssertTrue(emptyLog.fatal);
+}
+
+
 - (void)testAbstractErrorLogSerialization {
   MSAbstractErrorLog *log = [MSAbstractErrorLog new];
 

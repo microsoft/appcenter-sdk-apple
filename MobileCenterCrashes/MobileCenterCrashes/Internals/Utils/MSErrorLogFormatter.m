@@ -195,87 +195,12 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
  * @return Returns the formatted result on success, or nil if an error occurs.
  */
 + (MSAppleErrorLog *)errorLogFromCrashReport:(MSPLCrashReport *)report {
-  MSAppleErrorLog *errorLog = [MSAppleErrorLog new];
 
-  // Map to Apple-style code type, and mark whether architecture is LP64 (64-bit).
-  NSNumber *codeType = [self extractCodeTypeFromReport:report];
-  BOOL is64bit = [self isCodeType64bit:codeType];
-
-  // errorId – Used for de-duplication in case we sent the same crashreport twice.
-  errorLog.errorId = [self errorIdForCrashReport:report];
-
-  // Set applicationpath and process info.
-  errorLog = [self addProcessInfoAndApplicationPathTo:errorLog fromCrashReport:report];
-
-  // Find the crashed thread.
-  MSPLCrashReportThreadInfo *crashedThread = [self findCrashedThreadInReport:report];
-
-  // Error Thread Id from the crashed thread.
-  errorLog.errorThreadId = @(crashedThread.threadNumber);
-
-  // errorLog.errorThreadName won't be used on iOS right now, this will be relevant for handled exceptions.
-
-  // All errors are fatal for now, until we add support for handled exceptions.
-  errorLog.fatal = YES;
-
-  /*
-   * appLaunchTOffset - the difference between crashtime and initialization time, so the "age" of the crashreport before
-   * it's forwarded to the channel.
-   * We don't care about a negative difference (will happen if the user's time on the device changes to a time before
-   * the crashTime and the time the error is processed).
-   */
-  errorLog.appLaunchTOffset = [self calculateAppLaunchTOffsetFromReport:report];
-  errorLog.toffset = [self calculateTOffsetFromReport:report];
-
-  // CPU Type and Subtype for the crash. We need to query the binary images for that.
-  NSArray *images = report.images;
-  for (MSPLCrashReportBinaryImageInfo *image in images) {
-    if (image.codeType != nil && image.codeType.typeEncoding == PLCrashReportProcessorTypeEncodingMach) {
-      errorLog.primaryArchitectureId = @(image.codeType.type);
-      errorLog.architectureVariantId = @(image.codeType.subtype);
-    }
-  }
-
-  /*
-   * errorLog.architecture is an optional. The Android SDK will set it while for iOS, the file will be set on the
-   * server using primaryArchitectureId and architectureVariantId.
-   */
-
-  /*
-   * HockeyApp didn't use report.exceptionInfo for this field but exception.name in case of an unhandled exception or
-   * the report.signalInfo.name. More so, for BITCrashDetails, we used the exceptionInfo.exceptionName for a field
-   * called exceptionName.
-   */
-  errorLog.osExceptionType = report.signalInfo.name;
-  errorLog.osExceptionCode = report.signalInfo.code;
-  errorLog.osExceptionAddress = [NSString stringWithFormat:@"0x%" PRIx64, report.signalInfo.address];
-
-  // We need the architecture of the system and the crashed thread to get the exceptionReason, threads and registers.
-  errorLog.exceptionReason = [self extractExceptionReasonFromReport:report];
-  errorLog.exceptionType = report.hasExceptionInfo ? report.exceptionInfo.exceptionName : nil;
-
-  // The registers of the crashed thread might contain the last method call, this can be very helpful.
-  errorLog.selectorRegisterValue =
-      [self selectorRegisterValueFromReport:report ofCrashedThread:crashedThread is64bit:is64bit];
-
-  // Extract all threads and registers,
-  errorLog.threads = [self extractThreadsFromReport:report crashedThread:crashedThread is64bit:is64bit];
-  errorLog.registers = [self extractRegistersFromCrashedThread:crashedThread is64bit:is64bit];
-
-  // Gather all addresses for which we need to preserve the binary images.
-  NSArray *addresses = [self addressesFromReport:report];
-  errorLog.binaries = [self extractBinaryImagesFromReport:report addresses:addresses codeType:codeType is64bit:is64bit];
+  // Generate the error log
+  MSAppleErrorLog* errorLog = [self errorLogWithNoExceptionFromCrashReport:report];
 
   // Set the exception from the wrapper sdk
   errorLog.exception = [MSWrapperExceptionManager loadWrapperException:report.uuidRef];
-
-  /*
-   * Set the device here to make sure we don't use the current device information but the one from history that matches
-   * the time of our crash.
-   */
-  errorLog.device = [[MSDeviceTracker new] deviceForToffset:errorLog.toffset];
-
-  // Finally done with transforming PLCrashReport to MSAppleErrorReport.
   return errorLog;
 }
 
@@ -333,9 +258,17 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 }
 
 + (MSAppleErrorLog *)errorLogFromException:(MSException *)exception {
-  NSData *plCrashReportData = [[MSPLCrashReporter sharedReporter] generateLiveReport];
-  NSError * outError = [[NSError alloc] init];
+  // Assume that the current thread is the one that threw the exception, so get all of the information
+  // by generating a crash report from a live report from PLCrashReporter (and the given exception)
+  NSError * outError = nil;
+  NSData *plCrashReportData = [[MSPLCrashReporter sharedReporter] generateLiveReportAndReturnError:&outError];
+  if (outError != nil) {
+    return nil;
+  }
   MSPLCrashReport *crashReport = [[MSPLCrashReport alloc] initWithData:plCrashReportData error:&outError];
+  if (outError != nil) {
+    return nil;
+  }
   MSAppleErrorLog * errorLog = [self errorLogFromCrashReport:crashReport];
   errorLog.exception = exception;
   return errorLog;
@@ -821,5 +754,88 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
   return addresses;
 }
+
++ (MSAppleErrorLog *)errorLogWithNoExceptionFromCrashReport:(MSPLCrashReport *)report {
+  MSAppleErrorLog *errorLog = [MSAppleErrorLog new];
+
+  // Map to Apple-style code type, and mark whether architecture is LP64 (64-bit).
+  NSNumber *codeType = [self extractCodeTypeFromReport:report];
+  BOOL is64bit = [self isCodeType64bit:codeType];
+
+  // errorId – Used for de-duplication in case we sent the same crashreport twice.
+  errorLog.errorId = [self errorIdForCrashReport:report];
+
+  // Set applicationpath and process info.
+  errorLog = [self addProcessInfoAndApplicationPathTo:errorLog fromCrashReport:report];
+
+  // Find the crashed thread.
+  MSPLCrashReportThreadInfo *crashedThread = [self findCrashedThreadInReport:report];
+
+  // Error Thread Id from the crashed thread.
+  errorLog.errorThreadId = @(crashedThread.threadNumber);
+
+  // errorLog.errorThreadName won't be used on iOS right now, this will be relevant for handled exceptions.
+
+  // All errors are fatal for now, until we add support for handled exceptions.
+  errorLog.fatal = YES;
+
+  /*
+   * appLaunchTOffset - the difference between crashtime and initialization time, so the "age" of the crashreport before
+   * it's forwarded to the channel.
+   * We don't care about a negative difference (will happen if the user's time on the device changes to a time before
+   * the crashTime and the time the error is processed).
+   */
+  errorLog.appLaunchTOffset = [self calculateAppLaunchTOffsetFromReport:report];
+  errorLog.toffset = [self calculateTOffsetFromReport:report];
+
+  // CPU Type and Subtype for the crash. We need to query the binary images for that.
+  NSArray *images = report.images;
+  for (MSPLCrashReportBinaryImageInfo *image in images) {
+    if (image.codeType != nil && image.codeType.typeEncoding == PLCrashReportProcessorTypeEncodingMach) {
+      errorLog.primaryArchitectureId = @(image.codeType.type);
+      errorLog.architectureVariantId = @(image.codeType.subtype);
+    }
+  }
+
+  /*
+   * errorLog.architecture is an optional. The Android SDK will set it while for iOS, the file will be set on the
+   * server using primaryArchitectureId and architectureVariantId.
+   */
+
+  /*
+   * HockeyApp didn't use report.exceptionInfo for this field but exception.name in case of an unhandled exception or
+   * the report.signalInfo.name. More so, for BITCrashDetails, we used the exceptionInfo.exceptionName for a field
+   * called exceptionName.
+   */
+  errorLog.osExceptionType = report.signalInfo.name ? report.signalInfo.name : unknownString;
+  errorLog.osExceptionCode = report.signalInfo.code ? report.signalInfo.code : unknownString;
+  errorLog.osExceptionAddress = [NSString stringWithFormat:@"0x%" PRIx64, report.signalInfo.address];
+
+  // We need the architecture of the system and the crashed thread to get the exceptionReason, threads and registers.
+  errorLog.exceptionReason = [self extractExceptionReasonFromReport:report];
+  errorLog.exceptionType = report.hasExceptionInfo ? report.exceptionInfo.exceptionName : nil;
+
+  // The registers of the crashed thread might contain the last method call, this can be very helpful.
+  errorLog.selectorRegisterValue =
+  [self selectorRegisterValueFromReport:report ofCrashedThread:crashedThread is64bit:is64bit];
+
+  // Extract all threads and registers,
+  errorLog.threads = [self extractThreadsFromReport:report crashedThread:crashedThread is64bit:is64bit];
+  errorLog.registers = [self extractRegistersFromCrashedThread:crashedThread is64bit:is64bit];
+
+  // Gather all addresses for which we need to preserve the binary images.
+  NSArray *addresses = [self addressesFromReport:report];
+  errorLog.binaries = [self extractBinaryImagesFromReport:report addresses:addresses codeType:codeType is64bit:is64bit];
+
+  /*
+   * Set the device here to make sure we don't use the current device information but the one from history that matches
+   * the time of our crash.
+   */
+  errorLog.device = [[MSDeviceTracker new] deviceForToffset:errorLog.toffset];
+
+  // Finally done with transforming PLCrashReport to MSAppleErrorReport.
+  return errorLog;
+}
+
 
 @end

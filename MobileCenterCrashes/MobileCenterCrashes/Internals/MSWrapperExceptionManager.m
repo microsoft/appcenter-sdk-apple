@@ -199,9 +199,9 @@
   }
 }
 
--(void)trackException:(MSException*)exception
+-(void)trackException:(MSException*)exception fatal:(BOOL)fatal
 {
-  [[MSCrashes sharedInstance] trackException:exception];
+  [[MSCrashes sharedInstance] trackException:exception fatal:fatal];
 }
 
 + (void)deleteFile:(NSString *)path {

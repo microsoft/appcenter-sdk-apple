@@ -42,7 +42,12 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
 std::array<MSCrashesBufferedLog, ms_crashes_log_buffer_size> msCrashesLogBuffer;
 
-#pragma mark - Callbacks Setup
+/**
+ * Placeholder file path that represents a non existent file. (Useful for trackException)
+ */
+static NSURL *const kEmptyFilePath = [[NSURL alloc] init];
+
+ #pragma mark - Callbacks Setup
 
 static MSCrashesCallbacks msCrashesCallbacks = {.context = NULL, .handleSignal = NULL};
 static NSString *const kMSUserConfirmationKey = @"MSUserConfirmation";
@@ -165,9 +170,12 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     for (NSUInteger i = 0; i < [crashes.unprocessedFilePaths count]; i++) {
       NSURL *fileURL = crashes.unprocessedFilePaths[i];
       MSErrorReport *report = crashes.unprocessedReports[i];
-      [crashes deleteCrashReportWithFileURL:fileURL];
+
       [MSWrapperExceptionManager deleteWrapperExceptionDataWithUUIDString:report.incidentIdentifier];
-      [crashes.crashFiles removeObject:fileURL];
+      if (fileURL != kEmptyFilePath) {
+        [crashes deleteCrashReportWithFileURL:fileURL];
+        [crashes.crashFiles removeObject:fileURL];
+      }
     }
 
     // Return and do not continue with crash processing.
@@ -213,9 +221,11 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     }
 
     // Clean up.
-    [crashes deleteCrashReportWithFileURL:fileURL];
     [MSWrapperExceptionManager deleteWrapperExceptionDataWithUUIDString:report.incidentIdentifier];
-    [crashes.crashFiles removeObject:fileURL];
+    if (fileURL != kEmptyFilePath) {
+      [crashes deleteCrashReportWithFileURL:fileURL];
+      [crashes.crashFiles removeObject:fileURL];
+    }
   }
 }
 
@@ -616,9 +626,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
 - (void)processCrashReports {
   NSError *error = NULL;
-  self.unprocessedLogs = [[NSMutableArray alloc] init];
-  self.unprocessedReports = [[NSMutableArray alloc] init];
-  self.unprocessedFilePaths = [[NSMutableArray alloc] init];
+  [self initializeCrashReportArrays];
 
   // Start crash processing for real.
   NSArray *tempCrashesFiles = [NSArray arrayWithArray:self.crashFiles];
@@ -632,8 +640,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       if (self.isEnabled) {
         MSPLCrashReport *report = [[MSPLCrashReport alloc] initWithData:crashFileData error:&error];
         MSAppleErrorLog *log = [MSErrorLogFormatter errorLogFromCrashReport:report];
-        uuidString = [self prepareErrorLog:log];
-        if (uuidString) {
+        BOOL prepared = [self prepareErrorLog:log andSetIncidentIdentifier:&uuidString];
+        if (prepared) {
           [self.unprocessedFilePaths addObject:fileURL];
         }
       } else {
@@ -642,8 +650,10 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
       // Cleanup.
       [MSWrapperExceptionManager deleteWrapperExceptionDataWithUUIDString:uuidString];
-      [self deleteCrashReportWithFileURL:fileURL];
-      [self.crashFiles removeObject:fileURL];
+      if (fileURL != kEmptyFilePath) {
+        [self deleteCrashReportWithFileURL:fileURL];
+        [self.crashFiles removeObject:fileURL];
+      }
     }
   }
   [self sendCrashReports];
@@ -675,11 +685,17 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   }
 }
 
-- (void)trackException:(MSException*)exception {
+- (void)trackException:(MSException*)exception fatal:(BOOL)fatal {
   if (self.isEnabled) {
     MSAppleErrorLog *errorLog = [MSErrorLogFormatter errorLogFromException:exception];
-    BOOL prepared = [self prepareErrorLog:errorLog];
+    if (errorLog == nil) {
+      MSLogError([MSCrashes logTag], @"Something went wrong when tracking an exception.");
+      return;
+    }
+    errorLog.fatal = fatal;
+    BOOL prepared = [self prepareErrorLog:errorLog andSetIncidentIdentifier:nil];
     if (prepared) {
+      [self.unprocessedFilePaths addObject:kEmptyFilePath];
       [self sendCrashReports];
     }
   }
@@ -690,21 +706,24 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
 #pragma mark - Helper
 
-/* Process the error report if appropriate; return report UUID if the conditions were appropriate; nil otherwise */
-- (NSString*)prepareErrorLog:(MSAppleErrorLog*)errorLog {
+/* Process the error report if appropriate; return whether processing occurred and set incident identifier.*/
+- (BOOL)prepareErrorLog:(MSAppleErrorLog*)errorLog andSetIncidentIdentifier:(NSString* __autoreleasing *)incidentIdentifier {
   MSErrorReport *errorReport = [MSErrorLogFormatter errorReportFromLog:errorLog];
   if (![self shouldProcessErrorReport:errorReport]) {
     MSLogDebug([MSCrashes logTag], @"shouldProcessErrorReport returned NO, discard the crash report: %@",
                errorReport.debugDescription);
-    return nil;
+    return NO;
   }
   MSLogDebug([MSCrashes logTag],
              @"shouldProcessErrorReport is not implemented or returned YES, processing the crash report: %@", errorReport.debugDescription);
-
+  [self initializeCrashReportArrays];
   // Put the log to temporary space for next callbacks.
   [self.unprocessedLogs addObject:errorLog];
   [self.unprocessedReports addObject:errorReport];
-  return errorReport.incidentIdentifier;
+  if (incidentIdentifier != nil) {
+    *incidentIdentifier = errorReport.incidentIdentifier;
+  }
+  return YES;
 }
 
 - (void)sendCrashReports {
@@ -958,6 +977,12 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 // We need to override setter, because it's default behavior creates an NSArray, and some tests fail.
 - (void)setCrashFiles:(NSMutableArray *)crashFiles {
   _crashFiles = [[NSMutableArray alloc] initWithArray:crashFiles];
+}
+
+- (void)initializeCrashReportArrays {
+  self.unprocessedLogs = [[NSMutableArray alloc] init];
+  self.unprocessedReports = [[NSMutableArray alloc] init];
+  self.unprocessedFilePaths = [[NSMutableArray alloc] init];
 }
 
 + (BOOL)validatePropertiesForAttachment:(MSErrorAttachmentLog *)attachment {
