@@ -45,7 +45,7 @@ std::array<MSCrashesBufferedLog, ms_crashes_log_buffer_size> msCrashesLogBuffer;
 /**
  * Placeholder file path that represents a non existent file. (Useful for trackException)
  */
-static NSURL *const kEmptyFilePath = [[NSURL alloc] init];
+NSURL *const kEmptyFilePath = [[NSURL alloc] initFileURLWithPath:@"."];
 
  #pragma mark - Callbacks Setup
 
