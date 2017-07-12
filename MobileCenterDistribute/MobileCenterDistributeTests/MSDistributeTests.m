@@ -27,42 +27,12 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
 static NSString *const kMSTestReleaseHash = @"RELEASEHASH";
 static NSString *const kMSDistributeServiceName = @"Distribute";
 
-// Mocked SFSafariViewController for url validation.
-@interface SFSafariViewController : UIViewController
-
-@property(class, nonatomic) NSURL *url;
-
-- (instancetype)initWithURL:(NSURL *)url;
-
-@end
-
-static NSURL *sfURL;
-
-@implementation SFSafariViewController
-
-- (instancetype)initWithURL:(NSURL *)url {
-  if ((self = [super init])) {
-    [[self class] setUrl:url];
-  }
-  return self;
-}
-+ (NSURL *)url {
-  return sfURL;
-}
-
-+ (void)setUrl:(NSURL *)url {
-  sfURL = url;
-}
-@end
-
 @interface UIApplication (ForTests)
 
 // Available since iOS 10.
 - (void)openURL:(NSURL*)url options:(NSDictionary<NSString *, id> *)options completionHandler:(void (^ __nullable)(BOOL success))completion;
 
 @end
-
-static NSURL *sfURL;
 
 @interface MSDistributeTests : XCTestCase
 
@@ -115,7 +85,6 @@ static NSURL *sfURL;
   OCMStub([self.bundleMock objectForInfoDictionaryKey:@"CFBundleURLTypes"]).andReturn(bundleArray);
   OCMStub([self.bundleMock objectForInfoDictionaryKey:@"MSAppName"]).andReturn(@"Something");
   id distributeMock = OCMPartialMock(self.sut);
-  OCMStub([distributeMock openURLInEmbeddedSafari:[OCMArg any] fromClass:[OCMArg any]]).andDo(nil);
 
   // Disable for now to bypass initializing sender.
   [distributeMock setEnabled:NO];
@@ -203,26 +172,6 @@ static NSURL *sfURL;
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
-}
-
-- (void)testOpenURLInEmbeddedSafari {
-
-  // If
-  NSURL *url = [NSURL URLWithString:@"https://contoso.com"];
-
-  // When
-  @try {
-    [self.sut openURLInEmbeddedSafari:url fromClass:[SFSafariViewController class]];
-  } @catch (__attribute__((unused)) NSException *ex) {
-
-    /**
-     * TODO: This is not a UI test so we expect it to fail with NSInternalInconsistencyException exception.
-     * Hopefully it doesn't prevent the URL to be set. Maybe introduce UI testing for this case in the future.
-     */
-  }
-
-  // Then
-  assertThat(SFSafariViewController.url, is(url));
 }
 
 - (void)testSetApiUrlWorks {
@@ -1026,9 +975,6 @@ static NSURL *sfURL;
   OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(NotReachable);
   id distributeMock = OCMPartialMock(self.sut);
 
-  // We should not touch UI in a unit testing environment.
-  OCMStub([distributeMock openURLInEmbeddedSafari:[OCMArg any] fromClass:[OCMArg any]]).andDo(nil);
-
   // When
   [distributeMock requestUpdateToken:kMSTestReleaseHash];
 
@@ -1048,162 +994,6 @@ static NSURL *sfURL;
 
   // Then
   assertThat(hash, equalTo(@"1ddf47f8dda8928174c419d530adcc13bb63cebfaf823d83ad5269b41e638ef4"));
-}
-
-- (void)testDismissEmbeddedSafari {
-
-  // If
-  XCTestExpectation *safariDismissedExpectation = [self expectationWithDescription:@"Safari dismissed processed"];
-  id viewControllerMock = OCMClassMock([UIViewController class]);
-  self.sut.safariHostingViewController = nil;
-
-  // When
-  [self.sut dismissEmbeddedSafari];
-  dispatch_async(dispatch_get_main_queue(), ^{
-    [safariDismissedExpectation fulfill];
-  });
-
-  // Then
-  [self waitForExpectationsWithTimeout:1
-                               handler:^(NSError *error) {
-                                 OCMReject([viewControllerMock dismissViewControllerAnimated:(BOOL)OCMOCK_ANY
-                                                                                  completion:OCMOCK_ANY]);
-                                 if (error) {
-                                   XCTFail(@"Expectation Failed with error: %@", error);
-                                 }
-                               }];
-}
-
-- (void)testDismissEmbeddedSafariWithNilVC {
-
-  // If
-  XCTestExpectation *safariDismissedExpectation = [self expectationWithDescription:@"Safari dismissed processed"];
-  self.sut.safariHostingViewController = nil;
-
-  // When
-  [self.sut dismissEmbeddedSafari];
-  dispatch_async(dispatch_get_main_queue(), ^{
-    [safariDismissedExpectation fulfill];
-  });
-
-  // Then
-  [self waitForExpectationsWithTimeout:1
-                               handler:^(NSError *error) {
-
-                                 // No exceptions so far test succeeded.
-                                 assertThat(self.sut.safariHostingViewController, nilValue());
-                                 if (error) {
-                                   XCTFail(@"Expectation Failed with error: %@", error);
-                                 }
-                               }];
-}
-
-- (void)testDismissEmbeddedSafariWithNilSelf {
-
-  // If
-  XCTestExpectation *safariDismissedExpectation = [self expectationWithDescription:@"Safari dismissed processed"];
-  self.sut.safariHostingViewController = nil;
-
-  // When
-  [self.sut dismissEmbeddedSafari];
-  self.sut = nil;
-
-  dispatch_async(dispatch_get_main_queue(), ^{
-    [safariDismissedExpectation fulfill];
-  });
-
-  // Then
-  [self waitForExpectationsWithTimeout:1
-                               handler:^(NSError *error) {
-
-                                 // No exceptions so far test succeeded.
-                                 assertThat(self.sut, nilValue());
-                                 if (error) {
-                                   XCTFail(@"Expectation Failed with error: %@", error);
-                                 }
-                               }];
-}
-
-- (void)testDismissEmbeddedSafariWithValidVC {
-
-  // If
-  XCTestExpectation *safariDismissedExpectation = [self expectationWithDescription:@"Safari dismissed processed"];
-  id viewControllerMock = OCMClassMock([UIViewController class]);
-  self.sut.safariHostingViewController = viewControllerMock;
-
-  // When
-  [self.sut dismissEmbeddedSafari];
-  dispatch_async(dispatch_get_main_queue(), ^{
-    [safariDismissedExpectation fulfill];
-  });
-
-  // Then
-  [self
-      waitForExpectationsWithTimeout:1
-                             handler:^(NSError *error) {
-                               OCMVerify([viewControllerMock dismissViewControllerAnimated:YES completion:OCMOCK_ANY]);
-                               if (error) {
-                                 XCTFail(@"Expectation Failed with error: %@", error);
-                               }
-                             }];
-}
-
-- (void)testDismissEmbeddedSafariWhenOpenURL {
-
-  // If
-  id distributeMock = OCMPartialMock(self.sut);
-  OCMStub([distributeMock sharedInstance]).andReturn(distributeMock);
-  OCMStub([distributeMock isEnabled]).andReturn(YES);
-  ((MSDistribute *)distributeMock).appSecret = kMSTestAppSecret;
-  [MS_USER_DEFAULTS setObject:@"FIRST-REQUEST" forKey:kMSUpdateTokenRequestIdKey];
-  NSDictionary<NSString *, id> *plist = @{ @"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1" };
-  OCMStub([self.bundleMock infoDictionary]).andReturn(plist);
-  NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://?request_id=FIRST-REQUEST&update_token=token",
-                                                               [NSString stringWithFormat:kMSDefaultCustomSchemeFormat,
-                                                                                          kMSTestAppSecret]]];
-  XCTestExpectation *safariDismissedExpectation = [self expectationWithDescription:@"Safari dismissed processed"];
-  id viewControllerMock = OCMClassMock([UIViewController class]);
-  self.sut.safariHostingViewController = viewControllerMock;
-
-  // When
-  [MSDistribute openURL:url];
-  dispatch_async(dispatch_get_main_queue(), ^{
-    [safariDismissedExpectation fulfill];
-  });
-
-  // Then
-  [self
-      waitForExpectationsWithTimeout:1
-                             handler:^(NSError *error) {
-                               OCMVerify([viewControllerMock dismissViewControllerAnimated:YES completion:OCMOCK_ANY]);
-                               if (error) {
-                                 XCTFail(@"Expectation Failed with error: %@", error);
-                               }
-                             }];
-}
-
-- (void)testDismissEmbeddedSafariWhenDisabling {
-
-  // If
-  XCTestExpectation *safariDismissedExpectation = [self expectationWithDescription:@"Safari dismissed processed"];
-  id viewControllerMock = OCMClassMock([UIViewController class]);
-  self.sut.safariHostingViewController = viewControllerMock;
-
-  // When
-  [self.sut applyEnabledState:NO];
-  dispatch_async(dispatch_get_main_queue(), ^{
-    [safariDismissedExpectation fulfill];
-  });
-
-  // Then
-  [self
-      waitForExpectationsWithTimeout:1
-                             handler:^(NSError *error) {
-                               OCMVerify([viewControllerMock dismissViewControllerAnimated:YES completion:OCMOCK_ANY]);
-                               if (error) {
-                                 XCTFail(@"Expectation Failed with error: %@", error);
-                               }
-                             }];
 }
 
 - (void)testShowDistributeDisabledAlert {

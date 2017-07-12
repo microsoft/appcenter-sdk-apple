@@ -105,7 +105,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     [self startUpdate];
     [MSAppDelegateForwarder addDelegate:self.appDelegate];
   } else {
-    [self dismissEmbeddedSafari];
     [MSAppDelegateForwarder removeDelegate:self.appDelegate];
     [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
     [MS_USER_DEFAULTS removeObjectForKey:kMSPostponedTimestampKey];
@@ -211,27 +210,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     // Most failures here require an app update. Thus, it will be retried only on next App instance.
     url = [self buildTokenRequestURLWithAppSecret:self.appSecret releaseHash:releaseHash];
     if (url) {
-
-/*
- * iOS 9+ only, check for `SFSafariViewController` availability. `SafariServices` framework MUST be weakly linked.
- * We can't use `NSClassFromString` here to avoid the warning.
- * It doesn't detect the class correctly unless the application explicitly imports the related framework.
- */
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wpartial-availability"
-      Class clazz = [SFSafariViewController class];
-#pragma clang diagnostic pop
-      if (clazz) {
-
-        // Manipulate App UI on the main queue.
-        dispatch_async(dispatch_get_main_queue(), ^{
-          [self openURLInEmbeddedSafari:url fromClass:clazz];
-        });
-      } else {
-
-        // iOS 8.x.
-        [self openURLInSafariApp:url];
-      }
+      [self openURLInSafariApp:url];
     }
   } else {
 
@@ -433,36 +412,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     return nil;
   }
   return components.URL;
-}
-
-- (void)openURLInEmbeddedSafari:(NSURL *)url fromClass:(Class)clazz {
-  MSLogDebug([MSDistribute logTag], @"Using SFSafariViewController to open URL: %@", url);
-
-  // Init safari controller with the install URL.
-  id safari = [[clazz alloc] initWithURL:url];
-
-  // Create an empty window + viewController to host the Safari UI.
-  self.safariHostingViewController = [[UIViewController alloc] init];
-  UIWindow *window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-  window.rootViewController = self.safariHostingViewController;
-
-  // Place it at the highest level within the stack.
-  window.windowLevel = +CGFLOAT_MAX;
-
-  // Run it.
-  [window makeKeyAndVisible];
-  [self.safariHostingViewController presentViewController:safari animated:YES completion:nil];
-}
-
-- (void)dismissEmbeddedSafari {
-  __weak typeof(self) weakSelf = self;
-  dispatch_async(dispatch_get_main_queue(), ^{
-    typeof(self) strongSelf = weakSelf;
-    if (strongSelf && strongSelf.safariHostingViewController &&
-        !strongSelf.safariHostingViewController.isBeingDismissed) {
-      [strongSelf.safariHostingViewController dismissViewControllerAnimated:YES completion:nil];
-    }
-  });
 }
 
 - (void)openURLInSafariApp:(NSURL *)url {
@@ -711,9 +660,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     if (!(requestedId && queryRequestId && [requestedId isEqualToString:queryRequestId])) {
       return YES;
     }
-
-    // Dismiss the embedded Safari view.
-    [self dismissEmbeddedSafari];
 
     // Delete stored request ID
     [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
