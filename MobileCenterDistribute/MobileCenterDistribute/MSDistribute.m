@@ -1,5 +1,4 @@
 #import <Foundation/Foundation.h>
-#import <SafariServices/SafariServices.h>
 
 #import "MSAppDelegateForwarder.h"
 #import "MSDistribute.h"
