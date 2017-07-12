@@ -108,7 +108,7 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
 - (nullable NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret releaseHash:(NSString *)releaseHash;
 
 /**
- * Open the given URL using the Safari application. iOS 8.x only.
+ * Open the given URL using the Safari application.
  *
  * @param url URL to open.
  */
