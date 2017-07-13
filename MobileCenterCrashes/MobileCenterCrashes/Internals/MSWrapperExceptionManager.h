@@ -109,7 +109,7 @@
  */
 + (id<MSWrapperCrashesInitializationDelegate>)getDelegate;
 
-/*
+/**
  * Exposes MSCrash's internal "trackException" for use by Wrapper SDKs
  */
 - (void)trackException:(MSException*)exception fatal:(BOOL)fatal;
