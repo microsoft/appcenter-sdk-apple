@@ -30,4 +30,7 @@
  */
 - (void)trackException:(MSException*)exception fatal:(BOOL)fatal;
 
+
+- (NSString*)trackWrapperException:(MSException*)exception fatal:(BOOL)fatal;
+
 @end

@@ -16,10 +16,12 @@
 - (BOOL)hasException;
 - (MSException*)loadWrapperException:(CFUUIDRef)uuidRef;
 - (void)saveWrapperException:(CFUUIDRef)uuidRef;
+
 - (void)deleteWrapperExceptionWithUUID:(CFUUIDRef)uuidRef;
 - (void)deleteAllWrapperExceptions;
 - (void)deleteAllWrapperExceptionData;
 - (void)saveWrapperExceptionData:(CFUUIDRef)uuidRef;
+- (void)saveWrapperExceptionData:(NSData*)exceptionData WithUUIDString:(NSString*)uuidString;
 
 - (NSData*)loadWrapperExceptionDataWithUUIDString:(NSString*)uuidString;
 - (void)deleteWrapperExceptionDataWithUUIDString:(NSString*)uuidString;

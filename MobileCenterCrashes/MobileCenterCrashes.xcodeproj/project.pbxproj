@@ -343,9 +343,9 @@
 		6E0401511D1C9A4F0051BCFA /* Internals */ = {
 			isa = PBXGroup;
 			children = (
+				35B7D8791DE4CB6D00C846CD /* MSWrapperExceptionManagerInternal.h */,
 				35D504CD1DDD140500D58B40 /* MSWrapperExceptionManager.h */,
 				35D504CE1DDD140500D58B40 /* MSWrapperExceptionManager.m */,
-				35B7D8791DE4CB6D00C846CD /* MSWrapperExceptionManagerInternal.h */,
 				3515F9C01DD63EC9005E6E27 /* MSCrashesInternal.h */,
 				6E73FE711D4059E7008CDC15 /* MSCrashesCXXExceptionWrapperException.h */,
 				6E73FE721D4059E7008CDC15 /* MSCrashesCXXExceptionWrapperException.m */,

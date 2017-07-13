@@ -704,6 +704,27 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   }
 }
 
+- (NSString*)trackWrapperException:(MSException*)exception fatal:(BOOL)fatal {
+  if (self.isEnabled) {
+    MSAppleErrorLog *errorLog = [MSErrorLogFormatter errorLogFromException:exception];
+    if (errorLog == nil) {
+      MSLogError([MSCrashes logTag], @"Something went wrong when tracking an exception.");
+      return nil;
+    }
+    errorLog.fatal = fatal;
+    BOOL prepared = [self prepareErrorLog:errorLog andSetIncidentIdentifier:nil];
+    if (prepared) {
+      [self.unprocessedFilePaths addObject:kEmptyFilePath];
+      [self sendCrashReports];
+    }
+    return errorLog.errorId;
+  }
+
+  MSLogDebug([MSCrashes logTag], @"Crashes service is disabled, discard the crash report");
+  return nil;
+}
+
+
 #pragma mark - Helper
 
 /* Process the error report if appropriate; return whether processing occurred and set incident identifier.*/
