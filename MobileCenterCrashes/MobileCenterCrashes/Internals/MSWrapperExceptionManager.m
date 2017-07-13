@@ -199,7 +199,7 @@
   }
 }
 
--(void)trackException:(MSException*)exception fatal:(BOOL)fatal
++(void)trackException:(MSException*)exception fatal:(BOOL)fatal
 {
   [[MSCrashes sharedInstance] trackException:exception fatal:fatal];
 }
