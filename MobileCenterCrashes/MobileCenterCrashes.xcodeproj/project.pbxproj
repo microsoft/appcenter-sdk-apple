@@ -37,7 +37,7 @@
 		3507AE3E1DD14C240030878F /* MSStackFrame.h in Headers */ = {isa = PBXBuildFile; fileRef = 3507AE3B1DD14C240030878F /* MSStackFrame.h */; };
 		3515F9C11DD63EC9005E6E27 /* MSCrashesInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 3515F9C01DD63EC9005E6E27 /* MSCrashesInternal.h */; };
 		35B7D87A1DE4D4A300C846CD /* MSWrapperExceptionManagerInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 35B7D8791DE4CB6D00C846CD /* MSWrapperExceptionManagerInternal.h */; };
-		35D504CF1DDD140500D58B40 /* MSWrapperExceptionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 35D504CD1DDD140500D58B40 /* MSWrapperExceptionManager.h */; };
+		35D504CF1DDD140500D58B40 /* MSWrapperExceptionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 35D504CD1DDD140500D58B40 /* MSWrapperExceptionManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		35D504D01DDD140500D58B40 /* MSWrapperExceptionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D504CE1DDD140500D58B40 /* MSWrapperExceptionManager.m */; };
 		35EF18E01DDBCF6C00731CA8 /* MSWrapperExceptionManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 35EF18DF1DDBCF6C00731CA8 /* MSWrapperExceptionManagerTests.m */; };
 		380B81321E8C540E001C76C9 /* MSLogWithProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 380B81311E8C540E001C76C9 /* MSLogWithProperties.h */; };
@@ -343,9 +343,9 @@
 		6E0401511D1C9A4F0051BCFA /* Internals */ = {
 			isa = PBXGroup;
 			children = (
+				35B7D8791DE4CB6D00C846CD /* MSWrapperExceptionManagerInternal.h */,
 				35D504CD1DDD140500D58B40 /* MSWrapperExceptionManager.h */,
 				35D504CE1DDD140500D58B40 /* MSWrapperExceptionManager.m */,
-				35B7D8791DE4CB6D00C846CD /* MSWrapperExceptionManagerInternal.h */,
 				3515F9C01DD63EC9005E6E27 /* MSCrashesInternal.h */,
 				6E73FE711D4059E7008CDC15 /* MSCrashesCXXExceptionWrapperException.h */,
 				6E73FE721D4059E7008CDC15 /* MSCrashesCXXExceptionWrapperException.m */,
@@ -540,7 +540,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				35D504CF1DDD140500D58B40 /* MSWrapperExceptionManager.h in Headers */,
 				3507AE3E1DD14C240030878F /* MSStackFrame.h in Headers */,
 				E8AEE9861D59744D00C0FF6C /* MSLogManager.h in Headers */,
 				6E7D5C671D3E9321009EC9AC /* MSBinary.h in Headers */,
@@ -549,7 +548,9 @@
 				35B7D87A1DE4D4A300C846CD /* MSWrapperExceptionManagerInternal.h in Headers */,
 				6E0401751D1C9E750051BCFA /* MobileCenterCrashes.h in Headers */,
 				38BD86521E8499EF004E8D7A /* MSErrorAttachmentLog.h in Headers */,
+				35D504CF1DDD140500D58B40 /* MSWrapperExceptionManager.h in Headers */,
 				B2F375091D41AD5100F07032 /* MSErrorLogFormatter.h in Headers */,
+				3507AE3D1DD14C240030878F /* MSException.h in Headers */,
 				B2F120E71D657F4F0060DED7 /* MSErrorReportPrivate.h in Headers */,
 				380B81341E8C565E001C76C9 /* MSAbstractLog.h in Headers */,
 				6E7D5C6B1D3E9332009EC9AC /* MSAppleErrorLog.h in Headers */,
@@ -559,7 +560,6 @@
 				B2CD3BF91D80EE49000A8A91 /* MSAbstractErrorLog.h in Headers */,
 				3515F9C11DD63EC9005E6E27 /* MSCrashesInternal.h in Headers */,
 				3858A2181E93F37E00535A69 /* MSErrorAttachmentLog+Utility.h in Headers */,
-				3507AE3D1DD14C240030878F /* MSException.h in Headers */,
 				387C77071D6CC41100D68CC1 /* MSServiceAbstract.h in Headers */,
 				B24F3F121D9341BC00827213 /* MSErrorLogFormatterPrivate.h in Headers */,
 				6E0401771D1C9EBE0051BCFA /* MobileCenter+Internal.h in Headers */,

@@ -108,4 +108,6 @@
  * are set up.
  */
 + (id<MSWrapperCrashesInitializationDelegate>)getDelegate;
+
++ (void)trackWrapperException:(MSException*)exception withData:(NSData*)data fatal:(BOOL)fatal;
 @end

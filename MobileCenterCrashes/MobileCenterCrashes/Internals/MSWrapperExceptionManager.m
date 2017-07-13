@@ -11,7 +11,7 @@
   return [[self sharedInstance] hasException];
 }
 
-+ (void)setWrapperException:(MSException *)wrapperException {
++ (void)setWrapperException:(MSException*)wrapperException {
   [self sharedInstance].wrapperException = wrapperException;
 }
 
@@ -19,7 +19,7 @@
   [[self sharedInstance] saveWrapperExceptionData:uuidRef];
 }
 
-+ (NSData *)loadWrapperExceptionDataWithUUIDString:(NSString *)uuidString {
++ (NSData*)loadWrapperExceptionDataWithUUIDString:(NSString*)uuidString {
   return [[self sharedInstance] loadWrapperExceptionDataWithUUIDString:uuidString];
 }
 
@@ -31,7 +31,7 @@
   [[self sharedInstance] saveWrapperException:uuidRef];
 }
 
-+ (void)setWrapperExceptionData:(NSData *)data {
++ (void)setWrapperExceptionData:(NSData*)data {
   [self sharedInstance].unsavedWrapperExceptionData = data;
 }
 
@@ -43,7 +43,7 @@
   [[self sharedInstance] deleteAllWrapperExceptions];
 }
 
-+ (void)deleteWrapperExceptionDataWithUUIDString:(NSString *)uuidString {
++ (void)deleteWrapperExceptionDataWithUUIDString:(NSString*)uuidString {
   [[self sharedInstance] deleteWrapperExceptionDataWithUUIDString:uuidString];
 }
 + (void)deleteAllWrapperExceptionData {
@@ -61,6 +61,12 @@
 + (void)startCrashReportingFromWrapperSdk {
   [[self sharedInstance] startCrashReportingFromWrapperSdk];
 }
+
++ (void)trackWrapperException:(MSException*)exception withData:(NSData*)data fatal:(BOOL)fatal
+{
+  [[self sharedInstance] trackWrapperException:exception withData:data fatal:fatal];
+}
+
 
 #pragma mark - Private methods
 
@@ -134,6 +140,10 @@
   }
 }
 
+- (void)saveWrapperExceptionData:(NSData *)exceptionData WithUUIDString:(NSString *)uuidString {
+  [exceptionData writeToFile:[[self class] getDataFilename:uuidString] atomically:YES];
+}
+
 - (void)deleteWrapperExceptionWithUUID:(CFUUIDRef)uuidRef {
   NSString *path = [MSWrapperExceptionManager getFilenameWithUUIDRef:uuidRef];
   [[self class] deleteFile:path];
@@ -197,6 +207,21 @@
       [[self class] deleteFile:path];
     }
   }
+}
+
++ (MSException*)exceptionWithType:(NSString*)type message:(NSString*)message stackTrace:(NSString*)stackTrace wrapperSdkName:(NSString*)wrapperSdkName {
+  MSException *exception = [[MSException alloc] init];
+  exception.type = type;
+  exception.message = message;
+  exception.stackTrace = stackTrace;
+  exception.wrapperSdkName = wrapperSdkName;
+  return exception;
+}
+
+- (void)trackWrapperException:(MSException*)exception withData:(NSData*)data fatal:(BOOL)fatal
+{
+  NSString* errorId = [[MSCrashes sharedInstance] trackWrapperException:exception fatal:fatal];
+  [self saveWrapperExceptionData:data WithUUIDString:errorId];
 }
 
 + (void)deleteFile:(NSString *)path {
