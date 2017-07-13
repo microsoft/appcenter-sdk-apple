@@ -110,7 +110,10 @@
 + (id<MSWrapperCrashesInitializationDelegate>)getDelegate;
 
 /**
- * Exposes MSCrash's internal "trackException" for use by Wrapper SDKs
+ * Exposes MSCrash's internal "trackException" for use by Wrapper SDKs. Don't use inner exceptions,
+ * frames, or an "MSException" parameter in this method so that MSStackFrame and MSException don't
+ * need to be bound to Unity. (It's fine to omit these parameters because they won't exist for 
+ * Unity.) This also means that MSException and MSStack frame can remain in non-public headers.
  */
-+ (void)trackException:(MSException*)exception fatal:(BOOL)fatal;
++ (void)trackExceptionWithType:(NSString*)type message:(NSString*)message stackTrace:(NSString*)stackTrace wrapperSdkName:(NSString*)wrapperSdkName fatal:(BOOL)fatal;
 @end

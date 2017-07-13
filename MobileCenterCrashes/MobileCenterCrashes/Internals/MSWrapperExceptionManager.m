@@ -199,8 +199,13 @@
   }
 }
 
-+(void)trackException:(MSException*)exception fatal:(BOOL)fatal
++(void)trackExceptionWithType:(NSString*)type message:(NSString*)message stackTrace:(NSString*)stackTrace wrapperSdkName:(NSString*)wrapperSdkName fatal:(BOOL)fatal
 {
+  MSException *exception = [[MSException alloc] init];
+  exception.type = type;
+  exception.message = message;
+  exception.stackTrace = stackTrace;
+  exception.wrapperSdkName = wrapperSdkName;
   [[MSCrashes sharedInstance] trackException:exception fatal:fatal];
 }
 
