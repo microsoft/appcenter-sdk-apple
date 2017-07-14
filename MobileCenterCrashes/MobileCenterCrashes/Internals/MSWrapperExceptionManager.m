@@ -5,78 +5,12 @@
 
 @implementation MSWrapperExceptionManager : NSObject
 
-#pragma mark - Public methods
-
-+ (BOOL)hasException {
-  return [[self sharedInstance] hasException];
-}
-
-+ (void)setWrapperException:(MSException*)wrapperException {
-  [self sharedInstance].wrapperException = wrapperException;
-}
-
-+ (void)saveWrapperExceptionData:(CFUUIDRef)uuidRef {
-  [[self sharedInstance] saveWrapperExceptionData:uuidRef];
-}
-
-+ (NSData*)loadWrapperExceptionDataWithUUIDString:(NSString*)uuidString {
-  return [[self sharedInstance] loadWrapperExceptionDataWithUUIDString:uuidString];
-}
-
-+ (MSException *)loadWrapperException:(CFUUIDRef)uuidRef {
-  return [[self sharedInstance] loadWrapperException:uuidRef];
-}
-
-+ (void)saveWrapperException:(CFUUIDRef)uuidRef {
-  [[self sharedInstance] saveWrapperException:uuidRef];
-}
-
-+ (void)setWrapperExceptionData:(NSData*)data {
-  [self sharedInstance].unsavedWrapperExceptionData = data;
-}
-
-+ (void)deleteWrapperExceptionWithUUID:(CFUUIDRef)uuidRef {
-  [[self sharedInstance] deleteWrapperExceptionWithUUID:uuidRef];
-}
-
-+ (void)deleteAllWrapperExceptions {
-  [[self sharedInstance] deleteAllWrapperExceptions];
-}
-
-+ (void)deleteWrapperExceptionDataWithUUIDString:(NSString*)uuidString {
-  [[self sharedInstance] deleteWrapperExceptionDataWithUUIDString:uuidString];
-}
-+ (void)deleteAllWrapperExceptionData {
-  [[self sharedInstance] deleteAllWrapperExceptionData];
-}
-
-+ (void)setDelegate:(id<MSWrapperCrashesInitializationDelegate>)delegate {
-  [self sharedInstance].crashesDelegate = delegate;
-}
-
-+ (id<MSWrapperCrashesInitializationDelegate>)getDelegate {
-  return [self sharedInstance].crashesDelegate;
-}
-
-+ (void)startCrashReportingFromWrapperSdk {
-  [[self sharedInstance] startCrashReportingFromWrapperSdk];
-}
-
-+ (void)trackWrapperException:(MSException*)exception withData:(NSData*)data fatal:(BOOL)fatal
-{
-  [[self sharedInstance] trackWrapperException:exception withData:data fatal:fatal];
-}
-
-
-#pragma mark - Private methods
+const NSString* kDirectoryName = @"wrapper_exceptions";
+const NSString* kDataFileExtension = @"ms";
+const NSString* kCorrelationFileName = @"wrapper_exception_correlation_data";
 
 - (instancetype)init {
   if ((self = [super init])) {
-
-    _unsavedWrapperExceptionData = nil;
-    _wrapperException = nil;
-    _wrapperExceptionData = [[NSMutableDictionary alloc] init];
-    _currentUUIDRef = nil;
 
     // Create the directory if it doesn't exist
     NSFileManager *defaultManager = [NSFileManager defaultManager];
@@ -104,10 +38,6 @@
     sharedInstance = [[self alloc] init];
   });
   return sharedInstance;
-}
-
-- (BOOL)hasException {
-  return self.wrapperException != nil;
 }
 
 - (MSException *)loadWrapperException:(CFUUIDRef)uuidRef {
@@ -168,13 +98,13 @@
   }
 }
 
-- (void)saveWrapperExceptionData:(CFUUIDRef)uuidRef {
-  if (!self.unsavedWrapperExceptionData) {
-    return;
-  }
-  NSString *dataFilename = [[self class] getDataFilenameWithUUIDRef:uuidRef];
+- (void) saveWrapperException:(MSWrapperException *)wrapperException {
+  NSUUID * wrapperUuid = [NSUUID uuid];
+  // Save data
+  NSString *dataFilename = [[self class] getDataFilenameWithUUIDRef:wrapperUuid];
   [self.unsavedWrapperExceptionData writeToFile:dataFilename atomically:YES];
 }
+
 
 - (NSData *)loadWrapperExceptionDataWithUUIDString:(NSString *)uuidString {
   NSString *dataFilename = [[self class] getDataFilename:uuidString];
@@ -218,8 +148,7 @@
   return exception;
 }
 
-- (void)trackWrapperException:(MSException*)exception withData:(NSData*)data fatal:(BOOL)fatal
-{
+- (void)trackWrapperException:(MSException*)exception withData:(NSData*)data fatal:(BOOL)fatal {
   NSString* errorId = [[MSCrashes sharedInstance] trackWrapperException:exception fatal:fatal];
   [self saveWrapperExceptionData:data WithUUIDString:errorId];
 }
@@ -235,82 +164,23 @@
   }
 }
 
-+ (NSString *)uuidRefToString:(CFUUIDRef)uuidRef {
-  if (!uuidRef) {
-    return nil;
-  }
-  CFStringRef uuidStringRef = CFUUIDCreateString(kCFAllocatorDefault, uuidRef);
-  return (__bridge_transfer NSString *)uuidStringRef;
-}
-
-+ (BOOL)isCurrentUUIDRef:(CFUUIDRef)uuidRef {
-  CFUUIDRef currentUUIDRef = [self sharedInstance].currentUUIDRef;
-
-  BOOL currentUUIDRefIsNull = (currentUUIDRef == nil);
-  BOOL uuidRefIsNull = (uuidRef == nil);
-
-  if (currentUUIDRefIsNull && uuidRefIsNull) {
-    return true;
-  }
-  if (currentUUIDRefIsNull || uuidRefIsNull) {
-    return false;
-  }
-
-  // For whatever reason, CFEqual causes a crash, so we compare strings
-  NSString *uuidString = [self uuidRefToString:uuidRef];
-  NSString *currentUUIDString = [self uuidRefToString:currentUUIDRef];
-
-  return [uuidString isEqualToString:currentUUIDString];
-}
-
-- (void)startCrashReportingFromWrapperSdk {
-
-  /**
-   * Do not register an UncaughtExceptionHandler for Xamarin as we rely on the xamarin runtime to report NSExceptions.
-   * Registering our own UncaughtExceptionHandler will cause the Xamarin debugger to not work properly (it will not stop
-   * for NSExceptions).
-   */
-  [[MSCrashes sharedInstance] configureCrashReporterWithUncaughtExceptionHandlerEnabled:NO];
-}
-
-+ (NSString *)dataFileExtension {
-  return @"ms";
-}
-
-+ (NSString *)directoryName {
-  return @"wrapper_exceptions";
-}
-
 + (NSString *)directoryPath {
-
   static NSString *path = nil;
-
   if (!path) {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = paths[0];
-    path = [documentsDirectory stringByAppendingPathComponent:[self directoryName]];
+    path = [documentsDirectory stringByAppendingPathComponent:kDirectoryName];
   }
-
   return path;
 }
 
 + (NSString *)getFilename:(NSString *)uuidString {
-  return [[self directoryPath] stringByAppendingPathComponent:uuidString];
+  return [[[self class] directoryPath] stringByAppendingPathComponent:uuidString];
 }
 
 + (NSString *)getDataFilename:(NSString *)uuidString {
-  NSString *filename = [MSWrapperExceptionManager getFilename:uuidString];
+  NSString *filename = [[self class] getFilename:uuidString];
   return [filename stringByAppendingPathExtension:[self dataFileExtension]];
-}
-
-+ (NSString *)getFilenameWithUUIDRef:(CFUUIDRef)uuidRef {
-  NSString *uuidString = [MSWrapperExceptionManager uuidRefToString:uuidRef];
-  return [MSWrapperExceptionManager getFilename:uuidString];
-}
-
-+ (NSString *)getDataFilenameWithUUIDRef:(CFUUIDRef)uuidRef {
-  NSString *uuidString = [MSWrapperExceptionManager uuidRefToString:uuidRef];
-  return [MSWrapperExceptionManager getDataFilename:uuidString];
 }
 
 + (BOOL)isDataFile:(NSString *)path {

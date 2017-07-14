@@ -10,6 +10,9 @@
 #import "MSMobileCenterInternal.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSWrapperExceptionManager.h"
+#import "MSWrapperException.h"
+#import "MSCrashHandlerSetupDelegate.h"
+#import "MSWrapperCrashesHelper.h"
 
 /**
  * Service name for initialization.
@@ -74,8 +77,6 @@ static void ms_save_log_buffer_callback(__attribute__((unused)) siginfo_t *info,
 // Proxy implementation for PLCrashReporter to keep our interface stable while this can change.
 static void plcr_post_crash_callback(siginfo_t *info, ucontext_t *uap, void *context) {
   ms_save_log_buffer_callback(info, uap, context);
-  [MSCrashes wrapperCrashCallback];
-
   if (msCrashesCallbacks.handleSignal != NULL) {
     msCrashesCallbacks.handleSignal(context);
   }
@@ -220,8 +221,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       MSLogWarning([MSCrashes logTag], @"A limit of %u attachments per error report might be enforced by server.", kMaxAttachmentsPerCrashReport);
     }
 
-    // Clean up.
-    [MSWrapperExceptionManager deleteWrapperExceptionDataWithUUIDString:report.incidentIdentifier];
     if (fileURL != kEmptyFilePath) {
       [crashes deleteCrashReportWithFileURL:fileURL];
       [crashes.crashFiles removeObject:fileURL];
@@ -276,12 +275,25 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
   // Enabling
   if (isEnabled) {
+    id<MSCrashHandlerSetupDelegate> crashSetupDelegate = [[MSWrapperCrashesHelper sharedInstance] delegate];
 
-    // Check if there is a wrapper SDK that needs to do some custom handler setup. If there is,
-    // then the wrapper SDK will call [self configureCrashReporter].
-    if (![[MSWrapperExceptionManager getDelegate] respondsToSelector:@selector(setUpCrashHandlers)] ||
-        ![[MSWrapperExceptionManager getDelegate] setUpCrashHandlers]) {
-      [self configureCrashReporterWithUncaughtExceptionHandlerEnabled:YES];
+    // Check if a wrapper SDK has a preference for uncaught exception handling
+    BOOL enableUncaughtExceptionHandler = YES;
+    if ([crashSetupDelegate respondsToSelector:@selector(shouldEnableUncaughtExceptionHandler)]) {
+      enableUncaughtExceptionHandler = [crashSetupDelegate shouldEnableUncaughtExceptionHandler];
+    }
+
+    // Allow a wrapper SDK to perform custom behavior before setting up crash handlers
+    if ([crashSetupDelegate respondsToSelector:@selector(willSetUpCrashHandlers)]) {
+      [crashSetupDelegate willSetUpCrashHandlers];
+    }
+
+    // Set up crash handlers
+    [self configureCrashReporterWithUncaughtExceptionHandlerEnabled:YES];
+
+    // Allow a wrapper SDK to perform custom behavior after setting up crash handlers
+    if ([crashSetupDelegate respondsToSelector:@selector(didSetUpCrashHandlers)]) {
+      [crashSetupDelegate didSetUpCrashHandlers];
     }
 
     // PLCrashReporter keeps collecting crash reports even when the SDK is disabled,
@@ -316,8 +328,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
     // Don't set PLCrashReporter to nil!
     MSLogDebug([MSCrashes logTag], @"Cleaning up all crash files.");
-    [MSWrapperExceptionManager deleteAllWrapperExceptions];
-    [MSWrapperExceptionManager deleteAllWrapperExceptionData];
+    [[MSWrapperExceptionManager sharedInstance] deleteAllWrapperExceptions];
     [self deleteAllFromCrashesDirectory];
     [self emptyLogBufferFiles];
     [self removeAnalyzerFile];
@@ -627,30 +638,43 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 - (void)processCrashReports {
   NSError *error = NULL;
   [self initializeCrashReportArrays];
+  MSWrapperExceptionManager *wrapperManager = [MSWrapperExceptionManager sharedInstance];
 
   // Start crash processing for real.
-  NSArray *tempCrashesFiles = [NSArray arrayWithArray:self.crashFiles];
-  for (NSURL *fileURL in tempCrashesFiles) {
-    NSString *uuidString;
-
-    // We always start sending with the oldest pending one.
+  NSMutableDictionary * crashReports = [[NSMutableDictionary alloc] init];
+  for (NSURL *fileURL in self.crashFiles) {
     NSData *crashFileData = [NSData dataWithContentsOfURL:fileURL];
     if ([crashFileData length] > 0) {
-      MSLogVerbose([MSCrashes logTag], @"Crash report found");
+      MSPLCrashReport *report = [[MSPLCrashReport alloc] initWithData:crashFileData error:&error];
+      [crashReports setValue:report forKey:fileUrl];
       if (self.isEnabled) {
-        MSPLCrashReport *report = [[MSPLCrashReport alloc] initWithData:crashFileData error:&error];
-        MSAppleErrorLog *log = [MSErrorLogFormatter errorLogFromCrashReport:report];
-        BOOL prepared = [self prepareErrorLog:log andSetIncidentIdentifier:&uuidString];
-        if (prepared) {
-          [self.unprocessedFilePaths addObject:fileURL];
-        }
+        MSLogVerbose([MSCrashes logTag], @"Crash report found");
       } else {
         MSLogDebug([MSCrashes logTag], @"Crashes service is disabled, discard the crash report");
-      }
 
-      // Cleanup.
-      [MSWrapperExceptionManager deleteWrapperExceptionDataWithUUIDString:uuidString];
-      if (fileURL != kEmptyFilePath) {
+        // Wrapper SDK will definitely never need corresponding wrapper exception now, so delete it
+        NSString* uuidString = [[self class] uuidRefToString:report.uuidRef];
+        [wrapperManager deleteWrapperExceptionWithUUID:uuidString];
+      }
+    }
+  }
+  [wrapperManager correlateLastSavedWrapperExceptionToBestMatchInReports:[crashReports allValues]];
+  for (NSURL *fileURL in [crashReports allKeys]) {
+    MSPLCrashReport *report = [crashReports objectForKey:fileUrl];
+    MSAppleErrorLog *log = [MSErrorLogFormatter errorLogFromCrashReport:report];
+    BOOL prepared = [self prepareErrorLog:log];
+    if (prepared) {
+      [self.unprocessedFilePaths addObject:fileURL];
+
+      //NOTE: the wrapper SDK is responsible for cleaning the wrapper exception in this case!
+    }
+    else {
+
+      // Wrapper SDK will definitely never need corresponding wrapper exception now, so delete it
+      NSString* uuidString = [[self class] uuidRefToString:report.uuidRef];
+      [wrapperManager deleteWrapperExceptionWithUUID:uuidString];
+    }
+    if (fileURL != kEmptyFilePath) {
         [self deleteCrashReportWithFileURL:fileURL];
         [self.crashFiles removeObject:fileURL];
       }
@@ -693,7 +717,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       return;
     }
     errorLog.fatal = fatal;
-    BOOL prepared = [self prepareErrorLog:errorLog andSetIncidentIdentifier:nil];
+    BOOL prepared = [self prepareErrorLog:errorLog];
     if (prepared) {
       [self.unprocessedFilePaths addObject:kEmptyFilePath];
       [self sendCrashReports];
@@ -728,7 +752,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 #pragma mark - Helper
 
 /* Process the error report if appropriate; return whether processing occurred and set incident identifier.*/
-- (BOOL)prepareErrorLog:(MSAppleErrorLog*)errorLog andSetIncidentIdentifier:(NSString* __autoreleasing *)incidentIdentifier {
+- (BOOL)prepareErrorLog:(MSAppleErrorLog*)errorLog{
   MSErrorReport *errorReport = [MSErrorLogFormatter errorReportFromLog:errorLog];
   if (![self shouldProcessErrorReport:errorReport]) {
     MSLogDebug([MSCrashes logTag], @"shouldProcessErrorReport returned NO, discard the crash report: %@",
@@ -741,9 +765,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   // Put the log to temporary space for next callbacks.
   [self.unprocessedLogs addObject:errorLog];
   [self.unprocessedReports addObject:errorReport];
-  if (incidentIdentifier != nil) {
-    *incidentIdentifier = errorReport.incidentIdentifier;
-  }
   return YES;
 }
 
@@ -972,29 +993,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   return strongDelegate && [strongDelegate respondsToSelector:@selector(attachmentsWithCrashes:forErrorReport:)];
 }
 
-+ (void)wrapperCrashCallback {
-  if (![MSWrapperExceptionManager hasException]) {
-    return;
-  }
-
-  // If a wrapper SDK has passed an exception, save it to disk.
-  NSError *error = NULL;
-  NSData *crashData = [[NSData alloc]
-      initWithData:[[[MSCrashes sharedInstance] plCrashReporter] loadPendingCrashReportDataAndReturnError:&error]];
-
-  // This shouldn't happen because the callback should only happen once plCrashReporter has written the report to
-  // disk.
-  if (!crashData) {
-    MSLogError([MSCrashes logTag], @"Could not load crash data: %@", error.localizedDescription);
-  }
-  MSPLCrashReport *report = [[MSPLCrashReport alloc] initWithData:crashData error:&error];
-  if (report) {
-    [MSWrapperExceptionManager saveWrapperException:report.uuidRef];
-  } else {
-    MSLogError([MSCrashes logTag], @"Could not load crash report: %@", error.localizedDescription);
-  }
-}
-
 // We need to override setter, because it's default behavior creates an NSArray, and some tests fail.
 - (void)setCrashFiles:(NSMutableArray *)crashFiles {
   _crashFiles = [[NSMutableArray alloc] initWithArray:crashFiles];
@@ -1013,6 +1011,14 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   BOOL contentTypeValid = attachment.contentType && ([attachment.contentType length] > 0);
   
   return errorIdValid && attachmentIdValid && attachmentDataValid && contentTypeValid;
+}
+
++ (NSString *)uuidRefToString:(CFUUIDRef)uuidRef {
+  if (!uuidRef) {
+    return nil;
+  }
+  CFStringRef uuidStringRef = CFUUIDCreateString(kCFAllocatorDefault, uuidRef);
+  return (__bridge_transfer NSString *)uuidStringRef;
 }
 
 @end
