@@ -1,20 +1,14 @@
 import Cocoa
 
 // FIXME: trackPage has been hidden in MSAnalytics temporarily. Use internal until the feature comes back.
-class AnalyticsViewController : NSViewController, MobileCenterProtocol, NSTableViewDataSource, NSTableViewDelegate {
+class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTableViewDelegate {
 
   private enum CellIdentifiers {
     static let keyCellId = "keyCellId";
     static let valueCellId = "valueCellId";
   }
 
-  var mobileCenter: MobileCenterDelegate? {
-    didSet {
-      if let `mobileCenter` = mobileCenter {
-        setEnabledButton?.state = mobileCenter.isAnalyticsEnabled() ? 1 : 0
-      }
-    }
-  }
+  var mobileCenter: MobileCenterDelegate?;
 
   @IBOutlet var setEnabledButton : NSButton?;
   @IBOutlet var table : NSTableView?;
@@ -24,11 +18,8 @@ class AnalyticsViewController : NSViewController, MobileCenterProtocol, NSTableV
 
   override func viewDidLoad() {
     super.viewDidLoad();
-    if let `mobileCenter` = mobileCenter {
-      setEnabledButton?.state = `mobileCenter`.isAnalyticsEnabled() ? 1 : 0;
-    } else {
-      setEnabledButton?.state = ServiceStateStore.AnalyticsState ? 1 : 0;
-    }
+    mobileCenter = MobileCenterProvider.shared().mobileCenter;
+    setEnabledButton?.state = mobileCenter!.isAnalyticsEnabled() ? 1 : 0;
     table?.delegate = self;
     table?.dataSource = self;
     NotificationCenter.default.addObserver(self, selector: #selector(self.editingDidBegin), name: .NSControlTextDidBeginEditing, object: nil);
@@ -75,11 +66,8 @@ class AnalyticsViewController : NSViewController, MobileCenterProtocol, NSTableV
   }
 
   @IBAction func setEnabled(sender : NSButton) {
-    guard let `mobileCenter` = mobileCenter else {
-      return
-    }
-    mobileCenter.setAnalyticsEnabled(sender.state == 1)
-    sender.state = mobileCenter.isAnalyticsEnabled() ? 1 : 0
+    mobileCenter?.setAnalyticsEnabled(sender.state == 1)
+    sender.state = mobileCenter!.isAnalyticsEnabled() ? 1 : 0
   }
 
   //MARK: Table view source delegate

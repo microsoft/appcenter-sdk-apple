@@ -70,18 +70,15 @@
     return NO;
 
   NSString *filePath = [[NSBundle bundleForClass:self.class] pathForResource:filename ofType:@"plcrash"];
-  NSError *error = NULL;
-
   if (!filePath)
     return NO;
+  
+  NSError *error = nil;
   [fm copyItemAtPath:filePath
               toPath:[plcrCrashesDir stringByAppendingPathComponent:@"live_report.plcrash"]
                error:&error];
-
-  if (error)
-    return NO;
-  else
-    return YES;
+  
+  return error == nil;
 }
 
 + (NSData *)dataOfFixtureCrashReportWithFileName:(NSString *)filename {

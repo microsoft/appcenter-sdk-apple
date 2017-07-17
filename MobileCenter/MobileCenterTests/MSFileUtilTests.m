@@ -124,6 +124,22 @@
   }
 }
 
+- (void)testErrorReadFilesFromDirectory {
+  
+  // If
+  id fileManagerMock = OCMClassMock([NSFileManager class]);
+  OCMStub([fileManagerMock contentsOfDirectoryAtURL:[OCMArg any] includingPropertiesForKeys:[OCMArg any] options:[OCMArg any] error:[OCMArg setTo:nil]]).andReturn(nil);
+  
+  // When
+  NSURL *directory = [NSURL fileURLWithPath:[MSStorageTestUtil logsDir]];
+  NSArray *actual = [MSFileUtil filesForDirectory:directory withFileExtension:@"ms"];
+  
+  // Then
+  assertThat(actual, nilValue());
+  
+  [fileManagerMock stopMocking];
+}
+
 - (void)testCallingFileNamesForDirectoryWithNilPathReturnsNil {
 
   // If
@@ -134,8 +150,8 @@
 
   // Then
   assertThat(actual, nilValue());
-  OCMReject(
-      [fileManagerMock contentsOfDirectoryAtPath:[OCMArg any] error:((NSError __autoreleasing **)[OCMArg anyPointer])]);
+  OCMReject([fileManagerMock contentsOfDirectoryAtPath:[OCMArg any] error:[OCMArg anyObjectRef]]);
+  OCMReject([fileManagerMock contentsOfDirectoryAtURL:[OCMArg any] includingPropertiesForKeys:[OCMArg any] options:[OCMArg any] error:[OCMArg setTo:nil]]);
 }
 
 - (void)testDeletingExistingFileReturnsYes {
@@ -189,7 +205,8 @@
 
   // Then
   assertThatBool(success, isFalse());
-  OCMReject([fileManagerMock removeItemAtPath:[OCMArg any] error:((NSError __autoreleasing **)[OCMArg anyPointer])]);
+  OCMReject([fileManagerMock removeItemAtPath:[OCMArg any] error:[OCMArg setTo:nil]]);
+  OCMReject([fileManagerMock removeItemAtURL:[OCMArg any] error:[OCMArg setTo:nil]]);
 }
 
 - (void)testReadingExistingFileReturnsCorrectContent {

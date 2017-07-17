@@ -1,5 +1,7 @@
+#import "MSCrashesInternal.h"
 #import "MSCrashesUtil.h"
 #import "MSCrashesUtilPrivate.h"
+#import "MSLogger.h"
 #import "MSUtility.h"
 
 static NSString *const kMSCrashesDirectory = @"com.microsoft.azure.mobile.mobilecenter/crashes";
@@ -39,14 +41,14 @@ static dispatch_once_t logBufferDirectoryOnceToken;
 #endif
     crashesDir = [cachesDirectory URLByAppendingPathComponent:kMSCrashesDirectory];
 
-    if (![crashesDir checkResourceIsReachableAndReturnError:&error]) {
+    if (![crashesDir checkResourceIsReachableAndReturnError:nil]) {
       NSDictionary *attributes = @{ NSFilePosixPermissions : @0755 };
-      NSError *theError = NULL;
-
-      [fileManager createDirectoryAtURL:crashesDir
-            withIntermediateDirectories:YES
-                             attributes:attributes
-                                  error:&theError];
+      if (![fileManager createDirectoryAtURL:crashesDir
+                 withIntermediateDirectories:YES
+                                  attributes:attributes
+                                       error:&error]) {
+        MSLogError([MSCrashes logTag], @"Couldn't create crashes directory at %@: %@", crashesDir, error.localizedDescription);
+      }
     }
   });
 
@@ -70,14 +72,14 @@ static dispatch_once_t logBufferDirectoryOnceToken;
 #endif
     logBufferDir = [cachesDirectory URLByAppendingPathComponent:kMSLogBufferDirectory];
 
-    if (![logBufferDir checkResourceIsReachableAndReturnError:&error]) {
+    if (![logBufferDir checkResourceIsReachableAndReturnError:nil]) {
       NSDictionary *attributes = @{ NSFilePosixPermissions : @0755 };
-      NSError *theError = nil;
-
-      [fileManager createDirectoryAtURL:logBufferDir
-            withIntermediateDirectories:YES
-                             attributes:attributes
-                                  error:&theError];
+      if (![fileManager createDirectoryAtURL:logBufferDir
+                 withIntermediateDirectories:YES
+                                  attributes:attributes
+                                       error:&error]) {
+        MSLogError([MSCrashes logTag], @"Couldn't create log buffer directory at %@: %@", logBufferDir, error.localizedDescription);
+      }
     }
   });
 
