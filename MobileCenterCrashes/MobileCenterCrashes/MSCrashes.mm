@@ -9,9 +9,8 @@
 #import "MSErrorLogFormatter.h"
 #import "MSMobileCenterInternal.h"
 #import "MSServiceAbstractProtected.h"
-#import "MSWrapperExceptionManager.h"
-#import "MSWrapperException.h"
 #import "MSCrashHandlerSetupDelegate.h"
+#import "MSWrapperExceptionManagerInternal.h"
 #import "MSWrapperCrashesHelper.h"
 
 /**
@@ -45,12 +44,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
 std::array<MSCrashesBufferedLog, ms_crashes_log_buffer_size> msCrashesLogBuffer;
 
-/**
- * Placeholder file path that represents a non existent file. (Useful for trackException)
- */
-NSURL *const kEmptyFilePath = [[NSURL alloc] initFileURLWithPath:@"."];
-
- #pragma mark - Callbacks Setup
+#pragma mark - Callbacks Setup
 
 static MSCrashesCallbacks msCrashesCallbacks = {.context = NULL, .handleSignal = NULL};
 static NSString *const kMSUserConfirmationKey = @"MSUserConfirmation";
@@ -171,12 +165,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     for (NSUInteger i = 0; i < [crashes.unprocessedFilePaths count]; i++) {
       NSURL *fileURL = crashes.unprocessedFilePaths[i];
       MSErrorReport *report = crashes.unprocessedReports[i];
-
-      [MSWrapperExceptionManager deleteWrapperExceptionDataWithUUIDString:report.incidentIdentifier];
-      if (fileURL != kEmptyFilePath) {
-        [crashes deleteCrashReportWithFileURL:fileURL];
-        [crashes.crashFiles removeObject:fileURL];
-      }
+      [crashes deleteCrashReportWithFileURL:fileURL];
+      [[MSWrapperExceptionManager sharedInstance] deleteWrapperExceptionWithUUID:report.incidentIdentifier];
+      [crashes.crashFiles removeObject:fileURL];
     }
 
     // Return and do not continue with crash processing.
@@ -221,10 +212,10 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       MSLogWarning([MSCrashes logTag], @"A limit of %u attachments per error report might be enforced by server.", kMaxAttachmentsPerCrashReport);
     }
 
-    if (fileURL != kEmptyFilePath) {
-      [crashes deleteCrashReportWithFileURL:fileURL];
-      [crashes.crashFiles removeObject:fileURL];
-    }
+    // Clean up.
+    [crashes deleteCrashReportWithFileURL:fileURL];
+    [[MSWrapperExceptionManager sharedInstance] deleteWrapperExceptionWithUUID:report.incidentIdentifier];
+    [crashes.crashFiles removeObject:fileURL];
   }
 }
 
@@ -636,52 +627,74 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 }
 
 - (void)processCrashReports {
-  NSError *error = NULL;
-  [self initializeCrashReportArrays];
   MSWrapperExceptionManager *wrapperManager = [MSWrapperExceptionManager sharedInstance];
 
-  // Start crash processing for real.
+  // Handle 'disabled' state all at once to simplify the logic that follows
+  if (!self.isEnabled) {
+    MSLogDebug([MSCrashes logTag], @"Crashes service is disabled; discard all crash reports");
+    [self deleteAllFromCrashesDirectory];
+    [wrapperManager deleteAllWrapperExceptions];
+    return;
+  }
+
+  // Must now be in 'enabled' state; start crash processing for real.
+  NSError *error = NULL;
+  self.unprocessedLogs = [[NSMutableArray alloc] init];
+  self.unprocessedReports = [[NSMutableArray alloc] init];
+  self.unprocessedFilePaths = [[NSMutableArray alloc] init];
   NSMutableDictionary * crashReports = [[NSMutableDictionary alloc] init];
   for (NSURL *fileURL in self.crashFiles) {
     NSData *crashFileData = [NSData dataWithContentsOfURL:fileURL];
     if ([crashFileData length] > 0) {
       MSPLCrashReport *report = [[MSPLCrashReport alloc] initWithData:crashFileData error:&error];
-      [crashReports setValue:report forKey:fileUrl];
-      if (self.isEnabled) {
-        MSLogVerbose([MSCrashes logTag], @"Crash report found");
-      } else {
-        MSLogDebug([MSCrashes logTag], @"Crashes service is disabled, discard the crash report");
-
-        // Wrapper SDK will definitely never need corresponding wrapper exception now, so delete it
-        NSString* uuidString = [[self class] uuidRefToString:report.uuidRef];
-        [wrapperManager deleteWrapperExceptionWithUUID:uuidString];
-      }
+      crashReports[fileURL] = report;
     }
   }
   [wrapperManager correlateLastSavedWrapperExceptionToBestMatchInReports:[crashReports allValues]];
   for (NSURL *fileURL in [crashReports allKeys]) {
-    MSPLCrashReport *report = [crashReports objectForKey:fileUrl];
+    MSLogVerbose([MSCrashes logTag], @"Crash report found");
+    MSPLCrashReport *report = crashReports[fileURL];
     MSAppleErrorLog *log = [MSErrorLogFormatter errorLogFromCrashReport:report];
-    BOOL prepared = [self prepareErrorLog:log];
-    if (prepared) {
+    MSErrorReport *errorReport = [MSErrorLogFormatter errorReportFromLog:(log)];
+    if ([self shouldProcessErrorReport:errorReport]) {
+      MSLogDebug([MSCrashes logTag],
+                 @"shouldProcessErrorReport is not implemented or returned YES, processing the crash report: %@",
+                 report.debugDescription);
+
+      // Put the log to temporary space for next callbacks.
+      [self.unprocessedLogs addObject:log];
+      [self.unprocessedReports addObject:errorReport];
       [self.unprocessedFilePaths addObject:fileURL];
+    } else {
+      MSLogDebug([MSCrashes logTag], @"shouldProcessErrorReport returned NO, discard the crash report: %@",
+                 report.debugDescription);
 
-      //NOTE: the wrapper SDK is responsible for cleaning the wrapper exception in this case!
-    }
-    else {
-
-      // Wrapper SDK will definitely never need corresponding wrapper exception now, so delete it
-      NSString* uuidString = [[self class] uuidRefToString:report.uuidRef];
-      [wrapperManager deleteWrapperExceptionWithUUID:uuidString];
-    }
-    if (fileURL != kEmptyFilePath) {
-        [self deleteCrashReportWithFileURL:fileURL];
-        [self.crashFiles removeObject:fileURL];
-      }
+      // Discard the crash report.
+      [wrapperManager deleteWrapperExceptionWithUUID:[[self class] uuidRefToString:report.uuidRef]];
+      [self deleteCrashReportWithFileURL:fileURL];
+      [self.crashFiles removeObject:fileURL];
     }
   }
-  [self sendCrashReports];
- }
+
+  // Get a user confirmation if there are crash logs that need to be processed.
+  if ([self.unprocessedLogs count] > 0) {
+    NSNumber *flag = [MS_USER_DEFAULTS objectForKey:kMSUserConfirmationKey];
+    if (flag && [flag boolValue]) {
+
+      // User confirmation is set to MSUserConfirmationAlways.
+      MSLogDebug([MSCrashes logTag],
+                 @"The flag for user confirmation is set to MSUserConfirmationAlways, continue sending logs");
+      [MSCrashes notifyWithUserConfirmation:MSUserConfirmationSend];
+      return;
+    } else if (!self.userConfirmationHandler || !self.userConfirmationHandler(self.unprocessedReports)) {
+
+      // User confirmation handler doesn't exist or returned NO which means 'want to process'.
+      MSLogDebug([MSCrashes logTag],
+                 @"The user confirmation handler is not implemented or returned NO, continue sending logs");
+      [MSCrashes notifyWithUserConfirmation:MSUserConfirmationSend];
+    }
+  }
+}
 
 - (void)processLogBufferAfterCrash {
 
@@ -709,85 +722,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   }
 }
 
-- (void)trackException:(MSException*)exception fatal:(BOOL)fatal {
-  if (self.isEnabled) {
-    MSAppleErrorLog *errorLog = [MSErrorLogFormatter errorLogFromException:exception];
-    if (errorLog == nil) {
-      MSLogError([MSCrashes logTag], @"Something went wrong when tracking an exception.");
-      return;
-    }
-    errorLog.fatal = fatal;
-    BOOL prepared = [self prepareErrorLog:errorLog];
-    if (prepared) {
-      [self.unprocessedFilePaths addObject:kEmptyFilePath];
-      [self sendCrashReports];
-    }
-  }
-  else {
-    MSLogDebug([MSCrashes logTag], @"Crashes service is disabled, discard the crash report");
-  }
-}
-
-- (NSString*)trackWrapperException:(MSException*)exception fatal:(BOOL)fatal {
-  if (self.isEnabled) {
-    MSAppleErrorLog *errorLog = [MSErrorLogFormatter errorLogFromException:exception];
-    if (errorLog == nil) {
-      MSLogError([MSCrashes logTag], @"Something went wrong when tracking an exception.");
-      return nil;
-    }
-    errorLog.fatal = fatal;
-    BOOL prepared = [self prepareErrorLog:errorLog andSetIncidentIdentifier:nil];
-    if (prepared) {
-      [self.unprocessedFilePaths addObject:kEmptyFilePath];
-      [self sendCrashReports];
-    }
-    return errorLog.errorId;
-  }
-
-  MSLogDebug([MSCrashes logTag], @"Crashes service is disabled, discard the crash report");
-  return nil;
-}
-
-
 #pragma mark - Helper
-
-/* Process the error report if appropriate; return whether processing occurred and set incident identifier.*/
-- (BOOL)prepareErrorLog:(MSAppleErrorLog*)errorLog{
-  MSErrorReport *errorReport = [MSErrorLogFormatter errorReportFromLog:errorLog];
-  if (![self shouldProcessErrorReport:errorReport]) {
-    MSLogDebug([MSCrashes logTag], @"shouldProcessErrorReport returned NO, discard the crash report: %@",
-               errorReport.debugDescription);
-    return NO;
-  }
-  MSLogDebug([MSCrashes logTag],
-             @"shouldProcessErrorReport is not implemented or returned YES, processing the crash report: %@", errorReport.debugDescription);
-  [self initializeCrashReportArrays];
-  // Put the log to temporary space for next callbacks.
-  [self.unprocessedLogs addObject:errorLog];
-  [self.unprocessedReports addObject:errorReport];
-  return YES;
-}
-
-- (void)sendCrashReports {
-  // Get a user confirmation if there are crash logs that need to be processed.
-  if ([self.unprocessedLogs count] > 0) {
-    NSNumber *flag = [MS_USER_DEFAULTS objectForKey:kMSUserConfirmationKey];
-    if (flag && [flag boolValue]) {
-
-      // User confirmation is set to MSUserConfirmationAlways.
-      MSLogDebug([MSCrashes logTag],
-                 @"The flag for user confirmation is set to MSUserConfirmationAlways, continue sending logs");
-      [MSCrashes notifyWithUserConfirmation:MSUserConfirmationSend];
-      return;
-    } else if (!self.userConfirmationHandler || !self.userConfirmationHandler(self.unprocessedReports)) {
-
-      // User confirmation handler doesn't exist or returned NO which means 'want to process'.
-      MSLogDebug([MSCrashes logTag],
-                 @"The user confirmation handler is not implemented or returned NO, continue sending logs");
-      [MSCrashes notifyWithUserConfirmation:MSUserConfirmationSend];
-    }
-  }
-}
 
 - (void)deleteAllFromCrashesDirectory {
   NSError *error = nil;
@@ -996,12 +931,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 // We need to override setter, because it's default behavior creates an NSArray, and some tests fail.
 - (void)setCrashFiles:(NSMutableArray *)crashFiles {
   _crashFiles = [[NSMutableArray alloc] initWithArray:crashFiles];
-}
-
-- (void)initializeCrashReportArrays {
-  self.unprocessedLogs = [[NSMutableArray alloc] init];
-  self.unprocessedReports = [[NSMutableArray alloc] init];
-  self.unprocessedFilePaths = [[NSMutableArray alloc] init];
 }
 
 + (BOOL)validatePropertiesForAttachment:(MSErrorAttachmentLog *)attachment {

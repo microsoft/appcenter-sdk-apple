@@ -1,13 +1,14 @@
+#import <CrashReporter/CrashReporter.h>
 #import "MSCrashes.h"
 #import "MSCrashesInternal.h"
 #import "MSException.h"
 #import "MSWrapperExceptionManagerInternal.h"
+#import "MSWrapperExceptionInternal.h"
 
 @implementation MSWrapperExceptionManager : NSObject
 
-const NSString* kDirectoryName = @"wrapper_exceptions";
-const NSString* kDataFileExtension = @"ms";
-const NSString* kCorrelationFileName = @"wrapper_exception_correlation_data";
+static NSString* const kDirectoryName = @"wrapper_exceptions";
+static NSString* const kLastWrapperExceptionFileName = @"last_saved_wrapper_exception";
 
 - (instancetype)init {
   if ((self = [super init])) {
@@ -27,7 +28,6 @@ const NSString* kCorrelationFileName = @"wrapper_exception_correlation_data";
       }
     }
   }
-
   return self;
 }
 
@@ -40,117 +40,90 @@ const NSString* kCorrelationFileName = @"wrapper_exception_correlation_data";
   return sharedInstance;
 }
 
-- (MSException *)loadWrapperException:(CFUUIDRef)uuidRef {
-  if (self.wrapperException && [[self class] isCurrentUUIDRef:uuidRef]) {
-    return self.wrapperException;
-  }
-  NSString *filename = [[self class] getFilenameWithUUIDRef:uuidRef];
-  if (![[NSFileManager defaultManager] fileExistsAtPath:filename]) {
-    return nil;
-  }
-  MSException *loadedException = [NSKeyedUnarchiver unarchiveObjectWithFile:filename];
-
-  if (!loadedException) {
-    MSLogError([MSCrashes logTag], @"Could not load wrapper exception from file %@", filename);
-    return nil;
-  }
-
-  self.wrapperException = loadedException;
-  self.currentUUIDRef = uuidRef;
-
-  return self.wrapperException;
+- (void) deleteWrapperExceptionWithUUID:(NSString *)uuid
+{
+  [self deleteWrapperExceptionWithBaseFilename:uuid];
 }
 
-- (void)saveWrapperException:(CFUUIDRef)uuidRef {
-  NSString *filename = [[self class] getFilenameWithUUIDRef:uuidRef];
-  [self saveWrapperExceptionData:uuidRef];
-  BOOL success = [NSKeyedArchiver archiveRootObject:self.wrapperException toFile:filename];
-  if (!success) {
-    MSLogError([MSCrashes logTag], @"Failed to save file %@", filename);
-  }
-}
-
-- (void)saveWrapperExceptionData:(NSData *)exceptionData WithUUIDString:(NSString *)uuidString {
-  [exceptionData writeToFile:[[self class] getDataFilename:uuidString] atomically:YES];
-}
-
-- (void)deleteWrapperExceptionWithUUID:(CFUUIDRef)uuidRef {
-  NSString *path = [MSWrapperExceptionManager getFilenameWithUUIDRef:uuidRef];
-  [[self class] deleteFile:path];
-
-  if ([[self class] isCurrentUUIDRef:uuidRef]) {
-    self.currentUUIDRef = nil;
-    self.wrapperException = nil;
+- (void) deleteWrapperExceptionWithBaseFilename:(NSString *)baseFilename
+{
+  NSFileManager *fileManager = [NSFileManager defaultManager];
+  for (NSString *filePath in [fileManager enumeratorAtPath:[[self class] directoryPath]]) {
+    NSString *actualPath = [[[self class] directoryPath] stringByAppendingPathComponent:filePath];
+    NSString *expectedPath = [[self class] getFilename:baseFilename];
+    if ([actualPath isEqualToString:expectedPath]) {
+      [[self class] deleteFile:actualPath];
+      return;
+    }
   }
 }
 
 - (void)deleteAllWrapperExceptions {
-  self.currentUUIDRef = nil;
-  self.wrapperException = nil;
-
   NSFileManager *fileManager = [NSFileManager defaultManager];
-
   for (NSString *filePath in [fileManager enumeratorAtPath:[[self class] directoryPath]]) {
-    if (![[self class] isDataFile:filePath]) {
       NSString *path = [[[self class] directoryPath] stringByAppendingPathComponent:filePath];
       [[self class] deleteFile:path];
-    }
   }
 }
 
 - (void) saveWrapperException:(MSWrapperException *)wrapperException {
-  NSUUID * wrapperUuid = [NSUUID uuid];
-  // Save data
-  NSString *dataFilename = [[self class] getDataFilenameWithUUIDRef:wrapperUuid];
-  [self.unsavedWrapperExceptionData writeToFile:dataFilename atomically:YES];
+  [self saveWrapperException:wrapperException withBaseFilename:kLastWrapperExceptionFileName];
+}
+
+- (void) saveWrapperException:(MSWrapperException *)wrapperException withBaseFilename:(NSString *)baseFilename {
+  NSString *exceptionFilename = [[self class] getFilename:baseFilename];
+  BOOL success = [NSKeyedArchiver archiveRootObject:wrapperException toFile:exceptionFilename];
+  if (!success) {
+    MSLogError([MSCrashes logTag], @"Failed to save wrapper SDK exception file %@", exceptionFilename);
+  }
 }
 
 
-- (NSData *)loadWrapperExceptionDataWithUUIDString:(NSString *)uuidString {
-  NSString *dataFilename = [[self class] getDataFilename:uuidString];
-  NSData *data = self.wrapperExceptionData[dataFilename];
-  if (data) {
-    return data;
-  }
-  NSError *error = nil;
-  data = [NSData dataWithContentsOfFile:dataFilename options:NSDataReadingMappedIfSafe error:&error];
-  if (error) {
-    MSLogError([MSCrashes logTag], @"Error loading file %@: %@", dataFilename, error.localizedDescription);
-  }
-  return data;
+- (MSWrapperException *) loadWrapperExceptionWithUUID:(NSString *)uuid {
+  return [self loadWrapperExceptionWithBaseFilename:uuid];
 }
 
-- (void)deleteWrapperExceptionDataWithUUIDString:(NSString *)uuidString {
-  NSString *dataFilename = [[self class] getDataFilename:uuidString];
-  NSData *data = [self loadWrapperExceptionDataWithUUIDString:uuidString];
-  if (data) {
-    self.wrapperExceptionData[dataFilename] = data;
-  }
-  [[self class] deleteFile:dataFilename];
+- (MSWrapperException *) loadWrapperExceptionWithBaseFilename:(NSString *)baseFilename {
+  NSString *exceptionFilename = [[self class] getFilename:baseFilename];
+  MSWrapperException * wrapperException = [NSKeyedUnarchiver unarchiveObjectWithFile:exceptionFilename];
+  return wrapperException;
 }
 
-- (void)deleteAllWrapperExceptionData {
-  NSFileManager *fileManager = [NSFileManager defaultManager];
-  for (NSString *filePath in [fileManager enumeratorAtPath:[[self class] directoryPath]]) {
-    if ([[self class] isDataFile:filePath]) {
-      NSString *path = [[[self class] directoryPath] stringByAppendingPathComponent:filePath];
-      [[self class] deleteFile:path];
+
+- (void) correlateLastSavedWrapperExceptionToBestMatchInReports:(NSArray<MSPLCrashReport*> *)reports
+{
+  MSWrapperException *lastSavedWrapperException = [self loadWrapperExceptionWithBaseFilename:kLastWrapperExceptionFileName];
+
+  // Delete the last saved exception from disk if it exists
+  if (lastSavedWrapperException) {
+    [self deleteWrapperExceptionWithBaseFilename:kLastWrapperExceptionFileName];
+  }
+
+  NSDate* rightBeforeCrashTime = lastSavedWrapperException.timestamp;
+  MSPLCrashReport * bestMatch = nil;
+  for (MSPLCrashReport * report in reports) {
+    NSDate* timestamp = report.systemInfo.timestamp;
+    if ([timestamp compare:rightBeforeCrashTime] == NSOrderedAscending) {
+      // Not possible for the report time to be before the "before" time
+      continue;
+    }
+    if (!bestMatch) {
+      bestMatch = report;
+      continue;
+    }
+    NSTimeInterval currentInterval = [bestMatch.systemInfo.timestamp timeIntervalSinceDate:rightBeforeCrashTime];
+    NSTimeInterval newInterval = [timestamp timeIntervalSinceDate:rightBeforeCrashTime];
+    if (newInterval < currentInterval) {
+      bestMatch = report;
     }
   }
-}
 
-+ (MSException*)exceptionWithType:(NSString*)type message:(NSString*)message stackTrace:(NSString*)stackTrace wrapperSdkName:(NSString*)wrapperSdkName {
-  MSException *exception = [[MSException alloc] init];
-  exception.type = type;
-  exception.message = message;
-  exception.stackTrace = stackTrace;
-  exception.wrapperSdkName = wrapperSdkName;
-  return exception;
-}
+  if (!bestMatch) {
+    return;
+  }
 
-- (void)trackWrapperException:(MSException*)exception withData:(NSData*)data fatal:(BOOL)fatal {
-  NSString* errorId = [[MSCrashes sharedInstance] trackWrapperException:exception fatal:fatal];
-  [self saveWrapperExceptionData:data WithUUIDString:errorId];
+  NSString* uuidString = [[self class] uuidRefToString:bestMatch.uuidRef];
+  [self saveWrapperException:lastSavedWrapperException withBaseFilename:uuidString];
 }
 
 + (void)deleteFile:(NSString *)path {
@@ -174,17 +147,16 @@ const NSString* kCorrelationFileName = @"wrapper_exception_correlation_data";
   return path;
 }
 
-+ (NSString *)getFilename:(NSString *)uuidString {
-  return [[[self class] directoryPath] stringByAppendingPathComponent:uuidString];
++ (NSString *)getFilename:(NSString *)filename {
+  return [[[self class] directoryPath] stringByAppendingPathComponent:filename];
 }
 
-+ (NSString *)getDataFilename:(NSString *)uuidString {
-  NSString *filename = [[self class] getFilename:uuidString];
-  return [filename stringByAppendingPathExtension:[self dataFileExtension]];
-}
-
-+ (BOOL)isDataFile:(NSString *)path {
-  return [path hasSuffix:[@"." stringByAppendingString:[self dataFileExtension]]];
++ (NSString *)uuidRefToString:(CFUUIDRef)uuidRef {
+  if (!uuidRef) {
+    return nil;
+  }
+  CFStringRef uuidStringRef = CFUUIDCreateString(kCFAllocatorDefault, uuidRef);
+  return (__bridge_transfer NSString *)uuidStringRef;
 }
 
 @end

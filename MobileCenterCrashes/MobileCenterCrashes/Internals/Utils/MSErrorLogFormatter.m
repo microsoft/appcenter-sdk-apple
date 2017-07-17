@@ -54,7 +54,8 @@
 #import "MSStackFrame.h"
 #import "MSThread.h"
 #import "MSDeviceTrackerPrivate.h"
-#import "MSWrapperExceptionManager.h"
+#import "MSWrapperExceptionManagerInternal.h"
+#import "MSWrapperException.h"
 
 static NSString *unknownString = @"???";
 
@@ -200,7 +201,10 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   MSAppleErrorLog* errorLog = [self errorLogWithNoExceptionFromCrashReport:report];
 
   // Set the exception from the wrapper sdk
-  errorLog.exception = [MSWrapperExceptionManager loadWrapperException:report.uuidRef];
+  MSWrapperException* wrapperException = [[MSWrapperExceptionManager sharedInstance] loadWrapperExceptionWithUUID:[self uuidRefToString:report.uuidRef]];
+  if (wrapperException) {
+    errorLog.exception = wrapperException.exception;
+  }
   return errorLog;
 }
 
@@ -835,6 +839,14 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
   // Finally done with transforming PLCrashReport to MSAppleErrorReport.
   return errorLog;
+}
+
++ (NSString *)uuidRefToString:(CFUUIDRef)uuidRef {
+  if (!uuidRef) {
+    return nil;
+  }
+  CFStringRef uuidStringRef = CFUUIDCreateString(kCFAllocatorDefault, uuidRef);
+  return (__bridge_transfer NSString *)uuidStringRef;
 }
 
 

@@ -2,15 +2,10 @@
 
 @class MSException;
 
-@interface MSWrapperException : NSObject
+@interface MSWrapperException : NSObject 
 
-@property(nonatomic, weak) MSException* exception;
-@property(nonatomic, weak) NSData* exceptionData;
-@property(nonatomic, copy) NSString* uuid;
-
-// TODO can be internal
-- (void) saveToPath:(NSString*)path;
-- (void) deleteFromPath:(NSString*)path;
-
+@property(nonatomic, strong) MSException* exception;
+@property(nonatomic, strong) NSData* exceptionData;
+@property(nonatomic, copy) NSDate* timestamp;
 
 @end

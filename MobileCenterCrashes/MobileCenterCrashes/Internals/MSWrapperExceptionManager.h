@@ -14,16 +14,8 @@
 
 - (void) deleteWrapperExceptionWithUUID:(NSString *)uuid;
 
-- (void) saveCorrelationDataWithSignalInfo:(siginfo_t)signalInfo;
-
-- (BOOL) needToSaveCorrelationData;
-
-- (BOOL) uncorrelatedCrashDataExistsOnDisk;
-
-- (void) correlateLastSavedWrapperExceptionToBestMatchInReports:(NSArray<PLCrashReport*> *)reports;
-
-- (MSWrapperException *) loadWrapperExceptionFromReportId:(NSString *)reportId;
-
 - (void) deleteAllWrapperExceptions;
+
+- (MSWrapperException *) loadWrapperExceptionWithUUID:(NSString *)uuid;
 
 @end
