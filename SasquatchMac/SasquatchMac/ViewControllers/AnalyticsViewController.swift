@@ -15,6 +15,7 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
 
   private var properties : [String : String] = [String : String]();
   private var textBeforeEditing : String = "";
+  private var totalPropsCounter : Int = 0;
 
   override func viewDidLoad() {
     super.viewDidLoad();
@@ -42,11 +43,13 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
   }
 
   @IBAction func addProperty(_ : AnyObject) {
-    let newKey = String(format:"key%d",properties.count);
-    let newValue = String(format:"value%d",properties.count);
+    let newKey = String(format:"key%d",totalPropsCounter);
+    let newValue = String(format:"value%d",totalPropsCounter);
 
-    properties.updateValue(newValue, forKey: newKey);
+    self.properties.updateValue(newValue, forKey: newKey);
     table?.reloadData();
+
+    totalPropsCounter+=1;
   }
 
   @IBAction func deleteProperty(_ : AnyObject) {
