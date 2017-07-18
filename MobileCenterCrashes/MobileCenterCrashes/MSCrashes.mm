@@ -125,6 +125,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 #pragma mark - Public Methods
 
 + (void)generateTestCrash {
+
   @synchronized([self sharedInstance]) {
     if ([[self sharedInstance] canBeUsed]) {
       if ([MSUtility currentAppEnvironment] != MSEnvironmentAppStore) {
@@ -166,7 +167,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       NSURL *fileURL = crashes.unprocessedFilePaths[i];
       MSErrorReport *report = crashes.unprocessedReports[i];
       [crashes deleteCrashReportWithFileURL:fileURL];
-      [[MSWrapperExceptionManager sharedInstance] deleteWrapperExceptionWithUUID:report.incidentIdentifier];
+      [MSWrapperExceptionManager deleteWrapperExceptionWithUUID:report.incidentIdentifier];
       [crashes.crashFiles removeObject:fileURL];
     }
 
@@ -214,7 +215,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
     // Clean up.
     [crashes deleteCrashReportWithFileURL:fileURL];
-    [[MSWrapperExceptionManager sharedInstance] deleteWrapperExceptionWithUUID:report.incidentIdentifier];
+    [MSWrapperExceptionManager deleteWrapperExceptionWithUUID:report.incidentIdentifier];
     [crashes.crashFiles removeObject:fileURL];
   }
 }
@@ -266,7 +267,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
   // Enabling
   if (isEnabled) {
-    id<MSCrashHandlerSetupDelegate> crashSetupDelegate = [[MSWrapperCrashesHelper sharedInstance] delegate];
+    id<MSCrashHandlerSetupDelegate> crashSetupDelegate = [MSWrapperCrashesHelper getCrashHandlerSetupDelegate];
 
     // Check if a wrapper SDK has a preference for uncaught exception handling
     BOOL enableUncaughtExceptionHandler = YES;
@@ -319,7 +320,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
     // Don't set PLCrashReporter to nil!
     MSLogDebug([MSCrashes logTag], @"Cleaning up all crash files.");
-    [[MSWrapperExceptionManager sharedInstance] deleteAllWrapperExceptions];
+    [MSWrapperExceptionManager deleteAllWrapperExceptions];
     [self deleteAllFromCrashesDirectory];
     [self emptyLogBufferFiles];
     [self removeAnalyzerFile];
@@ -627,13 +628,11 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 }
 
 - (void)processCrashReports {
-  MSWrapperExceptionManager *wrapperManager = [MSWrapperExceptionManager sharedInstance];
-
   // Handle 'disabled' state all at once to simplify the logic that follows
   if (!self.isEnabled) {
     MSLogDebug([MSCrashes logTag], @"Crashes service is disabled; discard all crash reports");
     [self deleteAllFromCrashesDirectory];
-    [wrapperManager deleteAllWrapperExceptions];
+    [MSWrapperExceptionManager deleteAllWrapperExceptions];
     return;
   }
 
@@ -650,7 +649,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       crashReports[fileURL] = report;
     }
   }
-  [wrapperManager correlateLastSavedWrapperExceptionToBestMatchInReports:[crashReports allValues]];
+  [MSWrapperExceptionManager correlateLastSavedWrapperExceptionToReport:[crashReports allValues]];
   for (NSURL *fileURL in [crashReports allKeys]) {
     MSLogVerbose([MSCrashes logTag], @"Crash report found");
     MSPLCrashReport *report = crashReports[fileURL];
@@ -670,7 +669,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
                  report.debugDescription);
 
       // Discard the crash report.
-      [wrapperManager deleteWrapperExceptionWithUUID:[[self class] uuidRefToString:report.uuidRef]];
+      [MSWrapperExceptionManager deleteWrapperExceptionWithUUIDRef:report.uuidRef];
       [self deleteCrashReportWithFileURL:fileURL];
       [self.crashFiles removeObject:fileURL];
     }
@@ -940,14 +939,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   BOOL contentTypeValid = attachment.contentType && ([attachment.contentType length] > 0);
   
   return errorIdValid && attachmentIdValid && attachmentDataValid && contentTypeValid;
-}
-
-+ (NSString *)uuidRefToString:(CFUUIDRef)uuidRef {
-  if (!uuidRef) {
-    return nil;
-  }
-  CFStringRef uuidStringRef = CFUUIDCreateString(kCFAllocatorDefault, uuidRef);
-  return (__bridge_transfer NSString *)uuidStringRef;
 }
 
 @end

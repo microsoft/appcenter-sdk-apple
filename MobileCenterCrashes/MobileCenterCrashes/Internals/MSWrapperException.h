@@ -6,6 +6,6 @@
 
 @property(nonatomic, strong) MSException* exception;
 @property(nonatomic, strong) NSData* exceptionData;
-@property(nonatomic, copy) NSDate* timestamp;
+@property(nonatomic, copy) NSNumber* pid;
 
 @end

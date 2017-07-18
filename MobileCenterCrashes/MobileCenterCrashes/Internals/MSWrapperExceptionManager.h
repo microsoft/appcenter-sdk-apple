@@ -7,15 +7,7 @@
  */
 @interface MSWrapperExceptionManager : NSObject
 
-+ (id) sharedInstance;
-
-// this method is for use by wrapper sdk
-- (void) saveWrapperException:(MSWrapperException *)wrapperException;
-
-- (void) deleteWrapperExceptionWithUUID:(NSString *)uuid;
-
-- (void) deleteAllWrapperExceptions;
-
-- (MSWrapperException *) loadWrapperExceptionWithUUID:(NSString *)uuid;
++ (void) saveWrapperException:(MSWrapperException *)wrapperException;
++(MSWrapperException *) loadWrapperExceptionWithUUID:(NSString *)uuid;
 
 @end

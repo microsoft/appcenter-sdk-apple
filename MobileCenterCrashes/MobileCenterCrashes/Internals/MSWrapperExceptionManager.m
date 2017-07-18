@@ -7,7 +7,7 @@
 
 @implementation MSWrapperExceptionManager : NSObject
 
-static NSString* const kDirectoryName = @"wrapper_exceptions";
+static NSString* const kDirectoryName = @"mc_wrapper_exceptions";
 static NSString* const kLastWrapperExceptionFileName = @"last_saved_wrapper_exception";
 
 - (instancetype)init {
@@ -31,6 +31,8 @@ static NSString* const kLastWrapperExceptionFileName = @"last_saved_wrapper_exce
   return self;
 }
 
+#pragma mark Static methods
+
 + (instancetype)sharedInstance {
   static MSWrapperExceptionManager *sharedInstance = nil;
   static dispatch_once_t onceToken;
@@ -40,9 +42,46 @@ static NSString* const kLastWrapperExceptionFileName = @"last_saved_wrapper_exce
   return sharedInstance;
 }
 
++ (void)deleteAllWrapperExceptions {
+  [[self sharedInstance] deleteAllWrapperExceptions];
+}
+
++ (void) correlateLastSavedWrapperExceptionToReport:(NSArray<MSPLCrashReport*> *)reports {
+  [[self sharedInstance] correlateLastSavedWrapperExceptionToReport:reports];
+}
+
++ (void) deleteWrapperExceptionWithUUID:(NSString *)uuid {
+  [[self sharedInstance] deleteWrapperExceptionWithUUID:uuid];
+}
+
++ (void) deleteWrapperExceptionWithUUIDRef:(CFUUIDRef)uuidRef {
+  [[self sharedInstance] deleteWrapperExceptionWithUUIDRef:uuidRef];
+}
+
++ (MSWrapperException *) loadWrapperExceptionWithUUIDRef:(CFUUIDRef)uuidRef {
+  return [[self sharedInstance] loadWrapperExceptionWithUUIDRef:uuidRef];
+}
+
++ (void) saveWrapperException:(MSWrapperException *)wrapperException {
+  [[self sharedInstance] saveWrapperException:wrapperException];
+}
+
++ (MSWrapperException *) loadWrapperExceptionWithUUID:(NSString *)uuid {
+  return [[self sharedInstance] loadWrapperExceptionWithUUID:uuid];
+}
+
+
+#pragma mark Instance methods
+
 - (void) deleteWrapperExceptionWithUUID:(NSString *)uuid
 {
   [self deleteWrapperExceptionWithBaseFilename:uuid];
+}
+
+
+- (void) deleteWrapperExceptionWithUUIDRef:(CFUUIDRef)uuidRef
+{
+  [self deleteWrapperExceptionWithBaseFilename:[[self class] uuidRefToString:uuidRef]];
 }
 
 - (void) deleteWrapperExceptionWithBaseFilename:(NSString *)baseFilename
@@ -89,8 +128,11 @@ static NSString* const kLastWrapperExceptionFileName = @"last_saved_wrapper_exce
   return wrapperException;
 }
 
+- (MSWrapperException *) loadWrapperExceptionWithUUIDRef:(CFUUIDRef)uuidRef {
+  return [self loadWrapperExceptionWithBaseFilename:[[self class] uuidRefToString:uuidRef]];
+}
 
-- (void) correlateLastSavedWrapperExceptionToBestMatchInReports:(NSArray<MSPLCrashReport*> *)reports
+- (void) correlateLastSavedWrapperExceptionToReport:(NSArray<MSPLCrashReport*> *)reports
 {
   MSWrapperException *lastSavedWrapperException = [self loadWrapperExceptionWithBaseFilename:kLastWrapperExceptionFileName];
 
@@ -99,32 +141,21 @@ static NSString* const kLastWrapperExceptionFileName = @"last_saved_wrapper_exce
     [self deleteWrapperExceptionWithBaseFilename:kLastWrapperExceptionFileName];
   }
 
-  NSDate* rightBeforeCrashTime = lastSavedWrapperException.timestamp;
-  MSPLCrashReport * bestMatch = nil;
+  MSPLCrashReport * correspondingReport = nil;
   for (MSPLCrashReport * report in reports) {
-    NSDate* timestamp = report.systemInfo.timestamp;
-    if ([timestamp compare:rightBeforeCrashTime] == NSOrderedAscending) {
-      // Not possible for the report time to be before the "before" time
-      continue;
-    }
-    if (!bestMatch) {
-      bestMatch = report;
-      continue;
-    }
-    NSTimeInterval currentInterval = [bestMatch.systemInfo.timestamp timeIntervalSinceDate:rightBeforeCrashTime];
-    NSTimeInterval newInterval = [timestamp timeIntervalSinceDate:rightBeforeCrashTime];
-    if (newInterval < currentInterval) {
-      bestMatch = report;
+    if ([report hasProcessInfo] &&
+        [lastSavedWrapperException.pid unsignedIntegerValue] == report.processInfo.processID){
+      correspondingReport = report;
+      break;
     }
   }
-
-  if (!bestMatch) {
-    return;
+  if (correspondingReport) {
+    NSString* uuidString = [[self class] uuidRefToString:correspondingReport.uuidRef];
+    [self saveWrapperException:lastSavedWrapperException withBaseFilename:uuidString];
   }
-
-  NSString* uuidString = [[self class] uuidRefToString:bestMatch.uuidRef];
-  [self saveWrapperException:lastSavedWrapperException withBaseFilename:uuidString];
 }
+
+#pragma mark Helper methods
 
 + (void)deleteFile:(NSString *)path {
   if (![[NSFileManager defaultManager] fileExistsAtPath:path]) {

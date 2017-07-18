@@ -7,8 +7,7 @@
  */
 @interface MSWrapperCrashesHelper : NSObject
 
-@property(weak, nonatomic) id<MSCrashHandlerSetupDelegate> delegate;
-
-+ (id) sharedInstance;
++ (void) setCrashHandlerSetupDelegate:(id<MSCrashHandlerSetupDelegate>)delegate;
++ (id<MSCrashHandlerSetupDelegate>) getCrashHandlerSetupDelegate;
 
 @end

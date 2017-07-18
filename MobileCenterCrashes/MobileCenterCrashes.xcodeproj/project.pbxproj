@@ -36,6 +36,7 @@
 		3507AE3D1DD14C240030878F /* MSException.h in Headers */ = {isa = PBXBuildFile; fileRef = 3507AE3A1DD14C240030878F /* MSException.h */; };
 		3507AE3E1DD14C240030878F /* MSStackFrame.h in Headers */ = {isa = PBXBuildFile; fileRef = 3507AE3B1DD14C240030878F /* MSStackFrame.h */; };
 		350B29EC1F193110009B91CF /* MSWrapperException.m in Sources */ = {isa = PBXBuildFile; fileRef = 350B29EB1F193110009B91CF /* MSWrapperException.m */; };
+		350B29F21F1D67EE009B91CF /* MSWrapperCrashesHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 350B29F11F1D67EE009B91CF /* MSWrapperCrashesHelper.m */; };
 		3515F9C11DD63EC9005E6E27 /* MSCrashesInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 3515F9C01DD63EC9005E6E27 /* MSCrashesInternal.h */; };
 		35B7D87A1DE4D4A300C846CD /* MSWrapperExceptionManagerInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 35B7D8791DE4CB6D00C846CD /* MSWrapperExceptionManagerInternal.h */; };
 		35D504CF1DDD140500D58B40 /* MSWrapperExceptionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 35D504CD1DDD140500D58B40 /* MSWrapperExceptionManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -169,6 +170,7 @@
 		350B29EA1F192B80009B91CF /* MSWrapperException.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSWrapperException.h; sourceTree = "<group>"; };
 		350B29EB1F193110009B91CF /* MSWrapperException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSWrapperException.m; sourceTree = "<group>"; };
 		350B29F01F1D3CA4009B91CF /* MSWrapperExceptionInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSWrapperExceptionInternal.h; sourceTree = "<group>"; };
+		350B29F11F1D67EE009B91CF /* MSWrapperCrashesHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSWrapperCrashesHelper.m; sourceTree = "<group>"; };
 		3515F9C01DD63EC9005E6E27 /* MSCrashesInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrashesInternal.h; sourceTree = "<group>"; };
 		35B7D8791DE4CB6D00C846CD /* MSWrapperExceptionManagerInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSWrapperExceptionManagerInternal.h; sourceTree = "<group>"; };
 		35D504CD1DDD140500D58B40 /* MSWrapperExceptionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSWrapperExceptionManager.h; sourceTree = "<group>"; };
@@ -311,6 +313,7 @@
 			isa = PBXGroup;
 			children = (
 				350B29E81F1929A1009B91CF /* MSWrapperCrashesHelper.h */,
+				350B29F11F1D67EE009B91CF /* MSWrapperCrashesHelper.m */,
 				350B29E71F192554009B91CF /* MSCrashHandlerSetupDelegate.h */,
 				35B7D8791DE4CB6D00C846CD /* MSWrapperExceptionManagerInternal.h */,
 				35D504CE1DDD140500D58B40 /* MSWrapperExceptionManager.m */,
@@ -748,6 +751,7 @@
 				B2CD3BFA1D80EE49000A8A91 /* MSAbstractErrorLog.m in Sources */,
 				3858A21A1E93F3B400535A69 /* MSErrorAttachmentLog+Utility.m in Sources */,
 				6E7D5C701D3E9346009EC9AC /* MSException.m in Sources */,
+				350B29F21F1D67EE009B91CF /* MSWrapperCrashesHelper.m in Sources */,
 				6E73FE741D4059E7008CDC15 /* MSCrashesCXXExceptionWrapperException.m in Sources */,
 				6E7D5C6C1D3E9332009EC9AC /* MSAppleErrorLog.m in Sources */,
 				6E7D5C781D3E9395009EC9AC /* MSStackFrame.m in Sources */,

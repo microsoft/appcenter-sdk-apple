@@ -5,15 +5,15 @@
 
 static NSString *const kMSModelException = @"model_exception";
 static NSString *const kMSExceptionData = @"exception_data";
-static NSString *const kMSTimeStamp = @"timestamp";
+static NSString *const KMSProcessId = @"pid";
 
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [NSMutableDictionary new];
   if (self.exception) {
     dict[kMSModelException] = self.exception;
   }
-  if (self.timestamp) {
-    dict[kMSTimeStamp] = self.timestamp;
+  if (self.pid) {
+    dict[KMSProcessId] = self.pid;
   }
   if (self.exceptionData) {
     dict[kMSExceptionData] = self.exceptionData;
@@ -28,7 +28,7 @@ static NSString *const kMSTimeStamp = @"timestamp";
   if (self) {
     self.exception = [coder decodeObjectForKey:kMSModelException];
     self.exceptionData = [coder decodeObjectForKey:kMSExceptionData];
-    self.timestamp = [coder decodeObjectForKey:kMSTimeStamp];
+    self.pid = [coder decodeObjectForKey:KMSProcessId];
   }
   return self;
 }
@@ -36,7 +36,7 @@ static NSString *const kMSTimeStamp = @"timestamp";
 - (void)encodeWithCoder:(NSCoder *)coder {
   [coder encodeObject:self.exception forKey:kMSModelException];
   [coder encodeObject:self.exceptionData forKey:kMSExceptionData];
-  [coder encodeObject:self.timestamp forKey:kMSTimeStamp];
+  [coder encodeObject:self.pid forKey:KMSProcessId];
 }
 
 @end

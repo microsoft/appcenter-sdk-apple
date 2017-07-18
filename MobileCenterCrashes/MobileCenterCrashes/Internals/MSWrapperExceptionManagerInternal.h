@@ -4,6 +4,9 @@
 @class MSPLCrashReport;
 
 @interface MSWrapperExceptionManager ()
-- (void)deleteAllWrapperExceptions;
-- (void) correlateLastSavedWrapperExceptionToBestMatchInReports:(NSArray<MSPLCrashReport*> *)reports;
++ (void)deleteAllWrapperExceptions;
++ (void) correlateLastSavedWrapperExceptionToReport:(NSArray<MSPLCrashReport*> *)reports;
++ (void) deleteWrapperExceptionWithUUID:(NSString *)uuid;
++ (void) deleteWrapperExceptionWithUUIDRef:(CFUUIDRef)uuidRef;
++ (MSWrapperException *) loadWrapperExceptionWithUUIDRef:(CFUUIDRef)uuidRef;
 @end
