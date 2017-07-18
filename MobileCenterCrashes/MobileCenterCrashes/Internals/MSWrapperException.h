@@ -2,10 +2,25 @@
 
 @class MSException;
 
+/**
+ * This class represents a wrapper exception that augments the data
+ * recorded when the application crashes.
+ */
 @interface MSWrapperException : NSObject 
 
-@property(nonatomic, strong) MSException* exception;
+/**
+ * The model exception for the corresponding crash.
+ */
+@property(nonatomic, strong) MSException* modelException;
+
+/**
+ * Additional data that the wrapper SDK needs to save.
+ */
 @property(nonatomic, strong) NSData* exceptionData;
-@property(nonatomic, copy) NSNumber* pid;
+
+/**
+ * Id of the crashed process; used for correlation to a PLCrashReport.
+ */
+@property(nonatomic, copy) NSNumber* processId;
 
 @end

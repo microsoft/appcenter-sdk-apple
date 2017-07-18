@@ -117,7 +117,6 @@ static NSString* const kLastWrapperExceptionFileName = @"last_saved_wrapper_exce
   }
 }
 
-
 - (MSWrapperException *) loadWrapperExceptionWithUUID:(NSString *)uuid {
   return [self loadWrapperExceptionWithBaseFilename:uuid];
 }
