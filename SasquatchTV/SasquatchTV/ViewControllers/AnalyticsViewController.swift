@@ -6,46 +6,77 @@ enum AnalyticsActionsRows : Int {
   case trackEvent = 0; case trackPage = 1; case addProperty = 2; case clearProperty = 3;
 }
 
-class AnalyticsViewController : UITableViewController, MobileCenterProtocol {
+class AnalyticsViewController : UIViewController, UITableViewDataSource, MobileCenterProtocol {
 
-  @IBOutlet weak var statusLabel : UILabel!;
+  @IBOutlet weak var serviceStatus : UISegmentedControl?;
+  @IBOutlet weak var table : UITableView?;
 
   var mobileCenter : MobileCenterDelegate!;
-  let properties : NSMutableDictionary = NSMutableDictionary();
+  var properties : [String : String] = [String : String]();
 
   override func viewDidLoad() {
     super.viewDidLoad();
-    self.statusLabel.text = mobileCenter.isAnalyticsEnabled() ? "Enabled" : "Disabled";
+    table?.dataSource = self;
+    table?.allowsSelection = true;
+    serviceStatus?.selectedSegmentIndex = mobileCenter.isAnalyticsEnabled() ? 0 : 1;
+    serviceStatus?.addTarget(self, action: #selector(self.switchAnalyticsStatus), for: .valueChanged);
   }
 
-  override func tableView(_ tableView : UITableView, didSelectRowAt indexPath : IndexPath) {
-    tableView.deselectRow(at : indexPath, animated : true);
-    guard let section : AnalyticsSections = AnalyticsSections.init(rawValue : indexPath.section) else { return; }
-    switch (section) {
-    case.actions:
-      guard let action : AnalyticsActionsRows = AnalyticsActionsRows.init(rawValue : indexPath.row) else { return; }
-      switch
-        action {
-        case.trackEvent:
-          mobileCenter.trackEvent("tvOS Event", withProperties : properties as! Dictionary<String, String>);
-          break;
-        case.trackPage:
-          mobileCenter.trackPage("tvOS Page", withProperties : properties as! Dictionary<String, String>);
-          break;
-        case.addProperty:
-          let propName : String = String(format : "Property name %d", properties.count + 1);
-          let propValue : String = String(format : "Property value %d", properties.count + 1);
-          properties.setValue(propName, forKey : propValue);
-          break;
-        case.clearProperty:
-          properties.removeAllObjects();
-          break;
-        }
-      break;
-    case.settings:
-      mobileCenter.setAnalyticsEnabled(!mobileCenter.isAnalyticsEnabled());
-      self.statusLabel.text = mobileCenter.isAnalyticsEnabled() ? "Enabled" : "Disabled";
-      break;
+  @IBAction func trackEvent(_ : Any) {
+    mobileCenter.trackEvent("tvOS Event", withProperties : properties);
+  }
+
+  @IBAction func trackPage(_ : Any) {
+    mobileCenter.trackPage("tvOS Page", withProperties : properties);
+  }
+
+  @IBAction func addProperty(_ : Any) {
+    let propKey : String = String(format : "key%d", properties.count + 1);
+    let propValue : String = String(format : "value%d", properties.count + 1);
+    properties.updateValue(propValue, forKey: propKey);
+    table?.reloadData();
+  }
+
+  @IBAction func deleteProperty(_ : Any) {
+    properties.removeAll();
+    table?.reloadData();
+  }
+
+  func switchAnalyticsStatus(_ : Any) {
+    mobileCenter.setAnalyticsEnabled(serviceStatus?.selectedSegmentIndex == 0);
+    serviceStatus?.selectedSegmentIndex = mobileCenter.isAnalyticsEnabled() ? 0 : 1;
+  }
+
+  //MARK: Table view data source
+
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return properties.count;
+  }
+
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    guard let cell : MSPropertyViewCell = tableView.dequeueReusableCell(withIdentifier: "propertyViewCell", for: indexPath) as? MSPropertyViewCell else {
+      return UITableViewCell();
     }
+    let propKey : String = Array(properties.keys)[indexPath.row];
+    cell.propertyKey?.text = propKey;
+    cell.propertyValue?.text = properties[propKey];
+    return cell;
+  }
+
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    guard let editPropertyViewController = segue.destination as? EditPropertyViewController else {
+      return;
+    }
+    guard let indexPath = table?.indexPathForSelectedRow else {
+      return;
+    }
+
+    let key : String = Array(properties.keys)[indexPath.row];
+    let value : String = properties[key] ?? "";
+
+    editPropertyViewController.oldKey = key;
+    editPropertyViewController.oldValue = value;
+    editPropertyViewController.properties = properties;
+    editPropertyViewController.mobileCenter = mobileCenter;
   }
 }
