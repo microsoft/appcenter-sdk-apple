@@ -7,10 +7,12 @@
 #import "MSMobileCenterPrivate.h"
 #import "MSMockCustomAppDelegate.h"
 #import "MSMockOriginalAppDelegate.h"
+#import "MSMockService.h"
 #import "MSMockUserDefaults.h"
 #import "MSLogManager.h"
 #import "MSCustomProperties.h"
 #import "MSCustomPropertiesLog.h"
+#import "MSStartServiceLog.h"
 
 static NSString *const kMSInstallIdStringExample = @"F18499DA-5C3D-4F05-B4E8-D8C9C06A6F09";
 
@@ -182,6 +184,22 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   [MSMobileCenter startService:[NSString class]];
   [MSMobileCenter startService:nil];
   XCTAssertEqual(servicesCount, [[MSMobileCenter sharedInstance] services].count);
+}
+
+- (void)testStartServiceLogIsSentAfterStartService {
+
+  // If
+  [MSMobileCenter start:MS_UUID_STRING withServices:nil];
+  id logManager = OCMProtocolMock(@protocol(MSLogManager));
+  OCMStub([logManager processLog:[OCMArg isKindOfClass:[MSStartServiceLog class]] forGroupId:[OCMArg any]])
+  .andDo(nil);
+  [MSMobileCenter sharedInstance].logManager = logManager;
+
+  // When
+  [MSMobileCenter startService:MSMockService.class];
+  
+  // Then
+  OCMVerify([logManager processLog:[OCMArg isKindOfClass:[MSStartServiceLog class]] forGroupId:[OCMArg any]]);
 }
 
 - (void)testSortingServicesWorks {

@@ -111,6 +111,7 @@
 		6EB1F40E1D2443B7005F9F99 /* MSChannelDefaultTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB1F40D1D2443B7005F9F99 /* MSChannelDefaultTests.m */; };
 		6EF628F41D371B1600CAFF64 /* MSChannelConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF628F21D371B1600CAFF64 /* MSChannelConfiguration.h */; };
 		6EF628F51D371B1600CAFF64 /* MSChannelConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF628F31D371B1600CAFF64 /* MSChannelConfiguration.m */; };
+		805F3F6B1F209C9D00B489E4 /* MSMockService.m in Sources */ = {isa = PBXBuildFile; fileRef = 805F3F6A1F209C9D00B489E4 /* MSMockService.m */; };
 		842C131E1E7FCF5300F16EA3 /* MSUtility.h in Headers */ = {isa = PBXBuildFile; fileRef = 842C13151E7FCF5300F16EA3 /* MSUtility.h */; };
 		842C131F1E7FCF5300F16EA3 /* MSUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 842C13161E7FCF5300F16EA3 /* MSUtility.m */; };
 		842C13201E7FCF5300F16EA3 /* MSUtility+Application.h in Headers */ = {isa = PBXBuildFile; fileRef = 842C13171E7FCF5300F16EA3 /* MSUtility+Application.h */; };
@@ -294,6 +295,8 @@
 		6EB1F40D1D2443B7005F9F99 /* MSChannelDefaultTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSChannelDefaultTests.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		6EF628F21D371B1600CAFF64 /* MSChannelConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSChannelConfiguration.h; sourceTree = "<group>"; };
 		6EF628F31D371B1600CAFF64 /* MSChannelConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSChannelConfiguration.m; sourceTree = "<group>"; };
+		805F3F691F209C8A00B489E4 /* MSMockService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSMockService.h; sourceTree = "<group>"; };
+		805F3F6A1F209C9D00B489E4 /* MSMockService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSMockService.m; sourceTree = "<group>"; };
 		842C13151E7FCF5300F16EA3 /* MSUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSUtility.h; sourceTree = "<group>"; };
 		842C13161E7FCF5300F16EA3 /* MSUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSUtility.m; sourceTree = "<group>"; };
 		842C13171E7FCF5300F16EA3 /* MSUtility+Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MSUtility+Application.h"; sourceTree = "<group>"; };
@@ -632,6 +635,8 @@
 				3805DDA61EB7A6A6001DB846 /* MSMockOriginalAppDelegate.m */,
 				3872CA961ECA0B04006B2E3B /* MSMockCustomAppDelegate.h */,
 				3872CA971ECA0B04006B2E3B /* MSMockCustomAppDelegate.m */,
+				805F3F691F209C8A00B489E4 /* MSMockService.h */,
+				805F3F6A1F209C9D00B489E4 /* MSMockService.m */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -980,6 +985,7 @@
 				380A4DCB1DD6908A00E99219 /* MSUtilityTests.m in Sources */,
 				3849BA7E1EF3489D0072E3E0 /* MSDBStorageTests.m in Sources */,
 				E829E4231D25C8BA00F19DA1 /* MSIngestionSenderTests.m in Sources */,
+				805F3F6B1F209C9D00B489E4 /* MSMockService.m in Sources */,
 				E88EBBFB1D2C8CC7007E7785 /* MSLogContainerTests.m in Sources */,
 				04FD126B1E4103CC007ABFE7 /* MSKeychainUtilTests.m in Sources */,
 				D38024121E7130C700466558 /* MSStartServiceLogTests.m in Sources */,
