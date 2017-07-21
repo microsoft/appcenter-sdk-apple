@@ -4,6 +4,7 @@
 #import "MSMobileCenter.h"
 #import "MSMobileCenterInternal.h"
 #import "MSMobileCenterPrivate.h"
+#import "MSMockService.h"
 #if TARGET_OS_OSX
 
 // TODO: ApplicationDelegate is not yet implemented for macOS.
@@ -13,6 +14,9 @@
 #endif
 #import "MSMockUserDefaults.h"
 #import "MSTestFrameworks.h"
+#import "MSCustomProperties.h"
+#import "MSCustomPropertiesLog.h"
+#import "MSStartServiceLog.h"
 
 static NSString *const kMSInstallIdStringExample = @"F18499DA-5C3D-4F05-B4E8-D8C9C06A6F09";
 
@@ -176,6 +180,30 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 - (void)testConfigureWithAppSecret {
   [MSMobileCenter configureWithAppSecret:@"App-Secret"];
   XCTAssertTrue([MSMobileCenter isConfigured]);
+}
+
+- (void)testStartServiceWithInvalidValues {
+  NSUInteger servicesCount = [[MSMobileCenter sharedInstance] services].count;
+  [MSMobileCenter startService:[MSMobileCenter class]];
+  [MSMobileCenter startService:[NSString class]];
+  [MSMobileCenter startService:nil];
+  XCTAssertEqual(servicesCount, [[MSMobileCenter sharedInstance] services].count);
+}
+
+- (void)testStartServiceLogIsSentAfterStartService {
+
+  // If
+  [MSMobileCenter start:MS_UUID_STRING withServices:nil];
+  id logManager = OCMProtocolMock(@protocol(MSLogManager));
+  OCMStub([logManager processLog:[OCMArg isKindOfClass:[MSStartServiceLog class]] forGroupId:[OCMArg any]])
+  .andDo(nil);
+  [MSMobileCenter sharedInstance].logManager = logManager;
+
+  // When
+  [MSMobileCenter startService:MSMockService.class];
+  
+  // Then
+  OCMVerify([logManager processLog:[OCMArg isKindOfClass:[MSStartServiceLog class]] forGroupId:[OCMArg any]]);
 }
 
 - (void)testSortingServicesWorks {

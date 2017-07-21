@@ -428,6 +428,7 @@
 				04BED7141ECB64BB00E20975 /* macOS */,
 			);
 			name = OCHamcrest;
+			path = ../../Vendor/OCMock;
 			sourceTree = "<group>";
 		};
 		04BED7141ECB64BB00E20975 /* macOS */ = {

@@ -30,7 +30,7 @@ static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 // Service name for initialization.
 static NSString *const kMSServiceName = @"MobileCenter";
 
-// The group ID for storage.
+// The group Id for storage.
 static NSString *const kMSGroupId = @"MobileCenter";
 
 @implementation MSMobileCenter
@@ -256,8 +256,13 @@ static NSString *const kMSGroupId = @"MobileCenter";
 
 - (BOOL)startService:(Class)clazz {
   @synchronized(self) {
-    id<MSServiceInternal> service = [clazz sharedInstance];
 
+    // Check if clazz is valid class
+    if (![clazz conformsToProtocol:@protocol(MSServiceCommon)]) {
+      MSLogError([MSMobileCenter logTag], @"Cannot start service %@. Provided value is nil or invalid.", clazz);
+      return NO;
+    }
+    id<MSServiceInternal> service = [clazz sharedInstance];
     if (service.isAvailable) {
 
       // Service already works, we shouldn't send log with this service name
@@ -269,6 +274,9 @@ static NSString *const kMSGroupId = @"MobileCenter";
 
     // Start service with log manager.
     [service startWithLogManager:self.logManager appSecret:self.appSecret];
+
+    // Send start service log.
+    [self sendStartServiceLog:@[[clazz serviceName]]];
 
     // Service started
     return YES;

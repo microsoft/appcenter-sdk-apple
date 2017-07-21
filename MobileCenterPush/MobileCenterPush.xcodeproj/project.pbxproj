@@ -271,6 +271,7 @@
 				049BC81E1ECE333700FB6719 /* iOS.xcconfig */,
 				D3AD5F3E1E5D69B0001627AB /* iOS.modulemap */,
 			);
+			name = Support;
 			path = Support;
 			sourceTree = "<group>";
 		};

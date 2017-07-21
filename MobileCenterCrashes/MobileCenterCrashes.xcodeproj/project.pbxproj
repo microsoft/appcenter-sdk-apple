@@ -504,7 +504,7 @@
 		6EC99A331D416CCF0016C325 /* live_report_signal.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_signal.plcrash; sourceTree = "<group>"; };
 		6EC99A341D416CCF0016C325 /* live_report_signal_marketing.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_signal_marketing.plcrash; sourceTree = "<group>"; };
 		6EC99A351D416CCF0016C325 /* live_report_xamarin.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_xamarin.plcrash; sourceTree = "<group>"; };
-		6EC99A361D416CCF0016C325 /* log_report_xamarin */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = log_report_xamarin; sourceTree = "<group>"; };
+		6EC99A361D416CCF0016C325 /* log_report_xamarin */ = {isa = PBXFileReference; fileEncoding = 1; lastKnownFileType = text; path = log_report_xamarin; sourceTree = "<group>"; };
 		8024743A1EAE077800AEC284 /* MSErrorAttachmentLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSErrorAttachmentLog.m; sourceTree = "<group>"; };
 		B24F3F0E1D93368F00827213 /* MSErrorLogFormatterTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MSErrorLogFormatterTests.mm; sourceTree = "<group>"; };
 		B24F3F101D93417B00827213 /* MSErrorLogFormatterPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSErrorLogFormatterPrivate.h; sourceTree = "<group>"; };

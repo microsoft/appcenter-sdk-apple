@@ -9,7 +9,7 @@
 // Service name for initialization.
 static NSString *const kMSServiceName = @"Analytics";
 
-// The group ID for storage.
+// The group Id for storage.
 static NSString *const kMSGroupId = @"Analytics";
 
 // Singleton
