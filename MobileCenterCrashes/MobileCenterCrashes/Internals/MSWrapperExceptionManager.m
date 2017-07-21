@@ -143,7 +143,7 @@ static NSString* const kLastWrapperExceptionFileName = @"last_saved_wrapper_exce
   MSPLCrashReport * correspondingReport = nil;
   for (MSPLCrashReport * report in reports) {
     if ([report hasProcessInfo] &&
-        [lastSavedWrapperException.pid unsignedIntegerValue] == report.processInfo.processID){
+        [lastSavedWrapperException.processId unsignedIntegerValue] == report.processInfo.processID){
       correspondingReport = report;
       break;
     }

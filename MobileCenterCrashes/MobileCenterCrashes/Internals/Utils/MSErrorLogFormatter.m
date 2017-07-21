@@ -277,7 +277,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   // Set the exception from the wrapper sdk
   MSWrapperException* wrapperException = [MSWrapperExceptionManager loadWrapperExceptionWithUUIDRef:report.uuidRef];
   if (wrapperException) {
-    errorLog.exception = wrapperException.exception;
+    errorLog.exception = wrapperException.modelException;
   }
   return errorLog;
 }

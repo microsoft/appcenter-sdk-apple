@@ -9,10 +9,10 @@ static NSString* const KMSProcessId = @"process_id";
 
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [NSMutableDictionary new];
-  if (self.exception) {
+  if (self.modelException) {
     dict[kMSModelException] = [self.modelException serializeToDictionary];
   }
-  if (self.pid) {
+  if (self.processId) {
     dict[KMSProcessId] = self.processId;
   }
   if (self.exceptionData) {
