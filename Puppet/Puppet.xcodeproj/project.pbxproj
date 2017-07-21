@@ -415,7 +415,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B2F3FA8B1E96DB5A0065A3BE /* libsqlite3.tbd in Frameworks */,
-				382346321E8B013F001C3A76 /* MobileCoreServices.framework in Frameworks */,
 				38484F6D1E53D57E00C5631C /* SafariServices.framework in Frameworks */,
 				6EC99A281D4152FA0016C325 /* libc++.tbd in Frameworks */,
 				6EC99A211D4151A00016C325 /* CrashReporter.framework in Frameworks */,
@@ -1286,7 +1285,6 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/../MobileCenter-SDK-Apple/**",
 					"$(SRCROOT)/../CrashLibIOS/CrashLibIOS",
 					"$(SRCROOT)/../Vendor/iOS/**",
 				);
@@ -1340,7 +1338,6 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/../MobileCenter-SDK-Apple/**",
 					"$(SRCROOT)/../CrashLibIOS/CrashLibIOS",
 					"$(SRCROOT)/../Vendor/iOS/**",
 				);
