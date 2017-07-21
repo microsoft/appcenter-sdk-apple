@@ -69,6 +69,8 @@
                                toFile:actualCurrentFile]);
 }
 
+#if !TARGET_OS_TV
+// FIXME: TV OS can only use temporary cache directory. All file access needs to be reimplemented.
 - (void)testCreatingNewBucketsWillLoadExistingFiles {
 
   // If
@@ -96,6 +98,7 @@
   double difference = [actual.creationDate timeIntervalSinceDate:expected.creationDate];
   XCTAssertLessThanOrEqual(difference, maxAllowedDifference);
 }
+#endif
 
 - (void)testSaveFirstLogOfABatchWillNotAddItToCurrentFileIfItIsNil {
 
@@ -112,6 +115,8 @@
   assertThat(bucket.currentLogs, isEmpty());
 }
 
+#if !TARGET_OS_TV
+// FIXME: TV OS can only use temporary cache directory. All file access needs to be reimplemented.
 - (void)testSaveFirstLogOfABatchWillAddCurrentFileToAvailableList {
 
   // If
@@ -130,6 +135,7 @@
   assertThat(actual, equalTo(expected));
   assertThat(bucket.availableFiles, hasCountOf(1));
 }
+#endif
 
 - (void)testSaveFirstLogOfBatchWillDeleteOldestFileIfFileLimitHasBeenReached {
 

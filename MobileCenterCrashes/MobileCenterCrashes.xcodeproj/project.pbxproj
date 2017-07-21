@@ -86,6 +86,50 @@
 		0420A6991ECA7C2700915619 /* OCMock.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0420A68A1ECA7A9B00915619 /* OCMock.framework */; };
 		04311FFC1EE08885007054C5 /* MSCrashReporter.h in Headers */ = {isa = PBXBuildFile; fileRef = 04311FFB1EE08885007054C5 /* MSCrashReporter.h */; };
 		04311FFD1EE08898007054C5 /* MSCrashReporter.h in Headers */ = {isa = PBXBuildFile; fileRef = 04311FFB1EE08885007054C5 /* MSCrashReporter.h */; };
+		046EF8A61F03149E00C553D8 /* MSAppleErrorLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FF130B1DD12F61003DC677 /* MSAppleErrorLogTests.m */; };
+		046EF8A71F03149E00C553D8 /* MSCrashesTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6EC99A2D1D4166C50016C325 /* MSCrashesTests.mm */; };
+		046EF8A81F03149E00C553D8 /* MSExceptionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C891D3EC504009EC9AC /* MSExceptionTests.m */; };
+		046EF8A91F03149E00C553D8 /* MSErrorReportTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120D61D65469D0060DED7 /* MSErrorReportTests.m */; };
+		046EF8AA1F03149E00C553D8 /* MSStackFrameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C861D3EC332009EC9AC /* MSStackFrameTests.m */; };
+		046EF8AB1F03149E00C553D8 /* MSCrashesCXXExceptionTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = F851DAEC1E81867D00525570 /* MSCrashesCXXExceptionTests.mm */; };
+		046EF8AC1F03149E00C553D8 /* MSThreadTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C831D3EC0F7009EC9AC /* MSThreadTests.m */; };
+		046EF8AD1F03149E00C553D8 /* MSErrorLogFormatterTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = B24F3F0E1D93368F00827213 /* MSErrorLogFormatterTests.mm */; };
+		046EF8AE1F03149E00C553D8 /* MSCrashesTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = B2A0A71B1D9C2AE700729A58 /* MSCrashesTestUtil.m */; };
+		046EF8AF1F03149E00C553D8 /* MSBinaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C7F1D3EAEB5009EC9AC /* MSBinaryTests.m */; };
+		046EF8B01F03149E00C553D8 /* MSWrapperExceptionManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 35EF18DF1DDBCF6C00731CA8 /* MSWrapperExceptionManagerTests.m */; };
+		046EF8B11F03149E00C553D8 /* MSErrorAttachmentLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120D41D6546740060DED7 /* MSErrorAttachmentLogTests.m */; };
+		046EF8B21F03149E00C553D8 /* MSMockCrashesDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BA68266A68B7F21A86A093B0 /* MSMockCrashesDelegate.m */; };
+		046EF8B31F03149E00C553D8 /* MSCrashesUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 59493B275715F01438B2E6FD /* MSCrashesUtilTests.m */; };
+		046EF8B61F03149E00C553D8 /* libMobileCenterCrashes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E0401331D1C98690051BCFA /* libMobileCenterCrashes.a */; };
+		046EF8BA1F03149E00C553D8 /* live_report_objc_exception.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D0FB1E549B45008B2D8E /* live_report_objc_exception.plcrash */; };
+		046EF8BB1F03149E00C553D8 /* live_report_call_abort.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D0F51E549B45008B2D8E /* live_report_call_abort.plcrash */; };
+		046EF8BC1F03149E00C553D8 /* live_report_smash_bottom.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D1001E549B45008B2D8E /* live_report_smash_bottom.plcrash */; };
+		046EF8BD1F03149E00C553D8 /* live_report_swift_crash.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D1021E549B45008B2D8E /* live_report_swift_crash.plcrash */; };
+		046EF8BE1F03149E00C553D8 /* live_report_exception_marketing.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A321D416CCF0016C325 /* live_report_exception_marketing.plcrash */; };
+		046EF8BF1F03149E00C553D8 /* live_report_corrupt_objc.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D0F71E549B45008B2D8E /* live_report_corrupt_objc.plcrash */; };
+		046EF8C01F03149E00C553D8 /* live_report_signal.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A331D416CCF0016C325 /* live_report_signal.plcrash */; };
+		046EF8C11F03149E00C553D8 /* live_report_xamarin.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A351D416CCF0016C325 /* live_report_xamarin.plcrash */; };
+		046EF8C21F03149E00C553D8 /* live_report_objc_msgsend.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D0FC1E549B45008B2D8E /* live_report_objc_msgsend.plcrash */; };
+		046EF8C31F03149E00C553D8 /* live_report_cpp_exception.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D0F81E549B45008B2D8E /* live_report_cpp_exception.plcrash */; };
+		046EF8C41F03149E00C553D8 /* live_report_call_trap.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D0F61E549B45008B2D8E /* live_report_call_trap.plcrash */; };
+		046EF8C51F03149E00C553D8 /* live_report_overwrite_link.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D0FE1E549B45008B2D8E /* live_report_overwrite_link.plcrash */; };
+		046EF8C61F03149E00C553D8 /* live_report_objc_released.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D0FD1E549B45008B2D8E /* live_report_objc_released.plcrash */; };
+		046EF8C71F03149E00C553D8 /* live_report_undefined_instr.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D1031E549B45008B2D8E /* live_report_undefined_instr.plcrash */; };
+		046EF8C81F03149E00C553D8 /* live_report_null_ptr.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D0FA1E549B45008B2D8E /* live_report_null_ptr.plcrash */; };
+		046EF8C91F03149E00C553D8 /* log_report_xamarin in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A361D416CCF0016C325 /* log_report_xamarin */; };
+		046EF8CA1F03149E00C553D8 /* live_report_jump_into_nx.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D0F91E549B45008B2D8E /* live_report_jump_into_nx.plcrash */; };
+		046EF8CB1F03149E00C553D8 /* live_report_pthread_lock.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D0FF1E549B45008B2D8E /* live_report_pthread_lock.plcrash */; };
+		046EF8CC1F03149E00C553D8 /* live_report_bad_ptr.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D0F41E549B45008B2D8E /* live_report_bad_ptr.plcrash */; };
+		046EF8CD1F03149E00C553D8 /* live_report_write_readonly.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D1041E549B45008B2D8E /* live_report_write_readonly.plcrash */; };
+		046EF8CE1F03149E00C553D8 /* live_report_smash_top.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D1011E549B45008B2D8E /* live_report_smash_top.plcrash */; };
+		046EF8CF1F03149E00C553D8 /* live_report_signal_marketing.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A341D416CCF0016C325 /* live_report_signal_marketing.plcrash */; };
+		046EF8D01F03149E00C553D8 /* live_report_empty.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A301D416CCF0016C325 /* live_report_empty.plcrash */; };
+		046EF8D11F03149E00C553D8 /* live_report_exception.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A311D416CCF0016C325 /* live_report_exception.plcrash */; };
+		046EF8DA1F0314BF00C553D8 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04A394071F0305B4004EAFC7 /* OCMock.framework */; };
+		046EF8DB1F0314C500C553D8 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04A394091F0305DB004EAFC7 /* OCHamcrest.framework */; };
+		046EF8DD1F03151100C553D8 /* OCHamcrest.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 04A394091F0305DB004EAFC7 /* OCHamcrest.framework */; };
+		046EF8DE1F03151100C553D8 /* OCMock.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 04A394071F0305B4004EAFC7 /* OCMock.framework */; };
+		046EF92A1F031FF100C553D8 /* libMobileCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 046EF9291F031FF100C553D8 /* libMobileCenter.a */; };
 		0485AFA11EAA887500C10CAF /* MSErrorReport.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120DF1D657CF10060DED7 /* MSErrorReport.m */; };
 		0485AFA21EAA887500C10CAF /* MSCrashesCXXExceptionHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6E73FE691D402F79008CDC15 /* MSCrashesCXXExceptionHandler.mm */; };
 		0485AFA31EAA887500C10CAF /* MSAbstractErrorLog.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD3BF81D80EE49000A8A91 /* MSAbstractErrorLog.m */; };
@@ -315,6 +359,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		046EF9261F031FE700C553D8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E04012B1D1C98690051BCFA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04EBBEB01F01C0C90006B8AE;
+			remoteInfo = MobileCenterCrashesTVOS;
+		};
 		049327631ECA170D00D0187A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6E04012B1D1C98690051BCFA /* Project object */;
@@ -353,6 +404,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		046EF8D21F03149E00C553D8 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+				046EF8DD1F03151100C553D8 /* OCHamcrest.framework in CopyFiles */,
+				046EF8DE1F03151100C553D8 /* OCMock.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0485AFB21EAA887500C10CAF /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -407,12 +469,15 @@
 /* Begin PBXFileReference section */
 		041CFF911ECD00DC00B4654B /* Tests iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests iOS.xcconfig"; path = "../../Config/Tests iOS.xcconfig"; sourceTree = "<group>"; };
 		041CFF981ECD010000B4654B /* Tests macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests macOS.xcconfig"; path = "../../Config/Tests macOS.xcconfig"; sourceTree = "<group>"; };
-		0420A68A1ECA7A9B00915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../iOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
-		0420A68C1ECA7AA800915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../macOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
+		0420A68A1ECA7A9B00915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../Vendor/iOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
+		0420A68C1ECA7AA800915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../Vendor/macOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
 		04311FF41EE08697007054C5 /* MSTestFrameworks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSTestFrameworks.h; path = ../../MobileCenter/MobileCenterTests/Util/MSTestFrameworks.h; sourceTree = "<group>"; };
 		04311FFB1EE08885007054C5 /* MSCrashReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrashReporter.h; sourceTree = "<group>"; };
 		044C45F81DB6EA0C00F3C29E /* MSErrorAttachmentPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSErrorAttachmentPrivate.h; sourceTree = "<group>"; };
 		044C45FA1DB6EC1C00F3C29E /* MSErrorBinaryAttachmentPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSErrorBinaryAttachmentPrivate.h; sourceTree = "<group>"; };
+		046EF8D81F03149E00C553D8 /* MobileCenterCrashes.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MobileCenterCrashes.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		046EF8DC1F0314E300C553D8 /* Tests tvOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests tvOS.xcconfig"; path = "../../Config/Tests tvOS.xcconfig"; sourceTree = "<group>"; };
+		046EF9291F031FF100C553D8 /* libMobileCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobileCenter.a; path = "../MobileCenter/build/Debug-appletvos/libMobileCenter.a"; sourceTree = "<group>"; };
 		0485AFD31EAA887500C10CAF /* libMobileCenterCrashes.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMobileCenterCrashes.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		049327961ECA170D00D0187A /* MobileCenterCrashes.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MobileCenterCrashes.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		049327B11ECA19FD00D0187A /* libCrashReporter-MacOSX-Static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libCrashReporter-MacOSX-Static.a"; sourceTree = "<group>"; };
@@ -442,6 +507,8 @@
 		049BC8251ECE36D400FB6719 /* iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS.xcconfig; sourceTree = "<group>"; };
 		049BC8261ECE370100FB6719 /* macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
 		04A140901ECE6625001CEE94 /* libMobileCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobileCenter.a; path = "../../../../../Library/Developer/Xcode/DerivedData/MobileCenter-cxbmzrupyysdsehdxmozcvjphajr/Build/Products/Debug/libMobileCenter.a"; sourceTree = "<group>"; };
+		04A394071F0305B4004EAFC7 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../Vendor/tvOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
+		04A394091F0305DB004EAFC7 /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = ../../Vendor/tvOS/OCHamcrest/OCHamcrest.framework; sourceTree = "<group>"; };
 		04BED7211ECB65DD00E20975 /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = ../../Vendor/macOS/OCHamcrest/OCHamcrest.framework; sourceTree = "<group>"; };
 		04EBBEAE1F01C0B50006B8AE /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = ../Vendor/tvOS/PLCrashReporter/CrashReporter.framework; sourceTree = "<group>"; };
 		04EBBEE81F01C0C90006B8AE /* libMobileCenterCrashes.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMobileCenterCrashes.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -545,6 +612,17 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		046EF8B41F03149E00C553D8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				046EF92A1F031FF100C553D8 /* libMobileCenter.a in Frameworks */,
+				046EF8DA1F0314BF00C553D8 /* OCMock.framework in Frameworks */,
+				046EF8DB1F0314C500C553D8 /* OCHamcrest.framework in Frameworks */,
+				046EF8B61F03149E00C553D8 /* libMobileCenterCrashes.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0485AFB01EAA887500C10CAF /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -594,20 +672,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0420A6881ECA7A7000915619 /* iOS */ = {
+		046EF9281F031FF100C553D8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				0420A68A1ECA7A9B00915619 /* OCMock.framework */,
+				046EF9291F031FF100C553D8 /* libMobileCenter.a */,
 			);
-			name = iOS;
-			sourceTree = "<group>";
-		};
-		0420A6891ECA7A7800915619 /* macOS */ = {
-			isa = PBXGroup;
-			children = (
-				0420A68C1ECA7AA800915619 /* OCMock.framework */,
-			);
-			name = macOS;
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		049327981ECA19FD00D0187A /* PLCrashReporter */ = {
@@ -663,6 +733,7 @@
 			children = (
 				041CFF911ECD00DC00B4654B /* Tests iOS.xcconfig */,
 				041CFF981ECD010000B4654B /* Tests macOS.xcconfig */,
+				046EF8DC1F0314E300C553D8 /* Tests tvOS.xcconfig */,
 			);
 			name = Support;
 			sourceTree = "<group>";
@@ -691,11 +762,54 @@
 			path = Util;
 			sourceTree = "<group>";
 		};
+		04A394051F030598004EAFC7 /* tvOS */ = {
+			isa = PBXGroup;
+			children = (
+				04A394091F0305DB004EAFC7 /* OCHamcrest.framework */,
+			);
+			name = tvOS;
+			sourceTree = "<group>";
+		};
+		04A3940B1F0305F9004EAFC7 /* OCMock */ = {
+			isa = PBXGroup;
+			children = (
+				04A3940C1F030610004EAFC7 /* iOS */,
+				04A3940E1F030622004EAFC7 /* macOS */,
+				04A3940D1F03061C004EAFC7 /* tvOS */,
+			);
+			name = OCMock;
+			sourceTree = "<group>";
+		};
+		04A3940C1F030610004EAFC7 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				0420A68A1ECA7A9B00915619 /* OCMock.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		04A3940D1F03061C004EAFC7 /* tvOS */ = {
+			isa = PBXGroup;
+			children = (
+				04A394071F0305B4004EAFC7 /* OCMock.framework */,
+			);
+			name = tvOS;
+			sourceTree = "<group>";
+		};
+		04A3940E1F030622004EAFC7 /* macOS */ = {
+			isa = PBXGroup;
+			children = (
+				0420A68C1ECA7AA800915619 /* OCMock.framework */,
+			);
+			name = macOS;
+			sourceTree = "<group>";
+		};
 		04BED71E1ECB65BF00E20975 /* OCHamcrest */ = {
 			isa = PBXGroup;
 			children = (
 				04BED7201ECB65C900E20975 /* iOS */,
 				04BED71F1ECB65C500E20975 /* macOS */,
+				04A394051F030598004EAFC7 /* tvOS */,
 			);
 			name = OCHamcrest;
 			sourceTree = "<group>";
@@ -751,6 +865,7 @@
 				6E171AE21D22F781000DC480 /* MobileCenterCrashesTests */,
 				6EC99A221D4151C60016C325 /* Vendor */,
 				6E0401341D1C98690051BCFA /* Products */,
+				046EF9281F031FF100C553D8 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -762,6 +877,7 @@
 				0485AFD31EAA887500C10CAF /* libMobileCenterCrashes.a */,
 				049327961ECA170D00D0187A /* MobileCenterCrashes.xctest */,
 				04EBBEE81F01C0C90006B8AE /* libMobileCenterCrashes.a */,
+				046EF8D81F03149E00C553D8 /* MobileCenterCrashes.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -832,19 +948,9 @@
 				6E171AEF1D22F841000DC480 /* libMobileCenter.a */,
 				04A140901ECE6625001CEE94 /* libMobileCenter.a */,
 				04BED71E1ECB65BF00E20975 /* OCHamcrest */,
-				6E171B041D22FABA000DC480 /* OCMock */,
+				04A3940B1F0305F9004EAFC7 /* OCMock */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		6E171B041D22FABA000DC480 /* OCMock */ = {
-			isa = PBXGroup;
-			children = (
-				0420A6881ECA7A7000915619 /* iOS */,
-				0420A6891ECA7A7800915619 /* macOS */,
-			);
-			name = OCMock;
-			path = ../../Vendor/Common/OCMock;
 			sourceTree = "<group>";
 		};
 		6E37297E1D1DE93800F1E4AE /* Support */ = {
@@ -1068,6 +1174,25 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		046EF8A21F03149E00C553D8 /* MobileCenterCrashesTVOSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 046EF8D51F03149E00C553D8 /* Build configuration list for PBXNativeTarget "MobileCenterCrashesTVOSTests" */;
+			buildPhases = (
+				046EF8A51F03149E00C553D8 /* Sources */,
+				046EF8B41F03149E00C553D8 /* Frameworks */,
+				046EF8B91F03149E00C553D8 /* Resources */,
+				046EF8D21F03149E00C553D8 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				046EF9271F031FE700C553D8 /* PBXTargetDependency */,
+			);
+			name = MobileCenterCrashesTVOSTests;
+			productName = MobileCenterCrashesTests;
+			productReference = 046EF8D81F03149E00C553D8 /* MobileCenterCrashes.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		0485AF9F1EAA887500C10CAF /* MobileCenterCrashesMacOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0485AFD01EAA887500C10CAF /* Build configuration list for PBXNativeTarget "MobileCenterCrashesMacOS" */;
@@ -1211,12 +1336,44 @@
 				04FD115E1EF2FA04000C5A5C /* MobileCenterCrashesMacOSDoc */,
 				04EBBEB01F01C0C90006B8AE /* MobileCenterCrashesTVOS */,
 				04EBBEE91F01C0E10006B8AE /* MobileCenterCrashesTVOSFramework */,
+				046EF8A21F03149E00C553D8 /* MobileCenterCrashesTVOSTests */,
 				04EBBEF11F01C7100006B8AE /* MobileCenterCrashesTVOSDoc */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		046EF8B91F03149E00C553D8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				046EF8BA1F03149E00C553D8 /* live_report_objc_exception.plcrash in Resources */,
+				046EF8BB1F03149E00C553D8 /* live_report_call_abort.plcrash in Resources */,
+				046EF8BC1F03149E00C553D8 /* live_report_smash_bottom.plcrash in Resources */,
+				046EF8BD1F03149E00C553D8 /* live_report_swift_crash.plcrash in Resources */,
+				046EF8BE1F03149E00C553D8 /* live_report_exception_marketing.plcrash in Resources */,
+				046EF8BF1F03149E00C553D8 /* live_report_corrupt_objc.plcrash in Resources */,
+				046EF8C01F03149E00C553D8 /* live_report_signal.plcrash in Resources */,
+				046EF8C11F03149E00C553D8 /* live_report_xamarin.plcrash in Resources */,
+				046EF8C21F03149E00C553D8 /* live_report_objc_msgsend.plcrash in Resources */,
+				046EF8C31F03149E00C553D8 /* live_report_cpp_exception.plcrash in Resources */,
+				046EF8C41F03149E00C553D8 /* live_report_call_trap.plcrash in Resources */,
+				046EF8C51F03149E00C553D8 /* live_report_overwrite_link.plcrash in Resources */,
+				046EF8C61F03149E00C553D8 /* live_report_objc_released.plcrash in Resources */,
+				046EF8C71F03149E00C553D8 /* live_report_undefined_instr.plcrash in Resources */,
+				046EF8C81F03149E00C553D8 /* live_report_null_ptr.plcrash in Resources */,
+				046EF8C91F03149E00C553D8 /* log_report_xamarin in Resources */,
+				046EF8CA1F03149E00C553D8 /* live_report_jump_into_nx.plcrash in Resources */,
+				046EF8CB1F03149E00C553D8 /* live_report_pthread_lock.plcrash in Resources */,
+				046EF8CC1F03149E00C553D8 /* live_report_bad_ptr.plcrash in Resources */,
+				046EF8CD1F03149E00C553D8 /* live_report_write_readonly.plcrash in Resources */,
+				046EF8CE1F03149E00C553D8 /* live_report_smash_top.plcrash in Resources */,
+				046EF8CF1F03149E00C553D8 /* live_report_signal_marketing.plcrash in Resources */,
+				046EF8D01F03149E00C553D8 /* live_report_empty.plcrash in Resources */,
+				046EF8D11F03149E00C553D8 /* live_report_exception.plcrash in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		049327791ECA170D00D0187A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1363,6 +1520,27 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		046EF8A51F03149E00C553D8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				046EF8A61F03149E00C553D8 /* MSAppleErrorLogTests.m in Sources */,
+				046EF8A71F03149E00C553D8 /* MSCrashesTests.mm in Sources */,
+				046EF8A81F03149E00C553D8 /* MSExceptionTests.m in Sources */,
+				046EF8A91F03149E00C553D8 /* MSErrorReportTests.m in Sources */,
+				046EF8AA1F03149E00C553D8 /* MSStackFrameTests.m in Sources */,
+				046EF8AB1F03149E00C553D8 /* MSCrashesCXXExceptionTests.mm in Sources */,
+				046EF8AC1F03149E00C553D8 /* MSThreadTests.m in Sources */,
+				046EF8AD1F03149E00C553D8 /* MSErrorLogFormatterTests.mm in Sources */,
+				046EF8AE1F03149E00C553D8 /* MSCrashesTestUtil.m in Sources */,
+				046EF8AF1F03149E00C553D8 /* MSBinaryTests.m in Sources */,
+				046EF8B01F03149E00C553D8 /* MSWrapperExceptionManagerTests.m in Sources */,
+				046EF8B11F03149E00C553D8 /* MSErrorAttachmentLogTests.m in Sources */,
+				046EF8B21F03149E00C553D8 /* MSMockCrashesDelegate.m in Sources */,
+				046EF8B31F03149E00C553D8 /* MSCrashesUtilTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0485AFA01EAA887500C10CAF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1474,6 +1652,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		046EF9271F031FE700C553D8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04EBBEB01F01C0C90006B8AE /* MobileCenterCrashesTVOS */;
+			targetProxy = 046EF9261F031FE700C553D8 /* PBXContainerItemProxy */;
+		};
 		049327621ECA170D00D0187A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 6E0401321D1C98690051BCFA /* MobileCenterCrashesIOS */;
@@ -1502,6 +1685,30 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		046EF8D61F03149E00C553D8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 046EF8DC1F0314E300C553D8 /* Tests tvOS.xcconfig */;
+			buildSettings = {
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					CrashReporter,
+				);
+			};
+			name = Debug;
+		};
+		046EF8D71F03149E00C553D8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 046EF8DC1F0314E300C553D8 /* Tests tvOS.xcconfig */;
+			buildSettings = {
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					CrashReporter,
+				);
+			};
+			name = Release;
+		};
 		0485AFD11EAA887500C10CAF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8261ECE370100FB6719 /* macOS.xcconfig */;
@@ -1702,6 +1909,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		046EF8D51F03149E00C553D8 /* Build configuration list for PBXNativeTarget "MobileCenterCrashesTVOSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				046EF8D61F03149E00C553D8 /* Debug */,
+				046EF8D71F03149E00C553D8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		0485AFD01EAA887500C10CAF /* Build configuration list for PBXNativeTarget "MobileCenterCrashesMacOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

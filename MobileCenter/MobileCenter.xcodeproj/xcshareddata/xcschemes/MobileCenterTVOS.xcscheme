@@ -29,7 +29,26 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       codeCoverageEnabled = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "046EF8E51F03189500C553D8"
+               BuildableName = "MobileCenter.xctest"
+               BlueprintName = "MobileCenterTVOSTests"
+               ReferencedContainer = "container:MobileCenter.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "043120721EE0BCF9007054C5"
+            BuildableName = "libMobileCenter.a"
+            BlueprintName = "MobileCenterTVOS"
+            ReferencedContainer = "container:MobileCenter.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
