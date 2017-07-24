@@ -33,6 +33,8 @@
 		5CB338A41EE59C0F0089A60B /* MobileCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB338A31EE59C0F0089A60B /* MobileCenterDelegate.swift */; };
 		5CBE5F511F02BC89001ABD15 /* EditPropertyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CBE5F501F02BC89001ABD15 /* EditPropertyViewController.swift */; };
 		5CBE5F521F02BC89001ABD15 /* EditPropertyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CBE5F501F02BC89001ABD15 /* EditPropertyViewController.swift */; };
+		B2181B7E1F268AAD00D2EEAE /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B2181B7D1F268AAD00D2EEAE /* libsqlite3.tbd */; };
+		B2181B7F1F268AB800D2EEAE /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B2181B7D1F268AAD00D2EEAE /* libsqlite3.tbd */; };
 		D322EFDB1E8E97C800A8EDA5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D322EFDA1E8E97C800A8EDA5 /* AppDelegate.swift */; };
 		D322EFE21E8E97C800A8EDA5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D322EFE11E8E97C800A8EDA5 /* Assets.xcassets */; };
 		D322EFEF1E8E97DF00A8EDA5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D322EFEE1E8E97DF00A8EDA5 /* main.m */; };
@@ -80,6 +82,7 @@
 		5CB338A11EE59B4B0089A60B /* MobileCenterDelegateObjC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MobileCenterDelegateObjC.m; sourceTree = "<group>"; };
 		5CB338A31EE59C0F0089A60B /* MobileCenterDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobileCenterDelegate.swift; sourceTree = "<group>"; };
 		5CBE5F501F02BC89001ABD15 /* EditPropertyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditPropertyViewController.swift; path = ViewControllers/EditPropertyViewController.swift; sourceTree = "<group>"; };
+		B2181B7D1F268AAD00D2EEAE /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		D322EFCA1E8E97A100A8EDA5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/SasquatchTV.storyboard; sourceTree = "<group>"; };
 		D322EFCC1E8E97A100A8EDA5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D322EFCE1E8E97A100A8EDA5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -114,6 +117,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B2181B7F1F268AB800D2EEAE /* libsqlite3.tbd in Frameworks */,
 				0431217C1EE0C669007054C5 /* MobileCenter.framework in Frameworks */,
 				0431217D1EE0C669007054C5 /* MobileCenterAnalytics.framework in Frameworks */,
 				04EBBEFC1F01C89A0006B8AE /* MobileCenterCrashes.framework in Frameworks */,
@@ -124,6 +128,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B2181B7E1F268AAD00D2EEAE /* libsqlite3.tbd in Frameworks */,
 				0431217A1EE0C65B007054C5 /* MobileCenter.framework in Frameworks */,
 				0431217B1EE0C65B007054C5 /* MobileCenterAnalytics.framework in Frameworks */,
 				04EBBEFB1F01C88D0006B8AE /* MobileCenterCrashes.framework in Frameworks */,
@@ -269,6 +274,7 @@
 		D322F0061E8E98DF00A8EDA5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B2181B7D1F268AAD00D2EEAE /* libsqlite3.tbd */,
 				04EBBEFA1F01C88D0006B8AE /* MobileCenterCrashes.framework */,
 				043121781EE0C65B007054C5 /* MobileCenter.framework */,
 				043121791EE0C65B007054C5 /* MobileCenterAnalytics.framework */,
