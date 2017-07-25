@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0422A3F01F27EC5700E7409A /* CrashLibTV.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 801C25641F040F3C00F4859B /* CrashLibTV.framework */; };
+		0422A3F11F27EC6000E7409A /* CrashLibTV.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 801C25641F040F3C00F4859B /* CrashLibTV.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0431217A1EE0C65B007054C5 /* MobileCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 043121781EE0C65B007054C5 /* MobileCenter.framework */; };
 		0431217B1EE0C65B007054C5 /* MobileCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 043121791EE0C65B007054C5 /* MobileCenterAnalytics.framework */; };
 		0431217C1EE0C669007054C5 /* MobileCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 043121781EE0C65B007054C5 /* MobileCenter.framework */; };
@@ -31,17 +33,15 @@
 		5C931C7C1F0269BD004AF9CD /* MSPropertyViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C931C7A1F026688004AF9CD /* MSPropertyViewCell.swift */; };
 		5CB338A21EE59B4B0089A60B /* MobileCenterDelegateObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CB338A11EE59B4B0089A60B /* MobileCenterDelegateObjC.m */; };
 		5CB338A41EE59C0F0089A60B /* MobileCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB338A31EE59C0F0089A60B /* MobileCenterDelegate.swift */; };
+		5CBE5F511F02BC89001ABD15 /* EditPropertyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CBE5F501F02BC89001ABD15 /* EditPropertyViewController.swift */; };
+		5CBE5F521F02BC89001ABD15 /* EditPropertyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CBE5F501F02BC89001ABD15 /* EditPropertyViewController.swift */; };
 		801C25651F040F3C00F4859B /* CrashLibTV.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 801C25641F040F3C00F4859B /* CrashLibTV.framework */; };
 		801C25661F040F3C00F4859B /* CrashLibTV.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 801C25641F040F3C00F4859B /* CrashLibTV.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		801C25691F040F5100F4859B /* CrashLibTV.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 801C25681F040F5100F4859B /* CrashLibTV.framework */; };
-		801C256A1F040F5100F4859B /* CrashLibTV.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 801C25681F040F5100F4859B /* CrashLibTV.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		80F991621F0267B40040FAD7 /* CrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F991611F0267B40040FAD7 /* CrashesViewController.swift */; };
 		80F991631F0267B40040FAD7 /* CrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F991611F0267B40040FAD7 /* CrashesViewController.swift */; };
 		80F9916B1F027D250040FAD7 /* CrashesDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F9916A1F027D250040FAD7 /* CrashesDetailViewController.swift */; };
 		80F9916C1F027D250040FAD7 /* CrashesDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F9916A1F027D250040FAD7 /* CrashesDetailViewController.swift */; };
 		80F9916D1F0287B60040FAD7 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C4F926A1EE84260003140BF /* MSAlertController.m */; };
-		5CBE5F511F02BC89001ABD15 /* EditPropertyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CBE5F501F02BC89001ABD15 /* EditPropertyViewController.swift */; };
-		5CBE5F521F02BC89001ABD15 /* EditPropertyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CBE5F501F02BC89001ABD15 /* EditPropertyViewController.swift */; };
 		D322EFDB1E8E97C800A8EDA5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D322EFDA1E8E97C800A8EDA5 /* AppDelegate.swift */; };
 		D322EFE21E8E97C800A8EDA5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D322EFE11E8E97C800A8EDA5 /* Assets.xcassets */; };
 		D322EFEF1E8E97DF00A8EDA5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D322EFEE1E8E97DF00A8EDA5 /* main.m */; };
@@ -86,7 +86,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				801C256A1F040F5100F4859B /* CrashLibTV.framework in Embed Frameworks */,
+				0422A3F11F27EC6000E7409A /* CrashLibTV.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -113,12 +113,10 @@
 		5CB338A01EE59B250089A60B /* MobileCenterDelegateObjC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MobileCenterDelegateObjC.h; sourceTree = "<group>"; };
 		5CB338A11EE59B4B0089A60B /* MobileCenterDelegateObjC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MobileCenterDelegateObjC.m; sourceTree = "<group>"; };
 		5CB338A31EE59C0F0089A60B /* MobileCenterDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobileCenterDelegate.swift; sourceTree = "<group>"; };
+		5CBE5F501F02BC89001ABD15 /* EditPropertyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditPropertyViewController.swift; path = ViewControllers/EditPropertyViewController.swift; sourceTree = "<group>"; };
 		801C25641F040F3C00F4859B /* CrashLibTV.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CrashLibTV.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		801C25681F040F5100F4859B /* CrashLibTV.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CrashLibTV.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		80F9915C1F0267500040FAD7 /* CrashLibTV.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashLibTV.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/MobileCenter-gzzoukhobsrfomgiewjmdheqlofd/Build/Products/Debug-appletvsimulator/CrashLibTV.framework"; sourceTree = "<group>"; };
 		80F991611F0267B40040FAD7 /* CrashesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = CrashesViewController.swift; sourceTree = "<group>"; tabWidth = 2; };
 		80F9916A1F027D250040FAD7 /* CrashesDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrashesDetailViewController.swift; sourceTree = "<group>"; };
-		5CBE5F501F02BC89001ABD15 /* EditPropertyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditPropertyViewController.swift; path = ViewControllers/EditPropertyViewController.swift; sourceTree = "<group>"; };
 		D322EFCA1E8E97A100A8EDA5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/SasquatchTV.storyboard; sourceTree = "<group>"; };
 		D322EFCC1E8E97A100A8EDA5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D322EFCE1E8E97A100A8EDA5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -153,7 +151,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				801C25691F040F5100F4859B /* CrashLibTV.framework in Frameworks */,
+				0422A3F01F27EC5700E7409A /* CrashLibTV.framework in Frameworks */,
 				0431217C1EE0C669007054C5 /* MobileCenter.framework in Frameworks */,
 				0431217D1EE0C669007054C5 /* MobileCenterAnalytics.framework in Frameworks */,
 				04EBBEFC1F01C89A0006B8AE /* MobileCenterCrashes.framework in Frameworks */,
@@ -204,8 +202,6 @@
 		D322EFB91E8E97A100A8EDA5 = {
 			isa = PBXGroup;
 			children = (
-				801C25681F040F5100F4859B /* CrashLibTV.framework */,
-				801C25641F040F3C00F4859B /* CrashLibTV.framework */,
 				D322EFC41E8E97A100A8EDA5 /* SasquatchTV */,
 				D322EFD91E8E97C800A8EDA5 /* SasquatchTVSwift */,
 				D322EFEC1E8E97DF00A8EDA5 /* SasquatchTVObjC */,
@@ -291,13 +287,11 @@
 		D322F0021E8E984400A8EDA5 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				5C931C791F02666A004AF9CD /* Utils */,
 				5C481B9A1EE5794A009329DD /* MobileCenterViewController.swift */,
 				5C481B991EE5794A009329DD /* AnalyticsViewController.swift */,
 				80F991611F0267B40040FAD7 /* CrashesViewController.swift */,
 				80F9916A1F027D250040FAD7 /* CrashesDetailViewController.swift */,
-				5C931C791F02666A004AF9CD /* Utils */,
-				5C481B991EE5794A009329DD /* AnalyticsViewController.swift */,
-				5C481B9A1EE5794A009329DD /* MobileCenterViewController.swift */,
 				5CBE5F501F02BC89001ABD15 /* EditPropertyViewController.swift */,
 			);
 			name = ViewControllers;
@@ -316,7 +310,7 @@
 		D322F0061E8E98DF00A8EDA5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				80F9915C1F0267500040FAD7 /* CrashLibTV.framework */,
+				801C25641F040F3C00F4859B /* CrashLibTV.framework */,
 				04EBBEFA1F01C88D0006B8AE /* MobileCenterCrashes.framework */,
 				043121781EE0C65B007054C5 /* MobileCenter.framework */,
 				043121791EE0C65B007054C5 /* MobileCenterAnalytics.framework */,
