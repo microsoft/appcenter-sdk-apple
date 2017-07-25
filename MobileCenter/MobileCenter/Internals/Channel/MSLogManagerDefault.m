@@ -1,14 +1,15 @@
+#import "MobileCenter+Internal.h"
 #import "MSChannelDefault.h"
 #import "MSChannelDelegate.h"
-#import "MSFileStorage.h"
 #import "MSHttpSender.h"
 #import "MSIngestionSender.h"
+#import "MSLogDBStorage.h"
 #import "MSLogManagerDefault.h"
 #import "MSLogManagerDefaultPrivate.h"
 #import "MSMobileCenterErrors.h"
 #import "MSMobileCenterInternal.h"
 
-static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecenter.LogManagerQueue";
+static char *const kMSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecenter.LogManagerQueue";
 
 /**
  * Private declaration of the log manager.
@@ -25,13 +26,13 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
   self = [self initWithSender:[[MSIngestionSender alloc] initWithBaseUrl:logUrl
                                                                appSecret:appSecret
                                                                installId:[installId UUIDString]]
-                      storage:[[MSFileStorage alloc] init]];
+                      storage:[[MSLogDBStorage alloc] initWithCapacity:kMSStorageMaxCapacity]];
   return self;
 }
 
 - (instancetype)initWithSender:(MSHttpSender *)sender storage:(id<MSStorage>)storage {
   if ((self = [self init])) {
-    dispatch_queue_t serialQueue = dispatch_queue_create(MSlogsDispatchQueue, DISPATCH_QUEUE_SERIAL);
+    dispatch_queue_t serialQueue = dispatch_queue_create(kMSlogsDispatchQueue, DISPATCH_QUEUE_SERIAL);
     _enabled = YES;
     _logsDispatchQueue = serialQueue;
     _channels = [NSMutableDictionary<NSString *, id<MSChannel>> new];
@@ -135,7 +136,7 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
   // Get the channel.
   id<MSChannel> channel = self.channels[groupId];
   if (!channel) {
-    MSLogWarning([MSMobileCenter logTag], @"Channel has not been initialized for the group ID: %@", groupId);
+    MSLogWarning([MSMobileCenter logTag], @"Channel has not been initialized for the group Id: %@", groupId);
     return;
   }
 
@@ -211,7 +212,7 @@ static char *const MSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecente
   if (self.channels[groupId]) {
     [self.channels[groupId] setEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
   } else {
-    MSLogWarning([MSMobileCenter logTag], @"Channel has not been initialized for the group ID: %@", groupId);
+    MSLogWarning([MSMobileCenter logTag], @"Channel has not been initialized for the group Id: %@", groupId);
   }
 }
 

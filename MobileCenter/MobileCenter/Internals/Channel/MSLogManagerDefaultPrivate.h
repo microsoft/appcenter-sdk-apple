@@ -9,6 +9,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+static short *const kMSStorageMaxCapacity = 300;
+
 @class MSHttpSender;
 
 @interface MSLogManagerDefault ()
@@ -22,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A new `MSLogManager` instance.
  */
-- (instancetype)initWithSender:(MSHttpSender *)sender storage:(id <MSStorage>)storage;
+- (instancetype)initWithSender:(MSHttpSender *)sender storage:(id<MSStorage>)storage;
 
 @end
 

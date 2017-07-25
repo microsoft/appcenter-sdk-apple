@@ -7,4 +7,5 @@ framework module MobileCenter {
   link framework "Foundation"
   link framework "SystemConfiguration"
   link framework "AppKit"
+  link "sqlite3"
 }

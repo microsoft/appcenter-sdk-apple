@@ -75,6 +75,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * Tells the app that a remote notification arrived that indicates there is data to be fetched.
+ * Workaroud for iOS 10 bug. See https://forums.developer.apple.com/thread/54332
+ *
+ * @param application The singleton app object.
+ * @param userInfo A dictionary that contains information related to the remote notification, potentially including a
+ * badge number for the app icon, an alert sound, an alert message to display to the user, a notification identifier,
+ * and custom data. The provider originates it as a JSON-defined dictionary that iOS converts to an @see NSDictionary
+ * object; the dictionary may contain only property-list objects plus @see NSNull.
+ */
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo;
+
+/**
+ * Tells the app that a remote notification arrived that indicates there is data to be fetched.
  *
  * @param application The singleton app object.
  * @param userInfo A dictionary that contains information related to the remote notification, potentially including a

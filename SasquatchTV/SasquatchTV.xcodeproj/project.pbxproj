@@ -80,6 +80,7 @@
 		5CB338A11EE59B4B0089A60B /* MobileCenterDelegateObjC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MobileCenterDelegateObjC.m; sourceTree = "<group>"; };
 		5CB338A31EE59C0F0089A60B /* MobileCenterDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobileCenterDelegate.swift; sourceTree = "<group>"; };
 		5CBE5F501F02BC89001ABD15 /* EditPropertyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditPropertyViewController.swift; path = ViewControllers/EditPropertyViewController.swift; sourceTree = "<group>"; };
+		B2181B7D1F268AAD00D2EEAE /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		D322EFCA1E8E97A100A8EDA5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/SasquatchTV.storyboard; sourceTree = "<group>"; };
 		D322EFCC1E8E97A100A8EDA5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D322EFCE1E8E97A100A8EDA5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -269,6 +270,7 @@
 		D322F0061E8E98DF00A8EDA5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B2181B7D1F268AAD00D2EEAE /* libsqlite3.tbd */,
 				04EBBEFA1F01C88D0006B8AE /* MobileCenterCrashes.framework */,
 				043121781EE0C65B007054C5 /* MobileCenter.framework */,
 				043121791EE0C65B007054C5 /* MobileCenterAnalytics.framework */,

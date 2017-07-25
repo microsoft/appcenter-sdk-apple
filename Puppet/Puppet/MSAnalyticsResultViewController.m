@@ -49,7 +49,7 @@
   dispatch_async(dispatch_get_main_queue(), ^{
     id log = notification.object;
     self.eventNameLabel.text = [log eventName];
-    self.eventPropsLabel.text = [NSString stringWithFormat:@"%lu", [log properties].count];
+    self.eventPropsLabel.text = [NSString stringWithFormat:@"%tu", [log properties].count];
     self.didSendingEventLabel.text = kDidSendingEventText;
     [self reloadCells];
   });
@@ -59,7 +59,7 @@
   dispatch_async(dispatch_get_main_queue(), ^{
     id log = notification.object;
     self.eventNameLabel.text = [log eventName];
-    self.eventPropsLabel.text = [NSString stringWithFormat:@"%lu", [log properties].count];
+    self.eventPropsLabel.text = [NSString stringWithFormat:@"%tu", [log properties].count];
     self.didSentEventLabel.text = kDidSentEventText;
     [self reloadCells];
   });
@@ -69,7 +69,7 @@
   dispatch_async(dispatch_get_main_queue(), ^{
     id log = notification.object;
     self.eventNameLabel.text = [log eventName];
-    self.eventPropsLabel.text = [NSString stringWithFormat:@"%lu", [log properties].count];
+    self.eventPropsLabel.text = [NSString stringWithFormat:@"%tu", [log properties].count];
     self.didFailedToSendEventLabel.text = kDidFailedToSendEventText;
     [self reloadCells];
   });

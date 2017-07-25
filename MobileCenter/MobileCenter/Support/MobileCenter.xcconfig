@@ -2,6 +2,6 @@
 
 PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenter
 
-OTHER_LDFLAGS = $(inherited) -framework Foundation -framework SystemConfiguration
+OTHER_LDFLAGS = $(inherited) -framework Foundation -framework SystemConfiguration -lsqlite3
 
 CLANG_WARN_INT_CONVERSION = NO
