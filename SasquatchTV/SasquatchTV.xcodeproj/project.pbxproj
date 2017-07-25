@@ -27,6 +27,8 @@
 		5C4F926B1EE84260003140BF /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C4F926A1EE84260003140BF /* MSAlertController.m */; };
 		5C5A41801EE5AE7500C377A7 /* MobileCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB338A31EE59C0F0089A60B /* MobileCenterDelegate.swift */; };
 		5C5A41881EE5B07D00C377A7 /* MobileCenterDelegateSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5A41811EE5AEE800C377A7 /* MobileCenterDelegateSwift.swift */; };
+		5C931C7B1F026688004AF9CD /* MSPropertyViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C931C7A1F026688004AF9CD /* MSPropertyViewCell.swift */; };
+		5C931C7C1F0269BD004AF9CD /* MSPropertyViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C931C7A1F026688004AF9CD /* MSPropertyViewCell.swift */; };
 		5CB338A21EE59B4B0089A60B /* MobileCenterDelegateObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CB338A11EE59B4B0089A60B /* MobileCenterDelegateObjC.m */; };
 		5CB338A41EE59C0F0089A60B /* MobileCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB338A31EE59C0F0089A60B /* MobileCenterDelegate.swift */; };
 		801C25651F040F3C00F4859B /* CrashLibTV.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 801C25641F040F3C00F4859B /* CrashLibTV.framework */; };
@@ -38,6 +40,8 @@
 		80F9916B1F027D250040FAD7 /* CrashesDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F9916A1F027D250040FAD7 /* CrashesDetailViewController.swift */; };
 		80F9916C1F027D250040FAD7 /* CrashesDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F9916A1F027D250040FAD7 /* CrashesDetailViewController.swift */; };
 		80F9916D1F0287B60040FAD7 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C4F926A1EE84260003140BF /* MSAlertController.m */; };
+		5CBE5F511F02BC89001ABD15 /* EditPropertyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CBE5F501F02BC89001ABD15 /* EditPropertyViewController.swift */; };
+		5CBE5F521F02BC89001ABD15 /* EditPropertyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CBE5F501F02BC89001ABD15 /* EditPropertyViewController.swift */; };
 		D322EFDB1E8E97C800A8EDA5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D322EFDA1E8E97C800A8EDA5 /* AppDelegate.swift */; };
 		D322EFE21E8E97C800A8EDA5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D322EFE11E8E97C800A8EDA5 /* Assets.xcassets */; };
 		D322EFEF1E8E97DF00A8EDA5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D322EFEE1E8E97DF00A8EDA5 /* main.m */; };
@@ -104,6 +108,7 @@
 		5C4F92691EE84260003140BF /* MSAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSAlertController.h; path = ../../Vendor/iOS/MSAlertController/MSAlertController.h; sourceTree = "<group>"; };
 		5C4F926A1EE84260003140BF /* MSAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSAlertController.m; path = ../../Vendor/iOS/MSAlertController/MSAlertController.m; sourceTree = "<group>"; };
 		5C5A41811EE5AEE800C377A7 /* MobileCenterDelegateSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobileCenterDelegateSwift.swift; sourceTree = "<group>"; };
+		5C931C7A1F026688004AF9CD /* MSPropertyViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MSPropertyViewCell.swift; path = ViewControllers/Utils/MSPropertyViewCell.swift; sourceTree = "<group>"; };
 		5CB338991EE58EBC0089A60B /* SasquatchTV-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SasquatchTV-Bridging-Header.h"; sourceTree = "<group>"; };
 		5CB338A01EE59B250089A60B /* MobileCenterDelegateObjC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MobileCenterDelegateObjC.h; sourceTree = "<group>"; };
 		5CB338A11EE59B4B0089A60B /* MobileCenterDelegateObjC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MobileCenterDelegateObjC.m; sourceTree = "<group>"; };
@@ -113,6 +118,7 @@
 		80F9915C1F0267500040FAD7 /* CrashLibTV.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashLibTV.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/MobileCenter-gzzoukhobsrfomgiewjmdheqlofd/Build/Products/Debug-appletvsimulator/CrashLibTV.framework"; sourceTree = "<group>"; };
 		80F991611F0267B40040FAD7 /* CrashesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = CrashesViewController.swift; sourceTree = "<group>"; tabWidth = 2; };
 		80F9916A1F027D250040FAD7 /* CrashesDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrashesDetailViewController.swift; sourceTree = "<group>"; };
+		5CBE5F501F02BC89001ABD15 /* EditPropertyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditPropertyViewController.swift; path = ViewControllers/EditPropertyViewController.swift; sourceTree = "<group>"; };
 		D322EFCA1E8E97A100A8EDA5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/SasquatchTV.storyboard; sourceTree = "<group>"; };
 		D322EFCC1E8E97A100A8EDA5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D322EFCE1E8E97A100A8EDA5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -185,6 +191,14 @@
 				5C4F926A1EE84260003140BF /* MSAlertController.m */,
 			);
 			name = MSAlertController;
+			sourceTree = "<group>";
+		};
+		5C931C791F02666A004AF9CD /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				5C931C7A1F026688004AF9CD /* MSPropertyViewCell.swift */,
+			);
+			name = Utils;
 			sourceTree = "<group>";
 		};
 		D322EFB91E8E97A100A8EDA5 = {
@@ -281,6 +295,10 @@
 				5C481B991EE5794A009329DD /* AnalyticsViewController.swift */,
 				80F991611F0267B40040FAD7 /* CrashesViewController.swift */,
 				80F9916A1F027D250040FAD7 /* CrashesDetailViewController.swift */,
+				5C931C791F02666A004AF9CD /* Utils */,
+				5C481B991EE5794A009329DD /* AnalyticsViewController.swift */,
+				5C481B9A1EE5794A009329DD /* MobileCenterViewController.swift */,
+				5CBE5F501F02BC89001ABD15 /* EditPropertyViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -497,6 +515,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				5C481B9F1EE5794A009329DD /* MobileCenterViewController.swift in Sources */,
+				5C931C7C1F0269BD004AF9CD /* MSPropertyViewCell.swift in Sources */,
+				5CBE5F521F02BC89001ABD15 /* EditPropertyViewController.swift in Sources */,
 				5C5A41881EE5B07D00C377A7 /* MobileCenterDelegateSwift.swift in Sources */,
 				5C5A41801EE5AE7500C377A7 /* MobileCenterDelegate.swift in Sources */,
 				80F991631F0267B40040FAD7 /* CrashesViewController.swift in Sources */,
@@ -520,6 +540,8 @@
 				80F9916B1F027D250040FAD7 /* CrashesDetailViewController.swift in Sources */,
 				5C481B9E1EE5794A009329DD /* MobileCenterViewController.swift in Sources */,
 				5C481B9C1EE5794A009329DD /* AnalyticsViewController.swift in Sources */,
+				5CBE5F511F02BC89001ABD15 /* EditPropertyViewController.swift in Sources */,
+				5C931C7B1F026688004AF9CD /* MSPropertyViewCell.swift in Sources */,
 				5CB338A41EE59C0F0089A60B /* MobileCenterDelegate.swift in Sources */,
 				5CB338A21EE59B4B0089A60B /* MobileCenterDelegateObjC.m in Sources */,
 			);

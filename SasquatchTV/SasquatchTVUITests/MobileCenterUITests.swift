@@ -44,9 +44,8 @@ class MobileCenterCUITests : XCTestCase {
     // Check Analytics.
     press(button: .up, times: 4);
     XCUIRemote.shared().press(.select);
-    let analyticsCell = app.cells.element(boundBy: 4);
-    let analyticsStatus = analyticsCell.staticTexts.element(boundBy: 1);
-    XCTAssertTrue(analyticsStatus.label == "Disabled");
+    let disabledButton = app.segmentedControls.buttons["Disabled"];
+    XCTAssertTrue(disabledButton.isSelected);
 
     // Without this delay the app doesn't have time to go back and the test fails.
     sleep(1);
@@ -62,7 +61,8 @@ class MobileCenterCUITests : XCTestCase {
     // Check Analytics.
     press(button: .up, times: 4);
     XCUIRemote.shared().press(.select);
-    XCTAssertTrue(analyticsStatus.label == "Enabled");
+    let enabledButton = app.segmentedControls.buttons["Enabled"];
+    XCTAssertTrue(enabledButton.isSelected);
   }
 
   func testMiscellaneousInfo() {
