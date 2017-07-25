@@ -275,7 +275,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   errorLog.device = [[MSDeviceTracker new] deviceForToffset:errorLog.toffset];
 
   // Set the exception from the wrapper sdk
-  MSWrapperException* wrapperException = [MSWrapperExceptionManager loadWrapperExceptionWithUUIDRef:report.uuidRef];
+  MSWrapperException* wrapperException = [MSWrapperExceptionManager loadWrapperExceptionWithUUID:[self uuidRefToString:report.uuidRef]];
   if (wrapperException) {
     errorLog.exception = wrapperException.modelException;
   }
@@ -815,5 +815,14 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
   return addresses;
 }
+
++ (NSString *)uuidRefToString:(CFUUIDRef)uuidRef {
+  if (!uuidRef) {
+    return nil;
+  }
+  CFStringRef uuidStringRef = CFUUIDCreateString(kCFAllocatorDefault, uuidRef);
+  return (__bridge_transfer NSString *)uuidStringRef;
+}
+
 
 @end

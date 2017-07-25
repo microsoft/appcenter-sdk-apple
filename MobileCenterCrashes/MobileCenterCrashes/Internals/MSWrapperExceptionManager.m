@@ -1,9 +1,8 @@
 #import "MSWrapperExceptionManagerInternal.h"
+#import "MSErrorReport.h"
 #import "MSCrashesInternal.h"
 #import "MSException.h"
 #import "MSWrapperExceptionInternal.h"
-
-#import <CrashReporter/CrashReporter.h>
 
 @implementation MSWrapperExceptionManager : NSObject
 
@@ -36,7 +35,7 @@ static NSString* const kLastWrapperExceptionFileName = @"last_saved_wrapper_exce
  * Gets a wrapper exception with a given UUID.
  */
 + (MSWrapperException *) loadWrapperExceptionWithUUID:(NSString *)uuid {
-  return [self loadWrapperExceptionWithBaseFilename:uuid]];
+  return [self loadWrapperExceptionWithBaseFilename:uuid];
 }
 
 /**
@@ -56,20 +55,6 @@ static NSString* const kLastWrapperExceptionFileName = @"last_saved_wrapper_exce
 }
 
 /**
- * Deletes a wrapper exception with a given CFUUIDRef.
- */
-+ (void) deleteWrapperExceptionWithUUIDRef:(CFUUIDRef)uuidRef {
-  [self deleteWrapperExceptionWithBaseFilename:[self uuidRefToString:uuidRef]];
-}
-
-/**
- * Gets a wrapper exception with a given CFUUIDRef.
- */
-+ (MSWrapperException *) loadWrapperExceptionWithUUIDRef:(CFUUIDRef)uuidRef {
-  return [self loadWrapperExceptionWithBaseFilename:[self uuidRefToString:uuidRef]];
-}
-
-/**
  * Deletes all wrapper exceptions on disk.
  */
 + (void)deleteAllWrapperExceptions {
@@ -82,28 +67,25 @@ static NSString* const kLastWrapperExceptionFileName = @"last_saved_wrapper_exce
 
 /**
  * Renames the last saved wrapper exception with the error ID of the
- * corresponding report in the given array.
+ * corresponding report in the given array. Pairing is based on the process
+ * id of the error report.
  */
-+ (void) correlateLastSavedWrapperExceptionToReport:(NSArray<MSPLCrashReport*> *)reports
-{
++ (void) correlateLastSavedWrapperExceptionToReport:(NSArray<MSErrorReport*> *)reports {
   MSWrapperException *lastSavedWrapperException = [self loadWrapperExceptionWithBaseFilename:kLastWrapperExceptionFileName];
 
   // Delete the last saved exception from disk if it exists
   if (lastSavedWrapperException) {
     [self deleteWrapperExceptionWithBaseFilename:kLastWrapperExceptionFileName];
   }
-
-  MSPLCrashReport * correspondingReport = nil;
-  for (MSPLCrashReport * report in reports) {
-    if ([report hasProcessInfo] &&
-        [lastSavedWrapperException.processId unsignedIntegerValue] == report.processInfo.processID){
+  MSErrorReport * correspondingReport = nil;
+  for (MSErrorReport * report in reports) {
+    if ([lastSavedWrapperException.processId unsignedLongValue] == report.appProcessIdentifier) {
       correspondingReport = report;
       break;
     }
   }
   if (correspondingReport) {
-    NSString* uuidString = [[self class] uuidRefToString:correspondingReport.uuidRef];
-    [self saveWrapperException:lastSavedWrapperException withBaseFilename:uuidString];
+    [self saveWrapperException:lastSavedWrapperException withBaseFilename:correspondingReport.incidentIdentifier];
   }
 }
 
@@ -181,15 +163,5 @@ static NSString* const kLastWrapperExceptionFileName = @"last_saved_wrapper_exce
   return [[[self class] directoryPath] stringByAppendingPathComponent:filename];
 }
 
-/**
- * Converts the given CFUUIDRef to an NSString*.
- */
-+ (NSString *)uuidRefToString:(CFUUIDRef)uuidRef {
-  if (!uuidRef) {
-    return nil;
-  }
-  CFStringRef uuidStringRef = CFUUIDCreateString(kCFAllocatorDefault, uuidRef);
-  return (__bridge_transfer NSString *)uuidStringRef;
-}
 
 @end

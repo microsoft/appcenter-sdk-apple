@@ -628,6 +628,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 }
 
 - (void)processCrashReports {
+  
   // Handle 'disabled' state all at once to simplify the logic that follows
   if (!self.isEnabled) {
     MSLogDebug([MSCrashes logTag], @"Crashes service is disabled; discard all crash reports");
@@ -641,20 +642,31 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   self.unprocessedLogs = [[NSMutableArray alloc] init];
   self.unprocessedReports = [[NSMutableArray alloc] init];
   self.unprocessedFilePaths = [[NSMutableArray alloc] init];
-  NSMutableDictionary * crashReports = [[NSMutableDictionary alloc] init];
+
+  // First save all found crash reports for use in correlation step
+  NSMutableDictionary *foundCrashReports = [[NSMutableDictionary alloc] init];
+  NSMutableDictionary *foundErrorLogs = [[NSMutableDictionary alloc] init];
+  NSMutableDictionary *foundErrorReports = [[NSMutableDictionary alloc] init];
   for (NSURL *fileURL in self.crashFiles) {
     NSData *crashFileData = [NSData dataWithContentsOfURL:fileURL];
     if ([crashFileData length] > 0) {
       MSPLCrashReport *report = [[MSPLCrashReport alloc] initWithData:crashFileData error:&error];
-      crashReports[fileURL] = report;
+      MSAppleErrorLog *log = [MSErrorLogFormatter errorLogFromCrashReport:report];
+      foundCrashReports[fileURL] = report;
+      foundErrorLogs[fileURL] = log;
+      foundErrorReports[fileURL] = [MSErrorLogFormatter errorReportFromLog:log];
     }
   }
-  [MSWrapperExceptionManager correlateLastSavedWrapperExceptionToReport:[crashReports allValues]];
-  for (NSURL *fileURL in [crashReports allKeys]) {
+
+  // Correlation step
+  [MSWrapperExceptionManager correlateLastSavedWrapperExceptionToReport:[foundErrorReports allValues]];
+
+  // Processing step
+  for (NSURL *fileURL in [foundCrashReports allKeys]) {
     MSLogVerbose([MSCrashes logTag], @"Crash report found");
-    MSPLCrashReport *report = crashReports[fileURL];
-    MSAppleErrorLog *log = [MSErrorLogFormatter errorLogFromCrashReport:report];
-    MSErrorReport *errorReport = [MSErrorLogFormatter errorReportFromLog:(log)];
+    MSPLCrashReport *report = foundCrashReports[fileURL];
+    MSAppleErrorLog *log = foundErrorLogs[fileURL];
+    MSErrorReport *errorReport = foundErrorReports[fileURL];
     if ([self shouldProcessErrorReport:errorReport]) {
       MSLogDebug([MSCrashes logTag],
                  @"shouldProcessErrorReport is not implemented or returned YES, processing the crash report: %@",
@@ -669,7 +681,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
                  report.debugDescription);
 
       // Discard the crash report.
-      [MSWrapperExceptionManager deleteWrapperExceptionWithUUIDRef:report.uuidRef];
+      [MSWrapperExceptionManager deleteWrapperExceptionWithUUID:errorReport.incidentIdentifier];
       [self deleteCrashReportWithFileURL:fileURL];
       [self.crashFiles removeObject:fileURL];
     }
