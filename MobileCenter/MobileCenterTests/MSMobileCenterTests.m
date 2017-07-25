@@ -5,6 +5,7 @@
 #import "MSMobileCenterInternal.h"
 #import "MSMobileCenterPrivate.h"
 #import "MSMockService.h"
+
 #if TARGET_OS_OSX
 
 // TODO: ApplicationDelegate is not yet implemented for macOS.
@@ -12,11 +13,10 @@
 #import "MSMockCustomAppDelegate.h"
 #import "MSMockOriginalAppDelegate.h"
 #endif
+
 #import "MSMockUserDefaults.h"
-#import "MSTestFrameworks.h"
-#import "MSCustomProperties.h"
-#import "MSCustomPropertiesLog.h"
 #import "MSStartServiceLog.h"
+#import "MSTestFrameworks.h"
 
 static NSString *const kMSInstallIdStringExample = @"F18499DA-5C3D-4F05-B4E8-D8C9C06A6F09";
 
