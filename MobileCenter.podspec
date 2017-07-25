@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name              = 'MobileCenter'
-  s.version           = '0.10.1'
+  s.version           = '0.11.0'
 
   s.summary           = 'Mobile Center is mission control for mobile apps. Get faster release cycles, higher-quality apps, and the insights to build what users want.'
   s.description       = <<-DESC
@@ -43,6 +43,7 @@ Pod::Spec.new do |s|
     ss.osx.frameworks = 'AppKit'
     ss.ios.vendored_frameworks = "MobileCenter-SDK-Apple/iOS/MobileCenter.framework"
     ss.osx.vendored_frameworks = "MobileCenter-SDK-Apple/macOS/MobileCenter.framework"
+    ss.libraries = 'sqlite3'
   end
 
  s.subspec 'Analytics' do |ss|

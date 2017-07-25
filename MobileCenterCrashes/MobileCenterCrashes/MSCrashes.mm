@@ -17,12 +17,12 @@
 static NSString *const kMSServiceName = @"Crashes";
 
 /**
- * The group ID for storage.
+ * The group Id for storage.
  */
 static NSString *const kMSGroupId = @"Crashes";
 
 /**
- * The group ID for log buffer.
+ * The group Id for log buffer.
  */
 static NSString *const kMSBufferGroupId = @"CrashesBuffer";
 

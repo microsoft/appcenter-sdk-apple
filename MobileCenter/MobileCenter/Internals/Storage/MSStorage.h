@@ -4,73 +4,70 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void (^MSLoadDataCompletionBlock)(BOOL succeeded, NSArray<MSLog> *logArray, NSString *batchId);
+/**
+ * Completion block triggered when data is loaded from the storage.
+ *
+ * @param logArray Array of logs loaded from the storage.
+ * @param batchId Batch Id associated with the logs, `nil` if no logs available.
+ */
+typedef void (^MSLoadDataCompletionBlock)(NSArray<id<MSLog>> *_Nullable logArray, NSString *_Nullable batchId);
 
 /**
- * Defines the storage component which is responsible for file i/o and file management.
+ * Defines the storage component which is responsible for persisting logs.
  */
 @protocol MSStorage <NSObject>
-
-/**
- * Defines the maximum count of app log files per storage key on the file system.
- *
- * Default: 7
- */
-@property(nonatomic) NSUInteger bucketFileCountLimit;
-
-/**
- * Defines the maximum count of app logs per storage key in a file.
- *
- * Default: 50
- */
-@property(nonatomic) NSUInteger bucketFileLogCountLimit;
 
 @required
 
 /**
- * Writes a log to the file system.
+ * Create a storage with a capacity.
  *
- * @param log The log item that should be written to disk
- * @param groupId The groupId used for grouping
+ * @param capacity Maximum allowed capacity in this storage.
+ *
+ * @return Return an instance of this storage.
+ *
+ * @discussion The storage removes the oldest log whenever its capacity goes over limit.
+ */
+- (instancetype)initWithCapacity:(NSUInteger)capacity;
+
+/**
+ * Store a log.
+ *
+ * @param log The log to be stored.
+ * @param groupId The key used for grouping logs.
  *
  * @return BOOL that indicates if the log was saved successfully.
  */
 - (BOOL)saveLog:(id<MSLog>)log withGroupId:(NSString *)groupId;
 
 /**
- * Delete logs related to given storage key from the file system.
+ * Delete logs related to given group from the storage.
  *
- * @param groupId The groupId used for grouping.
+ * @param groupId The key used for grouping logs.
  *
- * @return the list of deleted logs.
+ * @return The list of deleted logs.
  */
-- (NSArray<MSLog> *)deleteLogsForGroupId:(NSString *)groupId;
+- (NSArray<id<MSLog>> *)deleteLogsWithGroupId:(NSString *)groupId;
 
 /**
- * Delete a log from the file system.
+ * Delete a log from the storage.
  *
- * @param logsId The log item that should be deleted from disk.
- * @param groupId The key used for grouping.
+ * @param batchId Id of the log to be deleted from storage.
+ * @param groupId The key used for grouping logs.
  */
-- (void)deleteLogsForId:(NSString *)logsId withGroupId:(NSString *)groupId;
+- (void)deleteLogsWithBatchId:(NSString *)batchId groupId:(NSString *)groupId;
 
 /**
- * Returns the most recent logs for a given storage key.
+ * Return the most recent logs for a Group Id.
  *
  * @param groupId The key used for grouping.
+ * @param limit Limit the maximum number of logs to be loaded from the server.
  *
  * @return a list of logs.
  */
-- (BOOL)loadLogsForGroupId:(NSString *)groupId withCompletion:(nullable MSLoadDataCompletionBlock)completion;
-
-/**
- * FIXME: The number of logs per batch and the number of logs per files are currently tied together. The storage loads
- * what's contained in the available file and this could be higher than the batch max size going to be sent. To mitigate
- * this kind of scenario the file is closed when the max size of the log batch is reached.
- *
- * @param groupId The key used for grouping.
- */
-- (void)closeBatchWithGroupId:(NSString *)groupId;
+- (BOOL)loadLogsWithGroupId:(NSString *)groupId
+                      limit:(NSUInteger)limit
+             withCompletion:(nullable MSLoadDataCompletionBlock)completion;
 
 @end
 

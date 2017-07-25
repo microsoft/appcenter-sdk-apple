@@ -118,7 +118,6 @@
 
     // Still close the current batch it will be flushed later.
     if (self.itemsCount >= self.configuration.batchSizeLimit) {
-      [self.storage closeBatchWithGroupId:self.configuration.groupId];
 
       // That batch becomes available.
       self.availableBatchFromStorage = YES;
@@ -130,83 +129,94 @@
   // Reset item count and load data from the storage.
   self.itemsCount = 0;
   self.availableBatchFromStorage = [self.storage
-      loadLogsForGroupId:self.configuration.groupId
-          withCompletion:^(BOOL succeeded, NSArray<MSLog> *_Nonnull logArray, NSString *_Nonnull batchId) {
+      loadLogsWithGroupId:self.configuration.groupId
+                    limit:self.configuration.batchSizeLimit
+           withCompletion:^(NSArray<MSLog> *_Nonnull logArray, NSString *batchId) {
 
-               // Logs may be deleted from storage before this flush.
-               if (succeeded) {
-                 [self.pendingBatchIds addObject:batchId];
-                 if (self.pendingBatchIds.count >= self.configuration.pendingBatchesLimit) {
-                   self.pendingBatchQueueFull = YES;
-                 }
-                 MSLogContainer *container = [[MSLogContainer alloc] initWithBatchId:batchId andLogs:logArray];
-                 MSLogDebug([MSMobileCenter logTag], @"Sending log(s), batch Id:%@, payload:\n%@", batchId,
-                            [container serializeLogWithPrettyPrinting:YES]);
+             // Logs may be deleted from storage before this flush.
+             if (batchId.length > 0) {
+               [self.pendingBatchIds addObject:batchId];
+               if (self.pendingBatchIds.count >= self.configuration.pendingBatchesLimit) {
+                 self.pendingBatchQueueFull = YES;
+               }
+               MSLogContainer *container = [[MSLogContainer alloc] initWithBatchId:batchId andLogs:logArray];
+               MSLogDebug([MSMobileCenter logTag], @"Sending log(s), batch Id:%@, payload:\n%@", batchId,
+                          [container serializeLogWithPrettyPrinting:YES]);
 
-              // Notify delegates.
-              [self enumerateDelegatesForSelector:@selector(channel:willSendLog:)
-                                        withBlock:^(id<MSChannelDelegate> delegate) {
-                                          for (id<MSLog> aLog in logArray) {
-                                            [delegate channel:self willSendLog:aLog];
-                                          }
-                                        }];
+               // Notify delegates.
+               [self enumerateDelegatesForSelector:@selector(channel:willSendLog:)
+                                         withBlock:^(id<MSChannelDelegate> delegate) {
+                                           for (id<MSLog> aLog in logArray) {
+                                             [delegate channel:self willSendLog:aLog];
+                                           }
+                                         }];
 
-                 // Forward logs to the sender.
-                 [self.sender
-                             sendAsync:container
-                     completionHandler:^(NSString *senderBatchId, NSUInteger statusCode, __attribute__((unused)) NSData *data, NSError *error) {
-                       dispatch_async(self.logsDispatchQueue, ^{
-                         if ([self.pendingBatchIds containsObject:senderBatchId]) {
+               // Forward logs to the sender.
+               [self.sender
+                           sendAsync:container
+                   completionHandler:^(NSString *senderBatchId, NSUInteger statusCode,
+                                       __attribute__((unused)) NSData *data, NSError *error) {
+                     dispatch_async(self.logsDispatchQueue, ^{
+                       if ([self.pendingBatchIds containsObject:senderBatchId]) {
 
-                        // Success.
-                        if (statusCode == MSHTTPCodesNo200OK) {
-                          MSLogDebug([MSMobileCenter logTag], @"Log(s) sent with success, batch Id:%@.", senderBatchId);
+                         // Success.
+                         if (statusCode == MSHTTPCodesNo200OK) {
+                           MSLogDebug([MSMobileCenter logTag], @"Log(s) sent with success, batch Id:%@.",
+                                      senderBatchId);
 
-                          // Notify delegates.
-                          [self enumerateDelegatesForSelector:@selector(channel:didSucceedSendingLog:)
-                                                    withBlock:^(id<MSChannelDelegate> delegate) {
-                                                      for (id<MSLog> aLog in logArray) {
-                                                        [delegate channel:self didSucceedSendingLog:aLog];
-                                                      }
-                                                    }];
+                           // Notify delegates.
+                           [self enumerateDelegatesForSelector:@selector(channel:didSucceedSendingLog:)
+                                                     withBlock:^(id<MSChannelDelegate> delegate) {
+                                                       for (id<MSLog> aLog in logArray) {
+                                                         [delegate channel:self didSucceedSendingLog:aLog];
+                                                       }
+                                                     }];
 
-                          // Remove from pending logs and storage.
-                          [self.pendingBatchIds removeObject:senderBatchId];
-                          [self.storage deleteLogsForId:senderBatchId withGroupId:self.configuration.groupId];
+                           // Remove from pending logs and storage.
+                           [self.pendingBatchIds removeObject:senderBatchId];
+                           [self.storage deleteLogsWithBatchId:senderBatchId groupId:self.configuration.groupId];
 
-                          // Try to flush again if batch queue is not full anymore.
-                          if (self.pendingBatchQueueFull &&
-                              self.pendingBatchIds.count < self.configuration.pendingBatchesLimit) {
-                            self.pendingBatchQueueFull = NO;
-                            if (self.availableBatchFromStorage) {
-                              [self flushQueue];
-                            }
-                          }
-                        }
+                           // Try to flush again if batch queue is not full anymore.
+                           if (self.pendingBatchQueueFull &&
+                               self.pendingBatchIds.count < self.configuration.pendingBatchesLimit) {
+                             self.pendingBatchQueueFull = NO;
+                             if (self.availableBatchFromStorage) {
+                               [self flushQueue];
+                             }
+                           }
+                         }
+                         
+                         // Failure.
+                         else {
+                           MSLogDebug([MSMobileCenter logTag],
+                                      @"Log(s) sent with failure, batch Id:%@, status code:%lu", senderBatchId,
+                                      (unsigned long)statusCode);
 
-                        // Failure.
-                        else {
-                          MSLogDebug([MSMobileCenter logTag], @"Log(s) sent with failure, batch Id:%@, status code:%lu",
-                                     senderBatchId, (unsigned long)statusCode);
+                           // Notify delegates.
+                           [self
+                               enumerateDelegatesForSelector:@selector(channel:didFailSendingLog:withError:)
+                                                   withBlock:^(id<MSChannelDelegate> delegate) {
+                                                     for (id<MSLog> aLog in logArray) {
+                                                       [delegate channel:self didFailSendingLog:aLog withError:error];
+                                                     }
+                                                   }];
 
-                          // Notify delegates.
-                          [self enumerateDelegatesForSelector:@selector(channel:didFailSendingLog:withError:)
-                                                    withBlock:^(id<MSChannelDelegate> delegate) {
-                                                      for (id<MSLog> aLog in logArray) {
-                                                        [delegate channel:self didFailSendingLog:aLog withError:error];
-                                                      }
-                                                    }];
-
-                          // Remove from pending logs.
-                          [self.pendingBatchIds removeObject:senderBatchId];
-                          [self.storage deleteLogsForId:senderBatchId withGroupId:self.configuration.groupId];
-                        }
-                      } else
-                        MSLogWarning([MSMobileCenter logTag], @"Batch Id %@ not expected, ignore.", senderBatchId);
-                    });
-                  }];
-            }
-          }];
+                           // Remove from pending logs.
+                           [self.pendingBatchIds removeObject:senderBatchId];
+                           [self.storage deleteLogsWithBatchId:senderBatchId groupId:self.configuration.groupId];
+                           
+                           // Update pending batch queue state.
+                           if (self.pendingBatchQueueFull &&
+                               self.pendingBatchIds.count < self.configuration.pendingBatchesLimit) {
+                             self.pendingBatchQueueFull = NO;
+                           }
+                         }
+                       } else
+                         MSLogWarning([MSMobileCenter logTag], @"Batch Id %@ not expected, ignore.", senderBatchId);
+                     });
+                   }];
+             }
+           }];
 
   // Flush again if there is another batch to send.
   if (self.availableBatchFromStorage && !self.pendingBatchQueueFull) {
@@ -225,7 +235,8 @@
    * Cast (NSEC_PER_SEC * self.configuration.flushInterval) to (int64_t) silence warning. The compiler otherwise
    * complains that we're using a float param (flushInterval) and implicitly downcast to int64_t.
    */
-  dispatch_source_set_timer(self.timerSource, dispatch_walltime(NULL, (int64_t) (NSEC_PER_SEC * self.configuration.flushInterval)),
+  dispatch_source_set_timer(self.timerSource,
+                            dispatch_walltime(NULL, (int64_t)(NSEC_PER_SEC * self.configuration.flushInterval)),
                             1ull * NSEC_PER_SEC, 1ull * NSEC_PER_SEC);
   __weak typeof(self) weakSelf = self;
   dispatch_source_set_event_handler(self.timerSource, ^{
@@ -255,7 +266,7 @@
     if (self.enabled != isEnabled) {
       self.enabled = isEnabled;
       if (isEnabled) {
-        if (!self.sender.suspended){
+        if (!self.sender.suspended) {
           [self resume];
         }
       } else {
@@ -278,6 +289,10 @@
 
       // Prevent further logs from being persisted.
       self.discardLogs = YES;
+    } else {
+
+      // Allow logs to be persisted.
+      self.discardLogs = NO;
     }
   });
 }
@@ -294,7 +309,6 @@
   if (self.suspended && self.enabled) {
     MSLogDebug([MSMobileCenter logTag], @"Resume channel for group Id %@.", self.configuration.groupId);
     self.suspended = NO;
-    self.discardLogs = NO;
     [self flushQueue];
   }
 }
@@ -312,11 +326,11 @@
 
   // Delete pending batches first.
   for (NSString *batchId in self.pendingBatchIds) {
-    [self.storage deleteLogsForId:batchId withGroupId:self.configuration.groupId];
+    [self.storage deleteLogsWithBatchId:batchId groupId:self.configuration.groupId];
   }
 
   // Delete remaining logs.
-  deletedLogs = [self.storage deleteLogsForGroupId:self.configuration.groupId];
+  deletedLogs = [self.storage deleteLogsWithGroupId:self.configuration.groupId];
 
   // Notify failure of remaining logs.
   for (id<MSLog> log in deletedLogs) {
@@ -342,7 +356,7 @@
 
 - (void)senderDidReceiveFatalError:(id<MSSender>)sender {
   (void)sender;
-  
+
   // Disable and delete data on fatal errors.
   [self setEnabled:NO andDeleteDataOnDisabled:YES];
 }
