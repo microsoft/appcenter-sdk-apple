@@ -20,6 +20,8 @@
 #import "MSServiceAbstractPrivate.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSWrapperExceptionManagerInternal.h"
+#import "MSCrashHandlerSetupDelegate.h"
+#import "MSWrapperCrashesHelper.h"
 
 @class MSMockCrashesDelegate;
 
@@ -156,6 +158,21 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   OCMVerify([delegateMock crashes:[MSCrashes sharedInstance] willSendErrorReport:errorReport]);
   OCMVerify([delegateMock crashes:[MSCrashes sharedInstance] didSucceedSendingErrorReport:errorReport]);
   OCMVerify([delegateMock crashes:[MSCrashes sharedInstance] didFailSendingErrorReport:errorReport withError:nil]);
+}
+
+- (void)testCrashHandlerSetupDelegateMethodsAreCalled {
+
+  // If
+  id<MSCrashHandlerSetupDelegate> delegateMock = OCMProtocolMock(@protocol(MSCrashHandlerSetupDelegate));
+  [MSWrapperCrashesHelper setCrashHandlerSetupDelegate:delegateMock];
+
+  // When
+  [[MSCrashes sharedInstance] applyEnabledState:YES];
+
+  // Then
+  OCMVerify([delegateMock willSetUpCrashHandlers]);
+  OCMVerify([delegateMock didSetUpCrashHandlers]);
+  OCMVerify([delegateMock shouldEnableUncaughtExceptionHandler]);
 }
 
 - (void)testSettingUserConfirmationHandler {

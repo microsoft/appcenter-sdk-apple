@@ -17,12 +17,7 @@
 
 - (void)setUp {
   [super setUp];
-
   self.sut = [self wrapperException];
-}
-
-- (void)tearDown {
-  [super tearDown];
 }
 
 #pragma mark - Helper

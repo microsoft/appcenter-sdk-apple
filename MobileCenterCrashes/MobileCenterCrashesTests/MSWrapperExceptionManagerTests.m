@@ -20,7 +20,6 @@
   [MSWrapperExceptionManager deleteAllWrapperExceptions];
 }
 
-
 #pragma mark - Helper
 
 - (MSException*) getModelException {
