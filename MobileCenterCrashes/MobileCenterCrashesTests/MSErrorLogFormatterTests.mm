@@ -157,20 +157,6 @@
   }
 }
 
-- (void)testCreateErrorLogFromException {
-  MSException *exception = [[MSException alloc] init];
-  exception.type = @"test type";
-  exception.message = @"test message";
-  exception.stackTrace = @"test stack trace";
-  exception.wrapperSdkName = @"test wrapper sdk name";
-  exception.frames = [[NSArray<MSStackFrame*> alloc] init];
-
-  MSAppleErrorLog *errorLog = [MSErrorLogFormatter errorLogFromException:exception];
-
-  XCTAssertNotNil(errorLog);
-  XCTAssertEqualObjects(errorLog.exception, exception);
-}
-
 - (void)testSelectorForRegisterWithName {
   NSData *crashData = [[[MSCrashes sharedInstance] plCrashReporter] generateLiveReport];
   XCTAssertNotNil(crashData);

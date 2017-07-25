@@ -1,5 +1,7 @@
 #import <Foundation/Foundation.h>
 #import <XCTest/XCTest.h>
+#import <OCHamcrestIOS/OCHamcrestIOS.h>
+#import <OCMock/OCMock.h>
 #import "MSWrapperExceptionInternal.h"
 #import "MSException.h"
 
@@ -33,7 +35,7 @@
   exception.modelException = [[MSException alloc] init];
   exception.modelException.type = @"type";
   exception.modelException.message = @"message";
-  exception.modelException.wrapperSdkName @"wrapper sdk name";
+  exception.modelException.wrapperSdkName = @"wrapper sdk name";
 
   return exception;
 }
@@ -49,7 +51,6 @@
   XCTAssertNotNil(actual);
   assertThat(actual[@"process_id"], equalTo(self.sut.processId));
   assertThat(actual[@"exception_data"], equalTo(self.sut.exceptionData));
-  assertThat(actual[@"model_exception"], equalTo(self.sut.modelException));
 
   // Exception fields.
   NSDictionary *exceptionDictionary = actual[@"model_exception"];
@@ -73,10 +74,8 @@
   MSWrapperException *actualWrapperException = actual;
   assertThat(actualWrapperException.processId, equalTo(self.sut.processId));
   assertThat(actualWrapperException.exceptionData, equalTo(self.sut.exceptionData));
-  assertThat(actualWrapperException.modelException, equalTo(self.sut.modelException));
 
   // The exception field.
-  MSException *actualException = actualWrapperException.modelException;
   assertThat(actualWrapperException.modelException.type, equalTo(self.sut.modelException.type));
   assertThat(actualWrapperException.modelException.message, equalTo(self.sut.modelException.message));
   assertThat(actualWrapperException.modelException.wrapperSdkName, equalTo(self.sut.modelException.wrapperSdkName));
