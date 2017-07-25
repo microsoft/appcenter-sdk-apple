@@ -6,6 +6,9 @@
 
 @implementation MSWrapperCrashesHelper
 
+/**
+ * Gets the singleton instance.
+ */
 + (instancetype)sharedInstance {
   static MSWrapperCrashesHelper *sharedInstance = nil;
   static dispatch_once_t onceToken;

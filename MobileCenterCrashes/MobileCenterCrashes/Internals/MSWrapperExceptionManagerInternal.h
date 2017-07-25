@@ -30,4 +30,5 @@
  * Load a wrapper exception with a given UUID.
  */
 + (MSWrapperException *) loadWrapperExceptionWithUUIDRef:(CFUUIDRef)uuidRef;
+
 @end

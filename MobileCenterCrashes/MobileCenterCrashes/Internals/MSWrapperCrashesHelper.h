@@ -7,7 +7,14 @@
  */
 @interface MSWrapperCrashesHelper : NSObject
 
+/**
+ * Sets the crash handler setup delegate.
+ */
 + (void) setCrashHandlerSetupDelegate:(id<MSCrashHandlerSetupDelegate>)delegate;
+
+/**
+ * Gets the crash handler setup delegate.
+ */
 + (id<MSCrashHandlerSetupDelegate>) getCrashHandlerSetupDelegate;
 
 @end
