@@ -17,7 +17,7 @@
                BlueprintIdentifier = "B21A71DA1DD2A38C0044BB1C"
                BuildableName = "CrashLibIOS.framework"
                BlueprintName = "CrashLibIOS"
-               ReferencedContainer = "container:CrashLibIOS.xcodeproj">
+               ReferencedContainer = "container:CrashLib.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -48,7 +48,7 @@
             BlueprintIdentifier = "B21A71DA1DD2A38C0044BB1C"
             BuildableName = "CrashLibIOS.framework"
             BlueprintName = "CrashLibIOS"
-            ReferencedContainer = "container:CrashLibIOS.xcodeproj">
+            ReferencedContainer = "container:CrashLib.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -66,7 +66,7 @@
             BlueprintIdentifier = "B21A71DA1DD2A38C0044BB1C"
             BuildableName = "CrashLibIOS.framework"
             BlueprintName = "CrashLibIOS"
-            ReferencedContainer = "container:CrashLibIOS.xcodeproj">
+            ReferencedContainer = "container:CrashLib.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>
