@@ -257,9 +257,6 @@ static NSString *const kMSGroupId = @"MobileCenter";
     // Start service with log manager.
     [service startWithLogManager:self.logManager appSecret:self.appSecret];
 
-    // Send start service log.
-    [self sendStartServiceLog:@[[clazz serviceName]]];
-
     // Service started
     return YES;
   }
