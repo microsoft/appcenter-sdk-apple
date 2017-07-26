@@ -57,7 +57,7 @@ static NSString *const kMSGroupId = @"MobileCenter";
 }
 
 + (void)startService:(Class)service {
-  [[self sharedInstance] startService:service];
+  [[self sharedInstance] startService:service andSendLog:YES];
 }
 
 + (BOOL)isConfigured {
@@ -225,7 +225,7 @@ static NSString *const kMSGroupId = @"MobileCenter";
       NSMutableArray<NSString *> *servicesNames = [NSMutableArray arrayWithCapacity:sortedServices.count];
 
       for (Class service in sortedServices) {
-        if ([self startService:service]) {
+        if ([self startService:service andSendLog:NO]) {
           [servicesNames addObject:[service serviceName]];
         }
       }
@@ -254,7 +254,7 @@ static NSString *const kMSGroupId = @"MobileCenter";
   }
 }
 
-- (BOOL)startService:(Class)clazz {
+- (BOOL)startService:(Class)clazz andSendLog:(BOOL)sendLog {
   @synchronized(self) {
 
     // Check if clazz is valid class
@@ -276,9 +276,11 @@ static NSString *const kMSGroupId = @"MobileCenter";
     [service startWithLogManager:self.logManager appSecret:self.appSecret];
 
     // Send start service log.
-    [self sendStartServiceLog:@[[clazz serviceName]]];
+    if (sendLog) {
+      [self sendStartServiceLog:@[ [clazz serviceName] ]];
+    }
 
-    // Service started
+    // Service started.
     return YES;
   }
 }
