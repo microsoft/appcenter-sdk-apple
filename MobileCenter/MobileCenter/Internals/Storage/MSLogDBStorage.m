@@ -188,14 +188,19 @@
     NSData *logData = [[NSData alloc] initWithBase64EncodedString:row[self.logColumnIndex]
                                                           options:NSDataBase64DecodingIgnoreUnknownCharacters];
     id<MSLog> log;
+    NSException *exception;
 
     // Deserialize the log.
     @try {
       log = [NSKeyedUnarchiver unarchiveObjectWithData:logData];
-    } @catch (NSException *exception) {
+    } @catch (NSException *e) {
+      exception = e;
+    }
+    if (!log || exception) {
 
       // The archived log is not valid.
-      MSLogError([MSMobileCenter logTag], @"Deserialization failed for log with Id %@: %@", dbId, exception);
+      MSLogError([MSMobileCenter logTag], @"Deserialization failed for log with Id %@: %@", dbId,
+                 exception ? exception : @"The log deserialized to NULL.");
       [self deleteLogFromDBWithId:dbId];
       continue;
     }
