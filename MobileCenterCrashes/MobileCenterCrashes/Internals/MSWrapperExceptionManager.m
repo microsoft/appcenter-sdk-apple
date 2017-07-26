@@ -1,8 +1,8 @@
-#import "MSWrapperExceptionManagerInternal.h"
-#import "MSErrorReport.h"
 #import "MSCrashesInternal.h"
+#import "MSErrorReport.h"
 #import "MSException.h"
 #import "MSWrapperExceptionInternal.h"
+#import "MSWrapperExceptionManagerInternal.h"
 
 @implementation MSWrapperExceptionManager : NSObject
 
@@ -12,7 +12,8 @@ static NSString* const kLastWrapperExceptionFileName = @"last_saved_wrapper_exce
 /**
  * Initialize the class.
  */
-+ (void) initialize {
++ (void)initialize {
+
   // Create the directory if it doesn't exist
   NSFileManager *defaultManager = [NSFileManager defaultManager];
 
@@ -34,14 +35,14 @@ static NSString* const kLastWrapperExceptionFileName = @"last_saved_wrapper_exce
 /**
  * Gets a wrapper exception with a given UUID.
  */
-+ (MSWrapperException *) loadWrapperExceptionWithUUID:(NSString *)uuid {
++ (MSWrapperException *)loadWrapperExceptionWithUUID:(NSString *)uuid {
   return [self loadWrapperExceptionWithBaseFilename:uuid];
 }
 
 /**
  * Saves a wrapper exception to disk. Should only be used by wrapper SDK.
  */
-+ (void) saveWrapperException:(MSWrapperException *)wrapperException {
++ (void)saveWrapperException:(MSWrapperException *)wrapperException {
   [self saveWrapperException:wrapperException withBaseFilename:kLastWrapperExceptionFileName];
 }
 
@@ -50,7 +51,7 @@ static NSString* const kLastWrapperExceptionFileName = @"last_saved_wrapper_exce
 /**
  * Deletes a wrapper exception with a given UUID.
  */
-+ (void) deleteWrapperExceptionWithUUID:(NSString *)uuid {
++ (void)deleteWrapperExceptionWithUUID:(NSString *)uuid {
   [self deleteWrapperExceptionWithBaseFilename:uuid];
 }
 
@@ -70,15 +71,15 @@ static NSString* const kLastWrapperExceptionFileName = @"last_saved_wrapper_exce
  * corresponding report in the given array. Pairing is based on the process
  * id of the error report.
  */
-+ (void) correlateLastSavedWrapperExceptionToReport:(NSArray<MSErrorReport*> *)reports {
++ (void)correlateLastSavedWrapperExceptionToReport:(NSArray<MSErrorReport*> *)reports {
   MSWrapperException *lastSavedWrapperException = [self loadWrapperExceptionWithBaseFilename:kLastWrapperExceptionFileName];
 
   // Delete the last saved exception from disk if it exists
   if (lastSavedWrapperException) {
     [self deleteWrapperExceptionWithBaseFilename:kLastWrapperExceptionFileName];
   }
-  MSErrorReport * correspondingReport = nil;
-  for (MSErrorReport * report in reports) {
+  MSErrorReport *correspondingReport = nil;
+  for (MSErrorReport *report in reports) {
     if ([lastSavedWrapperException.processId unsignedLongValue] == report.appProcessIdentifier) {
       correspondingReport = report;
       break;
@@ -94,7 +95,7 @@ static NSString* const kLastWrapperExceptionFileName = @"last_saved_wrapper_exce
 /**
  * Saves a wrapper exception to disk with the given file name.
  */
-+ (void) saveWrapperException:(MSWrapperException *)wrapperException withBaseFilename:(NSString *)baseFilename {
++ (void)saveWrapperException:(MSWrapperException *)wrapperException withBaseFilename:(NSString *)baseFilename {
   NSString *exceptionFilename = [[self class] getFilename:baseFilename];
   BOOL success = [NSKeyedArchiver archiveRootObject:wrapperException toFile:exceptionFilename];
   if (!success) {
@@ -105,7 +106,7 @@ static NSString* const kLastWrapperExceptionFileName = @"last_saved_wrapper_exce
 /**
  * Deletes a wrapper exception with a given file name.
  */
-+ (void) deleteWrapperExceptionWithBaseFilename:(NSString *)baseFilename
++ (void)deleteWrapperExceptionWithBaseFilename:(NSString *)baseFilename
 {
   NSFileManager *fileManager = [NSFileManager defaultManager];
   for (NSString *filePath in [fileManager enumeratorAtPath:[[self class] directoryPath]]) {
@@ -121,9 +122,9 @@ static NSString* const kLastWrapperExceptionFileName = @"last_saved_wrapper_exce
 /**
  * Loads a wrapper exception with a given filename.
  */
-+ (MSWrapperException *) loadWrapperExceptionWithBaseFilename:(NSString *)baseFilename {
++ (MSWrapperException *)loadWrapperExceptionWithBaseFilename:(NSString *)baseFilename {
   NSString *exceptionFilename = [self getFilename:baseFilename];
-  MSWrapperException * wrapperException = [NSKeyedUnarchiver unarchiveObjectWithFile:exceptionFilename];
+  MSWrapperException *wrapperException = [NSKeyedUnarchiver unarchiveObjectWithFile:exceptionFilename];
   return wrapperException;
 }
 

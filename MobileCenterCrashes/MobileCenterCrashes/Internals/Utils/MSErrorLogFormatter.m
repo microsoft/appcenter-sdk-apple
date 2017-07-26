@@ -196,7 +196,6 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
  * @return Returns the formatted result on success, or nil if an error occurs.
  */
 + (MSAppleErrorLog *)errorLogFromCrashReport:(MSPLCrashReport *)report {
-
   MSAppleErrorLog *errorLog = [MSAppleErrorLog new];
 
   // Map to Apple-style code type, and mark whether architecture is LP64 (64-bit).
@@ -823,6 +822,5 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   CFStringRef uuidStringRef = CFUUIDCreateString(kCFAllocatorDefault, uuidRef);
   return (__bridge_transfer NSString *)uuidStringRef;
 }
-
 
 @end

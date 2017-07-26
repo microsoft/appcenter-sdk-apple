@@ -1,7 +1,9 @@
 #import "MSWrapperCrashesHelper.h"
 
 @interface MSWrapperCrashesHelper ()
+
 @property(weak, nonatomic) id<MSCrashHandlerSetupDelegate> crashHandlerSetupDelegate;
+
 @end
 
 @implementation MSWrapperCrashesHelper
@@ -18,11 +20,11 @@
   return sharedInstance;
 }
 
-+ (void) setCrashHandlerSetupDelegate:(id<MSCrashHandlerSetupDelegate>)delegate {
++ (void)setCrashHandlerSetupDelegate:(id<MSCrashHandlerSetupDelegate>)delegate {
   [[self sharedInstance] setCrashHandlerSetupDelegate:delegate];
 }
 
-+ (id<MSCrashHandlerSetupDelegate>) getCrashHandlerSetupDelegate {
++ (id<MSCrashHandlerSetupDelegate>)getCrashHandlerSetupDelegate {
   return [[self sharedInstance] crashHandlerSetupDelegate];
 }
 

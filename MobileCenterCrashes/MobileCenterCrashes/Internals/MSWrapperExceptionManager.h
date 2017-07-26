@@ -28,16 +28,15 @@
  */
 @interface MSWrapperExceptionManager : NSObject
 
-
 /**
  * Save the MSWrapperException to the file "last_saved_wrapper_exception".
  * This should only be used by a wrapper SDK; Objective-C code has no use for it.
  */
-+ (void) saveWrapperException:(MSWrapperException *)wrapperException;
++ (void)saveWrapperException:(MSWrapperException *)wrapperException;
 
 /**
  * Load a wrapper exception from disk with a given UUID/
  */
-+(MSWrapperException *) loadWrapperExceptionWithUUID:(NSString *)uuid;
++(MSWrapperException *)loadWrapperExceptionWithUUID:(NSString *)uuid;
 
 @end
