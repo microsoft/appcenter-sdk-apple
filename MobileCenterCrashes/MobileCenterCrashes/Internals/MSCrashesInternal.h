@@ -4,6 +4,7 @@
 @class MSException;
 
 @interface MSCrashes () <MSServiceInternal>
+
 /**
  * Configure PLCrashreporter.
  *
