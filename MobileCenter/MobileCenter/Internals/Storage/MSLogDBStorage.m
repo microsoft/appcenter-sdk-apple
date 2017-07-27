@@ -200,7 +200,7 @@
 
       // The archived log is not valid.
       MSLogError([MSMobileCenter logTag], @"Deserialization failed for log with Id %@: %@", dbId,
-                 exception ? exception : @"The log deserialized to NULL.");
+                 exception ? exception.reason : @"The log deserialized to NULL.");
       [self deleteLogFromDBWithId:dbId];
       continue;
     }
