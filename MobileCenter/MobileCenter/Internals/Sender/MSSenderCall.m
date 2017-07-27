@@ -71,7 +71,7 @@
     callCompletedWithStatus:(NSUInteger)statusCode
                        data:(NSData *)data
                       error:(NSError *)error {
-  if ([MSSenderUtil isNoInternetConnectionError:error]) {
+  if ([MSSenderUtil isNoInternetConnectionError:error] || [MSSenderUtil isSSLConnectionError:error]) {
 
     // Reset the retry count, will retry once the connection is established again.
     [self resetRetry];

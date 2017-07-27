@@ -44,4 +44,81 @@
   assertThat(hiddenSecret, is(fullyHiddenSecret));
 }
 
+- (void)testIsNoInternetConnectionError {
+  // When.
+  NSError *error = [[NSError alloc] initWithDomain:NSURLErrorDomain code:NSURLErrorNotConnectedToInternet userInfo:nil];
+  
+  // Then.
+  XCTAssertTrue([MSSenderUtil isNoInternetConnectionError:error]);
+  
+  // When.
+  error = [[NSError alloc] initWithDomain:NSURLErrorDomain code:NSURLErrorServerCertificateHasBadDate userInfo:nil];
+  
+  // Then.
+  XCTAssertFalse([MSSenderUtil isNoInternetConnectionError:error]);
+}
+
+- (void)testSSLConnectionErrorDetected {
+  
+  // When.
+  NSError *error = [[NSError alloc] initWithDomain:NSURLErrorDomain code:NSURLErrorSecureConnectionFailed userInfo:nil];
+  
+  // Then.
+  XCTAssertTrue([MSSenderUtil isSSLConnectionError:error]);
+  
+  // When.
+  error = [[NSError alloc] initWithDomain:NSURLErrorDomain code:NSURLErrorServerCertificateHasBadDate userInfo:nil];
+  
+  // Then.
+  XCTAssertTrue([MSSenderUtil isSSLConnectionError:error]);
+  
+  // When.
+  error = [[NSError alloc] initWithDomain:NSURLErrorDomain code:NSURLErrorServerCertificateUntrusted userInfo:nil];
+  
+  // Then.
+  XCTAssertTrue([MSSenderUtil isSSLConnectionError:error]);
+  
+  // When.
+  error = [[NSError alloc] initWithDomain:NSURLErrorDomain code:NSURLErrorServerCertificateHasUnknownRoot userInfo:nil];
+  
+  // Then.
+  XCTAssertTrue([MSSenderUtil isSSLConnectionError:error]);
+  
+  // When.
+  error = [[NSError alloc] initWithDomain:NSURLErrorDomain code:NSURLErrorServerCertificateNotYetValid userInfo:nil];
+  
+  // Then.
+  XCTAssertTrue([MSSenderUtil isSSLConnectionError:error]);
+  
+  // When.
+  error = [[NSError alloc] initWithDomain:NSURLErrorDomain code:NSURLErrorClientCertificateRejected userInfo:nil];
+  
+  // Then.
+  XCTAssertTrue([MSSenderUtil isSSLConnectionError:error]);
+  
+  // When.
+  error = [[NSError alloc] initWithDomain:NSURLErrorDomain code:NSURLErrorClientCertificateRequired userInfo:nil];
+  
+  // Then.
+  XCTAssertTrue([MSSenderUtil isSSLConnectionError:error]);
+  
+  // When.
+  error = [[NSError alloc] initWithDomain:NSURLErrorDomain code:NSURLErrorCannotLoadFromNetwork userInfo:nil];
+  
+  // Then.
+  XCTAssertTrue([MSSenderUtil isSSLConnectionError:error]);
+  
+  // When.
+  error = [[NSError alloc] initWithDomain:NSURLErrorFailingURLErrorKey code:NSURLErrorCannotLoadFromNetwork userInfo:nil];
+  
+  // Then.
+  XCTAssertFalse([MSSenderUtil isSSLConnectionError:error]);
+  
+  // When.
+  error = [[NSError alloc] initWithDomain:NSURLErrorDomain code:10 userInfo:nil];
+  
+  // Then.
+  XCTAssertFalse([MSSenderUtil isSSLConnectionError:error]);
+}
+
 @end
