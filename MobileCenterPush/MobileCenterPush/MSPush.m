@@ -1,9 +1,12 @@
+#import <Foundation/Foundation.h>
+#if !TARGET_OS_OSX
 #import <UserNotifications/UserNotifications.h>
-
 #import "MSAppDelegateForwarder.h"
+#import "MSPushAppDelegate.h"
+#endif
+
 #import "MSMobileCenterInternal.h"
 #import "MSPush.h"
-#import "MSPushAppDelegate.h"
 #import "MSPushLog.h"
 #import "MSPushNotificationInternal.h"
 #import "MSPushPrivate.h"
@@ -49,7 +52,10 @@ static dispatch_once_t onceToken;
 
     // Init channel configuration.
     _channelConfiguration = [[MSChannelConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
+    // TODO: Implement macOS
+#if !TARGET_OS_OSX
     _appDelegate = [MSPushAppDelegate new];
+#endif
   }
   return self;
 }
@@ -105,13 +111,19 @@ static dispatch_once_t onceToken;
 - (void)applyEnabledState:(BOOL)isEnabled {
   [super applyEnabledState:isEnabled];
   if (isEnabled) {
+    // TODO: Implement macOS
+#if !TARGET_OS_OSX
     [MSAppDelegateForwarder addDelegate:self.appDelegate];
+#endif
     if (!self.pushTokenHasBeenSent) {
       [self registerForRemoteNotifications];
     }
     MSLogInfo([MSPush logTag], @"Push service has been enabled.");
   } else {
+    // TODO: Implement macOS
+#if !TARGET_OS_OSX
     [MSAppDelegateForwarder removeDelegate:self.appDelegate];
+#endif
     MSLogInfo([MSPush logTag], @"Push service has been disabled.");
   }
 }
@@ -127,6 +139,8 @@ static dispatch_once_t onceToken;
 
 - (void)registerForRemoteNotifications {
   MSLogVerbose([MSPush logTag], @"Registering for push notifications");
+  // TODO: Implement macOS
+#if !TARGET_OS_OSX
 #if !(TARGET_OS_SIMULATOR)
   if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_9_x_Max) {
     UIUserNotificationType allNotificationTypes = (UIUserNotificationType)(
@@ -150,8 +164,11 @@ static dispatch_once_t onceToken;
   }
   [[UIApplication sharedApplication] registerForRemoteNotifications];
 #endif
+#endif
 }
 
+// TODO: Implement macOS
+#if !TARGET_OS_OSX
 - (void)application:(UIApplication *)application
     didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
   (void)notificationSettings;
@@ -159,6 +176,7 @@ static dispatch_once_t onceToken;
   // register to receive notifications
   [application registerForRemoteNotifications];
 }
+#endif
 
 - (NSString *)convertTokenToString:(NSData *)token {
   if (!token)

@@ -13,7 +13,10 @@
 /**
  * Custom application delegate dedicated to Push.
  */
+// TODO: Implement macOS
+#if !TARGET_OS_OSX
 @property(nonatomic) id<MSAppDelegate> appDelegate;
+#endif
 
 /**
  * Method to reset the singleton when running unit tests only. So calling sharedInstance returns a fresh instance.
