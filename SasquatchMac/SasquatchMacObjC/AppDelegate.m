@@ -5,18 +5,39 @@
 @import MobileCenter;
 @import MobileCenterAnalytics;
 @import MobileCenterCrashes;
+@import MobileCenterPush;
 
 @implementation AppDelegate
 
-- (instancetype)init{
+- (instancetype)init {
   self = [super init];
   [MSMobileCenter setLogLevel:MSLogLevelVerbose];
   [MSMobileCenter setLogUrl:@"https://in-integration.dev.avalanch.es"];
-  [MSMobileCenter start:@"8649b73e-6df0-4985-a039-8ab1453d44f3"
-           withServices:@[ [MSAnalytics class], [MSCrashes class] ]];
+
+  // Customize services.
   [self setupCrashes];
+  [self setupPush];
+
+  // Start MobileCenter.
+  [MSMobileCenter start:@"8649b73e-6df0-4985-a039-8ab1453d44f3"
+           withServices:@[ [MSAnalytics class], [MSCrashes class], [MSPush class] ]];
   [MobileCenterProvider shared].mobileCenter = [[MobileCenterDelegateObjC alloc] init];
   return self;
+}
+
+- (void)application:(NSApplication *)application
+    didRegisterForRemoteNotificationsWithDeviceToken:(nonnull NSData *)deviceToken {
+  [MSPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+}
+
+- (void)application:(NSApplication *)application
+    didFailToRegisterForRemoteNotificationsWithError:(nonnull NSError *)error {
+  [MSPush didFailToRegisterForRemoteNotificationsWithError:error];
+}
+
+- (void)application:(NSApplication *)application
+    didReceiveRemoteNotification:(nonnull NSDictionary<NSString *, id> *)userInfo {
+  [MSPush didReceiveRemoteNotification:userInfo];
 }
 
 #pragma mark - Private
@@ -38,8 +59,7 @@
   [MSCrashes setUserConfirmationHandler:(^(NSArray<MSErrorReport *> *errorReports) {
 
                // Use MSAlertViewController to show a dialog to the user where they can choose if they want to provide a
-               // crash
-               // report.
+               // crash report.
                MSAlertController *alertController = [MSAlertController
                    alertControllerWithTitle:@"Sorry about that!"
                                     message:@"Do you want to send an anonymous crash report so we can fix the issue?"
@@ -70,6 +90,10 @@
              })];
 }
 
+- (void)setupPush {
+  [MSPush setDelegate:self];
+}
+
 #pragma mark - MSCrashesDelegate
 
 - (BOOL)crashes:(MSCrashes *)crashes shouldProcessErrorReport:(MSErrorReport *)errorReport {
@@ -87,6 +111,22 @@
 
 - (void)crashes:(MSCrashes *)crashes didFailSendingErrorReport:(MSErrorReport *)errorReport withError:(NSError *)error {
   NSLog(@"Did fail sending report with: %@, and error: %@", errorReport.exceptionReason, error.localizedDescription);
+}
+
+#pragma mark - MSPushDelegate
+
+- (void)push:(MSPush *)push didReceivePushNotification:(MSPushNotification *)pushNotification {
+  NSString *message = pushNotification.message;
+  for (NSString *key in pushNotification.customData) {
+    message = [NSString stringWithFormat:@"%@\n%@: %@", message, key, [pushNotification.customData objectForKey:key]];
+  }
+  MSAlertController *alertController = [MSAlertController alertControllerWithTitle:pushNotification.title
+                                                                           message:message
+                                                                             style:NSAlertStyleInformational];
+  [alertController addActionWithTitle:@"OK" handler:^(){}];
+
+  // Show the alert controller.
+  [alertController show];
 }
 
 @end

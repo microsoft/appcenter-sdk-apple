@@ -3,16 +3,14 @@ import Cocoa
 import MobileCenter
 import MobileCenterAnalytics
 import MobileCenterCrashes
+import MobileCenterPush
 
 @NSApplicationMain
 @objc(AppDelegate)
-class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDelegate {
 
   override init(){
     super.init()
-    MSMobileCenter.setLogLevel(MSLogLevel.verbose)
-    MSMobileCenter.setLogUrl("https://in-integration.dev.avalanch.es")
-    MSMobileCenter.start("7ee5f412-02f7-45ea-a49c-b4ebf2911325", withServices : [ MSAnalytics.self, MSCrashes.self ])
 
     // Crashes Delegate.
     MSCrashes.setDelegate(self);
@@ -32,7 +30,28 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate {
       alert.show()
       return true
     })
+
+    // Push Delegate.
+    MSPush.setDelegate(self);
+
+    // Start MobileCenter.
+    MSMobileCenter.setLogLevel(MSLogLevel.verbose)
+    MSMobileCenter.setLogUrl("https://in-integration.dev.avalanch.es")
+    MSMobileCenter.start("7ee5f412-02f7-45ea-a49c-b4ebf2911325", withServices : [ MSAnalytics.self, MSCrashes.self, MSPush.self ])
+
     MobileCenterProvider.shared().mobileCenter = MobileCenterDelegateSwift()
+  }
+
+  func application(_ application: NSApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+    MSPush.didRegisterForRemoteNotifications(withDeviceToken: deviceToken)
+  }
+
+  func application(_ application: NSApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+    MSPush.didFailToRegisterForRemoteNotificationsWithError(error)
+  }
+
+  func application(_ application: NSApplication, didReceiveRemoteNotification userInfo: [String : Any]) {
+    MSPush.didReceiveRemoteNotification(userInfo)
   }
 
   // Crashes Delegate
@@ -52,5 +71,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate {
   
   func crashes(_ crashes: MSCrashes!, didFailSending errorReport: MSErrorReport!, withError error: Error!) {
     NSLog("Did fail sending report with: %@, and error: %@", errorReport.exceptionReason, error.localizedDescription);
+  }
+
+  // Push Delegate
+
+  func push(_ push: MSPush!, didReceive pushNotification: MSPushNotification!) {
+    NSLog("Push received!");
   }
 }

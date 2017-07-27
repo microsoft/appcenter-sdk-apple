@@ -1,6 +1,6 @@
 objc: true
 clean: true
-sdk: iphonesimulator
+sdk: macosx
 
 theme: ../../Themes/apple
 
@@ -16,9 +16,9 @@ custom_categories:
     children:
     - Installation
 
-umbrella_header: ../../../MobileCenter-SDK-Apple/iOS/MobileCenterPush.framework/Headers/MobileCenterPush.h
-framework_root: ../../../MobileCenter-SDK-Apple/iOS/
-exclude: [../../../MobileCenter-SDK-Apple/iOS/MobileCenterPush.framework/Headers/MSService.h, ../../../MobileCenter-SDK-Apple/iOS/MobileCenterPush.framework/Headers/MSServiceAbstract.h]
+umbrella_header: ../../../MobileCenter-SDK-Apple/macOS/MobileCenterPush.framework/Headers/MobileCenterPush.h
+framework_root: ../../../MobileCenter-SDK-Apple/macOS/
+exclude: [../../../MobileCenter-SDK-Apple/macOS/MobileCenterPush.framework/Headers/MSService.h, ../../../MobileCenter-SDK-Apple/macOS/MobileCenterPush.framework/Headers/MSServiceAbstract.h]
 
 root_url: http://docs.mobile.azure.com/sdk/ios/
 github_url: https://github.com/Microsoft/mobile-center-sdk-ios
