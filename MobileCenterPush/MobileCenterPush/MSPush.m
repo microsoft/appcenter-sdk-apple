@@ -1,5 +1,7 @@
 #import <Foundation/Foundation.h>
-#if !TARGET_OS_OSX
+#if TARGET_OS_OSX
+#import <AppKit/AppKit.h>
+#else
 #import <UserNotifications/UserNotifications.h>
 #import "MSAppDelegateForwarder.h"
 #import "MSPushAppDelegate.h"
@@ -52,7 +54,7 @@ static dispatch_once_t onceToken;
 
     // Init channel configuration.
     _channelConfiguration = [[MSChannelConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
-    // TODO: Implement macOS
+// TODO: Implement macOS
 #if !TARGET_OS_OSX
     _appDelegate = [MSPushAppDelegate new];
 #endif
@@ -98,9 +100,16 @@ static dispatch_once_t onceToken;
   [[self sharedInstance] didFailToRegisterForRemoteNotificationsWithError:error];
 }
 
+#if TARGET_OS_OSX
++ (BOOL)didReceiveNotification:(NSNotification *)notification {
+  return [[self sharedInstance] didReceiveNotification:notification];
+}
+
+#else
 + (BOOL)didReceiveRemoteNotification:(NSDictionary *)userInfo {
   return [[self sharedInstance] didReceiveRemoteNotification:userInfo];
 }
+#endif
 
 + (void)setDelegate:(nullable id<MSPushDelegate>)delegate {
   [[self sharedInstance] setDelegate:delegate];
@@ -111,7 +120,7 @@ static dispatch_once_t onceToken;
 - (void)applyEnabledState:(BOOL)isEnabled {
   [super applyEnabledState:isEnabled];
   if (isEnabled) {
-    // TODO: Implement macOS
+// TODO: Implement macOS
 #if !TARGET_OS_OSX
     [MSAppDelegateForwarder addDelegate:self.appDelegate];
 #endif
@@ -120,7 +129,7 @@ static dispatch_once_t onceToken;
     }
     MSLogInfo([MSPush logTag], @"Push service has been enabled.");
   } else {
-    // TODO: Implement macOS
+// TODO: Implement macOS
 #if !TARGET_OS_OSX
     [MSAppDelegateForwarder removeDelegate:self.appDelegate];
 #endif
@@ -139,9 +148,11 @@ static dispatch_once_t onceToken;
 
 - (void)registerForRemoteNotifications {
   MSLogVerbose([MSPush logTag], @"Registering for push notifications");
-  // TODO: Implement macOS
-#if !TARGET_OS_OSX
-#if !(TARGET_OS_SIMULATOR)
+
+#if TARGET_OS_OSX
+  [NSApp registerForRemoteNotificationTypes:(NSRemoteNotificationTypeAlert | NSRemoteNotificationTypeSound |
+                                             NSRemoteNotificationTypeBadge)];
+#elif TARGET_OS_IOS
   if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_9_x_Max) {
     UIUserNotificationType allNotificationTypes = (UIUserNotificationType)(
         UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge);
@@ -163,7 +174,6 @@ static dispatch_once_t onceToken;
 #pragma clang diagnostic pop
   }
   [[UIApplication sharedApplication] registerForRemoteNotifications];
-#endif
 #endif
 }
 
@@ -210,17 +220,56 @@ static dispatch_once_t onceToken;
                error.description);
 }
 
+// TODO: Review this method name.
+#if TARGET_OS_OSX
+- (BOOL)didReceiveNotification:(NSNotification *)notification {
+  NSUserNotification *userNotification;
+
+  /*
+   * If the notification is from didActivateNotification, the notification type is NSUserNotification. Otherwise,
+   * NSUserNotification will be placed in NSNotification.userInfo.
+   */
+  if ([notification isKindOfClass:[NSUserNotification class]]) {
+    userNotification = (NSUserNotification *)notification;
+  } else {
+    userNotification = [notification.userInfo objectForKey:NSApplicationLaunchUserNotificationKey];
+  }
+  if (userNotification && [self didReceiveRemoteNotification:userNotification.userInfo]) {
+    NSUserNotificationCenter *center = [NSUserNotificationCenter defaultUserNotificationCenter];
+
+    // The delivered notification should be removed.
+    [center removeDeliveredNotification:userNotification];
+    return YES;
+  }
+  return NO;
+}
+#endif
+
 - (BOOL)didReceiveRemoteNotification:(NSDictionary *)userInfo {
   MSLogVerbose([MSPush logTag], @"User info for notification has forwarded to Push: %@", [userInfo description]);
-  NSObject *alert = [[userInfo objectForKey:kMSPushNotificationApsKey] objectForKey:kMSPushNotificationAlertKey];
-  if (!alert || ![alert isKindOfClass:[NSDictionary class]]) {
-    return NO;
+  NSString *title;
+  NSString *message;
+  NSDictionary *aps = [userInfo objectForKey:kMSPushNotificationApsKey];
+  NSObject *alert = [aps objectForKey:kMSPushNotificationAlertKey];
+  if ([alert isKindOfClass:[NSDictionary class]]) {
+    title = [alert valueForKey:kMSPushNotificationTitleKey];
+    message = [alert valueForKey:kMSPushNotificationMessageKey];
+  } else {
+
+    // "alert" value can be either Dictionary or String. Try one more if it is a String value.
+    alert = [aps valueForKey:kMSPushNotificationAlertKey];
+    if ([alert isKindOfClass:[NSString class]]) {
+      title = @"";
+      message = (NSString *)alert;
+    } else {
+
+      // "alert" value is not a supported type.
+      return NO;
+    }
   }
-  NSString *title = [alert valueForKey:kMSPushNotificationTitleKey];
-  NSString *message = [alert valueForKey:kMSPushNotificationMessageKey];
-  NSDictionary *customData = [userInfo objectForKey:kMSPushNotificationCustomDataKey];
 
   // The notification is not for Mobile Center if customData is nil. Ignore the notification.
+  NSDictionary *customData = [userInfo objectForKey:kMSPushNotificationCustomDataKey];
   if (customData) {
     MSLogDebug([MSPush logTag], @"Notification received.\nTitle: %@\nMessage:%@\nCustom data: %@", title, message,
                [customData description]);

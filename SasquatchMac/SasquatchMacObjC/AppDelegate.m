@@ -7,6 +7,10 @@
 @import MobileCenterCrashes;
 @import MobileCenterPush;
 
+// TODO: This should be implemented in the SDK.
+@interface AppDelegate () <NSUserNotificationCenterDelegate>
+@end
+
 @implementation AppDelegate
 
 - (instancetype)init {
@@ -25,6 +29,20 @@
   return self;
 }
 
+- (void)applicationDidFinishLaunching:(NSNotification *)notification {
+
+  // TODO: Setting delegate should be handled by the SDK.
+  NSUserNotificationCenter *center = [NSUserNotificationCenter defaultUserNotificationCenter];
+  center.delegate = self;
+  [MSPush didReceiveNotification:notification];
+}
+
+- (void)userNotificationCenter:(NSUserNotificationCenter *)center didActivateNotification:(NSUserNotification *)notification {
+
+  // FIXME: NSNotification and NSUserNotification are not under same class hierarchy.
+  [MSPush didReceiveNotification:notification];
+}
+
 - (void)application:(NSApplication *)application
     didRegisterForRemoteNotificationsWithDeviceToken:(nonnull NSData *)deviceToken {
   [MSPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
@@ -33,11 +51,6 @@
 - (void)application:(NSApplication *)application
     didFailToRegisterForRemoteNotificationsWithError:(nonnull NSError *)error {
   [MSPush didFailToRegisterForRemoteNotificationsWithError:error];
-}
-
-- (void)application:(NSApplication *)application
-    didReceiveRemoteNotification:(nonnull NSDictionary<NSString *, id> *)userInfo {
-  [MSPush didReceiveRemoteNotification:userInfo];
 }
 
 #pragma mark - Private
