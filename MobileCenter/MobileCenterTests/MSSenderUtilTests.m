@@ -45,6 +45,7 @@
 }
 
 - (void)testIsNoInternetConnectionError {
+  
   // When.
   NSError *error = [[NSError alloc] initWithDomain:NSURLErrorDomain code:NSURLErrorNotConnectedToInternet userInfo:nil];
   

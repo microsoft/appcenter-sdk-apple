@@ -30,7 +30,7 @@ static NSString *const kMSHidingStringForAppSecret = @"*";
  *
  *  @param error http error.
  *
- *  @return is no network connection error.
+ *  @return YES if it is a no network connection error, NO otherwise.
  */
 + (BOOL)isNoInternetConnectionError:(NSError *)error;
 
@@ -40,7 +40,8 @@ static NSString *const kMSHidingStringForAppSecret = @"*";
  *
  * @param error http error.
  *
- * @return is a ssl connection error.
+ * @return YES if it is an SSL connection error, NO otherwise.
+
  */
 + (BOOL)isSSLConnectionError:(NSError *)error;
 
