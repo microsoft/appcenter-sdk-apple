@@ -1,6 +1,7 @@
 #import "MSCrashesInternal.h"
 #import "MSErrorReport.h"
 #import "MSException.h"
+#import "MSUtility+File.h"
 #import "MSWrapperExceptionInternal.h"
 #import "MSWrapperExceptionManagerInternal.h"
 
@@ -13,21 +14,8 @@ static NSString* const kLastWrapperExceptionFileName = @"last_saved_wrapper_exce
  * Initialize the class.
  */
 + (void)initialize {
-
-  // Create the directory if it doesn't exist.
-  NSFileManager *defaultManager = [NSFileManager defaultManager];
-
-  if (![defaultManager fileExistsAtPath:[[self class] directoryPath]]) {
-    NSError *error = nil;
-    [defaultManager createDirectoryAtPath:[[self class] directoryPath]
-              withIntermediateDirectories:NO
-                               attributes:nil
-                                    error:&error];
-    if (error) {
-      MSLogError([MSCrashes logTag], @"Failed to create directory %@: %@", [[self class] directoryPath],
-                 error.localizedDescription);
-    }
-  }
+  NSURL *directoryUrl = [NSURL URLWithString:[self directoryPath]];
+  [MSUtility createDirectoryAtURL:directoryUrl];
 }
 
 #pragma mark Public Methods
@@ -60,9 +48,10 @@ static NSString* const kLastWrapperExceptionFileName = @"last_saved_wrapper_exce
  */
 + (void)deleteAllWrapperExceptions {
   NSFileManager *fileManager = [NSFileManager defaultManager];
-  for (NSString *filePath in [fileManager enumeratorAtPath:[[self class] directoryPath]]) {
-      NSString *path = [[[self class] directoryPath] stringByAppendingPathComponent:filePath];
-      [[self class] deleteFile:path];
+  for (NSString *filePath in [fileManager enumeratorAtPath:[self directoryPath]]) {
+    NSString *path = [self getFilename:filePath];
+    NSURL *url = [NSURL URLWithString:path];
+    [MSUtility removeItemAtURL:url];
   }
 }
 
@@ -96,7 +85,7 @@ static NSString* const kLastWrapperExceptionFileName = @"last_saved_wrapper_exce
  * Saves a wrapper exception to disk with the given file name.
  */
 + (void)saveWrapperException:(MSWrapperException *)wrapperException withBaseFilename:(NSString *)baseFilename {
-  NSString *exceptionFilename = [[self class] getFilename:baseFilename];
+  NSString *exceptionFilename = [self getFilename:baseFilename];
   BOOL success = [NSKeyedArchiver archiveRootObject:wrapperException toFile:exceptionFilename];
   if (!success) {
     MSLogError([MSCrashes logTag], @"Failed to save wrapper SDK exception file %@", exceptionFilename);
@@ -108,12 +97,12 @@ static NSString* const kLastWrapperExceptionFileName = @"last_saved_wrapper_exce
  */
 + (void)deleteWrapperExceptionWithBaseFilename:(NSString *)baseFilename
 {
-  NSFileManager *fileManager = [NSFileManager defaultManager];
-  for (NSString *filePath in [fileManager enumeratorAtPath:[[self class] directoryPath]]) {
-    NSString *actualPath = [[[self class] directoryPath] stringByAppendingPathComponent:filePath];
-    NSString *expectedPath = [[self class] getFilename:baseFilename];
+  for (NSString *filePath in [[NSFileManager defaultManager] enumeratorAtPath:[self directoryPath]]) {
+    NSString *actualPath = [self getFilename:filePath];
+    NSString *expectedPath = [self getFilename:baseFilename];
     if ([actualPath isEqualToString:expectedPath]) {
-      [[self class] deleteFile:actualPath];
+      NSURL *url = [NSURL URLWithString:actualPath];
+      [MSUtility removeItemAtURL:url];
       return;
     }
   }
@@ -126,20 +115,6 @@ static NSString* const kLastWrapperExceptionFileName = @"last_saved_wrapper_exce
   NSString *exceptionFilename = [self getFilename:baseFilename];
   MSWrapperException *wrapperException = [NSKeyedUnarchiver unarchiveObjectWithFile:exceptionFilename];
   return wrapperException;
-}
-
-/**
- * Deletes the file at the given path.
- */
-+ (void)deleteFile:(NSString *)path {
-  if (![[NSFileManager defaultManager] fileExistsAtPath:path]) {
-    return;
-  }
-  NSError *error = nil;
-  [[NSFileManager defaultManager] removeItemAtPath:path error:&error];
-  if (error) {
-    MSLogError([MSCrashes logTag], @"Error deleting file %@: %@", path, error.localizedDescription);
-  }
 }
 
 /**
@@ -161,7 +136,7 @@ static NSString* const kLastWrapperExceptionFileName = @"last_saved_wrapper_exce
  * Gets the full path for a given file name that should be in the wrapper crashes directory.
  */
 + (NSString *)getFilename:(NSString *)filename {
-  return [[[self class] directoryPath] stringByAppendingPathComponent:filename];
+  return [[self directoryPath] stringByAppendingPathComponent:filename];
 }
 
 
