@@ -66,18 +66,20 @@
     [mockReports addObject:reportMock];
   }
   [MSWrapperExceptionManager correlateLastSavedWrapperExceptionToReport:mockReports];
-  MSWrapperException *loadedException = [MSWrapperExceptionManager loadWrapperExceptionWithUUID:[NSString stringWithFormat:@"%i", ( int)crashProcessId]];
+  MSWrapperException *loadedException = [MSWrapperExceptionManager loadWrapperExceptionWithUUID:[NSString stringWithFormat:@"%i", (int)crashProcessId]];
+
+  // Test that the loaded exception is not nil.
+  XCTAssertNotNil(loadedException);
 
   // Test that the exceptions are the same.
-  assertThat(wrapperException.processId, equalTo(loadedException.processId));
-  assertThat(wrapperException.exceptionData, equalTo(loadedException.exceptionData));
-  assertThat(wrapperException.modelException, equalTo(loadedException.modelException));
+  assertThat(loadedException.processId, equalTo(wrapperException.processId));
+  assertThat(loadedException.exceptionData, equalTo(wrapperException.exceptionData));
+  assertThat(loadedException.modelException, equalTo(wrapperException.modelException));
 
   // The exception field.
-  assertThat(wrapperException.modelException.type, equalTo(loadedException.modelException.type));
-  assertThat(wrapperException.modelException.message, equalTo(loadedException.modelException.message));
-  assertThat(wrapperException.modelException.wrapperSdkName, equalTo(loadedException.modelException.wrapperSdkName));
-
+  assertThat(loadedException.modelException.type, equalTo(wrapperException.modelException.type));
+  assertThat(loadedException.modelException.message, equalTo(wrapperException.modelException.message));
+  assertThat(loadedException.modelException.wrapperSdkName, equalTo(wrapperException.modelException.wrapperSdkName));
 }
 
 @end
