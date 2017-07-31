@@ -7,10 +7,10 @@
  *
  * HOW IT WORKS:
  * 1. Application is crashing from a wrapper SDK, but before propagating
- *    crash to the Objective-C code, it calls "saveWrapperException"
+ *    crash to the native code, it calls "saveWrapperException"
  *    which saves the MSWrapperException to a file called 
  *    "last_saved_wrapper_exception".
- * 2. On startup, the Objective-C SDK must find that file if it exists,
+ * 2. On startup, the native SDK must find that file if it exists,
  *    and use the MSWrapperException's "pid" to correlate the file to a
  *    PLCrashReport on disk. If a match is found, the file is renamed
  *    to the UUID of the PLCrashReport.
@@ -30,12 +30,12 @@
 
 /**
  * Save the MSWrapperException to the file "last_saved_wrapper_exception".
- * This should only be used by a wrapper SDK; Objective-C code has no use for it.
+ * This should only be used by a wrapper SDK; native code has no use for it.
  */
 + (void)saveWrapperException:(MSWrapperException *)wrapperException;
 
 /**
- * Load a wrapper exception from disk with a given UUID/
+ * Load a wrapper exception from disk with a given UUID.
  */
 +(MSWrapperException *)loadWrapperExceptionWithUUID:(NSString *)uuid;
 

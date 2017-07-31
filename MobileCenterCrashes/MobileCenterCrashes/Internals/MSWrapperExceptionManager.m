@@ -14,7 +14,7 @@ static NSString* const kLastWrapperExceptionFileName = @"last_saved_wrapper_exce
  */
 + (void)initialize {
 
-  // Create the directory if it doesn't exist
+  // Create the directory if it doesn't exist.
   NSFileManager *defaultManager = [NSFileManager defaultManager];
 
   if (![defaultManager fileExistsAtPath:[[self class] directoryPath]]) {
@@ -74,7 +74,7 @@ static NSString* const kLastWrapperExceptionFileName = @"last_saved_wrapper_exce
 + (void)correlateLastSavedWrapperExceptionToReport:(NSArray<MSErrorReport*> *)reports {
   MSWrapperException *lastSavedWrapperException = [self loadWrapperExceptionWithBaseFilename:kLastWrapperExceptionFileName];
 
-  // Delete the last saved exception from disk if it exists
+  // Delete the last saved exception from disk if it exists.
   if (lastSavedWrapperException) {
     [self deleteWrapperExceptionWithBaseFilename:kLastWrapperExceptionFileName];
   }

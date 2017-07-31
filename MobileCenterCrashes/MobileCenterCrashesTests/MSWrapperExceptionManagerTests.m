@@ -3,10 +3,10 @@
 #import <XCTest/XCTest.h>
 #import <OCMock/OCMock.h>
 #import "MSCrashes.h"
-#import "MSException.h"
-#import "MSWrapperExceptionManagerInternal.h"
-#import "MSWrapperException.h"
 #import "MSErrorReport.h"
+#import "MSException.h"
+#import "MSWrapperException.h"
+#import "MSWrapperExceptionManagerInternal.h"
 
 @interface MSWrapperExceptionManagerTests : XCTestCase
 @end
@@ -68,7 +68,7 @@
   [MSWrapperExceptionManager correlateLastSavedWrapperExceptionToReport:mockReports];
   MSWrapperException *loadedException = [MSWrapperExceptionManager loadWrapperExceptionWithUUID:[NSString stringWithFormat:@"%i", ( int)crashProcessId]];
 
-  // Test that the exceptions are the same
+  // Test that the exceptions are the same.
   assertThat(wrapperException.processId, equalTo(loadedException.processId));
   assertThat(wrapperException.exceptionData, equalTo(loadedException.exceptionData));
   assertThat(wrapperException.modelException, equalTo(loadedException.modelException));

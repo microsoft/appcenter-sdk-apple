@@ -10,6 +10,7 @@
 #import "MSCrashesPrivate.h"
 #import "MSCrashesTestUtil.h"
 #import "MSCrashesUtil.h"
+#import "MSCrashHandlerSetupDelegate.h"
 #import "MSErrorAttachmentLogInternal.h"
 #import "MSErrorLogFormatter.h"
 #import "MSException.h"
@@ -20,7 +21,6 @@
 #import "MSServiceAbstractPrivate.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSWrapperExceptionManagerInternal.h"
-#import "MSCrashHandlerSetupDelegate.h"
 #import "MSWrapperCrashesHelper.h"
 
 @class MSMockCrashesDelegate;
@@ -53,7 +53,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   self.sut = [MSCrashes new];
 
   // Some tests actually require the shared instance because,
-  // so it is important to ensure that it is enabled at the start of each test
+  // so it is important to ensure that it is enabled at the start of each test.
   [[MSCrashes sharedInstance] setEnabled:YES];
 }
 
@@ -63,7 +63,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   [MSCrashesTestUtil deleteAllFilesInDirectory:[self.sut.logBufferDir path]];
 
   // Some tests actually require the shared instance because,
-  // so it is important to clean up
+  // so it is important to clean up.
   [[MSCrashes sharedInstance] deleteAllFromCrashesDirectory];
   [MSCrashesTestUtil deleteAllFilesInDirectory:[[MSCrashes sharedInstance].logBufferDir path]];
 }

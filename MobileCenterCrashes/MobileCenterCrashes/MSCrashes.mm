@@ -265,25 +265,25 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 - (void)applyEnabledState:(BOOL)isEnabled {
   [super applyEnabledState:isEnabled];
 
-  // Enabling
+  // Enabling.
   if (isEnabled) {
     id<MSCrashHandlerSetupDelegate> crashSetupDelegate = [MSWrapperCrashesHelper getCrashHandlerSetupDelegate];
 
-    // Check if a wrapper SDK has a preference for uncaught exception handling
+    // Check if a wrapper SDK has a preference for uncaught exception handling.
     BOOL enableUncaughtExceptionHandler = YES;
     if ([crashSetupDelegate respondsToSelector:@selector(shouldEnableUncaughtExceptionHandler)]) {
       enableUncaughtExceptionHandler = [crashSetupDelegate shouldEnableUncaughtExceptionHandler];
     }
 
-    // Allow a wrapper SDK to perform custom behavior before setting up crash handlers
+    // Allow a wrapper SDK to perform custom behavior before setting up crash handlers.
     if ([crashSetupDelegate respondsToSelector:@selector(willSetUpCrashHandlers)]) {
       [crashSetupDelegate willSetUpCrashHandlers];
     }
 
-    // Set up crash handlers
+    // Set up crash handlers.
     [self configureCrashReporterWithUncaughtExceptionHandlerEnabled:YES];
 
-    // Allow a wrapper SDK to perform custom behavior after setting up crash handlers
+    // Allow a wrapper SDK to perform custom behavior after setting up crash handlers.
     if ([crashSetupDelegate respondsToSelector:@selector(didSetUpCrashHandlers)]) {
       [crashSetupDelegate didSetUpCrashHandlers];
     }
@@ -629,7 +629,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
 - (void)processCrashReports {
   
-  // Handle 'disabled' state all at once to simplify the logic that follows
+  // Handle 'disabled' state all at once to simplify the logic that follows.
   if (!self.isEnabled) {
     MSLogDebug([MSCrashes logTag], @"Crashes service is disabled; discard all crash reports");
     [self deleteAllFromCrashesDirectory];
@@ -643,7 +643,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   self.unprocessedReports = [[NSMutableArray alloc] init];
   self.unprocessedFilePaths = [[NSMutableArray alloc] init];
 
-  // First save all found crash reports for use in correlation step
+  // First save all found crash reports for use in correlation step.
   NSMutableDictionary *foundCrashReports = [[NSMutableDictionary alloc] init];
   NSMutableDictionary *foundErrorLogs = [[NSMutableDictionary alloc] init];
   NSMutableDictionary *foundErrorReports = [[NSMutableDictionary alloc] init];
@@ -658,10 +658,10 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     }
   }
 
-  // Correlation step
+  // Correlation step.
   [MSWrapperExceptionManager correlateLastSavedWrapperExceptionToReport:[foundErrorReports allValues]];
 
-  // Processing step
+  // Processing step.
   for (NSURL *fileURL in [foundCrashReports allKeys]) {
     MSLogVerbose([MSCrashes logTag], @"Crash report found");
     MSPLCrashReport *report = foundCrashReports[fileURL];

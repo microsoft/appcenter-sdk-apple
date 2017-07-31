@@ -259,7 +259,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   errorLog.selectorRegisterValue =
   [self selectorRegisterValueFromReport:report ofCrashedThread:crashedThread is64bit:is64bit];
 
-  // Extract all threads and registers,
+  // Extract all threads and registers.
   errorLog.threads = [self extractThreadsFromReport:report crashedThread:crashedThread is64bit:is64bit];
   errorLog.registers = [self extractRegistersFromCrashedThread:crashedThread is64bit:is64bit];
 
@@ -273,7 +273,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
    */
   errorLog.device = [[MSDeviceTracker new] deviceForToffset:errorLog.toffset];
 
-  // Set the exception from the wrapper sdk
+  // Set the exception from the wrapper SDK.
   MSWrapperException* wrapperException = [MSWrapperExceptionManager loadWrapperExceptionWithUUID:[self uuidRefToString:report.uuidRef]];
   if (wrapperException) {
     errorLog.exception = wrapperException.modelException;
