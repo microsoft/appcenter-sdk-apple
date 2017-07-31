@@ -14,10 +14,8 @@ static NSString* const kLastWrapperExceptionFileName = @"last_saved_wrapper_exce
  * Initialize the class.
  */
 + (void)initialize {
-  if (![[NSFileManager defaultManager] fileExistsAtPath:[self directoryPath]]) {
-    NSURL *directoryUrl = [NSURL URLWithString:[self directoryPath]];
-    [MSUtility createDirectoryAtURL:directoryUrl];
-  }
+  NSURL *directoryUrl = [NSURL URLWithString:[self directoryPath]];
+  [MSUtility createDirectoryAtURL:directoryUrl];
 }
 
 #pragma mark Public Methods
