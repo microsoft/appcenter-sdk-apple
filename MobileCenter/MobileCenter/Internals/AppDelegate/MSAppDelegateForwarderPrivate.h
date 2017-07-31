@@ -41,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param originalDelegate The original application delegate.
  */
-+ (void)swizzleOriginalDelegate:(id<UIApplicationDelegate>)originalDelegate;
++ (void)swizzleOriginalDelegate:(id<MSApplicationDelegate>)originalDelegate;
 
 @end
 

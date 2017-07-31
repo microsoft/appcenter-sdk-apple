@@ -6,15 +6,25 @@
 
 #pragma mark - MSAppDelegate
 
+#if TARGET_OS_OSX
+- (void)application:(__attribute__((unused))NSApplication *)application
+#else
 - (void)application:(__attribute__((unused))UIApplication *)application
+#endif
     didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
   [MSPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 }
 
+#if TARGET_OS_OSX
+- (void)application:(__attribute__((unused))NSApplication *)application
+#else
 - (void)application:(__attribute__((unused))UIApplication *)application
+#endif
     didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
   [MSPush didFailToRegisterForRemoteNotificationsWithError:error];
 }
+
+#if !TARGET_OS_OSX
 
 // Workaroud for iOS 10 bug. See https://forums.developer.apple.com/thread/54332
 - (void)application:(__attribute__((unused))UIApplication *)application
@@ -33,6 +43,7 @@
     completionHandler(UIBackgroundFetchResultNoData);
   }
 }
+#endif
 
 @end
 
@@ -45,8 +56,13 @@
   // Register selectors to swizzle for Push.
   [self addAppDelegateSelectorToSwizzle:@selector(application:didRegisterForRemoteNotificationsWithDeviceToken:)];
   [self addAppDelegateSelectorToSwizzle:@selector(application:didFailToRegisterForRemoteNotificationsWithError:)];
+#if TARGET_OS_OSX
+
+  // TODO: Add swizzle methods here for macOS
+#else
   [self addAppDelegateSelectorToSwizzle:@selector(application:didReceiveRemoteNotification:)];
   [self addAppDelegateSelectorToSwizzle:@selector(application:didReceiveRemoteNotification:fetchCompletionHandler:)];
+#endif
 }
 
 @end

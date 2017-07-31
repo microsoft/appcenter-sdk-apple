@@ -43,16 +43,6 @@
   [MSPush didReceiveNotification:notification];
 }
 
-- (void)application:(NSApplication *)application
-    didRegisterForRemoteNotificationsWithDeviceToken:(nonnull NSData *)deviceToken {
-  [MSPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
-}
-
-- (void)application:(NSApplication *)application
-    didFailToRegisterForRemoteNotificationsWithError:(nonnull NSError *)error {
-  [MSPush didFailToRegisterForRemoteNotificationsWithError:error];
-}
-
 #pragma mark - Private
 
 - (void)setupCrashes {

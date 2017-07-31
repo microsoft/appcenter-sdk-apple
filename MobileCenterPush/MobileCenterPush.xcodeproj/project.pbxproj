@@ -86,6 +86,8 @@
 		047919B71EBA42F0004834A6 /* MSPushNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 047919B61EBA42F0004834A6 /* MSPushNotification.m */; };
 		047919B91EBA4C44004834A6 /* MSPushNotificationInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 047919B81EBA4C44004834A6 /* MSPushNotificationInternal.h */; };
 		04849D791E9E913A0093ECA6 /* MSPushLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04849D781E9E913A0093ECA6 /* MSPushLogTests.m */; };
+		04873E851F2FD0B600A13AFF /* MSPushAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 382144391EC4D3EC009A6143 /* MSPushAppDelegate.h */; };
+		04873E861F2FD0D900A13AFF /* MSPushAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3821443A1EC4D3EC009A6143 /* MSPushAppDelegate.m */; };
 		3821443B1EC4D3EC009A6143 /* MSPushAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 382144391EC4D3EC009A6143 /* MSPushAppDelegate.h */; };
 		3821443C1EC4D3EC009A6143 /* MSPushAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3821443A1EC4D3EC009A6143 /* MSPushAppDelegate.m */; };
 		38D4BBA11D5A98D1001A30A0 /* ../MobileCenter/MobileCenter/MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 38D4BB9F1D5A98D1001A30A0 /* ../MobileCenter/MobileCenter/MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -459,6 +461,7 @@
 				046964491F2A5B4D00F9D31F /* MobileCenter+Internal.h in Headers */,
 				0469644B1F2A5BC900F9D31F /* MSPush.h in Headers */,
 				046964431F2A5B3200F9D31F /* MSLogManager.h in Headers */,
+				04873E851F2FD0B600A13AFF /* MSPushAppDelegate.h in Headers */,
 				046964471F2A5B4900F9D31F /* MSPushNotificationInternal.h in Headers */,
 				0469644D1F2A5D1200F9D31F /* MSPushPrivate.h in Headers */,
 				0469644E1F2A5D2800F9D31F /* MobileCenterPush.h in Headers */,
@@ -694,6 +697,7 @@
 			files = (
 				046964481F2A5B4900F9D31F /* MSPushNotification.m in Sources */,
 				0469644C1F2A5C9200F9D31F /* MSPush.m in Sources */,
+				04873E861F2FD0D900A13AFF /* MSPushAppDelegate.m in Sources */,
 				046964451F2A5B3E00F9D31F /* MSPushLog.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

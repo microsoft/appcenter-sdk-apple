@@ -251,6 +251,10 @@
 		04754FA41EA98182002CBA46 /* MSKeychainUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 045BC3181E3FD8AC00B6C960 /* MSKeychainUtil.h */; };
 		04754FA61EA98182002CBA46 /* MSChannelDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 5949380E604D45340244FEF1 /* MSChannelDelegate.h */; };
 		04754FA71EA98182002CBA46 /* MSIngestionSender.h in Headers */ = {isa = PBXBuildFile; fileRef = BA6824A001520825F18DFC42 /* MSIngestionSender.h */; };
+		04873E811F2FCDCB00A13AFF /* MSNSAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 04873E801F2FCDCB00A13AFF /* MSNSAppDelegate.h */; };
+		04873E821F2FCE3700A13AFF /* MSAppDelegateForwarder.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C4471E1ECE5352002E1B11 /* MSAppDelegateForwarder.h */; };
+		04873E831F2FCE3E00A13AFF /* MSAppDelegateForwarder.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C4471F1ECE5352002E1B11 /* MSAppDelegateForwarder.m */; };
+		04873E841F2FCF9000A13AFF /* MSAppDelegateForwarderPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C447201ECE5352002E1B11 /* MSAppDelegateForwarderPrivate.h */; };
 		0499F8551EDF979700C3EDDA /* MSLogWithProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 3844FF191E8C2716003E9194 /* MSLogWithProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0499F8561EDF979A00C3EDDA /* MSDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3844FF1A1E8C2716003E9194 /* MSDevice.m */; };
 		0499F8571EDF979D00C3EDDA /* MSDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 3844FF1B1E8C2716003E9194 /* MSDevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -559,6 +563,7 @@
 		04840CD71ECCF6560020B0FC /* Tests iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests iOS.xcconfig"; path = "../../Config/Tests iOS.xcconfig"; sourceTree = "<group>"; };
 		0485AFEC1EAAAC3B00C10CAF /* macOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = macOS.modulemap; sourceTree = "<group>"; };
 		0485AFEE1EAAAD0000C10CAF /* iOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = iOS.modulemap; sourceTree = "<group>"; };
+		04873E801F2FCDCB00A13AFF /* MSNSAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSNSAppDelegate.h; sourceTree = "<group>"; };
 		049BC8281ECE3A5200FB6719 /* iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS.xcconfig; sourceTree = "<group>"; };
 		049BC8291ECE3A5A00FB6719 /* macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
 		04B7BBEE1E5FAD4D001A0CE1 /* MSSenderUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSSenderUtilTests.m; sourceTree = "<group>"; };
@@ -848,6 +853,7 @@
 			isa = PBXGroup;
 			children = (
 				38C4471D1ECE5352002E1B11 /* MSUIAppDelegate.h */,
+				04873E801F2FCDCB00A13AFF /* MSNSAppDelegate.h */,
 				38C4471E1ECE5352002E1B11 /* MSAppDelegateForwarder.h */,
 				38C4471F1ECE5352002E1B11 /* MSAppDelegateForwarder.m */,
 				38C447201ECE5352002E1B11 /* MSAppDelegateForwarderPrivate.h */,
@@ -1273,6 +1279,7 @@
 				04754F931EA98182002CBA46 /* MSLogContainer.h in Headers */,
 				04754F971EA98182002CBA46 /* MSChannelConfiguration.h in Headers */,
 				04754F981EA98182002CBA46 /* MSMobileCenterInternal.h in Headers */,
+				04873E841F2FCF9000A13AFF /* MSAppDelegateForwarderPrivate.h in Headers */,
 				044864C51EBD12F200031019 /* MSCustomProperties.h in Headers */,
 				04754F991EA98182002CBA46 /* MSService.h in Headers */,
 				B2CD74A71F22BE270070E7DF /* MSUtility+Application.h in Headers */,
@@ -1281,6 +1288,7 @@
 				B2CD74C21F22BE270070E7DF /* MSUtility+StringFormatting.h in Headers */,
 				04754F9D1EA98182002CBA46 /* MSMobileCenterErrors.h in Headers */,
 				B2CD74B01F22BE270070E7DF /* MSUtility+Date.h in Headers */,
+				04873E811F2FCDCB00A13AFF /* MSNSAppDelegate.h in Headers */,
 				04754F9E1EA98182002CBA46 /* MSLogManager.h in Headers */,
 				04754F9F1EA98182002CBA46 /* MSServiceAbstractProtected.h in Headers */,
 				04754FA01EA98182002CBA46 /* MSEnable.h in Headers */,
@@ -1289,6 +1297,7 @@
 				B2CD74C71F22BEBF0070E7DF /* MSDBStorage.h in Headers */,
 				04754FA21EA98182002CBA46 /* MSDeviceTracker.h in Headers */,
 				04754FA31EA98182002CBA46 /* MSLogManagerDefault.h in Headers */,
+				04873E821F2FCE3700A13AFF /* MSAppDelegateForwarder.h in Headers */,
 				B2CD74B61F22BE270070E7DF /* MSUtility+Environment.h in Headers */,
 				04754FA41EA98182002CBA46 /* MSKeychainUtil.h in Headers */,
 				04754FA61EA98182002CBA46 /* MSChannelDelegate.h in Headers */,
@@ -1706,6 +1715,7 @@
 				B2CD74B91F22BE270070E7DF /* MSUtility+Environment.m in Sources */,
 				04754F501EA98182002CBA46 /* MSMobileCenterErrors.m in Sources */,
 				04754F511EA98182002CBA46 /* MSDeviceHistoryInfo.m in Sources */,
+				04873E831F2FCE3E00A13AFF /* MSAppDelegateForwarder.m in Sources */,
 				04754F541EA98182002CBA46 /* MSHttpSender.m in Sources */,
 				0499F8561EDF979A00C3EDDA /* MSDevice.m in Sources */,
 				04754F551EA98182002CBA46 /* MSServiceAbstract.m in Sources */,

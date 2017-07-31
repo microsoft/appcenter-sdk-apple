@@ -2,6 +2,7 @@
 #import <UIKit/UIKit.h>
 #ifndef MSAppDelegate
 #define MSAppDelegate MSUIAppDelegate
+#define MSApplicationDelegate UIApplicationDelegate
 #endif
 
 NS_ASSUME_NONNULL_BEGIN
