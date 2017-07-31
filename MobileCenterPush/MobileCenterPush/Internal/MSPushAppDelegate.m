@@ -24,12 +24,24 @@
   [MSPush didFailToRegisterForRemoteNotificationsWithError:error];
 }
 
-#if !TARGET_OS_OSX
+#if TARGET_OS_OSX
+- (void)applicationDidFinishLaunching:(NSNotification *)notification {
+  NSUserNotificationCenter *center = [NSUserNotificationCenter defaultUserNotificationCenter];
+  center.delegate = self;
+  [MSPush didReceiveNotification:notification];
+}
+
+- (void)userNotificationCenter:(NSUserNotificationCenter *)center
+       didActivateNotification:(NSUserNotification *)notification {
+  (void)center;
+  [MSPush didReceiveUserNotification:notification];
+}
+
+#else
 
 // Workaroud for iOS 10 bug. See https://forums.developer.apple.com/thread/54332
 - (void)application:(__attribute__((unused))UIApplication *)application
-    didReceiveRemoteNotification:(NSDictionary *)userInfo
-{
+    didReceiveRemoteNotification:(NSDictionary *)userInfo {
   [MSPush didReceiveRemoteNotification:userInfo];
 }
 
@@ -57,8 +69,7 @@
   [self addAppDelegateSelectorToSwizzle:@selector(application:didRegisterForRemoteNotificationsWithDeviceToken:)];
   [self addAppDelegateSelectorToSwizzle:@selector(application:didFailToRegisterForRemoteNotificationsWithError:)];
 #if TARGET_OS_OSX
-
-  // TODO: Add swizzle methods here for macOS
+  [self addAppDelegateSelectorToSwizzle:@selector(applicationDidFinishLaunching:)];
 #else
   [self addAppDelegateSelectorToSwizzle:@selector(application:didReceiveRemoteNotification:)];
   [self addAppDelegateSelectorToSwizzle:@selector(application:didReceiveRemoteNotification:fetchCompletionHandler:)];

@@ -102,6 +102,9 @@ static dispatch_once_t onceToken;
   return [[self sharedInstance] didReceiveNotification:notification];
 }
 
++ (BOOL)didReceiveUserNotification:(NSUserNotification *)notification {
+  return [[self sharedInstance] didReceiveUserNotification:notification];
+}
 #else
 + (BOOL)didReceiveRemoteNotification:(NSDictionary *)userInfo {
   return [[self sharedInstance] didReceiveRemoteNotification:userInfo];
@@ -214,22 +217,15 @@ static dispatch_once_t onceToken;
 // TODO: Review this method name.
 #if TARGET_OS_OSX
 - (BOOL)didReceiveNotification:(NSNotification *)notification {
-  NSUserNotification *userNotification;
+  return [self didReceiveUserNotification:[notification.userInfo objectForKey:NSApplicationLaunchUserNotificationKey]];
+}
 
-  /*
-   * If the notification is from didActivateNotification, the notification type is NSUserNotification. Otherwise,
-   * NSUserNotification will be placed in NSNotification.userInfo.
-   */
-  if ([notification isKindOfClass:[NSUserNotification class]]) {
-    userNotification = (NSUserNotification *)notification;
-  } else {
-    userNotification = [notification.userInfo objectForKey:NSApplicationLaunchUserNotificationKey];
-  }
-  if (userNotification && [self didReceiveRemoteNotification:userNotification.userInfo]) {
+- (BOOL)didReceiveUserNotification:(NSUserNotification *)notification {
+  if (notification && [self didReceiveRemoteNotification:notification.userInfo]) {
     NSUserNotificationCenter *center = [NSUserNotificationCenter defaultUserNotificationCenter];
 
     // The delivered notification should be removed.
-    [center removeDeliveredNotification:userNotification];
+    [center removeDeliveredNotification:notification];
     return YES;
   }
   return NO;

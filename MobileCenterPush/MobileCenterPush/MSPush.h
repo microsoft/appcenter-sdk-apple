@@ -24,15 +24,24 @@ NS_ASSUME_NONNULL_BEGIN
 
 #if TARGET_OS_OSX
 /**
- * Callback for notification with user notification on macOS.
+ * Callback for notification with notification on macOS.
  *
- * @param notification The notification that triggered an action.
+ * @param notification The notification that triggered the application launch.
  *
  * @return YES if the notification was sent via Mobile Center.
  */
 // TODO: Review this public method name.
 + (BOOL)didReceiveNotification:(NSNotification *)notification;
 
+/**
+ * Callback for notification with user notification on macOS.
+ *
+ * @param notification The received user notification.
+ *
+ * @return YES if the notification was sent via Mobile Center.
+ */
+// TODO: Review this public method name.
++ (BOOL)didReceiveUserNotification:(NSUserNotification *)notification;
 #else
 /**
  * Callback for notification with user info.

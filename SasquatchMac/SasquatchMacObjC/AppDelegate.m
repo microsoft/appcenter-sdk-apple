@@ -7,10 +7,6 @@
 @import MobileCenterCrashes;
 @import MobileCenterPush;
 
-// TODO: This should be implemented in the SDK.
-@interface AppDelegate () <NSUserNotificationCenterDelegate>
-@end
-
 @implementation AppDelegate
 
 - (instancetype)init {
@@ -27,20 +23,6 @@
            withServices:@[ [MSAnalytics class], [MSCrashes class], [MSPush class] ]];
   [MobileCenterProvider shared].mobileCenter = [[MobileCenterDelegateObjC alloc] init];
   return self;
-}
-
-- (void)applicationDidFinishLaunching:(NSNotification *)notification {
-
-  // TODO: Setting delegate should be handled by the SDK.
-  NSUserNotificationCenter *center = [NSUserNotificationCenter defaultUserNotificationCenter];
-  center.delegate = self;
-  [MSPush didReceiveNotification:notification];
-}
-
-- (void)userNotificationCenter:(NSUserNotificationCenter *)center didActivateNotification:(NSUserNotification *)notification {
-
-  // FIXME: NSNotification and NSUserNotification are not under same class hierarchy.
-  [MSPush didReceiveNotification:notification];
 }
 
 #pragma mark - Private
