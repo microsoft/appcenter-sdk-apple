@@ -35,8 +35,9 @@ NSString *MSUtilityApplicationCategory;
 #endif
 
 #if TARGET_OS_OSX
-
-// TODO: ApplicationDelegate is not yet implemented for macOS.
++ (id<NSApplicationDelegate>)sharedAppDelegate {
+  return [self sharedApp].delegate;
+}
 #else
 + (id<UIApplicationDelegate>)sharedAppDelegate {
   return [self sharedApp].delegate;
