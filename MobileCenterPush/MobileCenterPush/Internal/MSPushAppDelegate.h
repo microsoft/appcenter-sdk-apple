@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
 
-#import "MSAppDelegate.h"
+#import "MSUIAppDelegate.h"
 
 @interface MSPushAppDelegate : NSObject <MSAppDelegate>
 

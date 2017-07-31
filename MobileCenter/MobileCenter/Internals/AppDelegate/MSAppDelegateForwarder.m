@@ -2,7 +2,7 @@
 #import <UIKit/UIKit.h>
 
 #import "MSAppDelegateForwarderPrivate.h"
-#import "MSAppDelegate.h"
+#import "MSUIAppDelegate.h"
 #import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
 #import "MSUtility+Application.h"

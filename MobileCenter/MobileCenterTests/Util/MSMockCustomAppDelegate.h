@@ -1,6 +1,6 @@
 #import <UIKit/UIKit.h>
 
-#import "MSAppDelegate.h"
+#import "MSUIAppDelegate.h"
 
 typedef BOOL (^CustomOpenURLiOS42Validator)(UIApplication *, NSURL *, NSString *, id, BOOL);
 typedef BOOL (^CustomOpenURLiOS9Validator)(UIApplication *, NSURL *, NSDictionary<UIApplicationOpenURLOptionsKey, id> *,

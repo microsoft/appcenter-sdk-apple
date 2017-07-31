@@ -1,7 +1,7 @@
 #import <UIKit/UIKit.h>
 
 #import "MSAppDelegateForwarderPrivate.h"
-#import "MSAppDelegate.h"
+#import "MSUIAppDelegate.h"
 #import "MSMockCustomAppDelegate.h"
 #import "MSMockOriginalAppDelegate.h"
 #import "MSTestFrameworks.h"
