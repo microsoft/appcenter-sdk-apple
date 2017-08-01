@@ -171,8 +171,10 @@ static dispatch_once_t onceToken;
 #endif
 }
 
-// TODO: Implement macOS
-#if !TARGET_OS_OSX
+#if TARGET_OS_OSX
+
+// TODO: Implement macOS. Seems it is dead code.
+#else
 - (void)application:(UIApplication *)application
     didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
   (void)notificationSettings;

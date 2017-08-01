@@ -255,6 +255,9 @@
 		04873E821F2FCE3700A13AFF /* MSAppDelegateForwarder.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C4471E1ECE5352002E1B11 /* MSAppDelegateForwarder.h */; };
 		04873E831F2FCE3E00A13AFF /* MSAppDelegateForwarder.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C4471F1ECE5352002E1B11 /* MSAppDelegateForwarder.m */; };
 		04873E841F2FCF9000A13AFF /* MSAppDelegateForwarderPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C447201ECE5352002E1B11 /* MSAppDelegateForwarderPrivate.h */; };
+		04873E871F2FDDEC00A13AFF /* MSAppDelegateForwarderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38641B041EB0F40800B2CE73 /* MSAppDelegateForwarderTests.m */; };
+		04873E881F2FDECE00A13AFF /* MSMockOriginalAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3805DDA61EB7A6A6001DB846 /* MSMockOriginalAppDelegate.m */; };
+		04873E891F2FDFD500A13AFF /* MSMockCustomAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3872CA971ECA0B04006B2E3B /* MSMockCustomAppDelegate.m */; };
 		0499F8551EDF979700C3EDDA /* MSLogWithProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 3844FF191E8C2716003E9194 /* MSLogWithProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0499F8561EDF979A00C3EDDA /* MSDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3844FF1A1E8C2716003E9194 /* MSDevice.m */; };
 		0499F8571EDF979D00C3EDDA /* MSDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 3844FF1B1E8C2716003E9194 /* MSDevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1678,6 +1681,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				046AEAD31ECA562A00CBE511 /* MSCustomPropertiesLogTests.m in Sources */,
+				04873E881F2FDECE00A13AFF /* MSMockOriginalAppDelegate.m in Sources */,
 				04A140871ECE63BB001CEE94 /* MSServiceAbstractTests.m in Sources */,
 				046AEAD41ECA562A00CBE511 /* MSMockUserDefaults.m in Sources */,
 				046AEAD71ECA562A00CBE511 /* MSLogWithPropertiesTests.m in Sources */,
@@ -1691,12 +1695,14 @@
 				04A1408B1ECE63CB001CEE94 /* MSIngestionSenderTests.m in Sources */,
 				046AEAE41ECA562A00CBE511 /* MSStartServiceLogTests.m in Sources */,
 				046AEAE61ECA562A00CBE511 /* MSChannelConfigurationTests.m in Sources */,
+				04873E891F2FDFD500A13AFF /* MSMockCustomAppDelegate.m in Sources */,
 				046AEAE81ECA562A00CBE511 /* MSCustomPropertiesTests.m in Sources */,
 				04A140861ECE60C6001CEE94 /* MSUtilityTests.m in Sources */,
 				046AEAE91ECA562A00CBE511 /* MSSenderUtilTests.m in Sources */,
 				04A1408A1ECE63C7001CEE94 /* MSLogContainerTests.m in Sources */,
 				049BC8431ECE524D00FB6719 /* MSDeviceTrackerTests.m in Sources */,
 				B2CD74CE1F22BFD00070E7DF /* MSMockService.m in Sources */,
+				04873E871F2FDDEC00A13AFF /* MSAppDelegateForwarderTests.m in Sources */,
 				046AEAEB1ECA562A00CBE511 /* MSMockLog.m in Sources */,
 				046AEAEC1ECA562A00CBE511 /* MSLogManagerDefaultTests.m in Sources */,
 			);
