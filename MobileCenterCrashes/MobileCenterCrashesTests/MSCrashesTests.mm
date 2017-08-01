@@ -10,6 +10,7 @@
 #import "MSCrashesPrivate.h"
 #import "MSCrashesTestUtil.h"
 #import "MSCrashesUtil.h"
+#import "MSCrashHandlerSetupDelegate.h"
 #import "MSErrorAttachmentLogInternal.h"
 #import "MSErrorLogFormatter.h"
 #import "MSException.h"
@@ -20,6 +21,7 @@
 #import "MSServiceAbstractPrivate.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSWrapperExceptionManagerInternal.h"
+#import "MSWrapperCrashesHelper.h"
 
 @class MSMockCrashesDelegate;
 
@@ -49,12 +51,21 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 - (void)setUp {
   [super setUp];
   self.sut = [MSCrashes new];
+
+  // Some tests actually require the shared instance because,
+  // so it is important to ensure that it is enabled at the start of each test.
+  [[MSCrashes sharedInstance] setEnabled:YES];
 }
 
 - (void)tearDown {
   [super tearDown];
   [self.sut deleteAllFromCrashesDirectory];
   [MSCrashesTestUtil deleteAllFilesInDirectory:[self.sut.logBufferDir path]];
+
+  // Some tests actually require the shared instance because,
+  // so it is important to clean up.
+  [[MSCrashes sharedInstance] deleteAllFromCrashesDirectory];
+  [MSCrashesTestUtil deleteAllFilesInDirectory:[[MSCrashes sharedInstance].logBufferDir path]];
 }
 
 #pragma mark - Tests
@@ -147,6 +158,21 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   OCMVerify([delegateMock crashes:[MSCrashes sharedInstance] willSendErrorReport:errorReport]);
   OCMVerify([delegateMock crashes:[MSCrashes sharedInstance] didSucceedSendingErrorReport:errorReport]);
   OCMVerify([delegateMock crashes:[MSCrashes sharedInstance] didFailSendingErrorReport:errorReport withError:nil]);
+}
+
+- (void)testCrashHandlerSetupDelegateMethodsAreCalled {
+
+  // If
+  id<MSCrashHandlerSetupDelegate> delegateMock = OCMProtocolMock(@protocol(MSCrashHandlerSetupDelegate));
+  [MSWrapperCrashesHelper setCrashHandlerSetupDelegate:delegateMock];
+
+  // When
+  [[MSCrashes sharedInstance] applyEnabledState:YES];
+
+  // Then
+  OCMVerify([delegateMock willSetUpCrashHandlers]);
+  OCMVerify([delegateMock didSetUpCrashHandlers]);
+  OCMVerify([delegateMock shouldEnableUncaughtExceptionHandler]);
 }
 
 - (void)testSettingUserConfirmationHandler {
@@ -496,27 +522,6 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // Then
   XCTAssertFalse([self.sut isMachExceptionHandlerEnabled]);
-}
-
-- (void)testWrapperCrashCallback {
-
-  // If
-  MSException *exception = [[MSException alloc] init];
-  exception.message = @"a message";
-  exception.type = @"a type";
-
-  // When
-  [[MSCrashes sharedInstance] startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
-  MSWrapperExceptionManager *manager = [MSWrapperExceptionManager sharedInstance];
-  manager.wrapperException = exception;
-  [MSCrashesTestUtil deleteAllFilesInDirectory:[MSWrapperExceptionManager directoryPath]];
-  assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
-  [MSCrashes wrapperCrashCallback];
-
-  // Then
-  NSArray *first =
-      [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[MSWrapperExceptionManager directoryPath] error:NULL];
-  XCTAssertTrue(first.count == 1);
 }
 
 - (void)testAbstractErrorLogSerialization {

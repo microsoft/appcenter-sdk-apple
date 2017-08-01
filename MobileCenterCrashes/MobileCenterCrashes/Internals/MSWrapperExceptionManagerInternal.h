@@ -1,39 +1,24 @@
 #import "MSWrapperExceptionManager.h"
 
+@class MSWrapperException;
+@class MSErrorReport;
+
 @interface MSWrapperExceptionManager ()
 
-@property MSException *wrapperException;
-@property NSMutableDictionary *wrapperExceptionData;
-@property NSData *unsavedWrapperExceptionData;
-@property CFUUIDRef currentUUIDRef;
-@property(weak, nonatomic) id<MSWrapperCrashesInitializationDelegate> crashesDelegate;
+/**
+ * Delete all wrapper exception files on disk.
+ */
++ (void)deleteAllWrapperExceptions;
 
-@property(copy, readonly) NSString *dataFileExtension;
-@property(copy, readonly) NSString *directoryName;
-@property(copy, readonly) NSString *directoryPath;
+/**
+ * Find the PLCrashReport with a matching process id to the MSWrapperException that
+ * was last saved on disk, and update the filename to the report's UUID.
+ */
++ (void)correlateLastSavedWrapperExceptionToReport:(NSArray<MSErrorReport*> *)reports;
 
-+ (MSWrapperExceptionManager*)sharedInstance;
-- (BOOL)hasException;
-- (MSException*)loadWrapperException:(CFUUIDRef)uuidRef;
-- (void)saveWrapperException:(CFUUIDRef)uuidRef;
-- (void)deleteWrapperExceptionWithUUID:(CFUUIDRef)uuidRef;
-- (void)deleteAllWrapperExceptions;
-- (void)deleteAllWrapperExceptionData;
-- (void)saveWrapperExceptionData:(CFUUIDRef)uuidRef;
-
-- (NSData*)loadWrapperExceptionDataWithUUIDString:(NSString*)uuidString;
-- (void)deleteWrapperExceptionDataWithUUIDString:(NSString*)uuidString;
-
-+ (NSString*)directoryPath;
-
-+ (NSString*)getFilename:(NSString*)uuidString;
-+ (NSString*)getDataFilename:(NSString*)uuidString;
-+ (NSString*)getFilenameWithUUIDRef:(CFUUIDRef)uuidRef;
-+ (NSString*)getDataFilenameWithUUIDRef:(CFUUIDRef)uuidRef;
-+ (void)deleteFile:(NSString*)path;
-+ (BOOL)isDataFile:(NSString*)path;
-+ (NSString*)uuidRefToString:(CFUUIDRef)uuidRef;
-+ (BOOL)isCurrentUUIDRef:(CFUUIDRef)uuidRef;
-- (void)startCrashReportingFromWrapperSdk;
+/**
+ * Delete a wrapper exception with a given UUID.
+ */
++ (void)deleteWrapperExceptionWithUUID:(NSString *)uuid;
 
 @end

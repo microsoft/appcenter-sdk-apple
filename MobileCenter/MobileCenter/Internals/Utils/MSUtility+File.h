@@ -33,4 +33,16 @@ extern NSString *MSUtilityFileCategory;
  */
 + (BOOL)removeItemAtURL:(NSURL *)itemURL;
 
+/**
+ * Creates a directory at the given location, intermediate directories are also created if nonexistant.
+ *
+ * @param directoryURL URL representing the absolute path of the directory to create.
+ *
+ * @return `YES` if the operation was successful or if the item already exists, otherwise `NO`.
+ *
+ * @discussion SDK files should not be backed up in iCloud. Thus, iCloud backup is explicitely
+ * deactivated on every folder created.
+ */
++ (BOOL)createDirectoryAtURL:(NSURL *)directoryURL;
+
 @end

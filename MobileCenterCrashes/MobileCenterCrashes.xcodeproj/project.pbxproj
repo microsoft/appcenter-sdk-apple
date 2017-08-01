@@ -35,9 +35,15 @@
 /* Begin PBXBuildFile section */
 		3507AE3D1DD14C240030878F /* MSException.h in Headers */ = {isa = PBXBuildFile; fileRef = 3507AE3A1DD14C240030878F /* MSException.h */; };
 		3507AE3E1DD14C240030878F /* MSStackFrame.h in Headers */ = {isa = PBXBuildFile; fileRef = 3507AE3B1DD14C240030878F /* MSStackFrame.h */; };
+		350B29F21F1D67EE009B91CF /* MSWrapperCrashesHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 350B29F11F1D67EE009B91CF /* MSWrapperCrashesHelper.m */; };
+		350B29F41F1E6F1D009B91CF /* MSWrapperExceptionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 350B29F31F1E6F1D009B91CF /* MSWrapperExceptionTests.m */; };
 		3515F9C11DD63EC9005E6E27 /* MSCrashesInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 3515F9C01DD63EC9005E6E27 /* MSCrashesInternal.h */; };
+		352B1D6F1F27C36300684A7F /* MSWrapperCrashesHelperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 352B1D6E1F27C36300684A7F /* MSWrapperCrashesHelperTests.m */; };
+		353FD1611F29209000E1DF78 /* MSWrapperException.h in Headers */ = {isa = PBXBuildFile; fileRef = 353FD15E1F29209000E1DF78 /* MSWrapperException.h */; };
+		353FD1621F29209000E1DF78 /* MSWrapperException.m in Sources */ = {isa = PBXBuildFile; fileRef = 353FD15F1F29209000E1DF78 /* MSWrapperException.m */; };
+		353FD1631F29209000E1DF78 /* MSWrapperExceptionInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 353FD1601F29209000E1DF78 /* MSWrapperExceptionInternal.h */; };
 		35B7D87A1DE4D4A300C846CD /* MSWrapperExceptionManagerInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 35B7D8791DE4CB6D00C846CD /* MSWrapperExceptionManagerInternal.h */; };
-		35D504CF1DDD140500D58B40 /* MSWrapperExceptionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 35D504CD1DDD140500D58B40 /* MSWrapperExceptionManager.h */; };
+		35D504CF1DDD140500D58B40 /* MSWrapperExceptionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 35D504CD1DDD140500D58B40 /* MSWrapperExceptionManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		35D504D01DDD140500D58B40 /* MSWrapperExceptionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D504CE1DDD140500D58B40 /* MSWrapperExceptionManager.m */; };
 		35EF18E01DDBCF6C00731CA8 /* MSWrapperExceptionManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 35EF18DF1DDBCF6C00731CA8 /* MSWrapperExceptionManagerTests.m */; };
 		380B81321E8C540E001C76C9 /* MSLogWithProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 380B81311E8C540E001C76C9 /* MSLogWithProperties.h */; };
@@ -163,7 +169,15 @@
 /* Begin PBXFileReference section */
 		3507AE3A1DD14C240030878F /* MSException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSException.h; sourceTree = "<group>"; };
 		3507AE3B1DD14C240030878F /* MSStackFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSStackFrame.h; sourceTree = "<group>"; };
+		350B29E71F192554009B91CF /* MSCrashHandlerSetupDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSCrashHandlerSetupDelegate.h; sourceTree = "<group>"; };
+		350B29E81F1929A1009B91CF /* MSWrapperCrashesHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSWrapperCrashesHelper.h; sourceTree = "<group>"; };
+		350B29F11F1D67EE009B91CF /* MSWrapperCrashesHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSWrapperCrashesHelper.m; sourceTree = "<group>"; };
+		350B29F31F1E6F1D009B91CF /* MSWrapperExceptionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSWrapperExceptionTests.m; sourceTree = "<group>"; };
 		3515F9C01DD63EC9005E6E27 /* MSCrashesInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrashesInternal.h; sourceTree = "<group>"; };
+		352B1D6E1F27C36300684A7F /* MSWrapperCrashesHelperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSWrapperCrashesHelperTests.m; sourceTree = "<group>"; };
+		353FD15E1F29209000E1DF78 /* MSWrapperException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSWrapperException.h; sourceTree = "<group>"; };
+		353FD15F1F29209000E1DF78 /* MSWrapperException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSWrapperException.m; sourceTree = "<group>"; };
+		353FD1601F29209000E1DF78 /* MSWrapperExceptionInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSWrapperExceptionInternal.h; sourceTree = "<group>"; };
 		35B7D8791DE4CB6D00C846CD /* MSWrapperExceptionManagerInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSWrapperExceptionManagerInternal.h; sourceTree = "<group>"; };
 		35D504CD1DDD140500D58B40 /* MSWrapperExceptionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSWrapperExceptionManager.h; sourceTree = "<group>"; };
 		35D504CE1DDD140500D58B40 /* MSWrapperExceptionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSWrapperExceptionManager.m; sourceTree = "<group>"; };
@@ -301,6 +315,19 @@
 			name = Model;
 			sourceTree = "<group>";
 		};
+		350B29E91F192A5C009B91CF /* WrapperSdkUtilities */ = {
+			isa = PBXGroup;
+			children = (
+				350B29E81F1929A1009B91CF /* MSWrapperCrashesHelper.h */,
+				350B29F11F1D67EE009B91CF /* MSWrapperCrashesHelper.m */,
+				350B29E71F192554009B91CF /* MSCrashHandlerSetupDelegate.h */,
+				35B7D8791DE4CB6D00C846CD /* MSWrapperExceptionManagerInternal.h */,
+				35D504CE1DDD140500D58B40 /* MSWrapperExceptionManager.m */,
+				35D504CD1DDD140500D58B40 /* MSWrapperExceptionManager.h */,
+			);
+			name = WrapperSdkUtilities;
+			sourceTree = "<group>";
+		};
 		6E04012A1D1C98690051BCFA = {
 			isa = PBXGroup;
 			children = (
@@ -343,9 +370,7 @@
 		6E0401511D1C9A4F0051BCFA /* Internals */ = {
 			isa = PBXGroup;
 			children = (
-				35D504CD1DDD140500D58B40 /* MSWrapperExceptionManager.h */,
-				35D504CE1DDD140500D58B40 /* MSWrapperExceptionManager.m */,
-				35B7D8791DE4CB6D00C846CD /* MSWrapperExceptionManagerInternal.h */,
+				350B29E91F192A5C009B91CF /* WrapperSdkUtilities */,
 				3515F9C01DD63EC9005E6E27 /* MSCrashesInternal.h */,
 				6E73FE711D4059E7008CDC15 /* MSCrashesCXXExceptionWrapperException.h */,
 				6E73FE721D4059E7008CDC15 /* MSCrashesCXXExceptionWrapperException.m */,
@@ -362,6 +387,7 @@
 			isa = PBXGroup;
 			children = (
 				6E7D5C811D3EC06C009EC9AC /* MSConstants.h */,
+				350B29F31F1E6F1D009B91CF /* MSWrapperExceptionTests.m */,
 				B2FF130B1DD12F61003DC677 /* MSAppleErrorLogTests.m */,
 				B2F120D41D6546740060DED7 /* MSErrorAttachmentLogTests.m */,
 				6E7D5C7F1D3EAEB5009EC9AC /* MSBinaryTests.m */,
@@ -375,6 +401,7 @@
 				6EC99A2D1D4166C50016C325 /* MSCrashesTests.mm */,
 				B24F3F0E1D93368F00827213 /* MSErrorLogFormatterTests.mm */,
 				6E171AE51D22F781000DC480 /* Info.plist */,
+				352B1D6E1F27C36300684A7F /* MSWrapperCrashesHelperTests.m */,
 				6EC99A2F1D416CCF0016C325 /* Fixtures */,
 				6E171AEC1D22F7AB000DC480 /* Frameworks */,
 				0444496D1DD3D26D00D33BAE /* Model */,
@@ -447,6 +474,9 @@
 		6E7D5C641D3E92B1009EC9AC /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				353FD15E1F29209000E1DF78 /* MSWrapperException.h */,
+				353FD15F1F29209000E1DF78 /* MSWrapperException.m */,
+				353FD1601F29209000E1DF78 /* MSWrapperExceptionInternal.h */,
 				382346411E8B3DAD001C3A76 /* MSErrorAttachmentLogInternal.h */,
 				3507AE3A1DD14C240030878F /* MSException.h */,
 				6E7D5C6E1D3E9346009EC9AC /* MSException.m */,
@@ -540,7 +570,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				35D504CF1DDD140500D58B40 /* MSWrapperExceptionManager.h in Headers */,
 				3507AE3E1DD14C240030878F /* MSStackFrame.h in Headers */,
 				E8AEE9861D59744D00C0FF6C /* MSLogManager.h in Headers */,
 				6E7D5C671D3E9321009EC9AC /* MSBinary.h in Headers */,
@@ -549,17 +578,20 @@
 				35B7D87A1DE4D4A300C846CD /* MSWrapperExceptionManagerInternal.h in Headers */,
 				6E0401751D1C9E750051BCFA /* MobileCenterCrashes.h in Headers */,
 				38BD86521E8499EF004E8D7A /* MSErrorAttachmentLog.h in Headers */,
+				35D504CF1DDD140500D58B40 /* MSWrapperExceptionManager.h in Headers */,
 				B2F375091D41AD5100F07032 /* MSErrorLogFormatter.h in Headers */,
+				3507AE3D1DD14C240030878F /* MSException.h in Headers */,
 				B2F120E71D657F4F0060DED7 /* MSErrorReportPrivate.h in Headers */,
+				353FD1631F29209000E1DF78 /* MSWrapperExceptionInternal.h in Headers */,
 				380B81341E8C565E001C76C9 /* MSAbstractLog.h in Headers */,
 				6E7D5C6B1D3E9332009EC9AC /* MSAppleErrorLog.h in Headers */,
 				6E7D5C731D3E9381009EC9AC /* MSThread.h in Headers */,
 				382346421E8B3DAD001C3A76 /* MSErrorAttachmentLogInternal.h in Headers */,
+				353FD1611F29209000E1DF78 /* MSWrapperException.h in Headers */,
 				6E73FE6F1D4032AB008CDC15 /* MSCrashesUtil.h in Headers */,
 				B2CD3BF91D80EE49000A8A91 /* MSAbstractErrorLog.h in Headers */,
 				3515F9C11DD63EC9005E6E27 /* MSCrashesInternal.h in Headers */,
 				3858A2181E93F37E00535A69 /* MSErrorAttachmentLog+Utility.h in Headers */,
-				3507AE3D1DD14C240030878F /* MSException.h in Headers */,
 				387C77071D6CC41100D68CC1 /* MSServiceAbstract.h in Headers */,
 				B24F3F121D9341BC00827213 /* MSErrorLogFormatterPrivate.h in Headers */,
 				6E0401771D1C9EBE0051BCFA /* MobileCenter+Internal.h in Headers */,
@@ -729,11 +761,13 @@
 				B2CD3BFA1D80EE49000A8A91 /* MSAbstractErrorLog.m in Sources */,
 				3858A21A1E93F3B400535A69 /* MSErrorAttachmentLog+Utility.m in Sources */,
 				6E7D5C701D3E9346009EC9AC /* MSException.m in Sources */,
+				350B29F21F1D67EE009B91CF /* MSWrapperCrashesHelper.m in Sources */,
 				6E73FE741D4059E7008CDC15 /* MSCrashesCXXExceptionWrapperException.m in Sources */,
 				6E7D5C6C1D3E9332009EC9AC /* MSAppleErrorLog.m in Sources */,
 				6E7D5C781D3E9395009EC9AC /* MSStackFrame.m in Sources */,
 				8024743B1EAE077800AEC284 /* MSErrorAttachmentLog.m in Sources */,
 				6E7D5C741D3E9381009EC9AC /* MSThread.m in Sources */,
+				353FD1621F29209000E1DF78 /* MSWrapperException.m in Sources */,
 				6E0401541D1C9A4F0051BCFA /* MSCrashes.mm in Sources */,
 				B2F3750A1D41AD5100F07032 /* MSErrorLogFormatter.m in Sources */,
 				35D504D01DDD140500D58B40 /* MSWrapperExceptionManager.m in Sources */,
@@ -748,8 +782,10 @@
 			files = (
 				B2FF130C1DD12F61003DC677 /* MSAppleErrorLogTests.m in Sources */,
 				6EC99A2E1D4166C50016C325 /* MSCrashesTests.mm in Sources */,
+				350B29F41F1E6F1D009B91CF /* MSWrapperExceptionTests.m in Sources */,
 				6E7D5C8A1D3EC504009EC9AC /* MSExceptionTests.m in Sources */,
 				B2F120D71D65469D0060DED7 /* MSErrorReportTests.m in Sources */,
+				352B1D6F1F27C36300684A7F /* MSWrapperCrashesHelperTests.m in Sources */,
 				6E7D5C871D3EC332009EC9AC /* MSStackFrameTests.m in Sources */,
 				F851DAED1E81867D00525570 /* MSCrashesCXXExceptionTests.mm in Sources */,
 				6E7D5C841D3EC0F7009EC9AC /* MSThreadTests.m in Sources */,
