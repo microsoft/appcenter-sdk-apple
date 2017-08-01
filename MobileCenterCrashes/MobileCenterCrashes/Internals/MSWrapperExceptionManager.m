@@ -104,7 +104,14 @@ static NSString* const kMSLastWrapperExceptionFileName = @"last_saved_wrapper_ex
   // For some reason, unarchiving directly from a file fails in some cases, so load
   // data from a file and unarchive it after
   NSData *data = [NSData dataWithContentsOfURL:exceptionFileURL];
-  MSWrapperException *wrapperException = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+  MSWrapperException *wrapperException = nil;
+  @try {
+    wrapperException = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+  }
+  @catch (__attribute__((unused)) NSException *exception) {
+    MSLogError([MSCrashes logTag], @"Could not read exception data stored on disk with file name %@", baseFilename);
+    [self deleteWrapperExceptionWithBaseFilename:baseFilename];
+  }
   return wrapperException;
 }
 
