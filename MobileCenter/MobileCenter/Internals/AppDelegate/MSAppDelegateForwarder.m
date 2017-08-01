@@ -41,7 +41,7 @@ static BOOL _enabled = YES;
   BOOL appForwarderEnabled = appForwarderEnabledNum ? [((NSNumber *)appForwarderEnabledNum)boolValue] : YES;
   MSAppDelegateForwarder.enabled = appForwarderEnabled;
 
-  // Swizzle `setDelegate:` of class `UIApplication`.
+  // Swizzle `setDelegate:` of Application class.
   if (MSAppDelegateForwarder.enabled) {
     [MSAppDelegateForwarder.traceBuffer addObject:^{
       MSLogDebug([MSMobileCenter logTag], @"Application delegate forwarder is enabled. It may use swizzling.");

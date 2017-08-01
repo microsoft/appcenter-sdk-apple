@@ -31,9 +31,15 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic, class, readonly) NSMutableArray<dispatch_block_t> *traceBuffer;
 
+#if TARGET_OS_OSX
+/**
+ * Hold the original @see NSApplication#setDelegate: implementation.
+ */
+#else
 /**
  * Hold the original @see UIApplication#setDelegate: implementation.
  */
+#endif
 @property(nonatomic, class) IMP originalSetDelegateImp;
 
 /**
