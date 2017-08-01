@@ -5,81 +5,131 @@
 #import "MSCrashes.h"
 #import "MSErrorReport.h"
 #import "MSException.h"
+#import "MSUtility+File.h"
 #import "MSWrapperException.h"
 #import "MSWrapperExceptionManagerInternal.h"
 
+// Copied from MSWrapperExceptionManager.m
+static NSString* const kLastWrapperExceptionFileName = @"last_saved_wrapper_exception";
+
 @interface MSWrapperExceptionManagerTests : XCTestCase
 @end
+
+// Expose private methods for use in tests
+@interface MSWrapperExceptionManager ()
+
++ (NSString *)directoryPath;
++ (NSString *)getFilename:(NSString *)filename;
++ (MSWrapperException *)loadWrapperExceptionWithBaseFilename:(NSString *)baseFilename;
+
+@end
+
 
 @implementation MSWrapperExceptionManagerTests
 
 #pragma mark - Housekeeping
 
-- (void)setUp {
-  [super setUp];
-  [MSWrapperExceptionManager deleteAllWrapperExceptions];
+-(void)tearDown {
+  [super tearDown];
+  [MSUtility removeItemAtURL:[NSURL URLWithString:[MSWrapperExceptionManager directoryPath]]];
 }
 
 #pragma mark - Helper
 
-- (MSException*) getModelException {
+- (MSException*)getModelException {
   MSException *exception = [[MSException alloc] init];
   exception.message = @"a message";
   exception.type = @"a type";
   return exception;
 }
 
-- (NSData*) getData {
+- (NSData*)getData {
   NSString *string = @"some string";
   NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
   return data;
 }
 
-- (MSWrapperException*) getWrapperException {
+- (MSWrapperException*)getWrapperException {
   MSWrapperException *wrapperException = [[MSWrapperException alloc] init];
   wrapperException.modelException = [self getModelException];
   wrapperException.exceptionData = [self getData];
+  wrapperException.processId = [NSNumber numberWithInteger:rand()];
   return wrapperException;
 }
 
-- (NSString*)uuidRefToString:(CFUUIDRef)uuidRef {
-  if (!uuidRef) {
-    return nil;
-  }
-  CFStringRef uuidStringRef = CFUUIDCreateString(kCFAllocatorDefault, uuidRef);
-  return (__bridge_transfer NSString*)uuidStringRef;
+- (void)assertWrapperException:(MSWrapperException*)wrapperException isEqualToOther:(MSWrapperException*)other {
+
+  // Test that the exceptions are the same.
+  assertThat(other.processId, equalTo(wrapperException.processId));
+  assertThat(other.exceptionData, equalTo(wrapperException.exceptionData));
+  assertThat(other.modelException, equalTo(wrapperException.modelException));
+
+  // The exception field.
+  assertThat(other.modelException.type, equalTo(wrapperException.modelException.type));
+  assertThat(other.modelException.message, equalTo(wrapperException.modelException.message));
+  assertThat(other.modelException.wrapperSdkName, equalTo(wrapperException.modelException.wrapperSdkName));
 }
 
 #pragma mark - Test
 
-- (void) testSaveCorrelateAndLoadWrapperExceptionWorks {
+- (void)testSaveAndLoadWrapperExceptionWorks {
+
+  // If
   MSWrapperException *wrapperException = [self getWrapperException];
-  NSUInteger crashProcessId = 3;
-  wrapperException.processId = [NSNumber numberWithUnsignedInteger:crashProcessId];
+
+  // When
   [MSWrapperExceptionManager saveWrapperException:wrapperException];
+  MSWrapperException *loadedException = [MSWrapperExceptionManager loadWrapperExceptionWithBaseFilename:kLastWrapperExceptionFileName];
+
+  // Then
+  XCTAssertNotNil(loadedException);
+  [self assertWrapperException:wrapperException isEqualToOther:loadedException];
+}
+
+- (void) testSaveCorrelateWrapperExceptionWhenExists {
+
+  // If
+  int numReports = 4;
   NSMutableArray *mockReports = [NSMutableArray new];
-  for (int i = 0; i < 5; ++i) {
+  for (int i = 0; i <= numReports; ++i) {
     id reportMock = OCMPartialMock([MSErrorReport new]);
     OCMStub([reportMock appProcessIdentifier]).andReturn(i);
-    NSString* fakeUUIDString = [NSString stringWithFormat:@"%i", i];
-    OCMStub([reportMock incidentIdentifier]).andReturn(fakeUUIDString);
+    OCMStub([reportMock incidentIdentifier]).andReturn([[NSUUID UUID] UUIDString]);
     [mockReports addObject:reportMock];
   }
+  MSErrorReport *report = [mockReports objectAtIndex:(rand() % numReports)];
+  MSWrapperException *wrapperException = [self getWrapperException];
+  wrapperException.processId = [NSNumber numberWithInteger:[report appProcessIdentifier]];
+
+  // When
+  [MSWrapperExceptionManager saveWrapperException:wrapperException];
   [MSWrapperExceptionManager correlateLastSavedWrapperExceptionToReport:mockReports];
-  MSWrapperException *loadedException = [MSWrapperExceptionManager loadWrapperExceptionWithUUID:[NSString stringWithFormat:@"%i", (int)crashProcessId]];
+  MSWrapperException *loadedException = [MSWrapperExceptionManager loadWrapperExceptionWithUUID:[report incidentIdentifier]];
 
-  // Test that the loaded exception is not nil.
+  // Then
   XCTAssertNotNil(loadedException);
+  [self assertWrapperException:wrapperException isEqualToOther:loadedException];
+}
 
-  // Test that the exceptions are the same.
-  assertThat(loadedException.processId, equalTo(wrapperException.processId));
-  assertThat(loadedException.exceptionData, equalTo(wrapperException.exceptionData));
-  assertThat(loadedException.modelException, equalTo(wrapperException.modelException));
+- (void) testSaveCorrelateWrapperExceptionWhenNotExists {
 
-  // The exception field.
-  assertThat(loadedException.modelException.type, equalTo(wrapperException.modelException.type));
-  assertThat(loadedException.modelException.message, equalTo(wrapperException.modelException.message));
-  assertThat(loadedException.modelException.wrapperSdkName, equalTo(wrapperException.modelException.wrapperSdkName));
+  // If
+  MSWrapperException *wrapperException = [self getWrapperException];
+  wrapperException.processId = [NSNumber numberWithInteger:4];
+  NSMutableArray *mockReports = [NSMutableArray new];
+  id reportMock = OCMPartialMock([MSErrorReport new]);
+  OCMStub([reportMock appProcessIdentifier]).andReturn(9);
+  NSString* uuidString = [[NSUUID UUID] UUIDString];
+  OCMStub([reportMock incidentIdentifier]).andReturn(uuidString);
+  [mockReports addObject:reportMock];
+
+  // When
+  [MSWrapperExceptionManager saveWrapperException:wrapperException];
+  [MSWrapperExceptionManager correlateLastSavedWrapperExceptionToReport:mockReports];
+  MSWrapperException *loadedException = [MSWrapperExceptionManager loadWrapperExceptionWithUUID:uuidString];
+
+  // Then
+  XCTAssertNil(loadedException);
 }
 
 @end

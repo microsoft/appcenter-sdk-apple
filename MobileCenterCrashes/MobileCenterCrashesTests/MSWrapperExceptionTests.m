@@ -23,7 +23,6 @@
 #pragma mark - Helper
 
 - (MSWrapperException *)wrapperException {
-
   MSWrapperException *exception = [MSWrapperException new];
   exception.processId = [NSNumber numberWithInteger:4];
   exception.exceptionData = [[NSData alloc] initWithBase64EncodedString:@"data string" options:NSDataBase64DecodingIgnoreUnknownCharacters];
@@ -31,7 +30,6 @@
   exception.modelException.type = @"type";
   exception.modelException.message = @"message";
   exception.modelException.wrapperSdkName = @"wrapper sdk name";
-
   return exception;
 }
 
