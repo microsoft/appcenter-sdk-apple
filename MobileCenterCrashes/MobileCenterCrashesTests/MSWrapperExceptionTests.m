@@ -1,9 +1,10 @@
 #import <Foundation/Foundation.h>
-#import <XCTest/XCTest.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
 #import <OCMock/OCMock.h>
-#import "MSWrapperExceptionInternal.h"
+#import <XCTest/XCTest.h>
+
 #import "MSException.h"
+#import "MSWrapperExceptionInternal.h"
 
 @interface MSWrapperExceptionTests : XCTestCase
 
@@ -25,7 +26,7 @@
 - (MSWrapperException *)wrapperException {
   MSWrapperException *exception = [MSWrapperException new];
   exception.processId = [NSNumber numberWithInteger:4];
-  exception.exceptionData = [[NSData alloc] initWithBase64EncodedString:@"data string" options:NSDataBase64DecodingIgnoreUnknownCharacters];
+  exception.exceptionData = [@"data string" dataUsingEncoding:NSUTF8StringEncoding];
   exception.modelException = [[MSException alloc] init];
   exception.modelException.type = @"type";
   exception.modelException.message = @"message";

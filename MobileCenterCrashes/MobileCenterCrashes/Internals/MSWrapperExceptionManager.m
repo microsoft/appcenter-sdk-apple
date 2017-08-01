@@ -1,29 +1,29 @@
 #import "MSCrashesInternal.h"
+#import "MSCrashesUtil.h"
 #import "MSErrorReport.h"
 #import "MSException.h"
 #import "MSUtility+File.h"
 #import "MSWrapperExceptionInternal.h"
 #import "MSWrapperExceptionManagerInternal.h"
-#import "MSCrashesUtil.h"
 
 @implementation MSWrapperExceptionManager : NSObject
 
-static NSString* const kLastWrapperExceptionFileName = @"last_saved_wrapper_exception";
+static NSString* const kMSLastWrapperExceptionFileName = @"last_saved_wrapper_exception";
 
 #pragma mark Public Methods
 
 /**
  * Gets a wrapper exception with a given UUID.
  */
-+ (MSWrapperException *)loadWrapperExceptionWithUUID:(NSString *)uuid {
-  return [self loadWrapperExceptionWithBaseFilename:uuid];
++ (MSWrapperException *)loadWrapperExceptionWithUUIDString:(NSString *)uuidString {
+  return [self loadWrapperExceptionWithBaseFilename:uuidString];
 }
 
 /**
  * Saves a wrapper exception to disk. Should only be used by wrapper SDK.
  */
 + (void)saveWrapperException:(MSWrapperException *)wrapperException {
-  [self saveWrapperException:wrapperException withBaseFilename:kLastWrapperExceptionFileName];
+  [self saveWrapperException:wrapperException withBaseFilename:kMSLastWrapperExceptionFileName];
 }
 
 #pragma mark Internal Methods
@@ -31,8 +31,8 @@ static NSString* const kLastWrapperExceptionFileName = @"last_saved_wrapper_exce
 /**
  * Deletes a wrapper exception with a given UUID.
  */
-+ (void)deleteWrapperExceptionWithUUID:(NSString *)uuid {
-  [self deleteWrapperExceptionWithBaseFilename:uuid];
++ (void)deleteWrapperExceptionWithUUIDString:(NSString *)uuidString {
+  [self deleteWrapperExceptionWithBaseFilename:uuidString];
 }
 
 /**
@@ -51,11 +51,11 @@ static NSString* const kLastWrapperExceptionFileName = @"last_saved_wrapper_exce
  * id of the error report.
  */
 + (void)correlateLastSavedWrapperExceptionToReport:(NSArray<MSErrorReport*> *)reports {
-  MSWrapperException *lastSavedWrapperException = [self loadWrapperExceptionWithBaseFilename:kLastWrapperExceptionFileName];
+  MSWrapperException *lastSavedWrapperException = [self loadWrapperExceptionWithBaseFilename:kMSLastWrapperExceptionFileName];
 
   // Delete the last saved exception from disk if it exists.
   if (lastSavedWrapperException) {
-    [self deleteWrapperExceptionWithBaseFilename:kLastWrapperExceptionFileName];
+    [self deleteWrapperExceptionWithBaseFilename:kMSLastWrapperExceptionFileName];
   }
   MSErrorReport *correspondingReport = nil;
   for (MSErrorReport *report in reports) {

@@ -1,6 +1,7 @@
 #import "MSAppleErrorLog.h"
 #import "MSCrashesCXXExceptionWrapperException.h"
 #import "MSCrashesDelegate.h"
+#import "MSCrashHandlerSetupDelegate.h"
 #import "MSCrashesInternal.h"
 #import "MSCrashesPrivate.h"
 #import "MSCrashesUtil.h"
@@ -9,7 +10,6 @@
 #import "MSErrorLogFormatter.h"
 #import "MSMobileCenterInternal.h"
 #import "MSServiceAbstractProtected.h"
-#import "MSCrashHandlerSetupDelegate.h"
 #import "MSWrapperExceptionManagerInternal.h"
 #import "MSWrapperCrashesHelper.h"
 
@@ -167,7 +167,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       NSURL *fileURL = crashes.unprocessedFilePaths[i];
       MSErrorReport *report = crashes.unprocessedReports[i];
       [crashes deleteCrashReportWithFileURL:fileURL];
-      [MSWrapperExceptionManager deleteWrapperExceptionWithUUID:report.incidentIdentifier];
+      [MSWrapperExceptionManager deleteWrapperExceptionWithUUIDString:report.incidentIdentifier];
       [crashes.crashFiles removeObject:fileURL];
     }
 
@@ -215,7 +215,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
     // Clean up.
     [crashes deleteCrashReportWithFileURL:fileURL];
-    [MSWrapperExceptionManager deleteWrapperExceptionWithUUID:report.incidentIdentifier];
+    [MSWrapperExceptionManager deleteWrapperExceptionWithUUIDString:report.incidentIdentifier];
     [crashes.crashFiles removeObject:fileURL];
   }
 }
@@ -681,7 +681,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
                  report.debugDescription);
 
       // Discard the crash report.
-      [MSWrapperExceptionManager deleteWrapperExceptionWithUUID:errorReport.incidentIdentifier];
+      [MSWrapperExceptionManager deleteWrapperExceptionWithUUIDString:errorReport.incidentIdentifier];
       [self deleteCrashReportWithFileURL:fileURL];
       [self.crashFiles removeObject:fileURL];
     }

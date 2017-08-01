@@ -22,6 +22,6 @@
  *
  * @return The directory containing wrapper exception data.
  */
-+ (NSURL *) wrapperExceptionsDir;
++ (NSURL *)wrapperExceptionsDir;
 
 @end

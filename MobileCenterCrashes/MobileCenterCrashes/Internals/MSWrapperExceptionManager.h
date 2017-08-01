@@ -37,6 +37,6 @@
 /**
  * Load a wrapper exception from disk with a given UUID.
  */
-+(MSWrapperException *)loadWrapperExceptionWithUUID:(NSString *)uuid;
++(MSWrapperException *)loadWrapperExceptionWithUUIDString:(NSString *)uuidString;
 
 @end

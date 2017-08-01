@@ -52,8 +52,10 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   [super setUp];
   self.sut = [MSCrashes new];
 
-  // Some tests actually require the shared instance because,
-  // so it is important to ensure that it is enabled at the start of each test.
+  /**
+   * Some tests actually require the shared instance so it is
+   * important to ensure that it is enabled at the start of each test.
+   */
   [[MSCrashes sharedInstance] setEnabled:YES];
 }
 
@@ -62,10 +64,11 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   [self.sut deleteAllFromCrashesDirectory];
   [MSCrashesTestUtil deleteAllFilesInDirectory:[self.sut.logBufferDir path]];
 
-  // Some tests actually require the shared instance because,
-  // so it is important to clean up.
+  /**
+   * Some tests actually require the shared instance, so it is
+   * important to clean up.
+   */
   [[MSCrashes sharedInstance] deleteAllFromCrashesDirectory];
-  [MSCrashesTestUtil deleteAllFilesInDirectory:[[MSCrashes sharedInstance].logBufferDir path]];
 }
 
 #pragma mark - Tests

@@ -1,7 +1,8 @@
 #import <Foundation/Foundation.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <XCTest/XCTest.h>
 #import <OCMock/OCMock.h>
+#import <XCTest/XCTest.h>
+
 #import "MSCrashHandlerSetupDelegate.h"
 #import "MSWrapperCrashesHelper.h"
 
@@ -12,10 +13,10 @@
 
 #pragma mark - Test
 
-- (void) testSettingAndGettingDelegateWorks {
+- (void)testSettingAndGettingDelegateWorks {
   id<MSCrashHandlerSetupDelegate> delegateMock = OCMProtocolMock(@protocol(MSCrashHandlerSetupDelegate));
   [MSWrapperCrashesHelper setCrashHandlerSetupDelegate:delegateMock];
-  id<MSCrashHandlerSetupDelegate> retrievedDelegate =   [MSWrapperCrashesHelper getCrashHandlerSetupDelegate];
+  id<MSCrashHandlerSetupDelegate> retrievedDelegate = [MSWrapperCrashesHelper getCrashHandlerSetupDelegate];
   assertThat(delegateMock, equalTo(retrievedDelegate));
 }
 
