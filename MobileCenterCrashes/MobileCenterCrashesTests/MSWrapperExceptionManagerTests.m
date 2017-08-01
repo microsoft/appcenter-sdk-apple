@@ -3,6 +3,7 @@
 #import <XCTest/XCTest.h>
 #import <OCMock/OCMock.h>
 #import "MSCrashes.h"
+#import "MSCrashesUtil.h"
 #import "MSErrorReport.h"
 #import "MSException.h"
 #import "MSUtility+File.h"
@@ -18,8 +19,6 @@ static NSString* const kLastWrapperExceptionFileName = @"last_saved_wrapper_exce
 // Expose private methods for use in tests
 @interface MSWrapperExceptionManager ()
 
-+ (NSString *)directoryPath;
-+ (NSString *)getFilename:(NSString *)filename;
 + (MSWrapperException *)loadWrapperExceptionWithBaseFilename:(NSString *)baseFilename;
 
 @end
@@ -31,7 +30,7 @@ static NSString* const kLastWrapperExceptionFileName = @"last_saved_wrapper_exce
 
 -(void)tearDown {
   [super tearDown];
-  [MSUtility removeItemAtURL:[NSURL URLWithString:[MSWrapperExceptionManager directoryPath]]];
+  [MSWrapperExceptionManager deleteAllWrapperExceptions];
 }
 
 #pragma mark - Helper
