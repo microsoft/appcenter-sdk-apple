@@ -88,6 +88,7 @@
 		04849D791E9E913A0093ECA6 /* MSPushLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04849D781E9E913A0093ECA6 /* MSPushLogTests.m */; };
 		04873E851F2FD0B600A13AFF /* MSPushAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 382144391EC4D3EC009A6143 /* MSPushAppDelegate.h */; };
 		04873E861F2FD0D900A13AFF /* MSPushAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3821443A1EC4D3EC009A6143 /* MSPushAppDelegate.m */; };
+		0496A67B1F3128CE005AE1DB /* MSPushTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3AD5EC21E5C4F6A001627AB /* MSPushTests.m */; };
 		3821443B1EC4D3EC009A6143 /* MSPushAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 382144391EC4D3EC009A6143 /* MSPushAppDelegate.h */; };
 		3821443C1EC4D3EC009A6143 /* MSPushAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3821443A1EC4D3EC009A6143 /* MSPushAppDelegate.m */; };
 		38D4BBA11D5A98D1001A30A0 /* ../MobileCenter/MobileCenter/MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 38D4BB9F1D5A98D1001A30A0 /* ../MobileCenter/MobileCenter/MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -726,6 +727,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0496A67B1F3128CE005AE1DB /* MSPushTests.m in Sources */,
 				04849D791E9E913A0093ECA6 /* MSPushLogTests.m in Sources */,
 				D39B04E41E66FBD50048E397 /* MSPushTestUtil.m in Sources */,
 			);

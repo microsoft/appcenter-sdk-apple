@@ -6,6 +6,7 @@
 #import "MSServiceAbstract.h"
 #import "MSServiceInternal.h"
 #import "MSPush.h"
+#import "MSPushAppDelegate.h"
 #import "MSPushLog.h"
 #import "MSPushNotification.h"
 #import "MSPushPrivate.h"
@@ -316,6 +317,27 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
+}
+#endif
+
+#if TARGET_OS_OSX
+- (void)testUserNotificationCenterDelegateBySwizzle {
+
+  // If
+  id userNotificationCenterMock = OCMClassMock([NSUserNotificationCenter class]);
+  id notificationMock = OCMClassMock([NSNotification class]);
+  id pushMock = OCMPartialMock(self.sut);
+  OCMStub([userNotificationCenterMock defaultUserNotificationCenter]).andReturn(userNotificationCenterMock);
+  OCMStub([pushMock sharedInstance]).andReturn(pushMock);
+  [MSPush resetSharedInstance];
+
+  // When
+  MSPushAppDelegate *delegate = [MSPushAppDelegate new];
+  [delegate applicationDidFinishLaunching:notificationMock];
+
+  // Then
+  OCMVerify([userNotificationCenterMock setDelegate:delegate]);
+  OCMVerify([pushMock didReceiveNotification:notificationMock]);
 }
 #endif
 

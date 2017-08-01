@@ -39,7 +39,7 @@
 
 #else
 
-// Workaroud for iOS 10 bug. See https://forums.developer.apple.com/thread/54332
+// Workaround for iOS 10 bug. See https://forums.developer.apple.com/thread/54332
 - (void)application:(__attribute__((unused))UIApplication *)application
     didReceiveRemoteNotification:(NSDictionary *)userInfo {
   [MSPush didReceiveRemoteNotification:userInfo];
