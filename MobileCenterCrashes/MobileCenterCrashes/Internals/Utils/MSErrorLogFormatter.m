@@ -274,7 +274,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   errorLog.device = [[MSDeviceTracker new] deviceForToffset:errorLog.toffset];
 
   // Set the exception from the wrapper SDK.
-  MSWrapperException* wrapperException = [MSWrapperExceptionManager loadWrapperExceptionWithUUID:[self uuidRefToString:report.uuidRef]];
+  MSWrapperException* wrapperException = [MSWrapperExceptionManager loadWrapperExceptionWithUUIDString:[self uuidRefToString:report.uuidRef]];
   if (wrapperException) {
     errorLog.exception = wrapperException.modelException;
   }

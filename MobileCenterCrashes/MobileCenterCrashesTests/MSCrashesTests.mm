@@ -51,24 +51,12 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 - (void)setUp {
   [super setUp];
   self.sut = [MSCrashes new];
-
-  /**
-   * Some tests actually require the shared instance so it is
-   * important to ensure that it is enabled at the start of each test.
-   */
-  [[MSCrashes sharedInstance] setEnabled:YES];
 }
 
 - (void)tearDown {
   [super tearDown];
   [self.sut deleteAllFromCrashesDirectory];
   [MSCrashesTestUtil deleteAllFilesInDirectory:[self.sut.logBufferDir path]];
-
-  /**
-   * Some tests actually require the shared instance, so it is
-   * important to clean up.
-   */
-  [[MSCrashes sharedInstance] deleteAllFromCrashesDirectory];
 }
 
 #pragma mark - Tests
@@ -170,7 +158,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   [MSWrapperCrashesHelper setCrashHandlerSetupDelegate:delegateMock];
 
   // When
-  [[MSCrashes sharedInstance] applyEnabledState:YES];
+  [self.sut applyEnabledState:YES];
 
   // Then
   OCMVerify([delegateMock willSetUpCrashHandlers]);
