@@ -202,7 +202,7 @@ static NSString *const kMSGroupId = @"MobileCenter";
 - (void)start:(NSString *)appSecret withServices:(NSArray<Class> *)services {
   @synchronized(self) {
     BOOL configured = [self configure:appSecret];
-    if (configured) {
+    if (configured && services) {
       NSArray *sortedServices = [self sortServices:services];
       NSMutableArray<NSString *> *servicesNames = [NSMutableArray arrayWithCapacity:sortedServices.count];
 
@@ -211,7 +211,9 @@ static NSString *const kMSGroupId = @"MobileCenter";
           [servicesNames addObject:[service serviceName]];
         }
       }
-      [self sendStartServiceLog:servicesNames];
+      if ([servicesNames count] > 0) {
+        [self sendStartServiceLog:servicesNames];
+      }
     }
   }
 }
