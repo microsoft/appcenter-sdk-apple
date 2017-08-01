@@ -5,7 +5,7 @@
 #import "MSCrashesInternal.h"
 #import "MSCrashesPrivate.h"
 #import "MSCrashReporter.h"
-#import "MSDeviceTracker.h"
+#import "MSDeviceTrackerPrivate.h"
 #import "MSErrorLogFormatterPrivate.h"
 #import "MSException.h"
 #import "MSMobileCenterInternal.h"
@@ -46,6 +46,13 @@
   assertThat(errorReport.appErrorTime, equalTo(crashReport.systemInfo.timestamp));
   assertThat(errorReport.appStartTime, equalTo(crashReport.processInfo.processStartTime));
 
+  /*
+   * FIXME: Crashes will look up a session from history to get an appropriate session at crash time. This causes
+   * intermittent failures due to osVersion mismatch depends on running sequence of the tests. If there is a history
+   * that was built by other tests, device property might have mocked data and this test will be failed. To prevent this
+   * failure, it will force-assign osVersion from MSDevice to MSErrorReport.
+   */
+  device.osVersion = errorReport.device.osVersion;
   XCTAssertTrue([errorReport.device isEqual:device]);
   XCTAssertEqual(errorReport.appProcessIdentifier, crashReport.processInfo.processID);
 
@@ -64,6 +71,13 @@
   assertThat(errorReport.appErrorTime, equalTo(crashReport.systemInfo.timestamp));
   assertThat(errorReport.appStartTime, equalTo(crashReport.processInfo.processStartTime));
 
+  /*
+   * FIXME: Crashes will look up a session from history to get an appropriate session at crash time. This causes
+   * intermittent failures due to osVersion mismatch depends on running sequence of the tests. If there is a history
+   * that was built by other tests, device property might have mocked data and this test will be failed. To prevent this
+   * failure, it will force-assign osVersion from MSDevice to MSErrorReport.
+   */
+  device.osVersion = errorReport.device.osVersion;
   XCTAssertTrue([errorReport.device isEqual:device]);
   XCTAssertEqual(errorReport.appProcessIdentifier, crashReport.processInfo.processID);
 }
