@@ -146,7 +146,7 @@ static dispatch_once_t onceToken;
 #if TARGET_OS_OSX
   [NSApp registerForRemoteNotificationTypes:(NSRemoteNotificationTypeAlert | NSRemoteNotificationTypeSound |
                                              NSRemoteNotificationTypeBadge)];
-#elif TARGET_OS_IOS
+#elif TARGET_OS_IOS && !TARGET_OS_SIMULATOR
   if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_9_x_Max) {
     UIUserNotificationType allNotificationTypes = (UIUserNotificationType)(
         UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge);
