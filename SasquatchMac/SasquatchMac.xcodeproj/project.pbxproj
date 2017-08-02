@@ -526,7 +526,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchswift.mac;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "364bd318-44c7-4e10-8f9e-d4d7829dc4f7";
+				PROVISIONING_PROFILE = "87e1703f-9ec5-4c1d-bed7-a973d1d4794b";
 				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Sasquatch Mac Swift App";
 				SWIFT_VERSION = 3.0;
 			};
