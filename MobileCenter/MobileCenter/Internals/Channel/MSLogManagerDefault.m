@@ -149,11 +149,15 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecent
                               [delegate onEnqueuingLog:log withInternalId:internalLogId];
                             }];
 
-  // Set common log info.
-  log.toffset = [NSNumber numberWithLongLong:(long long)([MSUtility nowInMilliseconds])];
-
-  // Only add device info in case the log doesn't have one. In case the log is restored after a crash or for crashes,
-  // We don't want the device information to be updated but want the old one preserved.
+  /*
+   * Set common log info.
+   * Only add toffset and device info in case the log doesn't have one. In case the log is restored after a crash or for
+   * crashes,
+   * We don't want the toffset and the device information to be updated but want the old one preserved.
+   */
+  if (!log.toffset) {
+    log.toffset = [NSNumber numberWithLongLong:(long long)([MSUtility nowInMilliseconds])];
+  }
   if (!log.device) {
     log.device = [[MSDeviceTracker sharedInstance] device];
   }
