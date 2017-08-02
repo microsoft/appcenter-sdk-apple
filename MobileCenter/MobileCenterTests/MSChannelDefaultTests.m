@@ -467,6 +467,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   int batchSizeLimit = 1;
   id mockLog = [self getValidMockLog];
   id senderMock = OCMProtocolMock(@protocol(MSSender));
+  OCMReject([senderMock sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
   OCMStub([senderMock sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
   OCMStub([storageMock
@@ -495,9 +496,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
    */
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
-
-                                 // Get sure it hasn't been sent.
-                                 OCMReject([senderMock sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }

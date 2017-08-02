@@ -209,7 +209,11 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
   // If
   NSString *groupId = [[MSAnalytics sharedInstance] groupId];
+  MSEventLog *eventLog = OCMClassMock([MSEventLog class]);
   id<MSAnalyticsDelegate> delegateMock = OCMProtocolMock(@protocol(MSAnalyticsDelegate));
+  OCMReject([delegateMock analytics:[MSAnalytics sharedInstance] willSendEventLog:eventLog]);
+  OCMReject([delegateMock analytics:[MSAnalytics sharedInstance] didSucceedSendingEventLog:eventLog]);
+  OCMReject([delegateMock analytics:[MSAnalytics sharedInstance] didFailSendingEventLog:eventLog withError:nil]);
   [MSMobileCenter sharedInstance].sdkConfigured = NO;
   [MSMobileCenter start:kMSTestAppSecret withServices:@[ [MSAnalytics class] ]];
   NSMutableDictionary *channelsInLogManager =
@@ -228,13 +232,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   });
 
   // When
-  MSEventLog *eventLog = OCMClassMock([MSEventLog class]);
   [[MSAnalytics sharedInstance].logManager processLog:eventLog forGroupId:groupId];
-
-  // Then
-  OCMReject([delegateMock analytics:[MSAnalytics sharedInstance] willSendEventLog:eventLog]);
-  OCMReject([delegateMock analytics:[MSAnalytics sharedInstance] didSucceedSendingEventLog:eventLog]);
-  OCMReject([delegateMock analytics:[MSAnalytics sharedInstance] didFailSendingEventLog:eventLog withError:nil]);
 }
 
 - (void)testAnalyticsDelegateMethodsAreCalled {

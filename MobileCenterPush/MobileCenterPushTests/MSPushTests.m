@@ -200,6 +200,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   OCMStub([pushMock sharedInstance]).andReturn(pushMock);
   [MSPush resetSharedInstance];
   id pushDelegateMock = OCMProtocolMock(@protocol(MSPushDelegate));
+  OCMReject([pushDelegateMock push:self.sut didReceivePushNotification:OCMOCK_ANY]);
   __block MSPushNotification *pushNotification = nil;
   OCMStub([pushDelegateMock push:self.sut didReceivePushNotification:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     [invocation getArgument:&pushNotification atIndex:3];
@@ -223,8 +224,6 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   // Then
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
-                                 OCMReject([pushMock didReceiveRemoteNotification:OCMOCK_ANY]);
-                                 OCMReject([pushDelegateMock push:self.sut didReceivePushNotification:OCMOCK_ANY]);
                                  XCTAssertNil(pushNotification);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);

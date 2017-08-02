@@ -273,6 +273,9 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
     [self attachmentWithAttachmentId:validString attachmentData:validData contentType:nil],
     [self attachmentWithAttachmentId:validString attachmentData:validData contentType:@""]
   ];
+  for(NSUInteger i = 0; i < invalidLogs.count; i++) {
+    OCMReject([logManagerMock processLog:invalidLogs[i] forGroupId:OCMOCK_ANY]);
+  }
   MSErrorAttachmentLog *validLog = [self attachmentWithAttachmentId:validString attachmentData:validData contentType:validString];
   NSMutableArray *logs = invalidLogs.mutableCopy;
   [logs addObject:validLog];
@@ -282,9 +285,6 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   [[MSCrashes sharedInstance] setDelegate:crashesDelegateMock];
 
   //Then
-  for(NSUInteger i = 0; i < invalidLogs.count; i++) {
-    OCMReject([logManagerMock processLog:invalidLogs[i] forGroupId:OCMOCK_ANY]);
-  }
   OCMExpect([logManagerMock processLog:validLog forGroupId:OCMOCK_ANY]);
   [[MSCrashes sharedInstance] startCrashProcessing];
   OCMVerifyAll(logManagerMock);
