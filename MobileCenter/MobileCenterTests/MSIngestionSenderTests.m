@@ -352,8 +352,8 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 
   OCMStub([mockedCall sender:self.sut
               callCompletedWithStatus:MSHTTPCodesNo500InternalServerError
-                                 data:[OCMArg any]
-                                error:[OCMArg any]])
+                                 data:OCMOCK_ANY
+                                error:OCMOCK_ANY])
       .andForwardToRealObject()
       .andDo(^(__attribute__((unused)) NSInvocation *invocation) {
         [responseReceivedExcpectation fulfill];

@@ -134,7 +134,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   NSMutableDictionary *channelsInLogManager =
       (static_cast<MSLogManagerDefault *>([MSCrashes sharedInstance].logManager)).channels;
   MSChannelDefault *channelMock = channelsInLogManager[groupId] = OCMPartialMock(channelsInLogManager[groupId]);
-  OCMStub([channelMock enqueueItem:[OCMArg any] withCompletion:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
+  OCMStub([channelMock enqueueItem:OCMOCK_ANY withCompletion:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     id<MSLog> log = nil;
     [invocation getArgument:&log atIndex:2];
     for (id<MSChannelDelegate> delegate in channelMock.delegates) {
@@ -277,15 +277,15 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   NSMutableArray *logs = invalidLogs.mutableCopy;
   [logs addObject:validLog];
   id crashesDelegateMock = OCMProtocolMock(@protocol(MSCrashesDelegate));
-  OCMStub([crashesDelegateMock attachmentsWithCrashes:[OCMArg any] forErrorReport:[OCMArg any]]).andReturn(logs);
-  OCMStub([crashesDelegateMock crashes:[OCMArg any] shouldProcessErrorReport:[OCMArg any]]).andReturn(YES);
+  OCMStub([crashesDelegateMock attachmentsWithCrashes:OCMOCK_ANY forErrorReport:OCMOCK_ANY]).andReturn(logs);
+  OCMStub([crashesDelegateMock crashes:OCMOCK_ANY shouldProcessErrorReport:OCMOCK_ANY]).andReturn(YES);
   [[MSCrashes sharedInstance] setDelegate:crashesDelegateMock];
 
   //Then
   for(NSUInteger i = 0; i < invalidLogs.count; i++) {
-    OCMReject([logManagerMock processLog:invalidLogs[i] forGroupId:[OCMArg any]]);
+    OCMReject([logManagerMock processLog:invalidLogs[i] forGroupId:OCMOCK_ANY]);
   }
-  OCMExpect([logManagerMock processLog:validLog forGroupId:[OCMArg any]]);
+  OCMExpect([logManagerMock processLog:validLog forGroupId:OCMOCK_ANY]);
   [[MSCrashes sharedInstance] startCrashProcessing];
   OCMVerifyAll(logManagerMock);
 }
@@ -309,7 +309,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // If
   id settingsMock = OCMClassMock([NSUserDefaults class]);
-  OCMStub([settingsMock objectForKey:[OCMArg any]]).andReturn(@YES);
+  OCMStub([settingsMock objectForKey:OCMOCK_ANY]).andReturn(@YES);
   self.sut.storage = settingsMock;
   assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
   [self.sut startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
@@ -327,7 +327,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // If
   id settingsMock = OCMClassMock([NSUserDefaults class]);
-  OCMStub([settingsMock objectForKey:[OCMArg any]]).andReturn(@NO);
+  OCMStub([settingsMock objectForKey:OCMOCK_ANY]).andReturn(@NO);
   self.sut.storage = settingsMock;
   assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
   [self.sut startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
