@@ -29,7 +29,7 @@ NSString *ms_crashesDir(void);
     NSError *error = nil;
     NSFileManager *fileManager = [[NSFileManager alloc] init];
 
-    // temporary directory for crashes grabbed from PLCrashReporter
+    // Temporary directory for crashes grabbed from PLCrashReporter.
     NSURL *cachesDirectory = [[fileManager URLsForDirectory:NSCachesDirectory inDomains:NSUserDomainMask] lastObject];
     crashesDir = [cachesDirectory URLByAppendingPathComponent:kMSCrashesDirectory];
 
@@ -55,7 +55,7 @@ NSString *ms_crashesDir(void);
     NSError *error = nil;
     NSFileManager *fileManager = [[NSFileManager alloc] init];
 
-    // temporary directory for crashes grabbed from PLCrashReporter
+    // Temporary directory for crashes grabbed from PLCrashReporter.
     NSURL *cachesDirectory = [[fileManager URLsForDirectory:NSCachesDirectory inDomains:NSUserDomainMask] lastObject];
     logBufferDir = [cachesDirectory URLByAppendingPathComponent:kMSLogBufferDirectory];
 
@@ -81,7 +81,7 @@ NSString *ms_crashesDir(void);
     NSError *error = nil;
     NSFileManager *fileManager = [[NSFileManager alloc] init];
 
-    // temporary directory for crashes grabbed from PLCrashReporter
+    // Temporary directory for crashes grabbed from PLCrashReporter.
     NSURL *cachesDirectory = [[fileManager URLsForDirectory:NSCachesDirectory inDomains:NSUserDomainMask] lastObject];
     wrapperExceptionsDir = [cachesDirectory URLByAppendingPathComponent:kMSWrapperExceptionsDirectory];
 

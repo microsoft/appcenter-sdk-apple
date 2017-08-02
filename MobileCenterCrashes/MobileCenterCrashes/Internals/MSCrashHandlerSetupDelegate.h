@@ -11,12 +11,12 @@
 /**
  * Callback method that will be called immediately before crash handlers are set up.
  */
-- (void) willSetUpCrashHandlers;
+- (void)willSetUpCrashHandlers;
 
 /**
  * Callback method that will be called immediately after crash handlers are set up.
  */
-- (void) didSetUpCrashHandlers;
+- (void)didSetUpCrashHandlers;
 
 /** 
  * Callback method that gets a value indicating whether the SDK should enable 
@@ -28,6 +28,6 @@
  * on the Xamarin runtime to report NSExceptions. Registering our own UncaughtExceptionHandler
  * will cause the Xamarin debugger to not work properly (it will not stop for NSExceptions).
  */
-- (BOOL) shouldEnableUncaughtExceptionHandler;
+- (BOOL)shouldEnableUncaughtExceptionHandler;
 
 @end

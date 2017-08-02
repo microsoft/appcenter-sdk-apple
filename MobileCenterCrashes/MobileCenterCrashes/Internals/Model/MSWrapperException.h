@@ -11,12 +11,12 @@
 /**
  * The model exception for the corresponding crash.
  */
-@property(nonatomic, strong) MSException* modelException;
+@property(nonatomic) MSException* modelException;
 
 /**
  * Additional data that the wrapper SDK needs to save.
  */
-@property(nonatomic, strong) NSData* exceptionData;
+@property(nonatomic) NSData* exceptionData;
 
 /**
  * Id of the crashed process; used for correlation to a PLCrashReport.

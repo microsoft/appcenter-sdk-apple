@@ -19,6 +19,6 @@
 /**
  * Delete a wrapper exception with a given UUID.
  */
-+ (void)deleteWrapperExceptionWithUUID:(NSString *)uuid;
++ (void)deleteWrapperExceptionWithUUIDString:(NSString *)uuidString;
 
 @end

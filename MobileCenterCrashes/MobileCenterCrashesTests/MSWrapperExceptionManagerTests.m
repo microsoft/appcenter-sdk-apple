@@ -1,7 +1,8 @@
 #import <Foundation/Foundation.h>
 #import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <XCTest/XCTest.h>
 #import <OCMock/OCMock.h>
+#import <XCTest/XCTest.h>
+
 #import "MSCrashes.h"
 #import "MSCrashesUtil.h"
 #import "MSErrorReport.h"
@@ -11,7 +12,7 @@
 #import "MSWrapperExceptionManagerInternal.h"
 
 // Copied from MSWrapperExceptionManager.m
-static NSString* const kLastWrapperExceptionFileName = @"last_saved_wrapper_exception";
+static NSString* const kMSLastWrapperExceptionFileName = @"last_saved_wrapper_exception";
 
 @interface MSWrapperExceptionManagerTests : XCTestCase
 @end
@@ -43,9 +44,7 @@ static NSString* const kLastWrapperExceptionFileName = @"last_saved_wrapper_exce
 }
 
 - (NSData*)getData {
-  NSString *string = @"some string";
-  NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
-  return data;
+  return [@"some string" dataUsingEncoding:NSUTF8StringEncoding];
 }
 
 - (MSWrapperException*)getWrapperException {
@@ -78,7 +77,7 @@ static NSString* const kLastWrapperExceptionFileName = @"last_saved_wrapper_exce
 
   // When
   [MSWrapperExceptionManager saveWrapperException:wrapperException];
-  MSWrapperException *loadedException = [MSWrapperExceptionManager loadWrapperExceptionWithBaseFilename:kLastWrapperExceptionFileName];
+  MSWrapperException *loadedException = [MSWrapperExceptionManager loadWrapperExceptionWithBaseFilename:kMSLastWrapperExceptionFileName];
 
   // Then
   XCTAssertNotNil(loadedException);
@@ -90,7 +89,7 @@ static NSString* const kLastWrapperExceptionFileName = @"last_saved_wrapper_exce
   // If
   int numReports = 4;
   NSMutableArray *mockReports = [NSMutableArray new];
-  for (int i = 0; i <= numReports; ++i) {
+  for (int i = 0; i < numReports; ++i) {
     id reportMock = OCMPartialMock([MSErrorReport new]);
     OCMStub([reportMock appProcessIdentifier]).andReturn(i);
     OCMStub([reportMock incidentIdentifier]).andReturn([[NSUUID UUID] UUIDString]);
@@ -103,7 +102,7 @@ static NSString* const kLastWrapperExceptionFileName = @"last_saved_wrapper_exce
   // When
   [MSWrapperExceptionManager saveWrapperException:wrapperException];
   [MSWrapperExceptionManager correlateLastSavedWrapperExceptionToReport:mockReports];
-  MSWrapperException *loadedException = [MSWrapperExceptionManager loadWrapperExceptionWithUUID:[report incidentIdentifier]];
+  MSWrapperException *loadedException = [MSWrapperExceptionManager loadWrapperExceptionWithUUIDString:[report incidentIdentifier]];
 
   // Then
   XCTAssertNotNil(loadedException);
@@ -125,7 +124,7 @@ static NSString* const kLastWrapperExceptionFileName = @"last_saved_wrapper_exce
   // When
   [MSWrapperExceptionManager saveWrapperException:wrapperException];
   [MSWrapperExceptionManager correlateLastSavedWrapperExceptionToReport:mockReports];
-  MSWrapperException *loadedException = [MSWrapperExceptionManager loadWrapperExceptionWithUUID:uuidString];
+  MSWrapperException *loadedException = [MSWrapperExceptionManager loadWrapperExceptionWithUUIDString:uuidString];
 
   // Then
   XCTAssertNil(loadedException);
