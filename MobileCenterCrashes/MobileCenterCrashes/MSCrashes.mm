@@ -637,7 +637,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     return;
   }
 
-  // Must now be in 'enabled' state; start crash processing for real.
   NSError *error = NULL;
   self.unprocessedLogs = [[NSMutableArray alloc] init];
   self.unprocessedReports = [[NSMutableArray alloc] init];
