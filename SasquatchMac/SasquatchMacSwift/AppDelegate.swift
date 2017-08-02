@@ -42,18 +42,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
     MobileCenterProvider.shared().mobileCenter = MobileCenterDelegateSwift()
   }
 
-  func application(_ application: NSApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-    MSPush.didRegisterForRemoteNotifications(withDeviceToken: deviceToken)
-  }
-
-  func application(_ application: NSApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-    MSPush.didFailToRegisterForRemoteNotificationsWithError(error)
-  }
-
-  func application(_ application: NSApplication, didReceiveRemoteNotification userInfo: [String : Any]) {
-    MSPush.didReceiveRemoteNotification(userInfo)
-  }
-
   // Crashes Delegate
   
   func crashes(_ crashes: MSCrashes!, shouldProcessErrorReport errorReport: MSErrorReport!) -> Bool {
