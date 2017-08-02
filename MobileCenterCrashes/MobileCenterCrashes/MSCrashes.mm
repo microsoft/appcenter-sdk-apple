@@ -248,7 +248,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
                                                                    priority:MSPriorityHigh
                                                               flushInterval:1.0
                                                              batchSizeLimit:10
-                                                        pendingBatchesLimit:6];
+                                                        pendingBatchesLimit:1];
 
     /**
      * Using our own queue with high priority as the default main queue is slower and we want the files to be created
