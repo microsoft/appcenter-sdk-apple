@@ -199,6 +199,9 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   // When
   [MSMobileCenter start:MS_UUID_STRING withServices:nil];
   
+  // Then
+  OCMVerifyAll(logManager);
+  
   // Clear
   [logManager stopMocking];
 }

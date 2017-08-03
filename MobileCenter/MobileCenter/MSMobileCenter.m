@@ -213,6 +213,8 @@ static NSString *const kMSGroupId = @"MobileCenter";
       }
       if ([servicesNames count] > 0) {
         [self sendStartServiceLog:servicesNames];
+      } else {
+        MSLogDebug([MSMobileCenter logTag], @"No services have been started.");
       }
     }
   }
