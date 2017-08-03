@@ -329,6 +329,9 @@ static NSURL *sfURL;
   // When
   [distributeMock handleUpdate:details];
   
+  // Then
+  OCMVerifyAll(distributeMock);
+  
   // Clear
   [distributeMock stopMocking];
 }
@@ -537,7 +540,8 @@ static NSURL *sfURL;
                                      addDefaultActionWithTitle:MSDistributeLocalizedString(@"MSDistributeAskMeInADay")
                                                        handler:OCMOCK_ANY]);
                                  OCMVerify([self.alertControllerMock addPreferredActionWithTitle:OCMOCK_ANY
-                                                                                    handler:OCMOCK_ANY]);
+                                                                                         handler:OCMOCK_ANY]);
+                                 OCMVerifyAll(self.alertControllerMock);
                                }];
   [mobileCenterMock stopMocking];
 }
@@ -584,7 +588,8 @@ static NSURL *sfURL;
                                                                    @"MSDistributeViewReleaseNotes")
                                                        handler:OCMOCK_ANY]);
                                  OCMVerify([self.alertControllerMock addPreferredActionWithTitle:OCMOCK_ANY
-                                                                                    handler:OCMOCK_ANY]);
+                                                                                         handler:OCMOCK_ANY]);
+                                 OCMVerifyAll(self.alertControllerMock);
                                }];
   [mobileCenterMock stopMocking];
 }
@@ -629,7 +634,8 @@ static NSURL *sfURL;
                                  // Then
                                  OCMVerify([self.alertControllerMock alertControllerWithTitle:OCMOCK_ANY message:message]);
                                  OCMVerify([self.alertControllerMock addPreferredActionWithTitle:OCMOCK_ANY
-                                                                                    handler:OCMOCK_ANY]);
+                                                                                         handler:OCMOCK_ANY]);
+                                 OCMVerifyAll(self.alertControllerMock);
                                }];
   [mobileCenterMock stopMocking];
 }
@@ -706,7 +712,8 @@ static NSURL *sfURL;
                                                                    @"MSDistributeViewReleaseNotes")
                                                        handler:OCMOCK_ANY]);
                                  OCMVerify([self.alertControllerMock addPreferredActionWithTitle:OCMOCK_ANY
-                                                                                    handler:OCMOCK_ANY]);
+                                                                                         handler:OCMOCK_ANY]);
+                                 OCMVerifyAll(self.alertControllerMock);
                                }];
   [distributeMock stopMocking];
   [reachabilityMock stopMocking];
@@ -741,6 +748,9 @@ static NSURL *sfURL;
   });
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
+                                 
+                                 // Then
+                                 OCMVerifyAll(self.alertControllerMock);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
@@ -1134,6 +1144,9 @@ static NSURL *sfURL;
   // Then
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
+                                 
+                                 // Then
+                                 OCMVerifyAll(viewControllerMock);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }

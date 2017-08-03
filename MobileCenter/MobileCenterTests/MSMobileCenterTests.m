@@ -171,6 +171,9 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   OCMReject([logManager processLog:[OCMArg isKindOfClass:[MSCustomPropertiesLog class]] forGroupId:OCMOCK_ANY]);
   [MSMobileCenter setCustomProperties:nil];
   [MSMobileCenter setCustomProperties:[MSCustomProperties new]];
+  
+  // Then
+  OCMVerifyAll(logManager);
 }
 
 - (void)testConfigureWithAppSecret {

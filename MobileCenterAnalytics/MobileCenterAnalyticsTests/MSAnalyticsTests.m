@@ -210,7 +210,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   // If
   NSString *groupId = [[MSAnalytics sharedInstance] groupId];
   MSEventLog *eventLog = OCMClassMock([MSEventLog class]);
-  id<MSAnalyticsDelegate> delegateMock = OCMProtocolMock(@protocol(MSAnalyticsDelegate));
+  id delegateMock = OCMProtocolMock(@protocol(MSAnalyticsDelegate));
   OCMReject([delegateMock analytics:[MSAnalytics sharedInstance] willSendEventLog:eventLog]);
   OCMReject([delegateMock analytics:[MSAnalytics sharedInstance] didSucceedSendingEventLog:eventLog]);
   OCMReject([delegateMock analytics:[MSAnalytics sharedInstance] didFailSendingEventLog:eventLog withError:nil]);
@@ -233,6 +233,9 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
   // When
   [[MSAnalytics sharedInstance].logManager processLog:eventLog forGroupId:groupId];
+  
+  // Then
+  OCMVerifyAll(delegateMock);
 }
 
 - (void)testAnalyticsDelegateMethodsAreCalled {

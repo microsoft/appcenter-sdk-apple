@@ -224,6 +224,9 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   // Then
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
+                                 
+                                 // Then
+                                 OCMVerifyAll(pushDelegateMock);
                                  XCTAssertNil(pushNotification);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);

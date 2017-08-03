@@ -496,6 +496,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
    */
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
+                                 OCMVerifyAll(senderMock);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
