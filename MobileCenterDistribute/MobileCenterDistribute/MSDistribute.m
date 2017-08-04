@@ -220,13 +220,25 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpartial-availability"
       Class clazz = [SFSafariViewController class];
-#pragma clang diagnostic pop
       if (clazz) {
 
-        // Manipulate App UI on the main queue.
-        dispatch_async(dispatch_get_main_queue(), ^{
-          [self openURLInEmbeddedSafari:url fromClass:clazz];
-        });
+        // iOS 11
+        Class authClazz = [SFAuthenticationSession class];
+        if(authClazz) {
+          
+          // Manipulate App UI on the main queue.
+//          dispatch_async(dispatch_get_main_queue(), ^{
+            [self openURLInAuthenticationSessionWith:url fromClass:authClazz];
+//          });
+        } else {
+          // iOS 9 and 10
+          
+          // Manipulate App UI on the main queue.
+          dispatch_async(dispatch_get_main_queue(), ^{
+            [self openURLInEmbeddedSafari:url fromClass:clazz];
+          });
+        }  
+#pragma clang diagnostic pop
       } else {
 
         // iOS 8.x.
@@ -435,6 +447,33 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   return components.URL;
 }
 
+- (void)openURLInAuthenticationSessionWith:(NSURL *)url fromClass:(Class)clazz {
+  MSLogDebug([MSDistribute logTag], @"Using SFAuthenticationSession to open URL: %@", url);
+  
+  NSString *callbackUrlScheme = [NSString stringWithFormat:kMSDefaultCustomSchemeFormat, self.appSecret];
+  
+  if (@available(iOS 11.0, *)) {
+    SFAuthenticationSession *authenticationSession = [[clazz alloc] initWithURL:url callbackURLScheme:callbackUrlScheme completionHandler:^(NSURL *callbackUrl, NSError *error) {
+      MSLogDebug([MSDistribute logTag], @"Called %@ with errror: %@", callbackUrl, error.localizedDescription);
+      
+      if(error.code == SFAuthenticationErrorCanceledLogin) {
+        MSLogError([MSDistribute logTag], @"Authentication session was cancelled by user or failed.");
+      }
+      
+      if(callbackUrl) {
+        [self openURL:callbackUrl];
+      }
+    }];
+    BOOL success = [authenticationSession start];
+    if(success) {
+      MSLogDebug([MSDistribute logTag], @"Authentication Session Started, showing confirmation dialog");
+    }
+  } else {
+    // Fallback on earlier versions
+  }
+}
+
+// TODO: rename method
 - (void)openURLInEmbeddedSafari:(NSURL *)url fromClass:(Class)clazz {
   MSLogDebug([MSDistribute logTag], @"Using SFSafariViewController to open URL: %@", url);
 
@@ -546,12 +585,14 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
 - (BOOL)checkForUpdatesAllowed {
 
-  // Check if we are not in AppStore or TestFlight environments.
-  BOOL environmentOkay = [MSUtility currentAppEnvironment] == MSEnvironmentOther;
-
-  // Check if a debugger is attached.
-  BOOL noDebuggerAttached = ![MSMobileCenter isDebuggerAttached];
-  return environmentOkay && noDebuggerAttached;
+  return YES;
+  
+//  // Check if we are not in AppStore or TestFlight environments.
+//  BOOL environmentOkay = [MSUtility currentAppEnvironment] == MSEnvironmentOther;
+//
+//  // Check if a debugger is attached.
+//  BOOL noDebuggerAttached = ![MSMobileCenter isDebuggerAttached];
+//  return environmentOkay && noDebuggerAttached;
 }
 
 - (BOOL)isNewerVersion:(MSReleaseDetails *)details {
