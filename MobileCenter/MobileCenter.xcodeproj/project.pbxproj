@@ -347,8 +347,8 @@
 		E88D17051D35B6B500A5EA57 /* MSMockLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSMockLog.m; sourceTree = "<group>"; };
 		E88EBBEB1D2C612E007E7785 /* MSAbstractLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAbstractLog.m; sourceTree = "<group>"; };
 		E88EBBFA1D2C8CC7007E7785 /* MSLogContainerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSLogContainerTests.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		E8A8D1E91D3057A90022931E /* MSUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSUserDefaults.h; path = ../Model/Utils/MSUserDefaults.h; sourceTree = "<group>"; };
-		E8A8D1EA1D3057A90022931E /* MSUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSUserDefaults.m; path = ../Model/Utils/MSUserDefaults.m; sourceTree = "<group>"; };
+		E8A8D1E91D3057A90022931E /* MSUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSUserDefaults.h; path = ../Model/Util/MSUserDefaults.h; sourceTree = "<group>"; };
+		E8A8D1EA1D3057A90022931E /* MSUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSUserDefaults.m; path = ../Model/Util/MSUserDefaults.m; sourceTree = "<group>"; };
 		E8AEE9811D5970A400C0FF6C /* MSLogManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSLogManagerDelegate.h; sourceTree = "<group>"; };
 		E8E48F941D50FF4300A8C1B0 /* MSSenderCallDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSSenderCallDelegate.h; sourceTree = "<group>"; };
 		F803BBF11E8E3677004B1E7A /* MSCustomProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCustomProperties.h; sourceTree = "<group>"; };
@@ -509,7 +509,7 @@
 				045BC3181E3FD8AC00B6C960 /* MSKeychainUtil.h */,
 			);
 			name = Util;
-			path = Utils;
+			path = Util;
 			sourceTree = "<group>";
 		};
 		6E0401821D1CAD810051BCFA /* Support */ = {
@@ -718,7 +718,7 @@
 				E8753D6D1D4BE53F00241513 /* MSSenderUtil.m */,
 			);
 			name = Util;
-			path = Utils;
+			path = Util;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

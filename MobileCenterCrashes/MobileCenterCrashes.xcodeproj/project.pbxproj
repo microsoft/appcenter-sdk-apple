@@ -468,7 +468,7 @@
 				6E73FE6E1D4032AB008CDC15 /* MSCrashesUtil.m */,
 			);
 			name = Util;
-			path = Internals/Utils;
+			path = Internals/Util;
 			sourceTree = "<group>";
 		};
 		6E7D5C641D3E92B1009EC9AC /* Model */ = {
