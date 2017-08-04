@@ -240,7 +240,7 @@
 				E81591311D526C3B003D5F3C /* MSSessionTrackerUtil.m */,
 			);
 			name = Util;
-			path = Utils;
+			path = Util;
 			sourceTree = "<group>";
 		};
 		E83E81351D3ECEF600421B13 /* Util */ = {
@@ -250,7 +250,7 @@
 				E83E81371D3ECF5900421B13 /* MSAnalyticsCategory.m */,
 			);
 			name = Util;
-			path = Utils;
+			path = Util;
 			sourceTree = "<group>";
 		};
 		E85547B71D2D6253002DF6E2 = {
