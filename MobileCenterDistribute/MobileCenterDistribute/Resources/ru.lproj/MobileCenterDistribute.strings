@@ -10,6 +10,6 @@
  * Update dialog titles/messages
  */
 "MSDistributeAppUpdateAvailable" = "Доступно обновление";
-"MSDistributeAppUpdateAvailableMandatoryUpdateMessage" = "Разработчики этого приложения требуют обновить его до %@ %@ (%@).";
+"MSDistributeAppUpdateAvailableMandatoryUpdateMessage" = "Вышло обязательное обновление. Вам необходимо обновиться до %@ %@ (%@).";
 "MSDistributeAppUpdateAvailableOptionalUpdateMessage" = "%@ %@ (%@) доступно для загрузки и установки.";
 "MSDistributeInAppUpdatesAreDisabled" = "Обновления из приложения отключены.";
