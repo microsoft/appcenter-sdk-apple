@@ -1,6 +1,6 @@
 #import "MSCustomProperties.h"
 #import "MSCustomPropertiesLog.h"
-#import "MSLogManager.h"
+#import "MSLogManagerDefault.h"
 #import "MSMobileCenter.h"
 #import "MSMobileCenterInternal.h"
 #import "MSMobileCenterPrivate.h"

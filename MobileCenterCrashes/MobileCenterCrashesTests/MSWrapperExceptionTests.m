@@ -1,9 +1,5 @@
-#import <Foundation/Foundation.h>
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <OCMock/OCMock.h>
-#import <XCTest/XCTest.h>
-
 #import "MSException.h"
+#import "MSTestFrameworks.h"
 #import "MSWrapperExceptionInternal.h"
 
 @interface MSWrapperExceptionTests : XCTestCase
