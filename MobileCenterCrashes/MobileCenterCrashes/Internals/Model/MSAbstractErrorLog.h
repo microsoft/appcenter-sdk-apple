@@ -48,9 +48,9 @@
 @property(nonatomic) BOOL fatal;
 
 /*
- * Corresponds to the number of milliseconds elapsed between the time the error occurred and the app was launched.
+ * Timestamp when the app was launched.
  */
-@property(nonatomic) NSNumber *appLaunchTOffset;
+@property(nonatomic) NSDate *appLaunchTimestamp;
 
 /*
  * CPU Architecture. [optional]

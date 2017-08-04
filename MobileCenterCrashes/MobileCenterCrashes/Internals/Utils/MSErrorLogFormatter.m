@@ -219,14 +219,9 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   // All errors are fatal for now, until we add support for handled exceptions.
   errorLog.fatal = YES;
 
-  /*
-   * appLaunchTOffset - the difference between crashtime and initialization time, so the "age" of the crashreport before
-   * it's forwarded to the channel.
-   * We don't care about a negative difference (will happen if the user's time on the device changes to a time before
-   * the crashTime and the time the error is processed).
-   */
-  errorLog.appLaunchTOffset = [self calculateAppLaunchTOffsetFromReport:report];
-  errorLog.toffset = [self calculateTOffsetFromReport:report];
+  // Application launch and crash timestamps
+  errorLog.appLaunchTimestamp = [self getAppLaunchTimeFromReport:report];
+  errorLog.timestamp = [self getCrashTimeFromReport:report];
 
   // CPU Type and Subtype for the crash. We need to query the binary images for that.
   NSArray *images = report.images;
@@ -271,7 +266,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
    * Set the device here to make sure we don't use the current device information but the one from history that matches
    * the time of our crash.
    */
-  errorLog.device = [[MSDeviceTracker new] deviceForToffset:errorLog.toffset];
+  errorLog.device = [[MSDeviceTracker new] deviceForTimestamp:errorLog.timestamp];
 
   // Set the exception from the wrapper SDK.
   MSWrapperException* wrapperException = [MSWrapperExceptionManager loadWrapperExceptionWithUUIDString:[self uuidRefToString:report.uuidRef]];
@@ -304,21 +299,14 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   NSString *signal = errorLog.osExceptionType;
   NSString *exceptionReason = errorLog.exceptionReason;
   NSString *exceptionName = errorLog.exceptionType;
-
-  /*
-   * errorlog.toffset represents the timestamp when the app crashed, appLaunchTOffset is the difference/offset between
-   * the moment the app was launched and when the app crashed.
-   */
-  NSDate *appStartTime = [NSDate
-      dateWithTimeIntervalSince1970:(([errorLog.toffset doubleValue] - [errorLog.appLaunchTOffset doubleValue]) /
-                                     1000)];
-  NSDate *appErrorTime = [NSDate dateWithTimeIntervalSince1970:([errorLog.toffset doubleValue] / 1000)];
+  NSDate *appStartTime = errorLog.appLaunchTimestamp;
+  NSDate *appErrorTime = errorLog.timestamp;
 
   // Retrieve the process' id.
   NSUInteger processId = [errorLog.processId unsignedIntegerValue];
 
   // Retrieve the device that correlates with the time of a crash.
-  MSDevice *device = [[MSDeviceTracker sharedInstance] deviceForToffset:errorLog.toffset];
+  MSDevice *device = [[MSDeviceTracker sharedInstance] deviceForTimestamp:errorLog.timestamp];
 
   // Finally create the MSErrorReport instance.
   errorReport = [[MSErrorReport alloc] initWithErrorId:errorId
@@ -379,24 +367,12 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   return errorLog;
 }
 
-+ (NSNumber *)calculateAppLaunchTOffsetFromReport:(MSPLCrashReport *)report {
-  NSDate *crashTime = report.systemInfo.timestamp;
-  NSTimeInterval difference;
-  if (report.processInfo) {
-    NSDate *startTime = report.processInfo.processStartTime;
-    difference = ([crashTime timeIntervalSinceDate:startTime] * 1000);
-  } else {
-
-    // Use difference between now and crashtime as appLaunchTOffset as fallback.
-    difference = ([[NSDate date] timeIntervalSinceDate:crashTime] * 1000);
-  }
-  return @(difference);
++ (NSDate *)getAppLaunchTimeFromReport:(MSPLCrashReport *)report {
+  return report.processInfo ? report.processInfo.processStartTime : report.systemInfo.timestamp;
 }
 
-+ (NSNumber *)calculateTOffsetFromReport:(MSPLCrashReport *)report {
-  NSDate *crashTime = report.systemInfo.timestamp;
-  long long difference = (long long)([crashTime timeIntervalSince1970] * 1000);
-  return @(difference);
++ (NSDate *)getCrashTimeFromReport:(MSPLCrashReport *)report {
+  return report.systemInfo.timestamp;
 }
 
 + (NSArray<MSThread *> *)extractThreadsFromReport:(MSPLCrashReport *)report
