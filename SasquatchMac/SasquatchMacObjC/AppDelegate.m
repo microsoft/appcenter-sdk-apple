@@ -101,6 +101,16 @@
 #pragma mark - MSPushDelegate
 
 - (void)push:(MSPush *)push didReceivePushNotification:(MSPushNotification *)pushNotification {
+
+  // Bring any window to foreground if it was miniaturized.
+  for (NSWindow *window in [NSApp windows]) {
+    if ([window isMiniaturized]) {
+      [window deminiaturize:self];
+      break;
+    }
+  }
+
+  // Show alert for the notification.
   NSString *message = pushNotification.message;
   for (NSString *key in pushNotification.customData) {
     message = [NSString stringWithFormat:@"%@\n%@: %@", message, key, [pushNotification.customData objectForKey:key]];
@@ -108,7 +118,9 @@
   MSAlertController *alertController = [MSAlertController alertControllerWithTitle:pushNotification.title
                                                                            message:message
                                                                              style:NSAlertStyleInformational];
-  [alertController addActionWithTitle:@"OK" handler:^(){}];
+  [alertController addActionWithTitle:@"OK"
+                              handler:^(){
+                              }];
 
   // Show the alert controller.
   [alertController show];

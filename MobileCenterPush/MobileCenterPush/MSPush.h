@@ -42,7 +42,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 // TODO: Review this public method name.
 + (BOOL)didReceiveUserNotification:(NSUserNotification *)notification;
-#else
+#endif
+
 /**
  * Callback for notification with user info.
  *
@@ -51,7 +52,6 @@ NS_ASSUME_NONNULL_BEGIN
  * @return YES if the notification was sent via Mobile Center.
  */
 + (BOOL)didReceiveRemoteNotification:(NSDictionary *)userInfo;
-#endif
 
 /**
  * Set the delegate.

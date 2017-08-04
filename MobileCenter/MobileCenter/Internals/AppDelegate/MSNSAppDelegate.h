@@ -42,6 +42,17 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)application:(NSApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error;
 
 /**
+ * Tells the app that a remote notification arrived that indicates there is data to be fetched.
+ *
+ * @param application The singleton app object.
+ * @param userInfo A dictionary that contains information related to the remote notification, potentially including a
+ * badge number for the app icon, an alert sound, an alert message to display to the user, a notification identifier,
+ * and custom data. The provider originates it as a JSON-defined dictionary that macOS converts to an @see NSDictionary
+ * object; the dictionary may contain only property-list objects plus @see NSNull.
+ */
+- (void)application:(NSApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo;
+
+/**
  * Sent by the default notification center after the application has been launched and initialized but before it has
  * received its first event.
  *

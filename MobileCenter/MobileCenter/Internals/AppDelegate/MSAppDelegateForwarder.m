@@ -369,20 +369,30 @@ static BOOL _enabled = YES;
   // Forward to custom delegates.
   [[MSAppDelegateForwarder sharedInstance] applicationDidFinishLaunching:(NSNotification *)notification];
 }
+#endif
+
+#if TARGET_OS_OSX
+- (void)custom_application:(NSApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
 #else
 - (void)custom_application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+#endif
   IMP originalImp = NULL;
 
   // Forward to the original delegate.
   [MSAppDelegateForwarder.originalImplementations[NSStringFromSelector(_cmd)] getValue:&originalImp];
   if (originalImp) {
+#if TARGET_OS_OSX
+    ((void (*)(id, SEL, NSApplication *, NSDictionary *))originalImp)(self, _cmd, application, userInfo);
+#else
     ((void (*)(id, SEL, UIApplication *, NSDictionary *))originalImp)(self, _cmd, application, userInfo);
+#endif
   }
 
   // Forward to custom delegates.
   [[MSAppDelegateForwarder sharedInstance] application:application didReceiveRemoteNotification:userInfo];
 }
 
+#if !TARGET_OS_OSX
 - (void)custom_application:(UIApplication *)application
     didReceiveRemoteNotification:(NSDictionary *)userInfo
           fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {

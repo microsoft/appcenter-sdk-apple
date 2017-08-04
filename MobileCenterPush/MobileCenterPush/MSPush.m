@@ -105,11 +105,11 @@ static dispatch_once_t onceToken;
 + (BOOL)didReceiveUserNotification:(NSUserNotification *)notification {
   return [[self sharedInstance] didReceiveUserNotification:notification];
 }
-#else
-+ (BOOL)didReceiveRemoteNotification:(NSDictionary *)userInfo {
-  return [[self sharedInstance] didReceiveRemoteNotification:userInfo];
-}
 #endif
+
++ (BOOL)didReceiveRemoteNotification:(NSDictionary *)userInfo {
+  return [[self sharedInstance] didReceiveRemoteNotification:userInfo fromUserNotification:NO];
+}
 
 + (void)setDelegate:(nullable id<MSPushDelegate>)delegate {
   [[self sharedInstance] setDelegate:delegate];
@@ -176,8 +176,7 @@ static dispatch_once_t onceToken;
 // TODO: Implement macOS. Seems it is dead code.
 #else
 - (void)application:(UIApplication *)application
-    didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
-  (void)notificationSettings;
+    didRegisterUserNotificationSettings:(UIUserNotificationSettings *)__unused notificationSettings {
 
   // register to receive notifications
   [application registerForRemoteNotifications];
@@ -223,7 +222,7 @@ static dispatch_once_t onceToken;
 }
 
 - (BOOL)didReceiveUserNotification:(NSUserNotification *)notification {
-  if (notification && [self didReceiveRemoteNotification:notification.userInfo]) {
+  if (notification && [self didReceiveRemoteNotification:notification.userInfo fromUserNotification:YES]) {
     NSUserNotificationCenter *center = [NSUserNotificationCenter defaultUserNotificationCenter];
 
     // The delivered notification should be removed.
@@ -234,7 +233,11 @@ static dispatch_once_t onceToken;
 }
 #endif
 
-- (BOOL)didReceiveRemoteNotification:(NSDictionary *)userInfo {
+- (BOOL)didReceiveRemoteNotification:(NSDictionary *)userInfo fromUserNotification:(BOOL)userNotification {
+
+#if !TARGET_OS_OSX
+  (void)userNotification;
+#endif
   MSLogVerbose([MSPush logTag], @"User info for notification has forwarded to Push: %@", [userInfo description]);
   NSString *title;
   NSString *message;
@@ -245,7 +248,10 @@ static dispatch_once_t onceToken;
     message = [alert valueForKey:kMSPushNotificationMessageKey];
   } else {
 
-    // "alert" value can be either Dictionary or String. Try one more if it is a String value.
+    /*
+     * "alert" value type can be either Dictionary or String. Try one more time if it is a String value even
+     * though MobileCenterPush doesn't support String value for "alert".
+     */
     alert = [aps valueForKey:kMSPushNotificationAlertKey];
     if ([alert isKindOfClass:[NSString class]]) {
       title = @"";
@@ -263,14 +269,26 @@ static dispatch_once_t onceToken;
     MSLogDebug([MSPush logTag], @"Notification received.\nTitle: %@\nMessage:%@\nCustom data: %@", title, message,
                [customData description]);
 
-    // Initialize push notification model.
-    MSPushNotification *pushNotification =
-        [[MSPushNotification alloc] initWithTitle:title message:message customData:customData];
+#if TARGET_OS_OSX
 
-    // Call push delegate and deliver notification back to the application.
-    dispatch_async(dispatch_get_main_queue(), ^{
-      [self.delegate push:self didReceivePushNotification:pushNotification];
-    });
+    /*
+     * Only call the push delegate if the app is in topmost foreground and the notification is a remote notification. If
+     * the notification is a user notification, it should be consumed now.
+     */
+    if ([NSApp isActive] || userNotification) {
+#endif
+
+      // Initialize push notification model.
+      MSPushNotification *pushNotification =
+          [[MSPushNotification alloc] initWithTitle:title message:message customData:customData];
+
+      // Call push delegate and deliver notification back to the application.
+      dispatch_async(dispatch_get_main_queue(), ^{
+        [self.delegate push:self didReceivePushNotification:pushNotification];
+      });
+#if TARGET_OS_OSX
+    }
+#endif
     return YES;
   }
   return NO;
