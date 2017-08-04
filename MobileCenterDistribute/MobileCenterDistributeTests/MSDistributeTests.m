@@ -1,8 +1,4 @@
-#import <Foundation/Foundation.h>
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <OCMock/OCMock.h>
 #import <UIKit/UIKit.h>
-#import <XCTest/XCTest.h>
 
 #import "MS_Reachability.h"
 #import "MSAlertController.h"
@@ -16,6 +12,7 @@
 #import "MSMobileCenter.h"
 #import "MSMockUserDefaults.h"
 #import "MSServiceAbstractProtected.h"
+#import "MSTestFrameworks.h"
 #import "MSUserDefaults.h"
 #import "MSUtility.h"
 #import "MSUtility+Application.h"

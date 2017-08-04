@@ -1,6 +1,4 @@
-#import <OCMock/OCMock.h>
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <XCTest/XCTest.h>
+#import "MSTestFrameworks.h"
 #import "MSUtility+ApplicationPrivate.h"
 #import "MSUtility+Date.h"
 #import "MSUtility+Environment.h"
@@ -26,11 +24,13 @@
   [self.utils stopMocking];
 }
 
+#if !TARGET_OS_OSX
 - (void)testMSAppStateMatchesUIAppStateWhenAvailable {
 
   // Then
   assertThat(@([MSUtility applicationState]), is(@([UIApplication sharedApplication].applicationState)));
 }
+#endif
 
 - (void)testMSAppReturnsUnknownOnAppExtensions {
 
@@ -56,8 +56,13 @@
 - (void)testAppActive {
 
   // If
+#if TARGET_OS_OSX
+  MSApplicationState expectedState = MSApplicationStateActive;
+  OCMStub([self.utils sharedAppState]).andReturn(expectedState);
+#else
   UIApplicationState expectedState = UIApplicationStateActive;
   OCMStub([self.utils sharedAppState]).andReturn(expectedState);
+#endif
 
   // When
   MSApplicationState state = [MSUtility applicationState];
@@ -66,6 +71,7 @@
   assertThat(@(state), is(@(expectedState)));
 }
 
+#if !TARGET_OS_OSX
 - (void)testAppInactive {
 
   // If
@@ -78,12 +84,18 @@
   // Then
   assertThat(@(state), is(@(expectedState)));
 }
+#endif
 
 - (void)testAppInBackground {
 
   // If
+#if TARGET_OS_OSX
+  MSApplicationState expectedState = MSApplicationStateBackground;
+  OCMStub([self.utils sharedAppState]).andReturn(expectedState);
+#else
   UIApplicationState expectedState = UIApplicationStateBackground;
   OCMStub([self.utils sharedAppState]).andReturn(expectedState);
+#endif
 
   // When
   MSApplicationState state = [MSUtility applicationState];
@@ -123,6 +135,8 @@
   XCTAssertEqual(env, MSEnvironmentOther);
 }
 
+// FIXME: This method actually opens a dialog to ask to handle the URL on Mac.
+#if !TARGET_OS_OSX
 - (void)testSharedAppOpenEmptyCallCallback {
 
   // If
@@ -149,6 +163,7 @@
                                  }
                                }];
 }
+#endif
 
 - (void)testCreateSha256 {
 

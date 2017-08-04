@@ -1,3 +1,5 @@
-#include "../../../Global.xcconfig"
+#include "../../../Config/Global.xcconfig"
 
-OTHER_LDFLAGS = $(inherited) -framework Foundation -framework UIKit;
+PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenteranalytics
+
+OTHER_LDFLAGS=$(inherited) -framework Foundation;

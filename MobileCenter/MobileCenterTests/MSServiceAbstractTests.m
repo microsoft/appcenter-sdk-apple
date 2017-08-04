@@ -7,9 +7,7 @@
 #import "MSMockUserDefaults.h"
 #import "MSServiceAbstractPrivate.h"
 #import "MSServiceAbstractProtected.h"
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <OCMock/OCMock.h>
-#import <XCTest/XCTest.h>
+#import "MSTestFrameworks.h"
 
 @interface MSServiceAbstractImplementation : MSServiceAbstract <MSServiceInternal>
 

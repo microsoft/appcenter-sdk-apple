@@ -1,7 +1,4 @@
 #import <Foundation/Foundation.h>
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <OCMock/OCMock.h>
-#import <XCTest/XCTest.h>
 
 #import "MSAbstractLogInternal.h"
 #import "MSChannelConfiguration.h"
@@ -11,6 +8,7 @@
 #import "MSHttpSender.h"
 #import "MSLogContainer.h"
 #import "MSMobileCenterErrors.h"
+#import "MSTestFrameworks.h"
 #import "MSUtility.h"
 
 static NSString *const kMSTestGroupId = @"GroupId";

@@ -14,6 +14,10 @@
 
 #pragma mark - MSAppDelegate
 
+#if TARGET_OS_OSX
+
+// TODO: ApplicationDelegate is not yet implemented for macOS.
+#else
 - (BOOL)application:(UIApplication *)application
               openURL:(NSURL *)url
     sourceApplication:(NSString *)sourceApplication
@@ -49,6 +53,7 @@
   CustomDidReceiveNotificationValidator validator = self.delegateValidators[NSStringFromSelector(_cmd)];
   validator(application, userInfo, completionHandler);
 }
+#endif
 
 @end
 
@@ -56,6 +61,10 @@
 
 @implementation MSAppDelegateForwarder (MSDistribute)
 
+#if TARGET_OS_OSX
+
+// TODO: ApplicationDelegate is not yet implemented for macOS.
+#else
 + (void)load {
 
   // Register selectors to swizzle for this mock.
@@ -65,5 +74,6 @@
   [self addAppDelegateSelectorToSwizzle:@selector(application:didReceiveRemoteNotification:)];
   [self addAppDelegateSelectorToSwizzle:@selector(application:didReceiveRemoteNotification:fetchCompletionHandler:)];
 }
+#endif
 
 @end

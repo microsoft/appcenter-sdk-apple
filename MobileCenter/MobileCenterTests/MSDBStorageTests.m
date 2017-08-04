@@ -1,9 +1,5 @@
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <OCMock/OCMock.h>
-#import <UIKit/UIKit.h>
-#import <XCTest/XCTest.h>
-
 #import "MSDBStoragePrivate.h"
+#import "MSTestFrameworks.h"
 #import "MSUtility+File.h"
 
 static NSString *const kMSTestDBFileName = @"Test.sqlite";

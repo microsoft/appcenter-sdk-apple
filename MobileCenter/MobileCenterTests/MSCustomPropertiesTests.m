@@ -1,8 +1,8 @@
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <XCTest/XCTest.h>
+#import <Foundation/Foundation.h>
 
 #import "MSCustomProperties.h"
 #import "MSCustomPropertiesPrivate.h"
+#import "MSTestFrameworks.h"
 
 @interface MSCustomPropertiesTests : XCTestCase
 

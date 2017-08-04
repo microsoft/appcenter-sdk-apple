@@ -33,7 +33,6 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import <CrashReporter/CrashReporter.h>
 #import <mach-o/dyld.h>
 #import <mach-o/getsect.h>
 #import <mach-o/ldsyms.h>
@@ -47,6 +46,7 @@
 #import "MSAppleErrorLog.h"
 #import "MSBinary.h"
 #import "MSCrashesInternal.h"
+#import "MSCrashReporter.h"
 #import "MSErrorLogFormatter.h"
 #import "MSErrorReportPrivate.h"
 #import "MSException.h"
@@ -257,7 +257,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
   // The registers of the crashed thread might contain the last method call, this can be very helpful.
   errorLog.selectorRegisterValue =
-  [self selectorRegisterValueFromReport:report ofCrashedThread:crashedThread is64bit:is64bit];
+      [self selectorRegisterValueFromReport:report ofCrashedThread:crashedThread is64bit:is64bit];
 
   // Extract all threads and registers.
   errorLog.threads = [self extractThreadsFromReport:report crashedThread:crashedThread is64bit:is64bit];
@@ -363,7 +363,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
       NSString *processPath = crashReport.processInfo.processPath;
 
 // Remove username from the path
-#if TARGET_OS_SIMULATOR
+#if TARGET_OS_SIMULATOR || TARGET_OS_OSX
       processPath = [self anonymizedPathFromPath:processPath];
 #endif
       errorLog.applicationPath = processPath;
@@ -496,7 +496,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
       if (report.systemInfo.operatingSystem == PLCrashReportOperatingSystemiPhoneSimulator) {
         symbolName = [symbolName substringFromIndex:1];
       } else {
-        NSLog(@"Symbol prefix rules are unknown for this OS!");
+        MSLogWarning([MSCrashes logTag], @"Symbol prefix rules are unknown for this OS!");
       }
     }
 
@@ -593,13 +593,13 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
     if (binaryIsInAddresses || (imageType != MSBinaryImageTypeOther)) {
       NSString *imagePath = @"";
       if (imageInfo.imageName && [imageInfo.imageName length] > 0) {
-#if TARGET_IPHONE_SIMULATOR
+#if TARGET_OS_SIMULATOR
         imagePath = [imageInfo.imageName stringByAbbreviatingWithTildeInPath];
 #else
         imagePath = imageInfo.imageName;
 #endif
       }
-#if TARGET_IPHONE_SIMULATOR
+#if TARGET_OS_SIMULATOR || TARGET_OS_OSX
       imagePath = [self anonymizedPathFromPath:imagePath];
 #endif
 
@@ -647,16 +647,17 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
   if (([path length] > 0) && [path hasPrefix:@"/Users/"]) {
     NSError *error = nil;
-    NSRegularExpression *regex =
-        [NSRegularExpression regularExpressionWithPattern:@"(/Users/[^/]+/)" options:0 error:&error];
+    NSString *regexPattern = @"(/Users/[^/]+/)";
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regexPattern options:0 error:&error];
+    if (!regex) {
+      MSLogError([MSCrashes logTag], @"Couldn't create regular expression with pattern\"%@\": %@", regexPattern, error.localizedDescription);
+      return anonymizedProcessPath;
+    }
     anonymizedProcessPath = [regex stringByReplacingMatchesInString:path
                                                             options:0
                                                               range:NSMakeRange(0, [path length])
                                                        withTemplate:@"/Users/USER/"];
-    if (error) {
-      MSLogError([MSCrashes logTag], @"String replacing failed - %@", error.localizedDescription);
-    }
-  } else if (([path length] > 0) && (![path containsString:@"Users"])) {
+  } else if (([path length] > 0) && ([path rangeOfString:@"Users"].length == 0)) {
     return path;
   }
   return anonymizedProcessPath;

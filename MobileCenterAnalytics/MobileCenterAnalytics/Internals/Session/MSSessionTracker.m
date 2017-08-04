@@ -107,11 +107,19 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
     // Hookup to application events.
     [MS_NOTIFICATION_CENTER addObserver:self
                                selector:@selector(applicationDidEnterBackground)
+#if TARGET_OS_OSX
+                                   name:NSApplicationDidResignActiveNotification
+#else
                                    name:UIApplicationDidEnterBackgroundNotification
+#endif
                                  object:nil];
     [MS_NOTIFICATION_CENTER addObserver:self
                                selector:@selector(applicationWillEnterForeground)
+#if TARGET_OS_OSX
+                                   name:NSApplicationWillBecomeActiveNotification
+#else
                                    name:UIApplicationWillEnterForegroundNotification
+#endif
                                  object:nil];
     self.started = YES;
   }

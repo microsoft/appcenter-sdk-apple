@@ -7,36 +7,270 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		6E04017D1D1CAC710051BCFA /* MobileCenterFramework */ = {
+		043121491EE0BFC7007054C5 /* MobileCenterTVOSFramework */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 6E0401801D1CAC710051BCFA /* Build configuration list for PBXAggregateTarget "MobileCenterFramework" */;
+			buildConfigurationList = 0431214B1EE0BFC7007054C5 /* Build configuration list for PBXAggregateTarget "MobileCenterTVOSFramework" */;
+			buildPhases = (
+				0431214A1EE0BFC7007054C5 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = MobileCenterTVOSFramework;
+			productName = "Fat Framework";
+		};
+		0485AFE61EAA937000C10CAF /* MobileCenterMacOSFramework */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 0485AFE81EAA937000C10CAF /* Build configuration list for PBXAggregateTarget "MobileCenterMacOSFramework" */;
+			buildPhases = (
+				0485AFE71EAA937000C10CAF /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = MobileCenterMacOSFramework;
+			productName = "Fat Framework";
+		};
+		04FD114C1EF2F5F0000C5A5C /* MobileCenterMacOSDoc */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 04FD11501EF2F5F0000C5A5C /* Build configuration list for PBXAggregateTarget "MobileCenterMacOSDoc" */;
+			buildPhases = (
+				04FD114F1EF2F5F0000C5A5C /* ShellScript */,
+			);
+			dependencies = (
+				04FD11541EF2F667000C5A5C /* PBXTargetDependency */,
+			);
+			name = MobileCenterMacOSDoc;
+			productName = "Jazzy Docs";
+		};
+		04FD11671EF2FE1D000C5A5C /* MobileCenterTVOSDoc */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 04FD116B1EF2FE1D000C5A5C /* Build configuration list for PBXAggregateTarget "MobileCenterTVOSDoc" */;
+			buildPhases = (
+				04FD116A1EF2FE1D000C5A5C /* ShellScript */,
+			);
+			dependencies = (
+				04FD116F1EF2FE2C000C5A5C /* PBXTargetDependency */,
+			);
+			name = MobileCenterTVOSDoc;
+			productName = "Jazzy Docs";
+		};
+		6E04017D1D1CAC710051BCFA /* MobileCenterIOSFramework */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 6E0401801D1CAC710051BCFA /* Build configuration list for PBXAggregateTarget "MobileCenterIOSFramework" */;
 			buildPhases = (
 				6E0401811D1CAC770051BCFA /* ShellScript */,
 			);
 			dependencies = (
 			);
-			name = MobileCenterFramework;
+			name = MobileCenterIOSFramework;
 			productName = "Fat Framework";
 		};
-		6E6BFC311D234FAE00DF7617 /* MobileCenterDoc */ = {
+		6E6BFC311D234FAE00DF7617 /* MobileCenterIOSDoc */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 6E6BFC341D234FAE00DF7617 /* Build configuration list for PBXAggregateTarget "MobileCenterDoc" */;
+			buildConfigurationList = 6E6BFC341D234FAE00DF7617 /* Build configuration list for PBXAggregateTarget "MobileCenterIOSDoc" */;
 			buildPhases = (
 				6E6BFC351D234FBF00DF7617 /* ShellScript */,
 			);
 			dependencies = (
 				386352EF1D5114F200D0D450 /* PBXTargetDependency */,
 			);
-			name = MobileCenterDoc;
+			name = MobileCenterIOSDoc;
 			productName = "Jazzy Docs";
 		};
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		041EFD261EE1CA98006DCD56 /* MSAbstractLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 3844FF1C1E8C2716003E9194 /* MSAbstractLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		041EFD271EE1CAA1006DCD56 /* MSDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 3844FF1B1E8C2716003E9194 /* MSDevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		041EFD281EE1CAA6006DCD56 /* MSDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3844FF1A1E8C2716003E9194 /* MSDevice.m */; };
+		041EFD291EE1CAAC006DCD56 /* MSLogWithProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 3844FF191E8C2716003E9194 /* MSLogWithProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		041EFD2C1EE1CAD4006DCD56 /* MSLogWithPropertiesInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 3844FF141E8C253F003E9194 /* MSLogWithPropertiesInternal.h */; };
+		041EFD2D1EE1CAD5006DCD56 /* MSLogWithPropertiesInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 3844FF141E8C253F003E9194 /* MSLogWithPropertiesInternal.h */; };
+		041EFD2E1EE1CADA006DCD56 /* MSDeviceInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = B2C3C1831DB83A3E00CB83F7 /* MSDeviceInternal.h */; };
+		041EFD2F1EE1CAE9006DCD56 /* MSChannelDefaultPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 382CFCF01EC3817B003FE40B /* MSChannelDefaultPrivate.h */; };
+		0420A6811ECA79C300915619 /* OCMock.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 046AEB081ECA727200CBE511 /* OCMock.framework */; };
+		0420A6831ECA79E200915619 /* OCMock.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 046AEB0B1ECA729400CBE511 /* OCMock.framework */; };
+		043120741EE0BCF9007054C5 /* MSMobileCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0401561D1C9AAA0051BCFA /* MSMobileCenter.m */; };
+		043120761EE0BCF9007054C5 /* MSLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 3592ABA61DC90E3600EF4592 /* MSLogger.m */; };
+		043120771EE0BCF9007054C5 /* MSChannelConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF628F31D371B1600CAFF64 /* MSChannelConfiguration.m */; };
+		043120781EE0BCF9007054C5 /* MSLogContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E171B591D234717000DC480 /* MSLogContainer.m */; };
+		0431207B1EE0BCF9007054C5 /* MSMobileCenterErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 388993391E29B26D00C27B36 /* MSMobileCenterErrors.m */; };
+		0431207C1EE0BCF9007054C5 /* MSDeviceHistoryInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FD53611E56501B0050F909 /* MSDeviceHistoryInfo.m */; };
+		0431207D1EE0BCF9007054C5 /* MSCustomProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = F803BBF21E8E3677004B1E7A /* MSCustomProperties.m */; };
+		043120801EE0BCF9007054C5 /* MSHttpSender.m in Sources */ = {isa = PBXBuildFile; fileRef = E84B8E341D235226006FD231 /* MSHttpSender.m */; };
+		043120811EE0BCF9007054C5 /* MSServiceAbstract.m in Sources */ = {isa = PBXBuildFile; fileRef = D38024051E7126F500466558 /* MSServiceAbstract.m */; };
+		043120821EE0BCF9007054C5 /* MSLogManagerDefault.m in Sources */ = {isa = PBXBuildFile; fileRef = E84B8E2D1D2351DB006FD231 /* MSLogManagerDefault.m */; };
+		043120831EE0BCF9007054C5 /* MSStartServiceLog.m in Sources */ = {isa = PBXBuildFile; fileRef = D38023E61E6EFC7C00466558 /* MSStartServiceLog.m */; };
+		043120841EE0BCF9007054C5 /* MSSenderUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = E8753D6D1D4BE53F00241513 /* MSSenderUtil.m */; };
+		043120851EE0BCF9007054C5 /* MSCustomPropertiesLog.m in Sources */ = {isa = PBXBuildFile; fileRef = F803BBF81E8E3989004B1E7A /* MSCustomPropertiesLog.m */; };
+		043120861EE0BCF9007054C5 /* MSAbstractLog.m in Sources */ = {isa = PBXBuildFile; fileRef = E88EBBEB1D2C612E007E7785 /* MSAbstractLog.m */; };
+		043120871EE0BCF9007054C5 /* MSKeychainUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 045BC3161E3FD88600B6C960 /* MSKeychainUtil.m */; };
+		043120881EE0BCF9007054C5 /* MSWrapperLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D0B7521DDFABFD003EACCD /* MSWrapperLogger.m */; };
+		0431208A1EE0BCF9007054C5 /* MSChannelDefault.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0684621D36BC8D00A8CC6C /* MSChannelDefault.m */; };
+		0431208B1EE0BCF9007054C5 /* MSSenderCall.m in Sources */ = {isa = PBXBuildFile; fileRef = E80EB1061D50273700C9003F /* MSSenderCall.m */; };
+		0431208D1EE0BCF9007054C5 /* MS_Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = E83283C51D46C62E000B029E /* MS_Reachability.m */; };
+		0431208E1EE0BCF9007054C5 /* MSLogWithProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = E8010E671D2DD4EF0035196F /* MSLogWithProperties.m */; };
+		0431208F1EE0BCF9007054C5 /* MSUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A8D1EA1D3057A90022931E /* MSUserDefaults.m */; };
+		043120911EE0BCF9007054C5 /* MSDeviceTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 04754F3C1EA980FD002CBA46 /* MSDeviceTracker.m */; };
+		043120951EE0BCF9007054C5 /* MSIngestionSender.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6822A89D38F04D8D95CE83 /* MSIngestionSender.m */; };
+		043120991EE0BCF9007054C5 /* MSUserDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = E8A8D1E91D3057A90022931E /* MSUserDefaults.h */; };
+		0431209A1EE0BCF9007054C5 /* MSHttpSenderPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38F1944D1DADB93100D3E0FE /* MSHttpSenderPrivate.h */; };
+		0431209B1EE0BCF9007054C5 /* MSSenderCall.h in Headers */ = {isa = PBXBuildFile; fileRef = E80EB1051D50273700C9003F /* MSSenderCall.h */; };
+		0431209C1EE0BCF9007054C5 /* MSSender.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E311D235209006FD231 /* MSSender.h */; };
+		0431209D1EE0BCF9007054C5 /* MSServiceCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C758D1D64DF2500D68CC1 /* MSServiceCommon.h */; };
+		043120A01EE0BCF9007054C5 /* MSCustomProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = F803BBF11E8E3677004B1E7A /* MSCustomProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		043120A21EE0BCF9007054C5 /* MSMobileCenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401551D1C9AAA0051BCFA /* MSMobileCenter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		043120A31EE0BCF9007054C5 /* MSLogManagerDefaultPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 04FD126E1E415697007ABFE7 /* MSLogManagerDefaultPrivate.h */; };
+		043120A41EE0BCF9007054C5 /* MSMobileCenterPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38E1B6791DDE3FDF000EFED1 /* MSMobileCenterPrivate.h */; };
+		043120A51EE0BCF9007054C5 /* MSServiceAbstractInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C757F1D6270A300D68CC1 /* MSServiceAbstractInternal.h */; };
+		043120A71EE0BCF9007054C5 /* MSServiceAbstractPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C76D91D677EC100D68CC1 /* MSServiceAbstractPrivate.h */; };
+		043120A81EE0BCF9007054C5 /* MSSenderUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = E8753D6C1D4BE53F00241513 /* MSSenderUtil.h */; };
+		043120A91EE0BCF9007054C5 /* MSSenderCallDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = E8E48F941D50FF4300A8C1B0 /* MSSenderCallDelegate.h */; };
+		043120AA1EE0BCF9007054C5 /* MS_Reachability.h in Headers */ = {isa = PBXBuildFile; fileRef = E83283C41D46C62E000B029E /* MS_Reachability.h */; };
+		043120AB1EE0BCF9007054C5 /* MSConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E04013F1D1C99AC0051BCFA /* MSConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		043120AC1EE0BCF9007054C5 /* MSChannelDefaultPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 382CFCF01EC3817B003FE40B /* MSChannelDefaultPrivate.h */; };
+		043120AD1EE0BCF9007054C5 /* MSDeviceHistoryInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = B2FD53601E56501B0050F909 /* MSDeviceHistoryInfo.h */; };
+		043120AF1EE0BCF9007054C5 /* MobileCenter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401581D1C9CFB0051BCFA /* MobileCenter+Internal.h */; };
+		043120B01EE0BCF9007054C5 /* MSChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0684651D36BCD500A8CC6C /* MSChannel.h */; };
+		043120B11EE0BCF9007054C5 /* MSSenderDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 384772A51DA5691F009365DE /* MSSenderDelegate.h */; };
+		043120B21EE0BCF9007054C5 /* MSStartServiceLog.h in Headers */ = {isa = PBXBuildFile; fileRef = D38023E71E6EFC7C00466558 /* MSStartServiceLog.h */; };
+		043120B31EE0BCF9007054C5 /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C76FC1D6C9CF100D68CC1 /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		043120B41EE0BCF9007054C5 /* MSDeviceInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = B2C3C1831DB83A3E00CB83F7 /* MSDeviceInternal.h */; };
+		043120B71EE0BCF9007054C5 /* MSLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E3E2C9D1D35701000B1EE50 /* MSLog.h */; };
+		043120B91EE0BCF9007054C5 /* MSStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E381D235246006FD231 /* MSStorage.h */; };
+		043120BA1EE0BCF9007054C5 /* MSLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 3592ABA51DC90E3600EF4592 /* MSLogger.h */; };
+		043120BB1EE0BCF9007054C5 /* MSSerializableObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E7D5C791D3E94F8009EC9AC /* MSSerializableObject.h */; };
+		043120BD1EE0BCF9007054C5 /* MSChannelDefault.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0684611D36BC8D00A8CC6C /* MSChannelDefault.h */; };
+		043120BE1EE0BCF9007054C5 /* MSDeviceTrackerPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 04754F3D1EA980FD002CBA46 /* MSDeviceTrackerPrivate.h */; };
+		043120BF1EE0BCF9007054C5 /* MSLogManagerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = E8AEE9811D5970A400C0FF6C /* MSLogManagerDelegate.h */; };
+		043120C01EE0BCF9007054C5 /* MobileCenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401401D1C99AC0051BCFA /* MobileCenter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		043120C11EE0BCF9007054C5 /* MSHttpSender.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E331D235226006FD231 /* MSHttpSender.h */; };
+		043120C21EE0BCF9007054C5 /* MSLogContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E171B581D234717000DC480 /* MSLogContainer.h */; };
+		043120C61EE0BCF9007054C5 /* MSChannelConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF628F21D371B1600CAFF64 /* MSChannelConfiguration.h */; };
+		043120C71EE0BCF9007054C5 /* MSMobileCenterInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401441D1C99AC0051BCFA /* MSMobileCenterInternal.h */; };
+		043120C81EE0BCF9007054C5 /* MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401451D1C99AC0051BCFA /* MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		043120CA1EE0BCF9007054C5 /* MSServiceInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401471D1C99AC0051BCFA /* MSServiceInternal.h */; };
+		043120CB1EE0BCF9007054C5 /* MSWrapperLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 35D0B7511DDFABFD003EACCD /* MSWrapperLogger.h */; };
+		043120CC1EE0BCF9007054C5 /* MSMobileCenterErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 3889932E1E29829700C27B36 /* MSMobileCenterErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		043120CD1EE0BCF9007054C5 /* MSLogManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E2B1D2351DB006FD231 /* MSLogManager.h */; };
+		043120CE1EE0BCF9007054C5 /* MSServiceAbstractProtected.h in Headers */ = {isa = PBXBuildFile; fileRef = 385AD9211D95898D008B354A /* MSServiceAbstractProtected.h */; };
+		043120CF1EE0BCF9007054C5 /* MSEnable.h in Headers */ = {isa = PBXBuildFile; fileRef = 38EAD9AB1DA6A8C500CE6030 /* MSEnable.h */; };
+		043120D11EE0BCF9007054C5 /* MSDeviceTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 381C91E51D3DB65D004512F1 /* MSDeviceTracker.h */; };
+		043120D21EE0BCF9007054C5 /* MSLogManagerDefault.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E2C1D2351DB006FD231 /* MSLogManagerDefault.h */; };
+		043120D31EE0BCF9007054C5 /* MSKeychainUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 045BC3181E3FD8AC00B6C960 /* MSKeychainUtil.h */; };
+		043120D51EE0BCF9007054C5 /* MSChannelDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 5949380E604D45340244FEF1 /* MSChannelDelegate.h */; };
+		043120D61EE0BCF9007054C5 /* MSIngestionSender.h in Headers */ = {isa = PBXBuildFile; fileRef = BA6824A001520825F18DFC42 /* MSIngestionSender.h */; };
+		044864C51EBD12F200031019 /* MSCustomProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = F803BBF11E8E3677004B1E7A /* MSCustomProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		044864C61EBD130300031019 /* MSCustomProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = F803BBF21E8E3677004B1E7A /* MSCustomProperties.m */; };
+		044864C71EBD13B400031019 /* MSCustomPropertiesLog.m in Sources */ = {isa = PBXBuildFile; fileRef = F803BBF81E8E3989004B1E7A /* MSCustomPropertiesLog.m */; };
 		045660FB1D99EEEB002F7055 /* MSLogWithPropertiesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 045660FA1D99EEEB002F7055 /* MSLogWithPropertiesTests.m */; };
 		045BC3171E3FD88600B6C960 /* MSKeychainUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 045BC3161E3FD88600B6C960 /* MSKeychainUtil.m */; };
 		045BC3191E3FD8AC00B6C960 /* MSKeychainUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 045BC3181E3FD8AC00B6C960 /* MSKeychainUtil.h */; };
+		045C0BED1EEB122A0038FD6B /* MSAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C4471D1ECE5352002E1B11 /* MSAppDelegate.h */; };
+		045C0BEE1EEB122D0038FD6B /* MSAppDelegateForwarder.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C4471E1ECE5352002E1B11 /* MSAppDelegateForwarder.h */; };
+		045C0BEF1EEB12300038FD6B /* MSAppDelegateForwarder.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C4471F1ECE5352002E1B11 /* MSAppDelegateForwarder.m */; };
+		045C0BF01EEB12320038FD6B /* MSAppDelegateForwarderPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C447201ECE5352002E1B11 /* MSAppDelegateForwarderPrivate.h */; };
+		046AEAD31ECA562A00CBE511 /* MSCustomPropertiesLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F803BC391E8E6963004B1E7A /* MSCustomPropertiesLogTests.m */; };
+		046AEAD41ECA562A00CBE511 /* MSMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = D377A30C1E83A05900B2C97A /* MSMockUserDefaults.m */; };
+		046AEAD71ECA562A00CBE511 /* MSLogWithPropertiesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 045660FA1D99EEEB002F7055 /* MSLogWithPropertiesTests.m */; };
+		046AEAD81ECA562A00CBE511 /* MSDeviceLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3E2CC01D3596AE00B1EE50 /* MSDeviceLogTests.m */; };
+		046AEADA1ECA562A00CBE511 /* MSChannelDefaultTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB1F40D1D2443B7005F9F99 /* MSChannelDefaultTests.m */; };
+		046AEADD1ECA562A00CBE511 /* MSHttpTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 386E8D911E25932100EECF0F /* MSHttpTestUtil.m */; };
+		046AEADE1ECA562A00CBE511 /* MSDeviceHistoryInfoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FD53641E567BCF0050F909 /* MSDeviceHistoryInfoTests.m */; };
+		046AEAE31ECA562A00CBE511 /* MSKeychainUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FD126A1E4103CC007ABFE7 /* MSKeychainUtilTests.m */; };
+		046AEAE41ECA562A00CBE511 /* MSStartServiceLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D38024111E7130C700466558 /* MSStartServiceLogTests.m */; };
+		046AEAE61ECA562A00CBE511 /* MSChannelConfigurationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E48A5A31D3831FE006E8B5F /* MSChannelConfigurationTests.m */; };
+		046AEAE81ECA562A00CBE511 /* MSCustomPropertiesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F803BC371E8E6927004B1E7A /* MSCustomPropertiesTests.m */; };
+		046AEAE91ECA562A00CBE511 /* MSSenderUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B7BBEE1E5FAD4D001A0CE1 /* MSSenderUtilTests.m */; };
+		046AEAEB1ECA562A00CBE511 /* MSMockLog.m in Sources */ = {isa = PBXBuildFile; fileRef = E88D17051D35B6B500A5EA57 /* MSMockLog.m */; };
+		046AEAEC1ECA562A00CBE511 /* MSLogManagerDefaultTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E48A5A61D383893006E8B5F /* MSLogManagerDefaultTests.m */; };
+		046AEAFA1ECA570500CBE511 /* libMobileCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04754FAB1EA98182002CBA46 /* libMobileCenter.a */; };
+		046AEB091ECA727200CBE511 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046AEB081ECA727200CBE511 /* OCMock.framework */; };
+		046AEB0C1ECA729400CBE511 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046AEB0B1ECA729400CBE511 /* OCMock.framework */; };
+		04754F421EA980FD002CBA46 /* MSDeviceTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 04754F3C1EA980FD002CBA46 /* MSDeviceTracker.m */; };
+		04754F431EA980FD002CBA46 /* MSDeviceTrackerPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 04754F3D1EA980FD002CBA46 /* MSDeviceTrackerPrivate.h */; };
+		04754F491EA98182002CBA46 /* MSMobileCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0401561D1C9AAA0051BCFA /* MSMobileCenter.m */; };
+		04754F4B1EA98182002CBA46 /* MSLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 3592ABA61DC90E3600EF4592 /* MSLogger.m */; };
+		04754F4C1EA98182002CBA46 /* MSChannelConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF628F31D371B1600CAFF64 /* MSChannelConfiguration.m */; };
+		04754F4D1EA98182002CBA46 /* MSLogContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E171B591D234717000DC480 /* MSLogContainer.m */; };
+		04754F501EA98182002CBA46 /* MSMobileCenterErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 388993391E29B26D00C27B36 /* MSMobileCenterErrors.m */; };
+		04754F511EA98182002CBA46 /* MSDeviceHistoryInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FD53611E56501B0050F909 /* MSDeviceHistoryInfo.m */; };
+		04754F541EA98182002CBA46 /* MSHttpSender.m in Sources */ = {isa = PBXBuildFile; fileRef = E84B8E341D235226006FD231 /* MSHttpSender.m */; };
+		04754F551EA98182002CBA46 /* MSServiceAbstract.m in Sources */ = {isa = PBXBuildFile; fileRef = D38024051E7126F500466558 /* MSServiceAbstract.m */; };
+		04754F561EA98182002CBA46 /* MSLogManagerDefault.m in Sources */ = {isa = PBXBuildFile; fileRef = E84B8E2D1D2351DB006FD231 /* MSLogManagerDefault.m */; };
+		04754F571EA98182002CBA46 /* MSStartServiceLog.m in Sources */ = {isa = PBXBuildFile; fileRef = D38023E61E6EFC7C00466558 /* MSStartServiceLog.m */; };
+		04754F581EA98182002CBA46 /* MSSenderUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = E8753D6D1D4BE53F00241513 /* MSSenderUtil.m */; };
+		04754F591EA98182002CBA46 /* MSAbstractLog.m in Sources */ = {isa = PBXBuildFile; fileRef = E88EBBEB1D2C612E007E7785 /* MSAbstractLog.m */; };
+		04754F5A1EA98182002CBA46 /* MSKeychainUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 045BC3161E3FD88600B6C960 /* MSKeychainUtil.m */; };
+		04754F5B1EA98182002CBA46 /* MSWrapperLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D0B7521DDFABFD003EACCD /* MSWrapperLogger.m */; };
+		04754F5D1EA98182002CBA46 /* MSChannelDefault.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0684621D36BC8D00A8CC6C /* MSChannelDefault.m */; };
+		04754F5E1EA98182002CBA46 /* MSSenderCall.m in Sources */ = {isa = PBXBuildFile; fileRef = E80EB1061D50273700C9003F /* MSSenderCall.m */; };
+		04754F601EA98182002CBA46 /* MS_Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = E83283C51D46C62E000B029E /* MS_Reachability.m */; };
+		04754F611EA98182002CBA46 /* MSLogWithProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = E8010E671D2DD4EF0035196F /* MSLogWithProperties.m */; };
+		04754F621EA98182002CBA46 /* MSUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A8D1EA1D3057A90022931E /* MSUserDefaults.m */; };
+		04754F681EA98182002CBA46 /* MSIngestionSender.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6822A89D38F04D8D95CE83 /* MSIngestionSender.m */; };
+		04754F6C1EA98182002CBA46 /* MSUserDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = E8A8D1E91D3057A90022931E /* MSUserDefaults.h */; };
+		04754F6D1EA98182002CBA46 /* MSHttpSenderPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38F1944D1DADB93100D3E0FE /* MSHttpSenderPrivate.h */; };
+		04754F6E1EA98182002CBA46 /* MSSenderCall.h in Headers */ = {isa = PBXBuildFile; fileRef = E80EB1051D50273700C9003F /* MSSenderCall.h */; };
+		04754F6F1EA98182002CBA46 /* MSSender.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E311D235209006FD231 /* MSSender.h */; };
+		04754F701EA98182002CBA46 /* MSServiceCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C758D1D64DF2500D68CC1 /* MSServiceCommon.h */; };
+		04754F741EA98182002CBA46 /* MSMobileCenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401551D1C9AAA0051BCFA /* MSMobileCenter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		04754F751EA98182002CBA46 /* MSLogManagerDefaultPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 04FD126E1E415697007ABFE7 /* MSLogManagerDefaultPrivate.h */; };
+		04754F761EA98182002CBA46 /* MSMobileCenterPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38E1B6791DDE3FDF000EFED1 /* MSMobileCenterPrivate.h */; };
+		04754F771EA98182002CBA46 /* MSServiceAbstractInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C757F1D6270A300D68CC1 /* MSServiceAbstractInternal.h */; };
+		04754F791EA98182002CBA46 /* MSServiceAbstractPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C76D91D677EC100D68CC1 /* MSServiceAbstractPrivate.h */; };
+		04754F7A1EA98182002CBA46 /* MSSenderUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = E8753D6C1D4BE53F00241513 /* MSSenderUtil.h */; };
+		04754F7B1EA98182002CBA46 /* MSSenderCallDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = E8E48F941D50FF4300A8C1B0 /* MSSenderCallDelegate.h */; };
+		04754F7C1EA98182002CBA46 /* MS_Reachability.h in Headers */ = {isa = PBXBuildFile; fileRef = E83283C41D46C62E000B029E /* MS_Reachability.h */; };
+		04754F7D1EA98182002CBA46 /* MSConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E04013F1D1C99AC0051BCFA /* MSConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		04754F7E1EA98182002CBA46 /* MSDeviceHistoryInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = B2FD53601E56501B0050F909 /* MSDeviceHistoryInfo.h */; };
+		04754F801EA98182002CBA46 /* MobileCenter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401581D1C9CFB0051BCFA /* MobileCenter+Internal.h */; };
+		04754F811EA98182002CBA46 /* MSChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0684651D36BCD500A8CC6C /* MSChannel.h */; };
+		04754F821EA98182002CBA46 /* MSSenderDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 384772A51DA5691F009365DE /* MSSenderDelegate.h */; };
+		04754F831EA98182002CBA46 /* MSStartServiceLog.h in Headers */ = {isa = PBXBuildFile; fileRef = D38023E71E6EFC7C00466558 /* MSStartServiceLog.h */; };
+		04754F841EA98182002CBA46 /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C76FC1D6C9CF100D68CC1 /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		04754F881EA98182002CBA46 /* MSLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E3E2C9D1D35701000B1EE50 /* MSLog.h */; };
+		04754F8A1EA98182002CBA46 /* MSStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E381D235246006FD231 /* MSStorage.h */; };
+		04754F8B1EA98182002CBA46 /* MSLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 3592ABA51DC90E3600EF4592 /* MSLogger.h */; };
+		04754F8C1EA98182002CBA46 /* MSSerializableObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E7D5C791D3E94F8009EC9AC /* MSSerializableObject.h */; };
+		04754F8E1EA98182002CBA46 /* MSChannelDefault.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0684611D36BC8D00A8CC6C /* MSChannelDefault.h */; };
+		04754F901EA98182002CBA46 /* MSLogManagerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = E8AEE9811D5970A400C0FF6C /* MSLogManagerDelegate.h */; };
+		04754F911EA98182002CBA46 /* MobileCenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401401D1C99AC0051BCFA /* MobileCenter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		04754F921EA98182002CBA46 /* MSHttpSender.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E331D235226006FD231 /* MSHttpSender.h */; };
+		04754F931EA98182002CBA46 /* MSLogContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E171B581D234717000DC480 /* MSLogContainer.h */; };
+		04754F971EA98182002CBA46 /* MSChannelConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF628F21D371B1600CAFF64 /* MSChannelConfiguration.h */; };
+		04754F981EA98182002CBA46 /* MSMobileCenterInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401441D1C99AC0051BCFA /* MSMobileCenterInternal.h */; };
+		04754F991EA98182002CBA46 /* MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401451D1C99AC0051BCFA /* MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		04754F9B1EA98182002CBA46 /* MSServiceInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401471D1C99AC0051BCFA /* MSServiceInternal.h */; };
+		04754F9C1EA98182002CBA46 /* MSWrapperLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 35D0B7511DDFABFD003EACCD /* MSWrapperLogger.h */; };
+		04754F9D1EA98182002CBA46 /* MSMobileCenterErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 3889932E1E29829700C27B36 /* MSMobileCenterErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		04754F9E1EA98182002CBA46 /* MSLogManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E2B1D2351DB006FD231 /* MSLogManager.h */; };
+		04754F9F1EA98182002CBA46 /* MSServiceAbstractProtected.h in Headers */ = {isa = PBXBuildFile; fileRef = 385AD9211D95898D008B354A /* MSServiceAbstractProtected.h */; };
+		04754FA01EA98182002CBA46 /* MSEnable.h in Headers */ = {isa = PBXBuildFile; fileRef = 38EAD9AB1DA6A8C500CE6030 /* MSEnable.h */; };
+		04754FA21EA98182002CBA46 /* MSDeviceTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 381C91E51D3DB65D004512F1 /* MSDeviceTracker.h */; };
+		04754FA31EA98182002CBA46 /* MSLogManagerDefault.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E2C1D2351DB006FD231 /* MSLogManagerDefault.h */; };
+		04754FA41EA98182002CBA46 /* MSKeychainUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 045BC3181E3FD8AC00B6C960 /* MSKeychainUtil.h */; };
+		04754FA61EA98182002CBA46 /* MSChannelDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 5949380E604D45340244FEF1 /* MSChannelDelegate.h */; };
+		04754FA71EA98182002CBA46 /* MSIngestionSender.h in Headers */ = {isa = PBXBuildFile; fileRef = BA6824A001520825F18DFC42 /* MSIngestionSender.h */; };
+		0499F8551EDF979700C3EDDA /* MSLogWithProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 3844FF191E8C2716003E9194 /* MSLogWithProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0499F8561EDF979A00C3EDDA /* MSDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3844FF1A1E8C2716003E9194 /* MSDevice.m */; };
+		0499F8571EDF979D00C3EDDA /* MSDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 3844FF1B1E8C2716003E9194 /* MSDevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0499F8581EDF979F00C3EDDA /* MSAbstractLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 3844FF1C1E8C2716003E9194 /* MSAbstractLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		049BC8411ECE4DFF00FB6719 /* MSDeviceTrackerPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 04754F3D1EA980FD002CBA46 /* MSDeviceTrackerPrivate.h */; };
+		049BC8421ECE4EDB00FB6719 /* MSDeviceTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 04754F3C1EA980FD002CBA46 /* MSDeviceTracker.m */; };
+		049BC8431ECE524D00FB6719 /* MSDeviceTrackerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 385FC0541D37EBD700A1799F /* MSDeviceTrackerTests.m */; };
+		04A140861ECE60C6001CEE94 /* MSUtilityTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 380A4DCA1DD6908A00E99219 /* MSUtilityTests.m */; };
+		04A140871ECE63BB001CEE94 /* MSServiceAbstractTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 387C75951D64EE1900D68CC1 /* MSServiceAbstractTests.m */; };
+		04A140881ECE63BF001CEE94 /* MSMobileCenterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 384959D41D491D4F008F6B3A /* MSMobileCenterTests.m */; };
+		04A140891ECE63C3001CEE94 /* MSLoggerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B24F3F161D93A3FF00827213 /* MSLoggerTests.m */; };
+		04A1408A1ECE63C7001CEE94 /* MSLogContainerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E88EBBFA1D2C8CC7007E7785 /* MSLogContainerTests.m */; };
+		04A1408B1ECE63CB001CEE94 /* MSIngestionSenderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E829E4221D25C8BA00F19DA1 /* MSIngestionSenderTests.m */; };
 		04B7BBEF1E5FAD4D001A0CE1 /* MSSenderUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B7BBEE1E5FAD4D001A0CE1 /* MSSenderUtilTests.m */; };
+		04BED7101ECB63A800E20975 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04BED70E1ECB63A100E20975 /* OCHamcrest.framework */; };
+		04BED7111ECB649400E20975 /* OCHamcrest.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 04BED70E1ECB63A100E20975 /* OCHamcrest.framework */; };
+		04BED7121ECB649D00E20975 /* OCHamcrestIOS.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6E171ADB1D22F6ED000DC480 /* OCHamcrestIOS.framework */; };
+		04F21A071ECB74200074978D /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04F21A041ECB73EE0074978D /* OHHTTPStubs.framework */; };
+		04F21A081ECB74AB0074978D /* OHHTTPStubs.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 04F21A041ECB73EE0074978D /* OHHTTPStubs.framework */; };
+		04F21A091ECB74BF0074978D /* OHHTTPStubs.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B2B9441D1DF0DF23009117D1 /* OHHTTPStubs.framework */; };
 		04FD126B1E4103CC007ABFE7 /* MSKeychainUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FD126A1E4103CC007ABFE7 /* MSKeychainUtilTests.m */; };
 		04FD126F1E415697007ABFE7 /* MSLogManagerDefaultPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 04FD126E1E415697007ABFE7 /* MSLogManagerDefaultPrivate.h */; };
 		3592ABA71DC90E3600EF4592 /* MSLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 3592ABA51DC90E3600EF4592 /* MSLogger.h */; };
@@ -46,13 +280,10 @@
 		3805DDA71EB7A6A6001DB846 /* MSMockOriginalAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3805DDA61EB7A6A6001DB846 /* MSMockOriginalAppDelegate.m */; };
 		380A4DCB1DD6908A00E99219 /* MSUtilityTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 380A4DCA1DD6908A00E99219 /* MSUtilityTests.m */; };
 		381C91E91D3DB65D004512F1 /* MSDeviceTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 381C91E51D3DB65D004512F1 /* MSDeviceTracker.h */; };
-		381C91EA1D3DB65D004512F1 /* MSDeviceTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 381C91E61D3DB65D004512F1 /* MSDeviceTracker.m */; };
 		382CFCF11EC3817B003FE40B /* MSChannelDefaultPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 382CFCF01EC3817B003FE40B /* MSChannelDefaultPrivate.h */; };
 		383481731EA7FF6100787F56 /* MSLogDBStoragePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 383481721EA7FF6100787F56 /* MSLogDBStoragePrivate.h */; };
 		3844FF131E8C22CC003E9194 /* MSAbstractLogInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 3844FF121E8C22CC003E9194 /* MSAbstractLogInternal.h */; };
 		3844FF151E8C253F003E9194 /* MSLogWithPropertiesInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 3844FF141E8C253F003E9194 /* MSLogWithPropertiesInternal.h */; };
-		3844FF1D1E8C2716003E9194 /* MSWrapperSdk.m in Sources */ = {isa = PBXBuildFile; fileRef = 3844FF171E8C2716003E9194 /* MSWrapperSdk.m */; };
-		3844FF1E1E8C2716003E9194 /* MSWrapperSdk.h in Headers */ = {isa = PBXBuildFile; fileRef = 3844FF181E8C2716003E9194 /* MSWrapperSdk.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3844FF1F1E8C2716003E9194 /* MSLogWithProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 3844FF191E8C2716003E9194 /* MSLogWithProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3844FF201E8C2716003E9194 /* MSDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3844FF1A1E8C2716003E9194 /* MSDevice.m */; };
 		3844FF211E8C2716003E9194 /* MSDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 3844FF1B1E8C2716003E9194 /* MSDevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -73,8 +304,6 @@
 		387C75961D64EE1900D68CC1 /* MSServiceAbstractTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 387C75951D64EE1900D68CC1 /* MSServiceAbstractTests.m */; };
 		387C76DA1D677EC100D68CC1 /* MSServiceAbstractPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C76D91D677EC100D68CC1 /* MSServiceAbstractPrivate.h */; };
 		387C76FD1D6C9CF100D68CC1 /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C76FC1D6C9CF100D68CC1 /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		38823A641EF86D9300477B9E /* MSUtility+File.h in Headers */ = {isa = PBXBuildFile; fileRef = 38823A621EF86D9300477B9E /* MSUtility+File.h */; };
-		38823A651EF86D9300477B9E /* MSUtility+File.m in Sources */ = {isa = PBXBuildFile; fileRef = 38823A631EF86D9300477B9E /* MSUtility+File.m */; };
 		3889932F1E29829700C27B36 /* MSMobileCenterErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 3889932E1E29829700C27B36 /* MSMobileCenterErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3889933A1E29B26D00C27B36 /* MSMobileCenterErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 388993391E29B26D00C27B36 /* MSMobileCenterErrors.m */; };
 		38C447211ECE5352002E1B11 /* MSAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C4471D1ECE5352002E1B11 /* MSAppDelegate.h */; };
@@ -98,7 +327,6 @@
 		6E0684641D36BC8D00A8CC6C /* MSChannelDefault.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0684621D36BC8D00A8CC6C /* MSChannelDefault.m */; };
 		6E0684671D36BCD500A8CC6C /* MSChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0684651D36BCD500A8CC6C /* MSChannel.h */; };
 		6E171ADC1D22F6ED000DC480 /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171ADB1D22F6ED000DC480 /* OCHamcrestIOS.framework */; };
-		6E171B1F1D22FC2E000DC480 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171B131D22FC2E000DC480 /* libOCMock.a */; };
 		6E171B601D234717000DC480 /* MSLogContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E171B581D234717000DC480 /* MSLogContainer.h */; };
 		6E171B611D234717000DC480 /* MSLogContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E171B591D234717000DC480 /* MSLogContainer.m */; };
 		6E23957D1D22EF4F00E543C8 /* libMobileCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E0401031D1C98220051BCFA /* libMobileCenter.a */; };
@@ -106,33 +334,83 @@
 		6E3E2CC11D3596AE00B1EE50 /* MSDeviceLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3E2CC01D3596AE00B1EE50 /* MSDeviceLogTests.m */; };
 		6E48A5A41D3831FE006E8B5F /* MSChannelConfigurationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E48A5A31D3831FE006E8B5F /* MSChannelConfigurationTests.m */; };
 		6E48A5A71D383893006E8B5F /* MSLogManagerDefaultTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E48A5A61D383893006E8B5F /* MSLogManagerDefaultTests.m */; };
-		6E48A5A81D3856F5006E8B5F /* MSConstants+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = E829E4241D25D07600F19DA1 /* MSConstants+Internal.h */; };
 		6E7D5C7B1D3E94F8009EC9AC /* MSSerializableObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E7D5C791D3E94F8009EC9AC /* MSSerializableObject.h */; };
 		6EB1F40E1D2443B7005F9F99 /* MSChannelDefaultTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB1F40D1D2443B7005F9F99 /* MSChannelDefaultTests.m */; };
 		6EF628F41D371B1600CAFF64 /* MSChannelConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF628F21D371B1600CAFF64 /* MSChannelConfiguration.h */; };
 		6EF628F51D371B1600CAFF64 /* MSChannelConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF628F31D371B1600CAFF64 /* MSChannelConfiguration.m */; };
 		805F3F6B1F209C9D00B489E4 /* MSMockService.m in Sources */ = {isa = PBXBuildFile; fileRef = 805F3F6A1F209C9D00B489E4 /* MSMockService.m */; };
-		842C131E1E7FCF5300F16EA3 /* MSUtility.h in Headers */ = {isa = PBXBuildFile; fileRef = 842C13151E7FCF5300F16EA3 /* MSUtility.h */; };
-		842C131F1E7FCF5300F16EA3 /* MSUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 842C13161E7FCF5300F16EA3 /* MSUtility.m */; };
-		842C13201E7FCF5300F16EA3 /* MSUtility+Application.h in Headers */ = {isa = PBXBuildFile; fileRef = 842C13171E7FCF5300F16EA3 /* MSUtility+Application.h */; };
-		842C13211E7FCF5300F16EA3 /* MSUtility+Application.m in Sources */ = {isa = PBXBuildFile; fileRef = 842C13181E7FCF5300F16EA3 /* MSUtility+Application.m */; };
-		842C13221E7FCF5300F16EA3 /* MSUtility+ApplicationPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 842C13191E7FCF5300F16EA3 /* MSUtility+ApplicationPrivate.h */; };
-		842C13231E7FCF5300F16EA3 /* MSUtility+Date.h in Headers */ = {isa = PBXBuildFile; fileRef = 842C131A1E7FCF5300F16EA3 /* MSUtility+Date.h */; };
-		842C13241E7FCF5300F16EA3 /* MSUtility+Date.m in Sources */ = {isa = PBXBuildFile; fileRef = 842C131B1E7FCF5300F16EA3 /* MSUtility+Date.m */; };
-		842C13251E7FCF5300F16EA3 /* MSUtility+Environment.h in Headers */ = {isa = PBXBuildFile; fileRef = 842C131C1E7FCF5300F16EA3 /* MSUtility+Environment.h */; };
-		842C13261E7FCF5300F16EA3 /* MSUtility+Environment.m in Sources */ = {isa = PBXBuildFile; fileRef = 842C131D1E7FCF5300F16EA3 /* MSUtility+Environment.m */; };
-		B21E29911E83521A00F9A22D /* MSUtility+StringFormatting.h in Headers */ = {isa = PBXBuildFile; fileRef = B21E298F1E83521A00F9A22D /* MSUtility+StringFormatting.h */; };
-		B21E29921E83521A00F9A22D /* MSUtility+StringFormatting.m in Sources */ = {isa = PBXBuildFile; fileRef = B21E29901E83521A00F9A22D /* MSUtility+StringFormatting.m */; };
+		B2181B7B1F26852600D2EEAE /* MSWrapperSdk.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD74551F22BB710070E7DF /* MSWrapperSdk.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B2181B7C1F26852B00D2EEAE /* MSWrapperSdk.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD74561F22BB710070E7DF /* MSWrapperSdk.m */; };
 		B24F3F171D93A3FF00827213 /* MSLoggerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B24F3F161D93A3FF00827213 /* MSLoggerTests.m */; };
 		B289FF881F291F9D00AA2E06 /* MSDeviceInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = B2C3C1831DB83A3E00CB83F7 /* MSDeviceInternal.h */; };
 		B2B9441E1DF0DF23009117D1 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2B9441D1DF0DF23009117D1 /* OHHTTPStubs.framework */; };
+		B2CD74571F22BB710070E7DF /* MSWrapperSdk.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD74551F22BB710070E7DF /* MSWrapperSdk.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B2CD74581F22BB710070E7DF /* MSWrapperSdk.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD74551F22BB710070E7DF /* MSWrapperSdk.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B2CD745A1F22BB710070E7DF /* MSWrapperSdk.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD74561F22BB710070E7DF /* MSWrapperSdk.m */; };
+		B2CD745B1F22BB710070E7DF /* MSWrapperSdk.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD74561F22BB710070E7DF /* MSWrapperSdk.m */; };
+		B2CD745E1F22BBBB0070E7DF /* MSWrapperSdkInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD745D1F22BBBB0070E7DF /* MSWrapperSdkInternal.h */; };
+		B2CD74851F22BD910070E7DF /* MSLogDBStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD74831F22BD910070E7DF /* MSLogDBStorage.h */; };
+		B2CD74861F22BD910070E7DF /* MSLogDBStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD74831F22BD910070E7DF /* MSLogDBStorage.h */; };
+		B2CD74871F22BD910070E7DF /* MSLogDBStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD74831F22BD910070E7DF /* MSLogDBStorage.h */; };
+		B2CD74881F22BD910070E7DF /* MSLogDBStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD74841F22BD910070E7DF /* MSLogDBStorage.m */; };
+		B2CD74891F22BD910070E7DF /* MSLogDBStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD74841F22BD910070E7DF /* MSLogDBStorage.m */; };
+		B2CD748A1F22BD910070E7DF /* MSLogDBStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD74841F22BD910070E7DF /* MSLogDBStorage.m */; };
+		B2CD748C1F22BDA70070E7DF /* MSDBStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 3849BA791EF314440072E3E0 /* MSDBStorage.h */; };
+		B2CD749D1F22BE270070E7DF /* MSConstants+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD748F1F22BE270070E7DF /* MSConstants+Internal.h */; };
+		B2CD749E1F22BE270070E7DF /* MSConstants+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD748F1F22BE270070E7DF /* MSConstants+Internal.h */; };
+		B2CD749F1F22BE270070E7DF /* MSConstants+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD748F1F22BE270070E7DF /* MSConstants+Internal.h */; };
+		B2CD74A01F22BE270070E7DF /* MSUtility.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD74901F22BE270070E7DF /* MSUtility.h */; };
+		B2CD74A11F22BE270070E7DF /* MSUtility.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD74901F22BE270070E7DF /* MSUtility.h */; };
+		B2CD74A21F22BE270070E7DF /* MSUtility.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD74901F22BE270070E7DF /* MSUtility.h */; };
+		B2CD74A31F22BE270070E7DF /* MSUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD74911F22BE270070E7DF /* MSUtility.m */; };
+		B2CD74A41F22BE270070E7DF /* MSUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD74911F22BE270070E7DF /* MSUtility.m */; };
+		B2CD74A51F22BE270070E7DF /* MSUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD74911F22BE270070E7DF /* MSUtility.m */; };
+		B2CD74A61F22BE270070E7DF /* MSUtility+Application.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD74921F22BE270070E7DF /* MSUtility+Application.h */; };
+		B2CD74A71F22BE270070E7DF /* MSUtility+Application.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD74921F22BE270070E7DF /* MSUtility+Application.h */; };
+		B2CD74A81F22BE270070E7DF /* MSUtility+Application.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD74921F22BE270070E7DF /* MSUtility+Application.h */; };
+		B2CD74A91F22BE270070E7DF /* MSUtility+Application.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD74931F22BE270070E7DF /* MSUtility+Application.m */; };
+		B2CD74AA1F22BE270070E7DF /* MSUtility+Application.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD74931F22BE270070E7DF /* MSUtility+Application.m */; };
+		B2CD74AB1F22BE270070E7DF /* MSUtility+Application.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD74931F22BE270070E7DF /* MSUtility+Application.m */; };
+		B2CD74AC1F22BE270070E7DF /* MSUtility+ApplicationPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD74941F22BE270070E7DF /* MSUtility+ApplicationPrivate.h */; };
+		B2CD74AD1F22BE270070E7DF /* MSUtility+ApplicationPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD74941F22BE270070E7DF /* MSUtility+ApplicationPrivate.h */; };
+		B2CD74AE1F22BE270070E7DF /* MSUtility+ApplicationPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD74941F22BE270070E7DF /* MSUtility+ApplicationPrivate.h */; };
+		B2CD74AF1F22BE270070E7DF /* MSUtility+Date.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD74951F22BE270070E7DF /* MSUtility+Date.h */; };
+		B2CD74B01F22BE270070E7DF /* MSUtility+Date.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD74951F22BE270070E7DF /* MSUtility+Date.h */; };
+		B2CD74B11F22BE270070E7DF /* MSUtility+Date.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD74951F22BE270070E7DF /* MSUtility+Date.h */; };
+		B2CD74B21F22BE270070E7DF /* MSUtility+Date.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD74961F22BE270070E7DF /* MSUtility+Date.m */; };
+		B2CD74B31F22BE270070E7DF /* MSUtility+Date.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD74961F22BE270070E7DF /* MSUtility+Date.m */; };
+		B2CD74B41F22BE270070E7DF /* MSUtility+Date.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD74961F22BE270070E7DF /* MSUtility+Date.m */; };
+		B2CD74B51F22BE270070E7DF /* MSUtility+Environment.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD74971F22BE270070E7DF /* MSUtility+Environment.h */; };
+		B2CD74B61F22BE270070E7DF /* MSUtility+Environment.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD74971F22BE270070E7DF /* MSUtility+Environment.h */; };
+		B2CD74B71F22BE270070E7DF /* MSUtility+Environment.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD74971F22BE270070E7DF /* MSUtility+Environment.h */; };
+		B2CD74B81F22BE270070E7DF /* MSUtility+Environment.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD74981F22BE270070E7DF /* MSUtility+Environment.m */; };
+		B2CD74B91F22BE270070E7DF /* MSUtility+Environment.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD74981F22BE270070E7DF /* MSUtility+Environment.m */; };
+		B2CD74BA1F22BE270070E7DF /* MSUtility+Environment.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD74981F22BE270070E7DF /* MSUtility+Environment.m */; };
+		B2CD74BB1F22BE270070E7DF /* MSUtility+File.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD74991F22BE270070E7DF /* MSUtility+File.h */; };
+		B2CD74BC1F22BE270070E7DF /* MSUtility+File.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD74991F22BE270070E7DF /* MSUtility+File.h */; };
+		B2CD74BD1F22BE270070E7DF /* MSUtility+File.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD74991F22BE270070E7DF /* MSUtility+File.h */; };
+		B2CD74BE1F22BE270070E7DF /* MSUtility+File.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD749A1F22BE270070E7DF /* MSUtility+File.m */; };
+		B2CD74BF1F22BE270070E7DF /* MSUtility+File.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD749A1F22BE270070E7DF /* MSUtility+File.m */; };
+		B2CD74C01F22BE270070E7DF /* MSUtility+File.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD749A1F22BE270070E7DF /* MSUtility+File.m */; };
+		B2CD74C11F22BE270070E7DF /* MSUtility+StringFormatting.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD749B1F22BE270070E7DF /* MSUtility+StringFormatting.h */; };
+		B2CD74C21F22BE270070E7DF /* MSUtility+StringFormatting.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD749B1F22BE270070E7DF /* MSUtility+StringFormatting.h */; };
+		B2CD74C31F22BE270070E7DF /* MSUtility+StringFormatting.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD749B1F22BE270070E7DF /* MSUtility+StringFormatting.h */; };
+		B2CD74C41F22BE270070E7DF /* MSUtility+StringFormatting.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD749C1F22BE270070E7DF /* MSUtility+StringFormatting.m */; };
+		B2CD74C51F22BE270070E7DF /* MSUtility+StringFormatting.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD749C1F22BE270070E7DF /* MSUtility+StringFormatting.m */; };
+		B2CD74C61F22BE270070E7DF /* MSUtility+StringFormatting.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD749C1F22BE270070E7DF /* MSUtility+StringFormatting.m */; };
+		B2CD74C71F22BEBF0070E7DF /* MSDBStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 3849BA791EF314440072E3E0 /* MSDBStorage.h */; };
+		B2CD74C81F22BEC60070E7DF /* MSDBStoragePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 3849BA841EF35D830072E3E0 /* MSDBStoragePrivate.h */; };
+		B2CD74C91F22BEC70070E7DF /* MSDBStoragePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 3849BA841EF35D830072E3E0 /* MSDBStoragePrivate.h */; };
+		B2CD74CA1F22BF8C0070E7DF /* MSLogDBStoragePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 383481721EA7FF6100787F56 /* MSLogDBStoragePrivate.h */; };
+		B2CD74CB1F22BF8D0070E7DF /* MSLogDBStoragePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 383481721EA7FF6100787F56 /* MSLogDBStoragePrivate.h */; };
+		B2CD74CC1F22BFA30070E7DF /* MSDBStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 3849BA7B1EF3145A0072E3E0 /* MSDBStorage.m */; };
+		B2CD74CD1F22BFA40070E7DF /* MSDBStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 3849BA7B1EF3145A0072E3E0 /* MSDBStorage.m */; };
+		B2CD74CE1F22BFD00070E7DF /* MSMockService.m in Sources */ = {isa = PBXBuildFile; fileRef = 805F3F6A1F209C9D00B489E4 /* MSMockService.m */; };
 		B2FD53621E56501B0050F909 /* MSDeviceHistoryInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = B2FD53601E56501B0050F909 /* MSDeviceHistoryInfo.h */; };
 		B2FD53631E56501B0050F909 /* MSDeviceHistoryInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FD53611E56501B0050F909 /* MSDeviceHistoryInfo.m */; };
 		B2FD53651E567BCF0050F909 /* MSDeviceHistoryInfoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FD53641E567BCF0050F909 /* MSDeviceHistoryInfoTests.m */; };
 		BA68281EA947BB6E7F78354F /* MSIngestionSender.h in Headers */ = {isa = PBXBuildFile; fileRef = BA6824A001520825F18DFC42 /* MSIngestionSender.h */; };
 		BA682E63DDB55EED56809831 /* MSIngestionSender.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6822A89D38F04D8D95CE83 /* MSIngestionSender.m */; };
-		D341DBCE1E77F04300D385F9 /* MSLogDBStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = D341DBCD1E77EF8600D385F9 /* MSLogDBStorage.h */; };
-		D341DBD61E77FD8B00D385F9 /* MSLogDBStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = D341DBD51E77FD8B00D385F9 /* MSLogDBStorage.m */; };
 		D36136831E7BB338004AE043 /* MSStoragePerfomanceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D36136821E7BB338004AE043 /* MSStoragePerfomanceTests.m */; };
 		D377A30D1E83A05900B2C97A /* MSMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = D377A30C1E83A05900B2C97A /* MSMockUserDefaults.m */; };
 		D38023E81E6EFC7C00466558 /* MSStartServiceLog.m in Sources */ = {isa = PBXBuildFile; fileRef = D38023E61E6EFC7C00466558 /* MSStartServiceLog.m */; };
@@ -154,7 +432,6 @@
 		E84B8E391D235246006FD231 /* MSStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E381D235246006FD231 /* MSStorage.h */; };
 		E8753D6E1D4BE53F00241513 /* MSSenderUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = E8753D6C1D4BE53F00241513 /* MSSenderUtil.h */; };
 		E8753D6F1D4BE53F00241513 /* MSSenderUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = E8753D6D1D4BE53F00241513 /* MSSenderUtil.m */; };
-		E8831A9A1D41A58600931F11 /* MSDeviceTrackerPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = E8831A991D41A58600931F11 /* MSDeviceTrackerPrivate.h */; };
 		E88D17061D35B6B500A5EA57 /* MSMockLog.m in Sources */ = {isa = PBXBuildFile; fileRef = E88D17051D35B6B500A5EA57 /* MSMockLog.m */; };
 		E88EBBED1D2C612E007E7785 /* MSAbstractLog.m in Sources */ = {isa = PBXBuildFile; fileRef = E88EBBEB1D2C612E007E7785 /* MSAbstractLog.m */; };
 		E88EBBFB1D2C8CC7007E7785 /* MSLogContainerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E88EBBFA1D2C8CC7007E7785 /* MSLogContainerTests.m */; };
@@ -170,6 +447,34 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		046AEAF81ECA570000CBE511 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E0400FB1D1C98220051BCFA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04754F471EA98182002CBA46;
+			remoteInfo = MobileCenterMac;
+		};
+		046AEAFB1ECA57DF00CBE511 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E0400FB1D1C98220051BCFA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6E0401021D1C98220051BCFA;
+			remoteInfo = MobileCenter;
+		};
+		04FD11531EF2F667000C5A5C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E0400FB1D1C98220051BCFA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0485AFE61EAA937000C10CAF;
+			remoteInfo = MobileCenterMacOSFramework;
+		};
+		04FD116E1EF2FE2C000C5A5C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E0400FB1D1C98220051BCFA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 043121491EE0BFC7007054C5;
+			remoteInfo = MobileCenterTVOSFramework;
+		};
 		386352EE1D5114F200D0D450 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6E0400FB1D1C98220051BCFA /* Project object */;
@@ -177,16 +482,53 @@
 			remoteGlobalIDString = 6E04017D1D1CAC710051BCFA;
 			remoteInfo = "Fat Framework";
 		};
-		6E23957E1D22EF4F00E543C8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6E0400FB1D1C98220051BCFA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 6E0401021D1C98220051BCFA;
-			remoteInfo = MobileCenter;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		0420A6801ECA79AE00915619 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+				04F21A091ECB74BF0074978D /* OHHTTPStubs.framework in CopyFiles */,
+				04BED7121ECB649D00E20975 /* OCHamcrestIOS.framework in CopyFiles */,
+				0420A6811ECA79C300915619 /* OCMock.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0420A6821ECA79D600915619 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+				04F21A081ECB74AB0074978D /* OHHTTPStubs.framework in CopyFiles */,
+				04BED7111ECB649400E20975 /* OCHamcrest.framework in CopyFiles */,
+				0420A6831ECA79E200915619 /* OCMock.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		043120971EE0BCF9007054C5 /* Copy Files */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			name = "Copy Files";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		04754F6A1EA98182002CBA46 /* Copy Files */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			name = "Copy Files";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6E0401011D1C98220051BCFA /* Copy Files */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -200,10 +542,28 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		041CFF8D1ECCFFD200B4654B /* Tests macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests macOS.xcconfig"; path = "../../Config/Tests macOS.xcconfig"; sourceTree = "<group>"; };
+		04311FEE1EE083C2007054C5 /* MSTestFrameworks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSTestFrameworks.h; sourceTree = "<group>"; };
+		043120701EE0BCC4007054C5 /* tvOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = tvOS.modulemap; sourceTree = "<group>"; };
+		043120711EE0BCC4007054C5 /* tvOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = tvOS.xcconfig; sourceTree = "<group>"; };
+		043120DA1EE0BCF9007054C5 /* libMobileCenter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMobileCenter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		045660FA1D99EEEB002F7055 /* MSLogWithPropertiesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLogWithPropertiesTests.m; sourceTree = "<group>"; };
 		045BC3161E3FD88600B6C960 /* MSKeychainUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSKeychainUtil.m; sourceTree = "<group>"; };
 		045BC3181E3FD8AC00B6C960 /* MSKeychainUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSKeychainUtil.h; sourceTree = "<group>"; };
+		046AEAF61ECA562A00CBE511 /* MobileCenter.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MobileCenter.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		046AEB081ECA727200CBE511 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../iOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
+		046AEB0B1ECA729400CBE511 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../macOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
+		04754F3C1EA980FD002CBA46 /* MSDeviceTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDeviceTracker.m; sourceTree = "<group>"; };
+		04754F3D1EA980FD002CBA46 /* MSDeviceTrackerPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDeviceTrackerPrivate.h; sourceTree = "<group>"; };
+		04754FAB1EA98182002CBA46 /* libMobileCenter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMobileCenter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		04840CD71ECCF6560020B0FC /* Tests iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests iOS.xcconfig"; path = "../../Config/Tests iOS.xcconfig"; sourceTree = "<group>"; };
+		0485AFEC1EAAAC3B00C10CAF /* macOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = macOS.modulemap; sourceTree = "<group>"; };
+		0485AFEE1EAAAD0000C10CAF /* iOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = iOS.modulemap; sourceTree = "<group>"; };
+		049BC8281ECE3A5200FB6719 /* iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS.xcconfig; sourceTree = "<group>"; };
+		049BC8291ECE3A5A00FB6719 /* macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
 		04B7BBEE1E5FAD4D001A0CE1 /* MSSenderUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSSenderUtilTests.m; sourceTree = "<group>"; };
+		04BED70E1ECB63A100E20975 /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = ../../Vendor/macOS/OCHamcrest/OCHamcrest.framework; sourceTree = "<group>"; };
+		04F21A041ECB73EE0074978D /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = ../../macOS/OHHTTPStubs/OHHTTPStubs.framework; sourceTree = "<group>"; };
 		04FD126A1E4103CC007ABFE7 /* MSKeychainUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSKeychainUtilTests.m; sourceTree = "<group>"; };
 		04FD126E1E415697007ABFE7 /* MSLogManagerDefaultPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSLogManagerDefaultPrivate.h; sourceTree = "<group>"; };
 		3592ABA51DC90E3600EF4592 /* MSLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSLogger.h; sourceTree = "<group>"; };
@@ -214,13 +574,10 @@
 		3805DDA61EB7A6A6001DB846 /* MSMockOriginalAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSMockOriginalAppDelegate.m; sourceTree = "<group>"; };
 		380A4DCA1DD6908A00E99219 /* MSUtilityTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSUtilityTests.m; sourceTree = "<group>"; };
 		381C91E51D3DB65D004512F1 /* MSDeviceTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDeviceTracker.h; sourceTree = "<group>"; };
-		381C91E61D3DB65D004512F1 /* MSDeviceTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDeviceTracker.m; sourceTree = "<group>"; };
 		382CFCF01EC3817B003FE40B /* MSChannelDefaultPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSChannelDefaultPrivate.h; sourceTree = "<group>"; };
 		383481721EA7FF6100787F56 /* MSLogDBStoragePrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSLogDBStoragePrivate.h; sourceTree = "<group>"; };
 		3844FF121E8C22CC003E9194 /* MSAbstractLogInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAbstractLogInternal.h; sourceTree = "<group>"; };
 		3844FF141E8C253F003E9194 /* MSLogWithPropertiesInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSLogWithPropertiesInternal.h; sourceTree = "<group>"; };
-		3844FF171E8C2716003E9194 /* MSWrapperSdk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSWrapperSdk.m; path = Model/MSWrapperSdk.m; sourceTree = "<group>"; };
-		3844FF181E8C2716003E9194 /* MSWrapperSdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSWrapperSdk.h; path = Model/MSWrapperSdk.h; sourceTree = "<group>"; };
 		3844FF191E8C2716003E9194 /* MSLogWithProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSLogWithProperties.h; path = Model/MSLogWithProperties.h; sourceTree = "<group>"; };
 		3844FF1A1E8C2716003E9194 /* MSDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSDevice.m; path = Model/MSDevice.m; sourceTree = "<group>"; };
 		3844FF1B1E8C2716003E9194 /* MSDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSDevice.h; path = Model/MSDevice.h; sourceTree = "<group>"; };
@@ -236,7 +593,7 @@
 		38641B041EB0F40800B2CE73 /* MSAppDelegateForwarderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAppDelegateForwarderTests.m; sourceTree = "<group>"; };
 		386E8D911E25932100EECF0F /* MSHttpTestUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSHttpTestUtil.m; sourceTree = "<group>"; };
 		386E8D921E25932100EECF0F /* MSHttpTestUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSHttpTestUtil.h; sourceTree = "<group>"; };
-		386E970B1E0371D2000D37FE /* Global.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Global.xcconfig; path = ../../../Global.xcconfig; sourceTree = "<group>"; };
+		386E970B1E0371D2000D37FE /* Global.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Global.xcconfig; path = ../../../Config/Global.xcconfig; sourceTree = "<group>"; };
 		3872CA961ECA0B04006B2E3B /* MSMockCustomAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSMockCustomAppDelegate.h; sourceTree = "<group>"; };
 		3872CA971ECA0B04006B2E3B /* MSMockCustomAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSMockCustomAppDelegate.m; sourceTree = "<group>"; };
 		387C757F1D6270A300D68CC1 /* MSServiceAbstractInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MSServiceAbstractInternal.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -244,8 +601,6 @@
 		387C75951D64EE1900D68CC1 /* MSServiceAbstractTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSServiceAbstractTests.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		387C76D91D677EC100D68CC1 /* MSServiceAbstractPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSServiceAbstractPrivate.h; sourceTree = "<group>"; };
 		387C76FC1D6C9CF100D68CC1 /* MSServiceAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSServiceAbstract.h; sourceTree = "<group>"; };
-		38823A621EF86D9300477B9E /* MSUtility+File.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MSUtility+File.h"; sourceTree = "<group>"; };
-		38823A631EF86D9300477B9E /* MSUtility+File.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MSUtility+File.m"; sourceTree = "<group>"; };
 		3889932E1E29829700C27B36 /* MSMobileCenterErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSMobileCenterErrors.h; sourceTree = "<group>"; };
 		388993391E29B26D00C27B36 /* MSMobileCenterErrors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSMobileCenterErrors.m; sourceTree = "<group>"; };
 		38C4471D1ECE5352002E1B11 /* MSAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAppDelegate.h; sourceTree = "<group>"; };
@@ -267,22 +622,10 @@
 		6E0401561D1C9AAA0051BCFA /* MSMobileCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSMobileCenter.m; sourceTree = "<group>"; };
 		6E0401581D1C9CFB0051BCFA /* MobileCenter+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MobileCenter+Internal.h"; sourceTree = "<group>"; };
 		6E0401841D1CAD810051BCFA /* MobileCenter.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = MobileCenter.xcconfig; sourceTree = "<group>"; };
-		6E0401851D1CAD810051BCFA /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		6E0684611D36BC8D00A8CC6C /* MSChannelDefault.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MSChannelDefault.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		6E0684621D36BC8D00A8CC6C /* MSChannelDefault.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSChannelDefault.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		6E0684651D36BCD500A8CC6C /* MSChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MSChannel.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		6E171ADB1D22F6ED000DC480 /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrestIOS.framework; path = ../../Vendor/OCHamcrest/OCHamcrestIOS.framework; sourceTree = "<group>"; };
-		6E171B131D22FC2E000DC480 /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOCMock.a; sourceTree = "<group>"; };
-		6E171B151D22FC2E000DC480 /* NSNotificationCenter+OCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNotificationCenter+OCMAdditions.h"; sourceTree = "<group>"; };
-		6E171B161D22FC2E000DC480 /* OCMArg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMArg.h; sourceTree = "<group>"; };
-		6E171B171D22FC2E000DC480 /* OCMConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMConstraint.h; sourceTree = "<group>"; };
-		6E171B181D22FC2E000DC480 /* OCMFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMFunctions.h; sourceTree = "<group>"; };
-		6E171B191D22FC2E000DC480 /* OCMLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMLocation.h; sourceTree = "<group>"; };
-		6E171B1A1D22FC2E000DC480 /* OCMMacroState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMMacroState.h; sourceTree = "<group>"; };
-		6E171B1B1D22FC2E000DC480 /* OCMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMock.h; sourceTree = "<group>"; };
-		6E171B1C1D22FC2E000DC480 /* OCMockObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMockObject.h; sourceTree = "<group>"; };
-		6E171B1D1D22FC2E000DC480 /* OCMRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMRecorder.h; sourceTree = "<group>"; };
-		6E171B1E1D22FC2E000DC480 /* OCMStubRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMStubRecorder.h; sourceTree = "<group>"; };
+		6E171ADB1D22F6ED000DC480 /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrestIOS.framework; path = ../../Vendor/iOS/OCHamcrest/OCHamcrestIOS.framework; sourceTree = "<group>"; };
 		6E171B581D234717000DC480 /* MSLogContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSLogContainer.h; sourceTree = "<group>"; };
 		6E171B591D234717000DC480 /* MSLogContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLogContainer.m; sourceTree = "<group>"; };
 		6E2395781D22EF4F00E543C8 /* MobileCenter.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MobileCenter.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -297,28 +640,33 @@
 		6EF628F31D371B1600CAFF64 /* MSChannelConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSChannelConfiguration.m; sourceTree = "<group>"; };
 		805F3F691F209C8A00B489E4 /* MSMockService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSMockService.h; sourceTree = "<group>"; };
 		805F3F6A1F209C9D00B489E4 /* MSMockService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSMockService.m; sourceTree = "<group>"; };
-		842C13151E7FCF5300F16EA3 /* MSUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSUtility.h; sourceTree = "<group>"; };
-		842C13161E7FCF5300F16EA3 /* MSUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSUtility.m; sourceTree = "<group>"; };
-		842C13171E7FCF5300F16EA3 /* MSUtility+Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MSUtility+Application.h"; sourceTree = "<group>"; };
-		842C13181E7FCF5300F16EA3 /* MSUtility+Application.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MSUtility+Application.m"; sourceTree = "<group>"; };
-		842C13191E7FCF5300F16EA3 /* MSUtility+ApplicationPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MSUtility+ApplicationPrivate.h"; sourceTree = "<group>"; };
-		842C131A1E7FCF5300F16EA3 /* MSUtility+Date.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MSUtility+Date.h"; sourceTree = "<group>"; };
-		842C131B1E7FCF5300F16EA3 /* MSUtility+Date.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MSUtility+Date.m"; sourceTree = "<group>"; };
-		842C131C1E7FCF5300F16EA3 /* MSUtility+Environment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MSUtility+Environment.h"; sourceTree = "<group>"; };
-		842C131D1E7FCF5300F16EA3 /* MSUtility+Environment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MSUtility+Environment.m"; sourceTree = "<group>"; };
-		B21E298F1E83521A00F9A22D /* MSUtility+StringFormatting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MSUtility+StringFormatting.h"; sourceTree = "<group>"; };
-		B21E29901E83521A00F9A22D /* MSUtility+StringFormatting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MSUtility+StringFormatting.m"; sourceTree = "<group>"; };
 		B24F3F161D93A3FF00827213 /* MSLoggerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLoggerTests.m; sourceTree = "<group>"; };
 		B2B9441D1DF0DF23009117D1 /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OHHTTPStubs.framework; sourceTree = "<group>"; };
 		B2C3C1831DB83A3E00CB83F7 /* MSDeviceInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDeviceInternal.h; sourceTree = "<group>"; };
-		B2C3C1851DB841ED00CB83F7 /* MSWrapperSdkInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSWrapperSdkInternal.h; sourceTree = "<group>"; };
+		B2CD74551F22BB710070E7DF /* MSWrapperSdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSWrapperSdk.h; path = Model/MSWrapperSdk.h; sourceTree = "<group>"; };
+		B2CD74561F22BB710070E7DF /* MSWrapperSdk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSWrapperSdk.m; path = Model/MSWrapperSdk.m; sourceTree = "<group>"; };
+		B2CD745D1F22BBBB0070E7DF /* MSWrapperSdkInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSWrapperSdkInternal.h; sourceTree = "<group>"; };
+		B2CD74831F22BD910070E7DF /* MSLogDBStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSLogDBStorage.h; sourceTree = "<group>"; };
+		B2CD74841F22BD910070E7DF /* MSLogDBStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLogDBStorage.m; sourceTree = "<group>"; };
+		B2CD748F1F22BE270070E7DF /* MSConstants+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MSConstants+Internal.h"; sourceTree = "<group>"; };
+		B2CD74901F22BE270070E7DF /* MSUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSUtility.h; sourceTree = "<group>"; };
+		B2CD74911F22BE270070E7DF /* MSUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSUtility.m; sourceTree = "<group>"; };
+		B2CD74921F22BE270070E7DF /* MSUtility+Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MSUtility+Application.h"; sourceTree = "<group>"; };
+		B2CD74931F22BE270070E7DF /* MSUtility+Application.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MSUtility+Application.m"; sourceTree = "<group>"; };
+		B2CD74941F22BE270070E7DF /* MSUtility+ApplicationPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MSUtility+ApplicationPrivate.h"; sourceTree = "<group>"; };
+		B2CD74951F22BE270070E7DF /* MSUtility+Date.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MSUtility+Date.h"; sourceTree = "<group>"; };
+		B2CD74961F22BE270070E7DF /* MSUtility+Date.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MSUtility+Date.m"; sourceTree = "<group>"; };
+		B2CD74971F22BE270070E7DF /* MSUtility+Environment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MSUtility+Environment.h"; sourceTree = "<group>"; };
+		B2CD74981F22BE270070E7DF /* MSUtility+Environment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MSUtility+Environment.m"; sourceTree = "<group>"; };
+		B2CD74991F22BE270070E7DF /* MSUtility+File.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MSUtility+File.h"; sourceTree = "<group>"; };
+		B2CD749A1F22BE270070E7DF /* MSUtility+File.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MSUtility+File.m"; sourceTree = "<group>"; };
+		B2CD749B1F22BE270070E7DF /* MSUtility+StringFormatting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MSUtility+StringFormatting.h"; sourceTree = "<group>"; };
+		B2CD749C1F22BE270070E7DF /* MSUtility+StringFormatting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MSUtility+StringFormatting.m"; sourceTree = "<group>"; };
 		B2FD53601E56501B0050F909 /* MSDeviceHistoryInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDeviceHistoryInfo.h; sourceTree = "<group>"; };
 		B2FD53611E56501B0050F909 /* MSDeviceHistoryInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDeviceHistoryInfo.m; sourceTree = "<group>"; };
 		B2FD53641E567BCF0050F909 /* MSDeviceHistoryInfoTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDeviceHistoryInfoTests.m; sourceTree = "<group>"; };
 		BA6822A89D38F04D8D95CE83 /* MSIngestionSender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSIngestionSender.m; sourceTree = "<group>"; };
 		BA6824A001520825F18DFC42 /* MSIngestionSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSIngestionSender.h; sourceTree = "<group>"; };
-		D341DBCD1E77EF8600D385F9 /* MSLogDBStorage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSLogDBStorage.h; sourceTree = "<group>"; };
-		D341DBD51E77FD8B00D385F9 /* MSLogDBStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLogDBStorage.m; sourceTree = "<group>"; };
 		D36136821E7BB338004AE043 /* MSStoragePerfomanceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSStoragePerfomanceTests.m; sourceTree = "<group>"; };
 		D377A30B1E83A04600B2C97A /* MSMockUserDefaults.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSMockUserDefaults.h; sourceTree = "<group>"; };
 		D377A30C1E83A05900B2C97A /* MSMockUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSMockUserDefaults.m; sourceTree = "<group>"; };
@@ -330,7 +678,6 @@
 		E80EB1051D50273700C9003F /* MSSenderCall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSSenderCall.h; sourceTree = "<group>"; };
 		E80EB1061D50273700C9003F /* MSSenderCall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSSenderCall.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		E829E4221D25C8BA00F19DA1 /* MSIngestionSenderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSIngestionSenderTests.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		E829E4241D25D07600F19DA1 /* MSConstants+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MSConstants+Internal.h"; sourceTree = "<group>"; };
 		E83283C41D46C62E000B029E /* MS_Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MS_Reachability.h; sourceTree = "<group>"; };
 		E83283C51D46C62E000B029E /* MS_Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MS_Reachability.m; sourceTree = "<group>"; };
 		E84B8E2B1D2351DB006FD231 /* MSLogManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSLogManager.h; sourceTree = "<group>"; };
@@ -342,7 +689,6 @@
 		E84B8E381D235246006FD231 /* MSStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSStorage.h; sourceTree = "<group>"; };
 		E8753D6C1D4BE53F00241513 /* MSSenderUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSSenderUtil.h; sourceTree = "<group>"; };
 		E8753D6D1D4BE53F00241513 /* MSSenderUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSSenderUtil.m; sourceTree = "<group>"; };
-		E8831A991D41A58600931F11 /* MSDeviceTrackerPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDeviceTrackerPrivate.h; sourceTree = "<group>"; };
 		E88D17041D35B6B500A5EA57 /* MSMockLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSMockLog.h; sourceTree = "<group>"; };
 		E88D17051D35B6B500A5EA57 /* MSMockLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSMockLog.m; sourceTree = "<group>"; };
 		E88EBBEB1D2C612E007E7785 /* MSAbstractLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAbstractLog.m; sourceTree = "<group>"; };
@@ -358,10 +704,34 @@
 		F803BBFA1E8E39AB004B1E7A /* MSCustomPropertiesLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSCustomPropertiesLog.h; sourceTree = "<group>"; };
 		F803BC371E8E6927004B1E7A /* MSCustomPropertiesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCustomPropertiesTests.m; sourceTree = "<group>"; };
 		F803BC391E8E6963004B1E7A /* MSCustomPropertiesLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCustomPropertiesLogTests.m; sourceTree = "<group>"; };
-		F87A05571E72BD7C0038A6F9 /* Tests.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Tests.xcconfig; path = ../../../Tests.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		043120961EE0BCF9007054C5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		046AEAED1ECA562A00CBE511 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				046AEAFA1ECA570500CBE511 /* libMobileCenter.a in Frameworks */,
+				04BED7101ECB63A800E20975 /* OCHamcrest.framework in Frameworks */,
+				046AEB0C1ECA729400CBE511 /* OCMock.framework in Frameworks */,
+				04F21A071ECB74200074978D /* OHHTTPStubs.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		04754F691EA98182002CBA46 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6E0401001D1C98220051BCFA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -373,24 +743,90 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E171B1F1D22FC2E000DC480 /* libOCMock.a in Frameworks */,
-				B2B9441E1DF0DF23009117D1 /* OHHTTPStubs.framework in Frameworks */,
 				6E23957D1D22EF4F00E543C8 /* libMobileCenter.a in Frameworks */,
 				6E171ADC1D22F6ED000DC480 /* OCHamcrestIOS.framework in Frameworks */,
+				046AEB091ECA727200CBE511 /* OCMock.framework in Frameworks */,
+				B2B9441E1DF0DF23009117D1 /* OHHTTPStubs.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		046AEB0E1ECA731700CBE511 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				046AEB081ECA727200CBE511 /* OCMock.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		046AEB0F1ECA731E00CBE511 /* macOS */ = {
+			isa = PBXGroup;
+			children = (
+				046AEB0B1ECA729400CBE511 /* OCMock.framework */,
+			);
+			name = macOS;
+			sourceTree = "<group>";
+		};
+		04A140AB1ECE7F6F001CEE94 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				04840CD71ECCF6560020B0FC /* Tests iOS.xcconfig */,
+				041CFF8D1ECCFFD200B4654B /* Tests macOS.xcconfig */,
+			);
+			name = Support;
+			sourceTree = "<group>";
+		};
+		04BED70B1ECB636900E20975 /* OCHamcrest */ = {
+			isa = PBXGroup;
+			children = (
+				04BED70D1ECB637E00E20975 /* iOS */,
+				04BED70C1ECB637800E20975 /* macOS */,
+			);
+			name = OCHamcrest;
+			sourceTree = "<group>";
+		};
+		04BED70C1ECB637800E20975 /* macOS */ = {
+			isa = PBXGroup;
+			children = (
+				04BED70E1ECB63A100E20975 /* OCHamcrest.framework */,
+			);
+			name = macOS;
+			sourceTree = "<group>";
+		};
+		04BED70D1ECB637E00E20975 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				6E171ADB1D22F6ED000DC480 /* OCHamcrestIOS.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		04F21A021ECB73AA0074978D /* macOS */ = {
+			isa = PBXGroup;
+			children = (
+				04F21A041ECB73EE0074978D /* OHHTTPStubs.framework */,
+			);
+			name = macOS;
+			sourceTree = "<group>";
+		};
+		04F21A031ECB73AE0074978D /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				B2B9441D1DF0DF23009117D1 /* OHHTTPStubs.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
 		381C91E21D3DB65D004512F1 /* Device */ = {
 			isa = PBXGroup;
 			children = (
 				B2FD53601E56501B0050F909 /* MSDeviceHistoryInfo.h */,
 				B2FD53611E56501B0050F909 /* MSDeviceHistoryInfo.m */,
 				381C91E51D3DB65D004512F1 /* MSDeviceTracker.h */,
-				381C91E61D3DB65D004512F1 /* MSDeviceTracker.m */,
-				E8831A991D41A58600931F11 /* MSDeviceTrackerPrivate.h */,
+				04754F3D1EA980FD002CBA46 /* MSDeviceTrackerPrivate.h */,
+				04754F3C1EA980FD002CBA46 /* MSDeviceTracker.m */,
 			);
 			path = Device;
 			sourceTree = "<group>";
@@ -398,12 +834,12 @@
 		3844FF161E8C261D003E9194 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				3844FF171E8C2716003E9194 /* MSWrapperSdk.m */,
-				3844FF181E8C2716003E9194 /* MSWrapperSdk.h */,
 				3844FF191E8C2716003E9194 /* MSLogWithProperties.h */,
 				3844FF1A1E8C2716003E9194 /* MSDevice.m */,
 				3844FF1B1E8C2716003E9194 /* MSDevice.h */,
 				3844FF1C1E8C2716003E9194 /* MSAbstractLog.h */,
+				B2CD74551F22BB710070E7DF /* MSWrapperSdk.h */,
+				B2CD74561F22BB710070E7DF /* MSWrapperSdk.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -434,6 +870,9 @@
 			children = (
 				6E0401031D1C98220051BCFA /* libMobileCenter.a */,
 				6E2395781D22EF4F00E543C8 /* MobileCenter.xctest */,
+				04754FAB1EA98182002CBA46 /* libMobileCenter.a */,
+				046AEAF61ECA562A00CBE511 /* MobileCenter.xctest */,
+				043120DA1EE0BCF9007054C5 /* libMobileCenter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -491,24 +930,23 @@
 		6E0401481D1C99AC0051BCFA /* Util */ = {
 			isa = PBXGroup;
 			children = (
-				842C13151E7FCF5300F16EA3 /* MSUtility.h */,
-				842C13161E7FCF5300F16EA3 /* MSUtility.m */,
-				842C13171E7FCF5300F16EA3 /* MSUtility+Application.h */,
-				842C13181E7FCF5300F16EA3 /* MSUtility+Application.m */,
-				842C13191E7FCF5300F16EA3 /* MSUtility+ApplicationPrivate.h */,
-				842C131A1E7FCF5300F16EA3 /* MSUtility+Date.h */,
-				842C131B1E7FCF5300F16EA3 /* MSUtility+Date.m */,
-				842C131C1E7FCF5300F16EA3 /* MSUtility+Environment.h */,
-				842C131D1E7FCF5300F16EA3 /* MSUtility+Environment.m */,
-				38823A621EF86D9300477B9E /* MSUtility+File.h */,
-				38823A631EF86D9300477B9E /* MSUtility+File.m */,
-				B21E298F1E83521A00F9A22D /* MSUtility+StringFormatting.h */,
-				B21E29901E83521A00F9A22D /* MSUtility+StringFormatting.m */,
-				E829E4241D25D07600F19DA1 /* MSConstants+Internal.h */,
+				B2CD748F1F22BE270070E7DF /* MSConstants+Internal.h */,
+				B2CD74901F22BE270070E7DF /* MSUtility.h */,
+				B2CD74911F22BE270070E7DF /* MSUtility.m */,
+				B2CD74921F22BE270070E7DF /* MSUtility+Application.h */,
+				B2CD74931F22BE270070E7DF /* MSUtility+Application.m */,
+				B2CD74941F22BE270070E7DF /* MSUtility+ApplicationPrivate.h */,
+				B2CD74951F22BE270070E7DF /* MSUtility+Date.h */,
+				B2CD74961F22BE270070E7DF /* MSUtility+Date.m */,
+				B2CD74971F22BE270070E7DF /* MSUtility+Environment.h */,
+				B2CD74981F22BE270070E7DF /* MSUtility+Environment.m */,
+				B2CD74991F22BE270070E7DF /* MSUtility+File.h */,
+				B2CD749A1F22BE270070E7DF /* MSUtility+File.m */,
+				B2CD749B1F22BE270070E7DF /* MSUtility+StringFormatting.h */,
+				B2CD749C1F22BE270070E7DF /* MSUtility+StringFormatting.m */,
 				045BC3161E3FD88600B6C960 /* MSKeychainUtil.m */,
 				045BC3181E3FD8AC00B6C960 /* MSKeychainUtil.h */,
 			);
-			name = Util;
 			path = Util;
 			sourceTree = "<group>";
 		};
@@ -517,8 +955,12 @@
 			children = (
 				386E970B1E0371D2000D37FE /* Global.xcconfig */,
 				6E0401841D1CAD810051BCFA /* MobileCenter.xcconfig */,
-				6E0401851D1CAD810051BCFA /* module.modulemap */,
-				F87A05571E72BD7C0038A6F9 /* Tests.xcconfig */,
+				049BC8281ECE3A5200FB6719 /* iOS.xcconfig */,
+				0485AFEE1EAAAD0000C10CAF /* iOS.modulemap */,
+				049BC8291ECE3A5A00FB6719 /* macOS.xcconfig */,
+				0485AFEC1EAAAC3B00C10CAF /* macOS.modulemap */,
+				043120711EE0BCC4007054C5 /* tvOS.xcconfig */,
+				043120701EE0BCC4007054C5 /* tvOS.modulemap */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -526,37 +968,21 @@
 		6E171B121D22FC2E000DC480 /* OCMock */ = {
 			isa = PBXGroup;
 			children = (
-				6E171B131D22FC2E000DC480 /* libOCMock.a */,
-				6E171B141D22FC2E000DC480 /* OCMock */,
+				046AEB0E1ECA731700CBE511 /* iOS */,
+				046AEB0F1ECA731E00CBE511 /* macOS */,
 			);
 			name = OCMock;
-			path = ../../Vendor/OCMock;
-			sourceTree = "<group>";
-		};
-		6E171B141D22FC2E000DC480 /* OCMock */ = {
-			isa = PBXGroup;
-			children = (
-				6E171B151D22FC2E000DC480 /* NSNotificationCenter+OCMAdditions.h */,
-				6E171B161D22FC2E000DC480 /* OCMArg.h */,
-				6E171B171D22FC2E000DC480 /* OCMConstraint.h */,
-				6E171B181D22FC2E000DC480 /* OCMFunctions.h */,
-				6E171B191D22FC2E000DC480 /* OCMLocation.h */,
-				6E171B1A1D22FC2E000DC480 /* OCMMacroState.h */,
-				6E171B1B1D22FC2E000DC480 /* OCMock.h */,
-				6E171B1C1D22FC2E000DC480 /* OCMockObject.h */,
-				6E171B1D1D22FC2E000DC480 /* OCMRecorder.h */,
-				6E171B1E1D22FC2E000DC480 /* OCMStubRecorder.h */,
-			);
-			path = OCMock;
+			path = ../../Vendor/Common/OCMock;
 			sourceTree = "<group>";
 		};
 		6E171B221D22FF40000DC480 /* OHHTTPStubs */ = {
 			isa = PBXGroup;
 			children = (
-				B2B9441D1DF0DF23009117D1 /* OHHTTPStubs.framework */,
+				04F21A031ECB73AE0074978D /* iOS */,
+				04F21A021ECB73AA0074978D /* macOS */,
 			);
 			name = OHHTTPStubs;
-			path = ../../Vendor/OHHTTPStubs;
+			path = ../../Vendor/iOS/OHHTTPStubs;
 			sourceTree = "<group>";
 		};
 		6E171B511D234717000DC480 /* Model */ = {
@@ -575,7 +1001,7 @@
 				6E7D5C791D3E94F8009EC9AC /* MSSerializableObject.h */,
 				D38023E71E6EFC7C00466558 /* MSStartServiceLog.h */,
 				D38023E61E6EFC7C00466558 /* MSStartServiceLog.m */,
-				B2C3C1851DB841ED00CB83F7 /* MSWrapperSdkInternal.h */,
+				B2CD745D1F22BBBB0070E7DF /* MSWrapperSdkInternal.h */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -607,6 +1033,7 @@
 				38641B041EB0F40800B2CE73 /* MSAppDelegateForwarderTests.m */,
 				380A4DCA1DD6908A00E99219 /* MSUtilityTests.m */,
 				6E2395831D22EF5F00E543C8 /* Frameworks */,
+				04A140AB1ECE7F6F001CEE94 /* Support */,
 				6E363AEF1D2C84D60079043D /* Util */,
 			);
 			path = MobileCenterTests;
@@ -615,9 +1042,9 @@
 		6E2395831D22EF5F00E543C8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				6E171B221D22FF40000DC480 /* OHHTTPStubs */,
+				04BED70B1ECB636900E20975 /* OCHamcrest */,
 				6E171B121D22FC2E000DC480 /* OCMock */,
-				6E171ADB1D22F6ED000DC480 /* OCHamcrestIOS.framework */,
+				6E171B221D22FF40000DC480 /* OHHTTPStubs */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -637,6 +1064,7 @@
 				3872CA971ECA0B04006B2E3B /* MSMockCustomAppDelegate.m */,
 				805F3F691F209C8A00B489E4 /* MSMockService.h */,
 				805F3F6A1F209C9D00B489E4 /* MSMockService.m */,
+				04311FEE1EE083C2007054C5 /* MSTestFrameworks.h */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -682,9 +1110,9 @@
 				E84B8E381D235246006FD231 /* MSStorage.h */,
 				E8A8D1E91D3057A90022931E /* MSUserDefaults.h */,
 				E8A8D1EA1D3057A90022931E /* MSUserDefaults.m */,
+				B2CD74831F22BD910070E7DF /* MSLogDBStorage.h */,
+				B2CD74841F22BD910070E7DF /* MSLogDBStorage.m */,
 				383481721EA7FF6100787F56 /* MSLogDBStoragePrivate.h */,
-				D341DBCD1E77EF8600D385F9 /* MSLogDBStorage.h */,
-				D341DBD51E77FD8B00D385F9 /* MSLogDBStorage.m */,
 				3849BA791EF314440072E3E0 /* MSDBStorage.h */,
 				3849BA7B1EF3145A0072E3E0 /* MSDBStorage.m */,
 				3849BA841EF35D830072E3E0 /* MSDBStoragePrivate.h */,
@@ -724,21 +1152,165 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		043120981EE0BCF9007054C5 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				043120991EE0BCF9007054C5 /* MSUserDefaults.h in Headers */,
+				0431209A1EE0BCF9007054C5 /* MSHttpSenderPrivate.h in Headers */,
+				B2CD74AE1F22BE270070E7DF /* MSUtility+ApplicationPrivate.h in Headers */,
+				0431209B1EE0BCF9007054C5 /* MSSenderCall.h in Headers */,
+				041EFD2C1EE1CAD4006DCD56 /* MSLogWithPropertiesInternal.h in Headers */,
+				0431209C1EE0BCF9007054C5 /* MSSender.h in Headers */,
+				B2CD74B11F22BE270070E7DF /* MSUtility+Date.h in Headers */,
+				B2CD74C91F22BEC70070E7DF /* MSDBStoragePrivate.h in Headers */,
+				0431209D1EE0BCF9007054C5 /* MSServiceCommon.h in Headers */,
+				B2181B7B1F26852600D2EEAE /* MSWrapperSdk.h in Headers */,
+				043120A01EE0BCF9007054C5 /* MSCustomProperties.h in Headers */,
+				043120A21EE0BCF9007054C5 /* MSMobileCenter.h in Headers */,
+				043120A31EE0BCF9007054C5 /* MSLogManagerDefaultPrivate.h in Headers */,
+				043120A41EE0BCF9007054C5 /* MSMobileCenterPrivate.h in Headers */,
+				043120A51EE0BCF9007054C5 /* MSServiceAbstractInternal.h in Headers */,
+				043120A71EE0BCF9007054C5 /* MSServiceAbstractPrivate.h in Headers */,
+				043120A81EE0BCF9007054C5 /* MSSenderUtil.h in Headers */,
+				041EFD271EE1CAA1006DCD56 /* MSDevice.h in Headers */,
+				B2CD74B71F22BE270070E7DF /* MSUtility+Environment.h in Headers */,
+				043120A91EE0BCF9007054C5 /* MSSenderCallDelegate.h in Headers */,
+				043120AA1EE0BCF9007054C5 /* MS_Reachability.h in Headers */,
+				043120AB1EE0BCF9007054C5 /* MSConstants.h in Headers */,
+				B2CD74A81F22BE270070E7DF /* MSUtility+Application.h in Headers */,
+				043120AC1EE0BCF9007054C5 /* MSChannelDefaultPrivate.h in Headers */,
+				043120AD1EE0BCF9007054C5 /* MSDeviceHistoryInfo.h in Headers */,
+				B2CD74A21F22BE270070E7DF /* MSUtility.h in Headers */,
+				043120AF1EE0BCF9007054C5 /* MobileCenter+Internal.h in Headers */,
+				043120B01EE0BCF9007054C5 /* MSChannel.h in Headers */,
+				043120B11EE0BCF9007054C5 /* MSSenderDelegate.h in Headers */,
+				B2CD74C31F22BE270070E7DF /* MSUtility+StringFormatting.h in Headers */,
+				043120B21EE0BCF9007054C5 /* MSStartServiceLog.h in Headers */,
+				045C0BED1EEB122A0038FD6B /* MSAppDelegate.h in Headers */,
+				045C0BEE1EEB122D0038FD6B /* MSAppDelegateForwarder.h in Headers */,
+				043120B31EE0BCF9007054C5 /* MSServiceAbstract.h in Headers */,
+				043120B41EE0BCF9007054C5 /* MSDeviceInternal.h in Headers */,
+				043120B71EE0BCF9007054C5 /* MSLog.h in Headers */,
+				041EFD261EE1CA98006DCD56 /* MSAbstractLog.h in Headers */,
+				B2CD74871F22BD910070E7DF /* MSLogDBStorage.h in Headers */,
+				043120B91EE0BCF9007054C5 /* MSStorage.h in Headers */,
+				043120BA1EE0BCF9007054C5 /* MSLogger.h in Headers */,
+				043120BB1EE0BCF9007054C5 /* MSSerializableObject.h in Headers */,
+				043120BD1EE0BCF9007054C5 /* MSChannelDefault.h in Headers */,
+				043120BE1EE0BCF9007054C5 /* MSDeviceTrackerPrivate.h in Headers */,
+				B2CD748C1F22BDA70070E7DF /* MSDBStorage.h in Headers */,
+				043120BF1EE0BCF9007054C5 /* MSLogManagerDelegate.h in Headers */,
+				043120C01EE0BCF9007054C5 /* MobileCenter.h in Headers */,
+				043120C11EE0BCF9007054C5 /* MSHttpSender.h in Headers */,
+				043120C21EE0BCF9007054C5 /* MSLogContainer.h in Headers */,
+				043120C61EE0BCF9007054C5 /* MSChannelConfiguration.h in Headers */,
+				043120C71EE0BCF9007054C5 /* MSMobileCenterInternal.h in Headers */,
+				043120C81EE0BCF9007054C5 /* MSService.h in Headers */,
+				045C0BF01EEB12320038FD6B /* MSAppDelegateForwarderPrivate.h in Headers */,
+				B2CD74CB1F22BF8D0070E7DF /* MSLogDBStoragePrivate.h in Headers */,
+				043120CA1EE0BCF9007054C5 /* MSServiceInternal.h in Headers */,
+				043120CB1EE0BCF9007054C5 /* MSWrapperLogger.h in Headers */,
+				043120CC1EE0BCF9007054C5 /* MSMobileCenterErrors.h in Headers */,
+				043120CD1EE0BCF9007054C5 /* MSLogManager.h in Headers */,
+				B2CD749F1F22BE270070E7DF /* MSConstants+Internal.h in Headers */,
+				043120CE1EE0BCF9007054C5 /* MSServiceAbstractProtected.h in Headers */,
+				043120CF1EE0BCF9007054C5 /* MSEnable.h in Headers */,
+				B2CD74BD1F22BE270070E7DF /* MSUtility+File.h in Headers */,
+				043120D11EE0BCF9007054C5 /* MSDeviceTracker.h in Headers */,
+				043120D21EE0BCF9007054C5 /* MSLogManagerDefault.h in Headers */,
+				043120D31EE0BCF9007054C5 /* MSKeychainUtil.h in Headers */,
+				043120D51EE0BCF9007054C5 /* MSChannelDelegate.h in Headers */,
+				041EFD291EE1CAAC006DCD56 /* MSLogWithProperties.h in Headers */,
+				043120D61EE0BCF9007054C5 /* MSIngestionSender.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		04754F6B1EA98182002CBA46 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04754F6C1EA98182002CBA46 /* MSUserDefaults.h in Headers */,
+				04754F6D1EA98182002CBA46 /* MSHttpSenderPrivate.h in Headers */,
+				04754F6E1EA98182002CBA46 /* MSSenderCall.h in Headers */,
+				04754F6F1EA98182002CBA46 /* MSSender.h in Headers */,
+				04754F701EA98182002CBA46 /* MSServiceCommon.h in Headers */,
+				04754F741EA98182002CBA46 /* MSMobileCenter.h in Headers */,
+				04754F751EA98182002CBA46 /* MSLogManagerDefaultPrivate.h in Headers */,
+				04754F761EA98182002CBA46 /* MSMobileCenterPrivate.h in Headers */,
+				04754F771EA98182002CBA46 /* MSServiceAbstractInternal.h in Headers */,
+				04754F791EA98182002CBA46 /* MSServiceAbstractPrivate.h in Headers */,
+				B2CD74581F22BB710070E7DF /* MSWrapperSdk.h in Headers */,
+				04754F7A1EA98182002CBA46 /* MSSenderUtil.h in Headers */,
+				04754F7B1EA98182002CBA46 /* MSSenderCallDelegate.h in Headers */,
+				B2CD74861F22BD910070E7DF /* MSLogDBStorage.h in Headers */,
+				04754F7C1EA98182002CBA46 /* MS_Reachability.h in Headers */,
+				B2CD74A11F22BE270070E7DF /* MSUtility.h in Headers */,
+				04754F7D1EA98182002CBA46 /* MSConstants.h in Headers */,
+				04754F7E1EA98182002CBA46 /* MSDeviceHistoryInfo.h in Headers */,
+				04754F801EA98182002CBA46 /* MobileCenter+Internal.h in Headers */,
+				04754F811EA98182002CBA46 /* MSChannel.h in Headers */,
+				04754F821EA98182002CBA46 /* MSSenderDelegate.h in Headers */,
+				04754F831EA98182002CBA46 /* MSStartServiceLog.h in Headers */,
+				049BC8411ECE4DFF00FB6719 /* MSDeviceTrackerPrivate.h in Headers */,
+				B2CD74C81F22BEC60070E7DF /* MSDBStoragePrivate.h in Headers */,
+				0499F8581EDF979F00C3EDDA /* MSAbstractLog.h in Headers */,
+				04754F841EA98182002CBA46 /* MSServiceAbstract.h in Headers */,
+				04754F881EA98182002CBA46 /* MSLog.h in Headers */,
+				0499F8571EDF979D00C3EDDA /* MSDevice.h in Headers */,
+				04754F8A1EA98182002CBA46 /* MSStorage.h in Headers */,
+				041EFD2E1EE1CADA006DCD56 /* MSDeviceInternal.h in Headers */,
+				B2CD74AD1F22BE270070E7DF /* MSUtility+ApplicationPrivate.h in Headers */,
+				04754F8B1EA98182002CBA46 /* MSLogger.h in Headers */,
+				04754F8C1EA98182002CBA46 /* MSSerializableObject.h in Headers */,
+				04754F8E1EA98182002CBA46 /* MSChannelDefault.h in Headers */,
+				B2CD749E1F22BE270070E7DF /* MSConstants+Internal.h in Headers */,
+				04754F901EA98182002CBA46 /* MSLogManagerDelegate.h in Headers */,
+				B2CD74BC1F22BE270070E7DF /* MSUtility+File.h in Headers */,
+				B2CD74CA1F22BF8C0070E7DF /* MSLogDBStoragePrivate.h in Headers */,
+				04754F911EA98182002CBA46 /* MobileCenter.h in Headers */,
+				04754F921EA98182002CBA46 /* MSHttpSender.h in Headers */,
+				04754F931EA98182002CBA46 /* MSLogContainer.h in Headers */,
+				04754F971EA98182002CBA46 /* MSChannelConfiguration.h in Headers */,
+				04754F981EA98182002CBA46 /* MSMobileCenterInternal.h in Headers */,
+				044864C51EBD12F200031019 /* MSCustomProperties.h in Headers */,
+				04754F991EA98182002CBA46 /* MSService.h in Headers */,
+				B2CD74A71F22BE270070E7DF /* MSUtility+Application.h in Headers */,
+				04754F9B1EA98182002CBA46 /* MSServiceInternal.h in Headers */,
+				04754F9C1EA98182002CBA46 /* MSWrapperLogger.h in Headers */,
+				B2CD74C21F22BE270070E7DF /* MSUtility+StringFormatting.h in Headers */,
+				04754F9D1EA98182002CBA46 /* MSMobileCenterErrors.h in Headers */,
+				B2CD74B01F22BE270070E7DF /* MSUtility+Date.h in Headers */,
+				04754F9E1EA98182002CBA46 /* MSLogManager.h in Headers */,
+				04754F9F1EA98182002CBA46 /* MSServiceAbstractProtected.h in Headers */,
+				04754FA01EA98182002CBA46 /* MSEnable.h in Headers */,
+				0499F8551EDF979700C3EDDA /* MSLogWithProperties.h in Headers */,
+				041EFD2D1EE1CAD5006DCD56 /* MSLogWithPropertiesInternal.h in Headers */,
+				B2CD74C71F22BEBF0070E7DF /* MSDBStorage.h in Headers */,
+				04754FA21EA98182002CBA46 /* MSDeviceTracker.h in Headers */,
+				04754FA31EA98182002CBA46 /* MSLogManagerDefault.h in Headers */,
+				B2CD74B61F22BE270070E7DF /* MSUtility+Environment.h in Headers */,
+				04754FA41EA98182002CBA46 /* MSKeychainUtil.h in Headers */,
+				04754FA61EA98182002CBA46 /* MSChannelDelegate.h in Headers */,
+				04754FA71EA98182002CBA46 /* MSIngestionSender.h in Headers */,
+				041EFD2F1EE1CAE9006DCD56 /* MSChannelDefaultPrivate.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6E0401691D1C9E0B0051BCFA /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				E8A8D1EB1D3057A90022931E /* MSUserDefaults.h in Headers */,
-				E8831A9A1D41A58600931F11 /* MSDeviceTrackerPrivate.h in Headers */,
 				38F1944E1DADB93100D3E0FE /* MSHttpSenderPrivate.h in Headers */,
 				E80EB1071D50273700C9003F /* MSSenderCall.h in Headers */,
 				E84B8E321D235209006FD231 /* MSSender.h in Headers */,
 				387C758F1D64E50800D68CC1 /* MSServiceCommon.h in Headers */,
-				842C131E1E7FCF5300F16EA3 /* MSUtility.h in Headers */,
 				3849BA851EF35D830072E3E0 /* MSDBStoragePrivate.h in Headers */,
 				3844FF221E8C2716003E9194 /* MSAbstractLog.h in Headers */,
 				3844FF151E8C253F003E9194 /* MSLogWithPropertiesInternal.h in Headers */,
 				F803BBF31E8E3677004B1E7A /* MSCustomProperties.h in Headers */,
+				B2CD74571F22BB710070E7DF /* MSWrapperSdk.h in Headers */,
 				04FD126F1E415697007ABFE7 /* MSLogManagerDefaultPrivate.h in Headers */,
 				3849BA7A1EF314440072E3E0 /* MSDBStorage.h in Headers */,
 				38E1B67A1DDE3FDF000EFED1 /* MSMobileCenterPrivate.h in Headers */,
@@ -750,49 +1322,54 @@
 				E83283C61D46C62E000B029E /* MS_Reachability.h in Headers */,
 				6E04016B1D1C9E1F0051BCFA /* MSConstants.h in Headers */,
 				3844FF1F1E8C2716003E9194 /* MSLogWithProperties.h in Headers */,
+				B2CD74AF1F22BE270070E7DF /* MSUtility+Date.h in Headers */,
 				382CFCF11EC3817B003FE40B /* MSChannelDefaultPrivate.h in Headers */,
 				B2FD53621E56501B0050F909 /* MSDeviceHistoryInfo.h in Headers */,
 				6E04016D1D1C9E460051BCFA /* MobileCenter+Internal.h in Headers */,
 				6E0684671D36BCD500A8CC6C /* MSChannel.h in Headers */,
+				B2CD749D1F22BE270070E7DF /* MSConstants+Internal.h in Headers */,
 				384772A61DA5691F009365DE /* MSSenderDelegate.h in Headers */,
 				D38023E91E6EFC7C00466558 /* MSStartServiceLog.h in Headers */,
 				387C76FD1D6C9CF100D68CC1 /* MSServiceAbstract.h in Headers */,
+				B2CD74A61F22BE270070E7DF /* MSUtility+Application.h in Headers */,
+				B2CD74AC1F22BE270070E7DF /* MSUtility+ApplicationPrivate.h in Headers */,
+				B2C3C1841DB83A3E00CB83F7 /* MSDeviceInternal.h in Headers */,
 				B289FF881F291F9D00AA2E06 /* MSDeviceInternal.h in Headers */,
 				383481731EA7FF6100787F56 /* MSLogDBStoragePrivate.h in Headers */,
 				B21E29911E83521A00F9A22D /* MSUtility+StringFormatting.h in Headers */,
 				842C13251E7FCF5300F16EA3 /* MSUtility+Environment.h in Headers */,
 				6E3E2C9E1D35701000B1EE50 /* MSLog.h in Headers */,
-				842C13231E7FCF5300F16EA3 /* MSUtility+Date.h in Headers */,
 				E84B8E391D235246006FD231 /* MSStorage.h in Headers */,
-				38823A641EF86D9300477B9E /* MSUtility+File.h in Headers */,
+				B2CD74B51F22BE270070E7DF /* MSUtility+Environment.h in Headers */,
+				B2CD74851F22BD910070E7DF /* MSLogDBStorage.h in Headers */,
 				3592ABA71DC90E3600EF4592 /* MSLogger.h in Headers */,
 				6E7D5C7B1D3E94F8009EC9AC /* MSSerializableObject.h in Headers */,
 				6E0684631D36BC8D00A8CC6C /* MSChannelDefault.h in Headers */,
+				B2CD745E1F22BBBB0070E7DF /* MSWrapperSdkInternal.h in Headers */,
+				04754F431EA980FD002CBA46 /* MSDeviceTrackerPrivate.h in Headers */,
 				E8AEE9821D5970A400C0FF6C /* MSLogManagerDelegate.h in Headers */,
 				3844FF211E8C2716003E9194 /* MSDevice.h in Headers */,
 				6E04016C1D1C9E1F0051BCFA /* MobileCenter.h in Headers */,
 				E84B8E351D235226006FD231 /* MSHttpSender.h in Headers */,
 				6E171B601D234717000DC480 /* MSLogContainer.h in Headers */,
+				B2CD74C11F22BE270070E7DF /* MSUtility+StringFormatting.h in Headers */,
 				38C447241ECE5352002E1B11 /* MSAppDelegateForwarderPrivate.h in Headers */,
+				B2CD74BB1F22BE270070E7DF /* MSUtility+File.h in Headers */,
 				6EF628F41D371B1600CAFF64 /* MSChannelConfiguration.h in Headers */,
 				6E04016F1D1C9E460051BCFA /* MSMobileCenterInternal.h in Headers */,
 				6E0401701D1C9E460051BCFA /* MSService.h in Headers */,
 				6E0401711D1C9E460051BCFA /* MSServiceInternal.h in Headers */,
 				35D0B7531DDFABFD003EACCD /* MSWrapperLogger.h in Headers */,
-				3844FF1E1E8C2716003E9194 /* MSWrapperSdk.h in Headers */,
 				3889932F1E29829700C27B36 /* MSMobileCenterErrors.h in Headers */,
 				E84B8E2E1D2351DB006FD231 /* MSLogManager.h in Headers */,
+				B2CD74A01F22BE270070E7DF /* MSUtility.h in Headers */,
 				385AD9221D95898D008B354A /* MSServiceAbstractProtected.h in Headers */,
-				D341DBCE1E77F04300D385F9 /* MSLogDBStorage.h in Headers */,
 				38EAD9AC1DA6A8C500CE6030 /* MSEnable.h in Headers */,
-				842C13201E7FCF5300F16EA3 /* MSUtility+Application.h in Headers */,
 				3844FF131E8C22CC003E9194 /* MSAbstractLogInternal.h in Headers */,
 				381C91E91D3DB65D004512F1 /* MSDeviceTracker.h in Headers */,
-				842C13221E7FCF5300F16EA3 /* MSUtility+ApplicationPrivate.h in Headers */,
 				E84B8E2F1D2351DB006FD231 /* MSLogManagerDefault.h in Headers */,
 				38C447221ECE5352002E1B11 /* MSAppDelegateForwarder.h in Headers */,
 				045BC3191E3FD8AC00B6C960 /* MSKeychainUtil.h in Headers */,
-				6E48A5A81D3856F5006E8B5F /* MSConstants+Internal.h in Headers */,
 				59493FB23FC790090683581A /* MSChannelDelegate.h in Headers */,
 				BA68281EA947BB6E7F78354F /* MSIngestionSender.h in Headers */,
 				38FD798F1EB7B0B800DE2FB3 /* MSMobileCenter.h in Headers */,
@@ -802,9 +1379,64 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		6E0401021D1C98220051BCFA /* MobileCenter */ = {
+		043120721EE0BCF9007054C5 /* MobileCenterTVOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6E04010C1D1C98220051BCFA /* Build configuration list for PBXNativeTarget "MobileCenter" */;
+			buildConfigurationList = 043120D71EE0BCF9007054C5 /* Build configuration list for PBXNativeTarget "MobileCenterTVOS" */;
+			buildPhases = (
+				043120731EE0BCF9007054C5 /* Sources */,
+				043120961EE0BCF9007054C5 /* Frameworks */,
+				043120971EE0BCF9007054C5 /* Copy Files */,
+				043120981EE0BCF9007054C5 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MobileCenterTVOS;
+			productName = MobileCenter;
+			productReference = 043120DA1EE0BCF9007054C5 /* libMobileCenter.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		046AEACF1ECA562A00CBE511 /* MobileCenterMacOSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 046AEAF31ECA562A00CBE511 /* Build configuration list for PBXNativeTarget "MobileCenterMacOSTests" */;
+			buildPhases = (
+				046AEAD21ECA562A00CBE511 /* Sources */,
+				046AEAED1ECA562A00CBE511 /* Frameworks */,
+				046AEAF21ECA562A00CBE511 /* Resources */,
+				0420A6821ECA79D600915619 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				046AEAF91ECA570000CBE511 /* PBXTargetDependency */,
+			);
+			name = MobileCenterMacOSTests;
+			productName = MobileCenterTests;
+			productReference = 046AEAF61ECA562A00CBE511 /* MobileCenter.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		04754F471EA98182002CBA46 /* MobileCenterMacOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 04754FA81EA98182002CBA46 /* Build configuration list for PBXNativeTarget "MobileCenterMacOS" */;
+			buildPhases = (
+				04754F481EA98182002CBA46 /* Sources */,
+				04754F691EA98182002CBA46 /* Frameworks */,
+				04754F6A1EA98182002CBA46 /* Copy Files */,
+				04754F6B1EA98182002CBA46 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MobileCenterMacOS;
+			productName = MobileCenter;
+			productReference = 04754FAB1EA98182002CBA46 /* libMobileCenter.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		6E0401021D1C98220051BCFA /* MobileCenterIOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6E04010C1D1C98220051BCFA /* Build configuration list for PBXNativeTarget "MobileCenterIOS" */;
 			buildPhases = (
 				6E0400FF1D1C98220051BCFA /* Sources */,
 				6E0401001D1C98220051BCFA /* Frameworks */,
@@ -815,25 +1447,26 @@
 			);
 			dependencies = (
 			);
-			name = MobileCenter;
+			name = MobileCenterIOS;
 			productName = MobileCenter;
 			productReference = 6E0401031D1C98220051BCFA /* libMobileCenter.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		6E2395771D22EF4F00E543C8 /* MobileCenterTests */ = {
+		6E2395771D22EF4F00E543C8 /* MobileCenterIOSTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6E2395801D22EF4F00E543C8 /* Build configuration list for PBXNativeTarget "MobileCenterTests" */;
+			buildConfigurationList = 6E2395801D22EF4F00E543C8 /* Build configuration list for PBXNativeTarget "MobileCenterIOSTests" */;
 			buildPhases = (
 				6E2395741D22EF4F00E543C8 /* Sources */,
 				6E2395751D22EF4F00E543C8 /* Frameworks */,
 				6E2395761D22EF4F00E543C8 /* Resources */,
+				0420A6801ECA79AE00915619 /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				6E23957F1D22EF4F00E543C8 /* PBXTargetDependency */,
+				046AEAFC1ECA57DF00CBE511 /* PBXTargetDependency */,
 			);
-			name = MobileCenterTests;
+			name = MobileCenterIOSTests;
 			productName = MobileCenterTests;
 			productReference = 6E2395781D22EF4F00E543C8 /* MobileCenter.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -848,6 +1481,9 @@
 				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = Microsoft;
 				TargetAttributes = {
+					046AEACF1ECA562A00CBE511 = {
+						ProvisioningStyle = Automatic;
+					};
 					6E0401021D1C98220051BCFA = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
@@ -856,6 +1492,7 @@
 					};
 					6E2395771D22EF4F00E543C8 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = L4RARDNZ2Y;
 					};
 					6E6BFC311D234FAE00DF7617 = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -874,15 +1511,29 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6E0401021D1C98220051BCFA /* MobileCenter */,
-				6E04017D1D1CAC710051BCFA /* MobileCenterFramework */,
-				6E2395771D22EF4F00E543C8 /* MobileCenterTests */,
-				6E6BFC311D234FAE00DF7617 /* MobileCenterDoc */,
+				6E0401021D1C98220051BCFA /* MobileCenterIOS */,
+				6E04017D1D1CAC710051BCFA /* MobileCenterIOSFramework */,
+				6E2395771D22EF4F00E543C8 /* MobileCenterIOSTests */,
+				6E6BFC311D234FAE00DF7617 /* MobileCenterIOSDoc */,
+				04754F471EA98182002CBA46 /* MobileCenterMacOS */,
+				0485AFE61EAA937000C10CAF /* MobileCenterMacOSFramework */,
+				046AEACF1ECA562A00CBE511 /* MobileCenterMacOSTests */,
+				04FD114C1EF2F5F0000C5A5C /* MobileCenterMacOSDoc */,
+				043120721EE0BCF9007054C5 /* MobileCenterTVOS */,
+				043121491EE0BFC7007054C5 /* MobileCenterTVOSFramework */,
+				04FD11671EF2FE1D000C5A5C /* MobileCenterTVOSDoc */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		046AEAF21ECA562A00CBE511 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6E2395761D22EF4F00E543C8 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -893,6 +1544,58 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		0431214A1EE0BFC7007054C5 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=MobileCenter\nTGT_NAME=${FMK_NAME}TVOS\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-Apple/tvOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-appletvos\nSIMULATOR_DIR=${WRK_DIR}/Release-appletvsimulator\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" -sdk appletvos\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" -sdk appletvsimulator\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Support/tvOS.modulemap\" \"${INSTALL_DIR}/Modules/module.modulemap\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-appletvos/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Headers/\"\n\n# Uses the Lipo Tool to merge both binary files (i386 + arm64) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" \"${SIMULATOR_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\n\nrm -r \"${WRK_DIR}\"\n\n# Copy license and readme\ncp -f \"${SRCROOT}/../LICENSE\" \"${PRODUCTS_DIR}\"\ncp -f \"${SRCROOT}/../README.md\" \"${PRODUCTS_DIR}\"\ncp -f \"${SRCROOT}/../CHANGELOG.md\" \"${PRODUCTS_DIR}\"\n";
+		};
+		0485AFE71EAA937000C10CAF /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=MobileCenter\nTGT_NAME=${FMK_NAME}MacOS\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-Apple/macOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\"\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Support/macOS.modulemap\" \"${INSTALL_DIR}/Modules/module.modulemap\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Headers/\"\n\n# Uses the Lipo Tool to copy binary file (x86_64) into final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\n\nrm -r \"${WRK_DIR}\"\n\n# Copy license and readme\ncp -f \"${SRCROOT}/../LICENSE\" \"${PRODUCTS_DIR}\"\ncp -f \"${SRCROOT}/../README.md\" \"${PRODUCTS_DIR}\"\ncp -f \"${SRCROOT}/../CHANGELOG.md\" \"${PRODUCTS_DIR}\"\n";
+		};
+		04FD114F1EF2F5F0000C5A5C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ ! -x \"$(command -v jazzy)\" ]\nthen\n  echo \"Couldn't find jazzy. Install jazzy before building frameworks\"\n  exit 1\nfi\n\njazzy --config ../Documentation/macOS/MobileCenter/.jazzy.yaml\n\nFMK_NAME=MobileCenter\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-Apple/macOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\nDOCUMENTATION_DIR=${PRODUCTS_DIR}/Documentation/${FMK_NAME}\n\n# Create Documentation directory within folder.\nif [ ! -d \"${DOCUMENTATION_DIR}\" ]\nthen\nmkdir -p \"${DOCUMENTATION_DIR}\"\nfi\n\n# Copy generated documentation into the documentation folder\ncp -R \"${SRCROOT}/../Documentation/macOS/${FMK_NAME}/Generated/\" \"${DOCUMENTATION_DIR}\"";
+		};
+		04FD116A1EF2FE1D000C5A5C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ ! -x \"$(command -v jazzy)\" ]\nthen\necho \"Couldn't find jazzy. Install jazzy before building frameworks\"\nexit 1\nfi\n\njazzy --config ../Documentation/tvOS/MobileCenter/.jazzy.yaml\n\nFMK_NAME=MobileCenter\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-Apple/tvOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\nDOCUMENTATION_DIR=${PRODUCTS_DIR}/Documentation/${FMK_NAME}\n\n# Create Documentation directory within folder.\nif [ ! -d \"${DOCUMENTATION_DIR}\" ]\nthen\nmkdir -p \"${DOCUMENTATION_DIR}\"\nfi\n\n# Copy generated documentation into the documentation folder\ncp -R \"${SRCROOT}/../Documentation/tvOS/${FMK_NAME}/Generated/\" \"${DOCUMENTATION_DIR}\"";
+		};
 		6E0401811D1CAC770051BCFA /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -904,7 +1607,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=MobileCenter\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-iOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphoneos\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Support/module.modulemap\" \"${INSTALL_DIR}/Modules/\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Headers/\"\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7/armv7s/arm64) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" \"${SIMULATOR_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\n\nrm -r \"${WRK_DIR}\"\n\n# Copy license and readme\ncp -f \"${SRCROOT}/../LICENSE\" \"${PRODUCTS_DIR}\"\ncp -f \"${SRCROOT}/../README.md\" \"${PRODUCTS_DIR}\"\ncp -f \"${SRCROOT}/../CHANGELOG.md\" \"${PRODUCTS_DIR}\"\n\n";
+			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=MobileCenter\nTGT_NAME=${FMK_NAME}IOS\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-Apple/iOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" -sdk iphoneos\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Support/iOS.modulemap\" \"${INSTALL_DIR}/Modules/module.modulemap\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Headers/\"\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7/armv7s/arm64) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" \"${SIMULATOR_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\n\nrm -r \"${WRK_DIR}\"\n\n# Copy license and readme\ncp -f \"${SRCROOT}/../LICENSE\" \"${PRODUCTS_DIR}\"\ncp -f \"${SRCROOT}/../README.md\" \"${PRODUCTS_DIR}\"\ncp -f \"${SRCROOT}/../CHANGELOG.md\" \"${PRODUCTS_DIR}\"\n";
 		};
 		6E6BFC351D234FBF00DF7617 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -917,39 +1620,149 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd ../Documentation/MobileCenter\njazzy\n\nFMK_NAME=MobileCenter\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-iOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\nDOCUMENTATION_DIR=${PRODUCTS_DIR}/Documentation/${FMK_NAME}\n\n# Create Documentation directory within folder.\nif [ ! -d \"${DOCUMENTATION_DIR}\" ]\nthen\nmkdir -p \"${DOCUMENTATION_DIR}\"\nfi\n\n# Copy generated documentation into the documentation folder\ncp -R \"${SRCROOT}/../Documentation/${FMK_NAME}/Generated/\" \"${DOCUMENTATION_DIR}\"";
+			shellScript = "if [ ! -x \"$(command -v jazzy)\" ]\nthen\necho \"Couldn't find jazzy. Install jazzy before building frameworks\"\nexit 1\nfi\n\njazzy --config ../Documentation/iOS/MobileCenter/.jazzy.yaml\n\nFMK_NAME=MobileCenter\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-Apple/iOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\nDOCUMENTATION_DIR=${PRODUCTS_DIR}/Documentation/${FMK_NAME}\n\n# Create Documentation directory within folder.\nif [ ! -d \"${DOCUMENTATION_DIR}\" ]\nthen\nmkdir -p \"${DOCUMENTATION_DIR}\"\nfi\n\n# Copy generated documentation into the documentation folder\ncp -R \"${SRCROOT}/../Documentation/iOS/${FMK_NAME}/Generated/\" \"${DOCUMENTATION_DIR}\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		043120731EE0BCF9007054C5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B2CD74C61F22BE270070E7DF /* MSUtility+StringFormatting.m in Sources */,
+				043120741EE0BCF9007054C5 /* MSMobileCenter.m in Sources */,
+				043120761EE0BCF9007054C5 /* MSLogger.m in Sources */,
+				B2CD74BA1F22BE270070E7DF /* MSUtility+Environment.m in Sources */,
+				043120771EE0BCF9007054C5 /* MSChannelConfiguration.m in Sources */,
+				043120781EE0BCF9007054C5 /* MSLogContainer.m in Sources */,
+				B2CD74AB1F22BE270070E7DF /* MSUtility+Application.m in Sources */,
+				0431207B1EE0BCF9007054C5 /* MSMobileCenterErrors.m in Sources */,
+				045C0BEF1EEB12300038FD6B /* MSAppDelegateForwarder.m in Sources */,
+				B2CD74A51F22BE270070E7DF /* MSUtility.m in Sources */,
+				0431207C1EE0BCF9007054C5 /* MSDeviceHistoryInfo.m in Sources */,
+				0431207D1EE0BCF9007054C5 /* MSCustomProperties.m in Sources */,
+				B2181B7C1F26852B00D2EEAE /* MSWrapperSdk.m in Sources */,
+				041EFD281EE1CAA6006DCD56 /* MSDevice.m in Sources */,
+				043120801EE0BCF9007054C5 /* MSHttpSender.m in Sources */,
+				043120811EE0BCF9007054C5 /* MSServiceAbstract.m in Sources */,
+				043120821EE0BCF9007054C5 /* MSLogManagerDefault.m in Sources */,
+				B2CD74CD1F22BFA40070E7DF /* MSDBStorage.m in Sources */,
+				043120831EE0BCF9007054C5 /* MSStartServiceLog.m in Sources */,
+				043120841EE0BCF9007054C5 /* MSSenderUtil.m in Sources */,
+				B2CD74C01F22BE270070E7DF /* MSUtility+File.m in Sources */,
+				043120851EE0BCF9007054C5 /* MSCustomPropertiesLog.m in Sources */,
+				043120861EE0BCF9007054C5 /* MSAbstractLog.m in Sources */,
+				043120871EE0BCF9007054C5 /* MSKeychainUtil.m in Sources */,
+				B2CD748A1F22BD910070E7DF /* MSLogDBStorage.m in Sources */,
+				043120881EE0BCF9007054C5 /* MSWrapperLogger.m in Sources */,
+				0431208A1EE0BCF9007054C5 /* MSChannelDefault.m in Sources */,
+				0431208B1EE0BCF9007054C5 /* MSSenderCall.m in Sources */,
+				0431208D1EE0BCF9007054C5 /* MS_Reachability.m in Sources */,
+				B2CD74B41F22BE270070E7DF /* MSUtility+Date.m in Sources */,
+				0431208E1EE0BCF9007054C5 /* MSLogWithProperties.m in Sources */,
+				0431208F1EE0BCF9007054C5 /* MSUserDefaults.m in Sources */,
+				043120911EE0BCF9007054C5 /* MSDeviceTracker.m in Sources */,
+				043120951EE0BCF9007054C5 /* MSIngestionSender.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		046AEAD21ECA562A00CBE511 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				046AEAD31ECA562A00CBE511 /* MSCustomPropertiesLogTests.m in Sources */,
+				04A140871ECE63BB001CEE94 /* MSServiceAbstractTests.m in Sources */,
+				046AEAD41ECA562A00CBE511 /* MSMockUserDefaults.m in Sources */,
+				046AEAD71ECA562A00CBE511 /* MSLogWithPropertiesTests.m in Sources */,
+				046AEAD81ECA562A00CBE511 /* MSDeviceLogTests.m in Sources */,
+				046AEADA1ECA562A00CBE511 /* MSChannelDefaultTests.m in Sources */,
+				046AEADD1ECA562A00CBE511 /* MSHttpTestUtil.m in Sources */,
+				046AEADE1ECA562A00CBE511 /* MSDeviceHistoryInfoTests.m in Sources */,
+				04A140881ECE63BF001CEE94 /* MSMobileCenterTests.m in Sources */,
+				04A140891ECE63C3001CEE94 /* MSLoggerTests.m in Sources */,
+				046AEAE31ECA562A00CBE511 /* MSKeychainUtilTests.m in Sources */,
+				04A1408B1ECE63CB001CEE94 /* MSIngestionSenderTests.m in Sources */,
+				046AEAE41ECA562A00CBE511 /* MSStartServiceLogTests.m in Sources */,
+				046AEAE61ECA562A00CBE511 /* MSChannelConfigurationTests.m in Sources */,
+				046AEAE81ECA562A00CBE511 /* MSCustomPropertiesTests.m in Sources */,
+				04A140861ECE60C6001CEE94 /* MSUtilityTests.m in Sources */,
+				046AEAE91ECA562A00CBE511 /* MSSenderUtilTests.m in Sources */,
+				04A1408A1ECE63C7001CEE94 /* MSLogContainerTests.m in Sources */,
+				049BC8431ECE524D00FB6719 /* MSDeviceTrackerTests.m in Sources */,
+				B2CD74CE1F22BFD00070E7DF /* MSMockService.m in Sources */,
+				046AEAEB1ECA562A00CBE511 /* MSMockLog.m in Sources */,
+				046AEAEC1ECA562A00CBE511 /* MSLogManagerDefaultTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		04754F481EA98182002CBA46 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04754F491EA98182002CBA46 /* MSMobileCenter.m in Sources */,
+				04754F4B1EA98182002CBA46 /* MSLogger.m in Sources */,
+				B2CD74B31F22BE270070E7DF /* MSUtility+Date.m in Sources */,
+				04754F4C1EA98182002CBA46 /* MSChannelConfiguration.m in Sources */,
+				B2CD74A41F22BE270070E7DF /* MSUtility.m in Sources */,
+				04754F4D1EA98182002CBA46 /* MSLogContainer.m in Sources */,
+				B2CD74B91F22BE270070E7DF /* MSUtility+Environment.m in Sources */,
+				04754F501EA98182002CBA46 /* MSMobileCenterErrors.m in Sources */,
+				04754F511EA98182002CBA46 /* MSDeviceHistoryInfo.m in Sources */,
+				04754F541EA98182002CBA46 /* MSHttpSender.m in Sources */,
+				0499F8561EDF979A00C3EDDA /* MSDevice.m in Sources */,
+				04754F551EA98182002CBA46 /* MSServiceAbstract.m in Sources */,
+				04754F561EA98182002CBA46 /* MSLogManagerDefault.m in Sources */,
+				B2CD745B1F22BB710070E7DF /* MSWrapperSdk.m in Sources */,
+				B2CD74C51F22BE270070E7DF /* MSUtility+StringFormatting.m in Sources */,
+				049BC8421ECE4EDB00FB6719 /* MSDeviceTracker.m in Sources */,
+				B2CD74BF1F22BE270070E7DF /* MSUtility+File.m in Sources */,
+				04754F571EA98182002CBA46 /* MSStartServiceLog.m in Sources */,
+				04754F581EA98182002CBA46 /* MSSenderUtil.m in Sources */,
+				B2CD74CC1F22BFA30070E7DF /* MSDBStorage.m in Sources */,
+				044864C71EBD13B400031019 /* MSCustomPropertiesLog.m in Sources */,
+				04754F591EA98182002CBA46 /* MSAbstractLog.m in Sources */,
+				04754F5A1EA98182002CBA46 /* MSKeychainUtil.m in Sources */,
+				04754F5B1EA98182002CBA46 /* MSWrapperLogger.m in Sources */,
+				04754F5D1EA98182002CBA46 /* MSChannelDefault.m in Sources */,
+				04754F5E1EA98182002CBA46 /* MSSenderCall.m in Sources */,
+				04754F601EA98182002CBA46 /* MS_Reachability.m in Sources */,
+				04754F611EA98182002CBA46 /* MSLogWithProperties.m in Sources */,
+				04754F621EA98182002CBA46 /* MSUserDefaults.m in Sources */,
+				044864C61EBD130300031019 /* MSCustomProperties.m in Sources */,
+				04754F681EA98182002CBA46 /* MSIngestionSender.m in Sources */,
+				B2CD74891F22BD910070E7DF /* MSLogDBStorage.m in Sources */,
+				B2CD74AA1F22BE270070E7DF /* MSUtility+Application.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6E0400FF1D1C98220051BCFA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				6E0401571D1C9AAA0051BCFA /* MSMobileCenter.m in Sources */,
-				D341DBD61E77FD8B00D385F9 /* MSLogDBStorage.m in Sources */,
 				3592ABA81DC90E3600EF4592 /* MSLogger.m in Sources */,
+				B2CD74B21F22BE270070E7DF /* MSUtility+Date.m in Sources */,
 				6EF628F51D371B1600CAFF64 /* MSChannelConfiguration.m in Sources */,
+				B2CD74A31F22BE270070E7DF /* MSUtility.m in Sources */,
 				6E171B611D234717000DC480 /* MSLogContainer.m in Sources */,
+				B2CD74B81F22BE270070E7DF /* MSUtility+Environment.m in Sources */,
 				3889933A1E29B26D00C27B36 /* MSMobileCenterErrors.m in Sources */,
 				B2FD53631E56501B0050F909 /* MSDeviceHistoryInfo.m in Sources */,
 				3849BA7C1EF3145A0072E3E0 /* MSDBStorage.m in Sources */,
 				F803BBF41E8E3677004B1E7A /* MSCustomProperties.m in Sources */,
-				B21E29921E83521A00F9A22D /* MSUtility+StringFormatting.m in Sources */,
-				842C13261E7FCF5300F16EA3 /* MSUtility+Environment.m in Sources */,
+				B2CD74881F22BD910070E7DF /* MSLogDBStorage.m in Sources */,
 				E84B8E361D235226006FD231 /* MSHttpSender.m in Sources */,
 				D38024061E7126F500466558 /* MSServiceAbstract.m in Sources */,
+				B2CD74C41F22BE270070E7DF /* MSUtility+StringFormatting.m in Sources */,
 				E84B8E301D2351DB006FD231 /* MSLogManagerDefault.m in Sources */,
+				B2CD74BE1F22BE270070E7DF /* MSUtility+File.m in Sources */,
 				D38023E81E6EFC7C00466558 /* MSStartServiceLog.m in Sources */,
 				E8753D6F1D4BE53F00241513 /* MSSenderUtil.m in Sources */,
 				F803BBF91E8E3989004B1E7A /* MSCustomPropertiesLog.m in Sources */,
 				E88EBBED1D2C612E007E7785 /* MSAbstractLog.m in Sources */,
-				38823A651EF86D9300477B9E /* MSUtility+File.m in Sources */,
-				3844FF1D1E8C2716003E9194 /* MSWrapperSdk.m in Sources */,
-				842C13211E7FCF5300F16EA3 /* MSUtility+Application.m in Sources */,
-				381C91EA1D3DB65D004512F1 /* MSDeviceTracker.m in Sources */,
 				045BC3171E3FD88600B6C960 /* MSKeychainUtil.m in Sources */,
 				35D0B7541DDFABFD003EACCD /* MSWrapperLogger.m in Sources */,
+				B2CD745A1F22BB710070E7DF /* MSWrapperSdk.m in Sources */,
 				3844FF201E8C2716003E9194 /* MSDevice.m in Sources */,
 				6E0684641D36BC8D00A8CC6C /* MSChannelDefault.m in Sources */,
 				38C447231ECE5352002E1B11 /* MSAppDelegateForwarder.m in Sources */,
@@ -957,9 +1770,9 @@
 				E83283C71D46C62E000B029E /* MS_Reachability.m in Sources */,
 				E8010E6B1D2DD4EF0035196F /* MSLogWithProperties.m in Sources */,
 				E8A8D1EC1D3057A90022931E /* MSUserDefaults.m in Sources */,
-				842C13241E7FCF5300F16EA3 /* MSUtility+Date.m in Sources */,
-				842C131F1E7FCF5300F16EA3 /* MSUtility.m in Sources */,
+				04754F421EA980FD002CBA46 /* MSDeviceTracker.m in Sources */,
 				BA682E63DDB55EED56809831 /* MSIngestionSender.m in Sources */,
+				B2CD74A91F22BE270070E7DF /* MSUtility+Application.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1001,64 +1814,145 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		046AEAF91ECA570000CBE511 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04754F471EA98182002CBA46 /* MobileCenterMacOS */;
+			targetProxy = 046AEAF81ECA570000CBE511 /* PBXContainerItemProxy */;
+		};
+		046AEAFC1ECA57DF00CBE511 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6E0401021D1C98220051BCFA /* MobileCenterIOS */;
+			targetProxy = 046AEAFB1ECA57DF00CBE511 /* PBXContainerItemProxy */;
+		};
+		04FD11541EF2F667000C5A5C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0485AFE61EAA937000C10CAF /* MobileCenterMacOSFramework */;
+			targetProxy = 04FD11531EF2F667000C5A5C /* PBXContainerItemProxy */;
+		};
+		04FD116F1EF2FE2C000C5A5C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 043121491EE0BFC7007054C5 /* MobileCenterTVOSFramework */;
+			targetProxy = 04FD116E1EF2FE2C000C5A5C /* PBXContainerItemProxy */;
+		};
 		386352EF1D5114F200D0D450 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 6E04017D1D1CAC710051BCFA /* MobileCenterFramework */;
+			target = 6E04017D1D1CAC710051BCFA /* MobileCenterIOSFramework */;
 			targetProxy = 386352EE1D5114F200D0D450 /* PBXContainerItemProxy */;
-		};
-		6E23957F1D22EF4F00E543C8 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 6E0401021D1C98220051BCFA /* MobileCenter */;
-			targetProxy = 6E23957E1D22EF4F00E543C8 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		043120D81EE0BCF9007054C5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 043120711EE0BCC4007054C5 /* tvOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		043120D91EE0BCF9007054C5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 043120711EE0BCC4007054C5 /* tvOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		0431214C1EE0BFC7007054C5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 043120711EE0BCC4007054C5 /* tvOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		0431214D1EE0BFC7007054C5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 043120711EE0BCC4007054C5 /* tvOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		046AEAF41ECA562A00CBE511 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 041CFF8D1ECCFFD200B4654B /* Tests macOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		046AEAF51ECA562A00CBE511 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 041CFF8D1ECCFFD200B4654B /* Tests macOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		04754FA91EA98182002CBA46 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8291ECE3A5A00FB6719 /* macOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		04754FAA1EA98182002CBA46 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8291ECE3A5A00FB6719 /* macOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		0485AFE91EAA937000C10CAF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8291ECE3A5A00FB6719 /* macOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		0485AFEA1EAA937000C10CAF /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8291ECE3A5A00FB6719 /* macOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		04FD11511EF2F5F0000C5A5C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8291ECE3A5A00FB6719 /* macOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		04FD11521EF2F5F0000C5A5C /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8291ECE3A5A00FB6719 /* macOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		04FD116C1EF2FE1D000C5A5C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 043120711EE0BCC4007054C5 /* tvOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		04FD116D1EF2FE1D000C5A5C /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 043120711EE0BCC4007054C5 /* tvOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
 		6E04010A1D1C98220051BCFA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6E0401841D1CAD810051BCFA /* MobileCenter.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = NO;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				COPY_PHASE_STRIP = NO;
-				DEAD_CODE_STRIPPING = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = "$(inherited)";
-				SDKROOT = iphoneos;
-				VALID_ARCHS = "$(MS_ARM_ARCHS)";
 			};
 			name = Debug;
 		};
@@ -1066,144 +1960,135 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6E0401841D1CAD810051BCFA /* MobileCenter.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = NO;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				COPY_PHASE_STRIP = NO;
-				DEAD_CODE_STRIPPING = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "$(inherited)";
-				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
 		6E04010D1D1C98220051BCFA /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8281ECE3A5200FB6719 /* iOS.xcconfig */;
 			buildSettings = {
-				"ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenter;
-				PRODUCT_NAME = MobileCenter;
-				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
-				SKIP_INSTALL = YES;
-				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
 			};
 			name = Debug;
 		};
 		6E04010E1D1C98220051BCFA /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8281ECE3A5200FB6719 /* iOS.xcconfig */;
 			buildSettings = {
-				"ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenter;
-				PRODUCT_NAME = MobileCenter;
-				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
-				SKIP_INSTALL = YES;
-				"VALID_ARCHS[sdk=iphonesimulator*]" = "$(MS_SIM_ARCHS)";
 			};
 			name = Release;
 		};
 		6E04017E1D1CAC710051BCFA /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8281ECE3A5200FB6719 /* iOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
 		6E04017F1D1CAC710051BCFA /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8281ECE3A5200FB6719 /* iOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
 		6E2395811D22EF4F00E543C8 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F87A05571E72BD7C0038A6F9 /* Tests.xcconfig */;
+			baseConfigurationReference = 04840CD71ECCF6560020B0FC /* Tests iOS.xcconfig */;
 			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = NO;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
-				INFOPLIST_FILE = MobileCenterTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecentertests;
-				PRODUCT_NAME = MobileCenter;
 			};
 			name = Debug;
 		};
 		6E2395821D22EF4F00E543C8 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F87A05571E72BD7C0038A6F9 /* Tests.xcconfig */;
+			baseConfigurationReference = 04840CD71ECCF6560020B0FC /* Tests iOS.xcconfig */;
 			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = NO;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
-				INFOPLIST_FILE = MobileCenterTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecentertests;
-				PRODUCT_NAME = MobileCenter;
 			};
 			name = Release;
 		};
 		6E6BFC321D234FAE00DF7617 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8281ECE3A5200FB6719 /* iOS.xcconfig */;
 			buildSettings = {
-				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
-				OTHER_CFLAGS = "";
-				PRODUCT_NAME = MobileCenter;
-				VALID_ARCHS = "";
 			};
 			name = Debug;
 		};
 		6E6BFC331D234FAE00DF7617 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8281ECE3A5200FB6719 /* iOS.xcconfig */;
 			buildSettings = {
-				OTHER_CFLAGS = "";
-				PRODUCT_NAME = MobileCenter;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../MobileCenter/MobileCenter\"";
-				VALID_ARCHS = "";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		043120D71EE0BCF9007054C5 /* Build configuration list for PBXNativeTarget "MobileCenterTVOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				043120D81EE0BCF9007054C5 /* Debug */,
+				043120D91EE0BCF9007054C5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0431214B1EE0BFC7007054C5 /* Build configuration list for PBXAggregateTarget "MobileCenterTVOSFramework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0431214C1EE0BFC7007054C5 /* Debug */,
+				0431214D1EE0BFC7007054C5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		046AEAF31ECA562A00CBE511 /* Build configuration list for PBXNativeTarget "MobileCenterMacOSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				046AEAF41ECA562A00CBE511 /* Debug */,
+				046AEAF51ECA562A00CBE511 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		04754FA81EA98182002CBA46 /* Build configuration list for PBXNativeTarget "MobileCenterMacOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				04754FA91EA98182002CBA46 /* Debug */,
+				04754FAA1EA98182002CBA46 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0485AFE81EAA937000C10CAF /* Build configuration list for PBXAggregateTarget "MobileCenterMacOSFramework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0485AFE91EAA937000C10CAF /* Debug */,
+				0485AFEA1EAA937000C10CAF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		04FD11501EF2F5F0000C5A5C /* Build configuration list for PBXAggregateTarget "MobileCenterMacOSDoc" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				04FD11511EF2F5F0000C5A5C /* Debug */,
+				04FD11521EF2F5F0000C5A5C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		04FD116B1EF2FE1D000C5A5C /* Build configuration list for PBXAggregateTarget "MobileCenterTVOSDoc" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				04FD116C1EF2FE1D000C5A5C /* Debug */,
+				04FD116D1EF2FE1D000C5A5C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		6E0400FE1D1C98220051BCFA /* Build configuration list for PBXProject "MobileCenter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1213,7 +2098,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6E04010C1D1C98220051BCFA /* Build configuration list for PBXNativeTarget "MobileCenter" */ = {
+		6E04010C1D1C98220051BCFA /* Build configuration list for PBXNativeTarget "MobileCenterIOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6E04010D1D1C98220051BCFA /* Debug */,
@@ -1222,7 +2107,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6E0401801D1CAC710051BCFA /* Build configuration list for PBXAggregateTarget "MobileCenterFramework" */ = {
+		6E0401801D1CAC710051BCFA /* Build configuration list for PBXAggregateTarget "MobileCenterIOSFramework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6E04017E1D1CAC710051BCFA /* Debug */,
@@ -1231,7 +2116,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6E2395801D22EF4F00E543C8 /* Build configuration list for PBXNativeTarget "MobileCenterTests" */ = {
+		6E2395801D22EF4F00E543C8 /* Build configuration list for PBXNativeTarget "MobileCenterIOSTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6E2395811D22EF4F00E543C8 /* Debug */,
@@ -1240,7 +2125,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6E6BFC341D234FAE00DF7617 /* Build configuration list for PBXAggregateTarget "MobileCenterDoc" */ = {
+		6E6BFC341D234FAE00DF7617 /* Build configuration list for PBXAggregateTarget "MobileCenterIOSDoc" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6E6BFC321D234FAE00DF7617 /* Debug */,

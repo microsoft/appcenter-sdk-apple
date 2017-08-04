@@ -1,17 +1,15 @@
-#import <CrashReporter/CrashReporter.h>
-#import <Foundation/Foundation.h>
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <XCTest/XCTest.h>
 #import <inttypes.h>
 
 #import "MSAppleErrorLog.h"
 #import "MSCrashesTestUtil.h"
 #import "MSCrashesInternal.h"
 #import "MSCrashesPrivate.h"
+#import "MSCrashReporter.h"
 #import "MSDeviceTracker.h"
 #import "MSErrorLogFormatterPrivate.h"
 #import "MSException.h"
 #import "MSMobileCenterInternal.h"
+#import "MSTestFrameworks.h"
 #import "MSThread.h"
 
 @interface MSErrorLogFormatter ()
@@ -184,10 +182,16 @@
   assertThat(actual.processId, equalTo(@(report.processInfo.processID)));
   XCTAssertEqual(actual.processName, report.processInfo.processName);
   XCTAssertNotNil(actual.applicationPath);
-  // Not using the report.processInfo.processPath directly to compare as it will be anonymized in the Simulator.
-  assertThat(actual.applicationPath, equalTo(@"/Users/USER/Library/Application Support/iPhone "
-                                             @"Simulator/7.0/Applications/E196971A-6809-48AF-BB06-FD67014A35B2/"
-                                             @"HockeySDK-iOSDemo.app/HockeySDK-iOSDemo"));
+
+  /*
+   * Not using the report.processInfo.processPath directly to compare.
+   * The path will be anonymized in the Simulator for iOS.
+   * The path will be exactly same as the one in the fixture for macOS.
+   * To cover both scenario, it will be checking with endsWith instead of equalTo.
+   */
+  assertThat(actual.applicationPath,
+             endsWith(@"/Library/Application Support/iPhone Simulator/7.0/Applications"
+                      @"/E196971A-6809-48AF-BB06-FD67014A35B2/HockeySDK-iOSDemo.app/HockeySDK-iOSDemo"));
 
   XCTAssertEqual(actual.parentProcessName, report.processInfo.parentProcessName);
   assertThat(actual.parentProcessId, equalTo(@(report.processInfo.parentProcessID)));
@@ -230,7 +234,7 @@
              @"Containers/Bundle/Application/8CC7B5B5-7841-45C4-BAC2-6AA1B944A5E1/Puppet.app/Puppet";
   actual = [MSErrorLogFormatter anonymizedPathFromPath:testPath];
   assertThat(actual, equalTo(expected));
-  XCTAssertFalse([actual containsString:@"sampleuser"]);
+  XCTAssertFalse([actual containsString:@"someone"]);
   XCTAssertTrue([actual hasPrefix:@"/Users/USER/"]);
 }
 

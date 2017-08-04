@@ -1,0 +1,3 @@
+#include "../../../Config/iOS.xcconfig"
+
+OTHER_CFLAGS = $(inherited) -iframework "$(SRCROOT)/../Vendor/iOS/PLCrashReporter"

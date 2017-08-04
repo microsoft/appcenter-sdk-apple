@@ -103,6 +103,11 @@
  */
 + (void)setCustomProperties:(MSCustomProperties *)customProperties;
 
+#if TARGET_OS_OSX
+
+  // TODO: ApplicationDelegate is not yet implemented for macOS.
+#else
+
 /**
  * Check whether the application delegate forwarder is enabled or not.
  *
@@ -118,6 +123,7 @@
  * file and set it to `0`. Then you will have to forward any application delegate needed by the SDK manually.
  */
 + (BOOL)isAppDelegateForwarderEnabled;
+#endif
 
 /**
  * Get unique installation identifier.

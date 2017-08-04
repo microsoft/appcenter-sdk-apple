@@ -69,7 +69,7 @@
     MSLogVerbose([MSMobileCenter logTag], @"File %@: has been successfully deleted", file.fileURL);
     return YES;
   } else {
-    MSLogError([MSMobileCenter logTag], @"Error deleting file %@: %@", file.fileURL, error.localizedDescription);
+    MSLogError([MSMobileCenter logTag], @"Couldn't delete file \"%@\": %@", file.fileURL, error.localizedDescription);
     return NO;
   }
 }
@@ -100,7 +100,7 @@
   }
 
   // Check file existing
-  if (![directoryURL checkResourceIsReachableAndReturnError:&error]) {
+  if (![directoryURL checkResourceIsReachableAndReturnError:nil]) {
     return nil;
   }
 
@@ -121,7 +121,7 @@
     for (NSURL *fileURL in filteredFiles) {
       NSString *fileId = [[fileURL URLByDeletingPathExtension] lastPathComponent];
       NSDate *creationDate = nil;
-      [fileURL getResourceValue:&creationDate forKey:NSURLCreationDateKey error:&error];
+      [fileURL getResourceValue:&creationDate forKey:NSURLCreationDateKey error:nil];
       MSFile *file = [[MSFile alloc] initWithURL:fileURL fileId:fileId creationDate:creationDate];
       [files addObject:file];
     }
@@ -142,7 +142,7 @@
       [self disableBackupForDirectoryURL:directoryURL];
       return YES;
     } else {
-      MSLogError([MSMobileCenter logTag], @"Couldn't create directory at path %@: %@", directoryURL, error.localizedDescription);
+      MSLogError([MSMobileCenter logTag], @"Couldn't create directory at %@: %@", directoryURL, error.localizedDescription);
     }
   }
   return NO;
@@ -150,12 +150,11 @@
 
 + (BOOL)createFileAtURL:(NSURL *)fileURL {
   if (fileURL) {
-    NSError *error = nil;
-    if ([fileURL checkResourceIsReachableAndReturnError:&error]) {
+    if ([fileURL checkResourceIsReachableAndReturnError:nil]) {
       return NO;
     }
     NSURL * directoryURL = [fileURL URLByDeletingLastPathComponent];
-    if (![directoryURL checkResourceIsReachableAndReturnError:&error]) {
+    if (![directoryURL checkResourceIsReachableAndReturnError:nil]) {
       [self createDirectoryAtURL:directoryURL];
     }
 

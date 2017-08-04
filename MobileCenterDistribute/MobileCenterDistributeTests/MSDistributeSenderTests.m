@@ -1,9 +1,6 @@
-#import <Foundation/Foundation.h>
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <OCMock/OCMock.h>
-#import <XCTest/XCTest.h>
 #import "MSDistributeSender.h"
 #import "MSHttpSenderPrivate.h"
+#import "MSTestFrameworks.h"
 
 @interface MSDistributeSenderTests : XCTestCase
 
