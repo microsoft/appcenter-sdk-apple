@@ -9,7 +9,7 @@
 #import "MSMockOriginalAppDelegate.h"
 #import "MSMockService.h"
 #import "MSMockUserDefaults.h"
-#import "MSLogManager.h"
+#import "MSLogManagerDefault.h"
 #import "MSCustomProperties.h"
 #import "MSCustomPropertiesLog.h"
 #import "MSStartServiceLog.h"
@@ -184,6 +184,26 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   [MSMobileCenter startService:[NSString class]];
   [MSMobileCenter startService:nil];
   XCTAssertEqual(servicesCount, [[MSMobileCenter sharedInstance] services].count);
+}
+
+- (void)testStartWithoutServices {
+  
+  // If
+  id logManager = OCMClassMock([MSLogManagerDefault class]);
+  OCMStub([logManager alloc]).andReturn(logManager);
+  OCMStub([logManager initWithAppSecret:[OCMArg any] installId:[OCMArg any] logUrl:[OCMArg any]]).andReturn(logManager);
+  
+  // Not allow processLog
+  OCMReject([logManager processLog:[OCMArg isKindOfClass:[MSStartServiceLog class]] forGroupId:[OCMArg any]]);
+  
+  // When
+  [MSMobileCenter start:MS_UUID_STRING withServices:nil];
+  
+  // Then
+  OCMVerifyAll(logManager);
+  
+  // Clear
+  [logManager stopMocking];
 }
 
 - (void)testStartServiceLogIsSentAfterStartService {
