@@ -275,6 +275,7 @@
 		046AEAC61ECA51AF00CBE511 /* MobileCenterAnalytics.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MobileCenterAnalytics.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0484DD201F39096E0092B777 /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = ../../Vendor/tvOS/OCHamcrest/OCHamcrest.framework; sourceTree = "<group>"; };
 		0484DD231F39098B0092B777 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../tvOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
+		0484DD601F3910FF0092B777 /* Tests tvOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests tvOS.xcconfig"; path = "../../Config/Tests tvOS.xcconfig"; sourceTree = "<group>"; };
 		0485AF851EAA79E300C10CAF /* libMobileCenterAnalytics.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMobileCenterAnalytics.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		0485AF8D1EAA852A00C10CAF /* MSAnalyticsCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAnalyticsCategory.h; sourceTree = "<group>"; };
 		0485AF8E1EAA852A00C10CAF /* MSAnalyticsCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAnalyticsCategory.m; sourceTree = "<group>"; };
@@ -416,6 +417,7 @@
 			children = (
 				041CFF8B1ECCFF6700B4654B /* Tests iOS.xcconfig */,
 				049BC82C1ECE3CF000FB6719 /* Tests macOS.xcconfig */,
+				0484DD601F3910FF0092B777 /* Tests tvOS.xcconfig */,
 			);
 			name = Support;
 			sourceTree = "<group>";

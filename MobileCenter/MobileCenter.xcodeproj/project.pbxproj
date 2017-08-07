@@ -560,6 +560,7 @@
 		0484DD121F3908840092B777 /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = ../../Vendor/tvOS/OCHamcrest/OCHamcrest.framework; sourceTree = "<group>"; };
 		0484DD141F3908CC0092B777 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../tvOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
 		0484DD161F3908E00092B777 /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = ../../tvOS/OHHTTPStubs/OHHTTPStubs.framework; sourceTree = "<group>"; };
+		0484DD5E1F3910DF0092B777 /* Tests tvOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests tvOS.xcconfig"; path = "../../Config/Tests tvOS.xcconfig"; sourceTree = "<group>"; };
 		0485AFEC1EAAAC3B00C10CAF /* macOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = macOS.modulemap; sourceTree = "<group>"; };
 		0485AFEE1EAAAD0000C10CAF /* iOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = iOS.modulemap; sourceTree = "<group>"; };
 		049BC8281ECE3A5200FB6719 /* iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS.xcconfig; sourceTree = "<group>"; };
@@ -801,6 +802,7 @@
 			children = (
 				04840CD71ECCF6560020B0FC /* Tests iOS.xcconfig */,
 				041CFF8D1ECCFFD200B4654B /* Tests macOS.xcconfig */,
+				0484DD5E1F3910DF0092B777 /* Tests tvOS.xcconfig */,
 			);
 			name = Support;
 			sourceTree = "<group>";
