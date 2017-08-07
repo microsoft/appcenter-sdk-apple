@@ -1,8 +1,8 @@
 #import "MSAnalyticsInternal.h"
-#import "MSUtility+Date.h"
 #import "MSSessionTracker.h"
 #import "MSStartSessionLog.h"
 #import "MSStartServiceLog.h"
+#import "MSUtility+Date.h"
 
 static NSTimeInterval const kMSSessionTimeOut = 20;
 static NSString *const kMSPastSessionsKey = @"pastSessionsKey";
@@ -67,12 +67,18 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
       sessionInfo.sessionId = _sessionId;
       sessionInfo.toffset = [NSNumber numberWithDouble:[MSUtility nowInMilliseconds]];
 
-      // Insert at the beginning of the list.
-      [self.pastSessions insertObject:sessionInfo atIndex:0];
+      // Insert new MSSessionHistoryInfo at the proper index to keep pastSessions sorted.
+      NSUInteger newIndex = [self.pastSessions indexOfObject:sessionInfo
+          inSortedRange:(NSRange) { 0, [self.pastSessions count] }
+          options:NSBinarySearchingInsertionIndex
+          usingComparator:^(id a, id b) {
+            return [((MSSessionHistoryInfo *)a).toffset compare:((MSSessionHistoryInfo *)b).toffset];
+          }];
+      [self.pastSessions insertObject:sessionInfo atIndex:newIndex];
 
-      // Remove last item if reached max limit.
+      // Remove first (the oldest) item if reached max limit.
       if ([self.pastSessions count] > kMSMaxSessionHistoryCount)
-        [self.pastSessions removeLastObject];
+        [self.pastSessions removeObjectAtIndex:0];
 
       // Persist the session history in NSData format.
       [MS_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.pastSessions]
@@ -189,7 +195,8 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
    * Start session log is created in this method, therefore, skip in order to avoid infinite loop.
    * Also skip start service log as it's always sent and should not trigger a session.
    */
-  if ([((NSObject *)log) isKindOfClass:[MSStartSessionLog class]] || [((NSObject *)log) isKindOfClass:[MSStartServiceLog class]])
+  if ([((NSObject *)log) isKindOfClass:[MSStartSessionLog class]] ||
+      [((NSObject *)log) isKindOfClass:[MSStartServiceLog class]])
     return;
 
   // Attach corresponding session id.

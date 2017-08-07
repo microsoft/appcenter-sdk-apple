@@ -47,12 +47,12 @@
       [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\") VALUES ('%@', '%@')", kMSLogTableName,
                                  kMSGroupIdColumnName, kMSLogColumnName, groupId, base64Data];
   BOOL succeeded = [self executeNonSelectionQuery:addLogQuery];
-  NSUInteger logCount = [self countLogsWithGroupId:groupId];
+  NSUInteger logCount = [self countLogs];
 
   // Max out DB.
   if (succeeded && logCount > self.capacity) {
     NSUInteger overflowCount = logCount - self.capacity;
-    [self deleteOldestLogsWithGroupId:groupId count:overflowCount];
+    [self deleteOldestLogsWithCount:overflowCount];
     MSLogDebug([MSMobileCenter logTag], @"Log storage was over capacity, %ld oldest log(s) deleted.",
                (long)overflowCount);
   }
@@ -188,14 +188,19 @@
     NSData *logData = [[NSData alloc] initWithBase64EncodedString:row[self.logColumnIndex]
                                                           options:NSDataBase64DecodingIgnoreUnknownCharacters];
     id<MSLog> log;
+    NSException *exception;
 
     // Deserialize the log.
     @try {
       log = [NSKeyedUnarchiver unarchiveObjectWithData:logData];
-    } @catch (NSException *exception) {
+    } @catch (NSException *e) {
+      exception = e;
+    }
+    if (!log || exception) {
 
       // The archived log is not valid.
-      MSLogError([MSMobileCenter logTag], @"Deserialization failed for log with Id %@: %@", dbId, exception);
+      MSLogError([MSMobileCenter logTag], @"Deserialization failed for log with Id %@: %@", dbId,
+                 exception ? exception.reason : @"The log deserialized to NULL.");
       [self deleteLogFromDBWithId:dbId];
       continue;
     }
@@ -236,18 +241,16 @@
   }
 }
 
-- (void)deleteOldestLogsWithGroupId:(NSString *)groupId count:(NSInteger)count {
-  NSString *deleteLogQuery =
-      [NSString stringWithFormat:@"DELETE FROM \"%@\" WHERE \"%@\" = '%@' ORDER BY \"%@\" ASC LIMIT %ld",
-                                 kMSLogTableName, kMSGroupIdColumnName, groupId, kMSIdColumnName, (long)count];
+- (void)deleteOldestLogsWithCount:(NSInteger)count {
+  NSString *deleteLogQuery = [NSString stringWithFormat:@"DELETE FROM \"%@\" ORDER BY \"%@\" ASC LIMIT %ld",
+                                                        kMSLogTableName, kMSIdColumnName, (long)count];
   [self executeNonSelectionQuery:deleteLogQuery];
 }
 
 #pragma mark - DB count
 
-- (NSUInteger)countLogsWithGroupId:(NSString *)groupId {
-  NSString *condition = [NSString stringWithFormat:@"\"%@\" = '%@'", kMSGroupIdColumnName, groupId];
-  return [self countEntriesForTable:kMSLogTableName condition:condition];
+- (NSUInteger)countLogs {
+  return [self countEntriesForTable:kMSLogTableName condition:nil];
 }
 
 @end

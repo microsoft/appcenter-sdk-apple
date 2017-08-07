@@ -17,4 +17,11 @@
  */
 + (NSURL *)logBufferDir;
 
+/**
+ * Returns the directory for storing and reading wrapper exception data.
+ *
+ * @return The directory containing wrapper exception data.
+ */
++ (NSURL *)wrapperExceptionsDir;
+
 @end

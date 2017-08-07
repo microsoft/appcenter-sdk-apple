@@ -1,0 +1,15 @@
+/*
+ * Update dialog buttons
+ */
+"MSDistributeUpdateNow" = "Обновить сейчас";
+"MSDistributeAskMeInADay" = "Спросить завтра";
+"MSDistributeViewReleaseNotes" = "Просмотреть примечания к обновлению";
+"MSDistributeClose" = "Закрыть";
+
+/*
+ * Update dialog titles/messages
+ */
+"MSDistributeAppUpdateAvailable" = "Доступно обновление";
+"MSDistributeAppUpdateAvailableMandatoryUpdateMessage" = "Вышло обязательное обновление. Вам необходимо обновиться до %@ %@ (%@).";
+"MSDistributeAppUpdateAvailableOptionalUpdateMessage" = "%@ %@ (%@) доступно для загрузки и установки.";
+"MSDistributeInAppUpdatesAreDisabled" = "Обновления из приложения отключены.";

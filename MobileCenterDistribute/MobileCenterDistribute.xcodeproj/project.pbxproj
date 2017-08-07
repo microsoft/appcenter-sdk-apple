@@ -207,6 +207,7 @@
 		B2C070BA1E5E68540076D6A9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BA6820A043C816916AF34A04 /* MSErrorDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSErrorDetails.h; sourceTree = "<group>"; };
 		BA6826E3C58372A269A6B43A /* MSErrorDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSErrorDetails.m; sourceTree = "<group>"; };
+		F8646E651F349C6D006080AC /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = Resources/ru.lproj/MobileCenterDistribute.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -594,6 +595,7 @@
 				en,
 				de,
 				fr,
+				ru,
 			);
 			mainGroup = 04FD4A131E451E12009B4468;
 			productRefGroup = 04FD4A1D1E451E12009B4468 /* Products */;
@@ -745,6 +747,7 @@
 				B29CE3481E5E5F9A00CEB04D /* en */,
 				B29CE3491E5E5FBB00CEB04D /* fr */,
 				B2C070A21E5E61830076D6A9 /* de */,
+				F8646E651F349C6D006080AC /* ru */,
 			);
 			name = MobileCenterDistribute.strings;
 			path = ../MobileCenterDistribute;
@@ -844,7 +847,7 @@
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				COMBINE_HIDPI_IMAGES = YES;
-				ENABLE_BITCODE = YES;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = MobileCenterDistributeResources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.distribute.resources.ios;
@@ -861,7 +864,7 @@
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				COMBINE_HIDPI_IMAGES = YES;
-				ENABLE_BITCODE = YES;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = MobileCenterDistributeResources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.distribute.resources.ios;
