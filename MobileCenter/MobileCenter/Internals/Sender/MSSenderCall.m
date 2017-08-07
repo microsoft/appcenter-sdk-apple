@@ -71,11 +71,14 @@
     callCompletedWithStatus:(NSUInteger)statusCode
                        data:(NSData *)data
                       error:(NSError *)error {
-  if ([MSSenderUtil isNoInternetConnectionError:error]) {
+  BOOL internetIsDown = [MSSenderUtil isNoInternetConnectionError:error];
+  BOOL couldNotEstablishSecureConnection = [MSSenderUtil isSSLConnectionError:error];
+  if (internetIsDown || couldNotEstablishSecureConnection) {
 
-    // Reset the retry count, will retry once the connection is established again.
+    // Reset the retry count, will retry once the (secure) connection is established again.
     [self resetRetry];
-    MSLogInfo([MSMobileCenter logTag], @"Internet connection is down.");
+    NSString *logMessage = internetIsDown ? @"Internet connection is down." : @"Could not establish secure connection.";
+    MSLogInfo([MSMobileCenter logTag],logMessage);
     [sender suspend];
   }
 
