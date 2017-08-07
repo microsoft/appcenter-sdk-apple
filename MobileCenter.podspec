@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
                       Mobile Center Distribute provides the capability to display in-app updates to your app users when a new version of the application is released. Not available for macOS SDK.
 
                       4. Mobile Center Push (iOS and macOS):
-                      Mobile Center Push enables you to send push notifications to users of your app from the Mobile Center portal.
+                      Mobile Center Push enables you to send push notifications to users of your app from the Mobile Center portal. You can also segment your user base based on a set of properties and send them targeted notifications.
 
                         DESC
 
