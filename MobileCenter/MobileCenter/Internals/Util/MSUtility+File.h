@@ -13,7 +13,7 @@ extern NSString *MSUtilityFileCategory;
 @interface MSUtility (File)
 
 /**
- * Creates a file at the given location, intermediate directories are also create if nonexistant.
+ * Creates a file at the given location, intermediate directories are also create if nonexistent.
  *
  * @param fileURL URL representing the absolute path of the file to create.
  *
