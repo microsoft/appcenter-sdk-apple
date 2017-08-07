@@ -34,7 +34,7 @@ extern NSString *MSUtilityFileCategory;
 + (BOOL)removeItemAtURL:(NSURL *)itemURL;
 
 /**
- * Creates a directory at the given location, intermediate directories are also created if nonexistant.
+ * Creates a directory at the given location, intermediate directories are also created if nonexistent.
  *
  * @param directoryURL URL representing the absolute path of the directory to create.
  *
