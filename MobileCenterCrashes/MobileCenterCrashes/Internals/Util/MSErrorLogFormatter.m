@@ -54,7 +54,8 @@
 #import "MSStackFrame.h"
 #import "MSThread.h"
 #import "MSDeviceTrackerPrivate.h"
-#import "MSWrapperExceptionManager.h"
+#import "MSWrapperExceptionManagerInternal.h"
+#import "MSWrapperException.h"
 
 static NSString *unknownString = @"???";
 
@@ -258,7 +259,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   errorLog.selectorRegisterValue =
       [self selectorRegisterValueFromReport:report ofCrashedThread:crashedThread is64bit:is64bit];
 
-  // Extract all threads and registers,
+  // Extract all threads and registers.
   errorLog.threads = [self extractThreadsFromReport:report crashedThread:crashedThread is64bit:is64bit];
   errorLog.registers = [self extractRegistersFromCrashedThread:crashedThread is64bit:is64bit];
 
@@ -266,16 +267,17 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   NSArray *addresses = [self addressesFromReport:report];
   errorLog.binaries = [self extractBinaryImagesFromReport:report addresses:addresses codeType:codeType is64bit:is64bit];
 
-  // Set the exception from the wrapper sdk
-  errorLog.exception = [MSWrapperExceptionManager loadWrapperException:report.uuidRef];
-
   /*
    * Set the device here to make sure we don't use the current device information but the one from history that matches
    * the time of our crash.
    */
   errorLog.device = [[MSDeviceTracker new] deviceForToffset:errorLog.toffset];
 
-  // Finally done with transforming PLCrashReport to MSAppleErrorReport.
+  // Set the exception from the wrapper SDK.
+  MSWrapperException* wrapperException = [MSWrapperExceptionManager loadWrapperExceptionWithUUIDString:[self uuidRefToString:report.uuidRef]];
+  if (wrapperException) {
+    errorLog.exception = wrapperException.modelException;
+  }
   return errorLog;
 }
 
@@ -812,6 +814,14 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   }
 
   return addresses;
+}
+
++ (NSString *)uuidRefToString:(CFUUIDRef)uuidRef {
+  if (!uuidRef) {
+    return nil;
+  }
+  CFStringRef uuidStringRef = CFUUIDCreateString(kCFAllocatorDefault, uuidRef);
+  return (__bridge_transfer NSString *)uuidStringRef;
 }
 
 @end

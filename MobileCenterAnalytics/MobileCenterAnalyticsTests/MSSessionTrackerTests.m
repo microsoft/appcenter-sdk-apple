@@ -220,7 +220,7 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
 
   // Then
   XCTAssertEqual(0, log.toffset.integerValue);
-  XCTAssertEqual(log.sid, [self.sut.pastSessions firstObject].sessionId);
+  XCTAssertEqual(log.sid, [self.sut.pastSessions lastObject].sessionId);
 
   // When
   log.toffset = [NSNumber numberWithUnsignedLongLong:UINT64_MAX];

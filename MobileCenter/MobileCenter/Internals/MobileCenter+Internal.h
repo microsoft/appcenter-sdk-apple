@@ -10,7 +10,7 @@
 #import "Model/MSLog.h"
 #import "Model/MSLogContainer.h"
 #import "Model/MSLogWithPropertiesInternal.h"
-#import "Model/Utils/MSUserDefaults.h"
+#import "Model/Util/MSUserDefaults.h"
 
 // Channel
 #import "Channel/MSChannelDelegate.h"
