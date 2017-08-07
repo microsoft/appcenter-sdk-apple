@@ -273,6 +273,8 @@
 		043121721EE0C248007054C5 /* tvOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = tvOS.modulemap; sourceTree = "<group>"; };
 		043121731EE0C248007054C5 /* tvOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = tvOS.xcconfig; sourceTree = "<group>"; };
 		046AEAC61ECA51AF00CBE511 /* MobileCenterAnalytics.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MobileCenterAnalytics.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0484DD201F39096E0092B777 /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = ../../Vendor/tvOS/OCHamcrest/OCHamcrest.framework; sourceTree = "<group>"; };
+		0484DD231F39098B0092B777 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../tvOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
 		0485AF851EAA79E300C10CAF /* libMobileCenterAnalytics.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMobileCenterAnalytics.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		0485AF8D1EAA852A00C10CAF /* MSAnalyticsCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAnalyticsCategory.h; sourceTree = "<group>"; };
 		0485AF8E1EAA852A00C10CAF /* MSAnalyticsCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAnalyticsCategory.m; sourceTree = "<group>"; };
@@ -384,6 +386,22 @@
 			name = macOS;
 			sourceTree = "<group>";
 		};
+		0484DD1E1F3909470092B777 /* tvOS */ = {
+			isa = PBXGroup;
+			children = (
+				0484DD231F39098B0092B777 /* OCMock.framework */,
+			);
+			name = tvOS;
+			sourceTree = "<group>";
+		};
+		0484DD1F1F3909580092B777 /* tvOS */ = {
+			isa = PBXGroup;
+			children = (
+				0484DD201F39096E0092B777 /* OCHamcrest.framework */,
+			);
+			name = tvOS;
+			sourceTree = "<group>";
+		};
 		04A1409C1ECE7245001CEE94 /* Util */ = {
 			isa = PBXGroup;
 			children = (
@@ -426,6 +444,7 @@
 			children = (
 				04BED7151ECB64C000E20975 /* iOS */,
 				04BED7141ECB64BB00E20975 /* macOS */,
+				0484DD1F1F3909580092B777 /* tvOS */,
 			);
 			name = OCHamcrest;
 			sourceTree = "<group>";
@@ -462,6 +481,7 @@
 			children = (
 				0420A68F1ECA7ACD00915619 /* iOS */,
 				0420A6901ECA7AD400915619 /* macOS */,
+				0484DD1E1F3909470092B777 /* tvOS */,
 			);
 			name = OCMock;
 			path = ../../Vendor/Common/OCMock;

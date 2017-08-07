@@ -557,6 +557,9 @@
 		04754F3D1EA980FD002CBA46 /* MSDeviceTrackerPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDeviceTrackerPrivate.h; sourceTree = "<group>"; };
 		04754FAB1EA98182002CBA46 /* libMobileCenter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMobileCenter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		04840CD71ECCF6560020B0FC /* Tests iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests iOS.xcconfig"; path = "../../Config/Tests iOS.xcconfig"; sourceTree = "<group>"; };
+		0484DD121F3908840092B777 /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = ../../Vendor/tvOS/OCHamcrest/OCHamcrest.framework; sourceTree = "<group>"; };
+		0484DD141F3908CC0092B777 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../tvOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
+		0484DD161F3908E00092B777 /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = ../../tvOS/OHHTTPStubs/OHHTTPStubs.framework; sourceTree = "<group>"; };
 		0485AFEC1EAAAC3B00C10CAF /* macOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = macOS.modulemap; sourceTree = "<group>"; };
 		0485AFEE1EAAAD0000C10CAF /* iOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = iOS.modulemap; sourceTree = "<group>"; };
 		049BC8281ECE3A5200FB6719 /* iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS.xcconfig; sourceTree = "<group>"; };
@@ -769,6 +772,30 @@
 			name = macOS;
 			sourceTree = "<group>";
 		};
+		0484DD0F1F3908430092B777 /* tvOS */ = {
+			isa = PBXGroup;
+			children = (
+				0484DD121F3908840092B777 /* OCHamcrest.framework */,
+			);
+			name = tvOS;
+			sourceTree = "<group>";
+		};
+		0484DD101F39086A0092B777 /* tvOS */ = {
+			isa = PBXGroup;
+			children = (
+				0484DD141F3908CC0092B777 /* OCMock.framework */,
+			);
+			name = tvOS;
+			sourceTree = "<group>";
+		};
+		0484DD111F3908710092B777 /* tvOS */ = {
+			isa = PBXGroup;
+			children = (
+				0484DD161F3908E00092B777 /* OHHTTPStubs.framework */,
+			);
+			name = tvOS;
+			sourceTree = "<group>";
+		};
 		04A140AB1ECE7F6F001CEE94 /* Support */ = {
 			isa = PBXGroup;
 			children = (
@@ -783,6 +810,7 @@
 			children = (
 				04BED70D1ECB637E00E20975 /* iOS */,
 				04BED70C1ECB637800E20975 /* macOS */,
+				0484DD0F1F3908430092B777 /* tvOS */,
 			);
 			name = OCHamcrest;
 			sourceTree = "<group>";
@@ -970,6 +998,7 @@
 			children = (
 				046AEB0E1ECA731700CBE511 /* iOS */,
 				046AEB0F1ECA731E00CBE511 /* macOS */,
+				0484DD101F39086A0092B777 /* tvOS */,
 			);
 			name = OCMock;
 			path = ../../Vendor/Common/OCMock;
@@ -980,6 +1009,7 @@
 			children = (
 				04F21A031ECB73AE0074978D /* iOS */,
 				04F21A021ECB73AA0074978D /* macOS */,
+				0484DD111F3908710092B777 /* tvOS */,
 			);
 			name = OHHTTPStubs;
 			path = ../../Vendor/iOS/OHHTTPStubs;
@@ -1145,7 +1175,6 @@
 				E8753D6C1D4BE53F00241513 /* MSSenderUtil.h */,
 				E8753D6D1D4BE53F00241513 /* MSSenderUtil.m */,
 			);
-			name = Util;
 			path = Util;
 			sourceTree = "<group>";
 		};
@@ -1333,11 +1362,8 @@
 				387C76FD1D6C9CF100D68CC1 /* MSServiceAbstract.h in Headers */,
 				B2CD74A61F22BE270070E7DF /* MSUtility+Application.h in Headers */,
 				B2CD74AC1F22BE270070E7DF /* MSUtility+ApplicationPrivate.h in Headers */,
-				B2C3C1841DB83A3E00CB83F7 /* MSDeviceInternal.h in Headers */,
 				B289FF881F291F9D00AA2E06 /* MSDeviceInternal.h in Headers */,
 				383481731EA7FF6100787F56 /* MSLogDBStoragePrivate.h in Headers */,
-				B21E29911E83521A00F9A22D /* MSUtility+StringFormatting.h in Headers */,
-				842C13251E7FCF5300F16EA3 /* MSUtility+Environment.h in Headers */,
 				6E3E2C9E1D35701000B1EE50 /* MSLog.h in Headers */,
 				E84B8E391D235246006FD231 /* MSStorage.h in Headers */,
 				B2CD74B51F22BE270070E7DF /* MSUtility+Environment.h in Headers */,

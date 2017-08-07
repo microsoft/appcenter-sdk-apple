@@ -435,6 +435,8 @@
 		04311FFB1EE08885007054C5 /* MSCrashReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrashReporter.h; sourceTree = "<group>"; };
 		044C45F81DB6EA0C00F3C29E /* MSErrorAttachmentPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSErrorAttachmentPrivate.h; sourceTree = "<group>"; };
 		044C45FA1DB6EC1C00F3C29E /* MSErrorBinaryAttachmentPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSErrorBinaryAttachmentPrivate.h; sourceTree = "<group>"; };
+		0484DD1A1F39091D0092B777 /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = ../../Vendor/tvOS/OCHamcrest/OCHamcrest.framework; sourceTree = "<group>"; };
+		0484DD1C1F39092A0092B777 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../tvOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
 		0485AFD31EAA887500C10CAF /* libMobileCenterCrashes.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMobileCenterCrashes.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		049327961ECA170D00D0187A /* MobileCenterCrashes.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MobileCenterCrashes.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		049327B11ECA19FD00D0187A /* libCrashReporter-MacOSX-Static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libCrashReporter-MacOSX-Static.a"; sourceTree = "<group>"; };
@@ -640,6 +642,22 @@
 			name = macOS;
 			sourceTree = "<group>";
 		};
+		0484DD181F3909030092B777 /* tvOS */ = {
+			isa = PBXGroup;
+			children = (
+				0484DD1A1F39091D0092B777 /* OCHamcrest.framework */,
+			);
+			name = tvOS;
+			sourceTree = "<group>";
+		};
+		0484DD191F39090D0092B777 /* tvOS */ = {
+			isa = PBXGroup;
+			children = (
+				0484DD1C1F39092A0092B777 /* OCMock.framework */,
+			);
+			name = tvOS;
+			sourceTree = "<group>";
+		};
 		049327981ECA19FD00D0187A /* PLCrashReporter */ = {
 			isa = PBXGroup;
 			children = (
@@ -726,6 +744,7 @@
 			children = (
 				04BED7201ECB65C900E20975 /* iOS */,
 				04BED71F1ECB65C500E20975 /* macOS */,
+				0484DD181F3909030092B777 /* tvOS */,
 			);
 			name = OCHamcrest;
 			sourceTree = "<group>";
@@ -885,6 +904,7 @@
 			children = (
 				0420A6881ECA7A7000915619 /* iOS */,
 				0420A6891ECA7A7800915619 /* macOS */,
+				0484DD191F39090D0092B777 /* tvOS */,
 			);
 			name = OCMock;
 			path = ../../Vendor/Common/OCMock;
