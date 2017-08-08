@@ -16,7 +16,17 @@
 
 #if TARGET_OS_OSX
 
-// TODO: ApplicationDelegate is not yet implemented for macOS.
+- (void)application:(NSApplication *)application
+    didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+  CustomDidRegisterNotificationValidator validator = self.delegateValidators[NSStringFromSelector(_cmd)];
+  validator(application, deviceToken);
+}
+
+- (void)applicationDidFinishLaunching:(NSNotification *)notification {
+  CustomDidFinishLaunchingValidator validator = self.delegateValidators[NSStringFromSelector(_cmd)];
+  validator(notification);
+}
+
 #else
 - (BOOL)application:(UIApplication *)application
               openURL:(NSURL *)url
@@ -41,8 +51,7 @@
   validator(application, deviceToken);
 }
 
-- (void)application:(UIApplication *)application
-    didReceiveRemoteNotification:(NSDictionary *)userInfo {
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
   CustomDidReceiveNotificationWorkaroundValidator validator = self.delegateValidators[NSStringFromSelector(_cmd)];
   validator(application, userInfo);
 }
@@ -61,19 +70,17 @@
 
 @implementation MSAppDelegateForwarder (MSDistribute)
 
-#if TARGET_OS_OSX
-
-// TODO: ApplicationDelegate is not yet implemented for macOS.
-#else
 + (void)load {
 
   // Register selectors to swizzle for this mock.
+  [self addAppDelegateSelectorToSwizzle:@selector(application:didRegisterForRemoteNotificationsWithDeviceToken:)];
+
+#if !TARGET_OS_OSX
   [self addAppDelegateSelectorToSwizzle:@selector(application:openURL:options:)];
   [self addAppDelegateSelectorToSwizzle:@selector(application:openURL:sourceApplication:annotation:)];
-  [self addAppDelegateSelectorToSwizzle:@selector(application:didRegisterForRemoteNotificationsWithDeviceToken:)];
   [self addAppDelegateSelectorToSwizzle:@selector(application:didReceiveRemoteNotification:)];
   [self addAppDelegateSelectorToSwizzle:@selector(application:didReceiveRemoteNotification:fetchCompletionHandler:)];
-}
 #endif
+}
 
 @end

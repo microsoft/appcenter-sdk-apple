@@ -50,6 +50,20 @@
          </BuildActionEntry>
          <BuildActionEntry
             buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "046963F41F2A558300F9D31F"
+               BuildableName = "libMobileCenterPush.a"
+               BlueprintName = "MobileCenterPushMacOS"
+               ReferencedContainer = "container:MobileCenterPush/MobileCenterPush.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
             buildForRunning = "NO"
             buildForProfiling = "NO"
             buildForArchiving = "NO"
@@ -88,6 +102,20 @@
                BuildableName = "MobileCenterCrashes.xctest"
                BlueprintName = "MobileCenterCrashesMacOSTests"
                ReferencedContainer = "container:MobileCenterCrashes/MobileCenterCrashes.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "046964131F2A559C00F9D31F"
+               BuildableName = "MobileCenterPush.xctest"
+               BlueprintName = "MobileCenterPushMacOSTests"
+               ReferencedContainer = "container:MobileCenterPush/MobileCenterPush.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -127,6 +155,16 @@
                BuildableName = "MobileCenterCrashes.xctest"
                BlueprintName = "MobileCenterCrashesMacOSTests"
                ReferencedContainer = "container:MobileCenterCrashes/MobileCenterCrashes.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "046964131F2A559C00F9D31F"
+               BuildableName = "MobileCenterPush.xctest"
+               BlueprintName = "MobileCenterPushMacOSTests"
+               ReferencedContainer = "container:MobileCenterPush/MobileCenterPush.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>

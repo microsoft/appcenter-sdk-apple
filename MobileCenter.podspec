@@ -18,8 +18,8 @@ Pod::Spec.new do |s|
                       3. Mobile Center Distribute (iOS only):
                       Mobile Center Distribute provides the capability to display in-app updates to your app users when a new version of the application is released. Not available for macOS SDK.
 
-                      4. Mobile Center Push (iOS only):
-                      Mobile Center Push enables you to send push notifications to users of your app from the Mobile Center portal. Not available for macOS SDK.
+                      4. Mobile Center Push (iOS and macOS):
+                      Mobile Center Push enables you to send push notifications to users of your app from the Mobile Center portal. You can also segment your user base based on a set of properties and send them targeted notifications.
 
                         DESC
 
@@ -30,7 +30,7 @@ Pod::Spec.new do |s|
   s.author            = { 'Microsoft' => 'mobilecentersdk@microsoft.com' }
 
   s.ios.deployment_target = '8.0'
-  s.osx.deployment_target = '10.10'
+  s.osx.deployment_target = '10.9'
 
   s.source = { :http => "https://github.com/microsoft/mobile-center-sdk-ios/releases/download/#{s.version}/MobileCenter-SDK-Apple-#{s.version}.zip" }
   s.preserve_path = "MobileCenter-SDK-Apple/LICENSE"
@@ -72,10 +72,13 @@ Pod::Spec.new do |s|
  end
 
  s.subspec 'Push' do |ss|
-    ss.frameworks = 'Foundation', 'UIKit'
-    ss.weak_frameworks = 'UserNotifications'
+    ss.frameworks = 'Foundation'
+    ss.ios.frameworks = 'UIKit'
+    ss.osx.frameworks = 'AppKit'
+    ss.ios.weak_frameworks = 'UserNotifications'
     ss.dependency 'MobileCenter/Core'
     ss.ios.vendored_frameworks = "MobileCenter-SDK-Apple/iOS/MobileCenterPush.framework"
+    ss.osx.vendored_frameworks = "MobileCenter-SDK-Apple/macOS/MobileCenterPush.framework"
  end
 
 end
