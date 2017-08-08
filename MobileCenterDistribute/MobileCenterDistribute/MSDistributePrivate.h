@@ -71,11 +71,6 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
 @interface MSDistribute ()
 
 /**
- * Current view controller presenting the `SFSafariViewController` if any.
- */
-@property(nullable, nonatomic) UIViewController *safariHostingViewController;
-
-/**
  * Current update alert view controller if any.
  */
 @property(nonatomic) MSAlertController *updateAlertController;
@@ -113,15 +108,7 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
 - (nullable NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret releaseHash:(NSString *)releaseHash;
 
 /**
- * Open the given URL using an `SFSafariViewController`. Must run on the UI thread! iOS 9+ only.
- *
- * @param url URL to open.
- * @param clazz `SFSafariViewController` class.
- */
-- (void)openURLInEmbeddedSafari:(NSURL *)url fromClass:(Class)clazz;
-
-/**
- * Open the given URL using the Safari application. iOS 8.x only.
+ * Open the given URL using the Safari application.
  *
  * @param url URL to open.
  */
@@ -190,11 +177,6 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
  * @return BOOL indicating that it's okay to check for updates.
  */
 - (BOOL)checkForUpdatesAllowed;
-
-/**
- * Dismiss the Safari hosting view controller.
- */
-- (void)dismissEmbeddedSafari;
 
 /**
  * Start update workflow
