@@ -5,15 +5,8 @@
 #import "MSMobileCenterInternal.h"
 #import "MSMobileCenterPrivate.h"
 #import "MSMockService.h"
-
-#if TARGET_OS_OSX
-
-// TODO: ApplicationDelegate is not yet implemented for macOS.
-#else
 #import "MSMockCustomAppDelegate.h"
 #import "MSMockOriginalAppDelegate.h"
-#endif
-
 #import "MSMockUserDefaults.h"
 #import "MSStartServiceLog.h"
 #import "MSTestFrameworks.h"

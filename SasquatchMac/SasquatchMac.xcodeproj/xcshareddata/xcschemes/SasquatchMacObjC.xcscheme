@@ -56,6 +56,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0469640E1F2A558F00F9D31F"
+               BuildableName = "MobileCenterPushMacOSFramework"
+               BlueprintName = "MobileCenterPushMacOSFramework"
+               ReferencedContainer = "container:../MobileCenterPush/MobileCenterPush.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "D3C31C211E8E75B300B288CE"
                BuildableName = "SasquatchMacObjC.app"
                BlueprintName = "SasquatchMacObjC"

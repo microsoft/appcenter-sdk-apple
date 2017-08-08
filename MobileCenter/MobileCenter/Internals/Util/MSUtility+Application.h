@@ -78,16 +78,14 @@ typedef NS_ENUM(NSInteger, MSOpenURLState) {
  */
 @interface MSUtility (Application)
 
-#if TARGET_OS_OSX
-
-// TODO: ApplicationDelegate is not yet implemented for macOS.
-#else
-
 /**
  * Get the App Delegate.
  *
  * @return The delegate of the app object or nil if not accessible.
  */
+#if TARGET_OS_OSX
++ (id<NSApplicationDelegate>)sharedAppDelegate;
+#else
 + (id<UIApplicationDelegate>)sharedAppDelegate;
 #endif
 
