@@ -49,7 +49,7 @@
   /*
    * FIXME: Crashes will look up a session from history to get an appropriate session at crash time. This causes
    * intermittent failures due to osVersion mismatch depends on running sequence of the tests. If there is a history
-   * that was built by other tests, device property might have mocked data and this test will be failed. To prevent this
+   * that was built by other tests, device property might have mocked data and this test will fail. To prevent this
    * failure, it will force-assign osVersion from MSDevice to MSErrorReport.
    */
   device.osVersion = errorReport.device.osVersion;
@@ -74,7 +74,7 @@
   /*
    * FIXME: Crashes will look up a session from history to get an appropriate session at crash time. This causes
    * intermittent failures due to osVersion mismatch depends on running sequence of the tests. If there is a history
-   * that was built by other tests, device property might have mocked data and this test will be failed. To prevent this
+   * that was built by other tests, device property might have mocked data and this test will fail. To prevent this
    * failure, it will force-assign osVersion from MSDevice to MSErrorReport.
    */
   device.osVersion = errorReport.device.osVersion;
