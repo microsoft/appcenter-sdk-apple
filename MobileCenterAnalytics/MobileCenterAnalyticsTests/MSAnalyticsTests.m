@@ -209,13 +209,17 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
   // If
   NSString *groupId = [[MSAnalytics sharedInstance] groupId];
-  id<MSAnalyticsDelegate> delegateMock = OCMProtocolMock(@protocol(MSAnalyticsDelegate));
+  MSEventLog *eventLog = OCMClassMock([MSEventLog class]);
+  id delegateMock = OCMProtocolMock(@protocol(MSAnalyticsDelegate));
+  OCMReject([delegateMock analytics:[MSAnalytics sharedInstance] willSendEventLog:eventLog]);
+  OCMReject([delegateMock analytics:[MSAnalytics sharedInstance] didSucceedSendingEventLog:eventLog]);
+  OCMReject([delegateMock analytics:[MSAnalytics sharedInstance] didFailSendingEventLog:eventLog withError:nil]);
   [MSMobileCenter sharedInstance].sdkConfigured = NO;
   [MSMobileCenter start:kMSTestAppSecret withServices:@[ [MSAnalytics class] ]];
   NSMutableDictionary *channelsInLogManager =
       ((MSLogManagerDefault *)([MSAnalytics sharedInstance].logManager)).channels;
   MSChannelDefault *channelMock = channelsInLogManager[groupId] = OCMPartialMock(channelsInLogManager[groupId]);
-  OCMStub([channelMock enqueueItem:[OCMArg any] withCompletion:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
+  OCMStub([channelMock enqueueItem:OCMOCK_ANY withCompletion:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     id<MSLog> log = nil;
     [invocation getArgument:&log atIndex:2];
     for (id<MSChannelDelegate> delegate in channelMock.delegates) {
@@ -228,13 +232,10 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   });
 
   // When
-  MSEventLog *eventLog = OCMClassMock([MSEventLog class]);
   [[MSAnalytics sharedInstance].logManager processLog:eventLog forGroupId:groupId];
-
+  
   // Then
-  OCMReject([delegateMock analytics:[MSAnalytics sharedInstance] willSendEventLog:eventLog]);
-  OCMReject([delegateMock analytics:[MSAnalytics sharedInstance] didSucceedSendingEventLog:eventLog]);
-  OCMReject([delegateMock analytics:[MSAnalytics sharedInstance] didFailSendingEventLog:eventLog withError:nil]);
+  OCMVerifyAll(delegateMock);
 }
 
 - (void)testAnalyticsDelegateMethodsAreCalled {
@@ -248,7 +249,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   NSMutableDictionary *channelsInLogManager =
       ((MSLogManagerDefault *)([MSAnalytics sharedInstance].logManager)).channels;
   MSChannelDefault *channelMock = channelsInLogManager[groupId] = OCMPartialMock(channelsInLogManager[groupId]);
-  OCMStub([channelMock enqueueItem:[OCMArg any] withCompletion:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
+  OCMStub([channelMock enqueueItem:OCMOCK_ANY withCompletion:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     id<MSLog> log = nil;
     [invocation getArgument:&log atIndex:2];
     for (id<MSChannelDelegate> delegate in channelMock.delegates) {
@@ -278,7 +279,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   __block NSString *type;
   NSString *expectedName = @"gotACoffee";
   id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
-  OCMStub([logManagerMock processLog:[OCMArg isKindOfClass:[MSLogWithProperties class]] forGroupId:[OCMArg any]])
+  OCMStub([logManagerMock processLog:[OCMArg isKindOfClass:[MSLogWithProperties class]] forGroupId:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSEventLog *log;
         [invocation getArgument:&log atIndex:2];
@@ -305,7 +306,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   NSString *expectedName = @"gotACoffee";
   NSDictionary *expectedProperties = @{ @"milk" : @"yes", @"cookie" : @"of course" };
   id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
-  OCMStub([logManagerMock processLog:[OCMArg isKindOfClass:[MSLogWithProperties class]] forGroupId:[OCMArg any]])
+  OCMStub([logManagerMock processLog:[OCMArg isKindOfClass:[MSLogWithProperties class]] forGroupId:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSEventLog *log;
         [invocation getArgument:&log atIndex:2];
@@ -332,7 +333,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   __block NSString *type;
   NSString *expectedName = @"HomeSweetHome";
   id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
-  OCMStub([logManagerMock processLog:[OCMArg isKindOfClass:[MSLogWithProperties class]] forGroupId:[OCMArg any]])
+  OCMStub([logManagerMock processLog:[OCMArg isKindOfClass:[MSLogWithProperties class]] forGroupId:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSEventLog *log;
         [invocation getArgument:&log atIndex:2];
@@ -359,7 +360,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   NSString *expectedName = @"HomeSweetHome";
   NSDictionary *expectedProperties = @{ @"Sofa" : @"yes", @"TV" : @"of course" };
   id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
-  OCMStub([logManagerMock processLog:[OCMArg isKindOfClass:[MSLogWithProperties class]] forGroupId:[OCMArg any]])
+  OCMStub([logManagerMock processLog:[OCMArg isKindOfClass:[MSLogWithProperties class]] forGroupId:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSEventLog *log;
         [invocation getArgument:&log atIndex:2];
