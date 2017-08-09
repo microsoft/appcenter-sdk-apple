@@ -1,0 +1,12 @@
+#include "./Tests.xcconfig"
+#include "./tvOS.xcconfig"
+
+SEARCH_PATHS = "$(SRCROOT)/../Vendor/tvOS"
+
+OTHER_CFLAGS = $(inherited) -iframework "$(SRCROOT)/../Vendor/tvOS/OCMock" -iframework "$(SRCROOT)/../Vendor/tvOS/OCHamcrest" -iframework "$(SRCROOT)/../Vendor/tvOS/OHHTTPStubs" -iframework "$(PLATFORM_DIR)/Developer/Library/Frameworks"
+OTHER_LDFLAGS = $(inherited) -framework UIKit -ObjC
+
+LD_RUNPATH_SEARCH_PATHS = @executable_path/Frameworks @loader_path/Frameworks
+
+// OCMock and OCHamcrest have a bunch of warnings so we just disable this only for testing.
+GCC_TREAT_WARNINGS_AS_ERRORS = NO
