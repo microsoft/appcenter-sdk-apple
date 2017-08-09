@@ -12,6 +12,9 @@ This version contains bug fixes and an improvement that changes the current beha
 
 * **[Improvement]** Send truncated event name and properties instead of skipping it if its lengths are beyond the limits.
 
+## MobileCenterCrashes
+
+* **[Fix]** Fixes two bugs that caused error logs to be assiciated with wrong session information.
 ___
 
 ## Version 0.11.0
@@ -187,7 +190,7 @@ ___
 
 ### MobileCenterAnalytics
 
-* **[Bug]** Fix session Id's tOffset matching.
+* **[Bug]** Fix session Id's toffset matching.
 
 ### MobileCenterCrashes
 
