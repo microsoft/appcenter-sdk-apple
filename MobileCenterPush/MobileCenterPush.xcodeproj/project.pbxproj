@@ -128,7 +128,7 @@
 			containerPortal = D33A94491E5B11BB003966DB /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = D33A94501E5B11BB003966DB;
-			remoteInfo = MobileCenterPush;
+			remoteInfo = MobileCenterPushIOS;
 		};
 		D3AD5F3C1E5D6809001627AB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -576,21 +576,6 @@
 				CLASSPREFIX = MS;
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = Microsoft;
-				TargetAttributes = {
-					D33A94501E5B11BB003966DB = {
-						CreatedOnToolsVersion = 7.3.1;
-					};
-					D3AD5EBF1E5C4F6A001627AB = {
-						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = L4RARDNZ2Y;
-					};
-					D3AD5F221E5C9562001627AB = {
-						CreatedOnToolsVersion = 7.3.1;
-					};
-					D3AD5F271E5C9633001627AB = {
-						CreatedOnToolsVersion = 7.3.1;
-					};
-				};
 			};
 			buildConfigurationList = D33A944C1E5B11BB003966DB /* Build configuration list for PBXProject "MobileCenterPush" */;
 			compatibilityVersion = "Xcode 3.2";

@@ -102,7 +102,7 @@
 			containerPortal = 04FD4A141E451E12009B4468 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 04FD4A1B1E451E12009B4468;
-			remoteInfo = MobileCenterDistribute;
+			remoteInfo = MobileCenterDistributeIOS;
 		};
 		B2C070BE1E5E697C0076D6A9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -568,24 +568,6 @@
 				CLASSPREFIX = MS;
 				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = Microsoft;
-				TargetAttributes = {
-					04FD4A1B1E451E12009B4468 = {
-						CreatedOnToolsVersion = 7.3.1;
-					};
-					04FD4A281E451E90009B4468 = {
-						CreatedOnToolsVersion = 7.3.1;
-					};
-					04FD4A301E453531009B4468 = {
-						CreatedOnToolsVersion = 7.3.1;
-					};
-					04FD4A3C1E453640009B4468 = {
-						CreatedOnToolsVersion = 7.3.1;
-					};
-					B2C070B71E5E68540076D6A9 = {
-						CreatedOnToolsVersion = 8.2.1;
-						ProvisioningStyle = Automatic;
-					};
-				};
 			};
 			buildConfigurationList = 04FD4A171E451E12009B4468 /* Build configuration list for PBXProject "MobileCenterDistribute" */;
 			compatibilityVersion = "Xcode 3.2";

@@ -86,6 +86,54 @@
 		0420A6991ECA7C2700915619 /* OCMock.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0420A68A1ECA7A9B00915619 /* OCMock.framework */; };
 		04311FFC1EE08885007054C5 /* MSCrashReporter.h in Headers */ = {isa = PBXBuildFile; fileRef = 04311FFB1EE08885007054C5 /* MSCrashReporter.h */; };
 		04311FFD1EE08898007054C5 /* MSCrashReporter.h in Headers */ = {isa = PBXBuildFile; fileRef = 04311FFB1EE08885007054C5 /* MSCrashReporter.h */; };
+		0446DF691F3B977100C8E338 /* MSAppleErrorLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FF130B1DD12F61003DC677 /* MSAppleErrorLogTests.m */; };
+		0446DF6A1F3B977100C8E338 /* MSCrashesTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6EC99A2D1D4166C50016C325 /* MSCrashesTests.mm */; };
+		0446DF6B1F3B977100C8E338 /* MSWrapperExceptionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 350B29F31F1E6F1D009B91CF /* MSWrapperExceptionTests.m */; };
+		0446DF6C1F3B977100C8E338 /* MSExceptionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C891D3EC504009EC9AC /* MSExceptionTests.m */; };
+		0446DF6D1F3B977100C8E338 /* MSErrorReportTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120D61D65469D0060DED7 /* MSErrorReportTests.m */; };
+		0446DF6E1F3B977100C8E338 /* MSWrapperCrashesHelperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 352B1D6E1F27C36300684A7F /* MSWrapperCrashesHelperTests.m */; };
+		0446DF6F1F3B977100C8E338 /* MSStackFrameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C861D3EC332009EC9AC /* MSStackFrameTests.m */; };
+		0446DF701F3B977100C8E338 /* MSCrashesCXXExceptionTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = F851DAEC1E81867D00525570 /* MSCrashesCXXExceptionTests.mm */; };
+		0446DF711F3B977100C8E338 /* MSThreadTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C831D3EC0F7009EC9AC /* MSThreadTests.m */; };
+		0446DF721F3B977100C8E338 /* MSErrorLogFormatterTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = B24F3F0E1D93368F00827213 /* MSErrorLogFormatterTests.mm */; };
+		0446DF731F3B977100C8E338 /* MSCrashesTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = B2A0A71B1D9C2AE700729A58 /* MSCrashesTestUtil.m */; };
+		0446DF741F3B977100C8E338 /* MSBinaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C7F1D3EAEB5009EC9AC /* MSBinaryTests.m */; };
+		0446DF751F3B977100C8E338 /* MSWrapperExceptionManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 35EF18DF1DDBCF6C00731CA8 /* MSWrapperExceptionManagerTests.m */; };
+		0446DF761F3B977100C8E338 /* MSErrorAttachmentLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120D41D6546740060DED7 /* MSErrorAttachmentLogTests.m */; };
+		0446DF771F3B977100C8E338 /* MSMockCrashesDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BA68266A68B7F21A86A093B0 /* MSMockCrashesDelegate.m */; };
+		0446DF781F3B977100C8E338 /* MSCrashesUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 59493B275715F01438B2E6FD /* MSCrashesUtilTests.m */; };
+		0446DF7F1F3B977100C8E338 /* live_report_objc_exception.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D0FB1E549B45008B2D8E /* live_report_objc_exception.plcrash */; };
+		0446DF801F3B977100C8E338 /* live_report_call_abort.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D0F51E549B45008B2D8E /* live_report_call_abort.plcrash */; };
+		0446DF811F3B977100C8E338 /* live_report_smash_bottom.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D1001E549B45008B2D8E /* live_report_smash_bottom.plcrash */; };
+		0446DF821F3B977100C8E338 /* live_report_swift_crash.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D1021E549B45008B2D8E /* live_report_swift_crash.plcrash */; };
+		0446DF831F3B977100C8E338 /* live_report_exception_marketing.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A321D416CCF0016C325 /* live_report_exception_marketing.plcrash */; };
+		0446DF841F3B977100C8E338 /* live_report_corrupt_objc.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D0F71E549B45008B2D8E /* live_report_corrupt_objc.plcrash */; };
+		0446DF851F3B977100C8E338 /* live_report_signal.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A331D416CCF0016C325 /* live_report_signal.plcrash */; };
+		0446DF861F3B977100C8E338 /* live_report_xamarin.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A351D416CCF0016C325 /* live_report_xamarin.plcrash */; };
+		0446DF871F3B977100C8E338 /* live_report_objc_msgsend.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D0FC1E549B45008B2D8E /* live_report_objc_msgsend.plcrash */; };
+		0446DF881F3B977100C8E338 /* live_report_cpp_exception.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D0F81E549B45008B2D8E /* live_report_cpp_exception.plcrash */; };
+		0446DF891F3B977100C8E338 /* live_report_call_trap.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D0F61E549B45008B2D8E /* live_report_call_trap.plcrash */; };
+		0446DF8A1F3B977100C8E338 /* live_report_overwrite_link.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D0FE1E549B45008B2D8E /* live_report_overwrite_link.plcrash */; };
+		0446DF8B1F3B977100C8E338 /* live_report_objc_released.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D0FD1E549B45008B2D8E /* live_report_objc_released.plcrash */; };
+		0446DF8C1F3B977100C8E338 /* live_report_undefined_instr.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D1031E549B45008B2D8E /* live_report_undefined_instr.plcrash */; };
+		0446DF8D1F3B977100C8E338 /* live_report_null_ptr.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D0FA1E549B45008B2D8E /* live_report_null_ptr.plcrash */; };
+		0446DF8E1F3B977100C8E338 /* log_report_xamarin in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A361D416CCF0016C325 /* log_report_xamarin */; };
+		0446DF8F1F3B977100C8E338 /* live_report_jump_into_nx.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D0F91E549B45008B2D8E /* live_report_jump_into_nx.plcrash */; };
+		0446DF901F3B977100C8E338 /* live_report_pthread_lock.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D0FF1E549B45008B2D8E /* live_report_pthread_lock.plcrash */; };
+		0446DF911F3B977100C8E338 /* live_report_bad_ptr.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D0F41E549B45008B2D8E /* live_report_bad_ptr.plcrash */; };
+		0446DF921F3B977100C8E338 /* live_report_write_readonly.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D1041E549B45008B2D8E /* live_report_write_readonly.plcrash */; };
+		0446DF931F3B977100C8E338 /* live_report_smash_top.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D1011E549B45008B2D8E /* live_report_smash_top.plcrash */; };
+		0446DF941F3B977100C8E338 /* live_report_signal_marketing.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A341D416CCF0016C325 /* live_report_signal_marketing.plcrash */; };
+		0446DF951F3B977100C8E338 /* live_report_empty.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A301D416CCF0016C325 /* live_report_empty.plcrash */; };
+		0446DF961F3B977100C8E338 /* live_report_exception.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A311D416CCF0016C325 /* live_report_exception.plcrash */; };
+		0446DF9F1F3B981000C8E338 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0484DD1A1F39091D0092B777 /* OCHamcrest.framework */; };
+		0446DFA01F3B981500C8E338 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0484DD1C1F39092A0092B777 /* OCMock.framework */; };
+		0446DFA51F3B986B00C8E338 /* libMobileCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0446DFA41F3B986B00C8E338 /* libMobileCenter.a */; };
+		0446DFA61F3B987B00C8E338 /* OCHamcrest.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0484DD1A1F39091D0092B777 /* OCHamcrest.framework */; };
+		0446DFA71F3B987B00C8E338 /* OCMock.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0484DD1C1F39092A0092B777 /* OCMock.framework */; };
+		0446DFA81F3B988B00C8E338 /* libMobileCenterCrashes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04EBBEE81F01C0C90006B8AE /* libMobileCenterCrashes.a */; };
+		0446DFAA1F3B98A300C8E338 /* libMobileCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0446DFA91F3B98A300C8E338 /* libMobileCenter.a */; };
+		0446DFAC1F3B98A800C8E338 /* libMobileCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0446DFAB1F3B98A800C8E338 /* libMobileCenter.a */; };
 		0485AFA11EAA887500C10CAF /* MSErrorReport.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120DF1D657CF10060DED7 /* MSErrorReport.m */; };
 		0485AFA21EAA887500C10CAF /* MSCrashesCXXExceptionHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6E73FE691D402F79008CDC15 /* MSCrashesCXXExceptionHandler.mm */; };
 		0485AFA31EAA887500C10CAF /* MSAbstractErrorLog.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD3BF81D80EE49000A8A91 /* MSAbstractErrorLog.m */; };
@@ -172,7 +220,6 @@
 		0499F8751EDFAE1D00C3EDDA /* MSErrorAttachmentLog+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 3858A2191E93F3B400535A69 /* MSErrorAttachmentLog+Utility.m */; };
 		0499F8761EDFAE3000C3EDDA /* MSLogWithProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 380B81311E8C540E001C76C9 /* MSLogWithProperties.h */; };
 		0499F8771EDFAE3500C3EDDA /* MSAbstractLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 380B81331E8C565E001C76C9 /* MSAbstractLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		04A140911ECE6625001CEE94 /* libMobileCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04A140901ECE6625001CEE94 /* libMobileCenter.a */; };
 		04BED7231ECB65E100E20975 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04BED7211ECB65DD00E20975 /* OCHamcrest.framework */; };
 		04BED7241ECB65F100E20975 /* OCHamcrestIOS.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6E171AED1D22F7BE000DC480 /* OCHamcrestIOS.framework */; };
 		04BED7251ECB65F900E20975 /* OCHamcrest.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 04BED7211ECB65DD00E20975 /* OCHamcrest.framework */; };
@@ -270,7 +317,6 @@
 		6E0401781D1C9EBE0051BCFA /* MSCrashesPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401521D1C9A4F0051BCFA /* MSCrashesPrivate.h */; };
 		6E171AE61D22F781000DC480 /* libMobileCenterCrashes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E0401331D1C98690051BCFA /* libMobileCenterCrashes.a */; };
 		6E171AEE1D22F7BE000DC480 /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171AED1D22F7BE000DC480 /* OCHamcrestIOS.framework */; };
-		6E171AF01D22F841000DC480 /* libMobileCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E171AEF1D22F841000DC480 /* libMobileCenter.a */; };
 		6E73FE6A1D402F79008CDC15 /* MSCrashesCXXExceptionHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E73FE681D402F79008CDC15 /* MSCrashesCXXExceptionHandler.h */; };
 		6E73FE6B1D402F79008CDC15 /* MSCrashesCXXExceptionHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6E73FE691D402F79008CDC15 /* MSCrashesCXXExceptionHandler.mm */; };
 		6E73FE6F1D4032AB008CDC15 /* MSCrashesUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E73FE6D1D4032AB008CDC15 /* MSCrashesUtil.h */; };
@@ -337,12 +383,19 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		0446DFA11F3B985C00C8E338 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E04012B1D1C98690051BCFA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04EBBEB01F01C0C90006B8AE;
+			remoteInfo = MobileCenterCrashesTVOS;
+		};
 		049327631ECA170D00D0187A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6E04012B1D1C98690051BCFA /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 6E0401321D1C98690051BCFA;
-			remoteInfo = MobileCenterCrashes;
+			remoteInfo = MobileCenterCrashesIOS;
 		};
 		04EBBEF81F01C79A0006B8AE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -370,11 +423,22 @@
 			containerPortal = 6E04012B1D1C98690051BCFA /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 6E0401321D1C98690051BCFA;
-			remoteInfo = MobileCenterCrashes;
+			remoteInfo = MobileCenterCrashesIOS;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		0446DF971F3B977100C8E338 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+				0446DFA61F3B987B00C8E338 /* OCHamcrest.framework in CopyFiles */,
+				0446DFA71F3B987B00C8E338 /* OCMock.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0485AFB21EAA887500C10CAF /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -433,6 +497,10 @@
 		0420A68C1ECA7AA800915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../macOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
 		04311FF41EE08697007054C5 /* MSTestFrameworks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSTestFrameworks.h; path = ../../MobileCenter/MobileCenterTests/Util/MSTestFrameworks.h; sourceTree = "<group>"; };
 		04311FFB1EE08885007054C5 /* MSCrashReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrashReporter.h; sourceTree = "<group>"; };
+		0446DF9D1F3B977100C8E338 /* MobileCenterCrashes.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MobileCenterCrashes.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0446DFA41F3B986B00C8E338 /* libMobileCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobileCenter.a; path = "../../../../../Library/Developer/Xcode/DerivedData/MobileCenter-atgozldoovnqvrcmynluxwlivwkq/Build/Products/Debug-appletvsimulator/libMobileCenter.a"; sourceTree = "<group>"; };
+		0446DFA91F3B98A300C8E338 /* libMobileCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobileCenter.a; path = "../../../../../Library/Developer/Xcode/DerivedData/MobileCenter-atgozldoovnqvrcmynluxwlivwkq/Build/Products/Debug-iphonesimulator/libMobileCenter.a"; sourceTree = "<group>"; };
+		0446DFAB1F3B98A800C8E338 /* libMobileCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobileCenter.a; path = "../../../../../Library/Developer/Xcode/DerivedData/MobileCenter-atgozldoovnqvrcmynluxwlivwkq/Build/Products/Debug/libMobileCenter.a"; sourceTree = "<group>"; };
 		044C45F81DB6EA0C00F3C29E /* MSErrorAttachmentPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSErrorAttachmentPrivate.h; sourceTree = "<group>"; };
 		044C45FA1DB6EC1C00F3C29E /* MSErrorBinaryAttachmentPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSErrorBinaryAttachmentPrivate.h; sourceTree = "<group>"; };
 		0484DD1A1F39091D0092B777 /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = ../../Vendor/tvOS/OCHamcrest/OCHamcrest.framework; sourceTree = "<group>"; };
@@ -466,7 +534,6 @@
 		049553051EF19F9F0097E071 /* MSCrashesUtilPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSCrashesUtilPrivate.h; sourceTree = "<group>"; };
 		049BC8251ECE36D400FB6719 /* iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS.xcconfig; sourceTree = "<group>"; };
 		049BC8261ECE370100FB6719 /* macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
-		04A140901ECE6625001CEE94 /* libMobileCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobileCenter.a; path = "../../../../../Library/Developer/Xcode/DerivedData/MobileCenter-cxbmzrupyysdsehdxmozcvjphajr/Build/Products/Debug/libMobileCenter.a"; sourceTree = "<group>"; };
 		04BED7211ECB65DD00E20975 /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = ../../Vendor/macOS/OCHamcrest/OCHamcrest.framework; sourceTree = "<group>"; };
 		04EBBEAE1F01C0B50006B8AE /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = ../Vendor/tvOS/PLCrashReporter/CrashReporter.framework; sourceTree = "<group>"; };
 		04EBBEE81F01C0C90006B8AE /* libMobileCenterCrashes.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMobileCenterCrashes.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -508,7 +575,6 @@
 		6E171AE11D22F781000DC480 /* MobileCenterCrashes.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MobileCenterCrashes.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E171AE51D22F781000DC480 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6E171AED1D22F7BE000DC480 /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrestIOS.framework; path = ../../Vendor/iOS/OCHamcrest/OCHamcrestIOS.framework; sourceTree = "<group>"; };
-		6E171AEF1D22F841000DC480 /* libMobileCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobileCenter.a; path = "../../../../../Library/Developer/Xcode/DerivedData/AvalancheSDK-gjtjaobzkdgbqkdiexolxdrcgdjg/Build/Products/Debug-iphonesimulator/libMobileCenter.a"; sourceTree = "<group>"; };
 		6E37297F1D1DE93800F1E4AE /* MobileCenterCrashes.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = MobileCenterCrashes.xcconfig; sourceTree = "<group>"; };
 		6E73FE681D402F79008CDC15 /* MSCrashesCXXExceptionHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrashesCXXExceptionHandler.h; sourceTree = "<group>"; };
 		6E73FE691D402F79008CDC15 /* MSCrashesCXXExceptionHandler.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MSCrashesCXXExceptionHandler.mm; sourceTree = "<group>"; };
@@ -578,6 +644,17 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		0446DF791F3B977100C8E338 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0446DFA81F3B988B00C8E338 /* libMobileCenterCrashes.a in Frameworks */,
+				0446DFA51F3B986B00C8E338 /* libMobileCenter.a in Frameworks */,
+				0446DFA01F3B981500C8E338 /* OCMock.framework in Frameworks */,
+				0446DF9F1F3B981000C8E338 /* OCHamcrest.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0485AFB01EAA887500C10CAF /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -589,7 +666,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04A140911ECE6625001CEE94 /* libMobileCenter.a in Frameworks */,
+				0446DFAC1F3B98A800C8E338 /* libMobileCenter.a in Frameworks */,
 				049327CE1ECA1A5F00D0187A /* libMobileCenterCrashes.a in Frameworks */,
 				04BED7231ECB65E100E20975 /* OCHamcrest.framework in Frameworks */,
 				0420A6961ECA7BF500915619 /* OCMock.framework in Frameworks */,
@@ -617,7 +694,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E171AF01D22F841000DC480 /* libMobileCenter.a in Frameworks */,
+				0446DFAA1F3B98A300C8E338 /* libMobileCenter.a in Frameworks */,
 				6E171AE61D22F781000DC480 /* libMobileCenterCrashes.a in Frameworks */,
 				6E171AEE1D22F7BE000DC480 /* OCHamcrestIOS.framework in Frameworks */,
 				0420A6981ECA7C1700915619 /* OCMock.framework in Frameworks */,
@@ -826,6 +903,7 @@
 				0485AFD31EAA887500C10CAF /* libMobileCenterCrashes.a */,
 				049327961ECA170D00D0187A /* MobileCenterCrashes.xctest */,
 				04EBBEE81F01C0C90006B8AE /* libMobileCenterCrashes.a */,
+				0446DF9D1F3B977100C8E338 /* MobileCenterCrashes.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -893,8 +971,9 @@
 		6E171AEC1D22F7AB000DC480 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				6E171AEF1D22F841000DC480 /* libMobileCenter.a */,
-				04A140901ECE6625001CEE94 /* libMobileCenter.a */,
+				0446DFA91F3B98A300C8E338 /* libMobileCenter.a */,
+				0446DFAB1F3B98A800C8E338 /* libMobileCenter.a */,
+				0446DFA41F3B986B00C8E338 /* libMobileCenter.a */,
 				04BED71E1ECB65BF00E20975 /* OCHamcrest */,
 				6E171B041D22FABA000DC480 /* OCMock */,
 			);
@@ -1148,6 +1227,25 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		0446DF651F3B977100C8E338 /* MobileCenterCrashesTVOSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0446DF9A1F3B977100C8E338 /* Build configuration list for PBXNativeTarget "MobileCenterCrashesTVOSTests" */;
+			buildPhases = (
+				0446DF681F3B977100C8E338 /* Sources */,
+				0446DF791F3B977100C8E338 /* Frameworks */,
+				0446DF7E1F3B977100C8E338 /* Resources */,
+				0446DF971F3B977100C8E338 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0446DFA21F3B985C00C8E338 /* PBXTargetDependency */,
+			);
+			name = MobileCenterCrashesTVOSTests;
+			productName = MobileCenterCrashesTests;
+			productReference = 0446DF9D1F3B977100C8E338 /* MobileCenterCrashes.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		0485AF9F1EAA887500C10CAF /* MobileCenterCrashesMacOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0485AFD01EAA887500C10CAF /* Build configuration list for PBXNativeTarget "MobileCenterCrashesMacOS" */;
@@ -1249,25 +1347,6 @@
 				CLASSPREFIX = MS;
 				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = Microsoft;
-				TargetAttributes = {
-					049327611ECA170D00D0187A = {
-						DevelopmentTeam = L4RARDNZ2Y;
-						ProvisioningStyle = Automatic;
-					};
-					6E0401321D1C98690051BCFA = {
-						CreatedOnToolsVersion = 7.3.1;
-					};
-					6E171AE01D22F781000DC480 = {
-						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = L4RARDNZ2Y;
-					};
-					6E3729771D1DE83200F1E4AE = {
-						CreatedOnToolsVersion = 7.3.1;
-					};
-					6E6BFC361D23504F00DF7617 = {
-						CreatedOnToolsVersion = 7.3.1;
-					};
-				};
 			};
 			buildConfigurationList = 6E04012E1D1C98690051BCFA /* Build configuration list for PBXProject "MobileCenterCrashes" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1291,12 +1370,44 @@
 				04FD115E1EF2FA04000C5A5C /* MobileCenterCrashesMacOSDoc */,
 				04EBBEB01F01C0C90006B8AE /* MobileCenterCrashesTVOS */,
 				04EBBEE91F01C0E10006B8AE /* MobileCenterCrashesTVOSFramework */,
+				0446DF651F3B977100C8E338 /* MobileCenterCrashesTVOSTests */,
 				04EBBEF11F01C7100006B8AE /* MobileCenterCrashesTVOSDoc */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		0446DF7E1F3B977100C8E338 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0446DF7F1F3B977100C8E338 /* live_report_objc_exception.plcrash in Resources */,
+				0446DF801F3B977100C8E338 /* live_report_call_abort.plcrash in Resources */,
+				0446DF811F3B977100C8E338 /* live_report_smash_bottom.plcrash in Resources */,
+				0446DF821F3B977100C8E338 /* live_report_swift_crash.plcrash in Resources */,
+				0446DF831F3B977100C8E338 /* live_report_exception_marketing.plcrash in Resources */,
+				0446DF841F3B977100C8E338 /* live_report_corrupt_objc.plcrash in Resources */,
+				0446DF851F3B977100C8E338 /* live_report_signal.plcrash in Resources */,
+				0446DF861F3B977100C8E338 /* live_report_xamarin.plcrash in Resources */,
+				0446DF871F3B977100C8E338 /* live_report_objc_msgsend.plcrash in Resources */,
+				0446DF881F3B977100C8E338 /* live_report_cpp_exception.plcrash in Resources */,
+				0446DF891F3B977100C8E338 /* live_report_call_trap.plcrash in Resources */,
+				0446DF8A1F3B977100C8E338 /* live_report_overwrite_link.plcrash in Resources */,
+				0446DF8B1F3B977100C8E338 /* live_report_objc_released.plcrash in Resources */,
+				0446DF8C1F3B977100C8E338 /* live_report_undefined_instr.plcrash in Resources */,
+				0446DF8D1F3B977100C8E338 /* live_report_null_ptr.plcrash in Resources */,
+				0446DF8E1F3B977100C8E338 /* log_report_xamarin in Resources */,
+				0446DF8F1F3B977100C8E338 /* live_report_jump_into_nx.plcrash in Resources */,
+				0446DF901F3B977100C8E338 /* live_report_pthread_lock.plcrash in Resources */,
+				0446DF911F3B977100C8E338 /* live_report_bad_ptr.plcrash in Resources */,
+				0446DF921F3B977100C8E338 /* live_report_write_readonly.plcrash in Resources */,
+				0446DF931F3B977100C8E338 /* live_report_smash_top.plcrash in Resources */,
+				0446DF941F3B977100C8E338 /* live_report_signal_marketing.plcrash in Resources */,
+				0446DF951F3B977100C8E338 /* live_report_empty.plcrash in Resources */,
+				0446DF961F3B977100C8E338 /* live_report_exception.plcrash in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		049327791ECA170D00D0187A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1443,6 +1554,29 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		0446DF681F3B977100C8E338 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0446DF691F3B977100C8E338 /* MSAppleErrorLogTests.m in Sources */,
+				0446DF6A1F3B977100C8E338 /* MSCrashesTests.mm in Sources */,
+				0446DF6B1F3B977100C8E338 /* MSWrapperExceptionTests.m in Sources */,
+				0446DF6C1F3B977100C8E338 /* MSExceptionTests.m in Sources */,
+				0446DF6D1F3B977100C8E338 /* MSErrorReportTests.m in Sources */,
+				0446DF6E1F3B977100C8E338 /* MSWrapperCrashesHelperTests.m in Sources */,
+				0446DF6F1F3B977100C8E338 /* MSStackFrameTests.m in Sources */,
+				0446DF701F3B977100C8E338 /* MSCrashesCXXExceptionTests.mm in Sources */,
+				0446DF711F3B977100C8E338 /* MSThreadTests.m in Sources */,
+				0446DF721F3B977100C8E338 /* MSErrorLogFormatterTests.mm in Sources */,
+				0446DF731F3B977100C8E338 /* MSCrashesTestUtil.m in Sources */,
+				0446DF741F3B977100C8E338 /* MSBinaryTests.m in Sources */,
+				0446DF751F3B977100C8E338 /* MSWrapperExceptionManagerTests.m in Sources */,
+				0446DF761F3B977100C8E338 /* MSErrorAttachmentLogTests.m in Sources */,
+				0446DF771F3B977100C8E338 /* MSMockCrashesDelegate.m in Sources */,
+				0446DF781F3B977100C8E338 /* MSCrashesUtilTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0485AFA01EAA887500C10CAF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1564,6 +1698,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		0446DFA21F3B985C00C8E338 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04EBBEB01F01C0C90006B8AE /* MobileCenterCrashesTVOS */;
+			targetProxy = 0446DFA11F3B985C00C8E338 /* PBXContainerItemProxy */;
+		};
 		049327621ECA170D00D0187A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 6E0401321D1C98690051BCFA /* MobileCenterCrashesIOS */;
@@ -1592,6 +1731,30 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		0446DF9B1F3B977100C8E338 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0484DD5F1F3910EF0092B777 /* Tests tvOS.xcconfig */;
+			buildSettings = {
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					CrashReporter,
+				);
+			};
+			name = Debug;
+		};
+		0446DF9C1F3B977100C8E338 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0484DD5F1F3910EF0092B777 /* Tests tvOS.xcconfig */;
+			buildSettings = {
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					CrashReporter,
+				);
+			};
+			name = Release;
+		};
 		0485AFD11EAA887500C10CAF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8261ECE370100FB6719 /* macOS.xcconfig */;
@@ -1792,6 +1955,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0446DF9A1F3B977100C8E338 /* Build configuration list for PBXNativeTarget "MobileCenterCrashesTVOSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0446DF9B1F3B977100C8E338 /* Debug */,
+				0446DF9C1F3B977100C8E338 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		0485AFD01EAA887500C10CAF /* Build configuration list for PBXNativeTarget "MobileCenterCrashesMacOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
