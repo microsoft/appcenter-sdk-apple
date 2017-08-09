@@ -1,5 +1,9 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#ifndef MSAppDelegate
+#define MSAppDelegate MSUIAppDelegate
+#define MSApplicationDelegate UIApplicationDelegate
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -13,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
  * each custom delegate must sign up for selectors to swizzle within the `load` method of a category over
  * the @see MSAppDelegateForwarder class.
  */
-@protocol MSAppDelegate <NSObject>
+@protocol MSUIAppDelegate <NSObject>
 
 @optional
 
