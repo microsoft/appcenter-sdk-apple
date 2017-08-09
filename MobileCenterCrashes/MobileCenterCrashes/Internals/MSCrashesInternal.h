@@ -1,6 +1,8 @@
 #import "MSCrashes.h"
 #import "MSServiceInternal.h"
 
+@class MSException;
+
 @interface MSCrashes () <MSServiceInternal>
 
 /**

@@ -1,5 +1,5 @@
 
-                                                    
+
 #import <sqlite3.h>
 
 #import "MSDBStoragePrivate.h"
@@ -95,7 +95,7 @@
                  [[NSString alloc] initWithUTF8String:errMsg]);
     }
   } else {
-    MSLogError([MSMobileCenter logTag], @"Failed to open database.");
+    MSLogError([MSMobileCenter logTag], @"Failed to open database for non-selection query with result: %d.", result);
   }
   sqlite3_close(db);
   return SQLITE_OK == result;
@@ -144,7 +144,7 @@
                  [[NSString alloc] initWithUTF8String:sqlite3_errmsg(db)]);
     }
   } else {
-    MSLogError([MSMobileCenter logTag], @"Failed to open database.");
+    MSLogError([MSMobileCenter logTag], @"Failed to open database for non-selection query with result: %d.", result);
   }
   sqlite3_close(db);
   return entries;

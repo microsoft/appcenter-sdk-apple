@@ -204,6 +204,12 @@
                            // Remove from pending logs.
                            [self.pendingBatchIds removeObject:senderBatchId];
                            [self.storage deleteLogsWithBatchId:senderBatchId groupId:self.configuration.groupId];
+                           
+                           // Update pending batch queue state.
+                           if (self.pendingBatchQueueFull &&
+                               self.pendingBatchIds.count < self.configuration.pendingBatchesLimit) {
+                             self.pendingBatchQueueFull = NO;
+                           }
                          }
                        } else
                          MSLogWarning([MSMobileCenter logTag], @"Batch Id %@ not expected, ignore.", senderBatchId);

@@ -152,11 +152,6 @@ typedef struct MSCrashesCallbacks {
 - (BOOL)delegateImplementsAttachmentCallback;
 
 /**
- * Save the managed exception information in the event of a crash from a wrapper sdk.
- */
-+ (void)wrapperCrashCallback;
-
-/**
  * Creates log buffer to buffer logs which will be saved in an async-safe manner
  * at crash time. The buffer makes sure we don't loose any logs at crashtime.
  * This method creates 20 files that will be used to buffer 20 logs.

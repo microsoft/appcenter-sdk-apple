@@ -5,6 +5,7 @@
 
 static NSString *const kMSCrashesDirectory = @"com.microsoft.azure.mobile.mobilecenter/crashes";
 static NSString *const kMSLogBufferDirectory = @"com.microsoft.azure.mobile.mobilecenter/crasheslogbuffer";
+static NSString *const kMSWrapperExceptionsDirectory = @"com.microsoft.azure.mobile.mobilecenter/crasheswrapperexceptions";
 
 @interface MSCrashesUtil ()
 
@@ -28,7 +29,7 @@ NSString *ms_crashesDir(void);
     NSError *error = nil;
     NSFileManager *fileManager = [[NSFileManager alloc] init];
 
-    // temporary directory for crashes grabbed from PLCrashReporter
+    // Temporary directory for crashes grabbed from PLCrashReporter.
     NSURL *cachesDirectory = [[fileManager URLsForDirectory:NSCachesDirectory inDomains:NSUserDomainMask] lastObject];
     crashesDir = [cachesDirectory URLByAppendingPathComponent:kMSCrashesDirectory];
 
@@ -54,7 +55,7 @@ NSString *ms_crashesDir(void);
     NSError *error = nil;
     NSFileManager *fileManager = [[NSFileManager alloc] init];
 
-    // temporary directory for crashes grabbed from PLCrashReporter
+    // Temporary directory for crashes grabbed from PLCrashReporter.
     NSURL *cachesDirectory = [[fileManager URLsForDirectory:NSCachesDirectory inDomains:NSUserDomainMask] lastObject];
     logBufferDir = [cachesDirectory URLByAppendingPathComponent:kMSLogBufferDirectory];
 
@@ -71,5 +72,32 @@ NSString *ms_crashesDir(void);
 
   return logBufferDir;
 }
+
++ (NSURL *)wrapperExceptionsDir {
+  static NSURL *wrapperExceptionsDir = nil;
+  static dispatch_once_t predSettingsDir;
+
+  dispatch_once(&predSettingsDir, ^{
+    NSError *error = nil;
+    NSFileManager *fileManager = [[NSFileManager alloc] init];
+
+    // Temporary directory for crashes grabbed from PLCrashReporter.
+    NSURL *cachesDirectory = [[fileManager URLsForDirectory:NSCachesDirectory inDomains:NSUserDomainMask] lastObject];
+    wrapperExceptionsDir = [cachesDirectory URLByAppendingPathComponent:kMSWrapperExceptionsDirectory];
+
+    if (![wrapperExceptionsDir checkResourceIsReachableAndReturnError:&error]) {
+      NSDictionary *attributes = @{ NSFilePosixPermissions : @0755 };
+      NSError *theError = nil;
+
+      [fileManager createDirectoryAtURL:wrapperExceptionsDir
+            withIntermediateDirectories:YES
+                             attributes:attributes
+                                  error:&theError];
+    }
+  });
+
+  return wrapperExceptionsDir;
+}
+
 
 @end

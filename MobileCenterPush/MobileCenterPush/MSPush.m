@@ -193,7 +193,7 @@ static dispatch_once_t onceToken;
 }
 
 - (BOOL)didReceiveRemoteNotification:(NSDictionary *)userInfo {
-  MSLogVerbose([MSPush logTag], @"User info for notification has forwarded to Push: %@", [userInfo description]);
+  MSLogVerbose([MSPush logTag], @"User info for notification was forwarded to Push: %@", [userInfo description]);
   NSObject *alert = [[userInfo objectForKey:kMSPushNotificationApsKey] objectForKey:kMSPushNotificationAlertKey];
   if (!alert || ![alert isKindOfClass:[NSDictionary class]]) {
     return NO;

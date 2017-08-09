@@ -15,6 +15,13 @@
   return ([error.domain isEqualToString:NSURLErrorDomain] && (error.code == NSURLErrorNotConnectedToInternet));
 }
 
++ (BOOL)isSSLConnectionError:(NSError *)error {
+  
+  // Check for error domain and if the error.code falls in the range of SSL connection errors (between -2000 and -1200).
+  return ([error.domain isEqualToString:NSURLErrorDomain] &&
+          ((error.code >= NSURLErrorCannotLoadFromNetwork) && (error.code <= NSURLErrorSecureConnectionFailed)));
+}
+
 + (BOOL)isRequestCanceledError:(NSError *)error {
   return ([error.domain isEqualToString:NSURLErrorDomain] && (error.code == NSURLErrorCancelled));
 }

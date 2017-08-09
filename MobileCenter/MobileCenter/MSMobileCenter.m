@@ -50,7 +50,7 @@ static NSString *const kMSGroupId = @"MobileCenter";
 }
 
 + (void)startService:(Class)service {
-  [[self sharedInstance] startService:service];
+  [[self sharedInstance] startService:service andSendLog:YES];
 }
 
 + (BOOL)isConfigured {
@@ -94,7 +94,7 @@ static NSString *const kMSGroupId = @"MobileCenter";
 
 + (void)setLogLevel:(MSLogLevel)logLevel {
   MSLogger.currentLogLevel = logLevel;
-  
+
   // The logger is not set at the time of swizzling but now may be a good time to flush the traces.
   [MSAppDelegateForwarder flushTraceBuffer];
 }
@@ -202,16 +202,20 @@ static NSString *const kMSGroupId = @"MobileCenter";
 - (void)start:(NSString *)appSecret withServices:(NSArray<Class> *)services {
   @synchronized(self) {
     BOOL configured = [self configure:appSecret];
-    if (configured) {
+    if (configured && services) {
       NSArray *sortedServices = [self sortServices:services];
       NSMutableArray<NSString *> *servicesNames = [NSMutableArray arrayWithCapacity:sortedServices.count];
 
       for (Class service in sortedServices) {
-        if ([self startService:service]) {
+        if ([self startService:service andSendLog:NO]) {
           [servicesNames addObject:[service serviceName]];
         }
       }
-      [self sendStartServiceLog:servicesNames];
+      if ([servicesNames count] > 0) {
+        [self sendStartServiceLog:servicesNames];
+      } else {
+        MSLogDebug([MSMobileCenter logTag], @"No services have been started.");
+      }
     }
   }
 }
@@ -236,10 +240,15 @@ static NSString *const kMSGroupId = @"MobileCenter";
   }
 }
 
-- (BOOL)startService:(Class)clazz {
+- (BOOL)startService:(Class)clazz andSendLog:(BOOL)sendLog {
   @synchronized(self) {
-    id<MSServiceInternal> service = [clazz sharedInstance];
 
+    // Check if clazz is valid class
+    if (![clazz conformsToProtocol:@protocol(MSServiceCommon)]) {
+      MSLogError([MSMobileCenter logTag], @"Cannot start service %@. Provided value is nil or invalid.", clazz);
+      return NO;
+    }
+    id<MSServiceInternal> service = [clazz sharedInstance];
     if (service.isAvailable) {
 
       // Service already works, we shouldn't send log with this service name
@@ -252,7 +261,12 @@ static NSString *const kMSGroupId = @"MobileCenter";
     // Start service with log manager.
     [service startWithLogManager:self.logManager appSecret:self.appSecret];
 
-    // Service started
+    // Send start service log.
+    if (sendLog) {
+      [self sendStartServiceLog:@[ [clazz serviceName] ]];
+    }
+
+    // Service started.
     return YES;
   }
 }
@@ -385,7 +399,7 @@ static NSString *const kMSGroupId = @"MobileCenter";
 - (void)sendCustomPropertiesLog:(NSDictionary<NSString *, NSObject *> *)properties {
   MSCustomPropertiesLog *customPropertiesLog = [MSCustomPropertiesLog new];
   customPropertiesLog.properties = properties;
-  
+
   // FIXME: withPriority parameter need to be removed on merge.
   [self.logManager processLog:customPropertiesLog forGroupId:kMSGroupId];
 }
