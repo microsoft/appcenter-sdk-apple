@@ -1,8 +1,25 @@
 # Mobile Center SDK for iOS Change Log
 
+## Version 0.11.1
+
+This version contains bug fixes and an improvement that changes the current behavior.
+
+## MobileCenter
+
+* **[Fix]** Fix bugs that sent multiple or empty service start logs at launch time.
+
+## MobileCenterAnalytics
+
+* **[Improvement]** Send truncated event name and properties instead of skipping it if its lengths are beyond the limits.
+
+## MobileCenterCrashes
+
+* **[Fix]** Fixes two bugs that caused error logs to be assiciated with wrong session information.
+___
+
 ## Version 0.11.0
 
-This version has a **breaking change** in the Crashes module and contains other bugfixes and improvements.
+This version has a **breaking change** in the Crashes module and contains other bug fixes and improvements.
 
 ### MobileCenter
 
@@ -21,7 +38,7 @@ ___
 
 ## Version 0.10.1
 
-This version contains a bugfix for crash attachments.
+This version contains a bug fix for crash attachments.
 
 ### MobileCenterCrashes
 
@@ -173,7 +190,7 @@ ___
 
 ### MobileCenterAnalytics
 
-* **[Bug]** Fix session Id's tOffset matching.
+* **[Bug]** Fix session Id's toffset matching.
 
 ### MobileCenterCrashes
 
