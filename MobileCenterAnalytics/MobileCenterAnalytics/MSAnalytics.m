@@ -160,7 +160,7 @@ static const int maxPropertyValueLength = 64;
   }
   if ([eventName length] > maxEventNameLength) {
     MSLogWarning([MSAnalytics logTag],
-               @"%@ '%@' : name length cannot be longer than %d characters.  Name will be truncated.", logType, eventName, maxEventNameLength);
+               @"%@ '%@' : name length cannot be longer than %d characters. Name will be truncated.", logType, eventName, maxEventNameLength);
     eventName = [eventName substringToIndex:maxEventNameLength];
   }
   return eventName;
