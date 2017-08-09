@@ -49,6 +49,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 #pragma mark - Tests
 
 - (void)testValidateEventName {
+  const int maxEventNameLength = 256;
 
   // If
   NSString *validEventName = @"validEventName";
@@ -65,26 +66,27 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
                                 @"tooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventName"];
 
   // When
-  BOOL valid = [[MSAnalytics sharedInstance] validateEventName:validEventName forLogType:kMSTypeEvent];
-  BOOL validShortEventName = [[MSAnalytics sharedInstance] validateEventName:shortEventName forLogType:kMSTypeEvent];
-  BOOL validEventName256 = [[MSAnalytics sharedInstance] validateEventName:eventName256 forLogType:kMSTypeEvent];
-  BOOL validNullableEventName =
-      [[MSAnalytics sharedInstance] validateEventName:nullableEventName forLogType:kMSTypeEvent];
-  BOOL validEmptyEventName = [[MSAnalytics sharedInstance] validateEventName:emptyEventName forLogType:kMSTypeEvent];
-  BOOL validTooLongEventName =
-      [[MSAnalytics sharedInstance] validateEventName:tooLongEventName forLogType:kMSTypeEvent];
+  NSString* valid = [[MSAnalytics sharedInstance] validateEventName:validEventName forLogType:kMSTypeEvent];
+  NSString* validShortEventName = [[MSAnalytics sharedInstance] validateEventName:shortEventName forLogType:kMSTypeEvent];
+  NSString* validEventName256 = [[MSAnalytics sharedInstance] validateEventName:eventName256 forLogType:kMSTypeEvent];
+  NSString* validNullableEventName = [[MSAnalytics sharedInstance] validateEventName:nullableEventName forLogType:kMSTypeEvent];
+  NSString* validEmptyEventName = [[MSAnalytics sharedInstance] validateEventName:emptyEventName forLogType:kMSTypeEvent];
+  NSString* validTooLongEventName = [[MSAnalytics sharedInstance] validateEventName:tooLongEventName forLogType:kMSTypeEvent];
 
   // Then
-  XCTAssertTrue(valid);
-  XCTAssertTrue(validShortEventName);
-  XCTAssertTrue(validEventName256);
-  XCTAssertFalse(validNullableEventName);
-  XCTAssertFalse(validEmptyEventName);
-  XCTAssertFalse(validTooLongEventName);
+  XCTAssertNotNil(valid);
+  XCTAssertNotNil(validShortEventName);
+  XCTAssertNotNil(validEventName256);
+  XCTAssertNil(validNullableEventName);
+  XCTAssertNil(validEmptyEventName);
+  XCTAssertNotNil(validTooLongEventName);
+  XCTAssertEqual([validTooLongEventName length], maxEventNameLength);
 }
 
 - (void)testValidatePropertyType {
   const int maxPropertriesPerEvent = 5;
+  const int maxPropertyKeyLength = 64;
+  const int maxPropertyValueLength = 64;
   NSString *longStringValue =
       [NSString stringWithFormat:@"%@", @"valueValueValueValueValueValueValueValueValueValueValueValueValue"];
   NSString *stringValue64 =
@@ -130,7 +132,6 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   NSDictionary *invalidKeysInProperties =
       @{ @"Key1" : @"Value1",
          @(2) : @"Value2",
-         longStringValue : @"Value3",
          @"" : @"Value4" };
 
   // When
@@ -143,7 +144,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
   // Test invalid values
   // If
-  NSDictionary *invalidValuesInProperties = @{ @"Key1" : @"Value1", @"Key2" : @(2), @"Key3" : longStringValue };
+  NSDictionary *invalidValuesInProperties = @{ @"Key1" : @"Value1", @"Key2" : @(2)};
 
   // When
   validatedProperties = [[MSAnalytics sharedInstance] validateProperties:invalidValuesInProperties
@@ -152,6 +153,22 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
   // Then
   XCTAssertTrue([validatedProperties count] == 1);
+
+  // Test long keys and values are truncated.
+  // If
+  NSDictionary *tooLongKeysAndValuesInProperties = @{longStringValue:longStringValue};
+
+  // When
+  validatedProperties = [[MSAnalytics sharedInstance] validateProperties:tooLongKeysAndValuesInProperties
+                                                              forLogName:kMSTypeEvent
+                                                                 andType:kMSTypeEvent];
+
+  // Then
+  NSString *truncatedKey = (NSString *)[[validatedProperties allKeys] firstObject];
+  NSString *truncatedValue = (NSString *)[[validatedProperties allValues] firstObject];
+  XCTAssertTrue([validatedProperties count] == 1);
+  XCTAssertEqual([truncatedKey length], maxPropertyKeyLength);
+  XCTAssertEqual([truncatedValue length], maxPropertyValueLength);
 
   // Test mixed variant
   // If
@@ -163,7 +180,6 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
     @"Key5" : @"Value5",
     @"Key6" : @(2),
     @"Key7" : longStringValue,
-    @"Key8" : @""
   };
 
   // When
@@ -177,9 +193,8 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   XCTAssertNotNil([validatedProperties objectForKey:stringValue64]);
   XCTAssertNotNil([validatedProperties objectForKey:@"Key4"]);
   XCTAssertNotNil([validatedProperties objectForKey:@"Key5"]);
-  XCTAssertNotNil([validatedProperties objectForKey:@"Key8"]);
   XCTAssertNil([validatedProperties objectForKey:@"Key6"]);
-  XCTAssertNil([validatedProperties objectForKey:@"Key7"]);
+  XCTAssertNotNil([validatedProperties objectForKey:@"Key7"]);
 }
 
 - (void)testApplyEnabledStateWorks {

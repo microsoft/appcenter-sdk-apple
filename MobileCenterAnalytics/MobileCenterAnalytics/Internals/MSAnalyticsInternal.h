@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return YES if event name is valid, NO otherwise.
  */
-- (BOOL)validateEventName:(NSString *)eventName forLogType:(NSString *)logType;
+- (NSString *)validateEventName:(NSString *)eventName forLogType:(NSString *)logType;
 
 /**
  * Validate keys and values of properties.
