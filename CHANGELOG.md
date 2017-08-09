@@ -2,7 +2,7 @@
 
 ## Version 0.11.1
 
-This version contains bug fixes and improvement that changes the current behavior.
+This version contains bug fixes and an improvement that changes the current behavior.
 
 ## MobileCenter
 
