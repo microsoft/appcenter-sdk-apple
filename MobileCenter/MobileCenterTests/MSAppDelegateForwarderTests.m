@@ -414,7 +414,9 @@
   [self waitForExpectations:@[ exceptionCaughtExpectation ] timeout:1];
 }
 
-#if !TARGET_OS_OSX
+#if TARGET_OS_IOS
+
+// TODO: tvOS doesn't support application:openURL:sourceApplication:annotation:. Temporaily disable the test.
 - (void)testWithoutCustomDelegate {
 
   // If
@@ -478,7 +480,9 @@
   [self waitForExpectations:@[ originalCalledExpectation ] timeout:1];
 }
 
-#if !TARGET_OS_OSX
+#if TARGET_OS_IOS
+
+// TODO: tvOS doesn't support application:openURL:sourceApplication:annotation:. Temporaily disable the test.
 - (void)testWithOneCustomDelegate {
 
   // If
@@ -606,7 +610,9 @@
 }
 #endif
 
-#if !TARGET_OS_OSX
+#if TARGET_OS_IOS
+
+// TODO: tvOS doesn't support application:openURL:sourceApplication:annotation:. Temporaily disable the test.
 - (void)testWithMultipleCustomOpenURLDelegates {
 
   // If
@@ -726,7 +732,9 @@
                     timeout:1];
 }
 
-#if !TARGET_OS_OSX
+#if TARGET_OS_IOS
+
+// TODO: tvOS doesn't support application:openURL:sourceApplication:annotation:. Temporaily disable the test.
 - (void)testWithRemovedCustomOpenURLDelegate {
 
   // If
@@ -811,7 +819,9 @@
   [self waitForExpectations:@[ originalCalledExpectation ] timeout:1];
 }
 
-#if !TARGET_OS_OSX
+#if TARGET_OS_IOS
+
+// TODO: tvOS doesn't support application:openURL:sourceApplication:annotation:. Temporaily disable the test.
 - (void)testDontForwardOpenURLOnDisable {
 
   // If
@@ -898,7 +908,9 @@
   MSAppDelegateForwarder.enabled = YES;
 }
 
-#if !TARGET_OS_OSX
+#if TARGET_OS_IOS
+
+// TODO: tvOS doesn't support application:openURL:sourceApplication:annotation:. Temporaily disable the test.
 - (void)testReturnValueChaining {
 
   // If
@@ -1045,7 +1057,9 @@
   // Then
   [self waitForExpectations:@[ customCalledExpectation ] timeout:1];
 }
-#else
+#elif TARGET_OS_IOS
+
+// TODO: Push doesn't support tvOS. Temporaily disable the test.
 - (void)testDidReceiveRemoteNotification {
 
   // If
