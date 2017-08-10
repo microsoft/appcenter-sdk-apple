@@ -5,7 +5,7 @@ sdk: appletvsimulator
 theme: ../../Themes/apple
 
 module: MobileCenter
-module_version: 0.11.1
+module_version: 0.11.2
 author: Microsoft Corp
 author_url: http://www.microsoft.com
 

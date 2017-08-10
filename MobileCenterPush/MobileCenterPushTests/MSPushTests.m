@@ -158,7 +158,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   [MSPush resetSharedInstance];
   id pushDelegateMock = OCMProtocolMock(@protocol(MSPushDelegate));
   __block MSPushNotification *pushNotification = nil;
-  OCMStub([pushDelegateMock push:self.sut didReceivePushNotification:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
+  OCMStub([pushDelegateMock push:self.sut didReceivePushNotification:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     [invocation getArgument:&pushNotification atIndex:3];
   });
   [MSPush setDelegate:pushDelegateMock];
@@ -192,7 +192,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
 #if TARGET_OS_OSX
                                  OCMVerify([pushMock didReceiveNotification:notificationMock]);
 #else
-        OCMVerify([pushMock didReceiveRemoteNotification:userInfo]);
+                                 OCMVerify([pushMock didReceiveRemoteNotification:userInfo]);
 #endif
                                  OCMVerify([pushDelegateMock push:self.sut didReceivePushNotification:[OCMArg any]]);
                                  XCTAssertNotNil(pushNotification);
@@ -214,8 +214,9 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   OCMStub([pushMock sharedInstance]).andReturn(pushMock);
   [MSPush resetSharedInstance];
   id pushDelegateMock = OCMProtocolMock(@protocol(MSPushDelegate));
+  OCMReject([pushDelegateMock push:self.sut didReceivePushNotification:OCMOCK_ANY]);
   __block MSPushNotification *pushNotification = nil;
-  OCMStub([pushDelegateMock push:self.sut didReceivePushNotification:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
+  OCMStub([pushDelegateMock push:self.sut didReceivePushNotification:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     [invocation getArgument:&pushNotification atIndex:3];
   });
   [MSPush setDelegate:pushDelegateMock];
@@ -297,12 +298,9 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   // Then
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
-#if TARGET_OS_OSX
-                                 OCMReject([pushMock didReceiveNotification:[OCMArg any]]);
-#else
-        OCMReject([pushMock didReceiveRemoteNotification:[OCMArg any]]);
-#endif
-                                 OCMReject([pushDelegateMock push:self.sut didReceivePushNotification:[OCMArg any]]);
+                                 
+                                 // Then
+                                 OCMVerifyAll(pushDelegateMock);
                                  XCTAssertNil(pushNotification);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);

@@ -163,7 +163,7 @@
   assertThat([NSNumber numberWithBool:self.abstractService.isEnabled], is([NSNumber numberWithBool:expected]));
 
   // Also check that the sut did access the persistence.
-  OCMVerify([self.settingsMock setObject:[OCMArg any] forKey:[OCMArg any]]);
+  OCMVerify([self.settingsMock setObject:OCMOCK_ANY forKey:OCMOCK_ANY]);
 }
 
 - (void)testIsEnabledFromPersistence {
@@ -185,7 +185,7 @@
   assertThat(@(isEnabled), is(expected));
 
   // Also check that the sut did access the persistence.
-  OCMVerify([self.settingsMock objectForKey:[OCMArg any]]);
+  OCMVerify([self.settingsMock objectForKey:OCMOCK_ANY]);
 }
 
 - (void)testCanBeUsed {
