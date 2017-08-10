@@ -189,7 +189,10 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
                             return [((MSDeviceHistoryInfo *)a).tOffset compare:((MSDeviceHistoryInfo *)b).tOffset];
                           }];
 
-    // All tOffsets are larger.
+    /*
+     * All tOffsets are larger.
+     * For now, the SDK picks up the oldest which is closer to the device info at the crash time.
+     */
     if (index == 0) {
       return self.deviceHistory[0].device;
     }
@@ -197,14 +200,11 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
     // All toffsets are smaller.
     else if (index == self.deviceHistory.count) {
       return [self.deviceHistory lastObject].device;
-    } else {
-      // Either the deviceHistory contains the exact toffset or we pick the smallest delta.
-      long long leftDifference = [toffset longLongValue] - [self.deviceHistory[index - 1].tOffset longLongValue];
-      long long rightDifference = [self.deviceHistory[index].tOffset longLongValue] - [toffset longLongValue];
-      if (leftDifference < rightDifference) {
-        --index;
-      }
-      return self.deviceHistory[index].device;
+    }
+
+    // [index - 1] should be the right index for the toffset.
+    else {
+      return self.deviceHistory[index - 1].device;
     }
   }
 }
