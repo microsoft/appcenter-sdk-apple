@@ -212,14 +212,9 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
       log.sid = [self.pastSessions lastObject].sessionId;
     }
 
-    // Either the pastSessions contains the exact toffset or we pick the smallest delta.
+    // [index - 1] should be the right index for the toffset.
     else {
-      long long leftDifference = [log.toffset longLongValue] - [self.pastSessions[index - 1].toffset longLongValue];
-      long long rightDifference = [self.pastSessions[index].toffset longLongValue] - [log.toffset longLongValue];
-      if (leftDifference < rightDifference) {
-        --index;
-      }
-      log.sid = self.pastSessions[index].sessionId;
+      log.sid = self.pastSessions[index - 1].sessionId;
     }
   }
 
