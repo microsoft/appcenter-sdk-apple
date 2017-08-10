@@ -225,6 +225,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 }
 
 /* This can never be binded to Xamarin */
+// TODO: Mach exception handler is not supported on tvOS.
 #if !TARGET_OS_TV
 + (void)disableMachExceptionHandler {
   [[self sharedInstance] setEnableMachExceptionHandler:NO];
@@ -245,6 +246,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     _logBufferDir = [MSCrashesUtil logBufferDir];
     _analyzerInProgressFile = [_crashesDir URLByAppendingPathComponent:kMSAnalyzerFilename];
     _didCrashInLastSession = NO;
+
+    // TODO: Mach exception handler is not supported on tvOS.
 #if !TARGET_OS_TV
     _enableMachExceptionHandler = YES;
 #endif
@@ -535,6 +538,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   }
 
   PLCrashReporterSignalHandlerType signalHandlerType = PLCrashReporterSignalHandlerTypeBSD;
+
+  // TODO: Mach exception handler is not supported on tvOS.
 #if !TARGET_OS_TV
   if (self.isMachExceptionHandlerEnabled) {
     signalHandlerType = PLCrashReporterSignalHandlerTypeMach;
