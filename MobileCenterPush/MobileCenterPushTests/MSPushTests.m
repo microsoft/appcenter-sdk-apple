@@ -194,7 +194,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
 #else
                                  OCMVerify([pushMock didReceiveRemoteNotification:userInfo]);
 #endif
-                                 OCMVerify([pushDelegateMock push:self.sut didReceivePushNotification:[OCMArg any]]);
+                                 OCMVerify([pushDelegateMock push:self.sut didReceivePushNotification:OCMOCK_ANY]);
                                  XCTAssertNotNil(pushNotification);
                                  XCTAssertEqual(pushNotification.title, title);
                                  XCTAssertEqual(pushNotification.message, message);
@@ -248,7 +248,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
 #else
                                  OCMVerify([pushMock didReceiveRemoteNotification:userInfo]);
 #endif
-                                 OCMVerify([pushDelegateMock push:self.sut didReceivePushNotification:[OCMArg any]]);
+                                 OCMVerify([pushDelegateMock push:self.sut didReceivePushNotification:OCMOCK_ANY]);
                                  XCTAssertNotNil(pushNotification);
                                  XCTAssertEqual(pushNotification.title, @"");
                                  XCTAssertEqual(pushNotification.message, message);
@@ -270,7 +270,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   id pushDelegateMock = OCMProtocolMock(@protocol(MSPushDelegate));
   OCMReject([pushDelegateMock push:self.sut didReceivePushNotification:OCMOCK_ANY]);
   __block MSPushNotification *pushNotification = nil;
-  OCMStub([pushDelegateMock push:self.sut didReceivePushNotification:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
+  OCMStub([pushDelegateMock push:self.sut didReceivePushNotification:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     [invocation getArgument:&pushNotification atIndex:3];
   });
   [MSPush setDelegate:pushDelegateMock];
