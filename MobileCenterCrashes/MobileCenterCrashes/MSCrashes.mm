@@ -655,7 +655,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     if ([crashFileData length] > 0) {
       MSPLCrashReport *report = [[MSPLCrashReport alloc] initWithData:crashFileData error:&error];
       if (report) {
-        MSAppleErrorLog *log = [MSErrorLogFormatter errorLogFromCrashReport:report];
         foundCrashReports[fileURL] = report;
         foundErrorReports[fileURL] = [MSErrorLogFormatter errorReportFromCrashReport:report];
       } else {
