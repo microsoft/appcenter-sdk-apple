@@ -1,5 +1,15 @@
 # Mobile Center SDK for iOS Change Log
 
+## Version 0.11.2
+
+This version contains a bug fix that wasn't properly fixed in the previous release.
+
+## MobileCenterCrashes
+
+* **[Fix]** Fixed a bug that the Crashes picked up one next session after previous crash.
+
+___
+
 ## Version 0.11.1
 
 This version contains bug fixes and an improvement that changes the current behavior.
@@ -15,6 +25,7 @@ This version contains bug fixes and an improvement that changes the current beha
 ## MobileCenterCrashes
 
 * **[Fix]** Fixes two bugs that caused error logs to be assiciated with wrong session information.
+
 ___
 
 ## Version 0.11.0
