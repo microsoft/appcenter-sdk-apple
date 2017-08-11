@@ -5,7 +5,7 @@ sdk: iphonesimulator
 theme: ../Themes/apple
 
 module: MobileCenterPush
-module_version: 0.11.2
+module_version: 0.12.0
 author: Microsoft Corp
 author_url: http://www.microsoft.com
 
