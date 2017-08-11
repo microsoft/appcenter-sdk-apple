@@ -5,7 +5,7 @@ sdk: macosx
 theme: ../../Themes/apple
 
 module: MobileCenterAnalytics
-module_version: 0.11.1
+module_version: 0.12.0
 author: Microsoft Corp
 author_url: http://www.microsoft.com
 

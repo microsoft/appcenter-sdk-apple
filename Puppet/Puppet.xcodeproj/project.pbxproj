@@ -58,6 +58,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		0446C04E1F3D307B007CBE39 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 048A76B51E9EC2D50075A6D6 /* MobileCenterPush.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0469640D1F2A558300F9D31F;
+			remoteInfo = MobileCenterPushMacOS;
+		};
+		0446C0501F3D307B007CBE39 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 048A76B51E9EC2D50075A6D6 /* MobileCenterPush.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 046964251F2A559C00F9D31F;
+			remoteInfo = MobileCenterPushMacOSTests;
+		};
 		04685E651EE776AC00A1592F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E82E1B821D1CA63000D281C1 /* MobileCenter.xcodeproj */;
@@ -455,6 +469,8 @@
 			children = (
 				048A76BD1E9EC2D50075A6D6 /* libMobileCenterPush.a */,
 				048A76BF1E9EC2D50075A6D6 /* MobileCenterPush.xctest */,
+				0446C04F1F3D307B007CBE39 /* libMobileCenterPush.a */,
+				0446C0511F3D307B007CBE39 /* MobileCenterPush.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -732,8 +748,8 @@
 				E82E1B8E1D1CA65600D281C1 /* PBXTargetDependency */,
 				0471B9481E455B630022F951 /* PBXTargetDependency */,
 				048A76C11E9EC2EF0075A6D6 /* PBXTargetDependency */,
-				380A4DA31DD6892F00E99219 /* PBXTargetDependency */,
 				B2C070CE1E5F59A90076D6A9 /* PBXTargetDependency */,
+				380A4DA31DD6892F00E99219 /* PBXTargetDependency */,
 				048A76A21E9EC0240075A6D6 /* PBXTargetDependency */,
 			);
 			name = Puppet;
@@ -823,6 +839,20 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		0446C04F1F3D307B007CBE39 /* libMobileCenterPush.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libMobileCenterPush.a;
+			remoteRef = 0446C04E1F3D307B007CBE39 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0446C0511F3D307B007CBE39 /* MobileCenterPush.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = MobileCenterPush.xctest;
+			remoteRef = 0446C0501F3D307B007CBE39 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		04685E661EE776AC00A1592F /* libMobileCenter.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
