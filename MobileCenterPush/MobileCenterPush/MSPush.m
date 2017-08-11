@@ -238,7 +238,7 @@ static dispatch_once_t onceToken;
 #if !TARGET_OS_OSX
   (void)userNotification;
 #endif
-  MSLogVerbose([MSPush logTag], @"User info for notification has forwarded to Push: %@", [userInfo description]);
+  MSLogVerbose([MSPush logTag], @"User info for notification was forwarded to Push: %@", [userInfo description]);
   NSString *title;
   NSString *message;
   NSDictionary *aps = [userInfo objectForKey:kMSPushNotificationApsKey];

@@ -42,6 +42,7 @@
   id bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([bundleMock executablePath]).andReturn(@"/apath/coolappext.appex/coolappext");
   OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
+  OCMReject([self.utils sharedAppState]);
 
   /**
    * Then
@@ -49,7 +50,6 @@
   assertThat(@([MSUtility applicationState]), is(@(MSApplicationStateUnknown)));
 
   // Make sure the sharedApplication as not been called, it's forbidden within app extensions
-  OCMReject([self.utils sharedAppState]);
   [bundleMock stopMocking];
 }
 

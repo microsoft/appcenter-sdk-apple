@@ -647,25 +647,21 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     [MSWrapperExceptionManager deleteAllWrapperExceptions];
     return;
   }
-
   NSError *error = nil;
-  self.unprocessedLogs = [[NSMutableArray alloc] init];
   self.unprocessedReports = [[NSMutableArray alloc] init];
+  self.unprocessedLogs = [[NSMutableArray alloc] init];
   self.unprocessedFilePaths = [[NSMutableArray alloc] init];
 
   // First save all found crash reports for use in correlation step.
   NSMutableDictionary *foundCrashReports = [[NSMutableDictionary alloc] init];
-  NSMutableDictionary *foundErrorLogs = [[NSMutableDictionary alloc] init];
   NSMutableDictionary *foundErrorReports = [[NSMutableDictionary alloc] init];
   for (NSURL *fileURL in self.crashFiles) {
     NSData *crashFileData = [NSData dataWithContentsOfURL:fileURL];
     if ([crashFileData length] > 0) {
       MSPLCrashReport *report = [[MSPLCrashReport alloc] initWithData:crashFileData error:&error];
       if (report) {
-        MSAppleErrorLog *log = [MSErrorLogFormatter errorLogFromCrashReport:report];
         foundCrashReports[fileURL] = report;
-        foundErrorLogs[fileURL] = log;
-        foundErrorReports[fileURL] = [MSErrorLogFormatter errorReportFromLog:log];
+        foundErrorReports[fileURL] = [MSErrorLogFormatter errorReportFromCrashReport:report];
       } else {
         MSLogWarning([MSCrashes logTag], @"Crash report found but couldn't parse it, discard the crash report: %@", error.localizedDescription);
       }
@@ -679,8 +675,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   for (NSURL *fileURL in [foundCrashReports allKeys]) {
     MSLogVerbose([MSCrashes logTag], @"Crash reports found");
     MSPLCrashReport *report = foundCrashReports[fileURL];
-    MSAppleErrorLog *log = foundErrorLogs[fileURL];
     MSErrorReport *errorReport = foundErrorReports[fileURL];
+    MSAppleErrorLog *log = [MSErrorLogFormatter errorLogFromCrashReport:report];
     if ([self shouldProcessErrorReport:errorReport]) {
       MSLogDebug([MSCrashes logTag],
                  @"shouldProcessErrorReport is not implemented or returned YES, processing the crash report: %@",
@@ -805,6 +801,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
         NSURL *cacheURL = [self.crashesDir URLByAppendingPathComponent:cacheFilename];
         [crashData writeToURL:cacheURL atomically:YES];
         self.lastSessionCrashReport = [MSErrorLogFormatter errorReportFromCrashReport:report];
+        [MSWrapperExceptionManager correlateLastSavedWrapperExceptionToReport:@[self.lastSessionCrashReport]];
       } else {
         MSLogWarning([MSCrashes logTag], @"Couldn't parse crash report: %@", error.localizedDescription);
       }
