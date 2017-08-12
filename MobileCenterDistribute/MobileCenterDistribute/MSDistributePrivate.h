@@ -3,6 +3,12 @@
 #import "MSAlertController.h"
 #import "MSAppDelegate.h"
 #import "MSDistribute.h"
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 110000
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpartial-availability"
+#import <SafariServices/SafariServices.h>
+#pragma clang diagnostic pop
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -94,6 +100,13 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
  * Custom application delegate dedicated to Distribute.
  */
 @property(nonatomic) id<MSAppDelegate> appDelegate;
+
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 110000
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpartial-availability"
+@property(nullable, nonatomic) SFAuthenticationSession *authenticationSession;
+#pragma clang diagnostic pop
+#endif // __IPHONE_OS_VERSION_MAX_ALLOWED >= 110000
 
 /**
  * Returns the singleton instance. Meant for testing/demo apps only.

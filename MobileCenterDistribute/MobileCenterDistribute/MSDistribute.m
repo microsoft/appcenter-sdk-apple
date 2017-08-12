@@ -40,6 +40,9 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
 @synthesize channelConfiguration = _channelConfiguration;
 
+
+
+
 #pragma mark - Service initialization
 
 - (instancetype)init {
@@ -453,7 +456,9 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   NSString *callbackUrlScheme = [NSString stringWithFormat:kMSDefaultCustomSchemeFormat, self.appSecret];
   
   if (@available(iOS 11.0, *)) {
-    SFAuthenticationSession *authenticationSession = [[clazz alloc] initWithURL:url callbackURLScheme:callbackUrlScheme completionHandler:^(NSURL *callbackUrl, NSError *error) {
+    SFAuthenticationSession *session = [[clazz alloc] initWithURL:url callbackURLScheme:callbackUrlScheme completionHandler:^(NSURL *callbackUrl, NSError *error) {
+      
+      self.authenticationSession = nil;
       MSLogDebug([MSDistribute logTag], @"Called %@ with errror: %@", callbackUrl, error.localizedDescription);
       
       if(error.code == SFAuthenticationErrorCanceledLogin) {
@@ -464,12 +469,12 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
         [self openURL:callbackUrl];
       }
     }];
-    BOOL success = [authenticationSession start];
+    self.authenticationSession = session;
+
+    BOOL success = [session start];
     if(success) {
       MSLogDebug([MSDistribute logTag], @"Authentication Session Started, showing confirmation dialog");
     }
-  } else {
-    // Fallback on earlier versions
   }
 }
 
