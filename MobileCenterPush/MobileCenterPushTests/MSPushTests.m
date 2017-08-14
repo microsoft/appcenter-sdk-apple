@@ -176,7 +176,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   OCMStub([userNotificationUserInfoMock userInfo]).andReturn(userInfo);
 #endif
 
-// When
+  // When
 #if TARGET_OS_OSX
   BOOL result = [MSPush didReceiveNotification:notificationMock];
 #else
@@ -230,7 +230,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   OCMStub([userNotificationUserInfoMock userInfo]).andReturn(userInfo);
 #endif
 
-// When
+  // When
 #if TARGET_OS_OSX
   BOOL result = [MSPush didReceiveNotification:notificationMock];
 #else
