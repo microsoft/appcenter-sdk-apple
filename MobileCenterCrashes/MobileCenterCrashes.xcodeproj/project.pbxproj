@@ -394,22 +394,22 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 6E04012B1D1C98690051BCFA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 6E0401321D1C98690051BCFA;
-			remoteInfo = MobileCenterCrashesIOS;
+			remoteGlobalIDString = 0485AF9F1EAA887500C10CAF;
+			remoteInfo = MobileCenterCrashesMacOS;
 		};
 		04EBBEF81F01C79A0006B8AE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6E04012B1D1C98690051BCFA /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 04EBBEE91F01C0E10006B8AE;
-			remoteInfo = MobileCenterCrashesTVOSFramework;
+			remoteInfo = "Fat Framework";
 		};
 		04FD11651EF2FA13000C5A5C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6E04012B1D1C98690051BCFA /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 0485AFF91EAAB27E00C10CAF;
-			remoteInfo = MobileCenterCrashesMacOSFramework;
+			remoteInfo = "Fat Framework";
 		};
 		386352E51D51105800D0D450 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1705,7 +1705,7 @@
 		};
 		049327621ECA170D00D0187A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 6E0401321D1C98690051BCFA /* MobileCenterCrashesIOS */;
+			target = 0485AF9F1EAA887500C10CAF /* MobileCenterCrashesMacOS */;
 			targetProxy = 049327631ECA170D00D0187A /* PBXContainerItemProxy */;
 		};
 		04EBBEF91F01C79A0006B8AE /* PBXTargetDependency */ = {

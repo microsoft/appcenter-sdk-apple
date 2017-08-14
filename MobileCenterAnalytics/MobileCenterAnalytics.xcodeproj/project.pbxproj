@@ -205,14 +205,14 @@
 			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 0485AFEF1EAAADAC00C10CAF;
-			remoteInfo = MobileCenterAnalyticsMacOSFramework;
+			remoteInfo = "Fat Framework";
 		};
 		04FD11771EF2FE5B000C5A5C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 0431216D1EE0C213007054C5;
-			remoteInfo = MobileCenterAnalyticsTVOSFramework;
+			remoteInfo = "Fat Framework";
 		};
 		386352E31D51047400D0D450 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;

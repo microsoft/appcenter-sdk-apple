@@ -114,7 +114,7 @@
 			containerPortal = D33A94491E5B11BB003966DB /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 0469640E1F2A558F00F9D31F;
-			remoteInfo = MobileCenterPushMacOSFramework;
+			remoteInfo = "Fat Framework";
 		};
 		046964331F2A56A400F9D31F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -135,7 +135,7 @@
 			containerPortal = D33A94491E5B11BB003966DB /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = D3AD5F221E5C9562001627AB;
-			remoteInfo = MobileCenterPushFramework;
+			remoteInfo = "Fat Framework";
 		};
 /* End PBXContainerItemProxy section */
 

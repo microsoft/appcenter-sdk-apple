@@ -20,20 +20,6 @@
                ReferencedContainer = "container:MobileCenterCrashes.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "NO"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "049327611ECA170D00D0187A"
-               BuildableName = "MobileCenterCrashes.xctest"
-               BlueprintName = "MobileCenterCrashesMacOSTests"
-               ReferencedContainer = "container:MobileCenterCrashes.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
