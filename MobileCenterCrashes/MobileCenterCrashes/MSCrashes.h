@@ -91,6 +91,7 @@ typedef NS_ENUM(NSUInteger, MSUserConfirmation) {
 /// @name Configuration
 ///-----------------------------------------------------------------------------
 
+// TODO: Mach exception handler is not supported on tvOS.
 #if !TARGET_OS_TV
 /**
  * Disable the Mach exception server.

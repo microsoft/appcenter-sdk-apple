@@ -414,7 +414,7 @@
   [self waitForExpectations:@[ exceptionCaughtExpectation ] timeout:1];
 }
 
-#if !TARGET_OS_OSX
+#if TARGET_OS_IOS
 - (void)testWithoutCustomDelegate {
 
   // If
@@ -478,7 +478,7 @@
   [self waitForExpectations:@[ originalCalledExpectation ] timeout:1];
 }
 
-#if !TARGET_OS_OSX
+#if TARGET_OS_IOS
 - (void)testWithOneCustomDelegate {
 
   // If
@@ -606,7 +606,7 @@
 }
 #endif
 
-#if !TARGET_OS_OSX
+#if TARGET_OS_IOS
 - (void)testWithMultipleCustomOpenURLDelegates {
 
   // If
@@ -726,7 +726,7 @@
                     timeout:1];
 }
 
-#if !TARGET_OS_OSX
+#if TARGET_OS_IOS
 - (void)testWithRemovedCustomOpenURLDelegate {
 
   // If
@@ -811,7 +811,7 @@
   [self waitForExpectations:@[ originalCalledExpectation ] timeout:1];
 }
 
-#if !TARGET_OS_OSX
+#if TARGET_OS_IOS
 - (void)testDontForwardOpenURLOnDisable {
 
   // If
@@ -898,7 +898,7 @@
   MSAppDelegateForwarder.enabled = YES;
 }
 
-#if !TARGET_OS_OSX
+#if TARGET_OS_IOS
 - (void)testReturnValueChaining {
 
   // If
@@ -1045,7 +1045,9 @@
   // Then
   [self waitForExpectations:@[ customCalledExpectation ] timeout:1];
 }
-#else
+#elif TARGET_OS_IOS
+
+// TODO: Push doesn't support tvOS. Temporaily disable the test.
 - (void)testDidReceiveRemoteNotification {
 
   // If
