@@ -415,8 +415,6 @@
 }
 
 #if TARGET_OS_IOS
-
-// TODO: tvOS doesn't support application:openURL:sourceApplication:annotation:. Temporaily disable the test.
 - (void)testWithoutCustomDelegate {
 
   // If
@@ -481,8 +479,6 @@
 }
 
 #if TARGET_OS_IOS
-
-// TODO: tvOS doesn't support application:openURL:sourceApplication:annotation:. Temporaily disable the test.
 - (void)testWithOneCustomDelegate {
 
   // If
@@ -611,8 +607,6 @@
 #endif
 
 #if TARGET_OS_IOS
-
-// TODO: tvOS doesn't support application:openURL:sourceApplication:annotation:. Temporaily disable the test.
 - (void)testWithMultipleCustomOpenURLDelegates {
 
   // If
@@ -733,8 +727,6 @@
 }
 
 #if TARGET_OS_IOS
-
-// TODO: tvOS doesn't support application:openURL:sourceApplication:annotation:. Temporaily disable the test.
 - (void)testWithRemovedCustomOpenURLDelegate {
 
   // If
@@ -820,8 +812,6 @@
 }
 
 #if TARGET_OS_IOS
-
-// TODO: tvOS doesn't support application:openURL:sourceApplication:annotation:. Temporaily disable the test.
 - (void)testDontForwardOpenURLOnDisable {
 
   // If
@@ -909,8 +899,6 @@
 }
 
 #if TARGET_OS_IOS
-
-// TODO: tvOS doesn't support application:openURL:sourceApplication:annotation:. Temporaily disable the test.
 - (void)testReturnValueChaining {
 
   // If
