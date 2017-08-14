@@ -6,7 +6,8 @@
 
 static NSString *const kMSCrashesDirectory = @"com.microsoft.azure.mobile.mobilecenter/crashes";
 static NSString *const kMSLogBufferDirectory = @"com.microsoft.azure.mobile.mobilecenter/crasheslogbuffer";
-static NSString *const kMSWrapperExceptionsDirectory = @"com.microsoft.azure.mobile.mobilecenter/crasheswrapperexceptions";
+static NSString *const kMSWrapperExceptionsDirectory =
+    @"com.microsoft.azure.mobile.mobilecenter/crasheswrapperexceptions";
 
 @interface MSCrashesUtil ()
 
@@ -22,7 +23,7 @@ NSString *ms_crashesDir(void);
 
 static dispatch_once_t crashesDirectoryOnceToken;
 static dispatch_once_t logBufferDirectoryOnceToken;
-// TODO: We might need onceToken for wrapper exceptions directory.
+static dispatch_once_t wrapperExceptionsDirectoryOnceToken;
 
 #pragma mark - Public
 
@@ -49,7 +50,8 @@ static dispatch_once_t logBufferDirectoryOnceToken;
                  withIntermediateDirectories:YES
                                   attributes:attributes
                                        error:&error]) {
-        MSLogError([MSCrashes logTag], @"Couldn't create crashes directory at %@: %@", crashesDir, error.localizedDescription);
+        MSLogError([MSCrashes logTag], @"Couldn't create crashes directory at %@: %@", crashesDir,
+                   error.localizedDescription);
       }
     }
   });
@@ -80,7 +82,8 @@ static dispatch_once_t logBufferDirectoryOnceToken;
                  withIntermediateDirectories:YES
                                   attributes:attributes
                                        error:&error]) {
-        MSLogError([MSCrashes logTag], @"Couldn't create log buffer directory at %@: %@", logBufferDir, error.localizedDescription);
+        MSLogError([MSCrashes logTag], @"Couldn't create log buffer directory at %@: %@", logBufferDir,
+                   error.localizedDescription);
       }
     }
   });
@@ -90,24 +93,31 @@ static dispatch_once_t logBufferDirectoryOnceToken;
 
 + (NSURL *)wrapperExceptionsDir {
   static NSURL *wrapperExceptionsDir = nil;
-  static dispatch_once_t predSettingsDir;
 
-  dispatch_once(&predSettingsDir, ^{
+  dispatch_once(&wrapperExceptionsDirectoryOnceToken, ^{
     NSError *error = nil;
     NSFileManager *fileManager = [[NSFileManager alloc] init];
 
     // Temporary directory for crashes grabbed from PLCrashReporter.
     NSURL *cachesDirectory = [[fileManager URLsForDirectory:NSCachesDirectory inDomains:NSUserDomainMask] lastObject];
+#if TARGET_OS_OSX
+
+    // To prevent placing all logs to the same place if host application doesn't enable sandbox.
+    cachesDirectory = [cachesDirectory
+        URLByAppendingPathComponent:[NSString stringWithFormat:@"%@/", [MS_APP_MAIN_BUNDLE bundleIdentifier]]];
+#endif
     wrapperExceptionsDir = [cachesDirectory URLByAppendingPathComponent:kMSWrapperExceptionsDirectory];
 
-    if (![wrapperExceptionsDir checkResourceIsReachableAndReturnError:&error]) {
+    if (![wrapperExceptionsDir checkResourceIsReachableAndReturnError:nil]) {
       NSDictionary *attributes = @{ NSFilePosixPermissions : @0755 };
-      NSError *theError = nil;
 
-      [fileManager createDirectoryAtURL:wrapperExceptionsDir
-            withIntermediateDirectories:YES
-                             attributes:attributes
-                                  error:&theError];
+      if (![fileManager createDirectoryAtURL:wrapperExceptionsDir
+                 withIntermediateDirectories:YES
+                                  attributes:attributes
+                                       error:&error]) {
+        MSLogError([MSCrashes logTag], @"Couldn't create wrapper exceptions directory at %@: %@", wrapperExceptionsDir,
+                   error.localizedDescription);
+      }
     }
   });
 
@@ -119,6 +129,7 @@ static dispatch_once_t logBufferDirectoryOnceToken;
 + (void)resetDirectory {
   crashesDirectoryOnceToken = 0;
   logBufferDirectoryOnceToken = 0;
+  wrapperExceptionsDirectoryOnceToken = 0;
 }
 
 @end
