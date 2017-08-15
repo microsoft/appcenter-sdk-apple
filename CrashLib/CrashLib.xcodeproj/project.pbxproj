@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		801C25311F04001300F4859B /* CrashLibiOS-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = B24187A21DD2A7F900D820D8 /* CrashLibiOS-Bridging-Header.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		801C25311F04001300F4859B /* CrashLib-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = B24187A21DD2A7F900D820D8 /* CrashLib-Bridging-Header.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		80F991291F0265C60040FAD7 /* MSCrash.h in Headers */ = {isa = PBXBuildFile; fileRef = B24187891DD2A7F900D820D8 /* MSCrash.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		80F9912A1F0265C60040FAD7 /* MSCrash.m in Sources */ = {isa = PBXBuildFile; fileRef = B24187971DD2A7F900D820D8 /* MSCrash.m */; };
 		80F9912B1F0265C60040FAD7 /* MSCrashAbort.h in Headers */ = {isa = PBXBuildFile; fileRef = B241878D1DD2A7F900D820D8 /* MSCrashAbort.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -83,7 +83,7 @@
 		B24187D21DD2A7F900D820D8 /* MSFramelessDWARF_arm64.s in Sources */ = {isa = PBXBuildFile; fileRef = B241879F1DD2A7F900D820D8 /* MSFramelessDWARF_arm64.s */; };
 		B24187D31DD2A7F900D820D8 /* MSCrashNULL.m in Sources */ = {isa = PBXBuildFile; fileRef = B24187A01DD2A7F900D820D8 /* MSCrashNULL.m */; };
 		B24187D41DD2A7F900D820D8 /* MSCrashOverwriteLinkRegister.m in Sources */ = {isa = PBXBuildFile; fileRef = B24187A11DD2A7F900D820D8 /* MSCrashOverwriteLinkRegister.m */; };
-		B24187D51DD2A7F900D820D8 /* CrashLibiOS-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = B24187A21DD2A7F900D820D8 /* CrashLibiOS-Bridging-Header.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B24187D51DD2A7F900D820D8 /* CrashLib-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = B24187A21DD2A7F900D820D8 /* CrashLib-Bridging-Header.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B24187D61DD2A7F900D820D8 /* MSCrashReleasedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = B24187A31DD2A7F900D820D8 /* MSCrashReleasedObject.m */; };
 		B24187D71DD2A7F900D820D8 /* MSFramelessDWARF_i386.s in Sources */ = {isa = PBXBuildFile; fileRef = B24187A41DD2A7F900D820D8 /* MSFramelessDWARF_i386.s */; };
 		B24187D81DD2A7F900D820D8 /* MSCrashCorruptMalloc.m in Sources */ = {isa = PBXBuildFile; fileRef = B24187A51DD2A7F900D820D8 /* MSCrashCorruptMalloc.m */; };
@@ -140,7 +140,7 @@
 		B241879F1DD2A7F900D820D8 /* MSFramelessDWARF_arm64.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = MSFramelessDWARF_arm64.s; sourceTree = "<group>"; };
 		B24187A01DD2A7F900D820D8 /* MSCrashNULL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCrashNULL.m; sourceTree = "<group>"; };
 		B24187A11DD2A7F900D820D8 /* MSCrashOverwriteLinkRegister.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCrashOverwriteLinkRegister.m; sourceTree = "<group>"; };
-		B24187A21DD2A7F900D820D8 /* CrashLibiOS-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CrashLibiOS-Bridging-Header.h"; sourceTree = "<group>"; };
+		B24187A21DD2A7F900D820D8 /* CrashLib-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CrashLib-Bridging-Header.h"; sourceTree = "<group>"; };
 		B24187A31DD2A7F900D820D8 /* MSCrashReleasedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCrashReleasedObject.m; sourceTree = "<group>"; };
 		B24187A41DD2A7F900D820D8 /* MSFramelessDWARF_i386.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = MSFramelessDWARF_i386.s; sourceTree = "<group>"; };
 		B24187A51DD2A7F900D820D8 /* MSCrashCorruptMalloc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCrashCorruptMalloc.m; sourceTree = "<group>"; };
@@ -189,7 +189,7 @@
 		B21A71D11DD2A38C0044BB1C = {
 			isa = PBXGroup;
 			children = (
-				B21A71DD1DD2A38C0044BB1C /* CrashLibIOS */,
+				B21A71DD1DD2A38C0044BB1C /* CrashLib */,
 				B21A71DC1DD2A38C0044BB1C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -203,7 +203,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		B21A71DD1DD2A38C0044BB1C /* CrashLibIOS */ = {
+		B21A71DD1DD2A38C0044BB1C /* CrashLib */ = {
 			isa = PBXGroup;
 			children = (
 				B24187B61DD2A7F900D820D8 /* CrashLib.h */,
@@ -256,10 +256,10 @@
 				B241878B1DD2A7F900D820D8 /* MSFramelessDWARF_arm32.S */,
 				B24187B91DD2A7F900D820D8 /* MSFramelessDWARF_x86_64.s */,
 				B241879F1DD2A7F900D820D8 /* MSFramelessDWARF_arm64.s */,
-				B24187A21DD2A7F900D820D8 /* CrashLibiOS-Bridging-Header.h */,
+				B24187A21DD2A7F900D820D8 /* CrashLib-Bridging-Header.h */,
 				B21A71DF1DD2A38C0044BB1C /* Info.plist */,
 			);
-			path = CrashLibIOS;
+			path = CrashLib;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -276,7 +276,7 @@
 				80F9912D1F0265C60040FAD7 /* MSCrashAsyncSafeThread.h in Headers */,
 				80F9912F1F0265C60040FAD7 /* MSCrashCXXException.h in Headers */,
 				80F991331F0265C60040FAD7 /* MSCrashCorruptObjC.h in Headers */,
-				801C25311F04001300F4859B /* CrashLibiOS-Bridging-Header.h in Headers */,
+				801C25311F04001300F4859B /* CrashLib-Bridging-Header.h in Headers */,
 				80F9913F1F0265C60040FAD7 /* MSCrashObjCException.h in Headers */,
 				80F991311F0265C60040FAD7 /* MSCrashCorruptMalloc.h in Headers */,
 				80F9914B1F0265C60040FAD7 /* MSCrashSmashStackBottom.h in Headers */,
@@ -318,7 +318,7 @@
 				B24187C11DD2A7F900D820D8 /* MSCrashGarbage.h in Headers */,
 				B24187DD1DD2A7F900D820D8 /* MSCrashNSLog.h in Headers */,
 				B24187E31DD2A7F900D820D8 /* MSCrashCXXException.h in Headers */,
-				B24187D51DD2A7F900D820D8 /* CrashLibiOS-Bridging-Header.h in Headers */,
+				B24187D51DD2A7F900D820D8 /* CrashLib-Bridging-Header.h in Headers */,
 				B24187CD1DD2A7F900D820D8 /* MSCrashNXPage.h in Headers */,
 				B24187C51DD2A7F900D820D8 /* MSCrashTrap.h in Headers */,
 				B24187E51DD2A7F900D820D8 /* MSCrashStackGuard.h in Headers */,
@@ -506,7 +506,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = CrashLibIOS/Info.plist;
+				INFOPLIST_FILE = CrashLib/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.CrashLibTV;
@@ -514,7 +514,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "CrashLibiOS/CrashLibiOS-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "CrashLib/CrashLib-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 3;
@@ -536,7 +536,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = CrashLibIOS/Info.plist;
+				INFOPLIST_FILE = CrashLib/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.CrashLibTV;
@@ -544,7 +544,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "CrashLibiOS/CrashLibiOS-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "CrashLib/CrashLib-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 3;
 			};
@@ -617,7 +617,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-fno-optimize-sibling-calls";
 				SDKROOT = iphoneos;
-				SWIFT_OBJC_BRIDGING_HEADER = "CrashLibIOS/CrashLibiOS-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "CrashLib/CrashLib-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -697,7 +697,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_CFLAGS = "-fno-optimize-sibling-calls";
 				SDKROOT = iphoneos;
-				SWIFT_OBJC_BRIDGING_HEADER = "CrashLibIOS/CrashLibiOS-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "CrashLib/CrashLib-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -728,7 +728,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
-				INFOPLIST_FILE = CrashLibIOS/Info.plist;
+				INFOPLIST_FILE = CrashLib/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = "";
@@ -752,7 +752,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
-				INFOPLIST_FILE = CrashLibIOS/Info.plist;
+				INFOPLIST_FILE = CrashLib/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = "";
