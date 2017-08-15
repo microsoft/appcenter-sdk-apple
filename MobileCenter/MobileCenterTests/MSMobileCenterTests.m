@@ -1,18 +1,15 @@
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <OCMock/OCMock.h>
-#import <XCTest/XCTest.h>
-
+#import "MSCustomProperties.h"
+#import "MSCustomPropertiesLog.h"
+#import "MSLogManagerDefault.h"
 #import "MSMobileCenter.h"
 #import "MSMobileCenterInternal.h"
 #import "MSMobileCenterPrivate.h"
+#import "MSMockService.h"
 #import "MSMockCustomAppDelegate.h"
 #import "MSMockOriginalAppDelegate.h"
-#import "MSMockService.h"
 #import "MSMockUserDefaults.h"
-#import "MSLogManagerDefault.h"
-#import "MSCustomProperties.h"
-#import "MSCustomPropertiesLog.h"
 #import "MSStartServiceLog.h"
+#import "MSTestFrameworks.h"
 
 static NSString *const kMSInstallIdStringExample = @"F18499DA-5C3D-4F05-B4E8-D8C9C06A6F09";
 
@@ -253,8 +250,13 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   self.sut.logManager = logManager;
 
   // When
-  [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidEnterBackgroundNotification
-                                                      object:self.sut];
+  [[NSNotificationCenter defaultCenter]
+#if TARGET_OS_OSX
+      postNotificationName:NSApplicationDidHideNotification
+#else
+      postNotificationName:UIApplicationDidEnterBackgroundNotification
+#endif
+                    object:self.sut];
   // Then
   OCMVerify([logManager suspend]);
 }
@@ -267,8 +269,14 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   self.sut.logManager = logManager;
 
   // When
-  [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillEnterForegroundNotification
-                                                      object:self.sut];
+  [[NSNotificationCenter defaultCenter]
+#if TARGET_OS_OSX
+      postNotificationName:NSApplicationDidUnhideNotification
+#else
+      postNotificationName:UIApplicationWillEnterForegroundNotification
+#endif
+
+                    object:self.sut];
   // Then
   OCMVerify([logManager resume]);
 }

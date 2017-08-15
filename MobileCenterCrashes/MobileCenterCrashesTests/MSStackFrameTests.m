@@ -1,9 +1,5 @@
-#import <Foundation/Foundation.h>
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <OCMock/OCMock.h>
-#import <XCTest/XCTest.h>
-
 #import "MSStackFrame.h"
+#import "MSTestFrameworks.h"
 
 @interface MSStackFrameTests : XCTestCase
 

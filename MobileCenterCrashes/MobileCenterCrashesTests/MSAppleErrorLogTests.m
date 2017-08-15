@@ -1,13 +1,9 @@
-#import <Foundation/Foundation.h>
-#import <OCMock/OCMock.h>
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <XCTest/XCTest.h>
-
 #import "MSAppleErrorLog.h"
 #import "MSBinary.h"
 #import "MSCrashesTestUtil.h"
 #import "MSException.h"
 #import "MSThread.h"
+#import "MSTestFrameworks.h"
 
 @interface MSAppleErrorLogTests : XCTestCase
 

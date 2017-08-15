@@ -19,6 +19,23 @@
   return self;
 }
 
+#if TARGET_OS_OSX
+
+#pragma mark - NSApplication
+
+- (void)application:(NSApplication *)application
+    didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+  OriginalDidRegisterNotificationValidator validator = self.delegateValidators[NSStringFromSelector(_cmd)];
+  validator(application, deviceToken);
+}
+
+- (void)applicationDidFinishLaunching:(NSNotification *)notification {
+  OriginalDidFinishLaunchingValidator validator = self.delegateValidators[NSStringFromSelector(_cmd)];
+  validator(notification);
+}
+
+#else
+
 #pragma mark - UIApplication
 
 - (BOOL)application:(UIApplication *)application
@@ -41,5 +58,6 @@
   OriginalDidReceiveNotification validator = self.delegateValidators[NSStringFromSelector(_cmd)];
   validator(application, userInfo, completionHandler);
 }
+#endif
 
 @end

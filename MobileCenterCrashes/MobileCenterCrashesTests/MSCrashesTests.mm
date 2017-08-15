@@ -1,8 +1,3 @@
-#import <Foundation/Foundation.h>
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <OCMock/OCMock.h>
-#import <XCTest/XCTest.h>
-
 #import "MSAppleErrorLog.h"
 #import "MSChannelDefault.h"
 #import "MSCrashesDelegate.h"
@@ -20,6 +15,7 @@
 #import "MSMockCrashesDelegate.h"
 #import "MSServiceAbstractPrivate.h"
 #import "MSServiceAbstractProtected.h"
+#import "MSTestFrameworks.h"
 #import "MSWrapperExceptionManagerInternal.h"
 #import "MSWrapperCrashesHelper.h"
 
@@ -381,7 +377,11 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   NSString *filePath = [[self.sut.logBufferDir path]
       stringByAppendingPathComponent:[testName stringByAppendingString:@".mscrasheslogbuffer"]];
 
+#if TARGET_OS_OSX
+  [someData writeToFile:filePath atomically:YES];
+#else
   [someData writeToFile:filePath options:NSDataWritingFileProtectionNone error:nil];
+#endif
 
   // When
   BOOL success = [[NSFileManager defaultManager] fileExistsAtPath:filePath];
@@ -494,6 +494,8 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   XCTAssertTrue([[MSCrashes sharedInstance] initializationPriority] == MSInitializationPriorityMax);
 }
 
+// TODO: Mach exception handler is not supported on tvOS.
+#if !TARGET_OS_TV
 - (void)testDisableMachExceptionWorks {
 
   // Then
@@ -514,6 +516,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   // Then
   XCTAssertFalse([self.sut isMachExceptionHandlerEnabled]);
 }
+#endif
 
 - (void)testAbstractErrorLogSerialization {
   MSAbstractErrorLog *log = [MSAbstractErrorLog new];

@@ -1,3 +1,5 @@
+#import <Foundation/Foundation.h>
+
 #import "MSAppDelegateForwarder.h"
 #import "MSConstants+Internal.h"
 #import "MSDeviceTracker.h"
@@ -326,13 +328,22 @@ static NSString *const kMSGroupId = @"MobileCenter";
 
   // Hookup to application life-cycle events
   if (isEnabled) {
+
     [MS_NOTIFICATION_CENTER addObserver:self
                                selector:@selector(applicationDidEnterBackground)
+#if TARGET_OS_OSX
+                                   name:NSApplicationDidHideNotification
+#else
                                    name:UIApplicationDidEnterBackgroundNotification
+#endif
                                  object:nil];
     [MS_NOTIFICATION_CENTER addObserver:self
                                selector:@selector(applicationWillEnterForeground)
+#if TARGET_OS_OSX
+                                   name:NSApplicationDidUnhideNotification
+#else
                                    name:UIApplicationWillEnterForegroundNotification
+#endif
                                  object:nil];
   } else {
 

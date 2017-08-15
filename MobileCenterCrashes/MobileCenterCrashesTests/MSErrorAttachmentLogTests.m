@@ -1,12 +1,8 @@
-#import <Foundation/Foundation.h>
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <OCMock/OCMock.h>
-#import <XCTest/XCTest.h>
-
 #import "MSDevice.h"
 #import "MSErrorAttachmentLog.h"
 #import "MSErrorAttachmentLog+Utility.h"
 #import "MSErrorAttachmentLogInternal.h"
+#import "MSTestFrameworks.h"
 #import "MSUtility.h"
 
 @interface MSErrorAttachmentLogTests : XCTestCase

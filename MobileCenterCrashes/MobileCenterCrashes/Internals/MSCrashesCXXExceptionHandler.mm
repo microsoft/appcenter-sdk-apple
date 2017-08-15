@@ -10,6 +10,10 @@
 #import <typeinfo>
 #import <vector>
 
+// FIXME: Temporarily disable deprecated warning.
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
 typedef std::vector<MSCrashesUncaughtCXXExceptionHandler> MSCrashesUncaughtCXXExceptionHandlerList;
 typedef struct {
   void *exception_object;
@@ -227,5 +231,7 @@ static void MSCrashesUncaughtCXXTerminateHandler(void) {
   OSSpinLockUnlock(&_MSCrashesCXXExceptionHandlingLock);
   return count;
 }
+
+#pragma GCC diagnostic pop
 
 @end

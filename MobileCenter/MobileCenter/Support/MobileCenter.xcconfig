@@ -1,3 +1,7 @@
-#include "../../../Global.xcconfig"
+#include "../../../Config/Global.xcconfig"
 
-OTHER_LDFLAGS = $(inherited) -framework Foundation -framework CoreTelephony -framework SystemConfiguration -framework UIKit -lsqlite3;
+PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenter
+
+OTHER_LDFLAGS = $(inherited) -framework Foundation -framework SystemConfiguration -lsqlite3
+
+CLANG_WARN_INT_CONVERSION = NO

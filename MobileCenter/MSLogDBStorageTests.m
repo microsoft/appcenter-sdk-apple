@@ -1,10 +1,7 @@
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <OCMock/OCMock.h>
-#import <XCTest/XCTest.h>
-
 #import "MSAbstractLogInternal.h"
 #import "MSDBStoragePrivate.h"
 #import "MSLogDBStoragePrivate.h"
+#import "MSTestFrameworks.h"
 #import "MSUtility.h"
 #import "MSUtility+Date.h"
 

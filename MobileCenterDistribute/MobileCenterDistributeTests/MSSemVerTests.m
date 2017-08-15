@@ -1,8 +1,5 @@
-#import <Foundation/Foundation.h>
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <XCTest/XCTest.h>
-
 #import "MSSemVer.h"
+#import "MSTestFrameworks.h"
 
 @interface MSSemVerTests : XCTestCase
 

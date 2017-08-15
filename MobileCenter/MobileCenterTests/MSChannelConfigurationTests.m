@@ -1,8 +1,7 @@
 #import <Foundation/Foundation.h>
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <XCTest/XCTest.h>
 
 #import "MSChannelConfiguration.h"
+#import "MSTestFrameworks.h"
 
 @interface MSChannelConfigurationTests : XCTestCase
 
