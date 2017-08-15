@@ -140,8 +140,8 @@
                  self.pendingBatchQueueFull = YES;
                }
                MSLogContainer *container = [[MSLogContainer alloc] initWithBatchId:batchId andLogs:logArray];
-               MSLogDebug([MSMobileCenter logTag], @"Sending %ld log(s), group Id: %@, batch Id:%@, payload:\n%@",
-                          [container.logs count], self.configuration.groupId, batchId,
+               MSLogDebug([MSMobileCenter logTag], @"Sending %lu log(s), group Id: %@, batch Id:%@, payload:\n%@",
+                          (unsigned long)[container.logs count], self.configuration.groupId, batchId,
                           [container serializeLogWithPrettyPrinting:YES]);
 
                // Notify delegates.
