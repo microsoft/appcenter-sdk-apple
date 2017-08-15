@@ -247,8 +247,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     _channelConfiguration = [[MSChannelConfiguration alloc] initWithGroupId:[self groupId]
                                                                    priority:MSPriorityHigh
                                                               flushInterval:1.0
-                                                             batchSizeLimit:10
-                                                        pendingBatchesLimit:1];
+                                                             batchSizeLimit:1
+                                                        pendingBatchesLimit:3];
 
     /**
      * Using our own queue with high priority as the default main queue is slower and we want the files to be created
