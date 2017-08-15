@@ -20,7 +20,7 @@
       location = "group:Puppet/Puppet.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:CrashLibIOS/CrashLib.xcodeproj">
+      location = "group:CrashLib/CrashLib.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Sasquatch/Sasquatch.xcodeproj">

@@ -1095,7 +1095,7 @@
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/../MobileCenter-SDK-Apple/iOS/**",
-					"$(SRCROOT)/../CrashLibIOS/CrashLibIOS",
+					"$(SRCROOT)/../CrashLib/CrashLib",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1154,7 +1154,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/../MobileCenter-SDK-Apple/iOS/**",
-					"$(SRCROOT)/../CrashLibIOS/CrashLibIOS",
+					"$(SRCROOT)/../CrashLib/CrashLib",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1181,7 +1181,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/../CrashLibIOS/CrashLibIOS";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../CrashLib/CrashLib";
 				INFOPLIST_FILE = SasquatchObjC/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1202,7 +1202,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/../CrashLibIOS/CrashLibIOS";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../CrashLib/CrashLib";
 				INFOPLIST_FILE = SasquatchObjC/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1222,7 +1222,7 @@
 				CODE_SIGN_ENTITLEMENTS = SasquatchSwift/SasquatchSwift.entitlements;
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-Apple/iOS/**";
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/../CrashLibIOS/CrashLibIOS";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../CrashLib/CrashLib";
 				INFOPLIST_FILE = SasquatchSwift/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1242,7 +1242,7 @@
 				CODE_SIGN_ENTITLEMENTS = SasquatchSwift/SasquatchSwift.entitlements;
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-Apple/iOS/**";
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/../CrashLibIOS/CrashLibIOS";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../CrashLib/CrashLib";
 				INFOPLIST_FILE = SasquatchSwift/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

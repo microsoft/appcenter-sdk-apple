@@ -1319,7 +1319,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(SRCROOT)/../CrashLibIOS/CrashLibIOS",
+					"$(SRCROOT)/../CrashLib/CrashLib",
 					"$(SRCROOT)/../Vendor/iOS/**",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1376,7 +1376,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(SRCROOT)/../CrashLibIOS/CrashLibIOS",
+					"$(SRCROOT)/../CrashLib/CrashLib",
 					"$(SRCROOT)/../Vendor/iOS/**",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1410,7 +1410,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/../CrashLibIOS/CrashLibIOS";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../CrashLib/CrashLib";
 				INFOPLIST_FILE = Puppet/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1436,7 +1436,7 @@
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/../CrashLibIOS/CrashLibIOS";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../CrashLib/CrashLib";
 				INFOPLIST_FILE = Puppet/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
