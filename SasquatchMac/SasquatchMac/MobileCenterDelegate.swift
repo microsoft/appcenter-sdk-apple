@@ -24,8 +24,8 @@ import Foundation
   // MSAnalytics section.
   func trackEvent(_ eventName: String)
   func trackEvent(_ eventName: String, withProperties: Dictionary<String, String>)
-  func trackPage(_ eventName: String)
-  func trackPage(_ eventName: String, withProperties: Dictionary<String, String>)
+  func trackPage(_ pageName: String)
+  func trackPage(_ pageName: String, withProperties: Dictionary<String, String>)
   
   // MSCrashes section.
   func hasCrashedInLastSession() -> Bool
