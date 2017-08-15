@@ -15,20 +15,16 @@ static NSString *MSMissedPageViewName;
 + (void)swizzleViewWillAppear {
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
-
-// FIXME: viewWillAppear is available in NSViewController but it doesn't know about the selector at compile time.
-#if !TARGET_OS_OSX
     Class class = [self class];
 
     // Get selectors.
-    SEL originalSelector = @selector(viewWillAppear:);
+    SEL originalSelector = NSSelectorFromString(@"viewWillAppear:");
     SEL swizzledSelector = @selector(ms_viewWillAppear:);
 
     Method originalMethod = class_getInstanceMethod(class, originalSelector);
     Method swizzledMethod = class_getInstanceMethod(class, swizzledSelector);
 
     method_exchangeImplementations(originalMethod, swizzledMethod);
-#endif
   });
 }
 
