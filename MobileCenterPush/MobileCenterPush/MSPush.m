@@ -273,7 +273,7 @@ static dispatch_once_t onceToken;
     /*
      * Only call the push delegate if the app is in topmost foreground and the notification is a remote notification or
      * it is a user notification. Otherwise, convert a remote notification to a user notification and handle the
-     * notification when a user clicks it fron notification center.
+     * notification when a user clicks it from notification center.
      */
     if ([NSApp isActive] || userNotification) {
 #endif
