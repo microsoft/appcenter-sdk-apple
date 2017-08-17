@@ -144,8 +144,7 @@ static dispatch_once_t onceToken;
   MSLogVerbose([MSPush logTag], @"Registering for push notifications");
 
 #if TARGET_OS_OSX
-  [NSApp registerForRemoteNotificationTypes:(NSRemoteNotificationTypeAlert | NSRemoteNotificationTypeSound |
-                                             NSRemoteNotificationTypeBadge)];
+  [NSApp registerForRemoteNotificationTypes:(NSRemoteNotificationTypeSound | NSRemoteNotificationTypeBadge)];
 #elif TARGET_OS_IOS && !TARGET_OS_SIMULATOR
   if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_9_x_Max) {
     UIUserNotificationType allNotificationTypes = (UIUserNotificationType)(
@@ -272,8 +271,9 @@ static dispatch_once_t onceToken;
 #if TARGET_OS_OSX
 
     /*
-     * Only call the push delegate if the app is in topmost foreground and the notification is a remote notification. If
-     * the notification is a user notification, it should be consumed now.
+     * Only call the push delegate if the app is in topmost foreground and the notification is a remote notification or
+     * it is a user notification. Otherwise, convert a remote notification to a user notification and handle the
+     * notification when a user clicks it from notification center.
      */
     if ([NSApp isActive] || userNotification) {
 #endif
@@ -287,6 +287,13 @@ static dispatch_once_t onceToken;
         [self.delegate push:self didReceivePushNotification:pushNotification];
       });
 #if TARGET_OS_OSX
+    } else {
+      NSUserNotification *notification = [[NSUserNotification alloc] init];
+      notification.title = title;
+      notification.informativeText = message;
+      notification.userInfo = userInfo;
+      NSUserNotificationCenter *center = [NSUserNotificationCenter defaultUserNotificationCenter];
+      [center deliverNotification:notification];
     }
 #endif
     return YES;
