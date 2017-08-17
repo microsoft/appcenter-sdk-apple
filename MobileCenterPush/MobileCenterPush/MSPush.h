@@ -30,7 +30,6 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return YES if the notification was sent via Mobile Center.
  */
-// TODO: Review this public method name.
 + (BOOL)didReceiveNotification:(NSNotification *)notification;
 
 /**
@@ -40,7 +39,6 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return YES if the notification was sent via Mobile Center.
  */
-// TODO: Review this public method name.
 + (BOOL)didReceiveUserNotification:(NSUserNotification *)notification;
 #endif
 
