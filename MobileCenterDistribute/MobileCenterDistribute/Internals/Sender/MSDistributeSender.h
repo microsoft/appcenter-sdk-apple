@@ -27,7 +27,7 @@ static NSString *const kMSHeaderUpdateApiToken = @"x-api-token";
  *
  * @return A sender instance.
  */
-- (id)initWithBaseUrl:(NSString *)baseUrl
+- (id)initWithBaseUrl:(nullable NSString *)baseUrl
               appSecret:(NSString *)appSecret
             updateToken:(NSString *)updateToken
     distributionGroupId:(NSString *)distributionGroupId

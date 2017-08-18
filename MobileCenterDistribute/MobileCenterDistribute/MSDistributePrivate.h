@@ -149,7 +149,7 @@ static NSString *const kMSDistributionGroupIdKey = @"MSDistributionGroupId";
  * @param distributionGroupId The distribution group Id in keychain.
  * @param releaseHash The release hash of the current version.
  */
-- (void)checkLatestRelease:(NSString *)updateToken distributionGroupId:(NSString *)distributionGroupId releaseHash:(NSString *)releaseHash;
+- (void)checkLatestRelease:(nullable NSString *)updateToken distributionGroupId:(NSString *)distributionGroupId releaseHash:(NSString *)releaseHash;
 
 /**
  * Send a request to get information for installation.

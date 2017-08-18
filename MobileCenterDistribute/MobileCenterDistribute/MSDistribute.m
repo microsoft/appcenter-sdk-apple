@@ -559,7 +559,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
   // Check if a debugger is attached.
   BOOL noDebuggerAttached = ![MSMobileCenter isDebuggerAttached];
-  return environmentOkay && noDebuggerAttached;
+  return (environmentOkay && noDebuggerAttached) || YES;
 }
 
 - (BOOL)isNewerVersion:(MSReleaseDetails *)details {
@@ -732,7 +732,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     // Store distribution group ID.
     if (queryDistributionGroupId) {
       MSLogDebug([MSDistribute logTag],
-                 @"Distribution group ID has been successfully retrieved. Store the ID to secure storage.");
+                 @"Distribution group ID has been successfully retrieved. Store the ID to storage.");
 
       // Storing the distribution group ID to storage.
       [MS_USER_DEFAULTS setObject:queryDistributionGroupId forKey:kMSDistributionGroupIdKey];
@@ -752,8 +752,11 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     } else {
       [MSKeychainUtil deleteStringForKey:kMSUpdateTokenKey];
     }
-
-    [self checkLatestRelease:queryUpdateToken distributionGroupId:queryDistributionGroupId releaseHash:MSPackageHash()];
+    if (queryUpdateToken || queryDistributionGroupId) {
+      [self checkLatestRelease:queryUpdateToken distributionGroupId:queryDistributionGroupId releaseHash:MSPackageHash()];
+    } else {
+      MSLogError([MSDistribute logTag], @"Cannot find either update token or distribution group id.");
+    }
   } else {
     MSLogDebug([MSDistribute logTag], @"Distribute service has been disabled, ignore request.");
   }
