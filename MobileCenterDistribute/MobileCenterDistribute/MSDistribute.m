@@ -181,19 +181,20 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
 - (void)startUpdate {
   NSString *updateToken = [MSKeychainUtil stringForKey:kMSUpdateTokenKey];
+  NSString *distributionGroupId = [MS_USER_DEFAULTS objectForKey:kMSDistributionGroupIdKey];
   NSString *releaseHash = MSPackageHash();
   if (releaseHash) {
-    if (updateToken) {
-      [self checkLatestRelease:updateToken releaseHash:releaseHash];
+    if (updateToken || distributionGroupId) {
+      [self checkLatestRelease:updateToken distributionGroupId:distributionGroupId releaseHash:releaseHash];
     } else {
-      [self requestUpdateToken:releaseHash];
+      [self requestInstallInformationWith:releaseHash];
     }
   } else {
     MSLogError([MSDistribute logTag], @"Failed to get a release hash.");
   }
 }
 
-- (void)requestUpdateToken:(NSString *)releaseHash {
+- (void)requestInstallInformationWith:(NSString *)releaseHash {
 
   // Check if it's okay to check for updates.
   if ([self checkForUpdatesAllowed]) {
@@ -206,7 +207,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       return;
     }
     NSURL *url;
-    MSLogInfo([MSDistribute logTag], @"Request Distribute update token.");
+    MSLogInfo([MSDistribute logTag], @"Request information of initial installation.");
 
     // Most failures here require an app update. Thus, it will be retried only on next App instance.
     url = [self buildTokenRequestURLWithAppSecret:self.appSecret releaseHash:releaseHash];
@@ -245,7 +246,9 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   }
 }
 
-- (void)checkLatestRelease:(NSString *)updateToken releaseHash:(NSString *)releaseHash {
+- (void)checkLatestRelease:(NSString *)updateToken
+       distributionGroupId:(NSString *)distributionGroupId
+               releaseHash:(NSString *)releaseHash {
 
   // Check if it's okay to check for updates.
   if ([self checkForUpdatesAllowed]) {
@@ -266,6 +269,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       self.sender = [[MSDistributeSender alloc] initWithBaseUrl:self.apiUrl
                                                       appSecret:self.appSecret
                                                     updateToken:updateToken
+                                            distributionGroupId:distributionGroupId
                                                    queryStrings:@{kMSURLQueryReleaseHashKey : releaseHash}];
       [self.sender sendAsync:nil
            completionHandler:^(__attribute__((unused)) NSString *callId, NSUInteger statusCode, NSData *data,
@@ -699,6 +703,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     // Parse query parameters
     NSString *requestedId = [MS_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey];
     NSString *queryRequestId = nil;
+    NSString *queryDistributionGroupId = nil;
     NSString *queryUpdateToken = nil;
     NSURLComponents *components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:NO];
 
@@ -706,6 +711,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     for (NSURLQueryItem *item in components.queryItems) {
       if ([item.name isEqualToString:kMSURLQueryRequestIdKey]) {
         queryRequestId = item.value;
+      } else if ([item.name isEqualToString:kMSURLQueryDistributionGroupIdKey]) {
+        queryDistributionGroupId = item.value;
       } else if ([item.name isEqualToString:kMSURLQueryUpdateTokenKey]) {
         queryUpdateToken = item.value;
       }
@@ -719,18 +726,34 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     // Dismiss the embedded Safari view.
     [self dismissEmbeddedSafari];
 
-    // Delete stored request ID
+    // Delete stored request ID.
     [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
 
-    // Store update token
+    // Store distribution group ID.
+    if (queryDistributionGroupId) {
+      MSLogDebug([MSDistribute logTag],
+                 @"Distribution group ID has been successfully retrieved. Store the ID to secure storage.");
+
+      // Storing the distribution group ID to storage.
+      [MS_USER_DEFAULTS setObject:queryDistributionGroupId forKey:kMSDistributionGroupIdKey];
+    }
+
+    /*
+     * Check update token and store if exists.
+     * Update token is used only for private distribution. If the query parameters don't include update token, it is
+     * public distribution.
+     */
     if (queryUpdateToken) {
       MSLogDebug([MSDistribute logTag],
                  @"Update token has been successfully retrieved. Store the token to secure storage.");
 
       // Storing the update token to keychain since the update token is considered as a sensitive information.
       [MSKeychainUtil storeString:queryUpdateToken forKey:kMSUpdateTokenKey];
-      [self checkLatestRelease:queryUpdateToken releaseHash:MSPackageHash()];
+    } else {
+      [MSKeychainUtil deleteStringForKey:kMSUpdateTokenKey];
     }
+
+    [self checkLatestRelease:queryUpdateToken distributionGroupId:queryDistributionGroupId releaseHash:MSPackageHash()];
   } else {
     MSLogDebug([MSDistribute logTag], @"Distribute service has been disabled, ignore request.");
   }
