@@ -260,7 +260,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
 #if TARGET_OS_OSX
     /**
-     * AppKit is preventing applications from crashes on macOS so PLCrashReport cannot catch any crashes.
+     * AppKit is preventing applications from crashing on macOS so PLCrashReport cannot catch any crashes.
      * Setting this flag will let application crash on uncaught exceptions.
      */
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{ @"NSApplicationCrashOnExceptions" : @YES }];
