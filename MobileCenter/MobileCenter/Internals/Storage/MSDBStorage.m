@@ -29,6 +29,9 @@
       _filePath = fileURL.absoluteString;
     }
 
+    // If it is custom SQLite library we need to turn on URI filename capability.
+    sqlite3_config(SQLITE_CONFIG_URI, 1);
+
     // Browse tables.
     for (NSString *tableName in schema) {
       NSMutableDictionary *tableColumnsIndexes = [NSMutableDictionary new];
