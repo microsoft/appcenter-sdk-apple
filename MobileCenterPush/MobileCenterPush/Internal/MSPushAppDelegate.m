@@ -60,15 +60,6 @@
   [MSPush didReceiveUserNotification:notification];
 }
 
-- (BOOL)userNotificationCenter:(NSUserNotificationCenter *)center
-     shouldPresentNotification:(NSUserNotification *)notification {
-  if ([NSApp isActive]) {
-    [center removeDeliveredNotification:notification];
-    return NO;
-  } else {
-    return YES;
-  }
-}
 #endif
 
 @end
