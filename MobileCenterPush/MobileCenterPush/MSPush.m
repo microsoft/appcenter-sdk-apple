@@ -214,7 +214,6 @@ static dispatch_once_t onceToken;
                error.description);
 }
 
-// TODO: Review this method name.
 #if TARGET_OS_OSX
 - (BOOL)didReceiveNotification:(NSNotification *)notification {
   return [self didReceiveUserNotification:[notification.userInfo objectForKey:NSApplicationLaunchUserNotificationKey]];
