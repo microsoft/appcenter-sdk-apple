@@ -30,6 +30,8 @@
 		5CD6257A1ECDA4280053DC6C /* MobileCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD625791ECDA4280053DC6C /* MobileCenterViewController.swift */; };
 		8065B5BB1F4C4169004FF622 /* CrashLibMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8065B5BA1F4C4169004FF622 /* CrashLibMac.framework */; };
 		8065B5BC1F4C4169004FF622 /* CrashLibMac.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8065B5BA1F4C4169004FF622 /* CrashLibMac.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8065B5BD1F4C6778004FF622 /* CrashLibMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8065B5BA1F4C4169004FF622 /* CrashLibMac.framework */; };
+		8065B5BE1F4C6778004FF622 /* CrashLibMac.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8065B5BA1F4C4169004FF622 /* CrashLibMac.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C2A4A2691EE7684A0080FD22 /* MobileCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD625791ECDA4280053DC6C /* MobileCenterViewController.swift */; };
 		D3C31C261E8E75B300B288CE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C31C251E8E75B300B288CE /* AppDelegate.m */; };
 		D3C31C291E8E75B300B288CE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C31C281E8E75B300B288CE /* main.m */; };
@@ -47,6 +49,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				8065B5BE1F4C6778004FF622 /* CrashLibMac.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -108,6 +111,7 @@
 				04ED31E61EAAD1B30033BAAE /* MobileCenterAnalytics.framework in Frameworks */,
 				042319CD1EAAD720008FACA0 /* MobileCenterCrashes.framework in Frameworks */,
 				046964561F2A607D00F9D31F /* MobileCenterPush.framework in Frameworks */,
+				8065B5BD1F4C6778004FF622 /* CrashLibMac.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
