@@ -28,6 +28,8 @@
 		5C6F9BCD1EB8FBE6009E52D8 /* MobileCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D41EAAC7510033BAAE /* MobileCenter.framework */; };
 		5C9BBC811EC4829200CA77A3 /* MobileCenterDelegateSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9BBC801EC4829200CA77A3 /* MobileCenterDelegateSwift.swift */; };
 		5CD6257A1ECDA4280053DC6C /* MobileCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD625791ECDA4280053DC6C /* MobileCenterViewController.swift */; };
+		8065B5BB1F4C4169004FF622 /* CrashLibMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8065B5BA1F4C4169004FF622 /* CrashLibMac.framework */; };
+		8065B5BC1F4C4169004FF622 /* CrashLibMac.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8065B5BA1F4C4169004FF622 /* CrashLibMac.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C2A4A2691EE7684A0080FD22 /* MobileCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD625791ECDA4280053DC6C /* MobileCenterViewController.swift */; };
 		D3C31C261E8E75B300B288CE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C31C251E8E75B300B288CE /* AppDelegate.m */; };
 		D3C31C291E8E75B300B288CE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C31C281E8E75B300B288CE /* main.m */; };
@@ -37,6 +39,30 @@
 		D3C31C801E8E7BD200B288CE /* SasquatchMac.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3C31C151E8E757300B288CE /* SasquatchMac.storyboard */; };
 		D3C31C811E8E7BEE00B288CE /* SasquatchMac.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3C31C151E8E757300B288CE /* SasquatchMac.storyboard */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8065B5B61F4C40FC004FF622 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8065B5B91F4C4121004FF622 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				8065B5BC1F4C4169004FF622 /* CrashLibMac.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		042319CC1EAAD720008FACA0 /* MobileCenterCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterCrashes.framework; path = "../MobileCenter-SDK-Apple/macOS/MobileCenterCrashes.framework"; sourceTree = "<group>"; };
@@ -55,6 +81,7 @@
 		5C6F9BB71EB8F2E9009E52D8 /* CrashesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CrashesViewController.swift; path = ViewControllers/CrashesViewController.swift; sourceTree = "<group>"; };
 		5C9BBC801EC4829200CA77A3 /* MobileCenterDelegateSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobileCenterDelegateSwift.swift; sourceTree = "<group>"; };
 		5CD625791ECDA4280053DC6C /* MobileCenterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobileCenterViewController.swift; sourceTree = "<group>"; };
+		8065B5BA1F4C4169004FF622 /* CrashLibMac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CrashLibMac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80A3A89A1F0BF30100FBE3B6 /* SasquatchMac-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SasquatchMac-Bridging-Header.h"; sourceTree = "<group>"; };
 		B2CD74CF1F22C3150070E7DF /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		D3C31C131E8E757300B288CE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -92,6 +119,7 @@
 				042319CE1EAAD73F008FACA0 /* MobileCenterAnalytics.framework in Frameworks */,
 				042319CF1EAAD73F008FACA0 /* MobileCenterCrashes.framework in Frameworks */,
 				046964581F2A74E600F9D31F /* MobileCenterPush.framework in Frameworks */,
+				8065B5BB1F4C4169004FF622 /* CrashLibMac.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -215,6 +243,7 @@
 			isa = PBXGroup;
 			children = (
 				B2CD74CF1F22C3150070E7DF /* libsqlite3.tbd */,
+				8065B5BA1F4C4169004FF622 /* CrashLibMac.framework */,
 				046964551F2A607D00F9D31F /* MobileCenterPush.framework */,
 				042319CC1EAAD720008FACA0 /* MobileCenterCrashes.framework */,
 				04ED31D31EAAC7510033BAAE /* MobileCenterAnalytics.framework */,
@@ -233,6 +262,7 @@
 				D3C31C1E1E8E75B300B288CE /* Sources */,
 				D3C31C1F1E8E75B300B288CE /* Frameworks */,
 				D3C31C201E8E75B300B288CE /* Resources */,
+				8065B5B61F4C40FC004FF622 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -250,6 +280,7 @@
 				D3C31C5C1E8E763600B288CE /* Sources */,
 				D3C31C5D1E8E763600B288CE /* Frameworks */,
 				D3C31C5E1E8E763600B288CE /* Resources */,
+				8065B5B91F4C4121004FF622 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -484,6 +515,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../CrashLib/CrashLib";
 				INFOPLIST_FILE = SasquatchMacObjC/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc.mac;
@@ -503,6 +535,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../CrashLib/CrashLib";
 				INFOPLIST_FILE = SasquatchMacObjC/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc.mac;
@@ -522,6 +555,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../CrashLib/CrashLib";
 				INFOPLIST_FILE = SasquatchMacSwift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchswift.mac;
@@ -540,6 +574,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../CrashLib/CrashLib";
 				INFOPLIST_FILE = SasquatchMacSwift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchswift.mac;
