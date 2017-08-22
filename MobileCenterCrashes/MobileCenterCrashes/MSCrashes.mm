@@ -48,12 +48,14 @@ std::array<MSCrashesBufferedLog, ms_crashes_log_buffer_size> msCrashesLogBuffer;
 
 static MSCrashesCallbacks msCrashesCallbacks = {.context = NULL, .handleSignal = NULL};
 static NSString *const kMSUserConfirmationKey = @"MSUserConfirmation";
+static volatile BOOL writeBufferTaskStarted = NO;
 
 static void ms_save_log_buffer_callback(__attribute__((unused)) siginfo_t *info,
                                         __attribute__((unused)) ucontext_t *uap,
                                         __attribute__((unused)) void *context) {
 
   // Iterate over the buffered logs and write them to disk.
+  writeBufferTaskStarted = YES;
   for (int i = 0; i < ms_crashes_log_buffer_size; i++) {
 
     // Make sure not to allocate any memory (e.g. copy).
@@ -65,6 +67,8 @@ static void ms_save_log_buffer_callback(__attribute__((unused)) siginfo_t *info,
     }
     write(fd, data.data(), data.size());
     close(fd);
+    MSLogDebug([MSCrashes logTag], @"Closed a buffer file: %@",
+               [NSString stringWithCString:path.c_str() encoding:[NSString defaultCStringEncoding]]);
   }
 }
 
@@ -411,7 +415,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   @synchronized(self) {
     NSData *serializedLog = [NSKeyedArchiver archivedDataWithRootObject:log];
     if (serializedLog && (serializedLog.length > 0)) {
-
       NSNumber *oldestTimestamp;
       NSNumberFormatter *timestampFormatter = [[NSNumberFormatter alloc] init];
       timestampFormatter.numberStyle = NSNumberFormatterDecimalStyle;
@@ -487,10 +490,20 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     for (auto it = msCrashesLogBuffer.begin(), end = msCrashesLogBuffer.end(); it != end; ++it) {
       NSString *bufferId = [NSString stringWithCString:it->internalId.c_str() encoding:NSUTF8StringEncoding];
       if (bufferId && bufferId.length > 0 && [bufferId isEqualToString:internalId]) {
-        MSLogVerbose([MSCrashes logTag], @"Deleting item from buffer with id %@", internalId);
+        MSLogVerbose([MSCrashes logTag], @"Deleting a log from buffer with id %@", internalId);
         it->buffer = [@"" cStringUsingEncoding:NSUTF8StringEncoding];
         it->timestamp = [@"" cStringUsingEncoding:NSUTF8StringEncoding];
         it->internalId = [@"" cStringUsingEncoding:NSUTF8StringEncoding];
+        if (writeBufferTaskStarted) {
+
+          /*
+           * Crashes already started writing buffer to files. To prevent sending duplicate logs after relaunch, it will
+           * delete the buffer file.
+           */
+          unlink(it->bufferPath.c_str());
+          MSLogVerbose([MSCrashes logTag], @"Deleted crash buffer file: %@.",
+                       [NSString stringWithCString:it->bufferPath.c_str() encoding:[NSString defaultCStringEncoding]]);
+        }
       }
     }
   }
