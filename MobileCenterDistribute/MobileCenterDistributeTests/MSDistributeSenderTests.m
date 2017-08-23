@@ -11,6 +11,8 @@
 #pragma mark - Tests
 
 - (void)testCreateRequest {
+
+  // If.
   NSString *baseUrl = @"https://contoso.com";
   NSString *apiPath = @"/test";
   NSDictionary *header = OCMClassMock([NSDictionary class]);
@@ -21,8 +23,10 @@
                                                               reachability:nil
                                                             retryIntervals:@[]];
 
+  // When.
   NSURLRequest *request = [sender createRequest:[NSData new]];
 
+  // Then.
   assertThat(request.HTTPMethod, equalTo(@"GET"));
   assertThat(request.allHTTPHeaderFields, equalTo(header));
   assertThat(request.HTTPBody, equalTo(nil));
