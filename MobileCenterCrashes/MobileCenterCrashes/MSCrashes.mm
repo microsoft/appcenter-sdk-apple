@@ -48,12 +48,14 @@ std::array<MSCrashesBufferedLog, ms_crashes_log_buffer_size> msCrashesLogBuffer;
 
 static MSCrashesCallbacks msCrashesCallbacks = {.context = NULL, .handleSignal = NULL};
 static NSString *const kMSUserConfirmationKey = @"MSUserConfirmation";
+static volatile BOOL writeBufferTaskStarted = NO;
 
 static void ms_save_log_buffer_callback(__attribute__((unused)) siginfo_t *info,
                                         __attribute__((unused)) ucontext_t *uap,
                                         __attribute__((unused)) void *context) {
 
   // Iterate over the buffered logs and write them to disk.
+  writeBufferTaskStarted = YES;
   for (int i = 0; i < ms_crashes_log_buffer_size; i++) {
 
     // Make sure not to allocate any memory (e.g. copy).
@@ -65,6 +67,8 @@ static void ms_save_log_buffer_callback(__attribute__((unused)) siginfo_t *info,
     }
     write(fd, data.data(), data.size());
     close(fd);
+    MSLogDebug([MSCrashes logTag], @"Closed a buffer file: %@",
+               [NSString stringWithCString:path.c_str() encoding:[NSString defaultCStringEncoding]]);
   }
 }
 
@@ -202,15 +206,16 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     unsigned int totalProcessedAttachments = 0;
     for (MSErrorAttachmentLog *attachment in attachments) {
       attachment.errorId = log.errorId;
-      if(![self validatePropertiesForAttachment:attachment]) {
+      if (![self validatePropertiesForAttachment:attachment]) {
         MSLogError([MSCrashes logTag], @"Not all required fields are present in MSErrorAttachmentLog.");
         continue;
       }
       [crashes.logManager processLog:attachment forGroupId:crashes.groupId];
       ++totalProcessedAttachments;
     }
-    if( totalProcessedAttachments > kMaxAttachmentsPerCrashReport) {
-      MSLogWarning([MSCrashes logTag], @"A limit of %u attachments per error report might be enforced by server.", kMaxAttachmentsPerCrashReport);
+    if (totalProcessedAttachments > kMaxAttachmentsPerCrashReport) {
+      MSLogWarning([MSCrashes logTag], @"A limit of %u attachments per error report might be enforced by server.",
+                   kMaxAttachmentsPerCrashReport);
     }
 
     // Clean up.
@@ -256,6 +261,14 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
                                                               flushInterval:1.0
                                                              batchSizeLimit:1
                                                         pendingBatchesLimit:3];
+
+#if TARGET_OS_OSX
+    /**
+     * AppKit is preventing applications from crashing on macOS so PLCrashReport cannot catch any crashes.
+     * Setting this flag will let application crash on uncaught exceptions.
+     */
+    [[NSUserDefaults standardUserDefaults] registerDefaults:@{ @"NSApplicationCrashOnExceptions" : @YES }];
+#endif
 
     /**
      * Using our own queue with high priority as the default main queue is slower and we want the files to be created
@@ -402,7 +415,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   @synchronized(self) {
     NSData *serializedLog = [NSKeyedArchiver archivedDataWithRootObject:log];
     if (serializedLog && (serializedLog.length > 0)) {
-
       NSNumber *oldestTimestamp;
       NSNumberFormatter *timestampFormatter = [[NSNumberFormatter alloc] init];
       timestampFormatter.numberStyle = NSNumberFormatterDecimalStyle;
@@ -478,10 +490,20 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     for (auto it = msCrashesLogBuffer.begin(), end = msCrashesLogBuffer.end(); it != end; ++it) {
       NSString *bufferId = [NSString stringWithCString:it->internalId.c_str() encoding:NSUTF8StringEncoding];
       if (bufferId && bufferId.length > 0 && [bufferId isEqualToString:internalId]) {
-        MSLogVerbose([MSCrashes logTag], @"Deleting item from buffer with id %@", internalId);
+        MSLogVerbose([MSCrashes logTag], @"Deleting a log from buffer with id %@", internalId);
         it->buffer = [@"" cStringUsingEncoding:NSUTF8StringEncoding];
         it->timestamp = [@"" cStringUsingEncoding:NSUTF8StringEncoding];
         it->internalId = [@"" cStringUsingEncoding:NSUTF8StringEncoding];
+        if (writeBufferTaskStarted) {
+
+          /*
+           * Crashes already started writing buffer to files. To prevent sending duplicate logs after relaunch, it will
+           * delete the buffer file.
+           */
+          unlink(it->bufferPath.c_str());
+          MSLogVerbose([MSCrashes logTag], @"Deleted crash buffer file: %@.",
+                       [NSString stringWithCString:it->bufferPath.c_str() encoding:[NSString defaultCStringEncoding]]);
+        }
       }
     }
   }
@@ -587,7 +609,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       MSLogDebug([MSCrashes logTag], @"Exception handler successfully initialized.");
     } else if (currentHandler && !enableUncaughtExceptionHandler) {
       self.exceptionHandler = currentHandler;
-      MSLogDebug([MSCrashes logTag], @"Exception handler successfully initialized but it has not been registered due to the wrapper SDK.");
+      MSLogDebug([MSCrashes logTag],
+                 @"Exception handler successfully initialized but it has not been registered due to the wrapper SDK.");
     } else {
       MSLogError([MSCrashes logTag],
                  @"Exception handler could not be set. Make sure there is no other exception handler set up!");
@@ -639,7 +662,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 }
 
 - (void)processCrashReports {
-  
+
   // Handle 'disabled' state all at once to simplify the logic that follows.
   if (!self.isEnabled) {
     MSLogDebug([MSCrashes logTag], @"Crashes service is disabled; discard all crash reports");
@@ -663,7 +686,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
         foundCrashReports[fileURL] = report;
         foundErrorReports[fileURL] = [MSErrorLogFormatter errorReportFromCrashReport:report];
       } else {
-        MSLogWarning([MSCrashes logTag], @"Crash report found but couldn't parse it, discard the crash report: %@", error.localizedDescription);
+        MSLogWarning([MSCrashes logTag], @"Crash report found but couldn't parse it, discard the crash report: %@",
+                     error.localizedDescription);
       }
     }
   }
@@ -726,7 +750,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
                                                       options:NSDirectoryEnumerationOptions(0)
                                                         error:&error];
   if (!files) {
-    MSLogError([MSCrashes logTag], @"Couldn't get files in the directory \"%@\": %@", self.logBufferDir, error.localizedDescription);
+    MSLogError([MSCrashes logTag], @"Couldn't get files in the directory \"%@\": %@", self.logBufferDir,
+               error.localizedDescription);
     return;
   }
   for (NSURL *fileURL in files) {
@@ -756,7 +781,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
                                                       options:NSDirectoryEnumerationOptions(0)
                                                         error:&error];
   if (!files) {
-    MSLogError([MSCrashes logTag], @"Couldn't get files in the directory \"%@\": %@", self.crashesDir, error.localizedDescription);
+    MSLogError([MSCrashes logTag], @"Couldn't get files in the directory \"%@\": %@", self.crashesDir,
+               error.localizedDescription);
     return;
   }
   for (NSURL *fileURL in files) {
@@ -801,7 +827,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
         NSURL *cacheURL = [self.crashesDir URLByAppendingPathComponent:cacheFilename];
         [crashData writeToURL:cacheURL atomically:YES];
         self.lastSessionCrashReport = [MSErrorLogFormatter errorReportFromCrashReport:report];
-        [MSWrapperExceptionManager correlateLastSavedWrapperExceptionToReport:@[self.lastSessionCrashReport]];
+        [MSWrapperExceptionManager correlateLastSavedWrapperExceptionToReport:@[ self.lastSessionCrashReport ]];
       } else {
         MSLogWarning([MSCrashes logTag], @"Couldn't parse crash report: %@", error.localizedDescription);
       }
@@ -819,12 +845,14 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   NSMutableArray *persistedCrashReports = [NSMutableArray new];
 
   if ([self.crashesDir checkResourceIsReachableAndReturnError:nil]) {
-    NSArray *files = [self.fileManager contentsOfDirectoryAtURL:self.crashesDir
+    NSArray *files =
+        [self.fileManager contentsOfDirectoryAtURL:self.crashesDir
                         includingPropertiesForKeys:@[ NSURLNameKey, NSURLFileSizeKey, NSURLIsRegularFileKey ]
                                            options:NSDirectoryEnumerationOptions(0)
                                              error:&error];
     if (!files) {
-      MSLogError([MSCrashes logTag], @"Couldn't get files in the directory \"%@\": %@", self.crashesDir, error.localizedDescription);
+      MSLogError([MSCrashes logTag], @"Couldn't get files in the directory \"%@\": %@", self.crashesDir,
+                 error.localizedDescription);
       return persistedCrashReports;
     }
     for (NSURL *fileURL in files) {
@@ -942,7 +970,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
                                                       options:NSDirectoryEnumerationOptions(0)
                                                         error:&error];
   if (!files) {
-    MSLogError([MSCrashes logTag], @"Couldn't get files in the directory \"%@\": %@", self.logBufferDir, error.localizedDescription);
+    MSLogError([MSCrashes logTag], @"Couldn't get files in the directory \"%@\": %@", self.logBufferDir,
+               error.localizedDescription);
     return;
   }
   for (NSURL *fileURL in files) {
@@ -979,7 +1008,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   BOOL attachmentIdValid = attachment.attachmentId && ([attachment.attachmentId length] > 0);
   BOOL attachmentDataValid = attachment.data && ([attachment.data length] > 0);
   BOOL contentTypeValid = attachment.contentType && ([attachment.contentType length] > 0);
-  
+
   return errorIdValid && attachmentIdValid && attachmentDataValid && contentTypeValid;
 }
 

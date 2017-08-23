@@ -143,12 +143,6 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecent
   // Internal ID to keep track of logs between modules.
   NSString *internalLogId = MS_UUID_STRING;
 
-  // Notify delegates.
-  [self enumerateDelegatesForSelector:@selector(onEnqueuingLog:withInternalId:)
-                            withBlock:^(id<MSLogManagerDelegate> delegate) {
-                              [delegate onEnqueuingLog:log withInternalId:internalLogId];
-                            }];
-
   /*
    * Set common log info.
    * Only add toffset and device info in case the log doesn't have one. In case the log is restored after a crash or for
@@ -160,6 +154,12 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecent
   if (!log.device) {
     log.device = [[MSDeviceTracker sharedInstance] device];
   }
+
+  // Notify delegates.
+  [self enumerateDelegatesForSelector:@selector(onEnqueuingLog:withInternalId:)
+                            withBlock:^(id<MSLogManagerDelegate> delegate) {
+                              [delegate onEnqueuingLog:log withInternalId:internalLogId];
+                            }];
 
   // Asynchronously forward to channel by using the data dispatch queue.
   [channel enqueueItem:log
