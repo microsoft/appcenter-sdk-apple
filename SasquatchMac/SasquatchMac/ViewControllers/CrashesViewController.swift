@@ -10,7 +10,7 @@ class CrashesViewController : NSViewController {
     updateMCState()
   }
 
-  func updateMCState(){
+  func updateMCState() {
     mobileCenter = MobileCenterProvider.shared().mobileCenter
     setEnabledButton?.state = (mobileCenter?.isCrashesEnabled() ?? false) ? 1 : 0
   }

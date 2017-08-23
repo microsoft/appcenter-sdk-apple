@@ -26,7 +26,7 @@
 
 #pragma mark - Private
 
-- (void)updateMobileCenterState{
+- (void)updateMobileCenterState {
   NSTabViewController *tabViewController = (NSTabViewController *) NSApplication.sharedApplication.mainWindow.contentViewController;
   for (NSTabViewItem *tabViewItem in tabViewController.tabViewItems) {
     if ([tabViewItem.viewController isKindOfClass:[MobileCenterViewController class]]) {
