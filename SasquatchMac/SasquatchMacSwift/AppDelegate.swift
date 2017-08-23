@@ -9,9 +9,7 @@ import MobileCenterPush
 @objc(AppDelegate)
 class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDelegate {
 
-  override init(){
-    super.init()
-
+  func applicationDidFinishLaunching(_ notification: Notification) {
     // Crashes Delegate.
     MSCrashes.setDelegate(self);
     MSCrashes.setUserConfirmationHandler({ (errorReports: [MSErrorReport]) in
@@ -40,6 +38,17 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
     MSMobileCenter.start("7ee5f412-02f7-45ea-a49c-b4ebf2911325", withServices : [ MSAnalytics.self, MSCrashes.self, MSPush.self ])
 
     MobileCenterProvider.shared().mobileCenter = MobileCenterDelegateSwift()
+    updateMobileCenterState()
+  }
+
+  func updateMobileCenterState() {
+    if let sasquatchMacView = NSApplication.shared().mainWindow?.contentViewController as? NSTabViewController {
+      for tabViewItem in sasquatchMacView.tabViewItems {
+        (tabViewItem.viewController as? MobileCenterViewController)?.updateMCState()
+        (tabViewItem.viewController as? AnalyticsViewController)?.updateMCState()
+        (tabViewItem.viewController as? CrashesViewController)?.updateMCState()
+      }
+    }
   }
 
   // Crashes Delegate

@@ -9,8 +9,7 @@
 
 @implementation AppDelegate
 
-- (instancetype)init {
-  self = [super init];
+- (void) applicationDidFinishLaunching:(NSNotification *)notification {
   [MSMobileCenter setLogLevel:MSLogLevelVerbose];
   [MSMobileCenter setLogUrl:@"https://in-integration.dev.avalanch.es"];
 
@@ -22,10 +21,23 @@
   [MSMobileCenter start:@"8649b73e-6df0-4985-a039-8ab1453d44f3"
            withServices:@[ [MSAnalytics class], [MSCrashes class], [MSPush class] ]];
   [MobileCenterProvider shared].mobileCenter = [[MobileCenterDelegateObjC alloc] init];
-  return self;
+  [self updateMobileCenterState];
 }
 
 #pragma mark - Private
+
+- (void)updateMobileCenterState{
+  NSTabViewController *tabViewController = (NSTabViewController *) NSApplication.sharedApplication.mainWindow.contentViewController;
+  for (NSTabViewItem *tabViewItem in tabViewController.tabViewItems) {
+    if ([tabViewItem.viewController isKindOfClass:[MobileCenterViewController class]]) {
+      [((MobileCenterViewController *) tabViewItem.viewController) updateMCState];
+    } else if ([tabViewItem.viewController isKindOfClass:[AnalyticsViewController class]]) {
+      [((AnalyticsViewController *) tabViewItem.viewController) updateMCState];
+    } else {
+      [((CrashesViewController *) tabViewItem.viewController) updateMCState];
+    }
+  }
+}
 
 - (void)setupCrashes {
   if ([MSCrashes hasCrashedInLastSession]) {
