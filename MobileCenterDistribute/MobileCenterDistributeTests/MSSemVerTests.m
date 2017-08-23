@@ -353,6 +353,24 @@
    * Then.
    */
   assertThatInt(result, equalToInt(NSOrderedAscending));
+
+  /*
+   * If.
+   */
+
+  // More pre-release ids is higher precedence.
+  verA = [MSSemVer semVerWithString:@"1.2.3-A10.23"];
+  verB = [MSSemVer semVerWithString:@"1.2.3-A10.23.10"];
+
+  /*
+   * When.
+   */
+  result = [verA compare:verB];
+
+  /*
+   * Then.
+   */
+  assertThatInt(result, equalToInt(NSOrderedAscending));
 }
 
 @end
