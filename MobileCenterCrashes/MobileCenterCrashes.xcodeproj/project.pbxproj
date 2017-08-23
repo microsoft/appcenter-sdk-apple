@@ -1735,11 +1735,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0484DD5F1F3910EF0092B777 /* Tests tvOS.xcconfig */;
 			buildSettings = {
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-framework",
-					CrashReporter,
-				);
 			};
 			name = Debug;
 		};
@@ -1747,11 +1742,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0484DD5F1F3910EF0092B777 /* Tests tvOS.xcconfig */;
 			buildSettings = {
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-framework",
-					CrashReporter,
-				);
 			};
 			name = Release;
 		};
@@ -1759,8 +1749,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8261ECE370100FB6719 /* macOS.xcconfig */;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/macOS\"/**";
-				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/macOS\"/**";
 			};
 			name = Debug;
 		};
@@ -1768,8 +1756,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8261ECE370100FB6719 /* macOS.xcconfig */;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/macOS\"/**";
-				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor/macOS\"/**";
 			};
 			name = Release;
 		};
@@ -1833,7 +1819,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 04EBBEEF1F01C1420006B8AE /* tvOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
@@ -1841,7 +1826,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 04EBBEEF1F01C1420006B8AE /* tvOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
@@ -1895,11 +1879,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 041CFF911ECD00DC00B4654B /* Tests iOS.xcconfig */;
 			buildSettings = {
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-framework",
-					CrashReporter,
-				);
 			};
 			name = Debug;
 		};
@@ -1907,11 +1886,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 041CFF911ECD00DC00B4654B /* Tests iOS.xcconfig */;
 			buildSettings = {
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-framework",
-					CrashReporter,
-				);
 			};
 			name = Release;
 		};
