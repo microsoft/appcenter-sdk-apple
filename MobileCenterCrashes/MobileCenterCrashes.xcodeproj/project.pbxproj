@@ -503,6 +503,7 @@
 		0446DFAB1F3B98A800C8E338 /* libMobileCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobileCenter.a; path = "../../../../../Library/Developer/Xcode/DerivedData/MobileCenter-atgozldoovnqvrcmynluxwlivwkq/Build/Products/Debug/libMobileCenter.a"; sourceTree = "<group>"; };
 		044C45F81DB6EA0C00F3C29E /* MSErrorAttachmentPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSErrorAttachmentPrivate.h; sourceTree = "<group>"; };
 		044C45FA1DB6EC1C00F3C29E /* MSErrorBinaryAttachmentPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSErrorBinaryAttachmentPrivate.h; sourceTree = "<group>"; };
+		0469D1B31F4E013C00A43A8E /* MobileCenterCrashes Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "MobileCenterCrashes Release.xcconfig"; sourceTree = "<group>"; };
 		0484DD1A1F39091D0092B777 /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = ../../Vendor/tvOS/OCHamcrest/OCHamcrest.framework; sourceTree = "<group>"; };
 		0484DD1C1F39092A0092B777 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../tvOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
 		0484DD5F1F3910EF0092B777 /* Tests tvOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests tvOS.xcconfig"; path = "../../Config/Tests tvOS.xcconfig"; sourceTree = "<group>"; };
@@ -559,7 +560,6 @@
 		380B81311E8C540E001C76C9 /* MSLogWithProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSLogWithProperties.h; path = ../MobileCenter/MobileCenter/Model/MSLogWithProperties.h; sourceTree = "<group>"; };
 		380B81331E8C565E001C76C9 /* MSAbstractLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSAbstractLog.h; path = ../MobileCenter/MobileCenter/Model/MSAbstractLog.h; sourceTree = "<group>"; };
 		382346411E8B3DAD001C3A76 /* MSErrorAttachmentLogInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSErrorAttachmentLogInternal.h; sourceTree = "<group>"; };
-		3856B47D1E032EC50016AB05 /* Global.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Global.xcconfig; path = ../../../Config/Global.xcconfig; sourceTree = "<group>"; };
 		3858A2171E93F37E00535A69 /* MSErrorAttachmentLog+Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MSErrorAttachmentLog+Utility.h"; sourceTree = "<group>"; };
 		3858A2191E93F3B400535A69 /* MSErrorAttachmentLog+Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MSErrorAttachmentLog+Utility.m"; sourceTree = "<group>"; };
 		387C77061D6CC41100D68CC1 /* MSServiceAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSServiceAbstract.h; path = ../MobileCenter/MobileCenter/MSServiceAbstract.h; sourceTree = "<group>"; };
@@ -575,7 +575,7 @@
 		6E171AE11D22F781000DC480 /* MobileCenterCrashes.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MobileCenterCrashes.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E171AE51D22F781000DC480 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6E171AED1D22F7BE000DC480 /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrestIOS.framework; path = ../../Vendor/iOS/OCHamcrest/OCHamcrestIOS.framework; sourceTree = "<group>"; };
-		6E37297F1D1DE93800F1E4AE /* MobileCenterCrashes.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = MobileCenterCrashes.xcconfig; sourceTree = "<group>"; };
+		6E37297F1D1DE93800F1E4AE /* MobileCenterCrashes Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "MobileCenterCrashes Debug.xcconfig"; sourceTree = "<group>"; };
 		6E73FE681D402F79008CDC15 /* MSCrashesCXXExceptionHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrashesCXXExceptionHandler.h; sourceTree = "<group>"; };
 		6E73FE691D402F79008CDC15 /* MSCrashesCXXExceptionHandler.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MSCrashesCXXExceptionHandler.mm; sourceTree = "<group>"; };
 		6E73FE6D1D4032AB008CDC15 /* MSCrashesUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrashesUtil.h; sourceTree = "<group>"; };
@@ -994,8 +994,8 @@
 		6E37297E1D1DE93800F1E4AE /* Support */ = {
 			isa = PBXGroup;
 			children = (
-				3856B47D1E032EC50016AB05 /* Global.xcconfig */,
-				6E37297F1D1DE93800F1E4AE /* MobileCenterCrashes.xcconfig */,
+				6E37297F1D1DE93800F1E4AE /* MobileCenterCrashes Debug.xcconfig */,
+				0469D1B31F4E013C00A43A8E /* MobileCenterCrashes Release.xcconfig */,
 				049BC8251ECE36D400FB6719 /* iOS.xcconfig */,
 				04ED31F21EAAD6070033BAAE /* iOS.modulemap */,
 				049BC8261ECE370100FB6719 /* macOS.xcconfig */,
@@ -1861,28 +1861,19 @@
 		};
 		6E04013A1D1C98690051BCFA /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6E37297F1D1DE93800F1E4AE /* MobileCenterCrashes.xcconfig */;
+			baseConfigurationReference = 6E37297F1D1DE93800F1E4AE /* MobileCenterCrashes Debug.xcconfig */;
 			buildSettings = {
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_TESTABILITY = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				MTL_ENABLE_DEBUG_INFO = YES;
-				ONLY_ACTIVE_ARCH = YES;
 			};
 			name = Debug;
 		};
 		6E04013B1D1C98690051BCFA /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6E37297F1D1DE93800F1E4AE /* MobileCenterCrashes.xcconfig */;
+			baseConfigurationReference = 0469D1B31F4E013C00A43A8E /* MobileCenterCrashes Release.xcconfig */;
 			buildSettings = {
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_NS_ASSERTIONS = NO;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
