@@ -45,20 +45,28 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
   // Crashes Delegate
   
   func crashes(_ crashes: MSCrashes!, shouldProcessErrorReport errorReport: MSErrorReport!) -> Bool {
-    NSLog("Should process error report with: %@", errorReport.exceptionReason);
+    if errorReport.exceptionReason != nil {
+      NSLog("Should process error report with: %@", errorReport.exceptionReason);
+    }
     return true
   }
   
   func crashes(_ crashes: MSCrashes!, willSend errorReport: MSErrorReport!) {
-    NSLog("Will send error report with: %@", errorReport.exceptionReason);
+    if errorReport.exceptionReason != nil {
+      NSLog("Will send error report with: %@", errorReport.exceptionReason);
+    }
   }
   
   func crashes(_ crashes: MSCrashes!, didSucceedSending errorReport: MSErrorReport!) {
-    NSLog("Did succeed error report sending with: %@", errorReport.exceptionReason);
+    if errorReport.exceptionReason != nil {
+      NSLog("Did succeed error report sending with: %@", errorReport.exceptionReason);
+    }
   }
   
   func crashes(_ crashes: MSCrashes!, didFailSending errorReport: MSErrorReport!, withError error: Error!) {
-    NSLog("Did fail sending report with: %@, and error: %@", errorReport.exceptionReason, error.localizedDescription);
+    if errorReport.exceptionReason != nil {
+      NSLog("Did fail sending report with: %@, and error: %@", errorReport.exceptionReason, error.localizedDescription);
+    }
   }
 
   // Push Delegate
