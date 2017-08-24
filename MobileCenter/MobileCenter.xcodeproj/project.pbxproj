@@ -685,7 +685,7 @@
 		38EAD9AB1DA6A8C500CE6030 /* MSEnable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSEnable.h; sourceTree = "<group>"; };
 		38F1944D1DADB93100D3E0FE /* MSHttpSenderPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSHttpSenderPrivate.h; sourceTree = "<group>"; };
 		5949380E604D45340244FEF1 /* MSChannelDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSChannelDelegate.h; sourceTree = "<group>"; };
-		5C7877911EA0CFF3002263CC /* MSLogDBStorageTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLogDBStorageTests.m; sourceTree = SOURCE_ROOT; };
+		5C7877911EA0CFF3002263CC /* MSLogDBStorageTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLogDBStorageTests.m; sourceTree = "<group>"; };
 		6E0401031D1C98220051BCFA /* libMobileCenter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMobileCenter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E04013F1D1C99AC0051BCFA /* MSConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSConstants.h; sourceTree = "<group>"; };
 		6E0401401D1C99AC0051BCFA /* MobileCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobileCenter.h; sourceTree = "<group>"; };
