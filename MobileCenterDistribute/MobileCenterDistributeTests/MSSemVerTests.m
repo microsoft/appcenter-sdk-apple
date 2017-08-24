@@ -358,6 +358,24 @@
    * If.
    */
 
+  // Pre-release A starts with same identifiers but got more of them, it is higher precedence.
+  verA = [MSSemVer semVerWithString:@"1.2.3-A10.23"];
+  verB = [MSSemVer semVerWithString:@"1.2.3-A10"];
+
+  /*
+   * When.
+   */
+  result = [verA compare:verB];
+
+  /*
+   * Then.
+   */
+  assertThatInt(result, equalToInt(NSOrderedDescending));
+
+  /*
+   * If.
+   */
+
   // More pre-release ids is higher precedence.
   verA = [MSSemVer semVerWithString:@"1.2.3-A10.23"];
   verB = [MSSemVer semVerWithString:@"1.2.3-A10.23.10"];
