@@ -28,11 +28,10 @@
   MSDevice *device = [MSDevice new];
   NSString *typeName = @"start_session";
   NSString *sessionId = @"1234567890";
-  long long createTime = (long long)[MSUtility nowInMilliseconds];
-  NSNumber *tOffset = @(createTime);
+  NSDate *timestamp = [NSDate dateWithTimeIntervalSince1970:42];
 
   self.sut.device = device;
-  self.sut.toffset = tOffset;
+  self.sut.timestamp = timestamp;
   self.sut.sid = sessionId;
 
   // When
@@ -42,9 +41,7 @@
   assertThat(actual, notNilValue());
   assertThat(actual[@"type"], equalTo(typeName));
   assertThat(actual[@"device"], notNilValue());
-  NSTimeInterval seralizedToffset = [actual[@"toffset"] longLongValue];
-  NSTimeInterval actualToffset = [MSUtility nowInMilliseconds] - createTime;
-  assertThat(@(seralizedToffset), lessThan(@(actualToffset)));
+  assertThat(actual[@"timestamp"], equalTo(@"1970-01-01T00:00:42Z"));
 }
 
 - (void)testNSCodingSerializationAndDeserializationWorks {
@@ -53,10 +50,10 @@
   MSDevice *device = [MSDevice new];
   NSString *typeName = @"start_session";
   NSString *sessionId = @"1234567890";
-  NSNumber *tOffset = @(3);
+  NSDate *timestamp = [NSDate dateWithTimeIntervalSince1970:42];
 
   self.sut.device = device;
-  self.sut.toffset = tOffset;
+  self.sut.timestamp = timestamp;
   self.sut.sid = sessionId;
 
   // When
@@ -69,7 +66,7 @@
 
   MSStartSessionLog *actualSession = actual;
   assertThat(actualSession.device, notNilValue());
-  assertThat(actualSession.toffset, equalTo(tOffset));
+  assertThat(actualSession.timestamp, equalTo(timestamp));
   assertThat(actualSession.type, equalTo(typeName));
   assertThat(actualSession.sid, equalTo(sessionId));
 }

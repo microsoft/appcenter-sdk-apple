@@ -147,7 +147,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                  assertThat(logContainer.batchId, is(expectedBatchId));
                                  assertThat(logContainer.logs, is(@[ expectedLog ]));
                                  assertThatBool(sut.pendingBatchQueueFull, isFalse());
-                                 assertThatUnsignedInt(sut.pendingBatchIds.count, equalToInt(0));
+                                 assertThatUnsignedLong(sut.pendingBatchIds.count, equalToUnsignedLong(0));
                                  OCMVerifyAll(delegateMock);
                                  OCMVerifyAll(storageMock);
                                  if (error) {
@@ -236,7 +236,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                  assertThat(logContainer.batchId, is(expectedBatchId));
                                  assertThat(logContainer.logs, is(@[ expectedLog ]));
                                  assertThatBool(sut.pendingBatchQueueFull, isFalse());
-                                 assertThatUnsignedInt(sut.pendingBatchIds.count, equalToInt(0));
+                                 assertThatUnsignedLong(sut.pendingBatchIds.count, equalToUnsignedLong(0));
                                  OCMVerifyAll(delegateMock);
                                  OCMVerifyAll(storageMock);
                                  if (error) {
