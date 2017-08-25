@@ -582,7 +582,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   for(unsigned int i = 0; i < kMaxAttachmentsPerCrashReport + 1; ++i) {
     NSString *text = [NSString stringWithFormat:@"%d", i];
     MSErrorAttachmentLog *log = [[MSErrorAttachmentLog alloc] initWithFilename:text attachmentText:text];
-    log.toffset = [NSNumber numberWithInt:0];
+    log.timestamp = [NSDate dateWithTimeIntervalSince1970:42];
     log.device = deviceMock;
     [logs addObject:log];
   }

@@ -65,14 +65,14 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
       // Record session.
       MSSessionHistoryInfo *sessionInfo = [[MSSessionHistoryInfo alloc] init];
       sessionInfo.sessionId = _sessionId;
-      sessionInfo.toffset = [NSNumber numberWithDouble:[MSUtility nowInMilliseconds]];
+      sessionInfo.timestamp = [NSDate date];
 
       // Insert new MSSessionHistoryInfo at the proper index to keep pastSessions sorted.
       NSUInteger newIndex = [self.pastSessions indexOfObject:sessionInfo
           inSortedRange:(NSRange) { 0, [self.pastSessions count] }
           options:NSBinarySearchingInsertionIndex
-          usingComparator:^(id a, id b) {
-            return [((MSSessionHistoryInfo *)a).toffset compare:((MSSessionHistoryInfo *)b).toffset];
+          usingComparator:^(MSSessionHistoryInfo *a, MSSessionHistoryInfo *b) {
+            return [a.timestamp compare:b.timestamp];
           }];
       [self.pastSessions insertObject:sessionInfo atIndex:newIndex];
 
@@ -200,27 +200,27 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
     return;
 
   // Attach corresponding session id.
-  if (log.toffset) {
-    MSSessionHistoryInfo *find = [[MSSessionHistoryInfo alloc] initWithTOffset:log.toffset andSessionId:nil];
+  if (log.timestamp) {
+    MSSessionHistoryInfo *find = [[MSSessionHistoryInfo alloc] initWithTimestamp:log.timestamp andSessionId:nil];
     NSUInteger index =
         [self.pastSessions indexOfObject:find
                            inSortedRange:NSMakeRange(0, self.pastSessions.count)
                                  options:(NSBinarySearchingFirstEqual | NSBinarySearchingInsertionIndex)
-                         usingComparator:^(id a, id b) {
-                           return [((MSSessionHistoryInfo *)a).toffset compare:((MSSessionHistoryInfo *)b).toffset];
+                         usingComparator:^(MSSessionHistoryInfo *a, MSSessionHistoryInfo *b) {
+                           return [a.timestamp compare:b.timestamp];
                          }];
 
-    // All toffsets are larger.
+    // All timestamps are larger.
     if (index == 0) {
       log.sid = self.sessionId;
     }
 
-    // All toffsets are smaller.
+    // All timestamps are smaller.
     else if (index == self.pastSessions.count) {
       log.sid = [self.pastSessions lastObject].sessionId;
     }
 
-    // [index - 1] should be the right index for the toffset.
+    // [index - 1] should be the right index for the timestamp.
     else {
       log.sid = self.pastSessions[index - 1].sessionId;
     }

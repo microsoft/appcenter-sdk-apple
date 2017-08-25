@@ -1,7 +1,7 @@
 #import "MSSessionHistoryInfo.h"
 
 static NSString *const kMSSessionIdKey = @"sessionIdKey";
-static NSString *const kMSToffsetKey = @"toffsetKey";
+static NSString *const kMSTimestampKey = @"timestampKey";
 
 /**
  * This class is used to associate session id with the timestamp that it was created.
@@ -12,21 +12,21 @@ static NSString *const kMSToffsetKey = @"toffsetKey";
   self = [super init];
   if (self) {
     _sessionId = [coder decodeObjectForKey:kMSSessionIdKey];
-    _toffset = [coder decodeObjectForKey:kMSToffsetKey];
+    _timestamp = [coder decodeObjectForKey:kMSTimestampKey];
   }
   return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
   [coder encodeObject:self.sessionId forKey:kMSSessionIdKey];
-  [coder encodeObject:self.toffset forKey:kMSToffsetKey];
+  [coder encodeObject:self.timestamp forKey:kMSTimestampKey];
 }
 
-- (instancetype)initWithTOffset:(NSNumber *)toffset andSessionId:(NSString *)sessionId {
+- (instancetype)initWithTimestamp:(NSDate *)timestamp andSessionId:(NSString *)sessionId {
   self = [super init];
   if (self) {
     _sessionId = sessionId;
-    _toffset = toffset;
+    _timestamp = timestamp;
   }
   return self;
 }

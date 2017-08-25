@@ -145,11 +145,11 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecent
 
   /*
    * Set common log info.
-   * Only add toffset and device info in case the log doesn't have one. In case the log is restored after a crash or for
-   * crashes, we don't want the toffset and the device information to be updated but want the old one preserved.
+   * Only add timestamp and device info in case the log doesn't have one. In case the log is restored after a crash or for
+   * crashes, we don't want the timestamp and the device information to be updated but want the old one preserved.
    */
-  if (!log.toffset) {
-    log.toffset = [NSNumber numberWithLongLong:(long long)([MSUtility nowInMilliseconds])];
+  if (!log.timestamp) {
+    log.timestamp = [NSDate date];
   }
   if (!log.device) {
     log.device = [[MSDeviceTracker sharedInstance] device];
