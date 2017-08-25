@@ -131,10 +131,10 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     MSLogWarning([MSDistribute logTag], @"Couldn't download a new release on simulator.");
 #else
     if ([self isEnabled]) {
-      MSLogDebug([MSDistribute logTag], @"'Update now' is seleted. Start download and install the update.");
+      MSLogDebug([MSDistribute logTag], @"'Update now' is selected. Start download and install the update.");
       [self startDownload:self.releaseDetails];
     } else {
-      MSLogDebug([MSDistribute logTag], @"'Update now' is seleted but Distribute was disabled.");
+      MSLogDebug([MSDistribute logTag], @"'Update now' is selected but Distribute was disabled.");
       [self showDistributeDisabledAlert];
     }
 #endif
