@@ -375,21 +375,23 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   
 #if TARGET_OS_OSX
   
-  // When
+  // If
   id userNotificationCenterMock = OCMClassMock([NSUserNotificationCenter class]);
   OCMStub([userNotificationCenterMock defaultUserNotificationCenter]).andReturn(userNotificationCenterMock);
   id notificationMock = OCMClassMock([NSNotification class]);
+
+  // When
   [delegate applicationDidFinishLaunching:notificationMock];
   
   // Then
   OCMVerify([userNotificationCenterMock setDelegate:delegate]);
   OCMVerify([pushMock didReceiveNotification:notificationMock]);
-  
+
   // When
   [delegate userNotificationCenter:userNotificationCenterMock didActivateNotification: notificationMock];
   
   // Then
-  OCMVerify([pushMock didReceiveNotification:notificationMock]);
+  OCMVerify([pushMock didReceiveUserNotification:notificationMock]);
   
 #endif
   
