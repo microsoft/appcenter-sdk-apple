@@ -39,11 +39,12 @@
   // If
   NSString *appSecret = @"secret";
   NSString *updateToken = @"updateToken";
+  NSString *distributionGroupId = @"groupId";
   NSString *secretApiPath = [NSString stringWithFormat:@"/sdk/apps/%@/releases/latest", appSecret];
   [MSLogger setCurrentLogLevel:MSLogLevelVerbose];
   id distributeMock = OCMPartialMock([MSDistribute sharedInstance]);
   OCMStub([distributeMock appSecret]).andReturn(@"secret");
-  MSDistributeSender *sender1 = [[MSDistributeSender alloc] initWithBaseUrl:baseUrl appSecret:appSecret updateToken:updateToken queryStrings:@{}];
+  MSDistributeSender *sender1 = [[MSDistributeSender alloc] initWithBaseUrl:baseUrl appSecret:appSecret updateToken:updateToken distributionGroupId:distributionGroupId queryStrings:@{}];
 
   // When
   NSURLRequest *request1 = [sender1 createRequest:[NSData new]];
