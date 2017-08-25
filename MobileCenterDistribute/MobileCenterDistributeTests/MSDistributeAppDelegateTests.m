@@ -13,6 +13,10 @@
   // If.
   MSDistributeAppDelegate *appDelegate = [[MSDistributeAppDelegate alloc] init];
   id distributeMock = OCMPartialMock([MSDistribute sharedInstance]);
+  __block int count = 0;
+  OCMStub([distributeMock openURL:OCMOCK_ANY]).andDo(^(__unused NSInvocation *invocation) {
+    count++;
+  });
   NSURL *url = [[NSURL alloc] init];
 
   // When.
@@ -26,6 +30,7 @@
 
   // Then.
   OCMVerify([distributeMock openURL:url]);
+  XCTAssertEqual(count, 2);
 }
 
 
