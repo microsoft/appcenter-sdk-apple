@@ -210,7 +210,7 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
       return self.deviceHistory[0].device;
     }
 
-    // All timestamp are smaller.
+    // All timestamps are smaller.
     else if (index == self.deviceHistory.count) {
       return [self.deviceHistory lastObject].device;
     }

@@ -210,12 +210,12 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
                            return [a.timestamp compare:b.timestamp];
                          }];
 
-    // All timestamp are larger.
+    // All timestamps are larger.
     if (index == 0) {
       log.sid = self.sessionId;
     }
 
-    // All timestamp are smaller.
+    // All timestamps are smaller.
     else if (index == self.pastSessions.count) {
       log.sid = [self.pastSessions lastObject].sessionId;
     }
