@@ -87,8 +87,6 @@
 		041EFD2D1EE1CAD5006DCD56 /* MSLogWithPropertiesInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 3844FF141E8C253F003E9194 /* MSLogWithPropertiesInternal.h */; };
 		041EFD2E1EE1CADA006DCD56 /* MSDeviceInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = B2C3C1831DB83A3E00CB83F7 /* MSDeviceInternal.h */; };
 		041EFD2F1EE1CAE9006DCD56 /* MSChannelDefaultPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 382CFCF01EC3817B003FE40B /* MSChannelDefaultPrivate.h */; };
-		0420A6811ECA79C300915619 /* OCMock.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 046AEB081ECA727200CBE511 /* OCMock.framework */; };
-		0420A6831ECA79E200915619 /* OCMock.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 046AEB0B1ECA729400CBE511 /* OCMock.framework */; };
 		043120741EE0BCF9007054C5 /* MSMobileCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0401561D1C9AAA0051BCFA /* MSMobileCenter.m */; };
 		043120761EE0BCF9007054C5 /* MSLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 3592ABA61DC90E3600EF4592 /* MSLogger.m */; };
 		043120771EE0BCF9007054C5 /* MSChannelConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF628F31D371B1600CAFF64 /* MSChannelConfiguration.m */; };
@@ -198,9 +196,6 @@
 		0446DF351F3B872700C8E338 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0484DD141F3908CC0092B777 /* OCMock.framework */; };
 		0446DF361F3B873200C8E338 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0484DD161F3908E00092B777 /* OHHTTPStubs.framework */; };
 		0446DF371F3B874900C8E338 /* libMobileCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 043120DA1EE0BCF9007054C5 /* libMobileCenter.a */; };
-		0446DF3A1F3B878100C8E338 /* OCHamcrest.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0484DD121F3908840092B777 /* OCHamcrest.framework */; };
-		0446DF3B1F3B878100C8E338 /* OCMock.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0484DD141F3908CC0092B777 /* OCMock.framework */; };
-		0446DF3C1F3B878100C8E338 /* OHHTTPStubs.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0484DD161F3908E00092B777 /* OHHTTPStubs.framework */; };
 		044864C51EBD12F200031019 /* MSCustomProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = F803BBF11E8E3677004B1E7A /* MSCustomProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		044864C61EBD130300031019 /* MSCustomProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = F803BBF21E8E3677004B1E7A /* MSCustomProperties.m */; };
 		044864C71EBD13B400031019 /* MSCustomPropertiesLog.m in Sources */ = {isa = PBXBuildFile; fileRef = F803BBF81E8E3989004B1E7A /* MSCustomPropertiesLog.m */; };
@@ -315,11 +310,7 @@
 		04A1408B1ECE63CB001CEE94 /* MSIngestionSenderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E829E4221D25C8BA00F19DA1 /* MSIngestionSenderTests.m */; };
 		04B7BBEF1E5FAD4D001A0CE1 /* MSSenderUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B7BBEE1E5FAD4D001A0CE1 /* MSSenderUtilTests.m */; };
 		04BED7101ECB63A800E20975 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04BED70E1ECB63A100E20975 /* OCHamcrest.framework */; };
-		04BED7111ECB649400E20975 /* OCHamcrest.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 04BED70E1ECB63A100E20975 /* OCHamcrest.framework */; };
-		04BED7121ECB649D00E20975 /* OCHamcrestIOS.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6E171ADB1D22F6ED000DC480 /* OCHamcrestIOS.framework */; };
 		04F21A071ECB74200074978D /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04F21A041ECB73EE0074978D /* OHHTTPStubs.framework */; };
-		04F21A081ECB74AB0074978D /* OHHTTPStubs.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 04F21A041ECB73EE0074978D /* OHHTTPStubs.framework */; };
-		04F21A091ECB74BF0074978D /* OHHTTPStubs.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B2B9441D1DF0DF23009117D1 /* OHHTTPStubs.framework */; };
 		04FD126B1E4103CC007ABFE7 /* MSKeychainUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FD126A1E4103CC007ABFE7 /* MSKeychainUtilTests.m */; };
 		04FD126F1E415697007ABFE7 /* MSLogManagerDefaultPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 04FD126E1E415697007ABFE7 /* MSLogManagerDefaultPrivate.h */; };
 		3592ABA71DC90E3600EF4592 /* MSLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 3592ABA51DC90E3600EF4592 /* MSLogger.h */; };
@@ -541,30 +532,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		0420A6801ECA79AE00915619 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 16;
-			files = (
-				04F21A091ECB74BF0074978D /* OHHTTPStubs.framework in CopyFiles */,
-				04BED7121ECB649D00E20975 /* OCHamcrestIOS.framework in CopyFiles */,
-				0420A6811ECA79C300915619 /* OCMock.framework in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0420A6821ECA79D600915619 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 16;
-			files = (
-				04F21A081ECB74AB0074978D /* OHHTTPStubs.framework in CopyFiles */,
-				04BED7111ECB649400E20975 /* OCHamcrest.framework in CopyFiles */,
-				0420A6831ECA79E200915619 /* OCMock.framework in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		043120971EE0BCF9007054C5 /* Copy Files */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -573,18 +540,6 @@
 			files = (
 			);
 			name = "Copy Files";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0446DF241F3B864600C8E338 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 16;
-			files = (
-				0446DF3A1F3B878100C8E338 /* OCHamcrest.framework in CopyFiles */,
-				0446DF3B1F3B878100C8E338 /* OCMock.framework in CopyFiles */,
-				0446DF3C1F3B878100C8E338 /* OHHTTPStubs.framework in CopyFiles */,
-			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		04754F6A1EA98182002CBA46 /* Copy Files */ = {
@@ -1522,7 +1477,6 @@
 				0446DF011F3B864600C8E338 /* Sources */,
 				0446DF1E1F3B864600C8E338 /* Frameworks */,
 				0446DF231F3B864600C8E338 /* Resources */,
-				0446DF241F3B864600C8E338 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -1541,7 +1495,6 @@
 				046AEAD21ECA562A00CBE511 /* Sources */,
 				046AEAED1ECA562A00CBE511 /* Frameworks */,
 				046AEAF21ECA562A00CBE511 /* Resources */,
-				0420A6821ECA79D600915619 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -1596,7 +1549,6 @@
 				6E2395741D22EF4F00E543C8 /* Sources */,
 				6E2395751D22EF4F00E543C8 /* Frameworks */,
 				6E2395761D22EF4F00E543C8 /* Resources */,
-				0420A6801ECA79AE00915619 /* CopyFiles */,
 			);
 			buildRules = (
 			);

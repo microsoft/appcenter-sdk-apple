@@ -57,7 +57,6 @@
 
 /* Begin PBXBuildFile section */
 		0420A6A21ECA7D7200915619 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0420A6A11ECA7D7200915619 /* OCMock.framework */; };
-		0420A6A51ECA7D9300915619 /* OCMock.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0420A6A11ECA7D7200915619 /* OCMock.framework */; };
 		046964081F2A558300F9D31F /* ../MobileCenter/MobileCenter/MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 38D4BB9F1D5A98D1001A30A0 /* ../MobileCenter/MobileCenter/MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0469643A1F2A56F400F9D31F /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046964371F2A56DF00F9D31F /* OCMock.framework */; };
 		0469643D1F2A570500F9D31F /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0469643B1F2A570000F9D31F /* OCHamcrest.framework */; };
@@ -79,8 +78,6 @@
 		0469644F1F2A5D4A00F9D31F /* MSPushTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3AD5EC21E5C4F6A001627AB /* MSPushTests.m */; };
 		046964501F2A5D4F00F9D31F /* MSPushLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04849D781E9E913A0093ECA6 /* MSPushLogTests.m */; };
 		046964511F2A5D8D00F9D31F /* MSPushTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = D39B04E31E66FBD50048E397 /* MSPushTestUtil.m */; };
-		046964521F2A5E3700F9D31F /* OCMock.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 046964371F2A56DF00F9D31F /* OCMock.framework */; };
-		046964531F2A5E5A00F9D31F /* OCHamcrest.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0469643B1F2A570000F9D31F /* OCHamcrest.framework */; };
 		047919B31EBA3AC5004834A6 /* MSPushNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = 047919B21EBA3AC5004834A6 /* MSPushNotification.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		047919B51EBA3B1B004834A6 /* MSPushDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 047919B41EBA3B1B004834A6 /* MSPushDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		047919B71EBA42F0004834A6 /* MSPushNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 047919B61EBA42F0004834A6 /* MSPushNotification.m */; };
@@ -140,33 +137,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		0420A6A31ECA7D7700915619 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 16;
-			files = (
-				0420A6A51ECA7D9300915619 /* OCMock.framework in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		046963FC1F2A558300F9D31F /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		046964201F2A559C00F9D31F /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 16;
-			files = (
-				046964531F2A5E5A00F9D31F /* OCHamcrest.framework in CopyFiles */,
-				046964521F2A5E3700F9D31F /* OCMock.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -518,7 +494,6 @@
 				046964161F2A559C00F9D31F /* Sources */,
 				0469641A1F2A559C00F9D31F /* Frameworks */,
 				0469641F1F2A559C00F9D31F /* Resources */,
-				046964201F2A559C00F9D31F /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -555,7 +530,6 @@
 				D3AD5EBC1E5C4F6A001627AB /* Sources */,
 				D3AD5EBD1E5C4F6A001627AB /* Frameworks */,
 				D3AD5EBE1E5C4F6A001627AB /* Resources */,
-				0420A6A31ECA7D7700915619 /* CopyFiles */,
 			);
 			buildRules = (
 			);
