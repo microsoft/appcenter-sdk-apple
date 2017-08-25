@@ -10,7 +10,7 @@
 
 - (void)testOpenURLIsCalled {
 
-  // If.
+  // If
   MSDistributeAppDelegate *appDelegate = [[MSDistributeAppDelegate alloc] init];
   id distributeMock = OCMPartialMock([MSDistribute sharedInstance]);
   __block int count = 0;
@@ -19,19 +19,18 @@
   });
   NSURL *url = [[NSURL alloc] init];
 
-  // When.
+  // When
   [appDelegate application: [UIApplication sharedApplication] openURL: url options:@{} returnedValue:YES];
 
-  // Then.
+  // Then
   OCMVerify([distributeMock openURL:url]);
 
-  // When.
+  // When
   [appDelegate application:[UIApplication sharedApplication] openURL:url sourceApplication:@"" annotation:@"" returnedValue:YES];
 
-  // Then.
+  // Then
   OCMVerify([distributeMock openURL:url]);
   XCTAssertEqual(count, 2);
 }
-
 
 @end

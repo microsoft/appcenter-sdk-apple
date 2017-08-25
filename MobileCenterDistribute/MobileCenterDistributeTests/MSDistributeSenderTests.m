@@ -14,7 +14,7 @@
 
 - (void)testCreateRequest {
 
-  // If.
+  // If
   NSString *baseUrl = @"https://contoso.com";
   NSString *apiPath = @"/test";
   NSDictionary *header = OCMClassMock([NSDictionary class]);
@@ -25,10 +25,10 @@
                                                               reachability:nil
                                                             retryIntervals:@[]];
 
-  // When.
+  // When
   NSURLRequest *request = [sender createRequest:[NSData new]];
 
-  // Then.
+  // Then
   assertThat(request.HTTPMethod, equalTo(@"GET"));
   assertThat(request.allHTTPHeaderFields, equalTo(header));
   assertThat(request.HTTPBody, equalTo(nil));
@@ -36,7 +36,7 @@
 
   XCTAssertFalse(request.HTTPShouldHandleCookies);
 
-  // If.
+  // If
   NSString *appSecret = @"secret";
   NSString *updateToken = @"updateToken";
   NSString *secretApiPath = [NSString stringWithFormat:@"/sdk/apps/%@/releases/latest", appSecret];
@@ -45,10 +45,10 @@
   OCMStub([distributeMock appSecret]).andReturn(@"secret");
   MSDistributeSender *sender1 = [[MSDistributeSender alloc] initWithBaseUrl:baseUrl appSecret:appSecret updateToken:updateToken queryStrings:@{}];
 
-  // When.
+  // When
   NSURLRequest *request1 = [sender1 createRequest:[NSData new]];
 
-  // Then.
+  // Then
   assertThat(request1.HTTPMethod, equalTo(@"GET"));
   assertThat(request1.allHTTPHeaderFields, equalTo(@{kMSHeaderUpdateApiToken : updateToken}));
   assertThat(request1.HTTPBody, equalTo(nil));
