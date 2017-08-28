@@ -1,5 +1,24 @@
 # Mobile Center SDK for iOS Change Log
 
+## Version 0.12.0
+
+This version contains bug fixes, an improvement and a new feature. When you update to this release, there will be **potential data loss** if an application installed with previous versions of MobileCenter SDK on devices that has pending logs which are not sent to server yet at the time of the application is being updated.
+
+## MobileCenter
+
+* **[Improvement]** Changed to send one crash or error attachment log at a time to prevent HTTP requests become bigger.
+* **[Fix]** Fixed database access failure when an application contains other SQLite libraries for custom database.
+
+## MobileCenterCrashes
+
+* **[Fix]** Fixed duplicated logs sent to server on crash.
+
+## MobileCenterDistribute
+
+* **[Feature]** New feature that allows to share your applications to anyone with public link.
+
+___
+
 ## Version 0.11.2
 
 This version contains a bug fix that wasn't properly fixed in the previous release.
